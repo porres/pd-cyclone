@@ -1,4 +1,4 @@
-/* Copyright (c) 1997-2003 Miller Puckette, krzYszcz, and others.
+/* Copyright (c) 1997-2004 Miller Puckette, krzYszcz, and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -51,11 +51,19 @@ int rand_int(unsigned int *statep, int range)
     return (result < range ? result : range - 1);
 }
 
-/* borrowed from d_osc.c, LATER rethink */
-float rand_float(unsigned int *statep)
+float rand_unipolar(unsigned int *statep)
 {
-    float result = ((float)((*statep & 0x7fffffff) - 0x40000000))
+    float result;
+    *statep = *statep * 472940017 + 832416023;
+    result = (float)((double)*statep * (1./4294967296.));
+    return (result);
+}
+
+/* borrowed from d_osc.c, LATER rethink */
+float rand_bipolar(unsigned int *statep)
+{
+    float result = ((float)(((int)*statep & 0x7fffffff) - 0x40000000))
 	* (float)(1.0 / 0x40000000);
-    *statep = *statep * 435898247 + 382842987;
+    *statep = (unsigned)((int)*statep * 435898247 + 382842987);
     return (result);
 }

@@ -31,11 +31,11 @@ typedef struct _collcommon
 {
     t_pd           c_pd;
     struct _coll  *c_refs;  /* used in read-banging and dirty flag handling */
-    int            c_embedflag;  /* common field (CHECKED in 'TEXT') */
-    int            c_loading;
-    int            c_relinked;
+    int            c_increation;
+    int            c_volatile;
     int            c_selfmodified;
-    int            c_entered;  /* a counter, LATER rethink */
+    int            c_entered;    /* a counter, LATER rethink */
+    int            c_embedflag;  /* common field (CHECKED in 'TEXT' files) */
     t_symbol      *c_filename;
     t_canvas      *c_lastcanvas;
     t_hammerfile  *c_filehandle;
@@ -192,11 +192,11 @@ static void collcommon_takeout(t_collcommon *cc, t_collelem *ep)
 
 static void collcommon_modified(t_collcommon *cc, int relinked)
 {
-    if (cc->c_loading)
+    if (cc->c_increation)
 	return;
     if (relinked)
     {
-	cc->c_relinked = 1;
+	cc->c_volatile = 1;
     }
     if (cc->c_embedflag)
     {
@@ -398,7 +398,7 @@ static void collcommon_sort(t_collcommon *cc, int asc, int ndx)
     t_collelem *ep;
     if (min && (ep = min->e_next))
     {
-	cc->c_loading = 1;
+	cc->c_increation = 1;
 	/* search for a sentinel element */
  	do
 	    if (collelem_less(ep, min, ndx) == asc) min = ep;
@@ -420,7 +420,7 @@ static void collcommon_sort(t_collcommon *cc, int asc, int ndx)
 	    }
 	    ep = next;
 	}
-	cc->c_loading = 0;
+	cc->c_increation = 0;
 	collcommon_modified(cc, 1);
     }
 }
@@ -518,7 +518,7 @@ static int collcommon_fromlist(t_collcommon *cc, int ac, t_atom *av)
     int size = 0;
     t_atom *data = 0;
     int nlines = 0;
-    cc->c_loading = 1;
+    cc->c_increation = 1;
     collcommon_clearall(cc);
     while (ac--)
     {
@@ -538,7 +538,7 @@ static int collcommon_fromlist(t_collcommon *cc, int ac, t_atom *av)
 	    {
 		/* CHECKED rejecting a comma */
 		collcommon_clearall(cc);  /* LATER rethink */
-		cc->c_loading = 0;
+		cc->c_increation = 0;
 		return (-nlines);
 	    }
 	    else size++;
@@ -557,7 +557,7 @@ static int collcommon_fromlist(t_collcommon *cc, int ac, t_atom *av)
 	{
 	    loud_error(0, "coll: bad atom");
 	    collcommon_clearall(cc);  /* LATER rethink */
-	    cc->c_loading = 0;
+	    cc->c_increation = 0;
 	    return (-nlines);
 	}
 	av++;
@@ -566,10 +566,10 @@ static int collcommon_fromlist(t_collcommon *cc, int ac, t_atom *av)
     {
 	loud_error(0, "coll: incomplete");
 	collcommon_clearall(cc);  /* LATER rethink */
-	cc->c_loading = 0;
+	cc->c_increation = 0;
 	return (-nlines);
     }
-    cc->c_loading = 0;
+    cc->c_increation = 0;
     return (nlines);
 }
 
@@ -746,6 +746,25 @@ static void collcommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av)
 	loud_error(0, "coll: editing error in line %d", 1 - nlines);
 }
 
+static void collcommon_free(t_collcommon *cc)
+{
+    t_collelem *ep1, *ep2 = cc->c_first;
+    while (ep1 = ep2)
+    {
+	ep2 = ep1->e_next;
+	collelem_free(ep1);
+    }
+}
+
+static void *collcommon_new(void)
+{
+    t_collcommon *cc = (t_collcommon *)pd_new(collcommon_class);
+    cc->c_embedflag = 0;
+    cc->c_first = cc->c_last = 0;
+    cc->c_ahead = cc->c_back = 0;
+    return (cc);
+}
+
 static t_collcommon *coll_checkcommon(t_coll *x)
 {
     if (x->x_name &&
@@ -768,8 +787,7 @@ static void coll_unbind(t_coll *x)
 	if (!(cc->c_refs = x->x_next))
 	{
 	    hammerfile_free(cc->c_filehandle);
-	    cc->c_loading = 1;  /* disable dirty-flag handling, LATER rethink */
-	    collcommon_clearall(cc);
+	    collcommon_free(cc);
 	    if (x->x_name) pd_unbind(&cc->c_pd, x->x_name);
 	    pd_free(&cc->c_pd);
 	}
@@ -800,10 +818,9 @@ static void coll_bind(t_coll *x, t_symbol *name)
 	cc = (t_collcommon *)pd_findbyclass(name, collcommon_class);
     if (!cc)
     {
-	cc = (t_collcommon *)pd_new(collcommon_class);
+	cc = (t_collcommon *)collcommon_new();
 	cc->c_refs = 0;
-	cc->c_embedflag = 0;
-	cc->c_loading = 0;
+	cc->c_increation = 0;
 	if (name)
 	{
 	    pd_bind(&cc->c_pd, name);
@@ -864,14 +881,14 @@ static void coll_keyoutput(t_coll *x, t_collelem *ep)
 {
     t_collcommon *cc = x->x_common;
     if (!cc->c_entered++) cc->c_selfmodified = 0;
-    cc->c_relinked = 0;
+    cc->c_volatile = 0;
     if (ep->e_hasnumkey)
 	outlet_float(x->x_keyout, ep->e_numkey);
     else if (ep->e_symkey)
 	outlet_symbol(x->x_keyout, ep->e_symkey);
     else
 	outlet_float(x->x_keyout, 0);
-    if (cc->c_relinked) cc->c_selfmodified = 1;
+    if (cc->c_volatile) cc->c_selfmodified = 1;
     cc->c_entered--;
 }
 
@@ -1419,6 +1436,7 @@ static void coll_dump(t_coll *x)
 	if (cc->c_selfmodified)
 	    break;
 	coll_dooutput(x, ep->e_size, ep->e_data);
+	/* FIXME dooutput() may invalidate ep as well as keyoutput()... */
     }
     outlet_bang(x->x_dumpbangout);
 }

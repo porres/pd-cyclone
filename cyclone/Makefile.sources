@@ -1,5 +1,5 @@
 TYPES = HPLAIN HLOUD HFORKY HFRAGILE HGROW HFILE HRAND HRANDFILE HRANDGROW \
-	HTREE HTREEFILEVEFL HGUI HSEQ \
+	HRANDGROWFILE HTREE HTREEFILEVEFL HGUI HSEQ \
 	SPLAINNOTILDE SPLAIN SSIC SFORKY SFRAGILE SGROW SGROWFORKY \
 	SVEFL SARSIC SFILE
 
@@ -80,8 +80,7 @@ hammer/zl.c
 HFILE_SOURCES = \
 hammer/capture.c \
 hammer/coll.c \
-hammer/mtr.c \
-hammer/Table.c
+hammer/mtr.c
 
 HRAND_SOURCES = \
 hammer/drunk.c
@@ -91,6 +90,9 @@ hammer/prob.c
 
 HRANDGROW_SOURCES = \
 hammer/urn.c
+
+HRANDGROWFILE_SOURCES = \
+hammer/Table.c
 
 HTREE_SOURCES = \
 hammer/offer.c

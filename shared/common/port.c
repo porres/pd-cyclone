@@ -14,6 +14,7 @@
 #include <io.h>
 #endif
 #include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include "m_pd.h"
 #include "g_canvas.h"
@@ -77,12 +78,6 @@ typedef struct _port
     int        x_emcount;
     int        x_dumping;
     /* class-specifics, LATER find a better way */
-    int        x_tablerange;
-    int        x_tableleft;
-    int        x_tabletop;
-    int        x_tableright;
-    int        x_tablebottom;
-    int        x_tableflags;
     FILE      *x_pictfp;
     int        x_pictno;
 } t_port;
@@ -342,6 +337,52 @@ static int import_emcopy(t_port *x, t_symbol *state)
     else return (0);
 }
 
+static int import_emadd(t_port *x, t_symbol *state, int ac, t_atom *av)
+{
+    if (import_emcheck(x, state))
+    {
+	t_atom at;
+	SETSYMBOL(&at, gensym("#C"));
+	binbuf_add(x->x_embb, 1, &at);
+	binbuf_add(x->x_embb, ac, av);
+	binbuf_addsemi(x->x_embb);
+	return (1);
+    }
+    else return (0);
+}
+
+static int import_emaddv(t_port *x, t_symbol *state, char *fmt, ...)
+{
+    va_list ap;
+    t_atom arg[64], *at = arg;
+    int nargs = 0;
+    char *fp = fmt;
+    va_start(ap, fmt);
+    SETSYMBOL(at, gensym("#C"));
+    at++; nargs++;
+    if (import_emcheck(x, state)) while (1)
+    {
+	switch(*fp++)
+	{
+	case 'i': SETFLOAT(at, va_arg(ap, t_int)); break;
+	case 'f': SETFLOAT(at, va_arg(ap, double)); break;
+	case 's': SETSYMBOL(at, va_arg(ap, t_symbol *)); break;
+	case ';': SETSEMI(at); break;
+	case 0: goto done;
+	default: nargs = 0; goto done;
+	}
+	at++; nargs++;
+    }
+done:
+    va_end(ap);
+    if (nargs > 1)
+    {
+	binbuf_add(x->x_embb, nargs, arg);
+	return (1);
+    }
+    else return (0);
+}
+
 static void import_addclassname(t_port *x, char *outname, t_atom *inatom)
 {
     t_atom at;
@@ -430,19 +471,26 @@ static int imaction_N1_vpatcher(t_port *x, char *arg)
 
 static int imaction_N1_vtable(t_port *x, char *arg)
 {
+    int range = port_getint(x, 8),
+	left = port_getint(x, 3),
+	top = port_getint(x, 4),
+	right = port_getint(x, 5),
+	bottom = port_getint(x, 6),
+	flags = port_getint(x, 7);
     import_emstart(x, portps_vtable, port_getsymbol(x, 9), port_getint(x, 2));
-    x->x_tablerange = port_getint(x, 8);
-    x->x_tableleft = port_getint(x, 3);
-    x->x_tabletop = port_getint(x, 4);
-    x->x_tableright = port_getint(x, 5);
-    x->x_tablebottom = port_getint(x, 6);
-    x->x_tableflags = port_getint(x, 7);
 #ifdef PORT_DEBUG
     post("vtable \"%s\": size %d, range %d, coords %d %d %d %d, flags %d",
-	 x->x_emname->s_name, x->x_emsize, x->x_tablerange,
-	 x->x_tableleft, x->x_tabletop, x->x_tableright, x->x_tablebottom,
-	 x->x_tableflags);
+	 x->x_emname->s_name, x->x_emsize,
+	 range, left, top, right, bottom, flags);
 #endif
+    import_emaddv(x, portps_vtable, "si;", gensym("size"), x->x_emsize);
+    import_emaddv(x, portps_vtable, "siiii;", gensym("flags"),
+		  /* CHECKED */
+		  (flags & 16) != 0, (flags & 4) != 0,
+		  (flags & 8) != 0, (flags & 2) != 0);
+    import_emaddv(x, portps_vtable, "si;", gensym("tabrange"), range);
+    import_emaddv(x, portps_vtable, "siiiii;", gensym("_coords"),
+		  left, top, right, bottom, flags & 1);
     return (PORT_NEXT);
 }
 

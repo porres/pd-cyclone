@@ -6,6 +6,8 @@ HFILE_OBJECTS = hammer/file.o common/loud.o unstable/forky.o
 HRAND_OBJECTS = common/rand.o common/loud.o
 HRANDFILE_OBJECTS = common/rand.o hammer/file.o common/loud.o unstable/forky.o
 HRANDGROW_OBJECTS = common/rand.o common/grow.o common/loud.o
+HRANDGROWFILE_OBJECTS = common/rand.o common/grow.o hammer/file.o \
+	common/loud.o unstable/forky.o
 HTREE_OBJECTS = hammer/tree.o common/loud.o
 HTREEFILEVEFL_OBJECTS = hammer/tree.o hammer/file.o \
 	common/vefl.o common/loud.o unstable/forky.o unstable/fragile.o
