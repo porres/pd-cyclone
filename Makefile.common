@@ -1,5 +1,5 @@
 # next line has to be edited manually
-PD_DIR = $(ROOT_DIR)/../pd/src
+PD_DIR = $(ROOT_DIR)/../../pd/src
 
 OS_NAME = $(shell uname -s)
 ifneq ($(OS_NAME),Linux)
@@ -14,10 +14,13 @@ TILDE = ~
 include Makefile.sources
 include Makefile.objects
 
+ifneq ($(OS_NAME),Darwin)
 # FIXME
 CC = gcc-2.95
+else
 # for MacOS X
-#CC = gcc2
+CC = gcc2
+endif
 
 default: define_build all
 
