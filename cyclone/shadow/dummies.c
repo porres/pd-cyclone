@@ -358,7 +358,6 @@ static t_dummy_slot dummy_slots[] =
     { "clocker",         2, 1, 0, 0 },
     { "closebang",       0, 1, 0, 0 },
     { "colorpicker",     1, 1, 0, 0 },
-    { "curve~",          3, 2, 0, 0 },
     { "date",            1, 3, 0, 0 },
     { "defer",           1, 1, 0, 0 },  /* LATER pass anything through */
     { "degrade~",        3, 1, 0, 0 },
@@ -381,7 +380,7 @@ static t_dummy_slot dummy_slots[] =
     { "filein",          3, 3, 0, 0 },
     { "filepath",        1, 1, 0, 0 },
     { "filtergraph~",    8, 6, 0, 0 },
-    { "folder",          1, 1, 0, 0 },  /* CHECKME 2nd outlet */
+    { "folder",          1, 2, 0, 0 },
     { "follow",          1, 2, 0, 0 },
     { "fpic",            1, 0, 0, 0 },
     { "frame",           6, 0, 0, 0 },
@@ -407,16 +406,12 @@ static t_dummy_slot dummy_slots[] =
     { "lcd",             1, 4, 0, 0 },  /* CHECKME nouts */
     { "led",             1, 1, 0, 0 },
     { "Line",            3, 2, 0, 0 },
-    { "lores~",          3, 1, 0, 0 },
     { "matrixctrl",      1, 1, 0, 0 },  /* CHECKME nins, nouts */
     { "matrix~",        -1, -1, 0, (t_newmethod)dummy_matrix_tilde_new },
-    { "maximum~",        2, 1, 0, 0 },
     { "menubar",         1, 4, 0, 0 },  /* LATER parse #Xs (additional outs) */
     { "meter~",          1, 1, 0, 0 },  /* LATER consider mapping to the vu */
-    { "minimum~",        2, 1, 0, 0 },
     { "movie",           1, 3, 0, 0 },
     /* CHECKME msd */
-    { "mstosamps~",      1, 2, 0, 0 },
     { "multiSlider",     1, 1, 0, 0 },
     { "mute~",           1, 1, 0, 0 },
     { "normalize~",      2, 1, 0, 0 },
@@ -427,7 +422,6 @@ static t_dummy_slot dummy_slots[] =
     { "omsnotes",        4, 2, 0, 0 },  /* CHECKME osx */
     { "omspatches",      3, 2, 0, 0 },  /* CHECKME osx */
     { "onecopy",         0, 0, 0, 0 },  /* CHECKME */
-    { "onepole~",        2, 1, 0, 0 },
     { "opendialog",      1, 2, 0, 0 },
     { "oscbank~",        4, 1, 0, 0 },
     { "oval",            6, 0, 0, 0 },
@@ -442,7 +436,6 @@ static t_dummy_slot dummy_slots[] =
     { "pict",            3, 0, 0, 0 },
     { "pictctrl",        1, 1, 0, 0 },
     { "pictslider",      2, 2, 0, 0 },  /* CHECKME one-dimensional mode */
-    { "pink~",           1, 1, 0, 0 },  /* CHECKME inlet */
     { "playbar",         1, 2, 0, 0 },  /* CHECKME */
     { "plugconfig",      1, 0, 0, 0 },
     { "plugin~",         2, 2, 0, 0 },
@@ -457,7 +450,6 @@ static t_dummy_slot dummy_slots[] =
     { "plugsend~",       1, 0, 0, 0 },
     { "plugstore",       1, 1, 0, 0 },  /* CHECKME nouts */
     { "plugsync~",       0, 9, 0, 0 },  /* CHECKME nouts */
-    { "poke~",           3, 0, 0, 0 },
     { "Poly",            2, 4, 0, 0 },
     { "polyin",          1, 3, 0, 0 },  /* LATER parse args for nouts */
     { "polyout",         3, 0, 0, 0 },  /* CHECKME nins */
@@ -471,13 +463,11 @@ static t_dummy_slot dummy_slots[] =
     /* LATER settable Receive? */
     { "rect",            6, 0, 0, 0 },
     { "relativepath",    1, 1, 0, 0 },
-    { "reson~",          4, 1, 0, 0 },
     { "rewire~",         1, -1, 0, (t_newmethod)dummy_rewire_tilde_new },
     { "ring",            6, 0, 0, 0 },
     { "round~",          2, 1, 0, 0 },
     { "rslider",         2, 2, 0, 0 },
     { "rtin",            1, 1, 0, 0 },
-    { "sampstoms~",      1, 2, 0, 0 },
     { "savedialog",      1, 3, 0, 0 },
     { "screensize",      1, 2, 0, 0 },
     { "selector~",      -1, 1, 0, (t_newmethod)dummy_selector_tilde_new },
@@ -492,7 +482,6 @@ static t_dummy_slot dummy_slots[] =
     { "strippath",       1, 2, 0, 0 },
     { "stutter~",       -1, -1, 0, (t_newmethod)dummy_stutter_tilde_new },
     { "suspend",         0, 1, 0, 0 },
-    { "svf~",            3, 4, 0, 0 },
     { "swatch",          3, 2, 0, 0 },
     { "sxformat",       -1, 1, 0, (t_newmethod)dummy_sxformat_new },
     { "sysexin",         1, 1, 0, 0 },
@@ -523,7 +512,6 @@ static t_dummy_slot dummy_slots[] =
     { "vpicture",        0, 0, 0, 0 },
     { "vst~",           -1, -1, 0, (t_newmethod)dummy_vst_tilde_new },
     { "waveform~",       5, 6, 0, 0 },  /* CHECKME */
-    { "zerox~",          1, 2, 0, 0 },
     { "zigzag~",         2, 4, 0, 0 },
     { "_dummy",          0, 0, 0, 0 }
 };

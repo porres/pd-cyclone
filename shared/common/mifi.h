@@ -57,28 +57,28 @@ typedef struct _sq t_mifi_stream;
 /* prototypes of public interface routines */
 
 t_mifi_event *mifi_event_new(void);
-void mifi_event_free(t_mifi_event *e);
-int mifi_event_settext(t_mifi_event *e, int type, char *text);
-void mifi_event_printmeta(t_mifi_event *e);
+void mifi_event_free(t_mifi_event *ep);
+int mifi_event_settext(t_mifi_event *ep, int type, char *text);
+void mifi_event_printmeta(t_mifi_event *ep);
 
 t_mifi_stream *mifi_stream_new(void);
-void mifi_stream_reset(t_mifi_stream *x);
-void mifi_stream_free(t_mifi_stream *x);
+void mifi_stream_reset(t_mifi_stream *sp);
+void mifi_stream_free(t_mifi_stream *sp);
 
-t_mifi_stream *mifi_read_start(t_mifi_stream *x,
+t_mifi_stream *mifi_read_start(t_mifi_stream *sp,
 			       const char *filename, const char *dirname,
 			       int complain);
-int mifi_read_restart(t_mifi_stream *x);
-void mifi_read_end(t_mifi_stream *x);
-int mifi_read_event(t_mifi_stream *x, t_mifi_event *e);
-int mifi_read_analyse(t_mifi_stream *stp);
-int mifi_read_doit(t_mifi_stream *stp);
+int mifi_read_restart(t_mifi_stream *sp);
+void mifi_read_end(t_mifi_stream *sp);
+int mifi_read_event(t_mifi_stream *sp, t_mifi_event *ep);
+int mifi_read_analyse(t_mifi_stream *sp);
+int mifi_read_doit(t_mifi_stream *sp);
 
-t_mifi_stream *mifi_write_start(t_mifi_stream *x,
+t_mifi_stream *mifi_write_start(t_mifi_stream *sp,
 				const char *filename, const char *dirname);
-void mifi_write_end(t_mifi_stream *x);
-int mifi_write_start_track(t_mifi_stream *x);
-int mifi_write_adjust_track(t_mifi_stream *x, uint32 eotdelay);
-int mifi_write_event(t_mifi_stream *x, t_mifi_event *e);
+void mifi_write_end(t_mifi_stream *sp);
+int mifi_write_start_track(t_mifi_stream *sp);
+int mifi_write_adjust_track(t_mifi_stream *sp, uint32 eotdelay);
+int mifi_write_event(t_mifi_stream *sp, t_mifi_event *ep);
 
 #endif

@@ -452,7 +452,8 @@ int binport_read(t_binbuf *bb, char *filename, char *dirname)
 	{
 	    t_atom at;
 	    while (binport_nextatom(bp, &at))
-		binbuf_add(bb, 1, &at);
+		if (at.a_type != A_NULL)
+		    binbuf_add(bb, 1, &at);
 	    binport_free(bp);
 	    return (BINPORT_OK);
 	}
@@ -534,7 +535,7 @@ int main(int ac, char **av)
 			fputs(";\n", stdout);
 			ac = 0;
 		    }
-		    else
+		    else if (at.a_type != A_NULL)
 		    {
 			if (ac++) fputc(' ', stdout);
 			binport_atomstring(&at, buf, BINPORT_MAXSTRING);

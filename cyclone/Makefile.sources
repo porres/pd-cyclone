@@ -133,26 +133,34 @@ sickle/deltaclip.c \
 sickle/edge.c \
 sickle/kink.c \
 sickle/log.c \
+sickle/lores.c \
 sickle/maximum.c \
 sickle/minimum.c \
 sickle/minmax.c \
+sickle/mstosamps.c \
+sickle/onepole.c \
 sickle/peakamp.c \
 sickle/phasewrap.c \
+sickle/pink.c \
 sickle/pow.c \
 sickle/rampsmooth.c \
 sickle/rand.c \
+sickle/reson.c \
 sickle/sah.c \
+sickle/sampstoms.c \
 sickle/sinh.c \
 sickle/sinx.c \
 sickle/slide.c \
 sickle/Snapshot.c \
 sickle/spike.c \
+sickle/svf.c \
 sickle/tanh.c \
 sickle/tanx.c \
 sickle/train.c \
 sickle/trapezoid.c \
 sickle/triangle.c \
-sickle/vectral.c
+sickle/vectral.c \
+sickle/zerox.c
 
 SFORKY_TILDE = $(TILDE)
 SFORKY_SOURCES = \
@@ -169,6 +177,7 @@ sickle/poltocar.c
 SGROW_TILDE = $(TILDE)
 SGROW_SOURCES = \
 sickle/click.c \
+sickle/curve.c \
 sickle/frameaccum.c \
 sickle/framedelta.c \
 sickle/Line.c
@@ -187,6 +196,7 @@ sickle/index.c \
 sickle/lookup.c \
 sickle/peek.c \
 sickle/play.c \
+sickle/poke.c \
 sickle/record.c \
 sickle/wave.c
 

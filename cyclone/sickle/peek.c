@@ -55,7 +55,7 @@ static void peek_float(t_peek *x, t_float f)
     if (vp = sic->s_vectors[x->x_effchannel])
     {
 	int ndx = (int)f;
-	if (vp && ndx >= 0 && ndx < sic->s_vecsize)
+	if (ndx >= 0 && ndx < sic->s_vecsize)
 	{
 	    if (x->x_pokemode)
 	    {

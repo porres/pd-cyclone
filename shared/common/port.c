@@ -22,6 +22,9 @@
 #include "common/binport.h"
 #include "common/port.h"
 
+//#define PORT_DEBUG
+#define PORT_LOG
+
 #define PORT_INISTACK  256  /* LATER rethink */
 #define PORT_INISIZE   512  /* LATER rethink */
 
@@ -591,9 +594,12 @@ void import_max(char *fn, char *dir)
 	if (ftype == BINPORT_PDFILE) x->x_newbb = x->x_oldbb;
 	else
 	{
+#ifdef PORT_DEBUG
+	    binbuf_write(x->x_oldbb, "import-debug.pd", "", 0);
+#endif
 	    import_binbuf(x);
 	    binbuf_free(x->x_oldbb);
-#if 1
+#ifdef PORT_LOG
 	    binbuf_write(x->x_newbb, "import-result.pd", "", 0);
 #endif
 	}

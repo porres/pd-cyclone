@@ -14,6 +14,7 @@ TILDE = ~
 include Makefile.sources
 include Makefile.objects
 
+# FIXME
 CC = gcc-2.95
 
 default: define_build all
@@ -27,13 +28,17 @@ BASE_NAME = $(shell basename `pwd` | awk -F - '{print $$1}')
 
 # CX: control external's main file
 # AX: audio (tilde) external's main file
-# LX: symlink external's main file
-#     (if symlink external is tilde-only, use OTHER_SOURCES and AX_CLASSES)
+# LX: alias external's main file
+#     (if alias external is tilde-only, use OTHER_SOURCES and AX_CLASSES)
 
 CX_NAMES = $(notdir $(CX_SOURCES))
 AX_NAMES = $(notdir $(AX_SOURCES))
-LX_NAMES = $(notdir $(LX_SOURCES))
 TYPES_NAMES = $(notdir $($1_SOURCES))
+
+ifdef LX_SOURCES
+LX_NAMES = $(notdir $(LX_SOURCES))
+LX_CLASSES = $(subst _,.,$(LX_NAMES))
+endif
 
 CX_DIR = $(dir $(firstword $(CX_SOURCES)))
 AX_DIR = $(dir $(firstword $(AX_SOURCES)))
@@ -69,7 +74,7 @@ CFLAGS = $(WARN_CFLAGS) $(OPT_CFLAGS) $(DEFINES) $(INCLUDES)
 
 EXTERNS = $(foreach fn,$(CX_NAMES:.c=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
 	$(foreach fn,$(AX_NAMES:.c=~.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
-	$(foreach fn,$(LX_SOURCES:.c=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
+	$(foreach fn,$(LX_CLASSES:.c=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
 	$(foreach fn,$(CX_CLASSES:=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
 	$(foreach fn,$(AX_CLASSES:=~.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
 	$(foreach type,$(TYPES),\
@@ -107,21 +112,42 @@ $(if $(word 22,$(TYPES)),$(call TYPES_RULE,$(word 22,$(TYPES))))
 $(if $(word 23,$(TYPES)),$(call TYPES_RULE,$(word 23,$(TYPES))))
 $(if $(word 24,$(TYPES)),$(call TYPES_RULE,$(word 24,$(TYPES))))
 
+SHOBJECTS = $(foreach fn,$(SHARED_OBJECTS),$(SHARED_DIR)/$(fn))
+
 OBJECTS = $(foreach fn,$(OTHER_SOURCES:.c=.o),$(OBJ_DIR)/$(fn)) \
 	$(foreach fn,$(LX_SOURCES:.c=.o),$(OBJ_DIR)/$(fn)) \
-	$(foreach fn,$(SHARED_OBJECTS),$(SHARED_DIR)/$(fn))
+	$(SHOBJECTS)
 
 # lame...
 .PRECIOUS: %.o
 
-# rules for symlink externals must precede generic extern rules
-$(OUT_DIR)/$(BASE_NAME)_%~.$(X_SUFFIX): $(OUT_DIR)/$(BASE_NAME).$(X_SUFFIX)
-	-ln -sf $(BASE_NAME).$(X_SUFFIX) $@
-$(OUT_DIR)/$(BASE_NAME)_%.$(X_SUFFIX): $(OUT_DIR)/$(BASE_NAME).$(X_SUFFIX)
-	-ln -sf $(BASE_NAME).$(X_SUFFIX) $@
+# rules for aliases must precede generic extern rules
+
+# FIXME
+$(OUT_DIR)/$(BASE_NAME).%~.$(X_SUFFIX): $(BASE_NAME)_loader.c $(SHOBJECTS)
+	$(CC) -o $@ -Xlinker -defsym \
+		-Xlinker $(BASE_NAME).$(*F)_tilde_setup=$(BASE_NAME)_loader_setup \
+		$(CFLAGS) $(LFLAGS) $(SHOBJECTS) $<
+
+$(OUT_DIR)/$(BASE_NAME).%.$(X_SUFFIX): $(BASE_NAME)_loader.c $(SHOBJECTS)
+	$(CC) -o $@ -Xlinker -defsym \
+		-Xlinker $(BASE_NAME).$(*F)_setup=$(BASE_NAME)_loader_setup \
+		$(CFLAGS) $(LFLAGS) $(SHOBJECTS) $<
+
+#$(OUT_DIR)/$(BASE_NAME).%.$(X_SUFFIX): $(BASE_NAME)_%.c $(SHOBJECTS)
+#	$(CC) -c $(CFLAGS) $<
+#	-ld -o $@ -defsym $(BASE_NAME).$(*F)_setup=$(BASE_NAME)_$(*F)_setup \
+#		-L $(OUT_DIR) $(LFLAGS) $(SHOBJECTS) \
+#		$(BASE_NAME).$(X_SUFFIX) $(BASE_NAME)_$(*F).o
+
+#	$(CC) -o $@ -Xlinker -defsym \
+#		-Xlinker $(BASE_NAME).$(*F)_setup=$(BASE_NAME)_$(*F)_setup \
+#		-Xlinker -rpath -Xlinker $(OUT_DIR) \
+#		$(CFLAGS) $(LFLAGS) $(SHOBJECTS) $(BASE_NAME).$(X_SUFFIX) $<
 
 # library stub
 # if not equal BASE_NAME, it has to be declared explicitly in BASE_DIR/Makefile
+# FIXME
 $(OUT_DIR)/$(LX_STUB)_%~.$(X_SUFFIX): $(OUT_DIR)/$(BASE_NAME).$(X_SUFFIX)
 	-ln -sf $(BASE_NAME).$(X_SUFFIX) $@
 $(OUT_DIR)/$(LX_STUB)_%.$(X_SUFFIX): $(OUT_DIR)/$(BASE_NAME).$(X_SUFFIX)
@@ -236,6 +262,12 @@ brelease: define_build
 	cd $(ROOT_DIR); tar zcf \
 		$(BIN_TAR).gz $(REL_EXTERNS)
 
+btestrelease: define_build
+	cd $(ROOT_DIR); tar -cf $(BIN_TAR) $(REL_EXTERNS)
+	cd $(ROOT_DIR); tar -X $(BASE_DIR)/$(BASE_NAME)-test.exclude -rf \
+		$(BIN_TAR) test/$(BASE_NAME)/*
+	cd $(ROOT_DIR); gzip -f $(BIN_TAR)
+
 rellibs:
 	cd $(ROOT_DIR); tar zcf \
 		$(LIB_TAR).gz $(REL_LIBNAMES)
@@ -253,7 +285,7 @@ release: srelease brelease drelease
 		$(ALL_TAR) doc/examples/$(BASE_NAME)/*
 	cd $(ROOT_DIR); gzip -f $(ALL_TAR)
 
-testrelease: stestrelease brelease
+testrelease: stestrelease btestrelease
 	cd $(ROOT_DIR); tar -X $(BASE_DIR)/$(BASE_NAME)-all.exclude -cf \
 		$(ALL_TAR) $(BASE_DIR)/* $(REL_ROOTSRC) $(REL_EXTERNS)
 	cd $(ROOT_DIR); tar -T $(BASE_DIR)/$(BASE_NAME)-shared.include -rf \
@@ -264,7 +296,7 @@ testrelease: stestrelease brelease
 		$(ALL_TAR) ViCious/$(BASE_DIR)/*
 	cd $(ROOT_DIR); gzip -f $(ALL_TAR)
 
-snap: emptyalldeps testrelease rellibs
+snap: emptyalldeps stestrelease btestrelease
 
 depend:
 	$(CC) $(CFLAGS) -M $(SOURCES) > Makefile.deps

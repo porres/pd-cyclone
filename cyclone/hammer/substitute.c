@@ -2,6 +2,10 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+/* CHECKED refman's rubbish: 1st outlet used only if there is a match,
+   unchanged messages go through the 2nd outlet (no bang there),
+   3rd argument ignored (no single-replacement mode). */
+
 #include <string.h>
 #include "m_pd.h"
 #include "common/grow.h"

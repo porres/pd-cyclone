@@ -65,3 +65,29 @@ t_outconnect *fragile_outlet_connections(t_outlet *o)
 {
     return (o ? o->o_connections : 0);
 }
+
+/* These are local to m_obj.c. */
+union inletunion
+{
+    t_symbol *iu_symto;
+    t_gpointer *iu_pointerslot;
+    t_float *iu_floatslot;
+    t_symbol **iu_symslot;
+    t_sample iu_floatsignalvalue;
+};
+
+struct _inlet
+{
+    t_pd i_pd;
+    struct _inlet *i_next;
+    t_object *i_owner;
+    t_pd *i_dest;
+    t_symbol *i_symfrom;
+    union inletunion i_un;
+};
+
+/* simplified obj_findsignalscalar(), works for non-left inlets */
+t_sample *fragile_inlet_signalscalar(t_inlet *i)
+{
+    return (&i->i_un.iu_floatsignalvalue);
+}

@@ -3,16 +3,12 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include "shared.h"
 #include "common/grow.h"
 #include "common/loud.h"
 #include "sickle/sic.h"
 
 //#define LINE_DEBUG
-
-#ifndef PD_BADFLOAT
-#define PD_BADFLOAT(f) ((((*(unsigned int*)&(f))&0x7f800000)==0) || \
-    (((*(unsigned int*)&(f))&0x7f800000)==0x7f800000))
-#endif
 
 #define LINE_INISIZE  64  /* LATER rethink */
 #define LINE_MAXSIZE  64
@@ -196,9 +192,15 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     t_atom *ap;
     t_lineseg *segp;
     for (natoms = 0, ap = av; natoms < ac; natoms++, ap++)
-	if (ap->a_type != A_FLOAT) break;  /* CHECKME */
+    {
+	if (ap->a_type != A_FLOAT)
+	{
+	    loud_messarg((t_pd *)x, &s_list);  /* CHECKED */
+	    return;  /* CHECKED */
+	}
+    }
     if (!natoms)
-	return;  /* CHECKME */
+	return;  /* CHECKED */
     odd = natoms % 2;
     nsegs = natoms / 2;
     if (odd) nsegs++;
@@ -212,6 +214,7 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
 	{
 	    natoms = ns * 2;
 	    nsegs = ns;
+	    odd = 0;
 	}
     }
     x->x_nsegs = nsegs;
@@ -289,7 +292,8 @@ static void *line_new(t_floatarg f)
 void Line_tilde_setup(void)
 {
     line_class = class_new(gensym("Line~"),
-			   (t_newmethod)line_new, 0,
+			   (t_newmethod)line_new,
+			   (t_method)line_free,
 			   sizeof(t_line), 0, A_DEFFLOAT, 0);
     sic_setup(line_class, line_dsp, SIC_NOMAINSIGNALIN);
     class_addfloat(line_class, line_float);

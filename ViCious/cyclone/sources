@@ -146,6 +146,7 @@ ALL_SICKLES = \
 	sickle\cosh.c \
 	sickle\cosx.c \
 	sickle\count.c \
+	sickle\curve.c \
 	sickle\cycle.c \
 	sickle\delay.c \
 	sickle\delta.c \
@@ -159,30 +160,39 @@ ALL_SICKLES = \
 	sickle\linedrive.c \
 	sickle\log.c \
 	sickle\lookup.c \
+	sickle\lores.c \
 	sickle\maximum.c \
 	sickle\minimum.c \
 	sickle\minmax.c \
+	sickle\mstosamps.c \
+	sickle\onepole.c \
 	sickle\peakamp.c \
 	sickle\peek.c \
 	sickle\phasewrap.c \
+	sickle\pink.c \
 	sickle\play.c \
+	sickle\poke.c \
 	sickle\poltocar.c \
 	sickle\pong.c \
 	sickle\pow.c \
 	sickle\rand.c \
 	sickle\rampsmooth.c \
 	sickle\record.c \
+	sickle\reson.c \
 	sickle\sah.c \
+	sickle\sampstoms.c \
 	sickle\Scope.c \
 	sickle\sinh.c \
 	sickle\sinx.c \
 	sickle\slide.c \
 	sickle\Snapshot.c \
 	sickle\spike.c \
+	sickle\svf.c \
 	sickle\tanh.c \
 	sickle\tanx.c \
 	sickle\train.c \
 	sickle\trapezoid.c \
 	sickle\triangle.c \
 	sickle\vectral.c \
-	sickle\wave.c
+	sickle\wave.c \
+	sickle\zerox.c
