@@ -1,4 +1,4 @@
-#N canvas 7 38 850 620 10;
+#N canvas 223 55 854 624 10;
 #X text -11 558 cyclone is (c) Miller Puckette and others;
 #X text -11 573 docs based on the MAX/MSP reference (c) cycling'74
 ;
@@ -7,7 +7,7 @@
 #X obj 5 20 counter;
 #X text 79 21 count the number of bangs received;
 #X obj 54 94 metro 300;
-#X obj 54 71 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+#X obj 54 71 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
 #X floatatom 131 217 5 0 0 0 - - -;
 #X text 181 218 number of bangs;
@@ -28,9 +28,7 @@
 #X obj 131 191 counter;
 #X text 197 175 reset to max \, wait for next bang before output *
 ;
-#X text 436 538 * there seems to be a bug when used with an;
-#X text 451 548 unlimited counter \, sensible behaviour IMO;
-#X text 452 558 would be to reset to 0 aswell ...;
+#X text 430 211 unlimited counter \, sensible behaviour IMO;
 #X obj 162 490 counter;
 #X floatatom 162 260 5 0 0 0 - - -;
 #X floatatom 162 517 5 0 0 0 - - -;
@@ -47,16 +45,16 @@
 #X text 254 361 set min;
 #X text 267 399 set max;
 #X text 262 378 set counter value;
-#X obj 572 430 counter;
-#X msg 518 315 set \$1;
-#X floatatom 518 296 5 0 0 0 - - -;
-#X msg 572 316 jam \$1;
-#X floatatom 572 297 5 0 0 0 - - -;
-#X text 463 278 set counter to nr. and output;
-#X text 612 295 immediately;
-#X text 428 295 at next bang;
-#X msg 433 314 goto \$1;
-#X text 494 316 =;
+#X obj 597 453 counter;
+#X msg 543 338 set \$1;
+#X floatatom 543 319 5 0 0 0 - - -;
+#X msg 597 339 jam \$1;
+#X floatatom 597 320 5 0 0 0 - - -;
+#X text 488 301 set counter to nr. and output;
+#X text 637 318 immediately;
+#X text 453 318 at next bang;
+#X msg 458 337 goto \$1;
+#X text 519 339 =;
 #X msg 67 374 up;
 #X msg 80 394 down;
 #X msg 101 413 updown;
@@ -67,12 +65,12 @@
 #X text -2 277 care about direction;
 #X msg 319 259 next;
 #X text 208 260 number = bang =;
-#X obj 412 391 min \$1;
-#X obj 460 390 max \$1;
-#X floatatom 412 370 5 0 0 0 - - -;
-#X floatatom 460 369 5 0 0 0 - - -;
-#X text 409 352 set min/max;
-#N canvas 0 0 504 163 arguments 0;
+#X obj 437 414 min \$1;
+#X obj 485 413 max \$1;
+#X floatatom 437 393 5 0 0 0 - - -;
+#X floatatom 485 392 5 0 0 0 - - -;
+#X text 434 375 set min/max;
+#N canvas 0 22 504 163 arguments 0;
 #X obj 62 50 counter max;
 #X obj 62 72 counter min max;
 #X obj 61 95 counter dir min max;
@@ -83,7 +81,7 @@
 #X restore 330 89 pd arguments;
 #N canvas 19 104 733 288 outputs 0;
 #X obj 49 82 metro 100;
-#X obj 49 57 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+#X obj 49 57 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
 #X floatatom 49 227 5 0 0 0 - - -;
 #X text 88 228 count;
@@ -95,7 +93,7 @@
 #X floatatom 142 137 5 0 0 0 - - -;
 #X text 187 139 count of overflows;
 #X obj 468 156 metro 100;
-#X obj 468 73 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+#X obj 468 73 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
 #X obj 468 183 counter 2 0 10;
 #X msg 412 104 carrybang;
@@ -123,7 +121,20 @@ bang;
 #X connect 14 0 13 0;
 #X connect 17 0 13 0;
 #X restore 428 89 pd outputs;
-#X text 419 252 additional ways to accomplish the same:;
+#X text 444 275 additional ways to accomplish the same:;
+#N canvas 211 114 569 114 related_objects 0;
+#X obj 40 47 gem_counter;
+#X obj 133 48 cxc.counter;
+#X text 27 24 other counters:;
+#X obj 222 48 modulo_counter;
+#X obj 387 47 count~;
+#X obj 342 47 count;
+#X obj 443 47 countund;
+#X restore 592 554 pd related_objects;
+#X obj 460 554 all_about_looping;
+#X text 480 529 click on these for more info:;
+#X text 415 201 * (there seems to be a bug when used with an;
+#X text 431 221 would be to reset to 0 as well ...);
 #X connect 5 0 18 0;
 #X connect 6 0 5 0;
 #X connect 10 0 18 1;
@@ -132,24 +143,24 @@ bang;
 #X connect 16 0 5 1;
 #X connect 17 0 18 4;
 #X connect 18 0 7 0;
-#X connect 23 0 25 0;
-#X connect 24 0 23 0;
-#X connect 26 0 23 1;
-#X connect 27 0 23 1;
-#X connect 28 0 23 1;
-#X connect 33 0 23 2;
-#X connect 34 0 23 3;
-#X connect 35 0 23 4;
-#X connect 40 0 39 0;
+#X connect 21 0 23 0;
+#X connect 22 0 21 0;
+#X connect 24 0 21 1;
+#X connect 25 0 21 1;
+#X connect 26 0 21 1;
+#X connect 31 0 21 2;
+#X connect 32 0 21 3;
+#X connect 33 0 21 4;
+#X connect 38 0 37 0;
+#X connect 39 0 38 0;
+#X connect 40 0 37 0;
 #X connect 41 0 40 0;
-#X connect 42 0 39 0;
-#X connect 43 0 42 0;
-#X connect 49 0 23 0;
-#X connect 50 0 23 0;
-#X connect 51 0 23 0;
-#X connect 53 0 23 0;
-#X connect 54 0 23 0;
-#X connect 59 0 39 0;
-#X connect 60 0 39 0;
-#X connect 61 0 59 0;
-#X connect 62 0 60 0;
+#X connect 47 0 21 0;
+#X connect 48 0 21 0;
+#X connect 49 0 21 0;
+#X connect 51 0 21 0;
+#X connect 52 0 21 0;
+#X connect 57 0 37 0;
+#X connect 58 0 37 0;
+#X connect 59 0 57 0;
+#X connect 60 0 58 0;

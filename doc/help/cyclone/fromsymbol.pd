@@ -1,12 +1,12 @@
-#N canvas 134 92 582 543 10;
+#N canvas 444 46 559 593 10;
 #X obj 29 16 fromsymbol;
 #X obj 53 251 fromsymbol;
 #X obj 29 37 tosymbol;
 #X text 121 22 transform symbol to numbers or messages and vice versa
 ;
-#X text 17 488 cyclone is (c) Miller Puckette and others;
-#X text 18 501 docs based on the MAX/MSP reference (c) cycling'74;
-#X text 17 515 ___________________________________________________
+#X text 17 543 cyclone is (c) Miller Puckette and others;
+#X text 17 559 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 17 570 ___________________________________________________
 ;
 #X obj 94 190 tosymbol;
 #X text 35 72 since pd lacks a quoting mechanism (like `foo bar`) there
@@ -21,24 +21,28 @@ symbols;
 #X text 248 109 or;
 #X text 342 110 from zexy;
 #X msg 94 164 this is a list of symbols;
-#X obj 94 215 print symbol_with_spaces;
-#X text 271 218 becomes a symbol with spaces;
-#X obj 53 279 print list_again;
-#X text 178 282 and can be transformed back into a list;
+#X text 275 216 becomes a symbol with spaces;
+#X text 200 278 and can be transformed back into a list;
 #X text 31 164 so this:;
-#X obj 90 409 tosymbol;
-#X obj 90 434 print separator;
-#X text 50 353 1;
-#X text 57 382 2;
-#X obj 55 317 tosymbol;
-#X msg 90 379 lets place a _ instead of a space inside;
-#X msg 67 354 separator _;
-#X text 117 321 can also be used to generate non space symbols from
+#X obj 90 421 tosymbol;
+#X text 50 365 1;
+#X text 57 394 2;
+#X obj 55 329 tosymbol;
+#X msg 90 391 lets place a _ instead of a space inside;
+#X msg 67 366 separator _;
+#X text 117 333 can also be used to generate non space symbols from
 lists:;
-#X connect 1 0 19 0;
-#X connect 7 0 17 0;
+#X symbolatom 90 446 0 0 0 0 - - -;
+#X symbolatom 94 216 25 0 0 0 - - -;
+#X obj 53 278 print THIS_IS_A_LIST;
+#X text 1 486 For more info:;
+#X obj 148 504 all_about_lists_vs_anythings;
+#X obj 348 504 all_about_symbol_construction;
+#X obj 4 504 all_about_data_types;
+#X connect 1 0 29 0;
 #X connect 7 0 1 0;
+#X connect 7 0 28 0;
 #X connect 16 0 7 0;
-#X connect 22 0 23 0;
-#X connect 27 0 22 0;
-#X connect 28 0 22 0;
+#X connect 20 0 27 0;
+#X connect 24 0 20 0;
+#X connect 25 0 20 0;
