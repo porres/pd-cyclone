@@ -247,7 +247,7 @@ REL_EXTERNS = $(foreach fn,$(CX_NAMES:.c=.$(X_SUFFIX)),$(REL_BINDIR)/$(fn)) \
 	$(foreach type,$(TYPES),\
 		$(foreach fn,$(call TYPES_EXTERNS,$(type)),$(REL_BINDIR)/$(fn)))
 
-REL_ROOTSRC = LICENSE.txt Makefile.common dumpsetups quoteinitializer
+REL_ROOTSRC = LICENSE.txt Makefile.common dumpsetups
 
 srelease: emptydeps define_build
 	cd $(ROOT_DIR)/shared; $(MAKE) emptydeps

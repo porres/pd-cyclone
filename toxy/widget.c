@@ -239,6 +239,7 @@ static void widget_displace(t_gobj *z, t_glist *glist, int dx, int dy)
     canvas_fixlinesfor(glist_getcanvas(glist), t);
 }
 
+/* LATER handle subitems */
 static void widget_select(t_gobj *z, t_glist *glist, int flag)
 {
     t_widget *x = (t_widget *)z;
@@ -313,7 +314,7 @@ static void widget_pushinits(t_widget *x)
 
 static void widget_getconfig(t_widget *x)
 {
-    sys_vgui("::toxy::itemgetconfig %s %s\n",
+    sys_vgui("::toxy::item_getconfig %s %s\n",
 	     widget_getmypathname(x, x->x_glist)->s_name,
 	     x->x_cbtarget->s_name);
 }
@@ -334,7 +335,7 @@ static void widget_vis(t_gobj *z, t_glist *glist, int vis)
 #endif
 	widget_pushoptions(x, 0);
 	widget_pushinits(x);
-	sys_vgui("::toxy::itemvis %s %s %s %s %s %s %g %g\n",
+	sys_vgui("::toxy::item_vis %s %s %s %s %s %s %g %g\n",
 		 x->x_tkclass->s_name, mypathname,
 		 x->x_cbtarget->s_name, x->x_name->s_name,
 		 x->x_varname->s_name, cvpathname, px1, py1);
@@ -431,7 +432,7 @@ static t_widgetbehavior widget_behavior =
 
 static void widget_novis(t_widget *x)
 {
-    sys_vgui("::toxy::itemdestroy %s %s\n",
+    sys_vgui("::toxy::item_destroy %s %s\n",
 	     widget_getmypathname(x, x->x_glist)->s_name, x->x_varname->s_name);
 }
 
@@ -706,6 +707,7 @@ static void widget__failure(t_widget *x, t_symbol *s, int ac, t_atom *av)
     clock_delay(x->x_transclock, 0);
 }
 
+/* LATER handle subitems */
 static void widget__config(t_widget *x, t_symbol *target, t_symbol *bg,
 			   t_floatarg fw, t_floatarg fh, t_floatarg fst)
 {
@@ -751,6 +753,7 @@ static void widget__callback(t_widget *x, t_symbol *s, int ac, t_atom *av)
 }
 
 /* see also widget_select() */
+/* LATER handle subitems */
 static void widget__inout(t_widget *x, t_floatarg f)
 {
     int disable = (int)f && x->x_glist->gl_edit;

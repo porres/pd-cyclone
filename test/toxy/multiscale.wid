@@ -1,4 +1,4 @@
-proc ::toxy::multiscalecommand {target sel ndx v} {
+proc ::toxy::multiscale_command {target sel ndx v} {
     pd [concat $target $sel $v $ndx \;]
 }
 
@@ -14,7 +14,7 @@ proc ::toxy::multiscale_list {path count ndx v} {
     }
 }
 
-proc ::toxy::multiscale {path target remote count dx dy bg} {
+proc ::toxy::multiscale {path cvpath target remote count lo hi res dx dy bg} {
     if {[winfo exists $path.s0]} {
 #	puts stderr [concat $path.s0 exists]
     } else {
@@ -25,9 +25,9 @@ proc ::toxy::multiscale {path target remote count dx dy bg} {
 	set py 5
 	for {set ndx 0} {$ndx < $count} {incr ndx} {
 	    scale $path.s$ndx -width $dx -length $dy \
-		-from 1 -to 0 -resolution 0.01 \
+		-from $hi -to $lo -resolution $res \
 		-bg $bg -highlightthickness 0 \
-		-command [concat ::toxy::multiscalecommand $target _cb $ndx]
+		-command [concat ::toxy::multiscale_command $target _cb $ndx]
 	    if {$dx < 50} {
 		$path.s$ndx config -showvalue 0 -relief flat
 	    } else {
@@ -35,19 +35,21 @@ proc ::toxy::multiscale {path target remote count dx dy bg} {
 	    }
 	    set id [$path create window $px $py -width $dx -height $dy \
 		-anchor nw -window $path.s$ndx -tags $path.s$ndx]
-	    ::toxy::masterinit $path.s$ndx $target $path
+	    ::toxy::master $path.s$ndx $path $cvpath $target
 	    incr px $dx
 	}
     }
 }
 
 #> multiscale canvas
-#. #n 3 #dx 60 #dy 90
+# FIXME fractional resolution: scalePtr->value == value fails in TkScaleSetValue
+#. #n 3 #lo 0 #hi 100 #res 1
+#. #dx 60 #dy 90
 #. #bg yellow
 #. @float ::toxy::multiscale_float .- .| .#n .#1
 #. @list ::toxy::multiscale_list .- .#n .#2 .#1
 
-::toxy::multiscale .- .| . .#n .#dx .#dy .#bg
+::toxy::multiscale .- .^.c .| . .#n .#lo .#hi .#res .#dx .#dy .#bg
 
-# undo the "bind Canvas <1> {+focus %W}" in the setup part above
+# undo the "bind Canvas <1> {+focus %W}" from the setup.wid
 bind .- <FocusIn> {focus .^.c}

@@ -348,7 +348,7 @@ static int scriptlet_addstring(t_scriptlet *sp, char *ibuf,
 {
     int result = 1;
     char *bp = ibuf, *ep = ibuf, *ep1;
-    char dotbuf[64];  /* LATER reestimation */
+    char dotbuf[256];  /* FIXME requires a growable per-scriptlet buffer. */
     if (!sp->s_separator)
 	sp->s_separator = ' ';
     while (*ep)

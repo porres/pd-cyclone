@@ -16,7 +16,7 @@ diff depend emptydeps:
 
 ALLSRC_TAR = release/miXed-`date +%F`-src.tar
 ALLSRC_ROOTFILES = LICENSE.txt Makefile.common Makefile Makefile.dirs \
-	dumpsetups quoteinitializer
+	dumpsetups
 
 snap release:
 	@for i in $(RELEASE_DIRS) ; \
