@@ -4,6 +4,8 @@ shared/unstable/forky.c
 shared/unstable/forky.h
 shared/unstable/fragile.c
 shared/unstable/fragile.h
+shared/unstable/loader.c
+shared/unstable/loader.h
 shared/unstable/pd_imp.h
 shared/common/grow.c
 shared/common/grow.h
