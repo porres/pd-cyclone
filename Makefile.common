@@ -319,7 +319,7 @@ Makefile.deps:
 -include Makefile.deps
 
 # added by Hans-Christoph Steiner <hans@eds.org>
-# to generate MacOS X package
+# to generate MacOS X packages
 darwin_altpackage: all
 	test -d ../installroot/Help || mkdir -p ../installroot/Help
 	-cp ../test/cyclone/* ../installroot/Help
@@ -329,3 +329,13 @@ darwin_altpackage: all
 	test -d ../installroot/Externals || mkdir -p ../installroot/Externals
 	install -m644 ../bin/*.pd_darwin --group=admin ../installroot/Externals
 	open darwin_altpackage.pmsp
+
+darwin_package: all
+	test -d ../installroot/pd/doc/5.reference || mkdir -p ../installroot/pd/doc/5.reference
+	-cp ../test/cyclone/* ../installroot/pd/doc/5.reference
+	test -d ../installroot/Resources || mkdir -p ../installroot/Resources
+	cp ../LICENSE.txt ../installroot/Resources/License.txt
+	cp Welcome.txt ../installroot/Resources/
+	test -d ../installroot/pd/extra || mkdir -p ../installroot/pd/extra
+	install -m644 ../bin/*.pd_darwin --group=admin ../installroot/pd/extra
+	open darwin_package.pmsp
