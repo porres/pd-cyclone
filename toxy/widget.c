@@ -2,8 +2,6 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* FIXME crash if closing window with a failed widget (e.g. .wid missing) */
-
 /* LATER think about reloading method for .wid files */
 
 #include <stdio.h>
@@ -159,13 +157,15 @@ static void widget_postatoms(char *msg, int ac, t_atom *av)
     endpost();
 }
 
+/* If Tk widget creation fails, gui will send the '_failure' message
+   to the Pd widget object, asking the receiving object to transform
+   itself into a regular text object.  Due to the 'bindlist' corruption
+   danger, this cannot be done directly from the '_failure' call, but
+   has to be scheduled through a 'transclock', instead.  When the clock
+   fires, the widget object creates, and glist_adds a 'makeshift' text
+   object, then glist_deletes itself. */
+/* LATER also bind this to F4 or something */
 static void widget_transtick(t_widget *x)
-{
-    glist_delete(x->x_glist, (t_gobj *)x);
-}
-
-/* called from widget__failure(), LATER also bind this to F4 or something */
-static void widget_transedit(t_widget *x)
 {
     t_text *newt, *oldt = (t_text *)x;
     t_binbuf *bb = binbuf_new();
@@ -185,13 +185,16 @@ static void widget_transedit(t_widget *x)
     newt->te_xpix = oldt->te_xpix;
     newt->te_ypix = oldt->te_ypix;
     glist_add(x->x_glist, &newt->te_g);
-    glist_noselect(x->x_glist);
-    glist_select(x->x_glist, &newt->te_g);
-    gobj_activate(&newt->te_g, x->x_glist, 1);
-    x->x_glist->gl_editor->e_textdirty = 1;  /* force evaluation */
+    if (glist_isvisible(x->x_glist))
+    {
+	glist_noselect(x->x_glist);
+	glist_select(x->x_glist, &newt->te_g);
+	gobj_activate(&newt->te_g, x->x_glist, 1);
+	x->x_glist->gl_editor->e_textdirty = 1;  /* force evaluation */
+    }
     canvas_unsetcurrent(x->x_glist);
     canvas_dirty(x->x_glist, 1);
-    clock_delay(x->x_transclock, 0);  /* LATER rethink */
+    glist_delete(x->x_glist, (t_gobj *)x);
 }
 
 /* FIXME x_glist field validation against glist parameter (all handlers) */
@@ -674,7 +677,7 @@ static void widget__failure(t_widget *x, t_symbol *s, int ac, t_atom *av)
     endpost();
     loud_error((t_pd *)x, "creation failure");
     x->x_vised = 0;
-    widget_transedit(x);
+    clock_delay(x->x_transclock, 0);
 }
 
 static void widget__config(t_widget *x, t_symbol *target, t_symbol *bg,
