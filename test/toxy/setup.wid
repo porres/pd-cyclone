@@ -1,5 +1,8 @@
 # LATER transfer the `standard' toxy setup definitions into a tcl package
 # LATER think about using a slave interpreter, and a toxy-specific connection
+# LATER gather aqua incompatibilities, and decide, if there is no other
+# way than branching (different meaning of -bg, -borderwidth trouble,
+# right click, etc.)
 
 # LATER ask for adding something of the sort to pd.tk:
 bind Canvas <1> {+focus %W}
@@ -9,13 +12,13 @@ bind Canvas <1> {+focus %W}
 # if defined, otherwise try setting -variable and -textvariable traces.
 
 proc ::toxy::itemdotrace {target varname ndxname op} {
-    if {[catch {set v [set $varname]}] == 0} {
+    if {[catch {set v [set $varname]} res] == 0} {
 	if {$v != [set $varname.last]} {
 # FIXME activate this on demand (for explicit traces)
 #	    pd $target.rp _value $v \;
 	    set $varname.last $v
 	}
-    } else { puts stderr [concat failed ::toxy::itemdotrace] }
+    } else { puts stderr [concat failed ::toxy::itemdotrace: $res] }
 }
 
 proc ::toxy::itembindtrace {varname mastername ndxname op} {
@@ -82,8 +85,9 @@ proc ::toxy::itemgetconfig {path target} {
 
 proc ::toxy::itemvisconfig {path target name varname cvpath px py} {
     if {[info exists ::toxy::itemoptions]} {
-	catch {eval $path config $::toxy::itemoptions}
+	set failed [catch {eval $path config $::toxy::itemoptions} res]
 	unset ::toxy::itemoptions
+	if {$failed} { error [concat in $path config: $res] }
     }
 
     $cvpath create window $px $py \
@@ -100,11 +104,11 @@ proc ::toxy::itemvisconfig {path target name varname cvpath px py} {
     if {$needtraces != 0} {
 	if {[catch {::toxy::itemsettrace -variable \
 		$path $target $varname.var} res1]} {
-	    error $res1
+	    error [concat in ::toxy::itemsettrace: $res1]
 	}
 	if {[catch {::toxy::itemsettrace -textvariable \
 		$path $target $varname.txt} res2]} {
-	    error $res2
+	    error [concat in ::toxy::itemsettrace: $res2]
 	}
 #	puts stderr [concat traces: ($res1) ($res2)]
 	if {$res1 == 0 && $res2 == 0} {
@@ -113,16 +117,19 @@ proc ::toxy::itemvisconfig {path target name varname cvpath px py} {
     }
 
     if {[info exists ::toxy::masterinits]} {
-	catch {eval $::toxy::masterinits}
+	set failed [catch {eval $::toxy::masterinits} res]
 	unset ::toxy::masterinits
+	if {$failed} { error [concat in ::toxy::masterinits: $res] }
     }
     if {[info exists ::toxy::typeinits]} {
-	catch {eval $::toxy::typeinits}
+	set failed [catch {eval $::toxy::typeinits} res]
 	unset ::toxy::typeinits
+	if {$failed} { error [concat in ::toxy::typeinits: $res] }
     }
     if {[info exists ::toxy::iteminits]} {
-	catch {eval $::toxy::iteminits}
+	set failed [catch {eval $::toxy::iteminits} res]
 	unset ::toxy::iteminits
+	if {$failed} { error [concat in ::toxy::iteminits: $res] }
     }
 
     ::toxy::itemgetconfig $path $target
@@ -132,7 +139,7 @@ proc ::toxy::itemvisconfig {path target name varname cvpath px py} {
 
 proc ::toxy::itemvis {tkclass path target name varname cvpath px py} {
     if {[winfo exists $path]} {
-#	puts [concat $path exists]
+#	puts stderr [concat $path exists]
 	set ::toxy::itemfailure 0
     } else {
 	set ::toxy::itemfailure [catch {$tkclass $path} ::toxy::itemerrmess]
@@ -144,14 +151,9 @@ proc ::toxy::itemvis {tkclass path target name varname cvpath px py} {
     }
     if {$::toxy::itemfailure} {
 	if {[winfo exists $path]} {destroy $path}
-	pd $target.rp _failure $::toxy::itemerrmess \;
+	puts stderr [concat tcl error: $::toxy::itemerrmess]
+	pd $target.rp _failure \;
     }
-}
-
-proc ::toxy::itemclick {target cvpath x y b f} {
-    pd $target.rp _click \
-	[$cvpath canvasx [expr $x - [winfo rootx $cvpath]]] \
-	[$cvpath canvasy [expr $y - [winfo rooty $cvpath]]] $b $f\;
 }
 
 # FIXME
@@ -168,44 +170,78 @@ proc ::toxy::popupcommand {path target remote i text} {
 }
 
 proc ::toxy::popup {path target remote entries args} {
-    eval {menu $path.pop} $args
-    set i 1
-    foreach e $entries {
-	$path.pop add command -label [lindex $e 0] \
-	    -command [concat ::toxy::popupcommand $path $target $remote $i \
-		[lindex $e [expr {[llength $e] > 1}]]]
-	incr i
-    }
+    if {[winfo exists $path.pop]} {
+#	puts stderr [concat $path.pop exists]
+    } elseif {[catch {eval {menu $path.pop} $args} err] == 0} {
+	set i 0
+	foreach e $entries {
+	    if {$e == "."} {
+		$path.pop add separator
+	    } else {
+		incr i
+		$path.pop add command -label [lindex $e 0] \
+		    -command [concat ::toxy::popupcommand \
+			$path $target $remote $i \
+			    [lindex $e [expr {[llength $e] > 1}]]]
+	    }
+	}
+    } else { error [concat in ::toxy::popup: $err] }
 }
 
-# the default initializer
-#> default
+# empirically, binding event coords as %X - [winfo rootx $cvpath] works
+# better, than %x + [winfo x %W], or %x + t->te_xpix, LATER investigate
 
-# empirically, binding event coords as %X - [winfo rootx .^.c] works better,
-# than %x + [winfo x %W], or %x + t->te_xpix, LATER investigate
+proc ::toxy::itemclick {target cvpath x y b f} {
+    pd $target.rp _click \
+	[$cvpath canvasx [expr {$x - [winfo rootx $cvpath]}]] \
+	[$cvpath canvasy [expr {$y - [winfo rooty $cvpath]}]] $b $f\;
+}
 
+proc ::toxy::iteminout {target v} {
+    pd [concat $target.rp _inout $v \;]
+}
+
+proc ::toxy::masterrelease {target cvpath x y b} {
+    ::toxy::iteminout $target 3
 # pdtk_canvas_mouseup is a hack, which we must call anyway
-bind .- <ButtonRelease> {
-    eval .<|_inout 3.>
-    pdtk_canvas_mouseup .^.c \
-	[expr %X - [winfo rootx .^.c]] [expr %Y - [winfo rooty .^.c]] %b
+    pdtk_canvas_mouseup $cvpath \
+	[expr {$x - [winfo rootx $cvpath]}] \
+	[expr {$y - [winfo rooty $cvpath]}] $b
 }
 
-bind .- <1> {::toxy::itemclick .| .^.c %X %Y %b 0}
-bind .- <Shift-1> {::toxy::itemclick .| .^.c %X %Y %b 1}
-bind .- <Control-1> {::toxy::itemclick .| .^.c %X %Y %b 2}
-bind .- <Control-Shift-1> {::toxy::itemclick .| .^.c %X %Y %b 3}
-bind .- <Alt-1> {::toxy::itemclick .| .^.c %X %Y %b 4}
-bind .- <Alt-Shift-1> {::toxy::itemclick .| .^.c %X %Y %b 5}
-bind .- <Alt-Control-1> {::toxy::itemclick .| .^.c %X %Y %b 6}
-bind .- <Alt-Control-Shift-1> {::toxy::itemclick .| .^.c %X %Y %b 7}
-bind .- <3> {::toxy::itemclick .| .^.c %X %Y %b 8}
+proc ::toxy::mastermotion {target cvpath x y} {
+    pd $target.rp _motion \
+	[$cvpath canvasx [expr {$x - [winfo rootx $cvpath]}]] \
+	[$cvpath canvasy [expr {$y - [winfo rooty $cvpath]}]] 0 \;
+}
 
-bind .- <Motion> .<|_motion \
-    [.^.c canvasx [expr %X - [winfo rootx .^.c]]] \
-    [.^.c canvasy [expr %Y - [winfo rooty .^.c]]] 0.>
-bind .- <Enter> .<|_inout 1.>
-bind .- <Leave> .<|_inout 0.>
+proc ::toxy::masterinit {path target cvpath} {
+    set topitem [expr {[string index $cvpath end-1] == "."}]
+# FIXME subitem handling
+    if {$topitem} {
+	bind $path <ButtonRelease> \
+	    "::toxy::masterrelease $target $cvpath %X %Y %b"
+    }
+    bind $path <1> "::toxy::itemclick $target $cvpath %X %Y %b 0"
+    bind $path <Shift-1> "::toxy::itemclick $target $cvpath %X %Y %b 1"
+    bind $path <Control-1> "::toxy::itemclick $target $cvpath %X %Y %b 2"
+    bind $path <Control-Shift-1> "::toxy::itemclick $target $cvpath %X %Y %b 3"
+    bind $path <Alt-1> "::toxy::itemclick $target $cvpath %X %Y %b 4"
+    bind $path <Alt-Shift-1> "::toxy::itemclick $target $cvpath %X %Y %b 5"
+    bind $path <Alt-Control-1> "::toxy::itemclick $target $cvpath %X %Y %b 6"
+    bind $path <Alt-Control-Shift-1> \
+	"::toxy::itemclick $target $cvpath %X %Y %b 7"
+    bind $path <3> "::toxy::itemclick $target $cvpath %X %Y %b 8"
+
+    bind $path <Motion> "::toxy::mastermotion $target $cvpath %X %Y"
+    bind $path <Enter> "::toxy::iteminout $target 1"
+    bind $path <Leave> "::toxy::iteminout $target 0"
+}
+
+# master initializer
+#> master
+
+::toxy::masterinit .- .| .^.c
 
 # standard widget types
 
@@ -227,9 +263,10 @@ bind .- <Return> {eval .<[.- get].>; focus .^.c}
 
 #> popup menubutton
 #. -menu .-.pop
-#. -bg purple -fg white -activebackground magenta -width 8 -text popup
+#. -bg purple -fg white -activebackground magenta -text popup
+#. -width 8 -relief raised -borderwidth 3
 #. @float if .(.#1 >= 1.) .(.-.pop invoke .#1.)
 #. #items test
-#. #iprops "-bg" purple "-fg" white "-activebackground" magenta
+#. #iprops "-bg" purple "-fg" white "-activebackground" magenta "-borderwidth" 3
 
 ::toxy::popup .- .| . [concat .#items] .#iprops

@@ -1,7 +1,7 @@
 # next line has to be edited manually
 PD_DIR = $(ROOT_DIR)/../../pd/src
 
-# FIXME
+# FIXME ./configure should set this (or not) before "include Makefile.sources"
 TCL_LIB = -l`grep -osm1 'tcl8\.[345]' $(PD_DIR)/makefile`
 
 OS_NAME = $(shell uname -s)
@@ -267,6 +267,7 @@ stestrelease: emptydeps define_build
 		$(SRC_TAR) test/$(BASE_NAME)/*
 	cd $(ROOT_DIR); tar -X $(BASE_DIR)/$(BASE_NAME)-vicious.exclude -rf \
 		$(SRC_TAR) ViCious/$(BASE_DIR)/*
+	cd $(ROOT_DIR); tar -rf $(SRC_TAR) bin/keepme
 	cd $(ROOT_DIR); gzip -f $(SRC_TAR)
 
 brelease: define_build

@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -12,7 +12,7 @@
 #include "widgettype.h"
 
 static char masterwidget_builtin[] =
-#include "default.wiq"
+#include "setup.wiq"
 ;
 
 #define WIDGETTYPE_VERBOSE
@@ -36,9 +36,9 @@ struct _masterwidget
     t_symbol      *mw_target;
     t_scriptlet   *mw_setupscript;
     t_dict        *mw_typemap;
-    t_widgettype  *mw_defaulttype;  /* contains master iniscript */
-    t_widgettype  *mw_parsedtype;   /* the type currently parsed, if loading */
-    t_binbuf      *mw_bb;           /* auxiliary, LATER remove */
+    t_widgettype  *mw_mastertype;  /* contains master iniscript */
+    t_widgettype  *mw_parsedtype;  /* the type currently parsed, if loading */
+    t_binbuf      *mw_bb;          /* auxiliary, LATER remove */
 };
 
 static t_class *widgettype_class;
@@ -95,10 +95,10 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	typekey = dict_key(mw->mw_typemap, buf);
 	typeval = (t_widgettype *)dict_value(mw->mw_typemap, typekey);
 	if (caller == (t_pd *)mw)
-	{  /* default.wid or built-in defaults */
-	    if (mw->mw_defaulttype)
-	    {  /* no default type in default.wid, extracting built-in one */
-		if (typeval != mw->mw_defaulttype)
+	{  /* setup.wid or built-in defaults */
+	    if (mw->mw_mastertype)
+	    {  /* no master type in setup.wid, extracting built-in one */
+		if (typeval != mw->mw_mastertype)
 		    return (SCRIPTLET_LOCK);
 	    }
 	    else
@@ -168,23 +168,26 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 t_widgettype *widgettype_get(t_symbol *s)
 {
     t_widgettype *wt;
-    /* default.wid defs are NOT overridden by <type>.wid --
-       feature stability comes first, LATER rethink */
+    /* Design decision: setup.wid defs are NOT overridden by <type>.wid
+       (sacrificing flexibility for feature stability). */
     if (wt = (t_widgettype *)dict_value(masterwidget->mw_typemap,
 					dict_key(masterwidget->mw_typemap,
 						 s->s_name)))
 	masterwidget->mw_parsedtype = 0;
     else
     {
-	/* first instance of a type not defined in default.wid */
+	/* first instance of a type not defined in setup.wid */
 	wt = widgettype_new(masterwidget, s->s_name, 0, 0);
 	masterwidget->mw_parsedtype = wt;
     }
     if (masterwidget->mw_parsedtype)
     {
+	/* <type>.wid searched in the current patch's dir + pd_path,
+	   but not in `pwd` */
 	t_scriptlet *mwsp =
 	    scriptlet_new((t_pd *)masterwidget, masterwidget->mw_target,
-			  masterwidget->mw_target, 0, 0, 0);
+			  masterwidget->mw_target, 0,
+			  canvas_getcurrent(), 0);
 	if (scriptlet_rcload(mwsp, (t_pd *)wt,
 			     s->s_name, ".wid", 0, masterwidget_cmnthook)
 	    == SCRIPTLET_OK)
@@ -264,7 +267,7 @@ void widgettype_setup(void)
 int masterwidget_evaluate(t_scriptlet *outsp, int visedonly,
 			  int ac, t_atom *av, t_props *argprops)
 {
-    return (scriptlet_evaluate(masterwidget->mw_defaulttype->wt_iniscript,
+    return (scriptlet_evaluate(masterwidget->mw_mastertype->wt_iniscript,
 			       outsp, visedonly, ac, av, argprops));
 }
 
@@ -288,44 +291,46 @@ void masterwidget_initialize(void)
 
     masterwidget->mw_typemap = dict_new(0);
 
+    /* setup.wid searched in `pwd` + pd_path, but not in current patch's dir
+       (LATER only the pd_path should be searched) */
     masterwidget->mw_setupscript =
 	scriptlet_new((t_pd *)masterwidget, masterwidget->mw_target,
 		      masterwidget->mw_target, 0, 0, 0);
     masterwidget->mw_bb = binbuf_new();
     masterwidget->mw_parsedtype = 0;
-    masterwidget->mw_defaulttype = 0;
+    masterwidget->mw_mastertype = 0;
 
     rcresult =
-	scriptlet_rcload(masterwidget->mw_setupscript, 0, "default", ".wid",
+	scriptlet_rcload(masterwidget->mw_setupscript, 0, "setup", ".wid",
 			 masterwidget_builtin, masterwidget_cmnthook);
     if (rcresult == SCRIPTLET_OK)
     {
 #ifdef WIDGETTYPE_VERBOSE
-	post("using file 'default.wid'");
+	post("using file 'setup.wid'");
 #endif
     }
     else
     {
 	loud_warning((t_pd *)masterwidget,
-		     "no file 'default.wid'... using built-in defaults");
+		     "no file 'setup.wid'... using built-in defaults");
     }
-    typekey = dict_key(masterwidget->mw_typemap, "default");
+    typekey = dict_key(masterwidget->mw_typemap, "master");
     if ((typeval = (t_widgettype *)dict_value(masterwidget->mw_typemap, typekey))
 	&& !scriptlet_isempty(masterwidget->mw_setupscript))
     {
-	masterwidget->mw_defaulttype = typeval;
+	masterwidget->mw_mastertype = typeval;
 	rcresult = SCRIPTLET_OK;
     }
     else if (rcresult == SCRIPTLET_OK)
     {
 	/* LATER think about adding only missing part to existing local defs */
-	loud_warning((t_pd *)masterwidget, "%s missing in file 'default.wid'",
+	loud_warning((t_pd *)masterwidget, "%s missing in file 'setup.wid'",
 		     (typeval ? "setup definitions" : "master initializer"));
-	masterwidget->mw_defaulttype =
-	    widgettype_new(masterwidget, "default", 0, 0);
+	masterwidget->mw_mastertype =
+	    widgettype_new(masterwidget, "master", 0, 0);
 	scriptlet_reset(masterwidget->mw_setupscript);
 	rcresult =
-	    scriptlet_rcparse(masterwidget->mw_setupscript, 0, "default",
+	    scriptlet_rcparse(masterwidget->mw_setupscript, 0, "master",
 			      masterwidget_builtin, masterwidget_cmnthook);
     }
     else

@@ -1,7 +1,9 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+/* LATER consider supporting a special @ini handler, also think about
+   differentiating 'ini' from 'vis' */
 /* LATER think about reloading method for .wid files */
 
 #include <stdio.h>
@@ -164,6 +166,10 @@ static void widget_postatoms(char *msg, int ac, t_atom *av)
    has to be scheduled through a 'transclock', instead.  When the clock
    fires, the widget object creates, and glist_adds a 'makeshift' text
    object, then glist_deletes itself. */
+
+/* this lock prevents glist_noselect() from reevaluating failure boxes */
+static int widget_transforming = 0;
+
 /* LATER also bind this to F4 or something */
 static void widget_transtick(t_widget *x)
 {
@@ -173,6 +179,8 @@ static void widget_transtick(t_widget *x)
     t_atom *opt = props_getall(x->x_options, &nopt);
     t_atom *hnd = props_getall(x->x_handlers, &nhnd);
     t_atom *arg = props_getall(x->x_arguments, &narg);
+    if (widget_transforming++)
+	bug("widget_transtick");
     binbuf_addv(bb, "sss", gensym("widget"), x->x_type, x->x_name);
     if (narg) binbuf_add(bb, narg, arg);
     if (nopt) binbuf_add(bb, nopt, opt);
@@ -195,6 +203,7 @@ static void widget_transtick(t_widget *x)
     canvas_unsetcurrent(x->x_glist);
     canvas_dirty(x->x_glist, 1);
     glist_delete(x->x_glist, (t_gobj *)x);
+    widget_transforming--;
 }
 
 /* FIXME x_glist field validation against glist parameter (all handlers) */
@@ -419,6 +428,12 @@ static t_widgetbehavior widget_behavior =
     FORKY_WIDGETPADDING
 };
 
+static void widget_novis(t_widget *x)
+{
+    sys_vgui("::toxy::itemdestroy %s %s\n",
+	     widget_getmypathname(x, x->x_glist)->s_name, x->x_varname->s_name);
+}
+
 static void widget_update(t_widget *x, t_props *op)
 {
     if (op == x->x_options)
@@ -435,7 +450,7 @@ static void widget_update(t_widget *x, t_props *op)
 	{
 	    if (x->x_update == WIDGET_REVIS)
 	    {
-		widget_vis((t_gobj *)x, x->x_glist, 0);
+		widget_novis(x);
 		widget_vis((t_gobj *)x, x->x_glist, 1);
 	    }
 	    else if (x->x_update == WIDGET_PUSHVIS)
@@ -475,9 +490,9 @@ static t_symbol *widget_addprops(t_widget *x, t_props *op, int single,
 static t_symbol *widget_addmessage(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
     t_symbol *empty;
-    if (!(empty = widget_addprops(x, x->x_options, 0, s, ac, av)) &&
+    if (!(empty = widget_addprops(x, x->x_arguments, 0, s, ac, av)) &&
 	!(empty = widget_addprops(x, x->x_handlers, 0, s, ac, av)))
-	empty = widget_addprops(x, x->x_arguments, 0, s, ac, av);
+	empty = widget_addprops(x, x->x_options, 0, s, ac, av);
     return (empty);
 }
 
@@ -488,7 +503,13 @@ static void widget_anything(t_widget *x, t_symbol *s, int ac, t_atom *av)
 	if (*s->s_name == '-' || *s->s_name == '@' || *s->s_name == '#')
 	{
 	    t_symbol *empty;
-	    x->x_update = WIDGET_PUSHVIS;
+	    /* FIXME mixed messages */
+	    if (*s->s_name == '-')
+		x->x_update = WIDGET_PUSHVIS;
+	    else if (*s->s_name == '#')
+		x->x_update = WIDGET_REVIS;
+	    else
+		x->x_update = WIDGET_NOVIS;
 	    if (empty = widget_addmessage(x, s, ac, av))
 		loud_errand((t_pd *)x,
 			    "(use 'remove %s' if that is what you want).",
@@ -672,9 +693,12 @@ static void widget_refresh(t_widget *x)
 
 static void widget__failure(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
+#if 0
+    /* moved to the gui side, in order to alow special chars in error message */
     startpost("tcl error:");
     postatom(ac, av);
     endpost();
+#endif
     loud_error((t_pd *)x, "creation failure");
     x->x_vised = 0;
     clock_delay(x->x_transclock, 0);
@@ -859,8 +883,7 @@ static void gui_unbind(t_pd *x, t_symbol *s)
 
 static void widget_free(t_widget *x)
 {
-    sys_vgui("::toxy::itemdestroy %s %s\n",
-	     widget_getmypathname(x, x->x_glist)->s_name, x->x_varname->s_name);
+    widget_novis(x);
     gui_unbind((t_pd *)x, x->x_cbtarget);
     gui_unbind((t_pd *)x, x->x_rptarget);
     props_freeall(x->x_options);
@@ -875,9 +898,12 @@ static void widget_free(t_widget *x)
 
 static void *widget_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_widget *x = (t_widget *)pd_new(widget_class);
+    t_widget *x;
     char buf[MAXPDSTRING];
+    if (widget_transforming)
+	return (0);
     masterwidget_initialize();
+    x = (t_widget *)pd_new(widget_class);
     x->x_type = 0;
     x->x_name = 0;
     if (ac && av->a_type == A_SYMBOL)
@@ -904,11 +930,11 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     sprintf(buf, "%s%x.rp", x->x_name->s_name, (int)x);
     pd_bind((t_pd *)x, x->x_rptarget = gensym(buf));
 
+    x->x_glist = canvas_getcurrent();
     x->x_typedef = widgettype_get(x->x_type);
     if (!(x->x_tkclass = widgettype_tkclass(x->x_typedef)))
 	x->x_tkclass = x->x_type;
 
-    x->x_glist = canvas_getcurrent();
     sprintf(buf, ".x%x.c", (int)x->x_glist);
     x->x_cvpathname = gensym(buf);
     sprintf(buf, ".x%x", (int)x->x_glist);
@@ -931,9 +957,12 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
 			       widget_propsresolver);
 
     outlet_new((t_object *)x, &s_anything);
-    /* LATER consider estimating these, based on widget class and options */
-    x->x_width = 50;
-    x->x_height = 50;
+    /* LATER consider estimating these, based on widget class and options.
+       The default used to be 50x50, which confused people wanting widgets
+       in small gops, of size exactly as specified by the 'coords' message,
+       but finding gops stretched, to accomodate the widget's default area. */
+    x->x_width = 5;
+    x->x_height = 5;
     props_clone(x->x_arguments, widgettype_getarguments(x->x_typedef));
     widget_addmessage(x, 0, ac, av);
     x->x_filehandle = hammerfile_new((t_pd *)x, 0, 0, 0, 0);

@@ -1,10 +1,10 @@
 proc ::toxy::kb {path target remote noctaves size} {
     set lft [expr {round(5 * $size)}]
-    set top [expr {5 * $size}]
-    set bot [expr {100 * $size}]
+    set top [expr {round(5 * $size)}]
+    set bot [expr {round(100 * $size)}]
     set dx [expr {round(17 * $size)}]
-    set wid [expr {$dx - $size * .5}]
-    set blbot [expr {$bot * .65}]
+    set wid [expr {round($dx - $size * .5)}]
+    set blbot [expr {round($bot * .65)}]
 
     $path config -height [expr {$bot + $top}] \
 	-width [expr {$dx * ($noctaves * 7 + 1) + $lft * 2 - 1}]

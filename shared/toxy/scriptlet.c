@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -425,9 +425,13 @@ void scriptlet_qpush(t_scriptlet *sp)
 	strcpy(tail, "]}}\n");
 	sys_gui(sp->s_buffer);
 	*tail = 0;
-	/* LATER find out if reply does not fit better inside the query proc */
-	sprintf(buf, "after 0 {::toxy::query\n\
- pd [concat %s _rp $::toxy::reply \\;]}\n", sp->s_rptarget->s_name);
+	/* Could not find anything more flexible, than blocking while waiting
+	   for ::toxy::query to complete.  The model case is a Tk dialog
+	   hanging over the arrival of new queries.  LATER probably use
+	   a thread-safe replacement of the 'pd' command in order to prevent
+	   competing tcl threads from corrupting the gui-to-pd stream. */
+	sprintf(buf, "after 0 {::toxy::query}\nvwait ::toxy::reply\n\
+ pd [concat %s _rp $::toxy::reply \\;]\n", sp->s_rptarget->s_name);
 	sys_gui(buf);
     }
 }
@@ -613,7 +617,7 @@ int scriptlet_rcload(t_scriptlet *sp, t_pd *caller, char *rc, char *ext,
     if (sp->s_glist)
 	dir = canvas_getdir(sp->s_glist)->s_name;
     else
-	dir = "";
+	dir = "";  /* which means pwd, usually the same as at Pd startup... */
     if ((fd = open_via_path(dir, rc, ext, buf, &nameptr, MAXPDSTRING, 0)) < 0)
     {
 	result = SCRIPTLET_NOFILE;
