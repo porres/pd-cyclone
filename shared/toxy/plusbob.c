@@ -7,7 +7,9 @@
 #include "common/loud.h"
 #include "plusbob.h"
 
+#ifdef KRZYSZCZ
 //#define PLUSBOB_DEBUG
+#endif
 
 /* LATER let there be a choice of using either fake-symbols, or gpointers.
    The gpointer layout would be such:  gs_un points to a plusbob-like

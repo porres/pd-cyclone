@@ -10,7 +10,9 @@
 #include "common/loud.h"
 #include "sickle/sic.h"
 
+#ifdef KRZYSZCZ
 //#define SIC_DEBUG
+#endif
 
 #if defined(NT) || defined(MACOSX)
 /* cf pd/src/x_arithmetic.c */
@@ -58,8 +60,9 @@ t_float *sic_makecostable(int *sizep)
 	if (sz >= *sizep)
 	    break;
 #ifdef SIC_DEBUG
-    post("request for a costable of %d points (effective %d, ndx %d)",
-	 *sizep, sz, ndx);
+    fprintf(stderr,
+	    "request for a costable of %d points (effective %d, ndx %d)\n",
+	    *sizep, sz, ndx);
 #endif
     *sizep = sz;
     if (sic_costables[ndx])
@@ -74,7 +77,7 @@ t_float *sic_makecostable(int *sizep)
 	if (table)
 	{
 #ifdef SIC_DEBUG
-	    post("got %d points of a costable", cnt);
+	    fprintf(stderr, "got %d points of a costable\n", cnt);
 #endif
 	    while (cnt--)
 	    {

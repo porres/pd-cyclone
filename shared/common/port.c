@@ -26,7 +26,9 @@
 #include "common/binport.h"
 #include "common/port.h"
 
+#ifdef KRZYSZCZ
 //#define PORT_DEBUG
+#endif
 #define PORT_LOG
 #define PORT_DUMP  /* fill separate files with ignored data, e.g. pictures */
 

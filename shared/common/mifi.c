@@ -69,7 +69,9 @@ typedef unsigned char uchar;
 #endif
 #endif
 
+#ifdef KRZYSZCZ
 #define MIFI_DEBUG
+#endif
 #define MIFI_VERBOSE
 
 #define MIFI_SHORTESTEVENT        2  /* singlebyte delta and one databyte */

@@ -12,7 +12,9 @@
 /* CHECKME bang behaviour (every mode) */
 /* LATER test reentrancy, tune speedwise */
 
+#ifdef KRZYSZCZ
 #define ZL_DEBUG
+#endif
 
 #define ZL_INISIZE     32  /* LATER rethink */
 #define ZL_MAXSIZE    256

@@ -7,7 +7,9 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
+#ifdef KRZYSZCZ
 //#define SPRINTF_DEBUG
+#endif
 
 /* Pattern types.  These are the parsing routine's return values.
    If returned value is >= SPRINTF_MINSLOTTYPE, then another slot

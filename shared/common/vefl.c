@@ -19,12 +19,10 @@
 #include "common/loud.h"
 #include "common/vefl.h"
 
-#if 1
+#ifdef KRZYSZCZ
+//#define VEFL_DEBUG
+#endif
 #define VEFL_VERBOSE
-#if 0
-#define VEFL_DEBUG
-#endif
-#endif
 
 /* on failure *vszp is not modified */
 t_float *vefl_get(t_symbol *name, int *vszp, int indsp, t_pd *complain)

@@ -10,8 +10,10 @@
 #include "m_pd.h"
 #include "common/dict.h"
 
-#define DICT_VERBOSE
+#ifdef KRZYSZCZ
 //#define DICT_DEBUG
+#endif
+#define DICT_VERBOSE
 
 #define DICT_HASHSIZE_DEFAULT  1024
 #define DICT_HASHSIZE_MIN         8
@@ -62,7 +64,8 @@ t_dict *dict_new(size_t hashsize)
 	else for (sz = DICT_HASHSIZE_MAX; sz > DICT_HASHSIZE_MIN; sz >>= 1)
 	    if (sz <= hashsize) break;
 #ifdef DICT_DEBUG
-	post("allocating dictionary with %d-element hashtable", sz);
+	fprintf(stderr,
+		"allocating dictionary with %d-element hashtable\n", sz);
 #endif
 	if (x->d_hashtable =
 	    getbytes((x->d_hashsize = sz) * sizeof(*x->d_hashtable)))
@@ -91,7 +94,7 @@ t_symbol *dict_dokey(t_dict *x, char *s, t_symbol *oldsym)
     char *s2 = s;
     int mask = x->d_hashsize - 1;
 #ifdef DICT_DEBUG
-    startpost("make symbol-key from \"%s\"", s);
+    fprintf(stderr, "make symbol-key from \"%s\"", s);
 #endif
     while (*s2)
     {
@@ -102,17 +105,17 @@ t_symbol *dict_dokey(t_dict *x, char *s, t_symbol *oldsym)
     }
     sym1 = x->d_hashtable + (hash2 & mask);
 #ifdef DICT_DEBUG
-    post(" in slot %d", (hash2 & mask));
+    fprintf(stderr, " in slot %d\n", (hash2 & mask));
 #endif
     while (sym2 = *sym1)
     {
 #ifdef DICT_DEBUG
-	post("try \"%s\"", sym2->s_name);
+	fprintf(stderr, "try \"%s\"\n", sym2->s_name);
 #endif
 	if (!strcmp(sym2->s_name, s))
 	{
 #ifdef DICT_DEBUG
-	    post("found at address %x", (int)sym2);
+	    fprintf(stderr, "found at address %x\n", (int)sym2);
 #endif
 	    return(sym2);
 	}
@@ -129,7 +132,7 @@ t_symbol *dict_dokey(t_dict *x, char *s, t_symbol *oldsym)
     }
     *sym1 = sym2;
 #ifdef DICT_DEBUG
-    post("appended at address %x", (int)sym2);
+    fprintf(stderr, "appended at address %x\n", (int)sym2);
 #endif
     return (sym2);
 }
@@ -144,12 +147,12 @@ t_symbol *dict_key(t_dict *x, char *s)
 void dict_bind(t_dict *x, t_pd *obj, t_symbol *s)
 {
 #ifdef DICT_DEBUG
-    post("bind %x to \"%s\" at %x", (int)obj, s->s_name, (int)s);
+    fprintf(stderr, "bind %x to \"%s\" at %x\n", (int)obj, s->s_name, (int)s);
 #endif
     if (s->s_thing)
     {
 #ifdef DICT_DEBUG
-	post("(next one)");
+	fprintf(stderr, "(next one)\n");
 #endif
     	if (*s->s_thing == x->d_bindlist_class)
     	{
@@ -183,7 +186,8 @@ void dict_bind(t_dict *x, t_pd *obj, t_symbol *s)
 void dict_unbind(t_dict *x, t_pd *obj, t_symbol *s)
 {
 #ifdef DICT_DEBUG
-    post("unbind %x from \"%s\" at %x", (int)obj, s->s_name, (int)s);
+    fprintf(stderr, "unbind %x from \"%s\" at %x\n",
+	    (int)obj, s->s_name, (int)s);
 #endif
     if (s->s_thing == obj) s->s_thing = 0;
     else if (s->s_thing && *s->s_thing == x->d_bindlist_class)

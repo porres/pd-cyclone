@@ -9,7 +9,9 @@
 #include "toxy/plusbob.h"
 #include "plustot.h"
 
+#ifdef KRZYSZCZ
 #define PLUSTOT_QLIST_DEBUG
+#endif
 
 /* Need only an access to x_binbuf field. */
 typedef struct _qlist

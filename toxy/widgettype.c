@@ -16,7 +16,6 @@ static char masterwidget_builtin[] =
 ;
 
 #define WIDGETTYPE_VERBOSE
-#define WIDGETTYPE_DEBUG
 
 struct _widgettype
 {
@@ -138,6 +137,7 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 #ifdef WIDGETTYPE_DEBUG
 	post("adding widget type '%s'", typeval->wt_typekey->s_name);
 #endif
+	scriptlet_reset(typeval->wt_iniscript);
 	return (typeval->wt_iniscript);
     }
     else if (sel == '.')
@@ -174,11 +174,18 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	if (mw->mw_parsedtype)
 	{
 	    if (!strcmp(buf, "vis") || !strcmp(buf, "ini"))
+		/* already reset */
 		return (mw->mw_parsedtype->wt_iniscript);
 	    else if (!strcmp(buf, "new"))
+	    {
+		scriptlet_reset(mw->mw_parsedtype->wt_newscript);
 		return (mw->mw_parsedtype->wt_newscript);
+	    }
 	    else if (!strcmp(buf, "free"))
+	    {
+		scriptlet_reset(mw->mw_parsedtype->wt_freescript);
 		return (mw->mw_parsedtype->wt_freescript);
+	    }
 	    else
 	    {
 		/* LATER start parsing any method handler: search for it,

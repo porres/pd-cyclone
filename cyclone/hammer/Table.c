@@ -15,7 +15,9 @@
 #include "common/rand.h"
 #include "hammer/file.h"
 
+#ifdef KRZYSZCZ
 #define TABLE_DEBUG
+#endif
 
 #define TABLE_INISIZE      256  /* LATER rethink */
 #define TABLE_DEFLENGTH    128  /* CHECKED */

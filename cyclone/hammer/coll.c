@@ -14,7 +14,9 @@
 /* LATER make sure that ``reentrancy protection hack'' is really working... */
 /* CHECKME default fname for 'write' -- c_filename, x_name, nothing? */
 
-#define COLL_DEBUG
+#ifdef KRZYSZCZ
+//#define COLL_DEBUG
+#endif
 
 enum { COLL_HEADRESET,
        COLL_HEADNEXT, COLL_HEADPREV,  /* distinction not used, currently */

@@ -13,7 +13,9 @@
 #include "common/loud.h"
 #include "common/port.h"
 
+#ifdef KRZYSZCZ
 //#define DUMMIES_DEBUG
+#endif
 
 static t_class *ccdummies_class;
 static int dummy_nclasses = 0;

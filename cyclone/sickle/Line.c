@@ -8,7 +8,9 @@
 #include "common/loud.h"
 #include "sickle/sic.h"
 
+#ifdef KRZYSZCZ
 //#define LINE_DEBUG
+#endif
 
 #define LINE_INISIZE  64  /* LATER rethink */
 #define LINE_MAXSIZE  64

@@ -14,7 +14,9 @@
 #include "unstable/pd_imp.h"
 #endif
 
+#ifdef KRZYSZCZ
 //#define FORKY_DEBUG
+#endif
 
 t_pd *forky_newobject(t_symbol *s, int ac, t_atom *av)
 {
@@ -36,7 +38,7 @@ void forky_setsavefn(t_class *c, t_forkysavefn fn)
 	/* cloning is necessary, because class_setwidget has not been called */
 	t_widgetbehavior *wb = getbytes(sizeof(*wb));  /* never freed */
 #ifdef FORKY_DEBUG
-	post("cloning widgetbehavior...");
+	fprintf(stderr, "cloning widgetbehavior...\n");
 #endif
 	*wb = *c->c_wb;
 	wb->w_savefn = fn;
@@ -97,7 +99,7 @@ t_int forky_getbitmask(int ac, t_atom *av)
 	}
 	/* CHECKED missing are zero */
 #ifdef FORKY_DEBUG
-	post("mask set to %.8x", result);
+	fprintf(stderr, "mask set to %.8x\n", result);
 #endif
     }
     else bug("sizeof(shared_t_bitmask)");

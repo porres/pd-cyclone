@@ -89,8 +89,13 @@ SOURCES = $(CX_SOURCES) $(AX_SOURCES) $(LX_SOURCES) $(OTHER_SOURCES) \
 
 INCLUDES = -I. -I$(PD_DIR) -I$(SHARED_DIR)
 
+ifeq ($(shell whoami),krzYszcz)
 WARN_CFLAGS = -Wall -W -Wstrict-prototypes -Werror \
 	-Wno-unused -Wno-parentheses -Wno-switch
+else
+WARN_CFLAGS = -Wall -W -Wstrict-prototypes \
+	-Wno-unused -Wno-parentheses -Wno-switch
+endif
 
 DBG_CFLAGS = 
 CFLAGS = $(WARN_CFLAGS) $(OPT_CFLAGS) $(DEFINES) $(INCLUDES)

@@ -5,6 +5,10 @@
 #ifndef __WIDGETTYPE_H__
 #define __WIDGETTYPE_H__
 
+#ifdef KRZYSZCZ
+//#define WIDGETTYPE_DEBUG
+#endif
+
 EXTERN_STRUCT _widgettype;
 #define t_widgettype  struct _widgettype
 

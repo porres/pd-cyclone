@@ -10,7 +10,9 @@
 #include "g_canvas.h"
 #include "hammer/gui.h"
 
+#ifdef KRZYSZCZ
 //#define HAMMERGUI_DEBUG
+#endif
 
 static t_class *hammergui_class = 0;
 static t_hammergui *hammergui_sink = 0;
@@ -27,6 +29,7 @@ static void hammergui_anything(t_hammergui *snk,
        needed in order to keep Pd's message system happy in a ``gray period''
        -- after last master is unbound, and before gui bindings are cleared. */
 #ifdef HAMMERGUI_DEBUG
+    /* FIXME */
     startpost("%s", s->s_name);
     postatom(ac, av);
     post(" (sink %x)", (int)snk);
@@ -37,7 +40,7 @@ static void hammergui_anything(t_hammergui *snk,
 static void hammergui__up(t_hammergui *snk, t_floatarg f)
 {
 #ifdef HAMMERGUI_DEBUG
-    post("_up %g (sink %x)", f, (int)snk);
+    fprintf(stderr, "_up %g (sink %x)\n", f, (int)snk);
 #endif
     if (!snk->g_psmouse)
     {
@@ -75,7 +78,8 @@ static void hammergui__up(t_hammergui *snk, t_floatarg f)
 static void hammergui__focus(t_hammergui *snk, t_symbol *s, t_floatarg f)
 {
 #ifdef HAMMERGUI_DEBUG
-    post("_focus %s %g (sink %x)", (s ? s->s_name : "???"), f, (int)snk);
+    fprintf(stderr, "_focus %s %g (sink %x)\n",
+	    (s ? s->s_name : "???"), f, (int)snk);
 #endif
     if (!snk->g_psfocus)
     {
@@ -94,7 +98,8 @@ static void hammergui__focus(t_hammergui *snk, t_symbol *s, t_floatarg f)
 static void hammergui__vised(t_hammergui *snk, t_symbol *s, t_floatarg f)
 {
 #ifdef HAMMERGUI_DEBUG
-    post("_vised %s %g (sink %x)", (s ? s->s_name : "???"), f, (int)snk);
+    fprintf(stderr, "_vised %s %g (sink %x)\n",
+	    (s ? s->s_name : "???"), f, (int)snk);
 #endif
     if (!snk->g_psvised)
     {
@@ -120,7 +125,7 @@ static void hammergui__vised(t_hammergui *snk, t_symbol *s, t_floatarg f)
 static void hammergui_dobindmouse(t_hammergui *snk)
 {
 #ifdef HAMMERGUI_DEBUG
-    post("dobindmouse (sink %x)", (int)snk);
+    fprintf(stderr, "dobindmouse (sink %x)\n", (int)snk);
 #endif
 #if 0
     /* How to be notified about changes of button state, prior to gui objects
@@ -185,7 +190,7 @@ static void hammergui__refocus(t_hammergui *snk)
 static void hammergui_dobindvised(t_hammergui *snk)
 {
 #ifdef HAMMERGUI_DEBUG
-    post("dobindvised (sink %x)", (int)snk);
+    fprintf(stderr, "dobindvised (sink %x)\n", (int)snk);
 #endif
     sys_vgui("bind Canvas <<hammervised>> \
  {if {[hammergui_ispatcher %%W]} \
@@ -224,8 +229,9 @@ static int hammergui_setup(void)
     {
 	char *cname = class_getname(*ps_hashhammergui->s_thing);
 #ifdef HAMMERGUI_DEBUG
-	post("'%s' already registered as the global hammergui sink ",
-	     (cname ? cname : "???"));
+	fprintf(stderr,
+		"'%s' already registered as the global hammergui sink \n",
+		(cname ? cname : "???"));
 #endif
 	if (strcmp(cname, ps__hammergui->s_name))
 	{
@@ -417,7 +423,7 @@ static int hammergui_visedvalidate(int dosetup)
 void hammergui_bindmouse(t_pd *master)
 {
 #ifdef HAMMERGUI_DEBUG
-    post("bindmouse, master %x", (int)master);
+    fprintf(stderr, "bindmouse, master %x\n", (int)master);
 #endif
     hammergui_validate(1);
     hammergui_mousevalidate(1);
@@ -506,7 +512,7 @@ void hammergui_unbindfocus(t_pd *master)
 void hammergui_bindvised(t_pd *master)
 {
 #ifdef HAMMERGUI_DEBUG
-    post("bindvised, master %x", (int)master);
+    fprintf(stderr, "bindvised, master %x\n", (int)master);
 #endif
     hammergui_validate(1);
     hammergui_visedvalidate(1);

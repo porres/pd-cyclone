@@ -10,7 +10,9 @@
 #include "m_pd.h"
 #include "sickle/sic.h"
 
+#ifdef KRZYSZCZ
 //#define BITSHIFT_DEBUG
+#endif
 
 typedef struct _bitshift
 {

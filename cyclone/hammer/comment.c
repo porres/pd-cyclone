@@ -20,7 +20,9 @@
 /* our proxy of the text_class (not in the API), LATER do not cheat */
 static t_class *makeshift_class;
 
+#ifdef KRZYSZCZ
 //#define COMMENT_DEBUG
+#endif
 
 #define COMMENT_LMARGIN        1
 #define COMMENT_RMARGIN        1

@@ -10,7 +10,9 @@
 #include "common/clc.h"
 #include "sickle/sic.h"
 
+#ifdef KRZYSZCZ
 //#define CURVE_DEBUG
+#endif
 
 /* CHECKED apparently c74's formula has not been carefully tuned (yet?).
    It has 5% deviation from the straight line for ccinput = 0 at half-domain,

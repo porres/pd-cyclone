@@ -9,7 +9,9 @@
 #include "unstable/forky.h"
 #include "unstable/fringe.h"
 
+#ifdef KRZYSZCZ
 //#define FRINGE_DEBUG
+#endif
 
 static int gobj_getindex(t_glist *gl, t_gobj *ob)
 {
@@ -60,7 +62,7 @@ static void gobj_stowconnections(t_glist *gl, t_gobj *ob, t_binbuf *bb)
 			gobj_getindex(gl, (t_gobj *)lt.tr_ob2), lt.tr_inno);
     }
 #ifdef FRINGE_DEBUG
-    post("packed connections:");
+    fprintf(stderr, "packed connections:\n");
     binbuf_print(bb);
 #endif
 }
@@ -68,7 +70,7 @@ static void gobj_stowconnections(t_glist *gl, t_gobj *ob, t_binbuf *bb)
 static void gobj_restoreconnections(t_glist *gl, t_binbuf *bb)
 {
 #ifdef FRINGE_DEBUG
-    post("restoring connections:");
+    fprintf(stderr, "restoring connections:\n");
     binbuf_print(bb);
 #endif
     canvas_setcurrent(gl);

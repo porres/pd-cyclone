@@ -19,7 +19,9 @@
 #include "unstable/forky.h"
 #include "sickle/sic.h"
 
+#ifdef KRZYSZCZ
 //#define SCOPE_DEBUG
+#endif
 
 /* these are powers of 2 + margins */
 #define SCOPE_DEFWIDTH     130  /* CHECKED */

@@ -1,4 +1,4 @@
-puts setup
+puts "setup script: evaluated once per Pd session"
 
 proc testmess_list {path target args} {
     set sum 0
@@ -25,10 +25,23 @@ proc testmess_command {path} {
 #. @float testmess_list .- .| .#args
 #. @list testmess_list .- .| .#args
 
-puts initializer
+puts "\nwidget initializer: evaluated whenever a Tk widget is created"
+puts "which may happen several times during Pd object\'s lifetime"
+puts "widget needs reinitializing after:"
+puts ". closing and reopening of a subpatch window"
+puts ". minimizing and maximizing a window"
+puts ". switching virtual desktops"
 
 #@ new
-puts constructor
+puts "\nconstructor: evaluated once per Pd object"
+puts "(after Pd object creation, before Tk widget creation)"
+
+#@ vis
+puts "another initializer part added from \"#@ vis\" block"
 
 #@ free
-puts destructor
+puts "\ndestructor: evaluated once, after Pd object destruction"
+puts "(Tk widget should be already gone)"
+
+#@ ini
+puts "yet another initializer part added from \"#@ ini\" block"

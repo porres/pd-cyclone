@@ -27,7 +27,7 @@ LIBS = $(VCLIBDIR)\libc.lib \
 
 toxy: tot.dll tow.dll widget.dll
 	@cd $(ROOTDIR)
-	@$(ZIPCOMMAND) toxy-$(TOXY_SNAPSHOT).zip $(SNAPFILES)
+	@$(ZIPCOMMAND) toxy-$(TOXY_SNAPSHOT)-dll.zip $(SNAPFILES)
 
 tot.dll: $(TOT_OBJECTS)
 	-link /dll /out:$@ $(LIBS) $** /export:$(@:.dll=_setup)

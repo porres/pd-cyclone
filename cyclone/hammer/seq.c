@@ -15,7 +15,9 @@
 #include "unstable/forky.h"
 #include "hammer/file.h"
 
+#ifdef KRZYSZCZ
 #define SEQ_DEBUG
+#endif
 
 #define SEQ_INISEQSIZE       256   /* LATER rethink */
 #define SEQ_INITEMPOMAPSIZE  128   /* LATER rethink */

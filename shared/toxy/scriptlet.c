@@ -17,7 +17,9 @@
 #include "common/props.h"
 #include "scriptlet.h"
 
-#define SCRIPTLET_DEBUG
+#ifdef KRZYSZCZ
+//#define SCRIPTLET_DEBUG
+#endif
 
 #define SCRIPTLET_INISIZE    1024
 #define SCRIPTLET_INIDOTSIZE  256
@@ -641,6 +643,9 @@ static int scriptlet_doread(t_scriptlet *sp, t_pd *caller, FILE *fp,
 		else builtin++;
 	    }
 	}
+	else for (ptr = buf; *ptr; ptr++)
+	    if (*ptr == '\r')
+		*ptr = ' ';  /* LATER rethink */
 	ptr = buf;
 	while (*ptr == ' ' || *ptr == '\t') ptr++;
 	if (*ptr == '#')
@@ -669,7 +674,7 @@ static int scriptlet_doread(t_scriptlet *sp, t_pd *caller, FILE *fp,
 		    else if (newsp != outsp)
 		    {
 			outsp->s_locked = 0;
-			scriptlet_reset(outsp = newsp);
+			outsp = newsp;
 		    }
 		}
 	    }

@@ -20,8 +20,10 @@
 /* our proxy of the text_class (not in the API), LATER do not cheat */
 static t_class *makeshift_class;
 
+#ifdef KRZYSZCZ
 //#define WIDGET_DEBUG
 //#define TOW_DEBUG
+#endif
 
 enum { WIDGET_NOVIS = 0, WIDGET_PUSHVIS, WIDGET_REVIS };
 

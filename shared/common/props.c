@@ -7,7 +7,9 @@
 #include "common/grow.h"
 #include "common/props.h"
 
+#ifdef KRZYSZCZ
 //#define PROPS_DEBUG
+#endif
 
 #define PROPS_INISIZE    32  /* LATER rethink */
 #define PROPS_MAXOTHERS  32

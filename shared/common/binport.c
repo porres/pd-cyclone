@@ -28,8 +28,10 @@
 
 #include "unstable/standalone.h"
 
-#define BINPORT_VERBOSE
+#ifdef KRZYSZCZ
 //#define BINPORT_DEBUG
+#endif
+#define BINPORT_VERBOSE
 #endif
 
 #include "common/lex.h"

@@ -8,7 +8,9 @@
 #include "unstable/forky.h"
 #include "sickle/sic.h"
 
+#ifdef KRZYSZCZ
 //#define PONG_DEBUG
+#endif
 
 #define PONG_DEFLO  0.
 #define PONG_DEFHI  1.

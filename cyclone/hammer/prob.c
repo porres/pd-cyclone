@@ -12,7 +12,9 @@
    were added to the list's head, and new transition-entries
    were added to the sublist's head.  No sorting of any kind. */
 
-#define PROB_DEBUG  0
+#ifdef KRZYSZCZ
+//#define PROB_DEBUG
+#endif
 
 typedef struct _probtrans
 {

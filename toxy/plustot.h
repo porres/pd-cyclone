@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -11,6 +11,10 @@
 #undef EXTERN
 #define EXTERN  PD_EXTERN
 #undef PD_EXTERN
+
+#ifdef KRZYSZCZ
+#define PLUSTOT_DEBUG
+#endif
 
 EXTERN_STRUCT _plustin;
 #define t_plustin  struct _plustin

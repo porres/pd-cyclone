@@ -27,7 +27,7 @@ LIBS = $(VCLIBDIR)\libc.lib \
 
 cyclone: cyclone.dll hammer.dll sickle.dll dummies.dll maxmode.dll cyclist.exe
 	@cd $(ROOTDIR)
-	@$(ZIPCOMMAND) cyclone-$(CYCLONE_SNAPSHOT).zip $(SNAPFILES)
+	@$(ZIPCOMMAND) cyclone-$(CYCLONE_SNAPSHOT)-dll.zip $(SNAPFILES)
 
 cyclone.dll: $(CYCLONE_OBJECTS)
 	-link /dll /out:$@ $(LIBS) $** /export:$(@:.dll=_setup)
@@ -66,12 +66,13 @@ maxmode.dll: $(MAXMODE_OBJECTS)
 
 cyclist.exe: $(SHAREDDIR)\common\binport.c \
 	$(SHAREDDIR)\common\lex.c $(SHAREDDIR)\unstable\standalone.c
-	-del /S $(SHAREDDIR)\common\binport.obj $(SHAREDDIR)\common\lex.obj
+	-del /S $(SHAREDDIR)\common\binport.obj \
+		$(SHAREDDIR)\common\lex.obj $(SHAREDDIR)\unstable\standalone.obj
 	-cl $(CFLAGS) $(INCLUDES) /DMIXED_STANDALONE /o $@ \
 		$(VCLIBDIR)\libc.lib $(SHAREDDIR)\common\binport.c \
 		$(SHAREDDIR)\common\lex.c $(SHAREDDIR)\unstable\standalone.c
 	-@move $@ $(BINDIR)
-	-del /S binport.obj lex.obj
+	-del /S binport.obj lex.obj standalone.obj
 
 .c.obj: ; cl /c $(CFLAGS) $(INCLUDES) /Fo$*.obj $*.c
 

@@ -12,7 +12,9 @@
 #include "common/loud.h"
 #include "hammer/file.h"
 
-#define MTR_DEBUG
+#ifdef KRZYSZCZ
+//#define MTR_DEBUG
+#endif
 
 #define MTR_C74MAXTRACKS    32
 #define MTR_FILEBUFSIZE   4096

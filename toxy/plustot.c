@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -15,20 +15,19 @@
 #include "build_counter"
 
 #define PLUSTOT_VERBOSE
-#define PLUSTOT_DEBUG
-//#define PLUSTOT_DEBUGREFCOUNTS
 
 #ifdef PLUSTOT_DEBUG
-#   define PLUSDEBUG_ENDPOST(fn)  endpost()
+//#   define PLUSTOT_DEBUGREFCOUNTS
+#   define PLUSDEBUG_ENDPOST(fn)  fputc('\n', stderr)
 #else
 #   define PLUSDEBUG_ENDPOST(fn)
 #endif
 
 #ifdef PLUSTOT_DEBUGREFCOUNTS
 #   define PLUSDEBUG_INCRREFCOUNT(ob, fn) \
-	{post("++ %x "fn, (int)(ob)); Tcl_IncrRefCount(ob);}
+	{fprintf(stderr, "++ %x "fn"\n", (int)(ob)); Tcl_IncrRefCount(ob);}
 #   define PLUSDEBUG_DECRREFCOUNT(ob, fn) \
-	{post("-- %x "fn, (int)(ob)); Tcl_DecrRefCount(ob);}
+	{fprintf(stderr, "-- %x "fn"\n", (int)(ob)); Tcl_DecrRefCount(ob);}
 #else
 #   define PLUSDEBUG_INCRREFCOUNT(ob, fn)  Tcl_IncrRefCount(ob)
 #   define PLUSDEBUG_DECRREFCOUNT(ob, fn)  Tcl_DecrRefCount(ob)
@@ -100,8 +99,8 @@ t_plustin *plustin_create(t_plustype *tp, t_plusbob *parent, t_symbol *id)
     if (interp && (tin = (t_plustin *)plusenv_create(tp, parent, id)))
     {
 #ifdef PLUSTOT_DEBUG
-	post("plustin_create '%s' over %x",
-	     (id ? id->s_name : "default"), (int)interp);
+	fprintf(stderr, "plustin_create '%s' over %x\n",
+		(id ? id->s_name : "default"), (int)interp);
 #endif
 	tin->tin_interp = interp;
 	Tcl_Preserve(interp);
@@ -119,8 +118,8 @@ static void plustin_delete(t_plustin *tin)
 {
 #ifdef PLUSTOT_DEBUG
     t_symbol *id = plusenv_getid((t_plusenv *)tin);
-    post("plustin_delete '%s' over %x",
-	 (id ? id->s_name : "default"), (int)tin->tin_interp);
+    fprintf(stderr, "plustin_delete '%s' over %x\n",
+	    (id ? id->s_name : "default"), (int)tin->tin_interp);
 #endif
     Tcl_Preserve(tin->tin_interp);
     if (!Tcl_InterpDeleted(tin->tin_interp))
@@ -460,7 +459,8 @@ Tcl_Obj *plustob_setlist(t_plustob *tob, int ac, t_atom *av)
 	if (count > tob->tob_elbufsize)
 	{
 #ifdef PLUSTOT_DEBUG
-	    post("growing +To %d -> %d", tob->tob_elbufsize, count);
+	    fprintf(stderr, "growing +To %d -> %d\n",
+		    tob->tob_elbufsize, count);
 #endif
 	    tob->tob_elbuf =
 		grow_nodata(&count, &tob->tob_elbufsize, tob->tob_elbuf,
@@ -576,7 +576,8 @@ Tcl_Obj *plustob_setbinbuf(t_plustob *tob, t_binbuf *bb)
 	{
 	    int n = count;
 #ifdef PLUSTOT_DEBUG
-	    post("growing +To %d -> %d", tob->tob_elbufsize, count);
+	    fprintf(stderr, "growing +To %d -> %d\n",
+		    tob->tob_elbufsize, count);
 #endif
 	    tob->tob_elbuf =
 		grow_nodata(&n, &tob->tob_elbufsize, tob->tob_elbuf,
@@ -778,11 +779,11 @@ static Tcl_Obj *plusvar_postset(t_plusvar *var)
 	{
 #ifdef PLUSTOT_DEBUGREFCOUNTS
 	    if (var->var_index)
-		post("vv %x plusvar_postset [%s(%s)]",
-		     (int)tob->tob_value, var->var_name, var->var_index);
+		fprintf(stderr, "vv %x plusvar_postset [%s(%s)]\n",
+			(int)tob->tob_value, var->var_name, var->var_index);
 	    else
-		post("vv %x plusvar_postset [%s]",
-		     (int)tob->tob_value, var->var_name);
+		fprintf(stderr, "vv %x plusvar_postset [%s]\n",
+			(int)tob->tob_value, var->var_name);
 #endif
 	}
 	else plusloud_tclerror(0, interp, "cannot set variable");
@@ -1011,8 +1012,8 @@ static t_plusproxy *plusproxy_new(t_pd *master, int ndx, t_plustin *tin)
 static void plusproxy_free(t_plusproxy *pp)
 {
 #ifdef PLUSTOT_DEBUG
-    post("plusproxy_free (%s %d)",
-	 (pp->pp_var ? pp->pp_var->var_name : "empty"), pp->pp_ndx);
+    fprintf(stderr, "plusproxy_free (%s %d)\n",
+	    (pp->pp_var ? pp->pp_var->var_name : "empty"), pp->pp_ndx);
 #endif
     if (pp->pp_var)
 	plusbob_release((t_plusbob *)pp->pp_var);
@@ -1065,10 +1066,11 @@ static void plusproxy_debug(t_plusproxy *pp)
     t_plustin *tin = ((t_plustob *)pp->pp_var)->tob_tin;
     t_symbol *id = plusenv_getid((t_plusenv *)tin);
     t_symbol *glname = plustin_getglistname(tin);
-    post("+proxy %d, glist %x",
-	 pp->pp_ndx, (int)((t_plustot *)pp->pp_master)->x_glist);
-    post("  plustin '%s' (%s) over %x", (id ? id->s_name : "default"),
-	 (glname ? glname->s_name : "<anonymous>"), (int)tin->tin_interp);
+    fprintf(stderr, "+proxy %d, glist %x\n",
+	    pp->pp_ndx, (int)((t_plustot *)pp->pp_master)->x_glist);
+    fprintf(stderr, "  plustin '%s' (%s) over %x\n",
+	    (id ? id->s_name : "default"),
+	    (glname ? glname->s_name : "<anonymous>"), (int)tin->tin_interp);
 }
 #endif
 
@@ -1092,7 +1094,7 @@ static int plustot_usevariable(t_plustot *x, Tcl_Token *tp, int doit)
 	}
 	else buf[size] = 0;
 	strncpy(buf, tp->start, size);
-	startpost("%s ", buf);
+	fprintf(stderr, "%s ", buf);
     }
 #endif
     tp++;
@@ -1158,7 +1160,7 @@ static int plustot_usevariable(t_plustot *x, Tcl_Token *tp, int doit)
 		if (!doit)
 		{
 #ifdef PLUSTOT_DEBUG
-		    startpost("(inlet %d) ", inno);
+		    fprintf(stderr, "(inlet %d) ", inno);
 #endif
 		    if (inno >= x->x_nproxies)
 			x->x_nproxies = inno + 1;
@@ -1255,7 +1257,7 @@ static int plustot_doparsevariables(t_plustot *x, Tcl_Interp *interp,
 		    int sz = (tp->size < MAXPDSTRING ? tp->size : MAXPDSTRING);
 		    strncpy(buf, tp->start, sz);
 		    buf[sz] = 0;
-		    post("simple word's text:  %s", buf);
+		    fprintf(stderr, "simple word's text:  %s\n", buf);
 		}
 #endif
 		if (ntok-- && tp->type == TCL_TOKEN_TEXT && tp->size > 0)
@@ -1287,7 +1289,7 @@ static int plustot_doparsevariables(t_plustot *x, Tcl_Interp *interp,
 		int sz = (tp->size < MAXPDSTRING ? tp->size : MAXPDSTRING);
 		strncpy(buf, tp->start, sz);
 		buf[sz] = 0;
-		post("other type (%d):  %s", tp->type, buf);
+		fprintf(stderr, "other type (%d):  %s\n", tp->type, buf);
 	    }
 #endif
 	    tp++;
@@ -1305,7 +1307,7 @@ static int plustot_parsevariables(t_plustot *x, Tcl_Interp *interp,
 {
     int nvars;
 #ifdef PLUSTOT_DEBUG
-    if (!doit) startpost("variables: ");
+    if (!doit) fprintf(stderr, "variables: ");
 #endif
     nvars = plustot_doparsevariables(x, interp, buf, len, parsep, doit);
 #ifdef PLUSTOT_DEBUG
@@ -1313,10 +1315,10 @@ static int plustot_parsevariables(t_plustot *x, Tcl_Interp *interp,
     {
 	if (nvars > 0)
 	{
-	    post("\n%d variable substitutions", nvars);
-	    post("%d inlets requested", x->x_nproxies);
+	    fprintf(stderr, "\n%d variable substitutions\n", nvars);
+	    fprintf(stderr, "%d inlets requested\n", x->x_nproxies);
 	}
-	else if (nvars == 0) post("none");
+	else if (nvars == 0) fprintf(stderr, "none\n");
     }
 #endif
     return (nvars);
@@ -1394,7 +1396,7 @@ static int plustot_resetwords(t_plustot *x)
 	{
 	    int n = nwords;
 #ifdef PLUSTOT_DEBUG
-	    post("growing words %d -> %d", x->x_maxwords, nwords);
+	    fprintf(stderr, "growing words %d -> %d\n", x->x_maxwords, nwords);
 #endif
 	    x->x_words = grow_nodata(&n, &x->x_maxwords, x->x_words,
 				     PLUSTOT_INIMAXWORDS, x->x_wordsini,
@@ -1421,7 +1423,7 @@ static int plustot_resetargs(t_plustot *x)
 	{
 	    int n = nargs;
 #ifdef PLUSTOT_DEBUG
-	    post("growing argv %d -> %d", x->x_maxargs, nargs);
+	    fprintf(stderr, "growing argv %d -> %d\n", x->x_maxargs, nargs);
 #endif
 	    x->x_argv = grow_nodata(&n, &x->x_maxargs, x->x_argv,
 				    PLUSTOT_INIMAXWORDS, x->x_argvini,
@@ -1455,16 +1457,17 @@ static int plustot_makewords(t_plustot *x)
 	int len;
 	char buf[TCL_UTF_MAX];
 #ifdef PLUSTOT_DEBUG
-	post("arguments:");
+	fprintf(stderr, "arguments:\n");
 #endif
 	for (i = 1, tp = x->x_tailparse.tokenPtr;
 	     i < nwords; i++, tp += ncomponents)
 	{
 #ifdef PLUSTOT_DEBUG
-	    post("  %s token: type %d[%d], having %d[%d] component%s",
-		 loud_ordinal(i), tp->type, tp[1].type,
-		 tp->numComponents, tp[1].numComponents,
-		 (tp->numComponents > 1 ? "s" : ""));
+	    fprintf(stderr,
+		    "  %s token: type %d[%d], having %d[%d] component%s\n",
+		    loud_ordinal(i), tp->type, tp[1].type,
+		    tp->numComponents, tp[1].numComponents,
+		    (tp->numComponents > 1 ? "s" : ""));
 #endif
 	    ncomponents = tp->numComponents;
 	    tp++;
@@ -1602,16 +1605,16 @@ static int plustot_argsfromtokens(t_plustot *x, Tcl_Interp *interp)
 	int i, nwords = x->x_tailparse.numWords + 1;
 	Tcl_Token *tp;
 #ifdef PLUSTOT_DEBUG
-	post("arguments:");
+	fprintf(stderr, "arguments:\n");
 #endif
 	for (i = 1, tp = x->x_tailparse.tokenPtr;
 	     i < nwords; i++, tp += (tp->numComponents + 1))
 	{
 	    int result;
 #ifdef PLUSTOT_DEBUG
-	    startpost("  %s token: type %d[%d], having %d component%s",
-		      loud_ordinal(i), tp->type, tp[1].type,
-		      tp->numComponents, (tp->numComponents > 1 ? "s" : ""));
+	    fprintf(stderr, "  %s token: type %d[%d], having %d component%s",
+		    loud_ordinal(i), tp->type, tp[1].type,
+		    tp->numComponents, (tp->numComponents > 1 ? "s" : ""));
 #endif
 	    result = Tcl_EvalTokensStandard(interp, tp + 1, tp->numComponents);
 	    if (result == TCL_OK)
@@ -1622,9 +1625,9 @@ static int plustot_argsfromtokens(t_plustot *x, Tcl_Interp *interp)
 					   "plustot_argsfromwords");
 		    Tcl_ResetResult(interp);
 #ifdef PLUSTOT_DEBUG
-		    post(", %sshared: '%s'",
-			 (Tcl_IsShared(x->x_argv[i]) ? "" : "not "),
-			 Tcl_GetString(x->x_argv[i]));
+		    fprintf(stderr, ", %sshared: '%s'\n",
+			    (Tcl_IsShared(x->x_argv[i]) ? "" : "not "),
+			    Tcl_GetString(x->x_argv[i]));
 #endif
 		}
 		else
@@ -1784,9 +1787,10 @@ static void plustot_debug(t_plustot *x)
     t_plustin *tin = x->x_tob->tob_tin;
     t_symbol *id = plusenv_getid((t_plusenv *)tin);
     t_symbol *glname = plustin_getglistname(tin);
-    post("+tot, glist %x", (int)x->x_glist);
-    post("  plustin '%s' (%s) over %x", (id ? id->s_name : "default"),
-	 (glname ? glname->s_name : "<anonymous>"), (int)tin->tin_interp);
+    fprintf(stderr, "+tot, glist %x\n", (int)x->x_glist);
+    fprintf(stderr, "  plustin '%s' (%s) over %x\n",
+	    (id ? id->s_name : "default"),
+	    (glname ? glname->s_name : "<anonymous>"), (int)tin->tin_interp);
     if (x->x_mainproxy)
 	plusproxy_debug(x->x_mainproxy);
 }

@@ -15,7 +15,9 @@
 #include "toxy/scriptlet.h"
 #include "build_counter"
 
+#ifdef KRZYSZCZ
 //#define TOT_DEBUG
+#endif
 
 /* probably much more than needed for canvas messages from gui */
 #define TOTSPY_MAXSIZE  32
