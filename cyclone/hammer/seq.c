@@ -16,10 +16,14 @@
 #include "common/mifi.h"
 #include "hammer/file.h"
 
-#define SEQ_DEBUG
+//#define SEQ_DEBUG
 
-#define SEQ_INISIZE    256  /* LATER rethink */
-#define SEQ_EOM        255  /* end of message marker, LATER rethink */
+#define SEQ_INISIZE     256   /* LATER rethink */
+#define SEQ_EOM         255   /* end of message marker, LATER rethink */
+#define SEQ_TICKSPERSEC  48
+#define SEQ_MINTICKDELAY  1.  /* LATER rethink */
+
+enum { SEQ_IDLEMODE, SEQ_RECMODE, SEQ_PLAYMODE, SEQ_SLAVEMODE };
 
 typedef struct _seqevent
 {
@@ -33,11 +37,12 @@ typedef struct _seq
     t_canvas      *x_canvas;
     t_symbol      *x_defname;
     t_hammerfile  *x_filehandle;
-    int            x_isplaying;
-    int            x_isrecording;
+    int            x_mode;
     int            x_playhead;
     float          x_tempo;
+    float          x_newtempo;
     double         x_prevtime;
+    double         x_slaveprevtime;
     double         x_clockdelay;
     unsigned char  x_status;
     int            x_evesize;
@@ -47,6 +52,7 @@ typedef struct _seq
     t_seqevent    *x_sequence;
     t_seqevent     x_seqini[SEQ_INISIZE];
     t_clock       *x_clock;
+    t_clock       *x_slaveclock;
     t_outlet      *x_bangout;
 } t_seq;
 
@@ -75,8 +81,7 @@ static void seq_complete(t_seq *x)
     else
     {
 	t_seqevent *ep = &x->x_sequence[x->x_nevents];
-	double elapsed = clock_gettimesince(x->x_prevtime);
-	ep->e_delta = (int)elapsed;
+	ep->e_delta = (int)clock_gettimesince(x->x_prevtime);
 	x->x_prevtime = clock_getlogicaltime();
 	if (x->x_evesize < 4)
 	    ep->e_bytes[x->x_evesize] = SEQ_EOM;
@@ -155,17 +160,6 @@ static void seq_endofsysex(t_seq *x)
     x->x_status = 0;
 }
 
-static void seq_stopplayback(t_seq *x)
-{
-    /* FIXME */
-    /* CHECKED "seq: incomplete sysex" at playback stop, 247 added implicitly */
-    /* CHECKME resetting controllers, etc. */
-    /* CHECKED bang not sent if playback stopped early */
-    clock_unset(x->x_clock);
-    x->x_playhead = 0;
-    x->x_isplaying = 0;
-}
-
 static void seq_stoprecording(t_seq *x)
 {
     if (x->x_status == 240)
@@ -177,12 +171,128 @@ static void seq_stoprecording(t_seq *x)
 	seq_complete(x);
     /* CHECKED running status used in recording, but not across recordings */
     x->x_status = 0;
-    x->x_isrecording = 0;
+}
+
+static void seq_stopplayback(t_seq *x)
+{
+    /* FIXME */
+    /* CHECKED "seq: incomplete sysex" at playback stop, 247 added implicitly */
+    /* CHECKME resetting controllers, etc. */
+    /* CHECKED bang not sent if playback stopped early */
+    clock_unset(x->x_clock);
+    x->x_playhead = 0;
+}
+
+static void seq_stopslavery(t_seq *x)
+{
+    /* FIXME */
+    clock_unset(x->x_clock);
+    clock_unset(x->x_slaveclock);
+    x->x_playhead = 0;
+}
+
+static void seq_startrecording(t_seq *x, int modechanged)
+{
+    x->x_prevtime = clock_getlogicaltime();
+    x->x_status = 0;
+    x->x_evesize = 0;
+    x->x_expectedsize = -1;  /* LATER rethink */
+}
+
+/* CHECKED running status not used in playback */
+static void seq_startplayback(t_seq *x, int modechanged)
+{
+    /* CHECKED bang not sent if sequence is empty */
+    if (x->x_nevents)
+    {
+	if (modechanged)
+	{
+	    x->x_playhead = 0;
+	    /* playback data never sent within the scheduler event of
+	       a start message (even for the first delta <= 0), LATER rethink */
+	    x->x_clockdelay = x->x_sequence->e_delta * x->x_newtempo;
+	}
+	else
+	{
+	    /* CHECKED tempo change */
+	    x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
+	    x->x_clockdelay *= x->x_newtempo / x->x_tempo;
+	}
+	if (x->x_clockdelay < 0.)
+	    x->x_clockdelay = 0.;
+	clock_delay(x->x_clock, x->x_clockdelay);
+	x->x_prevtime = clock_getlogicaltime();
+	x->x_tempo = x->x_newtempo;
+    }
+    else x->x_mode = SEQ_IDLEMODE;
+}
+
+static void seq_startslavery(t_seq *x, int modechanged)
+{
+    if (x->x_nevents)
+    {
+	x->x_playhead = 0;
+	x->x_prevtime = 0.;
+	x->x_slaveprevtime = 0.;
+    }
+    else x->x_mode = SEQ_IDLEMODE;
+}
+
+static void seq_setmode(t_seq *x, int newmode)
+{
+    int changed = (x->x_mode != newmode);
+    if (changed)
+    {
+	switch (x->x_mode)
+	{
+	case SEQ_IDLEMODE:
+	    break;
+	case SEQ_RECMODE:
+	    seq_stoprecording(x);
+	    break;
+	case SEQ_PLAYMODE:
+	    seq_stopplayback(x);
+	    break;
+	case SEQ_SLAVEMODE:
+	    seq_stopslavery(x);
+	    break;
+	default:
+	    bug("seq_setmode (old)");
+	    return;
+	}
+	x->x_mode = newmode;
+    }
+    switch (newmode)
+    {
+    case SEQ_IDLEMODE:
+	break;
+    case SEQ_RECMODE:
+	seq_startrecording(x, changed);
+	break;
+    case SEQ_PLAYMODE:
+	seq_startplayback(x, changed);
+	break;
+    case SEQ_SLAVEMODE:
+	seq_startslavery(x, changed);
+	break;
+    default:
+	bug("seq_setmode (new)");
+    }
+}
+
+static void seq_settempo(t_seq *x, float newtempo)
+{
+    if (newtempo < 1e-20)
+	x->x_newtempo = 1e-20;
+    else if (newtempo > 1e20)
+	x->x_newtempo = 1e20;
+    else
+	x->x_newtempo = newtempo;
 }
 
 static void seq_clocktick(t_seq *x)
 {
-    if (x->x_isplaying)
+    if (x->x_mode == SEQ_PLAYMODE || x->x_mode == SEQ_SLAVEMODE)
     {
 	t_seqevent *ep = &x->x_sequence[x->x_playhead++];
 	unsigned char *bp = ep->e_bytes;
@@ -198,8 +308,8 @@ nextevent:
 		    outlet_float(((t_object *)x)->ob_outlet, *bp++);
 	    }
 	}
-	if (!x->x_isplaying)  /* reentrancy protection */
-	    return;
+	if (x->x_mode != SEQ_PLAYMODE && x->x_mode != SEQ_SLAVEMODE)
+	    return;  /* protecting against outlet -> 'stop' etc. */
 	if (x->x_playhead < x->x_nevents)
 	{
 	    ep++;
@@ -221,63 +331,66 @@ nextevent:
 	}
 	else
 	{
-	    seq_stopplayback(x);
+	    seq_setmode(x, SEQ_IDLEMODE);
 	    /* CHECKED bang sent immediately _after_ last byte */
 	    outlet_bang(x->x_bangout);  /* LATER think about reentrancy */
 	}
     }
 }
 
-static void seq_tick(t_seq *x)
+/* timeout handler ('tick' is late) */
+static void seq_slaveclocktick(t_seq *x)
 {
-    /* FIXME */
+    if (x->x_mode == SEQ_SLAVEMODE) clock_unset(x->x_clock);
 }
 
-/* CHECKED running status not used in playback */
-static void seq_dostart(t_seq *x, float tempo)
+/* LATER dealing with self-invokation (outlet -> 'tick') */
+static void seq_tick(t_seq *x)
 {
-    if (x->x_isplaying)
+    if (x->x_mode == SEQ_SLAVEMODE)
     {
-	/* CHECKED tempo change */
-    	double elapsed = clock_gettimesince(x->x_prevtime);
-    	double left = x->x_clockdelay - elapsed;
-    	if (left < 0)
-	    left = 0;
-    	else
-	    left *= tempo / x->x_tempo;
-    	clock_delay(x->x_clock, x->x_clockdelay = left);
-	x->x_prevtime = clock_getlogicaltime();
-	x->x_tempo = tempo;
-    }
-    else
-    {
-	if (x->x_isrecording)  /* CHECKED 'start' stops recording */
-	    seq_stoprecording(x);
-	/* CHECKED bang not sent if a sequence is empty */
-	if (x->x_nevents)
+	if (x->x_slaveprevtime > 0)
 	{
-	    x->x_tempo = tempo;
-	    x->x_playhead = 0;
-	    x->x_isplaying = 1;
-	    /* playback data never sent within the scheduler event of
-	       a start message (even for the first delta <= 0), LATER rethink */
-	    x->x_clockdelay = x->x_sequence->e_delta * tempo;
+	    double elapsed = clock_gettimesince(x->x_slaveprevtime);
+	    if (elapsed < SEQ_MINTICKDELAY)
+		return;
+	    clock_delay(x->x_slaveclock, elapsed);
+	    seq_settempo(x, (float)(elapsed * (SEQ_TICKSPERSEC / 1000.)));
+	    if (x->x_prevtime > 0)
+	    {
+		x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
+		x->x_clockdelay *= x->x_newtempo / x->x_tempo;
+	    }
+	    else x->x_clockdelay =
+		     x->x_sequence[x->x_playhead].e_delta * x->x_newtempo;
 	    if (x->x_clockdelay < 0.)
 		x->x_clockdelay = 0.;
 	    clock_delay(x->x_clock, x->x_clockdelay);
 	    x->x_prevtime = clock_getlogicaltime();
+	    x->x_slaveprevtime = x->x_prevtime;
+	    x->x_tempo = x->x_newtempo;
+	}
+	else
+	{
+	    x->x_clockdelay = 0.;  /* redundant */
+	    x->x_prevtime = 0.;    /* redundant */
+	    x->x_slaveprevtime = clock_getlogicaltime();
+	    x->x_tempo = 1.;       /* redundant */
 	}
     }
 }
 
+/* CHECKED bang does the same as 'start 1024', not 'start <current-tempo>'
+   (also if already in SEQ_PLAYMODE) */
 static void seq_bang(t_seq *x)
 {
-    seq_dostart(x, 1.);
+    seq_settempo(x, 1.);
+    seq_setmode(x, SEQ_PLAYMODE);  /* CHECKED 'bang' stops recording */
 }
 
 static void seq_float(t_seq *x, t_float f)
 {
-    if (x->x_isrecording)
+    if (x->x_mode == SEQ_RECMODE)
     {
 	/* CHECKED noninteger and out of range silently truncated */
 	unsigned char c = (unsigned char)f;
@@ -314,28 +427,18 @@ static void seq_list(t_seq *x, t_symbol *s, int ac, t_atom *av)
     /* CHECKED anything else/more silently ignored */
 }
 
-static void seq_dorecord(t_seq *x)
-{
-    if (x->x_isplaying)  /* CHECKED 'record' and 'append' stops playback */
-	seq_stopplayback(x);
-    x->x_isrecording = 1;
-    x->x_prevtime = clock_getlogicaltime();
-    x->x_status = 0;
-    x->x_evesize = 0;
-    x->x_expectedsize = -1;  /* LATER rethink */
-}
-
 static void seq_record(t_seq *x)
 {
-    /* CHECKED 'record' resets recording */
+    /* CHECKED 'record' stops playback, resets recording */
     seq_doclear(x, 0);
-    seq_dorecord(x);
+    seq_setmode(x, SEQ_RECMODE);
 }
 
 static void seq_append(t_seq *x)
 {
-    /* CHECKED if isrecording, 'append' resets the timer */
-    seq_dorecord(x);
+    /* CHECKED 'append' stops playback */
+    /* CHECKED if in SEQ_RECMODE, 'append' resets the timer */
+    seq_setmode(x, SEQ_RECMODE);
 }
 
 static void seq_start(t_seq *x, t_floatarg f)
@@ -343,31 +446,25 @@ static void seq_start(t_seq *x, t_floatarg f)
     if (f < 0)
     {
 	/* FIXME */
+	seq_setmode(x, SEQ_SLAVEMODE);
     }
     else
     {
-	float tempo = (f == 0 ? 1. : 1024. / f);
-	if (tempo < 1e-20)
-	    tempo = 1e-20;
-	else if (tempo > 1e20)
-	    tempo = 1e20;
-	seq_dostart(x, tempo);
+	seq_settempo(x, (f == 0 ? 1. : 1024. / f));
+	seq_setmode(x, SEQ_PLAYMODE);  /* CHECKED 'start' stops recording */
     }
 }
 
 static void seq_stop(t_seq *x)
 {
-    if (x->x_isplaying)
-	seq_stopplayback(x);
-    else if (x->x_isrecording)
-	seq_stoprecording(x);
+    seq_setmode(x, SEQ_IDLEMODE);
 }
 
 /* CHECKED first delta time is set permanently (it is stored in a file) */
 static void seq_delay(t_seq *x, t_floatarg f)
 {
     if (x->x_nevents)
-	/* CHECKED signed/unsigned bug, not emulated */
+	/* CHECKED signed/unsigned bug (not emulated) */
 	x->x_sequence->e_delta = (f > 0 ? f : 0);
 }
 
@@ -379,7 +476,7 @@ static void seq_hook(t_seq *x, t_floatarg f)
     {
 	t_seqevent *ev = x->x_sequence;
 	if (f < 0)
-	    f = 0;  /* CHECKED signed/unsigned bug, not emulated */
+	    f = 0;  /* CHECKED signed/unsigned bug (not emulated) */
 	while (nevents--) ev++->e_delta *= f;
     }
 }
@@ -823,6 +920,7 @@ static void seq_print(t_seq *x)
 static void seq_free(t_seq *x)
 {
     if (x->x_clock) clock_free(x->x_clock);
+    if (x->x_slaveclock) clock_free(x->x_slaveclock);
     hammerfile_free(x->x_filehandle);
     if (x->x_sequence != x->x_seqini)
 	freebytes(x->x_sequence, x->x_size * sizeof(*x->x_sequence));
@@ -841,7 +939,9 @@ static void *seq_new(t_symbol *s)
     x->x_filehandle = hammerfile_new((t_pd *)x, 0,
 				     seq_readhook, seq_writehook, 0);
     x->x_tempo = 1.;
-    x->x_prevtime = 0;
+    x->x_newtempo = 1.;
+    x->x_prevtime = 0.;
+    x->x_slaveprevtime = 0.;
     x->x_size = SEQ_INISIZE;
     x->x_nevents = 0;
     x->x_sequence = x->x_seqini;
@@ -854,6 +954,7 @@ static void *seq_new(t_symbol *s)
     }
     else x->x_defname = &s_;
     x->x_clock = clock_new(x, (t_method)seq_clocktick);
+    x->x_slaveclock = clock_new(x, (t_method)seq_slaveclocktick);
     return (x);
 }
 
@@ -883,7 +984,7 @@ void seq_setup(void)
     class_addmethod(seq_class, (t_method)seq_delay,
 		    gensym("delay"), A_FLOAT, 0);  /* CHECKED arg obligatory */
     class_addmethod(seq_class, (t_method)seq_hook,
-		    gensym("hook"), A_FLOAT, 0);  /* CHECKED arg obligatory */
+		    gensym("hook"), A_FLOAT, 0);   /* CHECKED arg obligatory */
     class_addmethod(seq_class, (t_method)seq_read,
 		    gensym("read"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_write,
