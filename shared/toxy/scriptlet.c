@@ -200,29 +200,55 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
 	    t_canvas *cv;
 	    if (cv = scriptlet_canvasvalidate(sp, 0))
 	    {
+		t_glist *glist;
 		if (!strncmp(&ibuf[1], "tag", 3))
 		{
 		    t_rtext *rt;
-		    if (cv->gl_owner && glist_isvisible(cv->gl_owner) &&
-			cv->gl_owner->gl_editor &&
-			(rt = glist_findrtext(cv->gl_owner, (t_object *)cv)))
+		    glist = cv->gl_owner;
+		    if (glist && glist_isvisible(glist) && glist->gl_editor
+			&& (rt = glist_findrtext(glist, (t_object *)cv)))
 			sprintf(obuf, "%s", rtext_gettag(rt));
 		    else
 			obuf[0] = 0;
 		    len = 4;
 		}
+		else if (!strncmp(&ibuf[1], "parent", 6))
+		{
+		    glist = cv->gl_owner;
+		    if (glist && glist_isvisible(glist))
+			sprintf(obuf, ".x%x", (int)glist);
+		    else
+			obuf[0] = 0;
+		    len = 7;
+		}
+		else if (!strncmp(&ibuf[1], "root", 4))
+		{
+		    glist = canvas_getrootfor(cv);
+		    if (glist && glist_isvisible(glist))
+			sprintf(obuf, ".x%x", (int)glist);
+		    else
+			obuf[0] = 0;
+		    len = 5;
+		}
 		else if (!strncmp(&ibuf[1], "owner", 5))
 		{
-		    if (cv->gl_owner && glist_isvisible(cv->gl_owner))
-			sprintf(obuf, ".x%x", (int)cv->gl_owner);
+		    if (glist = canvas_getrootfor(cv))
+			glist = glist->gl_owner;
+		    if (glist && glist_isvisible(glist))
+			sprintf(obuf, ".x%x", (int)glist);
 		    else
 			obuf[0] = 0;
 		    len = 6;
 		}
-		else if (!strncmp(&ibuf[1], "root", 4))
+		else if (!strncmp(&ibuf[1], "top", 3))
 		{
-		    sprintf(obuf, ".x%x", (int)canvas_getrootfor(cv));
-		    len = 5;
+		    glist = cv;
+		    while (glist->gl_owner) glist = glist->gl_owner;
+		    if (glist && glist_isvisible(glist))
+			sprintf(obuf, ".x%x", (int)glist);
+		    else
+			obuf[0] = 0;
+		    len = 4;
 		}
 		/* LATER find out when gl_<coords> are updated,
 		   think how to better sync them to Tk. */
@@ -254,6 +280,11 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
 		else if (!strncmp(&ibuf[1], "gop", 3))
 		{
 		    sprintf(obuf, "%d", glist_isgraph(cv));
+		    len = 4;
+		}
+		else if (!strncmp(&ibuf[1], "dir", 3))
+		{
+		    sprintf(obuf, "%s", canvas_getdir(cv)->s_name);
 		    len = 4;
 		}
 		else loud_error(sp->s_owner, "bad field '%s'", &ibuf[1]);

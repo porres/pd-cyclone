@@ -35,7 +35,13 @@ enum { PORT_OK,
        PORT_NEXT,  /* next line, please */
        PORT_UNKNOWN, PORT_CORRUPT, PORT_FATAL };
 
+/* without access to sys_defaultfont, we just mimic defs from s_main.c */
+#ifdef MSW
+#define PORT_DEFFONTSIZE  12.
+#else
 #define PORT_DEFFONTSIZE  10.
+#endif
+
 #define PORT_XSTRETCH      1.25
 #define PORT_YSTRETCH      1.1
 #define PORT_WSTRETCH      1.25

@@ -9,6 +9,8 @@
 #include "unstable/forky.h"
 #include "unstable/fringe.h"
 
+//#define FRINGE_DEBUG
+
 static int gobj_getindex(t_glist *gl, t_gobj *ob)
 {
     t_gobj *ob1;
@@ -57,7 +59,7 @@ static void gobj_stowconnections(t_glist *gl, t_gobj *ob, t_binbuf *bb)
 			gobj_getindex(gl, (t_gobj *)lt.tr_ob), lt.tr_outno,
 			gobj_getindex(gl, (t_gobj *)lt.tr_ob2), lt.tr_inno);
     }
-#if 0
+#ifdef FRINGE_DEBUG
     post("packed connections:");
     binbuf_print(bb);
 #endif
@@ -65,9 +67,13 @@ static void gobj_stowconnections(t_glist *gl, t_gobj *ob, t_binbuf *bb)
 
 static void gobj_restoreconnections(t_glist *gl, t_binbuf *bb)
 {
-    pd_bind((t_pd *)gl, gensym("#X"));
+#ifdef FRINGE_DEBUG
+    post("restoring connections:");
+    binbuf_print(bb);
+#endif
+    canvas_setcurrent(gl);
     binbuf_eval(bb, 0, 0, 0);
-    pd_unbind((t_pd *)gl, gensym("#X"));
+    canvas_unsetcurrent(gl);
 }
 
 void gobj_recreate(t_glist *gl, t_gobj *ob, t_binbuf *bb)

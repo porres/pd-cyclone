@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -131,9 +131,11 @@ static void hammergui__remouse(t_hammergui *snk)
 static void hammergui_dobindfocus(t_hammergui *snk)
 {
     sys_vgui("bind Canvas <<hammerfocusin>> \
- {pd [concat %s _focus %%W 1 \\;]}\n", snk->g_gui->s_name);
+ {if {[hammergui_ispatcher %%W]} \
+  {pd [concat %s _focus %%W 1 \\;]}}\n", snk->g_gui->s_name);
     sys_vgui("bind Canvas <<hammerfocusout>> \
- {pd [concat %s _focus %%W 0 \\;]}\n", snk->g_gui->s_name);
+ {if {[hammergui_ispatcher %%W]} \
+  {pd [concat %s _focus %%W 0 \\;]}}\n", snk->g_gui->s_name);
 }
 
 static void hammergui__refocus(t_hammergui *snk)
@@ -152,9 +154,11 @@ static void hammergui__refocus(t_hammergui *snk)
 static void hammergui_dobindvised(t_hammergui *snk)
 {
     sys_vgui("bind Canvas <<hammervised>> \
- {pd [concat %s _vised %%W 1 \\;]}\n", snk->g_gui->s_name);
+ {if {[hammergui_ispatcher %%W]} \
+  {pd [concat %s _vised %%W 1 \\;]}}\n", snk->g_gui->s_name);
     sys_vgui("bind Canvas <<hammerunvised>> \
- {pd [concat %s _vised %%W 0 \\;]}\n", snk->g_gui->s_name);
+ {if {[hammergui_ispatcher %%W]} \
+  {pd [concat %s _vised %%W 0 \\;]}}\n", snk->g_gui->s_name);
 }
 
 static void hammergui__revised(t_hammergui *snk)
@@ -191,6 +195,17 @@ static void hammergui_setup(void)
     ps__vised = gensym("_vised");
     class_addmethod(hammergui_class, (t_method)hammergui__vised,
 		    ps__vised, A_SYMBOL, A_FLOAT, 0);
+
+    /* Protect against pdCmd being called (via "Canvas <Destroy>" binding)
+       during Tcl_Finalize().  FIXME this should be a standard exit handler. */
+    sys_gui("proc hammergui_exithook {cmd op} {proc pd {} {}}\n");
+    sys_gui("trace add execution exit enter hammergui_exithook\n");
+
+    sys_gui("proc hammergui_ispatcher {cv} {\n");
+    sys_gui(" if {[string range $cv 0 1] == \".x\"");
+    sys_gui("  && [string range $cv end-1 end] == \".c\"} {\n");
+    sys_gui("  return 1} else {return 0}\n");
+    sys_gui("}\n");
 
     sys_gui("proc hammergui_remouse {} {\n");
     sys_gui(" bind all <<hammerdown>> {}\n");

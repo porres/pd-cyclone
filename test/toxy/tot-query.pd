@@ -38,9 +38,9 @@ txt .: concat set $txt;
 #X obj 21 468 tot .;
 #X obj 67 238 tot .;
 #X msg 67 202 tot eval .< [global ch .: info exists ch] .>;
-#X msg 54 376 tot set ::ch [open ~/.pdrc] \, query concat set [read
-$::ch] \, after 0 .(tot close $::ch .: unset ::ch.);
 #X msg 21 502;
+#X msg 54 376 tot set ::ch [open ~/.pdrc] \, query concat set [read
+$::ch] \, tot after 0 .(close $::ch .: unset ::ch.);
 #X connect 0 0 11 0;
 #X connect 1 0 3 0;
 #X connect 2 0 11 0;
@@ -55,7 +55,7 @@ $::ch] \, after 0 .(tot close $::ch .: unset ::ch.);
 #X connect 10 0 14 0;
 #X connect 11 0 14 0;
 #X connect 12 0 14 0;
-#X connect 14 0 18 0;
+#X connect 14 0 17 0;
 #X connect 15 1 4 0;
 #X connect 16 0 15 0;
-#X connect 17 0 14 0;
+#X connect 18 0 14 0;

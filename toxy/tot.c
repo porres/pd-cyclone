@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -24,8 +24,9 @@ typedef struct _tot
 {
     t_object   x_ob;
     t_glist   *x_glist;     /* containing glist */
-    t_symbol  *x_cvremote;  /* null if containing glist is our destination */
-    t_symbol  *x_cvname;
+    t_symbol  *x_dotname;   /* "." (if explicit), ".parent", ".root", etc. */
+    t_symbol  *x_cvname;    /* destination name (if literal), or 0 */
+    t_symbol  *x_cvremote;  /* bindsym of the above */
     t_symbol  *x_cvpathname;     /* see tot_getpathname() */
     t_symbol  *x_visedpathname;  /* see tot__vised() */
     t_symbol  *x_target;
@@ -54,6 +55,7 @@ typedef struct _totspy
     t_symbol  *ts_selector;
     t_atom     ts_outbuf[TOTSPY_MAXSIZE];
     t_outlet  *ts_out3;
+    t_clock   *ts_cleanupclock;  /* also a tot-is-gone flag */
 } t_totspy;
 
 static t_class *tot_class;
@@ -65,17 +67,66 @@ static t_symbol *totps_motion;
 static t_symbol *totps_qpush;
 static t_symbol *totps_query;
 
+static t_symbol *totps_dotparent;  /* holder of our containing glist's box */
+static t_symbol *totps_dotroot;    /* our document's root canvas */
+static t_symbol *totps_dotowner;   /* parent of .root */
+static t_symbol *totps_dottop;     /* top-level canvas */
+
+static t_glist *tot_getglist(t_tot *x)
+{
+    t_glist *glist;
+    if (x->x_cvremote)
+	glist = (t_glist *)pd_findbyclass(x->x_cvremote, canvas_class);
+    else if (x->x_dotname == totps_dotparent)
+	glist = x->x_glist->gl_owner;
+    else if (x->x_dotname == totps_dotroot)
+	glist = canvas_getrootfor(x->x_glist);
+    else if (x->x_dotname == totps_dotowner)
+    {
+	if (glist = canvas_getrootfor(x->x_glist))
+	    glist = glist->gl_owner;
+    }
+    else if (x->x_dotname == totps_dottop)
+    {
+	glist = x->x_glist;
+	while (glist->gl_owner) glist = glist->gl_owner;
+    }
+    else
+	glist = x->x_glist;
+    return (glist);	
+}
+
+static t_symbol *tot_getcvname(t_tot *x)
+{
+    t_glist *glist = tot_getglist(x);
+    t_symbol *cvname = (glist ? glist->gl_name : x->x_cvname);
+    if (cvname)
+	return (cvname);
+    else if (x->x_dotname)
+	return (x->x_dotname);
+    else
+    {
+	bug("tot_getcvname");
+	return (gensym("???"));
+    }
+}
+
 static t_canvas *tot_getcanvas(t_tot *x, int complain)
 {
     t_canvas *cv = 0;
-    t_glist *glist =
-	(x->x_cvremote ?
-	 (t_glist *)pd_findbyclass(x->x_cvremote, canvas_class) : x->x_glist);
+    t_glist *glist = tot_getglist(x);
     if (glist)
 	cv = glist_getcanvas(glist);
     else if (complain)
-	loud_error((t_pd *)x, "bad canvas name '%s'", x->x_cvname->s_name);
-    if (!x->x_warned && !x->x_cvremote)
+    {
+	if (x->x_dotname && *x->x_dotname->s_name)
+	    loud_error((t_pd *)x, "%s canvas does not exist",
+		       &x->x_dotname->s_name[1]);
+	else
+	    loud_error((t_pd *)x, "bad canvas name '%s'",
+		       tot_getcvname(x)->s_name);
+    }
+    if (!x->x_warned)
     {
 	x->x_warned = 1;
 	if (!cv) cv = x->x_glist;  /* redundant */
@@ -258,7 +309,7 @@ static void tot_debug(t_tot *x)
     int sz;
     char *bp;
     post("containing glist: %x", x->x_glist);
-    post("destination: %s", x->x_cvname->s_name);
+    post("destination: %s", tot_getcvname(x)->s_name);
     post("pathname%s %s", (pn ? ":" : ""), (pn ? pn->s_name : "unknown"));
     bp = scriptlet_getbuffer(x->x_transient, &sz);
     post("transient buffer (size %d):\n\"%s\"", sz, bp);
@@ -397,6 +448,8 @@ static void tot_lastmotion(t_tot *x, t_symbol *s)
 
 static void totspy_anything(t_totspy *ts, t_symbol *s, int ac, t_atom *av)
 {
+    if (ts->ts_cleanupclock)
+	return;
     if (s == totps_motion)
     {
 	if (ac == 3)
@@ -432,6 +485,15 @@ static void totspy_anything(t_totspy *ts, t_symbol *s, int ac, t_atom *av)
     }
 }
 
+static void totspy_cleanuptick(t_totspy *ts)
+{
+    if (ts->ts_target)
+	pd_unbind((t_pd *)ts, ts->ts_target);
+    if (ts->ts_cleanupclock)
+	clock_free(ts->ts_cleanupclock);
+    pd_free((t_pd *)ts);
+}
+
 static void totsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av)
 {
     /* nop */
@@ -445,8 +507,14 @@ static void tot_free(t_tot *x)
     scriptlet_free(x->x_persistent);
     scriptlet_free(x->x_transient);
     if (x->x_spy->ts_target)
-	pd_unbind((t_pd *)x->x_spy, x->x_spy->ts_target);
-    pd_free((t_pd *)x->x_spy);
+    {
+	/* postpone unbinding, due to a danger of being deleted by
+	   a message to the canvas we spy on... */
+	x->x_spy->ts_cleanupclock =
+	    clock_new(x->x_spy, (t_method)totspy_cleanuptick);
+	clock_delay(x->x_spy->ts_cleanupclock, 0);
+    }
+    else pd_free((t_pd *)x->x_spy);
     pd_free(x->x_guisink);
 }
 
@@ -461,18 +529,27 @@ static void *tot_new(t_symbol *s1, t_symbol *s2)
 				   0, x->x_glist, tot_cvhook);
     x->x_persistent = scriptlet_new((t_pd *)x, x->x_target, x->x_target,
 				    0, x->x_glist, tot_cvhook);
-    if (s1 && s1 != &s_ && strcmp(s1->s_name, "."))
+    if (s1 && s1 != &s_ && *s1->s_name != '.')
     {
+	x->x_dotname = 0;
+	x->x_warned = 1;
 	x->x_cvremote = canvas_makebindsym(x->x_cvname = s1);
 	x->x_cvpathname = 0;
     }
     else
     {
-	x->x_warned = (s1 && *s1->s_name == '.');  /* do not warn if explicit */
+	t_glist *glist;
+	x->x_dotname = (s1 && *s1->s_name == '.' ? s1 : 0);
+	x->x_warned = (x->x_dotname != 0);  /* do not warn if explicit */
+	x->x_cvname = 0;
 	x->x_cvremote = 0;
-	x->x_cvname = x->x_glist->gl_name;
-	sprintf(buf, ".x%x.c", (int)x->x_glist);
-	x->x_cvpathname = gensym(buf);
+	glist = tot_getglist(x);
+	if (glist == x->x_glist)
+	{
+	    sprintf(buf, ".x%x.c", (int)glist);
+	    x->x_cvpathname = gensym(buf);
+	}
+	else x->x_cvpathname = 0;
     }
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
@@ -506,6 +583,10 @@ void tot_setup(void)
     totps_motion = gensym("motion");
     totps_qpush = gensym("qpush");
     totps_query = gensym("query");
+    totps_dotparent = gensym(".parent");
+    totps_dotroot = gensym(".root");
+    totps_dotowner = gensym(".owner");
+    totps_dottop = gensym(".top");
     tot_class = class_new(gensym("tot"),
 			  (t_newmethod)tot_new,
 			  (t_method)tot_free,
