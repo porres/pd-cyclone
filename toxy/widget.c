@@ -661,7 +661,7 @@ static void widget_remove(t_widget *x, t_symbol *s)
 	    if (op == x->x_options) x->x_update = WIDGET_REVIS;
 	    widget_update(x, op);
 	}
-	else loud_warning((t_pd *)x, "%s %s has not been specified",
+	else loud_warning((t_pd *)x, 0, "%s %s has not been specified",
 			  props_getname(op), s->s_name);
     }
 }

@@ -16,6 +16,7 @@
 #X msg 42 181 record~;
 #X obj 39 94 cyclone ../../../ref;
 #X msg 211 181 fffb~;
+#X msg 286 181 pictctrl;
 #X connect 1 0 15 0;
 #X connect 2 0 13 0;
 #X connect 4 0 9 0;
@@ -29,3 +30,4 @@
 #X connect 12 0 3 0;
 #X connect 14 0 3 0;
 #X connect 16 0 3 0;
+#X connect 17 0 3 0;

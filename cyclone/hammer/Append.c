@@ -141,7 +141,7 @@ static void append_set(t_append *x, t_symbol *s, int ac, t_atom *av)
 	{
 	    if (x->x_auxbuf)
 	    {
-		loud_warning((t_pd *)x, "\'set\' message overridden");
+		loud_warning((t_pd *)x, 0, "\'set\' message overridden");
 		freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
 		x->x_auxsize = 0;
 	    }

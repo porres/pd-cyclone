@@ -13,7 +13,7 @@ void tow_setup(void)
 {
     int result = LOADER_OK;
     if (zgetfn(&pd_objectmaker, gensym("widget")))
-	loud_warning(0, "widget is already loaded");
+	loud_warning(0, "tow", "widget is already loaded");
     else
 	result = unstable_load_lib("", "widget");
     if (result == LOADER_NOFILE)

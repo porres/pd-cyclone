@@ -932,7 +932,7 @@ static void *seq_new(t_symbol *s)
     static int warned = 0;
     if (!warned)
     {
-	loud_warning((t_pd *)x, "seq is not ready yet");
+	loud_warning((t_pd *)x, 0, "seq is not ready yet");
 	warned = 1;
     }
     x->x_canvas = canvas_getcurrent();

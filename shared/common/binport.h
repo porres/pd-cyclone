@@ -10,6 +10,7 @@ enum { BINPORT_OK, BINPORT_MAXTEXT, BINPORT_MAXOLD, BINPORT_PDFILE,
 
 #ifndef BINPORT_STANDALONE
 int binport_read(t_binbuf *bb, char *filename, char *dirname);
+void binport_write(t_binbuf *bb, char *filename, char *dirname);
 #endif
 
 #endif

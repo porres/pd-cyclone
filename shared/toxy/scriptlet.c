@@ -747,7 +747,7 @@ int scriptlet_write(t_scriptlet *sp, t_symbol *fn)
     }
     else
     {
-	loud_warning(sp->s_owner, "empty scriptlet not written");
+	loud_warning(sp->s_owner, "scriptlet", "empty scriptlet not written");
 	return (SCRIPTLET_IGNORED);
     }
 }

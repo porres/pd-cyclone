@@ -45,7 +45,7 @@ static t_symbol *totps_query;
 
 static void plusloud_tcldirty(t_pd *caller, char *fnname)
 {
-    loud_warning((caller == PLUSBOB_OWNER ? 0 : caller),
+    loud_warning((caller == PLUSBOB_OWNER ? 0 : caller), "+tot",
 		 "(%s) tcl plays dirty tricks, sorry", fnname);
 }
 
@@ -350,7 +350,7 @@ Tcl_Obj *plustob_set(t_plustob *tob, t_plustin *tin, Tcl_Obj *ob)
     if (tin != tob->tob_tin)
     {
 	/* FIXME */
-	loud_warning(0, "+To: environment mismatch");
+	loud_warning(0, "+tot", "+To: environment mismatch");
 	return (0);
     }
     if (ob != tob->tob_value)
@@ -1655,7 +1655,7 @@ static int plustot_ifgrabshared(t_plustot *x, Tcl_Obj *ob)
     if (!x->x_grabwarned)
     {
 	x->x_grabwarned = 1;
-	loud_warning((t_pd *)x, "shared result of a command '%s'",
+	loud_warning((t_pd *)x, 0, "shared result of a command '%s'",
 		     (x->x_cname ? Tcl_GetString(x->x_cname) : "???"));
     }
     return (1);

@@ -128,7 +128,7 @@ void *plustot_env_new(t_symbol *s, int ac, t_atom *av)
 		plustot_env_evalfile(x, av->a_w.w_symbol);
 	    else if (!warned)
 	    {
-		loud_warning((t_pd *)x, "bad atom");
+		loud_warning((t_pd *)x, 0, "bad atom");
 		warned = 1;
 	    }
 	    av++;

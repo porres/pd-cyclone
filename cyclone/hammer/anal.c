@@ -76,7 +76,7 @@ static void *anal_new(t_floatarg f)
     else if (size > ANAL_MAXSIZE)
     {
 	/* CHECKED: */
-	loud_warning(&anal_class, "size too large, using %d", ANAL_MAXSIZE);
+	loud_warning(&anal_class, 0, "size too large, using %d", ANAL_MAXSIZE);
 	size = ANAL_MAXSIZE;  /* LATER switch into a 'sparse' mode */
     }
     /* CHECKED: actually the bytesize is size * size * sizeof(short),

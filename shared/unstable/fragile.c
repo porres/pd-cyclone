@@ -110,7 +110,7 @@ t_object *fragile_outlet_destination(t_outlet *op,
     if (booty)
     {
 	if (count > 1 && caller)
-	    loud_warning(caller, "multiple targets");
+	    loud_warning(caller, 0, "multiple targets");
     }
     else if (caller)
     {

@@ -64,6 +64,7 @@ sprintf.c \
 substitute.c \
 sustain.c \
 switch.c \
+Table.c \
 tanh.c \
 thresh.c \
 TogEdge.c \

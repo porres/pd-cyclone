@@ -602,7 +602,7 @@ static void collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv)
 	sys_bashfilename(buf, fname);
 	if (!(fp = fopen(fname, "r")))
 	{
-	    loud_warning(&coll_class, "no coll file '%s'", fname);
+	    loud_warning(&coll_class, 0, "no coll file '%s'", fname);
 	    return;
 	}
 	fclose(fp);

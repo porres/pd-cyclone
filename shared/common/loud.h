@@ -21,7 +21,7 @@ void loud_nomethod(t_pd *x, t_symbol *s);
 void loud_messarg(t_pd *x, t_symbol *s);
 int loud_checkint(t_pd *x, t_float f, int *valuep, t_symbol *mess);
 void loud_classarg(t_class *c);
-void loud_warning(t_pd *x, char *fmt, ...);
+void loud_warning(t_pd *x, char *who, char *fmt, ...);
 void loud_notimplemented(t_pd *x, char *name);
 void loud_incompatible(t_class *c, char *fmt, ...);
 void loud_incompatible_max(t_class *c, int maxmax, char *what);

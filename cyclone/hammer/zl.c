@@ -260,7 +260,7 @@ static int zl_nop_count(t_zl *x)
 
 static void zl_nop(t_zl *x, int natoms, t_atom *buf, int banged)
 {
-    loud_warning((t_pd *)x, "unknown mode");
+    loud_warning((t_pd *)x, 0, "unknown mode");
 }
 
 static int zl_ecils_intarg(t_zl *x, int i)

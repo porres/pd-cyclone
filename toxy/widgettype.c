@@ -106,7 +106,7 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 		if (typeval)
 		{
 		    /* LATER rethink */
-		    loud_warning((t_pd *)mw, "redefinition of '%s'\
+		    loud_warning((t_pd *)mw, 0, "redefinition of '%s'\
  in \"%s.wid\" file, ignored", buf, rc);
 		    return (SCRIPTLET_LOCK);
 		}
@@ -116,7 +116,7 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	{  /* <type>.wid */
 	    if (caller != (t_pd *)typeval)
 	    {
-		loud_warning((t_pd *)mw, "alien definition of '%s'\
+		loud_warning((t_pd *)mw, 0, "alien definition of '%s'\
  in \"%s.wid\" file, ignored", buf, rc);
 		return (SCRIPTLET_LOCK);
 	    }
@@ -154,7 +154,7 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 		    empty = props_add(pp = mw->mw_parsedtype->wt_arguments,
 				      0, 0, ac, av);
 		if (empty)
-		    loud_warning((t_pd *)mw,
+		    loud_warning((t_pd *)mw, 0,
 				 "no value given for %s '%s'\
  of a widget type '%s' in \"%s.wid\" file",
 				 props_getname(pp), empty->s_name,
@@ -311,7 +311,7 @@ void masterwidget_initialize(void)
     }
     else
     {
-	loud_warning((t_pd *)masterwidget,
+	loud_warning((t_pd *)masterwidget, 0,
 		     "no file 'setup.wid'... using built-in defaults");
     }
     typekey = dict_key(masterwidget->mw_typemap, "master");
@@ -324,7 +324,7 @@ void masterwidget_initialize(void)
     else if (rcresult == SCRIPTLET_OK)
     {
 	/* LATER think about adding only missing part to existing local defs */
-	loud_warning((t_pd *)masterwidget, "%s missing in file 'setup.wid'",
+	loud_warning((t_pd *)masterwidget, 0, "%s missing in file 'setup.wid'",
 		     (typeval ? "setup definitions" : "master initializer"));
 	masterwidget->mw_mastertype =
 	    widgettype_new(masterwidget, "master", 0, 0);

@@ -74,6 +74,7 @@ ALL_HAMMERS = \
 	$(SRCDIR)\hammer\substitute.obj \
 	$(SRCDIR)\hammer\sustain.obj \
 	$(SRCDIR)\hammer\switch.obj \
+	$(SRCDIR)\hammer\Table.obj \
 	$(SRCDIR)\hammer\tanh.obj \
 	$(SRCDIR)\hammer\thresh.obj \
 	$(SRCDIR)\hammer\TogEdge.obj \

@@ -130,7 +130,7 @@ static t_canvas *tot_getcanvas(t_tot *x, int complain)
     {
 	x->x_warned = 1;
 	if (!cv) cv = x->x_glist;  /* redundant */
-	loud_warning((t_pd *)x, "using containing canvas ('%s')",
+	loud_warning((t_pd *)x, 0, "using containing canvas ('%s')",
 		     cv->gl_name->s_name);
     }
     return (cv);
@@ -477,7 +477,7 @@ static void totspy_anything(t_totspy *ts, t_symbol *s, int ac, t_atom *av)
 				ts->ts_selector, cnt, ts->ts_outbuf);
 		ts->ts_lasttime = clock_getlogicaltime();
 	    }
-	    else loud_warning((t_pd *)ts,
+	    else loud_warning((t_pd *)ts, 0,
 			      "unexpectedly long message (\"%s...\"), ignored",
 			      s->s_name);
 	}

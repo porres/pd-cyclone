@@ -142,13 +142,13 @@ void cyclone_setup(void)
 
     cyclone_hammerndx = fragile_class_count();
     if (zgetfn(&pd_objectmaker, gensym("hammer")))
-	loud_warning(0, "hammer is already loaded");
+	loud_warning(0, "cyclone", "hammer is already loaded");
     else
 	hresult = unstable_load_lib("", "hammer");
 
     cyclone_sicklendx = fragile_class_count();
     if (zgetfn(&pd_objectmaker, gensym("sickle")))
-	loud_warning(0, "sickle is already loaded");
+	loud_warning(0, "cyclone", "sickle is already loaded");
     else
 	sresult = unstable_load_lib("", "sickle");
 
@@ -157,7 +157,7 @@ void cyclone_setup(void)
 
     cyclone_dummiesndx = fragile_class_count();
     if (zgetfn(&pd_objectmaker, gensym("dummies")))
-	loud_warning(0, "dummies are already loaded");
+	loud_warning(0, "cyclone", "dummies are already loaded");
     else
 	dresult = unstable_load_lib("", "dummies");
 
@@ -175,7 +175,7 @@ void cyclone_setup(void)
 		    "use a more recent Pd release (or recompile the cyclone).");
     }
     else if (dresult == LOADER_NOFILE)
-	loud_warning(0, "dummies not found");
+	loud_warning(0, "cyclone", "dummies not found");
     else
     {
 	t_symbol *s = gensym("_cc.dummies");

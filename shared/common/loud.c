@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -127,11 +127,12 @@ void loud_classarg(t_class *c)
     loud_error(0, "missing or bad arguments in \"%s\"", class_getname(c));
 }
 
-void loud_warning(t_pd *x, char *fmt, ...)
+void loud_warning(t_pd *x, char *who, char *fmt, ...)
 {
     va_list ap;
     va_start(ap, fmt);
-    fprintf(stderr, "warning (%s): ", (x ? class_getname(*x) : "miXed"));
+    fprintf(stderr, "warning (%s): ",
+	    (x ? class_getname(*x) : (who ? who : "miXed")));
     vfprintf(stderr, fmt, ap);
     va_end(ap);
     putc('\n', stderr);
@@ -140,9 +141,9 @@ void loud_warning(t_pd *x, char *fmt, ...)
 void loud_notimplemented(t_pd *x, char *name)
 {
     if (name)
-	loud_warning(x, "\"%s\" method not implemented (yet)", name);
+	loud_warning(x, 0, "\"%s\" method not implemented (yet)", name);
     else
-	loud_warning(x, "not implemented (yet)");
+	loud_warning(x, 0, "not implemented (yet)");
 }
 
 void loud_incompatible(t_class *c, char *fmt, ...)
@@ -197,7 +198,7 @@ int loud_floatarg(t_class *c, int which, int ac, t_atom *av,
 	    if (underaction & LOUD_WARN)
 	    {
 		if (underaction & LOUD_CLIP)
-		    loud_warning(&c, "%s rounded up to %g", what, minval);
+		    loud_warning(&c, 0, "%s rounded up to %g", what, minval);
 		else
 		    loud_incompatible(c, "less than %g %s requested",
 				      minval, what);
@@ -207,7 +208,7 @@ int loud_floatarg(t_class *c, int which, int ac, t_atom *av,
 	    if (overaction & LOUD_WARN)
 	    {
 		if (overaction & LOUD_CLIP)
-		    loud_warning(&c, "%s truncated to %g", what, maxval);
+		    loud_warning(&c, 0, "%s truncated to %g", what, maxval);
 		else
 		    loud_incompatible(c, "more than %g %s requested",
 				      maxval, what);

@@ -80,7 +80,8 @@ hammer/zl.c
 HFILE_SOURCES = \
 hammer/capture.c \
 hammer/coll.c \
-hammer/mtr.c
+hammer/mtr.c \
+hammer/Table.c
 
 HRAND_SOURCES = \
 hammer/drunk.c

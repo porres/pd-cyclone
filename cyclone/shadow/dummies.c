@@ -486,7 +486,6 @@ static t_dummy_slot dummy_slots[] =
     { "swatch",          3, 2, 0, 0 },
     { "sxformat",       -1, 1, 0, (t_newmethod)dummy_sxformat_new },
     { "sysexin",         1, 1, 0, 0 },
-    { "Table",           2, 2, 0, 0 },
     { "tapin~",          1, 1, 0, 0 },
     { "tapout~",        -1, -1, 0, (t_newmethod)dummy_tapout_tilde_new },
     { "teeth~",          6, 1, 0, 0 },
@@ -548,7 +547,7 @@ static t_object *dummy_newobject(t_symbol *s, t_dummy_slot **slotp)
 	bug("dummy_newobject");  /* create a "_dummy" in this case */
     else if (!sl->s_warned)
     {
-	loud_warning((t_pd *)x, "dummy substitution");
+	loud_warning((t_pd *)x, 0, "dummy substitution");
 	sl->s_warned = 1;
     }
     if (slotp) *slotp = sl;

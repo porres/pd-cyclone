@@ -50,7 +50,7 @@ static int urn_resize(t_urn *x, t_float f, int init)
     }
     if (range > URN_MAXSIZE)
     {
-	loud_warning((t_pd *)x,
+	loud_warning((t_pd *)x, 0,
 		     "requested size (%d) clipped -- effective size is %d",
 		     range, URN_MAXSIZE);
 	range = URN_MAXSIZE;
