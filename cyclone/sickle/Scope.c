@@ -848,8 +848,14 @@ static t_widgetbehavior scope_widgetbehavior =
     scope_delete,
     scope_vis,
     scope_click,
+	 /* As of 0.37, pd does not have these last two elements in */
+	 /* a t_widgetbehavoir anymore.  <hans@eds.org> */
+#if PD_MAJOR_VERSION == 0 
+#if PD_MINOR_VERSION < 37  || !defined(PD_MINOR_VERSION)
     scope_save,
     0
+#endif
+#endif
 };
 
 static void scope_setxymode(t_scope *x, int xymode)

@@ -488,8 +488,14 @@ static t_widgetbehavior comment_widgetbehavior =
     0,
     comment_vis,
     0,
+	 /* As of 0.37, pd does not have these last two elements in */
+	 /* a t_widgetbehavoir anymore.  <hans@eds.org> */
+#if PD_MAJOR_VERSION == 0 
+#if PD_MINOR_VERSION < 37  || !defined(PD_MINOR_VERSION)
     comment_save,
     0,
+#endif
+#endif
 };
 
 /* this fires if a transform request was sent to a symbol we are bound to */
