@@ -19,9 +19,11 @@
 #define FORKY_WIDGETPADDING  0,0
 #endif
 
-typedef void (*t_forkysavefn)(t_gobj *x, t_binbuf *b);
+typedef void (*t_forkysavefn)(t_gobj *x, t_binbuf *bb);
+typedef void (*t_forkypropertiesfn)(t_gobj *x, t_glist *gl);
 
 void forky_setsavefn(t_class *c, t_forkysavefn fn);
+void forky_setpropertiesfn(t_class *c, t_forkypropertiesfn fn);
 int forky_hasfeeders(t_object *x, t_glist *glist, int inno, t_symbol *outsym);
 t_int forky_getbitmask(int ac, t_atom *av);
 

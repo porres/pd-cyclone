@@ -12,6 +12,8 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
+//#define DUMMIES_DEBUG
+
 static t_class *ccdummies_class;
 static int dummy_nclasses = 0;
 static t_class **dummy_classes;
@@ -615,10 +617,10 @@ void dummies_setup(void)
     }
     dummy_nclasses--;  /* use "_dummy" as a sentinel */
 
-    ccdummies_class = class_new(gensym("_ccdummies"), 0, 0,
+    ccdummies_class = class_new(gensym("_cc.dummies"), 0, 0,
 				sizeof(t_pd), CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(ccdummies_class, ccdummies_bang);
     class_addmethod(ccdummies_class, (t_method)ccdummies_reps,
 		    gensym("reps"), 0);
-    pd_bind(pd_new(ccdummies_class), gensym("_ccdummies"));  /* never freed */
+    pd_bind(pd_new(ccdummies_class), gensym("_cc.dummies"));  /* never freed */
 }

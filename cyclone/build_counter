@@ -1,3 +1,3 @@
 #define CYCLONE_VERSION "0.1"
 #define CYCLONE_RELEASE "alpha"
-#define CYCLONE_BUILD 46
+#define CYCLONE_BUILD 47

@@ -177,9 +177,9 @@ void cyclone_setup(void)
 	loud_warning(0, "dummies not found");
     else
     {
-	t_symbol *s = gensym("_ccdummies");
+	t_symbol *s = gensym("_cc.dummies");
 	if (s->s_thing && !s->s_next
-	    && !strcmp(class_getname(*s->s_thing), "_ccdummies"))
+	    && !strcmp(class_getname(*s->s_thing), "_cc.dummies"))
 	    cyclone_dproxy = s->s_thing;
 	else
 	    bug("cyclone_setup");  /* FIXME */

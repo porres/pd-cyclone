@@ -27,10 +27,22 @@ void forky_setsavefn(t_class *c, t_forkysavefn fn)
 	post("cloning widgetbehavior...");
 #endif
 	*wb = *c->c_wb;
-	wb->w_savefn = fn;
+	wb->w_savefn = sf;
 	class_setwidget(c, wb);
     }
-    else c->c_wb->w_savefn = fn;
+    else c->c_wb->w_savefn = sf;
+#endif
+}
+
+void forky_setpropertiesfn(t_class *c, t_forkypropertiesfn fn)
+{
+#if FORKY_VERSION >= 37
+    class_setpropertiesfn(c, fn);
+#else
+    /* assuming wb has already been either cloned (in forky_setsavefn),
+       or defined from scratch -- it is unlikely to ever need props without
+       a specialized save (always be sure to set props after save, though). */
+    c->c_wb->w_propertiesfn = pf;
 #endif
 }
 

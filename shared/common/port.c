@@ -2,11 +2,10 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* CHECKME inlet/outlet vs inlet~/outlet~ */
+/* FIXME inlet/outlet vs inlet~/outlet~ */
 /* LATER think about abstractions */
 /* LATER sort out escaping rules (also revisit binport.c) */
 /* LATER quoting */
-/* LATER resolve object names (preserve connections of unknown dummies?) */
 
 #ifdef UNIX
 #include <unistd.h>
@@ -17,6 +16,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include "g_canvas.h"
+#include "unstable/forky.h"
+#include "unstable/fragile.h"
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/binport.h"
@@ -53,6 +55,9 @@ typedef struct _port
     int       *x_stack;
     int        x_stackini[PORT_INISTACK];
 } t_port;
+
+static t_symbol *portps_bogus;
+static t_symbol *portps_cleanup;
 
 static t_float port_floatarg(t_port *x, int ndx)
 {
@@ -113,16 +118,26 @@ static void port_setxy(t_port *x, int ndx, t_atom *ap)
     SETFLOAT(ap, f);
 }
 
-/* LATER bash inatom to lowercase (CHECKME first) */
 static void import_addclassname(t_binbuf *bb, char *outname, t_atom *inatom)
 {
     t_atom at;
     if (outname)
+	SETSYMBOL(&at, gensym(outname));
+    else if (inatom->a_type == A_SYMBOL)
     {
-	inatom = &at;
-	SETSYMBOL(inatom, gensym(outname));
+	/* LATER bash inatom to lowercase (CHECKME first) */
+	t_symbol *insym = inatom->a_w.w_symbol;
+	if (insym != &s_bang && insym != &s_float &&
+	    insym != &s_symbol && insym != &s_list &&
+	    zgetfn(&pd_objectmaker, insym) == 0)
+	{
+	    SETSYMBOL(&at, portps_bogus);
+	    binbuf_add(bb, 1, &at);
+	}
+	SETSYMBOL(&at, insym);
     }
-    binbuf_add(bb, 1, inatom);
+    else at = *inatom;
+    binbuf_add(bb, 1, &at);
 }
 
 static int import_obj(t_port *x, char *name)
@@ -488,12 +503,215 @@ static void port_dochecksetup(t_portnode *node)
     }
 }
 
+#define BOGUS_NINLETS   15
+#define BOGUS_NOUTLETS  16
+
+typedef struct _bogus
+{
+    t_object   x_ob;
+    t_glist   *x_glist;  /* used also as 'dirty' flag */
+    int        x_bound;
+    t_inlet   *x_inlets[BOGUS_NINLETS];
+    t_outlet  *x_outlets[BOGUS_NOUTLETS];
+    t_clock   *x_clock;
+} t_bogus;
+
+typedef struct _bogushook
+{
+    t_pd      x_pd;
+    t_pd     *x_who;
+    t_glist  *x_glist;  /* used also as 'dirty' flag */
+    t_clock  *x_clock;
+} t_bogushook;
+
+static t_class *bogus_class;
+static t_class *bogushook_class;
+
+static void bogus_tick(t_bogus *x)
+{
+    if (x->x_bound)
+    {
+#ifdef PORT_DEBUG
+	post("unbinding '%x'", (int)x);
+#endif
+	pd_unbind((t_pd *)x, portps_cleanup);
+	x->x_bound = 0;
+    }
+}
+
+static void bogushook_tick(t_bogushook *x)
+{
+    pd_free((t_pd *)x);
+}
+
+static void bogus_cleanup(t_bogus *x)
+{
+    if (x->x_glist)
+    {
+	t_text *t = (t_text *)x;
+	int ac = binbuf_getnatom(t->te_binbuf);
+	if (ac)
+	{
+	    t_atom *av = binbuf_getvec(t->te_binbuf);
+	    t_binbuf *bb = binbuf_new();
+	    t_inlet **ip;
+	    t_outlet **op;
+	    int i;
+#ifdef PORT_DEBUG
+	    startpost("self-adjusting");
+	    binbuf_print(t->te_binbuf);
+#endif
+	    binbuf_add(bb, ac - 1, av + 1);
+	    binbuf_free(t->te_binbuf);
+	    t->te_binbuf = bb;
+
+	    for (i = BOGUS_NINLETS, ip = x->x_inlets + BOGUS_NINLETS - 1;
+		 i ; i--, ip--)
+	    {
+		if (forky_hasfeeders((t_object *)x, x->x_glist, i, 0))
+		    break;
+		else
+		    inlet_free(*ip);
+	    }
+#ifdef PORT_DEBUG
+	    post("%d inlets deleted", BOGUS_NINLETS - i);
+#endif
+	    for (i = 0, op = x->x_outlets + BOGUS_NOUTLETS - 1;
+		 i < BOGUS_NOUTLETS; i++, op--)
+	    {
+		if (fragile_outlet_connections(*op))
+		    break;
+		else
+		    outlet_free(*op);
+	    }
+#ifdef PORT_DEBUG
+	    post("%d outlets deleted", i);
+#endif
+	    if (x->x_glist->gl_editor)  /* FIXME what is the right condition? */
+	    {
+		t_rtext *rt;
+		if (rt = glist_findrtext(x->x_glist, t))
+		    rtext_retext(rt);
+	    }
+	}
+	else bug("bogus_cleanup");
+	x->x_glist = 0;
+	clock_delay(x->x_clock, 0);
+    }
+}
+
+static void bogus_free(t_bogus *x)
+{
+    if (x->x_bound) pd_unbind((t_pd *)x, portps_cleanup);
+    if (x->x_clock) clock_free(x->x_clock);
+}
+
+static void *bogus_new(t_symbol *s, int ac, t_atom *av)
+{
+    t_bogus *x = 0;
+    t_glist *glist;
+    if (glist = canvas_getcurrent())
+    {
+    	char buf[80];
+	int i;
+	if (av->a_type == A_SYMBOL)
+	{
+	    t_pd *z;
+	    typedmess(&pd_objectmaker, av->a_w.w_symbol, ac - 1, av + 1);
+	    if (z = pd_newest())
+	    {
+		if (pd_checkobject(z))
+		{
+		    t_bogushook *y = (t_bogushook *)pd_new(bogushook_class);
+		    y->x_who = z;
+		    y->x_glist = glist;
+		    pd_bind((t_pd *)y, portps_cleanup);
+		    y->x_clock = clock_new(y, (t_method)bogushook_tick);
+		}
+#ifdef PORT_DEBUG
+		post("reclaiming %s", av->a_w.w_symbol->s_name);
+#endif
+		return (z);
+	    }
+	}
+	x = (t_bogus *)pd_new(bogus_class);
+	atom_string(av, buf, 80);
+	loud_error((t_pd *)x, "unknown class '%s'", buf);
+	x->x_glist = glist;
+	for (i = 0; i < BOGUS_NINLETS; i++)
+	    x->x_inlets[i] = inlet_new((t_object *)x, (t_pd *)x, 0, 0);
+	for (i = 0; i < BOGUS_NOUTLETS; i++)
+	    x->x_outlets[i] = outlet_new((t_object *)x, &s_anything);
+	pd_bind((t_pd *)x, portps_cleanup);
+	x->x_bound = 1;
+	x->x_clock = clock_new(x, (t_method)bogus_tick);
+    }
+    return (x);
+}
+
+static void bogushook_cleanup(t_bogushook *x)
+{
+    if (x->x_glist)
+    {
+	t_text *t = (t_text *)x->x_who;
+	int ac = binbuf_getnatom(t->te_binbuf);
+	if (ac)
+	{
+	    t_atom *av = binbuf_getvec(t->te_binbuf);
+	    t_binbuf *bb = binbuf_new();
+#ifdef PORT_DEBUG
+	    startpost("hook-adjusting");
+	    binbuf_print(t->te_binbuf);
+#endif
+	    binbuf_add(bb, ac - 1, av + 1);
+	    binbuf_free(t->te_binbuf);
+	    t->te_binbuf = bb;
+	    if (x->x_glist->gl_editor)  /* FIXME what is the right condition? */
+	    {
+		t_rtext *rt;
+		if (rt = glist_findrtext(x->x_glist, t))
+		    rtext_retext(rt);
+	    }
+	}
+	else bug("bogushook_cleanup");
+	x->x_glist = 0;
+	clock_delay(x->x_clock, 0);
+    }
+}
+
+static void bogushook_free(t_bogushook *x)
+{
+#ifdef PORT_DEBUG
+    post("destroing the hook of '%s'", class_getname(*x->x_who));
+#endif
+    pd_unbind((t_pd *)x, portps_cleanup);
+    if (x->x_clock) clock_free(x->x_clock);
+}
+
 static void port_checksetup(void)
 {
     static int done = 0;
     if (!done)
     {
 	port_dochecksetup(&imnode_);
+
+	portps_bogus = gensym("_port.bogus");
+	portps_cleanup = gensym("_port.cleanup");
+
+	if (zgetfn(&pd_objectmaker, portps_bogus) == 0)
+	{
+	    bogus_class = class_new(portps_bogus,
+				    (t_newmethod)bogus_new,
+				    (t_method)bogus_free,
+				    sizeof(t_bogus), 0, A_GIMME, 0);
+	    class_addmethod(bogus_class, (t_method)bogus_cleanup,
+			    portps_cleanup, 0);
+	    bogushook_class = class_new(gensym("_port.bogushook"), 0,
+					(t_method)bogushook_free,
+					sizeof(t_bogushook), CLASS_PD, 0);
+	    class_addmethod(bogushook_class, (t_method)bogushook_cleanup,
+			    portps_cleanup, 0);
+	}
 	done = 1;
     }
 }
@@ -640,6 +858,17 @@ void import_max(char *fn, char *dir)
     canvas_resume_dsp(dspstate);
     while ((stackp != s__X.s_thing) && (stackp = s__X.s_thing))
     	vmess(stackp, gensym("pop"), "i", 1);
+
+    if (portps_cleanup->s_thing)
+    {
+	typedmess(portps_cleanup->s_thing, portps_cleanup, 0, 0);
+	/* LATER unbind all bogus objects, and destroy all bogushooks
+	   by traversing the portps_cleanup's bindlist, instead of
+	   using per-object clocks.  Need to have bindlist traversal
+	   in Pd API first...  Otherwise, consider fragilizing this
+	   (and fragilizing grab too). */
+    }
+
 #if 0  /* LATER */
     pd_doloadbang();
 #endif
