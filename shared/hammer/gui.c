@@ -199,7 +199,8 @@ static void hammergui_setup(void)
     /* Protect against pdCmd being called (via "Canvas <Destroy>" binding)
        during Tcl_Finalize().  FIXME this should be a standard exit handler. */
     sys_gui("proc hammergui_exithook {cmd op} {proc pd {} {}}\n");
-    sys_gui("trace add execution exit enter hammergui_exithook\n");
+    sys_gui("if {[info tclversion] >= 8.4} {\n\
+ trace add execution exit enter hammergui_exithook}\n");
 
     sys_gui("proc hammergui_ispatcher {cv} {\n");
     sys_gui(" if {[string range $cv 0 1] == \".x\"");

@@ -183,13 +183,16 @@ define_build:
 		mv build_counter build_counter~ ; \
 		echo -n 'increment build counter (y/n)? [n]' ; read doit ; \
 		if [ $$doit ] && [ $$doit == 'y' ] ; then \
-			cat build_counter~ | \
+			head -3 build_counter~ | \
 	awk '{if (index($$2,"BUILD")) print $$1, $$2, $$3+1; else print}' \
-			> build_counter ; \
-			cat build_counter | \
-	awk 'BEGIN {printf toupper("$(BASE_NAME)_VERSION = ")} \
+			> build_temporary ; \
+			cat build_temporary | \
+	awk 'BEGIN {printf "\n#if 0\n"; \
+		printf toupper("$(BASE_NAME)_SNAPSHOT = ")} \
 	    {gsub("\"","",$$3); printf $$3; if (NR==1) printf "-"} \
-	    END {printf "\r\n" }' > $(ROOT_DIR)/ViCious/$(BASE_DIR)/version ; \
+	    END {printf "\n#endif\n" }' | \
+			cat build_temporary - > build_counter ; \
+			rm -f build_temporary ; \
 		else cat build_counter~ > build_counter ; fi \
 	fi
 

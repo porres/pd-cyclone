@@ -1,5 +1,5 @@
 #N canvas 79 51 599 397 12;
-#X obj 22 197 widget scale s -command [concat ::toxy::scalecommand
+#X obj 22 197 widget scale s -command [concat ::toxy::scale_command
 .| _cb] -variable ::toxy::simplescale -label "Simple Scale" -orient
 h -length 300 -width 50 -font "Helvetica 12" -from -16 -to 16 -showvalue
 0 @float .- set .#1;
@@ -12,9 +12,9 @@ h -length 300 -width 50 -font "Helvetica 12" -from -16 -to 16 -showvalue
 #X obj 44 133 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
 #X floatatom 214 336 5 0 0 0 - - -;
-#X msg 33 103 -command [concat ::toxy::scalecommand .| _cb];
+#X msg 33 103 -command [concat ::toxy::scale_command .| _cb];
 #X obj 214 306 r \$0-scale;
-#X msg 22 70 -command [concat ::toxy::scalecommand \$1-scale float]
+#X msg 22 70 -command [concat ::toxy::scale_command \$1-scale float]
 ;
 #X obj 22 10 loadbang;
 #X obj 22 40 int \$0;
@@ -23,7 +23,7 @@ h -length 300 -width 50 -font "Helvetica 12" -from -16 -to 16 -showvalue
 #X msg 188 40 remove @float;
 #X floatatom 89 45 5 0 0 0 - - -;
 #N canvas 0 0 450 420 linked 0;
-#X obj 54 49 widget scale s -command [concat ::toxy::scalecommand .|
+#X obj 54 49 widget scale s -command [concat ::toxy::scale_command .|
 _cb] -variable ::toxy::simplescale -orient v -length 300 -width 50
 -font "Helvetica 12" -from -16 -to 16 -showvalue 0 @float .- set .#1
 ;

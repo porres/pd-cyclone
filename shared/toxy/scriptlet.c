@@ -471,8 +471,12 @@ void scriptlet_qpush(t_scriptlet *sp)
 	sys_gui(sp->s_buffer);
 	*tail = 0;
 	sprintf(buf, "\
- trace add variable ::toxy::reply write \"::toxy::doreply %s\"\n\
- ::toxy::query}\n", sp->s_rptarget->s_name);
+ if {[info tclversion] < 8.4} {\n\
+  trace variable ::toxy::reply w \"::toxy::doreply %s\"\n\
+ } else {\n\
+  trace add variable ::toxy::reply write \"::toxy::doreply %s\"\n\
+ }\n\
+ ::toxy::query}\n", sp->s_rptarget->s_name, sp->s_rptarget->s_name);
 	sys_gui(buf);
     }
 }
