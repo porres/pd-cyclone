@@ -10,7 +10,7 @@ EXTERN_STRUCT _props;
 
 typedef char *(*t_propsresolver)(t_pd *, int, t_atom *);
 
-t_symbol *props_add(t_props *pp, t_symbol *s, int ac, t_atom *av);
+t_symbol *props_add(t_props *pp, int single, t_symbol *s, int ac, t_atom *av);
 int props_remove(t_props *pp, t_symbol *s);
 void props_clone(t_props *to, t_props *from);
 char *props_getvalue(t_props *pp, char *key);

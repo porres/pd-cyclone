@@ -277,6 +277,11 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
     return (len ? ibuf + len : 0);
 }
 
+int scriptlet_isempty(t_scriptlet *sp)
+{
+    return (!(sp->s_tail > sp->s_head && *sp->s_head));
+}
+
 void scriptlet_reset(t_scriptlet *sp)
 {
     sp->s_cvstate = SCRIPTLET_CVUNKNOWN;
@@ -392,6 +397,20 @@ void scriptlet_qpush(t_scriptlet *sp)
 	sprintf(buf, "after 0 {::toxy::query}\nvwait ::toxy::reply\n\
  pd [concat %s _rp $::toxy::reply \\;]\n", sp->s_rptarget->s_name);
 	sys_gui(buf);
+    }
+}
+
+/* Non-expanding -- LATER think if this is likely to cause any confusion.
+   Especially, consider the widget_vis() vs. widget_update() case. */
+void scriptlet_vpush(t_scriptlet *sp, char *varname)
+{
+    if (scriptlet_ready(sp))
+    {
+	char *tail = sp->s_tail;
+	strcpy(tail, "}\n");
+	sys_vgui("set ::toxy::%s { ", varname);
+	sys_gui(sp->s_head);
+	*tail = 0;
     }
 }
 

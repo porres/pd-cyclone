@@ -3,6 +3,54 @@
 # LATER ask for adding something of the sort to pd.tk:
 bind Canvas <1> {+focus %W}
 
+proc ::toxy::itemleave {path target varname} {
+    if {[catch {$path get} ::toxy::itemvalue] == 0} {
+	set $varname $::toxy::itemvalue
+# LATER try sending only if changed
+	pd $target.rp _value $::toxy::itemvalue \;
+    }
+}
+
+proc ::toxy::itemvis {tkclass path target name varname cvpath px py} {
+    set ::toxy::itemfailure [catch {$tkclass $path} ::toxy::itemerrmess]
+    if {$::toxy::itemfailure} {
+	pd $target.rp _failure $::toxy::itemerrmess \;
+    } else {
+
+	if {[info exists ::toxy::itemoptions]} {
+	    catch {eval $path config $::toxy::itemoptions}
+	    unset ::toxy::itemoptions
+	}
+
+	$cvpath create window $px $py \
+	    -anchor nw -window $path -tags [concat toxy$name $target]
+
+	if {[info exists ::toxy::masterinits]} {
+	    catch {eval $::toxy::masterinits}
+	    unset ::toxy::masterinits
+	}
+	if {[info exists ::toxy::typeinits]} {
+	    catch {eval $::toxy::typeinits}
+	    unset ::toxy::typeinits
+	}
+	if {[info exists ::toxy::iteminits]} {
+	    catch {eval $::toxy::iteminits}
+	    unset ::toxy::iteminits
+	}
+
+	pd $target.rp _config $target.rp [$path cget -bg] \
+	    [winfo reqwidth $path] [winfo reqheight $path] \
+	    [catch {$path config -state normal}]\;
+
+# LATER think where to plug this in
+	bind $path <Leave> [concat ::toxy::itemleave $path $target $varname]
+	if {[info exists $varname]} {
+	    catch {eval $path set $$varname}
+	    unset $varname
+	}
+    }
+}
+
 proc ::toxy::popup {path target remote entries args} {
     eval {menu $path.pop} $args
     set i 1

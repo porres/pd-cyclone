@@ -1,0 +1,16 @@
+This is the list of all dependencies among miXed/shared objects.
+Some are inevitable, but others can, and should be removed.
+
+unstable/fringe -> unstable/forky
+toxy/scriptlet -> common/loud, common/grow, common/props
+sickle/sic -> common/loud
+sickle/arsic -> common/loud, common/vefl, sickle/sic, unstable/fragile
+hammer/file -> unstable/forky
+common/hyphen -> common/dict
+common/props -> common/grow
+common/vefl -> common/loud, unstable/fragile
+common/port -> common/loud, common/grow, common/binport,
+	unstable/forky, unstable/fragile, unstable/fringe
+common/sofi -> common/bifi
+common/mifi -> common/bifi common/sq
+common/mfbb -> common/bifi, common/mifi, common/sq, common/squeal

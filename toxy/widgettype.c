@@ -136,11 +136,11 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *z, char *rc,
 		t_atom *av = binbuf_getvec(mw->mw_bb);
 		t_props *pp;
 		if (!(empty = props_add(pp = mw->mw_parsedtype->wt_options,
-					0, ac, av)) &&
+					0, 0, ac, av)) &&
 		    !(empty = props_add(pp = mw->mw_parsedtype->wt_handlers,
-					0, ac, av)))
+					0, 0, ac, av)))
 		    empty = props_add(pp = mw->mw_parsedtype->wt_arguments,
-				      0, ac, av);
+				      0, 0, ac, av);
 		if (empty)
 		    loud_warning((t_pd *)mw,
 				 "no value given for %s '%s'\

@@ -1,3 +1,4 @@
+shared/shared.h
 shared/common/loud.c
 shared/common/loud.h
 shared/common/grow.c

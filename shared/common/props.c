@@ -13,6 +13,7 @@
 #define PROPS_MAXOTHERS  32
 
 enum { PROPS_NONE = 0, PROPS_THIS, PROPS_OTHER };
+enum { PROPS_SINGLEMODE = 0, PROPS_MULTIMODE };
 
 typedef struct _propelem
 {
@@ -41,8 +42,8 @@ struct _props
 };
 
 /* Dictionary of properties, p_dict, meant to be nothing more, but an
-   optimalization detail, is handled implicitly, through its owning t_props.
-   This optimalization has to be enabled by passing a nonzero 'resolver'
+   optimization detail, is handled implicitly, through its owning t_props.
+   This optimization has to be enabled by passing a nonzero 'resolver'
    argument to props_new().
    Since p_dict stores resolved strings, it is a secondary, `shallow' storage,
    which has to be synced to its master, p_buffer of atoms.
@@ -109,18 +110,6 @@ static void props_dictadd(t_props *pp, t_symbol *s, int ac, t_atom *av)
     }
 }
 
-static int props_atstart(t_props *pp, char *buf)
-{
-    if (*buf == pp->p_thisescape)
-    {
-	char c = buf[1];
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
-	    || (pp->p_thisinitial && strchr(pp->p_thisinitial, c)))
-	    return (PROPS_THIS);
-    }
-    return (PROPS_NONE);
-}
-
 static char *props_otherinitial(t_props *pp, char c)
 {
     t_props *pp1 = pp->p_otherprops;
@@ -135,7 +124,7 @@ static char *props_otherinitial(t_props *pp, char c)
     return (0);
 }
 
-static int props_atnext(t_props *pp, char *buf)
+static int props_atstart(t_props *pp, int mode, char *buf)
 {
     char *otherinitial;
     if (*buf == pp->p_thisescape)
@@ -145,7 +134,8 @@ static int props_atnext(t_props *pp, char *buf)
 	    || (pp->p_thisinitial && strchr(pp->p_thisinitial, c)))
 	    return (PROPS_THIS);
     }
-    else if (*pp->p_otherescapes && strchr(pp->p_otherescapes, *buf))
+    else if (mode == PROPS_MULTIMODE &&
+	     *pp->p_otherescapes && strchr(pp->p_otherescapes, *buf))
     {
 	char c = buf[1];
 	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
@@ -158,13 +148,14 @@ static int props_atnext(t_props *pp, char *buf)
 
 /* Search for a property, replace its value if found, otherwise add.
    Assuming s is valid.  Returning nafter - nbefore. */
-static int props_update(t_props *pp, t_symbol *s, int ac, t_atom *av, int doit)
+static int props_update(t_props *pp, int mode,
+			t_symbol *s, int ac, t_atom *av, int doit)
 {
     int nadd, ndiff, ibeg, iend = 0;
     t_atom *ap;
     for (nadd = 0, ap = av; nadd < ac; nadd++, ap++)
 	if (ap->a_type == A_SYMBOL
-	    && props_atnext(pp, ap->a_w.w_symbol->s_name))
+	    && props_atstart(pp, mode, ap->a_w.w_symbol->s_name))
 	    break;
     if (!nadd)
     {
@@ -179,7 +170,8 @@ static int props_update(t_props *pp, t_symbol *s, int ac, t_atom *av, int doit)
 	{
 	    for (iend = ibeg + 1, ap++; iend < pp->p_natoms; iend++, ap++)
 		if (ap->a_type == A_SYMBOL
-		    && props_atnext(pp, ap->a_w.w_symbol->s_name))
+		    && props_atstart(pp, PROPS_SINGLEMODE,
+				     ap->a_w.w_symbol->s_name))
 		    break;
 	    break;
 	}
@@ -228,23 +220,43 @@ static int props_update(t_props *pp, t_symbol *s, int ac, t_atom *av, int doit)
     return (ndiff);
 }
 
-/* If there is an empty property, do not parse beyond.
-   Return the offending switch, if any. */
-t_symbol *props_add(t_props *pp, t_symbol *s, int ac, t_atom *av)
+/* If in a single mode, ignore `other' properties (their switches are parsed
+   through as values).  If there is an empty property, which is not to be
+   ignored, do not parse beyond.  Return an offending switch, if any. */
+t_symbol *props_add(t_props *pp, int single, t_symbol *s, int ac, t_atom *av)
 {
     t_symbol *empty = 0;
     t_atom *av1, *ap;
+    int mode = (single ? PROPS_SINGLEMODE : PROPS_MULTIMODE);
     int ac1, i, ngrown = 0;
-    if (s && props_atstart(pp, s->s_name))
-	ngrown += props_update(pp, s, ac, av, 0);
+    if (!s || !props_atstart(pp, PROPS_SINGLEMODE, s->s_name))
+    {
+	s = 0;
+	while (ac)
+	{
+	    s = (av->a_type == A_SYMBOL ? av->a_w.w_symbol : 0);
+	    ac--; av++;
+	    if (s && props_atstart(pp, PROPS_SINGLEMODE, s->s_name))
+		break;
+	    s = 0;
+	}
+    }
+    if (!s || !ac)
+    {
+	empty = s;
+	goto done;
+    }
+    ngrown += props_update(pp, mode, s, ac, av, 0);
     if (pp->p_badupdate)
 	empty = s;
     else for (i = 0, ap = av; i < ac; i++, ap++)
     {
 	if (ap->a_type == A_SYMBOL
-	    && props_atstart(pp, ap->a_w.w_symbol->s_name))
+	    && props_atstart(pp, PROPS_SINGLEMODE,
+			     ap->a_w.w_symbol->s_name))
 	{
-	    ngrown += props_update(pp, ap->a_w.w_symbol, ac - i - 1, ap + 1, 0);
+	    ngrown += props_update(pp, mode, ap->a_w.w_symbol,
+				   ac - i - 1, ap + 1, 0);
 	    if (pp->p_badupdate)
 	    {
 		empty = ap->a_w.w_symbol;
@@ -263,24 +275,17 @@ t_symbol *props_add(t_props *pp, t_symbol *s, int ac, t_atom *av)
 	if (nrequested != ngrown)
 	    goto done;
     }
-    ac1 = (s ? ac + 1 : ac);
-    if (!(av1 = getbytes(ac1 * sizeof(*av1))))
-	goto done;
-    ap = av1;
-    if (s)
-    {
-	SETSYMBOL(ap, s);
-	ap++;
-    }
-    while (ac--) *ap++ = *av++;
-    ac = ac1;
-    av = av1;
-    for (i = 0, ap = av; i < ac; i++, ap++)
+    props_update(pp, mode, s, ac, av, 1);
+    if (pp->p_badupdate)
+	empty = s;
+    else for (i = 0, ap = av; i < ac; i++, ap++)
     {
 	if (ap->a_type == A_SYMBOL
-	    && props_atstart(pp, ap->a_w.w_symbol->s_name))
+	    && props_atstart(pp, PROPS_SINGLEMODE,
+			     ap->a_w.w_symbol->s_name))
 	{
-	    props_update(pp, ap->a_w.w_symbol, ac - i - 1, ap + 1, 1);
+	    props_update(pp, mode, ap->a_w.w_symbol,
+			 ac - i - 1, ap + 1, 1);
 	    if (pp->p_badupdate)
 	    {
 		empty = ap->a_w.w_symbol;
@@ -288,7 +293,6 @@ t_symbol *props_add(t_props *pp, t_symbol *s, int ac, t_atom *av)
 	    }
 	}
     }
-    freebytes(av1, ac1 * sizeof(*av1));
 done:
     return (empty);
 }
@@ -328,11 +332,12 @@ void props_clone(t_props *to, t_props *from)
 	while (ibeg < from->p_natoms)
 	{
 	    if (ap->a_type == A_SYMBOL &&
-		props_atstart(from, ap->a_w.w_symbol->s_name))
+		props_atstart(from, PROPS_SINGLEMODE, ap->a_w.w_symbol->s_name))
 	    {
 		for (iend = ibeg + 1, ap++; iend < from->p_natoms; iend++, ap++)
 		    if (ap->a_type == A_SYMBOL
-			&& props_atnext(from, ap->a_w.w_symbol->s_name))
+			&& props_atstart(from, PROPS_MULTIMODE,
+					 ap->a_w.w_symbol->s_name))
 			break;
 		props_dictadd(to, abeg->a_w.w_symbol,
 			      iend - ibeg - 1, abeg + 1);
@@ -397,7 +402,7 @@ t_atom *props_getone(t_props *pp, t_symbol *s, int *npp)
 {
     int ibeg, iend = 0;
     t_atom *ap;
-    if (!(s && props_atstart(pp, s->s_name)))
+    if (!(s && props_atstart(pp, PROPS_SINGLEMODE, s->s_name)))
 	return (0);
     for (ibeg = 0, ap = pp->p_buffer; ibeg < pp->p_natoms; ibeg++, ap++)
     {
@@ -405,7 +410,8 @@ t_atom *props_getone(t_props *pp, t_symbol *s, int *npp)
 	{
 	    for (iend = ibeg + 1, ap++; iend < pp->p_natoms; iend++, ap++)
 		if (ap->a_type == A_SYMBOL
-		    && props_atnext(pp, ap->a_w.w_symbol->s_name))
+		    && props_atstart(pp, PROPS_MULTIMODE,
+				     ap->a_w.w_symbol->s_name))
 		    break;
 	    break;
 	}

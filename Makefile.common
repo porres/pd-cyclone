@@ -64,7 +64,8 @@ TYPES_EXTERNS = \
 	$(patsubst %.c,%$($1_TILDE).$(X_SUFFIX),$(call TYPES_NAMES,$1))
 
 SOURCES = $(CX_SOURCES) $(AX_SOURCES) $(LX_SOURCES) $(OTHER_SOURCES) \
-	$(foreach type,$(TYPES),$($(type)_SOURCES))
+	$(foreach type,$(TYPES),$($(type)_SOURCES)) \
+	$(foreach type,$(TYPES),$($(type)_PRIVATEOBJECTS:.o=.c))
 
 INCLUDES = -I. -I$(PD_DIR) -I$(SHARED_DIR)
 
@@ -202,6 +203,7 @@ clean: emptydeps
 cleanall: clean
 # remove default target externs
 	-rm -f $(EXTERNS)
+	$(SUBDIRS)
 # added by Hans-Christoph Steiner <hans@eds.org> to remove
 # files created when making MacOS X packages
 	-rm -Rf ../installroot

@@ -48,6 +48,8 @@ typedef struct _totspy
     t_canvas  *ts_cv;
     t_symbol  *ts_target;
     t_symbol  *ts_qsym;
+    int        ts_gotmotion;
+    t_atom     ts_lastmotion[3];
     double     ts_lasttime;
     t_symbol  *ts_selector;
     t_atom     ts_outbuf[TOTSPY_MAXSIZE];
@@ -59,8 +61,9 @@ static t_class *totspy_class;
 static t_class *totsink_class;
 static t_class *tot_guiconnect_class = 0;
 
-static t_symbol *tot_ps_qpush;
-static t_symbol *tot_ps_query;
+static t_symbol *totps_motion;
+static t_symbol *totps_qpush;
+static t_symbol *totps_query;
 
 static t_canvas *tot_getcanvas(t_tot *x, int complain)
 {
@@ -144,7 +147,7 @@ static void tot_push(t_tot *x, t_symbol *s, int ac, t_atom *av)
 {
     if (scriptlet_evaluate(x->x_persistent, x->x_transient, 1, ac, av, 0))
     {
-	if (s == tot_ps_qpush)
+	if (s == totps_qpush)
 	    scriptlet_qpush(x->x_transient);
 	else
 	    scriptlet_push(x->x_transient);
@@ -158,7 +161,7 @@ static void tot_tot(t_tot *x, t_symbol *s, int ac, t_atom *av)
 	t_scriptlet *sp = x->x_transient;
 	scriptlet_reset(sp);
 	scriptlet_add(sp, 1, 1, ac, av);
-	if (s == tot_ps_query)
+	if (s == totps_query)
 	    scriptlet_qpush(sp);
 	else
 	    scriptlet_push(sp);
@@ -379,8 +382,32 @@ static void tot_capture(t_tot *x, t_symbol *s, t_floatarg f)
     else ts->ts_on = 0;
 }
 
+/* this is needed to overcome glist_getnextxy()-related troubles */
+static void tot_lastmotion(t_tot *x, t_symbol *s)
+{
+    t_totspy *ts = x->x_spy;
+    if (ts->ts_gotmotion)
+    {
+	if (s == &s_)
+	    s = ts->ts_target;
+	if (s && s->s_thing)
+	    typedmess(s->s_thing, totps_motion, 3, ts->ts_lastmotion);
+    }
+}
+
 static void totspy_anything(t_totspy *ts, t_symbol *s, int ac, t_atom *av)
 {
+    if (s == totps_motion)
+    {
+	if (ac == 3)
+	{
+	    ts->ts_lastmotion[0] = av[0];
+	    ts->ts_lastmotion[1] = av[1];
+	    ts->ts_lastmotion[2] = av[2];
+	    ts->ts_gotmotion = 1;
+	}
+	else bug("totspy_anything");
+    }
     if (ts->ts_on)
     {
 	if (ts->ts_qsym)
@@ -454,6 +481,7 @@ static void *tot_new(t_symbol *s1, t_symbol *s2)
     x->x_spy->ts_cv = 0;
     x->x_spy->ts_target = 0;
     x->x_spy->ts_qsym = 0;
+    x->x_spy->ts_gotmotion = 0;
     x->x_spy->ts_out3 = outlet_new((t_object *)x, &s_anything);
     x->x_out4 = outlet_new((t_object *)x, &s_bang);
     if (s2 && s2 != &s_)
@@ -475,8 +503,9 @@ void tot_setup(void)
 {
     post("beware! this is tot %s, %s %s build...",
 	 TOXY_VERSION, loud_ordinal(TOXY_BUILD), TOXY_RELEASE);
-    tot_ps_qpush = gensym("qpush");
-    tot_ps_query = gensym("query");
+    totps_motion = gensym("motion");
+    totps_qpush = gensym("qpush");
+    totps_query = gensym("query");
     tot_class = class_new(gensym("tot"),
 			  (t_newmethod)tot_new,
 			  (t_method)tot_free,
@@ -507,6 +536,8 @@ void tot_setup(void)
 		    gensym("attach"), 0);
     class_addmethod(tot_class, (t_method)tot_capture,
 		    gensym("capture"), A_FLOAT, A_DEFSYM, 0);
+    class_addmethod(tot_class, (t_method)tot_lastmotion,
+		    gensym("lastmotion"), A_DEFSYM, 0);
     class_addmethod(tot_class, (t_method)tot__reply,
 		    gensym("_rp"), A_GIMME, 0);
     class_addmethod(tot_class, (t_method)tot__callback,

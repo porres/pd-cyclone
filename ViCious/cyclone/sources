@@ -1,7 +1,6 @@
 LIB_CYCLONE = \
 	shadow\cyclone.c \
 	shadow\nettles.c \
-	shadow\dummies.c \
 	shared\common\loud.c \
 	shared\common\grow.c \
 	shared\common\binport.c \
@@ -204,3 +203,7 @@ ALL_SICKLES = \
 	sickle\vectral.c \
 	sickle\wave.c \
 	sickle\zerox.c
+
+LIB_DUMMIES = \
+	shadow\dummies.c \
+	shared\common\loud.c
