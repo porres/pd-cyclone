@@ -14,7 +14,7 @@ TILDE = ~
 include Makefile.sources
 include Makefile.objects
 
-CC = gcc
+CC = gcc-2.95
 
 default: define_build all
 

@@ -8,8 +8,8 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
-#define DECODE_MAXOUTS  8  /* CHECKED (does it make any sense?) */
-#define DECODE_DEFOUTS  1
+#define DECODE_C74MAXOUTS  8  /* CHECKED (does it make any sense?) */
+#define DECODE_DEFOUTS     1
 
 typedef struct _Decode
 {
@@ -19,7 +19,7 @@ typedef struct _Decode
     int         x_allon;   /* submaster switch */
     int         x_alloff;  /* master switch */
     t_outlet  **x_outs;
-    t_outlet   *x_outbuf[DECODE_MAXOUTS];
+    t_outlet   *x_outbuf[DECODE_C74MAXOUTS];
 } t_Decode;
 
 static t_class *Decode_class;
@@ -76,9 +76,9 @@ static void *Decode_new(t_floatarg val)
     t_outlet **outs;
     if (nouts < 1)
 	nouts = DECODE_DEFOUTS;
-    if (nouts > DECODE_MAXOUTS)
+    if (nouts > DECODE_C74MAXOUTS)
     {
-	loud_incompatible_max(Decode_class, DECODE_MAXOUTS, "outlets");
+	loud_incompatible_max(Decode_class, DECODE_C74MAXOUTS, "outlets");
 	if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
 	    return (0);
     }

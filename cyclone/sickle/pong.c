@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2003 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -243,5 +243,5 @@ void pong_tilde_setup(void)
 			   sizeof(t_pong), 0, A_GIMME, 0);
     sic_setup(pong_class, pong_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(pong_class, (t_method)pong_mode,
-		    gensym("mode"), A_FLOAT, 0);
+		    gensym("mode"), A_DEFFLOAT, 0);  /* CHECKED default */
 }

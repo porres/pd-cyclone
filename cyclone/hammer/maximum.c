@@ -5,6 +5,8 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
+#define MAXIMUM_C74MAXITEMS  256
+
 typedef struct _maximum
 {
     t_object  x_ob;
@@ -27,7 +29,8 @@ static void maximum_float(t_maximum *x, t_float f)
 
 static void maximum_list(t_maximum *x, t_symbol *s, int ac, t_atom *av)
 {
-    if (ac > 256) loud_incompatible_max(*(t_pd *)x, 256, "items");
+    if (ac > MAXIMUM_C74MAXITEMS)
+	loud_incompatible_max(*(t_pd *)x, MAXIMUM_C74MAXITEMS, "items");
     while (ac && av->a_type != A_FLOAT) ac--, av++;  /* CHECKME (a warning?) */
     if (ac)
     {

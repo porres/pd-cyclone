@@ -13,7 +13,7 @@
 #include "common/loud.h"
 #include "common/grow.h"
 
-#define PAST_MAXSIZE  8  /* CHECKED */
+#define PAST_C74MAXSIZE  8  /* CHECKED */
 
 typedef struct past
 {
@@ -22,7 +22,7 @@ typedef struct past
     int       x_size;     /* as allocated */
     int       x_nthresh;  /* as used */
     t_atom   *x_thresh;
-    t_atom    x_thrini[PAST_MAXSIZE];
+    t_atom    x_thrini[PAST_C74MAXSIZE];
 } t_past;
 
 static t_class *past_class;
@@ -112,9 +112,9 @@ static void past_set(t_past *x, t_symbol *s, int ac, t_atom *av)
 	t_atom *vp = x->x_thresh;
 	if (ac > x->x_size)
 	{
-	    loud_incompatible_max(past_class, PAST_MAXSIZE, "guard points");
+	    loud_incompatible_max(past_class, PAST_C74MAXSIZE, "guard points");
 	    x->x_thresh = grow_nodata(&ac, &x->x_size, x->x_thresh,
-				      PAST_MAXSIZE, x->x_thrini,
+				      PAST_C74MAXSIZE, x->x_thrini,
 				      sizeof(*x->x_thresh));
 	}
 	x->x_nthresh = ac;
@@ -134,7 +134,7 @@ static void *past_new(t_symbol *s, int ac, t_atom *av)
     t_past *x = (t_past *)pd_new(past_class);
     x->x_low = 1;
     x->x_nthresh = 0;
-    x->x_size = PAST_MAXSIZE;
+    x->x_size = PAST_C74MAXSIZE;
     x->x_thresh = x->x_thrini;
     outlet_new((t_object *)x, &s_bang);
     past_set(x, 0, ac, av);

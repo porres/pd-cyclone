@@ -12,9 +12,9 @@
 #include "common/rand.h"
 #include "common/grow.h"
 
-#define URN_INISIZE          128  /* LATER rethink */
-#define URN_MAXSIZE         4096  /* CHECKED */
-#define URN_MAXIMUMSIZE    65536  /* LATER use USHRT_MAX */
+#define URN_INISIZE      128  /* LATER rethink */
+#define URN_C74MAXSIZE  4096  /* CHECKED */
+#define URN_MAXSIZE    65536  /* LATER use USHRT_MAX */
 
 typedef struct _urn
 {
@@ -32,7 +32,7 @@ static t_class *urn_class;
 
 static int urn_resize(t_urn *x, t_float f, int init)
 {
-    int maxmax = URN_MAXSIZE;
+    int maxmax = URN_C74MAXSIZE;
     int range = (int)f;  /* CHECKED silent truncation */
     if (init)
     {
@@ -48,12 +48,12 @@ static int urn_resize(t_urn *x, t_float f, int init)
 	loud_error((t_pd *)x, "illegal size %d", f);
 	return (0);
     }
-    if (range > URN_MAXIMUMSIZE)
+    if (range > URN_MAXSIZE)
     {
 	loud_warning((t_pd *)x,
 		     "requested size (%d) clipped -- effective size is %d",
-		     range, URN_MAXIMUMSIZE);
-	range = URN_MAXIMUMSIZE;
+		     range, URN_MAXSIZE);
+	range = URN_MAXSIZE;
     }
     if (range > maxmax)
 	loud_incompatible_max(urn_class, maxmax, "elements");

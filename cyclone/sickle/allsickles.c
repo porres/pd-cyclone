@@ -44,6 +44,8 @@ void kink_tilde_setup(void);
 void linedrive_setup(void);
 void log_tilde_setup(void);
 void lookup_tilde_setup(void);
+void maximum_tilde_setup(void);
+void minimum_tilde_setup(void);
 void minmax_tilde_setup(void);
 void peakamp_tilde_setup(void);
 void peek_tilde_setup(void);
@@ -110,6 +112,8 @@ void allsickles_setup(void)
     linedrive_setup();
     log_tilde_setup();
     lookup_tilde_setup();
+    maximum_tilde_setup();
+    minimum_tilde_setup();
     minmax_tilde_setup();
     peakamp_tilde_setup();
     peek_tilde_setup();

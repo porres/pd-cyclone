@@ -1,7 +1,10 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2003 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+/* CHECKME undocumented: readbinbuf, writebinbuf (a clipboard-like thing?) */
+
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
@@ -9,7 +12,11 @@
 #include "common/loud.h"
 #include "hammer/file.h"
 
-//#define MTR_DEBUG
+#define MTR_DEBUG
+
+#define MTR_C74MAXTRACKS    32
+#define MTR_FILEBUFSIZE   4096
+#define MTR_FILEMAXCOLUMNS  78
 
 enum { MTR_STEPMODE, MTR_RECMODE, MTR_PLAYMODE };
 
@@ -80,8 +87,10 @@ static void mtrack_donext(t_mtrack *tp)
 			    tp->tr_clockdelay = delta * tp->tr_tempo);
 		tp->tr_prevtime = clock_getlogicaltime();
 	    }
+	    else if (ixmess < 2)  /* LATER rethink */
+		continue;  /* CHECKED first delta skipped */
 	    else
-	    {  /* CHECKME first step */
+	    {  /* CHECKED this is not blocked with the muted flag */
 		t_atom at[2];
 		SETFLOAT(&at[0], tp->tr_id);
 		SETFLOAT(&at[1], delta);
@@ -121,9 +130,21 @@ static void mtrack_donext(t_mtrack *tp)
 	}
     }
 endoftrack:
+    if (tp->tr_mode == MTR_PLAYMODE)
+	tp->tr_ixnext = 0;   /* CHECKED ready to go in step mode after play */
+    else
+    {
+	if (tp->tr_ixnext > 0)
+	{
+	    t_atom at[2];
+	    SETFLOAT(&at[0], tp->tr_id);
+	    SETFLOAT(&at[1], -1.);  /* CHECKED eot marker */
+	    outlet_list(tp->tr_mainout, 0, 2, at);
+	}
+	tp->tr_ixnext = -1;  /* CHECKED no loop-over */
+    }
     tp->tr_atdelta = 0;
-    tp->tr_ixnext = -1;
-    tp->tr_prevtime = 0;
+    tp->tr_prevtime = 0.;
     tp->tr_mode = MTR_STEPMODE;
 }
 
@@ -131,7 +152,7 @@ static void mtrack_tick(t_mtrack *tp)
 {
     if (tp->tr_mode == MTR_PLAYMODE)
     {
-	tp->tr_prevtime = 0;
+	tp->tr_prevtime = 0.;
 	mtrack_donext(tp);
     }
 }
@@ -141,7 +162,7 @@ static void mtrack_setmode(t_mtrack *tp, int newmode)
     if (tp->tr_mode == MTR_PLAYMODE)
     {
 	clock_unset(tp->tr_clock);
-	tp->tr_ixnext = -1;
+	tp->tr_ixnext = 0;
     }
     switch (tp->tr_mode = newmode)
     {
@@ -154,7 +175,7 @@ static void mtrack_setmode(t_mtrack *tp, int newmode)
     case MTR_PLAYMODE:
 	tp->tr_atdelta = 0;
 	tp->tr_ixnext = 0;
-	tp->tr_prevtime = 0;
+	tp->tr_prevtime = 0.;
 	mtrack_donext(tp);
 	break;
     default:
@@ -164,7 +185,7 @@ static void mtrack_setmode(t_mtrack *tp, int newmode)
 
 static void mtrack_doadd(t_mtrack *tp, int ac, t_atom *av)
 {
-    if (tp->tr_prevtime > 0)
+    if (tp->tr_prevtime > 0.)
     {
 	t_binbuf *bb = tp->tr_binbuf;
 	t_atom at;
@@ -234,13 +255,13 @@ static void mtrack_rewind(t_mtrack *tp)
     }
 }
 
-/* CHECKME step mode */
+/* CHECKED step and play mode */
 static void mtrack_mute(t_mtrack *tp)
 {
     tp->tr_muted = 1;
 }
 
-/* CHECKME step mode */
+/* CHECKED step and play mode */
 static void mtrack_unmute(t_mtrack *tp)
 {
     tp->tr_muted = 0;
@@ -275,40 +296,39 @@ static void mtrack_delay(t_mtrack *tp, t_floatarg f)
 	ap->a_w.w_float = f;
 }
 
-/* CHECKME */
 static void mtrack_first(t_mtrack *tp, t_floatarg f)
 {
-    mtrack_delay(tp, f);
+    mtrack_delay(tp, f);  /* CHECKED */
 }
 
-static void mtr_doread(t_mtr *x, t_symbol *fn, int trackid);
-static void mtr_dowrite(t_mtr *x, t_symbol *fn, int trackid);
+static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname);
+static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname);
 
-static void mtrack_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
+static void mtrack_readhook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
 {
     t_mtrack *tp = (t_mtrack *)z;
-    mtr_doread(tp->tr_owner, fn, tp->tr_id);
+    mtr_doread(tp->tr_owner, tp, fname);
 }
 
-static void mtrack_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
+static void mtrack_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
 {
     t_mtrack *tp = (t_mtrack *)z;
-    mtr_dowrite(tp->tr_owner, fn, tp->tr_id);
+    mtr_dowrite(tp->tr_owner, tp, fname);
 }
 
 static void mtrack_read(t_mtrack *tp, t_symbol *s)
 {
     if (s && s != &s_)
-	mtr_doread(tp->tr_owner, s, tp->tr_id);
-    else  /* CHECKME default */
+	mtr_doread(tp->tr_owner, tp, s);
+    else  /* CHECKED no default */
 	hammerpanel_open(tp->tr_filehandle);
 }
 
 static void mtrack_write(t_mtrack *tp, t_symbol *s)
 {
     if (s && s != &s_)
-	mtr_dowrite(tp->tr_owner, s, tp->tr_id);
-    else  /* CHECKME default */
+	mtr_dowrite(tp->tr_owner, tp, s);
+    else  /* CHECKED no default */
 	hammerpanel_save(tp->tr_filehandle,
 			 canvas_getdir(tp->tr_owner->x_glist), 0);
 }
@@ -327,7 +347,7 @@ static void mtrack_tempo(t_mtrack *tp, t_floatarg f)
     else if (f > 1e20)
 	f = 1e20;
     newtempo = 1. / f;
-    if (tp->tr_prevtime > 0)
+    if (tp->tr_prevtime > 0.)
     {
     	tp->tr_clockdelay -= clock_gettimesince(tp->tr_prevtime);
 	tp->tr_clockdelay *= newtempo / tp->tr_tempo;
@@ -339,19 +359,22 @@ static void mtrack_tempo(t_mtrack *tp, t_floatarg f)
     tp->tr_tempo = newtempo;
 }
 
-/* CHECKME out-of-bounds and non-floats, which track goes first */
-static void mtr_callem(t_mtr *x, t_mtrackfn fn, t_symbol *s, int ac, t_atom *av)
+static void mtr_calltracks(t_mtr *x, t_mtrackfn fn,
+			   t_symbol *s, int ac, t_atom *av)
 {
     int ntracks = x->x_ntracks;
     t_mtrack **tpp = x->x_tracks;
     if (ac)
     {
+	/* FIXME: CHECKED tracks called in the order of being mentioned
+	   (without duplicates) */
 	while (ntracks--) (*tpp++)->tr_listed = 0;
 	while (ac--)
 	{
+	    /* CHECKED silently ignoring out-of-bounds and non-ints */
 	    if (av->a_type == A_FLOAT)
 	    {
-		int id = (int)av->a_w.w_float;
+		int id = (int)av->a_w.w_float - 1;  /* CHECKED 1-based */
 		if (id >= 0 && id < x->x_ntracks)
 		    x->x_tracks[id]->tr_listed = 1;
 	    }
@@ -370,42 +393,42 @@ static void mtr_callem(t_mtr *x, t_mtrackfn fn, t_symbol *s, int ac, t_atom *av)
 
 static void mtr_record(t_mtr *x, t_symbol *s, int ac, t_atom *av)
 {
-    mtr_callem(x, mtrack_record, s, ac, av);
+    mtr_calltracks(x, mtrack_record, s, ac, av);
 }
 
 static void mtr_play(t_mtr *x, t_symbol *s, int ac, t_atom *av)
 {
-    mtr_callem(x, mtrack_play, s, ac, av);
+    mtr_calltracks(x, mtrack_play, s, ac, av);
 }
 
 static void mtr_stop(t_mtr *x, t_symbol *s, int ac, t_atom *av)
 {
-    mtr_callem(x, mtrack_stop, s, ac, av);
+    mtr_calltracks(x, mtrack_stop, s, ac, av);
 }
 
 static void mtr_next(t_mtr *x, t_symbol *s, int ac, t_atom *av)
 {
-    mtr_callem(x, mtrack_next, s, ac, av);
+    mtr_calltracks(x, mtrack_next, s, ac, av);
 }
 
 static void mtr_rewind(t_mtr *x, t_symbol *s, int ac, t_atom *av)
 {
-    mtr_callem(x, mtrack_rewind, s, ac, av);
+    mtr_calltracks(x, mtrack_rewind, s, ac, av);
 }
 
 static void mtr_mute(t_mtr *x, t_symbol *s, int ac, t_atom *av)
 {
-    mtr_callem(x, mtrack_mute, s, ac, av);
+    mtr_calltracks(x, mtrack_mute, s, ac, av);
 }
 
 static void mtr_unmute(t_mtr *x, t_symbol *s, int ac, t_atom *av)
 {
-    mtr_callem(x, mtrack_unmute, s, ac, av);
+    mtr_calltracks(x, mtrack_unmute, s, ac, av);
 }
 
 static void mtr_clear(t_mtr *x, t_symbol *s, int ac, t_atom *av)
 {
-    mtr_callem(x, mtrack_clear, s, ac, av);
+    mtr_calltracks(x, mtrack_clear, s, ac, av);
 }
 
 static void mtr_delay(t_mtr *x, t_floatarg f)
@@ -449,109 +472,214 @@ static void mtr_first(t_mtr *x, t_floatarg f)
     }
 }
 
-static void mtr_doread(t_mtr *x, t_symbol *fn, int trackid)
+static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname)
 {
     char path[MAXPDSTRING];
+    FILE *fp;
     if (x->x_glist)
-	canvas_makefilename(x->x_glist, fn->s_name, path, MAXPDSTRING);
+	canvas_makefilename(x->x_glist, fname->s_name, path, MAXPDSTRING);
     else
     {
-    	strncpy(path, fn->s_name, MAXPDSTRING);
+    	strncpy(path, fname->s_name, MAXPDSTRING);
     	path[MAXPDSTRING-1] = 0;
     }
-    post("mtr: reading %s", fn->s_name);  /* CHECKME */
-
-    if (trackid > x->x_ntracks)
-	bug("mtr_doread");
-
+    /* CHECKED no global message */
+    sys_bashfilename(path, path);
+    if (fp = fopen(path, "r"))
+    {
+	t_mtrack *tp = 0;
+	char linebuf[MTR_FILEBUFSIZE];
+	t_binbuf *bb = binbuf_new();
+	while (fgets(linebuf, MTR_FILEBUFSIZE, fp))
+	{
+	    char *line = linebuf;
+	    int linelen;
+	    while (*line && (*line == ' ' || *line == '\t')) line++;
+	    if (linelen = strlen(line))
+	    {
+		if (tp)
+		{
+		    if (!strncmp(line, "end;", 4))
+		    {
+			post("ok");
+			tp = 0;
+		    }
+		    else
+		    {
+			int ac;
+			binbuf_text(bb, line, linelen);
+			if (ac = binbuf_getnatom(bb))
+			{
+			    t_atom *ap = binbuf_getvec(bb);
+			    if (!binbuf_getnatom(tp->tr_binbuf))
+			    {
+				if (ap->a_type != A_FLOAT)
+				{
+				    t_atom at;
+				    SETFLOAT(&at, 0.);
+				    binbuf_add(tp->tr_binbuf, 1, &at);
+				}
+				else if (ap->a_w.w_float < 0.)
+				    ap->a_w.w_float = 0.;
+			    }
+			    binbuf_add(tp->tr_binbuf, ac, ap);
+			}
+		    }
+		}
+		else if (!strncmp(line, "track ", 6))
+		{
+		    int id = strtol(line + 6, 0, 10);
+		    startpost("Track %d... ", id);
+		    if (id < 1 || id > x->x_ntracks)
+			post("no such track");  /* LATER rethink */
+		    else if (target)
+		    {
+			if (id == target->tr_id)
+			    tp = target;
+			post("skipped");  /* LATER rethink */
+		    }
+		    else tp = x->x_tracks[id - 1];
+		    if (tp)
+		    {
+			binbuf_clear(tp->tr_binbuf);
+		    }
+		}
+	    }
+	}
+	fclose(fp);
+	binbuf_free(bb);
+    }
     else
     {
-	FILE *fp;
-	char namebuf[MAXPDSTRING];
-	sys_bashfilename(fn->s_name, namebuf);
-	if (fp = fopen(namebuf, "r"))
-	{
-	    /* FIXME */
-	    fclose(fp);
-	}
-	else
-	{
-	    /* CHECKME no complaint, open dialog presented */
-	    hammerpanel_open(x->x_filehandle);  /* LATER rethink */
-	}
+	/* CHECKED no complaint, open dialog not presented... */
+	/* LATER rethink */
+	hammerpanel_open(target ? target->tr_filehandle : x->x_filehandle);
     }
 }
 
-static int mtr_writetrack(t_mtr *x, t_mtrack *tp)
+static int mtr_writetrack(t_mtr *x, t_mtrack *tp, FILE *fp)
 {
-    /* CHECKME complaint and FIXME */
-    loud_error((t_pd *)x, "error writing text file");
+    int natoms = binbuf_getnatom(tp->tr_binbuf);
+    if (natoms)  /* CHECKED empty tracks not stored */
+    {
+	char sbuf[MTR_FILEBUFSIZE], *bp = sbuf, *ep = sbuf + MTR_FILEBUFSIZE;
+	int ncolumn = 0;
+	t_atom *ap = binbuf_getvec(tp->tr_binbuf);
+	fprintf(fp, "track %d;\n", tp->tr_id);
+	for (; natoms--; ap++)
+	{
+	    int length;
+	    /* from binbuf_write():
+	       ``estimate how many characters will be needed.  Printing out
+	       symbols may need extra characters for inserting backslashes.'' */
+	    if (ap->a_type == A_SYMBOL || ap->a_type == A_DOLLSYM)
+		length = 80 + strlen(ap->a_w.w_symbol->s_name);
+	    else
+		length = 40;
+	    if (bp > sbuf && ep - bp < length)
+	    {
+		if (fwrite(sbuf, bp - sbuf, 1, fp) < 1)
+		    return (1);
+		bp = sbuf;
+	    }
+	    if (ap->a_type == A_SEMI)
+	    {
+		*bp++ = ';';
+		*bp++ = '\n';
+		ncolumn = 0;
+	    }
+	    else if (ap->a_type == A_COMMA)
+	    {
+		*bp++ = ',';
+		ncolumn++;
+	    }
+	    else
+	    {
+		if (ncolumn)
+		{
+		    *bp++ = ' ';
+		    ncolumn++;
+		}
+		atom_string(ap, bp, (ep - bp) - 2);
+		length = strlen(bp);
+		if (ncolumn && ncolumn + length > MTR_FILEMAXCOLUMNS)
+		{
+		    bp[-1] = '\n';
+		    ncolumn = length;
+		}
+		else ncolumn += length;
+		bp += length;
+	    }
+	}
+	if (bp > sbuf && fwrite(sbuf, bp - sbuf, 1, fp) < 1)
+	    return (1);
+	fputs("end;\n", fp);
+	post("Track %d done", tp->tr_id);  /* CHECKED (0-based: not emulated) */
+    }
     return (0);
 }
 
-static void mtr_dowrite(t_mtr *x, t_symbol *fn, int trackid)
+/* CHECKED empty sequence stored as an empty file */
+static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname)
 {
+    int failed = 0;
     char path[MAXPDSTRING];
+    FILE *fp;
     if (x->x_glist)
-	canvas_makefilename(x->x_glist, fn->s_name, path, MAXPDSTRING);
+	canvas_makefilename(x->x_glist, fname->s_name, path, MAXPDSTRING);
     else
     {
-    	strncpy(path, fn->s_name, MAXPDSTRING);
+    	strncpy(path, fname->s_name, MAXPDSTRING);
     	path[MAXPDSTRING-1] = 0;
     }
-    post("mtr: writing %s", fn->s_name);  /* CHECKME */
-
-    if (trackid > x->x_ntracks)
-	bug("mtr_dowrite");
-
-    /* CHECKME empty sequence stored as an empty file */
-    else
+    /* CHECKED no global message */
+    sys_bashfilename(path, path);
+    if (fp = fopen(path, "w"))
     {
-	FILE *fp;
-	char namebuf[MAXPDSTRING];
-	sys_bashfilename(fn->s_name, namebuf);
-	if (fp = fopen(namebuf, "w"))
+	/* CHECKED single-track writing does not seem to work (a bug?) */
+	if (source) failed = mtr_writetrack(x, source, fp);
+	else
 	{
 	    int id;
 	    t_mtrack **tpp;
-	    if (trackid >= 0)
-		mtr_writetrack(x, x->x_tracks[trackid]);
-	    else for (id = 0, tpp = x->x_tracks; id < x->x_ntracks; id++, tpp++)
-		if (!mtr_writetrack(x, *tpp))
+	    for (id = 0, tpp = x->x_tracks; id < x->x_ntracks; id++, tpp++)
+		if (failed = mtr_writetrack(x, *tpp, fp))
 		    break;
-	    fclose(fp);
 	}
-	else
-	{
-	    fprintf(stderr, "open: ");
-	    sys_unixerror(fn->s_name);
-	}
+	if (failed) sys_unixerror(path);  /* LATER rethink */
+	fclose(fp);
     }
+    else
+    {
+	sys_unixerror(path);  /* LATER rethink */
+	failed = 1;
+    }
+    if (failed) loud_error((t_pd *)x, "writing text file \"%s\" failed", path);
 }
 
-static void mtr_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
+static void mtr_readhook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
 {
-    mtr_doread((t_mtr *)z, fn, -1);
+    mtr_doread((t_mtr *)z, 0, fname);
 }
 
-static void mtr_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
+static void mtr_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
 {
-    mtr_dowrite((t_mtr *)z, fn, -1);
+    mtr_dowrite((t_mtr *)z, 0, fname);
 }
 
 static void mtr_read(t_mtr *x, t_symbol *s)
 {
     if (s && s != &s_)
-	mtr_doread(x, s, -1);
-    else  /* CHECKME default */
+	mtr_doread(x, 0, s);
+    else  /* CHECKED no default */
 	hammerpanel_open(x->x_filehandle);
 }
 
 static void mtr_write(t_mtr *x, t_symbol *s)
 {
     if (s && s != &s_)
-	mtr_dowrite(x, s, -1);
-    else  /* CHECKME default */
+	mtr_dowrite(x, 0, s);
+    else  /* CHECKED no default */
 	hammerpanel_save(x->x_filehandle, canvas_getdir(x->x_glist), 0);
 }
 
@@ -561,6 +689,19 @@ static void mtr_tempo(t_mtr *x, t_floatarg f)
     t_mtrack **tpp = x->x_tracks;
     while (ntracks--) mtrack_tempo(*tpp++, f);
 }
+
+#ifdef MTR_DEBUG
+static void mtr_debug(t_mtr *x)
+{
+    int ntracks = x->x_ntracks;
+    t_mtrack **tpp = x->x_tracks;
+    while (ntracks--)
+    {
+	post("------- Track %d -------", (*tpp)->tr_id);
+	binbuf_print((*tpp++)->tr_binbuf);
+    }
+}
+#endif
 
 static void mtr_free(t_mtr *x)
 {
@@ -615,9 +756,11 @@ static void *mtr_new(t_floatarg f)
 	    x->x_glist = canvas_getcurrent();
 	    x->x_filehandle = hammerfile_new((t_pd *)x, 0,
 					     mtr_readhook, mtr_writehook, 0);
+	    if (ntracks > MTR_C74MAXTRACKS)
+		loud_incompatible_max(mtr_class, MTR_C74MAXTRACKS, "tracks");
 	    x->x_ntracks = ntracks;
 	    x->x_tracks = tracks;
-	    for (id = 0; id < ntracks; id++, tracks++)  /* CHECKME 0-based */
+	    for (id = 1; id <= ntracks; id++, tracks++)  /* CHECKED 1-based */
 	    {
 		t_mtrack *tp = *tracks;
 		inlet_new((t_object *)x, (t_pd *)tp, 0, 0);
@@ -633,10 +776,10 @@ static void *mtr_new(t_floatarg f)
 		tp->tr_muted = 0;
 		tp->tr_restarted = 0;
 		tp->tr_atdelta = 0;
-		tp->tr_ixnext = -1;
+		tp->tr_ixnext = 0;
 		tp->tr_tempo = 1.;
-		tp->tr_clockdelay = 0;
-		tp->tr_prevtime = 0;
+		tp->tr_clockdelay = 0.;
+		tp->tr_prevtime = 0.;
 	    }
 	}
     }
@@ -708,5 +851,9 @@ void mtr_setup(void)
 		    gensym("write"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_tempo,
 		    gensym("tempo"), A_FLOAT, 0);
+#ifdef MTR_DEBUG
+    class_addmethod(mtr_class, (t_method)mtr_debug,
+		    gensym("debug"), 0);
+#endif
     hammerfile_setup(mtr_class, 0);
 }

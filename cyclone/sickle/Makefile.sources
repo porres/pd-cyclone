@@ -41,6 +41,8 @@ Line.c \
 linedrive.c \
 log.c \
 lookup.c \
+maximum.c \
+minimum.c \
 minmax.c \
 peakamp.c \
 peek.c \

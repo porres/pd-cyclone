@@ -5,9 +5,9 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
-#define GATE_MINOUTS  1
-#define GATE_MAXOUTS  100
-#define GATE_DEFOUTS  1
+#define GATE_MINOUTS       1
+#define GATE_C74MAXOUTS  100
+#define GATE_DEFOUTS       1
 
 typedef struct _gate
 {
@@ -99,8 +99,8 @@ static void *gate_new(t_floatarg f1, t_floatarg f2)
     t_pd *proxy;
     if (nouts < GATE_MINOUTS)
 	nouts = GATE_DEFOUTS;
-    if (nouts > GATE_MAXOUTS)
-	loud_incompatible_max(gate_class, GATE_MAXOUTS, "outlets");
+    if (nouts > GATE_C74MAXOUTS)
+	loud_incompatible_max(gate_class, GATE_C74MAXOUTS, "outlets");
     nouts++;  /* for convenience (the cost is one pointer) */
     if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
 	return (0);

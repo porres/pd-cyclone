@@ -10,9 +10,9 @@
 
 //#define CYCLE_USEEVENTNO
 
-#define CYCLE_MINOUTS  1
-#define CYCLE_MAXOUTS  100  /* CHECKED */
-#define CYCLE_DEFOUTS  1
+#define CYCLE_MINOUTS       1
+#define CYCLE_C74MAXOUTS  100  /* CHECKED */
+#define CYCLE_DEFOUTS       1
 
 typedef struct _cycle
 {
@@ -117,9 +117,9 @@ static void *cycle_new(t_floatarg f1, t_floatarg f2)
     t_outlet **outs;
     if (nouts < CYCLE_MINOUTS)
         nouts = CYCLE_DEFOUTS;
-    if (nouts > CYCLE_MAXOUTS)
+    if (nouts > CYCLE_C74MAXOUTS)
     {
-	loud_incompatible_max(cycle_class, CYCLE_MAXOUTS, "outlets");
+	loud_incompatible_max(cycle_class, CYCLE_C74MAXOUTS, "outlets");
 	/* CHECKED: max clips with an error:
 	   ``perhaps you were trying to make an oscillator?'' */
     }

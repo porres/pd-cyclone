@@ -5,9 +5,9 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
-#define SWITCH_MININLETS  2  /* LATER consider using 1 (with a warning) */
-#define SWITCH_MAXINLETS  100
-#define SWITCH_DEFINLETS  2
+#define SWITCH_MININLETS       2  /* LATER consider using 1 (with a warning) */
+#define SWITCH_C74MAXINLETS  100
+#define SWITCH_DEFINLETS       2
 
 typedef struct _switch
 {
@@ -102,8 +102,8 @@ static void *switch_new(t_floatarg f1, t_floatarg f2)
     t_pd **proxies;
     if (nproxies < SWITCH_MININLETS)
 	nproxies = SWITCH_DEFINLETS;
-    if (nproxies > SWITCH_MAXINLETS)
-	loud_incompatible_max(switch_class, SWITCH_MAXINLETS, "inlets");
+    if (nproxies > SWITCH_C74MAXINLETS)
+	loud_incompatible_max(switch_class, SWITCH_C74MAXINLETS, "inlets");
     if (!(proxies = (t_pd **)getbytes(nproxies * sizeof(*proxies))))
 	return (0);
     for (ninlets = 0; ninlets < nproxies; ninlets++)

@@ -8,9 +8,9 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
-#define BANGBANG_MINOUTS  1
-#define BANGBANG_MAXOUTS  40  /* CHECKED (just clipped without warning) */
-#define BANGBANG_DEFOUTS  2
+#define BANGBANG_MINOUTS      1
+#define BANGBANG_C74MAXOUTS  40  /* CHECKED (just clipped without warning) */
+#define BANGBANG_DEFOUTS      2
 
 typedef struct _bangbang
 {
@@ -46,8 +46,8 @@ static void *bangbang_new(t_floatarg val)
     t_outlet **outs;
     if (nouts < BANGBANG_MINOUTS)
 	nouts = BANGBANG_DEFOUTS;
-    if (nouts > BANGBANG_MAXOUTS)
-	loud_incompatible_max(bangbang_class, BANGBANG_MAXOUTS, "outlets");
+    if (nouts > BANGBANG_C74MAXOUTS)
+	loud_incompatible_max(bangbang_class, BANGBANG_C74MAXOUTS, "outlets");
     if (nouts > BANGBANG_DEFOUTS)
     {
 	if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))

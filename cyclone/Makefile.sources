@@ -133,6 +133,8 @@ sickle/deltaclip.c \
 sickle/edge.c \
 sickle/kink.c \
 sickle/log.c \
+sickle/maximum.c \
+sickle/minimum.c \
 sickle/minmax.c \
 sickle/peakamp.c \
 sickle/phasewrap.c \
