@@ -15,6 +15,6 @@ $(WIQFILE): $(WIDPATH)
 -e 's/\([\\\"]\)/\\\1/g' \
 -e 's/^.*$$/\"&\\n\"/' > $@
 	@if [ -f $(WIQFILE) ] && ! [ -s $(WIQFILE) ] ; then \
-		echo ERROR: quoteinitializer failed... $(WIQFILE) removed ; \
+		echo ERROR: transfer failed... $(WIQFILE) removed ; \
 		rm -f $(WIQFILE) ; fi
 include $(ROOT_DIR)/Makefile.common

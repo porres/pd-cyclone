@@ -422,16 +422,26 @@ void scriptlet_qpush(t_scriptlet *sp)
     {
 	char buf[MAXPDSTRING];
 	char *tail = sp->s_tail;
+	/* Could not find any other way, than to postpone processing of the
+	   query, after everything which might have been glued to our tail,
+	   is evaluated.  Otherwise, any command arriving later, during
+	   blocking of the query (e.g. in a Tk dialog), would be evaluated
+	   prior to our tail, via Tcl_DoOneEvent().  We postpone also the
+	   setup step (defining the query proc), in order to be able to
+	   handle several queries at once.  All this is far from ideal --
+	   the sequence "query this, tot that", is swapped, unless written
+	   as "query this, tot after 0 .(that.)", which is going to cause
+	   much confusion...  LATER revisit.  Do not forget, that since
+	   pd_readsocket() is not reentrant, sys_gui()d commands should never
+	   enter event loop directly by blocking on a dialog, vwait, etc.,
+	   because the pd_readsocket handler is event-driven on unix. */
+	sys_gui("after 0 {\n");
 	strcpy(tail, "]}}\n");
 	sys_gui(sp->s_buffer);
 	*tail = 0;
-	/* Could not find anything more flexible, than blocking while waiting
-	   for ::toxy::query to complete.  The model case is a Tk dialog
-	   hanging over the arrival of new queries.  LATER probably use
-	   a thread-safe replacement of the 'pd' command in order to prevent
-	   competing tcl threads from corrupting the gui-to-pd stream. */
-	sprintf(buf, "after 0 {::toxy::query}\nvwait ::toxy::reply\n\
- pd [concat %s _rp $::toxy::reply \\;]\n", sp->s_rptarget->s_name);
+	sprintf(buf, "\
+ trace add variable ::toxy::reply write \"::toxy::doreply %s\"\n\
+ ::toxy::query}\n", sp->s_rptarget->s_name);
 	sys_gui(buf);
     }
 }
@@ -761,6 +771,10 @@ t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
 	if (!configured)
 	{
 	    sys_gui("image create bitmap ::toxy::img::empty -data {}\n");
+	    sys_gui("proc ::toxy::doreply {target vname vndx op} {\n");
+	    sys_gui(" pd [concat $target _rp $::toxy::reply \\;]\n");
+	    sys_gui(" unset ::toxy::reply\n");
+	    sys_gui("}\n");
 	}
 	sp->s_owner = owner;
 	sp->s_glist = gl;

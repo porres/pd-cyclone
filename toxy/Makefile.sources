@@ -1,4 +1,3 @@
-# this conditional will make sense LATER, when TCL_LIB is ./configured
 ifdef TCL_LIB
 TYPES = TOT TOW WIDGET PLUSTOT
 else

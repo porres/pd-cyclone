@@ -98,8 +98,7 @@ proc ::toxy::item_visconfig {path target name varname cvpath px py} {
 # FIXME explicit traces
 	set needtraces 0
     } else {
-#	set needtraces 1
-	set needtraces 0
+	set needtraces 1
     }
 
     if {$needtraces != 0} {

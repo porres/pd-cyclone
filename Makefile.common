@@ -1,8 +1,11 @@
 # next line has to be edited manually
 PD_DIR = $(ROOT_DIR)/../../pd/src
 
-# FIXME ./configure should set this (or not) before "include Makefile.sources"
-TCL_LIB = -l`grep -osm1 'tcl8\.[345]' $(PD_DIR)/makefile`
+# remove this restriction LATER, when TCL_LIB is ./configured
+ifeq ($(shell whoami),krzYszcz)
+# TCL_LIB should be set (or not) before "include Makefile.sources"
+TCL_LIB = -l$(shell grep -osm1 'tcl8\.[345]' $(PD_DIR)/makefile)
+endif
 
 OS_NAME = $(shell uname -s)
 ifneq ($(OS_NAME),Linux)

@@ -1,4 +1,6 @@
 proc ::toxy::kb {path target remote noctaves size} {
+# guard against BadAlloc crashes
+    if {$size > 10} {set size 10}
     set lft [expr {round(5 * $size)}]
     set top [expr {round(5 * $size)}]
     set bot [expr {round(100 * $size)}]

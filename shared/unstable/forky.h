@@ -16,6 +16,7 @@
 #if FORKY_VERSION >= 37
 #define FORKY_WIDGETPADDING
 #else
+#warning You are entering a back-compatibility mode.  Delete this warning from forky.h to proceed.
 #define FORKY_WIDGETPADDING  0,0
 #endif
 
