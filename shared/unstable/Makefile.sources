@@ -1,4 +1,5 @@
 OTHER_SOURCES = \
-fragile.c \
 forky.c \
+fragile.c \
+fringe.c \
 loader.c

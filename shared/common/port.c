@@ -2,10 +2,10 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* FIXME inlet/outlet vs inlet~/outlet~ */
 /* LATER think about abstractions */
 /* LATER sort out escaping rules (also revisit binport.c) */
 /* LATER quoting */
+/* LATER rethink inlet/inlet~ case */
 
 #ifdef UNIX
 #include <unistd.h>
@@ -19,6 +19,7 @@
 #include "g_canvas.h"
 #include "unstable/forky.h"
 #include "unstable/fragile.h"
+#include "unstable/fringe.h"
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/binport.h"
@@ -44,6 +45,7 @@ typedef struct _port
     t_binbuf  *x_oldbb;
     t_binbuf  *x_newbb;
     int        x_nobj;
+    int        x_withbogus;
     int        x_inatoms;
     t_atom    *x_inmess;
     int        x_outsize;
@@ -58,6 +60,8 @@ typedef struct _port
 
 static t_symbol *portps_bogus;
 static t_symbol *portps_cleanup;
+static t_symbol *portps_inlet;
+static t_symbol *portps_outlet;
 
 static t_float port_floatarg(t_port *x, int ndx)
 {
@@ -118,7 +122,7 @@ static void port_setxy(t_port *x, int ndx, t_atom *ap)
     SETFLOAT(ap, f);
 }
 
-static void import_addclassname(t_binbuf *bb, char *outname, t_atom *inatom)
+static void import_addclassname(t_port *x, char *outname, t_atom *inatom)
 {
     t_atom at;
     if (outname)
@@ -129,15 +133,18 @@ static void import_addclassname(t_binbuf *bb, char *outname, t_atom *inatom)
 	t_symbol *insym = inatom->a_w.w_symbol;
 	if (insym != &s_bang && insym != &s_float &&
 	    insym != &s_symbol && insym != &s_list &&
-	    zgetfn(&pd_objectmaker, insym) == 0)
+	    (insym == portps_inlet || insym == portps_outlet ||
+	     zgetfn(&pd_objectmaker, insym) == 0))
+	     
 	{
+	    x->x_withbogus = 1;
 	    SETSYMBOL(&at, portps_bogus);
-	    binbuf_add(bb, 1, &at);
+	    binbuf_add(x->x_newbb, 1, &at);
 	}
 	SETSYMBOL(&at, insym);
     }
     else at = *inatom;
-    binbuf_add(bb, 1, &at);
+    binbuf_add(x->x_newbb, 1, &at);
 }
 
 static int import_obj(t_port *x, char *name)
@@ -146,7 +153,7 @@ static int import_obj(t_port *x, char *name)
     binbuf_addv(x->x_newbb, "ssff",
 		gensym("#X"), gensym("obj"),
 		port_xarg(x, ndx), port_yarg(x, ndx + 1));
-    import_addclassname(x->x_newbb, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
+    import_addclassname(x, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
     binbuf_addsemi(x->x_newbb);
     x->x_nobj++;
     return (PORT_NEXT);
@@ -163,7 +170,7 @@ static int import_objarg(t_port *x, char *name)
 	SETSYMBOL(out, gensym("obj")); out++;
 	port_setxy(x, ndx, out);
 	binbuf_add(x->x_newbb, 4, x->x_outmess);
-	import_addclassname(x->x_newbb, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
+	import_addclassname(x, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
 	out = x->x_outmess;
 	for (ndx = 7; ndx < x->x_inatoms; ndx++)
 	    *out++ = *in++;
@@ -204,6 +211,8 @@ static int imaction_vpatcher(t_port *x, char *arg)
 
 static int imaction_patcher(t_port *x, char *arg)
 {
+    binbuf_addv(x->x_newbb, "ss;", portps_cleanup, portps_cleanup);
+    x->x_withbogus = 0;
     binbuf_addv(x->x_newbb, "ssffss;",
 		gensym("#X"), gensym("restore"),
 		port_xarg(x, 2), port_yarg(x, 3),
@@ -238,7 +247,7 @@ static int imaction_scope(t_port *x, char *name)
 	xpix = (int)out++->a_w.w_float;
 	ypix = (int)out->a_w.w_float;
 	binbuf_add(x->x_newbb, 4, x->x_outmess);
-	import_addclassname(x->x_newbb, name, &x->x_inmess[2]);
+	import_addclassname(x, name, &x->x_inmess[2]);
 	out = x->x_outmess;
 	port_setxy(x, 5, out);
 	out++->a_w.w_float -= xpix;
@@ -305,16 +314,22 @@ static int imaction_message(t_port *x, char *arg)
     return (PORT_NEXT);
 }
 
-/* FIXME this is no longer true */
-static int imaction_inlet(t_port *x, char *arg)
+static int imaction_io(t_port *x, char *arg)
 {
-    return (import_obj(x, (port_floatarg(x, 5) ? "inlet~" : "inlet")));
-}
-
-/* FIXME this is no longer true  */
-static int imaction_outlet(t_port *x, char *arg)
-{
-    return (import_obj(x, (port_floatarg(x, 5) ? "outlet~" : "outlet")));
+    binbuf_addv(x->x_newbb, "ssff",
+		gensym("#X"), gensym("obj"),
+		port_xarg(x, 2), port_yarg(x, 3));
+    if (x->x_inmess[1].a_w.w_symbol == portps_inlet ||
+	x->x_inmess[1].a_w.w_symbol == portps_outlet)
+    {
+	t_atom at;
+	SETSYMBOL(&at, portps_bogus);
+	binbuf_add(x->x_newbb, 1, &at);
+    }
+    binbuf_add(x->x_newbb, 1, &x->x_inmess[1]);
+    binbuf_addsemi(x->x_newbb);
+    x->x_nobj++;
+    return (PORT_NEXT);
 }
 
 static int imaction_number(t_port *x, char *arg)
@@ -421,10 +436,10 @@ static t_portslot imslots__P[] =
     { "message",     imaction_message, 0, 0, 0 },
     { "newobj",      import_objarg, 0, &imnode_newobj, 0 },
     { "newex",       import_objarg, 0, &imnode_newex, 0 },
-    { "inlet",       imaction_inlet, 0, 0, 0 },
-    { "inlet~",      imaction_inlet, 0, 0, 0 },
-    { "outlet",      imaction_outlet, 0, 0, 0 },
-    { "outlet~",     imaction_outlet, 0, 0, 0 },
+    { "inlet",       imaction_io, 0, 0, 0 },
+    { "inlet~",      imaction_io, 0, 0, 0 },
+    { "outlet",      imaction_io, 0, 0, 0 },
+    { "outlet~",     imaction_io, 0, 0, 0 },
     { "number",      imaction_number, 0, 0, 0 },
     { "flonum",      imaction_number, 0, 0, 0 },
     { "button",      import_obj, "bng", 0, 0 },
@@ -503,8 +518,8 @@ static void port_dochecksetup(t_portnode *node)
     }
 }
 
-#define BOGUS_NINLETS   15
-#define BOGUS_NOUTLETS  16
+#define BOGUS_NINLETS   23
+#define BOGUS_NOUTLETS  24
 
 typedef struct _bogus
 {
@@ -587,12 +602,7 @@ static void bogus_cleanup(t_bogus *x)
 #ifdef PORT_DEBUG
 	    post("%d outlets deleted", i);
 #endif
-	    if (x->x_glist->gl_editor)  /* FIXME what is the right condition? */
-	    {
-		t_rtext *rt;
-		if (rt = glist_findrtext(x->x_glist, t))
-		    rtext_retext(rt);
-	    }
+	    glist_retext(x->x_glist, t);
 	}
 	else bug("bogus_cleanup");
 	x->x_glist = 0;
@@ -617,17 +627,13 @@ static void *bogus_new(t_symbol *s, int ac, t_atom *av)
 	if (av->a_type == A_SYMBOL)
 	{
 	    t_pd *z;
-	    typedmess(&pd_objectmaker, av->a_w.w_symbol, ac - 1, av + 1);
-	    if (z = pd_newest())
+	    if (z = forky_newobject(av->a_w.w_symbol, ac - 1, av + 1))
 	    {
-		if (pd_checkobject(z))
-		{
-		    t_bogushook *y = (t_bogushook *)pd_new(bogushook_class);
-		    y->x_who = z;
-		    y->x_glist = glist;
-		    pd_bind((t_pd *)y, portps_cleanup);
-		    y->x_clock = clock_new(y, (t_method)bogushook_tick);
-		}
+		t_bogushook *y = (t_bogushook *)pd_new(bogushook_class);
+		y->x_who = z;
+		y->x_glist = glist;
+		pd_bind((t_pd *)y, portps_cleanup);
+		y->x_clock = clock_new(y, (t_method)bogushook_tick);
 #ifdef PORT_DEBUG
 		post("reclaiming %s", av->a_w.w_symbol->s_name);
 #endif
@@ -655,22 +661,42 @@ static void bogushook_cleanup(t_bogushook *x)
     {
 	t_text *t = (t_text *)x->x_who;
 	int ac = binbuf_getnatom(t->te_binbuf);
-	if (ac)
+	if (ac > 1)
 	{
+	    int dorecreate = 0;
 	    t_atom *av = binbuf_getvec(t->te_binbuf);
 	    t_binbuf *bb = binbuf_new();
 #ifdef PORT_DEBUG
 	    startpost("hook-adjusting");
 	    binbuf_print(t->te_binbuf);
 #endif
-	    binbuf_add(bb, ac - 1, av + 1);
-	    binbuf_free(t->te_binbuf);
-	    t->te_binbuf = bb;
-	    if (x->x_glist->gl_editor)  /* FIXME what is the right condition? */
+	    ac--; av++;
+	    if (av->a_type == A_SYMBOL)
 	    {
-		t_rtext *rt;
-		if (rt = glist_findrtext(x->x_glist, t))
-		    rtext_retext(rt);
+		if (av->a_w.w_symbol == portps_outlet)
+		{
+		    if (forky_hasfeeders((t_object *)x->x_who, x->x_glist,
+					 0, &s_signal))
+		    {
+			t_atom at;
+			SETSYMBOL(&at, gensym("outlet~"));
+			binbuf_add(bb, 1, &at);
+			ac--; av++;
+			dorecreate = 1;
+		    }
+		}
+		else if (av->a_w.w_symbol == portps_inlet)
+		{
+		    /* LATER */
+		}
+	    }
+	    if (ac) binbuf_add(bb, ac, av);
+	    if (dorecreate) gobj_recreate(x->x_glist, (t_gobj *)t, bb);
+	    else
+	    {
+		binbuf_free(t->te_binbuf);
+		t->te_binbuf = bb;
+		glist_retext(x->x_glist, t);
 	    }
 	}
 	else bug("bogushook_cleanup");
@@ -697,6 +723,8 @@ static void port_checksetup(void)
 
 	portps_bogus = gensym("_port.bogus");
 	portps_cleanup = gensym("_port.cleanup");
+	portps_inlet = gensym("inlet");
+	portps_outlet = gensym("outlet");
 
 	if (zgetfn(&pd_objectmaker, portps_bogus) == 0)
 	{
@@ -720,6 +748,7 @@ static t_port *port_new(void)
 {
     t_port *x = (t_port *)getbytes(sizeof(*x));
     x->x_oldbb = binbuf_new();
+    x->x_withbogus = 0;
     x->x_outsize = PORT_INISIZE;
     x->x_outatoms = 0;
     x->x_outmess = x->x_outini;
@@ -731,6 +760,16 @@ static t_port *port_new(void)
 
 static void port_free(t_port *x)
 {
+    if (portps_cleanup->s_thing)
+    {
+	/* clean up toplevel glist */
+	typedmess(portps_cleanup->s_thing, portps_cleanup, 0, 0);
+	/* LATER unbind all bogus objects, and destroy all bogushooks
+	   by traversing the portps_cleanup's bindlist, instead of
+	   using per-object clocks.  Need to have bindlist traversal
+	   in Pd API first...  Otherwise, consider fragilizing this
+	   (and fragilizing grab too). */
+    }
     if (x->x_outmess != x->x_outini)
 	freebytes(x->x_outmess, x->x_outsize * sizeof(*x->x_outmess));
     if (x->x_stack != x->x_stackini)
@@ -858,16 +897,6 @@ void import_max(char *fn, char *dir)
     canvas_resume_dsp(dspstate);
     while ((stackp != s__X.s_thing) && (stackp = s__X.s_thing))
     	vmess(stackp, gensym("pop"), "i", 1);
-
-    if (portps_cleanup->s_thing)
-    {
-	typedmess(portps_cleanup->s_thing, portps_cleanup, 0, 0);
-	/* LATER unbind all bogus objects, and destroy all bogushooks
-	   by traversing the portps_cleanup's bindlist, instead of
-	   using per-object clocks.  Need to have bindlist traversal
-	   in Pd API first...  Otherwise, consider fragilizing this
-	   (and fragilizing grab too). */
-    }
 
 #if 0  /* LATER */
     pd_doloadbang();

@@ -7,4 +7,5 @@ hammer/file.o \
 sickle/sic.o \
 unstable/forky.o \
 unstable/fragile.o \
+unstable/fringe.o \
 unstable/loader.o

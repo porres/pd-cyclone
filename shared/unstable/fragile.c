@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+/* Put here bits and pieces likely to break with any new Pd version. */
+
 #include <string.h>
 #include "m_pd.h"
 #include "unstable/pd_imp.h"

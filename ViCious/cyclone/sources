@@ -8,7 +8,9 @@ LIB_CYCLONE = \
 	shared\common\port.c \
 	shared\hammer\file.c \
 	shared\sickle\sic.c \
+	shared\unstable\forky.c \
 	shared\unstable\fragile.c \
+	shared\unstable\fringe.c \
 	shared\unstable\loader.c
 
 LIB_HAMMER = \
@@ -26,7 +28,10 @@ LIB_HAMMER = \
 	shared\hammer\file.c \
 	shared\hammer\gui.c \
 	shared\hammer\tree.c \
-	shared\unstable\fragile.c
+	shared\unstable\forky.c \
+	shared\unstable\fragile.c \
+	shared\unstable\fringe.c \
+	shared\unstable\loader.c
 
 ALL_HAMMERS = \
 	hammer\testmess.c \
@@ -118,7 +123,9 @@ LIB_SICKLE = \
 	shared\sickle\sic.c \
 	shared\sickle\arsic.c \
 	shared\unstable\forky.c \
-	shared\unstable\fragile.c
+	shared\unstable\fragile.c \
+	shared\unstable\fringe.c \
+	shared\unstable\loader.c
 
 ALL_SICKLES = \
 	sickle\abs.c \

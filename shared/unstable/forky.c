@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+/* Put here compilation conditionals supporting older Pd versions. */
+
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "shared.h"
@@ -10,14 +12,19 @@
 #if FORKY_VERSION < 37
 /* need this for t_class::c_wb field access */
 #include "unstable/pd_imp.h"
-
-t_pd *pd_newest(void)
-{
-    return (0);
-}
 #endif
 
-#define FORKY_DEBUG
+//#define FORKY_DEBUG
+
+t_pd *forky_newobject(t_symbol *s, int ac, t_atom *av)
+{
+#if FORKY_VERSION >= 37
+    typedmess(&pd_objectmaker, s, ac, av);
+    return (pd_newest());
+#else
+    return (0);
+#endif
+}
 
 void forky_setsavefn(t_class *c, t_forkysavefn fn)
 {
