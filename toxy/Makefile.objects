@@ -1,4 +1,5 @@
 TOT_OBJECTS = \
+unstable/forky.o \
 common/loud.o \
 common/grow.o \
 hammer/file.o \
