@@ -206,7 +206,7 @@ REL_LIBNAMES = $(foreach fn,$(RELEASE_LIBS:=.$(X_SUFFIX)),$(REL_BINDIR)/$(fn))
 
 REL_EXTERNS = $(foreach fn,$(CX_NAMES:.c=.$(X_SUFFIX)),$(REL_BINDIR)/$(fn)) \
 	$(foreach fn,$(AX_NAMES:.c=~.$(X_SUFFIX)),$(REL_BINDIR)/$(fn)) \
-	$(REL_LIBNAMES) $(REL_BINDIR)/$(RELEASE_APPS) \
+	$(REL_LIBNAMES) $(foreach fn,$(RELEASE_APPS),$(REL_BINDIR)/$(fn)) \
 	$(foreach type,$(TYPES),\
 		$(foreach fn,$(call TYPES_EXTERNS,$(type)),$(REL_BINDIR)/$(fn)))
 
