@@ -29,6 +29,16 @@
 
 enum { SCRIPTLET_CVOK, SCRIPTLET_CVUNKNOWN, SCRIPTLET_CVMISSING };
 
+#define VERSLET_MAXPACKAGE  32
+#define VERSLET_MAXVERSION  32
+
+typedef struct _verslet
+{
+    t_pd  *v_owner;
+    char   v_package[VERSLET_MAXPACKAGE];
+    char   v_version[VERSLET_MAXVERSION];
+} t_verslet;
+
 struct _scriptlet
 {
     t_pd             *s_owner;
@@ -618,12 +628,165 @@ char *scriptlet_nextword(char *buf)
     return (0);
 }
 
+static t_verslet *verslet_new(t_pd *owner)
+{
+    t_verslet *vp = getbytes(sizeof(*vp));
+    vp->v_owner = owner;
+    vp->v_package[0] = 0;
+    vp->v_version[0] = 0;
+    return (vp);
+}
+
+static void verslet_free(t_verslet *vp)
+{
+    freebytes(vp, sizeof(*vp));
+}
+
+static void verslet_set(t_verslet *vp, char *pname, char *vname)
+{
+    strncpy(vp->v_package, pname, VERSLET_MAXPACKAGE-1);
+    vp->v_package[VERSLET_MAXPACKAGE-1] = 0;
+    strncpy(vp->v_version, vname, VERSLET_MAXVERSION-1);
+    vp->v_version[VERSLET_MAXVERSION-1] = 0;
+}
+
+static int verslet_parse(t_verslet *vp, char *buf, int multiline)
+{
+    char *ptr = buf;
+    int plen = 0;
+    vp->v_package[0] = 0;
+    vp->v_version[0] = 0;
+    if (multiline)
+    {
+	while (*ptr)
+	{
+	    while (*ptr == ' ' || *ptr == '\t') ptr++;
+	    if (strncmp(ptr, "package", 7))
+	    {
+		while (*ptr && *ptr != '\n') ptr++;
+		if (*ptr)
+		    buf = ++ptr;
+	    }
+	    else break;
+	}
+	if (*ptr)
+	    ptr += 7;
+	else
+	    ptr = 0;
+    }
+    else
+    {
+	while (*ptr == ' ' || *ptr == '\t') ptr++;
+	if (strncmp(ptr, "package", 7))
+	    ptr = 0;
+	else
+	    ptr += 7;
+    }
+    if (ptr)
+    {
+	while (*ptr == ' ' || *ptr == '\t') ptr++;
+	if (!strncmp(ptr, "provide", 7))
+	{
+	    ptr += 7;
+	    while (*ptr == ' ' || *ptr == '\t') ptr++;
+	    if (*ptr)
+	    {
+		for (plen = 0; plen < VERSLET_MAXPACKAGE-1 && *ptr;
+		     plen++, ptr++)
+		{
+		    if (*ptr == '\n' || *ptr == '\r')
+			break;
+		    else if (*ptr == ' ' || *ptr == '\t')
+		    {
+			vp->v_package[plen] = 0;
+#ifdef SCRIPTLET_DEBUG
+			fprintf(stderr, "package \"%s\"\n", vp->v_package);
+#endif
+			while (*ptr == ' ' || *ptr == '\t') ptr++;
+			if (*ptr >= '0' && *ptr <= '9')
+			{
+			    int vlen;
+			    for (vlen = 0; vlen < VERSLET_MAXVERSION-1 && *ptr;
+				 vlen++, ptr++)
+			    {
+				if ((*ptr >= '0' && *ptr <= '9') || *ptr == '.')
+				    vp->v_version[vlen] = *ptr;
+				else
+				    break;
+			    }
+			    if (vlen)
+			    {
+				vp->v_version[vlen] = 0;
+#ifdef SCRIPTLET_DEBUG
+				fprintf(stderr, "version \"%s\"\n",
+					vp->v_version);
+#endif
+				return (1);
+			    }
+			}
+			break;
+		    }
+		    else vp->v_package[plen] = *ptr;
+		}
+	    }
+	}
+	if (plen)
+	    loud_error(vp->v_owner,
+		       "incomplete scriptlet version declaration \"%s\"", buf);
+    }
+    return (0);
+}
+
+static int verslet_compare(t_verslet *vp1, t_verslet *vp2)
+{
+    char *vname1 = vp1->v_version, *vname2 = vp2->v_version;
+    while (*vname1 || *vname2)
+    {
+	int v1, v2;
+	for (v1 = 0; *vname1 >= '0' && *vname1 <= '9'; vname1++)
+	    v1 = v1 * 10 + *vname1 - '0';
+	for (v2 = 0; *vname2 >= '0' && *vname2 <= '9'; vname2++)
+	    v2 = v2 * 10 + *vname2 - '0';
+	if (v1 < v2)
+	    return (-1);
+	else if (v1 > v2)
+	    return (1);
+	if (*vname1)
+	{
+	    if (*vname1 == '.')
+		*vname1++;
+	    if (*vname1 < '0' || *vname1 > '9')
+	    {
+		loud_error(vp1->v_owner, "invalid version \"%s\"",
+			   vp1->v_version);
+		while (*vname1) *vname1++;
+	    }
+	}
+	if (*vname2)
+	{
+	    if (*vname2 == '.')
+		*vname2++;
+	    if (*vname2 < '0' || *vname2 > '9')
+	    {
+		loud_error(vp2->v_owner, "invalid version \"%s\"",
+			   vp2->v_version);
+		while (*vname2) *vname2++;
+	    }
+	}
+    }
+    return (0);
+}
+
 static int scriptlet_doread(t_scriptlet *sp, t_pd *caller, FILE *fp,
-			    char *rc, char *builtin, t_scriptlet_cmntfn cmntfn)
+			    char *rc, t_verslet *vcompare,
+			    char *builtin, t_scriptlet_cmntfn cmntfn)
 {
     t_scriptlet *outsp = sp, *newsp;
+    t_verslet *vp;
+    int vdiff = 0;
     char buf[MAXPDSTRING];
     if (!caller) caller = sp->s_owner;
+    vp = (vcompare ? verslet_new(caller) : 0);
     while ((fp && !feof(fp) && fgets(buf, MAXPDSTRING - 1, fp))
 	   || builtin)
     {
@@ -643,9 +806,22 @@ static int scriptlet_doread(t_scriptlet *sp, t_pd *caller, FILE *fp,
 		else builtin++;
 	    }
 	}
-	else for (ptr = buf; *ptr; ptr++)
-	    if (*ptr == '\r')
-		*ptr = ' ';  /* LATER rethink */
+	else
+	{
+	    for (ptr = buf; *ptr; ptr++)
+		if (*ptr == '\r')
+		    *ptr = ' ';  /* LATER rethink */
+	    if (vp && verslet_parse(vp, buf, 0))
+	    {
+		if (vdiff = verslet_compare(vp, vcompare))
+		    goto readfailed;
+		else
+		{
+		    verslet_free(vp);
+		    vp = 0;
+		}
+	    }
+	}
 	ptr = buf;
 	while (*ptr == ' ' || *ptr == '\t') ptr++;
 	if (*ptr == '#')
@@ -666,6 +842,8 @@ static int scriptlet_doread(t_scriptlet *sp, t_pd *caller, FILE *fp,
 			    ep--;
 			ep[1] = 0;
 		    }
+		    if (vp)
+			goto readfailed;  /* FIXME call a request cmntfn? */
 		    newsp = cmntfn(caller, rc, sel, ptr);
 		    if (newsp == SCRIPTLET_UNLOCK)
 			outsp->s_locked = 0;
@@ -682,8 +860,20 @@ static int scriptlet_doread(t_scriptlet *sp, t_pd *caller, FILE *fp,
 	else if (*ptr && *ptr != '\n')
 	    scriptlet_doappend(outsp, buf);
     }
+readfailed:
     outsp->s_locked = 0;
-    return (SCRIPTLET_OK);
+    if (vp)
+    {
+	verslet_free(vp);
+	scriptlet_reset(sp);
+	if (vdiff < 0)
+	    return (SCRIPTLET_OLDERVERSION);
+	else if (vdiff > 0)
+	    return (SCRIPTLET_NEWERVERSION);
+	else
+	    return (SCRIPTLET_NOVERSION);
+    }
+    else return (SCRIPTLET_OK);
 }
 
 /* Load particular section(s) from buffer (skip up to an unlocking comment,
@@ -693,7 +883,7 @@ int scriptlet_rcparse(t_scriptlet *sp, t_pd *caller, char *rc, char *contents,
 {
     int result;
     sp->s_locked = 1;  /* see scriptlet_doread() above for unlocking scheme */
-    result = scriptlet_doread(sp, caller, 0, rc, contents, cmntfn);
+    result = scriptlet_doread(sp, caller, 0, rc, 0, contents, cmntfn);
     return (result);
 }
 
@@ -725,18 +915,32 @@ int scriptlet_rcload(t_scriptlet *sp, t_pd *caller, char *rc, char *ext,
 	else sys_bashfilename(nameptr, filename);
 	if (fp = fopen(filename, "r"))
 	{
-	    result = scriptlet_doread(sp, caller, fp, rc, 0, cmntfn);
+	    t_verslet *vp;
+	    if (builtin)
+	    {
+		vp = verslet_new(sp->s_owner);
+		if (!verslet_parse(vp, builtin, 1))
+		{
+		    bug("scriptlet_rcload 1");
+		    verslet_free(vp);
+		    vp = 0;
+		}
+	    }
+	    else vp = 0;
+	    result = scriptlet_doread(sp, caller, fp, rc, vp, 0, cmntfn);
 	    fclose(fp);
+	    if (vp)
+		verslet_free(vp);
 	}
 	else
 	{
-	    bug("scriptlet_rcload");
+	    bug("scriptlet_rcload 2");
 	    result = SCRIPTLET_NOFILE;
 	}
     }
     if (result != SCRIPTLET_OK)
     {
-	scriptlet_doread(sp, caller, 0, rc, builtin, cmntfn);
+	scriptlet_doread(sp, caller, 0, rc, 0, builtin, cmntfn);
     }
     return (result);
 }
@@ -756,7 +960,7 @@ int scriptlet_read(t_scriptlet *sp, t_symbol *fn)
     if (fp = fopen(buf, "r"))
     {
 	scriptlet_reset(sp);
-	result = scriptlet_doread(sp, 0, fp, 0, 0, 0);
+	result = scriptlet_doread(sp, 0, fp, 0, 0, 0, 0);
 	fclose(fp);
     }
     else

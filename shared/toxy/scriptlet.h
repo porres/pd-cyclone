@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -6,6 +6,7 @@
 #define __SCRIPTLET_H__
 
 enum { SCRIPTLET_OK = 0, SCRIPTLET_NOFILE, SCRIPTLET_BADFILE,
+       SCRIPTLET_NOVERSION, SCRIPTLET_OLDERVERSION, SCRIPTLET_NEWERVERSION,
        SCRIPTLET_IGNORED };
 #define SCRIPTLET_UNLOCK  ((t_scriptlet *)0)
 #define SCRIPTLET_LOCK    ((t_scriptlet *)1)

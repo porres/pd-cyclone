@@ -23,6 +23,7 @@ static t_class *makeshift_class;
 #ifdef KRZYSZCZ
 //#define WIDGET_DEBUG
 //#define TOW_DEBUG
+//#define WIDGET_PROFILE
 #endif
 
 enum { WIDGET_NOVIS = 0, WIDGET_PUSHVIS, WIDGET_REVIS };
@@ -93,7 +94,6 @@ typedef struct _tow
     t_symbol  *x_cvname;
     t_symbol  *x_type;       /* 2nd creation arg: widget's type */
     t_symbol  *x_name;       /* 3rd creation arg: widget's name */
-    t_widgettype   *x_typedef;
     t_widgetentry  *x_widgetlist;
     struct _tow    *x_next;  /* next in the global towlist */
 } t_tow;
@@ -112,6 +112,69 @@ static t_symbol *widgetps_atfloat;
 static t_symbol *widgetps_atsymbol;
 static t_symbol *widgetps_atstore;
 static t_symbol *widgetps_atrestore;
+
+#ifdef WIDGET_PROFILE
+static double widgetprofile_lasttime;
+
+static double widgetprofile_step(void)
+{
+    double newtime = sys_getrealtime(),
+	delta = newtime - widgetprofile_lasttime;
+    widgetprofile_lasttime = newtime;
+    return (delta);
+}
+
+static int widgetprofile_handlerphase = 0;
+static double widgetprofile_handlerslice[3];
+static double widgetprofile_handlerdelta[2];
+
+static void widgetprofile_handler_enter(void)
+{
+    widgetprofile_handlerphase = 1;
+    widgetprofile_step();
+}
+
+static void widgetprofile_handler_eval(void)
+{
+    widgetprofile_handlerphase = 2;
+    widgetprofile_handlerdelta[0] = widgetprofile_step();
+}
+
+static void widgetprofile_handler_push(void)
+{
+    widgetprofile_handlerphase = 3;
+    widgetprofile_handlerdelta[1] = widgetprofile_step();
+}
+
+static void widgetprofile_handler_quit(void)
+{
+    if (widgetprofile_handlerphase == 3)
+    {
+	widgetprofile_handlerslice[2] += widgetprofile_step();
+	widgetprofile_handlerslice[0] += widgetprofile_handlerdelta[0];
+	widgetprofile_handlerslice[1] += widgetprofile_handlerdelta[1];
+    }
+    widgetprofile_handlerphase = 0;
+}
+
+static void widget_profile(t_widget *x)
+{
+    fputs("total time in ms:\n", stderr);
+    fprintf(stderr, "handler get %g\n", widgetprofile_handlerslice[0] * 1000.);
+    fprintf(stderr, "handler eval %g\n", widgetprofile_handlerslice[1] * 1000.);
+    fprintf(stderr, "handler push %g\n", widgetprofile_handlerslice[2] * 1000.);
+}
+
+#define WIDGETPROFILE_HANDLER_ENTER  widgetprofile_handler_enter()
+#define WIDGETPROFILE_HANDLER_EVAL   widgetprofile_handler_eval()
+#define WIDGETPROFILE_HANDLER_PUSH   widgetprofile_handler_push()
+#define WIDGETPROFILE_HANDLER_QUIT   widgetprofile_handler_quit()
+#else
+#define WIDGETPROFILE_HANDLER_ENTER
+#define WIDGETPROFILE_HANDLER_EVAL
+#define WIDGETPROFILE_HANDLER_PUSH
+#define WIDGETPROFILE_HANDLER_QUIT
+#endif
 
 static char *widget_propsresolver(t_pd *owner, int ac, t_atom *av)
 {
@@ -222,6 +285,9 @@ static void widget_transtick(t_widget *x)
     newt->te_binbuf = bb;
     newt->te_xpix = oldt->te_xpix;
     newt->te_ypix = oldt->te_ypix;
+    outlet_new(newt, &s_);
+    inlet_new(newt, &newt->ob_pd, &s_, &s_);
+    /* FIXME preserve connections */
     glist_add(x->x_glist, &newt->te_g);
     if (glist_isvisible(x->x_glist))
     {
@@ -322,10 +388,6 @@ static void widget_pushoptions(t_widget *x, int doit)
 
 static void widget_pushinits(t_widget *x)
 {
-    if (masterwidget_ievaluate(x->x_transient, 0, 0, 0, x->x_arguments))
-	scriptlet_vpush(x->x_transient, "masterinit");
-    else
-	bug("widget_pushinits (master)");
     if (widgettype_isdefined(x->x_typedef))
     {
 	int sz;
@@ -584,6 +646,7 @@ static void widget_anything(t_widget *x, t_symbol *s, int ac, t_atom *av)
 	    t_atom *hp;
 	    t_symbol *sel;
 	    char buf[MAXPDSTRING];
+	    WIDGETPROFILE_HANDLER_ENTER;
 	    buf[0] = '@';
 	    strcpy(buf + 1, s->s_name);
 	    sel = gensym(buf);
@@ -592,13 +655,18 @@ static void widget_anything(t_widget *x, t_symbol *s, int ac, t_atom *av)
 				    sel, &hlen)))
 		&& hlen > 1)
 	    {
+		WIDGETPROFILE_HANDLER_EVAL;
 		scriptlet_reset(x->x_auxscript);
 		scriptlet_add(x->x_auxscript, 0, 0, hlen - 1, hp + 1);
 		if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
 				       ac, av, x->x_arguments))
+		{
+		    WIDGETPROFILE_HANDLER_PUSH;
 		    scriptlet_push(x->x_transient);
+		}
 	    }
 	    else loud_nomethod((t_pd *)x, s);
+	    WIDGETPROFILE_HANDLER_QUIT;
 	}
     }
 }
@@ -608,17 +676,21 @@ static void widget_bang(t_widget *x)
 {
     int ac;
     t_atom *av;
+    WIDGETPROFILE_HANDLER_ENTER;
     if ((av = props_getone(x->x_handlers, widgetps_atbang, &ac)) ||
 	(av = props_getone(widgettype_gethandlers(x->x_typedef),
 			   widgetps_atbang, &ac)))
     {
 	if (ac > 1)
 	{
+	    WIDGETPROFILE_HANDLER_EVAL;
 	    scriptlet_reset(x->x_transient);
 	    scriptlet_add(x->x_transient, 1, 1, ac - 1, av + 1);
+	    WIDGETPROFILE_HANDLER_PUSH;
 	    scriptlet_push(x->x_transient);
 	}
     }
+    WIDGETPROFILE_HANDLER_QUIT;
 }
 
 /* LATER cache this */
@@ -626,6 +698,7 @@ static void widget_float(t_widget *x, t_float f)
 {
     int ac;
     t_atom *av;
+    WIDGETPROFILE_HANDLER_ENTER;
     if ((av = props_getone(x->x_handlers, widgetps_atfloat, &ac)) ||
 	(av = props_getone(widgettype_gethandlers(x->x_typedef),
 			   widgetps_atfloat, &ac)))
@@ -633,14 +706,19 @@ static void widget_float(t_widget *x, t_float f)
 	if (ac > 1)
 	{
 	    t_atom at;
+	    WIDGETPROFILE_HANDLER_EVAL;
 	    SETFLOAT(&at, f);
 	    scriptlet_reset(x->x_auxscript);
 	    scriptlet_add(x->x_auxscript, 0, 0, ac - 1, av + 1);
 	    if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
 				   1, &at, x->x_arguments))
+	    {
+		WIDGETPROFILE_HANDLER_PUSH;
 		scriptlet_push(x->x_transient);
+	    }
 	}
     }
+    WIDGETPROFILE_HANDLER_QUIT;
 }
 
 /* LATER cache this */
@@ -648,6 +726,7 @@ static void widget_symbol(t_widget *x, t_symbol *s)
 {
     int ac;
     t_atom *av;
+    WIDGETPROFILE_HANDLER_ENTER;
     if ((av = props_getone(x->x_handlers, widgetps_atsymbol, &ac)) ||
 	(av = props_getone(widgettype_gethandlers(x->x_typedef),
 			   widgetps_atsymbol, &ac)))
@@ -655,14 +734,19 @@ static void widget_symbol(t_widget *x, t_symbol *s)
 	if (ac > 1)
 	{
 	    t_atom at;
+	    WIDGETPROFILE_HANDLER_EVAL;
 	    SETSYMBOL(&at, s);
 	    scriptlet_reset(x->x_auxscript);
 	    scriptlet_add(x->x_auxscript, 0, 0, ac - 1, av + 1);
 	    if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
 				   1, &at, x->x_arguments))
+	    {
+		WIDGETPROFILE_HANDLER_PUSH;
 		scriptlet_push(x->x_transient);
+	    }
 	}
     }
+    WIDGETPROFILE_HANDLER_QUIT;
 }
 
 static void widget_store(t_widget *x, t_symbol *s)
@@ -752,6 +836,30 @@ static void widget_refresh(t_widget *x)
     widget_update(x, x->x_options);
     widget_update(x, x->x_handlers);
     widget_update(x, x->x_arguments);
+}
+
+static int widget_resettype(t_widget *x, t_widgettype *wt)
+{
+    if (wt == x->x_typedef)
+    {
+	if (!(x->x_tkclass = widgettype_tkclass(x->x_typedef)))
+	    x->x_tkclass = x->x_type;
+	props_clone(x->x_arguments, widgettype_getarguments(x->x_typedef));
+	/* FIXME widget_addmessage(x, 0, ac, av); */
+	widget_pushconstructors(x);
+	widget_refresh(x);
+	return (1);
+    }
+    else
+    {
+	bug("widget_resettype");
+	return (0);
+    }
+}
+
+static void widget_redefine(t_widget *x)
+{
+    widget_resettype(x, widgettype_reload(x->x_type));
 }
 
 static void widget__failure(t_widget *x, t_symbol *s, int ac, t_atom *av)
@@ -937,9 +1045,6 @@ static void widget_debug(t_widget *x)
     bp = widgettype_getdestructor(x->x_typedef, &sz);
     fprintf(stderr, "type destructor (size %d):\n\"%s\"\n",
 	    sz, (bp ? bp : bempty));
-    bp = masterwidget_getinitializer(&sz);
-    fprintf(stderr, "master initializer (size %d):\n\"%s\"\n",
-	    sz, (bp ? bp : bempty));
     bp = widgettype_getinitializer(x->x_typedef, &sz);
     fprintf(stderr, "type initializer (size %d):\n\"%s\"\n",
 	    sz, (bp ? bp : bempty));
@@ -982,32 +1087,33 @@ static void widget_free(t_widget *x)
 static void *widget_new(t_symbol *s, int ac, t_atom *av)
 {
     t_widget *x;
+    t_symbol *type = 0, *name = 0;
     char buf[MAXPDSTRING];
     if (widget_transforming)
 	return (0);
     masterwidget_validate();
-    x = (t_widget *)pd_new(widget_class);
-    x->x_type = 0;
-    x->x_name = 0;
     if (ac && av->a_type == A_SYMBOL)
     {
-	x->x_type = av->a_w.w_symbol;
+	type = av->a_w.w_symbol;
 	ac--; av++;
     }
     if (ac && av->a_type == A_SYMBOL)
     {
-	x->x_name = av->a_w.w_symbol;
+	name = av->a_w.w_symbol;
 	ac--; av++;
     }
     /* LATER think about anonymous widgets (single arg, or '.') */
-    if (!x->x_type || x->x_type == &s_ ||
-	!x->x_name || x->x_name == &s_)
+    if (!type || type == &s_ || !name || name == &s_)
     {
-	loud_error((t_pd *)x, "bad arguments for a widget");
-	loud_errand((t_pd *)x,
-		    "expecting \"widget <type> <name> [properties]\"");
+	loud_error(0, "bad arguments for a widget");
+	loud_errand(0, "expecting \"widget <type> <name> [properties]\"");
 	return (0);
     }
+
+    x = (t_widget *)pd_new(widget_class);
+    x->x_type = type;
+    x->x_name = name;
+
     sprintf(buf, "%s%x", x->x_name->s_name, (int)x);
     pd_bind((t_pd *)x, x->x_cbtarget = gensym(buf));
     sprintf(buf, "%s%x.rp", x->x_name->s_name, (int)x);
@@ -1096,6 +1202,15 @@ static void tow_anything(t_tow *x, t_symbol *s, int ac, t_atom *av)
     t_widgetentry *we;
     for (we = x->x_widgetlist; we; we = we->we_next)
 	typedmess((t_pd *)we->we_widget, s, ac, av);
+}
+
+static void tow_redefine(t_tow *x)
+{
+    t_widgettype *wt = widgettype_reload(x->x_type);
+    t_widgetentry *we;
+    for (we = x->x_widgetlist; we; we = we->we_next)
+	if (!widget_resettype(we->we_widget, wt))
+	    break;
 }
 
 static void tow__callback(t_tow *x, t_symbol *s, int ac, t_atom *av)
@@ -1362,6 +1477,8 @@ void widget_setup(void)
 		    gensym("tot"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget_refresh,
 		    gensym("refresh"), 0);
+    class_addmethod(widget_class, (t_method)widget_redefine,
+		    gensym("redefine"), 0);
     class_addmethod(widget_class, (t_method)widget__failure,
 		    gensym("_failure"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget__config,
@@ -1381,10 +1498,15 @@ void widget_setup(void)
     class_addmethod(widget_class, (t_method)widget_debug,
 		    gensym("debug"), 0);
 #endif
+#ifdef WIDGET_PROFILE
+    class_addmethod(widget_class, (t_method)widget_profile,
+		    gensym("profile"), 0);
+#endif
     hammerfile_setup(widget_class, 0);
 
     makeshift_class = class_new(gensym("text"), 0, 0,
 				sizeof(t_text),
+				/* inlet added explicitly (cf text_class) */
 				CLASS_NOINLET | CLASS_PATCHABLE, 0);
 
     tow_class = class_new(gensym("tow"),
@@ -1395,6 +1517,8 @@ void widget_setup(void)
     class_addfloat(tow_class, tow_float);
     class_addsymbol(tow_class, tow_symbol);
     class_addanything(tow_class, tow_anything);
+    class_addmethod(tow_class, (t_method)tow_redefine,
+		    gensym("redefine"), 0);
     class_addmethod(tow_class, (t_method)tow__callback,
 		    gensym("_cb"), A_GIMME, 0);
 #ifdef TOW_DEBUG

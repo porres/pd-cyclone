@@ -1,4 +1,7 @@
-# LATER transfer the `standard' toxy setup definitions into a tcl package
+package provide toxywidgets 0.1.0.14
+
+# LATER keep standard widget setup in a .tcl file (transfered into a .wiq), and
+# glue separate .wid files with standard widget definitions into another .wiq
 # LATER think about using a slave interpreter, and a toxy-specific connection
 # LATER gather aqua incompatibilities, and decide, if there is no other
 # way than branching (different meaning of -bg, -borderwidth trouble,
@@ -116,11 +119,9 @@ proc ::toxy::item_visconfig {path target name varname cvpath px py} {
 	}
     }
 
-    if {[info exists ::toxy::masterinit]} {
-	set failed [catch {eval $::toxy::masterinit} res]
-	unset ::toxy::masterinit
-	if {$failed} { error [concat in ::toxy::masterinit: $res] }
-    }
+    set failed [catch {::toxy::master $path $cvpath $target} res]
+    if {$failed} { error [concat in ::toxy::master: $res] }
+
     if {[info exists ::toxy::typeinit]} {
 	set failed [catch {eval $::toxy::typeinit} res]
 	unset ::toxy::typeinit
@@ -183,7 +184,7 @@ proc ::toxy::master_motion {target cvpath x y} {
 	[$cvpath canvasy [expr {$y - [winfo rooty $cvpath]}]] 0 \;
 }
 
-proc ::toxy::master {path toppath cvpath target} {
+proc ::toxy::master {path cvpath target} {
 # FIXME subitem handling in megawidgets
     bind $path <ButtonRelease> "::toxy::master_release $target $cvpath %X %Y %b"
     bind $path <1> "::toxy::item_click $target $cvpath %X %Y %b 0"
@@ -198,9 +199,12 @@ proc ::toxy::master {path toppath cvpath target} {
     bind $path <3> "::toxy::item_click $target $cvpath %X %Y %b 8"
 
     bind $path <Motion> "::toxy::master_motion $target $cvpath %X %Y"
+    bind $path <B1-Motion> "::toxy::master_motion $target $cvpath %X %Y"
     bind $path <Enter> "::toxy::item_inout $target 1"
     bind $path <Leave> "::toxy::item_inout $target 0"
 }
+
+# standard widget types, LATER move to separate .wid files
 
 # FIXME
 proc ::toxy::scale_command {target sel v} {
@@ -242,16 +246,6 @@ proc ::toxy::popup {path target remote entries args} {
     } else { error [concat in ::toxy::popup: $err] }
 }
 
-# master initializer
-#> master
-
-::toxy::master .- .- .^.c .|
-
-# FIXME
-set ::toxy::scale_isactive 1
-
-# standard widget types
-
 #> bang button
 #. -image ::toxy::img::empty -command .<.>
 #. -bg pink -activebackground red -width 50 -height 50
@@ -262,6 +256,9 @@ set ::toxy::scale_isactive 1
 #. -bg pink -activebackground red -length 200
 #. @float .- set .#1
 #. @vset ::toxy::scale_doset .- .#1
+
+# FIXME
+set ::toxy::scale_isactive 1
 
 #> symbol entry
 #. -bg pink -font .(helvetica 24.) -width 16

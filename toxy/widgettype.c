@@ -37,7 +37,6 @@ struct _masterwidget
     t_symbol      *mw_target;
     t_scriptlet   *mw_setupscript;
     t_dict        *mw_typemap;
-    t_widgettype  *mw_mastertype;  /* contains master initializer */
     t_widgettype  *mw_parsedtype;  /* the type currently parsed, if loading */
     t_binbuf      *mw_bb;          /* auxiliary, LATER remove */
 };
@@ -57,6 +56,21 @@ static void widgettype_map(t_widgettype *wt, char *cls, char *pkg)
     wt->wt_tkclass = (cls ? gensym(cls) : 0);
     wt->wt_tkpackage = (pkg ? gensym(pkg) : 0);
 }
+
+#if 0
+/* only for debugging (never call, unless certain that nobody references wt) */
+static void widgettype_free(t_masterwidget *mw, t_widgettype *wt)
+{
+    fprintf(stderr, "widgettype free... ");
+    dict_unbind(mw->mw_typemap, (t_pd *)wt, wt->wt_typekey);
+    props_freeall(wt->wt_options);
+    scriptlet_free(wt->wt_iniscript);
+    scriptlet_free(wt->wt_newscript);
+    scriptlet_free(wt->wt_freescript);
+    pd_free((t_pd *)wt);
+    fprintf(stderr, "done\n");
+}
+#endif
 
 static t_widgettype *widgettype_new(t_masterwidget *mw,
 				    char *typ, char *cls, char *pkg)
@@ -101,20 +115,12 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	typeval = (t_widgettype *)dict_firstvalue(mw->mw_typemap, typekey, 0);
 	if (caller == (t_pd *)mw)
 	{  /* setup.wid or built-in defaults */
-	    if (mw->mw_mastertype)
-	    {  /* no master type in setup.wid, extracting built-in one */
-		if (typeval != mw->mw_mastertype)
-		    return (SCRIPTLET_LOCK);
-	    }
-	    else
+	    if (typeval)
 	    {
-		if (typeval)
-		{
-		    /* LATER rethink */
-		    loud_warning((t_pd *)mw, 0, "redefinition of '%s'\
+		/* LATER rethink */
+		loud_warning((t_pd *)mw, 0, "redefinition of '%s'\
  in \"%s.wid\" file, ignored", buf, rc);
-		    return (SCRIPTLET_LOCK);
-		}
+		return (SCRIPTLET_LOCK);
 	    }
 	}
 	else
@@ -196,52 +202,71 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
     return (SCRIPTLET_UNLOCK);
 }
 
+static int widgettype_doload(t_widgettype *wt, t_symbol *s)
+{
+    int result = 0;
+    /* <type>.wid searched in the current patch's dir + pd_path,
+       but not in `pwd` */
+    t_scriptlet *mwsp =
+	scriptlet_new((t_pd *)masterwidget, masterwidget->mw_target,
+		      masterwidget->mw_target, 0, canvas_getcurrent(), 0);
+    masterwidget->mw_parsedtype = wt;
+
+    if (scriptlet_rcload(mwsp, (t_pd *)wt,
+			 s->s_name, ".wid", 0, masterwidget_cmnthook)
+	== SCRIPTLET_OK)
+    {
+#ifdef WIDGETTYPE_VERBOSE
+	post("using a separate %s's definition file", s->s_name);
+#endif
+	if (!scriptlet_isempty(mwsp))
+	{
+	    t_scriptlet *sp =
+		scriptlet_new((t_pd *)masterwidget, masterwidget->mw_target,
+			      masterwidget->mw_target, 0, 0, 0);
+	    if (scriptlet_evaluate(mwsp, sp, 0, 0, 0, 0))
+	    {
+		scriptlet_push(sp);
+		scriptlet_append(masterwidget->mw_setupscript, mwsp);
+	    }
+	    else bug("widgettype_doload");
+	    scriptlet_free(sp);
+	}
+	result = 1;
+    }
+    scriptlet_free(mwsp);
+    return (result);
+}
+
+t_widgettype *widgettype_find(t_symbol *s)
+{
+    return ((t_widgettype *)dict_firstvalue(masterwidget->mw_typemap,
+					    dict_key(masterwidget->mw_typemap,
+						     s->s_name), 0));
+}
+
 t_widgettype *widgettype_get(t_symbol *s)
 {
-    t_widgettype *wt;
-    /* Design decision: setup.wid defs are NOT overridden by <type>.wid
-       (sacrificing flexibility for feature stability). */
-    if (wt = (t_widgettype *)dict_firstvalue(masterwidget->mw_typemap,
-					     dict_key(masterwidget->mw_typemap,
-						      s->s_name), 0))
-	masterwidget->mw_parsedtype = 0;
-    else
+    t_widgettype *wt = widgettype_find(s);
+    /* Design decision: default widget definitions are NOT implicitly
+       overridden by <type>.wid (sacrificing flexibility for feature
+       stability). */
+    if (!wt)
     {
 	/* first instance of a type not defined in setup.wid */
 	wt = widgettype_new(masterwidget, s->s_name, 0, 0);
-	masterwidget->mw_parsedtype = wt;
+	widgettype_doload(wt, s);
     }
-    if (masterwidget->mw_parsedtype)
-    {
-	/* <type>.wid searched in the current patch's dir + pd_path,
-	   but not in `pwd` */
-	t_scriptlet *mwsp =
-	    scriptlet_new((t_pd *)masterwidget, masterwidget->mw_target,
-			  masterwidget->mw_target, 0,
-			  canvas_getcurrent(), 0);
-	if (scriptlet_rcload(mwsp, (t_pd *)wt,
-			     s->s_name, ".wid", 0, masterwidget_cmnthook)
-	    == SCRIPTLET_OK)
-	{
-#ifdef WIDGETTYPE_VERBOSE
-	    post("using a separate %s's definition file", s->s_name);
-#endif
-	    if (!scriptlet_isempty(mwsp))
-	    {
-		t_scriptlet *sp =
-		    scriptlet_new((t_pd *)masterwidget, masterwidget->mw_target,
-				  masterwidget->mw_target, 0, 0, 0);
-		if (scriptlet_evaluate(mwsp, sp, 0, 0, 0, 0))
-		{
-		    scriptlet_push(sp);
-		    scriptlet_append(masterwidget->mw_setupscript, mwsp);
-		}
-		else bug("widgettype_get");
-		scriptlet_free(sp);
-	    }
-	}
-	scriptlet_free(mwsp);
-    }
+    return (wt);
+}
+
+t_widgettype *widgettype_reload(t_symbol *s)
+{
+    t_widgettype *wt = widgettype_find(s);
+    if (!wt)
+	/* first instance of a type not defined in setup.wid */
+	wt = widgettype_new(masterwidget, s->s_name, 0, 0);
+    widgettype_doload(wt, s);
     return (wt);
 }
 
@@ -319,29 +344,14 @@ void widgettype_setup(void)
     }
 }
 
-char *masterwidget_getinitializer(int *szp)
-{
-    return (scriptlet_getcontents(masterwidget->mw_mastertype->wt_iniscript,
-				  szp));
-}
-
 char *masterwidget_getcontents(int *szp)
 {
     return (scriptlet_getcontents(masterwidget->mw_setupscript, szp));
 }
 
-int masterwidget_ievaluate(t_scriptlet *outsp, int visedonly,
-			   int ac, t_atom *av, t_props *argprops)
-{
-    return (scriptlet_evaluate(masterwidget->mw_mastertype->wt_iniscript,
-			       outsp, visedonly, ac, av, argprops));
-}
-
 void masterwidget_validate(void)
 {
     int rcresult;
-    t_symbol *typekey;
-    t_widgettype *typeval;
     char buf[MAXPDSTRING];
     if (masterwidget)
 	return;
@@ -359,7 +369,6 @@ void masterwidget_validate(void)
 		      masterwidget->mw_target, 0, 0, 0);
     masterwidget->mw_bb = binbuf_new();
     masterwidget->mw_parsedtype = 0;
-    masterwidget->mw_mastertype = 0;
 
     rcresult =
 	scriptlet_rcload(masterwidget->mw_setupscript, 0, "setup", ".wid",
@@ -372,24 +381,28 @@ void masterwidget_validate(void)
     }
     else
     {
+	char *msg;
+	if (rcresult == SCRIPTLET_NOFILE)
+	    msg = "no";
+	else if (rcresult == SCRIPTLET_BADFILE)
+	    msg = "corrupt";
+	else if (rcresult == SCRIPTLET_NOVERSION)
+	    msg = "unknown version of";
+	else if (rcresult == SCRIPTLET_OLDERVERSION)
+	    msg = "obsolete";
+	else if (rcresult == SCRIPTLET_NEWERVERSION)
+	    msg = "incompatible";
+	else
+	    msg = "cannot use";
 	loud_warning((t_pd *)masterwidget, 0,
-		     "no file 'setup.wid'... using built-in defaults");
+		     "%s file 'setup.wid'... using built-in defaults", msg);
     }
-    typekey = dict_key(masterwidget->mw_typemap, "master");
-    if ((typeval = (t_widgettype *)dict_firstvalue(masterwidget->mw_typemap,
-						   typekey, 0))
-	&& !scriptlet_isempty(masterwidget->mw_setupscript))
-    {
-	masterwidget->mw_mastertype = typeval;
+    if (!scriptlet_isempty(masterwidget->mw_setupscript))
 	rcresult = SCRIPTLET_OK;
-    }
     else if (rcresult == SCRIPTLET_OK)
     {
-	/* LATER think about adding only missing part to existing local defs */
-	loud_warning((t_pd *)masterwidget, 0, "%s missing in file 'setup.wid'",
-		     (typeval ? "setup definitions" : "master initializer"));
-	masterwidget->mw_mastertype =
-	    widgettype_new(masterwidget, "master", 0, 0);
+	loud_warning((t_pd *)masterwidget, 0,
+		     "missing setup definitions in file 'setup.wid'");
 	scriptlet_reset(masterwidget->mw_setupscript);
 	rcresult =
 	    scriptlet_rcparse(masterwidget->mw_setupscript, 0, "master",
@@ -397,7 +410,7 @@ void masterwidget_validate(void)
     }
     else
     {
-	bug("masterwidget_initialize 1");
+	bug("masterwidget_validate 1");
 	rcresult = SCRIPTLET_BADFILE;
     }
     if (rcresult == SCRIPTLET_OK)
@@ -408,7 +421,7 @@ void masterwidget_validate(void)
 	if (scriptlet_evaluate(masterwidget->mw_setupscript, sp, 0, 0, 0, 0))
 	    scriptlet_push(sp);
 	else
-	    bug("masterwidget_initialize 2");
+	    bug("masterwidget_validate 2");
 	scriptlet_free(sp);
     }
 }

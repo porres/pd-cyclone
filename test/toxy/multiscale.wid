@@ -35,7 +35,8 @@ proc ::toxy::multiscale {path cvpath target remote count lo hi res dx dy bg} {
 	    }
 	    set id [$path create window $px $py -width $dx -height $dy \
 		-anchor nw -window $path.s$ndx -tags $path.s$ndx]
-	    ::toxy::master $path.s$ndx $path $cvpath $target
+#	    ::toxy::master $path.s$ndx $path $cvpath $target
+	    ::toxy::master $path.s$ndx $cvpath $target
 	    incr px $dx
 	}
     }

@@ -15,7 +15,9 @@ EXTERN_STRUCT _widgettype;
 EXTERN_STRUCT _masterwidget;
 #define t_masterwidget  struct _masterwidget
 
+t_widgettype *widgettype_find(t_symbol *s);
 t_widgettype *widgettype_get(t_symbol *s);
+t_widgettype *widgettype_reload(t_symbol *s);
 int widgettype_isdefined(t_widgettype *wt);
 t_symbol *widgettype_tkclass(t_widgettype *wt);
 t_props *widgettype_getoptions(t_widgettype *wt);
@@ -33,10 +35,7 @@ int widgettype_devaluate(t_widgettype *wt, t_scriptlet *outsp,
 			 int visedonly, int ac, t_atom *av, t_props *argprops);
 void widgettype_setup(void);
 
-char *masterwidget_getinitializer(int *szp);
 char *masterwidget_getcontents(int *szp);
-int masterwidget_ievaluate(t_scriptlet *outsp, int visedonly,
-			   int ac, t_atom *av, t_props *argprops);
 void masterwidget_validate(void);
 
 #endif
