@@ -1,3 +1,3 @@
 #define TOXY_VERSION "0.1"
 #define TOXY_RELEASE "alpha"
-#define TOXY_BUILD 6
+#define TOXY_BUILD 7

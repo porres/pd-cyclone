@@ -2,6 +2,18 @@ proc ::toxy::multiscalecommand {target sel ndx v} {
     pd [concat $target $sel $v $ndx \;]
 }
 
+proc ::toxy::multiscale_float {path target count ndx} {
+    if {$ndx >= 0 && $ndx < $count} {
+	pd [concat $target _cb [$path.s$ndx get] $ndx \;]
+    }
+}
+
+proc ::toxy::multiscale_list {path count ndx v} {
+    if {$ndx >= 0 && $ndx < $count} {
+	$path.s$ndx set $v
+    }
+}
+
 proc ::toxy::multiscale {path target remote count dx dy bg} {
     if {[winfo exists $path.s0]} {
 #	puts stderr [concat $path.s0 exists]
@@ -32,6 +44,8 @@ proc ::toxy::multiscale {path target remote count dx dy bg} {
 #> multiscale canvas
 #. #n 3 #dx 60 #dy 90
 #. #bg yellow
+#. @float ::toxy::multiscale_float .- .| .#n .#1
+#. @list ::toxy::multiscale_list .- .#n .#2 .#1
 
 ::toxy::multiscale .- .| . .#n .#dx .#dy .#bg
 

@@ -270,7 +270,8 @@ static void widget_delete(t_gobj *z, t_glist *glist)
 static void widget_pushoptions(t_widget *x, int doit)
 {
     char *mypathname = widget_getmypathname(x, x->x_glist)->s_name;
-    if (scriptlet_evaluate(x->x_optscript, x->x_transient, 0, 0, 0, 0))
+    if (scriptlet_evaluate(x->x_optscript, x->x_transient, 0,
+			   0, 0, x->x_arguments))
     {
 #ifdef WIDGET_DEBUG
 	int sz;
@@ -532,8 +533,8 @@ static void widget_anything(t_widget *x, t_symbol *s, int ac, t_atom *av)
 	    {
 		scriptlet_reset(x->x_auxscript);
 		scriptlet_add(x->x_auxscript, 0, 0, hlen - 1, hp + 1);
-		if (scriptlet_evaluate(x->x_auxscript, x->x_transient,
-				       1, ac, av, 0))
+		if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
+				       ac, av, x->x_arguments))
 		    scriptlet_push(x->x_transient);
 	    }
 	    else loud_nomethod((t_pd *)x, s);
@@ -574,8 +575,8 @@ static void widget_float(t_widget *x, t_float f)
 	    SETFLOAT(&at, f);
 	    scriptlet_reset(x->x_auxscript);
 	    scriptlet_add(x->x_auxscript, 0, 0, ac - 1, av + 1);
-	    if (scriptlet_evaluate(x->x_auxscript,
-				   x->x_transient, 1, 1, &at, 0))
+	    if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
+				   1, &at, x->x_arguments))
 		scriptlet_push(x->x_transient);
 	}
     }
@@ -596,8 +597,8 @@ static void widget_symbol(t_widget *x, t_symbol *s)
 	    SETSYMBOL(&at, s);
 	    scriptlet_reset(x->x_auxscript);
 	    scriptlet_add(x->x_auxscript, 0, 0, ac - 1, av + 1);
-	    if (scriptlet_evaluate(x->x_auxscript,
-				   x->x_transient, 1, 1, &at, 0))
+	    if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
+				   1, &at, x->x_arguments))
 		scriptlet_push(x->x_transient);
 	}
     }
@@ -676,10 +677,11 @@ static void widget_tot(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
     if (ac)
     {
-	t_scriptlet *sp = x->x_transient;
-	scriptlet_reset(sp);
-	scriptlet_add(sp, 1, 1, ac, av);
-	scriptlet_push(sp);
+	scriptlet_reset(x->x_auxscript);
+	scriptlet_add(x->x_auxscript, 1, 1, ac, av);
+	if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
+			       0, 0, x->x_arguments))
+	    scriptlet_push(x->x_transient);
     }
 }
 

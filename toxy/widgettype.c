@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+/* FIXME .#iprops crash */
+
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"

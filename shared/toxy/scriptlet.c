@@ -342,9 +342,9 @@ void scriptlet_prealloc(t_scriptlet *sp, int sz, int mayshrink)
     scriptlet_reset(sp);
 }
 
-int scriptlet_addstring(t_scriptlet *sp, char *ibuf,
-			int resolveall, int visedonly,
-			int ac, t_atom *av, t_props *argprops)
+static int scriptlet_addstring(t_scriptlet *sp, char *ibuf,
+			       int resolveall, int visedonly,
+			       int ac, t_atom *av, t_props *argprops)
 {
     int result = 1;
     char *bp = ibuf, *ep = ibuf, *ep1;
@@ -373,7 +373,7 @@ int scriptlet_addstring(t_scriptlet *sp, char *ibuf,
     return (result);
 }
 
-int scriptlet_addfloat(t_scriptlet *sp, t_float f)
+static int scriptlet_addfloat(t_scriptlet *sp, t_float f)
 {
     char buf[64];
     if (!sp->s_separator)
@@ -450,8 +450,8 @@ void scriptlet_vpush(t_scriptlet *sp, char *varname)
     }
 }
 
-int scriptlet_evaluate(t_scriptlet *insp, t_scriptlet *outsp,
-		       int visedonly, int ac, t_atom *av, t_props *argprops)
+int scriptlet_evaluate(t_scriptlet *insp, t_scriptlet *outsp, int visedonly,
+		       int ac, t_atom *av, t_props *argprops)
 {
     if (scriptlet_ready(insp))
     {
