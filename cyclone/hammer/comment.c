@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -77,7 +77,7 @@ static void comment_draw(t_comment *x)
 {
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     int cvid = (int)x->x_canvas;
-    int reqsize = x->x_textbufsize + 350;  /* FIXME estimation */
+    int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
     if (reqsize > COMMENT_OUTBUFSIZE)
     {
 #ifdef COMMENT_DEBUG
@@ -88,30 +88,15 @@ static void comment_draw(t_comment *x)
     }
     else outbuf = buf;
     outp = outbuf;
-    if (x->x_encoding)
-	sprintf(outp, "set tt [comment_entext %s {%.*s}]\n",
-		x->x_encoding->s_name, x->x_textbufsize, x->x_textbuf);
-    else
-	sprintf(outp, "set tt {%.*s}\n", x->x_textbufsize, x->x_textbuf);
-    outp += strlen(outp);
-    sprintf(outp, ".x%x.c create text %f %f -text $tt \
- -tags {%s %s} -font {%s %d} -fill %s", cvid,
+    sprintf(outp, "comment_draw %s .x%x.c %s %s %f %f %s %d %s %s {%.*s} %d\n",
+	    x->x_bindsym->s_name, cvid, x->x_texttag, x->x_tag,
 	    (float)(text_xpix((t_text *)x, x->x_glist) + COMMENT_LMARGIN),
 	    (float)(text_ypix((t_text *)x, x->x_glist) + COMMENT_TMARGIN),
-	    x->x_texttag, x->x_tag, x->x_fontfamily->s_name, x->x_fontsize,
+	    x->x_fontfamily->s_name, x->x_fontsize,
 	    (glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ?
-	     "blue" : x->x_color));
-    outp += strlen(outp);
-    if (x->x_pixwidth)
-	sprintf(outp, " -width %d -anchor nw\n", x->x_pixwidth);
-    else
-	strcpy(outp, " -anchor nw\n");
-    outp += strlen(outp);
-    sprintf(outp, "comment_bbox %s .x%x.c %s\n",
-	    x->x_bindsym->s_name, cvid, x->x_texttag);
-    outp += strlen(outp);
-    sprintf(outp, ".x%x.c bind %s <Button> {comment_click %s %%W %%x %%y %s}\n",
-	    cvid, x->x_texttag, x->x_bindsym->s_name, x->x_texttag);
+	     "blue" : x->x_color),
+	    (x->x_encoding ? x->x_encoding->s_name : "\"\""),
+	    x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
     x->x_bbpending = 1;
     sys_gui(outbuf);
     if (outbuf != buf) freebytes(outbuf, reqsize);
@@ -132,17 +117,9 @@ static void comment_update(t_comment *x)
     }
     else outbuf = buf;
     outp = outbuf;
-    if (x->x_encoding)
-	sprintf(outp, "set tt [comment_entext %s {%.*s}]\n",
-		x->x_encoding->s_name, x->x_textbufsize, x->x_textbuf);
-    else
-	sprintf(outp, "set tt {%.*s}\n", x->x_textbufsize, x->x_textbuf);
-    outp += strlen(outp);
-    if (x->x_pixwidth)
-	sprintf(outp, ".x%x.c itemconfig %s -text $tt -width %d\n",
-		cvid, x->x_texttag, x->x_pixwidth);
-    else
-	sprintf(outp, ".x%x.c itemconfig %s -text $tt\n", cvid, x->x_texttag);
+    sprintf(outp, "comment_update .x%x.c %s %s {%.*s} %d\n", cvid,
+	    x->x_texttag, (x->x_encoding ? x->x_encoding->s_name : "\"\""),
+	    x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
     outp += strlen(outp);
     if (x->x_active)
     {
@@ -846,8 +823,24 @@ void comment_setup(void)
     /* LATER think how to conditionally (FORKY_VERSION >= 38)
        replace puts with pdtk_post */
     sys_gui("proc comment_entext {enc tt} {\n\
- set rr [catch {encoding convertfrom $enc $tt} tt1]\n\
- if {$rr == 0} {concat $tt1} else {\n\
- puts stderr [concat tcl/tk error: $tt1]\n\
- concat $tt}}\n");
+ if {$enc == \"\"} {concat $tt} else {\n\
+  set rr [catch {encoding convertfrom $enc $tt} tt1]\n\
+  if {$rr == 0} {concat $tt1} else {\n\
+  puts stderr [concat tcl/tk error: $tt1]\n\
+  concat $tt}}}\n");
+
+    sys_gui("proc comment_draw {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd} {\n\
+  set tt1 [comment_entext $enc $tt]\n\
+  if {$wd > 0} {\n\
+   $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+    -font [list $fnm $fsz] -fill $clr -width $wd -anchor nw} else {\n\
+   $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+    -font [list $fnm $fsz] -fill $clr -anchor nw}\n\
+  comment_bbox $tgt $cv $tag1\n\
+  $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
+
+    sys_gui("proc comment_update {cv tag enc tt wd} {\n\
+ set tt1 [comment_entext $enc $tt]\n\
+ if {$wd > 0} {$cv itemconfig $tag -text $tt1 -width $wd} else {\n\
+  $cv itemconfig $tag -text $tt1}}\n");
 }

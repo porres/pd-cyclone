@@ -5,7 +5,6 @@ TYPES = HPLAIN HLOUD HFITTER HFORKY HFRAGILE HGROW HGROWFITTER \
 	SGROW SGROWCLC SGROWFORKY SVEFL SARSIC SARSICFITTER SFILE
 
 HPLAIN_SOURCES = \
-hammer/testmess.c \
 hammer/accum.c \
 hammer/acos.c \
 hammer/asin.c \
@@ -61,6 +60,7 @@ hammer/comment.c
 
 HFRAGILE_SOURCES = \
 hammer/grab.c \
+hammer/testmess.c \
 hammer/universal.c
 
 HGROW_SOURCES = \

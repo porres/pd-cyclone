@@ -45,6 +45,7 @@ t_loudcontext *loudx_newcontext(t_pd *caller, char *callername,
 
 void loudbug_post(char *fmt, ...);
 void loudbug_startpost(char *fmt, ...);
+void loudbug_stringpost(char *s);
 void loudbug_endpost(void);
 void loudbug_postatom(int ac, t_atom *av);
 void loudbug_postbinbuf(t_binbuf *bb);

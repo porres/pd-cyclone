@@ -25,7 +25,8 @@
 #define SCRIPTLET_INIDOTSIZE  256
 #define SCRIPTLET_MARGIN       64
 #define SCRIPTLET_DOTMARGIN    16
-#define SCRIPTLET_MAXPUSH   20000  /* cf SOCKSIZE in t_tkcmd.c, LATER revisit */
+/* cf SOCKSIZE in older versions of t_tkcmd.c, FIXME */
+#define SCRIPTLET_MAXPUSH   20000
 
 enum { SCRIPTLET_CVOK, SCRIPTLET_CVUNKNOWN, SCRIPTLET_CVMISSING };
 
@@ -475,7 +476,7 @@ static int scriptlet_addfloat(t_scriptlet *sp, t_float f)
     char buf[64];
     if (!sp->s_separator)
 	sp->s_separator = ' ';
-    sprintf(buf, "%g ", f);
+    sprintf(buf, "%g", f);
     return (scriptlet_doappend(sp, buf));
 }
 

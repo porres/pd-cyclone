@@ -1,6 +1,22 @@
 TODO for toxy
+  * widget
+    . cached handlers
+    . better megawidgets
+    . editor: handle semicolons (need to revisit resolution rules)
+    . editor: differentiate argument keys from casual #strings (color-names)
+  * tow: canvas-wide and type-on-canvas-wide broadcasting
 
 DONE for toxy
+
+alpha16
+  * widget:
+    . editor for options, handlers and arguments made more or less functional
+    . better 'redefine' (although still only external types may be redefined)
+  * tow:
+    . fixed handling of gop-ed targets and missing windows
+    . new messages: 'retarget', 'pwd'
+  * tot:
+    . scriptlet editor improved a little bit (still unfinished)
 
 alpha15
   * fixes for megawidgets

@@ -861,6 +861,7 @@ mfwritefailed:
 }
 
 /* CHECKED text file input: absolute timestamps, semi-terminated, verified */
+/* FIXME prevent loading .pd files... */
 static int seq_fromatoms(t_seq *x, int ac, t_atom *av, int abstime)
 {
     int i, nevents = 0;

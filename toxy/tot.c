@@ -1,4 +1,4 @@
-/* Copyright (c) 2003-2004 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -9,6 +9,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "common/loud.h"
+#include "unstable/forky.h"
 #include "hammer/file.h"
 #include "hammer/gui.h"
 #include "common/props.h"
@@ -251,31 +252,70 @@ static void tot__callback(t_tot *x, t_symbol *s, int ac, t_atom *av)
     tot_dooutput(x, x->x_out2, s, ac, av);
 }
 
-/* LATER use properties in widgetbehavior (if gop visibility rules change) */
-static void tot_click(t_tot *x, t_floatarg xpos, t_floatarg ypos,
-		      t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
+static void tot_properties(t_gobj *z, t_glist *glist)
 {
+    t_tot *x = (t_tot *)z;
     int nleft;
     char *head = scriptlet_getcontents(x->x_persistent, &nleft);
-    char buf[MAXPDSTRING + 1];
-    buf[MAXPDSTRING] = 0;
     hammereditor_open(x->x_filehandle, "scriptlet editor", 0);
-    while (nleft > 0)
+    if (nleft)
     {
-	if (nleft > MAXPDSTRING)
+	char buf[MAXPDSTRING + 1], *lastptr = buf + MAXPDSTRING;
+	*lastptr = 0;
+	while (nleft > 0)
 	{
-	    strncpy(buf, head, MAXPDSTRING);
-	    head += MAXPDSTRING;
-	    nleft -= MAXPDSTRING;
+	    if (nleft > MAXPDSTRING)
+	    {
+		strncpy(buf, head, MAXPDSTRING);
+		head += MAXPDSTRING;
+		nleft -= MAXPDSTRING;
+	    }
+	    else
+	    {
+		strncpy(buf, head, nleft);
+		lastptr = buf + nleft;
+		*lastptr = 0;
+		nleft = 0;
+	    }
+	    hammereditor_append(x->x_filehandle, buf);
 	}
-	else
-	{
-	    strncpy(buf, head, nleft);
-	    buf[nleft] = 0;
-	    nleft = 0;
-	}
-	hammereditor_append(x->x_filehandle, buf);
+	hammereditor_append(x->x_filehandle, "\n");
     }
+    hammereditor_setdirty(x->x_filehandle, 0);
+}
+
+static void tot_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av)
+{
+    t_tot *x = (t_tot *)z;
+    scriptlet_reset(x->x_persistent);
+    scriptlet_add(x->x_persistent, 0, 0, ac, av);
+}
+
+static void tot_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
+{
+    scriptlet_read(((t_tot *)z)->x_persistent, fn);
+}
+
+static void tot_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
+{
+    scriptlet_write(((t_tot *)z)->x_persistent, fn);
+}
+
+static void tot_read(t_tot *x, t_symbol *s)
+{
+    if (s && s != &s_)
+	scriptlet_read(x->x_persistent, s);
+    else
+	hammerpanel_open(x->x_filehandle, 0);
+}
+
+static void tot_write(t_tot *x, t_symbol *s)
+{
+    if (s && s != &s_)
+	scriptlet_write(x->x_persistent, s);
+    else
+	hammerpanel_save(x->x_filehandle,
+			 canvas_getdir(x->x_glist), x->x_defname);
 }
 
 /* This is called for all Map (f==1) and all Destroy (f==0) events,
@@ -305,6 +345,38 @@ static void tot__vised(t_tot *x, t_symbol *s, t_floatarg f)
 }
 
 #ifdef TOT_DEBUG
+static void tot_postscriptlet(t_scriptlet *sp, char *message)
+{
+    int nleft;
+    char *head = scriptlet_getbuffer(sp, &nleft);
+    loudbug_startpost("*** %s (size %d)", message, nleft);
+    if (nleft)
+    {
+	char buf[MAXPDSTRING + 1], *lastptr = buf + MAXPDSTRING;
+	*lastptr = 0;
+	loudbug_stringpost(" ***\n\"");
+	while (nleft > 0)
+	{
+	    if (nleft > MAXPDSTRING)
+	    {
+		strncpy(buf, head, MAXPDSTRING);
+		head += MAXPDSTRING;
+		nleft -= MAXPDSTRING;
+	    }
+	    else
+	    {
+		strncpy(buf, head, nleft);
+		lastptr = buf + nleft;
+		*lastptr = 0;
+		nleft = 0;
+	    }
+	    loudbug_stringpost(buf);
+	}
+	loudbug_stringpost("\"\n---------------\n");
+    }
+    else loudbug_stringpost(": \"\" ***\n");
+}
+
 static void tot_debug(t_tot *x)
 {
     t_symbol *pn = tot_getpathname(x, 0);
@@ -314,39 +386,10 @@ static void tot_debug(t_tot *x)
     loudbug_post("destination: %s", tot_getcvname(x)->s_name);
     loudbug_post("pathname%s %s", (pn ? ":" : ""),
 		 (pn ? pn->s_name : "unknown"));
-    bp = scriptlet_getbuffer(x->x_transient, &sz);
-    loudbug_post("transient buffer (size %d):\n\"%s\"", sz, bp);
-    bp = scriptlet_getbuffer(x->x_persistent, &sz);
-    loudbug_post("persistent buffer (size %d):\n\"%s\"", sz, bp);
+    tot_postscriptlet(x->x_transient, "transient buffer");
+    tot_postscriptlet(x->x_persistent, "persistent buffer");
 }
 #endif
-
-static void tot_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
-{
-    scriptlet_read(((t_tot *)z)->x_persistent, fn);
-}
-
-static void tot_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
-{
-    scriptlet_write(((t_tot *)z)->x_persistent, fn);
-}
-
-static void tot_read(t_tot *x, t_symbol *s)
-{
-    if (s && s != &s_)
-	scriptlet_read(x->x_persistent, s);
-    else
-	hammerpanel_open(x->x_filehandle, 0);
-}
-
-static void tot_write(t_tot *x, t_symbol *s)
-{
-    if (s && s != &s_)
-	scriptlet_write(x->x_persistent, s);
-    else
-	hammerpanel_save(x->x_filehandle,
-			 canvas_getdir(x->x_glist), x->x_defname);
-}
 
 static void tot_detach(t_tot *x)
 {
@@ -571,7 +614,8 @@ static void *tot_new(t_symbol *s1, t_symbol *s2)
     }
     else x->x_defname = &s_;
     x->x_filehandle = hammerfile_new((t_pd *)x, 0,
-				     tot_readhook, tot_writehook, 0);
+				     tot_readhook, tot_writehook,
+				     tot_editorhook);
     hammergui_bindvised((t_pd *)x);
     x->x_visedpathname = tot_getvisedpathname(x, 0);
     x->x_guidetached = 0;
@@ -626,15 +670,13 @@ void tot_setup(void)
 		    gensym("_rp"), A_GIMME, 0);
     class_addmethod(tot_class, (t_method)tot__callback,
 		    gensym("_cb"), A_GIMME, 0);
-    class_addmethod(tot_class, (t_method)tot_click,
-		    gensym("click"),
-		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(tot_class, (t_method)tot__vised,
 		    gensym("_vised"), A_SYMBOL, A_FLOAT, 0);
 #ifdef TOT_DEBUG
     class_addmethod(tot_class, (t_method)tot_debug,
 		    gensym("debug"), 0);
 #endif
+    forky_setpropertiesfn(tot_class, tot_properties);
     hammerfile_setup(tot_class, 0);
     totspy_class = class_new(gensym("tot spy"), 0, 0,
 			     sizeof(t_totspy), CLASS_PD, 0);

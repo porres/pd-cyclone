@@ -3,7 +3,7 @@ Some are inevitable, but others can, and should be removed.
 
 unstable/fragile -> common/loud
 unstable/fringe -> unstable/forky
-common/props -> common/grow
+common/props -> common/grow common/loud
 common/vefl -> common/loud, unstable/fragile
 common/qtree -> common/loud
 common/binport -> common/lex

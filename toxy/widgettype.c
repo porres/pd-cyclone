@@ -1,4 +1,4 @@
-/* Copyright (c) 2003-2004 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -20,9 +20,10 @@ static char masterwidget_builtin[] =
 struct _widgettype
 {
     t_pd          wt_pd;
-    t_symbol     *wt_typekey;    /* this is a typemap symbol */
-    t_symbol     *wt_tkclass;    /* also 'undefined' flag (gensym symbol) */
-    t_symbol     *wt_tkpackage;  /* gensym symbol */
+    t_symbol     *wt_typekey;     /* this is a typemap symbol */
+    t_symbol     *wt_tkclass;     /* also 'undefined' flag (gensym symbol) */
+    t_symbol     *wt_tkpackage;   /* gensym symbol */
+    int           wt_isinternal;  /* true if built-in or defined in setup.wid */
     t_props      *wt_options;
     t_props      *wt_handlers;
     t_props      *wt_arguments;
@@ -57,6 +58,14 @@ static void widgettype_map(t_widgettype *wt, char *cls, char *pkg)
     wt->wt_tkpackage = (pkg ? gensym(pkg) : 0);
 }
 
+static void widgettype_clear(t_widgettype *wt)
+{
+    props_clearall(wt->wt_options);
+    scriptlet_reset(wt->wt_iniscript);
+    scriptlet_reset(wt->wt_newscript);
+    scriptlet_reset(wt->wt_freescript);
+}
+
 #if 0
 /* only for debugging (never call, unless certain that nobody references wt) */
 static void widgettype_free(t_masterwidget *mw, t_widgettype *wt)
@@ -78,6 +87,7 @@ static t_widgettype *widgettype_new(t_masterwidget *mw,
     t_widgettype *wt = (t_widgettype *)pd_new(widgettype_class);
     wt->wt_typekey = dict_key(mw->mw_typemap, typ);
     widgettype_map(wt, cls, pkg);
+    wt->wt_isinternal = 0;
     wt->wt_options = props_new(0, "option", "-", 0, 0);
     wt->wt_handlers = props_new(0, "handler", "@", wt->wt_options, 0);
     wt->wt_arguments = props_new(0, "argument", "#", wt->wt_options, 0);
@@ -117,7 +127,8 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	{  /* setup.wid or built-in defaults */
 	    if (typeval)
 	    {
-		/* LATER rethink */
+		/* LATER may need revisiting, when/if we accept explicit
+		   'redefine' requests for internal types */
 		loud_warning((t_pd *)mw, 0, "redefinition of '%s'\
  in \"%s.wid\" file, ignored", buf, rc);
 		return (SCRIPTLET_LOCK);
@@ -138,7 +149,10 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	if (typeval)
 	    widgettype_map(typeval, cls, pkg);
 	else
+	{
 	    typeval = widgettype_new(mw, buf, cls, pkg);
+	    typeval->wt_isinternal = (caller == (t_pd *)mw);
+	}
 	mw->mw_parsedtype = typeval;
 #ifdef WIDGETTYPE_DEBUG
 	loudbug_post("adding widget type '%s'", typeval->wt_typekey->s_name);
@@ -160,11 +174,11 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 		t_atom *av = binbuf_getvec(mw->mw_bb);
 		t_props *pp;
 		if (!(empty = props_add(pp = mw->mw_parsedtype->wt_options,
-					0, 0, ac, av)) &&
+					0, 0, 0, ac, av)) &&
 		    !(empty = props_add(pp = mw->mw_parsedtype->wt_handlers,
-					0, 0, ac, av)))
+					0, 0, 0, ac, av)))
 		    empty = props_add(pp = mw->mw_parsedtype->wt_arguments,
-				      0, 0, ac, av);
+				      0, 0, 0, ac, av);
 		if (empty)
 		    loud_warning((t_pd *)mw, 0,
 				 "no value given for %s '%s'\
@@ -266,8 +280,13 @@ t_widgettype *widgettype_reload(t_symbol *s)
     if (!wt)
 	/* first instance of a type not defined in setup.wid */
 	wt = widgettype_new(masterwidget, s->s_name, 0, 0);
-    widgettype_doload(wt, s);
-    return (wt);
+    if (wt && !wt->wt_isinternal)
+    {  /* LATER consider safe-loading through a temporary type */
+	widgettype_clear(wt);
+	if (widgettype_doload(wt, s))
+	    return (wt);
+    }
+    return (0);
 }
 
 int widgettype_isdefined(t_widgettype *wt)

@@ -1,9 +1,11 @@
 TODO for cyclone
-  * using maxmode object arguments for abstraction-scoped, selective
-    compatibility control
-  * comment behaving better in windows (or is it gatom's fault?)
 
 DONE for cyclone
+
+alpha54
+  * comment: fixing namespace bug, reducing traffic
+  * testmess: optionally filling message with symbols (numbers in hex form
+    or names of all registered classes)
 
 alpha53
   * matrix~: incompatible message 'set'

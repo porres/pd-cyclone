@@ -15,6 +15,17 @@ int fragile_class_count(void)
     return (pd_objectmaker->c_nmethod);
 }
 
+void fragile_class_getnames(t_atom *av)
+{
+    int ac = pd_objectmaker->c_nmethod;
+    t_methodentry *mp = pd_objectmaker->c_methods;
+    while (ac--)
+    {
+	SETSYMBOL(av, mp->me_name);
+	mp++; av++;
+    }
+}
+
 /* Raising and voluntary mutation is a method of resolving name clashes.
    A raised class hides other equivocal candidates.  A simpler method,
    raising and lowering, works only in global scope, because, currently, Pd

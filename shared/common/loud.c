@@ -366,6 +366,14 @@ void loudbug_startpost(char *fmt, ...)
 #endif
 }
 
+void loudbug_stringpost(char *s)
+{
+    fputs(s, stderr);
+#ifdef MSW
+    fflush(stderr);
+#endif
+}
+
 void loudbug_endpost(void)
 {
     fputs("\n", stderr);

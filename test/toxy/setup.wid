@@ -1,4 +1,4 @@
-package provide toxywidgets 0.1.0.15
+package provide toxywidgets 0.1.0.16
 
 # LATER keep standard widget setup in a .tcl file (transfered into a .wiq), and
 # glue separate .wid files with standard widget definitions into another .wiq
@@ -287,6 +287,9 @@ proc ::toxy::popup {path target remote entries args} {
     } else { error [concat in ::toxy::popup: $err] }
 }
 
+# FIXME should be part of the float widget type, but we need it for plain scales
+set ::toxy::scale_isactive 1
+
 #> bang button
 #. -image ::toxy::img::empty -command .<.>
 #. -bg pink -activebackground red -width 50 -height 50
@@ -297,9 +300,6 @@ proc ::toxy::popup {path target remote entries args} {
 #. -bg pink -activebackground red -length 200
 #. @float .- set .#1
 #. @vset ::toxy::scale_doset .- .#1
-
-# FIXME
-set ::toxy::scale_isactive 1
 
 #> symbol entry
 #. -bg pink -font .(helvetica 24.) -width 16

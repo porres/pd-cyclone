@@ -1,9 +1,15 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+#include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include "unstable/fragile.h"
+
+#ifdef MSW
+#define snprintf  _snprintf
+#endif
 
 #define TESTMESS_INISIZE      4  /* LATER rethink */
 #define TESTMESS_STACKSIZE  256
@@ -183,21 +189,140 @@ static void testmess_anything(t_testmess *x, t_symbol *s, int ac, t_atom *av)
     x->x_messfun(x, s, ac, av);
 }
 
-static void testmess_set(t_testmess *x, t_floatarg f1, t_floatarg f2)
+static void testmess_setnumbers(t_testmess *x, int natoms, int start)
 {
-    int natoms = (int)f1;
-    if (natoms > 0 && testmess_makeroom(x, natoms * 2, 0))
+    if (natoms <= 0)
+	natoms = 100;
+    if (testmess_makeroom(x, natoms * 2, 0))
     {
 	t_atom *ap;
-	int i = (int)f2;;
 	testmess_setnatoms(x, natoms);
 	ap = x->x_message;
 	while (natoms--)
 	{
-	    SETFLOAT(ap, i);
-	    i++; ap++;
+	    SETFLOAT(ap, (t_float)start);
+	    start++; ap++;
 	}
     }
+}
+
+#define FRAGILE_HASHSIZE  1024
+
+static int fragile_hash(t_symbol *s)
+{
+    unsigned int hash1 = 0,  hash2 = 0;
+    char *ptr = s->s_name;
+    while (*ptr)
+    {
+        hash1 += *ptr++;
+        hash2 += hash1;
+    }
+    return (hash2 & (FRAGILE_HASHSIZE-1));
+}
+
+int fragile_symbol_count(void)
+{
+    return (100);
+}
+
+void fragile_getsymbols(t_atom *av)
+{
+    t_symbol *s = gensym("#N");
+    int i;
+    for (i = 0, s -= fragile_hash(s); i < FRAGILE_HASHSIZE; i++, s++)
+    {
+	if (s->s_name)
+	{
+	    t_symbol *s1;
+	    for (s1 = s; s1; s1 = s1->s_next)
+		printf("%s\n", s1->s_name);
+	}
+    }
+}
+
+static void testmess_setnames(t_testmess *x, t_symbol *s,
+			      int natoms, int nchars)
+{
+    if (!s)
+	s = &s_;
+    if (*s->s_name == 'c')
+    {
+	natoms = fragile_class_count();
+	if (natoms > 0 && testmess_makeroom(x, natoms * 2, 0))
+	{
+	    testmess_setnatoms(x, natoms);
+	    fragile_class_getnames(x->x_message);
+	}
+    }
+    else
+    {
+	if (natoms <= 0)
+	    natoms = 100;
+	if (nchars <= 0)
+	    nchars = 10;
+	if (testmess_makeroom(x, natoms * 2, 0))
+	{
+	    char buf[MAXPDSTRING], fmt[16];
+	    int i = 0;
+	    t_atom *ap;
+	    testmess_setnatoms(x, natoms);
+	    ap = x->x_message;
+	    sprintf(fmt, "%%.%dx", nchars);
+	    while (natoms--)
+	    {
+		snprintf(buf, MAXPDSTRING-1, fmt, i);
+		SETSYMBOL(ap, gensym(buf));
+		i++; ap++;
+	    }
+	}
+    }
+}
+
+static void testmess_set(t_testmess *x, t_symbol *s, int ac, t_atom *av)
+{
+    t_symbol *csym = 0, *msym = 0;
+    t_float f1 = 0., f2 = 0.;
+    if (ac)
+    {
+	if (av->a_type == A_SYMBOL)
+	    csym = av->a_w.w_symbol;
+	else if (av->a_type == A_FLOAT)
+	    f1 = av->a_w.w_float;
+	if (ac > 1)
+	{
+	    if (av[1].a_type == A_SYMBOL)
+		msym = av[1].a_w.w_symbol;
+	    else if (av[1].a_type == A_FLOAT)
+	    {
+		if (csym)
+		    f1 = av[1].a_w.w_float;
+		else
+		    f2 = av[1].a_w.w_float;
+		if (ac > 2)
+		{
+		    if (av[2].a_type == A_SYMBOL)
+			msym = av[2].a_w.w_symbol;
+		    else if (csym && av[2].a_type == A_FLOAT)
+		    f2 = av[2].a_w.w_float;
+		}
+	    }
+	}
+    }
+    if (msym == gensym("stack"))
+	x->x_method = msym, x->x_messfun = testmess_stackmess;
+    else if (msym == gensym("heap"))
+	x->x_method = msym, x->x_messfun = testmess_heapmess;
+    else
+    {
+	x->x_method = gensym("prealloc");
+	x->x_messfun = testmess_premess;
+	x->x_tailwise = x->x_appendmode;
+    }
+    testmess_setnatoms(x, 0);
+    if (csym)
+	testmess_setnames(x, csym, (int)f1, (int)f2);
+    else
+	testmess_setnumbers(x, (int)f1, (int)f2);
 }
 
 static void testmess_free(t_testmess *x)
@@ -206,26 +331,15 @@ static void testmess_free(t_testmess *x)
 	freebytes(x->x_messbuf, x->x_size * sizeof(*x->x_messbuf));
 }
 
-static void *testmess_new(t_symbol *s, t_floatarg f)
+static void *testmess_new(t_symbol *s, int ac, t_atom *av)
 {
     t_testmess *x = (t_testmess *)pd_new(testmess_class);
     x->x_appendmode = 1;
     x->x_tailwise = 0;
-    if (s == gensym("stack"))
-	x->x_method = s, x->x_messfun = testmess_stackmess;
-    else if (s == gensym("heap"))
-	x->x_method = s, x->x_messfun = testmess_heapmess;
-    else
-    {
-	x->x_method = gensym("prealloc");
-	x->x_messfun = testmess_premess;
-	x->x_tailwise = x->x_appendmode;
-    }
     x->x_size = TESTMESS_INISIZE;
     x->x_messbuf = x->x_messini;
     outlet_new((t_object *)x, &s_anything);
-    testmess_setnatoms(x, 0);
-    testmess_set(x, f, 0);
+    testmess_set(x, s, ac, av);
     return (x);
 }
 
@@ -235,11 +349,11 @@ void testmess_setup(void)
 			       (t_newmethod)testmess_new,
 			       (t_method)testmess_free,
 			       sizeof(t_testmess), 0,
-			       A_DEFFLOAT, A_DEFSYM, 0);
+			       A_GIMME, 0);
     class_addbang(testmess_class, testmess_bang);
     class_addfloat(testmess_class, testmess_float);
     class_addsymbol(testmess_class, testmess_symbol);
     class_addanything(testmess_class, testmess_anything);
     class_addmethod(testmess_class, (t_method)testmess_set,
-		    gensym("set"), A_FLOAT, A_DEFFLOAT, 0);
+		    gensym("set"), A_GIMME, 0);
 }

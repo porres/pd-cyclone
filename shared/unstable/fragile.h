@@ -6,6 +6,7 @@
 #define __FRAGILE_H__
 
 int fragile_class_count(void);
+void fragile_class_getnames(t_atom *av);
 void fragile_class_raise(t_symbol *cname, t_newmethod thiscall);
 t_pd *fragile_class_mutate(t_symbol *cname, t_newmethod thiscall,
 			   int ac, t_atom *av);

@@ -82,7 +82,7 @@ static void hammereditor_guidefs(void)
     sys_gui("}\n");
 
     sys_gui("proc hammereditor_dodirty {name} {\n");
-    sys_gui(" if {[catch {$name.text edit modified} dirty]} {set dirty 0}\n");
+    sys_gui(" if {[catch {$name.text edit modified} dirty]} {set dirty 1}\n");
     sys_gui(" set title [wm title $name]\n");
     sys_gui(" set dt [string equal -length 1 $title \"*\"]\n");
     sys_gui(" if {$dirty} {\n");
@@ -129,7 +129,7 @@ static void hammereditor_guidefs(void)
 
     sys_gui("proc hammereditor_close {name ask} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
-    sys_gui("  if {[catch {$name.text edit modified} dirty]} {set dirty 0}\n");
+    sys_gui("  if {[catch {$name.text edit modified} dirty]} {set dirty 1}\n");
     sys_gui("  if {$ask && $dirty} {\n");
     sys_gui("   set title [wm title $name]\n");
     sys_gui("   if {[string equal -length 1 $title \"*\"]} {\n");
@@ -137,7 +137,7 @@ static void hammereditor_guidefs(void)
     sys_gui("   }\n");
     sys_gui("   set answer [tk_messageBox \\-type yesnocancel \\\n");
     sys_gui("    \\-icon question \\\n");
-    sys_gui("    \\-message [concat Save changes to $title?]]\n");
+    sys_gui("    \\-message [concat Save changes to \\\"$title\\\"?]]\n");
     sys_gui("   if {$answer == \"yes\"} {hammereditor_send $name}\n");
     sys_gui("   if {$answer != \"cancel\"} {hammereditor_doclose $name}\n");
     sys_gui("  } else {hammereditor_doclose $name}\n");
@@ -183,8 +183,24 @@ void hammereditor_close(t_hammerfile *f, int ask)
 
 void hammereditor_append(t_hammerfile *f, char *contents)
 {
-    if (!contents) contents = "";
-    sys_vgui("hammereditor_append .%x {%s}\n", (int)f, contents);
+    if (contents)
+    {
+	char *ptr;
+	for (ptr = contents; *ptr; ptr++)
+	{
+	    if (*ptr == '{' || *ptr == '}')
+	    {
+		char c = *ptr;
+		*ptr = 0;
+		sys_vgui("hammereditor_append .%x {%s}\n", (int)f, contents);
+		sys_vgui("hammereditor_append .%x \"%c\"\n", (int)f, c);
+		*ptr = c;
+		contents = ptr + 1;
+	    }
+	}
+	if (*contents)
+	    sys_vgui("hammereditor_append .%x {%s}\n", (int)f, contents);
+    }
 }
 
 void hammereditor_setdirty(t_hammerfile *f, int flag)
