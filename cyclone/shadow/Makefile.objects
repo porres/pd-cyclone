@@ -1,0 +1,9 @@
+SHARED_OBJECTS = \
+common/loud.o \
+common/grow.o \
+common/binport.o \
+common/port.o \
+hammer/file.o \
+sickle/sic.o \
+unstable/fragile.o \
+unstable/loader.o
