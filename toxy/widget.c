@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+/* FIXME crash if closing window with a failed widget (e.g. .wid missing) */
+
 /* LATER think about reloading method for .wid files */
 
 #include <stdio.h>

@@ -162,20 +162,22 @@ static int import_obj(t_port *x, char *name)
 static int import_objarg(t_port *x, char *name)
 {
     int ndx = (x->x_inmess[1].a_w.w_symbol == gensym("user") ? 3 : 2);
-    if (x->x_inatoms > 6)
+    if (x->x_inatoms > 6
+	|| (ndx == 3 && x->x_inatoms > 4))
     {
-	t_atom *in = x->x_inmess + 7;
-	t_atom *out = x->x_outmess;
+	int nextra;
+	t_atom *in, *out = x->x_outmess;
 	SETSYMBOL(out, gensym("#X")); out++;
 	SETSYMBOL(out, gensym("obj")); out++;
 	port_setxy(x, ndx, out);
 	binbuf_add(x->x_newbb, 4, x->x_outmess);
 	import_addclassname(x, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
 	out = x->x_outmess;
-	for (ndx = 7; ndx < x->x_inatoms; ndx++)
+	for (ndx = 7, nextra = 1, in = x->x_inmess + 7;
+	     ndx < x->x_inatoms; ndx++, nextra++)
 	    *out++ = *in++;
 	SETSEMI(out);
-	binbuf_add(x->x_newbb, x->x_inatoms - 6, x->x_outmess);
+	binbuf_add(x->x_newbb, nextra, x->x_outmess);
 	x->x_nobj++;
 	return (PORT_NEXT);
     }

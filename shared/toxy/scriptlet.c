@@ -197,7 +197,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
 	if (resolveall)
 	{
 	    t_canvas *cv;
-	    if (cv = scriptlet_canvasvalidate(sp, visedonly))
+	    if (cv = scriptlet_canvasvalidate(sp, 0))
 	    {
 		if (!strncmp(&ibuf[1], "tag", 3))
 		{

@@ -29,10 +29,18 @@ proc ::toxy::itemsettrace {op path target varname} {
 		error $err
 	    }
 	} else {
-	    trace add variable $res write "::toxy::itembindtrace $varname"
+	    if {[info tclversion] < 8.4} {
+		trace variable $res w "::toxy::itembindtrace $varname"
+	    } else {
+		trace add variable $res write "::toxy::itembindtrace $varname"
+	    }
 	}
 	if {![info exists $varname.last]} { set $varname.last "" }
-	trace add variable $varname write "::toxy::itemdotrace $target"
+	if {[info tclversion] < 8.4} {
+	    trace variable $varname w "::toxy::itemdotrace $target"
+	} else {
+	    trace add variable $varname write "::toxy::itemdotrace $target"
+	}
 	return
     } else { return 0 }
 }
@@ -45,8 +53,12 @@ proc ::toxy::itemremovetrace {op path varname} {
 		error $err
 	    }
 	} elseif {$res != ""} {
-	    catch { trace remove variable \
-		$res write "::toxy::itembindtrace $varname" }
+	    if {[info tclversion] < 8.4} {
+		catch { trace vdelete $res w "::toxy::itembindtrace $varname" }
+	    } else {
+		catch { trace remove variable \
+		    $res write "::toxy::itembindtrace $varname" }
+	    }
 	}
     }
 }
@@ -54,7 +66,11 @@ proc ::toxy::itemremovetrace {op path varname} {
 proc ::toxy::itemdestroy {path varname} {
     ::toxy::itemremovetrace -variable $path $varname.var
     ::toxy::itemremovetrace -textvariable $path $varname.txt
-    unset -nocomplain $varname.last $varname.var $varname.txt $varname
+    if {[info tclversion] < 8.4} {
+	catch { unset $varname.last $varname.var $varname.txt $varname }
+    } else {
+	unset -nocomplain $varname.last $varname.var $varname.txt $varname
+    }
     catch {destroy $path}
 }
 

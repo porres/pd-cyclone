@@ -42,6 +42,8 @@ SHARED_DIR = $(ROOT_DIR)/shared
 OBJ_DIR = .
 OUT_DIR = $(ROOT_DIR)/bin
 
+# for current versions, $(BASE_DIR) equals $(BASE_NAME), for prior versions,
+# $(BASE_DIR) equals $(BASE_NAME)-$(VERSION)
 BASE_DIR = $(shell basename `pwd`)
 BASE_NAME = $(shell basename `pwd` | awk -F - '{print $$1}')
 
@@ -55,8 +57,8 @@ AX_NAMES = $(notdir $(AX_SOURCES))
 TYPES_NAMES = $(notdir $($1_SOURCES))
 
 ifdef LX_SOURCES
-LX_NAMES = $(notdir $(LX_SOURCES))
-LX_CLASSES = $(subst _,.,$(LX_NAMES))
+LX_NAMES = $(subst _,.,$(notdir $(LX_SOURCES)))
+LX_CLASSES = $(LX_NAMES:.c=)
 endif
 
 CX_DIR = $(dir $(firstword $(CX_SOURCES)))
@@ -79,9 +81,10 @@ CFLAGS = $(WARN_CFLAGS) $(OPT_CFLAGS) $(DEFINES) $(INCLUDES)
 
 EXTERNS = $(foreach fn,$(CX_NAMES:.c=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
 	$(foreach fn,$(AX_NAMES:.c=~.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
-	$(foreach fn,$(LX_CLASSES:.c=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
 	$(foreach fn,$(CX_CLASSES:=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
 	$(foreach fn,$(AX_CLASSES:=~.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
+	$(foreach fn,$(LX_CLASSES:=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
+	$(if $(LX_STUBCLASS),$(OUT_DIR)/$(LX_STUBCLASS:=.$(X_SUFFIX))) \
 	$(foreach type,$(TYPES),\
 		$(foreach fn,$(call TYPES_EXTERNS,$(type)),$(OUT_DIR)/$(fn)))
 
@@ -118,6 +121,7 @@ $(if $(word 23,$(TYPES)),$(call TYPES_RULE,$(word 23,$(TYPES))))
 $(if $(word 24,$(TYPES)),$(call TYPES_RULE,$(word 24,$(TYPES))))
 
 SHOBJECTS = $(foreach fn,$(SHARED_OBJECTS),$(SHARED_DIR)/$(fn))
+LXSHOBJECTS = $(foreach fn,$(LXSHARED_OBJECTS),$(SHARED_DIR)/$(fn))
 
 OBJECTS = $(foreach fn,$(OTHER_SOURCES:.c=.o),$(OBJ_DIR)/$(fn)) \
 	$(foreach fn,$(LX_SOURCES:.c=.o),$(OBJ_DIR)/$(fn)) \
@@ -126,39 +130,33 @@ OBJECTS = $(foreach fn,$(OTHER_SOURCES:.c=.o),$(OBJ_DIR)/$(fn)) \
 # lame...
 .PRECIOUS: %.o
 
+# library stub equals $(BASE_NAME) by default, otherwise
+# it has to be declared explicitly in $(BASE_DIR)/Makefile.sources
+ifdef LX_STUBCLASS
+$(OUT_DIR)/$(LX_STUBCLASS).$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
+	$(CC) -o $@ -Xlinker -defsym \
+		-Xlinker $(LX_STUBCLASS)_setup=$(BASE_NAME)_loader_setup \
+		$(CFLAGS) $(LFLAGS) $(LXSHOBJECTS) $<
+ifndef LX_STUB
+LX_STUB = $(LX_STUBCLASS)
+endif
+else
+ifndef LX_STUB
+LX_STUB = $(BASE_NAME)
+endif
+endif
+
 # rules for aliases must precede generic extern rules
 
-# FIXME
-$(OUT_DIR)/$(BASE_NAME).%~.$(X_SUFFIX): $(BASE_NAME)_loader.c $(SHOBJECTS)
+$(OUT_DIR)/$(LX_STUB).%~.$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
 	$(CC) -o $@ -Xlinker -defsym \
-		-Xlinker $(BASE_NAME).$(*F)_tilde_setup=$(BASE_NAME)_loader_setup \
-		$(CFLAGS) $(LFLAGS) $(SHOBJECTS) $<
+		-Xlinker $(LX_STUB).$(*F)_tilde_setup=$(BASE_NAME)_loader_setup \
+		$(CFLAGS) $(LFLAGS) $(LXSHOBJECTS) $<
 
-$(OUT_DIR)/$(BASE_NAME).%.$(X_SUFFIX): $(BASE_NAME)_loader.c $(SHOBJECTS)
+$(OUT_DIR)/$(LX_STUB).%.$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
 	$(CC) -o $@ -Xlinker -defsym \
-		-Xlinker $(BASE_NAME).$(*F)_setup=$(BASE_NAME)_loader_setup \
-		$(CFLAGS) $(LFLAGS) $(SHOBJECTS) $<
-
-#$(OUT_DIR)/$(BASE_NAME).%.$(X_SUFFIX): $(BASE_NAME)_%.c $(SHOBJECTS)
-#	$(CC) -c $(CFLAGS) $<
-#	-ld -o $@ -defsym $(BASE_NAME).$(*F)_setup=$(BASE_NAME)_$(*F)_setup \
-#		-L $(OUT_DIR) $(LFLAGS) $(SHOBJECTS) \
-#		$(BASE_NAME).$(X_SUFFIX) $(BASE_NAME)_$(*F).o
-
-#	$(CC) -o $@ -Xlinker -defsym \
-#		-Xlinker $(BASE_NAME).$(*F)_setup=$(BASE_NAME)_$(*F)_setup \
-#		-Xlinker -rpath -Xlinker $(OUT_DIR) \
-#		$(CFLAGS) $(LFLAGS) $(SHOBJECTS) $(BASE_NAME).$(X_SUFFIX) $<
-
-# library stub
-# if not equal BASE_NAME, it has to be declared explicitly in BASE_DIR/Makefile
-# FIXME
-$(OUT_DIR)/$(LX_STUB)_%~.$(X_SUFFIX): $(OUT_DIR)/$(BASE_NAME).$(X_SUFFIX)
-	-ln -sf $(BASE_NAME).$(X_SUFFIX) $@
-$(OUT_DIR)/$(LX_STUB)_%.$(X_SUFFIX): $(OUT_DIR)/$(BASE_NAME).$(X_SUFFIX)
-	-ln -sf $(BASE_NAME).$(X_SUFFIX) $@
-$(OUT_DIR)/$(LX_STUB).$(X_SUFFIX): $(OUT_DIR)/$(BASE_NAME).$(X_SUFFIX)
-	-ln -sf $(BASE_NAME).$(X_SUFFIX) $@
+		-Xlinker $(LX_STUB).$(*F)_setup=$(BASE_NAME)_loader_setup \
+		$(CFLAGS) $(LFLAGS) $(LXSHOBJECTS) $<
 
 # generic rule for audio externals
 $(OUT_DIR)/%~.$(X_SUFFIX): $(AX_DIR)%.c $(OBJECTS)
@@ -241,11 +239,15 @@ REL_LIBNAMES = $(foreach fn,$(RELEASE_LIBS:=.$(X_SUFFIX)),$(REL_BINDIR)/$(fn))
 
 REL_EXTERNS = $(foreach fn,$(CX_NAMES:.c=.$(X_SUFFIX)),$(REL_BINDIR)/$(fn)) \
 	$(foreach fn,$(AX_NAMES:.c=~.$(X_SUFFIX)),$(REL_BINDIR)/$(fn)) \
+	$(foreach fn,$(CX_CLASSES:=.$(X_SUFFIX)),$(REL_BINDIR)/$(fn)) \
+	$(foreach fn,$(AX_CLASSES:=~.$(X_SUFFIX)),$(REL_BINDIR)/$(fn)) \
+	$(foreach fn,$(LX_CLASSES:=.$(X_SUFFIX)),$(REL_BINDIR)/$(fn)) \
+	$(if $(LX_STUBCLASS),$(REL_BINDIR)/$(LX_STUBCLASS:=.$(X_SUFFIX))) \
 	$(REL_LIBNAMES) $(foreach fn,$(RELEASE_APPS),$(REL_BINDIR)/$(fn)) \
 	$(foreach type,$(TYPES),\
 		$(foreach fn,$(call TYPES_EXTERNS,$(type)),$(REL_BINDIR)/$(fn)))
 
-REL_ROOTSRC = LICENSE.txt Makefile.common dumpsetups
+REL_ROOTSRC = LICENSE.txt Makefile.common dumpsetups quoteinitializer
 
 srelease: emptydeps define_build
 	cd $(ROOT_DIR)/shared; $(MAKE) emptydeps

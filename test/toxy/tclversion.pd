@@ -1,0 +1,13 @@
+#N canvas 68 131 532 301 24;
+#X obj 38 191 tot .;
+#X obj 38 29 loadbang;
+#X msg 38 138 query concat set [info tclversion];
+#X msg 38 243;
+#X obj 38 86 t b b;
+#X msg 147 191 set;
+#X connect 0 0 3 0;
+#X connect 1 0 4 0;
+#X connect 2 0 0 0;
+#X connect 4 0 2 0;
+#X connect 4 1 5 0;
+#X connect 5 0 3 0;
