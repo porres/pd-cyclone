@@ -16,7 +16,7 @@
 
 #if defined(NT) || defined(MACOSX)
 /* cf pd/src/x_arithmetic.c */
-#define cosf  cos
+#define sinf  sin
 #endif
 
 #define SVF_HZ        0
