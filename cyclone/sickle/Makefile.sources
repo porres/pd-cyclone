@@ -47,6 +47,7 @@ peek.c \
 phasewrap.c \
 play.c \
 poltocar.c \
+pong.c \
 pow.c \
 rand.c \
 rampsmooth.c \

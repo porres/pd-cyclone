@@ -77,7 +77,8 @@ hammer/zl.c
 
 HFILE_SOURCES = \
 hammer/capture.c \
-hammer/coll.c
+hammer/coll.c \
+hammer/mtr.c
 
 HRAND_SOURCES = \
 hammer/drunk.c
@@ -155,7 +156,8 @@ SFORKY_TILDE = $(TILDE)
 SFORKY_SOURCES = \
 sickle/bitand.c \
 sickle/bitor.c \
-sickle/bitxor.c
+sickle/bitxor.c \
+sickle/pong.c
 
 SFRAGILE_TILDE = $(TILDE)
 SFRAGILE_SOURCES = \

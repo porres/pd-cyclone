@@ -163,47 +163,6 @@ static void *dummy_matrix_tilde_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-static void *dummy_mtr_new(t_symbol *s, int ac, t_atom *av)
-{
-    t_dummy_slot *sl;
-    t_object *x = dummy_newobject(s, &sl);
-    int nios = 0;
-    if (ac && av->a_type == A_FLOAT)
-	nios = (int)av->a_w.w_float;
-    if (nios < 1)
-	nios = 1;
-    dummy_io(x, nios + 1, nios + 1);
-    return (x);
-}
-
-/* CHECKME */
-static void *dummy_pong_tilde_new(t_symbol *s, int ac, t_atom *av)
-{
-    t_dummy_slot *sl;
-    t_object *x = dummy_newobject(s, &sl);
-    int nins = 0;
-    if (ac)
-    {
-	if (av->a_type == A_FLOAT)
-	{
-	    ac--; av++;
-	    if (ac)
-	    {
-		if (av->a_type == A_FLOAT) nins = 3;
-	    }
-	    else nins = 2;
-	}
-    }
-    else nins = 2;
-    if (nins < 1)
-    {
-	loud_classarg(*(t_pd *)x);
-	nins = 2;
-    }
-    dummy_io(x, nins, sl->s_nouts);
-    return (x);
-}
-
 static void *dummy_rewire_tilde_new(t_symbol *s, int ac, t_atom *av)
 {
     t_dummy_slot *sl;
@@ -458,7 +417,6 @@ static t_dummy_slot dummy_slots[] =
     { "movie",           1, 3, 0, 0 },
     /* CHECKME msd */
     { "mstosamps~",      1, 2, 0, 0 },
-    { "mtr",            -1, -1, 0, (t_newmethod)dummy_mtr_new },
     { "multiSlider",     1, 1, 0, 0 },
     { "mute~",           1, 1, 0, 0 },
     { "normalize~",      2, 1, 0, 0 },
@@ -504,7 +462,6 @@ static t_dummy_slot dummy_slots[] =
     { "polyin",          1, 3, 0, 0 },  /* LATER parse args for nouts */
     { "polyout",         3, 0, 0, 0 },  /* CHECKME nins */
     /* LATER poly~ */
-    { "pong~",          -1, 1, 0, (t_newmethod)dummy_pong_tilde_new },
     { "pp",              2, 2, 0, 0 },  /* CHECKME nins */
     { "pptempo",         2, 2, 0, 0 },
     { "pptime",          4, 4, 0, 0 },

@@ -70,6 +70,7 @@ ALL_HAMMERS = \
 	hammer\minimum.c \
 	hammer\mousefilter.c \
 	hammer\MouseState.c \
+	hammer\mtr.c \
 	hammer\next.c \
 	hammer\offer.c \
 	hammer\onebang.c \
@@ -164,6 +165,7 @@ ALL_SICKLES = \
 	sickle\phasewrap.c \
 	sickle\play.c \
 	sickle\poltocar.c \
+	sickle\pong.c \
 	sickle\pow.c \
 	sickle\rand.c \
 	sickle\rampsmooth.c \

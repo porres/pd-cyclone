@@ -50,6 +50,7 @@ void peek_tilde_setup(void);
 void phasewrap_tilde_setup(void);
 void play_tilde_setup(void);
 void poltocar_tilde_setup(void);
+void pong_tilde_setup(void);
 void pow_tilde_setup(void);
 void rampsmooth_tilde_setup(void);
 void rand_tilde_setup(void);
@@ -115,6 +116,7 @@ void allsickles_setup(void)
     phasewrap_tilde_setup();
     play_tilde_setup();
     poltocar_tilde_setup();
+    pong_tilde_setup();
     pow_tilde_setup();
     rampsmooth_tilde_setup();
     rand_tilde_setup();
