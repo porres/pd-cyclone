@@ -1,0 +1,24 @@
+#N canvas 200 160 466 273 10;
+#X text 24 213 cyclone is (c) Miller Puckette and others;
+#X text 24 228 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 23 242 ___________________________________________________ ;
+#X obj 36 28 pv foo;
+#X text 97 28 private variables for patch and it's subpatches;
+#X obj 173 50 value;
+#X text 98 49 see also:;
+#X obj 78 119 pv my_private_bar;
+#X msg 78 95 foo;
+#X obj 263 119 pv my_private_bar;
+#X msg 263 93 bang;
+#X obj 263 148 print my_private_bar;
+#N canvas 0 0 353 164 works 0;
+#X obj 32 66 pv my_private_bar;
+#X msg 32 40 bang;
+#X obj 32 95 print my_private_underground_bar;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X restore 48 150 pd works here too of course;
+#X connect 8 0 7 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 0;

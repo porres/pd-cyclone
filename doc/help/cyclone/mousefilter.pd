@@ -1,0 +1,15 @@
+#N canvas 158 104 436 284 10;
+#X text 22 227 cyclone is (c) Miller Puckette and others;
+#X text 22 242 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 21 256 ___________________________________________________ ;
+#X obj 32 27 mousefilter;
+#X text 127 27 passes numbers only when mousebutton is up;
+#X obj 90 85 hsl 128 15 0 127 0 0 empty empty empty -2 -6 0 8 -262144
+-1 -1 6500 1;
+#X floatatom 44 85 5 0 0 0 - - -;
+#X obj 75 131 mousefilter;
+#X floatatom 75 171 5 0 0 0 - - -;
+#X connect 5 0 7 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;

@@ -1,0 +1,18 @@
+#N canvas 301 256 451 254 10;
+#X obj 40 23 iter;
+#X text 84 24 split a list in a series of numbers;
+#X obj 40 113 iter;
+#X msg 40 71 1 2 3 4;
+#X obj 40 145 print;
+#X text 21 198 cyclone is (c) Miller Puckette and others;
+#X text 22 213 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 21 227 ___________________________________________________
+;
+#X obj 163 112 iter;
+#X floatatom 163 68 5 0 0 0 - - -;
+#X floatatom 163 142 5 0 0 0 - - -;
+#X text 184 88 single floats just pass through;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 8 0 10 0;
+#X connect 9 0 8 0;

@@ -1,0 +1,43 @@
+#N canvas 359 111 423 391 10;
+#X text 18 335 cyclone is (c) Miller Puckette and others;
+#X text 18 350 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 17 364 ___________________________________________________ ;
+#X obj 19 19 next;
+#X text 67 21 Try to separate messages into logical parts;
+#X obj 104 184 next;
+#X obj 104 264 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 127 214 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X floatatom 59 118 5 0 0 0 - - -;
+#X obj 104 74 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X msg 104 103 1;
+#X msg 104 120 2;
+#X msg 104 139 3;
+#X text 128 258 bang if the current message is not part;
+#X text 127 271 of the same logical stream;
+#X text 150 221 of the same logical stream;
+#X text 151 208 bang if the current message is part;
+#X msg 167 100 1 2 3 4;
+#X msg 167 150 4 3 2 1;
+#X obj 167 126 spigot;
+#X obj 215 127 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X msg 17 88 1 \, 2 \, 3 \, 4;
+#X connect 5 0 6 0;
+#X connect 5 1 7 0;
+#X connect 8 0 5 0;
+#X connect 9 0 10 0;
+#X connect 9 0 11 0;
+#X connect 9 0 12 0;
+#X connect 10 0 5 0;
+#X connect 11 0 5 0;
+#X connect 12 0 5 0;
+#X connect 17 0 5 0;
+#X connect 17 0 19 0;
+#X connect 18 0 5 0;
+#X connect 19 0 18 0;
+#X connect 20 0 19 1;
+#X connect 21 0 5 0;

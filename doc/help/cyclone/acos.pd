@@ -1,0 +1,19 @@
+#N canvas 217 155 421 323 10;
+#X text 20 263 cyclone is (c) Miller Puckette and others;
+#X text 21 278 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 20 292 ___________________________________________________ ;
+#X obj 41 22 acos 4;
+#X text 98 24 calculate arc cosine function;
+#X floatatom 46 216 8 0 0 0 - - -;
+#X msg 46 83 bang;
+#X obj 46 183 acos 0.2;
+#X obj 67 152 / 100;
+#X floatatom 67 132 5 0 0 0 - - -;
+#X text 96 84 output acos of current val;
+#X text 121 130 calculate and output acos;
+#X text 123 185 arg sets initial value;
+#X connect 6 0 7 0;
+#X connect 7 0 5 0;
+#X connect 8 0 7 0;
+#X connect 9 0 8 0;

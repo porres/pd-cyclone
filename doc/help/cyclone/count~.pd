@@ -1,0 +1,59 @@
+#N canvas 142 76 706 610 10;
+#X text 21 541 cyclone is (c) Miller Puckette and others;
+#X text 20 557 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 19 572 ___________________________________________________ ;
+#X obj 32 17 count~;
+#X text 106 18 sample counter;
+#X obj 135 402 count~;
+#X msg 55 98 stop;
+#X msg 33 72 bang;
+#X text 72 73 start counting;
+#X text 94 99 stop \, you guessed it;
+#X obj 185 458 snapshot~;
+#X obj 185 429 metro 20;
+#X obj 185 403 tgl 15 0 empty start empty 0 -6 64 8 -262144 -1 -1 1
+1;
+#X floatatom 185 485 15 0 0 0 - - -;
+#X text 298 486 samples counted;
+#X floatatom 172 291 5 0 0 0 - - -;
+#X floatatom 135 267 5 0 0 0 - - -;
+#X text 215 291 set a max value \, counter restarts at min;
+#X obj 524 131 tgl 15 0 empty start empty 0 -6 64 8 -262144 -1 -1 1
+1;
+#X msg 524 155 \; pd dsp \$1;
+#X obj 110 134 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X msg 110 159 autoreset \$1;
+#X text 135 135 reset counter to min if dsp is turned off and on again
+;
+#X text 546 134 try it;
+#X msg 182 243 set \$1;
+#X floatatom 182 221 5 0 0 0 - - -;
+#X text 181 266 set a min value (immediately);
+#X obj 590 44 loadbang;
+#X msg 590 69 \; start 1;
+#X msg 536 239 min \$1;
+#X floatatom 536 218 5 0 0 0 - - -;
+#X text 240 244 set a min value for the next loop same as;
+#X msg 413 345 10 100000 1 1;
+#X text 200 325 you can also use a list like :;
+#X msg 413 323 min max on/off? autoreset?;
+#X obj 395 431 count~ 10 10000 0 1;
+#X text 332 412 args mean : min max on/off? autoreset?;
+#X connect 5 0 10 0;
+#X connect 6 0 5 0;
+#X connect 7 0 5 0;
+#X connect 10 0 13 0;
+#X connect 11 0 10 0;
+#X connect 12 0 11 0;
+#X connect 15 0 5 1;
+#X connect 16 0 5 0;
+#X connect 18 0 19 0;
+#X connect 20 0 21 0;
+#X connect 21 0 5 0;
+#X connect 24 0 5 0;
+#X connect 25 0 24 0;
+#X connect 27 0 28 0;
+#X connect 30 0 29 0;
+#X connect 32 0 5 0;

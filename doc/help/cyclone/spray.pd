@@ -1,0 +1,22 @@
+#N canvas 200 160 450 314 10;
+#X text 19 262 cyclone is (c) Miller Puckette and others;
+#X text 19 276 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 18 290 ___________________________________________________
+;
+#X obj 19 24 spray 3;
+#X text 87 24 distribute an integer to a numbered outlet;
+#X obj 119 148 spray 3;
+#X floatatom 119 214 5 0 0 0 - - -;
+#X floatatom 141 196 5 0 0 0 - - -;
+#X floatatom 163 175 5 0 0 0 - - -;
+#X msg 76 100 1 2;
+#X msg 119 92 0 1;
+#X msg 139 117 2 3;
+#X text 178 148 arg sets number of outlets;
+#X text 44 71 outletnumber / value pairs:;
+#X connect 5 0 6 0;
+#X connect 5 1 7 0;
+#X connect 5 2 8 0;
+#X connect 9 0 5 0;
+#X connect 10 0 5 0;
+#X connect 11 0 5 0;

@@ -1,0 +1,48 @@
+#N canvas 152 184 662 459 10;
+#X text 16 401 cyclone is (c) Miller Puckette and others;
+#X text 16 416 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 15 430 ___________________________________________________ ;
+#X obj 39 19 Borax;
+#X text 95 20 reports current info on note on/off;
+#X obj 34 95 notein 1;
+#X obj 34 129 Borax ---------------;
+#X floatatom 34 156 5 0 0 0 - - -;
+#X floatatom 51 179 5 0 0 0 - - -;
+#X floatatom 69 202 5 0 0 0 - - -;
+#X floatatom 87 224 5 0 0 0 - - -;
+#X floatatom 105 247 5 0 0 0 - - -;
+#X floatatom 122 270 5 0 0 0 - - -;
+#X floatatom 140 290 5 0 0 0 - - -;
+#X floatatom 158 313 5 0 0 0 - - -;
+#X floatatom 176 336 5 0 0 0 - - -;
+#X text 78 155 <--------------------- nr of incoming note that is turned
+;
+#X text 492 155 or off;
+#X text 98 177 <------------------ voice nr of incoming note on / off
+;
+#X text 532 200 offs);
+#X text 111 201 <---------------- nr of notes being held (i.e. ons
+without;
+#X text 126 224 <-------------- pitch of current on/off received;
+#X text 147 247 <----------- velocity of current note;
+#X text 167 270 <-------- nr of all completed notes (i.e. nr of note
+;
+#X text 544 269 offs received);
+#X text 181 290 <------ duration of last note completed;
+#X text 217 335 <- delta time of last two note ons;
+#X text 201 312 <--- total count of delta times (see below);
+#X msg 176 95 bang;
+#X text 224 94 reset all values;
+#X connect 5 0 6 0;
+#X connect 5 1 6 1;
+#X connect 6 0 7 0;
+#X connect 6 1 8 0;
+#X connect 6 2 9 0;
+#X connect 6 3 10 0;
+#X connect 6 4 11 0;
+#X connect 6 5 12 0;
+#X connect 6 6 13 0;
+#X connect 6 7 14 0;
+#X connect 6 8 15 0;
+#X connect 28 0 6 2;

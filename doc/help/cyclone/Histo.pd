@@ -1,0 +1,25 @@
+#N canvas 233 184 511 298 10;
+#X text 40 247 cyclone is (c) Miller Puckette and others;
+#X text 40 262 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 39 276 ___________________________________________________
+;
+#X obj 51 18 Histo;
+#X text 109 18 generates a histogram of the received numbers;
+#X obj 49 156 Histo;
+#X msg 23 56 clear;
+#X text 72 57 erases received numbers;
+#X floatatom 49 105 5 0 0 0 - - -;
+#X floatatom 49 211 5 0 0 0 - - -;
+#X floatatom 79 184 5 0 0 0 - - -;
+#X text 96 212 current input;
+#X text 123 184 number of times the current input was received;
+#X floatatom 79 130 5 0 0 0 - - -;
+#X text 121 129 same as left inlet but number is not counted;
+#X msg 24 77 bang;
+#X text 72 77 same as repeating the last number in right inlet;
+#X connect 5 0 9 0;
+#X connect 5 1 10 0;
+#X connect 6 0 5 0;
+#X connect 8 0 5 0;
+#X connect 13 0 5 1;
+#X connect 15 0 5 0;

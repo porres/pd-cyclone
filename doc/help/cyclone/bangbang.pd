@@ -1,0 +1,28 @@
+#N canvas 217 155 423 410 10;
+#X text 22 332 cyclone is (c) Miller Puckette and others;
+#X text 23 347 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 22 361 ___________________________________________________ ;
+#X obj 41 22 bangbang 4;
+#X text 147 21 send a number of bangs in order;
+#X text 148 46 like;
+#X obj 186 41 trigger b b b ...;
+#X obj 48 91 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 48 117 bangbang 7;
+#X obj 113 142 print one;
+#X obj 102 165 print two;
+#X obj 91 188 print three;
+#X obj 80 212 print t-;
+#X obj 69 234 print t-;
+#X obj 58 256 print testin';
+#X obj 48 280 print done;
+#X text 140 118 arg sets number of outlets;
+#X connect 7 0 8 0;
+#X connect 8 0 15 0;
+#X connect 8 1 14 0;
+#X connect 8 2 13 0;
+#X connect 8 3 12 0;
+#X connect 8 4 11 0;
+#X connect 8 5 10 0;
+#X connect 8 6 9 0;

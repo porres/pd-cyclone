@@ -1,0 +1,155 @@
+#N canvas 7 38 850 620 10;
+#X text -11 558 cyclone is (c) Miller Puckette and others;
+#X text -11 573 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text -12 587 ___________________________________________________
+;
+#X obj 5 20 counter;
+#X text 79 21 count the number of bangs received;
+#X obj 54 94 metro 300;
+#X obj 54 71 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X floatatom 131 217 5 0 0 0 - - -;
+#X text 181 218 number of bangs;
+#X text 163 96 change direction;
+#X obj 142 94 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 4 71 start;
+#X obj 153 124 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 176 126 reset to minimum \, wait for next bang before output
+;
+#X obj 164 150 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 188 151 reset and output imediately;
+#X floatatom 112 73 5 0 0 0 - - -;
+#X obj 175 173 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 131 191 counter;
+#X text 197 175 reset to max \, wait for next bang before output *
+;
+#X text 436 538 * there seems to be a bug when used with an;
+#X text 451 548 unlimited counter \, sensible behaviour IMO;
+#X text 452 558 would be to reset to 0 aswell ...;
+#X obj 162 490 counter;
+#X floatatom 162 260 5 0 0 0 - - -;
+#X floatatom 162 517 5 0 0 0 - - -;
+#X msg 181 284 0;
+#X msg 191 303 1;
+#X msg 200 323 2;
+#X text 225 287 counter direction;
+#X text 248 299 0 = up;
+#X text 248 311 1 = down;
+#X text 248 323 2 = up and down;
+#X floatatom 209 363 5 0 0 0 - - -;
+#X floatatom 217 380 5 0 0 0 - - -;
+#X floatatom 224 398 5 0 0 0 - - -;
+#X text 254 361 set min;
+#X text 267 399 set max;
+#X text 262 378 set counter value;
+#X obj 572 430 counter;
+#X msg 518 315 set \$1;
+#X floatatom 518 296 5 0 0 0 - - -;
+#X msg 572 316 jam \$1;
+#X floatatom 572 297 5 0 0 0 - - -;
+#X text 463 278 set counter to nr. and output;
+#X text 612 295 immediately;
+#X text 428 295 at next bang;
+#X msg 433 314 goto \$1;
+#X text 494 316 =;
+#X msg 67 374 up;
+#X msg 80 394 down;
+#X msg 101 413 updown;
+#X text 63 357 direction:;
+#X msg 82 315 inc;
+#X msg 63 295 dec;
+#X text -2 266 inc/decrement doesn't;
+#X text -2 277 care about direction;
+#X msg 319 259 next;
+#X text 208 260 number = bang =;
+#X obj 412 391 min \$1;
+#X obj 460 390 max \$1;
+#X floatatom 412 370 5 0 0 0 - - -;
+#X floatatom 460 369 5 0 0 0 - - -;
+#X text 409 352 set min/max;
+#N canvas 0 0 504 163 arguments 0;
+#X obj 62 50 counter max;
+#X obj 62 72 counter min max;
+#X obj 61 95 counter dir min max;
+#X text 58 21 arguments are specified as follows:;
+#X text 195 51 one arg = initial maximum;
+#X text 196 69 two args = initial min/max;
+#X text 208 95 three = direction (0 \, 1 \, 2) min/max;
+#X restore 330 89 pd arguments;
+#N canvas 19 104 733 288 outputs 0;
+#X obj 49 82 metro 100;
+#X obj 49 57 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X floatatom 49 227 5 0 0 0 - - -;
+#X text 88 228 count;
+#X floatatom 80 198 5 0 0 0 - - -;
+#X floatatom 111 169 5 0 0 0 - - -;
+#X obj 49 108 counter 2 0 10;
+#X text 155 171 we reached max when counting up;
+#X text 129 200 we reached min when counting down;
+#X floatatom 142 137 5 0 0 0 - - -;
+#X text 187 139 count of overflows;
+#X obj 468 156 metro 100;
+#X obj 468 73 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X obj 468 183 counter 2 0 10;
+#X msg 412 104 carrybang;
+#X obj 499 230 print down;
+#X obj 530 207 print up;
+#X msg 436 126 carryint;
+#X text 506 127 default (0/1);
+#X text 485 104 bang when up/down overflow;
+#X text 144 17 ok \, wondering what so many outputs are for ? here
+we go!;
+#X text 145 30 please also test the carrybang vs carryint \, to the
+right;
+#X text 144 43 the subtile difference is 2 state changes (int) vs one
+bang;
+#X connect 0 0 6 0;
+#X connect 1 0 0 0;
+#X connect 6 0 2 0;
+#X connect 6 1 4 0;
+#X connect 6 2 5 0;
+#X connect 6 3 9 0;
+#X connect 11 0 13 0;
+#X connect 12 0 11 0;
+#X connect 13 1 15 0;
+#X connect 13 2 16 0;
+#X connect 14 0 13 0;
+#X connect 17 0 13 0;
+#X restore 428 89 pd outputs;
+#X text 419 252 additional ways to accomplish the same:;
+#X connect 5 0 18 0;
+#X connect 6 0 5 0;
+#X connect 10 0 18 1;
+#X connect 12 0 18 2;
+#X connect 14 0 18 3;
+#X connect 16 0 5 1;
+#X connect 17 0 18 4;
+#X connect 18 0 7 0;
+#X connect 23 0 25 0;
+#X connect 24 0 23 0;
+#X connect 26 0 23 1;
+#X connect 27 0 23 1;
+#X connect 28 0 23 1;
+#X connect 33 0 23 2;
+#X connect 34 0 23 3;
+#X connect 35 0 23 4;
+#X connect 40 0 39 0;
+#X connect 41 0 40 0;
+#X connect 42 0 39 0;
+#X connect 43 0 42 0;
+#X connect 49 0 23 0;
+#X connect 50 0 23 0;
+#X connect 51 0 23 0;
+#X connect 53 0 23 0;
+#X connect 54 0 23 0;
+#X connect 59 0 39 0;
+#X connect 60 0 39 0;
+#X connect 61 0 59 0;
+#X connect 62 0 60 0;

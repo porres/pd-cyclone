@@ -1,0 +1,21 @@
+#N canvas 200 160 471 309 10;
+#X text 19 253 cyclone is (c) Miller Puckette and others;
+#X text 19 268 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 18 282 ___________________________________________________ ;
+#X obj 26 24 speedlim;
+#X text 113 24 speed limit for incoming messages;
+#X obj 64 131 speedlim 300;
+#X text 158 124 arg is minimum delay between outputs;
+#X text 158 136 in milliseconds;
+#X floatatom 64 172 5 0 0 0 - - -;
+#X floatatom 64 76 5 0 0 0 - - -;
+#X floatatom 143 99 5 0 0 0 - - -;
+#X text 185 98 change delay time;
+#X text 106 74 move fast!!!;
+#X text 22 202 clock message (as in the max version) not supported
+for;
+#X text 22 215 obvious reasons.;
+#X connect 5 0 8 0;
+#X connect 9 0 5 0;
+#X connect 10 0 5 1;

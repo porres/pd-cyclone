@@ -1,0 +1,18 @@
+#N canvas 200 160 411 295 10;
+#X text 16 241 cyclone is (c) Miller Puckette and others;
+#X text 16 256 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 15 270 ___________________________________________________ ;
+#X obj 35 29 spell;
+#X obj 138 159 spell;
+#X obj 138 187 print spell;
+#X msg 99 104 63;
+#X msg 199 83 t h i s;
+#X msg 138 79 34 45;
+#X text 92 28 convert input to ascii values;
+#X msg 213 118 or that;
+#X connect 4 0 5 0;
+#X connect 6 0 4 0;
+#X connect 7 0 4 0;
+#X connect 8 0 4 0;
+#X connect 10 0 4 0;

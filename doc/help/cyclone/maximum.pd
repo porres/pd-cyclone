@@ -1,0 +1,24 @@
+#N canvas 158 104 478 384 10;
+#X text 16 328 cyclone is (c) Miller Puckette and others;
+#X text 16 343 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 15 357 ___________________________________________________ ;
+#X obj 24 36 maximum;
+#X text 99 35 output the greatest in a list of numbers;
+#X text 100 49 see also;
+#X obj 167 53 minimum;
+#X obj 83 251 maximum;
+#X msg 83 114 1 2 3 4 3 2;
+#X floatatom 83 286 5 0 0 0 - - -;
+#X msg 21 144 bang;
+#X text 55 145 send most recent output again;
+#X floatatom 103 170 5 0 0 0 - - -;
+#X floatatom 127 221 5 0 0 0 - - -;
+#X text 174 221 set current value;
+#X text 147 168 output if higher than current value \,;
+#X text 146 180 otherwise output current val;
+#X connect 7 0 9 0;
+#X connect 8 0 7 0;
+#X connect 10 0 7 0;
+#X connect 12 0 7 0;
+#X connect 13 0 7 1;

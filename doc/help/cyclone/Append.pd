@@ -1,0 +1,19 @@
+#N canvas 247 352 570 317 10;
+#X obj 34 129 Append foo;
+#X obj 34 169 print;
+#X msg 34 77 foo;
+#X msg 64 77 foo bar;
+#X msg 131 102 set foo bar;
+#X text 20 247 cyclone is (c) Miller Puckette and others;
+#X text 20 262 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 19 276 ___________________________________________________ ;
+#X obj 36 19 Append;
+#X text 220 102 set message changes value to append;
+#X text 113 131 creation arg sets initial value to append;
+#X text 132 76 message + stored value = output;
+#X text 92 20 append a list to the incoming list;
+#X connect 0 0 1 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;

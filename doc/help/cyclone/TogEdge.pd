@@ -1,0 +1,28 @@
+#N canvas 233 184 514 257 10;
+#X text 16 202 cyclone is (c) Miller Puckette and others;
+#X text 15 218 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 14 232 ___________________________________________________ ;
+#X obj 43 23 TogEdge;
+#X text 122 23 report zero / nozero transitions;
+#X obj 137 118 TogEdge;
+#X floatatom 137 76 5 0 0 0 - - -;
+#X obj 137 153 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 181 153 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 202 84 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 230 81 switches 0/nz;
+#X msg 92 76 0;
+#X msg 92 97 1;
+#X obj 208 152 print zero;
+#X obj 41 152 print nonzero;
+#X connect 5 0 7 0;
+#X connect 5 0 14 0;
+#X connect 5 1 8 0;
+#X connect 5 1 13 0;
+#X connect 6 0 5 0;
+#X connect 9 0 5 0;
+#X connect 11 0 5 0;
+#X connect 12 0 5 0;

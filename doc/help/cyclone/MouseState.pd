@@ -1,0 +1,41 @@
+#N canvas 233 184 517 395 10;
+#X text 27 347 cyclone is (c) Miller Puckette and others;
+#X text 27 361 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 26 375 ___________________________________________________
+;
+#X obj 33 28 MouseState;
+#X text 127 28 report mouse x/y/deltax/y and buttonpress;
+#X obj 58 187 MouseState;
+#X obj 58 313 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X floatatom 74 294 5 0 0 0 - - -;
+#X floatatom 90 268 5 0 0 0 - - -;
+#X text 114 297 x;
+#X msg 107 88 poll;
+#X text 134 269 y;
+#X floatatom 106 244 5 0 0 0 - - -;
+#X text 156 245 delta x;
+#X floatatom 123 215 5 0 0 0 - - -;
+#X text 173 216 delta y;
+#X text 77 314 button pressed ? (one button of course \, mac you know)
+;
+#X text 149 88 poll the mouse device;
+#X msg 58 64 bang;
+#X text 100 64 update current state;
+#X msg 107 107 nopoll;
+#X text 159 107 come on you guessed it right ...;
+#X msg 107 135 zero;
+#X text 149 137 set current pos to 0 \, 0 of our coordinate system
+;
+#X msg 105 160 reset;
+#X text 155 160 reset 0 \, 0 to upper left corner;
+#X connect 5 0 6 0;
+#X connect 5 1 7 0;
+#X connect 5 2 8 0;
+#X connect 5 3 12 0;
+#X connect 5 4 14 0;
+#X connect 10 0 5 0;
+#X connect 18 0 5 0;
+#X connect 20 0 5 0;
+#X connect 22 0 5 0;
+#X connect 24 0 5 0;

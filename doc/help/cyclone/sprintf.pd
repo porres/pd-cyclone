@@ -1,0 +1,18 @@
+#N canvas 391 182 495 325 10;
+#X text -17 267 cyclone is (c) Miller Puckette and others;
+#X text -17 281 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text -18 295 ___________________________________________________
+;
+#X obj -18 20 sprintf;
+#X text 41 14 format a message of strings and numbers;
+#X obj 162 145 sprintf foo%s-%d;
+#X obj 162 177 print;
+#X msg 162 101 -bar;
+#X floatatom 269 77 5 0 0 0 - - -;
+#X text 42 27 see the printf(3) manpage for details;
+#X text -15 103 this is the 'hot' inlet;
+#X text 282 144 arg is format string;
+#X connect 5 0 6 0;
+#X connect 7 0 5 0;
+#X connect 8 0 5 1;

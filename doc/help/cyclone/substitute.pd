@@ -1,0 +1,17 @@
+#N canvas 342 212 505 299 10;
+#X text -8 245 cyclone is (c) Miller Puckette and others;
+#X text -8 259 docs based on the MAX/MSP reference (c) cycling'74;
+#X text -9 273 ___________________________________________________
+;
+#X obj -2 28 substitute;
+#X text 83 27 substitute a symbol for another symbol in a message;
+#X obj 1 135 substitute foo bar;
+#X msg 1 89 bar foo;
+#X obj 1 180 print;
+#X msg 122 89 bar foo;
+#X msg 192 88 set bar foo;
+#X text 179 90 =;
+#X connect 5 0 7 0;
+#X connect 6 0 5 0;
+#X connect 8 0 5 1;
+#X connect 9 0 5 1;

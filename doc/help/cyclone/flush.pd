@@ -1,0 +1,31 @@
+#N canvas 162 57 564 390 10;
+#X text 25 336 cyclone is (c) Miller Puckette and others;
+#X text 26 349 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 25 363 ___________________________________________________ ;
+#X obj 40 17 flush;
+#X text 96 20 provide note offs for held notes;
+#X obj 95 238 flush;
+#X msg 34 110 clear;
+#X floatatom 95 287 5 0 0 0 - - -;
+#X floatatom 125 266 5 0 0 0 - - -;
+#X text 142 287 pitch;
+#X msg 95 151 64 111;
+#X text 169 265 velocity;
+#X msg 34 90 bang;
+#X text 74 89 send note off for all pitches for which only a noteon
+was;
+#X text 80 110 clear pitch list;
+#X text 477 89 received;
+#X text 154 151 list is treated as pitch/velocity pair;
+#X floatatom 113 196 5 0 0 0 - - -;
+#X floatatom 125 216 5 0 0 0 - - -;
+#X text 157 195 pitch;
+#X text 169 214 velocity;
+#X connect 5 0 7 0;
+#X connect 5 1 8 0;
+#X connect 6 0 5 0;
+#X connect 10 0 5 0;
+#X connect 12 0 5 0;
+#X connect 17 0 5 0;
+#X connect 18 0 5 1;

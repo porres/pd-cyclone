@@ -1,0 +1,37 @@
+#N canvas 262 210 421 323 10;
+#X text 20 263 cyclone is (c) Miller Puckette and others;
+#X text 21 278 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 20 292 ___________________________________________________ ;
+#X obj 26 19 funnel 4;
+#X obj 22 149 funnel 4;
+#X floatatom 22 69 5 0 0 0 - - -;
+#X obj 22 180 unpack f f;
+#X floatatom 22 204 5 0 0 0 - - -;
+#X floatatom 87 204 5 0 0 0 - - -;
+#X floatatom 39 87 5 0 0 0 - - -;
+#X floatatom 56 106 5 0 0 0 - - -;
+#X floatatom 73 125 5 0 0 0 - - -;
+#X obj 236 148 funnel 2;
+#X obj 236 185 print;
+#X msg 236 93 list foo;
+#X msg 287 117 list bar;
+#X text 82 149 arg sets nr of inlets;
+#X text 100 19 tag data based on the inlet it arrived in;
+#X obj 102 60 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 84 60 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 126 60 repeat last received value of the inlet;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 7 0;
+#X connect 6 1 8 0;
+#X connect 9 0 4 1;
+#X connect 10 0 4 2;
+#X connect 11 0 4 3;
+#X connect 12 0 13 0;
+#X connect 14 0 12 0;
+#X connect 15 0 12 1;
+#X connect 18 0 4 3;
+#X connect 19 0 4 2;

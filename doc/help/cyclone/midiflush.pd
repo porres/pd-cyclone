@@ -1,0 +1,21 @@
+#N canvas 158 104 521 282 10;
+#X text 22 227 cyclone is (c) Miller Puckette and others;
+#X text 22 242 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 21 256 ___________________________________________________
+;
+#X obj 32 27 midiflush;
+#X text 104 27 send note offs for all hanging notes in a raw midi stream
+;
+#X obj 62 149 midiflush;
+#X obj 14 111 midiin;
+#X obj 62 176 midiout;
+#X text 145 140 passes data on unchanged \, upon bang sends note;
+#X text 144 155 off for all notes it did not see a note off for;
+#X msg 78 97 bang;
+#X msg 62 72 clear;
+#X text 115 97 send note offs;
+#X text 115 73 forget all previous notes \, no note off;
+#X connect 5 0 7 0;
+#X connect 6 0 5 0;
+#X connect 10 0 5 0;
+#X connect 11 0 5 0;

@@ -1,0 +1,31 @@
+#N canvas 334 134 654 371 10;
+#X text 19 318 cyclone is (c) Miller Puckette and others;
+#X text 20 331 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 19 345 ___________________________________________________ ;
+#X obj 30 25 urn;
+#X text 75 26 rng without duplicate numbers;
+#X floatatom 243 249 5 0 0 0 - - -;
+#X obj 243 79 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 243 186 urn 4;
+#X msg 145 154 clear;
+#X floatatom 273 118 5 0 0 0 - - -;
+#X msg 143 113 seed \$1;
+#X floatatom 143 92 5 0 0 0 - - -;
+#X text 291 188 arg is number of different values to produce;
+#X text 318 119 clear rng and set new nr. of values;
+#X text 266 79 send out a random nr.;
+#X text 48 113 (re)seed rng;
+#X text 17 156 clear list of nrs;
+#X text 285 251 random output;
+#X obj 273 218 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 294 219 sent out all different values;
+#X connect 6 0 7 0;
+#X connect 7 0 5 0;
+#X connect 7 1 18 0;
+#X connect 8 0 7 0;
+#X connect 9 0 7 1;
+#X connect 10 0 7 0;
+#X connect 11 0 10 0;

@@ -1,0 +1,42 @@
+#N canvas 306 215 644 311 10;
+#X obj 23 19 sustain;
+#X text 92 19 hold note offs and output them on request;
+#X obj 55 164 sustain;
+#X floatatom 55 221 5 0 0 0 - - -;
+#X floatatom 99 195 5 0 0 0 - - -;
+#X msg 55 78 44 127;
+#X text 110 77 note on =;
+#X msg 184 76 pitch velocity;
+#X text 294 76 is passed through;
+#X text 144 195 velocity;
+#X text 101 221 pitch;
+#X text 110 103 note off (i.e. velocity = 0);
+#X obj 99 140 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X msg 69 103 55 0;
+#X text 121 133 when on sustain holds back all note offs;
+#X text 121 144 and outputs them when turned off again.;
+#X text 28 257 cyclone is (c) Miller Puckette and others;
+#X text 28 272 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 27 286 ___________________________________________________ ;
+#X obj 466 178 sustain;
+#X obj 510 148 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X floatatom 466 205 5 0 0 0 - - -;
+#X floatatom 510 204 5 0 0 0 - - -;
+#X floatatom 466 120 5 0 0 0 - - -;
+#X floatatom 488 98 5 0 0 0 - - -;
+#X text 462 74 alternatively:;
+#X text 531 95 set velocity;
+#X text 508 119 then pitch;
+#X connect 2 0 3 0;
+#X connect 2 1 4 0;
+#X connect 5 0 2 0;
+#X connect 12 0 2 2;
+#X connect 13 0 2 0;
+#X connect 19 0 21 0;
+#X connect 19 1 22 0;
+#X connect 20 0 19 2;
+#X connect 23 0 19 0;
+#X connect 24 0 19 1;

@@ -1,0 +1,22 @@
+#N canvas 171 195 422 279 10;
+#X text 26 230 cyclone is (c) Miller Puckette and others;
+#X text 27 243 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 26 257 ___________________________________________________
+;
+#X floatatom 122 100 5 0 0 0 - - -;
+#X floatatom 173 99 5 0 0 0 - - -;
+#X text 73 168 real->;
+#X text 215 170 <-imaginary;
+#X floatatom 122 171 5 0 0 0 - - -;
+#X floatatom 173 171 5 0 0 0 - - -;
+#X text 38 98 amplitude->;
+#X text 216 98 <-phase;
+#X text 121 39 see also;
+#X obj 41 21 poltocar;
+#X obj 187 34 cartopol;
+#X text 114 15 polar to cartesian conversion;
+#X obj 122 135 poltocar;
+#X connect 3 0 15 0;
+#X connect 4 0 15 1;
+#X connect 15 0 7 0;
+#X connect 15 1 8 0;

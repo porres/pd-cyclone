@@ -1,0 +1,19 @@
+#N canvas 200 160 452 291 10;
+#X text 29 238 cyclone is (c) Miller Puckette and others;
+#X text 29 253 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 28 267 ___________________________________________________ ;
+#X obj 26 16 prepend;
+#X text 94 17 prepend a message with another message:;
+#X msg 139 85 set a quick brown fox;
+#X msg 295 113 jumps;
+#X text 59 63 1;
+#X text 123 85 2;
+#X text 276 114 3;
+#X obj 139 155 prepend typewriters;
+#X msg 76 61 are boring;
+#X obj 139 185 print prepend;
+#X connect 5 0 10 0;
+#X connect 6 0 10 0;
+#X connect 10 0 12 0;
+#X connect 11 0 10 0;

@@ -1,0 +1,31 @@
+#N canvas 32 175 469 429 10;
+#X text 26 361 cyclone is (c) Miller Puckette and others;
+#X text 26 376 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 25 390 ___________________________________________________ ;
+#X obj 43 23 Uzi 4;
+#X text 98 24 send a specified nr of bangs as fast as possible;
+#X obj 60 201 Uzi 2;
+#X obj 60 309 print uzi;
+#X obj 60 141 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X floatatom 90 161 5 0 0 0 - - -;
+#X text 136 161 set number of bangs;
+#X msg 89 86 pause;
+#X text 186 86 pause sending bangs;
+#X msg 132 86 break;
+#X msg 152 110 resume;
+#X msg 88 110 continue;
+#X text 209 111 resume sending;
+#X floatatom 90 226 5 0 0 0 - - -;
+#X obj 75 276 print lastbang;
+#X text 137 228 number of current bang;
+#X connect 5 0 6 0;
+#X connect 5 1 17 0;
+#X connect 5 2 16 0;
+#X connect 7 0 5 0;
+#X connect 8 0 5 1;
+#X connect 10 0 5 0;
+#X connect 12 0 5 0;
+#X connect 13 0 5 0;
+#X connect 14 0 5 0;

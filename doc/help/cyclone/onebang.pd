@@ -1,0 +1,20 @@
+#N canvas 86 120 525 309 10;
+#X text 25 251 cyclone is (c) Miller Puckette and others;
+#X text 25 266 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 24 280 ___________________________________________________ ;
+#X obj 31 24 onebang;
+#X text 108 25 traffic control for bang messages;
+#X obj 75 144 onebang 1;
+#X text 148 145 nonzero arg allows the first bang to get through;
+#X obj 75 84 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 75 198 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 133 117 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 95 74 only gets through if a bang was previously received;
+#X text 95 87 in the right inlet;
+#X connect 5 0 8 0;
+#X connect 7 0 5 0;
+#X connect 9 0 5 1;

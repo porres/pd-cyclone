@@ -1,0 +1,28 @@
+#N canvas 217 155 450 371 10;
+#X text 22 304 cyclone is (c) Miller Puckette and others;
+#X text 22 319 docs based on the MAX/MSP reference (c) cycling'74
+;
+#X text 21 333 ___________________________________________________ ;
+#X text 98 24 store \, add to \, and multiply a number;
+#X obj 41 22 accum 4;
+#X obj 78 217 accum 4;
+#X text 143 218 arg sets initial value;
+#X floatatom 78 143 5 0 0 0 - - -;
+#X floatatom 78 248 5 0 0 0 - - -;
+#X text 126 144 set new value and output;
+#X floatatom 100 169 5 0 0 0 - - -;
+#X text 144 169 add to current value / no output;
+#X msg 50 116 bang;
+#X text 89 117 output current value;
+#X floatatom 122 194 5 0 0 0 - - -;
+#X text 172 194 multiply with current val / no output;
+#X msg 29 94 set \$1;
+#X floatatom 29 74 5 0 0 0 - - -;
+#X text 90 92 reset current value / no output;
+#X connect 5 0 8 0;
+#X connect 7 0 5 0;
+#X connect 10 0 5 1;
+#X connect 12 0 5 0;
+#X connect 14 0 5 2;
+#X connect 16 0 5 0;
+#X connect 17 0 16 0;
