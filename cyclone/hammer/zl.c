@@ -440,14 +440,14 @@ static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged)
 	    t_atom at = av1[ndx];
 	    if (buf)
 	    {
-		int ac2 = x->x_inbuf2.d_natoms, ntail = ac1 - ndx + 1;
+		int ac2 = x->x_inbuf2.d_natoms, ntail = ac1 - ndx - 1;
 		t_atom *ptr = buf;
 		if (ndx)
 		{
 		    memcpy(ptr, av1, ndx * sizeof(*buf));
 		    ptr += ndx;
 		}
-		if (ac2)
+		if (ac2)  /* replacement */
 		{
 		    memcpy(ptr, x->x_inbuf2.d_buf, ac2 * sizeof(*buf));
 		    ptr += ac2;

@@ -1,4 +1,4 @@
-/* Copyright (c) 1997-2003 Miller Puckette, krzYszcz, and others.
+/* Copyright (c) 1997-2004 Miller Puckette, krzYszcz, and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -35,6 +35,9 @@ enum { PORT_OK,
        PORT_NEXT,  /* next line, please */
        PORT_UNKNOWN, PORT_CORRUPT, PORT_FATAL };
 
+/* cf binport.c */
+#define A_INT  A_DEFFLOAT
+
 /* without access to sys_defaultfont, we just mimic defs from s_main.c */
 #ifdef MSW
 #define PORT_DEFFONTSIZE  12.
@@ -48,8 +51,8 @@ enum { PORT_OK,
 
 typedef struct _port
 {
-    t_binbuf  *x_oldbb;
-    t_binbuf  *x_newbb;
+    t_binbuf  *x_inbb;
+    t_binbuf  *x_outbb;
     int        x_nobj;
     int        x_withbogus;
     int        x_inatoms;
@@ -75,6 +78,25 @@ static t_float port_floatarg(t_port *x, int ndx)
     {
 	t_atom *av = &x->x_inmess[ndx];
 	return (av->a_type == A_FLOAT ? av->a_w.w_float : 0);
+    }
+    else return (0);
+}
+
+static t_int port_intarg(t_port *x, int ndx)
+{
+    if (ndx < x->x_inatoms)
+    {
+	t_atom *av = &x->x_inmess[ndx];
+#ifdef FIXME
+	return (av->a_type == A_INT ? av->a_w.w_index : 0);
+#else
+	if (av->a_type == A_INT)
+	    return (av->a_w.w_index);
+	else if (av->a_type == A_FLOAT)
+	    return ((t_int)av->a_w.w_float);
+	else
+	    return (0);
+#endif
     }
     else return (0);
 }
@@ -106,17 +128,17 @@ static int port_wstretch(float f)
 
 static t_float port_xarg(t_port *x, int ndx)
 {
-    return ((t_float)port_xstretch(port_floatarg(x, ndx)));
+    return ((t_float)port_xstretch(port_intarg(x, ndx)));
 }
 
 static t_float port_yarg(t_port *x, int ndx)
 {
-    return ((t_float)port_ystretch(port_floatarg(x, ndx)));
+    return ((t_float)port_ystretch(port_intarg(x, ndx)));
 }
 
 static t_float port_widtharg(t_port *x, int ndx)
 {
-    return ((t_float)port_wstretch(port_floatarg(x, ndx)));
+    return ((t_float)port_wstretch(port_intarg(x, ndx)));
 }
 
 static void port_setxy(t_port *x, int ndx, t_atom *ap)
@@ -126,6 +148,20 @@ static void port_setxy(t_port *x, int ndx, t_atom *ap)
     ndx++; ap++;
     f = port_yarg(x, ndx);
     SETFLOAT(ap, f);
+}
+
+static t_atom *import_copyatoms(t_atom *out, t_atom *in, int ac)
+{
+    while (ac-- > 0)
+    {
+	if (in->a_type == A_INT)
+	{
+	    out->a_type = A_FLOAT;
+	    out++->a_w.w_float = (float)in++->a_w.w_index;
+	}
+	else *out++ = *in++;
+    }
+    return (out);
 }
 
 static void import_addclassname(t_port *x, char *outname, t_atom *inatom)
@@ -145,22 +181,22 @@ static void import_addclassname(t_port *x, char *outname, t_atom *inatom)
 	{
 	    x->x_withbogus = 1;
 	    SETSYMBOL(&at, portps_bogus);
-	    binbuf_add(x->x_newbb, 1, &at);
+	    binbuf_add(x->x_outbb, 1, &at);
 	}
 	SETSYMBOL(&at, insym);
     }
     else at = *inatom;
-    binbuf_add(x->x_newbb, 1, &at);
+    binbuf_add(x->x_outbb, 1, &at);
 }
 
 static int import_obj(t_port *x, char *name)
 {
     int ndx = (x->x_inmess[1].a_w.w_symbol == gensym("user") ? 3 : 2);
-    binbuf_addv(x->x_newbb, "ssff",
+    binbuf_addv(x->x_outbb, "ssff",
 		gensym("#X"), gensym("obj"),
 		port_xarg(x, ndx), port_yarg(x, ndx + 1));
     import_addclassname(x, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
-    binbuf_addsemi(x->x_newbb);
+    binbuf_addsemi(x->x_outbb);
     x->x_nobj++;
     return (PORT_NEXT);
 }
@@ -171,26 +207,22 @@ static int import_objarg(t_port *x, char *name)
     if (x->x_inatoms > 6
 	|| (ndx == 3 && x->x_inatoms > 4))
     {
-	int nextra;
-	t_atom *in, *out = x->x_outmess;
+	t_atom *out = x->x_outmess;
 	SETSYMBOL(out, gensym("#X")); out++;
 	SETSYMBOL(out, gensym("obj")); out++;
 	port_setxy(x, ndx, out);
-	binbuf_add(x->x_newbb, 4, x->x_outmess);
+	binbuf_add(x->x_outbb, 4, x->x_outmess);
 	import_addclassname(x, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
-	out = x->x_outmess;
-	for (ndx = 7, nextra = 1, in = x->x_inmess + 7;
-	     ndx < x->x_inatoms; ndx++, nextra++)
-	    *out++ = *in++;
+	out = import_copyatoms(x->x_outmess, x->x_inmess + 7, x->x_inatoms - 7);
 	SETSEMI(out);
-	binbuf_add(x->x_newbb, nextra, x->x_outmess);
+	binbuf_add(x->x_outbb, x->x_inatoms - 6, x->x_outmess);
 	x->x_nobj++;
 	return (PORT_NEXT);
     }
     else return (PORT_CORRUPT);
 }
 
-static int imaction_vpatcher(t_port *x, char *arg)
+static int imaction_N1_vpatcher(t_port *x, char *arg)
 {
     if (x->x_stackdepth >= x->x_stacksize)
     {
@@ -208,20 +240,43 @@ static int imaction_vpatcher(t_port *x, char *arg)
     }
     x->x_stack[x->x_stackdepth++] = x->x_nobj;
     x->x_nobj = 0;
-    binbuf_addv(x->x_newbb, "ssfffff;",
+    binbuf_addv(x->x_outbb, "ssfffff;",
 		gensym("#N"), gensym("canvas"),
 		port_xarg(x, 2), port_yarg(x, 3),
-		(float)port_xstretch(port_floatarg(x, 4) - port_floatarg(x, 2)),
-		(float)port_ystretch(port_floatarg(x, 5) - port_floatarg(x, 3)),
+		(float)port_xstretch(port_intarg(x, 4) - port_intarg(x, 2)),
+		(float)port_ystretch(port_intarg(x, 5) - port_intarg(x, 3)),
 		PORT_DEFFONTSIZE);
     return (PORT_NEXT);
 }
 
-static int imaction_patcher(t_port *x, char *arg)
+/* FIXME */
+static int imaction_N1_vtable(t_port *x, char *arg)
 {
-    binbuf_addv(x->x_newbb, "ss;", portps_cleanup, portps_cleanup);
+#if 1
+    post("vtable \"%s\": size %d, range %d, coords %d %d %d %d, flags %d",
+	 port_symbolarg(x, 9)->s_name,
+	 port_intarg(x, 2), port_intarg(x, 8),
+	 port_intarg(x, 3), port_intarg(x, 4),
+	 port_intarg(x, 5), port_intarg(x, 6),
+	 port_intarg(x, 7));
+#endif
+    return (PORT_NEXT);
+}
+
+/* FIXME */
+static int imaction_N1_picture(t_port *x, char *arg)
+{
+#if 1
+    post("picture");
+#endif
+    return (PORT_NEXT);
+}
+
+static int imaction_P6_patcher(t_port *x, char *arg)
+{
+    binbuf_addv(x->x_outbb, "ss;", portps_cleanup, portps_cleanup);
     x->x_withbogus = 0;
-    binbuf_addv(x->x_newbb, "ssffss;",
+    binbuf_addv(x->x_outbb, "ssffss;",
 		gensym("#X"), gensym("restore"),
 		port_xarg(x, 2), port_yarg(x, 3),
 		gensym("pd"), port_symbolarg(x, 7));
@@ -232,7 +287,7 @@ static int imaction_patcher(t_port *x, char *arg)
     return (PORT_NEXT);
 }
 
-static int imaction_trigger(t_port *x, char *arg)
+static int imaction_P6_trigger(t_port *x, char *arg)
 {
     int i;
     for (i = 7; i < x->x_inatoms; i++)
@@ -242,11 +297,10 @@ static int imaction_trigger(t_port *x, char *arg)
     return (PORT_OK);
 }
 
-static int imaction_scope(t_port *x, char *name)
+static int imaction_P2_scope(t_port *x, char *name)
 {
     if (x->x_inatoms > 6)
     {
-	t_atom *in = x->x_inmess + 7;
 	t_atom *out = x->x_outmess;
 	int i, xpix, ypix;
 	SETSYMBOL(out, gensym("#X")); out++;
@@ -254,16 +308,15 @@ static int imaction_scope(t_port *x, char *name)
 	port_setxy(x, 3, out);
 	xpix = (int)out++->a_w.w_float;
 	ypix = (int)out->a_w.w_float;
-	binbuf_add(x->x_newbb, 4, x->x_outmess);
+	binbuf_add(x->x_outbb, 4, x->x_outmess);
 	import_addclassname(x, name, &x->x_inmess[2]);
 	out = x->x_outmess;
 	port_setxy(x, 5, out);
 	out++->a_w.w_float -= xpix;
 	out++->a_w.w_float -= ypix;
-	for (i = 7; i < x->x_inatoms; i++)
-	    *out++ = *in++;
+	out = import_copyatoms(out, x->x_inmess + 7, x->x_inatoms - 7);
 	SETSEMI(out);
-	binbuf_add(x->x_newbb, x->x_inatoms - 4, x->x_outmess);
+	binbuf_add(x->x_outbb, x->x_inatoms - 4, x->x_outmess);
 	x->x_nobj++;
 	return (PORT_NEXT);
     }
@@ -271,7 +324,7 @@ static int imaction_scope(t_port *x, char *name)
 }
 
 /* width fontsize fontfamily encoding fontprops red green blue text... */
-static int imaction_comment(t_port *x, char *arg)
+static int imaction_P1_comment(t_port *x, char *arg)
 {
     int outatoms;
     SETSYMBOL(x->x_outmess, gensym("#X"));
@@ -284,7 +337,12 @@ static int imaction_comment(t_port *x, char *arg)
 	float width = port_widtharg(x, 4);
 	t_atom *ap = x->x_inmess + 5;
 	SETFLOAT(x->x_outmess + 5, width);
-	if (ap->a_type == A_FLOAT)
+	if (ap->a_type == A_INT)
+	{
+	    fontsize = ap->a_w.w_index & 0x0ff;
+	    fontprops = ap->a_w.w_index >> 8;
+	}
+	else if (ap->a_type == A_FLOAT)  /* FIXME */
 	{
 	    fontsize = ((int)ap->a_w.w_float) & 0x0ff;
 	    fontprops = ((int)ap->a_w.w_float) >> 8;
@@ -298,33 +356,32 @@ static int imaction_comment(t_port *x, char *arg)
 	SETFLOAT(x->x_outmess + 11, 0);
 	SETFLOAT(x->x_outmess + 12, 0);
 	outatoms = x->x_inatoms + 7;
-	for (i = 13; i < outatoms ; i++)
-	    x->x_outmess[i] = x->x_inmess[i - 7];
+	import_copyatoms(x->x_outmess + 13, x->x_inmess + 6, x->x_inatoms - 6);
     }
     else outatoms = 5;
     SETSEMI(x->x_outmess + outatoms);
-    binbuf_add(x->x_newbb, outatoms + 1, x->x_outmess);
+    binbuf_add(x->x_outbb, outatoms + 1, x->x_outmess);
     x->x_nobj++;
     return (PORT_NEXT);
 }
 
-static int imaction_message(t_port *x, char *arg)
+static int imaction_P1_message(t_port *x, char *arg)
 {
     int i;
+    t_atom *out;
     SETSYMBOL(x->x_outmess, gensym("#X"));
     SETSYMBOL(x->x_outmess + 1, gensym("msg"));
     port_setxy(x, 2, x->x_outmess + 2);
-    for (i = 6; i < x->x_inatoms; i++)
-	x->x_outmess[i-2] = x->x_inmess[i];
-    SETSEMI(x->x_outmess + x->x_inatoms - 2);
-    binbuf_add(x->x_newbb, x->x_inatoms - 1, x->x_outmess);
+    out = import_copyatoms(x->x_outmess + 4, x->x_inmess + 6, x->x_inatoms - 6);
+    SETSEMI(out);
+    binbuf_add(x->x_outbb, x->x_inatoms - 1, x->x_outmess);
     x->x_nobj++;
     return (PORT_NEXT);
 }
 
-static int imaction_io(t_port *x, char *arg)
+static int imaction_P1_io(t_port *x, char *arg)
 {
-    binbuf_addv(x->x_newbb, "ssff",
+    binbuf_addv(x->x_outbb, "ssff",
 		gensym("#X"), gensym("obj"),
 		port_xarg(x, 2), port_yarg(x, 3));
     if (x->x_inmess[1].a_w.w_symbol == portps_inlet ||
@@ -332,31 +389,62 @@ static int imaction_io(t_port *x, char *arg)
     {
 	t_atom at;
 	SETSYMBOL(&at, portps_bogus);
-	binbuf_add(x->x_newbb, 1, &at);
+	binbuf_add(x->x_outbb, 1, &at);
     }
-    binbuf_add(x->x_newbb, 1, &x->x_inmess[1]);
-    binbuf_addsemi(x->x_newbb);
+    binbuf_add(x->x_outbb, 1, &x->x_inmess[1]);
+    binbuf_addsemi(x->x_outbb);
     x->x_nobj++;
     return (PORT_NEXT);
 }
 
-static int imaction_number(t_port *x, char *arg)
+static int imaction_P1_number(t_port *x, char *arg)
 {
-    binbuf_addv(x->x_newbb, "ssff;",
+    binbuf_addv(x->x_outbb, "ssff;",
 		gensym("#X"), gensym("floatatom"),
 		port_xarg(x, 2), port_yarg(x, 3));
     x->x_nobj++;
     return (PORT_NEXT);
 }
 
-static int imaction_connect(t_port *x, char *arg)
+static int imaction_P1_connect(t_port *x, char *arg)
 {
-    binbuf_addv(x->x_newbb, "ssffff;",
+    binbuf_addv(x->x_outbb, "ssiiii;",
 		gensym("#X"), gensym("connect"),
-		x->x_nobj - port_floatarg(x, 2) - 1,
-		port_floatarg(x, 3),
-		x->x_nobj - port_floatarg(x, 4) - 1,
-		port_floatarg(x, 5));
+		x->x_nobj - port_intarg(x, 2) - 1,
+		port_intarg(x, 3),
+		x->x_nobj - port_intarg(x, 4) - 1,
+		port_intarg(x, 5));
+    return (PORT_NEXT);
+}
+
+/* FIXME */
+static int imaction_T1_set(t_port *x, char *arg)
+{
+#if 1
+    post("set (%d atoms from %d): %d ... %d",
+	 x->x_inatoms - 3, port_intarg(x, 2),
+	 port_intarg(x, 3), port_intarg(x, x->x_inatoms - 1));
+#endif
+    return (PORT_NEXT);
+}
+
+/* FIXME */
+static int imaction_K1_replace(t_port *x, char *arg)
+{
+#if 1
+    post("replace %d", port_intarg(x, 2));
+#endif
+    return (PORT_NEXT);
+}
+
+/* FIXME */
+static int imaction_K1_set(t_port *x, char *arg)
+{
+#if 1
+    post("set (%d atoms from %d): %d ... %d",
+	 x->x_inatoms - 3, port_intarg(x, 2),
+	 port_intarg(x, 3), port_intarg(x, x->x_inatoms - 1));
+#endif
     return (PORT_NEXT);
 }
 
@@ -382,14 +470,16 @@ typedef struct _portnode  /* a parser's symbol definition, sort of... */
 
 static t_portslot imslots__N[] =
 {
-    { "vpatcher",    imaction_vpatcher, 0, 0, 0 }
+    { "vpatcher",    imaction_N1_vpatcher, 0, 0, 0 },
+    { "vtable",      imaction_N1_vtable, 0, 0, 0 },
+    { "picture",     imaction_N1_picture, 0, 0, 0 }
 };
 static t_portnode imnode__N = { imslots__N, PORT_NSLOTS(imslots__N), 1 };
 
 static t_portslot imslots_newobj[] =
 {
-    { "patcher",     imaction_patcher, 0, 0, 0 },
-    { "p",           imaction_patcher, 0, 0, 0 },
+    { "patcher",     imaction_P6_patcher, 0, 0, 0 },
+    { "p",           imaction_P6_patcher, 0, 0, 0 },
     /* state is embedded in #N vtable...; #T set...; */
     { "table",       import_obj, "Table", 0, 0 }
 };
@@ -410,8 +500,8 @@ static t_portslot imslots_newex[] =
     { "line~",       import_objarg, "Line~", 0, 0 },
     { "poly",        import_objarg, "Poly", 0, 0 },
     { "snapshot~",   import_objarg, "Snapshot~", 0, 0 },
-    { "trigger",     imaction_trigger, 0, 0, 0 },
-    { "t",           imaction_trigger, 0, 0, 0 },
+    { "trigger",     imaction_P6_trigger, 0, 0, 0 },
+    { "t",           imaction_P6_trigger, 0, 0, 0 },
 
     /* LATER rethink */
     { "Borax",       import_objarg, "Borax", 0, 0 },
@@ -432,7 +522,7 @@ static t_portslot imslots_user[] =
     { "GSwitch",     import_objarg, "Gswitch", 0, 0 },
     { "GSwitch2",    import_objarg, "Ggate", 0, 0 },
     { "number~",     import_obj, 0, 0, 0 },
-    { "scope~",      imaction_scope, "Scope~", 0, 0 },
+    { "scope~",      imaction_P2_scope, "Scope~", 0, 0 },
     { "uslider",     import_obj, "vsl", 0, 0 }  /* LATER range and offset */
 };
 static t_portnode imnode_user = { imslots_user,
@@ -440,16 +530,16 @@ static t_portnode imnode_user = { imslots_user,
 
 static t_portslot imslots__P[] =
 {
-    { "comment",     imaction_comment, 0, 0, 0 },
-    { "message",     imaction_message, 0, 0, 0 },
+    { "comment",     imaction_P1_comment, 0, 0, 0 },
+    { "message",     imaction_P1_message, 0, 0, 0 },
     { "newobj",      import_objarg, 0, &imnode_newobj, 0 },
     { "newex",       import_objarg, 0, &imnode_newex, 0 },
-    { "inlet",       imaction_io, 0, 0, 0 },
-    { "inlet~",      imaction_io, 0, 0, 0 },
-    { "outlet",      imaction_io, 0, 0, 0 },
-    { "outlet~",     imaction_io, 0, 0, 0 },
-    { "number",      imaction_number, 0, 0, 0 },
-    { "flonum",      imaction_number, 0, 0, 0 },
+    { "inlet",       imaction_P1_io, 0, 0, 0 },
+    { "inlet~",      imaction_P1_io, 0, 0, 0 },
+    { "outlet",      imaction_P1_io, 0, 0, 0 },
+    { "outlet~",     imaction_P1_io, 0, 0, 0 },
+    { "number",      imaction_P1_number, 0, 0, 0 },
+    { "flonum",      imaction_P1_number, 0, 0, 0 },
     { "button",      import_obj, "bng", 0, 0 },
     { "slider" ,     import_obj, "vsl", 0, 0 },  /* LATER range and offset */
     { "hslider",     import_obj, "hsl", 0, 0 },  /* LATER range and offset */
@@ -460,19 +550,34 @@ static t_portslot imslots__P[] =
     /* an object created from the "Paste Picture" menu,
        state is embedded in #N picture; #K...; */
     { "vpicture",    import_obj, "vpicture", 0, 0 },
-    { "connect",     imaction_connect, 0, 0, 0 },
-    { "fasten",      imaction_connect, 0, 0, 0 }
+    { "connect",     imaction_P1_connect, 0, 0, 0 },
+    { "fasten",      imaction_P1_connect, 0, 0, 0 }
 };
 static t_portnode imnode__P = { imslots__P, PORT_NSLOTS(imslots__P), 1 };
+
+static t_portslot imslots__T[] =
+{
+    { "set",         imaction_T1_set, 0, 0, 0 }
+};
+static t_portnode imnode__T = { imslots__T, PORT_NSLOTS(imslots__T), 1 };
+
+static t_portslot imslots__K[] =
+{
+    { "replace",     imaction_K1_replace, 0, 0, 0 },
+    { "set",         imaction_K1_set, 0, 0, 0 }
+};
+static t_portnode imnode__K = { imslots__K, PORT_NSLOTS(imslots__K), 1 };
 
 static t_portslot imslots_[] =
 {
     { "#N",          0, 0, &imnode__N, 0 },
-    { "#P",          0, 0, &imnode__P, 0 }
+    { "#P",          0, 0, &imnode__P, 0 },
+    { "#T",          0, 0, &imnode__T, 0 },
+    { "#K",          0, 0, &imnode__K, 0 }
 };
 static t_portnode imnode_ = { imslots_, PORT_NSLOTS(imslots_), 0 };
 
-static int port_doit(t_port *x, t_portnode *node)
+static int port_doline(t_port *x, t_portnode *node)
 {
     int nslots = node->n_nslots;
     if (nslots > 0)
@@ -489,7 +594,7 @@ secondpass:
 		if (slot->s_subtree)
 		{
 		    int nobj = x->x_nobj;
-		    int result = port_doit(x, slot->s_subtree);
+		    int result = port_doline(x, slot->s_subtree);
 		    if (result == PORT_FATAL || result == PORT_CORRUPT ||
 			result == PORT_NEXT)
 			return (result);
@@ -509,7 +614,7 @@ secondpass:
 	    goto secondpass;
 	}
     }
-    else bug("port_doit");
+    else bug("port_doline");
     return (PORT_UNKNOWN);
 }
 
@@ -755,7 +860,8 @@ static void port_checksetup(void)
 static t_port *port_new(void)
 {
     t_port *x = (t_port *)getbytes(sizeof(*x));
-    x->x_oldbb = binbuf_new();
+    x->x_inbb = binbuf_new();
+    x->x_outbb = 0;
     x->x_withbogus = 0;
     x->x_outsize = PORT_INISIZE;
     x->x_outatoms = 0;
@@ -787,10 +893,9 @@ static void port_free(t_port *x)
 
 static int import_binbuf(t_port *x)
 {
-    t_atom *av = binbuf_getvec(x->x_oldbb);
-    int ac = binbuf_getnatom(x->x_oldbb);
+    t_atom *av = binbuf_getvec(x->x_inbb);
+    int ac = binbuf_getnatom(x->x_inbb);
     int startmess, endmess;
-    x->x_newbb = binbuf_new();
     for (startmess = 0; startmess < ac; startmess = endmess + 1)
     {
 	t_atom *mess = av + startmess, *ap;
@@ -849,7 +954,7 @@ static int import_binbuf(t_port *x)
 		SETSYMBOL(ap, gensym(buf));
 	    }
 	}
-	if (port_doit(x, &imnode_) == PORT_FATAL)
+	if (port_doline(x, &imnode_) == PORT_FATAL)
 	    return (PORT_FATAL);
     }
     return (PORT_OK);
@@ -872,32 +977,42 @@ void import_max(char *fn, char *dir)
 
     x = port_new();
     glob_setfilename(0, gensym(bufp), gensym(buf));
-    ftype = binport_read(x->x_oldbb, bufp, buf);
+    ftype = binport_read(x->x_inbb, bufp, buf);
+    /* FIXME for BINPORT_MAXTEXT use an int-preserving version of binbuf_read */
     if (ftype == BINPORT_MAXTEXT || ftype == BINPORT_PDFILE)
-	failure = binbuf_read(x->x_oldbb, bufp, buf, 0);
+	failure = binbuf_read(x->x_inbb, bufp, buf, 0);
     else
 	failure = (ftype != BINPORT_OK);  /* LATER rethink */
     if (failure)
     {
     	perror(fn);  /* FIXME */
-	binbuf_free(x->x_oldbb);
+	binbuf_free(x->x_inbb);
     }
     else
     {
-	if (ftype == BINPORT_PDFILE) x->x_newbb = x->x_oldbb;
+	if (ftype == BINPORT_PDFILE) x->x_outbb = x->x_inbb;
 	else
 	{
 #ifdef PORT_DEBUG
-	    binbuf_write(x->x_oldbb, "import-debug.pd", "", 0);
+	    /* save as .pd (bypass export translation) */
+	    binbuf_write(x->x_inbb, "import-debug.pd", "", 0);
 #endif
-	    import_binbuf(x);
-	    binbuf_free(x->x_oldbb);
+	    x->x_outbb = binbuf_new();
+	    if (import_binbuf(x) != PORT_OK)
+	    {
+		loud_error(0, "%s: import failed", fn);
+		x->x_outbb = 0;
+	    }		
+	    binbuf_free(x->x_inbb);
 #ifdef PORT_LOG
-	    binbuf_write(x->x_newbb, "import-result.pd", "", 0);
+	    if (x->x_outbb) binbuf_write(x->x_outbb, "import-result.pd", "", 0);
 #endif
 	}
-	binbuf_eval(x->x_newbb, 0, 0, 0);
-	binbuf_free(x->x_newbb);
+	if (x->x_outbb)
+	{
+	    binbuf_eval(x->x_outbb, 0, 0, 0);
+	    binbuf_free(x->x_outbb);
+	}
     }
     port_free(x);
 

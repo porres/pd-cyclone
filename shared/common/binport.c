@@ -1,17 +1,20 @@
-/* Copyright (c) 1997-2003 Miller Puckette, krzYszcz, and others.
+/* Copyright (c) 1997-2004 Miller Puckette, krzYszcz, and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
+
+/* LATER verify endianness transparency */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include <math.h>
 
 #define BINPORT_MAXSTRING  256
 #define BINPORT_SYMGROW     64
 
 #ifndef BINPORT_STANDALONE
-/* load max binary file to a binbuf */
+/* load a max binary file into a Pd binbuf */
 
 #include "m_pd.h"
 
@@ -24,7 +27,6 @@
 
 #define BINPORT_VERBOSE
 //#define BINPORT_DEBUG
-
 #endif
 
 #include "binport.h"
@@ -41,12 +43,14 @@ static void binport_error(char *fmt, ...)
 
 static void binport_warning(char *fmt, ...)
 {
+#if defined (BINPORT_STANDALONE) || defined(BINPORT_VERBOSE)
     va_list ap;
     va_start(ap, fmt);
     fprintf(stderr, "warning (binport): ");
     vfprintf(stderr, fmt, ap);
     putc('\n', stderr);
     va_end(ap);
+#endif
 }
 
 static void binport_bug(char *fmt, ...)
@@ -57,6 +61,17 @@ static void binport_bug(char *fmt, ...)
     vfprintf(stderr, fmt, ap);
     putc('\n', stderr);
     va_end(ap);
+}
+
+static void binport_failure(char *filename)
+{
+    binport_error("\"%s\" doesn't look like a patch file", filename);
+}
+
+static void binpold_failure(char *filename)
+{
+    binport_error("tried reading \"%s\" as an old format file, but failed",
+		  filename);
 }
 
 #ifdef BINPORT_STANDALONE
@@ -171,62 +186,90 @@ t_symbol *gensym(char *s)
 
 #endif  /* end of Pd API */
 
-/* clumsy... LATER find a better way */
-#ifdef BINPORT_STANDALONE
-#define A_INT  (A_CANT + 1)
-#endif
+enum {
+    BINPORT_NULLTYPE,
+    BINPORT_INTTYPE = 1, BINPORT_FLOATTYPE, BINPORT_SYMTYPE,
+    BINPORT_DEFINTTYPE = 5, BINPORT_DEFFLOATTYPE, BINPORT_DEFSYMTYPE,
+    BINPORT_SEMITYPE = 10, BINPORT_COMMATYPE,
+    BINPORT_DOLLARTYPE, BINPORT_DOLLSYMTYPE
+};
 
-static int binport_getint(t_atom *ap)
+/* We use A_INT atom type not only for listing, but for import too --
+   the parser passes ints to individual token handlers, so that any
+   required conversion has to be done during Pd message generation. */
+#define A_INT  A_DEFFLOAT
+
+static int binport_readbuf(FILE *fp, char *buf, size_t sz)
 {
-#ifdef A_INT
-    return (*(int *)&ap->a_w);
-#else
-    return (ap->a_w.w_float);
-#endif
+    return (fread(buf, 1, sz, fp) == sz ? sz : 0);
 }
 
-static void binport_setint(t_atom *ap, int i)
-{
-#ifdef A_INT
-    ap->a_type = A_INT;
-    *(int *)&ap->a_w = i;
-#else
-    SETFLOAT(ap, (float)i);
-#endif
-}
-
-static void binport_setfloat(t_atom *ap, float f)
-{
-    ap->a_type = A_FLOAT;
-    ap->a_w.w_float = f;
-}
-
-typedef struct _binport
-{
-    FILE       *b_fp;
-    int         b_nsymbols;
-    int         b_symsize;
-    t_symbol  **b_symtable;
-} t_binport;
-
-static int binport_getbuf(t_binport *bp, char *buf, size_t sz)
-{
-    return (fread(buf, 1, sz, bp->b_fp) == sz);
-}
-
-static int binport_getbyte(t_binport *bp, unsigned char *buf)
+static int binport_readbyte(FILE *fp, unsigned char *buf)
 {
     int c;
-    if ((c = fgetc(bp->b_fp)) == EOF)
+    if ((c = fgetc(fp)) == EOF)
 	return (0);
     *buf = (unsigned char)c;
     return (1);
 }
 
-static int binport_getstring(t_binport *bp, char *buf)
+static int binport_readint(FILE *fp, int *iptr)
 {
-    int c, i = 0;
-    while (c = fgetc(bp->b_fp))
+    unsigned char word[4];
+    if (fread(word, 1, 4, fp) == 4)
+    {
+	*iptr = ((word[0] << 24) | (word[1] << 16) | (word[2] << 8) | word[3]);
+	return (4);
+    }
+    else return (0);
+}
+
+/* LATER more testing */
+/* make it binpold_readfloat() */
+static int binport_readfloat(FILE *fp, float *fptr)
+{
+    unsigned char word[10];
+    if (fread(word, 1, 10, fp) == 10)
+    {
+	int ex;
+	unsigned hi, lo;
+	ex = ((word[0] & 0x7F) << 8) | word[1];
+	hi = ((unsigned)word[2] << 24) | ((unsigned)word[3] << 16) |
+	    ((unsigned)word[4] << 8) | (unsigned)word[5];
+	lo = ((unsigned)word[6] << 24) | ((unsigned)word[7] << 16) |
+	    ((unsigned)word[8] << 8) | (unsigned)word[9];
+	if (ex == 0x7FFF)
+	{
+	    binport_warning("NaN atom bashed to zero");
+	    *fptr = 0.;
+	}
+	else if (ex || hi || lo)
+	{
+	    double d;
+	    ex -= 0x401e;
+	    hi = ((hi - 0x7fffffff) - 1) + ((float)0x7fffffff + 1.);
+	    lo = ((lo - 0x7fffffff) - 1) + ((float)0x7fffffff + 1.);
+	    d  = ldexp(hi, ex) + ldexp(lo, ex - 32);
+	    *fptr = ((word[0] & 0x80) ? -(float)d : (float)d);
+	}
+	else *fptr = 0.;
+#ifdef BINPORT_DEBUG
+	fprintf(stderr, "%02x%02x", (int)word[0], (int)word[1]);
+	fprintf(stderr, " %02x%02x%02x%02x",
+		(int)word[2], (int)word[3], (int)word[4], (int)word[5]);
+	fprintf(stderr, " %02x%02x%02x%02x",
+		(int)word[6], (int)word[7], (int)word[8], (int)word[9]);
+	fprintf(stderr, " == %g\n", *fptr);
+#endif
+	return (10);
+    }
+    else return (0);
+}
+
+static int binport_readstring(FILE *fp, char *buf)
+{
+    int c, i = 1;
+    while (c = fgetc(fp))
     {
 	if (c == EOF)
 	    return (0);
@@ -236,7 +279,227 @@ static int binport_getstring(t_binport *bp, char *buf)
     *buf = '\0';
     if (i >= BINPORT_MAXSTRING)
 	binport_warning("symbol string too long, skipped");
+    return (i);
+}
+
+typedef struct _binpold
+{
+    FILE    *o_fp;
+    int      o_natoms;
+    int      o_bodysize;
+    int      o_nsymbols;
+    int      o_symbolid;
+    int      o_ndx;
+    t_atom  *o_atombuf;
+} t_binpold;
+
+#define BINPOLD_NATOMTYPES     16
+#define BINPOLD_MAXATOMS  1000000  /* LATER rethink */
+
+static t_atomtype binpold_atomtypes[BINPOLD_NATOMTYPES] = {
+    A_NULL, A_INT, A_FLOAT, A_SYMBOL,
+    A_CANT, A_CANT, A_CANT, A_CANT, A_CANT, A_CANT,
+    A_SEMI, A_COMMA, A_DOLLAR, A_CANT, A_CANT, A_CANT
+};
+
+static int binpold_gettype(t_binpold *old, t_atom *ap)
+{
+    int typecode;
+    if ((typecode = fgetc(old->o_fp)) != EOF)
+    {
+	if (typecode > 0 && typecode < BINPOLD_NATOMTYPES)
+	{
+	    ap->a_type = binpold_atomtypes[typecode];
+	    if (ap->a_type != A_CANT)
+		return (1);
+	    else binport_warning("unsupported type of atom %d: %d",
+				 old->o_ndx, typecode);
+	}
+	else binport_warning("bad type of atom %d: %d", old->o_ndx, typecode);
+    }
+    else binport_warning("failed reading type of atom %d", old->o_ndx);
+    return (0);
+}
+
+static int binpold_getvalue(t_binpold *old, t_atom *ap, int *countp)
+{
+    int ival;
+    float fval;
+    *countp = 0;
+    switch (ap->a_type)
+    {
+    case A_INT:
+    case A_SYMBOL:
+	if (*countp = binport_readint(old->o_fp, &ival))
+	    ap->a_w.w_index = ival;
+	else
+	    goto valuefailed;
+	if (ap->a_type == A_SYMBOL)
+	{
+	    if (ival >= old->o_nsymbols)
+		old->o_nsymbols = ival + 1;
+	    ap->a_type = A_DEFSYM;  /* invalidate, until w_symbol is known */
+	}
+	break;
+    case A_FLOAT:
+	if (*countp = binport_readfloat(old->o_fp, &fval))
+	    ap->a_w.w_float = fval;
+	else
+	    goto valuefailed;
+	break;
+    case A_SEMI:
+    case A_COMMA:
+	break;
+    case A_DOLLAR:
+	if (*countp = binport_readint(old->o_fp, &ival))
+	    ap->a_w.w_index = ival;
+	else
+	    goto valuefailed;
+	break;
+    default:
+	goto valuefailed;
+    }
     return (1);
+valuefailed:
+    binport_warning("failed reading value of atom %d (type %d)",
+		    old->o_ndx, ap->a_type);
+    return (0);
+}
+
+static int binpold_load(t_binpold *old)
+{
+    char buf[BINPORT_MAXSTRING];
+    t_atom *ap;
+    int total;
+#ifdef BINPORT_DEBUG
+    fprintf(stderr, "old format: %d atoms, %d-byte chunk of atom values\n",
+	    old->o_natoms, old->o_bodysize);
+#endif
+    for (old->o_ndx = 0, ap = old->o_atombuf;
+	 old->o_ndx < old->o_natoms; old->o_ndx++, ap++)
+	if (!binpold_gettype(old, ap))
+	    return (0);
+    old->o_nsymbols = 0;
+    total = 0;
+    for (old->o_ndx = 0, ap = old->o_atombuf;
+	 old->o_ndx < old->o_natoms; old->o_ndx++, ap++)
+    {
+	int count;
+	if (!binpold_getvalue(old, ap, &count))
+	    return (0);
+	total += count;
+    }
+    if (total != old->o_bodysize)
+    {
+	binport_warning("actual chunk size %d inconsistent with declared %d",
+			total, old->o_bodysize);
+	return (0);
+    }
+    for (old->o_symbolid = 0;
+	 old->o_symbolid < old->o_nsymbols; old->o_symbolid++)
+    {
+	if (binport_readstring(old->o_fp, buf))
+	{
+	    t_symbol *s = gensym(buf);
+	    for (old->o_ndx = 0, ap = old->o_atombuf;
+		 old->o_ndx < old->o_natoms; old->o_ndx++, ap++)
+	    {
+		if (ap->a_type == A_DEFSYM &&
+		    ap->a_w.w_index == old->o_symbolid)
+		{
+		    ap->a_type = A_SYMBOL;
+		    ap->a_w.w_symbol = s;
+		}
+	    }
+	}
+	else
+	{
+	    binport_warning("failed reading string for symbol %d",
+			    old->o_symbolid);
+	    return (0);
+	}
+    }
+    for (old->o_ndx = 0, ap = old->o_atombuf;
+	 old->o_ndx < old->o_natoms; old->o_ndx++, ap++)
+    {
+	if (ap->a_type == A_DEFSYM)
+	{
+	    binport_warning("unknown string for symbol %d", ap->a_w.w_index);
+	    return (0);
+	}
+	else if (ap->a_type == A_DOLLAR)
+	{
+	    sprintf(buf, "#%d", ap->a_w.w_index);
+	    ap->a_type = A_SYMBOL;
+	    ap->a_w.w_symbol = gensym(buf);
+	}
+	/* CHECKME A_DOLLSYM */
+    }
+    return (1);
+}
+
+static void binpold_free(t_binpold *old)
+{
+    if (old->o_fp)
+	fclose(old->o_fp);
+    if (old->o_atombuf)
+	freebytes(old->o_atombuf, old->o_natoms * sizeof(*old->o_atombuf));
+    freebytes(old, sizeof(*old));
+}
+
+static t_binpold *binpold_new(FILE *fp)
+{
+    int natoms, bodysize;
+    if (binport_readint(fp, &natoms))
+    {
+	if (natoms < 0 || natoms > BINPOLD_MAXATOMS)
+	    binport_warning("bad number of atoms: %d", natoms);
+	else if (binport_readint(fp, &bodysize))
+	{
+	    if (bodysize < 0)
+		binport_warning("negative chunk size: %d", bodysize);
+	    else
+	    {
+		t_binpold *old = getbytes(sizeof(*old));
+		old->o_fp = fp;
+		old->o_natoms = natoms;
+		old->o_bodysize = bodysize;
+		if (!(old->o_atombuf =
+		      getbytes(old->o_natoms * sizeof(*old->o_atombuf))))
+		{
+		    binport_error("could not allocate %d atoms", old->o_natoms);
+		    freebytes(old, sizeof(*old));
+		    fclose(fp);
+		    return (0);
+		}
+		return (old);
+	    }
+	}
+    }
+    else binport_warning("file too short");
+    fclose(fp);
+    return (0);
+}
+
+typedef struct _binport
+{
+    FILE       *b_fp;
+    int         b_nsymbols;
+    int         b_symsize;
+    t_symbol  **b_symtable;
+    t_binpold  *b_old;
+} t_binport;
+
+static void binport_setint(t_atom *ap, int i)
+{
+    ap->a_type = A_INT;
+    ap->a_w.w_index = i;
+}
+
+static void binport_setfloat(t_atom *ap, float f)
+{
+    ap->a_type = A_FLOAT;
+    ap->a_w.w_float = f;
 }
 
 static t_symbol *binport_makesymbol(t_binport *bp, int id)
@@ -246,7 +509,7 @@ static t_symbol *binport_makesymbol(t_binport *bp, int id)
 	binport_bug("symbol id mismatch");
     else if (id > bp->b_nsymbols)
 	binport_error("unexpected symbol id");
-    else if (binport_getstring(bp, s))
+    else if (binport_readstring(bp->b_fp, s))
     {
 	int reqsize = ++bp->b_nsymbols;
 	if (reqsize > bp->b_symsize)
@@ -295,14 +558,24 @@ static int binport_nextatom(t_binport *bp, t_atom *ap)
     unsigned char opcode;
     int opval;
     char buf[64];
-    if (!binport_getbyte(bp, &opcode))
+    t_binpold *old = bp->b_old;
+    if (old)
+    {
+	if (old->o_ndx < old->o_natoms)
+	{
+	    *ap = old->o_atombuf[old->o_ndx++];
+	    return (1);
+	}
+	else return (0);
+    }
+    if (!binport_readbyte(bp->b_fp, &opcode))
 	goto bad;
     opval = opcode & 0x0f;
     switch (opcode >> 4)
     {
-    case 1:  /* variable length int,
-		opval: length (number of bytes that follow) */
-	if (!binport_getbuf(bp, buf, opval))
+    case BINPORT_INTTYPE:  /* variable length int,
+			      opval: length (number of bytes that follow) */
+	if (!binport_readbuf(bp->b_fp, buf, opval))
 	    goto bad;
 	else
 	{
@@ -314,9 +587,9 @@ static int binport_nextatom(t_binport *bp, t_atom *ap)
 	    binport_setint(ap, i);
 	}
 	break;
-    case 2:  /* variable length float,
-		opval: length (number of bytes that follow) */
-	if (!binport_getbuf(bp, buf, opval))
+    case BINPORT_FLOATTYPE:  /* variable length float,
+				opval: length (number of bytes that follow) */
+	if (!binport_readbuf(bp->b_fp, buf, opval))
 	    goto bad;
 	else
 	{
@@ -326,9 +599,9 @@ static int binport_nextatom(t_binport *bp, t_atom *ap)
 	    binport_setfloat(ap, *(t_float *)&i);
 	}
 	break;
-    case 3:  /* variable length symbol id,
-		opval: length (number of bytes that follow) */
-	if (!binport_getbuf(bp, buf, opval))
+    case BINPORT_SYMTYPE:  /* variable length symbol id,
+			      opval: length (number of bytes that follow) */
+	if (!binport_readbuf(bp->b_fp, buf, opval))
 	    goto bad;
 	else
 	{
@@ -339,21 +612,31 @@ static int binport_nextatom(t_binport *bp, t_atom *ap)
 		goto bad;
 	}
 	break;
-    case 5:  /* half-byte int */
+    case BINPORT_DEFINTTYPE:  /* half-byte int */
 	binport_setint(ap, opval);
 	break;
-    case 7:  /* half-byte symbol id */
+    case BINPORT_DEFSYMTYPE:  /* half-byte symbol id */
 	if (!binport_setsymbol(bp, ap, opval))
 	    goto bad;
 	break;
-    case 12:  /* #number */
+    case BINPORT_SEMITYPE:
+	/* LATER warn about nonzero opval */
+	ap->a_type = A_SEMI;
+	break;
+    case BINPORT_COMMATYPE:
+	/* CHECKME apparently never used? */
+	binport_warning("found the comma type in max binary...");
+	/* LATER warn about nonzero opval */
+	ap->a_type = A_COMMA;
+	break;
+    case BINPORT_DOLLARTYPE:  /* #number */
 	sprintf(buf, "#%d", opval);
 	ap->a_type = A_SYMBOL;
 	ap->a_w.w_symbol = gensym(buf);
 	break;
-    case 13:  /* #symbol id,
-		 opval: length (number of bytes that follow) */
-	if (!binport_getbuf(bp, buf, opval))
+    case BINPORT_DOLLSYMTYPE:  /* #symbol id,
+				  opval: length (number of bytes that follow) */
+	if (!binport_readbuf(bp->b_fp, buf, opval))
 	    goto bad;
 	else
 	{
@@ -370,69 +653,95 @@ static int binport_nextatom(t_binport *bp, t_atom *ap)
 	ap->a_w.w_symbol = gensym(buf);
 	break;
     default:
-	switch (opcode)
-	{
-	case 0xa0:
-	    ap->a_type = A_SEMI;
-	    break;
-	default:
-	    goto unknown;
-	}
+	binport_error("unknown opcode %x", (int)opcode);
+	goto bad;
     }
     return (1);
-unknown:
-    binport_error("unknown opcode %x", (int)opcode);
 bad:
     return (0);
+}
+
+static int binport_binalike(char *header)
+{
+    static char binport_header[4] = { 2, 0, 0, 0 };  /* CHECKME any others? */
+    return (memcmp(header, binport_header, 4) == 0);
+}
+
+static int binport_oldalike(char *header)
+{
+    static char binpold_header[4] = { 0, 0, 0, 1 };  /* CHECKME any others? */
+    return (memcmp(header, binpold_header, 4) == 0);
 }
 
 static void binport_free(t_binport *bp)
 {
     fclose(bp->b_fp);
-    freebytes(bp->b_symtable, bp->b_symsize * sizeof(*bp->b_symtable));
+    if (bp->b_symtable)
+	freebytes(bp->b_symtable, bp->b_symsize * sizeof(*bp->b_symtable));
+    if (bp->b_old)
+    {
+	bp->b_old->o_fp = 0;
+	binpold_free(bp->b_old);
+    }
     freebytes(bp, sizeof(*bp));
 }
 
 static t_binport *binport_new(FILE *fp, int *ftypep)
 {
-    static char binport_header[4] = { 2, 0, 0, 0 };
     char header[4];
     *ftypep = BINPORT_INVALID;
     if (fread(header, 1, 4, fp) == 4)
     {
-	if (memcmp(header, binport_header, 4))
-	{
-	    if (memcmp(header, "max", 3))
-	    {
-		if (header[0] == '#')  /* LATER rethink */
-		    *ftypep = BINPORT_PDFILE;
-#ifdef BINPORT_VERBOSE
-		else binport_warning("unknown header: %x %x %x %x",
-				     (int)header[0], (int)header[1],
-				     (int)header[2], (int)header[3]);
-#endif
-	    }
-	    else *ftypep = BINPORT_MAXTEXT;
-	}
-	else
+	if (binport_binalike(header))
 	{
 	    t_binport *bp = getbytes(sizeof(*bp));
 	    bp->b_fp = fp;
 	    bp->b_nsymbols = 0;
 	    bp->b_symsize = BINPORT_SYMGROW;
 	    bp->b_symtable = getbytes(bp->b_symsize * sizeof(*bp->b_symtable));
+	    bp->b_old = 0;
 	    *ftypep = BINPORT_OK;
 	    return (bp);
 	}
+	else if (memcmp(header, "max", 3) == 0)
+	    *ftypep = BINPORT_MAXTEXT;
+	else if (binport_oldalike(header))
+	{
+	    t_binport *bp = getbytes(sizeof(*bp));
+	    bp->b_fp = fp;
+	    bp->b_nsymbols = 0;
+	    bp->b_symsize = 0;
+	    bp->b_symtable = 0;
+	    bp->b_old = 0;
+	    *ftypep = BINPORT_MAXOLD;
+	    return (bp);
+	}
+	else
+	{
+	    if (header[0] == '#')  /* LATER rethink */
+		*ftypep = BINPORT_PDFILE;
+	    else binport_warning("unknown header: %x %x %x %x",
+				 (int)header[0], (int)header[1],
+				 (int)header[2], (int)header[3]);
+	}
     }
-#ifdef BINPORT_VERBOSE
     else binport_warning("file too short");
-#endif
     fclose(fp);
     return (0);
 }
 
 #ifndef BINPORT_STANDALONE
+
+static int binport_tobinbuf(t_binport *bp, t_binbuf *bb)
+{
+    t_atom at;
+    if (bp->b_old)
+	bp->b_old->o_ndx = 0;
+    while (binport_nextatom(bp, &at))
+	if (at.a_type != A_NULL)
+	    binbuf_add(bb, 1, &at);
+    return (1);
+}
 
 /* LATER deal with corrupt binary files? */
 int binport_read(t_binbuf *bb, char *filename, char *dirname)
@@ -450,17 +759,30 @@ int binport_read(t_binbuf *bb, char *filename, char *dirname)
 	t_binport *bp = binport_new(fp, &ftype);
 	if (bp)
 	{
-	    t_atom at;
-	    while (binport_nextatom(bp, &at))
-		if (at.a_type != A_NULL)
-		    binbuf_add(bb, 1, &at);
+	    int result;
+	    if (ftype == BINPORT_OK)
+		result = (binport_tobinbuf(bp, bb)
+			  ? BINPORT_OK : BINPORT_CORRUPT);
+	    else if (ftype == BINPORT_MAXOLD)
+	    {
+		t_binpold *old = binpold_new(fp);
+		result = BINPORT_FAILED;
+		if (old)
+		{
+		    bp->b_old = old;
+		    if (binpold_load(old) && binport_tobinbuf(bp, bb))
+			result = BINPORT_OK;
+		}
+		else binpold_failure(filename);
+	    }
+	    else result = BINPORT_FAILED;
 	    binport_free(bp);
-	    return (BINPORT_OK);
+	    return (result);
 	}
 	else if (ftype == BINPORT_MAXTEXT || ftype == BINPORT_PDFILE)
 	    return (ftype);
 	else
-	    binport_error("\"%s\" doesn't look like a patch file", filename);
+	    binport_failure(filename);
     }
     else binport_bug("cannot open file");
     return (BINPORT_INVALID);
@@ -478,7 +800,7 @@ static void binport_atomstring(t_atom *ap, char *buf, int bufsize)
     case A_COMMA:
 	strcpy(buf, ","); break;
     case A_INT:
-	sprintf(buf, "%d", binport_getint(ap)); break;
+	sprintf(buf, "%d", ap->a_w.w_index); break;
     case A_FLOAT:
 	sprintf(buf, "%#f", ap->a_w.w_float);
 	ep = buf + strlen(buf) - 1;
@@ -514,6 +836,29 @@ static void binport_atomstring(t_atom *ap, char *buf, int bufsize)
     }
 }
 
+static void binport_print(t_binport *bp)
+{
+    char buf[BINPORT_MAXSTRING];
+    t_atom at;
+    int ac = 0;
+    if (bp->b_old)
+	bp->b_old->o_ndx = 0;
+    while (binport_nextatom(bp, &at))
+    {
+	if (at.a_type == A_SEMI)
+	{
+	    fputs(";\n", stdout);
+	    ac = 0;
+	}
+	else if (at.a_type != A_NULL)
+	{
+	    if (ac++) fputc(' ', stdout);
+	    binport_atomstring(&at, buf, BINPORT_MAXSTRING);
+	    fputs(buf, stdout);
+	}
+    }
+}
+
 int main(int ac, char **av)
 {
     if (ac > 1)
@@ -525,22 +870,21 @@ int main(int ac, char **av)
 	    t_binport *bp = binport_new(fp, &ftype);
 	    if (bp)
 	    {
-		char buf[BINPORT_MAXSTRING];
-		t_atom at;
-		int ac = 0;
-		while (binport_nextatom(bp, &at))
+		if (ftype == BINPORT_OK)
+		    binport_print(bp);
+		else if (ftype == BINPORT_MAXOLD)
 		{
-		    if (at.a_type == A_SEMI)
+		    t_binpold *old = binpold_new(fp);
+		    if (old)
 		    {
-			fputs(";\n", stdout);
-			ac = 0;
+			bp->b_old = old;
+			if (binpold_load(old))
+			    binport_print(bp);
+			else
+			    ftype = BINPORT_FAILED;
 		    }
-		    else if (at.a_type != A_NULL)
-		    {
-			if (ac++) fputc(' ', stdout);
-			binport_atomstring(&at, buf, BINPORT_MAXSTRING);
-			fputs(buf, stdout);
-		    }
+		    else ftype = BINPORT_FAILED;
+		    if (ftype == BINPORT_FAILED) binpold_failure(av[1]);
 		}
 		binport_free(bp);
 	    }
@@ -549,7 +893,7 @@ int main(int ac, char **av)
 	    else if (ftype == BINPORT_PDFILE)
 		binport_warning("\"%s\" looks like a Pd patch file", av[1]);
 	    else
-		binport_error("\"%s\" doesn't look like a patch file", av[1]);
+		binport_failure(av[1]);
 	}
 	else binport_error("cannot open file \"%s\"", av[1]);
     }
