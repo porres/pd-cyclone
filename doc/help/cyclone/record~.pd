@@ -50,7 +50,7 @@
 #X text 60 394 table naming convention is;
 #X text 61 407 0...4-tablename:;
 #X text 42 248 enable multichannel by using an;
-#X text 28 539 cyclone is (c) Miller Puckette and others;
+#X text 28 539 cyclone is (c) Krzysztof Czaja and others;
 #X text 29 552 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 28 566 ___________________________________________________
 ;

@@ -49,7 +49,7 @@
 #X text 626 140 pitch bend;
 #X text 616 164 aftertouch;
 #X text 634 115 channel number;
-#X text 42 399 cyclone is (c) Miller Puckette and others;
+#X text 42 399 cyclone is (c) Krzysztof Czaja and others;
 #X text 42 414 docs based on the MAX/MSP reference (c) cycling'74
 ;
 #X text 41 428 ___________________________________________________ ;

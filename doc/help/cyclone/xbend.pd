@@ -32,7 +32,7 @@
 #X text 587 224 lsb;
 #X text 522 252 msb;
 #X text 192 19 extra precision midi pitchbend objects;
-#X text 31 317 cyclone is (c) Miller Puckette and others;
+#X text 31 317 cyclone is (c) Krzysztof Czaja and others;
 #X text 31 332 docs based on the MAX/MSP reference (c) cycling'74
 ;
 #X text 30 346 ___________________________________________________ ;

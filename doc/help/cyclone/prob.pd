@@ -1,5 +1,5 @@
 #N canvas 112 40 826 571 10;
-#X text 8 512 cyclone is (c) Miller Puckette and others;
+#X text 8 512 cyclone is (c) Krzysztof Czaja and others;
 #X text 7 524 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 6 538 ___________________________________________________;
 #X obj -2 21 prob;
