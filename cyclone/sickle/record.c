@@ -8,6 +8,8 @@
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
 
+#define RECORD_REDRAWPAUSE  1000.  /* refractory period */
+
 typedef struct _record
 {
     t_arsic   x_arsic;
@@ -23,13 +25,20 @@ typedef struct _record
     float     x_syncincr;
     int       x_isrunning;   /* to know if sync should be 0.0 or 1.0 */
     t_clock  *x_clock;
+    double    x_clocklasttick;
 } t_record;
 
 static t_class *record_class;
 
 static void record_tick(t_record *x)
 {
-    arsic_redraw((t_arsic *)x);
+    double timesince = clock_gettimesince(x->x_clocklasttick);
+    if (timesince >= RECORD_REDRAWPAUSE)
+    {
+	arsic_redraw((t_arsic *)x);
+	x->x_clocklasttick = clock_getlogicaltime();
+    }
+    else clock_delay(x->x_clock, RECORD_REDRAWPAUSE - timesince);
 }
 
 static void record_setsync(t_record *x)
@@ -37,15 +46,15 @@ static void record_setsync(t_record *x)
     /* CHECKED: clipped to array size -- using indices, not points */
     float range = (float)(x->x_endindex - x->x_startindex);
     int phase = x->x_phase;
-    if (phase == SHARED_INT_MAX || range < 1.0)
+    if (phase == SHARED_INT_MAX || range < 1.)
     {
-	x->x_sync = (x->x_isrunning ? 1.0 : 0);  /* CHECKED */
-	x->x_syncincr = 0;
+	x->x_sync = (x->x_isrunning ? 1. : 0.);  /* CHECKED */
+	x->x_syncincr = 0.;
     }
     else
     {
 	x->x_sync = (float)(phase - x->x_startindex) / range;
-	x->x_syncincr = 1.0 / range;
+	x->x_syncincr = 1. / range;
     }
 }
 
@@ -65,6 +74,15 @@ static void record_mstoindex(t_record *x)
 static void record_set(t_record *x, t_symbol *s)
 {
     arsic_setarray((t_arsic *)x, s, 1);
+    record_mstoindex(x);
+}
+
+static void record_reset(t_record *x)
+{
+    x->x_startpoint = x->x_endpoint = 0.;
+    x->x_pauseindex = SHARED_INT_MAX;
+    x->x_phase = SHARED_INT_MAX;
+    x->x_isrunning = 0;
     record_mstoindex(x);
 }
 
@@ -91,7 +109,7 @@ static void record_float(t_record *x, t_float f)
     }
     else if (x->x_phase != SHARED_INT_MAX)  /* CHECKED: no rewind */
     {
-	record_tick(x);
+	clock_delay(x->x_clock, 10.);
 	x->x_pauseindex = x->x_phase;
 	x->x_phase = SHARED_INT_MAX;
     }
@@ -126,7 +144,7 @@ static t_int *record_perform(t_int *w)
     {
 	int vecsize = sic->s_vecsize;
 	float syncincr = x->x_syncincr;
-	int ch, over, i, nxfer;
+	int ch, over, i, nxfer, ndone = 0;
 loopover:
 	if ((nxfer = endphase - phase) > nblock)
 	{
@@ -140,7 +158,7 @@ loopover:
 	    t_float *vp = sic->s_vectors[ch];
 	    if (vp)
 	    {
-		t_float *ip = (t_float *)(w[3 + ch]);
+		t_float *ip = (t_float *)(w[3 + ch]) + ndone;
 		vp += phase;
 		i = nxfer;
 		/* LATER consider handling under and overflows */
@@ -148,6 +166,10 @@ loopover:
 	    }
 	}
 	i = nxfer;
+
+	sync = phase;
+	syncincr = 1.;
+
 	while (i--)
 	{
 	    *out++ = sync;
@@ -155,31 +177,35 @@ loopover:
 	}
 	if (over)
 	{
+	    clock_delay(x->x_clock, 0);
 	    nblock -= nxfer;
 	    if (x->x_loopmode
 		&& (phase = x->x_startindex) < endphase)
 	    {
 		x->x_phase = phase;
 		x->x_sync = sync = 0;
-		if (nblock > 0) goto loopover;
-		goto done;
+		if (nblock > 0)
+		{
+		    ndone += nxfer;
+		    goto loopover;
+		}
+		goto alldone;
 	    }
-	    clock_delay(x->x_clock, 0);
 	    /* CHECKED: no restart in append mode */
 	    x->x_pauseindex = SHARED_INT_MAX;
 	    x->x_phase = SHARED_INT_MAX;
-	    x->x_sync = 1.0;
-	    x->x_syncincr = 0;
+	    x->x_sync = 1.;
+	    x->x_syncincr = 0.;
 	}
 	else
 	{
 	    x->x_phase += nxfer;
 	    x->x_sync = sync;
-	    goto done;
+	    goto alldone;
 	}
     }
-    while (nblock--) *out++ = sync;
-done:
+    while (nblock--) *out++ = -1; //sync;
+alldone:
     return (w + sic->s_nperfargs + 1);
 }
 
@@ -203,15 +229,11 @@ static void *record_new(t_symbol *s, t_floatarg f)
     {
 	int nch = arsic_getnchannels((t_arsic *)x);
 	arsic_setminsize((t_arsic *)x, 2);
-	x->x_startpoint = 0;
-	x->x_endpoint = 0;
 	x->x_appendmode = 0;
 	x->x_loopmode = 0;
-	x->x_pauseindex = SHARED_INT_MAX;
-	x->x_phase = SHARED_INT_MAX;
-	x->x_isrunning = 0;
-	record_mstoindex(x);
+	record_reset(x);
 	x->x_clock = clock_new(x, (t_method)record_tick);
+	x->x_clocklasttick = clock_getlogicaltime();
 	while (--nch)
 	    inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft-2"));
@@ -239,4 +261,6 @@ void record_tilde_setup(void)
 		    gensym("loop"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_set,
 		    gensym("set"), A_SYMBOL, 0);
+    class_addmethod(record_class, (t_method)record_reset,
+		    gensym("reset"), 0);
 }

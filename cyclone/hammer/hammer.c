@@ -27,21 +27,24 @@ static void hammer_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
     import_max(fn->s_name, "");
 }
 
-static void hammer_import(t_hammer *x, t_symbol *fn, t_symbol *dir)
+static void hammer_doimport(t_hammer *x, t_symbol *fn, t_symbol *dir)
 {
+    if (!dir || dir == &s_) dir = x->x_dir;
     if (fn && fn != &s_)
-    {
-	if (!dir || dir == &s_) dir = x->x_dir;
 	import_max(fn->s_name, (dir && dir != &s_) ? dir->s_name : "");
-    }
     else
-	hammerpanel_open(x->x_filehandle);
+	hammerpanel_open(x->x_filehandle, dir);
 }
 
 static void hammer_click(t_hammer *x, t_floatarg xpos, t_floatarg ypos,
-			  t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
+			 t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
 {
-    hammer_import(x, 0, 0);
+    hammer_doimport(x, 0, 0);
+}
+
+static void hammer_import(t_hammer *x, t_symbol *fn)
+{
+    hammer_doimport(x, fn, 0);
 }
 
 static void hammer_bang(t_hammer *x)
@@ -82,7 +85,7 @@ void hammer_setup(void)
 			     sizeof(t_hammer), 0, A_DEFSYM, 0);
     class_addbang(hammer_class, hammer_bang);
     class_addmethod(hammer_class, (t_method)hammer_import,
-		    gensym("import"), A_DEFSYM, A_DEFSYM, 0);
+		    gensym("import"), A_DEFSYM, 0);
     class_addmethod(hammer_class, (t_method)hammer_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);

@@ -12,6 +12,7 @@ enum { LOUD_ARGOK, LOUD_ARGUNDER, LOUD_ARGOVER, LOUD_ARGTYPE, LOUD_ARGMISSING };
 
 t_symbol *loud_floatsym(void);
 char *loud_symbolname(t_symbol *s, char *nullname);
+int loud_matchignorecase(char *test, char *pattern);
 char *loud_ordinal(int n);
 void loud_error(t_pd *x, char *fmt, ...);
 void loud_errand(t_pd *x, char *fmt, ...);

@@ -21,5 +21,5 @@ SVEFL_OBJECTS = common/vefl.o sickle/sic.o common/loud.o unstable/fragile.o
 SARSIC_OBJECTS = sickle/sic.o sickle/arsic.o common/vefl.o \
 	common/loud.o unstable/fragile.o
 SFILE_OBJECTS = hammer/file.o sickle/sic.o common/loud.o unstable/forky.o
-RELEASE_LIBS = cyclone hammer sickle
+RELEASE_LIBS = cyclone hammer sickle dummies
 RELEASE_APPS = cyclist

@@ -31,7 +31,7 @@ static void peek_tick(t_peek *x)
 {
     arsic_redraw((t_arsic *)x);  /* LATER redraw only dirty channel(s!) */
     x->x_clockset = 0;
-    x->x_clocklasttick = clock_getsystime();
+    x->x_clocklasttick = clock_getlogicaltime();
 }
 
 static void peek_set(t_peek *x, t_symbol *s)
@@ -41,7 +41,7 @@ static void peek_set(t_peek *x, t_symbol *s)
 
 #define peek_doclip(f)  (f < -1. ? -1. : (f > 1. ? 1. : f))
 
-/* CHECKED refman error: ``if the number received in the left inlet
+/* CHECKED refman's error: ``if the number received in the left inlet
    specifies a sample index that does not exist in the buffer~ object's
    currently allocated memory, nothing happens.''  This is plainly wrong,
    at least for max/msp 4.0.7 bundle: the index is clipped (just like
@@ -115,14 +115,14 @@ static void *peek_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 	    ch = PEEK_MAXCHANNELS;
 	x->x_maxchannels = (ch ? PEEK_MAXCHANNELS : 1);
 	x->x_effchannel = x->x_reqchannel = (ch ? ch - 1 : 0);
-	/* CHECKED (refman error) clipping is disabled by default */
+	/* CHECKED (refman's error) clipping is disabled by default */
 	x->x_clipmode = ((int)f2 != 0);
 	x->x_pokemode = 0;
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft2"));
 	outlet_new((t_object *)x, &s_float);
 	x->x_clock = clock_new(x, (t_method)peek_tick);
-	x->x_clocklasttick = clock_getsystime();
+	x->x_clocklasttick = clock_getlogicaltime();
 	x->x_clockset = 0;
     }
     return (x);

@@ -260,7 +260,7 @@ static void funbuff_read(t_funbuff *x, t_symbol *s)
     if (s && s != &s_)
 	funbuff_doread(x, s);
     else
-	hammerpanel_open(x->x_filehandle);
+	hammerpanel_open(x->x_filehandle, 0);
 }
 
 /* CHECKED symbol arg not allowed --

@@ -29,7 +29,7 @@ static void poke_tick(t_poke *x)
 {
     arsic_redraw((t_arsic *)x);  /* LATER redraw only dirty channel(s!) */
     x->x_clockset = 0;
-    x->x_clocklasttick = clock_getsystime();
+    x->x_clocklasttick = clock_getlogicaltime();
 }
 
 static void poke_set(t_poke *x, t_symbol *s)
@@ -132,7 +132,7 @@ static void *poke_new(t_symbol *s, t_floatarg f)
 	x->x_indexptr = fragile_inlet_signalscalar(in2);
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft2"));
 	x->x_clock = clock_new(x, (t_method)poke_tick);
-	x->x_clocklasttick = clock_getsystime();
+	x->x_clocklasttick = clock_getlogicaltime();
 	x->x_clockset = 0;
     }
     return (x);

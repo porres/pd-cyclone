@@ -25,6 +25,19 @@ char *loud_symbolname(t_symbol *s, char *nullname)
 }
 
 /* LATER move it somewhere else */
+int loud_matchignorecase(char *test, char *pattern)
+{
+    char ct, cp;
+    for (ct = *test, cp = *pattern; ct && cp; ct = *++test, cp = *++pattern)
+	if (ct != cp
+	    && ((ct < 'A' || ct > 'z')
+		|| ((ct > 'Z' || ct + 32 != cp)
+		    && (ct < 'a' || ct - 32 != cp))))
+	    return (0);
+    return (ct == cp);
+}
+
+/* LATER move it somewhere else */
 char *loud_ordinal(int n)
 {
     static char buf[16];  /* assuming 10-digit INT_MAX */

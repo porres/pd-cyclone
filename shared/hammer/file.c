@@ -14,7 +14,9 @@
    access to the panels (like collcommon), then it passes nonzero readfn
    and/or writefn callback pointers to the constructor.  A master which has
    an associated text editor, AND wants to update object's state after
-   edits, passes a nonzero updatefn callback in a call to the constructor. */
+   edits, passes a nonzero updatefn callback in a call to the constructor.
+
+   LATER extract the embedding stuff. */
 
 #include <stdio.h>
 #include <string.h>
@@ -173,6 +175,23 @@ static void hammereditor_end(t_hammerfile *f)
 
 static void hammerpanel_guidefs(void)
 {
+    sys_gui("proc hammerpanel_open {target inidir} {\n");
+    sys_gui(" global pd_opendir\n");
+    sys_gui(" if {$inidir == \"\"} {\n");
+    sys_gui("  set $inidir $pd_opendir\n");
+    sys_gui(" }\n");
+    sys_gui(" set filename [tk_getOpenFile \\\n");
+    sys_gui("  -initialdir $inidir]\n");
+    sys_gui(" if {$filename != \"\"} {\n");
+#if 0
+    sys_gui("  set directory [string range $filename 0 \\\n");
+    sys_gui("   [expr [string last / $filename ] - 1]]\n");
+    sys_gui("  set pd_opendir $directory\n");
+#endif
+    sys_gui("  pd [concat $target symbol [pdtk_enquote $filename] \\;]\n");
+    sys_gui(" }\n");
+    sys_gui("}\n");
+
     sys_gui("proc hammerpanel_save {target inidir inifile} {\n");
     sys_gui(" if {$inifile != \"\"} {\n");
     sys_gui("  set filename [tk_getSaveFile \\\n");
@@ -195,7 +214,8 @@ static void hammerpanel_symbol(t_hammerfile *f, t_symbol *s)
 static void hammerpanel_tick(t_hammerfile *f)
 {
     if (f->f_savepanel)
-	sys_vgui("pdtk_openpanel %s\n", f->f_bindname->s_name);
+	sys_vgui("hammerpanel_open %s {%s}\n", f->f_bindname->s_name,
+		 f->f_inidir->s_name);
     else
 	sys_vgui("hammerpanel_save %s {%s} {%s}\n", f->f_bindname->s_name,
 		 f->f_inidir->s_name, f->f_inifile->s_name);
@@ -203,8 +223,9 @@ static void hammerpanel_tick(t_hammerfile *f)
 
 /* these are hacks: deferring modal dialog creation in order to allow for
    a message box redraw to happen -- LATER investigate */
-void hammerpanel_open(t_hammerfile *f)
+void hammerpanel_open(t_hammerfile *f, t_symbol *inidir)
 {
+    f->f_inidir = (inidir ? inidir : &s_);
     clock_delay(f->f_panelclock, 0);
 }
 

@@ -27,21 +27,24 @@ static void sickle_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
     import_max(fn->s_name, "");
 }
 
-static void sickle_import(t_sickle *x, t_symbol *fn, t_symbol *dir)
+static void sickle_doimport(t_sickle *x, t_symbol *fn, t_symbol *dir)
 {
+    if (!dir || dir == &s_) dir = x->x_dir;
     if (fn && fn != &s_)
-    {
-	if (!dir || dir == &s_) dir = x->x_dir;
 	import_max(fn->s_name, (dir && dir != &s_) ? dir->s_name : "");
-    }
     else
-	hammerpanel_open(x->x_filehandle);
+	hammerpanel_open(x->x_filehandle, dir);
 }
 
 static void sickle_click(t_sickle *x, t_floatarg xpos, t_floatarg ypos,
-			  t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
+			 t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
 {
-    sickle_import(x, 0, 0);
+    sickle_doimport(x, 0, 0);
+}
+
+static void sickle_import(t_sickle *x, t_symbol *fn)
+{
+    sickle_doimport(x, fn, 0);
 }
 
 static void sickle_bang(t_sickle *x)
@@ -82,7 +85,7 @@ void sickle_setup(void)
 			     sizeof(t_sickle), 0, A_DEFSYM, 0);
     class_addbang(sickle_class, sickle_bang);
     class_addmethod(sickle_class, (t_method)sickle_import,
-		    gensym("import"), A_DEFSYM, A_DEFSYM, 0);
+		    gensym("import"), A_DEFSYM, 0);
     class_addmethod(sickle_class, (t_method)sickle_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);

@@ -321,7 +321,7 @@ static void mtrack_read(t_mtrack *tp, t_symbol *s)
     if (s && s != &s_)
 	mtr_doread(tp->tr_owner, tp, s);
     else  /* CHECKED no default */
-	hammerpanel_open(tp->tr_filehandle);
+	hammerpanel_open(tp->tr_filehandle, 0);
 }
 
 static void mtrack_write(t_mtrack *tp, t_symbol *s)
@@ -553,7 +553,7 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname)
     {
 	/* CHECKED no complaint, open dialog not presented... */
 	/* LATER rethink */
-	hammerpanel_open(target ? target->tr_filehandle : x->x_filehandle);
+	hammerpanel_open(target ? target->tr_filehandle : x->x_filehandle, 0);
     }
 }
 
@@ -672,7 +672,7 @@ static void mtr_read(t_mtr *x, t_symbol *s)
     if (s && s != &s_)
 	mtr_doread(x, 0, s);
     else  /* CHECKED no default */
-	hammerpanel_open(x->x_filehandle);
+	hammerpanel_open(x->x_filehandle, 0);
 }
 
 static void mtr_write(t_mtr *x, t_symbol *s)

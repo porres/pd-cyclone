@@ -4,6 +4,9 @@
 
 /* Never use forked calls in shadow code... */
 
+/* LATER support multi-atom dir (creation args), and fn ('import' message)
+   (same in hammer and sickle) */
+
 #include <stdio.h>
 #include "m_pd.h"
 #include "common/loud.h"
@@ -35,21 +38,24 @@ static void cyclone_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
     import_max(fn->s_name, "");
 }
 
-static void cyclone_import(t_cyclone *x, t_symbol *fn, t_symbol *dir)
+static void cyclone_doimport(t_cyclone *x, t_symbol *fn, t_symbol *dir)
 {
+    if (!dir || dir == &s_) dir = x->x_dir;
     if (fn && fn != &s_)
-    {
-	if (!dir || dir == &s_) dir = x->x_dir;
 	import_max(fn->s_name, (dir && dir != &s_) ? dir->s_name : "");
-    }
     else
-	hammerpanel_open(x->x_filehandle);
+	hammerpanel_open(x->x_filehandle, dir);
 }
 
 static void cyclone_click(t_cyclone *x, t_floatarg xpos, t_floatarg ypos,
 			  t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
 {
-    cyclone_import(x, 0, 0);
+    cyclone_doimport(x, 0, 0);
+}
+
+static void cyclone_import(t_cyclone *x, t_symbol *fn)
+{
+    cyclone_doimport(x, fn, 0);
 }
 
 static void cyclone_bang(t_cyclone *x)
@@ -127,7 +133,7 @@ void cyclone_setup(void)
     class_addmethod(cyclone_class, (t_method)cyclone_dummies,
 		    gensym("dummies"), 0);
     class_addmethod(cyclone_class, (t_method)cyclone_import,
-		    gensym("import"), A_DEFSYM, A_DEFSYM, 0);
+		    gensym("import"), A_DEFSYM, 0);
     class_addmethod(cyclone_class, (t_method)cyclone_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);

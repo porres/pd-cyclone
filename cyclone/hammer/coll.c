@@ -1373,7 +1373,7 @@ static void coll_read(t_coll *x, t_symbol *s)
     if (s && s != &s_)
 	collcommon_doread(cc, s, x->x_canvas);
     else
-	hammerpanel_open(cc->c_filehandle);
+	hammerpanel_open(cc->c_filehandle, 0);
 }
 
 static void coll_write(t_coll *x, t_symbol *s)
@@ -1391,7 +1391,7 @@ static void coll_readagain(t_coll *x)
     if (cc->c_filename)
 	collcommon_doread(cc, 0, 0);
     else
-	hammerpanel_open(cc->c_filehandle);
+	hammerpanel_open(cc->c_filehandle, 0);
 }
 
 static void coll_writeagain(t_coll *x)

@@ -29,7 +29,7 @@ typedef struct _hammerfile
 void hammereditor_open(t_hammerfile *f, char *title);
 void hammereditor_close(t_hammerfile *f, int ask);
 void hammereditor_append(t_hammerfile *f, char *contents);
-void hammerpanel_open(t_hammerfile *f);
+void hammerpanel_open(t_hammerfile *f, t_symbol *inidir);
 void hammerpanel_save(t_hammerfile *f, t_symbol *inidir, t_symbol *inifile);
 int hammerfile_ismapped(t_hammerfile *f);
 int hammerfile_isloading(t_hammerfile *f);

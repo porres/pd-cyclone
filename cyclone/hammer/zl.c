@@ -7,6 +7,7 @@
 #include "common/loud.h"
 #include "common/grow.h"
 
+/* CHECKME bang behaviour (every mode) */
 /* LATER test reentrancy, tune speedwise */
 
 #define ZL_DEBUG
@@ -20,7 +21,7 @@ struct _zl;
 typedef int (*t_zlintargfn)(struct _zl *, int);
 typedef void (*t_zlanyargfn)(struct _zl *, t_symbol *, int, t_atom *);
 typedef int (*t_zlnatomsfn)(struct _zl *);
-typedef void (*t_zldoitfn)(struct _zl *, int, t_atom *);
+typedef void (*t_zldoitfn)(struct _zl *, int, t_atom *, int);
 
 static int           zl_nmodes = 0;
 static t_symbol     *zl_modesym[ZL_MAXMODES];
@@ -255,7 +256,7 @@ static int zl_nop_count(t_zl *x)
     return (0);
 }
 
-static void zl_nop(t_zl *x, int natoms, t_atom *buf)
+static void zl_nop(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     loud_warning((t_pd *)x, "unknown mode");
 }
@@ -270,7 +271,7 @@ static int zl_ecils_count(t_zl *x)
     return (x->x_entered ? -1 : 0);
 }
 
-static void zl_ecils(t_zl *x, int natoms, t_atom *buf)
+static void zl_ecils(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     int cnt1, cnt2 = x->x_modearg;
     natoms = x->x_inbuf1.d_natoms;
@@ -296,7 +297,7 @@ static int zl_group_count(t_zl *x)
     return (x->x_entered ? -1 : 0);
 }
 
-static void zl_group(t_zl *x, int natoms, t_atom *buf)
+static void zl_group(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     int cnt = x->x_modearg;
     if (cnt > 0)
@@ -311,6 +312,11 @@ static void zl_group(t_zl *x, int natoms, t_atom *buf)
 		zl_output(x, cnt, from);
 	    x->x_inbuf1.d_natoms = natoms;
 	    while (natoms--) *buf++ = *from++;
+	}
+	if (banged && x->x_inbuf1.d_natoms)
+	{
+	    zl_output(x, x->x_inbuf1.d_natoms, buf);
+	    x->x_inbuf1.d_natoms = 0;
 	}
     }
     else x->x_inbuf1.d_natoms = 0;  /* CHECKED */
@@ -329,7 +335,7 @@ static int zl_iter_count(t_zl *x)
 	    : 0);
 }
 
-static void zl_iter(t_zl *x, int natoms, t_atom *buf)
+static void zl_iter(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     int nremaining = x->x_inbuf1.d_natoms;
     t_atom *ptr = x->x_inbuf1.d_buf;
@@ -361,7 +367,7 @@ static int zl_join_count(t_zl *x)
     return (x->x_inbuf1.d_natoms + x->x_inbuf2.d_natoms);
 }
 
-static void zl_join(t_zl *x, int natoms, t_atom *buf)
+static void zl_join(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     if (buf)
     {
@@ -379,9 +385,11 @@ static int zl_len_count(t_zl *x)
     return (0);
 }
 
-static void zl_len(t_zl *x, int natoms, t_atom *buf)
+static void zl_len(t_zl *x, int natoms, t_atom *buf, int banged)
 {
-    outlet_float(((t_object *)x)->ob_outlet, x->x_inbuf1.d_natoms);
+/* CHECKED 'mode len, bang'->[zl]->[print] crashes max 4.0.7... */
+    if (!banged)  /* CHECKED bang is a nop in len mode */
+	outlet_float(((t_object *)x)->ob_outlet, x->x_inbuf1.d_natoms);
 }
 
 static int zl_nth_intarg(t_zl *x, int i)
@@ -408,7 +416,7 @@ static int zl_nth_count(t_zl *x)
     else return (-1);
 }
 
-static void zl_nth(t_zl *x, int natoms, t_atom *buf)
+static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     int ac1 = x->x_inbuf1.d_natoms,
 	ndx = x->x_modearg - 1;  /* CHECKED one-based */
@@ -462,7 +470,7 @@ static int zl_reg_count(t_zl *x)
     return (x->x_entered ? x->x_inbuf1.d_natoms : 0);
 }
 
-static void zl_reg(t_zl *x, int natoms, t_atom *buf)
+static void zl_reg(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     if (buf) memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
     else
@@ -480,7 +488,7 @@ static int zl_rev_count(t_zl *x)
     return (x->x_inbuf1.d_natoms);
 }
 
-static void zl_rev(t_zl *x, int natoms, t_atom *buf)
+static void zl_rev(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     if (buf)
     {
@@ -501,7 +509,7 @@ static int zl_rot_count(t_zl *x)
     return (x->x_inbuf1.d_natoms);
 }
 
-static void zl_rot(t_zl *x, int natoms, t_atom *buf)
+static void zl_rot(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     if (buf)
     {
@@ -554,7 +562,7 @@ static int zl_sect_count(t_zl *x)
 }
 
 /* CHECKED in-buffer duplicates are skipped */
-static void zl_sect(t_zl *x, int natoms, t_atom *buf)
+static void zl_sect(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     if (buf)
     {
@@ -591,7 +599,7 @@ static int zl_slice_count(t_zl *x)
     return (x->x_entered ? -1 : 0);
 }
 
-static void zl_slice(t_zl *x, int natoms, t_atom *buf)
+static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     int cnt1 = x->x_modearg, cnt2;
     natoms = x->x_inbuf1.d_natoms;
@@ -612,7 +620,7 @@ static int zl_sub_count(t_zl *x)
     return (0);
 }
 
-static void zl_sub(t_zl *x, int natoms, t_atom *buf)
+static void zl_sub(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     int natoms2 = x->x_inbuf2.d_natoms;
     if (natoms2)
@@ -656,7 +664,7 @@ static int zl_union_count(t_zl *x)
 }
 
 /* CHECKED in-buffer duplicates not skipped */
-static void zl_union(t_zl *x, int natoms, t_atom *buf)
+static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged)
 {
     if (buf)
     {
@@ -682,7 +690,7 @@ static void zl_union(t_zl *x, int natoms, t_atom *buf)
     }
 }
 
-static void zl_doit(t_zl *x)
+static void zl_doit(t_zl *x, int banged)
 {
     int reentered = x->x_entered;
     int prealloc = !reentered;
@@ -711,21 +719,19 @@ static void zl_doit(t_zl *x)
 	/* LATER consider using the stack if !prealloc && natoms <= MAXSTACK */
 	if (buf = (prealloc ? d->d_buf : getbytes(natoms * sizeof(*buf))))
 	{
-	    (*zl_doitfn[x->x_mode])(x, natoms, buf);
+	    (*zl_doitfn[x->x_mode])(x, natoms, buf, banged);
 	    if (buf != d->d_buf)
 		freebytes(buf, natoms * sizeof(*buf));
 	}
     }
-    else (*zl_doitfn[x->x_mode])(x, 0, 0);
+    else (*zl_doitfn[x->x_mode])(x, 0, 0, banged);
     if (!reentered)
 	x->x_entered = x->x_locked = 0;
 }
 
 static void zl_bang(t_zl *x)
 {
-    /* CHECKED bang is a nop in len mode, LATER consider emulating this */
-    /* CHECKED 'mode len, bang'->[zl]->[print] crashes max 4.0.7... */
-    zl_doit(x);
+    zl_doit(x, 1);
 }
 
 static void zl_float(t_zl *x, t_float f)
@@ -737,7 +743,7 @@ static void zl_float(t_zl *x, t_float f)
 	else
 	    zldata_setfloat(&x->x_inbuf1, f);
     }
-    zl_doit(x);
+    zl_doit(x, 0);
 }
 
 static void zl_symbol(t_zl *x, t_symbol *s)
@@ -749,7 +755,7 @@ static void zl_symbol(t_zl *x, t_symbol *s)
 	else
 	    zldata_setsymbol(&x->x_inbuf1, s);
     }
-    zl_doit(x);
+    zl_doit(x, 0);
 }
 
 /* LATER gpointer */
@@ -763,7 +769,7 @@ static void zl_list(t_zl *x, t_symbol *s, int ac, t_atom *av)
 	else
 	    zldata_setlist(&x->x_inbuf1, ac, av);
     }
-    zl_doit(x);
+    zl_doit(x, 0);
 }
 
 static void zl_anything(t_zl *x, t_symbol *s, int ac, t_atom *av)
@@ -775,7 +781,7 @@ static void zl_anything(t_zl *x, t_symbol *s, int ac, t_atom *av)
 	else
 	    zldata_set(&x->x_inbuf1, s, ac, av);
     }
-    zl_doit(x);
+    zl_doit(x, 0);
 }
 
 static int zl_modeargfn(t_zl *x)
@@ -944,7 +950,7 @@ static void zl_setupallmodes(void)
     zl_setupmode("nth", 0, zl_nth_intarg, zl_nth_anyarg, zl_nth_count, zl_nth);
     zl_setupmode("reg", 0, 0, zl_reg_anyarg, zl_reg_count, zl_reg);
     zl_setupmode("rev", 0, 0, 0, zl_rev_count, zl_rev);
-    zl_setupmode("rot",  /* CHECKED (refman error) */
+    zl_setupmode("rot",  /* CHECKED (refman's error) */
 		 0, zl_rot_intarg, 0, zl_rot_count, zl_rot);
     zl_setupmode("sect", 0, 0, 0, zl_sect_count, zl_sect);
     zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice);

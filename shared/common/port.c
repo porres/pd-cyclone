@@ -113,14 +113,26 @@ static void port_setxy(t_port *x, int ndx, t_atom *ap)
     SETFLOAT(ap, f);
 }
 
+/* LATER bash inatom to lowercase (CHECKME first) */
+static void import_addclassname(t_binbuf *bb, char *outname, t_atom *inatom)
+{
+    t_atom at;
+    if (outname)
+    {
+	inatom = &at;
+	SETSYMBOL(inatom, gensym(outname));
+    }
+    binbuf_add(bb, 1, inatom);
+}
+
 static int import_obj(t_port *x, char *name)
 {
     int ndx = (x->x_inmess[1].a_w.w_symbol == gensym("user") ? 3 : 2);
-    binbuf_addv(x->x_newbb, "ssffs;",
+    binbuf_addv(x->x_newbb, "ssff",
 		gensym("#X"), gensym("obj"),
-		port_xarg(x, ndx), port_yarg(x, ndx + 1),
-		(name ? gensym(name) :
-		 x->x_inmess[ndx == 2 ? 6 : 2].a_w.w_symbol));
+		port_xarg(x, ndx), port_yarg(x, ndx + 1));
+    import_addclassname(x->x_newbb, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
+    binbuf_addsemi(x->x_newbb);
     x->x_nobj++;
     return (PORT_NEXT);
 }
@@ -130,21 +142,18 @@ static int import_objarg(t_port *x, char *name)
     int ndx = (x->x_inmess[1].a_w.w_symbol == gensym("user") ? 3 : 2);
     if (x->x_inatoms > 6)
     {
-	t_atom *in = x->x_inmess + ndx + 4;
+	t_atom *in = x->x_inmess + 7;
 	t_atom *out = x->x_outmess;
 	SETSYMBOL(out, gensym("#X")); out++;
 	SETSYMBOL(out, gensym("obj")); out++;
-	port_setxy(x, ndx, out); out++; out++;
-	if (name)
-	{
-	    SETSYMBOL(out, gensym(name)); out++;
-	    if (ndx == 2) in++;
-	}
-	else *out++ = (ndx == 2 ? *in++ : x->x_inmess[2]);
+	port_setxy(x, ndx, out);
+	binbuf_add(x->x_newbb, 4, x->x_outmess);
+	import_addclassname(x->x_newbb, name, &x->x_inmess[ndx == 2 ? 6 : 2]);
+	out = x->x_outmess;
 	for (ndx = 7; ndx < x->x_inatoms; ndx++)
 	    *out++ = *in++;
 	SETSEMI(out);
-	binbuf_add(x->x_newbb, x->x_inatoms - 1, x->x_outmess);
+	binbuf_add(x->x_newbb, x->x_inatoms - 6, x->x_outmess);
 	x->x_nobj++;
 	return (PORT_NEXT);
     }
@@ -212,19 +221,17 @@ static int imaction_scope(t_port *x, char *name)
 	SETSYMBOL(out, gensym("obj")); out++;
 	port_setxy(x, 3, out);
 	xpix = (int)out++->a_w.w_float;
-	ypix = (int)out++->a_w.w_float;
-	if (name)
-	{
-	    SETSYMBOL(out, gensym(name)); out++;
-	}
-	else *out++ = x->x_inmess[2];
+	ypix = (int)out->a_w.w_float;
+	binbuf_add(x->x_newbb, 4, x->x_outmess);
+	import_addclassname(x->x_newbb, name, &x->x_inmess[2]);
+	out = x->x_outmess;
 	port_setxy(x, 5, out);
 	out++->a_w.w_float -= xpix;
 	out++->a_w.w_float -= ypix;
 	for (i = 7; i < x->x_inatoms; i++)
 	    *out++ = *in++;
 	SETSEMI(out);
-	binbuf_add(x->x_newbb, x->x_inatoms + 1, x->x_outmess);
+	binbuf_add(x->x_newbb, x->x_inatoms - 4, x->x_outmess);
 	x->x_nobj++;
 	return (PORT_NEXT);
     }
@@ -320,7 +327,6 @@ typedef int (*t_portaction)(t_port *, char *arg);
 typedef struct _portslot
 {
     char              *s_name;
-    int                s_index;
     t_portaction       s_action;
     char              *s_actionarg;
     struct _portnode  *s_subtree;
@@ -331,90 +337,102 @@ typedef struct _portnode  /* a parser's symbol definition, sort of... */
 {
     t_portslot  *n_table;
     int          n_nslots;
+    int          n_index;
 } t_portnode;
 
 #define PORT_NSLOTS(slots)  (sizeof(slots)/sizeof(*(slots)))
 
 static t_portslot imslots__N[] =
 {
-    { "vpatcher",   1, imaction_vpatcher, 0, 0, 0 }
+    { "vpatcher",    imaction_vpatcher, 0, 0, 0 }
 };
-static t_portnode imnode__N = { imslots__N, PORT_NSLOTS(imslots__N) };
+static t_portnode imnode__N = { imslots__N, PORT_NSLOTS(imslots__N), 1 };
 
 static t_portslot imslots_newobj[] =
 {
-    { "patcher",    6, imaction_patcher, 0, 0, 0 },
-    { "p",          6, imaction_patcher, 0, 0, 0 },
+    { "patcher",     imaction_patcher, 0, 0, 0 },
+    { "p",           imaction_patcher, 0, 0, 0 },
     /* state is embedded in #N vtable...; #T set...; */
-    { "table",      6, import_obj, "Table", 0, 0 }
+    { "table",       import_obj, "Table", 0, 0 }
 };
 static t_portnode imnode_newobj = { imslots_newobj,
-				    PORT_NSLOTS(imslots_newobj) };
+				    PORT_NSLOTS(imslots_newobj), 6 };
 
 /* LATER consider merging newobj and newex */
 static t_portslot imslots_newex[] =
 {
-    { "append",     6, import_objarg, "Append", 0, 0 },
-    { "biquad~",    6, import_objarg, "Biquad~", 0, 0 },
-    { "change",     6, import_objarg, "Change", 0, 0 },
-    { "clip",       6, import_objarg, "Clip", 0, 0 },
-    { "clip~",      6, import_objarg, "Clip~", 0, 0 },
-    { "key",        6, import_obj, "Key", 0, 0 },
-    { "keyup",      6, import_obj, "Keyup", 0, 0 },
-    { "line",       6, import_objarg, "Line", 0, 0 },
-    { "line~",      6, import_objarg, "Line~", 0, 0 },
-    { "poly",       6, import_objarg, "Poly", 0, 0 },
-    { "snapshot~",  6, import_objarg, "Snapshot~", 0, 0 },
-    { "trigger",    6, imaction_trigger, 0, 0, 0 },
-    { "t",          6, imaction_trigger, 0, 0, 0 }
+    { "append",      import_objarg, "Append", 0, 0 },
+    { "biquad~",     import_objarg, "Biquad~", 0, 0 },
+    { "change",      import_objarg, "Change", 0, 0 },
+    { "clip",        import_objarg, "Clip", 0, 0 },
+    { "clip~",       import_objarg, "Clip~", 0, 0 },
+    { "key",         import_obj, "Key", 0, 0 },
+    { "keyup",       import_obj, "Keyup", 0, 0 },
+    { "line",        import_objarg, "Line", 0, 0 },
+    { "line~",       import_objarg, "Line~", 0, 0 },
+    { "poly",        import_objarg, "Poly", 0, 0 },
+    { "snapshot~",   import_objarg, "Snapshot~", 0, 0 },
+    { "trigger",     imaction_trigger, 0, 0, 0 },
+    { "t",           imaction_trigger, 0, 0, 0 },
+
+    /* LATER rethink */
+    { "Borax",       import_objarg, "Borax", 0, 0 },
+    { "Bucket",      import_objarg, "Bucket", 0, 0 },
+    { "Decode",      import_objarg, "Decode", 0, 0 },
+    { "Histo",       import_objarg, "Histo", 0, 0 },
+    { "MouseState",  import_objarg, "MouseState", 0, 0 },
+    { "Peak",        import_objarg, "Peak", 0, 0 },
+    { "TogEdge",     import_objarg, "TogEdge", 0, 0 },
+    { "Trough",      import_objarg, "Trough", 0, 0 },
+    { "Uzi",         import_objarg, "Uzi", 0, 0 }
 };
 static t_portnode imnode_newex = { imslots_newex,
-				   PORT_NSLOTS(imslots_newex) };
+				   PORT_NSLOTS(imslots_newex), 6 };
 
 static t_portslot imslots_user[] =
 {
-    { "GSwitch",    2, import_objarg, "Gswitch", 0, 0 },
-    { "GSwitch2",   2, import_objarg, "Ggate", 0, 0 },
-    { "number~",    2, import_obj, 0, 0, 0 },
-    { "scope~",     2, imaction_scope, "Scope~", 0, 0 },
-    { "uslider",    2, import_obj, "vsl", 0, 0 }  /* LATER range and offset */
+    { "GSwitch",     import_objarg, "Gswitch", 0, 0 },
+    { "GSwitch2",    import_objarg, "Ggate", 0, 0 },
+    { "number~",     import_obj, 0, 0, 0 },
+    { "scope~",      imaction_scope, "Scope~", 0, 0 },
+    { "uslider",     import_obj, "vsl", 0, 0 }  /* LATER range and offset */
 };
 static t_portnode imnode_user = { imslots_user,
-				  PORT_NSLOTS(imslots_user) };
+				  PORT_NSLOTS(imslots_user), 2 };
 
 static t_portslot imslots__P[] =
 {
-    { "comment",    1, imaction_comment, 0, 0, 0 },
-    { "message",    1, imaction_message, 0, 0, 0 },
-    { "newobj",     1, import_objarg, 0, &imnode_newobj, 0 },
-    { "newex",      1, import_objarg, 0, &imnode_newex, 0 },
-    { "inlet",      1, imaction_inlet, 0, 0, 0 },
-    { "inlet~",     1, imaction_inlet, 0, 0, 0 },
-    { "outlet",     1, imaction_outlet, 0, 0, 0 },
-    { "outlet~",    1, imaction_outlet, 0, 0, 0 },
-    { "number",     1, imaction_number, 0, 0, 0 },
-    { "flonum",     1, imaction_number, 0, 0, 0 },
-    { "button",     1, import_obj, "bng", 0, 0 },
-    { "slider" ,    1, import_obj, "vsl", 0, 0 },  /* LATER range and offset */
-    { "hslider",    1, import_obj, "hsl", 0, 0 },  /* LATER range and offset */
-    { "toggle",     1, import_obj, "tgl", 0, 0 },
-    { "user",       1, import_objarg, 0, &imnode_user, 0 },
+    { "comment",     imaction_comment, 0, 0, 0 },
+    { "message",     imaction_message, 0, 0, 0 },
+    { "newobj",      import_objarg, 0, &imnode_newobj, 0 },
+    { "newex",       import_objarg, 0, &imnode_newex, 0 },
+    { "inlet",       imaction_inlet, 0, 0, 0 },
+    { "inlet~",      imaction_inlet, 0, 0, 0 },
+    { "outlet",      imaction_outlet, 0, 0, 0 },
+    { "outlet~",     imaction_outlet, 0, 0, 0 },
+    { "number",      imaction_number, 0, 0, 0 },
+    { "flonum",      imaction_number, 0, 0, 0 },
+    { "button",      import_obj, "bng", 0, 0 },
+    { "slider" ,     import_obj, "vsl", 0, 0 },  /* LATER range and offset */
+    { "hslider",     import_obj, "hsl", 0, 0 },  /* LATER range and offset */
+    { "toggle",      import_obj, "tgl", 0, 0 },
+    { "user",        import_objarg, 0, &imnode_user, 0 },
     /* state is embedded in #N vpreset <nslots>; #X append... */
-    { "preset",     1, import_obj, "preset", 0, 0 },
+    { "preset",      import_obj, "preset", 0, 0 },
     /* an object created from the "Paste Picture" menu,
        state is embedded in #N picture; #K...; */
-    { "vpicture",   1, import_obj, "vpicture", 0, 0 },
-    { "connect",    1, imaction_connect, 0, 0, 0 },
-    { "fasten",     1, imaction_connect, 0, 0, 0 }
+    { "vpicture",    import_obj, "vpicture", 0, 0 },
+    { "connect",     imaction_connect, 0, 0, 0 },
+    { "fasten",      imaction_connect, 0, 0, 0 }
 };
-static t_portnode imnode__P = { imslots__P, PORT_NSLOTS(imslots__P) };
+static t_portnode imnode__P = { imslots__P, PORT_NSLOTS(imslots__P), 1 };
 
 static t_portslot imslots_[] =
 {
-    { "#N",         0, 0, 0, &imnode__N, 0 },
-    { "#P",         0, 0, 0, &imnode__P, 0 }
+    { "#N",          0, 0, &imnode__N, 0 },
+    { "#P",          0, 0, &imnode__P, 0 }
 };
-static t_portnode imnode_ = { imslots_, PORT_NSLOTS(imslots_) };
+static t_portnode imnode_ = { imslots_, PORT_NSLOTS(imslots_), 0 };
 
 static int port_doit(t_port *x, t_portnode *node)
 {
@@ -422,10 +440,13 @@ static int port_doit(t_port *x, t_portnode *node)
     if (nslots > 0)
     {
 	t_portslot *slot = node->n_table;
-	t_symbol *s = port_symbolarg(x, slot->s_index);
+	t_symbol *insym = port_symbolarg(x, node->n_index);
+	char *inname = 0;
+secondpass:
 	while (nslots--)
 	{
-	    if (slot->s_symbol == s)
+	    if (slot->s_symbol == insym
+		|| (inname && loud_matchignorecase(inname, slot->s_name)))
 	    {
 		if (slot->s_subtree)
 		{
@@ -441,6 +462,13 @@ static int port_doit(t_port *x, t_portnode *node)
 		    return (PORT_OK);  /* LATER rethink */
 	    }
 	    slot++;
+	}
+	if (!inname)
+	{
+	    inname = insym->s_name;
+	    nslots = node->n_nslots;
+	    slot = node->n_table;
+	    goto secondpass;
 	}
     }
     else bug("port_doit");

@@ -782,7 +782,7 @@ static void seq_textread(t_seq *x, char *path)
     if (binbuf_read(bb, path, "", 0))
     {
 	/* CHECKED no complaint, open dialog presented */
-	hammerpanel_open(x->x_filehandle);  /* LATER rethink */
+	hammerpanel_open(x->x_filehandle, 0);  /* LATER rethink */
     }
     else
     {
@@ -872,7 +872,7 @@ static void seq_read(t_seq *x, t_symbol *s)
     if (s && s != &s_)
 	seq_doread(x, s, 0);
     else  /* CHECKED no default */
-	hammerpanel_open(x->x_filehandle);
+	hammerpanel_open(x->x_filehandle, 0);
 }
 
 static void seq_write(t_seq *x, t_symbol *s)
