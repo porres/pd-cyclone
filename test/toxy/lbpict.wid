@@ -1,0 +1,7 @@
+proc ::toxy::lbpict {path fname} {
+    $path config -image [image create photo -file $fname]
+}
+
+#> lbpict label
+
+::toxy::lbpict .- .#fname

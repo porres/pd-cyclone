@@ -1,0 +1,34 @@
+puts setup
+
+proc testmess_list {path target args} {
+    set sum 0
+    foreach a $args {
+        incr sum $a
+    }
+    set lb [concat [lindex $args 0]]
+    foreach a [lrange $args 1 end] {
+        lappend lb + $a
+    }
+    lappend lb = $sum
+    set [$path cget -textvariable] $lb
+    pd [concat $target _cb $sum \;]
+}
+
+proc testmess_command {path} {
+    pd [concat lb set [set [$path cget -textvariable]] \;]
+}
+
+#> testmess button
+#. -bg green -wraplength 350 -text test
+#. -command [concat testmess_command .-]
+#. @bang .- invoke
+#. @float testmess_list .- .| .#args
+#. @list testmess_list .- .| .#args
+
+puts initializer
+
+#@ new
+puts constructor
+
+#@ free
+puts destructor
