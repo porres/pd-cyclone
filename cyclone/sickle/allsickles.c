@@ -20,6 +20,7 @@ void bitnot_tilde_setup(void);
 void bitor_tilde_setup(void);
 void bitshift_tilde_setup(void);
 void bitxor_tilde_setup(void);
+void buffir_tilde_setup(void);
 void capture_tilde_setup(void);
 void cartopol_tilde_setup(void);
 void change_tilde_setup(void);
@@ -98,6 +99,7 @@ void allsickles_setup(void)
     bitor_tilde_setup();
     bitshift_tilde_setup();
     bitxor_tilde_setup();
+    buffir_tilde_setup();
     capture_tilde_setup();
     cartopol_tilde_setup();
     change_tilde_setup();

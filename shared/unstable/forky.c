@@ -7,7 +7,32 @@
 #include "shared.h"
 #include "unstable/forky.h"
 
-//#define FORKY_DEBUG
+#if FORKY_VERSION < 37
+/* need this for t_class::c_wb field access */
+#include "unstable/pd_imp.h"
+#endif
+
+#define FORKY_DEBUG
+
+void forky_setsavefn(t_class *c, t_forkysavefn fn)
+{
+#if FORKY_VERSION >= 37
+    class_setsavefn(c, fn);
+#else
+    if (c->c_wb->w_savefn)
+    {
+	/* cloning is necessary, because class_setwidget has not been called */
+	t_widgetbehavior *wb = getbytes(sizeof(*wb));  /* never freed */
+#ifdef FORKY_DEBUG
+	post("cloning widgetbehavior...");
+#endif
+	*wb = *c->c_wb;
+	wb->w_savefn = fn;
+	class_setwidget(c, wb);
+    }
+    else c->c_wb->w_savefn = fn;
+#endif
+}
 
 /* To be called in a 'dsp' method -- e.g. if there are no feeders, the caller
    might use an optimized version of a 'perform' routine.
@@ -18,7 +43,7 @@ int forky_hasfeeders(t_object *x, t_glist *glist, int inno, t_symbol *outsym)
     linetraverser_start(&t, glist);
     while (linetraverser_next(&t))
 	if (t.tr_ob2 == x && t.tr_inno == inno
-#ifdef PD_VERSION  /* FIXME ask Miller */
+#if FORKY_VERSION >= 36
 	    && (!outsym || outsym == outlet_getsymbol(t.tr_outlet))
 #endif
 	    )

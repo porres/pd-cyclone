@@ -11,8 +11,8 @@
 #endif
 #include "m_pd.h"
 #include "common/loud.h"
-#include "shadow.h"
 
+static t_class *ccdummies_class;
 static int dummy_nclasses = 0;
 static t_class **dummy_classes;
 static int dummy_nreps = 0;
@@ -351,7 +351,6 @@ static t_dummy_slot dummy_slots[] =
     { "Biquad~",         6, 1, 0, 0 },
     /* LATER try mapping bpatcher to a gop abstraction/subpatch */
     { "buffer~",         1, 2, 0, 0 },
-    { "buffir~",         3, 1, 0, 0 },
     { "cd",              1, 2, 0, 0 },  /* CHECKED (refman error?) */
     { "cd~",             1, 6, 0, 0 },  /* CHECKED (refman error?) */
     { "Change",          1, 3, 0, 0 },
@@ -554,34 +553,43 @@ static t_object *dummy_newobject(t_symbol *s, t_dummy_slot **slotp)
     return (x);
 }
 
-int dummy_nreplacements(void)
+static void ccdummies_bang(t_pd *x)
 {
-    return (dummy_nreps);
+    if (dummy_nreps)
+	post("send 'reps' message to see the list of %d \
+replacement abstractions", dummy_nreps);
+    else
+	post("no replacement abstractions");
 }
 
-void dummy_printreplacements(char *msg)
+static void ccdummies_reps(t_pd *x)
 {
-    int i, len = strlen(msg);
-    t_dummy_slot *sl;
-    startpost(msg);
-    for (i = 0, sl = dummy_slots; i < dummy_nclasses; i++, sl++)
+    if (dummy_nreps)
     {
-	if (!dummy_classes[i])
+	char *msg = "replacement abstractions are: ";
+	int i, len = strlen(msg);
+	t_dummy_slot *sl;
+	startpost(msg);
+	for (i = 0, sl = dummy_slots; i < dummy_nclasses; i++, sl++)
 	{
-	    int l = 1 + strlen(sl->s_name);
-	    if ((len += l) > 66)
+	    if (!dummy_classes[i])
 	    {
-		endpost();
-		startpost("   ");
-		len = 3 + l;
+		int l = 1 + strlen(sl->s_name);
+		if ((len += l) > 66)
+		{
+		    endpost();
+		    startpost("   ");
+		    len = 3 + l;
+		}
+		poststring(sl->s_name);
 	    }
-	    poststring(sl->s_name);
 	}
+	endpost();
     }
-    endpost();
+    else post("no replacement abstractions");
 }
 
-void alldummies_setup(void)
+void dummies_setup(void)
 {
     t_dummy_slot *sl;
     int i;
@@ -606,4 +614,11 @@ void alldummies_setup(void)
 			  (sl->s_nins ? 0 : CLASS_NOINLET), A_GIMME, 0);
     }
     dummy_nclasses--;  /* use "_dummy" as a sentinel */
+
+    ccdummies_class = class_new(gensym("_ccdummies"), 0, 0,
+				sizeof(t_pd), CLASS_PD | CLASS_NOINLET, 0);
+    class_addbang(ccdummies_class, ccdummies_bang);
+    class_addmethod(ccdummies_class, (t_method)ccdummies_reps,
+		    gensym("reps"), 0);
+    pd_bind(pd_new(ccdummies_class), gensym("_ccdummies"));  /* never freed */
 }

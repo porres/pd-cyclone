@@ -5,6 +5,23 @@
 #ifndef __FORKY_H__
 #define __FORKY_H__
 
+#ifdef PD_MINOR_VERSION
+#define FORKY_VERSION  PD_MINOR_VERSION
+#elif defined(PD_VERSION)
+#define FORKY_VERSION  36
+#else
+#define FORKY_VERSION  35
+#endif
+
+#if FORKY_VERSION >= 37
+#define FORKY_WIDGETPADDING
+#else
+#define FORKY_WIDGETPADDING  0,0
+#endif
+
+typedef void (*t_forkysavefn)(t_gobj *x, t_binbuf *b);
+
+void forky_setsavefn(t_class *c, t_forkysavefn fn);
 int forky_hasfeeders(t_object *x, t_glist *glist, int inno, t_symbol *outsym);
 t_int forky_getbitmask(int ac, t_atom *av);
 

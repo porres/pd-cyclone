@@ -137,6 +137,7 @@ ALL_SICKLES = \
 	sickle\bitor.c \
 	sickle\bitshift.c \
 	sickle\bitxor.c \
+	sickle\buffir.c \
 	sickle\capture.c \
 	sickle\cartopol.c \
 	sickle\change.c \

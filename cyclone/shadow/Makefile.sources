@@ -1,6 +1,6 @@
 CX_SOURCES = \
-cyclone.c
+cyclone.c \
+dummies.c
 
 OTHER_SOURCES = \
-nettles.c \
-dummies.c
+nettles.c

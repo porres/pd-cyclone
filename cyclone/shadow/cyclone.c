@@ -28,6 +28,8 @@ static int cyclone_nettlesndx;
 static int cyclone_dummiesndx;
 static int cyclone_lastndx;
 
+static t_pd *cyclone_dproxy = 0;
+
 static void cyclone_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 {
     import_max(fn->s_name, "");
@@ -59,28 +61,33 @@ static void cyclone_bang(t_cyclone *x)
 			     cyclone_sicklendx, cyclone_nettlesndx - 1);
     fragile_class_printnames("nettles are: ",
 			     cyclone_nettlesndx, cyclone_dummiesndx - 1);
-    if (i = dummy_nreplacements())
-	post("send 'reps' message to see the list of %d \
-replacement abstractions", i);
+    if (cyclone_dproxy)
+	pd_bang(cyclone_dproxy);
     else
 	post("no replacement abstractions");
-    post("send 'dummies' message to see the list of %d dummy classes",
-	 /* cyclone_lastndx points to the "_dummy" sentinel class */
-	 cyclone_lastndx - cyclone_dummiesndx);
+    if (cyclone_lastndx > cyclone_dummiesndx)
+	post("send 'dummies' message to see the list of %d dummy classes",
+	     /* cyclone_lastndx points to the "_dummy" sentinel class */
+	     cyclone_lastndx - cyclone_dummiesndx);
+    else
+	post("no dummies");
 }
 
 static void cyclone_reps(t_cyclone *x)
 {
-    if (dummy_nreplacements())
-	dummy_printreplacements("replacement abstractions are: ");
+    if (cyclone_dproxy)
+	typedmess(cyclone_dproxy, gensym("reps"), 0, 0);
     else
 	post("no replacement abstractions");
 }
 
 static void cyclone_dummies(t_cyclone *x)
 {
-    fragile_class_printnames("dummies are: ",
-			     cyclone_dummiesndx, cyclone_lastndx);
+    if (cyclone_lastndx > cyclone_dummiesndx)
+	fragile_class_printnames("dummies are: ",
+				 cyclone_dummiesndx, cyclone_lastndx);
+    else
+	post("no dummies");
 }
 
 static void cyclone_free(t_cyclone *x)
@@ -98,8 +105,8 @@ static void *cyclone_new(t_symbol *s)
 
 void cyclone_setup(void)
 {
-    int hresult, sresult;
-    hresult = sresult = LOADER_OK;
+    int hresult, sresult, dresult;
+    hresult = sresult = dresult = LOADER_OK;
     if (canvas_getcurrent())
     {
 	/* Loading the library by object creation is banned, because of a danger
@@ -142,7 +149,11 @@ void cyclone_setup(void)
     allnettles_setup();
 
     cyclone_dummiesndx = fragile_class_count();
-    alldummies_setup();
+    if (zgetfn(&pd_objectmaker, gensym("dummies")))
+	loud_warning(0, "dummies are already loaded");
+    else
+	dresult = unstable_load_lib("", "dummies");
+
     cyclone_lastndx = fragile_class_count() - 1;
 
     if (hresult == LOADER_NOFILE)
@@ -155,5 +166,16 @@ void cyclone_setup(void)
 	loud_error(0, "version mismatch");
 	loud_errand(0,
 		    "use a more recent Pd release (or recompile the cyclone).");
+    }
+    else if (dresult == LOADER_NOFILE)
+	loud_warning(0, "dummies not found");
+    else
+    {
+	t_symbol *s = gensym("_ccdummies");
+	if (s->s_thing && !s->s_next
+	    && !strcmp(class_getname(*s->s_thing), "_ccdummies"))
+	    cyclone_dproxy = s->s_thing;
+	else
+	    bug("cyclone_setup");  /* FIXME */
     }
 }

@@ -14,15 +14,25 @@ TILDE = ~
 include Makefile.sources
 include Makefile.objects
 
-ifneq ($(OS_NAME),Darwin)
+default: define_build all
+
+ifeq ($(OS_NAME),Linux)
 # FIXME
 CC = gcc-2.95
-else
-# for MacOS X
-CC = gcc2
+X_SUFFIX = pd_linux
+DEFINES = -DUNIX
+OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
+LFLAGS = -export_dynamic  -shared
 endif
 
-default: define_build all
+ifeq ($(OS_NAME),Darwin)
+CC = gcc2
+X_SUFFIX = pd_darwin
+DEFINES = -DUNIX -DMACOSX
+OPT_CFLAGS = -O2 -funroll-loops -fomit-frame-pointer
+# -private_bundle is a guess, LATER check this
+LFLAGS = -bundle -undefined suppress -flat_namespace
+endif
 
 SHARED_DIR = $(ROOT_DIR)/shared
 OBJ_DIR = .
@@ -56,21 +66,6 @@ SOURCES = $(CX_SOURCES) $(AX_SOURCES) $(LX_SOURCES) $(OTHER_SOURCES) \
 	$(foreach type,$(TYPES),$($(type)_SOURCES))
 
 INCLUDES = -I. -I$(PD_DIR) -I$(SHARED_DIR)
-
-ifeq ($(OS_NAME),Linux)
-X_SUFFIX = pd_linux
-DEFINES = -DUNIX
-OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
-LFLAGS = -export_dynamic  -shared
-endif
-
-ifeq ($(OS_NAME),Darwin)
-X_SUFFIX = pd_darwin
-DEFINES = -DUNIX -DMACOSX
-OPT_CFLAGS = -O2 -funroll-loops -fomit-frame-pointer
-# -private_bundle is a guess, LATER check this
-LFLAGS = -bundle -undefined suppress -flat_namespace
-endif
 
 WARN_CFLAGS = -Wall -W -Wstrict-prototypes -Werror \
 	-Wno-unused -Wno-parentheses -Wno-switch
@@ -326,6 +321,10 @@ Makefile.deps:
 
 # added by Hans-Christoph Steiner <hans@eds.org>
 # to generate MacOS X packages
+
+# krzYszcz:
+# LATER try making cyclone-specifics abstracted out ala linux release
+# btw, why libs have to be removed from an install?
 
 PACKAGE_PREFIX = pd-$(BASE_NAME)
 PACKAGE_NAME = $(PACKAGE_PREFIX)-$(VERSION)-$(RELEASE)$(BUILD)

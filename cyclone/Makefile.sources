@@ -1,4 +1,4 @@
-TYPES = HPLAIN HLOUD HFRAGILE HGROW HFILE HRAND HRANDFILE HRANDGROW \
+TYPES = HPLAIN HLOUD HFORKY HFRAGILE HGROW HFILE HRAND HRANDFILE HRANDGROW \
 	HTREE HTREEFILEVEFL HGUI HSEQ \
 	SPLAINNOTILDE SPLAIN SSIC SFORKY SFRAGILE SGROW SGROWFORKY \
 	SVEFL SARSIC SFILE
@@ -40,7 +40,6 @@ HLOUD_SOURCES = \
 hammer/anal.c \
 hammer/bangbang.c \
 hammer/Borax.c \
-hammer/comment.c \
 hammer/cycle.c \
 hammer/decide.c \
 hammer/Decode.c \
@@ -53,6 +52,9 @@ hammer/spray.c \
 hammer/sprintf.c \
 hammer/switch.c \
 hammer/TogEdge.c
+
+HFORKY_SOURCES = \
+hammer/comment.c
 
 HFRAGILE_SOURCES = \
 hammer/grab.c \
@@ -192,6 +194,7 @@ sickle/cycle.c
 
 SARSIC_TILDE = $(TILDE)
 SARSIC_SOURCES = \
+sickle/buffir.c \
 sickle/index.c \
 sickle/lookup.c \
 sickle/peek.c \

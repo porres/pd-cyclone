@@ -794,7 +794,7 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
     if (vis)
     {
 	t_scopehandle *sh = (t_scopehandle *)x->x_handle;
-#ifndef PD_MINOR_VERSION
+#if FORKY_VERSION < 37
 	rtext_new(glist, t, glist->gl_editor->e_rtext, 0);
 #endif
 	sprintf(sh->h_pathname, ".x%x.h%x", (int)cv, (int)sh);
@@ -805,7 +805,7 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
     }
     else
     {
-#ifndef PD_MINOR_VERSION
+#if FORKY_VERSION < 37
 	t_rtext *rt = glist_findrtext(glist, t);
 	if (rt) rtext_free(rt);
 #endif
@@ -848,14 +848,7 @@ static t_widgetbehavior scope_widgetbehavior =
     scope_delete,
     scope_vis,
     scope_click,
-	 /* As of 0.37, pd does not have these last two elements in */
-	 /* a t_widgetbehavoir anymore.  <hans@eds.org> */
-#if PD_MAJOR_VERSION == 0 
-#if PD_MINOR_VERSION < 37  || !defined(PD_MINOR_VERSION)
-    scope_save,
-    0
-#endif
-#endif
+    FORKY_WIDGETPADDING
 };
 
 static void scope_setxymode(t_scope *x, int xymode)
@@ -1040,6 +1033,7 @@ void Scope_tilde_setup(void)
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_setwidget(scope_class, &scope_widgetbehavior);
+    forky_setsavefn(scope_class, scope_save);
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0,
 				  sizeof(t_scopehandle), CLASS_PD, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook,

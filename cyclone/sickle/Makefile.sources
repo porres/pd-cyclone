@@ -19,6 +19,7 @@ bitnot.c \
 bitor.c \
 bitshift.c \
 bitxor.c \
+buffir.c \
 capture.c \
 cartopol.c \
 change.c \

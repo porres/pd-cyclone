@@ -20,8 +20,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "g_canvas.h"
-/* need this for t_class::c_wb field access, LATER find a better way... */
-#include "unstable/pd_imp.h"
+#include "unstable/forky.h"
 #include "hammer/file.h"
 
 static t_class *hammerfile_class = 0;
@@ -375,10 +374,7 @@ void hammerfile_setup(t_class *c, int embeddable)
 {
     if (embeddable)
     {
-	t_widgetbehavior *newwb = getbytes(sizeof(*newwb));  /* never freed */
-	*newwb = *c->c_wb;
-	newwb->w_savefn = hammerembed_save;
-	class_setwidget(c, newwb);
+	forky_setsavefn(c, hammerembed_save);
 	class_addmethod(c, (t_method)hammerembed_restore,
 			gensym("restore"), 0);
     }

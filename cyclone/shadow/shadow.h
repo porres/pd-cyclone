@@ -6,8 +6,5 @@
 #define __SHADOW_H__
 
 void allnettles_setup(void);
-void alldummies_setup(void);
-int dummy_nreplacements(void);
-void dummy_printreplacements(char *msg);
 
 #endif
