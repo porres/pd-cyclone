@@ -16,6 +16,8 @@ include Makefile.objects
 
 # FIXME
 CC = gcc-2.95
+# for MacOS X
+#CC = gcc2
 
 default: define_build all
 
@@ -315,3 +317,15 @@ Makefile.deps:
 	chmod 666 Makefile.deps
 
 -include Makefile.deps
+
+# added by Hans-Christoph Steiner <hans@eds.org>
+# to generate MacOS X package
+darwin_altpackage: all
+	test -d ../installroot/Help || mkdir -p ../installroot/Help
+	-cp ../test/cyclone/* ../installroot/Help
+	test -d ../installroot/Resources || mkdir -p ../installroot/Resources
+	cp ../LICENSE.txt ../installroot/Resources/License.ttx
+	cp Welcome.txt ../installroot/Resources/
+	test -d ../installroot/Externals || mkdir -p ../installroot/Externals
+	install -m644 ../bin/*.pd_darwin --group=admin ../installroot/Externals
+	open darwin_altpackage.pmsp
