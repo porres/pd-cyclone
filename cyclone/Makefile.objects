@@ -12,12 +12,13 @@ HTREE_OBJECTS = hammer/tree.o common/loud.o
 HTREEFILEVEFL_OBJECTS = hammer/tree.o hammer/file.o \
 	common/vefl.o common/loud.o unstable/forky.o unstable/fragile.o
 HGUI_OBJECTS =  hammer/gui.o common/loud.o
-HSEQ_OBJECTS = common/sq.o common/bifi.o common/mifi.o \
-	hammer/file.o common/grow.o common/loud.o unstable/forky.o
+HSEQ_OBJECTS = common/mifi.o hammer/file.o \
+	common/grow.o common/loud.o unstable/forky.o
 SSIC_OBJECTS = sickle/sic.o common/loud.o
 SFORKY_OBJECTS = sickle/sic.o common/loud.o unstable/forky.o
 SFRAGILE_OBJECTS = sickle/sic.o common/loud.o unstable/fragile.o
 SGROW_OBJECTS = common/grow.o sickle/sic.o common/loud.o
+SGROWCLC_OBJECTS = common/grow.o common/clc.o sickle/sic.o common/loud.o
 SGROWFORKY_OBJECTS = common/grow.o sickle/sic.o common/loud.o unstable/forky.o
 SVEFL_OBJECTS = common/vefl.o sickle/sic.o common/loud.o unstable/fragile.o
 SARSIC_OBJECTS = sickle/sic.o sickle/arsic.o common/vefl.o \

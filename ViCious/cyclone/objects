@@ -3,6 +3,7 @@ CYCLONE_OBJECTS = \
 	$(SRCDIR)\shadow\nettles.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\lex.obj \
 	$(SHAREDDIR)\common\binport.obj \
 	$(SHAREDDIR)\common\port.obj \
 	$(SHAREDDIR)\hammer\file.obj \
@@ -98,9 +99,8 @@ HAMMER_OBJECTS = $(ALL_HAMMERS) \
 	$(SHAREDDIR)\common\grow.obj \
 	$(SHAREDDIR)\common\rand.obj \
 	$(SHAREDDIR)\common\vefl.obj \
-	$(SHAREDDIR)\common\sq.obj \
-	$(SHAREDDIR)\common\bifi.obj \
 	$(SHAREDDIR)\common\mifi.obj \
+	$(SHAREDDIR)\common\lex.obj \
 	$(SHAREDDIR)\common\binport.obj \
 	$(SHAREDDIR)\common\port.obj \
 	$(SHAREDDIR)\hammer\file.obj \
@@ -108,8 +108,7 @@ HAMMER_OBJECTS = $(ALL_HAMMERS) \
 	$(SHAREDDIR)\hammer\tree.obj \
 	$(SHAREDDIR)\unstable\forky.obj \
 	$(SHAREDDIR)\unstable\fragile.obj \
-	$(SHAREDDIR)\unstable\fringe.obj \
-	$(SHAREDDIR)\unstable\loader.obj
+	$(SHAREDDIR)\unstable\fringe.obj
 
 ALL_SICKLES = \
 	$(SRCDIR)\sickle\abs.obj \
@@ -195,6 +194,8 @@ SICKLE_OBJECTS = $(ALL_SICKLES) \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
 	$(SHAREDDIR)\common\vefl.obj \
+	$(SHAREDDIR)\common\clc.obj \
+	$(SHAREDDIR)\common\lex.obj \
 	$(SHAREDDIR)\common\binport.obj \
 	$(SHAREDDIR)\common\port.obj \
 	$(SHAREDDIR)\hammer\file.obj \
@@ -202,19 +203,20 @@ SICKLE_OBJECTS = $(ALL_SICKLES) \
 	$(SHAREDDIR)\sickle\arsic.obj \
 	$(SHAREDDIR)\unstable\forky.obj \
 	$(SHAREDDIR)\unstable\fragile.obj \
-	$(SHAREDDIR)\unstable\fringe.obj \
-	$(SHAREDDIR)\unstable\loader.obj
+	$(SHAREDDIR)\unstable\fringe.obj
 
 DUMMIES_OBJECTS = \
 	$(SRCDIR)\shadow\dummies.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\lex.obj \
 	$(SHAREDDIR)\common\binport.obj \
 	$(SHAREDDIR)\common\port.obj \
 	$(SHAREDDIR)\unstable\forky.obj \
 	$(SHAREDDIR)\unstable\fragile.obj \
 	$(SHAREDDIR)\unstable\fringe.obj
 
-CYCLIST_OBJECTS = \
-	$(SHAREDDIR)\common\binport.obj
-
+MAXMODE_OBJECTS = \
+	$(SRCDIR)\shadow\maxmode.obj \
+	$(SHAREDDIR)\common\loud.obj \
+	$(SHAREDDIR)\unstable\loader.obj

@@ -17,12 +17,13 @@
 #include "common/props.h"
 #include "scriptlet.h"
 
-//#define SCRIPTLET_DEBUG
+#define SCRIPTLET_DEBUG
 
-#define SCRIPTLET_INISIZE   1024
-#define SCRIPTLET_MARGIN      64
-#define SCRIPTLET_MAXARGS      9  /* do not increase (parser's constraint) */
-#define SCRIPTLET_MAXPUSH  20000  /* cf SOCKSIZE in t_tkcmd.c, LATER revisit */
+#define SCRIPTLET_INISIZE    1024
+#define SCRIPTLET_INIDOTSIZE  256
+#define SCRIPTLET_MARGIN       64
+#define SCRIPTLET_DOTMARGIN    16
+#define SCRIPTLET_MAXPUSH   20000  /* cf SOCKSIZE in t_tkcmd.c, LATER revisit */
 
 enum { SCRIPTLET_CVOK, SCRIPTLET_CVUNKNOWN, SCRIPTLET_CVMISSING };
 
@@ -36,15 +37,17 @@ struct _scriptlet
     t_scriptlet_cvfn  s_cvfn;      /* if empty, passing resolveall is a bug */
     t_canvas         *s_cv;        /* as returned by cvfn */
     int               s_cvstate;
-    int     s_locked;  /* append lock, for filtering, when reading from file */
-    int     s_size;
-    char   *s_buffer;
-    char    s_bufini[SCRIPTLET_INISIZE];
-    char   *s_head;       /* ptr to the command part of a scriptlet */
-    char   *s_tail;
-    char    s_separator;  /* current separator, set before a new token */
-    int     s_ac;                     /* the actual count */
-    t_atom  s_av[SCRIPTLET_MAXARGS];  /* always padded with zeros (if used) */
+    int    s_locked;  /* append lock, for filtering, when reading from file */
+    int    s_size;
+    char  *s_buffer;
+    char   s_bufini[SCRIPTLET_INISIZE];
+    char  *s_head;       /* ptr to the command part of a scriptlet */
+    char  *s_tail;
+    char   s_separator;  /* current separator, set before a new token */
+    int    s_dotsize;
+    int    s_dotoffset;
+    char  *s_dotbuffer;
+    char   s_dotbufini[SCRIPTLET_INIDOTSIZE];
 };
 
 static t_canvas *scriptlet_canvasvalidate(t_scriptlet *sp, int visedonly)
@@ -114,33 +117,85 @@ static int scriptlet_doappend(t_scriptlet *sp, char *buf)
     return (1);
 }
 
-static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
+static int scriptlet_dotstring(t_scriptlet *sp, char *st)
+{
+    int len = strlen(st),
+	newsize = sp->s_dotoffset + len + SCRIPTLET_DOTMARGIN;
+    if (newsize > sp->s_dotsize)
+    {
+	int nrequested = newsize;
+	sp->s_dotbuffer = grow_withdata(&nrequested, &sp->s_dotoffset,
+					&sp->s_dotsize, sp->s_dotbuffer,
+					SCRIPTLET_INIDOTSIZE, sp->s_dotbufini,
+					sizeof(*sp->s_dotbuffer));
+	if (nrequested != newsize)
+	{
+	    sp->s_dotoffset = 0;
+	    sp->s_dotbuffer[0] = 0;
+	    return (0);
+	}
+    }
+    strcpy(sp->s_dotbuffer + sp->s_dotoffset, st);
+    sp->s_dotoffset += len;
+    return (1);
+}
+
+static int scriptlet_dotfloat(t_scriptlet *sp, float f)
+{
+    char obuf[32];
+    sprintf(obuf, "%g", f);
+    return (scriptlet_dotstring(sp, obuf));
+}
+
+static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf,
 			     int resolveall, int visedonly,
 			     int ac, t_atom *av, t_props *argprops)
 {
     int len = 0;
+    char *obuf = sp->s_dotbuffer;
+    sp->s_dotoffset = 0;
     switch (*ibuf)
     {
     case '#':
-	/* ac is ignored -- assuming av is padded to SCRIPTLET_MAXARGS atoms */
 	if (resolveall)
 	{
 	    int which = ibuf[1] - '1';
-	    if (which >= 0 && which < SCRIPTLET_MAXARGS)
+	    if (which >= 0 && which < 9)
 	    {
-		if (av)
+		if (which < ac)
 		{
-		    if (av[which].a_type == A_FLOAT)
-		    {
-			sprintf(obuf, "%g", av[which].a_w.w_float);
-			len = 2;
-		    }
-		    else if (av[which].a_type == A_SYMBOL)
-		    {
-			strcpy(obuf, av[which].a_w.w_symbol->s_name);
-			len = 2;
-		    }
+		    av += which;
+		    if (av->a_type == A_FLOAT)
+			sprintf(obuf, "%g", av->a_w.w_float);
+		    else if (av->a_type == A_SYMBOL && av->a_w.w_symbol)
+			scriptlet_dotstring(sp, av->a_w.w_symbol->s_name);
+		    else
+			obuf[0] = 0;  /* LATER rethink */
 		}
+		else strcpy(obuf, "0");
+		len = 2;
+	    }
+	    else if (!strncmp(&ibuf[1], "args", 4))
+	    {
+		if (ac) while (1)
+		{
+		    if (av->a_type == A_FLOAT)
+			scriptlet_dotfloat(sp, av->a_w.w_float);
+		    else if (av->a_type == A_SYMBOL && av->a_w.w_symbol)
+			scriptlet_dotstring(sp, av->a_w.w_symbol->s_name);
+		    else
+		    {  /* LATER rethink */
+			obuf[0] = 0;
+			break;
+		    }
+		    ac--; av++;
+		    if (ac)
+			sp->s_dotbuffer[sp->s_dotoffset++] = ' ';
+		    else
+			break;
+		}
+		else obuf[0] = 0;
+		len = 5;
 	    }
 	    else if (argprops)
 	    {
@@ -157,7 +212,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
 		}
 		if (optr = props_getvalue(argprops, ibuf + 1))
 		{
-		    strcpy(obuf, optr);
+		    scriptlet_dotstring(sp, optr);
 		    len = cnt;
 		}
 		if (c) *iptr = c;
@@ -379,20 +434,19 @@ static int scriptlet_addstring(t_scriptlet *sp, char *ibuf,
 {
     int result = 1;
     char *bp = ibuf, *ep = ibuf, *ep1;
-    char dotbuf[256];  /* FIXME requires a growable per-scriptlet buffer. */
     if (!sp->s_separator)
 	sp->s_separator = ' ';
     while (*ep)
     {
 	if (*ep == '.'
-	    && (ep1 = scriptlet_dedot(sp, ep + 1, dotbuf,
-				      resolveall, visedonly, ac, av, argprops)))
+	    && (ep1 = scriptlet_dedot(sp, ep + 1, resolveall, visedonly,
+				      ac, av, argprops)))
 	{
 	    *ep = 0;
 	    if (!(result = scriptlet_doappend(sp, bp)))
 		break;
 	    *ep = '.';
-	    if (!(result = scriptlet_doappend(sp, dotbuf)))
+	    if (!(result = scriptlet_doappend(sp, sp->s_dotbuffer)))
 		break;
 	    bp = ep = ep1;
 	}
@@ -504,20 +558,6 @@ int scriptlet_evaluate(t_scriptlet *insp, t_scriptlet *outsp, int visedonly,
 	int i;
 	char *bp;
 	char separator = 0;
-	insp->s_ac = ac;
-	for (i = 0, ap = insp->s_av; i < SCRIPTLET_MAXARGS; i++, ap++)
-	{
-	    if (ac)
-	    {
-		if (av->a_type == A_FLOAT ||
-		    (av->a_type == A_SYMBOL && av->a_w.w_symbol))
-		    *ap = *av;
-		else
-		    SETFLOAT(ap, 0);
-		ac--; av++;
-	    }
-	    else SETFLOAT(ap, 0);
-	}
 	/* FIXME pregrowing of the transient scriptlet */
 	scriptlet_reset(outsp);
 	/* LATER abstract this into scriptlet_parse() */
@@ -546,8 +586,7 @@ int scriptlet_evaluate(t_scriptlet *insp, t_scriptlet *outsp, int visedonly,
 		    }
 		}
 		outsp->s_separator = separator;
-		scriptlet_addstring(outsp, bp, 1, visedonly,
-				    ac, insp->s_av, argprops);
+		scriptlet_addstring(outsp, bp, 1, visedonly, ac, av, argprops);
 		if (done)
 		    break;
 		*ep = c;
@@ -703,6 +742,7 @@ int scriptlet_read(t_scriptlet *sp, t_symbol *fn)
     FILE *fp;
     char buf[MAXPDSTRING];
     post("loading scriptlet file \"%s\"", fn->s_name);
+    /* FIXME use open_via_path() */
     if (sp->s_glist)
 	canvas_makefilename(sp->s_glist, fn->s_name, buf, MAXPDSTRING);
     else
@@ -789,6 +829,9 @@ void scriptlet_free(t_scriptlet *sp)
     {
 	if (sp->s_buffer != sp->s_bufini)
 	    freebytes(sp->s_buffer, sp->s_size * sizeof(*sp->s_buffer));
+	if (sp->s_dotbuffer != sp->s_dotbufini)
+	    freebytes(sp->s_dotbuffer,
+		      sp->s_dotsize * sizeof(*sp->s_dotbuffer));
 	freebytes(sp, sizeof(*sp));
     }
 }
@@ -810,6 +853,7 @@ t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
 	    sys_gui(" pd [concat $target _rp $::toxy::reply \\;]\n");
 	    sys_gui(" unset ::toxy::reply\n");
 	    sys_gui("}\n");
+	    configured = 1;
 	}
 	sp->s_owner = owner;
 	sp->s_glist = gl;
@@ -819,6 +863,9 @@ t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
 	sp->s_cvfn = cvfn;
 	sp->s_size = SCRIPTLET_INISIZE;
 	sp->s_buffer = sp->s_bufini;
+	sp->s_dotsize = SCRIPTLET_INIDOTSIZE;
+	sp->s_dotoffset = 0;
+	sp->s_dotbuffer = sp->s_dotbufini;
 	scriptlet_reset(sp);
     }
     return (sp);

@@ -119,6 +119,7 @@ static void *cycle_new(t_floatarg f1, t_floatarg f2)
         nouts = CYCLE_DEFOUTS;
     if (nouts > CYCLE_C74MAXOUTS)
     {
+	shared_usecompatibility();
 	loud_incompatible_max(cycle_class, CYCLE_C74MAXOUTS, "outlets");
 	/* CHECKED: max clips with an error:
 	   ``perhaps you were trying to make an oscillator?'' */

@@ -20,8 +20,11 @@ t_symbol *dict_dokey(t_dict *x, char *s, t_symbol *oldsym);
 t_symbol *dict_key(t_dict *x, char *s);
 void dict_bind(t_dict *x, t_pd *obj, t_symbol *s);
 void dict_unbind(t_dict *x, t_pd *obj, t_symbol *s);
-t_pd *dict_value(t_dict *x, t_symbol *s);
+t_pd *dict_firstvalue(t_dict *dict, t_symbol *s, void **nextp);
+t_pd *dict_nextvalue(t_dict *dict, t_symbol *s, void **nextp);
+#if 0
 t_pd *dict_xvalue(t_dict *x, t_symbol *s);
+#endif
 int dict_forall(t_dict *x, t_symbol *s, t_dict_hook hook, void *hookarg);
 
 #endif

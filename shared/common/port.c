@@ -715,8 +715,14 @@ static int imaction_P6_pack(t_port *x, char *arg)
 	{
 	    t_symbol *s = x->x_inmess[i].a_w.w_symbol;
 	    if (s->s_name[1])
+	    {
+		loud_warning(0, "import",
+			     "%s's argument '%s' bashed to 's'",
+			     port_getsymbol(x, 6)->s_name, s->s_name);
 		x->x_inmess[i].a_w.w_symbol = gensym("s");
-	    else switch (*s->s_name) {
+	    }
+	    else switch (*s->s_name)
+	    {
 	    case 'b': case 'f': case 's': case 'l':
 		break;
 	    case 'i':
@@ -1135,7 +1141,7 @@ secondpass:
 	while (nslots--)
 	{
 	    if (slot->s_symbol == insym
-		|| (inname && loud_matchignorecase(inname, slot->s_name)))
+		|| (inname && shared_matchignorecase(inname, slot->s_name)))
 	    {
 		if (slot->s_subtree)
 		{

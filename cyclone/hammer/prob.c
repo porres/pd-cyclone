@@ -274,6 +274,7 @@ static void *prob_new(void)
     x->x_embedmode = 0;  /* CHECKED */
     x->x_silent = 0;
     rand_seed(&x->x_seed, 0);
+    shared_usecompatibility();
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
     x->x_filehandle = hammerfile_new((t_pd *)x, prob_embedhook, 0, 0, 0);

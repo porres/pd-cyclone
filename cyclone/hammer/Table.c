@@ -233,6 +233,7 @@ static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
     char buf[MAXPDSTRING];
     if (!fn)
 	return;  /* CHECKME complaint */
+    /* FIXME use open_via_path() */
     if (cv || (cv = cc->c_lastcanvas))  /* !cv: 'read' w/o arg */
 	canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
     else

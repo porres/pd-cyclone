@@ -1,9 +1,8 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "unstable/fragile.h"
 #include "common/loud.h"
 #include "common/vefl.h"
 #include "hammer/tree.h"
@@ -49,13 +48,16 @@ static void funbuff_bang(t_funbuff *x)
     {
 	/* LATER consider using extra fields, updated on the fly */
 	count = 1;
-	xmin = np->n_index;
-	xmax = x->x_tree.t_last->n_index;
-	ymin = ymax = np->n_value;
+	xmin = np->n_key;
+	xmax = x->x_tree.t_last->n_key;
+	ymin = ymax = HAMMERNODE_GETFLOAT(np);
 	while (np = np->n_next)
 	{
-	    if (np->n_value < ymin) ymin = np->n_value;
-	    else if (np->n_value > ymax) ymax = np->n_value;
+	    t_float f = HAMMERNODE_GETFLOAT(np);
+	    if (f < ymin)
+		ymin = f;
+	    else if (f > ymax)
+		ymax = f;
 	    count++;
 	}
     }
@@ -75,15 +77,14 @@ static void funbuff_float(t_funbuff *x, t_float f)
     t_hammernode *np;
     if (x->x_valueset)
     {
-	if (np = hammertree_insert(&x->x_tree, ndx))
-	    np->n_value = x->x_value;
+	np = hammertree_insertfloat(&x->x_tree, ndx, x->x_value, 1);
 	x->x_valueset = 0;
     }
     else if (np = hammertree_closest(&x->x_tree, ndx, 0))
-	funbuff_dooutput(x, np->n_value, x->x_lastdelta);
+	funbuff_dooutput(x, HAMMERNODE_GETFLOAT(np), x->x_lastdelta);
     /* CHECKED pointer is updated --
        'next' outputs np also in a !valueset case (it is sent twice) */
-    x->x_pointer = np;
+    x->x_pointer = np;  /* FIXME */
     x->x_pointerset = 0;
 }
 
@@ -120,9 +121,10 @@ static void funbuff_min(t_funbuff *x)
     t_hammernode *np;
     if (np = x->x_tree.t_first)  /* CHECKED nop if empty */
     {
-	t_float result = np->n_value;
+	t_float result = HAMMERNODE_GETFLOAT(np);
 	while (np = np->n_next)
-	    if (np->n_value < result) result = np->n_value;
+	    if (HAMMERNODE_GETFLOAT(np) < result)
+		result = HAMMERNODE_GETFLOAT(np);
 	funbuff_dooutput(x, result, x->x_lastdelta);
 	/* CHECKED pointer not updated */
     }
@@ -134,9 +136,10 @@ static void funbuff_max(t_funbuff *x)
     t_hammernode *np;
     if (np = x->x_tree.t_first)  /* CHECKED nop if empty */
     {
-	t_float result = np->n_value;
+	t_float result = HAMMERNODE_GETFLOAT(np);
 	while (np = np->n_next)
-	    if (np->n_value > result) result = np->n_value;
+	    if (HAMMERNODE_GETFLOAT(np) > result)
+		result = HAMMERNODE_GETFLOAT(np);
 	funbuff_dooutput(x, result, x->x_lastdelta);
 	/* CHECKED pointer not updated */
     }
@@ -156,10 +159,10 @@ static void funbuff_next(t_funbuff *x)
     if (x->x_pointerset)
 	x->x_lastdelta = 0;
     else if (np->n_prev)
-	x->x_lastdelta = np->n_index - np->n_prev->n_index;
+	x->x_lastdelta = np->n_key - np->n_prev->n_key;
     else
 	x->x_lastdelta = 0;  /* CHECKED corrupt delta sent here... */
-    funbuff_dooutput(x, np->n_value, x->x_lastdelta);
+    funbuff_dooutput(x, HAMMERNODE_GETFLOAT(np), x->x_lastdelta);
     x->x_pointer = np->n_next;
     x->x_pointerset = 0;
 }
@@ -185,10 +188,9 @@ static void funbuff_set(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
     funbuff_clear(x);  /* CHECKED the contents is replaced */
     while (ac--)
     {
-	t_hammernode *np;
-	if (np = hammertree_insert(&x->x_tree, (int)av++->a_w.w_float))
-	    np->n_value = av++->a_w.w_float;
-	else return;
+	int ndx = (int)av++->a_w.w_float;
+	if (!hammertree_insertfloat(&x->x_tree, ndx, av++->a_w.w_float, 1))
+	    return;
 	ac--;
     }
 }
@@ -199,6 +201,7 @@ static void funbuff_doread(t_funbuff *x, t_symbol *fn)
     int ac;
     t_atom *av;
     char buf[MAXPDSTRING];
+    /* FIXME use open_via_path() */
     canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
     binbuf_read(bb, buf, "", 0);
     if ((ac = binbuf_getnatom(bb)) &&
@@ -226,7 +229,7 @@ static void funbuff_dowrite(t_funbuff *x, t_symbol *fn)
     t_hammernode *np;
     binbuf_addv(bb, "s", gensym("funbuff"));
     for (np = x->x_tree.t_first; np; np = np->n_next)
-	binbuf_addv(bb, "if", np->n_index, np->n_value);
+	binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
     canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
     binbuf_write(bb, buf, "", 0);
     binbuf_free(bb);
@@ -248,7 +251,7 @@ static void funbuff_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
 	{
 	    binbuf_addv(bb, "ss", bindsym, gensym("set"));
 	    for (; np; np = np->n_next)
-		binbuf_addv(bb, "if", np->n_index, np->n_value);
+		binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
 	    binbuf_addsemi(bb);
 	}
     }
@@ -283,11 +286,11 @@ static void funbuff_delete(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
 	int ndx = (int)av->a_w.w_float;
 	t_hammernode *np;
 	if ((np = hammertree_search(&x->x_tree, ndx)) &&
-	    (ac == 1 || np->n_value == av[1].a_w.w_float))
+	    (ac == 1 || HAMMERNODE_GETFLOAT(np) == av[1].a_w.w_float))
 	{
 	    if (np == x->x_pointer)
 		x->x_pointer = 0;  /* CHECKED corrupt pointer left here... */
-	    hammertree_delete(&x->x_tree, np);
+	    hammertree_delete(&x->x_tree, np);  /* FIXME */
 	}
 	/* CHECKED mismatch silently ignored */
     }
@@ -302,8 +305,8 @@ static void funbuff_find(t_funbuff *x, t_floatarg f)
 	do
 	{
 	    /* CHECKED lastdelta preserved */
-	    if (np->n_value == f)
-		funbuff_dooutput(x, np->n_index, x->x_lastdelta);
+	    if (HAMMERNODE_GETFLOAT(np) == f)
+		funbuff_dooutput(x, np->n_key, x->x_lastdelta);
 	}
 	while (np = np->n_next);
 	/* CHECKED no bangout, no complaint if nothing found */
@@ -318,9 +321,9 @@ static void funbuff_dump(t_funbuff *x)
     {
 	do
 	{
-	    x->x_lastdelta = np->n_value;  /* CHECKED */
+	    x->x_lastdelta = HAMMERNODE_GETFLOAT(np);  /* CHECKED */
 	    /* float value preserved (this is incompatible) */
-	    funbuff_dooutput(x, np->n_index, np->n_value);
+	    funbuff_dooutput(x, np->n_key, x->x_lastdelta);
 	}
 	while (np = np->n_next);
 	/* CHECKED no bangout */
@@ -336,14 +339,14 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_float *vec)
     if (trunc > f) trunc--;  /* CHECKME negative floats */
     if (np1 = hammertree_closest(&x->x_tree, trunc, 0))
     {
-	float value = np1->n_value;
+	float value = HAMMERNODE_GETFLOAT(np1);
 	t_hammernode *np2 = np1->n_next;
 	if (np2)
 	{
-	    float delta = (float)(np2->n_index - np1->n_index);
+	    float delta = (float)(np2->n_key - np1->n_key);
 	    /* this is incompatible -- CHECKED float argument is silently
 	       truncated (which does not make much sense here), CHECKME again */
-	    float frac = f - np1->n_index;
+	    float frac = f - np1->n_key;
 	    if (frac < 0 || frac >= delta)
 	    {
 		bug("funbuff_dointerp");
@@ -364,12 +367,14 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_float *vec)
 		vec += vndx;
 		frac = *vec + (vec[1] - *vec) * vfrac;
 	    }
-	    value += (np2->n_value - np1->n_value) * frac;
+	    value +=
+		(HAMMERNODE_GETFLOAT(np2) - HAMMERNODE_GETFLOAT(np1)) * frac;
 	}
 	funbuff_dooutput(x, value, x->x_lastdelta);  /* CHECKME !np2 */
     }
     else if (np1 = hammertree_closest(&x->x_tree, trunc, 1))
-	funbuff_dooutput(x, np1->n_value, x->x_lastdelta);  /* CHECKME */
+	/* CHECKME */
+	funbuff_dooutput(x, HAMMERNODE_GETFLOAT(np1), x->x_lastdelta);
 }
 
 static void funbuff_interp(t_funbuff *x, t_floatarg f)
@@ -428,7 +433,7 @@ static void funbuff_undo(t_funbuff *x)
 #ifdef HAMMERTREE_DEBUG
 static void funbuff_debug(t_funbuff *x, t_floatarg f)
 {
-    hammertree_debug(&x->x_tree, (int)f);
+    hammertree_debug(&x->x_tree, (int)f, 0);
 }
 #endif
 
@@ -447,7 +452,7 @@ static void *funbuff_new(t_symbol *s)
     x->x_pointerset = 0;  /* CHECKME, rename to intraversal? */
     x->x_lastdelta = 0;
     x->x_embedflag = 0;
-    hammertree_init(&x->x_tree, 0);
+    hammertree_inittyped(&x->x_tree, HAMMERTYPE_FLOAT, 0);
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     x->x_deltaout = outlet_new((t_object *)x, &s_float);
@@ -466,9 +471,9 @@ static void *funbuff_new(t_symbol *s)
 void funbuff_setup(void)
 {
     funbuff_class = class_new(gensym("funbuff"),
-			    (t_newmethod)funbuff_new,
-			    (t_method)funbuff_free,
-			    sizeof(t_funbuff), 0, A_DEFSYM, 0);
+			      (t_newmethod)funbuff_new,
+			      (t_method)funbuff_free,
+			      sizeof(t_funbuff), 0, A_DEFSYM, 0);
     class_addbang(funbuff_class, funbuff_bang);
     class_addfloat(funbuff_class, funbuff_float);
     class_addmethod(funbuff_class, (t_method)funbuff_ft1,

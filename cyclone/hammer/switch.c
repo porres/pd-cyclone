@@ -103,7 +103,10 @@ static void *switch_new(t_floatarg f1, t_floatarg f2)
     if (nproxies < SWITCH_MININLETS)
 	nproxies = SWITCH_DEFINLETS;
     if (nproxies > SWITCH_C74MAXINLETS)
+    {
+	shared_usecompatibility();
 	loud_incompatible_max(switch_class, SWITCH_C74MAXINLETS, "inlets");
+    }
     if (!(proxies = (t_pd **)getbytes(nproxies * sizeof(*proxies))))
 	return (0);
     for (ninlets = 0; ninlets < nproxies; ninlets++)

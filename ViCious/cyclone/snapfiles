@@ -3,6 +3,7 @@ SNAPFILES = \
 	miXed\bin\hammer.dll \
 	miXed\bin\sickle.dll \
 	miXed\bin\dummies.dll \
+	miXed\bin\maxmode.dll \
 	miXed\bin\cyclist.exe \
 	miXed\ViCious\cyclone\makefile \
 	miXed\ViCious\cyclone\objects \

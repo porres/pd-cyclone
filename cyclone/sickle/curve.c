@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -7,54 +7,14 @@
 #include "shared.h"
 #include "common/grow.h"
 #include "common/loud.h"
+#include "common/clc.h"
 #include "sickle/sic.h"
 
 //#define CURVE_DEBUG
 
-/* CHECKED apparently c74's formula was not very carefully tuned.  It has 5%
-   deviation from the straight line for ccinput=0 (ccinput is user's curve
-   control parameter, <0..1>) at half-domain, range=1.  It generates nans for
-   ccinput > .995.
-
-   The formula below generates curves with < .000004% deviation and no nans.
-
-   Problem:  find a function f : ccinput -> cc, such that the curves will bend
-   in a semi-linear way over the ccinput's range of 0..1.  The curve function
-   is then g(x, p) = (exp(f(p) * x) - 1) / (exp(f(p)) - 1), where x is curve's
-   domain, and p is ccinput.  If, for example, the points g(0.5, p) are to make
-   a semi-linear pattern, then the solution is a function f that minimizes
-   the integral of the error function e(p) = sqr(((1-p)/2)-g(.5, p)) over 0..1.
-   Until someone does this analytically, we are left with a lame formula, which
-   has been tweaked and tested in gnuplot:  f(p) = h(p) / (1 - h(p)), where
-   h(p) = (((p + 1e-20) * 1.2) ** .41) * .91.  The file curve.gp, in the
-   sickle's source directory, may come handy, in case there is anyone, who
-   fancy tweaking it even further.
-
-   To implement this, start from these equations:
-   bb * mm ^ npoints = bb + 1
-   (bb ^ 2) * (mm ^ npoints) = ((exp(ff/2) - 1) / (exp(ff) - 1)) ^ 2
-
-   and calculate:
-   hh = pow(((ccinput + c1) * c2), c3) * c4
-   ff = hh / (1 - hh)
-   eff = exp(ff) - 1
-   gh = (exp(ff * .5) - 1) / eff
-   bb = gh * (gh / (1 - (gh + gh)))
-   mm = ((exp(ff * (1/npoints)) - 1) / (eff * bb)) + 1
-
-   The loop is:
-   for (vv = bb, i = 0; i < n; vv *= mm, i++)
-       result = (vv - bb) * (y1 - y0) + y0
-   where y0, y1 are start and destination values
-*/
-
-#define CURVE_C1   1e-20
-#define CURVE_C2   1.2
-#define CURVE_C3   0.41
-#define CURVE_C4   0.91
-
-#define CURVE_MINCCINPUT  -1.
-#define CURVE_MAXCCINPUT   1.
+/* CHECKED apparently c74's formula has not been carefully tuned (yet?).
+   It has 5% deviation from the straight line for ccinput = 0 at half-domain,
+   range 1, and generates nans for ccinput > .995 (cf comment in clc.h). */
 
 #define CURVE_INISIZE  64  /* LATER rethink */
 #define CURVE_MAXSIZE  64
@@ -63,7 +23,7 @@ typedef struct _curveseg
 {
     float   s_target;
     float   s_delta;
-    int     s_npoints;
+    int     s_nhops;
     float   s_ccinput;
     double  s_bb;
     double  s_mm;
@@ -95,7 +55,7 @@ typedef struct _curve
 #ifdef CURVE_DEBUG
     int          dbg_nretargets;
     int          dbg_exitpoint;
-    int          dbg_npoints;
+    int          dbg_nhops;
 #endif
 } t_curve;
 
@@ -104,42 +64,10 @@ static double curve_coef;
 
 static void curve_cc(t_curve *x, t_curveseg *segp, float f)
 {
-    int npoints = segp->s_delta * x->x_ksr + 0.5;  /* LATER rethink */
+    int nhops = segp->s_delta * x->x_ksr + 0.5;  /* LATER rethink */
     segp->s_ccinput = f;
-    if (npoints > 0)
-    {
-	double hh, ff, eff, gh;
-	segp->s_npoints = npoints;
-	if (f < 0)
-	{
-	    if (f < CURVE_MINCCINPUT)
-		f = CURVE_MINCCINPUT;
-	    hh = pow(((CURVE_C1 - f) * CURVE_C2), CURVE_C3) * CURVE_C4;
-	    ff = hh / (1. - hh);
-	    eff = exp(ff) - 1.;
-	    gh = (exp(ff * .5) - 1.) / eff;
-	    segp->s_bb = gh * (gh / (1. - (gh + gh)));
-	    segp->s_mm = 1. / (((exp(ff * (1. / (double)npoints)) - 1.) /
-				(eff * segp->s_bb)) + 1.);
-	}
-	else
-	{
-	    if (f > CURVE_MAXCCINPUT)
-		f = CURVE_MAXCCINPUT;
-	    hh = pow(((f + CURVE_C1) * CURVE_C2), CURVE_C3) * CURVE_C4;
-	    ff = hh / (1. - hh);
-	    eff = exp(ff) - 1.;
-	    gh = (exp(ff * .5) - 1.) / eff;
-	    segp->s_bb = gh * (gh / (1. - (gh + gh)));
-	    segp->s_mm = ((exp(ff * (1. / (double)npoints)) - 1.) /
-			  (eff * segp->s_bb)) + 1.;
-	}
-    }
-    else
-    {
-	segp->s_npoints = 0;
-	segp->s_bb = segp->s_mm = 1.;
-    }
+    segp->s_nhops = (nhops > 0 ? nhops : 0);
+    clccurve_coefs(segp->s_nhops, (double)f, &segp->s_bb, &segp->s_mm);
 #ifdef CURVE_DEBUG
     post("%g %g %g %g",
 	 segp->s_target, segp->s_delta, segp->s_bb, segp->s_mm);
@@ -152,9 +80,9 @@ static void curve_tick(t_curve *x)
 #ifdef CURVE_DEBUG
     post("exit point %d, after %d retarget calls",
 	 x->dbg_exitpoint, x->dbg_nretargets);
-    post("at value %g, after last %d npoints, with bb %g, mm %g",
-	 x->x_value, x->dbg_npoints, x->x_bb, x->x_mm);
-    x->dbg_nretargets = x->dbg_exitpoint = x->dbg_npoints = 0;
+    post("at value %g, after last %d nhops, with bb %g, mm %g",
+	 x->x_value, x->dbg_nhops, x->x_bb, x->x_mm);
+    x->dbg_nretargets = x->dbg_exitpoint = x->dbg_nhops = 0;
 #endif
 }
 
@@ -177,42 +105,32 @@ retarget:
     {
 	float target = x->x_curseg->s_target;
 	float delta = x->x_curseg->s_delta;
-    	int npoints = x->x_curseg->s_npoints;
+    	int nhops = x->x_curseg->s_nhops;
+	bb = x->x_curseg->s_bb;
 	mm = x->x_curseg->s_mm;
 	if (x->x_curseg->s_ccinput < 0)
-	{
-	    bb = x->x_curseg->s_bb + 1.;
 	    dy = x->x_value - target;
-	}
 	else
-	{
-	    bb = x->x_curseg->s_bb;
 	    dy = target - x->x_value;
-	}
 #ifdef CURVE_DEBUG
 	x->dbg_nretargets++;
 #endif
 	x->x_nsegs--;
 	x->x_curseg++;
-    	while (npoints <= 0)
+    	while (nhops <= 0)
 	{
 	    curval = x->x_value = target;
 	    if (x->x_nsegs)
 	    {
 		target = x->x_curseg->s_target;
 		delta = x->x_curseg->s_delta;
-		npoints = x->x_curseg->s_npoints;
+		nhops = x->x_curseg->s_nhops;
+		bb = x->x_curseg->s_bb;
 		mm = x->x_curseg->s_mm;
 		if (x->x_curseg->s_ccinput < 0)
-		{
-		    bb = x->x_curseg->s_bb + 1.;
 		    dy = x->x_value - target;
-		}
 		else
-		{
-		    bb = x->x_curseg->s_bb;
 		    dy = target - x->x_value;
-		}
 		x->x_nsegs--;
 		x->x_curseg++;
 	    }
@@ -228,7 +146,7 @@ retarget:
 		return (w + 4);
 	    }
 	}
-    	nxfer = x->x_nleft = npoints;
+    	nxfer = x->x_nleft = nhops;
 	x->x_vv = vv = bb;
 	x->x_bb = bb;
 	x->x_mm = mm;
@@ -237,7 +155,7 @@ retarget:
 	x->x_target = target;
     	x->x_retarget = 0;
 #ifdef CURVE_DEBUG
-	x->dbg_npoints = npoints;
+	x->dbg_nhops = nhops;
 #endif
     }
     if (nxfer >= nblock)
@@ -422,13 +340,7 @@ static void curve_free(t_curve *x)
 
 static void *curve_new(t_floatarg f1, t_floatarg f2)
 {
-    static int initialized = 0;
     t_curve *x = (t_curve *)pd_new(curve_class);
-    if (!initialized)
-    {
-	curve_coef = CURVE_C2 / exp(CURVE_C3);
-	initialized = 1;
-    }
     x->x_value = x->x_target = f1;
     x->x_ccinput = f2;
     x->x_deltaset = 0;

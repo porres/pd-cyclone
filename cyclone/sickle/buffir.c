@@ -38,11 +38,14 @@ static void buffir_setrange(t_buffir *x, t_floatarg f1, t_floatarg f2)
     {
 	int newsize, pos = x->x_lohead - x->x_histlo;
 	int oldbytes = x->x_histsize * sizeof(*x->x_histlo);
-	static int warned = 0;
-	if (!warned)
+	if (shared_getmaxcompatibility())
 	{
-	    loud_incompatible(buffir_class, "stretching history buffer");
-	    warned = 1;
+	    static int warned = 0;
+	    if (!warned)
+	    {
+		loud_incompatible(buffir_class, "stretching history buffer");
+		warned = 1;
+	    }
 	}
 	newsize = x->x_histsize * 2;
 	while (newsize < siz) newsize *= 2;
@@ -194,6 +197,7 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 	x->x_histlo = x->x_histini;
 	buffir_clear(x);
 	buffir_setrange(x, f1, f2);
+	shared_usecompatibility();
     }
     return (x);
 }

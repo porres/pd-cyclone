@@ -1,12 +1,14 @@
 OTHER_SOURCES = \
-bifi.c \
 binport.c \
+clc.c \
 dict.c \
+fi.c \
 grow.c \
+lex.c \
 loud.c \
 mifi.c \
 port.c \
 props.c \
+qtree.c \
 rand.c \
-sq.c \
 vefl.c

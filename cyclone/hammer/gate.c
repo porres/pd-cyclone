@@ -100,7 +100,10 @@ static void *gate_new(t_floatarg f1, t_floatarg f2)
     if (nouts < GATE_MINOUTS)
 	nouts = GATE_DEFOUTS;
     if (nouts > GATE_C74MAXOUTS)
+    {
+	shared_usecompatibility();
 	loud_incompatible_max(gate_class, GATE_C74MAXOUTS, "outlets");
+    }
     nouts++;  /* for convenience (the cost is one pointer) */
     if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
 	return (0);

@@ -1,7 +1,7 @@
 #define CYCLONE_VERSION "0.1"
 #define CYCLONE_RELEASE "alpha"
-#define CYCLONE_BUILD 49
+#define CYCLONE_BUILD 50
 
 #if 0
-CYCLONE_SNAPSHOT = 0.1-alpha49
+CYCLONE_SNAPSHOT = 0.1-alpha50
 #endif

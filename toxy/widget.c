@@ -2,8 +2,6 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* LATER consider supporting a special @ini handler, also think about
-   differentiating 'ini' from 'vis' */
 /* LATER think about reloading method for .wid files */
 
 #include <stdio.h>
@@ -39,6 +37,18 @@ typedef struct _widgetentry
     struct _widgetentry  *we_next;
 } t_widgetentry;
 
+/* move to widgettype.c&h */
+typedef struct _widgethandlers
+{
+    t_scriptlet  *wh_initializer;
+    t_scriptlet  *wh_new;
+    t_scriptlet  *wh_free;
+    t_scriptlet  *wh_bang;
+    t_scriptlet  *wh_float;
+    t_scriptlet  *wh_symbol;
+    /* ... (varsized vector) */
+} t_widgethandlers;
+
 typedef struct _widget
 {
     t_object       x_ob;
@@ -55,6 +65,7 @@ typedef struct _widget
     t_props       *x_options;     /* instance options */
     t_props       *x_handlers;    /* instance handlers */
     t_props       *x_arguments;   /* instance arguments */
+    t_widgethandlers  x_cache;    /* actual handlers */
     t_scriptlet   *x_iniscript;   /* instance initializer */
     t_scriptlet   *x_optscript;   /* option scriptlet */
     t_scriptlet   *x_auxscript;   /* auxiliary scriptlet */
@@ -145,18 +156,35 @@ static t_symbol *widget_getmypathname(t_widget *x, t_glist *glist)
     return (gensym(buf));
 }
 
-static void widget_postatoms(char *msg, int ac, t_atom *av)
+/* pity cannot set sys_printtostderr... */
+static void widget_postatoms(FILE *fp, char *msg, int ac, t_atom *av)
 {
-    startpost(msg);
-    while (ac--)
+    if (fp)
     {
-	if (av->a_type == A_FLOAT)
-	    postfloat(av->a_w.w_float);
-	else if (av->a_type == A_SYMBOL)
-	    poststring(av->a_w.w_symbol->s_name);
-	av++;
+	fputs(msg, fp);
+	while (ac--)
+	{
+	    char buf[80];
+	    atom_string(av, buf, 80);
+	    fputc(' ', fp);
+	    fputs(buf, fp);
+	    av++;
+	}
+	fputc('\n', fp);
     }
-    endpost();
+    else
+    {
+	startpost(msg);
+	while (ac--)
+	{
+	    if (av->a_type == A_FLOAT)
+		postfloat(av->a_w.w_float);
+	    else if (av->a_type == A_SYMBOL)
+		poststring(av->a_w.w_symbol->s_name);
+	    av++;
+	}
+	endpost();
+    }
 }
 
 /* If Tk widget creation fails, gui will send the '_failure' message
@@ -292,24 +320,52 @@ static void widget_pushoptions(t_widget *x, int doit)
 
 static void widget_pushinits(t_widget *x)
 {
-    if (masterwidget_evaluate(x->x_transient, 0, 0, 0, x->x_arguments))
-	scriptlet_vpush(x->x_transient, "masterinits");
+    if (masterwidget_ievaluate(x->x_transient, 0, 0, 0, x->x_arguments))
+	scriptlet_vpush(x->x_transient, "masterinit");
     else
 	bug("widget_pushinits (master)");
     if (widgettype_isdefined(x->x_typedef))
     {
 	int sz;
-	if (widgettype_evaluate(x->x_typedef, x->x_transient, 0,
-				0, 0, x->x_arguments))
-	    scriptlet_vpush(x->x_transient, "typeinits");
-	else if (*widgettype_getcontents(x->x_typedef, &sz) && sz > 0)
+	if (widgettype_ievaluate(x->x_typedef, x->x_transient, 0,
+				 0, 0, x->x_arguments))
+	    scriptlet_vpush(x->x_transient, "typeinit");
+	else if (*widgettype_getinitializer(x->x_typedef, &sz) && sz > 0)
 	    bug("widget_pushinits (type)");
     }
     if (scriptlet_evaluate(x->x_iniscript, x->x_transient, 0,
 			   0, 0, x->x_arguments))
-	scriptlet_vpush(x->x_transient, "iteminits");
+	scriptlet_vpush(x->x_transient, "iteminit");
     else if (!scriptlet_isempty(x->x_iniscript))
 	bug("widget_pushinits (instance)");
+}
+
+static void widget_pushconstructors(t_widget *x)
+{
+    /* LATER master constructor */
+    if (widgettype_isdefined(x->x_typedef))
+    {
+	int sz;
+	if (widgettype_cevaluate(x->x_typedef, x->x_transient, 0,
+				 0, 0, x->x_arguments))
+	    scriptlet_push(x->x_transient);
+	else if (*widgettype_getconstructor(x->x_typedef, &sz) && sz > 0)
+	    bug("widget_pushconstructors (type)");
+    }
+}
+
+static void widget_pushdestructors(t_widget *x)
+{
+    /* LATER master destructor */
+    if (widgettype_isdefined(x->x_typedef))
+    {
+	int sz;
+	if (widgettype_devaluate(x->x_typedef, x->x_transient, 0,
+				 0, 0, x->x_arguments))
+	    scriptlet_push(x->x_transient);
+	else if (*widgettype_getdestructor(x->x_typedef, &sz) && sz > 0)
+	    bug("widget_pushdestructors (type)");
+    }
 }
 
 static void widget_getconfig(t_widget *x)
@@ -465,7 +521,9 @@ static void widget_update(t_widget *x, t_props *op)
     }
     else
     {
-	/* LATER cache handlers */
+	/* LATER cache handlers.
+	   We get here both during construction, and after any change
+	   in our handlers -- the cache never stales. */
     }
 }
 
@@ -697,7 +755,7 @@ static void widget_refresh(t_widget *x)
 static void widget__failure(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
 #if 0
-    /* moved to the gui side, in order to alow special chars in error message */
+    /* moved to the gui side -- supporting special chars in error message */
     startpost("tcl error:");
     postatom(ac, av);
     endpost();
@@ -839,39 +897,56 @@ static void widget_debug(t_widget *x)
     t_symbol *mn = widget_getmypathname(x, 0);
     int sz, i, nopt;
     t_atom *ap;
+    static char bempty[] = "<empty>";
     char *bp, *key;
-    post("containing glist: %x", x->x_glist);
-    post("cv pathname%s %s", (pn ? ":" : ""), (pn ? pn->s_name : "unknown"));
-    post("my pathname%s %s", (mn ? ":" : ""), (mn ? mn->s_name : "unknown"));
+    fprintf(stderr, "containing glist: %x\n", (int)x->x_glist);
+    fprintf(stderr, "cv pathname%s %s\n",
+	    (pn ? ":" : ""), (pn ? pn->s_name : "unknown"));
+    fprintf(stderr, "my pathname%s %s\n",
+	    (mn ? ":" : ""), (mn ? mn->s_name : "unknown"));
     if (ap = props_getall(widgettype_getoptions(x->x_typedef), &nopt))
-	widget_postatoms("default options:", nopt, ap);
+	widget_postatoms(stderr, "default options:", nopt, ap);
     if (ap = props_getall(x->x_options, &nopt))
-	widget_postatoms("instance options:", nopt, ap);
+	widget_postatoms(stderr, "instance options:", nopt, ap);
     if (ap = props_getall(widgettype_gethandlers(x->x_typedef), &nopt))
-	widget_postatoms("default handlers:", nopt, ap);
+	widget_postatoms(stderr, "default handlers:", nopt, ap);
     if (ap = props_getall(x->x_handlers, &nopt))
-	widget_postatoms("instance handlers:", nopt, ap);
+	widget_postatoms(stderr, "instance handlers:", nopt, ap);
     if (ap = props_getall(widgettype_getarguments(x->x_typedef), &nopt))
-	widget_postatoms("default arguments:", nopt, ap);
+	widget_postatoms(stderr, "default arguments:", nopt, ap);
     if (ap = props_getall(x->x_arguments, &nopt))
-	widget_postatoms("instance arguments:", nopt, ap);
-    post("dictionary:");
+	widget_postatoms(stderr, "instance arguments:", nopt, ap);
+    fprintf(stderr, "dictionary:\n");
     bp = props_firstvalue(x->x_arguments, &key);
     while (bp)
     {
-	post("\t%s: \"%s\"", key, bp);
+	fprintf(stderr, "\t%s: \"%s\"\n", key, bp);
 	bp = props_nextvalue(x->x_arguments, &key);
     }
     bp = scriptlet_getcontents(x->x_transient, &sz);
-    post("transient buffer (size %d):\n\"%s\"", sz, bp);
+    fprintf(stderr, "transient buffer (size %d):\n\"%s\"\n",
+	    sz, (bp ? bp : bempty));
     bp = scriptlet_getcontents(x->x_optscript, &sz);
-    post("option buffer (size %d):\n\"%s\"", sz, bp);
-    bp = widgettype_getcontents(x->x_typedef, &sz);
-    post("type initializer (size %d):\n\"%s\"", sz, bp);
+    fprintf(stderr, "option buffer (size %d):\n\"%s\"\n",
+	    sz, (bp ? bp : bempty));
+    bp = widgettype_getconstructor(x->x_typedef, &sz);
+    fprintf(stderr, "type constructor (size %d):\n\"%s\"\n",
+	    sz, (bp ? bp : bempty));
+    bp = widgettype_getdestructor(x->x_typedef, &sz);
+    fprintf(stderr, "type destructor (size %d):\n\"%s\"\n",
+	    sz, (bp ? bp : bempty));
+    bp = masterwidget_getinitializer(&sz);
+    fprintf(stderr, "master initializer (size %d):\n\"%s\"\n",
+	    sz, (bp ? bp : bempty));
+    bp = widgettype_getinitializer(x->x_typedef, &sz);
+    fprintf(stderr, "type initializer (size %d):\n\"%s\"\n",
+	    sz, (bp ? bp : bempty));
     bp = scriptlet_getcontents(x->x_iniscript, &sz);
-    post("instance initializer (size %d):\n\"%s\"", sz, bp);
+    fprintf(stderr, "instance initializer (size %d):\n\"%s\"\n",
+	    sz, (bp ? bp : bempty));
     bp = masterwidget_getcontents(&sz);
-    post("setup definitions (size %d):\n\"%s\"", sz, bp);
+    fprintf(stderr, "setup definitions (size %d):\n\"%s\"\n",
+	    sz, (bp ? bp : bempty));
 }
 #endif
 
@@ -889,6 +964,7 @@ static void gui_unbind(t_pd *x, t_symbol *s)
 static void widget_free(t_widget *x)
 {
     widget_novis(x);
+    widget_pushdestructors(x);
     gui_unbind((t_pd *)x, x->x_cbtarget);
     gui_unbind((t_pd *)x, x->x_rptarget);
     props_freeall(x->x_options);
@@ -907,7 +983,7 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     char buf[MAXPDSTRING];
     if (widget_transforming)
 	return (0);
-    masterwidget_initialize();
+    masterwidget_validate();
     x = (t_widget *)pd_new(widget_class);
     x->x_type = 0;
     x->x_name = 0;
@@ -978,6 +1054,7 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     x->x_disabled = 0;
     x->x_vised = 0;
     widget_attach(x);
+    widget_pushconstructors(x);
     return (x);
 }
 
@@ -988,7 +1065,7 @@ static t_glist *tow_getglist(t_tow *x, int complain)
 	 (t_glist *)pd_findbyclass(x->x_cvremote, canvas_class) : x->x_glist);
     if (!glist && complain)
 	loud_error((t_pd *)x, "bad canvas name '%s'", x->x_cvname->s_name);
-    return (glist);
+    return (glist_getcanvas(glist));
 }
 
 static void tow_bang(t_tow *x)
@@ -1160,20 +1237,22 @@ static void tow_detach(t_tow *x)
 static void tow_debug(t_tow *x)
 {
     t_widgetentry *we;
-    post("attached widgets:");
+    fprintf(stderr, "attached widgets:\n");
     for (we = x->x_widgetlist; we; we = we->we_next)
     {
 	t_widget *w = we->we_widget;
 	t_towentry *te;
 	int other = 0, found = 0;
-	startpost("\t%s %s", w->x_type->s_name, w->x_cbtarget->s_name);
+	fprintf(stderr, "\t%s %s", w->x_type->s_name, w->x_cbtarget->s_name);
 	for (te = w->x_towlist; te; te = te->te_next)
 	    if (te->te_tow == x)
 		found++;
 	    else
 		other++;
-	post(" (%d other tow%s)", other, (other == 1 ? "" : "s"));
-	if (found != 1) post("BUG: listed %d times in widget's towlist", found);
+	fprintf(stderr, " (%d other tow%s)\n", other, (other == 1 ? "" : "s"));
+	if (found != 1)
+	    fprintf(stderr, "BUG: listed %d times in widget's towlist\n",
+		    found);
     }
 }
 #endif
@@ -1207,8 +1286,28 @@ static void *tow_new(t_symbol *s1, t_symbol *s2, t_symbol *s3)
     t_tow *x = (t_tow *)pd_new(tow_class);
     char buf[64];
     x->x_glist = canvas_getcurrent();
-    if (s1 && s1 != &s_ && strcmp(s1->s_name, "."))
-	x->x_cvremote = canvas_makebindsym(x->x_cvname = s1);
+    if (s1 == &s_ || !strcmp(s1->s_name, "."))
+	s1 = 0;
+    if (s1)
+    {
+	if (strcmp(s1->s_name, ".parent"))
+	    x->x_cvremote = canvas_makebindsym(x->x_cvname = s1);
+	else
+	{
+	    if (x->x_glist->gl_owner)
+	    {
+		x->x_glist = x->x_glist->gl_owner;
+		x->x_cvremote = 0;
+		x->x_cvname = x->x_glist->gl_name;
+	    }
+	    else
+	    {
+		/* FIXME */
+		loud_error((t_pd *)x, "no parent patch");
+		x->x_cvremote = canvas_makebindsym(x->x_cvname = s1);
+	    }
+	}
+    }
     else
     {
 	x->x_cvremote = 0;

@@ -13,7 +13,7 @@
 #define BINPORT_MAXSTRING  1000
 #define BINPORT_SYMGROW      64
 
-#ifndef BINPORT_STANDALONE
+#ifndef MIXED_STANDALONE
 /* load a max binary file into a Pd binbuf */
 
 #include "m_pd.h"
@@ -22,44 +22,60 @@
 /* make a max-textual listing from a max binary file */
 
 /* This is a standalone version of a ``max binary to binbuf'' module.
-   It uses certain Pd calls and structs, which are duplicated below.
-   LATER should be linked to the Pd API library. */
+   It uses certain Pd calls and structs, which are duplicated in the
+   "standalone" module defined in shared/unstable.
+   LATER standalone binport should be linked to the Pd API library. */
+
+#include "unstable/standalone.h"
 
 #define BINPORT_VERBOSE
 //#define BINPORT_DEBUG
 #endif
 
+#include "common/lex.h"
 #include "binport.h"
 
 static void binport_error(char *fmt, ...)
 {
+    char buf[BINPORT_MAXSTRING];
     va_list ap;
     va_start(ap, fmt);
-    fprintf(stderr, "ERROR (binport): ");
-    vfprintf(stderr, fmt, ap);
-    putc('\n', stderr);
+    vsprintf(buf, fmt, ap);
+#ifdef MIXED_STANDALONE
+    fprintf(stderr, "ERROR (binport): %s\n", buf);
+#else
+    post("ERROR (binport): %s", buf);
+#endif
     va_end(ap);
 }
 
 static void binport_warning(char *fmt, ...)
 {
-#if defined (BINPORT_STANDALONE) || defined(BINPORT_VERBOSE)
+#if defined (MIXED_STANDALONE) || defined(BINPORT_VERBOSE)
+    char buf[BINPORT_MAXSTRING];
     va_list ap;
     va_start(ap, fmt);
-    fprintf(stderr, "warning (binport): ");
-    vfprintf(stderr, fmt, ap);
-    putc('\n', stderr);
+    vsprintf(buf, fmt, ap);
+#ifdef MIXED_STANDALONE
+    fprintf(stderr, "warning (binport): %s\n", buf);
+#else
+    post("warning (binport): %s", buf);
+#endif
     va_end(ap);
 #endif
 }
 
 static void binport_bug(char *fmt, ...)
 {
+    char buf[BINPORT_MAXSTRING];
     va_list ap;
     va_start(ap, fmt);
-    fprintf(stderr, "BUG (binport): ");
-    vfprintf(stderr, fmt, ap);
-    putc('\n', stderr);
+    vsprintf(buf, fmt, ap);
+#ifdef MIXED_STANDALONE
+    fprintf(stderr, "BUG (binport): %s\n", buf);
+#else
+    bug("(binport) %s", buf);
+#endif
     va_end(ap);
 }
 
@@ -73,118 +89,6 @@ static void binpold_failure(char *filename)
     binport_error("tried reading \"%s\" as an old format file, but failed",
 		  filename);
 }
-
-#ifdef BINPORT_STANDALONE
-
-typedef int t_int;
-typedef float t_float;
-
-typedef struct _symbol
-{
-    char *s_name;
-    void *s_thing;
-    struct _symbol *s_next;
-} t_symbol;
-
-typedef union word
-{
-    t_float w_float;
-    t_symbol *w_symbol;
-    int w_index;
-} t_word;
-
-typedef enum
-{
-    A_NULL,
-    A_FLOAT,
-    A_SYMBOL,
-    A_POINTER,
-    A_SEMI,
-    A_COMMA,
-    A_DEFFLOAT,
-    A_DEFSYM,
-    A_DOLLAR, 
-    A_DOLLSYM,
-    A_GIMME,
-    A_CANT
-}  t_atomtype;
-
-typedef struct _atom
-{
-    t_atomtype a_type;
-    union word a_w;
-} t_atom;
-
-void *getbytes(size_t nbytes)
-{
-    void *ret;
-    if (nbytes < 1) nbytes = 1;
-    ret = (void *)calloc(nbytes, 1);
-    if (!ret)
-	binport_error("getbytes() failed -- out of memory");
-    return (ret);
-}
-
-void *resizebytes(void *old, size_t oldsize, size_t newsize)
-{
-    void *ret;
-    if (newsize < 1) newsize = 1;
-    if (oldsize < 1) oldsize = 1;
-    ret = (void *)realloc((char *)old, newsize);
-    if (newsize > oldsize && ret)
-    	memset(((char *)ret) + oldsize, 0, newsize - oldsize);
-    if (!ret)
-    	binport_error("resizebytes() failed -- out of memory");
-    return (ret);
-}
-
-void freebytes(void *fatso, size_t nbytes)
-{
-    free(fatso);
-}
-
-#define HASHSIZE 1024
-
-static t_symbol *symhash[HASHSIZE];
-
-t_symbol *dogensym(char *s, t_symbol *oldsym)
-{
-    t_symbol **sym1, *sym2;
-    unsigned int hash1 = 0,  hash2 = 0;
-    int length = 0;
-    char *s2 = s;
-    while (*s2)
-    {
-	hash1 += *s2;
-	hash2 += hash1;
-	length++;
-	s2++;
-    }
-    sym1 = symhash + (hash2 & (HASHSIZE-1));
-    while (sym2 = *sym1)
-    {
-	if (!strcmp(sym2->s_name, s)) return(sym2);
-	sym1 = &sym2->s_next;
-    }
-    if (oldsym) sym2 = oldsym;
-    else
-    {
-    	sym2 = (t_symbol *)getbytes(sizeof(*sym2));
-    	sym2->s_name = getbytes(length+1);
-    	sym2->s_next = 0;
-    	sym2->s_thing = 0;
-    	strcpy(sym2->s_name, s);
-    }
-    *sym1 = sym2;
-    return (sym2);
-}
-
-t_symbol *gensym(char *s)
-{
-    return(dogensym(s, 0));
-}
-
-#endif  /* end of Pd API */
 
 enum {
     BINPORT_NULLTYPE,
@@ -499,6 +403,7 @@ typedef struct _binport
     int         b_symsize;
     t_symbol  **b_symtable;
     t_binpold  *b_old;
+    t_lex      *b_lex;
 } t_binport;
 
 static void binport_setint(t_atom *ap, int i)
@@ -566,134 +471,14 @@ static int binport_setbysymtable(t_binport *bp, t_atom *ap, int id)
     return (s != 0);
 }
 
-/* single pass of binbuf_text(), int-preserving version */
-static int maxtext_nextatom(FILE *fp, t_atom *ap)
-{
-    char buf[BINPORT_MAXSTRING + 1], *bufp, *ebuf = buf + BINPORT_MAXSTRING;
-    int ready;
-    unsigned char ch;
-    ap->a_type = A_NULL;
-    while ((ready = binport_readbyte(fp, &ch)) &&
-	   (ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t'));
-    if (!ready)
-	return (0);
-    if (ch == ';')
-	ap->a_type = A_SEMI;
-    else if (ch == ',')
-	ap->a_type = A_COMMA;
-    else
-    {
-	int floatstate = 0, slash = 0, lastslash = 0, firstslash = (ch == '\\');
-	bufp = buf;
-	do
-	{
-	    *bufp = ch;
-	    lastslash = slash;
-	    slash = (ch == '\\');
-
-	    if (floatstate >= 0)
-	    {
-		int digit = (ch >= '0' && ch <= '9'),
-		    dot = (ch == '.'), minus = (ch == '-'),
-		    plusminus = (minus || (ch == '+')),
-		    expon = (ch == 'e' || ch == 'E');
-		if (floatstate == 0)    /* beginning */
-		{
-		    if (minus) floatstate = 1;
-		    else if (digit) floatstate = 2;
-		    else if (dot) floatstate = 3;
-		    else floatstate = -1;
-		}
-		else if (floatstate == 1)	/* got minus */
-		{
-		    if (digit) floatstate = 2;
-		    else if (dot) floatstate = 3;
-		    else floatstate = -1;
-		}
-		else if (floatstate == 2)	/* got digits */
-		{
-		    if (dot) floatstate = 4;
-		    else if (expon) floatstate = 6;
-		    else if (!digit) floatstate = -1;
-		}
-		else if (floatstate == 3)	/* got '.' without digits */
-		{
-		    if (digit) floatstate = 5;
-		    else floatstate = -1;
-		}
-		else if (floatstate == 4)	/* got '.' after digits */
-		{
-		    if (digit) floatstate = 5;
-		    else if (expon) floatstate = 6;
-		    else floatstate = -1;
-		}
-		else if (floatstate == 5)	/* got digits after . */
-		{
-		    if (expon) floatstate = 6;
-		    else if (!digit) floatstate = -1;
-		}
-		else if (floatstate == 6)	/* got 'e' */
-		{
-		    if (plusminus) floatstate = 7;
-		    else if (digit) floatstate = 8;
-		    else floatstate = -1;
-		}
-		else if (floatstate == 7)	/* got plus or minus */
-		{
-		    if (digit) floatstate = 8;
-		    else floatstate = -1;
-		}
-		else if (floatstate == 8)	/* got digits */
-		{
-		    if (!digit) floatstate = -1;
-		}
-	    }
-	    if (!slash) bufp++;
-	}
-	while ((ready = binport_readbyte(fp, &ch)) && bufp != ebuf
-	       && (slash || (ch != ' ' && ch != '\n' && ch != '\r'
-			     && ch != '\t' && ch != ',' && ch != ';')));
-	if (ready && (ch == ',' || ch == ';'))
-	    ungetc(ch, fp);
-	*bufp = 0;
-#if 0
-	fprintf(stderr, "buf %s\n", buf);
-#endif
-	if (*buf == '$' && buf[1] >= '0' && buf[1] <= '9' && !firstslash)
-	{
-	    for (bufp = buf+2; *bufp; bufp++)
-	    {
-		if (*bufp < '0' || *bufp > '9')
-		{
-		    ap->a_type = A_DOLLSYM;
-		    ap->a_w.w_symbol = gensym(buf+1);
-		    break;
-		}
-	    }
-	    if (ap->a_type == A_NULL)
-	    {
-		ap->a_type = A_DOLLAR;
-		ap->a_w.w_index = atoi(buf+1);
-	    }
-	}
-	else if (floatstate == 2)
-	    binport_setint(ap, atoi(buf));
-	else if (floatstate == 4 || floatstate == 5 || floatstate == 8)
-	    binport_setfloat(ap, (float)atof(buf));
-	else
-	    binport_setsymbol(ap, gensym(buf));
-    }
-    return (1);
-}
-
 static int binport_nextatom(t_binport *bp, t_atom *ap)
 {
     unsigned char opcode;
     int opval;
     char buf[64];
 
-    if (bp->b_ftype == BINPORT_MAXTEXT)
-	return (maxtext_nextatom(bp->b_fp, ap));
+    if (bp->b_ftype == BINPORT_MAXTEXT && bp->b_lex)
+	return (lex_nextatom(bp->b_lex, ap));
     else if (bp->b_ftype == BINPORT_MAXOLD && bp->b_old)
 	return (binpold_nextatom(bp->b_old, ap));
 
@@ -823,6 +608,11 @@ static void binport_free(t_binport *bp)
 	bp->b_old->o_fp = 0;
 	binpold_free(bp->b_old);
     }
+    if (bp->b_lex)
+    {
+	bp->b_lex->l_fp = 0;
+	lex_free(bp->b_lex);
+    }
     freebytes(bp, sizeof(*bp));
 }
 
@@ -851,6 +641,7 @@ static t_binport *binport_new(FILE *fp, int *ftypep)
 		bp->b_symtable = 0;
 	    }
 	    bp->b_old = 0;
+	    bp->b_lex = 0;
 	}
 	else if (*ftypep != BINPORT_PDFILE)
 	    binport_warning("unknown header: %02x%02x%02x%02x",
@@ -864,52 +655,6 @@ static t_binport *binport_new(FILE *fp, int *ftypep)
     }
     if (!bp) fclose(fp);
     return (bp);
-}
-
-static void binport_atomstring(t_atom *ap, char *buf, int bufsize)
-{
-    char *sp, *bp, *ep;
-    switch(ap->a_type)
-    {
-    case A_SEMI:
-	strcpy(buf, ";"); break;
-    case A_COMMA:
-	strcpy(buf, ","); break;
-    case A_INT:
-	sprintf(buf, "%d", ap->a_w.w_index); break;
-    case A_FLOAT:
-	sprintf(buf, "%#f", ap->a_w.w_float);
-	ep = buf + strlen(buf) - 1;
-	while (ep > buf && *ep == '0') *ep-- = 0;
-	break;
-    case A_SYMBOL:
-    	sp = ap->a_w.w_symbol->s_name;
-	bp = buf;
-	ep = buf + (bufsize-5);
-	while (bp < ep && *sp)
-	{
-	    if (*sp == ';' || *sp == ',' || *sp == '\\' ||
-		(*sp == '$' && bp == buf && sp[1] >= '0' && sp[1] <= '9'))
-		*bp++ = '\\';
-	    if ((unsigned char)*sp < 127)
-		*bp++ = *sp++;
-	    else
-		/* FIXME this is temporary -- codepage horror */
-		sprintf(bp, "\\%.3o", (unsigned char)*sp++), bp += 4;
-	}
-	if (*sp) *bp++ = '*';
-	*bp = 0;
-	break;
-    case A_DOLLAR:
-    	sprintf(buf, "$%d", ap->a_w.w_index);
-    	break;
-    case A_DOLLSYM:
-    	sprintf(buf, "$%s", ap->a_w.w_symbol->s_name);
-    	break;
-    default:
-    	binport_bug("bad atom type");
-	strcpy(buf, "???");
-    }
 }
 
 static void binport_print(t_binport *bp, FILE *fp)
@@ -929,13 +674,13 @@ static void binport_print(t_binport *bp, FILE *fp)
 	else if (at.a_type != A_NULL)
 	{
 	    if (cnt++) fputc(' ', fp);
-	    binport_atomstring(&at, buf, BINPORT_MAXSTRING);
+	    lex_atomstring(&at, buf, BINPORT_MAXSTRING, A_INT);
 	    fputs(buf, fp);
 	}
     }
 }
 
-#ifndef BINPORT_STANDALONE
+#ifndef MIXED_STANDALONE
 
 static int binport_tobinbuf(t_binport *bp, t_binbuf *bb)
 {
@@ -971,12 +716,16 @@ int binport_read(t_binbuf *bb, char *filename, char *dirname)
 	    else if (ftype == BINPORT_MAXTEXT)
 	    {
 		t_atom at;
-		while (binport_nextatom(bp, &at))
-		    if (at.a_type == A_SEMI)
-			break;
-		binbuf_addv(bb, "ss;", gensym("max"), gensym("v2"));
-		result = (binport_tobinbuf(bp, bb)
-			  ? BINPORT_OK : BINPORT_CORRUPT);
+		if (bp->b_lex = lex_new(fp, A_INT))
+		{
+		    while (binport_nextatom(bp, &at))
+			if (at.a_type == A_SEMI)
+			    break;
+		    binbuf_addv(bb, "ss;", gensym("max"), gensym("v2"));
+		    result = (binport_tobinbuf(bp, bb)
+			      ? BINPORT_OK : BINPORT_CORRUPT);
+		}
+		else result = BINPORT_FAILED;
 	    }
 	    else if (ftype == BINPORT_MAXOLD)
 	    {
@@ -1036,7 +785,7 @@ void binport_write(t_binbuf *bb, char *filename, char *dirname)
 	    else if (ap->a_type != A_NULL)
 	    {
 		if (cnt++) fputc(' ', fp);
-		binport_atomstring(ap, buf, BINPORT_MAXSTRING);
+		lex_atomstring(ap, buf, BINPORT_MAXSTRING, A_INT);
 		fputs(buf, fp);
 	    }
 	    ap++;

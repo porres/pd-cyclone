@@ -5,6 +5,7 @@
 /* FIXME use guiconnect */
 
 #include <stdio.h>
+#include <string.h>
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "hammer/gui.h"
@@ -12,7 +13,9 @@
 //#define HAMMERGUI_DEBUG
 
 static t_class *hammergui_class = 0;
-static t_hammergui *sink = 0;
+static t_hammergui *hammergui_sink = 0;
+static t_symbol *ps_hashhammergui;
+static t_symbol *ps__hammergui;
 static t_symbol *ps__up;
 static t_symbol *ps__focus;
 static t_symbol *ps__vised;
@@ -26,7 +29,7 @@ static void hammergui_anything(t_hammergui *snk,
 #ifdef HAMMERGUI_DEBUG
     startpost("%s", s->s_name);
     postatom(ac, av);
-    endpost();
+    post(" (sink %x)", (int)snk);
 #endif
 }
 
@@ -34,31 +37,36 @@ static void hammergui_anything(t_hammergui *snk,
 static void hammergui__up(t_hammergui *snk, t_floatarg f)
 {
 #ifdef HAMMERGUI_DEBUG
-    post("_up %g", f);
+    post("_up %g (sink %x)", f, (int)snk);
 #endif
+    if (!snk->g_psmouse)
+    {
+	bug("hammergui__up");
+	return;
+    }
     if ((int)f)
     {
-	if (!snk->g_up)
+	if (!snk->g_isup)
 	{
-	    snk->g_up = 1;
-	    if (snk->g_mouse->s_thing)
+	    snk->g_isup = 1;
+	    if (snk->g_psmouse->s_thing)
 	    {
 		t_atom at;
 		SETFLOAT(&at, 1);
-		pd_typedmess(snk->g_mouse->s_thing, ps__up, 1, &at);
+		pd_typedmess(snk->g_psmouse->s_thing, ps__up, 1, &at);
 	    }
 	}
     }
     else
     {
-	if (snk->g_up)
+	if (snk->g_isup)
 	{
-	    snk->g_up = 0;
-	    if (snk->g_mouse->s_thing)
+	    snk->g_isup = 0;
+	    if (snk->g_psmouse->s_thing)
 	    {
 		t_atom at;
 		SETFLOAT(&at, 0);
-		pd_typedmess(snk->g_mouse->s_thing, ps__up, 1, &at);
+		pd_typedmess(snk->g_psmouse->s_thing, ps__up, 1, &at);
 	    }
 	}
     }
@@ -67,28 +75,38 @@ static void hammergui__up(t_hammergui *snk, t_floatarg f)
 static void hammergui__focus(t_hammergui *snk, t_symbol *s, t_floatarg f)
 {
 #ifdef HAMMERGUI_DEBUG
-    if (s) post("_focus %s %g", s->s_name, f);
+    post("_focus %s %g (sink %x)", (s ? s->s_name : "???"), f, (int)snk);
 #endif
-    if (snk->g_focus->s_thing)
+    if (!snk->g_psfocus)
+    {
+	bug("hammergui__focus");
+	return;
+    }
+    if (snk->g_psfocus->s_thing)
     {
 	t_atom at[2];
 	SETSYMBOL(&at[0], s);
 	SETFLOAT(&at[1], f);
-	pd_typedmess(snk->g_focus->s_thing, ps__focus, 2, at);
+	pd_typedmess(snk->g_psfocus->s_thing, ps__focus, 2, at);
     }
 }
 
 static void hammergui__vised(t_hammergui *snk, t_symbol *s, t_floatarg f)
 {
 #ifdef HAMMERGUI_DEBUG
-    if (s) post("_vised %s %g", s->s_name, f);
+    post("_vised %s %g (sink %x)", (s ? s->s_name : "???"), f, (int)snk);
 #endif
-    if (snk->g_vised->s_thing)
+    if (!snk->g_psvised)
+    {
+	bug("hammergui__vised");
+	return;
+    }
+    if (snk->g_psvised->s_thing)
     {
 	t_atom at[2];
 	SETSYMBOL(&at[0], s);
 	SETFLOAT(&at[1], f);
-	pd_typedmess(snk->g_vised->s_thing, ps__vised, 2, at);
+	pd_typedmess(snk->g_psvised->s_thing, ps__vised, 2, at);
     }
 #if 0
     /* How to be notified about changes of button state, prior to gui objects
@@ -101,23 +119,31 @@ static void hammergui__vised(t_hammergui *snk, t_symbol *s, t_floatarg f)
 
 static void hammergui_dobindmouse(t_hammergui *snk)
 {
+#ifdef HAMMERGUI_DEBUG
+    post("dobindmouse (sink %x)", (int)snk);
+#endif
 #if 0
     /* How to be notified about changes of button state, prior to gui objects
        in a canvas?  LATER find a reliable way -- delete if failed */
     sys_vgui("bind hammertag <<hammerdown>> {pd [concat %s _up 0 \\;]}\n",
-	     snk->g_gui->s_name);
+	     snk->g_psgui->s_name);
     sys_vgui("bind hammertag <<hammerup>> {pd [concat %s _up 1 \\;]}\n",
-	     snk->g_gui->s_name);
+	     snk->g_psgui->s_name);
 #endif
     sys_vgui("bind all <<hammerdown>> {pd [concat %s _up 0 \\;]}\n",
-	     snk->g_gui->s_name);
+	     snk->g_psgui->s_name);
     sys_vgui("bind all <<hammerup>> {pd [concat %s _up 1 \\;]}\n",
-	     snk->g_gui->s_name);
+	     snk->g_psgui->s_name);
 }
 
 static void hammergui__remouse(t_hammergui *snk)
 {
-    if (snk->g_mouse->s_thing)
+    if (!snk->g_psmouse)
+    {
+	bug("hammergui__remouse");
+	return;
+    }
+    if (snk->g_psmouse->s_thing)
     {
 	/* if a new master was bound in a gray period, we need to
 	   restore gui bindings */
@@ -132,15 +158,20 @@ static void hammergui_dobindfocus(t_hammergui *snk)
 {
     sys_vgui("bind Canvas <<hammerfocusin>> \
  {if {[hammergui_ispatcher %%W]} \
-  {pd [concat %s _focus %%W 1 \\;]}}\n", snk->g_gui->s_name);
+  {pd [concat %s _focus %%W 1 \\;]}}\n", snk->g_psgui->s_name);
     sys_vgui("bind Canvas <<hammerfocusout>> \
  {if {[hammergui_ispatcher %%W]} \
-  {pd [concat %s _focus %%W 0 \\;]}}\n", snk->g_gui->s_name);
+  {pd [concat %s _focus %%W 0 \\;]}}\n", snk->g_psgui->s_name);
 }
 
 static void hammergui__refocus(t_hammergui *snk)
 {
-    if (snk->g_focus->s_thing)
+    if (!snk->g_psfocus)
+    {
+	bug("hammergui__refocus");
+	return;
+    }
+    if (snk->g_psfocus->s_thing)
     {
 	/* if a new master was bound in a gray period, we need to
 	   restore gui bindings */
@@ -153,17 +184,25 @@ static void hammergui__refocus(t_hammergui *snk)
 
 static void hammergui_dobindvised(t_hammergui *snk)
 {
+#ifdef HAMMERGUI_DEBUG
+    post("dobindvised (sink %x)", (int)snk);
+#endif
     sys_vgui("bind Canvas <<hammervised>> \
  {if {[hammergui_ispatcher %%W]} \
-  {pd [concat %s _vised %%W 1 \\;]}}\n", snk->g_gui->s_name);
+  {pd [concat %s _vised %%W 1 \\;]}}\n", snk->g_psgui->s_name);
     sys_vgui("bind Canvas <<hammerunvised>> \
  {if {[hammergui_ispatcher %%W]} \
-  {pd [concat %s _vised %%W 0 \\;]}}\n", snk->g_gui->s_name);
+  {pd [concat %s _vised %%W 0 \\;]}}\n", snk->g_psgui->s_name);
 }
 
 static void hammergui__revised(t_hammergui *snk)
 {
-    if (snk->g_vised->s_thing)
+    if (!snk->g_psvised)
+    {
+	bug("hammergui__revised");
+	return;
+    }
+    if (snk->g_psvised->s_thing)
     {
 	/* if a new master was bound in a gray period, we need to
 	   restore gui bindings */
@@ -174,9 +213,35 @@ static void hammergui__revised(t_hammergui *snk)
     }
 }
 
-static void hammergui_setup(void)
+static int hammergui_setup(void)
 {
-    hammergui_class = class_new(gensym("_hammergui"), 0, 0,
+    ps_hashhammergui = gensym("#hammergui");
+    ps__hammergui = gensym("_hammergui");
+    ps__up = gensym("_up");
+    ps__focus = gensym("_focus");
+    ps__vised = gensym("_vised");
+    if (ps_hashhammergui->s_thing)
+    {
+	char *cname = class_getname(*ps_hashhammergui->s_thing);
+#ifdef HAMMERGUI_DEBUG
+	post("'%s' already registered as the global hammergui sink ",
+	     (cname ? cname : "???"));
+#endif
+	if (strcmp(cname, ps__hammergui->s_name))
+	{
+	    /* FIXME protect against the danger of someone else
+	       (e.g. receive) binding to #hammergui */
+	    bug("hammergui_setup");
+	    return (0);
+	}
+	else
+	{
+	    /* FIXME compatibility test */
+	    hammergui_class = *ps_hashhammergui->s_thing;
+	    return (1);
+	}
+    }
+    hammergui_class = class_new(ps__hammergui, 0, 0,
 				sizeof(t_hammergui),
 				CLASS_PD | CLASS_NOINLET, 0);
     class_addanything(hammergui_class, hammergui_anything);
@@ -186,13 +251,10 @@ static void hammergui_setup(void)
 		    gensym("_refocus"), 0);
     class_addmethod(hammergui_class, (t_method)hammergui__revised,
 		    gensym("_revised"), 0);
-    ps__up = gensym("_up");
     class_addmethod(hammergui_class, (t_method)hammergui__up,
 		    ps__up, A_FLOAT, 0);
-    ps__focus = gensym("_focus");
     class_addmethod(hammergui_class, (t_method)hammergui__focus,
 		    ps__focus, A_SYMBOL, A_FLOAT, 0);
-    ps__vised = gensym("_vised");
     class_addmethod(hammergui_class, (t_method)hammergui__vised,
 		    ps__vised, A_SYMBOL, A_FLOAT, 0);
 
@@ -255,21 +317,25 @@ static void hammergui_setup(void)
     sys_gui(" bind Canvas <<hammerunvised>> {}\n");
     sys_gui(" pd [concat #hammergui _revised \\;]\n");
     sys_gui("}\n");
+    return (1);
 }
 
 static int hammergui_validate(int dosetup)
 {
-    if (dosetup)
+    if (dosetup && !hammergui_sink
+	&& (hammergui_class || hammergui_setup()))
     {
-	if (!hammergui_class) hammergui_setup();
-	if (!sink)
+	if (ps_hashhammergui->s_thing)
+	    hammergui_sink = (t_hammergui *)ps_hashhammergui->s_thing;
+	else
 	{
-	    sink = (t_hammergui *)pd_new(hammergui_class);
-	    sink->g_gui = gensym("#hammergui");
-	    pd_bind((t_pd *)sink, sink->g_gui);
+	    hammergui_sink = (t_hammergui *)pd_new(hammergui_class);
+	    hammergui_sink->g_psgui = ps_hashhammergui;
+	    pd_bind((t_pd *)hammergui_sink,
+		    ps_hashhammergui);  /* never unbound */
 	}
     }
-    if (hammergui_class && sink)
+    if (hammergui_class && hammergui_sink)
 	return (1);
     else
     {
@@ -280,13 +346,13 @@ static int hammergui_validate(int dosetup)
 
 static int hammergui_mousevalidate(int dosetup)
 {
-    if (dosetup && !sink->g_mouse)
+    if (dosetup && !hammergui_sink->g_psmouse)
     {
-	sink->g_mouse = gensym("#hammermouse");
+	hammergui_sink->g_psmouse = gensym("#hammermouse");
 	sys_gui("event add <<hammerdown>> <ButtonPress>\n");
 	sys_gui("event add <<hammerup>> <ButtonRelease>\n");
     }
-    if (sink->g_mouse)
+    if (hammergui_sink->g_psmouse)
 	return (1);
     else
     {
@@ -297,12 +363,13 @@ static int hammergui_mousevalidate(int dosetup)
 
 static int hammergui_pollvalidate(int dosetup)
 {
-    if (dosetup && !sink->g_poll)
+    if (dosetup && !hammergui_sink->g_pspoll)
     {
-	sink->g_poll = gensym("#hammerpoll");
-	pd_bind((t_pd *)sink, sink->g_poll);  /* never unbound */
+	hammergui_sink->g_pspoll = gensym("#hammerpoll");
+	pd_bind((t_pd *)hammergui_sink,
+		hammergui_sink->g_pspoll);  /* never unbound */
     }
-    if (sink->g_poll)
+    if (hammergui_sink->g_pspoll)
 	return (1);
     else
     {
@@ -313,13 +380,13 @@ static int hammergui_pollvalidate(int dosetup)
 
 static int hammergui_focusvalidate(int dosetup)
 {
-    if (dosetup && !sink->g_focus)
+    if (dosetup && !hammergui_sink->g_psfocus)
     {
-	sink->g_focus = gensym("#hammerfocus");
+	hammergui_sink->g_psfocus = gensym("#hammerfocus");
 	sys_gui("event add <<hammerfocusin>> <FocusIn>\n");
 	sys_gui("event add <<hammerfocusout>> <FocusOut>\n");
     }
-    if (sink->g_focus)
+    if (hammergui_sink->g_psfocus)
 	return (1);
     else
     {
@@ -330,15 +397,15 @@ static int hammergui_focusvalidate(int dosetup)
 
 static int hammergui_visedvalidate(int dosetup)
 {
-    if (dosetup && !sink->g_vised)
+    if (dosetup && !hammergui_sink->g_psvised)
     {
-	sink->g_vised = gensym("#hammervised");
+	hammergui_sink->g_psvised = gensym("#hammervised");
 	/* subsequent map events have to be filtered out at the caller's side,
 	   LATER investigate */
 	sys_gui("event add <<hammervised>> <Map>\n");
 	sys_gui("event add <<hammerunvised>> <Destroy>\n");
     }
-    if (sink->g_vised)
+    if (hammergui_sink->g_psvised)
 	return (1);
     else
     {
@@ -349,20 +416,23 @@ static int hammergui_visedvalidate(int dosetup)
 
 void hammergui_bindmouse(t_pd *master)
 {
+#ifdef HAMMERGUI_DEBUG
+    post("bindmouse, master %x", (int)master);
+#endif
     hammergui_validate(1);
     hammergui_mousevalidate(1);
-    if (!sink->g_mouse->s_thing)
-	hammergui_dobindmouse(sink);
-    pd_bind(master, sink->g_mouse);
+    if (!hammergui_sink->g_psmouse->s_thing)
+	hammergui_dobindmouse(hammergui_sink);
+    pd_bind(master, hammergui_sink->g_psmouse);
 }
 
 void hammergui_unbindmouse(t_pd *master)
 {
     if (hammergui_validate(0) && hammergui_mousevalidate(0)
-	&& sink->g_mouse->s_thing)
+	&& hammergui_sink->g_psmouse->s_thing)
     {
-	pd_unbind(master, sink->g_mouse);
-	if (!sink->g_mouse->s_thing)
+	pd_unbind(master, hammergui_sink->g_psmouse);
+	if (!hammergui_sink->g_psmouse->s_thing)
 	    sys_gui("hammergui_remouse\n");
     }
     else bug("hammergui_unbindmouse");
@@ -384,8 +454,9 @@ void hammergui_startpolling(t_pd *master)
 {
     if (hammergui_validate(0) && hammergui_pollvalidate(0))
     {
-	int doinit = (sink->g_poll->s_thing == (t_pd *)sink);
-	pd_bind(master, sink->g_poll);
+	int doinit =
+	    (hammergui_sink->g_pspoll->s_thing == (t_pd *)hammergui_sink);
+	pd_bind(master, hammergui_sink->g_pspoll);
 	if (doinit)
 	{
 	    /* visibility hack for msw, LATER rethink */
@@ -400,8 +471,8 @@ void hammergui_stoppolling(t_pd *master)
 {
     if (hammergui_validate(0) && hammergui_pollvalidate(0))
     {
-	pd_unbind(master, sink->g_poll);
-	if (sink->g_poll->s_thing == (t_pd *)sink)
+	pd_unbind(master, hammergui_sink->g_pspoll);
+	if (hammergui_sink->g_pspoll->s_thing == (t_pd *)hammergui_sink)
 	{
 	    sys_gui("after cancel hammergui_poll\n");
 	    /* visibility hack for msw, LATER rethink */
@@ -415,18 +486,18 @@ void hammergui_bindfocus(t_pd *master)
 {
     hammergui_validate(1);
     hammergui_focusvalidate(1);
-    if (!sink->g_focus->s_thing)
-	hammergui_dobindfocus(sink);
-    pd_bind(master, sink->g_focus);
+    if (!hammergui_sink->g_psfocus->s_thing)
+	hammergui_dobindfocus(hammergui_sink);
+    pd_bind(master, hammergui_sink->g_psfocus);
 }
 
 void hammergui_unbindfocus(t_pd *master)
 {
     if (hammergui_validate(0) && hammergui_focusvalidate(0)
-	&& sink->g_focus->s_thing)
+	&& hammergui_sink->g_psfocus->s_thing)
     {
-	pd_unbind(master, sink->g_focus);
-	if (!sink->g_focus->s_thing)
+	pd_unbind(master, hammergui_sink->g_psfocus);
+	if (!hammergui_sink->g_psfocus->s_thing)
 	    sys_gui("hammergui_refocus\n");
     }
     else bug("hammergui_unbindfocus");
@@ -434,20 +505,23 @@ void hammergui_unbindfocus(t_pd *master)
 
 void hammergui_bindvised(t_pd *master)
 {
+#ifdef HAMMERGUI_DEBUG
+    post("bindvised, master %x", (int)master);
+#endif
     hammergui_validate(1);
     hammergui_visedvalidate(1);
-    if (!sink->g_vised->s_thing)
-	hammergui_dobindvised(sink);
-    pd_bind(master, sink->g_vised);
+    if (!hammergui_sink->g_psvised->s_thing)
+	hammergui_dobindvised(hammergui_sink);
+    pd_bind(master, hammergui_sink->g_psvised);
 }
 
 void hammergui_unbindvised(t_pd *master)
 {
     if (hammergui_validate(0) && hammergui_visedvalidate(0)
-	&& sink->g_vised->s_thing)
+	&& hammergui_sink->g_psvised->s_thing)
     {
-	pd_unbind(master, sink->g_vised);
-	if (!sink->g_vised->s_thing)
+	pd_unbind(master, hammergui_sink->g_psvised);
+	if (!hammergui_sink->g_psvised->s_thing)
 	    sys_gui("hammergui_revised\n");
     }
     else bug("hammergui_unbindvised");

@@ -6,9 +6,8 @@ common/loud.o \
 common/grow.o \
 common/rand.o \
 common/vefl.o \
-common/sq.o \
-common/bifi.o \
 common/mifi.o \
+common/lex.o \
 common/binport.o \
 common/port.o \
 hammer/file.o \

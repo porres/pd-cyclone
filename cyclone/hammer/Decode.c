@@ -78,6 +78,7 @@ static void *Decode_new(t_floatarg val)
 	nouts = DECODE_DEFOUTS;
     if (nouts > DECODE_C74MAXOUTS)
     {
+	shared_usecompatibility();
 	loud_incompatible_max(Decode_class, DECODE_C74MAXOUTS, "outlets");
 	if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
 	    return (0);

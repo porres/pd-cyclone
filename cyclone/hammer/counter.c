@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -11,6 +11,7 @@
    of checking -- I will not bother, until there is some feedback. */
 
 #include "m_pd.h"
+#include "common/loud.h"
 
 #define COUNTER_UP      0
 #define COUNTER_DOWN    1
@@ -315,12 +316,16 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     int i2 = (int)f2;
     int i3 = (int)f3;
     int i;
-    static int warned = 0;
-    if (!warned)
+    shared_usecompatibility();
+    if (shared_getmaxcompatibility())
     {
-	post("warning: counter is not fully compatible, \
-please report differences");
-	warned = 1;
+	static int warned = 0;
+	if (!warned)
+	{
+	    post("warning: counter is not fully compatible,\
+ please report differences");
+	    warned = 1;
+	}
     }
     x->x_dir = COUNTER_UP;
     x->x_inc = 1;  /* previous value required by counter_dir() */

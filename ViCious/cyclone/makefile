@@ -25,7 +25,7 @@ LIBS = $(VCLIBDIR)\libc.lib \
 !INCLUDE snapfiles
 !INCLUDE $(SRCDIR)\build_counter
 
-cyclone: cyclone.dll hammer.dll sickle.dll dummies.dll cyclist.exe
+cyclone: cyclone.dll hammer.dll sickle.dll dummies.dll maxmode.dll cyclist.exe
 	@cd $(ROOTDIR)
 	@$(ZIPCOMMAND) cyclone-$(CYCLONE_SNAPSHOT).zip $(SNAPFILES)
 
@@ -57,12 +57,21 @@ dummies.dll: $(DUMMIES_OBJECTS)
 	-del $(@:.dll=.exp)
 	-del $(@:.dll=.lib)
 
-cyclist.exe: $(SHAREDDIR)\common\binport.c
-	-del /S $(SHAREDDIR)\common\binport.obj
-	-cl $(CFLAGS) $(INCLUDES) /DBINPORT_STANDALONE /o $@ \
-		$(VCLIBDIR)\libc.lib $(SHAREDDIR)\common\binport.c
+maxmode.dll: $(MAXMODE_OBJECTS)
+	-link /dll /out:$@ $(LIBS) $** /export:$(@:.dll=_setup)
+	-@copy $@ $(EXTDIR)
 	-@move $@ $(BINDIR)
-	-del /S binport.obj
+	-del $(@:.dll=.exp)
+	-del $(@:.dll=.lib)
+
+cyclist.exe: $(SHAREDDIR)\common\binport.c \
+	$(SHAREDDIR)\common\lex.c $(SHAREDDIR)\unstable\standalone.c
+	-del /S $(SHAREDDIR)\common\binport.obj $(SHAREDDIR)\common\lex.obj
+	-cl $(CFLAGS) $(INCLUDES) /DMIXED_STANDALONE /o $@ \
+		$(VCLIBDIR)\libc.lib $(SHAREDDIR)\common\binport.c \
+		$(SHAREDDIR)\common\lex.c $(SHAREDDIR)\unstable\standalone.c
+	-@move $@ $(BINDIR)
+	-del /S binport.obj lex.obj
 
 .c.obj: ; cl /c $(CFLAGS) $(INCLUDES) /Fo$*.obj $*.c
 

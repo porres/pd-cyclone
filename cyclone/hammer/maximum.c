@@ -75,6 +75,7 @@ static void *maximum_new(t_floatarg f)
     t_maximum *x = (t_maximum *)pd_new(maximum_class);
     x->x_last = 0;  /* CHECKME */
     x->x_test = f;
+    shared_usecompatibility();
     floatinlet_new((t_object *)x, &x->x_test);
     outlet_new((t_object *)x, &s_float);
     return (x);

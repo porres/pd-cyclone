@@ -16,7 +16,7 @@ static char masterwidget_builtin[] =
 ;
 
 #define WIDGETTYPE_VERBOSE
-//#define WIDGETTYPE_DEBUG
+#define WIDGETTYPE_DEBUG
 
 struct _widgettype
 {
@@ -28,6 +28,8 @@ struct _widgettype
     t_props      *wt_handlers;
     t_props      *wt_arguments;
     t_scriptlet  *wt_iniscript;
+    t_scriptlet  *wt_newscript;
+    t_scriptlet  *wt_freescript;
 };
 
 struct _masterwidget
@@ -36,7 +38,7 @@ struct _masterwidget
     t_symbol      *mw_target;
     t_scriptlet   *mw_setupscript;
     t_dict        *mw_typemap;
-    t_widgettype  *mw_mastertype;  /* contains master iniscript */
+    t_widgettype  *mw_mastertype;  /* contains master initializer */
     t_widgettype  *mw_parsedtype;  /* the type currently parsed, if loading */
     t_binbuf      *mw_bb;          /* auxiliary, LATER remove */
 };
@@ -68,6 +70,10 @@ static t_widgettype *widgettype_new(t_masterwidget *mw,
     wt->wt_arguments = props_new(0, "argument", "#", wt->wt_options, 0);
     wt->wt_iniscript = scriptlet_new((t_pd *)wt, mw->mw_target, mw->mw_target,
 				     0, 0, widgettype_cvhook);
+    wt->wt_newscript = scriptlet_new((t_pd *)wt, mw->mw_target, mw->mw_target,
+				     0, 0, widgettype_cvhook);
+    wt->wt_freescript = scriptlet_new((t_pd *)wt, mw->mw_target, mw->mw_target,
+				      0, 0, widgettype_cvhook);
     dict_bind(mw->mw_typemap, (t_pd *)wt, wt->wt_typekey);
     return (wt);
 }
@@ -93,7 +99,7 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	if (!cls)
 	    cls = buf;
 	typekey = dict_key(mw->mw_typemap, buf);
-	typeval = (t_widgettype *)dict_value(mw->mw_typemap, typekey);
+	typeval = (t_widgettype *)dict_firstvalue(mw->mw_typemap, typekey, 0);
 	if (caller == (t_pd *)mw)
 	{  /* setup.wid or built-in defaults */
 	    if (mw->mw_mastertype)
@@ -162,6 +168,24 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	    }
 	}
     }
+    else if (sel == '@')
+    {  /* multiline definition of a handler */
+	scriptlet_nextword(buf);
+	if (mw->mw_parsedtype)
+	{
+	    if (!strcmp(buf, "vis") || !strcmp(buf, "ini"))
+		return (mw->mw_parsedtype->wt_iniscript);
+	    else if (!strcmp(buf, "new"))
+		return (mw->mw_parsedtype->wt_newscript);
+	    else if (!strcmp(buf, "free"))
+		return (mw->mw_parsedtype->wt_freescript);
+	    else
+	    {
+		/* LATER start parsing any method handler: search for it,
+		   create if not found, return */
+	    }
+	}
+    }
     return (SCRIPTLET_UNLOCK);
 }
 
@@ -170,9 +194,9 @@ t_widgettype *widgettype_get(t_symbol *s)
     t_widgettype *wt;
     /* Design decision: setup.wid defs are NOT overridden by <type>.wid
        (sacrificing flexibility for feature stability). */
-    if (wt = (t_widgettype *)dict_value(masterwidget->mw_typemap,
-					dict_key(masterwidget->mw_typemap,
-						 s->s_name)))
+    if (wt = (t_widgettype *)dict_firstvalue(masterwidget->mw_typemap,
+					     dict_key(masterwidget->mw_typemap,
+						      s->s_name), 0))
 	masterwidget->mw_parsedtype = 0;
     else
     {
@@ -193,7 +217,7 @@ t_widgettype *widgettype_get(t_symbol *s)
 	    == SCRIPTLET_OK)
 	{
 #ifdef WIDGETTYPE_VERBOSE
-	    post("using %s's initializer", s->s_name);
+	    post("using a separate %s's definition file", s->s_name);
 #endif
 	    if (!scriptlet_isempty(mwsp))
 	    {
@@ -239,15 +263,39 @@ t_props *widgettype_getarguments(t_widgettype *wt)
     return (wt->wt_arguments);
 }
 
-char *widgettype_getcontents(t_widgettype *wt, int *szp)
+char *widgettype_getinitializer(t_widgettype *wt, int *szp)
 {
     return (scriptlet_getcontents(wt->wt_iniscript, szp));
 }
 
-int widgettype_evaluate(t_widgettype *wt, t_scriptlet *outsp,
-			int visedonly, int ac, t_atom *av, t_props *argprops)
+char *widgettype_getconstructor(t_widgettype *wt, int *szp)
+{
+    return (scriptlet_getcontents(wt->wt_newscript, szp));
+}
+
+char *widgettype_getdestructor(t_widgettype *wt, int *szp)
+{
+    return (scriptlet_getcontents(wt->wt_freescript, szp));
+}
+
+int widgettype_ievaluate(t_widgettype *wt, t_scriptlet *outsp,
+			 int visedonly, int ac, t_atom *av, t_props *argprops)
 {
     return (scriptlet_evaluate(wt->wt_iniscript, outsp,
+			       visedonly, ac, av, argprops));
+}
+
+int widgettype_cevaluate(t_widgettype *wt, t_scriptlet *outsp,
+			 int visedonly, int ac, t_atom *av, t_props *argprops)
+{
+    return (scriptlet_evaluate(wt->wt_newscript, outsp,
+			       visedonly, ac, av, argprops));
+}
+
+int widgettype_devaluate(t_widgettype *wt, t_scriptlet *outsp,
+			 int visedonly, int ac, t_atom *av, t_props *argprops)
+{
+    return (scriptlet_evaluate(wt->wt_freescript, outsp,
 			       visedonly, ac, av, argprops));
 }
 
@@ -264,11 +312,10 @@ void widgettype_setup(void)
     }
 }
 
-int masterwidget_evaluate(t_scriptlet *outsp, int visedonly,
-			  int ac, t_atom *av, t_props *argprops)
+char *masterwidget_getinitializer(int *szp)
 {
-    return (scriptlet_evaluate(masterwidget->mw_mastertype->wt_iniscript,
-			       outsp, visedonly, ac, av, argprops));
+    return (scriptlet_getcontents(masterwidget->mw_mastertype->wt_iniscript,
+				  szp));
 }
 
 char *masterwidget_getcontents(int *szp)
@@ -276,7 +323,14 @@ char *masterwidget_getcontents(int *szp)
     return (scriptlet_getcontents(masterwidget->mw_setupscript, szp));
 }
 
-void masterwidget_initialize(void)
+int masterwidget_ievaluate(t_scriptlet *outsp, int visedonly,
+			   int ac, t_atom *av, t_props *argprops)
+{
+    return (scriptlet_evaluate(masterwidget->mw_mastertype->wt_iniscript,
+			       outsp, visedonly, ac, av, argprops));
+}
+
+void masterwidget_validate(void)
 {
     int rcresult;
     t_symbol *typekey;
@@ -315,7 +369,8 @@ void masterwidget_initialize(void)
 		     "no file 'setup.wid'... using built-in defaults");
     }
     typekey = dict_key(masterwidget->mw_typemap, "master");
-    if ((typeval = (t_widgettype *)dict_value(masterwidget->mw_typemap, typekey))
+    if ((typeval = (t_widgettype *)dict_firstvalue(masterwidget->mw_typemap,
+						   typekey, 0))
 	&& !scriptlet_isempty(masterwidget->mw_setupscript))
     {
 	masterwidget->mw_mastertype = typeval;

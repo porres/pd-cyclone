@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -200,6 +200,9 @@ static void comment_validate(t_comment *x, t_glist *glist)
 static void comment_grabbedkey(void *z, t_floatarg f)
 {
     /* LATER think about replacing #key binding/comment_float() with grabbing */
+#ifdef COMMENT_DEBUG
+    post("comment_grabbedkey %g", f);
+#endif
 }
 
 static void comment_dograb(t_comment *x)
@@ -520,7 +523,7 @@ static void comment_float(t_comment *x, t_float f)
 	    	    /* LATER delete the box... this causes reentrancy
 		       problems now. */
 		    /* glist_delete(x->x_glist, &x->x_text->te_g); */
-		    return;
+		    goto donefloat;
 		}
 		else if (x->x_selstart && (x->x_selstart == x->x_selend))
 		    x->x_selstart--;
@@ -556,6 +559,10 @@ static void comment_float(t_comment *x, t_float f)
 	}
     }
     else bug("comment_float");
+ donefloat:;
+#ifdef COMMENT_DEBUG
+    post("donefloat");
+#endif
 }
 
 static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
@@ -625,7 +632,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	    canvas_unsetcurrent(x->x_glist);
 	    canvas_dirty(x->x_glist, 1);
 	    clock_delay(x->x_transclock, 0);  /* LATER rethink */
-	    return;
+	    goto donelist;
 	}
 	else if (!strcmp(keysym->s_name, "F5"))
 	{
@@ -640,11 +647,15 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	    canvas_unsetcurrent(x->x_glist);
 	    canvas_dirty(x->x_glist, 1);
 	    binbuf_free(bb);
-	    return;
+	    goto donelist;
 	}
-	else return;
+	else goto donelist;
 	comment_update(x);
     }
+ donelist:;
+#ifdef COMMENT_DEBUG
+    post("donelist");
+#endif
 }
 
 static void comment_free(t_comment *x)
@@ -830,6 +841,8 @@ void comment_setup(void)
  pd $target _click $target [$cvname canvasx $x] [$cvname canvasy $y]\
  [$cvname index $tag @$x,$y] [$cvname bbox $tag]\\;}\n");
 
+    /* LATER think how to conditionally (FORKY_VERSION >= 38)
+       replace puts with pdtk_post */
     sys_gui("proc comment_entext {enc tt} {\n\
  set rr [catch {encoding convertfrom $enc $tt} tt1]\n\
  if {$rr == 0} {concat $tt1} else {\n\

@@ -336,11 +336,14 @@ static void mtrack_write(t_mtrack *tp, t_symbol *s)
 static void mtrack_tempo(t_mtrack *tp, t_floatarg f)
 {
     float newtempo;
-    static int warned = 0;
-    if (!warned)
+    if (shared_getmaxcompatibility())
     {
-	loud_incompatible(mtr_class, "no 'tempo' control in Max");
-	warned = 1;
+	static int warned = 0;
+	if (!warned)
+	{
+	    loud_incompatible(mtr_class, "no 'tempo' control in Max");
+	    warned = 1;
+	}
     }
     if (f < 1e-20)
 	f = 1e-20;
@@ -476,6 +479,7 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname)
 {
     char path[MAXPDSTRING];
     FILE *fp;
+    /* FIXME use open_via_path() */
     if (x->x_glist)
 	canvas_makefilename(x->x_glist, fname->s_name, path, MAXPDSTRING);
     else
@@ -756,6 +760,7 @@ static void *mtr_new(t_floatarg f)
 	    x->x_glist = canvas_getcurrent();
 	    x->x_filehandle = hammerfile_new((t_pd *)x, 0,
 					     mtr_readhook, mtr_writehook, 0);
+	    shared_usecompatibility();
 	    if (ntracks > MTR_C74MAXTRACKS)
 		loud_incompatible_max(mtr_class, MTR_C74MAXTRACKS, "tracks");
 	    x->x_ntracks = ntracks;

@@ -1,6 +1,7 @@
 SHARED_OBJECTS = \
 common/loud.o \
 common/grow.o \
+common/lex.o \
 common/binport.o \
 common/port.o \
 hammer/file.o \

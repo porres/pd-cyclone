@@ -11,7 +11,6 @@ hammer/asin.c \
 hammer/Bucket.c \
 hammer/cartopol.c \
 hammer/cosh.c \
-hammer/counter.c \
 hammer/flush.c \
 hammer/forward.c \
 hammer/fromsymbol.c \
@@ -40,6 +39,7 @@ HLOUD_SOURCES = \
 hammer/anal.c \
 hammer/bangbang.c \
 hammer/Borax.c \
+hammer/counter.c \
 hammer/cycle.c \
 hammer/decide.c \
 hammer/Decode.c \
@@ -182,10 +182,13 @@ sickle/poltocar.c
 SGROW_TILDE = $(TILDE)
 SGROW_SOURCES = \
 sickle/click.c \
-sickle/curve.c \
 sickle/frameaccum.c \
 sickle/framedelta.c \
 sickle/Line.c
+
+SGROWCLC_TILDE = $(TILDE)
+SGROWCLC_SOURCES = \
+sickle/curve.c
 
 SGROWFORKY_TILDE = $(TILDE)
 SGROWFORKY_SOURCES = \

@@ -9,23 +9,92 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
-#define LOUD_ERROR_DEFAULT  "error (miXed): "
+/* The 'shared_' calls do not really belong here,
+   LATER find them a permanent home. */
 
-/* LATER move it somewhere else */
-t_symbol *loud_floatsym(void)
+/* FIXME compatibility mode should be a standard Pd feature */
+static t_symbol *shared_compatibility = 0;
+static t_class *sharedcompatibility_class = 0;
+static t_pd *sharedcompatibility_target = 0;
+static t_symbol *sharedps_hashcompatibility = 0;
+static t_symbol *sharedps_max = 0;
+
+static void sharedcompatibility_bang(t_pd *x)
 {
-    static t_symbol *s = 0;
-    return (s ? s : (s = gensym("noninteger float")));
+    if (sharedps_hashcompatibility)
+    {
+	if (shared_compatibility && sharedps_hashcompatibility->s_thing)
+	    pd_symbol(sharedps_hashcompatibility->s_thing,
+		      shared_compatibility);
+    }
+    else bug("sharedcompatibility_bang");
 }
 
-/* LATER move it somewhere else */
-char *loud_symbolname(t_symbol *s, char *nullname)
+static void sharedcompatibility_symbol(t_pd *x, t_symbol *s)
 {
-    return (s && s != &s_ ? s->s_name : nullname);
+    shared_compatibility = s;
 }
 
-/* LATER move it somewhere else */
-int loud_matchignorecase(char *test, char *pattern)
+static void sharedcompatibility_setup(t_symbol *s)
+{
+    if (sharedcompatibility_class || sharedcompatibility_target)
+	bug("sharedcompatibility_setup");
+    sharedps_hashcompatibility = gensym("#compatibility");
+    sharedps_max = gensym("max");
+    sharedcompatibility_class = class_new(sharedps_hashcompatibility,
+					  0, 0, sizeof(t_pd),
+					  CLASS_PD | CLASS_NOINLET, 0);
+    class_addbang(sharedcompatibility_class, sharedcompatibility_bang);
+    class_addsymbol(sharedcompatibility_class, sharedcompatibility_symbol);
+    sharedcompatibility_target = pd_new(sharedcompatibility_class);
+    pd_bind(sharedcompatibility_target, sharedps_hashcompatibility);
+    if (s)
+	pd_symbol(sharedps_hashcompatibility->s_thing, s);
+    else
+	pd_bang(sharedps_hashcompatibility->s_thing);
+}
+
+void shared_usecompatibility(void)
+{
+    if (!sharedcompatibility_class)
+	sharedcompatibility_setup(0);
+}
+
+void shared_setcompatibility(t_symbol *s)
+{
+    post("setting compatibility mode to '%s'", (s ? s->s_name : "none"));
+    if (sharedcompatibility_class)
+    {
+	if (sharedps_hashcompatibility->s_thing)
+	    pd_symbol(sharedps_hashcompatibility->s_thing, s);
+	else
+	    bug("shared_setcompatibility");
+    }
+    else sharedcompatibility_setup(s);
+}
+
+t_symbol *shared_getcompatibility(void)
+{
+    if (!sharedcompatibility_class)
+	sharedcompatibility_setup(0);
+    return (shared_compatibility);
+}
+
+void shared_setmaxcompatibility(void)
+{
+    if (!sharedcompatibility_class)
+	sharedcompatibility_setup(0);
+    shared_setcompatibility(sharedps_max);
+}
+
+int shared_getmaxcompatibility(void)
+{
+    if (!sharedcompatibility_class)
+	sharedcompatibility_setup(0);
+    return (shared_compatibility == sharedps_max);
+}
+
+int shared_matchignorecase(char *test, char *pattern)
 {
     char ct, cp;
     for (ct = *test, cp = *pattern; ct && cp; ct = *++test, cp = *++pattern)
@@ -37,7 +106,20 @@ int loud_matchignorecase(char *test, char *pattern)
     return (ct == cp);
 }
 
-/* LATER move it somewhere else */
+struct _loudcontext
+{
+    t_pd      *lc_caller;    /* an object reporting trouble */
+    char      *lc_callername;
+    int        lc_cnsize;
+    /* during object creation, use the following: */
+    t_symbol  *lc_selector;  /* creation message selector (class name) */
+    int        lc_ac;        /* creation message arguments */
+    t_atom    *lc_av;        /* void out of creation context */
+    int        lc_andindent;
+};
+
+#define LOUD_ERROR_DEFAULT  "error (miXed):"
+
 char *loud_ordinal(int n)
 {
     static char buf[16];  /* assuming 10-digit INT_MAX */
@@ -60,32 +142,27 @@ char *loud_ordinal(int n)
 
 void loud_error(t_pd *x, char *fmt, ...)
 {
+    char buf[MAXPDSTRING];
     va_list ap;
     va_start(ap, fmt);
+    vsprintf(buf, fmt, ap);
     if (x)
     {
-	char buf[MAXPDSTRING];
-	fprintf(stderr, "%s's ", class_getname(*x));
-	vsprintf(buf, fmt, ap);
+	startpost("%s's ", class_getname(*x));
 	pd_error(x, buf);
     }
-    else
-    {
-	fputs(LOUD_ERROR_DEFAULT, stderr);
-	vfprintf(stderr, fmt, ap);
-	putc('\n', stderr);
-    }
+    else post("%s %s", LOUD_ERROR_DEFAULT, buf);
     va_end(ap);
 }
 
 void loud_errand(t_pd *x, char *fmt, ...)
 {
+    char buf[MAXPDSTRING];
     va_list ap;
     va_start(ap, fmt);
-    fprintf(stderr, "%*s", (int)(x ? strlen(class_getname(*x)) + 10
-				 : strlen(LOUD_ERROR_DEFAULT)), "");
-    vfprintf(stderr, fmt, ap);
-    putc('\n', stderr);
+    vsprintf(buf, fmt, ap);
+    post("%*s%s", (int)(x ? strlen(class_getname(*x)) + 10
+			: strlen(LOUD_ERROR_DEFAULT) + 1), "", buf);
     va_end(ap);
 }
 
@@ -113,11 +190,14 @@ int loud_checkint(t_pd *x, t_float f, int *valuep, t_symbol *mess)
 	return (1);
     else
     {
+	static t_symbol *floatsym = 0;
+	if (!floatsym)
+	    floatsym = gensym("noninteger float");
 	if (mess == &s_float)
-	    loud_nomethod(x, loud_floatsym());
+	    loud_nomethod(x, floatsym);
 	else if (mess)
 	    loud_error(x, "\"%s\" argument invalid for message \"%s\"",
-		       loud_floatsym()->s_name, mess->s_name);
+		       floatsym->s_name, mess->s_name);
 	return (0);
     }
 }
@@ -129,13 +209,13 @@ void loud_classarg(t_class *c)
 
 void loud_warning(t_pd *x, char *who, char *fmt, ...)
 {
+    char buf[MAXPDSTRING];
     va_list ap;
     va_start(ap, fmt);
-    fprintf(stderr, "warning (%s): ",
-	    (x ? class_getname(*x) : (who ? who : "miXed")));
-    vfprintf(stderr, fmt, ap);
+    vsprintf(buf, fmt, ap);
+    post("warning (%s): %s",
+	 (x ? class_getname(*x) : (who ? who : "miXed")), buf);
     va_end(ap);
-    putc('\n', stderr);
 }
 
 void loud_notimplemented(t_pd *x, char *name)
@@ -148,13 +228,16 @@ void loud_notimplemented(t_pd *x, char *name)
 
 void loud_incompatible(t_class *c, char *fmt, ...)
 {
-    va_list ap;
-    va_start(ap, fmt);
-    fprintf(stderr, "'%s' class incompatibility warning:\n\t",
-	    class_getname(c));
-    vfprintf(stderr, fmt, ap);
-    va_end(ap);
-    putc('\n', stderr);
+    if (shared_getmaxcompatibility())
+    {
+	char buf[MAXPDSTRING];
+	va_list ap;
+	va_start(ap, fmt);
+	vsprintf(buf, fmt, ap);
+	post("'%s' class incompatibility warning:\n\t%s",
+	     class_getname(c), buf);
+	va_end(ap);
+    }
 }
 
 void loud_incompatible_max(t_class *c, int maxmax, char *what)
@@ -221,4 +304,135 @@ int loud_floatarg(t_class *c, int which, int ac, t_atom *av,
 	}
     }
     return (result);
+}
+
+void loudx_error(t_loudcontext *lc, char *fmt, ...)
+{
+    char buf[MAXPDSTRING];
+    va_list ap;
+    va_start(ap, fmt);
+    vsprintf(buf, fmt, ap);
+    if (lc->lc_caller)
+    {
+	startpost("%s's ", (lc->lc_callername ?
+			    lc->lc_callername : class_getname(*lc->lc_caller)));
+	pd_error(lc->lc_caller, buf);
+    }
+    else
+    {
+	if (lc->lc_callername)
+	    post("error (%s): %s", lc->lc_callername, buf);
+	else if (lc->lc_selector)
+	    post("error (%s): %s", lc->lc_selector->s_name, buf);
+	else
+	    post("%s %s", LOUD_ERROR_DEFAULT, buf);
+    }
+    va_end(ap);
+}
+
+void loudx_errand(t_loudcontext *lc, char *fmt, ...)
+{
+    char buf[MAXPDSTRING];
+    va_list ap;
+    va_start(ap, fmt);
+    vsprintf(buf, fmt, ap);
+    post("%*s%s", lc->lc_andindent, "", buf);
+    va_end(ap);
+}
+
+void loudx_nomethod(t_loudcontext *lc, t_symbol *s)
+{
+    loudx_error(lc, "doesn't understand \"%s\"", s->s_name);
+}
+
+void loudx_messarg(t_loudcontext *lc, t_symbol *s)
+{
+    loudx_error(lc, "bad arguments for message \"%s\"", s->s_name);
+}
+
+void loudx_warning(t_loudcontext *lc, char *fmt, ...)
+{
+    char buf[MAXPDSTRING];
+    va_list ap;
+    va_start(ap, fmt);
+    vsprintf(buf, fmt, ap);
+    if (lc->lc_callername)
+	post("warning (%s): %s", lc->lc_callername, buf);
+    else if (lc->lc_selector)
+	post("warning (%s): %s", lc->lc_selector->s_name, buf);
+    else
+	post("warning (miXed): %s", buf);
+    va_end(ap);
+}
+
+void loudx_setcontext(t_loudcontext *lc, t_pd *caller, char *callername,
+		      t_symbol *s, int ac, t_atom *av)
+{
+    if (lc->lc_callername)
+	freebytes(lc->lc_callername, lc->lc_cnsize);
+    lc->lc_caller = caller;
+    if (callername)
+    {
+	lc->lc_cnsize = strlen(callername) + 1;
+	lc->lc_callername = getbytes(lc->lc_cnsize);
+	strcpy(lc->lc_callername, callername);
+    }
+    else
+    {
+	lc->lc_callername = 0;
+	lc->lc_cnsize = 0;
+    }
+    lc->lc_selector = s;
+    lc->lc_ac = ac;
+    lc->lc_av = av;
+    if (callername)
+	lc->lc_andindent = lc->lc_cnsize + 9;
+    else if (caller)
+	lc->lc_andindent = strlen(class_getname(*caller)) + 10;
+    else if (s)
+	lc->lc_andindent = strlen(s->s_name) + 10;
+    else
+	lc->lc_andindent = strlen(LOUD_ERROR_DEFAULT) + 1;
+}
+
+/* must call before going out of creation context */
+void loudx_setcaller(t_loudcontext *lc, t_pd *caller, char *callerfmt, ...)
+{
+    va_list ap;
+    va_start(ap, callerfmt);
+    if (callerfmt)
+    {
+	char buf[MAXPDSTRING];
+	vsprintf(buf, callerfmt, ap);
+	loudx_setcontext(lc, caller, buf, lc->lc_selector, 0, 0);
+    }
+    else loudx_setcontext(lc, caller, 0, lc->lc_selector, 0, 0);
+    va_end(ap);
+}
+
+t_symbol *loudx_getselector(t_loudcontext *lc)
+{
+    return (lc->lc_selector);
+}
+
+t_atom *loudx_getarguments(t_loudcontext *lc, int *acp)
+{
+    *acp = lc->lc_ac;
+    return (lc->lc_av);
+}
+
+void loudx_freecontext(t_loudcontext *lc)
+{
+    if (lc->lc_callername)
+	freebytes(lc->lc_callername, lc->lc_cnsize);
+    freebytes(lc, sizeof(*lc));
+}
+
+t_loudcontext *loudx_newcontext(t_pd *caller, char *callername,
+				t_symbol *s, int ac, t_atom *av)
+{
+    t_loudcontext *lc = getbytes(sizeof(*lc));
+    lc->lc_callername = 0;
+    loudx_setcontext(lc, caller, callername, s, ac, av);
+    return (lc);
 }

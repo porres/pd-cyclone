@@ -116,20 +116,20 @@ proc ::toxy::item_visconfig {path target name varname cvpath px py} {
 	}
     }
 
-    if {[info exists ::toxy::masterinits]} {
-	set failed [catch {eval $::toxy::masterinits} res]
-	unset ::toxy::masterinits
-	if {$failed} { error [concat in ::toxy::masterinits: $res] }
+    if {[info exists ::toxy::masterinit]} {
+	set failed [catch {eval $::toxy::masterinit} res]
+	unset ::toxy::masterinit
+	if {$failed} { error [concat in ::toxy::masterinit: $res] }
     }
-    if {[info exists ::toxy::typeinits]} {
-	set failed [catch {eval $::toxy::typeinits} res]
-	unset ::toxy::typeinits
-	if {$failed} { error [concat in ::toxy::typeinits: $res] }
+    if {[info exists ::toxy::typeinit]} {
+	set failed [catch {eval $::toxy::typeinit} res]
+	unset ::toxy::typeinit
+	if {$failed} { error [concat in ::toxy::typeinit: $res] }
     }
-    if {[info exists ::toxy::iteminits]} {
-	set failed [catch {eval $::toxy::iteminits} res]
-	unset ::toxy::iteminits
-	if {$failed} { error [concat in ::toxy::iteminits: $res] }
+    if {[info exists ::toxy::iteminit]} {
+	set failed [catch {eval $::toxy::iteminit} res]
+	unset ::toxy::iteminit
+	if {$failed} { error [concat in ::toxy::iteminit: $res] }
     }
 
     ::toxy::item_getconfig $path $target
@@ -204,7 +204,15 @@ proc ::toxy::master {path toppath cvpath target} {
 
 # FIXME
 proc ::toxy::scale_command {target sel v} {
-    pd [concat $target $sel $v \;]
+    if {$::toxy::scale_isactive} {
+	pd [concat $target $sel $v \;]
+    }
+    set ::toxy::scale_isactive 1
+}
+
+proc ::toxy::scale_doset {path v} {
+    set ::toxy::scale_isactive 0
+    $path set $v
 }
 
 proc ::toxy::popup_command {path target remote i text} {
@@ -239,6 +247,9 @@ proc ::toxy::popup {path target remote entries args} {
 
 ::toxy::master .- .- .^.c .|
 
+# FIXME
+set ::toxy::scale_isactive 1
+
 # standard widget types
 
 #> bang button
@@ -250,6 +261,7 @@ proc ::toxy::popup {path target remote entries args} {
 #. -command [concat ::toxy::scale_command .| _cb]
 #. -bg pink -activebackground red -length 200
 #. @float .- set .#1
+#. @vset ::toxy::scale_doset .- .#1
 
 #> symbol entry
 #. -bg pink -font .(helvetica 24.) -width 16

@@ -16,6 +16,11 @@ typedef struct _plustot_print
 
 static t_class *plustot_print_class;
 
+static char *plustot_print_symbolname(t_symbol *s)
+{
+    return (s && s != &s_ ? s->s_name : "???");
+}
+
 static void plustot_print_symbol(t_plustot_print *x, t_symbol *s)
 {
     Tcl_Obj *ob = plustag_tobvalue(s, (t_pd *)x);
@@ -36,10 +41,9 @@ static void plustot_print_symbol(t_plustot_print *x, t_symbol *s)
 		t_atom *av = binbuf_getvec(x->x_bb);
 		if (av->a_type == A_SYMBOL || av->a_type == A_FLOAT)
 		{
-		    char *lstring =
-			(x->x_label ? x->x_label->s_name :
-			 loud_symbolname(plustag_typename(s, 1, (t_pd *)x),
-					 "???"));
+		    char *lstring = (x->x_label ? x->x_label->s_name :
+				     plustot_print_symbolname(
+					 plustag_typename(s, 1, (t_pd *)x)));
 		    if (glname)
 			startpost("%s (%s):", lstring, glname->s_name);
 		    else

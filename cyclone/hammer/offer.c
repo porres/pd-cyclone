@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -7,9 +7,9 @@
 #include "hammer/tree.h"
 
 /* As a class `derived' from the common hammertree code (also in funbuff),
-   offer uses the auxiliary list, generally not needed here.
-   As a side-effect, it gets a bonus of a small speedup of deletion,
-   and a penalty of a small slowdown of insertion. */
+   offer maintains the auxiliary list, the main purpose of which is faster
+   traversal (not needed here).  As a side-effect, there is a bonus of a small
+   speedup of deletion, and a penalty of a small slowdown of insertion. */
 
 typedef struct _offer
 {
@@ -29,13 +29,12 @@ static void offer_float(t_offer *x, t_float f)
 	t_hammernode *np;
 	if (x->x_valueset)
 	{
-	    if (np = hammertree_insert(&x->x_tree, ndx))
-		np->n_value = x->x_value;
+	    hammertree_insertfloat(&x->x_tree, ndx, x->x_value, 1);
 	    x->x_valueset = 0;
 	}
 	else if (np = hammertree_search(&x->x_tree, ndx))
 	{
-	    outlet_float(((t_object *)x)->ob_outlet, np->n_value);
+	    outlet_float(((t_object *)x)->ob_outlet, HAMMERNODE_GETFLOAT(np));
 	    hammertree_delete(&x->x_tree, np);
 	}
     }
@@ -57,7 +56,7 @@ static void offer_clear(t_offer *x)
 #ifdef HAMMERTREE_DEBUG
 static void offer_debug(t_offer *x, t_floatarg f)
 {
-    hammertree_debug(&x->x_tree, (int)f);
+    hammertree_debug(&x->x_tree, (int)f, 0);
 }
 #endif
 
@@ -70,7 +69,7 @@ static void *offer_new(void)
 {
     t_offer *x = (t_offer *)pd_new(offer_class);
     x->x_valueset = 0;
-    hammertree_init(&x->x_tree, 0);
+    hammertree_inittyped(&x->x_tree, HAMMERTYPE_FLOAT, 0);
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     return (x);

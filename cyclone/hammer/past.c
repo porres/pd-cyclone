@@ -112,6 +112,7 @@ static void past_set(t_past *x, t_symbol *s, int ac, t_atom *av)
 	t_atom *vp = x->x_thresh;
 	if (ac > x->x_size)
 	{
+	    shared_usecompatibility();
 	    loud_incompatible_max(past_class, PAST_C74MAXSIZE, "guard points");
 	    x->x_thresh = grow_nodata(&ac, &x->x_size, x->x_thresh,
 				      PAST_C74MAXSIZE, x->x_thrini,

@@ -75,6 +75,7 @@ static void *minimum_new(t_floatarg f)
     t_minimum *x = (t_minimum *)pd_new(minimum_class);
     x->x_last = 0;  /* CHECKME */
     x->x_test = f;
+    shared_usecompatibility();
     floatinlet_new((t_object *)x, &x->x_test);
     outlet_new((t_object *)x, &s_float);
     return (x);

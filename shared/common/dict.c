@@ -1,4 +1,4 @@
-/* Copyright (c) 1997-2003 Miller Puckette, krzYszcz, and others.
+/* Copyright (c) 1997-2004 Miller Puckette, krzYszcz, and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -216,33 +216,52 @@ void dict_unbind(t_dict *x, t_pd *obj, t_symbol *s)
     else pd_error(obj, "%s: couldn't unbind", s->s_name);
 }
 
-/* adapted pd_findbyclass() from m_pd.c */
-t_pd *dict_value(t_dict *x, t_symbol *s)
+t_pd *dict_firstvalue(t_dict *dict, t_symbol *s, void **nextp)
 {
-    if (!s->s_thing) return (0);
-    if (*s->s_thing == x->d_bindlist_class)
+    if (s->s_thing)
     {
-	t_pd *x = 0;
-    	t_dict_bindelem *e;
-    	int warned = 0;
-	for (e = ((t_dict_bindlist *)s->s_thing)->b_list; e; e = e->e_next)
-    	{
-    	    if (x && !warned)
-    	    {
-    	    	post("warning: %s: multiply defined", s->s_name);
-    	    	warned = 1;
-    	    }
-    	    x = e->e_who;
-    	}
-	return (x);
+	if (*s->s_thing == dict->d_bindlist_class)
+	{
+	    t_dict_bindelem *e = ((t_dict_bindlist *)s->s_thing)->b_list;
+	    if (e)
+	    {
+		if (nextp)
+		    *nextp = e->e_next;
+		return (e->e_who);
+	    }
+	    else return (0);
+	}
+	else
+	{
+	    if (nextp)
+		*nextp = 0;
+	    return (s->s_thing);
+	}
     }
-    return (s->s_thing);
+    else return (0);
 }
 
+t_pd *dict_nextvalue(t_dict *dict, t_symbol *s, void **nextp)
+{
+    if (s->s_thing)
+    {
+	if (*s->s_thing == dict->d_bindlist_class && *nextp)
+	{
+	    t_dict_bindelem *e = (t_dict_bindelem *)*nextp;
+	    *nextp = e->e_next;
+	    return (e->e_who);
+	}
+    }
+    else bug("dict_nextvalue");
+    return (0);
+}
+
+#if 0
 t_pd *dict_xvalue(t_dict *x, t_symbol *s)
 {
     return (s && s != &s_ ? dict_value(x, dict_key(x, s->s_name)) : 0);
 }
+#endif
 
 int dict_forall(t_dict *x, t_symbol *s, t_dict_hook hook, void *hookarg)
 {

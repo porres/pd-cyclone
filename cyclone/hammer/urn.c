@@ -122,6 +122,7 @@ static void *urn_new(t_floatarg f1, t_floatarg f2)
     x->x_urn = x->x_urnini;
     urn_resize(x, f1, 1);
     urn_seed(x, f2);  /* CHECKME */
+    shared_usecompatibility();
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);

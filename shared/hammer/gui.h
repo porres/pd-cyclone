@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -8,12 +8,12 @@
 typedef struct _hammergui
 {
     t_pd       g_pd;
-    t_symbol  *g_gui;
-    t_symbol  *g_mouse;
-    t_symbol  *g_poll;
-    t_symbol  *g_focus;
-    t_symbol  *g_vised;
-    int        g_up;
+    t_symbol  *g_psgui;
+    t_symbol  *g_psmouse;
+    t_symbol  *g_pspoll;
+    t_symbol  *g_psfocus;
+    t_symbol  *g_psvised;
+    int        g_isup;
 } t_hammergui;
 
 void hammergui_bindmouse(t_pd *master);

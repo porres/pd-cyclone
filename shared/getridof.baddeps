@@ -3,16 +3,16 @@ Some are inevitable, but others can, and should be removed.
 
 unstable/fragile -> common/loud
 unstable/fringe -> unstable/forky
-toxy/plusbob -> common/loud
-toxy/scriptlet -> common/loud, common/grow, common/props
-sickle/sic -> common/loud
-sickle/arsic -> common/loud, common/vefl, sickle/sic, unstable/fragile
-hammer/file -> unstable/forky
-common/hyphen -> common/dict
 common/props -> common/grow
 common/vefl -> common/loud, unstable/fragile
+common/binport -> common/lex
 common/port -> common/loud, common/grow, common/binport,
 	unstable/forky, unstable/fragile, unstable/fringe
-common/sofi -> common/bifi
-common/mifi -> common/bifi common/sq
-common/mfbb -> common/bifi, common/mifi, common/sq, common/squeal
+hammer/file -> unstable/forky
+sickle/sic -> common/loud
+sickle/arsic -> common/loud, common/vefl, sickle/sic, unstable/fragile
+toxy/plusbob -> common/loud
+toxy/scriptlet -> common/loud, common/grow, common/props
+xeq/squ* -> common/loud, common/fi, common/mifi, common/qtree, xeq/squ*
+vex/hyphen -> common/dict
+vex/sofi -> vex/bifi

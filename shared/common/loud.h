@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -10,9 +10,16 @@
 
 enum { LOUD_ARGOK, LOUD_ARGUNDER, LOUD_ARGOVER, LOUD_ARGTYPE, LOUD_ARGMISSING };
 
-t_symbol *loud_floatsym(void);
-char *loud_symbolname(t_symbol *s, char *nullname);
-int loud_matchignorecase(char *test, char *pattern);
+EXTERN_STRUCT _loudcontext;
+#define t_loudcontext  struct _loudcontext
+
+void shared_usecompatibility(void);
+void shared_setcompatibility(t_symbol *s);
+t_symbol *shared_getcompatibility(void);
+void shared_setmaxcompatibility(void);
+int shared_getmaxcompatibility(void);
+int shared_matchignorecase(char *test, char *pattern);
+
 char *loud_ordinal(int n);
 void loud_error(t_pd *x, char *fmt, ...);
 void loud_errand(t_pd *x, char *fmt, ...);
@@ -28,5 +35,19 @@ void loud_incompatible_max(t_class *c, int maxmax, char *what);
 int loud_floatarg(t_class *c, int which, int ac, t_atom *av,
 		  t_float *vp, t_float minval, t_float maxval,
 		  int underaction, int overaction, char *what);
+
+void loudx_error(t_loudcontext *lc, char *fmt, ...);
+void loudx_errand(t_loudcontext *lc, char *fmt, ...);
+void loudx_nomethod(t_loudcontext *lc, t_symbol *s);
+void loudx_messarg(t_loudcontext *lc, t_symbol *s);
+void loudx_warning(t_loudcontext *lc, char *fmt, ...);
+void loudx_setcontext(t_loudcontext *lc, t_pd *caller, char *callername,
+		      t_symbol *s, int ac, t_atom *av);
+void loudx_setcaller(t_loudcontext *lc, t_pd *caller, char *callerfmt, ...);
+t_symbol *loudx_getselector(t_loudcontext *lc);
+t_atom *loudx_getarguments(t_loudcontext *lc, int *acp);
+void loudx_freecontext(t_loudcontext *lc);
+t_loudcontext *loudx_newcontext(t_pd *caller, char *callername,
+				t_symbol *s, int ac, t_atom *av);
 
 #endif

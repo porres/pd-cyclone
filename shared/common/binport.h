@@ -8,7 +8,7 @@
 enum { BINPORT_OK, BINPORT_MAXTEXT, BINPORT_MAXOLD, BINPORT_PDFILE,
        BINPORT_INVALID, BINPORT_CORRUPT, BINPORT_FAILED };
 
-#ifndef BINPORT_STANDALONE
+#ifndef MIXED_STANDALONE
 int binport_read(t_binbuf *bb, char *filename, char *dirname);
 void binport_write(t_binbuf *bb, char *filename, char *dirname);
 #endif

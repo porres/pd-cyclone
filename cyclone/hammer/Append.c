@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -21,9 +21,17 @@ typedef struct _append
     int       x_entered;
     int       x_auxsize;
     t_atom   *x_auxbuf;
+    t_pd     *x_proxy;
 } t_append;
 
+typedef struct _appendxy
+{
+    t_pd       xy_pd;
+    t_append  *xy_owner;
+} t_appendxy;
+
 static t_class *append_class;
+static t_class *appendxy_class;
 
 /* Usually a preallocation method is used, except in special cases of:
    1) reentrant output request, or 2) an output request which would cause
@@ -32,8 +40,7 @@ static t_class *append_class;
    A separately preallocated output buffer is not used, thus avoiding
    memcpying of the stored message (a small performance gain when the
    preallocation method is chosen).  Instead, self-invoked 'set'
-   messages are postponed, using an auxiliary buffer.
-*/
+   messages are postponed, using an auxiliary buffer. */
 
 /* Any Append's output goes through outlet_anything() -> typedmess() */
 
@@ -132,9 +139,11 @@ static void append_symbol(t_append *x, t_symbol *s)
 
 /* LATER gpointer */
 
-static void append_set(t_append *x, t_symbol *s, int ac, t_atom *av)
+static void append_doset(t_append *x, t_symbol *s, int ac, t_atom *av)
 {
     int newsize = ac * 2;
+    if (s)
+	newsize += 2;
     if (newsize > 0)
     {
 	if (x->x_entered)
@@ -147,7 +156,15 @@ static void append_set(t_append *x, t_symbol *s, int ac, t_atom *av)
 	    }
 	    if (x->x_auxbuf = getbytes(newsize * sizeof(*x->x_auxbuf)))
 	    {
-		memcpy(x->x_auxbuf + ac, av, ac * sizeof(*x->x_auxbuf));
+		t_atom *ap = x->x_auxbuf + ac;
+		if (s)
+		{
+		    ap++;
+		    SETSYMBOL(ap, s);
+		    ap++;
+		}
+		if (ac)
+		    memcpy(ap, av, ac * sizeof(*x->x_auxbuf));
 		x->x_auxsize = newsize;
 	    }
 	}
@@ -161,19 +178,86 @@ static void append_set(t_append *x, t_symbol *s, int ac, t_atom *av)
 					   APPEND_INISIZE, x->x_messini,
 					   sizeof(*x->x_messbuf));
 		if (sz != newsize)
+		{
 		    ac = sz / 2;  /* LATER rethink */
+		    if (s)
+			ac--;
+		}
 	    }
-	    append_setnatoms(x, ac);
-	    ap = x->x_message;
+	    if (s)
+	    {
+		append_setnatoms(x, ac + 1);
+		ap = x->x_message;
+		SETSYMBOL(ap, s);
+		ap++;
+	    }
+	    else
+	    {
+		append_setnatoms(x, ac);
+		ap = x->x_message;
+	    }
 	    while (ac--) *ap++ = *av++;
 	}
     }
+}
+
+static void append_set(t_append *x, t_symbol *s, int ac, t_atom *av)
+{
+    if (shared_getmaxcompatibility())
+	append_doset(x, 0, ac, av);
+    else
+	append_anything(x, s, ac, av);
+}
+
+static void appendxy_bang(t_appendxy *xy)
+{
+    append_doset(xy->xy_owner, 0, 0, 0);  /* LATER rethink */
+}
+
+static void appendxy_float(t_appendxy *xy, t_float f)
+{
+    t_atom at;
+    SETFLOAT(&at, f);
+    append_doset(xy->xy_owner, 0, 1, &at);
+}
+
+static void appendxy_symbol(t_appendxy *xy, t_symbol *s)
+{
+    t_atom at;
+    if (!s || s == &s_)
+	s = &s_symbol;  /* LATER rethink */
+    SETSYMBOL(&at, s);
+    append_doset(xy->xy_owner, 0, 1, &at);
+}
+
+static void appendxy_list(t_appendxy *xy, t_symbol *s, int ac, t_atom *av)
+{
+    if (ac)
+	append_doset(xy->xy_owner, 0, ac, av);
+    else
+    {  /* LATER rethink */
+	t_atom at;
+	SETSYMBOL(&at, &s_list);
+	append_doset(xy->xy_owner, 0, 1, &at);
+    }
+}
+
+static void appendxy_anything(t_appendxy *xy, t_symbol *s, int ac, t_atom *av)
+{
+    append_doset(xy->xy_owner, s, ac, av);
 }
 
 static void append_free(t_append *x)
 {
     if (x->x_messbuf != x->x_messini)
 	freebytes(x->x_messbuf, x->x_size * sizeof(*x->x_messbuf));
+    if (x->x_auxbuf)
+    {
+	bug("append_free");  /* LATER rethink */
+	freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
+    }
+    if (x->x_proxy)
+	pd_free(x->x_proxy);
 }
 
 static void *append_new(t_symbol *s, int ac, t_atom *av)
@@ -184,9 +268,20 @@ static void *append_new(t_symbol *s, int ac, t_atom *av)
     x->x_messbuf = x->x_messini;
     x->x_auxbuf = 0;
     x->x_entered = 0;
-    outlet_new((t_object *)x, &s_anything);
     append_setnatoms(x, 0);
-    append_set(x, 0, ac, av);
+    shared_usecompatibility();
+    if (ac)
+    {
+	x->x_proxy = 0;
+	append_doset(x, 0, ac, av);
+    }
+    else
+    {
+	x->x_proxy = pd_new(appendxy_class);
+	((t_appendxy *)x->x_proxy)->xy_owner = x;
+	inlet_new((t_object *)x, x->x_proxy, 0, 0);
+    }
+    outlet_new((t_object *)x, &s_anything);
     return (x);
 }
 
@@ -204,4 +299,12 @@ void Append_setup(void)
     class_addanything(append_class, append_anything);
     class_addmethod(append_class, (t_method)append_set,
 		    gensym("set"), A_GIMME, 0);
+
+    appendxy_class = class_new(gensym("append"), 0, 0, sizeof(t_appendxy),
+			       CLASS_PD | CLASS_NOINLET, 0);
+    class_addbang(appendxy_class, appendxy_bang);
+    class_addfloat(appendxy_class, appendxy_float);
+    class_addsymbol(appendxy_class, appendxy_symbol);
+    class_addlist(appendxy_class, appendxy_list);
+    class_addanything(appendxy_class, appendxy_anything);
 }

@@ -21,10 +21,8 @@ shared/common/rand.c
 shared/common/rand.h
 shared/common/vefl.c
 shared/common/vefl.h
-shared/common/sq.c
-shared/common/sq.h
-shared/common/bifi.c
-shared/common/bifi.h
+shared/common/clc.c
+shared/common/clc.h
 shared/common/mifi.c
 shared/common/mifi.h
 shared/hammer/file.c

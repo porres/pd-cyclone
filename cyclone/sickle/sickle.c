@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -74,6 +74,11 @@ void sickle_setup(void)
 	   of having some of the classes already loaded. LATER rethink. */
 	loud_error(0, "apparently an attempt to create a 'sickle' object");
 	loud_errand(0, "without having sickle library preloaded");
+	return;
+    }
+    if (zgetfn(&pd_objectmaker, gensym("sickle")))
+    {
+	loud_error(0, "sickle is already loaded");
 	return;
     }
     if (!zgetfn(&pd_objectmaker, gensym("cyclone")))

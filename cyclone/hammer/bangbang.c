@@ -47,7 +47,10 @@ static void *bangbang_new(t_floatarg val)
     if (nouts < BANGBANG_MINOUTS)
 	nouts = BANGBANG_DEFOUTS;
     if (nouts > BANGBANG_C74MAXOUTS)
+    {
+	shared_usecompatibility();
 	loud_incompatible_max(bangbang_class, BANGBANG_C74MAXOUTS, "outlets");
+    }
     if (nouts > BANGBANG_DEFOUTS)
     {
 	if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
