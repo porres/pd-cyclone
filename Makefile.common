@@ -31,6 +31,14 @@ OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
 LFLAGS = -export_dynamic  -shared
 endif
 
+ifeq ($(OS_NAME),MINGW32_NT-5.2)
+CC = gcc
+X_SUFFIX = dll
+DEFINES = -DNT
+OPT_CFLAGS = -funroll-loops
+LFLAGS = -shared $(PD_DIR)/../bin/pd.dll
+endif
+
 ifeq ($(OS_NAME),Darwin)
 CC = gcc2
 X_SUFFIX = pd_darwin
