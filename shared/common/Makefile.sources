@@ -4,12 +4,9 @@ binport.c \
 dict.c \
 grow.c \
 loud.c \
-mfbb.c \
 mifi.c \
 port.c \
 props.c \
 rand.c \
-sofi.c \
 sq.c \
-squeal.c \
 vefl.c
