@@ -61,7 +61,7 @@ typedef struct _tablecommon
 typedef struct _table
 {
     t_object        x_ob;
-    t_canvas       *x_canvas;
+    t_canvas       *x_glist;
     t_symbol       *x_name;
     t_tablecommon  *x_common;
     t_float         x_value;
@@ -92,8 +92,8 @@ static void tablecommon_modified(t_tablecommon *cc, int relocated)
     {
 	t_table *x;
 	for (x = cc->c_refs; x; x = x->x_next)
-	    if (x->x_canvas && glist_isvisible(x->x_canvas))
-		canvas_dirty(x->x_canvas, 1);
+	    if (x->x_glist && glist_isvisible(x->x_glist))
+		canvas_dirty(x->x_glist, 1);
     }
 }
 
@@ -223,9 +223,37 @@ static int tablecommon_quantile(t_tablecommon *cc, float f)
     return (ndx);
 }
 
+/* LATER binary files */
 static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
 {
     /* FIXME */
+    t_binbuf *bb = binbuf_new();
+    int ac;
+    t_atom *av;
+    char buf[MAXPDSTRING];
+    if (!fn)
+	return;  /* CHECKME complaint */
+    if (cv || (cv = cc->c_lastcanvas))  /* !cv: 'read' w/o arg */
+	canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
+    else
+    {
+    	strncpy(buf, fn->s_name, MAXPDSTRING);
+    	buf[MAXPDSTRING-1] = 0;
+    }
+    binbuf_read(bb, buf, "", 0);
+    if ((ac = binbuf_getnatom(bb)) &&
+	(av = binbuf_getvec(bb)) &&
+	av->a_type == A_SYMBOL &&
+	av->a_w.w_symbol == gensym("table"))
+    {
+	post("Table: %s read successful", fn->s_name);  /* CHECKME */
+	/* FIXME */
+    }
+#if 0  /* FIXME */
+    else  /* CHECKME complaint */
+	loud_error((t_pd *)cc, "invalid file %s", fn->s_name);
+#endif
+    binbuf_free(bb);
 }
 
 static void tablecommon_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
@@ -235,7 +263,23 @@ static void tablecommon_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 
 static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
 {
-    /* FIXME */
+    t_binbuf *bb = binbuf_new();
+    char buf[MAXPDSTRING];
+    int ndx, *ptr;
+    if (!fn)
+	return;  /* CHECKME complaint */
+    if (cv || (cv = cc->c_lastcanvas))  /* !cv: 'write' w/o arg */
+	canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
+    else
+    {
+    	strncpy(buf, fn->s_name, MAXPDSTRING);
+    	buf[MAXPDSTRING-1] = 0;
+    }
+    binbuf_addv(bb, "s", gensym("table"));
+    for (ndx = 0, ptr = cc->c_table; ndx < cc->c_length; ndx++, ptr++)
+	binbuf_addv(bb, "i", *ptr);
+    binbuf_write(bb, buf, "", 0);
+    binbuf_free(bb);
 }
 
 static void tablecommon_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
@@ -365,7 +409,7 @@ static void table_bind(t_table *x, t_symbol *name)
 	{
 	    pd_bind(&cc->c_pd, name);
 	    /* LATER rethink canvas unpredictability */
-	    tablecommon_doread(cc, name, x->x_canvas);
+	    tablecommon_doread(cc, name, x->x_glist);
 	}
 	else
 	{
@@ -641,20 +685,35 @@ static void table_fquantile(t_table *x, t_floatarg f)
 		 (t_float)tablecommon_quantile(x->x_common, f));
 }
 
-/* FIXME arguments (from, to) */
-/* CHECKED no remote dumping, symbol args bashed to 0 */
 static void table_dump(t_table *x, t_symbol *s, int ac, t_atom *av)
 {
     t_tablecommon *cc = x->x_common;
+    int thelength = cc->c_length;
+    int *thetable = cc->c_table;
     t_outlet *out = ((t_object *)x)->ob_outlet;
-    int ndx;
-    /* The usual way of traversing the table by incrementing a pointer is
-       not robust, because calling outlet_float() may invalidate the pointer.
-       The test below is simpler than generic selfmod detection ala coll,
-       but behaviour may be different.  LATER revisit, consider asserting
-       invariance of cc->c_table and cc->c_length, instead. */
-    for (ndx = 0; ndx < cc->c_length; ndx++)
-	outlet_float(out, (t_float)cc->c_table[ndx]);
+    int ndx, nmx, *ptr;
+    /* CHECKED optional arguments: from, to,  Negative 'from' causes
+       invalid output, symbols are bashed to zero for both arguments,
+       inconsistent warnings, etc. -- no strict emulation attempted below. */
+    if (ac && av->a_type == A_FLOAT)
+	ndx = tablecommon_getindex(cc, (int)av->a_w.w_float);
+    else
+	ndx = 0;
+    if (ac > 1 && av[1].a_type == A_FLOAT)
+	nmx = tablecommon_getindex(cc, (int)av[1].a_w.w_float);
+    else
+	nmx = thelength - 1;
+    for (ptr = thetable + ndx; ndx <= nmx; ndx++, ptr++)
+    {
+	/* Plain traversing by incrementing a pointer is not robust,
+	   because calling outlet_float() may invalidate the pointer.
+	   Continous storage does not require generic selfmod detection
+	   (ala coll), so we can get away with the simpler test below. */
+	if (cc->c_length != thelength || cc->c_table != thetable)
+	    break;
+	/* CHECKED no remote dumping */
+	outlet_float(out, (t_float)*ptr);
+    }
 }
 
 static void table_refer(t_table *x, t_symbol *s)
@@ -669,7 +728,7 @@ static void table_read(t_table *x, t_symbol *s)
 {
     t_tablecommon *cc = x->x_common;
     if (s && s != &s_)
-	tablecommon_doread(cc, s, x->x_canvas);
+	tablecommon_doread(cc, s, x->x_glist);
     else
 	hammerpanel_open(cc->c_filehandle, 0);
 }
@@ -678,9 +737,8 @@ static void table_write(t_table *x, t_symbol *s)
 {
     t_tablecommon *cc = x->x_common;
     if (s && s != &s_)
-	tablecommon_dowrite(cc, s, x->x_canvas);
+	tablecommon_dowrite(cc, s, x->x_glist);
     else
-	/* CHECKED default name is plain `Untitled' */
 	hammerpanel_save(cc->c_filehandle, 0, 0);
 }
 
@@ -709,6 +767,7 @@ static void table_open(t_table *x)
     int count = cc->c_length, col = 0;
     /* LATER prepend "table: " */
     hammereditor_open(cc->c_filehandle,
+		      /* CHECKED default name is plain `Untitled' */
 		      x->x_name ? x->x_name->s_name : "Untitled");
     while (count--)
 	col = tablecommon_editorappend(cc, *bp++, buf, col);
@@ -754,7 +813,7 @@ static void *table_new(t_symbol *s)
 	loud_warning((t_pd *)x, 0, "Table is not ready yet");
 	warned = 1;
     }
-    x->x_canvas = canvas_getcurrent();
+    x->x_glist = canvas_getcurrent();
     x->x_valueset = 0;
     x->x_head = 0;
     x->x_intraversal = 0;  /* CHECKED */

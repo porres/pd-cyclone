@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -15,6 +15,10 @@
 /* CHECKME default fname for 'write' -- c_filename, x_name, nothing? */
 
 #define COLL_DEBUG
+
+enum { COLL_HEADRESET,
+       COLL_HEADNEXT, COLL_HEADPREV,  /* distinction not used, currently */
+       COLL_HEADDELETED };
 
 typedef struct _collelem
 {
@@ -41,8 +45,8 @@ typedef struct _collcommon
     t_hammerfile  *c_filehandle;
     t_collelem    *c_first;
     t_collelem    *c_last;
-    t_collelem    *c_ahead;
-    t_collelem    *c_back;
+    t_collelem    *c_head;
+    int            c_headstate;
 } t_collcommon;
 
 typedef struct _coll
@@ -184,10 +188,12 @@ static void collcommon_takeout(t_collcommon *cc, t_collelem *ep)
 	ep->e_next->e_prev = ep->e_prev;
     else
 	cc->c_last = ep->e_prev;
-    if (cc->c_ahead == ep)
-	cc->c_ahead = ep->e_next;
-    if (cc->c_back == ep)
-	cc->c_back = ep->e_prev;
+    if (cc->c_head == ep)
+    {
+	cc->c_head = ep->e_next;  /* asymmetric, LATER rethink */
+	cc->c_headstate = COLL_HEADDELETED;
+    }
+
 }
 
 static void collcommon_modified(t_collcommon *cc, int relinked)
@@ -222,7 +228,8 @@ static void collcommon_clearall(t_collcommon *cc)
 	}
 	while (ep1 = ep2);
 	cc->c_first = cc->c_last = 0;
-	cc->c_ahead = cc->c_back = 0;
+	cc->c_head = 0;
+	cc->c_headstate = COLL_HEADRESET;
 	collcommon_modified(cc, 1);
     }
 }
@@ -581,8 +588,6 @@ static int collcommon_frombinbuf(t_collcommon *cc, t_binbuf *bb)
 static void collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv)
 {
     t_binbuf *bb;
-    int ac;
-    t_atom *av;
     char buf[MAXPDSTRING];
     if (!fn && !(fn = cc->c_filename))  /* !fn: 'readagain' */
 	return;
@@ -761,7 +766,8 @@ static void *collcommon_new(void)
     t_collcommon *cc = (t_collcommon *)pd_new(collcommon_class);
     cc->c_embedflag = 0;
     cc->c_first = cc->c_last = 0;
-    cc->c_ahead = cc->c_back = 0;
+    cc->c_head = 0;
+    cc->c_headstate = COLL_HEADRESET;
     return (cc);
 }
 
@@ -1203,70 +1209,59 @@ static void coll_swap(t_coll *x, t_symbol *s, int ac, t_atom *av)
     else loud_messarg((t_pd *)x, s);
 }
 
+/* CHECKED traversal direction change is consistent with the general rule:
+   'next' always outputs e_next of a previous output, and 'prev' always
+   outputs e_prev, whether preceded by 'prev', or by 'next'.  This is
+   currently implemented by pre-updating of the head (which is inhibited
+   if there was no previous output, i.e. after 'goto', 'end', or collection
+   initialization).  CHECKME again. */
+
 static void coll_next(t_coll *x)
 {
     t_collcommon *cc = x->x_common;
-    if (!cc->c_ahead && !(cc->c_ahead = cc->c_first))
-	return;
-    coll_keyoutput(x, cc->c_ahead);
-    if (cc->c_selfmodified && !cc->c_ahead)
-	return;
-    coll_dooutput(x, cc->c_ahead->e_size, cc->c_ahead->e_data);
-    /* LATER think why c74 updates the heads prior to sendout
-       (it seems so clumsy...) */
-    if (!cc->c_ahead && !(cc->c_ahead = cc->c_first))
+    if (cc->c_headstate != COLL_HEADRESET &&
+	cc->c_headstate != COLL_HEADDELETED)  /* asymmetric, LATER rethink */
     {
-	cc->c_back = 0;
+	if (cc->c_head)
+	    cc->c_head = cc->c_head->e_next;
+	if (!cc->c_head && !(cc->c_head = cc->c_first))  /* CHECKED wrapping */
+	    return;
+    }
+    else if (!cc->c_head && !(cc->c_head = cc->c_first))
 	return;
-    }
-    if (cc->c_ahead->e_next)
-    {
-	cc->c_ahead = cc->c_ahead->e_next;
-	if (!(cc->c_back = cc->c_ahead->e_prev))  /* LATER rethink */
-	    cc->c_back = cc->c_last;
-    }
-    else
-    {
-	/* CHECKED wraping */
-	cc->c_back = cc->c_ahead;
-	cc->c_ahead = 0;
-    }
+    cc->c_headstate = COLL_HEADNEXT;
+    coll_keyoutput(x, cc->c_head);
+    if (cc->c_head)
+	coll_dooutput(x, cc->c_head->e_size, cc->c_head->e_data);
+    else if (!cc->c_selfmodified)
+	bug("coll_next");  /* LATER rethink */
 }
 
 static void coll_prev(t_coll *x)
 {
     t_collcommon *cc = x->x_common;
-    if (!cc->c_back && !(cc->c_back = cc->c_last))
-	return;
-    coll_keyoutput(x, cc->c_back);
-    if (cc->c_selfmodified && !cc->c_back)
-	return;
-    coll_dooutput(x, cc->c_back->e_size, cc->c_back->e_data);
-    /* LATER think why c74 updates the heads prior to sendout
-       (it seems so clumsy...) */
-    if (!cc->c_back && !(cc->c_back = cc->c_last))
+    if (cc->c_headstate != COLL_HEADRESET)
     {
-	cc->c_ahead = 0;
+	if (cc->c_head)
+	    cc->c_head = cc->c_head->e_prev;
+	if (!cc->c_head && !(cc->c_head = cc->c_last))  /* CHECKED wrapping */
+	    return;
+    }
+    else if (!cc->c_head && !(cc->c_head = cc->c_first))
 	return;
-    }
-    if (cc->c_back->e_prev)
-    {
-	cc->c_back = cc->c_back->e_prev;
-	if (!(cc->c_ahead = cc->c_back->e_next))  /* LATER rethink */
-	    cc->c_ahead = cc->c_first;
-    }
-    else
-    {
-	/* CHECKED wraping */
-	cc->c_ahead = cc->c_back;
-	cc->c_back = 0;
-    }
+    cc->c_headstate = COLL_HEADPREV;
+    coll_keyoutput(x, cc->c_head);
+    if (cc->c_head)
+	coll_dooutput(x, cc->c_head->e_size, cc->c_head->e_data);
+    else if (!cc->c_selfmodified)
+	bug("coll_prev");  /* LATER rethink */
 }
 
 static void coll_end(t_coll *x)
 {
     t_collcommon *cc = x->x_common;
-    cc->c_back = cc->c_ahead = cc->c_last;
+    cc->c_head = cc->c_last;
+    cc->c_headstate = COLL_HEADRESET;
 }
 
 static void coll_goto(t_coll *x, t_symbol *s, int ac, t_atom *av)
@@ -1275,7 +1270,11 @@ static void coll_goto(t_coll *x, t_symbol *s, int ac, t_atom *av)
     {
 	t_collelem *ep = coll_findkey(x, av, s);
 	if (ep)
-	    x->x_common->c_back = x->x_common->c_ahead = ep;
+	{
+	    t_collcommon *cc = x->x_common;
+	    cc->c_head = ep;
+	    cc->c_headstate = COLL_HEADRESET;
+	}
     }
     else loud_messarg((t_pd *)x, s);
 }

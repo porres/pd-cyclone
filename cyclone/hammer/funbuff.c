@@ -444,7 +444,7 @@ static void *funbuff_new(t_symbol *s)
     x->x_canvas = canvas_getcurrent();
     x->x_valueset = 0;
     x->x_pointer = 0;
-    x->x_pointerset = 0;
+    x->x_pointerset = 0;  /* CHECKME, rename to intraversal? */
     x->x_lastdelta = 0;
     x->x_embedflag = 0;
     hammertree_init(&x->x_tree, 0);
