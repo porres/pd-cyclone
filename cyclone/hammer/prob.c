@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -8,8 +8,8 @@
 #include "common/rand.h"
 #include "hammer/file.h"
 
-/* CHECKED: no preallocation.  Apparently, it looks like if the new
-   state-entries were added to the list's head, and the new transition-entries
+/* CHECKED: no preallocation.  It looks like if new state-entries
+   were added to the list's head, and new transition-entries
    were added to the sublist's head.  No sorting of any kind. */
 
 #define PROB_DEBUG  0
@@ -62,29 +62,26 @@ static void prob_reset(t_prob *x, t_floatarg f)
     }
 }
 
-/*
-CHECKED: embedmode off:
-#N prob;
-#P newobj ... prob;
+static void prob_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
+{
+    t_prob *x = (t_prob *)z;
+    if (x->x_embedmode)
+    {
+	t_probtrans *pfx, *sfx;
+	for (pfx = x->x_translist; pfx; pfx = pfx->tr_nextstate)
+	    for (sfx = pfx->tr_nexttrans; sfx; sfx = sfx->tr_nexttrans)
+		binbuf_addv(bb, "siii;", bindsym, 
+			    pfx->tr_value, sfx->tr_value, sfx->tr_count);
+	binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
+	if (x->x_default)
+	    binbuf_addv(bb, "ssi;", bindsym, gensym("reset"),
+			x->x_default->tr_value);
+    }
+}
 
-CHECKED: embedmode on, after clear:
-#N prob;
-#T embed 1;
-#P newobj ... prob;
-
-CHECKED: embedmode on, filled:
-#N prob;
-#T <preffix> <suffix> <count>
-...
-#T embed 1;
-#T reset <default>; (if set)
-#P newobj ... prob;
-*/
 static void prob_embed(t_prob *x, t_floatarg f)
 {
     x->x_embedmode = ((int)f != 0);
-    if (x->x_embedmode)
-	loud_incompatible(prob_class, "embedding not supported (yet)...");
 }
 
 static void prob_clear(t_prob *x)
@@ -235,11 +232,11 @@ static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av)
     else loud_error((t_pd *)x, "bad list message format");  /* CHECKED */
 }
 
-static void prob_silent(t_prob *x)
+static void prob__silent(t_prob *x)
 {
     if (!x->x_silent)
     {
-	loud_incompatible(prob_class, "no 'silent' message in max");
+	loud_incompatible(prob_class, "no '_silent' message in max");
 	x->x_silent = 1;
     }
 }
@@ -279,7 +276,7 @@ static void *prob_new(void)
     rand_seed(&x->x_seed, 0);
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
-    x->x_filehandle = hammerfile_new((t_pd *)x, 0, 0, 0, 0);
+    x->x_filehandle = hammerfile_new((t_pd *)x, prob_embedhook, 0, 0, 0);
     return (x);
 }
 
@@ -301,12 +298,10 @@ void prob_setup(void)
     class_addmethod(prob_class, (t_method)prob_dump,
 		    gensym("dump"), 0);
     /* CHECKED: doesn't understand "seed" */
-
-    /* below are the incompatible extensions... */
-    class_addmethod(prob_class, (t_method)prob_silent,
-		    gensym("silent"), 0);
+    class_addmethod(prob_class, (t_method)prob__silent,
+		    gensym("_silent"), 0);
     class_addmethod(prob_class, (t_method)prob_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    hammerfile_setup(prob_class, 0);  /* LATER embedding (, 1) */
+    hammerfile_setup(prob_class, 1);
 }

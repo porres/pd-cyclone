@@ -67,6 +67,7 @@ typedef struct _table
     t_float         x_value;
     int             x_valueset;
     int             x_head;
+    int             x_intraversal;  /* ``set-with-next/prev'' flag */
     int             x_loadflag;
     int             x_loadndx;
     unsigned int    x_seed;
@@ -183,8 +184,9 @@ static void tablecommon_setlength(t_tablecommon *cc, int length)
     }
     cc->c_length = length;
     /* CHECKED values at common indices are preserved */
-    /* CHECKED rewinding neither head, nor loadndx, but a separate
-       condition of eot is preserved only for the head. */
+    /* CHECKED rewinding neither head, nor loadndx -- both are preserved,
+       although there is a bug in handling of 'prev' after the head
+       overflows due to shrinking. */
     tablecommon_modified(cc, relocate);
 }
 
@@ -427,8 +429,7 @@ static void table_float(t_table *x, t_float f)
 	    x->x_valueset = 0;
 	}
 	else table_dooutput(x, ndx);
-	/* CHECKME if head is updated */
-	x->x_head = ndx;
+	/* CHECKED head is not updated */
     }
 }
 
@@ -500,13 +501,13 @@ static void table_cancel(t_table *x)
 static void table_clear(t_table *x)
 {
     tablecommon_setall(x->x_common, 0);
-    /* CHECKME head */
+    /* CHECKED head preserved */
 }
 
 static void table_const(t_table *x, t_floatarg f)
 {
     tablecommon_setall(x->x_common, (int)f);
-    /* CHECKME head */
+    /* CHECKED head preserved */
 }
 
 static void table_load(t_table *x)
@@ -522,29 +523,59 @@ static void table_normal(t_table *x)
 
 static void table_next(t_table *x)
 {
-    table_dooutput(x, x->x_head++);
-    if (x->x_head >= x->x_common->c_length)
+    if (!x->x_intraversal)
+	x->x_intraversal = 1;
+    else if (++x->x_head >= x->x_common->c_length)
 	x->x_head = 0;
+    table_dooutput(x, x->x_head);
 }
 
 static void table_prev(t_table *x)
 {
-    table_dooutput(x, x->x_head--);
-    if (x->x_head < 0)
+    if (!x->x_intraversal)
+	x->x_intraversal = 1;
+    else if (--x->x_head < 0)
 	x->x_head = x->x_common->c_length - 1;
+    table_dooutput(x, x->x_head);
 }
 
 static void table_goto(t_table *x, t_floatarg f)
 {
     /* CHECKED floats are truncated */
     x->x_head = tablecommon_getindex(x->x_common, (int)f);
+    /* CHECKED the head should be pre-updated during traversal, in order
+       to maintain the logical way of direction change.  Therefore, we
+       need the flag below, which locks head in place that has just been
+       set by goto.  The flag is then set by next or prev. */
+    x->x_intraversal = 0;
 }
 
-/* CHECKED 'send <target> length' works, but not max, min, sum... */
-/* CHECKED 'send <target> <ndx> <value>' writes the value (a bug?) */
-static void table_send(t_table *x, t_symbol *s, t_floatarg f)
+static void table_send(t_table *x, t_symbol *s, int ac, t_atom *av)
 {
-    /* FIXME */
+    if (ac > 1 && av->a_type == A_SYMBOL)
+    {
+	t_symbol *target = av->a_w.w_symbol;
+	if (!target->s_thing)
+	    return;  /* CHECKED no complaint */
+	ac--; av++;
+	if (av->a_type == A_FLOAT)
+	{
+	    if (ac == 1)
+	    {
+		int ndx = (int)av->a_w.w_float;
+		pd_float(target->s_thing,
+			 (t_float)tablecommon_getvalue(x->x_common, ndx));
+	    }
+	    /* CHECKED incompatible: 'send <target> <ndx> <value>'
+	       stores <value> at <ndx> (a bug?) */
+	}
+	else if (av->a_type == A_SYMBOL)
+	{
+	    /* CHECKED 'send <target> length' works, but not max, min, sum... */
+	    if (av->a_w.w_symbol == gensym("length"))
+		pd_float(target->s_thing, (t_float)x->x_common->c_length);
+	}
+    }
 }
 
 static void table_length(t_table *x)
@@ -612,7 +643,7 @@ static void table_fquantile(t_table *x, t_floatarg f)
 
 /* FIXME arguments (from, to) */
 /* CHECKED no remote dumping, symbol args bashed to 0 */
-static void table_dump(t_table *x)
+static void table_dump(t_table *x, t_symbol *s, int ac, t_atom *av)
 {
     t_tablecommon *cc = x->x_common;
     t_outlet *out = ((t_object *)x)->ob_outlet;
@@ -649,7 +680,8 @@ static void table_write(t_table *x, t_symbol *s)
     if (s && s != &s_)
 	tablecommon_dowrite(cc, s, x->x_canvas);
     else
-	hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKME default name */
+	/* CHECKED default name is plain `Untitled' */
+	hammerpanel_save(cc->c_filehandle, 0, 0);
 }
 
 static int tablecommon_editorappend(t_tablecommon *cc,
@@ -725,6 +757,7 @@ static void *table_new(t_symbol *s)
     x->x_canvas = canvas_getcurrent();
     x->x_valueset = 0;
     x->x_head = 0;
+    x->x_intraversal = 0;  /* CHECKED */
     x->x_loadflag = 0;
     rand_seed(&x->x_seed, 0);
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
@@ -773,7 +806,7 @@ void Table_setup(void)
     class_addmethod(table_class, (t_method)table_goto,
 		    gensym("goto"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_send,
-		    gensym("send"), A_SYMBOL, A_FLOAT, 0);
+		    gensym("send"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_length,
 		    gensym("length"), 0);
     class_addmethod(table_class, (t_method)table_sum,
@@ -793,7 +826,7 @@ void Table_setup(void)
     class_addmethod(table_class, (t_method)table_fquantile,
 		    gensym("fquantile"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_dump,
-		    gensym("dump"), 0);
+		    gensym("dump"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_refer,
 		    gensym("refer"), A_SYMBOL, 0);
     class_addmethod(table_class, (t_method)table_read,
