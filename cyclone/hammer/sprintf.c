@@ -2,14 +2,12 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* FIXME empty string as a default for %s */
-
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
 #include "common/loud.h"
 
-#define SPRINTF_DEBUG  0
+//#define SPRINTF_DEBUG
 
 /* Pattern types.  These are the parsing routine's return values.
    If returned value is >= SPRINTF_MINSLOTTYPE, then another slot
@@ -52,7 +50,8 @@ typedef struct _sprintf_proxy
     char       *p_pattern;
     char       *p_pattend;
     t_atom      p_atom;  /* current input */
-    int         p_size;  /* also an input validation flag */
+    int         p_size;
+    int         p_valid;
 } t_sprintf_proxy;
 
 static t_class *sprintf_class;
@@ -64,7 +63,7 @@ static t_class *sprintf_proxy_class;
 /* LATER use snprintf, if it is available on other systems (should be...) */
 static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 {
-    int result = 0;
+    int result = 0, valid = 0;
     char *pattend = x->p_pattend;
     if (pattend)
     {
@@ -95,6 +94,8 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 		loud_error((t_pd *)x->p_master,
 			   "can't convert float to type of argument %d",
 			   x->p_id + 1);
+	    if (result > 0)
+		valid = 1;
 	}
 	else if (x->p_atom.a_type == A_SYMBOL)
 	{
@@ -108,6 +109,8 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 		    result = SPRINTF_MAXWIDTH;
 		}
 		else result = sprintf(buf, x->p_pattern, s->s_name);
+		if (result >= 0)
+		    valid = 1;
 	    }
 	    else  /* CHECKED */
 		loud_error((t_pd *)x->p_master,
@@ -117,16 +120,16 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 	*pattend = tmp;
     }
     else bug("sprintf_proxy_checkit");
-    if (result > 0)
+    if (x->p_valid = valid)
     {
-#if SPRINTF_DEBUG
+#ifdef SPRINTF_DEBUG
 	if (checkin) post("[%d in \"%s\"]", result, buf);
 #endif
 	x->p_size = result;
     }
     else
     {
-#if SPRINTF_DEBUG
+#ifdef SPRINTF_DEBUG
 	if (checkin) post("checkit failed");
 #endif
 	x->p_size = 0;
@@ -142,7 +145,7 @@ static void sprintf_dooutput(t_sprintf *x)
     for (i = 0; i < x->x_nslots; i++)
     {
 	t_sprintf_proxy *y = (t_sprintf_proxy *)x->x_proxies[i];
-	if (y->p_size)
+	if (y->p_valid)
 	    outsize += y->p_size;
 	else
 	{
@@ -212,7 +215,7 @@ static void sprintf_proxy_float(t_sprintf_proxy *x, t_float f)
     char buf[SPRINTF_MAXWIDTH + 1];  /* LATER rethink */
     SETFLOAT(&x->p_atom, f);
     sprintf_proxy_checkit(x, buf, 1);
-    if (x->p_id == 0 && x->p_size)
+    if (x->p_id == 0 && x->p_valid)
 	sprintf_dooutput(x->p_master);  /* CHECKED: only first inlet */
 }
 
@@ -224,7 +227,7 @@ static void sprintf_proxy_symbol(t_sprintf_proxy *x, t_symbol *s)
     else
 	SETFLOAT(&x->p_atom, 0);
     sprintf_proxy_checkit(x, buf, 1);
-    if (x->p_id == 0 && x->p_size)
+    if (x->p_id == 0 && x->p_valid)
 	sprintf_dooutput(x->p_master);  /* CHECKED: only first inlet */
 }
 
@@ -547,7 +550,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 		   "an object created without valid format patterns...");
 	return (x);
     }
-#if SPRINTF_DEBUG
+#ifdef SPRINTF_DEBUG
     post("%d slots:", nproxies);
 #endif
     /* CHECKED: max creates as many inlets, as there are %-signs, no matter
@@ -581,8 +584,8 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 	type = sprintf_parsepattern(x, &p1);
 	if (type >= SPRINTF_MINSLOTTYPE)
 	{
-#if SPRINTF_DEBUG
-	    char tmp = *++p1;
+#ifdef SPRINTF_DEBUG
+	    char tmp = *p1;
 	    *p1 = 0;
 	    poststring(p2);
 	    endpost();
@@ -597,15 +600,19 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 		y->p_type = type;
 		y->p_pattern = p2;
 		y->p_pattend = p1;
-		SETFLOAT(&y->p_atom, 0);
+		if (type == SPRINTF_STRING)
+		    SETSYMBOL(&y->p_atom, &s_);
+		else
+		    SETFLOAT(&y->p_atom, 0);
 		y->p_size = 0;
+		y->p_valid = 0;
 		if (i) inlet_new((t_object *)x, (t_pd *)y, 0, 0);
 		sprintf_proxy_checkit(y, buf, 1);
 		i++;
 	    }
 	}
     }
-#if SPRINTF_DEBUG
+#ifdef SPRINTF_DEBUG
     post("printf(\"%s\", ...)", fstring);
 #endif
     outlet_new((t_object *)x, &s_anything);
