@@ -1,0 +1,63 @@
+proc ::toxy::kb {path target remote noctaves size} {
+    set lft [expr {round(5 * $size)}]
+    set top [expr {5 * $size}]
+    set bot [expr {100 * $size}]
+    set dx [expr {round(17 * $size)}]
+    set wid [expr {$dx - $size * .5}]
+    set blbot [expr {$bot * .65}]
+
+    $path config -height [expr {$bot + $top}] \
+	-width [expr {$dx * ($noctaves * 7 + 1) + $lft * 2 - 1}]
+
+    for {set octave 0} {$octave <= $noctaves} {incr octave} {
+	set prevkey 0
+	foreach key {0 2 4 5 7 9 11} {
+	    set ndx [expr $octave * 12 + $key]
+	    set id [$path create rect $lft $top \
+		[expr {$lft + $wid}] $bot -fill white -tags $path.$ndx]
+	    $path bind $id <1> [concat ::toxy::kbset \
+		$path $target $remote $ndx]
+	    if {$key - $prevkey > 1} {
+		incr ndx -1
+		set x [expr {$lft - $wid * .22}]
+		set id [$path create rect $x $top [expr {$x + $wid * .44}] \
+		    $blbot -fill black -tags $path.$ndx]
+		$path bind $id <1> [concat ::toxy::kbset \
+		    $path $target $remote $ndx]
+	    }
+	    set prevkey $key
+	    incr lft $dx
+	    if {$octave == $noctaves && $key == 0} break
+	}
+    }
+    set ::toxy::kbval($target) 0
+    set ::toxy::kbcol($target) white
+    $path itemconfig $path.0 -fill grey
+}
+
+proc ::toxy::kbout {path target remote} {
+    pd [concat $target _cb $::toxy::kbval($target) \;]
+    if {$remote != "."} {
+	pd [concat $remote $::toxy::kbval($target) \;]
+    }
+}
+
+proc ::toxy::kbset {path target remote value} {
+    $path itemconfig $path.$::toxy::kbval($target) \
+	-fill $::toxy::kbcol($target)
+    set ::toxy::kbval($target) $value
+    set ::toxy::kbcol($target) [lindex [$path itemconfig $path.$value -fill] 4]
+    $path itemconfig $path.$value -fill grey
+    ::toxy::kbout $path $target $remote
+}
+
+#> kb canvas
+#. -bg yellow -cursor hand1
+#. #oct 4 #size .75
+#. @bang ::toxy::kbout .- .| .
+#. @float ::toxy::kbset .- .| . .#1
+
+::toxy::kb .- .| . .#oct .#size
+
+# undo the "bind Canvas <1> {+focus %W}" in the setup part above
+bind .- <FocusIn> {focus .^.c}

@@ -456,11 +456,11 @@ static void *tot_new(t_symbol *s1, t_symbol *s2)
     char buf[64];
     sprintf(buf, "tot%x", (int)x);
     pd_bind((t_pd *)x, x->x_target = gensym(buf));
-    x->x_transient =
-	scriptlet_new((t_pd *)x, x->x_target, x->x_target, 0, tot_cvhook);
-    x->x_persistent =
-	scriptlet_new((t_pd *)x, x->x_target, x->x_target, 0, tot_cvhook);
     x->x_glist = canvas_getcurrent();
+    x->x_transient = scriptlet_new((t_pd *)x, x->x_target, x->x_target,
+				   0, x->x_glist, tot_cvhook);
+    x->x_persistent = scriptlet_new((t_pd *)x, x->x_target, x->x_target,
+				    0, x->x_glist, tot_cvhook);
     if (s1 && s1 != &s_ && strcmp(s1->s_name, "."))
     {
 	x->x_cvremote = canvas_makebindsym(x->x_cvname = s1);

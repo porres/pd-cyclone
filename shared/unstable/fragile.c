@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include "common/loud.h"
 #include "unstable/pd_imp.h"
 #include "unstable/fragile.h"
 
@@ -66,6 +67,61 @@ struct _outlet
 t_outconnect *fragile_outlet_connections(t_outlet *o)
 {
     return (o ? o->o_connections : 0);
+}
+
+t_outconnect *fragile_outlet_nextconnection(t_outconnect *last,
+					    t_object **destp, int *innop)
+{
+    t_inlet *dummy;
+    return (obj_nexttraverseoutlet(last, destp, &dummy, innop));
+}
+
+/* silent, if caller is empty */
+t_object *fragile_outlet_destination(t_outlet *op,
+				     int ntypes, t_symbol **types,
+				     t_pd *caller, char *errand)
+{
+    t_object *booty = 0;
+    t_symbol *badtype = 0;
+    int count = 0;
+    t_outconnect *tobooty = fragile_outlet_connections(op);
+    while (tobooty)
+    {
+	t_object *ob;
+	int inno;
+	count++;
+	tobooty = fragile_outlet_nextconnection(tobooty, &ob, &inno);
+	if (ob && inno == 0)
+	{
+	    /* LATER ask for class_getname()'s symbol version */
+	    t_symbol **tp, *dsttype = gensym(class_getname(*(t_pd *)ob));
+	    int i;
+	    for (i = 0, tp = types; i < ntypes; i++, tp++)
+	    {
+		if (*tp == dsttype)
+		{
+		    booty = ob;
+		    break;
+		}
+		else badtype = dsttype;
+	    }
+	}
+    }
+    if (booty)
+    {
+	if (count > 1 && caller)
+	    loud_warning(caller, "multiple targets");
+    }
+    else if (caller)
+    {
+	if (badtype)
+	    loud_error(caller, "bad target type '%s'", badtype->s_name);
+	else
+	    loud_error(caller, "no target");
+	if (errand)
+	    loud_errand(caller, errand);
+    }
+    return (booty);
 }
 
 /* These are local to m_obj.c. */

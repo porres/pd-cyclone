@@ -28,14 +28,15 @@ enum { SCRIPTLET_CVOK, SCRIPTLET_CVUNKNOWN, SCRIPTLET_CVMISSING };
 
 struct _scriptlet
 {
-    t_pd               *s_owner;
-    t_glist            *s_glist;     /* containing glist (possibly null) */
-    t_symbol           *s_rptarget;  /* reply target */
-    t_symbol           *s_cbtarget;  /* callback target */
-    t_symbol           *s_item;
-    t_scriptlet_cvfn    s_cvfn;
-    t_canvas           *s_cv;
-    int                 s_cvstate;
+    t_pd             *s_owner;
+    t_glist          *s_glist;     /* containing glist (empty allowed) */
+    t_symbol         *s_rptarget;  /* reply target */
+    t_symbol         *s_cbtarget;  /* callback target */
+    t_symbol         *s_item;
+    t_scriptlet_cvfn  s_cvfn;      /* if empty, passing resolveall is a bug */
+    t_canvas         *s_cv;        /* as returned by cvfn */
+    int               s_cvstate;
+    int     s_locked;  /* append lock, for filtering, when reading from file */
     int     s_size;
     char   *s_buffer;
     char    s_bufini[SCRIPTLET_INISIZE];
@@ -83,7 +84,7 @@ static int scriptlet_ready(t_scriptlet *sp)
 
 static int scriptlet_doappend(t_scriptlet *sp, char *buf)
 {
-    if (buf)
+    if (buf && !sp->s_locked)
     {
 	int nprefix = sp->s_head - sp->s_buffer;
 	int nused = sp->s_tail - sp->s_buffer;
@@ -192,37 +193,67 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
 	    len = 1;
 	}
 	break;
-    case '~':
+    case '~':  /* FIXME, the dot-tilde stuff is purely experimental. */
 	if (resolveall)
 	{
 	    t_canvas *cv;
 	    if (cv = scriptlet_canvasvalidate(sp, visedonly))
 	    {
-		/* FIXME */
-		if (!strcmp(&ibuf[1], "x1"))
+		if (!strncmp(&ibuf[1], "tag", 3))
+		{
+		    t_rtext *rt;
+		    if (cv->gl_owner && glist_isvisible(cv->gl_owner) &&
+			cv->gl_owner->gl_editor &&
+			(rt = glist_findrtext(cv->gl_owner, (t_object *)cv)))
+			sprintf(obuf, "%s", rtext_gettag(rt));
+		    else
+			obuf[0] = 0;
+		    len = 4;
+		}
+		else if (!strncmp(&ibuf[1], "owner", 5))
+		{
+		    if (cv->gl_owner && glist_isvisible(cv->gl_owner))
+			sprintf(obuf, ".x%x", (int)cv->gl_owner);
+		    else
+			obuf[0] = 0;
+		    len = 6;
+		}
+		else if (!strncmp(&ibuf[1], "root", 4))
+		{
+		    sprintf(obuf, ".x%x", (int)canvas_getrootfor(cv));
+		    len = 5;
+		}
+		/* LATER find out when gl_<coords> are updated,
+		   think how to better sync them to Tk. */
+		else if (!strncmp(&ibuf[1], "x1", 2))
 		{
 		    sprintf(obuf, "%d", cv->gl_screenx1);
 		    len = 3;
 		}
-		else if (!strcmp(&ibuf[1], "x2"))
+		else if (!strncmp(&ibuf[1], "x2", 2))
 		{
 		    sprintf(obuf, "%d", cv->gl_screenx2);
 		    len = 3;
 		}
-		else if (!strcmp(&ibuf[1], "y1"))
+		else if (!strncmp(&ibuf[1], "y1", 2))
 		{
 		    sprintf(obuf, "%d", cv->gl_screeny1);
 		    len = 3;
 		}
-		else if (!strcmp(&ibuf[1], "y2"))
+		else if (!strncmp(&ibuf[1], "y2", 2))
 		{
 		    sprintf(obuf, "%d", cv->gl_screeny2);
 		    len = 3;
 		}
-		else if (!strcmp(&ibuf[1], "edit"))
+		else if (!strncmp(&ibuf[1], "edit", 4))
 		{
 		    sprintf(obuf, "%d", cv->gl_edit);
 		    len = 5;
+		}
+		else if (!strncmp(&ibuf[1], "gop", 3))
+		{
+		    sprintf(obuf, "%d", glist_isgraph(cv));
+		    len = 4;
 		}
 		else loud_error(sp->s_owner, "bad field '%s'", &ibuf[1]);
 	    }
@@ -249,19 +280,17 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
 	{
 	    if (ibuf[1] == ':')
 	    {
-		sprintf(obuf, "{::toxy::callback ");
+		sprintf(obuf, "{pd [concat ");
 		len = 2;
 	    }
 	    else if (ibuf[1] == '|')
 	    {
-		sprintf(obuf, "{::toxy::callback %s ",
-			sp->s_rptarget->s_name);
+		sprintf(obuf, "{pd [concat %s ", sp->s_rptarget->s_name);
 		len = 2;
 	    }
 	    else
 	    {
-		sprintf(obuf, "{::toxy::callback %s _cb ",
-			sp->s_cbtarget->s_name);
+		sprintf(obuf, "{pd [concat %s _cb ", sp->s_cbtarget->s_name);
 		len = 1;
 	    }
 	}
@@ -269,7 +298,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
     case '>':
 	if (resolveall)
 	{
-	    sprintf(obuf, "}");
+	    sprintf(obuf, "\\;]}");
 	    len = 1;
 	}
 	break;
@@ -285,6 +314,7 @@ int scriptlet_isempty(t_scriptlet *sp)
 void scriptlet_reset(t_scriptlet *sp)
 {
     sp->s_cvstate = SCRIPTLET_CVUNKNOWN;
+    sp->s_locked = 0;
     sp->s_separator = 0;
     strcpy(sp->s_buffer, "namespace eval ::toxy {\
  proc query {} {set ::toxy::reply [\n");
@@ -400,7 +430,7 @@ void scriptlet_qpush(t_scriptlet *sp)
     }
 }
 
-/* Non-expanding -- LATER think if this is likely to cause any confusion.
+/* Non-substituting -- LATER think if this is likely to cause any confusion.
    Especially, consider the widget_vis() vs. widget_update() case. */
 void scriptlet_vpush(t_scriptlet *sp, char *varname)
 {
@@ -496,53 +526,86 @@ char *scriptlet_nextword(char *buf)
     return (0);
 }
 
-static int scriptlet_doread(t_scriptlet *sp, FILE *fp, char *rc,
-			    t_scriptlet_cmntfn cmntfn)
+static int scriptlet_doread(t_scriptlet *sp, t_pd *caller, FILE *fp,
+			    char *rc, char *builtin, t_scriptlet_cmntfn cmntfn)
 {
     t_scriptlet *outsp = sp, *newsp;
     char buf[MAXPDSTRING];
-    scriptlet_reset(outsp);
-    while (!feof(fp))
+    if (!caller) caller = sp->s_owner;
+    while ((fp && !feof(fp) && fgets(buf, MAXPDSTRING - 1, fp))
+	   || builtin)
     {
-	if (fgets(buf, MAXPDSTRING - 1, fp))
+	char *ptr;
+	if (builtin)
 	{
-	    char *ptr = buf;
-	    while (*ptr == ' ' || *ptr == '\t') ptr++;
-	    if (*ptr == '#')
+	    int i;
+	    for (i = 0, ptr = buf; i < MAXPDSTRING - 1; i++, ptr++)
 	    {
-		if (cmntfn)
+		if ((*ptr = (*builtin ? *builtin : '\n')) == '\n')
 		{
-		    char sel = *++ptr;
-		    if (sel && sel != '\n')
+		    ptr[1] = 0;
+		    if (*builtin) builtin++;
+		    if (!*builtin) builtin = 0;
+		    break;
+		}
+		else builtin++;
+	    }
+	}
+	ptr = buf;
+	while (*ptr == ' ' || *ptr == '\t') ptr++;
+	if (*ptr == '#')
+	{
+	    if (cmntfn)
+	    {
+		char sel = *++ptr;
+		if (sel && sel != '\n')
+		{
+		    ptr++;
+		    while (*ptr == ' ' || *ptr == '\t') ptr++;
+		    if (*ptr == '\n')
+			*ptr = 0;
+		    if (*ptr)
 		    {
-			ptr++;
-			while (*ptr == ' ' || *ptr == '\t') ptr++;
-			if (*ptr == '\n')
-			    *ptr = 0;
-			if (*ptr)
-			{
-			    char *ep = ptr + strlen(ptr) - 1;
-			    while (*ep == ' ' || *ep == '\t' || *ep == '\n')
-				ep--;
-			    ep[1] = 0;
-			}
-			newsp = cmntfn(sp->s_owner, rc, sel, ptr);
-			if (newsp && newsp != outsp)
-			    scriptlet_reset(outsp = newsp);
+			char *ep = ptr + strlen(ptr) - 1;
+			while (*ep == ' ' || *ep == '\t' || *ep == '\n')
+			    ep--;
+			ep[1] = 0;
+		    }
+		    newsp = cmntfn(caller, rc, sel, ptr);
+		    if (newsp == SCRIPTLET_UNLOCK)
+			outsp->s_locked = 0;
+		    else if (newsp == SCRIPTLET_LOCK)
+			outsp->s_locked = 1;
+		    else if (newsp != outsp)
+		    {
+			outsp->s_locked = 0;
+			scriptlet_reset(outsp = newsp);
 		    }
 		}
 	    }
-	    else if (*ptr && *ptr != '\n')
-		scriptlet_doappend(outsp, buf);
 	}
-	else break;
+	else if (*ptr && *ptr != '\n')
+	    scriptlet_doappend(outsp, buf);
     }
+    outsp->s_locked = 0;
     return (SCRIPTLET_OK);
 }
 
-int scriptlet_rcload(t_scriptlet *sp, char *rc, char *ext,
-		     t_scriptlet_cmntfn cmntfn)
+/* Load particular section(s) from buffer (skip up to an unlocking comment,
+   keep appending up to a locking comment, repeat). */
+int scriptlet_rcparse(t_scriptlet *sp, t_pd *caller, char *rc, char *contents,
+		      t_scriptlet_cmntfn cmntfn)
 {
+    int result;
+    sp->s_locked = 1;  /* see scriptlet_doread() above for unlocking scheme */
+    result = scriptlet_doread(sp, caller, 0, rc, contents, cmntfn);
+    return (result);
+}
+
+int scriptlet_rcload(t_scriptlet *sp, t_pd *caller, char *rc, char *ext,
+		     char *builtin, t_scriptlet_cmntfn cmntfn)
+{
+    int result;
     char filename[MAXPDSTRING], buf[MAXPDSTRING], *nameptr, *dir;
     int fd;
     if (sp->s_glist)
@@ -551,32 +614,41 @@ int scriptlet_rcload(t_scriptlet *sp, char *rc, char *ext,
 	dir = "";
     if ((fd = open_via_path(dir, rc, ext, buf, &nameptr, MAXPDSTRING, 0)) < 0)
     {
-    	return (SCRIPTLET_NOFILE);
+	result = SCRIPTLET_NOFILE;
     }
     else
     {
 	FILE *fp;
     	close(fd);
-	strcpy(filename, buf);
-	strcat(filename, "/");
-	strcat(filename, nameptr);
-	sys_bashfilename(filename, filename);
+	if (nameptr != buf)
+	{
+	    strcpy(filename, buf);
+	    strcat(filename, "/");
+	    strcat(filename, nameptr);
+	    sys_bashfilename(filename, filename);
+	}
+	else sys_bashfilename(nameptr, filename);
 	if (fp = fopen(filename, "r"))
 	{
-	    int result = scriptlet_doread(sp, fp, rc, cmntfn);
+	    result = scriptlet_doread(sp, caller, fp, rc, 0, cmntfn);
 	    fclose(fp);
-	    return (result);
 	}
 	else
 	{
 	    bug("scriptlet_rcload");
-	    return (SCRIPTLET_NOFILE);
+	    result = SCRIPTLET_NOFILE;
 	}
     }
+    if (result != SCRIPTLET_OK)
+    {
+	scriptlet_doread(sp, caller, 0, rc, builtin, cmntfn);
+    }
+    return (result);
 }
 
 int scriptlet_read(t_scriptlet *sp, t_symbol *fn)
 {
+    int result;
     FILE *fp;
     char buf[MAXPDSTRING];
     post("loading scriptlet file \"%s\"", fn->s_name);
@@ -587,15 +659,16 @@ int scriptlet_read(t_scriptlet *sp, t_symbol *fn)
     sys_bashfilename(buf, buf);
     if (fp = fopen(buf, "r"))
     {
-	int result = scriptlet_doread(sp, fp, 0, 0);
+	scriptlet_reset(sp);
+	result = scriptlet_doread(sp, 0, fp, 0, 0, 0);
 	fclose(fp);
-	return (result);
     }
     else
     {
 	loud_error(sp->s_owner, "error while loading file \"%s\"", fn->s_name);
-    	return (SCRIPTLET_NOFILE);
+    	result = SCRIPTLET_NOFILE;
     }
+    return (result);
 }
 
 int scriptlet_write(t_scriptlet *sp, t_symbol *fn)
@@ -640,11 +713,22 @@ char *scriptlet_getbuffer(t_scriptlet *sp, int *sizep)
     return (sp->s_buffer);
 }
 
+void scriptlet_setowner(t_scriptlet *sp, t_pd *owner)
+{
+    sp->s_owner = owner;
+}
+
 void scriptlet_clone(t_scriptlet *to, t_scriptlet *from)
 {
     scriptlet_reset(to);
     to->s_separator = ' ';
-    /* LATER use from's buffer with refcount */
+    /* LATER add a flag to optionally use from's buffer with refcount */
+    scriptlet_doappend(to, from->s_head);
+}
+
+void scriptlet_append(t_scriptlet *to, t_scriptlet *from)
+{
+    to->s_separator = ' ';
     scriptlet_doappend(to, from->s_head);
 }
 
@@ -658,8 +742,11 @@ void scriptlet_free(t_scriptlet *sp)
     }
 }
 
+/* The parameter 'gl' (null accepted) is necessary, because the 's_glist'
+   field, if implicitly set, would be dangerous (after a glist is gone)
+   and confusing (current directory used for i/o of a global scriptlet). */
 t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
-			   t_symbol *item, t_scriptlet_cvfn cvfn)
+			   t_symbol *item, t_glist *gl, t_scriptlet_cvfn cvfn)
 {
     t_scriptlet *sp = getbytes(sizeof(*sp));
     if (sp)
@@ -667,12 +754,10 @@ t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
 	static int configured = 0;
 	if (!configured)
 	{
-	    sys_gui("namespace eval ::toxy {\
- proc callback {args} {pd $args \\;}}\n");
 	    sys_gui("image create bitmap ::toxy::img::empty -data {}\n");
 	}
 	sp->s_owner = owner;
-	sp->s_glist = canvas_getcurrent();
+	sp->s_glist = gl;
 	sp->s_rptarget = rptarget;
 	sp->s_cbtarget = cbtarget;
 	sp->s_item = item;

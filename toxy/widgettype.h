@@ -21,10 +21,11 @@ char *widgettype_propname(t_symbol *s);
 char *widgettype_getcontents(t_widgettype *wt, int *szp);
 int widgettype_evaluate(t_widgettype *wt, t_scriptlet *outsp,
 			int visedonly, int ac, t_atom *av, t_props *argprops);
+void widgettype_setup(void);
+
+char *masterwidget_getcontents(int *szp);
 int masterwidget_evaluate(t_scriptlet *outsp, int visedonly,
 			  int ac, t_atom *av, t_props *argprops);
 void masterwidget_initialize(void);
-
-void widgettype_setup(void);
 
 #endif

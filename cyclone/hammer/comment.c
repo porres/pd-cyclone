@@ -5,6 +5,8 @@
 /* FIXME creation lag (X-specific) */
 /* LATER think about pushing text to the text editor (ctrl-t)
    -- not easy, because we are not 'textedfor' */
+/* LATER think about making the <Button> binding for the entire bbox,
+   instead of the text item, to ease the pain of resizing, somewhat. */
 
 #include <stdlib.h>
 #include <stdio.h>

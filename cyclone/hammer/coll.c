@@ -9,6 +9,7 @@
 #include "common/loud.h"
 #include "hammer/file.h"
 
+/* FIXME sort -1 -1, sort 1 crashes in pd large */
 /* FIXME sort crashes after (corrupt?) transfers from the editor */
 /* LATER make sure that ``reentrancy protection hack'' is really working... */
 /* CHECKME default fname for 'write' -- c_filename, x_name, nothing? */

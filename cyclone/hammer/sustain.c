@@ -23,6 +23,7 @@ static void sustain_float(t_sustain *x, t_float f)
     int pitch = (int)f;
     if (pitch >= 0 && pitch < SUSTAIN_NPITCHES)
     {
+	/* CHECKED a plain note-off accumulator */
 	if (x->x_velocity || !x->x_switch)
 	{
 	    outlet_float(x->x_voutlet, x->x_velocity);

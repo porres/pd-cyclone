@@ -11,7 +11,6 @@
 typedef struct _rand
 {
     t_sic    x_sic;
-    t_float  x_rate;
     double   x_lastphase;
     double   x_nextphase;
     float    x_rcpsr;
@@ -71,7 +70,7 @@ static void rand_dsp(t_rand *x, t_signal **sp)
     dsp_add(rand_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *rand_new(t_floatarg inirate)
+static void *rand_new(t_floatarg f)
 {
     t_rand *x = (t_rand *)pd_new(rand_class);
     /* borrowed from d_osc.c, LATER rethink */
@@ -80,7 +79,7 @@ static void *rand_new(t_floatarg inirate)
     x->x_lastphase = 0.;
     x->x_nextphase = 1.;  /* start from 0, force retargetting */
     x->x_target = x->x_scaling = 0;
-    x->x_rate = (inirate > 0 ? -inirate : 0);
+    sic_newinlet((t_sic *)x, (f > 0. ? -f : 0.));
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }

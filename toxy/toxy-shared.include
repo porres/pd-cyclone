@@ -9,6 +9,8 @@ shared/hammer/file.c
 shared/hammer/file.h
 shared/hammer/gui.c
 shared/hammer/gui.h
+shared/unstable/fragile.c
+shared/unstable/fragile.h
 shared/unstable/forky.c
 shared/unstable/forky.h
 shared/unstable/loader.c
@@ -16,5 +18,7 @@ shared/unstable/loader.h
 shared/unstable/pd_imp.h
 shared/common/props.c
 shared/common/props.h
+shared/toxy/plusbob.c
+shared/toxy/plusbob.h
 shared/toxy/scriptlet.c
 shared/toxy/scriptlet.h

@@ -89,10 +89,9 @@ static t_pd *grab_next(t_grab *x)
 nextremote:
     if (x->x_tograbbed)
     {
-	t_inlet *ip;
 	int inno;
-	x->x_tograbbed = obj_nexttraverseoutlet(x->x_tograbbed,
-						&x->x_grabbed, &ip, &inno);
+	x->x_tograbbed =
+	    fragile_outlet_nextconnection(x->x_tograbbed, &x->x_grabbed, &inno);
 	if (x->x_grabbed)
 	{
 	    if (inno)

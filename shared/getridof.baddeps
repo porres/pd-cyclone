@@ -1,7 +1,9 @@
 This is the list of all dependencies among miXed/shared objects.
 Some are inevitable, but others can, and should be removed.
 
+unstable/fragile -> common/loud
 unstable/fringe -> unstable/forky
+toxy/plusbob -> common/loud
 toxy/scriptlet -> common/loud, common/grow, common/props
 sickle/sic -> common/loud
 sickle/arsic -> common/loud, common/vefl, sickle/sic, unstable/fragile

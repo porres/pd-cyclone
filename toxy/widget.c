@@ -23,7 +23,7 @@ static t_class *makeshift_class;
 //#define WIDGET_DEBUG
 //#define TOW_DEBUG
 
-enum { WIDGET_NOUPDATE = 0, WIDGET_RECONFIG, WIDGET_REVIS };
+enum { WIDGET_NOVIS = 0, WIDGET_PUSHVIS, WIDGET_REVIS };
 
 typedef struct _towentry
 {
@@ -62,9 +62,9 @@ typedef struct _widget
     int            x_height;
     t_symbol      *x_background;
     int            x_hasstate;
-    int            x_update;      /* see widget_update() */
-    int            x_selected;
     int            x_disabled;
+    int            x_selected;
+    int            x_update;      /* see widget_update() */
     int            x_vised;
     t_clock       *x_transclock;
     t_towentry    *x_towlist;
@@ -95,10 +95,12 @@ static t_symbol *widgetps_motion;
 static t_symbol *widgetps_atbang;
 static t_symbol *widgetps_atfloat;
 static t_symbol *widgetps_atsymbol;
+static t_symbol *widgetps_atstore;
+static t_symbol *widgetps_atrestore;
 
-static char *widget_propsresolver(t_pd *z, int ac, t_atom *av)
+static char *widget_propsresolver(t_pd *owner, int ac, t_atom *av)
 {
-    t_widget *x = (t_widget *)z;
+    t_widget *x = (t_widget *)owner;
     int len;
     scriptlet_reset(x->x_auxscript);
     if (scriptlet_add(x->x_auxscript, 1, 0, ac, av))
@@ -107,9 +109,9 @@ static char *widget_propsresolver(t_pd *z, int ac, t_atom *av)
 	return (0);
 }
 
-static t_canvas *widget_cvhook(t_pd *z)
+static t_canvas *widget_cvhook(t_pd *caller)
 {
-    return (glist_getcanvas(((t_widget *)z)->x_glist));
+    return (glist_getcanvas(((t_widget *)caller)->x_glist));
 }
 
 /* LATER move to scriptlet.c, use the scriptlet interface (.^) */
@@ -165,14 +167,14 @@ static void widget_transedit(t_widget *x)
 {
     t_text *newt, *oldt = (t_text *)x;
     t_binbuf *bb = binbuf_new();
-    int nopt, nbnd, narg;
+    int nopt, nhnd, narg;
     t_atom *opt = props_getall(x->x_options, &nopt);
-    t_atom *bnd = props_getall(x->x_handlers, &nbnd);
+    t_atom *hnd = props_getall(x->x_handlers, &nhnd);
     t_atom *arg = props_getall(x->x_arguments, &narg);
     binbuf_addv(bb, "sss", gensym("widget"), x->x_type, x->x_name);
     if (narg) binbuf_add(bb, narg, arg);
     if (nopt) binbuf_add(bb, nopt, opt);
-    if (nbnd) binbuf_add(bb, nbnd, bnd);
+    if (nhnd) binbuf_add(bb, nhnd, hnd);
     canvas_setcurrent(x->x_glist);
     newt = (t_text *)pd_new(makeshift_class);
     newt->te_width = 0;
@@ -211,6 +213,10 @@ static void widget_displace(t_gobj *z, t_glist *glist, int dx, int dy)
 {
     t_widget *x = (t_widget *)z;
     t_text *t = (t_text *)z;
+#if 0
+    post("displace %d %d (%d %d -> %d %d)",
+	 dx, dy, t->te_xpix, t->te_ypix, t->te_xpix + dx, t->te_ypix + dy);
+#endif
     t->te_xpix += dx;
     t->te_ypix += dy;
     if (glist_isvisible(glist))
@@ -219,11 +225,11 @@ static void widget_displace(t_gobj *z, t_glist *glist, int dx, int dy)
     canvas_fixlinesfor(glist_getcanvas(glist), t);
 }
 
-static void widget_select(t_gobj *z, t_glist *glist, int state)
+static void widget_select(t_gobj *z, t_glist *glist, int flag)
 {
     t_widget *x = (t_widget *)z;
     char *mypathname = widget_getmypathname(x, glist)->s_name;
-    if (state)
+    if (flag)
     {
 	sys_vgui("%s config -bg blue %s\n", mypathname,
 		 (x->x_hasstate ? "-state disabled" : ""));
@@ -235,7 +241,7 @@ static void widget_select(t_gobj *z, t_glist *glist, int state)
 	    sys_vgui("%s config -bg %s\n", mypathname,
 		     (x->x_background ? x->x_background->s_name : "gray"));
 	else
-	    sys_vgui("%s config -bg %s\n", mypathname,
+	    sys_vgui("%s config -bg %s %s\n", mypathname,
 		     (x->x_background ? x->x_background->s_name : "gray"),
 		     (x->x_hasstate ? "-state normal" : ""));
 	x->x_selected = 0;
@@ -290,13 +296,20 @@ static void widget_pushinits(t_widget *x)
 	bug("widget_pushinits (instance)");
 }
 
+static void widget_getconfig(t_widget *x)
+{
+    sys_vgui("::toxy::itemgetconfig %s %s\n",
+	     widget_getmypathname(x, x->x_glist)->s_name,
+	     x->x_cbtarget->s_name);
+}
+
 static void widget_vis(t_gobj *z, t_glist *glist, int vis)
 {
     t_widget *x = (t_widget *)z;
     t_text *t = (t_text *)z;
     char *cvpathname = widget_getcvpathname(x, glist)->s_name;
     char *mypathname = widget_getmypathname(x, glist)->s_name;
-    x->x_update = WIDGET_NOUPDATE;
+    x->x_update = WIDGET_NOVIS;
     if (vis)
     {
 	float px1 = text_xpix((t_text *)x, glist);
@@ -318,11 +331,7 @@ static void widget_vis(t_gobj *z, t_glist *glist, int vis)
 	t_rtext *rt = glist_findrtext(glist, t);
 	if (rt) rtext_free(rt);
 #endif
-	if (x->x_vised)
-	{
-	    sys_vgui("destroy %s\n", mypathname);
-	    x->x_vised = 0;
-	}
+	x->x_vised = 0;
     }
 }
 
@@ -330,16 +339,16 @@ static void widget_save(t_gobj *z, t_binbuf *bb)
 {
     t_widget *x = (t_widget *)z;
     t_text *t = (t_text *)x;
-    int nopt, nbnd, narg;
+    int nopt, nhnd, narg;
     t_atom *opt = props_getall(x->x_options, &nopt);
-    t_atom *bnd = props_getall(x->x_handlers, &nbnd);
+    t_atom *hnd = props_getall(x->x_handlers, &nhnd);
     t_atom *arg = props_getall(x->x_arguments, &narg);
     binbuf_addv(bb, "ssiisss", gensym("#X"), gensym("obj"),
 		(int)t->te_xpix, (int)t->te_ypix, gensym("widget"),
 		x->x_type, x->x_name);
     if (narg) binbuf_add(bb, narg, arg);
     if (nopt) binbuf_add(bb, nopt, opt);
-    if (nbnd) binbuf_add(bb, nbnd, bnd);
+    if (nhnd) binbuf_add(bb, nhnd, hnd);
     binbuf_addsemi(bb);
 }
 
@@ -405,27 +414,37 @@ static t_widgetbehavior widget_behavior =
     FORKY_WIDGETPADDING
 };
 
-static void widget_update(t_widget *x)
+static void widget_update(t_widget *x, t_props *op)
 {
-    t_atom *ap;
-    int ac;
-    scriptlet_reset(x->x_optscript);
-    ap = props_getall(widgettype_getoptions(x->x_typedef), &ac);
-    if (ac) scriptlet_add(x->x_optscript, 0, 0, ac, ap);
-    ap = props_getall(x->x_options, &ac);
-    if (ac) scriptlet_add(x->x_optscript, 0, 0, ac, ap);
-    if (x->x_update &&
-	glist_isvisible(x->x_glist))  /* FIXME the condition */
+    if (op == x->x_options)
     {
-	if (x->x_update == WIDGET_REVIS)
+	t_atom *ap;
+	int ac;
+	scriptlet_reset(x->x_optscript);
+	ap = props_getall(widgettype_getoptions(x->x_typedef), &ac);
+	if (ac) scriptlet_add(x->x_optscript, 0, 0, ac, ap);
+	ap = props_getall(x->x_options, &ac);
+	if (ac) scriptlet_add(x->x_optscript, 0, 0, ac, ap);
+	if (x->x_update &&
+	    glist_isvisible(x->x_glist))  /* FIXME the condition */
 	{
-	    widget_vis((t_gobj *)x, x->x_glist, 0);
-	    widget_vis((t_gobj *)x, x->x_glist, 1);
+	    if (x->x_update == WIDGET_REVIS)
+	    {
+		widget_vis((t_gobj *)x, x->x_glist, 0);
+		widget_vis((t_gobj *)x, x->x_glist, 1);
+	    }
+	    else if (x->x_update == WIDGET_PUSHVIS)
+	    {
+		widget_pushoptions(x, 1);
+		widget_getconfig(x);
+	    }
+	    x->x_update = WIDGET_NOVIS;
 	}
-	else widget_pushoptions(x, 1);
-	x->x_update = WIDGET_NOUPDATE;
     }
-    /* LATER cache handlers */
+    else
+    {
+	/* LATER cache handlers */
+    }
 }
 
 static t_symbol *widget_addprops(t_widget *x, t_props *op, int single,
@@ -438,7 +457,7 @@ static t_symbol *widget_addprops(t_widget *x, t_props *op, int single,
 	if (empty)
 	    loud_error((t_pd *)x, "no value given for %s '%s'",
 		       props_getname(op), empty->s_name);
-	widget_update(x);
+	widget_update(x, op);
 	return (empty);
     }
     else
@@ -464,7 +483,7 @@ static void widget_anything(t_widget *x, t_symbol *s, int ac, t_atom *av)
 	if (*s->s_name == '-' || *s->s_name == '@' || *s->s_name == '#')
 	{
 	    t_symbol *empty;
-	    x->x_update = WIDGET_RECONFIG;
+	    x->x_update = WIDGET_PUSHVIS;
 	    if (empty = widget_addmessage(x, s, ac, av))
 		loud_errand((t_pd *)x,
 			    "(use 'remove %s' if that is what you want).",
@@ -558,16 +577,32 @@ static void widget_symbol(t_widget *x, t_symbol *s)
     }
 }
 
+static void widget_store(t_widget *x, t_symbol *s)
+{
+    if (s == &s_)
+	s = x->x_varname;
+    /* FIXME */
+}
+
+static void widget_restore(t_widget *x, t_symbol *s)
+{
+    if (s == &s_)
+	s = x->x_varname;
+    /* FIXME */
+}
+
 static void widget_set(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
     t_symbol *prp;
     if (ac && av->a_type == A_SYMBOL && (prp = av->a_w.w_symbol))
     {
 	t_symbol *empty = 0;
-	x->x_update = WIDGET_RECONFIG;
 	ac--; av++;
 	if (*prp->s_name == '-')
+	{
+	    x->x_update = WIDGET_PUSHVIS;
 	    empty = widget_addprops(x, x->x_options, 1, prp, ac, av);
+	}
 	else if (*prp->s_name == '@')
 	    empty = widget_addprops(x, x->x_handlers, 1, prp, ac, av);
 	else if (*prp->s_name == '#')
@@ -595,8 +630,8 @@ static void widget_remove(t_widget *x, t_symbol *s)
 	    op = 0;
 	if (op && props_remove(op, s))
 	{
-	    x->x_update = WIDGET_REVIS;
-	    widget_update(x);
+	    if (op == x->x_options) x->x_update = WIDGET_REVIS;
+	    widget_update(x, op);
 	}
 	else loud_warning((t_pd *)x, "%s %s has not been specified",
 			  props_getname(op), s->s_name);
@@ -625,7 +660,9 @@ static void widget_tot(t_widget *x, t_symbol *s, int ac, t_atom *av)
 static void widget_refresh(t_widget *x)
 {
     x->x_update = WIDGET_REVIS;
-    widget_update(x);
+    widget_update(x, x->x_options);
+    widget_update(x, x->x_handlers);
+    widget_update(x, x->x_arguments);
 }
 
 static void widget__failure(t_widget *x, t_symbol *s, int ac, t_atom *av)
@@ -682,13 +719,13 @@ static void widget__callback(t_widget *x, t_symbol *s, int ac, t_atom *av)
     else outlet_bang(((t_object *)x)->ob_outlet);
 }
 
-/* FIXME this is a hack (see also widget_select) */
-/* FIXME why <Leave> is being issued on button press? */
+/* see also widget_select() */
 static void widget__inout(t_widget *x, t_floatarg f)
 {
+    int disable = (int)f && x->x_glist->gl_edit;
     if (x->x_disabled)
     {
-	if (!x->x_glist->gl_edit)
+	if (!disable)
 	{
 	    if (!x->x_selected)
 	    {
@@ -699,54 +736,54 @@ static void widget__inout(t_widget *x, t_floatarg f)
 	    x->x_disabled = 0;
 	}
     }
-    else if ((int)f && x->x_glist->gl_edit)
+    else if (disable)
     {
-	char *mypathname = widget_getmypathname(x, x->x_glist)->s_name;
-	if (x->x_hasstate)
-	    sys_vgui("%s config -state disabled\n", mypathname);
+	if (!x->x_selected)
+	{
+	    char *mypathname = widget_getmypathname(x, x->x_glist)->s_name;
+	    if (x->x_hasstate)
+		sys_vgui("%s config -state disabled\n", mypathname);
+	}
 	x->x_disabled = 1;
     }
 }
 
-static void widget__click(t_widget *x, t_floatarg fx, t_floatarg fy,
-			  t_floatarg fb, t_floatarg fm)
+static void widget__click(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
+    if (ac != 4)
+    {
+	loud_error((t_pd *)x, "bad arguments to the '%s' method", s->s_name);
+	return;
+    }
     if (x->x_glist->gl_havewindow)  /* LATER calculate on-parent coords */
     {
-	t_text *t = (t_text *)x;
-	t_atom at[4];
-	fx += t->te_xpix;
-	fy += t->te_ypix;
-	SETFLOAT(&at[0], fx);
-	SETFLOAT(&at[1], fy);
-	SETFLOAT(&at[2], fb);
-	SETFLOAT(&at[3], fm);
 	if (x->x_cvtarget->s_thing)
 	    /* LATER rethink */
-	    typedmess(x->x_cvtarget->s_thing, widgetps_mouse, 4, at);
+	    typedmess(x->x_cvtarget->s_thing, widgetps_mouse, ac, av);
 	else
-	    typedmess((t_pd *)x->x_glist, widgetps_mouse, 4, at);
-	widget__inout(x, 1.);
+	    typedmess((t_pd *)x->x_glist, widgetps_mouse, ac, av);
+	widget__inout(x, 2.);
     }
 }
 
 /* LATER think how to grab the mouse when dragging */
-static void widget__motion(t_widget *x, t_floatarg fx, t_floatarg fy)
+static void widget__motion(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
+    if (ac != 3)
+    {
+	loud_error((t_pd *)x, "bad arguments to the '%s' method", s->s_name);
+	return;
+    }
     if (x->x_glist->gl_havewindow)  /* LATER calculate on-parent coords */
     {
-	t_text *t = (t_text *)x;
-	t_atom at[3];
-	fx += t->te_xpix;
-	fy += t->te_ypix;
-	SETFLOAT(&at[0], fx);
-	SETFLOAT(&at[1], fy);
-	SETFLOAT(&at[2], 0);
+#if 0
+	post("motion %g %g", av[0].a_w.w_float, av[1].a_w.w_float);
+#endif
 	if (x->x_cvtarget->s_thing)
 	    /* LATER rethink */
-	    typedmess(x->x_cvtarget->s_thing, widgetps_motion, 3, at);
+	    typedmess(x->x_cvtarget->s_thing, widgetps_motion, ac, av);
 	else
-	    typedmess((t_pd *)x->x_glist, widgetps_motion, 3, at);
+	    typedmess((t_pd *)x->x_glist, widgetps_motion, ac, av);
     }
 }
 
@@ -799,6 +836,8 @@ static void widget_debug(t_widget *x)
     post("type initializer (size %d):\n\"%s\"", sz, bp);
     bp = scriptlet_getcontents(x->x_iniscript, &sz);
     post("instance initializer (size %d):\n\"%s\"", sz, bp);
+    bp = masterwidget_getcontents(&sz);
+    post("setup definitions (size %d):\n\"%s\"", sz, bp);
 }
 #endif
 
@@ -815,6 +854,8 @@ static void gui_unbind(t_pd *x, t_symbol *s)
 
 static void widget_free(t_widget *x)
 {
+    sys_vgui("::toxy::itemdestroy %s %s\n",
+	     widget_getmypathname(x, x->x_glist)->s_name, x->x_varname->s_name);
     gui_unbind((t_pd *)x, x->x_cbtarget);
     gui_unbind((t_pd *)x, x->x_rptarget);
     props_freeall(x->x_options);
@@ -862,21 +903,6 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     if (!(x->x_tkclass = widgettype_tkclass(x->x_typedef)))
 	x->x_tkclass = x->x_type;
 
-    x->x_iniscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
-				   x->x_name, widget_cvhook);
-    x->x_optscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
-				   x->x_name, widget_cvhook);
-    x->x_auxscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
-				   x->x_name, widget_cvhook);
-    x->x_transient = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
-				   x->x_name, widget_cvhook);
-
-    x->x_options = props_new((t_pd *)x, "option", "-", 0, 0);
-    x->x_handlers = props_new((t_pd *)x, "handler", "@", x->x_options, 0);
-    x->x_arguments = props_new((t_pd *)x, "argument", "#", x->x_options,
-			       widget_propsresolver);
-
-    sprintf(buf, ".^.c.%s%x", x->x_name->s_name, (int)x);
     x->x_glist = canvas_getcurrent();
     sprintf(buf, ".x%x.c", (int)x->x_glist);
     x->x_cvpathname = gensym(buf);
@@ -884,6 +910,21 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     x->x_cvtarget = gensym(buf);
     sprintf(buf, "::toxy::v%x", (int)x);
     x->x_varname = gensym(buf);
+
+    x->x_iniscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
+				   x->x_name, x->x_glist, widget_cvhook);
+    x->x_optscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
+				   x->x_name, x->x_glist, widget_cvhook);
+    x->x_auxscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
+				   x->x_name, x->x_glist, widget_cvhook);
+    x->x_transient = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
+				   x->x_name, x->x_glist, widget_cvhook);
+
+    x->x_options = props_new((t_pd *)x, "option", "-", 0, 0);
+    x->x_handlers = props_new((t_pd *)x, "handler", "@", x->x_options, 0);
+    x->x_arguments = props_new((t_pd *)x, "argument", "#", x->x_options,
+			       widget_propsresolver);
+
     outlet_new((t_object *)x, &s_anything);
     /* LATER consider estimating these, based on widget class and options */
     x->x_width = 50;
@@ -894,7 +935,7 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     x->x_transclock = clock_new(x, (t_method)widget_transtick);
     x->x_background = 0;
     x->x_hasstate = 0;
-    x->x_update = WIDGET_NOUPDATE;
+    x->x_update = WIDGET_NOVIS;
     x->x_disabled = 0;
     x->x_vised = 0;
     widget_attach(x);
@@ -1153,6 +1194,8 @@ void widget_setup(void)
     widgetps_atbang = gensym("@bang");
     widgetps_atfloat = gensym("@float");
     widgetps_atsymbol = gensym("@symbol");
+    widgetps_atstore = gensym("@store");
+    widgetps_atrestore = gensym("@restore");
     widgettype_setup();
     widget_class = class_new(gensym("widget"),
 			     (t_newmethod)widget_new,
@@ -1165,6 +1208,10 @@ void widget_setup(void)
     class_addfloat(widget_class, widget_float);
     class_addsymbol(widget_class, widget_symbol);
     class_addanything(widget_class, widget_anything);
+    class_addmethod(widget_class, (t_method)widget_store,
+		    gensym("store"), A_DEFSYMBOL, 0);
+    class_addmethod(widget_class, (t_method)widget_restore,
+		    gensym("restore"), A_DEFSYMBOL, 0);
     class_addmethod(widget_class, (t_method)widget_set,
 		    gensym("set"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget_remove,
@@ -1187,9 +1234,9 @@ void widget_setup(void)
     class_addmethod(widget_class, (t_method)widget__inout,
 		    gensym("_inout"), A_FLOAT, 0);
     class_addmethod(widget_class, (t_method)widget__click,
-		    gensym("_click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+		    gensym("_click"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget__motion,
-		    gensym("_motion"), A_FLOAT, A_FLOAT, 0);
+		    gensym("_motion"), A_GIMME, 0);
 #ifdef WIDGET_DEBUG
     class_addmethod(widget_class, (t_method)widget_debug,
 		    gensym("debug"), 0);

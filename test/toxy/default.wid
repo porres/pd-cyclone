@@ -1,54 +1,152 @@
-# first the setup stuff (is this the right place for it?)
+# LATER transfer the `standard' toxy setup definitions into a tcl package
+# LATER think about using a slave interpreter, and a toxy-specific connection
 
 # LATER ask for adding something of the sort to pd.tk:
 bind Canvas <1> {+focus %W}
 
-proc ::toxy::itemleave {path target varname} {
-    if {[catch {$path get} ::toxy::itemvalue] == 0} {
-	set $varname $::toxy::itemvalue
-# LATER try sending only if changed
-	pd $target.rp _value $::toxy::itemvalue \;
+# In order to keep the state after our canvas has been destroyed
+# (i.e. our subpatch closed) -- use 'store' and 'restore' handlers,
+# if defined, otherwise try setting -variable and -textvariable traces.
+
+proc ::toxy::itemdotrace {target varname ndxname op} {
+    if {[catch {set v [set $varname]}] == 0} {
+	if {$v != [set $varname.last]} {
+# FIXME activate this on demand (for explicit traces)
+#	    pd $target.rp _value $v \;
+	    set $varname.last $v
+	}
+    } else { puts stderr [concat failed ::toxy::itemdotrace] }
+}
+
+proc ::toxy::itembindtrace {varname mastername ndxname op} {
+    set $varname [set $mastername]
+}
+
+proc ::toxy::itemsettrace {op path target varname} {
+    if {[catch {$path cget $op} res] == 0} {
+	if {$res == ""} {
+	    if {[catch {$path config $op $varname} err]} {
+		error $err
+	    }
+	} else {
+	    trace add variable $res write "::toxy::itembindtrace $varname"
+	}
+	if {![info exists $varname.last]} { set $varname.last "" }
+	trace add variable $varname write "::toxy::itemdotrace $target"
+	return
+    } else { return 0 }
+}
+
+# LATER revisit -- seems clumsy and fragile
+proc ::toxy::itemremovetrace {op path varname} {
+    if {[catch {$path cget $op} res] == 0} {
+	if {$res == $varname} {
+	    if {[catch {$path config $op ""} err]} {
+		error $err
+	    }
+	} elseif {$res != ""} {
+	    catch { trace remove variable \
+		$res write "::toxy::itembindtrace $varname" }
+	}
     }
 }
 
-proc ::toxy::itemvis {tkclass path target name varname cvpath px py} {
-    set ::toxy::itemfailure [catch {$tkclass $path} ::toxy::itemerrmess]
-    if {$::toxy::itemfailure} {
-	pd $target.rp _failure $::toxy::itemerrmess \;
+proc ::toxy::itemdestroy {path varname} {
+    ::toxy::itemremovetrace -variable $path $varname.var
+    ::toxy::itemremovetrace -textvariable $path $varname.txt
+    unset -nocomplain $varname.last $varname.var $varname.txt $varname
+    catch {destroy $path}
+}
+
+proc ::toxy::itemgetconfig {path target} {
+    pd $target.rp _config $target.rp [$path cget -bg] \
+	[winfo reqwidth $path] [winfo reqheight $path] \
+	[catch {$path config -state normal}]\;
+}
+
+proc ::toxy::itemvisconfig {path target name varname cvpath px py} {
+    if {[info exists ::toxy::itemoptions]} {
+	catch {eval $path config $::toxy::itemoptions}
+	unset ::toxy::itemoptions
+    }
+
+    $cvpath create window $px $py \
+	-anchor nw -window $path -tags [concat toxy$name $target]
+
+# FIXME
+    if {[info exists ::toxy::storethispath]} {
+# FIXME explicit traces
+	set needtraces 0
     } else {
+	set needtraces 1
+    }
 
-	if {[info exists ::toxy::itemoptions]} {
-	    catch {eval $path config $::toxy::itemoptions}
-	    unset ::toxy::itemoptions
+    if {$needtraces != 0} {
+	if {[catch {::toxy::itemsettrace -variable \
+		$path $target $varname.var} res1]} {
+	    error $res1
 	}
-
-	$cvpath create window $px $py \
-	    -anchor nw -window $path -tags [concat toxy$name $target]
-
-	if {[info exists ::toxy::masterinits]} {
-	    catch {eval $::toxy::masterinits}
-	    unset ::toxy::masterinits
+	if {[catch {::toxy::itemsettrace -textvariable \
+		$path $target $varname.txt} res2]} {
+	    error $res2
 	}
-	if {[info exists ::toxy::typeinits]} {
-	    catch {eval $::toxy::typeinits}
-	    unset ::toxy::typeinits
-	}
-	if {[info exists ::toxy::iteminits]} {
-	    catch {eval $::toxy::iteminits}
-	    unset ::toxy::iteminits
-	}
-
-	pd $target.rp _config $target.rp [$path cget -bg] \
-	    [winfo reqwidth $path] [winfo reqheight $path] \
-	    [catch {$path config -state normal}]\;
-
-# LATER think where to plug this in
-	bind $path <Leave> [concat ::toxy::itemleave $path $target $varname]
-	if {[info exists $varname]} {
-	    catch {eval $path set $$varname}
-	    unset $varname
+#	puts stderr [concat traces: ($res1) ($res2)]
+	if {$res1 == 0 && $res2 == 0} {
+#	    puts stderr [concat toxy warning: $path untraceable]
 	}
     }
+
+    if {[info exists ::toxy::masterinits]} {
+	catch {eval $::toxy::masterinits}
+	unset ::toxy::masterinits
+    }
+    if {[info exists ::toxy::typeinits]} {
+	catch {eval $::toxy::typeinits}
+	unset ::toxy::typeinits
+    }
+    if {[info exists ::toxy::iteminits]} {
+	catch {eval $::toxy::iteminits}
+	unset ::toxy::iteminits
+    }
+
+    ::toxy::itemgetconfig $path $target
+
+    return
+}
+
+proc ::toxy::itemvis {tkclass path target name varname cvpath px py} {
+    if {[winfo exists $path]} {
+#	puts [concat $path exists]
+	set ::toxy::itemfailure 0
+    } else {
+	set ::toxy::itemfailure [catch {$tkclass $path} ::toxy::itemerrmess]
+    }
+    if {$::toxy::itemfailure == 0} {
+	set ::toxy::itemfailure [catch {::toxy::itemvisconfig \
+	    $path $target $name $varname $cvpath $px $py} \
+	    ::toxy::itemerrmess]
+    }
+    if {$::toxy::itemfailure} {
+	if {[winfo exists $path]} {destroy $path}
+	pd $target.rp _failure $::toxy::itemerrmess \;
+    }
+}
+
+proc ::toxy::itemclick {target cvpath x y b f} {
+    pd $target.rp _click \
+	[$cvpath canvasx [expr $x - [winfo rootx $cvpath]]] \
+	[$cvpath canvasy [expr $y - [winfo rooty $cvpath]]] $b $f\;
+}
+
+# FIXME
+proc ::toxy::scalecommand {target sel v} {
+    pd [concat $target $sel $v \;]
+}
+
+proc ::toxy::popupcommand {path target remote i text} {
+    set [$path cget -textvariable] $text
+    pd [concat $target _cb $i \;]
+    pd [concat $remote $i \;]
 }
 
 proc ::toxy::popup {path target remote entries args} {
@@ -56,78 +154,42 @@ proc ::toxy::popup {path target remote entries args} {
     set i 1
     foreach e $entries {
 	$path.pop add command -label [lindex $e 0] \
-	    -command [concat ::toxy::callback $target \
-		-text [lindex $e [expr {[llength $e] > 1}]] \; \
-		::toxy::callback $remote $i]
+	    -command [concat ::toxy::popupcommand $path $target $remote $i \
+		[lindex $e [expr {[llength $e] > 1}]]]
 	incr i
     }
-}
-
-proc ::toxy::kb {path target remote noctaves size} {
-    set lft [expr {round(5 * $size)}]
-    set top [expr {5 * $size}]
-    set bot [expr {100 * $size}]
-    set dx [expr {round(17 * $size)}]
-    set wid [expr {$dx - $size * .5}]
-    set blbot [expr {$bot * .65}]
-
-    $path config -height [expr {$bot + $top}] \
-	-width [expr {$dx * ($noctaves * 7 + 1) + $lft * 2 - 1}]
-
-    for {set octave 0} {$octave <= $noctaves} {incr octave} {
-	set prevkey 0
-	foreach key {0 2 4 5 7 9 11} {
-	    set ndx [expr $octave * 12 + $key]
-	    set id [$path create rect $lft $top \
-		[expr {$lft + $wid}] $bot -fill white -tags $path.$ndx]
-	    $path bind $id <1> [concat ::toxy::kbset \
-		$path $target $remote $ndx]
-	    if {$key - $prevkey > 1} {
-		incr ndx -1
-		set x [expr {$lft - $wid * .22}]
-		set id [$path create rect $x $top [expr {$x + $wid * .44}] \
-		    $blbot -fill black -tags $path.$ndx]
-		$path bind $id <1> [concat ::toxy::kbset \
-		    $path $target $remote $ndx]
-	    }
-	    set prevkey $key
-	    incr lft $dx
-	    if {$octave == $noctaves && $key == 0} break
-	}
-    }
-    set ::toxy::kbval($target) 0
-    set ::toxy::kbcol($target) white
-    $path itemconfig $path.0 -fill grey
-}
-
-proc ::toxy::kbout {path target remote} {
-    ::toxy::callback $target _cb $::toxy::kbval($target)
-    if {$remote != "."} {::toxy::callback $remote $::toxy::kbval($target)}
-}
-
-proc ::toxy::kbset {path target remote value} {
-    $path itemconfig $path.$::toxy::kbval($target) \
-	-fill $::toxy::kbcol($target)
-    set ::toxy::kbval($target) $value
-    set ::toxy::kbcol($target) [lindex [$path itemconfig $path.$value -fill] 4]
-    $path itemconfig $path.$value -fill grey
-    ::toxy::kbout $path $target $remote
 }
 
 # the default initializer
 #> default
 
+# empirically, binding event coords as %X - [winfo rootx .^.c] works better,
+# than %x + [winfo x %W], or %x + t->te_xpix, LATER investigate
+
 # pdtk_canvas_mouseup is a hack, which we must call anyway
 bind .- <ButtonRelease> {
- eval .<|_inout 1.>
- pdtk_canvas_mouseup .^.c [expr %x + [winfo x %W]] [expr %y + [winfo y %W]] %b
+    eval .<|_inout 3.>
+    pdtk_canvas_mouseup .^.c \
+	[expr %X - [winfo rootx .^.c]] [expr %Y - [winfo rooty .^.c]] %b
 }
 
-bind .- <1> .<|_click %x %y %b 0.>
-bind .- <3> .<|_click %x %y %b 8.>
-bind .- <Motion> .<|_motion %x %y.>
+bind .- <1> {::toxy::itemclick .| .^.c %X %Y %b 0}
+bind .- <Shift-1> {::toxy::itemclick .| .^.c %X %Y %b 1}
+bind .- <Control-1> {::toxy::itemclick .| .^.c %X %Y %b 2}
+bind .- <Control-Shift-1> {::toxy::itemclick .| .^.c %X %Y %b 3}
+bind .- <Alt-1> {::toxy::itemclick .| .^.c %X %Y %b 4}
+bind .- <Alt-Shift-1> {::toxy::itemclick .| .^.c %X %Y %b 5}
+bind .- <Alt-Control-1> {::toxy::itemclick .| .^.c %X %Y %b 6}
+bind .- <Alt-Control-Shift-1> {::toxy::itemclick .| .^.c %X %Y %b 7}
+bind .- <3> {::toxy::itemclick .| .^.c %X %Y %b 8}
+
+bind .- <Motion> .<|_motion \
+    [.^.c canvasx [expr %X - [winfo rootx .^.c]]] \
+    [.^.c canvasy [expr %Y - [winfo rooty .^.c]]] 0.>
 bind .- <Enter> .<|_inout 1.>
 bind .- <Leave> .<|_inout 0.>
+
+# standard widget types
 
 #> bang button
 #. -image ::toxy::img::empty -command .<.>
@@ -135,7 +197,8 @@ bind .- <Leave> .<|_inout 0.>
 #. @bang .- flash .: .- invoke
 
 #> float scale
-#. -command .<.> -bg pink -activebackground red -length 200
+#. -command [concat ::toxy::scalecommand .| _cb]
+#. -bg pink -activebackground red -length 200
 #. @float .- set .#1
 
 #> symbol entry
@@ -143,14 +206,3 @@ bind .- <Leave> .<|_inout 0.>
 #. @symbol .- delete 0 end .: .- insert 0 .#1
 
 bind .- <Return> {eval .<[.- get].>; focus .^.c}
-
-#> kb canvas
-#. -bg yellow -cursor hand1
-#. #oct 4 #size .75
-#. @bang ::toxy::kbout .- .| .
-#. @float ::toxy::kbset .- .| . .#1
-
-::toxy::kb .- .| . .#oct .#size
-
-# undo the "bind Canvas <1> {+focus %W}" in the setup part above
-bind .- <FocusIn> {focus .^.c}

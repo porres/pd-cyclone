@@ -7,6 +7,8 @@
 
 enum { SCRIPTLET_OK = 0, SCRIPTLET_NOFILE, SCRIPTLET_BADFILE,
        SCRIPTLET_IGNORED };
+#define SCRIPTLET_UNLOCK  ((t_scriptlet *)0)
+#define SCRIPTLET_LOCK    ((t_scriptlet *)1)
 
 EXTERN_STRUCT _scriptlet;
 #define t_scriptlet  struct _scriptlet
@@ -30,15 +32,19 @@ void scriptlet_vpush(t_scriptlet *sp, char *varname);
 int scriptlet_evaluate(t_scriptlet *insp, t_scriptlet *outsp,
 		       int visedonly, int ac, t_atom *av, t_props *argprops);
 char *scriptlet_nextword(char *buf);
-int scriptlet_rcload(t_scriptlet *sp, char *rc, char *ext,
-		     t_scriptlet_cmntfn cmntfn);
+int scriptlet_rcparse(t_scriptlet *sp, t_pd *caller, char *rc, char *contents,
+		      t_scriptlet_cmntfn cmntfn);
+int scriptlet_rcload(t_scriptlet *sp, t_pd *caller, char *rc, char *ext,
+		     char *builtin, t_scriptlet_cmntfn cmntfn);
 int scriptlet_read(t_scriptlet *sp, t_symbol *fn);
 int scriptlet_write(t_scriptlet *sp, t_symbol *fn);
 char *scriptlet_getcontents(t_scriptlet *sp, int *lenp);
 char *scriptlet_getbuffer(t_scriptlet *sp, int *sizep);
+void scriptlet_setowner(t_scriptlet *sp, t_pd *owner);
 void scriptlet_clone(t_scriptlet *to, t_scriptlet *from);
+void scriptlet_append(t_scriptlet *to, t_scriptlet *from);
 void scriptlet_free(t_scriptlet *sp);
 t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
-			   t_symbol *item, t_scriptlet_cvfn cvfn);
+			   t_symbol *item, t_glist *gl, t_scriptlet_cvfn cvfn);
 
 #endif
