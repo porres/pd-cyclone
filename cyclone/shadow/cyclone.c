@@ -8,6 +8,7 @@
    (same in hammer and sickle) */
 
 #include <stdio.h>
+#include <string.h>
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/port.h"

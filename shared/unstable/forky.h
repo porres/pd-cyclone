@@ -17,6 +17,7 @@
 #define FORKY_WIDGETPADDING
 #else
 #define FORKY_WIDGETPADDING  0,0
+t_pd *pd_newest(void);
 #endif
 
 typedef void (*t_forkysavefn)(t_gobj *x, t_binbuf *bb);

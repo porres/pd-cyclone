@@ -10,6 +10,11 @@
 #if FORKY_VERSION < 37
 /* need this for t_class::c_wb field access */
 #include "unstable/pd_imp.h"
+
+t_pd *pd_newest(void)
+{
+    return (0);
+}
 #endif
 
 #define FORKY_DEBUG
@@ -27,10 +32,10 @@ void forky_setsavefn(t_class *c, t_forkysavefn fn)
 	post("cloning widgetbehavior...");
 #endif
 	*wb = *c->c_wb;
-	wb->w_savefn = sf;
+	wb->w_savefn = fn;
 	class_setwidget(c, wb);
     }
-    else c->c_wb->w_savefn = sf;
+    else c->c_wb->w_savefn = fn;
 #endif
 }
 
@@ -42,7 +47,7 @@ void forky_setpropertiesfn(t_class *c, t_forkypropertiesfn fn)
     /* assuming wb has already been either cloned (in forky_setsavefn),
        or defined from scratch -- it is unlikely to ever need props without
        a specialized save (always be sure to set props after save, though). */
-    c->c_wb->w_propertiesfn = pf;
+    c->c_wb->w_propertiesfn = fn;
 #endif
 }
 
