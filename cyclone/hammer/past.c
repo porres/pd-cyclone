@@ -152,5 +152,5 @@ void past_setup(void)
     class_addlist(past_class, past_list);
     class_addmethod(past_class, (t_method)past_clear, gensym("clear"), 0);
     class_addmethod(past_class, (t_method)past_set, gensym("set"), A_GIMME, 0);
-    fitter_setup(past_class, 0, 0);
+    fitter_setup(past_class, 0);
 }

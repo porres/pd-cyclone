@@ -1,12 +1,6 @@
 # next line has to be edited manually
 PD_DIR = $(ROOT_DIR)/../../pd/src
 
-# remove this restriction LATER, when TCL_LIB is ./configured
-ifeq ($(shell whoami),krzYszcz)
-# TCL_LIB should be set (or not) before "include Makefile.sources"
-TCL_LIB = -l$(shell grep -osm1 'tcl8\.[345]' $(PD_DIR)/makefile)
-endif
-
 OS_NAME = $(shell uname -s)
 ifneq ($(OS_NAME),Linux)
 ifneq ($(OS_NAME),Darwin)
@@ -20,6 +14,14 @@ else
 OS_NAME = MinGW
 endif
 endif
+endif
+
+MY_NAME = $(shell id -un)
+
+# remove this restriction LATER, when TCL_LIB is ./configured
+ifeq ($(MY_NAME),krzYszcz)
+# TCL_LIB should be set (or not) before "include Makefile.sources"
+TCL_LIB = -l$(shell grep -osm1 'tcl8\.[345]' $(PD_DIR)/makefile)
 endif
 
 TILDE = ~
@@ -36,7 +38,7 @@ CC = gcc
 LFLAGS = -export_dynamic  -shared
 # FIXME strict-aliasing
 OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing
-ifeq ($(shell whoami),krzYszcz)
+ifeq ($(MY_NAME),krzYszcz)
 DEFINES = -DUNIX -DKRZYSZCZ
 else
 DEFINES = -DUNIX
@@ -98,7 +100,7 @@ SOURCES = $(CX_SOURCES) $(AX_SOURCES) $(LX_SOURCES) $(OTHER_SOURCES) \
 
 INCLUDES = -I. -I$(PD_DIR) -I$(SHARED_DIR)
 
-ifeq ($(shell whoami),krzYszcz)
+ifeq ($(MY_NAME),krzYszcz)
 WARN_CFLAGS = -Wall -W -Wstrict-prototypes -Werror \
 	-Wno-unused -Wno-parentheses -Wno-switch
 else
@@ -213,7 +215,7 @@ SUBDIRS_DEFAULT = @for i in $(MIXED_DIRS) and_in_case_it_is_null ; \
 			cd $$i; $(MAKE) ; fi ) ; done
 
 define_build:
-	@if [[ -f build_counter && `whoami` == krzYszcz && \
+	@if [[ -f build_counter && `id -un` == krzYszcz && \
 		`date -r build_counter +%j` != `date +%j` ]] ; then \
 		mv build_counter build_counter~ ; \
 		echo -n 'increment build counter (y/n)? [n]' ; read doit ; \

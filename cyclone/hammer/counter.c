@@ -398,5 +398,5 @@ void counter_setup(void)
 				    CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(counter_proxy_class, counter_proxy_bang);
     class_addfloat(counter_proxy_class, counter_proxy_float);
-    fitter_setup(counter_class, 0, 0);
+    fitter_setup(counter_class, 0);
 }

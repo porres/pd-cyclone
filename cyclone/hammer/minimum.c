@@ -89,5 +89,5 @@ void minimum_setup(void)
     class_addbang(minimum_class, minimum_bang);
     class_addfloat(minimum_class, minimum_float);
     class_addlist(minimum_class, minimum_list);
-    fitter_setup(minimum_class, 0, 0);
+    fitter_setup(minimum_class, 0);
 }

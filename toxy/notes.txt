@@ -1,0 +1,26 @@
+TODO for toxy
+
+DONE for toxy
+
+alpha15
+  * fixes for megawidgets
+    . setting sub-item bindings in ::toxy::subwidget
+      (to be called explicitly from type initializer)
+    . handling widget's state through virtual events
+    . getting implicit geometry (needed for Frame widgets)
+    . automatically rebinding focus for Canvas widgets
+
+alpha14
+  * 'redefine' message to widget
+  * version control, using package provide (both in tcl and parsed from pd)
+  * "> master" section removed:  master initializer defined directly
+    by proc ::toxy::master
+  * better kb: chords (shift-click), latch (control-click), dragging
+
+alpha13
+  * @new and @free handlers, defined in #@ new and  #@ free sections,
+    invoked by widget object creation and destruction
+  * optional sections #@ ini (aka #@ vis) appended to initializer (which still
+    defines in default section too -- old .wid files do not need updating)
+  * .#args parameter of message handlers, replaced (during scriptlet
+    evaluation) by all arguments of an invoking message

@@ -1,4 +1,4 @@
-/* Copyright (c) 1997-2004 Miller Puckette, krzYszcz, and others.
+/* Copyright (c) 1997-2005 Miller Puckette, krzYszcz, and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -1596,11 +1596,12 @@ endparsing:
     return (result);
 }
 
-void import_max(char *fn, char *dir)
+int import_max(char *fn, char *dir)
 {
+    int result;
     t_port *x;
     t_binbuf *inbb, *outbb;
-    int fd, ftype;
+    int fd;
     char buf[MAXPDSTRING], *bufp;
     t_pd *stackp = 0;
     int dspstate = canvas_suspend_dsp();
@@ -1608,23 +1609,30 @@ void import_max(char *fn, char *dir)
     if ((fd = open_via_path(dir, fn, "", buf, &bufp, MAXPDSTRING, 0)) < 0)
     {
     	loud_error(0, "%s: can't open", fn);
-    	return;
+    	return (BINPORT_NOFILE);
     }
     else close (fd);
 
     x = port_new();
     inbb = binbuf_new();
     glob_setfilename(0, gensym(bufp), gensym(buf));
-    ftype = binport_read(inbb, bufp, buf);
-    if (ftype == BINPORT_OK)
+    result = binport_read(inbb, bufp, buf);
+    if (result == BINPORT_MAXBINARY ||
+	result == BINPORT_MAXTEXT ||
+	result == BINPORT_MAXOLD)
     {
+	int bbresult;
 #ifdef PORT_DEBUG
 	binport_write(inbb, "import-debug.pat", "");
 #endif
 	outbb = binbuf_new();
-	if (import_binbuf(x, inbb, outbb) != PORT_OK)
+	if ((bbresult = import_binbuf(x, inbb, outbb)) != PORT_OK)
 	{
-	    loud_error(0, "%s: import failed", fn);
+	    loud_error(0, "%s: import failed (%d)", fn, bbresult);
+	    if (bbresult == PORT_CORRUPT)
+		result = BINPORT_CORRUPT;
+	    else
+		result = BINPORT_FAILED;
 	    binbuf_free(outbb);
 	    outbb = 0;
 	}		
@@ -1633,7 +1641,7 @@ void import_max(char *fn, char *dir)
 	if (outbb) binbuf_write(outbb, "import-result.pd", "", 0);
 #endif
     }
-    else if (ftype == BINPORT_PDFILE)
+    else if (result == BINPORT_PDFILE)
 	outbb = inbb;
     else
     {
@@ -1656,4 +1664,6 @@ void import_max(char *fn, char *dir)
 #if 0  /* LATER */
     pd_doloadbang();
 #endif
+
+    return (result);
 }

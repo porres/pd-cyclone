@@ -150,5 +150,5 @@ void switch_setup(void)
     class_addpointer(switch_proxy_class, switch_proxy_pointer);
     class_addlist(switch_proxy_class, switch_proxy_list);
     class_addanything(switch_proxy_class, switch_proxy_anything);
-    fitter_setup(switch_class, 0, 0);
+    fitter_setup(switch_class, 0);
 }

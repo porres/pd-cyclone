@@ -78,7 +78,8 @@ int forky_hasfeeders(t_object *x, t_glist *glist, int inno, t_symbol *outsym)
 }
 
 /* Not really a forky, just found no better place to put it in.
-   Used in bitwise signal binops (sickle).  Checked against msp2. */
+   Used in sickle's bitwise signal binops (which use forky_hasfeeders() too).
+   Checked against msp2. */
 t_int forky_getbitmask(int ac, t_atom *av)
 {
     t_int result = 0;

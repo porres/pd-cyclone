@@ -2,6 +2,7 @@ TOT_OBJECTS = \
 unstable/forky.o \
 common/loud.o \
 common/grow.o \
+common/os.o \
 hammer/file.o \
 hammer/gui.o \
 common/props.o \
@@ -12,6 +13,7 @@ unstable/fragile.o \
 unstable/forky.o \
 common/loud.o \
 common/grow.o \
+common/os.o \
 hammer/file.o \
 common/props.o \
 toxy/scriptlet.o \
@@ -36,6 +38,7 @@ unstable/forky.o \
 common/loud.o \
 common/grow.o \
 common/dict.o \
+common/os.o \
 hammer/file.o \
 common/props.o \
 toxy/scriptlet.o

@@ -1,4 +1,4 @@
-/* Copyright (c) 2003-2004 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -21,7 +21,7 @@
 static t_class *makeshift_class;
 
 #ifdef KRZYSZCZ
-#define WIDGET_DEBUG
+//#define WIDGET_DEBUG
 //#define TOW_DEBUG
 //#define WIDGET_PROFILE
 #endif
@@ -77,7 +77,7 @@ typedef struct _widget
     int            x_width;
     int            x_height;
     t_symbol      *x_background;
-    int            x_hasstate;
+    int            x_hasstate;    /* no longer used, LATER rethink */
     int            x_disabled;
     int            x_selected;
     int            x_update;      /* see widget_update() */
@@ -293,8 +293,9 @@ static void widget_displace(t_gobj *z, t_glist *glist, int dx, int dy)
     t_widget *x = (t_widget *)z;
     t_text *t = (t_text *)z;
 #if 0
-    post("displace %d %d (%d %d -> %d %d)",
-	 dx, dy, t->te_xpix, t->te_ypix, t->te_xpix + dx, t->te_ypix + dy);
+    loudbug_post("displace %d %d (%d %d -> %d %d)",
+		 dx, dy, t->te_xpix, t->te_ypix,
+		 t->te_xpix + dx, t->te_ypix + dy);
 #endif
     t->te_xpix += dx;
     t->te_ypix += dy;
@@ -311,8 +312,8 @@ static void widget_select(t_gobj *z, t_glist *glist, int flag)
     char *mypathname = widget_getmypathname(x, glist)->s_name;
     if (flag)
     {
-	sys_vgui("%s config -bg blue %s\n", mypathname,
-		 (x->x_hasstate ? "-state disabled" : ""));
+	sys_vgui("%s config -bg blue\n", mypathname);
+	sys_vgui("event generate %s <<disable>>\n", mypathname);
 	x->x_selected = 1;
     }
     else
@@ -321,9 +322,9 @@ static void widget_select(t_gobj *z, t_glist *glist, int flag)
 	    sys_vgui("%s config -bg %s\n", mypathname,
 		     (x->x_background ? x->x_background->s_name : "gray"));
 	else
-	    sys_vgui("%s config -bg %s %s\n", mypathname,
-		     (x->x_background ? x->x_background->s_name : "gray"),
-		     (x->x_hasstate ? "-state normal" : ""));
+	    sys_vgui("%s config -bg %s \n", mypathname,
+		     (x->x_background ? x->x_background->s_name : "gray"));
+	sys_vgui("event generate %s <<enable>>\n", mypathname);
 	x->x_selected = 0;
     }
 }
@@ -342,7 +343,7 @@ static void widget_pushoptions(t_widget *x, int doit)
 #ifdef WIDGET_DEBUG
 	int sz;
 	char *dp = scriptlet_getcontents(x->x_transient, &sz);
-	post("vis: \"%s\"", dp);
+	loudbug_post("vis: \"%s\"", dp);
 #endif
 	if (doit)
 	{
@@ -898,8 +899,7 @@ static void widget__inout(t_widget *x, t_floatarg f)
 	    if (!x->x_selected)
 	    {
 		char *mypathname = widget_getmypathname(x, x->x_glist)->s_name;
-		if (x->x_hasstate)
-		    sys_vgui("%s config -state normal\n", mypathname);
+		sys_vgui("event generate %s <<enable>>\n", mypathname);
 	    }
 	    x->x_disabled = 0;
 	}
@@ -909,8 +909,7 @@ static void widget__inout(t_widget *x, t_floatarg f)
 	if (!x->x_selected)
 	{
 	    char *mypathname = widget_getmypathname(x, x->x_glist)->s_name;
-	    if (x->x_hasstate)
-		sys_vgui("%s config -state disabled\n", mypathname);
+	    sys_vgui("event generate %s <<disable>>\n", mypathname);
 	}
 	x->x_disabled = 1;
     }

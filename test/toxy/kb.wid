@@ -208,9 +208,6 @@ proc ::toxy::kbset {path target remote args} {
 
 ::toxy::kb .- .| . .#oct .#size
 
-# undo the "bind Canvas <1> {+focus %W}" from the setup.wid
-bind .- <FocusIn> {focus .^.c}
-
 #@ new
 set ::toxy::kbchord(.|) {}
 

@@ -19,8 +19,6 @@
 typedef struct _cyclone
 {
     t_object       x_ob;
-    t_symbol      *x_dir;
-    t_symbol      *x_canvasdir;
     t_hammerfile  *x_filehandle;
 } t_cyclone;
 
@@ -32,39 +30,43 @@ static int cyclone_lastndx;
 
 static void cyclone_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 {
-    import_max(fn->s_name, "");
+    int result = import_max(fn->s_name, "");
+    outlet_float(((t_object *)z)->ob_outlet, (t_float)result);
 }
 
-static void cyclone_doimport(t_cyclone *x, t_symbol *fn, t_symbol *dir)
+static void cyclone_doimport(t_cyclone *x, t_symbol *fn)
 {
-    if (!dir || dir == &s_)
-	dir = x->x_dir;
     if (fn && fn != &s_)
-	import_max(fn->s_name, (dir && dir != &s_) ? dir->s_name : "");
-    else
-	hammerpanel_open(x->x_filehandle, dir);
+    {
+	t_symbol *dir = hammerpanel_getopendir(x->x_filehandle);
+	int result =
+	    import_max(fn->s_name, (dir && dir != &s_ ? dir->s_name : ""));
+	outlet_float(((t_object *)x)->ob_outlet, (t_float)result);
+    }
+    else hammerpanel_open(x->x_filehandle, 0);
 }
 
 static void cyclone_click(t_cyclone *x, t_floatarg xpos, t_floatarg ypos,
 			  t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
 {
-    cyclone_doimport(x, 0, 0);
+    cyclone_doimport(x, 0);
 }
 
 static void cyclone_import(t_cyclone *x, t_symbol *fn)
 {
-    cyclone_doimport(x, fn, 0);
+    cyclone_doimport(x, fn);
 }
 
 static void cyclone_cd(t_cyclone *x, t_symbol *dir)
 {
-    /* LATER hammerfile interface for relative jumps, etc. */
-    x->x_dir = (dir && dir != &s_ ? dir : x->x_canvasdir);
+    hammerpanel_setopendir(x->x_filehandle, dir);
 }
 
-static void cyclone_pwd(t_cyclone *x)
+static void cyclone_pwd(t_cyclone *x, t_symbol *s)
 {
-    outlet_symbol(((t_object *)x)->ob_outlet, x->x_dir);
+    t_symbol *dir;
+    if (s && s->s_thing && (dir = hammerpanel_getopendir(x->x_filehandle)))
+	pd_symbol(s->s_thing, dir);
 }
 
 static void cyclone_bang(t_cyclone *x)
@@ -89,9 +91,7 @@ static void *cyclone_new(void)
 {
     t_cyclone *x = (t_cyclone *)pd_new(cyclone_class);
     x->x_filehandle = hammerfile_new((t_pd *)x, 0, cyclone_readhook, 0, 0);
-    x->x_canvasdir = canvas_getdir(x->x_filehandle->f_canvas);
-    x->x_dir = x->x_canvasdir;
-    outlet_new((t_object *)x, &s_symbol);
+    outlet_new((t_object *)x, &s_float);
     return (x);
 }
 
@@ -114,7 +114,7 @@ void cyclone_setup(void)
     class_addmethod(cyclone_class, (t_method)cyclone_cd,
 		    gensym("cd"), A_DEFSYM, 0);
     class_addmethod(cyclone_class, (t_method)cyclone_pwd,
-		    gensym("pwd"), 0);
+		    gensym("pwd"), A_SYMBOL, 0);
     class_addmethod(cyclone_class, (t_method)cyclone_import,
 		    gensym("import"), A_DEFSYM, 0);
     class_addmethod(cyclone_class, (t_method)cyclone_click,

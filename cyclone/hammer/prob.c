@@ -307,5 +307,5 @@ void prob_setup(void)
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     hammerfile_setup(prob_class, 1);
-    fitter_setup(prob_class, 0, 0);
+    fitter_setup(prob_class, 0);
 }

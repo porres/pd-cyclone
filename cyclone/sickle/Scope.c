@@ -1051,5 +1051,5 @@ void Scope_tilde_setup(void)
 		    gensym("_click"), A_FLOAT, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook,
 		    gensym("_motion"), A_FLOAT, A_FLOAT, 0);
-    fitter_setup(scope_class, 0, 0);
+    fitter_setup(scope_class, 0);
 }

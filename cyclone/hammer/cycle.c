@@ -151,5 +151,5 @@ void cycle_setup(void)
 		    gensym("set"), A_FLOAT, 0);  /* CHECKED: arg required */
     class_addmethod(cycle_class, (t_method)cycle_thresh,
 		    gensym("thresh"), A_FLOAT, 0);
-    fitter_setup(cycle_class, 0, 0);
+    fitter_setup(cycle_class, 0);
 }

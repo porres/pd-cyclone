@@ -1,65 +1,132 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* CHECKME polarity */
-
 #include <math.h>
 #include "m_pd.h"
+#include "common/fitter.h"
 
 #if defined(NT) || defined(MACOSX)
 #define logf  log
 #define expf  exp
 #endif
 
-static t_class *linedrive_class;
+#define LINEDRIVE_MININPUT   .5  /* CHECKED */
+#define LINEDRIVE_MINCURVE  1.   /* CHECKED */
+
+#define LINEDRIVE_INPUTEPSILON  1e-19f
+#define LINEDRIVE_CURVEEPSILON  1e-19f
 
 typedef struct _linedrive
 {
     t_object  x_ob;
+    t_float   x_usermaxin;
+    t_float   x_usermaxout;
+    t_float   x_usercurve;
     t_float   x_maxin;
     t_float   x_maxout;
     t_float   x_expcoef;
     t_float   x_lincoef;
-    t_atom    x_vec[2];
-    int       x_linear;
+    int       x_islinear;
+    int       x_iscompatible;
+    t_atom    x_outvec[2];
 } t_linedrive;
+
+static t_class *linedrive_class;
 
 static void linedrive_float(t_linedrive *x, t_floatarg f)
 {
-    float outval = f - x->x_maxin;
-    if (outval >= 0)
-	outval = x->x_maxout;  /* CHECKED */
-    else if (x->x_linear)
-	outval = x->x_maxout + outval * x->x_lincoef;
+    t_float outval;
+    if (x->x_iscompatible)
+    {
+	if (f < LINEDRIVE_MININPUT)  /* CHECKED */
+	    outval = 0.;
+	else if (f >= x->x_maxin)  /* CHECKED */
+	    outval = x->x_maxin;
+	else
+	    outval = expf((f - x->x_maxin) * x->x_expcoef) * x->x_maxout;
+    }
     else
-	outval = expf(outval * x->x_expcoef) * x->x_maxout;
-    SETFLOAT(x->x_vec, outval);
-    outlet_list(((t_object *)x)->ob_outlet, 0, 2, x->x_vec);
+    {
+	if (x->x_islinear)
+	    outval = x->x_maxout + (f - x->x_maxin) * x->x_lincoef;
+	else if (f < -LINEDRIVE_INPUTEPSILON)
+	    outval = -expf((-f - x->x_maxin) * x->x_expcoef) * x->x_maxout;
+	else if (f > LINEDRIVE_INPUTEPSILON)
+	    outval = expf((f - x->x_maxin) * x->x_expcoef) * x->x_maxout;
+	else
+	    outval = 0.;
+    }
+    SETFLOAT(x->x_outvec, outval);
+    outlet_list(((t_object *)x)->ob_outlet, 0, 2, x->x_outvec);
+}
+
+static void linedrive_calculate(t_linedrive *x)
+{
+    t_float maxin = x->x_usermaxin;
+    t_float maxout = x->x_usermaxout;
+    t_float curve = x->x_usercurve;
+    if (x->x_iscompatible = fittermax_get())
+    {
+	/* CHECKED */
+	x->x_maxin = (maxin > LINEDRIVE_MININPUT ? maxin : LINEDRIVE_MININPUT);
+	/* CHECKED */
+	x->x_expcoef = (curve > LINEDRIVE_MINCURVE ? logf(curve) : 0.);
+	x->x_lincoef = 0.;
+	x->x_islinear = 0;
+    }
+    else
+    {
+	if (maxin >= -LINEDRIVE_INPUTEPSILON && maxin <= LINEDRIVE_INPUTEPSILON)
+	{
+	    x->x_maxin = 0.;
+	    x->x_expcoef = 0.;
+	    x->x_lincoef = 0.;
+	    x->x_islinear = 1;
+	}
+	else if (curve >= (1. - LINEDRIVE_CURVEEPSILON) &&
+		 curve <= (1. + LINEDRIVE_CURVEEPSILON))
+	{
+	    x->x_maxin = maxin;
+	    x->x_expcoef = 0.;
+	    x->x_lincoef = maxout / maxin;
+	    x->x_islinear = 1;
+	}
+	else
+	{
+	    if (maxin < 0.)
+	    {
+		x->x_maxin = -maxin;
+		maxout = -maxout;
+	    }
+	    else x->x_maxin = maxin;
+	    if (curve < LINEDRIVE_CURVEEPSILON)
+		curve = LINEDRIVE_CURVEEPSILON;
+	    x->x_expcoef = logf(curve);
+	    x->x_lincoef = 0.;
+	    x->x_islinear = 0;
+	}
+    }
+    x->x_maxout = maxout;  /* CHECKED negative value accepted and used */
 }
 
 static void *linedrive_new(t_floatarg maxin, t_floatarg maxout,
 			   t_floatarg curve, t_floatarg deltime)
 {
     t_linedrive *x = (t_linedrive *)pd_new(linedrive_class);
-    x->x_maxin = (maxin < 1.0e-20f && maxin > -1e-20f ? 0 : maxin);
-    x->x_maxout = maxout;
-    if (curve < 1.0e-20f) curve = 1.0;  /* a bug in msp? */
-    if (curve == 1.0)
-    {
-	x->x_expcoef = 0;
-	x->x_lincoef = (x->x_maxin == 0 ? 0 : x->x_maxout / x->x_maxin);
-	x->x_linear = 1;
-    }
-    else {
-	x->x_expcoef = logf(curve);
-	x->x_lincoef = 0;
-	x->x_linear = 0;
-    }
-    SETFLOAT(&x->x_vec[1], deltime);  /* CHECKED: any value accepted */
-    floatinlet_new((t_object *)x, &x->x_vec[1].a_w.w_float);
+    x->x_usermaxin = maxin;
+    x->x_usermaxout = maxout;
+    x->x_usercurve = curve;
+    linedrive_calculate(x);
+    SETFLOAT(&x->x_outvec[1], deltime);  /* CHECKED any value accepted */
+    floatinlet_new((t_object *)x, &x->x_outvec[1].a_w.w_float);
     outlet_new((t_object *)x, &s_list);
     return (x);
+}
+
+static void linedrive_fitter(void)
+{
+    /* FIXME for all objects in scope do recalculate */
 }
 
 void linedrive_setup(void)
@@ -70,4 +137,5 @@ void linedrive_setup(void)
 				A_DEFFLOAT, A_DEFFLOAT,
 				A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addfloat(linedrive_class, linedrive_float);
+    fitter_setup(linedrive_class, linedrive_fitter);
 }

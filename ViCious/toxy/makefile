@@ -12,7 +12,7 @@ VCLIBDIR = "e:\Program Files\Microsoft Visual Studio\Vc98\lib"
 ZIPCOMMAND = d:\dosowe\arc\info-zip\zip
 
 INCLUDES = /I.  /I$(SHAREDDIR) /I$(PDDIR)\src
-CFLAGS = /W3 /WX /DNT /DPD /nologo
+CFLAGS = /W3 /WX /DNT /DMSW /DPD /nologo
 
 LIBS = $(VCLIBDIR)\libc.lib \
 	$(VCLIBDIR)\oldnames.lib \

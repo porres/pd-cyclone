@@ -2,12 +2,12 @@ OTHER_SOURCES = \
 binport.c \
 clc.c \
 dict.c \
-fi.c \
 fitter.c \
 grow.c \
 lex.c \
 loud.c \
 mifi.c \
+os.c \
 port.c \
 props.c \
 qtree.c \

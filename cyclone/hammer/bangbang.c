@@ -71,5 +71,5 @@ void bangbang_setup(void)
 			       sizeof(t_bangbang), 0, A_DEFFLOAT, 0);
     class_addbang(bangbang_class, bangbang_bang);
     class_addanything(bangbang_class, bangbang_anything);
-    fitter_setup(bangbang_class, 0, 0);
+    fitter_setup(bangbang_class, 0);
 }

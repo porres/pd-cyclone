@@ -5,6 +5,8 @@ shared/common/grow.c
 shared/common/grow.h
 shared/common/dict.c
 shared/common/dict.h
+shared/common/os.c
+shared/common/os.h
 shared/hammer/file.c
 shared/hammer/file.h
 shared/hammer/gui.c

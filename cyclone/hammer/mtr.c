@@ -860,5 +860,5 @@ void mtr_setup(void)
 		    gensym("debug"), 0);
 #endif
     hammerfile_setup(mtr_class, 0);
-    fitter_setup(mtr_class, 0, 0);
+    fitter_setup(mtr_class, 0);
 }

@@ -1,4 +1,4 @@
-/* Copyright (c) 1997-2004 Miller Puckette, krzYszcz, and others.
+/* Copyright (c) 1997-2005 Miller Puckette, krzYszcz, and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -584,7 +584,7 @@ static int binport_alike(char *header, int *ftypep)
     static char text_header[4] = { 'm', 'a', 'x', ' ' };
     static char pd_header[3] = { '#', 'N', ' ' };  /* canvas or struct */
     if (memcmp(header, bin_header, 4) == 0)
-	*ftypep = BINPORT_OK;
+	*ftypep = BINPORT_MAXBINARY;
     else if (memcmp(header, text_header, 4) == 0)
 	*ftypep = BINPORT_MAXTEXT;
     else if (memcmp(header, old_header, 4) == 0)
@@ -631,7 +631,7 @@ static t_binport *binport_new(FILE *fp, int *ftypep)
 	    bp->b_fp = fp;
 	    bp->b_ftype = *ftypep;
 	    bp->b_nsymbols = 0;
-	    if (*ftypep == BINPORT_OK)
+	    if (*ftypep == BINPORT_MAXBINARY)
 	    {
 		bp->b_symsize = BINPORT_SYMGROW;
 		bp->b_symtable =
@@ -712,9 +712,9 @@ int binport_read(t_binbuf *bb, char *filename, char *dirname)
 	t_binport *bp = binport_new(fp, &ftype);
 	if (bp)
 	{
-	    if (ftype == BINPORT_OK)
+	    if (ftype == BINPORT_MAXBINARY)
 		result = (binport_tobinbuf(bp, bb)
-			  ? BINPORT_OK : BINPORT_CORRUPT);
+			  ? BINPORT_MAXBINARY : BINPORT_CORRUPT);
 	    else if (ftype == BINPORT_MAXTEXT)
 	    {
 		t_atom at;
@@ -725,7 +725,7 @@ int binport_read(t_binbuf *bb, char *filename, char *dirname)
 			    break;
 		    binbuf_addv(bb, "ss;", gensym("max"), gensym("v2"));
 		    result = (binport_tobinbuf(bp, bb)
-			      ? BINPORT_OK : BINPORT_CORRUPT);
+			      ? BINPORT_MAXTEXT : BINPORT_CORRUPT);
 		}
 		else result = BINPORT_FAILED;
 	    }
@@ -737,7 +737,7 @@ int binport_read(t_binbuf *bb, char *filename, char *dirname)
 		{
 		    bp->b_old = old;
 		    if (binpold_load(old) && binport_tobinbuf(bp, bb))
-			result = BINPORT_OK;
+			result = BINPORT_MAXOLD;
 		}
 		else binpold_failure(filename);
 	    }
@@ -809,7 +809,7 @@ int main(int ac, char **av)
 	    t_binport *bp = binport_new(fp, &ftype);
 	    if (bp)
 	    {
-		if (ftype == BINPORT_OK)
+		if (ftype == BINPORT_MAXBINARY)
 		    binport_print(bp, stdout);
 		else if (ftype == BINPORT_MAXTEXT)
 		    binport_warning("\"%s\" looks like a Max text file", av[1]);

@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -22,8 +22,28 @@
 #include <string.h>
 #include "m_pd.h"
 #include "g_canvas.h"
+#include "common/os.h"
 #include "unstable/forky.h"
 #include "hammer/file.h"
+
+struct _hammerfile
+{
+    t_pd                 f_pd;
+    t_pd                *f_master;
+    t_canvas            *f_canvas;
+    t_symbol            *f_bindname;
+    t_symbol            *f_currentdir;
+    t_symbol            *f_inidir;
+    t_symbol            *f_inifile;
+    t_hammerfilefn       f_panelfn;
+    t_hammerfilefn       f_editorfn;
+    t_hammerembedfn      f_embedfn;
+    t_binbuf            *f_binbuf;
+    t_clock             *f_panelclock;
+    t_clock             *f_editorclock;
+    struct _hammerfile  *f_savepanel;
+    struct _hammerfile  *f_next;
+};
 
 static t_class *hammerfile_class = 0;
 static t_hammerfile *hammerfile_proxies;
@@ -183,12 +203,14 @@ static void hammerpanel_guidefs(void)
     sys_gui(" set filename [tk_getOpenFile \\\n");
     sys_gui("  -initialdir $inidir]\n");
     sys_gui(" if {$filename != \"\"} {\n");
-#if 0
     sys_gui("  set directory [string range $filename 0 \\\n");
     sys_gui("   [expr [string last / $filename ] - 1]]\n");
-    sys_gui("  set pd_opendir $directory\n");
+    sys_gui("  if {$directory == \"\"} {set directory \"/\"}\n");
+#if 1
+    sys_gui("  puts stderr [concat $directory]\n");
 #endif
-    sys_gui("  pd [concat $target symbol [pdtk_enquote $filename] \\;]\n");
+    sys_gui("  pd [concat $target path \\\n");
+    sys_gui("   [pdtk_enquote $filename] [pdtk_enquote $directory] \\;]\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 
@@ -200,15 +222,37 @@ static void hammerpanel_guidefs(void)
     sys_gui("  set filename [tk_getSaveFile]\n");
     sys_gui(" }\n");
     sys_gui(" if {$filename != \"\"} {\n");
-    sys_gui("  pd [concat $target symbol [pdtk_enquote $filename] \\;]\n");
+    sys_gui("  set directory [string range $filename 0 \\\n");
+    sys_gui("   [expr [string last / $filename ] - 1]]\n");
+    sys_gui("  if {$directory == \"\"} {set directory \"/\"}\n");
+    sys_gui("  pd [concat $target path \\\n");
+    sys_gui("   [pdtk_enquote $filename] [pdtk_enquote $directory] \\;]\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 }
 
+/* There are two modes of -initialdir persistence:
+   1. Using last reply from gui (if any, default is canvas directory):
+   pass null to hammerpanel_open/save() (for explicit cd, optionally call
+   hammerpanel_setopen/savedir() first).
+   2. Starting always in the same directory (eg. canvasdir):
+   feed hammerpanel_open/save().
+   Usually, first mode fits opening better, the second -- saving. */
+
+/* This is obsolete, but has to stay, because older versions of miXed libraries
+   might overwrite new hammerpanel_guidefs().  FIXME we need version control. */
 static void hammerpanel_symbol(t_hammerfile *f, t_symbol *s)
 {
     if (s && s != &s_ && f->f_panelfn)
 	(*f->f_panelfn)(f->f_master, s, 0, 0);
+}
+
+static void hammerpanel_path(t_hammerfile *f, t_symbol *s1, t_symbol *s2)
+{
+    if (s2 && s2 != &s_)
+	f->f_currentdir = s2;
+    if (s1 && s1 != &s_ && f->f_panelfn)
+	(*f->f_panelfn)(f->f_master, s1, 0, 0);
 }
 
 static void hammerpanel_tick(t_hammerfile *f)
@@ -225,16 +269,63 @@ static void hammerpanel_tick(t_hammerfile *f)
    a message box redraw to happen -- LATER investigate */
 void hammerpanel_open(t_hammerfile *f, t_symbol *inidir)
 {
-    f->f_inidir = (inidir ? inidir : &s_);
+    if (inidir)
+	f->f_inidir = inidir;
+    else
+	f->f_inidir = (f->f_currentdir ? f->f_currentdir : &s_);
     clock_delay(f->f_panelclock, 0);
+}
+
+void hammerpanel_setopendir(t_hammerfile *f, t_symbol *dir)
+{
+    if (f->f_currentdir && f->f_currentdir != &s_)
+    {
+	if (dir && dir != &s_)
+	{
+	    int length;
+	    if (length = ospath_length(dir->s_name, f->f_currentdir->s_name))
+	    {
+		char *path = getbytes(length + 1);
+		if (ospath_absolute(dir->s_name, f->f_currentdir->s_name, path))
+		    /* LATER stat (think how to report a failure) */
+		    f->f_currentdir = gensym(path);
+		freebytes(path, length + 1);
+	    }
+	}
+	else if (f->f_canvas)
+	    f->f_currentdir = canvas_getdir(f->f_canvas);
+    }
+    else bug("hammerpanel_setopendir");
+}
+
+t_symbol *hammerpanel_getopendir(t_hammerfile *f)
+{
+    return (f->f_currentdir);
 }
 
 void hammerpanel_save(t_hammerfile *f, t_symbol *inidir, t_symbol *inifile)
 {
-    /* LATER ask if we can rely on s_ pointing to "" */
-    f->f_savepanel->f_inidir = (inidir ? inidir : &s_);
-    f->f_savepanel->f_inifile = (inifile ? inifile : &s_);
-    clock_delay(f->f_savepanel->f_panelclock, 0);
+    if (f = f->f_savepanel)
+    {
+	if (inidir)
+	    f->f_inidir = inidir;
+	else
+	    /* LATER ask if we can rely on s_ pointing to "" */
+	    f->f_inidir = (f->f_currentdir ? f->f_currentdir : &s_);
+	f->f_inifile = (inifile ? inifile : &s_);
+	clock_delay(f->f_panelclock, 0);
+    }
+}
+
+void hammerpanel_setsavedir(t_hammerfile *f, t_symbol *dir)
+{
+    if (f = f->f_savepanel)
+	hammerpanel_setopendir(f, dir);
+}
+
+t_symbol *hammerpanel_getsavedir(t_hammerfile *f)
+{
+    return (f->f_savepanel ? f->f_savepanel->f_currentdir : 0);
 }
 
 /* Currently embeddable hammer classes do not use the 'saveto' method.
@@ -363,13 +454,17 @@ t_hammerfile *hammerfile_new(t_pd *master, t_hammerembedfn embedfn,
 	sprintf(buf, "miXed.%x", (int)result);
 	result->f_bindname = gensym(buf);
 	pd_bind((t_pd *)result, result->f_bindname);
+	result->f_currentdir =
+	    result->f_inidir = canvas_getdir(result->f_canvas);
 	result->f_panelfn = readfn;
 	result->f_panelclock = clock_new(result, (t_method)hammerpanel_tick);
 	f = (t_hammerfile *)pd_new(hammerfile_class);
 	f->f_master = master;
+	f->f_canvas = result->f_canvas;
 	sprintf(buf, "miXed.%x", (int)f);
 	f->f_bindname = gensym(buf);
 	pd_bind((t_pd *)f, f->f_bindname);
+	f->f_currentdir = f->f_inidir = result->f_currentdir;
 	f->f_panelfn = writefn;	
 	f->f_panelclock = clock_new(f, (t_method)hammerpanel_tick);
 	result->f_savepanel = f;
@@ -406,6 +501,8 @@ void hammerfile_setup(t_class *c, int embeddable)
 				     sizeof(t_hammerfile),
 				     CLASS_PD | CLASS_NOINLET, 0);
 	class_addsymbol(hammerfile_class, hammerpanel_symbol);
+	class_addmethod(hammerfile_class, (t_method)hammerpanel_path,
+			gensym("path"), A_SYMBOL, A_DEFSYM, 0);
 	class_addmethod(hammerfile_class, (t_method)hammereditor_clear,
 			gensym("clear"), 0);
 	class_addmethod(hammerfile_class, (t_method)hammereditor_addline,

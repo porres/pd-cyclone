@@ -49,6 +49,7 @@ typedef struct _seq
     t_hammerfile  *x_filehandle;
     int            x_mode;
     int            x_playhead;
+    double         x_nextscoretime;
     float          x_timescale;
     float          x_newtimescale;
     double         x_prevtime;
@@ -248,6 +249,7 @@ static void seq_stopplayback(t_seq *x)
     /* CHECKED bang not sent if playback stopped early */
     clock_unset(x->x_clock);
     x->x_playhead = 0;
+    x->x_nextscoretime = 0.;
 }
 
 static void seq_stopslavery(t_seq *x)
@@ -256,6 +258,7 @@ static void seq_stopslavery(t_seq *x)
     clock_unset(x->x_clock);
     clock_unset(x->x_slaveclock);
     x->x_playhead = 0;
+    x->x_nextscoretime = 0.;
 }
 
 static void seq_startrecording(t_seq *x, int modechanged)
@@ -275,21 +278,22 @@ static void seq_startplayback(t_seq *x, int modechanged)
 	if (modechanged)
 	{
 	    x->x_playhead = 0;
+	    x->x_nextscoretime = x->x_sequence->e_delta;
 	    /* playback data never sent within the scheduler event of
 	       a start message (even for the first delta <= 0), LATER rethink */
 	    x->x_clockdelay = x->x_sequence->e_delta * x->x_newtimescale;
 	}
 	else
-	{
-	    /* CHECKED timescale change */
-	    x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
+	{  /* CHECKED timescale change */
+	    if (x->x_prevtime > 0.)  /* running state */
+		x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
 	    x->x_clockdelay *= x->x_newtimescale / x->x_timescale;
 	}
 	if (x->x_clockdelay < 0.)
 	    x->x_clockdelay = 0.;
+	x->x_timescale = x->x_newtimescale;
 	clock_delay(x->x_clock, x->x_clockdelay);
 	x->x_prevtime = clock_getlogicaltime();
-	x->x_timescale = x->x_newtimescale;
     }
     else x->x_mode = SEQ_IDLEMODE;
 }
@@ -299,6 +303,7 @@ static void seq_startslavery(t_seq *x, int modechanged)
     if (x->x_nevents)
     {
 	x->x_playhead = 0;
+	x->x_nextscoretime = 0.;
 	x->x_prevtime = 0.;
 	x->x_slaveprevtime = 0.;
     }
@@ -380,6 +385,7 @@ nextevent:
 	if (x->x_playhead < x->x_nevents)
 	{
 	    ep++;
+	    x->x_nextscoretime += ep->e_delta;
 	    if (ep->e_delta < SEQ_TICKEPSILON)
 		/* continue output in the same scheduler event, LATER rethink */
 	    {
@@ -556,7 +562,8 @@ static void seq_pause(t_seq *x)
 	fittermax_warning(*(t_pd *)x, "'pause' not supported in Max");
 	warned = 1;
     }
-    if (x->x_mode == SEQ_PLAYMODE && x->x_prevtime > 0.)
+    if (x->x_mode == SEQ_PLAYMODE &&
+	x->x_prevtime > 0.)  /* running state */
     {
 	x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
 	if (x->x_clockdelay < 0.)
@@ -574,7 +581,8 @@ static void seq_continue(t_seq *x)
 	fittermax_warning(*(t_pd *)x, "'continue' not supported in Max");
 	warned = 1;
     }
-    if (x->x_mode == SEQ_PLAYMODE)
+    if (x->x_mode == SEQ_PLAYMODE &&
+	x->x_prevtime <= 0.)  /* pause state */
     {
 	if (x->x_clockdelay < 0.)
 	    x->x_clockdelay = 0.;
@@ -591,28 +599,89 @@ static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2)
 	fittermax_warning(*(t_pd *)x, "'goto' not supported in Max");
 	warned = 1;
     }
-    if (x->x_nevents && x->x_mode == SEQ_PLAYMODE)
+    if (x->x_nevents)
     {
 	t_seqevent *ev;
 	int ndx, nevents = x->x_nevents;
 	double ms = f1 * 1000. + f2, sum;
 	if (ms < SEQ_TICKEPSILON)
 	    ms = 0.;
+	if (x->x_mode != SEQ_PLAYMODE)
+	{
+	    seq_settimescale(x, x->x_timescale);
+	    seq_setmode(x, SEQ_PLAYMODE);
+	    /* clock_delay() has been called in setmode, LATER avoid */
+	    clock_unset(x->x_clock);
+	    x->x_prevtime = 0.;
+	}
 	for (ndx = 0, ev = x->x_sequence, sum = SEQ_TICKEPSILON; ndx < nevents;
 	     ndx++, ev++)
 	{
 	    if ((sum += ev->e_delta) >= ms)
 	    {
 		x->x_playhead = ndx;
+		x->x_nextscoretime = sum;
 		x->x_clockdelay = sum - SEQ_TICKEPSILON - ms;
 		if (x->x_clockdelay < 0.)
 		    x->x_clockdelay = 0.;
-		clock_delay(x->x_clock, x->x_clockdelay);
-		x->x_prevtime = clock_getlogicaltime();
+		if (x->x_prevtime > 0.)  /* running state */
+		{
+		    clock_delay(x->x_clock, x->x_clockdelay);
+		    x->x_prevtime = clock_getlogicaltime();
+		}
 		break;
 	    }
 	}
     }
+}
+
+static void seq_scoretime(t_seq *x, t_symbol *s)
+{
+    static int warned = 0;
+    if (fittermax_get() && !warned)
+    {
+	fittermax_warning(*(t_pd *)x, "'scoretime' not supported in Max");
+	warned = 1;
+    }
+    if (s && s->s_thing &&
+	x->x_mode == SEQ_PLAYMODE)  /* LATER other modes */
+    {
+	t_atom aout[2];
+	double ms, clockdelay = x->x_clockdelay;
+	t_float f1, f2;
+	if (x->x_prevtime > 0.)  /* running state */
+	    clockdelay -= clock_gettimesince(x->x_prevtime);
+	ms = x->x_nextscoretime - clockdelay / x->x_timescale;
+	f1 = ms / 1000.;
+	f2 = ms - f1;
+	SETFLOAT(&aout[0], f1);
+	SETFLOAT(&aout[1], f2);
+	pd_list(s->s_thing, &s_list, 2, aout);
+    }
+}
+
+static void seq_cd(t_seq *x, t_symbol *s)
+{
+    static int warned = 0;
+    if (fittermax_get() && !warned)
+    {
+	fittermax_warning(*(t_pd *)x, "'cd' not supported in Max");
+	warned = 1;
+    }
+    hammerpanel_setopendir(x->x_filehandle, s);
+}
+
+static void seq_pwd(t_seq *x, t_symbol *s)
+{
+    t_symbol *dir;
+    static int warned = 0;
+    if (fittermax_get() && !warned)
+    {
+	fittermax_warning(*(t_pd *)x, "'pwd' not supported in Max");
+	warned = 1;
+    }
+    if (s && s->s_thing && (dir = hammerpanel_getopendir(x->x_filehandle)))
+	pd_symbol(s->s_thing, dir);
 }
 
 static int seq_eventcomparehook(const void *e1, const void *e2)
@@ -963,7 +1032,8 @@ static void seq_read(t_seq *x, t_symbol *s)
 {
     if (s && s != &s_)
 	seq_doread(x, s, 0);
-    else  /* CHECKED no default */
+    else  /* CHECKED no default file name */
+	/* start in a dir last read from, if any, otherwise in a canvas dir */
 	hammerpanel_open(x->x_filehandle, 0);
 }
 
@@ -971,8 +1041,9 @@ static void seq_write(t_seq *x, t_symbol *s)
 {
     if (s && s != &s_)
 	seq_dowrite(x, s);
-    else  /* CHECKED creation arg is a default */
+    else  /* CHECKED creation arg is a default file name */
 	hammerpanel_save(x->x_filehandle,
+			 /* always start in canvas dir */
 			 canvas_getdir(x->x_canvas), x->x_defname);
 }
 
@@ -1123,8 +1194,14 @@ void seq_setup(void)
 		    gensym("continue"), 0);
     class_addmethod(seq_class, (t_method)seq_goto,
 		    gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addmethod(seq_class, (t_method)seq_scoretime,
+		    gensym("scoretime"), A_SYMBOL, 0);
+    class_addmethod(seq_class, (t_method)seq_cd,
+		    gensym("cd"), A_DEFSYM, 0);
+    class_addmethod(seq_class, (t_method)seq_pwd,
+		    gensym("pwd"), A_SYMBOL, 0);
 
     forky_setpropertiesfn(seq_class, seq_properties);
     hammerfile_setup(seq_class, 0);
-    fitter_setup(seq_class, 0, 0);
+    fitter_setup(seq_class, 0);
 }

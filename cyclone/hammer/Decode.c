@@ -108,5 +108,5 @@ void Decode_setup(void)
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(Decode_class, (t_method)Decode_alloff,
 		    gensym("ft2"), A_FLOAT, 0); 
-    fitter_setup(Decode_class, 0, 0);
+    fitter_setup(Decode_class, 0);
 }

@@ -348,6 +348,9 @@ void loudbug_post(char *fmt, ...)
     vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
     va_end(ap);
     fprintf(stderr, "%s\n", buf);
+#ifdef MSW
+    fflush(stderr);
+#endif
 }
 
 void loudbug_startpost(char *fmt, ...)
@@ -358,11 +361,17 @@ void loudbug_startpost(char *fmt, ...)
     vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
     va_end(ap);
     fputs(buf, stderr);
+#ifdef MSW
+    fflush(stderr);
+#endif
 }
 
 void loudbug_endpost(void)
 {
     fputs("\n", stderr);
+#ifdef MSW
+    fflush(stderr);
+#endif
 }
 
 void loudbug_postatom(int ac, t_atom *av)
@@ -372,6 +381,9 @@ void loudbug_postatom(int ac, t_atom *av)
         char buf[MAXPDSTRING];
         atom_string(av++, buf, MAXPDSTRING);
 	fprintf(stderr, " %s", buf);
+#ifdef MSW
+	fflush(stderr);
+#endif
     }
 }
 
@@ -391,9 +403,18 @@ void loudbug_postbinbuf(t_binbuf *bb)
 		fprintf(stderr, " %s", buf);
 	}
 	else fprintf(stderr, "%s", buf);
+#ifdef MSW
+	fflush(stderr);
+#endif
 	aprev = ap++;
     }
-    if (aprev) fputs("\n", stderr);
+    if (aprev)
+    {
+	fputs("\n", stderr);
+#ifdef MSW
+	fflush(stderr);
+#endif
+    }
 }
 
 void loudbug_bug(char *fmt, ...)
@@ -404,5 +425,8 @@ void loudbug_bug(char *fmt, ...)
     vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
     va_end(ap);
     fprintf(stderr, "miXed consistency check failed: %s\n", buf);
+#ifdef MSW
+    fflush(stderr);
+#endif
     bug(buf);
 }

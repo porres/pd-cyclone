@@ -3,6 +3,7 @@ CYCLONE_OBJECTS = \
 	$(SRCDIR)\shadow\nettles.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\os.obj \
 	$(SHAREDDIR)\common\lex.obj \
 	$(SHAREDDIR)\common\binport.obj \
 	$(SHAREDDIR)\common\port.obj \
@@ -97,6 +98,7 @@ HAMMER_OBJECTS = $(ALL_HAMMERS) \
 	$(SRCDIR)\hammer\allhammers.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\os.obj \
 	$(SHAREDDIR)\common\fitter.obj \
 	$(SHAREDDIR)\common\rand.obj \
 	$(SHAREDDIR)\common\vefl.obj \
@@ -153,6 +155,7 @@ ALL_SICKLES = \
 	$(SRCDIR)\sickle\log.obj \
 	$(SRCDIR)\sickle\lookup.obj \
 	$(SRCDIR)\sickle\lores.obj \
+	$(SRCDIR)\sickle\matrix.obj \
 	$(SRCDIR)\sickle\maximum.obj \
 	$(SRCDIR)\sickle\minimum.obj \
 	$(SRCDIR)\sickle\minmax.obj \
@@ -194,6 +197,7 @@ SICKLE_OBJECTS = $(ALL_SICKLES) \
 	$(SRCDIR)\sickle\allsickles.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\os.obj \
 	$(SHAREDDIR)\common\fitter.obj \
 	$(SHAREDDIR)\common\vefl.obj \
 	$(SHAREDDIR)\common\clc.obj \
@@ -222,6 +226,7 @@ MAXMODE_OBJECTS = \
 	$(SRCDIR)\shadow\maxmode.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\os.obj \
 	$(SHAREDDIR)\common\fitter.obj \
 	$(SHAREDDIR)\common\lex.obj \
 	$(SHAREDDIR)\common\binport.obj \

@@ -146,5 +146,5 @@ void urn_setup(void)
 		    gensym("seed"), A_FLOAT, 0);  /* CHECKED arg obligatory */
     class_addmethod(urn_class, (t_method)urn_clear,
 		    gensym("clear"), 0);
-    fitter_setup(urn_class, 0, 0);
+    fitter_setup(urn_class, 0);
 }

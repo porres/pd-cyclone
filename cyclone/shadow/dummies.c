@@ -148,6 +148,7 @@ static void *dummy_if_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
+#if 0
 static void *dummy_matrix_tilde_new(t_symbol *s, int ac, t_atom *av)
 {
     t_dummy_slot *sl;
@@ -168,6 +169,7 @@ static void *dummy_matrix_tilde_new(t_symbol *s, int ac, t_atom *av)
     dummy_io(x, nins, nouts + 1);  /* CHECKME */
     return (x);
 }
+#endif
 
 static void *dummy_rewire_tilde_new(t_symbol *s, int ac, t_atom *av)
 {
@@ -406,7 +408,9 @@ static t_dummy_slot dummy_slots[] =
     { "lcd",             1, 4, 0, 0 },  /* CHECKME nouts */
     { "led",             1, 1, 0, 0 },
     { "matrixctrl",      1, 1, 0, 0 },  /* CHECKME nins, nouts */
+#if 0
     { "matrix~",        -1, -1, 0, (t_newmethod)dummy_matrix_tilde_new },
+#endif
     { "menubar",         1, 4, 0, 0 },  /* LATER parse #Xs (additional outs) */
     { "meter~",          1, 1, 0, 0 },  /* LATER consider mapping to the vu */
     { "movie",           1, 3, 0, 0 },

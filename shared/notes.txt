@@ -1,0 +1,29 @@
+TODO for root and shared
+  * fitter: abstraction-scoped, class-selective compatibility control
+  * fitter: mode list
+  * hammerfile, hammergui: version control
+
+DONE for root and shared
+
+with cyclone alpha52
+  * fragile: class name resolution based on voluntary mutation and raising
+  * fitter: mirroring removed
+  * new module, os: opening files, parsing path
+  * hammerpanel: two modes of -initialdir persistence
+  * more mingw fixes
+
+with cyclone alpha51
+  * new module, fitter: encapsulates compatibility support (formerly in maxmode)
+  * fitter: per-class callback and mirroring interface to compatibility mode
+  * mingw fixes
+
+with toxy alpha14
+  * scriptlet: version control (verslet_ routines)
+  * debug printout restricted to krzYszcz, sent to stderr
+
+with cyclone alpha50
+  * bug fixes
+    . hammertree crasher (affecting funbuff and offer)
+    . MouseState/toxy clash
+  * builds with gcc3 by default (no need to edit Makefile.common)
+  * midi file code has been cleaned, now ready for using in qlist

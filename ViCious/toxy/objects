@@ -2,6 +2,7 @@ TOT_OBJECTS = $(SRCDIR)\tot.obj \
 	$(SHAREDDIR)\unstable\forky.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\os.obj \
 	$(SHAREDDIR)\hammer\file.obj \
 	$(SHAREDDIR)\hammer\gui.obj \
 	$(SHAREDDIR)\common\props.obj \
@@ -17,6 +18,7 @@ WIDGET_OBJECTS = $(SRCDIR)\widget.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
 	$(SHAREDDIR)\common\dict.obj \
+	$(SHAREDDIR)\common\os.obj \
 	$(SHAREDDIR)\hammer\file.obj \
 	$(SHAREDDIR)\common\props.obj \
 	$(SHAREDDIR)\toxy\scriptlet.obj

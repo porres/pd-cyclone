@@ -6,8 +6,10 @@
 #define __PD_IMP_H__
 
 #ifdef PD_MINOR_VERSION
+/* 0.37 and up */
 #include "m_imp.h"
 #else
+/* 0.36 and down */
 
 typedef struct _methodentry
 {

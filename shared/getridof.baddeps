@@ -9,7 +9,7 @@ common/qtree -> common/loud
 common/binport -> common/lex
 common/port -> common/loud, common/grow, common/binport,
 	unstable/forky, unstable/fragile, unstable/fringe
-hammer/file -> unstable/forky
+hammer/file -> common/os unstable/forky
 sickle/sic -> common/loud
 sickle/arsic -> common/loud, common/vefl, sickle/sic, unstable/fragile
 toxy/plusbob -> common/loud

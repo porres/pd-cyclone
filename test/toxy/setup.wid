@@ -1,4 +1,4 @@
-package provide toxywidgets 0.1.0.14
+package provide toxywidgets 0.1.0.15
 
 # LATER keep standard widget setup in a .tcl file (transfered into a .wiq), and
 # glue separate .wid files with standard widget definitions into another .wiq
@@ -81,8 +81,15 @@ proc ::toxy::item_destroy {path varname} {
 }
 
 proc ::toxy::item_getconfig {path target} {
-    pd $target.rp _config $target.rp [$path cget -bg] \
-	[winfo reqwidth $path] [winfo reqheight $path] \
+    set wd [winfo reqwidth $path]
+    set ht [winfo reqheight $path]
+    if {$wd < 2 || $ht < 2} {
+# LATER rethink
+	update idletasks
+	set wd [winfo width $path]
+	set ht [winfo height $path]
+    }
+    pd $target.rp _config $target.rp [$path cget -bg] $wd $ht \
 	[catch {$path config -state normal}]\;
 }
 
@@ -185,7 +192,6 @@ proc ::toxy::master_motion {target cvpath x y} {
 }
 
 proc ::toxy::master {path cvpath target} {
-# FIXME subitem handling in megawidgets
     bind $path <ButtonRelease> "::toxy::master_release $target $cvpath %X %Y %b"
     bind $path <1> "::toxy::item_click $target $cvpath %X %Y %b 0"
     bind $path <Shift-1> "::toxy::item_click $target $cvpath %X %Y %b 1"
@@ -202,6 +208,41 @@ proc ::toxy::master {path cvpath target} {
     bind $path <B1-Motion> "::toxy::master_motion $target $cvpath %X %Y"
     bind $path <Enter> "::toxy::item_inout $target 1"
     bind $path <Leave> "::toxy::item_inout $target 0"
+
+    if {[catch {$path config -state normal}] == 0} {
+	bind $path <<disable>> "$path config -state disabled"
+	bind $path <<enable>> "$path config -state normal"
+    }
+
+    if {[winfo class $path] == "Canvas"} {
+# undo the "bind Canvas <1> {+focus %W}" from above
+	bind $path <FocusIn> "focus $cvpath"
+    }
+}
+
+# to be called explicitly from type initializer, LATER rethink
+proc ::toxy::subwidget {path parent cvpath target} {
+    bind $path <ButtonRelease> "::toxy::master_release $target $cvpath %X %Y %b"
+    bind $path <1> "::toxy::item_click $target $cvpath %X %Y %b 0"
+    bind $path <Shift-1> "::toxy::item_click $target $cvpath %X %Y %b 1"
+    bind $path <Control-1> "::toxy::item_click $target $cvpath %X %Y %b 2"
+    bind $path <Control-Shift-1> "::toxy::item_click $target $cvpath %X %Y %b 3"
+    bind $path <Alt-1> "::toxy::item_click $target $cvpath %X %Y %b 4"
+    bind $path <Alt-Shift-1> "::toxy::item_click $target $cvpath %X %Y %b 5"
+    bind $path <Alt-Control-1> "::toxy::item_click $target $cvpath %X %Y %b 6"
+    bind $path <Alt-Control-Shift-1> \
+	"::toxy::item_click $target $cvpath %X %Y %b 7"
+    bind $path <3> "::toxy::item_click $target $cvpath %X %Y %b 8"
+
+    bind $path <Motion> "::toxy::master_motion $target $cvpath %X %Y"
+    bind $path <B1-Motion> "::toxy::master_motion $target $cvpath %X %Y"
+    bind $path <Enter> "::toxy::item_inout $target 1"
+    bind $path <Leave> "::toxy::item_inout $target 0"
+
+    if {[catch {$path config -state normal}] == 0} {
+	bind $parent <<disable>> "+$path config -state disabled"
+	bind $parent <<enable>> "+$path config -state normal"
+    }
 }
 
 # standard widget types, LATER move to separate .wid files

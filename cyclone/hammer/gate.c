@@ -145,5 +145,5 @@ void gate_setup(void)
     class_addpointer(gate_proxy_class, gate_proxy_pointer);
     class_addlist(gate_proxy_class, gate_proxy_list);
     class_addanything(gate_proxy_class, gate_proxy_anything);
-    fitter_setup(gate_class, 0, 0);
+    fitter_setup(gate_class, 0);
 }

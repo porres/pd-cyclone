@@ -5,10 +5,9 @@
 #ifndef __FITTER_H__
 #define __FITTER_H__
 
-typedef void (*t_fittermode_callback)(t_symbol *s);
+typedef void (*t_fittermode_callback)(void);
 
-void fitter_setup(t_class *owner, t_symbol **mirror,
-		  t_fittermode_callback callback);
+void fitter_setup(t_class *owner, t_fittermode_callback callback);
 void fitter_drop(t_class *owner);
 void fitter_setmode(t_symbol *s);
 t_symbol *fitter_getmode(void);

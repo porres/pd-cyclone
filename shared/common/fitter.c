@@ -25,7 +25,7 @@ static t_symbol *fittermode_value = 0;
 typedef struct _fittermode_client
 {
     t_class                    *fc_owner;
-    t_symbol                  **fc_mirror;
+    t_canvas                   *fc_canvas;
     t_fittermode_callback       fc_callback;
     struct _fittermode_client  *fc_next;
 } t_fittermode_client;
@@ -36,6 +36,7 @@ static t_pd *fittermode_target = 0;
 static int fittermode_ready = 0;
 static t_symbol *fitterps_hashcompatibility = 0;
 static t_symbol *fitterps_max = 0;
+static t_symbol *fitterps_none = 0;
 
 /* read access (query), only from fittermode_dosetup() */
 static void fittermode_bang(t_pd *x)
@@ -55,6 +56,11 @@ static void fittermode_bang(t_pd *x)
 /* read access (reply), only from fitter_dosetup() */
 static void fittermode_symbol(t_pd *x, t_symbol *s)
 {
+    if (!s || s == &s_)
+    {
+	loudbug_bug("fittermode_symbol");
+	s = fitterps_none;
+    }
     fittermode_value = s;
 }
 
@@ -64,12 +70,8 @@ static void fittermode_set(t_pd *x, t_symbol *s)
     t_fittermode_client *fc;
     fittermode_value = s;
     for (fc = fittermode_clients; fc; fc = fc->fc_next)
-    {
-	if (fc->fc_mirror)
-	    *fc->fc_mirror = s;
 	if (fc->fc_callback)
-	    fc->fc_callback(s);
-    }
+	    fc->fc_callback();
 }
 
 static void fittermode_dosetup(int noquery)
@@ -78,9 +80,11 @@ static void fittermode_dosetup(int noquery)
 	loudbug_bug("fittermode_dosetup");
     fitterps_hashcompatibility = gensym("#compatibility");
     fitterps_max = gensym("max");
+    fitterps_none = gensym("none");
+    fittermode_value = fitterps_none;
     fittermode_class = class_new(fitterps_hashcompatibility,
-					  0, 0, sizeof(t_pd),
-					  CLASS_PD | CLASS_NOINLET, 0);
+				 0, 0, sizeof(t_pd),
+				 CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(fittermode_class, fittermode_bang);
     class_addsymbol(fittermode_class, fittermode_symbol);
     class_addmethod(fittermode_class,
@@ -93,21 +97,18 @@ static void fittermode_dosetup(int noquery)
     fittermode_ready = 1;
 }
 
-void fitter_setup(t_class *owner, t_symbol **mirror,
-		  t_fittermode_callback callback)
+void fitter_setup(t_class *owner, t_fittermode_callback callback)
 {
     if (!fittermode_class)
 	fittermode_dosetup(0);
-    if (mirror || callback)
+    if (callback)
     {
 	t_fittermode_client *fc = getbytes(sizeof(*fc));
 	fc->fc_owner = owner;
-	fc->fc_mirror = mirror;
+	fc->fc_canvas = 0;  /* a global client */
 	fc->fc_callback = callback;
 	fc->fc_next = fittermode_clients;
 	fittermode_clients = fc;
-	if (mirror)
-	    *mirror = fittermode_value;
     }
 }
 
@@ -140,7 +141,9 @@ void fitter_drop(t_class *owner)
 
 void fitter_setmode(t_symbol *s)
 {
-    post("setting compatibility mode to '%s'", (s ? s->s_name : "none"));
+    if (!s || s == &s_)
+	s = fitterps_none;
+    post("setting compatibility mode to '%s'", s->s_name);
     if (!fittermode_class)
 	fittermode_dosetup(1);
     if (fitterps_hashcompatibility->s_thing)

@@ -16,9 +16,8 @@
 typedef struct _maxmode
 {
     t_object       x_ob;
-    t_symbol      *x_dir;
-    t_symbol      *x_canvasdir;
     t_hammerfile  *x_filehandle;
+    t_outlet      *x_modeout;
 } t_maxmode;
 
 static t_class *maxmode_class;
@@ -29,39 +28,59 @@ static int maxmode_withbanner = 0;
 
 static void maxmode_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 {
-    import_max(fn->s_name, "");
+    int result = import_max(fn->s_name, "");
+    outlet_float(((t_object *)z)->ob_outlet, (t_float)result);
 }
 
-static void maxmode_doimport(t_maxmode *x, t_symbol *fn, t_symbol *dir)
+static void maxmode_doimport(t_maxmode *x, t_symbol *fn)
 {
-    if (!dir || dir == &s_)
-	dir = x->x_dir;
     if (fn && fn != &s_)
-	import_max(fn->s_name, (dir && dir != &s_) ? dir->s_name : "");
-    else
-	hammerpanel_open(x->x_filehandle, dir);
+    {
+	t_symbol *dir = hammerpanel_getopendir(x->x_filehandle);
+	int result =
+	    import_max(fn->s_name, (dir && dir != &s_ ? dir->s_name : ""));
+	outlet_float(((t_object *)x)->ob_outlet, (t_float)result);
+    }
+    else hammerpanel_open(x->x_filehandle, 0);
+
 }
 
 static void maxmode_click(t_maxmode *x, t_floatarg xpos, t_floatarg ypos,
 			  t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
 {
-    maxmode_doimport(x, 0, 0);
+    maxmode_doimport(x, 0);
 }
 
 static void maxmode_import(t_maxmode *x, t_symbol *fn)
 {
-    maxmode_doimport(x, fn, 0);
+    maxmode_doimport(x, fn);
 }
 
 static void maxmode_cd(t_maxmode *x, t_symbol *dir)
 {
-    /* LATER hammerfile interface for relative jumps, etc. */
-    x->x_dir = (dir && dir != &s_ ? dir : x->x_canvasdir);
+    hammerpanel_setopendir(x->x_filehandle, dir);
 }
 
-static void maxmode_pwd(t_maxmode *x)
+static void maxmode_pwd(t_maxmode *x, t_symbol *s)
 {
-    outlet_symbol(((t_object *)x)->ob_outlet, x->x_dir);
+    t_symbol *dir;
+    if (s && s->s_thing && (dir = hammerpanel_getopendir(x->x_filehandle)))
+	pd_symbol(s->s_thing, dir);
+}
+
+static void maxmode_set(t_maxmode *x, t_symbol *s)
+{
+    if (!s || s == &s_)
+	s = gensym("none");
+    if (s != fitter_getmode())
+	fitter_setmode(s);
+}
+
+static void maxmode_get(t_maxmode *x)
+{
+    t_symbol *mode;
+    if (mode = fitter_getmode())
+	outlet_symbol(x->x_modeout, mode);
 }
 
 static void maxmode_bang(t_maxmode *x)
@@ -79,12 +98,14 @@ static void maxmode_bang(t_maxmode *x)
 
 static void maxmode_free(t_maxmode *x)
 {
+    /* FIXME cancel registration */
     hammerfile_free(x->x_filehandle);
 }
 
 static void *maxmode_new(t_symbol *s, int ac, t_atom *av)
 {
     t_maxmode *x = (t_maxmode *)pd_new(maxmode_class);
+    int selective = ac;
     if (maxmode_withbanner && !ac)
     {
 	post("this is maxmode %s, %s %s build",
@@ -93,25 +114,22 @@ static void *maxmode_new(t_symbol *s, int ac, t_atom *av)
  "creating maxmode object without loading cyclone components");
 	maxmode_withbanner = 0;
     }
-    if (!fittermax_get())
+    if (selective)
     {
-	int selective = 0;
-	if (ac)
+	/* a numeric argument is valid -- transparent object is created
+	   (global mode is not set, nothing is registered) */
+	while (ac--) if (av->a_type == A_SYMBOL)
 	{
-	    while (ac--) if (av->a_type == A_SYMBOL)
-	    {
-		/* FIXME register into fitter for per-patch, selective
-		   compatibility control */
-		av++;
-	    }
+	    /* FIXME register into fitter for per-patch-file, selective
+	       compatibility control */
+	    av++;
 	}
-	if (!selective)
-	    fittermax_set();
     }
+    else if (!fittermax_get())
+	fittermax_set();
     x->x_filehandle = hammerfile_new((t_pd *)x, 0, maxmode_readhook, 0, 0);
-    x->x_canvasdir = canvas_getdir(x->x_filehandle->f_canvas);
-    x->x_dir = x->x_canvasdir;
-    outlet_new((t_object *)x, &s_symbol);
+    outlet_new((t_object *)x, &s_float);
+    x->x_modeout = outlet_new((t_object *)x, &s_symbol);
     return (x);
 }
 
@@ -128,10 +146,14 @@ void maxmode_setup(void)
 			      (t_method)maxmode_free,
 			      sizeof(t_maxmode), 0, A_GIMME, 0);
     class_addbang(maxmode_class, maxmode_bang);
+    class_addmethod(maxmode_class, (t_method)maxmode_set,
+		    gensym("set"), A_DEFSYM, 0);
+    class_addmethod(maxmode_class, (t_method)maxmode_get,
+		    gensym("get"), 0);
     class_addmethod(maxmode_class, (t_method)maxmode_cd,
 		    gensym("cd"), A_DEFSYM, 0);
     class_addmethod(maxmode_class, (t_method)maxmode_pwd,
-		    gensym("pwd"), 0);
+		    gensym("pwd"), A_SYMBOL, 0);
     class_addmethod(maxmode_class, (t_method)maxmode_import,
 		    gensym("import"), A_DEFSYM, 0);
     class_addmethod(maxmode_class, (t_method)maxmode_click,
@@ -141,7 +163,7 @@ void maxmode_setup(void)
 
     if (canvas_getcurrent())
     {
-	fitter_setup(0, 0, 0);
+	fitter_setup(0, 0);
 	if (!zgetfn(&pd_objectmaker, gensym("cyclone")))
 	    /* cycloneless maxmode -- banner is posted by the oldest
 	       maxmode object with no creation arguments */

@@ -34,8 +34,7 @@ typedef struct _prependxy
 static t_class *prepend_class;
 static t_class *prependxy_class;
 
-static t_symbol *prependps_compatibility = 0;
-static t_symbol *prependps_max;
+static int prepend_iscompatible = 0;  /* FIXME per-object */
 
 /* Usually a preallocation method is used, except in special cases of:
    1) reentrant output request, or 2) an output request which would cause
@@ -153,7 +152,7 @@ static void prepend_bang(t_prepend *x)
 {
     if (x->x_selector)
     {
-	if (prependps_compatibility == prependps_max)
+	if (prepend_iscompatible)
 	{
 	    t_atom at;
 	    SETSYMBOL(&at, &s_bang);  /* CHECKED */
@@ -324,7 +323,7 @@ static void *prepend_new(t_symbol *s, int ac, t_atom *av)
     }
     else
     {
-	if (prependps_compatibility == prependps_max)
+	if (prepend_iscompatible)
 	    /* CHECKED in max an object without an outlet is created,
 	       and there is no warning when loading from a file. */
 	    fittermax_warning(prepend_class,
@@ -335,6 +334,11 @@ static void *prepend_new(t_symbol *s, int ac, t_atom *av)
     }
     outlet_new((t_object *)x, &s_anything);
     return (x);
+}
+
+static void prepend_fitter(void)
+{
+    prepend_iscompatible = fittermax_get();
 }
 
 void prepend_setup(void)
@@ -360,6 +364,5 @@ void prepend_setup(void)
     class_addlist(prependxy_class, prependxy_list);
     class_addanything(prependxy_class, prependxy_anything);
 
-    prependps_max = gensym("max");
-    fitter_setup(prepend_class, &prependps_compatibility, 0);
+    fitter_setup(prepend_class, prepend_fitter);
 }

@@ -34,8 +34,7 @@ typedef struct _appendxy
 static t_class *append_class;
 static t_class *appendxy_class;
 
-static t_symbol *appendps_compatibility = 0;
-static t_symbol *appendps_max;
+static int append_iscompatible = 0;  /* FIXME per-object */
 
 /* Usually a preallocation method is used, except in special cases of:
    1) reentrant output request, or 2) an output request which would cause
@@ -155,7 +154,7 @@ static void append_anything(t_append *x, t_symbol *s, int ac, t_atom *av)
 
 static void append_bang(t_append *x)
 {
-    if (appendps_compatibility == appendps_max)
+    if (append_iscompatible)
     {
 	/* CHECKED: a nop */
     }
@@ -325,6 +324,11 @@ static void *append_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
+static void append_fitter(void)
+{
+    append_iscompatible = fittermax_get();
+}
+
 void Append_setup(void)
 {
     append_class = class_new(gensym("Append"),
@@ -348,6 +352,5 @@ void Append_setup(void)
     class_addlist(appendxy_class, appendxy_list);
     class_addanything(appendxy_class, appendxy_anything);
 
-    appendps_max = gensym("max");
-    fitter_setup(append_class, &appendps_compatibility, 0);
+    fitter_setup(append_class, append_fitter);
 }

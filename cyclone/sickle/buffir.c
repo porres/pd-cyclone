@@ -211,5 +211,5 @@ void buffir_tilde_setup(void)
 		    gensym("clear"), 0);
     class_addmethod(buffir_class, (t_method)buffir_set,
 		    gensym("set"), A_SYMBOL, A_DEFFLOAT, A_DEFFLOAT, 0);
-    fitter_setup(buffir_class, 0, 0);
+    fitter_setup(buffir_class, 0);
 }

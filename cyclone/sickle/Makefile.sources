@@ -44,6 +44,7 @@ linedrive.c \
 log.c \
 lookup.c \
 lores.c \
+matrix.c \
 maximum.c \
 minimum.c \
 minmax.c \

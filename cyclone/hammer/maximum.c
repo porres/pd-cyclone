@@ -89,5 +89,5 @@ void maximum_setup(void)
     class_addbang(maximum_class, maximum_bang);
     class_addfloat(maximum_class, maximum_float);
     class_addlist(maximum_class, maximum_list);
-    fitter_setup(maximum_class, 0, 0);
+    fitter_setup(maximum_class, 0);
 }

@@ -1,0 +1,40 @@
+TODO for cyclone
+  * using maxmode object arguments for abstraction-scoped, selective
+    compatibility control
+  * comment behaving better in windows (or is it gatom's fault?)
+
+DONE for cyclone
+
+alpha52
+  * compatibility mode interface in maxmode object:
+    messages 'set', 'get' (reply through the second outlet)
+  * better handling of initial directory in open panels
+  * relative path handling in 'cd' (library objects, seq, more to come)
+  * remote reply to 'pwd' message of library objects (target argument required)
+  * instead, left outlet of library objects sends return code from import
+    (negative value indicates an error)
+  * new class: matrix~
+  * linedrive: more compatible in maxmode, bipolar otherwise
+  * seq:
+    . paused state fixes (state preserved in 'goto', proper delay in 'start')
+    . 'goto' fix (works in idlemode)
+    . more incompatible messages: 'scoretime', 'cd', 'pwd'
+
+alpha51
+  * dummies loaded by maxmode, not cyclone
+  * setting directory in creation argument replaced with 'cd' message
+    to library objects (cyclone, maxmode, hammer and sickle)
+  * 'pwd' message to library objects sends directory symbol to an outlet
+  * creating cyclone and maxmode library objects possible without
+    loading component libraries
+  * prepend and Append:
+    . bang handling, controlled by maxmode
+    . restored max-like 'set' handling as default for objects with arguments
+  * fix for parsing creation arguments in svf~
+  * incompatible additions to seq: 'pause', 'continue', 'goto'
+
+alpha50
+  * max-compatibility mode switch for cyclone
+    . turned on by loading cyclone libs through "-lib maxmode"
+    . affects max-compatibility of prepend and Append, controls
+      compatibility warnings
