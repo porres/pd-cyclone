@@ -1,9 +1,7 @@
 MIXED_DIRS = \
 	shared \
 	cyclone \
-	toxy \
-	xeq \
-	vexing
+	toxy
 
 RELEASE_DIRS = \
 	cyclone \

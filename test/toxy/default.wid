@@ -162,7 +162,9 @@ proc ::toxy::scalecommand {target sel v} {
 proc ::toxy::popupcommand {path target remote i text} {
     set [$path cget -textvariable] $text
     pd [concat $target _cb $i \;]
-    pd [concat $remote $i \;]
+    if {$remote != "."} {
+	pd [concat $remote $i \;]
+    }
 }
 
 proc ::toxy::popup {path target remote entries args} {
@@ -222,3 +224,12 @@ bind .- <Leave> .<|_inout 0.>
 #. @symbol .- delete 0 end .: .- insert 0 .#1
 
 bind .- <Return> {eval .<[.- get].>; focus .^.c}
+
+#> popup menubutton
+#. -menu .-.pop
+#. -bg purple -fg white -activebackground magenta -width 8 -text popup
+#. @float if .(.#1 >= 1.) .(.-.pop invoke .#1.)
+#. #items test
+#. #iprops "-bg" purple "-fg" white "-activebackground" magenta
+
+::toxy::popup .- .| . [concat .#items] .#iprops

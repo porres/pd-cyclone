@@ -22,7 +22,7 @@
 #define SCRIPTLET_INISIZE   1024
 #define SCRIPTLET_MARGIN      64
 #define SCRIPTLET_MAXARGS      9  /* do not increase (parser's constraint) */
-#define SCRIPTLET_MAXPUSH  20000  /* Tcl limit? LATER investigate */
+#define SCRIPTLET_MAXPUSH  20000  /* cf SOCKSIZE in t_tkcmd.c, LATER revisit */
 
 enum { SCRIPTLET_CVOK, SCRIPTLET_CVUNKNOWN, SCRIPTLET_CVMISSING };
 
@@ -144,22 +144,23 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf, char *obuf,
 	    }
 	    else if (argprops)
 	    {
-		char *ptr;
+		char *iptr, *optr, c;
 		int cnt;
-		for (ptr = ibuf + 1, cnt = 1; *ptr; ptr++, cnt++)
+		for (iptr = ibuf + 1, c = *iptr, cnt = 1; c;
+		     iptr++, c = *iptr, cnt++)
 		{
-		    char c = *ptr;
 		    if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z'))
 		    {
-			cnt = 0;
+			*iptr = 0;
 			break;
 		    }
 		}
-		if (cnt && (ptr = props_getvalue(argprops, ibuf + 1)))
+		if (optr = props_getvalue(argprops, ibuf + 1))
 		{
-		    strcpy(obuf, ptr);
+		    strcpy(obuf, optr);
 		    len = cnt;
 		}
+		if (c) *iptr = c;
 	    }
 	}
 	break;
@@ -424,8 +425,9 @@ void scriptlet_qpush(t_scriptlet *sp)
 	strcpy(tail, "]}}\n");
 	sys_gui(sp->s_buffer);
 	*tail = 0;
-	sprintf(buf, "after 0 {::toxy::query}\nvwait ::toxy::reply\n\
- pd [concat %s _rp $::toxy::reply \\;]\n", sp->s_rptarget->s_name);
+	/* LATER find out if reply does not fit better inside the query proc */
+	sprintf(buf, "after 0 {::toxy::query\n\
+ pd [concat %s _rp $::toxy::reply \\;]}\n", sp->s_rptarget->s_name);
 	sys_gui(buf);
     }
 }
