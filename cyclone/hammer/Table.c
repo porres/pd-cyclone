@@ -48,6 +48,9 @@ typedef struct _tablecommon
     int            *c_table;
     int             c_tableini[TABLE_INISIZE];
     int             c_cacheisfresh;
+    int             c_cachesum;
+    int             c_cachemin;
+    int             c_cachemax;
     int            *c_cache;
     int             c_cacheini[TABLE_INISIZE];
     t_symbol       *c_filename;
@@ -77,6 +80,7 @@ static t_class *tablecommon_class;
 
 static void tablecommon_modified(t_tablecommon *cc, int relocated)
 {
+    cc->c_cacheisfresh = 0;
     if (cc->c_increation)
 	return;
     if (relocated)
@@ -94,23 +98,23 @@ static void tablecommon_modified(t_tablecommon *cc, int relocated)
 
 static int tablecommon_getindex(t_tablecommon *cc, int ndx)
 {
-    int mx = cc->c_length - 1;
+    int nmx = cc->c_length - 1;
     /* CHECKED ndx silently clipped */
-    return (ndx < 0 ? 0 : (ndx > mx ? mx : ndx));
+    return (ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx));
 }
 
 static int tablecommon_getvalue(t_tablecommon *cc, int ndx)
 {
-    int mx = cc->c_length - 1;
+    int nmx = cc->c_length - 1;
     /* CHECKED ndx silently clipped */
-    return (cc->c_table[ndx < 0 ? 0 : (ndx > mx ? mx : ndx)]);
+    return (cc->c_table[ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx)]);
 }
 
 static void tablecommon_setvalue(t_tablecommon *cc, int ndx, int v)
 {
-    int mx = cc->c_length - 1;
+    int nmx = cc->c_length - 1;
     /* CHECKED ndx silently clipped, value not clipped */
-    cc->c_table[ndx < 0 ? 0 : (ndx > mx ? mx : ndx)] = v;
+    cc->c_table[ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx)] = v;
     tablecommon_modified(cc, 0);
 }
 
@@ -138,10 +142,10 @@ static void tablecommon_setatoms(t_tablecommon *cc, int ndx, int ac, t_atom *av)
 {
     if (ac > 1 && av->a_type == A_FLOAT)
     {
-	/* CHECKME resizing */
+	/* CHECKED no resizing */
 	int last = tablecommon_getindex(cc, ndx + ac - 1);
 	int *ptr = cc->c_table + ndx;
-	for (av++; ndx <= last; ndx++, av++)
+	for (; ndx <= last; ndx++, av++)
 	     *ptr++ = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
 	tablecommon_modified(cc, 0);
     }
@@ -156,21 +160,65 @@ static void tablecommon_setlength(t_tablecommon *cc, int length)
 	length = TABLE_MAXLENGTH;
     if (relocate = (length > cc->c_size))
     {
-	cc->c_table = grow_nodata(&length, &cc->c_size, cc->c_table,
-				  TABLE_INISIZE, cc->c_tableini,
-				  sizeof(*cc->c_table));
-	/* FIXME cache */
+	int l = length;
+	/* CHECKED existing values are preserved */
+	cc->c_table = grow_withdata(&length, &cc->c_length,
+				    &cc->c_size, cc->c_table,
+				    TABLE_INISIZE, cc->c_tableini,
+				    sizeof(*cc->c_table));
+	if (length == l)
+	    cc->c_table = grow_nodata(&length, &cc->c_size, cc->c_cache,
+				      TABLE_INISIZE, cc->c_cacheini,
+				      sizeof(*cc->c_cache));
+	if (length != l)
+	{
+	    if (cc->c_table != cc->c_tableini)
+		freebytes(cc->c_table, cc->c_size * sizeof(*cc->c_table));
+	    if (cc->c_cache != cc->c_cacheini)
+		freebytes(cc->c_cache, cc->c_size * sizeof(*cc->c_cache));
+	    cc->c_size = length = TABLE_INISIZE;
+	    cc->c_table = cc->c_tableini;
+	    cc->c_cache = cc->c_cacheini;
+	}
     }
     cc->c_length = length;
-    tablecommon_setall(cc, 0);  /* CHECKME */
-    /* CHECKME head */
+    /* CHECKED values at common indices are preserved */
+    /* CHECKED rewinding neither head, nor loadndx, but a separate
+       condition of eot is preserved only for the head. */
     tablecommon_modified(cc, relocate);
+}
+
+static void tablecommon_cacheupdate(t_tablecommon *cc)
+{
+    int ndx = cc->c_length, sum = 0, mn, mx;
+    int *tptr = cc->c_table, *cptr = cc->c_cache;
+    mn = mx = *tptr;
+    while (ndx--)
+    {
+	int v = *tptr++;
+	*cptr++ = (sum += v);
+	if (mn > v)
+	    mn = v;
+	else if (mx < v)
+	    mx = v;
+    }
+    cc->c_cachesum = sum;
+    cc->c_cachemin = mn;
+    cc->c_cachemax = mx;
+    cc->c_cacheisfresh = 1;
 }
 
 static int tablecommon_quantile(t_tablecommon *cc, float f)
 {
-    /* FIXME */
-    return (0);
+    /* CHECKME */
+    float fv;
+    int ndx, *ptr, nmx = cc->c_length - 1;
+    if (!cc->c_cacheisfresh) tablecommon_cacheupdate(cc);
+    fv = f * cc->c_cachesum;
+    for (ndx = 0, ptr = cc->c_cache; ndx < nmx; ndx++, ptr++)
+	if (*ptr >= fv)
+	    break;
+    return (ndx);
 }
 
 static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
@@ -251,6 +299,7 @@ static void *tablecommon_new(void)
     cc->c_length = TABLE_DEFLENGTH;
     cc->c_table = cc->c_tableini;
     cc->c_cache = cc->c_cacheini;
+    cc->c_cacheisfresh = 0;
     return (cc);
 }
 
@@ -276,8 +325,6 @@ static void table_unbind(t_table *x)
 	if (!(cc->c_refs = x->x_next))
 	{
 	    hammerfile_free(cc->c_filehandle);
-	    /* disable canvas dirty-flag handling, LATER rethink */
-	    cc->c_increation = 1;
 	    tablecommon_free(cc);
 	    if (x->x_name) pd_unbind(&cc->c_pd, x->x_name);
 	    pd_free(&cc->c_pd);
@@ -493,6 +540,8 @@ static void table_goto(t_table *x, t_floatarg f)
     x->x_head = tablecommon_getindex(x->x_common, (int)f);
 }
 
+/* CHECKED 'send <target> length' works, but not max, min, sum... */
+/* CHECKED 'send <target> <ndx> <value>' writes the value (a bug?) */
 static void table_send(t_table *x, t_symbol *s, t_floatarg f)
 {
     /* FIXME */
@@ -505,17 +554,23 @@ static void table_length(t_table *x)
 
 static void table_sum(t_table *x)
 {
-    /* FIXME */
+    t_tablecommon *cc = x->x_common;
+    if (!cc->c_cacheisfresh) tablecommon_cacheupdate(cc);
+    outlet_float(((t_object *)x)->ob_outlet, (t_float)cc->c_cachesum);
 }
 
 static void table_min(t_table *x)
 {
-    /* FIXME */
+    t_tablecommon *cc = x->x_common;
+    if (!cc->c_cacheisfresh) tablecommon_cacheupdate(cc);
+    outlet_float(((t_object *)x)->ob_outlet, (t_float)cc->c_cachemin);
 }
 
 static void table_max(t_table *x)
 {
-    /* FIXME */
+    t_tablecommon *cc = x->x_common;
+    if (!cc->c_cacheisfresh) tablecommon_cacheupdate(cc);
+    outlet_float(((t_object *)x)->ob_outlet, (t_float)cc->c_cachemax);
 }
 
 static void table_getbits(t_table *x, t_floatarg f1,
@@ -532,7 +587,12 @@ static void table_setbits(t_table *x, t_floatarg f1,
 
 static void table_inv(t_table *x, t_floatarg f)
 {
-    /* FIXME */
+    /* CHECKME none found, float */
+    int v = (int)f, ndx, *ptr, nmx = x->x_common->c_length - 1;
+    for (ndx = 0, ptr = x->x_common->c_table; ndx < nmx; ndx++, ptr++)
+	if (*ptr >= v)
+	    break;
+    outlet_float(((t_object *)x)->ob_outlet, (t_float)ndx);
 }
 
 static void table_quantile(t_table *x, t_floatarg f)
@@ -550,19 +610,20 @@ static void table_fquantile(t_table *x, t_floatarg f)
 		 (t_float)tablecommon_quantile(x->x_common, f));
 }
 
+/* FIXME arguments (from, to) */
+/* CHECKED no remote dumping, symbol args bashed to 0 */
 static void table_dump(t_table *x)
 {
     t_tablecommon *cc = x->x_common;
     t_outlet *out = ((t_object *)x)->ob_outlet;
-    int ndx = cc->c_length;
-    int *ptr = cc->c_table;
-    /* CHECKME */
-    while (ndx--)
-    {
-	outlet_float(out, (t_float)*ptr++);
-	/* FIXME ptr may be invalid after outlet_float()... consider calling
-	   tablecommon_getindex() rather than patching in selfmod tests */
-    }
+    int ndx;
+    /* The usual way of traversing the table by incrementing a pointer is
+       not robust, because calling outlet_float() may invalidate the pointer.
+       The test below is simpler than generic selfmod detection ala coll,
+       but behaviour may be different.  LATER revisit, consider asserting
+       invariance of cc->c_table and cc->c_length, instead. */
+    for (ndx = 0; ndx < cc->c_length; ndx++)
+	outlet_float(out, (t_float)cc->c_table[ndx]);
 }
 
 static void table_refer(t_table *x, t_symbol *s)
@@ -591,10 +652,34 @@ static void table_write(t_table *x, t_symbol *s)
 	hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKME default name */
 }
 
+static int tablecommon_editorappend(t_tablecommon *cc,
+				    int v, char *buf, int col)
+{
+    char *bp = buf;
+    int cnt = 0;
+    if (col > 0)
+	*bp++ = ' ', cnt++;
+    cnt += sprintf(bp, "%d", v);
+    if (col + cnt > 80)
+	buf[0] = '\n', col = cnt;
+    else
+	col += cnt;
+    hammereditor_append(cc->c_filehandle, buf);
+    return (col);
+}
+
 static void table_open(t_table *x)
 {
-    t_tablecommon *cc = x->x_common;
     /* FIXME */
+    t_tablecommon *cc = x->x_common;
+    char buf[MAXPDSTRING];
+    int *bp = cc->c_table;
+    int count = cc->c_length, col = 0;
+    /* LATER prepend "table: " */
+    hammereditor_open(cc->c_filehandle,
+		      x->x_name ? x->x_name->s_name : "Untitled");
+    while (count--)
+	col = tablecommon_editorappend(cc, *bp++, buf, col);
 }
 
 static void table_wclose(t_table *x)

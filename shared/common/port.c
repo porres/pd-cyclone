@@ -88,6 +88,7 @@ static t_symbol *portps_inlet;
 static t_symbol *portps_outlet;
 static t_symbol *portps_vtable;
 static t_symbol *portps_coll;
+static t_symbol *portps_funbuff;
 static t_symbol *portps_picture;
 
 static t_int port_getint(t_port *x, int ndx)
@@ -500,6 +501,14 @@ static int imaction_N1_coll(t_port *x, char *arg)
     return (PORT_NEXT);
 }
 
+static int imaction_N1_funbuff(t_port *x, char *arg)
+{
+    import_emstart(x, portps_funbuff, &s_, 0);
+    import_emaddv(x, portps_funbuff, "si;", gensym("embed"),
+		  port_getint(x, 2) != 0);
+    return (PORT_NEXT);
+}
+
 static int imaction_N1_picture(t_port *x, char *arg)
 {
     import_emstart(x, portps_picture, 0, 0);
@@ -560,6 +569,16 @@ static int imaction_P6_coll(t_port *x, char *arg)
     }
     binbuf_addsemi(x->x_outbb);
     import_emflush(x, portps_coll, collname);
+    x->x_nobj++;
+    return (PORT_NEXT);
+}
+
+static int imaction_P6_funbuff(t_port *x, char *arg)
+{
+    binbuf_addv(x->x_outbb, "ssffs;",
+		gensym("#X"), gensym("obj"),
+		port_getx(x, 2), port_gety(x, 3), portps_funbuff);
+    import_emflush(x, portps_funbuff, &s_);
     x->x_nobj++;
     return (PORT_NEXT);
 }
@@ -748,6 +767,7 @@ static int imaction_T1_flags(t_port *x, char *arg)
 
 static int imaction_T1_set(t_port *x, char *arg)
 {
+    /* FIXME funbuff */
     if (import_emcopy(x, portps_vtable))
     {
 	int count = port_getint(x, 2);
@@ -840,6 +860,7 @@ static t_portslot imslots__N[] =
     { "vpatcher",    imaction_N1_vpatcher, 0, 0, 0 },
     { "vtable",      imaction_N1_vtable, 0, 0, 0 },
     { "coll",        imaction_N1_coll, 0, 0, 0 },
+    { "funbuff",     imaction_N1_funbuff, 0, 0, 0 },
     { "picture",     imaction_N1_picture, 0, 0, 0 }
 };
 static t_portnode imnode__N = { imslots__N, PORT_NSLOTS(imslots__N), 1 };
@@ -849,7 +870,8 @@ static t_portslot imslots_newobj[] =
     { "patcher",     imaction_P6_patcher, 0, 0, 0 },
     { "p",           imaction_P6_patcher, 0, 0, 0 },
     { "table",       imaction_P6_table, 0, 0, 0 },
-    { "coll",        imaction_P6_coll, 0, 0, 0 }
+    { "coll",        imaction_P6_coll, 0, 0, 0 },
+    { "funbuff",     imaction_P6_funbuff, 0, 0, 0 }
 };
 static t_portnode imnode_newobj = { imslots_newobj,
 				    PORT_NSLOTS(imslots_newobj), 6 };
@@ -1269,6 +1291,7 @@ static void port_checksetup(void)
 	portps_outlet = gensym("outlet");
 	portps_vtable = gensym("vtable");
 	portps_coll = gensym("coll");
+	portps_funbuff = gensym("funbuff");
 	portps_picture = gensym("picture");
 
 	if (zgetfn(&pd_objectmaker, portps_bogus) == 0)
