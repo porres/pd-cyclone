@@ -38,6 +38,7 @@ typedef struct _seq
     int            x_playhead;
     float          x_tempo;
     double         x_prevtime;
+    double         x_clockdelay;
     unsigned char  x_status;
     int            x_evesize;
     int            x_expectedsize;
@@ -179,7 +180,7 @@ static void seq_stoprecording(t_seq *x)
     x->x_isrecording = 0;
 }
 
-static void seq_tick(t_seq *x)
+static void seq_clocktick(t_seq *x)
 {
     if (x->x_isplaying)
     {
@@ -209,7 +210,14 @@ nextevent:
 		bp = ep->e_bytes;
 		goto nextevent;
 	    }
-	    else clock_delay(x->x_clock, ep->e_delta);
+	    else
+	    {
+		x->x_clockdelay = ep->e_delta * x->x_tempo;
+		if (x->x_clockdelay < 0.)
+		    x->x_clockdelay = 0.;
+		clock_delay(x->x_clock, x->x_clockdelay);
+		x->x_prevtime = clock_getlogicaltime();
+	    }
 	}
 	else
 	{
@@ -220,14 +228,26 @@ nextevent:
     }
 }
 
+static void seq_tick(t_seq *x)
+{
+    /* FIXME */
+}
+
 /* CHECKED running status not used in playback */
 static void seq_dostart(t_seq *x, float tempo)
 {
     if (x->x_isplaying)
     {
 	/* CHECKED tempo change */
+    	double elapsed = clock_gettimesince(x->x_prevtime);
+    	double left = x->x_clockdelay - elapsed;
+    	if (left < 0)
+	    left = 0;
+    	else
+	    left *= tempo / x->x_tempo;
+    	clock_delay(x->x_clock, x->x_clockdelay = left);
+	x->x_prevtime = clock_getlogicaltime();
 	x->x_tempo = tempo;
-	/* FIXME update the clock */
     }
     else
     {
@@ -241,14 +261,18 @@ static void seq_dostart(t_seq *x, float tempo)
 	    x->x_isplaying = 1;
 	    /* playback data never sent within the scheduler event of
 	       a start message (even for the first delta <= 0), LATER rethink */
-	    clock_delay(x->x_clock, x->x_sequence->e_delta);
+	    x->x_clockdelay = x->x_sequence->e_delta * tempo;
+	    if (x->x_clockdelay < 0.)
+		x->x_clockdelay = 0.;
+	    clock_delay(x->x_clock, x->x_clockdelay);
+	    x->x_prevtime = clock_getlogicaltime();
 	}
     }
 }
 
 static void seq_bang(t_seq *x)
 {
-    seq_dostart(x, 1.0);
+    seq_dostart(x, 1.);
 }
 
 static void seq_float(t_seq *x, t_float f)
@@ -290,12 +314,10 @@ static void seq_list(t_seq *x, t_symbol *s, int ac, t_atom *av)
     /* CHECKED anything else/more silently ignored */
 }
 
-static void seq_record(t_seq *x)
+static void seq_dorecord(t_seq *x)
 {
-    /* CHECKED 'record' resets recording */
-    if (x->x_isplaying)  /* CHECKED 'record' stops playback */
+    if (x->x_isplaying)  /* CHECKED 'record' and 'append' stops playback */
 	seq_stopplayback(x);
-    seq_doclear(x, 0);
     x->x_isrecording = 1;
     x->x_prevtime = clock_getlogicaltime();
     x->x_status = 0;
@@ -303,17 +325,34 @@ static void seq_record(t_seq *x)
     x->x_expectedsize = -1;  /* LATER rethink */
 }
 
+static void seq_record(t_seq *x)
+{
+    /* CHECKED 'record' resets recording */
+    seq_doclear(x, 0);
+    seq_dorecord(x);
+}
+
 static void seq_append(t_seq *x)
 {
-    if (x->x_isrecording)
-	return;  /* CHECKME 'append' does not reset recording */
-    if (x->x_isplaying)  /* CHECKME 'append' stops playback */
-	seq_stopplayback(x);
-    x->x_isrecording = 1;
-    x->x_prevtime = clock_getlogicaltime();
-    x->x_status = 0;
-    x->x_evesize = 0;
-    x->x_expectedsize = -1;  /* LATER rethink */
+    /* CHECKED if isrecording, 'append' resets the timer */
+    seq_dorecord(x);
+}
+
+static void seq_start(t_seq *x, t_floatarg f)
+{
+    if (f < 0)
+    {
+	/* FIXME */
+    }
+    else
+    {
+	float tempo = (f == 0 ? 1. : 1024. / f);
+	if (tempo < 1e-20)
+	    tempo = 1e-20;
+	else if (tempo > 1e20)
+	    tempo = 1e20;
+	seq_dostart(x, tempo);
+    }
 }
 
 static void seq_stop(t_seq *x)
@@ -322,6 +361,27 @@ static void seq_stop(t_seq *x)
 	seq_stopplayback(x);
     else if (x->x_isrecording)
 	seq_stoprecording(x);
+}
+
+/* CHECKED first delta time is set permanently (it is stored in a file) */
+static void seq_delay(t_seq *x, t_floatarg f)
+{
+    if (x->x_nevents)
+	/* CHECKED signed/unsigned bug, not emulated */
+	x->x_sequence->e_delta = (f > 0 ? f : 0);
+}
+
+/* CHECKED all delta times are set permanently (they are stored in a file) */
+static void seq_hook(t_seq *x, t_floatarg f)
+{
+    int nevents;
+    if (nevents = x->x_nevents)
+    {
+	t_seqevent *ev = x->x_sequence;
+	if (f < 0)
+	    f = 0;  /* CHECKED signed/unsigned bug, not emulated */
+	while (nevents--) ev++->e_delta *= f;
+    }
 }
 
 static int seq_dogrowing(t_seq *x, int nevents)
@@ -780,6 +840,7 @@ static void *seq_new(t_symbol *s)
     x->x_canvas = canvas_getcurrent();
     x->x_filehandle = hammerfile_new((t_pd *)x, 0,
 				     seq_readhook, seq_writehook, 0);
+    x->x_tempo = 1.;
     x->x_prevtime = 0;
     x->x_size = SEQ_INISIZE;
     x->x_nevents = 0;
@@ -792,7 +853,7 @@ static void *seq_new(t_symbol *s)
 	seq_doread(x, s, 1);
     }
     else x->x_defname = &s_;
-    x->x_clock = clock_new(x, (t_method)seq_tick);
+    x->x_clock = clock_new(x, (t_method)seq_clocktick);
     return (x);
 }
 
@@ -813,8 +874,16 @@ void seq_setup(void)
 		    gensym("record"), 0);
     class_addmethod(seq_class, (t_method)seq_append,
 		    gensym("append"), 0);
+    class_addmethod(seq_class, (t_method)seq_start,
+		    gensym("start"), A_DEFFLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_stop,
 		    gensym("stop"), 0);
+    class_addmethod(seq_class, (t_method)seq_tick,
+		    gensym("tick"), 0);
+    class_addmethod(seq_class, (t_method)seq_delay,
+		    gensym("delay"), A_FLOAT, 0);  /* CHECKED arg obligatory */
+    class_addmethod(seq_class, (t_method)seq_hook,
+		    gensym("hook"), A_FLOAT, 0);  /* CHECKED arg obligatory */
     class_addmethod(seq_class, (t_method)seq_read,
 		    gensym("read"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_write,
