@@ -203,6 +203,9 @@ clean: emptydeps
 cleanall: clean
 # remove default target externs
 	-rm -f $(EXTERNS)
+# added by Hans-Christoph Steiner <hans@eds.org> to remove
+# files created when making MacOS X packages
+	-rm -Rf ../installroot
 
 OLDROOT_DIR = $(shell ls -d -1 ../../Mixed-* | tail -1)
 
@@ -320,22 +323,61 @@ Makefile.deps:
 
 # added by Hans-Christoph Steiner <hans@eds.org>
 # to generate MacOS X packages
-darwin_altpackage: all
-	test -d ../installroot/Help || mkdir -p ../installroot/Help
-	-cp ../test/cyclone/* ../installroot/Help
-	test -d ../installroot/Resources || mkdir -p ../installroot/Resources
-	cp ../LICENSE.txt ../installroot/Resources/License.ttx
-	cp Welcome.txt ../installroot/Resources/
-	test -d ../installroot/Externals || mkdir -p ../installroot/Externals
-	install -m644 ../bin/*.pd_darwin --group=admin ../installroot/Externals
-	open darwin_altpackage.pmsp
 
-darwin_package: all
-	test -d ../installroot/pd/doc/5.reference || mkdir -p ../installroot/pd/doc/5.reference
-	-cp ../test/cyclone/* ../installroot/pd/doc/5.reference
-	test -d ../installroot/Resources || mkdir -p ../installroot/Resources
-	cp ../LICENSE.txt ../installroot/Resources/License.txt
-	cp Welcome.txt ../installroot/Resources/
-	test -d ../installroot/pd/extra || mkdir -p ../installroot/pd/extra
-	install -m644 ../bin/*.pd_darwin --group=admin ../installroot/pd/extra
-	open darwin_package.pmsp
+PACKAGE_NAME = pd-$(BASE_NAME)-$(VERSION)-$(RELEASE)$(BUILD)
+
+darwin_pkg_license:
+  # generate HTML version of License
+	echo "<HTML><BODY><FONT SIZE="-1">" > License.html
+	cat ../LICENSE.txt | sed -e 's/^$$/\<P\>/g' >> License.html	
+	echo "</FONT></BODY></HTML>" >> License.html
+
+darwin_pkg_clean:
+	-sudo rm -Rf installroot/ $(PACKAGE_NAME)*.pkg/
+	-rm -f $(PACKAGE_NAME)*.info *~ 1 License.html
+
+# install into MacOS X style paths: /Library/Pd
+
+darwin_altpkg: all darwin_pkg_clean darwin_pkg_license
+ # set up installroot dir
+	test -d installroot/Help || mkdir -p installroot/Help
+	cp ../test/cyclone/*.pd ../test/cyclone/test* ../test/cyclone/*.coll ../test/cyclone/*.mid installroot/Help
+	test -d installroot/Externals || mkdir -p installroot/Externals
+	install -m644 ../bin/*.pd_darwin installroot/Externals
+	sed -e 's/\/usr\/local/\/Library\/Pd/' pd-cyclone.info \
+		 | sed -e 's/MSP standard paths/MacOS X-style Paths/' \
+		 > $(PACKAGE_NAME)-alt.info
+ # delete cruft
+	-find installroot -name .DS_Store -delete
+	-rm -f 1
+ # set proper permissions
+	sudo chown -R root:staff installroot
+	package installroot $(PACKAGE_NAME)-alt.info -d . -ignoreDSStore
+ # install pkg docs
+	install -m 644 License.html Welcome.html $(PACKAGE_NAME)-alt.pkg/Contents/Resources
+	sudo chown -R root:staff $(PACKAGE_NAME)-alt.pkg/Contents/Resources
+
+# install into MSP's default: /usr/local/lib
+
+darwin_pkg: all darwin_pkg_clean darwin_pkg_license
+ # set up installroot dir
+	test -d installroot/lib/pd/doc/5.reference || mkdir -p installroot/lib/pd/doc/5.reference
+	cp ../test/cyclone/*.pd ../test/cyclone/test* ../test/cyclone/*.coll ../test/cyclone/*.mid installroot/lib/pd/doc/5.reference
+	test -d installroot/lib/pd/extra || mkdir -p installroot/lib/pd/extra
+	install -m644 ../bin/*.pd_darwin --group=staff installroot/lib/pd/extra
+	test -d installroot/bin || mkdir -p installroot/bin
+	install -m755 ../bin/cyclist --group=staff installroot/bin
+	cp -f pd-cyclone.info $(PACKAGE_NAME).info
+   # delete the lib versions
+	rm -f installroot/lib/pd/extra/hammer.pd_darwin
+	rm -f installroot/lib/pd/extra/sickle.pd_darwin
+	rm -f installroot/lib/pd/extra/cyclone.pd_darwin
+	# delete cruft
+	-find installroot -name .DS_Store -delete
+	-rm -f 1
+	# set proper permissions
+	sudo chown -R root:staff installroot
+	package installroot $(PACKAGE_NAME).info -d . -ignoreDSStore
+	# install pkg docs
+	install -m 644 License.html Welcome.html $(PACKAGE_NAME).pkg/Contents/Resources
+	sudo chown -R root:staff $(PACKAGE_NAME).pkg/Contents/Resources
