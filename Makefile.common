@@ -341,48 +341,27 @@ PACKAGE_NAME = $(PACKAGE_PREFIX)-$(VERSION)-$(RELEASE)$(BUILD)
 darwin_pkg_license:
   # generate HTML version of License
 	echo "<HTML><BODY><FONT SIZE="-1">" > License.html
-	cat ../LICENSE.txt | sed -e 's/^$$/\<P\>/g' >> License.html	
+	cat $(ROOT_DIR)/LICENSE.txt | sed -e 's/^$$/\<P\>/g' >> License.html	
 	echo "</FONT></BODY></HTML>" >> License.html
 
 darwin_pkg_clean:
 	-sudo rm -Rf installroot/ pd-*.pkg/
 	-rm -f $(PACKAGE_PREFIX)-*.info *~ 1 License.html
 
-# install into MacOS X style paths: /Library/Pd
-# (this is a little out of date   -Hans)
-
-darwin_altpkg: all darwin_pkg_clean darwin_pkg_license
- # set up installroot dir
-	test -d installroot/Help || mkdir -p installroot/Help
-	cp ../test/cyclone/*.pd ../test/cyclone/test* ../test/cyclone/*.coll ../test/cyclone/*.mid installroot/Help
-	test -d installroot/Externals || mkdir -p installroot/Externals
-	install -m644 ../bin/*.pd_darwin installroot/Externals
-	sed -e 's/\/usr\/local/\/Library\/Pd/' pd-cyclone.info \
-		 | sed -e 's/MSP standard paths/MacOS X-style Paths/' \
-		 > $(PACKAGE_NAME)-alt.info
- # delete cruft
-	-find installroot -name .DS_Store -delete
-	-rm -f 1
- # set proper permissions
-	sudo chown -R root:staff installroot
-	package installroot $(PACKAGE_NAME)-alt.info -d . -ignoreDSStore
- # install pkg docs
-	install -m 644 License.html Welcome.html $(PACKAGE_NAME)-alt.pkg/Contents/Resources
-	sudo chown -R root:staff $(PACKAGE_NAME)-alt.pkg/Contents/Resources
-
 # install into MSP's default: /usr/local/lib
 
 darwin_pkg: darwin_pkg_clean darwin_pkg_license
 # compile externals
-	cd ../toxy && make
-	cd ../cyclone && make
+#	cd $(ROOT_DIR)/toxy && make
+	cd $(ROOT_DIR)/cyclone && make
 # set up installroot dir
 	test -d installroot/lib/pd/doc/5.reference || mkdir -p installroot/lib/pd/doc/5.reference
-	cp ../test/cyclone/*.* ../test/toxy/*.* installroot/lib/pd/doc/5.reference
+	cp $(ROOT_DIR)/test/cyclone/*.* $(ROOT_DIR)/test/toxy/*.* \
+		installroot/lib/pd/doc/5.reference
 	test -d installroot/lib/pd/extra || mkdir -p installroot/lib/pd/extra
-	install -m444 ../bin/*.pd_darwin installroot/lib/pd/extra
+	install -m444 $(ROOT_DIR)/bin/*.pd_darwin installroot/lib/pd/extra
 	test -d installroot/bin || mkdir -p installroot/bin
-	install -m555 ../bin/cyclist installroot/bin
+	install -m555 $(ROOT_DIR)/bin/cyclist installroot/bin
 	cp -f pd-cyclone.info $(PACKAGE_NAME).info
 # delete cruft
 	-find installroot -name .DS_Store -delete
