@@ -5,6 +5,14 @@ TODO for root and shared
 
 DONE for root and shared
 
+with cyclone alpha53
+  * binport: added half-byte #symbol id
+  * hammereditor:
+    . fixed closing by window manager
+    . dirty flag bound, shown and observed (unless in viewer mode)
+    . title specification simplified and standardized
+    . bug fix: incomplete transfer from editor
+
 with cyclone alpha52
   * fragile: class name resolution based on voluntary mutation and raising
   * fitter: mirroring removed

@@ -259,7 +259,7 @@ static void tot_click(t_tot *x, t_floatarg xpos, t_floatarg ypos,
     char *head = scriptlet_getcontents(x->x_persistent, &nleft);
     char buf[MAXPDSTRING + 1];
     buf[MAXPDSTRING] = 0;
-    hammereditor_open(x->x_filehandle, "scriptlet editor");
+    hammereditor_open(x->x_filehandle, "scriptlet editor", 0);
     while (nleft > 0)
     {
 	if (nleft > MAXPDSTRING)

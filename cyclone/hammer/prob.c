@@ -244,12 +244,13 @@ static void prob__silent(t_prob *x)
     }
 }
 
+/* CHECKED not available, LATER full editing */
 static void prob_click(t_prob *x, t_floatarg xpos, t_floatarg ypos,
 		       t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
 {
     t_probtrans *state;
     char buf[64];
-    hammereditor_open(x->x_filehandle, "prob");
+    hammereditor_open(x->x_filehandle, 0, 0);
     for (state = x->x_translist; state; state = state->tr_nextstate)
     {
 	t_probtrans *trans;

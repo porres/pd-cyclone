@@ -11,9 +11,10 @@ EXTERN_STRUCT _hammerfile;
 typedef void (*t_hammerfilefn)(t_pd *, t_symbol *, int, t_atom *);
 typedef void (*t_hammerembedfn)(t_pd *, t_binbuf *, t_symbol *);
 
-void hammereditor_open(t_hammerfile *f, char *title);
+void hammereditor_open(t_hammerfile *f, char *title, char *owner);
 void hammereditor_close(t_hammerfile *f, int ask);
 void hammereditor_append(t_hammerfile *f, char *contents);
+void hammereditor_setdirty(t_hammerfile *f, int flag);
 void hammerpanel_open(t_hammerfile *f, t_symbol *inidir);
 void hammerpanel_setopendir(t_hammerfile *f, t_symbol *dir);
 t_symbol *hammerpanel_getopendir(t_hammerfile *f);

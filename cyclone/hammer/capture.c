@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -87,7 +87,7 @@ static int capture_formatint(int i, char *buf, int col,
 	*bp++ = ' ', cnt++;
     cnt += sprintf(bp, fmt, i);
     if (col + cnt > maxcol)
-	buf[0] = '\n', col = cnt;
+	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
     else
 	col += cnt;
     return (col);
@@ -102,7 +102,7 @@ static int capture_formatfloat(float f, char *buf, int col,
 	*bp++ = ' ', cnt++;
     cnt += sprintf(bp, fmt, f);
     if (col + cnt > maxcol)
-	buf[0] = '\n', col = cnt;
+	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
     else
 	col += cnt;
     return (col);
@@ -194,7 +194,7 @@ static void capture_open(t_capture *x)
 {
     int count = x->x_count;
     char buf[MAXPDSTRING];
-    hammereditor_open(x->x_filehandle, "t_capture");  /* CHECKED */
+    hammereditor_open(x->x_filehandle, "Capture", "");  /* CHECKED */
     if (count < x->x_bufsize)
     {
 	float *bp = x->x_buffer;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -9,10 +9,8 @@
 #include "common/loud.h"
 #include "hammer/file.h"
 
-/* FIXME sort -1 -1, sort 1 crashes in pd large */
-/* FIXME sort crashes after (corrupt?) transfers from the editor */
+/* LATER profile for the bottlenecks of insertion and sorting */
 /* LATER make sure that ``reentrancy protection hack'' is really working... */
-/* CHECKME default fname for 'write' -- c_filename, x_name, nothing? */
 
 #ifdef KRZYSZCZ
 //#define COLL_DEBUG
@@ -42,7 +40,7 @@ typedef struct _collcommon
     int            c_selfmodified;
     int            c_entered;    /* a counter, LATER rethink */
     int            c_embedflag;  /* common field (CHECKED in 'TEXT' files) */
-    t_symbol      *c_filename;
+    t_symbol      *c_filename;   /* CHECKED common for all, read and write */
     t_canvas      *c_lastcanvas;
     t_hammerfile  *c_filehandle;
     t_collelem    *c_first;
@@ -98,20 +96,27 @@ static void collelem_free(t_collelem *ep)
 }
 
 /* CHECKME again... apparently c74 is not able to fix this for good */
-/* result: 1 for ep1 < ep2, otherwise 0 (symbols are less then floats) */
-static int collelem_less(t_collelem *ep1, t_collelem *ep2, int ndx)
+/* result: 1 for ep1 < ep2, 0 for ep1 >= ep2, all symbols are < any float */
+static int collelem_less(t_collelem *ep1, t_collelem *ep2, int ndx, int swap)
 {
+    int isless;
+    if (swap)
+    {
+	t_collelem *ep = ep1;
+	ep1 = ep2;
+	ep2 = ep;
+    }
     if (ndx < 0)
     {
 	if (ep1->e_symkey)
-	    return (ep2->e_symkey ?
-		    strcmp(ep1->e_symkey->s_name,
-			   ep2->e_symkey->s_name) < 0
-		    : 1);  /* CHECKED incompatible with 4.07, but consistent */
+	    isless =
+		(ep2->e_symkey ? strcmp(ep1->e_symkey->s_name,
+					ep2->e_symkey->s_name) < 0
+		 : 1);  /* CHECKED incompatible with 4.07, but consistent */
 	else if (ep2->e_symkey)
-	    return (0);  /* CHECKED incompatible with 4.07, but consistent */
+	    isless = 0;  /* CHECKED incompatible with 4.07, but consistent */
 	else
-	    return (ep1->e_numkey < ep2->e_numkey);  /* CHECKED in 4.07 */
+	    isless = (ep1->e_numkey < ep2->e_numkey);  /* CHECKED in 4.07 */
     }
     else
     {
@@ -122,25 +127,25 @@ static int collelem_less(t_collelem *ep1, t_collelem *ep2, int ndx)
 	if (ap1->a_type == A_FLOAT)
 	{
  	    if (ap2->a_type == A_FLOAT)
-		return (ap1->a_w.w_float < ap2->a_w.w_float);
+		isless = (ap1->a_w.w_float < ap2->a_w.w_float);
  	    else if (ap2->a_type == A_SYMBOL)
-		return (0);
+		isless = 0;
 	    else
-		return (1);
+		isless = 1;
 	}
 	else if (ap1->a_type == A_SYMBOL)
 	{
 	    if (ap2->a_type == A_FLOAT)
-		return (1);
+		isless = 1;
 	    else if (ap2->a_type == A_SYMBOL)
-		return (strcmp(ap1->a_w.w_symbol->s_name,
-			       ap2->a_w.w_symbol->s_name) < 0);
+		isless = (strcmp(ap1->a_w.w_symbol->s_name,
+				 ap2->a_w.w_symbol->s_name) < 0);
 	    else
-		return (1);
+		isless = 1;
 	}
-	else
-	    return (0);
+	else isless = 0;
     }
+    return (isless);
 }
 
 static t_collelem *collcommon_numkey(t_collcommon *cc, int numkey)
@@ -379,10 +384,10 @@ static void collcommon_renumber(t_collcommon *cc, int startkey)
 }
 
 /* LATER choose a better algo, after coll's storage structures stabilize.
-   Note, that even the simple insertion sort below (n-square) might prove
-   better for dlls, than theoretically efficient algo (nlogn) which requires
+   Note, that even the simple insertion sort below (n-square) might prove better
+   for bi-directional lists, than theoretically efficient algo (nlogn) requiring
    random access emulation.  Avoiding recursion is not a bad idea, too. */
-static void collcommon_sort(t_collcommon *cc, int asc, int ndx)
+static void collcommon_sort(t_collcommon *cc, int descending, int ndx)
 {
     t_collelem *min = cc->c_first;
     t_collelem *ep;
@@ -391,7 +396,8 @@ static void collcommon_sort(t_collcommon *cc, int asc, int ndx)
 	cc->c_increation = 1;
 	/* search for a sentinel element */
  	do
-	    if (collelem_less(ep, min, ndx) == asc) min = ep;
+	    if (collelem_less(ep, min, ndx, descending))
+		min = ep;
 	while (ep = ep->e_next);
 	/* prepend it */
 	collcommon_swaplinks(cc, cc->c_first, min);
@@ -401,9 +407,12 @@ static void collcommon_sort(t_collcommon *cc, int asc, int ndx)
 	{
 	    t_collelem *next = ep->e_next;
 	    for (min = ep->e_prev;
-		 collelem_less(ep, min, ndx) == asc;
+		 min &&  /* LATER remove */
+		     collelem_less(ep, min, ndx, descending);
 		 min = min->e_prev);
-	    if (ep != min->e_next)
+	    if (!min)  /* LATER remove */
+		loudbug_bug("collcommon_sort");
+	    else if (ep != min->e_next)
 	    {
 		collcommon_takeout(cc, ep);
 		collcommon_putafter(cc, ep, min);
@@ -457,12 +466,17 @@ static t_collelem *collcommon_tonumkey(t_collcommon *cc, int numkey,
 	{
 	    collcommon_putbefore(cc, new, old);
 	    do
-		if (old->e_hasnumkey) old->e_numkey++;  /* LATER rethink */
+		if (old->e_hasnumkey)
+		    /* CHECKED incremented up to the last one; incompatible:
+		       elements with numkey == 0 not incremented (a bug?) */
+		    old->e_numkey++;
 	    while (old = old->e_next);
 	}
 	else
 	{
-	    int closestkey = 0;  /* LATER rethink */
+	    /* CHECKED negative numkey always put before the last element,
+	       zero numkey always becomes the new head */
+	    int closestkey = 0;
 	    t_collelem *closest = 0, *ep;
 	    for (ep = cc->c_first; ep; ep = ep->e_next)
 	    {
@@ -501,7 +515,7 @@ static t_collelem *collcommon_tosymkey(t_collcommon *cc, t_symbol *symkey,
     return (new);
 }
 
-static int collcommon_fromlist(t_collcommon *cc, int ac, t_atom *av)
+static int collcommon_fromatoms(t_collcommon *cc, int ac, t_atom *av)
 {
     int hasnumkey = 0, numkey;
     t_symbol *symkey = 0;
@@ -565,7 +579,7 @@ static int collcommon_fromlist(t_collcommon *cc, int ac, t_atom *av)
 
 static int collcommon_frombinbuf(t_collcommon *cc, t_binbuf *bb)
 {
-    return (collcommon_fromlist(cc, binbuf_getnatom(bb), binbuf_getvec(bb)));
+    return (collcommon_fromatoms(cc, binbuf_getnatom(bb), binbuf_getvec(bb)));
 }
 
 static void collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv)
@@ -730,7 +744,7 @@ static void coll_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
 
 static void collcommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av)
 {
-    int nlines = collcommon_fromlist((t_collcommon *)z, ac, av);
+    int nlines = collcommon_fromatoms((t_collcommon *)z, ac, av);
     if (nlines < 0)
 	loud_error(0, "coll: editing error in line %d", 1 - nlines);
 }
@@ -1169,7 +1183,7 @@ static void coll_sort(t_coll *x, t_floatarg f1, t_floatarg f2)
     int dir, ndx;
     if (loud_checkint((t_pd *)x, f1, &dir, gensym("sort")) &&
 	loud_checkint((t_pd *)x, f2, &ndx, gensym("sort")))
-	collcommon_sort(x->x_common, (dir < 0 ? 1 : 0),
+	collcommon_sort(x->x_common, (dir < 0 ? 0 : 1),
 			(ndx < 0 ? -1 : (ndx ? ndx - 1 : 0)));
 }
 
@@ -1298,9 +1312,12 @@ static void coll_min(t_coll *x, t_floatarg f)
     if (loud_checkint((t_pd *)x, f, &ndx, gensym("min")))
     {
 	t_collelem *found;
-	if (ndx <= 0)
-	    ndx = 0;  /* LATER consider complaining, CHECKME */
-	else ndx--;
+	if (ndx > 0)
+	    ndx--;
+	/* LATER consider complaining: */
+	else if (ndx < 0)
+	    return;  /* CHECKED silently rejected */
+	/* else CHECKED silently defaults to 1 */
 	if (found = coll_firsttyped(x, ndx, A_FLOAT))
 	{
 	    t_float result = found->e_data[ndx].a_w.w_float;
@@ -1327,9 +1344,12 @@ static void coll_max(t_coll *x, t_floatarg f)
     if (loud_checkint((t_pd *)x, f, &ndx, gensym("max")))
     {
 	t_collelem *found;
-	if (ndx <= 0)
-	    ndx = 0;  /* LATER consider complaining, CHECKME */
-	else ndx--;
+	if (ndx > 0)
+	    ndx--;
+	/* LATER consider complaining: */
+	else if (ndx < 0)
+	    return;  /* CHECKED silently rejected */
+	/* else CHECKED silently defaults to 1 */
 	if (found = coll_firsttyped(x, ndx, A_FLOAT))
 	{
 	    t_float result = found->e_data[ndx].a_w.w_float;
@@ -1383,7 +1403,7 @@ static void coll_write(t_coll *x, t_symbol *s)
     if (s && s != &s_)
 	collcommon_dowrite(cc, s, x->x_canvas);
     else
-	hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKME default name */
+	hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKED no default name */
 }
 
 static void coll_readagain(t_coll *x)
@@ -1401,7 +1421,7 @@ static void coll_writeagain(t_coll *x)
     if (cc->c_filename)
 	collcommon_dowrite(cc, 0, 0);
     else
-	hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKME default name */
+	hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKED no default name */
 }
 
 static void coll_filetype(t_coll *x, t_symbol *s)
@@ -1431,9 +1451,8 @@ static void coll_open(t_coll *x)
     int i, natoms, newline;
     t_atom *ap;
     char buf[MAXPDSTRING];
-    /* LATER prepend "coll: " */
     hammereditor_open(cc->c_filehandle,
-		      x->x_name ? x->x_name->s_name : "Untitled");
+		      (x->x_name ? x->x_name->s_name : "Untitled"), "coll");
     collcommon_tobinbuf(cc, bb);
     natoms = binbuf_getnatom(bb);
     ap = binbuf_getvec(bb);
@@ -1453,10 +1472,12 @@ static void coll_open(t_coll *x)
 	hammereditor_append(cc->c_filehandle, buf);
 	ap++;
     }
+    hammereditor_setdirty(cc->c_filehandle, 0);
     binbuf_free(bb);
 }
 
-/* asking and storing the changes -- CHECKME close window, and 'wclose' */
+/* CHECKED if there was any editing, both close window and 'wclose'
+   ask and replace the contents.  LATER debug. */
 static void coll_wclose(t_coll *x)
 {
     hammereditor_close(x->x_common->c_filehandle, 1);

@@ -77,7 +77,7 @@
 #X obj 306 179 print;
 #X msg 26 138 dump;
 #X msg 23 101 dumptarget;
-#N canvas 179 79 698 356 lists 0;
+#N canvas 179 79 698 356 lists 1;
 #X obj 363 29 osc~ 220;
 #X obj 450 29 osc~ 230;
 #X obj 362 73 matrix~ 3 2 1;
@@ -109,6 +109,10 @@
 #X obj 361 117 *~ 0.01;
 #X obj 443 117 *~ 0.01;
 #X msg 174 29 ramp 0;
+#X msg 608 57 0;
+#X msg 609 87 1;
+#X floatatom 541 108 5 0 0 0 - - -;
+#X msg 541 133 set \$1 1000;
 #X connect 0 0 2 0;
 #X connect 1 0 2 1;
 #X connect 2 0 28 0;
@@ -137,6 +141,10 @@
 #X connect 28 0 3 0;
 #X connect 29 0 3 1;
 #X connect 30 0 2 0;
+#X connect 31 0 33 0;
+#X connect 32 0 33 0;
+#X connect 33 0 34 0;
+#X connect 34 0 2 0;
 #X restore 413 221 pd lists;
 #X connect 0 0 8 0;
 #X connect 1 0 0 0;

@@ -308,9 +308,11 @@ stestrelease: emptydeps define_build
 		$(SRC_TAR)
 	cd $(ROOT_DIR); tar -X $(BASE_DIR)/$(BASE_NAME)-test.exclude -rf \
 		$(SRC_TAR) test/$(BASE_NAME)/*
+	cd $(ROOT_DIR); tar -T $(BASE_DIR)/$(BASE_NAME)-help.include -rf \
+		$(SRC_TAR)
+	cd $(ROOT_DIR); tar -rf $(SRC_TAR) bin/notes.txt
 	cd $(ROOT_DIR); tar -X $(BASE_DIR)/$(BASE_NAME)-vicious.exclude -rf \
 		$(SRC_TAR) ViCious/$(BASE_DIR)/*
-	cd $(ROOT_DIR); tar -rf $(SRC_TAR) bin/keepme
 	cd $(ROOT_DIR); gzip -f $(SRC_TAR)
 
 brelease: define_build
@@ -321,6 +323,8 @@ btestrelease: define_build
 	cd $(ROOT_DIR); tar -cf $(BIN_TAR) $(REL_EXTERNS)
 	cd $(ROOT_DIR); tar -X $(BASE_DIR)/$(BASE_NAME)-test.exclude -rf \
 		$(BIN_TAR) test/$(BASE_NAME)/*
+	cd $(ROOT_DIR); tar -T $(BASE_DIR)/$(BASE_NAME)-help.include -rf \
+		$(BIN_TAR)
 	cd $(ROOT_DIR); gzip -f $(BIN_TAR)
 
 rellibs:
@@ -347,6 +351,8 @@ testrelease: stestrelease btestrelease
 		$(ALL_TAR)
 	cd $(ROOT_DIR); tar -X $(BASE_DIR)/$(BASE_NAME)-test.exclude -rf \
 		$(ALL_TAR) test/$(BASE_NAME)/*
+	cd $(ROOT_DIR); tar -T $(BASE_DIR)/$(BASE_NAME)-help.include -rf \
+		$(ALL_TAR)
 	cd $(ROOT_DIR); tar -X $(BASE_DIR)/$(BASE_NAME)-vicious.exclude -rf \
 		$(ALL_TAR) ViCious/$(BASE_DIR)/*
 	cd $(ROOT_DIR); gzip -f $(ALL_TAR)

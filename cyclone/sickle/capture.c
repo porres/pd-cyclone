@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -54,7 +54,7 @@ static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
     else
 	cnt += sprintf(bp, "%d", (int)f);
     if (col + cnt > maxcol)
-	buf[0] = '\n', col = cnt;
+	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
     else
 	col += cnt;
     return (col);
@@ -144,7 +144,7 @@ static void capture_open(t_capture *x)
     int count = x->x_count;
     char buf[MAXPDSTRING];
     int nindices = (x->x_nindices > 0 ? x->x_nindices : x->x_nblock);
-    hammereditor_open(x->x_filehandle, "Signal Capture");  /* CHECKED */
+    hammereditor_open(x->x_filehandle, "Signal Capture", "");  /* CHECKED */
     if (x->x_mode == 'f' || count < x->x_bufsize)
     {
 	float *bp = x->x_buffer;
@@ -169,6 +169,7 @@ static void capture_open(t_capture *x)
     }
 }
 
+/* CHECKED without asking and storing the changes */
 static void capture_wclose(t_capture *x)
 {
     hammereditor_close(x->x_filehandle, 0);

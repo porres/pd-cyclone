@@ -96,6 +96,7 @@ enum {
     BINPORT_NULLTYPE,
     BINPORT_INTTYPE = 1, BINPORT_FLOATTYPE, BINPORT_SYMTYPE,
     BINPORT_DEFINTTYPE = 5, BINPORT_DEFFLOATTYPE, BINPORT_DEFSYMTYPE,
+    BINPORT_DEFDOLLSYMTYPE = 9,
     BINPORT_SEMITYPE = 10, BINPORT_COMMATYPE,
     BINPORT_DOLLARTYPE, BINPORT_DOLLSYMTYPE
 };
@@ -534,6 +535,15 @@ static int binport_nextatom(t_binport *bp, t_atom *ap)
     case BINPORT_DEFSYMTYPE:  /* half-byte symbol id */
 	if (!binport_setbysymtable(bp, ap, opval))
 	    goto badbin;
+	break;
+    case BINPORT_DEFDOLLSYMTYPE:  /* half-byte #symbol id */
+	if (!binport_setbysymtable(bp, ap, opval))
+	    goto badbin;
+	sprintf(buf, "#%s", ap->a_w.w_symbol->s_name);
+#ifdef BINPORT_DEBUG
+	binport_warning(buf);
+#endif
+	ap->a_w.w_symbol = gensym(buf);
 	break;
     case BINPORT_SEMITYPE:
 	/* LATER warn about nonzero opval */

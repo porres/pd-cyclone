@@ -5,6 +5,16 @@ TODO for cyclone
 
 DONE for cyclone
 
+alpha53
+  * matrix~: incompatible message 'set'
+  * coll:
+    . fixed descending order of 'sort' (a leaking sentinel bug)
+    . ignoring negative indices in 'min' and 'max'
+    . editor fixes (close by wm, dirty flag, title)
+  * Table: reading from file, reading from editor, editor fixes
+  * seq: editor fixes, editor bound to click (should bind to "open" too...)
+  * prob, capture, capture~: viewer fixes
+
 alpha52
   * compatibility mode interface in maxmode object:
     messages 'set', 'get' (reply through the second outlet)

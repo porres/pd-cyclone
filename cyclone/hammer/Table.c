@@ -1,4 +1,4 @@
-/* Copyright (c) 2004 krzYszcz and others.
+/* Copyright (c) 2004-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -225,10 +225,48 @@ static int tablecommon_quantile(t_tablecommon *cc, float f)
     return (ndx);
 }
 
+static void tablecommon_fromatoms(t_tablecommon *cc, int ac, t_atom *av)
+{
+    int i, size = 0, nsyms = 0;
+    t_atom *ap;
+    int *ptr;
+    cc->c_increation = 1;
+    for (i = 0, ap = av; i < ac; i++, ap++)
+    {
+	if (ap->a_type == A_FLOAT)
+	    size++;
+	else if (ap->a_type == A_SYMBOL)
+	    nsyms++, size++;
+    }
+    if (size < ac)
+	loud_warning(0, "Table", "%d invalid atom%s ignored",
+		     ac - size, (ac - size > 1 ? "s" : ""));
+    if (nsyms)
+	loud_warning(0, "Table", "%d symbol%s bashed to zero",
+		     nsyms, (nsyms > 1 ? "s" : ""));
+    tablecommon_setlength(cc, size);
+    size = cc->c_length;
+    ptr = cc->c_table;
+    for (i = 0; i < ac; i++, av++)
+    {
+	if (av->a_type == A_FLOAT)
+	    *ptr++ = (int)av->a_w.w_float;
+	else if (av->a_type == A_SYMBOL)
+	    *ptr++ = 0;
+	else
+	    continue;
+	if (size-- == 1)
+	    break;
+    }
+    while (size--)
+	*ptr++ = 0;
+    cc->c_increation = 0;
+}
+
+/* FIXME keep int precision: save/load directly, not through a bb */
 /* LATER binary files */
 static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
 {
-    /* FIXME */
     t_binbuf *bb = binbuf_new();
     int ac;
     t_atom *av;
@@ -249,8 +287,8 @@ static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
 	av->a_type == A_SYMBOL &&
 	av->a_w.w_symbol == gensym("table"))
     {
+	tablecommon_fromatoms(cc, ac - 1, av + 1);
 	post("Table: %s read successful", fn->s_name);  /* CHECKME */
-	/* FIXME */
     }
 #if 0  /* FIXME */
     else  /* CHECKME complaint */
@@ -325,7 +363,7 @@ static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
 
 static void tablecommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av)
 {
-    /* FIXME */
+    tablecommon_fromatoms((t_tablecommon *)z, ac, av);
 }
 
 static void tablecommon_free(t_tablecommon *cc)
@@ -754,7 +792,7 @@ static int tablecommon_editorappend(t_tablecommon *cc,
 	*bp++ = ' ', cnt++;
     cnt += sprintf(bp, "%d", v);
     if (col + cnt > 80)
-	buf[0] = '\n', col = cnt;
+	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
     else
 	col += cnt;
     hammereditor_append(cc->c_filehandle, buf);
@@ -763,22 +801,19 @@ static int tablecommon_editorappend(t_tablecommon *cc,
 
 static void table_open(t_table *x)
 {
-    /* FIXME */
     t_tablecommon *cc = x->x_common;
     char buf[MAXPDSTRING];
     int *bp = cc->c_table;
     int count = cc->c_length, col = 0;
-    /* LATER prepend "table: " */
-    hammereditor_open(cc->c_filehandle,
-		      /* CHECKED default name is plain `Untitled' */
-		      x->x_name ? x->x_name->s_name : "Untitled");
+    hammereditor_open(cc->c_filehandle, (x->x_name ? x->x_name->s_name : 0), 0);
     while (count--)
 	col = tablecommon_editorappend(cc, *bp++, buf, col);
+    hammereditor_setdirty(cc->c_filehandle, 0);
 }
 
 static void table_wclose(t_table *x)
 {
-    /* FIXME */
+    hammereditor_close(x->x_common->c_filehandle, 1);
 }
 
 static void table_click(t_table *x, t_floatarg xpos, t_floatarg ypos,

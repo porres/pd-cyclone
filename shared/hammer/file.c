@@ -58,23 +58,43 @@ static t_hammerfile *hammerfile_getproxy(t_pd *master)
     return (0);
 }
 
-/* FIXME somehow plug the "save changes" dialog into close-by-wm */
-/* FIXME dirty condition */
 static void hammereditor_guidefs(void)
 {
-    sys_gui("proc hammereditor_open {name geometry title} {\n");
+    sys_gui("proc hammereditor_open {name geometry title sendable} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
     sys_gui("  $name.text delete 1.0 end\n");
     sys_gui(" } else {\n");
     sys_gui("  toplevel $name\n");
     sys_gui("  wm title $name $title\n");
     sys_gui("  wm geometry $name $geometry\n");
+    sys_gui("  if {$sendable} {\n");
+    sys_gui("   wm protocol $name WM_DELETE_WINDOW \\\n");
+    sys_gui("    [concat hammereditor_close $name 1]\n");
+    sys_gui("   bind $name <<Modified>> \"hammereditor_dodirty $name\"\n");
+    sys_gui("  }\n");
     sys_gui("  text $name.text -relief raised -bd 2 \\\n");
     sys_gui("   -font -*-courier-medium--normal--12-* \\\n");
     sys_gui("   -yscrollcommand \"$name.scroll set\" -background lightgrey\n");
     sys_gui("  scrollbar $name.scroll -command \"$name.text yview\"\n");
     sys_gui("  pack $name.scroll -side right -fill y\n");
     sys_gui("  pack $name.text -side left -fill both -expand 1\n");
+    sys_gui(" }\n");
+    sys_gui("}\n");
+
+    sys_gui("proc hammereditor_dodirty {name} {\n");
+    sys_gui(" if {[catch {$name.text edit modified} dirty]} {set dirty 0}\n");
+    sys_gui(" set title [wm title $name]\n");
+    sys_gui(" set dt [string equal -length 1 $title \"*\"]\n");
+    sys_gui(" if {$dirty} {\n");
+    sys_gui("  if {$dt == 0} {wm title $name *$title}\n");
+    sys_gui(" } else {\n");
+    sys_gui("  if {$dt} {wm title $name [string range $title 1 end]}\n");
+    sys_gui(" }\n");
+    sys_gui("}\n");
+
+    sys_gui("proc hammereditor_setdirty {name flag} {\n");
+    sys_gui(" if {[winfo exists $name]} {\n");
+    sys_gui("  catch {$name.text edit modified $flag}\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 
@@ -91,10 +111,9 @@ static void hammereditor_guidefs(void)
     /* FIXME make it more reliable */
     sys_gui("proc hammereditor_send {name} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
-    sys_gui("  set ii [$name.text index [concat end - 1 lines]]\n");
     sys_gui("  pd [concat miXed$name clear \\;]\n");
     sys_gui("  for {set i 1} \\\n");
-    sys_gui("   {[$name.text compare $i.end < $ii]} \\\n");
+    sys_gui("   {[$name.text compare $i.end < end]} \\\n");
     sys_gui("  	{incr i 1} {\n");
     sys_gui("   set lin [$name.text get $i.0 $i.end]\n");
     sys_gui("   if {$lin != \"\"} {\n");
@@ -110,44 +129,68 @@ static void hammereditor_guidefs(void)
 
     sys_gui("proc hammereditor_close {name ask} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
-    sys_gui("  set dirty $ask\n");  /* FIXME */
-    sys_gui("  if {$dirty == 0} {hammereditor_doclose $name} else {\n");
+    sys_gui("  if {[catch {$name.text edit modified} dirty]} {set dirty 0}\n");
+    sys_gui("  if {$ask && $dirty} {\n");
     sys_gui("   set title [wm title $name]\n");
+    sys_gui("   if {[string equal -length 1 $title \"*\"]} {\n");
+    sys_gui("    set title [string range $title 1 end]\n");
+    sys_gui("   }\n");
     sys_gui("   set answer [tk_messageBox \\-type yesnocancel \\\n");
     sys_gui("    \\-icon question \\\n");
     sys_gui("    \\-message [concat Save changes to $title?]]\n");
     sys_gui("   if {$answer == \"yes\"} {hammereditor_send $name}\n");
     sys_gui("   if {$answer != \"cancel\"} {hammereditor_doclose $name}\n");
-    sys_gui("  }\n");
+    sys_gui("  } else {hammereditor_doclose $name}\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 }
 
-void hammereditor_open(t_hammerfile *f, char *title)
+/* null owner defaults to class name, pass "" to supress */
+void hammereditor_open(t_hammerfile *f, char *title, char *owner)
 {
-    if (!title) title = class_getname(*f->f_master);
-    sys_vgui("hammereditor_open .%x %dx%d {%s}\n", (int)f, 600, 340, title);
+    if (!owner)
+	owner = class_getname(*f->f_master);
+    if (!*owner)
+	owner = 0;
+    if (!title)
+    {
+	title = owner;
+	owner = 0;
+    }
+    if (owner)
+	sys_vgui("hammereditor_open .%x %dx%d {%s: %s} %d\n",
+		 (int)f, 600, 340, owner, title, (f->f_editorfn != 0));
+    else
+	sys_vgui("hammereditor_open .%x %dx%d {%s} %d\n",
+		 (int)f, 600, 340, (title ? title : "Untitled"),
+		 (f->f_editorfn != 0));
 }
 
 static void hammereditor_tick(t_hammerfile *f)
 {
-    sys_vgui("hammereditor_close .%x %d\n", (int)f, 1);
+    sys_vgui("hammereditor_close .%x 1\n", (int)f);
 }
 
 void hammereditor_close(t_hammerfile *f, int ask)
 {
-    if (ask)
+    if (ask && f->f_editorfn)
 	/* hack: deferring modal dialog creation in order to allow for
 	   a message box redraw to happen -- LATER investigate */
  	clock_delay(f->f_editorclock, 0);
     else
-	sys_vgui("hammereditor_close .%x %d\n", (int)f, 0);
+	sys_vgui("hammereditor_close .%x 0\n", (int)f);
 }
 
 void hammereditor_append(t_hammerfile *f, char *contents)
 {
     if (!contents) contents = "";
     sys_vgui("hammereditor_append .%x {%s}\n", (int)f, contents);
+}
+
+void hammereditor_setdirty(t_hammerfile *f, int flag)
+{
+    if (f->f_editorfn)
+	sys_vgui("hammereditor_setdirty .%x %d\n", (int)f, flag);
 }
 
 static void hammereditor_clear(t_hammerfile *f)

@@ -468,7 +468,7 @@ static void widget_properties(t_gobj *z, t_glist *glist)
     char buf[MAXPDSTRING + 1];
     buf[MAXPDSTRING] = 0;
     sprintf(buf, "%s %s", x->x_type->s_name, x->x_name->s_name);
-    hammereditor_open(x->x_filehandle, buf);
+    hammereditor_open(x->x_filehandle, buf, 0);
     while (nleft > 0)
     {
 	if (nleft > MAXPDSTRING)

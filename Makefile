@@ -32,9 +32,12 @@ rootsnap:
 		do ( if [ -d $$i ] ; then tar -X $$i/$$i-test.exclude -rf \
 			$(ALLSRC_TAR) test/$$i/* ; fi ) ; done
 	@for i in $(RELEASE_DIRS) ; \
+		do ( if [ -d $$i ] ; then tar -T $$i/$$i-help.include -rf \
+			$(ALLSRC_TAR) ; fi ) ; done
+	@for i in $(RELEASE_DIRS) ; \
 		do ( if [ -d $$i ] ; then tar -X $$i/$$i-vicious.exclude -rf \
 			$(ALLSRC_TAR) ViCious/$$i/* ; fi ) ; done
-	tar -rf $(ALLSRC_TAR) bin/keepme
+	tar -rf $(ALLSRC_TAR) bin/notes.txt
 	gzip -f $(ALLSRC_TAR)
 
 fullsnap: snap rootsnap
