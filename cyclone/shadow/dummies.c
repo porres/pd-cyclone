@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -11,17 +11,19 @@
 #endif
 #include "m_pd.h"
 #include "common/loud.h"
+#include "common/port.h"
 
 //#define DUMMIES_DEBUG
 
 static t_class *ccdummies_class;
 static int dummy_nclasses = 0;
+static int pending_nclasses = 0;
 static t_class **dummy_classes;
 static int dummy_nreps = 0;
 
 typedef struct _dummy_slot
 {
-    char        *s_name;
+    char        *s_name;  /* do not use after setup: invalid for mapped names */
     int          s_nins;
     int          s_nouts;
     int          s_warned;
@@ -350,12 +352,10 @@ static t_dummy_slot dummy_slots[] =
     { "asinh",           1, 1, 0, 0 },
     { "atanh",           1, 1, 0, 0 },
     { "begin~",          0, 1, 0, 0 },
-    { "Biquad~",         6, 1, 0, 0 },
     /* LATER try mapping bpatcher to a gop abstraction/subpatch */
     { "buffer~",         1, 2, 0, 0 },
     { "cd",              1, 2, 0, 0 },  /* CHECKED (refman error?) */
     { "cd~",             1, 6, 0, 0 },  /* CHECKED (refman error?) */
-    { "Change",          1, 3, 0, 0 },
     { "clocker",         2, 1, 0, 0 },
     { "closebang",       0, 1, 0, 0 },
     { "colorpicker",     1, 1, 0, 0 },
@@ -390,7 +390,6 @@ static t_dummy_slot dummy_slots[] =
     { "gate~",           2, -1, 0, (t_newmethod)dummy_gate_tilde_new },
     { "gestalt",         1, 2, 0, 0 },
     { "Ggate",           2, 2, 0, 0 },
-    /* LATER glove? */
     { "graphic",         1, 0, 0, 0 },
     { "groove~",         3, -1, 0, (t_newmethod)dummy_groove_tilde_new },
     { "Gswitch",         3, 1, 0, 0 },
@@ -401,12 +400,9 @@ static t_dummy_slot dummy_slots[] =
     { "IncDec",          1, 1, 0, 0 },
     { "info~",           1, 8, 0, 0 },  /* CHECKME nouts */
     { "ioscbank~",       4, 1, 0, 0 },
-    { "Key",             0, 3, 0, 0 },
-    { "Keyup",           0, 3, 0, 0 },
     { "kslider",         2, 2, 0, 0 },
     { "lcd",             1, 4, 0, 0 },  /* CHECKME nouts */
     { "led",             1, 1, 0, 0 },
-    { "Line",            3, 2, 0, 0 },
     { "matrixctrl",      1, 1, 0, 0 },  /* CHECKME nins, nouts */
     { "matrix~",        -1, -1, 0, (t_newmethod)dummy_matrix_tilde_new },
     { "menubar",         1, 4, 0, 0 },  /* LATER parse #Xs (additional outs) */
@@ -438,33 +434,15 @@ static t_dummy_slot dummy_slots[] =
     { "pictctrl",        1, 1, 0, 0 },
     { "pictslider",      2, 2, 0, 0 },  /* CHECKME one-dimensional mode */
     { "playbar",         1, 2, 0, 0 },  /* CHECKME */
-    { "plugconfig",      1, 0, 0, 0 },
-    { "plugin~",         2, 2, 0, 0 },
-    { "plugmidiin",      0, 1, 0, 0 },
-    { "plugmidiout",     1, 0, 0, 0 },
-    { "plugmod",         5, 3, 0, 0 },
-    { "plugmorph",       2, 3, 0, 0 },
-    { "plugmultiparam",  1, 2, 0, 0 },
-    { "plugout~",        2, 2, 0, 0 },  /* CHECKME nouts */
-    { "plugphasor~",     0, 1, 0, 0 },  /* CHECKME nouts */
-    { "plugreceive~",    1, 1, 0, 0 },
-    { "plugsend~",       1, 0, 0, 0 },
-    { "plugstore",       1, 1, 0, 0 },  /* CHECKME nouts */
-    { "plugsync~",       0, 9, 0, 0 },  /* CHECKME nouts */
-    { "Poly",            2, 4, 0, 0 },
     { "polyin",          1, 3, 0, 0 },  /* LATER parse args for nouts */
     { "polyout",         3, 0, 0, 0 },  /* CHECKME nins */
     /* LATER poly~ */
-    { "pp",              2, 2, 0, 0 },  /* CHECKME nins */
-    { "pptempo",         2, 2, 0, 0 },
-    { "pptime",          4, 4, 0, 0 },
     { "preset",          1, 3, 0, 0 },
     { "radiogroup",      1, 1, 0, 0 },
     { "rate~",           2, 1, 0, 0 },  /* CHECKME */
     /* LATER settable Receive? */
     { "rect",            6, 0, 0, 0 },
     { "relativepath",    1, 1, 0, 0 },
-    { "rewire~",         1, -1, 0, (t_newmethod)dummy_rewire_tilde_new },
     { "ring",            6, 0, 0, 0 },
     { "round~",          2, 1, 0, 0 },
     { "rslider",         2, 2, 0, 0 },
@@ -479,7 +457,6 @@ static t_dummy_slot dummy_slots[] =
     { "sflist~",         1, 0, 0, 0 },
     { "sfplay~",         1, -1, 0, (t_newmethod)dummy_sfplay_tilde_new },
     { "sfrecord~",      -1, 0, 0, (t_newmethod)dummy_sfrecord_tilde_new },
-    { "sndmgrin~",       0, 2, 0, 0 },  /* CHECKME */
     { "strippath",       1, 2, 0, 0 },
     { "stutter~",       -1, -1, 0, (t_newmethod)dummy_stutter_tilde_new },
     { "suspend",         0, 1, 0, 0 },
@@ -507,12 +484,43 @@ static t_dummy_slot dummy_slots[] =
     { "trunc~",          1, 1, 0, 0 },  /* CHECKME */
     { "ubutton",         1, 4, 0, 0 },
     { "umenu",           1, 2, 0, 0 },
-    { "vdp",             3, 4, 0, 0 },
     { "vexpr",          -1, 1, 0, (t_newmethod)dummy_vexpr_new },
     { "vpicture",        0, 0, 0, 0 },
-    { "vst~",           -1, -1, 0, (t_newmethod)dummy_vst_tilde_new },
     { "waveform~",       5, 6, 0, 0 },  /* CHECKME */
     { "zigzag~",         2, 4, 0, 0 },
+
+    /* mapped names (cf the structure `importmapping_default' in port.c) */
+    /* clashing dummies go first */
+    { "biquad~",         6, 1, 0, 0 },
+    { "change",          1, 3, 0, 0 },
+    { "key",             0, 3, 0, 0 },
+    { "keyup",           0, 3, 0, 0 },
+    { "line",            3, 2, 0, 0 },
+    { "poly",            2, 4, 0, 0 },
+
+    /* remaining slots define `doomed' kind of dummies */
+    { "appledvd",        1, 2, 0, 0 },
+    /* LATER glove? */
+    { "plugconfig",      1, 0, 0, 0 },
+    { "plugin~",         2, 2, 0, 0 },
+    { "plugmidiin",      0, 1, 0, 0 },
+    { "plugmidiout",     1, 0, 0, 0 },
+    { "plugmod",         5, 3, 0, 0 },
+    { "plugmorph",       2, 3, 0, 0 },
+    { "plugmultiparam",  1, 2, 0, 0 },
+    { "plugout~",        2, 2, 0, 0 },  /* CHECKME nouts */
+    { "plugphasor~",     0, 1, 0, 0 },  /* CHECKME nouts */
+    { "plugreceive~",    1, 1, 0, 0 },
+    { "plugsend~",       1, 0, 0, 0 },
+    { "plugstore",       1, 1, 0, 0 },  /* CHECKME nouts */
+    { "plugsync~",       0, 9, 0, 0 },  /* CHECKME nouts */
+    { "pp",              2, 2, 0, 0 },  /* CHECKME nins */
+    { "pptempo",         2, 2, 0, 0 },
+    { "pptime",          4, 4, 0, 0 },
+    { "rewire~",         1, -1, 0, (t_newmethod)dummy_rewire_tilde_new },
+    { "sndmgrin~",       0, 2, 0, 0 },  /* CHECKME */
+    { "vdp",             3, 4, 0, 0 },
+    { "vst~",           -1, -1, 0, (t_newmethod)dummy_vst_tilde_new },
     { "_dummy",          0, 0, 0, 0 }
 };
 
@@ -575,6 +583,7 @@ static void ccdummies_reps(t_pd *x)
 	{
 	    if (!dummy_classes[i])
 	    {
+		/* name field is valid here (reps are never mapped) */
 		int l = 1 + strlen(sl->s_name);
 		if ((len += l) > 66)
 		{
@@ -593,7 +602,9 @@ static void ccdummies_reps(t_pd *x)
 void dummies_setup(void)
 {
     t_dummy_slot *sl;
-    int i;
+    int i, mapsize;
+    char **mapping = import_getmapping(&mapsize);
+    int ndoomed = 0;
     dummy_nclasses = sizeof(dummy_slots)/sizeof(*dummy_slots);
     /* never freed: */
     dummy_classes = getbytes(dummy_nclasses * sizeof(*dummy_classes));
@@ -601,6 +612,15 @@ void dummies_setup(void)
     {
 	int fd;
 	char dirbuf[MAXPDSTRING], *nameptr;
+	char *name = port_usemapping(sl->s_name, mapsize, mapping);
+	if (name)
+	    ndoomed++;
+	else if (ndoomed && i < dummy_nclasses - 1)
+	{
+	    bug("dummies_setup");
+	    post("(\"%s\": clashing or doomed dummy not registered for import)",
+		 sl->s_name);
+	}
 	if ((fd = open_via_path("", sl->s_name, ".pd",
 				dirbuf, &nameptr, MAXPDSTRING, 0)) >= 0)
 	{
@@ -608,11 +628,13 @@ void dummies_setup(void)
 	    dummy_nreps++;
 	}
 	else
+	{
 	    dummy_classes[i] =
-		class_new(gensym(sl->s_name),
+		class_new((name ? gensym(name) : gensym(sl->s_name)),
 			  sl->s_method ? sl->s_method : (t_newmethod)dummy_new,
 			  0, sizeof(t_object),
 			  (sl->s_nins ? 0 : CLASS_NOINLET), A_GIMME, 0);
+	}
     }
     dummy_nclasses--;  /* use "_dummy" as a sentinel */
 

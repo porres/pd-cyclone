@@ -245,12 +245,12 @@ static int binport_readfloat(FILE *fp, float *fptr)
 	}
 	else if (ex || hi || lo)
 	{
-	    double d;
+	    double dhi, dlo, dabs;
 	    ex -= 0x401e;
-	    hi = ((hi - 0x7fffffff) - 1) + ((float)0x7fffffff + 1.);
-	    lo = ((lo - 0x7fffffff) - 1) + ((float)0x7fffffff + 1.);
-	    d  = ldexp(hi, ex) + ldexp(lo, ex - 32);
-	    *fptr = ((word[0] & 0x80) ? -(float)d : (float)d);
+	    dhi = (double)((hi - 0x7fffffff) - 1) + ((float)0x7fffffff + 1.);
+	    dlo = (double)((lo - 0x7fffffff) - 1) + ((float)0x7fffffff + 1.);
+	    dabs  = ldexp(dhi, ex) + ldexp(dlo, ex - 32);
+	    *fptr = ((word[0] & 0x80) ? -(float)dabs : (float)dabs);
 	}
 	else *fptr = 0.;
 #ifdef BINPORT_DEBUG
@@ -679,7 +679,7 @@ static int maxtext_nextatom(FILE *fp, t_atom *ap)
 	else if (floatstate == 2)
 	    binport_setint(ap, atoi(buf));
 	else if (floatstate == 4 || floatstate == 5 || floatstate == 8)
-	    binport_setfloat(ap, atof(buf));
+	    binport_setfloat(ap, (float)atof(buf));
 	else
 	    binport_setsymbol(ap, gensym(buf));
     }

@@ -92,6 +92,83 @@ static t_symbol *portps_funbuff;
 static t_symbol *portps_prob;
 static t_symbol *portps_picture;
 
+static char *import_defmapping[] =
+{
+    /* clashing clones */
+    "append", "Append",
+    "b", "bangbang",
+    "clip", "Clip",
+    "clip~", "Clip~",
+    "line~", "Line~",
+    "scope~", "Scope~",
+    "snapshot~", "Snapshot~",
+
+    /* clashing dummies */
+    "biquad~", "Biquad~",
+    "change", "Change",
+    "key", "Key",
+    "keyup", "Keyup",
+    "line", "Line",
+    "poly", "Poly",
+
+    /* doomed dummies */
+    "appledvd", "c74.appledvd",
+    "plugconfig", "c74.plugconfig",
+    "plugin~", "c74.plugin~",
+    "plugmidiin", "c74.plugmidiin",
+    "plugmidiout", "c74.plugmidiout",
+    "plugmod", "c74.plugmod",
+    "plugmorph", "c74.plugmorph",
+    "plugmultiparam", "c74.plugmultiparam",
+    "plugout~", "c74.plugout~",
+    "plugphasor~", "c74.plugphasor~",
+    "plugreceive~", "c74.plugreceive~",
+    "plugsend~", "c74.plugsend~",
+    "plugstore", "c74.plugstore",
+    "plugsync~", "c74.plugsync~",
+    "pp", "c74.pp",
+    "pptempo", "c74.pptempo",
+    "pptime", "c74.pptime",
+    "rewire~", "c74.rewire~",
+    "sndmgrin~", "c74.sndmgrin~",
+    "vdp", "c74.vdp",
+    "vst~", "c74.vst~"
+};
+
+static int import_mapsize = 0;
+static char **import_mapping = 0;
+
+static void import_setdefmapping(void)
+{
+    import_mapsize = sizeof(import_defmapping)/(2 * sizeof(*import_defmapping));
+    import_mapping = import_defmapping;
+}
+
+void import_setmapping(int size, char **mapping)
+{
+    import_mapsize = size;
+    import_mapping = mapping;
+}
+
+char **import_getmapping(int *sizep)
+{
+    if (!import_mapping) import_setdefmapping();
+    *sizep = import_mapsize;
+    return (import_mapping);
+}
+
+char *port_usemapping(char *from, int mapsize, char **mapping)
+{
+    while (mapsize--)
+    {
+	if (strcmp(*mapping, from))
+	    mapping += 2;
+	else
+	    return (mapping[1]);
+    }
+    return (0);
+}
+
 static t_int port_getint(t_port *x, int ndx)
 {
     if (ndx < x->x_inatoms)
@@ -392,10 +469,30 @@ static void import_addclassname(t_port *x, char *outname, t_atom *inatom)
 	SETSYMBOL(&at, gensym(outname));
     else
     {
+	t_symbol *insym = 0;
 	if (inatom->a_type == A_SYMBOL)
 	{
 	    /* LATER bash inatom to lowercase (CHECKME first) */
-	    t_symbol *insym = inatom->a_w.w_symbol;
+	    insym = inatom->a_w.w_symbol;
+	    if (import_mapping && import_mapsize)
+	    {
+		char **fromp = import_mapping, **top = import_mapping + 1;
+		int cnt = import_mapsize;
+		while (cnt--)
+		{
+		    if (strcmp(*fromp, insym->s_name))
+		    {
+			fromp += 2;
+			top += 2;
+		    }
+		    else
+		    {
+			insym = gensym(*top);
+			inatom = 0;
+			break;
+		    }
+		}
+	    }
 	    if (insym != &s_bang && insym != &s_float &&
 		insym != &s_symbol && insym != &s_list &&
 		(insym == portps_inlet || insym == portps_outlet ||
@@ -406,7 +503,15 @@ static void import_addclassname(t_port *x, char *outname, t_atom *inatom)
 		binbuf_add(x->x_outbb, 1, &at);
 	    }
 	}
-	import_copyatoms(&at, inatom, 1);
+	if (inatom)
+	    import_copyatoms(&at, inatom, 1);
+	else if (insym)
+	    SETSYMBOL(&at, insym);
+	else
+	{
+	    bug("import_addclassname");
+	    SETSYMBOL(&at, gensym("???"));
+	}
     }
     binbuf_add(x->x_outbb, 1, &at);
 }
@@ -921,17 +1026,8 @@ static t_portnode imnode_newobj = { imslots_newobj,
 /* LATER consider merging newobj and newex */
 static t_portslot imslots_newex[] =
 {
-    { "append",      import_objarg, "Append", 0, 0 },
-    { "biquad~",     import_objarg, "Biquad~", 0, 0 },
-    { "change",      import_objarg, "Change", 0, 0 },
-    { "clip",        import_objarg, "Clip", 0, 0 },
-    { "clip~",       import_objarg, "Clip~", 0, 0 },
     { "key",         import_obj, "Key", 0, 0 },
     { "keyup",       import_obj, "Keyup", 0, 0 },
-    { "line",        import_objarg, "Line", 0, 0 },
-    { "line~",       import_objarg, "Line~", 0, 0 },
-    { "poly",        import_objarg, "Poly", 0, 0 },
-    { "snapshot~",   import_objarg, "Snapshot~", 0, 0 },
 
     { "pack",        imaction_P6_pack, 0, 0, 0 },
     { "unpack",      imaction_P6_pack, 0, 0, 0 },
@@ -1124,6 +1220,7 @@ static void port_dochecksetup(t_portnode *node)
 	if (subtree)
 	    port_dochecksetup(subtree);
     }
+    import_setdefmapping();
 }
 
 #define BOGUS_NINLETS   23

@@ -207,7 +207,13 @@ SICKLE_OBJECTS = $(ALL_SICKLES) \
 
 DUMMIES_OBJECTS = \
 	$(SRCDIR)\shadow\dummies.obj \
-	$(SHAREDDIR)\common\loud.obj
+	$(SHAREDDIR)\common\loud.obj \
+	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\binport.obj \
+	$(SHAREDDIR)\common\port.obj \
+	$(SHAREDDIR)\unstable\forky.obj \
+	$(SHAREDDIR)\unstable\fragile.obj \
+	$(SHAREDDIR)\unstable\fringe.obj
 
 CYCLIST_OBJECTS = \
 	$(SHAREDDIR)\common\binport.obj
