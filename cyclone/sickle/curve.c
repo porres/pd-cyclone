@@ -71,8 +71,8 @@ static void curve_cc(t_curve *x, t_curveseg *segp, float f)
     segp->s_nhops = (nhops > 0 ? nhops : 0);
     clccurve_coefs(segp->s_nhops, (double)f, &segp->s_bb, &segp->s_mm);
 #ifdef CURVE_DEBUG
-    post("%g %g %g %g",
-	 segp->s_target, segp->s_delta, segp->s_bb, segp->s_mm);
+    loudbug_post("%g %g %g %g",
+		 segp->s_target, segp->s_delta, segp->s_bb, segp->s_mm);
 #endif
 }
 
@@ -80,10 +80,10 @@ static void curve_tick(t_curve *x)
 {
     outlet_bang(x->x_bangout);
 #ifdef CURVE_DEBUG
-    post("exit point %d, after %d retarget calls",
-	 x->dbg_exitpoint, x->dbg_nretargets);
-    post("at value %g, after last %d nhops, with bb %g, mm %g",
-	 x->x_value, x->dbg_nhops, x->x_bb, x->x_mm);
+    loudbug_post("exit point %d, after %d retarget calls",
+		 x->dbg_exitpoint, x->dbg_nretargets);
+    loudbug_post("at value %g, after last %d nhops, with bb %g, mm %g",
+		 x->x_value, x->dbg_nhops, x->x_bb, x->x_mm);
     x->dbg_nretargets = x->dbg_exitpoint = x->dbg_nhops = 0;
 #endif
 }
@@ -223,7 +223,7 @@ static void curve_float(t_curve *x, t_float f)
 	x->x_curseg->s_target = f;
 	x->x_curseg->s_delta = x->x_delta;
 #ifdef CURVE_DEBUG
-	startpost("single segment: ");
+	loudbug_startpost("single segment: ");
 #endif
 	curve_cc(x, x->x_curseg, x->x_ccinput);
     	x->x_retarget = 1;
@@ -278,7 +278,7 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     }
     x->x_nsegs = nsegs;
 #ifdef CURVE_DEBUG
-    post("%d segments:", x->x_nsegs);
+    loudbug_post("%d segments:", x->x_nsegs);
 #endif
     segp = x->x_segs;
     if (odd) nsegs--;

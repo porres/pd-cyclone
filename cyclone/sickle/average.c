@@ -7,6 +7,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include "common/loud.h"
 #include "sickle/sic.h"
 
 #if defined(NT) || defined(MACOSX)
@@ -74,7 +75,7 @@ static void average_setmode(t_average *x, int mode)
 	x->x_sumfn = average_rmssum;
     else
     {
-	bug("average_setmode");
+	loudbug_bug("average_setmode");
 	return;
     }
     x->x_mode = mode;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -23,11 +23,13 @@
 #define SVF_LINEAR    1
 #define SVF_RADIANS   2
 #define SVF_DRIVE     .0001
-#define SVF_QSTRETCH  1.2  /* CHECKED */
-#define SVF_MINR      0.   /* CHECKME */
-#define SVF_MAXR      1.2  /* CHECKME */
-#define SVF_MINOMEGA  0.   /* CHECKME */
+#define SVF_QSTRETCH  1.2   /* CHECKED */
+#define SVF_MINR      0.    /* CHECKME */
+#define SVF_MAXR      1.2   /* CHECKME */
+#define SVF_MINOMEGA  0.    /* CHECKME */
 #define SVF_MAXOMEGA  (SHARED_PI * .5)  /* CHECKME */
+#define SVF_DEFFREQ   0.
+#define SVF_DEFQ       .01  /* CHECKME */
 
 typedef struct _svf
 {
@@ -125,25 +127,43 @@ static void svf_dsp(t_svf *x, t_signal **sp)
 	    sp[4]->s_vec, sp[5]->s_vec, sp[6]->s_vec);
 }
 
-static void *svf_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
+static void *svf_new(t_symbol *s, int ac, t_atom *av)
 {
     t_svf *x = (t_svf *)pd_new(svf_class);
+    t_float freq = SVF_DEFFREQ, qcoef = SVF_DEFQ;
+    t_symbol *modesym = 0;
+    int i;
+    for (i = 0; i < ac; i++) if (av[i].a_type == A_SYMBOL)
+    {
+	modesym = av[i].a_w.w_symbol;
+	break;
+    }
+    while (ac && av->a_type != A_FLOAT) ac--, av++;
+    if (ac)
+    {
+	freq = av->a_w.w_float;
+	ac--; av++;
+	while (ac && av->a_type != A_FLOAT) ac--, av++;
+	if (ac)
+	    qcoef = av->a_w.w_float;
+    }
     x->x_srcoef = SHARED_PI / sys_getsr();
-    sic_newinlet((t_sic *)x, f1);
-    sic_newinlet((t_sic *)x, f2);
+    sic_newinlet((t_sic *)x, freq);
+    sic_newinlet((t_sic *)x, qcoef);
     outlet_new((t_object *)x, &s_signal);
     outlet_new((t_object *)x, &s_signal);
     outlet_new((t_object *)x, &s_signal);
     outlet_new((t_object *)x, &s_signal);
     svf_clear(x);
-    if (s == ps_linear)
+    if (modesym == ps_linear)
 	x->x_mode = SVF_LINEAR;
-    else if (s == ps_radians)
+    else if (modesym == ps_radians)
 	x->x_mode = SVF_RADIANS;
     else
     {
 	x->x_mode = SVF_HZ;
-	if (s && s != &s_ && s != ps_hz && s != gensym("Hz"))
+	if (modesym && modesym != &s_ &&
+	    modesym != ps_hz && modesym != gensym("Hz"))
 	{
 	    /* CHECKED no warning */
 	}
@@ -158,8 +178,7 @@ void svf_tilde_setup(void)
     ps_radians = gensym("radians");
     svf_class = class_new(gensym("svf~"),
 			  (t_newmethod)svf_new, 0,
-			  sizeof(t_svf), 0,
-			  A_DEFFLOAT, A_DEFFLOAT, A_DEFSYM, 0);
+			  sizeof(t_svf), 0, A_GIMME, 0);
     sic_setup(svf_class, svf_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(svf_class, (t_method)svf_clear, gensym("clear"), 0);
     class_addmethod(svf_class, (t_method)svf_hz, ps_hz, 0);

@@ -349,7 +349,7 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_float *vec)
 	    float frac = f - np1->n_key;
 	    if (frac < 0 || frac >= delta)
 	    {
-		bug("funbuff_dointerp");
+		loudbug_bug("funbuff_dointerp");
 		return;
 	    }
 	    frac /= delta;
@@ -361,7 +361,7 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_float *vec)
 		float vfrac = vpos - vndx;
 		if (vndx < 0 || vndx >= vsz - 1)
 		{
-		    bug("funbuff_dointerp redundant test...");
+		    loudbug_bug("funbuff_dointerp redundant test...");
 		    return;
 		}
 		vec += vndx;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -7,6 +7,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
+#include "common/fitter.h"
 
 #define BANGBANG_MINOUTS      1
 #define BANGBANG_C74MAXOUTS  40  /* CHECKED (just clipped without warning) */
@@ -47,10 +48,7 @@ static void *bangbang_new(t_floatarg val)
     if (nouts < BANGBANG_MINOUTS)
 	nouts = BANGBANG_DEFOUTS;
     if (nouts > BANGBANG_C74MAXOUTS)
-    {
-	shared_usecompatibility();
-	loud_incompatible_max(bangbang_class, BANGBANG_C74MAXOUTS, "outlets");
-    }
+	fittermax_rangewarning(bangbang_class, BANGBANG_C74MAXOUTS, "outlets");
     if (nouts > BANGBANG_DEFOUTS)
     {
 	if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
@@ -73,4 +71,5 @@ void bangbang_setup(void)
 			       sizeof(t_bangbang), 0, A_DEFFLOAT, 0);
     class_addbang(bangbang_class, bangbang_bang);
     class_addanything(bangbang_class, bangbang_anything);
+    fitter_setup(bangbang_class, 0, 0);
 }

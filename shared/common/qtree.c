@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include "loud.h"
 #include "qtree.h"
 
 /* Since there is no sentinel node, the deletion routine has to have
@@ -26,7 +27,7 @@ static int qnode_verify(t_qnode *np)
 	{
 	    /* failure: two paths rooted in the same node
 	       contain different number of black nodes */
-	    bug("qnode_verify: not balanced");
+	    loudbug_bug("qnode_verify: not balanced");
 	    return (0);
 	}
 	if (np->n_black)
@@ -36,7 +37,7 @@ static int qnode_verify(t_qnode *np)
 	    if ((np->n_left && !np->n_left->n_black) ||
 		(np->n_right && !np->n_right->n_black))
 	    {
-		bug("qnode_verify: adjacent red nodes");
+		loudbug_bug("qnode_verify: adjacent red nodes");
 		return (0);
 	    }
 	    return (bhl);
@@ -56,7 +57,7 @@ static int qnode_checkmulti(t_qnode *np1, t_qnode *np2)
     if (np1 && np2 && np1->n_key == np2->n_key)
     {
 	if (np1 == np2)
-	    bug("qnode_checkmulti");
+	    loudbug_bug("qnode_checkmulti");
 	else
 	    return (1);
     }
@@ -66,27 +67,27 @@ static int qnode_checkmulti(t_qnode *np1, t_qnode *np2)
 static void qnode_post(t_qtree *tree, t_qnode *np,
 		       t_qnode_vshowhook hook, char *message)
 {
-    startpost("%g ", np->n_key);
+    loudbug_startpost("%g ", np->n_key);
     if (tree->t_valuetype == QTREETYPE_FLOAT)
-	startpost("%g ", QNODE_GETFLOAT(np));
+	loudbug_startpost("%g ", QNODE_GETFLOAT(np));
     else if (tree->t_valuetype == QTREETYPE_SYMBOL)
-	startpost("%s ", QNODE_GETSYMBOL(np)->s_name);
+	loudbug_startpost("%s ", QNODE_GETSYMBOL(np)->s_name);
     else if (tree->t_valuetype == QTREETYPE_ATOM)
     {
 	t_atom *ap = QNODE_GETATOMPTR(np);
 	if (ap->a_type == A_FLOAT)
-	    startpost("%g ", ap->a_w.w_float);
+	    loudbug_startpost("%g ", ap->a_w.w_float);
 	else if (ap->a_type == A_SYMBOL)
-	    startpost("%s ", ap->a_w.w_symbol->s_name);
+	    loudbug_startpost("%s ", ap->a_w.w_symbol->s_name);
     }
     else if (hook)
     {
 	char buf[MAXPDSTRING];
 	(*hook)(np, buf, MAXPDSTRING);
-	startpost("%s ", buf);
+	loudbug_startpost("%s ", buf);
     }
-    else startpost("0x%08x ", (int)QNODE_GETSYMBOL(np));
-    startpost("%s ", (np->n_black ? "black" : "red"));
+    else loudbug_startpost("0x%08x ", (int)QNODE_GETSYMBOL(np));
+    loudbug_startpost("%s ", (np->n_black ? "black" : "red"));
 
     if (qnode_checkmulti(np, np->n_parent) ||
 	qnode_checkmulti(np, np->n_left) ||
@@ -94,24 +95,24 @@ static void qnode_post(t_qtree *tree, t_qnode *np,
 	qnode_checkmulti(np->n_parent, np->n_left) ||
 	qnode_checkmulti(np->n_parent, np->n_right) ||
 	qnode_checkmulti(np->n_left, np->n_right))
-	startpost("multi ");
+	loudbug_startpost("multi ");
 
     if (np->n_parent)
-	startpost("(%g -> ", np->n_parent->n_key);
+	loudbug_startpost("(%g -> ", np->n_parent->n_key);
     else
-	startpost("(nul -> ");
+	loudbug_startpost("(nul -> ");
     if (np->n_left)
-	startpost("%g, ", np->n_left->n_key);
+	loudbug_startpost("%g, ", np->n_left->n_key);
     else
-	startpost("nul, ");
+	loudbug_startpost("nul, ");
     if (np->n_right)
-	startpost("%g)", np->n_right->n_key);
+	loudbug_startpost("%g)", np->n_right->n_key);
     else
-	startpost("nul)");
+	loudbug_startpost("nul)");
     if (message)
-	post(": %s", message);
+	loudbug_post(": %s", message);
     else
-	endpost();
+	loudbug_endpost();
 }
 
 /* Assert a standard stackless traversal producing the same sequence,
@@ -136,12 +137,12 @@ static int qtree_checktraversal(t_qtree *tree)
 		    listwalk = listwalk->n_next;
 		else
 		{
-		    bug("qtree_checktraversal 1");
+		    loudbug_bug("qtree_checktraversal 1");
 		    qnode_post(tree, treewalk, 0, "treewalk");
 		    if (listwalk)
 			qnode_post(tree, listwalk, 0, "listwalk");
 		    else
-			post("empty listwalk pointer");
+			loudbug_post("empty listwalk pointer");
 		    listwalk = treewalk;
 		}
 		treewalk = treewalk->n_right;
@@ -159,12 +160,12 @@ static int qtree_checktraversal(t_qtree *tree)
 		listwalk = listwalk->n_next;
 	    else
 	    {
-		bug("qtree_checktraversal 2");
+		loudbug_bug("qtree_checktraversal 2");
 		qnode_post(tree, treewalk, 0, "treewalk");
 		if (listwalk)
 		    qnode_post(tree, listwalk, 0, "listwalk");
 		else
-		    post("empty listwalk pointer");
+		    loudbug_post("empty listwalk pointer");
 		listwalk = treewalk;
 	    }
 	    treewalk = treewalk->n_right;
@@ -188,7 +189,7 @@ void qtree_debug(t_qtree *tree, int level, t_qnode_vshowhook hook)
 {
     t_qnode *np;
     int count;
-    post("------------------------");
+    loudbug_post("------------------------");
     count = qtree_checktraversal(tree);
     if (level)
     {
@@ -196,10 +197,10 @@ void qtree_debug(t_qtree *tree, int level, t_qnode_vshowhook hook)
 	    qnode_post(tree, np, hook, 0);
 	if (level > 1)
 	{
-	    post("************");
+	    loudbug_post("************");
 	    for (np = tree->t_last; np; np = np->n_prev)
-		startpost("%g ", np->n_key);
-	    endpost();
+		loudbug_startpost("%g ", np->n_key);
+	    loudbug_endpost();
 	}
     }
     if (tree->t_root)
@@ -209,15 +210,15 @@ void qtree_debug(t_qtree *tree, int level, t_qnode_vshowhook hook)
 	    first = first->n_left;
 	while (last->n_right && last->n_right != tree->t_root)
 	    last = last->n_right;
-	post("count %d, height %d, root %g",
-	     count, qnode_height(tree->t_root), tree->t_root->n_key);
-	post("first %g, root->left* %g, last %g, root->right* %g",
-	     (tree->t_first ? tree->t_first->n_key : 0), first->n_key,
-	     (tree->t_last ? tree->t_last->n_key : 0), last->n_key);
+	loudbug_post("count %d, height %d, root %g",
+		     count, qnode_height(tree->t_root), tree->t_root->n_key);
+	loudbug_post("first %g, root->left* %g, last %g, root->right* %g",
+		     (tree->t_first ? tree->t_first->n_key : 0), first->n_key,
+		     (tree->t_last ? tree->t_last->n_key : 0), last->n_key);
     }
-    else post("empty");
-    post("...verified (black-height is %d)", qtree_verify(tree));
-    post("------------------------");
+    else loudbug_post("empty");
+    loudbug_post("...verified (black-height is %d)", qtree_verify(tree));
+    loudbug_post("------------------------");
 }
 #endif
 
@@ -263,7 +264,7 @@ static t_qnode *qtree_preinserthook(t_qnode *np)
 	if (np->n_right)
 	{
 	    /* LATER revisit */
-	    bug("qtree_preinserthook");
+	    loudbug_bug("qtree_preinserthook");
 	    return (0);  /* do nothing */
 	}
     }
@@ -280,7 +281,7 @@ static t_qnode *qtree_postinserthook(t_qnode *np)
 	if (np->n_left)
 	{
 	    /* LATER revisit */
-	    bug("qtree_postinserthook");
+	    loudbug_bug("qtree_postinserthook");
 	    return (0);  /* do nothing */
 	}
     }
@@ -318,14 +319,14 @@ static t_qnode *qtree_doinsert(t_qtree *tree, double key,
 	    {
 		if (parent->n_left && parent->n_right)
 		{
-		    bug("qtree_insert, callback return 1");
+		    loudbug_bug("qtree_insert, callback return 1");
 		    parent = parent->n_next;
 		}
 		if (leftchild = (key < parent->n_key))
 		{
 		    if (parent->n_left)
 		    {
-			bug("qtree_insert, callback return 2");
+			loudbug_bug("qtree_insert, callback return 2");
 			leftchild = 0;
 		    }
 		}
@@ -685,7 +686,7 @@ t_qnode *qtree_insertfloat(t_qtree *tree, double key, t_float f,
 	    t_atom *ap = &npa->na_value;
 	    SETFLOAT(ap, f);
 	}
-	else bug("qtree_insertfloat");
+	else loudbug_bug("qtree_insertfloat");
     }
     return (np);
 }
@@ -708,7 +709,7 @@ t_qnode *qtree_insertsymbol(t_qtree *tree, double key, t_symbol *s,
 	    t_atom *ap = &npa->na_value;
 	    SETSYMBOL(ap, s);
 	}
-	else bug("qtree_insertsymbol");
+	else loudbug_bug("qtree_insertsymbol");
     }
     return (np);
 }
@@ -725,7 +726,7 @@ t_qnode *qtree_insertatom(t_qtree *tree, double key, t_atom *ap,
 	    t_qnode_atom *npa = (t_qnode_atom *)np;
 	    npa->na_value = *ap;
 	}
-	else bug("qtree_insertatom");
+	else loudbug_bug("qtree_insertatom");
     }
     return (np);
 }
@@ -754,7 +755,7 @@ void qtree_inittyped(t_qtree *tree, t_qtreetype vtype, int freecount)
 	nsize = sizeof(t_qnode_atom);
 	break;
     default:
-	bug("qtree_inittyped");
+	loudbug_bug("qtree_inittyped");
 	vtype = QTREETYPE_ILLEGAL;
 	nsize = sizeof(t_qnode);
     }

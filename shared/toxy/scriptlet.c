@@ -71,7 +71,7 @@ static t_canvas *scriptlet_canvasvalidate(t_scriptlet *sp, int visedonly)
 	    cv = sp->s_cv = sp->s_cvfn(sp->s_owner);
 	else
 	{
-	    bug("scriptlet_canvasvalidate");
+	    loudbug_bug("scriptlet_canvasvalidate");
 	    return (0);
 	}
 	if (cv && (!visedonly || glist_isvisible(cv)))
@@ -429,7 +429,7 @@ void scriptlet_prealloc(t_scriptlet *sp, int sz, int mayshrink)
 	if (sp->s_buffer != sp->s_bufini)
 	    freebytes(sp->s_buffer, sp->s_size * sizeof(*sp->s_buffer));
 	else
-	    bug("scriptlet_prealloc");
+	    loudbug_bug("scriptlet_prealloc");
 	sp->s_size = SCRIPTLET_INISIZE;
 	sp->s_buffer = sp->s_bufini;
     }
@@ -700,7 +700,7 @@ static int verslet_parse(t_verslet *vp, char *buf, int multiline)
 		    {
 			vp->v_package[plen] = 0;
 #ifdef SCRIPTLET_DEBUG
-			fprintf(stderr, "package \"%s\"\n", vp->v_package);
+			loudbug_post("package \"%s\"", vp->v_package);
 #endif
 			while (*ptr == ' ' || *ptr == '\t') ptr++;
 			if (*ptr >= '0' && *ptr <= '9')
@@ -718,8 +718,7 @@ static int verslet_parse(t_verslet *vp, char *buf, int multiline)
 			    {
 				vp->v_version[vlen] = 0;
 #ifdef SCRIPTLET_DEBUG
-				fprintf(stderr, "version \"%s\"\n",
-					vp->v_version);
+				loudbug_post("version \"%s\"", vp->v_version);
 #endif
 				return (1);
 			    }
@@ -921,7 +920,7 @@ int scriptlet_rcload(t_scriptlet *sp, t_pd *caller, char *rc, char *ext,
 		vp = verslet_new(sp->s_owner);
 		if (!verslet_parse(vp, builtin, 1))
 		{
-		    bug("scriptlet_rcload 1");
+		    loudbug_bug("scriptlet_rcload 1");
 		    verslet_free(vp);
 		    vp = 0;
 		}
@@ -934,7 +933,7 @@ int scriptlet_rcload(t_scriptlet *sp, t_pd *caller, char *rc, char *ext,
 	}
 	else
 	{
-	    bug("scriptlet_rcload 2");
+	    loudbug_bug("scriptlet_rcload 2");
 	    result = SCRIPTLET_NOFILE;
 	}
     }

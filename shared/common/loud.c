@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -7,92 +7,14 @@
 #include <string.h>
 #include <errno.h>
 #include "m_pd.h"
-#include "common/loud.h"
+#include "loud.h"
+
+#ifdef MSW
+#define vsnprintf  _vsnprintf
+#endif
 
 /* The 'shared_' calls do not really belong here,
    LATER find them a permanent home. */
-
-/* FIXME compatibility mode should be a standard Pd feature */
-static t_symbol *shared_compatibility = 0;
-static t_class *sharedcompatibility_class = 0;
-static t_pd *sharedcompatibility_target = 0;
-static t_symbol *sharedps_hashcompatibility = 0;
-static t_symbol *sharedps_max = 0;
-
-static void sharedcompatibility_bang(t_pd *x)
-{
-    if (sharedps_hashcompatibility)
-    {
-	if (shared_compatibility && sharedps_hashcompatibility->s_thing)
-	    pd_symbol(sharedps_hashcompatibility->s_thing,
-		      shared_compatibility);
-    }
-    else bug("sharedcompatibility_bang");
-}
-
-static void sharedcompatibility_symbol(t_pd *x, t_symbol *s)
-{
-    shared_compatibility = s;
-}
-
-static void sharedcompatibility_setup(t_symbol *s)
-{
-    if (sharedcompatibility_class || sharedcompatibility_target)
-	bug("sharedcompatibility_setup");
-    sharedps_hashcompatibility = gensym("#compatibility");
-    sharedps_max = gensym("max");
-    sharedcompatibility_class = class_new(sharedps_hashcompatibility,
-					  0, 0, sizeof(t_pd),
-					  CLASS_PD | CLASS_NOINLET, 0);
-    class_addbang(sharedcompatibility_class, sharedcompatibility_bang);
-    class_addsymbol(sharedcompatibility_class, sharedcompatibility_symbol);
-    sharedcompatibility_target = pd_new(sharedcompatibility_class);
-    pd_bind(sharedcompatibility_target, sharedps_hashcompatibility);
-    if (s)
-	pd_symbol(sharedps_hashcompatibility->s_thing, s);
-    else
-	pd_bang(sharedps_hashcompatibility->s_thing);
-}
-
-void shared_usecompatibility(void)
-{
-    if (!sharedcompatibility_class)
-	sharedcompatibility_setup(0);
-}
-
-void shared_setcompatibility(t_symbol *s)
-{
-    post("setting compatibility mode to '%s'", (s ? s->s_name : "none"));
-    if (sharedcompatibility_class)
-    {
-	if (sharedps_hashcompatibility->s_thing)
-	    pd_symbol(sharedps_hashcompatibility->s_thing, s);
-	else
-	    bug("shared_setcompatibility");
-    }
-    else sharedcompatibility_setup(s);
-}
-
-t_symbol *shared_getcompatibility(void)
-{
-    if (!sharedcompatibility_class)
-	sharedcompatibility_setup(0);
-    return (shared_compatibility);
-}
-
-void shared_setmaxcompatibility(void)
-{
-    if (!sharedcompatibility_class)
-	sharedcompatibility_setup(0);
-    shared_setcompatibility(sharedps_max);
-}
-
-int shared_getmaxcompatibility(void)
-{
-    if (!sharedcompatibility_class)
-	sharedcompatibility_setup(0);
-    return (shared_compatibility == sharedps_max);
-}
 
 int shared_matchignorecase(char *test, char *pattern)
 {
@@ -226,25 +148,6 @@ void loud_notimplemented(t_pd *x, char *name)
 	loud_warning(x, 0, "not implemented (yet)");
 }
 
-void loud_incompatible(t_class *c, char *fmt, ...)
-{
-    if (shared_getmaxcompatibility())
-    {
-	char buf[MAXPDSTRING];
-	va_list ap;
-	va_start(ap, fmt);
-	vsprintf(buf, fmt, ap);
-	post("'%s' class incompatibility warning:\n\t%s",
-	     class_getname(c), buf);
-	va_end(ap);
-    }
-}
-
-void loud_incompatible_max(t_class *c, int maxmax, char *what)
-{
-    loud_incompatible(c, "more than %d %s requested", maxmax, what);
-}
-
 int loud_floatarg(t_class *c, int which, int ac, t_atom *av,
 		  t_float *vp, t_float minval, t_float maxval,
 		  int underaction, int overaction, char *what)
@@ -283,8 +186,8 @@ int loud_floatarg(t_class *c, int which, int ac, t_atom *av,
 		if (underaction & LOUD_CLIP)
 		    loud_warning(&c, 0, "%s rounded up to %g", what, minval);
 		else
-		    loud_incompatible(c, "less than %g %s requested",
-				      minval, what);
+		    loud_warning(&c, 0, "less than %g %s requested",
+				 minval, what);
 	    }
 	    break;
 	case LOUD_ARGOVER:
@@ -293,8 +196,8 @@ int loud_floatarg(t_class *c, int which, int ac, t_atom *av,
 		if (overaction & LOUD_CLIP)
 		    loud_warning(&c, 0, "%s truncated to %g", what, maxval);
 		else
-		    loud_incompatible(c, "more than %g %s requested",
-				      maxval, what);
+		    loud_warning(&c, 0, "more than %g %s requested",
+				 maxval, what);
 	    }
 	    break;
 	case LOUD_ARGTYPE:
@@ -435,4 +338,71 @@ t_loudcontext *loudx_newcontext(t_pd *caller, char *callername,
     lc->lc_callername = 0;
     loudx_setcontext(lc, caller, callername, s, ac, av);
     return (lc);
+}
+
+void loudbug_post(char *fmt, ...)
+{
+    char buf[MAXPDSTRING];
+    va_list ap;
+    va_start(ap, fmt);
+    vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
+    va_end(ap);
+    fprintf(stderr, "%s\n", buf);
+}
+
+void loudbug_startpost(char *fmt, ...)
+{
+    char buf[MAXPDSTRING];
+    va_list ap;
+    va_start(ap, fmt);
+    vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
+    va_end(ap);
+    fputs(buf, stderr);
+}
+
+void loudbug_endpost(void)
+{
+    fputs("\n", stderr);
+}
+
+void loudbug_postatom(int ac, t_atom *av)
+{
+    while (ac--)
+    {
+        char buf[MAXPDSTRING];
+        atom_string(av++, buf, MAXPDSTRING);
+	fprintf(stderr, " %s", buf);
+    }
+}
+
+void loudbug_postbinbuf(t_binbuf *bb)
+{
+    int ac = binbuf_getnatom(bb);
+    t_atom *aprev = 0, *ap = binbuf_getvec(bb);
+    while (ac--)
+    {
+        char buf[MAXPDSTRING];
+        atom_string(ap, buf, MAXPDSTRING);
+	if (aprev)
+	{
+	    if (aprev->a_type == A_SEMI)
+		fprintf(stderr, "\n%s", buf);
+	    else
+		fprintf(stderr, " %s", buf);
+	}
+	else fprintf(stderr, "%s", buf);
+	aprev = ap++;
+    }
+    if (aprev) fputs("\n", stderr);
+}
+
+void loudbug_bug(char *fmt, ...)
+{
+    char buf[MAXPDSTRING];
+    va_list ap;
+    va_start(ap, fmt);
+    vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
+    va_end(ap);
+    fprintf(stderr, "miXed consistency check failed: %s\n", buf);
+    bug(buf);
 }

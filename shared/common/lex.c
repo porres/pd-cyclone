@@ -10,7 +10,7 @@
 #else
 #include "m_pd.h"
 #endif
-#include "common/lex.h"
+#include "lex.h"
 
 static int lex_nextbyte(t_lex *lx, unsigned char *buf)
 {

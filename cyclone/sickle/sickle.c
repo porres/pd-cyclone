@@ -1,8 +1,7 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-#include <stdio.h>
 #include "m_pd.h"
 #include "unstable/fragile.h"
 #include "common/loud.h"
@@ -15,6 +14,7 @@ typedef struct _sickle
 {
     t_object       x_ob;
     t_symbol      *x_dir;
+    t_symbol      *x_canvasdir;
     t_hammerfile  *x_filehandle;
 } t_sickle;
 
@@ -29,7 +29,8 @@ static void sickle_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 
 static void sickle_doimport(t_sickle *x, t_symbol *fn, t_symbol *dir)
 {
-    if (!dir || dir == &s_) dir = x->x_dir;
+    if (!dir || dir == &s_)
+	dir = x->x_dir;
     if (fn && fn != &s_)
 	import_max(fn->s_name, (dir && dir != &s_) ? dir->s_name : "");
     else
@@ -47,6 +48,17 @@ static void sickle_import(t_sickle *x, t_symbol *fn)
     sickle_doimport(x, fn, 0);
 }
 
+static void sickle_cd(t_sickle *x, t_symbol *dir)
+{
+    /* LATER hammerfile interface for relative jumps, etc. */
+    x->x_dir = (dir && dir != &s_ ? dir : x->x_canvasdir);
+}
+
+static void sickle_pwd(t_sickle *x)
+{
+    outlet_symbol(((t_object *)x)->ob_outlet, x->x_dir);
+}
+
 static void sickle_bang(t_sickle *x)
 {
     fragile_class_printnames("sickle classes are: ",
@@ -58,11 +70,13 @@ static void sickle_free(t_sickle *x)
     hammerfile_free(x->x_filehandle);
 }
 
-static void *sickle_new(t_symbol *s)
+static void *sickle_new(void)
 {
     t_sickle *x = (t_sickle *)pd_new(sickle_class);
     x->x_filehandle = hammerfile_new((t_pd *)x, 0, sickle_readhook, 0, 0);
-    x->x_dir = (s && s != &s_ ? s : canvas_getdir(x->x_filehandle->f_canvas));
+    x->x_canvasdir = canvas_getdir(x->x_filehandle->f_canvas);
+    x->x_dir = x->x_canvasdir;
+    outlet_new((t_object *)x, &s_symbol);
     return (x);
 }
 
@@ -87,8 +101,12 @@ void sickle_setup(void)
     sickle_class = class_new(gensym("sickle"),
 			     (t_newmethod)sickle_new,
 			     (t_method)sickle_free,
-			     sizeof(t_sickle), 0, A_DEFSYM, 0);
+			     sizeof(t_sickle), 0, 0);
     class_addbang(sickle_class, sickle_bang);
+    class_addmethod(sickle_class, (t_method)sickle_cd,
+		    gensym("cd"), A_DEFSYM, 0);
+    class_addmethod(sickle_class, (t_method)sickle_pwd,
+		    gensym("pwd"), 0);
     class_addmethod(sickle_class, (t_method)sickle_import,
 		    gensym("import"), A_DEFSYM, 0);
     class_addmethod(sickle_class, (t_method)sickle_click,

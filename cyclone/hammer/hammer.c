@@ -1,8 +1,7 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-#include <stdio.h>
 #include "m_pd.h"
 #include "unstable/fragile.h"
 #include "common/loud.h"
@@ -15,6 +14,7 @@ typedef struct _hammer
 {
     t_object       x_ob;
     t_symbol      *x_dir;
+    t_symbol      *x_canvasdir;
     t_hammerfile  *x_filehandle;
 } t_hammer;
 
@@ -29,7 +29,8 @@ static void hammer_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 
 static void hammer_doimport(t_hammer *x, t_symbol *fn, t_symbol *dir)
 {
-    if (!dir || dir == &s_) dir = x->x_dir;
+    if (!dir || dir == &s_)
+	dir = x->x_dir;
     if (fn && fn != &s_)
 	import_max(fn->s_name, (dir && dir != &s_) ? dir->s_name : "");
     else
@@ -47,6 +48,17 @@ static void hammer_import(t_hammer *x, t_symbol *fn)
     hammer_doimport(x, fn, 0);
 }
 
+static void hammer_cd(t_hammer *x, t_symbol *dir)
+{
+    /* LATER hammerfile interface for relative jumps, etc. */
+    x->x_dir = (dir && dir != &s_ ? dir : x->x_canvasdir);
+}
+
+static void hammer_pwd(t_hammer *x)
+{
+    outlet_symbol(((t_object *)x)->ob_outlet, x->x_dir);
+}
+
 static void hammer_bang(t_hammer *x)
 {
     fragile_class_printnames("hammer classes are: ",
@@ -58,11 +70,13 @@ static void hammer_free(t_hammer *x)
     hammerfile_free(x->x_filehandle);
 }
 
-static void *hammer_new(t_symbol *s)
+static void *hammer_new(void)
 {
     t_hammer *x = (t_hammer *)pd_new(hammer_class);
     x->x_filehandle = hammerfile_new((t_pd *)x, 0, hammer_readhook, 0, 0);
-    x->x_dir = (s && s != &s_ ? s : canvas_getdir(x->x_filehandle->f_canvas));
+    x->x_canvasdir = canvas_getdir(x->x_filehandle->f_canvas);
+    x->x_dir = x->x_canvasdir;
+    outlet_new((t_object *)x, &s_symbol);
     return (x);
 }
 
@@ -87,8 +101,12 @@ void hammer_setup(void)
     hammer_class = class_new(gensym("hammer"),
 			     (t_newmethod)hammer_new,
 			     (t_method)hammer_free,
-			     sizeof(t_hammer), 0, A_DEFSYM, 0);
+			     sizeof(t_hammer), 0, 0);
     class_addbang(hammer_class, hammer_bang);
+    class_addmethod(hammer_class, (t_method)hammer_cd,
+		    gensym("cd"), A_DEFSYM, 0);
+    class_addmethod(hammer_class, (t_method)hammer_pwd,
+		    gensym("pwd"), 0);
     class_addmethod(hammer_class, (t_method)hammer_import,
 		    gensym("import"), A_DEFSYM, 0);
     class_addmethod(hammer_class, (t_method)hammer_click,

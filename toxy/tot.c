@@ -108,7 +108,7 @@ static t_symbol *tot_getcvname(t_tot *x)
 	return (x->x_dotname);
     else
     {
-	bug("tot_getcvname");
+	loudbug_bug("tot_getcvname");
 	return (gensym("???"));
     }
 }
@@ -289,8 +289,8 @@ static void tot__vised(t_tot *x, t_symbol *s, t_floatarg f)
     int flag = f != 0.;
 #ifdef TOT_DEBUG
     t_symbol *pn = tot_getpathname(x, 0);
-    post("tot__vised %s %g (pathname %s) ", s->s_name, f,
-	 (pn ? pn->s_name : "unknown"));
+    loudbug_post("tot__vised %s %g (pathname %s) ", s->s_name, f,
+		 (pn ? pn->s_name : "unknown"));
 #endif
     if (!x->x_visedpathname)
     {
@@ -310,13 +310,14 @@ static void tot_debug(t_tot *x)
     t_symbol *pn = tot_getpathname(x, 0);
     int sz;
     char *bp;
-    post("containing glist: %x", x->x_glist);
-    post("destination: %s", tot_getcvname(x)->s_name);
-    post("pathname%s %s", (pn ? ":" : ""), (pn ? pn->s_name : "unknown"));
+    loudbug_post("containing glist: %x", x->x_glist);
+    loudbug_post("destination: %s", tot_getcvname(x)->s_name);
+    loudbug_post("pathname%s %s", (pn ? ":" : ""),
+		 (pn ? pn->s_name : "unknown"));
     bp = scriptlet_getbuffer(x->x_transient, &sz);
-    post("transient buffer (size %d):\n\"%s\"", sz, bp);
+    loudbug_post("transient buffer (size %d):\n\"%s\"", sz, bp);
     bp = scriptlet_getbuffer(x->x_persistent, &sz);
-    post("persistent buffer (size %d):\n\"%s\"", sz, bp);
+    loudbug_post("persistent buffer (size %d):\n\"%s\"", sz, bp);
 }
 #endif
 
@@ -394,7 +395,7 @@ static void tot_attach(t_tot *x)
 		x->x_guidetached = 0;
 	    }
 	}
-	else bug("tot_attach");
+	else loudbug_bug("tot_attach");
     }
 }
 
@@ -461,7 +462,7 @@ static void totspy_anything(t_totspy *ts, t_symbol *s, int ac, t_atom *av)
 	    ts->ts_lastmotion[2] = av[2];
 	    ts->ts_gotmotion = 1;
 	}
-	else bug("totspy_anything");
+	else loudbug_bug("totspy_anything");
     }
     if (ts->ts_on)
     {

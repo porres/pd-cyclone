@@ -1,7 +1,8 @@
-TYPES = HPLAIN HLOUD HFORKY HFRAGILE HGROW HFILE HRAND HRANDFILE HRANDGROW \
-	HRANDGROWFILE HTREE HTREEFILEVEFL HGUI HSEQ \
-	SPLAINNOTILDE SPLAIN SSIC SFORKY SFRAGILE SGROW SGROWFORKY \
-	SVEFL SARSIC SFILE
+TYPES = HPLAIN HLOUD HFITTER HFORKY HFRAGILE HGROW HGROWFITTER \
+	HFILE HRAND HRANDFILE HRANDGROW HRANDGROWFILE \
+	HTREE HTREEFILEVEFL HGUI HSEQ \
+	SPLAINNOTILDE SPLAIN SSIC SFORKY SFRAGILE SGROW SGROWCLC SGROWFORKY \
+	SVEFL SARSIC SARSICFITTER SFILE
 
 HPLAIN_SOURCES = \
 hammer/testmess.c \
@@ -37,21 +38,23 @@ hammer/xnoteout.c
 
 HLOUD_SOURCES = \
 hammer/anal.c \
-hammer/bangbang.c \
 hammer/Borax.c \
-hammer/counter.c \
-hammer/cycle.c \
 hammer/decide.c \
-hammer/Decode.c \
-hammer/gate.c \
 hammer/Histo.c \
-hammer/maximum.c \
-hammer/minimum.c \
 hammer/spell.c \
 hammer/spray.c \
 hammer/sprintf.c \
-hammer/switch.c \
 hammer/TogEdge.c
+
+HFITTER_SOURCES = \
+hammer/bangbang.c \
+hammer/counter.c \
+hammer/cycle.c \
+hammer/Decode.c \
+hammer/gate.c \
+hammer/maximum.c \
+hammer/minimum.c \
+hammer/switch.c
 
 HFORKY_SOURCES = \
 hammer/comment.c
@@ -61,21 +64,23 @@ hammer/grab.c \
 hammer/universal.c
 
 HGROW_SOURCES = \
-hammer/Append.c \
 hammer/bondo.c \
 hammer/buddy.c \
 hammer/Clip.c \
 hammer/funnel.c \
 hammer/iter.c \
 hammer/match.c \
-hammer/past.c \
-hammer/prepend.c \
 hammer/pv.c \
 hammer/speedlim.c \
 hammer/substitute.c \
 hammer/thresh.c \
 hammer/tosymbol.c \
 hammer/zl.c
+
+HGROWFITTER_SOURCES = \
+hammer/Append.c \
+hammer/past.c \
+hammer/prepend.c
 
 HFILE_SOURCES = \
 hammer/capture.c \
@@ -200,7 +205,6 @@ sickle/cycle.c
 
 SARSIC_TILDE = $(TILDE)
 SARSIC_SOURCES = \
-sickle/buffir.c \
 sickle/index.c \
 sickle/lookup.c \
 sickle/peek.c \
@@ -208,6 +212,10 @@ sickle/play.c \
 sickle/poke.c \
 sickle/record.c \
 sickle/wave.c
+
+SARSICFITTER_TILDE = $(TILDE)
+SARSICFITTER_SOURCES = \
+sickle/buffir.c
 
 SFILE_TILDE = $(TILDE)
 SFILE_SOURCES = \

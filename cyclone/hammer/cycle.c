@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -7,6 +7,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
+#include "common/fitter.h"
 
 //#define CYCLE_USEEVENTNO
 
@@ -119,8 +120,7 @@ static void *cycle_new(t_floatarg f1, t_floatarg f2)
         nouts = CYCLE_DEFOUTS;
     if (nouts > CYCLE_C74MAXOUTS)
     {
-	shared_usecompatibility();
-	loud_incompatible_max(cycle_class, CYCLE_C74MAXOUTS, "outlets");
+	fittermax_rangewarning(cycle_class, CYCLE_C74MAXOUTS, "outlets");
 	/* CHECKED: max clips with an error:
 	   ``perhaps you were trying to make an oscillator?'' */
     }
@@ -151,4 +151,5 @@ void cycle_setup(void)
 		    gensym("set"), A_FLOAT, 0);  /* CHECKED: arg required */
     class_addmethod(cycle_class, (t_method)cycle_thresh,
 		    gensym("thresh"), A_FLOAT, 0);
+    fitter_setup(cycle_class, 0, 0);
 }

@@ -60,9 +60,8 @@ t_float *sic_makecostable(int *sizep)
 	if (sz >= *sizep)
 	    break;
 #ifdef SIC_DEBUG
-    fprintf(stderr,
-	    "request for a costable of %d points (effective %d, ndx %d)\n",
-	    *sizep, sz, ndx);
+    loudbug_post("request for a costable of %d points (effective %d, ndx %d)",
+		 *sizep, sz, ndx);
 #endif
     *sizep = sz;
     if (sic_costables[ndx])
@@ -77,7 +76,7 @@ t_float *sic_makecostable(int *sizep)
 	if (table)
 	{
 #ifdef SIC_DEBUG
-	    fprintf(stderr, "got %d points of a costable\n", cnt);
+	    loudbug_post("got %d points of a costable", cnt);
 #endif
 	    while (cnt--)
 	    {
@@ -105,7 +104,7 @@ void sic_setup(t_class *c, void *dspfn, void *floatfn)
 	t_shared_wrappy wrappy;
 	wrappy.w_d = SHARED_UNITBIT32 + 0.5;
 	if ((unsigned)wrappy.w_i[SHARED_LOWOFFSET] != 0x80000000)
-	    bug("sic_setup: unexpected machine alignment");
+	    loudbug_bug("sic_setup: unexpected machine alignment");
 	checked = 1;
     }
     if (floatfn != SIC_NOMAINSIGNALIN)

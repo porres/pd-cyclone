@@ -143,25 +143,6 @@ static int collelem_less(t_collelem *ep1, t_collelem *ep2, int ndx)
     }
 }
 
-static void collelem_post(t_collelem *ep)
-{
-    if (ep->e_hasnumkey && ep->e_symkey)
-	startpost("%d %s:", ep->e_numkey, ep->e_symkey->s_name);
-    else if (ep->e_hasnumkey)
-	startpost("%d:", ep->e_numkey);
-    else if (ep->e_symkey)
-	startpost("%s:", ep->e_symkey->s_name);
-    else bug("collcommon_post");
-    postatom(ep->e_size, ep->e_data);
-    endpost();
-}
-
-static void collcommon_post(t_collcommon *cc)
-{
-    t_collelem *ep;
-    for (ep = cc->c_first; ep; ep = ep->e_next) collelem_post(ep);
-}
-
 static t_collelem *collcommon_numkey(t_collcommon *cc, int numkey)
 {
     t_collelem *ep;
@@ -294,7 +275,7 @@ static void collcommon_putbefore(t_collcommon *cc,
 	next->e_prev = ep;
     }
     else if (cc->c_first || cc->c_last)
-	bug("collcommon_putbefore");
+	loudbug_bug("collcommon_putbefore");
     else
 	cc->c_first = cc->c_last = ep;
     collcommon_modified(cc, 1);
@@ -313,7 +294,7 @@ static void collcommon_putafter(t_collcommon *cc,
 	prev->e_next = ep;
     }
     else if (cc->c_first || cc->c_last)
-	bug("collcommon_putafter");
+	loudbug_bug("collcommon_putafter");
     else
 	cc->c_first = cc->c_last = ep;
     collcommon_modified(cc, 1);
@@ -363,7 +344,7 @@ static void collcommon_swaplinks(t_collcommon *cc,
 	    collcommon_putafter(cc, ep1, prev2);
 	    collcommon_putbefore(cc, ep2, next1);
 	}
-	else bug("collcommon_swaplinks");
+	else loudbug_bug("collcommon_swaplinks");
     }
 }
 
@@ -780,7 +761,7 @@ static t_collcommon *coll_checkcommon(t_coll *x)
 	x->x_common != (t_collcommon *)pd_findbyclass(x->x_name,
 						      collcommon_class))
     {
-	bug("coll_checkcommon");
+	loudbug_bug("coll_checkcommon");
 	return (0);
     }
     return (x->x_common);
@@ -1237,7 +1218,7 @@ static void coll_next(t_coll *x)
     if (cc->c_head)
 	coll_dooutput(x, cc->c_head->e_size, cc->c_head->e_data);
     else if (!cc->c_selfmodified)
-	bug("coll_next");  /* LATER rethink */
+	loudbug_bug("coll_next");  /* LATER rethink */
 }
 
 static void coll_prev(t_coll *x)
@@ -1257,7 +1238,7 @@ static void coll_prev(t_coll *x)
     if (cc->c_head)
 	coll_dooutput(x, cc->c_head->e_size, cc->c_head->e_data);
     else if (!cc->c_selfmodified)
-	bug("coll_prev");  /* LATER rethink */
+	loudbug_bug("coll_prev");  /* LATER rethink */
 }
 
 static void coll_end(t_coll *x)
@@ -1488,6 +1469,25 @@ static void coll_click(t_coll *x, t_floatarg xpos, t_floatarg ypos,
 }
 
 #ifdef COLL_DEBUG
+static void collelem_post(t_collelem *ep)
+{
+    if (ep->e_hasnumkey && ep->e_symkey)
+	loudbug_startpost("%d %s:", ep->e_numkey, ep->e_symkey->s_name);
+    else if (ep->e_hasnumkey)
+	loudbug_startpost("%d:", ep->e_numkey);
+    else if (ep->e_symkey)
+	loudbug_startpost("%s:", ep->e_symkey->s_name);
+    else loudbug_bug("collcommon_post");
+    loudbug_postatom(ep->e_size, ep->e_data);
+    loudbug_endpost();
+}
+
+static void collcommon_post(t_collcommon *cc)
+{
+    t_collelem *ep;
+    for (ep = cc->c_first; ep; ep = ep->e_next) collelem_post(ep);
+}
+
 static void coll_debug(t_coll *x, t_floatarg f)
 {
     t_collcommon *cc = coll_checkcommon(x);
@@ -1497,9 +1497,9 @@ static void coll_debug(t_coll *x, t_floatarg f)
 	t_collelem *ep, *last;
 	int i = 0;
 	while (x1) i++, x1 = x1->x_next;
-	post("refcount %d", i);
+	loudbug_post("refcount %d", i);
 	for (ep = cc->c_first, last = 0; ep; ep = ep->e_next) last = ep;
-	if (last != cc->c_last) bug("coll_debug: last element");
+	if (last != cc->c_last) loudbug_bug("coll_debug: last element");
 	collcommon_post(cc);
     }
 }

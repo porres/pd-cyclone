@@ -1,9 +1,10 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
 #include "common/loud.h"
+#include "common/fitter.h"
 
 #define SWITCH_MININLETS       2  /* LATER consider using 1 (with a warning) */
 #define SWITCH_C74MAXINLETS  100
@@ -103,10 +104,7 @@ static void *switch_new(t_floatarg f1, t_floatarg f2)
     if (nproxies < SWITCH_MININLETS)
 	nproxies = SWITCH_DEFINLETS;
     if (nproxies > SWITCH_C74MAXINLETS)
-    {
-	shared_usecompatibility();
-	loud_incompatible_max(switch_class, SWITCH_C74MAXINLETS, "inlets");
-    }
+	fittermax_rangewarning(switch_class, SWITCH_C74MAXINLETS, "inlets");
     if (!(proxies = (t_pd **)getbytes(nproxies * sizeof(*proxies))))
 	return (0);
     for (ninlets = 0; ninlets < nproxies; ninlets++)
@@ -152,4 +150,5 @@ void switch_setup(void)
     class_addpointer(switch_proxy_class, switch_proxy_pointer);
     class_addlist(switch_proxy_class, switch_proxy_list);
     class_addanything(switch_proxy_class, switch_proxy_anything);
+    fitter_setup(switch_class, 0, 0);
 }

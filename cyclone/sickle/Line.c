@@ -53,10 +53,10 @@ static void line_tick(t_line *x)
 {
     outlet_bang(x->x_bangout);
 #ifdef LINE_DEBUG
-    post("exit point %d, after %d retarget calls",
-	 x->dbg_exitpoint, x->dbg_nretargets);
-    post("at value %g, after last %d npoints, with inc %g, biginc %g",
-	 x->x_value, x->dbg_npoints, x->x_inc, x->x_biginc);
+    loudbug_post("exit point %d, after %d retarget calls",
+		 x->dbg_exitpoint, x->dbg_nretargets);
+    loudbug_post("at value %g, after last %d npoints, with inc %g, biginc %g",
+		 x->x_value, x->dbg_npoints, x->x_inc, x->x_biginc);
     x->dbg_nretargets = x->dbg_exitpoint = x->dbg_npoints = 0;
 #endif
 }
@@ -221,7 +221,7 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     }
     x->x_nsegs = nsegs;
 #ifdef LINE_DEBUG
-    post("%d segments:", x->x_nsegs);
+    loudbug_post("%d segments:", x->x_nsegs);
 #endif
     segp = x->x_segs;
     if (odd) nsegs--;
@@ -230,7 +230,7 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
 	segp->s_target = av++->a_w.w_float;
 	segp->s_delta = av++->a_w.w_float;
 #ifdef LINE_DEBUG
-	post("%g %g", segp->s_target, segp->s_delta);
+	loudbug_post("%g %g", segp->s_target, segp->s_delta);
 #endif
 	segp++;
     }
@@ -239,7 +239,7 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
 	segp->s_target = av->a_w.w_float;
 	segp->s_delta = 0;
 #ifdef LINE_DEBUG
-	post("%g %g", segp->s_target, segp->s_delta);
+	loudbug_post("%g %g", segp->s_target, segp->s_delta);
 #endif
     }
     x->x_deltaset = 0;

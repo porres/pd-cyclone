@@ -358,7 +358,7 @@ static t_tablecommon *table_checkcommon(t_table *x)
 	x->x_common != (t_tablecommon *)pd_findbyclass(x->x_name,
 						       tablecommon_class))
     {
-	bug("table_checkcommon");
+	loudbug_bug("table_checkcommon");
 	return (0);
     }
     return (x->x_common);
@@ -796,7 +796,7 @@ static void table_debug(t_table *x, t_floatarg f)
 	t_table *x1 = cc->c_refs;
 	int i = 0;
 	while (x1) i++, x1 = x1->x_next;
-	post("refcount %d", i);
+	loudbug_post("refcount %d", i);
     }
 }
 #endif

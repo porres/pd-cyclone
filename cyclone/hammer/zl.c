@@ -13,7 +13,7 @@
 /* LATER test reentrancy, tune speedwise */
 
 #ifdef KRZYSZCZ
-#define ZL_DEBUG
+//#define ZL_DEBUG
 #endif
 
 #define ZL_INISIZE     32  /* LATER rethink */
@@ -820,6 +820,8 @@ static void zl_mode(t_zl *x, t_symbol *s, int ac, t_atom *av)
 	if (i && i < zl_nmodes)
 	{
 	    x->x_mode = i;
+	    /* CHECKED incompatible (LATER warn):
+	       c74 rejects creation args, if not a single int */
 	    zl_setmodearg(x, 0, ac - 1, av + 1);
 	}
     }
@@ -882,19 +884,19 @@ static void zlproxy_anything(t_zlproxy *p, t_symbol *s, int ac, t_atom *av)
 #ifdef ZL_DEBUG
 static void zl_debug(t_zl *x, t_floatarg f)
 {
-    startpost("mode %s", zl_modesym[x->x_mode]->s_name);
+    loudbug_startpost("mode %s", zl_modesym[x->x_mode]->s_name);
     if (zl_intargfn[x->x_mode])
-	post(" %d", x->x_modearg);
+	loudbug_post(" %d", x->x_modearg);
     else
-	endpost();
+	loudbug_endpost();
     if ((int)f)
     {
-	startpost("first:");
-	postatom(x->x_inbuf1.d_natoms, x->x_inbuf1.d_buf);
-	endpost();
-	startpost("second:");
-	postatom(x->x_inbuf2.d_natoms, x->x_inbuf2.d_buf);
-	endpost();
+	loudbug_startpost("first:");
+	loudbug_postatom(x->x_inbuf1.d_natoms, x->x_inbuf1.d_buf);
+	loudbug_endpost();
+	loudbug_startpost("second:");
+	loudbug_postatom(x->x_inbuf2.d_natoms, x->x_inbuf2.d_buf);
+	loudbug_endpost();
     }
 }
 #endif
@@ -940,7 +942,7 @@ static void zl_setupmode(char *id, int flags,
 	zl_doitfn[zl_nmodes] = dfn;
 	zl_nmodes++;
     }
-    else bug("zl_setupmode");
+    else loudbug_bug("zl_setupmode");
 }
 
 static void zl_setupallmodes(void)

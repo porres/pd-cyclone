@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -7,6 +7,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
+#include "common/fitter.h"
 
 #define DECODE_C74MAXOUTS  8  /* CHECKED (does it make any sense?) */
 #define DECODE_DEFOUTS     1
@@ -78,8 +79,7 @@ static void *Decode_new(t_floatarg val)
 	nouts = DECODE_DEFOUTS;
     if (nouts > DECODE_C74MAXOUTS)
     {
-	shared_usecompatibility();
-	loud_incompatible_max(Decode_class, DECODE_C74MAXOUTS, "outlets");
+	fittermax_rangewarning(Decode_class, DECODE_C74MAXOUTS, "outlets");
 	if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
 	    return (0);
     }
@@ -108,4 +108,5 @@ void Decode_setup(void)
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(Decode_class, (t_method)Decode_alloff,
 		    gensym("ft2"), A_FLOAT, 0); 
+    fitter_setup(Decode_class, 0, 0);
 }

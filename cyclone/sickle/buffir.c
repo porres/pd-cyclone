@@ -1,10 +1,11 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include <string.h>
 #include "m_pd.h"
 #include "common/loud.h"
+#include "common/fitter.h"
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
 
@@ -38,14 +39,11 @@ static void buffir_setrange(t_buffir *x, t_floatarg f1, t_floatarg f2)
     {
 	int newsize, pos = x->x_lohead - x->x_histlo;
 	int oldbytes = x->x_histsize * sizeof(*x->x_histlo);
-	if (shared_getmaxcompatibility())
+	static int warned = 0;
+	if (fittermax_get() && !warned)
 	{
-	    static int warned = 0;
-	    if (!warned)
-	    {
-		loud_incompatible(buffir_class, "stretching history buffer");
-		warned = 1;
-	    }
+	    fittermax_warning(buffir_class, "stretching history buffer");
+	    warned = 1;
 	}
 	newsize = x->x_histsize * 2;
 	while (newsize < siz) newsize *= 2;
@@ -197,7 +195,6 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 	x->x_histlo = x->x_histini;
 	buffir_clear(x);
 	buffir_setrange(x, f1, f2);
-	shared_usecompatibility();
     }
     return (x);
 }
@@ -214,4 +211,5 @@ void buffir_tilde_setup(void)
 		    gensym("clear"), 0);
     class_addmethod(buffir_class, (t_method)buffir_set,
 		    gensym("set"), A_SYMBOL, A_DEFFLOAT, A_DEFFLOAT, 0);
+    fitter_setup(buffir_class, 0, 0);
 }

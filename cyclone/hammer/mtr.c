@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -10,6 +10,7 @@
 #include "m_pd.h"
 #include "shared.h"
 #include "common/loud.h"
+#include "common/fitter.h"
 #include "hammer/file.h"
 
 #ifdef KRZYSZCZ
@@ -181,7 +182,7 @@ static void mtrack_setmode(t_mtrack *tp, int newmode)
 	mtrack_donext(tp);
 	break;
     default:
-	bug("mtrack_setmode");
+	loudbug_bug("mtrack_setmode");
     }
 }
 
@@ -286,7 +287,7 @@ static t_atom *mtrack_getdelay(t_mtrack *tp)
 		return (ap);
 	    ap++;
 	}
-	bug("mtrack_getdelay");
+	loudbug_bug("mtrack_getdelay");
     }
     return (0);
 }
@@ -338,14 +339,11 @@ static void mtrack_write(t_mtrack *tp, t_symbol *s)
 static void mtrack_tempo(t_mtrack *tp, t_floatarg f)
 {
     float newtempo;
-    if (shared_getmaxcompatibility())
+    static int warned = 0;
+    if (fittermax_get() && !warned)
     {
-	static int warned = 0;
-	if (!warned)
-	{
-	    loud_incompatible(mtr_class, "no 'tempo' control in Max");
-	    warned = 1;
-	}
+	fittermax_warning(mtr_class, "no 'tempo' control in Max");
+	warned = 1;
     }
     if (f < 1e-20)
 	f = 1e-20;
@@ -703,8 +701,8 @@ static void mtr_debug(t_mtr *x)
     t_mtrack **tpp = x->x_tracks;
     while (ntracks--)
     {
-	post("------- Track %d -------", (*tpp)->tr_id);
-	binbuf_print((*tpp++)->tr_binbuf);
+	loudbug_post("------- Track %d -------", (*tpp)->tr_id);
+	loudbug_postbinbuf((*tpp++)->tr_binbuf);
     }
 }
 #endif
@@ -762,9 +760,8 @@ static void *mtr_new(t_floatarg f)
 	    x->x_glist = canvas_getcurrent();
 	    x->x_filehandle = hammerfile_new((t_pd *)x, 0,
 					     mtr_readhook, mtr_writehook, 0);
-	    shared_usecompatibility();
 	    if (ntracks > MTR_C74MAXTRACKS)
-		loud_incompatible_max(mtr_class, MTR_C74MAXTRACKS, "tracks");
+		fittermax_rangewarning(mtr_class, MTR_C74MAXTRACKS, "tracks");
 	    x->x_ntracks = ntracks;
 	    x->x_tracks = tracks;
 	    for (id = 1; id <= ntracks; id++, tracks++)  /* CHECKED 1-based */
@@ -863,4 +860,5 @@ void mtr_setup(void)
 		    gensym("debug"), 0);
 #endif
     hammerfile_setup(mtr_class, 0);
+    fitter_setup(mtr_class, 0, 0);
 }

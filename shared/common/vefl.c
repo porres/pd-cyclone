@@ -17,7 +17,7 @@
 #include "shared.h"
 #include "unstable/fragile.h"
 #include "common/loud.h"
-#include "common/vefl.h"
+#include "vefl.h"
 
 #ifdef KRZYSZCZ
 //#define VEFL_DEBUG
@@ -69,7 +69,7 @@ t_vefl *vefl_placement_new(t_vefl *vp, t_symbol *name,
 {
     if (sizeof(t_word) != sizeof(t_float))
     {
-	bug("vefl_new: sizeof(t_word) != sizeof(t_float)");
+	loudbug_bug("vefl_new: sizeof(t_word) != sizeof(t_float)");
 	return (0);
     }
     if (!vp)

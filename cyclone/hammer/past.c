@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -12,6 +12,7 @@
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
+#include "common/fitter.h"
 
 #define PAST_C74MAXSIZE  8  /* CHECKED */
 
@@ -112,8 +113,7 @@ static void past_set(t_past *x, t_symbol *s, int ac, t_atom *av)
 	t_atom *vp = x->x_thresh;
 	if (ac > x->x_size)
 	{
-	    shared_usecompatibility();
-	    loud_incompatible_max(past_class, PAST_C74MAXSIZE, "guard points");
+	    fittermax_rangewarning(past_class, PAST_C74MAXSIZE, "guard points");
 	    x->x_thresh = grow_nodata(&ac, &x->x_size, x->x_thresh,
 				      PAST_C74MAXSIZE, x->x_thrini,
 				      sizeof(*x->x_thresh));
@@ -152,4 +152,5 @@ void past_setup(void)
     class_addlist(past_class, past_list);
     class_addmethod(past_class, (t_method)past_clear, gensym("clear"), 0);
     class_addmethod(past_class, (t_method)past_set, gensym("set"), A_GIMME, 0);
+    fitter_setup(past_class, 0, 0);
 }

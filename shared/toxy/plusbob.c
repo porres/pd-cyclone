@@ -88,12 +88,12 @@ static void plusbob_doattach(t_plusbob *bob, t_plusbob *parent)
 	if (bob->bob_next = parent->bob_children)
 	{
 	    if (parent->bob_children->bob_prev)
-		bug("plusbob_doattach 1");
+		loudbug_bug("plusbob_doattach 1");
 	    parent->bob_children->bob_prev = bob;
 	}
 	parent->bob_children = bob;
     }
-    else bug("plusbob_doattach 2");
+    else loudbug_bug("plusbob_doattach 2");
 }
 
 static void plusbob_dodetach(t_plusbob *bob)
@@ -103,7 +103,7 @@ static void plusbob_dodetach(t_plusbob *bob)
 	if (bob->bob_prev)
 	{
 	    if (bob == bob->bob_parent->bob_children)
-		bug("plusbob_dodetach 1");
+		loudbug_bug("plusbob_dodetach 1");
 	    bob->bob_prev->bob_next = bob->bob_next;
 	}
 	if (bob->bob_next)
@@ -111,7 +111,7 @@ static void plusbob_dodetach(t_plusbob *bob)
 	if (bob == bob->bob_parent->bob_children)
 	    bob->bob_parent->bob_children = bob->bob_next;
     }
-    else bug("plusbob_dodetach 2");
+    else loudbug_bug("plusbob_dodetach 2");
 }
 
 /* To be called from derived constructors.
@@ -179,7 +179,7 @@ void plusbob_release(t_plusbob *bob)
 	    if (bob->bob_refcount == 0)
 		plusbob_free(bob);
 	    else
-		bug("plusbob_release");
+		loudbug_bug("plusbob_release");
 	}
     }
 }
@@ -203,9 +203,9 @@ void plusbob_attach(t_plusbob *bob, t_plusbob *newparent)
 	    if (tp->tp_attachfn) (*tp->tp_attachfn)(bob);
     }
     else if (newparent)
-	bug("plusbob_attach 1");
+	loudbug_bug("plusbob_attach 1");
     else
-	bug("plusbob_attach 2");
+	loudbug_bug("plusbob_attach 2");
 }
 
 t_plusbob *plusbob_getnext(t_plusbob *bob)
@@ -272,7 +272,7 @@ int plustag_validtype(t_symbol *tag, t_symbol *tname, t_pd *caller)
 	}
     }
     else if (plustag_isvalid(tag, caller))  /* print the error there */
-	bug("plustag_validtype");
+	loudbug_bug("plustag_validtype");
     return (0);
 }
 
@@ -294,7 +294,7 @@ int plustag_validroot(t_symbol *tag, t_symbol *rname, t_pd *caller)
 	}
     }
     else if (plustag_isvalid(tag, caller))  /* print the error there */
-	bug("plustag_validroot");
+	loudbug_bug("plustag_validroot");
     return (0);
 }
 
@@ -303,7 +303,7 @@ t_symbol *plustag_typename(t_symbol *tag, int validate, t_pd *caller)
     if (!validate || tag->s_name == plustag_name)
 	return (((t_plusbob *)tag)->bob_type->tp_name);
     else if (plustag_isvalid(tag, caller))  /* print the error there */
-	bug("plustag_typename");
+	loudbug_bug("plustag_typename");
     return (0);
 }
 
@@ -312,7 +312,7 @@ t_symbol *plustag_rootname(t_symbol *tag, int validate, t_pd *caller)
     if (!validate || tag->s_name == plustag_name)
 	return (((t_plusbob *)tag)->bob_root->tp_name);
     else if (plustag_isvalid(tag, caller))  /* print the error there */
-	bug("plustag_rootname");
+	loudbug_bug("plustag_rootname");
     return (0);
 }
 

@@ -97,6 +97,7 @@ HAMMER_OBJECTS = $(ALL_HAMMERS) \
 	$(SRCDIR)\hammer\allhammers.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\fitter.obj \
 	$(SHAREDDIR)\common\rand.obj \
 	$(SHAREDDIR)\common\vefl.obj \
 	$(SHAREDDIR)\common\mifi.obj \
@@ -193,6 +194,7 @@ SICKLE_OBJECTS = $(ALL_SICKLES) \
 	$(SRCDIR)\sickle\allsickles.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\fitter.obj \
 	$(SHAREDDIR)\common\vefl.obj \
 	$(SHAREDDIR)\common\clc.obj \
 	$(SHAREDDIR)\common\lex.obj \
@@ -219,4 +221,13 @@ DUMMIES_OBJECTS = \
 MAXMODE_OBJECTS = \
 	$(SRCDIR)\shadow\maxmode.obj \
 	$(SHAREDDIR)\common\loud.obj \
+	$(SHAREDDIR)\common\grow.obj \
+	$(SHAREDDIR)\common\fitter.obj \
+	$(SHAREDDIR)\common\lex.obj \
+	$(SHAREDDIR)\common\binport.obj \
+	$(SHAREDDIR)\common\port.obj \
+	$(SHAREDDIR)\hammer\file.obj \
+	$(SHAREDDIR)\unstable\forky.obj \
+	$(SHAREDDIR)\unstable\fragile.obj \
+	$(SHAREDDIR)\unstable\fringe.obj \
 	$(SHAREDDIR)\unstable\loader.obj

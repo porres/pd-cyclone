@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -9,8 +9,9 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
-#include "common/rand.h"
 #include "common/grow.h"
+#include "common/fitter.h"
+#include "common/rand.h"
 
 #define URN_INISIZE      128  /* LATER rethink */
 #define URN_C74MAXSIZE  4096  /* CHECKED */
@@ -56,7 +57,7 @@ static int urn_resize(t_urn *x, t_float f, int init)
 	range = URN_MAXSIZE;
     }
     if (range > maxmax)
-	loud_incompatible_max(urn_class, maxmax, "elements");
+	fittermax_rangewarning(urn_class, maxmax, "elements");
     x->x_range = range;
     if (range > x->x_size)
 	x->x_urn = grow_nodata(&x->x_range, &x->x_size, x->x_urn,
@@ -122,7 +123,6 @@ static void *urn_new(t_floatarg f1, t_floatarg f2)
     x->x_urn = x->x_urnini;
     urn_resize(x, f1, 1);
     urn_seed(x, f2);  /* CHECKME */
-    shared_usecompatibility();
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
@@ -146,4 +146,5 @@ void urn_setup(void)
 		    gensym("seed"), A_FLOAT, 0);  /* CHECKED arg obligatory */
     class_addmethod(urn_class, (t_method)urn_clear,
 		    gensym("clear"), 0);
+    fitter_setup(urn_class, 0, 0);
 }

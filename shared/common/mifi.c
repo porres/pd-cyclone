@@ -1,4 +1,4 @@
-/* Copyright (c) 2004 krzYszcz and others.
+/* Copyright (c) 2004-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -70,7 +70,10 @@ typedef unsigned char uchar;
 #endif
 
 #ifdef KRZYSZCZ
-#define MIFI_DEBUG
+# include "loud.h"
+# define MIFI_DEBUG
+#else
+# define loudbug_bug(msg)  fprintf(stderr, "BUG: %s\n", msg), bug(msg)
 #endif
 #define MIFI_VERBOSE
 
@@ -89,8 +92,9 @@ typedef unsigned char uchar;
 #define MIFIUSER_DEFWHOLETICKS  ((double)241920)  /* whole note, 256*27*5*7 */
 #define MIFIUSER_DEFTEMPO       ((double)120960)  /* 120 bpm in ticks/sec */
 
-#define MIFIEVENT_NALLOC  256  /* LATER do some research (average max?) */
-#define MIFIEVENT_INISIZE   2  /* always be able to handle channel events */
+#define MIFIEVENT_NALLOC    256  /* LATER do some research (average max?) */
+#define MIFIEVENT_INISIZE     2  /* always be able to handle channel events */
+#define MIFIEVENT_MAXSYSEX  256  /* FIXME */
 
 typedef struct _mifievent
 {
@@ -294,7 +298,7 @@ static int mifievent_settext(t_mifievent *ep, unsigned type, char *text)
 {
     if (type > 127)
     {
-	bug("mifievent_settext");
+	loudbug_bug("mifievent_settext");
 	return (0);
     }
     if (mifievent_setlength(ep, strlen(text) + 1))
@@ -312,14 +316,17 @@ static int mifievent_settext(t_mifievent *ep, unsigned type, char *text)
 }
 
 #ifdef MIFI_DEBUG
+static void mifi_printsysex(int length, uchar *buf)
+{
+    loudbug_startpost("sysex:");
+    while (length--)
+	loudbug_startpost(" %d", (int)*buf++);
+    loudbug_endpost();
+}
+
 static void mifievent_printsysex(t_mifievent *ep)
 {
-    int length = ep->e_length;
-    uchar *dp = ep->e_data;
-    startpost("sysex:");
-    while (length--)
-	postfloat((float)*dp++);
-    endpost();
+    mifi_printsysex(ep->e_length, ep->e_data);
 }
 #endif
 
@@ -349,12 +356,12 @@ static void mifievent_printmeta(t_mifievent *ep)
     else if (ep->e_meta == MIFIMETA_TEMPO)
     {
 	int tempo = mifi_swap4(*(uint32 *)ep->e_data);
-	post("tempo (hard) %d after %d", tempo, ep->e_delay);
+	loudbug_post("tempo (hard) %d after %d", tempo, ep->e_delay);
     }
     else if (ep->e_meta == MIFIMETA_TIMESIG)
     {
-	post("meter %d/%d after %d",
-	     ep->e_data[0], (1 << ep->e_data[1]), ep->e_delay);
+	loudbug_post("meter %d/%d after %d",
+		     ep->e_data[0], (1 << ep->e_data[1]), ep->e_delay);
     }
 #endif
 }
@@ -470,7 +477,7 @@ static void mifiread_updateticks(t_mifiread *mr)
 	    ((double)mr->mr_tempo);
 	if (mr->mr_ticks.rt_tempo < MIFI_TICKEPSILON)
 	{
-	    bug("mifiread_updateticks");
+	    loudbug_bug("mifiread_updateticks");
 	    mr->mr_ticks.rt_tempo = mr->mr_ticks.rt_deftempo;
 	}
     }
@@ -655,9 +662,21 @@ nextattempt:
     else if (status == MIFISYSEX_FIRST || status == MIFISYSEX_NEXT)
     {
 	length = mifiread_getvarlen(mr);
-	/* FIXME optional read */
-	if (mifiread_skipbytes(mr, length) < 0)
-	    return (MIFIREAD_FATAL);
+	if (length > MIFIEVENT_MAXSYSEX)  /* FIXME optional read */
+	{
+	    if (mifiread_skipbytes(mr, length) < 0)
+		return (MIFIREAD_FATAL);
+	}
+	else
+	{
+	    uchar *tempbuf = getbytes(length);
+	    if (mifiread_getbytes(mr, tempbuf, length) != length)
+		return (MIFIREAD_FATAL);
+#ifdef MIFI_DEBUG
+	    mifi_printsysex(length, tempbuf);
+#endif
+	    freebytes(tempbuf, length);
+	}
 	goto nextattempt;
     }
 
@@ -724,7 +743,7 @@ nextattempt:
 	    mifiread_updateticks(mr);
 #ifdef MIFI_DEBUG
 	    if (mr->mr_pass == 1)
-		post("barspan (hard) %g", mr->mr_ticks.rt_hardbar);
+		loudbug_post("barspan (hard) %g", mr->mr_ticks.rt_hardbar);
 #endif
 	    break;
 	default:
@@ -811,12 +830,13 @@ static int mifiread_doopen(t_mifiread *mr, const char *filename,
     mifiread_updateticks(mr);
 #ifdef MIFI_DEBUG
     if (mr->mr_nframes)
-	post("midi file (format %d): %d tracks, %d ticks (%d smpte frames)",
-	     mr->mr_format, mr->mr_hdtracks,
-	     mr->mr_ticks.rt_beatticks, mr->mr_nframes);
+	loudbug_post(
+	    "midi file (format %d): %d tracks, %d ticks (%d smpte frames)",
+	    mr->mr_format, mr->mr_hdtracks,
+	    mr->mr_ticks.rt_beatticks, mr->mr_nframes);
     else
-	post("midi file (format %d): %d tracks, %d ticks per beat",
-	     mr->mr_format, mr->mr_hdtracks, mr->mr_ticks.rt_beatticks);
+	loudbug_post("midi file (format %d): %d tracks, %d ticks per beat",
+		     mr->mr_format, mr->mr_hdtracks, mr->mr_ticks.rt_beatticks);
 #endif
     return (1);
 badheader:
@@ -850,8 +870,8 @@ static int mifiread_analyse(t_mifiread *mr, int complain)
 	    continue;
 	if (mr->mr_newtrack)
 	{
-#ifdef MIFI_VERBOSE
-	    post("track %d", mr->mr_ntracks);
+#ifdef MIFI_DEBUG
+	    loudbug_post("track %d", mr->mr_ntracks);
 #endif
 	    isnewtrack = 1;
 	    *tnamebuf = '\0';
@@ -876,13 +896,14 @@ static int mifiread_analyse(t_mifiread *mr, int complain)
 		{
 		    *tnamep = gensym(tnamebuf);
 #ifdef MIFI_DEBUG
-		    post("nonempty track name %s", (*tnamep)->s_name);
+		    loudbug_post("nonempty track name %s", (*tnamep)->s_name);
 #endif
 		}
 		else *tnamep = &s_;
 	    }
 	    mr->mr_nevents++;
 	}
+	/* FIXME sysex */
 	else if (evtype < 0x80)
 	{
 	    mifievent_printmeta(ep);
@@ -926,6 +947,9 @@ static int mifiread_analyse(t_mifiread *mr, int complain)
 		*tnamep = gensym(tnamebuf);
 	    }
 	}
+#ifdef MIFI_VERBOSE
+	post("got %d midi tracks (out of %d)", mr->mr_ntracks, mr->mr_hdtracks);
+#endif
 	return (MIFIREAD_EOF);
     }
     else return (evtype);
@@ -951,13 +975,13 @@ int mifiread_doit(t_mifiread *mr, t_mifireadhook hook, void *hookdata)
 	    mr->mr_trackndx = ntracks++;
 	    if (ntracks > mr->mr_ntracks)
 	    {
-		bug("mifiread_doit: too many tracks");
+		loudbug_bug("mifiread_doit: too many tracks");
 		goto doitfail;
 	    }
 	    if (!mr->mr_tracknames[mr->mr_trackndx] ||
 		mr->mr_tracknames[mr->mr_trackndx] == &s_)
 	    {
-		bug("mifiread_doit: empty track name");
+		loudbug_bug("mifiread_doit: empty track name");
 		mr->mr_tracknames[mr->mr_trackndx] = gensym("bug-track");
 	    }
 	}
@@ -968,7 +992,8 @@ int mifiread_doit(t_mifiread *mr, t_mifireadhook hook, void *hookdata)
     {
 #ifdef MIFI_DEBUG
 	if (evtype == MIFIREAD_EOF)
-	    post("finished reading %d events from midi file", mr->mr_nevents);
+	    loudbug_post("finished reading %d events from midi file",
+			 mr->mr_nevents);
 #endif
 	return (MIFIREAD_EOF);
     }
@@ -1054,7 +1079,7 @@ t_symbol *mifiread_gettrackname(t_mifiread *mr)
 	return (mr->mr_tracknames[mr->mr_trackndx]);
     else
     {
-	bug("mifiread_gettrackname");
+	loudbug_bug("mifiread_gettrackname");
 	return (0);
     }
 }
@@ -1062,30 +1087,30 @@ t_symbol *mifiread_gettrackname(t_mifiread *mr)
 unsigned mifiread_getstatus(t_mifiread *mr)
 {
     if (mr->mr_pass != 2)
-	bug("mifiread_getstatus");
+	loudbug_bug("mifiread_getstatus");
     return (mr->mr_event.e_status);
 }
 
 unsigned mifiread_getdata1(t_mifiread *mr)
 {
     if (mr->mr_pass != 2)
-	bug("mifiread_getdata1");
+	loudbug_bug("mifiread_getdata1");
     return (mr->mr_event.e_data[0]);
 }
 
 unsigned mifiread_getdata2(t_mifiread *mr)
 {
     if (mr->mr_pass != 2)
-	bug("mifiread_getdata2");
+	loudbug_bug("mifiread_getdata2");
     if (mr->mr_event.e_length < 2)
-	bug("mifiread_getdata2");
+	loudbug_bug("mifiread_getdata2");
     return (mr->mr_event.e_data[1]);
 }
 
 unsigned mifiread_getchannel(t_mifiread *mr)
 {
     if (mr->mr_pass != 2)
-	bug("mifiread_getchannel");
+	loudbug_bug("mifiread_getchannel");
     return (mr->mr_event.e_channel);
 }
 
@@ -1155,7 +1180,7 @@ static void mifiwrite_updateticks(t_mifiwrite *mw)
 	    ((double)mw->mw_tempo);
 	if (mw->mw_ticks.wt_tempo < MIFI_TICKEPSILON)
 	{
-	    bug("mifiwrite_updateticks");
+	    loudbug_bug("mifiwrite_updateticks");
 	    mw->mw_ticks.wt_tempo = mw->mw_ticks.wt_deftempo;
 	}
 	mw->mw_ticks.wt_mscoef =
@@ -1267,7 +1292,7 @@ int mifiwrite_open(t_mifiwrite *mw, const char *filename,
     char errmess[MAXPDSTRING], fnamebuf[MAXPDSTRING];
     if (ntracks < 1 || ntracks > MIFI_MAXTRACKS)
     {
-	bug("mifiwrite_open 1");
+	loudbug_bug("mifiwrite_open 1");
 	complain = 0;
 	goto wopenfailed;
     }
@@ -1277,7 +1302,7 @@ int mifiwrite_open(t_mifiwrite *mw, const char *filename,
     {
 	if (mw->mw_ntracks != 1)
 	{  /* LATER consider replacing with a warning */
-	    bug("mifiwrite_open 2");
+	    loudbug_bug("mifiwrite_open 2");
 	    complain = 0;
 	    goto wopenfailed;
 	}
@@ -1343,7 +1368,7 @@ static int mifiwrite_adjusttrack(t_mifiwrite *mw, uint32 eotdelay, int complain)
     skip = mw->mw_trackbytes + 4;
     length = mifi_swap4(mw->mw_trackbytes);
 #ifdef MIFI_DEBUG
-    post("adjusting track size to %d", mw->mw_trackbytes);
+    loudbug_post("adjusting track size to %d", mw->mw_trackbytes);
 #endif
     /* LATER add sanity check (compare to saved filepos) */
     if (skip > 4 &&
@@ -1369,7 +1394,7 @@ int mifiwrite_opentrack(t_mifiwrite *mw, char *trackname, int complain)
 	return (0);
     else if (mw->mw_trackndx++ == mw->mw_ntracks)
     {
-	bug("mifiwrite_opentrack");
+	loudbug_bug("mifiwrite_opentrack");
 	return (0);
     }
     strncpy(th.th_type, "MTrk", 4);
@@ -1410,7 +1435,7 @@ int mifiwrite_closetrack(t_mifiwrite *mw, double enddelay, int complain)
     }
     else
     {
-	bug("mifiwrite_closetrack");
+	loudbug_bug("mifiwrite_closetrack");
 	return (0);
     }
 }
@@ -1433,7 +1458,7 @@ int mifiwrite_channelevent(t_mifiwrite *mw, double delay, unsigned status,
     if (!MIFI_ISCHANNEL(status) || channel > 15 || data1 > 127
 	|| (!shorter && data2 > 127))
     {
-	bug("mifiwrite_channelevent");
+	loudbug_bug("mifiwrite_channelevent");
 	return (0);
     }
     ep->e_delay = (uint32)(delay * mw->mw_ticks.wt_mscoef);

@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -13,11 +13,6 @@ enum { LOUD_ARGOK, LOUD_ARGUNDER, LOUD_ARGOVER, LOUD_ARGTYPE, LOUD_ARGMISSING };
 EXTERN_STRUCT _loudcontext;
 #define t_loudcontext  struct _loudcontext
 
-void shared_usecompatibility(void);
-void shared_setcompatibility(t_symbol *s);
-t_symbol *shared_getcompatibility(void);
-void shared_setmaxcompatibility(void);
-int shared_getmaxcompatibility(void);
 int shared_matchignorecase(char *test, char *pattern);
 
 char *loud_ordinal(int n);
@@ -30,8 +25,6 @@ int loud_checkint(t_pd *x, t_float f, int *valuep, t_symbol *mess);
 void loud_classarg(t_class *c);
 void loud_warning(t_pd *x, char *who, char *fmt, ...);
 void loud_notimplemented(t_pd *x, char *name);
-void loud_incompatible(t_class *c, char *fmt, ...);
-void loud_incompatible_max(t_class *c, int maxmax, char *what);
 int loud_floatarg(t_class *c, int which, int ac, t_atom *av,
 		  t_float *vp, t_float minval, t_float maxval,
 		  int underaction, int overaction, char *what);
@@ -49,5 +42,12 @@ t_atom *loudx_getarguments(t_loudcontext *lc, int *acp);
 void loudx_freecontext(t_loudcontext *lc);
 t_loudcontext *loudx_newcontext(t_pd *caller, char *callername,
 				t_symbol *s, int ac, t_atom *av);
+
+void loudbug_post(char *fmt, ...);
+void loudbug_startpost(char *fmt, ...);
+void loudbug_endpost(void);
+void loudbug_postatom(int ac, t_atom *av);
+void loudbug_postbinbuf(t_binbuf *bb);
+void loudbug_bug(char *fmt, ...);
 
 #endif

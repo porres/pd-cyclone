@@ -3,6 +3,7 @@ binport.c \
 clc.c \
 dict.c \
 fi.c \
+fitter.c \
 grow.c \
 lex.c \
 loud.c \

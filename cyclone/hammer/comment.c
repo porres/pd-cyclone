@@ -81,7 +81,7 @@ static void comment_draw(t_comment *x)
     if (reqsize > COMMENT_OUTBUFSIZE)
     {
 #ifdef COMMENT_DEBUG
-	post("allocating %d outbuf bytes", reqsize);
+	loudbug_post("allocating %d outbuf bytes", reqsize);
 #endif
 	if (!(outbuf = getbytes(reqsize)))
 	    return;
@@ -125,7 +125,7 @@ static void comment_update(t_comment *x)
     if (reqsize > COMMENT_OUTBUFSIZE)
     {
 #ifdef COMMENT_DEBUG
-	post("allocating %d outbuf bytes", reqsize);
+	loudbug_post("allocating %d outbuf bytes", reqsize);
 #endif
 	if (!(outbuf = getbytes(reqsize)))
 	    return;
@@ -185,14 +185,14 @@ static void comment_validate(t_comment *x, t_glist *glist)
 	binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
 	x->x_ready = 1;
 #ifdef COMMENT_DEBUG
-	post("validation done");
+	loudbug_post("validation done");
 #endif
     }
     if (glist)
     {
 	if (glist != x->x_glist)
 	{
-	    bug("comment_getcanvas");
+	    loudbug_bug("comment_getcanvas");
 	    x->x_glist = glist;
 	}
 	x->x_canvas = glist_getcanvas(glist);
@@ -203,7 +203,7 @@ static void comment_grabbedkey(void *z, t_floatarg f)
 {
     /* LATER think about replacing #key binding/comment_float() with grabbing */
 #ifdef COMMENT_DEBUG
-    post("comment_grabbedkey %g", f);
+    loudbug_post("comment_grabbedkey %g", f);
 #endif
 }
 
@@ -221,7 +221,7 @@ static void comment__bboxhook(t_comment *x, t_symbol *bindsym,
 			      t_floatarg x2, t_floatarg y2)
 {
 #ifdef COMMENT_DEBUG
-    post("bbox %g %g %g %g", x1, y1, x2, y2);
+    loudbug_post("bbox %g %g %g %g", x1, y1, x2, y2);
 #endif
     x->x_x1 = x1;
     x->x_y1 = y1;
@@ -249,7 +249,7 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av)
     }
     else
     {
-	bug("comment__clickhook");
+	loudbug_bug("comment__clickhook");
 	return;
     }
     if (x->x_glist->gl_edit)
@@ -321,7 +321,7 @@ static void commentsink__bboxhook(t_pd *x, t_symbol *bindsym,
     {
 	pd_unbind(x, bindsym);  /* if so, no need for this binding anymore */
 #ifdef COMMENT_DEBUG
-	post("sink: %s unbound", bindsym->s_name);
+	loudbug_post("sink: %s unbound", bindsym->s_name);
 #endif
     }
 }
@@ -368,7 +368,7 @@ static void comment_getrect(t_gobj *z, t_glist *glist,
 	x2 = x1 + width;
 	y2 = y1 + height - 2;  /* LATER revisit */
 #ifdef COMMENT_DEBUG
-	post("estimated rectangle: %g %g %g %g", x1, y1, x2, y2);
+	loudbug_post("estimated rectangle: %g %g %g %g", x1, y1, x2, y2);
 #endif
 	*xp1 = x1;
 	*yp1 = y1;
@@ -465,7 +465,7 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis)
 #endif
 	/* FIXME should we test for having a window? */
 #ifdef COMMENT_DEBUG
-	post("deleting...");
+	loudbug_post("deleting...");
 #endif
 	sys_vgui(".x%x.c delete %s\n", x->x_canvas, x->x_tag);
     }
@@ -540,7 +540,7 @@ static void comment_float(t_comment *x, t_float f)
 	    if (n == '\n' || !iscntrl(n))
 	    {
 #ifdef COMMENT_DEBUG
-		post("%d accepted", n);
+		loudbug_post("%d accepted", n);
 #endif
 		newsize = x->x_textbufsize+1;
 		x->x_textbuf = resizebytes(x->x_textbuf,
@@ -552,7 +552,7 @@ static void comment_float(t_comment *x, t_float f)
 		x->x_selstart = x->x_selstart + 1;
 	    }
 #ifdef COMMENT_DEBUG
-	    else post("%d rejected", n);
+	    else loudbug_post("%d rejected", n);
 #endif
 	    x->x_selend = x->x_selstart;
 	    x->x_glist->gl_editor->e_textdirty = 1;
@@ -560,17 +560,17 @@ static void comment_float(t_comment *x, t_float f)
 	    comment_update(x);
 	}
     }
-    else bug("comment_float");
+    else loudbug_bug("comment_float");
  donefloat:;
 #ifdef COMMENT_DEBUG
-    post("donefloat");
+    loudbug_post("donefloat");
 #endif
 }
 
 static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 {
     if (!x->x_active)
-	bug("comment_list");
+	loudbug_bug("comment_list");
     else if (ac > 1 && av->a_type == A_FLOAT && (int)av->a_w.w_float
 	     && av[1].a_type == A_SYMBOL)
     {
@@ -656,7 +656,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
     }
  donelist:;
 #ifdef COMMENT_DEBUG
-    post("donelist");
+    loudbug_post("donelist");
 #endif
 }
 
@@ -664,7 +664,7 @@ static void comment_free(t_comment *x)
 {
     if (x->x_active)
     {
-	bug("comment_free");
+	loudbug_bug("comment_free");
 	pd_unbind((t_pd *)x, gensym("#key"));
 	pd_unbind((t_pd *)x, gensym("#keyname"));
     }

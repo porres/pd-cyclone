@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -6,6 +6,7 @@
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
+#include "common/fitter.h"
 
 #define APPEND_INISIZE     32  /* LATER rethink */
 #define APPEND_MAXSIZE    256
@@ -33,6 +34,9 @@ typedef struct _appendxy
 static t_class *append_class;
 static t_class *appendxy_class;
 
+static t_symbol *appendps_compatibility = 0;
+static t_symbol *appendps_max;
+
 /* Usually a preallocation method is used, except in special cases of:
    1) reentrant output request, or 2) an output request which would cause
    resizing to more than MAXSIZE (no such limit for a 'set' message).
@@ -42,12 +46,38 @@ static t_class *appendxy_class;
    preallocation method is chosen).  Instead, self-invoked 'set'
    messages are postponed, using an auxiliary buffer. */
 
-/* Any Append's output goes through outlet_anything() -> typedmess() */
+/* Any Append's output, except bangout, goes through
+   outlet_anything() -> typedmess(), LATER rethink */
 
 static void append_setnatoms(t_append *x, int natoms)
 {
     x->x_message = x->x_messbuf + x->x_size - natoms;
     x->x_natoms = natoms;
+}
+
+static void append_bangout(t_outlet *outp, int ac, t_atom *av)
+{
+    if (ac)
+    {
+        if (av->a_type == A_SYMBOL)
+	    outlet_anything(outp, av->a_w.w_symbol, ac-1, av+1);
+        else if (av->a_type == A_POINTER)
+        {
+            if (ac == 1)
+		outlet_pointer(outp, av->a_w.w_gpointer);
+            else
+		outlet_list(outp, &s_list, ac, av);
+        }
+        else if (av->a_type == A_FLOAT)
+        {
+            if (ac == 1)
+		outlet_float(outp, av->a_w.w_float);
+            else
+		outlet_list(outp, &s_list, ac, av);
+        }
+        else loudbug_bug("append_bangout");
+    }
+    else outlet_bang(outp);
 }
 
 static void append_anything(t_append *x, t_symbol *s, int ac, t_atom *av)
@@ -77,7 +107,10 @@ static void append_anything(t_append *x, t_symbol *s, int ac, t_atom *av)
 	buf = x->x_message - ac;
 	if (ac)
 	    memcpy(buf, av, ac * sizeof(*buf));
-	outlet_anything(((t_object *)x)->ob_outlet, s, ntotal, buf);
+	if (s)
+	    outlet_anything(((t_object *)x)->ob_outlet, s, ntotal, buf);
+	else
+	    append_bangout(((t_object *)x)->ob_outlet, ntotal, buf);
     }
     else
     {
@@ -88,7 +121,10 @@ static void append_anything(t_append *x, t_symbol *s, int ac, t_atom *av)
 		memcpy(buf, av, ac * sizeof(*buf));
 	    if (x->x_natoms)
 		memcpy(buf + ac, x->x_message, x->x_natoms * sizeof(*buf));
-	    outlet_anything(((t_object *)x)->ob_outlet, s, ntotal, buf);
+	    if (s)
+		outlet_anything(((t_object *)x)->ob_outlet, s, ntotal, buf);
+	    else
+		append_bangout(((t_object *)x)->ob_outlet, ntotal, buf);
 	    freebytes(buf, ntotal * sizeof(*buf));
 	}
     }
@@ -119,7 +155,11 @@ static void append_anything(t_append *x, t_symbol *s, int ac, t_atom *av)
 
 static void append_bang(t_append *x)
 {
-    /* CHECKED: a nop */
+    if (appendps_compatibility == appendps_max)
+    {
+	/* CHECKED: a nop */
+    }
+    else append_anything(x, 0, 0, 0);
 }
 
 static void append_float(t_append *x, t_float f)
@@ -203,10 +243,11 @@ static void append_doset(t_append *x, t_symbol *s, int ac, t_atom *av)
 
 static void append_set(t_append *x, t_symbol *s, int ac, t_atom *av)
 {
-    if (shared_getmaxcompatibility())
-	append_doset(x, 0, ac, av);
-    else
+    if (x->x_proxy)
 	append_anything(x, s, ac, av);
+    else
+	/* LATER (when?) controlled by maxmode */
+	append_doset(x, 0, ac, av);
 }
 
 static void appendxy_bang(t_appendxy *xy)
@@ -253,7 +294,7 @@ static void append_free(t_append *x)
 	freebytes(x->x_messbuf, x->x_size * sizeof(*x->x_messbuf));
     if (x->x_auxbuf)
     {
-	bug("append_free");  /* LATER rethink */
+	loudbug_bug("append_free");  /* LATER rethink */
 	freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
     }
     if (x->x_proxy)
@@ -269,7 +310,6 @@ static void *append_new(t_symbol *s, int ac, t_atom *av)
     x->x_auxbuf = 0;
     x->x_entered = 0;
     append_setnatoms(x, 0);
-    shared_usecompatibility();
     if (ac)
     {
 	x->x_proxy = 0;
@@ -307,4 +347,7 @@ void Append_setup(void)
     class_addsymbol(appendxy_class, appendxy_symbol);
     class_addlist(appendxy_class, appendxy_list);
     class_addanything(appendxy_class, appendxy_anything);
+
+    appendps_max = gensym("max");
+    fitter_setup(append_class, &appendps_compatibility, 0);
 }

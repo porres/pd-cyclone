@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include "common/loud.h"
 #include "common/grow.h"
 
 #define TOSYMBOL_INISTRING   128  /* LATER rethink */
@@ -99,7 +100,7 @@ static int tosymbol_parse(t_symbol *s, int ac, t_atom *av, t_symbol *separator,
     }
     if (nleft < 0)
     {
-	bug("tosymbol_parse");
+	loudbug_bug("tosymbol_parse");
 	return (bufsize);
     }
     return (bufsize - nleft);
@@ -111,7 +112,7 @@ static void tosymbol_anything(t_tosymbol *x, t_symbol *s, int ac, t_atom *av)
     {
 	if (tosymbol_bufferlocked)
 	{
-	    bug("tosymbol_anything");
+	    loudbug_bug("tosymbol_anything");
 	    tosymbol_parse(s, ac, av, x->x_separator,
 			   x->x_bufsize, x->x_buffer);
 	}

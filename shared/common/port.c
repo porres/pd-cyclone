@@ -24,7 +24,7 @@
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/binport.h"
-#include "common/port.h"
+#include "port.h"
 
 #ifdef KRZYSZCZ
 //#define PORT_DEBUG
@@ -227,14 +227,14 @@ static t_symbol *port_getanysymbol(t_port *x, int ndx)
 static t_symbol *port_gettarget(t_port *x)
 {
     t_symbol *sel = port_getsymbol(x, 0);
-    if (sel == &s_) bug("port_gettarget");
+    if (sel == &s_) loudbug_bug("port_gettarget");
     return (sel);
 }
 
 static t_symbol *port_getselector(t_port *x)
 {
     t_symbol *sel = port_getanysymbol(x, 1);
-    if (sel == &s_) bug("port_getselector");
+    if (sel == &s_) loudbug_bug("port_getselector");
     return (sel);
 }
 
@@ -511,7 +511,7 @@ static void import_addclassname(t_port *x, char *outname, t_atom *inatom)
 	    SETSYMBOL(&at, insym);
 	else
 	{
-	    bug("import_addclassname");
+	    loudbug_bug("import_addclassname");
 	    SETSYMBOL(&at, gensym("???"));
 	}
     }
@@ -588,9 +588,10 @@ static int imaction_N1_vtable(t_port *x, char *arg)
 	flags = port_getint(x, 7);
     import_emstart(x, portps_vtable, port_getsymbol(x, 9), port_getint(x, 2));
 #ifdef PORT_DEBUG
-    post("vtable \"%s\": size %d, range %d, coords %d %d %d %d, flags %d",
-	 x->x_emname->s_name, x->x_emsize,
-	 range, left, top, right, bottom, flags);
+    loudbug_post(
+	"vtable \"%s\": size %d, range %d, coords %d %d %d %d, flags %d",
+	x->x_emname->s_name, x->x_emsize,
+	range, left, top, right, bottom, flags);
 #endif
     import_emaddv(x, portps_vtable, "si;", gensym("size"), x->x_emsize);
     import_emaddv(x, portps_vtable, "siiii;", gensym("flags"),
@@ -1168,7 +1169,7 @@ secondpass:
 	    goto secondpass;
 	}
     }
-    else bug("port_doparse");
+    else loudbug_bug("port_doparse");
     return (PORT_UNKNOWN);
 }
 
@@ -1182,7 +1183,7 @@ static int port_parsemessage(t_port *x)
 static void port_startparsing(t_port *x)
 {
 #ifdef PORT_DEBUG
-    post("parsing...");
+    loudbug_post("parsing...");
 #endif
     x->x_messcount = 0;
     x->x_illmess = 0;
@@ -1213,7 +1214,7 @@ static void port_endparsing(t_port *x)
 	x->x_pictfp = 0;
     }
 #ifdef PORT_DEBUG
-    post("end of parsing");
+    loudbug_post("end of parsing");
 #endif
 }
 
@@ -1260,7 +1261,7 @@ static void bogus_tick(t_bogus *x)
     if (x->x_bound)
     {
 #ifdef PORT_DEBUG
-	post("bogus_tick: unbinding '%x'", (int)x);
+	loudbug_post("bogus_tick: unbinding '%x'", (int)x);
 #endif
 	pd_unbind((t_pd *)x, portps_cleanup);
 	x->x_bound = 0;
@@ -1286,8 +1287,8 @@ static void bogus_cleanup(t_bogus *x)
 	    t_outlet **op;
 	    int i;
 #ifdef PORT_DEBUG
-	    startpost("self-adjusting");
-	    binbuf_print(t->te_binbuf);
+	    loudbug_startpost("self-adjusting ");
+	    loudbug_postbinbuf(t->te_binbuf);
 #endif
 	    binbuf_add(bb, ac - 1, av + 1);
 	    binbuf_free(t->te_binbuf);
@@ -1302,7 +1303,7 @@ static void bogus_cleanup(t_bogus *x)
 		    inlet_free(*ip);
 	    }
 #ifdef PORT_DEBUG
-	    post("%d inlets deleted", BOGUS_NINLETS - i);
+	    loudbug_post("%d inlets deleted", BOGUS_NINLETS - i);
 #endif
 	    for (i = 0, op = x->x_outlets + BOGUS_NOUTLETS - 1;
 		 i < BOGUS_NOUTLETS; i++, op--)
@@ -1313,11 +1314,11 @@ static void bogus_cleanup(t_bogus *x)
 		    outlet_free(*op);
 	    }
 #ifdef PORT_DEBUG
-	    post("%d outlets deleted", i);
+	    loudbug_post("%d outlets deleted", i);
 #endif
 	    glist_retext(x->x_glist, t);
 	}
-	else bug("bogus_cleanup");
+	else loudbug_bug("bogus_cleanup");
 	x->x_glist = 0;
 	clock_delay(x->x_clock, 0);
     }
@@ -1348,7 +1349,7 @@ static void *bogus_new(t_symbol *s, int ac, t_atom *av)
 		pd_bind((t_pd *)y, portps_cleanup);
 		y->x_clock = clock_new(y, (t_method)bogushook_tick);
 #ifdef PORT_DEBUG
-		post("reclaiming %s", av->a_w.w_symbol->s_name);
+		loudbug_post("reclaiming %s", av->a_w.w_symbol->s_name);
 #endif
 		return (z);
 	    }
@@ -1380,8 +1381,8 @@ static void bogushook_cleanup(t_bogushook *x)
 	    t_atom *av = binbuf_getvec(t->te_binbuf);
 	    t_binbuf *bb = binbuf_new();
 #ifdef PORT_DEBUG
-	    startpost("hook-adjusting");
-	    binbuf_print(t->te_binbuf);
+	    loudbug_startpost("hook-adjusting ");
+	    loudbug_postbinbuf(t->te_binbuf);
 #endif
 	    ac--; av++;
 	    if (av->a_type == A_SYMBOL)
@@ -1412,7 +1413,7 @@ static void bogushook_cleanup(t_bogushook *x)
 		glist_retext(x->x_glist, t);
 	    }
 	}
-	else bug("bogushook_cleanup");
+	else loudbug_bug("bogushook_cleanup");
 	x->x_glist = 0;
 	clock_delay(x->x_clock, 0);
     }
@@ -1421,7 +1422,7 @@ static void bogushook_cleanup(t_bogushook *x)
 static void bogushook_free(t_bogushook *x)
 {
 #ifdef PORT_DEBUG
-    post("destroing the hook of '%s'", class_getname(*x->x_who));
+    loudbug_post("destroing the hook of '%s'", class_getname(*x->x_who));
 #endif
     pd_unbind((t_pd *)x, portps_cleanup);
     if (x->x_clock) clock_free(x->x_clock);

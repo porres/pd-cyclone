@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "common/grow.h"
+#include "grow.h"
 
 /* Prior to this call a caller is supposed to check for *nrequested > *sizep.
    Returns a reallocated buffer's pointer (success) or a given 'bufini'

@@ -61,14 +61,14 @@ static void widgettype_map(t_widgettype *wt, char *cls, char *pkg)
 /* only for debugging (never call, unless certain that nobody references wt) */
 static void widgettype_free(t_masterwidget *mw, t_widgettype *wt)
 {
-    fprintf(stderr, "widgettype free... ");
+    loudbug_startpost("widgettype free... ");
     dict_unbind(mw->mw_typemap, (t_pd *)wt, wt->wt_typekey);
     props_freeall(wt->wt_options);
     scriptlet_free(wt->wt_iniscript);
     scriptlet_free(wt->wt_newscript);
     scriptlet_free(wt->wt_freescript);
     pd_free((t_pd *)wt);
-    fprintf(stderr, "done\n");
+    loudbug_post("done");
 }
 #endif
 
@@ -141,7 +141,7 @@ static t_scriptlet *masterwidget_cmnthook(t_pd *caller, char *rc,
 	    typeval = widgettype_new(mw, buf, cls, pkg);
 	mw->mw_parsedtype = typeval;
 #ifdef WIDGETTYPE_DEBUG
-	post("adding widget type '%s'", typeval->wt_typekey->s_name);
+	loudbug_post("adding widget type '%s'", typeval->wt_typekey->s_name);
 #endif
 	scriptlet_reset(typeval->wt_iniscript);
 	return (typeval->wt_iniscript);
@@ -217,7 +217,7 @@ static int widgettype_doload(t_widgettype *wt, t_symbol *s)
 	== SCRIPTLET_OK)
     {
 #ifdef WIDGETTYPE_VERBOSE
-	post("using a separate %s's definition file", s->s_name);
+	loudbug_post("using a separate %s's definition file", s->s_name);
 #endif
 	if (!scriptlet_isempty(mwsp))
 	{
@@ -229,7 +229,7 @@ static int widgettype_doload(t_widgettype *wt, t_symbol *s)
 		scriptlet_push(sp);
 		scriptlet_append(masterwidget->mw_setupscript, mwsp);
 	    }
-	    else bug("widgettype_doload");
+	    else loudbug_bug("widgettype_doload");
 	    scriptlet_free(sp);
 	}
 	result = 1;
@@ -376,7 +376,7 @@ void masterwidget_validate(void)
     if (rcresult == SCRIPTLET_OK)
     {
 #ifdef WIDGETTYPE_VERBOSE
-	post("using file 'setup.wid'");
+	loudbug_post("using file 'setup.wid'");
 #endif
     }
     else
@@ -410,7 +410,7 @@ void masterwidget_validate(void)
     }
     else
     {
-	bug("masterwidget_validate 1");
+	loudbug_bug("masterwidget_validate 1");
 	rcresult = SCRIPTLET_BADFILE;
     }
     if (rcresult == SCRIPTLET_OK)
@@ -421,7 +421,7 @@ void masterwidget_validate(void)
 	if (scriptlet_evaluate(masterwidget->mw_setupscript, sp, 0, 0, 0, 0))
 	    scriptlet_push(sp);
 	else
-	    bug("masterwidget_validate 2");
+	    loudbug_bug("masterwidget_validate 2");
 	scriptlet_free(sp);
     }
 }

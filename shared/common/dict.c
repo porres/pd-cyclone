@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "common/dict.h"
+#include "dict.h"
 
 #ifdef KRZYSZCZ
 //#define DICT_DEBUG

@@ -75,7 +75,7 @@ static t_pvlist *pv_getlist(t_symbol *s, int create)
 	    pl->l_pvlist = 0;
 	    pd_bind(&pl->l_pd, s);
 	}
-	else bug("pv_getlist");
+	else loudbug_bug("pv_getlist");
     }
     return (pl);
 }
@@ -193,9 +193,9 @@ static t_pvfamily *pv_getfamily(t_glist *glist, t_symbol *s,
 		    if (pf->f_glist == gl)
 		    {
 			if (mypf)
-			    bug("pv_getfamily 1: %s in %s",
-				mypf->f_name->s_name,
-				mypf->f_glist->gl_name->s_name);
+			    loudbug_bug("pv_getfamily 1: %s in %s",
+					mypf->f_name->s_name,
+					mypf->f_glist->gl_name->s_name);
 			else
 			    return (0);
 		    }
@@ -220,12 +220,12 @@ static t_pvfamily *pv_getfamily(t_glist *glist, t_symbol *s,
 				break;
 			    }
 			}
-			if (!pf) bug("pv_getfamily 2");
+			if (!pf) loudbug_bug("pv_getfamily 2");
 		    }
 		    pvfamily_free(mypf);
 		}
 	    }
-	    else bug("pv_getfamily 3");
+	    else loudbug_bug("pv_getfamily 3");
 	    pvlist_decrement(pl);
 	}
 	else
@@ -244,10 +244,10 @@ static t_pvfamily *pv_getfamily(t_glist *glist, t_symbol *s,
 		pv_update(glist, pf);
 		return (pf);
 	    }
-	    else bug("pv_getfamily 4");
+	    else loudbug_bug("pv_getfamily 4");
 	}
     }
-    else bug("pv_getfamily 5");
+    else loudbug_bug("pv_getfamily 5");
     return (0);
 }
 
@@ -255,7 +255,7 @@ static t_pvfamily *pv_checkfamily(t_pv *x)
 {
     if (!x->x_family)
     {
-	bug("pv_checkfamily");
+	loudbug_bug("pv_checkfamily");
 	x->x_family = pv_getfamily(x->x_glist, x->x_name, 0, 0);
     }
     return (x->x_family);

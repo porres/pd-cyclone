@@ -1,9 +1,10 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
 #include "common/loud.h"
+#include "common/fitter.h"
 
 #define MAXIMUM_C74MAXITEMS  256
 
@@ -30,7 +31,7 @@ static void maximum_float(t_maximum *x, t_float f)
 static void maximum_list(t_maximum *x, t_symbol *s, int ac, t_atom *av)
 {
     if (ac > MAXIMUM_C74MAXITEMS)
-	loud_incompatible_max(*(t_pd *)x, MAXIMUM_C74MAXITEMS, "items");
+	fittermax_rangewarning(*(t_pd *)x, MAXIMUM_C74MAXITEMS, "items");
     while (ac && av->a_type != A_FLOAT) ac--, av++;  /* CHECKME (a warning?) */
     if (ac)
     {
@@ -75,7 +76,6 @@ static void *maximum_new(t_floatarg f)
     t_maximum *x = (t_maximum *)pd_new(maximum_class);
     x->x_last = 0;  /* CHECKME */
     x->x_test = f;
-    shared_usecompatibility();
     floatinlet_new((t_object *)x, &x->x_test);
     outlet_new((t_object *)x, &s_float);
     return (x);
@@ -89,4 +89,5 @@ void maximum_setup(void)
     class_addbang(maximum_class, maximum_bang);
     class_addfloat(maximum_class, maximum_float);
     class_addlist(maximum_class, maximum_list);
+    fitter_setup(maximum_class, 0, 0);
 }

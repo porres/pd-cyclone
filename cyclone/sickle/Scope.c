@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -16,6 +16,7 @@
 #include "g_canvas.h"
 #include "common/loud.h"
 #include "common/grow.h"
+#include "common/fitter.h"
 #include "unstable/forky.h"
 #include "sickle/sic.h"
 
@@ -320,7 +321,7 @@ static t_canvas *scope_getcanvas(t_scope *x, t_glist *glist)
 {
     if (glist != x->x_glist)
     {
-	bug("scope_getcanvas");
+	loudbug_bug("scope_getcanvas");
 	x->x_glist = glist;
     }
     return (x->x_canvas = glist_getcanvas(glist));
@@ -338,8 +339,12 @@ static void scope_period(t_scope *x, t_symbol *s, int ac, t_atom *av)
     int result = loud_floatarg(*(t_pd *)x, (s ? 0 : 2), ac, av, &period,
 			       SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
 			       /* LATER rethink warning rules */
-			       (s ? LOUD_CLIP : LOUD_CLIP | LOUD_WARN),
-			       (s ? 0 : LOUD_WARN), "samples per element");
+			       (s ? LOUD_CLIP : LOUD_CLIP | LOUD_WARN), 0,
+			       "samples per element");
+    if (!s && result == LOUD_ARGOVER)
+	fittermax_warning(*(t_pd *)x,
+			  "more than %g samples per element requested",
+			  SCOPE_MAXPERIOD);
     if (!s || result == LOUD_ARGOK || result == LOUD_ARGOVER)
     {
 	x->x_period = (int)period;
@@ -360,14 +365,18 @@ static void scope_bufsize(t_scope *x, t_symbol *s, int ac, t_atom *av)
     int result = loud_floatarg(*(t_pd *)x, (s ? 0 : 4), ac, av, &bufsize,
 			       SCOPE_MINBUFSIZE, SCOPE_WARNBUFSIZE,
 			       /* LATER rethink warning rules */
-			       (s ? LOUD_CLIP : LOUD_CLIP | LOUD_WARN),
-			       (s ? 0 : LOUD_WARN), "display elements");
+			       (s ? LOUD_CLIP : LOUD_CLIP | LOUD_WARN), 0,
+			       "display elements");
     if (result == LOUD_ARGOVER)
     {
 	bufsize = (s ? x->x_bufsize : SCOPE_DEFBUFSIZE);
 	result = loud_floatarg(*(t_pd *)x, (s ? 0 : 4), ac, av, &bufsize,
 			       0, SCOPE_MAXBUFSIZE, 0, LOUD_CLIP | LOUD_WARN,
 			       "display elements");
+	if (!s && result == LOUD_ARGOK)
+	    fittermax_warning(*(t_pd *)x,
+			      "more than %g display elements requested",
+			      SCOPE_WARNBUFSIZE);
     }
     if (!s)
     {
@@ -1042,4 +1051,5 @@ void Scope_tilde_setup(void)
 		    gensym("_click"), A_FLOAT, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook,
 		    gensym("_motion"), A_FLOAT, A_FLOAT, 0);
+    fitter_setup(scope_class, 0, 0);
 }

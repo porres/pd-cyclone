@@ -1,4 +1,4 @@
-/* Copyright (c) 2003-2004 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -554,7 +554,7 @@ static t_object *dummy_newobject(t_symbol *s, t_dummy_slot **slotp)
     x = (t_object *)pd_new(dummy_classes[fnd]);
     sl = &dummy_slots[fnd];
     if (fnd == dummy_nclasses)
-	bug("dummy_newobject");  /* create a "_dummy" in this case */
+	loudbug_bug("dummy_newobject");  /* create a "_dummy" in this case */
     else if (!sl->s_warned)
     {
 	loud_warning((t_pd *)x, 0, "dummy substitution");
@@ -565,15 +565,6 @@ static t_object *dummy_newobject(t_symbol *s, t_dummy_slot **slotp)
 }
 
 static void ccdummies_bang(t_pd *x)
-{
-    if (dummy_nreps)
-	post("send 'reps' message to see the list of %d \
-replacement abstractions", dummy_nreps);
-    else
-	post("no replacement abstractions");
-}
-
-static void ccdummies_reps(t_pd *x)
 {
     if (dummy_nreps)
     {
@@ -619,8 +610,9 @@ void dummies_setup(void)
 	    ndoomed++;
 	else if (ndoomed && i < dummy_nclasses - 1)
 	{
-	    bug("dummies_setup");
-	    post("(\"%s\": clashing or doomed dummy not registered for import)",
+	    loudbug_bug("dummies_setup");
+	    loudbug_post
+		("(\"%s\": clashing or doomed dummy not registered for import)",
 		 sl->s_name);
 	}
 	if ((fd = open_via_path("", sl->s_name, ".pd",
@@ -643,7 +635,5 @@ void dummies_setup(void)
     ccdummies_class = class_new(gensym("_cc.dummies"), 0, 0,
 				sizeof(t_pd), CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(ccdummies_class, ccdummies_bang);
-    class_addmethod(ccdummies_class, (t_method)ccdummies_reps,
-		    gensym("reps"), 0);
     pd_bind(pd_new(ccdummies_class), gensym("_cc.dummies"));  /* never freed */
 }

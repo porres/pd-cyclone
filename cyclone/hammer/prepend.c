@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -6,6 +6,7 @@
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
+#include "common/fitter.h"
 
 #define PREPEND_INISIZE   32  /* LATER rethink */
 #define PREPEND_MAXSIZE  256
@@ -32,6 +33,9 @@ typedef struct _prependxy
 
 static t_class *prepend_class;
 static t_class *prependxy_class;
+
+static t_symbol *prependps_compatibility = 0;
+static t_symbol *prependps_max;
 
 /* Usually a preallocation method is used, except in special cases of:
    1) reentrant output request, or 2) an output request which would cause
@@ -149,9 +153,13 @@ static void prepend_bang(t_prepend *x)
 {
     if (x->x_selector)
     {
-	t_atom at;
-	SETSYMBOL(&at, &s_bang);  /* CHECKED */
-	prepend_doanything(x, 0, 1, &at);
+	if (prependps_compatibility == prependps_max)
+	{
+	    t_atom at;
+	    SETSYMBOL(&at, &s_bang);  /* CHECKED */
+	    prepend_doanything(x, 0, 1, &at);
+	}
+	else prepend_doanything(x, 0, 0, 0);
     }
     else outlet_bang(((t_object *)x)->ob_outlet);
 }
@@ -252,10 +260,11 @@ static void prepend_doset(t_prepend *x, t_symbol *s, int ac, t_atom *av)
 
 static void prepend_set(t_prepend *x, t_symbol *s, int ac, t_atom *av)
 {
-    if (shared_getmaxcompatibility())
-	prepend_doset(x, 0, ac, av);
-    else
+    if (x->x_proxy)
 	prepend_anything(x, s, ac, av);
+    else
+	/* LATER (when?) controlled by maxmode */
+	prepend_doset(x, 0, ac, av);
 }
 
 static void prependxy_bang(t_prependxy *xy)
@@ -292,7 +301,7 @@ static void prepend_free(t_prepend *x)
 	freebytes(x->x_message, x->x_size * sizeof(*x->x_message));
     if (x->x_auxbuf)
     {
-	bug("prepend_free");  /* LATER rethink */
+	loudbug_bug("prepend_free");  /* LATER rethink */
 	freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
     }
     if (x->x_proxy)
@@ -308,7 +317,6 @@ static void *prepend_new(t_symbol *s, int ac, t_atom *av)
     x->x_message = x->x_messini;
     x->x_auxbuf = 0;
     x->x_entered = 0;
-    shared_usecompatibility();
     if (ac)
     {
 	x->x_proxy = 0;
@@ -316,11 +324,10 @@ static void *prepend_new(t_symbol *s, int ac, t_atom *av)
     }
     else
     {
-	if (shared_getmaxcompatibility())
-	    /* CHECKED: this is still not compatible -- in max an object
-	       without an outlet is created, and there is no warning when
-	       loading from a file. */
-	    loud_incompatible(prepend_class,
+	if (prependps_compatibility == prependps_max)
+	    /* CHECKED in max an object without an outlet is created,
+	       and there is no warning when loading from a file. */
+	    fittermax_warning(prepend_class,
 			      "creating an object without an argument");
 	x->x_proxy = pd_new(prependxy_class);
 	((t_prependxy *)x->x_proxy)->xy_owner = x;
@@ -352,4 +359,7 @@ void prepend_setup(void)
     class_addsymbol(prependxy_class, prependxy_symbol);
     class_addlist(prependxy_class, prependxy_list);
     class_addanything(prependxy_class, prependxy_anything);
+
+    prependps_max = gensym("max");
+    fitter_setup(prepend_class, &prependps_compatibility, 0);
 }

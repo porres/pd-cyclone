@@ -10,7 +10,15 @@ endif
 OS_NAME = $(shell uname -s)
 ifneq ($(OS_NAME),Linux)
 ifneq ($(OS_NAME),Darwin)
-# FIXME
+ifeq (,$(findstring MinGW,$(OS_NAME)))
+ifeq (,$(findstring MINGW,$(OS_NAME)))
+$(error Fatal error: unknown environment "$(OS_NAME)".  Aborting...)
+else
+OS_NAME = MinGW
+endif
+else
+OS_NAME = MinGW
+endif
 endif
 endif
 
@@ -35,12 +43,13 @@ DEFINES = -DUNIX
 endif
 endif
 
+# FIXME test if it actually works
 ifeq ($(OS_NAME),MinGW)
 CC = gcc
 X_SUFFIX = dll
 DEFINES = -DNT -DMSW
 OPT_CFLAGS = -funroll-loops
-LFLAGS = -shared $(PD_DIR)/../bin/pd.dll
+LFLAGS = -shared $(PD_DIR)/../bin/pd.dll -Wl,--enable-runtime-pseudo-reloc
 endif
 
 ifeq ($(OS_NAME),Darwin)
@@ -140,6 +149,14 @@ $(if $(word 21,$(TYPES)),$(call TYPES_RULE,$(word 21,$(TYPES))))
 $(if $(word 22,$(TYPES)),$(call TYPES_RULE,$(word 22,$(TYPES))))
 $(if $(word 23,$(TYPES)),$(call TYPES_RULE,$(word 23,$(TYPES))))
 $(if $(word 24,$(TYPES)),$(call TYPES_RULE,$(word 24,$(TYPES))))
+$(if $(word 25,$(TYPES)),$(call TYPES_RULE,$(word 25,$(TYPES))))
+$(if $(word 26,$(TYPES)),$(call TYPES_RULE,$(word 26,$(TYPES))))
+$(if $(word 27,$(TYPES)),$(call TYPES_RULE,$(word 27,$(TYPES))))
+$(if $(word 28,$(TYPES)),$(call TYPES_RULE,$(word 28,$(TYPES))))
+$(if $(word 29,$(TYPES)),$(call TYPES_RULE,$(word 29,$(TYPES))))
+$(if $(word 30,$(TYPES)),$(call TYPES_RULE,$(word 30,$(TYPES))))
+$(if $(word 31,$(TYPES)),$(call TYPES_RULE,$(word 31,$(TYPES))))
+$(if $(word 32,$(TYPES)),$(call TYPES_RULE,$(word 32,$(TYPES))))
 
 SHOBJECTS = $(foreach fn,$(SHARED_OBJECTS),$(SHARED_DIR)/$(fn))
 LXSHOBJECTS = $(foreach fn,$(LXSHARED_OBJECTS),$(SHARED_DIR)/$(fn))

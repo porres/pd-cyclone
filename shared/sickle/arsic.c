@@ -8,6 +8,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "shared.h"
+#include "common/loud.h"
 #include "common/vefl.h"
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
@@ -25,7 +26,7 @@ void arsic_redraw(t_arsic *x)
 	t_garray *ap =
 	    (t_garray *)pd_findbyclass(x->s_mononame, garray_class);
 	if (ap) garray_redraw(ap);
-	else if (x->s_vectors[0]) bug("arsic_redraw 1");
+	else if (x->s_vectors[0]) loudbug_bug("arsic_redraw 1");
     }
     else if (*x->s_stub)
     {
@@ -35,7 +36,7 @@ void arsic_redraw(t_arsic *x)
 	    t_garray *ap =
 		(t_garray *)pd_findbyclass(x->s_channames[ch], garray_class);
 	    if (ap) garray_redraw(ap);
-	    else if (x->s_vectors[ch]) bug("arsic_redraw 2");
+	    else if (x->s_vectors[ch]) loudbug_bug("arsic_redraw 2");
 	}
     }
 }
@@ -122,7 +123,7 @@ void arsic_dsp(t_arsic *x, t_signal **sp, t_perfroutine perf, int complain)
 	for (i = 0; i < nsigs; i++) *ap++ = (t_int)sp[i]->s_vec;
 	dsp_addv(perf, x->s_nperfargs, x->s_perfargs);
     }
-    else bug("arsic_dsp");
+    else loudbug_bug("arsic_dsp");
 }
 
 void arsic_free(t_arsic *x)

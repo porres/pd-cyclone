@@ -135,7 +135,7 @@ static void *cycle_new(t_symbol *s, int ac, t_atom *av)
     x->x_costable = sic_makecostable(&tabsize);
     if (tabsize != CYCLE_TABSIZE)
     {
-	bug("cycle_new");
+	loudbug_bug("cycle_new");
 	pd_free((t_pd *)x);
 	return (0);
     }

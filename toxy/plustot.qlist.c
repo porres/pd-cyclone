@@ -56,8 +56,9 @@ static t_binbuf *plustot_qlist_usurp(t_plustot_qlist *x)
     {
 	t_binbuf *bb = ((t_qlist *)booty)->x_binbuf;
 #ifdef PLUSTOT_QLIST_DEBUG
-	post("booty '%s' at %x:", class_getname(*(t_pd *)booty), (int)booty);
-	binbuf_print(bb);
+	loudbug_post("booty '%s' at %x:",
+		     class_getname(*(t_pd *)booty), (int)booty);
+	loudbug_postbinbuf(bb);
 #endif
 	return (bb);
     }

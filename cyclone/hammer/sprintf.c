@@ -121,18 +121,18 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 	}
 	*pattend = tmp;
     }
-    else bug("sprintf_proxy_checkit");
+    else loudbug_bug("sprintf_proxy_checkit");
     if (x->p_valid = valid)
     {
 #ifdef SPRINTF_DEBUG
-	if (checkin) post("[%d in \"%s\"]", result, buf);
+	if (checkin) loudbug_post("[%d in \"%s\"]", result, buf);
 #endif
 	x->p_size = result;
     }
     else
     {
 #ifdef SPRINTF_DEBUG
-	if (checkin) post("checkit failed");
+	if (checkin) loudbug_post("checkit failed");
 #endif
 	x->p_size = 0;
     }
@@ -553,7 +553,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 	return (x);
     }
 #ifdef SPRINTF_DEBUG
-    post("%d slots:", nproxies);
+    loudbug_post("%d slots:", nproxies);
 #endif
     /* CHECKED: max creates as many inlets, as there are %-signs, no matter
        if they are valid, or not -- if not, it prints ``can't convert'' errors
@@ -589,8 +589,8 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 #ifdef SPRINTF_DEBUG
 	    char tmp = *p1;
 	    *p1 = 0;
-	    poststring(p2);
-	    endpost();
+	    loudbug_poststring(p2);
+	    loudbug_endpost();
 	    *p1 = tmp;
 #endif
 	    if (i < nslots)
@@ -615,7 +615,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 	}
     }
 #ifdef SPRINTF_DEBUG
-    post("printf(\"%s\", ...)", fstring);
+    loudbug_post("printf(\"%s\", ...)", fstring);
 #endif
     outlet_new((t_object *)x, &s_anything);
     return (x);

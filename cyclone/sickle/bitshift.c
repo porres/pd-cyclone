@@ -8,6 +8,7 @@
    more generic (use long long values?) */
 
 #include "m_pd.h"
+#include "common/loud.h"
 #include "sickle/sic.h"
 
 #ifdef KRZYSZCZ
@@ -91,8 +92,8 @@ static void bitshift_shift(t_bitshift *x, t_floatarg f)
     if (i > 0)
     {
 #ifdef BITSHIFT_DEBUG
-	post("%.8x << %d == %.8x, %.8x << %d == %.8x",
-	     1, i, 1 << i, -1, i, -1 << i);
+	loudbug_post("%.8x << %d == %.8x, %.8x << %d == %.8x",
+		     1, i, 1 << i, -1, i, -1 << i);
 #endif
 	if (i < nbits)
 	    x->x_lshift = i;
@@ -102,8 +103,8 @@ static void bitshift_shift(t_bitshift *x, t_floatarg f)
     else if (i < 0)
     {
 #ifdef BITSHIFT_DEBUG
-	post("%.8x >> %d == %.8x, %.8x >> %d == %.8x",
-	     0x7fffffff, -i, 0x7fffffff >> -i, -1, -i, -1 >> -i);
+	loudbug_post("%.8x >> %d == %.8x, %.8x >> %d == %.8x",
+		     0x7fffffff, -i, 0x7fffffff >> -i, -1, -i, -1 >> -i);
 #endif
 	x->x_rshift = (i <= -nbits ? nbits - 1 : -i);
     }

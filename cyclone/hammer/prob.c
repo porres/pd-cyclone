@@ -1,10 +1,11 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include <stdio.h>
 #include "m_pd.h"
 #include "common/loud.h"
+#include "common/fitter.h"
 #include "common/rand.h"
 #include "hammer/file.h"
 
@@ -144,9 +145,9 @@ static void prob_bang(t_prob *x)
 				 nextstate->tr_value);
 		    x->x_state = nextstate;
 		}
-		else bug("prob_bang: void suffix");
+		else loudbug_bug("prob_bang: void suffix");
 	    }
-	    else bug("prob_bang: search overflow");
+	    else loudbug_bug("prob_bang: search overflow");
 	}
 	else
 	{
@@ -238,7 +239,7 @@ static void prob__silent(t_prob *x)
 {
     if (!x->x_silent)
     {
-	loud_incompatible(prob_class, "no '_silent' message in max");
+	fittermax_warning(prob_class, "no '_silent' message in max");
 	x->x_silent = 1;
     }
 }
@@ -276,7 +277,6 @@ static void *prob_new(void)
     x->x_embedmode = 0;  /* CHECKED */
     x->x_silent = 0;
     rand_seed(&x->x_seed, 0);
-    shared_usecompatibility();
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
     x->x_filehandle = hammerfile_new((t_pd *)x, prob_embedhook, 0, 0, 0);
@@ -307,4 +307,5 @@ void prob_setup(void)
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     hammerfile_setup(prob_class, 1);
+    fitter_setup(prob_class, 0, 0);
 }

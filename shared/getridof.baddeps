@@ -5,6 +5,7 @@ unstable/fragile -> common/loud
 unstable/fringe -> unstable/forky
 common/props -> common/grow
 common/vefl -> common/loud, unstable/fragile
+common/qtree -> common/loud
 common/binport -> common/lex
 common/port -> common/loud, common/grow, common/binport,
 	unstable/forky, unstable/fragile, unstable/fringe

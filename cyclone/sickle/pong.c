@@ -5,6 +5,7 @@
 /* CHECKED whatever args, there are always 3 inlets (refman's rubbish) */
 
 #include "m_pd.h"
+#include "common/loud.h"
 #include "unstable/forky.h"
 #include "sickle/sic.h"
 
@@ -214,7 +215,7 @@ static void pong_dsp(t_pong *x, t_signal **sp)
     else
     {
 #ifdef PONG_DEBUG
-	post("using pong_perform_nofeeders");
+	loudbug_post("using pong_perform_nofeeders");
 #endif
 	dsp_add(pong_perform_nofeeders, 6, x, sp[0]->s_n,
 		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);

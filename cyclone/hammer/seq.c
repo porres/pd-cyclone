@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2004 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -11,6 +11,7 @@
 #include "shared.h"
 #include "common/loud.h"
 #include "common/grow.h"
+#include "common/fitter.h"
 #include "common/mifi.h"
 #include "unstable/forky.h"
 #include "hammer/file.h"
@@ -101,7 +102,7 @@ static int seq_dogrowing(t_seq *x, int nevents, int ntempi)
     {
 	int nrequested = nevents;
 #ifdef SEQ_DEBUG
-	post("growing for %d events...", nevents);
+	loudbug_post("growing for %d events...", nevents);
 #endif
 	x->x_sequence =
 	    grow_nodata(&nrequested, &x->x_seqsize, x->x_sequence,
@@ -117,7 +118,7 @@ static int seq_dogrowing(t_seq *x, int nevents, int ntempi)
     {
 	int nrequested = ntempi;
 #ifdef SEQ_DEBUG
-	post("growing for %d tempi...", ntempi);
+	loudbug_post("growing for %d tempi...", ntempi);
 #endif
 	x->x_tempomap =
 	    grow_nodata(&nrequested, &x->x_tempomapsize, x->x_tempomap,
@@ -157,7 +158,7 @@ static void seq_complete(t_seq *x)
 	    /* store-ahead scheme, LATER consider using x_currevent */
 	    int nrequested = x->x_nevents + 1;
 #ifdef SEQ_DEBUG
-	    post("growing...");
+	    loudbug_post("growing...");
 #endif
 	    x->x_sequence =
 		grow_withdata(&nrequested, &nexisting,
@@ -212,7 +213,7 @@ static void seq_addbyte(t_seq *x, unsigned char c, int docomplete)
     else if (x->x_evelength == 4)
     {
 	if (x->x_status != 240)
-	    bug("seq_addbyte");
+	    loudbug_bug("seq_addbyte");
 	/* CHECKED sysex is broken into 4-byte packets marked with
 	   the actual delta time of last byte received in a packet */
 	seq_complete(x);
@@ -323,7 +324,7 @@ static void seq_setmode(t_seq *x, int newmode)
 	    seq_stopslavery(x);
 	    break;
 	default:
-	    bug("seq_setmode (old)");
+	    loudbug_bug("seq_setmode (old)");
 	    return;
 	}
 	x->x_mode = newmode;
@@ -342,7 +343,7 @@ static void seq_setmode(t_seq *x, int newmode)
 	seq_startslavery(x, changed);
 	break;
     default:
-	bug("seq_setmode (new)");
+	loudbug_bug("seq_setmode (new)");
     }
 }
 
@@ -422,13 +423,13 @@ static void seq_tick(t_seq *x)
 		return;
 	    clock_delay(x->x_slaveclock, elapsed);
 	    seq_settimescale(x, (float)(elapsed * (SEQ_TICKSPERSEC / 1000.)));
-	    if (x->x_prevtime > 0)
+	    if (x->x_prevtime > 0.)
 	    {
 		x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
 		x->x_clockdelay *= x->x_newtimescale / x->x_timescale;
 	    }
 	    else x->x_clockdelay =
-		     x->x_sequence[x->x_playhead].e_delta * x->x_newtimescale;
+		x->x_sequence[x->x_playhead].e_delta * x->x_newtimescale;
 	    if (x->x_clockdelay < 0.)
 		x->x_clockdelay = 0.;
 	    clock_delay(x->x_clock, x->x_clockdelay);
@@ -547,6 +548,73 @@ static void seq_hook(t_seq *x, t_floatarg f)
     }
 }
 
+static void seq_pause(t_seq *x)
+{
+    static int warned = 0;
+    if (fittermax_get() && !warned)
+    {
+	fittermax_warning(*(t_pd *)x, "'pause' not supported in Max");
+	warned = 1;
+    }
+    if (x->x_mode == SEQ_PLAYMODE && x->x_prevtime > 0.)
+    {
+	x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
+	if (x->x_clockdelay < 0.)
+	    x->x_clockdelay = 0.;
+	clock_unset(x->x_clock);
+	x->x_prevtime = 0.;
+    }
+}
+
+static void seq_continue(t_seq *x)
+{
+    static int warned = 0;
+    if (fittermax_get() && !warned)
+    {
+	fittermax_warning(*(t_pd *)x, "'continue' not supported in Max");
+	warned = 1;
+    }
+    if (x->x_mode == SEQ_PLAYMODE)
+    {
+	if (x->x_clockdelay < 0.)
+	    x->x_clockdelay = 0.;
+	clock_delay(x->x_clock, x->x_clockdelay);
+	x->x_prevtime = clock_getlogicaltime();
+    }
+}
+
+static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2)
+{
+    static int warned = 0;
+    if (fittermax_get() && !warned)
+    {
+	fittermax_warning(*(t_pd *)x, "'goto' not supported in Max");
+	warned = 1;
+    }
+    if (x->x_nevents && x->x_mode == SEQ_PLAYMODE)
+    {
+	t_seqevent *ev;
+	int ndx, nevents = x->x_nevents;
+	double ms = f1 * 1000. + f2, sum;
+	if (ms < SEQ_TICKEPSILON)
+	    ms = 0.;
+	for (ndx = 0, ev = x->x_sequence, sum = SEQ_TICKEPSILON; ndx < nevents;
+	     ndx++, ev++)
+	{
+	    if ((sum += ev->e_delta) >= ms)
+	    {
+		x->x_playhead = ndx;
+		x->x_clockdelay = sum - SEQ_TICKEPSILON - ms;
+		if (x->x_clockdelay < 0.)
+		    x->x_clockdelay = 0.;
+		clock_delay(x->x_clock, x->x_clockdelay);
+		x->x_prevtime = clock_getlogicaltime();
+		break;
+	    }
+	}
+    }
+}
+
 static int seq_eventcomparehook(const void *e1, const void *e2)
 {
     return (((t_seqevent *)e1)->e_delta > ((t_seqevent *)e2)->e_delta ? 1 : -1);
@@ -584,7 +652,7 @@ static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype)
 	}
 	else if (x->x_eventreadhead == x->x_nevents)
 	{
-	    bug("seq_mrhook 1");
+	    loudbug_bug("seq_mrhook 1");
 	    x->x_eventreadhead++;
 	}
     }
@@ -596,12 +664,12 @@ static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype)
 	    stm->t_scoretime = scoretime;
 	    stm->t_sr = mifiread_gettempo(mr);
 #ifdef SEQ_DEBUG
-	    post("tempo %g at %g", stm->t_sr, scoretime);
+	    loudbug_post("tempo %g at %g", stm->t_sr, scoretime);
 #endif
 	}
 	else if (x->x_temporeadhead == x->x_ntempi)
 	{
-	    bug("seq_mrhook 2");
+	    loudbug_bug("seq_mrhook 2");
 	    x->x_temporeadhead++;
 	}
     }
@@ -641,13 +709,13 @@ static int seq_mfread(t_seq *x, char *path)
     if (!mifiread_open(mr, path, "", 0))
 	goto mfreadfailed;
 #ifdef SEQ_DEBUG
-    startpost("midifile (format %d): %d tracks, %d ticks",
-	      mifiread_getformat(mr), mifiread_gethdtracks(mr),
-	      mifiread_getbeatticks(mr));
+    loudbug_startpost("midifile (format %d): %d tracks, %d ticks",
+		      mifiread_getformat(mr), mifiread_gethdtracks(mr),
+		      mifiread_getbeatticks(mr));
     if (mifiread_getnframes(mr))
-	post(" (%d smpte frames)", mifiread_getnframes(mr));
+	loudbug_post(" (%d smpte frames)", mifiread_getnframes(mr));
     else
-	post(" per beat");
+	loudbug_post(" per beat");
 #endif
     if (!seq_dogrowing(x, mifiread_getnevents(mr), mifiread_getntempi(mr)))
 	goto mfreadfailed;
@@ -657,8 +725,9 @@ static int seq_mfread(t_seq *x, char *path)
 	goto mfreadfailed;
     if (x->x_eventreadhead < x->x_nevents)
     {
-	bug("seq_mfread 1");
-	post("declared %d events, got %d", x->x_nevents, x->x_eventreadhead);
+	loudbug_bug("seq_mfread 1");
+	loudbug_post("declared %d events, got %d",
+		     x->x_nevents, x->x_eventreadhead);
 	x->x_nevents = x->x_eventreadhead;
     }
     if (x->x_nevents)
@@ -666,8 +735,9 @@ static int seq_mfread(t_seq *x, char *path)
 	      seq_eventcomparehook);
     if (x->x_temporeadhead < x->x_ntempi)
     {
-	bug("seq_mfread 2");
-	post("declared %d tempi, got %d", x->x_ntempi, x->x_temporeadhead);
+	loudbug_bug("seq_mfread 2");
+	loudbug_post("declared %d tempi, got %d",
+		     x->x_ntempi, x->x_temporeadhead);
 	x->x_ntempi = x->x_temporeadhead;
     }
     if (x->x_ntempi)
@@ -675,7 +745,7 @@ static int seq_mfread(t_seq *x, char *path)
 	      seq_tempocomparehook);
     seq_foldtime(x, mifiread_getdeftempo(mr));
 #ifdef SEQ_DEBUG
-    post("seq: got %d events from midi file", x->x_nevents);
+    loudbug_post("seq: got %d events from midi file", x->x_nevents);
 #endif
     result = 1;
 mfreadfailed:
@@ -982,7 +1052,7 @@ static void *seq_new(t_symbol *s)
 {
     t_seq *x = (t_seq *)pd_new(seq_class);
     static int warned = 0;
-    if (!warned)
+    if (fittermax_get() && !warned)
     {
 	loud_warning((t_pd *)x, 0, "seq is not ready yet");
 	warned = 1;
@@ -1046,6 +1116,15 @@ void seq_setup(void)
 		    gensym("write"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_print,
 		    gensym("print"), 0);
+
+    class_addmethod(seq_class, (t_method)seq_pause,
+		    gensym("pause"), 0);
+    class_addmethod(seq_class, (t_method)seq_continue,
+		    gensym("continue"), 0);
+    class_addmethod(seq_class, (t_method)seq_goto,
+		    gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
+
     forky_setpropertiesfn(seq_class, seq_properties);
     hammerfile_setup(seq_class, 0);
+    fitter_setup(seq_class, 0, 0);
 }

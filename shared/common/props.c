@@ -5,7 +5,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "common/grow.h"
-#include "common/props.h"
+#include "props.h"
 
 #ifdef KRZYSZCZ
 //#define PROPS_DEBUG

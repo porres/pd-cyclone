@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include <math.h>
+#include "clc.h"
 
 /* Problem:  find a function f : p -> q (where p is user's curve control
    parameter, q is log factor) such that the curves will bend in

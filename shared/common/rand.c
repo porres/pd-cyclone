@@ -5,7 +5,7 @@
 #include <time.h>
 #include "m_pd.h"
 EXTERN double sys_getrealtime(void);  /* used to be in m_imp.h */
-#include "common/rand.h"
+#include "rand.h"
 
 /* borrowed from x_misc.c, LATER rethink */
 void rand_seed(unsigned int *statep, unsigned int seed)
