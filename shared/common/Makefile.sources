@@ -3,7 +3,6 @@ bifi.c \
 binport.c \
 dict.c \
 grow.c \
-hyphen.c \
 loud.c \
 mfbb.c \
 mifi.c \
