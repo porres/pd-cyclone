@@ -1,0 +1,24 @@
+#N canvas 588 66 510 630 10;
+#X obj 4 4 cnv 15 500 20 empty empty all_about_cyclone 20 10 1 18 -233017
+-66577 0;
+#X obj 471 5 pddp;
+#X text 293 604 updated for Pd version 0.37.1;
+#X text 49 199 - hammer contains Pd versions of Max objects;
+#X text 49 220 - sickle contains Pd versions of MSP objects;
+#X text 50 240 - optional dummies sub-library \, which contains a large
+set of dummy classes \, serving as substitutions for Max/MSP classes
+not (yet) implemented in the cyclone;
+#X text 51 285 - cyclone sub-library \, taking care of loading the
+other three components \, and which itself contains: a small set of
+operators (!- \, !/ \, ==~ \, !=~ \, <~ \, <=~ \, >~ \, >=~ \, !-~
+\, !/~ \, %~ \, +=~) and an importing mechanism provided by the cyclone
+class;
+#X text 41 63 Cyclone is a library of Pure Data classes \, bringing
+some level of compatibility between Max/MSP and Pd environments. Although
+being itself in the early stage of development \, it is meant to eventually
+become part of a much larger project \, aiming at unification and standardization
+of computer musician's tools. In its current form \, cyclone is mainly
+for people using both Max and Pd \, and thus wanting to develop cross-platform
+patches \, but it also provide many very useful objects for the Pd-only
+user.;
+#X text 7 462 For more info: http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html;
