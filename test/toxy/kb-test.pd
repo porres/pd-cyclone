@@ -1,0 +1,17 @@
+#N canvas 354 116 645 486 12;
+#X obj 37 61 widget kb k1;
+#X floatatom 37 160 5 0 0 0 - - -;
+#X obj 37 310 widget kb k2 #oct 8 #size 0.35 -bg red;
+#X floatatom 37 369 5 0 0 0 - - -;
+#X msg 120 271 #oct \$1 \, refresh;
+#X floatatom 120 237 5 0 0 0 - - -;
+#X floatatom 37 24 5 0 0 0 - - -;
+#X msg 114 24 bang;
+#X floatatom 37 237 5 0 0 0 - - -;
+#X connect 0 0 1 0;
+#X connect 2 0 3 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 2 0;

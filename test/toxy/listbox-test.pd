@@ -1,0 +1,18 @@
+#N canvas 154 52 626 383 12;
+#X obj 281 144 widget listbox lb -width 32 -height 12 -bg black -fg
+white;
+#X obj 20 282 tow . listbox lb;
+#X obj 20 21 loadbang;
+#X msg 20 52 ini foreach fn [lsort [glob *]] .(.- insert end $fn.)
+;
+#X obj 236 143 widget button b -text ok -height 14 -bg black -fg white
+-command .<.>;
+#X obj 112 21 tow . button b;
+#X msg 36 83 tot if .([.- curselection] != "".) .(eval .<set [.- get
+[.- curselection]].>.);
+#X msg 20 324;
+#X connect 1 0 7 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;

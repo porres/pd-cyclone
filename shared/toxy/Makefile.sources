@@ -1,0 +1,2 @@
+OTHER_SOURCES = \
+scriptlet.c

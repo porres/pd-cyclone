@@ -1,0 +1,22 @@
+TOT_OBJECTS = \
+common/loud.o \
+common/grow.o \
+hammer/file.o \
+hammer/gui.o \
+common/props.o \
+toxy/scriptlet.o
+
+TOW_OBJECTS = \
+common/loud.o \
+unstable/loader.o
+
+WIDGET_OBJECTS = \
+unstable/forky.o \
+common/loud.o \
+common/grow.o \
+common/dict.o \
+hammer/file.o \
+common/props.o \
+toxy/scriptlet.o
+
+WIDGET_PRIVATEOBJECTS = widgettype.o
