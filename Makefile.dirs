@@ -1,0 +1,8 @@
+MIXED_DIRS = \
+	shared \
+	cyclone \
+	toxy
+
+RELEASE_DIRS = \
+	cyclone \
+	toxy

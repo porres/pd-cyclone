@@ -30,8 +30,9 @@ CC = gcc2
 X_SUFFIX = pd_darwin
 DEFINES = -DUNIX -DMACOSX
 OPT_CFLAGS = -O2 -funroll-loops -fomit-frame-pointer
-# -private_bundle is a guess, LATER check this
-LFLAGS = -bundle -undefined suppress -flat_namespace
+# perhaps "-undefined suppress" would be a better choice, when we go dynamic
+# with our own common code? (not likely to happen soon...)
+LFLAGS = -bundle -bundle_loader $(PD_DIR)/../bin/pd -flat_namespace
 endif
 
 SHARED_DIR = $(ROOT_DIR)/shared
@@ -172,7 +173,7 @@ SUBDIRS_DEFAULT = @for i in $(MIXED_DIRS) and_in_case_it_is_null ; \
 			cd $$i; $(MAKE) ; fi ) ; done
 
 define_build:
-	@if [[ -f build_counter && \
+	@if [[ -f build_counter && `whoami` == krzYszcz && \
 		`date -r build_counter +%j` != `date +%j` ]] ; then \
 		mv build_counter build_counter~ ; \
 		echo -n 'increment build counter (y/n)? [n]' ; read doit ; \
@@ -324,7 +325,7 @@ Makefile.deps:
 
 # krzYszcz:
 # LATER try making cyclone-specifics abstracted out ala linux release
-# btw, why libs have to be removed from an install?
+# keep cyclone libs, because they offer the max->pd import facility
 
 PACKAGE_PREFIX = pd-$(BASE_NAME)
 PACKAGE_NAME = $(PACKAGE_PREFIX)-$(VERSION)-$(RELEASE)$(BUILD)
@@ -371,10 +372,6 @@ darwin_pkg: all darwin_pkg_clean darwin_pkg_license
 	test -d installroot/bin || mkdir -p installroot/bin
 	install -m755 ../bin/cyclist --group=staff installroot/bin
 	cp -f pd-cyclone.info $(PACKAGE_NAME).info
-   # delete the lib versions
-	rm -f installroot/lib/pd/extra/hammer.pd_darwin
-	rm -f installroot/lib/pd/extra/sickle.pd_darwin
-	rm -f installroot/lib/pd/extra/cyclone.pd_darwin
 # delete cruft
 	-find installroot -name .DS_Store -delete
 	-rm -f 1
