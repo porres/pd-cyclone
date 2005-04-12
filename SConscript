@@ -3,6 +3,9 @@ import os
 import re
 Import('env prefix')
 
+#voodoo escaping, anyone got it? !!...
+os.system("cd toxy && make checkwiq && make setup.wiq")
+
 env.Append(CPPPATH = 'shared')
 
 miXed_shared = glob.glob('shared/common/*.c')
