@@ -1,5 +1,5 @@
 #N canvas 259 235 430 366 10;
-
+#X text 5 5 ;
 #X text 25 332 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 24 346 ___________________________________________________
 ;

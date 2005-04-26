@@ -86,7 +86,7 @@
 #X text 240 184 delay time;
 #X text 305 204 gain;
 #X text 184 125 del time / gain can also be;
-
+#X text 5 5 ;
 #X text 22 403 docs based on the MAX/MSP reference (c) cycling'74
 ;
 #X text 21 417 ___________________________________________________ ;
