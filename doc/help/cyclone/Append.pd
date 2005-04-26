@@ -4,7 +4,7 @@
 #X msg 34 77 foo;
 #X msg 64 77 foo bar;
 #X msg 131 102 set foo bar;
-#X text 20 247 cyclone is (c) Krzysztof Czaja and others;
+
 #X text 20 262 docs based on the MAX/MSP reference (c) cycling'74
 ;
 #X text 19 276 ___________________________________________________ ;

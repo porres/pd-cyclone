@@ -30,7 +30,7 @@ being equal to argument4 and can be sent directly to a line~ 0;
 #X text 42 121;
 #X floatatom 330 142 5 0 0 0 - - -;
 #X msg 113 135 0;
-#X text 12 512 cyclone is (c) Krzysztof Czaja and others;
+
 #X text 13 525 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 12 539 ___________________________________________________
 ;

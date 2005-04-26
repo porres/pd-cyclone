@@ -1,5 +1,5 @@
 #N canvas 130 4 792 675 10;
-#X text 11 625 cyclone is (c) Krzysztof Czaja and others;
+
 #X text 10 637 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 9 651 ___________________________________________________;
 #X text 146 23 store and edit collections of messages;

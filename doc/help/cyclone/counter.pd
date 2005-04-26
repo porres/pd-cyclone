@@ -1,5 +1,5 @@
 #N canvas 223 55 854 624 10;
-#X text -11 558 cyclone is (c) Krzysztof Czaja and others;
+
 #X text -11 573 docs based on the MAX/MSP reference (c) cycling'74
 ;
 #X text -12 587 ___________________________________________________
@@ -131,7 +131,7 @@ bang;
 #X obj 342 47 count;
 #X obj 443 47 countund;
 #X restore 592 554 pd related_objects;
-#X obj 460 554 all_about_looping;
+#X obj 460 554 pddp_open all_about_looping;
 #X text 480 529 click on these for more info:;
 #X text 415 201 * (there seems to be a bug when used with an;
 #X text 431 221 would be to reset to 0 as well ...);

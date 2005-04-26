@@ -78,7 +78,7 @@
 #X connect 6 0 4 0;
 #X connect 7 0 3 0;
 #X restore 206 122 pd burst;
-#X text 23 426 cyclone is (c) Krzysztof Czaja and others;
+
 #X text 22 440 docs based on the MAX/MSP reference (c) cycling'74
 ;
 #X text 21 454 ___________________________________________________ ;

@@ -1,5 +1,5 @@
 #N canvas 384 180 561 485 10;
-#X text 25 430 cyclone is (c) Krzysztof Czaja and others;
+
 #X text 25 444 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 24 458 ___________________________________________________
 ;
@@ -30,10 +30,10 @@
 #X msg 105 196 reset;
 #X text 155 196 reset 0 \, 0 to upper left corner;
 #X text 182 392 For more info:;
-#X obj 286 392 all_about_hid;
+#X obj 286 392 pddp_open all_about_hid;
 #X obj 5 3 cnv 15 550 30 empty empty [MouseState] 20 12 1 14 -233017
 -66577 0;
-#X obj 386 392 all_about_cyclone;
+#X obj 386 392 pddp_open all_about_cyclone;
 #X connect 5 0 6 0;
 #X connect 5 1 7 0;
 #X connect 5 2 8 0;

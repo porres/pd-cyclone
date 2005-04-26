@@ -16,7 +16,7 @@
 #X msg 69 103 55 0;
 #X text 121 133 when on sustain holds back all note offs;
 #X text 121 144 and outputs them when turned off again.;
-#X text 28 257 cyclone is (c) Krzysztof Czaja and others;
+
 #X text 28 272 docs based on the MAX/MSP reference (c) cycling'74
 ;
 #X text 27 286 ___________________________________________________ ;

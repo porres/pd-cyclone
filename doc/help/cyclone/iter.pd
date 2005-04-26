@@ -4,7 +4,7 @@
 #X obj 40 113 iter;
 #X msg 40 71 1 2 3 4;
 #X obj 40 145 print;
-#X text 21 198 cyclone is (c) Krzysztof Czaja and others;
+
 #X text 22 213 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 21 227 ___________________________________________________
 ;
