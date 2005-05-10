@@ -12,7 +12,7 @@ white @bang ::toxy::lbcommand .- .|;
 #X msg 33 179 bang;
 #X msg 20 57 tot proc ::toxy::lbcommand .(path target.) .(if .([$path
 curselection] != "".) .(pd [concat $target _cb set [$path get [$path
-curselection]] .`.:].).) \, ini if .([.- size] == 0.) .(foreach fn
+curselection]] .`.:].).) \, @vis if .([.- size] == 0.) .(foreach fn
 [lsort [glob *]] .(.- insert end $fn.) .: bind .- <Double-Button-1>
 .(::toxy::lbcommand .- .|.).) \, @bang ::toxy::lbcommand .- .|;
 #X connect 1 0 5 0;

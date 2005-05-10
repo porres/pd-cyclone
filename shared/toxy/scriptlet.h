@@ -1,4 +1,4 @@
-/* Copyright (c) 2003-2004 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -41,7 +41,10 @@ void scriptlet_setowner(t_scriptlet *sp, t_pd *owner);
 void scriptlet_clone(t_scriptlet *to, t_scriptlet *from);
 void scriptlet_append(t_scriptlet *to, t_scriptlet *from);
 void scriptlet_free(t_scriptlet *sp);
-t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
-			   t_symbol *item, t_glist *gl, t_scriptlet_cvfn cvfn);
+t_scriptlet *scriptlet_new(t_pd *owner,
+			   t_symbol *rptarget, t_symbol *cbtarget,
+			   t_symbol *item, t_glist *glist,
+			   t_scriptlet_cvfn cvfn);
+t_scriptlet *scriptlet_newalike(t_scriptlet *sp);
 
 #endif

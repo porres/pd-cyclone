@@ -42,6 +42,3 @@ puts "another initializer part added from \"#@ vis\" block"
 #@ free
 puts "\ndestructor: evaluated once, after Pd object destruction"
 puts "(Tk widget should be already gone)"
-
-#@ ini
-puts "yet another initializer part added from \"#@ ini\" block"

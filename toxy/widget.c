@@ -14,14 +14,14 @@
 #include "hammer/file.h"
 #include "common/props.h"
 #include "toxy/scriptlet.h"
-#include "widgettype.h"
+#include "widget.h"
 #include "build_counter"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
 static t_class *makeshift_class;
 
 #ifdef KRZYSZCZ
-//#define WIDGET_DEBUG
+#define WIDGET_DEBUG
 //#define TOW_DEBUG
 //#define WIDGET_PROFILE
 #endif
@@ -39,18 +39,6 @@ typedef struct _widgetentry
     struct _widget       *we_widget;
     struct _widgetentry  *we_next;
 } t_widgetentry;
-
-/* move to widgettype.c&h */
-typedef struct _widgethandlers
-{
-    t_scriptlet  *wh_initializer;
-    t_scriptlet  *wh_new;
-    t_scriptlet  *wh_free;
-    t_scriptlet  *wh_bang;
-    t_scriptlet  *wh_float;
-    t_scriptlet  *wh_symbol;
-    /* ... (varsized vector) */
-} t_widgethandlers;
 
 typedef struct _widget
 {
@@ -72,8 +60,7 @@ typedef struct _widget
     t_props       *x_diffoptions;    /* type options minus instance options */
     t_props       *x_diffhandlers;   /* same for handlers */
     t_props       *x_diffarguments;  /* same for arguments */
-    t_widgethandlers  x_cache;    /* actual handlers */
-    t_scriptlet   *x_iniscript;   /* instance initializer */
+    t_widgethandlers  *x_hooks;   /* actual handlers (short definitions) */
     t_scriptlet   *x_optscript;   /* option scriptlet */
     t_scriptlet   *x_auxscript;   /* auxiliary scriptlet */
     t_scriptlet   *x_transient;   /* output buffer */
@@ -86,6 +73,7 @@ typedef struct _widget
     int            x_selected;
     int            x_update;      /* see widget_update() */
     int            x_vised;
+    int            x_constructed;
     t_clock       *x_transclock;
     t_towentry    *x_towlist;
 } t_widget;
@@ -112,11 +100,14 @@ static t_tow *widget_towlist = 0;
 
 static t_symbol *widgetps_mouse;
 static t_symbol *widgetps_motion;
-static t_symbol *widgetps_atbang;
-static t_symbol *widgetps_atfloat;
-static t_symbol *widgetps_atsymbol;
-static t_symbol *widgetps_atstore;
-static t_symbol *widgetps_atrestore;
+static t_symbol *widgetps_vis;
+static t_symbol *widgetps_new;
+static t_symbol *widgetps_free;
+static t_symbol *widgetps_data;
+static t_symbol *widgetps_add;
+static t_symbol *widgetps_delete;
+static t_symbol *widgetps_set;
+static t_symbol *widgetps_get;
 
 #ifdef WIDGET_PROFILE
 static double widgetprofile_lasttime;
@@ -361,49 +352,68 @@ static void widget_pushoptions(t_widget *x, int doit)
 	loudbug_bug("widget_pushoptions");
 }
 
-static void widget_pushinits(t_widget *x)
+static void widget_pushonehook(t_widget *x, t_scriptlet *sp, char *vname)
+{
+    if (scriptlet_evaluate(sp, x->x_transient, 0, 0, 0, x->x_xargs))
+	scriptlet_vpush(x->x_transient, vname);
+    else if (!scriptlet_isempty(sp))
+	loudbug_bug("widget_pushonehook (%s)", vname);
+}
+
+static void widget_pushvishooks(t_widget *x)
 {
     if (widgettype_isdefined(x->x_typedef))
     {
-	int sz;
-	if (widgettype_ievaluate(x->x_typedef, x->x_transient, 0,
-				 0, 0, x->x_xargs))
-	    scriptlet_vpush(x->x_transient, "typeinit");
-	else if (*widgettype_getinitializer(x->x_typedef, &sz) && sz > 0)
-	    loudbug_bug("widget_pushinits (type)");
+	t_widgethandlers *wh = widgettype_getscripts(x->x_typedef);
+	widget_pushonehook(x, widgethandlers_getvis(wh), "longvishook");
     }
-    if (scriptlet_evaluate(x->x_iniscript, x->x_transient, 0, 0, 0, x->x_xargs))
-	scriptlet_vpush(x->x_transient, "iteminit");
-    else if (!scriptlet_isempty(x->x_iniscript))
-	loudbug_bug("widget_pushinits (instance)");
+    widget_pushonehook(x, widgethandlers_getvis(x->x_hooks), "shortvishook");
 }
 
-static void widget_pushconstructors(t_widget *x)
+static void widget_pushnewhooks(t_widget *x)
 {
     /* LATER master constructor */
     if (widgettype_isdefined(x->x_typedef))
     {
-	int sz;
-	if (widgettype_cevaluate(x->x_typedef, x->x_transient, 0,
-				 0, 0, x->x_xargs))
-	    scriptlet_push(x->x_transient);
-	else if (*widgettype_getconstructor(x->x_typedef, &sz) && sz > 0)
-	    loudbug_bug("widget_pushconstructors (type)");
+	t_widgethandlers *wh = widgettype_getscripts(x->x_typedef);
+	widget_pushonehook(x, widgethandlers_getnew(wh), "longnewhook");
     }
+    widget_pushonehook(x, widgethandlers_getnew(x->x_hooks), "shortnewhook");
 }
 
-static void widget_pushdestructors(t_widget *x)
+static void widget_pushfreehooks(t_widget *x)
 {
     /* LATER master destructor */
     if (widgettype_isdefined(x->x_typedef))
     {
-	int sz;
-	if (widgettype_devaluate(x->x_typedef, x->x_transient, 0,
-				 0, 0, x->x_xargs))
-	    scriptlet_push(x->x_transient);
-	else if (*widgettype_getdestructor(x->x_typedef, &sz) && sz > 0)
-	    loudbug_bug("widget_pushdestructors (type)");
+	t_widgethandlers *wh = widgettype_getscripts(x->x_typedef);
+	widget_pushonehook(x, widgethandlers_getfree(wh), "longfreehook");
     }
+    widget_pushonehook(x, widgethandlers_getfree(x->x_hooks), "shortfreehook");
+}
+
+static void widget_pushdatahooks(t_widget *x, int ac, t_atom *av)
+{
+    t_scriptlet *sp;
+    WIDGETPROFILE_HANDLER_ENTER;
+    if (!widgettype_isdefined(x->x_typedef)
+	|| !(sp = widgethandlers_getdata(widgettype_getscripts(x->x_typedef)))
+	|| scriptlet_isempty(sp))
+	sp = widgethandlers_getdata(x->x_hooks);
+    if (sp)
+    {
+	WIDGETPROFILE_HANDLER_EVAL;
+	if (scriptlet_evaluate(sp, x->x_transient, 0, ac, av, x->x_xargs))
+	{
+	    WIDGETPROFILE_HANDLER_PUSH;
+	    scriptlet_push(x->x_transient);
+	}
+	else if (!scriptlet_isempty(sp))
+	    loudbug_bug("widget_pushdatahooks (%s)",
+			(sp == widgethandlers_getdata(x->x_hooks) ?
+			 "short" : "long"));
+    }
+    WIDGETPROFILE_HANDLER_QUIT;
 }
 
 static void widget_getconfig(t_widget *x)
@@ -428,7 +438,12 @@ static void widget_vis(t_gobj *z, t_glist *glist, int vis)
 	rtext_new(glist, t, glist->gl_editor->e_rtext, 0);
 #endif
 	widget_pushoptions(x, 0);
-	widget_pushinits(x);
+	widget_pushvishooks(x);
+	if (!x->x_constructed)
+	{
+	    widget_pushnewhooks(x);
+	    x->x_constructed = 1;
+	}
 	sys_vgui("::toxy::item_vis %s %s %s %s %s %s %g %g\n",
 		 x->x_tkclass->s_name, mypathname,
 		 x->x_cbtarget->s_name, x->x_name->s_name,
@@ -566,9 +581,12 @@ static void widget_update(t_widget *x, t_props *op)
     {
 	props_diff(x->x_diffhandlers,
 		   widgettype_gethandlers(x->x_typedef), x->x_handlers);
-	/* LATER cache handlers.
+	/* This is the only point where mirroring of handlers is performed.
 	   We get here both during construction, and after any change
-	   in our handlers -- the cache never stales. */
+	   in our handlers -- the mirror never stales. */
+	widgethandlers_reset(x->x_hooks);
+	widgethandlers_fill(x->x_hooks, x->x_diffhandlers);
+	widgethandlers_fill(x->x_hooks, x->x_handlers);
     }
     else if (op == x->x_arguments)
     {
@@ -646,126 +664,86 @@ static void widget_anything(t_widget *x, t_symbol *s, int ac, t_atom *av)
 	}
 	else
 	{
-	    /* LATER cache this */
-	    int hlen;
-	    t_atom *hp;
-	    t_symbol *sel;
-	    char buf[MAXPDSTRING];
+	    /* FIXME use long defs too, cf widget_pushdatahooks() */
+	    t_scriptlet *sp;
 	    WIDGETPROFILE_HANDLER_ENTER;
-	    buf[0] = '@';
-	    strcpy(buf + 1, s->s_name);
-	    sel = gensym(buf);
-	    if (((hp = props_getone(x->x_handlers, sel, &hlen)) ||
-		 (hp = props_getone(widgettype_gethandlers(x->x_typedef),
-				    sel, &hlen)))
-		&& hlen > 1)
+	    if (sp = widgethandlers_getother(x->x_hooks, s))
 	    {
 		WIDGETPROFILE_HANDLER_EVAL;
-		scriptlet_reset(x->x_auxscript);
-		scriptlet_add(x->x_auxscript, 0, 0, hlen - 1, hp + 1);
-		if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
-				       ac, av, x->x_xargs))
+		if (scriptlet_evaluate(sp, x->x_transient,
+				       1, ac, av, x->x_xargs))
 		{
 		    WIDGETPROFILE_HANDLER_PUSH;
 		    scriptlet_push(x->x_transient);
 		}
+		else if (!scriptlet_isempty(sp))
+		    loudbug_bug("widget_anything");
 	    }
-	    else loud_nomethod((t_pd *)x, s);
+	    else if (s == widgetps_vis || s == widgetps_new ||
+		     s == widgetps_free || s == widgetps_data)
+		loud_error((t_pd *)x,
+			   "explicit call of the special handler \"%s\"",
+			   s->s_name);
+	    else
+		loud_nomethod((t_pd *)x, s);
 	    WIDGETPROFILE_HANDLER_QUIT;
 	}
     }
 }
 
-/* LATER cache this */
+/* FIXME use long defs too, cf widget_pushdatahooks() */
 static void widget_bang(t_widget *x)
 {
-    int ac;
-    t_atom *av;
+    t_scriptlet *sp;
     WIDGETPROFILE_HANDLER_ENTER;
-    if ((av = props_getone(x->x_handlers, widgetps_atbang, &ac)) ||
-	(av = props_getone(widgettype_gethandlers(x->x_typedef),
-			   widgetps_atbang, &ac)))
+    sp = widgethandlers_getbang(x->x_hooks);
+    WIDGETPROFILE_HANDLER_EVAL;
+    if (scriptlet_evaluate(sp, x->x_transient, 1, 0, 0, x->x_xargs))
     {
-	if (ac > 1)
-	{
-	    WIDGETPROFILE_HANDLER_EVAL;
-	    scriptlet_reset(x->x_transient);
-	    scriptlet_add(x->x_transient, 1, 1, ac - 1, av + 1);
-	    WIDGETPROFILE_HANDLER_PUSH;
-	    scriptlet_push(x->x_transient);
-	}
+	WIDGETPROFILE_HANDLER_PUSH;
+	scriptlet_push(x->x_transient);
     }
+    else if (!scriptlet_isempty(sp))
+	loudbug_bug("widget_bang");
     WIDGETPROFILE_HANDLER_QUIT;
 }
 
-/* LATER cache this */
+/* FIXME use long defs too, cf widget_pushdatahooks() */
 static void widget_float(t_widget *x, t_float f)
 {
-    int ac;
-    t_atom *av;
+    t_scriptlet *sp;
+    t_atom at;
     WIDGETPROFILE_HANDLER_ENTER;
-    if ((av = props_getone(x->x_handlers, widgetps_atfloat, &ac)) ||
-	(av = props_getone(widgettype_gethandlers(x->x_typedef),
-			   widgetps_atfloat, &ac)))
+    sp = widgethandlers_getfloat(x->x_hooks);
+    WIDGETPROFILE_HANDLER_EVAL;
+    SETFLOAT(&at, f);
+    if (scriptlet_evaluate(sp, x->x_transient, 1, 1, &at, x->x_xargs))
     {
-	if (ac > 1)
-	{
-	    t_atom at;
-	    WIDGETPROFILE_HANDLER_EVAL;
-	    SETFLOAT(&at, f);
-	    scriptlet_reset(x->x_auxscript);
-	    scriptlet_add(x->x_auxscript, 0, 0, ac - 1, av + 1);
-	    if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
-				   1, &at, x->x_xargs))
-	    {
-		WIDGETPROFILE_HANDLER_PUSH;
-		scriptlet_push(x->x_transient);
-	    }
-	}
+	WIDGETPROFILE_HANDLER_PUSH;
+	scriptlet_push(x->x_transient);
     }
+    else if (!scriptlet_isempty(sp))
+	loudbug_bug("widget_float");
     WIDGETPROFILE_HANDLER_QUIT;
 }
 
-/* LATER cache this */
+/* FIXME use long defs too, cf widget_pushdatahooks() */
 static void widget_symbol(t_widget *x, t_symbol *s)
 {
-    int ac;
-    t_atom *av;
+    t_scriptlet *sp;
+    t_atom at;
     WIDGETPROFILE_HANDLER_ENTER;
-    if ((av = props_getone(x->x_handlers, widgetps_atsymbol, &ac)) ||
-	(av = props_getone(widgettype_gethandlers(x->x_typedef),
-			   widgetps_atsymbol, &ac)))
+    sp = widgethandlers_getsymbol(x->x_hooks);
+    WIDGETPROFILE_HANDLER_EVAL;
+    SETSYMBOL(&at, s);
+    if (scriptlet_evaluate(sp, x->x_transient, 1, 1, &at, x->x_xargs))
     {
-	if (ac > 1)
-	{
-	    t_atom at;
-	    WIDGETPROFILE_HANDLER_EVAL;
-	    SETSYMBOL(&at, s);
-	    scriptlet_reset(x->x_auxscript);
-	    scriptlet_add(x->x_auxscript, 0, 0, ac - 1, av + 1);
-	    if (scriptlet_evaluate(x->x_auxscript, x->x_transient, 1,
-				   1, &at, x->x_xargs))
-	    {
-		WIDGETPROFILE_HANDLER_PUSH;
-		scriptlet_push(x->x_transient);
-	    }
-	}
+	WIDGETPROFILE_HANDLER_PUSH;
+	scriptlet_push(x->x_transient);
     }
+    else if (!scriptlet_isempty(sp))
+	loudbug_bug("widget_symbol");
     WIDGETPROFILE_HANDLER_QUIT;
-}
-
-static void widget_store(t_widget *x, t_symbol *s)
-{
-    if (s == &s_)
-	s = x->x_varname;
-    /* FIXME */
-}
-
-static void widget_restore(t_widget *x, t_symbol *s)
-{
-    if (s == &s_)
-	s = x->x_varname;
-    /* FIXME */
 }
 
 static void widget_set(t_widget *x, t_symbol *s, int ac, t_atom *av)
@@ -816,14 +794,6 @@ static void widget_remove(t_widget *x, t_symbol *s)
     }
 }
 
-static void widget_ini(t_widget *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (ac)
-    {
-	scriptlet_reset(x->x_iniscript);
-	scriptlet_add(x->x_iniscript, 0, 0, ac, av);
-    }
-}
 static void widget_tot(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
     if (ac)
@@ -849,11 +819,12 @@ static int widget_resettype(t_widget *x, t_widgettype *wt)
     if (!wt ||  /* LATER rethink, cf widgettype_reload() */
 	wt == x->x_typedef)
     {
+	widget_pushfreehooks(x);
 	if (!(x->x_tkclass = widgettype_tkclass(x->x_typedef)))
 	    x->x_tkclass = x->x_type;
 	x->x_update = WIDGET_REVIS;
 	widget_update(x, x->x_arguments);
-	widget_pushconstructors(x);
+	widget_pushnewhooks(x);
 	widget_update(x, x->x_handlers);
 	widget_update(x, x->x_options);
 	return (1);
@@ -867,7 +838,7 @@ static int widget_resettype(t_widget *x, t_widgettype *wt)
 
 static void widget_redefine(t_widget *x)
 {
-    widget_resettype(x, widgettype_reload(x->x_type));
+    widget_resettype(x, widgettype_reload(x->x_type, x->x_glist));
 }
 
 static void widget_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av)
@@ -903,14 +874,37 @@ static void widget__config(t_widget *x, t_symbol *target, t_symbol *bg,
     canvas_fixlinesfor(glist_getcanvas(x->x_glist), (t_text *)x);  /* FIXME */
 }
 
-static void widget__value(t_widget *x, t_symbol *s, int ac, t_atom *av)
+/* FIXME this is only a template */
+static void widget__data(t_widget *x, t_symbol *s, int ac, t_atom *av)
 {
 #ifdef WIDGET_DEBUG
-    loudbug_startpost("value:");
+    loudbug_startpost("_data:");
     loudbug_postatom(ac, av);
     loudbug_endpost();
 #endif
-    /* FIXME */
+    if (ac && av->a_type == A_SYMBOL)
+    {
+	s = av->a_w.w_symbol;
+	if (s == widgetps_add)
+	{
+	    widget_pushdatahooks(x, ac, av);
+	}
+	else if (s == widgetps_delete)
+	{
+	    widget_pushdatahooks(x, ac, av);
+	}
+	else if (s == widgetps_set)
+	{
+	    widget_pushdatahooks(x, ac, av);
+	}
+	else if (s == widgetps_get)
+	{
+	    widget_pushdatahooks(x, ac, av);
+	}
+	else loud_error((t_pd *)x,
+			"invalid \"_data\" subcommand \"%s\"", s->s_name);
+    }
+    else loud_error((t_pd *)x, "missing \"_data\" subcommand");
 }
 
 static void widget__callback(t_widget *x, t_symbol *s, int ac, t_atom *av)
@@ -1026,6 +1020,7 @@ static void widgetbug_postprops(char *msg, t_props *pp)
 
 static void widget_debug(t_widget *x)
 {
+    t_widgethandlers *wh = widgettype_getscripts(x->x_typedef);
     t_symbol *pn = widget_getcvpathname(x, 0);
     t_symbol *mn = widget_getmypathname(x, 0);
     int sz, i, nopt;
@@ -1060,15 +1055,20 @@ static void widget_debug(t_widget *x)
     loudbug_post("transient buffer (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
     bp = scriptlet_getcontents(x->x_optscript, &sz);
     loudbug_post("option buffer (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
-    bp = widgettype_getconstructor(x->x_typedef, &sz);
-    loudbug_post("type constructor (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
-    bp = widgettype_getdestructor(x->x_typedef, &sz);
-    loudbug_post("type destructor (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
-    bp = widgettype_getinitializer(x->x_typedef, &sz);
-    loudbug_post("type initializer (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
-    bp = scriptlet_getcontents(x->x_iniscript, &sz);
-    loudbug_post("instance initializer (size %d):\n\"%s\"",
+
+    bp = scriptlet_getcontents(widgethandlers_getnew(wh), &sz);
+    loudbug_post("long newhook (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
+    bp = scriptlet_getcontents(widgethandlers_getfree(wh), &sz);
+    loudbug_post("long freehook (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
+    bp = scriptlet_getcontents(widgethandlers_getdata(wh), &sz);
+    loudbug_post("long datahook (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
+
+    bp = scriptlet_getcontents(widgethandlers_getvis(wh), &sz);
+    loudbug_post("long vishook (size %d):\n\"%s\"", sz, (bp ? bp : bempty));
+    bp = scriptlet_getcontents(widgethandlers_getvis(x->x_hooks), &sz);
+    loudbug_post("short vishook (size %d):\n\"%s\"",
 		 sz, (bp ? bp : bempty));
+
     bp = masterwidget_getcontents(&sz);
     loudbug_post("setup definitions (size %d):\n\"%s\"",
 		 sz, (bp ? bp : bempty));
@@ -1089,13 +1089,13 @@ static void gui_unbind(t_pd *x, t_symbol *s)
 static void widget_free(t_widget *x)
 {
     widget_novis(x);
-    widget_pushdestructors(x);
+    widget_pushfreehooks(x);
     gui_unbind((t_pd *)x, x->x_cbtarget);
     gui_unbind((t_pd *)x, x->x_rptarget);
+    widgethandlers_free(x->x_hooks);
     props_freeall(x->x_options);
     props_freeall(x->x_xargs);
     props_freeall(x->x_diffoptions);
-    scriptlet_free(x->x_iniscript);
     scriptlet_free(x->x_optscript);
     scriptlet_free(x->x_auxscript);
     scriptlet_free(x->x_transient);
@@ -1140,7 +1140,7 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     pd_bind((t_pd *)x, x->x_rptarget = gensym(buf));
 
     x->x_glist = canvas_getcurrent();
-    x->x_typedef = widgettype_get(x->x_type);
+    x->x_typedef = widgettype_get(x->x_type, 0, 0, x->x_glist);
     if (!(x->x_tkclass = widgettype_tkclass(x->x_typedef)))
 	x->x_tkclass = x->x_type;
 
@@ -1151,14 +1151,10 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     sprintf(buf, "::toxy::v%x", (int)x);
     x->x_varname = gensym(buf);
 
-    x->x_iniscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
-				   x->x_name, x->x_glist, widget_cvhook);
-    x->x_optscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
-				   x->x_name, x->x_glist, widget_cvhook);
     x->x_auxscript = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
 				   x->x_name, x->x_glist, widget_cvhook);
-    x->x_transient = scriptlet_new((t_pd *)x, x->x_rptarget, x->x_cbtarget,
-				   x->x_name, x->x_glist, widget_cvhook);
+    x->x_transient = scriptlet_newalike(x->x_auxscript);
+    x->x_optscript = scriptlet_newalike(x->x_auxscript);
 
     x->x_options = props_new((t_pd *)x, "option", "-", 0, 0);
     x->x_handlers = props_new((t_pd *)x, "handler", "@", x->x_options, 0);
@@ -1169,6 +1165,8 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
 				  x->x_diffoptions, 0);
     x->x_diffarguments = props_new((t_pd *)x, "argument", "#",
 				   x->x_diffoptions, 0);
+
+    x->x_hooks = widgethandlers_new(x->x_auxscript);
 
     outlet_new((t_object *)x, &s_anything);
     /* LATER consider estimating these, based on widget class and options.
@@ -1186,7 +1184,7 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     x->x_vised = 0;
     widget_attach(x);
     widget_addmessage(x, 0, 0, ac, av);
-    widget_pushconstructors(x);
+    x->x_constructed = 0;
     return (x);
 }
 
@@ -1349,7 +1347,7 @@ static void tow_anything(t_tow *x, t_symbol *s, int ac, t_atom *av)
 
 static void tow_redefine(t_tow *x)
 {
-    t_widgettype *wt = widgettype_reload(x->x_type);
+    t_widgettype *wt = widgettype_reload(x->x_type, x->x_glist);
     t_widgetentry *we;
     for (we = x->x_widgetlist; we; we = we->we_next)
 	if (!widget_resettype(we->we_widget, wt))
@@ -1495,11 +1493,14 @@ void widget_setup(void)
 	 TOXY_VERSION, loud_ordinal(TOXY_BUILD), TOXY_RELEASE);
     widgetps_mouse = gensym("mouse");
     widgetps_motion = gensym("motion");
-    widgetps_atbang = gensym("@bang");
-    widgetps_atfloat = gensym("@float");
-    widgetps_atsymbol = gensym("@symbol");
-    widgetps_atstore = gensym("@store");
-    widgetps_atrestore = gensym("@restore");
+    widgetps_vis = gensym("vis");
+    widgetps_new = gensym("new");
+    widgetps_free = gensym("free");
+    widgetps_data = gensym("data");
+    widgetps_add = gensym("add");
+    widgetps_delete = gensym("delete");
+    widgetps_set = gensym("set");
+    widgetps_get = gensym("get");
     widgettype_setup();
     widget_class = class_new(gensym("widget"),
 			     (t_newmethod)widget_new,
@@ -1512,16 +1513,10 @@ void widget_setup(void)
     class_addfloat(widget_class, widget_float);
     class_addsymbol(widget_class, widget_symbol);
     class_addanything(widget_class, widget_anything);
-    class_addmethod(widget_class, (t_method)widget_store,
-		    gensym("store"), A_DEFSYMBOL, 0);
-    class_addmethod(widget_class, (t_method)widget_restore,
-		    gensym("restore"), A_DEFSYMBOL, 0);
     class_addmethod(widget_class, (t_method)widget_set,
 		    gensym("set"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget_remove,
 		    gensym("remove"), A_SYMBOL, 0);
-    class_addmethod(widget_class, (t_method)widget_ini,
-		    gensym("ini"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget_tot,
 		    gensym("tot"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget_refresh,
@@ -1533,8 +1528,8 @@ void widget_setup(void)
     class_addmethod(widget_class, (t_method)widget__config,
 		    gensym("_config"),
 		    A_SYMBOL, A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(widget_class, (t_method)widget__value,
-		    gensym("_value"), A_GIMME, 0);
+    class_addmethod(widget_class, (t_method)widget__data,
+		    gensym("_data"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget__callback,
 		    gensym("_cb"), A_GIMME, 0);
     class_addmethod(widget_class, (t_method)widget__inout,

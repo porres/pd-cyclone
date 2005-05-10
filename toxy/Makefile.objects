@@ -43,4 +43,4 @@ hammer/file.o \
 common/props.o \
 toxy/scriptlet.o
 
-WIDGET_PRIVATEOBJECTS = widgettype.o
+WIDGET_PRIVATEOBJECTS = widgettype.o widgethandlers.o

@@ -21,7 +21,7 @@ red -command .<.>;
 #X msg 90 213 -command .(set c [tk_chooseColor] .: eval .<| set "-bg"
 $c "-text" $c.>.);
 #X obj 294 268 loadbang;
-#X msg 294 295 ini .- config -textvariable "";
+#X msg 294 295 set @vis .- config -textvariable "";
 #X obj 250 21 widget button bb -bg green -activebackground yellow
 -command .<.> ;
 #X connect 0 0 3 0;

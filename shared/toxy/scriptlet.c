@@ -1,4 +1,4 @@
-/* Copyright (c) 2003-2004 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -46,7 +46,7 @@ struct _scriptlet
     t_glist          *s_glist;     /* containing glist (empty allowed) */
     t_symbol         *s_rptarget;  /* reply target */
     t_symbol         *s_cbtarget;  /* callback target */
-    t_symbol         *s_item;
+    t_symbol         *s_item;      /* item's name (readable part of its path) */
     t_scriptlet_cvfn  s_cvfn;      /* if empty, passing resolveall is a bug */
     t_canvas         *s_cv;        /* as returned by cvfn */
     int               s_cvstate;
@@ -1048,8 +1048,10 @@ void scriptlet_free(t_scriptlet *sp)
 /* The parameter 'gl' (null accepted) is necessary, because the 's_glist'
    field, if implicitly set, would be dangerous (after a glist is gone)
    and confusing (current directory used for i/o of a global scriptlet). */
-t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
-			   t_symbol *item, t_glist *gl, t_scriptlet_cvfn cvfn)
+t_scriptlet *scriptlet_new(t_pd *owner,
+			   t_symbol *rptarget, t_symbol *cbtarget,
+			   t_symbol *item, t_glist *glist,
+			   t_scriptlet_cvfn cvfn)
 {
     t_scriptlet *sp = getbytes(sizeof(*sp));
     if (sp)
@@ -1065,7 +1067,7 @@ t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
 	    configured = 1;
 	}
 	sp->s_owner = owner;
-	sp->s_glist = gl;
+	sp->s_glist = glist;
 	sp->s_rptarget = rptarget;
 	sp->s_cbtarget = cbtarget;
 	sp->s_item = item;
@@ -1078,4 +1080,10 @@ t_scriptlet *scriptlet_new(t_pd *owner, t_symbol *rptarget, t_symbol *cbtarget,
 	scriptlet_reset(sp);
     }
     return (sp);
+}
+
+t_scriptlet *scriptlet_newalike(t_scriptlet *sp)
+{
+    return (scriptlet_new(sp->s_owner, sp->s_rptarget, sp->s_cbtarget,
+			  sp->s_item, sp->s_glist, sp->s_cvfn));
 }

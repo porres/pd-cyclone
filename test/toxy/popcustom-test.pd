@@ -12,7 +12,7 @@ yellow -width 5 -text one @float if .(.#1 >= 1.) .(.-.pop invoke .#1.)
 #X obj 23 12 loadbang;
 #X obj 96 110 widget pop1 p1;
 #X obj 188 110 widget pop2 p2;
-#X msg 23 41 ini ::toxy::popup .- .| rpop [list one two three four five]
+#X msg 23 41 set @vis ::toxy::popup .- .| rpop [list one two three four five]
 -bg green -activebackground yellow .: destroy .^.m .: .^.scrollvert
 configure -width 0 .: .^.scrollhort configure -width 0 .: .^.c configure
 -bg black;

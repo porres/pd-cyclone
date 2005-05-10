@@ -5,6 +5,12 @@ TODO for root and shared
 
 DONE for root and shared
 
+with rafts prealpha1
+  * new module: patchvalue
+
+with toxy alpha17
+  * scriptlet: new call scriptlet_newalike()
+
 with cyclone alpha54 and toxy alpha16
   * props:
     . code cleanup

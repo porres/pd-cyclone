@@ -15,15 +15,20 @@ int fragile_class_count(void)
     return (pd_objectmaker->c_nmethod);
 }
 
-void fragile_class_getnames(t_atom *av)
+int fragile_class_getnames(t_atom *av, int maxnames)
 {
     int ac = pd_objectmaker->c_nmethod;
     t_methodentry *mp = pd_objectmaker->c_methods;
+    if (ac > maxnames)
+	ac = maxnames;
+    else
+	maxnames = ac;
     while (ac--)
     {
 	SETSYMBOL(av, mp->me_name);
 	mp++; av++;
     }
+    return (maxnames);
 }
 
 /* Raising and voluntary mutation is a method of resolving name clashes.

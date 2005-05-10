@@ -1,12 +1,34 @@
 TODO for toxy
   * widget
-    . cached handlers
+    . push long message handlers if defined, instead of short
+    . widgetcontainer: woc and wiw-list
     . better megawidgets
     . editor: handle semicolons (need to revisit resolution rules)
-    . editor: differentiate argument keys from casual #strings (color-names)
+    . editor: break editorhook into separate properties, add them in single mode
+    . find a way for "package require" to work out-of-the-box on windows
   * tow: canvas-wide and type-on-canvas-wide broadcasting
 
 DONE for toxy
+
+alpha17
+  * widget:
+    . first sketch of an editor widget (bpf), introducing a basic set of rules:
+      - instance data kept in its own namespace
+      - gui sends '_data' (replaces '_value') requests to pd, specifying one
+	of the standard submessages: add, delete, set, get
+      - pd uses the new special handler for replying: @data
+      (for the time being, there is only an idle loop between the two sides)
+    . maintaining a scriptlet collection, which mirrors type and instance
+      handler properties (including specials: @vis, @new, @free and @data)
+    . lookup in the mirror for faster and more robust handling of messages 
+    . '@ini' section and 'ini' message removed, after being unified as the
+      @vis special handler (use 'set @vis' message form for passing options)
+    . all special handlers support short definitions (inside #. comments)
+      and long definitions (tagged with #@ comments), however only short
+      ones may be overriden by instance definitions
+    . long message handlers are stored, but not used yet
+    . .wid file header may include requirements (base widget definitions)
+    . fixed: patch's directory handling in 'redefine'
 
 alpha16
   * widget:

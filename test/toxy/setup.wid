@@ -1,4 +1,4 @@
-package provide toxywidgets 0.1.0.16
+package provide toxywidgets 0.1.0.17
 
 # LATER keep standard widget setup in a .tcl file (transfered into a .wiq), and
 # glue separate .wid files with standard widget definitions into another .wiq
@@ -10,15 +10,24 @@ package provide toxywidgets 0.1.0.16
 # LATER ask for adding something of the sort to pd.tk:
 bind Canvas <1> {+focus %W}
 
-# In order to keep the state after our canvas has been destroyed
-# (i.e. our subpatch closed) -- use 'store' and 'restore' handlers,
-# if defined, otherwise try setting -variable and -textvariable traces.
+# FIXME args
+proc ::toxy::package_require {pkg dll} {
+    if {[catch {package require $pkg} res] == 0} {
+	puts stderr "using package $pkg $res"
+    } elseif {[catch {load $dll $pkg}] != 0} {
+	puts stderr "ERROR: missing package $pkg ($res)"
+    }
+}
+
+# FIXME this should be explicitly requested
+# In order to keep the state after tk canvas has been destroyed
+# try setting -variable and -textvariable traces
 
 proc ::toxy::item_dotrace {target varname ndxname op} {
     if {[catch {set v [set $varname]} res] == 0} {
 	if {$v != [set $varname.last]} {
 # FIXME activate this on demand (for explicit traces)
-#	    pd $target.rp _value $v \;
+#	    pd $target.rp _data $v \;
 	    set $varname.last $v
 	}
     } else { puts stderr [concat failed ::toxy::item_dotrace: $res] }
@@ -100,10 +109,16 @@ proc ::toxy::item_visconfig {path target name varname cvpath px py} {
 	if {$failed} { error [concat in $path config: $res] }
     }
 
+    if {[info exists ::toxy::longnewhook]} {
+	set failed [catch {eval $::toxy::longnewhook} res]
+	unset ::toxy::longnewhook
+	if {$failed} { error [concat in ::toxy::longnewhook: $res] }
+    }
+
     $cvpath create window $px $py \
 	-anchor nw -window $path -tags [concat toxy$name $target]
 
-# FIXME
+# FIXME use ${name}::explicittrace
     if {[info exists ::toxy::storethispath]} {
 # FIXME explicit traces
 	set needtraces 0
@@ -129,15 +144,15 @@ proc ::toxy::item_visconfig {path target name varname cvpath px py} {
     set failed [catch {::toxy::master $path $cvpath $target} res]
     if {$failed} { error [concat in ::toxy::master: $res] }
 
-    if {[info exists ::toxy::typeinit]} {
-	set failed [catch {eval $::toxy::typeinit} res]
-	unset ::toxy::typeinit
-	if {$failed} { error [concat in ::toxy::typeinit: $res] }
+    if {[info exists ::toxy::longvishook]} {
+	set failed [catch {eval $::toxy::longvishook} res]
+	unset ::toxy::longvishook
+	if {$failed} { error [concat in ::toxy::longvishook: $res] }
     }
-    if {[info exists ::toxy::iteminit]} {
-	set failed [catch {eval $::toxy::iteminit} res]
-	unset ::toxy::iteminit
-	if {$failed} { error [concat in ::toxy::iteminit: $res] }
+    if {[info exists ::toxy::shortvishook]} {
+	set failed [catch {eval $::toxy::shortvishook} res]
+	unset ::toxy::shortvishook
+	if {$failed} { error [concat in ::toxy::shortvishook: $res] }
     }
 
     ::toxy::item_getconfig $path $target
@@ -220,7 +235,7 @@ proc ::toxy::master {path cvpath target} {
     }
 }
 
-# to be called explicitly from type initializer, LATER rethink
+# to be called explicitly from vis proc, LATER rethink
 proc ::toxy::subwidget {path parent cvpath target} {
     bind $path <ButtonRelease> "::toxy::master_release $target $cvpath %X %Y %b"
     bind $path <1> "::toxy::item_click $target $cvpath %X %Y %b 0"
@@ -305,6 +320,7 @@ set ::toxy::scale_isactive 1
 #. -bg pink -font .(helvetica 24.) -width 16
 #. @symbol .- delete 0 end .: .- insert 0 .#1
 
+#@ vis
 bind .- <Return> {eval .<[.- get].>; focus .^.c}
 
 #> popup menubutton
@@ -315,4 +331,5 @@ bind .- <Return> {eval .<[.- get].>; focus .^.c}
 #. #items test
 #. #iprops "-bg" purple "-fg" white "-activebackground" magenta "-borderwidth" 3
 
+#@ vis
 ::toxy::popup .- .| . [concat .#items] .#iprops
