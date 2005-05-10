@@ -3,7 +3,7 @@ include Makefile.dirs
 all:
 	@for i in $(MIXED_DIRS) ; \
 		do ( if [ -d $$i ] ; then cd $$i; $(MAKE) ; fi ) ; done
-	cd doc/src; $(MAKE)
+	@if [ -d doc/src ] ; then cd doc/src ; $(MAKE) ; fi
 
 clean cleanall:
 	@for i in $(MIXED_DIRS) ; \

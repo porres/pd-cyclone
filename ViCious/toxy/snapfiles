@@ -7,4 +7,5 @@ SNAPFILES = \
 	miXed\ViCious\toxy\snapfiles \
 	miXed\LICENSE.txt \
 	miXed\test\toxy\*.* \
+	miXed\test\toxy\editors\*.* \
 	miXed\test\toxy\stress\*.*

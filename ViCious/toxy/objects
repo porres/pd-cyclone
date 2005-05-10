@@ -14,6 +14,7 @@ TOW_OBJECTS = $(SRCDIR)\tow.obj \
 
 WIDGET_OBJECTS = $(SRCDIR)\widget.obj \
 	$(SRCDIR)\widgettype.obj \
+	$(SRCDIR)\widgethandlers.obj \
 	$(SHAREDDIR)\unstable\forky.obj \
 	$(SHAREDDIR)\common\loud.obj \
 	$(SHAREDDIR)\common\grow.obj \

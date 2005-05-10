@@ -1,0 +1,10 @@
+TODO for pddp
+  * pddplink:
+    . standardize server's root directory (use $help_directory from pd.tk?)
+    . nonboxed version
+
+DONE for pddp
+
+alpha1
+  * prototype versions of the external "pddplink" and two pd-gui extensions
+    "pddpserver.tcl", "pddpclient.tcl"

@@ -251,7 +251,7 @@ static void testmess_setnames(t_testmess *x, t_symbol *s,
 	if (natoms > 0 && testmess_makeroom(x, natoms * 2, 0))
 	{
 	    testmess_setnatoms(x, natoms);
-	    fragile_class_getnames(x->x_message);
+	    fragile_class_getnames(x->x_message, natoms);
 	}
     }
     else

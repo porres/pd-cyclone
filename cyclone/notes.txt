@@ -1,4 +1,6 @@
 TODO for cyclone
+  * add folder class, so people forget about using tot for that purpose
+  * plug import into file/open
 
 DONE for cyclone
 

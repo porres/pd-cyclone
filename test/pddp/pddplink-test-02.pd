@@ -1,0 +1,8 @@
+#N canvas 332 321 450 300 12;
+#X obj 61 83 pddplink pddplink-test-02.html;
+#X text 21 12 second entry;
+#X text 59 47 linking to a local html page:;
+#X text 58 130 linking to a remote html page:;
+#X obj 60 166 pddplink http://puredata.info;
+#X obj 59 254 pddplink pddplink-test-01.pd;
+#X text 57 218 linking to another local patch:;
