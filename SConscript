@@ -48,4 +48,5 @@ for toxy_extra in Split('tot plustot tow widget'):
     env.Alias('install', env.Install(os.path.join(prefix, 'extra'), external))
     Default(external)
 
+env.Alias('install', env.Install(os.path.join(prefix, 'extra'), glob.glob('test/toxy/*.wid')))
 env.Alias('install', env.Install(os.path.join(prefix, 'doc/5.reference/'), glob.glob('doc/help/*/*.pd')))
