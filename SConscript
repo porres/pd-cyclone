@@ -43,7 +43,7 @@ for sickle_extra in sickle_source:
 toxy_src = glob.glob('shared/toxy/*.c')
 for toxy_extra in Split('tot plustot tow widget'):
     toxy_source = "toxy/" + toxy_extra + ".c"
-    src = [toxy_src,toxy_source,'toxy/widgettype.c',miXed_shared,hammer_shared]
+    src = [toxy_src,toxy_source,'toxy/widgettype.c','toxy/widgethandlers.c',miXed_shared,hammer_shared]
     external = env.SharedLibrary(toxy_extra, src)
     env.Alias('install', env.Install(os.path.join(prefix, 'extra'), external))
     Default(external)
