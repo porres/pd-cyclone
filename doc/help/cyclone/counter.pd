@@ -1,5 +1,5 @@
-#N canvas 223 55 854 624 10;
-#X text 5 5 ;
+#N canvas 295 60 751 615 10;
+#X text 5 5 comment;
 #X text -11 573 docs based on the MAX/MSP reference (c) cycling'74
 ;
 #X text -12 587 ___________________________________________________
@@ -70,7 +70,7 @@
 #X floatatom 437 393 5 0 0 0 - - -;
 #X floatatom 485 392 5 0 0 0 - - -;
 #X text 434 375 set min/max;
-#N canvas 0 22 504 163 arguments 0;
+#N canvas 0 22 508 167 arguments 0;
 #X obj 62 50 counter max;
 #X obj 62 72 counter min max;
 #X obj 61 95 counter dir min max;
@@ -122,19 +122,11 @@ bang;
 #X connect 17 0 13 0;
 #X restore 428 89 pd outputs;
 #X text 444 275 additional ways to accomplish the same:;
-#N canvas 211 114 569 114 related_objects 0;
-#X obj 40 47 gem_counter;
-#X obj 133 48 cxc.counter;
-#X text 27 24 other counters:;
-#X obj 222 48 modulo_counter;
-#X obj 387 47 count~;
-#X obj 342 47 count;
-#X obj 443 47 countund;
-#X restore 592 554 pd related_objects;
 #X obj 460 554 pddp_open all_about_looping;
-#X text 480 529 click on these for more info:;
+#X text 458 508 click on these for more info:;
 #X text 415 201 * (there seems to be a bug when used with an;
 #X text 431 221 would be to reset to 0 as well ...);
+#X obj 460 531 pddp_open all_about_cyclone;
 #X connect 5 0 18 0;
 #X connect 6 0 5 0;
 #X connect 10 0 18 1;
