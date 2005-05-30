@@ -25,7 +25,8 @@ plustot.in.o \
 plustot.var.o \
 plustot.out.o \
 plustot.qlist.o \
-plustot.print.o
+plustot.print.o \
+pluswidget.o
 
 PLUSTOT_LIBS = $(TCL_LIB)
 

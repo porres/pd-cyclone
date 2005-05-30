@@ -1,4 +1,4 @@
-/* Copyright (c) 2003-2004 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -23,6 +23,19 @@ EXTERN_STRUCT _plustob;
 EXTERN_STRUCT _plusvar;
 #define t_plusvar  struct _plusvar
 
+EXTERN_STRUCT _pluswidget;
+#define t_pluswidget  struct _pluswidget
+
+typedef struct _plusobject
+{
+    t_object       po_ob;
+    t_pluswidget  *po_widget;
+    int            po_ninlets;
+    int            po_noutlets;
+} t_plusobject;
+
+t_symbol *totps_plustot;
+t_symbol *plusps_tot;
 t_symbol *plusps_Ti;
 t_symbol *plusps_To;
 t_symbol *plusps_Tv;
@@ -47,9 +60,11 @@ t_plustob *plustob_new(t_plustin *tin, Tcl_Obj *ob);
 void plustob_setifshared(t_plustob *tob, t_plusifsharedfn ifsharedfn);
 int plustob_isshared(t_plustob *tob);
 Tcl_Obj *plustob_getvalue(t_plustob *tob);
+
 t_plustin *plustag_tobtin(t_symbol *s, t_pd *caller);
 Tcl_Obj *plustag_tobvalue(t_symbol *s, t_pd *caller);
 Tcl_Obj *plusatom_tobvalue(t_atom *ap, t_pd *caller);
+
 Tcl_Obj *plustob_set(t_plustob *tob, t_plustin *tin, Tcl_Obj *ob);
 Tcl_Obj *plustob_setfloat(t_plustob *tob, t_float f);
 Tcl_Obj *plustob_setsymbol(t_plustob *tob, t_symbol *s);
@@ -67,6 +82,13 @@ Tcl_Obj *plusvar_set(t_plusvar *var, Tcl_Obj *ob, int doit);
 Tcl_Obj *plusvar_setfloat(t_plusvar *var, t_float f, int doit);
 Tcl_Obj *plusvar_setsymbol(t_plusvar *var, t_symbol *s, int doit);
 Tcl_Obj *plusvar_setlist(t_plusvar *var, int ac, t_atom *av, int doit);
+
+void plusobject_free(t_plusobject *po);
+t_plusobject *plusobject_new(t_class *c, t_symbol *s, int ac, t_atom *av);
+t_inlet *plusinlet_new(t_plusobject *po, t_pd *dest,
+		       t_symbol *s1, t_symbol *s2);
+t_outlet *plusoutlet_new(t_plusobject *po, t_symbol *s);
+void plusclass_inherit(t_class *c, t_symbol *s);
 
 void plustot_env_setup(void);
 void plustot_in_setup(void);

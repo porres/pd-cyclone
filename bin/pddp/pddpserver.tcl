@@ -34,7 +34,7 @@ if {$::pddp::testrun} {  ;# true if sourced from standalone "pddpboot.tcl"
 }
 
 namespace eval ::pddp {
-    variable thePort 8080
+    variable thePort 0
     variable theState
     variable theMimeTypes
     variable theErrors
@@ -93,7 +93,7 @@ namespace eval ::pddp {
     }
 }
 
-proc ::pddp::srvUse {{root {}} {port 8080}} {
+proc ::pddp::srvUse {{root {}} {port 0}} {
     variable theState
     if {[string length $theState(listen)]} {
 	if {[string length $root] && ![string equal $root $theState(root)]} {
@@ -106,7 +106,7 @@ proc ::pddp::srvUse {{root {}} {port 8080}} {
 
 # Start the server by listening for connections on the desired port.
 
-proc ::pddp::srvStart {{root {}} {port 8080}} {
+proc ::pddp::srvStart {{root {}} {port 0}} {
     variable thePort
     variable theState
 
@@ -118,16 +118,16 @@ proc ::pddp::srvStart {{root {}} {port 8080}} {
     srvStop
     array set theState [list naccepts 0 nrequests 0 nerrors 0]
 
-    for { set thePort $port } {$thePort < 32767 } {incr thePort } {
+    for { set thePort $port } {$thePort < 65535 } {incr thePort } {
 	if {[catch {set theState(listen) \
 			[socket -server ::pddp::srvAccept $thePort]} res]} {
 	    if {$thePort == 0} {
 		# FIXME this is a critical error
-		set thePort 8080
+		set thePort 32768
 	    }
         } else { break }
     }
-    if {$thePort == 32767} {
+    if {$thePort == 65535} {
 	srvLog none Error "Could not find port available for listening"
     } else {
 	if {$thePort == 0} {
@@ -479,11 +479,11 @@ if {$::pddp::testrun} {  ;# true if tested as a standalone script
 	set root [lindex $argv 1]
 	set port [lindex $argv 2]
 	if {![string is integer -strict $port]} {
-	    set port 8080
+	    set port 32768
 	}
     } else {
 	set root $env(HOME)
-	set port 8080
+	set port 32768
     }
     ::pddp::srvStart $root $port
     vwait forever

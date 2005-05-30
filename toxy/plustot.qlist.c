@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -29,7 +29,7 @@ typedef struct _plusproxy_qlist
 
 typedef struct _plustot_qlist
 {
-    t_object            x_ob;
+    t_plusobject        x_plusobject;
     t_glist            *x_glist;
     t_plustob          *x_tob;
     t_outlet           *x_rightout;
@@ -168,6 +168,7 @@ static void plustot_qlist_free(t_plustot_qlist *x)
 {
     plusbob_release((t_plusbob *)x->x_tob);
     if (x->x_proxy) pd_free((t_pd *)x->x_proxy);
+    plusobject_free(&x->x_plusobject);
 }
 
 void *plustot_qlist_new(t_symbol *s, int ac, t_atom *av)
@@ -179,15 +180,15 @@ void *plustot_qlist_new(t_symbol *s, int ac, t_atom *av)
     if ((tin = plustin_glistprovide(glist, PLUSTIN_GLIST_ANY, 0)) &&
 	(tob = plustob_new(tin, 0)))
     {
-	x = (t_plustot_qlist *)pd_new(plustot_qlist_class);
+	x = (t_plustot_qlist *)plusobject_new(plustot_qlist_class, s, ac, av);
 	plusbob_preserve((t_plusbob *)tob);
 	plusbob_setowner((t_plusbob *)tob, (t_pd *)x);
 	plustob_setlist(tob, ac, av);
 	x->x_glist = glist;
 	x->x_tob = tob;
 	x->x_proxy = plusproxy_qlist_new(x);
-	inlet_new((t_object *)x, (t_pd *)x->x_proxy, 0, 0);
-	outlet_new((t_object *)x, &s_anything);
+	plusinlet_new(&x->x_plusobject, (t_pd *)x->x_proxy, 0, 0);
+	plusoutlet_new(&x->x_plusobject, &s_anything);
 	x->x_rightout = outlet_new((t_object *)x, &s_symbol);
     }
     else
@@ -207,6 +208,7 @@ void plustot_qlist_setup(void)
     plustot_qlist_class = class_new(gensym("+qlist"), 0,
 				    (t_method)plustot_qlist_free,
 				    sizeof(t_plustot_qlist), 0, 0);
+    plusclass_inherit(plustot_qlist_class, gensym("+qlist"));
     class_addbang(plustot_qlist_class, plustot_qlist_bang);
 
     plusproxy_qlist_class = class_new(gensym("+qlist proxy"), 0, 0,

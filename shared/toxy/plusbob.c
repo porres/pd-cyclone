@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -11,11 +11,29 @@
 //#define PLUSBOB_DEBUG
 #endif
 
-/* LATER let there be a choice of using either fake-symbols, or gpointers.
+/* The main failure of the current implementation is when a foreign object
+   stores a faked symbol beyond lifetime of a wrappee.  There is no obvious
+   way of protecting against stale pointers, other than leaking small
+   portions of memory (four words) with every new faked symbol.  In case of
+   plustot, this is not a very big deal, since for each [+tot] object the
+   number of wrapped tcl objects is small and constant.
+
+   Another failure is when a foreign object binds something to a faked
+   symbol (for example, when a faked symbol is passed to an array's rename
+   method).  This should not happen in usual contexts, and even if it does,
+   it will unlikely cause any real harm.
+
+   LATER let there be a choice of using either fake-symbols, or gpointers.
    The gpointer layout would be such:  gs_un points to a plusbob-like
-   structure (without the bob_tag field), a unique integer code has to be
+   structure (without the bob_stub field), a unique integer code has to be
    reserved for gs_which, the fields gp_un and gp_valid are ignored.
    Using bob_refcount instead of gs_refcount is likely to simplify code. */
+
+typedef struct _plusstub
+{
+    t_symbol    sb_tag;  /* common value for all bob types */
+    t_plusbob  *sb_bob;
+} t_plusstub;
 
 /* Currently, objects of all +bob types are tagged with the same name: */
 static char plustag_name[] = "+bob";
@@ -27,11 +45,11 @@ static void plustag_init(t_symbol *tag)
     tag->s_next = 0;
 }
 
-/* silent if caller is empty */
-int plustag_isvalid(t_symbol *tag, t_pd *caller)
+/* returns tagged +bob if valid, null otherwise (silent if caller is empty) */
+t_plusbob *plustag_isvalid(t_symbol *tag, t_pd *caller)
 {
     if (tag->s_name == plustag_name)
-	return (1);
+	return (((t_plusstub *)tag)->sb_bob);
     else if (caller)
     {
 	if (strcmp(tag->s_name, plustag_name))
@@ -41,6 +59,14 @@ int plustag_isvalid(t_symbol *tag, t_pd *caller)
 	    loud_error((caller == PLUSBOB_OWNER ? 0 : caller), "confused...");
     }
     return (0);
+}
+
+static t_plusstub *plusstub_create(t_plusbob *bob)
+{
+    t_plusstub *stub = getbytes(sizeof(*stub));
+    plustag_init(&stub->sb_tag);
+    stub->sb_bob = bob;
+    return (stub);
 }
 
 /* +bob is an object tossed around, a bobbing object.  Currently, this is
@@ -128,7 +154,7 @@ t_plusbob *plusbob_create(t_plustype *tp, t_plusbob *parent)
     }
     if (bob = getbytes(tp->tp_size))
     {
-	plustag_init(&bob->bob_tag);
+	bob->bob_stub = (t_symbol *)plusstub_create(bob);
 	bob->bob_type = tp;
 	while (tp->tp_base) tp = tp->tp_base;
 	bob->bob_root = tp;
@@ -154,6 +180,7 @@ static void plusbob_free(t_plusbob *bob)
     for (tp = bob->bob_type; tp; tp = tp->tp_base)
 	if (tp->tp_deletefn) (*tp->tp_deletefn)(bob);
     freebytes(bob, (bob->bob_type ? bob->bob_type->tp_size : sizeof(*bob)));
+    /* the stub remains... */
 }
 
 void plusbob_preserve(t_plusbob *bob)
@@ -251,21 +278,21 @@ t_pd *plusbob_getowner(t_plusbob *bob)
 
 void outlet_plusbob(t_outlet *o, t_plusbob *bob)
 {
-    outlet_symbol(o, (t_symbol *)bob);
+    outlet_symbol(o, bob->bob_stub);
 }
 
-/* silent if caller is empty */
-int plustag_validtype(t_symbol *tag, t_symbol *tname, t_pd *caller)
+/* returns tagged +bob if valid, null otherwise (silent if caller is empty) */
+t_plusbob *plustag_validtype(t_symbol *tag, t_symbol *tname, t_pd *caller)
 {
     if (tag->s_name == plustag_name)
     {
-	if (((t_plusbob *)tag)->bob_type->tp_name == tname)
-	    return (1);
+	t_plusbob *bob = ((t_plusstub *)tag)->sb_bob;
+	if (bob->bob_type->tp_name == tname)
+	    return (bob);
 	else if (caller)
 	{
-	    t_symbol *s = ((t_plusbob *)tag)->bob_type->tp_name;
-	    loud_error((caller == PLUSBOB_OWNER ?
-			((t_plusbob *)tag)->bob_owner : caller),
+	    t_symbol *s = bob->bob_type->tp_name;
+	    loud_error((caller == PLUSBOB_OWNER ? bob->bob_owner : caller),
 		       "invalid type '%s' ('%s' expected)",
 		       (s ? s->s_name : "<unknown>"),
 		       (tname ? tname->s_name : "<unknown>"));
@@ -276,18 +303,18 @@ int plustag_validtype(t_symbol *tag, t_symbol *tname, t_pd *caller)
     return (0);
 }
 
-/* silent if caller is empty */
-int plustag_validroot(t_symbol *tag, t_symbol *rname, t_pd *caller)
+/* returns tagged +bob if valid, null otherwise (silent if caller is empty) */
+t_plusbob *plustag_validroot(t_symbol *tag, t_symbol *rname, t_pd *caller)
 {
     if (tag->s_name == plustag_name)
     {
-	if (((t_plusbob *)tag)->bob_root->tp_name == rname)
-	    return (1);
+	t_plusbob *bob = ((t_plusstub *)tag)->sb_bob;
+	if (bob->bob_root->tp_name == rname)
+	    return (bob);
 	else if (caller)
 	{
-	    t_symbol *s = ((t_plusbob *)tag)->bob_root->tp_name;
-	    loud_error((caller == PLUSBOB_OWNER ?
-			((t_plusbob *)tag)->bob_owner : caller),
+	    t_symbol *s = bob->bob_root->tp_name;
+	    loud_error((caller == PLUSBOB_OWNER ? bob->bob_owner : caller),
 		       "invalid base type '%s' ('%s' expected)",
 		       (s ? s->s_name : "<unknown>"),
 		       (rname ? rname->s_name : "<unknown>"));
@@ -301,7 +328,7 @@ int plustag_validroot(t_symbol *tag, t_symbol *rname, t_pd *caller)
 t_symbol *plustag_typename(t_symbol *tag, int validate, t_pd *caller)
 {
     if (!validate || tag->s_name == plustag_name)
-	return (((t_plusbob *)tag)->bob_type->tp_name);
+	return (((t_plusstub *)tag)->sb_bob->bob_type->tp_name);
     else if (plustag_isvalid(tag, caller))  /* print the error there */
 	loudbug_bug("plustag_typename");
     return (0);
@@ -310,7 +337,7 @@ t_symbol *plustag_typename(t_symbol *tag, int validate, t_pd *caller)
 t_symbol *plustag_rootname(t_symbol *tag, int validate, t_pd *caller)
 {
     if (!validate || tag->s_name == plustag_name)
-	return (((t_plusbob *)tag)->bob_root->tp_name);
+	return (((t_plusstub *)tag)->sb_bob->bob_root->tp_name);
     else if (plustag_isvalid(tag, caller))  /* print the error there */
 	loudbug_bug("plustag_rootname");
     return (0);

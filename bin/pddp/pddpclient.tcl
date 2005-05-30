@@ -30,7 +30,7 @@ namespace eval ::pddp {
 	unix {
 	    switch -- $tcl_platform(os) {
 		Darwin {
-		    set theBrowserCommand "sh -c open %s"
+		    set theBrowserCommand "sh -c \"open %s\""
 		}
 		Linux {
 		    foreach candidate \
@@ -68,7 +68,7 @@ proc ::pddp::cliOpen {path} {
     variable theBrowserCommand
     if {[string length $theBrowserCommand]} {
 	set command [format $theBrowserCommand $path]
-	puts stderr "pddpclient: open $command"
+	puts stderr "pddpclient: exec $command"
 	if {[catch {eval [list exec] $command} err]} {
 	    if {[lindex $::errorCode 0] eq "CHILDSTATUS"} {
 		cliError "$err (child status [lindex $::errorCode 2])"

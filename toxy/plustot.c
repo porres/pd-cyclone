@@ -1,4 +1,4 @@
-/* Copyright (c) 2003-2004 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -7,6 +7,7 @@
 #include "g_canvas.h"
 #include "common/loud.h"
 #include "common/grow.h"
+#include "unstable/forky.h"
 #include "hammer/file.h"
 #include "common/props.h"
 #include "toxy/scriptlet.h"
@@ -33,7 +34,6 @@
 #   define PLUSDEBUG_DECRREFCOUNT(ob, fn)  Tcl_DecrRefCount(ob)
 #endif
 
-static t_symbol *plusps_tot;
 static t_symbol *plusps_env;
 static t_symbol *plusps_in;
 static t_symbol *plusps_var;
@@ -41,6 +41,25 @@ static t_symbol *plusps_out;
 static t_symbol *plusps_qlist;
 static t_symbol *plusps_print;
 static t_symbol *totps_query;
+
+static void plussymbols_create(void)
+{
+    /* public */
+    totps_plustot = gensym("plustot");
+    plusps_tot = gensym("+tot");
+    plusps_Ti = gensym("+Ti");
+    plusps_To = gensym("+To");
+    plusps_Tv = gensym("+Tv");
+
+    /* private */
+    plusps_env = gensym("+env");
+    plusps_in = gensym("+in");
+    plusps_var = gensym("+var");
+    plusps_out = gensym("+out");
+    plusps_qlist = gensym("+qlist");
+    plusps_print = gensym("+print");
+    totps_query = gensym("query");
+}
 
 static void plusloud_tcldirty(t_pd *caller, char *fnname)
 {
@@ -91,6 +110,28 @@ static t_plustype *plustin_basetype;
 static t_plustype *plustin_type;
 static t_plustin *plustin_default = 0;
 
+static int plustin_testCmd(ClientData cd, Tcl_Interp *interp,
+			   int objc,  Tcl_Obj **objv)
+{
+    Tcl_Obj *result;
+    post("this is a test");
+    if (objc != 2)
+    {
+	Tcl_WrongNumArgs(interp, 1, objv, "anyValue");
+	return (TCL_ERROR);
+    }
+
+    post("in refcount: %d", objv[1]->refCount);
+    result = Tcl_DuplicateObj(objv[1]);
+    post("out refcount: %d", result->refCount);
+
+    if (result == NULL)
+	return (TCL_ERROR);
+    Tcl_SetObjResult(interp, result);
+    post("exit refcount: %d", result->refCount);
+    return (TCL_OK);
+}
+
 /* To be called from derived constructors or plustin's provider. */
 t_plustin *plustin_create(t_plustype *tp, t_plusbob *parent, t_symbol *id)
 {
@@ -106,6 +147,12 @@ t_plustin *plustin_create(t_plustype *tp, t_plusbob *parent, t_symbol *id)
 	Tcl_Preserve(interp);
 	if (Tcl_Init(interp) == TCL_ERROR)
 	    plusloud_tclerror(0, interp, "interpreter initialization failed");
+	else
+	{
+	    Tcl_CreateObjCommand(interp, "test::test",
+				 (Tcl_ObjCmdProc*)plustin_testCmd,
+				 (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	}
 	Tcl_Release(interp);
     }
     else loud_error(0, "failed attempt to create an interpreter");
@@ -318,15 +365,15 @@ Tcl_Obj *plustob_getvalue(t_plustob *tob)
 /* silent, if caller is empty */
 t_plustin *plustag_tobtin(t_symbol *tag, t_pd *caller)
 {
-    return (plustag_validroot(tag, plusps_To, caller)
-	    ? ((t_plustob *)tag)->tob_tin : 0);
+    t_plusbob *bob = plustag_validroot(tag, plusps_To, caller);
+    return (bob ? ((t_plustob *)bob)->tob_tin : 0);
 }
 
 /* silent, if caller is empty */
 Tcl_Obj *plustag_tobvalue(t_symbol *tag, t_pd *caller)
 {
-    return (plustag_validroot(tag, plusps_To, caller)
-	    ? ((t_plustob *)tag)->tob_value : 0);
+    t_plusbob *bob = plustag_validroot(tag, plusps_To, caller);
+    return (bob ? ((t_plustob *)bob)->tob_value : 0);
 }
 
 /* silent, if caller is empty */
@@ -408,9 +455,10 @@ Tcl_Obj *plustob_setsymbol(t_plustob *tob, t_symbol *s)
 {
     if (plustag_isvalid(s, 0))
     {
-	if (plustag_validroot(s, plusps_To, PLUSBOB_OWNER))
+	t_plusbob *bob;
+	if (bob = plustag_validroot(s, plusps_To, PLUSBOB_OWNER))
 	{
-	    t_plustob *from = (t_plustob *)s;
+	    t_plustob *from = (t_plustob *)bob;
 	    return (plustob_set(tob, from->tob_tin, from->tob_value));
 	}
 	else return (0);
@@ -962,7 +1010,7 @@ typedef struct _plusproxy
 
 typedef struct _plustot
 {
-    t_object       x_ob;
+    t_plusobject   x_plusobject;
     t_glist       *x_glist;
     t_plustob     *x_tob;        /* interpreter's result (after invocation) */
     t_scriptlet   *x_script;
@@ -1343,7 +1391,8 @@ static int plustot_makeproxies(t_plustot *x)
 		    x->x_proxies[i] =
 			plusproxy_new((t_pd *)x, i, x->x_tob->tob_tin);
 		for (i = 1; i < x->x_nproxies; i++)
-		    inlet_new((t_object *)x, (t_pd *)x->x_proxies[i], 0, 0);
+		    plusinlet_new(&x->x_plusobject,
+				  (t_pd *)x->x_proxies[i], 0, 0);
 		x->x_mainproxy = x->x_proxies[0];
 		/* second pass: traverse non-empty slots, create variables */
 		plustot_parsevariables(x, interp,
@@ -1780,6 +1829,36 @@ static void plustot_tot(t_plustot *x, t_symbol *s, int ac, t_atom *av)
     }
 }
 
+static void plustot_save(t_gobj *z, t_binbuf *bb)
+{
+    t_text *t = (t_text *)z;
+    t_binbuf *inbb = t->te_binbuf;
+    int ac = binbuf_getnatom(inbb);
+    t_atom *av = binbuf_getvec(inbb);
+    binbuf_addv(bb, "ssii", gensym("#X"), gensym("obj"),
+                (int)t->te_xpix, (int)t->te_ypix);
+    if (ac && av->a_type == A_SYMBOL)
+    {
+	t_symbol *s = av->a_w.w_symbol;
+	if (s != totps_plustot)
+	{
+	    t_atom at;
+	    SETSYMBOL(&at, totps_plustot);
+	    binbuf_add(bb, 1, &at);
+	    if (s == plusps_tot && ac > 1)
+	    {
+		inbb = binbuf_new();
+		binbuf_add(inbb, ac - 1, av + 1);
+	    }
+	}
+    }
+    else loudbug_bug("plustot_save");
+    binbuf_addbinbuf(bb, inbb);
+    binbuf_addsemi(bb);
+    if (inbb != t->te_binbuf)
+	binbuf_free(inbb);
+}
+
 #ifdef PLUSTOT_DEBUG
 static void plustot_debug(t_plustot *x)
 {
@@ -1821,6 +1900,7 @@ static void plustot_free(t_plustot *x)
 	freebytes(x->x_proxies, x->x_nproxies * sizeof(*x->x_proxies));
     }
     if (x->x_script) scriptlet_free(x->x_script);
+    plusobject_free(&x->x_plusobject);
 }
 
 static void *plustot_new(t_symbol *s, int ac, t_atom *av)
@@ -1832,10 +1912,15 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
     t_plustin *tin = 0;
     t_plustob *tob = 0;
     t_scriptlet *script = scriptlet_new(0, 0, 0, 0, glist, 0);
-    if (ac && av->a_type == A_SYMBOL)
+    if (s != plusps_tot && s != totps_plustot && s != &s_)
+	cmdname = s;
+    else if (ac && av->a_type == A_SYMBOL)
     {
 	cmdname = av->a_w.w_symbol;
 	ac--; av++;
+    }
+    if (cmdname)
+    {
 	if (*cmdname->s_name == '+')
 	{
 	    if (cmdname == plusps_env)
@@ -1856,7 +1941,10 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
 		return (0);
 	    }
 	}
+#if 0
+	/* FIXME forgot where this constraint came from, debug carefully... */
 	if (ac)
+#endif
 	{
 	    ctail = plusstring_fromatoms(ac, av, script);
 	    plusstring_preserve(ctail);
@@ -1865,7 +1953,7 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
     if ((tin = plustin_glistprovide(glist, PLUSTIN_GLIST_ANY, 0)) &&
 	(tob = plustob_new(tin, 0)))
     {
-	x = (t_plustot *)pd_new(plustot_class);
+	x = (t_plustot *)plusobject_new(plustot_class, cmdname, ac, av);
 	/* tin already preserved (plustob_new() did it) */
 	plusbob_preserve((t_plusbob *)tob);
 	plusbob_setowner((t_plusbob *)tob, (t_pd *)x);
@@ -1933,7 +2021,7 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
 		}
 	    }
 	}
-	outlet_new((t_object *)x, &s_symbol);
+	plusoutlet_new(&x->x_plusobject, &s_symbol);
     }
     else
     {
@@ -1950,16 +2038,56 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
+void plusobject_widgetfree(t_plusobject *po);
+void plusobject_widgetcreate(t_plusobject *po, t_symbol *s, int ac, t_atom *av);
+void plusclass_widgetsetup(t_class *c);
+
+void plusobject_free(t_plusobject *po)
+{
+    plusobject_widgetfree(po);
+}
+
+t_plusobject *plusobject_new(t_class *c, t_symbol *s, int ac, t_atom *av)
+{
+    t_plusobject *po = (t_plusobject *)pd_new(c);
+    po->po_ninlets = 1;
+    po->po_noutlets = 0;
+    plusobject_widgetcreate(po, s, ac, av);
+    return (po);
+}
+
+t_inlet *plusinlet_new(t_plusobject *po, t_pd *dest,
+		       t_symbol *s1, t_symbol *s2)
+{
+    po->po_ninlets++;
+    return (inlet_new((t_object *)po, dest, s1, s2));
+}
+
+t_outlet *plusoutlet_new(t_plusobject *po, t_symbol *s)
+{
+    po->po_noutlets++;
+    return (outlet_new((t_object *)po, s));
+}
+
+void plusclass_inherit(t_class *c, t_symbol *s)
+{
+    class_addcreator((t_newmethod)plustot_new, s, A_GIMME, 0);
+    forky_setsavefn(c, plustot_save);
+    plusclass_widgetsetup(c);
+}
+
 void plustot_setup(void)
 {
     post("beware! this is plustot %s, %s %s build...",
 	 TOXY_VERSION, loud_ordinal(TOXY_BUILD), TOXY_RELEASE);
-    plustot_class = class_new(gensym("+tot"),
+    plussymbols_create();
+
+    plustot_class = class_new(totps_plustot,
 			      (t_newmethod)plustot_new,
 			      (t_method)plustot_free,
 			      sizeof(t_plustot), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)plustot_new,
-		     gensym("plustot"), A_GIMME, 0);
+    plusclass_inherit(plustot_class, plusps_tot);
+
     class_addbang(plustot_class, plustot_bang);
     class_addfloat(plustot_class, plustot_float);
     class_addsymbol(plustot_class, plustot_symbol);
@@ -1974,10 +2102,6 @@ void plustot_setup(void)
 		    gensym("tot"), A_GIMME, 0);
     class_addmethod(plustot_class, (t_method)plustot_tot,
 		    gensym("query"), A_GIMME, 0);
-#ifdef PLUSTOT_DEBUG
-    class_addmethod(plustot_class, (t_method)plustot_debug,
-		    gensym("debug"), 0);
-#endif
 
     plusproxy_class = class_new(gensym("+tot proxy"), 0,
 				(t_method)plusproxy_free,
@@ -1985,22 +2109,13 @@ void plustot_setup(void)
     class_addfloat(plusproxy_class, plusproxy_float);
     class_addsymbol(plusproxy_class, plusproxy_symbol);
     class_addlist(plusproxy_class, plusproxy_list);
+
 #ifdef PLUSTOT_DEBUG
+    class_addmethod(plustot_class, (t_method)plustot_debug,
+		    gensym("debug"), 0);
     class_addmethod(plusproxy_class, (t_method)plusproxy_debug,
 		    gensym("debug"), 0);
 #endif
-
-    plusps_tot = gensym("+tot");
-    plusps_env = gensym("+env");
-    plusps_in = gensym("+in");
-    plusps_var = gensym("+var");
-    plusps_out = gensym("+out");
-    plusps_qlist = gensym("+qlist");
-    plusps_print = gensym("+print");
-    plusps_Ti = gensym("+Ti");
-    plusps_To = gensym("+To");
-    plusps_Tv = gensym("+Tv");
-    totps_query = gensym("query");
 
     plustin_basetype = plusenv_setup();
     plustin_type = plustype_new(plustin_basetype, plusps_Ti,
@@ -2013,7 +2128,6 @@ void plustot_setup(void)
     plusvar_type = plustype_new(plustob_type, plusps_Tv,
 				sizeof(t_plusvar),
 				(t_plustypefn)plusvar_delete, 0, 0, 0);
-
     plustot_env_setup();
     plustot_in_setup();
     plustot_var_setup();

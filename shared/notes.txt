@@ -5,6 +5,9 @@ TODO for root and shared
 
 DONE for root and shared
 
+with toxy alpha18
+  * plusbob: stubifying t_plusbob, in order to minimize memory leak to 4 words
+
 with rafts prealpha1
   * new module: patchvalue
 

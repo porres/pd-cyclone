@@ -20,13 +20,13 @@ if {[namespace exists ::pddp]} {  ;# created by pddplink's setup
     namespace eval ::pddp { variable testrun 1 }
 }
 
-puts stderr "current directory: [pwd]"
-
-source pddpclient.tcl
-source pddpserver.tcl
-
 if {[info exists ::pddp::theDir]} {
-    puts stderr "restoring directory: $::pddp::theDir"
-    cd $::pddp::theDir
-    unset ::pddp::theDir
+    source [file join $::pddp::theDir pddpclient.tcl]
+    source [file join $::pddp::theDir pddpserver.tcl]
+    if {[info exists ::pddp::theVersion]} {
+	package provide pddp $::pddp::theVersion
+    }
+} else {
+    source pddpclient.tcl]
+    source pddpserver.tcl]
 }

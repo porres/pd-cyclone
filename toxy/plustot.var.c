@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -15,7 +15,7 @@ typedef struct _plusproxy_var
 
 typedef struct _plustot_var
 {
-    t_object          x_ob;
+    t_plusobject      x_plusobject;
     t_glist          *x_glist;
     t_plusvar        *x_var;
     t_plusproxy_var  *x_proxy;
@@ -75,6 +75,7 @@ static void plustot_var_free(t_plustot_var *x)
 {
     plusbob_release((t_plusbob *)x->x_var);
     if (x->x_proxy) pd_free((t_pd *)x->x_proxy);
+    plusobject_free(&x->x_plusobject);
 }
 
 void *plustot_var_new(t_symbol *s, int ac, t_atom *av)
@@ -87,15 +88,15 @@ void *plustot_var_new(t_symbol *s, int ac, t_atom *av)
 	(tin = plustin_glistprovide(glist, PLUSTIN_GLIST_ANY, 0)) &&
 	(var = plusvar_new(av->a_w.w_symbol->s_name, 0, tin)))
     {
-	x = (t_plustot_var *)pd_new(plustot_var_class);
+	x = (t_plustot_var *)plusobject_new(plustot_var_class, s, ac, av);
 	plusbob_preserve((t_plusbob *)var);
 	plusbob_setowner((t_plusbob *)var, (t_pd *)x);
 	plusvar_setlist(var, ac - 1, av + 1, 1);
 	x->x_glist = glist;
 	x->x_var = var;
 	x->x_proxy = plusproxy_var_new((t_pd *)x);
-	inlet_new((t_object *)x, (t_pd *)x->x_proxy, 0, 0);
-	outlet_new((t_object *)x, &s_symbol);
+	plusinlet_new(&x->x_plusobject, (t_pd *)x->x_proxy, 0, 0);
+	plusoutlet_new(&x->x_plusobject, &s_symbol);
     }
     else
     {
@@ -117,6 +118,7 @@ void plustot_var_setup(void)
     plustot_var_class = class_new(gensym("+var"), 0,
 				  (t_method)plustot_var_free,
 				  sizeof(t_plustot_var), 0, 0);
+    plusclass_inherit(plustot_var_class, gensym("+var"));
     class_addbang(plustot_var_class, plustot_var_bang);
     class_addfloat(plustot_var_class, plustot_var_float);
     class_addsymbol(plustot_var_class, plustot_var_symbol);

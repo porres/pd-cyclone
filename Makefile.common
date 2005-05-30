@@ -74,6 +74,12 @@ OUT_DIR = $(ROOT_DIR)/bin
 BASE_DIR = $(shell basename `pwd`)
 BASE_NAME = $(shell basename `pwd` | awk -F - '{print $$1}')
 
+INCLUDES = -I . -I $(PD_DIR) -I $(SHARED_DIR)
+
+ifdef CAML_TYPES
+include $(ROOT_DIR)/Makefile.caml
+endif
+
 # CX: control external's main file
 # AX: audio (tilde) external's main file
 # LX: alias external's main file
@@ -99,8 +105,6 @@ SOURCES = $(CX_SOURCES) $(AX_SOURCES) $(LX_SOURCES) $(OTHER_SOURCES) \
 	$(foreach type,$(TYPES),$($(type)_SOURCES)) \
 	$(foreach type,$(TYPES),$($(type)_PRIVATEOBJECTS:.o=.c))
 
-INCLUDES = -I. -I$(PD_DIR) -I$(SHARED_DIR)
-
 ifeq ($(MY_NAME),krzYszcz)
 WARN_CFLAGS = -Wall -W -Wstrict-prototypes -Werror \
 	-Wno-unused -Wno-parentheses -Wno-switch
@@ -123,9 +127,10 @@ EXTERNS = $(foreach fn,$(CX_NAMES:.c=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
 
 TYPES_RULE = $(foreach fn,$(call TYPES_EXTERNS,$1),$(OUT_DIR)/$(fn)): \
 		$(OUT_DIR)/%$($1_TILDE).$(X_SUFFIX) \
-		: $(call TYPES_DIR,$1)%.o $($1_PRIVATEOBJECTS) \
+		: $(call TYPES_DIR,$1)%.o \
+			$($1_PRIVATEOBJECTS) $($1_FOREIGNOBJECTS) \
 			$(foreach obj,$($1_OBJECTS),$(SHARED_DIR)/$(obj)) \
-	; $(CC) -o $$@ $(CFLAGS) $(LFLAGS) $($1_LIBS) $$+
+	; $(CC) -o $$@ $(CFLAGS) $(LFLAGS) $$+ $($1_LIBS)
 
 # LATER find a better way...
 $(if $(word 1,$(TYPES)),$(call TYPES_RULE,$(word 1,$(TYPES))))
@@ -240,7 +245,7 @@ all$(BASE_NAME)s.c: Makefile.sources
 all: $(EXTERNS)
 	$(SUBDIRS_DEFAULT)
 
-clean: emptydeps
+clean:: emptydeps
 # remove all objects and externs that are contained in current directory
 	-rm -f *.o *.$(X_SUFFIX)
 	$(SUBDIRS)

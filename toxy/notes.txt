@@ -7,8 +7,26 @@ TODO for toxy
     . editor: break editorhook into separate properties, add them in single mode
     . find a way for "package require" to work out-of-the-box on windows
   * tow: canvas-wide and type-on-canvas-wide broadcasting
+  * plustot:
+    . do not evaluate if fresh, unless explicitly forced to (are side-effects
+      to be modal, requested with a flag, or triggered with a message?)
+    . creation time evaluation
 
 DONE for toxy
+
+alpha18
+  * plustot:
+    . adjusted to the new, stubified +bob handling
+    . +selectors registered as creation selectors, so that, e.g. "+in" is
+      a valid input form for "plustot +in" ("+tot +in" remains valid too)
+    . "save" callback changes every "+tot" selector to "plustot",
+      and every "+selector" to "plustot +selector"
+    . customized appearance:
+      - creation selector omitted if equals "plustot" or "+tot"
+      - text, border and i/o outline is brown, border is thicker,
+	inlets and outlets are lightgrey inside and taller
+    . mouse click interpreted as the message 'bang'
+    . accepting commands without arguments (beware: this is yet to be debugged)
 
 alpha17
   * widget:

@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -19,7 +19,7 @@
 
 typedef struct _plustot_env
 {
-    t_object       x_ob;
+    t_plusobject   x_plusobject;
     t_plustin     *x_tin;
     t_glist       *x_glist;
     t_hammerfile  *x_filehandle;
@@ -97,6 +97,7 @@ static void plustot_env_free(t_plustot_env *x)
     plusbob_detachchildren((t_plusbob *)x->x_tin, (t_plusbob *)tin);
     plusbob_release((t_plusbob *)x->x_tin);
     hammerfile_free(x->x_filehandle);
+    plusobject_free(&x->x_plusobject);
 }
 
 void *plustot_env_new(t_symbol *s, int ac, t_atom *av)
@@ -110,11 +111,11 @@ void *plustot_env_new(t_symbol *s, int ac, t_atom *av)
 	|| (tin = plustin_glistprovide(gl, PLUSTIN_GLIST_THIS, 1)))
     {
 	int warned = 0;
-	x = (t_plustot_env *)pd_new(plustot_env_class);
+	x = (t_plustot_env *)plusobject_new(plustot_env_class, s, ac, av);
 	x->x_tin = tin;
 	plusbob_preserve((t_plusbob *)tin);
 	x->x_glist = gl;
-	outlet_new((t_object *)x, &s_symbol);
+	plusoutlet_new(&x->x_plusobject, &s_symbol);
 	if (deftin)
 	    /* true if both oldtin == 0 (we are first in this glist)
 	       and plustin_default != 0 (bobs exist already) */
@@ -143,6 +144,7 @@ void plustot_env_setup(void)
     plustot_env_class = class_new(gensym("+env"), 0,
 				  (t_method)plustot_env_free,
 				  sizeof(t_plustot_env), 0, 0);
+    plusclass_inherit(plustot_env_class, gensym("+env"));
     class_addbang(plustot_env_class, plustot_env_bang);
     class_addmethod(plustot_env_class, (t_method)plustot_env_source,
 		    gensym("source"), A_DEFSYM, 0);

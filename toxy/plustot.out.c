@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -9,8 +9,8 @@
 
 typedef struct _plustot_out
 {
-    t_object   x_ob;
-    t_binbuf  *x_bb;
+    t_plusobject  x_plusobject;
+    t_binbuf     *x_bb;
 } t_plustot_out;
 
 static t_class *plustot_out_class;
@@ -52,13 +52,15 @@ static void plustot_out_symbol(t_plustot_out *x, t_symbol *s)
 static void plustot_out_free(t_plustot_out *x)
 {
     binbuf_free(x->x_bb);
+    plusobject_free(&x->x_plusobject);
 }
 
 void *plustot_out_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_plustot_out *x = (t_plustot_out *)pd_new(plustot_out_class);
+    t_plustot_out *x =
+	(t_plustot_out *)plusobject_new(plustot_out_class, s, ac, av);
     x->x_bb = binbuf_new();
-    outlet_new((t_object *)x, &s_anything);
+    plusoutlet_new(&x->x_plusobject, &s_anything);
     return (x);
 }
 
@@ -67,5 +69,6 @@ void plustot_out_setup(void)
     plustot_out_class = class_new(gensym("+out"), 0,
 				  (t_method)plustot_out_free,
 				  sizeof(t_plustot_out), 0, 0);
+    plusclass_inherit(plustot_out_class, gensym("+out"));
     class_addsymbol(plustot_out_class, plustot_out_symbol);
 }

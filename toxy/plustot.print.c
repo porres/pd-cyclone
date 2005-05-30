@@ -1,4 +1,4 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright (c) 2003-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -9,9 +9,9 @@
 
 typedef struct _plustot_print
 {
-    t_object   x_ob;
-    t_symbol  *x_label;
-    t_binbuf  *x_bb;
+    t_plusobject  x_plusobject;
+    t_symbol     *x_label;
+    t_binbuf     *x_bb;
 } t_plustot_print;
 
 static t_class *plustot_print_class;
@@ -75,11 +75,13 @@ static void plustot_print_symbol(t_plustot_print *x, t_symbol *s)
 static void plustot_print_free(t_plustot_print *x)
 {
     binbuf_free(x->x_bb);
+    plusobject_free(&x->x_plusobject);
 }
 
 void *plustot_print_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_plustot_print *x = (t_plustot_print *)pd_new(plustot_print_class);
+    t_plustot_print *x =
+	(t_plustot_print *)plusobject_new(plustot_print_class, s, ac, av);
     x->x_label = (ac && av->a_type == A_SYMBOL ? av->a_w.w_symbol : 0);
     x->x_bb = binbuf_new();
     return (x);
@@ -90,5 +92,6 @@ void plustot_print_setup(void)
     plustot_print_class = class_new(gensym("+print"), 0,
 				    (t_method)plustot_print_free,
 				    sizeof(t_plustot_print), 0, 0);
+    plusclass_inherit(plustot_print_class, gensym("+print"));
     class_addsymbol(plustot_print_class, plustot_print_symbol);
 }
