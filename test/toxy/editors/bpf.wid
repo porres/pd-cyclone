@@ -1,4 +1,4 @@
-catch {console show}
+::toxy::console show
 ::toxy::package_require BLT "e:/Tcl/bin/BLT24.dll"
 
 namespace eval ::toxy::bpf {}

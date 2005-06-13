@@ -88,7 +88,7 @@ void *plustot_var_new(t_symbol *s, int ac, t_atom *av)
 	(tin = plustin_glistprovide(glist, PLUSTIN_GLIST_ANY, 0)) &&
 	(var = plusvar_new(av->a_w.w_symbol->s_name, 0, tin)))
     {
-	x = (t_plustot_var *)plusobject_new(plustot_var_class, s, ac, av);
+	x = (t_plustot_var *)plusobject_new(plustot_var_class, s, ac, av, 0);
 	plusbob_preserve((t_plusbob *)var);
 	plusbob_setowner((t_plusbob *)var, (t_pd *)x);
 	plusvar_setlist(var, ac - 1, av + 1, 1);

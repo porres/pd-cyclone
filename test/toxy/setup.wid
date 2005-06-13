@@ -19,6 +19,15 @@ proc ::toxy::package_require {pkg dll} {
     }
 }
 
+# valid options: "show", "hide"
+proc ::toxy::console {op} {
+    if {[catch {::console $op}]} {
+	if {[catch {package require tkcon}] == 0} {
+	    tkcon $op
+	}
+    }
+}
+
 # FIXME this should be explicitly requested
 # In order to keep the state after tk canvas has been destroyed
 # try setting -variable and -textvariable traces

@@ -111,7 +111,7 @@ void *plustot_env_new(t_symbol *s, int ac, t_atom *av)
 	|| (tin = plustin_glistprovide(gl, PLUSTIN_GLIST_THIS, 1)))
     {
 	int warned = 0;
-	x = (t_plustot_env *)plusobject_new(plustot_env_class, s, ac, av);
+	x = (t_plustot_env *)plusobject_new(plustot_env_class, s, ac, av, 0);
 	x->x_tin = tin;
 	plusbob_preserve((t_plusbob *)tin);
 	x->x_glist = gl;

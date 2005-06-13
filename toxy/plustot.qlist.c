@@ -180,7 +180,8 @@ void *plustot_qlist_new(t_symbol *s, int ac, t_atom *av)
     if ((tin = plustin_glistprovide(glist, PLUSTIN_GLIST_ANY, 0)) &&
 	(tob = plustob_new(tin, 0)))
     {
-	x = (t_plustot_qlist *)plusobject_new(plustot_qlist_class, s, ac, av);
+	x = (t_plustot_qlist *)
+	    plusobject_new(plustot_qlist_class, s, ac, av, 0);
 	plusbob_preserve((t_plusbob *)tob);
 	plusbob_setowner((t_plusbob *)tob, (t_pd *)x);
 	plustob_setlist(tob, ac, av);

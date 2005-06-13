@@ -81,7 +81,7 @@ static void plustot_print_free(t_plustot_print *x)
 void *plustot_print_new(t_symbol *s, int ac, t_atom *av)
 {
     t_plustot_print *x =
-	(t_plustot_print *)plusobject_new(plustot_print_class, s, ac, av);
+	(t_plustot_print *)plusobject_new(plustot_print_class, s, ac, av, 0);
     x->x_label = (ac && av->a_type == A_SYMBOL ? av->a_w.w_symbol : 0);
     x->x_bb = binbuf_new();
     return (x);

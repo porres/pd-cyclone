@@ -10,9 +10,47 @@ TODO for toxy
   * plustot:
     . do not evaluate if fresh, unless explicitly forced to (are side-effects
       to be modal, requested with a flag, or triggered with a message?)
-    . creation time evaluation
+    . pull inputs
 
 DONE for toxy
+
+alpha19
+  * plustot
+    . rules for slot creation:
+      - there is always at least one slot, although it may be deaf
+      - if a command contains a pseudo-scalar, there is exactly one,
+        listening slot
+      - if a command contains pseudo-array elements, there are as many slots
+        as the highest index + 1 (but not more than 256, a sanity limit);
+        listening slots are created for explicitly used elements, all other
+        slots are deaf
+      - mixing pseudo-scalar and pseudo-array forms in a single command
+        is prohibited
+      - if a command does not contain pseudo-variables, there is exactly one,
+        deaf slot
+    . firing rules established for push inputs:
+      - firing (evaluation with output) is executed iff all listening slots
+        have data and a) a hot slot receives input, or b) any slot receives
+        an explicit firing request ('bang' message)
+      - $Hin and $Cin forms of pseudo-variables: each slot may be explicitly
+        declared hot (Hin) or cold (Cin), overriding the default rule (leftmost
+        slot, if listening, is hot, others are cold) observed when the plain
+        form, $in, is used
+      - $Tin form of pseudo-variables, which is a ``pure dataflow'' variant
+        of $Hin: a hot slot, which looses data after evaluation (all other
+        kinds of slots keep data after evaluation, unless explicitly 'cleared')
+      - 'set' message accepted in all inlets as the `cold' input
+      - 'bang' message accepted in all inlets as the firing trigger
+    . evaluation without output:
+      - executed iff all listening slots have data and a) an object has
+        just been created (creation time evaluation), or b) an object
+        received an explicit evaluation request ('eval' message)
+      - creation time evaluation suppresses all error messages, explicit
+        evaluation does not
+    . message 'clear' in any inlet clears its slot of data
+    . message 'clearall' in leftmost inlet clears all listening slots
+    . appearance: converting dot-sequences to valid Tcl for presentation
+    . bug fix: made unclickable in gop
 
 alpha18
   * plustot:

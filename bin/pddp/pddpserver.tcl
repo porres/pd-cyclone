@@ -303,15 +303,32 @@ proc ::pddp::srvTimeout {sock} {
     srvError $sock 408
 }
 
-# FIXME test if "path" has its patch window already open...
-proc ::pddp::srvPdHandler {sock path} {
+proc ::pddp::srvPdOpen {path} {
+    global menu_windowlist
+    set name [file tail $path]
     set dir [file dirname $path]
-    set tail [file tail $path]
-    if {[catch {pd [concat pd open $tail $dir \;]}]} {
+    # FIXME white space in $name and $dir
+    # FIXME this is a fragile hack, there should be an "openx" message to pd...
+    foreach en $menu_windowlist {
+	set wd [lindex $en 1]
+	set nm [lindex $en 0]
+	set dr [lindex [wm title $wd] end]
+	if {[string equal $name $nm] && [string equal $dir $dr]} {
+	    # FIXME test on windows
+	    raise $wd
+	    focus -force $wd
+	    return
+	}
+    }
+    pd [concat pd open $name $dir \;]
+    # FIXME raise and focus on windows?
+}
+
+proc ::pddp::srvPdHandler {sock path} {
+    if {[catch {::pddp::srvPdOpen $path}]} {
 	srvError $sock 504
     } else {
 	srvError $sock 204
-	# FIXME raise; focus (test on windows)
     }
 }
 

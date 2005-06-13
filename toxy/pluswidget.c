@@ -20,10 +20,11 @@
 
 struct _pluswidget
 {
-    char  *pw_vistext;  /* binbuf_gettext()-style (no null termination) */
-    int    pw_vissize;
-    int    pw_rtextactive;
-    int    pw_ishit;
+    t_plusstring  *pw_visstring;
+    char          *pw_visbuf;  /* binbuf_gettext()-style: no null termination */
+    int            pw_vissize;
+    int            pw_rtextactive;
+    int            pw_ishit;
 };
 
 /* Code that might be merged back to g_text.c starts here: */
@@ -145,7 +146,7 @@ static void pluswidget_select(t_gobj *z, t_glist *glist, int state)
 		     glist, rtext_gettag(y));
 	else
 	    sys_vgui(".x%lx.c itemconfigure %s -text {%.*s} -fill brown\n",
-		     glist, rtext_gettag(y), pw->pw_vissize, pw->pw_vistext);
+		     glist, rtext_gettag(y), pw->pw_vissize, pw->pw_visbuf);
     }
 }
 
@@ -174,7 +175,7 @@ static void pluswidget_vis(t_gobj *z, t_glist *glist, int vis)
             pluswidget_drawborder((t_text *)z, glist, rtext_gettag(y), 1);
             rtext_draw(y);
 	    sys_vgui(".x%lx.c itemconfigure %s -text {%.*s} -fill brown\n",
-		     glist, rtext_gettag(y), pw->pw_vissize, pw->pw_vistext);
+		     glist, rtext_gettag(y), pw->pw_vissize, pw->pw_visbuf);
         }
     }
     else
@@ -191,9 +192,13 @@ static void pluswidget_vis(t_gobj *z, t_glist *glist, int vis)
 static int pluswidget_click(t_gobj *z, t_glist *glist, int xpix, int ypix,
 			    int shift, int alt, int dbl, int doit)
 {
-    if (doit)
-	pd_bang((t_pd *)z);
-    return (1);
+    if (glist->gl_havewindow)
+    {
+	if (doit)
+	    pd_bang((t_pd *)z);
+	return (1);
+    }
+    else return (0);
 }
 
 static t_widgetbehavior pluswidget_widgetbehavior =
@@ -214,33 +219,50 @@ void plusobject_widgetfree(t_plusobject *po)
     t_pluswidget *pw = po->po_widget;
     if (pw)
     {
-	if (pw->pw_vistext)
-	    freebytes(pw->pw_vistext, pw->pw_vissize);
+	if (pw->pw_visstring)
+	    plusstring_release(pw->pw_visstring);
+	else if (pw->pw_visbuf)
+	    freebytes(pw->pw_visbuf, pw->pw_vissize);
 	freebytes(pw, sizeof(*pw));
     }
 }
 
-void plusobject_widgetcreate(t_plusobject *po, t_symbol *s, int ac, t_atom *av)
+/* assuming non-null ps will remain constant, LATER rethink */
+void plusobject_widgetcreate(t_plusobject *po, t_symbol *s, int ac, t_atom *av,
+			     t_plusstring *ps)
 {
     t_pluswidget *pw = getbytes(sizeof(*pw));
-    t_binbuf *inbb = binbuf_new();
-    if (!s || s == &s_)
-	s = plusps_tot;
-    po->po_widget = pw;
-    if ((s != totps_plustot && s != plusps_tot) || ac == 0)
+    pw->pw_visstring = 0;
+    if (ps)
     {
-	t_atom at;
-	if (s == totps_plustot)
-	    s = plusps_tot;
-	SETSYMBOL (&at, s);
-	binbuf_add(inbb, 1, &at);
+	plusstring_preserve(ps);
+	pw->pw_visbuf = plusstring_get(ps, &pw->pw_vissize);
+	if (pw->pw_vissize > 0)
+	    pw->pw_visstring = ps;
+	else
+	    plusstring_release(ps);
     }
-    if (ac > 0)
-	binbuf_add(inbb, ac, av);
-    binbuf_gettext(inbb, &pw->pw_vistext, &pw->pw_vissize);
-    binbuf_free(inbb);
+    if (pw->pw_visstring == 0)
+    {
+	t_binbuf *inbb = binbuf_new();
+	if (!s || s == &s_)
+	    s = plusps_tot;
+	if ((s != totps_plustot && s != plusps_tot) || ac == 0)
+	{
+	    t_atom at;
+	    if (s == totps_plustot)
+		s = plusps_tot;
+	    SETSYMBOL (&at, s);
+	    binbuf_add(inbb, 1, &at);
+	}
+	if (ac > 0)
+	    binbuf_add(inbb, ac, av);
+	binbuf_gettext(inbb, &pw->pw_visbuf, &pw->pw_vissize);
+	binbuf_free(inbb);
+    }
     pw->pw_rtextactive = 0;
     pw->pw_ishit = 0;
+    po->po_widget = pw;
 }
 
 void plusclass_widgetsetup(t_class *c)

@@ -23,12 +23,16 @@ EXTERN_STRUCT _plustob;
 EXTERN_STRUCT _plusvar;
 #define t_plusvar  struct _plusvar
 
+EXTERN_STRUCT _plusstring;
+#define t_plusstring  struct _plusstring
+
 EXTERN_STRUCT _pluswidget;
 #define t_pluswidget  struct _pluswidget
 
 typedef struct _plusobject
 {
     t_object       po_ob;
+    t_glist       *po_glist;
     t_pluswidget  *po_widget;
     int            po_ninlets;
     int            po_noutlets;
@@ -65,6 +69,7 @@ t_plustin *plustag_tobtin(t_symbol *s, t_pd *caller);
 Tcl_Obj *plustag_tobvalue(t_symbol *s, t_pd *caller);
 Tcl_Obj *plusatom_tobvalue(t_atom *ap, t_pd *caller);
 
+int plustob_clear(t_plustob *tob);
 Tcl_Obj *plustob_set(t_plustob *tob, t_plustin *tin, Tcl_Obj *ob);
 Tcl_Obj *plustob_setfloat(t_plustob *tob, t_float f);
 Tcl_Obj *plustob_setsymbol(t_plustob *tob, t_symbol *s);
@@ -78,13 +83,19 @@ t_plusvar *plusvar_create(t_plustype *tp, t_plustin *tin, Tcl_Obj *ob,
 t_plusvar *plusvar_new(char *name, char *index, t_plustin *tin);
 Tcl_Obj *plusvar_push(t_plusvar *var);
 Tcl_Obj *plusvar_pull(t_plusvar *var);
+void plusvar_clear(t_plusvar *var, int doit);
 Tcl_Obj *plusvar_set(t_plusvar *var, Tcl_Obj *ob, int doit);
 Tcl_Obj *plusvar_setfloat(t_plusvar *var, t_float f, int doit);
 Tcl_Obj *plusvar_setsymbol(t_plusvar *var, t_symbol *s, int doit);
 Tcl_Obj *plusvar_setlist(t_plusvar *var, int ac, t_atom *av, int doit);
 
+void plusstring_preserve(t_plusstring *ps);
+void plusstring_release(t_plusstring *ps);
+char *plusstring_get(t_plusstring *ps, int *lenp);
+
 void plusobject_free(t_plusobject *po);
-t_plusobject *plusobject_new(t_class *c, t_symbol *s, int ac, t_atom *av);
+t_plusobject *plusobject_new(t_class *c, t_symbol *s, int ac, t_atom *av,
+			     t_plusstring *ps);
 t_inlet *plusinlet_new(t_plusobject *po, t_pd *dest,
 		       t_symbol *s1, t_symbol *s2);
 t_outlet *plusoutlet_new(t_plusobject *po, t_symbol *s);

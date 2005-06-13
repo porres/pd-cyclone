@@ -58,7 +58,7 @@ static void plustot_out_free(t_plustot_out *x)
 void *plustot_out_new(t_symbol *s, int ac, t_atom *av)
 {
     t_plustot_out *x =
-	(t_plustot_out *)plusobject_new(plustot_out_class, s, ac, av);
+	(t_plustot_out *)plusobject_new(plustot_out_class, s, ac, av, 0);
     x->x_bb = binbuf_new();
     plusoutlet_new(&x->x_plusobject, &s_anything);
     return (x);

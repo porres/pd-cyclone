@@ -4,6 +4,12 @@ TODO for pddp
 
 DONE for pddp
 
+alpha3
+  * .pd back-link tries not to open patches that are already open:
+    if a patch window already exists, it is raised and given focus instead
+  * new option "-gop" (visible in a gop)
+  * bug fix: unclickable in gop, unless visible
+
 alpha2
   * loading tcl scripts through "package require pddp":
     . storing them in an immediate subdirectory of the path of pddplink's binary

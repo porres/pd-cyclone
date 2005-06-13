@@ -391,6 +391,23 @@ Tcl_Obj *plusatom_tobvalue(t_atom *ap, t_pd *caller)
     return (0);
 }
 
+int plustob_clear(t_plustob *tob)
+{
+    if (!tob->tob_tin)
+    {
+	/* FIXME */
+	loud_warning(0, "+tot", "+To: environment missing");
+	return (0);
+    }
+    if (tob->tob_value)
+    {
+	PLUSDEBUG_DECRREFCOUNT(tob->tob_value, "plustob_clear");
+	tob->tob_value = 0;
+	return (1);
+    }
+    else return (0);
+}
+
 Tcl_Obj *plustob_set(t_plustob *tob, t_plustin *tin, Tcl_Obj *ob)
 {
     if (tin != tob->tob_tin)
@@ -803,6 +820,7 @@ static int plusvar_ifshared(t_plusbob *bob, Tcl_Obj *ob)
     return (1);
 }
 
+/* synchronize a Tcl variable to a +var */
 /* LATER try making it more efficient */
 static Tcl_Obj *plusvar_postset(t_plusvar *var)
 {
@@ -816,7 +834,7 @@ static Tcl_Obj *plusvar_postset(t_plusvar *var)
 			     tob->tob_value, 0);
 	if (!rob)
 	{
-	    if (Tcl_UnsetVar2(interp, var->var_name, 0,
+	    if (Tcl_UnsetVar2(interp, var->var_name, var->var_index,
 			      TCL_LEAVE_ERR_MSG) == TCL_OK)
 		rob = Tcl_ObjSetVar2(interp, var->var_part1, var->var_part2,
 				     tob->tob_value, TCL_LEAVE_ERR_MSG);
@@ -837,7 +855,7 @@ static Tcl_Obj *plusvar_postset(t_plusvar *var)
     }
     else
     {
-	if (Tcl_UnsetVar2(interp, var->var_name, 0,
+	if (Tcl_UnsetVar2(interp, var->var_name, var->var_index,
 			  TCL_LEAVE_ERR_MSG) != TCL_OK)
 	    plusloud_tclerror(0, interp, "cannot unset variable");
 	rob = 0;
@@ -846,6 +864,7 @@ static Tcl_Obj *plusvar_postset(t_plusvar *var)
     return (rob);
 }
 
+/* move a +var's value into a Tcl variable */
 Tcl_Obj *plusvar_push(t_plusvar *var)
 {
     if (((t_plustob *)var)->tob_value)
@@ -854,6 +873,7 @@ Tcl_Obj *plusvar_push(t_plusvar *var)
 	return (0);
 }
 
+/* move a Tcl variable's value into a +var */
 Tcl_Obj *plusvar_pull(t_plusvar *var)
 {
     Tcl_Obj *rob;
@@ -867,6 +887,12 @@ Tcl_Obj *plusvar_pull(t_plusvar *var)
 	plusloud_tclerror(0, interp, "cannot read variable");
     Tcl_Release(interp);
     return (rob);
+}
+
+void plusvar_clear(t_plusvar *var, int doit)
+{
+    if (plustob_clear((t_plustob *)var) && doit)
+	plusvar_postset(var);
 }
 
 Tcl_Obj *plusvar_set(t_plusvar *var, Tcl_Obj *ob, int doit)
@@ -907,15 +933,16 @@ Tcl_Obj *plusvar_setlist(t_plusvar *var, int ac, t_atom *av, int doit)
 
 /* LATER derive +string from +bob */
 
-typedef struct _plusstring
+struct _plusstring
 {
     int    ps_len;
     char  *ps_buf;
     int    ps_refcount;
-} t_plusstring;
+};
 
 /* Resolving dot-separators, unless script is empty. */
-t_plusstring *plusstring_fromatoms(int ac, t_atom *av, t_scriptlet *script)
+static t_plusstring *plusstring_fromatoms(t_symbol *s, int ac, t_atom *av,
+					  t_scriptlet *script)
 {
     t_plusstring *ps = 0;
     char *buf;
@@ -924,18 +951,37 @@ t_plusstring *plusstring_fromatoms(int ac, t_atom *av, t_scriptlet *script)
     {
 	char *start;
 	scriptlet_reset(script);
+	if (s && s != &s_)
+	{
+	    t_atom at;
+	    SETSYMBOL(&at, s);
+	    scriptlet_add(script, 1, 1, 1, &at);
+	}
 	scriptlet_add(script, 1, 1, ac, av);
 	start = scriptlet_getcontents(script, &length);
 	buf = copybytes(start, length);
     }
     else
     {
+	char string[MAXPDSTRING];
 	char *newbuf;
-	buf = getbytes(0);
-	length = 0;
+	if (s && s != &s_)
+	{
+	    t_atom at;
+	    SETSYMBOL(&at, s);
+	    atom_string(&at, string, MAXPDSTRING);
+	    length = strlen(string) + 1;
+	    buf = getbytes(length);
+	    strcpy(buf, string);
+	    buf[length-1] = ' ';
+	}
+	else
+	{
+	    buf = getbytes(0);
+	    length = 0;
+	}
 	while (ac--)
 	{
-	    char string[MAXPDSTRING];
 	    int newlength;
 	    if ((av->a_type == A_SEMI || av->a_type == A_COMMA) &&
 		length && buf[length-1] == ' ') length--;
@@ -983,6 +1029,145 @@ void plusstring_release(t_plusstring *ps)
     }
 }
 
+char *plusstring_get(t_plusstring *ps, int *lenp)
+{
+    *lenp = ps->ps_len;
+    return (ps->ps_buf);
+}
+
+struct _plustot;
+#define t_plustot  struct _plustot
+static int plustot_doit(t_plustot *x, int sendit);
+
+typedef struct _plusproxy
+{
+    t_pd        pp_pd;
+    t_plustot  *pp_master;
+    t_plusvar  *pp_var;
+    int         pp_ndx;
+    int         pp_ishot;
+    int         pp_istransient;
+    int         pp_warned;
+} t_plusproxy;
+
+static t_class *plusproxy_class;
+
+/* Variable is to be created during the second parsing pass, in order to give
+   it an actual name, and in order to fill only the slots that are actually
+   referenced.  If ndx is negative, then this is a pseudo-scalar, otherwise
+   this is a pseudo-array element. */
+static t_plusproxy *plusproxy_new(t_plustot *master, int ndx,
+				  int ishot, int istransient,
+				  t_plustin *tin)
+{
+    t_plusproxy *pp = (t_plusproxy *)pd_new(plusproxy_class);
+    pp->pp_master = master;
+    pp->pp_var = 0;
+    pp->pp_ndx = ndx;
+    pp->pp_ishot = ishot;
+    pp->pp_istransient = istransient;
+    pp->pp_warned = 0;
+    return (pp);
+}
+
+static void plusproxy_free(t_plusproxy *pp)
+{
+#ifdef PLUSTOT_DEBUG
+    loudbug_post("plusproxy_free (%s %d)",
+		 (pp->pp_var ? pp->pp_var->var_name : "deaf"), pp->pp_ndx);
+#endif
+    if (pp->pp_var)
+	plusbob_release((t_plusbob *)pp->pp_var);
+}
+
+static void plusproxy_deafhit(t_plusproxy *pp)
+{
+    if (!pp->pp_warned)
+    {
+	loud_error((t_pd *)pp->pp_master, "deaf slot hit");
+	pp->pp_warned = 1;
+    }
+}
+
+static void plusproxy_clear(t_plusproxy *pp)
+{
+    if (pp->pp_var)
+	plusvar_clear(pp->pp_var, 1);
+    else
+	plusproxy_deafhit(pp);
+}
+
+static void plusproxy_bang(t_plusproxy *pp)
+{
+    if (pp->pp_var)
+	plustot_doit(pp->pp_master, 1);
+    else
+	plusproxy_deafhit(pp);
+}
+
+static void plusproxy_float(t_plusproxy *pp, t_float f)
+{
+    if (pp->pp_var)
+    {
+	plusvar_setfloat(pp->pp_var, f, 0);
+	if (pp->pp_ishot)
+	    plustot_doit(pp->pp_master, 1);
+    }
+    else plusproxy_deafhit(pp);
+}
+
+static void plusproxy_symbol(t_plusproxy *pp, t_symbol *s)
+{
+    if (pp->pp_var)
+    {
+	plusvar_setsymbol(pp->pp_var, s, 0);
+	if (pp->pp_ishot)
+	    plustot_doit(pp->pp_master, 1);
+    }
+    else plusproxy_deafhit(pp);
+}
+
+static void plusproxy_list(t_plusproxy *pp, t_symbol *s, int ac, t_atom *av)
+{
+    if (pp->pp_var)
+    {
+	plusvar_setlist(pp->pp_var, ac, av, 0);
+	if (pp->pp_ishot)
+	    plustot_doit(pp->pp_master, 1);
+    }
+    else plusproxy_deafhit(pp);
+}
+
+static void plusproxy_set(t_plusproxy *pp, t_symbol *s, int ac, t_atom *av)
+{
+    if (pp->pp_var)
+    {
+	if (ac == 1)
+	{
+	    if (av->a_type == A_FLOAT)
+		plusvar_setfloat(pp->pp_var, av->a_w.w_float, 0);
+	    else if (av->a_type == A_SYMBOL)
+		plusvar_setsymbol(pp->pp_var, av->a_w.w_symbol, 0);
+	}
+	else plusvar_setlist(pp->pp_var, ac, av, 0);
+    }
+    else plusproxy_deafhit(pp);
+}
+
+#ifdef PLUSTOT_DEBUG
+static void plusproxy_debug(t_plusproxy *pp)
+{
+    t_plustin *tin = ((t_plustob *)pp->pp_var)->tob_tin;
+    t_symbol *id = plusenv_getid((t_plusenv *)tin);
+    t_symbol *glname = plustin_getglistname(tin);
+    loudbug_post("+proxy %d, glist %x",
+		 pp->pp_ndx, (int)((t_plusobject *)pp->pp_master)->po_glist);
+    loudbug_post("  plustin '%s' (%s) over %x", (id ? id->s_name : "default"),
+		 (glname ? glname->s_name : "<anonymous>"),
+		 (int)tin->tin_interp);
+}
+#endif
+
 typedef struct _plusword
 {
     int         pw_type;
@@ -998,20 +1183,9 @@ typedef struct _plusword
 #define PLUSTOT_ERRUNKNOWN  -1
 #define PLUSTOT_ERROTHER    -2
 
-typedef struct _plusproxy
-{
-    t_pd        pp_pd;
-    t_pd       *pp_master;
-    t_plusvar  *pp_var;
-    int         pp_ndx;
-    int         pp_doit;
-    int         pp_warned;
-} t_plusproxy;
-
-typedef struct _plustot
+struct _plustot
 {
     t_plusobject   x_plusobject;
-    t_glist       *x_glist;
     t_plustob     *x_tob;        /* interpreter's result (after invocation) */
     t_scriptlet   *x_script;
     Tcl_Obj       *x_cname;      /* command name, main validation flag */
@@ -1029,100 +1203,22 @@ typedef struct _plustot
     int            x_pseudoscalar;
     int            x_nproxies;
     t_plusproxy  **x_proxies;
-    t_plusproxy   *x_mainproxy;  /* == x_proxies[0], unless pseudo-scalar */
+    t_plusproxy   *x_mainproxy;  /* == x_proxies[0] or null if 1st slot deaf */
+    t_plusproxy   *x_deafproxy;  /* dummy/x_proxies[0] if deaf, else null */
     int            x_grabwarned;
-} t_plustot;
+    int            x_isloud;
+};
 
-static t_class *plusproxy_class;
 static t_class *plustot_class;
 
-/* Create a variable here only for the main slot.  Other slots are to be
-   filled during the second parsing pass, in order to fill only the slots
-   that are actually referenced.  If ndx is negative, then create
-   a pseudo-scalar, otherwise this is a pseudo-array element. */
-static t_plusproxy *plusproxy_new(t_pd *master, int ndx, t_plustin *tin)
+static void plustot_tclerror(t_plustot *x, Tcl_Interp *interp, char *msg)
 {
-    t_plusproxy *pp = (t_plusproxy *)pd_new(plusproxy_class);
-    pp->pp_master = master;
-    pp->pp_var = (ndx > 0 ? 0 : plusvar_new("in", (ndx ? 0 : "0"), tin));
-    if (pp->pp_var)
-    {
-	plusbob_preserve((t_plusbob *)pp->pp_var);
-	plusbob_setowner((t_plusbob *)pp->pp_var, master);
-    }
-    pp->pp_ndx = ndx;
-    pp->pp_doit = (ndx < 1);
-    pp->pp_warned = 0;
-    return (pp);
+    if (x->x_isloud)
+	plusloud_tclerror((t_pd *)x, interp, msg);
 }
-
-static void plusproxy_free(t_plusproxy *pp)
-{
-#ifdef PLUSTOT_DEBUG
-    loudbug_post("plusproxy_free (%s %d)",
-		 (pp->pp_var ? pp->pp_var->var_name : "empty"), pp->pp_ndx);
-#endif
-    if (pp->pp_var)
-	plusbob_release((t_plusbob *)pp->pp_var);
-}
-
-static void plusproxy_emptyhit(t_plusproxy *pp)
-{
-    if (!pp->pp_warned)
-    {
-	loud_error(pp->pp_master, "empty slot hit");
-	pp->pp_warned = 1;
-    }
-}
-
-static void plusproxy_bang(t_plusproxy *pp)
-{
-    if (pp->pp_var)
-	plusvar_push(pp->pp_var);
-    else
-	plusproxy_emptyhit(pp);
-}
-
-static void plusproxy_float(t_plusproxy *pp, t_float f)
-{
-    if (pp->pp_var)
-	plusvar_setfloat(pp->pp_var, f, pp->pp_doit);
-    else
-	plusproxy_emptyhit(pp);
-}
-
-static void plusproxy_symbol(t_plusproxy *pp, t_symbol *s)
-{
-    if (pp->pp_var)
-	plusvar_setsymbol(pp->pp_var, s, pp->pp_doit);
-    else
-	plusproxy_emptyhit(pp);
-}
-
-static void plusproxy_list(t_plusproxy *pp, t_symbol *s, int ac, t_atom *av)
-{
-    if (pp->pp_var)
-	plusvar_setlist(pp->pp_var, ac, av, pp->pp_doit);
-    else
-	plusproxy_emptyhit(pp);
-}
-
-#ifdef PLUSTOT_DEBUG
-static void plusproxy_debug(t_plusproxy *pp)
-{
-    t_plustin *tin = ((t_plustob *)pp->pp_var)->tob_tin;
-    t_symbol *id = plusenv_getid((t_plusenv *)tin);
-    t_symbol *glname = plustin_getglistname(tin);
-    loudbug_post("+proxy %d, glist %x",
-		 pp->pp_ndx, (int)((t_plustot *)pp->pp_master)->x_glist);
-    loudbug_post("  plustin '%s' (%s) over %x", (id ? id->s_name : "default"),
-		 (glname ? glname->s_name : "<anonymous>"),
-		 (int)tin->tin_interp);
-}
-#endif
 
 /* First pass (!doit): determine number of slots.
-   Second pass (doit): create variables for non-empty slots. */
+   Second pass (doit): create variables for listening slots. */
 static int plustot_usevariable(t_plustot *x, Tcl_Token *tp, int doit)
 {
     int nc = tp->numComponents;
@@ -1147,10 +1243,18 @@ static int plustot_usevariable(t_plustot *x, Tcl_Token *tp, int doit)
     tp++;
     if (nc && tp->type == TCL_TOKEN_TEXT)
     {
-	if (strncmp(tp->start, "in", tp->size))
+	int ishot = 0, iscold = 0, istransient = 0;
+	if (strncmp(tp->start, "Hin", tp->size) == 0)
+	    ishot = 1;
+	else if (strncmp(tp->start, "Cin", tp->size) == 0)
+	    iscold = 1;
+	else if (strncmp(tp->start, "Tin", tp->size) == 0)
+	    istransient = ishot = 1;
+	if (!ishot && !iscold && strncmp(tp->start, "in", tp->size))
 	{
 	    /* regular variable */
-	    /* LATER consider tracing it (2nd pass) */
+	    /* LATER it should be write-traced (2nd pass, but only if there are
+	       pull inputs) in order to know when the object becomes stale */
 	}
 	else
 	{
@@ -1214,15 +1318,35 @@ static int plustot_usevariable(t_plustot *x, Tcl_Token *tp, int doit)
 		}
 		else if (inno < x->x_nproxies)
 		{
-		    if (inno > 0 && !x->x_proxies[inno]->pp_var)
+		    t_plusproxy *pp = x->x_proxies[inno];
+		    if (!pp->pp_var)
 		    {
 			t_plusvar *var;
-			char buf[8];
-			sprintf(buf, "%d", inno);
-			var = plusvar_new("in", buf, x->x_tob->tob_tin);
+			char buf[8], *ptr;
+			if (x->x_pseudoscalar)
+			    ptr = 0;
+			else
+			    sprintf(ptr = buf, "%d", inno);
+			if (istransient)
+			{
+			    pp->pp_istransient = pp->pp_ishot = 1;
+			    var = plusvar_new("Tin", ptr, x->x_tob->tob_tin);
+			}
+			else if (ishot)
+			{
+			    pp->pp_ishot = 1;
+			    var = plusvar_new("Hin", ptr, x->x_tob->tob_tin);
+			}
+			else if (iscold)
+			{
+			    pp->pp_ishot = 0;
+			    var = plusvar_new("Cin", ptr, x->x_tob->tob_tin);
+			}
+			/* keep defaults, as set in plustot_makeproxies(): */
+			else var = plusvar_new("in", ptr, x->x_tob->tob_tin);
 			plusbob_preserve((t_plusbob *)var);
 			plusbob_setowner((t_plusbob *)var, (t_pd *)x);
-			x->x_proxies[inno]->pp_var = var;
+			pp->pp_var = var;
 		    }
 		}
 		else
@@ -1376,28 +1500,42 @@ static int plustot_makeproxies(t_plustot *x)
     Tcl_Interp *interp = x->x_tob->tob_tin->tin_interp;
     if (interp)
     {
-	if (x->x_nproxies == 1)
+	if (x->x_nproxies == 0)
 	{
-	    x->x_mainproxy =
-		plusproxy_new((t_pd *)x, (x->x_pseudoscalar ? -1 : 0),
-			      x->x_tob->tob_tin);
+	    x->x_proxies = 0;
+	    x->x_mainproxy = 0;
+	    x->x_deafproxy = plusproxy_new(x, -2, 0, 0, x->x_tob->tob_tin);
 	}
-	else if (x->x_nproxies > 1 && !x->x_pseudoscalar)
+	else if (x->x_nproxies == 1
+		 || (x->x_nproxies > 1 && !x->x_pseudoscalar))
 	{
 	    if (x->x_proxies = getbytes(x->x_nproxies * sizeof(*x->x_proxies)))
 	    {
 		int i;
-		for (i = 0; i < x->x_nproxies; i++)
-		    x->x_proxies[i] =
-			plusproxy_new((t_pd *)x, i, x->x_tob->tob_tin);
+		x->x_proxies[0] =
+		    plusproxy_new(x, (x->x_pseudoscalar ? -1 : 0), 1, 0,
+				  x->x_tob->tob_tin);
 		for (i = 1; i < x->x_nproxies; i++)
+		{
+		    x->x_proxies[i] =
+			plusproxy_new(x, i, 0, 0, x->x_tob->tob_tin);
 		    plusinlet_new(&x->x_plusobject,
 				  (t_pd *)x->x_proxies[i], 0, 0);
-		x->x_mainproxy = x->x_proxies[0];
-		/* second pass: traverse non-empty slots, create variables */
+		}
+		/* second pass: traverse listening slots, create variables */
 		plustot_parsevariables(x, interp,
 				       x->x_ctail->ps_buf, x->x_ctail->ps_len,
 				       &x->x_tailparse, 1);
+		if (x->x_proxies[0]->pp_var)
+		{
+		    x->x_mainproxy = x->x_proxies[0];
+		    x->x_deafproxy = 0;
+		}
+		else
+		{
+		    x->x_mainproxy = 0;
+		    x->x_deafproxy = x->x_proxies[0];
+		}
 	    }
 	    else goto proxiesfailed;
 	}
@@ -1437,7 +1575,7 @@ static int plustot_resetwords(t_plustot *x)
     for (i = 1; i < x->x_nwords; i++)
 	PLUSDEBUG_DECRREFCOUNT(x->x_words[i].pw_ob, "plustot_resetwords");
     x->x_nwords = 0;
-    if (x->x_ctail)
+    if (x->x_ctail)  /* does object command exist && is parse valid? */
     {
 	int nwords = x->x_tailparse.numWords + 1;
 	if (nwords > x->x_maxwords)
@@ -1464,7 +1602,7 @@ static int plustot_resetargs(t_plustot *x)
 	PLUSDEBUG_DECRREFCOUNT(x->x_argv[i], "plustot_resetargs");
     x->x_argc = 0;
     x->x_argv[0] = x->x_cname;
-    if (x->x_ctail)
+    if (x->x_ctail)  /* does object command exist && is parse valid? */
     {
 	int nargs = x->x_maxwords;
 	if (nargs > x->x_maxargs)
@@ -1588,7 +1726,7 @@ static int plustot_argsfromwords(t_plustot *x, Tcl_Interp *interp)
 		}
 		else
 		{
-		    plusloud_tclerror((t_pd *)x, interp, "bad word (command)");
+		    plustot_tclerror(x, interp, "bad word (command)");
 		    goto evalfailed;
 		}
 	    }
@@ -1610,7 +1748,7 @@ static int plustot_argsfromwords(t_plustot *x, Tcl_Interp *interp)
 		    }
 		    else
 		    {
-			plusloud_tclerror((t_pd *)x, interp, "bad index");
+			plustot_tclerror(x, interp, "bad index");
 			goto evalfailed;
 		    }
 		}
@@ -1624,7 +1762,7 @@ static int plustot_argsfromwords(t_plustot *x, Tcl_Interp *interp)
 		}
 		else
 		{
-		    plusloud_tclerror((t_pd *)x, interp, "bad word (variable)");
+		    plustot_tclerror(x, interp, "bad word (variable)");
 		    goto evalfailed;
 		}
 	    }
@@ -1687,7 +1825,7 @@ static int plustot_argsfromtokens(t_plustot *x, Tcl_Interp *interp)
 	    else
 	    {
 		PLUSDEBUG_ENDPOST("plustot_argsfromtokens");
-		plusloud_tclerror((t_pd *)x, interp, "bad token");
+		plustot_tclerror(x, interp, "bad token");
 		while (--i)
 		    PLUSDEBUG_DECRREFCOUNT(x->x_argv[i],
 					   "plustot_argsfromtokens");
@@ -1717,7 +1855,7 @@ static int plustot_push(t_plustot *x)
     if (x->x_proxies)
     {
 	int i;
-	for (i = 1; i < x->x_nproxies; i++)
+	for (i = 0; i < x->x_nproxies; i++)
 	    if (x->x_proxies[i]->pp_var)
 		if (!plusvar_push(x->x_proxies[i]->pp_var))
 		    return (0);
@@ -1725,7 +1863,20 @@ static int plustot_push(t_plustot *x)
     return (1);
 }
 
-static int plustot_doit(t_plustot *x)
+static void plustot_cleartransients(t_plustot *x)
+{
+    if (x->x_proxies)
+    {
+	int i;
+	for (i = 0; i < x->x_nproxies; i++)
+	    if (x->x_proxies[i]->pp_var && x->x_proxies[i]->pp_istransient)
+		plusvar_clear(x->x_proxies[i]->pp_var, 1);
+    }
+}
+
+/* This is the seed of it all:  if sendit == 1, this routine executes
+   a full firing step, otherwise, it performs a plain evaluation. */
+static int plustot_doit(t_plustot *x, int sendit)
 {
     int result = 0;
     Tcl_Interp *interp = x->x_tob->tob_tin->tin_interp;
@@ -1738,19 +1889,22 @@ static int plustot_doit(t_plustot *x)
 	    if (plustob_grabresult(x->x_tob))
 		result = 1;
 	}
-	else plusloud_tclerror((t_pd *)x, interp, "command failed");
+	else plustot_tclerror(x, interp, "command failed");
 	/* Although args are to be reset in the next call to
 	   plustot_argsfromwords(), however, plusvar_preset() will be called
 	   first, so, unless reset is done here, $ins would be shared there.
 	   LATER rethink. */
 	plustot_resetargs(x);
+	plustot_cleartransients(x);
     }
+    if (result && sendit)
+	outlet_plusbob(((t_object *)x)->ob_outlet, (t_plusbob *)x->x_tob);
     return (result);
 }
 
 static void plustot_eval(t_plustot *x)
 {
-    plustot_doit(x);
+    plustot_doit(x, 0);
 }
 
 static void plustot_get(t_plustot *x)
@@ -1763,15 +1917,25 @@ static void plustot_get(t_plustot *x)
 static void plustot_set(t_plustot *x, t_symbol *s, int ac, t_atom *av)
 {
     if (x->x_mainproxy)
+	plusproxy_set(x->x_mainproxy, s, ac, av);
+    else if (x->x_deafproxy)
+	plusproxy_deafhit(x->x_deafproxy);
+}
+
+static void plustot_clear(t_plustot *x)
+{
+    if (x->x_mainproxy)
+	plusproxy_clear(x->x_mainproxy);
+}
+
+static void plustot_clearall(t_plustot *x)
+{
+    if (x->x_proxies)
     {
-	if (ac == 1)
-	{
-	    if (av->a_type == A_FLOAT)
-		plusproxy_float(x->x_mainproxy, av->a_w.w_float);
-	    else if (av->a_type == A_SYMBOL)
-		plusproxy_symbol(x->x_mainproxy, av->a_w.w_symbol);
-	}
-	else plusproxy_list(x->x_mainproxy, s, ac, av);
+	int i;
+	for (i = 0; i < x->x_nproxies; i++)
+	    if (x->x_proxies[i]->pp_var)
+		plusvar_clear(x->x_proxies[i]->pp_var, 1);
     }
 }
 
@@ -1779,32 +1943,32 @@ static void plustot_bang(t_plustot *x)
 {
     if (x->x_mainproxy)
 	plusproxy_bang(x->x_mainproxy);
-    if (plustot_doit(x))
-	outlet_plusbob(((t_object *)x)->ob_outlet, (t_plusbob *)x->x_tob);
+    else
+	plustot_doit(x, 1);
 }
 
 static void plustot_float(t_plustot *x, t_float f)
 {
     if (x->x_mainproxy)
 	plusproxy_float(x->x_mainproxy, f);
-    if (plustot_doit(x))
-	outlet_plusbob(((t_object *)x)->ob_outlet, (t_plusbob *)x->x_tob);
+    else if (x->x_deafproxy)
+	plusproxy_deafhit(x->x_deafproxy);
 }
 
 static void plustot_symbol(t_plustot *x, t_symbol *s)
 {
     if (x->x_mainproxy)
 	plusproxy_symbol(x->x_mainproxy, s);
-    if (plustot_doit(x))
-	outlet_plusbob(((t_object *)x)->ob_outlet, (t_plusbob *)x->x_tob);
+    else if (x->x_deafproxy)
+	plusproxy_deafhit(x->x_deafproxy);
 }
 
 static void plustot_list(t_plustot *x, t_symbol *s, int ac, t_atom *av)
 {
     if (x->x_mainproxy)
 	plusproxy_list(x->x_mainproxy, s, ac, av);
-    if (plustot_doit(x))
-	outlet_plusbob(((t_object *)x)->ob_outlet, (t_plusbob *)x->x_tob);
+    else if (x->x_deafproxy)
+	plusproxy_deafhit(x->x_deafproxy);
 }
 
 static void plustot_tot(t_plustot *x, t_symbol *s, int ac, t_atom *av)
@@ -1862,10 +2026,11 @@ static void plustot_save(t_gobj *z, t_binbuf *bb)
 #ifdef PLUSTOT_DEBUG
 static void plustot_debug(t_plustot *x)
 {
+    t_plusobject *po = (t_plusobject *)x;
     t_plustin *tin = x->x_tob->tob_tin;
     t_symbol *id = plusenv_getid((t_plusenv *)tin);
     t_symbol *glname = plustin_getglistname(tin);
-    loudbug_post("+tot, glist %x", (int)x->x_glist);
+    loudbug_post("+tot, glist %x", (int)po->po_glist);
     loudbug_post("  plustin '%s' (%s) over %x", (id ? id->s_name : "default"),
 		 (glname ? glname->s_name : "<anonymous>"),
 		 (int)tin->tin_interp);
@@ -1879,7 +2044,7 @@ static void plustot_free(t_plustot *x)
     int i;
     plusbob_release((t_plusbob *)x->x_tob);
     if (x->x_cname) PLUSDEBUG_DECRREFCOUNT(x->x_cname, "plustot_free");
-    if (x->x_ctail)
+    if (x->x_ctail)  /* does object command exist && is parse valid? */
     {
 	for (i = 1; i < x->x_nwords; i++)
 	    PLUSDEBUG_DECRREFCOUNT(x->x_words[i].pw_ob, "plustot_free");
@@ -1892,13 +2057,14 @@ static void plustot_free(t_plustot *x)
 	Tcl_FreeParse(&x->x_tailparse);
 	plusstring_release(x->x_ctail);
     }
-    if (x->x_mainproxy) pd_free((t_pd *)x->x_mainproxy);
     if (x->x_proxies)
     {
-	for (i = 1; i < x->x_nproxies; i++)
+	for (i = 0; i < x->x_nproxies; i++)
 	    pd_free((t_pd *)x->x_proxies[i]);
 	freebytes(x->x_proxies, x->x_nproxies * sizeof(*x->x_proxies));
     }
+    else if (x->x_deafproxy)
+	pd_free((t_pd *)x->x_deafproxy);
     if (x->x_script) scriptlet_free(x->x_script);
     plusobject_free(&x->x_plusobject);
 }
@@ -1941,23 +2107,25 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
 		return (0);
 	    }
 	}
-#if 0
-	/* FIXME forgot where this constraint came from, debug carefully... */
-	if (ac)
-#endif
-	{
-	    ctail = plusstring_fromatoms(ac, av, script);
-	    plusstring_preserve(ctail);
-	}
+	/* If ac == 0, ctail is an empty plusstring, but not null.  We rely
+	   on getbytes(0), copybytes(x, 0), and freebytes(x, 0) being safe.
+	   LATER reconsider using a separate parse validation flag, while
+	   moving tests for a null ctail to where they really belong. */
+	ctail = plusstring_fromatoms(0, ac, av, script);
+	plusstring_preserve(ctail);
     }
     if ((tin = plustin_glistprovide(glist, PLUSTIN_GLIST_ANY, 0)) &&
 	(tob = plustob_new(tin, 0)))
     {
-	x = (t_plustot *)plusobject_new(plustot_class, cmdname, ac, av);
+	t_plusstring *vistext = plusstring_fromatoms(cmdname, ac, av, script);
+	plusstring_preserve(vistext);
+	x = (t_plustot *)
+	    plusobject_new(plustot_class, cmdname, ac, av, vistext);
+	plusstring_release(vistext);
+	x->x_isloud = 1;
 	/* tin already preserved (plustob_new() did it) */
 	plusbob_preserve((t_plusbob *)tob);
 	plusbob_setowner((t_plusbob *)tob, (t_pd *)x);
-	x->x_glist = glist;
 	x->x_tob = tob;
 	scriptlet_setowner(script, (t_pd *)x);
 	x->x_script = script;
@@ -1971,6 +2139,7 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
 	x->x_nproxies = 0;
 	x->x_proxies = 0;
 	x->x_mainproxy = 0;
+	x->x_deafproxy = 0;
 	x->x_grabwarned = 0;
 	if (cmdname && *cmdname->s_name)
 	{
@@ -1991,7 +2160,8 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
 		else loud_error((t_pd *)x, "command '%s' does not exist",
 				cmdname->s_name);
 		if (x->x_cname && ctail)
-		{
+		{  /* object command exists, now parse the arguments: */
+		    /* 1. do syntax validation and locate pseudo-variables */
 		    int nvars =
 			plustot_parsevariables(x, interp,
 					       ctail->ps_buf, ctail->ps_len,
@@ -2000,18 +2170,34 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
 		    {
 			int res = 1;
 			x->x_ctail = ctail;
-			if (x->x_nproxies)
-			    res = plustot_makeproxies(x);
+			/* 2. create input slots */
+			res = plustot_makeproxies(x);
 			if (res)
+			    /* 3. shallow objectifying: create a Tcl_Obj for
+			       each argument; subcommand arguments will be
+			       compiled to bytecode during first evaluation --
+			       either below, or when the +tot object fires. */
 			    res = plustot_makewords(x);
-			if (!res)
+			if (res)
+			{
+			    /* creation time evaluation, LATER rethink:
+			       should this be immediate or scheduled? */
+			    x->x_isloud = 0;
+			    plustot_doit(x, 0);
+			    x->x_isloud = 1;
+			}
+			else
+			{
+			    /* here we invalidate parse, but leave the command
+			       valid, LATER revisit */
 			    x->x_ctail = 0;
+			}
 			Tcl_FreeParse(&x->x_tailparse);
 		    }
 		    else
 		    {
 			if (nvars == PLUSTOT_ERRUNKNOWN)
-			    plusloud_tclerror((t_pd *)x, interp,
+			    plustot_tclerror(x, interp,
 					    "parsing command arguments failed");
 			else
 			    Tcl_FreeParse(&x->x_tailparse);
@@ -2039,7 +2225,8 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
 }
 
 void plusobject_widgetfree(t_plusobject *po);
-void plusobject_widgetcreate(t_plusobject *po, t_symbol *s, int ac, t_atom *av);
+void plusobject_widgetcreate(t_plusobject *po, t_symbol *s, int ac, t_atom *av,
+			     t_plusstring *ps);
 void plusclass_widgetsetup(t_class *c);
 
 void plusobject_free(t_plusobject *po)
@@ -2047,12 +2234,14 @@ void plusobject_free(t_plusobject *po)
     plusobject_widgetfree(po);
 }
 
-t_plusobject *plusobject_new(t_class *c, t_symbol *s, int ac, t_atom *av)
+t_plusobject *plusobject_new(t_class *c, t_symbol *s, int ac, t_atom *av,
+			     t_plusstring *ps)
 {
     t_plusobject *po = (t_plusobject *)pd_new(c);
+    po->po_glist = canvas_getcurrent();
     po->po_ninlets = 1;
     po->po_noutlets = 0;
-    plusobject_widgetcreate(po, s, ac, av);
+    plusobject_widgetcreate(po, s, ac, av, ps);
     return (po);
 }
 
@@ -2094,6 +2283,10 @@ void plustot_setup(void)
     class_addlist(plustot_class, plustot_list);
     class_addmethod(plustot_class, (t_method)plustot_eval,
 		    gensym("eval"), 0);
+    class_addmethod(plustot_class, (t_method)plustot_clear,
+		    gensym("clear"), 0);
+    class_addmethod(plustot_class, (t_method)plustot_clearall,
+		    gensym("clearall"), 0);
     class_addmethod(plustot_class, (t_method)plustot_set,
 		    gensym("set"), A_GIMME, 0);
     class_addmethod(plustot_class, (t_method)plustot_get,
@@ -2109,6 +2302,10 @@ void plustot_setup(void)
     class_addfloat(plusproxy_class, plusproxy_float);
     class_addsymbol(plusproxy_class, plusproxy_symbol);
     class_addlist(plusproxy_class, plusproxy_list);
+    class_addmethod(plusproxy_class, (t_method)plusproxy_clear,
+		    gensym("clear"), 0);
+    class_addmethod(plusproxy_class, (t_method)plusproxy_set,
+		    gensym("set"), A_GIMME, 0);
 
 #ifdef PLUSTOT_DEBUG
     class_addmethod(plustot_class, (t_method)plustot_debug,

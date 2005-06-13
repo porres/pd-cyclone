@@ -25,6 +25,7 @@ typedef struct _pddplink
     t_object   x_ob;
     t_glist   *x_glist;
     int        x_isboxed;
+    int        x_isgopvisible;
     char      *x_vistext;
     int        x_vissize;
     int        x_vislength;
@@ -113,23 +114,22 @@ static void pddplink_activate(t_gobj *z, t_glist *glist, int state)
 static void pddplink_vis(t_gobj *z, t_glist *glist, int vis)
 {
     t_pddplink *x = (t_pddplink *)z;
+    t_rtext *y;
     if (vis)
     {
-        if (glist->gl_havewindow)
+        if ((glist->gl_havewindow || x->x_isgopvisible)
+            && (y = glist_findrtext(glist, (t_text *)x)))
         {
-            t_rtext *y = glist_findrtext(glist, (t_text *)x);
             rtext_draw(y);
 	    sys_vgui(".x%lx.c itemconfigure %s -text {%s} -fill magenta\n",
-		     glist, rtext_gettag(y), x->x_vistext);
+		     glist_getcanvas(glist), rtext_gettag(y), x->x_vistext);
         }
     }
     else
     {
-        if (glist->gl_havewindow)
-	{
-	    t_rtext *y = glist_findrtext(glist, (t_text *)x);
+        if ((glist->gl_havewindow || x->x_isgopvisible)
+	    && (y = glist_findrtext(glist, (t_text *)x)))
             rtext_erase(y);
-	}
     }
 }
 
@@ -188,10 +188,15 @@ static void pddplink_click(t_pddplink *x, t_floatarg xpos, t_floatarg ypos,
 static int pddplink_wbclick(t_gobj *z, t_glist *glist, int xpix, int ypix,
 			    int shift, int alt, int dbl, int doit)
 {
-    if (doit)
-	pddplink_click((t_pddplink *)z, (t_floatarg)xpix, (t_floatarg)ypix,
-		       (t_floatarg)shift, 0, (t_floatarg)alt);
-    return (1);
+    t_pddplink *x = (t_pddplink *)z;
+    if (glist->gl_havewindow || x->x_isgopvisible)
+    {
+	if (doit)
+	    pddplink_click(x, (t_floatarg)xpix, (t_floatarg)ypix,
+			   (t_floatarg)shift, 0, (t_floatarg)alt);
+	return (1);
+    }
+    else return (0);
 }
 
 static int pddplink_isoption(char *name)
@@ -294,6 +299,7 @@ static void *pddplink_new(t_symbol *s, int ac, t_atom *av)
     t_pddplink xgen, *x;
     int skip;
     xgen.x_isboxed = 0;
+    xgen.x_isgopvisible = 0;
     xgen.x_vistext = 0;
     xgen.x_vissize = 0;
     if (xgen.x_ulink = pddplink_nextsymbol(ac, av, 0, &skip))
@@ -307,6 +313,8 @@ static void *pddplink_new(t_symbol *s, int ac, t_atom *av)
 	    av += skip;
 	    if (opt == gensym("-box"))
 		xgen.x_isboxed = 1;
+	    else if (opt == gensym("-gop"))
+		xgen.x_isgopvisible = 1;
 	    else if (opt == gensym("-text"))
 	    {
 		t_symbol *nextsym = pddplink_nextsymbol(ac, av, 1, &skip);
@@ -323,6 +331,7 @@ static void *pddplink_new(t_symbol *s, int ac, t_atom *av)
     x->x_dirsym = canvas_getdir(x->x_glist);  /* FIXME */
 
     x->x_isboxed = xgen.x_isboxed;
+    x->x_isgopvisible = xgen.x_isgopvisible;
     x->x_vistext = xgen.x_vistext;
     x->x_vissize = xgen.x_vissize;
     x->x_vislength = (x->x_vistext ? strlen(x->x_vistext) : 0);
