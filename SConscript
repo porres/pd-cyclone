@@ -39,7 +39,7 @@ for sickle_extra in sickle_source:
         external = env.SharedLibrary(target = target, source = src)
         env.Alias('install', env.Install(os.path.join(prefix, 'extra'), external))
         Default(external)
-
+        
 toxy_src = glob.glob('shared/toxy/*.c')
 for toxy_extra in Split('tot plustot tow widget'):
     toxy_source = "toxy/" + toxy_extra + ".c"
@@ -49,4 +49,4 @@ for toxy_extra in Split('tot plustot tow widget'):
     Default(external)
 
 env.Alias('install', env.Install(os.path.join(prefix, 'extra'), glob.glob('test/toxy/*.wid')))
-env.Alias('install', env.Install(os.path.join(prefix, 'doc/5.reference/'), glob.glob('doc/help/*/*.pd')))
+env.Alias('install', env.Install(os.path.join(prefix, 'doc/miXed/'), glob.glob('doc/help/*/*.pd')))
