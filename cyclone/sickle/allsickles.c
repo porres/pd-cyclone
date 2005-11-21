@@ -51,6 +51,7 @@ void minimum_tilde_setup(void);
 void minmax_tilde_setup(void);
 void mstosamps_tilde_setup(void);
 void onepole_tilde_setup(void);
+void overdrive_tilde_setup(void);
 void peakamp_tilde_setup(void);
 void peek_tilde_setup(void);
 void phasewrap_tilde_setup(void);
@@ -131,6 +132,7 @@ void allsickles_setup(void)
     minmax_tilde_setup();
     mstosamps_tilde_setup();
     onepole_tilde_setup();
+    overdrive_tilde_setup();
     peakamp_tilde_setup();
     peek_tilde_setup();
     phasewrap_tilde_setup();

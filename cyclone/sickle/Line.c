@@ -70,7 +70,7 @@ static t_int *line_perform(t_int *w)
     float curval = x->x_value;
     float inc = x->x_inc;
     float biginc = x->x_biginc;
-    if (PD_BADFLOAT(curval))  /* LATER rethink */
+    if (PD_BIGORSMALL(curval))  /* LATER rethink */
 	curval = x->x_value = 0;
 retarget:
     if (x->x_retarget)

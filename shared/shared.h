@@ -164,8 +164,21 @@ typedef union _shared_floatint
 #define SHARED_2PI  6.28318530718
 
 #ifndef PD_BADFLOAT
+#ifdef __i386__
 #define PD_BADFLOAT(f) ((((*(unsigned int*)&(f))&0x7f800000)==0) || \
     (((*(unsigned int*)&(f))&0x7f800000)==0x7f800000))
+#else
+#define PD_BADFLOAT(f) 0
+#endif
+#endif
+
+#ifndef PD_BIGORSMALL
+#ifdef __i386__
+#define PD_BIGORSMALL(f) ((((*(unsigned int*)&(f))&0x60000000)==0) || \
+    (((*(unsigned int*)&(f))&0x60000000)==0x60000000))
+#else
+#define PD_BIGORSMALL(f) 0
+#endif
 #endif
 
 #endif

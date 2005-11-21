@@ -10,6 +10,12 @@
 #include "unstable/pd_imp.h"
 #include "unstable/fragile.h"
 
+/* this one rather belongs to fringe.c... */
+t_symbol *fragile_class_getexterndir(t_class *c)
+{
+    return (c->c_externdir);
+}
+
 int fragile_class_count(void)
 {
     return (pd_objectmaker->c_nmethod);

@@ -74,8 +74,8 @@ static t_int *lores_perform(t_int *w)
 	ynm1 = yn;
     }
     /* LATER rethink */
-    x->x_ynm1 = (PD_BADFLOAT(ynm1) ? 0. : ynm1);
-    x->x_ynm2 = (PD_BADFLOAT(ynm2) ? 0. : ynm2);
+    x->x_ynm1 = (PD_BIGORSMALL(ynm1) ? 0. : ynm1);
+    x->x_ynm2 = (PD_BIGORSMALL(ynm2) ? 0. : ynm2);
     return (w + 7);
 }
 

@@ -113,8 +113,8 @@ static t_int *svf_perform(t_int *w)
 	band -= band * band * band * SVF_DRIVE;
     }
     /* LATER rethink */
-    x->x_band = (PD_BADFLOAT(band) ? 0. : band);
-    x->x_low = (PD_BADFLOAT(low) ? 0. : low);
+    x->x_band = (PD_BIGORSMALL(band) ? 0. : band);
+    x->x_low = (PD_BIGORSMALL(low) ? 0. : low);
     return (w + 10);
 }
 

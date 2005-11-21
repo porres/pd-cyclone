@@ -17,107 +17,156 @@
 
 /* FIXME compatibility mode should be a standard Pd feature.  When it is,
    it will be possible to simplify the implementation.  Until then,
-   we have to handle multiple copies of the 'fittermode_value' variable
+   we have to handle multiple copies of the 'fitterstate_mode' variable
    (coming from different externals), and the only way is multicasting
-   through a symbol (#compatibility). */
-static t_symbol *fittermode_value = 0;
+   through a symbol (#miXed). */
+static t_symbol *fitterstate_mode = 0;
 
-typedef struct _fittermode_client
+/* FIXME keep state in an extensible fitterstate_dictionary */
+static t_symbol *fitterstate_test = 0;
+
+typedef struct _fitterstate_client
 {
-    t_class                    *fc_owner;
-    t_canvas                   *fc_canvas;
-    t_fittermode_callback       fc_callback;
-    struct _fittermode_client  *fc_next;
-} t_fittermode_client;
+    t_class                     *fc_owner;
+    t_canvas                    *fc_canvas;
+    t_fitterstate_callback       fc_callback;
+    struct _fitterstate_client  *fc_next;
+} t_fitterstate_client;
 
-static t_fittermode_client *fittermode_clients = 0;
-static t_class *fittermode_class = 0;
-static t_pd *fittermode_target = 0;
-static int fittermode_ready = 0;
-static t_symbol *fitterps_hashcompatibility = 0;
+static t_fitterstate_client *fitterstate_clients = 0;
+static t_class *fitterstate_class = 0;
+static t_pd *fitterstate_target = 0;
+static int fitterstate_ready = 0;
+static t_symbol *fitterps_hashmiXed = 0;
+static t_symbol *fitterps_mode = 0;
+static t_symbol *fitterps_test = 0;
 static t_symbol *fitterps_max = 0;
 static t_symbol *fitterps_none = 0;
 
-/* read access (query), only from fittermode_dosetup() */
-static void fittermode_bang(t_pd *x)
+/* read access (query), called only from fitterstate_dosetup()
+   or through "#miXed" */
+static void fitterstate_bang(t_pd *x)
 {
-    if (fitterps_hashcompatibility)
+    if (fitterps_hashmiXed)
     {
-	if (fittermode_ready  /* do not reply to own request */
-	    && fitterps_hashcompatibility->s_thing)
-	    /* this proliferates for the third and subsequent
-	       fittermode_dosetup() calls... */
-	    pd_symbol(fitterps_hashcompatibility->s_thing,
-		      fittermode_value);
+	if (fitterstate_ready  /* do not reply to own request */
+	    && fitterps_hashmiXed->s_thing)
+	{
+	    t_atom atout[2];
+	    /* these proliferate for the third and subsequent
+	       fitterstate_dosetup() calls... */
+	    SETSYMBOL(&atout[0], fitterps_mode);
+	    SETSYMBOL(&atout[1], fitterstate_mode);
+	    typedmess(fitterps_hashmiXed->s_thing, gensym("reply"), 2, atout);
+	    SETSYMBOL(&atout[0], fitterps_test);
+	    SETSYMBOL(&atout[1], fitterstate_test);
+	    typedmess(fitterps_hashmiXed->s_thing, gensym("reply"), 2, atout);
+	}
     }
-    else loudbug_bug("fittermode_bang");
+    else loudbug_bug("fitterstate_bang");
 }
 
-/* read access (reply), only from fitter_dosetup() */
-static void fittermode_symbol(t_pd *x, t_symbol *s)
+/* read access (query), called only through "#miXed" */
+static void fitterstate_symbol(t_pd *x, t_symbol *s)
 {
-    if (!s || s == &s_)
+    if (fitterstate_ready && fitterps_hashmiXed && fitterps_hashmiXed->s_thing)
     {
-	loudbug_bug("fittermode_symbol");
-	s = fitterps_none;
+	t_atom atout[2];
+	if (s == fitterps_mode)
+	{
+	    SETSYMBOL(&atout[0], fitterps_mode);
+	    SETSYMBOL(&atout[1], fitterstate_mode);
+	    typedmess(fitterps_hashmiXed->s_thing, gensym("reply"), 2, atout);
+	}
+	else if (s == fitterps_test)
+	{
+	    SETSYMBOL(&atout[0], fitterps_test);
+	    SETSYMBOL(&atout[1], fitterstate_test);
+	    typedmess(fitterps_hashmiXed->s_thing, gensym("reply"), 2, atout);
+	}
+	else post("\"%s\": no such key in the miXed state",
+		  (s ? s->s_name : "???"));
     }
-    fittermode_value = s;
+    else loudbug_bug("fitterstate_symbol");
 }
 
-/* write access, only from fitter_setmode() */
-static void fittermode_set(t_pd *x, t_symbol *s)
+/* read access (reply), called only from fitter_dosetup() or through "#miXed" */
+static void fitterstate_reply(t_pd *x, t_symbol *s1, t_symbol *s2)
 {
-    t_fittermode_client *fc;
-    fittermode_value = s;
-    for (fc = fittermode_clients; fc; fc = fc->fc_next)
+    if (!s2 || s2 == &s_)
+    {
+	loudbug_bug("fitterstate_reply");
+	s2 = fitterps_none;
+    }
+    if (s1 == fitterps_mode)
+	fitterstate_mode = s2;
+    else if (s1 == fitterps_test)
+	fitterstate_test = s2;
+}
+
+/* write access, called only from fitter_setmode() or through "#miXed" */
+static void fitterstate_set(t_pd *x, t_symbol *s1, t_symbol *s2)
+{
+    t_fitterstate_client *fc;
+    if (s1 == fitterps_mode)
+	fitterstate_mode = s2;
+    else if (s1 == fitterps_test)
+	fitterstate_test = s2;
+    for (fc = fitterstate_clients; fc; fc = fc->fc_next)
 	if (fc->fc_callback)
 	    fc->fc_callback();
 }
 
-static void fittermode_dosetup(int noquery)
+static void fitterstate_dosetup(int noquery)
 {
-    if (fittermode_class || fittermode_target)
-	loudbug_bug("fittermode_dosetup");
-    fitterps_hashcompatibility = gensym("#compatibility");
+    if (fitterstate_class || fitterstate_target)
+	loudbug_bug("fitterstate_dosetup");
+    fitterps_hashmiXed = gensym("#miXed");
+    fitterps_mode = gensym("mode");
+    fitterps_test = gensym("test");
     fitterps_max = gensym("max");
     fitterps_none = gensym("none");
-    fittermode_value = fitterps_none;
-    fittermode_class = class_new(fitterps_hashcompatibility,
-				 0, 0, sizeof(t_pd),
-				 CLASS_PD | CLASS_NOINLET, 0);
-    class_addbang(fittermode_class, fittermode_bang);
-    class_addsymbol(fittermode_class, fittermode_symbol);
-    class_addmethod(fittermode_class,
-		    (t_method)fittermode_set,
-		    gensym("set"), A_SYMBOL, 0);
-    fittermode_target = pd_new(fittermode_class);
-    pd_bind(fittermode_target, fitterps_hashcompatibility);
+    fitterstate_mode = fitterps_none;
+    fitterstate_test = fitterps_none;
+    fitterstate_class = class_new(fitterps_hashmiXed,
+				  0, 0, sizeof(t_pd),
+				  CLASS_PD | CLASS_NOINLET, 0);
+    class_addbang(fitterstate_class, fitterstate_bang);
+    class_addsymbol(fitterstate_class, fitterstate_symbol);
+    class_addmethod(fitterstate_class,
+		    (t_method)fitterstate_reply,
+		    gensym("reply"), A_SYMBOL, A_SYMBOL, 0);
+    class_addmethod(fitterstate_class,
+		    (t_method)fitterstate_set,
+		    gensym("set"), A_SYMBOL, A_SYMBOL, 0);
+    fitterstate_target = pd_new(fitterstate_class);
+    pd_bind(fitterstate_target, fitterps_hashmiXed);
     if (!noquery)
-	pd_bang(fitterps_hashcompatibility->s_thing);
-    fittermode_ready = 1;
+	pd_bang(fitterps_hashmiXed->s_thing);
+    fitterstate_ready = 1;
 }
 
-void fitter_setup(t_class *owner, t_fittermode_callback callback)
+void fitter_setup(t_class *owner, t_fitterstate_callback callback)
 {
-    if (!fittermode_class)
-	fittermode_dosetup(0);
+    if (!fitterstate_class)
+	fitterstate_dosetup(0);
     if (callback)
     {
-	t_fittermode_client *fc = getbytes(sizeof(*fc));
+	t_fitterstate_client *fc = getbytes(sizeof(*fc));
 	fc->fc_owner = owner;
 	fc->fc_canvas = 0;  /* a global client */
 	fc->fc_callback = callback;
-	fc->fc_next = fittermode_clients;
-	fittermode_clients = fc;
+	fc->fc_next = fitterstate_clients;
+	fitterstate_clients = fc;
     }
 }
 
 void fitter_drop(t_class *owner)
 {
-    if (fittermode_class && fitterps_hashcompatibility->s_thing)
+    if (fitterstate_class && fitterps_hashmiXed->s_thing)
     {
-	t_fittermode_client *fcp = 0,
-	    *fc = fittermode_clients;
+	t_fitterstate_client *fcp = 0,
+	    *fc = fitterstate_clients;
 	while (fc)
 	{
 	    if (fc->fc_owner == owner)
@@ -125,7 +174,7 @@ void fitter_drop(t_class *owner)
 		if (fcp)
 		    fcp->fc_next = fc->fc_next;
 		else
-		    fittermode_clients = fc->fc_next;
+		    fitterstate_clients = fc->fc_next;
 		break;
 	    }
 	    fcp = fc;
@@ -139,48 +188,72 @@ void fitter_drop(t_class *owner)
     else loudbug_bug("fitter_drop 2");
 }
 
+t_float *fitter_getfloat(t_symbol *s)
+{
+    if (!fitterstate_class)
+	fitterstate_dosetup(0);
+    loudbug_bug("fitter_getfloat");
+    return (0);
+}
+
+t_symbol *fitter_getsymbol(t_symbol *s)
+{
+    if (!fitterstate_class)
+	fitterstate_dosetup(0);
+    if (s == fitterps_mode)
+	return (fitterstate_mode);
+    else if (s == fitterps_test)
+	return (fitterstate_test);
+    else
+    {
+	loudbug_bug("fitter_getsymbol");
+	return (0);
+    }
+}
+
 void fitter_setmode(t_symbol *s)
 {
     if (!s || s == &s_)
 	s = fitterps_none;
     post("setting compatibility mode to '%s'", s->s_name);
-    if (!fittermode_class)
-	fittermode_dosetup(1);
-    if (fitterps_hashcompatibility->s_thing)
+    if (!fitterstate_class)
+	fitterstate_dosetup(1);
+    if (fitterps_hashmiXed->s_thing)
     {
-	t_atom at;
-	SETSYMBOL(&at, s);
-	typedmess(fitterps_hashcompatibility->s_thing, gensym("set"), 1, &at);
+	t_atom atout[2];
+	SETSYMBOL(&atout[0], fitterps_mode);
+	SETSYMBOL(&atout[1], s);
+	typedmess(fitterps_hashmiXed->s_thing, gensym("set"), 2, atout);
     }
     else loudbug_bug("fitter_setmode");
 }
 
 t_symbol *fitter_getmode(void)
 {
-    if (!fittermode_class)
-	fittermode_dosetup(0);
-    return (fittermode_value);
+    if (!fitterstate_class)
+	fitterstate_dosetup(0);
+    return (fitterstate_mode);
 }
 
 void fittermax_set(void)
 {
-    if (!fittermode_class)
-	fittermode_dosetup(0);
+    if (!fitterstate_class)
+	fitterstate_dosetup(0);
     fitter_setmode(fitterps_max);
 }
 
 int fittermax_get(void)
 {
-    if (!fittermode_class)
-	fittermode_dosetup(0);
-    return (fittermode_value == fitterps_max);
+    if (!fitterstate_class)
+	fitterstate_dosetup(0);
+    return (fitterstate_mode == fitterps_max);
 }
 
 void fittermax_warning(t_class *c, char *fmt, ...)
 {
-    if (!fittermode_class)
-	fittermode_dosetup(0);
-    if (fittermode_value == fitterps_max)
+    if (!fitterstate_class)
+	fitterstate_dosetup(0);
+    if (fitterstate_mode == fitterps_max)
     {
 	char buf[MAXPDSTRING];
 	va_list ap;

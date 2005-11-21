@@ -3,8 +3,10 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include "shared.h"
 #include "sickle/sic.h"
 
+/* LATER select the mode fitter-optionally */
 #define RAMPSMOOTH_GEOMETRIC  /* geometric series (same as slide~) CHECKED */
 #ifndef RAMPSMOOTH_GEOMETRIC
 #define RAMPSMOOTH_LINEAR
@@ -82,8 +84,8 @@ static t_int *rampsmooth_perform(t_int *w)
 	}
 	else *out++ = target;
     }
-    x->x_last = last;
-    x->x_target = target;
+    x->x_last = (PD_BIGORSMALL(last) ? 0. : last);
+    x->x_target = (PD_BIGORSMALL(target) ? 0. : target);
     x->x_incr = incr;
     x->x_nleft = nleft;
     return (w + 5);
@@ -120,7 +122,7 @@ static t_int *rampsmooth_perform(t_int *w)
 	}
 	*out++ = last = f;
     }
-    x->x_last = last;
+    x->x_last = (PD_BIGORSMALL(last) ? 0. : last);
     return (w + 5);
 }
 #endif

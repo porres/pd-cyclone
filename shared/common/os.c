@@ -6,6 +6,7 @@
 #include <io.h>
 #else
 #include <unistd.h>
+#include <dirent.h>
 #endif
 #include <stdlib.h>
 #include <stdio.h>
@@ -232,4 +233,102 @@ FILE *filewrite_open(char *filename, t_canvas *cv, int textmode)
     }
     sys_bashfilename(path, path);
     return (fopen(path, (textmode ? "w" : "wb")));
+}
+
+/* FIXME add MSW */
+
+struct _osdir
+{
+#ifndef MSW
+    DIR            *dir_handle;
+    struct dirent  *dir_entry;
+#endif
+    int             dir_flags;
+};
+
+/* returns 0 on error, a caller is then expected to call
+   loud_syserror(owner, "cannot open \"%s\"", dirname) */
+t_osdir *osdir_open(char *dirname)
+{
+#ifndef MSW
+    DIR *handle = opendir(dirname);
+    if (handle)
+    {
+#endif
+	t_osdir *dp = getbytes(sizeof(*dp));
+#ifndef MSW
+	dp->dir_handle = handle;
+	dp->dir_entry = 0;
+#endif
+	dp->dir_flags = 0;
+	return (dp);
+#ifndef MSW
+    }
+    else return (0);
+#endif
+}
+
+void osdir_setmode(t_osdir *dp, int flags)
+{
+    if (dp)
+	dp->dir_flags = flags;
+}
+
+void osdir_close(t_osdir *dp)
+{
+    if (dp)
+    {
+#ifndef MSW
+	closedir(dp->dir_handle);
+#endif
+	freebytes(dp, sizeof(*dp));
+    }
+}
+
+void osdir_rewind(t_osdir *dp)
+{
+    if (dp)
+    {
+#ifndef MSW
+	rewinddir(dp->dir_handle);
+	dp->dir_entry = 0;
+#endif
+    }
+}
+
+char *osdir_next(t_osdir *dp)
+{
+#ifndef MSW
+    if (dp)
+    {
+	while (dp->dir_entry = readdir(dp->dir_handle))
+	{
+	    if (!dp->dir_flags ||
+		(dp->dir_entry->d_type == DT_REG
+		 && (dp->dir_flags & OSDIR_FILEMODE)) ||
+		(dp->dir_entry->d_type == DT_DIR
+		 && (dp->dir_flags & OSDIR_DIRMODE)))
+		return (dp->dir_entry->d_name);
+	}
+    }
+#endif
+    return (0);
+}
+
+int osdir_isfile(t_osdir *dp)
+{
+#ifndef MSW
+    return (dp && dp->dir_entry && dp->dir_entry->d_type == DT_REG);
+#else
+    return (0);
+#endif
+}
+
+int osdir_isdir(t_osdir *dp)
+{
+#ifndef MSW
+    return (dp && dp->dir_entry && dp->dir_entry->d_type == DT_DIR);
+#else
+    return (0);
+#endif
 }

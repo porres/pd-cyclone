@@ -5,6 +5,7 @@
 #ifndef __FRAGILE_H__
 #define __FRAGILE_H__
 
+t_symbol *fragile_class_getexterndir(t_class *c);
 int fragile_class_count(void);
 int fragile_class_getnames(t_atom *av, int maxnames);
 void fragile_class_raise(t_symbol *cname, t_newmethod thiscall);

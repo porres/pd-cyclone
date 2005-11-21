@@ -161,6 +161,7 @@ ALL_SICKLES = \
 	$(SRCDIR)\sickle\minmax.obj \
 	$(SRCDIR)\sickle\mstosamps.obj \
 	$(SRCDIR)\sickle\onepole.obj \
+	$(SRCDIR)\sickle\overdrive.obj \
 	$(SRCDIR)\sickle\peakamp.obj \
 	$(SRCDIR)\sickle\peek.obj \
 	$(SRCDIR)\sickle\phasewrap.obj \

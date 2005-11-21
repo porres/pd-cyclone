@@ -149,6 +149,7 @@ sickle/minimum.c \
 sickle/minmax.c \
 sickle/mstosamps.c \
 sickle/onepole.c \
+sickle/overdrive.c \
 sickle/peakamp.c \
 sickle/phasewrap.c \
 sickle/pink.c \

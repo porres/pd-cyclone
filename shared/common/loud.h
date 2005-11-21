@@ -18,7 +18,7 @@ int shared_matchignorecase(char *test, char *pattern);
 char *loud_ordinal(int n);
 void loud_error(t_pd *x, char *fmt, ...);
 void loud_errand(t_pd *x, char *fmt, ...);
-void loud_syserror(t_pd *x, char *msg);
+void loud_syserror(t_pd *x, char *fmt, ...);
 void loud_nomethod(t_pd *x, t_symbol *s);
 void loud_messarg(t_pd *x, t_symbol *s);
 int loud_checkint(t_pd *x, t_float f, int *valuep, t_symbol *mess);

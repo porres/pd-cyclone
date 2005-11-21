@@ -67,7 +67,8 @@ endif
 
 SHARED_DIR = $(ROOT_DIR)/shared
 OBJ_DIR = .
-OUT_DIR = $(ROOT_DIR)/bin
+BIN_DIR = $(ROOT_DIR)/bin
+OUT_DIR = $(if $($1_SUBDIR),$(BIN_DIR)/$($1_SUBDIR),$(BIN_DIR))
 
 # for current versions, $(BASE_DIR) equals $(BASE_NAME), for prior versions,
 # $(BASE_DIR) equals $(BASE_NAME)-$(VERSION)
@@ -116,17 +117,18 @@ endif
 DBG_CFLAGS = 
 CFLAGS = $(WARN_CFLAGS) $(OPT_CFLAGS) $(DEFINES) $(INCLUDES)
 
-EXTERNS = $(foreach fn,$(CX_NAMES:.c=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
-	$(foreach fn,$(AX_NAMES:.c=~.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
-	$(foreach fn,$(CX_CLASSES:=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
-	$(foreach fn,$(AX_CLASSES:=~.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
-	$(foreach fn,$(LX_CLASSES:=.$(X_SUFFIX)),$(OUT_DIR)/$(fn)) \
-	$(if $(LX_STUBCLASS),$(OUT_DIR)/$(LX_STUBCLASS:=.$(X_SUFFIX))) \
+EXTERNS = $(foreach fn,$(CX_NAMES:.c=.$(X_SUFFIX)),$(BIN_DIR)/$(fn)) \
+	$(foreach fn,$(AX_NAMES:.c=~.$(X_SUFFIX)),$(BIN_DIR)/$(fn)) \
+	$(foreach fn,$(CX_CLASSES:=.$(X_SUFFIX)),$(BIN_DIR)/$(fn)) \
+	$(foreach fn,$(AX_CLASSES:=~.$(X_SUFFIX)),$(BIN_DIR)/$(fn)) \
+	$(foreach fn,$(LX_CLASSES:=.$(X_SUFFIX)),$(BIN_DIR)/$(fn)) \
+	$(if $(LX_STUBCLASS),$(BIN_DIR)/$(LX_STUBCLASS:=.$(X_SUFFIX))) \
 	$(foreach type,$(TYPES),\
-		$(foreach fn,$(call TYPES_EXTERNS,$(type)),$(OUT_DIR)/$(fn)))
+		$(foreach fn,$(call TYPES_EXTERNS,$(type)), \
+			$(call OUT_DIR,$(type))/$(fn)))
 
-TYPES_RULE = $(foreach fn,$(call TYPES_EXTERNS,$1),$(OUT_DIR)/$(fn)): \
-		$(OUT_DIR)/%$($1_TILDE).$(X_SUFFIX) \
+TYPES_RULE = $(foreach fn,$(call TYPES_EXTERNS,$1),$(call OUT_DIR,$1)/$(fn)): \
+		$(call OUT_DIR,$1)/%$($1_TILDE).$(X_SUFFIX) \
 		: $(call TYPES_DIR,$1)%.o \
 			$($1_PRIVATEOBJECTS) $($1_FOREIGNOBJECTS) \
 			$(foreach obj,$($1_OBJECTS),$(SHARED_DIR)/$(obj)) \
@@ -179,7 +181,7 @@ OBJECTS = $(foreach fn,$(OTHER_SOURCES:.c=.o),$(OBJ_DIR)/$(fn)) \
 # library stub equals $(BASE_NAME) by default, otherwise
 # it has to be declared explicitly in $(BASE_DIR)/Makefile.sources
 ifdef LX_STUBCLASS
-$(OUT_DIR)/$(LX_STUBCLASS).$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
+$(BIN_DIR)/$(LX_STUBCLASS).$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
 	$(CC) -o $@ -Xlinker -defsym \
 		-Xlinker $(LX_STUBCLASS)_setup=$(BASE_NAME)_loader_setup \
 		$(CFLAGS) $(LFLAGS) $(LXSHOBJECTS) $<
@@ -194,22 +196,22 @@ endif
 
 # rules for aliases must precede generic extern rules
 
-$(OUT_DIR)/$(LX_STUB).%~.$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
+$(BIN_DIR)/$(LX_STUB).%~.$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
 	$(CC) -o $@ -Xlinker -defsym \
 		-Xlinker $(LX_STUB).$(*F)_tilde_setup=$(BASE_NAME)_loader_setup \
 		$(CFLAGS) $(LFLAGS) $(LXSHOBJECTS) $<
 
-$(OUT_DIR)/$(LX_STUB).%.$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
+$(BIN_DIR)/$(LX_STUB).%.$(X_SUFFIX): $(BASE_NAME)_loader.c $(LXSHOBJECTS)
 	$(CC) -o $@ -Xlinker -defsym \
 		-Xlinker $(LX_STUB).$(*F)_setup=$(BASE_NAME)_loader_setup \
 		$(CFLAGS) $(LFLAGS) $(LXSHOBJECTS) $<
 
 # generic rule for audio externals
-$(OUT_DIR)/%~.$(X_SUFFIX): $(AX_DIR)%.c $(OBJECTS)
+$(BIN_DIR)/%~.$(X_SUFFIX): $(AX_DIR)%.c $(OBJECTS)
 	$(CC) -o $@ $(CFLAGS) $(LFLAGS) $(OBJECTS) $<
 
 # generic rule for control externals
-$(OUT_DIR)/%.$(X_SUFFIX): $(CX_DIR)%.c $(OBJECTS)
+$(BIN_DIR)/%.$(X_SUFFIX): $(CX_DIR)%.c $(OBJECTS)
 	$(CC) -o $@ $(CFLAGS) $(LFLAGS) $(OBJECTS) $<
 
 SUBDIRS = @for i in $(MIXED_DIRS) and_in_case_it_is_null ; \

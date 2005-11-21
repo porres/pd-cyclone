@@ -20,6 +20,7 @@ toxy/scriptlet.o \
 toxy/plusbob.o
 
 PLUSTOT_PRIVATEOBJECTS = \
+plustot.ar.o \
 plustot.env.o \
 plustot.in.o \
 plustot.var.o \

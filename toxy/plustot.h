@@ -101,6 +101,7 @@ t_inlet *plusinlet_new(t_plusobject *po, t_pd *dest,
 t_outlet *plusoutlet_new(t_plusobject *po, t_symbol *s);
 void plusclass_inherit(t_class *c, t_symbol *s);
 
+void plustot_ar_setup(void);
 void plustot_env_setup(void);
 void plustot_in_setup(void);
 void plustot_var_setup(void);
@@ -108,6 +109,7 @@ void plustot_out_setup(void);
 void plustot_qlist_setup(void);
 void plustot_print_setup(void);
 
+void *plustot_ar_new(t_symbol *s, int ac, t_atom *av);
 void *plustot_env_new(t_symbol *s, int ac, t_atom *av);
 void *plustot_in_new(t_symbol *s, int ac, t_atom *av);
 void *plustot_var_new(t_symbol *s, int ac, t_atom *av);

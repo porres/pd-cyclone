@@ -88,12 +88,18 @@ void loud_errand(t_pd *x, char *fmt, ...)
     va_end(ap);
 }
 
-void loud_syserror(t_pd *x, char *msg)
+void loud_syserror(t_pd *x, char *fmt, ...)
 {
-    if (msg)
-	loud_error(x, "%s (%s)", msg, strerror(errno));
-    else
-	loud_error(x, strerror(errno));
+    if (fmt)
+    {
+	char buf[MAXPDSTRING];
+	va_list ap;
+	va_start(ap, fmt);
+	vsprintf(buf, fmt, ap);
+	loud_error(x, "%s (%s)", buf, strerror(errno));
+	va_end(ap);
+    }
+    else loud_error(x, strerror(errno));
 }
 
 void loud_nomethod(t_pd *x, t_symbol *s)

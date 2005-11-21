@@ -4,6 +4,14 @@ TODO for cyclone
 
 DONE for cyclone
 
+alpha55
+  * new class: overdrive~
+  * seq:
+    . new incompatible message 'tempo': 1-based coef, does not start playback
+    . fix for double-to-float-pair calc in 'scoretime' and 'goto'
+  * abs~: performance fix
+  * slide~, rampsmooth~: bashing denormals
+
 alpha54
   * comment: fixing namespace bug, reducing traffic
   * testmess: optionally filling message with symbols (numbers in hex form

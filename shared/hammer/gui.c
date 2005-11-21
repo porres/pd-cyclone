@@ -4,6 +4,10 @@
 
 /* FIXME use guiconnect */
 
+/* LATER revisit tracking the mouse state within the focusless pd-gui
+   (event bindings are local only in tk8.4, and there is no other call
+   to XQueryPointer() but from winfo pointer). */
+
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"

@@ -1,9 +1,28 @@
 TODO for root and shared
   * fitter: abstraction-scoped, class-selective compatibility control
-  * fitter: mode list
+  * fitter: fittterstate map
   * hammerfile, hammergui: version control
 
 DONE for root and shared
+
+with cyclone alpha55
+  * new module: messtree
+  * qtree:
+    . nodes of a custom tree may be caller-owned: a caller may pass 0 as
+      nodesize to qtree_initcustom() and pass pre-allocated nodes to
+      insert/multiinsert calls
+    . new calls: qtree_override(), qtree_closestunder(), qtree_closestover()
+    . all "closest" calls report a diff between key requested and key found
+  * os: new calls (dummy under MSW, though): osdir_open(), osdir_setmode(),
+    osdir_close(), osdir_rewind(), osdir_next(), osdir_isfile(), osdir_isdir()
+  * loader: new calls, unstable_dirload_lib(), unstable_dirload_all()
+  * fitter:
+    . added "test" hook (as a first step towards a fittterstate map)
+    . new calls: fitter_getfloat(), fitter_getsymbol()
+  * fragile: new call fragile_class_getexterndir()
+  * loud: loud_syserror() accepts a format string
+  * support for building into subdirectory of the main bin directory
+    (so that a library may automatically load all its plugin externals)
 
 with toxy alpha18
   * plusbob: stubifying t_plusbob, in order to minimize memory leak to 4 words

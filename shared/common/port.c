@@ -35,8 +35,10 @@
 #define PORT_INISTACK  256  /* LATER rethink */
 #define PORT_INISIZE   512  /* LATER rethink */
 
-enum { PORT_OK,
-       PORT_NEXT,  /* next line, please */
+/* FIXME use messtree api */
+
+enum { PORT_OK,    /* MESSTREE_CONTINUE */
+       PORT_NEXT,  /* next line, please: MESSTREE_OK */
        PORT_UNKNOWN, PORT_CORRUPT, PORT_FATAL };
 
 /* cf binport.c */

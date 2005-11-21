@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include "shared.h"
 #include "sickle/sic.h"
 
 #define SLIDE_DEFUP  1.
@@ -48,7 +49,7 @@ static t_int *slide_perform(t_int *w)
 	}
 	*out++ = last;
     }
-    x->x_last = last;
+    x->x_last = (PD_BIGORSMALL(last) ? 0. : last);
     return (w + 7);
 }
 

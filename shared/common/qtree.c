@@ -294,7 +294,7 @@ static t_qnode *qtree_postinserthook(t_qnode *np)
    (which means foundp returns 1), a new node is inserted, unless hook is
    either empty, or returns null.  Hook's nonempty return is the parent
    for the new node.  It is expected to have no more than one child. */
-static t_qnode *qtree_doinsert(t_qtree *tree, double key,
+static t_qnode *qtree_doinsert(t_qtree *tree, double key, t_qnode *preexisting,
 			       t_qtree_inserthook hook, int *foundp)
 {
     t_qnode *np, *parent, *result;
@@ -302,11 +302,18 @@ static t_qnode *qtree_doinsert(t_qtree *tree, double key,
     *foundp = 0;
     if (!(np = tree->t_root))
     {
-	if (!(np = getbytes(tree->t_nodesize)))
+	if (!(np = (tree->t_nodesize > 0 ?
+		    getbytes(tree->t_nodesize) : preexisting)))
+	{
+	    if (tree->t_nodesize == 0)
+		loudbug_bug("qtree_insert, node not supplied");
 	    return (0);
+	}
 	np->n_key = key;
 	np->n_black = 1;
+	np->n_left = np->n_right = np->n_parent = 0;
 	tree->t_root = tree->t_first = tree->t_last = np;
+	np->n_prev = np->n_next = 0;
 	return (np);
     }
 
@@ -343,8 +350,13 @@ static t_qnode *qtree_doinsert(t_qtree *tree, double key,
 addit:
     /* parent has no more than one child, new node becomes
        parent's immediate successor or predecessor */
-    if (!(np = getbytes(tree->t_nodesize)))
+    if (!(np = (tree->t_nodesize > 0 ?
+		getbytes(tree->t_nodesize) : preexisting)))
+    {
+	if (tree->t_nodesize == 0)
+	    loudbug_bug("qtree_insert, node not supplied");
 	return (0);
+    }
     np->n_key = key;
     np->n_parent = parent;
     if (leftchild)
@@ -440,7 +452,8 @@ void qtree_delete(t_qtree *tree, t_qnode *gone)
 	   of gone's parent (if any).  Successor always exists in this context,
 	   and it has no left child.  The simplistic scheme is to replace
 	   gone's fields with successor's fields, and delete the successor.
-	   We cannot do so, however, because successor may be pointed at... */
+	   We cannot do so, however, because 1. nodes may be caller-owned
+	   (nodesize == 0), 2. successor may be pointed at... */
 	t_qnode *successor = gone->n_next;
 	child = successor->n_right;
 	successor->n_left = gone->n_left;
@@ -624,7 +637,8 @@ void qtree_delete(t_qtree *tree, t_qnode *gone)
 	    child->n_black = 1;
     }
 done:
-    freebytes(gone, tree->t_nodesize);
+    if (tree->t_nodesize)
+	freebytes(gone, tree->t_nodesize);
 #ifdef QTREE_DEBUG
     qtree_verify(tree);
 #endif
@@ -638,41 +652,189 @@ t_qnode *qtree_search(t_qtree *tree, double key)
     return (np);
 }
 
-t_qnode *qtree_closest(t_qtree *tree, double key, int geqflag)
+/* Returns the greatest node <= key, if any (may return null).
+   If deltap is not null, it will hold the abs diff (key - node.n_key). */
+t_qnode *qtree_closestunder(t_qtree *tree, double key, double *deltap)
 {
     t_qnode *np, *parent;
     if (!(np = tree->t_root))
 	return (0);
     do
 	if (np->n_key == key)
+	{
+	    if (deltap)
+		*deltap = 0.;
 	    return (np);
-	else
-	    parent = np;
+	}
+	else parent = np;
     while (np = (key < np->n_key ? np->n_left : np->n_right));
-    if (geqflag)
-	return (key > parent->n_key ? parent->n_next : parent);
-    else
-	return (key < parent->n_key ? parent->n_prev : parent);
+    if (np = (key < parent->n_key ? parent->n_prev : parent))
+    {
+	if (deltap)
+	    *deltap = key - np->n_key;
+	return (np);
+    }
+    else return (0);
 }
 
-t_qnode *qtree_insert(t_qtree *tree, double key, int *foundp)
+/* Returns the smallest node >= key, if any (may return null).
+   If deltap is not null, it will hold the abs diff (node.n_key - key). */
+t_qnode *qtree_closestover(t_qtree *tree, double key, double *deltap)
 {
-    return (qtree_doinsert(tree, key, 0, foundp));
+    t_qnode *np, *parent;
+    if (!(np = tree->t_root))
+	return (0);
+    do
+	if (np->n_key == key)
+	{
+	    if (deltap)
+		*deltap = 0.;
+	    return (np);
+	}
+	else parent = np;
+    while (np = (key < np->n_key ? np->n_left : np->n_right));
+    if (np = (key > parent->n_key ? parent->n_next : parent))
+    {
+	if (deltap)
+	    *deltap = np->n_key - key;
+	return (np);
+    }
+    else return (0);
 }
 
-t_qnode *qtree_multiinsert(t_qtree *tree, double key, int fifoflag)
+/* Returns the smallest node >= key or the greatest node <= key, whichever
+   makes the smallest abs diff, |key - node.n_key|.  Returns null only for
+   an empty tree.  If deltap is not null, it will hold the signed diff
+   (negative for an undernode, i.e. when node < key). */
+t_qnode *qtree_closest(t_qtree *tree, double key, double *deltap)
+{
+    t_qnode *np, *parent;
+    if (!(np = tree->t_root))
+	return (0);
+    do
+	if (np->n_key == key)
+	{
+	    if (deltap)
+		*deltap = 0.;
+	    return (np);
+	}
+	else parent = np;
+    while (np = (key < np->n_key ? np->n_left : np->n_right));
+    if (key > parent->n_key)
+    {
+	if (np = parent->n_next)
+	{
+	    double delta1 = key - parent->n_key;
+	    double delta2 = np->n_key - key;
+	    if (delta1 < delta2)
+	    {
+		if (deltap)
+		    *deltap = -delta1;
+		return (parent);
+	    }
+	    else
+	    {
+		if (deltap)
+		    *deltap = delta2;
+		return (np);
+	    }
+	}
+	else
+	{
+	    if (deltap)
+		*deltap = parent->n_key - key;
+	    return (parent);
+	}
+    }
+    else
+    {
+	if (np = parent->n_prev)
+	{
+	    double delta1 = key - np->n_key;
+	    double delta2 = parent->n_key - key;
+	    if (delta1 < delta2)
+	    {
+		if (deltap)
+		    *deltap = -delta1;
+		return (np);
+	    }
+	    else
+	    {
+		if (deltap)
+		    *deltap = delta2;
+		return (parent);
+	    }
+	}
+	else
+	{
+	    if (deltap)
+		*deltap = parent->n_key - key;
+	    return (parent);
+	}
+    }
+}
+
+t_qnode *qtree_insert(t_qtree *tree, double key,
+		      t_qnode *preexisting, int *foundp)
 {
     int found;
-    return (qtree_doinsert(tree, key, (fifoflag ?
-				       qtree_postinserthook :
-				       qtree_preinserthook), &found));
+    return (qtree_doinsert(tree, key, preexisting, 0,
+			   (foundp ? foundp : &found)));
+}
+
+t_qnode *qtree_multiinsert(t_qtree *tree, double key,
+			   t_qnode *preexisting, int fifoflag)
+{
+    int found;
+    return (qtree_doinsert(tree, key, preexisting,
+			   (fifoflag ?
+			    qtree_postinserthook :
+			    qtree_preinserthook), &found));
+}
+
+t_qnode *qtree_override(t_qtree *tree, t_qnode *oldnode, t_qnode *newnode)
+{
+    if (tree->t_nodesize)
+    {
+	loudbug_bug("qtree_override 1");
+	return (0);
+    }
+    else
+    {
+	newnode->n_key = oldnode->n_key;
+	newnode->n_black = oldnode->n_black;
+	if (newnode->n_left = oldnode->n_left)
+	    newnode->n_left->n_parent = newnode;
+	if (newnode->n_right = oldnode->n_right)
+	    newnode->n_right->n_parent = newnode;
+	if (newnode->n_parent = oldnode->n_parent)
+	{
+	    if (oldnode == newnode->n_parent->n_left)
+		newnode->n_parent->n_left = newnode;
+	    else if (oldnode == newnode->n_parent->n_right)
+		newnode->n_parent->n_right = newnode;
+	    else
+		loudbug_bug("qtree_override 2");
+	}
+	if (newnode->n_prev = oldnode->n_prev)
+	    newnode->n_prev->n_next = newnode;
+	if (newnode->n_next = oldnode->n_next)
+	    newnode->n_next->n_prev = newnode;
+	if (tree->t_root == oldnode)
+	    tree->t_root = newnode;
+	if (tree->t_first == oldnode)
+	    tree->t_first = newnode;
+	if (tree->t_last == oldnode)
+	    tree->t_last = newnode;
+	return (newnode);
+    }
 }
 
 t_qnode *qtree_insertfloat(t_qtree *tree, double key, t_float f,
 			   int replaceflag)
 {
     int found;
-    t_qnode *np = qtree_doinsert(tree, key, 0, &found);
+    t_qnode *np = qtree_doinsert(tree, key, 0, 0, &found);
     if (np && (!found || replaceflag))
     {
 	if (tree->t_valuetype == QTREETYPE_FLOAT)
@@ -695,7 +857,7 @@ t_qnode *qtree_insertsymbol(t_qtree *tree, double key, t_symbol *s,
 			    int replaceflag)
 {
     int found;
-    t_qnode *np = qtree_doinsert(tree, key, 0, &found);
+    t_qnode *np = qtree_doinsert(tree, key, 0, 0, &found);
     if (np && (!found || replaceflag))
     {
 	if (tree->t_valuetype == QTREETYPE_SYMBOL)
@@ -718,7 +880,7 @@ t_qnode *qtree_insertatom(t_qtree *tree, double key, t_atom *ap,
 			  int replaceflag)
 {
     int found;
-    t_qnode *np = qtree_doinsert(tree, key, 0, &found);
+    t_qnode *np = qtree_doinsert(tree, key, 0, 0, &found);
     if (np && (!found || replaceflag))
     {
 	if (tree->t_valuetype == QTREETYPE_ATOM)
@@ -771,11 +933,11 @@ void qtree_initcustom(t_qtree *tree, size_t nodesize, int freecount)
 void qtree_clear(t_qtree *tree, int freecount)
 {
     t_qnode *np, *next = tree->t_first;
-    while (next)
+    while (np = next)
     {
-	np = next;
 	next = next->n_next;
-	freebytes(np, tree->t_nodesize);
+	if (tree->t_nodesize)
+	    freebytes(np, tree->t_nodesize);
     }
     qtree_doinit(tree, tree->t_valuetype, tree->t_nodesize, 0);
 }

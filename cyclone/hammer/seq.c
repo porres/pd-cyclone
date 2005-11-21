@@ -26,6 +26,11 @@
 #define SEQ_TICKSPERSEC       48
 #define SEQ_MINTICKDELAY       1.  /* LATER rethink */
 #define SEQ_TICKEPSILON  ((double).0001)
+#define SEQ_STARTEPSILON          .0001  /* if inside: play unmodified */
+#define SEQ_TEMPOEPSILON          .0001  /* if inside: pause */
+
+#define SEQ_ISRUNNING(x)  ((x)->x_prevtime > (double).0001)
+#define SEQ_ISPAUSED(x)  ((x)->x_prevtime <= (double).0001)
 
 enum { SEQ_IDLEMODE, SEQ_RECMODE, SEQ_PLAYMODE, SEQ_SLAVEMODE };
 
@@ -285,7 +290,7 @@ static void seq_startplayback(t_seq *x, int modechanged)
 	}
 	else
 	{  /* CHECKED timescale change */
-	    if (x->x_prevtime > 0.)  /* running state */
+	    if (SEQ_ISRUNNING(x))
 		x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
 	    x->x_clockdelay *= x->x_newtimescale / x->x_timescale;
 	}
@@ -429,7 +434,7 @@ static void seq_tick(t_seq *x)
 		return;
 	    clock_delay(x->x_slaveclock, elapsed);
 	    seq_settimescale(x, (float)(elapsed * (SEQ_TICKSPERSEC / 1000.)));
-	    if (x->x_prevtime > 0.)
+	    if (SEQ_ISRUNNING(x))
 	    {
 		x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
 		x->x_clockdelay *= x->x_newtimescale / x->x_timescale;
@@ -516,14 +521,14 @@ static void seq_append(t_seq *x)
 
 static void seq_start(t_seq *x, t_floatarg f)
 {
-    if (f < 0)
+    if (f < -SEQ_STARTEPSILON)
     {
 	/* FIXME */
 	seq_setmode(x, SEQ_SLAVEMODE);
     }
     else
     {
-	seq_settimescale(x, (f == 0 ? 1. : 1024. / f));
+	seq_settimescale(x, (f > SEQ_STARTEPSILON ? 1024. / f : 1.));
 	seq_setmode(x, SEQ_PLAYMODE);  /* CHECKED 'start' stops recording */
     }
 }
@@ -562,8 +567,7 @@ static void seq_pause(t_seq *x)
 	fittermax_warning(*(t_pd *)x, "'pause' not supported in Max");
 	warned = 1;
     }
-    if (x->x_mode == SEQ_PLAYMODE &&
-	x->x_prevtime > 0.)  /* running state */
+    if (x->x_mode == SEQ_PLAYMODE && SEQ_ISRUNNING(x))
     {
 	x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
 	if (x->x_clockdelay < 0.)
@@ -581,8 +585,7 @@ static void seq_continue(t_seq *x)
 	fittermax_warning(*(t_pd *)x, "'continue' not supported in Max");
 	warned = 1;
     }
-    if (x->x_mode == SEQ_PLAYMODE &&
-	x->x_prevtime <= 0.)  /* pause state */
+    if (x->x_mode == SEQ_PLAYMODE && SEQ_ISPAUSED(x))
     {
 	if (x->x_clockdelay < 0.)
 	    x->x_clockdelay = 0.;
@@ -603,8 +606,8 @@ static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2)
     {
 	t_seqevent *ev;
 	int ndx, nevents = x->x_nevents;
-	double ms = f1 * 1000. + f2, sum;
-	if (ms < SEQ_TICKEPSILON)
+	double ms = (double)f1 * 1000. + f2, sum;
+	if (ms <= SEQ_TICKEPSILON)
 	    ms = 0.;
 	if (x->x_mode != SEQ_PLAYMODE)
 	{
@@ -624,7 +627,7 @@ static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2)
 		x->x_clockdelay = sum - SEQ_TICKEPSILON - ms;
 		if (x->x_clockdelay < 0.)
 		    x->x_clockdelay = 0.;
-		if (x->x_prevtime > 0.)  /* running state */
+		if (SEQ_ISRUNNING(x))
 		{
 		    clock_delay(x->x_clock, x->x_clockdelay);
 		    x->x_prevtime = clock_getlogicaltime();
@@ -649,15 +652,40 @@ static void seq_scoretime(t_seq *x, t_symbol *s)
 	t_atom aout[2];
 	double ms, clockdelay = x->x_clockdelay;
 	t_float f1, f2;
-	if (x->x_prevtime > 0.)  /* running state */
+	if (SEQ_ISRUNNING(x))
 	    clockdelay -= clock_gettimesince(x->x_prevtime);
 	ms = x->x_nextscoretime - clockdelay / x->x_timescale;
-	f1 = ms / 1000.;
-	f2 = ms - f1;
+	/* Send ms as a pair of floats (f1, f2) = (coarse in sec, fine in msec).
+	   Any ms may then be exactly reconstructed as (double)f1 * 1000. + f2.
+	   Currently, f2 may be negative.  LATER consider truncating f1 so that
+	   only significant digits are on (when using 1 ms resolution, a float
+	   stores only up to 8.7 minutes without distortion, 100 ms resolution
+	   gives 14.5 hours of non-distorted floats, etc.) */
+	f1 = ms * .001;
+	f2 = ms - (double)f1 * 1000.;
+	if (f2 < .001 && f2 > -.001)
+	    f2 = 0.;
 	SETFLOAT(&aout[0], f1);
 	SETFLOAT(&aout[1], f2);
 	pd_list(s->s_thing, &s_list, 2, aout);
     }
+}
+
+static void seq_tempo(t_seq *x, t_floatarg f)
+{
+    static int warned = 0;
+    if (fittermax_get() && !warned)
+    {
+	fittermax_warning(*(t_pd *)x, "'tempo' not supported in Max");
+	warned = 1;
+    }
+    if (f > SEQ_TEMPOEPSILON)
+    {
+	seq_settimescale(x, 1. / f);
+	if (x->x_mode == SEQ_PLAYMODE)
+	    seq_startplayback(x, 0);
+    }
+    /* FIXME else pause, LATER reverse playback if (f < -SEQ_TEMPOEPSILON) */
 }
 
 static void seq_cd(t_seq *x, t_symbol *s)
@@ -1206,6 +1234,8 @@ void seq_setup(void)
 		    gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_scoretime,
 		    gensym("scoretime"), A_SYMBOL, 0);
+    class_addmethod(seq_class, (t_method)seq_tempo,
+		    gensym("tempo"), A_FLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_cd,
 		    gensym("cd"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_pwd,

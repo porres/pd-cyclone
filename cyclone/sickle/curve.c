@@ -100,7 +100,7 @@ static t_int *curve_perform(t_int *w)
     double mm = x->x_mm;
     float dy = x->x_dy;
     float y0 = x->x_y0;
-    if (PD_BADFLOAT(curval))  /* LATER rethink */
+    if (PD_BIGORSMALL(curval))  /* LATER rethink */
 	curval = x->x_value = 0;
 retarget:
     if (x->x_retarget)

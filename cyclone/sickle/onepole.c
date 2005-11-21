@@ -98,7 +98,7 @@ static t_int *onepole_perform(t_int *w)
        specifically: a1=b0-1 => a1 in [-.9999 .. -.01] => lowpass (stable) */
     while (nblock--)
 	*out++ = ynm1 = b0 * (*xin++ - ynm1) + ynm1;
-    x->x_ynm1 = (PD_BADFLOAT(ynm1) ? 0. : ynm1);
+    x->x_ynm1 = (PD_BIGORSMALL(ynm1) ? 0. : ynm1);
     return (w + 6);
 }
 

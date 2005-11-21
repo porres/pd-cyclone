@@ -6,6 +6,7 @@ fitter.c \
 grow.c \
 lex.c \
 loud.c \
+messtree.c \
 mifi.c \
 os.c \
 patchvalue.c \

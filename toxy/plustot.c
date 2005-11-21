@@ -34,6 +34,7 @@
 #   define PLUSDEBUG_DECRREFCOUNT(ob, fn)  Tcl_DecrRefCount(ob)
 #endif
 
+static t_symbol *plusps_ar;
 static t_symbol *plusps_env;
 static t_symbol *plusps_in;
 static t_symbol *plusps_var;
@@ -52,6 +53,7 @@ static void plussymbols_create(void)
     plusps_Tv = gensym("+Tv");
 
     /* private */
+    plusps_ar = gensym("+ar");
     plusps_env = gensym("+env");
     plusps_in = gensym("+in");
     plusps_var = gensym("+var");
@@ -101,9 +103,10 @@ void plusloud_tclerror(t_pd *caller, Tcl_Interp *interp, char *msg)
 
 struct _plustin
 {
-    t_plusenv    tin_env;
-    t_glist     *tin_glist;
-    Tcl_Interp  *tin_interp;
+    t_plusenv     tin_env;
+    t_glist      *tin_glist;
+    Tcl_Interp   *tin_interp;
+    Tcl_CmdInfo  *tin_cinfop;
 };
 
 static t_plustype *plustin_basetype;
@@ -144,11 +147,18 @@ t_plustin *plustin_create(t_plustype *tp, t_plusbob *parent, t_symbol *id)
 		     (id ? id->s_name : "default"), (int)interp);
 #endif
 	tin->tin_interp = interp;
+	tin->tin_cinfop = 0;
 	Tcl_Preserve(interp);
 	if (Tcl_Init(interp) == TCL_ERROR)
 	    plusloud_tclerror(0, interp, "interpreter initialization failed");
 	else
 	{
+	    Tcl_CmdInfo cinfo;
+	    /* store Tcl_CmdInfo for off-API Tcl_InfoObjCmd() */
+	    if (Tcl_GetCommandInfo(interp, "info", &cinfo)
+		&& cinfo.isNativeObjectProc)
+		tin->tin_cinfop = copybytes(&cinfo, sizeof(*tin->tin_cinfop));
+	    /* create custom commands */
 	    Tcl_CreateObjCommand(interp, "test::test",
 				 (Tcl_ObjCmdProc*)plustin_testCmd,
 				 (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
@@ -168,6 +178,8 @@ static void plustin_delete(t_plustin *tin)
     loudbug_post("plustin_delete '%s' over %x",
 		 (id ? id->s_name : "default"), (int)tin->tin_interp);
 #endif
+    if (tin->tin_cinfop)
+	freebytes(tin->tin_cinfop, sizeof(*tin->tin_cinfop));
     Tcl_Preserve(tin->tin_interp);
     if (!Tcl_InterpDeleted(tin->tin_interp))
 	Tcl_DeleteInterp(tin->tin_interp);
@@ -177,6 +189,44 @@ static void plustin_delete(t_plustin *tin)
 Tcl_Interp *plustin_getinterp(t_plustin *tin)
 {
     return (tin->tin_interp);
+}
+
+int plustin_procargc(t_plustin *tin, char *pname)
+{
+    int result = -1;
+    if (tin->tin_cinfop)
+    {
+	/* FIXME preallocate */
+	Tcl_Obj *argv[3];
+	argv[0] = Tcl_NewStringObj("info", -1);
+	PLUSDEBUG_INCRREFCOUNT(argv[0], "plustin_procargc");
+	argv[1] = Tcl_NewStringObj("args", -1);
+	PLUSDEBUG_INCRREFCOUNT(argv[0], "plustin_procargc");
+	argv[2] = Tcl_NewStringObj(pname, -1);
+	PLUSDEBUG_INCRREFCOUNT(argv[1], "plustin_procargc");
+	if ((*tin->tin_cinfop->objProc)(tin->tin_cinfop->objClientData,
+					tin->tin_interp,
+					3, argv) == TCL_OK)
+	{
+	    Tcl_Obj *rob;
+	    if (rob = Tcl_GetObjResult(tin->tin_interp))
+	    {
+		PLUSDEBUG_INCRREFCOUNT(rob, "plustin_procargc");
+		if (Tcl_ListObjLength(tin->tin_interp, rob, &result) != TCL_OK)
+		{
+		    result = -1;
+		    plusloud_tcldirty(0, "plustin_procargc");
+		}
+		Tcl_ResetResult(tin->tin_interp);
+		PLUSDEBUG_DECRREFCOUNT(rob, "plustin_procargc");
+	    }
+	    else plusloud_tcldirty(0, "plustin_procargc");
+	}
+	PLUSDEBUG_DECRREFCOUNT(argv[0], "plustin_procargc");
+	PLUSDEBUG_DECRREFCOUNT(argv[1], "plustin_procargc");
+	PLUSDEBUG_DECRREFCOUNT(argv[2], "plustin_procargc");
+    }
+    return (result);
 }
 
 t_symbol *plustin_glistid(t_glist *gl)
@@ -2089,7 +2139,9 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
     {
 	if (*cmdname->s_name == '+')
 	{
-	    if (cmdname == plusps_env)
+	    if (cmdname == plusps_ar)
+		return (plustot_ar_new(cmdname, ac, av));
+	    else if (cmdname == plusps_env)
 		return (plustot_env_new(cmdname, ac, av));
 	    else if (cmdname == plusps_in)
 		return (plustot_in_new(cmdname, ac, av));
@@ -2180,6 +2232,10 @@ static void *plustot_new(t_symbol *s, int ac, t_atom *av)
 			    res = plustot_makewords(x);
 			if (res)
 			{
+			    /* FIXME [+tot +ar pname] */
+			    int n = plustin_procargc(tin, cmdname->s_name);
+			    loudbug_post("plustin_procargc: %d", n);
+
 			    /* creation time evaluation, LATER rethink:
 			       should this be immediate or scheduled? */
 			    x->x_isloud = 0;
@@ -2325,6 +2381,7 @@ void plustot_setup(void)
     plusvar_type = plustype_new(plustob_type, plusps_Tv,
 				sizeof(t_plusvar),
 				(t_plustypefn)plusvar_delete, 0, 0, 0);
+    plustot_ar_setup();
     plustot_env_setup();
     plustot_in_setup();
     plustot_var_setup();

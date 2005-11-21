@@ -60,10 +60,15 @@ typedef struct _qtree
 typedef void (*t_qnode_vshowhook)(t_qnode *, char *, unsigned);
 
 t_qnode *qtree_search(t_qtree *tree, double key);
-t_qnode *qtree_closest(t_qtree *tree, double key, int geqflag);
+t_qnode *qtree_closestunder(t_qtree *tree, double key, double *deltap);
+t_qnode *qtree_closestover(t_qtree *tree, double key, double *deltap);
+t_qnode *qtree_closest(t_qtree *tree, double key, double *deltap);
 
-t_qnode *qtree_insert(t_qtree *tree, double key, int *foundp);
-t_qnode *qtree_multiinsert(t_qtree *tree, double key, int fifoflag);
+t_qnode *qtree_insert(t_qtree *tree, double key,
+		      t_qnode *preexisting, int *foundp);
+t_qnode *qtree_multiinsert(t_qtree *tree, double key,
+			   t_qnode *preexisting, int fifoflag);
+t_qnode *qtree_override(t_qtree *tree, t_qnode *oldnode, t_qnode *newnode);
 t_qnode *qtree_insertfloat(t_qtree *tree, double key, t_float f,
 			   int replaceflag);
 t_qnode *qtree_insertsymbol(t_qtree *tree, double key, t_symbol *s,
