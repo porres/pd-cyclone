@@ -33,6 +33,7 @@ PLUSTOT_LIBS = $(TCL_LIB)
 
 TOW_OBJECTS = \
 common/loud.o \
+common/os.o \
 unstable/loader.o
 
 WIDGET_OBJECTS = \
