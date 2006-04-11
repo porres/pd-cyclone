@@ -30,7 +30,7 @@ if {$::pddp::testrun} {  ;# true if sourced from standalone "pddpboot.tcl"
     }
 } else {
     puts stderr "Loading pddpserver"
-    catch {console show}
+#    catch {console show}
 }
 
 namespace eval ::pddp {
