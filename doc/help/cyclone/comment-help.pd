@@ -1,7 +1,7 @@
-#N canvas 486 257 517 358 10;
-#X text 5 5 ;
-#X text 63 298 docs based on the MAX/MSP reference (c) cycling'74;
-#X text 62 312 ___________________________________________________
+#N canvas 443 155 529 444 10;
+#X text 5 5 comment;
+#X text 64 387 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 63 397 ___________________________________________________
 ;
 #X obj 9 14 comment 0 12 Courier ? 0 0 0 0 [comment];
 #X text 92 13 a text comment with some formatting options \, meant
@@ -18,3 +18,10 @@ formatting: width \, font-size \, font-face;
 \, or Helvetica;
 #X text 27 128 - font-size: in pixels;
 #X text 27 111 - width: in pixels \, wraps text to this width;
+#X obj 20 258 comment 0 20 Times ? 0 255 128 0 [comment 0 20 Times
+? 0 255 128 0];
+#X text 7 323 The arguments are:;
+#X obj 6 343 comment 550 12 Courier ? 0 0 0 0 [comment pixelWidth fontSize
+font encoding fontProperties red green blue];
+#X text 10 364 Colors are intergers between 0 and 255;
+#X obj 184 289 comment 0 14 Helvetica ? 0 0 128 128 [comment 0 14 Helvetica ? 0 0 128 128];
