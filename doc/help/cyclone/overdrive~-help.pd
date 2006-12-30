@@ -1,0 +1,42 @@
+#N canvas 217 290 604 408 10;
+#X obj 147 205 overdrive~;
+#N canvas 0 22 450 300 graph3 0;
+#X array overdrive 200 float 0;
+#X coords 0 1 199 -1 200 140 1;
+#X restore 358 239 graph;
+#X obj 53 236 tgl 15 1 empty empty empty 0 -6 0 8 -24198 -1 -1 1 1
+;
+#X obj 147 292 tabwrite~ overdrive;
+#X floatatom 176 175 5 0 0 0 - - -;
+#X obj 179 146 hsl 128 15 1 12 0 1 empty empty drive 45 9 1 12 -262131
+-1 -1 0 1;
+#N canvas 0 22 454 304 graph4 0;
+#X array osc 200 float 0;
+#X coords 0 1 199 -1 200 140 1;
+#X restore 357 82 graph;
+#X obj 7 2 cnv 15 600 20 empty empty overdrive~ 20 12 1 14 -233017
+-66577 0;
+#X obj 532 3 pddp/dsp;
+#X obj 26 80 comment 300 11 helvetica ? 0 0 0 0 If the "drive" is 1
+\, the signal is unchanged. Increasing the "drive" increases the amount
+of distortion. If the "drive" is less than 1 \, then it causes a different
+kind of distortion. If the "drive" is less than 0 \, VERY LOUD distortion
+can result \, so be careful!;
+#X obj 21 324 comment 300 11 helvetica ? 0 0 0 0 overdrive~ simulates
+the distortion caused when an analog amplifier is fed a signal that
+is too high for the inputs. This is generally known as "overdriving"
+the amplifier \, and it causes a characteristic distortion that is
+often used to generate a "fat" sound.;
+#X text 11 27 Simulate an analog amplifier being overdriven by applying
+a non-linear transfer function to the incoming signal.;
+#X obj 28 292 tabwrite~ osc;
+#X obj 28 143 osc~ 400;
+#X obj 53 254 metro 442;
+#X connect 0 0 3 0;
+#X connect 2 0 14 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 0;
+#X connect 13 0 0 0;
+#X connect 13 0 12 0;
+#X connect 14 0 3 0;
+#X connect 14 0 12 0;
