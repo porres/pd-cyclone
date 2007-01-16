@@ -49,9 +49,10 @@ endif
 ifeq ($(OS_NAME),MinGW)
 CC = gcc
 X_SUFFIX = dll
-DEFINES = -DNT -DMSW
-# assuming pd itself was mingw-compiled, and -mms-bitfields was not set
-OPT_CFLAGS = -funroll-loops -mms-bitfields
+# OPT_CFLAGS gets overridden in Pd-extended builds for optimization
+# flags, so stick -mms-bitfieds here so that it doesn't get overridden
+DEFINES = -mms-bitfields -DNT -DMSW
+OPT_CFLAGS = -funroll-loops
 LFLAGS = -shared $(PD_DIR)/../bin/pd.dll
 endif
 
