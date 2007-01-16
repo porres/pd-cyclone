@@ -51,8 +51,8 @@ CC = gcc
 X_SUFFIX = dll
 DEFINES = -DNT -DMSW
 # assuming pd itself was mingw-compiled, and -mms-bitfields was not set
-OPT_CFLAGS = -funroll-loops
-LFLAGS = -shared $(PD_DIR)/../bin/pd.dll -Wl,--enable-runtime-pseudo-reloc
+OPT_CFLAGS = -funroll-loops -mms-bitfields
+LFLAGS = -shared $(PD_DIR)/../bin/pd.dll
 endif
 
 ifeq ($(OS_NAME),Darwin)
