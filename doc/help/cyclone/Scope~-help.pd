@@ -1,32 +1,30 @@
-#N canvas 319 57 466 624 10;
+#N canvas 319 57 465 539 10;
 #X obj 5 6 cnv 15 450 30 empty empty [Scope~] 20 12 1 18 -233017 -66577
 0;
-#X obj 111 297 Scope~ 281 213 256 3 100 -1 1 0 0 0 0 0 255 0 0 0 255
+#X obj 111 247 Scope~ 281 213 256 3 100 -1 1 0 0 0 0 0 255 0 0 0 255
 0;
-#X msg 202 154 bufsize 100;
-#X msg 212 181 range 1 2;
-#X msg 278 239 brgb 0 0 255;
-#X msg 263 219 frgb 0 255 0;
-#X text 248 202 colors;
-#N canvas 0 22 454 304 related_objects 0;
-#X obj 24 32 envgen 200 140 1 0  ;
+#X msg 202 104 bufsize 100;
+#X msg 212 131 range 1 2;
+#X msg 278 189 brgb 0 0 255;
+#X msg 263 169 frgb 0 255 0;
+#X text 248 152 colors;
+#N canvas 0 22 458 308 related_objects 0;
+#X obj 24 32 envgen 200 140 1 0;
 #X text 21 8 [envgen];
-#X restore 273 542 pd related_objects;
-#N canvas 0 22 454 304 more_examples 0;
+#X restore 273 492 pd related_objects;
+#N canvas 0 22 458 308 more_examples 0;
 #X obj 37 120 scope-test;
 #X obj 37 143 scope-test1;
 #X obj 37 166 scope-test2;
 #X obj 38 96 scope-gop;
-#X restore 56 540 pd more_examples;
-#X obj 22 160 osc~ 500;
-#X obj 25 131 hsl 100 18 20 500 0 0 empty empty frequency 5 8 1 10
--262131 -1 -1 0 0;
-#X obj 111 235 *~;
-#X obj 133 98 vsl 15 128 0.01 1 1 0 empty empty empty 0 -8 0 8 -225271
+#X restore 56 490 pd more_examples;
+#X obj 22 110 osc~ 500;
+#X obj 25 81 hsl 100 18 20 500 0 0 empty empty frequency 5 8 1 10 -262131
 -1 -1 0 0;
-#X text 5 5 ;
-#X text 141 11 comment;
-#X obj 329 12 pddp_open all_about_cyclone;
+#X obj 111 185 *~;
+#X obj 133 48 vsl 15 128 0.01 1 1 0 empty empty empty 0 -8 0 8 -225271
+-1 -1 0 0;
+#X msg 422 11 pddp;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
 #X connect 4 0 1 0;
