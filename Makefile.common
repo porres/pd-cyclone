@@ -224,8 +224,8 @@ SUBDIRS_DEFAULT = @for i in $(MIXED_DIRS) and_in_case_it_is_null ; \
 			cd $$i; $(MAKE) ; fi ) ; done
 
 define_build:
-	@if [[ -f build_counter && `id -un` == krzYszcz && \
-		`date -r build_counter +%j` != `date +%j` ]] ; then \
+	@if [ -f build_counter ] && [ `id -un` = krzYszcz ] && \
+		[ `date -r build_counter +%j` != `date +%j` ] ; then \
 		mv build_counter build_counter~ ; \
 		echo -n 'increment build counter (y/n)? [n]' ; read doit ; \
 		if [ $$doit ] && [ $$doit == 'y' ] ; then \
