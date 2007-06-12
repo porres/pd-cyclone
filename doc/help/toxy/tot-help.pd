@@ -20,18 +20,6 @@
 #X msg 591 408 attach;
 #X msg 591 432 detach;
 #X msg 576 472 lastmotion;
-#N canvas 553 323 458 308 examples 0;
-#X obj 34 137 tot-qlist;
-#X obj 34 91 tot-monkey;
-#X text 121 90 an example of capturing gui messages;
-#X obj 35 20 tot-cover;
-#X obj 35 67 tot-head;
-#X obj 35 43 tot-files;
-#X obj 34 113 tot-nomenu;
-#X obj 34 159 tot-query;
-#X obj 34 182 tot-rstring;
-#X text 120 112 remove the menu from a window;
-#X restore 700 579 pd examples;
 #X text 16 254 scriptlets;
 #X text 28 273 A scriptlet is a sequence of Pd atoms (symbols and floats)
 which is to be transferred to the pd-gui process for execution.;
@@ -111,7 +99,6 @@ parent window.;
 ;
 #X text 29 586 [tot] and example patches by Krzysztof Czaja;
 #X text 19 162 outlets;
-#X text 440 579 for examples of ways to use tot \, see:;
 #X text 23 221 4 - outlet #4 is banged when the window;
 #X text 24 205 3 - outlet #4 outputs the msgs set to the specified
 window;
