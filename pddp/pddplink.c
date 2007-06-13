@@ -98,7 +98,7 @@ static void pddplink_select(t_gobj *z, t_glist *glist, int state)
 	    sys_vgui(".x%lx.c itemconfigure %s -fill blue\n",
 		     glist, rtext_gettag(y));
 	else
-	    sys_vgui(".x%lx.c itemconfigure %s -text {%s} -fill magenta\n",
+	    sys_vgui(".x%lx.c itemconfigure %s -text {%s} -fill #0000dd -activefill #e70000\n",
 		     glist, rtext_gettag(y), x->x_vistext);
     }
 }
@@ -121,7 +121,7 @@ static void pddplink_vis(t_gobj *z, t_glist *glist, int vis)
             && (y = glist_findrtext(glist, (t_text *)x)))
         {
             rtext_draw(y);
-	    sys_vgui(".x%lx.c itemconfigure %s -text {%s} -fill magenta\n",
+	    sys_vgui(".x%lx.c itemconfigure %s -text {%s} -fill #0000dd -activefill #e70000\n",
 		     glist_getcanvas(glist), rtext_gettag(y), x->x_vistext);
         }
     }
