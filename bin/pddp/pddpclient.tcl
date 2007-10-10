@@ -34,7 +34,7 @@ namespace eval ::pddp {
 		}
 		Linux {
 		    foreach candidate \
-			{firefox mozilla galeon konqueror netscape lynx} {
+			{gnome-open xdg-open sensible-browser firefox mozilla galeon konqueror netscape lynx} {
 			set browser [lindex [auto_execok $candidate] 0]
 			if {[string length $browser]} {
 			    set theBrowserCommand "$browser %s &"
