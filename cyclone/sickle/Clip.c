@@ -13,7 +13,7 @@
 typedef t_sic t_clip;
 static t_class *clip_class;
 
-static t_int *clip_perform(t_int *w)
+static t_int *Clip_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -37,7 +37,7 @@ static t_int *clip_perform(t_int *w)
 
 static void clip_dsp(t_clip *x, t_signal **sp)
 {
-    dsp_add(clip_perform, 5, sp[0]->s_n,
+    dsp_add(Clip_perform, 5, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 

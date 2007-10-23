@@ -91,8 +91,13 @@ typedef unsigned short uint16;
 #ifndef uchar
 typedef unsigned char uchar;
 #endif
+#ifdef __BIG_ENDIAN__
 #define SHARED_HIOFFSET   0
 #define SHARED_LOWOFFSET  1
+#else
+#define SHARED_HIOFFSET   1
+#define SHARED_LOWOFFSET  0
+#endif
 #endif
 
 #ifdef IRIX
