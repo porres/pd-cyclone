@@ -1,0 +1,46 @@
+#N canvas 227 197 535 415 10;
+#X obj 49 293 seq;
+#X msg 173 85 read test.mid;
+#X msg 306 247 write test1.mid;
+#X msg 175 127 bang;
+#X msg 167 246 record;
+#X msg 175 154 stop;
+#X obj 180 108 bng 15 250 50 0 empty empty empty 0 -6 0 10 -262144
+-1 -1;
+#X msg 222 246 stop record;
+#X obj 10 332 midiout;
+#X obj 7 162 midiin;
+#X msg 306 270 read test1.mid;
+#X msg 225 153 pause;
+#X msg 285 153 continue;
+#X obj 29 -37 seq;
+#X text 65 -36 - a simple MIDI file player and recorder;
+#X text 208 108 loop;
+#X text 27 -10 cyclone's [seq] input accepts midi files and realtime
+midi messages through [midiin]. All trakcs of a multi-track midi file
+are merged into one. [notein] doesn't work. Left inlet outputs midi
+data to [midiout]. [noteout] doesn't work. Right inlet outputs a bang
+message at the sequence's end \, useful for loops. [seq] has his own
+midi list editor.;
+#X text 213 126 play;
+#X text 236 218 recording;
+#X text 352 343 jkant.altervista.org;
+#X text 352 319 ver 0.1 05-07;
+#X text 74 297 <-- click object to open list editor;
+#X text 261 85 <-- midi file should be in the same folder or an open
+window popups to pick file;
+#X text 404 246 save in patch folder;
+#X connect 0 0 8 0;
+#X connect 0 1 6 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 3 0;
+#X connect 7 0 0 0;
+#X connect 9 0 0 0;
+#X connect 9 0 8 0;
+#X connect 10 0 0 0;
+#X connect 11 0 0 0;
+#X connect 12 0 0 0;
