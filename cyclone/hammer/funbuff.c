@@ -227,7 +227,7 @@ static void funbuff_dowrite(t_funbuff *x, t_symbol *fn)
     t_binbuf *bb = binbuf_new();
     char buf[MAXPDSTRING];
     t_hammernode *np;
-    binbuf_addv(bb, "s", gensym("funbuff"));
+    binbuf_addv(bb, "s", atom_getsymbol(binbuf_getvec(x->x_obj.te_binbuf)));
     for (np = x->x_tree.t_first; np; np = np->n_next)
 	binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
     canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);

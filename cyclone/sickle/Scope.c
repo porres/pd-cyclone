@@ -842,7 +842,7 @@ static void scope_save(t_gobj *z, t_binbuf *b)
     t_text *t = (t_text *)x;
     binbuf_addv(b, "ssiisiiiiiffififiiiiiii;", gensym("#X"), gensym("obj"),
 		(int)t->te_xpix, (int)t->te_ypix,
-		gensym("Scope~"),
+        atom_getsymbol(binbuf_getvec(x->x_obj.te_binbuf)),
 		x->x_width, x->x_height, x->x_period, 3, x->x_bufsize,
 		x->x_minval, x->x_maxval, x->x_delay, 0.,
 		x->x_trigmode, x->x_triglevel,

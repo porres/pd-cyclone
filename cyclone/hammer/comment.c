@@ -455,7 +455,7 @@ static void comment_save(t_gobj *z, t_binbuf *b)
     comment_validate(x, 0);
     binbuf_addv(b, "ssiisiissiiii", gensym("#X"), gensym("obj"),
 		(int)t->te_xpix, (int)t->te_ypix,
-		gensym("comment"),
+        atom_getsymbol(binbuf_getvec(x->x_obj.te_binbuf)),
 		x->x_pixwidth, x->x_fontsize, x->x_fontfamily,
 		(x->x_encoding ? x->x_encoding : gensym("?")),
 		x->x_fontprops,

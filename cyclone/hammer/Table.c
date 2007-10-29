@@ -316,7 +316,7 @@ static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
     	strncpy(buf, fn->s_name, MAXPDSTRING);
     	buf[MAXPDSTRING-1] = 0;
     }
-    binbuf_addv(bb, "s", gensym("table"));
+    binbuf_addv(bb, "s", atom_getsymbol(binbuf_getvec(x->x_obj.te_binbuf)));
     for (ndx = 0, ptr = cc->c_table; ndx < cc->c_length; ndx++, ptr++)
 	binbuf_addv(bb, "i", *ptr);
     binbuf_write(bb, buf, "", 0);
