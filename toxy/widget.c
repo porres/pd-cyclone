@@ -470,7 +470,7 @@ static void widget_save(t_gobj *z, t_binbuf *bb)
     t_atom *arg = props_getall(x->x_arguments, &narg);
     binbuf_addv(bb, "ssiisss", gensym("#X"), gensym("obj"),
 		(int)t->te_xpix, (int)t->te_ypix, 
-        atom_getsymbol(binbuf_getvec(x->x_obj.te_binbuf)),
+        atom_getsymbol(binbuf_getvec(t->te_binbuf)),
 		x->x_type, x->x_name);
     if (narg) binbuf_add(bb, narg, arg);
     if (nopt) binbuf_add(bb, nopt, opt);
