@@ -1,74 +1,74 @@
-#N canvas 295 60 751 615 10;
+#N canvas 35 22 725 579 10;
 #X text 5 5 comment;
-#X text -11 573 docs based on the MAX/MSP reference (c) cycling'74
+#X text 382 541 docs based on the MAX/MSP reference (c) cycling'74
 ;
-#X text -12 587 ___________________________________________________
+#X text 381 555 ___________________________________________________
 ;
 #X obj 5 20 counter;
 #X text 79 21 count the number of bangs received;
-#X obj 54 94 metro 300;
-#X obj 54 71 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 54 74 metro 300;
+#X obj 54 51 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X floatatom 131 217 5 0 0 0 - - -;
-#X text 181 218 number of bangs;
-#X text 163 96 change direction;
-#X obj 142 94 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X floatatom 131 197 10 0 0 0 - - -;
+#X text 201 198 number of bangs;
+#X text 163 76 change direction;
+#X obj 142 74 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X text 4 71 start;
-#X obj 153 124 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X text 4 51 start;
+#X obj 153 104 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X text 176 126 reset to minimum \, wait for next bang before output
+#X text 176 106 reset to minimum \, wait for next bang before output
 ;
-#X obj 164 150 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 164 130 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X text 188 151 reset and output imediately;
-#X floatatom 112 73 5 0 0 0 - - -;
-#X obj 175 173 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X text 188 131 reset and output imediately;
+#X floatatom 112 53 5 0 0 0 - - -;
+#X obj 175 153 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X obj 131 191 counter;
-#X text 197 175 reset to max \, wait for next bang before output *
+#X obj 131 171 counter;
+#X text 197 155 reset to max \, wait for next bang before output *
 ;
-#X text 430 211 unlimited counter \, sensible behaviour IMO;
-#X obj 162 490 counter;
-#X floatatom 162 260 5 0 0 0 - - -;
-#X floatatom 162 517 5 0 0 0 - - -;
-#X msg 181 284 0;
-#X msg 191 303 1;
-#X msg 200 323 2;
-#X text 225 287 counter direction;
-#X text 248 299 0 = up;
-#X text 248 311 1 = down;
-#X text 248 323 2 = up and down;
-#X floatatom 209 363 5 0 0 0 - - -;
-#X floatatom 217 380 5 0 0 0 - - -;
-#X floatatom 224 398 5 0 0 0 - - -;
-#X text 267 399 set max;
-#X text 262 378 set counter value;
-#X obj 597 453 counter;
-#X msg 543 338 set \$1;
-#X floatatom 543 319 5 0 0 0 - - -;
-#X msg 597 339 jam \$1;
-#X floatatom 597 320 5 0 0 0 - - -;
-#X text 488 301 set counter to nr. and output;
-#X text 637 318 immediately;
-#X text 453 318 at next bang;
-#X msg 458 337 goto \$1;
-#X text 519 339 =;
-#X msg 67 374 up;
-#X msg 80 394 down;
-#X msg 101 413 updown;
-#X text 63 357 direction:;
-#X msg 82 315 inc;
-#X msg 63 295 dec;
-#X text -2 266 inc/decrement doesn't;
-#X text -2 277 care about direction;
-#X msg 319 259 next;
-#X text 208 260 number = bang =;
-#X msg 437 414 min \$1;
-#X msg 485 413 max \$1;
-#X floatatom 437 393 5 0 0 0 - - -;
-#X floatatom 485 392 5 0 0 0 - - -;
-#X text 434 375 set min/max;
+#X text 430 191 unlimited counter \, sensible behaviour IMO;
+#X obj 162 470 counter;
+#X floatatom 162 240 5 0 0 0 - - -;
+#X floatatom 162 497 10 0 0 0 - - -;
+#X msg 181 264 0;
+#X msg 191 283 1;
+#X msg 200 303 2;
+#X text 225 267 counter direction;
+#X text 248 279 0 = up;
+#X text 248 291 1 = down;
+#X text 248 303 2 = up and down;
+#X floatatom 209 343 5 0 0 0 - - -;
+#X floatatom 217 360 5 0 0 0 - - -;
+#X floatatom 224 378 5 0 0 0 - - -;
+#X text 267 379 set max;
+#X text 262 358 set counter value;
+#X obj 597 433 counter;
+#X msg 543 318 set \$1;
+#X floatatom 543 299 5 0 0 0 - - -;
+#X msg 597 319 jam \$1;
+#X floatatom 597 300 5 0 0 0 - - -;
+#X text 488 281 set counter to nr. and output;
+#X text 637 298 immediately;
+#X text 453 298 at next bang;
+#X msg 458 317 goto \$1;
+#X text 519 319 =;
+#X msg 67 354 up;
+#X msg 80 374 down;
+#X msg 101 393 updown;
+#X text 63 337 direction:;
+#X msg 82 295 inc;
+#X msg 63 275 dec;
+#X text -2 246 inc/decrement doesn't;
+#X text -2 257 care about direction;
+#X msg 319 239 next;
+#X text 208 240 number = bang =;
+#X msg 437 394 min \$1;
+#X msg 485 393 max \$1;
+#X floatatom 437 373 5 0 0 0 - - -;
+#X floatatom 485 372 5 0 0 0 - - -;
+#X text 434 355 set min/max;
 #N canvas 0 22 508 167 arguments 0;
 #X obj 62 50 counter max;
 #X obj 62 72 counter min max;
@@ -77,7 +77,7 @@
 #X text 195 51 one arg = initial maximum;
 #X text 196 69 two args = initial min/max;
 #X text 208 95 three = direction (0 \, 1 \, 2) min/max;
-#X restore 330 89 pd arguments;
+#X restore 330 69 pd arguments;
 #N canvas 19 104 733 288 outputs 0;
 #X obj 49 82 metro 100;
 #X obj 49 57 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
@@ -119,15 +119,17 @@ bang;
 #X connect 13 2 16 0;
 #X connect 14 0 13 0;
 #X connect 17 0 13 0;
-#X restore 428 89 pd outputs;
-#X text 444 275 additional ways to accomplish the same:;
-#X obj 460 554 pddp_open all_about_looping;
-#X text 458 508 click on these for more info:;
-#X text 415 201 * (there seems to be a bug when used with an;
-#X text 431 221 would be to reset to 0 as well ...);
-#X obj 460 531 pddp_open all_about_cyclone;
-#X text 254 361 set min **;
-#X text -6 538 ** (there seems to be a bug in the original documentation
+#X restore 428 69 pd outputs;
+#X text 444 255 additional ways to accomplish the same:;
+#X obj 455 516 pddp/pddplink ../all_about_looping.pd -text all_about_looping
+;
+#X text 453 470 click on these for more info:;
+#X text 415 181 * (there seems to be a bug when used with an;
+#X text 431 201 would be to reset to 0 as well ...);
+#X obj 455 493 pddp/pddplink all_about_cyclone.pd -text all_about_cyclone
+;
+#X text 254 341 set min **;
+#X text -6 518 ** (there seems to be a bug in the original documentation
 or implementation: the 3rd inlet is indeed a "set" message instead
 of a "min" message...);
 #X connect 5 0 18 0;

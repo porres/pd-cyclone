@@ -24,7 +24,7 @@
 #X obj 111 185 *~;
 #X obj 133 48 vsl 15 128 0.01 1 1 0 empty empty empty 0 -8 0 8 -225271
 -1 -1 0 0;
-#X msg 422 11 pddp;
+#X obj 422 11 pddp/pddplink http://puredata.info/dev/pddp -text pddp;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
 #X connect 4 0 1 0;
