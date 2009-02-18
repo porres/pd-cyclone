@@ -1,5 +1,5 @@
 # next line has to be edited manually
-PD_DIR = $(ROOT_DIR)/../../pd/src
+PD_DIR ?= $(ROOT_DIR)/../../pd/src
 
 OS_NAME = $(shell uname -s)
 ifneq ($(OS_NAME),Linux)
