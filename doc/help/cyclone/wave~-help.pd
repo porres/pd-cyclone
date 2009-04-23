@@ -1,9 +1,8 @@
-#N canvas 85 25 887 599 10;
-#X text 5 5 ;
-#X text 30 542 docs based on the MAX/MSP reference (c) cycling'74
+#N canvas 9 31 798 582 10;
+#X text 30 542 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 30 557 ___________________________________________________
 ;
-#X text 30 557 ___________________________________________________ ;
-#X floatatom 465 435 0 0 100 0 - - -;
+#X floatatom 418 441 0 0 100 0 - - -;
 #N canvas 159 26 532 285 output 0;
 #X obj 338 160 t b;
 #X obj 338 110 f;
@@ -57,8 +56,8 @@
 #X connect 23 0 20 0;
 #X connect 26 0 5 0;
 #X connect 27 0 21 0;
-#X restore 436 458 pd output;
-#X msg 494 435 MUTE;
+#X restore 389 464 pd output;
+#X msg 447 441 MUTE;
 #X obj 26 18 wave~;
 #X text 90 19 variable size wavetable;
 #X obj 103 137 table sample;
@@ -68,12 +67,12 @@
 #X obj 26 62 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
 #X text 52 63 load a sample;
-#X obj 436 82 phasor~;
-#X floatatom 436 59 5 0 0 0 - - -;
-#X floatatom 475 110 5 0 0 0 - - -;
-#X floatatom 515 136 5 0 0 0 - - -;
+#X obj 389 88 phasor~;
+#X floatatom 389 65 5 0 0 0 - - -;
+#X floatatom 428 116 5 0 0 0 - - -;
+#X floatatom 468 142 5 0 0 0 - - -;
 #X floatatom 26 187 10 0 0 0 - - -;
-#N canvas 0 0 206 239 samples2len 0;
+#N canvas 0 22 206 239 samples2len 0;
 #X obj 45 25 inlet;
 #X obj 61 86 samplerate~;
 #X obj 45 115 /;
@@ -87,40 +86,40 @@
 #X connect 3 1 1 0;
 #X connect 4 0 5 0;
 #X restore 26 162 pd samples2len;
-#X text 482 59 frequency (1=normal speed negative is backwards);
-#X text 519 112 startpoint (msec);
-#X text 560 136 endpoint (msec);
+#X text 435 65 frequency (1=normal speed negative is backwards);
+#X text 472 118 startpoint (msec);
+#X text 513 142 endpoint (msec);
 #X text 101 187 length in msec;
-#X obj 436 388 wave~ sample;
-#X obj 527 397 wave~ sample [start] [end] [num_channels];
-#X text 527 378 arg is table name \, you can also use:;
-#X msg 341 82 set sample;
-#X text 247 81 change table:;
-#X msg 305 170 enable \$1;
-#X obj 305 148 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+#X obj 389 394 wave~ sample;
+#X obj 480 403 wave~ sample [start] [end] [num_channels];
+#X text 480 384 arg is table name \, you can also use:;
+#X msg 294 88 set sample;
+#X text 200 87 change table:;
+#X msg 258 176 enable \$1;
+#X obj 258 154 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X text 374 171 en/disable object;
-#X obj 263 212 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+#X text 327 177 en/disable object;
+#X obj 216 218 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X msg 263 237 interp \$1;
-#X text 335 237 en/disable interpolation;
-#X text 680 112 signals can also be used;
-#X text 681 125 as start and endpoints;
-#X connect 3 0 4 1;
-#X connect 4 0 3 0;
-#X connect 5 0 4 2;
+#X msg 216 243 interp \$1;
+#X text 288 243 en/disable interpolation;
+#X text 633 118 signals can also be used;
+#X text 634 131 as start and endpoints;
+#X connect 2 0 3 1;
+#X connect 3 0 2 0;
+#X connect 4 0 3 2;
+#X connect 8 0 9 0;
 #X connect 9 0 10 0;
-#X connect 10 0 11 0;
-#X connect 11 0 19 0;
-#X connect 12 0 9 0;
-#X connect 14 0 24 0;
-#X connect 15 0 14 0;
-#X connect 16 0 24 1;
-#X connect 17 0 24 2;
-#X connect 19 0 18 0;
-#X connect 24 0 4 0;
-#X connect 27 0 24 0;
-#X connect 29 0 24 0;
-#X connect 30 0 29 0;
-#X connect 32 0 33 0;
-#X connect 33 0 24 0;
+#X connect 10 0 18 0;
+#X connect 11 0 8 0;
+#X connect 13 0 23 0;
+#X connect 14 0 13 0;
+#X connect 15 0 23 1;
+#X connect 16 0 23 2;
+#X connect 18 0 17 0;
+#X connect 23 0 3 0;
+#X connect 26 0 23 0;
+#X connect 28 0 23 0;
+#X connect 29 0 28 0;
+#X connect 31 0 32 0;
+#X connect 32 0 23 0;

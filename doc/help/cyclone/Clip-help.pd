@@ -1,8 +1,7 @@
-#N canvas 233 184 489 347 10;
-#X text 5 5 ;
-#X text 17 308 docs based on the MAX/MSP reference (c) cycling'74
+#N canvas 135 111 437 358 10;
+#X text 17 308 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 16 322 ___________________________________________________
 ;
-#X text 16 322 ___________________________________________________ ;
 #X floatatom 38 182 5 0 0 0 - - -;
 #X obj 36 18 Clip min max;
 #X text 137 20 limit numbers in a range;
@@ -23,15 +22,15 @@
 #X text 218 83 the result is sent out as a list;
 #X msg 105 76 1 2 3 4 -10 5 6;
 #X obj 38 160 Clip 0 10;
-#X connect 6 0 22 1;
-#X connect 7 0 22 2;
-#X connect 11 0 22 0;
-#X connect 12 0 13 0;
-#X connect 12 1 14 0;
-#X connect 12 2 15 0;
-#X connect 12 3 16 0;
-#X connect 12 4 17 0;
-#X connect 12 5 18 0;
-#X connect 21 0 22 0;
-#X connect 22 0 3 0;
-#X connect 22 0 12 0;
+#X connect 5 0 21 1;
+#X connect 6 0 21 2;
+#X connect 10 0 21 0;
+#X connect 11 0 12 0;
+#X connect 11 1 13 0;
+#X connect 11 2 14 0;
+#X connect 11 3 15 0;
+#X connect 11 4 16 0;
+#X connect 11 5 17 0;
+#X connect 20 0 21 0;
+#X connect 21 0 2 0;
+#X connect 21 0 11 0;

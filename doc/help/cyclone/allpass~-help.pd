@@ -1,4 +1,4 @@
-#N canvas 196 184 528 447 10;
+#N canvas 114 161 528 447 10;
 #X obj 36 30 allpass~;
 #X text 115 30 allpass filter;
 #X floatatom 154 301 0 0 100 0 - - -;
@@ -63,7 +63,7 @@
 #X obj 260 224 / 100;
 #X floatatom 260 205 5 0 0 0 - - -;
 #X text 154 71 generate short noisebursts;
-#N canvas 0 0 290 283 burst 0;
+#N canvas 0 22 290 283 burst 0;
 #X obj 48 173 noise~;
 #X obj 95 172 line~;
 #X obj 79 203 *~;
@@ -86,10 +86,9 @@
 #X text 240 184 delay time;
 #X text 305 204 gain;
 #X text 184 125 del time / gain can also be;
-#X text 5 5 ;
-#X text 22 403 docs based on the MAX/MSP reference (c) cycling'74
+#X text 22 403 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 21 417 ___________________________________________________
 ;
-#X text 21 417 ___________________________________________________ ;
 #X text 273 249 allpass~ accepts up o 4 args:;
 #X text 274 264 1 max del time (default 10ms);
 #X text 274 277 2 initial del time;
@@ -104,10 +103,10 @@
 #X connect 2 0 3 1;
 #X connect 3 0 2 0;
 #X connect 4 0 3 2;
-#X connect 5 0 27 1;
+#X connect 5 0 26 1;
 #X connect 6 0 10 0;
-#X connect 7 0 27 2;
+#X connect 7 0 26 2;
 #X connect 8 0 7 0;
-#X connect 10 0 27 0;
-#X connect 25 0 27 0;
-#X connect 27 0 3 0;
+#X connect 10 0 26 0;
+#X connect 24 0 26 0;
+#X connect 26 0 3 0;
