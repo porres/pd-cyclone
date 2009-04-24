@@ -50,7 +50,7 @@
 #X text 60 394 table naming convention is;
 #X text 61 407 0...4-tablename:;
 #X text 42 248 enable multichannel by using an;
-#X text 5 5 ;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
 #X text 29 552 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 28 566 ___________________________________________________
 ;
