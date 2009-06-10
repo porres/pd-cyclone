@@ -35,7 +35,7 @@ default: define_build all
 ifeq ($(OS_NAME),Linux)
 X_SUFFIX = pd_linux
 CC = gcc
-LFLAGS = --export-dynamic  -shared
+LFLAGS = -Wl,--export-dynamic -shared
 # FIXME strict-aliasing
 OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -fPIC
 ifeq ($(MY_NAME),krzYszcz)
