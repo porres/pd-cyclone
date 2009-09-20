@@ -53,7 +53,7 @@ X_SUFFIX = dll
 # flags, so stick -mms-bitfieds here so that it doesn't get overridden
 DEFINES = -mms-bitfields -DNT -DMSW
 OPT_CFLAGS = -funroll-loops
-LFLAGS = -shared $(PD_DIR)/../bin/pd.dll
+LFLAGS = -shared -L$(PD_DIR) -L$(PD_DIR)/../bin/ -lpd
 endif
 
 ifeq ($(OS_NAME),Darwin)
