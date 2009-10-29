@@ -1,0 +1,52 @@
+#N canvas 1277 361 716 487 10;
+#X declare -lib cyclone;
+#X text -24 41 Multi-track recorder for any kind of message;
+#X text -17 322 The leftmost inlet of mtr is a control inlet for all
+tracks. You can send the same messages to individual tracks as well.
+Each track records what comes into its inlet \, and plays it back through
+the outlet directly below the inlet.;
+#X text 142 162 argument: int specifies number of tracks (default 1)
+up to 32;
+#X text -22 283 mtr sends out list with track # and duration when it
+receives a "next" message;
+#X text -24 66 Choose record to begin recording sliders \, play to
+play back;
+#X obj 412 31 import cyclone;
+#X msg 1 99 record;
+#X msg 50 100 play;
+#X text 151 93 Control messages sent to an individual track affect
+that track only.;
+#X obj 155 200 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 800 1;
+#X obj 129 200 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 1200 1;
+#X obj 103 200 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 900 1;
+#X msg 1 191 next;
+#X msg 1 168 rewind;
+#X obj 61 171 mtr 3;
+#X text 351 222 other messages (copied from source):;
+#X msg 75 119 stop;
+#X text 409 250 mute;
+#X text 410 266 unmute;
+#X text 411 282 clear;
+#X text 410 296 delay ms;
+#X text 412 310 write;
+#X text 412 324 read;
+#X text 412 339 tempo float;
+#X obj -2 263 print;
+#X text 32 262 track# duration;
+#X text 389 381 see also:;
+#X obj 453 382 qlist;
+#X connect 6 0 14 0;
+#X connect 7 0 14 0;
+#X connect 9 0 14 3;
+#X connect 10 0 14 2;
+#X connect 11 0 14 1;
+#X connect 12 0 14 0;
+#X connect 13 0 14 0;
+#X connect 14 0 24 0;
+#X connect 14 1 11 0;
+#X connect 14 2 10 0;
+#X connect 14 3 9 0;
+#X connect 16 0 14 0;

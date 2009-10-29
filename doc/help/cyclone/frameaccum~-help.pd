@@ -1,0 +1,18 @@
+#N canvas 1440 369 689 466 10;
+#X declare -lib cyclone;
+#X text 20 70 computes the "running phase" of successive phase deviation
+frames;
+#X text 28 96 frameaccum~ accumulates each of the values of the previous
+input signal vector from those of the current vector;
+#X obj 445 37 import cyclone;
+#X text 28 124 so \, when used in the context of a pfft~ patch (where
+the FFT frame is the vector size) it can be used to compute the running
+phase;
+#X obj 118 247 Snapshot~ 100;
+#X obj 118 272 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 6529 256;
+#X obj 117 224 frameaccum~;
+#X obj 116 196 sig~ 1;
+#X connect 4 0 5 0;
+#X connect 6 0 4 0;
+#X connect 7 0 6 0;

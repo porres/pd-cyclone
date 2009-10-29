@@ -1,0 +1,21 @@
+#N canvas 1247 220 633 325 10;
+#X declare -lib cyclone;
+#X text 52 33 generate an impulse;
+#X msg 243 125 set 1;
+#X msg 207 107 set 0.25 0.5 0.75 1 0.67 0.3;
+#X obj 171 187 *~ 0.5;
+#X obj 171 218 dac~;
+#X obj 171 120 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 210 63 use the set message to create a personalized band-limited
+impulse (maximum 256 samples);
+#X text 223 153 optional argument(s) to set impulse (default impulse:
+1.0);
+#X obj 445 15 import cyclone;
+#X obj 171 156 click~;
+#X connect 1 0 9 0;
+#X connect 2 0 9 0;
+#X connect 3 0 4 0;
+#X connect 3 0 4 1;
+#X connect 5 0 9 0;
+#X connect 9 0 3 0;

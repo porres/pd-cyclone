@@ -1,0 +1,18 @@
+#N canvas 1352 396 489 429 10;
+#X declare -lib cyclone;
+#X text 15 35 Pink noise generator;
+#X obj 80 337 dac~;
+#X obj 80 264 *~ 0.2;
+#X text 20 141 pink~ is pretty simple. just connect its outlet to something
+and you get noise. the signal input is ignored.;
+#X text 18 58 pink~ generates pink noise \, as distinguished from white
+noise (which the MSP object noise~ generates). White noise has constant
+spectral power per hertz of bandwidth \, while pink noise has constant
+power per octave. Subjectively \, pink noise sounds less hissy than
+white noise.;
+#X obj 310 34 import cyclone;
+#X text 112 243;
+#X obj 80 228 pink~;
+#X connect 2 0 1 0;
+#X connect 2 0 1 1;
+#X connect 7 0 2 0;

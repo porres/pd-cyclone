@@ -1,0 +1,62 @@
+#N canvas 1240 172 848 609 10;
+#X declare -lib cyclone;
+#X text 13 -87 Exponential ramp generator;
+#X text 69 299 line output;
+#X obj 724 300 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 732 258 parameter;
+#X text 657 259 time;
+#X msg 138 186 1 \, 0 1000 0.5;
+#X floatatom 724 227 0 0 0 0 - - -;
+#X msg 629 226 1 \, 0 500;
+#X msg 572 227 0 \, 1 500;
+#X obj 63 234 line~;
+#X msg 250 186 1 \, 0.5 500 0.5 0 500 -0.5;
+#X msg 43 182 0 \, 1 1000 0.5;
+#X text 9 -75 curve~ is similar to line~. It produces a signal that
+goes from an initial to target value over a specified number of milliseconds.
+However \, it produces non-linear ramps using a piecewise approximation
+of an exponential function. You specify the parameter to this exponential
+function in the curve~ object's right inlet. Values from 0 to 1 produce
+an "exponential" curve when increasing in value and values from -1
+to 0 produce a "logarithmic" curve. The closer to 0 the curve parameter
+is \, the closer the curve is to a straight line \, and the farther
+away the parameter is from 0 \, the steeper the curve. curve~ can also
+accept a list of up two or three arguments (the previous curve parameter
+is used if there are two arguments) \, or a list with two or more value
+\, time \, parameter triples. curve~ is limited to 42 such triples
+in a single list. The object's approximation of the exponential becomes
+better when the vector size is smaller \, but the object also becomes
+more computationally expensive.;
+#X text 194 226 optional arguments set initial value (default 0) and
+parameter (default 0);
+#X text 580 259 value;
+#X text 582 295 curve signal out;
+#X text 740 290 bang when done;
+#X text 210 286 curve output;
+#X text 18 485 Special thanks to Richard Dudas for the suggestion of
+a curve equation to use.;
+#X text 1 165 amp examples: compare curve~ and line~;
+#X text 255 169 example of an "s" curve;
+#X obj 472 -24 import cyclone;
+#X obj 138 236 curve~;
+#X obj 207 310 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 64 322 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X text 540 191 try different curve parameters (-1 to 1);
+#X obj 572 273 curve~;
+#X obj 572 319 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X connect 5 0 9 0;
+#X connect 5 0 22 0;
+#X connect 6 0 26 2;
+#X connect 7 0 26 0;
+#X connect 8 0 26 0;
+#X connect 9 0 24 0;
+#X connect 10 0 22 0;
+#X connect 11 0 9 0;
+#X connect 11 0 22 0;
+#X connect 22 0 23 0;
+#X connect 26 0 27 0;
+#X connect 26 1 2 0;

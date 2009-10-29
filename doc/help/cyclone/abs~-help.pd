@@ -1,0 +1,34 @@
+#N canvas 26 158 798 481 10;
+#X declare -lib cyclone;
+#X text 15 35 Absolute value of a signal;
+#X obj 323 215 *~ 0.2;
+#X obj 323 193 *~;
+#X obj 394 165 abs~;
+#X text -65 208 no arguments;
+#X text 0 388 absolute value of sine wave;
+#X obj 20 206 abs~;
+#X text 178 388 original sine wave;
+#X obj 323 257 dac~;
+#X text 14 63 The abs~ object converts negative signal values to their
+corresponding positive values. This can be used for a rough instantaneous
+measure of signal amplitude \, among other things.;
+#X text 367 197 Signal multiplication where the modulator wave is limited
+to a positive range produces amplitude modulation (as opposed to ring
+modulation).;
+#X obj 533 32 import cyclone;
+#X obj 443 136 cycle~ 220;
+#X obj 317 137 cycle~ 200;
+#X obj 20 250 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 162 250 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 20 160 cycle~ 1;
+#X connect 1 0 8 0;
+#X connect 1 0 8 1;
+#X connect 2 0 1 0;
+#X connect 3 0 2 1;
+#X connect 6 0 14 0;
+#X connect 12 0 3 0;
+#X connect 13 0 2 0;
+#X connect 16 0 6 0;
+#X connect 16 0 15 0;

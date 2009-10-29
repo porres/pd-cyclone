@@ -1,0 +1,5 @@
+#N canvas 313 447 437 169 10;
+#X declare -lib cyclone;
+#X text 15 35 Standard C function for arctan(y/x);
+#X obj 254 33 import cyclone;
+#X obj 80 85 atan2~;

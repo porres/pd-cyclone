@@ -1,0 +1,26 @@
+#N canvas 1261 324 676 427 10;
+#X declare -lib cyclone;
+#X obj 28 86 cycle~ 2;
+#X obj 28 111 *~ 3.14159;
+#X msg 231 138 range -1.57 1.57;
+#X obj 160 112 -~ 3.14195;
+#X obj 160 89 *~ 6.28319;
+#X obj 160 67 phasor~ 2;
+#X text 16 35 Arc-tangent function (atan(x)) for signals;
+#X text 284 68 see atan2~ for the 2-inlet version: atan(y/x);
+#X obj 336 5 import cyclone;
+#X obj 28 136 atan~;
+#X obj 158 136 atan~;
+#X obj 27 167 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 169 169 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X connect 0 0 1 0;
+#X connect 1 0 9 0;
+#X connect 2 0 11 0;
+#X connect 2 0 12 0;
+#X connect 3 0 10 0;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 9 0 11 0;
+#X connect 10 0 12 0;

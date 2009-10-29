@@ -1,0 +1,190 @@
+#N canvas 1168 233 800 636 10;
+#X declare -lib cyclone;
+#X text 392 545 see also:;
+#X text 15 35 Bitwise or signal operator.;
+#X obj 39 429 clip~ -1 1;
+#X floatatom 539 307 0 0 0 0 - - -;
+#X msg 539 325 mode \$1;
+#X text 47 270 bitwise boolean operation on a signal and some bitmask
+as bits;
+#X floatatom 487 305 0 0 0 0 - - -;
+#X floatatom 438 305 0 0 0 0 - - -;
+#X obj 487 325 sig~ 1;
+#X obj 438 325 sig~ 1;
+#X text 294 467 modes \; mode 0: treat both floating point signal inputs
+as raw 32 bit values \; mode 1: convert both floating point signal
+inputs to integers \; mode 2: treat left input as raw 32 bit value
+\, convert right input to integer \; mode 3: convert left input to
+integer \, treat right input as raw 32 bit value \;;
+#X text 49 165 send bitmask;
+#X floatatom 68 450 0 0 0 0 - - -;
+#X obj 39 469 *~ 0.2;
+#X obj 229 168 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 446 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 433 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 420 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 407 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 394 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 381 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 368 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 355 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 342 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 329 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 316 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 303 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 290 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 277 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 264 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 251 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 238 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 225 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 212 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 199 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 186 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 173 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 160 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 147 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 29 168 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 134 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 121 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 108 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 95 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 82 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 69 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 56 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 43 216 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 30 241 pack bits 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0;
+#X floatatom 99 349 0 0 0 0 - - -;
+#X obj 39 506 dac~;
+#X obj 68 310 cycle~ 440;
+#X text 294 441 args: <mask> <mode>. both default to 0;
+#X text 463 217 <= set bitmask;
+#X text 439 270 bitwise boolean operation on signals as integers;
+#X text 92 333 use an integer as a bitmask;
+#X text 15 67 Performs bitwise boolean operations on a floating point
+signal as bits or as an integer. Note that if you are converting the
+floats to ints and back that single precision floating point values
+only retain 24 bits of integer resolution. The floating point bits
+from left to right are <1 sign bit> <8 exponent bits> <23 mantissa
+bits>.;
+#X obj 403 39 import cyclone;
+#X obj 438 349 bitor~ 0 1;
+#X floatatom 440 408 5 0 0 0 - - -;
+#X obj 68 369 bitor~;
+#X obj 438 376 Snapshot~ 100;
+#X connect 2 0 13 0;
+#X connect 3 0 4 0;
+#X connect 4 0 58 0;
+#X connect 6 0 8 0;
+#X connect 7 0 9 0;
+#X connect 8 0 58 1;
+#X connect 9 0 58 0;
+#X connect 12 0 13 1;
+#X connect 13 0 50 0;
+#X connect 13 0 50 1;
+#X connect 14 0 47 0;
+#X connect 14 0 46 0;
+#X connect 14 0 45 0;
+#X connect 14 0 44 0;
+#X connect 14 0 43 0;
+#X connect 14 0 42 0;
+#X connect 14 0 41 0;
+#X connect 14 0 40 0;
+#X connect 14 0 38 0;
+#X connect 14 0 37 0;
+#X connect 14 0 36 0;
+#X connect 14 0 35 0;
+#X connect 14 0 34 0;
+#X connect 14 0 33 0;
+#X connect 14 0 32 0;
+#X connect 14 0 31 0;
+#X connect 14 0 30 0;
+#X connect 14 0 29 0;
+#X connect 14 0 28 0;
+#X connect 14 0 27 0;
+#X connect 14 0 26 0;
+#X connect 14 0 25 0;
+#X connect 14 0 24 0;
+#X connect 14 0 23 0;
+#X connect 14 0 22 0;
+#X connect 14 0 21 0;
+#X connect 14 0 20 0;
+#X connect 14 0 19 0;
+#X connect 14 0 18 0;
+#X connect 14 0 17 0;
+#X connect 14 0 16 0;
+#X connect 14 0 15 0;
+#X connect 15 0 48 32;
+#X connect 16 0 48 31;
+#X connect 17 0 48 30;
+#X connect 18 0 48 29;
+#X connect 19 0 48 28;
+#X connect 20 0 48 27;
+#X connect 21 0 48 26;
+#X connect 22 0 48 25;
+#X connect 23 0 48 24;
+#X connect 24 0 48 23;
+#X connect 25 0 48 22;
+#X connect 26 0 48 21;
+#X connect 27 0 48 20;
+#X connect 28 0 48 19;
+#X connect 29 0 48 18;
+#X connect 30 0 48 17;
+#X connect 31 0 48 16;
+#X connect 32 0 48 15;
+#X connect 33 0 48 14;
+#X connect 34 0 48 13;
+#X connect 35 0 48 12;
+#X connect 36 0 48 11;
+#X connect 37 0 48 10;
+#X connect 38 0 48 9;
+#X connect 39 0 48 0;
+#X connect 40 0 48 8;
+#X connect 41 0 48 7;
+#X connect 42 0 48 6;
+#X connect 43 0 48 5;
+#X connect 44 0 48 4;
+#X connect 45 0 48 3;
+#X connect 46 0 48 2;
+#X connect 47 0 48 1;
+#X connect 48 0 60 0;
+#X connect 49 0 60 1;
+#X connect 51 0 60 0;
+#X connect 58 0 61 0;
+#X connect 60 0 2 0;
+#X connect 61 0 59 0;

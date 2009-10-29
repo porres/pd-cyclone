@@ -1,0 +1,21 @@
+#N canvas 1394 305 683 382 10;
+#X declare -lib cyclone;
+#X text 170 85 this is probably only useful for mathematical calculations
+;
+#X text 37 324 make a wave that looks like a wave!!;
+#X msg 128 133 range 0 3.14159;
+#X obj 39 114 -~ 1.5708;
+#X obj 39 91 *~ 3.14159;
+#X obj 39 69 phasor~ 2;
+#X text 15 35 Hyperbolic cosine function (cosh(x)) for signals;
+#X obj 38 166 Scope~ 130 130 256 3 128 0 3.14159 0 0 0 0 102 255 51
+135 135 135 0;
+#X obj 396 25 import cyclone;
+#X obj 38 138 cosh~;
+#X obj 122 109 loadbang;
+#X connect 2 0 7 0;
+#X connect 3 0 9 0;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 9 0 7 0;
+#X connect 10 0 2 0;

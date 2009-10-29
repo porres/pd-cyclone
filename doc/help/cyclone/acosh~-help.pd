@@ -1,0 +1,32 @@
+#N canvas 1194 277 635 410 10;
+#X declare -lib cyclone;
+#X text 239 79 this is probably only useful for mathematical calculations
+;
+#X msg 222 136 range 0 2;
+#X obj 147 110 +~ 1;
+#X obj 147 87 *~ 2;
+#X obj 147 65 phasor~ 2;
+#X text 15 35 Arc Hyperbolic cosine function (acosh(x)) for signals
+;
+#X obj 15 93 +~ 2;
+#X obj 15 64 cycle~ 2;
+#X text 49 90 input values must be greater than 1;
+#X text 18 316 very expensive windowing?;
+#X obj 15 162 Scope~ 130 130 256 3 128 0 2 0 0 0 0 102 255 51 135 135
+135 0;
+#X obj 440 35 import cyclone;
+#X obj 156 166 Scope~ 130 130 256 3 128 0 2 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 146 134 acosh~;
+#X obj 15 124 acosh~;
+#X obj 226 114 loadbang;
+#X connect 1 0 10 0;
+#X connect 1 0 12 0;
+#X connect 2 0 13 0;
+#X connect 3 0 2 0;
+#X connect 4 0 3 0;
+#X connect 6 0 14 0;
+#X connect 7 0 6 0;
+#X connect 13 0 12 0;
+#X connect 14 0 10 0;
+#X connect 15 0 1 0;

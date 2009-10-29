@@ -1,0 +1,44 @@
+#N canvas 1391 272 831 462 10;
+#X declare -lib cyclone;
+#X declare -lib zexy;
+#X msg 278 155 0;
+#X floatatom 342 154 0 0 0 0 - - -;
+#X obj 182 204 sig~ -1;
+#X text -5 280 value;
+#X obj 37 263 cycle~ 440;
+#X text 120 276 index;
+#X text 103 303 channel;
+#X text 298 198 a source of an increasing index \, also consider fft~
+;
+#X text 6 41 poke~ allows you to write samples into a buffer~ at sample
+locations specified by a signal. Typically \, the signal will increase
+in value by 1 with each sample to write successive values into successive
+samples (like record~). If the index signal is negative or larger than
+the size of the buffer~ \, no data is recorded.;
+#X text 392 157 count maximum sets the number of samples recorded (think
+of it as the loop size);
+#X text 12 23 Write into a table using a signal sample index;
+#X obj 458 50 import cyclone;
+#X obj 443 256 table foo 1000;
+#X obj 38 309 poke~ foo;
+#X text 37 330 arguments are name of table (required) and initial channel
+to write (optional \, default 1);
+#X obj 561 49 import zexy;
+#X obj 146 249 multiplex~ 0 1;
+#X msg -8 168 0;
+#X msg -8 145 1;
+#X text 23 146 start writing;
+#X text 23 167 stop writing by sending -1 signal;
+#X floatatom 279 261 5 0 0 0 - - -;
+#X obj 278 177 count~ 0 2048;
+#X obj 279 235 Snapshot~ 100;
+#X connect 0 0 22 0;
+#X connect 1 0 22 1;
+#X connect 2 0 16 0;
+#X connect 4 0 13 0;
+#X connect 16 0 13 1;
+#X connect 17 0 16 0;
+#X connect 18 0 16 0;
+#X connect 22 0 16 1;
+#X connect 22 0 23 0;
+#X connect 23 0 21 0;

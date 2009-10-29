@@ -1,19 +1,16 @@
-#N canvas 217 155 421 323 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
-#X text 21 278 docs based on the MAX/MSP reference (c) cycling'74
-;
-#X text 20 292 ___________________________________________________ ;
-#X obj 41 22 acos 4;
-#X text 98 24 calculate arc cosine function;
-#X floatatom 46 216 8 0 0 0 - - -;
-#X msg 46 83 bang;
-#X obj 46 183 acos 0.2;
-#X obj 67 152 / 100;
-#X floatatom 67 132 5 0 0 0 - - -;
-#X text 96 84 output acos of current val;
-#X text 121 130 calculate and output acos;
-#X text 123 185 arg sets initial value;
-#X connect 6 0 7 0;
-#X connect 7 0 5 0;
-#X connect 8 0 7 0;
-#X connect 9 0 8 0;
+#N canvas 1253 344 435 229 10;
+#X declare -lib cyclone;
+#X text 15 35 Arccosine(x);
+#X obj 189 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 189 145 0 0 0 0 - - -;
+#X floatatom 84 145 0 0 0 0 - - -;
+#X floatatom 84 69 0 0 0 0 - - -;
+#X text 259 96 optional arg;
+#X obj 290 12 import cyclone;
+#X obj 84 100 acos;
+#X obj 189 100 acos 0.5;
+#X connect 1 0 8 0;
+#X connect 4 0 7 0;
+#X connect 7 0 3 0;
+#X connect 8 0 2 0;

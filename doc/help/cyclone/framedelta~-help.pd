@@ -1,0 +1,27 @@
+#N canvas 1325 361 647 377 10;
+#X declare -lib cyclone;
+#X text 15 35 compute the phase deviation between successive FFT frames
+;
+#X obj 259 154 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 95 148 bang to start the count ->;
+#X text 29 88 so \, when used in the context of a pfft~ patch (where
+the FFT frame is the vector size) it can be used to compute the phase
+deviation;
+#X text 28 59 framedelta~ subtracts each of the values of the previous
+input signal vector from those of the current vector;
+#X obj 459 20 import cyclone;
+#X obj 259 181 count~;
+#X obj 257 244 framedelta~;
+#X obj 257 271 Snapshot~ 100;
+#X obj 258 295 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 64 256;
+#X obj 152 239 Snapshot~ 100;
+#X obj 153 263 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 874432 256;
+#X connect 1 0 6 0;
+#X connect 6 0 7 0;
+#X connect 6 0 10 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 10 0 11 0;

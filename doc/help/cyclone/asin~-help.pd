@@ -1,0 +1,57 @@
+#N canvas 1150 213 841 500 10;
+#X declare -lib cyclone;
+#X declare -lib zexy;
+#X text 331 60 select waveform:;
+#X text 348 94 sawtooth;
+#X text 354 113 triangle;
+#X obj 465 222 *~ 0.2;
+#X obj 465 200 /~ 1.5708;
+#X obj 456 96 cycle~ 130;
+#X obj 548 106 -~ 1;
+#X obj 548 84 *~ 2;
+#X obj 548 62 phasor~ 130;
+#X obj 465 269 dac~;
+#X text 499 172 outputs signal from -pi/2 to pi/2;
+#X text 30 366 outputs signal from -pi/2 to pi/2 when input is -1 to
+1;
+#X text 177 397 or create a sawtooth wave using phasor;
+#X obj 18 120 cycle~ 2;
+#X msg 199 147 range -1.5708 1.5708;
+#X obj 150 121 -~ 1;
+#X obj 150 98 *~ 2;
+#X obj 150 76 phasor~ 2;
+#X text 11 50 turn a sine wave into a triangle wave:;
+#X text 15 20 Arc-sine function (asin(x)) for signals;
+#X obj 531 8 import cyclone;
+#X msg 398 93 0;
+#X msg 398 111 1;
+#X obj 624 6 import zexy;
+#X obj 465 131 zexy/multiplex~;
+#X obj 464 164 asin~;
+#X text 28 384 input signal values outside the -1 to 1 range cause
+asin~ to output the value zero;
+#X obj 18 205 Scope~ 130 130 256 3 128 -1.5708 1.5708 0 0 0 0 102 255
+51 135 135 135 0;
+#X obj 169 211 Scope~ 130 130 256 3 128 -1.5708 1.5708 0 0 0 0 102
+255 51 135 135 135 0;
+#X obj 18 145 asin~;
+#X obj 149 145 asin~;
+#X connect 3 0 9 0;
+#X connect 3 0 9 1;
+#X connect 4 0 3 0;
+#X connect 5 0 24 0;
+#X connect 6 0 24 1;
+#X connect 7 0 6 0;
+#X connect 8 0 7 0;
+#X connect 13 0 29 0;
+#X connect 14 0 27 0;
+#X connect 14 0 28 0;
+#X connect 15 0 30 0;
+#X connect 16 0 15 0;
+#X connect 17 0 16 0;
+#X connect 21 0 24 0;
+#X connect 22 0 24 0;
+#X connect 24 0 25 0;
+#X connect 25 0 4 0;
+#X connect 29 0 27 0;
+#X connect 30 0 28 0;

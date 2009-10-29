@@ -1,0 +1,46 @@
+#N canvas 1443 211 694 400 10;
+#X declare -lib cyclone;
+#X obj 510 185 +~ 11;
+#X obj 505 158 *~ 10;
+#X obj 505 134 cycle~ 0.5;
+#X obj 425 134 cycle~ 110;
+#X floatatom 39 92 0 0 0 0 - - -;
+#X obj 18 115 *~ 1;
+#X text 22 338 outputs signal values always between -1 and 1;
+#X obj 439 205 *~ 1;
+#X obj 439 273 *~ 0.1;
+#X obj 18 71 cycle~ 2;
+#X obj 150 110 -~ 3.14159;
+#X obj 150 87 *~ 6.28319;
+#X obj 150 65 phasor~ 2;
+#X obj 439 310 dac~;
+#X text 477 242 outputs soft clipped signal;
+#X text 15 11 Hyperbolic tangent function (tanh(x)) for signals;
+#X text 11 33 turn a sine wave into a square wave by cranking up the
+volume!;
+#X text 327 95 can be used to simulate analog distortion \, and is
+much "smoother" than using clip~;
+#X obj 437 13 import cyclone;
+#X obj 439 238 tanh~;
+#X obj 18 175 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 154 175 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 150 141 tanh~;
+#X obj 18 139 tanh~;
+#X connect 0 0 7 1;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 7 0;
+#X connect 4 0 5 1;
+#X connect 5 0 23 0;
+#X connect 7 0 19 0;
+#X connect 8 0 13 0;
+#X connect 8 0 13 1;
+#X connect 9 0 5 0;
+#X connect 10 0 22 0;
+#X connect 11 0 10 0;
+#X connect 12 0 11 0;
+#X connect 19 0 8 0;
+#X connect 22 0 21 0;
+#X connect 23 0 20 0;

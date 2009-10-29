@@ -1,0 +1,55 @@
+#N canvas 1445 138 682 329 10;
+#X declare -lib cyclone;
+#X text 24 24 Store and graphically edit an array of numbers;
+#X obj 19 143 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 104 62 store;
+#X text 0 127 random;
+#X msg 195 170 quantile \$1;
+#X msg 30 62 open;
+#X msg 103 170 \$1 \$1;
+#X obj 103 78 vsl 15 80 0 79 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 3600 1;
+#X obj 73 78 vsl 15 80 0 79 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 3400 1;
+#X msg 150 170 inv \$1;
+#X text 69 62 read;
+#X obj 150 78 vsl 15 80 0 79 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 0 1;
+#X text 145 62 inv read;
+#X floatatom 73 229 0 0 0 0 - - -;
+#X obj 112 229 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 195 153 0 0 0 0 - - -;
+#X obj 195 134 << 9;
+#X obj 195 60 vsl 15 65 0 64 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 0 1;
+#X text 211 57 read quantile;
+#X text 130 224 The right outlet sends a bang when the table has been
+changed by editing with the mouse;
+#X text 56 255 You may name the table with an argument. Many boxes
+may share the same table by using the same name. If there is a file
+by that name it will be read into the table if possible.;
+#X msg 29 86 sum;
+#X msg 29 107 length;
+#X text 291 108 You can close the table window by clicking its close
+box \, and reopen it by double-clicking the "table" box or sending
+it the open message.;
+#X obj 396 53 import cyclone;
+#X obj 74 201 Table;
+#C restore;
+#X connect 1 0 25 0;
+#X connect 4 0 25 0;
+#X connect 5 0 25 0;
+#X connect 6 0 25 0;
+#X connect 7 0 6 0;
+#X connect 8 0 25 0;
+#X connect 9 0 25 0;
+#X connect 11 0 9 0;
+#X connect 15 0 4 0;
+#X connect 16 0 15 0;
+#X connect 17 0 16 0;
+#X connect 21 0 25 0;
+#X connect 22 0 25 0;
+#X connect 25 0 13 0;
+#X connect 25 1 14 0;

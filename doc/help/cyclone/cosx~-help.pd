@@ -1,0 +1,19 @@
+#N canvas 1292 254 598 352 10;
+#X declare -lib cyclone;
+#X msg 124 135 range -1 1;
+#X obj 22 89 *~ 6.28319;
+#X obj 22 64 phasor~ 2;
+#X text 15 35 cos(x) for signals;
+#X text 101 65 this is a real cosine function whose input expects values
+between 0 and 2pi (unlike cos~ which is designed to work with phasor~'s
+output from 0 to 1);
+#X obj 125 110 loadbang;
+#X obj 397 21 import cyclone;
+#X obj 22 121 cosx~;
+#X obj 22 161 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X connect 0 0 8 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 5 0 0 0;
+#X connect 7 0 8 0;

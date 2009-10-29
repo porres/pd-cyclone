@@ -1,0 +1,28 @@
+#N canvas 1420 346 579 354 10;
+#X declare -lib cyclone;
+#X text 16 15 Convert number of samples (at the current sampling rate)
+to milliseconds;
+#X msg 263 127 0 \, 44100 3000;
+#X floatatom 263 248 0 0 0 0 - - -;
+#X obj 263 187 sampstoms~;
+#X floatatom 79 171 0 0 0 0 - - -;
+#X obj 25 139 sampstoms~;
+#X floatatom 25 116 0 0 0 0 - - -;
+#X text 74 118 number of samples in;
+#X text 90 155 number of milliseconds out;
+#X text 17 44 Many signal objects accepts arguments or inputs in milliseconds
+but sometimes you want to make calculations in samples. sampstoms~
+can perform the conversion.;
+#X text 272 208 milliseconds out (as a signal);
+#X text 273 171 number of samples in (as a signal);
+#X obj 263 226 Snapshot~ 100;
+#X obj 403 30 import cyclone;
+#X obj 263 146 Line~;
+#X text 18 93 Use as a calculator or for float parameters;
+#X text 247 110 or convert signal values;
+#X connect 1 0 14 0;
+#X connect 3 0 12 0;
+#X connect 5 1 4 0;
+#X connect 6 0 5 0;
+#X connect 12 0 2 0;
+#X connect 14 0 3 0;

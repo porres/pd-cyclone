@@ -1,0 +1,22 @@
+#N canvas 1645 195 550 348 10;
+#X declare -lib cyclone;
+#X text 15 35 output the maximum of two signals;
+#X obj 272 105 cycle~ 3.14;
+#X obj 227 80 cycle~ 2;
+#X obj 388 24 import cyclone;
+#X obj 226 132 maximum~;
+#X obj 226 159 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 52 173 maximum~ 0.5;
+#X obj 52 134 sig~;
+#X floatatom 52 104 5 0 0 0 - - -;
+#X obj 52 198 Snapshot~ 100;
+#X obj 53 225 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0.5 256;
+#X connect 1 0 4 1;
+#X connect 2 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 9 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 0;
+#X connect 9 0 10 0;

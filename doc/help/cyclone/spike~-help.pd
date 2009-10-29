@@ -1,0 +1,28 @@
+#N canvas 1343 463 511 227 10;
+#X declare -lib cyclone;
+#X text 15 35 Report intervals of zero to non-zero transitions;
+#X obj 64 162 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 40 162 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 40 138 edge~;
+#X obj 86 181 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 215 101 0 0 0 0 - - -;
+#X floatatom 119 62 0 0 0 0 - - -;
+#X floatatom 119 180 0 0 0 0 - - -;
+#X obj 119 90 train~ 85.5;
+#X text 168 58 adjust interval;
+#X text 253 100 set refractory period;
+#X text 130 156 interval output;
+#X text 57 120 signal input;
+#X obj 359 38 import cyclone;
+#X obj 119 137 spike~;
+#X connect 3 0 2 0;
+#X connect 3 1 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 8 0;
+#X connect 8 0 3 0;
+#X connect 8 0 14 0;
+#X connect 14 0 4 0;
+#X connect 14 0 7 0;

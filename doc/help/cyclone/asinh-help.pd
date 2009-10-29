@@ -1,0 +1,27 @@
+#N canvas 1207 202 773 474 10;
+#X declare -lib cyclone;
+#X text 254 93 this is probably only useful for mathematical calculations
+;
+#X obj 18 90 cycle~ 2;
+#X obj 18 121 *~ 3.14159;
+#X msg 223 149 range -2 2;
+#X obj 150 123 -~ 3.14159;
+#X text 15 35 Arc Hyperbolic sine function (asinh(x)) for signals;
+#X obj 150 100 *~ 6.28319;
+#X obj 150 78 phasor~ 2;
+#X obj 18 175 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 165 180 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 425 48 import cyclone;
+#X obj 18 147 asinh~;
+#X obj 149 147 asinh~;
+#X connect 1 0 2 0;
+#X connect 2 0 11 0;
+#X connect 3 0 8 0;
+#X connect 3 0 9 0;
+#X connect 4 0 12 0;
+#X connect 6 0 4 0;
+#X connect 7 0 6 0;
+#X connect 11 0 8 0;
+#X connect 12 0 9 0;

@@ -1,0 +1,18 @@
+#N canvas 1260 275 593 376 10;
+#X declare -lib cyclone;
+#X msg 124 135 range -10 10;
+#X obj 22 89 *~ 6.28319;
+#X obj 22 64 phasor~ 2;
+#X text 15 35 tan(x) for signals;
+#X text 101 65 this is a real tangent function whose input expects
+values between 0 and 2pi (similar to cosx~ and sinx~);
+#X text 15 305 output values are asymptotic to inf/-inf when input
+values approach -pi/2 and pi/2;
+#X obj 22 161 Scope~ 130 130 256 3 128 -10 10 0 0 0 0 102 255 51 135
+135 135 0;
+#X obj 477 50 import cyclone;
+#X obj 22 122 tanx~;
+#X connect 0 0 6 0;
+#X connect 1 0 8 0;
+#X connect 2 0 1 0;
+#X connect 8 0 6 0;
