@@ -179,7 +179,7 @@ static void pddplink_click(t_pddplink *x, t_floatarg xpos, t_floatarg ypos,
 	typedmess(pddplink_pdtarget(x), gensym("open"), 2, x->x_openargs);
 	break;
     case PDDPLINK_HTML:
-	sys_vgui("after 0 {::pddp::cliOpen %s}\n", x->x_ulink->s_name);
+	sys_vgui("after 0 {::pddp::cliOpen {%s}}\n", x->x_ulink->s_name);
 	break;
     }
     x->x_ishit = 0;
@@ -367,7 +367,7 @@ static void *pddplink_new(t_symbol *s, int ac, t_atom *av)
 	}
     }
     if (x->x_linktype == PDDPLINK_HTML)
-	sys_vgui("after 0 {::pddp::srvUse %s}\n", x->x_dirsym->s_name);
+	sys_vgui("after 0 {::pddp::srvUse {%s}}\n", x->x_dirsym->s_name);
     return (x);
 }
 
