@@ -45,8 +45,8 @@ static int testmess_makeroom(t_testmess *x, int natoms, int preserve)
     {
 	int newsize = x->x_size * 2;
 	while (newsize < natoms) newsize *= 2;
-	post("makeroom %s %d %d %d", x->x_method->s_name,
-	     preserve, natoms, newsize);
+/*	post("makeroom %s %d %d %d", x->x_method->s_name,
+	     preserve, natoms, newsize);*/
 	if (x->x_messbuf == x->x_messini)
 	{
 	    if (!(x->x_messbuf =
