@@ -299,7 +299,7 @@ static void widget_displace(t_gobj *z, t_glist *glist, int dx, int dy)
     if (glist_isvisible(glist))
 	sys_vgui("%s move %s %d %d\n", widget_getcvpathname(x, glist)->s_name,
 		 x->x_cbtarget->s_name, dx, dy);
-    canvas_fixlinesfor(glist_getcanvas(glist), t);
+    canvas_fixlinesfor(glist, t);
 }
 
 /* LATER handle subitems */
@@ -872,7 +872,7 @@ static void widget__config(t_widget *x, t_symbol *target, t_symbol *bg,
     x->x_height = (int)fh;
     if (bg != &s_) x->x_background = bg;
     x->x_hasstate = ((int)fst == 0);
-    canvas_fixlinesfor(glist_getcanvas(x->x_glist), (t_text *)x);  /* FIXME */
+    canvas_fixlinesfor(x->x_glist, (t_text *)x);  /* FIXME */
 }
 
 /* FIXME this is only a template */

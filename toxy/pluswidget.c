@@ -130,7 +130,7 @@ static void pluswidget_displace(t_gobj *z, t_glist *glist, int dx, int dy)
         t_rtext *y = glist_findrtext(glist, t);
         rtext_displace(y, dx, dy);
         pluswidget_drawborder(t, glist, rtext_gettag(y), 0);
-        canvas_fixlinesfor(glist_getcanvas(glist), t);
+        canvas_fixlinesfor(glist, t);
     }
 }
 
