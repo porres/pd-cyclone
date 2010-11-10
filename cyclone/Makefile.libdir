@@ -7,6 +7,11 @@ bindir = $(prefix)/bin
 pkglibdir = $(libdir)/pd-externals
 objectsdir = $(pkglibdir)
 
+INSTALL = install
+INSTALL_PROGRAM = $(INSTALL) -p -m 755
+INSTALL_DATA = $(INSTALL) -p -m 644
+INSTALL_DIR     = $(INSTALL) -p -m 755 -d
+
 UNAME := $(shell uname -s)
 ifeq ($(UNAME),Darwin)
   CPU := $(shell uname -p)
@@ -81,34 +86,43 @@ ifeq (MINGW,$(findstring MINGW,$(UNAME)))
 endif
 
 cyclone:
-	$(MAKE) -f Makefile \
+	$(MAKE) -j4 -f Makefile \
 		OPT_CFLAGS="-O6 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -fPIC"
 
 install: cyclone
-	install -d $(DESTDIR)$(objectsdir)/cyclone
-	install -p cyclone-meta.pd $(DESTDIR)$(objectsdir)/cyclone
-	install -p ../LICENSE.txt $(DESTDIR)$(objectsdir)/cyclone
-	install -p README.txt $(DESTDIR)$(objectsdir)/cyclone
+	$(INSTALL_DIR) $(DESTDIR)$(objectsdir)/cyclone
+	$(INSTALL_DATA) cyclone-meta.pd $(DESTDIR)$(objectsdir)/cyclone
+	$(INSTALL_DATA) ../LICENSE.txt $(DESTDIR)$(objectsdir)/cyclone
+	$(INSTALL_DATA) README.txt $(DESTDIR)$(objectsdir)/cyclone
 # cyclone is compiled straight into $(OUT_DIR), yes a kludge, but the code of
 # this build system is impenetrable
-	$(MAKE) OUT_DIR=$(DESTDIR)$(objectsdir)/cyclone
+	$(MAKE) -j4 OUT_DIR=$(DESTDIR)$(objectsdir)/cyclone
+	$(STRIP) $(DESTDIR)$(objectsdir)/cyclone/*.$(EXTENSION)
+	chmod a-x $(DESTDIR)$(objectsdir)/cyclone/*.$(EXTENSION)
 # install "maxmode" libraries into subdir, so they don't override the libdir
-	install -d $(DESTDIR)$(objectsdir)/cyclone/maxmode
-	install -p ../bin/cyclone.$(EXTENSION) \
+	$(INSTALL_DIR) $(DESTDIR)$(objectsdir)/cyclone/maxmode
+	$(INSTALL_DATA) ../bin/cyclone.$(EXTENSION) \
 		../bin/hammer.$(EXTENSION) \
 		../bin/sickle.$(EXTENSION) \
 		../bin/maxmode.$(EXTENSION) \
 		$(DESTDIR)$(objectsdir)/cyclone/maxmode
+	$(STRIP) $(DESTDIR)$(objectsdir)/cyclone/maxmode/*.$(EXTENSION)
 # install "cyclist" command line app with pd
-	install -d $(DESTDIR)$(bindir)
-	install -p -m0755 ../bin/cyclist $(DESTDIR)$(bindir)
-	install -p ../doc/help/cyclone/*.* \
+	$(INSTALL_DIR) $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) ../bin/cyclist $(DESTDIR)$(bindir)
+	$(STRIP) $(DESTDIR)$(bindir)/cyclist
+	$(INSTALL_DATA) ../doc/help/cyclone/*.* \
 		$(DESTDIR)$(objectsdir)/cyclone
-	install -d $(DESTDIR)$(objectsdir)/cyclone/examples
-	install -p ../test/cyclone/*.* \
+	$(INSTALL_DIR) $(DESTDIR)$(objectsdir)/cyclone/examples
+	$(INSTALL_DATA) ../test/cyclone/*.* \
 		$(DESTDIR)$(objectsdir)/cyclone/examples
 
 clean:
 	-$(MAKE) -f Makefile $(DEST_PATHS) clean
 	-rm -f ../bin/*.pd_linux
 	-rm -f ../bin/cyclist
+	-rm -f Makefile.deps
+	-rm -f shadow/Makefile.deps
+	-rm -f hammer/Makefile.deps
+	-rm -f sickle/Makefile.deps
+	-rm -f ../build-stamp
