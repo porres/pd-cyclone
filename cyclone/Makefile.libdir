@@ -107,15 +107,15 @@ install: cyclone
 		../bin/maxmode.$(EXTENSION) \
 		$(DESTDIR)$(objectsdir)/cyclone/maxmode
 	$(STRIP) $(DESTDIR)$(objectsdir)/cyclone/maxmode/*.$(EXTENSION)
-# install "cyclist" command line app with pd
-	$(INSTALL_DIR) $(DESTDIR)$(bindir)
-	$(INSTALL_PROGRAM) ../bin/cyclist $(DESTDIR)$(bindir)
-	$(STRIP) $(DESTDIR)$(bindir)/cyclist
 	$(INSTALL_DATA) ../doc/help/cyclone/*.* \
 		$(DESTDIR)$(objectsdir)/cyclone
 	$(INSTALL_DIR) $(DESTDIR)$(objectsdir)/cyclone/examples
 	$(INSTALL_DATA) ../test/cyclone/*.* \
 		$(DESTDIR)$(objectsdir)/cyclone/examples
+# install "cyclist" command line app with pd
+	$(INSTALL_DIR) $(DESTDIR)$(bindir)
+	$(INSTALL_PROGRAM) ../bin/cyclist $(DESTDIR)$(bindir)
+	$(STRIP) $(DESTDIR)$(bindir)/cyclist
 
 clean:
 	-$(MAKE) -f Makefile $(DEST_PATHS) clean
