@@ -39,6 +39,9 @@ install: build
 	# Add here commands to install the package into debian/<packagename>.
 	$(MAKE) -C cyclone -f Makefile.libdir DESTDIR=$(CURDIR)/debian/$(PACKAGE) \
 		prefix=/usr pkglibdir=$(pkglibdir) install
+
+
+override_dh_shlibdeps:
 	dpkg-shlibdeps $(CURDIR)/debian/$(PACKAGE)$(pkglibdir)/$(LIBRARY_NAME)/*.pd_linux \
 		-T$(CURDIR)/debian/$(PACKAGE).substvars
 
@@ -61,14 +64,15 @@ binary-indep: build install
 #	dh_installinfo
 #	dh_installwm
 #	dh_installudev
-#	dh_lintian
+	dh_lintian
 #	dh_bugfiles
 #	dh_undocumented
-	dh_installman
+#	dh_installman
 	dh_link
 	dh_compress
 	dh_fixperms
 #	dh_perl
+	dh_shlibdeps
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
