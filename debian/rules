@@ -41,6 +41,7 @@ install: build
 		prefix=/usr pkglibdir=$(pkglibdir) install
     # remove cyclist until its documented and tested
 	rm -f -- $(CURDIR)/debian/$(PACKAGE)/usr/bin/cyclist
+	rmdir -- $(CURDIR)/debian/$(PACKAGE)/usr/bin/
 
 
 override_dh_shlibdeps:
