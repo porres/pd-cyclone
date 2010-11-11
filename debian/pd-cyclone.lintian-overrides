@@ -1,4 +1,0 @@
-# the upstream library format includes the license file in it, this library
-# has a unique license that is just a statement of public domain, so we just
-# leave the file in place, since there is no license file to symlink to.
-pd-cyclone: extra-license-file usr/lib/pd/extra/cyclone/LICENSE.txt
