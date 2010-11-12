@@ -1,5 +1,4 @@
-#N canvas 196 287 680 395 10;
-#X declare -lib cyclone;
+#N canvas 0 26 680 381 10;
 #X text 14 3 Pulse-train generator and metronome;
 #X floatatom 304 203 0 0 0 0 - - -;
 #X obj 26 318 *~ 0.2;
@@ -26,19 +25,33 @@ in the example below \, or at very small intervals \, it is audible.
 \, width (default .5) \, and phase (default 0).;
 #X text 335 201 signal/float sets phase of 0-1 transition within pulse
 period (0 to 1);
-#X obj 449 55 import cyclone;
 #X text 83 128 modulate interval;
 #X obj 84 164 Line~ 200;
 #X obj 84 220 train~ 200 0.75;
-#X connect 1 0 20 2;
+#N canvas 247 115 494 402 META 0;
+#X text 12 215 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 185 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible oscillator;
+#X text 12 45 DESCRIPTION pulse-train generator and metronome;
+#X text 12 65 INLET_0 signal;
+#X text 12 85 INLET_1 signal;
+#X text 12 105 INLET_2 signal;
+#X text 12 125 OUTLET_0 signal;
+#X text 12 145 OUTLET_1 bang;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 165 AUTHOR Krzysztof Czaja;
+#X restore 630 361 pd META;
+#X connect 1 0 19 2;
 #X connect 2 0 3 0;
 #X connect 2 0 3 1;
 #X connect 4 0 2 0;
 #X connect 5 0 4 0;
-#X connect 6 0 19 0;
+#X connect 6 0 18 0;
 #X connect 7 0 8 0;
 #X connect 8 0 5 0;
-#X connect 10 0 20 1;
-#X connect 19 0 20 0;
-#X connect 20 0 8 1;
-#X connect 20 1 9 0;
+#X connect 10 0 19 1;
+#X connect 18 0 19 0;
+#X connect 19 0 8 1;
+#X connect 19 1 9 0;

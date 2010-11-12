@@ -1,5 +1,4 @@
-#N canvas 1445 138 682 329 10;
-#X declare -lib cyclone;
+#N canvas 0 26 671 319 10;
 #X text 24 24 Store and graphically edit an array of numbers;
 #X obj 19 143 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -9,9 +8,9 @@
 #X msg 30 62 open;
 #X msg 103 170 \$1 \$1;
 #X obj 103 78 vsl 15 80 0 79 0 0 empty empty empty 0 -8 0 8 -262144
--1 -1 3600 1;
+-1 -1 0 1;
 #X obj 73 78 vsl 15 80 0 79 0 0 empty empty empty 0 -8 0 8 -262144
--1 -1 3400 1;
+-1 -1 0 1;
 #X msg 150 170 inv \$1;
 #X text 69 62 read;
 #X obj 150 78 vsl 15 80 0 79 0 0 empty empty empty 0 -8 0 8 -262144
@@ -35,21 +34,36 @@ by that name it will be read into the table if possible.;
 #X text 291 108 You can close the table window by clicking its close
 box \, and reopen it by double-clicking the "table" box or sending
 it the open message.;
-#X obj 396 53 import cyclone;
 #X obj 74 201 Table;
 #C restore;
-#X connect 1 0 25 0;
-#X connect 4 0 25 0;
-#X connect 5 0 25 0;
-#X connect 6 0 25 0;
+#N canvas 320 151 483 400 META 0;
+#X text 12 195 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 165 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS control GUI array max_compatible;
+#X text 12 45 DESCRIPTION store and graphically edit an array of numbers
+;
+#X text 12 65 INLET_0 float list bang open sum length inv quantile
+;
+#X text 12 85 INLET_1 float;
+#X text 12 105 OUTLET_0 float;
+#X text 12 125 OUTLET_1 bang;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 145 AUTHOR Krzysztof Czaja;
+#X restore 621 298 pd META;
+#X connect 1 0 24 0;
+#X connect 4 0 24 0;
+#X connect 5 0 24 0;
+#X connect 6 0 24 0;
 #X connect 7 0 6 0;
-#X connect 8 0 25 0;
-#X connect 9 0 25 0;
+#X connect 8 0 24 0;
+#X connect 9 0 24 0;
 #X connect 11 0 9 0;
 #X connect 15 0 4 0;
 #X connect 16 0 15 0;
 #X connect 17 0 16 0;
-#X connect 21 0 25 0;
-#X connect 22 0 25 0;
-#X connect 25 0 13 0;
-#X connect 25 1 14 0;
+#X connect 21 0 24 0;
+#X connect 22 0 24 0;
+#X connect 24 0 13 0;
+#X connect 24 1 14 0;

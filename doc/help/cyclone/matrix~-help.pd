@@ -1,4 +1,4 @@
-#N canvas 43 57 837 544 10;
+#N canvas 0 26 837 544 10;
 #X obj 8 6 cnv 15 500 30 empty empty matrix~ 20 12 0 14 -262130 -66577
 0;
 #X obj 61 237 dac~;
@@ -67,6 +67,22 @@ in milliseconds;
 "gain" when in mix mode;
 #X msg 651 468 ramp 500;
 #X msg 731 468 ramp 1000;
+#N canvas 309 151 494 405 META 0;
+#X text 12 195 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 165 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible;
+#X text 12 45 DESCRIPTION a switching or mixing matrix for signals
+;
+#X text 12 85 INLET_N signal;
+#X text 12 105 OUTLET_N signal;
+#X text 12 125 OUTLET_R list;
+#X text 12 65 INLET_0 signal dump list ramp clear connect disconnect
+;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 145 AUTHOR Krzysztof Czaja;
+#X restore 786 521 pd META;
 #X connect 2 0 1 0;
 #X connect 3 0 1 1;
 #X connect 4 0 2 0;

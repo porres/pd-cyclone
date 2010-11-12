@@ -1,4 +1,4 @@
-#N canvas 124 170 621 419 10;
+#N canvas 0 26 561 419 10;
 #X text 23 375 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 23 390 ___________________________________________________
 ;
@@ -79,6 +79,20 @@
 #X obj 207 104 phasor~ 100;
 #X text 116 62 try this...;
 #X text 271 62 or this;
+#N canvas 136 113 494 396 META 0;
+#X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal time max_compatible;
+#X text 12 45 DESCRIPTION delay incoming signal for a number of samples
+;
+#X text 12 65 INLET_0 signal;
+#X text 12 85 INLET_1 float;
+#X text 12 105 OUTLET_0 signal;
+#X text 12 125 AUTHOR Krzysztof Czaja;
+#X text 12 25 LICENSE SIBSD;
+#X restore 510 396 pd META;
 #X connect 5 0 17 0;
 #X connect 6 0 7 0;
 #X connect 7 0 5 0;

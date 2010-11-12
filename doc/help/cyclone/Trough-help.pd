@@ -1,5 +1,6 @@
-#N canvas 99 164 519 473 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
+#N canvas 0 26 432 473 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
 #X text 24 434 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 23 448 ___________________________________________________
 ;
@@ -26,6 +27,22 @@
 #X text 141 150 sends current min value out the left outlet;
 #X text 115 92 first number resets minimum value \, then second one
 ;
+#N canvas 247 115 494 399 META 0;
+#X text 12 215 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 185 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS control filter max_compatible;
+#X text 12 45 DESCRIPTION output only numbers smaller than the previous
+;
+#X text 12 65 INLET_0 list float bang;
+#X text 12 85 INLET_1 float;
+#X text 12 105 OUTLET_0 float;
+#X text 12 125 OUTLET_1 float;
+#X text 12 145 OUTLET_2 float;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 165 AUTHOR Krzysztof Czaja;
+#X restore 382 452 pd META;
 #X connect 3 0 17 0;
 #X connect 5 0 17 0;
 #X connect 7 0 17 0;

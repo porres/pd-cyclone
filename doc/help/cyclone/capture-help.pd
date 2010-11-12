@@ -1,5 +1,6 @@
-#N canvas 171 195 608 419 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
+#N canvas 0 26 557 419 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
 #X text 15 382 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 14 396 ___________________________________________________
 ;
@@ -32,6 +33,20 @@
 #X text 104 22 store and edit numbers;
 #X text 221 337 none - values are decimal \, supports float;
 #X text 242 325 d - decimal \, default max behaviour \, only ints;
+#N canvas 247 115 494 344 META 0;
+#X text 12 165 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 135 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 55 DESCRIPTION store and edit numbers;
+#X text 12 5 KEYWORDS control storage max_compatible filesystem GUI
+list_op;
+#X text 12 95 OUTLET_0 float;
+#X text 12 75 INLET_0 float list clear dump open wclose count write
+;
+#X text 12 35 LICENSE SIBSD;
+#X text 12 115 AUTHOR Krzysztof Czaja;
+#X restore 505 393 pd META;
 #X connect 4 0 10 0;
 #X connect 5 0 4 0;
 #X connect 7 0 4 0;

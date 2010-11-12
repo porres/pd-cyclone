@@ -1,5 +1,4 @@
-#N canvas 1309 248 577 450 10;
-#X declare -lib cyclone;
+#N canvas 0 26 515 407 10;
 #X text 15 35 Bandpass filter controllable by center frequency and
 Q;
 #X obj 32 382 dac~;
@@ -21,16 +20,31 @@ signal inputs for filter parameters);
 and Q. Q is the filter bandwidth divided by center frequency. Inputs
 can be floats or signals. The specification is similar to the nres
 unit generator in cmusic.;
-#X obj 374 38 import cyclone;
 #X obj 32 294 reson~ 1 200 23;
 #X obj 133 250 Line~ 200;
 #X floatatom 60 254 0 0 0 0 - - -;
 #X text 158 276 Q: Try range of 1-100;
+#N canvas 309 151 494 465 META 0;
+#X text 12 225 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 195 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible filter;
+#X text 12 45 DESCRIPTION bandpass filter controllable by center frequency
+and Q;
+#X text 12 75 INLET_0 signal;
+#X text 12 95 INLET_1 signal;
+#X text 12 115 INLET_2 signal;
+#X text 12 135 INLET_3 signal;
+#X text 12 155 OUTLET_0 signal;
+#X text 12 175 AUTHOR Krzysztof Czaja;
+#X text 12 25 LICENSE SIBSD;
+#X restore 466 386 pd META;
 #X connect 2 0 1 0;
 #X connect 2 0 1 1;
-#X connect 3 0 14 3;
-#X connect 4 0 15 0;
-#X connect 5 0 14 0;
-#X connect 14 0 2 0;
-#X connect 15 0 14 2;
-#X connect 16 0 14 1;
+#X connect 3 0 13 3;
+#X connect 4 0 14 0;
+#X connect 5 0 13 0;
+#X connect 13 0 2 0;
+#X connect 14 0 13 2;
+#X connect 15 0 13 1;

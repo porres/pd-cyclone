@@ -1,5 +1,4 @@
-#N canvas 1174 170 650 528 10;
-#X declare -lib cyclone;
+#N canvas 0 26 526 445 10;
 #X text 16 20 Collect samples from a signal and examine them in a text
 window;
 #X msg 285 141 write;
@@ -27,8 +26,19 @@ amount of data \, so it's easy to capture more data than you can see.
 If you want to see all the data \, write it to a text file and open
 the file with another text editor.;
 #X text 159 172 double-click to see text of captured values;
-#X obj 408 32 import cyclone;
 #X obj 28 181 capture~ f 1000 2 0;
-#X connect 1 0 13 0;
-#X connect 2 0 13 0;
-#X connect 3 0 13 0;
+#N canvas 247 115 494 409 META 0;
+#X text 12 145 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 115 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal GUI max_compatible;
+#X text 12 75 INLET_0 signal clear write;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 45 DESCRIPTION collect samples from a signal and examine
+them in a text window;
+#X text 12 95 AUTHOR Krzysztof Czaja;
+#X restore 475 423 pd META;
+#X connect 1 0 12 0;
+#X connect 2 0 12 0;
+#X connect 3 0 12 0;

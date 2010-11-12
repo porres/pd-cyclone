@@ -1,7 +1,7 @@
-#N canvas 114 161 528 447 10;
+#N canvas 0 31 528 447 10;
 #X obj 36 30 allpass~;
 #X text 115 30 allpass filter;
-#X floatatom 154 301 0 0 100 0 - - -;
+#X floatatom 150 303 0 0 100 0 - - -;
 #N canvas 159 26 532 285 output 0;
 #X obj 338 160 t b;
 #X obj 338 110 f;
@@ -56,8 +56,8 @@
 #X connect 26 0 5 0;
 #X connect 27 0 21 0;
 #X restore 125 325 pd output;
-#X msg 183 301 MUTE;
-#X floatatom 192 184 5 0 0 0 - - -;
+#X msg 176 303 MUTE;
+#X floatatom 183 184 5 0 0 0 - - -;
 #X obj 125 72 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
 #X obj 260 224 / 100;
@@ -85,28 +85,42 @@
 #X restore 125 100 pd burst;
 #X text 240 184 delay time;
 #X text 305 204 gain;
-#X text 184 125 del time / gain can also be;
+#X text 175 125 del time / gain can also be;
 #X text 22 403 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 21 417 ___________________________________________________
 ;
-#X text 273 249 allpass~ accepts up o 4 args:;
 #X text 274 264 1 max del time (default 10ms);
 #X text 274 277 2 initial del time;
 #X text 274 289 3 initial gain;
 #X text 274 301 4 gain coefficient;
-#X text 184 136 specified using signals when;
-#X text 183 148 using a signal to control gain;
-#X text 183 160 the gain coeff is ignored \, see below;
+#X text 175 136 specified using signals when;
+#X text 174 148 using a signal to control gain;
+#X text 174 160 the gain coeff is ignored \, see below;
 #X msg 71 179 clear;
 #X text 37 162 clear buffer;
 #X obj 125 252 allpass~ 100 4 0.7 0;
+#N canvas 430 169 494 402 META 0;
+#X text 12 195 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 165 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible filter;
+#X text 12 45 DESCRIPTION allpass filter;
+#X text 12 85 INLET_1 signal;
+#X text 12 65 INLET_0 signal clear;
+#X text 12 105 INLET_2 signal;
+#X text 12 125 OUTLET_0 signal;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 145 AUTHOR Krzysztof Czaja;
+#X restore 478 425 pd META;
+#X text 273 249 allpass~ accepts up to 4 args:;
 #X connect 2 0 3 1;
 #X connect 3 0 2 0;
 #X connect 4 0 3 2;
-#X connect 5 0 26 1;
+#X connect 5 0 25 1;
 #X connect 6 0 10 0;
-#X connect 7 0 26 2;
+#X connect 7 0 25 2;
 #X connect 8 0 7 0;
-#X connect 10 0 26 0;
-#X connect 24 0 26 0;
-#X connect 26 0 3 0;
+#X connect 10 0 25 0;
+#X connect 23 0 25 0;
+#X connect 25 0 3 0;

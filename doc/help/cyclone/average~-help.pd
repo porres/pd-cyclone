@@ -1,5 +1,4 @@
-#N canvas 47 36 645 632 10;
-#X declare -lib cyclone;
+#N canvas 0 26 590 632 10;
 #X text 29 515 rms--computes the square root of the average of the
 sample values squared.;
 #X text 29 490 absolute--averages the absolute values of the samples.
@@ -27,15 +26,27 @@ than the absolute mode. The absolute mode often works as well as the
 RMS mode in many level-detection tasks.;
 #X obj 22 224 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
 135 135 0;
-#X obj 421 23 import cyclone;
 #X obj 172 201 average~ 1000;
 #X floatatom 172 236 5 0 0 0 - - -;
+#N canvas 311 282 494 386 META 0;
+#X text 12 155 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 125 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible conversion;
+#X text 12 45 DESCRIPTION report various forms of average value of
+signal;
+#X text 12 65 INLET_0 signal float bipolar absolute rms;
+#X text 12 85 OUTLET_0 float;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 105 AUTHOR Krzysztof Czaja;
+#X restore 541 612 pd META;
 #X connect 4 0 10 1;
 #X connect 5 0 10 0;
-#X connect 6 0 18 0;
-#X connect 7 0 18 0;
-#X connect 8 0 18 0;
-#X connect 9 0 18 0;
+#X connect 6 0 17 0;
+#X connect 7 0 17 0;
+#X connect 8 0 17 0;
+#X connect 9 0 17 0;
 #X connect 10 0 16 0;
-#X connect 10 0 18 0;
-#X connect 18 0 19 0;
+#X connect 10 0 17 0;
+#X connect 17 0 18 0;

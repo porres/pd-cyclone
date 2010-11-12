@@ -1,6 +1,6 @@
-#N canvas 9 31 798 582 10;
-#X text 30 542 docs based on the MAX/MSP reference (c) cycling'74;
-#X text 30 557 ___________________________________________________
+#N canvas 0 26 798 543 10;
+#X text 30 502 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 30 517 ___________________________________________________
 ;
 #X floatatom 418 441 0 0 100 0 - - -;
 #N canvas 159 26 532 285 output 0;
@@ -105,6 +105,22 @@
 #X text 288 243 en/disable interpolation;
 #X text 633 118 signals can also be used;
 #X text 634 131 as start and endpoints;
+#N canvas 247 115 494 389 META 0;
+#X text 12 225 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 155 LIBRARY external cyclone;
+#X text 12 195 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 55 DESCRIPTION variable size wavetable;
+#X text 12 5 KEYWORDS signal max_compatible array needs_work (broken
+object);
+#X text 12 75 INLET_0 signal set enable interp;
+#X text 12 95 INLET_1 signal;
+#X text 12 115 INLET_2 signal;
+#X text 12 135 OUTLET_0 signal;
+#X text 12 35 LICENSE SIBSD;
+#X text 12 175 AUTHOR Krzysztof Czaja;
+#X restore 746 518 pd META;
 #X connect 2 0 3 1;
 #X connect 3 0 2 0;
 #X connect 4 0 3 2;

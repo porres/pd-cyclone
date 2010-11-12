@@ -1,5 +1,4 @@
-#N canvas 1476 327 631 562 10;
-#X declare -lib cyclone;
+#N canvas 0 26 631 535 10;
 #X text 15 35 a vector based envelope follower.;
 #X msg 243 350 2;
 #X obj 312 332 loadbang;
@@ -41,17 +40,33 @@ modes:;
 frames to the new value;
 #X text 125 282 argument is vector size(default 512). whichever mode's
 message is received last is the current mode of operation;
-#X obj 308 32 import cyclone;
 #X obj 35 284 vectral~ 256;
-#X obj 39 396 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
-135 135 0;
-#X connect 1 0 31 0;
+#X obj 39 396 Scope~ 130 130 2 3 128 0 10 0 0 0 0 102 255 51 135 135
+135 0;
+#N canvas 382 83 494 398 META 0;
+#X text 12 255 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 5 GENRE help;
+#X text 12 215 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 25 NAME vectral~;
+#X text 12 95 DESCRIPTION a vector based envelope follower;
+#X text 12 115 INLET_0 signal rampsmooth slide deltaclip;
+#X text 12 45 KEYWORDS signal max_compatible needs_work (pack is used
+incorrectly);
+#X text 12 135 INLET_1 signal;
+#X text 12 155 INLET_2 signal;
+#X text 12 175 OUTLET_0 signal;
+#X text 12 75 LICENSE SIBSD;
+#X text 12 195 AUTHOR Krzysztof Czaja;
+#X restore 580 513 pd META;
+#X connect 1 0 30 0;
 #X connect 2 0 3 0;
 #X connect 2 0 1 0;
 #X connect 2 0 4 0;
-#X connect 3 0 31 1;
-#X connect 4 0 31 0;
-#X connect 5 0 31 0;
+#X connect 3 0 30 1;
+#X connect 4 0 30 0;
+#X connect 5 0 30 0;
 #X connect 8 0 19 0;
 #X connect 8 0 20 2;
 #X connect 9 0 19 0;
@@ -61,21 +76,21 @@ message is received last is the current mode of operation;
 #X connect 11 0 13 2;
 #X connect 12 0 10 0;
 #X connect 12 0 13 1;
-#X connect 13 0 30 0;
+#X connect 13 0 29 0;
 #X connect 14 0 17 0;
 #X connect 15 0 14 0;
 #X connect 15 0 17 2;
 #X connect 16 0 14 0;
 #X connect 16 0 17 1;
-#X connect 17 0 30 0;
+#X connect 17 0 29 0;
 #X connect 19 0 20 0;
-#X connect 20 0 30 0;
+#X connect 20 0 29 0;
 #X connect 21 0 25 0;
-#X connect 22 0 30 2;
+#X connect 22 0 29 2;
 #X connect 23 0 22 1;
 #X connect 24 0 22 0;
 #X connect 25 0 24 0;
 #X connect 25 0 24 1;
 #X connect 25 1 23 0;
 #X connect 25 1 23 1;
-#X connect 30 0 5 0;
+#X connect 29 0 5 0;

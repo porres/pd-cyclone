@@ -1,8 +1,9 @@
-#N canvas 145 50 540 532 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
-#X text 28 491 docs based on the MAX/MSP reference (c) cycling'74
+#N canvas 0 26 446 532 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
+#X text 28 491 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 29 504 ___________________________________________________
 ;
-#X text 29 504 ___________________________________________________ ;
 #X obj 39 168 table sample;
 #X obj 39 94 openpanel;
 #X msg 39 119 read -resize \$1 sample;
@@ -80,6 +81,18 @@
 #X msg 130 230 441 \, 0 1000;
 #X text 43 213 forward;
 #X text 137 209 backward;
+#N canvas 247 115 494 344 META 0;
+#X text 12 155 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 125 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible array;
+#X text 12 45 DESCRIPTION position based sample playback;
+#X text 12 65 INLET_0 signal set;
+#X text 12 85 OUTLET_0 signal;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 105 AUTHOR Krzysztof Czaja;
+#X restore 396 511 pd META;
 #X connect 4 0 5 0;
 #X connect 5 0 6 0;
 #X connect 7 0 4 0;

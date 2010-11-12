@@ -1,8 +1,9 @@
-#N canvas 70 132 575 377 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
-#X text 34 334 docs based on the MAX/MSP reference (c) cycling'74
+#N canvas 0 26 551 377 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
+#X text 34 334 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 33 348 ___________________________________________________
 ;
-#X text 33 348 ___________________________________________________ ;
 #X obj 33 20 xnotein;
 #X obj 32 45 xnoteout;
 #X text 116 26 interpret midi messages with release velocity;
@@ -32,6 +33,22 @@
 #X text 111 263 note;
 #X text 140 237 velocity;
 #X text 278 218 send out:;
+#N canvas 247 115 494 437 META 0;
+#X text 12 215 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 185 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS control MIDI max_compatible;
+#X text 12 45 DESCRIPTION interpret midi messages with release velocity
+;
+#X text 12 65 INLET_0 float;
+#X text 12 85 INLET_1 float;
+#X text 12 105 INLET_2 float;
+#X text 12 125 INLET_3 float;
+#X text 12 145 OUTLET_0 float;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 165 AUTHOR Krzysztof Czaja;
+#X restore 500 356 pd META;
 #X connect 6 0 14 0;
 #X connect 6 1 15 0;
 #X connect 6 2 26 0;

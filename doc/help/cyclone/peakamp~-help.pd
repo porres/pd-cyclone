@@ -1,4 +1,4 @@
-#N canvas 68 22 666 402 10;
+#N canvas 0 26 666 402 10;
 #X text 16 9 peakamp~;
 #X text 406 101 Outlet: float (peak amplitude of signal);
 #X text 406 65 Left inlet: signal \, bang;
@@ -7,7 +7,7 @@
 #X floatatom 36 310 5 0 0 0 - - -;
 #X obj 225 196 adc~;
 #X obj 36 288 peakamp~;
-#X text 132 9 measure the peak amplitude of a signal;
+#X text 132 10 measure the peak amplitude of a signal;
 #X text 17 103 Banging the left inlet makes peakamp~ output its current
 peak value \, or you can set the internal metro to output at regular
 intervals by sending a non-zero number in the right inlet or setting
@@ -36,10 +36,23 @@ outputs a value.;
 #X obj 225 346 *~ 0.2;
 #X obj 220 369 dac~;
 #X obj 262 326 hsl 128 15 0.01 1 1 0 empty empty volume 15 8 0 10 -204786
--1 -1 11100 1;
+-1 -1 0 1;
 #X obj 225 276 peakamp~ 25;
 #X text 272 360 Example: the amplitude sets the frequency;
 #X text 319 206 <-- set the delay for the internal metro;
+#N canvas 247 115 494 384 META 0;
+#X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal conversion max_compatible;
+#X text 12 45 DESCRIPTION measure the peak amplitude of a signal;
+#X text 12 65 INLET_0 bang signal;
+#X text 12 85 INLET_1 float;
+#X text 12 105 OUTLET_0 float;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 125 AUTHOR Krzysztof Czaja;
+#X restore 616 382 pd META;
 #X connect 3 0 14 1;
 #X connect 6 0 28 0;
 #X connect 6 1 14 0;

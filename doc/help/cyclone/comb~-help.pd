@@ -1,5 +1,5 @@
-#N canvas 196 184 702 481 10;
-#X floatatom 235 341 0 0 100 0 - - -;
+#N canvas 0 26 660 481 10;
+#X floatatom 231 341 0 0 100 0 - - -;
 #N canvas 159 26 532 285 output 0;
 #X obj 338 160 t b;
 #X obj 338 110 f;
@@ -54,7 +54,7 @@
 #X connect 26 0 5 0;
 #X connect 27 0 21 0;
 #X restore 206 365 pd output;
-#X msg 264 341 MUTE;
+#X msg 257 341 MUTE;
 #X obj 206 94 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
 #X text 235 93 generate short noisebursts;
@@ -78,10 +78,11 @@
 #X connect 6 0 4 0;
 #X connect 7 0 3 0;
 #X restore 206 122 pd burst;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
-#X text 22 440 docs based on the MAX/MSP reference (c) cycling'74
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
+#X text 22 440 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 21 454 ___________________________________________________
 ;
-#X text 21 454 ___________________________________________________ ;
 #X obj 36 30 comb~;
 #X text 110 28 comb filter;
 #X floatatom 248 167 5 0 0 0 - - -;
@@ -98,6 +99,22 @@
 #X text 132 148 D a b;
 #X text 278 141 D \, a \, b \, c inlets support signals aswell;
 #X obj 206 265 comb~ 100 0.2 0.2 0.3 0.9;
+#N canvas 247 115 494 423 META 0;
+#X text 12 235 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 205 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible filter;
+#X text 12 45 DESCRIPTION comb filter;
+#X text 12 85 INLET_1 signal;
+#X text 12 105 INLET_2 signal;
+#X text 12 125 INLET_3 signal;
+#X text 12 145 INLET_4 signal;
+#X text 12 65 INLET_0 signal list clear;
+#X text 12 165 OUTLET_0 signal;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 185 AUTHOR Krzysztof Czaja;
+#X restore 610 458 pd META;
 #X connect 0 0 1 1;
 #X connect 1 0 0 0;
 #X connect 2 0 1 2;

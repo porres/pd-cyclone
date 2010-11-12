@@ -1,8 +1,9 @@
-#N canvas 196 184 479 279 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
-#X text 32 233 docs based on the MAX/MSP reference (c) cycling'74
+#N canvas 0 26 417 279 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
+#X text 32 233 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 31 247 ___________________________________________________
 ;
-#X text 31 247 ___________________________________________________ ;
 #X floatatom 65 146 0 0 100 0 - - -;
 #N canvas 159 26 532 285 output 0;
 #X obj 338 160 t b;
@@ -65,6 +66,19 @@
 #X text 79 74 frequency;
 #X obj 36 109 rand~ 800;
 #X text 111 111 optional arg sets initial freq;
+#N canvas 247 115 494 388 META 0;
+#X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 45 DESCRIPTION bandlimited random noise;
+#X text 12 65 INLET_0 signal;
+#X text 12 105 OUTLET_0 signal;
+#X text 12 85 INLET_1 signal;
+#X text 12 5 KEYWORDS signal max_compatible random bandlimited;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 125 AUTHOR Krzysztof Czaja;
+#X restore 368 257 pd META;
 #X connect 3 0 4 1;
 #X connect 4 0 3 0;
 #X connect 5 0 4 2;

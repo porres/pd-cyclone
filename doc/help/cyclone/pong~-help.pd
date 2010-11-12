@@ -1,5 +1,4 @@
-#N canvas 1472 392 646 472 10;
-#X declare -lib cyclone;
+#N canvas 0 26 541 463 10;
 #X text 25 -55 fold or wrap a signal within a given range;
 #X text 305 104 lo val;
 #X text 360 104 hi val;
@@ -23,38 +22,52 @@ The default range is zero to one. If hi val is greater than lo val
 The mode <int> message may be used to switch between fold and wrap
 mode. It is useful for performing modulo arithmetic \, as well as foldover
 or wraparound distortion.;
-#X obj 448 -20 import cyclone;
 #X obj 29 252 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
 135 135 0;
 #X obj 237 272 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
 135 135 0;
 #X obj 256 222 Snapshot~ 100;
 #X obj 257 245 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0.0467523 256;
+-262144 -1 -1 0 256;
 #X obj 45 207 Snapshot~ 100;
 #X obj 46 230 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0.0467523 256;
+-262144 -1 -1 0 256;
 #X obj 30 179 pong~ 0 -0.25 0.25;
 #X obj 237 197 pong~ 1 -0.25 0.25;
 #X msg 425 147 mode 0;
 #X msg 424 174 mode 1;
 #X text 471 147 fold;
 #X text 472 173 wrap;
-#X connect 3 0 24 2;
-#X connect 4 0 24 1;
+#N canvas 247 115 494 388 META 0;
+#X text 12 195 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 165 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible;
+#X text 12 45 DESCRIPTION fold or wrap a signal within a given range
+;
+#X text 12 85 INLET_1 signal;
+#X text 12 105 INLET_2 signal;
+#X text 12 125 OUTLET_0 signal;
+#X text 12 65 INLET_0 signal mode;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 145 AUTHOR Krzysztof Czaja;
+#X restore 492 392 pd META;
+#X connect 3 0 23 2;
+#X connect 4 0 23 1;
 #X connect 5 0 6 0;
-#X connect 6 0 24 0;
-#X connect 9 0 23 2;
+#X connect 6 0 23 0;
+#X connect 9 0 22 2;
 #X connect 10 0 9 0;
-#X connect 11 0 23 1;
+#X connect 11 0 22 1;
 #X connect 12 0 11 0;
 #X connect 13 0 14 0;
-#X connect 14 0 23 0;
-#X connect 19 0 20 0;
-#X connect 21 0 22 0;
+#X connect 14 0 22 0;
+#X connect 18 0 19 0;
+#X connect 20 0 21 0;
+#X connect 22 0 16 0;
+#X connect 22 0 20 0;
 #X connect 23 0 17 0;
-#X connect 23 0 21 0;
-#X connect 24 0 18 0;
-#X connect 24 0 19 0;
-#X connect 25 0 24 0;
-#X connect 26 0 24 0;
+#X connect 23 0 18 0;
+#X connect 24 0 23 0;
+#X connect 25 0 23 0;

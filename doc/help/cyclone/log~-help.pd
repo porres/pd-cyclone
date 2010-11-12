@@ -1,5 +1,4 @@
-#N canvas 1168 140 832 409 10;
-#X declare -lib cyclone;
+#N canvas 0 26 809 409 10;
 #X text 15 35 Output the log (to a specified base) of a signal;
 #X obj 377 314 clip~ 0 1;
 #X floatatom 460 173 0 0 0 0 - - -;
@@ -29,13 +28,26 @@ can be changed via right inlet.;
 #X text 467 200 try different bases...the lower the base (above 1)
 the bigger the output. bases between 0 and 1 result in a negative output.
 ;
-#X obj 456 20 import cyclone;
 #X text 42 117 click to hear something;
 #X obj 439 296 Snapshot~ 50;
+#N canvas 309 151 494 374 META 0;
+#X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal max_compatible;
+#X text 12 65 INLET_0 signal;
+#X text 12 85 INLET_1 signal;
+#X text 12 105 OUTLET_0 signal;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 125 AUTHOR Krzysztof Czaja;
+#X text 12 45 DESCRIPTION output the log (to a specified base) of a
+signal;
+#X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X restore 752 381 pd META;
 #X connect 1 0 9 1;
 #X connect 2 0 4 1;
 #X connect 4 0 1 0;
-#X connect 4 0 23 0;
+#X connect 4 0 22 0;
 #X connect 5 0 4 0;
 #X connect 6 0 5 0;
 #X connect 7 0 11 0;
@@ -47,4 +59,4 @@ the bigger the output. bases between 0 and 1 result in a negative output.
 #X connect 12 0 14 0;
 #X connect 13 0 9 0;
 #X connect 14 0 10 0;
-#X connect 23 0 3 0;
+#X connect 22 0 3 0;

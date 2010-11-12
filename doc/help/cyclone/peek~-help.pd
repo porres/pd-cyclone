@@ -1,15 +1,16 @@
-#N canvas 151 97 848 434 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
+#N canvas 0 26 783 434 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
 #X text 23 375 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 23 390 ___________________________________________________
 ;
 #X obj 27 18 peek~;
 #X text 79 19 read and write sample values;
 #X obj 531 278 peek~ table;
-#N canvas 0 0 450 300 graph1 0;
+#N canvas 0 0 450 300 (subpatch) 0;
 #X array table 100 float 0;
 #X coords 0 1 99 -1 200 140 1;
-#X restore 44 99 graph;
+#X restore 44 119 graph;
 #X floatatom 531 75 5 0 0 0 - - -;
 #X floatatom 531 302 5 0 0 0 - - -;
 #X text 43 78 draw something here:;
@@ -47,6 +48,20 @@
 ;
 #X text 74 154 > emulate this in pd.;
 #X restore 661 279 pd multichannel;
+#N canvas 247 115 494 397 META 0;
+#X text 12 195 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 165 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS control array max_compatible;
+#X text 12 45 DESCRIPTION read and write sample values;
+#X text 12 65 INLET_0 list float set clip;
+#X text 12 85 INLET_1 float;
+#X text 12 105 INLET_2 float;
+#X text 12 125 OUTLET_0 float;
+#X text 12 145 AUTHOR Krzysztof Czaja;
+#X text 12 25 LICENSE SIBSD;
+#X restore 734 413 pd META;
 #X connect 5 0 8 0;
 #X connect 7 0 5 0;
 #X connect 10 0 5 1;

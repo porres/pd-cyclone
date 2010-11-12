@@ -1,5 +1,6 @@
-#N canvas 233 184 439 282 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
+#N canvas 0 26 439 282 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
 #X text 18 241 docs based on the MAX/MSP reference (c) cycling'74;
 #X text 17 255 ___________________________________________________
 ;
@@ -18,6 +19,22 @@
 #X text 90 91 enable all disabled outlets;
 #X text 110 113 disable all outlets (overrides the above);
 #X text 99 132 creation arg sets nr. of outlets;
+#N canvas 96 100 494 424 META 0;
+#X text 12 235 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 205 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS control max_compatible;
+#X text 12 45 DESCRIPTION send out 1/0 to a specific outlet;
+#X text 12 65 INLET_0 float;
+#X text 12 85 INLET_1 float;
+#X text 12 105 INLET_2 float;
+#X text 12 125 OUTLET_0 float;
+#X text 12 145 OUTLET_1 float;
+#X text 12 165 OUTLET_2 float;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 185 AUTHOR Krzysztof Czaja;
+#X restore 388 259 pd META;
 #X connect 5 0 6 0;
 #X connect 5 1 7 0;
 #X connect 5 2 8 0;

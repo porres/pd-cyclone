@@ -1,5 +1,4 @@
-#N canvas 147 184 829 453 10;
-#X declare -lib cyclone;
+#N canvas 0 26 797 409 10;
 #X text 23 19 Report sample values from a signal;
 #X floatatom 281 196 0 0 0 0 - - -;
 #X msg 281 217 offset \$1;
@@ -29,17 +28,29 @@ from the most recent signal vector.;
 #X text 301 150 change offset within vector of sample output. range
 is from 0 (least recent \, default) to the signal vector size - 1 (most
 recent);
-#X obj 535 28 import cyclone;
 #X obj 38 283 Snapshot~ 100;
 #X text 23 119 trigger an output;
+#N canvas 247 114 494 371 META 0;
+#X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS signal conversion max_compatible;
+#X text 12 45 DESCRIPTION report sample values from a signal;
+#X text 12 65 INLET_0 bang signal float start stop offset;
+#X text 12 85 INLET_1 float;
+#X text 12 105 OUTLET_0 float;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 125 AUTHOR Krzysztof Czaja;
+#X restore 748 388 pd META;
 #X connect 1 0 2 0;
-#X connect 2 0 21 0;
-#X connect 3 0 21 0;
+#X connect 2 0 20 0;
+#X connect 3 0 20 0;
 #X connect 4 0 10 0;
 #X connect 5 0 10 0;
-#X connect 6 0 21 0;
-#X connect 7 0 21 0;
-#X connect 8 0 21 0;
-#X connect 10 0 21 1;
-#X connect 11 0 21 0;
-#X connect 21 0 9 0;
+#X connect 6 0 20 0;
+#X connect 7 0 20 0;
+#X connect 8 0 20 0;
+#X connect 10 0 20 1;
+#X connect 11 0 20 0;
+#X connect 20 0 9 0;

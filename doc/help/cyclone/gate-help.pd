@@ -1,8 +1,9 @@
-#N canvas 18 57 504 490 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
-#X text 21 452 docs based on the MAX/MSP reference (c) cycling'74
+#N canvas 0 26 504 490 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
+#X text 21 452 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 20 466 ___________________________________________________
 ;
-#X text 20 466 ___________________________________________________ ;
 #X obj 28 20 gate 3;
 #X text 102 21 send data out the specified output;
 #X obj 164 126 gate 4;
@@ -28,6 +29,19 @@
 #X text 57 107 reports;
 #X text 57 118 the open;
 #X text 57 129 outlet:;
+#N canvas 368 194 494 375 META 0;
+#X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS control max_compatible;
+#X text 12 45 DESCRIPTION send data out the specified output;
+#X text 12 65 INLET_0 bang float;
+#X text 12 85 INLET_1 bang float symbol list;
+#X text 12 105 OUTLET_N float symbol list;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 125 AUTHOR Krzysztof Czaja;
+#X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X restore 449 466 pd META;
 #X connect 5 0 10 0;
 #X connect 5 0 23 0;
 #X connect 5 1 11 0;

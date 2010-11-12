@@ -1,7 +1,8 @@
-#N canvas 31 12 939 613 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577 0;
-#X text 35 572 docs based on the MAX/MSP reference (c) cycling'74;
-#X text 34 586 ___________________________________________________
+#N canvas 0 26 939 595 10;
+#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+0;
+#X text 35 552 docs based on the MAX/MSP reference (c) cycling'74;
+#X text 34 566 ___________________________________________________
 ;
 #X obj 25 21 zl;
 #X obj 250 488 zl;
@@ -152,8 +153,6 @@ tasks;
 #X text 609 127 outlet \, it divides the list into two;
 #X text 609 140 lists at the specified element nr:;
 #X text 716 232 change nr;
-#X text 71 21 multi purpose list processing object a.k.a. swiss army
-knife;
 #X text 23 60 on lists. the modes are group \, iter \, join \, len
 \, reg \, rev \,;
 #X msg 780 178 1 2 3 4 5 6 7;
@@ -164,6 +163,23 @@ knife;
 #X obj 845 284 print ecils2;
 #X text 746 158 ecils is the reverse;
 #X text 23 71 rotate \, sect \, nth \, slice \, ecils or union.;
+#N canvas 247 115 494 399 META 0;
+#X text 12 205 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 5 KEYWORDS control max_compatible;
+#X text 12 45 DESCRIPTION multi purpose list processing object a.k.a.
+swiss army knife;
+#X text 12 75 INLET_0 anything mode;
+#X text 12 115 OUTLET_0 anything;
+#X text 12 95 INLET_1 anything;
+#X text 12 135 OUTLET_1 anything;
+#X text 12 25 LICENSE SIBSD;
+#X text 12 155 AUTHOR Krzysztof Czaja;
+#X restore 889 572 pd META;
+#X text 71 21 multi purpose list processing object a.k.a. swiss army
+knife;
 #X connect 4 0 6 0;
 #X connect 5 0 4 0;
 #X connect 7 0 4 1;
@@ -200,8 +216,8 @@ knife;
 #X connect 71 0 70 0;
 #X connect 74 0 70 1;
 #X connect 75 0 70 0;
-#X connect 82 0 85 0;
-#X connect 83 0 85 1;
+#X connect 81 0 84 0;
+#X connect 82 0 84 1;
+#X connect 83 0 84 0;
 #X connect 84 0 85 0;
-#X connect 85 0 86 0;
-#X connect 85 1 87 0;
+#X connect 84 1 86 0;

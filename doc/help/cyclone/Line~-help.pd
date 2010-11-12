@@ -1,4 +1,4 @@
-#N canvas 328 280 738 369 10;
+#N canvas 0 26 738 369 10;
 #X msg 400 210 resume;
 #X msg 363 210 pause;
 #X msg 356 174 stop;
@@ -31,6 +31,23 @@ and initial value \, then send a list of value and target time pairs.
 #X text 16 13 Line~;
 #X msg 348 138 0 \, 10 1000 0 1000 0.1 5000;
 #X obj 368 284 metro 100;
+#N canvas 462 244 494 403 META 0;
+#X text 12 245 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 12 5 GENRE help;
+#X text 12 185 LIBRARY external cyclone;
+#X text 12 205 AUTHOR krzYszcz;
+#X text 12 225 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 25 NAME Line~;
+#X text 12 85 DESCRIPTION generate signal ramp or envelope;
+#X text 12 45 KEYWORDS signal conversion max_compatible ramp;
+#X text 12 105 INLET_0 float list stop pause resume;
+#X text 12 125 INLET_1 float;
+#X text 12 145 OUTLET_0 signal;
+#X text 12 165 OUTLET_1 bang;
+#X text 12 65 LICENSE SIBSD;
+#X restore 688 347 pd META;
 #X connect 0 0 24 0;
 #X connect 1 0 24 0;
 #X connect 2 0 24 0;
