@@ -86,7 +86,7 @@ ifeq (MINGW,$(findstring MINGW,$(UNAME)))
 endif
 
 cyclone:
-	$(MAKE) -j4 -f Makefile \
+	$(MAKE) -f Makefile \
 		OPT_CFLAGS="-O6 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -fPIC"
 
 install: cyclone
@@ -96,7 +96,7 @@ install: cyclone
 	$(INSTALL_DATA) README.txt $(DESTDIR)$(objectsdir)/cyclone
 # cyclone is compiled straight into $(OUT_DIR), yes a kludge, but the code of
 # this build system is impenetrable
-	$(MAKE) -j4 OUT_DIR=$(DESTDIR)$(objectsdir)/cyclone
+	$(MAKE) OUT_DIR=$(DESTDIR)$(objectsdir)/cyclone
 	$(STRIP) $(DESTDIR)$(objectsdir)/cyclone/*.$(EXTENSION)
 	chmod a-x $(DESTDIR)$(objectsdir)/cyclone/*.$(EXTENSION)
 # install "maxmode" libraries into subdir, so they don't override the libdir
