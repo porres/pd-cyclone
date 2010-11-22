@@ -36,14 +36,13 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 165 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
 #X text 12 5 KEYWORDS signal filter max_compatible;
-#X text 12 45 DESCRIPTION Simulate an analog amplifier being overdriven
-by applying a non-linear transfer function to the incoming signal.
-;
 #X text 12 85 INLET_0 signal float;
 #X text 12 125 OUTLET_0 signal;
 #X text 12 105 INLET_1 float;
 #X text 12 25 LICENSE SIBSD;
 #X text 12 145 AUTHOR Krzysztof Czaja;
+#X text 12 45 DESCRIPTION Simulate an analog amplifier being overdriven
+by applying a non-linear transfer function to the incoming signal;
 #X restore 571 487 pd META;
 #X text 10 26 Simulate an analog amplifier being overdriven by applying
 a non-linear transfer function to the incoming signal.;
