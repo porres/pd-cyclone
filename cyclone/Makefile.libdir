@@ -64,6 +64,7 @@ ifeq ($(UNAME),Linux)
 endif
 ifeq (CYGWIN,$(findstring CYGWIN,$(UNAME)))
   CPU := $(shell uname -m)
+  EXE = .exe
   EXTENSION = dll
   OS = cygwin
   PD_PATH = $(cygpath $(PROGRAMFILES))/pd
@@ -75,6 +76,7 @@ ifeq (CYGWIN,$(findstring CYGWIN,$(UNAME)))
 endif
 ifeq (MINGW,$(findstring MINGW,$(UNAME)))
   CPU := $(shell uname -m)
+  EXE = .exe
   EXTENSION = dll
   OS = windows
   PD_PATH = $(shell cd "$(PROGRAMFILES)"/pd && pwd)
@@ -115,7 +117,7 @@ install: cyclone
 # install "cyclist" command line app with pd
 	$(INSTALL_DIR) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ../bin/cyclist $(DESTDIR)$(bindir)
-	$(STRIP) $(DESTDIR)$(bindir)/cyclist
+	$(STRIP) $(DESTDIR)$(bindir)/cyclist$(EXE)
 
 clean:
 	-$(MAKE) -f Makefile $(DEST_PATHS) clean
