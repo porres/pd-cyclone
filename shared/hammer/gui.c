@@ -134,14 +134,14 @@ static void hammergui_dobindmouse(t_hammergui *snk)
 #if 0
     /* How to be notified about changes of button state, prior to gui objects
        in a canvas?  LATER find a reliable way -- delete if failed */
-    sys_vgui("bind hammertag <<hammerdown>> {pd [concat %s _up 0 \\;]}\n",
+    sys_vgui("bind hammertag <<hammerdown>> {pdsend {%s _up 0}}\n",
 	     snk->g_psgui->s_name);
-    sys_vgui("bind hammertag <<hammerup>> {pd [concat %s _up 1 \\;]}\n",
+    sys_vgui("bind hammertag <<hammerup>> {pdsend {%s _up 1}}\n",
 	     snk->g_psgui->s_name);
 #endif
-    sys_vgui("bind all <<hammerdown>> {pd [concat %s _up 0 \\;]}\n",
+    sys_vgui("bind all <<hammerdown>> {pdsend {%s _up 0}}\n",
 	     snk->g_psgui->s_name);
-    sys_vgui("bind all <<hammerup>> {pd [concat %s _up 1 \\;]}\n",
+    sys_vgui("bind all <<hammerup>> {pdsend {%s _up 1}}\n",
 	     snk->g_psgui->s_name);
 }
 
@@ -167,10 +167,10 @@ static void hammergui_dobindfocus(t_hammergui *snk)
 {
     sys_vgui("bind Canvas <<hammerfocusin>> \
  {if {[hammergui_ispatcher %%W]} \
-  {pd [concat %s _focus %%W 1 \\;]}}\n", snk->g_psgui->s_name);
+  {pdsend {%s _focus %%W 1}}}\n", snk->g_psgui->s_name);
     sys_vgui("bind Canvas <<hammerfocusout>> \
  {if {[hammergui_ispatcher %%W]} \
-  {pd [concat %s _focus %%W 0 \\;]}}\n", snk->g_psgui->s_name);
+  {pdsend {%s _focus %%W 0}}}\n", snk->g_psgui->s_name);
 }
 
 static void hammergui__refocus(t_hammergui *snk)
@@ -198,10 +198,10 @@ static void hammergui_dobindvised(t_hammergui *snk)
 #endif
     sys_vgui("bind Canvas <<hammervised>> \
  {if {[hammergui_ispatcher %%W]} \
-  {pd [concat %s _vised %%W 1 \\;]}}\n", snk->g_psgui->s_name);
+  {pdsend {%s _vised %%W 1}}}\n", snk->g_psgui->s_name);
     sys_vgui("bind Canvas <<hammerunvised>> \
  {if {[hammergui_ispatcher %%W]} \
-  {pd [concat %s _vised %%W 0 \\;]}}\n", snk->g_psgui->s_name);
+  {pdsend {%s _vised %%W 0}}}\n", snk->g_psgui->s_name);
 }
 
 static void hammergui__revised(t_hammergui *snk)
@@ -268,9 +268,13 @@ static int hammergui_setup(void)
     class_addmethod(hammergui_class, (t_method)hammergui__vised,
 		    ps__vised, A_SYMBOL, A_FLOAT, 0);
 
+    /* if older than 0.43, create an 0.43-style pdsend */
+    sys_gui("if {[llength [info procs ::pdsend]] == 0} {");
+    sys_gui("proc ::pdsend {args} {::pd \"[join $args { }] ;\"}}\n");
+    
     /* Protect against pdCmd being called (via "Canvas <Destroy>" binding)
        during Tcl_Finalize().  FIXME this should be a standard exit handler. */
-    sys_gui("proc hammergui_exithook {cmd op} {proc pd {} {}}\n");
+    sys_gui("proc hammergui_exithook {cmd op} {proc ::pdsend {} {}}\n");
     sys_gui("if {[info tclversion] >= 8.4} {\n\
  trace add execution exit enter hammergui_exithook}\n");
 
@@ -283,13 +287,13 @@ static int hammergui_setup(void)
     sys_gui("proc hammergui_remouse {} {\n");
     sys_gui(" bind all <<hammerdown>> {}\n");
     sys_gui(" bind all <<hammerup>> {}\n");
-    sys_gui(" pd [concat #hammergui _remouse \\;]\n");
+    sys_gui(" pdsend {#hammergui _remouse}\n");
     sys_gui("}\n");
 
     sys_gui("proc hammergui_mousexy {target} {\n");
     sys_gui(" set x [winfo pointerx .]\n");
     sys_gui(" set y [winfo pointery .]\n");
-    sys_gui(" pd [concat #hammermouse $target $x $y \\;]\n");
+    sys_gui(" pdsend \"#hammermouse $target $x $y\"\n");
     sys_gui("}\n");
 
     /* visibility hack for msw, LATER rethink */
@@ -308,7 +312,7 @@ static int hammergui_setup(void)
     sys_gui("  set x [winfo pointerx .]\n");
     sys_gui("  set y [winfo pointery .]\n");
     sys_gui("  if {$hammergui_x != $x || $hammergui_y != $y} {\n");
-    sys_gui("   pd [concat #hammermouse _poll $x $y \\;]\n");
+    sys_gui("   pdsend \"#hammermouse _poll $x $y\"\n");
     sys_gui("   set hammergui_x $x\n");
     sys_gui("   set hammergui_y $y\n");
     sys_gui("  }\n");
@@ -319,13 +323,13 @@ static int hammergui_setup(void)
     sys_gui("proc hammergui_refocus {} {\n");
     sys_gui(" bind Canvas <<hammerfocusin>> {}\n");
     sys_gui(" bind Canvas <<hammerfocusout>> {}\n");
-    sys_gui(" pd [concat #hammergui _refocus \\;]\n");
+    sys_gui(" pdsend {#hammergui _refocus}\n");
     sys_gui("}\n");
 
     sys_gui("proc hammergui_revised {} {\n");
     sys_gui(" bind Canvas <<hammervised>> {}\n");
     sys_gui(" bind Canvas <<hammerunvised>> {}\n");
-    sys_gui(" pd [concat #hammergui _revised \\;]\n");
+    sys_gui(" pdsend {#hammergui _revised}\n");
     sys_gui("}\n");
     return (1);
 }

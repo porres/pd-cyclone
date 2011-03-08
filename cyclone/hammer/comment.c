@@ -247,11 +247,11 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	    char buf[COMMENT_OUTBUFSIZE], *outp = buf;
 	    int cvid = (int)x->x_canvas;
 	    sprintf(outp, ".x%x.c bind %s <ButtonRelease> \
- {pd [concat %s _release %s \\;]}\n", cvid, x->x_texttag,
+ {pdsend {%s _release %s}}\n", cvid, x->x_texttag,
 		    x->x_bindsym->s_name, x->x_bindsym->s_name);
 	    outp += strlen(outp);
 	    sprintf(outp, ".x%x.c bind %s <Motion> \
- {pd [concat %s _motion %s %%x %%y \\;]}\n", cvid, x->x_texttag,
+ {pdsend {%s _motion %s %%x %%y}}\n", cvid, x->x_texttag,
 		    x->x_bindsym->s_name, x->x_bindsym->s_name);
 	    outp += strlen(outp);
 	    sprintf(outp, ".x%x.c create rectangle %d %d %d %d -outline blue \
@@ -812,13 +812,17 @@ void comment_setup(void)
 		    gensym("_bbox"),
 		    A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
 
+    /* if older than 0.43, create an 0.43-style pdsend */
+    sys_gui("if {[llength [info procs ::pdsend]] == 0} {");
+    sys_gui("proc ::pdsend {args} {::pd \"[join $args { }] ;\"}}\n");
+
     sys_gui("proc comment_bbox {target cvname tag} {\n\
- pd $target _bbox $target [$cvname bbox $tag]\\;}\n");
+ pdsend \"$target _bbox $target [$cvname bbox $tag]\"}\n");
 
     /* LATER think about window vs canvas coords */
     sys_gui("proc comment_click {target cvname x y tag} {\n\
- pd $target _click $target [$cvname canvasx $x] [$cvname canvasy $y]\
- [$cvname index $tag @$x,$y] [$cvname bbox $tag]\\;}\n");
+ pdsend \"$target _click $target [$cvname canvasx $x] [$cvname canvasy $y]\
+ [$cvname index $tag @$x,$y] [$cvname bbox $tag]\"}\n");
 
     /* LATER think how to conditionally (FORKY_VERSION >= 38)
        replace puts with pdtk_post */

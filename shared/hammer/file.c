@@ -60,6 +60,10 @@ static t_hammerfile *hammerfile_getproxy(t_pd *master)
 
 static void hammereditor_guidefs(void)
 {
+    /* if older than 0.43, create an 0.43-style pdsend */
+    sys_gui("if {[llength [info procs ::pdsend]] == 0} {");
+    sys_gui("proc ::pdsend {args} {::pd \"[join $args { }] ;\"}}\n");
+
     sys_gui("proc hammereditor_open {name geometry title sendable} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
     sys_gui("  $name.text delete 1.0 end\n");
@@ -111,7 +115,7 @@ static void hammereditor_guidefs(void)
     /* FIXME make it more reliable */
     sys_gui("proc hammereditor_send {name} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
-    sys_gui("  pd [concat miXed$name clear \\;]\n");
+    sys_gui("  pdsend \"miXed$name clear\"\n");
     sys_gui("  for {set i 1} \\\n");
     sys_gui("   {[$name.text compare $i.end < end]} \\\n");
     sys_gui("  	{incr i 1} {\n");
@@ -120,10 +124,10 @@ static void hammereditor_guidefs(void)
     /* LATER rethink semi/comma mapping */
     sys_gui("    regsub -all \\; $lin \"  _semi_ \" tmplin\n");
     sys_gui("    regsub -all \\, $tmplin \"  _comma_ \" lin\n");
-    sys_gui("    pd [concat miXed$name addline $lin \\;]\n");
+    sys_gui("    pdsend \"miXed$name addline $lin\"\n");
     sys_gui("   }\n");
     sys_gui("  }\n");
-    sys_gui("  pd [concat miXed$name end \\;]\n");
+    sys_gui("  pdsend \"miXed$name end\"\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 
@@ -268,8 +272,8 @@ static void hammerpanel_guidefs(void)
 #if 1
     sys_gui("  puts stderr [concat $directory]\n");
 #endif
-    sys_gui("  pd [concat $target path \\\n");
-    sys_gui("   [pdtk_enquote $filename] [pdtk_enquote $directory] \\;]\n");
+    sys_gui("  pdsend \"$target path \\\n");
+    sys_gui("   [pdtk_enquote $filename] [pdtk_enquote $directory] \"\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 
@@ -284,8 +288,8 @@ static void hammerpanel_guidefs(void)
     sys_gui("  set directory [string range $filename 0 \\\n");
     sys_gui("   [expr [string last / $filename ] - 1]]\n");
     sys_gui("  if {$directory == \"\"} {set directory \"/\"}\n");
-    sys_gui("  pd [concat $target path \\\n");
-    sys_gui("   [pdtk_enquote $filename] [pdtk_enquote $directory] \\;]\n");
+    sys_gui("  pdsend \"$target path \\\n");
+    sys_gui("   [pdtk_enquote $filename] [pdtk_enquote $directory] \"\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 }

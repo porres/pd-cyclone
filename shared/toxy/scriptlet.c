@@ -380,17 +380,17 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf,
 	{
 	    if (ibuf[1] == ':')
 	    {
-		sprintf(obuf, "{pd [concat ");
+		sprintf(obuf, "{pdsend [concat ");
 		len = 2;
 	    }
 	    else if (ibuf[1] == '|')
 	    {
-		sprintf(obuf, "{pd [concat %s ", sp->s_rptarget->s_name);
+		sprintf(obuf, "{pdsend [concat %s ", sp->s_rptarget->s_name);
 		len = 2;
 	    }
 	    else
 	    {
-		sprintf(obuf, "{pd [concat %s _cb ", sp->s_cbtarget->s_name);
+		sprintf(obuf, "{pdsend [concat %s _cb ", sp->s_cbtarget->s_name);
 		len = 1;
 	    }
 	}
@@ -1064,6 +1064,9 @@ t_scriptlet *scriptlet_new(t_pd *owner,
 	    sys_gui(" pd [concat $target _rp $::toxy::reply \\;]\n");
 	    sys_gui(" unset ::toxy::reply\n");
 	    sys_gui("}\n");
+        /* if older than 0.43, create an 0.43-style pdsend */
+        sys_gui("if {[llength [info procs ::pdsend]] == 0} {");
+        sys_gui("proc ::pdsend {args} {::pd \"[join $args { }] ;\"}}\n");
 	    configured = 1;
 	}
 	sp->s_owner = owner;
