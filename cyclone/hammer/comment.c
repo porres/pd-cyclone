@@ -88,7 +88,7 @@ static void comment_draw(t_comment *x)
     }
     else outbuf = buf;
     outp = outbuf;
-    sprintf(outp, "comment_draw %s .x%x.c %s %s %f %f %s %d %s %s {%.*s} %d\n",
+    sprintf(outp, "comment_draw %s .x%lx.c %s %s %f %f %s %d %s %s {%.*s} %d\n",
 	    x->x_bindsym->s_name, cvid, x->x_texttag, x->x_tag,
 	    (float)(text_xpix((t_text *)x, x->x_glist) + COMMENT_LMARGIN),
 	    (float)(text_ypix((t_text *)x, x->x_glist) + COMMENT_TMARGIN),
@@ -117,7 +117,7 @@ static void comment_update(t_comment *x)
     }
     else outbuf = buf;
     outp = outbuf;
-    sprintf(outp, "comment_update .x%x.c %s %s {%.*s} %d\n", cvid,
+    sprintf(outp, "comment_update .x%lx.c %s %s {%.*s} %d\n", cvid,
 	    x->x_texttag, (x->x_encoding ? x->x_encoding->s_name : "\"\""),
 	    x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
     outp += strlen(outp);
@@ -125,26 +125,26 @@ static void comment_update(t_comment *x)
     {
 	if (x->x_selend > x->x_selstart)
 	{
-	    sprintf(outp, ".x%x.c select from %s %d\n",
+	    sprintf(outp, ".x%lx.c select from %s %d\n",
 		    cvid, x->x_texttag, x->x_selstart);
 	    outp += strlen(outp);
-	    sprintf(outp, ".x%x.c select to %s %d\n",
+	    sprintf(outp, ".x%lx.c select to %s %d\n",
 		    cvid, x->x_texttag, x->x_selend);
 	    outp += strlen(outp);
-	    sprintf(outp, ".x%x.c focus {}\n", cvid);
+	    sprintf(outp, ".x%lx.c focus {}\n", cvid);
 	}
 	else
 	{
-	    sprintf(outp, ".x%x.c select clear\n", cvid);
+	    sprintf(outp, ".x%lx.c select clear\n", cvid);
 	    outp += strlen(outp);
-	    sprintf(outp, ".x%x.c icursor %s %d\n",
+	    sprintf(outp, ".x%lx.c icursor %s %d\n",
 		    cvid, x->x_texttag, x->x_selstart);
 	    outp += strlen(outp);
-	    sprintf(outp, ".x%x.c focus %s\n", cvid, x->x_texttag);
+	    sprintf(outp, ".x%lx.c focus %s\n", cvid, x->x_texttag);
 	}
 	outp += strlen(outp);
     }
-    sprintf(outp, "comment_bbox %s .x%x.c %s\n",
+    sprintf(outp, "comment_bbox %s .x%lx.c %s\n",
 	    x->x_bindsym->s_name, cvid, x->x_texttag);
     x->x_bbpending = 1;
     sys_gui(outbuf);
@@ -246,15 +246,15 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	    /* start resizing */
 	    char buf[COMMENT_OUTBUFSIZE], *outp = buf;
 	    int cvid = (int)x->x_canvas;
-	    sprintf(outp, ".x%x.c bind %s <ButtonRelease> \
+	    sprintf(outp, ".x%lx.c bind %s <ButtonRelease> \
  {pdsend {%s _release %s}}\n", cvid, x->x_texttag,
 		    x->x_bindsym->s_name, x->x_bindsym->s_name);
 	    outp += strlen(outp);
-	    sprintf(outp, ".x%x.c bind %s <Motion> \
+	    sprintf(outp, ".x%lx.c bind %s <Motion> \
  {pdsend {%s _motion %s %%x %%y}}\n", cvid, x->x_texttag,
 		    x->x_bindsym->s_name, x->x_bindsym->s_name);
 	    outp += strlen(outp);
-	    sprintf(outp, ".x%x.c create rectangle %d %d %d %d -outline blue \
+	    sprintf(outp, ".x%lx.c create rectangle %d %d %d %d -outline blue \
  -tags {%s %s}\n",
 		    cvid, x->x_x1, x->x_y1, x->x_x2, x->x_y2,
 		    x->x_outlinetag, x->x_tag);
@@ -268,9 +268,9 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av)
 static void comment__releasehook(t_comment *x, t_symbol *bindsym)
 {
     int cvid = (int)x->x_canvas;
-    sys_vgui(".x%x.c bind %s <ButtonRelease> {}\n", cvid, x->x_texttag);
-    sys_vgui(".x%x.c bind %s <Motion> {}\n", cvid, x->x_texttag);
-    sys_vgui(".x%x.c delete %s\n", cvid, x->x_outlinetag);
+    sys_vgui(".x%lx.c bind %s <ButtonRelease> {}\n", cvid, x->x_texttag);
+    sys_vgui(".x%lx.c bind %s <Motion> {}\n", cvid, x->x_texttag);
+    sys_vgui(".x%lx.c delete %s\n", cvid, x->x_outlinetag);
     x->x_dragon = 0;
     if (x->x_newx2 != x->x_x2)
     {
@@ -285,7 +285,7 @@ static void comment__motionhook(t_comment *x, t_symbol *bindsym,
 {
     int cvid = (int)x->x_canvas;
     if (xx > x->x_x1 + COMMENT_MINWIDTH)
-	sys_vgui(".x%x.c coords %s %d %d %d %d\n",
+	sys_vgui(".x%lx.c coords %s %d %d %d %d\n",
 		 cvid, x->x_outlinetag,
 		 x->x_x1, x->x_y1, x->x_newx2 = xx, x->x_y2);
 }
@@ -371,7 +371,7 @@ static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy)
 	    x->x_y2 += dy;
 	}
 	if (glist_isvisible(glist))
-	    sys_vgui(".x%x.c move %s %d %d\n", x->x_canvas, x->x_tag, dx, dy);
+	    sys_vgui(".x%lx.c move %s %d %d\n", x->x_canvas, x->x_tag, dx, dy);
     }
 }
 
@@ -384,7 +384,7 @@ static void comment_activate(t_gobj *z, t_glist *glist, int state)
 	comment_dograb(x);
 	if (x->x_active)
 	    return;
-	sys_vgui(".x%x.c focus %s\n", x->x_canvas, x->x_texttag);
+	sys_vgui(".x%lx.c focus %s\n", x->x_canvas, x->x_texttag);
 	x->x_selstart = 0;
 	x->x_selend = x->x_textbufsize;
 	x->x_active = 1;
@@ -397,8 +397,8 @@ static void comment_activate(t_gobj *z, t_glist *glist, int state)
 	    return;
 	pd_unbind((t_pd *)x, gensym("#key"));
 	pd_unbind((t_pd *)x, gensym("#keyname"));
-	sys_vgui("selection clear .x%x.c\n", x->x_canvas);
-	sys_vgui(".x%x.c focus {}\n", x->x_canvas);
+	sys_vgui("selection clear .x%lx.c\n", x->x_canvas);
+	sys_vgui(".x%lx.c focus {}\n", x->x_canvas);
 	x->x_active = 0;
     }
     comment_update(x);
@@ -409,7 +409,7 @@ static void comment_select(t_gobj *z, t_glist *glist, int state)
     t_comment *x = (t_comment *)z;
     comment_validate(x, glist);
     if (!state && x->x_active) comment_activate(z, glist, 0);
-    sys_vgui(".x%x.c itemconfigure %s -fill %s\n", x->x_canvas,
+    sys_vgui(".x%lx.c itemconfigure %s -fill %s\n", x->x_canvas,
 	     x->x_texttag, (state ? "blue" : x->x_color));
     /* A regular rtext should now set 'canvas_editing' variable to its canvas,
        but we do not do that, because we get the keys through a global binding
@@ -444,7 +444,7 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis)
 #ifdef COMMENT_DEBUG
 	loudbug_post("deleting...");
 #endif
-	sys_vgui(".x%x.c delete %s\n", x->x_canvas, x->x_tag);
+	sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
     }
 }
 

@@ -238,7 +238,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf,
 	    t_canvas *cv;
 	    if (cv = scriptlet_canvasvalidate(sp, visedonly))
 	    {
-		sprintf(obuf, ".x%x.c.%s%x", (int)cv, sp->s_item->s_name,
+		sprintf(obuf, ".x%lx.c.%s%x", (int)cv, sp->s_item->s_name,
 			(int)sp->s_owner);
 		len = 1;
 	    }
@@ -250,7 +250,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf,
 	    t_canvas *cv;
 	    if (cv = scriptlet_canvasvalidate(sp, visedonly))
 	    {
-		sprintf(obuf, ".x%x", (int)cv);
+		sprintf(obuf, ".x%lx", (int)cv);
 		len = 1;
 	    }
 	}
@@ -284,7 +284,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf,
 		{
 		    glist = cv->gl_owner;
 		    if (glist && glist_isvisible(glist))
-			sprintf(obuf, ".x%x", (int)glist);
+			sprintf(obuf, ".x%lx", (int)glist);
 		    else
 			obuf[0] = 0;
 		    len = 7;
@@ -293,7 +293,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf,
 		{
 		    glist = canvas_getrootfor(cv);
 		    if (glist && glist_isvisible(glist))
-			sprintf(obuf, ".x%x", (int)glist);
+			sprintf(obuf, ".x%lx", (int)glist);
 		    else
 			obuf[0] = 0;
 		    len = 5;
@@ -303,7 +303,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf,
 		    if (glist = canvas_getrootfor(cv))
 			glist = glist->gl_owner;
 		    if (glist && glist_isvisible(glist))
-			sprintf(obuf, ".x%x", (int)glist);
+			sprintf(obuf, ".x%lx", (int)glist);
 		    else
 			obuf[0] = 0;
 		    len = 6;
@@ -313,7 +313,7 @@ static char *scriptlet_dedot(t_scriptlet *sp, char *ibuf,
 		    glist = cv;
 		    while (glist->gl_owner) glist = glist->gl_owner;
 		    if (glist && glist_isvisible(glist))
-			sprintf(obuf, ".x%x", (int)glist);
+			sprintf(obuf, ".x%lx", (int)glist);
 		    else
 			obuf[0] = 0;
 		    len = 4;

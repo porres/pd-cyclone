@@ -502,7 +502,7 @@ static void scope_frgb(t_scope *x, t_symbol *s, int ac, t_atom *av)
     x->x_fggreen = (int)fggreen;
     x->x_fgblue = (int)fgblue;
     if (cv = scope_isvisible(x))
-	sys_vgui(".x%x.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
 		 cv, x->x_fgtag, x->x_fgred, x->x_fggreen, x->x_fgblue);
 }
 
@@ -525,7 +525,7 @@ static void scope_brgb(t_scope *x, t_symbol *s, int ac, t_atom *av)
     x->x_bggreen = (int)bggreen;
     x->x_bgblue = (int)bgblue;
     if (cv = scope_isvisible(x))
-	sys_vgui(".x%x.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
 		 cv, x->x_bgtag, x->x_bgred, x->x_bggreen, x->x_bgblue);
 }
 
@@ -553,7 +553,7 @@ static void scope_displace(t_gobj *z, t_glist *glist, int dx, int dy)
     if (glist_isvisible(glist))
     {
 	t_canvas *cv = scope_getcanvas(x, glist);
-	sys_vgui(".x%x.c move %s %d %d\n", cv, x->x_tag, dx, dy);
+	sys_vgui(".x%lx.c move %s %d %d\n", cv, x->x_tag, dx, dy);
 	canvas_fixlinesfor(cv, t);
     }
 }
@@ -568,12 +568,12 @@ static void scope_select(t_gobj *z, t_glist *glist, int state)
 	int x1, y1, x2, y2;
 	scope_getrect(z, glist, &x1, &y1, &x2, &y2);
 
-	sys_vgui(".x%x.c itemconfigure %s -outline blue -width %f -fill %s\n",
+	sys_vgui(".x%lx.c itemconfigure %s -outline blue -width %f -fill %s\n",
 		 cv, x->x_bgtag, SCOPE_SELBDWIDTH, SCOPE_SELCOLOR);
 
 	sys_vgui("canvas %s -width %d -height %d -bg #fedc00 -bd 0\n",
 		 sh->h_pathname, SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT);
-	sys_vgui(".x%x.c create window %f %f -anchor nw\
+	sys_vgui(".x%lx.c create window %f %f -anchor nw\
  -width %d -height %d -window %s -tags %s\n",
 		 cv, x2 - (SCOPEHANDLE_WIDTH - SCOPE_SELBDWIDTH),
 		 y2 - (SCOPEHANDLE_HEIGHT - SCOPE_SELBDWIDTH),
@@ -588,7 +588,7 @@ static void scope_select(t_gobj *z, t_glist *glist, int state)
     }
     else
     {
-	sys_vgui(".x%x.c itemconfigure %s -outline black -width %f\
+	sys_vgui(".x%lx.c itemconfigure %s -outline black -width %f\
  -fill #%2.2x%2.2x%2.2x\n", cv, x->x_bgtag, SCOPE_GRIDWIDTH,
 		 x->x_bgred, x->x_bggreen, x->x_bgblue);
 	sys_vgui("destroy %s\n", sh->h_pathname);
@@ -608,7 +608,7 @@ static void scope_drawfgmono(t_scope *x, t_canvas *cv,
     float *bp;
     dx = (float)(x2 - x1) / (float)x->x_bufsize;
     sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
-    sys_vgui(".x%x.c create line \\\n", cv);
+    sys_vgui(".x%lx.c create line \\\n", cv);
     for (i = 0, xx = x1, bp = x->x_xbuffer;
 	 i < x->x_bufsize; i++, xx += dx, bp++)
     {
@@ -624,11 +624,11 @@ static void scope_drawfgmono(t_scope *x, t_canvas *cv,
 
     /* margin lines:  masking overflows, so that they appear as gaps,
        rather than clipped signal values, LATER rethink */
-    sys_vgui(".x%x.c create line %d %d %d %d\
+    sys_vgui(".x%lx.c create line %d %d %d %d\
  -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
 	     cv, x1, y1, x2, y1, x->x_bgred, x->x_bggreen, x->x_bgblue,
 	     1., x->x_fgtag, x->x_tag);
-    sys_vgui(".x%x.c create line %d %d %d %d\
+    sys_vgui(".x%lx.c create line %d %d %d %d\
  -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
 	     cv, x1, y2, x2, y2, x->x_bgred, x->x_bggreen, x->x_bgblue,
 	     1., x->x_fgtag, x->x_tag);
@@ -647,7 +647,7 @@ static void scope_drawfgxy(t_scope *x, t_canvas *cv,
     /* subtract 1-pixel margins, see below */
     xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
     ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
-    sprintf(cmd1, ".x%x.c create line", (int)cv);
+    sprintf(cmd1, ".x%lx.c create line", (int)cv);
     sprintf(cmd2, "-fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n ",
 	    x->x_fgred, x->x_fggreen, x->x_fgblue,
 	    SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);
@@ -704,17 +704,17 @@ static void scope_drawbg(t_scope *x, t_canvas *cv,
     float dx, dy, xx, yy;
     dx = (x2 - x1) * 0.125;
     dy = (y2 - y1) * 0.25;
-    sys_vgui(".x%x.c create rectangle %d %d %d %d\
+    sys_vgui(".x%lx.c create rectangle %d %d %d %d\
  -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
 	     cv, x1, y1, x2, y2,
 	     x->x_bgred, x->x_bggreen, x->x_bgblue,
 	     SCOPE_GRIDWIDTH, x->x_bgtag, x->x_tag);
     for (i = 0, xx = x1 + dx; i < 7; i++, xx += dx)
-	sys_vgui(".x%x.c create line %f %d %f %d\
+	sys_vgui(".x%lx.c create line %f %d %f %d\
  -width %f -tags {%s %s}\n", cv, xx, y1, xx, y2,
 		 SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag);
     for (i = 0, yy = y1 + dy; i < 3; i++, yy += dy)
-	sys_vgui(".x%x.c create line %d %f %d %f\
+	sys_vgui(".x%lx.c create line %d %f %d %f\
  -width %f -tags {%s %s}\n", cv, x1, yy, x2, yy,
 		 SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag);
 }
@@ -739,7 +739,7 @@ static void scope_redrawmono(t_scope *x, t_canvas *cv)
     dx = (float)(x2 - x1) / (float)x->x_bufsize;
     sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
     xx = x1;
-    sys_vgui(".x%x.c coords %s \\\n", cv, x->x_fgtag);
+    sys_vgui(".x%lx.c coords %s \\\n", cv, x->x_fgtag);
     while (nleft > SCOPE_GUICHUNKMONO)
     {
 	int i = SCOPE_GUICHUNKMONO;
@@ -784,13 +784,13 @@ static void scope_redrawxy(t_scope *x, t_canvas *cv)
 {
     int x1, y1, x2, y2;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-    sys_vgui(".x%x.c delete %s\n", cv, x->x_fgtag);
+    sys_vgui(".x%lx.c delete %s\n", cv, x->x_fgtag);
     scope_drawfgxy(x, cv, x1, y1, x2, y2);
 }
 
 static void scope_revis(t_scope *x, t_canvas *cv)
 {
-    sys_vgui(".x%x.c delete %s\n", cv, x->x_tag);
+    sys_vgui(".x%lx.c delete %s\n", cv, x->x_tag);
     if (x->x_xymode)
 	scope_drawxy(x, cv);
     else
@@ -808,7 +808,7 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 #if FORKY_VERSION < 37
 	rtext_new(glist, t, glist->gl_editor->e_rtext, 0);
 #endif
-	sprintf(sh->h_pathname, ".x%x.h%x", (int)cv, (int)sh);
+	sprintf(sh->h_pathname, ".x%lx.h%x", (int)cv, (int)sh);
 	if (x->x_xymode)
 	    scope_drawxy(x, cv);
 	else
@@ -820,7 +820,7 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 	t_rtext *rt = glist_findrtext(glist, t);
 	if (rt) rtext_free(rt);
 #endif
-	sys_vgui(".x%x.c delete %s\n", cv, x->x_tag);
+	sys_vgui(".x%lx.c delete %s\n", cv, x->x_tag);
 	x->x_canvas = 0;
     }
 }
@@ -869,7 +869,7 @@ static void scope_setxymode(t_scope *x, int xymode)
 	t_canvas *cv;
 	if (cv = scope_isvisible(x))
 	{
-	    sys_vgui(".x%x.c delete %s\n", cv, x->x_fgtag);
+	    sys_vgui(".x%lx.c delete %s\n", cv, x->x_fgtag);
 	    if (!xymode)
 	    {
 		int x1, y1, x2, y2;
@@ -906,7 +906,7 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
 	x->x_height += sh->h_dragy;
 	if (cv = scope_isvisible(x))
 	{
-	    sys_vgui(".x%x.c delete %s\n", cv, sh->h_outlinetag);
+	    sys_vgui(".x%lx.c delete %s\n", cv, sh->h_outlinetag);
 	    scope_revis(x, cv);
 	    sys_vgui("destroy %s\n", sh->h_pathname);
 	    scope_select((t_gobj *)x, x->x_glist, 1);
@@ -922,7 +922,7 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
 	    int x1, y1, x2, y2;
 	    scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
 	    sys_vgui("lower %s\n", sh->h_pathname);
-	    sys_vgui(".x%x.c create rectangle %d %d %d %d\
+	    sys_vgui(".x%lx.c create rectangle %d %d %d %d\
  -outline blue -width %f -tags %s\n",
 		     cv, x1, y1, x2, y2, SCOPE_SELBDWIDTH, sh->h_outlinetag);
 	}
@@ -947,7 +947,7 @@ static void scopehandle__motionhook(t_scopehandle *sh,
 	{
 	    t_canvas *cv;
 	    if (cv = scope_isvisible(x))
-		sys_vgui(".x%x.c coords %s %d %d %d %d\n",
+		sys_vgui(".x%lx.c coords %s %d %d %d %d\n",
 			 cv, sh->h_outlinetag, x1, y1, newx, newy);
 	    sh->h_dragx = dx;
 	    sh->h_dragy = dy;

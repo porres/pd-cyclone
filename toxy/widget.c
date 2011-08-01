@@ -204,7 +204,7 @@ static t_symbol *widget_getcvpathname(t_widget *x, t_glist *glist)
     else
     {
 	char buf[32];
-	sprintf(buf, ".x%x.c", (int)cv);
+	sprintf(buf, ".x%lx.c", (int)cv);
 	return (gensym(buf));
     }
 }
@@ -1145,9 +1145,9 @@ static void *widget_new(t_symbol *s, int ac, t_atom *av)
     if (!(x->x_tkclass = widgettype_tkclass(x->x_typedef)))
 	x->x_tkclass = x->x_type;
 
-    sprintf(buf, ".x%x.c", (int)x->x_glist);
+    sprintf(buf, ".x%lx.c", (int)x->x_glist);
     x->x_cvpathname = gensym(buf);
-    sprintf(buf, ".x%x", (int)x->x_glist);
+    sprintf(buf, ".x%lx", (int)x->x_glist);
     x->x_cvtarget = gensym(buf);
     sprintf(buf, "::toxy::v%x", (int)x);
     x->x_varname = gensym(buf);

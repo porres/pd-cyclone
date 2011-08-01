@@ -157,7 +157,7 @@ static t_symbol *tot_dogetpathname(t_tot *x, int visedonly, int complain)
 	else
 	{
 	    char buf[32];
-	    sprintf(buf, ".x%x.c", (int)cv);
+	    sprintf(buf, ".x%lx.c", (int)cv);
 	    return (gensym(buf));
 	}
     }
@@ -399,7 +399,7 @@ static void tot_detach(t_tot *x)
 	t_pd *gc;
 	t_symbol *target;
 	char buf[64];
-	sprintf(buf, ".x%x", (int)cv);
+	sprintf(buf, ".x%lx", (int)cv);
 	target = gensym(buf);
 	if (!tot_guiconnect_class)
 	{
@@ -426,7 +426,7 @@ static void tot_attach(t_tot *x)
 	    t_pd *gc;
 	    t_symbol *target;
 	    char buf[64];
-	    sprintf(buf, ".x%x", (int)cv);
+	    sprintf(buf, ".x%lx", (int)cv);
 	    target = gensym(buf);
 	    if (gc = pd_findbyclass(target, tot_guiconnect_class))
 	    {
@@ -461,7 +461,7 @@ static void tot_capture(t_tot *x, t_symbol *s, t_floatarg f)
 	    {
 		char buf[64];
 		ts->ts_cv = cv;
-		sprintf(buf, ".x%x", (int)cv);
+		sprintf(buf, ".x%lx", (int)cv);
 		pd_bind((t_pd *)ts, ts->ts_target = gensym(buf));
 	    }
 	}
@@ -592,7 +592,7 @@ static void *tot_new(t_symbol *s1, t_symbol *s2)
 	glist = tot_getglist(x);
 	if (glist == x->x_glist)
 	{
-	    sprintf(buf, ".x%x.c", (int)glist);
+	    sprintf(buf, ".x%lx.c", (int)glist);
 	    x->x_cvpathname = gensym(buf);
 	}
 	else x->x_cvpathname = 0;
