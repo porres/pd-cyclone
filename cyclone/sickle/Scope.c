@@ -579,11 +579,11 @@ static void scope_select(t_gobj *z, t_glist *glist, int state)
 		 y2 - (SCOPEHANDLE_HEIGHT - SCOPE_SELBDWIDTH),
 		 SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT,
 		 sh->h_pathname, x->x_tag);
-	sys_vgui("bind %s <Button> {pd [concat %s _click 1 \\;]}\n",
+	sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 \\;]}\n",
 		 sh->h_pathname, sh->h_bindsym->s_name);
-	sys_vgui("bind %s <ButtonRelease> {pd [concat %s _click 0 \\;]}\n",
+	sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 \\;]}\n",
 		 sh->h_pathname, sh->h_bindsym->s_name);
-	sys_vgui("bind %s <Motion> {pd [concat %s _motion %%x %%y \\;]}\n",
+	sys_vgui("bind %s <Motion> {pdsend [concat %s _motion %%x %%y \\;]}\n",
 		 sh->h_pathname, sh->h_bindsym->s_name);
     }
     else
