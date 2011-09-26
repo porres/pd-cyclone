@@ -297,9 +297,15 @@ void Line_tilde_setup(void)
 			   (t_newmethod)line_new,
 			   (t_method)line_free,
 			   sizeof(t_line), 0, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)line_new, gensym("line~"), A_DEFFLOAT, 0);
     sic_setup(line_class, line_dsp, SIC_NOMAINSIGNALIN);
     class_addfloat(line_class, line_float);
     class_addlist(line_class, line_list);
     class_addmethod(line_class, (t_method)line_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
+}
+
+void line_tilde_setup(void)
+{
+    Line_tilde_setup();
 }
