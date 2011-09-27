@@ -122,6 +122,7 @@ void Bucket_setup(void)
 			     (t_method)Bucket_free,
 			     sizeof(t_Bucket), 0, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Bucket_new, gensym("bucket"), A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)Bucket_new, gensym("cyclone/bucket"), A_DEFFLOAT, 0);
     class_addbang(Bucket_class, Bucket_bang);
     class_addfloat(Bucket_class, Bucket_float);
     class_addmethod(Bucket_class, (t_method)Bucket_freeze, gensym("freeze"), 0);

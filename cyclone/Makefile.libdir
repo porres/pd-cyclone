@@ -154,7 +154,7 @@ ifeq ($(UNAME),Linux)
 	ln -s -f Scope~-help.pd $(DESTDIR)$(objectsdir)/cyclone/scope~-help.pd
 	ln -s -f Snapshot~.$(EXTENSION) $(DESTDIR)$(objectsdir)/cyclone/snapshot~.$(EXTENSION)
 	ln -s -f Snapshot~-help.pd $(DESTDIR)$(objectsdir)/cyclone/snapshot~-help.pd
-#endif
+endif
 
 clean:
 	-$(MAKE) -f Makefile $(DEST_PATHS) clean

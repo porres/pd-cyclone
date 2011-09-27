@@ -133,6 +133,7 @@ void MouseState_setup(void)
 				 (t_method)MouseState_free,
 				 sizeof(t_MouseState), 0, 0);
     class_addcreator((t_newmethod)MouseState_new, gensym("mousestate"), 0, 0);
+    class_addcreator((t_newmethod)MouseState_new, gensym("cyclone/mousestate"), 0, 0);
     class_addanything(MouseState_class, MouseState_anything);
     class_addmethod(MouseState_class, (t_method)MouseState_doup,
 		    gensym("_up"), A_FLOAT, 0);

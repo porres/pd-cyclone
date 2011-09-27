@@ -100,6 +100,7 @@ void Uzi_setup(void)
 			  (t_newmethod)Uzi_new, 0,
 			  sizeof(t_Uzi), 0, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Uzi_new, gensym("uzi"), A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)Uzi_new, gensym("cyclone/uzi"), A_DEFFLOAT, 0);
     class_addbang(Uzi_class, Uzi_bang);
     class_addfloat(Uzi_class, Uzi_float);
     class_addmethod(Uzi_class, (t_method)Uzi_pause, gensym("pause"), 0);

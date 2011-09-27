@@ -104,6 +104,7 @@ void Decode_setup(void)
 			     (t_method)Decode_free,
 			     sizeof(t_Decode), 0, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Decode_new, gensym("decode"), A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)Decode_new, gensym("cyclone/decode"), A_DEFFLOAT, 0);
     class_addfloat(Decode_class, Decode_float);
     class_addmethod(Decode_class, (t_method)Decode_allon,
 		    gensym("ft1"), A_FLOAT, 0);

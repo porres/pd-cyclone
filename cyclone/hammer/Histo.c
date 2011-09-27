@@ -95,6 +95,7 @@ void Histo_setup(void)
 			    (t_method)Histo_free,
 			    sizeof(t_Histo), 0, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Histo_new, gensym("histo"), A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)Histo_new, gensym("cyclone/histo"), A_DEFFLOAT, 0);
     class_addbang(Histo_class, Histo_bang);
     class_addfloat(Histo_class, Histo_float);
     class_addmethod(Histo_class, (t_method)Histo_ft1,
