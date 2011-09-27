@@ -118,7 +118,10 @@ install: cyclone
 	$(INSTALL_DIR) $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) ../bin/cyclist $(DESTDIR)$(bindir)
 	$(STRIP) $(DESTDIR)$(bindir)/cyclist$(EXE)
-# add links for the downcase versions
+ifeq ($(UNAME),Linux)
+# add links for the downcase versions, only on GNU/Linux since Windows
+# and Mac OS X almost always use case insensitive file systems, so
+# Borax.pd_darwin is the same file as borax.pd_darwin, etc.
 	ln -s -f Append.$(EXTENSION) $(DESTDIR)$(objectsdir)/cyclone/append.$(EXTENSION)
 	ln -s -f Append-help.pd $(DESTDIR)$(objectsdir)/cyclone/append-help.pd
 	ln -s -f Borax.$(EXTENSION) $(DESTDIR)$(objectsdir)/cyclone/borax.$(EXTENSION)
@@ -151,7 +154,7 @@ install: cyclone
 	ln -s -f Scope~-help.pd $(DESTDIR)$(objectsdir)/cyclone/scope~-help.pd
 	ln -s -f Snapshot~.$(EXTENSION) $(DESTDIR)$(objectsdir)/cyclone/snapshot~.$(EXTENSION)
 	ln -s -f Snapshot~-help.pd $(DESTDIR)$(objectsdir)/cyclone/snapshot~-help.pd
-
+#endif
 
 clean:
 	-$(MAKE) -f Makefile $(DEST_PATHS) clean
