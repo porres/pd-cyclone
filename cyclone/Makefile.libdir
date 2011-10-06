@@ -158,10 +158,19 @@ endif
 
 clean:
 	-$(MAKE) -f Makefile $(DEST_PATHS) clean
-	-rm -f ../bin/*.pd_linux
+	-rm -f ../bin/*.$(EXTENSION)
 	-rm -f ../bin/cyclist
 	-rm -f Makefile.deps
 	-rm -f shadow/Makefile.deps
 	-rm -f hammer/Makefile.deps
 	-rm -f sickle/Makefile.deps
+	-rm -f -- ../pddp/Makefile.deps
+	-rm -f -- ../toxy/setup.wiq
+	-rm -f -- ../toxy/Makefile.deps
+	-rm -f -- ../shared/Makefile.deps
+	-rm -f -- ../shared/toxy/Makefile.deps
+	-rm -f -- ../shared/common/Makefile.deps
+	-rm -f -- ../shared/hammer/Makefile.deps
+	-rm -f -- ../shared/sickle/Makefile.deps
+	-rm -f -- ../shared/unstable/Makefile.deps
 	-rm -f ../build-stamp
