@@ -174,3 +174,23 @@ clean:
 	-rm -f -- ../shared/sickle/Makefile.deps
 	-rm -f -- ../shared/unstable/Makefile.deps
 	-rm -f ../build-stamp
+	-rm -f -- ../shared/common/vefl.o
+	-rm -f -- ../shared/common/rand.o
+	-rm -f -- ../shared/common/port.o
+	-rm -f -- ../shared/common/os.o
+	-rm -f -- ../shared/common/mifi.o
+	-rm -f -- ../shared/common/loud.o
+	-rm -f -- ../shared/common/lex.o
+	-rm -f -- ../shared/common/grow.o
+	-rm -f -- ../shared/common/fitter.o
+	-rm -f -- ../shared/common/clc.o
+	-rm -f -- ../shared/common/binport.o
+	-rm -f -- ../shared/hammer/tree.o
+	-rm -f -- ../shared/hammer/gui.o
+	-rm -f -- ../shared/hammer/file.o
+	-rm -f -- ../shared/sickle/sic.o
+	-rm -f -- ../shared/sickle/arsic.o
+	-rm -f -- ../shared/unstable/loader.o
+	-rm -f -- ../shared/unstable/fringe.o
+	-rm -f -- ../shared/unstable/fragile.o
+	-rm -f -- ../shared/unstable/forky.o
