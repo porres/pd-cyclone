@@ -273,7 +273,7 @@ static void hammerpanel_guidefs(void)
     sys_gui("  puts stderr [concat $directory]\n");
 #endif
     sys_gui("  pdsend \"$target path \\\n");
-    sys_gui("   [pdtk_enquote $filename] [pdtk_enquote $directory] \"\n");
+    sys_gui("   [enquote_path $filename] [enquote_path $directory] \"\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 
@@ -289,7 +289,7 @@ static void hammerpanel_guidefs(void)
     sys_gui("   [expr [string last / $filename ] - 1]]\n");
     sys_gui("  if {$directory == \"\"} {set directory \"/\"}\n");
     sys_gui("  pdsend \"$target path \\\n");
-    sys_gui("   [pdtk_enquote $filename] [pdtk_enquote $directory] \"\n");
+    sys_gui("   [enquote_path $filename] [enquote_path $directory] \"\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 }
