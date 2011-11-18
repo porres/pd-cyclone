@@ -96,6 +96,9 @@ install: cyclone
 	$(INSTALL_DATA) cyclone-meta.pd $(DESTDIR)$(objectsdir)/cyclone
 	$(INSTALL_DATA) ../LICENSE.txt $(DESTDIR)$(objectsdir)/cyclone
 	$(INSTALL_DATA) README.txt $(DESTDIR)$(objectsdir)/cyclone
+	$(INSTALL_DIR) $(DESTDIR)$(objectsdir)/cyclone/manual
+	$(INSTALL_DATA) ../doc/help/cyclone/coll.txt hammer/pd-lib-notes.txt \
+		$(DESTDIR)$(objectsdir)/cyclone/manual
 # cyclone is compiled straight into $(OUT_DIR), yes a kludge, but the code of
 # this build system is impenetrable
 	$(MAKE) OUT_DIR=$(DESTDIR)$(objectsdir)/cyclone
