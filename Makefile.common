@@ -2,6 +2,15 @@
 PD_DIR ?= $(ROOT_DIR)/../../pd/src
 
 OS_NAME = $(shell uname -s)
+
+# Debian has options for the GNU HURD and kFreeBSD kernels
+ifeq ($(OS_NAME),GNU)
+  OS_NAME=Linux
+endif
+ifeq ($(OS_NAME),GNU/kFreeBSD)
+  OS_NAME=Linux
+endif
+
 ifneq ($(OS_NAME),Linux)
 ifneq ($(OS_NAME),Darwin)
 ifeq (,$(findstring MinGW,$(OS_NAME)))
