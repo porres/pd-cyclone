@@ -58,7 +58,31 @@ ifeq ($(UNAME),Linux)
   PD_PATH = /usr
   OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
   CFLAGS += -fPIC
-  LDFLAGS += -Wl,--export-dynamic  -shared -fPIC
+  LDFLAGS += -rdynamic -shared -fPIC
+  LIBS += -lc
+  STRIP = strip --strip-unneeded -R .note -R .comment
+endif
+ifeq ($(UNAME),GNU)
+  # GNU/Hurd, should work like GNU/Linux for basically all externals
+  CPU := $(shell uname -m)
+  EXTENSION = pd_linux
+  OS = linux
+  PD_PATH = /usr
+  OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
+  CFLAGS += -fPIC
+  LDFLAGS += -rdynamic -shared -fPIC
+  LIBS += -lc
+  STRIP = strip --strip-unneeded -R .note -R .comment
+endif
+ifeq ($(UNAME),GNU/kFreeBSD)
+  # Debian GNU/kFreeBSD, should work like GNU/Linux for basically all externals
+  CPU := $(shell uname -m)
+  EXTENSION = pd_linux
+  OS = linux
+  PD_PATH = /usr
+  OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
+  CFLAGS += -fPIC
+  LDFLAGS += -rdynamic -shared -fPIC
   LIBS += -lc
   STRIP = strip --strip-unneeded -R .note -R .comment
 endif
