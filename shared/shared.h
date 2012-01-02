@@ -25,7 +25,8 @@
 
 typedef unsigned long shared_t_bitmask;
 
-#ifdef __linux__
+/* this is for GNU/Linux and also Debian GNU/Hurd and GNU/kFreeBSD */
+#if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__) || defined(__GLIBC__)
 #include <sys/types.h>
 #ifndef int32
 typedef int32_t int32;

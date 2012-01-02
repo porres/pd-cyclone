@@ -15,7 +15,8 @@
 #include "m_pd.h"
 #include "mifi.h"
 
-#ifdef __linux__
+/* this is for GNU/Linux and also Debian GNU/Hurd and GNU/kFreeBSD */
+#if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__) || defined(__GLIBC__)
 #include <sys/types.h>
 #ifndef uint32
 typedef u_int32_t uint32;

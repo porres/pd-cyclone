@@ -5,7 +5,8 @@
 /* This is just a not-yet-in-the-API-sys_load_lib() duplication
    (modulo differentiating the error return codes).  LATER use the original. */
 
-#ifdef __linux__
+/* this is for GNU/Linux and also Debian GNU/Hurd and GNU/kFreeBSD */
+#if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__) || defined(__GLIBC__)
 #include <dlfcn.h>
 #endif
 #ifdef UNIX
@@ -39,7 +40,8 @@ static char sys_dllextent[] =
     ".pd_irix5";
 #endif
 #endif
-#ifdef __linux__
+/* this is for GNU/Linux and also Debian GNU/Hurd and GNU/kFreeBSD */
+#if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__) || defined(__GLIBC__)
     ".pd_linux";
 #endif
 #ifdef MACOSX
@@ -76,7 +78,8 @@ static int unstable_doload_lib(char *dirname, char *classname)
 	strcpy(symname + (strlen(symname) - 1), "_tilde");
     /* and append _setup to form the C setup function name */
     strcat(symname, "_setup");
-#ifdef __linux__
+/* this is for GNU/Linux and also Debian GNU/Hurd and GNU/kFreeBSD */
+#if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__) || defined(__GLIBC__)
     dlobj = dlopen(filename, RTLD_NOW | RTLD_GLOBAL);
     if (!dlobj)
     {
