@@ -41,7 +41,7 @@ ifeq ($(UNAME),Darwin)
     else
       FAT_FLAGS = -arch ppc -arch i386 -arch x86_64 -mmacosx-version-min=10.4
     endif
-    CFLAGS += $(FAT_FLAGS) -fPIC -I/sw/include
+    CFLAGS += -DUNIX $(FAT_FLAGS) -fPIC -I/sw/include
     LDFLAGS += $(FAT_FLAGS) -bundle -undefined dynamic_lookup -L/sw/lib
     # if the 'pd' binary exists, check the linking against it to aid with stripping
     LDFLAGS += $(shell test -e $(PD_PATH)/bin/pd && echo -bundle_loader $(PD_PATH)/bin/pd)
@@ -57,7 +57,7 @@ ifeq ($(UNAME),Linux)
   OS = linux
   PD_PATH = /usr
   OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
-  CFLAGS += -fPIC
+  CFLAGS += -DUNIX -fPIC
   LDFLAGS += -rdynamic -shared -fPIC
   LIBS += -lc
   STRIP = strip --strip-unneeded -R .note -R .comment
@@ -69,7 +69,7 @@ ifeq ($(UNAME),GNU)
   OS = linux
   PD_PATH = /usr
   OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
-  CFLAGS += -fPIC
+  CFLAGS += -DUNIX -fPIC
   LDFLAGS += -rdynamic -shared -fPIC
   LIBS += -lc
   STRIP = strip --strip-unneeded -R .note -R .comment
@@ -81,7 +81,7 @@ ifeq ($(UNAME),GNU/kFreeBSD)
   OS = linux
   PD_PATH = /usr
   OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
-  CFLAGS += -fPIC
+  CFLAGS += -DUNIX -fPIC
   LDFLAGS += -rdynamic -shared -fPIC
   LIBS += -lc
   STRIP = strip --strip-unneeded -R .note -R .comment
@@ -93,7 +93,7 @@ ifeq (CYGWIN,$(findstring CYGWIN,$(UNAME)))
   OS = cygwin
   PD_PATH = $(cygpath $(PROGRAMFILES))/pd
   OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
-  CFLAGS += 
+  CFLAGS += -DUNIX
   LDFLAGS += -Wl,--export-dynamic -shared -L"$(PD_PATH)/src" -L"$(PD_PATH)/bin"
   LIBS += -lc -lpd
   STRIP = strip --strip-unneeded -R .note -R .comment
