@@ -132,7 +132,7 @@ ALL_SICKLES = \
 	$(SRCDIR)\sickle\bitxor.obj \
 	$(SRCDIR)\sickle\buffir.obj \
 	$(SRCDIR)\sickle\capture.obj \
-	$(SRCDIR)\sickle\cartopol.obj \
+	$(SRCDIR)\sickle\cartopol~.obj \
 	$(SRCDIR)\sickle\change.obj \
 	$(SRCDIR)\sickle\click.obj \
 	$(SRCDIR)\sickle\Clip.obj \

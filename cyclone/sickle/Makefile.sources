@@ -21,7 +21,7 @@ bitshift.c \
 bitxor.c \
 buffir.c \
 capture.c \
-cartopol.c \
+cartopol~.c \
 change.c \
 click.c \
 Clip.c \

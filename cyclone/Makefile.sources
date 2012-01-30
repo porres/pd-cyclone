@@ -182,7 +182,7 @@ sickle/pong.c
 
 SFRAGILE_TILDE = $(TILDE)
 SFRAGILE_SOURCES = \
-sickle/cartopol.c \
+sickle/cartopol~.c \
 sickle/poltocar.c
 
 SFRAGILEFITTER_TILDE = $(TILDE)
