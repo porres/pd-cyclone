@@ -68,13 +68,13 @@
 #X floatatom 485 372 5 0 0 0 - - -;
 #X text 434 355 set min/max;
 #N canvas 0 22 508 167 arguments 0;
-#X obj 62 50 counter max;
-#X obj 62 72 counter min max;
-#X obj 61 95 counter dir min max;
 #X text 58 21 arguments are specified as follows:;
 #X text 195 51 one arg = initial maximum;
 #X text 196 69 two args = initial min/max;
 #X text 208 95 three = direction (0 \, 1 \, 2) min/max;
+#X obj 62 50 counter 100;
+#X obj 62 72 counter 50 100;
+#X obj 61 95 counter 0 50 100;
 #X restore 330 69 pd arguments;
 #N canvas 19 104 733 288 outputs 0;
 #X obj 49 82 metro 100;
