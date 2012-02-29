@@ -140,8 +140,6 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 205 OUTLET_1 float;
 #X text 12 225 OUTLET_2 float;
 #X text 12 245 OUTLET_3 float;
-#X text 12 5 KEYWORDS control storage max_compatible needs_work (objects
-in "arguments" subpatch won't create);
 #X text 12 105 INLET_1 float bang;
 #X text 12 125 INLET_2 float bang;
 #X text 12 145 INLET_3 float bang;
@@ -150,6 +148,7 @@ in "arguments" subpatch won't create);
 jam min max carryint carrybang;
 #X text 12 35 LICENSE SIBSD;
 #X text 12 265 AUTHOR Krzysztof Czaja;
+#X text 12 5 KEYWORDS control storage max_compatible;
 #X restore 696 553 pd META;
 #X obj 162 470 counter;
 #X connect 4 0 17 0;
