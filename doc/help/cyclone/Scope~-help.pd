@@ -1,29 +1,19 @@
-#N canvas 0 26 465 539 10;
+#N canvas 161 27 461 483 10;
 #X obj 5 6 cnv 15 450 30 empty empty [Scope~] 20 12 1 18 -233017 -66577
 0;
-#X obj 111 247 Scope~ 281 213 256 3 100 -1 1 0 0 0 0 0 255 0 0 0 255
+#X obj 111 217 Scope~ 281 213 256 3 100 -1 1 0 0 0 0 0 255 0 0 0 255
 0;
-#X msg 202 104 bufsize 100;
-#X msg 212 131 range 1 2;
-#X msg 278 189 brgb 0 0 255;
-#X msg 263 169 frgb 0 255 0;
-#X text 248 152 colors;
-#N canvas 0 22 458 308 related_objects 0;
-#X obj 24 32 envgen 200 140 1 0  ;
-#X text 21 8 [envgen];
-#X restore 273 492 pd related_objects;
-#N canvas 0 22 458 308 more_examples 0;
-#X obj 37 120 scope-test;
-#X obj 37 143 scope-test1;
-#X obj 37 166 scope-test2;
-#X obj 38 96 scope-gop;
-#X restore 56 490 pd more_examples;
-#X obj 22 110 osc~ 500;
-#X obj 25 81 hsl 100 18 20 500 0 0 empty empty frequency 5 8 1 10 -262131
--1 -1 0 0;
-#X obj 111 185 *~;
-#X obj 133 48 vsl 15 128 0.01 1 1 0 empty empty empty 0 -8 0 8 -225271
--1 -1 0 0;
+#X msg 202 74 bufsize 100;
+#X msg 212 101 range 1 2;
+#X msg 278 159 brgb 0 0 255;
+#X msg 263 139 frgb 0 255 0;
+#X text 248 122 colors;
+#X obj 22 80 osc~ 500;
+#X obj 25 51 hsl 100 18 20 500 1 1 empty empty frequency 5 8 1 10 -262131
+-1 -1 1200 0;
+#X obj 111 155 *~;
+#X obj 126 75 vsl 15 60 0.01 1 1 1 empty empty empty 0 -8 0 8 -225271
+-1 -1 4500 0;
 #X obj 422 11 pddp/pddplink http://puredata.info/dev/pddp -text pddp
 ;
 #N canvas 224 141 494 344 META 0;
@@ -36,12 +26,14 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 25 LICENSE SIBSD;
 #X text 12 45 DESCRIPTION scope;
 #X text 12 85 AUTHOR Krzysztof Czaja;
-#X restore 415 518 pd META;
+#X restore 409 449 pd META;
+#X obj 253 451 pddp/helplink ggee/envgen;
+#X obj 394 48 pddp/dsp;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
 #X connect 4 0 1 0;
 #X connect 5 0 1 0;
-#X connect 9 0 11 0;
-#X connect 10 0 9 0;
-#X connect 11 0 1 0;
-#X connect 12 0 11 1;
+#X connect 7 0 9 0;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 9 1;
