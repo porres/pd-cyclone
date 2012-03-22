@@ -7,7 +7,7 @@
 #X obj 41 22 bangbang 4;
 #X text 147 21 send a number of bangs in order;
 #X text 148 46 like;
-#X obj 186 41 trigger b b b ...;
+#X obj 186 41 trigger b b b b b b b;
 #X obj 48 91 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
 #X obj 48 117 bangbang 7;
