@@ -689,10 +689,6 @@ static void collcommon_dowrite(t_collcommon *cc, t_symbol *fn, t_canvas *cv)
 	loud_error(0, "coll: error writing text file '%s'", fn->s_name);
     else
     {
-        t_coll *x;
-        /* LATER consider making this more robust */
-        for (x = cc->c_refs; x; x = x->x_next)
-            outlet_bang(x->x_filebangout);
 	cc->c_lastcanvas = cv;
 	cc->c_filename = fn;
     }
