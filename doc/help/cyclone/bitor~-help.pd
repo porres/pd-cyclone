@@ -1,4 +1,4 @@
-#N canvas 0 26 682 608 10;
+#N canvas 1 88 682 608 10;
 #X text 162 575 see also:;
 #X text 15 15 Bitwise or signal operator.;
 #X obj 39 449 clip~ -1 1;
@@ -101,18 +101,18 @@ bits>.;
 #X floatatom 448 413 5 0 0 0 - - -;
 #X obj 68 389 bitor~;
 #X obj 448 386 Snapshot~ 100;
-#N canvas 309 151 494 376 META 0;
+#N canvas 307 159 494 376 META 0;
 #X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 12 5 KEYWORDS signal conversion max_compatible needs_work;
 #X text 12 45 DESCRIPTION bitwise or signal operator;
 #X text 12 65 INLET_0 signal;
 #X text 12 85 INLET_1 signal;
 #X text 12 105 OUTLET_0 signal;
 #X text 12 25 LICENSE SIBSD;
 #X text 12 125 AUTHOR Krzysztof Czaja;
+#X text 12 5 KEYWORDS signal conversion max_compatible;
 #X restore 633 587 pd META;
 #X msg 30 157 bits;
 #X obj 30 221 pack s 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0

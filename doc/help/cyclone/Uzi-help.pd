@@ -1,4 +1,4 @@
-#N canvas 0 26 469 429 10;
+#N canvas 1 88 469 429 10;
 #X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
 0;
 #X text 26 376 docs based on the MAX/MSP reference (c) cycling'74;
@@ -21,12 +21,11 @@
 #X floatatom 90 226 5 0 0 0 - - -;
 #X obj 75 276 print lastbang;
 #X text 137 228 number of current bang;
-#N canvas 309 151 494 412 META 0;
+#N canvas 307 159 494 412 META 0;
 #X text 12 215 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 185 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 12 5 KEYWORDS bang_op max_compatible needs_work;
 #X text 12 45 DESCRIPTION send a specified nr of bangs as fast as possible
 ;
 #X text 12 65 INLET_0 bang pause break continue resume;
@@ -36,6 +35,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 145 OUTLET_2 float;
 #X text 12 25 LICENSE SIBSD;
 #X text 12 165 AUTHOR Krzysztof Czaja;
+#X text 12 5 KEYWORDS bang_op max_compatible;
 #X restore 419 409 pd META;
 #X connect 5 0 6 0;
 #X connect 5 1 17 0;

@@ -1,4 +1,4 @@
-#N canvas 0 26 631 535 10;
+#N canvas 1 88 631 535 10;
 #X text 15 35 a vector based envelope follower.;
 #X msg 243 350 2;
 #X obj 312 332 loadbang;
@@ -43,7 +43,7 @@ message is received last is the current mode of operation;
 #X obj 35 284 vectral~ 256;
 #X obj 39 396 Scope~ 130 130 2 3 128 0 10 0 0 0 0 102 255 51 135 135
 135 0;
-#N canvas 382 83 494 398 META 0;
+#N canvas 380 91 494 398 META 0;
 #X text 12 255 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 5 GENRE help;
@@ -52,13 +52,12 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 25 NAME vectral~;
 #X text 12 95 DESCRIPTION a vector based envelope follower;
 #X text 12 115 INLET_0 signal rampsmooth slide deltaclip;
-#X text 12 45 KEYWORDS signal max_compatible needs_work (pack is used
-incorrectly);
 #X text 12 135 INLET_1 signal;
 #X text 12 155 INLET_2 signal;
 #X text 12 175 OUTLET_0 signal;
 #X text 12 75 LICENSE SIBSD;
 #X text 12 195 AUTHOR Krzysztof Czaja;
+#X text 12 45 KEYWORDS signal max_compatible;
 #X restore 580 513 pd META;
 #X connect 1 0 30 0;
 #X connect 2 0 3 0;
