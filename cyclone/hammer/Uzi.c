@@ -108,3 +108,8 @@ void Uzi_setup(void)
     class_addmethod(Uzi_class, (t_method)Uzi_resume, gensym("resume"), 0);
     class_addmethod(Uzi_class, (t_method)Uzi_resume, gensym("continue"), 0);
 }
+
+void uzi_setup(void)
+{
+  Uzi_setup();
+}
