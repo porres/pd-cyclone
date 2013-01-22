@@ -76,7 +76,7 @@ typedef unsigned char uchar;
 #define SHARED_LOWOFFSET  0
 #endif
 
-#ifdef MACOSX
+#ifdef __APPLE__
 #ifndef int32
 typedef int int32;
 #endif
