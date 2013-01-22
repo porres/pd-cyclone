@@ -647,7 +647,7 @@ static void scope_drawfgxy(t_scope *x, t_canvas *cv,
     /* subtract 1-pixel margins, see below */
     xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
     ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
-    sprintf(cmd1, ".x%lx.c create line", (int)cv);
+    sprintf(cmd1, ".x%lx.c create line", (unsigned long)cv);
     sprintf(cmd2, "-fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n ",
 	    x->x_fgred, x->x_fggreen, x->x_fgblue,
 	    SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);
@@ -808,7 +808,7 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 #if FORKY_VERSION < 37
 	rtext_new(glist, t, glist->gl_editor->e_rtext, 0);
 #endif
-	sprintf(sh->h_pathname, ".x%lx.h%x", (int)cv, (int)sh);
+	sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)cv, (unsigned long)sh);
 	if (x->x_xymode)
 	    scope_drawxy(x, cv);
 	else
@@ -820,7 +820,7 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 	t_rtext *rt = glist_findrtext(glist, t);
 	if (rt) rtext_free(rt);
 #endif
-	sys_vgui(".x%lx.c delete %s\n", cv, x->x_tag);
+	sys_vgui(".x%lx.c delete %s\n", (unsigned long)cv, x->x_tag);
 	x->x_canvas = 0;
     }
 }
@@ -998,10 +998,10 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av)
     scope_brgb(x, 0, ac, av);
     /* CHECKME last argument (default 0) */
 
-    sprintf(x->x_tag, "all%x", (int)x);
-    sprintf(x->x_bgtag, "bg%x", (int)x);
-    sprintf(x->x_gridtag, "gr%x", (int)x);
-    sprintf(x->x_fgtag, "fg%x", (int)x);
+    sprintf(x->x_tag, "all%lx", (unsigned long)x);
+    sprintf(x->x_bgtag, "bg%lx", (unsigned long)x);
+    sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
+    sprintf(x->x_fgtag, "fg%lx", (unsigned long)x);
     x->x_xymode = 0;
     x->x_ksr = sys_getsr() * 0.001;  /* redundant */
     x->x_frozen = 0;
@@ -1012,9 +1012,9 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av)
     x->x_handle = pd_new(scopehandle_class);
     sh = (t_scopehandle *)x->x_handle;
     sh->h_master = x;
-    sprintf(buf, "_h%x", (int)sh);
+    sprintf(buf, "_h%lx", (unsigned long)sh);
     pd_bind(x->x_handle, sh->h_bindsym = gensym(buf));
-    sprintf(sh->h_outlinetag, "h%x", (int)sh);
+    sprintf(sh->h_outlinetag, "h%lx", (unsigned long)sh);
     sh->h_dragon = 0;
     return (x);
 }

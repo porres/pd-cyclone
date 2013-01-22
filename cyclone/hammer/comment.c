@@ -76,7 +76,7 @@ static t_pd *commentsink = 0;
 static void comment_draw(t_comment *x)
 {
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
-    int cvid = (int)x->x_canvas;
+    unsigned long cvid = (unsigned long)x->x_canvas;
     int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
     if (reqsize > COMMENT_OUTBUFSIZE)
     {
@@ -105,7 +105,7 @@ static void comment_draw(t_comment *x)
 static void comment_update(t_comment *x)
 {
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
-    int cvid = (int)x->x_canvas;
+    unsigned long cvid = (unsigned long)x->x_canvas;
     int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
     if (reqsize > COMMENT_OUTBUFSIZE)
     {
@@ -245,7 +245,7 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	{
 	    /* start resizing */
 	    char buf[COMMENT_OUTBUFSIZE], *outp = buf;
-	    int cvid = (int)x->x_canvas;
+	    unsigned long cvid = (unsigned long)x->x_canvas;
 	    sprintf(outp, ".x%lx.c bind %s <ButtonRelease> \
  {pdsend {%s _release %s}}\n", cvid, x->x_texttag,
 		    x->x_bindsym->s_name, x->x_bindsym->s_name);
@@ -267,7 +267,7 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av)
 
 static void comment__releasehook(t_comment *x, t_symbol *bindsym)
 {
-    int cvid = (int)x->x_canvas;
+    unsigned long cvid = (unsigned long)x->x_canvas;
     sys_vgui(".x%lx.c bind %s <ButtonRelease> {}\n", cvid, x->x_texttag);
     sys_vgui(".x%lx.c bind %s <Motion> {}\n", cvid, x->x_texttag);
     sys_vgui(".x%lx.c delete %s\n", cvid, x->x_outlinetag);
@@ -283,7 +283,7 @@ static void comment__releasehook(t_comment *x, t_symbol *bindsym)
 static void comment__motionhook(t_comment *x, t_symbol *bindsym,
 				t_floatarg xx, t_floatarg yy)
 {
-    int cvid = (int)x->x_canvas;
+    unsigned long cvid = (unsigned long)x->x_canvas;
     if (xx > x->x_x1 + COMMENT_MINWIDTH)
 	sys_vgui(".x%lx.c coords %s %d %d %d %d\n",
 		 cvid, x->x_outlinetag,
@@ -685,9 +685,9 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av)
     t->te_type = T_TEXT;
     x->x_glist = canvas_getcurrent();
     x->x_canvas = 0;
-    sprintf(x->x_tag, "all%x", (int)x);
-    sprintf(x->x_texttag, "t%x", (int)x);
-    sprintf(x->x_outlinetag, "h%x", (int)x);
+    sprintf(x->x_tag, "all%lx", (unsigned long)x);
+    sprintf(x->x_texttag, "t%lx", (unsigned long)x);
+    sprintf(x->x_outlinetag, "h%lx", (unsigned long)x);
     x->x_pixwidth = 0;
     x->x_fontsize = 0;
     x->x_fontfamily = 0;
@@ -768,7 +768,7 @@ textpart:
     x->x_transclock = clock_new(x, (t_method)comment_transtick);
     x->x_bbset = 0;
     x->x_bbpending = 0;
-    sprintf(buf, "miXed%x", (int)x);
+    sprintf(buf, "miXed%lx", (unsigned long)x);
     x->x_bindsym = gensym(buf);
     pd_bind((t_pd *)x, x->x_bindsym);
     if (!commentsink)

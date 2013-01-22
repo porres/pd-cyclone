@@ -162,17 +162,17 @@ void hammereditor_open(t_hammerfile *f, char *title, char *owner)
 	owner = 0;
     }
     if (owner)
-	sys_vgui("hammereditor_open .%x %dx%d {%s: %s} %d\n",
-		 (int)f, 600, 340, owner, title, (f->f_editorfn != 0));
+	sys_vgui("hammereditor_open .%lx %dx%d {%s: %s} %d\n",
+		 (unsigned long)f, 600, 340, owner, title, (f->f_editorfn != 0));
     else
-	sys_vgui("hammereditor_open .%x %dx%d {%s} %d\n",
-		 (int)f, 600, 340, (title ? title : "Untitled"),
+	sys_vgui("hammereditor_open .%lx %dx%d {%s} %d\n",
+		 (unsigned long)f, 600, 340, (title ? title : "Untitled"),
 		 (f->f_editorfn != 0));
 }
 
 static void hammereditor_tick(t_hammerfile *f)
 {
-    sys_vgui("hammereditor_close .%x 1\n", (int)f);
+    sys_vgui("hammereditor_close .%lx 1\n", (unsigned long)f);
 }
 
 void hammereditor_close(t_hammerfile *f, int ask)
@@ -182,7 +182,7 @@ void hammereditor_close(t_hammerfile *f, int ask)
 	   a message box redraw to happen -- LATER investigate */
  	clock_delay(f->f_editorclock, 0);
     else
-	sys_vgui("hammereditor_close .%x 0\n", (int)f);
+	sys_vgui("hammereditor_close .%lx 0\n", (unsigned long)f);
 }
 
 void hammereditor_append(t_hammerfile *f, char *contents)
@@ -196,21 +196,21 @@ void hammereditor_append(t_hammerfile *f, char *contents)
 	    {
 		char c = *ptr;
 		*ptr = 0;
-		sys_vgui("hammereditor_append .%x {%s}\n", (int)f, contents);
-		sys_vgui("hammereditor_append .%x \"%c\"\n", (int)f, c);
+		sys_vgui("hammereditor_append .%lx {%s}\n", (unsigned long)f, contents);
+		sys_vgui("hammereditor_append .%lx \"%c\"\n", (unsigned long)f, c);
 		*ptr = c;
 		contents = ptr + 1;
 	    }
 	}
 	if (*contents)
-	    sys_vgui("hammereditor_append .%x {%s}\n", (int)f, contents);
+	    sys_vgui("hammereditor_append .%lx {%s}\n", (unsigned long)f, contents);
     }
 }
 
 void hammereditor_setdirty(t_hammerfile *f, int flag)
 {
     if (f->f_editorfn)
-	sys_vgui("hammereditor_setdirty .%x %d\n", (int)f, flag);
+	sys_vgui("hammereditor_setdirty .%lx %d\n", (unsigned long)f, flag);
 }
 
 static void hammereditor_clear(t_hammerfile *f)
@@ -514,7 +514,7 @@ t_hammerfile *hammerfile_new(t_pd *master, t_hammerembedfn embedfn,
     {
 	t_hammerfile *f;
 	char buf[64];
-	sprintf(buf, "miXed.%x", (int)result);
+	sprintf(buf, "miXed.%lx", (unsigned long)result);
 	result->f_bindname = gensym(buf);
 	pd_bind((t_pd *)result, result->f_bindname);
 	result->f_currentdir =
@@ -524,7 +524,7 @@ t_hammerfile *hammerfile_new(t_pd *master, t_hammerembedfn embedfn,
 	f = (t_hammerfile *)pd_new(hammerfile_class);
 	f->f_master = master;
 	f->f_canvas = result->f_canvas;
-	sprintf(buf, "miXed.%x", (int)f);
+	sprintf(buf, "miXed.%lx", (unsigned long)f);
 	f->f_bindname = gensym(buf);
 	pd_bind((t_pd *)f, f->f_bindname);
 	f->f_currentdir = f->f_inidir = result->f_currentdir;
@@ -541,7 +541,7 @@ t_hammerfile *hammerfile_new(t_pd *master, t_hammerembedfn embedfn,
 	if (!result->f_bindname)
 	{
 	    char buf[64];
-	    sprintf(buf, "miXed.%x", (int)result);
+	    sprintf(buf, "miXed.%lx", (unsigned long)result);
 	    result->f_bindname = gensym(buf);
 	    pd_bind((t_pd *)result, result->f_bindname);
 	}
