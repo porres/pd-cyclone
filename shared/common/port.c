@@ -25,6 +25,7 @@
 #include "common/grow.h"
 #include "common/binport.h"
 #include "port.h"
+#include "shared.h"
 
 #ifdef KRZYSZCZ
 //#define PORT_DEBUG

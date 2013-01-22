@@ -13,6 +13,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "os.h"
+#include "shared.h"
 
 static int ospath_doabsolute(char *path, char *cwd, char *result)
 {
