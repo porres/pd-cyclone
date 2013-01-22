@@ -545,8 +545,7 @@ static int mifiread_startfile(t_mifiread *mr, const char *filename,
 	if (fnameptr != slashpos)
 	    strcpy(slashpos, fnameptr);
     }
-    sys_bashfilename(path, path);
-    if (!(mr->mr_fp = fopen(path, "rb")))
+    if (!(mr->mr_fp = sys_fopen(path, "rb")))
     {
 	strcpy(errmess, "cannot open");
 	goto rstartfailed;
@@ -1328,8 +1327,7 @@ int mifiwrite_open(t_mifiwrite *mw, const char *filename,
     if (*dirname)
     	strcat(fnamebuf, dirname), strcat(fnamebuf, "/");
     strcat(fnamebuf, filename);
-    sys_bashfilename(fnamebuf, fnamebuf);
-    if (!(mw->mw_fp = fopen(fnamebuf, "wb")))
+    if (!(mw->mw_fp = sys_fopen(fnamebuf, "wb")))
     {
 	strcpy(errmess, "cannot open");
 	goto wopenfailed;

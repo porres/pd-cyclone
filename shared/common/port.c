@@ -953,7 +953,7 @@ static int imaction_K1_replace(t_port *x, char *arg)
 	sprintf(buf, "port-%02d.pict", ++x->x_pictno);
 	if (x->x_dumping)
 	{
-	    if (x->x_pictfp = fopen(buf, "wb"))
+	    if (x->x_pictfp = sys_fopen(buf, "wb"))
 	    {
 		int i;
 		for (i = 0; i < 512; i++) fputc(0, x->x_pictfp);

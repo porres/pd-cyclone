@@ -216,8 +216,7 @@ FILE *fileread_open(char *filename, t_canvas *cv, int textmode)
 	if (nameptr != slashpos)
 	    strcpy(slashpos, nameptr);
     }
-    sys_bashfilename(path, path);
-    return (fopen(path, (textmode ? "r" : "rb")));
+    return (sys_fopen(path, (textmode ? "r" : "rb")));
 }
 
 FILE *filewrite_open(char *filename, t_canvas *cv, int textmode)
@@ -231,8 +230,7 @@ FILE *filewrite_open(char *filename, t_canvas *cv, int textmode)
     	strncpy(path, filename, MAXPDSTRING);
     	path[MAXPDSTRING-1] = 0;
     }
-    sys_bashfilename(path, path);
-    return (fopen(path, (textmode ? "w" : "wb")));
+    return (sys_fopen(path, (textmode ? "w" : "wb")));
 }
 
 /* FIXME add MSW */

@@ -113,7 +113,7 @@ endif
 
 cyclone:
 	$(MAKE) -f Makefile \
-		OPT_CFLAGS="-O6 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -fPIC"
+		OPT_CFLAGS="-O6 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -Wstrict-aliasing=2 -fPIC"
 
 install: cyclone
 	$(INSTALL_DIR) $(DESTDIR)$(objectsdir)/cyclone

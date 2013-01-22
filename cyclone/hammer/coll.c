@@ -601,11 +601,9 @@ static void collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv)
 	/* loading during object creation --
 	   avoid binbuf_read()'s complaints, LATER rethink */
 	FILE *fp;
-	char fname[MAXPDSTRING];
-	sys_bashfilename(buf, fname);
-	if (!(fp = fopen(fname, "r")))
+	if (!(fp = sys_fopen(buf, "r")))
 	{
-	    loud_warning(&coll_class, 0, "no coll file '%s'", fname);
+	    loud_warning(&coll_class, 0, "no coll file '%s'", buf);
 	    return;
 	}
 	fclose(fp);
