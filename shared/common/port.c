@@ -45,7 +45,7 @@ enum { PORT_OK,    /* MESSTREE_CONTINUE */
 #define A_INT  A_DEFFLOAT
 
 /* without access to sys_defaultfont, we just mimic defs from s_main.c */
-#ifdef MSW
+#ifdef _WIN32
 #define PORT_DEFFONTSIZE  12.
 #else
 #define PORT_DEFFONTSIZE  10.

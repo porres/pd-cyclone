@@ -2,7 +2,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-#ifdef MSW
+#ifdef _WIN32
 #include <io.h>
 #else
 #include <unistd.h>
@@ -28,7 +28,7 @@ static int ospath_doabsolute(char *path, char *cwd, char *result)
 	path++;
 	if (*path == '/' || *path == 0)
 	{
-#ifdef UNIX
+#ifndef _WIN32
 	    char *home = getenv("HOME");
 	    if (home)
 	    {
@@ -49,7 +49,7 @@ static int ospath_doabsolute(char *path, char *cwd, char *result)
     }
     else if (*path == '/')
     {
-#ifdef MSW
+#ifdef _WIN32
 	/* path is absolute, drive is implicit, LATER UNC? */
 	if (*cwd && cwd[1] == ':')
 	{
@@ -72,7 +72,7 @@ static int ospath_doabsolute(char *path, char *cwd, char *result)
     }
     else
     {
-#ifdef MSW
+#ifdef _WIN32
 	if (path[1] == ':')
 	{
 	    if (path[2] == '/')
@@ -237,7 +237,7 @@ FILE *filewrite_open(char *filename, t_canvas *cv, int textmode)
 
 struct _osdir
 {
-#ifndef MSW
+#ifndef _WIN32
     DIR            *dir_handle;
     struct dirent  *dir_entry;
 #endif
@@ -248,19 +248,19 @@ struct _osdir
    loud_syserror(owner, "cannot open \"%s\"", dirname) */
 t_osdir *osdir_open(char *dirname)
 {
-#ifndef MSW
+#ifndef _WIN32
     DIR *handle = opendir(dirname);
     if (handle)
     {
 #endif
 	t_osdir *dp = getbytes(sizeof(*dp));
-#ifndef MSW
+#ifndef _WIN32
 	dp->dir_handle = handle;
 	dp->dir_entry = 0;
 #endif
 	dp->dir_flags = 0;
 	return (dp);
-#ifndef MSW
+#ifndef _WIN32
     }
     else return (0);
 #endif
@@ -276,7 +276,7 @@ void osdir_close(t_osdir *dp)
 {
     if (dp)
     {
-#ifndef MSW
+#ifndef _WIN32
 	closedir(dp->dir_handle);
 #endif
 	freebytes(dp, sizeof(*dp));
@@ -287,7 +287,7 @@ void osdir_rewind(t_osdir *dp)
 {
     if (dp)
     {
-#ifndef MSW
+#ifndef _WIN32
 	rewinddir(dp->dir_handle);
 	dp->dir_entry = 0;
 #endif
@@ -296,7 +296,7 @@ void osdir_rewind(t_osdir *dp)
 
 char *osdir_next(t_osdir *dp)
 {
-#ifndef MSW
+#ifndef _WIN32
     if (dp)
     {
 	while (dp->dir_entry = readdir(dp->dir_handle))
@@ -315,7 +315,7 @@ char *osdir_next(t_osdir *dp)
 
 int osdir_isfile(t_osdir *dp)
 {
-#ifndef MSW
+#ifndef _WIN32
     return (dp && dp->dir_entry && dp->dir_entry->d_type == DT_REG);
 #else
     return (0);
@@ -324,7 +324,7 @@ int osdir_isfile(t_osdir *dp)
 
 int osdir_isdir(t_osdir *dp)
 {
-#ifndef MSW
+#ifndef _WIN32
     return (dp && dp->dir_entry && dp->dir_entry->d_type == DT_DIR);
 #else
     return (0);

@@ -91,7 +91,7 @@ void riddlebug_post(t_riddle *rd, char *pfx, char *fmt, ...)
     }
     else fprintf(stderr, "%s \"%s\" (%x)\n",
 		 pfx, class_getname(*(t_pd *)rd), (int)rd);
-#ifdef MSW
+#ifdef _WIN32
     fflush(stderr);
 #endif
 }

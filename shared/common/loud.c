@@ -9,7 +9,7 @@
 #include "m_pd.h"
 #include "loud.h"
 
-#ifdef MSW
+#ifdef _WIN32
 #define vsnprintf  _vsnprintf
 #endif
 
@@ -354,7 +354,7 @@ void loudbug_post(char *fmt, ...)
     vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
     va_end(ap);
     fprintf(stderr, "%s\n", buf);
-#ifdef MSW
+#ifdef _WIN32
     fflush(stderr);
 #endif
 }
@@ -367,7 +367,7 @@ void loudbug_startpost(char *fmt, ...)
     vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
     va_end(ap);
     fputs(buf, stderr);
-#ifdef MSW
+#ifdef _WIN32
     fflush(stderr);
 #endif
 }
@@ -375,7 +375,7 @@ void loudbug_startpost(char *fmt, ...)
 void loudbug_stringpost(char *s)
 {
     fputs(s, stderr);
-#ifdef MSW
+#ifdef _WIN32
     fflush(stderr);
 #endif
 }
@@ -383,7 +383,7 @@ void loudbug_stringpost(char *s)
 void loudbug_endpost(void)
 {
     fputs("\n", stderr);
-#ifdef MSW
+#ifdef _WIN32
     fflush(stderr);
 #endif
 }
@@ -395,7 +395,7 @@ void loudbug_postatom(int ac, t_atom *av)
         char buf[MAXPDSTRING];
         atom_string(av++, buf, MAXPDSTRING);
 	fprintf(stderr, " %s", buf);
-#ifdef MSW
+#ifdef _WIN32
 	fflush(stderr);
 #endif
     }
@@ -417,7 +417,7 @@ void loudbug_postbinbuf(t_binbuf *bb)
 		fprintf(stderr, " %s", buf);
 	}
 	else fprintf(stderr, "%s", buf);
-#ifdef MSW
+#ifdef _WIN32
 	fflush(stderr);
 #endif
 	aprev = ap++;
@@ -425,7 +425,7 @@ void loudbug_postbinbuf(t_binbuf *bb)
     if (aprev)
     {
 	fputs("\n", stderr);
-#ifdef MSW
+#ifdef _WIN32
 	fflush(stderr);
 #endif
     }
@@ -439,7 +439,7 @@ void loudbug_bug(char *fmt, ...)
     vsnprintf(buf, MAXPDSTRING-1, fmt, ap);
     va_end(ap);
     fprintf(stderr, "miXed consistency check failed: %s\n", buf);
-#ifdef MSW
+#ifdef _WIN32
     fflush(stderr);
 #endif
     bug(buf);

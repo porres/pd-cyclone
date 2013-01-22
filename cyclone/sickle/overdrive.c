@@ -7,7 +7,7 @@
 #include "sickle/sic.h"
 
 /* FIXME this is unnecessary in vc > 6.0 and darwin? */
-#if defined(MSW) || defined(MACOSX)
+#if defined(_WIN32) || defined(MACOSX)
 #define powf  pow
 #endif
 
