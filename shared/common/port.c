@@ -7,7 +7,7 @@
 /* LATER quoting */
 /* LATER rethink inlet/inlet~ case */
 
-#ifdef UNIX
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #ifdef _WIN32

@@ -48,9 +48,9 @@ LFLAGS = -Wl,--export-dynamic -shared
 # FIXME strict-aliasing
 OPT_CFLAGS = -O6 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -fPIC
 ifeq ($(MY_NAME),krzYszcz)
-DEFINES = -DUNIX -DKRZYSZCZ
+DEFINES = -DUNIX -DHAVE_UNISTD_H -DKRZYSZCZ
 else
-DEFINES = -DUNIX
+DEFINES = -DUNIX -DHAVE_UNISTD_H
 endif
 endif
 
@@ -60,7 +60,7 @@ CC = gcc
 X_SUFFIX = dll
 # OPT_CFLAGS gets overridden in Pd-extended builds for optimization
 # flags, so stick -mms-bitfieds here so that it doesn't get overridden
-DEFINES = -mms-bitfields -DNT -DMSW
+DEFINES = -mms-bitfields
 OPT_CFLAGS = -funroll-loops
 LFLAGS = -shared -L$(PD_DIR) -L$(PD_DIR)/../bin/ -lpd
 endif
@@ -68,7 +68,7 @@ endif
 ifeq ($(OS_NAME),Darwin)
 CC = gcc
 X_SUFFIX = pd_darwin
-DEFINES = -DUNIX -DMACOSX
+DEFINES = -DUNIX -DHAVE_UNISTD_H
 OPT_CFLAGS = -O2 -funroll-loops -fomit-frame-pointer
 # perhaps "-undefined suppress" would be a better choice, when we go dynamic
 # with our own common code? (not likely to happen soon...)
