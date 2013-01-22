@@ -113,7 +113,7 @@ void Decode_setup(void)
     fitter_setup(Decode_class, 0);
 }
 
-void decode_setup()
+void decode_setup(void)
 {
     Decode_setup();
 }
