@@ -5,6 +5,8 @@
 #ifndef __HAMMERFILE_H__
 #define __HAMMERFILE_H__
 
+#include "shared.h"
+
 EXTERN_STRUCT _hammerfile;
 #define t_hammerfile  struct _hammerfile
 
