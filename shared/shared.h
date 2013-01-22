@@ -48,8 +48,8 @@ typedef unsigned char uchar;
 typedef unsigned long shared_t_bitmask;
 
 
-/* this is for GNU/Linux, GNU/Hurd, GNU/kFreeBSD, Mac OS X, iOS */
-#if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__) || defined(__GLIBC__) || defined(__APPLE__)
+/* this is for GNU/Linux, GNU/Hurd, GNU/kFreeBSD */
+#if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__)
 #include <endian.h>
 # if !defined(__BYTE_ORDER) || !defined(__LITTLE_ENDIAN)                         
 #  error No byte order defined                                                    
@@ -73,7 +73,7 @@ typedef unsigned long shared_t_bitmask;
 #define SHARED_LOWOFFSET  1
 #endif
 
-#ifdef __FreeBSD__
+#if defined __FreeBSD__ || defined(__APPLE__)
 #include <machine/endian.h>
 # if BYTE_ORDER == LITTLE_ENDIAN
 #  define SHARED_HIOFFSET   1
