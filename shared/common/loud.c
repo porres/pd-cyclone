@@ -71,7 +71,7 @@ void loud_error(t_pd *x, char *fmt, ...)
     if (x)
     {
 	startpost("%s's ", class_getname(*x));
-	pd_error(x, buf);
+	pd_error(x, "%s", buf);
     }
     else post("%s %s", LOUD_ERROR_DEFAULT, buf);
     va_end(ap);
@@ -225,7 +225,7 @@ void loudx_error(t_loudcontext *lc, char *fmt, ...)
     {
 	startpost("%s's ", (lc->lc_callername ?
 			    lc->lc_callername : class_getname(*lc->lc_caller)));
-	pd_error(lc->lc_caller, buf);
+	pd_error(lc->lc_caller, "%s", buf);
     }
     else
     {
@@ -442,5 +442,5 @@ void loudbug_bug(char *fmt, ...)
 #ifdef _WIN32
     fflush(stderr);
 #endif
-    bug(buf);
+    bug("%s", buf);
 }

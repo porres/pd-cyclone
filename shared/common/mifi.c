@@ -216,7 +216,7 @@ static void mifi_error(t_pd *x, char *fmt, ...)
     if (x)
     {
 	startpost("%s's ", class_getname(*x));
-	pd_error(x, buf);
+	pd_error(x, "%s", buf);
     }
     else post("mifi error: %s", buf);
     va_end(ap);
