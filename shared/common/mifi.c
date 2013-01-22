@@ -58,7 +58,7 @@ typedef u_int16_t uint16;
 #ifndef uchar
 typedef u_int8_t uchar;
 #endif
-#else  /* MACOSX */
+#else  /* __APPLE__ */
 #ifndef uint32
 typedef unsigned int uint32;
 #endif

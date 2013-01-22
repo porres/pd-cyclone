@@ -17,7 +17,7 @@
 #include <io.h>
 #include <windows.h>
 #endif
-#ifdef MACOSX
+#ifdef __APPLE__
 #include <mach-o/dyld.h> 
 #endif
 #include <string.h>
@@ -44,7 +44,7 @@ static char sys_dllextent[] =
 #if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__) || defined(__GLIBC__)
     ".pd_linux";
 #endif
-#ifdef MACOSX
+#ifdef __APPLE__
     ".pd_darwin";
 #endif
 #ifdef _WIN32
@@ -67,7 +67,7 @@ static int unstable_doload_lib(char *dirname, char *classname)
     if (lastdot = strrchr(classname, '.'))
 	*lastdot = 0;
 
-#ifdef MACOSX
+#ifdef __APPLE__
     strcpy(symname, "_");
     strcat(symname, classname);
 #else
@@ -98,7 +98,7 @@ static int unstable_doload_lib(char *dirname, char *classname)
     }
     makeout = (t_xxx)GetProcAddress(ntdll, symname);  
 #endif
-#ifdef MACOSX
+#ifdef __APPLE__
     {
 	NSObjectFileImage image; 
 	void *ret;

@@ -10,7 +10,7 @@
 #include "common/loud.h"
 #include "sickle/sic.h"
 
-#if defined(_WIN32) || defined(MACOSX)
+#if defined(_WIN32) || defined(__APPLE__)
 /* cf pd/src/x_arithmetic.c */
 #define sqrtf  sqrt
 #endif
