@@ -2,7 +2,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-#ifdef NT
+#ifdef _WIN32
 #include <io.h>
 #else
 #include <unistd.h>
@@ -27,7 +27,7 @@ typedef u_int16_t uint16;
 #ifndef uchar
 typedef u_int8_t uchar;
 #endif
-#elif defined(NT)
+#elif defined(_WIN32)
 #ifndef uint32
 typedef unsigned long uint32;
 #endif

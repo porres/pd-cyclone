@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #endif
-#ifdef NT
+#ifdef _WIN32
 #include <io.h>
 #include <windows.h>
 #endif
@@ -47,7 +47,7 @@ static char sys_dllextent[] =
 #ifdef MACOSX
     ".pd_darwin";
 #endif
-#ifdef NT
+#ifdef _WIN32
     ".dll";
 #endif
 
@@ -56,7 +56,7 @@ static int unstable_doload_lib(char *dirname, char *classname)
     char symname[MAXPDSTRING], filename[MAXPDSTRING], *lastdot;
     void *dlobj;
     t_xxx makeout;
-#ifdef NT
+#ifdef _WIN32
     HINSTANCE ntdll;
 #endif
     /* refabricate the pathname */
@@ -88,7 +88,7 @@ static int unstable_doload_lib(char *dirname, char *classname)
     }
     makeout = (t_xxx)dlsym(dlobj,  symname);
 #endif
-#ifdef NT
+#ifdef _WIN32
     sys_bashfilename(filename, filename);
     ntdll = LoadLibrary(filename);
     if (!ntdll)

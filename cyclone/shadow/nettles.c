@@ -8,7 +8,7 @@
 #include "sickle/sic.h"
 #include "shadow.h"
 
-#if defined(NT) || defined(MACOSX)
+#if defined(_WIN32) || defined(MACOSX)
 /* cf pd/src/x_arithmetic.c */
 #define fmodf  fmod
 #endif

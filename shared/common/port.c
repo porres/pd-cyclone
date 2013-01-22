@@ -10,7 +10,7 @@
 #ifdef UNIX
 #include <unistd.h>
 #endif
-#ifdef NT
+#ifdef _WIN32
 #include <io.h>
 #endif
 #include <stdio.h>

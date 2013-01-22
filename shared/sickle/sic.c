@@ -14,7 +14,7 @@
 //#define SIC_DEBUG
 #endif
 
-#if defined(NT) || defined(MACOSX)
+#if defined(_WIN32) || defined(MACOSX)
 /* cf pd/src/x_arithmetic.c */
 #define cosf  cos
 #endif
