@@ -56,7 +56,7 @@ typedef u_int8_t uchar;
 #endif
 #endif
 
-#ifdef NT
+#ifdef _WIN32
 #ifndef int32
 typedef long int32;
 #endif
