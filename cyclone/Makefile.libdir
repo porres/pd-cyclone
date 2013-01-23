@@ -12,6 +12,9 @@ INSTALL_PROGRAM = $(INSTALL) -p -m 755
 INSTALL_DATA = $(INSTALL) -p -m 644
 INSTALL_DIR     = $(INSTALL) -p -m 755 -d
 
+CFLAGS += -I"$(PD_INCLUDE)"
+PD_INCLUDE = $(PD_PATH)/include/pd
+
 UNAME := $(shell uname -s)
 ifeq ($(UNAME),Darwin)
   CPU := $(shell uname -p)
@@ -112,7 +115,7 @@ ifeq (MINGW,$(findstring MINGW,$(UNAME)))
 endif
 
 cyclone:
-	$(MAKE) -f Makefile \
+	$(MAKE) -f Makefile PD_INCLUDE="$(PD_INCLUDE)" \
 		OPT_CFLAGS="-O6 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -Wstrict-aliasing=2 -fPIC"
 
 install: cyclone

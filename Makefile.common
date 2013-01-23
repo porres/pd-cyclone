@@ -85,7 +85,7 @@ OUT_DIR = $(if $($1_SUBDIR),$(BIN_DIR)/$($1_SUBDIR),$(BIN_DIR))
 BASE_DIR = $(shell basename `pwd`)
 BASE_NAME = $(shell basename `pwd` | awk -F - '{print $$1}')
 
-INCLUDES = -I . -I $(PD_DIR) -I $(SHARED_DIR)
+INCLUDES = -I. -I$(PD_DIR) -I$(SHARED_DIR) -I"$(PD_INCLUDE)"
 
 ifdef CAML_TYPES
 include $(ROOT_DIR)/Makefile.caml
