@@ -462,6 +462,7 @@ static t_symbol *binport_makesymbol(t_binport *bp, int id)
 static int binport_setbysymtable(t_binport *bp, t_atom *ap, int id)
 {
     t_symbol *s;
+    if(id<0) return 0;
     if (id < bp->b_nsymbols)
 	s = bp->b_symtable[id];
     else
