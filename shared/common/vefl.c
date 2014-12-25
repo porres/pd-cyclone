@@ -34,7 +34,7 @@ t_float *vefl_get(t_symbol *name, int *vszp, int indsp, t_pd *complain)
 	{
 	    int vsz;
 	    t_float *vec;
-	    if (garray_getfloatarray(ap, &vsz, &vec))
+	    if (garray_getfloatwords(ap, &vsz, &vec))
 	    {
 		if (indsp) garray_usedindsp(ap);
 		if (vszp) *vszp = vsz;
@@ -98,7 +98,7 @@ t_vefl *vefl_placement_new(t_vefl *vp, t_symbol *name,
 	vp->v_glist = vp->v_garray ? fragile_garray_glist(vp->v_garray) : 0;
     }
     if (vp->v_garray
-	&& !garray_getfloatarray(vp->v_garray, &vp->v_size, &vp->v_data))
+	&& !garray_getfloatwords(vp->v_garray, &vp->v_size, &vp->v_data))
     {
 	vp->v_glist = 0;
 	vp->v_garray = 0;
@@ -136,7 +136,7 @@ int vefl_renew(t_vefl *vp, t_symbol *name, t_pd *complain)
 	    if (complain)
 		loud_error(complain, "no such array '%s'", name->s_name);
 	}
-	else if (!garray_getfloatarray(vp->v_garray, &vp->v_size, &vp->v_data))
+	else if (!garray_getfloatwords(vp->v_garray, &vp->v_size, &vp->v_data))
 	{
 	    vp->v_garray = 0;
 	    loud_error(complain,  /* always complain */
