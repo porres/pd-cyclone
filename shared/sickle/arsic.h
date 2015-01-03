@@ -10,7 +10,7 @@ typedef struct _arsic
     t_sic       s_sic;
     int         s_vecsize;   /* used also as a validation flag */
     int         s_nchannels;
-    t_float   **s_vectors;
+    t_word    **s_vectors;
     t_symbol  **s_channames;
     int         s_nperfargs;
     t_int      *s_perfargs;
