@@ -79,7 +79,7 @@ static void *rand_new(t_floatarg f)
     x->x_lastphase = 0.;
     x->x_nextphase = 1.;  /* start from 0, force retargetting */
     x->x_target = x->x_scaling = 0;
-    sic_newinlet((t_sic *)x, (f > 0. ? -f : 0.));
+    x->x_sic.s_f = (f > 0. ? f : 0.);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
@@ -91,4 +91,6 @@ void rand_tilde_setup(void)
 			   sizeof(t_rand), 0,
 			   A_DEFFLOAT, 0);
     sic_setup(rand_class, rand_dsp, SIC_FLOATTOSIGNAL);
+    logpost(NULL, 4, "this is cyclone/rand~ %s, %dth %s build",
+	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
