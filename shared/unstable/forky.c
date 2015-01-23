@@ -93,9 +93,7 @@ t_int forky_getbitmask(int ac, t_atom *av)
 	{
 	    if (av->a_type == A_FLOAT &&
 		(int)av->a_w.w_float)  /* CHECKED */
-		result |= bitmask;
-	    /* CHECKED symbols are zero */
-	    bitmask >>= 1;
+		    result += 1 << ac;
 	    av++;
 	}
 	/* CHECKED missing are zero */
