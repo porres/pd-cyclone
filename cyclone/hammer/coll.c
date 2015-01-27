@@ -1524,6 +1524,20 @@ static void coll_debug(t_coll *x, t_floatarg f)
 }
 #endif
 
+static void coll_separate(t_coll *x, t_floatarg f)
+{
+    int indx;
+    t_collcommon *cc = x->x_common;
+    if (loud_checkint((t_pd *)x, f, &indx, gensym("separate")))
+    {
+	t_collelem *ep;
+	for (ep = cc->c_first; ep; ep = ep->e_next)
+	    if (ep->e_hasnumkey && ep->e_numkey >= indx)
+		ep->e_numkey += 1;
+	collcommon_modified(cc, 0);
+    }
+}
+
 static void coll_free(t_coll *x)
 {
     hammerfile_free(x->x_filehandle);
@@ -1623,6 +1637,8 @@ void coll_setup(void)
     class_addmethod(coll_class, (t_method)coll_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_separate,
+		    gensym("separate"), A_FLOAT, 0);
 #ifdef COLL_DEBUG
     class_addmethod(coll_class, (t_method)coll_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);
@@ -1634,4 +1650,6 @@ void coll_setup(void)
        class itself has been already set up above), but it is better to
        have it around, just in case... */
     hammerfile_setup(collcommon_class, 0);
+    logpost(NULL, 4, "this is cyclone/coll %s, %dth %s build",
+	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
