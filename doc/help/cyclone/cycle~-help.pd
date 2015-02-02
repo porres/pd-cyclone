@@ -1,41 +1,100 @@
-#N canvas 0 26 748 439 10;
-#X text 18 -12 Table-lookup oscillator or function generator;
-#X floatatom 631 248 0 0 0 0 - - -;
-#X obj 610 180 loadbang;
-#X msg 610 200 22.5;
-#X text 609 114 4 Using your function;
-#X obj 610 271 *~ 0;
-#X obj 610 226 cycle~ buffsky;
-#X msg 403 106 437;
-#X obj 403 83 loadbang;
-#X obj 42 250 *~ 0.2;
-#X obj 42 214 cycle~ 440;
-#X obj 403 258 *~ 0.2;
-#X floatatom 403 139 0 0 0 0 - - -;
-#X msg 403 167 \$1 400;
-#X obj 403 192 line~;
-#X obj 403 224 cycle~;
-#X obj 212 341 dac~;
-#X obj 118 250 *~ 0.2;
-#X obj 152 180 phasor~ 660;
-#X obj 118 214 cycle~;
-#X text 21 21 cycle~ uses a stored table of 512 samples to generate
+#N canvas 619 82 567 530 10;
+#X obj 0 653 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 339 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 589 462 372 220 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 108 LIBRARY cyclone;
+#X text 0 0 KEYWORDS signal oscillator function generator sine wave
+;
+#X text 0 36 DESCRIPTION table-lookup oscillator or function generator
+;
+#X text 0 54 INLET_0 float signal;
+#X text 0 72 INLET_1 float signal;
+#X text 0 90 OUTLET_0 signal;
+#X text 0 128 VERSION 0.1-alpha57;
+#X text 0 146 AUTHOR Krzysztof Czaja;
+#X text 1 164 RELEASE_DATE 2002;
+#X text 2 183 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 215 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 655 pd META;
+#X obj 0 448 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 485 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 561 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 302 575 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 207 655 pd Related_objects;
+#X obj 78 349 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 401 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty cycle~ 3 12 0 18 -204280 -1 0
+;
+#X text 12 23 Table-lookup oscillator or function generator;
+#X obj 380 173 phasor~ 660;
+#X text 27 145 frequency input (float or signal);
+#X text 296 146 phase input (float or signal);
+#X text 296 127 2 Driven by phase only (frequency is 0):;
+#X text 27 128 1 argument sets frequency (default 0);
+#X text 110 350 float;
+#X text 110 365 signal;
+#X text 165 356 - set frequnecy;
+#X obj 78 457 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 110 399 float;
+#X text 110 414 signal;
+#X text 165 405 - drive by phase only (frequency is 0);
+#X text 110 456 signal;
+#X text 165 454 - the signal with given frequency or phase;
+#X text 91 504 1) float;
+#X text 165 504 - default frequency;
+#X text 109 522 buffer;
+#X text 165 522 - can give function stored in buffer object;
+#X obj 504 4 cycle~;
+#X text 28 52 cycle~ uses a stored table of 512 samples to generate
 functions. By default it uses a sine wave \, but you can give it a
 function stored in a buffer~ object.;
-#X text 9 117 frequency input (float or signal);
-#X text 153 155 phase input (float or signal);
-#X text 153 136 2 Driven by phase only (frequency is 0):;
-#X text 12 103 1 argument sets frequency (default 0);
-#N canvas 281 140 183 210 generate-buffer~ 0;
-#X obj 40 30 loadbang;
-#N canvas 50 40 152 247 sawtooth 0;
-#X obj 80 145 - 2;
-#X obj 80 120 * 2;
-#X obj 22 119 * 2;
-#X obj 22 95 split 0 0.5;
-#X obj 22 59 / 512;
-#X obj 22 33 inlet;
-#X obj 22 208 outlet;
+#X text 97 578 Symbol argument sets name of table to play from. Additional
+int argument after that sets sample offset into the table (default
+0);
+#X obj 169 278 output~;
+#X obj 200 242 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 168 242 *~ 0;
+#X obj 228 242 *~ 0;
+#X obj 260 242 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 33 179 cyclone/cycle~ 440;
+#X obj 300 207 cyclone/cycle~;
+#N canvas 576 500 431 349 more 0;
+#X obj 248 109 loadbang;
+#X msg 248 134 22.5;
+#X text 242 32 4 Using your function;
+#X msg 49 78 437;
+#X obj 49 53 loadbang;
+#X floatatom 49 103 0 0 0 0 - - -;
+#X msg 49 128 \$1 400;
+#X obj 49 153 line~;
+#N canvas 277 196 183 210 generate-buffer~ 0;
+#X obj 49 36 loadbang;
+#N canvas 48 107 152 247 sawtooth 0;
+#X obj 91 151 - 2;
+#X obj 91 126 * 2;
+#X obj 33 125 * 2;
+#X obj 33 101 split 0 0.5;
+#X obj 33 65 / 512;
+#X obj 33 39 inlet;
+#X obj 33 214 outlet;
+#X obj 2 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X connect 0 0 6 0;
 #X connect 1 0 0 0;
 #X connect 2 0 6 0;
@@ -43,12 +102,14 @@ function stored in a buffer~ object.;
 #X connect 3 1 1 0;
 #X connect 4 0 3 0;
 #X connect 5 0 4 0;
-#X restore 80 120 pd sawtooth;
-#X obj 40 143 pack 0 0;
-#X obj 40 98 t f f;
-#X obj 40 76 line 0 1;
-#X msg 40 56 0 \, 512 512;
-#X obj 40 164 peek~ buffsky;
+#X restore 94 126 pd sawtooth;
+#X obj 49 149 pack 0 0;
+#X obj 49 104 t f f;
+#X obj 49 82 line 0 1;
+#X msg 49 62 0 \, 512 512;
+#X obj 49 170 peek~ buffsky;
+#X obj 2 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 5 1 Buffer contents generator;
 #X connect 0 0 5 0;
 #X connect 1 0 2 1;
 #X connect 2 0 6 0;
@@ -56,41 +117,42 @@ function stored in a buffer~ object.;
 #X connect 3 1 1 0;
 #X connect 4 0 3 0;
 #X connect 5 0 4 0;
-#X restore 609 133 pd generate-buffer~;
-#X text 661 249 listen?;
-#X obj 609 154 table buffsky 512;
-#X text 432 137 3 Using frequency input;
-#X text 308 348 Symbol argument sets name of table to play from. Additional
-int argument after that sets sample offset into the table (default
-0);
-#N canvas 380 180 494 382 META 0;
-#X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
-#X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 12 45 DESCRIPTION table-lookup oscillator or function generator
-;
-#X text 12 65 INLET_0 signal;
-#X text 12 85 INLET_0 signal;
-#X text 12 105 OUTLET_0 signal;
-#X text 12 5 KEYWORDS signal array max_compatible oscillator;
-#X text 12 25 LICENSE SIBSD;
-#X text 12 125 AUTHOR Krzysztof Czaja;
-#X restore 696 397 pd META;
-#X connect 1 0 5 1;
-#X connect 2 0 3 0;
-#X connect 3 0 6 0;
-#X connect 5 0 16 1;
-#X connect 6 0 5 0;
-#X connect 7 0 12 0;
-#X connect 8 0 7 0;
-#X connect 9 0 16 0;
-#X connect 10 0 9 0;
-#X connect 11 0 16 1;
-#X connect 12 0 13 0;
-#X connect 13 0 14 0;
-#X connect 14 0 15 0;
-#X connect 15 0 11 0;
-#X connect 17 0 16 0;
-#X connect 18 0 19 1;
-#X connect 19 0 17 0;
+#X restore 247 54 pd generate-buffer~;
+#X obj 247 75 table buffsky 512;
+#X text 44 30 3 Using frequency input;
+#X obj 156 254 output~;
+#X obj 187 219 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 155 218 *~ 0;
+#X obj 215 218 *~ 0;
+#X obj 247 219 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 49 178 cyclone/cycle~;
+#X obj 248 160 cyclone/cycle~ buffsky;
+#X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 5 4 Frequency input and using a lookup table;
+#X connect 0 0 1 0;
+#X connect 1 0 17 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 16 0;
+#X connect 12 0 13 1;
+#X connect 13 0 11 0;
+#X connect 13 0 11 1;
+#X connect 14 0 11 0;
+#X connect 14 0 11 1;
+#X connect 15 0 14 1;
+#X connect 16 0 13 0;
+#X connect 17 0 14 0;
+#X restore 321 289 pd more examples;
+#X connect 11 0 38 1;
+#X connect 33 0 34 1;
+#X connect 34 0 32 0;
+#X connect 34 0 32 1;
+#X connect 35 0 32 0;
+#X connect 35 0 32 1;
+#X connect 36 0 35 1;
+#X connect 37 0 34 0;
+#X connect 38 0 35 0;

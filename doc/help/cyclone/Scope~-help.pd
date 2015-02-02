@@ -1,39 +1,156 @@
-#N canvas 161 27 461 483 10;
-#X obj 5 6 cnv 15 450 30 empty empty [Scope~] 20 12 1 18 -233017 -66577
+#N canvas 309 80 574 532 10;
+#X obj 0 947 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 111 217 Scope~ 281 213 256 3 100 -1 1 0 0 0 0 0 255 0 0 0 255
+#X obj 0 386 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 629 308 345 214 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 76 LIBRARY cyclone;
+#X text 0 0 KEYWORDS signal graphic display graph;
+#X text 0 38 DESCRIPTION graphic signal display;
+#X text 0 57 INLET_0 signal buffsize range frgb brgb;
+#X text 0 95 VERSION 0.1-alpha57;
+#X text 0 113 AUTHOR Krzysztof Czaja;
+#X text 1 131 RELEASE_DATE 2002;
+#X text 2 150 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 182 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 949 pd META;
+#X obj 0 698 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 735 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X msg 202 74 bufsize 100;
-#X msg 212 101 range 1 2;
-#X msg 278 159 brgb 0 0 255;
-#X msg 263 139 frgb 0 255 0;
-#X text 248 122 colors;
-#X obj 22 80 osc~ 500;
-#X obj 25 51 hsl 100 18 20 500 1 1 empty empty frequency 5 8 1 10 -262131
--1 -1 1200 0;
-#X obj 111 155 *~;
-#X obj 126 75 vsl 15 60 0.01 1 1 1 empty empty empty 0 -8 0 8 -225271
--1 -1 4500 0;
-#X obj 422 11 pddp/pddplink http://puredata.info/dev/pddp -text pddp
+#N canvas 332 419 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 212 949 pd Related_objects;
+#X obj 72 395 cnv 17 3 290 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#N canvas 224 141 494 344 META 0;
-#X text 12 135 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
-#X text 12 105 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X obj 0 0 cnv 15 552 40 empty empty Scope~ 3 12 0 18 -204280 -1 0
 ;
-#X text 12 5 KEYWORDS signal GUI max_compatible;
-#X text 12 65 INLET_0 signal bufsize range frgb brgb;
-#X text 12 25 LICENSE SIBSD;
-#X text 12 45 DESCRIPTION scope;
-#X text 12 85 AUTHOR Krzysztof Czaja;
-#X restore 409 449 pd META;
-#X obj 253 451 pddp/helplink ggee/envgen;
-#X obj 394 48 pddp/dsp;
-#X connect 2 0 1 0;
-#X connect 3 0 1 0;
-#X connect 4 0 1 0;
-#X connect 5 0 1 0;
-#X connect 7 0 9 0;
-#X connect 8 0 7 0;
+#X text 12 23 Graphic Signal Display;
+#X text 99 394 signal;
+#X text 265 395 - signal to display;
+#X text 99 441 buffsize <int>;
+#X text 99 482 range <int> <int>;
+#X text 265 482 - change range of display;
+#X text 99 503 frgb <int> <int> <int>;
+#X text 99 702 (none);
+#X text 265 523 - set color of graph in RGB values;
+#X text 99 523 brgb <int> <int> <int>;
+#X text 265 503 - set color of line in RGB values;
+#X obj 172 239 cyclone/Scope~ 245 119 73 3 245 -1 1 0 0 1 -0.229358
+0 255 0 7 31 7 0;
+#X obj 175 50 hsl 100 18 20 500 1 1 empty empty frequency 5 8 1 10
+-262131 -1 -1 0 0;
+#X text 339 152 colors:;
+#X msg 182 190 range -1 1;
+#X text 98 543 delay;
+#X text 98 576 trigger;
+#X text 98 625 triglevel;
+#X msg 88 181 trigger \$1;
+#X obj 88 130 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 108 142 up mode;
+#X text 108 158 down mode;
+#X msg 182 167 range -1 2;
+#X obj 154 242 vsl 15 110 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 4200 1;
+#X msg 88 205 triglevel \$1;
+#X floatatom 116 333 5 0 0 0 - - -;
+#X text 265 625 - the signel level to fire the trigger;
+#X text 98 641 click (6 ints);
+#X text 265 543 - time delay between trigger and sample display;
+#X text 277 655 (xpix \, ypix \, shift \, alt \, dbl \, doit);
+#X text 423 265 <--this is the Scope~;
+#X text 443 278 object;
+#X obj 172 77 osc~ 20;
+#X text 307 591 1 - trigger on rising flank;
+#X text 307 607 2 - trigger on falling flank;
+#X text 265 575 - mode 0 - free running mode;
+#X msg 359 174 frgb 0 255 0 \, brgb 7 31 7;
+#X msg 359 197 frgb 255 255 255 \, brgb 0 0 255;
+#X msg 498 9 Scope~;
+#X obj 174 364 hsl 128 15 255 2 0 0 \$0-timebase empty empty -2 -8
+0 10 -262144 -1 -1 9100 1;
+#X obj 178 214 r \$0-timebase;
+#X text 336 173 crt;
+#X text 334 197 lcd;
+#X text 107 127 auto mode;
+#X text 278 559 effectively a refresh rate;
+#X text 278 670 hover the Scope to start refresh.;
+#X obj 518 351 dspSwitch~;
+#N canvas 383 551 430 344 x-y 0;
+#X obj 111 118 cyclone/Scope~ 130 130 40 3 130 -1 1 0 0 0 0 0 255 0
+7 31 7 0;
+#X obj 285 88 vsl 15 128 35 50 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X floatatom 285 230 5 0 0 0 - - -;
+#X obj 113 255 hsl 128 15 255 2 0 0 \$0-xybase empty empty -2 -8 0
+10 -262144 -1 -1 10792 1;
+#X obj 15 91 r \$0-xybase;
+#X obj 110 85 osc~ 40;
+#X obj 233 86 osc~ 40;
+#X obj 1 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X floatatom 110 275 5 0 0 0 - - -;
+#X msg 311 86 39.96;
+#X text 5 4 X-Y mode - useful for showing phase differences;
+#X msg 55 235 40;
+#X obj 55 213 loadbang;
+#X connect 1 0 2 0;
+#X connect 1 0 6 0;
+#X connect 3 0 8 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 1;
 #X connect 9 0 1 0;
-#X connect 10 0 9 1;
+#X connect 11 0 3 0;
+#X connect 12 0 11 0;
+#X restore 482 51 pd x-y mode;
+#X text 265 441 - the number of samples in the screen. Should;
+#X text 99 411 float;
+#X obj 0 828 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 278 453 be similar or less than the width of the;
+#X text 278 466 screen.;
+#X text 98 897 The sweep time can grow long quite fast. 8192 (time
+base) * 44100 (sample rate) * 130 (buffer size) is more than 24 seconds.
+;
+#X floatatom 122 361 5 0 0 0 - - -;
+#X text 265 641 - same as a click \, freezing the scope;
+#X text 307 362 time base;
+#X obj 208 104 hsl 60 15 0.01 1 1 0 empty empty level 2 8 1 10 -204786
+-1 -1 0 1;
+#X floatatom 136 77 5 0 0 0 - - -;
+#X text 278 426 values between 2 and 8192;
+#X text 265 412 - time base as fraction of the sample rate \,;
+#X obj 172 128 *~ 0.9;
+#X text 98 834 The Max objects has no arguments \, but many attributes.
+These are mapped to arguments and messages.;
+#X text 99 741 In order \, with default values: 0-width (66) \, 1-height
+(130) \, 2-time base (256) \, 3-xt/xy mode (3) \, 4-buffer size(128)
+\, 5-range minimum (-1) \, 6-range maximum (1) \, 7-delay (0) \, 8-??
+(0) \, 9-trigger mode (0) \, 10-trigger level (0) \, 11/13-foreground
+color (102 \, 255 \, 51) \, 14/16-background color (135 \, 135 \, 135)
+\, 17-?? (0);
+#X text 98 866 The example scope has these arguments: Scope~ 245 119
+215 3 245 -1 1 0 0 1 -0.174312 0 255 0 7 31 7 0;
+#X connect 20 0 40 0;
+#X connect 20 0 66 0;
+#X connect 22 0 19 0;
+#X connect 26 0 19 0;
+#X connect 27 0 26 0;
+#X connect 30 0 19 0;
+#X connect 31 0 32 0;
+#X connect 31 0 33 0;
+#X connect 32 0 19 0;
+#X connect 40 0 69 0;
+#X connect 44 0 19 0;
+#X connect 45 0 19 0;
+#X connect 47 0 62 0;
+#X connect 48 0 19 0;
+#X connect 65 0 69 1;
+#X connect 69 0 19 0;

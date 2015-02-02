@@ -1,180 +1,216 @@
-#N canvas 0 26 556 387 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+#N canvas 503 79 569 530 10;
+#X obj 0 680 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 11 349 docs based on the MAX/MSP reference (c) cycling'74;
-#X text 10 363 ___________________________________________________
+#X obj 0 539 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 19 20 universal;
-#X text 91 16 send a message to all instances of the same class in
+#N canvas 617 367 360 195 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 80 LIBRARY cyclone;
+#X text 0 0 KEYWORDS send message object objects class remote patch
 ;
-#X obj 50 203 universal;
-#X text 90 26 this patch (and it's subpatches if desired);
-#X obj 420 79 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X text 0 40 DESCRIPTION send message to all objects of the same class
 ;
-#X obj 441 72 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X text 0 60 INLET_0 message;
+#X text 1 100 VERSION 0.1-alpha57;
+#X text 1 118 AUTHOR Krzysztof Czaja;
+#X text 2 136 RELEASE_DATE 2002;
+#X text 3 155 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X obj 460 79 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X text 3 187 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 682 pd META;
+#X obj 0 587 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 481 71 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 0 628 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 314 454 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 32 cyclone/forward;
+#X obj 119 33 send;
+#X obj 119 54 receive;
+#X restore 202 682 pd Related_objects;
+#X obj 77 555 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X msg 50 77 tgl bang;
-#X msg 264 78 tgl bang;
-#X obj 264 133 universal 1;
-#N canvas 620 438 290 158 sub 0;
-#X obj -4 40 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 0 0 cnv 15 552 40 empty empty universal 3 12 0 18 -204280 -1
+0;
+#X obj 483 12 universal;
+#X text 109 555 message;
+#X text 177 555 - message to send to all instances of same class in
+patch;
+#X text 108 600 (none);
+#X obj 80 497 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X obj 17 33 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 36 40 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 57 32 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 50 77 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 71 70 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 90 77 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 111 69 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 69 5 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1;
-#X obj 88 12 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 109 4 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 102 49 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 123 42 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 142 49 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 163 41 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 126 95 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 147 87 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 140 132 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+#X obj 101 490 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X obj 161 125 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+#X obj 120 497 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X obj 180 132 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+#X obj 141 489 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X obj 201 124 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+#X msg 63 78 tgl bang;
+#X msg 94 370 tgl bang;
+#N canvas 604 796 266 175 sub 0;
+#X obj 0 65 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1;
+#X obj 21 58 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 40 65 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 61 57 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 54 102 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 75 95 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 94 102 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 115 94 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 73 30 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 92 37 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 113 29 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 106 74 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 127 67 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 146 74 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 167 66 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 130 120 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X obj 159 60 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 178 67 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 199 59 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X obj 192 104 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+#X obj 151 112 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X obj 14 73 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 144 157 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 165 150 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 184 157 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 205 149 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 163 85 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X obj 35 65 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 182 92 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X obj 28 110 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 203 84 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X obj 49 103 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 196 129 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 18 98 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X obj 226 33 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 221 58 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 237 85 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 106 106 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 101 131 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 188 7 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 183 32 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 48 124 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 10 98 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 5 123 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--262144;
-#X obj 50 9 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1 -262144
+#X obj 39 90 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X obj -3 2 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1 -262144
+#X obj 32 135 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X obj 146 17 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 53 128 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X obj 212 8 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 230 58 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
 -262144;
-#X obj 207 33 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 225 83 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
 -262144;
-#X restore 344 183 pd sub;
-#X text 350 123 nonzero arg means that;
-#X text 349 134 all subpatches get the;
-#X text 350 143 messsage too;
-#X text 261 181 look here:;
-#X obj 21 259 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
+#X obj 241 110 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 110 131 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 105 156 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 192 32 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 187 57 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 52 149 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 14 123 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 9 148 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1 -262144
+;
+#X obj 54 34 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1 -262144
+;
+#X obj 1 27 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1 -262144
+;
+#X obj 150 42 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 216 33 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 211 58 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
+-262144;
+#X obj 1 2 cnv 15 260 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 responds just like in parent patch;
+#X restore 363 493 pd sub;
+#X text 280 491 look here:;
+#X obj 49 260 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
 -262144 -1 -1 0 256;
-#X obj 21 246 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
+#X obj 49 247 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
 -262144 -1 -1 0 256;
-#X msg 71 124 nbx 4;
-#X msg 71 145 nbx 0;
-#X msg 59 101 tgl size 20;
-#X obj 170 203 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X msg 84 125 nbx 4;
+#X msg 84 146 nbx 0;
+#X msg 72 102 tgl size 20;
+#X obj 203 475 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
 -262144;
-#X obj 193 217 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 226 489 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
 -262144;
-#X obj 164 233 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 197 505 bng 15 250 50 0 empty empty empty 0 -6 0 8 -24198 -1
 -262144;
-#X msg 276 105 bng color 8;
-#X obj 21 286 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
+#X obj 49 287 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
 -262144 -1 -1 0 256;
-#X obj 21 273 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
+#X obj 49 274 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
 -262144 -1 -1 0 256;
-#X obj 202 284 hsl 128 15 0 127 0 0 empty empty empty -2 -6 0 8 -262144
+#X obj 317 280 hsl 128 15 0 127 0 0 empty empty empty -2 -6 0 8 -262144
 -1 -1 0 1;
-#X obj 192 265 hsl 128 15 0 127 0 0 empty empty empty -2 -6 0 8 -262144
+#X obj 307 261 hsl 128 15 0 127 0 0 empty empty empty -2 -6 0 8 -262144
 -1 -1 0 1;
-#X msg 151 116 hsl \$1;
-#X obj 151 96 line;
-#X msg 151 75 0 \, 127 1000;
-#X obj 427 248 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
+#X obj 473 210 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
 -1 -1 0 1;
-#X obj 437 253 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
+#X obj 483 215 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
 -1 -1 0 1;
-#X obj 448 256 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
+#X obj 494 218 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
 -1 -1 0 1;
-#X obj 458 261 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
+#X obj 504 223 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
 -1 -1 0 1;
-#X obj 384 231 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
+#X obj 430 193 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
 -1 -1 0 1;
-#X obj 394 236 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
+#X obj 440 198 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
 -1 -1 0 1;
-#X obj 405 239 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
+#X obj 451 201 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
 -1 -1 0 1;
-#X obj 415 244 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
+#X obj 461 206 vsl 8 30 0 127 0 0 empty empty empty 0 -8 0 8 -262144
 -1 -1 0 1;
-#X msg 163 137 vsl \$1;
-#N canvas 247 115 494 344 META 0;
-#X text 12 145 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
-#X text 12 115 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 11 23 send message to all objects of the same class;
+#X msg 310 134 hsl \$1;
+#X obj 310 109 line;
+#X msg 310 88 0 \, 127 1000;
+#X msg 370 134 vsl \$1;
+#X obj 128 255 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 149 248 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 168 255 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 189 247 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X text 93 645 1) float;
+#X text 177 645 - nonzero arg means all subpatches get the message
+too;
+#X text 46 336 send message to all objecs in patch and its subpatches:
 ;
-#X text 12 5 KEYWORDS control nonlocal max_compatible;
-#X text 12 75 INLET_0 anything;
-#X text 12 25 LICENSE SIBSD;
-#X text 12 95 AUTHOR Krzysztof Czaja;
-#X text 12 45 DESCRIPTION send a message to all instances of the same
-class in this patch (and its subpatches if desired);
-#X restore 506 363 pd META;
-#X connect 11 0 5 0;
-#X connect 12 0 13 0;
-#X connect 21 0 5 0;
-#X connect 22 0 5 0;
-#X connect 23 0 5 0;
-#X connect 27 0 13 0;
-#X connect 32 0 5 0;
-#X connect 33 0 32 0;
-#X connect 33 0 43 0;
-#X connect 34 0 33 0;
-#X connect 43 0 5 0;
+#X text 43 52 send message to all objects of same class in patch:;
+#X msg 106 397 bng color 16;
+#X obj 63 204 cyclone/universal;
+#X obj 310 199 cyclone/universal;
+#X obj 94 439 cyclone/universal 1;
+#X connect 16 0 54 0;
+#X connect 17 0 56 0;
+#X connect 22 0 54 0;
+#X connect 23 0 54 0;
+#X connect 24 0 54 0;
+#X connect 41 0 55 0;
+#X connect 42 0 41 0;
+#X connect 42 0 44 0;
+#X connect 43 0 42 0;
+#X connect 44 0 55 0;
+#X connect 53 0 56 0;

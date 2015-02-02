@@ -1,68 +1,80 @@
-#N canvas 0 26 738 369 10;
-#X msg 400 210 resume;
-#X msg 363 210 pause;
-#X msg 356 174 stop;
-#X text 15 35 Generate signal ramp or envelope;
-#X obj 62 219 loadbang;
-#X obj 62 241 metro 250;
-#X floatatom 24 288 5 0 0 0 - - -;
-#X obj 24 265 snapshot~;
-#X obj 368 262 loadbang;
-#X floatatom 330 331 5 0 0 0 - - -;
-#X obj 330 308 snapshot~;
-#X text 350 51 You can generate a ramp using a list of values \, set
-and initial value \, then send a list of value and target time pairs.
+#N canvas 620 82 571 532 10;
+#X obj 0 558 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 384 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X text 83 85 a float on the left inlet sets immediately;
-#X text 451 207 pause and resume the line generation;
-#X text 387 172 stop the line generation and cancel all pending actions
+#N canvas 617 350 347 317 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 100 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal generate ramp envelope;
+#X text 0 40 DESCRIPTION generate signal ramp or envelope;
+#X text 0 60 INLET_0 float message;
+#X text 0 80 INLET_1 float;
+#X text 0 180 RELEASE_DATE 2002;
+#X text 0 156 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 88 189 argument sets the initial value;
-#X msg 26 86 1;
-#X msg 54 86 0;
-#X msg 78 136 5000;
-#X msg 163 222 bang;
-#X text 111 134 sets the time for the next float;
-#X text 112 149 sent to the left inlet;
-#X text 493 137 it will take up to 64 value-time pairs;
-#X msg 332 115 0 \, 1 1000;
-#X obj 330 241 Line~ 0.5;
-#X obj 26 189 Line~ 0.5;
-#X text 16 13 Line~;
-#X msg 348 138 0 \, 10 1000 0 1000 0.1 5000;
-#X obj 368 284 metro 100;
-#N canvas 462 244 494 403 META 0;
-#X text 12 245 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
-#X text 12 5 GENRE help;
-#X text 12 185 LIBRARY external cyclone;
-#X text 12 205 AUTHOR krzYszcz;
-#X text 12 225 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 0 136 AUTHOR Krzysztof Czaja;
+#X text 0 200 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+updated this patch for pd-extended 2014-12-02.;
+#X restore 503 560 pd META;
+#X obj 0 476 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X text 12 25 NAME Line~;
-#X text 12 85 DESCRIPTION generate signal ramp or envelope;
-#X text 12 45 KEYWORDS signal conversion max_compatible ramp;
-#X text 12 105 INLET_0 float list stop pause resume;
-#X text 12 125 INLET_1 float;
-#X text 12 145 OUTLET_0 signal;
-#X text 12 165 OUTLET_1 bang;
-#X text 12 65 LICENSE SIBSD;
-#X restore 688 347 pd META;
-#X connect 0 0 24 0;
-#X connect 1 0 24 0;
-#X connect 2 0 24 0;
-#X connect 4 0 5 0;
-#X connect 5 0 7 0;
-#X connect 7 0 6 0;
-#X connect 8 0 28 0;
-#X connect 10 0 9 0;
-#X connect 16 0 25 0;
-#X connect 17 0 25 0;
-#X connect 18 0 25 1;
-#X connect 19 0 5 0;
-#X connect 19 0 28 0;
-#X connect 23 0 24 0;
-#X connect 24 0 10 0;
-#X connect 25 0 7 0;
-#X connect 27 0 24 0;
-#X connect 28 0 10 0;
+#X obj 0 513 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 305 484 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 206 560 pd Related_objects;
+#X obj 84 393 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 443 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Line~ 3 12 0 18 -204280 -1 0;
+#X obj 511 10 Line~;
+#X text 12 24 Generate signal ramp or envelope;
+#X text 111 392 float;
+#X obj 84 485 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 111 443 float;
+#X text 173 392 - immediately sets value;
+#X text 111 485 signal;
+#X text 173 485 - ramps to value set amount of time;
+#X text 111 411 message;
+#X text 92 528 1) float;
+#X text 173 528 - set the intial value;
+#X floatatom 149 336 5 0 0 0 - - -;
+#X msg 121 53 0 \, 0.1 1000 0.25 500 0.5 250 0.9 100 1 500 0.75 1000
+0.5 500 0.25 250 0 500 0 1000;
+#X msg 249 167 5000;
+#X msg 25 117 1;
+#X msg 24 139 0.1;
+#X text 173 443 - sets the time for the next float send to the left
+inlet;
+#X text 318 85 You can generate a ramp using a list;
+#X text 317 99 of values \, set and initial value \, then;
+#X text 317 112 send a list of value and target time;
+#X text 317 124 pairs.;
+#X msg 150 92 0 \, 10 1000 0 1000 0.5 5000;
+#X msg 190 121 pause;
+#X msg 190 143 resume;
+#X msg 190 165 stop;
+#X obj 149 309 cyclone/Snapshot~ 100;
+#X obj 150 244 cyclone/Line~ 0.5;
+#X obj 152 360 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 6350 1;
+#X obj 519 349 dspSwitch~;
+#X text 173 411 - stop \, pause \, resume. Do the obvious.;
+#X connect 20 0 36 0;
+#X connect 21 0 35 0;
+#X connect 22 0 35 1;
+#X connect 23 0 35 0;
+#X connect 24 0 35 0;
+#X connect 30 0 35 0;
+#X connect 31 0 35 0;
+#X connect 32 0 35 0;
+#X connect 33 0 35 0;
+#X connect 34 0 20 0;
+#X connect 35 0 34 0;

@@ -1,40 +1,70 @@
-#N canvas 0 26 419 351 10;
-#X obj 4 4 cnv 15 400 40 empty empty empty 20 12 0 14 -262130 -66577
+#N canvas 623 81 559 531 10;
+#X obj 0 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 15 313 docs based on the MAX/MSP reference (c) cycling'74;
-#X text 14 327 ___________________________________________________
+#X obj 0 333 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X floatatom 98 276 5 0 0 0 - - -;
-#X obj 24 27 mean;
-#X text 60 32 find the running average of a stream of numbers;
-#X obj 98 215 mean;
-#X floatatom 44 130 5 0 0 0 - - -;
-#X obj 157 163 line;
-#X msg 98 85 clear;
-#X msg 157 131 0 \, 1 1000;
-#X msg 158 99 1 2 3 4 5;
-#N canvas 247 115 494 368 META 0;
-#X text 12 175 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
-#X text 12 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 594 316 370 225 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 108 LIBRARY cyclone;
+#X text 0 0 KEYWORDS average list mean;
+#X text 0 36 DESCRIPTION find the running average of a stream of numbers
 ;
-#X text 12 5 KEYWORDS control max_compatible;
-#X text 12 45 DESCRIPTION find the running average of a stream of numbers
+#X text 0 54 INLET_0 list float message;
+#X text 0 90 OUTLET_1 float;
+#X text 0 72 OUTLET_0 float;
+#X text 0 127 VERSION 0.1-alpha57;
+#X text 0 145 AUTHOR Krzysztof Czaja;
+#X text 1 163 RELEASE_DATE 2002;
+#X text 2 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 12 65 INLET_0 float list clear;
-#X text 12 85 OUTLET_0 float;
-#X text 12 105 OUTLET_1 float;
-#X text 12 25 LICENSE SIBSD;
-#X text 12 125 AUTHOR Krzysztof Czaja;
-#X restore 370 331 pd META;
-#X floatatom 119 245 5 0 0 0 - - -;
-#X text 159 243 total no of values included in the;
-#X text 159 258 averaging process;
-#X text 138 277 mean;
-#X connect 6 0 3 0;
-#X connect 6 1 13 0;
-#X connect 7 0 6 0;
-#X connect 8 0 6 0;
-#X connect 9 0 6 0;
-#X connect 10 0 8 0;
-#X connect 11 0 6 0;
+#X text 2 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 508 pd META;
+#X obj 0 398 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 458 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 307 431 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 207 508 pd Related_objects;
+#X obj 81 342 cnv 17 3 47 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 431 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty mean 3 12 0 18 -204280 -1 0;
+#X obj 519 4 mean;
+#X text 12 23 find the running average of a stream of numbers;
+#X floatatom 96 302 5 0 0 0 - - -;
+#X floatatom 124 94 5 0 0 0 - - -;
+#X obj 147 170 line;
+#X msg 96 70 clear;
+#X msg 147 145 0 \, 1 1000;
+#X msg 136 119 1 2 3 4 5;
+#X floatatom 165 302 5 0 0 0 - - -;
+#X text 203 296 total no of values included in the;
+#X text 203 311 averaging process;
+#X text 131 303 mean;
+#X text 108 341 list;
+#X text 181 341 - list of numbers to take avg;
+#X text 108 358 float;
+#X text 181 358 - number to add running average;
+#X text 108 373 message;
+#X text 181 373 - clear: clear avg \, start over;
+#X text 108 408 float;
+#X text 181 408 - running average;
+#X text 108 476 (none);
+#X obj 81 408 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 108 431 float;
+#X text 181 431 - total number of values processed;
+#X obj 96 234 cyclone/mean;
+#X connect 12 0 33 0;
+#X connect 13 0 33 0;
+#X connect 14 0 33 0;
+#X connect 15 0 13 0;
+#X connect 16 0 33 0;
+#X connect 33 0 11 0;
+#X connect 33 1 17 0;

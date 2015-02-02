@@ -1,50 +1,107 @@
-#N canvas 0 26 461 431 10;
-#X text 15 35 smooth out an incoming signal via a ramp;
-#X msg 49 161 1;
-#X msg 18 161 0;
-#X msg 217 222 rampdown \$1;
-#X floatatom 217 203 0 0 0 0 - - -;
-#X msg 155 222 rampup \$1;
-#X floatatom 155 203 0 0 0 0 - - -;
-#X text 19 60 rampsmooth~ smooths an incoming signal across n samples.
+#N canvas 507 79 570 530 10;
+#X obj 0 571 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 383 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 599 384 372 212 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 95 LIBRARY cyclone;
+#X text 0 76 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal ramp smooth;
+#X text 0 38 DESCRIPTION smooth out an incoming signal via a ramp;
+#X text 0 57 INLET_0 signal ramp rampup rampdown;
+#X text 0 116 VERSION 0.1-alpha57;
+#X text 0 134 AUTHOR Krzysztof Czaja;
+#X text 1 152 RELEASE_DATE 2002;
+#X text 2 171 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 203 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 573 pd META;
+#X obj 0 475 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 512 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 317 491 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 207 573 pd Related_objects;
+#X obj 82 392 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 485 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty rampsmooth~ 3 12 0 18 -204280
+-1 0;
+#X text 12 23 smooth out an incoming signal via a ramp;
+#X text 111 392 signal;
+#X text 231 392 - incoming signal to smooth out;
+#X msg 329 190 rampdown \$1;
+#X floatatom 329 171 0 0 0 0 - - -;
+#X msg 242 190 rampup \$1;
+#X floatatom 242 171 0 0 0 0 - - -;
+#X obj 96 185 sig~;
+#X floatatom 96 166 0 0 0 0 - - -;
+#X obj 95 357 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X text 111 484 signal;
+#X text 231 484 - output ramped signal;
+#X text 93 521 1) float;
+#X text 93 542 2) float;
+#X text 231 521 - rampup value;
+#X text 231 542 - rampdown value;
+#X text 111 428 rampup <float>;
+#X text 111 410 ramp <float>;
+#X text 111 446 rampdown <float>;
+#X text 231 428 - set rampup value;
+#X text 38 43 rampsmooth~ smooths an incoming signal across n samples.
 Each time an incoming value changes \, it begins a linear ramp of n
 samples to reach this value. Useful for envelope following and lowpass
 filtering. The number of samples is specified either as arguments or
 with the ramp \, rampup \, rampdown messages.;
-#X obj 32 222 sig~;
-#X floatatom 32 203 0 0 0 0 - - -;
-#X msg 93 222 ramp \$1;
-#X floatatom 93 203 0 0 0 0 - - -;
-#X text 181 246 args: <rampup> <rampdown>;
-#X obj 144 280 Scope~ 130 130 256 3 128 -1 1 0 0 0 0 102 255 51 135
-135 135 0;
-#X obj 32 246 rampsmooth~ 44100 44100;
-#X obj 32 294 Snapshot~ 100;
-#X obj 33 325 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
-#N canvas 247 115 494 398 META 0;
-#X text 12 155 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
-#X text 12 125 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 12 45 DESCRIPTION smooth out an incoming signal via a ramp
-;
-#X text 12 5 KEYWORDS signal max_compatible ramp;
-#X text 12 85 OUTLET_0 signal;
-#X text 12 65 INLET_0 signal ramp rampup rampdown;
-#X text 12 25 LICENSE SIBSD;
-#X text 12 105 AUTHOR Krzysztof Czaja;
-#X restore 411 410 pd META;
-#X connect 1 0 9 0;
-#X connect 2 0 9 0;
-#X connect 3 0 14 0;
-#X connect 4 0 3 0;
-#X connect 5 0 14 0;
-#X connect 6 0 5 0;
-#X connect 8 0 14 0;
-#X connect 9 0 8 0;
-#X connect 10 0 14 0;
-#X connect 11 0 10 0;
-#X connect 14 0 13 0;
-#X connect 14 0 15 0;
-#X connect 15 0 16 0;
+#X obj 470 8 rampsmooth~;
+#X text 231 446 - set rampdown value;
+#X obj 62 241 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 95 244 cyclone/rampsmooth~ 44100 44100;
+#X obj 96 140 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 371 141 11025;
+#X msg 283 143 11025;
+#X obj 95 314 cyclone/Snapshot~ 100;
+#X text 231 410 - set both ramp values;
+#X obj 297 337 output~;
+#X obj 331 295 osc~ 220;
+#X obj 297 312 *~;
+#X obj 405 91 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 406 111 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 426 88 slow up \, fast down;
+#X text 427 109 fast up \, slow down;
+#X text 114 138 on/off;
+#X msg 242 142 88200;
+#X msg 329 142 88200;
+#X connect 12 0 33 0;
+#X connect 13 0 12 0;
+#X connect 14 0 33 0;
+#X connect 15 0 14 0;
+#X connect 16 0 33 0;
+#X connect 17 0 16 0;
+#X connect 33 0 37 0;
+#X connect 33 0 41 0;
+#X connect 34 0 17 0;
+#X connect 35 0 13 0;
+#X connect 36 0 15 0;
+#X connect 37 0 18 0;
+#X connect 37 0 32 0;
+#X connect 40 0 41 1;
+#X connect 41 0 39 0;
+#X connect 41 0 39 1;
+#X connect 42 0 35 0;
+#X connect 42 0 47 0;
+#X connect 43 0 48 0;
+#X connect 43 0 36 0;
+#X connect 47 0 15 0;
+#X connect 48 0 13 0;
