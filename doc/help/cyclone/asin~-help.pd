@@ -1,4 +1,4 @@
-#N canvas 450 82 570 530 10;
+#N canvas 164 221 570 530 10;
 #X obj 0 589 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 369 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -87,7 +87,7 @@ asin~ to output the value zero;
 #X text 210 348 -2;
 #X obj 14 223 hsl 195 140 0 127 0 0 blank_outlet blank_inlet empty
 -2 -8 0 10 -262144 -262144 -262144 0 1;
-#N canvas 0 0 450 300 (subpatch) 0;
+#N canvas 0 50 450 300 (subpatch) 0;
 #X array cycle-asin 1024 float 1;
 #A 0 0.402499 0.430996 0.459486 0.487983 0.516482 0.544969 0.573466
 0.601968 0.630453 0.658949 0.687456 0.715937 0.744432 0.772941 0.801421
@@ -226,7 +226,7 @@ asin~ to output the value zero;
 #X restore 11 223 graph;
 #X obj 228 223 hsl 195 140 0 127 0 0 blank_outlet blank_inlet empty
 -2 -8 0 10 -262144 -262144 -262144 0 1;
-#N canvas 0 0 450 300 (subpatch) 0;
+#N canvas 0 50 450 300 (subpatch) 0;
 #X array phasor-asin 1024 float 1;
 #A 0 0.0476288 0.0567114 0.0657988 0.0748917 0.0839907 0.0930967 0.10221
 0.111333 0.120464 0.129606 0.138759 0.147923 0.1571 0.16629 0.175494
@@ -366,6 +366,12 @@ asin~ to output the value zero;
 -0.763727 -0.751244 -0.738904;
 #X coords 0 2 1023 -2 200 140 1 0 0;
 #X restore 225 223 graph;
+#X obj 432 275 *~ 0;
+#X obj 490 274 *~ 0;
+#X obj 522 274 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 464 275 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
 #X connect 13 0 28 0;
 #X connect 14 0 13 0;
 #X connect 24 0 23 0;
@@ -376,7 +382,11 @@ asin~ to output the value zero;
 #X connect 28 0 32 0;
 #X connect 29 0 14 0;
 #X connect 30 0 27 0;
-#X connect 34 0 33 0;
-#X connect 34 0 33 1;
-#X connect 35 0 33 1;
-#X connect 35 0 33 0;
+#X connect 34 0 42 0;
+#X connect 35 0 43 0;
+#X connect 42 0 33 0;
+#X connect 42 0 33 1;
+#X connect 43 0 33 1;
+#X connect 43 0 33 0;
+#X connect 44 0 43 1;
+#X connect 45 0 42 1;
