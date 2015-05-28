@@ -1,4 +1,4 @@
-#N canvas 52 410 430 408 10;
+#N canvas 50 411 430 408 10;
 #X obj 50 95 tgl 30 0 THIS_IS_HERE_TO_GET_RID_OF_THE_OUTLET \$0-dsp-toggle
 dsp 2 9 1 17 -262144 -195568 -33289 0 1;
 #N canvas 436 649 433 356 dsp 0;
@@ -41,5 +41,7 @@ dsp 2 9 1 17 -262144 -195568 -33289 0 1;
 #X restore 82 158 pd dsp logic;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 7 3 DSP switch abstraction;
+#X text 20 355 Derived from output~.pd created by Katja Vetter after
+an idea by Claude Heiland-Allen;
 #X connect 0 0 1 0;
 #X coords 0 0 1 1 30 30 2 50 95;
