@@ -1,4 +1,4 @@
-#N canvas 621 81 569 531 10;
+#N canvas 619 82 569 531 10;
 #X obj 0 736 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 429 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -72,6 +72,55 @@ with two phasor~ objects;
 #X obj 94 335 cyclone/cycle~;
 #X obj 93 385 output~;
 #X obj 100 153 / 100;
+#N canvas 823 299 450 477 how 0;
+#X obj 32 336 *~ 1000;
+#X obj 32 379 *~ 0.2;
+#X floatatom 32 116 0 0 0 0 - - -;
+#X floatatom 132 169 0 0 0 0 - - -;
+#X obj 32 266 cyclone/sah~ 0.01;
+#X obj 32 358 cyclone/cycle~;
+#X obj 31 408 output~;
+#X obj 298 135 vsl 15 128 0 1 0 0 empty empty signal 0 -18 0 10 -262144
+-1 -1 7587 1;
+#X obj 326 135 vsl 15 128 0 1 0 0 empty empty control 0 -9 0 10 -262144
+-1 -1 7940 1;
+#X obj 346 135 vsl 15 128 0 1 0 0 empty empty trigger_level 20 5 0
+10 -262144 -1 -1 6350 1;
+#X obj 35 62 hsl 128 15 1 2 0 0 empty empty signal_frequency_range
+-2 -8 0 10 -262144 -1 -1 0 1;
+#X obj 135 90 hsl 128 15 1 2 0 0 empty empty control_frequency_range
+-2 -8 0 10 -262144 -1 -1 0 1;
+#X obj 145 116 cyclone/Snapshot~ 100;
+#X obj 140 224 cyclone/Snapshot~ 100;
+#X floatatom 346 271 5 0 0 0 - - -, f 5;
+#X obj 32 140 phasor~ 1.35;
+#X obj 132 191 phasor~ 1.25;
+#X text 77 289 When the control signal level is greater than the trigger
+level the sample-and-hold locks on the current signal frequency.;
+#X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
+#X text 32 21 low frequency demo / test;
+#X obj 346 66 loadbang;
+#X msg 346 88 0.5;
+#X connect 0 0 5 0;
+#X connect 1 0 6 0;
+#X connect 1 0 6 1;
+#X connect 2 0 15 0;
+#X connect 3 0 16 0;
+#X connect 4 0 0 0;
+#X connect 5 0 1 0;
+#X connect 9 0 4 0;
+#X connect 9 0 14 0;
+#X connect 10 0 2 0;
+#X connect 11 0 3 0;
+#X connect 12 0 7 0;
+#X connect 13 0 8 0;
+#X connect 15 0 4 0;
+#X connect 15 0 12 0;
+#X connect 16 0 4 1;
+#X connect 16 0 13 0;
+#X connect 20 0 21 0;
+#X connect 21 0 9 0;
+#X restore 367 403 pd how it works;
 #X connect 21 0 33 0;
 #X connect 22 0 34 0;
 #X connect 22 0 34 1;
