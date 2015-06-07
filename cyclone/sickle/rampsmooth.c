@@ -7,7 +7,7 @@
 #include "sickle/sic.h"
 
 /* LATER select the mode fitter-optionally */
-#define RAMPSMOOTH_GEOMETRIC  /* geometric series (same as slide~) CHECKED */
+/* #define RAMPSMOOTH_GEOMETRIC  /* geometric series (same as slide~) CHECKED */
 #ifndef RAMPSMOOTH_GEOMETRIC
 #define RAMPSMOOTH_LINEAR
 #endif
