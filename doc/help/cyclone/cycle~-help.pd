@@ -1,4 +1,4 @@
-#N canvas 619 82 567 530 10;
+#N canvas 617 83 567 530 10;
 #X obj 0 653 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 339 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -27,7 +27,7 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X obj 0 485 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 0 561 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 0 578 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 302 575 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -55,15 +55,13 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 165 405 - drive by phase only (frequency is 0);
 #X text 110 456 signal;
 #X text 165 454 - the signal with given frequency or phase;
-#X text 91 504 1) float;
-#X text 165 504 - default frequency;
 #X text 109 522 buffer;
 #X text 165 522 - can give function stored in buffer object;
 #X obj 504 4 cycle~;
 #X text 28 52 cycle~ uses a stored table of 512 samples to generate
 functions. By default it uses a sine wave \, but you can give it a
 function stored in a buffer~ object.;
-#X text 97 578 Symbol argument sets name of table to play from. Additional
+#X text 97 595 Symbol argument sets name of table to play from. Additional
 int argument after that sets sample offset into the table (default
 0);
 #X obj 169 278 output~;
@@ -75,7 +73,7 @@ int argument after that sets sample offset into the table (default
 1;
 #X obj 33 179 cyclone/cycle~ 440;
 #X obj 300 207 cyclone/cycle~;
-#N canvas 576 500 431 349 more 0;
+#N canvas 1132 443 431 349 more 0;
 #X obj 248 109 loadbang;
 #X msg 248 134 22.5;
 #X text 242 32 4 Using your function;
@@ -125,14 +123,14 @@ int argument after that sets sample offset into the table (default
 1;
 #X obj 155 218 *~ 0;
 #X obj 215 218 *~ 0;
-#X obj 247 219 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 247 219 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 49 178 cyclone/cycle~;
-#X obj 248 160 cyclone/cycle~ buffsky;
 #X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 5 4 Frequency input and using a lookup table;
+#X obj 248 160 cyclone/cycle~ buffsky 100;
 #X connect 0 0 1 0;
-#X connect 1 0 17 0;
+#X connect 1 0 19 0;
 #X connect 3 0 5 0;
 #X connect 4 0 3 0;
 #X connect 5 0 6 0;
@@ -145,14 +143,18 @@ int argument after that sets sample offset into the table (default
 #X connect 14 0 11 1;
 #X connect 15 0 14 1;
 #X connect 16 0 13 0;
-#X connect 17 0 14 0;
+#X connect 19 0 14 0;
 #X restore 321 289 pd more examples;
-#X connect 11 0 38 1;
-#X connect 33 0 34 1;
-#X connect 34 0 32 0;
-#X connect 34 0 32 1;
+#X text 108 504 float;
+#X text 108 541 float;
+#X text 165 541 - sample offset (optional);
+#X text 165 504 - default frequency (optional);
+#X connect 11 0 36 1;
+#X connect 31 0 32 1;
+#X connect 32 0 30 0;
+#X connect 32 0 30 1;
+#X connect 33 0 30 0;
+#X connect 33 0 30 1;
+#X connect 34 0 33 1;
 #X connect 35 0 32 0;
-#X connect 35 0 32 1;
-#X connect 36 0 35 1;
-#X connect 37 0 34 0;
-#X connect 38 0 35 0;
+#X connect 36 0 33 0;
