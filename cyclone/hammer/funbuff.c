@@ -339,7 +339,7 @@ static void funbuff_dump(t_funbuff *x)
 }
 
 /* CHECKME if pointer is updated */
-static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_float *vec)
+static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_word *vec)
 {
     t_hammernode *np1;
     int trunc = (int)f;
@@ -372,7 +372,7 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_float *vec)
 		    return;
 		}
 		vec += vndx;
-		frac = *vec + (vec[1] - *vec) * vfrac;
+		frac = vec[0].w_float + (vec[1].w_float - vec[0].w_float) * vfrac;
 	    }
 	    value +=
 		(HAMMERNODE_GETFLOAT(np2) - HAMMERNODE_GETFLOAT(np1)) * frac;
@@ -392,7 +392,7 @@ static void funbuff_interp(t_funbuff *x, t_floatarg f)
 static void funbuff_interptab(t_funbuff *x, t_symbol *s, t_floatarg f)
 {
     int vsz;
-    t_float *vec;
+    t_word *vec;
     if (vec = vefl_get(s, &vsz, 0, (t_pd *)x))
     {
 	if (vsz > 2)
