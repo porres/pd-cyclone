@@ -66,6 +66,7 @@ typedef struct _comment
     int        x_selend;
     int        x_active;
     int        x_ready;
+    t_symbol  *x_selector;
 } t_comment;
 
 static t_class *comment_class;
@@ -454,8 +455,7 @@ static void comment_save(t_gobj *z, t_binbuf *b)
     t_text *t = (t_text *)x;
     comment_validate(x, 0);
     binbuf_addv(b, "ssiisiissiiii", gensym("#X"), gensym("obj"),
-		(int)t->te_xpix, (int)t->te_ypix,
-        gensym("comment"),
+		(int)t->te_xpix, (int)t->te_ypix, x->x_selector,
 		x->x_pixwidth, x->x_fontsize, x->x_fontfamily,
 		(x->x_encoding ? x->x_encoding : gensym("?")),
 		x->x_fontprops,
@@ -590,7 +590,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	    t_text *newt, *oldt = (t_text *)x;
 	    t_binbuf *bb = binbuf_new();
 	    int ac = binbuf_getnatom(x->x_binbuf);
-	    binbuf_addv(bb, "siissiiii", gensym("comment"), x->x_pixwidth,
+	    binbuf_addv(bb, "siissiiii", x->x_selector, x->x_pixwidth,
 			x->x_fontsize, x->x_fontfamily,
 			(x->x_encoding ? x->x_encoding : gensym("?")),
 			x->x_fontprops,
@@ -696,6 +696,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av)
     x->x_red = 0;
     x->x_green = 0;
     x->x_blue = 0;
+    x->x_selector = s;
 
     if (ac && av->a_type == A_FLOAT)
     {
