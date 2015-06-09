@@ -19,7 +19,7 @@ typedef struct _vefl
     double     v_updtime;
 } t_vefl;
 
-t_float *vefl_get(t_symbol *name, int *vszp, int indsp, t_pd *complain);
+t_word *vefl_get(t_symbol *name, int *vszp, int indsp, t_pd *complain);
 t_vefl *vefl_new(t_symbol *name, int writable, t_glist *gl, t_garray *arr);
 t_vefl *vefl_placement_new(t_vefl *vp, t_symbol *name,
 			   int writable, t_glist *gl, t_garray *arr);

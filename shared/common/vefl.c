@@ -25,7 +25,7 @@
 #define VEFL_VERBOSE
 
 /* on failure *vszp is not modified */
-t_float *vefl_get(t_symbol *name, int *vszp, int indsp, t_pd *complain)
+t_word *vefl_get(t_symbol *name, int *vszp, int indsp, t_pd *complain)
 {
     if (name && name != &s_)
     {
@@ -33,7 +33,7 @@ t_float *vefl_get(t_symbol *name, int *vszp, int indsp, t_pd *complain)
 	if (ap)
 	{
 	    int vsz;
-	    t_float *vec;
+	    t_word *vec;
 	    if (garray_getfloatwords(ap, &vsz, &vec))
 	    {
 		if (indsp) garray_usedindsp(ap);
