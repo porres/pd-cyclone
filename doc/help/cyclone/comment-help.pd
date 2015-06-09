@@ -1,4 +1,4 @@
-#N canvas 530 79 569 531 10;
+#N canvas 526 81 569 531 10;
 #X obj 0 0 cnv 15 552 40 empty empty comment 3 12 0 18 -204280 -1 0
 ;
 #X obj 0 492 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -37,30 +37,21 @@ meant to be Max/MSP compatible;
 #X obj 19 61 comment 0 12 Courier ? 0 0 0 0 [comment];
 #X text 112 60 a text comment with some formatting options \, meant
 to be Max/MSP compatible;
-#X obj 14 233 comment 0 12 Courier ? 0 0 0 0 [comment 0 12 Courier]
-;
 #X text 21 98 Comment accepts three arguments which define the basic
 formatting: width \, font-size \, font-face;
-#X obj 25 266 comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times];
 #X text 23 219 Here are some examples:;
 #X text 37 152 - font-size: in pixels;
-#X obj 20 291 comment 0 20 Times ? 0 255 128 0 [comment 0 20 Times
-? 0 255 128 0];
 #X text 37 169 - font-face: one of the Pd standards (Courier \, Times
 \, or Helvetica) as well as any other single-word font available on
 your system.;
 #X text 21 451 * Note: Using the mouse you can click-drag the top right
 edge of the comment to change the width.;
 #X text 37 135 - width: in pixels \, wraps text to this width *;
-#X obj 333 216 comment 88 14 Helvetica ? 0 0 0 0 [comment 100 14 Helvetica]
-;
 #X text 17 371 Click the object in edit mode \, then press <F4> to
 show the object name and arguments.;
 #X text 17 401 You can also press <F5> to duplicate the comment text
 into a new Pd text object.;
 #X text 8 23 a text comment with some formatting options;
-#X obj 194 328 comment 329 14 Helvetica ? 0 0 128 128 [comment 0 14
-Helvetica ? 0 0 128 128];
 #X text 96 584 1;
 #X text 130 584 - pixelWidth;
 #X text 131 599 - fontSize;
@@ -77,3 +68,13 @@ Helvetica ? 0 0 128 128];
 #X text 98 656 6;
 #X text 98 671 7;
 #X text 98 684 8;
+#X obj 14 233 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
+Courier];
+#X obj 194 328 cyclone/comment 329 14 Helvetica ? 0 0 128 128 [comment
+0 14 Helvetica ? 0 0 128 128];
+#X obj 20 291 cyclone/comment 0 20 Times ? 0 255 128 0 [comment 0 20
+Times ? 0 255 128 0];
+#X obj 25 266 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
+;
+#X obj 333 216 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
+14 Helvetica];
