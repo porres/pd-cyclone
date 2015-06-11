@@ -483,7 +483,7 @@ static void *sigaccum_new(t_floatarg f)
     return (x);
 }
 
-void allnettles_setup(void)
+void nettles_setup(void)
 {
     rminus_class = class_new(gensym("!-"),
 			     (t_newmethod)rminus_new, 0,
@@ -546,4 +546,11 @@ void allnettles_setup(void)
     class_addbang(sigaccum_class, sigaccum_bang);
     class_addmethod(sigaccum_class, (t_method)sigaccum_set,
 		    gensym("set"), A_FLOAT, 0);
+    logpost(NULL, 4, "this is cyclone/nettles %s, %dth %s build",
+	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);  
+}
+
+void allnettles_setup(void)
+{
+    nettles_setup();
 }
