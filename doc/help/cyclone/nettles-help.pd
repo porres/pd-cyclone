@@ -1,5 +1,5 @@
-#N canvas 584 81 570 594 10;
-#X obj 414 44 import cyclone/nettles;
+#N canvas 521 79 569 596 10;
+#X obj 413 44 import cyclone/nettles;
 #X obj 23 165 ==~;
 #X obj 23 240 !=~;
 #X obj 23 265 <~;
@@ -8,7 +8,7 @@
 #X obj 23 350 >=~;
 #X obj 23 409 !/~;
 #X obj 23 443 %~;
-#X obj 22 523 +=~;
+#X obj 23 523 +=~;
 #X obj 23 190 _==1~;
 #X obj 23 215 _==2~;
 #X obj 23 91 !-;
@@ -16,7 +16,6 @@
 #X obj 23 380 !-~;
 #X text 71 190 sigeq - outlet is 1 when inlets are equal as floats
 ;
-#X text 72 214 sigeq - compare more (8?) samples in block;
 #X text 72 164 sigeq - outlet is 1 when inlets are equal as ints?;
 #X msg 23 140 _algo n;
 #X text 85 141 switch mode: 0 \, 1 \, 2;
@@ -45,6 +44,14 @@ than right;
 #X text 69 502 set sum to 0;
 #X obj 0 557 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
+#N canvas 319 385 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 205 559 pd Related_objects;
+#X text 12 23 Nettles: bin-ops;
+#X obj 0 0 cnv 15 552 40 empty empty nettles 3 12 0 18 -204280 -1 0
+;
+#X text 72 214 sigeq - fast compare \, 8 samples at once;
 #N canvas 616 258 377 299 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 100 LIBRARY cyclone;
@@ -62,11 +69,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 0 60 INLET_0 float signal message;
 #X text 0 0 KEYWORDS bin ops for control messages and signals;
 #X restore 503 559 pd META;
-#N canvas 319 385 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 205 559 pd Related_objects;
-#N canvas 1 81 1114 741 signal 0;
+#N canvas 110 125 1114 741 signal 0;
 #X obj 391 134 !=~;
 #X obj 390 103 sig~;
 #X obj 438 103 sig~;
@@ -166,8 +169,7 @@ left inlet;
 #X obj 819 625 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 842 625 set 42;
-#X obj 0 0 cnv 15 552 40 empty empty signal_operations 3 12 0 18 -204280
--1 0;
+#X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
 #X floatatom 765 183 5 0 0 0 - - -, f 5;
 #X text 759 52 sigrminus : outlet = left inlet minus right inlet;
 #X obj 777 467 dspSwitch~;
@@ -186,6 +188,7 @@ left inlet;
 #X obj 223 117 _==1~;
 #X obj 223 139 _==2~;
 #X text 200 98 alternate objects:;
+#X text 18 20 signal_operators;
 #X connect 0 0 3 0;
 #X connect 1 0 0 0;
 #X connect 2 0 0 1;
@@ -251,7 +254,7 @@ left inlet;
 #X connect 84 0 82 0;
 #X connect 85 0 82 0;
 #X restore 425 177 pd signal ops;
-#N canvas 1 80 450 414 control 0;
+#N canvas 588 290 450 414 control 0;
 #X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
 #X text 8 19 control message operators;
 #X obj 59 149 !-;
@@ -283,9 +286,6 @@ left inlet;
 #X connect 12 0 10 0;
 #X connect 13 0 2 0;
 #X restore 424 103 pd control ops;
-#X text 12 23 Nettles: bin-ops;
-#X obj 0 0 cnv 15 552 40 empty empty nettles 3 12 0 18 -204280 -1 0
-;
-#X connect 18 0 1 0;
+#X connect 17 0 1 0;
+#X connect 30 0 9 0;
 #X connect 31 0 9 0;
-#X connect 32 0 9 0;
