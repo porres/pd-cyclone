@@ -1,5 +1,5 @@
-#N canvas 521 79 569 596 10;
-#X obj 413 44 import cyclone/nettles;
+#N canvas 456 349 569 596 10;
+#X declare -lib nettles;
 #X obj 23 165 ==~;
 #X obj 23 240 !=~;
 #X obj 23 265 <~;
@@ -48,7 +48,6 @@ than right;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X restore 205 559 pd Related_objects;
-#X text 12 23 Nettles: bin-ops;
 #X obj 0 0 cnv 15 552 40 empty empty nettles 3 12 0 18 -204280 -1 0
 ;
 #X text 72 214 sigeq - fast compare \, 8 samples at once;
@@ -286,6 +285,8 @@ left inlet;
 #X connect 12 0 10 0;
 #X connect 13 0 2 0;
 #X restore 424 103 pd control ops;
-#X connect 17 0 1 0;
-#X connect 30 0 9 0;
-#X connect 31 0 9 0;
+#X obj 413 44 declare -lib nettles;
+#X text 12 23 logical operators;
+#X connect 16 0 0 0;
+#X connect 29 0 8 0;
+#X connect 30 0 8 0;
