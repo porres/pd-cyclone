@@ -1,0 +1,132 @@
+#N canvas 505 79 571 530 10;
+#X obj 237 224 cnv 15 290 140 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X text 290 242 |;
+#X text 290 254 |;
+#X text 290 266 |;
+#X text 271 277 |;
+#X text 313 277 |;
+#X text 313 297 |;
+#X text 271 297 |;
+#X text 274 268 _______;
+#X text 274 297 _______;
+#X text 290 269 v;
+#X text 352 269 |;
+#X text 352 280 |;
+#X text 352 250 |;
+#X text 352 259 |;
+#X text 352 245 ^;
+#X text 436 243 |;
+#X text 436 255 |;
+#X text 436 267 |;
+#X text 417 278 |;
+#X text 459 278 |;
+#X text 459 298 |;
+#X text 417 298 |;
+#X text 420 269 _______;
+#X text 420 298 _______;
+#X text 436 270 v;
+#X text 382 271 |;
+#X text 382 281 |;
+#X text 382 249 |;
+#X text 382 259 |;
+#X text 382 244 ^;
+#X text 459 235 >;
+#X text 271 287 |z^-d1 |;
+#X text 417 288 |z^-d2 |;
+#X text 251 334 y[n] = a * x[n] + b * x[n-d1] + c * y[n-d2];
+#X text 319 286 -(*b)-;
+#X text 383 287 -(*c)-;
+#X text 250 236 x[n] -----(*a)--(+)--(+)----------- y[n];
+#X floatatom 67 112 5 0 0 0 - del -, f 5;
+#X obj 47 312 output~;
+#X floatatom 105 153 5 -1 1 0 - a -, f 5;
+#X floatatom 124 173 5 -1 1 0 - b -, f 5;
+#X floatatom 144 193 5 -1 1 0 - c -, f 5;
+#X floatatom 86 133 5 0 0 0 - del -, f 5;
+#X text 105 113 ff del (d1);
+#X text 124 134 fb del (d2);
+#X text 143 151 gain (a);
+#X text 157 173 ff gain (b);
+#X text 178 192 fb gain (c);
+#X obj 48 88 noise~;
+#X obj 1 0 cnv 15 552 40 empty empty teeth~ 3 12 0 18 -204280 -1 0
+;
+#X text 13 23 teeth filter;
+#X obj 482 4 teeth~;
+#X obj 0 689 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 379 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 550 277 413 321 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 200 LIBRARY cyclone;
+#X text 0 180 OUTLET_0 signal;
+#X text 0 60 INLET_0 signal list message;
+#X text 0 220 VERSION 0.1-alpha57;
+#X text 2 280 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 0 0 KEYWORDS signal teeth filter buffer delay;
+#X text 0 40 DESCRIPTION teeth filter;
+#X text 0 80 INLET_1 float signal;
+#X text 0 100 INLET_2 float signal;
+#X text 0 120 INLET_3 float signal;
+#X text 0 140 INLET_4 float signal;
+#X text 1 256 RELEASE_DATE 2015;
+#X text 0 159 INLET_5 float signal;
+#X text 0 238 AUTHOR Alexandre Torres Porres;
+#X restore 500 691 pd META;
+#X obj 2 570 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 607 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 310 489 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 30 buffir~;
+#X restore 206 691 pd Related_objects;
+#X obj 80 389 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 416 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 113 387 signal;
+#X text 225 387 - signal to pass through comb filter;
+#X obj 80 445 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 500 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 578 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 113 416 float or signal;
+#X text 113 474 float or signal;
+#X text 113 500 float or signal;
+#X text 113 445 float or signal;
+#X obj 80 474 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 474 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 113 577 signal;
+#X text 113 615 This abstraction does not support arguments;
+#X obj 3 645 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 114 653 Contributed by Alexandre Torres Porres;
+#X obj 81 526 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X text 114 526 float or signal;
+#X text 225 474 - input amplitude coefficient (a);
+#X text 225 500 - forward delay amplitude coefficient (b);
+#X text 226 526 - feedback amplitude coefficient (c);
+#X text 225 577 - output from teeth filter;
+#X obj 48 274 cyclone/teeth~;
+#X text 225 416 - forward delay time in milliseconds (d1);
+#X text 224 445 - feedback delay time in milliseconds (d2);
+#X connect 38 0 82 1;
+#X connect 40 0 82 3;
+#X connect 41 0 82 4;
+#X connect 42 0 82 5;
+#X connect 43 0 82 2;
+#X connect 49 0 82 0;
+#X connect 82 0 39 1;
+#X connect 82 0 39 0;
