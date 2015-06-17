@@ -1,4 +1,4 @@
-#N canvas 505 79 571 530 10;
+#N canvas 628 79 571 530 10;
 #X obj 237 224 cnv 15 290 140 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #X text 290 242 |;
@@ -54,11 +54,11 @@
 ;
 #X text 13 23 teeth filter;
 #X obj 482 4 teeth~;
-#X obj 0 689 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 0 644 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 379 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 550 277 413 321 META 0;
+#N canvas 548 278 413 321 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 200 LIBRARY cyclone;
 #X text 0 180 OUTLET_0 signal;
@@ -77,7 +77,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 1 256 RELEASE_DATE 2015;
 #X text 0 159 INLET_5 float signal;
 #X text 0 238 AUTHOR Alexandre Torres Porres;
-#X restore 500 691 pd META;
+#X restore 500 646 pd META;
 #X obj 2 570 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 607 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -86,7 +86,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 9 30 buffir~;
-#X restore 206 691 pd Related_objects;
+#X restore 206 646 pd Related_objects;
 #X obj 80 389 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 80 416 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
@@ -109,9 +109,6 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X text 113 577 signal;
 #X text 113 615 This abstraction does not support arguments;
-#X obj 3 645 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 114 653 Contributed by Alexandre Torres Porres;
 #X obj 81 526 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
 ;
 #X text 114 526 float or signal;
@@ -122,11 +119,51 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 48 274 cyclone/teeth~;
 #X text 225 416 - forward delay time in milliseconds (d1);
 #X text 224 445 - feedback delay time in milliseconds (d2);
-#X connect 38 0 82 1;
-#X connect 40 0 82 3;
-#X connect 41 0 82 4;
-#X connect 42 0 82 5;
-#X connect 43 0 82 2;
-#X connect 49 0 82 0;
-#X connect 82 0 39 1;
-#X connect 82 0 39 0;
+#N canvas 948 239 450 526 radio 0;
+#X obj 130 470 output~;
+#X obj 131 432 cyclone/teeth~;
+#X obj 56 145 noise~;
+#X obj 147 76 +~ 1;
+#X obj 147 98 *~ 0.5;
+#X obj 164 143 +~ 1;
+#X obj 164 164 *~ 0.5;
+#X obj 195 277 +~ 1;
+#X obj 195 299 *~ 0.5;
+#X obj 212 348 +~ 1;
+#X obj 212 372 *~ 0.5;
+#X obj 212 321 osc~ 0.255;
+#X obj 179 209 +~ 1;
+#X obj 180 232 *~ 0.3;
+#X obj 146 54 osc~ 0.135;
+#X obj 164 121 osc~ 0.155;
+#X obj 179 187 osc~ 0.225;
+#X obj 195 255 osc~ 0.151;
+#X obj 1 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
+#X text 11 9 radio whale beach song;
+#X connect 1 0 0 1;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 4 0 1 1;
+#X connect 5 0 6 0;
+#X connect 6 0 1 2;
+#X connect 7 0 8 0;
+#X connect 8 0 1 4;
+#X connect 9 0 10 0;
+#X connect 10 0 1 5;
+#X connect 11 0 9 0;
+#X connect 12 0 13 0;
+#X connect 13 0 1 3;
+#X connect 14 0 3 0;
+#X connect 15 0 5 0;
+#X connect 16 0 12 0;
+#X connect 17 0 7 0;
+#X restore 372 142 pd radio whale beach song;
+#X connect 38 0 80 1;
+#X connect 40 0 80 3;
+#X connect 41 0 80 4;
+#X connect 42 0 80 5;
+#X connect 43 0 80 2;
+#X connect 49 0 80 0;
+#X connect 80 0 39 1;
+#X connect 80 0 39 0;

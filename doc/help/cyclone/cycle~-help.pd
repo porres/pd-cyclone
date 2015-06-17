@@ -1,4 +1,4 @@
-#N canvas 536 79 567 530 10;
+#N canvas 526 84 567 530 10;
 #X obj 0 706 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 339 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -58,16 +58,16 @@ int argument after that sets sample offset into the table (default
 1;
 #X obj 173 254 *~ 0;
 #X obj 233 254 *~ 0;
-#X obj 265 254 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 265 254 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 38 198 cyclone/cycle~ 440;
-#N canvas 697 319 444 567 more 0;
+#N canvas 419 169 1061 682 more 0;
 #X msg 49 80 437;
 #X obj 49 55 loadbang;
 #X floatatom 49 105 0 0 0 0 - - -;
 #X msg 49 130 \$1 400;
 #X obj 49 155 line~;
-#N canvas 342 552 286 323 generate-buffer~ 0;
+#N canvas 68 756 286 323 generate-buffer~ 0;
 #X obj 48 38 loadbang;
 #X obj 2 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 5 1 Buffer contents generator;
@@ -81,6 +81,8 @@ int argument after that sets sample offset into the table (default
 #X obj 48 219 tabwrite~ \$0-buffsky;
 #X msg 54 103 880 0 \, 55 250;
 #X msg 123 130 0.1 0 \, 1 250;
+#X obj 16 49 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 7 0;
 #X connect 3 0 9 1;
 #X connect 5 0 10 0;
@@ -93,6 +95,7 @@ int argument after that sets sample offset into the table (default
 #X connect 9 0 5 0;
 #X connect 11 0 8 0;
 #X connect 12 0 6 0;
+#X connect 13 0 7 0;
 #X restore 284 289 pd generate-buffer~;
 #X obj 139 285 output~;
 #X obj 170 250 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
@@ -106,7 +109,6 @@ int argument after that sets sample offset into the table (default
 #X text 5 4 Frequency input and using a lookup table;
 #X text 44 32 frequency input;
 #X text 240 33 scroll through buffer;
-#X obj 284 310 table \$0-buffsky 10240;
 #X obj 283 93 f \$0;
 #X obj 244 94 f \$0;
 #X obj 283 55 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -115,14 +117,31 @@ int argument after that sets sample offset into the table (default
 -1;
 #X obj 244 191 cyclone/cycle~ 110 \$0-buffsky;
 #N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-output 512 float 2;
-#X coords 0 1 512 -1 410 140 1 0 0;
-#X restore 9 416 graph;
+#X array \$0-output 512 float 4;
+#X coords 0 1 511 -1 410 140 1 0 0;
+#X restore 17 334 graph;
 #X obj 261 249 tabwrite~ \$0-output;
 #X obj 283 73 t b b;
 #X obj 244 74 t b b;
 #X msg 283 116 set \$1-buffsky 0;
 #X msg 244 139 set \$1-buffsky 9150;
+#X obj 17 654 s \$0-cursor;
+#X obj 411 48 r \$0-cursor;
+#X msg 393 160 set \$1-buffsky \$2;
+#X msg 393 138 \$1 \$2;
+#X obj 393 94 f \$0;
+#X obj 393 116 pack f f;
+#X obj 411 70 t b f;
+#X obj 15 489 hsl 1024 140 0 10240 0 0 \$0-noOutlet \$0-noInlet empty
+-2 -8 0 10 -262144 -262144 -1 0 1;
+#X obj 15 489 hsl 1024 150 0 10240 0 0 empty empty empty -2 -8 0 10
+-262144 -1 -1 92000 1;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array \$0-buffsky 10240 float 4;
+#X coords 0 1 10239 -1 1024 140 1 0 0;
+#X restore 14 489 graph;
+#X obj 298 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
 #X connect 0 0 2 0;
 #X connect 1 0 0 0;
 #X connect 2 0 3 0;
@@ -135,18 +154,28 @@ int argument after that sets sample offset into the table (default
 #X connect 9 0 6 1;
 #X connect 10 0 9 1;
 #X connect 11 0 8 0;
+#X connect 16 0 25 0;
 #X connect 17 0 26 0;
-#X connect 18 0 27 0;
+#X connect 18 0 23 0;
 #X connect 19 0 24 0;
-#X connect 20 0 25 0;
-#X connect 21 0 9 0;
-#X connect 21 0 23 0;
+#X connect 20 0 9 0;
+#X connect 20 0 22 0;
+#X connect 23 0 16 0;
+#X connect 23 1 22 0;
 #X connect 24 0 17 0;
-#X connect 24 1 23 0;
-#X connect 25 0 18 0;
-#X connect 25 1 23 0;
-#X connect 26 0 21 0;
-#X connect 27 0 21 0;
+#X connect 24 1 22 0;
+#X connect 25 0 20 0;
+#X connect 26 0 20 0;
+#X connect 28 0 33 0;
+#X connect 29 0 20 0;
+#X connect 29 0 37 0;
+#X connect 30 0 29 0;
+#X connect 31 0 32 0;
+#X connect 32 0 30 0;
+#X connect 33 0 31 0;
+#X connect 33 1 32 1;
+#X connect 35 0 27 0;
+#X connect 37 0 22 0;
 #X restore 427 314 pd more examples;
 #X text 108 516 float;
 #X text 108 553 float;
