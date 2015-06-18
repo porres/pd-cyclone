@@ -92,6 +92,6 @@ void lookup_tilde_setup(void)
     arsic_setup(lookup_class, lookup_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(lookup_class, (t_method)lookup_set,
 		    gensym("set"), A_SYMBOL, 0);
-    logpost(NULL, 4, "this is cyclone/lookup~ %s, %dth %s build",
-	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/lookup~ %s, %dth %s build",
+//	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

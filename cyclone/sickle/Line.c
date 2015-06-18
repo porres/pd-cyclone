@@ -336,8 +336,8 @@ void Line_tilde_setup(void)
 		    gensym("pause"), 0);
     class_addmethod(line_class, (t_method)line_resume,
 		    gensym("resume"), 0);
-    logpost(NULL, 4, "this is cyclone/Line~ %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/Line~ %s, %dth %s build",
+//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
 
 void line_tilde_setup(void)

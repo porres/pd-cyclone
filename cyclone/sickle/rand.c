@@ -91,6 +91,6 @@ void rand_tilde_setup(void)
 			   sizeof(t_rand), 0,
 			   A_DEFFLOAT, 0);
     sic_setup(rand_class, rand_dsp, SIC_FLOATTOSIGNAL);
-    logpost(NULL, 4, "this is cyclone/rand~ %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/rand~ %s, %dth %s build",
+//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

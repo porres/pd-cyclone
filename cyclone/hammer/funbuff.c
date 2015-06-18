@@ -530,6 +530,6 @@ void funbuff_setup(void)
 		    gensym("debug"), A_DEFFLOAT, 0);
 #endif
     hammerfile_setup(funbuff_class, 1);
-    logpost(NULL, 4, "this is cyclone/funbuff %s, %dth %s build",
-	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/funbuff %s, %dth %s build",
+//	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

@@ -120,6 +120,6 @@ void play_tilde_setup(void)
     arsic_setup(play_class, play_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(play_class, (t_method)play_set,
 		    gensym("set"), A_SYMBOL, 0);
-    logpost(NULL, 4, "this is cyclone/play~ %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/play~ %s, %dth %s build",
+//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

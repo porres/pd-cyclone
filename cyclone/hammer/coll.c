@@ -1650,6 +1650,6 @@ void coll_setup(void)
        class itself has been already set up above), but it is better to
        have it around, just in case... */
     hammerfile_setup(collcommon_class, 0);
-    logpost(NULL, 4, "this is cyclone/coll %s, %dth %s build",
-	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/coll %s, %dth %s build",
+//	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

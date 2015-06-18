@@ -269,6 +269,6 @@ void record_tilde_setup(void)
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(record_class, (t_method)record_reset,
 		    gensym("reset"), 0);
-    logpost(NULL, 4, "this is cyclone/record~ %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/record~ %s, %dth %s build",
+//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

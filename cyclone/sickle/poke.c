@@ -153,6 +153,6 @@ void poke_tilde_setup(void)
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(poke_class, (t_method)poke_ft2,
 		    gensym("ft2"), A_FLOAT, 0);
-    logpost(NULL, 4, "this is cyclone/poke~ %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/poke~ %s, %dth %s build",
+//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

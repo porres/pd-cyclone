@@ -568,8 +568,8 @@ void nettles_setup(void)
 		    gensym("set"), A_FLOAT, 0);
     class_sethelpsymbol(sigaccum_class, gensym("nettles"));
 		    
-    logpost(NULL, 4, "this is cyclone/nettles %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);  
+//    logpost(NULL, 4, "this is cyclone/nettles %s, %dth %s build",
+//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);  
 }
 
 void allnettles_setup(void)

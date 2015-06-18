@@ -105,6 +105,6 @@ void index_tilde_setup(void)
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(index_class, (t_method)index_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
-    logpost(NULL, 4, "this is cyclone/index~ %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+//    logpost(NULL, 4, "this is cyclone/index~ %s, %dth %s build",
+//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
