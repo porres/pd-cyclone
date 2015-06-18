@@ -1,0 +1,1015 @@
+#
+# Makefile.pdlibbuilder dated 20150614-1
+#
+# GNUmake-based helper makefile for Pure Data externals.
+# Written by Katja Vetter March-May 2015 for the public domain.
+# Inspired by Hans Christoph Steiner's Makefile Template and Stephan Beal's
+# ShakeNMake.
+#
+#
+#=== features ==================================================================
+#
+#
+#  - defines flags and extension according to autodetected platform
+#  - evaluates implicit dependencies for non-clean builds
+#  - defines rules to build from C or C++ sources
+#  - defines rules to build Pd class- or lib executables
+#  - defines rules for libdir installation
+#  - defines convenience targets for developer and user
+#
+#
+#=== basic usage ===============================================================
+#
+#
+# In your Makefile, define your Pd lib name and class sources, and include
+# Makefile.pdlibbuilder at the end of the Makefile. Like so:
+#
+#    ________________________________________________________________________
+#
+#     # Makefile for mylib
+#
+#     lib.name = mylib
+#
+#     class.sources = myclass1.c myclass2.c
+#
+#     include path/to/Makefile.pdlibbuilder
+#    ________________________________________________________________________
+#
+#
+# For files in class.sources it is assumed that class basename = source file
+# basename. All other class sources must be specified in variables
+# <classname>.class.sources.
+#
+# The default target builds all classes as indidividual executables with Pd's 
+# default extension for the platform.
+#
+#
+#=== variables =================================================================
+#
+#
+# The following variables may be specified in your Makefile:
+#
+# - lib.name: name of the library
+# - class.sources: sources files (C or C++), class name = source basename
+#
+# - cflags: add preprocessor / compiler flags, notably -I or -D options
+# - ldflags: add linker / loader flags
+# - ldlibs: add flags for dynamic linking
+#
+# - <classname>.class.sources: list / add class-specific source files (C or C++)
+# - <classname>.class.ldflags: add class-specific ld flags
+# - <classname>.class.ldlibs: add class-specific dynamic link libs
+#
+# - lib.setup.sources: source file(s) with routines to set up all classes
+# - common.sources: sources to include in each class statically
+# - shared.sources: source file(s) of dynamic lib shared by all classes
+#
+# - datafiles: non-executable files, including abstractions and help patches
+# - datadirs: directories with data files
+#
+# - externalsdir: relative path to 'externals' in pd SVN, default is '..'
+#
+# - makefiles: extra makefiles that should be made
+# - makefiledirs: extra directories with makefiles that should be made
+#
+#
+#=== Pd-extended libdir concept ================================================
+#
+#
+# For libdir layout as conceived by Hans-Christoph Steiner, see:
+#
+# https://puredata.info/docs/developer/Libdir
+#
+# Files README.txt, LICENSE.txt and <lib.name>-meta.pd are part of the libdir
+# convention. Help patches for each class and abstraction are supposed to be
+# available. Makefile.pdlibbuilder does not force the presence of these files
+# however, and it does not automatically include such files in libdir
+# installations.
+#
+#
+#=== search paths ==============================================================
+#
+#
+# Source file paths other than current working directory must be explicited in
+# your Makefile. Executables are built in current working directory. Object (.o)
+# files are built in the directory of their source files. 
+#
+# Variable 'pdincludepath' stores the include path for Pd API headers. Default 
+# locations, searched in order of priority:
+# 
+# any OS:    $(externalsdir)../pd/include/pdextended
+#            $(externalsdir)../pd/include
+#
+# Linux:     /usr/include/pdextended
+#            /usr/include/pd
+#
+# OSX:       /Applications/Pd-extended.app/Contents/Resources/include/pdextended
+#            /Applications/Pd.app/Contents/Resources/include
+#
+# Windows:   c/PROGRA~1/pd/include
+#            c/PROGRA~2/pd/include
+#
+#
+# Overview of install paths per platform, taken from
+# https://puredata.info/docs/faq/how-do-i-install-externals-and-help-files.
+# The rationale for a global install path (rather than in home) on Linux,
+# is that some people share a home dir between 32 and 64 bit installations.
+#
+# Linux:    $(libdir)/pd-externals/$(lib.name)
+# OSX:      ~/Library/Pd/$(lib.name)
+# Windows:  c/PROGRA~1/COMMON~1/Pd/$(lib.name)
+#
+#
+#=== targets ===================================================================
+#
+#
+# all: build classes (default) or library blob (if make-lib-executable=true)
+# alldebug: build all with -g option turned on for debug symbols
+# build-classes: build all class executables and optional shared lib
+# build-lib: build all classes into a single lib executable
+# <classname>: force clean build of an individual class
+#
+# install: install executables and data files
+# dist: make source package for distribution (not yet implemented)
+# dpkg-source: make debian source package (not yet implemented)
+#
+# clean: remove build products from source tree
+# distclean: not yet implemented
+#
+# <sourcefile>.pre: make preprocessor output file in current working directory
+# <sourcefile>.lst: make asm/source output file in current working directory
+# help: print help text
+# vars: print makefile variables
+# allvars: print all variables
+# depend: print generated prerequisites
+# coffee: dummy target
+#
+#
+#=== syntax conventions ========================================================
+#
+#
+# Makefile.pdlibbuilder variable names are lower case. Default make variables,
+# environment variables, and standard user variables (CC, CXX, CFLAGS, DESTDIR)
+# are upper case. Use target 'allvars' to print all variables and their values.
+#
+# Words in 'function' names are separated by dashes, like in 'make-object-file'.
+# Words in data variables may be separated by dots, like in 'foo.class.sources'. 
+# Make's 'basename' function is sometimes exploited to split such variable
+# names.
+#
+#
+#=== useful make options =======================================================
+#
+#
+# Use 'make -d <target>' to print debug details of the make process
+# Use 'make -p <target>' to print make's database
+#
+#
+#=== TODO ======================================================================
+#
+#
+# - replace -DOSXFAT with specific architecture defines
+# - document installpath
+# - check if there's issues with & and $ in filenames
+# - -static-libgcc or shared dll in MinGW?
+# - fix Windows paths: can we allow spaces? then use env. var. paths
+# - variables PD_PATH and PDINCLUDE for compatibility with pd-extended template
+# - variable for external dependencies?
+# - cygwin support
+# - android support
+# - makefile template targets dpkg-source dist libdir distclean tags and etags
+#
+#
+################################################################################
+### pre-flight checks ##########################################################
+################################################################################
+
+
+# GNU make version 3.81 (2006) or higher is required because of the following:
+# - function 'info'
+# - variable '.DEFAULT_GOAL'
+
+# force exit when make version is < 3.81
+ifneq ($(firstword $(sort 3.81 $(MAKE_VERSION))), 3.81)
+  $(error GNU make version 3.81 or higher is required)
+endif
+
+# Relative path to directory 'externals' in pd-extended SVN tree. Default is
+# parent of current working directory. May be defined differently in including
+# makefile. This variable is used to probe for paths.
+externalsdir ?= ..
+
+# variable you can use to check if Makefile.pdlibbuilder is already included
+Makefile.pdlibbuilder = true
+
+
+################################################################################
+### variables per platform #####################################################
+################################################################################
+
+
+#=== flags per architecture ====================================================
+
+
+# Set architecture-dependent flags, mainly for Linux. For Mac and Windows, 
+# arch.flags are overriden below.
+
+machine := $(shell uname -m)
+
+# Raspberry Pi 1st generation
+ifeq ($(machine), armv6l)
+  arch.flags = -march=armv6 -mfpu=vfp -mfloat-abi=hard
+  CFLAGS += -fsingle-precision-constant
+endif
+
+# Beagle, Udoo, RPi2 etc.
+ifeq ($(machine), armv7l)
+  arch.flags = -march=armv7-a -mfpu=vfpv3 -mfloat-abi=hard
+  CFLAGS += -fsingle-precision-constant
+endif
+
+# Intel 32 bit, build with SSE and SSE2 instructions
+ifeq ($(findstring $(machine), i386 i686), $(machine))
+  arch.flags = -march=pentium4 -mfpmath=sse -msse -msse2
+endif
+
+# Intel/AMD 64 bit, build with SSE, SSE2 and SSE3 instructions
+ifeq ($(findstring $(machine), ia64 x86_64), $(machine))
+  arch.flags = -march=core2 -mfpmath=sse -msse -msse2 -msse3 
+endif
+
+
+#=== platform ==================================================================
+
+
+# The following platforms are defined: Linux, Darwin, Windows. GNU and
+# GNU/kFreeBSD are treated as Linux because they use the same options. 
+
+uname := $(shell uname)
+
+ifeq ($(findstring $(uname), Linux GNU GNU/kFreeBSD), $(uname))
+  platform = Linux
+endif
+
+ifeq ($(uname), Darwin)
+  platform = Darwin
+endif
+
+ifeq ($(findstring MINGW, $(uname)), MINGW)
+  platform = Windows
+endif
+
+# TODO: Cygwin, Android
+
+
+#=== flags and paths for Linux =================================================
+
+
+ifeq ($(platform), Linux)
+  prefix = /usr/local
+  libdir := $(prefix)/lib
+  pkglibdir ?= $(libdir)/pd-externals
+  mpdhsearchpaths := \
+    $(externalsdir)/../pd/src/ \
+    /usr/include/pdextended/ \
+    /usr/include/pd/
+  pdincludepath := \
+    $(firstword $(dir $(wildcard $(addsuffix m_pd.h, $(mpdhsearchpaths)))))
+  extension = pd_linux
+  cpp.flags := -DUNIX
+  c.flags := -fpic
+  c.ldflags := -rdynamic -shared -fpic -Wl,-rpath,"\$$ORIGIN",--enable-new-dtags
+  c.ldlibs := -lc -lm
+  cxx.flags := -fpic -fcheck-new
+  cxx.ldflags := -rdynamic -shared -fpic -Wl,-rpath,"\$$ORIGIN",--enable-new-dtags
+  cxx.ldlibs := -lc -lm -lstdc++
+  shared.extension = so
+  shared.ldflags = -rdynamic -fpic -shared -Wl,-soname,$(shared.lib)
+  stripflags = --strip-unneeded -R .note -R .comment
+endif
+
+
+#=== flags and paths for Darwin ================================================
+
+
+# On OSX we try to build fat binaries by default. It is assumed that OSX i386
+# can build for ppc and OSX x86_64 can't. TODO: try to refine this condition.
+# TODO: replace -DOSXFAT with more specific defines.
+# LLVM-clang doesn't support -fcheck-new, therefore this flag is omitted for
+# OSX x86_64.
+
+ifeq ($(platform), Darwin)
+  pkglibdir ?= $(HOME)/Library/Pd
+  pdpath := $(firstword $(wildcard \
+    $(externalsdir)/../pd \
+    c/PROGRA~1/pd \
+    c/PROGRA~2/pd))
+  mpdhsearchpaths := \
+    $(externalsdir)/../pd/src/ \
+    /Applications/Pd-extended.app/Contents/Resources/include/pdextended/ \
+    /Applications/Pd.app/Contents/Resources/src/
+  pdincludepath := \
+    $(firstword $(dir $(wildcard $(addsuffix m_pd.h, $(mpdhsearchpaths)))))
+  extension = pd_darwin
+  arch.flags =
+  cpp.flags := -DUNIX -DMACOSX -I /sw/include 
+  c.flags := 
+  c.ldflags := -undefined suppress -flat_namespace -bundle
+  c.ldlibs := -lc
+  cxx.ldflags := -undefined suppress -flat_namespace -bundle
+  cxx.ldlibs := -lc
+  shared.extension = dylib
+  shared.ldflags = -dynamiclib -undefined dynamic_lookup \
+    -install_name @loader_path/$(shared.lib) \
+    -compatibility_version 1 -current_version 1.0
+  stripflags = -x
+  ifeq ($(machine), i386)
+    cpp.flags += -DOSXFAT
+    cxx.flags := -fcheck-new
+    arch.flags := -arch ppc -arch i386 -arch x86_64 -mmacosx-version-min=10.4
+  endif
+  ifeq ($(machine), x86_64)
+    cpp.flags += -DOSXFAT
+    arch.flags := -arch i386 -arch x86_64 -mmacosx-version-min=10.5
+  endif
+endif
+
+
+#=== flags and paths for Windows ===============================================
+
+
+# On Windows we build 32 bit by default to match Pd(-extended) binary 
+# distributions. This may change in the future.
+# Paths shall not contain spaces, use 8.3 format instead.
+# TODO: try to convert env vars %PROGRAMFILES% and %COMMONPROGRAMFILES% to
+# 8.3 format.
+
+ifeq ($(platform), Windows)
+  pkglibdir ?= c/PROGRA~1/COMMON~1/Pd
+  mpdhsearchpaths := \
+    $(externalsdir)/../pd/src \
+    c/PROGRA~1/pd/src \
+    c/PROGRA~2/pd/src
+  pdincludepath := \
+    $(firstword $(dir $(wildcard $(addsuffix m_pd.h, $(mpdhsearchpaths)))))
+  extension = dll
+  CC = gcc
+  CXX = g++
+  arch.flags := -march=pentium4 -msse -msse2 -mfpmath=sse
+  cpp.flags := -DMSW -DNT
+  c.flags :=
+  c.ldflags := -static-libgcc -shared \
+    -Wl,--enable-auto-import $(pdpath)/bin/pd.dll
+  c.ldlibs :=
+  cxx.flags := -fcheck-new
+  cxx.ldflags := -static-libstdc++ -shared \
+    -Wl,--enable-auto-import $(pdpath)/bin/pd.dll
+  cxx.ldlibs :=
+  shared.extension = dll
+  shared.ldflags := -static-libgcc -shared \
+    $(pdpath)/bin/pd.dll
+  stripflags = --strip-unneeded -R .note -R .comment
+endif
+# TODO: should we set -mms-bitfields or not?
+
+
+#=== platform-independent flags ================================================
+
+
+# From GNU make docs: 'Users expect to be able to specify CFLAGS freely
+# themselves.' So we use CFLAGS to define platform-independent options which 
+# are not strictly required for compilation: optimizations and warnings.
+
+CFLAGS = -O3 -ffast-math -funroll-loops -fomit-frame-pointer
+
+# warnings are enabled by default, but may be suppressed
+ifneq ($(suppress-warnings),yes)
+  CFLAGS += -Wall -Wextra -Wshadow -Winline -Wstrict-aliasing
+endif
+
+
+#=== paths for installation ====================================================
+
+
+# Default pkglibdir is specified above per platform. It is aliased as 
+# 'objectsdir' to retain compatibility with pd-extended template. 
+objectsdir := $(pkglibdir)
+
+# base path where all components of the lib will be installed by default
+installpath := $(DESTDIR)$(objectsdir)/$(lib.name)
+
+
+#=== Makefile.config ===========================================================
+
+
+# Optionally include Makefile.config, which can be used to override default
+# paths or extensions.
+
+-include Makefile.config
+
+
+#=== accumulated build flags ===================================================
+
+
+# Variables cflags, ldflags and ldlibs may be defined in including makefile.
+# Variable CFLAGS may be defined as command line argument.
+
+# preprocessor flags
+cpp.flags += -DPD -I $(pdincludepath)
+
+# flags for C compiler / linker
+c.flags := $(cpp.flags) $(c.flags) $(cflags) $(CFLAGS)
+c.ldflags := $(c.ldflags) $(ldflags)
+c.ldlibs := $(c.ldlibs) $(ldlibs)
+
+# flags for C++ compiler / linker
+cxx.flags := $(cpp.flags) $(cxx.flags) $(cflags) $(CFLAGS)
+cxx.ldflags := $(cxx.ldflags) $(ldflags)
+cxx.ldlibs := $(cxx.ldlibs) $(ldlibs)
+
+
+################################################################################
+### variables: files ###########################################################
+################################################################################
+
+
+# strip possibles spaces from lib.name, they mess up calculated file names
+lib.name := $(strip $(lib.name))
+
+
+#=== sources ===================================================================
+
+
+# Based on file names in class.sources, (re)define <classname>.class.sources 
+
+define add-class-source
+$(notdir $(basename $v)).class.sources += $v
+endef
+
+$(foreach v, $(class.sources), $(eval $(add-class-source)))
+
+# derive class names from .class.sources variables
+sourcevariables := $(filter %.class.sources, $(.VARIABLES))
+classes := $(basename $(basename $(sourcevariables)))
+
+# accumulate all source files specified in makefile
+classes.sources := $(sort $(foreach v, $(sourcevariables), $($v)))
+all.sources := $(classes.sources) $(lib.setup.sources) \
+  $(shared.sources) $(common.sources)
+
+# construct shared lib name if shared sources are defined
+ifdef shared.sources
+  shared.lib := lib$(lib.name).$(shared.extension)
+else
+  shared.lib =
+endif
+
+
+#=== build products ============================================================
+
+
+# construct object filenames from all C and C++ source file names
+classes.objects := $(addsuffix .o, $(basename $(classes.sources)))
+common.objects := $(addsuffix .o, $(basename $(common.sources)))
+shared.objects := $(addsuffix .o, $(basename $(shared.sources)))
+lib.setup.objects := $(addsuffix .o, $(basename $(lib.setup.sources)))
+all.objects = $(classes.objects) $(common.objects) $(shared.objects) \
+  $(lib.setup.objects)
+
+# construct class executable names from class names
+classes.executables := $(addsuffix .$(extension), $(classes))
+
+
+################################################################################
+### variables: tools ###########################################################
+################################################################################
+
+
+# aliases so we can define 'compile-$1' and give 'c' or 'cxx' as argument
+compile-c := $(CC)
+compile-cxx := $(CXX)
+
+# install executables, data and directories while preserving time stamps
+INSTALL = install
+INSTALL_PROGRAM := $(INSTALL) -p -m 644
+INSTALL_DATA := $(INSTALL) -p -m 644
+INSTALL_DIR := $(INSTALL) -p -m 755 -d
+
+
+################################################################################
+### checks #####################################################################
+################################################################################
+
+
+# At this point most variables are defined. Time to do some checks and info's.
+
+# 'forward declaration' of default target, needed to do checks
+all:
+
+# To avoid unpredictable results, make sure the default target is not redefined
+# by including makefile. 
+ifneq ($(.DEFAULT_GOAL), all)
+  $(error Default target must be 'all'.)
+endif
+
+# find out which target(s) will be made
+ifdef MAKECMDGOALS
+  goals := $(MAKECMDGOALS)
+else
+  goals := all
+endif
+
+# check if m_pd.h is found and print info about it
+$(if $(wildcard $(pdincludepath)m_pd.h), \
+  $(info ++++ info: using Pd API $(pdincludepath)m_pd.h), \
+  $(warning Where is your m_pd.h? It was searched but not found on one of the \
+  following locations: $(mpdhsearchpaths). Alternatively you can specify \
+  variable pdincludepath as argument.))
+
+# print target info
+$(info ++++ info: making target $(goals) in lib $(lib.name))
+
+# when installing, print installpath info
+$(if $(filter install install-lib, $(goals)), $(info ++++ info: \
+  installpath is '$(installpath)'))
+
+
+#=== define executables ========================================================
+
+
+# By default we build class executables, and optionally a shared dynamic link
+# lib. When make-lib-executable=yes we build all classes into a single lib
+# executable, on the condition that variable lib.setup.sources is defined.
+
+ifeq ($(make-lib-executable),yes)
+  $(if $(lib.setup.sources), ,\
+    $(error Can not build library blob because lib.setup.sources is undefined))
+  executables := $(lib.name).$(extension)
+else
+  executables := $(classes.executables) $(shared.lib)
+endif
+
+
+#=== library version ===========================================================
+
+
+# check library version if meta file exists
+
+metafile := $(wildcard $(lib.name)-meta.pd)
+
+ifdef metafile
+  lib.version := $(shell sed -n \
+    's|^\#X text [0-9][0-9]* [0-9][0-9]* VERSION \(.*\);|\1|p' \
+    $(lib.name)-meta.pd)
+endif
+
+
+################################################################################
+### rules: special targets #####################################################
+################################################################################
+
+
+# Disable built-in rules. If some target can't be built with the specified
+# rules, it should not be built at all.
+MAKEFLAGS += --no-builtin-rules
+
+.PRECIOUS:
+.SUFFIXES:
+.PHONY: all build-classes build-lib $(classes) $(makefiledirs) $(makefiles)\
+        install install-classes install-lib \
+        install-datafiles install-datadirs \
+        force clean vars allvars depend help
+
+
+################################################################################
+### rules: build targets #######################################################
+################################################################################
+
+
+# build lib when make-lib-executable = true, otherwise build classes (default)
+all: $(if $(make-lib-executable), build-lib, build-classes)
+
+# build all with -g option turned on for debug symbols
+alldebug: c.flags += -g
+alldebug: cxx.flags += -g
+alldebug: all
+
+
+#=== one class per executable ==================================================
+
+
+# build all class executables (default)
+build-classes: $(classes.executables)
+	$(info ++++ info: class executables in $(lib.name) completed)
+
+# recipe for linking objects in class executable
+# argument $1 = compiler type (c or cxx)
+# argument $2 = class basename
+define link-class
+  $(compile-$1) \
+  $(arch.flags) \
+  $($1.ldflags) $($2.class.ldflags) \
+  -o $2.$(extension) \
+  $(addsuffix .o, $(basename $($2.class.sources))) \
+  $(addsuffix .o, $(basename $(common.sources))) \
+  $($1.ldlibs) $($2.class.ldlibs) $(shared.lib)
+endef
+
+# general rule for linking object files in class executable
+%.$(extension): $(shared.lib)
+	$(info ++++ info: linking objects in $@ for lib $(lib.name))
+	$(if $(filter %.cc %.cpp, $($*.class.sources)), \
+        $(call link-class,cxx,$*), \
+        $(call link-class,c,$*))
+
+
+#=== library blob ==============================================================
+
+
+# build all classes into single executable
+build-lib: $(lib.name).$(extension)
+	$(info ++++ info: library blob $(lib.name).$(extension) completed)
+
+# recipe for linking objects in lib executable
+# argument $1 = compiler type (c or cxx)
+define link-lib
+  $(compile-$1) \
+  $(arch.flags) \
+  $($1.ldflags) $(lib.ldflags) \
+  -o $(lib.name).$(extension) $(all.objects) \
+  $($1.ldlibs) $(lib.ldlibs)
+endef
+
+# rule for linking objects in lib executable
+# declared conditionally to avoid name clashes
+ifeq ($(make-lib-executable),yes)
+$(lib.name).$(extension): $(all.objects)
+	$(if $(filter %.cc %.cpp, $(all.sources)), \
+        $(call link-lib,cxx), \
+        $(call link-lib,c))
+endif
+
+
+#=== shared dynamic lib ========================================================
+
+
+# recipe for linking objects in shared executable
+# argument $1 = compiler type (c or cxx)
+define link-shared
+  $(compile-$1) \
+  $(arch.flags) \
+  $(shared.ldflags) \
+  -o lib$(lib.name).$(shared.extension) $(shared.objects) \
+  $($1.ldlibs) $(shared.ldlibs)
+endef
+
+# rule for linking objects in shared executable
+# build recipe is in macro 'link-shared'
+lib$(lib.name).$(shared.extension): $(shared.objects)
+	$(info ++++ info: linking objects in shared lib $@)
+	$(if $(filter %.cc %.cpp, $(shared.sources)), \
+        $(call link-shared,cxx), \
+        $(call link-shared,c))
+
+
+#=== object files ==============================================================
+
+
+# recipe to make .o from source
+# argument $1 is compiler tupe (c or cxx)
+define make-object-file
+  $(info ++++ info: making $@ in lib $(lib.name))
+  $(compile-$1) \
+  $($1.flags) \
+  $(arch.flags) -o $@ -c $<
+endef
+
+# Three rules to create .o files. These are double colon 'terminal' rules,
+# meaning they are the last in a rules chain.
+
+%.o:: %.c
+	$(call make-object-file,c)
+
+%.o:: %.cc
+	$(call make-object-file,cxx)
+
+%.o:: %.cpp
+	$(call make-object-file,cxx)
+
+
+#=== explicit prerequisites for class executables ==============================
+
+
+# For class executables, prerequisite rules are declared in run time. Target
+# 'depend' prints these rules for debugging purposes.
+
+# declare explicit prerequisites rule like 'class: class.extension'
+# argument $v is class basename
+define declare-class-target
+$v: $v.$(extension)
+endef
+
+# declare explicit prerequisites rule like 'class.extension: object1.o object2.o'
+# argument $v is class basename
+define declare-class-executable-target
+$v.$(extension): $(addsuffix .o, $(basename $($v.class.sources))) \
+  $(addsuffix .o, $(basename $(common.sources)))
+endef
+
+# evaluate explicit prerequisite rules for all classes
+$(foreach v, $(classes), $(eval $(declare-class-target)))
+$(foreach v, $(classes), $(eval $(declare-class-executable-target)))
+
+
+#=== implicit prerequisites for class executables ==============================
+
+
+# Evaluating implicit prerequisites (header files) with help from the
+# preprocessor is 'expensive' so this is done conditionally and selectively.
+# Note that it is also possible to trigger a build via install targets, in
+# which case implicit prerequisites are not checked.
+
+must-build-everything := $(filter all default lib, $(goals))
+must-build-class := $(filter $(classes), $(goals))
+must-build-sources := $(foreach v, $(must-build-class), $($v.class.sources))
+
+# declare implicit prerequisites rule like 'object.o: header1.h header2.h ...'
+# argument $1 is input source file(s)
+define declare-object-target
+$(filter %.o: %.h, $(shell $(CPP) $(c.flags) -MM $1)) $(MAKEFILE_LIST)
+endef
+
+# evaluate implicit prerequisite rules when rebuilding everything
+ifdef must-build-everything
+  $(if $(wildcard $(all.objects)), \
+  $(info ++++ info: evaluating implicit prerequisites in lib $(lib.name).....) \
+  $(foreach v, $(all.sources), $(eval $(call declare-object-target, $v))))
+endif
+
+# evaluate implicit prerequisite rules when selectively building classes
+ifdef must-build-class
+  $(foreach v, $(must-build-sources), \
+  $(eval $(call declare-object-target, $v)))
+  $(foreach v, $(shared.sources), \
+  $(eval $(call declare-object-target, $v)))
+endif
+
+
+################################################################################
+### rules: preprocessor and assembly files #####################################
+################################################################################
+
+
+# Preprocessor and assembly output files for bug tracing etc. They are not part
+# of the build processes for executables. By default these files are created in
+# the current working directory. Dependency tracking is not performed, the build
+# is forced instead to make sure it's up to date.
+
+force:
+
+
+#=== preprocessor file =========================================================
+
+
+# make preprocessor output file with extension .pre
+# argument $1 = compiler type (c or cxx)
+define make-preprocessor-file
+  $(info ++++ info: making preprocessor output file $(notdir $*.pre) \
+  in current working directory)
+  $(compile-$1) -E $< $(c.flags) $($1.flags) -o $(notdir $*.pre)
+endef
+
+%.pre:: %.c force
+	$(call make-preprocessor-file,c)
+
+%.pre:: %.cc force
+	$(call make-preprocessor-file,cxx)
+
+%.pre:: %.cpp force 
+	$(call make-preprocessor-file,cxx)
+
+
+#=== assembly file =============================================================
+
+
+# make C / assembly interleaved output file with extension .lst
+# argument $1 = compiler type (c or cxx)
+define make-assembly-file
+  $(info ++++ info: making assembly output file $(notdir $*.lst) \
+  in current working directory)
+  $(compile-$1) \
+  -c -Wa,-a,-ad -fverbose-asm \
+  $($1.flags) \
+  $(arch.flags) \
+  $< > $(notdir $*.lst)
+endef
+
+%.lst:: %.c force
+	$(call make-assembly-file,c)
+
+%.lst:: %.cc force
+	$(call make-assembly-file,cxx)
+
+%.lst:: %.cpp force
+	$(call make-assembly-file,cxx)
+
+
+################################################################################
+### rules: installation targets ################################################
+################################################################################
+
+
+# Install targets depend on successful exit status of target all because nothing
+# must be installed in case of a build error.
+
+# strip spaces from file names
+executables := $(strip $(executables))
+datafiles := $(strip $(datafiles))
+datadirs := $(strip $(datadirs))
+
+# Do not make any install sub-target with empty variable definition because the
+# install program would exit with an error.
+install: $(if $(executables), install-executables)
+install: $(if $(datafiles), install-datafiles)
+install: $(if $(datadirs), install-datadirs)
+
+install-executables: all
+	$(INSTALL_DIR) -v $(installpath)
+	$(INSTALL_PROGRAM) $(executables) $(installpath)
+	$(info ++++ info: executables of lib $(lib.name) installed \
+        from $(CURDIR) to $(installpath))
+
+install-datafiles: all
+	$(INSTALL_DIR) -v $(installpath)
+	$(INSTALL_DATA) $(datafiles) $(installpath)
+	$(info ++++ info: data files of lib $(lib.name) installed \
+        from $(CURDIR) to $(installpath))
+
+install-datadirs: all
+	@set -x; $(INSTALL_DIR) $(addprefix $(installpath)/, $(datadirs)) && \
+        $(foreach v, $(datadirs), \
+        $(INSTALL_DATA) $(wildcard $v/*) $(installpath)/$v;)
+	$(info ++++ info: data directories of lib $(lib.name) installed \
+        from $(CURDIR) to $(installpath))
+
+
+################################################################################
+### rules: distribution targets ################################################
+################################################################################
+
+
+# TODO
+# These targets are implemented in Makefile Template, but I have to figure out
+# how to do it under the not-so-strict conditions of Makefile.pdlibbuilder.
+
+# make source package
+dist:
+	@echo "target dist not yet implemented"
+
+# make Debian source package
+dpkg-source:
+	@echo "target dpkg-source not yet implemented"
+
+$(ORIGDIR):
+
+$(DISTDIR):
+
+
+################################################################################
+### rules: clean targets #######################################################
+################################################################################
+
+
+# delete build products from build tree
+clean:
+	rm -f $(all.objects)
+	rm -f $(classes.executables) $(lib.name).$(extension) $(shared.lib)
+	rm -f *.pre *.lst
+
+# remove distribution directories and tarballs from build tree
+distclean: clean
+	@echo "target distclean not yet implemented"
+
+
+################################################################################
+### rules: submake targets #####################################################
+################################################################################
+
+
+# Iterate over sub-makefiles or makefiles in other directories.
+
+# When 'continue-make=yes' is set, sub-makes will report 'true' to the parent
+# process regardless of their real exit status. This prevents the parent make
+# from being aborted by a sub-make error.
+ifeq ($(continue-make),yes)
+  continue = || true
+endif
+
+# These targets will trigger sub-make processes for entries in 'makefiledirs'
+# and 'makefiles'.
+all alldebug install clean distclean dist dkpg-source: \
+        $(makefiledirs) $(makefiles)
+
+# this expands to identical rules for each entry in 'makefiledirs'
+$(makefiledirs):
+	$(MAKE) --directory=$@ $(MAKECMDGOALS) $(continue)
+
+# this expands to identical rules for each entry in 'makefiles'
+$(makefiles):
+	$(MAKE) --directory=$(dir $@) --makefile=$(notdir $@) $(MAKECMDGOALS) $(continue)
+
+
+################################################################################
+### rules: convenience targets #################################################
+################################################################################
+
+
+#=== show variables ============================================================
+
+
+# Several 'function' macro's cause errors when expanded within a rule or without
+# proper arguments. Variables which are set with the define directive are only
+# shown by name for that reason.
+functions = \
+add-class-source \
+declare-class-target \
+declare-class-executable-target \
+declare-object-target \
+link-class \
+link-lib \
+link-shared \
+make-object-file \
+make-preprocessor-file \
+make-assembly-file \
+install-class-executable \
+define-class-sources \
+declare-helptext
+
+# show variables from makefiles
+vars:
+	$(info ++++ info: showing makefile variables:)
+	$(foreach v,\
+        $(sort $(filter-out $(functions) functions, $(.VARIABLES))),\
+        $(if $(filter file, $(origin $v)),\
+        $(info variable $v = $($v))))
+	$(foreach v, $(functions), $(info 'function' name: $v))
+	@echo
+
+# show all variables
+allvars:
+	$(info ++++ info: showing default, automatic and makefile variables:)
+	$(foreach v, \
+        $(sort $(filter-out $(functions) functions, $(.VARIABLES))), \
+        $(info variable ($(origin $v)) $v = $($v)))
+	$(foreach v, $(functions), $(info 'function' name: $v))
+	@echo
+
+
+#=== show dependencies =========================================================
+
+
+# show generated prerequisites rules
+depend:
+	$(info ++++ info: generated prerequisite rules)
+	$(foreach v, $(classes), $(info $(declare-class-target)))
+	$(foreach v, $(classes), $(info $(declare-class-executable-target)))
+	$(foreach v, $(all.sources), $(info $(call declare-object-target, $v)))
+	@echo
+
+
+#=== show help text ============================================================
+
+
+# show targets and other info for user
+
+help:
+	@echo "$(declare-helptext)"
+
+define declare-helptext
+\nMain targets (for complete overview of targets see Makefile.pdlibbuilder):\
+\n\nall (default target): build executables\
+\ninstall: install executables / data files\
+\nvars: print makefile variables for troubleshooting\
+\nhelp: print this help text\
+\n\nPd API m_pd.h is searched at the following paths (in order of priority):\
+$(addprefix \n, $(mpdhsearchpaths)) \
+\n\nPd API m_pd.h is found at the following pdincludepath: \
+\n$(pdincludepath)\
+\n\nAlternatively you can specify variable pdincludepath as argument.\
+\n\nBase path for installation of all components is:\
+\n$(installpath)\
+\n 
+endef
+
+
+#=== dummy target ==============================================================
+
+
+coffee:
+	@echo "Makefile.pdlibbuilder: Can not make coffee. Sorry."
+
+
+################################################################################
+### the end ####################################################################
+################################################################################
+
