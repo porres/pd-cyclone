@@ -1,5 +1,5 @@
-#N canvas 507 79 570 530 10;
-#X obj 0 571 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 505 80 570 530 10;
+#X obj 0 616 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 383 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -19,18 +19,18 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 501 573 pd META;
-#X obj 0 475 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 501 618 pd META;
+#X obj 0 520 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 512 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 0 557 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 317 491 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 207 573 pd Related_objects;
+#X restore 207 618 pd Related_objects;
 #X obj 82 392 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 485 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 530 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 0 0 cnv 15 552 40 empty empty rampsmooth~ 3 12 0 18 -204280
 -1 0;
@@ -45,12 +45,12 @@ adapted the patch to pd-extended 2015-02-02;
 #X floatatom 96 166 0 0 0 0 - - -;
 #X obj 95 357 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -262144 -1 -1 0 256;
-#X text 111 484 signal;
-#X text 231 484 - output ramped signal;
-#X text 93 521 1) float;
-#X text 93 542 2) float;
-#X text 231 521 - rampup value;
-#X text 231 542 - rampdown value;
+#X text 111 529 signal;
+#X text 231 529 - output ramped signal;
+#X text 93 566 1) float;
+#X text 93 587 2) float;
+#X text 231 566 - rampup value;
+#X text 231 587 - rampdown value;
 #X text 111 428 rampup <float>;
 #X text 111 410 ramp <float>;
 #X text 111 446 rampdown <float>;
@@ -83,6 +83,46 @@ with the ramp \, rampup \, rampdown messages.;
 #X text 114 138 on/off;
 #X msg 242 142 88200;
 #X msg 329 142 88200;
+#N canvas 827 453 450 311 alt 0;
+#X obj 73 104 t b f;
+#X obj 147 104 t b f;
+#X obj 395 117 dspSwitch~;
+#X obj 149 58 hsl 128 15 0 50 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 150 77 hsl 128 15 0 50 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 27 273 tabwrite~ \$0-rampsmooth;
+#X obj 27 77 phasor~ 440;
+#X text 310 53 rampup;
+#X text 311 75 rampdown;
+#X text 215 148 1;
+#X text 216 278 0;
+#X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
+#X text 11 21 alternate ramp control;
+#X obj 27 188 cyclone/rampsmooth~ 50 50;
+#X obj 229 152 hsl 195 140 0 127 0 0 \$0-s_none \$0-r_none empty -2
+-8 0 10 -262144 -262144 -262144 0 1;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array \$0-rampsmooth 128 float 4;
+#X coords 0 1 128 0 200 140 1 0 0;
+#X restore 226 152 graph;
+#X connect 0 0 5 0;
+#X connect 0 1 13 1;
+#X connect 1 0 5 0;
+#X connect 1 1 13 2;
+#X connect 3 0 0 0;
+#X connect 4 0 1 0;
+#X connect 6 0 13 0;
+#X connect 13 0 5 0;
+#X restore 457 358 pd alt control;
+#X obj 82 469 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 493 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 111 492 signal;
+#X text 111 468 float;
+#X text 230 468 - ramp up value;
+#X text 231 492 - ramp down value;
 #X connect 12 0 33 0;
 #X connect 13 0 12 0;
 #X connect 14 0 33 0;
