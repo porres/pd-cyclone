@@ -1,7 +1,7 @@
-#N canvas 309 80 574 532 10;
-#X obj 0 947 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 752 79 574 532 10;
+#X obj 0 969 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 386 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 0 407 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 629 308 345 214 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -18,128 +18,160 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 949 pd META;
-#X obj 0 698 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 503 971 pd META;
+#X obj 0 719 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 735 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 0 756 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 332 419 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 212 949 pd Related_objects;
-#X obj 72 395 cnv 17 3 290 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 212 971 pd Related_objects;
+#X obj 72 417 cnv 17 3 290 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 0 0 cnv 15 552 40 empty empty Scope~ 3 12 0 18 -204280 -1 0
 ;
 #X text 12 23 Graphic Signal Display;
-#X text 99 394 signal;
-#X text 265 395 - signal to display;
-#X text 99 441 buffsize <int>;
-#X text 99 482 range <int> <int>;
-#X text 265 482 - change range of display;
-#X text 99 503 frgb <int> <int> <int>;
-#X text 99 702 (none);
-#X text 265 523 - set color of graph in RGB values;
-#X text 99 523 brgb <int> <int> <int>;
-#X text 265 503 - set color of line in RGB values;
-#X obj 172 239 cyclone/Scope~ 245 119 73 3 245 -1 1 0 0 1 -0.229358
+#X text 99 416 signal;
+#X text 265 417 - signal to display;
+#X text 99 463 buffsize <int>;
+#X text 99 504 range <int> <int>;
+#X text 265 504 - change range of display;
+#X text 99 525 frgb <int> <int> <int>;
+#X text 99 724 (none);
+#X text 265 545 - set color of graph in RGB values;
+#X text 99 545 brgb <int> <int> <int>;
+#X text 265 525 - set color of line in RGB values;
+#X obj 172 239 cyclone/Scope~ 245 119 16 3 245 -1 1 0 0 1 0.100917
 0 255 0 7 31 7 0;
 #X obj 175 50 hsl 100 18 20 500 1 1 empty empty frequency 5 8 1 10
--262131 -1 -1 0 0;
-#X text 339 152 colors:;
+-262131 -1 -1 1900 0;
+#X text 339 154 colors:;
 #X msg 182 190 range -1 1;
-#X text 98 543 delay;
-#X text 98 576 trigger;
-#X text 98 625 triglevel;
+#X text 98 565 delay;
+#X text 98 598 trigger;
+#X text 98 647 triglevel;
 #X msg 88 181 trigger \$1;
 #X obj 88 130 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
+-1 1;
 #X text 108 142 up mode;
 #X text 108 158 down mode;
 #X msg 182 167 range -1 2;
 #X obj 154 242 vsl 15 110 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 4200 1;
+-1 -1 6000 1;
 #X msg 88 205 triglevel \$1;
-#X floatatom 116 333 5 0 0 0 - - -;
-#X text 265 625 - the signel level to fire the trigger;
-#X text 98 641 click (6 ints);
-#X text 265 543 - time delay between trigger and sample display;
-#X text 277 655 (xpix \, ypix \, shift \, alt \, dbl \, doit);
+#X floatatom 116 337 5 0 0 0 - - -, f 5;
+#X text 265 647 - the signel level to fire the trigger;
+#X text 98 663 click (6 ints);
+#X text 265 565 - time delay between trigger and sample display;
+#X text 277 677 (xpix \, ypix \, shift \, alt \, dbl \, doit);
 #X text 423 265 <--this is the Scope~;
 #X text 443 278 object;
 #X obj 172 77 osc~ 20;
-#X text 307 591 1 - trigger on rising flank;
-#X text 307 607 2 - trigger on falling flank;
-#X text 265 575 - mode 0 - free running mode;
+#X text 307 613 1 - trigger on rising flank;
+#X text 307 629 2 - trigger on falling flank;
+#X text 265 597 - mode 0 - free running mode;
 #X msg 359 174 frgb 0 255 0 \, brgb 7 31 7;
 #X msg 359 197 frgb 255 255 255 \, brgb 0 0 255;
 #X msg 498 9 Scope~;
-#X obj 174 364 hsl 128 15 255 2 0 0 \$0-timebase empty empty -2 -8
-0 10 -262144 -1 -1 9100 1;
 #X obj 178 214 r \$0-timebase;
-#X text 336 173 crt;
-#X text 334 197 lcd;
+#X text 336 174 crt;
+#X text 336 197 lcd;
 #X text 107 127 auto mode;
-#X text 278 559 effectively a refresh rate;
-#X text 278 670 hover the Scope to start refresh.;
-#X obj 518 351 dspSwitch~;
-#N canvas 383 551 430 344 x-y 0;
-#X obj 111 118 cyclone/Scope~ 130 130 40 3 130 -1 1 0 0 0 0 0 255 0
-7 31 7 0;
-#X obj 285 88 vsl 15 128 35 50 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X floatatom 285 230 5 0 0 0 - - -;
-#X obj 113 255 hsl 128 15 255 2 0 0 \$0-xybase empty empty -2 -8 0
-10 -262144 -1 -1 10792 1;
-#X obj 15 91 r \$0-xybase;
-#X obj 110 85 osc~ 40;
-#X obj 233 86 osc~ 40;
+#X text 278 581 effectively a refresh rate;
+#X text 278 692 hover the Scope to start refresh.;
+#X obj 518 371 dspSwitch~;
+#N canvas 351 334 430 344 x-y 0;
+#X obj 66 98 cyclone/Scope~ 170 174 8 3 130 -1.1 1.1 0 0 0 0 0 255
+0 7 31 7 0;
 #X obj 1 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X floatatom 110 275 5 0 0 0 - - -;
-#X msg 311 86 39.96;
 #X text 5 4 X-Y mode - useful for showing phase differences;
-#X msg 55 235 40;
-#X obj 55 213 loadbang;
-#X connect 1 0 2 0;
-#X connect 1 0 6 0;
-#X connect 3 0 8 0;
-#X connect 4 0 0 0;
+#X obj 65 72 osc~ 400;
+#X obj 230 72 osc~ 400;
+#X obj 70 276 hsl 128 15 2 32 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 2600 1;
+#X floatatom 32 276 5 0 0 0 - - -, f 5;
+#X msg 288 71 0;
+#X text 215 34 Click to reset the phase of this;
+#X text 216 48 osc~ relative to the other one;
+#X text 71 294 Due to interference of the time base \, the line can
+get fragmented. By finding a proper setting \, this can be minimalized.
+;
+#X msg 7 232 8.141;
+#X obj 7 209 loadbang;
+#X obj 10 34 vsl 15 128 44 440 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 11300 1;
+#X msg 261 97 400.1;
+#X text 252 117 Or change the frequency;
+#X floatatom 10 169 5 0 0 0 - - -, f 5;
+#X connect 3 0 0 0;
+#X connect 4 0 0 1;
 #X connect 5 0 0 0;
-#X connect 6 0 0 1;
-#X connect 9 0 1 0;
-#X connect 11 0 3 0;
+#X connect 5 0 6 0;
+#X connect 7 0 4 1;
+#X connect 11 0 5 0;
 #X connect 12 0 11 0;
+#X connect 13 0 3 0;
+#X connect 13 0 4 0;
+#X connect 13 0 16 0;
+#X connect 14 0 4 0;
 #X restore 482 51 pd x-y mode;
-#X text 265 441 - the number of samples in the screen. Should;
-#X text 99 411 float;
-#X obj 0 828 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X text 265 463 - the number of samples in the screen. Should;
+#X text 99 433 float;
+#X obj 0 849 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 278 453 be similar or less than the width of the;
-#X text 278 466 screen.;
-#X text 98 897 The sweep time can grow long quite fast. 8192 (time
+#X text 278 477 be similar or less than the width of the;
+#X text 98 919 The sweep time can grow long quite fast. 8192 (time
 base) * 44100 (sample rate) * 130 (buffer size) is more than 24 seconds.
 ;
-#X floatatom 122 361 5 0 0 0 - - -;
-#X text 265 641 - same as a click \, freezing the scope;
+#X text 265 663 - same as a click \, freezing the scope;
 #X text 307 362 time base;
 #X obj 208 104 hsl 60 15 0.01 1 1 0 empty empty level 2 8 1 10 -204786
--1 -1 0 1;
-#X floatatom 136 77 5 0 0 0 - - -;
-#X text 278 426 values between 2 and 8192;
-#X text 265 412 - time base as fraction of the sample rate \,;
+-1 -1 5300 1;
+#X floatatom 136 77 5 0 0 0 - - -, f 5;
+#X text 278 448 values between 2 and 8192;
+#X text 265 434 - time base as fraction of the sample rate \,;
 #X obj 172 128 *~ 0.9;
-#X text 98 834 The Max objects has no arguments \, but many attributes.
+#X text 98 856 The Max objects has no arguments \, but many attributes.
 These are mapped to arguments and messages.;
-#X text 99 741 In order \, with default values: 0-width (66) \, 1-height
+#X text 99 763 In order \, with default values: 0-width (66) \, 1-height
 (130) \, 2-time base (256) \, 3-xt/xy mode (3) \, 4-buffer size(128)
 \, 5-range minimum (-1) \, 6-range maximum (1) \, 7-delay (0) \, 8-??
 (0) \, 9-trigger mode (0) \, 10-trigger level (0) \, 11/13-foreground
 color (102 \, 255 \, 51) \, 14/16-background color (135 \, 135 \, 135)
 \, 17-?? (0);
-#X text 98 866 The example scope has these arguments: Scope~ 245 119
+#X text 98 888 The example scope has these arguments: Scope~ 245 119
 215 3 245 -1 1 0 0 1 -0.174312 0 255 0 7 31 7 0;
+#X text 277 489 scope.;
+#X obj 172 362 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 4;
+#X floatatom 232 383 5 0 0 0 - #0-timebase -, f 5;
+#N canvas 1020 546 450 300 powOf2 0;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array \$0-powOf2 8 float 3;
+#A 0 256 128 64 32 16 8 4 2;
+#X coords 0 256 8 0 200 140 1 0 0;
+#X restore 225 66 graph;
+#X obj 158 194 f \$0;
+#X obj 139 170 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 158 146 loadbang;
+#X msg 158 222 \; \$1-powOf2 0 256 128 64 32 16 8 4 2;
+#X obj 10 92 tabread \$0-powOf2;
+#X obj 10 240 outlet;
+#X obj 10 68 inlet;
+#X obj 17 121 s \$0-timebase;
+#X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
+#X text 17 20 time base;
+#X connect 1 0 4 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 0;
+#X connect 5 0 6 0;
+#X connect 5 0 8 0;
+#X connect 7 0 5 0;
+#X restore 172 382 pd powOf2;
 #X connect 20 0 40 0;
-#X connect 20 0 66 0;
+#X connect 20 0 63 0;
 #X connect 22 0 19 0;
 #X connect 26 0 19 0;
 #X connect 27 0 26 0;
@@ -147,10 +179,10 @@ color (102 \, 255 \, 51) \, 14/16-background color (135 \, 135 \, 135)
 #X connect 31 0 32 0;
 #X connect 31 0 33 0;
 #X connect 32 0 19 0;
-#X connect 40 0 69 0;
+#X connect 40 0 66 0;
 #X connect 44 0 19 0;
 #X connect 45 0 19 0;
-#X connect 47 0 62 0;
-#X connect 48 0 19 0;
-#X connect 65 0 69 1;
-#X connect 69 0 19 0;
+#X connect 47 0 19 0;
+#X connect 62 0 66 1;
+#X connect 66 0 19 0;
+#X connect 71 0 73 0;
