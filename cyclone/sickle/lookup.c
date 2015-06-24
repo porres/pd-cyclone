@@ -36,7 +36,9 @@ static t_int *lookup_perform(t_int *w)
 	{
 	    float off = *oin++;  /* msp: converted to int (if not a signal) */
 	    int siz = (int)*sin++ - 1;  /* msp: converted to int (signal too) */
-	    float pos = (siz > 0 ? off + siz * (*xin++ + 1.0) * 0.5 : off);
+	    float pos;
+//	    pos = (siz > 0 ? off + siz * (*xin++ + 1.0) * 0.5 : off);  // range: off - (off + siz)
+	    pos = (siz > 0 ? off + (siz - off) * (*xin++ + 1.0) * 0.5 : off);  // range: off - siz
 	    int ndx = (int)pos;
 	    int ndx1 = ndx + 1;
 	    if (ndx1 > 0 && ndx1 < vecsize)
