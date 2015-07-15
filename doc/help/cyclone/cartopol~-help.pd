@@ -1,4 +1,4 @@
-#N canvas 548 84 555 488 10;
+#N canvas 540 80 555 488 10;
 #X obj 0 462 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 234 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -41,7 +41,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 117 392 (none);
 #X text 15 23 cartesian to polar conversion for signals;
 #X text 17 55 Here's how to connect it to an fft~:;
-#X text 196 119 phase (in 271 radians);
+#X text 196 119 phase (-PI to PI radians);
 #X obj 88 201 ifft~ 256 256 0;
 #X obj 88 79 fft~ 256 256 0;
 #X text 63 118 amp.;
@@ -72,7 +72,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 32 378 cyclone/poltocar~;
 #X obj 33 235 hilbert~;
 #X obj 151 185 vsl 15 128 0 2 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 12200 1;
+-1 -1 0 1;
 #X msg 151 154 1;
 #X obj 130 344 *~ 1;
 #N canvas 1 79 450 300 voice 0;
@@ -127,7 +127,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 11 0 0 0;
 #X connect 11 0 0 1;
 #X restore 404 92 pd how it sounds;
-#N canvas 1 79 450 570 what 0;
+#N canvas 1 80 450 570 what 0;
 #X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
 #X text 17 21 what it looks like;
 #X obj 70 403 output~;

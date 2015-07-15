@@ -1,4 +1,4 @@
-#N canvas 620 82 554 531 10;
+#N canvas 567 82 554 531 10;
 #X obj 0 521 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 359 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -38,55 +38,118 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X obj 501 3 delay~;
 #X text 12 23 delay incoming signal for a number of samples;
-#X obj 70 73 adc~;
-#X obj 71 109 hip~ 5;
-#X obj 139 106 * 4410;
-#X floatatom 139 76 5 0 10 0 - - -;
-#X obj 216 215 -~;
-#X floatatom 216 72 5 0 0 0 - - -;
-#X floatatom 337 120 5 0 100 0 - - -;
-#X obj 150 246 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+#X obj 284 231 -~;
+#X floatatom 381 90 5 0 100 0 - - -, f 5;
+#X obj 213 254 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
 1;
-#X obj 210 246 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+#X obj 316 254 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X obj 216 93 phasor~ 100;
-#X text 127 47 try this...;
-#X text 212 49 or this;
 #X text 109 368 signal;
 #X text 171 368 - signal to delay;
 #X text 109 432 signal;
 #X text 171 432 - delayed signal;
 #X text 91 479 1) float;
-#X text 171 480 - max delay in samples. Default is 512;
 #X obj 80 368 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 120 301 output~;
-#X obj 119 246 *~ 0;
-#X obj 179 246 *~ 0;
-#X obj 23 72 noise~;
-#X obj 232 172 cyclone/delay~ 100;
-#X text 109 393 signal;
+#X obj 198 308 output~;
+#X obj 182 254 *~ 0;
+#X obj 285 254 *~ 0;
 #X obj 80 393 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 171 393 - delay in samples;
-#X obj 70 173 cyclone/delay~ 22050;
 #X text 91 497 2) float;
 #X text 171 498 - initial delay in samples. Default is 0;
-#X connect 10 0 11 0;
-#X connect 11 0 37 0;
-#X connect 12 0 37 1;
-#X connect 13 0 12 0;
-#X connect 14 0 31 0;
-#X connect 15 0 19 0;
-#X connect 16 0 33 1;
-#X connect 17 0 30 1;
-#X connect 18 0 31 1;
-#X connect 19 0 14 0;
-#X connect 19 0 33 0;
-#X connect 30 0 29 0;
-#X connect 30 0 29 1;
-#X connect 31 0 29 0;
-#X connect 31 0 29 1;
-#X connect 32 0 11 0;
-#X connect 33 0 14 1;
-#X connect 37 0 30 0;
+#X obj 384 65 hsl 128 15 0 511 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 134 64 hsl 128 15 0 441000 0 0 empty empty empty -2 -8 0 10
+-262144 -1 -1 12700 1;
+#X obj 284 65 noise~;
+#X obj 300 171 cyclone/delay~;
+#N canvas 1 79 450 300 burst 0;
+#X obj 97 118 noise~;
+#X obj 97 188 *~;
+#X obj 145 140 cyclone/Line~;
+#X msg 145 119 1 \, 0 100;
+#X obj 97 220 outlet~;
+#X obj 145 73 inlet;
+#X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
+#X text 12 23 noise burst;
+#X connect 0 0 1 0;
+#X connect 1 0 4 0;
+#X connect 2 0 1 1;
+#X connect 3 0 2 0;
+#X connect 5 0 3 0;
+#X restore 71 86 pd burst;
+#X obj 71 63 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 131 86 8 0 0 0 - - -, f 8;
+#X text 75 43 up to 10 seconds delay;
+#X text 109 393 float;
+#X text 345 218 which is ok for filters;
+#X text 120 204 maximum delay is 10 sec.;
+#X text 171 480 - defines the maximum delay in samples. Default is
+512;
+#X text 343 190 no max. delay argument means;
+#X text 343 204 the maximum delay is 512 bytes;
+#X text 318 43 as filter;
+#X text 120 190 at 44k1 sample rate the;
+#X obj 70 171 cyclone/delay~ 441000 44100;
+#X floatatom 10 334 5 0 0 0 - - -, f 5;
+#X obj 10 197 vsl 15 128 10 0 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 12700 1;
+#X obj 133 107 / 44100;
+#N canvas 102 534 450 300 waitforit 0;
+#X obj 107 119 metro 1000;
+#X obj 107 97 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 138 145 + 1;
+#X obj 107 145 f 0;
+#X floatatom 130 213 5 0 0 0 - - -, f 5;
+#X obj 126 42 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 107 68 t b b;
+#X obj 202 214 t b b;
+#X obj 107 5 inlet;
+#X obj 107 248 outlet;
+#X obj 202 5 inlet;
+#X obj 157 190 moses 11;
+#X msg 134 94 -1;
+#X connect 0 0 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 3 1;
+#X connect 3 0 2 0;
+#X connect 3 0 4 0;
+#X connect 3 0 9 0;
+#X connect 3 0 11 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;
+#X connect 6 1 12 0;
+#X connect 7 0 1 0;
+#X connect 7 1 12 0;
+#X connect 8 0 6 0;
+#X connect 10 0 11 1;
+#X connect 11 1 7 0;
+#X connect 12 0 3 0;
+#X restore 10 106 pd waitforit;
+#X connect 10 0 22 0;
+#X connect 11 0 30 1;
+#X connect 12 0 21 1;
+#X connect 13 0 22 1;
+#X connect 21 0 20 0;
+#X connect 21 0 20 1;
+#X connect 22 0 20 0;
+#X connect 22 0 20 1;
+#X connect 27 0 11 0;
+#X connect 28 0 33 0;
+#X connect 29 0 10 0;
+#X connect 29 0 30 0;
+#X connect 30 0 10 1;
+#X connect 31 0 43 0;
+#X connect 32 0 31 0;
+#X connect 32 0 47 0;
+#X connect 33 0 43 1;
+#X connect 33 0 46 0;
+#X connect 43 0 21 0;
+#X connect 45 0 44 0;
+#X connect 46 0 47 1;
+#X connect 47 0 45 0;
