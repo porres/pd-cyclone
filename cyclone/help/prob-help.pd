@@ -1,0 +1,154 @@
+#N canvas 506 79 570 530 10;
+#X obj 0 525 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 273 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 616 320 359 239 META 0;
+#X text 1 19 LICENSE SIBSD;
+#X text 1 114 LIBRARY cyclone;
+#X text 1 0 KEYWORDS random generator weighted;
+#X text 1 38 DESCRIPTION weighted series of random numbers;
+#X text 1 57 INLET_0 list bang message;
+#X text 1 95 OUTLET_1 bang;
+#X text 1 76 OUTLET_0 float;
+#X text 0 132 VERSION 0.1-alpha57;
+#X text 0 150 AUTHOR Krzysztof Czaja;
+#X text 1 168 RELEASE_DATE 2002;
+#X text 2 187 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 219 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 528 pd META;
+#X obj 0 425 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 488 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 312 453 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 10 29 anal;
+#X obj 10 51 Histo;
+#X obj 9 74 mean;
+#X restore 200 528 pd Related_objects;
+#X obj 78 282 cnv 17 3 125 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 461 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty prob 3 12 0 18 -204280 -1 0;
+#X obj 515 6 prob;
+#C restore;
+#X text 12 23 weighted series of random numbers;
+#X text 45 62 markov chain and outputs a number according to it.;
+#X text 237 101 0 has a 80% chance to be followed by 1 \, and;
+#X floatatom 84 239 5 0 0 0 - - -;
+#X text 106 282 list;
+#X text 106 324 bang;
+#X text 178 324 - puts out a number and sets prob to this value;
+#X text 106 434 float;
+#X text 178 434 - random number based on prob function;
+#X obj 78 434 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 106 461 bang;
+#X text 178 461 - when we reach a number for which there is no rule
+;
+#X text 106 497 (none);
+#X text 45 50 prob maintains a probability matrix a.k.a 1st order;
+#N canvas 643 451 471 424 complex_example 0;
+#X msg 63 101 0 1 30 \, 0 2 30 \, 0 3 40;
+#X msg 65 125 1 2 30 \, 1 0 70;
+#X floatatom 12 368 5 0 0 0 - - -;
+#X obj 81 339 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 73 75 load probabilities:;
+#X text 102 336 bang when we reach a number for which we have no rule
+;
+#X obj 12 76 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X msg 82 284 reset 0;
+#X msg 81 261 clear;
+#X msg 80 215 dump;
+#X text 113 213 print out all rules;
+#X msg 81 238 embed;
+#X text 120 237 save matrix with the patch;
+#X obj 12 314 cyclone/prob;
+#C restore;
+#X msg 66 148 2 0 50 \, 2 1 40 \, 2 3 10;
+#X msg 36 77 bang;
+#X text 226 96 of each triplet:;
+#X text 224 110 - the first is a start value \,;
+#X text 225 125 - the second is an end value \,;
+#X text 225 140 - the third the chance in percents this;
+#X text 237 154 target is chosen;
+#X obj 62 369 hradio 15 1 0 5 empty empty empty 0 -8 0 10 -262144 -1
+-1 2;
+#X text 254 171 <- when 3 \, there is a 5% change;
+#X text 272 185 the end value will be 4 and;
+#X text 274 199 will be stuck there \, as there;
+#X text 274 213 are no rules for 4;
+#X text 138 366 <- if the value will get 4 \, it is stuck until;
+#X text 159 385 a;
+#X msg 174 386 reset n;
+#X text 228 385 is send (n being a valid value);
+#X obj 12 53 metro 100;
+#X obj 12 28 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+;
+#X text 61 351 0;
+#X text 123 351 4;
+#X msg 66 173 3 0 10 \, 3 1 10 \, 3 2 75 \, 3 4 5;
+#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 133 284 set a default target in case it gets stuck;
+#X text 122 260 clear matrix;
+#X text 10 3 Complex example;
+#X connect 0 0 13 0;
+#X connect 1 0 13 0;
+#X connect 6 0 13 0;
+#X connect 7 0 13 0;
+#X connect 8 0 13 0;
+#X connect 9 0 13 0;
+#X connect 11 0 13 0;
+#X connect 13 0 2 0;
+#X connect 13 0 21 0;
+#X connect 13 1 3 0;
+#X connect 14 0 13 0;
+#X connect 15 0 0 0;
+#X connect 15 0 1 0;
+#X connect 15 0 14 0;
+#X connect 15 0 34 0;
+#X connect 30 0 6 0;
+#X connect 31 0 30 0;
+#X connect 34 0 13 0;
+#X restore 436 249 pd complex_example;
+#X msg 84 84 0 1 80 \, 0 2 20 \, 1 2 10 \, 1 0 90 \, 2 0 50 \, 2 1
+50;
+#X obj 92 111 metro 500;
+#X obj 67 110 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 84 178 cyclone/prob;
+#C restore;
+#X obj 84 219 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 249 113 a 20% chance to be followed by 2;
+#X text 236 126 1 has a 10% change to be followed 2 \, and;
+#X text 249 140 a 90% chance to be followed by 0;
+#X text 237 154 2 has a 50% change to be followed by either 0 or 1
+;
+#X text 178 282 - list of triplets \, specifying probability function
+in form <x \, y \, prob> where x has an prob (in %) chance of being
+followed by y;
+#X text 105 341 clear;
+#X text 105 356 dump;
+#X text 105 372 embed;
+#X text 178 371 - save matrix with the patch;
+#X text 178 356 - print out all rule;
+#X text 178 341 - clear the matrix;
+#X text 105 389 reset n;
+#X text 178 386 - set a default n \, for when a number is reached for
+which there is no rule;
+#X text 167 178 <- click will show table in viewer;
+#X connect 25 0 28 0;
+#X connect 26 0 28 0;
+#X connect 27 0 26 0;
+#X connect 28 0 13 0;
+#X connect 28 0 29 0;

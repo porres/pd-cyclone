@@ -1,0 +1,60 @@
+#N canvas 506 79 559 401 10;
+#X obj 0 373 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 224 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 626 169 351 238 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 127 LIBRARY cyclone;
+#X text 0 89 INLET_1 float;
+#X text 0 0 KEYWORDS combine numbers list threshold thresh;
+#X text 0 38 DESCRIPTION combine numbers that are received close together
+into a list;
+#X text 0 70 INLET_0 float;
+#X text 0 108 OUTLET_0 list;
+#X text 0 146 VERSION 0.1-alpha57;
+#X text 0 164 AUTHOR Krzysztof Czaja;
+#X text 1 182 RELEASE_DATE 2002;
+#X text 2 201 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 233 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 375 pd META;
+#X obj 0 287 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 329 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 318 298 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 200 375 pd Related_objects;
+#X obj 79 234 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 299 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty thresh 3 12 0 18 -204280 -1 0
+;
+#X obj 79 260 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 111 260 float;
+#X text 93 342 1) float;
+#X obj 501 10 thresh;
+#X obj 160 201 print thresh;
+#X floatatom 160 56 5 0 0 0 - - -;
+#X floatatom 265 57 5 0 0 0 - - -;
+#X text 111 233 float;
+#X text 111 299 list;
+#X text 12 23 combine numbers that are received close together into
+a list;
+#X obj 160 132 cyclone/thresh 100;
+#X text 179 260 - time interval within numbers are added to the list
+;
+#X text 180 342 - initial time interval (default 10 ms);
+#X text 179 299 - list of numbers stored that a recieved within interval
+;
+#X text 179 233 - numbers to store into list;
+#X connect 14 0 19 0;
+#X connect 15 0 19 1;
+#X connect 19 0 13 0;

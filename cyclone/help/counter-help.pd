@@ -1,0 +1,236 @@
+#N canvas 554 81 569 529 10;
+#X obj 0 1187 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 511 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 716 337 388 386 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 216 LIBRARY cyclone;
+#X text 1 144 OUTLET_0 float;
+#X text 1 72 INLET_1 bang float;
+#X text 1 90 INLET_2 bang float;
+#X text 1 108 INLET_3 bang float;
+#X text 1 126 INLET_4 bang float;
+#X text 1 198 OUTLET_3 float;
+#X text 1 36 DESCRIPTION count the number of bangs received;
+#X text 1 0 KEYWORDS count bangs counter;
+#X text 1 250 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 230 AUTHOR Krzysztof Czaja;
+#X text 1 278 RELEASE_DATE 2002;
+#X text 0 364 comment;
+#X text 0 295 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+updated this patch for Pd-extended and Pd-l2ork;
+#X text 1 162 OUTLET_1 bang float;
+#X text 1 180 OUTLET_2 bang float;
+#X text 1 54 INLET_0 bang float message;
+#X restore 503 1189 pd META;
+#X obj 0 850 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 1058 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 308 566 426 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 28 creb/count;
+#X obj 78 28 count~;
+#X restore 204 1189 pd Related_objects;
+#X obj 77 520 cnv 17 3 99 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 77 634 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty counter 3 12 0 18 -204280 -1 0
+;
+#X obj 77 707 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 77 755 cnv 17 3 33 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 77 801 cnv 17 3 33 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X text 97 519 bang;
+#X text 177 519 - main bang input \, where counter is collected;
+#X text 97 632 bang;
+#X text 99 706 bang;
+#X text 99 752 bang;
+#X text 98 798 bang;
+#X text 177 628 - change counter direction;
+#X text 96 650 float;
+#X text 204 662 0 = up;
+#X text 204 674 1 = down;
+#X text 204 686 2 = up and down;
+#X text 177 650 - counter direction;
+#X text 98 724 float;
+#X text 98 773 float;
+#X text 98 819 float;
+#X text 98 537 message;
+#X obj 77 866 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 77 890 cnv 17 3 40 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 77 964 cnv 17 3 40 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 77 1034 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 98 987 float;
+#X text 98 1035 float;
+#X text 177 864 - current value of counter;
+#X text 177 1033 - count of overflows;
+#X text 98 866 float;
+#X text 98 914 float;
+#X obj 484 4 counter;
+#X text 80 1077 arguments are specified as follows:;
+#X text 235 1105 one arg = initial maximum;
+#X text 235 1128 two args = initial min/max;
+#X text 235 1150 three = direction (0 \, 1 \, 2) min/max;
+#X floatatom 97 463 5 0 0 0 - - -;
+#X floatatom 226 350 5 0 0 0 - - -;
+#X text 259 349 maximum hit;
+#X text 133 462 value;
+#X obj 97 83 metro 300;
+#X msg 165 56 up;
+#X msg 165 82 down;
+#X msg 165 108 updown;
+#X obj 183 395 print maximum;
+#X obj 140 441 print minimum;
+#X msg 239 158 dec;
+#X msg 238 134 inc;
+#X text 259 79 count direction;
+#X floatatom 190 372 5 0 0 0 - - -;
+#X floatatom 147 418 5 0 0 0 - - -;
+#X text 280 143 instant counter value change;
+#X obj 97 59 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#N canvas 204 95 494 409 META 0;
+#X text 2 327 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template.;
+#X text 1 297 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 50 DESCRIPTION count the number of bangs received;
+#X text 1 180 OUTLET_0 float;
+#X text 1 200 OUTLET_1 float;
+#X text 1 220 OUTLET_2 float;
+#X text 1 240 OUTLET_3 float;
+#X text 1 100 INLET_1 float bang;
+#X text 1 120 INLET_2 float bang;
+#X text 1 140 INLET_3 float bang;
+#X text 1 160 INLET_4 float bang;
+#X text 1 70 INLET_0 float bang next dec inc up down updown goto set
+jam min max carryint carrybang;
+#X text 1 30 LICENSE SIBSD;
+#X text 1 277 AUTHOR Krzysztof Czaja;
+#X text 1 0 KEYWORDS control storage max_compatible;
+#X text 2 356 Added a new help patch for some new messages by Fred
+Jan Kraan.;
+#X text 0 259 VERSION 0.1-alpha57;
+#X restore 487 485 pd META;
+#X obj 194 351 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 152 398 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 245 233 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 218 57 0;
+#X msg 218 82 1;
+#X msg 218 106 2;
+#X msg 31 122 carryint;
+#X msg 31 146 carrybang;
+#X floatatom 265 191 5 0 0 0 - - -;
+#X floatatom 266 212 5 0 0 0 - - -;
+#X floatatom 266 233 5 0 0 0 - - -;
+#X text 96 605 float;
+#X text 177 605 - same as bang;
+#X obj 256 58 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 98 889 bang;
+#X text 98 962 bang;
+#X text 176 887 - only when carrybang is set. When counting up \, a
+bang is send when the maximum is reached.;
+#X text 175 915 - only when carryint is set. When counting up \, an
+"1" is send when the maximum is reached. A "0" is send when the maximum
+is passed.;
+#X text 176 960 - only when carrybang is set. When counting down \,
+a bang is send when the maximum is reached.;
+#X text 177 986 - only when carryint is set. When counting down \,
+an "1" is send when the minimum is reached. A "0" is send when the
+minimum is passed.;
+#X text 177 797 - reset to maximum value \, wait for next bang before
+output;
+#X text 177 819 - set maximum value;
+#X text 177 538 - "up" \, down" \, "updown" \, change direction. "inc"
+and "dec" increment or decrement counter \, "carrybang" and "carryint"
+set the output type of the middle two outlets \, "set n" \, "goto n"
+\, "jam n" control the counter value. "next" is the same as bang;
+#X obj 97 292 cyclone/counter 3 12 0;
+#X obj 84 1106 cyclone/counter 100;
+#X obj 84 1128 cyclone/counter 50 100;
+#X obj 83 1151 cyclone/counter 0 50 100;
+#X text 49 22 count over a range of integers;
+#X obj 244 213 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 243 192 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 669 617 432 238 additional 0;
+#X msg 188 97 set \$1;
+#X floatatom 188 78 5 0 0 0 - - -;
+#X msg 242 97 jam \$1;
+#X floatatom 242 78 5 0 0 0 - - -;
+#X text 133 61 set counter to nr. and output;
+#X text 282 76 immediately;
+#X text 98 78 at next bang;
+#X msg 103 97 goto \$1;
+#X text 164 99 =;
+#X msg 82 159 min \$1;
+#X msg 130 159 max \$1;
+#X floatatom 82 138 5 0 0 0 - - -;
+#X floatatom 130 138 5 0 0 0 - - -;
+#X text 79 121 set min/max;
+#X text 99 45 additional ways to accomplish the same:;
+#X obj 242 184 cyclone/counter;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 4 2 Additional counter messages;
+#X connect 0 0 15 0;
+#X connect 1 0 0 0;
+#X connect 2 0 15 0;
+#X connect 3 0 2 0;
+#X connect 7 0 15 0;
+#X connect 9 0 15 0;
+#X connect 10 0 15 0;
+#X connect 11 0 9 0;
+#X connect 12 0 10 0;
+#X restore 377 395 pd additional ways;
+#X text 302 191 set minimum value \, bang to reset counter;
+#X text 177 723 - set minimum value;
+#X text 177 705 - reset to minimum value;
+#X text 177 749 - reset to minimum value;
+#X text 177 769 - set minimum value and reset counter immediately;
+#X text 303 211 set minimum value and reset counter;
+#X text 303 231 set maximum value \, bang to set counter;
+#X connect 47 0 84 0;
+#X connect 48 0 84 0;
+#X connect 49 0 84 0;
+#X connect 50 0 84 0;
+#X connect 53 0 84 0;
+#X connect 54 0 84 0;
+#X connect 59 0 47 0;
+#X connect 63 0 84 4;
+#X connect 64 0 84 1;
+#X connect 65 0 84 1;
+#X connect 66 0 84 1;
+#X connect 67 0 84 0;
+#X connect 68 0 84 0;
+#X connect 69 0 84 2;
+#X connect 70 0 84 3;
+#X connect 71 0 84 4;
+#X connect 74 0 84 1;
+#X connect 84 0 43 0;
+#X connect 84 1 62 0;
+#X connect 84 1 57 0;
+#X connect 84 1 52 0;
+#X connect 84 2 61 0;
+#X connect 84 2 56 0;
+#X connect 84 2 51 0;
+#X connect 84 3 44 0;
+#X connect 89 0 84 3;
+#X connect 90 0 84 2;

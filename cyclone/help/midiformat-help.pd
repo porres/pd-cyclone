@@ -1,0 +1,103 @@
+#N canvas 622 81 573 531 10;
+#X obj 0 561 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 606 278 356 320 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 198 LIBRARY cyclone;
+#X text 1 54 INLET_0 message;
+#X text 1 72 INLET_1 message;
+#X text 1 90 INLET_2 message;
+#X text 1 108 INLET_3 float;
+#X text 1 126 INLET_4 float;
+#X text 1 162 INLET_6 float;
+#X text 1 144 INLET_5 float;
+#X text 1 180 OUTLET_0 midi message;
+#X text 1 36 DESCRIPTION de/construct midi messages;
+#X text 1 0 KEYWORDS midi messages construct format;
+#X text 0 216 VERSION 0.1-alpha57;
+#X text 0 234 AUTHOR Krzysztof Czaja;
+#X text 1 252 RELEASE_DATE 2002;
+#X text 2 271 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 303 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 504 563 pd META;
+#X obj 0 480 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 521 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 399 585 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 6 29 cyclone/Borax;
+#X obj 120 27 midiout;
+#X obj 5 52 cyclone/midiparse;
+#X restore 210 563 pd Related_objects;
+#X obj 85 453 cnv 17 3 17 empty empty 6 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty midiformat 3 12 0 18 -204280 -1
+0;
+#X obj 477 7 midiformat;
+#X msg 106 61 88 127;
+#X obj 106 281 midiout;
+#X msg 125 87 90 88;
+#X msg 145 115 70 7;
+#X floatatom 164 143 5 0 0 0 - - -;
+#X floatatom 184 166 5 0 0 0 - - -;
+#X floatatom 203 192 5 0 0 0 - - -;
+#X floatatom 223 218 5 0 0 0 - - -;
+#X text 116 453 float;
+#X obj 85 489 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 85 342 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 85 364 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 85 387 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 116 387 float;
+#X obj 85 408 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X text 116 408 float;
+#X obj 85 430 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X text 116 430 float;
+#X obj 85 320 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 116 320 message;
+#X text 116 342 message;
+#X text 116 364 message;
+#X text 214 320 - pitch/velocity pairs make noteon messages;
+#X text 214 342 - aftertouch/pitch pairs make poly aftertouch messages
+;
+#X text 214 364 - controller val/ controller nr make control messages
+;
+#X text 214 387 - program change message;
+#X text 214 408 - aftertouch;
+#X text 214 430 - pitch bend;
+#X text 214 453 - channel number (wraps like n%16);
+#X text 116 488 midi message;
+#X text 214 489 - midi message based on inlets;
+#X text 98 532 1) float;
+#X text 214 532 - channel number;
+#X obj 106 247 cyclone/midiformat 5;
+#X text 12 23 construct midi messages;
+#X text 153 61 0;
+#X text 166 87 1;
+#X text 179 115 2;
+#X text 200 142 3;
+#X text 220 165 4;
+#X text 239 191 5;
+#X text 259 218 6;
+#X connect 9 0 42 0;
+#X connect 11 0 42 1;
+#X connect 12 0 42 2;
+#X connect 13 0 42 3;
+#X connect 14 0 42 4;
+#X connect 15 0 42 5;
+#X connect 16 0 42 6;
+#X connect 42 0 10 0;

@@ -1,0 +1,73 @@
+#N canvas 622 81 558 533 10;
+#X obj 0 502 cnv 15 552 21 empty empty empty 20 12 0
+14 -233017 -33289 0;
+#X obj 0 258 cnv 3 550 3 empty empty inlets 8 12 0 13
+-228856 -1 0;
+#N canvas 606 302 357 233 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 113 LIBRARY cyclone;
+#X text 1 73 INLET_0 signal;
+#X text 1 93 OUTLET_0 signal;
+#X text 1 0 KEYWORDS signal phase deviation frames FFT;
+#X text 1 40 DESCRIPTION computes the phase deviation between successive
+FFT frames;
+#X text 0 134 VERSION 0.1-alpha57;
+#X text 0 152 AUTHOR Krzysztof Czaja;
+#X text 1 170 RELEASE_DATE 2002;
+#X text 2 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 504 pd META;
+#X obj 0 301 cnv 3 550 3 empty empty outlets 8 12 0
+13 -228856 -1 0;
+#X obj 0 340 cnv 3 550 3 empty empty arguments 8 12
+0 13 -228856 -1 0;
+#X obj 0 388 cnv 3 550 3 empty empty more_info 8 12
+0 13 -228856 -1 0;
+#N canvas 304 426 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0
+14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 12 32 count~;
+#X obj 64 32 frameaccum~;
+#X restore 204 504 pd Related_objects;
+#X obj 82 270 cnv 17 3 17 empty empty 0 5 9 0 16 -228856
+-162280 0;
+#X obj 83 312 cnv 17 3 17 empty empty 0 5 9 0 16 -228856
+-162280 0;
+#X obj 0 0 cnv 15 552 40 empty empty framedelta~ 3 12
+0 18 -204280 -1 0;
+#X text 108 270 signal;
+#X text 182 270 - incoming signal vector;
+#X text 108 312 signal;
+#X text 108 357 (none);
+#X obj 477 5 framedelta~;
+#X obj 239 59 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 75 53 bang to start the count ->;
+#X obj 239 86 count~;
+#X obj 238 231 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X obj 101 231 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X text 182 312 - phase deviation between successive FFT frames;
+#X text 97 435 so \, when used in the context of a pfft~ patch (where
+the FFT frame is the vector size) it can be used to compute the phase
+deviation;
+#X text 96 406 framedelta~ subtracts each of the values of the previous
+input signal vector from those of the current vector;
+#X text 22 22 computes the phase deviation between successive FFT frames
+;
+#X obj 238 144 cyclone/framedelta~;
+#X obj 101 201 cyclone/Snapshot~ 100;
+#X obj 238 201 cyclone/Snapshot~ 100;
+#X obj 519 223 dspSwitch~;
+#X connect 15 0 17 0;
+#X connect 17 0 24 0;
+#X connect 17 0 25 0;
+#X connect 24 0 26 0;
+#X connect 25 0 19 0;
+#X connect 26 0 18 0;

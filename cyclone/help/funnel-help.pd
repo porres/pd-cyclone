@@ -1,0 +1,80 @@
+#N canvas 621 81 558 464 10;
+#X obj 0 436 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 1 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 610 328 382 213 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 100 LIBRARY cyclone;
+#X text 1 0 KEYWORDS tag data inlet input;
+#X text 1 40 DESCRIPTION tag data based on the inlet it arrived in
+;
+#X text 1 80 OUTLET_0 anything;
+#X text 0 121 VERSION 0.1-alpha57;
+#X text 0 139 AUTHOR Krzysztof Czaja;
+#X text 1 157 RELEASE_DATE 2002;
+#X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 60 INLET_N anything bang;
+#X restore 500 438 pd META;
+#X obj 2 356 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 393 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 294 360 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 189 439 pd Related_objects;
+#X obj 85 294 cnv 17 3 35 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 85 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty funnel 3 12 0 18 -204280 -1 0
+;
+#X obj 504 6 funnel;
+#X floatatom 87 97 5 0 0 0 - - -;
+#X floatatom 87 258 5 0 0 0 - - -;
+#X floatatom 144 241 5 0 0 0 - - -;
+#X floatatom 118 80 5 0 0 0 - - -;
+#X floatatom 149 64 5 0 0 0 - - -;
+#X floatatom 180 48 5 0 0 0 - - -;
+#X obj 352 258 print;
+#X msg 445 91 list bar;
+#X obj 194 88 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 163 88 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 12 23 tag data based on the inlet it arrived in;
+#X text 114 293 anything;
+#X text 184 293 - can have any data input into inlet;
+#X text 114 365 anything;
+#X text 184 365 - have items gathered by what inlet they came from
+;
+#X text 95 406 1) float;
+#X text 184 406 - number of inlets;
+#X text 114 312 bang;
+#X text 184 312 - repeat last received value of the inlet;
+#X obj 87 219 unpack f f;
+#X text 123 259 inlet number;
+#X text 181 241 value of inlet;
+#X obj 87 172 cyclone/funnel 4;
+#X obj 352 173 cyclone/funnel 2;
+#X text 210 79 repeat last received;
+#X text 211 92 value of the inlet;
+#X msg 352 91 list foo;
+#X connect 10 0 32 0;
+#X connect 13 0 32 1;
+#X connect 14 0 32 2;
+#X connect 15 0 32 3;
+#X connect 17 0 33 1;
+#X connect 18 0 32 3;
+#X connect 19 0 32 2;
+#X connect 29 0 11 0;
+#X connect 29 1 12 0;
+#X connect 32 0 29 0;
+#X connect 33 0 16 0;
+#X connect 36 0 33 0;

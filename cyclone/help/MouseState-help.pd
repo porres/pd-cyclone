@@ -1,0 +1,101 @@
+#N canvas 623 81 570 532 10;
+#X obj 0 684 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 397 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 616 310 351 289 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 175 LIBRARY cyclone;
+#X text 0 0 KEYWORDS signal max maximum;
+#X text 0 36 DESCRIPTION report mouse x/y \, delta x/delta y \, and
+buttonpress;
+#X text 0 67 INLET_0 bang message;
+#X text 0 96 comment;
+#X text 0 85 OUTLET_0 toggle;
+#X text 0 109 OUTLET_1 float;
+#X text 0 121 OUTLET_2 float;
+#X text 0 139 OUTLET_3 float;
+#X text 0 157 OUTLET_4 float;
+#X text 0 193 VERSION 0.1-alpha57;
+#X text 0 211 AUTHOR Krzysztof Czaja;
+#X text 1 229 RELEASE_DATE 2002;
+#X text 2 248 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 280 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 498 686 pd META;
+#X obj 0 511 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 643 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 303 494 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 33 cyclone/mousefilter;
+#X restore 201 686 pd Related_objects;
+#X obj 82 407 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 520 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty MouseState 3 12 0 18 -204280 -1
+0;
+#X obj 479 8 MouseState;
+#X obj 73 371 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X floatatom 99 352 5 0 0 0 - - -;
+#X floatatom 125 333 5 0 0 0 - - -;
+#X text 134 353 x;
+#X msg 117 81 poll;
+#X text 164 332 y;
+#X floatatom 151 314 5 0 0 0 - - -;
+#X floatatom 178 295 5 0 0 0 - - -;
+#X text 92 370 button pressed ? (one button of course \, mac you know)
+;
+#X msg 73 48 bang;
+#X msg 117 106 nopoll;
+#X msg 117 131 zero;
+#X msg 117 156 reset;
+#X text 105 405 bang;
+#X text 199 405 - update current state;
+#X text 105 425 other messages;
+#X text 199 426 - poll: poll mouse device;
+#X obj 82 542 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 565 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 589 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 612 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X text 199 520 - is button pressed?;
+#X text 105 520 toggle;
+#X text 105 542 float;
+#X text 105 565 float;
+#X text 105 589 float;
+#X text 105 612 float;
+#X text 199 589 - delta x from last poll;
+#X text 199 612 - delta y from last poll;
+#X text 106 656 (none);
+#X text 199 441 - nopoll: do not poll mouse device;
+#X text 199 482 - reset: set 0 \, 0 (upper left corner);
+#X text 12 23 report mouse x/y \, delta x/delta y \, and buttonpress
+;
+#X obj 73 220 cyclone/MouseState;
+#X text 199 454 - zero: set current position to 0 \, 0;
+#X text 212 468 of pd coordinate system;
+#X text 199 542 - absolute x position;
+#X text 199 565 - absolute y position;
+#X text 216 295 dy;
+#X text 189 314 dx;
+#X connect 14 0 43 0;
+#X connect 19 0 43 0;
+#X connect 20 0 43 0;
+#X connect 21 0 43 0;
+#X connect 22 0 43 0;
+#X connect 43 0 10 0;
+#X connect 43 1 11 0;
+#X connect 43 2 12 0;
+#X connect 43 3 16 0;
+#X connect 43 4 17 0;

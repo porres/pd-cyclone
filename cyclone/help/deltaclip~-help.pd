@@ -1,0 +1,103 @@
+#N canvas 619 83 568 531 10;
+#X obj 0 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 1 331 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 603 278 382 257 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 148 LIBRARY cyclone;
+#X text 0 73 INLET_0 signal;
+#X text 0 128 OUTLET_0 signal;
+#X text 0 168 VERSION 0.1-alpha57;
+#X text 0 186 AUTHOR Krzysztof Czaja;
+#X text 1 204 RELEASE_DATE 2002;
+#X text 2 223 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 255 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 0 0 KEYWORDS signal max_compatible;
+#X text 0 40 DESCRIPTION limit the change between samples in an incoming
+signal;
+#X text 0 92 INLET_1 signal;
+#X text 0 110 INLET_2 signal;
+#X restore 500 508 pd META;
+#X obj 1 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 1 456 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 85 342 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 1 0 cnv 15 552 40 empty empty deltaclip~ 3 12 0 18 -204280 -1
+0;
+#X text 116 342 signal;
+#X obj 85 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 116 428 signal;
+#N canvas 90 529 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 13 33 clip~;
+#X obj 56 33 -~;
+#X obj 87 33 +~;
+#X restore 197 508 pd Related_objects;
+#X text 179 342 - signal to transform;
+#X text 179 428 - transformed signal signal;
+#X text 13 23 Limit the change between samples in an incoming signal
+;
+#X obj 481 6 deltaclip~;
+#X text 282 53 delta max;
+#X floatatom 285 71 0 0 0 0 - - -;
+#X floatatom 285 114 0 0 0 0 - - -;
+#X obj 285 93 * 1e-05;
+#X floatatom 193 71 0 0 0 0 - - -;
+#X floatatom 193 114 0 0 0 0 - - -;
+#X obj 193 93 * 1e-05;
+#X text 264 238 slope;
+#X msg 136 69 1;
+#X msg 102 69 0;
+#X obj 102 114 sig~;
+#X floatatom 102 92 0 0 0 0 - - -;
+#X text 114 238 amplitude;
+#X text 191 53 delta min;
+#X obj 111 277 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X obj 247 277 Snapshot~ 100;
+#X obj 105 304 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 247 303 8 0 0 0 - - -;
+#X obj 102 176 cyclone/deltaclip~ -1e-05 1e-05;
+#X obj 246 254 cyclone/delta~;
+#X obj 102 254 cyclone/Snapshot~ 100;
+#X obj 85 367 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 116 367 signal;
+#X obj 85 393 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 116 393 signal;
+#X text 179 367 - maximum allowed difference in decreasing signal amplitude
+;
+#X text 179 393 - maximum allowed difference in increasing signal amplitude
+;
+#X text 99 50 off;
+#X text 140 50 on;
+#X text 87 482 2 - default delta maximum;
+#X text 87 467 1 - default delta minimum;
+#X obj 519 297 dspSwitch~;
+#X connect 16 0 18 0;
+#X connect 17 0 33 2;
+#X connect 18 0 17 0;
+#X connect 19 0 21 0;
+#X connect 20 0 33 1;
+#X connect 21 0 20 0;
+#X connect 23 0 26 0;
+#X connect 24 0 26 0;
+#X connect 25 0 33 0;
+#X connect 26 0 25 0;
+#X connect 30 0 32 0;
+#X connect 33 0 34 0;
+#X connect 33 0 35 0;
+#X connect 34 0 30 0;
+#X connect 35 0 29 0;
+#X connect 35 0 31 0;

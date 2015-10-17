@@ -1,0 +1,101 @@
+#N canvas 624 80 571 532 10;
+#X obj 0 752 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 400 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 597 264 368 237 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 0 KEYWORDS scale exponential line;
+#X text 0 40 DESCRIPTION scale numbers exponentially for use with line~
+;
+#X text 0 100 OUTLET_0 float;
+#X text 0 60 INLET_0 message;
+#X text 0 80 INLET_1 float;
+#X text 0 139 VERSION 0.1-alpha57;
+#X text 0 157 AUTHOR Krzysztof Czaja;
+#X text 1 175 RELEASE_DATE 2002;
+#X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 754 pd META;
+#X obj 0 464 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 504 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 581 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 295 395 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 128 33 line~;
+#X obj 7 33 cyclone/Line~;
+#X obj 127 56 expr;
+#X restore 203 754 pd Related_objects;
+#X obj 79 410 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 436 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty linedrive 3 12 0 18 -204280 -1
+0;
+#X obj 484 2 linedrive;
+#X text 12 23 scale numbers exponentially for use with line~;
+#X text 78 66 integer message as input;
+#X text 171 274 outputs two values which can be sent to line~ as a
+destination and a time in milliseconds;
+#X obj 118 282 line~ 0;
+#X obj 129 251 print linedrive;
+#X text 107 410 message;
+#X text 107 436 float;
+#X text 107 477 float;
+#X text 179 477 - scaled number;
+#X obj 79 477 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 94 713 The output is a list of two values \, the second one
+being equal to argument4 and can be sent directly to a line~ 0;
+#X text 94 600 The [linedrive] object converts integers for use with
+line~. Linedrive takes integers ranging from -argument1 to +argument1
+and scales them to fall within the range -argument2 to +argument2.
+If the input equals argument1 \, the output is equal to argument value2.
+Output varies exponentially with the input depending on argument3.
+With the arguments shown \, input values between 0 and 127 are converted
+from 2*dB to linear amplitude with 127 becoming 1;
+#X text 179 410 - integer message as input;
+#X text 239 55 integer message to change last argument \,;
+#X text 240 68 which is time in milliseconds;
+#X obj 332 306 osc~ 440;
+#X obj 331 331 *~;
+#X obj 332 357 output~;
+#X msg 152 88 0;
+#X msg 87 88 127;
+#X msg 118 88 63;
+#X msg 313 88 1000;
+#X msg 353 88 5000;
+#X obj 118 165 cyclone/linedrive 127 1 1.06 5000;
+#X obj 117 345 cyclone/Snapshot~ 100;
+#X floatatom 117 369 8 0 0 0 - - -;
+#X obj 173 370 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 99 519 1) is the reference input (int) \; 2) is the reference
+output (float) \; 3) is the base value (float);
+#X text 179 436 - time value in milliseconds for line~;
+#X obj 519 365 dspSwitch~;
+#X text 99 558 4) is the time value (for Line~) in milliseconds (int)
+;
+#X connect 14 0 27 1;
+#X connect 14 0 35 0;
+#X connect 26 0 27 0;
+#X connect 27 0 28 0;
+#X connect 27 0 28 1;
+#X connect 29 0 34 0;
+#X connect 30 0 34 0;
+#X connect 31 0 34 0;
+#X connect 32 0 34 1;
+#X connect 33 0 34 1;
+#X connect 34 0 14 0;
+#X connect 34 0 15 0;
+#X connect 35 0 37 0;
+#X connect 35 0 36 0;

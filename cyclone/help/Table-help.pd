@@ -1,0 +1,233 @@
+#N canvas 620 82 565 531 10;
+#X obj 0 767 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 389 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 601 221 372 242 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 126 LIBRARY cyclone;
+#X text 0 0 KEYWORDS table graph store array;
+#X text 0 36 DESCRIPTION store and graphically edit an array of numbers
+;
+#X text 0 54 INLET_0 int <int1>_<int2> inv_<int> other;
+#X text 0 72 INLET_1 ??????;
+#X text 0 90 OUTLET_0 float;
+#X text 0 108 OUTLET_1 bang;
+#X text 1 145 VERSION 0.1-alpha57;
+#X text 1 163 AUTHOR Krzysztof Czaja;
+#X text 2 181 RELEASE_DATE 2002;
+#X text 3 200 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 3 232 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 769 pd META;
+#X obj 0 517 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 584 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 640 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 664 608 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 10 31 cyclone/coll;
+#C restore;
+#X obj 10 57 cyclone/funbuff;
+#C restore;
+#X obj 10 81 cyclone/Histo;
+#X restore 196 769 pd Related_objects;
+#X obj 78 398 cnv 17 3 78 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 528 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Table 3 12 0 18 -204280 -1 0;
+#X obj 507 10 Table;
+#C restore;
+#X text 12 23 Store and graphically edit an array of numbers;
+#X text 198 397 - outputs number at position of float;
+#X text 102 397 int;
+#X text 102 417 <int1> <int2>;
+#X text 102 437 inv <int>;
+#X text 198 438 - get position of <int> in array;
+#X text 102 460 other messages;
+#X text 102 527 float;
+#X text 198 529 - could mean various things depending on input;
+#X text 198 598 - option arg to name the table \, or to read in from
+the table name specified;
+#X obj 78 553 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 102 552 bang;
+#X text 198 554 - when table has been changed by editing it with the
+mouse;
+#X obj 119 121 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 229 55 store;
+#X text 136 118 random;
+#X msg 360 189 quantile \$1;
+#X msg 95 61 open;
+#X msg 303 171 inv \$1;
+#X text 172 54 read;
+#X obj 303 76 vsl 16 66 0 79 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 0 1;
+#X text 292 54 inv read;
+#X floatatom 95 345 0 0 0 0 - - -;
+#X obj 170 347 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 360 170 0 0 0 0 - - -;
+#X obj 360 151 << 9;
+#X text 353 54 read quantile;
+#X text 109 702 You may name the table with an argument. Many boxes
+may share the same table by using the same name. If there is a file
+by that name it will be read into the table if possible.;
+#X msg 102 81 sum;
+#X msg 108 101 length;
+#X text 109 657 You can close the table window by clicking its close
+box \, and reopen it by double-clicking the "table" box or sending
+it the open message.;
+#X obj 360 76 vsl 16 66 0 79 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 0 1;
+#X obj 180 76 vsl 16 66 0 79 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 0 1;
+#X text 198 460 - open \, sum \, length;
+#X obj 78 487 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 85 598 1) table name;
+#X obj 95 264 cyclone/Table;
+#C restore;
+#X text 102 486 float;
+#X text 198 488 - value to be written;
+#X obj 451 99 t b b;
+#X msg 451 190 100;
+#X msg 478 190 42;
+#X obj 451 73 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 446 53 write one value;
+#N canvas 458 373 471 706 complete 0;
+#X text 16 33 inlet 0 messages;
+#X msg 15 60 bang;
+#X msg 15 81 clear;
+#X msg 15 102 const n;
+#X msg 16 122 dump;
+#X msg 16 143 cancel;
+#X msg 16 172 fquantile n;
+#X msg 17 194 getbits a s n;
+#X msg 16 257 inv c;
+#X msg 17 285 length;
+#X msg 17 306 max;
+#X msg 17 327 min;
+#X msg 17 348 load;
+#X msg 17 369 open;
+#X msg 17 396 next;
+#X msg 17 417 normal;
+#X msg 17 438 quantile n;
+#X msg 17 459 prev;
+#X msg 17 481 set l;
+#X msg 17 508 setbits a s n v;
+#X msg 16 529 sum;
+#X msg 17 551 read f;
+#X msg 17 594 refer t;
+#X msg 18 620 wclose;
+#X msg 18 642 write;
+#X text 107 58 same as a quantile message with a random number;
+#X text 107 78 set all table values to 0;
+#X text 108 99 overwrites all values in the table with n;
+#X text 108 120 dumps all table values;
+#X text 108 141 forget the right inlet number;
+#X text 108 193 retrieve n bits from address a starting with bit s
+;
+#X text 110 215 sets the pointer to address a;
+#X msg 17 215 goto a;
+#X msg 17 236 flags s d;
+#X text 109 233 sets Save and Don't Save option flags (0 / 1);
+#X text 107 254 finds the first value >= c and outputs its address
+;
+#X text 107 303 sends the largest value to the left outlet;
+#X text 107 284 sends the size of the table to the left outlet;
+#X text 107 323 sends the smallest value to the left outlet;
+#X text 107 345 switch table to load mode;
+#X text 108 412 switch table to normal mode;
+#X text 109 395 outputs value at current address and increments pointer
+;
+#X text 108 458 outputs value at current address and decrements pointer
+;
+#X text 107 368 opens table graphic editor;
+#X text 109 479 stores values. The first element is the start address
+;
+#X text 107 430 calculates the quantile of n and table. outputs the
+address of the value equal or greater that the result;
+#X text 108 162 calculates the fractional quantile of n and table.
+outputs the address of the value equal or greater that the result;
+#X text 119 506 sets value v to bit n from address a starting with
+bit s;
+#X text 109 531 sends the sum of all values to th eleft outlet;
+#X text 108 550 load the table with values from file f;
+#X msg 17 573 send r a v;
+#X text 108 570 sends the value from address a to object r;
+#X text 108 591 have the table object read its values from table t
+;
+#X text 111 619 close the table graphic window;
+#X text 108 643 write the table contents to a file (opens Save dialog)
+;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X restore 326 463 pd complete message list;
+#X text 198 417 - store <int 2> at postion <int 1>;
+#N canvas 549 495 430 300 fill 0;
+#X obj 107 164 f;
+#X obj 134 164 + 1;
+#X msg 69 126 0;
+#X obj 107 128 metro 10;
+#X obj 107 194 moses 128;
+#X msg 168 96 0;
+#X obj 107 224 t f f;
+#X obj 107 277 outlet;
+#X obj 107 45 inlet;
+#X obj 107 71 t b b;
+#X obj 153 277 outlet;
+#X obj 2 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 4 5 table filler;
+#X connect 0 0 1 0;
+#X connect 0 0 4 0;
+#X connect 1 0 0 1;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 6 0;
+#X connect 4 1 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 1 10 0;
+#X connect 8 0 9 0;
+#X connect 9 0 3 0;
+#X connect 9 1 2 0;
+#X restore 212 102 pd fill table;
+#X obj 236 75 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 212 143 pack f f;
+#X obj 303 150 + 100;
+#X obj 259 123 + 100;
+#X text 206 263 <- click to see table contents;
+#X connect 24 0 47 0;
+#X connect 27 0 47 0;
+#X connect 28 0 47 0;
+#X connect 29 0 47 0;
+#X connect 31 0 60 0;
+#X connect 35 0 27 0;
+#X connect 36 0 35 0;
+#X connect 39 0 47 0;
+#X connect 40 0 47 0;
+#X connect 42 0 36 0;
+#X connect 43 0 47 0;
+#X connect 47 0 33 0;
+#X connect 47 1 34 0;
+#X connect 50 0 51 0;
+#X connect 50 1 52 0;
+#X connect 51 0 47 0;
+#X connect 52 0 47 1;
+#X connect 53 0 50 0;
+#X connect 57 0 59 0;
+#X connect 57 1 61 0;
+#X connect 58 0 57 0;
+#X connect 59 0 47 0;
+#X connect 60 0 29 0;
+#X connect 61 0 59 1;

@@ -1,0 +1,110 @@
+#N canvas 617 83 570 531 10;
+#X obj 0 628 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 410 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 617 371 355 223 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 100 LIBRARY cyclone;
+#X text 0 0 KEYWORDS intercept output grab;
+#X text 0 40 DESCRIPTION intercept the output of another object;
+#X text 0 60 INLET_0 message;
+#X text 0 80 OUTLET_N message;
+#X text 0 119 VERSION 0.1-alpha57;
+#X text 0 137 AUTHOR Krzysztof Czaja;
+#X text 1 155 RELEASE_DATE 2002;
+#X text 2 174 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 206 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 630 pd META;
+#X obj 0 451 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 493 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 855 585 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 14 54 cyclone/universal;
+#X obj 14 32 cyclone/offer;
+#X restore 214 630 pd Related_objects;
+#X obj 84 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 460 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty grab 3 12 0 18 -204280 -1 0;
+#X obj 517 5 grab;
+#X text 12 23 intercept the output of another object;
+#X obj 119 260 * 10;
+#X floatatom 119 286 5 0 0 0 - - -;
+#X floatatom 50 307 5 0 0 0 - - -;
+#X msg 50 103 2;
+#X floatatom 140 236 5 0 0 0 - - -;
+#X obj 345 293 r test;
+#X floatatom 317 251 5 0 0 0 - - -;
+#X text 95 506 1) float;
+#X text 95 538 2) object;
+#X text 184 538 - optional received object to send input to;
+#X floatatom 428 251 5 0 0 0 - - -;
+#X obj 400 286 loadbang;
+#X msg 400 307 1 2 \, 3 4 \, 5 6;
+#X msg 305 107 1;
+#X text 112 420 anything;
+#X text 112 460 anything;
+#X text 184 420 - anything that is sent to grab output;
+#X text 184 460 - anything that was grabbed from the object;
+#X text 184 506 - optional number of additional outlets (corresponding
+to grabbed object's outlets);
+#X text 339 64 here output from coll's 1st;
+#X text 339 77 and 2nd outlets correspond to;
+#X text 338 90 grab object's outlets;
+#X msg 317 127 2;
+#X obj 0 562 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 154 258 < the result is;
+#X text 166 283 without being outputted;
+#X text 164 270 forwarded to grab;
+#X text 87 306 < the output from;
+#X obj 198 308 * 10;
+#N canvas 693 508 432 300 as 0;
+#X msg 74 78 hello;
+#X obj 245 96 r foo;
+#X obj 245 119 print foo;
+#X msg 110 124 set bar;
+#X msg 89 100 let's go;
+#X obj 315 96 r bar;
+#X obj 315 119 print bar;
+#X obj 74 211 cyclone/grab 0 foo;
+#X msg 111 144 set foo;
+#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 4 grab as settable send;
+#X connect 0 0 7 0;
+#X connect 1 0 2 0;
+#X connect 3 0 7 0;
+#X connect 4 0 7 0;
+#X connect 5 0 6 0;
+#X connect 8 0 7 0;
+#X restore 432 387 pd as settable send;
+#X text 32 64 intercept messages before they are output;
+#X text 33 77 by the receiving object;
+#X obj 50 171 cyclone/grab;
+#X obj 317 180 cyclone/grab 2 test;
+#X obj 345 334 cyclone/coll;
+#C restore;
+#X text 97 571 by connecting grab to the inlet of an object \, it can
+intercept data to the objects outlets and redirect it to its own leftmost
+outlet or send it to another object.;
+#X connect 11 0 12 0;
+#X connect 14 0 43 0;
+#X connect 15 0 11 1;
+#X connect 16 0 45 0;
+#X connect 22 0 23 0;
+#X connect 23 0 45 0;
+#X connect 24 0 44 0;
+#X connect 33 0 44 0;
+#X connect 43 0 13 0;
+#X connect 43 1 11 0;
+#X connect 44 0 17 0;
+#X connect 44 1 21 0;

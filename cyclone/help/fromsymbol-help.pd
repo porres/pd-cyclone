@@ -1,0 +1,90 @@
+#N canvas 531 90 570 533 10;
+#X obj 0 507 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 358 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 600 370 364 234 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 100 LIBRARY cyclone;
+#X text 0 0 KEYWORDS symbol transform messages numbers;
+#X text 0 60 INLET_0 symbol list;
+#X text 0 80 OUTLET_0 list;
+#X text 0 40 DESCRIPTION transform symbol to numbers or messages;
+#X text 0 119 VERSION 0.1-alpha57;
+#X text 0 137 AUTHOR Krzysztof Czaja;
+#X text 1 155 RELEASE_DATE 2002;
+#X text 2 174 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 206 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 509 pd META;
+#X obj 0 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 461 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 300 499 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 124 35 symbol;
+#X obj 10 35 cyclone/tosymbol;
+#X restore 200 509 pd Related_objects;
+#X obj 79 369 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty fromsymbol 3 12 0 18 -204280 -1
+0;
+#X obj 483 4 fromsymbol;
+#X text 29 50 since pd lacks a quoting mechanism (like `foo bar`) there
+is;
+#X text 30 62 no support for spaces in symbols \, so the original max
+way of;
+#X text 29 74 using from/tosymbol won't work. One has to construct
+symbols;
+#X text 28 89 with other tools like;
+#X obj 280 91 makesymbol;
+#X text 262 88 or;
+#X text 346 89 from zexy;
+#X msg 255 143 this is a list of symbols;
+#X symbolatom 266 193 25 0 0 0 - - -;
+#X obj 255 318 print THIS_IS_A_LIST;
+#X msg 35 137 4;
+#X floatatom 35 318 5 0 0 0 - - -;
+#X text 108 368 symbol;
+#X text 108 390 list;
+#X text 171 389 - list of symbols to be transformed;
+#X text 108 427 list;
+#X text 171 427 - symbols input can be transformed to numbers \, messages
+\, etc.;
+#X text 108 477 (none);
+#X text 28 113 works with symbols:;
+#X text 244 115 also works with list of symbols:;
+#X text 412 143 so this...;
+#X text 12 23 transform symbol to numbers or messages;
+#X text 428 189 ...becomes a symbol;
+#X text 384 311 ...and can be transformed;
+#X text 402 325 back into a list;
+#X obj 35 164 cyclone/tosymbol;
+#X obj 35 240 cyclone/fromsymbol;
+#X obj 255 169 cyclone/tosymbol;
+#X obj 255 240 cyclone/fromsymbol;
+#X obj 72 139 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 81 318 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 35 291 route float bang;
+#X text 446 201 with spaces...;
+#X text 171 368 - the symbol to be transformed;
+#X obj 160 90 cyclone/tosymbol;
+#X connect 17 0 37 0;
+#X connect 20 0 35 0;
+#X connect 35 0 36 0;
+#X connect 36 0 41 0;
+#X connect 37 0 18 0;
+#X connect 37 0 38 0;
+#X connect 38 0 19 0;
+#X connect 39 0 35 0;
+#X connect 41 0 21 0;
+#X connect 41 1 40 0;

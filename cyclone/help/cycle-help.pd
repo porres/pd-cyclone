@@ -1,0 +1,126 @@
+#N canvas 617 83 556 503 10;
+#X obj 0 477 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 443 319 411 239 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 90 LIBRARY cyclone;
+#X text 1 0 KEYWORDS send data cycle;
+#X text 1 36 DESCRIPTION send data to individual outlets;
+#X text 1 54 INLET_0 anything;
+#X text 1 72 OUTLET_0 anything;
+#X text 0 109 VERSION 0.1-alpha57;
+#X text 0 127 AUTHOR Krzysztof Czaja;
+#X text 1 145 RELEASE_DATE 2002;
+#X text 2 164 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 196 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 505 479 pd META;
+#X obj 0 340 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 377 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 191 451 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 7 27 cyclone/gate;
+#X restore 205 479 pd Related_objects;
+#X obj 79 280 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 349 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty cycle 3 12 0 18 -204280 -1 0;
+#X obj 511 5 cycle;
+#X text 12 23 send data to individual outlets;
+#X floatatom 78 246 5 0 0 0 - - -;
+#X floatatom 127 246 5 0 0 0 - - -;
+#X floatatom 177 246 5 0 0 0 - - -;
+#X msg 78 54 1;
+#X msg 109 54 2;
+#X msg 140 54 3;
+#X obj 377 76 metro 300;
+#X obj 377 56 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 377 246 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 464 245 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X msg 377 99 symbol foo;
+#X text 106 279 anything;
+#X text 179 279 - can input anything to send to different outlets;
+#X text 106 348 anything;
+#X text 179 348 - number based on argument.;
+#X text 87 391 1) float;
+#X obj 377 161 cyclone/cycle 2;
+#X text 87 405 2) float;
+#X text 179 404 - output mode:;
+#X text 191 416 0 or absent - values cycle through outlets \, regardless
+of events;
+#X text 191 442 1 or any non-zero value - restart at left outlet for
+each new event;
+#X text 106 309 thresh n;
+#X text 106 295 set n;
+#X msg 174 55 1 2 3;
+#X obj 78 159 cyclone/cycle 3 0;
+#X text 179 294 - sets next outlet (starting at 0);
+#X msg 210 77 set 1;
+#N canvas 582 553 433 416 more 0;
+#X floatatom 131 313 5 0 0 0 - - -;
+#X floatatom 180 313 5 0 0 0 - - -;
+#X floatatom 210 134 5 0 0 0 - - -;
+#X msg 318 161 1 2 3 4;
+#X msg 318 185 1 \, 2 \, 3 \, 4;
+#X obj 131 379 print left;
+#X msg 254 133 1;
+#X msg 285 133 2;
+#X msg 315 133 3;
+#X msg 346 134 4;
+#X msg 131 120 thresh \$1;
+#X msg 131 75 0;
+#X msg 141 97 1;
+#X text 170 95 event restarts at left;
+#X obj 131 248 cyclone/cycle 3 0;
+#X floatatom 230 313 5 0 0 0 - - -;
+#X obj 230 334 print right;
+#X obj 180 357 print middle;
+#X text 169 72 cycle regardless of events;
+#X text 25 32 mode 0 always cycles through outlets \, while mode 1
+restarts at the left outlet with each new event;
+#X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 5 More on modes and events;
+#X connect 0 0 5 0;
+#X connect 1 0 17 0;
+#X connect 2 0 14 0;
+#X connect 3 0 14 0;
+#X connect 4 0 14 0;
+#X connect 6 0 14 0;
+#X connect 7 0 14 0;
+#X connect 8 0 14 0;
+#X connect 9 0 14 0;
+#X connect 10 0 14 0;
+#X connect 11 0 10 0;
+#X connect 12 0 10 0;
+#X connect 14 0 0 0;
+#X connect 14 1 1 0;
+#X connect 14 2 15 0;
+#X connect 15 0 16 0;
+#X restore 196 218 pd more on modes and events;
+#X text 179 390 - number of outlets.;
+#X text 179 308 - switches output mode;
+#X connect 14 0 35 0;
+#X connect 15 0 35 0;
+#X connect 16 0 35 0;
+#X connect 17 0 21 0;
+#X connect 18 0 17 0;
+#X connect 21 0 27 0;
+#X connect 27 0 19 0;
+#X connect 27 1 20 0;
+#X connect 34 0 35 0;
+#X connect 35 0 11 0;
+#X connect 35 1 12 0;
+#X connect 35 2 13 0;
+#X connect 37 0 35 0;

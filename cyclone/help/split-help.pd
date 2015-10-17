@@ -1,0 +1,84 @@
+#N canvas 511 80 557 531 10;
+#X obj 0 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 599 279 373 266 META 0;
+#X text 1 19 LICENSE SIBSD;
+#X text 1 152 LIBRARY cyclone;
+#X text 1 76 INLET_1 float;
+#X text 1 114 OUTLET_0 float;
+#X text 1 0 KEYWORDS min max minimum maximum range;
+#X text 1 38 DESCRIPTION look for a range of numbers;
+#X text 1 57 INLET_0 list float;
+#X text 1 95 INLET_2 float;
+#X text 1 133 OUTLET_1 float;
+#X text 0 171 VERSION 0.1-alpha57;
+#X text 0 189 AUTHOR Krzysztof Czaja;
+#X text 1 207 RELEASE_DATE 2002;
+#X text 2 226 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 258 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 508 pd META;
+#X obj 0 392 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 452 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 319 432 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 205 508 pd Related_objects;
+#X obj 80 294 cnv 17 3 40 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 401 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty split 3 12 0 18 -204280 -1 0;
+#X obj 504 10 split;
+#X text 12 23 look for a range of numbers;
+#X floatatom 81 256 5 0 0 0 - - -;
+#X floatatom 192 256 5 0 0 0 - - -;
+#X floatatom 81 74 5 0 0 0 - - -;
+#X text 227 255 not in range;
+#X text 116 257 in range;
+#X floatatom 136 74 5 0 0 0 - - -;
+#X floatatom 192 74 5 0 0 0 - - -;
+#X msg 89 95 3 0 10;
+#X obj 80 342 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 367 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 112 293 list;
+#X text 112 320 float;
+#X text 112 342 float;
+#X text 112 367 float;
+#X text 94 462 1) float;
+#X text 94 483 2) float;
+#X obj 80 425 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 112 401 float;
+#X text 204 401 - output if number from inlet 0 in range;
+#X text 112 425 float;
+#X obj 81 176 cyclone/split 10 20;
+#X text 204 342 - set minimum;
+#X text 204 367 - set maximum;
+#X text 204 462 - initial minimum;
+#X text 204 483 - initial maximum;
+#X obj 192 235 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 81 236 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 204 425 - output if number from inlet 0 not in range;
+#X text 204 320 - input value;
+#X text 204 293 - format: the input value \, minimum \, maximum. Minimum
+and maximum are set first \, then the value is compared;
+#X connect 13 0 31 0;
+#X connect 16 0 31 1;
+#X connect 17 0 31 2;
+#X connect 18 0 31 0;
+#X connect 31 0 11 0;
+#X connect 31 0 37 0;
+#X connect 31 1 12 0;
+#X connect 31 1 36 0;

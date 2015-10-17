@@ -1,0 +1,90 @@
+#N canvas 515 79 558 520 10;
+#X obj 0 493 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 293 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 613 291 368 238 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 80 INLET_1 float;
+#X text 0 0 KEYWORDS max maximum greatesst list;
+#X text 0 40 DESCRIPTION output the greatest in a list of numbers;
+#X text 0 60 INLET_0 list bang float;
+#X text 0 100 OUTLET_0 float;
+#X text 0 139 VERSION 0.1-alpha57;
+#X text 0 157 AUTHOR Krzysztof Czaja;
+#X text 1 175 RELEASE_DATE 2002;
+#X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 505 495 pd META;
+#X obj 0 407 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 444 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 285 354 457 172 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 19 34 minimum;
+#X obj 73 34 Peak;
+#X obj 72 56 Trough;
+#X restore 199 495 pd Related_objects;
+#X obj 81 302 cnv 17 3 49 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 370 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty maximum 3 12 0 18 -204280 -1 0
+;
+#X obj 494 2 maximum;
+#X floatatom 82 272 5 0 0 0 - - -;
+#X msg 69 80 bang;
+#X floatatom 82 113 5 0 0 0 - - -;
+#X floatatom 187 115 5 0 0 0 - - -;
+#X text 117 301 list;
+#X text 117 318 bang;
+#X text 181 318 - send most recent output again;
+#X text 117 336 float;
+#X obj 81 416 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 117 370 float;
+#X text 117 415 float;
+#X text 181 415 - the stored maximum value;
+#X text 100 460 1) float;
+#X obj 82 253 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 299 84 1 2 3 4 3 2;
+#X floatatom 299 272 5 0 0 0 - - -;
+#X obj 299 253 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 66 48 comparing floats;
+#X text 297 50 comparing floats in a list;
+#X msg 315 112 5 7 9 8 6 4;
+#X text 414 83 in list compare mode \,;
+#X obj 299 186 cyclone/maximum;
+#X obj 82 186 cyclone/maximum 12;
+#X text 149 82 change the current;
+#X text 149 95 maximum value;
+#X text 181 337 - output if higher than current value \, otherwise
+output current maximum value;
+#X text 181 460 - initial maximum value;
+#X text 181 370 - set current maximum value;
+#X msg 260 113 bang;
+#X text 415 111 value is not used;
+#X text 415 97 the current maximum;
+#X text 12 23 output the greatest in a list of numbers;
+#X text 140 246 optional argument;
+#X text 140 259 sets initial maximum;
+#X text 181 301 - list of numbers. the maximum is send;
+#X connect 11 0 32 0;
+#X connect 12 0 32 0;
+#X connect 13 0 32 1;
+#X connect 24 0 31 0;
+#X connect 29 0 31 0;
+#X connect 31 0 25 0;
+#X connect 31 0 26 0;
+#X connect 32 0 10 0;
+#X connect 32 0 23 0;
+#X connect 38 0 31 0;

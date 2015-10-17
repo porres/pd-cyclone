@@ -1,0 +1,125 @@
+#N canvas 885 98 571 530 10;
+#X obj 0 729 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 379 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 552 276 413 321 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 180 LIBRARY cyclone;
+#X text 0 160 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal comb filter buffer delay;
+#X text 0 40 DESCRIPTION comb filter;
+#X text 0 60 INLET_0 signal list message;
+#X text 0 80 INLET_0 float signal;
+#X text 0 100 INLET_0 float signal;
+#X text 0 120 INLET_0 float signal;
+#X text 0 140 INLET_0 float signal;
+#X text 0 200 VERSION 0.1-alpha57;
+#X text 0 218 AUTHOR Krzysztof Czaja;
+#X text 1 236 RELEASE_DATE 2002;
+#X text 2 255 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 287 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 731 pd META;
+#X obj 2 574 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 611 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 310 489 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 30 buffir~;
+#X restore 206 731 pd Related_objects;
+#X obj 80 389 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 456 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 1 0 cnv 15 552 40 empty empty comb~ 3 12 0 18 -204280 -1 0;
+#X text 13 23 comb filter;
+#X obj 131 67 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X text 160 66 generate short noisebursts;
+#N canvas 1 107 290 283 burst 0;
+#X obj 72 181 noise~;
+#X obj 119 180 line~;
+#X obj 103 211 *~;
+#X obj 119 81 metro 300;
+#X msg 67 140 0 20;
+#X msg 119 120 1 10;
+#X obj 68 120 del 20;
+#X obj 119 51 inlet;
+#X obj 103 244 outlet~;
+#X obj 2 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 7 1 Generate noise bursts;
+#X connect 0 0 2 0;
+#X connect 1 0 2 1;
+#X connect 2 0 8 0;
+#X connect 3 0 5 0;
+#X connect 3 0 6 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 4 0;
+#X connect 7 0 3 0;
+#X restore 131 95 pd burst;
+#X floatatom 179 165 5 0 0 0 - - -, f 5;
+#X floatatom 228 165 5 0 0 0 - - -, f 5;
+#X floatatom 277 165 5 0 0 0 - - -, f 5;
+#X floatatom 326 166 5 0 0 0 - - -, f 5;
+#X msg 27 141 clear;
+#X text 25 120 clear buffer;
+#X msg 61 169 10 0.4 0.7;
+#X text 66 150 D a b;
+#X text 113 387 signal;
+#X text 225 387 - signal to pass through comb filter;
+#X text 225 408 - can set arguments for filter (D \, a \, b \, c);
+#X obj 80 485 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 540 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 582 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 113 456 float or signal;
+#X text 225 456 - D = delay time;
+#X text 225 485 - a = input (pre delay) amplitude coefficient;
+#X text 225 514 - b = input (post delay) amplitude coefficient;
+#X text 225 540 - c = outnput amplitude coefficient;
+#X text 113 514 float or signal;
+#X text 113 540 float or signal;
+#X text 113 485 float or signal;
+#X obj 80 514 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 514 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 113 581 signal;
+#X text 225 581 - output from comb filter;
+#X text 113 619 1) float;
+#X text 225 621 - D = delay time;
+#X text 225 645 - a = input (pre delay) amplitude coefficient;
+#X text 225 672 - b = input (post delay) amplitude coefficient;
+#X text 225 696 - c = outnput amplitude coefficient;
+#X text 113 645 2) float;
+#X text 113 672 3) float;
+#X text 113 696 4) float;
+#X obj 482 4 comb~;
+#X text 113 408 list;
+#X text 113 428 message;
+#X text 225 428 - can clear buffer;
+#X obj 130 334 output~;
+#X obj 131 258 cyclone/comb~ 100 0.2 0.2 0.3 0.9;
+#X text 175 146 D;
+#X text 225 146 a;
+#X text 276 146 b;
+#X text 323 147 c;
+#X connect 10 0 12 0;
+#X connect 12 0 52 0;
+#X connect 13 0 52 1;
+#X connect 14 0 52 2;
+#X connect 15 0 52 3;
+#X connect 16 0 52 4;
+#X connect 17 0 52 0;
+#X connect 19 0 52 0;
+#X connect 52 0 51 0;
+#X connect 52 0 51 1;

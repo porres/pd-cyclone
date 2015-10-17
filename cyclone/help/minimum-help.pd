@@ -1,0 +1,83 @@
+#N canvas 619 82 559 486 10;
+#X obj 0 459 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 280 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 619 248 351 245 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 80 INLET_1 float;
+#X text 0 60 INLET_0 list bang float;
+#X text 0 100 OUTLET_0 float;
+#X text 0 0 KEYWORDS min minimum least smallest list;
+#X text 0 40 DESCRIPTION output the smallest in a list of numbers;
+#X text 0 140 VERSION 0.1-alpha57;
+#X text 0 158 AUTHOR Krzysztof Czaja;
+#X text 1 176 RELEASE_DATE 2002;
+#X text 2 195 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 227 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 505 461 pd META;
+#X obj 0 375 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 305 325 426 172 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 30 43 minimum;
+#X obj 83 44 Peak;
+#X obj 82 66 Trough;
+#X restore 204 461 pd Related_objects;
+#X obj 81 289 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 350 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty minimum 3 12 0 18 -204280 -1 0
+;
+#X text 116 288 list;
+#X text 116 303 bang;
+#X text 181 303 - send most recent output again;
+#X text 116 319 float;
+#X obj 81 385 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 116 350 float;
+#X text 116 385 float;
+#X text 98 428 1) float;
+#X obj 498 6 minimum;
+#X text 12 23 output the smallest in a list of numbers;
+#X msg 305 81 1 2 3 4 3 2;
+#X floatatom 305 249 5 0 0 0 - - -;
+#X msg 258 106 bang;
+#X text 181 385 - the stored minimum value;
+#X text 181 428 - initial minimum to compare to left outlet;
+#X floatatom 62 248 5 0 0 0 - - -;
+#X msg 41 82 bang;
+#X floatatom 62 106 5 0 0 0 - - -;
+#X floatatom 161 109 5 0 0 0 - - -;
+#X obj 62 170 cyclone/minimum 5;
+#X text 35 52 comparing floats;
+#X obj 62 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 305 228 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 320 105 5 7 9 8 6 4;
+#X obj 305 171 cyclone/minimum;
+#X text 332 52 comparing floats in a list;
+#X text 181 350 - set current minimum value;
+#X text 181 319 - output if lower than current value \, otherwise output
+current minimum value;
+#X text 181 288 - list of numbers. the minimum value is send;
+#X connect 19 0 33 0;
+#X connect 21 0 33 0;
+#X connect 25 0 28 0;
+#X connect 26 0 28 0;
+#X connect 27 0 28 1;
+#X connect 28 0 24 0;
+#X connect 28 0 30 0;
+#X connect 32 0 33 0;
+#X connect 33 0 20 0;
+#X connect 33 0 31 0;

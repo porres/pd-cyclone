@@ -1,0 +1,83 @@
+#N canvas 553 82 556 444 10;
+#X obj 0 417 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 244 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 497 272 428 289 META 0;
+#X text 2 20 LICENSE SIBSD;
+#X text 2 100 LIBRARY cyclone;
+#X text 2 60 INLET_0 float bang;
+#X text 2 0 KEYWORDS cos cosine cosh hyperbolic;
+#X text 2 80 OUTLET_0 float;
+#X text 0 119 VERSION 0.1-alpha57;
+#X text 0 137 AUTHOR Krzysztof Czaja;
+#X text 1 155 RELEASE_DATE 2002;
+#X text 2 174 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 206 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 2 40 DESCRIPTION hyperbolic cosine(x) function;
+#X restore 502 419 pd META;
+#X obj 0 309 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 346 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 264 443 428 167 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 3 72 cyclone/acosh~;
+#X obj 4 25 cyclone/acos;
+#X obj 103 72 cyclone/asinh~;
+#X obj 104 48 cyclone/asin~;
+#X obj 200 47 cyclone/atan~;
+#X obj 200 72 cyclone/atanh~;
+#X obj 3 119 cyclone/cosh~;
+#X obj 3 96 cyclone/cosh;
+#X obj 3 144 cyclone/cosx~;
+#X obj 3 49 cyclone/acos~;
+#X obj 104 26 cyclone/asin;
+#X obj 104 96 cyclone/sinh;
+#X obj 103 119 cyclone/sinh~;
+#X obj 103 143 cyclone/sinx~;
+#X obj 200 95 cyclone/tanh;
+#X obj 201 118 cyclone/tanh~;
+#X obj 200 142 cyclone/tanx~;
+#X obj 305 24 cos~;
+#X restore 201 419 pd Related_objects;
+#X obj 80 259 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 319 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty cosh 3 12 0 18 -204280 -1 0;
+#X text 113 259 float;
+#X text 113 279 bang;
+#X text 113 320 float;
+#X text 95 369 1) float;
+#X text 178 369 - optional initial value to compute;
+#X text 178 258 - number to take cosh of;
+#X text 178 281 - output cosh of stored value;
+#X obj 516 4 cosh;
+#X floatatom 322 212 8 0 0 0 - - -;
+#X msg 322 83 bang;
+#X floatatom 161 212 8 0 0 0 - - -;
+#X obj 161 106 / 100;
+#X floatatom 161 81 5 0 0 0 - - -;
+#X text 48 49 outputs the hyperbolic cosine value of input float value.
+;
+#X text 178 320 - cosh of input value;
+#X text 65 74 with input as;
+#X text 65 86 float value to;
+#X text 65 98 take cosh of;
+#X obj 161 153 cyclone/cosh;
+#X obj 322 154 cyclone/cosh 0.2;
+#X text 390 72 with bang button and;
+#X text 390 96 object;
+#X text 390 84 argument inside cosh;
+#X text 12 23 hyperbolic cosine(x) function;
+#X connect 18 0 28 0;
+#X connect 20 0 27 0;
+#X connect 21 0 20 0;
+#X connect 27 0 19 0;
+#X connect 28 0 17 0;

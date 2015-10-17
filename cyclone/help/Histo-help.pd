@@ -1,0 +1,75 @@
+#N canvas 622 80 558 475 10;
+#X obj 0 448 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 263 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 575 228 385 258 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 114 LIBRARY cyclone;
+#X text 0 0 KEYWORDS histogram count generate;
+#X text 0 38 DESCRIPTION generates a histogram of the received numbers
+;
+#X text 0 57 INLET_0 float list message;
+#X text 0 76 OUTLET_0 float;
+#X text 0 95 OUTLET_1 float;
+#X text 0 133 VERSION 0.1-alpha57;
+#X text 0 151 AUTHOR Krzysztof Czaja;
+#X text 1 169 RELEASE_DATE 2002;
+#X text 2 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 220 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 450 pd META;
+#X obj 0 350 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 410 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 298 380 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 6 29 cyclone/anal;
+#X restore 199 450 pd Related_objects;
+#X obj 85 272 cnv 17 3 65 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 85 383 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Histo 3 12 0 18 -204280 -1 0;
+#X obj 511 2 Histo;
+#X text 12 23 generates a histogram of the received numbers;
+#X msg 129 50 clear;
+#X floatatom 161 99 5 0 0 0 - - -;
+#X floatatom 161 238 5 0 0 0 - - -;
+#X floatatom 236 211 5 0 0 0 - - -;
+#X floatatom 236 124 5 0 0 0 - - -;
+#X msg 142 71 bang;
+#X text 115 271 float;
+#X text 172 271 - number to go into histogram;
+#X text 115 304 message;
+#X obj 85 359 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 115 359 float;
+#X text 172 359 - the current input;
+#X text 172 383 - number of times the current input was received;
+#X text 115 383 float;
+#X text 115 288 list;
+#X text 172 288 - list of numbers to go into histogram;
+#X text 172 320 - bang: same as repeating the last number in right
+inlet;
+#X text 172 304 - clear: erase received numbers;
+#X text 113 423 (none);
+#X obj 161 165 cyclone/Histo;
+#X obj 87 50 vradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X floatatom 87 177 5 0 0 0 - - -;
+#X text 74 47 0;
+#X text 74 152 7;
+#X connect 11 0 30 0;
+#X connect 12 0 30 0;
+#X connect 15 0 30 1;
+#X connect 16 0 30 0;
+#X connect 30 0 13 0;
+#X connect 30 1 14 0;
+#X connect 31 0 30 0;
+#X connect 31 0 32 0;

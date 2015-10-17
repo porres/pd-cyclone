@@ -1,0 +1,129 @@
+#N canvas 521 82 555 560 10;
+#X obj 0 534 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 353 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 315 385 441 256 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 126 LIBRARY cyclone;
+#X text 1 54 INLET_0 float;
+#X text 1 0 KEYWORDS coordinate graph cartesian polar conversion;
+#X text 1 36 DESCRIPTION cartesian to polar conversion;
+#X text 1 72 INLET_1 float;
+#X text 1 90 OUTLET_0 float;
+#X text 1 108 OUTLET_0 float;
+#X text 0 144 VERSION 0.1-alpha57;
+#X text 0 162 AUTHOR Krzysztof Czaja;
+#X text 1 180 RELEASE_DATE 2002;
+#X text 2 199 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 231 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 505 536 pd META;
+#X obj 0 414 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 478 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 105 492 428 153 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 24 38 poltocar;
+#X restore 217 537 pd Related_objects;
+#X obj 82 362 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty cartopol 3 12 0 18 -204280 -1
+0;
+#X obj 82 388 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 13 23 cartesian to polar conversion;
+#X text 116 362 float;
+#X text 170 362 - real part of argument;
+#X text 116 388 float;
+#X text 170 388 - imaginary part of argument;
+#X obj 82 450 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 116 425 float;
+#X text 116 452 float;
+#X text 170 424 - amplitude;
+#X text 170 452 - phase;
+#X floatatom 155 238 6 0 0 0 real-> - -;
+#X floatatom 221 238 6 0 0 1 <-imaginary - -;
+#X floatatom 155 319 6 0 0 0 amplitude-> - -;
+#X floatatom 248 319 7 0 0 1 <-phase - -;
+#X obj 224 143 hsl 128 15 -1 1 0 0 empty empty x-axis 136 7 1 10 -225280
+-1 -1 0 0;
+#X obj 282 85 vsl 15 128 -1 1 0 0 empty empty y-axis -5 -8 1 10 -261681
+-1 -1 0 0;
+#X obj 221 258 t b f;
+#X msg 147 51 0;
+#X text 110 492 (none);
+#X obj 491 3 cartopol;
+#X obj 82 425 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 58 46 resets to zero;
+#X obj 155 283 cyclone/cartopol;
+#N canvas 532 594 432 355 cosc 0;
+#X obj 131 253 sin;
+#X obj 217 253 cos;
+#X obj 131 312 outlet;
+#X obj 217 311 outlet;
+#X obj 175 100 f;
+#X obj 203 100 + 1;
+#X floatatom 196 126 5 0 0 0 - - -;
+#X msg 137 67 0;
+#X obj 175 33 inlet;
+#X obj 175 152 - 50;
+#X obj 175 174 / 50;
+#X obj 175 196 * 6.28319;
+#X obj 175 65 metro 100;
+#X floatatom 134 197 5 0 0 0 - - -;
+#X obj 108 127 moses 99;
+#X obj 272 187 inlet;
+#X obj 217 284 * 1;
+#X obj 131 284 * 1;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 0 19;
+#X text 3 5 complex message oscillator;
+#X connect 0 0 17 0;
+#X connect 1 0 16 0;
+#X connect 4 0 5 0;
+#X connect 4 0 6 0;
+#X connect 4 0 9 0;
+#X connect 4 0 14 0;
+#X connect 5 0 4 1;
+#X connect 7 0 4 0;
+#X connect 8 0 12 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 10 0 13 0;
+#X connect 11 0 1 0;
+#X connect 11 0 0 0;
+#X connect 12 0 4 0;
+#X connect 14 1 7 0;
+#X connect 15 0 16 1;
+#X connect 15 0 17 1;
+#X connect 16 0 3 0;
+#X connect 17 0 2 0;
+#X restore 221 51 pd cosc;
+#X obj 199 51 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 423 46 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X floatatom 423 125 8 0 0 0 - - -;
+#X connect 19 0 31 0;
+#X connect 20 0 25 0;
+#X connect 23 0 20 0;
+#X connect 24 0 19 0;
+#X connect 25 0 19 0;
+#X connect 25 1 31 1;
+#X connect 26 0 24 0;
+#X connect 26 0 23 0;
+#X connect 31 0 21 0;
+#X connect 31 1 22 0;
+#X connect 32 0 23 0;
+#X connect 32 1 24 0;
+#X connect 33 0 32 0;
+#X connect 34 0 32 1;
+#X connect 34 0 35 0;

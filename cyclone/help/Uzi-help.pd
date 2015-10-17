@@ -1,0 +1,83 @@
+#N canvas 499 79 570 531 10;
+#X obj 0 604 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 369 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 588 373 383 264 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 157 LIBRARY cyclone;
+#X text 1 0 KEYWORDS bang set send fast;
+#X text 1 36 DESCRIPTION send a specified number of bangs as fast as
+possible;
+#X text 1 67 INLET_0 bang messages;
+#X text 1 103 OUTLET_0 bang;
+#X text 1 85 INLET_1 float;
+#X text 1 121 OUTLET_1 bang;
+#X text 1 139 OUTLET_2 float;
+#X text 0 176 VERSION 0.1-alpha57;
+#X text 0 194 AUTHOR Krzysztof Czaja;
+#X text 1 212 RELEASE_DATE 2002;
+#X text 2 231 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 263 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 606 pd META;
+#X obj 0 465 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 554 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 313 532 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 30 counter;
+#X restore 202 606 pd Related_objects;
+#X obj 82 378 cnv 17 3 42 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 474 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Uzi 3 12 0 18 -204280 -1 0;
+#X obj 506 11 Uzi;
+#X text 12 23 send a specified nr of bangs as fast as possible;
+#X text 109 378 bang;
+#X text 182 377 - send x number of bangs;
+#X text 109 398 messages;
+#X text 182 398 - pause \, break \, continue \, resume (all in reference
+to sending bangs);
+#X obj 82 437 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 109 437 float;
+#X text 182 436 - set number of bangs to output;
+#X text 94 570 1) float;
+#X text 182 569 - set number of bangs;
+#X obj 135 338 print uzi;
+#X obj 135 52 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X floatatom 210 164 5 0 0 0 - - -;
+#X msg 145 83 pause;
+#X msg 188 83 break;
+#X msg 216 108 resume;
+#X msg 152 108 continue;
+#X floatatom 210 295 5 0 0 0 - - -;
+#X obj 172 316 print lastbang;
+#X text 109 473 bang;
+#X text 182 473 - bang (based on number of bangs stored);
+#X text 109 526 float;
+#X obj 82 500 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 109 499 bang;
+#X obj 82 526 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 182 499 - bangs when the last bang has fired;
+#X text 182 526 - number of bangs sent;
+#X obj 135 234 cyclone/Uzi 2;
+#X connect 21 0 37 0;
+#X connect 22 0 37 1;
+#X connect 23 0 37 0;
+#X connect 24 0 37 0;
+#X connect 25 0 37 0;
+#X connect 26 0 37 0;
+#X connect 37 0 20 0;
+#X connect 37 1 28 0;
+#X connect 37 2 27 0;

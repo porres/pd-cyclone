@@ -1,0 +1,95 @@
+#N canvas 559 98 567 530 10;
+#X obj 0 636 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 490 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 615 363 366 224 META 0;
+#X text 0 22 LICENSE SIBSD;
+#X text 0 102 LIBRARY cyclone;
+#X text 0 82 OUTLET_0 signal;
+#X text 0 0 KEYWORDS symbol transform messages numbers;
+#X text 0 42 DESCRIPTION transform messages to symbols;
+#X text 0 62 INLET_0 message list;
+#X text 0 122 VERSION 0.1-alpha57;
+#X text 0 140 AUTHOR Krzysztof Czaja;
+#X text 1 158 RELEASE_DATE 2002;
+#X text 2 177 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 209 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 638 pd META;
+#X obj 0 554 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 591 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 318 476 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 6 28 cyclone/fromsymbol;
+#X obj 125 29 symbol;
+#X restore 205 638 pd Related_objects;
+#X obj 79 504 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 563 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty tosymbol 3 12 0 18 -204280 -1
+0;
+#X obj 47 324 tosymbol;
+#X text 109 324 can also be used to generate non space symbols from
+lists:;
+#X text 107 525 list;
+#X text 105 610 (none);
+#X obj 490 10 tosymbol;
+#X text 107 502 message;
+#X text 179 502 - messgae to be transformed into symbol;
+#X text 179 525 - list of messages to turn into symbols;
+#X text 107 563 symbol;
+#X text 179 563 - symbol (including whitespace) of input;
+#X text 40 54 since pd lacks a quoting mechanism (like `foo bar`) there
+is;
+#X text 41 66 no support for spaces in symbols \, so the original max
+way of;
+#X text 40 78 using from/tosymbol won't work. One has to construct
+symbols;
+#X text 40 92 with other tools like;
+#X obj 292 95 makesymbol;
+#X text 273 93 or;
+#X text 357 94 from zexy;
+#X msg 266 143 this is a list of symbols;
+#X symbolatom 266 238 25 0 0 0 - - -;
+#X obj 237 298 print THIS_IS_A_LIST;
+#X msg 46 138 4;
+#X obj 46 258 route float;
+#X floatatom 46 285 5 0 0 0 - - -;
+#X text 39 114 works with symbols:;
+#X text 255 115 also works with list of symbols:;
+#X text 423 143 so this...;
+#X text 78 358 1;
+#X text 78 382 2;
+#X msg 107 381 lets place a _ instead of a space inside;
+#X msg 95 359 separator _;
+#X symbolatom 107 465 0 0 0 0 - - -;
+#X text 12 23 transform messages to symbols;
+#X text 422 230 ...becomes a symbol;
+#X text 423 242 with spaces;
+#X obj 266 187 cyclone/tosymbol;
+#X obj 237 271 cyclone/fromsymbol;
+#X obj 46 189 cyclone/tosymbol;
+#X obj 46 236 cyclone/fromsymbol;
+#X obj 107 426 cyclone/tosymbol;
+#X text 366 292 ...and can be transformed;
+#X text 366 304 back into a list;
+#X obj 171 95 cyclone/tosymbol;
+#X connect 26 0 43 0;
+#X connect 29 0 45 0;
+#X connect 30 0 31 0;
+#X connect 37 0 47 0;
+#X connect 38 0 47 0;
+#X connect 43 0 27 0;
+#X connect 43 0 44 0;
+#X connect 44 0 28 0;
+#X connect 45 0 46 0;
+#X connect 46 0 30 0;
+#X connect 47 0 39 0;

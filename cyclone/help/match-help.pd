@@ -1,0 +1,96 @@
+#N canvas 513 79 561 506 10;
+#X obj 3 479 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 320 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 585 247 370 239 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 100 LIBRARY cyclone;
+#X text 0 0 KEYWORDS series match list;
+#X text 0 40 DESCRIPTION look for a series of numbers;
+#X text 0 60 INLET_0 list;
+#X text 0 80 OUTLET_0 list;
+#X text 0 120 VERSION 0.1-alpha57;
+#X text 0 138 AUTHOR Krzysztof Czaja;
+#X text 1 156 RELEASE_DATE 2002;
+#X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 481 pd META;
+#X obj 3 389 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 426 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 302 378 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 204 481 pd Related_objects;
+#X obj 83 331 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 398 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty match 3 12 0 18 -204280 -1 0;
+#X obj 512 6 match;
+#X floatatom 141 296 5 0 0 0 - - -;
+#X floatatom 175 296 5 0 0 0 - - -;
+#X obj 141 257 unpack f f f;
+#X floatatom 210 296 5 0 0 0 - - -;
+#X msg 141 52 100 50 4;
+#X msg 159 76 100 50 2;
+#X msg 171 125 set nn nn 4;
+#X text 280 186 creation args are the series to look for;
+#X text 279 198 'nn' can be used as a wildcard to match;
+#X text 279 209 any number;
+#X text 117 331 list;
+#X text 100 441 1) list;
+#X text 180 440 - list of numbers to match \, nn can be used as wildcard
+for any number;
+#X msg 69 127 clear;
+#X text 5 126 forget all;
+#X text 206 51 input list to check against the match series;
+#X text 117 398 list;
+#X obj 141 194 cyclone/match 100 nn 2;
+#X obj 141 278 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 175 278 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 210 278 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 175 99 2 3 4;
+#X msg 75 82 5;
+#X obj 36 58 t b b b;
+#X obj 16 58 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 36 82 2;
+#X msg 108 83 100;
+#X text 117 346 float;
+#X text 180 346 - a series of floats in the proper order are send as
+a list;
+#X text 180 331 - a list of floats matching the pattern is send;
+#X text 180 398 - list of floats that match the pattern;
+#X text 247 123 look for a new pattern;
+#X text 12 23 look for a series of numbers and output as a list;
+#X text 117 360 set;
+#X text 180 360 - defines a new pattern to match;
+#X connect 12 0 10 0;
+#X connect 12 0 28 0;
+#X connect 12 1 11 0;
+#X connect 12 1 29 0;
+#X connect 12 2 13 0;
+#X connect 12 2 30 0;
+#X connect 14 0 27 0;
+#X connect 15 0 27 0;
+#X connect 16 0 27 0;
+#X connect 23 0 27 0;
+#X connect 27 0 12 0;
+#X connect 31 0 27 0;
+#X connect 32 0 27 0;
+#X connect 33 0 35 0;
+#X connect 33 1 32 0;
+#X connect 33 2 36 0;
+#X connect 34 0 33 0;
+#X connect 35 0 27 0;
+#X connect 36 0 27 0;

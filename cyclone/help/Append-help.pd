@@ -1,0 +1,66 @@
+#N canvas 555 80 558 457 10;
+#X obj 0 0 cnv 15 552 40 empty empty Append 3 12 0 18 -204280 -1 0
+;
+#X obj 0 231 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 333 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 389 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 79 342 cnv 17 3 25 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 245 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 430 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 242 347 428 75 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 10 31 cyclone/prepend;
+#X restore 206 432 pd Related_objects;
+#N canvas 706 282 379 261 META 0;
+#X text 1 0 KEYWORDS signal max_compatible;
+#X text 1 124 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 82 AUTHOR Krzysztof Czaja;
+#X text 1 20 LICENSE SIBSD;
+#X text 0 62 VERSION 0.1-alpha57;
+#X text 0 103 RELEASE_DATE 2002;
+#X text 1 154 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 40 DESCRIPTION append a message to the incoming message;
+#X restore 502 432 pd META;
+#X obj 504 5 Append;
+#X text 8 23 append a message to the incoming message;
+#X obj 74 195 print;
+#X msg 74 66 foo;
+#X msg 104 66 foo bar;
+#X msg 34 65 bang;
+#X text 107 245 bang;
+#X text 107 342 message;
+#X msg 205 88 set FOO BAR;
+#X text 162 245 - repeats the stored value;
+#X text 86 402 creation arg sets the stored value;
+#X text 107 303 set;
+#X text 162 303 - updates the stored value;
+#X text 107 259 float;
+#X msg 162 67 2;
+#X msg 195 67 3 4 5;
+#X text 107 274 list;
+#X text 162 259 - sends the float with the stored value appended;
+#X text 162 274 - sends the list with the stored value appended;
+#X text 160 342 - the inlet message \, with the stored value appended
+\, separated with a space. On bang send the stored value;
+#X text 107 288 anything;
+#X text 162 288 - sends the lanything with the stored value appended
+;
+#X obj 74 142 cyclone/Append FOO;
+#X connect 12 0 31 0;
+#X connect 13 0 31 0;
+#X connect 14 0 31 0;
+#X connect 17 0 31 0;
+#X connect 23 0 31 0;
+#X connect 24 0 31 0;
+#X connect 31 0 11 0;

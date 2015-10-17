@@ -1,0 +1,198 @@
+#N canvas 509 79 574 531 10;
+#X obj 0 836 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 432 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 616 310 360 252 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 133 LIBRARY cyclone;
+#X text 0 114 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal fold wrap range;
+#X text 0 38 DESCRIPTION fold or wrap a signal within a given range
+;
+#X text 0 57 INLET_0 signal float mode;
+#X text 0 76 INLET_1 flaot signal;
+#X text 0 95 INLET_2 float signal;
+#X text 1 153 VERSION 0.1-alpha57;
+#X text 1 171 AUTHOR Krzysztof Czaja;
+#X text 2 189 RELEASE_DATE 2002;
+#X text 3 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 3 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 838 pd META;
+#X obj 0 591 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 628 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 704 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 312 452 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 197 838 pd Related_objects;
+#X obj 86 444 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 601 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty pong~ 3 12 0 18 -204280 -1 0;
+#X text 16 23 fold or wrap a signal within a given range;
+#X text 112 440 signal;
+#X text 193 440 - signal to fold or wrap around range;
+#X text 112 497 float;
+#X text 112 517 signal;
+#X text 193 505 - set low range;
+#X obj 86 545 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 499 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 112 543 float;
+#X text 112 562 signal;
+#X text 193 551 - set high range;
+#X text 112 601 signal;
+#X text 193 601 - wrapped or folded signal;
+#X text 193 472 - 0 for fold \, 1 for wrap;
+#X text 94 639 1) float;
+#X text 94 656 2) float;
+#X text 94 674 3) float;
+#X text 193 656 - default low value;
+#X text 193 674 - default high value;
+#X text 193 639 - mode (0 for fold \, 1 for wrap);
+#X text 197 96 lo val;
+#X text 278 99 hi val;
+#X obj 244 145 sig~ 0.25;
+#X floatatom 244 98 0 -100 100 0 - - -;
+#X obj 167 145 sig~ -0.25;
+#X floatatom 167 97 0 -100 100 0 - - -;
+#X floatatom 92 51 0 0 0 0 - - -;
+#X text 103 710 pong either folds or wraps its input within the range
+of a lo val and a hi val. The optional arguments are <mode> <lo val>
+<high val>. mode 0 is fold \, mode 1 is wrap. The default mode is fold.
+The default range is zero to one. If hi val is greater than lo val
+\, their behavior is swapped. All inlets accept both signals and floats.
+The mode <int> message may be used to switch between fold and wrap
+mode. It is useful for performing modulo arithmetic \, as well as foldover
+or wraparound distortion.;
+#X text 112 456 float;
+#X text 193 456 - number to wrap or fold;
+#X text 112 472 mode <int>;
+#X obj 506 8 pong~;
+#X obj 169 347 metro 100;
+#X obj 169 325 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 92 74 phasor~ 200;
+#X obj 92 96 *~ 2;
+#X obj 92 120 -~ 1;
+#X obj 244 120 / 100;
+#X obj 167 122 / 100;
+#X obj 93 371 output~;
+#N canvas 874 593 450 400 with 0;
+#X text 206 111 lo val;
+#X text 258 112 hi val;
+#X floatatom 206 130 0 -100 100 0 - - -;
+#X floatatom 153 45 0 0 0 0 - - -;
+#X obj 154 231 pong~ 1 -0.25 0.25;
+#X msg 72 127 mode 0;
+#X msg 72 152 mode 1;
+#X obj 237 322 tabwrite~ \$0pong2;
+#X obj 153 66 phasor~ 200;
+#X obj 206 158 / 100;
+#X floatatom 259 130 0 -100 100 0 - - -;
+#X obj 259 158 / 100;
+#X obj 154 127 *~ 2;
+#X obj 154 155 -~ 1;
+#X obj 155 326 output~;
+#X obj 271 300 metro 100;
+#X obj 251 301 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 31 124 fold;
+#X text 35 148 wrap;
+#N canvas 1397 743 450 300 view_pong2 0;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0pong2 1024 float 0;
+#X coords 0 1 1023 -1 200 140 1;
+#X restore 8 0 graph;
+#X text 0 170 The array is placed in a sub-patch to prevent audio dropouts
+;
+#X restore 256 351 pd view_pong2;
+#X obj 231 46 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#N canvas 1443 579 450 300 twoDirCount 0;
+#X obj 17 43 metro 100;
+#X obj 17 71 f;
+#X obj 47 71 + 1;
+#X obj 17 100 moses 100;
+#X floatatom 17 130 5 0 0 0 - - -;
+#X msg 68 124 -100;
+#X obj 17 162 * -1;
+#X obj 17 0 inlet;
+#X obj 0 211 outlet;
+#X obj 47 209 outlet;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 0 3 0;
+#X connect 2 0 1 1;
+#X connect 3 0 4 0;
+#X connect 3 1 5 0;
+#X connect 4 0 6 0;
+#X connect 4 0 8 0;
+#X connect 5 0 1 0;
+#X connect 6 0 9 0;
+#X connect 7 0 0 0;
+#X restore 231 66 pd twoDirCount;
+#X obj 3 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 30 comment;
+#X text 7 7 Control pong with floats;
+#X connect 2 0 9 0;
+#X connect 3 0 8 0;
+#X connect 4 0 7 0;
+#X connect 4 0 14 0;
+#X connect 4 0 14 1;
+#X connect 5 0 4 0;
+#X connect 6 0 4 0;
+#X connect 8 0 12 0;
+#X connect 9 0 4 1;
+#X connect 10 0 11 0;
+#X connect 11 0 4 2;
+#X connect 12 0 13 0;
+#X connect 13 0 4 0;
+#X connect 15 0 7 0;
+#X connect 16 0 15 0;
+#X connect 20 0 21 0;
+#X connect 21 0 2 0;
+#X connect 21 1 10 0;
+#X restore 425 369 pd with floats;
+#N canvas 589 650 431 300 view_pong1 1;
+#X text 34 217 The array is placed in a sub-patch to prevent audio
+dropouts;
+#X obj 72 46 hsl 195 140 0 127 0 0 eliminate_outlet eliminate_inlet
+empty -2 -8 0 10 -262144 -262144 -262144 11400 1;
+#X text 50 40 1;
+#X text 43 169 -1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-pong1 1024 float 0;
+#X coords 0 1 1023 -1 200 140 1;
+#X restore 69 46 graph;
+#X obj 3 -11 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0
+;
+#X text 5 -10 View graph;
+#X restore 181 399 pd view_pong1;
+#X obj 92 227 cyclone/pong~ 0 -0.25 0.25;
+#X obj 169 373 tabwrite~ \$0-pong1;
+#X connect 32 0 52 2;
+#X connect 33 0 47 0;
+#X connect 34 0 52 1;
+#X connect 35 0 48 0;
+#X connect 36 0 44 0;
+#X connect 42 0 53 0;
+#X connect 43 0 42 0;
+#X connect 44 0 45 0;
+#X connect 45 0 46 0;
+#X connect 46 0 52 0;
+#X connect 47 0 32 0;
+#X connect 48 0 34 0;
+#X connect 52 0 49 0;
+#X connect 52 0 49 1;
+#X connect 52 0 53 0;

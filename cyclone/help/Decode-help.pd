@@ -1,0 +1,94 @@
+#N canvas 620 81 558 519 10;
+#X obj 2 490 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 262 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 524 307 398 281 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 140 LIBRARY cyclone;
+#X text 1 0 KEYWORDS send 1/0 binary specific;
+#X text 1 40 DESCRIPTION send out 1/0 to a specific outlet;
+#X text 1 120 OUTLET_N float;
+#X text 1 80 INLET_1 toggle;
+#X text 1 100 INLET_2 toggle;
+#X text 1 60 INLET_0 float;
+#X text 0 158 VERSION 0.1-alpha57;
+#X text 0 176 AUTHOR Krzysztof Czaja;
+#X text 1 194 RELEASE_DATE 2002;
+#X text 2 213 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 245 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 492 pd META;
+#X obj 3 351 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 388 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 2 432 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 262 480 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 12 31 select;
+#X obj 63 31 gate;
+#X obj 102 31 route;
+#X restore 201 492 pd Related_objects;
+#X obj 80 271 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 295 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Decode 3 12 0 18 -204280 -1 0
+;
+#X obj 501 4 Decode;
+#X text 12 23 send out 1/0 to a specific outlet;
+#X obj 230 95 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 277 96 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X text 111 270 float;
+#X text 180 270 - outlet number to receive 1;
+#X text 111 359 float;
+#X text 180 359 - 1 or 0 based on which outlets selected;
+#X text 93 401 1) float;
+#X text 180 401 - number of outlets;
+#X obj 80 360 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X text 111 297 toggle;
+#X obj 80 323 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 111 322 toggle;
+#X obj 184 164 cyclone/Decode 3;
+#X text 180 321 - disable all outlets (overrides inlet 1);
+#X obj 277 231 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 230 231 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X text 234 245 1;
+#X obj 184 231 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X text 275 245 2 or more;
+#X text 148 245 0 or less;
+#X obj 95 51 vradio 15 1 0 5 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X floatatom 115 110 5 0 0 0 - - -;
+#X obj 115 85 - 1;
+#X text 77 48 -1;
+#X text 82 108 3;
+#X floatatom 184 95 5 0 0 0 - - -;
+#X text 111 444 If the input number is higher than the number of outlets
+\, then the 1 is send to the highest numbered outlet. If it is lower
+than 0 \, it is send to the leftmost outlet;
+#X text 276 76 disable;
+#X text 203 64 write to all;
+#X text 180 295 - write 0 or 1 to all outlets;
+#X connect 12 0 24 1;
+#X connect 13 0 24 2;
+#X connect 24 0 29 0;
+#X connect 24 1 27 0;
+#X connect 24 2 26 0;
+#X connect 32 0 34 0;
+#X connect 33 0 24 0;
+#X connect 34 0 33 0;
+#X connect 37 0 24 0;

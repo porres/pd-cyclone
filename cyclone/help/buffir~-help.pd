@@ -1,0 +1,222 @@
+#N canvas 421 91 572 530 10;
+#X obj 0 594 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 336 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 388 382 433 268 META 0;
+#X text 0 31 LICENSE SIBSD;
+#X text 0 139 LIBRARY cyclone;
+#X text 0 49 DESCRIPTION converts all signal values to positive values
+;
+#X text 0 0 KEYWORDS signal buffer buffir buff FIR finite impulse response
+convolution filter;
+#X text 0 67 INLET_0 signal;
+#X text 0 85 INLET_1 float;
+#X text 0 103 INLET_2 float;
+#X text 0 121 OUTLET_0 signal;
+#X text 0 158 VERSION 0.1-alpha57;
+#X text 0 176 AUTHOR Krzysztof Czaja;
+#X text 1 194 RELEASE_DATE 2002;
+#X text 2 213 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 245 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 597 pd META;
+#X obj 0 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 456 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 532 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 160 549 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 203 597 pd Related_objects;
+#X obj 80 368 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 554 40 empty empty buffir~ 3 12 0 18 -204280 -1 0
+;
+#X text 106 344 signal;
+#X text 164 343 - signal to pass to FIR;
+#X text 106 427 signal;
+#X obj 80 389 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 106 369 float;
+#X obj 80 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 106 391 float;
+#X text 164 391 - Length (samples);
+#X text 164 367 - Offset (samples);
+#X text 164 426 - based on buffer \, offset \, length;
+#X obj 378 147 loadbang;
+#X obj 378 174 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#N canvas 462 221 405 395 genRamp 0;
+#X obj 84 238 sel 0 1;
+#X obj 103 286 i;
+#X obj 84 183 sel 1;
+#X msg 32 136 clear;
+#X obj 184 242 * 1;
+#X obj 184 216 expr ((127. - $f1) / 127.);
+#X obj 171 183 - 1;
+#X obj 84 82 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 84 314 pack 0 0;
+#X text 182 197 exponential ramp down from 1 to 0;
+#X obj 84 60 inlet;
+#X obj 84 348 outlet;
+#X obj 84 215 cyclone/decide;
+#X text 178 339 makes 50% zeros \, 25% exponential;
+#X text 178 353 downward ramp \, 25% random;
+#X obj 84 160 cyclone/decide;
+#X obj 2 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 84 136 cyclone/Uzi 128;
+#X text 9 0 ramp generator;
+#X obj 84 104 t b b;
+#X obj 84 260 cyclone/urn 128;
+#X connect 0 0 20 0;
+#X connect 0 1 1 0;
+#X connect 1 0 8 0;
+#X connect 2 0 12 0;
+#X connect 3 0 20 0;
+#X connect 4 0 8 1;
+#X connect 5 0 4 0;
+#X connect 5 0 4 1;
+#X connect 6 0 1 1;
+#X connect 6 0 5 0;
+#X connect 7 0 19 0;
+#X connect 8 0 11 0;
+#X connect 10 0 7 0;
+#X connect 12 0 0 0;
+#X connect 15 0 2 0;
+#X connect 17 0 15 0;
+#X connect 17 2 6 0;
+#X connect 19 0 17 0;
+#X connect 19 1 3 0;
+#X connect 20 0 8 0;
+#X restore 378 199 pd genRamp;
+#X floatatom 265 111 0 0 0 0 - - -;
+#X obj 80 78 noise~;
+#X obj 82 234 *~ 0.05;
+#X text 87 472 1) table;
+#X text 164 471 - buffer (max size 256);
+#X text 88 489 2) float;
+#X text 164 489 - offset;
+#X text 88 506 3) float;
+#X text 164 506 - length;
+#X text 103 542 buffir~ is a table based FIR (finite impulse response)
+filter. an input signal is convolved with n samples of a buffer. Currently
+the maximum number of points is 256;
+#X obj 499 2 buffir~;
+#X text 12 23 table based FIR (finite impulse response) convolution
+filter;
+#X obj 80 347 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 402 174 Generate new fir;
+#X text 292 102 number of samples;
+#X text 292 114 in impulse;
+#X text 323 274 table is a 128-point downwards;
+#X text 322 288 ramp with random values here and;
+#X text 322 301 there with amplitude from 1 to 0;
+#X obj 82 260 output~;
+#X obj 268 90 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#N canvas 597 600 430 354 voice 0;
+#X obj 96 145 openpanel;
+#X obj 96 219 soundfiler;
+#X obj 96 96 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 74 27 loadbang;
+#X obj 263 236 *~ 0;
+#X obj 263 297 outlet~;
+#X obj 263 185 phasor~ 0.77;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 4 2 Load and play the standard voice.wav file;
+#X obj 96 170 pack s f;
+#X obj 96 119 t b b;
+#X obj 168 145 f \$0;
+#X text 115 100 load an other sample;
+#X msg 96 194 read -resize \$1 \$2-voice;
+#X obj 263 266 tabread~ \$0-voice;
+#X obj 95 243 table \$0-voice;
+#X msg 74 74 read -resize voice.wav \$1-voice;
+#X obj 74 50 f \$0;
+#X connect 0 0 9 0;
+#X connect 1 0 4 1;
+#X connect 2 0 10 0;
+#X connect 3 0 17 0;
+#X connect 4 0 14 0;
+#X connect 6 0 4 0;
+#X connect 9 0 13 0;
+#X connect 10 0 0 0;
+#X connect 10 1 11 0;
+#X connect 11 0 9 1;
+#X connect 13 0 1 0;
+#X connect 14 0 5 0;
+#X connect 16 0 1 0;
+#X connect 17 0 16 0;
+#X restore 96 97 pd voice;
+#N canvas 753 492 431 300 mux 0;
+#X obj 127 68 inlet~;
+#X obj 176 68 inlet~;
+#X obj 230 69 inlet;
+#X obj 127 231 outlet~;
+#X obj 126 182 *~ 1;
+#X obj 177 183 *~ 0;
+#X obj 230 109 == 0;
+#X floatatom 246 158 5 0 0 0 - - -;
+#X obj 0 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 4 3 signal selector;
+#X connect 0 0 4 0;
+#X connect 1 0 5 0;
+#X connect 2 0 5 1;
+#X connect 2 0 6 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 6 0 4 1;
+#X connect 6 0 7 0;
+#X restore 81 128 pd mux;
+#X obj 154 83 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 77 56 Integral of buffer from offset to offset + length;
+#N canvas 460 560 431 249 more 0;
+#X obj 75 83 sig~ 1;
+#X text 271 85 Length (samps);
+#X msg 64 56 clear;
+#X floatatom 247 85 0 0 0 0 - - -;
+#X floatatom 155 63 0 0 0 0 - - -;
+#X text 56 38 clears input history only;
+#X text 181 62 Offset (samps);
+#X obj 64 221 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 2.4283 256;
+#X text 263 138 Initial args:;
+#X text 263 150 buffer \, offset(samps) \,;
+#X text 263 162 length(samps);
+#X obj 64 197 cyclone/Snapshot~ 100;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 4 Example using variable offset;
+#X obj 64 150 cyclone/buffir~ \$0-fir_buf 0 32;
+#X connect 0 0 14 0;
+#X connect 2 0 14 0;
+#X connect 3 0 14 2;
+#X connect 4 0 14 1;
+#X connect 11 0 7 0;
+#X connect 14 0 11 0;
+#X restore 447 88 pd more buffir;
+#X obj 378 226 cyclone/peek~ \$0-fir_buf;
+#X obj 377 248 table \$0-fir_buf 128;
+#X obj 82 182 cyclone/buffir~ \$0-fir_buf 0 10;
+#X connect 19 0 20 0;
+#X connect 20 0 21 0;
+#X connect 21 0 48 0;
+#X connect 22 0 50 2;
+#X connect 23 0 44 0;
+#X connect 24 0 41 0;
+#X connect 24 0 41 1;
+#X connect 42 0 22 0;
+#X connect 43 0 44 1;
+#X connect 44 0 50 0;
+#X connect 45 0 44 2;
+#X connect 50 0 24 0;

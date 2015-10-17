@@ -1,0 +1,68 @@
+#N canvas 498 81 559 455 10;
+#X obj 0 429 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 261 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 601 218 356 221 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 100 LIBRARY cyclone;
+#X text 0 0 KEYWORDS mouse mousebutton pass filter;
+#X text 0 40 DESCRIPTION passes numbers only when mousebutton is up
+;
+#X text 0 60 INLET_0 float list;
+#X text 0 80 OUTLET_0 float;
+#X text 0 120 VERSION 0.1-alpha57;
+#X text 0 138 AUTHOR Krzysztof Czaja;
+#X text 1 156 RELEASE_DATE 2002;
+#X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 431 pd META;
+#X obj 0 319 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 380 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 297 333 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 10 31 cyclone/MouseState;
+#X restore 202 431 pd Related_objects;
+#X obj 80 270 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 330 cnv 17 3 40 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty mousefilter 3 12 0 18 -204280
+-1 0;
+#X obj 472 8 mousefilter;
+#X text 12 23 passes numbers only when mousebutton is up;
+#X obj 262 89 hsl 128 15 0 127 0 0 empty empty empty -2 -6 0 8 -262144
+-1 -1 6500 1;
+#X floatatom 259 65 5 0 0 0 - - -;
+#X floatatom 174 219 5 0 0 0 - - -;
+#X obj 153 239 print;
+#X text 110 269 float;
+#X text 180 269 - number to pass;
+#X text 110 291 list;
+#X text 180 291 - list of numbers to pass;
+#X text 110 330 float;
+#X text 110 399 (none);
+#X obj 153 163 cyclone/mousefilter;
+#X text 180 330 - numbers passed from inlet if mousebutton is up. This
+means only the end value of a number or slider change is send;
+#X obj 153 48 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 153 96 f;
+#X obj 178 96 + 1;
+#X obj 153 72 metro 1000;
+#X connect 11 0 21 0;
+#X connect 12 0 21 0;
+#X connect 21 0 13 0;
+#X connect 21 0 14 0;
+#X connect 23 0 26 0;
+#X connect 24 0 25 0;
+#X connect 24 0 21 0;
+#X connect 25 0 24 1;
+#X connect 26 0 24 0;

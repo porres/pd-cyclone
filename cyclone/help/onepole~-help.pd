@@ -1,0 +1,94 @@
+#N canvas 507 79 570 544 10;
+#X obj 0 707 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 317 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 617 272 357 233 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 100 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal lowpass filter low pass pole;
+#X text 0 40 DESCRIPTION single-pole lowpass filter;
+#X text 0 60 INLET_0 signal;
+#X text 0 80 INLET_1 float signal;
+#X text 0 140 VERSION 0.1-alpha57;
+#X text 0 158 AUTHOR Krzysztof Czaja;
+#X text 1 176 RELEASE_DATE 2002;
+#X text 2 195 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 227 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 709 pd META;
+#X obj 0 410 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 447 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 490 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 312 395 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 197 709 pd Related_objects;
+#X obj 79 326 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 353 cnv 17 3 35 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty onepole~ 3 12 0 18 -204280 -1
+0;
+#X obj 490 8 onepole~;
+#X text 12 23 single-pole lowpass filter;
+#X text 109 325 signal;
+#X text 109 352 float;
+#X text 109 372 signal;
+#X text 109 420 signal;
+#X text 91 463 1) float;
+#X text 180 420 - output of low-pass filter based on args;
+#X text 111 539 where k represents the cutoff frequency in radians.
+this generates a single-pole lowpass filter with a 6dB/octave attenuation.
+;
+#X text 162 519 out = prev + k * (in - prev);
+#X text 111 499 onepole~ implements the minimal filter equation:;
+#X text 111 625 onepole's advantages are efficiency and simplicity.
+it works well as a pre- or post-processing stage for other treatments
+\, such as waveshaping or filtering \, which can benefit from a gentle
+roll-off of high frequencies.;
+#X text 111 580 this filter is equivalent to a biquad~ object with
+the coefficients \, [ a0 = k \, b1 = k - 1 ] \, as demonstrated above.
+;
+#X obj 79 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 270 59 5 0 0 0 - - -;
+#X text 180 325 - input frequency to be filtered;
+#X text 180 352 - set cutoff frequency with float;
+#X text 180 372 - set cutoff frequency with signal;
+#X obj 152 254 output~;
+#X obj 228 274 tabwrite~ \$0onepole;
+#X obj 248 252 metro 100;
+#X obj 229 253 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 154 58 phasor~ 250;
+#X obj 153 136 cyclone/onepole~ 200;
+#X text 180 464 - initial cutoff frequency;
+#N canvas 640 655 450 300 view 0;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0onepole 1024 float 0;
+#X coords 0 1 1023 0 200 140 1 0 0;
+#X restore 72 56 graph;
+#X text 34 218 The array is placed in a sub-patch to prevent audio
+dropouts;
+#X text 62 50 1;
+#X text 61 180 0;
+#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 75 56 hsl 195 140 0 127 0 0 eliminate_outlet eliminate_inlet
+empty -2 -8 0 10 -262144 -262144 -262144 0 1;
+#X text 6 3 Graph view;
+#X restore 361 274 pd view graph;
+#X connect 24 0 33 1;
+#X connect 30 0 29 0;
+#X connect 31 0 30 0;
+#X connect 32 0 33 0;
+#X connect 33 0 29 0;
+#X connect 33 0 28 0;
+#X connect 33 0 28 1;

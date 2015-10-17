@@ -1,0 +1,44 @@
+#N canvas 558 115 557 387 10;
+#X obj 0 362 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 251 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 615 349 347 317 META 0;
+#X text 0 81 LIBRARY cyclone;
+#X text 0 150 RELEASE_DATE 2002;
+#X text 0 117 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 0 97 AUTHOR Krzysztof Czaja;
+#X text 0 170 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+updated this patch for pd-extended 2014-12-02.;
+#X text 0 0 KEYWORDS float max_compatible canvas_op;
+#X text 0 40 DESCRIPTION report if window is active / inactive;
+#X text 0 60 OUTLET_0 float;
+#X text 0 20 LICENSE SIBSD;
+#X restore 503 364 pd META;
+#X obj 0 289 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 326 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 303 485 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 31 loadbang;
+#X restore 206 364 pd Related_objects;
+#X obj 0 0 cnv 15 552 40 empty empty active 3 12 0 18 -204280 -1 0
+;
+#X obj 84 298 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 12 24 report if window is active / inactive;
+#X obj 511 10 active;
+#X obj 76 171 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X text 101 172 focus / unfocus window and watch the toggle;
+#X text 111 298 float;
+#X obj 76 114 cyclone/active;
+#X text 106 334 none;
+#X text 173 298 - "0" - window is inactive \, "1" - window is active
+;
+#X connect 13 0 10 0;

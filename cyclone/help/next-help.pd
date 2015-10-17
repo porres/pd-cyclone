@@ -1,0 +1,119 @@
+#N canvas 622 81 570 532 10;
+#X obj 0 631 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 437 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 615 265 357 242 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 120 LIBRARY cyclone;
+#X text 1 0 KEYWORDS separate messages logic;
+#X text 1 40 DESCRIPTION separate messages into logical parts;
+#X text 1 60 INLET_0 list float bang;
+#X text 1 80 OUTLET_0 bang;
+#X text 1 100 OUTLET_1 bang;
+#X text 0 139 VERSION 0.1-alpha57;
+#X text 0 157 AUTHOR Krzysztof Czaja;
+#X text 1 175 RELEASE_DATE 2002;
+#X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 633 pd META;
+#X obj 1 520 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 590 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 318 397 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 202 633 pd Related_objects;
+#X obj 80 448 cnv 17 3 58 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 558 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty next 3 12 0 18 -204280 -1 0;
+#X obj 517 7 next;
+#X text 110 447 list;
+#X text 180 447 - list of numbers;
+#X text 110 469 float;
+#X text 110 491 bang;
+#X text 180 491 - get next number;
+#X text 180 471 - input number;
+#X obj 166 362 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 251 362 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X floatatom 240 88 5 0 0 0 - - -;
+#X obj 70 61 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X msg 70 88 1;
+#X msg 101 88 2;
+#X msg 133 88 3;
+#X msg 284 89 1 2 3 4;
+#X msg 293 157 4 3 2 1;
+#X obj 293 136 spigot;
+#X obj 326 118 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X msg 166 88 1 \, 2 \, 3 \, 4;
+#X text 108 602 (none);
+#X obj 79 529 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 110 528 bang;
+#X text 180 528 - bang if current message is not part of same logical
+stream;
+#X text 180 561 - bang if current message is part of the same logical
+stream;
+#X text 110 559 bang;
+#X text 11 24 separate messages into logical parts;
+#X text 135 58 try different inputs:;
+#X obj 284 205 print one event;
+#X obj 70 152 print multiple events;
+#X obj 166 391 f;
+#X obj 193 391 + 1;
+#X floatatom 166 416 5 0 0 0 - - -;
+#X obj 251 391 f;
+#X obj 278 391 + 1;
+#X floatatom 251 416 5 0 0 0 - - -;
+#X msg 116 363 0;
+#X text 349 114 enable triggering another event;
+#X text 292 416 event counters;
+#X text 80 363 reset;
+#X msg 94 203 bang;
+#X obj 166 272 cyclone/next;
+#X text 253 345 same event;
+#X text 146 346 not same event;
+#X connect 16 0 38 0;
+#X connect 17 0 41 0;
+#X connect 18 0 37 0;
+#X connect 18 0 49 0;
+#X connect 19 0 20 0;
+#X connect 19 0 21 0;
+#X connect 19 0 22 0;
+#X connect 20 0 37 0;
+#X connect 20 0 49 0;
+#X connect 21 0 37 0;
+#X connect 21 0 49 0;
+#X connect 22 0 37 0;
+#X connect 22 0 49 0;
+#X connect 23 0 36 0;
+#X connect 23 0 25 0;
+#X connect 23 0 49 0;
+#X connect 24 0 36 0;
+#X connect 24 0 49 0;
+#X connect 25 0 24 0;
+#X connect 26 0 25 1;
+#X connect 27 0 37 0;
+#X connect 27 0 49 0;
+#X connect 38 0 39 0;
+#X connect 38 0 40 0;
+#X connect 39 0 38 1;
+#X connect 41 0 42 0;
+#X connect 41 0 43 0;
+#X connect 42 0 41 1;
+#X connect 44 0 38 0;
+#X connect 44 0 41 0;
+#X connect 48 0 49 0;
+#X connect 49 0 16 0;
+#X connect 49 1 17 0;

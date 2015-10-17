@@ -1,0 +1,75 @@
+#N canvas 553 82 562 493 10;
+#X obj 0 464 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 3 295 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 373 345 428 264 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 100 LIBRARY cyclone;
+#X text 0 80 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal impulse band;
+#X text 0 40 DESCRIPTION generate an impulse;
+#X text 0 60 INLET_0 bang set;
+#X text 0 122 VERSION 0.1-alpha57;
+#X text 0 140 AUTHOR Krzysztof Czaja;
+#X text 1 158 RELEASE_DATE 2002;
+#X text 2 177 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 209 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 467 pd META;
+#X obj 4 366 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 403 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 150 501 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 31 noise~;
+#X obj 56 31 osc~;
+#X restore 209 467 pd Related_objects;
+#X obj 81 305 cnv 17 3 42 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 376 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty click~ 3 12 0 18 -204280 -1 0
+;
+#X text 12 23 generate an impulse;
+#X msg 144 98 set 1;
+#X text 101 304 bang;
+#X text 164 304 - generate impulse based on arg or stored value;
+#X text 101 330 set;
+#X text 164 330 - create personalized band-limited impulse (max 256
+samples);
+#X text 101 375 signal;
+#X text 164 375 - signal based on impulse value stored;
+#X text 84 422 1) float;
+#X obj 502 4 click~;
+#X obj 69 158 cyclone/click~;
+#X obj 69 236 output~;
+#X obj 69 76 t b b;
+#X obj 69 53 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 139 237 tabwrite~ \$0-click;
+#X text 250 183 1;
+#X text 252 275 0;
+#X obj 266 189 hsl 195 100 0 127 0 0 blank_outlet blank_inlet empty
+-2 -8 0 10 -262144 -262144 -262144 0 1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-click 50 float 1;
+#A 0 0.25 0.5 0.75 1 0.67 0.3 0 0 0.4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+#X coords 0 1 49 0 200 100 1 0 0;
+#X restore 263 189 graph;
+#X text 164 422 - set impulse height \, default is 1;
+#X msg 108 77 set 0.25 0.5 0.75 1 0.67 0.3 0 0 0.4;
+#X connect 10 0 19 0;
+#X connect 19 0 23 0;
+#X connect 19 0 20 0;
+#X connect 19 0 20 1;
+#X connect 21 0 19 0;
+#X connect 21 1 23 0;
+#X connect 22 0 21 0;
+#X connect 29 0 19 0;

@@ -1,0 +1,300 @@
+#N canvas 544 79 571 531 10;
+#X obj 0 828 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 522 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 536 420 372 281 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 113 LIBRARY cyclone;
+#X text 0 0 KEYWORDS bitwise bit boolean signal;
+#X text 0 73 INLET_0 signal;
+#X text 0 93 OUTLET_0 signal;
+#X text 0 40 DESCRIPTION performs bitwise boolean operations on a floating
+point signal as bits or as a float.;
+#X text 0 135 VERSION 0.1-alpha57;
+#X text 0 153 AUTHOR Krzysztof Czaja;
+#X text 1 171 RELEASE_DATE 2002;
+#X text 2 190 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 222 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 830 pd META;
+#X obj 2 665 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 702 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 216 547 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 4 27 cyclone/bitand~;
+#X obj 5 48 cyclone/bitnot~;
+#X obj 5 70 cyclone/bitxor~;
+#X obj 104 28 cyclone/bitshift~;
+#X restore 199 830 pd Related_objects;
+#X obj 82 674 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 41 empty empty bitor~ 3 12 0 18 -204280 -1 0
+;
+#X text 108 672 signal;
+#X text 82 716 1) float;
+#X text 82 734 2) float;
+#X obj 35 421 clip~ -1 1;
+#X obj 36 251 list trim;
+#X obj 505 5 bitor~;
+#X text 14 20 Performs bitwise boolean operations on a float signal.
+;
+#X text 52 59 Works on floating point signal as bits or as an integer:
+;
+#X text 157 88 bitwise operation on a signal as bits;
+#X text 47 214 bitwise boolean operation on signal and some bitmask
+as bits;
+#X text 67 110 send bitmask;
+#X obj 262 111 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 480 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 466 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 452 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 438 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 424 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 410 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 396 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 382 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 368 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 354 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 340 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 326 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 312 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 298 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 284 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 270 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 256 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 242 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 228 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 214 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 200 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 186 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 172 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 158 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 144 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 130 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 116 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 102 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 88 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 74 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 60 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 46 153 tgl 15 0 \$0-bitchange empty empty 17 7 0 10 -262144
+-1 -1 0 1;
+#X obj 36 178 pack s 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0;
+#X msg 36 113 bits;
+#X obj 35 474 output~;
+#X text 207 736 left inlet;
+#X text 385 736 right inlet;
+#X text 177 754 0;
+#X text 177 767 1;
+#X text 177 781 2;
+#X text 177 795 3;
+#X obj 36 354 cyclone/bitor~;
+#X text 117 536 signal;
+#X obj 82 538 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 117 616 signal;
+#X obj 82 618 cnv 17 3 25 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 118 631 float;
+#X text 118 552 list;
+#X obj 36 89 r \$0-bitchange;
+#N canvas 783 665 431 300 view 0;
+#X obj 55 26 inlet~;
+#X obj 84 61 metro 100;
+#X obj 64 60 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 55 91 tabwrite~ \$0-bitor;
+#X obj 56 129 hsl 195 140 0 127 0 0 blank_outlet blank_inlet empty
+-2 -8 0 10 -262144 -262144 -262144 0 1;
+#X obj 0 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 41 124 1;
+#X text 36 255 -1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-bitor 1024 float 0;
+#X coords 0 1 1023 -1 200 140 1;
+#X restore 53 129 graph;
+#X text 5 2 Graph viewer;
+#X text 38 275 The graph is placed in a sub-patch to prevent audio-dropouts
+;
+#X connect 0 0 3 0;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
+#X restore 107 463 pd view;
+#X text 102 441 click for graph;
+#X obj 51 274 cyclone/cycle~ 220;
+#X text 172 536 - signal to execute bitwise-or on;
+#X text 172 552 - if the first element is "bits" \, the following 32
+elements are interpreted as 0's and 1's;
+#X text 119 581 mode;
+#X text 174 581 - values 0 to 3 The interpretation of the values at
+the two inlets. See argument description for details;
+#X text 172 616 - bitwise-or mask;
+#X text 172 631 - bitwise-or mask;
+#N canvas 553 618 431 337 mask 0;
+#X obj 22 217 clip~ -1 1;
+#X obj 24 54 cyclone/cycle~ 220;
+#X msg 95 26 state;
+#X obj 22 246 output~;
+#X msg 168 56 -1;
+#X msg 173 78 65535;
+#X msg 185 99 255;
+#X obj 1 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 106 225 metro 100;
+#X obj 106 207 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X text 215 95 1;
+#X obj 228 98 hsl 195 140 0 127 0 0 blank_outlet blank_inlet empty
+-2 -8 0 10 -262144 -262144 -262144 0 1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-bitor2 1024 float 0;
+#X coords 0 1 1023 -1 200 140 1 0 0;
+#X restore 225 98 graph;
+#X obj 106 187 loadbang;
+#X text 209 223 -1;
+#X obj 23 83 *~ 10000;
+#X obj 22 189 /~ 10000;
+#X text 21 302 When using integers (mode 1 \, 3) as bitmask \, make
+sure the signal is larger than +/- 1;
+#X obj 106 245 tabwrite~ \$0-bitor2;
+#X obj 168 27 loadbang;
+#X obj 23 133 cyclone/bitor~ -1 1;
+#X text 5 0 bitor~ mask with integers;
+#X connect 0 0 3 0;
+#X connect 0 0 18 0;
+#X connect 1 0 15 0;
+#X connect 2 0 20 0;
+#X connect 4 0 20 1;
+#X connect 5 0 20 1;
+#X connect 6 0 20 1;
+#X connect 8 0 18 0;
+#X connect 9 0 8 0;
+#X connect 13 0 9 0;
+#X connect 15 0 20 0;
+#X connect 16 0 0 0;
+#X connect 19 0 4 0;
+#X connect 20 0 16 0;
+#X restore 406 497 pd mask with integers;
+#X text 213 754 use signal/float as is;
+#X text 213 767 convert signal/float to int;
+#X text 213 781 use signal/float as is;
+#X text 213 795 convert signal/float to int;
+#X text 386 795 use signal/float as is;
+#X text 386 781 convert signal/float to int;
+#X text 386 767 convert signal/float to int;
+#X text 386 754 use signal/float as is;
+#X text 153 718 - mask: interpreted as integer. 0 is default \, -1
+is max.;
+#X text 154 735 - modes:;
+#X text 163 672 - output bitwise-or masked signal;
+#X connect 11 0 69 0;
+#X connect 11 0 54 0;
+#X connect 11 0 54 1;
+#X connect 12 0 61 0;
+#X connect 19 0 51 0;
+#X connect 19 0 50 0;
+#X connect 19 0 49 0;
+#X connect 19 0 48 0;
+#X connect 19 0 47 0;
+#X connect 19 0 46 0;
+#X connect 19 0 45 0;
+#X connect 19 0 44 0;
+#X connect 19 0 43 0;
+#X connect 19 0 42 0;
+#X connect 19 0 41 0;
+#X connect 19 0 40 0;
+#X connect 19 0 39 0;
+#X connect 19 0 38 0;
+#X connect 19 0 37 0;
+#X connect 19 0 36 0;
+#X connect 19 0 35 0;
+#X connect 19 0 34 0;
+#X connect 19 0 33 0;
+#X connect 19 0 32 0;
+#X connect 19 0 31 0;
+#X connect 19 0 30 0;
+#X connect 19 0 29 0;
+#X connect 19 0 28 0;
+#X connect 19 0 27 0;
+#X connect 19 0 26 0;
+#X connect 19 0 25 0;
+#X connect 19 0 24 0;
+#X connect 19 0 23 0;
+#X connect 19 0 22 0;
+#X connect 19 0 21 0;
+#X connect 19 0 20 0;
+#X connect 20 0 52 32;
+#X connect 21 0 52 31;
+#X connect 22 0 52 30;
+#X connect 23 0 52 29;
+#X connect 24 0 52 28;
+#X connect 25 0 52 27;
+#X connect 26 0 52 26;
+#X connect 27 0 52 25;
+#X connect 28 0 52 24;
+#X connect 29 0 52 23;
+#X connect 30 0 52 22;
+#X connect 31 0 52 21;
+#X connect 32 0 52 20;
+#X connect 33 0 52 19;
+#X connect 34 0 52 18;
+#X connect 35 0 52 17;
+#X connect 36 0 52 16;
+#X connect 37 0 52 15;
+#X connect 38 0 52 14;
+#X connect 39 0 52 13;
+#X connect 40 0 52 12;
+#X connect 41 0 52 11;
+#X connect 42 0 52 10;
+#X connect 43 0 52 9;
+#X connect 44 0 52 8;
+#X connect 45 0 52 7;
+#X connect 46 0 52 6;
+#X connect 47 0 52 5;
+#X connect 48 0 52 4;
+#X connect 49 0 52 3;
+#X connect 50 0 52 2;
+#X connect 51 0 52 1;
+#X connect 52 0 12 0;
+#X connect 53 0 52 0;
+#X connect 61 0 11 0;
+#X connect 68 0 53 0;
+#X connect 71 0 61 0;

@@ -1,0 +1,85 @@
+#N canvas 502 79 559 517 10;
+#X obj 0 489 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 321 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 627 301 351 222 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 114 LIBRARY cyclone;
+#X text 0 0 KEYWORDS inlet specific switch filter;
+#X text 0 38 DESCRIPTION output a message from a specific inlet;
+#X text 0 57 INLET_0 bang float;
+#X text 0 76 INLET_N message;
+#X text 0 95 OUTLET_0 message;
+#X text 0 134 VERSION 0.1-alpha57;
+#X text 0 152 AUTHOR Krzysztof Czaja;
+#X text 1 170 RELEASE_DATE 2002;
+#X text 2 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 491 pd META;
+#X obj 0 407 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 316 416 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 5 54 cyclone/gate;
+#X obj 5 29 cyclone/cycle;
+#X restore 203 491 pd Related_objects;
+#X obj 84 332 cnv 17 3 34 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 380 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty switch 3 12 0 18 -204280 -1 0
+;
+#X obj 499 10 switch;
+#X text 12 23 output a message from a specific inlet;
+#X text 118 381 message;
+#X text 188 380 - any message to pass through;
+#X text 118 417 message;
+#X text 188 417 - passed message \, from open inlet;
+#X text 100 451 1) float;
+#X text 188 451 - set the number of inlets;
+#X text 118 330 float;
+#X text 118 350 bang;
+#X text 188 351 - output open outlet number;
+#X obj 84 418 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 188 330 - set which inlet is open;
+#X obj 179 297 print;
+#X floatatom 119 139 5 0 0 0 - - -;
+#X msg 202 133 one;
+#X msg 225 154 two;
+#X msg 248 176 three;
+#X msg 272 197 four;
+#X msg 179 77 bang;
+#X text 245 76 which one's open ?;
+#X obj 272 105 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 149 53 set which inlet is open;
+#X text 100 464 2) float;
+#X obj 179 253 cyclone/switch 4;
+#X text 291 105 bang all inlets \;;
+#X text 291 119 open inlet passes message;
+#X obj 129 59 vradio 15 1 0 5 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 117 56 0;
+#X text 117 117 4;
+#X text 188 464 - default open inlet (optional);
+#X connect 24 0 33 1;
+#X connect 25 0 33 2;
+#X connect 26 0 33 3;
+#X connect 27 0 33 4;
+#X connect 28 0 33 0;
+#X connect 30 0 24 0;
+#X connect 30 0 25 0;
+#X connect 30 0 26 0;
+#X connect 30 0 27 0;
+#X connect 33 0 22 0;
+#X connect 36 0 33 0;
+#X connect 36 0 23 0;

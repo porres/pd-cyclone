@@ -1,0 +1,81 @@
+#N canvas 495 129 568 531 10;
+#X obj 0 523 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 354 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 367 383 441 271 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 113 LIBRARY cyclone;
+#X text 0 73 INLET_0 signal;
+#X text 0 93 OUTLET_0 signal;
+#X text 0 0 KEYWORDS boolean bitnot bitwise signal;
+#X text 0 40 DESCRIPTION performs bitwise boolean operations on a float
+signal;
+#X text 0 134 VERSION 0.1-alpha57;
+#X text 0 152 AUTHOR Krzysztof Czaja;
+#X text 1 170 RELEASE_DATE 2002;
+#X text 2 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 498 525 pd META;
+#X obj 0 400 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 441 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 158 549 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 7 27 cyclone/bitnot~;
+#X obj 7 54 cyclone/bitor~;
+#X obj 7 77 cyclone/bitxor~;
+#X obj 109 28 cyclone/bitshift~;
+#X restore 210 525 pd Related_objects;
+#X obj 84 412 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 551 41 empty empty bitnot~ 3 12 0 18 -204280 -1 0
+;
+#X text 120 411 signal;
+#X text 120 366 signal;
+#X obj 67 236 clip~ -1 1;
+#X floatatom 392 123 0 0 0 0 - - -;
+#X msg 392 144 mode \$1;
+#X floatatom 341 124 0 0 0 0 - - -;
+#X obj 341 144 sig~ 0;
+#X obj 67 261 *~ 0.2;
+#X obj 67 132 cycle~ 440;
+#X text 244 94 bitwise boolean operation on signals as integers;
+#X obj 341 263 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 -1 256;
+#X obj 341 238 Snapshot~ 100;
+#X text 102 458 1) float;
+#X text 175 366 - signal to do bitwise not with;
+#X text 175 411 - output signal of bitwise not for mask and mode;
+#X obj 499 4 bitnot~;
+#X obj 84 367 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 20 24 Performs bitwise boolean operations on a float signal.
+;
+#X obj 66 296 output~;
+#X text 64 93 bitwise boolean operation;
+#X text 64 105 on a signal as bits;
+#X obj 341 187 cyclone/bitnot~ 1;
+#X obj 67 184 cyclone/bitnot~;
+#X text 20 53 Works on floating point signal as bits or as an integer
+by inverting all bits.;
+#X text 175 457 - modes (defaults to 0):;
+#X text 187 471 0: treat floating point signal input as raw 32 bit
+value \; 1: convert floating point signal input to integer \;;
+#X connect 10 0 15 0;
+#X connect 11 0 12 0;
+#X connect 12 0 29 0;
+#X connect 13 0 14 0;
+#X connect 14 0 29 0;
+#X connect 15 0 26 0;
+#X connect 15 0 26 1;
+#X connect 16 0 30 0;
+#X connect 19 0 18 0;
+#X connect 29 0 19 0;
+#X connect 30 0 10 0;

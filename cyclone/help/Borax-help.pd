@@ -1,0 +1,135 @@
+#N canvas 562 81 568 531 10;
+#X obj 0 742 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 389 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 393 242 432 461 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 270 LIBRARY cyclone;
+#X text 1 0 KEYWORDS midi note music pitch velocity;
+#X text 1 36 DESCRIPTION reports current info on note on/off;
+#X text 1 108 OUTLET_0 float;
+#X text 1 126 OUTLET_1 float;
+#X text 1 144 OUTLET_2 float;
+#X text 1 162 OUTLET_3 float;
+#X text 1 180 OUTLET_4 float;
+#X text 1 198 OUTLET_5 float;
+#X text 1 216 OUTLET_6 float;
+#X text 1 234 OUTLET_7 float;
+#X text 1 252 OUTLET_8 float;
+#X text 0 288 VERSION 0.1-alpha57;
+#X text 0 306 AUTHOR Krzysztof Czaja;
+#X text 1 324 RELEASE_DATE 2002;
+#X text 2 343 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 375 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 53 INLET_0 float;
+#X text 1 72 INLET_1 float;
+#X text 1 90 INLET_2 bang;
+#X restore 502 744 pd META;
+#X obj 0 466 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 697 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 447 534 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 30 notein;
+#X obj 65 30 midiin;
+#X obj 9 53 noteout;
+#X obj 65 54 midiout;
+#X obj 121 30 cyclone/midiparse;
+#X obj 121 54 cyclone/midiformat;
+#X restore 208 744 pd Related_objects;
+#X obj 80 444 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Borax 3 12 0 18 -204280 -1 0;
+#X text 12 23 reports current info on note on/off;
+#X obj 88 60 notein 1;
+#X floatatom 88 362 5 0 0 0 - - -;
+#X floatatom 97 335 5 0 0 0 - - -;
+#X floatatom 106 310 5 0 0 0 - - -;
+#X floatatom 116 284 5 0 0 0 - - -;
+#X floatatom 125 258 5 0 0 0 - - -;
+#X floatatom 134 232 5 0 0 0 - - -;
+#X floatatom 144 206 5 0 0 0 - - -;
+#X floatatom 153 180 5 0 0 0 - - -;
+#X floatatom 163 154 5 0 0 0 - - -;
+#X text 414 523 offs);
+#X text 428 592 offs received);
+#X msg 163 60 bang;
+#X text 195 58 reset all values;
+#X text 378 477 on or off;
+#X text 109 397 float;
+#X text 158 396 - midi note number;
+#X obj 80 500 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 109 420 float;
+#X text 158 419 - velocity;
+#X obj 80 421 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 109 442 bang;
+#X text 158 441 - reset all values;
+#X obj 80 523 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 477 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 546 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 569 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 592 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 615 cnv 17 3 17 empty empty 6 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 639 cnv 17 3 17 empty empty 7 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 662 cnv 17 3 17 empty empty 8 5 9 0 16 -228856 -162280 0
+;
+#X text 109 523 float;
+#X text 109 499 float;
+#X text 109 546 float;
+#X text 109 569 float;
+#X text 109 592 float;
+#X text 109 614 float;
+#X text 109 638 float;
+#X text 109 662 float;
+#X text 109 477 float;
+#X text 158 477 - nr of incoming note that is turned;
+#X text 158 499 - voice nr of incoming note on / off;
+#X text 158 523 - nr of notes being held (i.e. ons without;
+#X text 158 545 - pitch of current on/off received;
+#X text 158 569 - velocity of current note;
+#X text 158 592 - nr of all completed notes (i.e. nr of note;
+#X text 158 613 - duration of last note completed;
+#X text 158 637 - total count of delta times (see below);
+#X text 158 662 - delta time of last two note ons;
+#X text 98 711 (none);
+#X obj 425 4 Borax;
+#X obj 80 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 88 113 cyclone/Borax;
+#X text 203 155 8;
+#X text 204 181 7;
+#X text 204 206 6;
+#X text 203 231 5;
+#X text 202 256 4;
+#X text 201 282 3;
+#X text 201 309 2;
+#X text 201 334 1;
+#X text 200 360 0;
+#X connect 9 0 61 0;
+#X connect 9 1 61 1;
+#X connect 21 0 61 2;
+#X connect 61 0 10 0;
+#X connect 61 1 11 0;
+#X connect 61 2 12 0;
+#X connect 61 3 13 0;
+#X connect 61 4 14 0;
+#X connect 61 5 15 0;
+#X connect 61 6 16 0;
+#X connect 61 7 17 0;
+#X connect 61 8 18 0;

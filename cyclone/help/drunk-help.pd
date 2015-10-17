@@ -1,0 +1,98 @@
+#N canvas 622 81 570 534 10;
+#X obj 1 728 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 442 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 569 272 390 294 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 140 LIBRARY cyclone;
+#X text 1 80 INLET_1 float;
+#X text 1 100 INLET_2 float;
+#X text 1 120 OUTLET_0 float;
+#X text 1 60 INLET_0 bang float list;
+#X text 1 0 KEYWORDS output random numbers range;
+#X text 1 40 DESCRIPTION output random numbers in a moving range;
+#X text 0 159 VERSION 0.1-alpha57;
+#X text 0 177 AUTHOR Krzysztof Czaja;
+#X text 1 195 RELEASE_DATE 2002;
+#X text 2 214 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 246 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 730 pd META;
+#X obj 3 610 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 660 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 317 453 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 28 random;
+#X obj 58 28 decide;
+#X obj 107 28 rand~;
+#X restore 208 730 pd Related_objects;
+#X obj 81 451 cnv 17 3 100 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 560 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty drunk 3 12 0 18 -204280 -1 0;
+#X obj 509 5 drunk;
+#X floatatom 114 411 5 0 0 0 - - -;
+#X obj 114 82 metro 300;
+#X obj 114 59 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X floatatom 123 107 5 0 0 0 - - -;
+#X msg 132 153 set \$1;
+#X floatatom 132 134 5 0 0 0 - - -;
+#X msg 151 224 10 20 4;
+#X msg 151 246 5 30;
+#X msg 139 199 seed \$1;
+#X floatatom 139 180 5 0 0 0 - - -;
+#X floatatom 160 271 5 0 0 0 - - -;
+#X floatatom 207 291 5 0 0 0 - - -;
+#X text 12 23 output random numbers in a moving range;
+#X text 114 451 bang;
+#X text 181 451 - trigger output;
+#X text 114 472 float;
+#X text 181 472 - set new value and output;
+#X text 114 490 list;
+#X text 181 490 - first value set current value \, second sets bound
+\, third limits stepsize;
+#X obj 81 619 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 114 560 float;
+#X text 114 619 float;
+#X text 181 619 - random number output;
+#X text 95 673 1) float;
+#X text 181 673 - set initial bound \, default to 128;
+#X text 95 697 2) float;
+#X text 181 560 - set upper boud;
+#X obj 81 584 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 114 584 float;
+#X text 181 584 - set stepsize;
+#X obj 114 340 cyclone/drunk 10;
+#X text 181 697 - set maximum stepsize \, default is 2;
+#X text 156 396 0;
+#X text 304 396 10;
+#X text 114 517 seed;
+#X text 181 517 - seeds the internal random number generator;
+#X text 114 534 set;
+#X text 181 534 - sets the current value;
+#X obj 154 413 hradio 15 1 0 11 empty empty empty 0 -8 0 10 -262144
+-1 -1 1;
+#X connect 11 0 40 0;
+#X connect 12 0 11 0;
+#X connect 13 0 40 0;
+#X connect 14 0 40 0;
+#X connect 15 0 14 0;
+#X connect 16 0 40 0;
+#X connect 17 0 40 0;
+#X connect 18 0 40 0;
+#X connect 19 0 18 0;
+#X connect 20 0 40 1;
+#X connect 21 0 40 2;
+#X connect 40 0 10 0;
+#X connect 40 0 48 0;

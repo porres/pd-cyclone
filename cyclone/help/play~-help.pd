@@ -1,0 +1,119 @@
+#N canvas 507 79 576 529 10;
+#X obj 0 564 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 379 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 618 277 360 227 META 0;
+#X text 1 19 LICENSE SIBSD;
+#X text 1 95 LIBRARY cyclone;
+#X text 1 76 OUTLET_0 signal;
+#X text 1 0 KEYWORDS signal sample playback play position;
+#X text 1 38 DESCRIPTION position based sample playback;
+#X text 1 57 INLET_0 signal set x;
+#X text 0 114 VERSION 0.1-alpha57;
+#X text 0 132 AUTHOR Krzysztof Czaja;
+#X text 1 150 RELEASE_DATE 2002;
+#X text 2 169 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 201 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 566 pd META;
+#X obj 0 435 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 472 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 320 399 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 70 47 cyclone/index~;
+#X restore 208 566 pd Related_objects;
+#X obj 81 387 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 443 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty play~ 3 12 0 18 -204280 -1 0;
+#X obj 505 9 play~;
+#X text 106 386 signal;
+#X text 106 406 set x;
+#X text 181 406 - change sample to array x;
+#X text 106 443 signal;
+#X text 88 482 1) table;
+#X text 88 503 2) float;
+#X text 181 503 - option arg for number of channels;
+#X text 12 23 sample playback with cubic interpolation;
+#X obj 0 524 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 88 534 similar to;
+#X obj 156 535 tabread4~;
+#X text 181 481 - samples to play;
+#X text 181 443 - playback;
+#X obj 80 308 soundfiler;
+#X obj 300 316 output~;
+#X obj 303 83 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 1700 1;
+#X obj 80 256 f \$0;
+#X floatatom 259 107 5 0 0 0 - - -;
+#X obj 300 128 phasor~;
+#N canvas 527 574 450 300 freqSamp 0;
+#X obj 150 78 inlet;
+#X obj 150 236 outlet;
+#X obj 150 156 *;
+#X obj 202 79 r \$0-size;
+#X obj 150 202 /;
+#X obj 177 129 samplerate~;
+#X obj 150 103 t f b;
+#X obj 202 152 t b f;
+#X obj -5 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0
+;
+#X connect 0 0 6 0;
+#X connect 2 0 4 0;
+#X connect 3 0 7 0;
+#X connect 4 0 1 0;
+#X connect 5 0 2 1;
+#X connect 6 0 2 0;
+#X connect 6 1 5 0;
+#X connect 7 0 4 0;
+#X connect 7 1 4 1;
+#X restore 300 106 pd freqSamp;
+#X obj 80 337 s \$0-size;
+#X obj 80 233 loadbang;
+#X obj 397 109 r \$0-size;
+#X obj 300 163 *~ 1400;
+#N canvas 762 355 450 300 sampFreq 0;
+#X obj 152 80 inlet;
+#X obj 152 220 outlet;
+#X obj 210 129 samplerate~;
+#X obj 152 185 /;
+#X obj 152 127 * 1000;
+#X obj 210 101 loadbang;
+#X obj 289 94 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 0 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X connect 0 0 4 0;
+#X connect 2 0 3 1;
+#X connect 3 0 1 0;
+#X connect 4 0 3 0;
+#X connect 5 0 2 0;
+#X connect 6 0 2 0;
+#X restore 397 133 pd sampFreq;
+#X floatatom 397 160 5 0 0 0 - - -;
+#X text 181 386 - signal to control positional playback in ms;
+#X obj 299 227 cyclone/play~ \$0-voice;
+#X msg 80 279 read -resize voice.wav \$1-voice;
+#X obj 156 337 table \$0-voice;
+#X connect 23 0 30 0;
+#X connect 25 0 27 0;
+#X connect 25 0 29 0;
+#X connect 26 0 38 0;
+#X connect 28 0 33 0;
+#X connect 29 0 28 0;
+#X connect 31 0 26 0;
+#X connect 32 0 34 0;
+#X connect 33 0 37 0;
+#X connect 34 0 33 1;
+#X connect 34 0 35 0;
+#X connect 37 0 24 0;
+#X connect 37 0 24 1;
+#X connect 38 0 23 0;

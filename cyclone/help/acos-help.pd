@@ -1,0 +1,82 @@
+#N canvas 540 80 555 419 10;
+#X obj 0 395 cnv 15 550 18 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 224 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 403 277 402 286 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 100 LIBRARY cyclone;
+#X text 0 60 INLET_0 float bang;
+#X text 0 80 OUTLET_0 float arccosine of input;
+#X text 0 0 KEYWORDS cos cosine arccosine arc acos;
+#X text 0 119 VERSION 0.1-alpha57;
+#X text 1 138 AUTHOR Krzysztof Czaja;
+#X text 1 155 RELEASE_DATE 2002;
+#X text 2 174 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 205 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 0 40 DESCRIPTION arc-cosine(x) function;
+#X restore 502 396 pd META;
+#X obj 0 295 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 332 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 144 398 427 174 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 5 75 cyclone/acosh~;
+#X obj 6 28 cyclone/acos;
+#X obj 105 75 cyclone/asinh~;
+#X obj 106 51 cyclone/asin~;
+#X obj 202 50 cyclone/atan~;
+#X obj 202 75 cyclone/atanh~;
+#X obj 5 122 cyclone/cosh~;
+#X obj 5 99 cyclone/cosh;
+#X obj 5 147 cyclone/cosx~;
+#X obj 5 52 cyclone/acos~;
+#X obj 106 29 cyclone/asin;
+#X obj 106 99 cyclone/sinh;
+#X obj 105 122 cyclone/sinh~;
+#X obj 105 146 cyclone/sinx~;
+#X obj 202 98 cyclone/tanh;
+#X obj 203 121 cyclone/tanh~;
+#X obj 202 145 cyclone/tanx~;
+#X obj 307 25 cos~;
+#X restore 203 396 pd Related_objects;
+#X obj 79 305 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty acos 3 12 0 18 -204280 -1 0;
+#X obj 274 70 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 274 196 0 0 0 0 - - -;
+#X floatatom 169 196 0 0 0 0 - - -;
+#X floatatom 169 70 0 0 0 0 - - -;
+#X text 105 245 float;
+#X text 105 264 bang;
+#X text 105 306 float;
+#X text 87 355 1) float;
+#X text 154 355 - optional initial value to compute;
+#X text 154 245 - the number to take acos of;
+#X text 154 306 - acos of input;
+#X text 154 266 - output acos of stored value;
+#X obj 517 2 acos;
+#X text 71 42 acos outputs the arccosine value of the input float value.
+;
+#X obj 79 247 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 55 75 with input as;
+#X text 56 101 take acos of;
+#X text 55 88 float value to;
+#X obj 169 139 cyclone/acos;
+#X obj 274 139 cyclone/acos 0.5;
+#X text 383 74 with bang button and;
+#X text 383 87 argument inside acos;
+#X text 383 102 object;
+#X text 11 21 arc-cosine(x) function;
+#X connect 8 0 27 0;
+#X connect 11 0 26 0;
+#X connect 26 0 10 0;
+#X connect 27 0 9 0;

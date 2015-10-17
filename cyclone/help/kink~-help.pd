@@ -1,0 +1,132 @@
+#N canvas 621 82 570 531 10;
+#X obj 3 798 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 1 493 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 592 275 371 239 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 120 LIBRARY cyclone;
+#X text 1 60 INLET_0 signal;
+#X text 1 100 OUTLET_0 signal;
+#X text 1 0 KEYWORDS signal kink distort phasor;
+#X text 1 40 DESCRIPTION distort the output of a phasor~;
+#X text 1 80 INLET_1 float signal;
+#X text 0 139 VERSION 0.1-alpha57;
+#X text 0 157 AUTHOR Krzysztof Czaja;
+#X text 1 175 RELEASE_DATE 2002;
+#X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 800 pd META;
+#X obj 2 568 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 605 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 2 647 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 307 406 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 204 800 pd Related_objects;
+#X obj 79 502 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 577 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty kink~ 3 12 0 18 -204280 -1 0;
+#X obj 79 525 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 510 2 kink~;
+#X text 12 22 Distort the output of a phasor~;
+#X obj 179 194 +~;
+#X msg 178 100 1 \, 10 180 10 120 1 700;
+#X obj 178 129 line~ 1;
+#X obj 266 355 cycle~;
+#X floatatom 194 167 0 -11 20 0 - - -;
+#X obj 126 51 phasor~ 440;
+#X text 56 49 phase input;
+#X text 309 353 use as table lookup;
+#X text 110 501 signal;
+#X text 179 501 - phasor to kink;
+#X text 95 654 kink~ takes phasor~ values and distorts them according
+to a slope factor. If the input times the slope is less than 0.5 \,
+that value is output. Otherwise \, a complentary slope is used \, equal
+to 0.5 at the same input value but equal to 1 when the input is 1 This
+creates a bend or "kink" in the phase waveform when the slope is not
+equal to 1 If you feed the output of kink~ into a cycle~ \, the result
+is that the first part (before the kink) of the wavetable is scanned
+much more quickly than the second part (after the kink). Can you say
+CZ-101? Sure you can.;
+#X text 110 525 float;
+#X text 179 525 - slope input;
+#X text 110 541 signal;
+#X text 110 576 signal;
+#X text 92 623 1) float;
+#X text 179 624 - initial slope;
+#X text 179 576 - distorted phasor output;
+#X text 174 70 slope input (float or signal):;
+#X obj 128 448 output~;
+#X obj 178 346 metro 100;
+#X obj 159 346 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X text 324 93 This ramps the slope from 1 to 10;
+#X text 324 105 and then back to 1 Combine with;
+#X text 324 117 an amplitude envelope to achieve;
+#X text 324 129 BRASS ENS. 1 bliss.;
+#X text 222 159 try different slope values (approx 1-20).;
+#X text 222 171 Reset to 1 to use the envelope above.;
+#X text 19 289 distorted;
+#X text 19 301 phase output;
+#X obj 159 326 loadbang;
+#X obj 127 252 cyclone/kink~ 1.3;
+#X text 179 541 - slope input;
+#X obj 22 391 tabwrite~ \$0-kink;
+#X obj 265 390 tabwrite~ \$0-kink-cycle;
+#N canvas 585 566 450 300 show 0;
+#X text 204 38 1;
+#X text 197 167 -1;
+#X text 9 234 The arrays are placed in a sub-patch to prevent audio
+dropouts;
+#X obj -7 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0
+;
+#X obj 219 42 hsl 195 140 0 127 0 0 eliminate_outlet eliminate_inlet
+empty -2 -8 0 10 -262144 -262144 -262144 0 1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-kink-cycle 512 float 0;
+#X coords 0 1 511 -1 200 140 1;
+#X restore 216 42 graph;
+#X obj -1 42 hsl 195 140 0 127 0 0 eliminate_outlet eliminate_inlet
+empty -2 -8 0 10 -262144 -262144 -262144 0 1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-kink 512 float 0;
+#X coords 0 1 511 -1 200 140 1;
+#X restore -4 42 graph;
+#X text -4 5 View graph;
+#X restore 226 416 pd show graphs;
+#X obj 128 411 *~ 0;
+#X obj 160 412 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 185 391 *~ 0;
+#X obj 217 392 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X connect 13 0 44 1;
+#X connect 14 0 15 0;
+#X connect 15 0 13 0;
+#X connect 16 0 47 0;
+#X connect 16 0 51 0;
+#X connect 17 0 13 1;
+#X connect 18 0 44 0;
+#X connect 33 0 46 0;
+#X connect 33 0 47 0;
+#X connect 34 0 33 0;
+#X connect 43 0 34 0;
+#X connect 44 0 46 0;
+#X connect 44 0 16 1;
+#X connect 44 0 49 0;
+#X connect 49 0 32 0;
+#X connect 49 0 32 1;
+#X connect 50 0 49 1;
+#X connect 51 0 32 1;
+#X connect 52 0 51 1;

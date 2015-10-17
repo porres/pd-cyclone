@@ -1,0 +1,78 @@
+#N canvas 505 79 559 530 10;
+#X obj 0 500 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 275 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 626 356 350 259 META 0;
+#X text 1 19 LICENSE SIBSD;
+#X text 1 146 LIBRARY cyclone;
+#X text 1 70 INLET_0 bang seed float;
+#X text 1 89 INLET_1 float;
+#X text 1 108 OUTLET_0 float;
+#X text 1 127 OUTLET_1 bang;
+#X text 1 38 DESCRIPTION random number generator without duplicate
+numbers;
+#X text 1 0 KEYWORDS random generator number rng;
+#X text 0 164 VERSION 0.1-alpha57;
+#X text 0 182 AUTHOR Krzysztof Czaja;
+#X text 1 200 RELEASE_DATE 2002;
+#X text 2 219 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 251 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 502 pd META;
+#X obj 0 394 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 458 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 323 507 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 17 74 random;
+#X obj 17 31 decide;
+#X obj 17 53 drunk;
+#X restore 208 502 pd Related_objects;
+#X obj 82 292 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 406 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty urn 3 12 0 18 -204280 -1 0;
+#X obj 517 11 urn;
+#X floatatom 85 231 5 0 0 0 - - -;
+#X obj 85 61 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X msg 108 61 clear;
+#X floatatom 160 107 5 0 0 0 - - -;
+#X msg 152 82 seed \$1;
+#X floatatom 152 61 5 0 0 0 - - -;
+#X obj 160 232 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 12 23 random number generator without duplicate numbers;
+#X text 112 291 bang;
+#X text 197 291 - send out random number;
+#X text 112 311 seed <int>;
+#X text 197 311 - reseed random number generator;
+#X text 112 331 list;
+#X text 197 331 - clear list of numbers;
+#X obj 82 360 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 112 359 float;
+#X text 197 359 - clear rng and set new nr of values;
+#X text 112 405 float;
+#X text 197 405 - random output;
+#X text 94 471 1) float;
+#X text 197 471 - number of different values to produce;
+#X obj 82 430 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 112 430 bang;
+#X text 197 430 - sent out all different values;
+#X obj 85 165 cyclone/urn 4;
+#X connect 11 0 34 0;
+#X connect 12 0 34 0;
+#X connect 13 0 34 1;
+#X connect 14 0 34 0;
+#X connect 15 0 14 0;
+#X connect 34 0 10 0;
+#X connect 34 1 16 0;

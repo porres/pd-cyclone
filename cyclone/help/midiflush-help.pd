@@ -1,0 +1,61 @@
+#N canvas 516 79 558 440 10;
+#X obj 0 412 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 251 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 596 212 366 240 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 113 LIBRARY cyclone;
+#X text 0 0 KEYWORDS note midi notes raw stream;
+#X text 0 40 DESCRIPTION send note offs for all hanging notes in a
+raw midi stream;
+#X text 0 73 INLET_0 midi stream message;
+#X text 0 93 OUTLET_0 midi strean;
+#X text 0 134 VERSION 0.1-alpha57;
+#X text 0 152 AUTHOR Krzysztof Czaja;
+#X text 1 170 RELEASE_DATE 2002;
+#X text 2 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 505 414 pd META;
+#X obj 0 329 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 366 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 515 495 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 10 33 cyclone/flush;
+#X obj 10 56 cyclone/sustain;
+#X obj 117 32 midiin;
+#X obj 117 55 midiout;
+#X restore 203 414 pd Related_objects;
+#X obj 81 261 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 338 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty midiflush 3 12 0 18 -204280 -1
+0;
+#X text 12 23 send note offs for all hanging notes in a raw midi stream
+;
+#X obj 90 53 midiin;
+#X obj 90 221 midiout;
+#X msg 186 73 bang;
+#X msg 138 73 clear;
+#X text 112 259 midi stream;
+#X text 215 259 - midi stream to flush;
+#X text 112 278 message;
+#X text 112 338 midi stream;
+#X text 215 338 - modified flushed midistream;
+#X text 112 382 (none);
+#X obj 490 5 midiflush;
+#X text 215 295 - clear: forget all previous notes \, no note off;
+#X obj 90 170 cyclone/midiflush;
+#X text 215 278 - bang: send note off for all notes still on;
+#X connect 10 0 22 0;
+#X connect 12 0 22 0;
+#X connect 13 0 22 0;
+#X connect 22 0 11 0;

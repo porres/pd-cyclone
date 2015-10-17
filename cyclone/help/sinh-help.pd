@@ -1,0 +1,84 @@
+#N canvas 622 80 558 408 10;
+#X obj 0 380 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 1 229 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 605 229 369 231 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 100 LIBRARY cyclone;
+#X text 1 60 INLET_0 float bang;
+#X text 1 80 OUTLET_0 float;
+#X text 1 0 KEYWORDS sin sine sinh hyperbolic;
+#X text 1 40 DESCRIPTION takes the hyperbolic sine value of a float
+;
+#X text 0 120 VERSION 0.1-alpha57;
+#X text 0 138 AUTHOR Krzysztof Czaja;
+#X text 1 156 RELEASE_DATE 2002;
+#X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 382 pd META;
+#X obj 2 294 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 331 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 316 350 428 170 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 5 72 cyclone/acosh~;
+#X obj 6 25 cyclone/acos;
+#X obj 105 72 cyclone/asinh~;
+#X obj 106 48 cyclone/asin~;
+#X obj 202 47 cyclone/atan~;
+#X obj 202 72 cyclone/atanh~;
+#X obj 5 119 cyclone/cosh~;
+#X obj 5 96 cyclone/cosh;
+#X obj 5 143 cyclone/cosx~;
+#X obj 5 49 cyclone/acos~;
+#X obj 106 26 cyclone/asin;
+#X obj 106 96 cyclone/sinh;
+#X obj 105 119 cyclone/sinh~;
+#X obj 105 143 cyclone/sinx~;
+#X obj 202 95 cyclone/tanh;
+#X obj 203 118 cyclone/tanh~;
+#X obj 202 142 cyclone/tanx~;
+#X obj 307 24 cos~;
+#X restore 204 382 pd Related_objects;
+#X obj 82 303 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty sinh 3 12 0 18 -204280 -1 0;
+#X text 112 243 float;
+#X text 112 263 bang;
+#X text 112 303 float;
+#X text 96 347 1) float;
+#X text 187 347 - optional initial value to compute;
+#X obj 513 10 sinh;
+#X text 11 23 calculate hyperbolic sine function;
+#X floatatom 320 197 8 0 0 0 - - -;
+#X msg 320 80 bang;
+#X text 187 243 - the number to take sinh of;
+#X text 187 263 - output sinh of stored value;
+#X obj 82 243 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 146 199 8 0 0 0 - - -;
+#X obj 146 99 / 100;
+#X floatatom 146 75 5 0 0 0 - - -;
+#X text 61 46 outputs the hyperbolic sine value of input float value.
+;
+#X text 187 303 - sinh of stored value;
+#X text 42 66 with input as;
+#X text 42 78 float value to;
+#X text 43 90 take cosh of;
+#X text 394 72 with bang button and;
+#X text 394 84 argument inside cosh;
+#X text 394 96 object;
+#X obj 320 143 cyclone/sinh 0.2;
+#X obj 146 144 cyclone/sinh 0.2;
+#X connect 16 0 31 0;
+#X connect 21 0 32 0;
+#X connect 22 0 21 0;
+#X connect 31 0 15 0;
+#X connect 32 0 20 0;

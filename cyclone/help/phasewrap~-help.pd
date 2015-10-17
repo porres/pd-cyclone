@@ -1,0 +1,94 @@
+#N canvas 513 79 558 480 10;
+#X obj 0 454 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 331 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 617 192 359 207 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 95 LIBRARY cyclone;
+#X text 0 76 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal wrap -pi pi phase;
+#X text 0 38 DESCRIPTION wrap a signal between -pi and pi;
+#X text 0 57 INLET_0 signal;
+#X text 2 115 VERSION 0.1-alpha57;
+#X text 2 133 AUTHOR Krzysztof Czaja;
+#X text 3 151 RELEASE_DATE 2002;
+#X text 4 170 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 4 202 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 456 pd META;
+#X obj 0 373 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 309 291 428 109 Related_objects 1;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 197 456 pd Related_objects;
+#X obj 80 343 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 384 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty phasewrap~ 3 12 0 18 -204280 -1
+0;
+#X obj 477 10 phasewrap~;
+#X text 12 23 wrap a signal between -pi and pi;
+#X obj 29 98 sig~;
+#X obj 29 73 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X obj 30 279 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X text 113 343 signal;
+#X text 178 343 - signal to wrap the phase;
+#X text 113 384 signal;
+#X text 178 384 - the wrapped signal;
+#X text 113 424 (none);
+#X text 20 54 modify the incoming signal;
+#X obj 29 174 cyclone/phasewrap~;
+#X obj 30 248 cyclone/Snapshot~ 100;
+#X text 93 270 wrapped output;
+#X text 24 295 (always in the range of -pi to pi);
+#X obj 277 103 *~ 1;
+#X obj 277 161 cyclone/phasewrap~;
+#X obj 312 216 metro 100;
+#X obj 293 217 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X floatatom 262 47 5 0 0 0 - - -;
+#X obj 277 70 osc~ 100;
+#X obj 275 288 output~;
+#X obj 276 262 *~ 0.3;
+#X obj 301 49 hsl 128 15 0 10 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 5100 1;
+#N canvas 867 510 430 300 view 0;
+#X text 44 194 The array is placed in a sub-patch to prevent audio
+dropouts;
+#X text 53 41 3.14;
+#X text 47 171 -3.14;
+#X obj 2 -13 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0
+;
+#X text 4 -11 Graph view;
+#X obj 85 45 hsl 195 140 0 127 0 0 GET_RID_OF_INLET GET_RID_OF_OUTLET
+empty -2 -8 0 10 -262144 -262144 -262144 15400 1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-phasewrap 1024 float 0;
+#X coords 0 3.14 1023 -3.14 200 140 1 0 0;
+#X restore 82 45 graph;
+#X restore 350 259 pd view waveform;
+#X obj 286 236 tabwrite~ \$0-phasewrap;
+#X connect 11 0 20 0;
+#X connect 12 0 11 0;
+#X connect 20 0 21 0;
+#X connect 21 0 13 0;
+#X connect 24 0 25 0;
+#X connect 25 0 31 0;
+#X connect 25 0 34 0;
+#X connect 26 0 34 0;
+#X connect 27 0 26 0;
+#X connect 29 0 24 0;
+#X connect 31 0 30 0;
+#X connect 31 0 30 1;
+#X connect 32 0 28 0;
+#X connect 32 0 24 1;

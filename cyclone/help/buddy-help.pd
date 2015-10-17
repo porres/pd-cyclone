@@ -1,0 +1,64 @@
+#N canvas 556 81 555 436 10;
+#X obj 0 407 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 266 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 293 470 399 278 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 0 KEYWORDS pass float numbers;
+#X text 1 36 DESCRIPTION pass numbers from inlet to outlet;
+#X text 1 72 OUTLET_N float;
+#X text 0 90 VERSION 0.1-alpha57;
+#X text 0 108 AUTHOR Krzysztof Czaja;
+#X text 1 126 RELEASE_DATE 2002;
+#X text 2 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 177 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 54 INLET_N float clear;
+#X restore 504 409 pd META;
+#X obj 0 323 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 360 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 78 483 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 29 Bucket;
+#X restore 215 409 pd Related_objects;
+#X obj 81 332 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty buddy 3 12 0 18 -204280 -1 0;
+#X text 94 374 1) float;
+#X floatatom 189 241 5 0 0 0 - - -;
+#X floatatom 232 241 5 0 0 0 - - -;
+#X floatatom 276 241 5 0 0 0 - - -;
+#X floatatom 189 93 5 0 0 0 - - -;
+#X floatatom 232 94 5 0 0 0 - - -;
+#X floatatom 276 94 5 0 0 0 - - -;
+#X msg 142 92 clear;
+#X text 112 278 float;
+#X text 166 279 - number to sync with other numbers;
+#X text 112 296 clear;
+#X text 166 297 - clear all stored values;
+#X text 166 333 - distributed all synced floats to outlets;
+#X text 166 374 - sets the number of inlets/outlets;
+#X obj 510 3 buddy;
+#X obj 81 278 cnv 17 3 34 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X text 34 49 Once buddy receives all input data \, it outputs that
+data in parallel simultaneously.;
+#X text 12 23 sync inputs when all inlets receive data;
+#X text 52 95 stored values;
+#X text 52 82 clear all;
+#X obj 189 168 cyclone/buddy 3;
+#X text 112 333 float;
+#X connect 12 0 28 0;
+#X connect 13 0 28 1;
+#X connect 14 0 28 2;
+#X connect 15 0 28 0;
+#X connect 28 0 9 0;
+#X connect 28 1 10 0;
+#X connect 28 2 11 0;

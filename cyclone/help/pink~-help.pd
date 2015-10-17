@@ -1,0 +1,57 @@
+#N canvas 623 80 559 466 10;
+#X obj 0 436 cnv 15 552 21 empty empty empty 20 12 0
+14 -233017 -33289 0;
+#X obj 0 217 cnv 3 550 3 empty empty inlets 8 12 0 13
+-228856 -1 0;
+#N canvas 617 269 359 201 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 95 LIBRARY cyclone;
+#X text 0 76 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal noise pink generator;
+#X text 0 38 DESCRIPTION pink noise generator;
+#X text 0 57 INLET_0 signal;
+#X text 0 114 VERSION 0.1-alpha57;
+#X text 0 132 AUTHOR Krzysztof Czaja;
+#X text 1 150 RELEASE_DATE 2002;
+#X text 2 169 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 201 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 438 pd META;
+#X obj 0 256 cnv 3 550 3 empty empty outlets 8 12 0
+13 -228856 -1 0;
+#X obj 0 296 cnv 3 550 3 empty empty arguments 8 12
+0 13 -228856 -1 0;
+#X obj 0 336 cnv 3 550 3 empty empty more_info 8 12
+0 13 -228856 -1 0;
+#N canvas 322 362 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0
+14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 206 438 pd Related_objects;
+#X obj 80 227 cnv 17 3 17 empty empty 0 5 9 0 16 -228856
+-162280 0;
+#X obj 80 268 cnv 17 3 17 empty empty 0 5 9 0 16 -228856
+-162280 0;
+#X obj 0 0 cnv 15 552 40 empty empty pink~ 3 12 0 18
+-204280 -1 0;
+#X text 111 227 signal;
+#X text 111 268 signal;
+#X text 111 308 (none);
+#X obj 508 9 pink~;
+#X text 12 23 Pink noise generator;
+#X text 194 227 - ignored;
+#X text 194 268 - pink noise;
+#X text 112 352 pink~ generates pink noise \, as distinguished from
+white noise (which the MSP object noise~ generates). White noise has
+constant spectral power per hertz of bandwidth \, while pink noise
+has constant power per octave. Subjectively \, pink noise sounds less
+hissy than white noise.;
+#X text 30 51 very simple to use \, pink~ generates pink noise (see
+below) and sends it through its outlet:;
+#X obj 120 168 output~;
+#X obj 120 100 cyclone/pink~;
+#X connect 20 0 19 0;
+#X connect 20 0 19 1;

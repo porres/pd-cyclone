@@ -1,0 +1,97 @@
+#N canvas 535 80 568 535 10;
+#X obj 0 638 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 349 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 587 176 387 341 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 160 LIBRARY cyclone;
+#X text 0 0 KEYWORDS smaller min minimum compare;
+#X text 0 40 DESCRIPTION output only numbers smaller than the previous
+;
+#X text 0 60 INLET_0 float bang list;
+#X text 0 80 INLET_1 float;
+#X text 0 120 OUTLET_1 bang;
+#X text 0 140 OUTLET_2 bang;
+#X text 0 100 OUTLET_0 float;
+#X text 0 180 VERSION 0.1-alpha57;
+#X text 0 198 AUTHOR Krzysztof Czaja;
+#X text 1 216 RELEASE_DATE 2002;
+#X text 2 235 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 267 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 640 pd META;
+#X obj 0 454 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 542 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 321 352 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 40 35 Peak;
+#X obj 77 34 minimum;
+#X obj 77 56 maximum;
+#X restore 210 640 pd Related_objects;
+#X obj 84 359 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 428 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Trough 3 12 0 18 -204280 -1 0
+;
+#X text 113 357 float;
+#X text 113 379 bang;
+#X text 113 401 list;
+#X obj 84 463 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 113 428 float;
+#X text 113 463 float;
+#X text 95 555 1) float;
+#X obj 84 488 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 513 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 12 23 output only numbers smaller than the previous;
+#X floatatom 107 63 5 0 0 0 - - -;
+#X floatatom 107 314 5 0 0 0 - - -;
+#X msg 160 84 4 4;
+#X msg 152 64 6 7;
+#X msg 168 104 3 2;
+#X msg 234 68 bang;
+#X floatatom 200 147 5 0 0 0 - - -;
+#X obj 153 315 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 200 315 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 501 11 Trough;
+#X text 113 488 float;
+#X text 113 513 float;
+#X obj 107 213 cyclone/Trough 4;
+#X text 95 616 minimum value is set;
+#X text 181 357 - value;
+#X text 181 379 - sends current minimum value out the left outlet;
+#X text 181 401 - 2nd sets new minimum value \, 1st is a value;
+#X text 181 428 - set new minimum value;
+#X text 181 463 - minimum value;
+#X text 181 488 - 0 = not a new minimum value \, 1 = new minimum value
+;
+#X text 181 513 - 0 = new minimum value \, 1 = not a new minimum value
+;
+#X text 181 555 - intial minimum value;
+#X obj 0 581 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 94 590 if value is not below minimum \, outlet 2 is banged.
+;
+#X text 94 603 if value is below minimum \, outlet 1 is banged and
+new;
+#X connect 19 0 31 0;
+#X connect 21 0 31 0;
+#X connect 22 0 31 0;
+#X connect 23 0 31 0;
+#X connect 24 0 31 0;
+#X connect 25 0 31 1;
+#X connect 31 0 20 0;
+#X connect 31 1 26 0;
+#X connect 31 2 27 0;

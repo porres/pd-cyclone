@@ -1,0 +1,95 @@
+#N canvas 506 79 568 531 10;
+#X obj 0 645 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 333 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 612 296 379 338 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 152 LIBRARY cyclone;
+#X text 0 0 KEYWORDS output peak max maximum;
+#X text 0 38 DESCRIPTION output only numbers greater than previous
+;
+#X text 0 57 INLET_0 float bang list;
+#X text 0 76 INLET_1 float;
+#X text 0 95 OUTLET_0 float;
+#X text 0 114 OUTLET_1 bang;
+#X text 0 133 OUTLET_2 bang;
+#X text 0 170 VERSION 0.1-alpha57;
+#X text 0 188 AUTHOR Krzysztof Czaja;
+#X text 1 206 RELEASE_DATE 2002;
+#X text 2 225 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 257 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 497 647 pd META;
+#X obj 0 438 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 534 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 309 471 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 21 31 Trough;
+#X obj 69 32 minimum;
+#X obj 69 52 maximum;
+#X restore 198 647 pd Related_objects;
+#X obj 81 342 cnv 17 3 59 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 410 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Peak 3 12 0 18 -204280 -1 0;
+#X obj 507 9 Peak;
+#X text 12 23 output only numbers greater than the previous;
+#X text 108 341 float;
+#X text 108 363 bang;
+#X text 108 385 list;
+#X obj 81 447 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 108 410 float;
+#X text 108 447 float;
+#X text 90 547 1) float;
+#X obj 81 472 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 497 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 70 64 5 0 0 0 - - -;
+#X floatatom 70 298 5 0 0 0 - - -;
+#X msg 92 107 4 4;
+#X msg 86 85 6 7;
+#X msg 105 152 bang;
+#X floatatom 151 153 5 0 0 0 - - -;
+#X obj 110 299 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 151 299 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 70 226 cyclone/Peak 4;
+#X msg 99 129 3 2;
+#X text 108 472 float;
+#X text 181 363 - sends current maximum value out the left outlet;
+#X text 181 410 - set new maximum value;
+#X text 181 547 - intial maximum value;
+#X text 181 472 - 0 = not a new maximum value \, 1 = new maximum value
+;
+#X text 181 385 - 2nd sets new maximum value \, 1st is a value;
+#X text 108 497 float;
+#X text 181 447 - maximum value;
+#X text 180 497 - 0 = new maximum value \, 1 = not a new maximum value
+;
+#X obj 0 577 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 181 341 - value checked against maximum;
+#X text 89 591 if a value is not above maximum \, outlet 2 is banged.
+;
+#X text 89 605 if the value is above maximum \, outlet 1 is banged
+and a new maximum is set;
+#X connect 20 0 28 0;
+#X connect 22 0 28 0;
+#X connect 23 0 28 0;
+#X connect 24 0 28 0;
+#X connect 25 0 28 1;
+#X connect 28 0 21 0;
+#X connect 28 1 26 0;
+#X connect 28 2 27 0;
+#X connect 29 0 28 0;

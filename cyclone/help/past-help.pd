@@ -1,0 +1,195 @@
+#N canvas 508 79 561 531 10;
+#X obj 0 504 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 237 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 981 323 494 275 META 0;
+#X text 0 90 OUTLET_0 bang;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 0 KEYWORDS control max_compatible;
+#X text 0 70 INLET_0 float message;
+#X text 0 127 VERSION 0.1-alpha57;
+#X text 0 145 AUTHOR Krzysztof Czaja;
+#X text 1 163 RELEASE_DATE 2002;
+#X text 2 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 109 LIBRARY cyclone;
+#X text 0 39 DESCRIPTION report when input increases beyond a certain
+number;
+#X restore 500 506 pd META;
+#X obj 0 344 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 392 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 323 350 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 208 506 pd Related_objects;
+#X obj 79 246 cnv 17 3 85 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 362 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty past 3 12 0 18 -204280 -1 0;
+#X obj 515 8 past;
+#X text 12 23 report when input increases beyond a certain number;
+#X obj 85 212 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X floatatom 85 63 5 0 0 0 - - -;
+#X msg 199 62 set 8;
+#X msg 128 84 clear;
+#X text 109 245 float;
+#X text 109 287 set x;
+#X text 109 308 clear;
+#X text 109 362 bang;
+#X text 91 406 1) float;
+#X text 180 406 - initial limit;
+#N canvas 595 668 432 369 weirdness 0;
+#X obj 70 243 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X floatatom 0 61 5 0 0 0 - - -;
+#X msg 70 61 set 10 20 30;
+#X obj 0 109 pack f f;
+#X obj 0 85 t f f;
+#X msg 114 104 20 30 40;
+#X msg 114 84 0 0 0;
+#X msg 114 124 40 20 wrdlbrnft;
+#X msg 324 79 11 22 33;
+#X obj 295 242 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X msg 295 55 0 0 0;
+#X msg 346 100 11 33;
+#X msg 360 120 33;
+#X text 22 294 > item is greater than (>) a corresponding threshold
+\, or if;
+#X text 23 306 > _all_ list elements are greater or equal (>=). That
+is how;
+#X text 23 318 > it looks like in Max but I might be wrong ...;
+#X text 22 282 > its list handling is weird indeed \, it bangs if _any_
+list;
+#X text 67 25 now theses are a bit strange:;
+#X text 23 265 this is a quote from an email Krzysztof Czaja sent:
+;
+#X obj 70 182 cyclone/past 2 5;
+#X obj 295 186 cyclone/past 10 20 30;
+#X obj -1 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0
+;
+#X text 2 4 different behaviour for floats and lists;
+#X connect 1 0 4 0;
+#X connect 2 0 19 0;
+#X connect 3 0 19 0;
+#X connect 4 0 3 0;
+#X connect 4 1 3 1;
+#X connect 5 0 19 0;
+#X connect 6 0 19 0;
+#X connect 7 0 19 0;
+#X connect 8 0 20 0;
+#X connect 10 0 20 0;
+#X connect 11 0 20 0;
+#X connect 12 0 20 0;
+#X connect 19 0 0 0;
+#X connect 20 0 9 0;
+#X restore 426 187 pd weirdness;
+#X obj 85 158 cyclone/past 4;
+#X obj 0 452 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 222 187 list behaviour is a bit strange:;
+#N canvas 382 388 731 634 diff 0;
+#X obj 362 389 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 411 72 10 20;
+#X obj 74 391 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 153 177 9 19 29;
+#X msg 103 52 10 20 30;
+#X msg 148 155 9 22 33;
+#X msg 161 263 33;
+#X msg 157 221 10 19 33;
+#X msg 419 94 11 19;
+#X msg 432 114 11 22;
+#X msg 454 171 9 19;
+#X msg 459 191 9 22;
+#X msg 464 212 10 19;
+#X msg 473 254 33;
+#X msg 447 151 9;
+#X text 502 82 these report;
+#X text 519 180 these don't;
+#X msg 124 74 10 22;
+#X msg 469 232 11 22 33;
+#X msg 160 242 10 20 30 40;
+#X text 176 63 these report;
+#X text 231 201 these don't;
+#X msg 309 359 clear;
+#X msg 17 351 clear;
+#X msg 154 198 10;
+#X obj 74 352 past 10 20 30;
+#X obj 362 356 past 10 20;
+#X msg 139 97 11 0 0;
+#X text 2 478 - all elements of the list are equal or greater than
+the argument list;
+#X text 3 506 - the list is shorter than the argument list \, but the
+elements are equal or greater than their argument counterpart;
+#X text 4 547 - the first element is greater than the first argument
+element. There must be one other element \, its value is ignored;
+#X text 2 590 The bang is not send if the list is larger that the argument
+list;
+#X text 364 453 The Max5 documentation states that an equal or greater
+value in all cases is reason to send a bang \, for ints \, float and
+all list elements. No information on smaller or larger lists.;
+#X text 0 451 The behaviour of Pd an dMax5 with lists is the same \,
+but not very consistent: the bang is send if:;
+#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 5 25;
+#X text 4 4 past - behaviour differences with Max5;
+#X connect 1 0 26 0;
+#X connect 3 0 25 0;
+#X connect 4 0 25 0;
+#X connect 5 0 25 0;
+#X connect 6 0 25 0;
+#X connect 7 0 25 0;
+#X connect 8 0 26 0;
+#X connect 9 0 26 0;
+#X connect 10 0 26 0;
+#X connect 11 0 26 0;
+#X connect 12 0 26 0;
+#X connect 13 0 26 0;
+#X connect 14 0 26 0;
+#X connect 17 0 25 0;
+#X connect 18 0 26 0;
+#X connect 19 0 25 0;
+#X connect 22 0 26 0;
+#X connect 23 0 25 0;
+#X connect 24 0 25 0;
+#X connect 25 0 23 0;
+#X connect 25 0 2 0;
+#X connect 26 0 22 0;
+#X connect 26 0 0 0;
+#X connect 27 0 25 0;
+#X restore 426 209 pd diff with Max5;
+#X obj 128 62 spigot;
+#X obj 172 62 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 109 265 list;
+#X text 91 434 n) list;
+#X text 180 434 - initial list of limits;
+#X text 105 420 or;
+#X text 180 362 - bang if input number is more than limit or list or
+limits;
+#X text 180 308 - reset the 'past' state \, so a next matching float
+or list will send a bang;
+#X text 180 287 - set the new limit to x. x is a float or list of floats
+;
+#X text 180 265 - list of floats to check if past limit;
+#X text 181 246 - float to check if past limit;
+#X text 93 469 The behaviour with floats and lists is consistent with
+the Max implementation \, but not the Max5 documentation;
+#X connect 12 0 22 0;
+#X connect 13 0 22 0;
+#X connect 14 0 22 0;
+#X connect 22 0 11 0;
+#X connect 22 0 26 0;
+#X connect 26 0 14 0;
+#X connect 27 0 26 1;

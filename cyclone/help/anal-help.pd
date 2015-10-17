@@ -1,0 +1,76 @@
+#N canvas 551 81 558 532 10;
+#X obj 0 505 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 1 293 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 680 328 424 288 META 0;
+#X text 1 101 LIBRARY cyclone;
+#X text 0 122 VERSION 0.1-alpha57;
+#X text 1 142 AUTHOR Krzysztof Czaja;
+#X text 1 162 RELEASE_DATE 2002;
+#X text 2 179 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 209 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 0 0 KEYWORDS control storage max_compatible;
+#X text 0 60 INLET_0 float clear reset;
+#X text 0 80 OUTLET_0 list;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 40 DESCRIPTION generates a histogram of number pairs received
+;
+#X restore 500 509 pd META;
+#X obj 0 364 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 456 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 132 486 428 85 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 29 +;
+#X obj 38 29 *;
+#X obj 8 50 cyclone/Histo;
+#X restore 196 508 pd Related_objects;
+#X obj 1 0 cnv 15 552 40 empty empty anal 3 12 0 18 -204280 -1 0;
+#X text 99 301 float;
+#X text 82 469 1) float;
+#X obj 79 374 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 303 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 510 6 anal;
+#X msg 202 56 clear;
+#X msg 203 77 reset;
+#X msg 99 56 1;
+#X msg 128 56 2;
+#X msg 155 56 3;
+#X floatatom 99 270 5 0 0 0 - - -;
+#X floatatom 133 256 5 0 0 0 - - -;
+#X obj 99 216 unpack f f f;
+#X floatatom 168 241 5 0 0 0 - - -;
+#X text 99 320 message;
+#X text 174 303 - numbers to be analysed;
+#X text 99 376 list;
+#X text 174 376 - The list contains three floats:;
+#X text 187 404 2 - the lastest received number;
+#X obj 46 216 print;
+#X text 187 418 3 - the times the last two number are received in combination
+;
+#X text 187 390 1 - the number received before the latest;
+#X obj 99 166 cyclone/anal 32;
+#X text 174 469 - initialises the size of the number pair array. 128
+is the default 1024 is max;
+#X text 12 21 generates a histogram of number pairs received;
+#X text 174 322 - "clear" clears all numbers \,;
+#X text 186 336 "reset" removes last two numbers;
+#X connect 12 0 29 0;
+#X connect 13 0 29 0;
+#X connect 14 0 29 0;
+#X connect 15 0 29 0;
+#X connect 16 0 29 0;
+#X connect 19 0 17 0;
+#X connect 19 1 18 0;
+#X connect 19 2 20 0;
+#X connect 29 0 19 0;
+#X connect 29 0 26 0;

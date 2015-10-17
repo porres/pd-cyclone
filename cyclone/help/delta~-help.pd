@@ -1,0 +1,101 @@
+#N canvas 617 84 559 487 10;
+#X obj 0 458 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 1 340 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 605 277 362 257 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 113 LIBRARY cyclone;
+#X text 0 73 INLET_0 signal;
+#X text 0 93 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal delta transform sample;
+#X text 0 40 DESCRIPTION transform signal into difference between successive
+samples;
+#X text 0 133 VERSION 0.1-alpha57;
+#X text 0 151 AUTHOR Krzysztof Czaja;
+#X text 1 169 RELEASE_DATE 2002;
+#X text 2 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 220 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 460 pd META;
+#X obj 1 382 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 1 419 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 85 351 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 1 0 cnv 15 552 40 empty empty delta~ 3 12 0 18 -204280 -1 0
+;
+#X text 116 351 signal;
+#X obj 85 391 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 116 391 signal;
+#N canvas 593 521 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 13 33 clip~;
+#X obj 56 33 -~;
+#X obj 87 33 +~;
+#X restore 197 460 pd Related_objects;
+#X obj 504 2 delta~;
+#X floatatom 138 259 0 0 0 0 - - -;
+#X text 179 351 - signal to transform;
+#X text 179 391 - transformed signal signal;
+#X text 116 430 (none);
+#X text 13 23 Transform signal into difference between successive samples
+;
+#X text 135 58 what's the increment between;
+#X text 135 70 succesive samples of a line?;
+#X obj 138 180 cyclone/delta~;
+#X obj 91 200 vsl 15 128 0 5000 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 115 316 cyclone/Snapshot~ 100;
+#X obj 138 237 cyclone/Snapshot~ 100;
+#X obj 141 295 hsl 128 15 -0.05 0.05 0 0 empty empty empty -2 -8 0
+10 -262144 -1 -1 6350 1;
+#X text 200 279 0;
+#X text 261 278 0.05;
+#X text 125 277 -0.05;
+#X msg 118 94 0 \, 5000 5000 0 2500 5000 4000 0 3000;
+#X obj 138 122 cyclone/Line~;
+#N canvas 641 482 436 340 new 0;
+#X obj 232 140 *~ 50;
+#X obj 232 88 phasor~ 2.003;
+#X obj 232 167 +~ 440;
+#X obj 84 167 *~ 200000;
+#X obj 84 190 +~ 440;
+#X obj 84 57 phasor~ 2;
+#X obj 84 81 cos~;
+#X text 233 71 "(ambulance)";
+#X obj 85 262 output~;
+#X obj 84 120 cyclone/delta~;
+#X obj 232 192 cyclone/cycle~;
+#X obj 232 113 cos~;
+#X obj 84 213 cyclone/cycle~;
+#X obj 3 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 4 6 Proposal for a new ambulance siren;
+#X connect 0 0 2 0;
+#X connect 1 0 11 0;
+#X connect 2 0 10 0;
+#X connect 3 0 4 0;
+#X connect 4 0 12 0;
+#X connect 5 0 6 0;
+#X connect 6 0 9 0;
+#X connect 9 0 3 0;
+#X connect 10 0 8 1;
+#X connect 10 0 8 0;
+#X connect 11 0 0 0;
+#X connect 12 0 8 0;
+#X connect 12 0 8 1;
+#X restore 398 244 pd new ambulance siren;
+#X obj 519 304 dspSwitch~;
+#X connect 12 0 23 0;
+#X connect 19 0 22 0;
+#X connect 21 0 20 0;
+#X connect 22 0 12 0;
+#X connect 27 0 28 0;
+#X connect 28 0 19 0;
+#X connect 28 0 21 0;

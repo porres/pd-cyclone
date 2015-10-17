@@ -1,0 +1,65 @@
+#N canvas 620 81 558 460 10;
+#X obj 0 429 cnv 15 552 21 empty empty empty 20 12 0
+14 -233017 -33289 0;
+#X obj 0 189 cnv 3 550 3 empty empty inlets 8 12 0 13
+-228856 -1 0;
+#N canvas 574 330 356 236 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 113 LIBRARY cyclone;
+#X text 0 0 KEYWORDS signal frame phase deviation accumulated;
+#X text 0 40 DESCRIPTION computes running phase of successive phase
+deviation frames;
+#X text 0 73 INLET_0 signal;
+#X text 0 93 OUTLET_0 signal;
+#X text 0 134 VERSION 0.1-alpha57;
+#X text 0 152 AUTHOR Krzysztof Czaja;
+#X text 1 170 RELEASE_DATE 2002;
+#X text 2 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 498 431 pd META;
+#X obj 0 233 cnv 3 550 3 empty empty outlets 8 12 0
+13 -228856 -1 0;
+#X obj 0 276 cnv 3 550 3 empty empty arguments 8 12
+0 13 -228856 -1 0;
+#X obj 0 315 cnv 3 550 3 empty empty more_info 8 12
+0 13 -228856 -1 0;
+#N canvas 275 455 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0
+14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 10 29 count~;
+#X obj 58 29 framedelta~;
+#X restore 202 431 pd Related_objects;
+#X obj 83 201 cnv 17 3 17 empty empty 0 5 9 0 16 -228856
+-162280 0;
+#X obj 83 242 cnv 17 3 17 empty empty 0 5 9 0 16 -228856
+-162280 0;
+#X obj 0 0 cnv 15 552 40 empty empty frameaccum~ 3 12
+0 18 -204280 -1 0;
+#X obj 477 6 frameaccum~;
+#X obj 88 147 Snapshot~ 100;
+#X obj 88 170 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 14349 256;
+#X obj 88 60 sig~ 1;
+#X text 114 200 signal;
+#X text 183 200 - incoming signal vector;
+#X text 114 242 signal;
+#X text 183 238 - accumulated running phase of successive phase derivation
+frames;
+#X text 113 289 (none);
+#X text 85 343 frameaccum~ accumulates each of the values of the previous
+input signal vector from those of the current vector;
+#X text 85 371 so \, when used in the context of a pfft~ patch (where
+the FFT frame is the vector size) it can be used to compute the running
+phase;
+#X text 12 23 computes running phase of successive phase deviation
+frames;
+#X obj 88 104 cyclone/frameaccum~;
+#X obj 519 154 dspSwitch~;
+#X connect 11 0 12 0;
+#X connect 13 0 22 0;
+#X connect 22 0 11 0;

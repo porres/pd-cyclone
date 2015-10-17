@@ -1,0 +1,78 @@
+#N canvas 502 79 559 512 10;
+#X obj 0 485 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 313 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 616 303 358 235 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 0 KEYWORDS toggle edge transition zero non-zero nz;
+#X text 0 40 DESCRIPTION report zero / non-zero transitions;
+#X text 0 60 INLET_0 float bang list;
+#X text 0 80 OUTLET_0 bang;
+#X text 0 100 OUTLET_1 bang;
+#X text 0 143 VERSION 0.1-alpha57;
+#X text 0 161 AUTHOR Krzysztof Czaja;
+#X text 1 179 RELEASE_DATE 2002;
+#X text 2 198 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 230 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 499 487 pd META;
+#X obj 0 378 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 442 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 308 426 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 194 487 pd Related_objects;
+#X obj 79 324 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 387 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty TogEdge 3 12 0 18 -204280 -1 0
+;
+#X obj 494 10 TogEdge;
+#X floatatom 199 67 5 0 0 0 - - -;
+#X obj 223 142 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X msg 219 115 1;
+#X text 109 323 float;
+#X text 160 323 - number to input \, check for transitions;
+#X text 109 343 bang;
+#X text 106 454 (none);
+#X obj 79 413 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 109 387 bang;
+#X text 109 413 bang;
+#X text 12 23 report zero / non-zero transitions;
+#X obj 161 89 - 3;
+#X floatatom 161 111 5 0 0 0 - - -;
+#X obj 199 215 cyclone/TogEdge;
+#X msg 218 90 0;
+#X obj 86 68 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 87 50 -3;
+#X text 135 50 0;
+#X text 180 50 3;
+#X obj 199 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 286 289 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 160 343 - switch 0 to non-0 transition;
+#X text 160 413 - non-zero to zero transition detected;
+#X text 160 386 - zero to non-zero transition detected;
+#X text 303 288 nz -> 0;
+#X text 216 287 0 -> nz;
+#X connect 10 0 23 0;
+#X connect 11 0 23 0;
+#X connect 12 0 23 0;
+#X connect 21 0 22 0;
+#X connect 21 0 23 0;
+#X connect 23 0 29 0;
+#X connect 23 1 30 0;
+#X connect 24 0 23 0;
+#X connect 25 0 21 0;

@@ -1,0 +1,100 @@
+#N canvas 506 79 556 531 10;
+#X obj 0 0 cnv 15 552 40 empty empty prepend 3 12 0 18 -204280 -1 0
+;
+#X obj 0 325 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 427 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 464 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 79 436 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 339 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 505 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 246 345 428 75 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 28 abs~;
+#X restore 206 507 pd Related_objects;
+#N canvas 571 307 379 261 META 0;
+#X text 1 163 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 121 AUTHOR Krzysztof Czaja;
+#X text 1 20 LICENSE SIBSD;
+#X text 0 101 VERSION 0.1-alpha57;
+#X text 0 142 RELEASE_DATE 2002;
+#X text 1 193 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 0 KEYWORDS signal max_compatible anything_op;
+#X text 1 40 DESCRIPTION prepend a message with another message;
+#X text 1 60 INLET_0 bang float list anything set;
+#X text 1 80 OUTLET_0 list;
+#X restore 502 507 pd META;
+#X text 8 23 prepend a message with another message;
+#X obj 498 4 prepend;
+#X msg 123 101 set a quick brown fox;
+#X msg 159 129 jumps;
+#X text 63 73 1;
+#X text 109 100 2;
+#X text 140 130 3;
+#X obj 134 185 prepend typewriters;
+#X msg 80 71 are boring;
+#X obj 134 215 prepend set;
+#X text 264 101 "set" changes what to prepend;
+#X msg 134 242 a quick brown fox;
+#N canvas 1082 449 432 330 extended 0;
+#X text 17 28 This object also has a non-Max/MSP behavior (although
+it is still compatible with the Max/MSP prepend). If [prepend] is created
+without an argument \, then it has a right inlet. This right inlet
+allows you to set what to prepend:;
+#X msg 82 119 set a quick brown fox;
+#X msg 126 145 jumps;
+#X text 24 96 1;
+#X text 66 119 2;
+#X text 107 146 3;
+#X msg 41 94 are boring;
+#X obj 132 273 prepend set;
+#X msg 132 300 typewriters asdf;
+#X msg 201 182 typewriters;
+#X obj 132 248 prepend;
+#X msg 171 182 234;
+#X msg 282 182 symbol people;
+#X msg 282 204 list this is a list;
+#X msg 282 228 this is not;
+#X text 227 118 now the "set" is passed thru;
+#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 4 Extra non-Max functionality;
+#X connect 1 0 10 0;
+#X connect 2 0 10 0;
+#X connect 6 0 10 0;
+#X connect 7 0 8 0;
+#X connect 9 0 10 1;
+#X connect 10 0 7 0;
+#X connect 11 0 10 1;
+#X connect 12 0 10 1;
+#X connect 13 0 10 1;
+#X connect 14 0 10 1;
+#X restore 360 290 pd extended behaviour;
+#X text 107 339 bang;
+#X text 107 353 float;
+#X text 107 367 list;
+#X text 108 381 anything;
+#X text 108 406 set m;
+#X text 162 339 - same as anything (the message and 'bang');
+#X text 162 353 - same as anything;
+#X text 162 367 - same as anything;
+#X text 163 381 - the message in prepend weill be send with the value
+attached;
+#X text 163 406 the message m will replace the message in prepend;
+#X text 160 436 - the 'message' + anything;
+#X text 107 436 list;
+#X text 96 473 the default message;
+#X connect 11 0 16 0;
+#X connect 12 0 16 0;
+#X connect 16 0 18 0;
+#X connect 17 0 16 0;
+#X connect 18 0 20 0;

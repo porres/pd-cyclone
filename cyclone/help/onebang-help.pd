@@ -1,0 +1,62 @@
+#N canvas 508 79 558 422 10;
+#X obj 0 395 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 243 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 618 192 359 241 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 0 KEYWORDS bang filter traffic control;
+#X text 0 40 DESCRIPTION traffic control for bang messages;
+#X text 0 80 INLET_1 bang;
+#X text 0 60 INLET_0 bang;
+#X text 0 100 OUTLET_0 bang;
+#X text 0 139 VERSION 0.1-alpha57;
+#X text 0 157 AUTHOR Krzysztof Czaja;
+#X text 1 175 RELEASE_DATE 2002;
+#X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 397 pd META;
+#X obj 0 311 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 348 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 312 321 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 192 397 pd Related_objects;
+#X obj 80 252 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 285 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty onebang 3 12 0 18 -204280 -1 0
+;
+#X obj 496 9 onebang;
+#X text 12 23 traffic control for bang messages;
+#X text 112 252 bang;
+#X obj 93 82 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 93 196 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X obj 192 83 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 180 252 - only gets through if bang was previously received
+in the right inlet;
+#X obj 80 320 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 112 285 bang;
+#X text 180 285 - regulates bangs passed through inlet 0;
+#X text 112 320 bang;
+#X text 94 364 1) float;
+#X text 180 364 - nonzero arg allows the first bang on inlet 0 to pass
+;
+#X obj 93 142 cyclone/onebang 1;
+#X text 180 320 - only passes if inlet 0 receives bang after inlet
+1;
+#X connect 12 0 22 0;
+#X connect 14 0 22 1;
+#X connect 22 0 13 0;

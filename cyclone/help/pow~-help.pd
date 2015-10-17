@@ -1,0 +1,122 @@
+#N canvas 503 79 567 530 10;
+#X obj 0 715 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 464 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 596 304 385 244 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 114 LIBRARY cyclone;
+#X text 0 95 OUTLET_0 signal;
+#X text 0 76 INLET_1 flaot signal;
+#X text 0 0 KEYWORDS signal power exponent base;
+#X text 0 38 DESCRIPTION take base to the exponent power using signals
+;
+#X text 0 57 INLET_0 signal;
+#X text 0 134 VERSION 0.1-alpha57;
+#X text 0 152 AUTHOR Krzysztof Czaja;
+#X text 1 170 RELEASE_DATE 2002;
+#X text 2 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 504 717 pd META;
+#X obj 0 546 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 583 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 623 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 328 438 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 209 717 pd Related_objects;
+#X obj 82 473 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 500 cnv 17 3 35 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty pow~ 3 12 0 18 -204280 -1 0;
+#X obj 515 8 pow~;
+#X text 12 23 Take base to the exponent power using signals;
+#X text 108 473 signal;
+#X text 182 473 - signal to take to exponent power;
+#X obj 82 557 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 108 500 float;
+#X text 108 519 signal;
+#X text 182 509 - base of power function;
+#X text 108 556 signal;
+#X text 182 556 - output of power function;
+#X text 90 595 1) float;
+#X text 182 595 - set intial power (default 0);
+#X obj 314 316 *~ 0.2;
+#X msg 314 107 -7 \, 1 1500 -1 1500 -7 300;
+#X obj 383 155 sig~ 2;
+#X obj 32 59 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 32 379 *~;
+#X obj 32 313 *~ 440;
+#X msg 32 102 -1 \, 1 3000;
+#X text 44 331 result goes from 220 to 880 Hz;
+#X text 104 103 pitch glissando;
+#X text 54 60 click to hear something;
+#X text 115 638 pow~ is useful for generating curves from line~. In
+the example above \, pow~ with an argument 2 (for 2 to the exponent
+specified by the input signal) is used to generate a pitch glissando.
+;
+#X text 345 232 base can be a signal or float;
+#X obj 33 414 output~;
+#X obj 130 396 metro 100;
+#X obj 111 397 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 124 205 optional argument determines;
+#X text 124 218 the base of the power function.;
+#X text 125 230 Default is 0;
+#X obj 33 219 cyclone/pow~ 2;
+#X obj 314 216 cyclone/pow~;
+#X obj 314 133 cyclone/Line~ -7;
+#X obj 32 124 cyclone/Line~ -1;
+#X text 296 74 amplitude envelope. 2 to the -7 doesn't;
+#X text 296 86 completely shut off the signal...;
+#X obj 32 350 cyclone/cycle~;
+#N canvas 955 535 450 300 view_wave 0;
+#X obj 0 -11 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0
+;
+#X obj 81 60 hsl 195 140 0 127 0 0 eliminate_outlet eliminate_inlet
+empty -2 -8 0 10 -262144 -262144 -262144 0 1;
+#X text 59 54 1;
+#X text 52 183 -1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-pow1 1024 float 0;
+#X coords 0 0.5 1023 -0.5 200 140 1 0 0;
+#X restore 78 60 graph;
+#X text 52 225 The array is placed in a sub-patch to prevent audio
+dropouts;
+#X text 4 -11 View graph;
+#X restore 115 439 pd view_wave;
+#X obj 313 348 cyclone/Snapshot~ 100;
+#X floatatom 313 376 5 0 0 0 - - -;
+#X obj 350 377 hsl 128 15 0 0.5 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 40 1;
+#X obj 113 417 tabwrite~ \$0-pow1;
+#X connect 22 0 26 1;
+#X connect 22 0 48 0;
+#X connect 23 0 42 0;
+#X connect 24 0 41 1;
+#X connect 25 0 28 0;
+#X connect 25 0 23 0;
+#X connect 26 0 34 0;
+#X connect 26 0 34 1;
+#X connect 26 0 51 0;
+#X connect 27 0 46 0;
+#X connect 28 0 43 0;
+#X connect 35 0 51 0;
+#X connect 36 0 35 0;
+#X connect 40 0 27 0;
+#X connect 41 0 22 0;
+#X connect 42 0 41 0;
+#X connect 43 0 40 0;
+#X connect 46 0 26 0;
+#X connect 48 0 49 0;
+#X connect 48 0 50 0;

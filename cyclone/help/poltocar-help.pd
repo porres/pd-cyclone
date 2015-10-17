@@ -1,0 +1,110 @@
+#N canvas 507 79 570 530 10;
+#X obj 0 565 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 396 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 581 338 396 262 META 0;
+#X text 1 19 LICENSE SIBSD;
+#X text 1 133 LIBRARY cyclone;
+#X text 1 0 KEYWORDS polar cartesian conversion coordinate graph;
+#X text 1 38 DESCRIPTION polar to cartesian conversion;
+#X text 1 57 INLET_0 float;
+#X text 1 76 INLET_1 float;
+#X text 1 114 OUTLET_1 float;
+#X text 1 95 OUTLET_1 float;
+#X text 0 153 VERSION 0.1-alpha57;
+#X text 0 171 AUTHOR Krzysztof Czaja;
+#X text 1 189 RELEASE_DATE 2002;
+#X text 2 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 567 pd META;
+#X obj 0 460 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 524 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 327 447 428 153 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 30 cyclone/cartopol;
+#X restore 212 568 pd Related_objects;
+#X obj 82 409 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty poltocar 3 12 0 18 -204280 -1
+0;
+#X obj 82 433 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 111 409 float;
+#X text 184 470 - real part of argument;
+#X text 111 433 float;
+#X text 184 495 - imaginary part of argument;
+#X obj 82 470 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 495 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 111 470 float;
+#X text 111 495 float;
+#X text 184 409 - amplitude;
+#X text 184 433 - phase;
+#X text 116 537 (none);
+#X obj 487 8 poltocar;
+#X text 13 23 polar to cartesian conversion;
+#X floatatom 173 150 5 0 0 0 amplitude-> - -;
+#X floatatom 239 112 5 0 0 1 <-phase - -;
+#X floatatom 173 238 5 0 0 0 real-> - -;
+#X floatatom 266 238 5 0 0 1 <-imaginary - -;
+#X obj 177 320 hsl 128 15 -1 1 0 0 empty empty x-axis 133 7 1 10 -262144
+-1 -1 8792 1;
+#X obj 233 261 vsl 15 128 -1 1 0 0 empty empty y-axis -6 -9 1 10 -262144
+-1 -1 8643 1;
+#X obj 239 130 t b f;
+#X obj 176 61 hsl 128 15 -1 1 0 0 empty empty amplitude 6 7 1 10 -261681
+-1 -1 9700 1;
+#X obj 242 88 hsl 128 15 0 6.28318 0 0 empty empty phase 7 7 1 10 -225280
+-1 -1 1651 1;
+#X text 376 86 (0 to 2pi);
+#N canvas 890 213 429 300 mosc 0;
+#X obj 215 259 outlet;
+#X obj 215 120 f;
+#X obj 243 120 + 1;
+#X floatatom 236 146 5 0 0 0 - - -;
+#X msg 177 87 0;
+#X obj 215 53 inlet;
+#X obj 215 216 * 6.28319;
+#X obj 215 85 metro 100;
+#X floatatom 174 217 5 0 0 0 - - -;
+#X obj 148 147 moses 99;
+#X obj 215 194 / 100;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 4 5 complex message oscillator;
+#X connect 1 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 9 0;
+#X connect 1 0 10 0;
+#X connect 2 0 1 1;
+#X connect 4 0 1 0;
+#X connect 5 0 7 0;
+#X connect 6 0 8 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 9 1 4 0;
+#X connect 10 0 6 0;
+#X restore 325 67 pd mosc;
+#X obj 325 50 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 173 187 cyclone/poltocar;
+#X connect 22 0 34 0;
+#X connect 23 0 28 0;
+#X connect 24 0 27 0;
+#X connect 25 0 26 0;
+#X connect 28 0 22 0;
+#X connect 28 1 34 1;
+#X connect 29 0 22 0;
+#X connect 30 0 23 0;
+#X connect 32 0 30 0;
+#X connect 33 0 32 0;
+#X connect 34 0 24 0;
+#X connect 34 1 25 0;

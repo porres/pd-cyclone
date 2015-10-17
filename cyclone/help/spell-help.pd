@@ -1,0 +1,57 @@
+#N canvas 622 80 561 392 10;
+#X obj 0 365 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 244 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 583 213 379 219 META 0;
+#X text 1 19 LICENSE SIBSD;
+#X text 1 95 LIBRARY cyclone;
+#X text 1 0 KEYWORDS ascii values convert;
+#X text 1 38 DESCRIPTION convert input to ascii values;
+#X text 1 57 INLET_0 list;
+#X text 1 76 OUTLET_0 list;
+#X text 0 116 VERSION 0.1-alpha57;
+#X text 0 134 AUTHOR Krzysztof Czaja;
+#X text 1 152 RELEASE_DATE 2002;
+#X text 2 171 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 203 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 367 pd META;
+#X obj 0 282 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 319 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 433 320 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 104 26 key;
+#X obj 105 48 keyup;
+#X obj 5 27 cyclone/sprintf;
+#X restore 200 367 pd Related_objects;
+#X obj 80 253 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 291 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty spell 3 12 0 18 -204280 -1 0;
+#X obj 506 9 spell;
+#X text 12 23 convert input to ascii values;
+#X text 119 253 list;
+#X text 119 291 list;
+#X text 180 291 - ascii values of data from inlet;
+#X obj 170 217 print spell;
+#X msg 170 49 63;
+#X msg 188 90 t h i s;
+#X msg 182 69 34 45;
+#X msg 192 112 or that;
+#X text 117 332 (none);
+#X text 180 253 - list of any numbers \, text \, etc to convert to
+ascii;
+#X obj 170 167 cyclone/spell;
+#X connect 15 0 21 0;
+#X connect 16 0 21 0;
+#X connect 17 0 21 0;
+#X connect 18 0 21 0;
+#X connect 21 0 14 0;

@@ -1,0 +1,71 @@
+#N canvas 618 82 556 460 10;
+#X obj 0 433 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 266 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 594 208 385 259 META 0;
+#X text 1 19 LICENSE SIBSD;
+#X text 1 127 LIBRARY cyclone;
+#X text 1 89 OUTLET_0 signal;
+#X text 1 70 INLET_0 signal float;
+#X text 1 0 KEYWORDS signal samples sample ms milliseconds convert
+;
+#X text 1 108 OUTLET_1 float;
+#X text 1 38 DESCRIPTION convert nummber of samples at sampling rate
+to milliseconds;
+#X text 0 145 VERSION 0.1-alpha57;
+#X text 0 163 AUTHOR Krzysztof Czaja;
+#X text 1 181 RELEASE_DATE 2002;
+#X text 2 200 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 232 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 504 435 pd META;
+#X obj 0 325 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 388 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 316 355 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 201 435 pd Related_objects;
+#X obj 79 275 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 360 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty sampstoms~ 3 12 0 18 -204280 -1
+0;
+#X obj 477 10 sampstoms~;
+#X text 106 274 float;
+#X text 106 294 signal;
+#X text 106 334 signal;
+#X msg 292 71 0 \, 44100 3000;
+#X floatatom 292 241 0 0 0 0 - - -;
+#X floatatom 137 233 0 0 0 0 - - -;
+#X floatatom 32 83 0 0 0 0 - - -;
+#X text 106 399 (none);
+#X text 106 360 float;
+#X obj 78 334 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 270 44 or convert signal values:;
+#X text 12 23 Convert number of samples at sampling rate to milliseconds
+;
+#X text 13 44 Use as a calculator;
+#X text 13 57 or for float parameters:;
+#X obj 32 160 cyclone/sampstoms~;
+#X obj 292 162 cyclone/sampstoms~;
+#X obj 292 96 cyclone/Line~;
+#X obj 292 219 cyclone/Snapshot~ 100;
+#X obj 518 229 dspSwitch~;
+#X text 179 274 - duration in samples;
+#X text 179 360 - duration in ms;
+#X text 179 294 - duration in samples;
+#X text 179 334 - duration in ms;
+#X connect 13 0 26 0;
+#X connect 16 0 24 0;
+#X connect 24 1 15 0;
+#X connect 25 0 27 0;
+#X connect 26 0 25 0;
+#X connect 27 0 14 0;

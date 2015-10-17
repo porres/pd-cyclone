@@ -1,0 +1,148 @@
+#N canvas 557 81 570 530 10;
+#X obj 0 701 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 391 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 328 331 433 291 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 113 LIBRARY cyclone;
+#X text 1 73 INLET_0 signal;
+#X text 1 93 OUTLET_0 signal;
+#X text 1 40 DESCRIPTION performs bitwise boolean operations on a floating
+point signal as bits or as a float.;
+#X text 1 0 KEYWORDS bitwise bit boolean signal shift;
+#X text 0 132 VERSION 0.1-alpha57;
+#X text 0 150 AUTHOR Krzysztof Czaja;
+#X text 1 168 RELEASE_DATE 2002;
+#X text 2 187 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 219 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 703 pd META;
+#X obj 0 488 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 525 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 114 517 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 7 74 cyclone/bitnot~;
+#X obj 7 53 cyclone/bitor~;
+#X obj 6 31 cyclone/bitand~;
+#X restore 216 703 pd Related_objects;
+#X obj 77 497 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 549 40 empty empty bitshift~ 3 12 0 18 -204280 -1
+0;
+#X text 113 497 signal;
+#X text 113 403 signal;
+#X floatatom 120 121 0 0 0 0 - - -;
+#X msg 120 141 shift \$1;
+#X obj 64 271 clip~ -1 1;
+#X obj 65 97 cycle~ 440;
+#X text 168 559 - modes \; mode 0: treat floating point signal input
+as raw 32 bit value \; mode 1: convert floating point signal input
+to integer \;;
+#X text 94 560 2) float;
+#X text 95 535 1) shift;
+#X text 168 534 - number of bits to shift;
+#X text 168 404 - signal to bitshift \, can be treated as signal of
+bits or signal as float/int;
+#X text 168 497 - output of signal bit shifted;
+#X obj 486 3 bitshift~;
+#X text 19 52 Works on floating point signal as bits or as an integer:
+;
+#X obj 77 405 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 113 432 message;
+#X text 169 434 - mode: "mode 0" bitshifts the float \, "mode 1" converts
+it to int and bitshifts that.;
+#X text 167 461 - shift: specifies the number and direction of the
+shift;
+#X obj 65 319 output~;
+#X obj 166 298 env~ 8192;
+#X floatatom 166 329 5 0 0 0 - - -;
+#X obj 65 202 cyclone/bitshift~ 8 1;
+#X obj 0 624 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 64 121 *~ 1000;
+#X obj 64 246 /~ 1000;
+#X text 95 665 Make sure the input level is high enough to remain meaningful
+when converted to int and back.;
+#X text 95 635 Mode 0 can result in NaN values \, which are not properly
+attenuated. Beware your audio volume!;
+#X obj 277 194 tabwrite~ \$0-bitshift;
+#X text 266 222 1;
+#X text 262 352 -1;
+#X obj 282 227 hsl 195 140 0 127 0 0 get_rid_of_outlet get_rid_of_inlet
+empty -2 -8 0 10 -262144 -262144 -262144 0 1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0-bitshift 1024 float 1;
+#A 0 -0.06 -0.312 -0.56 -0.808 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -0.956 -0.712 -0.464 -0.212 0.032 0.284 0.532
+0.78 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 0.984 0.74 0.492 0.244 -0.004 -0.256 -0.504 -0.752
+-0.996 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.768
+-0.52 -0.272 -0.02 0.228 0.476 0.724 0.968 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.796 0.548
+0.3 0.048 -0.2 -0.448 -0.696 -0.94 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -0.824 -0.576 -0.328 -0.076 0.168 0.42 0.668
+0.912 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 0.852 0.604 0.356 0.104 -0.14 -0.392 -0.64 -0.888
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.88 -0.632
+-0.384 -0.132 0.112 0.364 0.612 0.86 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.908 0.66 0.412
+0.164 -0.084 -0.336 -0.584 -0.832 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -0.936 -0.688 -0.44 -0.192 0.056 0.308 0.556
+0.804 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 0.964 0.716 0.468 0.22 -0.028 -0.276 -0.528 -0.776
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.988 -0.744
+-0.496 -0.248 0 0.248 0.5 0.748 0.992 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.772 0.524 0.276
+0.024 -0.22 -0.472 -0.72 -0.964 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -0.8 -0.552 -0.304 -0.056 0.192 0.444 0.692 0.936
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 0.828 0.584 0.332 0.084 -0.164 -0.416 -0.664 -0.908
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.856 -0.612
+-0.36 -0.112 0.136 0.384 0.636 0.88 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.884 0.64 0.388
+0.14 -0.108 -0.356 -0.608 -0.852 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -0.912 -0.668 -0.42 -0.168 0.08 0.328 0.58 0.824
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 0.94 0.696 0.448 0.196 -0.052 -0.3 -0.548 -0.796 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.968 -0.724
+-0.476 -0.224 0.02 0.272 0.52 0.768 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.996 0.752;
+#A 1000 0.504 0.252 0.004 -0.244 -0.492 -0.74 -0.984 -1 -1 -1 -1 -1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1;
+#X coords 0 1 1023 -1 200 140 1;
+#X restore 279 227 graph;
+#X obj 277 171 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 15 75 bitwise operation on a signal as integer;
+#X text 18 22 Performs bitwise boolean operations on a float signal.
+;
+#X connect 10 0 11 0;
+#X connect 11 0 29 0;
+#X connect 12 0 27 0;
+#X connect 12 0 26 1;
+#X connect 12 0 26 0;
+#X connect 12 0 35 0;
+#X connect 13 0 31 0;
+#X connect 27 0 28 0;
+#X connect 29 0 32 0;
+#X connect 31 0 29 0;
+#X connect 32 0 12 0;
+#X connect 40 0 35 0;
