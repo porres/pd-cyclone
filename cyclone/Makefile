@@ -2,7 +2,7 @@
 
 lib.name = cyclone
 
-cflags = -I../shared
+cflags = -Ishared
 
 
 ################################################################################
@@ -13,87 +13,87 @@ cflags = -I../shared
 # common sources for hammer types
 
 hloud := \
-../shared/common/loud.c
+shared/common/loud.c
 
 hfitter := \
-../shared/common/loud.c \
-../shared/common/fitter.c
+shared/common/loud.c \
+shared/common/fitter.c
 
 hforky := \
-../shared/common/loud.c \
-../shared/unstable/forky.c
+shared/common/loud.c \
+shared/unstable/forky.c
 
 hfragile := \
-../shared/common/loud.c \
-../shared/unstable/fragile.c
+shared/common/loud.c \
+shared/unstable/fragile.c
 
 hgrow := \
-../shared/common/grow.c \
-../shared/common/loud.c
+shared/common/grow.c \
+shared/common/loud.c
 
 hgrowfitter := \
-../shared/common/grow.c \
-../shared/common/loud.c \
-../shared/common/fitter.c
+shared/common/grow.c \
+shared/common/loud.c \
+shared/common/fitter.c
 
 hfile := \
-../shared/hammer/file.c \
-../shared/common/loud.c \
-../shared/common/os.c \
-../shared/common/fitter.c \
-../shared/unstable/forky.c
+shared/hammer/file.c \
+shared/common/loud.c \
+shared/common/os.c \
+shared/common/fitter.c \
+shared/unstable/forky.c
 
 hrand := \
-../shared/common/rand.c \
-../shared/common/loud.c
+shared/common/rand.c \
+shared/common/loud.c
 
 hrandfile := \
-../shared/common/rand.c \
-../shared/hammer/file.c \
-../shared/common/loud.c \
-../shared/common/os.c \
-../shared/common/fitter.c \
-../shared/unstable/forky.c
+shared/common/rand.c \
+shared/hammer/file.c \
+shared/common/loud.c \
+shared/common/os.c \
+shared/common/fitter.c \
+shared/unstable/forky.c
 
 hrandgrow := \
-../shared/common/rand.c \
-../shared/common/grow.c \
-../shared/common/loud.c \
-../shared/common/fitter.c
+shared/common/rand.c \
+shared/common/grow.c \
+shared/common/loud.c \
+shared/common/fitter.c
 
 hrandgrowfile := \
-../shared/common/rand.c \
-../shared/common/grow.c \
-../shared/hammer/file.c \
-../shared/common/loud.c \
-../shared/common/os.c \
-../shared/unstable/forky.c
+shared/common/rand.c \
+shared/common/grow.c \
+shared/hammer/file.c \
+shared/common/loud.c \
+shared/common/os.c \
+shared/unstable/forky.c
 
 htree := \
-../shared/hammer/tree.c \
-../shared/common/loud.c
+shared/hammer/tree.c \
+shared/common/loud.c
 
 htreefilevefl := \
-../shared/hammer/tree.c \
-../shared/hammer/file.c \
-../shared/common/vefl.c \
-../shared/common/loud.c \
-../shared/common/os.c \
-../shared/unstable/forky.c \
-../shared/unstable/fragile.c
+shared/hammer/tree.c \
+shared/hammer/file.c \
+shared/common/vefl.c \
+shared/common/loud.c \
+shared/common/os.c \
+shared/unstable/forky.c \
+shared/unstable/fragile.c
 
 hgui := \
-../shared/hammer/gui.c \
-../shared/common/loud.c
+shared/hammer/gui.c \
+shared/common/loud.c
 
 hseq := \
-../shared/common/mifi.c \
-../shared/hammer/file.c \
-../shared/common/grow.c \
-../shared/common/loud.c \
-../shared/common/os.c \
-../shared/common/fitter.c \
-../shared/unstable/forky.c
+shared/common/mifi.c \
+shared/hammer/file.c \
+shared/common/grow.c \
+shared/common/loud.c \
+shared/common/os.c \
+shared/common/fitter.c \
+shared/unstable/forky.c
 
 
 # hammer classes
@@ -184,75 +184,75 @@ zl.class.sources := hammer/zl.c $(hgrow)
 # common sources for sickle types
 
 ssic := \
-../shared/sickle/sic.c \
-../shared/common/loud.c
+shared/sickle/sic.c \
+shared/common/loud.c
 
 sforky := \
-../shared/sickle/sic.c \
-../shared/common/loud.c \
-../shared/unstable/forky.c
+shared/sickle/sic.c \
+shared/common/loud.c \
+shared/unstable/forky.c
 
 sfragile := \
-../shared/sickle/sic.c \
-../shared/common/loud.c \
-../shared/unstable/fragile.c
+shared/sickle/sic.c \
+shared/common/loud.c \
+shared/unstable/fragile.c
 
 sfragilefitter := \
-../shared/sickle/sic.c \
-../shared/common/loud.c \
-../shared/common/fitter.c \
-../shared/unstable/fragile.c
+shared/sickle/sic.c \
+shared/common/loud.c \
+shared/common/fitter.c \
+shared/unstable/fragile.c
 
 sgrow := \
-../shared/common/grow.c \
-../shared/sickle/sic.c \
-../shared/common/loud.c
+shared/common/grow.c \
+shared/sickle/sic.c \
+shared/common/loud.c
 
 sgrowclc := \
-../shared/common/grow.c \
-../shared/common/clc.c \
-../shared/sickle/sic.c \
-../shared/common/loud.c
+shared/common/grow.c \
+shared/common/clc.c \
+shared/sickle/sic.c \
+shared/common/loud.c
 
 sgrowforky := \
-../shared/common/grow.c \
-../shared/sickle/sic.c \
-../shared/common/loud.c \
-../shared/common/fitter.c \
-../shared/unstable/forky.c
+shared/common/grow.c \
+shared/sickle/sic.c \
+shared/common/loud.c \
+shared/common/fitter.c \
+shared/unstable/forky.c
 
 svefl := \
-../shared/common/vefl.c \
-../shared/sickle/sic.c \
-../shared/common/loud.c \
-../shared/unstable/fragile.c
+shared/common/vefl.c \
+shared/sickle/sic.c \
+shared/common/loud.c \
+shared/unstable/fragile.c
 
 sarsic := \
-../shared/sickle/sic.c \
-../shared/sickle/arsic.c \
-../shared/common/vefl.c \
-../shared/common/loud.c \
-../shared/unstable/fragile.c
+shared/sickle/sic.c \
+shared/sickle/arsic.c \
+shared/common/vefl.c \
+shared/common/loud.c \
+shared/unstable/fragile.c
 
 sarsicfitter := \
-../shared/sickle/sic.c \
-../shared/sickle/arsic.c \
-../shared/common/vefl.c \
-../shared/common/loud.c \
-../shared/common/fitter.c \
-../shared/unstable/fragile.c
+shared/sickle/sic.c \
+shared/sickle/arsic.c \
+shared/common/vefl.c \
+shared/common/loud.c \
+shared/common/fitter.c \
+shared/unstable/fragile.c
 
 sfile := \
-../shared/hammer/file.c \
-../shared/sickle/sic.c \
-../shared/common/loud.c \
-../shared/common/os.c \
-../shared/unstable/forky.c
+shared/hammer/file.c \
+shared/sickle/sic.c \
+shared/common/loud.c \
+shared/common/os.c \
+shared/unstable/forky.c
 
 # special case: sickle but not tilde (see class linedrive)
 splainnotilde := \
-../shared/common/loud.c \
-../shared/common/fitter.c
+shared/common/loud.c \
+shared/common/fitter.c
 
 
 # sickle classes
@@ -340,13 +340,13 @@ nettles.class.sources := shadow/nettles.c $(ssic)
 
 
 datafiles = \
-$(wildcard ../doc/help/cyclone/*-help.pd) \
-../doc/help/cyclone/all_about_cyclone.pd \
-../doc/help/cyclone/dspSwitch~.pd \
-../doc/help/cyclone/output~.pd \
-../doc/help/cyclone/test.mid \
-../doc/help/cyclone/voice.wav \
-../LICENSE.txt \
+$(wildcard doc/help/cyclone/*-help.pd) \
+doc/help/cyclone/all_about_cyclone.pd \
+doc/help/cyclone/dspSwitch~.pd \
+doc/help/cyclone/output~.pd \
+doc/help/cyclone/test.mid \
+doc/help/cyclone/voice.wav \
+LICENSE.txt \
 README.txt \
 cyclone-meta.pd \
 $(wildcard abstractions/*.pd)
@@ -370,16 +370,11 @@ include $(firstword $(wildcard Makefile.pdlibbuilder \
 ### cyclone extra targets ######################################################
 ################################################################################
 
-
-install: install-tests install-aliases
-
-install-tests: all
-	$(INSTALL_DIR) -v $(installpath)/tests && \
-        $(INSTALL_DATA) $(wildcard ../test/cyclone/*) $(installpath)/tests
+install: install-aliases
 
 # on Linux, add symbolic links for lower case aliases
 install-aliases: all
-ifeq ($(platform),Linux)
+ifeq ($(uname), Linux)
 	$(INSTALL_DIR) -v $(installpath)
 	cd $(installpath); \
         ln -s -f Append.$(extension) append.$(extension); \
