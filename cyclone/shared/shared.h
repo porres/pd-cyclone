@@ -5,7 +5,7 @@
 #ifndef __SHARED_H__
 #define __SHARED_H__
 
-#include "../cyclone/build_counter"
+#include "../build_counter"
 
 /* Microsoft Visual Studio is not C99, it does not provide stdint.h */
 #ifdef _MSC_VER
