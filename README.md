@@ -12,3 +12,17 @@ separate file. The old build configuration also compiled to the hammer and sickl
 This branch is created to test and evaluate a threaded version of the 
 hammer/coll object as provided by Ivica Ico Bukvic from the Pd-l2ork fork.
 
+Compiling with pdlibbuilder
+
+PdLibBuilder tries to find the Pd source directory at several common locations, 
+but when this fails, yo have to specify the path yourself using the pdincludepath
+variable. Example:
+
+make pdincludepath=~/pd-0.46-6/src/
+
+Installing with pdlibbuilder
+
+The default path for installing might not be the best, surely for testing. 
+Use the pkglibdir variable for this. Example:
+
+make install pkglibdir=~/pd-externals/
