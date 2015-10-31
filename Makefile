@@ -340,14 +340,14 @@ nettles.class.sources := shadow/nettles.c $(ssic)
 
 
 datafiles = \
-$(wildcard doc/help/cyclone/*-help.pd) \
-doc/help/cyclone/all_about_cyclone.pd \
-doc/help/cyclone/dspSwitch~.pd \
-doc/help/cyclone/output~.pd \
-doc/help/cyclone/test.mid \
-doc/help/cyclone/voice.wav \
+$(wildcard help/*-help.pd) \
+help/all_about_cyclone.pd \
+help/dspSwitch~.pd \
+help/output~.pd \
+help/test.mid \
+help/voice.wav \
 LICENSE.txt \
-README.txt \
+README.md \
 cyclone-meta.pd \
 $(wildcard abstractions/*.pd)
 
