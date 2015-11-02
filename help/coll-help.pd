@@ -1,7 +1,7 @@
-#N canvas 495 82 571 530 10;
-#X obj 0 891 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 400 79 571 530 10;
+#X obj 0 850 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 500 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 0 422 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 474 390 418 288 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -22,10 +22,10 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 501 893 pd META;
-#X obj 0 633 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 501 852 pd META;
+#X obj 0 555 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 741 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 0 663 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 224 574 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -34,27 +34,27 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 10 53 cyclone/buddy;
 #X obj 10 30 cyclone/funbuff;
 #C restore;
-#X restore 197 893 pd Related_objects;
-#X obj 82 671 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 197 852 pd Related_objects;
+#X obj 82 593 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 0 0 cnv 15 552 40 empty empty coll 3 12 0 18 -204280 -1 0;
 #X text 12 23 store and edit collections of messages;
-#X text 112 508 message;
-#X obj 82 693 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 112 430 message;
+#X obj 82 615 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 715 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 82 637 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 649 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 571 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 112 692 bang;
-#X text 112 648 message;
-#X text 112 715 bang;
-#X text 89 756 1) /path/to/file;
+#X text 112 614 bang;
+#X text 112 570 message;
+#X text 112 637 bang;
+#X text 81 678 1) /path/to/file;
 #X obj 496 3 coll;
 #C restore;
-#X obj 82 510 cnv 17 3 110 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 432 cnv 17 3 110 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 786 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 0 745 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 29 103 559 936 allMessages 0;
 #X text 0 43 clear;
@@ -159,47 +159,45 @@ symbol;
 by value and output immediately;
 #X text 0 808 subsym newaddress oldAddress;
 #X text 169 808 - substitutes one symbol address for another;
-#X restore 452 507 pd allMessages;
-#X text 112 541 float;
-#X text 217 648 - value \, either float or symbol;
-#X text 112 670 message;
-#X text 217 693 - when finishing load or save operation;
-#X text 217 716 - when finished with a dump operation;
-#X text 217 755 - option arg loads a file into coll. Also the name.
+#X restore 452 429 pd allMessages;
+#X text 112 463 float;
+#X text 217 570 - value \, either float or symbol;
+#X text 112 592 message;
+#X text 217 615 - when finishing load or save operation;
+#X text 217 638 - when finished with a dump operation;
+#X text 209 677 - option arg loads a file into coll. Also the name.
 ;
-#X msg 112 180 1;
-#X msg 113 202 2;
-#X symbolatom 89 428 10 0 0 0 - - -, f 10;
-#X floatatom 81 450 5 0 0 0 - - -, f 5;
-#X obj 81 329 cyclone/coll;
+#X msg 114 121 1;
+#X msg 114 143 2;
+#X symbolatom 89 369 10 0 0 0 - - -, f 10;
+#X floatatom 81 391 5 0 0 0 - - -, f 5;
+#X obj 81 270 cyclone/coll;
 #C restore;
-#X msg 113 275 delete 2;
-#X msg 113 249 4;
-#X text 143 246 does not exist \, no response;
-#X msg 81 153 1 foo \, 2 bar \, 3 42;
-#X msg 114 224 3;
-#X text 52 127 and symbol or float values;
-#X floatatom 104 397 5 0 0 0 - - -, f 5;
-#X text 111 569 symbol;
-#X text 216 582 the value at outlet 1;
-#X text 110 595 list;
-#N canvas 710 354 550 689 almost 0;
+#X msg 114 216 delete 2;
+#X msg 114 190 4;
+#X text 143 190 does not exist \, no response;
+#X msg 81 94 1 foo \, 2 bar \, 3 42;
+#X msg 114 165 3;
+#X floatatom 104 338 5 0 0 0 - - -, f 5;
+#X text 111 491 symbol;
+#X text 216 504 the value at outlet 1;
+#X text 110 517 list;
+#N canvas 706 356 550 689 almost 1;
 #X obj 0 26 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1 -1
 ;
-#X msg 7 79 next;
+#X msg 9 79 next;
 #X obj 0 645 print coll;
-#X msg 99 443 clear;
-#X floatatom 53 622 5 0 0 0 - - -, f 5;
-#X obj 106 602 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X msg 95 443 clear;
+#X floatatom 57 622 5 0 0 0 - - -, f 5;
+#X obj 114 602 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X obj 159 584 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 171 584 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
 #X msg 26 125 dump;
-#X msg 29 149 read /tmp/foo;
+#X msg 31 149 read /tmp/foo;
 #X msg 36 175 read;
 #X msg 53 246 length;
-#X text 93 620 index of the message sent out;
-#X text 173 554 optional arg loads a file into coll;
+#X text 97 620 index of the message sent out;
 #N canvas 186 81 430 260 loadsomeitems 0;
 #X obj 73 58 inlet;
 #X obj 104 225 outlet;
@@ -222,7 +220,7 @@ by value and output immediately;
 #X restore 0 50 pd loadsomeitems;
 #X text 18 25 load stuff;
 #X text 57 124 dump them all;
-#X text 114 148 read a file;
+#X text 116 148 read a file;
 #X text 66 174 opens a dialog;
 #X msg 42 199 write /tmp/foo;
 #X text 134 197 write a file;
@@ -230,8 +228,8 @@ by value and output immediately;
 #X msg 49 222 write;
 #X floatatom 90 422 5 0 0 0 - - -, f 5;
 #X text 97 245 output nr. of messages stored;
-#X text 40 78 output next =;
-#X msg 127 78 bang;
+#X text 42 78 output next =;
+#X msg 129 78 bang;
 #X msg 58 268 delete 2;
 #X msg 68 312 goto 2;
 #X text 111 310 goto item nr;
@@ -243,66 +241,68 @@ by value and output immediately;
 #X text 144 377 save coll's contents with the patch;
 #X msg 85 400 flags 0 0;
 #X text 148 398 don't save (default);
-#X msg 105 466 open;
-#X msg 193 149 readagain;
+#X msg 101 466 open;
+#X msg 195 149 readagain;
 #X msg 64 290 remove 3;
 #X msg 214 199 writeagain;
-#X msg 109 488 wclose;
+#X msg 105 488 wclose;
 #X msg 18 102 prev;
 #X text 50 100 previous;
 #X text 126 420 output by index;
-#X text 138 441 clear contents;
-#X text 138 465 open editor;
-#X text 153 487 close & save;
+#X text 134 441 clear contents;
+#X text 134 465 open editor;
+#X text 149 487 close & save;
 #X text 103 49 look inside;
-#X obj 0 556 cyclone/coll /tmp/test.coll;
-#C restore;
-#X text 256 148 reopens last file read;
+#X text 258 148 reopens last file read;
 #X text 283 198 rewrite last file written;
 #X obj 0 -3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0
 ;
 #X text 111 268 delete message \, and decrement larger addressess;
 #X text 119 289 delete message \, leave address alone;
 #X text 5 -3 Almost all messages;
-#X text 127 600 bang when a load operation is finished;
-#X text 178 582 bang when a dump operation is finished;
-#X connect 0 0 13 0;
-#X connect 1 0 49 0;
-#X connect 3 0 49 0;
-#X connect 7 0 49 0;
-#X connect 8 0 49 0;
-#X connect 9 0 49 0;
-#X connect 10 0 49 0;
-#X connect 13 0 49 0;
-#X connect 18 0 49 0;
-#X connect 21 0 49 0;
-#X connect 22 0 49 0;
-#X connect 26 0 49 0;
-#X connect 27 0 49 0;
-#X connect 29 0 49 0;
-#X connect 31 0 49 0;
-#X connect 33 0 49 0;
-#X connect 35 0 49 0;
-#X connect 37 0 49 0;
-#X connect 39 0 49 0;
-#X connect 41 0 49 0;
-#X connect 42 0 49 0;
-#X connect 49 0 2 0;
-#X connect 49 1 4 0;
-#X connect 49 2 5 0;
-#X connect 49 3 6 0;
-#X restore 315 458 pd almost the whole christmas tree;
-#X text 198 151 store address/values;
-#X text 217 541 - address of the value sent out. The address at;
-#X text 216 554 outlet 2 \, the value at outlet 1;
-#X text 215 569 - address of value sent out. The address at outlet
+#X text 135 600 bang when a load operation is finished;
+#X text 190 582 bang when a dump operation is finished;
+#X obj 0 556 cyclone/coll /tmp/test.coll 1;
+#C restore;
+#X text 182 546 optional 1st argument loads a file into coll;
+#X text 182 560 optional 2nd argument set to 1 enableds threaded file
+I/O;
+#X connect 0 0 12 0;
+#X connect 1 0 56 0;
+#X connect 3 0 56 0;
+#X connect 7 0 56 0;
+#X connect 8 0 56 0;
+#X connect 9 0 56 0;
+#X connect 10 0 56 0;
+#X connect 12 0 56 0;
+#X connect 17 0 56 0;
+#X connect 20 0 56 0;
+#X connect 21 0 56 0;
+#X connect 25 0 56 0;
+#X connect 26 0 56 0;
+#X connect 28 0 56 0;
+#X connect 30 0 56 0;
+#X connect 32 0 56 0;
+#X connect 34 0 56 0;
+#X connect 36 0 56 0;
+#X connect 38 0 56 0;
+#X connect 40 0 56 0;
+#X connect 41 0 56 0;
+#X connect 56 0 2 0;
+#X connect 56 1 4 0;
+#X connect 56 2 5 0;
+#X connect 56 3 6 0;
+#X restore 314 391 pd almost the whole christmas tree;
+#X text 198 92 store address/values;
+#X text 217 463 - address of the value sent out. The address at;
+#X text 216 476 outlet 2 \, the value at outlet 1;
+#X text 215 491 - address of value sent out. The address at outlet
 2 \,;
-#X text 215 595 - first element is interpreted as the address \, the
+#X text 215 517 - first element is interpreted as the address \, the
 ;
-#X text 214 608 others as the list to store;
-#X text 217 670 - address \, either float or symbol;
-#X text 52 114 Store \, recall and delete with float addresses;
-#X text 217 507 - for a complete list of messages see:;
+#X text 214 530 others as the list to store;
+#X text 217 592 - address \, either float or symbol;
+#X text 217 429 - for a complete list of messages see:;
 #N canvas 579 403 450 676 orderByFunction 0;
 #X text 28 29 Messages ordered by function;
 #X text 28 51 operates on complete collection;
@@ -353,18 +353,15 @@ value);
 #X text 28 627 max;
 #X text 28 639 min;
 #X obj 2 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X restore 399 525 pd orderByFunction;
-#X text 219 523 messages ordered by function:;
-#X text 88 804 The coll object implements an associative array of items.
+#X restore 399 447 pd orderByFunction;
+#X text 219 445 messages ordered by function:;
+#X text 88 763 The coll object implements an associative array of items.
 The Pd types float \, symbol and list can be stored. The elements have
 a float or symbol as 'address'. The float address however should not
 be interpreted as an index of an array \, but merely as a directive
 for the order of the numeric elements.;
-#X obj 142 396 print addr;
-#X obj 117 449 print val;
-#X text 31 44 The coll objects implements a collection or 'associative'
-array \, which means the address can be both a float and a symbol and
-the value can be a float \, symbol or list.;
+#X obj 142 337 print addr;
+#X obj 117 390 print val;
 #N canvas 430 407 434 300 find 0;
 #X obj 144 174 cyclone/coll;
 #C restore;
@@ -383,7 +380,7 @@ the value can be a float \, symbol or list.;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
-#X restore 429 346 pd find min max;
+#X restore 428 286 pd find min max;
 #N canvas 491 507 505 383 associate 0;
 #X obj 16 -12699 cyclone/coll;
 #C restore;
@@ -433,7 +430,7 @@ value;
 #X connect 13 0 0 0;
 #X connect 15 0 0 0;
 #X connect 16 0 0 0;
-#X restore 368 368 pd associate disassociate;
+#X restore 368 307 pd associate disassociate;
 #N canvas 570 448 432 393 changing 0;
 #X msg 119 212 dump;
 #X msg 87 50 1 foo \, 2 bar \, 3 boo \, 4 42;
@@ -458,8 +455,8 @@ value;
 #X connect 5 0 9 0;
 #X connect 9 0 11 0;
 #X connect 9 1 10 0;
-#X restore 410 391 pd changing values;
-#N canvas 565 556 432 321 refer 0;
+#X restore 410 328 pd changing values;
+#N canvas 563 557 432 321 refer 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X obj 126 125 cyclone/coll bar;
 #C restore;
@@ -472,7 +469,6 @@ value;
 #C restore;
 #X msg 127 245 1 foo \, 2 bar \, 3 anything;
 #X obj 127 222 loadbang;
-#X text 103 77 comment;
 #X text 8 2 Refer: connect to another collection;
 #X msg 193 50 refer bar;
 #X msg 236 85 clear;
@@ -483,9 +479,9 @@ value;
 #X connect 4 0 1 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;
+#X connect 11 0 1 0;
 #X connect 12 0 1 0;
-#X connect 13 0 1 0;
-#X restore 404 414 pd refer other coll;
+#X restore 404 349 pd refer other coll;
 #N canvas 681 387 450 485 symbol 0;
 #X obj 73 265 cyclone/coll;
 #C restore;
@@ -524,7 +520,7 @@ value;
 #X connect 12 0 0 0;
 #X connect 18 0 0 0;
 #X connect 19 0 0 0;
-#X restore 404 303 pd symbol addresses;
+#X restore 404 244 pd symbol addresses;
 #N canvas 447 424 471 315 swap 0;
 #X text 121 63 load ...;
 #X msg 37 86 dump;
@@ -575,7 +571,7 @@ value;
 #X connect 27 0 25 0;
 #X connect 27 1 26 0;
 #X connect 27 3 19 0;
-#X restore 392 324 pd swap sort renumber;
+#X restore 392 265 pd swap sort renumber;
 #N canvas 470 296 440 409 insert 0;
 #X msg 45 66 merge 2 and this was appended;
 #X msg 70 92 2;
@@ -607,15 +603,22 @@ value;
 #X connect 14 0 16 0;
 #X connect 14 1 17 0;
 #X connect 15 0 14 0;
-#X restore 350 437 pd insert merge nsub nth sub;
-#X text 417 283 More examples:;
+#X restore 350 370 pd insert merge nsub nth sub;
+#X text 417 224 More examples:;
+#X text 81 697 2) float;
+#X text 209 696 - flag to enable threaded loading and saving data.
+0 or absent is disabled \, 1 is enabled. This allows for reading and
+writing data without dropouts.;
+#X text 52 55 Store \, recall and delete with float or symbol addresses
+;
+#X text 52 68 and symbol \, float or list values;
 #X connect 27 0 31 0;
 #X connect 28 0 31 0;
 #X connect 31 0 29 0;
 #X connect 31 0 30 0;
-#X connect 31 0 56 0;
-#X connect 31 1 38 0;
-#X connect 31 1 55 0;
+#X connect 31 0 54 0;
+#X connect 31 1 37 0;
+#X connect 31 1 53 0;
 #X connect 32 0 31 0;
 #X connect 33 0 31 0;
 #X connect 35 0 31 0;
