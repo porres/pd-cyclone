@@ -1,5 +1,5 @@
-#N canvas 752 79 574 532 10;
-#X obj 0 969 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 950 149 574 532 10;
+#X obj 0 959 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 407 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -18,7 +18,7 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 971 pd META;
+#X restore 503 961 pd META;
 #X obj 0 719 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 0 756 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -26,7 +26,7 @@ adapted the patch to pd-extended 2015-02-02;
 #N canvas 332 419 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 212 971 pd Related_objects;
+#X restore 212 961 pd Related_objects;
 #X obj 72 417 cnv 17 3 290 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 0 0 cnv 15 552 40 empty empty Scope~ 3 12 0 18 -204280 -1 0
@@ -58,7 +58,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 108 158 down mode;
 #X msg 182 167 range -1 2;
 #X obj 154 242 vsl 15 110 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 6000 1;
+-1 -1 0 1;
 #X msg 88 205 triglevel \$1;
 #X floatatom 116 337 5 0 0 0 - - -, f 5;
 #X text 265 647 - the signel level to fire the trigger;
@@ -100,7 +100,7 @@ get fragmented. By finding a proper setting \, this can be minimalized.
 #X msg 7 232 8.141;
 #X obj 7 209 loadbang;
 #X obj 10 34 vsl 15 128 44 440 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 11300 1;
+-1 -1 0 1;
 #X msg 261 97 400.1;
 #X text 252 117 Or change the frequency;
 #X floatatom 10 169 5 0 0 0 - - -, f 5;
@@ -121,26 +121,24 @@ get fragmented. By finding a proper setting \, this can be minimalized.
 #X obj 0 849 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X text 278 477 be similar or less than the width of the;
-#X text 98 919 The sweep time can grow long quite fast. 8192 (time
+#X text 99 909 The sweep time can grow long quite fast. 8192 (time
 base) * 44100 (sample rate) * 130 (buffer size) is more than 24 seconds.
 ;
 #X text 265 663 - same as a click \, freezing the scope;
 #X text 307 362 time base;
 #X obj 208 104 hsl 60 15 0.01 1 1 0 empty empty level 2 8 1 10 -204786
--1 -1 5300 1;
+-1 -1 0 1;
 #X floatatom 136 77 5 0 0 0 - - -, f 5;
 #X text 278 448 values between 2 and 8192;
 #X text 265 434 - time base as fraction of the sample rate \,;
 #X obj 172 128 *~ 0.9;
-#X text 98 856 The Max objects has no arguments \, but many attributes.
-These are mapped to arguments and messages.;
 #X text 99 763 In order \, with default values: 0-width (66) \, 1-height
 (130) \, 2-time base (256) \, 3-xt/xy mode (3) \, 4-buffer size(128)
 \, 5-range minimum (-1) \, 6-range maximum (1) \, 7-delay (0) \, 8-??
 (0) \, 9-trigger mode (0) \, 10-trigger level (0) \, 11/13-foreground
 color (102 \, 255 \, 51) \, 14/16-background color (135 \, 135 \, 135)
 \, 17-?? (0);
-#X text 98 888 The example scope has these arguments: Scope~ 245 119
+#X text 99 878 The example scope has these arguments: Scope~ 245 119
 215 3 245 -1 1 0 0 1 -0.174312 0 255 0 7 31 7 0;
 #X text 277 489 scope.;
 #X obj 172 362 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
@@ -170,6 +168,8 @@ color (102 \, 255 \, 51) \, 14/16-background color (135 \, 135 \, 135)
 #X connect 5 0 8 0;
 #X connect 7 0 5 0;
 #X restore 172 382 pd powOf2;
+#X text 98 856 The Max scope~ object has no arguments \, but many attributes.
+;
 #X connect 20 0 40 0;
 #X connect 20 0 63 0;
 #X connect 22 0 19 0;
@@ -185,4 +185,4 @@ color (102 \, 255 \, 51) \, 14/16-background color (135 \, 135 \, 135)
 #X connect 47 0 19 0;
 #X connect 62 0 66 1;
 #X connect 66 0 19 0;
-#X connect 71 0 73 0;
+#X connect 70 0 72 0;

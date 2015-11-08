@@ -55,6 +55,9 @@
 #define SCOPE_DEFBGRED     135
 #define SCOPE_DEFBGGREEN   135
 #define SCOPE_DEFBGBLUE    135
+#define SCOPE_DEFGRRED       0
+#define SCOPE_DEFGRGREEN     0
+#define SCOPE_DEFGRBLUE      0
 #define SCOPE_SELCOLOR       "#8080ff"  /* a bit lighter shade of blue */
 #define SCOPE_FGWIDTH        0.7  /* line width is float */
 #define SCOPE_GRIDWIDTH      0.9
@@ -87,6 +90,9 @@ typedef struct _scope
     unsigned char  x_bgred;
     unsigned char  x_bggreen;
     unsigned char  x_bgblue;
+    unsigned char  x_grred; 
+    unsigned char  x_grgreen; 
+    unsigned char  x_grblue;
     int        x_xymode;
     float     *x_xbuffer;
     float     *x_ybuffer;
@@ -529,6 +535,32 @@ static void scope_brgb(t_scope *x, t_symbol *s, int ac, t_atom *av)
 		 cv, x->x_bgtag, x->x_bgred, x->x_bggreen, x->x_bgblue);
 }
 
+static void scope_grgb(t_scope *x, t_symbol *s, int ac, t_atom *av)
+{
+    t_float grred   = (SCOPE_DEFGRRED);
+    t_float grgreen = (SCOPE_DEFGRGREEN);
+    t_float grblue  = (SCOPE_DEFGRBLUE);
+    t_canvas *cv;
+    if (s) 
+    {
+	loud_floatarg(*(t_pd *)x, 0, ac, av, &grred,
+	    SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+	    LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+	loud_floatarg(*(t_pd *)x, 1, ac, av, &grgreen,
+	    SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+	    LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+	loud_floatarg(*(t_pd *)x, 2, ac, av, &grblue,
+	    SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+	    LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+    }
+    x->x_grred   = (int)grred;
+    x->x_grgreen = (int)grgreen;
+    x->x_grblue  = (int)grblue;
+    if (cv = scope_isvisible(x))
+	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+		 cv, x->x_gridtag, x->x_grred, x->x_grgreen, x->x_grblue);
+}
+
 static void scope_getrect(t_gobj *z, t_glist *glist,
 			  int *xp1, int *yp1, int *xp2, int *yp2)
 {
@@ -709,14 +741,17 @@ static void scope_drawbg(t_scope *x, t_canvas *cv,
 	     cv, x1, y1, x2, y2,
 	     x->x_bgred, x->x_bggreen, x->x_bgblue,
 	     SCOPE_GRIDWIDTH, x->x_bgtag, x->x_tag);
-    for (i = 0, xx = x1 + dx; i < 7; i++, xx += dx)
+                 
+    for (i = 0, xx = x1 + dx; i < 7; i++, xx += dx) 
 	sys_vgui(".x%lx.c create line %f %d %f %d\
- -width %f -tags {%s %s}\n", cv, xx, y1, xx, y2,
-		 SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag);
+ -width %f -tags {%s %s} -fill #%2.2x%2.2x%2.2x\n", cv, xx, y1, xx, y2,
+		 SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag, 
+		 x->x_grred, x->x_grgreen, x->x_grblue);
     for (i = 0, yy = y1 + dy; i < 3; i++, yy += dy)
 	sys_vgui(".x%lx.c create line %d %f %d %f\
- -width %f -tags {%s %s}\n", cv, x1, yy, x2, yy,
-		 SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag);
+ -width %f -tags {%s %s} -fill #%2.2x%2.2x%2.2x\n", cv, x1, yy, x2, yy,
+		 SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag,
+		 x->x_grred, x->x_grgreen, x->x_grblue);
 }
 
 static void scope_drawmono(t_scope *x, t_canvas *cv)
@@ -895,6 +930,17 @@ static void scope_tick(t_scope *x)
     scope_clear(x, 1);
 }
 
+static void scope_resize(t_scope *x, t_float w, t_float h)
+{
+    x->x_width  = (int)(w > 0.0f) ? w : x->x_width;
+    x->x_height = (int)(h > 0.0f) ? h : x->x_height;
+    if (x->x_xymode)
+        scope_redrawxy(x, x->x_canvas);
+    else
+        scope_redrawmono(x, x->x_canvas);
+    scope_revis(x, x->x_canvas);
+}
+
 static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
 {
     int newstate = (int)f;
@@ -996,6 +1042,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av)
     scope_triglevel(x, 0, ac, av);
     scope_frgb(x, 0, ac, av);
     scope_brgb(x, 0, ac, av);
+    scope_grgb(x, 0, ac, av);
     /* CHECKME last argument (default 0) */
 
     sprintf(x->x_tag, "all%lx", (unsigned long)x);
@@ -1042,9 +1089,14 @@ void Scope_tilde_setup(void)
 		    gensym("frgb"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_brgb,
 		    gensym("brgb"), A_GIMME, 0);
+    class_addmethod(scope_class, (t_method)scope_grgb,
+		    gensym("grgb"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+     class_addmethod(scope_class, (t_method)scope_resize,
+		    gensym("resize"),
+		    A_FLOAT, A_FLOAT, 0);
     class_setwidget(scope_class, &scope_widgetbehavior);
     forky_setsavefn(scope_class, scope_save);
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0,

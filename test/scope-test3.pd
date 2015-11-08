@@ -1,0 +1,26 @@
+#N canvas 258 642 624 423 10;
+#X obj 173 212 cyclone/Scope~ 129 135 256 3 128 -1 1 0 0 0 0 102 255
+51 135 135 135 0;
+#X obj 152 215 vsl 15 128 250 50 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 7300 1;
+#X obj 174 192 hsl 128 15 70 250 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 4200 1;
+#X obj 147 139 pack f f;
+#X obj 146 110 t b f;
+#X msg 147 170 resize \$1 \$2;
+#X msg 263 92 grgb 137 137 137;
+#X obj 152 46 osc~ 4;
+#X msg 263 92 grgb 137 137 137;
+#X msg 263 92 grgb 137 137 137;
+#X msg 262 116 grgb 0 0 0;
+#X msg 263 68 grgb 255 255 255;
+#X connect 1 0 4 0;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 3 1;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 10 0 0 0;
+#X connect 11 0 0 0;
