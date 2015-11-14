@@ -1,0 +1,28 @@
+#N canvas 110 743 450 300 10;
+#X obj 162 97 cyclone/frameaccum~ 1;
+#X obj 161 59 sig~;
+#X obj 163 121 cyclone/snapshot~ 100;
+#X floatatom 287 209 5 0 0 0 - - -, f 5;
+#X obj 397 256 cyclone/dspSwitch~;
+#X msg 161 13 0;
+#X msg 100 13 -0.0005;
+#X msg 205 11 0.0005;
+#X obj 24 99 cyclone/snapshot~ 100;
+#X floatatom 24 122 8 0 0 0 - - -, f 8;
+#X obj 324 151 vsl 15 128 -3.14153 3.14153 0 0 empty empty empty 0
+-9 0 10 -262144 -1 -1 3121 1;
+#X text 345 144 PI;
+#X text 343 273 -PI;
+#X msg 205 32 0.005;
+#X msg 100 34 -0.005;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 1 0 8 0;
+#X connect 2 0 3 0;
+#X connect 2 0 10 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 7 0 1 0;
+#X connect 8 0 9 0;
+#X connect 13 0 1 0;
+#X connect 14 0 1 0;
