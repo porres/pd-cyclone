@@ -13,7 +13,7 @@
 #endif
 
 #define MATRIX_DEFGAIN  0.  /* CHECKED */
-#define MATRIX_DEFRAMP  0.  /* CHECKED */
+#define MATRIX_DEFRAMP  10.  /* CHECKED */
 
 #define MATRIX_GAINEPSILON  1e-20f
 #define MATRIX_MINRAMP      .001  /* LATER rethink */
@@ -121,7 +121,12 @@ static void matrix_clear(t_matrix *x)
 {
     int i;
     for (i = 0; i < x->x_ncells; i++)
-	x->x_cells[i] = 0;
+    {
+        x->x_cells[i] = 0;
+        if (x->x_gains)
+            matrix_retarget(x, i);
+    }
+//	x->x_cells[i] = 0;
 }
 
 static void matrix_set(t_matrix *x, t_floatarg f1, t_floatarg f2)
