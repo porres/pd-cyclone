@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include "shared.h"
 #include "sickle/sic.h"
 
 typedef struct _delay
@@ -19,6 +20,14 @@ typedef struct _delay
 static t_class *delay_class;
 
 #define DELAY_DEFMAXSIZE  512
+
+static void delay_clear(t_delay *x)
+{
+    int i;
+    for (i = 0; i < x->x_maxsize; i++) {
+        x->x_buf[i] = 0;
+    }
+}
 
 static void delay_ft1(t_delay *x, t_floatarg f)
 {
@@ -98,4 +107,12 @@ void delay_tilde_setup(void)
     sic_setup(delay_class, delay_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(delay_class, (t_method)delay_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(delay_class, (t_method)delay_clear,
+		    gensym("clear"), 0);
+                    
+    int major, minor, bugfix;
+    sys_getversion(&major, &minor, &bugfix);
+    if (major > 0 || minor > 42) 
+    logpost(NULL, 4, "this is cyclone/delay~ %s, %dth %s build",
+	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
