@@ -9,7 +9,8 @@ repository will be 0.2beta1.
 
 The new build system is pd-lib-builder based and only builds each object 
 in a separate file. The old build configuration also compiled to the hammer 
-and sickle library objects and included a cyclone meta-library. 
+and sickle library objects and included a cyclone meta-library. The original 
+location of this repository is https://github.com/electrickery/pd-cyclone.
 
 <strong>Goals</strong>
 
