@@ -2,8 +2,13 @@
 
 lib.name = cyclone
 
-cflags = -Ishared
+# for the MINGW which has the timespec struct defined twice
+cflags = -Ishared -DHAVE_STRUCT_TIMESPEC
 
+uname := $(shell uname -s)
+ifeq (MINGW,$(findstring MINGW,$(uname)))
+    ldlibs += -lpthread
+endif
 
 ################################################################################
 ### hammer #####################################################################
