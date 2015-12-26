@@ -5,7 +5,7 @@ CURRENTPROJECT=`basename $CURRENTDIR`
 
 pushd .. || exit
 
-tar cvzf ${CURRENTPROJECT}/${CURRENTPROJECT}_sources.tgz \
+tar cvzf ${CURRENTPROJECT}_sources.tgz \
  ${CURRENTPROJECT}/build_counter \
  ${CURRENTPROJECT}/abstractions/ \
  ${CURRENTPROJECT}/cyclone-meta.pd \
