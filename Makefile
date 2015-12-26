@@ -346,7 +346,6 @@ nettles.class.sources := shadow/nettles.c $(ssic)
 
 datafiles = \
 $(wildcard help/*-help.pd) \
-help/all_about_cyclone.pd \
 help/dspSwitch~.pd \
 help/output~.pd \
 help/test.mid \
