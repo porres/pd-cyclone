@@ -7,7 +7,7 @@ pushd .. || exit
 
 tar cvzf ${CURRENTPROJECT}/${CURRENTPROJECT}_sources.tgz \
  ${CURRENTPROJECT}/build_counter \
- ${CURRENTPROJECT}/abstractions/* \
+ ${CURRENTPROJECT}/abstractions/ \
  ${CURRENTPROJECT}/cyclone-meta.pd \
  ${CURRENTPROJECT}/hammer/ \
  ${CURRENTPROJECT}/help/ \
@@ -20,6 +20,7 @@ tar cvzf ${CURRENTPROJECT}/${CURRENTPROJECT}_sources.tgz \
  ${CURRENTPROJECT}/shadow/ \
  ${CURRENTPROJECT}/shared/ \
  ${CURRENTPROJECT}/sickle/ \
- ${CURRENTPROJECT}/test/ 
+ ${CURRENTPROJECT}/test/ \
+ ${CURRENTPROJECT}/shed
 
 popd
