@@ -12,7 +12,7 @@
 #X text 1 60 INLET_0 bang float list;
 #X text 1 0 KEYWORDS output random numbers range;
 #X text 1 40 DESCRIPTION output random numbers in a moving range;
-#X text 0 159 VERSION 0.1-alpha57;
+#X text 0 159 VERSION 0.2-beta1;
 #X text 0 177 AUTHOR Krzysztof Czaja;
 #X text 1 195 RELEASE_DATE 2002;
 #X text 2 214 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

@@ -8,7 +8,7 @@
 #X text 1 0 KEYWORDS pass float numbers;
 #X text 1 36 DESCRIPTION pass numbers from inlet to outlet;
 #X text 1 72 OUTLET_N float;
-#X text 0 90 VERSION 0.1-alpha57;
+#X text 0 90 VERSION 0.2-beta1;
 #X text 0 108 AUTHOR Krzysztof Czaja;
 #X text 1 126 RELEASE_DATE 2002;
 #X text 2 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

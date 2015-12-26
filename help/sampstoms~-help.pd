@@ -13,7 +13,7 @@
 #X text 1 108 OUTLET_1 float;
 #X text 1 38 DESCRIPTION convert nummber of samples at sampling rate
 to milliseconds;
-#X text 0 145 VERSION 0.1-alpha57;
+#X text 0 145 VERSION 0.2-beta1;
 #X text 0 163 AUTHOR Krzysztof Czaja;
 #X text 1 181 RELEASE_DATE 2002;
 #X text 2 200 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

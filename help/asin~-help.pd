@@ -10,7 +10,7 @@
 #X text 0 82 OUTLET_0 signal;
 #X text 0 42 DESCRIPTION takes the arc sine function for signals;
 #X text 0 0 KEYWORDS arc sine arcsine arcsin asin signal;
-#X text 0 120 VERSION 0.1-alpha57;
+#X text 0 120 VERSION 0.2-beta1;
 #X text 0 138 AUTHOR Krzysztof Czaja;
 #X text 1 156 RELEASE_DATE 2002;
 #X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

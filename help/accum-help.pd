@@ -10,7 +10,7 @@
 #X text 1 120 OUTLET_0 float current value of number being accumulated ;
 #X text 1 80 INLET_1 float add to current value;
 #X text 1 100 INLET_2 float multiply with current value;
-#X text 0 161 VERSION 0.1-alpha57;
+#X text 0 161 VERSION 0.2-beta1;
 #X text 2 181 AUTHOR Krzysztof Czaja;
 #X text 2 201 RELEASE_DATE 2002;
 #X text 3 218 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html ;

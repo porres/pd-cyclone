@@ -11,7 +11,7 @@
 #X text 0 40 DESCRIPTION send message to all objects of the same class
 ;
 #X text 0 60 INLET_0 message;
-#X text 1 100 VERSION 0.1-alpha57;
+#X text 1 100 VERSION 0.2-beta1;
 #X text 1 118 AUTHOR Krzysztof Czaja;
 #X text 2 136 RELEASE_DATE 2002;
 #X text 3 155 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

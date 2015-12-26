@@ -11,7 +11,7 @@
 #X text 1 0 KEYWORDS signal kink distort phasor;
 #X text 1 40 DESCRIPTION distort the output of a phasor~;
 #X text 1 80 INLET_1 float signal;
-#X text 0 139 VERSION 0.1-alpha57;
+#X text 0 139 VERSION 0.2-beta1;
 #X text 0 157 AUTHOR Krzysztof Czaja;
 #X text 1 175 RELEASE_DATE 2002;
 #X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

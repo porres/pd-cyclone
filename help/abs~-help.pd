@@ -38,7 +38,7 @@ signal amplitude \, among other things.;
 #X text 1 80 OUTLET_0 signal;
 #X text 1 121 AUTHOR Krzysztof Czaja;
 #X text 1 20 LICENSE SIBSD;
-#X text 0 101 VERSION 0.1-alpha57;
+#X text 0 101 VERSION 0.2-beta1;
 #X text 0 142 RELEASE_DATE 2002;
 #X text 1 193 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland

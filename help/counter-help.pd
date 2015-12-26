@@ -123,7 +123,7 @@ jam min max carryint carrybang;
 #X text 1 0 KEYWORDS control storage max_compatible;
 #X text 2 356 Added a new help patch for some new messages by Fred
 Jan Kraan.;
-#X text 0 259 VERSION 0.1-alpha57;
+#X text 0 259 VERSION 0.2-beta1;
 #X restore 487 485 pd META;
 #X obj 194 351 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;

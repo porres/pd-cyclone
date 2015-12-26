@@ -14,7 +14,7 @@ convolution filter;
 #X text 0 85 INLET_1 float;
 #X text 0 103 INLET_2 float;
 #X text 0 121 OUTLET_0 signal;
-#X text 0 158 VERSION 0.1-alpha57;
+#X text 0 158 VERSION 0.2-beta1;
 #X text 0 176 AUTHOR Krzysztof Czaja;
 #X text 1 194 RELEASE_DATE 2002;
 #X text 2 213 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

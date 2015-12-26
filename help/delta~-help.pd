@@ -11,7 +11,7 @@
 #X text 0 0 KEYWORDS signal delta transform sample;
 #X text 0 40 DESCRIPTION transform signal into difference between successive
 samples;
-#X text 0 133 VERSION 0.1-alpha57;
+#X text 0 133 VERSION 0.2-beta1;
 #X text 0 151 AUTHOR Krzysztof Czaja;
 #X text 1 169 RELEASE_DATE 2002;
 #X text 2 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

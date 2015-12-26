@@ -10,7 +10,7 @@
 #X text 0 0 KEYWORDS signal wrap -pi pi phase;
 #X text 0 38 DESCRIPTION wrap a signal between -pi and pi;
 #X text 0 57 INLET_0 signal;
-#X text 2 115 VERSION 0.1-alpha57;
+#X text 2 115 VERSION 0.2-beta1;
 #X text 2 133 AUTHOR Krzysztof Czaja;
 #X text 3 151 RELEASE_DATE 2002;
 #X text 4 170 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

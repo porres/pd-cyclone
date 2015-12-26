@@ -63,7 +63,7 @@
 #X text 0 200 LIBRARY cyclone;
 #X text 0 180 OUTLET_0 signal;
 #X text 0 60 INLET_0 signal list message;
-#X text 0 220 VERSION 0.1-alpha57;
+#X text 0 220 VERSION 0.2-beta1;
 #X text 2 280 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan

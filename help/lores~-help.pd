@@ -12,7 +12,7 @@
 #X text 0 100 INLET_2 signal float;
 #X text 0 80 INLET_1 signal float;
 #X text 0 60 INLET_0 signal;
-#X text 0 161 VERSION 0.1-alpha57;
+#X text 0 161 VERSION 0.2-beta1;
 #X text 0 179 AUTHOR Krzysztof Czaja;
 #X text 1 197 RELEASE_DATE 2002;
 #X text 2 216 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

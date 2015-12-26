@@ -13,7 +13,7 @@
 #X text 1 126 OUTLET_3 bang;
 #X text 1 72 OUTLET_0 message;
 #X text 1 0 KEYWORDS store edit message index;
-#X text 0 162 VERSION 0.1-alpha57;
+#X text 0 162 VERSION 0.2-beta1;
 #X text 0 180 AUTHOR Krzysztof Czaja;
 #X text 1 198 RELEASE_DATE 2002;
 #X text 2 217 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

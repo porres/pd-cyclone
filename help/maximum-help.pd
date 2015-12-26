@@ -11,7 +11,7 @@
 #X text 0 40 DESCRIPTION output the greatest in a list of numbers;
 #X text 0 60 INLET_0 list bang float;
 #X text 0 100 OUTLET_0 float;
-#X text 0 139 VERSION 0.1-alpha57;
+#X text 0 139 VERSION 0.2-beta1;
 #X text 0 157 AUTHOR Krzysztof Czaja;
 #X text 1 175 RELEASE_DATE 2002;
 #X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

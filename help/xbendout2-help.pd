@@ -12,7 +12,7 @@ most significant bit least;
 #X text 0 83 INLET_0 float;
 #X text 0 103 INLET_1 float;
 #X text 0 123 INLET_2 float;
-#X text 0 182 VERSION 0.1-alpha57;
+#X text 0 182 VERSION 0.2-beta1;
 #X text 0 200 AUTHOR Krzysztof Czaja;
 #X text 1 218 RELEASE_DATE 2002;
 #X text 2 237 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

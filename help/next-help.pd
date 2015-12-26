@@ -11,7 +11,7 @@
 #X text 1 60 INLET_0 list float bang;
 #X text 1 80 OUTLET_0 bang;
 #X text 1 100 OUTLET_1 bang;
-#X text 0 139 VERSION 0.1-alpha57;
+#X text 0 139 VERSION 0.2-beta1;
 #X text 0 157 AUTHOR Krzysztof Czaja;
 #X text 1 175 RELEASE_DATE 2002;
 #X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

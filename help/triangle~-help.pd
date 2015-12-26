@@ -12,7 +12,7 @@
 wave;
 #X text 1 53 DESCRIPTION a triangle / ramp wavetable;
 #X text 1 93 INLET_1 signal;
-#X text 0 152 VERSION 0.1-alpha57;
+#X text 0 152 VERSION 0.2-beta1;
 #X text 0 170 AUTHOR Krzysztof Czaja;
 #X text 1 188 RELEASE_DATE 2002;
 #X text 2 207 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

@@ -10,7 +10,7 @@
 #X text 1 40 DESCRIPTION tag data based on the inlet it arrived in
 ;
 #X text 1 80 OUTLET_0 anything;
-#X text 0 121 VERSION 0.1-alpha57;
+#X text 0 121 VERSION 0.2-beta1;
 #X text 0 139 AUTHOR Krzysztof Czaja;
 #X text 1 157 RELEASE_DATE 2002;
 #X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

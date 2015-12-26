@@ -8,7 +8,7 @@
 #X text 0 100 LIBRARY cyclone;
 #X text 0 60 INLET_0 float bang;
 #X text 0 80 OUTLET_0 float arcsine of input;
-#X text 0 117 VERSION 0.1-alpha57;
+#X text 0 117 VERSION 0.2-beta1;
 #X text 0 135 AUTHOR Krzysztof Czaja;
 #X text 1 153 RELEASE_DATE 2002;
 #X text 2 172 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

@@ -13,7 +13,7 @@
 #X text 0 49 DESCRIPTION smooth-out changes in signal values;
 #X text 0 0 KEYWORDS signal smooth smooth-out changes slideup slidedown
 slide;
-#X text 0 158 VERSION 0.1-alpha57;
+#X text 0 158 VERSION 0.2-beta1;
 #X text 0 176 AUTHOR Krzysztof Czaja;
 #X text 1 194 RELEASE_DATE 2002;
 #X text 2 213 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

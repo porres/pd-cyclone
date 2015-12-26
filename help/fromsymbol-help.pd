@@ -10,7 +10,7 @@
 #X text 0 60 INLET_0 symbol list;
 #X text 0 80 OUTLET_0 list;
 #X text 0 40 DESCRIPTION transform symbol to numbers or messages;
-#X text 0 119 VERSION 0.1-alpha57;
+#X text 0 119 VERSION 0.2-beta1;
 #X text 0 137 AUTHOR Krzysztof Czaja;
 #X text 1 155 RELEASE_DATE 2002;
 #X text 2 174 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html

@@ -11,7 +11,7 @@
 #X text 0 62 INLET_0 signal;
 #X text 0 82 OUTLET_0 signal;
 #X text 0 0 KEYWORDS hyperbolic cos cosine cosh signal;
-#X text 0 122 VERSION 0.1-alpha57;
+#X text 0 122 VERSION 0.2-beta1;
 #X text 0 140 AUTHOR Krzysztof Czaja;
 #X text 1 158 RELEASE_DATE 2002;
 #X text 2 177 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
