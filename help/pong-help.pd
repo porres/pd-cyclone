@@ -1,0 +1,85 @@
+#N canvas 286 76 551 623 10;
+#X obj 0 589 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 185 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 616 310 360 252 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 133 LIBRARY cyclone;
+#X text 0 114 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal fold wrap range;
+#X text 0 38 DESCRIPTION fold or wrap a signal within a given range
+;
+#X text 0 57 INLET_0 signal float mode;
+#X text 0 76 INLET_1 flaot signal;
+#X text 0 95 INLET_2 float signal;
+#X text 1 153 VERSION 0.2-beta1;
+#X text 1 171 AUTHOR Krzysztof Czaja;
+#X text 2 189 RELEASE_DATE 2002;
+#X text 3 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 3 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 501 591 pd META;
+#X obj 0 344 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 381 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 457 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 312 452 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 197 591 pd Related_objects;
+#X obj 86 197 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 354 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty pong 3 12 0 18 -204280 -1 0;
+#X text 112 250 float;
+#X text 193 248 - set low range;
+#X obj 86 298 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 252 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 112 296 float;
+#X text 193 293 - set high range;
+#X text 193 212 - 0 for fold \, 1 for wrap;
+#X text 94 392 1) float;
+#X text 94 409 2) float;
+#X text 94 427 3) float;
+#X text 193 409 - default low value;
+#X text 193 427 - default high value;
+#X text 193 392 - mode (0 for fold \, 1 for wrap);
+#X text 172 84 lo val;
+#X text 253 87 hi val;
+#X floatatom 219 86 0 -100 100 0 - - -;
+#X floatatom 142 85 0 -100 100 0 - - -;
+#X floatatom 93 55 10 0 0 0 - - -, f 10;
+#X text 103 463 pong either folds or wraps its input within the range
+of a lo val and a hi val. The optional arguments are <mode> <lo val>
+<high val>. mode 0 is fold \, mode 1 is wrap. The default mode is fold.
+The default range is zero to one. If hi val is greater than lo val
+\, their behavior is swapped. All inlets accept both signals and floats.
+The mode <int> message may be used to switch between fold and wrap
+mode. It is useful for performing modulo arithmetic \, as well as foldover
+or wraparound distortion.;
+#X text 112 196 float;
+#X text 193 196 - number to wrap or fold;
+#X text 112 212 mode <int>;
+#X obj 219 108 / 100;
+#X obj 142 110 / 100;
+#X obj 506 8 pong;
+#X text 16 23 fold or wrap float input within a given range;
+#X text 112 354 float;
+#X text 193 354 - wrapped or folded number;
+#X floatatom 93 160 10 0 0 0 - - -, f 10;
+#X obj 93 138 cyclone/pong 0 -0.25 0.25;
+#X connect 25 0 32 0;
+#X connect 26 0 33 0;
+#X connect 27 0 39 0;
+#X connect 32 0 39 2;
+#X connect 33 0 39 1;
+#X connect 39 0 38 0;
