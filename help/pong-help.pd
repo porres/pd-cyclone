@@ -1,4 +1,4 @@
-#N canvas 286 76 551 623 10;
+#N canvas 286 76 559 638 10;
 #X obj 0 589 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 185 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -53,11 +53,11 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 193 409 - default low value;
 #X text 193 427 - default high value;
 #X text 193 392 - mode (0 for fold \, 1 for wrap);
-#X text 172 84 lo val;
-#X text 253 87 hi val;
-#X floatatom 219 86 0 -100 100 0 - - -;
-#X floatatom 142 85 0 -100 100 0 - - -;
-#X floatatom 93 55 10 0 0 0 - - -, f 10;
+#X text 120 85 lo val;
+#X text 274 87 hi val;
+#X floatatom 240 86 0 -100 100 0 - - -;
+#X floatatom 166 85 0 -100 100 0 - - -;
+#X floatatom 93 55 10 0 0 0 - - -;
 #X text 103 463 pong either folds or wraps its input within the range
 of a lo val and a hi val. The optional arguments are <mode> <lo val>
 <high val>. mode 0 is fold \, mode 1 is wrap. The default mode is fold.
@@ -69,13 +69,13 @@ or wraparound distortion.;
 #X text 112 196 float;
 #X text 193 196 - number to wrap or fold;
 #X text 112 212 mode <int>;
-#X obj 219 108 / 100;
-#X obj 142 110 / 100;
+#X obj 240 108 / 100;
+#X obj 166 110 / 100;
 #X obj 506 8 pong;
 #X text 16 23 fold or wrap float input within a given range;
 #X text 112 354 float;
 #X text 193 354 - wrapped or folded number;
-#X floatatom 93 160 10 0 0 0 - - -, f 10;
+#X floatatom 93 160 10 0 0 0 - - -;
 #X obj 93 138 cyclone/pong 0 -0.25 0.25;
 #X connect 25 0 32 0;
 #X connect 26 0 33 0;

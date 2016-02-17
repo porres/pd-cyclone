@@ -1,0 +1,95 @@
+#N canvas 591 23 556 801 10;
+#X obj 0 0 cnv 15 552 40 empty empty atodb 3 12 0 18 -204280 -1 0;
+#X obj 0 593 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 681 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 718 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 79 690 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 607 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 96 727 (none);
+#X obj 0 759 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 244 346 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 50 49 cyclone/dbtoa~;
+#X obj 255 49 cyclone/dbtoa;
+#X obj 152 49 cyclone/atodb~;
+#X restore 206 761 pd Related_objects;
+#N canvas 571 307 379 261 META 0;
+#X text 1 0 KEYWORDS signal max_compatible;
+#X text 1 163 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 40 DESCRIPTION absolute value of a signal;
+#X text 1 60 INLET_0 signal;
+#X text 1 80 OUTLET_0 signal;
+#X text 1 121 AUTHOR Krzysztof Czaja;
+#X text 1 20 LICENSE SIBSD;
+#X text 0 101 VERSION 0.2-beta1;
+#X text 0 142 RELEASE_DATE 2002;
+#X text 1 193 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 741 pd META;
+#X text 250 111 Linear Amplitude;
+#X obj 59 139 nbx 5 14 1e-05 1 1 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 1e-05 256;
+#X obj 62 113 hsl 180 15 1e-05 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 8 23 Convert linear amplitude to dBFS;
+#X text 123 549 Conversion expression: dbFS = log10(amp) * 20;
+#X obj 505 7 atodb;
+#X text 52 60 Use [atodb] to convert a linear amplitude value to a
+deciBel Full Scale (dBFS) equivalent.;
+#X msg 214 403 0.1 0.2 0.5 0.7 0.8;
+#X obj 214 461 unpack float float float float float;
+#X floatatom 214 489 7 0 0 0 - - -;
+#X floatatom 267 489 7 0 0 0 - - -;
+#X floatatom 320 489 7 0 0 0 - - -;
+#X floatatom 373 489 7 0 0 0 - - -;
+#X floatatom 427 488 7 0 0 0 - - -;
+#X obj 214 378 loadbang;
+#X text 107 690 float/List;
+#X text 183 690 - dBFS amplitude values;
+#X text 211 340 It can also convert lists of amplitude values:;
+#X obj 107 169 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
+-1 -1;
+#X text 126 169 last output;
+#X msg 215 168 set 0.5;
+#X text 269 168 sets next value to be converted via bang;
+#X obj 108 325 vu 15 120 empty empty -1 -8 0 10 -66577 -1 1 0;
+#X text 125 632 bang;
+#X text 125 645 set;
+#X text 123 603 float;
+#X text 123 618 list;
+#X text 180 618 - list of linear amplitude values;
+#X text 180 645 - sets next float value to be converted via bang;
+#X text 180 632 - outputs the last converted float value;
+#X text 180 603 - linear amplitude value;
+#X obj 214 434 cyclone/atodb;
+#X floatatom 107 272 0 0 0 0 - - -;
+#X msg 32 176 0;
+#X text 232 240 Negative values convert to -inf as if the input;
+#X text 232 258 is "0". You shouldn't really convert negative;
+#X obj 107 233 cyclone/atodb;
+#X text 234 275 values anyway if you knew any better :);
+#X connect 11 0 46 0;
+#X connect 12 0 11 0;
+#X connect 17 0 41 0;
+#X connect 18 0 19 0;
+#X connect 18 1 20 0;
+#X connect 18 2 21 0;
+#X connect 18 3 22 0;
+#X connect 18 4 23 0;
+#X connect 24 0 17 0;
+#X connect 28 0 46 0;
+#X connect 30 0 46 0;
+#X connect 41 0 18 0;
+#X connect 42 0 32 0;
+#X connect 43 0 46 0;
+#X connect 46 0 42 0;
