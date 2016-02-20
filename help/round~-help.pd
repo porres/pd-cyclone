@@ -1,25 +1,26 @@
-#N canvas 940 156 553 489 10;
+#N canvas 938 159 553 489 10;
 #X obj 0 456 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 237 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 590 191 368 226 META 0;
+#N canvas 588 194 552 521 META 0;
 #X text 0 20 LICENSE SIBSD;
-#X text 0 100 LIBRARY cyclone;
-#X text 0 60 INLET_0 float bang;
-#X text 0 80 OUTLET_0 float;
-#X text 0 0 KEYWORDS tan tangent tanh hyperbolic;
-#X text 0 40 DESCRIPTION takes hyperbolic tangent value of a float
+#X text 0 142 LIBRARY cyclone;
+#X text 0 162 VERSION 0.2-beta1;
+#X text 2 217 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 0 120 VERSION 0.2-beta1;
-#X text 0 138 AUTHOR Krzysztof Czaja;
-#X text 1 156 RELEASE_DATE 2002;
-#X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 2 249 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
+#X text 0 180 AUTHOR Derek Kwan;
+#X text 0 40 DESCRIPTION rounds input signal values;
+#X text 0 0 KEYWORDS round;
+#X text 2 120 OUTLET_0 signal;
+#X text 0 60 INLET_0 signal;
+#X text 0 80 INLET_1 float;
+#X text 0 99 INLET_2 float;
+#X text 1 198 RELEASE_DATE 2016;
 #X restore 503 458 pd META;
 #X obj 0 354 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
