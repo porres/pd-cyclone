@@ -1,24 +1,21 @@
-pd-cyclone is a 'fork' of the https://git.puredata.info/cgit/svn2git/libraries/miXed.git/ migrated repository. It is cleaned to contain only the cyclone functionality. Other parts of the miXed library are either moved (pddp) or unmaintained (toxy, ViCious, riddle).
+pd-cyclone is a 'fork' of the https://git.puredata.info/cgit/svn2git/libraries/miXed.git/ migrated repository (forked from Fred Jan Kraan's github at https://github.com/electrickery/pd-cyclone). It only contains the cyclone functionality. Other parts of the miXed library are either moved (pddp) or unmaintained (toxy, ViCious, riddle).
 
-Within the cyclone file set, the transition to a new build system, started with 0.1-alpha57 is completed. The initial version at this github repository will be 0.2beta1.
+The version of cyclone available in https://git.puredata.info/cgit/svn2git/libraries/miXed.git/ is 0.1-Alpha56. You can find in http://puredata.info/downloads/cyclone and unreleased 0.1-Alpha57 version that was maintained by Fred, who was also working a new version 0.2beta1, which was forked to this github. The original location of this repository is https://github.com/electrickery/pd-cyclone.
 
-The new build system is pd-lib-builder based and only builds each object in a separate file. The old build configuration also compiled to the hammer and sickle library objects and included a cyclone meta-library. The original location of this repository is https://github.com/electrickery/pd-cyclone.
+Version 0.2beta1 is available for download via the deken plug in, another version will emerge from this repository with new objects, new functionalities, and bug fixes.
 
 <strong>Goals</strong>
 
-The original goal of cyclone was to create a collection of Max/MSP objects for PureData. This was in the 2000s area, Max/MSP version 4.6. Since then MAX evolved its architecture and file format to something that is incompatible with PureData. Compatibility in patch file level is limited to this very old version of Max/MSP.
+This repository is faithful to the original goal of cyclone in creating a collection of Max/MSP objects for PureData. The early version was in time of Max/MSP 4.6. Further development can include new objects and new functionalities in existing from the most current Max/MSP version (Max 7 nowadays). 
 
-Since then an unknown number of patches is made for these objects in Pure Data. This leads to an additional goal of keeping the functionality backward compatible. Only bug fixes, new objects and if possible, different behaviour with extra arguments or messages will be added. Objects that are incompatible with current Cyclone should have another name or be placed in other libraries. 
+Project is open to collaboration. Ideally all possible objects could be cloned and kept updated, but this is a fair amount of work, so collaborators are free to decide and work on what they consider more relevant and important.
 
 <strong>Compiling with pdlibbuilder</strong>
 
-PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, yo have to specify the path yourself using the pdincludepath variable. Example:
+Original Project Description (from http://puredata.info/downloads/cyclone)
 
-<pre>make pdincludepath=~/pd-0.46-6/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.46-6/bin/)</pre>
+Cyclone is a library of PureData classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
-<strong>Installing with pdlibbuilder</strong>
+In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. In this respect, cyclone has much in common with Thomas Grill's flext, and flext-based externals. See Thomas' page. While flext enables developing new cross-platform classes, cyclone makes existing classes cross-platform. 
 
-The default path for installing might not be the best, surely for testing. Use the pkglibdir variable for this. Example:
-
-<pre>make install pkglibdir=~/pd-externals/</pre>
-
+Cyclone also comes handy, somewhat, in the task of importing Max/MSP 4.x patches into Pd. Do not expect miracles, though, it is usually not an easy task. 
