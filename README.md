@@ -6,9 +6,9 @@ Version 0.2beta1 is available for download via the deken plug in, another versio
 
 <strong>Goals</strong>
 
-This repository is faithful to the original goal of cyclone in creating a collection of Max/MSP objects for PureData. The early version was in time of Max/MSP 4.6. Further development can include new objects and new functionalities in existing from the most current Max/MSP version (Max 7 nowadays). 
+This repository is faithful to the original goal of cyclone in creating an external library with a collection of Max/MSP objects for Pure Data. The early and original version of cyclone was in time of Max/MSP 4.6. New further development can include new functionalities introduced in newer versions of Max/MSP into the already existing objects in cyclone, and can also include new objects according to the most current version of Max/MSP version (version 7 nowadays). 
 
-Project is open to collaboration. Ideally all possible objects could be cloned and kept updated, but this is a fair amount of work, so collaborators are free to decide and work on what they consider more relevant and important.
+Project is open to collaboration. Ideally all possible objects could be cloned and kept updated, but this is a fair amount of work so collaborators are free to decide and work on what they consider more relevant and important.
 
 <strong>Original Project Description</strong>
 
