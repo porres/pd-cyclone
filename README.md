@@ -10,9 +10,7 @@ This repository is faithful to the original goal of cyclone in creating an exter
 
 Project is open to collaboration. Ideally all possible objects could be cloned and kept updated, but this is a fair amount of work so collaborators are free to decide and work on what they consider more relevant and important.
 
-<strong>Original Project Description</strong>
-
-from http://puredata.info/downloads/cyclone
+<strong>Original Project Description</strong> (from http://puredata.info/downloads/cyclone)
 
 Cyclone is a library of PureData classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
