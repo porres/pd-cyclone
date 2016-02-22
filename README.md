@@ -20,6 +20,6 @@ This repository is faithful to the original goal of cyclone in creating an exter
 
 <strong>- B)</strong> New objects according to the most current version of Max/MSP version (version 7 nowadays). 
 
-This repository/project is open to collaboration to anyone who wishes to work according to the central goal of Max/MSP compatibility. Ideally, all of the possible objects could be cloned and kept updated, but this is a fair amount of work so collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. A list of known bugs and things "to do" will be made available with the first release (0.2beta2) to come from this repository ASAP.
+This repository/project is open to collaboration to anyone who wishes to work according to the central goal of Max/MSP compatibility. Ideally, all of the possible objects could be cloned and kept updated, but this is a fair amount of work so collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. Some collaborators are already helping coding new objects, a list of known bugs and things "to do" will be made available with the first release (0.2beta2) to come from this repository ASAP.
 
 February 22nd 2016
