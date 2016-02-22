@@ -1,4 +1,4 @@
-<strong>Previous and Current state / Goals and Further Development</strong>
+<strong>Previous & Current state / Goals & Further Development</strong>
 
 Original author of cyclone is Krzysztof Czaja, who maintained it from 2002-2005. In the late Pd Extended years (up to 2013), cyclone was a part of the project and was maintained by Hans-Christoph Steiner. Fred Jan Kraan maintained it from dec-2014 to feb-2016.
 
