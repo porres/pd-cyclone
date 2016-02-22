@@ -1,4 +1,4 @@
-<strong>Original Project Description (by Krzysztof Czaja)</strong>
+<strong>Original Project Description (by Krzysztof Czaja):</strong>
 
 "Cyclone is a library of PureData classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
@@ -6,7 +6,7 @@ In its current form, cyclone is mainly for people using both Max and Pd, and thu
 
 Cyclone also comes handy, somewhat, in the task of importing Max/MSP 4.x patches into Pd. Do not expect miracles, though, it is usually not an easy task."
 
-<strong>Previous & Current state / Goals & Further Development</strong>
+<strong>Previous & Current state / Goals & Further Development:</strong>
 
 Original author of cyclone is Krzysztof Czaja, who maintained it from 2002-2005. In the late Pd Extended years (up to 2013), cyclone was a part of the project and was maintained by Hans-Christoph Steiner. Fred Jan Kraan maintained it from dec-2014 to feb-2016.
 
