@@ -1,3 +1,5 @@
+Cyclone: a library of clones of Max/MSP objects for Pure Data
+
 <strong>Original Project Description (by Krzysztof Czaja):</strong>
 
 Cyclone is a library of PureData classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
