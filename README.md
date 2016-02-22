@@ -10,9 +10,9 @@ This repository is faithful to the original goal of cyclone in creating an exter
 
 <strong>- B)</strong> New objects according to the most current version of Max/MSP version (version 7 nowadays). 
 
-This repository/project is open to collaboration to anyone who wishes to work according to the central goal of Max/MSP compatibilty. Ideally, all possible objects could be cloned and kept updated, but this is a fair amount of work so collaborators are free to decide and work on what they consider more relevant and important. Any object that has full compatibility to current Max/MSP can be included. A list of known bugs and things "to do" will be made available with the first release to come from this repository, scheduled for ASAP.
+This repository/project is open to collaboration to anyone who wishes to work according to the central goal of Max/MSP compatibilty. Ideally, all of the possible objects could be cloned and kept updated, but this is a fair amount of work so collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or most possible compatibility to current Max/MSP can be included. A list of known bugs and things "to do" will be made available with the first release to come from this repository, scheduled for ASAP.
 
-<strong>Original Project Description</strong> (from http://puredata.info/downloads/cyclone)
+<strong>Original Project Description by Krzysztof Czaja 2002-2005</strong> (from http://puredata.info/downloads/cyclone)
 
 Cyclone is a library of PureData classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
