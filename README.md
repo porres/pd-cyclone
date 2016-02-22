@@ -8,7 +8,7 @@ Cyclone also comes handy, somewhat, in the task of importing Max/MSP 4.x patches
 
 <strong>Previous & Current state / Goals & Further Development:</strong>
 
-Original author of cyclone is Krzysztof Czaja, who maintained it from 2002-2005. Cyclone was a part of Pd Extended and was maintained by Hans-Christoph Steiner until Pd Extended was left unmaintained (up to 2013). Fred Jan Kraan maintained cyclone from dec-2014 to feb-2016.
+Original author of cyclone is Krzysztof Czaja, who maintained it from 2002-2005. Cyclone was a part of Pd Extended and was maintained by Hans-Christoph Steiner until Pd Extended was left unmaintained (up to 2013). Fred Jan Kraan maintained cyclone from dec-2014 to feb-2016. A new maintenance is now being proposed by Porres and Schiavoni on this repository.
 
 The original location of this new cyclone repository is https://github.com/porres/pd-cyclone. This repository started as a 'fork' from Fred Jan Kraan's github (https://github.com/electrickery/pd-cyclone), which was a 'fork' on its own from <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/> containing only the cyclone library (version 0.1-Alpha56, present in the last release of Pd Extended [version 0.43.4] - available in the deken plug in as "cyclone-v0-0extended"). A new version 0.2beta1 is also available for download via the deken plug in and was forked this new repository. Another version will emerge from this repository with new objects, new functionalities, and bug fixes as soon as possible.
 
