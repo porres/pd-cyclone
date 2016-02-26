@@ -1,14 +1,12 @@
-#N canvas 813 137 564 747 10;
-#X obj 1 709 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 811 140 559 744 10;
+#X obj 2 708 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 1 296 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 2 295 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 612 316 360 252 META 0;
+#N canvas 608 322 360 252 META 1;
 #X text 0 19 LICENSE SIBSD;
 #X text 0 133 LIBRARY cyclone;
 #X text 1 153 VERSION 0.2-beta1;
-#X text 3 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
 #X text 3 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
@@ -16,72 +14,67 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 0 0 KEYWORDS float fold wrap range;
 #X text 0 38 DESCRIPTION fold or wrap a float within a given range
 ;
-#X text 0 57 INLET_0 float mode;
 #X text 0 76 INLET_1 float;
 #X text 0 95 INLET_2 float;
 #X text 1 171 AUTHOR Derek Kwan;
 #X text 2 189 RELEASE_DATE 2016;
-#X text 0 114 OUTLET_0 float;
-#X restore 502 711 pd META;
-#X obj 1 455 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X text 0 57 INLET_0 float list message;
+#X text 0 114 OUTLET_0 float list;
+#X restore 503 710 pd META;
+#X obj 2 454 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 1 492 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 491 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 1 653 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 2 652 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 312 452 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 198 711 pd Related_objects;
-#X obj 87 308 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 199 710 pd Related_objects;
+#X obj 88 307 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 465 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 88 464 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 0 0 cnv 15 552 40 empty empty pong 3 12 0 18 -204280 -1 0;
-#X text 113 361 float;
-#X obj 87 409 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 114 360 float;
+#X obj 88 408 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 363 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 88 362 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 113 407 float;
+#X text 114 406 float;
 #X text 63 85 lo val;
 #X text 217 87 hi val;
 #X floatatom 183 86 0 -100 100 0 - - -;
 #X floatatom 109 85 0 -100 100 0 - - -;
 #X floatatom 36 55 10 0 0 0 - - -, f 10;
-#X text 113 307 float;
-#X text 168 310 - number to wrap or fold;
 #X obj 183 108 / 100;
 #X obj 109 110 / 100;
 #X obj 506 8 pong;
-#X text 16 23 fold or wrap float input within a given range;
-#X text 113 465 float;
 #X floatatom 36 160 10 0 0 0 - - -, f 10;
-#X text 95 499 1) float;
-#X text 95 517 2) float;
-#X text 168 502 - optional low value (default = 0);
-#X text 168 520 - optional high value (default = 1);
-#X obj 1 560 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X text 96 498 1) float;
+#X text 96 516 2) float;
+#X text 185 501 - optional low value (default = 0);
+#X text 185 519 - optional high value (default = 1);
+#X obj 2 559 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 92 575 @mode (sym);
-#X text 168 575 - set mode (none = default \, clip \, wrap \, fold)
+#X text 93 574 @mode (sym);
+#X text 185 574 - set mode (none = default \, clip \, wrap \, fold)
 ;
-#X text 104 659 pong is useful for performing modulo arithmetic \,
+#X text 105 658 pong is useful for performing modulo arithmetic \,
 as well as foldover or wraparound distortion.;
-#X text 168 592 - set range (low value \, high value);
-#X text 100 323 message;
-#X text 168 324 - "mode (sym)" sets mode (none = default \, clip \,
+#X text 185 591 - set range (low value \, high value);
+#X text 113 322 message;
+#X text 178 323 - "mode (sym)" sets mode (none = default \, clip \,
 wrap \, fold);
-#X text 74 591 @range (f) (f);
-#X text 168 337 - "range (f) (f)" sets low and high values of range
+#X text 75 590 @range (f) (f);
+#X text 178 339 - "range (f) (f)" sets low and high values of range
 ;
-#X text 167 363 - set low value of range;
-#X text 168 407 - set high value of range;
-#X text 168 468 - original \, clipped \, wrapped \, or folded number
+#X text 179 362 - set low value of range;
+#X text 180 409 - set high value of range;
+#X text 183 464 - original \, clipped \, wrapped \, or folded number
 ;
-#X text 180 534 (if one float in argt \, specifies low val);
+#X text 197 533 (if one float in argt \, specifies low val);
 #X floatatom 243 157 10 0 0 0 - - -, f 10;
-#X floatatom 32 263 10 0 0 0 - - -, f 10;
 #X floatatom 243 262 10 0 0 0 - - -, f 10;
 #X msg 332 213 range -0.5 0.5;
 #X text 333 192 change range via message;
@@ -90,24 +83,32 @@ wrap \, fold);
 #X obj 36 138 cyclone/pong 0 1 @mode clip;
 #X obj 243 135 cyclone/pong 0 1 @mode wrap;
 #X obj 243 240 cyclone/pong @mode clip @range -2 2;
+#X obj 32 263 print ponglist;
+#X msg 29 215 -2.02 1.59 -0.62 3.63 9.54;
+#X text 34 192 can also input lists;
+#X text 114 306 float/list;
+#X text 178 307 - number(s) to wrap or fold;
+#X text 114 464 float/list;
 #X obj 32 241 cyclone/pong 0 1 @mode fold;
-#X connect 16 0 21 0;
-#X connect 17 0 22 0;
-#X connect 18 0 51 0;
-#X connect 18 0 52 0;
-#X connect 18 0 53 0;
-#X connect 18 0 54 0;
-#X connect 21 0 51 2;
-#X connect 21 0 52 2;
-#X connect 21 0 53 2;
-#X connect 21 0 54 2;
-#X connect 22 0 51 1;
-#X connect 22 0 52 1;
-#X connect 22 0 53 1;
-#X connect 22 0 54 1;
-#X connect 47 0 53 0;
-#X connect 49 0 52 0;
-#X connect 51 0 26 0;
-#X connect 52 0 44 0;
-#X connect 53 0 46 0;
-#X connect 54 0 45 0;
+#X text 16 23 fold or wrap float or list input within a given range
+;
+#X connect 16 0 19 0;
+#X connect 17 0 20 0;
+#X connect 18 0 46 0;
+#X connect 18 0 47 0;
+#X connect 18 0 48 0;
+#X connect 19 0 46 2;
+#X connect 19 0 47 2;
+#X connect 19 0 48 2;
+#X connect 19 0 55 2;
+#X connect 20 0 46 1;
+#X connect 20 0 47 1;
+#X connect 20 0 48 1;
+#X connect 20 0 55 1;
+#X connect 42 0 48 0;
+#X connect 44 0 47 0;
+#X connect 46 0 22 0;
+#X connect 47 0 40 0;
+#X connect 48 0 41 0;
+#X connect 50 0 55 0;
+#X connect 55 0 49 0;

@@ -229,7 +229,7 @@ static void pong_list(t_pong *x, t_symbol *s, int argc, t_atom *argv){
 		float returnval, curterm;
 		curterm = atom_getfloatarg(i, argc, argv);
 		returnval = pong_ponger(curterm, minv, maxv, mode);
-		SETFLOAT((outatom+1), (t_float)returnval);
+		SETFLOAT((outatom+i), (t_float)returnval);
 	};
 	outlet_list(x->x_obj.ob_outlet, &s_list, argc, outatom);
 	ATOMS_FREEA(outatom, argc); //free allocated memory for outatom
