@@ -3,6 +3,15 @@
 #include <string.h>
 #include <ctype.h>
 
+#ifndef CYROUNDNEAR_DEF
+#define CYROUNDNEAR_DEF 1
+#endif
+
+#ifndef CYROUNDNUM_DEF
+#define CYROUNDNUM_DEF 0.
+#endif
+
+
 static t_class *round_tilde_class;
 
 typedef struct _round_tilde
@@ -12,68 +21,58 @@ typedef struct _round_tilde
 	float x_nearest; //nearest attribute (1 = rounding, 0 = truncation)
 } t_round_tilde;
 
-static int checknum(const char *s)
-{
-	while(*s){
-		if (isdigit(*s++) == 0) return 0;
-	};
-	return 1;
-}
 
 static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 { float f;
-	int argcheck; //bool for checking arguments
 	t_round_tilde *x = (t_round_tilde *)pd_new(round_tilde_class);
-	if(argc == 1){	//one argument should be the rounded number
-		t_symbol *firstarg = atom_getsymbolarg(0, argc, argv);
-		x->x_nearest = 1;
-		argcheck = checknum(firstarg->s_name);
-		if(argcheck == 0){
-			pd_error(x, "round~: improper args");
-			return NULL;
-		}
-		else{
-			f = atom_getfloatarg(0, argc, argv);
-		};
-	};
-	if(argc == 2){ //two args should be '@nearest' and nearest arg
-		t_symbol *firstarg = atom_getsymbolarg(0, argc, argv);
-		f = 0.;
-		if(strcmp(firstarg->s_name, "@nearest")==0){
-			x->x_nearest = atom_getfloatarg(1, argc, argv);
-		}
-		else{
-			pd_error(x, "round~: improper args");
-			return NULL;
-		};
-	};
-	if(argc == 3){
-		t_symbol *firstarg = atom_getsymbolarg(0, argc, argv);
-		argcheck = checknum(firstarg->s_name);
-		if(argcheck == 1){//first arg is rounded number
-			f = atom_getfloatarg(0, argc, argv);
-			t_symbol *secondarg = atom_getsymbolarg(1, argc, argv);
-			if(strcmp(secondarg->s_name, "@nearest")==0){//second arg is '@nearest'
-				x->x_nearest = atom_getfloatarg(2, argc, argv);
+
+		int numargs = 0;
+		x->x_nearest = CYROUNDNEAR_DEF;
+		f = CYROUNDNUM_DEF;
+		while(argc > 0 ){
+			t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
+			if(curarg == &s_){ //if nullpointer, should be float or int
+				switch(numargs){
+					case 0: 	f = atom_getfloatarg(0, argc, argv);
+								numargs++;
+								argc--;
+								argv++;
+								break;
+				
+					default:	goto errstate;
+				};
 			}
 			else{
-				pd_error(x, "round~: improper args");
-				return NULL;
-			};
-		}
-		else{
-			pd_error(x, "round~: improper args");
-			return NULL;
-		};
+				int isnear = strcmp(curarg->s_name, "@nearest") == 0;
+				if(isnear && argc >= 2){
+					t_symbol *arg1 = atom_getsymbolarg(1, argc, argv);
+					if(arg1 == &s_){// is a number
+						x->x_nearest = atom_getfloatarg(1, argc, argv);
+						argc -= 2;
+						argv += 2;
+						}
+					else{
+						goto errstate;
+					};}
+				else{
+					goto errstate;
+					};	};
 	};
-	if(!argc || argc < 1){
-		x->x_nearest = 1;
-		f = 0.;
-	};
+
+
+
+
+
+
+
+
 	pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), f);
 	 outlet_new(&x->x_obj, gensym("signal"));
 	return (x);
 	
+	errstate:
+		pd_error(x, "round~: improper args");
+		return NULL;
 }
 static t_int *round_tilde_perform(t_int *w)
 {

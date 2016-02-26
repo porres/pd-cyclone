@@ -1,9 +1,9 @@
-#N canvas 284 79 559 638 10;
-#X obj 0 589 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 813 137 564 747 10;
+#X obj 1 709 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 185 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 1 296 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 614 313 360 252 META 1;
+#N canvas 612 316 360 252 META 0;
 #X text 0 19 LICENSE SIBSD;
 #X text 0 133 LIBRARY cyclone;
 #X text 1 153 VERSION 0.2-beta1;
@@ -22,64 +22,92 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 1 171 AUTHOR Derek Kwan;
 #X text 2 189 RELEASE_DATE 2016;
 #X text 0 114 OUTLET_0 float;
-#X restore 501 591 pd META;
-#X obj 0 344 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 502 711 pd META;
+#X obj 1 455 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 381 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 1 492 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 0 457 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 1 653 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 312 452 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 197 591 pd Related_objects;
-#X obj 86 197 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 198 711 pd Related_objects;
+#X obj 87 308 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 354 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 87 465 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 0 0 cnv 15 552 40 empty empty pong 3 12 0 18 -204280 -1 0;
-#X text 112 250 float;
-#X text 193 248 - set low range;
-#X obj 86 298 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 113 361 float;
+#X obj 87 409 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 252 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 87 363 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 112 296 float;
-#X text 193 293 - set high range;
-#X text 193 212 - 0 for fold \, 1 for wrap;
-#X text 94 392 1) float;
-#X text 94 409 2) float;
-#X text 94 427 3) float;
-#X text 193 409 - default low value;
-#X text 193 427 - default high value;
-#X text 193 392 - mode (0 for fold \, 1 for wrap);
-#X text 120 85 lo val;
-#X text 274 87 hi val;
-#X floatatom 240 86 0 -100 100 0 - - -;
-#X floatatom 166 85 0 -100 100 0 - - -;
-#X floatatom 93 55 10 0 0 0 - - -, f 10;
-#X text 103 463 pong either folds or wraps its input within the range
-of a lo val and a hi val. The optional arguments are <mode> <lo val>
-<high val>. mode 0 is fold \, mode 1 is wrap. The default mode is fold.
-The default range is zero to one. If hi val is greater than lo val
-\, their behavior is swapped. All inlets accept both signals and floats.
-The mode <int> message may be used to switch between fold and wrap
-mode. It is useful for performing modulo arithmetic \, as well as foldover
-or wraparound distortion.;
-#X text 112 196 float;
-#X text 193 196 - number to wrap or fold;
-#X text 112 212 mode <int>;
-#X obj 240 108 / 100;
-#X obj 166 110 / 100;
+#X text 113 407 float;
+#X text 63 85 lo val;
+#X text 217 87 hi val;
+#X floatatom 183 86 0 -100 100 0 - - -;
+#X floatatom 109 85 0 -100 100 0 - - -;
+#X floatatom 36 55 10 0 0 0 - - -, f 10;
+#X text 113 307 float;
+#X text 168 310 - number to wrap or fold;
+#X obj 183 108 / 100;
+#X obj 109 110 / 100;
 #X obj 506 8 pong;
 #X text 16 23 fold or wrap float input within a given range;
-#X text 112 354 float;
-#X text 193 354 - wrapped or folded number;
-#X floatatom 93 160 10 0 0 0 - - -, f 10;
-#X obj 93 138 cyclone/pong 0 -0.25 0.25;
-#X connect 25 0 32 0;
-#X connect 26 0 33 0;
-#X connect 27 0 39 0;
-#X connect 32 0 39 2;
-#X connect 33 0 39 1;
-#X connect 39 0 38 0;
+#X text 113 465 float;
+#X floatatom 36 160 10 0 0 0 - - -, f 10;
+#X text 95 499 1) float;
+#X text 95 517 2) float;
+#X text 168 502 - optional low value (default = 0);
+#X text 168 520 - optional high value (default = 1);
+#X obj 1 560 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 92 575 @mode (sym);
+#X text 168 575 - set mode (none = default \, clip \, wrap \, fold)
+;
+#X text 104 659 pong is useful for performing modulo arithmetic \,
+as well as foldover or wraparound distortion.;
+#X text 168 592 - set range (low value \, high value);
+#X text 100 323 message;
+#X text 168 324 - "mode (sym)" sets mode (none = default \, clip \,
+wrap \, fold);
+#X text 74 591 @range (f) (f);
+#X text 168 337 - "range (f) (f)" sets low and high values of range
+;
+#X text 167 363 - set low value of range;
+#X text 168 407 - set high value of range;
+#X text 168 468 - original \, clipped \, wrapped \, or folded number
+;
+#X text 180 534 (if one float in argt \, specifies low val);
+#X floatatom 243 157 10 0 0 0 - - -, f 10;
+#X floatatom 32 263 10 0 0 0 - - -, f 10;
+#X floatatom 243 262 10 0 0 0 - - -, f 10;
+#X msg 332 213 range -0.5 0.5;
+#X text 333 192 change range via message;
+#X msg 332 106 mode none;
+#X text 330 82 change mode via message;
+#X obj 36 138 cyclone/pong 0 1 @mode clip;
+#X obj 243 135 cyclone/pong 0 1 @mode wrap;
+#X obj 243 240 cyclone/pong @mode clip @range -2 2;
+#X obj 32 241 cyclone/pong 0 1 @mode fold;
+#X connect 16 0 21 0;
+#X connect 17 0 22 0;
+#X connect 18 0 51 0;
+#X connect 18 0 52 0;
+#X connect 18 0 53 0;
+#X connect 18 0 54 0;
+#X connect 21 0 51 2;
+#X connect 21 0 52 2;
+#X connect 21 0 53 2;
+#X connect 21 0 54 2;
+#X connect 22 0 51 1;
+#X connect 22 0 52 1;
+#X connect 22 0 53 1;
+#X connect 22 0 54 1;
+#X connect 47 0 53 0;
+#X connect 49 0 52 0;
+#X connect 51 0 26 0;
+#X connect 52 0 44 0;
+#X connect 53 0 46 0;
+#X connect 54 0 45 0;
