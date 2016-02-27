@@ -1,4 +1,4 @@
-#N canvas 974 192 565 576 10;
+#N canvas 972 195 565 576 10;
 #X obj 0 541 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 0 237 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -50,7 +50,6 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 156 62 change mode;
 #X obj 0 449 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 91 464 @nearest;
 #X text 178 464 - set mode (1 = round \, 0 = truncate);
 #X text 178 426 - optional value to round to (default = 0 \, no rounding)
 ;
@@ -71,11 +70,12 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 24 129 cyclone/round 0.5;
 #X obj 160 127 cyclone/round 0.5 @nearest 0;
 #X obj 375 125 cyclone/round 3;
-#X connect 14 0 36 0;
-#X connect 15 0 36 0;
-#X connect 29 0 35 0;
-#X connect 29 0 36 0;
-#X connect 32 0 37 0;
+#X text 91 464 @nearest (int);
+#X connect 14 0 35 0;
+#X connect 15 0 35 0;
+#X connect 28 0 34 0;
+#X connect 28 0 35 0;
+#X connect 31 0 36 0;
+#X connect 34 0 29 0;
 #X connect 35 0 30 0;
-#X connect 36 0 31 0;
-#X connect 37 0 33 0;
+#X connect 36 0 32 0;
