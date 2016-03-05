@@ -27,7 +27,7 @@
 #endif
 
 #ifndef CYPONGHI_DEF
-#define CYPONGHI_DEF 1.
+#define CYPONGHI_DEF 0.
 #endif
 
 static t_class *pong_class;
@@ -66,29 +66,39 @@ static void *pong_new(t_symbol *s, int argc, t_atom *argv){
 	//two optional args (lo, hi), then attributes for mode (str) and range (2 fl)
 	t_pong *x = (t_pong *)pd_new(pong_class);
 	int numargs = 0;//number of args read
+	int pastargs = 0; //if any attrs have been declared yet
 	x->minval = CYPONGLO_DEF;
 	x->maxval = CYPONGHI_DEF;
 	x->mode = CYPONGMODE_DEF;
 	while(argc > 0 ){
 		t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
 			if(curarg == &s_){ //if nullpointer, should be float or int
-				switch(numargs){
-					case 0: 	x->minval = atom_getfloatarg(0, argc, argv);
-								numargs++;
-								argc--;
-								argv++;
-								break;
-				
-					case 1: 	x->maxval = atom_getfloatarg(0, argc, argv);
-								numargs++;
-								argc--;
-								argv++;
-								break;
-				
-					default:	goto errstate;
+				if(!pastargs){//if we aren't past the args yet
+					switch(numargs){
+						case 0: 	x->minval = atom_getfloatarg(0, argc, argv);
+									numargs++;
+									argc--;
+									argv++;
+									break;
+					
+						case 1: 	x->maxval = atom_getfloatarg(0, argc, argv);
+									numargs++;
+									argc--;
+									argv++;
+									break;
+					
+						default:	argc--;
+									argv++;
+									break;
+					};
+				}
+				else{
+					argc--;
+					argv++;
 				};
 			}
 			else{
+			pastargs = 1;
 			int isrange = strcmp(curarg->s_name, "@range") == 0;
 			int ismode = strcmp(curarg->s_name, "@mode") == 0;
 			if(isrange && argc >= 3){
@@ -133,11 +143,14 @@ static void *pong_new(t_symbol *s, int argc, t_atom *argv){
 static float pong_ponger(float input, float minval, float maxval, int mode){
 	//pong helper function
 	float returnval;
+	float range = maxval - minval;
 	if(input <= maxval && input >= minval){//if input in range, return input
 		returnval = input;
 		}
+	else if(minval == maxval){
+		returnval = minval;
+	}
 	else if(mode == 3){//folding
-		float range = maxval - minval;
 		if(input < minval){
 			float diff = minval - input; //diff between input and minimum (positive)
 			int mag = (int)(diff/range); //case where input is more than a range away from minval
@@ -164,7 +177,15 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 			};
 		}
 	else if (mode == 2){// wrapping
-		returnval = fmod(input-minval,maxval-minval) + minval;
+		if(input < minval){
+			returnval = input;
+			while(returnval < minval){
+					returnval += range;
+			};
+		}
+		else{
+			returnval = fmod(input-minval,maxval-minval) + minval;
+		};
 	}
 	else if(mode == 1){//clipping
 		if(input < minval){
