@@ -43,22 +43,32 @@ static void *round_new(t_symbol *s, int argc, t_atom *argv)
 	t_round *x = (t_round *)pd_new(round_class);
 
 		int numargs = 0;
+		int pastargs = 0; //if we are past the args and entered an attribute
 		x->x_nearest = CYROUNDNEAR_DEF;
 		x->x_round = CYROUNDNUM_DEF;
 		while(argc > 0 ){
 			t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
 			if(curarg == &s_){ //if nullpointer, should be float or int
-				switch(numargs){
-					case 0: 	x->x_round = atom_getfloatarg(0, argc, argv);
-								numargs++;
-								argc--;
-								argv++;
-								break;
-				
-					default:	goto errstate;
+				if(!pastargs){//if we haven't declared any attrs yet
+					switch(numargs){
+						case 0: 	x->x_round = atom_getfloatarg(0, argc, argv);
+									numargs++;
+									argc--;
+									argv++;
+									break;
+					
+						default:	argc--;
+									argv++;
+									break;
+					};
+				}
+				else{
+					argc--;
+					argv++;
 				};
 			}
 			else{
+				pastargs = 1;
 				int isnear = strcmp(curarg->s_name, "@nearest") == 0;
 				if(isnear && argc >= 2){
 					t_symbol *arg1 = atom_getsymbolarg(1, argc, argv);
@@ -77,10 +87,6 @@ static void *round_new(t_symbol *s, int argc, t_atom *argv)
 
 
 	
-	if(!argc || argc < 1){
-		x->x_nearest = 1;
-		x->x_round = 0.;
-	};
 	floatinlet_new(&x->x_obj, &x->x_round);
  
 	outlet_new(&x->x_obj, gensym("list"));
@@ -159,10 +165,10 @@ static void round_float(t_round *x, t_float f){
 
 static void round_nearest(t_round *x, t_float f, t_float glob){
 	if(f <= 0.){
-		x->x_nearest = 0.;
+		x->x_nearest = 0;
 	}
 	else{
-		x->x_nearest = f;
+		x->x_nearest = 1;
 	};
 }
 

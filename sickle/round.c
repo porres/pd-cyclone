@@ -17,7 +17,7 @@ static t_class *round_tilde_class;
 typedef struct _round_tilde
 {
 	t_object x_obj;
-	float x_f; //dummy var needed for CLASS_MAINSIGNALIN
+	//float x_f; //dummy var needed for CLASS_MAINSIGNALIN
 	float x_nearest; //nearest attribute (1 = rounding, 0 = truncation)
 } t_round_tilde;
 
@@ -27,22 +27,32 @@ static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 	t_round_tilde *x = (t_round_tilde *)pd_new(round_tilde_class);
 
 		int numargs = 0;
+		int pastargs = 0;//if we haven't declared any attrs yet
 		x->x_nearest = CYROUNDNEAR_DEF;
 		f = CYROUNDNUM_DEF;
 		while(argc > 0 ){
 			t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
 			if(curarg == &s_){ //if nullpointer, should be float or int
-				switch(numargs){
-					case 0: 	f = atom_getfloatarg(0, argc, argv);
-								numargs++;
-								argc--;
-								argv++;
-								break;
-				
-					default:	goto errstate;
+				if(!pastargs){
+					switch(numargs){//we haven't declared attrs yet
+						case 0: 	f = atom_getfloatarg(0, argc, argv);
+									numargs++;
+									argc--;
+									argv++;
+									break;
+					
+						default:	argc--;
+									argv++;
+									break;
+					};
+				}
+				else{
+					argc--;
+					argv++;
 				};
 			}
 			else{
+				pastargs = 1;
 				int isnear = strcmp(curarg->s_name, "@nearest") == 0;
 				if(isnear && argc >= 2){
 					t_symbol *arg1 = atom_getsymbolarg(1, argc, argv);
@@ -117,10 +127,10 @@ static t_int *round_tilde_perform(t_int *w)
 
 static void round_tilde_nearest(t_round_tilde *x, t_float f, t_float glob){
 	if(f <= 0.){
-		x->x_nearest = 0.;
+		x->x_nearest = 0;
 	}
 	else{
-		x->x_nearest = f;
+		x->x_nearest = 1;
 	};
 }
 static void round_tilde_dsp(t_round_tilde *x, t_signal **sp)
@@ -133,7 +143,8 @@ void round_tilde_setup(void)
 {
 	round_tilde_class = class_new(gensym("round~"), (t_newmethod)round_tilde_new, 0,
 	sizeof(t_round_tilde), 0, A_GIMME, 0);
-	CLASS_MAINSIGNALIN(round_tilde_class, t_round_tilde, x_f);
+	//CLASS_MAINSIGNALIN(round_tilde_class, t_round_tilde, 0);
+	class_addmethod(round_tilde_class, nullfn, gensym("signal"), 0);
 	class_addmethod(round_tilde_class, (t_method)round_tilde_dsp, gensym("dsp"), 0);
 	class_addmethod(round_tilde_class, (t_method)round_tilde_nearest,  gensym("nearest"), A_FLOAT, 0);
 }
