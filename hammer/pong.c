@@ -147,6 +147,9 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 	if(input <= maxval && input >= minval){//if input in range, return input
 		returnval = input;
 		}
+	else if(minval == maxval){
+		returnval = minval;
+	}
 	else if(mode == 3){//folding
 		if(input < minval){
 			float diff = minval - input; //diff between input and minimum (positive)
