@@ -172,7 +172,7 @@ static float pong_tilde_ponger(float input, float minval, float maxval, int mode
 	if(input <= maxval && input >= minval){//if input in range, return input
 		returnval = input;
 		}
-	else if(minval == maxval){
+	else if(minval == maxval && mode != 3){
 		returnval = minval;
 	}
 	else if(mode == 0){//folding
