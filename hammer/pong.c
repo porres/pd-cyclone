@@ -19,15 +19,15 @@
 #endif
 
 #ifndef CYPONGMODE_DEF
-#define CYPONGMODE_DEF 0
+#define CYPONGMODE_DEF 3
 #endif
 
 #ifndef CYPONGLO_DEF
-#define CYPONGLO_DEF 0.
+#define CYPONGLO_DEF 0.f
 #endif
 
 #ifndef CYPONGHI_DEF
-#define CYPONGHI_DEF 0.
+#define CYPONGHI_DEF 0.f
 #endif
 
 static t_class *pong_class;
@@ -42,25 +42,27 @@ typedef struct _pong {//pong (control rate)
 
 
 
-static int pong_setmode_help(const char * mode){
+static int pong_setmode_help(char const * mode){
 //helper function for setting mode
-int retmode; //int val for mode (see struct)
-	if(strcmp(mode, "clip") == 0){
-		retmode = 2;
-	}
-	else if(strcmp(mode, "wrap") == 0){
-		retmode = 1;
-	}
-	else if(strcmp(mode, "fold") == 0){
-		retmode = 0;
-	}
-	else{//default to none o/wise
-		retmode = 3;
-	};
-
+	int retmode; //int val for mode (see struct)
+		if(strcmp(mode, "clip") == 0){
+			retmode = 2;
+		}
+		else if(strcmp(mode, "wrap") == 0){
+			retmode = 1;
+		}
+		else if(strcmp(mode, "fold") == 0){
+			retmode = 0;
+		}
+		else{//default to none o/wise
+			retmode = 3;
+		};
+	
 	return retmode;
 	
 };
+
+
 
 static void *pong_new(t_symbol *s, int argc, t_atom *argv){
 	//two optional args (lo, hi), then attributes for mode (str) and range (2 fl)
@@ -131,7 +133,6 @@ static void *pong_new(t_symbol *s, int argc, t_atom *argv){
 
 	floatinlet_new(&x->x_obj, &x->minval);
 	floatinlet_new(&x->x_obj, &x->maxval);
-
 	outlet_new(&x->x_obj, gensym("list"));
 	return (x);
 	errstate:
@@ -147,7 +148,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 	if(input <= maxval && input >= minval){//if input in range, return input
 		returnval = input;
 		}
-	else if(minval == maxval){
+	else if(minval == maxval && mode != 3){
 		returnval = minval;
 	}
 	else if(mode == 0){//folding
@@ -275,11 +276,11 @@ static void pong_setrange(t_pong *x, t_float lo, t_float hi){
 }
 
 static void pong_setmode(t_pong *x, t_symbol *s){
-	int setmode;
+		int setmode;
 
-	setmode = pong_setmode_help(s->s_name);
-	x->mode = setmode;
-	
+			setmode = pong_setmode_help(s->s_name);
+				x->mode = setmode;
+					
 }
 
 	void pong_setup(void){
