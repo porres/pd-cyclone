@@ -34,7 +34,7 @@ static t_class *pong_class;
 
 typedef struct _pong {//pong (control rate) 
 	t_object x_obj;
-	int mode; //0=none, 1 = clip, 2 = wrap, 3=fold
+	int mode; //0=fold, 1 = wrap, 2 = clip, 3 = none
 	t_float minval;
 	t_float maxval;
 } t_pong;
@@ -46,16 +46,16 @@ static int pong_setmode_help(const char * mode){
 //helper function for setting mode
 int retmode; //int val for mode (see struct)
 	if(strcmp(mode, "clip") == 0){
-		retmode = 1;
-	}
-	else if(strcmp(mode, "wrap") == 0){
 		retmode = 2;
 	}
+	else if(strcmp(mode, "wrap") == 0){
+		retmode = 1;
+	}
 	else if(strcmp(mode, "fold") == 0){
-		retmode = 3;
+		retmode = 0;
 	}
 	else{//default to none o/wise
-		retmode = 0;
+		retmode = 3;
 	};
 
 	return retmode;
@@ -150,7 +150,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 	else if(minval == maxval){
 		returnval = minval;
 	}
-	else if(mode == 3){//folding
+	else if(mode == 0){//folding
 		if(input < minval){
 			float diff = minval - input; //diff between input and minimum (positive)
 			int mag = (int)(diff/range); //case where input is more than a range away from minval
@@ -176,7 +176,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 				};
 			};
 		}
-	else if (mode == 2){// wrapping
+	else if (mode == 1){// wrapping
 		if(input < minval){
 			returnval = input;
 			while(returnval < minval){
@@ -187,7 +187,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 			returnval = fmod(input-minval,maxval-minval) + minval;
 		};
 	}
-	else if(mode == 1){//clipping
+	else if(mode == 2){//clipping
 		if(input < minval){
 			returnval = minval;
 		}
@@ -195,7 +195,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 			returnval = maxval;
 		};
 	}
-	else{//mode = 0, no effect
+	else{//mode = 3, no effect
 		returnval = input;
 	};
 
