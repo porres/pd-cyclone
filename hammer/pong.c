@@ -257,7 +257,7 @@ static void pong_list(t_pong *x, t_symbol *s, int argc, t_atom *argv){
 	
 }
 
-void pong_setrange(t_pong *x, t_float lo, t_float hi){
+static void pong_setrange(t_pong *x, t_float lo, t_float hi){
 	float minv, maxv;
 
 	minv = lo;
@@ -274,7 +274,7 @@ void pong_setrange(t_pong *x, t_float lo, t_float hi){
 
 }
 
-void pong_setmode(t_pong *x, t_symbol *s){
+static void pong_setmode(t_pong *x, t_symbol *s){
 	int setmode;
 
 	setmode = pong_setmode_help(s->s_name);
