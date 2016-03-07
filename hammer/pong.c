@@ -19,22 +19,22 @@
 #endif
 
 #ifndef CYPONGMODE_DEF
-#define CYPONGMODE_DEF 0
+#define CYPONGMODE_DEF 3
 #endif
 
 #ifndef CYPONGLO_DEF
-#define CYPONGLO_DEF 0.
+#define CYPONGLO_DEF 0.f
 #endif
 
 #ifndef CYPONGHI_DEF
-#define CYPONGHI_DEF 0.
+#define CYPONGHI_DEF 0.f
 #endif
 
 static t_class *pong_class;
 
 typedef struct _pong {//pong (control rate) 
 	t_object x_obj;
-	int mode; //0=none, 1 = clip, 2 = wrap, 3=fold
+	int mode; //0=fold, 1 = wrap, 2 = clip, 3 = none
 	t_float minval;
 	t_float maxval;
 } t_pong;
@@ -42,25 +42,27 @@ typedef struct _pong {//pong (control rate)
 
 
 
-static int pong_setmode_help(const char * mode){
+static int pong_setmode_help(char const * mode){
 //helper function for setting mode
-int retmode; //int val for mode (see struct)
-	if(strcmp(mode, "clip") == 0){
-		retmode = 1;
-	}
-	else if(strcmp(mode, "wrap") == 0){
-		retmode = 2;
-	}
-	else if(strcmp(mode, "fold") == 0){
-		retmode = 3;
-	}
-	else{//default to none o/wise
-		retmode = 0;
-	};
-
+	int retmode; //int val for mode (see struct)
+		if(strcmp(mode, "clip") == 0){
+			retmode = 2;
+		}
+		else if(strcmp(mode, "wrap") == 0){
+			retmode = 1;
+		}
+		else if(strcmp(mode, "fold") == 0){
+			retmode = 0;
+		}
+		else{//default to none o/wise
+			retmode = 3;
+		};
+	
 	return retmode;
 	
 };
+
+
 
 static void *pong_new(t_symbol *s, int argc, t_atom *argv){
 	//two optional args (lo, hi), then attributes for mode (str) and range (2 fl)
@@ -131,7 +133,6 @@ static void *pong_new(t_symbol *s, int argc, t_atom *argv){
 
 	floatinlet_new(&x->x_obj, &x->minval);
 	floatinlet_new(&x->x_obj, &x->maxval);
-
 	outlet_new(&x->x_obj, gensym("list"));
 	return (x);
 	errstate:
@@ -147,10 +148,10 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 	if(input <= maxval && input >= minval){//if input in range, return input
 		returnval = input;
 		}
-	else if(minval == maxval){
+	else if(minval == maxval && mode != 3){
 		returnval = minval;
 	}
-	else if(mode == 3){//folding
+	else if(mode == 0){//folding
 		if(input < minval){
 			float diff = minval - input; //diff between input and minimum (positive)
 			int mag = (int)(diff/range); //case where input is more than a range away from minval
@@ -176,7 +177,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 				};
 			};
 		}
-	else if (mode == 2){// wrapping
+	else if (mode == 1){// wrapping
 		if(input < minval){
 			returnval = input;
 			while(returnval < minval){
@@ -187,7 +188,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 			returnval = fmod(input-minval,maxval-minval) + minval;
 		};
 	}
-	else if(mode == 1){//clipping
+	else if(mode == 2){//clipping
 		if(input < minval){
 			returnval = minval;
 		}
@@ -195,7 +196,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 			returnval = maxval;
 		};
 	}
-	else{//mode = 0, no effect
+	else{//mode = 3, no effect
 		returnval = input;
 	};
 
@@ -257,7 +258,7 @@ static void pong_list(t_pong *x, t_symbol *s, int argc, t_atom *argv){
 	
 }
 
-void pong_setrange(t_pong *x, t_float lo, t_float hi){
+static void pong_setrange(t_pong *x, t_float lo, t_float hi){
 	float minv, maxv;
 
 	minv = lo;
@@ -274,12 +275,12 @@ void pong_setrange(t_pong *x, t_float lo, t_float hi){
 
 }
 
-void pong_setmode(t_pong *x, t_symbol *s){
-	int setmode;
+static void pong_setmode(t_pong *x, t_symbol *s){
+		int setmode;
 
-	setmode = pong_setmode_help(s->s_name);
-	x->mode = setmode;
-	
+			setmode = pong_setmode_help(s->s_name);
+				x->mode = setmode;
+					
 }
 
 	void pong_setup(void){

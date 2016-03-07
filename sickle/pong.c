@@ -1,250 +1,353 @@
-/* Copyright (c) 2003 krzYszcz and others.
- * For information on usage and redistribution, and for a DISCLAIMER OF ALL
- * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
-
-/* CHECKED whatever args, there are always 3 inlets (refman's rubbish) */
-
 #include "m_pd.h"
-#include "common/loud.h"
-#include "unstable/forky.h"
-#include "sickle/sic.h"
+#include <math.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
 
-#ifdef KRZYSZCZ
-//#define PONG_DEBUG
+#ifndef HAVE_ALLOCA     /* can work without alloca() but we never need it */
+#define HAVE_ALLOCA 1
+#endif
+#define TEXT_NGETBYTE 100 /* bigger that this we use alloc, not alloca */
+#if HAVE_ALLOCA
+#define ATOMS_ALLOCA(x, n) ((x) = (t_atom *)((n) < TEXT_NGETBYTE ?  \
+			        alloca((n) * sizeof(t_atom)) : getbytes((n) * sizeof(t_atom))))
+#define ATOMS_FREEA(x, n) ( \
+		    ((n) < TEXT_NGETBYTE || (freebytes((x), (n) * sizeof(t_atom)), 0)))
+#else
+#define ATOMS_ALLOCA(x, n) ((x) = (t_atom *)getbytes((n) * sizeof(t_atom)))
+#define ATOMS_FREEA(x, n) (freebytes((x), (n) * sizeof(t_atom)))
 #endif
 
-#define PONG_DEFLO  0.
-#define PONG_DEFHI  1.
-
-typedef struct _pong
-{
-    t_sic     x_sic;
-    t_glist  *x_glist;
-    int       x_mode;
-} t_pong;
-
-static t_class *pong_class;
-
-static t_int *pong_perform(t_int *w)
-{
-    t_pong *x = (t_pong *)(w[1]);
-    int nblock = (int)(w[2]);
-    t_float *in1 = (t_float *)(w[3]);
-    t_float *in2 = (t_float *)(w[4]);
-    t_float *in3 = (t_float *)(w[5]);
-    t_float *out = (t_float *)(w[6]);
-    if (x->x_mode) while (nblock--)
-    {
-	float f = *in1++;
-	float lo = *in2++;
-	float hi = *in3++;
-	float range;
-	if (lo < hi) range = hi - lo;
-	else if (lo > hi)
-	{
-	    range = lo;
-	    lo = hi;
-	    hi = range;
-	    range -= lo;
-	}
-	else
-	{
-	    *out++ = lo;
-	    continue;
-	}
-	if (f < lo)
-	{
-	    if (f < lo - range)
-	    {
-		double dnorm = (f - lo) / range;
-		dnorm -= (int)dnorm;
-		*out++ = hi + dnorm * range;
-	    }
-	    else *out++ = f + range;
-	}
-	else if (f > hi)
-	{
-	    if (f > hi + range)
-	    {
-		double dnorm = (f - lo) / range;
-		dnorm -= (int)dnorm;
-		*out++ = lo + dnorm * range;
-	    }
-	    else *out++ = f - range;
-	}
-	else *out++ = f;
-    }
-    else while (nblock--)
-    {
-	float f = *in1++;
-	float lo = *in2++;
-	float hi = *in3++;
-	float range;
-	if (lo < hi) range = hi - lo;
-	else if (lo > hi)
-	{
-	    range = lo;
-	    lo = hi;
-	    hi = range;
-	    range -= lo;
-	}
-	else
-	{
-	    *out++ = lo;
-	    continue;
-	}
-	if (f < lo)
-	{
-	    f = lo - f;
-	    if (f <= range)
-	    {
-		*out++ = lo + f;
-		continue;
-	    }
-	}
-	else if (f > hi) f -= lo;
-	else
-	{
-	    *out++ = f;
-	    continue;
-	}
-	if (f > range + range)
-	{
-	    double dnorm = f / range;
-	    int inorm = (int)dnorm;
-	    if (inorm % 2)
-		*out++ = lo + ((inorm + 1) - dnorm) * range;
-	    else
-		*out++ = lo + (dnorm - inorm) * range;
-	}
-	else *out++ = hi + range - f;
-    }
-    return (w + 7);
-}
-
-static t_int *pong_perform_nofeeders(t_int *w)
-{
-    t_pong *x = (t_pong *)(w[1]);
-    int nblock = (int)(w[2]);
-    t_float *in1 = (t_float *)(w[3]);
-    t_float *in2 = (t_float *)(w[4]);
-    t_float *in3 = (t_float *)(w[5]);
-    t_float *out = (t_float *)(w[6]);
-    float lo = *in2;
-    float hi = *in3;
-    float range;
-    double coef;
-    if (lo < hi) range = hi - lo;
-    else if (lo > hi)
-    {
-	range = lo;
-	lo = hi;
-	hi = range;
-	range -= lo;
-    }
-    else
-    {
-	while (nblock--) *out++ = lo;
-	goto done;
-    }
-    coef = 1. / range;
-    if (x->x_mode) while (nblock--)
-    {
-	float f = *in1++;
-	if (f < lo)
-	{
-	    if (f < lo - range)
-	    {
-		double dnorm = (f - lo) * coef;
-		dnorm -= (int)dnorm;
-		*out++ = hi + dnorm * range;
-	    }
-	    else *out++ = f + range;
-	}
-	else if (f > hi)
-	{
-	    if (f > hi + range)
-	    {
-		double dnorm = (f - lo) * coef;
-		dnorm -= (int)dnorm;
-		*out++ = lo + dnorm * range;
-	    }
-	    else *out++ = f - range;
-	}
-	else *out++ = f;
-    }
-    else while (nblock--)
-    {
-	float f = *in1++;
-	if (f < lo)
-	{
-	    f = lo - f;
-	    if (f <= range)
-	    {
-		*out++ = lo + f;
-		continue;
-	    }
-	}
-	else if (f > hi) f -= lo;
-	else
-	{
-	    *out++ = f;
-	    continue;
-	}
-	if (f > range + range)
-	{
-	    double dnorm = f * coef;
-	    int inorm = (int)dnorm;
-	    if (inorm % 2)
-		*out++ = lo + ((inorm + 1) - dnorm) * range;
-	    else
-		*out++ = lo + (dnorm - inorm) * range;
-	}
-	else *out++ = hi + range - f;
-    }
-done:
-    return (w + 7);
-}
-
-static void pong_dsp(t_pong *x, t_signal **sp)
-{
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal) ||
-	forky_hasfeeders((t_object *)x, x->x_glist, 2, &s_signal))
-	dsp_add(pong_perform, 6, x, sp[0]->s_n,
-		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
-    else
-    {
-#ifdef PONG_DEBUG
-	loudbug_post("using pong_perform_nofeeders");
+#ifndef CYPONGTMODE_DEF
+#define CYPONGTMODE_DEF 0
 #endif
-	dsp_add(pong_perform_nofeeders, 6, x, sp[0]->s_n,
-		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
-    }
+
+#ifndef CYPONGTLO_DEF
+#define CYPONGTLO_DEF 0.f
+#endif
+
+#ifndef CYPONGTHI_DEF
+#define CYPONGTHI_DEF 1.f
+#endif
+
+static t_class *pong_tilde_class;
+
+typedef struct _pong_tilde {//pong_tilde (control rate) 
+	t_object x_obj;
+	int mode; //0=fold, 1 = wrap, 2 = clip, 3 = none
+//	t_float minval;
+//	t_float maxval;
+	t_float x_input; //dummy var
+	int x_numargs;//num of args given
+} t_pong_tilde;
+
+
+
+static int pong_tilde_setmode_help(char const * mode){
+//helper function for setting mode
+int retmode; //int val for mode (see struct)
+		if(strcmp(mode, "clip") == 0){
+			retmode = 2;
+		}
+		else if(strcmp(mode, "wrap") == 0){
+			retmode = 1;
+		}
+		else if(strcmp(mode, "fold") == 0){
+			retmode = 0;
+		}
+		else{//default to none o/wise
+			retmode = 3;
+		};
+	
+	return retmode;
+	
+};
+
+static void *pong_tilde_new(t_symbol *s, int argc, t_atom *argv){
+	//two optional args (lo, hi), then attributes for mode (str) and range (2 fl)
+	t_pong_tilde *x = (t_pong_tilde *)pd_new(pong_tilde_class);
+	int numargs = 0;//number of args read
+	int pastargs = 0; //if any attrs have been declared yet
+	float minval = CYPONGTLO_DEF;
+	float maxval = CYPONGTHI_DEF;
+	x->mode = CYPONGTMODE_DEF;
+	
+	while(argc > 0 ){
+		t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
+			if(curarg == &s_){ //if nullpointer, should be float or int
+				if(!pastargs){//if we aren't past the args yet
+					switch(numargs){
+						float mode;
+						int setmode;
+						case 0: 	mode =atom_getfloatarg(0, argc, argv);
+									setmode = (int)mode;
+									if(mode < 0){
+										setmode = 0;
+									}
+									else if(mode > 3){
+										setmode = 3;
+									}
+									x->mode = setmode;
+									numargs++;
+									argc--;
+									argv++;
+									break;
+					
+						case 1: 	minval = atom_getfloatarg(0, argc, argv);
+									numargs++;
+									argc--;
+									argv++;
+									break;
+
+						case 2: 	maxval = atom_getfloatarg(0, argc, argv);
+									numargs++;
+									argc--;
+									argv++;
+									break;
+					
+
+						default:	argc--;
+									argv++;
+									break;
+					};
+				}
+				else{
+					argc--;
+					argv++;
+				};
+			}
+			else{
+			pastargs = 1;
+			int isrange = strcmp(curarg->s_name, "@range") == 0;
+			int ismode = strcmp(curarg->s_name, "@mode") == 0;
+			if(isrange && argc >= 3){
+					t_symbol *arg1 = atom_getsymbolarg(1, argc, argv);
+					t_symbol *arg2 = atom_getsymbolarg(2, argc, argv);
+					if(arg1 == &s_ && arg2 == &s_){
+						minval = atom_getfloatarg(1, argc, argv);
+						maxval = atom_getfloatarg(2, argc, argv);
+						argc -= 3;
+						argv += 3;
+					}
+					else{
+						goto errstate;
+					};}
+	
+			else if(ismode && argc >= 2){
+					t_symbol *arg3 = atom_getsymbolarg(1, argc, argv);
+					if(arg3 != &s_){
+						x->mode = pong_tilde_setmode_help(arg3->s_name);
+						argc -= 2;
+						argv += 2;
+					}
+					else{
+						goto errstate;
+					};}
+			else{
+				goto errstate;
+			};	};
+	};
+	if(numargs <= 1){
+
+		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), maxval);
+	}
+	else{
+
+		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), minval);
+		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), maxval);
+	};
+	x->x_numargs = numargs;
+	 outlet_new(&x->x_obj, gensym("signal"));
+	return (x);
+	errstate:
+		pd_error(x, "pong~: improper args");
+		return NULL;
 }
 
-static void pong_mode(t_pong *x, t_floatarg f)
-{
-    x->x_mode = ((int)f != 0);
+
+static float pong_tilde_ponger(float input, float minval, float maxval, int mode){
+	//pong_tilde helper function
+	float returnval;
+	float range = maxval - minval;
+	if(input <= maxval && input >= minval){//if input in range, return input
+		returnval = input;
+		}
+	else if(minval == maxval && mode != 3){
+		returnval = minval;
+	}
+	else if(mode == 0){//folding
+		if(input < minval){
+			float diff = minval - input; //diff between input and minimum (positive)
+			int mag = (int)(diff/range); //case where input is more than a range away from minval
+			if(mag % 2 == 0){// even number of ranges away = counting up from min
+				diff = diff - ((float)mag)*range;
+				returnval = diff + minval;
+				}
+			else{// odd number of ranges away = counting down from max
+				diff = diff - ((float)mag)*range;
+				returnval = maxval - diff;
+				};
+			}
+		else{ //input > maxval
+			float diff = input - maxval; //diff between input and max (positive)
+			int mag  = (int)(diff/range); //case where input is more than a range away from maxval
+			if(mag % 2 == 0){//even number of ranges away = counting down from max
+				diff = diff - (float)mag*range;
+				returnval = maxval - diff;
+				}
+			else{//odd number of ranges away = counting up from min
+				diff = diff - (float)mag*range;
+				returnval = diff + minval;
+				};
+			};
+		}
+	else if (mode == 1){// wrapping
+		if(input < minval){
+			returnval = input;
+			while(returnval < minval){
+					returnval += range;
+			};
+		}
+		else{
+			returnval = fmod(input-minval,maxval-minval) + minval;
+		};
+	}
+	else if(mode == 2){//clipping
+		if(input < minval){
+			returnval = minval;
+		}
+		else{//input > maxval
+			returnval = maxval;
+		};
+	}
+	else{//mode = 3, no effect
+		returnval = input;
+	};
+
+	return returnval;
+
 }
 
-static void *pong_new(t_symbol *s, int ac, t_atom *av)
-{
-    t_pong *x = (t_pong *)pd_new(pong_class);
-    x->x_glist = canvas_getcurrent();
-    x->x_mode = (ac && av->a_type == A_FLOAT
-		 && (int)av->a_w.w_float != 0);
-    sic_inlet((t_sic *)x, 1, PONG_DEFLO, 1, ac, av);
-    sic_inlet((t_sic *)x, 2, PONG_DEFHI, 2, ac, av);
-    outlet_new((t_object *)x, &s_signal);
-    return (x);
+/*
+static void pong_tilde_setrange(t_pong_tilde *x, t_float lo, t_float hi){
+	float minv, maxv;
+
+	minv = lo;
+	maxv = hi;
+	if(minv > maxv){//checking ranges
+		float temp;
+		temp = maxv;
+		maxv = minv;
+		minv = temp;
+		};
+
+	x->minval = minv;
+	x->maxval = maxv;
+
+}
+*/
+
+static void pong_tilde_setmode(t_pong_tilde *x, t_symbol *s, int argc, t_atom *argv){
+		int setmode;
+		if(argc > 0){
+			t_symbol *arg1 = atom_getsymbolarg(0, argc, argv);
+			if(arg1 == &s_){ // if arg is a number
+				float mode = atom_getfloatarg(0, argc, argv);
+				setmode = (int) mode;
+				if( setmode < 0){
+					setmode = 0;
+				}
+				else if( setmode > 3){
+					setmode = 3;
+				};
+			}
+			else{//if arg is a symbol
+				setmode = pong_tilde_setmode_help(arg1->s_name);
+			};
+
+			x->mode = setmode;
+		};
+					
 }
 
-void pong_tilde_setup(void)
+static t_int *pong_tilde_perform(t_int *w)
 {
-    pong_class = class_new(gensym("pong~"),
-			   (t_newmethod)pong_new, 0,
-			   sizeof(t_pong), 0, A_GIMME, 0);
-    sic_setup(pong_class, pong_dsp, SIC_FLOATTOSIGNAL);
-    class_addmethod(pong_class, (t_method)pong_mode,
-		    gensym("mode"), A_DEFFLOAT, 0);  /* CHECKED default */
+	t_pong_tilde *x = (t_pong_tilde *)(w[1]);
+	t_float *in1 = (t_float *)(w[2]);
+	t_float *in2 = (t_float *)(w[3]);
+	t_float *in3 = (t_float *)(w[4]);
+	t_float *out = (t_float *)(w[5]);
+	int n = (int)(w[6]);
+
+	int mode = x->mode;
+	while (n--){
+		float input = *in1++;
+		float minv = *in2++;
+		float maxv = *in3++;
+		if(minv > maxv){//checking ranges
+			float temp;
+			temp = maxv;
+			maxv = minv;
+			minv = temp;
+			};
+
+		float returnval = pong_tilde_ponger(input, minv, maxv, mode);
+
+		*out++ = returnval;
+		};
+	return (w+7);
+}
+
+
+static t_int *pong_tilde_perform_maxonly(t_int *w)
+{
+	t_pong_tilde *x = (t_pong_tilde *)(w[1]);
+	t_float *in1 = (t_float *)(w[2]);
+	t_float *in2 = (t_float *)(w[3]);
+	t_float *out = (t_float *)(w[4]);
+	int n = (int)(w[5]);
+
+	int mode = x->mode;
+	float minv = 0.f;
+	while (n--){
+		float input = *in1++;
+		float maxv = *in2++;
+		if(minv > maxv){//checking ranges
+			float temp;
+			temp = maxv;
+			maxv = minv;
+			minv = temp;
+			};
+
+		float returnval = pong_tilde_ponger(input, minv, maxv, mode);
+
+		*out++ = returnval;
+		};
+	return (w+6);
+}
+
+
+
+
+static void pong_tilde_dsp(t_pong_tilde *x, t_signal **sp)
+{
+	if(x->x_numargs <= 1){
+		dsp_add(pong_tilde_perform_maxonly, 5, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec,  sp[0]->s_n);
+	}
+	else{
+		
+		dsp_add(pong_tilde_perform, 6, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
+	};
+}
+
+
+
+	void pong_tilde_setup(void){
+	pong_tilde_class = class_new(gensym("pong~"), (t_newmethod)pong_tilde_new, 0,
+			sizeof(t_pong_tilde), 0, A_GIMME, 0);
+	//class_addmethod(pong_tilde_class, (t_method)pong_tilde_setrange, gensym("range"), A_FLOAT, A_FLOAT, 0);
+	class_addmethod(pong_tilde_class, (t_method)pong_tilde_setmode, gensym("mode"), A_GIMME, 0);
+
+		class_addmethod(pong_tilde_class, (t_method)pong_tilde_dsp, gensym("dsp"), 0);
+   CLASS_MAINSIGNALIN(pong_tilde_class, t_pong_tilde, x_input);
 }
