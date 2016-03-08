@@ -35,9 +35,12 @@ static t_class *pong_tilde_class;
 typedef struct _pong_tilde {//pong_tilde (control rate) 
 	t_object x_obj;
 	int mode; //0=fold, 1 = wrap, 2 = clip, 3 = none
-//	t_float minval;
-//	t_float maxval;
+	t_float minval;
+	t_float maxval;
 	t_float x_input; //dummy var
+	t_inlet *x_minlet; 
+	t_inlet *x_maxlet; 
+	t_outlet *x_outlet;
 	int x_numargs;//num of args given
 } t_pong_tilde;
 
@@ -68,8 +71,8 @@ static void *pong_tilde_new(t_symbol *s, int argc, t_atom *argv){
 	t_pong_tilde *x = (t_pong_tilde *)pd_new(pong_tilde_class);
 	int numargs = 0;//number of args read
 	int pastargs = 0; //if any attrs have been declared yet
-	float minval = CYPONGTLO_DEF;
-	float maxval = CYPONGTHI_DEF;
+	x->minval = CYPONGTLO_DEF;
+	x-> maxval = CYPONGTHI_DEF;
 	x->mode = CYPONGTMODE_DEF;
 	
 	while(argc > 0 ){
@@ -93,13 +96,13 @@ static void *pong_tilde_new(t_symbol *s, int argc, t_atom *argv){
 									argv++;
 									break;
 					
-						case 1: 	minval = atom_getfloatarg(0, argc, argv);
+						case 1: 	x->minval = atom_getfloatarg(0, argc, argv);
 									numargs++;
 									argc--;
 									argv++;
 									break;
 
-						case 2: 	maxval = atom_getfloatarg(0, argc, argv);
+						case 2: 	x->maxval = atom_getfloatarg(0, argc, argv);
 									numargs++;
 									argc--;
 									argv++;
@@ -124,8 +127,8 @@ static void *pong_tilde_new(t_symbol *s, int argc, t_atom *argv){
 					t_symbol *arg1 = atom_getsymbolarg(1, argc, argv);
 					t_symbol *arg2 = atom_getsymbolarg(2, argc, argv);
 					if(arg1 == &s_ && arg2 == &s_){
-						minval = atom_getfloatarg(1, argc, argv);
-						maxval = atom_getfloatarg(2, argc, argv);
+						x->minval = atom_getfloatarg(1, argc, argv);
+						x->maxval = atom_getfloatarg(2, argc, argv);
 						argc -= 3;
 						argv += 3;
 					}
@@ -147,17 +150,20 @@ static void *pong_tilde_new(t_symbol *s, int argc, t_atom *argv){
 				goto errstate;
 			};	};
 	};
+	/*
 	if(numargs <= 1){
 
 		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), maxval);
 	}
 	else{
-
-		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), minval);
-		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), maxval);
-	};
+	*/
+		x->x_minlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+		x->x_maxlet =  inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+		pd_float( (t_pd *) x->x_minlet, x->minval);
+		pd_float( (t_pd *) x->x_maxlet, x->maxval);
+	//};
 	x->x_numargs = numargs;
-	 outlet_new(&x->x_obj, gensym("signal"));
+	x->x_outlet =  outlet_new(&x->x_obj, gensym("signal"));
 	return (x);
 	errstate:
 		pd_error(x, "pong~: improper args");
@@ -172,7 +178,7 @@ static float pong_tilde_ponger(float input, float minval, float maxval, int mode
 	if(input <= maxval && input >= minval){//if input in range, return input
 		returnval = input;
 		}
-	else if(minval == maxval && mode != 3){
+	else if(minval == maxval){
 		returnval = minval;
 	}
 	else if(mode == 0){//folding
@@ -228,24 +234,16 @@ static float pong_tilde_ponger(float input, float minval, float maxval, int mode
 
 }
 
-/*
+
 static void pong_tilde_setrange(t_pong_tilde *x, t_float lo, t_float hi){
-	float minv, maxv;
 
-	minv = lo;
-	maxv = hi;
-	if(minv > maxv){//checking ranges
-		float temp;
-		temp = maxv;
-		maxv = minv;
-		minv = temp;
-		};
+	x->minval = lo;
+	x->maxval = hi;
 
-	x->minval = minv;
-	x->maxval = maxv;
-
+		pd_float( (t_pd *) x->x_minlet, x->minval);
+		pd_float( (t_pd *) x->x_maxlet, x->maxval);
 }
-*/
+
 
 static void pong_tilde_setmode(t_pong_tilde *x, t_symbol *s, int argc, t_atom *argv){
 		int setmode;
@@ -298,7 +296,7 @@ static t_int *pong_tilde_perform(t_int *w)
 	return (w+7);
 }
 
-
+/*	
 static t_int *pong_tilde_perform_maxonly(t_int *w)
 {
 	t_pong_tilde *x = (t_pong_tilde *)(w[1]);
@@ -326,26 +324,34 @@ static t_int *pong_tilde_perform_maxonly(t_int *w)
 	return (w+6);
 }
 
+*/
+static void *pong_tilde_free(t_pong_tilde *x){
+	inlet_free(x->x_minlet);
+	inlet_free(x->x_maxlet);
+	outlet_free(x->x_outlet);
+	return (void *)x;
 
-
+}
 
 static void pong_tilde_dsp(t_pong_tilde *x, t_signal **sp)
 {
+	/*
 	if(x->x_numargs <= 1){
 		dsp_add(pong_tilde_perform_maxonly, 5, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec,  sp[0]->s_n);
 	}
+	
 	else{
-		
+	*/	
 		dsp_add(pong_tilde_perform, 6, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
-	};
+	//	};
 }
 
 
 
 	void pong_tilde_setup(void){
 	pong_tilde_class = class_new(gensym("pong~"), (t_newmethod)pong_tilde_new, 0,
-			sizeof(t_pong_tilde), 0, A_GIMME, 0);
-	//class_addmethod(pong_tilde_class, (t_method)pong_tilde_setrange, gensym("range"), A_FLOAT, A_FLOAT, 0);
+			sizeof(t_pong_tilde), CLASS_DEFAULT, A_GIMME, 0);
+	class_addmethod(pong_tilde_class, (t_method)pong_tilde_setrange, gensym("range"), A_FLOAT, A_FLOAT, 0);
 	class_addmethod(pong_tilde_class, (t_method)pong_tilde_setmode, gensym("mode"), A_GIMME, 0);
 
 		class_addmethod(pong_tilde_class, (t_method)pong_tilde_dsp, gensym("dsp"), 0);

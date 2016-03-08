@@ -259,19 +259,9 @@ static void pong_list(t_pong *x, t_symbol *s, int argc, t_atom *argv){
 }
 
 static void pong_setrange(t_pong *x, t_float lo, t_float hi){
-	float minv, maxv;
 
-	minv = lo;
-	maxv = hi;
-	if(minv > maxv){//checking ranges
-		float temp;
-		temp = maxv;
-		maxv = minv;
-		minv = temp;
-		};
-
-	x->minval = minv;
-	x->maxval = maxv;
+	x->minval = lo;
+	x->maxval = hi;
 
 }
 
