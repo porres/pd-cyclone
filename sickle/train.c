@@ -52,9 +52,9 @@ static t_int *train_perform(t_int *w)
 		double next = 0.;
 		float period = *in1++;
 	
-		float in2val = *in2++;
-		if (in2val < 0.) in2val = 0.;
-		if (in2val >= 1.)
+		float width_inlet = *in2++;
+		if (width_inlet < 0.) width_inlet = 0.;
+		if (width_inlet >= 1.)
 		{
 			width = 1.;
 			wrappy.w_d = offset + phase + (rcpksr / period) + SHARED_UNITBIT32;
@@ -63,18 +63,18 @@ static t_int *train_perform(t_int *w)
 		}
 		else
 		{
-			wrappy.w_d = in2val + SHARED_UNITBIT32;
+			wrappy.w_d = width_inlet + SHARED_UNITBIT32;
     		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
 			width = wrappy.w_d - SHARED_UNITBIT32;
 		}
 
 		//offset
 		wrappy.w_d = *in3++ + SHARED_UNITBIT32;
-    	wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
 		offset = wrappy.w_d - SHARED_UNITBIT32;
 
 		wrappy.w_d = offset + phase + SHARED_UNITBIT32;
-    	wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
 		offsetphase = wrappy.w_d - SHARED_UNITBIT32;
 
 		//printf("width: %f, offsetphase: %f, prev: %f\n",width, offsetphase, prev);
