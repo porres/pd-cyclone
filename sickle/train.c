@@ -13,8 +13,8 @@
 typedef struct _train
 {
     t_sic      x_sic;
-    int        x_on;
     double     x_phase;
+	 double		x_prev;
     float      x_rcpksr;
     t_outlet  *x_bangout;
     t_clock   *x_clock;
@@ -36,48 +36,64 @@ static t_int *train_perform(t_int *w)
     t_float *in3 = (t_float *)(w[5]);
     t_float *out = (t_float *)(w[6]);
     float rcpksr = x->x_rcpksr;
-    double ph = x->x_phase;
-    double tfph = ph + SHARED_UNITBIT32;
+    double phase = x->x_phase;
+	 double prev = x->x_prev;
+    //double tfph = phase + SHARED_UNITBIT32;
     t_shared_wrappy wrappy;
     int32_t normhipart;
-    int on = x->x_on;
-    int edge = 0;
+    unsigned int edge = 0;
 
     wrappy.w_d = SHARED_UNITBIT32;
     normhipart = wrappy.w_i[SHARED_HIOFFSET];
 
-    while (nblock--)
-    {
-	double onph, offph;
-	float period = *in1++;
+   while (nblock--)
+   {
+		double width, offset, offsetphase;
+		double next = 0.;
+		float period = *in1++;
+	
+		float width_inlet = *in2++;
+		if (width_inlet < 0.) width_inlet = 0.;
+		if (width_inlet >= 1.)
+		{
+			width = 1.;
+			wrappy.w_d = offset + phase + (rcpksr / period) + SHARED_UNITBIT32;
+			wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+			next = wrappy.w_d - SHARED_UNITBIT32;
+		}
+		else
+		{
+			wrappy.w_d = width_inlet + SHARED_UNITBIT32;
+    		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+			width = wrappy.w_d - SHARED_UNITBIT32;
+		}
 
-	wrappy.w_d = *in3++ + SHARED_UNITBIT32;
-    	wrappy.w_i[SHARED_HIOFFSET] = normhipart;
-	onph = wrappy.w_d - SHARED_UNITBIT32;
+		//offset
+		wrappy.w_d = *in3++ + SHARED_UNITBIT32;
+		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+		offset = wrappy.w_d - SHARED_UNITBIT32;
 
-	wrappy.w_d = onph + *in2++ + SHARED_UNITBIT32;
-    	wrappy.w_i[SHARED_HIOFFSET] = normhipart;
-	offph = wrappy.w_d - SHARED_UNITBIT32;
+		wrappy.w_d = offset + phase + SHARED_UNITBIT32;
+		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+		offsetphase = wrappy.w_d - SHARED_UNITBIT32;
 
-	if (offph > onph ? ph < offph && ph >= onph : ph < offph || ph >= onph)
-	{
-	    if (!on) on = edge = 1;
-	    *out++ = 1.;
-	}
-	else
-	{
-	    on = 0;
-	    *out++ = 0.;
-	}
-	if (period > rcpksr)  /* LATER rethink */
-	    tfph += rcpksr / period;  /* LATER revisit (profiling?) */
-	wrappy.w_d = tfph;
-    	wrappy.w_i[SHARED_HIOFFSET] = normhipart;
-	ph = wrappy.w_d - SHARED_UNITBIT32;
+		//printf("width: %f, offsetphase: %f, prev: %f\n",width, offsetphase, prev);
+
+		if (0 == width && offsetphase <= prev) *out++ = 1.;
+		else if (1 == width && offsetphase > next) *out++ = 0.; 
+		else *out++ = (offsetphase <= width) ? 1. : 0.;
+
+		if (offsetphase <= prev)
+		{
+			clock_delay(x->x_clock, 0);
+		}
+
+		prev = offsetphase;
+		if (period > rcpksr)  /* LATER rethink */
+			phase += rcpksr / period;  /* LATER revisit (profiling?) */
     }
-    x->x_phase = ph;
-    x->x_on = on;
-    if (edge) clock_delay(x->x_clock, 0);
+    x->x_phase = phase;
+	 x->x_prev = prev;
     return (w + 7);
 }
 
@@ -96,8 +112,8 @@ static void train_free(t_train *x)
 static void *train_new(t_symbol *s, int ac, t_atom *av)
 {
     t_train *x = (t_train *)pd_new(train_class);
-    x->x_on = 0;
     x->x_phase = 0;
+	 x->x_prev = 0.;
     sic_inlet((t_sic *)x, 0, TRAIN_DEFPERIOD, 0, ac, av);
     sic_inlet((t_sic *)x, 1, TRAIN_DEFWIDTH, 1, ac, av);
     sic_inlet((t_sic *)x, 2, TRAIN_DEFOFFSET, 2, ac, av);
