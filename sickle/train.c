@@ -79,11 +79,11 @@ static t_int *train_perform(t_int *w)
 
 		//printf("width: %f, offsetphase: %f, prev: %f\n",width, offsetphase, prev);
 
-		if (0 == width && offsetphase < prev) *out++ = 1.;
+		if (0 == width && offsetphase <= prev) *out++ = 1.;
 		else if (1 == width && offsetphase > next) *out++ = 0.; 
 		else *out++ = (offsetphase <= width) ? 1. : 0.;
 
-		if (offsetphase < prev)
+		if (offsetphase <= prev)
 		{
 			clock_delay(x->x_clock, 0);
 		}
@@ -113,7 +113,7 @@ static void *train_new(t_symbol *s, int ac, t_atom *av)
 {
     t_train *x = (t_train *)pd_new(train_class);
     x->x_phase = 0;
-	 x->x_prev = 2.;
+	 x->x_prev = 0.;
     sic_inlet((t_sic *)x, 0, TRAIN_DEFPERIOD, 0, ac, av);
     sic_inlet((t_sic *)x, 1, TRAIN_DEFWIDTH, 1, ac, av);
     sic_inlet((t_sic *)x, 2, TRAIN_DEFOFFSET, 2, ac, av);
