@@ -145,7 +145,7 @@ static float pong_ponger(float input, float minval, float maxval, int mode){
 	//pong helper function
 	float returnval;
 	float range = maxval - minval;
-	if(input <= maxval && input >= minval){//if input in range, return input
+	if(input < maxval && input >= minval){//if input in range, return input
 		returnval = input;
 		}
 	else if(minval == maxval && mode != 3){
