@@ -55,9 +55,9 @@
 #define SCOPE_DEFBGRED     	74
 #define SCOPE_DEFBGGREEN   	79
 #define SCOPE_DEFBGBLUE    	77
-#define SCOPE_DEFGRRED       0
-#define SCOPE_DEFGRGREEN     0
-#define SCOPE_DEFGRBLUE      0
+#define SCOPE_DEFGRRED       96
+#define SCOPE_DEFGRGREEN     98
+#define SCOPE_DEFGRBLUE      102
 #define SCOPE_SELCOLOR       "#4a4f4d"  /* a bit lighter shade of blue */
 #define SCOPE_FGWIDTH        0.7  /* line width is float */
 #define SCOPE_GRIDWIDTH      0.9
