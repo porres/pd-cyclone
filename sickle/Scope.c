@@ -34,7 +34,7 @@
 #define SCOPE_MAXPERIOD   8092
 #define SCOPE_DEFBUFSIZE   128
 #define SCOPE_MINBUFSIZE     8
-#define SCOPE_MAXBUFSIZE   800  /* LATER rethink */
+#define SCOPE_MAXBUFSIZE   256  /* LATER rethink */
 #define SCOPE_WARNBUFSIZE  256
 #define SCOPE_DEFMINVAL     -1.
 #define SCOPE_DEFMAXVAL      1.
@@ -49,12 +49,12 @@
 #define SCOPE_DEFTRIGLEVEL   0.
 #define SCOPE_MINCOLOR       0
 #define SCOPE_MAXCOLOR     255
-#define SCOPE_DEFFGRED     102
-#define SCOPE_DEFFGGREEN   255
-#define SCOPE_DEFFGBLUE     51
-#define SCOPE_DEFBGRED     135
-#define SCOPE_DEFBGGREEN   135
-#define SCOPE_DEFBGBLUE    135
+#define SCOPE_DEFFGRED     205
+#define SCOPE_DEFFGGREEN   229
+#define SCOPE_DEFFGBLUE    232
+#define SCOPE_DEFBGRED     	74
+#define SCOPE_DEFBGGREEN   	79
+#define SCOPE_DEFBGBLUE    	77
 #define SCOPE_DEFGRRED       0
 #define SCOPE_DEFGRGREEN     0
 #define SCOPE_DEFGRBLUE      0
@@ -1053,6 +1053,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av)
     x->x_ksr = sys_getsr() * 0.001;  /* redundant */
     x->x_frozen = 0;
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+	inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_list, gensym("bufsize"));
     x->x_clock = clock_new(x, (t_method)scope_tick);
     scope_clear(x, 0);
 
