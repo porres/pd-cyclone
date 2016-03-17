@@ -58,7 +58,7 @@
 #define SCOPE_DEFGRRED       0
 #define SCOPE_DEFGRGREEN     0
 #define SCOPE_DEFGRBLUE      0
-#define SCOPE_SELCOLOR       "#8080ff"  /* a bit lighter shade of blue */
+#define SCOPE_SELCOLOR       "#4a4f4d"  /* a bit lighter shade of blue */
 #define SCOPE_FGWIDTH        0.7  /* line width is float */
 #define SCOPE_GRIDWIDTH      0.9
 #define SCOPE_SELBDWIDTH     3.0
@@ -1053,7 +1053,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av)
     x->x_ksr = sys_getsr() * 0.001;  /* redundant */
     x->x_frozen = 0;
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-	inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_list, gensym("bufsize"));
+	//inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_list, gensym("bufsize"));
     x->x_clock = clock_new(x, (t_method)scope_tick);
     scope_clear(x, 0);
 
