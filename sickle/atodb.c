@@ -18,8 +18,6 @@ inline t_float badout(t_float f)
   return ((f) > (BAD) ? (f) : (BAD));
 }
 
-/* static char atodb_version[] = "atodb~ version 0.0.1"; */
-
 static t_class *atodb_class;
 
 typedef struct _atodb {
