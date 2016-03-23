@@ -11,8 +11,6 @@
 #include "m_pd.h"
 #include <math.h>
 
-/* static char dbtoa_version[] = "dbtoa~ version 0.0.1"; */
-
 static t_class *dbtoa_class;
 
 typedef struct _dbtoa {
@@ -28,7 +26,6 @@ static void dbtoa_dsp(t_dbtoa *x, t_signal **sp);
 
 static t_int * dbtoa_perform(t_int *w)
 {
-  /*  t_dbtoa *x = (t_dbtoa *)(w[1]); */
   int n = (int)(w[2]);
   t_float *in = (t_float *)(w[3]);
   t_float *out = (t_float *)(w[4]);
