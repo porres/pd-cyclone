@@ -13,7 +13,9 @@
 /*2016 = haven't finished cleaning out old dependencies
  (common/grow, common/loud, common/fitter, unstable/forky, sickle/sic)
 but methods (bufsize, period/calccount, range, delay, trigger, triglevel, frgb, brgb)
-for setting attributes are rewritten, as well as attr declaration- Derek Kwan
+for setting attributes are rewritten, as well as attr declaration.
+also if(cv = scope_isvisible(x)) seems to be incorrect but is also everywhere the same way so I haven't touched it just in case everything breaks
+- Derek Kwan
 */
 
 #include <stdio.h>
