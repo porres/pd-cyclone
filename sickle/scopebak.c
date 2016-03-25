@@ -10,14 +10,6 @@
    One way or the other, the traffic from the gui layer should be kept possibly
    low, at least in run-mode. */
 
-/*2016 = haven't finished cleaning out old dependencies
- (common/grow, common/loud, common/fitter, unstable/forky, sickle/sic)
-but methods (bufsize, period/calccount, range, delay, trigger, triglevel, frgb, brgb)
-for setting attributes are rewritten, as well as attr declaration.
-also if(cv = scope_isvisible(x)) seems to be incorrect but is also everywhere the same way so I haven't touched it just in case everything breaks
-- Derek Kwan
-*/
-
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
@@ -66,7 +58,7 @@ also if(cv = scope_isvisible(x)) seems to be incorrect but is also everywhere th
 #define SCOPE_DEFGRRED       96
 #define SCOPE_DEFGRGREEN     98
 #define SCOPE_DEFGRBLUE      102
-#define SCOPE_SELCOLOR       "#8080ff"  /* a bit lighter shade of blue */
+#define SCOPE_SELCOLOR       "#4a4f4d"  /* a bit lighter shade of blue */
 #define SCOPE_FGWIDTH        0.7  /* line width is float */
 #define SCOPE_GRIDWIDTH      0.9
 #define SCOPE_SELBDWIDTH     3.0
@@ -347,37 +339,60 @@ static t_canvas *scope_isvisible(t_scope *x)
     return (glist_isvisible(x->x_glist) ? x->x_canvas : 0);
 }
 
-static void scope_period(t_scope *x, t_float per)
-{ 
-	if(per < SCOPE_MINPERIOD){
-		per = SCOPE_MINPERIOD;
-	}
-	else if(per > SCOPE_MAXPERIOD){
-		per = SCOPE_MAXPERIOD;
-	}
-	else{
-		per = (int)per;
-	};
-	x->x_period = per;
+static void scope_period(t_scope *x, t_symbol *s, int ac, t_atom *av)
+{
+    t_float period = (s ? x->x_period : SCOPE_DEFPERIOD);
+    int result = loud_floatarg(*(t_pd *)x, (s ? 0 : 2), ac, av, &period,
+			       SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
+			       /* LATER rethink warning rules */
+			       (s ? LOUD_CLIP : LOUD_CLIP | LOUD_WARN), 0,
+			       "samples per element");
+    if (!s && result == LOUD_ARGOVER)
+	fittermax_warning(*(t_pd *)x,
+			  "more than %g samples per element requested",
+			  SCOPE_MAXPERIOD);
+    if (!s || result == LOUD_ARGOK || result == LOUD_ARGOVER)
+    {
+	x->x_period = (int)period;
 	scope_clear(x, 0);
+    }
 }
 
 static void scope_float(t_scope *x, t_float f)
 {
-    scope_period(x, f);
+    t_atom at;
+    SETFLOAT(&at, f);
+    scope_period(x, &s_float, 1, &at);
 }
 
-static void scope_bufsize(t_scope *x, t_float bufsz)
-{ 	float bufsize;
-	if(bufsz < SCOPE_MINBUFSIZE){
-		bufsize = SCOPE_MINBUFSIZE;
-	}
-	else if(bufsz > SCOPE_MAXBUFSIZE){
-		bufsize = SCOPE_MAXBUFSIZE;
-	}
-	else{
-		bufsize = bufsz;
-	};
+static void scope_bufsize(t_scope *x, t_symbol *s, int ac, t_atom *av)
+{
+    t_float bufsize = (s ? x->x_bufsize : SCOPE_DEFBUFSIZE);
+    int result = loud_floatarg(*(t_pd *)x, (s ? 0 : 4), ac, av, &bufsize,
+			       SCOPE_MINBUFSIZE, SCOPE_WARNBUFSIZE,
+			       /* LATER rethink warning rules */
+			       (s ? LOUD_CLIP : LOUD_CLIP | LOUD_WARN), 0,
+			       "display elements");
+    if (result == LOUD_ARGOVER)
+    {
+	bufsize = (s ? x->x_bufsize : SCOPE_DEFBUFSIZE);
+	result = loud_floatarg(*(t_pd *)x, (s ? 0 : 4), ac, av, &bufsize,
+			       0, SCOPE_MAXBUFSIZE, 0, LOUD_CLIP | LOUD_WARN,
+			       "display elements");
+	if (!s && result == LOUD_ARGOK)
+	    fittermax_warning(*(t_pd *)x,
+			      "more than %g display elements requested",
+			      SCOPE_WARNBUFSIZE);
+    }
+    if (!s)
+    {
+	x->x_allocsize = SCOPE_DEFBUFSIZE;
+	x->x_bufsize = 0;
+	x->x_xbuffer = x->x_xbufini;
+	x->x_ybuffer = x->x_ybufini;
+    }
+    if (!s || result == LOUD_ARGOK)
+    {
 	int newsize = (int)bufsize;
 	if (newsize > x->x_allocsize)
 	{
@@ -416,146 +431,131 @@ static void scope_bufsize(t_scope *x, t_float bufsz)
 		x->x_ybuffer = x->x_ybufini;
 	    }
 	}
-	else{
-		x->x_bufsize = newsize;
-	};
+	else x->x_bufsize = newsize;
 	scope_clear(x, 0);
+    }
 }
 
-static void scope_range(t_scope *x, t_float min, t_float max)
+static void scope_range(t_scope *x, t_symbol *s, int ac, t_atom *av)
 {
-    t_float minval = min;
-    t_float maxval = max;
+    t_float minval = (s ? x->x_minval : SCOPE_DEFMINVAL);
+    t_float maxval = (s ? x->x_maxval : SCOPE_DEFMAXVAL);
+    loud_floatarg(*(t_pd *)x, (s ? 0 : 5), ac, av, &minval, 0, 0, 0, 0, 0);
+    loud_floatarg(*(t_pd *)x, (s ? 1 : 6), ac, av, &maxval, 0, 0, 0, 0, 0);
     /* CHECKME swapping, ignoring if equal */
     if (minval < maxval)
     {
 	x->x_minval = minval;
 	x->x_maxval = maxval;
     }
-    
-	else{
+    else if (minval > maxval)
+    {
 	x->x_minval = maxval;
 	x->x_maxval = minval;
-    };
+    }
+    else if (!s)
+    {
+	x->x_minval = SCOPE_DEFMINVAL;
+	x->x_maxval = SCOPE_DEFMAXVAL;
+    }
 }
 
-static void scope_delay(t_scope *x, t_float del)
+static void scope_delay(t_scope *x, t_symbol *s, int ac, t_atom *av)
 {
-    if(del < SCOPE_MINDELAY){
-		del = SCOPE_MINDELAY;
-	};
-	x->x_delay = del;
+    t_float delay = (s ? x->x_delay : SCOPE_DEFDELAY);
+    int result = loud_floatarg(*(t_pd *)x, (s ? 0 : 7), ac, av, &delay,
+			       SCOPE_MINDELAY, 0,
+			       LOUD_CLIP | LOUD_WARN, 0, "delay");
+    if (!s || result == LOUD_ARGOK)
+	x->x_delay = delay;
 }
 
-static void scope_trigger(t_scope *x, t_float trig)
+static void scope_trigger(t_scope *x, t_symbol *s, int ac, t_atom *av)
 {
-	float trigmode;
-	if(trig < SCOPE_MINTRIGMODE){
-		trigmode = SCOPE_MINTRIGMODE;
-	}
-	else if(trig > SCOPE_MAXTRIGMODE){
-		trigmode = SCOPE_MAXTRIGMODE;
-	}
-	else{
-		trigmode = trig;
-	};
+    t_float trigmode = (s ? x->x_trigmode : SCOPE_DEFTRIGMODE);
+    loud_floatarg(*(t_pd *)x, (s ? 0 : 9), ac, av, &trigmode,
+		  SCOPE_MINTRIGMODE, SCOPE_MAXTRIGMODE,
+		  LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN,
+		  "trigger mode");
     x->x_trigmode = (int)trigmode;
-    if (x->x_trigmode == SCOPE_TRIGLINEMODE){
-		x->x_retrigger = 0;
-	};
+    if (x->x_trigmode == SCOPE_TRIGLINEMODE)
+	x->x_retrigger = 0;
 }
 
-static void scope_triglevel(t_scope *x, t_float lvl)
+static void scope_triglevel(t_scope *x, t_symbol *s, int ac, t_atom *av)
 {
-    x->x_triglevel = lvl;
+    t_float triglevel = (s ? x->x_triglevel : SCOPE_DEFTRIGLEVEL);
+    loud_floatarg(*(t_pd *)x, (s ? 0 : 10), ac, av, &triglevel, 0, 0, 0, 0, 0);
+    x->x_triglevel = triglevel;
 }
 
-static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
+static void scope_frgb(t_scope *x, t_symbol *s, int ac, t_atom *av)
 {
-	if(fr < SCOPE_MINCOLOR){
-		fr = SCOPE_MINCOLOR;
-	}
-	else if(fr > SCOPE_MAXCOLOR){
-		fr = SCOPE_MAXCOLOR;
-	};
-    if(fg < SCOPE_MINCOLOR){
-		fg = SCOPE_MINCOLOR;
-	}
-	else if(fg > SCOPE_MAXCOLOR){
-		fg = SCOPE_MAXCOLOR;
-	};
-	if(fb < SCOPE_MINCOLOR){
-		fb = SCOPE_MINCOLOR;
-	}
-	else if(fb > SCOPE_MAXCOLOR){
-		fb = SCOPE_MAXCOLOR;
-	};
-
-	t_canvas *cv;
-    x->x_fgred = (int)fr;
-    x->x_fggreen = (int)fg;
-    x->x_fgblue = (int)fb;
+    t_float fgred = (s ? x->x_fgred : SCOPE_DEFFGRED);
+    t_float fggreen = (s ? x->x_fggreen : SCOPE_DEFFGGREEN);
+    t_float fgblue = (s ? x->x_fgblue : SCOPE_DEFFGBLUE);
+    t_canvas *cv;
+    loud_floatarg(*(t_pd *)x, (s ? 0 : 11), ac, av, &fgred,
+		  SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+		  LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+    loud_floatarg(*(t_pd *)x, (s ? 1 : 12), ac, av, &fggreen,
+		  SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+		  LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+    loud_floatarg(*(t_pd *)x, (s ? 2 : 13), ac, av, &fgblue,
+		  SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+		  LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+    x->x_fgred = (int)fgred;
+    x->x_fggreen = (int)fggreen;
+    x->x_fgblue = (int)fgblue;
     if (cv = scope_isvisible(x))
 	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
 		 cv, x->x_fgtag, x->x_fgred, x->x_fggreen, x->x_fgblue);
 }
 
-static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
+static void scope_brgb(t_scope *x, t_symbol *s, int ac, t_atom *av)
 {
-    if(br < SCOPE_MINCOLOR){
-		br = SCOPE_MINCOLOR;
-	}
-	else if(br > SCOPE_MAXCOLOR){
-		br = SCOPE_MAXCOLOR;
-	};
-    if(bg < SCOPE_MINCOLOR){
-		bg = SCOPE_MINCOLOR;
-	}
-	else if(bg > SCOPE_MAXCOLOR){
-		bg = SCOPE_MAXCOLOR;
-	};
-	if(bb < SCOPE_MINCOLOR){
-		bb = SCOPE_MINCOLOR;
-	}
-	else if(bb > SCOPE_MAXCOLOR){
-		bb = SCOPE_MAXCOLOR;
-	};
-	
-	t_canvas *cv;
-    x->x_bgred = (int)br;
-    x->x_bggreen = (int)bg;
-    x->x_bgblue = (int)bb;
+    t_float bgred = (s ? x->x_bgred : SCOPE_DEFBGRED);
+    t_float bggreen = (s ? x->x_bggreen : SCOPE_DEFBGGREEN);
+    t_float bgblue = (s ? x->x_bgblue : SCOPE_DEFBGBLUE);
+    t_canvas *cv;
+    loud_floatarg(*(t_pd *)x, (s ? 0 : 14), ac, av, &bgred,
+		  SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+		  LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+    loud_floatarg(*(t_pd *)x, (s ? 1 : 15), ac, av, &bggreen,
+		  SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+		  LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+    loud_floatarg(*(t_pd *)x, (s ? 2 : 16), ac, av, &bgblue,
+		  SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+		  LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+    x->x_bgred = (int)bgred;
+    x->x_bggreen = (int)bggreen;
+    x->x_bgblue = (int)bgblue;
     if (cv = scope_isvisible(x))
 	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
 		 cv, x->x_bgtag, x->x_bgred, x->x_bggreen, x->x_bgblue);
 }
 
-static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
-{   
-	if(gr < SCOPE_MINCOLOR){
-		gr = SCOPE_MINCOLOR;
-	}
-	else if(gr > SCOPE_MAXCOLOR){
-		gr = SCOPE_MAXCOLOR;
-	};
-    if(gg < SCOPE_MINCOLOR){
-		gg = SCOPE_MINCOLOR;
-	}
-	else if(gg > SCOPE_MAXCOLOR){
-		gg = SCOPE_MAXCOLOR;
-	};
-	if(gb < SCOPE_MINCOLOR){
-		gb = SCOPE_MINCOLOR;
-	}
-	else if(gb > SCOPE_MAXCOLOR){
-		gb = SCOPE_MAXCOLOR;
-	};
-	
-
+static void scope_grgb(t_scope *x, t_symbol *s, int ac, t_atom *av)
+{
+    t_float grred   = (SCOPE_DEFGRRED);
+    t_float grgreen = (SCOPE_DEFGRGREEN);
+    t_float grblue  = (SCOPE_DEFGRBLUE);
     t_canvas *cv;
-    x->x_grred   = (int)gr;
-    x->x_grgreen = (int)gg;
-    x->x_grblue  = (int)gb;
+    if (s) 
+    {
+	loud_floatarg(*(t_pd *)x, 0, ac, av, &grred,
+	    SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+	    LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+	loud_floatarg(*(t_pd *)x, 1, ac, av, &grgreen,
+	    SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+	    LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+	loud_floatarg(*(t_pd *)x, 2, ac, av, &grblue,
+	    SCOPE_MINCOLOR, SCOPE_MAXCOLOR,
+	    LOUD_CLIP | LOUD_WARN, LOUD_CLIP | LOUD_WARN, "color");
+    }
+    x->x_grred   = (int)grred;
+    x->x_grgreen = (int)grgreen;
+    x->x_grblue  = (int)grblue;
     if (cv = scope_isvisible(x))
 	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
 		 cv, x->x_gridtag, x->x_grred, x->x_grgreen, x->x_grblue);
@@ -1015,27 +1015,15 @@ static void scope_free(t_scope *x)
     }
 }
 
-static void scope_dim(t_scope *x, t_float _width, t_float _height){
-	if(_width < SCOPE_MINWIDTH){
-		_width = SCOPE_MINWIDTH;
-	};
-	if(_height < SCOPE_MINHEIGHT){
-		_height = SCOPE_MINHEIGHT;
-	};
-	x->x_width = (int) _width;
-	x->x_height = (int)_height;
-};
-
-
-static void *scope_new(t_symbol *s, int argc, t_atom *argv)
+static void *scope_new(t_symbol *s, int ac, t_atom *av)
 {
     t_scope *x = (t_scope *)pd_new(scope_class);
     t_scopehandle *sh;
-    scope_dim(x, SCOPE_DEFWIDTH, SCOPE_DEFHEIGHT);
+    t_float width = SCOPE_DEFWIDTH;
+    t_float height = SCOPE_DEFHEIGHT;
     char buf[64];
     x->x_glist = canvas_getcurrent();
     x->x_canvas = 0;
-	/*
     loud_floatarg(*(t_pd *)x, 0, ac, av, &width,
 		  SCOPE_MINWIDTH, 0,
 		  LOUD_CLIP | LOUD_WARN, 0, "width");
@@ -1044,153 +1032,19 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 		  SCOPE_MINHEIGHT, 0,
 		  LOUD_CLIP | LOUD_WARN, 0, "height");
     x->x_height = (int)height;
-	*/
-	//x->x_allocsize = 0;
-	x->x_allocsize = SCOPE_DEFBUFSIZE;
-	x->x_xbuffer = x->x_xbufini;
-	x->x_ybuffer = x->x_ybufini;
-    x->x_bufsize = 0;
-	scope_period(x, SCOPE_DEFPERIOD);
+    scope_period(x, 0, ac, av);
     /* CHECKME 6th argument (default 3 for mono, 1 for xy */
-    scope_bufsize(x, SCOPE_DEFBUFSIZE);
-    scope_range(x, SCOPE_DEFMINVAL, SCOPE_DEFMAXVAL);
-    scope_delay(x, SCOPE_DEFDELAY);
+    scope_bufsize(x, 0, ac, av);
+    scope_range(x, 0, ac, av);
+    scope_delay(x, 0, ac, av);
     /* CHECKME 11th argument (default 0.) */
-    scope_trigger(x, SCOPE_DEFTRIGMODE);
-    scope_triglevel(x, SCOPE_DEFTRIGLEVEL);
+    scope_trigger(x, 0, ac, av);
+    scope_triglevel(x, 0, ac, av);
+    scope_frgb(x, 0, ac, av);
+    scope_brgb(x, 0, ac, av);
+    scope_grgb(x, 0, ac, av);
     /* CHECKME last argument (default 0) */
-	scope_frgb(x, SCOPE_DEFFGRED, SCOPE_DEFFGGREEN, SCOPE_DEFFGBLUE);
-	scope_brgb(x, SCOPE_DEFBGRED, SCOPE_DEFBGGREEN, SCOPE_DEFBGBLUE);
-	scope_grgb(x, SCOPE_DEFGRRED, SCOPE_DEFGRGREEN, SCOPE_DEFGRBLUE);
 
-	
-
-	while(argc > 0){
-		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-		if(strcmp(curarg->s_name, "@calccount") == 0){
-			if(argc >= 2){
-				t_float period = atom_getfloatarg(1, argc, argv);
-				scope_period(x, period);
-				argc-=2;
-				argv+=2;
-			}
-			else{
-				goto errstate;
-			};
-
-		}
-		else if(strcmp(curarg->s_name, "@bufsize") == 0){
-			if(argc >= 2){
-				t_float bufsz = atom_getfloatarg(1, argc, argv);
-				scope_bufsize(x, bufsz);
-				argc-=2;
-				argv+=2;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@range") == 0){
-			if(argc >= 3){
-				t_float minrng = atom_getfloatarg(1, argc, argv);
-				t_float maxrng = atom_getfloatarg(2, argc, argv);
-				scope_range(x, minrng, maxrng);
-				argc-=3;
-				argv+=3;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@delay") == 0){
-			if(argc >= 2){
-				t_float del = atom_getfloatarg(1, argc, argv);
-				scope_delay(x, del);
-				argc-=2;
-				argv+=2;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@trigger") == 0){
-			if(argc >= 2){
-				t_float trig = atom_getfloatarg(1, argc, argv);
-				scope_trigger(x, trig);
-				argc-=2;
-				argv+=2;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@triglevel") == 0){
-			if(argc >= 2){
-				t_float lvl = atom_getfloatarg(1, argc, argv);
-				scope_triglevel(x, lvl);
-				argc-=2;
-				argv+=2;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@frgb") == 0){
-			if(argc >= 4){
-				t_float fr = atom_getfloatarg(1, argc, argv);
-				t_float fg = atom_getfloatarg(2, argc, argv);
-				t_float fb = atom_getfloatarg(3, argc, argv);
-				scope_frgb(x, fr, fg, fb);
-				argc-=4;
-				argv+=4;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@brgb") == 0){
-			if(argc >= 4){
-				t_float br = atom_getfloatarg(1, argc, argv);
-				t_float bg = atom_getfloatarg(2, argc, argv);
-				t_float bb = atom_getfloatarg(3, argc, argv);
-				scope_brgb(x, br, bg, bb);
-				argc-=4;
-				argv+=4;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@gridcolor") == 0){
-			if(argc >= 4){
-				t_float gr = atom_getfloatarg(1, argc, argv);
-				t_float gg = atom_getfloatarg(2, argc, argv);
-				t_float gb = atom_getfloatarg(3, argc, argv);
-				scope_grgb(x, gr, gg, gb);
-				argc-=4;
-				argv+=4;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@dim") == 0){
-			if(argc >= 3){
-				t_float width = atom_getfloatarg(1, argc, argv);
-				t_float height = atom_getfloatarg(2, argc, argv);
-				scope_dim(x, width, height);
-				argc -= 3;
-				argv += 3;
-
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else{
-			goto errstate;
-		};
-	};
     sprintf(x->x_tag, "all%lx", (unsigned long)x);
     sprintf(x->x_bgtag, "bg%lx", (unsigned long)x);
     sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
@@ -1199,6 +1053,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     x->x_ksr = sys_getsr() * 0.001;  /* redundant */
     x->x_frozen = 0;
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+	//inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_list, gensym("bufsize"));
     x->x_clock = clock_new(x, (t_method)scope_tick);
     scope_clear(x, 0);
 
@@ -1210,10 +1065,6 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     sprintf(sh->h_outlinetag, "h%lx", (unsigned long)sh);
     sh->h_dragon = 0;
     return (x);
-	
-	errstate:
-		pd_error(x, "Scope~: improper args");
-		return NULL;
 }
 
 void Scope_tilde_setup(void)
@@ -1225,24 +1076,22 @@ void Scope_tilde_setup(void)
     class_addcreator((t_newmethod)scope_new, gensym("scope~"), A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new, gensym("cyclone/scope~"), A_GIMME, 0);
     sic_setup(scope_class, scope_dsp, scope_float);
-	class_addmethod(scope_class, (t_method)scope_period,
-			gensym("calccount"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bufsize,
-		    gensym("bufsize"), A_FLOAT, 0);
+		    gensym("bufsize"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_range,
-		    gensym("range"), A_FLOAT, A_FLOAT, 0);
+		    gensym("range"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_delay,
-		    gensym("delay"), A_FLOAT, 0);
+		    gensym("delay"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_trigger,
-		    gensym("trigger"), A_FLOAT, 0);
+		    gensym("trigger"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_triglevel,
-		    gensym("triglevel"), A_FLOAT, 0);
+		    gensym("triglevel"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_frgb,
-		    gensym("frgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+		    gensym("frgb"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_brgb,
-		    gensym("brgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+		    gensym("brgb"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_grgb,
-		    gensym("gridcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+		    gensym("grgb"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
