@@ -11,7 +11,7 @@
 #include "sickle/arsic.h"
 
 #define BUFFIR_DEFSIZE    0  /* CHECKED */
-#define BUFFIR_MAXSIZE  128
+#define BUFFIR_MAXSIZE  2048
 
 typedef struct _buffir
 {
