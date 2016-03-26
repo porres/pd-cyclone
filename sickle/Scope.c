@@ -1031,7 +1031,6 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_scope *x = (t_scope *)pd_new(scope_class);
     t_scopehandle *sh;
-    scope_dim(x, SCOPE_DEFWIDTH, SCOPE_DEFHEIGHT);
     char buf[64];
     x->x_glist = canvas_getcurrent();
     x->x_canvas = 0;
@@ -1050,110 +1049,169 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_xbuffer = x->x_xbufini;
 	x->x_ybuffer = x->x_ybufini;
     x->x_bufsize = 0;
-	scope_period(x, SCOPE_DEFPERIOD);
-    /* CHECKME 6th argument (default 3 for mono, 1 for xy */
-    scope_bufsize(x, SCOPE_DEFBUFSIZE);
-    scope_range(x, SCOPE_DEFMINVAL, SCOPE_DEFMAXVAL);
-    scope_delay(x, SCOPE_DEFDELAY);
-    /* CHECKME 11th argument (default 0.) */
-    scope_trigger(x, SCOPE_DEFTRIGMODE);
-    scope_triglevel(x, SCOPE_DEFTRIGLEVEL);
-    /* CHECKME last argument (default 0) */
-	scope_frgb(x, SCOPE_DEFFGRED, SCOPE_DEFFGGREEN, SCOPE_DEFFGBLUE);
-	scope_brgb(x, SCOPE_DEFBGRED, SCOPE_DEFBGGREEN, SCOPE_DEFBGBLUE);
-	scope_grgb(x, SCOPE_DEFGRRED, SCOPE_DEFGRGREEN, SCOPE_DEFGRBLUE);
 
-	
 
+	int pastargs = 0;
+	int argnum = 0;
+	t_float width = SCOPE_DEFWIDTH;
+	t_float height = SCOPE_DEFHEIGHT;
+	t_float period = (t_float)SCOPE_DEFPERIOD;
+	t_float bufsize = (t_float)SCOPE_DEFBUFSIZE;
+	t_float minval = (t_float)SCOPE_DEFMINVAL;
+	t_float maxval = (t_float)SCOPE_DEFMAXVAL;
+	t_float delay = (t_float)SCOPE_DEFDELAY;
+	t_float trigger = (t_float)SCOPE_DEFTRIGMODE;
+	t_float triglevel = (t_float)SCOPE_DEFTRIGLEVEL;
+	t_float fgred = (t_float)SCOPE_DEFFGRED;
+	t_float fggreen = (t_float)SCOPE_DEFFGGREEN;
+	t_float fgblue = (t_float)SCOPE_DEFFGBLUE;
+	t_float bgred = (t_float)SCOPE_DEFBGRED;
+	t_float bggreen = (t_float)SCOPE_DEFBGGREEN;
+	t_float bgblue = (t_float)SCOPE_DEFBGBLUE;
+	t_float grred = (t_float)SCOPE_DEFGRRED;
+	t_float grgreen = (t_float)SCOPE_DEFGRGREEN;
+	t_float grblue = (t_float)SCOPE_DEFGRBLUE;
 	while(argc > 0){
 		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-		if(strcmp(curarg->s_name, "@calccount") == 0){
-			if(argc >= 2){
-				t_float period = atom_getfloatarg(1, argc, argv);
-				scope_period(x, period);
-				argc-=2;
-				argv+=2;
-			}
-			else{
-				goto errstate;
+		if(curarg == &s_){//if curarg is a number
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					width = argval;
+					break;
+				case 1:
+					height = argval;
+					break;
+				case 2:
+					period = argval;
+					break;
+				case 3:
+					break;
+				case 4:
+					bufsize = argval;
+					break;
+				case 5:
+					minval = argval;
+					break;
+				case 6:
+					maxval = argval;
+					break;
+				case 7:
+					delay = argval;
+					break;
+				case 8:
+					break;
+				case 9:
+					trigger = argval;
+					break;
+				case 10:
+					triglevel = argval;
+					break;
+				case 11:
+					fgred = argval;
+					break;
+				case 12:
+					fggreen = argval;
+					break;
+				case 13:
+					fgblue = argval;
+					break;
+				case 14:
+					bgred = argval;
+					break;
+				case 15:
+					bggreen = argval;
+					break;
+				case 16:
+					bgblue = argval;
+					break;
+				default:
+					break;
 			};
+			argnum++;
+			argc--;
+			argv++;
+		}
+		else{//curarg is a string
+			if(strcmp(curarg->s_name, "@calccount") == 0){
+				if(argc >= 2){
+					period = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
 
-		}
-		else if(strcmp(curarg->s_name, "@bufsize") == 0){
-			if(argc >= 2){
-				t_float bufsz = atom_getfloatarg(1, argc, argv);
-				scope_bufsize(x, bufsz);
-				argc-=2;
-				argv+=2;
 			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@range") == 0){
-			if(argc >= 3){
-				t_float minrng = atom_getfloatarg(1, argc, argv);
-				t_float maxrng = atom_getfloatarg(2, argc, argv);
-				scope_range(x, minrng, maxrng);
-				argc-=3;
-				argv+=3;
+			else if(strcmp(curarg->s_name, "@bufsize") == 0){
+				if(argc >= 2){
+					bufsize = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
 			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@delay") == 0){
-			if(argc >= 2){
-				t_float del = atom_getfloatarg(1, argc, argv);
-				scope_delay(x, del);
-				argc-=2;
-				argv+=2;
+			else if(strcmp(curarg->s_name, "@range") == 0){
+				if(argc >= 3){
+					minval = atom_getfloatarg(1, argc, argv);
+					maxval = atom_getfloatarg(2, argc, argv);
+					argc-=3;
+					argv+=3;
+				}
+				else{
+					goto errstate;
+				};
 			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@trigger") == 0){
-			if(argc >= 2){
-				t_float trig = atom_getfloatarg(1, argc, argv);
-				scope_trigger(x, trig);
-				argc-=2;
-				argv+=2;
+			else if(strcmp(curarg->s_name, "@delay") == 0){
+				if(argc >= 2){
+					delay = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
 			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@triglevel") == 0){
-			if(argc >= 2){
-				t_float lvl = atom_getfloatarg(1, argc, argv);
-				scope_triglevel(x, lvl);
-				argc-=2;
-				argv+=2;
+			else if(strcmp(curarg->s_name, "@trigger") == 0){
+				if(argc >= 2){
+					trigger = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
 			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@frgb") == 0){
-			if(argc >= 4){
-				t_float fr = atom_getfloatarg(1, argc, argv);
-				t_float fg = atom_getfloatarg(2, argc, argv);
-				t_float fb = atom_getfloatarg(3, argc, argv);
-				scope_frgb(x, fr, fg, fb);
-				argc-=4;
-				argv+=4;
+			else if(strcmp(curarg->s_name, "@triglevel") == 0){
+				if(argc >= 2){
+					triglevel = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
 			}
-			else{
-				goto errstate;
-			};
+			else if(strcmp(curarg->s_name, "@frgb") == 0){
+				if(argc >= 4){
+					fgred = atom_getfloatarg(1, argc, argv);
+					fggreen = atom_getfloatarg(2, argc, argv);
+					fgblue = atom_getfloatarg(3, argc, argv);
+					argc-=4;
+					argv+=4;
+				}
+				else{
+					goto errstate;
+				};
 		}
 		else if(strcmp(curarg->s_name, "@brgb") == 0){
 			if(argc >= 4){
-				t_float br = atom_getfloatarg(1, argc, argv);
-				t_float bg = atom_getfloatarg(2, argc, argv);
-				t_float bb = atom_getfloatarg(3, argc, argv);
-				scope_brgb(x, br, bg, bb);
+				bgred = atom_getfloatarg(1, argc, argv);
+				bggreen = atom_getfloatarg(2, argc, argv);
+				bgblue = atom_getfloatarg(3, argc, argv);
 				argc-=4;
 				argv+=4;
 			}
@@ -1163,10 +1221,9 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 		}
 		else if(strcmp(curarg->s_name, "@gridcolor") == 0){
 			if(argc >= 4){
-				t_float gr = atom_getfloatarg(1, argc, argv);
-				t_float gg = atom_getfloatarg(2, argc, argv);
-				t_float gb = atom_getfloatarg(3, argc, argv);
-				scope_grgb(x, gr, gg, gb);
+				grred = atom_getfloatarg(1, argc, argv);
+				grgreen = atom_getfloatarg(2, argc, argv);
+				grblue = atom_getfloatarg(3, argc, argv);
 				argc-=4;
 				argv+=4;
 			}
@@ -1176,9 +1233,8 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 		}
 		else if(strcmp(curarg->s_name, "@dim") == 0){
 			if(argc >= 3){
-				t_float width = atom_getfloatarg(1, argc, argv);
-				t_float height = atom_getfloatarg(2, argc, argv);
-				scope_dim(x, width, height);
+				width = atom_getfloatarg(1, argc, argv);
+				height = atom_getfloatarg(2, argc, argv);
 				argc -= 3;
 				argv += 3;
 
@@ -1190,7 +1246,23 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 		else{
 			goto errstate;
 		};
+		};
 	};
+    scope_dim(x, width, height);
+	scope_period(x, period);
+    /* CHECKME 6th argument (default 3 for mono, 1 for xy */
+    scope_bufsize(x, bufsize);
+    scope_range(x, minval, maxval);
+    scope_delay(x, delay);
+    /* CHECKME 11th argument (default 0.) */
+    scope_trigger(x, trigger);
+    scope_triglevel(x, triglevel);
+    /* CHECKME last argument (default 0) */
+	scope_frgb(x, fgred, fggreen, fgblue);
+	scope_brgb(x, bgred, bggreen, bgblue);
+	scope_grgb(x, grred, grgreen, grblue);
+
+	
     sprintf(x->x_tag, "all%lx", (unsigned long)x);
     sprintf(x->x_bgtag, "bg%lx", (unsigned long)x);
     sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
