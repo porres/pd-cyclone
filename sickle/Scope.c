@@ -40,7 +40,7 @@ also if(cv = scope_isvisible(x)) seems to be incorrect but is also everywhere th
 #define SCOPE_DEFPERIOD    256
 #define SCOPE_MINPERIOD      2
 #define SCOPE_MAXPERIOD   8192
-#define SCOPE_DEFBUFSIZE   256
+#define SCOPE_DEFBUFSIZE   128
 #define SCOPE_MINBUFSIZE     8
 #define SCOPE_MAXBUFSIZE   256  /* LATER rethink */
 #define SCOPE_WARNBUFSIZE  256
@@ -1051,7 +1051,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     x->x_bufsize = 0;
 
 
-	int pastargs = 0;
+	//int pastargs = 0;
 	int argnum = 0;
 	t_float width = SCOPE_DEFWIDTH;
 	t_float height = SCOPE_DEFHEIGHT;
@@ -1124,6 +1124,15 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 					break;
 				case 16:
 					bgblue = argval;
+					break;
+				case 17:
+					grred = argval;
+					break;
+				case 18:
+					grgreen = argval;
+					break;
+				case 19:
+					grblue = argval;
 					break;
 				default:
 					break;
@@ -1226,18 +1235,6 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 				grblue = atom_getfloatarg(3, argc, argv);
 				argc-=4;
 				argv+=4;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else if(strcmp(curarg->s_name, "@dim") == 0){
-			if(argc >= 3){
-				width = atom_getfloatarg(1, argc, argv);
-				height = atom_getfloatarg(2, argc, argv);
-				argc -= 3;
-				argv += 3;
-
 			}
 			else{
 				goto errstate;
