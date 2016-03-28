@@ -66,7 +66,8 @@ also if(cv = scope_isvisible(x)) seems to be incorrect but is also everywhere th
 #define SCOPE_DEFGRRED       96
 #define SCOPE_DEFGRGREEN     98
 #define SCOPE_DEFGRBLUE      102
-#define SCOPE_SELCOLOR       "#8080ff"  /* a bit lighter shade of blue */
+#define SCOPE_SELCOLOR       "#4a4f4d"  /* a bit lighter shade of blue */
+#define SCOPE_SELBORDER 	"#8080ff"
 #define SCOPE_FGWIDTH        0.7  /* line width is float */
 #define SCOPE_GRIDWIDTH      0.9
 #define SCOPE_SELBDWIDTH     3.0
@@ -600,8 +601,8 @@ static void scope_select(t_gobj *z, t_glist *glist, int state)
 	int x1, y1, x2, y2;
 	scope_getrect(z, glist, &x1, &y1, &x2, &y2);
 
-	sys_vgui(".x%lx.c itemconfigure %s -outline blue -width %f -fill %s\n",
-		 cv, x->x_bgtag, SCOPE_SELBDWIDTH, SCOPE_SELCOLOR);
+	sys_vgui(".x%lx.c itemconfigure %s -outline %s  -width %f -fill %s\n",
+		 cv, x->x_bgtag, SCOPE_SELBORDER, SCOPE_SELBDWIDTH, SCOPE_SELCOLOR);
 
 	sys_vgui("canvas %s -width %d -height %d -bg #fedc00 -bd 0\n",
 		 sh->h_pathname, SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT);
@@ -875,14 +876,15 @@ static void scope_save(t_gobj *z, t_binbuf *b)
 {
     t_scope *x = (t_scope *)z;
     t_text *t = (t_text *)x;
-    binbuf_addv(b, "ssiisiiiiiffififiiiiiii;", gensym("#X"), gensym("obj"),
+    binbuf_addv(b, "ssiisiiiiiffififiiiiiiiiii;", gensym("#X"), gensym("obj"),
 		(int)t->te_xpix, (int)t->te_ypix,
         atom_getsymbol(binbuf_getvec(t->te_binbuf)),
 		x->x_width, x->x_height, x->x_period, 3, x->x_bufsize,
 		x->x_minval, x->x_maxval, x->x_delay, 0.,
 		x->x_trigmode, x->x_triglevel,
 		x->x_fgred, x->x_fggreen, x->x_fgblue,
-		x->x_bgred, x->x_bggreen, x->x_bgblue, 0);
+		x->x_bgred, x->x_bggreen, x->x_bgblue,
+		x->x_grred, x->x_grgreen, x->x_grblue, 0);
 }
 
 static t_widgetbehavior scope_widgetbehavior =
@@ -969,8 +971,8 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
 	    scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
 	    sys_vgui("lower %s\n", sh->h_pathname);
 	    sys_vgui(".x%lx.c create rectangle %d %d %d %d\
- -outline blue -width %f -tags %s\n",
-		     cv, x1, y1, x2, y2, SCOPE_SELBDWIDTH, sh->h_outlinetag);
+ -outline %s -width %f -tags %s\n",
+		     cv, x1, y1, x2, y2, SCOPE_SELBORDER, SCOPE_SELBDWIDTH, sh->h_outlinetag);
 	}
 	sh->h_dragx = 0;
 	sh->h_dragy = 0;
