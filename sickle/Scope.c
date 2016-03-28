@@ -875,14 +875,15 @@ static void scope_save(t_gobj *z, t_binbuf *b)
 {
     t_scope *x = (t_scope *)z;
     t_text *t = (t_text *)x;
-    binbuf_addv(b, "ssiisiiiiiffififiiiiiii;", gensym("#X"), gensym("obj"),
+    binbuf_addv(b, "ssiisiiiiiffififiiiiiiiiii;", gensym("#X"), gensym("obj"),
 		(int)t->te_xpix, (int)t->te_ypix,
         atom_getsymbol(binbuf_getvec(t->te_binbuf)),
 		x->x_width, x->x_height, x->x_period, 3, x->x_bufsize,
 		x->x_minval, x->x_maxval, x->x_delay, 0.,
 		x->x_trigmode, x->x_triglevel,
 		x->x_fgred, x->x_fggreen, x->x_fgblue,
-		x->x_bgred, x->x_bggreen, x->x_bgblue, 0);
+		x->x_bgred, x->x_bggreen, x->x_bgblue,
+		x->x_grred, x->x_grgreen, x->x_grblue, 0);
 }
 
 static t_widgetbehavior scope_widgetbehavior =
