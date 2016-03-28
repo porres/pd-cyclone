@@ -66,7 +66,7 @@ also if(cv = scope_isvisible(x)) seems to be incorrect but is also everywhere th
 #define SCOPE_DEFGRRED       96
 #define SCOPE_DEFGRGREEN     98
 #define SCOPE_DEFGRBLUE      102
-#define SCOPE_SELCOLOR       "#8080ff"  /* a bit lighter shade of blue */
+#define SCOPE_SELCOLOR       "#4a4f4d"  /* a bit lighter shade of blue */
 #define SCOPE_FGWIDTH        0.7  /* line width is float */
 #define SCOPE_GRIDWIDTH      0.9
 #define SCOPE_SELBDWIDTH     3.0
