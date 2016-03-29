@@ -1,7 +1,7 @@
-#N canvas 557 81 570 530 10;
-#X obj 0 701 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 279 24 569 748 10;
+#X obj 10 711 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 391 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 10 381 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 328 331 433 291 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -20,10 +20,10 @@ point signal as bits or as a float.;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 703 pd META;
-#X obj 0 488 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 525 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X restore 512 713 pd META;
+#X obj 10 528 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
+0;
+#X obj 10 565 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 114 517 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -31,118 +31,256 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 7 74 cyclone/bitnot~;
 #X obj 7 53 cyclone/bitor~;
 #X obj 6 31 cyclone/bitand~;
-#X restore 216 703 pd Related_objects;
-#X obj 77 497 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 226 713 pd Related_objects;
+#X obj 87 537 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 549 40 empty empty bitshift~ 3 12 0 18 -204280 -1
-0;
-#X text 113 497 signal;
-#X text 113 403 signal;
-#X floatatom 120 121 0 0 0 0 - - -;
-#X msg 120 141 shift \$1;
-#X obj 64 271 clip~ -1 1;
-#X obj 65 97 cycle~ 440;
-#X text 168 559 - modes \; mode 0: treat floating point signal input
-as raw 32 bit value \; mode 1: convert floating point signal input
-to integer \;;
-#X text 94 560 2) float;
-#X text 95 535 1) shift;
-#X text 168 534 - number of bits to shift;
-#X text 168 404 - signal to bitshift \, can be treated as signal of
+#X obj 10 40 cnv 15 549 40 empty empty bitshift~ 3 12 0 18 -204280
+-1 0;
+#X text 123 537 signal;
+#X text 123 393 signal;
+#X obj 86 298 clip~ -1 1;
+#X text 109 600 2) float;
+#X text 110 575 1) shift;
+#X text 178 574 - number of bits to shift;
+#X text 178 391 - signal to bitshift \, can be treated as signal of
 bits or signal as float/int;
-#X text 168 497 - output of signal bit shifted;
-#X obj 486 3 bitshift~;
-#X text 19 52 Works on floating point signal as bits or as an integer:
+#X text 178 537 - output of signal bit shifted;
+#X obj 496 43 bitshift~;
+#X obj 87 395 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 77 405 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 113 432 message;
-#X text 169 434 - mode: "mode 0" bitshifts the float \, "mode 1" converts
-it to int and bitshifts that.;
-#X text 167 461 - shift: specifies the number and direction of the
-shift;
-#X obj 65 319 output~;
-#X obj 166 298 env~ 8192;
-#X floatatom 166 329 5 0 0 0 - - -;
-#X obj 65 202 cyclone/bitshift~ 8 1;
-#X obj 0 624 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 10 634 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 64 121 *~ 1000;
-#X obj 64 246 /~ 1000;
-#X text 95 665 Make sure the input level is high enough to remain meaningful
-when converted to int and back.;
-#X text 95 635 Mode 0 can result in NaN values \, which are not properly
-attenuated. Beware your audio volume!;
-#X obj 277 194 tabwrite~ \$0-bitshift;
-#X text 266 222 1;
-#X text 262 352 -1;
-#X obj 282 227 hsl 195 140 0 127 0 0 get_rid_of_outlet get_rid_of_inlet
-empty -2 -8 0 10 -262144 -262144 -262144 0 1;
-#N canvas 0 0 450 300 (subpatch) 0;
+#X obj 86 273 /~ 1000;
+#X text 139 674 Make sure the input level is high enough to remain
+meaningful when converted to int and back.;
+#X obj 86 326 s~ \$0-BitShift;
+#N canvas 0 22 621 468 plot 0;
+#X obj 439 209 tabwrite~ \$0-bitshift;
+#X obj 432 142 metro 1000;
+#X obj 472 180 r~ \$0-BitShift;
+#X obj 432 92 loadbang;
+#X obj 432 114 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 102 102 cnv 15 218 138 empty empty empty 20 12 0 14 -245500
+-66577 0;
+#X msg 361 144 \; pd dsp 1;
+#N canvas 0 22 450 300 (subpatch) 0;
 #X array \$0-bitshift 1024 float 1;
-#A 0 -0.06 -0.312 -0.56 -0.808 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -0.956 -0.712 -0.464 -0.212 0.032 0.284 0.532
-0.78 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 0.984 0.74 0.492 0.244 -0.004 -0.256 -0.504 -0.752
--0.996 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.768
--0.52 -0.272 -0.02 0.228 0.476 0.724 0.968 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.796 0.548
-0.3 0.048 -0.2 -0.448 -0.696 -0.94 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -0.824 -0.576 -0.328 -0.076 0.168 0.42 0.668
-0.912 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 0.852 0.604 0.356 0.104 -0.14 -0.392 -0.64 -0.888
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.88 -0.632
--0.384 -0.132 0.112 0.364 0.612 0.86 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.908 0.66 0.412
-0.164 -0.084 -0.336 -0.584 -0.832 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -0.936 -0.688 -0.44 -0.192 0.056 0.308 0.556
-0.804 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 0.964 0.716 0.468 0.22 -0.028 -0.276 -0.528 -0.776
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.988 -0.744
--0.496 -0.248 0 0.248 0.5 0.748 0.992 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.772 0.524 0.276
-0.024 -0.22 -0.472 -0.72 -0.964 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -0.8 -0.552 -0.304 -0.056 0.192 0.444 0.692 0.936
+#A 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.570906 0.000102201 1.1994e-08
+9.02517e-13 4.99965e-17 0 0 0 0 0 -1 -1 -1 -0.000270317 -2.70622e-15
+0 0 1 0.014259 0 -1 0 0 -1 0 0 -1 0 1 1 0 0 -2.53202e-14 -0.00255902
+-1 -1 -1 0 0 0 0 0 1.17639e-16 2.16511e-12 2.65925e-08 0.000219772
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 0.828 0.584 0.332 0.084 -0.164 -0.416 -0.664 -0.908
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.856 -0.612
--0.36 -0.112 0.136 0.384 0.636 0.88 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.884 0.64 0.388
-0.14 -0.108 -0.356 -0.608 -0.852 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -0.912 -0.668 -0.42 -0.168 0.08 0.328 0.58 0.824
+0.569719 0.000102045 1.19738e-08 9.01181e-13 4.99097e-17 0 0 0 0 0
+-1 -1 -1 -0.00026828 -2.69113e-15 0 0 1 0.0141206 0 -1 0 0 -1 0 0 -1
+0 1 1 0 0 -2.5441e-14 -0.00257538 -1 -1 -1 0 0 0 0 0 1.18006e-16 2.17096e-12
+2.66382e-08 0.000220127 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 0.570859 0.000102196 1.19933e-08 9.0246e-13
+4.99939e-17 0 0 0 0 0 -1 -1 -1 -0.000270256 -2.70567e-15 0 0 1 0.0142542
+0 -1 0 0 -1 0 0 -1 0 1 1 0 0 -2.53242e-14 -0.00255963 -1 -1 -1 0 0
+0 0 0 1.17652e-16 2.16534e-12 2.65939e-08 0.000219784 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.569672 0.000102037
+1.19731e-08 9.01125e-13 4.99071e-17 0 0 0 0 0 -1 -1 -1 -0.000268211
+-2.69063e-15 0 0 1 0.0141157 0 -1 0 0 -1 0 0 -1 0 1 1 0 0 -2.54445e-14
+-0.00257593 -1 -1 -1 0 0 0 0 0 1.1802e-16 2.17113e-12 2.66396e-08 0.000220139
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 0.94 0.696 0.448 0.196 -0.052 -0.3 -0.548 -0.796 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -0.968 -0.724
--0.476 -0.224 0.02 0.272 0.52 0.768 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.996 0.752;
-#A 1000 0.504 0.252 0.004 -0.244 -0.492 -0.74 -0.984 -1 -1 -1 -1 -1
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1;
-#X coords 0 1 1023 -1 200 140 1;
-#X restore 279 227 graph;
-#X obj 277 171 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X text 15 75 bitwise operation on a signal as integer;
-#X text 18 22 Performs bitwise boolean operations on a float signal.
+0.570813 0.000102188 1.19926e-08 9.02418e-13 4.99904e-17 0 0 0 0 0
+-1 -1 -1 -0.00027018 -2.70517e-15 0 0 1 0.0142495 0 -1 0 0 -1 0 0 -1
+0 1 1 0 0 -2.53286e-14 -0.00256018 -1 -1 -1 0 0 0 0 0 1.17666e-16 2.16551e-12
+2.65953e-08 0.000219795 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 0.569625 0.000102032 1.19722e-08 9.01082e-13
+4.99045e-17 0 0 0 0 0 -1 -1 -1 -0.000268143 -2.69013e-15 0 0 1 0.0141111
+0 -1 0 0 -1 0 0 -1 0 1 1 0 0 -2.54485e-14 -0.00257642 -1 -1 -1 0 0
+0 0 0 1.18034e-16 2.17136e-12 2.66414e-08 0.000220154 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.570766 0.000102182
+1.19917e-08 9.02361e-13 4.99869e-17 0 0 0 0 0 -1 -1 -1 -0.000270111
+-2.70461e-15 0 0 1 0.0142449 0 -1 0 0 -1 0 0 -1 0 1 1 0 0 -2.53322e-14
+-0.00256073 -1 -1 -1 0 0 0 0 0 1.17677e-16 2.16573e-12 2.65972e-08
+0.000219807 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 0.569578 0.000102026 1.19715e-08 9.01039e-13 4.99011e-17
+0 0 0 0 0 -1 -1 -1 -0.000268074 -2.68957e-15 0 0 1 0.0141064 0 -1 0
+0 -1 0 0 -1 0 1 1 0 0 -2.5453e-14 -0.00257703 -1 -1 -1 0 0 0 0 0 1.18044e-16
+2.17153e-12 2.66428e-08 0.000220165 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.570703 0.000102177 1.1991e-08
+9.02304e-13 4.99843e-17 0 0 0 0 0 -1 -1 -1 -0.000270042 -2.70417e-15
+0 0 1 0.0142402 0 -1 0 0 -1 0 0 -1 0 1 1 0 0 -2.53362e-14 -0.00256122
+-1 -1 -1 0 0 0 0 0 1.17687e-16 2.1659e-12 2.65986e-08 0.000219818 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.569531
+0.00010202 1.19705e-08 9.00982e-13 4.98985e-17 0 0 0 0 0 -1 -1 -1 -0.000268005
+-2.68907e-15 0 0 1 0.0141016 0 -1 0 0 -1 0 0 -1 0 1 1 0 0 -2.5457e-14
+-0.00257758 -1 -1 -1 0 0 0 0 0 1.18058e-16 2.17176e-12 2.66442e-08
+0.000220177 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 0.570672 0.000102171 1.19903e-08 9.02276e-13 4.99809e-17
+0 0 0 0 0 -1 -1 -1 -0.000269981 -2.70367e-15 0 0 1 0.0142354 0 -1 0
+0 -1 0 0 -1 0 1 1 0 0 -2.53406e-14 -0.00256183 -1 -1 -1 0 0 0 0 0 1.17701e-16
+2.16613e-12 2.66e-08 0.00021983 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.569484 0.000102015 1.19698e-08 9.0094e-13
+4.9895e-17 0 0 0 0 0 -1 -1 -1 -0.000267937 -2.68857e-15 0 0 1 0.0140969
+0 -1 0 0 -1 0 0 -1 0 1 1 0 0 -2.54614e-14 -0.00257813 -1 -1 -1 0 0
+0 0 0 1.18072e-16 2.17187e-12 2.66461e-08 0.000220188 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.570625 0.000102163
+1.19894e-08 9.02219e-13 4.99783e-17 0 0 0 0 0 -1 -1 -1 -0.000269905
+-2.70312e-15 0 0 1 0.014231 0 -1 0 0;
+#A 1000 -1 0 0 -1 0 1 1 0 0 -2.53446e-14 -0.00256238 -1 -1 -1 0 0 0
+0 0 1.17715e-16 2.1663e-12 2.66018e-08 0.000219845 1;
+#X coords 0 1.1 1023 -1.1 220 140 1;
+#X restore 101 101 graph;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 4 0;
+#X connect 3 0 6 0;
+#X connect 4 0 1 0;
+#X coords 0 -1 1 1 222 142 2 100 100;
+#X restore 263 197 pd plot;
+#X text 243 322 -1;
+#X text 245 200 1;
+#X text 139 644 Mode 0 can result in NaN values \, which are not properly
+attenuated. Beware of your audio ouput!;
+#X text 28 62 Bit shifting for floating point signals;
+#X text 66 105 Use the [bitshift~] object to perform bitwise operations
+on a floating point signal as bits or as an integer.;
+#X obj 86 208 *~ 1000;
+#X obj 86 184 cycle~ 200;
+#X text 135 467 mode;
+#X text 129 423 float;
+#X text 177 467 - <mode 0> or <mode 1>;
+#X text 178 423 - <0>: mode 0 - treat floating point input as raw 32
+bit value \; - <1>: mode 1 - convert floating point input to integer
 ;
-#X connect 10 0 11 0;
-#X connect 11 0 29 0;
-#X connect 12 0 27 0;
-#X connect 12 0 26 1;
-#X connect 12 0 26 0;
-#X connect 12 0 35 0;
-#X connect 13 0 31 0;
-#X connect 27 0 28 0;
-#X connect 29 0 32 0;
-#X connect 31 0 29 0;
-#X connect 32 0 12 0;
-#X connect 40 0 35 0;
+#X text 177 484 - shift followed by a number specifies the number and
+direction of the shift;
+#X text 129 487 shift;
+#X msg 169 208 mode \$1;
+#X obj 169 187 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 86 239 cyclone/bitshift~ 8;
+#X text 179 599 - 0 (default) or 1;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 7 5 pd;
+#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 939 367 324 271 set_color 0;
+#X obj 47 30 inlet;
+#X obj 96 146 s \$0-cnv;
+#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 378 447 color \$1 \$2;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
+#X connect 16 0 6 0;
+#X connect 17 0 13 0;
+#X connect 18 0 17 0;
+#X connect 18 1 16 0;
+#X connect 19 0 18 0;
+#X restore 47 113 pd off;
+#X obj 47 83 select 0 1;
+#X obj 47 168 list append 0;
+#X obj 47 195 list trim;
+#X obj 47 220 s \$0-tgl-r;
+#X connect 0 0 4 0;
+#X connect 2 0 1 0;
+#X connect 2 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 503 94 pd;
+#X connect 10 0 21 0;
+#X connect 19 0 10 0;
+#X connect 28 0 38 0;
+#X connect 29 0 28 0;
+#X connect 36 0 38 0;
+#X connect 37 0 36 0;
+#X connect 38 0 19 0;

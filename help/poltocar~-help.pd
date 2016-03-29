@@ -1,225 +1,228 @@
-#N canvas 541 93 558 450 10;
-#X obj 0 408 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 147 23 568 744 10;
+#X obj 9 697 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 234 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 9 509 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 575 208 374 261 META 0;
-#X text 2 19 LICENSE SIBSD;
-#X text 2 133 LIBRARY cyclone;
-#X text 2 95 OUTLET_0 signal;
-#X text 2 0 KEYWORDS signal cartesian polar conversion;
-#X text 2 38 DESCRIPTION polar to cartesian coordinate conversion;
-#X text 2 57 INLET_0 signal;
-#X text 2 114 OUTLET_1 signal;
-#X text 2 76 INLET_1 signal;
-#X text 0 152 VERSION 0.2-beta1;
-#X text 0 170 AUTHOR Krzysztof Czaja;
-#X text 1 188 RELEASE_DATE 2002;
-#X text 2 207 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 1088 157 431 306 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 140 LIBRARY cyclone;
+#X text 1 0 KEYWORDS signal cartesian polar conversion;
+#X text 1 40 DESCRIPTION cartesian to polar conversion for signals
 ;
-#X text 2 239 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 1 80 INLET_1 signal;
+#X text 1 60 INLET_0 signal;
+#X text 1 100 OUTLET_0 signal;
+#X text 1 120 OUTLET_1 signal;
+#X text 0 162 VERSION 0.2-beta1;
+#X text 0 180 AUTHOR Krzysztof Czaja;
+#X text 1 198 RELEASE_DATE 2002;
+#X text 2 217 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 249 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 504 410 pd META;
-#X obj 0 300 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 513 699 pd META;
+#X obj 9 581 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 365 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 9 662 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 481 329 428 153 Related_objects 0;
+#N canvas 1095 187 428 164 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X obj 55 46 cartopol~;
-#X restore 202 411 pd Related_objects;
-#X obj 0 0 cnv 15 552 40 empty empty poltocar~ 3 12 0 18 -204280 -1
+#X obj 35 41 poltocar~;
+#X restore 225 700 pd Related_objects;
+#X obj 7 45 cnv 15 552 40 empty empty poltocar~ 3 12 0 18 -204280 -1
 0;
-#X text 125 377 (none);
-#X obj 484 8 poltocar~;
-#X text 191 243 - amplitude;
-#X text 191 270 - phase;
-#X text 124 243 signal;
-#X text 124 270 signal;
-#X obj 93 245 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 114 673 (none);
+#X text 127 514 signal;
+#X text 127 540 signal;
+#X text 127 594 signal;
+#X text 127 620 signal;
+#X obj 96 515 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 271 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 96 541 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 191 311 - real part of signal;
-#X text 191 337 - imaginary part of signal;
-#X text 124 311 signal;
-#X text 124 337 signal;
-#X obj 93 312 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 96 596 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 338 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 96 621 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 51 56 Here's how to connect it to an fft~:;
-#X text 235 126 phase (-PI to PI radians);
-#X obj 122 202 ifft~ 256 256 0;
-#X obj 122 80 fft~ 256 256 0;
-#X text 97 119 amp.;
-#X text 230 151 <- do some spectral processing here;
-#X text 22 23 polar to cartesian coordinate conversion.;
-#X obj 123 103 cyclone/cartopol~;
-#X obj 122 178 cyclone/poltocar~;
-#X obj 518 198 dspSwitch~;
-#N canvas 689 163 450 582 how 0;
-#X obj 34 521 output~;
-#X obj 32 402 ifft~ 256 256 0;
-#X obj 32 280 fft~ 256 256 0;
-#X obj 32 303 cyclone/cartopol~;
-#X obj 32 378 cyclone/poltocar~;
-#X obj 33 235 hilbert~;
-#X obj 151 185 vsl 15 128 0 2 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X msg 151 154 1;
-#X obj 130 344 *~ 1;
-#N canvas 1 79 450 300 voice 0;
-#X obj 232 168 soundfiler;
-#X obj 232 122 f \$0;
-#X obj 232 98 loadbang;
-#X floatatom 232 190 5 0 0 0 - - -, f 5;
-#X msg 232 144 read -resize voice.wav \$1-voice;
-#X obj 231 209 table \$0-voice;
-#X obj 34 21 inlet;
-#X obj 33 271 outlet~;
-#X obj 34 96 cyclone/Line~;
-#X obj 54 154 f \$0;
-#X msg 34 62 0 \, 62079 1407;
-#X obj 34 234 cyclone/index~ \$0-voice;
-#X msg 54 175 set \$1-voice;
-#X obj 152 102 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X connect 0 0 3 0;
-#X connect 1 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 9 0;
-#X connect 4 0 0 0;
-#X connect 6 0 10 0;
-#X connect 8 0 11 0;
-#X connect 9 0 12 0;
-#X connect 10 0 8 0;
-#X connect 11 0 7 0;
-#X connect 12 0 11 0;
-#X connect 13 0 1 0;
-#X connect 13 0 9 0;
-#X restore 34 134 pd voice;
-#X obj 34 78 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 33 457 *~ 0.015;
-#X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
-#X text 17 21 how it sounds;
-#X connect 1 0 11 0;
-#X connect 2 0 3 0;
-#X connect 2 1 3 1;
-#X connect 3 0 4 0;
-#X connect 3 1 8 0;
+#X text 200 620 - imaginary part of signal in cartesian form;
+#X text 200 594 - real part of signal in cartesian form;
+#X text 201 514 - Amplitude output of signal in polar form;
+#X text 202 541 - Phase (in radians: -pi to pi) output of signal in
+polar form;
+#X obj 492 48 poltocar~;
+#X text 22 68 polar to cartesian conversion for signals;
+#N canvas 161 66 547 384 spectral_processing 0;
+#X obj 252 132 cyclone/cartopol~;
+#X obj 252 215 cyclone/poltocar~;
+#X obj 252 81 rfft~;
+#X obj 252 275 rifft~;
+#X text 46 112 complex signal in cartesian form;
+#X text 142 243 back to cartesian;
+#X text 259 113 <= real;
+#X text 345 110 <= imaginary;
+#X text 255 171 do some spectral;
+#X text 256 188 processing here;
+#X text 264 152 (polar form);
+#X text 164 171 amplitude =>;
+#X text 368 171 <= phase;
+#X text 263 57 FFT;
+#X text 265 303 iFFT;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 1 0 3 0;
+#X connect 1 1 3 1;
+#X connect 2 0 0 0;
+#X connect 2 1 0 1;
+#X restore 261 471 pd spectral_processing;
+#X text 116 412 It's useful for spectral processing in the more intuitive
+polar form (amplitude/phase). Here's the idea in the subpatch below:
+;
+#X floatatom 195 207 0 0 0 0 - - -;
+#X floatatom 294 205 0 0 0 0 - - -;
+#X floatatom 189 334 0 0 0 0 - - -;
+#X obj 189 296 cyclone/Snapshot~ 1;
+#X obj 195 236 sig~;
+#X obj 294 236 sig~;
+#X floatatom 294 363 0 0 0 0 - - -;
+#X obj 294 325 cyclone/Snapshot~ 1;
+#X text 186 357 Real;
+#X text 290 386 Imaginary;
+#X text 186 185 Amplitude;
+#X text 291 182 Phase;
+#X obj 195 267 cyclone/poltocar~;
+#X text 107 119 Use the [poltocar~] object to convert signal values
+representing polar coordinates to a signal composed of cartesian coordinates.
+;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 7 11 pd;
+#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 939 367 324 271 set_color 0;
+#X obj 47 30 inlet;
+#X obj 96 146 s \$0-cnv;
+#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 378 447 color \$1 \$2;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
 #X connect 4 0 1 0;
-#X connect 4 1 1 1;
-#X connect 5 0 2 0;
-#X connect 5 1 2 1;
-#X connect 6 0 8 1;
-#X connect 7 0 6 0;
-#X connect 8 0 4 1;
-#X connect 9 0 5 0;
-#X connect 10 0 9 0;
-#X connect 11 0 0 0;
-#X connect 11 0 0 1;
-#X restore 394 97 pd how it sounds;
-#N canvas 1 79 450 570 what 0;
-#X obj 0 0 cnv 15 552 40 empty empty empty 3 12 0 18 -204280 -1 0;
-#X text 17 21 what it looks like;
-#X obj 70 403 output~;
-#X obj 69 284 ifft~ 256 256 0;
-#X obj 69 162 fft~ 256 256 0;
-#X obj 69 185 cyclone/cartopol~;
-#X obj 69 260 cyclone/poltocar~;
-#X obj 180 131 tabwrite~ \$0-dry;
-#X obj 279 380 tabwrite~ \$0-wet;
-#X obj 153 83 metro 100;
-#X obj 153 57 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 167 223 *~ 1;
-#X obj 332 73 vsl 15 128 0 2 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X msg 332 50 1;
-#X obj 298 73 vsl 15 128 0 2 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X msg 298 50 1;
-#X obj 68 223 *~ 1;
-#X obj 69 105 phasor~ 440;
-#X obj 69 339 *~ 0.0155;
-#X obj 153 105 t b b;
-#X obj 183 401 hsl 195 140 0 127 0 0 \$0-s_none \$0-r_none empty -2
--8 0 10 -262144 -262144 -1 0 1;
-#N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-dry 128 float 5;
-#A 0 0.523902 0.533879 0.543857 0.553834 0.563811 0.573789 0.583766
-0.593743 0.603721 0.613698 0.623675 0.633653 0.64363 0.653607 0.663584
-0.673562 0.683539 0.693516 0.703494 0.713471 0.723448 0.733426 0.743403
-0.75338 0.763358 0.773335 0.783312 0.79329 0.803267 0.813244 0.823222
-0.833199 0.843176 0.853154 0.863131 0.873108 0.883086 0.893063 0.90304
-0.913018 0.922995 0.932972 0.94295 0.952927 0.962904 0.972881 0.982859
-0.992836 0.00281349 0.0127908 0.0227681 0.0327455 0.0427228 0.0527001
-0.0626774 0.0726548 0.0826321 0.0926094 0.102587 0.112564 0.122541
-0.132519 0.142496 0.152473 0.102588 0.112566 0.122543 0.13252 0.142497
-0.152475 0.162452 0.172429 0.182407 0.192384 0.202361 0.212339 0.222316
-0.232293 0.242271 0.252248 0.262225 0.272203 0.28218 0.292157 0.302135
-0.312112 0.322089 0.332067 0.342044 0.352021 0.361999 0.371976 0.381953
-0.391931 0.401908 0.411885 0.421863 0.43184 0.441817 0.451795 0.461772
-0.471749 0.481726 0.491704 0.501681 0.511658 0.521636 0.531613 0.54159
-0.551568 0.561545 0.571522 0.5815 0.591477 0.601454 0.611432 0.621409
-0.631386 0.641364 0.651341 0.661318 0.671296 0.681273 0.69125 0.701228
-0.711205 0.721182 0.73116;
-#X coords 0 1 128 -1 200 140 1;
-#X restore 180 401 graph;
-#N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-wet 128 float 5;
-#A 0 0.519711 0.529608 0.539506 0.549403 0.559301 0.569198 0.579096
-0.588993 0.598891 0.608788 0.618686 0.628583 0.638481 0.648378 0.658276
-0.668173 0.678071 0.687968 0.697866 0.707763 0.717661 0.727558 0.737456
-0.747353 0.757251 0.767148 0.777046 0.786943 0.796841 0.806738 0.816636
-0.826533 0.836431 0.846328 0.856226 0.866123 0.876021 0.885918 0.895816
-0.905713 0.915611 0.925508 0.935406 0.945303 0.955201 0.965098 0.974996
-0.984894 0.00279097 0.0126885 0.022586 0.0324835 0.042381 0.0522785
-0.062176 0.0720735 0.081971 0.0918685 0.101766 0.111664 0.121561 0.131459
-0.141356 0.151254 0.101767 0.111665 0.121562 0.13146 0.141357 0.151255
-0.161152 0.17105 0.180948 0.190845 0.200743 0.21064 0.220538 0.230435
-0.240333 0.25023 0.260128 0.270025 0.279923 0.28982 0.299718 0.309615
-0.319513 0.32941 0.339308 0.349205 0.359103 0.369 0.378898 0.388795
-0.398693 0.40859 0.418488 0.428385 0.438283 0.44818 0.458078 0.467975
-0.477873 0.48777 0.497668 0.507565 0.517463 0.52736 0.537258 0.547155
-0.557053 0.56695 0.576848 0.586745 0.596643 0.60654 0.616438 0.626335
-0.636233 0.64613 0.656028 0.665925 0.675823 0.68572 0.695618 0.705515
-0.715413 0.72531;
-#X coords 0 1 128 -1 200 140 1;
-#X restore 180 401 graph;
-#X text 164 528 -1;
-#X text 169 397 1;
-#X connect 3 0 18 0;
-#X connect 4 0 5 0;
-#X connect 4 1 5 1;
-#X connect 5 0 16 0;
-#X connect 5 1 11 0;
+#X connect 5 0 14 1;
 #X connect 6 0 3 0;
-#X connect 6 1 3 1;
-#X connect 9 0 19 0;
-#X connect 10 0 9 0;
-#X connect 11 0 6 1;
-#X connect 12 0 11 1;
-#X connect 13 0 12 0;
-#X connect 14 0 16 1;
-#X connect 15 0 14 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
 #X connect 16 0 6 0;
-#X connect 17 0 7 0;
-#X connect 17 0 4 0;
-#X connect 18 0 2 0;
-#X connect 18 0 2 1;
-#X connect 18 0 8 0;
-#X connect 19 0 8 0;
-#X connect 19 1 7 0;
-#X restore 394 118 pd what it looks like;
+#X connect 17 0 13 0;
+#X connect 18 0 17 0;
+#X connect 18 1 16 0;
+#X connect 19 0 18 0;
+#X restore 47 113 pd off;
+#X obj 47 83 select 0 1;
+#X obj 47 168 list append 0;
+#X obj 47 195 list trim;
+#X obj 47 220 s \$0-tgl-r;
+#X connect 0 0 4 0;
+#X connect 2 0 1 0;
+#X connect 2 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 504 101 pd;
 #X connect 24 0 28 0;
-#X connect 24 1 28 1;
-#X connect 28 0 29 0;
-#X connect 28 1 29 1;
-#X connect 29 0 23 0;
-#X connect 29 1 23 1;
+#X connect 25 0 29 0;
+#X connect 27 0 26 0;
+#X connect 28 0 36 0;
+#X connect 29 0 36 1;
+#X connect 31 0 30 0;
+#X connect 36 0 27 0;
+#X connect 36 1 31 0;

@@ -1,7 +1,7 @@
-#N canvas 317 82 569 440 10;
-#X obj 1 915 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 692 23 573 770 10;
+#X obj 11 728 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 2 389 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 12 377 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 611 363 351 231 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -19,257 +19,249 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 501 917 pd META;
-#X obj 3 490 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 1 544 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X restore 511 730 pd META;
+#X obj 13 589 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
 0;
-#X obj 3 775 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 11 650 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 309 485 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 213 917 pd Related_objects;
-#X obj 80 398 cnv 17 3 33 empty empty n 5 9 0 16 -228856 -162280 0
-;
-#X obj 81 499 cnv 17 3 33 empty empty n 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty matrix~ 3 12 0 18 -204280 -1 0
-;
-#X text 12 23 a switching or mixing matrix for signals;
-#X obj 318 305 *~ 0.15;
-#X obj 378 305 *~ 0.15;
-#X obj 316 89 osc~ 111;
-#X obj 340 110 osc~ 222;
-#X obj 365 131 osc~ 333;
-#X obj 389 152 osc~ 444;
-#X obj 414 173 osc~ 555;
-#X obj 439 194 osc~ 666;
-#X obj 440 304 print dump;
-#X msg 245 85 dump;
-#X text 111 396 signal;
-#X text 180 396 - signals to mix or switch;
-#X text 111 412 message;
-#X text 111 498 signal;
-#X text 180 413 - dump: outputs the current gains of all connections
-out the rightmost outlet in list: inlet # \, outlet# \, gain;
-#X text 92 580 2) float - argument is the number of signal outlets
-;
-#X text 92 559 1) float - argument is the number of inlets;
-#X text 109 647 By default \, [matrix~] is in "switch mode". In switch
-mode \, the connections are either on or off. This can cause audible
-clicks when switching (Max/MSP calls this "binary mode").;
-#X text 109 714 "mix mode" mixes the incoming signals using the values
-from the incoming list to specify the gain \, so they can change the
-amplitude based on that number. mix mode requires more CPU time. (Max/MSP
-calls this "non-binary mode").;
-#X text 96 803 If you want to specify the gain of each connection \,
-you must use three- or four-element list messages rather than the 'connect'
-message. Connections formed with the 'connect' message always have
-a gain specified by the third argument initially given to the object.
-However \, subsequent list messages can alter the gain of connections
-formed with the 'connect' message.;
-#X text 111 518 list;
-#X text 180 518 - last outlet dumps all info in list;
-#X obj 461 4 matrix~ 1 1 1;
-#N canvas 319 511 468 322 more... 0;
-#X msg 262 62 connect 0 2;
-#X text 232 63 i.e.;
-#X text 232 103 i.e.;
-#X msg 262 102 disconnect 0 2;
-#X text 58 116 disconnect inlet# from outlet#;
-#X text 43 26 Inlets and outlets are numbered from left to right \,
-starting at zero (i.e. hot inlets are 0).;
-#X text 61 79 connect inlet# to outlet#;
-#X text 232 143 i.e.;
-#X msg 262 142 0 2 0.5;
-#X text 58 157 if gain is non-zero \, connect inlet# to outlet#. If
-gain is zero \, disconnect inlet# from outlet#;
-#X msg 332 142 0 2 0;
-#X text 232 193 i.e.;
-#X msg 262 192 0 2 0.5 500;
-#X msg 352 192 0 2 0 1000;
-#X text 58 209 connect inlet# to outlet# with "gain" using "ramptime"
-in milliseconds;
-#X msg 253 292 clear;
-#X text 232 243 i.e.;
-#X text 58 262 sets the default time in milliseconds used to change
-"gain" when in mix mode;
-#X msg 262 242 ramp 500;
-#X msg 342 242 ramp 1000;
-#X text 42 293 clear - remove all connections.;
-#X text 42 242 ramp ramptime;
-#X text 42 192 inlet# outlet# gain ramptime;
-#X text 42 142 inlet# outlet# gain;
-#X text 42 102 disconnect inlet# outlet#;
-#X text 42 62 connect inlet# outlet#;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 5 3 More arguments for fade in and fade out;
-#X restore 451 442 pd more...;
-#X obj 317 245 cyclone/matrix~ 6 2 1;
-#X obj 319 337 output~;
-#X text 99 52 outputs the current gains of all connections out the
-rightmost outlet \, in lists like this: inlet# outlet# gain;
-#X text 180 441 - connect \, disconnect \, ramp: as specified in;
-#X text 197 132 output 0;
-#X text 197 148 output 1;
-#X text 99 102 input;
-#X text 101 118 0;
-#X text 116 118 1;
-#X text 130 118 2;
-#X text 145 118 3;
-#X text 160 118 4;
-#X text 177 118 5;
-#N canvas 899 517 450 467 matrix-logic 0;
-#X obj 100 100 tgl 15 0 s00 r00 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 115 100 tgl 15 0 s10 r10 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 130 100 tgl 15 0 s20 r20 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 145 100 tgl 15 0 s30 r30 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 160 100 tgl 15 0 s40 r40 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 175 100 tgl 15 0 s50 r50 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 100 115 tgl 15 0 empty r10 empty 17 7 0 10 -262144 -1 -1 0 1
-;
-#X obj 115 115 tgl 15 0 s11 r11 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 130 115 tgl 15 0 s21 r21 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 145 115 tgl 15 0 s31 r31 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 160 115 tgl 15 0 s41 r41 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 175 115 tgl 15 0 s51 r51 empty 17 7 0 10 -262144 -1 -1 0 1;
-#X obj 100 263 moses 1;
-#X msg 139 299 connect;
-#X msg 100 319 disconnect;
-#X msg 127 208 0 0;
-#X msg 136 236 0 1;
-#X msg 206 208 2 0;
-#X msg 215 236 2 1;
-#X msg 284 208 4 0;
-#X msg 293 236 4 1;
-#X obj 100 360 list append;
-#X obj 100 142 t f f;
-#X obj 101 381 list trim;
-#X obj 109 164 t f f;
-#X obj 140 142 t f f;
-#X obj 149 164 t f f;
-#X obj 179 142 t f f;
-#X obj 188 164 t f f;
-#X obj 218 143 t f f;
-#X obj 227 165 t f f;
-#X obj 257 143 t f f;
-#X obj 266 165 t f f;
-#X obj 296 144 t f f;
-#X obj 305 166 t f f;
-#X msg 177 236 1 1;
-#X msg 168 208 1 0;
-#X msg 245 208 3 0;
-#X msg 254 236 3 1;
-#X msg 323 208 5 0;
-#X msg 332 236 5 1;
-#X obj 101 415 outlet;
-#X obj 100 5 inlet;
-#X msg 100 27 set 0;
-#X obj 100 56 s r00;
-#X obj 100 76 s r01;
-#X obj 137 56 s r10;
-#X obj 137 76 s r11;
-#X obj 174 56 s r20;
-#X obj 211 56 s r30;
-#X obj 211 76 s r31;
-#X obj 174 76 s r21;
-#X obj 248 56 s r40;
-#X obj 248 76 s r41;
-#X obj 285 56 s r50;
-#X obj 285 76 s r51;
-#X connect 0 0 22 0;
-#X connect 1 0 25 0;
-#X connect 2 0 27 0;
-#X connect 3 0 29 0;
-#X connect 4 0 31 0;
-#X connect 5 0 33 0;
-#X connect 6 0 24 0;
-#X connect 7 0 26 0;
-#X connect 8 0 28 0;
-#X connect 9 0 30 0;
-#X connect 10 0 32 0;
-#X connect 11 0 34 0;
-#X connect 12 0 14 0;
-#X connect 12 1 13 0;
-#X connect 13 0 21 0;
-#X connect 14 0 21 0;
-#X connect 15 0 21 1;
-#X connect 16 0 21 1;
-#X connect 17 0 21 1;
-#X connect 18 0 21 1;
-#X connect 19 0 21 1;
-#X connect 20 0 21 1;
-#X connect 21 0 23 0;
-#X connect 22 0 12 0;
-#X connect 22 1 15 0;
-#X connect 23 0 41 0;
-#X connect 24 0 12 0;
-#X connect 24 1 16 0;
-#X connect 25 0 12 0;
-#X connect 25 1 36 0;
-#X connect 26 0 12 0;
-#X connect 26 1 35 0;
-#X connect 27 0 12 0;
-#X connect 27 1 17 0;
-#X connect 28 0 12 0;
-#X connect 28 1 18 0;
-#X connect 29 0 12 0;
-#X connect 29 1 37 0;
-#X connect 30 0 12 0;
-#X connect 30 1 38 0;
-#X connect 31 0 12 0;
-#X connect 31 1 19 0;
-#X connect 32 0 12 0;
-#X connect 32 1 20 0;
-#X connect 33 0 12 0;
-#X connect 33 1 39 0;
-#X connect 34 0 12 0;
-#X connect 34 1 40 0;
-#X connect 35 0 21 1;
-#X connect 36 0 21 1;
-#X connect 37 0 21 1;
-#X connect 38 0 21 1;
-#X connect 39 0 21 1;
-#X connect 40 0 21 1;
-#X connect 42 0 43 0;
-#X connect 43 0 55 0;
-#X connect 43 0 54 0;
-#X connect 43 0 52 0;
-#X connect 43 0 49 0;
-#X connect 43 0 48 0;
-#X connect 43 0 46 0;
-#X connect 43 0 44 0;
-#X connect 43 0 53 0;
-#X connect 43 0 50 0;
-#X connect 43 0 51 0;
-#X connect 43 0 47 0;
-#X connect 43 0 45 0;
-#X coords 0 -1 1 1 90 30 2 100 100;
-#X restore 100 134 pd matrix-logic;
-#X obj 100 197 print;
-#X msg 245 182 clear;
-#X text 180 498 - mixed or switched signals from inlets;
-#X text 92 634 binary or switch mode:;
-#X text 92 702 non-binary or mix mode:;
-#X text 92 599 3) float - argument is optional \, any value turns on
-"mix mode" \, otherwise the default is "switch mode";
-#X text 111 457 list;
-#X text 180 457 - mix-mode: inlet outlet gain ramp;
-#X text 190 472 switch-mode: inlet outlet 0|1;
+#X restore 223 730 pd Related_objects;
+#X obj 87 560 cnv 17 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
+0;
+#X obj 10 42 cnv 15 552 40 empty empty matrix~ 3 12 0 18 -204280 -1
+0;
+#X obj 350 321 print dump;
+#X msg 194 171 dump;
+#X text 140 561 signal;
+#X text 140 598 signal;
+#X text 152 622 list;
+#X obj 227 324 output~;
+#X text 120 211 0;
+#X text 135 211 1;
+#X text 150 211 2;
+#X text 165 211 3;
+#N canvas 0 23 892 491 matrix-logic 0;
+#X obj 496 410 outlet;
+#X obj 112 48 inlet;
+#X obj 496 375 t b a;
+#X msg 353 272 0 0 \$1;
+#X msg 401 272 1 0 \$1;
+#X msg 450 273 2 0 \$1;
+#X msg 504 274 3 0 \$1;
+#X msg 560 276 0 1 \$1;
+#X msg 612 277 1 1 \$1;
+#X msg 664 279 2 1 \$1;
+#X msg 720 280 3 1 \$1;
+#X obj 496 348 cyclone/prepend set;
+#X obj 122 196 s \$0-r00;
+#X obj 108 232 s \$0-r10;
+#X obj 91 257 s \$0-r20;
+#X obj 81 280 s \$0-r30;
+#X obj 234 175 s \$0-r01;
+#X obj 223 198 s \$0-r11;
+#X obj 220 227 s \$0-r21;
+#X obj 211 252 s \$0-r31;
+#X obj 495 147 r \$0-s00;
+#X obj 497 173 r \$0-s10;
+#X obj 511 196 r \$0-s20;
+#X obj 513 222 r \$0-s30;
+#X obj 702 162 r \$0-s01;
+#X obj 704 188 r \$0-s11;
+#X obj 718 211 r \$0-s21;
+#X obj 720 237 r \$0-s31;
+#X obj 300 100 tgl 15 0 \$0-s00 \$0-r00 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 315 100 tgl 15 0 \$0-s10 \$0-r10 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 330 100 tgl 15 0 \$0-s20 \$0-r20 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 345 100 tgl 15 0 \$0-s30 \$0-r30 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 300 115 tgl 15 0 \$0-s01 \$0-r01 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 315 115 tgl 15 0 \$0-s11 \$0-r11 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 330 115 tgl 15 0 \$0-s21 \$0-r21 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 345 115 tgl 15 0 \$0-s31 \$0-r31 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X msg 562 385 3 1 0;
+#X connect 1 0 12 0;
+#X connect 1 0 13 0;
+#X connect 1 0 14 0;
+#X connect 1 0 15 0;
+#X connect 1 0 16 0;
+#X connect 1 0 17 0;
+#X connect 1 0 18 0;
+#X connect 1 0 19 0;
+#X connect 2 0 0 0;
+#X connect 2 1 0 0;
+#X connect 3 0 11 0;
+#X connect 4 0 11 0;
+#X connect 5 0 11 0;
+#X connect 6 0 11 0;
+#X connect 7 0 11 0;
+#X connect 8 0 11 0;
+#X connect 9 0 11 0;
+#X connect 10 0 11 0;
+#X connect 11 0 2 0;
 #X connect 11 0 36 0;
-#X connect 12 0 36 1;
-#X connect 13 0 35 0;
-#X connect 14 0 35 1;
-#X connect 15 0 35 2;
-#X connect 16 0 35 3;
-#X connect 17 0 35 4;
-#X connect 18 0 35 5;
-#X connect 20 0 35 0;
-#X connect 35 0 11 0;
-#X connect 35 1 12 0;
-#X connect 35 2 19 0;
-#X connect 48 0 35 0;
-#X connect 48 0 49 0;
-#X connect 50 0 35 0;
-#X connect 50 0 48 0;
+#X connect 20 0 3 0;
+#X connect 21 0 4 0;
+#X connect 22 0 5 0;
+#X connect 23 0 6 0;
+#X connect 24 0 7 0;
+#X connect 25 0 8 0;
+#X connect 26 0 9 0;
+#X connect 27 0 10 0;
+#X coords 0 -1 1 1 60 30 2 300 100;
+#X restore 116 227 pd matrix-logic;
+#X text 148 383 list;
+#X obj 87 385 cnv 17 3 170 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 118 464 messages:;
+#X text 22 65 Signal routing and mixing matrix;
+#X msg 152 151 clear;
+#X obj 232 243 osc~ 300;
+#X obj 289 243 osc~ 400;
+#X obj 348 243 osc~ 500;
+#X obj 404 243 osc~ 600;
+#X msg 116 188 set 0;
+#X text 214 306 0;
+#X text 272 306 1;
+#X text 207 271 0;
+#X text 255 271 1;
+#X text 295 271 2;
+#X text 338 272 3;
+#X obj 488 56 matrix~ 1 1;
+#X msg 116 267 3 1 0;
+#X text 126 657 1) float;
+#X text 126 674 2) float;
+#X text 127 691 3) float;
+#X obj 219 194 loadbang;
+#X msg 219 219 ramp 500;
+#X obj 227 287 cyclone/matrix~ 4 2 1;
+#X text 95 93 in [matrix~] \, signals from any inlets can be routed
+to one or more outlets. If more than one inlet connects to an outlet
+\, the sum of the signals from the inlets is output.;
+#X text 190 616 - when receiving <dump> message \, the rightmost outlet
+dumps a list with connections: <inlet# \, outlet# \, gain>;
+#X obj 87 620 cnv 17 3 17 empty empty n+1 5 9 0 16 -228856 -162280
+0;
+#X text 188 381 - in binary: the 1st number specifies the inlet \,
+the 2nd the outlet (in/outlets are numbered from left to right \, starting
+at 0) and a 3rd specifies connection <nonzero> or disconnection <0>
+\; - in non-binary: a 3rd float sets the gain of the connection and
+a 4th value can set the ramp time.;
+#X text 186 463 - <dump>: outputs the current gains of all connections
+\; - <clear>: remove all connections \; - <ramp>: set ramp (fade) time
+- only in non-binary mode \; - <connect>: followed by a list connects
+inlet specified by 1st value to outlets specified by remaining values
+\; - <disconnect>: disconnects any inlet specified by the 1st value
+to the outlet(s) specified by the remaining values.;
+#X text 188 561 - signals to route and mix;
+#X text 190 599 - routed/mixed signals from inlets;
+#N canvas 320 23 464 830 binary_vs_non-binary 0;
+#X obj 144 440 osc~ 300;
+#X obj 201 440 osc~ 400;
+#X obj 260 440 osc~ 500;
+#X obj 316 441 osc~ 600;
+#X floatatom 67 387 5 0 0 0 - - -, f 5;
+#X msg 67 410 clear \, connect \$1 0 1;
+#X obj 143 507 output~;
+#X floatatom 109 633 5 0 0 0 - - -, f 5;
+#X obj 151 682 osc~ 300;
+#X obj 208 682 osc~ 400;
+#X obj 267 682 osc~ 500;
+#X obj 323 682 osc~ 600;
+#X obj 128 753 output~;
+#X obj 151 716 cyclone/matrix~ 4 1 1;
+#X msg 109 654 clear \, \$1 0 0.5 500;
+#X obj 144 473 cyclone/matrix~ 4 2;
+#X obj 67 362 hradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856 -1
+-1 0;
+#X obj 109 612 hradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856
+-1 -1 3;
+#X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 23 47 "binary" mode (default):;
+#X text 40 61 - in "binary" mode \, connections are either on or off.
+This can cause audible clicks when switching.;
+#X text 23 96 "non-binary" mode:;
+#X text 40 180 - "non-binary" mode is set when there is a third argument
+(that also specifies the gain for connections). Connections formed
+with the <connect> message always have the gain specified by the third
+argument. However \, list messages can alter the gain of connections
+formed with the <connect> message. So \, if you want to specify the
+gain of each connection in "non-binary" mode \, you must use three-
+or four-element list messages rather than the <connect> message.;
+#X text 40 109 - in "non-binary" mode (requires more CPU time) \, each
+connection have variable linear gain (0-1). When you send a list in
+"non-binary" mode \, the 3rd float sets the gain of the connection.
+This mode also allows for a ramp time for fade in/out or crossfading.
+;
+#X text 28 332 in binary mode \, only 0/1 gain values (clicks occur):
+;
+#X text 36 577 in non-binary mode \, you can set gain values and ramp
+time:;
+#X text 5 4 binary & non-binary mode:;
+#X connect 0 0 15 0;
+#X connect 1 0 15 1;
+#X connect 2 0 15 2;
+#X connect 3 0 15 3;
+#X connect 4 0 5 0;
+#X connect 5 0 15 0;
+#X connect 7 0 14 0;
+#X connect 8 0 13 0;
+#X connect 9 0 13 1;
+#X connect 10 0 13 2;
+#X connect 11 0 13 3;
+#X connect 13 0 12 0;
+#X connect 13 0 12 1;
+#X connect 14 0 13 0;
+#X connect 15 0 6 0;
+#X connect 15 1 6 1;
+#X connect 16 0 4 0;
+#X connect 17 0 7 0;
+#X restore 344 180 pd binary_vs_non-binary mode;
+#X obj 87 598 cnv 17 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
+0;
+#X text 60 227 output 0;
+#X text 60 242 output 1;
+#X text 78 211 input:;
+#X text 192 690 - sets to "non-binary" mode and the gain value for
+connections. If not provided \, "binary" mode is on;
+#X text 192 657 - defines number of signal inlets ("n");
+#X text 192 674 - defines number of signal outlets ("n");
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 9 6 pd;
+#X connect 9 0 42 0;
+#X connect 18 0 36 0;
+#X connect 23 0 28 0;
+#X connect 23 0 42 0;
+#X connect 24 0 42 0;
+#X connect 25 0 42 1;
+#X connect 26 0 42 2;
+#X connect 27 0 42 3;
+#X connect 28 0 18 0;
+#X connect 36 0 42 0;
+#X connect 40 0 41 0;
+#X connect 41 0 42 0;
+#X connect 42 0 13 0;
+#X connect 42 1 13 1;
+#X connect 42 2 8 0;

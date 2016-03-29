@@ -1,7 +1,7 @@
-#N canvas 521 82 568 529 10;
-#X obj 0 577 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 359 23 566 754 10;
+#X obj 4 708 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 345 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 4 403 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 596 273 365 259 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -21,127 +21,249 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 579 pd META;
-#X obj 0 466 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 710 pd META;
+#X obj 4 514 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 503 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 551 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 305 422 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 209 579 pd Related_objects;
-#X obj 87 354 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 213 710 pd Related_objects;
+#X obj 91 412 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 404 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 91 465 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty lookup~ 3 12 0 18 -204280 -1 0
+#X obj 4 38 cnv 15 552 40 empty empty lookup~ 3 12 0 18 -204280 -1
+0;
+#X obj 504 43 lookup~;
+#X text 16 61 transfer function lookup table;
+#X text 122 411 signal;
+#X text 211 411 - signal to do transfer function lookup;
+#X obj 91 489 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 500 5 lookup~;
-#X text 12 23 transfer function lookup table;
-#X text 258 42 play with it a little:;
-#X text 118 353 signal;
-#X text 183 353 - signal to do transfer function lookup;
-#X obj 87 435 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 91 524 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 476 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 118 404 float;
-#X text 118 435 float;
-#X text 101 535 2) float;
-#X text 118 476 signal;
-#X text 183 476 - ouput of transfer function lookup;
-#X obj 97 297 output~;
-#N canvas 576 630 430 300 mux 0;
-#X obj 88 73 inlet~;
-#X obj 137 73 inlet~;
-#X obj 191 74 inlet;
-#X obj 88 236 outlet~;
-#X obj 87 187 *~ 1;
-#X obj 138 188 *~ 0;
-#X obj 191 114 == 0;
-#X msg 253 54 0;
-#X msg 253 82 1;
-#X floatatom 207 163 5 0 0 0 - - -, f 5;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 2 1 Signal selector;
-#X connect 0 0 4 0;
-#X connect 1 0 5 0;
-#X connect 2 0 5 1;
-#X connect 2 0 6 0;
-#X connect 4 0 3 0;
-#X connect 5 0 3 0;
-#X connect 6 0 4 1;
-#X connect 6 0 9 0;
-#X connect 7 0 6 0;
-#X connect 8 0 6 0;
-#X restore 97 165 pd mux;
-#X obj 158 126 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144
--1 -1 1;
-#X text 175 122 osc~;
-#X text 175 141 phasor~;
-#X obj 157 98 phasor~ 1;
-#X obj 380 104 vsl 15 128 -1 1 0 0 empty \$0-slider empty 0 -9 0 10
--262144 -1 -1 4241 1;
-#N canvas 540 424 431 275 visualise 0;
-#X obj 159 121 cyclone/Snapshot~ 100;
-#X obj 159 157 s \$0-slider;
-#X obj 159 81 inlet~;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 5 0 Convert signal to messages;
-#X connect 0 0 1 0;
-#X connect 2 0 0 0;
-#X restore 380 238 pd visualise;
-#X floatatom 97 76 5 0 0 0 - - -, f 5;
-#X text 101 517 1) symbol;
-#N canvas 395 679 433 286 load 0;
-#X obj 120 98 soundfiler;
-#X obj 120 49 f \$0;
-#X obj 120 27 loadbang;
-#X msg 120 70 read -resize voice.wav \$1-voice;
-#X floatatom 120 119 8 0 0 0 - - -, f 8;
-#X obj 1 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 120 578 2) float;
+#X text 122 524 signal;
+#X obj 147 337 output~;
+#X text 120 562 1) symbol;
+#X text 120 595 3) float;
+#X text 211 489 - end-point in the array/table;
+#X text 192 578 - initial offset in array/table (default 0);
+#X text 211 465 - offset in the array/table;
+#X obj 168 264 osc~ 0.25;
+#X text 122 432 set (symbol);
+#X text 122 465 float/signal;
+#X text 122 489 float/signal;
+#X text 187 524 - ouput of transfer function lookup (waveshaping);
+#X text 193 595 - initial end-point array/table (default 511);
+#X floatatom 275 279 6 0 0 0 - - -, f 6;
+#N canvas 184 254 349 219 load_sample 0;
+#X obj 1 2 cnv 15 340 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 4 3 Load the voice.wav file;
-#X obj 120 138 table \$0-voice;
+#X obj 25 88 soundfiler;
+#X floatatom 25 113 8 0 0 0 - - -, f 8;
+#X obj 25 136 - 1;
+#X obj 25 165 outlet;
+#X obj 25 63 cyclone/loadmess read -resize voice.wav \$0-voice;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 2 0;
+#X restore 275 257 pd load_sample;
+#X obj 379 257 table \$0-voice;
+#X floatatom 275 232 6 0 0 0 - - -, f 6;
+#X text 317 230 sets table offset;
+#X text 317 280 sets table size;
+#X text 193 563 - array/table name to be used for lookup;
+#X text 211 431 - message "set" followed by a symbol sets the array/table
+with that symbol name to be used for lookup;
+#X text 107 98 [lookup~] uses an array as a transfer function for waveshaping
+\, in which signal values (from -1 to 1) are mapped to the table indexes.
+So the audio is used to read the table. This also allows other functionalities.
+For example \, an LFO sine wave can scan through an audio sample forward
+and reverse \, accelerating and decelerating \, resulting in a turntable
+scratch effect. Check below.;
+#X obj 7 623 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 743 86 442 704 waveshaping_example 0;
+#X obj 72 475 cnv 15 278 178 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X array \$0-shape 4099 float 0;
+#X coords 0 1 4098 -1 280 180 1;
+#X restore 71 474 graph;
+#X obj 130 192 *~;
+#X obj 209 196 line~;
+#X msg 209 169 \$1 10;
+#X obj 209 145 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.737795 256;
+#X obj 212 121 hsl 128 15 0.1 1 0 1 empty empty empty -2 -8 0 10 -228856
+-1 -1 9000 1;
+#N canvas 0 22 382 167 generate_waveform 0;
+#X obj 68 52 loadbang;
+#X msg 68 76 sinesum 4096 1 0.5 1 0.3 0.2 0.9 \, normalize;
+#X obj 68 103 send \$0-shape;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 227 457 pd generate_waveform;
+#X obj 72 324 output~;
+#X text 243 121 Amplitude;
+#X text 24 51 [lookup~] is very convenient for waveshaping \, because
+signal values from -1 to 1 are rescaled to the given table indexes
+\, which are 0-511 by default \, or set via inlets/arguments. Check
+the example below:;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 4 3 Waveshaping;
+#X text 147 663 transfer function;
+#X obj 130 233 cyclone/lookup~ \$0-shape 1 4096;
+#X obj 166 285 cyclone/Scope~ 184 141 2 3 128 -1 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 130 146 osc~ 156;
+#X connect 2 0 14 0;
+#X connect 3 0 2 1;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 14 0 8 0;
+#X connect 14 0 8 1;
+#X connect 14 0 15 0;
+#X connect 16 0 2 0;
+#X restore 302 344 pd waveshaping_example;
+#X text 150 630 Input values (from -1 to 1) are mapped to table indexes.
+Default table size is 512 points (indexes: 0-511) \, but you can specify
+a table size and offset. Note that the actual table size is equal to
+the table size minus the offset \, so raising the offset value will
+decrease the table size.;
+#X obj 114 233 loadmess set \$0-voice;
+#X obj 168 300 cyclone/lookup~;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 4 4 pd;
+#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 939 367 324 271 set_color 0;
+#X obj 47 30 inlet;
+#X obj 96 146 s \$0-cnv;
+#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 378 447 color \$1 \$2;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
+#X connect 16 0 6 0;
+#X connect 17 0 13 0;
+#X connect 18 0 17 0;
+#X connect 18 1 16 0;
+#X connect 19 0 18 0;
+#X restore 47 113 pd off;
+#X obj 47 83 select 0 1;
+#X obj 47 168 list append 0;
+#X obj 47 195 list trim;
+#X obj 47 220 s \$0-tgl-r;
 #X connect 0 0 4 0;
-#X connect 1 0 3 0;
 #X connect 2 0 1 0;
-#X connect 3 0 0 0;
-#X restore 480 238 pd load;
-#X msg 287 162 62079;
-#X obj 100 57 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#X text 222 41 2;
-#X text 95 41 0;
-#X obj 98 236 cyclone/lookup~ \$0-voice 0 62079;
-#X obj 111 122 *~ 2;
-#X obj 112 144 -~ 1;
-#X msg 293 183 42079;
-#X text 118 374 set;
-#X text 183 374 - sets the array/table used;
-#X msg 198 183 20000;
-#X msg 192 162 0;
-#X text 101 553 3) float;
-#X obj 97 98 osc~ 0.5;
-#X obj 157 76 * 2;
-#X text 183 517 - array/table name;
-#X text 183 435 - end-point in the array/table;
-#X text 182 534 - initial offset in array/table (default 0);
-#X text 183 552 - initial end-point array/table (default 512);
-#X text 183 404 - offset in the array/table;
-#X connect 22 0 28 0;
-#X connect 22 0 36 0;
-#X connect 23 0 22 2;
-#X connect 26 0 37 0;
-#X connect 29 0 45 0;
-#X connect 32 0 36 2;
-#X connect 33 0 29 0;
-#X connect 33 0 46 0;
-#X connect 36 0 21 0;
-#X connect 36 0 21 1;
-#X connect 37 0 38 0;
-#X connect 38 0 22 1;
-#X connect 39 0 36 2;
-#X connect 42 0 36 1;
-#X connect 43 0 36 1;
-#X connect 45 0 22 0;
-#X connect 46 0 26 0;
+#X connect 2 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 501 90 pd;
+#X connect 23 0 42 0;
+#X connect 29 0 42 2;
+#X connect 30 0 29 0;
+#X connect 32 0 42 1;
+#X connect 41 0 42 0;
+#X connect 42 0 17 0;
+#X connect 42 0 17 1;

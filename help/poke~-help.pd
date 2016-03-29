@@ -1,7 +1,7 @@
-#N canvas 510 79 569 532 10;
-#X obj 0 878 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 272 48 568 758 10;
+#X obj 6 708 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 543 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 423 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 594 349 381 238 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -21,122 +21,219 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 501 880 pd META;
-#X obj 0 673 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 710 pd META;
+#X obj 6 603 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 710 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 0 770 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 6 640 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 317 478 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 204 880 pd Related_objects;
-#X obj 79 552 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 210 710 pd Related_objects;
+#X obj 78 432 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 620 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 78 516 cnv 17 3 50 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty poke~ 3 12 0 18 -204280 -1 0;
-#X obj 503 9 poke~;
-#X text 12 23 Write into a table using a signal sample index;
-#X text 103 551 signal;
-#X text 187 551 - signal to sample;
-#X text 103 572 set x;
-#X text 187 572 - change buffer to x;
-#X text 103 620 float;
-#X text 187 620 - index of value being recorded;
-#X text 85 722 1) table;
-#X text 187 722 - buffer to write to (required);
-#X text 85 741 2) float;
-#X text 187 741 - initial channel (optional \, default 1);
-#X text 116 783 poke~ allows you to write samples into a buffer~ at
-sample locations specified by a signal. Typically \, the signal will
-increase in value by 1 with each sample to write successive values
-into successive samples (like record~). If the index signal is negative
-or larger than the size of the buffer~ \, no data is recorded.;
-#X obj 79 645 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 6 40 cnv 15 552 40 empty empty poke~ 3 12 0 18 -204280 -1 0
 ;
-#X text 103 645 float;
-#X text 187 645 - set channel of value being recorded;
-#X text 103 682 remotely sent to table;
-#X obj 34 217 soundfiler;
-#X floatatom 34 240 8 0 0 0 - - -;
-#X msg 34 262 range 0 \$1;
-#X obj 34 285 s sliders;
-#X obj 294 265 cyclone/count~ 25000 40000;
-#X msg 306 149 bang;
-#X msg 294 185 stop;
-#X obj 284 416 cyclone/count~ 0 62079;
-#X obj 284 477 output~;
-#X msg 284 376 bang;
-#X msg 323 376 stop;
-#X obj 348 214 hsl 128 15 0 62079 0 0 empty sliders empty -2 -8 0 10
--262144 -1 -1 4092 1;
-#X obj 348 234 hsl 128 15 0 62079 0 0 empty sliders empty -2 -8 0 10
--262144 -1 -1 7692 1;
-#X msg 345 192 20000;
-#X msg 408 193 37600;
-#X text 52 150 reload wav;
-#X text 460 194 start;
-#X text 462 247 stop;
-#X obj 267 70 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#N canvas 585 367 450 300 beep 0;
-#X obj 164 161 outlet~;
-#X obj 164 103 cyclone/cycle~ 200;
-#X obj 165 126 *~ 0.2;
-#X obj 1 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X connect 1 0 2 0;
-#X connect 2 0 0 0;
-#X restore 213 270 pd beep;
-#X obj 267 149 t b b;
-#X obj 267 91 t b b;
-#X obj 267 119 delay 500;
-#X obj 345 150 loadbang;
-#X text 103 593 bang;
-#X text 187 593 - redraw array;
-#X text 347 172 values to beep out 'soft and';
-#X text 286 68 beep out selected range;
-#X obj 34 152 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X msg 34 190 read -resize voice.wav \$1-voice;
-#X obj 267 318 cyclone/poke~ \$0-voice;
-#X obj 285 445 tabread~ \$0-voice;
-#X obj 34 170 f \$0;
-#X obj 34 130 loadbang;
-#X obj 63 375 hsl 195 140 0 127 0 0 eliminate_outlet eliminate_inlet
-empty -2 -8 0 10 -262144 -262144 -262144 0 1;
-#X text 41 369 1;
-#X text 34 498 -1;
+#X obj 509 49 poke~;
+#X text 135 652 1) table;
+#X text 135 671 2) float;
+#X obj 78 575 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 138 575 float;
+#X text 189 575 - set channel of value being recorded;
+#X text 109 612 none;
+#X text 106 431 set <symbol>;
+#X text 193 671 - channel (default 1);
+#X text 106 452 float/signal;
+#X text 154 470 list;
+#X text 105 516 float/signal;
+#X text 199 451 - values to write into an array;
+#X text 199 432 - set array name;
+#X text 18 63 Write into a table by index;
+#X text 193 652 - array name to write to (required);
+#X obj 160 161 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 325 281 1;
+#X text 319 391 -1;
+#X obj 96 284 cyclone/poke~ \$0-array;
+#X obj 178 223 send \$0-array;
+#X msg 178 202 const 0;
+#X obj 298 207 hsl 128 15 0 4410 0 0 empty sliders empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X floatatom 295 228 0 0 0 0 - - -;
+#X text 77 98 [poke~] allows you to write samples into a buffer~ at
+sample locations specified by a signal. It can also write values via
+messages \, similar to [peek~].;
+#X text 198 514 - index of value being recorded. If there is a signal
+connected to this inlet \, a float is ignored. If the index signal
+is negative or larger than the size of the array \, no data is recorded.
+;
+#X obj 340 285 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
+-66577 0;
 #N canvas 1 79 450 300 (subpatch) 0;
-#X array \$0-voice 62079 float 2;
-#X coords 0 1 62079 -1 200 140 1 0 0;
-#X restore 60 375 graph;
-#X connect 27 0 28 0;
-#X connect 28 0 29 0;
-#X connect 29 0 30 0;
-#X connect 31 0 57 1;
-#X connect 32 0 31 0;
-#X connect 33 0 31 0;
-#X connect 34 0 58 0;
-#X connect 36 0 34 0;
-#X connect 37 0 34 0;
-#X connect 38 0 31 0;
-#X connect 39 0 31 1;
-#X connect 40 0 38 0;
-#X connect 41 0 39 0;
-#X connect 45 0 48 0;
-#X connect 46 0 57 0;
-#X connect 47 0 57 0;
-#X connect 47 1 33 0;
-#X connect 48 0 49 0;
-#X connect 48 1 32 0;
-#X connect 49 0 47 0;
-#X connect 50 0 40 0;
-#X connect 50 0 41 0;
-#X connect 55 0 59 0;
-#X connect 56 0 27 0;
-#X connect 58 0 35 0;
-#X connect 58 0 35 1;
-#X connect 59 0 56 0;
-#X connect 60 0 55 0;
+#X array \$0-array 4410 float 0;
+#X coords 0 1.1 4409 -1.1 200 120 1 0 0;
+#X restore 339 284 graph;
+#N canvas 227 35 441 479 write 0;
+#X obj 92 105 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 220 150 <= index;
+#X text 273 176 <= random value;
+#X text 119 104 write to array;
+#X obj 191 152 - 1;
+#X obj 92 176 expr random(-100 \, 101)/100.0;
+#X obj 92 128 cyclone/Uzi 44100;
+#X obj 92 205 cyclone/poke~ \$0-table;
+#X text 101 284 1;
+#X text 95 394 -1;
+#X obj 119 288 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#N canvas 1 79 450 300 (subpatch) 0;
+#X array \$0-table 4410 float 0;
+#X coords 0 1.1 4409 -1.1 200 120 1 0 0;
+#X restore 118 287 graph;
+#X connect 0 0 6 0;
+#X connect 4 0 7 1;
+#X connect 5 0 7 0;
+#X connect 6 0 5 0;
+#X connect 6 2 4 0;
+#X restore 107 345 pd write with messages;
+#X obj 160 253 cyclone/count~ 0 4410 1;
+#X obj 53 233 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 199 470 - value \, sample-index and channel-number;
+#X text 154 487 bang;
+#X text 199 487 - redraw table (bug \, this shouldn't exist);
+#X obj 96 236 osc~ 11;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 4 6 pd;
+#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 939 367 324 271 set_color 0;
+#X obj 47 30 inlet;
+#X obj 96 146 s \$0-cnv;
+#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 378 447 color \$1 \$2;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
+#X connect 16 0 6 0;
+#X connect 17 0 13 0;
+#X connect 18 0 17 0;
+#X connect 18 1 16 0;
+#X connect 19 0 18 0;
+#X restore 47 113 pd off;
+#X obj 47 83 select 0 1;
+#X obj 47 168 list append 0;
+#X obj 47 195 list trim;
+#X obj 47 220 s \$0-tgl-r;
+#X connect 0 0 4 0;
+#X connect 2 0 1 0;
+#X connect 2 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 502 91 pd;
+#X connect 25 0 30 0;
+#X connect 25 0 38 0;
+#X connect 30 0 29 0;
+#X connect 31 0 32 0;
+#X connect 32 0 38 1;
+#X connect 38 0 28 1;
+#X connect 39 0 28 0;
+#X connect 43 0 28 0;

@@ -1,7 +1,7 @@
-#N canvas 499 79 573 530 10;
-#X obj 0 661 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 153 29 562 731 10;
+#X obj 5 686 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 373 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 413 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 620 287 348 320 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -21,119 +21,148 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 496 663 pd META;
-#X obj 0 527 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 501 688 pd META;
+#X obj 5 529 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 564 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 569 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 320 422 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 205 663 pd Related_objects;
-#X obj 86 384 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 210 688 pd Related_objects;
+#X obj 86 423 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 482 cnv 17 3 35 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 86 501 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty wave~ 3 12 0 18 -204280 -1 0;
-#X obj 505 10 wave~;
-#X text 12 23 variable size wavetable;
-#X text 110 381 signal;
-#X text 224 381 - signal to turn into wavetable;
-#X obj 86 435 cnv 17 3 35 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 5 40 cnv 15 552 40 empty empty wave~ 3 12 0 18 -204280 -1 0
 ;
-#X obj 86 536 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 510 50 wave~;
+#X text 17 63 variable size wavetable;
+#X text 144 423 signal;
+#X obj 86 478 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 111 434 float;
-#X text 110 481 float;
-#X obj 74 117 phasor~;
-#X floatatom 177 166 5 0 0 0 - - -;
-#X text 417 122 startpoint (msec);
-#X text 418 141 endpoint (msec);
-#X obj 85 147 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X obj 86 540 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X msg 85 168 interp \$1;
-#X text 110 536 signal;
-#X text 224 536 - ouput of wavetable;
-#X text 224 570 - initial table name;
-#X text 93 592 2) float;
-#X text 224 592 - initial startpoint;
-#X text 93 613 3) float;
-#X text 224 613 - initial endpoint;
-#X text 93 634 4) float;
-#X text 224 634 - channel number;
-#X text 110 456 signal;
-#X text 110 502 signal;
-#X text 93 570 1) table;
-#X text 224 404 - change table \, en/disable object or interpolation
-;
-#X text 224 433 - set startpoint as float (ms);
-#X text 224 456 - set startpoint as signal (ms);
-#X text 224 479 - set endpoint as float (ms);
-#X text 224 502 - set endpoint as signal (ms);
-#X text 112 403 message;
-#X obj 74 315 output~;
-#X text 134 85 frequency;
-#X floatatom 281 168 5 0 0 0 - - -;
-#X obj 284 144 hsl 128 15 0 1407 0 0 endS endR empty -2 -8 0 10 -262144
--1 -1 8000 1;
-#X obj 284 125 hsl 128 15 0 1407 0 0 startS startR empty -2 -8 0 10
--262144 -1 -1 7300 1;
+#X obj 98 221 phasor~;
+#X floatatom 190 236 0 0 0 0 - - -;
+#X obj 108 251 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X msg 108 272 interp \$1;
+#X text 143 541 signal;
+#X text 124 593 2) float;
+#X text 124 611 3) float;
+#X text 124 629 4) float;
+#X obj 71 346 output~;
+#X floatatom 251 237 0 0 0 0 - - -;
+#X obj 254 213 hsl 128 15 0 1407.66 0 0 endS endR empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X obj 254 194 hsl 128 15 0 1407 0 0 startS startR empty -2 -8 0 10
+-228856 -1 -1 0 1;
 #N canvas 832 517 450 300 ranger 0;
-#X obj 86 44 r startS;
-#X obj 157 44 r endS;
-#X obj 89 221 s startR;
-#X obj 155 222 s endR;
-#X floatatom 68 171 5 0 0 0 - - -;
-#X floatatom 166 173 5 0 0 0 - - -;
-#X obj 68 118 moses 0;
-#X obj 166 121 moses 0;
-#X floatatom 107 171 5 0 0 0 - - -;
-#X floatatom 205 172 5 0 0 0 - - -;
-#X obj 119 90 + 1;
-#X text 223 211 keeps start before end;
-#X text 223 226 and end after start;
+#X obj 122 44 r startS;
+#X obj 193 44 r endS;
+#X obj 82 199 s startR;
+#X obj 179 196 s endR;
+#X floatatom 83 168 5 0 0 0 - - -, f 5;
+#X obj 140 118 moses 0;
+#X obj 83 116 moses 0;
+#X floatatom 179 171 5 0 0 0 - - -, f 5;
+#X obj 191 90 + 1;
+#X text 295 211 keeps start before end;
+#X text 295 226 and end after start;
 #X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 3 keep slider values sane;
-#X connect 0 0 6 0;
-#X connect 0 0 7 1;
-#X connect 1 0 7 0;
-#X connect 1 0 10 0;
-#X connect 5 0 2 0;
+#X connect 0 0 5 0;
+#X connect 0 0 6 1;
+#X connect 1 0 6 0;
+#X connect 1 0 8 0;
+#X connect 4 0 2 0;
+#X connect 5 1 7 0;
 #X connect 6 0 4 0;
-#X connect 6 1 8 0;
-#X connect 7 0 5 0;
-#X connect 7 1 9 0;
-#X connect 8 0 3 0;
-#X connect 10 0 6 1;
-#X restore 356 163 pd ranger;
-#X obj 77 68 hsl 128 15 -2 2 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4300 1;
-#X floatatom 81 93 5 0 0 0 - - -;
-#X text 198 48 2;
-#X text 72 47 -2;
-#X obj 349 90 table 0-\$0-waveTable;
-#X obj 74 244 cyclone/wave~ \$0-waveTable 0 1407 1;
-#X text 134 99 (1=normal speed \, negative;
-#X text 134 114 is backwards);
-#N canvas 528 380 450 300 load 0;
-#X obj 118 168 soundfiler;
-#X obj 118 122 f \$0;
-#X obj 118 98 loadbang;
-#X msg 118 144 read -resize voice.wav 0-\$1-waveTable;
+#X connect 7 0 3 0;
+#X connect 8 0 5 1;
+#X restore 326 232 pd ranger;
+#X obj 101 172 hsl 128 15 -1 1 0 1 empty \$0-freq empty -2 -8 0 10
+-228856 -1 -1 12700 1;
+#X floatatom 98 197 5 0 0 0 - - -, f 5;
+#X text 196 421 - phase signal to read the wavetable;
+#X text 124 576 1) symbol;
+#X text 107 503 float/signal;
+#X text 108 480 float/signal;
+#X text 196 541 - the portion of the array specified in the [wave~]
+object;
+#X text 83 97 given a signal input (from 0 and 1(as with a [phasor~])
+\, [wave~] reads from an array to produce a repeating waveform at a
+specified portion of the array.;
+#X text 126 444 messages:;
+#X text 200 575 - array name;
+#X text 200 629 - sets the number of output channels \, which determines
+the number of outlets that the [wave~] object will have. The maximum
+number of signal outputs is 4 (default 1).;
+#X obj 98 308 cyclone/wave~ \$0-waveTable;
+#X text 271 194 start point (ms);
+#X text 275 213 end point (ms);
+#X text 73 170 -1;
+#X text 237 171 1;
+#X obj 251 285 line~;
+#X msg 251 263 \$1 100;
+#X obj 190 280 line~;
+#X msg 190 258 \$1 100;
+#N canvas 762 120 435 497 load_sample 0;
 #X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 9 4 load voice.wav file;
-#X connect 1 0 3 0;
-#X connect 2 0 1 0;
-#X connect 3 0 0 0;
-#X restore 348 69 pd load voice;
-#X connect 17 0 52 0;
-#X connect 18 0 52 1;
-#X connect 21 0 22 0;
-#X connect 22 0 52 0;
-#X connect 43 0 52 2;
+#X floatatom 82 103 5 0 0 0 - - -, f 5;
+#X obj 82 126 - 1;
+#X obj 82 155 cyclone/sampstoms~;
+#X floatatom 187 184 0 0 0 0 - - -;
+#X text 245 186 size in ms;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array \$0-waveTable 62079 float 0;
+#X coords 0 1 62078 -1 300 200 1 0 0;
+#X restore 64 244 graph;
+#X obj 82 79 soundfiler;
+#X obj 82 57 cyclone/loadmess read -resize voice.wav \$0-waveTable
+;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 1 5 0;
+#X connect 8 0 2 0;
+#X connect 9 0 8 0;
+#X restore 318 287 pd load_sample;
+#X text 196 442 - set <symbol>: set array name \; - interp <float>:
+enable (1) disable (0) interpolation;
+#X text 196 499 - set endpoint (in ms);
+#X text 196 480 - set startpoint (in ms);
+#X text 200 593 - startpoint in ms (default 0);
+#X text 200 611 - endpoint in ms (default array length);
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 4 6 pd;
+#X connect 14 0 38 0;
+#X connect 15 0 46 0;
+#X connect 16 0 17 0;
+#X connect 17 0 38 0;
+#X connect 23 0 44 0;
+#X connect 24 0 23 0;
+#X connect 25 0 15 0;
+#X connect 27 0 28 0;
+#X connect 28 0 14 0;
+#X connect 38 0 22 0;
+#X connect 38 0 22 1;
+#X connect 43 0 38 2;
 #X connect 44 0 43 0;
-#X connect 45 0 18 0;
-#X connect 47 0 17 0;
-#X connect 47 0 48 0;
-#X connect 52 0 41 0;
-#X connect 52 0 41 1;
+#X connect 45 0 38 1;
+#X connect 46 0 45 0;

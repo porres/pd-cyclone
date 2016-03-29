@@ -1,7 +1,7 @@
-#N canvas 496 104 572 531 10;
-#X obj 0 692 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 386 24 564 760 10;
+#X obj 4 689 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 2 369 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 325 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 555 430 410 251 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -20,10 +20,10 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 500 694 pd META;
-#X obj 0 518 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 504 691 pd META;
+#X obj 4 497 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 555 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 535 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 308 573 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -31,168 +31,281 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 9 31 count;
 #X obj 50 31 counter;
 #X obj 121 31 phasor~;
-#X restore 202 694 pd Related_objects;
-#X obj 80 378 cnv 17 3 95 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 206 691 pd Related_objects;
+#X obj 84 333 cnv 17 3 132 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 487 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 84 472 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty count~ 3 12 0 18 -204280 -1 0
+#X obj 5 40 cnv 15 552 40 empty empty count~ 3 12 0 18 -204280 -1 0
 ;
-#X text 12 23 sample counter for dsp;
-#X text 110 377 bang;
-#X text 178 377 - start counting;
-#X text 110 416 stop;
-#X text 178 416 - stop the counter;
-#X text 110 397 float;
-#X obj 80 527 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 144 332 bang;
+#X text 138 350 float;
+#X obj 84 506 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 110 487 float;
-#X text 178 487 - set a maximum value;
-#X text 110 436 autoreset;
-#X text 178 526 - the current count;
-#X text 92 563 1) float;
-#X text 92 580 2) float;
-#X text 92 597 3) float;
-#X text 178 596 - 0 or 1 for counter on/off;
-#X text 178 564 - the minimum value;
-#X text 92 612 4) float;
-#X text 178 612 - 0 or 1 \, autoreset counter if dsp goes off and back
-on;
-#X obj 504 2 count~;
-#X text 178 579 - the maximum value;
-#X text 110 528 signal;
-#X text 110 456 set;
-#X text 178 456 - sets minimum (and optional maximum) value;
-#X text 178 436 - reset counter to minimum if dsp is turned off and
-on again;
-#X text 178 397 - set a minimum value. counter is reset to this value
-;
-#X obj 0 637 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X text 138 472 float;
+#X text 96 543 1) float;
+#X text 96 560 2) float;
+#X text 96 592 3) float;
+#X text 96 608 4) float;
+#X obj 509 46 count~;
+#X text 114 507 signal;
+#X obj 4 649 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#N canvas 524 335 500 458 all 0;
-#X msg 103 58 stop;
-#X msg 78 29 bang;
-#X text 111 27 start counting;
-#X text 136 56 stop \, you guessed it;
-#X obj 97 409 snapshot~;
-#X obj 97 385 metro 20;
-#X obj 97 365 tgl 15 0 empty start empty 0 -6 0 8 -262144 -1 -1 0 1
+#X text 102 663 @autoreset;
+#X text 184 663 - @autoreset 1 (autoreset enabled) @autoreset 0 (disabled)
 ;
-#X floatatom 97 433 15 0 0 0 - - -;
-#X text 192 432 samples counted;
-#X text 212 243 set a max value \, counter restarts at min;
-#X obj 127 93 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X text 133 443 signal;
+#X text 114 369 messages:;
+#X text 182 543 - minimum value (default 0);
+#X text 17 63 Counter at the sample rate;
+#X text 182 332 - triggers counter and start counting from minimum
 ;
-#X msg 127 116 autoreset \$1;
-#X text 144 90 reset counter to min if dsp is turned off and on again
+#X text 182 350 - triggers counter and start counting from given number
 ;
-#X text 184 206 set a min value (immediately);
-#X msg 442 163 min \$1;
-#X floatatom 442 142 5 0 0 0 - - -;
-#X msg 187 312 10 100000 1 1;
-#X msg 187 290 min max on/off? autoreset?;
-#X text 183 162 set a min value for the next loop. same as;
-#X text 181 272 you can also use a list like:;
-#X msg 138 163 set 0;
-#X text 250 185 sets minimum and maximum;
-#X msg 154 209 0;
-#X msg 141 185 set -20000 40000;
-#X msg 12 159 -10000 30000;
-#X obj 0 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 2 4 All the options;
-#X obj 78 342 cyclone/count~;
-#X msg 159 243 99999;
-#X connect 0 0 27 0;
-#X connect 1 0 27 0;
-#X connect 4 0 7 0;
-#X connect 5 0 4 0;
-#X connect 6 0 5 0;
-#X connect 10 0 11 0;
-#X connect 11 0 27 0;
-#X connect 15 0 14 0;
-#X connect 16 0 27 0;
-#X connect 20 0 27 0;
-#X connect 22 0 27 0;
-#X connect 23 0 27 0;
-#X connect 24 0 27 0;
-#X connect 27 0 4 0;
-#X connect 28 0 27 1;
-#X restore 436 334 pd all the options;
-#X obj 99 320 output~;
-#X msg 118 96 set 0 62079;
-#X msg 98 51 bang;
-#X msg 108 74 stop;
-#X obj 98 223 cyclone/count~ 0 62079 0 0;
-#X msg 126 119 set 10000 40000;
-#X obj 154 167 hsl 165 15 0 62079 0 0 stop-slider stop-slider-R empty
--2 -8 0 10 -262144 -1 -1 16400 1;
-#X obj 153 141 hsl 165 15 0 62079 0 0 start-slider start-slider-R empty
--2 -8 0 10 -262144 -1 -1 0 1;
-#X text 287 122 start;
-#X text 293 180 stop;
-#X obj 435 256 table \$0-voice;
-#X obj 98 287 cyclone/index~ \$0-voice;
-#X text 138 50 start playback;
-#N canvas 527 566 434 300 load 0;
-#X obj 17 128 soundfiler;
-#X floatatom 17 151 8 0 0 0 - - -;
-#X msg 44 206 range 0 \$1;
-#X obj 17 57 loadbang;
-#X obj 17 81 f \$0;
-#X msg 17 104 read -resize voice.wav \$1-voice;
-#X obj 21 34 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 17 176 t f f;
-#X obj 44 229 s start-slider-R;
-#X obj 17 250 s stop-slider-R;
-#X floatatom 225 160 8 0 0 0 - - -;
-#X floatatom 323 161 8 0 0 0 - - -;
-#X obj 225 128 moses 0;
-#X obj 323 131 moses 0;
-#X floatatom 264 181 5 0 0 0 - - -;
-#X floatatom 362 182 8 0 0 0 - - -;
-#X obj 276 100 + 1;
-#X text 243 255 keeps start before end;
-#X text 243 270 and end after start;
-#X obj 225 37 r start-slider;
-#X obj 323 37 r stop-slider;
-#X obj 327 229 s stop-slider-R;
-#X obj 222 230 s start-slider-R;
-#X obj 0 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 7 2 Load and play the voice wav and keep sliders meaningful
+#X text 145 424 list;
+#X text 184 442 - zero to non zero transition starts counter. Non zero
+to zero stops it (with priority over messages).;
+#X text 182 508 - outputs minimum value or count values when trigered.
 ;
-#X connect 0 0 1 0;
-#X connect 1 0 7 0;
-#X connect 2 0 8 0;
-#X connect 2 0 9 0;
-#X connect 3 0 4 0;
-#X connect 4 0 5 0;
-#X connect 5 0 0 0;
-#X connect 6 0 3 0;
-#X connect 7 0 9 0;
-#X connect 7 1 2 0;
-#X connect 11 0 22 0;
-#X connect 12 0 10 0;
-#X connect 12 1 14 0;
-#X connect 13 0 11 0;
-#X connect 13 1 15 0;
-#X connect 14 0 21 0;
-#X connect 16 0 12 1;
-#X connect 19 0 12 0;
-#X connect 19 0 13 1;
-#X connect 20 0 13 0;
+#X obj 131 252 cyclone/Snapshot~ 1;
+#X floatatom 131 277 8 0 0 0 - - -, f 8;
+#X msg 87 195 stop;
+#X obj 131 169 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X floatatom 162 171 5 0 0 0 - - -, f 5;
+#X text 200 170 set minimum and start counting;
+#X obj 131 223 cyclone/count~ 0 441000 1;
+#X msg 167 195 min 220500;
+#X text 238 195 set minimum without output;
+#X text 84 93 When triggered \, [count~] outputs a signal increasing
+by 1 for each sample elapsed. Use it to drive processes tightly synchronized
+to the sample rate.;
+#X text 182 369 - stop: stops the counter and resets to minimum \;
+- autoreset <1/0>: enables/disables autoreset \; - min <int>: sets
+minimum value without triggering counter \; - set <int/int>: sets minimum
+and (optional) maximum value \;;
+#X text 183 425 - up to 4 number values that reset arguments;
+#X text 182 591 - specify if it's initially off <0> or on <1> (default
+0).;
+#X text 183 607 - <1/0> for autoreset on/off. If on \, counter resets
+to the minimum value when DSP is turned on (default 0).;
+#X text 31 170 start counting:;
+#X text 182 472 - set a maximum value to loop at (0 eliminates the
+maximum).;
+#X text 182 559 - maximum value to loop at - 0 eliminates the maximum
+\, thus it doesn't loop (default 0);
+#N canvas 444 23 481 541 all 0;
+#X msg 50 94 stop;
+#X msg 25 65 bang;
+#X text 58 63 start counting;
+#X text 83 92 stop \, you guessed it;
+#X floatatom 25 465 15 0 0 0 - - -, f 15;
+#X obj 74 129 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X msg 74 152 autoreset \$1;
+#X text 91 126 reset counter to min if dsp is turned off and on again
+;
+#X msg 394 186 min \$1;
+#X floatatom 394 165 5 0 0 0 - - -, f 5;
+#X text 130 188 set a min value for the next loop. same as;
+#X msg 85 189 set 0;
+#X text 197 221 sets minimum and maximum;
+#X msg 101 245 0;
+#X msg 88 221 set -20000 40000;
+#X obj 0 3 cnv 15 475 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 25 398 cyclone/count~;
+#X msg 106 279 99999;
+#X obj 25 433 cyclone/Snapshot~ 1;
+#X msg 156 328 0 4.41e+08 1 1;
+#X msg 156 350 10 100 1 1;
+#X text 131 244 set a min value and start counting from it;
+#X text 159 279 set a max value;
+#X text 128 308 list resets arguments:;
+#X text 12 4 All the message options for controlling the object;
+#X text 120 464 sample counter values;
+#X connect 0 0 16 0;
+#X connect 1 0 16 0;
+#X connect 5 0 6 0;
+#X connect 6 0 16 0;
+#X connect 9 0 8 0;
+#X connect 11 0 16 0;
+#X connect 13 0 16 0;
+#X connect 14 0 16 0;
+#X connect 16 0 18 0;
+#X connect 17 0 16 1;
+#X connect 18 0 4 0;
+#X connect 19 0 16 0;
 #X connect 20 0 16 0;
-#X restore 434 234 pd load voice;
-#X text 149 151 continuous soft and relaxing;
-#X text 92 647 The [count~] object does not support the signal-in to
-control the counter (zero = stop counter \, non-zero = start counter)
+#X restore 345 241 pd all message options;
+#N canvas 205 32 498 341 using 0;
+#X obj 80 247 output~;
+#X msg 131 140 stop;
+#X obj 100 198 cyclone/index~ \$0-voice;
+#X obj 100 114 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 301 178 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X msg 301 216 \; pd dsp \$1;
+#X floatatom 271 139 5 0 0 0 - - -, f 5;
+#N canvas 338 274 366 178 load_sample 0;
+#X obj 42 121 outlet;
+#X floatatom 42 79 5 0 0 0 - - -, f 5;
+#X obj 42 100 - 1;
+#X obj 42 54 soundfiler;
+#X obj 123 55 table \$0-voice;
+#X obj 42 32 cyclone/loadmess read -resize voice.wav \$0-voice;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 3 0 1 0;
+#X connect 5 0 3 0;
+#X restore 271 116 pd load_sample;
+#X text 123 114 counts from minimum;
+#X obj 47 63 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X connect 37 0 40 0;
-#X connect 38 0 40 0;
-#X connect 39 0 40 0;
-#X connect 40 0 47 0;
-#X connect 41 0 40 0;
-#X connect 42 0 40 1;
-#X connect 43 0 40 0;
-#X connect 47 0 36 0;
-#X connect 47 0 36 1;
+#X msg 47 86 autoreset \$1;
+#X text 64 60 reset counter to min if dsp is turned off and on again
+;
+#X text 309 139 size (max value);
+#X text 342 182 DSP on/off;
+#X obj 0 3 cnv 15 475 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 12 4 Using counter to drive [index~] for sample playback:;
+#X obj 100 167 cyclone/count~ 0 62078 1 1;
+#X connect 1 0 16 0;
+#X connect 2 0 0 0;
+#X connect 2 0 0 1;
+#X connect 3 0 16 0;
+#X connect 4 0 5 0;
+#X connect 6 0 16 1;
+#X connect 7 0 6 0;
+#X connect 9 0 10 0;
+#X connect 10 0 16 0;
+#X connect 16 0 2 0;
+#X restore 350 264 pd using with index~;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 4 4 pd;
+#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 939 367 324 271 set_color 0;
+#X obj 47 30 inlet;
+#X obj 96 146 s \$0-cnv;
+#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 378 447 color \$1 \$2;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
+#X connect 16 0 6 0;
+#X connect 17 0 13 0;
+#X connect 18 0 17 0;
+#X connect 18 1 16 0;
+#X connect 19 0 18 0;
+#X restore 47 113 pd off;
+#X obj 47 83 select 0 1;
+#X obj 47 168 list append 0;
+#X obj 47 195 list trim;
+#X obj 47 220 s \$0-tgl-r;
+#X connect 0 0 4 0;
+#X connect 2 0 1 0;
+#X connect 2 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 500 93 pd;
+#X connect 31 0 32 0;
+#X connect 33 0 37 0;
+#X connect 34 0 37 0;
+#X connect 35 0 37 0;
+#X connect 37 0 31 0;
+#X connect 38 0 37 0;

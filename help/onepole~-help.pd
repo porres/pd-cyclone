@@ -1,7 +1,7 @@
-#N canvas 507 79 570 544 10;
-#X obj 0 707 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 367 23 569 790 10;
+#X obj 7 746 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 317 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 387 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 617 272 357 233 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -20,75 +20,88 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 709 pd META;
-#X obj 0 410 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 509 748 pd META;
+#X obj 7 500 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 447 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 537 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 0 490 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 7 602 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 312 395 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 197 709 pd Related_objects;
-#X obj 79 326 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 204 748 pd Related_objects;
+#X obj 81 404 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 353 cnv 17 3 35 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 81 431 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty onepole~ 3 12 0 18 -204280 -1
+#X obj 7 40 cnv 15 552 40 empty empty onepole~ 3 12 0 18 -204280 -1
 0;
-#X obj 490 8 onepole~;
-#X text 12 23 single-pole lowpass filter;
-#X text 109 325 signal;
-#X text 109 352 float;
-#X text 109 372 signal;
-#X text 109 420 signal;
-#X text 91 463 1) float;
-#X text 180 420 - output of low-pass filter based on args;
-#X text 111 539 where k represents the cutoff frequency in radians.
-this generates a single-pole lowpass filter with a 6dB/octave attenuation.
+#X obj 497 48 onepole~;
+#X text 19 63 single-pole lowpass filter;
+#X text 148 404 signal;
+#X text 147 510 signal;
+#X text 137 549 1) float;
+#X obj 111 510 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 162 519 out = prev + k * (in - prev);
-#X text 111 499 onepole~ implements the minimal filter equation:;
-#X text 111 625 onepole's advantages are efficiency and simplicity.
-it works well as a pre- or post-processing stage for other treatments
-\, such as waveshaping or filtering \, which can benefit from a gentle
-roll-off of high frequencies.;
-#X text 111 580 this filter is equivalent to a biquad~ object with
-the coefficients \, [ a0 = k \, b1 = k - 1 ] \, as demonstrated above.
+#X obj 130 330 output~;
+#X text 113 432 float/signal;
+#X text 203 510 - output of low-pass filter;
+#X floatatom 307 250 5 0 0 0 - - -, f 5;
+#X obj 307 299 line~;
+#X msg 307 274 \$1 10;
+#X obj 310 225 hsl 128 15 100 10000 1 1 empty empty empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X text 350 224 cutoff;
+#X text 137 568 2) symbol;
+#X text 204 547 - cutoff frequency (default 0?);
+#X text 105 99 The [onepole~] object implements the simplest of IIR
+filters \, providing a 6dB per octave attenuation. This filter is very
+efficient and useful for gently rolling off harsh high end and for
+smoothing out control signals. The filter equation is: out = prev +
+k * (in - prev) - where k represents the cutoff frequency in radians.
+It is very similar to pd vanilla's [lop~].;
+#X text 200 403 - signal to be filtered;
+#X text 200 430 - cutoff frequency;
+#X text 140 612 frequency input mode:;
+#X obj 156 233 phasor~ 250;
+#X obj 156 259 triangle~ 0;
+#X obj 156 288 cyclone/onepole~ 100;
+#X obj 82 454 cnv 17 3 17 empty empty 0/1 5 9 0 16 -228856 -162280
+0;
+#X text 132 454 messages:;
+#X text 205 568 - sets frequency input mode: <Hz> (default) \, <linear>
+or <radians>;
+#X text 203 453 - <Hz> \, <linear> or <radians>: set frequency input
+mode \; - <clear>: clears internal state (should never be necessary)
 ;
-#X obj 79 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 142 632 - Hz mode is simply an input in hertz \; - Linear mode
+is just a scaled version of the standard Hz mode with values in the
+0-1 range \; - Radians mode lets you set the center frequency of the
+equation directly \, while the input has the same range as linear (0-1)
+\, the output has a curved frequency response that is closer to the
+exponential pitch scale of the human ear.;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
 ;
-#X floatatom 270 59 5 0 0 0 - - -;
-#X text 180 325 - input frequency to be filtered;
-#X text 180 352 - set cutoff frequency with float;
-#X text 180 372 - set cutoff frequency with signal;
-#X obj 152 254 output~;
-#X obj 228 274 tabwrite~ \$0onepole;
-#X obj 248 252 metro 100;
-#X obj 229 253 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 154 58 phasor~ 250;
-#X obj 153 136 cyclone/onepole~ 200;
-#X text 180 464 - initial cutoff frequency;
-#N canvas 640 655 450 300 view 0;
-#N canvas 0 0 450 300 (subpatch) 0;
-#X array \$0onepole 1024 float 0;
-#X coords 0 1 1023 0 200 140 1 0 0;
-#X restore 72 56 graph;
-#X text 34 218 The array is placed in a sub-patch to prevent audio
-dropouts;
-#X text 62 50 1;
-#X text 61 180 0;
-#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 75 56 hsl 195 140 0 127 0 0 eliminate_outlet eliminate_inlet
-empty -2 -8 0 10 -262144 -262144 -262144 0 1;
-#X text 6 3 Graph view;
-#X restore 361 274 pd view graph;
-#X connect 24 0 33 1;
-#X connect 30 0 29 0;
-#X connect 31 0 30 0;
-#X connect 32 0 33 0;
-#X connect 33 0 29 0;
-#X connect 33 0 28 0;
-#X connect 33 0 28 1;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 6 6 pd;
+#X connect 19 0 21 0;
+#X connect 20 0 32 1;
+#X connect 21 0 20 0;
+#X connect 22 0 19 0;
+#X connect 30 0 31 0;
+#X connect 31 0 32 0;
+#X connect 32 0 16 0;
+#X connect 32 0 16 1;

@@ -1,7 +1,15 @@
-#N canvas 526 84 567 530 10;
-#X obj 0 706 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 721 77 563 608 10;
+#X obj 5 39 cnv 15 552 40 empty empty cycle~ 3 12 0 18 -204280 -1 0
+;
+#X obj 509 43 cycle~;
+#X text 17 62 Table-lookup (wavetable) oscillator;
+#X text 73 102 Use the [cycle~] object as a wavetable oscillator to
+generate a periodic waveform. The default internal waveform is one
+cycle of a cosine wave \, but it can use waveforms from a specified
+array.;
+#X obj 5 559 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 339 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 589 462 372 220 META 0;
 #X text 0 18 LICENSE SIBSD;
@@ -22,206 +30,248 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 500 708 pd META;
-#X obj 0 460 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 505 561 pd META;
+#X obj 5 420 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 497 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 0 577 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 5 457 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 302 575 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 207 708 pd Related_objects;
-#X obj 78 349 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 212 561 pd Related_objects;
+#X obj 83 340 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 78 417 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 397 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty cycle~ 3 12 0 18 -204280 -1 0
+#X obj 83 429 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 12 23 Table-lookup oscillator or function generator;
-#X text 110 350 float;
-#X text 110 365 signal;
-#X obj 78 469 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 117 429 signal;
+#X obj 128 209 cyclone/cycle~ 440;
+#X text 120 470 float;
+#X text 120 521 float;
+#X obj 105 262 output~;
+#X text 115 362 set (symbol \, float);
+#X text 115 398 float/signal;
+#X text 121 488 symbol;
+#X text 201 430 - A periodically repeating waveform (cosine by default)
 ;
-#X text 110 415 float;
-#X text 110 430 signal;
-#X text 110 468 signal;
-#X text 165 466 - the signal with given frequency or phase;
-#X text 109 534 buffer;
-#X obj 504 4 cycle~;
-#X text 97 598 Symbol argument sets name of table to play from. Additional
-int argument after that sets sample offset into the table (default
-0);
-#X obj 174 290 output~;
-#X obj 205 254 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 173 254 *~ 0;
-#X obj 233 254 *~ 0;
-#X obj 265 254 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 38 198 cyclone/cycle~ 440;
-#N canvas 419 169 1061 682 more 0;
-#X msg 49 80 437;
-#X obj 49 55 loadbang;
-#X floatatom 49 105 0 0 0 0 - - -;
-#X msg 49 130 \$1 400;
-#X obj 49 155 line~;
-#N canvas 68 756 286 323 generate-buffer~ 0;
-#X obj 48 38 loadbang;
-#X obj 2 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 5 1 Buffer contents generator;
-#X msg 93 130 0;
-#X text 93 57 fill the table;
-#X obj 54 185 *~;
-#X obj 123 157 line~;
-#X obj 48 79 t b b b b;
-#X obj 54 129 line~;
-#X obj 54 157 osc~;
-#X obj 48 219 tabwrite~ \$0-buffsky;
-#X msg 54 103 880 0 \, 55 250;
-#X msg 123 130 0.1 0 \, 1 250;
-#X obj 16 49 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X connect 0 0 7 0;
-#X connect 3 0 9 1;
-#X connect 5 0 10 0;
-#X connect 6 0 5 1;
-#X connect 7 0 10 0;
-#X connect 7 1 11 0;
-#X connect 7 2 3 0;
-#X connect 7 3 12 0;
-#X connect 8 0 9 0;
-#X connect 9 0 5 0;
-#X connect 11 0 8 0;
-#X connect 12 0 6 0;
-#X connect 13 0 7 0;
-#X restore 284 289 pd generate-buffer~;
-#X obj 139 285 output~;
-#X obj 170 250 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 138 249 *~ 0;
-#X obj 198 249 *~ 0;
-#X obj 230 250 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
-1;
-#X obj 49 191 cyclone/cycle~;
+#X text 256 210 as a cosine wave oscillator:;
+#X text 257 339 - frequency input (negative values allowed);
+#X text 258 398 - phase offset input (0-1);
+#X text 177 470 - frequency (default 0);
+#X text 177 488 - name of a given array used as waveform (if no name
+is given \, it uses internal cosine waveform).;
+#N canvas 97 60 450 483 phase 0;
+#X obj 49 343 cyclone/cycle~ 440;
+#X obj 83 286 *~;
+#X msg 223 269 \$1 10;
+#X obj 223 289 line~;
+#X obj 223 246 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -204786
+-1 -1 0 256;
+#X text 24 53 The second inlet in [cycle~] can set a phase offset with
+a constant value (betwee 0 and 1 \, but values over this boundaries
+are wrapped internally to the 0-1 range).;
+#X text 25 110 It doesn't resset the phase as with'the second inlet
+of [osc~] and [phasor~] \, it just offsets to a difference phase \,
+and can be resdjusted back to the original intial phase.;
+#X obj 30 387 output~;
+#X obj 225 224 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -204786
+-1 -1 0 1;
+#X text 237 224 Modulation Index;
+#X obj 83 256 cycle~ 220;
+#X text 60 232 mod frequency (220 Hz);
+#X text 169 346 carrier frequency (440);
 #X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 5 4 Frequency input and using a lookup table;
-#X text 44 32 frequency input;
-#X text 240 33 scroll through buffer;
-#X obj 283 93 f \$0;
-#X obj 244 94 f \$0;
-#X obj 283 55 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 244 55 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 244 191 cyclone/cycle~ 110 \$0-buffsky;
-#N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-output 512 float 4;
-#X coords 0 1 511 -1 410 140 1 0 0;
-#X restore 17 334 graph;
-#X obj 261 249 tabwrite~ \$0-output;
-#X obj 283 73 t b b;
-#X obj 244 74 t b b;
-#X msg 283 116 set \$1-buffsky 0;
-#X msg 244 139 set \$1-buffsky 9150;
-#X obj 17 654 s \$0-cursor;
-#X obj 411 48 r \$0-cursor;
-#X msg 393 160 set \$1-buffsky \$2;
-#X msg 393 138 \$1 \$2;
-#X obj 393 94 f \$0;
-#X obj 393 116 pack f f;
-#X obj 411 70 t b f;
-#X obj 15 489 hsl 1024 140 0 10240 0 0 \$0-noOutlet \$0-noInlet empty
--2 -8 0 10 -262144 -262144 -1 0 1;
-#X obj 15 489 hsl 1024 150 0 10240 0 0 empty empty empty -2 -8 0 10
--262144 -1 -1 92000 1;
-#N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-buffsky 10240 float 4;
-#X coords 0 1 10239 -1 1024 140 1 0 0;
-#X restore 14 489 graph;
-#X obj 298 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X connect 0 0 2 0;
-#X connect 1 0 0 0;
+#X text 5 4 Phase offset and Phase Modulation;
+#X connect 0 0 7 0;
+#X connect 0 0 7 1;
+#X connect 1 0 0 1;
 #X connect 2 0 3 0;
-#X connect 3 0 4 0;
-#X connect 4 0 11 0;
-#X connect 7 0 8 1;
-#X connect 8 0 6 0;
-#X connect 8 0 6 1;
-#X connect 9 0 6 0;
-#X connect 9 0 6 1;
-#X connect 10 0 9 1;
-#X connect 11 0 8 0;
-#X connect 16 0 25 0;
-#X connect 17 0 26 0;
-#X connect 18 0 23 0;
-#X connect 19 0 24 0;
-#X connect 20 0 9 0;
-#X connect 20 0 22 0;
-#X connect 23 0 16 0;
-#X connect 23 1 22 0;
-#X connect 24 0 17 0;
-#X connect 24 1 22 0;
-#X connect 25 0 20 0;
-#X connect 26 0 20 0;
-#X connect 28 0 33 0;
-#X connect 29 0 20 0;
-#X connect 29 0 37 0;
-#X connect 30 0 29 0;
-#X connect 31 0 32 0;
-#X connect 32 0 30 0;
-#X connect 33 0 31 0;
-#X connect 33 1 32 1;
-#X connect 35 0 27 0;
-#X connect 37 0 22 0;
-#X restore 427 314 pd more examples;
-#X text 108 516 float;
-#X text 108 553 float;
-#X text 14 52 cycle~ uses a stored table of 512 samples to generate
-functions. By default it uses a sine wave \, but you can give it a
-wavetable stored in an array or table.;
-#X text 27 108 basic usage internal cos table;
-#X obj 305 197 cyclone/cycle~ 440;
-#X text 296 107 phase modulation;
-#X text 110 383 set s f;
-#X text 166 381 - set array and offset within array;
-#X text 166 355 - scan frequency;
-#X text 165 516 - default frequency;
-#X obj 404 73 cnv 15 120 95 empty empty empty 20 12 0 14 -166433 -66577
+#X connect 3 0 1 1;
+#X connect 4 0 2 0;
+#X connect 8 0 4 0;
+#X connect 10 0 1 0;
+#X restore 274 294 pd phase modulation;
+#N canvas 302 23 434 812 set_array_and_offset 0;
+#X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 124 529 list prepend \$0-wavetable;
+#X msg 124 560 set \$1 \$2;
+#X obj 18 433 hsl 396 22 0 4096 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 188 558 sets buffer and offset;
+#X text 5 4 Set array and offset;
+#X obj 16 290 cnv 15 398 138 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 411 114 osc~;
-#X obj 411 136 *~;
-#X msg 474 117 \$1 10;
-#X obj 474 137 line~;
-#X obj 305 147 nbx 4 14 0 10000 0 1 empty frequency Frequency 0 -8
-0 10 -232576 -1 -1 369 256;
-#X obj 411 93 nbx 4 14 0 1000 0 1 empty moduladora Frequency 0 -8 0
-10 -204800 -1 -1 4 256;
-#X obj 474 94 nbx 4 14 0 10 0 1 empty indice Depth 0 -8 0 10 -204786
--1 -1 5 256;
-#X text 404 55 Modulation;
-#X text 165 421 - phase input;
-#X text 97 643 When used with an external array or table \, the cycle~
-object attempts to read 512 samples. If not enough samples are available
-\, due to a too slall array or a to great offset \, the remainder is
-filled with zero.;
-#X text 165 534 - can give function stored in buffer object (array
-\, table);
-#X text 165 553 - set offset within the external array;
-#X connect 22 0 23 1;
-#X connect 23 0 21 0;
-#X connect 23 0 21 1;
-#X connect 24 0 21 0;
-#X connect 24 0 21 1;
-#X connect 25 0 24 1;
-#X connect 26 0 23 0;
-#X connect 32 0 24 0;
-#X connect 39 0 40 0;
-#X connect 40 0 32 1;
-#X connect 41 0 42 0;
-#X connect 42 0 40 1;
-#X connect 43 0 32 0;
-#X connect 44 0 39 0;
-#X connect 45 0 41 0;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array \$0-wavetable 4099 float 4;
+#X coords 0 1 4098 -1 400 140 1;
+#X restore 15 289 graph;
+#X text 24 122 [cycle~] reads only 512 points in a table (as with its
+internal cosine waveform). When you give it an array with more than
+512 samples \, you can scroll through the array with an offset index
+value \, but it'll only read 512 samples from it. If not enough table
+points are available (as if you have a table smaller than 512 samples
+or if your offset is too large and close to the end of the table) \,
+the remainder is filled with zeros.;
+#N canvas 317 53 392 189 generate 0;
+#X obj 44 102 send \$0-wavetable;
+#X obj 44 54 loadbang;
+#X msg 44 77 sinesum 4096 0 0 0 1 0.7 1 0.4 1 1 1 \, normalize;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X restore 291 272 pd generate waveform;
+#X text 24 237 Below we have a table with 4099 points to use with [cycle~].
+;
+#X obj 124 501 nbx 9 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 223 503 Offset;
+#X text 24 48 The set message with no arguments sets the internal cosine
+waveform. A set message followed by a symbol sets the [cycle~] object
+to use an array with that name. After the name \, you can also optionally
+set an offset for that table.;
+#X obj 124 596 cyclone/cycle~ 110 \$0-wavetable 512;
+#X obj 28 669 output~;
+#X msg 69 561 set;
+#X text 29 540 internal;
+#X text 32 560 wave;
+#X obj 124 641 cyclone/Scope~ 244 133 6 3 128 -1 1 100 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X connect 1 0 2 0;
+#X connect 2 0 14 0;
+#X connect 3 0 11 0;
+#X connect 11 0 1 0;
+#X connect 14 0 15 0;
+#X connect 14 0 15 1;
+#X connect 14 0 19 0;
+#X connect 16 0 14 0;
+#X restore 261 264 pd set_array_and_offset;
+#X floatatom 128 183 5 0 0 0 - - -, f 5;
+#X text 115 341 float/signal;
+#X text 258 378 Only "set" sets default cosine wave;
+#X text 258 361 - set array (symbol name) and offset (float).;
+#X text 177 521 - set offset within the given array (default 0);
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 4 4 pd;
+#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 939 367 324 271 set_color 0;
+#X obj 47 30 inlet;
+#X obj 96 146 s \$0-cnv;
+#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 378 447 color \$1 \$2;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
+#X connect 16 0 6 0;
+#X connect 17 0 13 0;
+#X connect 18 0 17 0;
+#X connect 18 1 16 0;
+#X connect 19 0 18 0;
+#X restore 47 113 pd off;
+#X obj 47 83 select 0 1;
+#X obj 47 168 list append 0;
+#X obj 47 195 list trim;
+#X obj 47 220 s \$0-tgl-r;
+#X connect 0 0 4 0;
+#X connect 2 0 1 0;
+#X connect 2 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 500 93 pd;
+#X connect 14 0 17 0;
+#X connect 14 0 17 1;
+#X connect 29 0 14 0;

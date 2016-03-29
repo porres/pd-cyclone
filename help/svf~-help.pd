@@ -1,7 +1,7 @@
-#N canvas 621 82 567 530 10;
-#X obj 0 857 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 371 23 568 809 10;
+#X obj 7 766 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 453 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 423 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 617 315 365 289 META 0;
 #X text 0 18 LICENSE SIBSD;
@@ -25,156 +25,138 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 500 859 pd META;
-#X obj 0 569 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 768 pd META;
+#X obj 7 554 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 678 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 0 735 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 7 663 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 317 494 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 196 859 pd Related_objects;
-#X obj 79 462 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 203 768 pd Related_objects;
+#X obj 86 432 cnv 17 3 58 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 578 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 563 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty svf~ 3 12 0 18 -204280 -1 0;
-#X obj 492 9 svf~;
-#X text 13 24 state-variable filter;
-#X obj 79 529 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 7 40 cnv 15 552 40 empty empty svf~ 3 12 0 18 -204280 -1 0;
+#X obj 523 58 svf~;
+#X text 20 64 state-variable filter;
+#X obj 86 524 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 107 462 signal;
-#X text 179 462 - signal to filter;
-#X text 107 528 signal;
-#X text 107 546 float;
-#X text 107 486 signal;
-#X text 107 503 float;
-#X text 179 494 - set cutoff frequency;
-#X text 179 536 - set resonance (0-1);
-#X obj 79 487 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 150 432 signal;
+#X text 211 432 - signal to filter;
+#X obj 86 502 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 603 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 86 587 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 626 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 86 611 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 90 689 1) float;
-#X text 90 711 2) float;
-#X text 107 816 Floats or signals can modify these in real-time. The
-value of these parameters is only sampled once per signal vector.;
-#X text 107 770 One of its advantages is that the it produces low-pass
-\, high-pass \, band-pass \, and band-reject (notch) output simultaneously
-- so all four are available in parallel.;
-#X text 107 742 svf~ implements Chamberlin's state-variable filter
-algorithm.;
-#N canvas 541 341 446 460 svf_part2 0;
-#X text 68 324 onepole~.help contains yet another example.;
-#X text 68 400 svf~ accepts arguments or max messages to change the
-frequency input mode. it is generally recommended to set the mode with
-an argument and leave it constant \, to avoid confusion.;
-#X text 68 262 try sweeping the cutoff frequency in linear mode \,
-then in radians mode \, to appreciate the difference. a similar principle
+#X text 140 672 1) float;
+#X text 140 694 2) float;
+#X obj 228 230 noise~;
+#X floatatom 286 249 0 0 0 0 - - -;
+#X floatatom 369 249 0 0 0 0 - - -;
+#X obj 289 197 hsl 160 15 100 1000 0 0 empty empty empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X text 149 563 signal;
+#X text 149 587 signal;
+#X text 149 611 signal;
+#X obj 86 636 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 149 636 signal;
+#X text 114 501 float/signal;
+#X text 114 523 float/signal;
+#X obj 96 197 vradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856 -1
+-1 0;
+#X obj 200 359 output~;
+#X floatatom 96 265 5 0 0 0 - - -, f 5;
+#X text 115 196 lowpass;
+#X text 116 212 highpass;
+#X text 116 227 bandpass;
+#X text 117 242 notch;
+#X text 210 563 - lowpass filter signal;
+#X text 210 587 - highpass filter signal;
+#X text 210 611 - bandpass filter signal;
+#X text 210 636 - notch filter signal;
+#X obj 372 223 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 384 223 Q/resonance (0-1);
+#X text 210 671 - cutoff/center frequency (Hz);
+#X text 296 196 cutoff/center frequency;
+#X text 211 502 - set cutoff/center frequency;
+#X text 211 524 - set Q/resonance (0-1);
+#X text 91 103 [svf~] implements Chamberlin's state-variable filter
+algorithm \, which outputs lowpass \, highpass \, bandpass \, and band
+reject (notch) output simultaneously - so all four are available in
+parallel as the oulets in this order.;
+#X obj 228 285 cyclone/svf~ 800 0.5;
+#X text 140 714 3) symbol;
+#N canvas 541 341 446 460 frequency_input_modes 0;
+#X text 68 352 onepole~.help contains yet another example.;
+#X text 18 174 linear;
+#X text 42 139 Hz;
+#X text 68 370 since svf~ only samples its control inputs once per
+vector \, it is more efficient to use the radians mode than to do logarithmic
+scaling outside the object at audio rate.;
+#X text 10 231 radians;
+#X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 4 svf~ frequency input modes;
+#X text 68 284 Try sweeping the cutoff frequency in linear mode \,
+then in radians mode \, to appreciate the difference. A similar principle
 operates in the amplitude domain \, where exponential audio faders
 are used to match our logarithmic perception of loudness.;
-#X text 18 152 linear;
-#X text 42 99 Hz;
-#X text 68 195 in this mode \, input values from (0 -> 1) are interpreted
+#X text 68 217 In this mode \, input values from (0 -> 1) are interpreted
 as radians \, producing a quarter-cycle sinusoidal mapping to cutoff
 frequencies. this conforms the frequency mapping to a response that
 is closer to our logarithmic perception of pitch.;
-#X text 68 143 this mode is essentially the same \, but with a normalized
+#X text 68 165 This mode is essentially the same \, but with a normalized
 input range. linear input values from (0 -> 1) are mapped to cutoff
 frequencies in the effective range \, (0 -> fs/4).;
-#X text 68 90 this is the default mode. input values set the cutoff
-frequency directly. therefore \, the input range is the same as the
-cutoff frequency (0 -> fs/4) \, and response is linear.;
-#X text 68 27 svf~ has three different modes for mapping input values
-onto cutoff frequency. these are mainly for convenience \, but they
-may also improve efficiency slightly.;
-#X text 68 347 since svf~ only samples its control inputs once per
-vector \, it is more efficient to use the radians mode than to do logarithmic
-scaling outside the object at audio rate.;
-#X text 10 209 radians;
-#X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 4 svf~ modes;
-#X restore 433 382 pd svf_part2;
-#X msg 226 170 0.5;
-#X text 191 83 frequency range is 0 - f(s)/4;
-#X obj 109 56 noise~;
-#X msg 143 110 37;
-#X text 262 352 outputs: lowpass \, highpass \, bandpass \, notch;
-#X obj 131 83 loadbang;
-#X obj 143 173 * 11025;
-#X obj 143 152 / 512;
-#X floatatom 143 194 0 0 0 0 - - -;
-#N canvas 542 410 438 271 svf_algorithm 0;
-#X text 150 216 bandstop = lowpass + hipass \;;
-#X text 3 105 this is the dsp loop. note how the calculations work
-together to produce all four outputs simultaneously.;
-#X text 6 49 first \, convert hz to radians (this step is not necessary
-in radians input mode);
-#X text 159 71 cf_radians = sin(2. * PI * cf_hz * x->ifs) \;;
-#X text 150 184 bandpass = bandpass + cf_radians * hipass \;;
-#X text 150 168 hipass = in_samp - lowpass - q * bandpass \;;
-#X text 150 152 lowpass = lowpass + (cf_radians * bandpass) \;;
-#X text 150 200 bandpass = bandpass - (bandpass ^ 3.) * 0.0001 \;;
-#X obj 3 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 32;
-#X text 6 5 the basic algorithm inside svf~;
-#X restore 315 382 pd svf_algorithm;
-#X obj 246 330 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 207 330 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 168 330 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 131 330 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
-1;
-#X obj 225 352 *~ 0;
-#X obj 186 352 *~ 0;
-#X obj 147 352 *~ 0;
-#X obj 110 352 *~ 0;
-#X floatatom 226 193 0 0 0 0 - - -;
-#X obj 146 132 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 3700 1;
-#X text 107 578 signal;
-#X text 179 578 - lowpass signal;
-#X text 107 603 signal;
-#X text 179 603 - highpass signal;
-#X text 107 626 signal;
-#X text 179 626 - bandpass signal;
-#X obj 79 651 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X text 68 131 This is the default mode. input values set the center/cutoff
+frequency directly.;
+#X text 68 34 [svf~] has three different modes for mapping input values
+onto cutoff/center frequency. These are mainly for convenience \, but
+they may also improve efficiency slightly.;
+#X text 69 82 [svf~] accepts arguments or messages to change the frequency
+input mode. it is generally recommended to set the mode with an argument
+and leave it constant \, to avoid confusion.;
+#X restore 349 370 pd frequency_input_modes;
+#X text 132 452 messages:;
+#X text 210 715 - sets frequency input mode: <hz> (default) \, <linear>
+or <radians>.;
+#X text 211 452 - <hz> \, <linear> or <radians>: set frequency input
+mode \, check [pd frequency_input_modes] above for more info \; - <clear>:
+clears the filter in case of a blow-up.;
+#X text 210 695 - Q/resonance from 0-1 (default 0.01);
+#X obj 228 320 cyclone/matrix~ 4 1 1;
+#X msg 96 287 clear \, \$1 0 1 100;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
 ;
-#X text 107 651 signal;
-#X text 179 651 - notch signal;
-#X text 179 686 - initial cutoff frequency (Hz);
-#X text 179 710 - initial resonance (0-1);
-#X obj 109 381 *~ 0.7;
-#X obj 109 410 output~;
-#X obj 109 261 cyclone/svf~ 797 0.5;
-#X connect 30 0 48 0;
-#X connect 32 0 63 0;
-#X connect 33 0 49 0;
-#X connect 35 0 30 0;
-#X connect 35 0 33 0;
-#X connect 35 0 43 0;
-#X connect 36 0 38 0;
-#X connect 37 0 36 0;
-#X connect 38 0 63 1;
-#X connect 40 0 44 1;
-#X connect 41 0 45 1;
-#X connect 42 0 46 1;
-#X connect 43 0 47 1;
-#X connect 44 0 61 0;
-#X connect 45 0 61 0;
-#X connect 46 0 61 0;
-#X connect 47 0 61 0;
-#X connect 48 0 63 2;
-#X connect 49 0 37 0;
-#X connect 61 0 62 0;
-#X connect 61 0 62 1;
-#X connect 63 0 47 0;
-#X connect 63 1 46 0;
-#X connect 63 2 45 0;
-#X connect 63 3 44 0;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 6 6 pd;
+#X connect 19 0 48 0;
+#X connect 20 0 48 1;
+#X connect 21 0 48 2;
+#X connect 22 0 20 0;
+#X connect 30 0 32 0;
+#X connect 32 0 56 0;
+#X connect 41 0 21 0;
+#X connect 48 0 55 0;
+#X connect 48 1 55 1;
+#X connect 48 2 55 2;
+#X connect 48 3 55 3;
+#X connect 55 0 31 0;
+#X connect 55 0 31 1;
+#X connect 56 0 55 0;

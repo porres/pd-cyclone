@@ -1,7 +1,7 @@
-#N canvas 421 91 572 530 10;
-#X obj 0 594 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 641 41 585 632 10;
+#X obj 7 596 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 0 336 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 364 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 388 382 433 268 META 0;
 #X text 0 31 LICENSE SIBSD;
@@ -23,200 +23,171 @@ convolution filter;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 597 pd META;
-#X obj 0 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 510 599 pd META;
+#X obj 7 483 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 0 456 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 0 532 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 7 527 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 160 549 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 203 597 pd Related_objects;
-#X obj 80 368 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 210 599 pd Related_objects;
+#X obj 87 431 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 0 0 cnv 15 554 40 empty empty buffir~ 3 12 0 18 -204280 -1 0
+#X obj 7 38 cnv 15 554 40 empty empty buffir~ 3 12 0 18 -204280 -1
+0;
+#X text 150 372 signal;
+#X text 148 491 signal;
+#X obj 87 452 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 106 344 signal;
-#X text 164 343 - signal to pass to FIR;
-#X text 106 427 signal;
-#X obj 80 389 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 87 492 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 106 369 float;
-#X obj 80 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X floatatom 363 222 0 0 4096 0 - - -;
+#X obj 210 201 noise~;
+#X text 131 552 2) float;
+#X text 131 569 3) float;
+#X obj 506 48 buffir~;
+#X obj 87 373 cnv 17 3 54 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 106 391 float;
-#X text 164 391 - Length (samples);
-#X text 164 367 - Offset (samples);
-#X text 164 426 - based on buffer \, offset \, length;
-#X obj 378 147 loadbang;
-#X obj 378 174 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#N canvas 462 221 405 395 genRamp 0;
-#X obj 84 238 sel 0 1;
-#X obj 103 286 i;
-#X obj 84 183 sel 1;
-#X msg 32 136 clear;
-#X obj 184 242 * 1;
-#X obj 184 216 expr ((127. - $f1) / 127.);
-#X obj 171 183 - 1;
-#X obj 84 82 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 84 314 pack 0 0;
-#X text 182 197 exponential ramp down from 1 to 0;
-#X obj 84 60 inlet;
-#X obj 84 348 outlet;
-#X obj 84 215 cyclone/decide;
-#X text 178 339 makes 50% zeros \, 25% exponential;
-#X text 178 353 downward ramp \, 25% random;
-#X obj 84 160 cyclone/decide;
-#X obj 2 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 84 136 cyclone/Uzi 128;
-#X text 9 0 ramp generator;
-#X obj 84 104 t b b;
-#X obj 84 260 cyclone/urn 128;
-#X connect 0 0 20 0;
-#X connect 0 1 1 0;
-#X connect 1 0 8 0;
-#X connect 2 0 12 0;
-#X connect 3 0 20 0;
-#X connect 4 0 8 1;
-#X connect 5 0 4 0;
-#X connect 5 0 4 1;
-#X connect 6 0 1 1;
-#X connect 6 0 5 0;
-#X connect 7 0 19 0;
-#X connect 8 0 11 0;
-#X connect 10 0 7 0;
-#X connect 12 0 0 0;
-#X connect 15 0 2 0;
-#X connect 17 0 15 0;
-#X connect 17 2 6 0;
-#X connect 19 0 17 0;
-#X connect 19 1 3 0;
-#X connect 20 0 8 0;
-#X restore 378 199 pd genRamp;
-#X floatatom 265 111 0 0 0 0 - - -;
-#X obj 80 78 noise~;
-#X obj 82 234 *~ 0.05;
-#X text 87 472 1) table;
-#X text 164 471 - buffer (max size 256);
-#X text 88 489 2) float;
-#X text 164 489 - offset;
-#X text 88 506 3) float;
-#X text 164 506 - length;
-#X text 103 542 buffir~ is a table based FIR (finite impulse response)
-filter. an input signal is convolved with n samples of a buffer. Currently
-the maximum number of points is 256;
-#X obj 499 2 buffir~;
-#X text 12 23 table based FIR (finite impulse response) convolution
-filter;
-#X obj 80 347 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X floatatom 286 220 0 0 4096 0 - - -;
+#X msg 124 182 clear;
+#X text 70 93 [buffir~] is a table based FIR (finite impulse response)
+filter. An input signal is convolved with n samples of a buffer.;
+#X text 197 488 - The filtered signal \, based on a convolution of
+the input signal with samples in the buffer.;
+#X text 155 391 clear;
+#X text 166 409 set;
+#X text 197 409 - set (buffer/table name \, offset \, size);
+#X text 283 202 Offset;
+#X obj 184 292 output~;
+#X text 113 432 signal/float;
+#X text 113 454 signal/float;
+#N canvas 197 28 542 261 buffers 0;
+#X obj 61 59 cnv 15 198 138 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 290 58 cnv 15 198 138 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X array buf1 256 float 1;
+#A 0 0 0 0 0 0 0 3.05176e-05 6.10352e-05 6.10352e-05 9.15527e-05 0.00012207
+0.000152588 0.000183105 0.000183105 0.000183105 0.000183105 0.00012207
+9.15527e-05 0 -6.10352e-05 -0.000183105 -0.000305176 -0.000457764 -0.000610352
+-0.000762939 -0.000915527 -0.00106812 -0.00119019 -0.00131226 -0.00137329
+-0.00137329 -0.00134277 -0.00125122 -0.00106812 -0.000854492 -0.000549316
+-0.000213623 0.000152588 0.000610352 0.00109863 0.00161743 0.00213623
+0.00262451 0.00308228 0.003479 0.0038147 0.00402832 0.00415039 0.00411987
+0.00396729 0.00366211 0.00317383 0.00253296 0.00177002 0.000854492
+-0.000152588 -0.00125122 -0.00244141 -0.00363159 -0.00482178 -0.00595093
+-0.00698853 -0.00787354 -0.00860596 -0.00909424 -0.00930786 -0.00924683
+-0.00891113 -0.00820923 -0.00720215 -0.00588989 -0.00430298 -0.00241089
+-0.000305176 0.00195312 0.0043335 0.00680542 0.00921631 0.0115051 0.0136414
+0.0154724 0.0169678 0.0180359 0.0185852 0.0186157 0.0180359 0.0168457
+0.0150146 0.0125732 0.00952148 0.00592041 0.00186157 -0.00256348 -0.00732422
+-0.012207 -0.0171509 -0.0219421 -0.0264587 -0.0305176 -0.0339661 -0.0366516
+-0.0384216 -0.0391541 -0.0386658 -0.0369263 -0.033783 -0.0292664 -0.0232849
+-0.0158691 -0.00708008 0.00299072 0.0143433 0.0267639 0.0401001 0.0541992
+0.0687866 0.0836792 0.0986633 0.113403 0.127716 0.141327 0.153992 0.165497
+0.175598 0.184174 0.190979 0.195953 0.198975 0.199005 0.196045 0.191132
+0.184357 0.175842 0.165771 0.154297 0.141632 0.128052 0.113739 0.0989685
+0.0839844 0.0690613 0.0544128 0.0402832 0.026886 0.0144043 0.00302124
+-0.0071106 -0.0159912 -0.0234375 -0.0294495 -0.0340271 -0.0371704 -0.0389709
+-0.0394592 -0.0387573 -0.0369873 -0.0342712 -0.0307922 -0.0267029 -0.0221558
+-0.017334 -0.0123596 -0.00738525 -0.00259399 0.00186157 0.00598145
+0.00964355 0.0127258 0.0151978 0.0170593 0.01828 0.0188904 0.0188599
+0.0183105 0.0172424 0.0157166 0.013855 0.0117188 0.0093689 0.00692749
+0.00442505 0.00198364 -0.000305176 -0.00247192 -0.00436401 -0.00601196
+-0.00738525 -0.00839233 -0.00909424 -0.00946045 -0.00952148 -0.00930786
+-0.00881958 -0.00808716 -0.00717163 -0.00610352 -0.00494385 -0.00372314
+-0.00250244 -0.00128174 -0.000152588 0.00088501 0.00183105 0.00262451
+0.0032959 0.00378418 0.00411987 0.00427246 0.00430298 0.00421143 0.00396729
+0.00363159 0.00320435 0.00274658 0.00222778 0.00167847 0.00115967 0.000640869
+0.000183105 -0.000213623 -0.000579834 -0.000915527 -0.00112915 -0.00131226
+-0.00143433 -0.00146484 -0.00146484 -0.00140381 -0.00128174 -0.00115967
+-0.00100708 -0.000823975 -0.000671387 -0.000488281 -0.000335693 -0.000183105
+-6.10352e-05 0 9.15527e-05 0.000152588 0.000183105 0.000213623 0.000213623
+0.000213623 0.000183105 0.000152588 0.00012207 9.15527e-05 6.10352e-05
+3.05176e-05 3.05176e-05 0 0 0 0 0;
+#X coords 0 1 255 -1 200 140 1;
+#X restore 60 58 graph;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X array buf2 256 float 1;
+#A 0 0 0 0 0 0 0 0 0 0 3.05176e-05 3.05176e-05 3.05176e-05 0 0 -3.05176e-05
+-9.15527e-05 -0.00012207 -0.00012207 -9.15527e-05 0 6.10352e-05 0.000183105
+0.000244141 0.000274658 0.000213623 9.15527e-05 -6.10352e-05 -0.000244141
+-0.000396729 -0.000488281 -0.000427246 -0.000244141 0 0.000305176 0.000579834
+0.000732422 0.000732422 0.000518799 0.000152588 -0.000274658 -0.000701904
+-0.0010376 -0.00109863 -0.000915527 -0.000488281 0.00012207 0.000762939
+0.00131226 0.0015564 0.00143433 0.000946045 0.000152588 -0.000701904
+-0.00152588 -0.00201416 -0.0020752 -0.00158691 -0.000671387 0.000457764
+0.00161743 0.00247192 0.0027771 0.00241089 0.00143433 0 -0.0015564
+-0.00283813 -0.00354004 -0.00341797 -0.00244141 -0.000762939 0.00119019
+0.00305176 0.00430298 0.00457764 0.00375366 0.00192261 -0.000488281
+-0.00302124 -0.00497437 -0.00585938 -0.00537109 -0.00350952 -0.000640869
+0.00259399 0.00546265 0.00720215 0.0072937 0.00558472 0.00238037 -0.00164795
+-0.00561523 -0.0085144 -0.009552 -0.00830078 -0.00491333 0 0.00534058
+0.00982666 0.0122681 0.0119019 0.00854492 0.00274658 -0.00427246 -0.0109863
+-0.015625 -0.0168457 -0.0140076 -0.00732422 0.00198364 0.0119629 0.0202026
+0.0244751 0.0231323 0.015686 0.00299072 -0.0126953 -0.0281067 -0.0393372
+-0.0427856 -0.0356445 -0.0167542 0.0131531 0.0514832 0.0938721 0.134949
+0.16925 0.192017 0.192047 0.169342 0.135071 0.0939636 0.0515442 0.0131836
+-0.0167847 -0.0357361 -0.0428772 -0.0394592 -0.0281982 -0.0127563 0.00299072
+0.0157471 0.0232239 0.0245972 0.0203247 0.0120239 0.00198364 -0.00735474
+-0.0140991 -0.0169678 -0.0157166 -0.0110474 -0.00430298 0.0027771 0.00860596
+0.0119934 0.0123901 0.00991821 0.00537109 0 -0.00494385 -0.00839233
+-0.00967407 -0.00863647 -0.00570679 -0.00167847 0.00241089 0.00564575
+0.00738525 0.0072937 0.00552368 0.00262451 -0.000640869 -0.00354004
+-0.00543213 -0.00595093 -0.00506592 -0.00305176 -0.000518799 0.00195312
+0.0038147 0.00466919 0.00439453 0.00311279 0.0012207 -0.000793457 -0.00250244
+-0.00350952 -0.00363159 -0.00292969 -0.00158691 0 0.00146484 0.00250244
+0.00286865 0.00256348 0.00167847 0.000488281 -0.000701904 -0.00164795
+-0.00213623 -0.00210571 -0.00158691 -0.000732422 0.000183105 0.000976562
+0.00149536 0.00161743 0.00134277 0.000793457 0.00012207 -0.000488281
+-0.000976562 -0.00115967 -0.00106812 -0.000732422 -0.000274658 0.000183105
+0.000549316 0.000762939 0.000793457 0.000610352 0.000305176 0 -0.000274658
+-0.000457764 -0.000518799 -0.000427246 -0.000274658 -6.10352e-05 9.15527e-05
+0.000244141 0.000305176 0.000274658 0.000183105 9.15527e-05 0 -9.15527e-05
+-0.000152588 -0.000152588 -9.15527e-05 -6.10352e-05 0 3.05176e-05 3.05176e-05
+6.10352e-05 3.05176e-05 0 0 0 0 0 0 0 0 0;
+#X coords 0 1 255 -1 200 140 1;
+#X restore 289 57 graph;
+#X restore 357 299 pd buffers;
+#X text 359 202 Table size/length;
+#X text 198 391 - clears current input history;
+#X msg 189 170 set buf2 0 256;
+#X text 19 61 Buffer-based FIR filter;
+#X text 130 535 1) symbol;
+#X text 201 534 - table name;
+#X text 263 146 resets arguments;
+#X msg 170 147 set buf1 0 256;
+#X text 197 431 - offset (samples);
+#X text 198 371 - the signal to be convolved with samples from the
+buffer;
+#X text 197 454 - size/length (samples);
+#X text 201 552 - table offset (default 0);
+#X text 201 569 - table size/length (default 0 \, maximum is 4096)
 ;
-#X text 402 174 Generate new fir;
-#X text 292 102 number of samples;
-#X text 292 114 in impulse;
-#X text 323 274 table is a 128-point downwards;
-#X text 322 288 ramp with random values here and;
-#X text 322 301 there with amplitude from 1 to 0;
-#X obj 82 260 output~;
-#X obj 268 90 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#N canvas 597 600 430 354 voice 0;
-#X obj 96 145 openpanel;
-#X obj 96 219 soundfiler;
-#X obj 96 96 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X obj 74 27 loadbang;
-#X obj 263 236 *~ 0;
-#X obj 263 297 outlet~;
-#X obj 263 185 phasor~ 0.77;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 4 2 Load and play the standard voice.wav file;
-#X obj 96 170 pack s f;
-#X obj 96 119 t b b;
-#X obj 168 145 f \$0;
-#X text 115 100 load an other sample;
-#X msg 96 194 read -resize \$1 \$2-voice;
-#X obj 263 266 tabread~ \$0-voice;
-#X obj 95 243 table \$0-voice;
-#X msg 74 74 read -resize voice.wav \$1-voice;
-#X obj 74 50 f \$0;
-#X connect 0 0 9 0;
-#X connect 1 0 4 1;
-#X connect 2 0 10 0;
-#X connect 3 0 17 0;
-#X connect 4 0 14 0;
-#X connect 6 0 4 0;
-#X connect 9 0 13 0;
-#X connect 10 0 0 0;
-#X connect 10 1 11 0;
-#X connect 11 0 9 1;
-#X connect 13 0 1 0;
-#X connect 14 0 5 0;
-#X connect 16 0 1 0;
-#X connect 17 0 16 0;
-#X restore 96 97 pd voice;
-#N canvas 753 492 431 300 mux 0;
-#X obj 127 68 inlet~;
-#X obj 176 68 inlet~;
-#X obj 230 69 inlet;
-#X obj 127 231 outlet~;
-#X obj 126 182 *~ 1;
-#X obj 177 183 *~ 0;
-#X obj 230 109 == 0;
-#X floatatom 246 158 5 0 0 0 - - -;
-#X obj 0 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 4 3 signal selector;
-#X connect 0 0 4 0;
-#X connect 1 0 5 0;
-#X connect 2 0 5 1;
-#X connect 2 0 6 0;
-#X connect 4 0 3 0;
-#X connect 5 0 3 0;
-#X connect 6 0 4 1;
-#X connect 6 0 7 0;
-#X restore 81 128 pd mux;
-#X obj 154 83 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
-#X text 77 56 Integral of buffer from offset to offset + length;
-#N canvas 460 560 431 249 more 0;
-#X obj 75 83 sig~ 1;
-#X text 271 85 Length (samps);
-#X msg 64 56 clear;
-#X floatatom 247 85 0 0 0 0 - - -;
-#X floatatom 155 63 0 0 0 0 - - -;
-#X text 56 38 clears input history only;
-#X text 181 62 Offset (samps);
-#X obj 64 221 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 2.4283 256;
-#X text 263 138 Initial args:;
-#X text 263 150 buffer \, offset(samps) \,;
-#X text 263 162 length(samps);
-#X obj 64 197 cyclone/Snapshot~ 100;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 4 Example using variable offset;
-#X obj 64 150 cyclone/buffir~ \$0-fir_buf 0 32;
-#X connect 0 0 14 0;
-#X connect 2 0 14 0;
-#X connect 3 0 14 2;
-#X connect 4 0 14 1;
-#X connect 11 0 7 0;
-#X connect 14 0 11 0;
-#X restore 447 88 pd more buffir;
-#X obj 378 226 cyclone/peek~ \$0-fir_buf;
-#X obj 377 248 table \$0-fir_buf 128;
-#X obj 82 182 cyclone/buffir~ \$0-fir_buf 0 10;
-#X connect 19 0 20 0;
-#X connect 20 0 21 0;
-#X connect 21 0 48 0;
-#X connect 22 0 50 2;
-#X connect 23 0 44 0;
-#X connect 24 0 41 0;
-#X connect 24 0 41 1;
-#X connect 42 0 22 0;
-#X connect 43 0 44 1;
-#X connect 44 0 50 0;
-#X connect 45 0 44 2;
-#X connect 50 0 24 0;
+#X obj 210 247 cyclone/buffir~ buf1 0 256;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 7 2 pd;
+#X connect 12 0 43 2;
+#X connect 13 0 43 0;
+#X connect 18 0 43 1;
+#X connect 19 0 43 0;
+#X connect 32 0 43 0;
+#X connect 37 0 43 0;
+#X connect 43 0 26 0;
+#X connect 43 0 26 1;
