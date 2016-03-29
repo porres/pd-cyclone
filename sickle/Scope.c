@@ -601,8 +601,8 @@ static void scope_select(t_gobj *z, t_glist *glist, int state)
 	int x1, y1, x2, y2;
 	scope_getrect(z, glist, &x1, &y1, &x2, &y2);
 
-	sys_vgui(".x%lx.c itemconfigure %s -outline %s  -width %f -fill %s\n",
-		 cv, x->x_bgtag, SCOPE_SELBORDER, SCOPE_SELBDWIDTH, SCOPE_SELCOLOR);
+	sys_vgui(".x%lx.c itemconfigure %s -outline %s  -width %f -fill #%2.2x%2.2x%2.2x\n",
+		 cv, x->x_bgtag, SCOPE_SELBORDER, SCOPE_SELBDWIDTH, x->x_bgred, x->x_bggreen, x->x_bgblue);
 
 	sys_vgui("canvas %s -width %d -height %d -bg #fedc00 -bd 0\n",
 		 sh->h_pathname, SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT);
