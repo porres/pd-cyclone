@@ -14,7 +14,9 @@ Original author of cyclone is Krzysztof Czaja, who maintained it from 2002-2005.
 
 <strong>About this repository, Goals & Further Development:</strong>
 
-Location of this repository is https://github.com/porres/pd-cyclone. Amongst other things, the original cyclone library is found at the <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/> repository, it includes the cyclone library version 0.1-Alpha56, present in the last release of Pd Extended [version 0.43.4] released in january  2013. This release is now available in the deken plug in as "cyclone-v0-0extended". A fork from this original repository is found at <https://github.com/electrickery/pd-miXedSon>, and includes a newer version "0.2beta1" of cyclone from december 2015 - also available for download via the deken plug in. 
+Location of this repository is https://github.com/porres/pd-cyclone. 
+
+The original cyclone library, amongst other things, is found at the <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/> repository, it includes the cyclone library version 0.1-Alpha56, present in the last release of Pd Extended [version 0.43.4] released in january  2013. This release is now available in the deken plug in as "cyclone-v0-0extended". A fork from this original repository is found at <https://github.com/electrickery/pd-miXedSon>, and includes a newer version "0.2beta1" of cyclone from december 2015 - also available for download via the deken plug in. 
 
 The work from <https://github.com/electrickery/pd-miXedSon> is now forked this repository. Another cyclone version could emerge anytime from this repository with bug fixes, new objects and new functionalities aiming to an up to date clone of Max/MSP objects. 
 
