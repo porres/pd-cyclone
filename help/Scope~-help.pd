@@ -37,7 +37,6 @@ adapted the patch to pd-extended 2015-02-02;
 -1 -1 0 0;
 #X text 112 512 delay;
 #X text 88 496 triglevel;
-#X msg 501 50 Scope~;
 #X text 112 363 float;
 #X floatatom 43 150 5 0 0 0 - - -, f 5;
 #X text 15 64 Visualize an audio signal;
@@ -180,7 +179,7 @@ or 2 (down);
 #X text 159 431 - frgb <f f f>: sets signal RGB color (default 205
 229 232);
 #N canvas 833 23 458 636 Basic_settings 0;
-#X obj 90 341 Scope~ 182 119 10 3 185 -1 1 0 0 0 -0.333333 0 255 0
+#X obj 89 341 Scope~ 182 119 10 3 185 -1 1 0 0 0 -0.333333 0 255 0
 7 31 7 0 100 100 0;
 #X obj 131 310 r \$0-range;
 #X obj 233 165 s \$0-range;
@@ -411,8 +410,9 @@ period is used. So it requires small values for a better representation
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 503 99 pd;
-#X connect 10 0 15 0;
-#X connect 15 0 39 0;
-#X connect 27 0 38 0;
-#X connect 28 0 38 1;
-#X connect 39 0 38 0;
+#X obj 502 54 Scope~_;
+#X connect 10 0 14 0;
+#X connect 14 0 38 0;
+#X connect 26 0 37 0;
+#X connect 27 0 37 1;
+#X connect 38 0 37 0;
