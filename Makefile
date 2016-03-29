@@ -345,6 +345,7 @@ tanx~.class.sources := sickle/tanx.c $(ssic)
 train~.class.sources := sickle/train.c $(ssic)
 trapezoid~.class.sources := sickle/trapezoid.c $(ssic)
 triangle~.class.sources := sickle/triangle.c $(ssic)
+trunc~.class.sources := sickle/trunc.c
 vectral~.class.sources := sickle/vectral.c $(ssic)
 wave~.class.sources := sickle/wave.c $(sarsic)
 zerox~.class.sources := sickle/zerox.c $(ssic)
