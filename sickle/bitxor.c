@@ -4,10 +4,13 @@
 
 /* FIXME find a way of setting a 32-bit mask in an argument */
 
+#include <string.h>
 #include "m_pd.h"
 #include "unstable/forky.h"
 #include "sickle/sic.h"
 
+#define PDCYBITMASK 0
+#define PDCYOPMODE 0
 typedef struct _bitxor
 {
     t_sic     x_sic;
@@ -119,15 +122,58 @@ static void bitxor_mode(t_bitxor *x, t_floatarg f)
     x->x_convert1 = (x->x_mode == 1 || x->x_mode == 3);
 }
 
-static void *bitxor_new(t_floatarg f1, t_floatarg f2)
+static void *bitxor_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_bitxor *x = (t_bitxor *)pd_new(bitxor_class);
     x->x_glist = canvas_getcurrent();
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
-    x->x_mask = (t_int)f1;  /* FIXME (how?) */
-    bitxor_mode(x, f2);
+	
+	//setting defaults
+	t_float xmode = (t_float)PDCYOPMODE;
+	t_float xbitmask = (t_float)PDCYBITMASK;
+	int argnum = 0;
+	while(argc > 0){
+		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
+		if(curarg == &s_){//if curarg is a number
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					xbitmask = argval;
+					break;
+				case 1:
+					xmode = argval;
+					break;
+				default:
+					break;
+			};
+			argc--;
+			argv++;
+			argnum++;
+		}
+		else{//curarg is a string
+			if(strcmp(curarg->s_name, "@mode")==0){
+				if(argc >= 2){
+					xmode = atom_getfloatarg(1, argc, argv);
+					argc--;
+					argv++;
+				}
+				else{
+					goto errstate;
+				}
+			}
+			else{
+				goto errstate;
+			};
+		};
+	};
+    x->x_mask = (t_int)xbitmask;  /* FIXME (how?) */
+    bitxor_mode(x, xmode);
     return (x);
+	errstate:
+		pd_error(x, "bitxor~: improper args");
+		return NULL;
+
 }
 
 void bitxor_tilde_setup(void)
@@ -135,7 +181,7 @@ void bitxor_tilde_setup(void)
     bitxor_class = class_new(gensym("bitxor~"),
 			     (t_newmethod)bitxor_new, 0,
 			     sizeof(t_bitxor), 0,
-			     A_DEFFLOAT, A_DEFFLOAT, 0);
+			     A_GIMME, 0);
     sic_setup(bitxor_class, bitxor_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(bitxor_class, (t_method)bitxor_bits,
 		    gensym("bits"), A_GIMME, 0);
