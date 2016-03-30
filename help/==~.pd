@@ -1,12 +1,13 @@
-#N canvas 706 191 421 215 10;
+#N canvas 706 191 544 214 10;
 #X declare -lib nettles;
-#X obj 202 65 declare -lib nettles;
+#X obj 235 64 declare -lib nettles;
 #X obj 40 33 inlet~;
 #X obj 101 32 inlet~;
-#X obj 75 154 outlet~;
-#X obj 75 98 ==~ \$1;
-#X text 171 122 check help file for more info;
-#X text 166 99 this is an abstraction for [==~];
-#X connect 1 0 4 0;
-#X connect 2 0 4 1;
-#X connect 4 0 3 0;
+#X obj 75 138 outlet~;
+#X text 185 99 this is an abstraction for [==~];
+#X obj 75 98 ==~;
+#X text 179 122 check help file for more info on how to load the object
+version;
+#X connect 1 0 5 0;
+#X connect 2 0 5 1;
+#X connect 5 0 3 0;

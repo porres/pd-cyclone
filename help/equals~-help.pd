@@ -1,18 +1,18 @@
-#N canvas 390 23 562 787 10;
+#N canvas 390 23 564 786 10;
 #X declare -lib nettles;
 #X declare -lib nettles;
 #X declare -lib nettles;
 #X declare -lib nettles;
 #X obj 5 39 cnv 15 552 50 empty empty ==~ 3 12 0 18 -204280 -1 0;
-#X obj 6 745 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 6 742 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 420 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 413 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 477 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 470 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 7 571 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 7 555 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 85 432 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 425 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -31,44 +31,43 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 747 pd META;
+#X restore 509 744 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 197 747 pd Related_objects;
-#X obj 85 359 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 197 744 pd Related_objects;
+#X obj 85 358 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 7 348 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 347 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 85 384 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 85 383 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 114 384 float/signal;
-#X obj 85 359 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 114 383 float/signal;
+#X obj 85 358 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 114 431 signal -;
-#X text 99 490 1) float -;
-#X floatatom 367 179 5 0 0 0 - - -, f 5;
-#X floatatom 318 178 5 0 0 0 - - -, f 5;
-#X obj 334 245 cyclone/snapshot~ 1;
-#X floatatom 146 184 5 0 0 0 - - -, f 5;
-#X obj 146 247 cyclone/snapshot~ 1;
-#X obj 334 283 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
+#X text 114 424 signal -;
+#X text 102 480 1) float -;
+#X floatatom 366 179 5 0 0 0 - - -, f 5;
+#X floatatom 317 178 5 0 0 0 - - -, f 5;
+#X obj 333 245 cyclone/snapshot~ 1;
+#X floatatom 136 184 5 0 0 0 - - -, f 5;
+#X obj 136 247 cyclone/snapshot~ 1;
+#X obj 333 283 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
 1;
-#X obj 146 282 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 1
+#X obj 136 282 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 1
 1;
-#X text 175 431 If the signal in the left inlet is less than or equal
+#X text 175 424 If the signal in the left inlet is less than or equal
 to the value in the right inlet 1 is sent out - 0 otherwise.;
 #X text 17 66 Is equal to \, comparison of two signals: alias of [equals~]
 ;
 #X obj 506 45 equals~;
 #X obj 529 67 ==~;
-#X floatatom 233 185 5 0 0 0 - - -, f 5;
-#X text 150 360 signal;
-#X text 173 490 A number to be used for comparison with incoming from
+#X text 150 359 signal;
+#X text 176 480 A number to be used for comparison with incoming from
 left inlet. A float on the right inlet overwrites the argument. If
 a signal is connected to the right inlet \, argument is ignored. If
 signal is disconnected \, argument value is restored.;
-#X obj 334 208 ==~ 30;
+#X obj 333 208 ==~ 30;
 #X text 59 109 [equals~] or [==~] outputs a 1 signal when the left
 input is equal to the right input or argument and sends a 0 when it
 is not equal to the right inlet or argument.;
@@ -194,26 +193,29 @@ is not equal to the right inlet or argument.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 505 104 pd;
-#X text 205 384 - value used for comparison with left inlet;
-#X text 205 360 - value is compared to right inlet's or argument;
-#X obj 146 212 cyclone/equals~;
-#X obj 406 614 declare -lib nettles, f 21;
-#X text 38 213 abstraction =>;
-#X obj 406 702 nettles-help;
-#X text 54 601 So far \, [==~] only correctly loads if you declare
+#X text 205 383 - value used for comparison with left inlet;
+#X text 205 359 - value is compared to right inlet's or argument;
+#X obj 406 598 declare -lib nettles, f 21;
+#X text 33 213 abstraction =>;
+#X obj 406 709 nettles-help;
+#X text 54 585 So far \, [==~] only correctly loads if you declare
 the nettles library with the declare object like this =====>;
-#X text 54 637 There is an abstraction [==~] that load the object inside
-it in the case you didn't declare the library. If so \, the object
-won't exactly as it should. Another abstraction and alias for [==~]
-is [cyclone/equals~];
-#X text 54 703 Open help files of nettles to understand what it is
+#X text 54 710 Open help files of nettles to understand what it is
 ===>;
-#X text 384 207 <= object;
-#X connect 15 0 29 1;
-#X connect 16 0 29 0;
+#X text 383 207 <= object;
+#X obj 136 212 cyclone/equals~;
+#X obj 223 183 sig~ 10;
+#X text 54 621 There is an abstraction [==~] that load the object inside
+it in the case you didn't declare the library. If so \, the object
+won't exactly as it should (won't load arguments). If you are not sure
+if the object [==~] you have is an abstraction \, just click on it
+and see if it opens. Another abstraction and alias for [==~] is [cyclone/equals~].
+;
+#X connect 15 0 28 1;
+#X connect 16 0 28 0;
 #X connect 17 0 20 0;
-#X connect 18 0 35 0;
+#X connect 18 0 40 0;
 #X connect 19 0 21 0;
-#X connect 26 0 35 1;
-#X connect 29 0 17 0;
-#X connect 35 0 19 0;
+#X connect 28 0 17 0;
+#X connect 40 0 19 0;
+#X connect 41 0 40 1;
