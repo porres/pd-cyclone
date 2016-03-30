@@ -59,18 +59,18 @@ adapted the patch to pd-extended 2015-02-02;
 #X restore 2 5 pd;
 #X obj 118 179 noise~;
 #X obj 99 291 output~;
-#X floatatom 169 216 5 1 10000 0 - - -, f 5;
+#X floatatom 217 216 5 1 10000 0 - - -, f 5;
 #X text 82 100 [downsamp~] samples and holds a signal received in the
 left inlet at a rate expressed in samples. No interpolation of the
 output is performed.;
 #X text 117 489 float/signal;
 #X text 208 490 - rate (in samples) used to downsample the input signal
 ;
-#X floatatom 296 282 5 0 0 0 - - -, f 5;
-#X obj 296 302 cyclone/mstosamps~;
-#X floatatom 401 326 5 0 0 0 - - -, f 5;
-#X text 223 257 you can convert ms to samples with mstosamps~;
-#X text 208 213 <= set downsample rate in samples;
+#X floatatom 297 296 5 0 0 0 - - -, f 5;
+#X obj 297 316 cyclone/mstosamps~;
+#X floatatom 402 340 5 0 0 0 - - -, f 5;
+#X text 224 271 you can convert ms to samples with mstosamps~;
+#X text 256 213 <= set downsample rate in samples;
 #X text 209 463 - signal to be downsampled;
 #X text 164 521 signal - downsampled signal;
 #X text 142 558 This abstraction does not support arguments;
@@ -78,7 +78,7 @@ output is performed.;
 and is not a proper clone of the object since it does not implement
 features only possible via a compiled object. It serves as a basis
 to code a new object.;
-#X obj 118 242 downsamp~;
+#X obj 118 242 cyclone/downsamp~;
 #X connect 14 0 29 0;
 #X connect 16 0 29 1;
 #X connect 20 0 21 0;
