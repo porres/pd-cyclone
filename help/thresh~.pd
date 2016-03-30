@@ -1,0 +1,11 @@
+#N canvas 511 24 462 233 10;
+#X obj 60 61 inlet~;
+#X obj 60 149 outlet~;
+#X obj 217 61 inlet~;
+#X obj 375 58 inlet~;
+#X obj 60 104 fexpr~ $x1[0] >= $x2[0] && $y1[-1] || $x1[0] > $x3[0]
+;
+#X connect 0 0 4 0;
+#X connect 2 0 4 1;
+#X connect 3 0 4 2;
+#X connect 4 0 1 0;
