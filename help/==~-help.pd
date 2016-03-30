@@ -1,16 +1,16 @@
-#N canvas 688 55 608 761 10;
+#N canvas 512 69 560 679 10;
 #X declare -lib nettles;
 #X declare -lib nettles;
-#X obj 10 10 cnv 15 552 50 empty empty ==~ 3 12 0 18 -204280 -1 0;
-#X obj 40 696 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 5 39 cnv 15 552 50 empty empty ==~ 3 12 0 18 -204280 -1 0;
+#X obj 7 625 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 40 491 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
+#X obj 7 420 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 7 477 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 40 548 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 571 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 40 641 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X obj 118 503 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 432 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -29,65 +29,180 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 543 698 pd META;
+#X restore 510 627 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 231 698 pd Related_objects;
-#X obj 118 413 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 198 627 pd Related_objects;
+#X obj 85 359 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 40 399 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 348 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 118 443 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 85 384 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 147 442 float/signal;
-#X text 232 441 - value used for comparison with incoming value from
-left inlet.;
-#X obj 118 413 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 114 384 float/signal;
+#X obj 85 359 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 147 502 signal -;
-#X text 132 561 1) float -;
-#X floatatom 307 160 5 0 0 0 - - -;
-#X floatatom 261 163 5 0 0 0 - - -;
-#X obj 277 230 cyclone/snapshot~ 1;
-#X obj 451 279 loadbang;
-#X msg 451 302 \; pd dsp 1;
-#X floatatom 94 169 5 0 0 0 - - -;
-#X obj 94 232 cyclone/snapshot~ 1;
-#X obj 277 268 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
+#X text 114 431 signal -;
+#X text 99 490 1) float -;
+#X floatatom 327 178 5 0 0 0 - - -, f 5;
+#X floatatom 278 177 5 0 0 0 - - -, f 5;
+#X obj 294 244 cyclone/snapshot~ 1;
+#X floatatom 106 183 5 0 0 0 - - -, f 5;
+#X obj 106 246 cyclone/snapshot~ 1;
+#X obj 294 282 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
 1;
-#X obj 94 270 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 1
+#X obj 106 281 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 1
 1;
-#X obj 229 653 cnv 15 100 30 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X text 214 658 nettles is fucked up;
-#X obj 397 182 cyclone/lessthan~;
-#X obj 445 207 cyclone/<~;
-#X text 230 411 - value is compared to right inlet's or argument.;
-#X text 214 502 If the signal in the left inlet is less than or equal
+#X text 175 431 If the signal in the left inlet is less than or equal
 to the value in the right inlet 1 is sent out - 0 otherwise.;
-#X text 22 37 Is equal to \, comparison of two signals: alias of [equals~]
+#X text 17 66 Is equal to \, comparison of two signals: alias of [equals~]
 ;
-#X obj 511 16 equals~;
-#X obj 534 38 ==~;
-#X obj 94 197 equals~ 5;
-#X floatatom 145 170 5 0 0 0 - - -;
-#X text 147 412 signal;
-#X text 206 561 A number to be used for comparison with incoming from
+#X obj 506 45 equals~;
+#X obj 529 67 ==~;
+#X floatatom 193 184 5 0 0 0 - - -, f 5;
+#X text 150 360 signal;
+#X text 173 490 A number to be used for comparison with incoming from
 left inlet. A float on the right inlet overwrites the argument. If
 a signal is connected to the right inlet \, argument is ignored. If
 signal is disconnected \, argument value is restored.;
-#X obj 277 193 ==~ 30;
-#X obj 329 185 sig~ 10;
-#X text 64 80 [equals~] or [==~] outputs a 1 signal when the left input
-is equal to the right input or argument and sends a 0 when it is not
-equal to the right inlet or argument.;
-#X connect 16 0 38 1;
-#X connect 17 0 38 0;
-#X connect 18 0 23 0;
-#X connect 19 0 20 0;
-#X connect 21 0 34 0;
-#X connect 22 0 24 0;
-#X connect 34 0 22 0;
-#X connect 35 0 34 1;
-#X connect 38 0 18 0;
+#X obj 294 207 ==~ 30;
+#X text 59 109 [equals~] or [==~] outputs a 1 signal when the left
+input is equal to the right input or argument and sends a 0 when it
+is not equal to the right inlet or argument.;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 4 5 pd;
+#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 939 367 324 271 set_color 0;
+#X obj 47 30 inlet;
+#X obj 96 146 s \$0-cnv;
+#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 378 447 color \$1 \$2;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
+#X connect 16 0 6 0;
+#X connect 17 0 13 0;
+#X connect 18 0 17 0;
+#X connect 18 1 16 0;
+#X connect 19 0 18 0;
+#X restore 47 113 pd off;
+#X obj 47 83 select 0 1;
+#X obj 47 168 list append 0;
+#X obj 47 195 list trim;
+#X obj 47 220 s \$0-tgl-r;
+#X connect 0 0 4 0;
+#X connect 2 0 1 0;
+#X connect 2 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 167 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 167 86 snapshot~;
+#X obj 167 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X obj 91 52 del 5;
+#X connect 0 0 2 0;
+#X connect 1 0 4 0;
+#X connect 1 0 6 0;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 6 0 2 0;
+#X connect 6 0 4 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 505 104 pd;
+#X text 205 384 - value used for comparison with left inlet;
+#X text 205 360 - value is compared to right inlet's or argument;
+#X obj 195 582 cnv 15 200 30 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 216 589 declare and abstractions;
+#X obj 106 211 cyclone/equals~;
+#X connect 15 0 29 1;
+#X connect 16 0 29 0;
+#X connect 17 0 20 0;
+#X connect 18 0 37 0;
+#X connect 19 0 21 0;
+#X connect 26 0 37 1;
+#X connect 29 0 17 0;
+#X connect 37 0 19 0;

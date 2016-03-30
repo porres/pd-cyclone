@@ -1,0 +1,10 @@
+#N canvas 706 191 286 157 10;
+#X declare -lib nettles;
+#X obj 131 67 declare -lib nettles;
+#X obj 40 33 inlet~;
+#X obj 101 32 inlet~;
+#X obj 74 101 outlet~;
+#X obj 74 68 ==~ \$1;
+#X connect 1 0 4 0;
+#X connect 2 0 4 1;
+#X connect 4 0 3 0;
