@@ -1,4 +1,4 @@
-#N canvas 700 23 561 664 10;
+#N canvas 700 23 564 664 10;
 #X obj 6 614 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 616 310 382 346 META 0;
@@ -43,18 +43,12 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 96 259 print;
 #X obj 355 241 print;
 #X obj 212 235 print;
-#X obj 492 47 loadmess;
+#X obj 501 47 loadmess;
 #X text 24 62 Send a message when a patch is loaded;
-#X text 79 97 [loadmess] outputs a message automatically when the file
-is opened \, or when the patch is part of another file that is opened.
-;
 #X text 134 357 bang;
 #X text 139 390 set;
 #X text 178 356 - Sending a bang message to a loadmess object causes
 it to output its typed message.;
-#X text 180 390 - The word set followed by any message will set the
-message held by loadmess without any output. (Can be used for output
-in conjunction with bang .);
 #X text 180 462 - The loadmess object's loaded message is sent when
 the patch is loaded or when banged/clicked.;
 #X text 180 514 - message to be sent (default "bang").;
@@ -66,8 +60,6 @@ sent before and have priority over @defer 1);
 #X text 93 515 1) anything;
 #X text 110 462 anything;
 #X msg 116 196 set bob;
-#X text 110 299 Double-click on [loadmess] to output its loaded message!
-;
 #X obj 212 206 loadmess foo 99 bar;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
@@ -89,11 +81,18 @@ sent before and have priority over @defer 1);
 #X obj 355 206 loadmess 3 4 @defer 1;
 #X msg 355 174 set 1 2;
 #X msg 418 173 set 3 4;
+#X text 79 97 [loadmess] outputs a message automatically when the patch
+is loaded \, or when the patch is part of another file that is opened.
+;
+#X text 180 390 - The word set followed by any message will set the
+message held by loadmess without any output (can be used for output
+in conjunction with bang).;
+#X text 134 299 Click on [loadmess] to output its loaded message!;
 #X connect 10 0 11 0;
-#X connect 23 0 10 0;
-#X connect 27 0 10 0;
-#X connect 29 0 13 0;
-#X connect 31 0 10 0;
-#X connect 32 0 12 0;
-#X connect 33 0 32 0;
-#X connect 34 0 32 0;
+#X connect 21 0 10 0;
+#X connect 25 0 10 0;
+#X connect 26 0 13 0;
+#X connect 28 0 10 0;
+#X connect 29 0 12 0;
+#X connect 30 0 29 0;
+#X connect 31 0 29 0;
