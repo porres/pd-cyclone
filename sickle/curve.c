@@ -18,6 +18,9 @@
    It has 5% deviation from the straight line for ccinput = 0 at half-domain,
    range 1, and generates nans for ccinput > .995 (cf comment in clc.h). */
 
+
+#define PDCYCURVEINITVAL 0.f
+#define PDCYCURVEPARAM 0.f
 #define CURVE_INISIZE  64  /* LATER rethink */
 #define CURVE_MAXSIZE  64
 
@@ -340,11 +343,52 @@ static void curve_free(t_curve *x)
     if (x->x_clock) clock_free(x->x_clock);
 }
 
-static void *curve_new(t_floatarg f1, t_floatarg f2)
+static void curve_factor(t_curve *x, t_float f){
+	if(f < -1.){
+		x->x_ccinput = -1.;
+	}
+	else if(f > 1.){
+		x->x_ccinput = 1.;
+	}
+	else{
+		x->x_ccinput = f;
+	};
+
+
+};
+
+
+static void *curve_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_curve *x = (t_curve *)pd_new(curve_class);
-    x->x_value = x->x_target = f1;
-    x->x_ccinput = f2;
+	t_float initval, param;
+	initval = PDCYCURVEINITVAL;
+	param = PDCYCURVEPARAM;
+	int argnum = 0;
+	while(argc > 0){
+		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
+		if(curarg == &s_){//if curarg is a number
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					initval = argval;
+					break;
+				case 1:
+					param = argval;
+					break;
+				default:
+					break;
+				};
+				argnum++;
+				argc--;
+				argv++;
+		}
+		else{//curarg is a symbol
+			goto errstate;
+		};
+	};
+    x->x_value = x->x_target = initval;
+    curve_factor(x, param);
     x->x_deltaset = 0;
     x->x_ksr = sys_getsr() * 0.001;
     x->x_nleft = 0;
@@ -359,6 +403,9 @@ static void *curve_new(t_floatarg f1, t_floatarg f2)
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
     x->x_clock = clock_new(x, (t_method)curve_tick);
     return (x);
+	errstate:
+		pd_error(x, "curve~: improper args");
+		return NULL;
 }
 
 void curve_tilde_setup(void)
@@ -367,10 +414,12 @@ void curve_tilde_setup(void)
 			    (t_newmethod)curve_new,
 			    (t_method)curve_free,
 			    sizeof(t_curve), 0,
-			    A_DEFFLOAT, A_DEFFLOAT, 0);
+			    A_GIMME, 0);
     sic_setup(curve_class, curve_dsp, SIC_NOMAINSIGNALIN);
     class_addfloat(curve_class, curve_float);
     class_addlist(curve_class, curve_list);
     class_addmethod(curve_class, (t_method)curve_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(curve_class, (t_method)curve_factor,
+		    gensym("factor"), A_FLOAT, 0);
 }

@@ -13,6 +13,8 @@ typedef struct _deltaclip
 {
     t_sic    x_sic;
     t_float  x_last;
+	t_inlet *x_lolet;
+	t_inlet  *x_hilet;
 } t_deltaclip;
 
 static t_class *deltaclip_class;
@@ -48,11 +50,26 @@ static void deltaclip_dsp(t_deltaclip *x, t_signal **sp)
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
+static void deltaclip_reset(t_deltaclip *x){
+
+	pd_float((t_pd *)x->x_lolet, DELTACLIP_DEFLO);
+	pd_float((t_pd *)x->x_hilet, DELTACLIP_DEFHI);
+}
+
+static void *deltaclip_free(t_deltaclip *x)
+{
+		inlet_free(x->x_lolet);
+		inlet_free(x->x_hilet);
+			return (void *)x;
+}
+
+
+
 static void *deltaclip_new(t_symbol *s, int ac, t_atom *av)
 {
     t_deltaclip *x = (t_deltaclip *)pd_new(deltaclip_class);
-    sic_inlet((t_sic *)x, 1, DELTACLIP_DEFLO, 0, ac, av);
-    sic_inlet((t_sic *)x, 2, DELTACLIP_DEFHI, 1, ac, av);
+    x->x_lolet = sic_inlet((t_sic *)x, 1, DELTACLIP_DEFLO, 0, ac, av);
+    x->x_hilet = sic_inlet((t_sic *)x, 2, DELTACLIP_DEFHI, 1, ac, av);
     outlet_new((t_object *)x, &s_signal);
     x->x_last = 0;
     return (x);
@@ -61,7 +78,9 @@ static void *deltaclip_new(t_symbol *s, int ac, t_atom *av)
 void deltaclip_tilde_setup(void)
 {
     deltaclip_class = class_new(gensym("deltaclip~"),
-				(t_newmethod)deltaclip_new, 0,
+				(t_newmethod)deltaclip_new, (t_method)deltaclip_free,
 				sizeof(t_deltaclip), 0, A_GIMME, 0);
     sic_setup(deltaclip_class, deltaclip_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(deltaclip_class, (t_method)deltaclip_reset,
+		    gensym("reset"), 0);
 }
