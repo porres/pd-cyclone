@@ -1,7 +1,7 @@
-#N canvas 669 30 580 750 10;
-#X obj 9 709 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 353 23 576 762 10;
+#X obj 9 722 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 9 459 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 9 439 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 670 414 340 251 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -20,8 +20,8 @@ point signal as bits or as a float;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 510 709 pd META;
-#X obj 9 565 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 510 722 pd META;
+#X obj 9 545 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 214 725 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -31,21 +31,21 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 6 78 cyclone/bitxor~;
 #X obj 108 29 cyclone/bitshift~;
 #X obj 258 50 &;
-#X restore 212 712 pd Related_objects;
-#X obj 89 574 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 212 725 pd Related_objects;
+#X obj 89 554 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 8 40 cnv 15 552 40 empty empty bitxor~ 3 12 0 18 -204280 -1
 0;
-#X obj 46 364 clip~ -1 1;
-#X text 127 574 signal;
-#X obj 26 399 output~;
-#X text 122 467 signal;
-#X obj 91 472 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 46 345 clip~ -1 1;
+#X text 127 554 signal;
+#X obj 22 378 output~;
+#X text 122 447 signal;
+#X obj 91 452 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 91 538 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 91 518 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 65 300 cyclone/cycle~ 220;
-#X text 126 504 mode;
+#X obj 72 290 cyclone/cycle~ 220;
+#X text 126 484 mode;
 #N canvas 151 31 872 422 x 0;
 #X obj 201 101 cnv 15 468 65 empty empty empty 20 12 0 14 -249661 -66577
 0;
@@ -199,21 +199,21 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 39 0 35 0;
 #X connect 43 0 1 0;
 #X coords 0 -1 1 1 470 67 2 200 100;
-#X restore 46 217 pd x;
+#X restore 46 211 pd x;
 #X obj 46 172 bng 23 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 12 598 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 12 578 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 122 538 float/signal;
-#X text 102 611 1) float (bitmask);
-#X text 215 609 - integer value to be used as bitmask (default is 0).
+#X text 122 518 float/signal;
+#X text 102 591 1) float (bitmask);
+#X text 215 589 - integer value to be used as bitmask (default is 0).
 Bitmask is the binary representation of this integer;
-#X text 123 484 bits;
-#X text 209 501 - Interpretation of the values at the two inlets (0-3).
+#X text 123 464 bits;
+#X text 209 481 - Interpretation of the values at the two inlets (0-3).
 See argument description for details;
-#X text 209 484 - "bits" plus a list of 32 bits (0 or 1) - used as
+#X text 209 464 - "bits" plus a list of 32 bits (0 or 1) - used as
 bitmask;
-#X text 206 539 - bitwise-and mask either as int or floar (depends
+#X text 206 519 - bitwise-and mask either as int or floar (depends
 on mode);
 #X text 41 135 send;
 #X text 24 150 bitmask;
@@ -253,18 +253,18 @@ The bits of both signals are compared and will be set to 1 if the two
 bit values are different or 0 if the two values are the same. The raw
 32-bit data is expressed as: <1 sign bit> <8 exponent bits> <23 mantissa
 bits>.;
-#X text 209 467 - signal to execute bitwise-exclusive-or on;
-#X text 196 574 - floating-point signal as result of "bitwise-exclusive-or"
+#X text 209 447 - signal to execute bitwise-exclusive-or on;
+#X text 196 554 - floating-point signal as result of "bitwise-exclusive-or"
 ;
-#X text 210 655 1: Convert both float inputs to integer;
-#X text 210 668 2: Treat left input float as raw 32-bit (right as int)
+#X text 210 635 1: Convert both float inputs to integer;
+#X text 210 648 2: Treat left input float as raw 32-bit (right as int)
 ;
-#X text 210 680 3: Convert left input float to integer (right as raw
+#X text 210 660 3: Convert left input float to integer (right as raw
 32-bit);
-#X text 210 642 0: Treat both float inputs as raw 32-bit (default)
+#X text 210 622 0: Treat both float inputs as raw 32-bit (default)
 ;
-#X text 102 641 2) float (mode) -;
-#X obj 46 330 cyclone/bitxor~ -1 2;
+#X text 102 621 2) float (mode) -;
+#X obj 46 319 cyclone/bitxor~ -1 2;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -387,6 +387,9 @@ bits>.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 507 91 pd;
+#X obj 6 689 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 157 696 @mode <int> (default: 0) - sets mode argument;
 #X connect 7 0 9 0;
 #X connect 7 0 9 1;
 #X connect 13 0 38 0;
