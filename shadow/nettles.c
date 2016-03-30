@@ -509,7 +509,7 @@ void nettles_setup(void)
     sic_setup(sigeq_class, sigeq_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(sigeq_class, (t_method)sigeq__algo,
 		    gensym("_algo"), A_FLOAT, 0);
-    class_sethelpsymbol(sigeq_class, gensym("nettles"));
+    class_sethelpsymbol(sigeq_class, gensym("==~"));
 
     signeq_class = class_new(gensym("!=~"),
 			     (t_newmethod)signeq_new, 0,
