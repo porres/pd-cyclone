@@ -1,0 +1,18 @@
+#N canvas 62 339 734 251 10;
+#X obj 65 29 inlet~;
+#X obj 65 177 outlet~;
+#X obj 380 31 inlet~;
+#X text 375 12 samples;
+#X obj 65 116 fexpr~ if($y2[-1] >= 1 || $y2 == 0 \, $x1[0] \, $y1[-1])
+\; $x2[0] + $y3[-1] \; fmod($x2[0] + $y3[-1] \, 1);
+#X text 398 115 sample and hold triggered by impulse oscillator;
+#X text 398 141 wrapped phase;
+#X text 398 128 unwrapped phase;
+#X text 471 89 phase step;
+#X obj 380 90 expr~ 1 / $v1;
+#X obj 380 59 max~ 1;
+#X connect 0 0 4 0;
+#X connect 2 0 10 0;
+#X connect 4 0 1 0;
+#X connect 9 0 4 1;
+#X connect 10 0 9 0;
