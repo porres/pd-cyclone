@@ -1,0 +1,96 @@
+#N canvas 599 25 568 648 10;
+#X obj 3 609 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 3 450 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 378 396 407 280 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 133 LIBRARY cyclone;
+#X text 0 57 INLET_0 signal;
+#X text 0 0 KEYWORDS filter pass;
+#X text 0 76 INLET_1 float delay time;
+#X text 0 95 INLET_2 float gain;
+#X text 0 114 OUTLET_0 signal;
+#X text 0 38 DESCRIPTION allpass filter for signal;
+#X text 1 153 VERSION 0.2-beta1;
+#X text 1 171 AUTHOR Krzysztof Czaja;
+#X text 2 189 RELEASE_DATE 2002;
+#X text 3 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 3 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 611 pd META;
+#X obj 3 537 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 574 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 947 59 434 83 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 205 611 pd Related_objects;
+#X obj 85 482 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 3 40 cnv 15 552 40 empty empty degrade~ 3 12 0 18 -204280 -1
+0;
+#X text 153 459 signal;
+#X obj 86 546 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 85 459 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 2 5 pd;
+#X obj 79 273 output~;
+#X floatatom 183 176 0 1 10000 0 - - -;
+#X text 117 484 float/signal;
+#X text 135 584 This abstraction does not support arguments;
+#X text 107 370 This is an abstraction \, it does not support arguments
+and is not a proper clone of the object since it does not implement
+features only possible via a compiled object. It serves as a basis
+to code a new object.;
+#X text 15 63 signal quality reducer;
+#X obj 496 52 degrade~;
+#X text 82 97 [degrade~] takes any given signal and reduces the sampling
+rate and bit-depth as specified/desired.;
+#X obj 186 155 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 500 1;
+#X text 195 155 sample rate (0-1);
+#X floatatom 333 176 0 1 10000 0 - - -;
+#X obj 336 155 hsl 128 15 1 24 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 12700 1;
+#X text 346 155 bit depth (1-24);
+#X obj 111 166 osc~ 440;
+#X text 209 458 - signal to be degraded (resampled and quantized);
+#X text 166 547 signal - degraded (resampled and quantized) signal
+;
+#X text 208 485 - sample rate (0-1);
+#X obj 85 506 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 117 508 float/signal;
+#X text 208 509 - bit depth (1-24);
+#X obj 166 245 scope~ 182 107 2 3 128 -1 1 250 0 0 0 205 229 232 74
+79 77 96 98 102 0;
+#X obj 137 215 cyclone/degrade~;
+#X connect 13 0 33 1;
+#X connect 20 0 13 0;
+#X connect 22 0 33 2;
+#X connect 23 0 22 0;
+#X connect 25 0 33 0;
+#X connect 33 0 12 0;
+#X connect 33 0 12 1;
+#X connect 33 0 32 0;
