@@ -20,7 +20,6 @@
 a way to safely load them without issues and the need of a declare
 object.;
 #X text 149 22 subset library with "weird" character objects;
-#X text 167 175 cyclone version 0.3beta;
 #X text 37 74 You may need to use [declare] to load the nettles library
 (a subset library of cyclone) in order to load all these 12 objects
 to the right with "weird" character names. Right click on them for
