@@ -1,13 +1,21 @@
-#N canvas 706 191 544 214 10;
+#N canvas 706 191 563 381 10;
 #X declare -lib nettles;
 #X obj 235 64 declare -lib nettles;
 #X obj 40 33 inlet~;
 #X obj 101 32 inlet~;
 #X obj 75 138 outlet~;
-#X text 185 99 this is an abstraction for [==~];
+#X text 178 99 this is an abstraction for [==~];
 #X obj 75 98 ==~;
-#X text 179 122 check help file for more info on how to load the object
-version;
+#X obj 72 205 loadbang;
+#X msg 72 232 ==> You've loaded the abstraction version of the [==~]
+object which does not work with arguments. Use [declare -lib nettles]
+to load the object version with full functionality - check help file
+for more info.;
+#X obj 72 313 print Cyclone WARNING!;
+#X text 179 122 check its help file for more info on how to load the
+object version;
 #X connect 1 0 5 0;
 #X connect 2 0 5 1;
 #X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
