@@ -496,9 +496,10 @@ static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
     x->x_fgred = (int)fr;
     x->x_fggreen = (int)fg;
     x->x_fgblue = (int)fb;
-    if (cv = scope_isvisible(x))
-	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+    if (cv = scope_isvisible(x)) {
+		sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
 		 cv, x->x_fgtag, x->x_fgred, x->x_fggreen, x->x_fgblue);
+	};
 }
 
 static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
@@ -526,9 +527,10 @@ static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
     x->x_bgred = (int)br;
     x->x_bggreen = (int)bg;
     x->x_bgblue = (int)bb;
-    if (cv = scope_isvisible(x))
-	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+    if (cv = scope_isvisible(x)){
+		sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
 		 cv, x->x_bgtag, x->x_bgred, x->x_bggreen, x->x_bgblue);
+	};
 }
 
 static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
@@ -557,9 +559,10 @@ static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
     x->x_grred   = (int)gr;
     x->x_grgreen = (int)gg;
     x->x_grblue  = (int)gb;
-    if (cv = scope_isvisible(x))
-	sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+    if (cv = scope_isvisible(x)){
+		sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
 		 cv, x->x_gridtag, x->x_grred, x->x_grgreen, x->x_grblue);
+	};
 }
 
 static void scope_getrect(t_gobj *z, t_glist *glist,
