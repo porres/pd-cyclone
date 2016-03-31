@@ -32,7 +32,7 @@ static void trapezoid_lo(t_trapezoid *x, t_floatarg f)
 
 static void trapezoid_hi(t_trapezoid *x, t_floatarg f)
 {
-	x->x_high = x->x_high;
+	x->x_high = f;
     x->x_range = f - x->x_low;
 }
 
