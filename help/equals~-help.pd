@@ -65,7 +65,6 @@ to the value in the right inlet 1 is sent out - 0 otherwise.;
 left inlet. A float on the right inlet overwrites the argument. If
 a signal is connected to the right inlet \, argument is ignored. If
 signal is disconnected \, argument value is restored.;
-#X obj 308 206 ==~ 30;
 #X text 59 109 [equals~] or [==~] outputs a 1 signal when the left
 input is equal to the right input or argument and sends a 0 when it
 is not equal to the right inlet or argument.;
@@ -195,7 +194,6 @@ is not equal to the right inlet or argument.;
 #X text 205 359 - value is compared to right inlet's or argument;
 #X obj 409 598 declare -lib nettles, f 21;
 #X obj 412 729 nettles-help;
-#X text 358 205 <= object;
 #X obj 111 210 cyclone/equals~;
 #X text 54 585 So far \, [==~] only correctly loads if you declare
 the "nettles" library with the declare object like this =====>;
@@ -209,11 +207,12 @@ if it opens.;
 #X text 56 693 You can also load the alias object [cyclone/equals~]
 with no such issues and outside "nettles".;
 #X floatatom 198 182 5 0 0 0 - - -, f 5;
-#X connect 15 0 28 1;
-#X connect 16 0 28 0;
+#X obj 308 206 ==~ 30;
+#X connect 15 0 41 1;
+#X connect 16 0 41 0;
 #X connect 17 0 20 0;
-#X connect 18 0 37 0;
+#X connect 18 0 35 0;
 #X connect 19 0 21 0;
-#X connect 28 0 17 0;
-#X connect 37 0 19 0;
-#X connect 42 0 37 1;
+#X connect 35 0 19 0;
+#X connect 40 0 35 1;
+#X connect 41 0 17 0;
