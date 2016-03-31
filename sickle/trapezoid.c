@@ -2,8 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+#include <string.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 #define TRAPEZOID_DEFUP  0.1  /* a bug? */
 #define TRAPEZOID_DEFDN  0.9  /* a bug? */
@@ -12,22 +12,27 @@
 
 typedef struct _trapezoid
 {
-    t_sic      x_sic;
+	t_object   x_obj;
     float      x_low;
     float      x_range;
+	float 	   x_high;
+	t_float    x_f;
+	t_inlet    *x_uplet;
+	t_inlet    *x_downlet;
+	t_outlet   *x_outlet;
 } t_trapezoid;
 
 static t_class *trapezoid_class;
 
 static void trapezoid_lo(t_trapezoid *x, t_floatarg f)
 {
-    float high = x->x_low + x->x_range;
     x->x_low = f;
-    x->x_range = high - x->x_low;
+    x->x_range = x->x_high - f;
 }
 
 static void trapezoid_hi(t_trapezoid *x, t_floatarg f)
 {
+	x->x_high = x->x_high;
     x->x_range = f - x->x_low;
 }
 
@@ -81,23 +86,87 @@ static void trapezoid_dsp(t_trapezoid *x, t_signal **sp)
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
-static void *trapezoid_new(t_symbol *s, int ac, t_atom *av)
+static void *trapezoid_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_trapezoid *x = (t_trapezoid *)pd_new(trapezoid_class);
-    sic_inlet((t_sic *)x, 1, TRAPEZOID_DEFUP, 0, ac, av);
-    sic_inlet((t_sic *)x, 2, TRAPEZOID_DEFDN, 1, ac, av);
-    outlet_new((t_object *)x, &s_signal);
-    x->x_low = TRAPEZOID_DEFLO;
-    x->x_range = (TRAPEZOID_DEFHI - TRAPEZOID_DEFLO);
+	t_float trapup, trapdown, traplo, traphi;
+
+	trapup = TRAPEZOID_DEFUP;
+	trapdown = TRAPEZOID_DEFDN;
+	x->x_low = traplo = TRAPEZOID_DEFLO;
+	x->x_high = traphi = TRAPEZOID_DEFHI;
+	int argnum = 0;
+	while(argc > 0){
+		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
+		if(curarg == &s_){//if curarg is a number
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					trapup = argval;
+					break;
+				case 1:
+					trapdown = argval;
+					break;
+				default:
+					break;
+				};
+				argnum++;
+				argc--;
+				argv++;
+		}
+			else{
+				if(strcmp(curarg->s_name, "@lo")==0){
+					if(argc >= 2){
+						traplo = atom_getfloatarg(1, argc, argv);
+						argc-=2;
+						argv+=2;
+					}
+					else{
+						goto errstate;
+					};
+				}
+				else if(strcmp(curarg->s_name, "@hi")==0){
+					if(argc >= 2){
+						traphi = atom_getfloatarg(1, argc, argv);
+						argc-=2;
+						argv+=2;
+					}
+					else{
+						goto errstate;
+					};
+				}
+				else{
+					goto errstate;
+				};
+			};
+		};
+	trapezoid_lo(x, traplo);
+	trapezoid_hi(x, traphi);
+	x->x_uplet=inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+	pd_float((t_pd *)x->x_uplet, trapup);
+	x->x_downlet=inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+	pd_float((t_pd *)x->x_downlet, trapdown);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     return (x);
+	errstate:
+		pd_error(x, "trapezoid~: improper args");
+		return NULL;
 }
+
+void *trapezoid_free(t_trapezoid *x){
+		inlet_free(x->x_uplet);
+		inlet_free(x->x_downlet);
+		outlet_free(x->x_outlet);
+	return (void *)x;
+};
 
 void trapezoid_tilde_setup(void)
 {
     trapezoid_class = class_new(gensym("trapezoid~"),
-				(t_newmethod)trapezoid_new, 0,
+				(t_newmethod)trapezoid_new, (t_method)trapezoid_free,
 				sizeof(t_trapezoid), 0, A_GIMME, 0);
-    sic_setup(trapezoid_class, trapezoid_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(trapezoid_class, (t_method)trapezoid_dsp, gensym("dsp"), A_CANT, 0);
+   CLASS_MAINSIGNALIN(trapezoid_class, t_trapezoid, x_f);
     class_addmethod(trapezoid_class, (t_method)trapezoid_lo,
 		    gensym("lo"), A_DEFFLOAT, 0);  /* CHECKME */
     class_addmethod(trapezoid_class, (t_method)trapezoid_hi,
