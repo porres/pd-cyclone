@@ -1,6 +1,4 @@
-#N canvas 108 23 559 797 10;
-#X declare -lib nettles;
-#X declare -lib nettles;
+#N canvas 89 29 559 811 10;
 #X declare -lib nettles;
 #X declare -lib nettles;
 #X obj 4 40 cnv 15 552 50 empty empty >~ 3 12 0 18 -204280 -1 0;
@@ -9,7 +7,7 @@
 #X obj 473 46 greaterthan~;
 #X obj 528 68 >~;
 #X obj 327 212 >~;
-#X obj 4 758 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 4 764 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 416 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
@@ -36,11 +34,11 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 759 pd META;
+#X restore 507 765 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 195 760 pd Related_objects;
+#X restore 195 766 pd Related_objects;
 #X obj 82 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 4 354 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -196,22 +194,22 @@ less-than or equal-to the right input or argument.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 503 104 pd;
-#X obj 425 606 declare -lib nettles, f 21;
-#X obj 417 719 nettles-help;
-#X text 65 720 Open help files of nettles to understand what it is
+#X obj 420 607 declare -lib nettles, f 21;
+#X obj 412 734 nettles-help;
+#X text 60 734 Open help files of nettles to understand what it is
 ===>;
 #X text 216 388 - value for comparison with left inlet;
 #X text 216 364 - value is compared to right inlet's or argument;
-#X text 63 594 So far \, [>~] only correctly loads if you declare the
+#X text 60 594 So far \, [>~] only correctly loads if you declare the
 "nettles" library with the declare object like this =====>;
 #X text 23 216 abstraction =>;
 #X text 362 211 <= object;
-#X text 63 632 There is an abstraction [cyclone/>~] that internally
-loads the object in the case you didn't declare the library. If so
-\, the object won't work exactly as it should (won't load arguments).
-If you are not sure if you have an abstraction \, click on it and see
-if it opens. Another abstraction and alias for [>~] is [cyclone/greaterthan~].
-;
+#X text 61 701 You can also load the alias object [cyclone/greaterthan~]
+with no such issues and outside "nettles".;
+#X text 61 629 There's a [cyclone/>~] abstraction that internally loads
+the object if you didn't declare nettles \, but the it won't load arguments
+and work as it should. If you are not sure if you have an abstraction
+\, check warning in Pd window or click on it to see if it opens.;
 #X connect 5 0 22 0;
 #X connect 20 0 5 1;
 #X connect 21 0 5 0;

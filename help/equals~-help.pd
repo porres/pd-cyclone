@@ -1,4 +1,4 @@
-#N canvas 668 23 567 806 10;
+#N canvas 117 29 567 806 10;
 #X declare -lib nettles;
 #X declare -lib nettles;
 #X obj 5 39 cnv 15 552 50 empty empty ==~ 3 12 0 18 -204280 -1 0;
@@ -199,16 +199,16 @@ is not equal to the right inlet or argument.;
 #X obj 111 210 cyclone/equals~;
 #X text 54 585 So far \, [==~] only correctly loads if you declare
 the "nettles" library with the declare object like this =====>;
-#X text 55 621 There is an abstraction [cyclone/==~] that internally
-loads the object in the case you didn't declare the library. If so
-\, the object won't work exactly as it should (won't load arguments).
-If you are not sure if you have an abstraction \, click on it and see
-if it opens.;
 #X text 57 730 Open help files of "nettles" to understand what it is
 ===>;
 #X text 56 693 You can also load the alias object [cyclone/equals~]
 with no such issues and outside "nettles".;
 #X floatatom 198 182 5 0 0 0 - - -, f 5;
+#X text 55 619 There's a [cyclone/==~] abstraction that internally
+loads the object if you didn't declare nettles \, but the it won't
+load arguments and work as it should. If you are not sure if you have
+an abstraction \, check warning in Pd window or click on it to see
+if it opens.;
 #X connect 15 0 28 1;
 #X connect 16 0 28 0;
 #X connect 17 0 20 0;
@@ -216,4 +216,4 @@ with no such issues and outside "nettles".;
 #X connect 19 0 21 0;
 #X connect 28 0 17 0;
 #X connect 37 0 19 0;
-#X connect 42 0 37 1;
+#X connect 41 0 37 1;

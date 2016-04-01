@@ -1,21 +1,16 @@
-#N canvas 89 29 559 811 10;
+#N canvas 632 55 564 812 10;
 #X declare -lib nettles;
 #X declare -lib nettles;
-#X obj 4 40 cnv 15 552 50 empty empty >~ 3 12 0 18 -204280 -1 0;
-#X text 278 63 alias of [greaterthan~];
-#X text 16 63 Is greater than \, comparison of two signals:;
-#X obj 473 46 greaterthan~;
-#X obj 528 68 >~;
-#X obj 327 212 >~;
-#X obj 4 764 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 6 40 cnv 15 552 50 empty empty %~ 3 12 0 18 -204280 -1 0;
+#X obj 6 774 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 4 416 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 425 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 470 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 482 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 4 563 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 6 576 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 82 428 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 437 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -34,44 +29,47 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 765 pd META;
+#X restore 509 776 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 195 766 pd Related_objects;
-#X obj 82 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 197 776 pd Related_objects;
+#X obj 84 369 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 4 354 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 355 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 82 388 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 84 391 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 125 389 float/signal;
-#X obj 82 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 113 390 float/signal;
+#X obj 84 369 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 111 427 signal -;
-#X text 109 483 1) float -;
-#X floatatom 357 179 5 0 0 0 - - -, f 5;
-#X floatatom 311 182 5 0 0 0 - - -, f 5;
-#X obj 327 249 cyclone/snapshot~ 1;
-#X floatatom 123 189 5 0 0 0 - - -, f 5;
-#X obj 123 251 cyclone/snapshot~ 1;
-#X obj 327 287 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
-1;
-#X obj 123 289 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
-1;
-#X text 178 427 If the signal in the left inlet is greater than the
-value in the right inlet \, 1 is sent out - otherwise \, 0 is sent
-out.;
-#X text 183 483 A number to be used for comparison with incoming from
-left inlet. A float on the right inlet overwrites the argument. If
-a signal is connected to the right inlet \, argument is ignored. If
-signal is disconnected \, argument value is restored.;
-#X text 63 110 [greaterthan~] or [>~] outputs a 1 signal when the left
-input is greater-than the right input or argument and a 0 when it is
-less-than or equal-to the right input or argument.;
-#X text 162 365 signal;
-#X floatatom 240 191 5 0 0 0 - - -, f 5;
-#X obj 123 216 cyclone/greaterthan~;
+#X text 113 436 signal -;
+#X text 93 498 1) float -;
+#X floatatom 337 211 5 0 0 0 - - -, f 5;
+#X floatatom 291 214 5 0 0 0 - - -, f 5;
+#X obj 307 281 cyclone/snapshot~ 1;
+#X floatatom 103 220 5 0 0 0 - - -, f 5;
+#X floatatom 208 217 5 0 0 0 - - -, f 5;
+#X obj 307 320 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X obj 103 276 cyclone/snapshot~ 1;
+#X obj 103 315 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X obj 507 46 modulo~;
+#X text 180 436 When the two signals in the inlets are divided \, the
+remainder is sent out the outlet.;
+#X text 14 67 Signal modulo operator. Divide two values \, output remainder:
+;
+#X text 382 66 alias of [modulo~];
+#X obj 530 68 %~;
+#X text 76 105 [modulo~] or [%~] is a signal remainder operator. If
+signals are connected to both inlets \, the left signal is divided
+by the right signal \, and the remainder is output. If a signal is
+only connected to left inlet \, it is divided to the argument or a
+float in the right inlet. Note that multiple signals in the same inlet
+add together automatically.;
+#X text 150 368 signal;
+#X obj 103 248 cyclone/modulo~ 10;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -87,7 +85,7 @@ less-than or equal-to the right input or argument.;
 #X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 5 pd;
+#X restore 5 4 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -193,28 +191,33 @@ less-than or equal-to the right input or argument.;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 503 104 pd;
-#X obj 420 607 declare -lib nettles, f 21;
-#X obj 412 734 nettles-help;
-#X text 60 734 Open help files of nettles to understand what it is
+#X restore 506 103 pd;
+#X text 198 367 - signal is divided by argument or value from right
+inlet.;
+#X text 198 389 - A value by which to divide the incomming signal;
+#X obj 425 614 declare -lib nettles, f 21;
+#X obj 428 745 nettles-help;
+#X text 73 746 Open help files of "nettles" to understand what it is
 ===>;
-#X text 216 388 - value for comparison with left inlet;
-#X text 216 364 - value is compared to right inlet's or argument;
-#X text 60 594 So far \, [>~] only correctly loads if you declare the
+#X text 70 601 So far \, [%~] only correctly loads if you declare the
 "nettles" library with the declare object like this =====>;
-#X text 23 216 abstraction =>;
-#X text 362 211 <= object;
-#X text 61 701 You can also load the alias object [cyclone/greaterthan~]
-with no such issues and outside "nettles".;
-#X text 61 629 There's a [cyclone/>~] abstraction that internally loads
+#X text 71 637 There's a [cyclone/%~] abstraction that internally loads
 the object if you didn't declare nettles \, but the it won't load arguments
 and work as it should. If you are not sure if you have an abstraction
 \, check warning in Pd window or click on it to see if it opens.;
-#X connect 5 0 22 0;
-#X connect 20 0 5 1;
-#X connect 21 0 5 0;
-#X connect 22 0 25 0;
-#X connect 23 0 32 0;
-#X connect 24 0 26 0;
-#X connect 31 0 32 1;
-#X connect 32 0 24 0;
+#X text 72 709 You can also load the alias object [cyclone/modulo~]
+with no such issues and outside "nettles".;
+#X obj 307 244 %~ 0;
+#X text 168 498 A number by which to divide the signal coming into
+the left inlet by and get the remainder (default 0). A float on the
+right inlet overwrites the argument. If a signal is connected to the
+right inlet \, argument is ignored. If signal is disconnected \, argument
+value is restored.;
+#X connect 15 0 41 1;
+#X connect 16 0 41 0;
+#X connect 17 0 20 0;
+#X connect 18 0 30 0;
+#X connect 19 0 30 1;
+#X connect 21 0 22 0;
+#X connect 30 0 21 0;
+#X connect 41 0 17 0;
