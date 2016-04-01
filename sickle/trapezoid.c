@@ -1,12 +1,13 @@
 /* Copyright (c) 2002-2003 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
+//updated 2016 by Derek Kwan
 
 #include <string.h>
 #include "m_pd.h"
 
-#define TRAPEZOID_DEFUP  0.1  /* a bug? */
-#define TRAPEZOID_DEFDN  0.9  /* a bug? */
+#define TRAPEZOID_DEFUP  0.1  
+#define TRAPEZOID_DEFDN  0.9  
 #define TRAPEZOID_DEFLO  0.0
 #define TRAPEZOID_DEFHI  1.0
 
