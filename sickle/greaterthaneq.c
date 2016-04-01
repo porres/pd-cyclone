@@ -42,10 +42,10 @@ static void *greaterthaneq_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void greaterthan_tilde_setup(void)
+void greaterthaneq_tilde_setup(void)
 {
-    greaterthan_class = class_new(gensym("greaterthan~"),
-			      (t_newmethod)greaterthan_new, 0,
-			      sizeof(t_greaterthan), 0, A_GIMME, 0);
-    sic_setup(greaterthan_class, greaterthan_dsp, SIC_FLOATTOSIGNAL);
+    greaterthaneq_class = class_new(gensym("greaterthaneq~"),
+			      (t_newmethod)greaterthaneq_new, 0,
+			      sizeof(t_greaterthaneq), 0, A_GIMME, 0);
+    sic_setup(greaterthaneq_class, greaterthaneq_dsp, SIC_FLOATTOSIGNAL);
 }
