@@ -330,6 +330,7 @@ peek~.class.sources := sickle/peek.c $(sarsic)
 phasewrap~.class.sources := sickle/phasewrap.c $(ssic)
 pink~.class.sources := sickle/pink.c $(ssic)
 play~.class.sources := sickle/play.c $(sarsic)
+plusequals~.class.sources := sickle/plusequals.c $(ssic)
 poke~.class.sources := sickle/poke.c $(sarsic)
 poltocar~.class.sources := sickle/poltocar.c $(sfragile)
 pong~.class.sources := sickle/pong.c

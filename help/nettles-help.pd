@@ -1,26 +1,71 @@
-#N canvas 227 199 603 244 10;
+#N canvas 457 23 584 641 10;
 #X declare -lib nettles;
-#X obj 487 74 ==~;
-#X obj 518 74 !=~;
-#X obj 452 98 !/~;
-#X obj 452 122 %~;
-#X obj 422 74 !-;
-#X obj 422 98 !/;
-#X obj 452 74 !-~;
-#X obj 30 18 cnv 15 552 30 empty empty nettles.c 3 12 0 18 -204280
+#X declare -lib nettles;
+#X obj 215 311 ==~;
+#X obj 215 334 !=~;
+#X obj 215 506 !/~;
+#X obj 215 454 %~;
+#X obj 216 582 !-;
+#X obj 216 558 !/;
+#X obj 215 530 !-~;
+#X obj 10 43 cnv 15 552 30 empty empty nettles.c 3 12 0 18 -204280
 -1 0;
-#X obj 421 174 declare -lib nettles;
-#X obj 422 122 +=~;
-#X obj 487 98 >~;
-#X obj 518 98 <~;
-#X obj 487 122 >=~;
-#X obj 518 122 <=~;
-#X text 420 153 load them this way:;
-#X text 38 138 Pd may not like these names \, so we're looking for
+#X obj 325 240 declare -lib nettles;
+#X obj 215 479 +=~;
+#X obj 215 406 >~;
+#X obj 215 358 <~;
+#X obj 215 430 >=~;
+#X obj 215 381 <=~;
+#X text 129 51 subset library with "weird" character objects;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 8 7 pd;
+#X obj 266 310 cyclone/equals~;
+#X obj 265 333 cyclone/notequals~;
+#X obj 265 358 cyclone/greaterthan~;
+#X obj 265 381 cyclone/greaterthaneq~;
+#X obj 265 405 cyclone/lessthan~;
+#X obj 265 430 cyclone/lessthaneq~;
+#X obj 265 454 cyclone/modulo~;
+#X text 246 311 =;
+#X text 246 334 =;
+#X text 246 359 =;
+#X text 246 382 =;
+#X text 246 405 =;
+#X text 246 430 =;
+#X text 246 453 =;
+#X text 105 95 You may need to use [declare] to load the "nettles"
+library (a subset library of cyclone) in order to load all these 12
+objects below with "weird" character names (right click on them for
+help patches).;
+#X text 106 154 Pd may not like these names \, so we're looking for
 a way to safely load them without issues and the need of a declare
-object.;
-#X text 149 22 subset library with "weird" character objects;
-#X text 37 74 You may need to use [declare] to load the "nettles" library
-(a subset library of cyclone) in order to load all these 12 objects
-to the right with "weird" character names. Right click on them for
-help patches.;
+object. We also have objects in cyclone with their alphanumerical alias
+name \, these can be loaded without the need for [declare].;
+#X text 105 240 load the nettles objects this way:;
+#X obj 433 51 declare -lib nettles;
+#X text 107 273 Nettles objects and their alphanumerical aliases in
+cyclone:;
+#X text 246 507 =;
+#X text 246 530 =;
+#X obj 265 506 cyclone/rdiv~;
+#X obj 265 530 cyclone/rminus~;
+#X text 246 558 =;
+#X text 246 581 =;
+#X obj 265 557 cyclone/rdiv;
+#X obj 265 581 cyclone/rminus;
+#X text 246 480 =;
+#X obj 265 480 cyclone/plusequals~;
