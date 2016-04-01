@@ -490,14 +490,14 @@ void nettles_setup(void)
 			     sizeof(t_rbinop), 0, A_DEFFLOAT, 0);
     class_addbang(rminus_class, rminus_bang);
     class_addfloat(rminus_class, rminus_float);
-    /*class_sethelpsymbol(rminus_class, gensym("!-"));*/
+    class_sethelpsymbol(rminus_class, gensym("!-"));
     
     rdiv_class = class_new(gensym("!/"),
 			   (t_newmethod)rdiv_new, 0,
 			   sizeof(t_rbinop), 0, A_DEFFLOAT, 0);
     class_addbang(rdiv_class, rdiv_bang);
     class_addfloat(rdiv_class, rdiv_float);
-    /*class_sethelpsymbol(rdiv_class, gensym("!/"));*/
+    class_sethelpsymbol(rdiv_class, gensym("!/"));
     
     sigeq_class = class_new(gensym("==~"),
 			    (t_newmethod)sigeq_new, 0,
@@ -515,49 +515,49 @@ void nettles_setup(void)
 			     (t_newmethod)signeq_new, 0,
 			     sizeof(t_signeq), 0, A_GIMME, 0);
     sic_setup(signeq_class, signeq_dsp, SIC_FLOATTOSIGNAL);
-    /*class_sethelpsymbol(signeq_class, gensym("!=~"));*/
+    class_sethelpsymbol(signeq_class, gensym("!=~"));
     
     siglt_class = class_new(gensym("<~"),
 			    (t_newmethod)siglt_new, 0,
 			    sizeof(t_siglt), 0, A_GIMME, 0);
     sic_setup(siglt_class, siglt_dsp, SIC_FLOATTOSIGNAL);
-    /*class_sethelpsymbol(siglt_class, gensym("<~"));*/
+    class_sethelpsymbol(siglt_class, gensym("<~"));
     
     siggt_class = class_new(gensym(">~"),
 			    (t_newmethod)siggt_new, 0,
 			    sizeof(t_siggt), 0, A_GIMME, 0);
     sic_setup(siggt_class, siggt_dsp, SIC_FLOATTOSIGNAL);
-    /*class_sethelpsymbol(siggt_class, gensym(">~"));*/
+    class_sethelpsymbol(siggt_class, gensym(">~"));
     
     sigleq_class = class_new(gensym("<=~"),
 			     (t_newmethod)sigleq_new, 0,
 			     sizeof(t_sigleq), 0, A_GIMME, 0);
     sic_setup(sigleq_class, sigleq_dsp, SIC_FLOATTOSIGNAL);
-    /*class_sethelpsymbol(sigleq_class, gensym("<=~"));*/
+    class_sethelpsymbol(sigleq_class, gensym("<=~"));
     
     siggeq_class = class_new(gensym(">=~"),
 			     (t_newmethod)siggeq_new, 0,
 			     sizeof(t_siggeq), 0, A_GIMME, 0);
     sic_setup(siggeq_class, siggeq_dsp, SIC_FLOATTOSIGNAL);
-    /*class_sethelpsymbol(siggeq_class, gensym(">=~"));*/
+    class_sethelpsymbol(siggeq_class, gensym(">=~"));
     
     sigrminus_class = class_new(gensym("!-~"),
 				(t_newmethod)sigrminus_new, 0,
 				sizeof(t_sigrminus), 0, A_GIMME, 0);
     sic_setup(sigrminus_class, sigrminus_dsp, SIC_FLOATTOSIGNAL);
-    /*class_sethelpsymbol(sigrminus_class, gensym("!-~"));*/
+    class_sethelpsymbol(sigrminus_class, gensym("!-~"));
     
     sigrover_class = class_new(gensym("!/~"),
 			       (t_newmethod)sigrover_new, 0,
 			       sizeof(t_sigrover), 0, A_GIMME, 0);
     sic_setup(sigrover_class, sigrover_dsp, SIC_FLOATTOSIGNAL);
-    /*class_sethelpsymbol(sigrover_class, gensym("!/~"));*/
+    class_sethelpsymbol(sigrover_class, gensym("!/~"));
     
     sigmod_class = class_new(gensym("%~"),
 			     (t_newmethod)sigmod_new, 0,
 			     sizeof(t_sigmod), 0, A_GIMME, 0);
     sic_setup(sigmod_class, sigmod_dsp, SIC_FLOATTOSIGNAL);
-    /*class_sethelpsymbol(sigmod_class, gensym("%~"));*/
+    class_sethelpsymbol(sigmod_class, gensym("%~"));
     
     sigaccum_class = class_new(gensym("+=~"),
 			       (t_newmethod)sigaccum_new, 0,
@@ -566,7 +566,7 @@ void nettles_setup(void)
     class_addbang(sigaccum_class, sigaccum_bang);
     class_addmethod(sigaccum_class, (t_method)sigaccum_set,
 		    gensym("set"), A_FLOAT, 0);
-    /*class_sethelpsymbol(sigaccum_class, gensym("+=~"));*/
+    class_sethelpsymbol(sigaccum_class, gensym("+=~"));
     
 }
 
