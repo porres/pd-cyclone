@@ -44,16 +44,18 @@ adapted the patch to pd-extended 2015-02-02;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone 6 13 0 18 -128992 -233080
 0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+#X obj 213 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
 0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+#X obj 271 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 294 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
 0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+#X obj 352 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
 0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+#X obj 402 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
 ;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+#X obj 440 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X obj 555 72 cnv 5 5 5 empty empty v0.3beta1 0 0 0 8 -128992 -233080
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 2 2 pd;
@@ -68,8 +70,8 @@ negative values to positive values.;
 79 77 96 98 102 0;
 #X obj 191 143 osc~ 60;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -140,7 +142,7 @@ negative values to positive values.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

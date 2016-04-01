@@ -54,7 +54,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X floatatom 63 260 0 0 0 0 - - -;
 #X obj 100 402 output~;
 #X obj 260 265 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
+-1 -1 9900 1;
 #X floatatom 257 293 5 0 0 0 - - -, f 5;
 #X obj 145 202 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -249661
 -1 -1 0 1;
@@ -64,7 +64,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 473 420 0;
 #X text 474 363 1;
 #X obj 376 288 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
+-1 -1 5300 1;
 #X floatatom 373 311 5 0 0 0 - - -, f 5;
 #X text 95 89 [trapezoid~] is a trapezoidal wavetable that is read
 with a [phasor~] object in the first inlet. A second and third inlet

@@ -30,7 +30,7 @@ static t_class *rminus_class;
 
 static void rminus_bang(t_rbinop *x)
 {
-    outlet_Ffloat(((t_object *)x)->ob_outlet, x->x_f2 - x->x_f1);
+    outlet_float(((t_object *)x)->ob_outlet, x->x_f2 - x->x_f1);
 }
 
 static void rminus_float(t_rbinop *x, t_float f)

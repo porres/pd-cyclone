@@ -6,7 +6,7 @@
 #X obj 260 457 *~;
 #X obj 223 249 hip~ 3;
 #X obj 275 248 hip~ 3;
-#X obj 346 427 block~ 64;
+#X obj 386 393 block~ 64;
 #X obj 97 329 line~;
 #X obj 97 361 *~;
 #X obj 97 389 *~;
@@ -35,7 +35,7 @@
 #X connect 7 3 4 0;
 #X connect 7 4 8 0;
 #X restore 329 206 pd set_GUI;
-#N canvas 244 23 407 422 Gui_control 1;
+#N canvas 244 23 407 422 Gui_control 0;
 #X msg 242 154 0;
 #X obj 173 372 outlet;
 #X msg 34 283 \; pd dsp 1;
@@ -278,14 +278,14 @@
 #X connect 15 0 1 0;
 #X connect 16 0 1 0;
 #X restore 97 301 pd Gui_control;
-#N canvas 715 127 450 300 GUI 0;
+#N canvas 438 181 450 300 GUI 0;
 #X obj 103 116 hsl 86 20 0 1 0 0 \$0-slider \$0-set-slider volume 17
-9 0 14 -228856 -1 -1 6900 1;
+9 0 14 -228856 -1 -1 803 1;
 #N canvas 151 252 418 301 mute 0;
 #X obj 101 101 cnv 5 47 14 empty \$0-cnv_mute mute 18 6 0 12 -228856
--1 0;
-#X obj 100 100 tgl 16 0 \$0-mute \$0-mute-set empty 19 7 0 12 -74965
--212593 -262144 1 1;
+-91542 0;
+#X obj 100 100 tgl 16 0 \$0-mute \$0-mute-set empty 19 7 0 12 -228856
+-128992 -262144 0 1;
 #N canvas 610 237 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
@@ -494,8 +494,6 @@
 #X obj 275 407 *~;
 #X obj 223 409 *~;
 #X obj 328 272 expr 1 - $f1;
-#X obj 375 298 loadbang;
-#X msg 375 322 1;
 #X msg 328 298 \$1 50;
 #N canvas 139 226 571 479 dac 0;
 #X obj 117 402 dac~;
@@ -549,12 +547,14 @@
 #X text 58 37 [output~] is a stereo output with gain control designed
 by Alexandre Torres Porres as an extra for cyclone's help files. Check
 its help file for more infor.;
+#X obj 413 272 loadbang;
+#X msg 413 298 1;
 #X connect 0 0 5 0;
 #X connect 1 0 14 0;
-#X connect 1 0 29 0;
+#X connect 1 0 27 0;
 #X connect 3 0 6 0;
 #X connect 4 0 13 0;
-#X connect 4 0 29 1;
+#X connect 4 0 27 1;
 #X connect 5 0 24 0;
 #X connect 6 0 23 0;
 #X connect 8 0 9 0;
@@ -575,8 +575,8 @@ its help file for more infor.;
 #X connect 22 0 24 1;
 #X connect 23 0 4 1;
 #X connect 24 0 1 1;
-#X connect 25 0 28 0;
-#X connect 26 0 27 0;
-#X connect 27 0 20 0;
-#X connect 28 0 20 0;
+#X connect 25 0 26 0;
+#X connect 26 0 20 0;
+#X connect 29 0 30 0;
+#X connect 30 0 20 0;
 #X coords 0 0 1 1 91 54 1 60 200;

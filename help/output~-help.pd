@@ -22,7 +22,7 @@
 ;
 #X obj 187 216 osc~ 440;
 #X obj 292 217 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
+-1 -1 1200 1;
 #X floatatom 289 237 5 0 0 0 - - -, f 5;
 #X floatatom 271 355 5 0 0 0 - - -, f 5;
 #X text 310 353 slider value;
@@ -94,7 +94,7 @@
 #X text 181 563 - gain sclaed output of left inlet.;
 #X text 181 586 - gain sclaed output of right inlet.;
 #X text 109 503 messages:;
-#X obj 331 242 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 331 242 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X msg 331 263 dac \$1;
 #X text 113 642 1) symbol;

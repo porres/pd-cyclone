@@ -1,0 +1,21 @@
+#N canvas 706 191 485 486 10;
+#X declare -lib nettles;
+#X obj 131 67 declare -lib nettles;
+#X obj 101 32 inlet;
+#X obj 40 33 inlet;
+#X obj 74 101 outlet;
+#X obj 38 249 loadbang;
+#X text 66 175 check help file for more info on how to load the object
+version;
+#X obj 38 359 print WARNING!!!;
+#X text 68 152 this is an abstraction for [!/];
+#X obj 74 68 !/ \$1;
+#X msg 38 276 ======> Cyclone 0.3beta: You've loaded the abstraction
+version of the [!/] object. Use [declare -lib nettles] to load the
+object version with full functionality - check help file for more info.
+;
+#X connect 1 0 8 1;
+#X connect 2 0 8 0;
+#X connect 4 0 9 0;
+#X connect 8 0 3 0;
+#X connect 9 0 6 0;
