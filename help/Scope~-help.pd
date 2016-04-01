@@ -1,7 +1,7 @@
-#N canvas 217 25 563 751 10;
-#X obj 4 705 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 217 25 566 760 10;
+#X obj 4 725 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 340 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 341 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 629 308 345 214 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -18,37 +18,31 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 707 pd META;
-#X obj 6 574 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 727 pd META;
+#X obj 6 604 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 605 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 635 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 332 419 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 216 707 pd Related_objects;
-#X obj 69 347 cnv 17 3 180 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 216 727 pd Related_objects;
+#X obj 72 348 cnv 17 3 213 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 3 41 cnv 15 552 40 empty empty Scope~ 3 12 0 18 -204280 -1 0
 ;
-#X text 106 346 signal;
-#X text 106 581 (none);
+#X text 152 347 signal;
+#X text 106 611 (none);
 #X obj 46 125 hsl 100 18 20 200 1 0 empty empty empty 5 8 1 10 -228856
 -1 -1 0 0;
-#X text 112 512 delay;
-#X text 88 496 triglevel;
-#X text 112 363 float;
+#X text 158 364 float;
 #X floatatom 43 150 5 0 0 0 - - -, f 5;
 #X text 15 64 Visualize an audio signal;
-#X text 112 413 range;
-#X text 118 430 frgb;
-#X text 118 448 brgb;
-#X text 100 398 bufsize;
-#X obj 69 536 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 72 568 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 106 532 signal;
-#X text 112 548 float;
-#N canvas 133 91 437 637 bufsize/calccount 0;
+#X text 152 566 signal;
+#X text 158 582 float;
+#N canvas 133 91 439 639 bufsize/calccount 0;
 #X floatatom 141 426 5 0 0 0 - - -, f 5;
 #X obj 141 487 Scope~ 182 119 10 3 256 -1 1 0 0 0 -0.333333 205 229
 232 74 79 77 96 98 102 0;
@@ -135,86 +129,78 @@ or right.;
 #X connect 8 0 4 0;
 #X connect 9 0 10 0;
 #X restore 326 267 pd trigger_mode;
-#X text 88 379 calccount;
 #X floatatom 106 173 5 2 8192 0 - - -, f 5;
 #X floatatom 213 177 5 8 256 0 - - -, f 5;
-#X text 88 465 gridcolor;
-#X text 100 479 trigger;
 #X obj 31 205 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
-#X obj 22 320 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
+#X obj 22 321 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
 #X obj 30 262 cnv 5 5 5 empty empty 0 0 0 0 16 -262144 -162280 0;
-#X text 160 532 - signal to be displayed on the Y axis;
-#X text 159 346 - signal to be displayed in the X axis;
-#X text 107 613 (none);
-#X obj 4 637 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X text 199 566 - signal to be displayed on the Y axis;
+#X text 198 347 - signal to be displayed in the X axis;
+#X text 106 641 (none);
+#X obj 4 663 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #X obj 43 201 Scope~ 177 122 30 3 185 -1 1 0 0 0 -0.333333 205 229
 232 74 79 77 96 98 102 0;
 #X obj 43 169 osc~ 24;
-#X text 430 398 (8-256 \, default 128);
-#X text 159 414 - range <f f>: sets vertical range (default -1 1);
 #X text 104 154 Samples per line (2-8192);
 #X text 251 176 Number of lines in buffer (8-256);
-#X text 159 380 - calccount <float>: samples per line;
-#X text 159 398 - bufsize <float>: number of lines in buffer;
-#X text 159 364 - sets "calccount": samples per line (2-8192 \, default
-256);
-#X text 160 548 - sets "bufsize": number of lines in buffer;
-#X text 69 91 use [scope~] to display a signal in an oscilloscope style
+#X text 199 582 - sets "bufsize": number of lines in buffer;
+#X text 72 92 use [scope~] to display a signal in an oscilloscope style
 ;
-#X text 159 448 - brgb <f f f>: sets background RGB color (default
-74 79 77);
-#X text 159 480 - sets trigger mode: 0 (none \, default) \, 1 (up)
-or 2 (down);
-#X text 159 497 - threshold level for the trigger mode (default 0)
-;
-#X text 159 464 - gridcolor <f f f>: sets grid RGB color (default 96
-98 102);
-#X text 109 644 @frgb <f f f> | @brgb <f f f> | @gridcolor <f f f>
-;
-#X text 425 645 | @delay <f> |;
-#X text 109 661 @calccount <f> | @bufsize <f> | @range <f f> |;
-#X text 401 661 @trigger <f> |;
-#X text 109 679 @triglevel <f>;
-#X text 159 431 - frgb <f f f>: sets signal RGB color (default 205
-229 232);
-#N canvas 833 23 458 636 Basic_settings 0;
-#X obj 89 341 Scope~ 182 119 10 3 185 -1 1 0 0 0 -0.333333 0 255 0
-7 31 7 0 100 100 0;
-#X obj 131 310 r \$0-range;
-#X obj 233 165 s \$0-range;
-#X msg 233 117 range -2 2;
-#X obj 18 276 osc~ 20;
-#X msg 90 210 delay 1000;
-#X text 224 93 vertical range;
-#X msg 77 186 delay 0;
-#X text 78 164 onset delay;
-#X text 32 504 Mouse:;
-#X text 32 568 When in edit mode \, you can click on the bottom right
+#N canvas 421 52 686 665 Basic_settings 0;
+#X obj 108 360 Scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333 205 229
+232 74 79 77 1 0 0 0;
+#X msg 155 260 range -2 2;
+#X obj 41 281 osc~ 20;
+#X msg 121 201 delay 1000;
+#X text 152 242 vertical range;
+#X msg 108 177 delay 0;
+#X text 109 155 onset delay;
+#X text 140 541 Mouse:;
+#X text 140 605 When in edit mode \, you can click on the bottom right
 corner and resize the object.;
-#X obj 1 4 cnv 15 450 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 1 4 cnv 15 680 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 4 5 Basic settings;
-#X text 29 39 You can set colors \, vertical range and the onset delay
-(time between displays).;
-#X text 157 210 once a second;
-#X text 31 531 When you click on [scope~] with your mouse \, the display
+#X text 188 201 once a second;
+#X text 139 568 When you click on [scope~] with your mouse \, the display
 freezes for as long as you hold the cursor's position.;
-#X text 372 292 (default);
-#X msg 243 140 range -1 1;
-#X msg 117 274 frgb 205 229 232 \, brgb 74 79 77 \, gridcolor 96 98
-102;
-#X text 334 230 colors:;
-#X msg 110 251 frgb 0 255 0 \, brgb 7 31 7 \, gridcolor 0 100 100;
+#X msg 165 283 range -1 1;
+#X text 161 177 (default);
+#X text 235 285 (default);
+#X text 121 66 You can set colors \, vertical range and the onset delay
+(time between displays) with messages.;
+#X text 122 41 Messages:;
+#X obj 315 243 cnv 15 320 90 empty empty empty 20 12 0 14 -249728 -66577
+0;
+#X msg 418 405 gridcolor 96 98 102;
+#X text 412 383 actual default for now;
+#X obj 282 144 cnv 15 320 90 empty empty empty 20 12 0 14 -249664 -66577
+0;
+#X msg 351 276 gridcolor 0.376471 0.384314 0.4;
+#X text 551 275 (default);
+#X msg 343 253 fgcolor 1 0 0 \, bgcolor 0 1 0 \, gridcolor 1 0 0;
+#X text 507 182 (default);
+#X msg 312 181 frgb 205 229 232 \, brgb 74 79 77;
+#X msg 287 154 frgb 0 255 0 \, brgb 7 31 7;
+#X text 338 204 colors in RGB (values from 0-255) for \; front/signal
+(frgb) & backsground (brgb);
+#X obj 338 305 t a;
+#X text 396 299 RGB* colors (values from 0-1) for \; front/signal \,
+background & gridcolor;
+#X text 442 341 * should be RGBA \, but alpha \; channel not implemented
+yet;
 #X connect 1 0 0 0;
-#X connect 3 0 2 0;
-#X connect 4 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
 #X connect 5 0 0 0;
-#X connect 7 0 0 0;
-#X connect 17 0 2 0;
-#X connect 18 0 0 0;
-#X connect 20 0 0 0;
+#X connect 13 0 0 0;
+#X connect 22 0 29 0;
+#X connect 24 0 29 0;
+#X connect 26 0 29 0;
+#X connect 27 0 29 0;
+#X connect 29 0 0 0;
 #X restore 321 217 pd Basic_settings;
-#N canvas 17 184 918 671 X-Y_Mode 0;
+#N canvas 170 136 918 671 X-Y_Mode 0;
 #X obj 308 339 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 305 358 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -260,10 +246,7 @@ period is used. So it requires small values for a better representation
 -228856 -1 -1 0 256;
 #X floatatom 492 269 5 0 0 0 - - -, f 5;
 #X msg 611 94 1.5;
-#X obj 732 367 sig~ 0;
 #X floatatom 573 333 5 0 0 0 - - -, f 5;
-#X msg 444 224 bufsize \$1;
-#X floatatom 451 198 5 0 0 0 - - -, f 5;
 #X connect 0 0 1 0;
 #X connect 1 0 3 1;
 #X connect 2 0 4 0;
@@ -281,12 +264,9 @@ period is used. So it requires small values for a better representation
 #X connect 23 0 13 1;
 #X connect 24 0 5 0;
 #X connect 25 0 13 0;
-#X connect 26 0 6 1;
-#X connect 27 0 6 0;
-#X connect 28 0 6 0;
-#X connect 29 0 28 0;
+#X connect 26 0 6 0;
 #X restore 338 292 pd X-Y_Mode;
-#X text 160 512 - onset time delay between displays (default 0);
+#X text 199 544 - onset time delay between displays (default 0);
 #X text 67 125 frequency;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
@@ -410,9 +390,40 @@ period is used. So it requires small values for a better representation
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 503 99 pd;
+#X text 110 380 calccount <f>;
+#X text 122 399 bufsize <f>;
+#X text 122 414 range <f f>;
+#X text 198 415 - set vertical range (default -1 1);
+#X text 198 399 - set number of lines in buffer (8-256 \, default 128)
+;
+#X text 198 365 - set "calccount": samples per line (2-8192 \, default
+256);
+#X text 198 381 - set "calccount" (samples per line);
+#X text 198 432 - set front/signal RGB color (default 205 229 232)
+;
+#X text 116 431 frgb <f f f>;
+#X text 198 449 - set background RGB color (default 74 79 77);
+#X text 116 449 brgb <f f f>;
+#X text 86 496 gridcolor <f f f>;
+#X text 122 511 trigger <f>;
+#X text 198 512 - set trigger mode: 0 (none \, default) \, 1 (up) or
+2 (down);
+#X text 110 528 triglevel <f>;
+#X text 198 529 - set threshold level for the trigger mode (default
+0);
+#X text 134 544 delay <f>;
+#X text 98 465 fgcolor <f f f>;
+#X text 98 480 bgcolor <f f f>;
+#X text 198 465 - set front/signal RGB color (values 0-1);
+#X text 198 480 - set background RGB color (values 0-1);
+#X text 198 496 - set grid RGB color (0-1 \, default 0.376471 0.384314
+0.4);
+#X text 137 670 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
+f f> | @frgb <f f f> | @brgb <f f f> | @range <f f> | @trigger <f>
+@triglevel <f> | @calccount <f> | @bufsize <f> | @delay <f>;
 #X obj 502 54 Scope~_;
-#X connect 10 0 14 0;
-#X connect 14 0 38 0;
-#X connect 26 0 37 0;
-#X connect 27 0 37 1;
-#X connect 38 0 37 0;
+#X connect 10 0 12 0;
+#X connect 12 0 29 0;
+#X connect 19 0 28 0;
+#X connect 20 0 28 1;
+#X connect 29 0 28 0;

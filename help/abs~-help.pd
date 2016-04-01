@@ -1,26 +1,26 @@
-#N canvas 89 115 579 550 10;
-#X obj 3 45 cnv 15 552 40 empty empty abs~ 3 12 0 18 -204280 -1 0;
-#X obj 2 373 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 629 83 563 562 10;
+#X obj 3 35 cnv 15 552 40 empty empty abs~ 3 12 0 18 -204280 -1 0;
+#X obj 2 363 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 409 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 456 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 418 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 385 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 375 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 109 385 signal;
-#X text 109 428 signal;
-#X text 98 465 (none);
-#X obj 519 49 abs~;
-#X obj 2 497 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 109 375 signal;
+#X text 109 418 signal;
+#X text 110 455 (none);
+#X obj 519 39 abs~;
+#X obj 2 482 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 244 346 448 93 Related_objects 0;
+#N canvas 244 346 447 103 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 68 42 cyclone/avg~;
-#X restore 208 499 pd Related_objects;
+#X restore 208 484 pd Related_objects;
 #N canvas 571 307 379 261 META 0;
 #X text 1 0 KEYWORDS signal max_compatible;
 #X text 1 163 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
@@ -36,13 +36,13 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 504 499 pd META;
-#X obj 191 183 cyclone/abs~;
-#X text 169 340 -1;
-#X text 173 278 0;
-#X text 175 215 1;
+#X restore 504 484 pd META;
+#X obj 191 173 cyclone/abs~;
+#X text 169 330 -1;
+#X text 173 268 0;
+#X text 175 205 1;
 #N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone 6 13 0 18 -128992 -233080
 0;
 #X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
 0;
@@ -56,17 +56,17 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 2 12 pd;
-#X text 164 385 - The signal input with positive and negative values
+#X restore 2 2 pd;
+#X text 164 375 - The signal input with positive and negative values
 ;
-#X text 162 428 - The absolute value of input (negative becomes positive)
+#X text 162 418 - The absolute value of input (negative becomes positive)
 ;
-#X text 11 68 absolute value of a signal;
-#X text 66 102 Absolute function for signals \, use [abs~] to convert
+#X text 11 58 absolute value of a signal;
+#X text 66 92 Absolute function for signals \, use [abs~] to convert
 negative values to positive values.;
-#X obj 191 222 scope~ 213 131 3 3 128 -1 1 200 0 0 0 205 229 232 74
+#X obj 191 212 scope~ 213 131 3 3 128 -1 1 200 0 0 0 205 229 232 74
 79 77 96 98 102 0;
-#X obj 191 153 osc~ 60;
+#X obj 191 143 osc~ 60;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -148,21 +148,21 @@ negative values to positive values.;
 #X msg 226 115 set \$1;
 #X msg 135 177 \; pd dsp \$1;
 #N canvas 256 32 278 194 load_check 0;
-#X obj 136 53 sig~ 1;
+#X obj 167 53 sig~ 1;
 #X obj 74 24 loadbang;
-#X obj 136 86 snapshot~;
-#X obj 91 52 del 5;
-#X obj 136 151 outlet;
+#X obj 167 86 snapshot~;
+#X obj 167 151 outlet;
 #X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 74 126 switch~;
+#X obj 91 52 del 5;
 #X connect 0 0 2 0;
-#X connect 1 0 3 0;
-#X connect 1 0 5 0;
-#X connect 2 0 4 0;
-#X connect 3 0 2 0;
-#X connect 3 0 5 0;
-#X connect 5 0 6 0;
+#X connect 1 0 4 0;
+#X connect 1 0 6 0;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 6 0 2 0;
+#X connect 6 0 4 0;
 #X restore 51 72 pd load_check;
 #X connect 1 0 3 0;
 #X connect 1 0 7 0;
@@ -172,6 +172,8 @@ negative values to positive values.;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 503 91 pd;
+#X restore 503 81 pd;
+#X text 135 512 Got an issue? See a bug? Tell us at the link: https://github.com/porres/pd-cyclone/issues
+;
 #X connect 13 0 22 0;
 #X connect 23 0 13 0;

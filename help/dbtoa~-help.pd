@@ -39,7 +39,7 @@ updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
 #X restore 506 538 pd META;
 #X obj 115 355 nbx 8 20 -1e+37 1e+37 0 0 empty empty Linear_Amplitue
-133 11 0 16 -228856 -1 -1 1e-05 256;
+133 11 0 16 -228856 -1 -1 0 256;
 #X obj 115 312 cyclone/Snapshot~ 100;
 #X obj 115 215 nbx 5 14 -100 0 1 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
@@ -74,8 +74,8 @@ the input.;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 3 4 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -146,7 +146,7 @@ the input.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

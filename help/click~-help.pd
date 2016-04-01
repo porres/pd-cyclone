@@ -1,7 +1,7 @@
 #N canvas 651 40 565 687 10;
-#X obj 5 645 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 5 646 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 8 476 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 8 477 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 373 345 428 264 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -19,46 +19,46 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 505 648 pd META;
-#X obj 9 547 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 505 649 pd META;
+#X obj 9 548 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 9 584 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 9 585 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 150 501 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 8 31 noise~;
 #X obj 56 31 osc~;
-#X restore 214 648 pd Related_objects;
-#X obj 86 486 cnv 17 3 42 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 214 649 pd Related_objects;
+#X obj 86 487 cnv 17 3 42 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 557 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 558 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 5 41 cnv 15 552 40 empty empty click~ 3 12 0 18 -204280 -1 0
 ;
 #X text 17 64 generate an impulse;
-#X text 106 485 bang;
-#X text 169 485 - generate impulse based on arg or stored value;
-#X text 106 511 set;
-#X text 106 556 signal;
-#X text 169 556 - signal based on impulse value stored;
+#X text 106 486 bang;
+#X text 169 486 - generate impulse based on arg or stored value;
+#X text 106 512 set;
+#X text 106 557 signal;
+#X text 169 557 - signal based on impulse value stored;
 #X obj 507 53 click~;
 #X obj 127 335 print~;
 #X msg 106 204 set 1, f 6;
 #X obj 82 260 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 127 300 cyclone/click~;
-#X obj 50 407 output~;
-#X text 124 418 test your reverberator;
+#X obj 56 409 output~;
+#X text 133 388 test your reverberator;
 #X obj 74 368 allpass~ 40 40 0.5;
-#X text 72 106 Use [click~] to create an impulse when receiving a bang.
+#X text 82 102 Use [click~] to create an impulse when receiving a bang.
 An impulse is a single sample with a value of one \, followed by zeros
 and this is the default impulse generate by [click~] \, but you can
 can also set your own impulse with a list of sample values sent via
 "set" message or loaded as argument.;
-#X text 169 511 - create a personalized impulse (max 256 samples);
-#X text 89 603 1) float / list;
-#X text 193 603 - Impulse value (if float) or values (if list);
+#X text 169 512 - create a personalized impulse (max 256 samples);
+#X text 89 604 1) float / list;
+#X text 193 604 - Impulse value (if float) or values (if list);
 #X obj 330 223 cyclone/click~;
 #X obj 330 195 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -66,7 +66,7 @@ can also set your own impulse with a list of sample values sent via
 #X msg 127 233 set -1 0.25 1 0.5;
 #X text 303 426 Exponentially decaying envelope;
 #X obj 330 282 cyclone/Scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 0;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -83,112 +83,6 @@ can also set your own impulse with a list of sample values sent via
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 5 6 pd;
-#N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
-#X obj 215 68 route dsp;
-#X obj 215 37 receive pd;
-#N canvas 939 367 324 271 set_color 0;
-#X obj 47 30 inlet;
-#X obj 96 146 s \$0-cnv;
-#X msg 96 114 color -4.86997e+06 -1.34937e+07;
-#N canvas 0 22 712 637 off 0;
-#X obj 490 220 * -1;
-#X obj 424 300 +;
-#X obj 409 325 +;
-#X obj 347 219 * -65536;
-#X obj 424 220 * -256;
-#X obj 409 356 - 1;
-#X obj 390 189 unpack f f f;
-#X obj 225 295 +;
-#X obj 210 320 +;
-#X obj 148 214 * -65536;
-#X obj 225 215 * -256;
-#X obj 291 215 * -1;
-#X obj 210 351 - 1;
-#X obj 191 184 unpack f f f;
-#X obj 379 423 pack;
-#X msg 378 447 color \$1 \$2;
-#X msg 395 152 124 124 124;
-#X msg 203 154 220 220 220;
-#X obj 238 121 t b b;
-#X obj 238 81 inlet;
-#X obj 378 485 outlet;
-#X connect 0 0 1 1;
-#X connect 1 0 2 1;
-#X connect 2 0 5 0;
-#X connect 3 0 2 0;
-#X connect 4 0 1 0;
-#X connect 5 0 14 1;
-#X connect 6 0 3 0;
-#X connect 6 1 4 0;
-#X connect 6 2 0 0;
-#X connect 7 0 8 1;
-#X connect 8 0 12 0;
-#X connect 9 0 8 0;
-#X connect 10 0 7 0;
-#X connect 11 0 7 1;
-#X connect 12 0 14 0;
-#X connect 13 0 9 0;
-#X connect 13 1 10 0;
-#X connect 13 2 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 20 0;
-#X connect 16 0 6 0;
-#X connect 17 0 13 0;
-#X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 19 0 18 0;
-#X restore 47 113 pd off;
-#X obj 47 83 select 0 1;
-#X obj 47 168 list append 0;
-#X obj 47 195 list trim;
-#X obj 47 220 s \$0-tgl-r;
-#X connect 0 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 5 0;
-#X connect 3 0 1 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 4 1 2 0;
-#X connect 5 0 6 0;
-#X connect 6 0 7 0;
-#X restore 215 165 pd set_color;
-#X obj 135 122 r \$0-tgl-s;
-#N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
-0;
-#X coords 0 -1 1 1 42 27 1 100 100;
-#X restore 51 144 pd;
-#X obj 226 139 s \$0-tgl-r;
-#X msg 226 115 set \$1;
-#X msg 135 177 \; pd dsp \$1;
-#N canvas 256 32 278 194 load_check 0;
-#X obj 136 53 sig~ 1;
-#X obj 74 24 loadbang;
-#X obj 136 86 snapshot~;
-#X obj 91 52 del 5;
-#X obj 136 151 outlet;
-#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 74 126 switch~;
-#X connect 0 0 2 0;
-#X connect 1 0 3 0;
-#X connect 1 0 5 0;
-#X connect 2 0 4 0;
-#X connect 3 0 2 0;
-#X connect 3 0 5 0;
-#X connect 5 0 6 0;
-#X restore 51 72 pd load_check;
-#X connect 1 0 3 0;
-#X connect 1 0 7 0;
-#X connect 2 0 1 0;
-#X connect 4 0 8 0;
-#X connect 4 0 3 0;
-#X connect 7 0 6 0;
-#X connect 9 0 0 0;
-#X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 509 91 pd;
 #X connect 17 0 19 0;
 #X connect 17 0 18 0;
 #X connect 18 0 16 0;

@@ -1,5 +1,5 @@
-#N canvas 179 23 566 757 10;
-#X obj 4 715 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 179 23 563 746 10;
+#X obj 4 701 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 401 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -22,68 +22,68 @@ slide;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 505 717 pd META;
-#X obj 4 541 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 505 703 pd META;
+#X obj 4 539 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 578 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 576 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 4 642 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 4 631 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 321 491 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 207 717 pd Related_objects;
-#X obj 85 410 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 207 703 pd Related_objects;
+#X obj 85 410 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 551 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 549 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 4 36 cnv 15 552 40 empty empty slide~ 3 12 0 18 -204280 -1 0
 ;
 #X obj 503 47 slide~;
-#X obj 85 493 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 85 491 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 514 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 85 512 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
 #X floatatom 310 223 0 0 0 0 - - -;
 #X text 309 151 slide down;
 #X floatatom 233 224 0 0 0 0 - - -;
 #X obj 157 215 sig~;
 #X text 232 151 slide up;
-#X text 112 410 signal;
+#X text 129 410 signal;
 #X text 187 410 - signal to smooth out;
-#X text 112 493 float;
-#X text 112 514 float;
-#X text 112 551 signal;
-#X text 95 591 1) float;
-#X text 95 613 2) float;
+#X text 136 491 float;
+#X text 136 512 float;
+#X text 130 549 signal;
+#X text 119 586 1) float;
+#X text 119 605 2) float;
 #X msg 233 170 44100;
 #X msg 310 172 44100;
 #X obj 157 250 cyclone/slide~ 44100 44100;
-#X text 187 493 - slideup value in samples;
-#X text 187 514 - slidedown vlaue in samples;
+#X text 187 491 - slideup value in samples;
+#X text 187 512 - slidedown vlaue in samples;
 #X text 23 60 Filter and smooth-out signals logarithmically;
-#X text 187 591 - initial slide up time in samples (default 1);
-#X text 187 613 - initial slide down time in samples (default 1);
+#X text 187 586 - initial slide up time in samples (default 1);
+#X text 187 605 - initial slide down time in samples (default 1);
 #X msg 245 195 4410;
 #X msg 325 197 4410;
 #X obj 157 174 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 139 370 0;
 #X text 139 278 1;
-#X text 111 433 messages:;
-#X text 187 551 - smoothed out/filtered signal;
-#X text 117 656 [slide~] filters an input signal logarithmically between
+#X text 111 432 messages:;
+#X text 187 549 - smoothed out/filtered signal;
+#X text 127 645 [slide~] filters an input signal logarithmically between
 changes in signal value. The formula is: y(n) = y(n-1) + ((x(n) - y(n-1))/slide).
 ;
 #X text 78 92 Different than [rampsmooth~] \, [slide~] will smooth
 audio transitions across a given number of samples in a non linear
 way. It's also useful for envelope following and lowpass filtering.
 ;
-#X text 186 434 - slide_down <float>: slide-down value in samples \;
+#X text 186 433 - slide_down <float>: slide-down value in samples \;
 - slide_ip <float>: slide-up value \; - reset: Sets the current output
 sample value to 0(the next incoming value will smoothly transition
 from that 0).;
-#X obj 157 282 cyclone/Scope~ 178 100 512 3 128 0 1 0 0 0 0 205 229
+#X obj 157 282 cyclone/Scope~ 178 100 64 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080

@@ -47,13 +47,11 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X obj 82 511 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 115 482 signal;
+#X text 168 482 signal;
 #X obj 82 540 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
 #X obj 82 583 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 115 511 float or signal;
-#X text 115 540 float or signal;
 #X text 169 582 signal;
 #X text 145 620 This abstraction does not support arguments;
 #X text 177 386 This is an abstraction \, it does not support arguments
@@ -78,8 +76,8 @@ to code a new object.;
 #X restore 4 0 pd;
 #X obj 504 49 thresh~;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -150,7 +148,7 @@ to code a new object.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -197,9 +195,11 @@ the reset level.;
 #X text 227 582 - 1/0 depending on signal detect;
 #X obj 72 303 cyclone/thresh~;
 #X obj 159 230 cyclone/loadmess 10;
-#X connect 0 0 34 0;
+#X text 131 511 float/signal;
+#X text 131 540 float/signal;
+#X connect 0 0 32 0;
 #X connect 1 0 2 0;
-#X connect 3 0 34 1;
-#X connect 4 0 34 2;
-#X connect 34 0 1 0;
-#X connect 35 0 4 0;
+#X connect 3 0 32 1;
+#X connect 4 0 32 2;
+#X connect 32 0 1 0;
+#X connect 33 0 4 0;

@@ -1,61 +1,61 @@
 #N canvas 628 79 577 740 10;
-#X obj 259 155 cnv 15 290 140 empty empty empty 20 12 0 14 -233017
+#X obj 260 164 cnv 15 290 140 empty empty empty 20 12 0 14 -233017
 -66577 0;
-#X text 312 173 |;
-#X text 312 185 |;
-#X text 312 197 |;
-#X text 293 208 |;
-#X text 335 208 |;
-#X text 335 228 |;
-#X text 293 228 |;
-#X text 296 199 _______;
-#X text 296 228 _______;
-#X text 312 200 v;
-#X text 374 200 |;
-#X text 374 211 |;
-#X text 374 181 |;
-#X text 374 190 |;
-#X text 374 176 ^;
-#X text 458 174 |;
-#X text 458 186 |;
-#X text 458 198 |;
-#X text 439 209 |;
-#X text 481 209 |;
-#X text 481 229 |;
-#X text 439 229 |;
-#X text 442 200 _______;
-#X text 442 229 _______;
-#X text 458 201 v;
-#X text 404 202 |;
-#X text 404 212 |;
-#X text 404 180 |;
-#X text 404 190 |;
-#X text 404 175 ^;
-#X text 481 166 >;
-#X text 293 218 |z^-d1 |;
-#X text 439 219 |z^-d2 |;
-#X text 273 265 y[n] = a * x[n] + b * x[n-d1] + c * y[n-d2];
-#X text 341 217 -(*b)-;
-#X text 405 218 -(*c)-;
-#X text 272 167 x[n] -----(*a)--(+)--(+)----------- y[n];
-#X floatatom 52 177 5 0 0 0 - del -, f 5;
-#X obj 56 336 output~;
-#X floatatom 90 218 5 -1 1 0 - a -, f 5;
-#X floatatom 109 238 5 -1 1 0 - b -, f 5;
-#X floatatom 129 258 5 -1 1 0 - c -, f 5;
-#X floatatom 71 198 5 0 0 0 - del -, f 5;
-#X text 90 178 ff del (d1);
-#X text 109 199 fb del (d2);
-#X text 128 216 gain (a);
-#X text 142 238 ff gain (b);
-#X text 163 257 fb gain (c);
-#X obj 33 153 noise~;
-#X obj 1 30 cnv 15 552 40 empty empty teeth~ 3 12 0 18 -204280 -1 0
+#X text 313 182 |;
+#X text 313 194 |;
+#X text 313 206 |;
+#X text 294 217 |;
+#X text 336 217 |;
+#X text 336 237 |;
+#X text 294 237 |;
+#X text 297 208 _______;
+#X text 297 237 _______;
+#X text 313 209 v;
+#X text 375 209 |;
+#X text 375 220 |;
+#X text 375 190 |;
+#X text 375 199 |;
+#X text 375 185 ^;
+#X text 459 183 |;
+#X text 459 195 |;
+#X text 459 207 |;
+#X text 440 218 |;
+#X text 482 218 |;
+#X text 482 238 |;
+#X text 440 238 |;
+#X text 443 209 _______;
+#X text 443 238 _______;
+#X text 459 210 v;
+#X text 405 211 |;
+#X text 405 221 |;
+#X text 405 189 |;
+#X text 405 199 |;
+#X text 405 184 ^;
+#X text 482 175 >;
+#X text 294 227 |z^-d1 |;
+#X text 440 228 |z^-d2 |;
+#X text 274 274 y[n] = a * x[n] + b * x[n-d1] + c * y[n-d2];
+#X text 342 226 -(*b)-;
+#X text 406 227 -(*c)-;
+#X text 273 176 x[n] -----(*a)--(+)--(+)----------- y[n];
+#X floatatom 53 186 5 0 0 0 - del -, f 5;
+#X obj 57 345 output~;
+#X floatatom 91 227 5 -1 1 0 - a -, f 5;
+#X floatatom 110 247 5 -1 1 0 - b -, f 5;
+#X floatatom 130 267 5 -1 1 0 - c -, f 5;
+#X floatatom 72 207 5 0 0 0 - del -, f 5;
+#X text 91 187 ff del (d1);
+#X text 110 208 fb del (d2);
+#X text 129 225 gain (a);
+#X text 143 247 ff gain (b);
+#X text 164 266 fb gain (c);
+#X obj 34 162 noise~;
+#X obj 2 39 cnv 15 552 40 empty empty teeth~ 3 12 0 18 -204280 -1 0
 ;
-#X text 13 53 teeth filter;
-#X obj 0 674 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 14 62 teeth filter;
+#X obj 1 683 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 2 409 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 418 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 548 278 413 321 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -76,54 +76,54 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 1 256 RELEASE_DATE 2015;
 #X text 0 159 INLET_5 float signal;
 #X text 0 238 AUTHOR Alexandre Torres Porres;
-#X restore 500 676 pd META;
-#X obj 2 600 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 501 685 pd META;
+#X obj 3 609 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 637 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 646 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 310 489 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 9 30 buffir~;
-#X restore 206 676 pd Related_objects;
-#X obj 80 419 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 207 685 pd Related_objects;
+#X obj 81 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 446 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 81 455 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 113 417 signal;
-#X text 225 417 - signal to pass through comb filter;
-#X obj 80 475 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 114 426 signal;
+#X text 226 426 - signal to pass through comb filter;
+#X obj 81 484 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 530 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+#X obj 81 539 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 608 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 617 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 113 446 float or signal;
-#X text 113 504 float or signal;
-#X text 113 530 float or signal;
-#X text 113 475 float or signal;
-#X obj 80 504 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X text 114 455 float or signal;
+#X text 114 513 float or signal;
+#X text 114 539 float or signal;
+#X text 114 484 float or signal;
+#X obj 81 513 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 504 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 81 513 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X text 113 607 signal;
-#X text 113 645 This abstraction does not support arguments;
-#X obj 81 556 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+#X text 114 616 signal;
+#X text 114 654 This abstraction does not support arguments;
+#X obj 82 565 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
 ;
-#X text 114 556 float or signal;
-#X text 225 504 - input amplitude coefficient (a);
-#X text 225 530 - forward delay amplitude coefficient (b);
-#X text 226 556 - feedback amplitude coefficient (c);
-#X text 225 446 - forward delay time in milliseconds (d1);
-#X text 224 475 - feedback delay time in milliseconds (d2);
-#X text 109 87 [teeth~] is a comb filter with independent time control
+#X text 115 565 float or signal;
+#X text 226 513 - input amplitude coefficient (a);
+#X text 226 539 - forward delay amplitude coefficient (b);
+#X text 227 565 - feedback amplitude coefficient (c);
+#X text 226 455 - forward delay time in milliseconds (d1);
+#X text 225 484 - feedback delay time in milliseconds (d2);
+#X text 110 96 [teeth~] is a comb filter with independent time control
 of feedforward and feedback delays.;
-#X obj 57 298 teeth~;
-#X text 172 337 This is an abstraction \, it does not support arguments
+#X obj 58 307 teeth~;
+#X text 173 346 This is an abstraction \, it does not support arguments
 and is not a proper clone of the object since it does not implement
 features only possible via a compiled object. It serves as a basis
 to code a new object.;
-#X obj 482 34 teeth~;
+#X obj 483 43 teeth~;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -139,8 +139,8 @@ to code a new object.;
 #X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 2 -5 pd;
-#X text 225 607 - output from comb filter;
+#X restore 3 4 pd;
+#X text 226 616 - output from comb filter;
 #X connect 38 0 81 1;
 #X connect 40 0 81 3;
 #X connect 41 0 81 4;
