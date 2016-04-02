@@ -6,7 +6,7 @@
 #include <string.h>
 #include "m_pd.h"
 
-#define TRIANGLE_DEFPEAK 	0.f
+#define TRIANGLE_DEFPEAK 	0.5
 #define TRIANGLE_DEFLO    	-1.0
 #define TRIANGLE_DEFHI    	 1.0
 
