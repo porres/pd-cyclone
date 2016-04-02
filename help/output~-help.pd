@@ -22,7 +22,7 @@
 ;
 #X obj 187 216 osc~ 440;
 #X obj 292 217 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 1200 1;
+-1 -1 0 1;
 #X floatatom 289 237 5 0 0 0 - - -, f 5;
 #X floatatom 271 355 5 0 0 0 - - -, f 5;
 #X text 310 353 slider value;
@@ -109,12 +109,12 @@ slider \, DSP is turned on. A nice feature is that you can switch DSP
 #X text 338 317 DSP off;
 #X obj 187 291 output~;
 #X text 85 366 (stereo);
-#X text 182 642 - "nodac" loads "dac 0" (default "dac 1"). In "nodac"
-mode \, it works only as a gain scaler;
 #X text 91 100 NOT AT ALL a clone (bery losely related to [gain~] in
 Max/MSP) \, [output~] is provided in cyclone and used in its help files
 as a convenient abstraction for stereo output. It has on/off swicthes
 for mute \, dac output & DSP.;
+#X text 182 642 - "nodac" loads "dac 0" (default "dac 1"). In "nodac"
+mode \, [output~] works only as a gain scaler;
 #X connect 4 0 52 0;
 #X connect 4 0 52 1;
 #X connect 5 0 6 0;

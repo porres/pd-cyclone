@@ -45,5 +45,5 @@ void equals_tilde_setup(void)/* void tilde setup: CHECK! */
 			      (t_newmethod)equals_new, 0,
 			      sizeof(t_equals), 0, A_GIMME, 0);
     sic_setup(equals_class, equals_dsp, SIC_FLOATTOSIGNAL);
-    class_addcreator((t_newmethod)equals_new,gensym("==~"), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)equals_new,gensym("==~"), A_GIMME, 0);
 }
