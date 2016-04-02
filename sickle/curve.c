@@ -1,6 +1,7 @@
 /* Copyright (c) 2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
+//updated 2016 by Derek Kwan
 
 #include <math.h>
 #include "m_pd.h"

@@ -159,7 +159,7 @@ void *trapezoid_free(t_trapezoid *x){
 		inlet_free(x->x_downlet);
 		outlet_free(x->x_outlet);
 	return (void *)x;
-};
+}
 
 void trapezoid_tilde_setup(void)
 {

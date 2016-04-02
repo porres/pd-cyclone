@@ -1,3 +1,5 @@
+//2016 by Derek Kwan
+
 #include "m_pd.h"
 #include <math.h>
 #include <string.h>
