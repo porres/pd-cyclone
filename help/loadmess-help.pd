@@ -1,5 +1,5 @@
-#N canvas 700 23 564 664 10;
-#X obj 6 614 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 700 23 563 707 10;
+#X obj 6 664 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 616 310 382 346 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -20,7 +20,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 0 57 INLET_0 float/list;
 #X text 0 114 OUTLET_0 float;
 #X text 0 0 KEYWORDS range limiter (fold \, wrap \, clip);
-#X restore 507 616 pd META;
+#X restore 507 666 pd META;
 #X obj 6 452 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 6 499 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -28,7 +28,7 @@ adapted the patch to pd-extended 2015-02-02;
 #N canvas 312 452 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 203 619 pd Related_objects;
+#X restore 203 669 pd Related_objects;
 #X obj 84 357 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 84 462 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -37,7 +37,7 @@ adapted the patch to pd-extended 2015-02-02;
 0;
 #X obj 6 346 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 550 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X obj 6 545 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #X obj 96 225 loadmess bob;
 #X obj 96 259 print;
@@ -51,13 +51,13 @@ adapted the patch to pd-extended 2015-02-02;
 it to output its typed message.;
 #X text 180 462 - The loadmess object's loaded message is sent when
 the patch is loaded or when banged/clicked.;
-#X text 180 514 - message to be sent (default "bang").;
+#X text 209 512 - message to be sent (default "bang").;
 #X obj 64 180 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X text 147 561 @defer <int> (default: 0): When enabled \, the output
+#X text 147 556 @defer <int> (default: 0): When enabled \, the output
 of the loadmess object is deferred (a loadmess with @defer 0 will be
 sent before and have priority over @defer 1);
-#X text 93 515 1) anything;
+#X text 122 513 1) anything;
 #X text 110 462 anything;
 #X msg 116 196 set bob;
 #X obj 212 206 loadmess foo 99 bar;
@@ -88,6 +88,10 @@ is loaded \, or when the patch is part of another file that is opened.
 message held by loadmess without any output (can be used for output
 in conjunction with bang).;
 #X text 134 299 Click on [loadmess] to output its loaded message!;
+#X obj 7 610 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 137 622 - if you start Pd with the "-noloadbang" flag \, [loadmess]
+will not output values when you load a patch.;
 #X connect 10 0 11 0;
 #X connect 21 0 10 0;
 #X connect 25 0 10 0;

@@ -38,7 +38,7 @@ adapted the patch to pd-extended 2015-02-02;
 0;
 #X obj 46 345 clip~ -1 1;
 #X text 123 568 signal;
-#X obj 22 378 output~;
+#X obj 22 381 output~;
 #X text 118 461 signal;
 #X obj 87 466 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
@@ -231,7 +231,7 @@ on mode);
 sure the signal is larger than +/- 1;
 #X text 5 2 bitxor~ mask with integers;
 #X obj 177 269 cyclone/Scope~ 202 127 3 3 120 -1 1 250 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X obj 98 140 cyclone/bitxor~ -1 1;
 #X connect 0 0 2 0;
 #X connect 0 0 2 1;

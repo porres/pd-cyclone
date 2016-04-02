@@ -1,7 +1,7 @@
 #N canvas 692 23 573 770 10;
-#X obj 11 728 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 11 740 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 12 377 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 12 389 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 611 363 351 231 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -19,24 +19,24 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 511 730 pd META;
-#X obj 13 589 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
+#X restore 511 742 pd META;
+#X obj 13 601 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
 0;
-#X obj 11 650 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 11 662 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 309 485 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 223 730 pd Related_objects;
-#X obj 87 560 cnv 17 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
+#X restore 223 742 pd Related_objects;
+#X obj 87 572 cnv 17 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
 0;
 #X obj 10 42 cnv 15 552 40 empty empty matrix~ 3 12 0 18 -204280 -1
 0;
 #X obj 350 321 print dump;
 #X msg 194 171 dump;
-#X text 140 561 signal;
-#X text 140 598 signal;
-#X text 152 622 list;
+#X text 140 573 signal;
+#X text 140 612 signal;
+#X text 152 634 list;
 #X obj 227 324 output~;
 #X text 120 211 0;
 #X text 135 211 1;
@@ -118,10 +118,10 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 27 0 10 0;
 #X coords 0 -1 1 1 60 30 2 300 100;
 #X restore 116 227 pd matrix-logic;
-#X text 148 383 list;
-#X obj 87 385 cnv 17 3 170 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 148 395 list;
+#X obj 87 397 cnv 17 3 170 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 464 messages:;
+#X text 118 476 messages:;
 #X text 22 65 Signal routing and mixing matrix;
 #X msg 152 151 clear;
 #X obj 232 243 osc~ 300;
@@ -129,40 +129,40 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 348 243 osc~ 500;
 #X obj 404 243 osc~ 600;
 #X msg 116 188 set 0;
-#X text 214 306 0;
-#X text 272 306 1;
+#X text 234 306 0;
+#X text 288 307 1;
 #X text 207 271 0;
 #X text 255 271 1;
 #X text 295 271 2;
 #X text 338 272 3;
 #X obj 488 56 matrix~ 1 1;
 #X msg 116 267 3 1 0;
-#X text 126 657 1) float;
-#X text 126 674 2) float;
-#X text 127 691 3) float;
+#X text 126 669 1) float;
+#X text 126 686 2) float;
+#X text 127 703 3) float;
 #X obj 219 194 loadbang;
 #X msg 219 219 ramp 500;
 #X obj 227 287 cyclone/matrix~ 4 2 1;
 #X text 95 93 in [matrix~] \, signals from any inlets can be routed
 to one or more outlets. If more than one inlet connects to an outlet
 \, the sum of the signals from the inlets is output.;
-#X text 190 616 - when receiving <dump> message \, the rightmost outlet
+#X text 190 628 - when receiving <dump> message \, the rightmost outlet
 dumps a list with connections: <inlet# \, outlet# \, gain>;
-#X obj 87 620 cnv 17 3 17 empty empty n+1 5 9 0 16 -228856 -162280
+#X obj 87 632 cnv 17 3 17 empty empty n+1 5 9 0 16 -228856 -162280
 0;
-#X text 188 381 - in binary: the 1st number specifies the inlet \,
+#X text 188 393 - in binary: the 1st number specifies the inlet \,
 the 2nd the outlet (in/outlets are numbered from left to right \, starting
 at 0) and a 3rd specifies connection <nonzero> or disconnection <0>
 \; - in non-binary: a 3rd float sets the gain of the connection and
 a 4th value can set the ramp time.;
-#X text 186 463 - <dump>: outputs the current gains of all connections
+#X text 186 475 - <dump>: outputs the current gains of all connections
 \; - <clear>: remove all connections \; - <ramp>: set ramp (fade) time
 - only in non-binary mode \; - <connect>: followed by a list connects
 inlet specified by 1st value to outlets specified by remaining values
 \; - <disconnect>: disconnects any inlet specified by the 1st value
 to the outlet(s) specified by the remaining values.;
-#X text 188 561 - signals to route and mix;
-#X text 190 599 - routed/mixed signals from inlets;
+#X text 188 573 - signals to route and mix;
+#X text 190 611 - routed/mixed signals from inlets;
 #N canvas 320 23 464 830 binary_vs_non-binary 0;
 #X obj 144 440 osc~ 300;
 #X obj 201 440 osc~ 400;
@@ -225,15 +225,15 @@ time:;
 #X connect 16 0 4 0;
 #X connect 17 0 7 0;
 #X restore 344 180 pd binary_vs_non-binary mode;
-#X obj 87 598 cnv 17 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
+#X obj 87 610 cnv 17 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
 0;
 #X text 60 227 output 0;
 #X text 60 242 output 1;
 #X text 78 211 input:;
-#X text 192 690 - sets to "non-binary" mode and the gain value for
+#X text 192 702 - sets to "non-binary" mode and the gain value for
 connections. If not provided \, "binary" mode is on;
-#X text 192 657 - defines number of signal inlets ("n");
-#X text 192 674 - defines number of signal outlets ("n");
+#X text 192 669 - defines number of signal inlets ("n");
+#X text 192 686 - defines number of signal outlets ("n");
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
