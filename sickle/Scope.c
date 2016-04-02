@@ -1008,16 +1008,20 @@ static void scopehandle__motionhook(t_scopehandle *sh,
 
 static void scope_free(t_scope *x)
 {
-    if (x->x_clock) clock_free(x->x_clock);
-    if (x->x_xbuffer != x->x_xbufini)
-	freebytes(x->x_xbuffer, x->x_allocsize * sizeof(*x->x_xbuffer));
-    if (x->x_ybuffer != x->x_ybufini)
-	freebytes(x->x_ybuffer, x->x_allocsize * sizeof(*x->x_ybuffer));
+    if (x->x_clock){
+		clock_free(x->x_clock);
+	};
+    if (x->x_xbuffer != x->x_xbufini){
+		freebytes(x->x_xbuffer, x->x_allocsize * sizeof(*x->x_xbuffer));
+	};
+    if (x->x_ybuffer != x->x_ybufini){
+		freebytes(x->x_ybuffer, x->x_allocsize * sizeof(*x->x_ybuffer));
+	};
     if (x->x_handle)
     {
-	pd_unbind(x->x_handle, ((t_scopehandle *)x->x_handle)->h_bindsym);
-	pd_free(x->x_handle);
-    }
+		pd_unbind(x->x_handle, ((t_scopehandle *)x->x_handle)->h_bindsym);
+		pd_free(x->x_handle);
+    };
 }
 
 static void scope_dim(t_scope *x, t_float _width, t_float _height){
