@@ -495,16 +495,14 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	(z = fragile_class_mutate(matrixps_matrixtilde,
 				  (t_newmethod)matrix_new, argc, argv))){
 		return (z);
-	};
-    else if (argc < 2)
-    {
+	}
+    else if (argc < 2){
 	loud_error(0, "bad creation arguments for class '%s'",
 		   matrixps_matrixtilde->s_name);
 	loud_errand(0, "missing number of %s", (argc ? "outlets" : "inlets"));
 	return (0);  /* CHECKED */
     }
-    else
-    {
+    else{
 	t_matrix *x = (t_matrix *)pd_new(matrix_class);
 	int i;
 	if (argv[0].a_type == A_FLOAT)
@@ -535,11 +533,10 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	};
 	x->x_cells = getbytes(x->x_ncells * sizeof(*x->x_cells));
 	matrix_clear(x);
-	if (argc >= 3)
-	{
+	if (argc >= 3){
 	    if (argv[2].a_type == A_FLOAT){
 			x->x_defgain = argv[2].a_w.w_float;
-		};
+		}
 	    else{
 			x->x_defgain = MATRIX_DEFGAIN;
 		};
@@ -563,8 +560,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 			x->x_remains[i] = 0;
 		};
 	}
-	else
-	{
+	else{
 	    x->x_gains = 0;
 	    x->x_ramps = 0;
 	    x->x_coefs = 0;
