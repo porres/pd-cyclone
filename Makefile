@@ -159,7 +159,6 @@ pv.class.sources := hammer/pv.c $(hgrow)
 round.class.sources := hammer/round.c
 rdiv.class.sources := hammer/rdiv.c $(hplain)
 rminus.class.sources := hammer/rminus.c $(hplain)
-scale.class.sources := hammer/scale.c
 seq.class.sources := hammer/seq.c $(hseq)
 sinh.class.sources := hammer/sinh.c $(hplain)
 speedlim.class.sources := hammer/speedlim.c $(hgrow)
