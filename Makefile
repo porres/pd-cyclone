@@ -104,10 +104,13 @@ shared/unstable/forky.c
 # hammer classes
 accum.class.sources := hammer/accum.c $(hplain)
 acos.class.sources := hammer/acos.c $(hplain)
+acosh.class.sources := hammer/acosh.c $(hplain)
 active.class.sources := hammer/active.c $(hgui)
 anal.class.sources := hammer/anal.c $(hloud)
 Append.class.sources := hammer/Append.c $(hgrowfitter)
 asin.class.sources := hammer/asin.c $(hplain)
+asinh.class.sources := hammer/asinh.c $(hplain)
+atanh.class.sources := hammer/atanh.c $(hplain)
 atodb.class.sources := hammer/atodb.c
 bangbang.class.sources := hammer/bangbang.c $(hfitter)
 bondo.class.sources := hammer/bondo.c $(hgrow)
