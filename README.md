@@ -20,10 +20,10 @@ The original cyclone library, amongst other things, is found at the <https://git
 
 This repository is faithful to the original goal of cyclone in creating an external library with a collection of Max/MSP objects for Pure Data. Original version of cyclone was developed in time of Max/MSP 4.6, so most of the existing work that was made in cyclone is still outdated to that version. Cyclone "0.2beta1" had still some objects with functionalities from Max/MSP 4.6 and some updated to Max/MSP 5. If in agreement to the Pd community of users and developers, this repository can release updates (probably "0.3beta1" and on) of the cyclone project, where, besides current bug fixes, new/further developments can include:
 
-<strong>- A)</strong> New functionalities introduced in newer versions of Max/MSP into the already existing objects in cyclone.
+<strong>- A)</strong> New functionalities introduced in newer versions of Max/MSP (from version 5 to 7) into the already existing objects in cyclone.
 
 <strong>- B)</strong> New objects according to the most current version of Max/MSP version (version 7 nowadays). 
 
 This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Ideally, all of the possible Max/MSP objects could be cloned or updated, but this is a fair amount of work so collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. Some collaborators are already helping coding new objects, a list of known bugs and things "to do" will be made available with the first release to come from this repository.
 
-February 22nd 2016
+February 22nd 2016 (last edited, april 3rd)
