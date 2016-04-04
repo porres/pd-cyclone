@@ -1,18 +1,13 @@
-#N canvas 297 23 586 701 10;
-#X floatatom 72 265 5 0 0 0 - - -, f 5;
-#X obj 72 350 cyclone/Snapshot~ 1;
-#X obj 72 389 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#N canvas 603 23 562 688 10;
+#X obj 225 323 cyclone/Snapshot~ 1;
+#X obj 225 350 tgl 35 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X floatatom 115 274 5 0 0 0 - - -, f 5;
-#X floatatom 159 273 5 0 0 0 - - -, f 5;
-#X text 71 241 in;
-#X text 120 251 min;
-#X text 167 251 max;
-#X obj 3 35 cnv 15 552 40 empty empty tresh~ 3 12 0 18 -204280 -1 0
-;
-#X obj 2 649 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 194 242 in;
+#X obj 3 35 cnv 15 552 40 empty empty thresh~ 3 12 0 18 -204280 -1
 0;
-#X obj 4 474 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 2 628 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 4 444 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 548 278 413 321 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -33,31 +28,26 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 1 256 RELEASE_DATE 2015;
 #X text 0 159 INLET_5 float signal;
 #X text 0 238 AUTHOR Alexandre Torres Porres;
-#X restore 502 651 pd META;
-#X obj 4 575 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 502 630 pd META;
+#X obj 4 535 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 612 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 571 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 310 489 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 9 30 buffir~;
-#X restore 208 651 pd Related_objects;
-#X obj 82 484 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 208 630 pd Related_objects;
+#X obj 82 454 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 511 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 82 477 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 168 482 signal;
-#X obj 82 540 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 171 452 signal;
+#X obj 82 501 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 583 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 543 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 169 582 signal;
-#X text 145 620 This abstraction does not support arguments;
-#X text 177 386 This is an abstraction \, it does not support arguments
-and is not a proper clone of the object since it does not implement
-features only possible via a compiled object. It serves as a basis
-to code a new object.;
+#X text 169 542 signal;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -182,24 +172,41 @@ to code a new object.;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 503 91 pd;
 #X text 15 58 Detect signal above a set level;
-#X text 227 511 - low threshold level;
-#X text 226 540 - high threshold level;
-#X text 227 482 - a signal whose level you want to detect;
-#X text 70 103 Use the [thresh~] object to detect signals which exceed
+#X text 227 477 - low threshold level;
+#X text 226 501 - high threshold level;
+#X text 227 452 - a signal whose level you want to detect;
+#X text 227 542 - 1/0 depending on signal detect;
+#X text 134 477 float/signal;
+#X text 134 501 float/signal;
+#X text 363 245 low;
+#X text 436 267 hi;
+#X text 63 96 Use the [thresh~] object to detect signals which exceed
 a specified level. When a sample in the input signal is greater than
-or equal to the upper threshold level \, the output is 1 and continues
+or equal to the high threshold level \, the output is 1 and continues
 to be 1 until a sample in the input signal is equal to or less than
-the reset level. If the set level and the reset level are the same
-\, the output is 1 until a sample in the input signal is less than
-the reset level.;
-#X text 227 582 - 1/0 depending on signal detect;
-#X obj 72 303 cyclone/thresh~;
-#X obj 159 230 cyclone/loadmess 10;
-#X text 131 511 float/signal;
-#X text 131 540 float/signal;
-#X connect 0 0 32 0;
-#X connect 1 0 2 0;
-#X connect 3 0 32 1;
-#X connect 4 0 32 2;
-#X connect 32 0 1 0;
-#X connect 33 0 4 0;
+the reset level (low threshold). If low and high threshold are the
+same \, the output is 1 until a sample in the input signal is less
+than the reset level (works as [>=~]).;
+#X obj 301 244 sig~ -0.5;
+#X obj 378 266 sig~ 0.5;
+#X obj 225 244 osc~ 0.5;
+#X obj 100 294 cyclone/Snapshot~ 1;
+#X obj 100 319 vsl 20 100 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X text 88 363 0;
+#X text 88 312 1;
+#X text 76 337 0.5;
+#X text 70 388 -0.5;
+#X text 82 411 -1;
+#X obj 225 294 cyclone/thresh~ -0.75 0.75;
+#X text 157 582 1) float;
+#X text 227 582 - resset/low threshold (default 0).;
+#X text 157 598 2) float;
+#X text 227 598 - set/high threshold (default 0).;
+#X connect 0 0 1 0;
+#X connect 29 0 39 1;
+#X connect 30 0 39 2;
+#X connect 31 0 32 0;
+#X connect 31 0 39 0;
+#X connect 32 0 33 0;
+#X connect 39 0 0 0;

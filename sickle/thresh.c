@@ -32,7 +32,6 @@ static t_int *thresh_perform(t_int *w)
         float lo = *in2++;
         float hi = *in3++;
         last = (in > lo && (in >= hi || last));
-        in1++;
         *out++ = last;
     }
     x->x_last = last;
