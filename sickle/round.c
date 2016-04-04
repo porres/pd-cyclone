@@ -33,8 +33,7 @@ static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 		x->x_nearest = CYROUNDNEAR_DEF;
 		f = CYROUNDNUM_DEF;
 		while(argc > 0 ){
-			t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
-			if(curarg == &s_){ //if nullpointer, should be float or int
+			if(argv -> a_type == A_FLOAT){ //if nullpointer, should be float or int
 				if(!pastargs){
 					switch(numargs){//we haven't declared attrs yet
 						case 0: 	f = atom_getfloatarg(0, argc, argv);
@@ -53,7 +52,8 @@ static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 					argv++;
 				};
 			}
-			else{
+			else if(argv -> a_type == A_SYMBOL){
+				t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
 				pastargs = 1;
 				int isnear = strcmp(curarg->s_name, "@nearest") == 0;
 				if(isnear && argc >= 2){
@@ -68,7 +68,11 @@ static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 					};}
 				else{
 					goto errstate;
-					};	};
+					};
+			}
+			else{
+				goto errstate;
+			};
 	};
 
 

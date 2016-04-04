@@ -135,8 +135,7 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom *argv)
 	t_float xbitmask = (t_float)PDCYBITMASK;
 	int argnum = 0;
 	while(argc > 0){
-		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-		if(curarg == &s_){//if curarg is a number
+		if(argv -> a_type == A_FLOAT){//if curarg is a number
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
 				case 0:
@@ -152,7 +151,8 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom *argv)
 			argv++;
 			argnum++;
 		}
-		else{//curarg is a string
+		else if(argv -> a_type == A_SYMBOL){//curarg is a string
+			t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
 			if(strcmp(curarg->s_name, "@mode")==0){
 				if(argc >= 2){
 					xmode = atom_getfloatarg(1, argc, argv);
@@ -166,6 +166,9 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom *argv)
 			else{
 				goto errstate;
 			};
+		}
+		else{
+			goto errstate;
 		};
 	};
     x->x_mask = (t_int)xbitmask;  /* FIXME (how?) */

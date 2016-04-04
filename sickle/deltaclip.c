@@ -12,10 +12,11 @@
 
 typedef struct _deltaclip
 {
-    t_sic    x_sic;
+    t_object x_obj;
     t_float  x_last;
 	t_inlet *x_lolet;
 	t_inlet  *x_hilet;
+	t_float  x_f; //dummy
 } t_deltaclip;
 
 static t_class *deltaclip_class;
@@ -66,14 +67,50 @@ static void *deltaclip_free(t_deltaclip *x)
 
 
 
-static void *deltaclip_new(t_symbol *s, int ac, t_atom *av)
+static void *deltaclip_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_deltaclip *x = (t_deltaclip *)pd_new(deltaclip_class);
-    x->x_lolet = sic_inlet((t_sic *)x, 1, DELTACLIP_DEFLO, 0, ac, av);
-    x->x_hilet = sic_inlet((t_sic *)x, 2, DELTACLIP_DEFHI, 1, ac, av);
+
+	t_float cliplo, cliphi;
+	cliplo = DELTACLIP_DEFLO;
+	cliphi = DELTACLIP_DEFHI;
+
+	int argnum = 0;
+	while(argc > 0){
+		if(argv -> a_type == A_FLOAT){
+			t_float argval = atom_getfloatarg(0,argc,argv);
+				switch(argnum){
+					case 0:
+						cliplo = argval;
+						break;
+					case 1:
+						cliphi = argval;
+						break;
+					default:
+						break;
+				};
+
+				argc--;
+				argv++;
+				argnum++;
+		}
+		else{
+			goto errstate;
+		};
+
+	};
+
+	x->x_lolet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+	pd_float((t_pd *)x->x_lolet, cliplo);
+	x->x_hilet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+	pd_float((t_pd *)x->x_hilet, cliphi);
+    
     outlet_new((t_object *)x, &s_signal);
     x->x_last = 0;
     return (x);
+	errstate:
+		pd_error(x, "deltaclip~: improper args");
+		return NULL;
 }
 
 void deltaclip_tilde_setup(void)
@@ -81,7 +118,8 @@ void deltaclip_tilde_setup(void)
     deltaclip_class = class_new(gensym("deltaclip~"),
 				(t_newmethod)deltaclip_new, (t_method)deltaclip_free,
 				sizeof(t_deltaclip), 0, A_GIMME, 0);
-    sic_setup(deltaclip_class, deltaclip_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(deltaclip_class, (t_method)deltaclip_dsp, gensym("dsp"), A_CANT, 0);
+   CLASS_MAINSIGNALIN(deltaclip_class, t_deltaclip, x_f);
     class_addmethod(deltaclip_class, (t_method)deltaclip_reset,
 		    gensym("reset"), 0);
 }

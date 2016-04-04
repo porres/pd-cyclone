@@ -98,8 +98,7 @@ static void *trapezoid_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_high = traphi = TRAPEZOID_DEFHI;
 	int argnum = 0;
 	while(argc > 0){
-		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-		if(curarg == &s_){//if curarg is a number
+		if(argv ->a_type == A_FLOAT){//if curarg is a number
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
 				case 0:
@@ -115,7 +114,8 @@ static void *trapezoid_new(t_symbol *s, int argc, t_atom *argv)
 				argc--;
 				argv++;
 		}
-			else{
+			else if(argv -> a_type == A_SYMBOL){
+				t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
 				if(strcmp(curarg->s_name, "@lo")==0){
 					if(argc >= 2){
 						traplo = atom_getfloatarg(1, argc, argv);
@@ -139,8 +139,11 @@ static void *trapezoid_new(t_symbol *s, int argc, t_atom *argv)
 				else{
 					goto errstate;
 				};
-			};
+			}
+		else{
+			goto errstate;
 		};
+	};
 	trapezoid_lo(x, traplo);
 	trapezoid_hi(x, traphi);
 	x->x_uplet=inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);

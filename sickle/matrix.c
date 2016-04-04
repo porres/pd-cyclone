@@ -1,8 +1,9 @@
 /* Copyright (c) 2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
-//updating 2016 - Derek Kwan
+//updated to add @ramp attribute, slightly updated argument parsing - Derek Kwan
 
+#include <string.h>
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/fitter.h"
@@ -19,11 +20,14 @@
 #define MATRIX_GAINEPSILON  1e-20f
 #define MATRIX_MINRAMP      .001  /* LATER rethink */
 
+#define MATRIX_MININLETS 1
+#define MATRIX_MINOUTLETS 1
+
 typedef struct _matrix
 {
     t_sic      x_sic;
-    int        x_ninlets;
-    int        x_noutlets;
+    int        x_numinlets;
+    int        x_numoutlets;
     int        x_nblock;
     int        x_maxblock;
     t_float  **x_ivecs;
@@ -85,7 +89,7 @@ static void matrix_list(t_matrix *x, t_symbol *s, int ac, t_atom *av)
 	return;  /* CHECKED list silently ignored if ac < 3 */
     /* CHECKED floats silently clipped, symbols converted to 0 */
     indx = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-    if (indx < 0 || indx >= x->x_ninlets)
+    if (indx < 0 || indx >= x->x_numinlets)
     {  /* CHECKED */
 	loud_error((t_pd *)x, "invalid inlet number %d", indx);
 	return;
@@ -93,12 +97,12 @@ static void matrix_list(t_matrix *x, t_symbol *s, int ac, t_atom *av)
     ac--; av++;
     /* CHECKED floats silently clipped, symbols converted to 0 */
     ondx = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-    if (ondx < 0 || ondx >= x->x_noutlets)
+    if (ondx < 0 || ondx >= x->x_numoutlets)
     {  /* CHECKED */
 	loud_error((t_pd *)x, "invalid outlet number %d", ondx);
 	return;
     }
-    cellndx = indx * x->x_noutlets + ondx;
+    cellndx = indx * x->x_numoutlets + ondx;
     ac--; av++;
     /* CHECKED negative gain used in nonbinary mode, accepted as 1 in binary */
     gain = (av->a_type == A_FLOAT ? av->a_w.w_float : 0.);
@@ -165,18 +169,18 @@ static void matrix_connect(t_matrix *x, t_symbol *s, int ac, t_atom *av)
 	return;  /* CHECKED */
     /* CHECKED floats silently clipped, symbols converted to 0 */
     indx = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-    if (indx < 0 || indx >= x->x_ninlets)
+    if (indx < 0 || indx >= x->x_numinlets)
     {  /* CHECKED */
 	loud_error((t_pd *)x, "invalid inlet number %d", indx);
 	return;
     }
-    celloffset = indx * x->x_noutlets;
+    celloffset = indx * x->x_numoutlets;
     ac--; av++;
     while (ac)
     {
 	/* CHECKED floats silently clipped, symbols converted to 0 */
 	int cellndx, ondx = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-	if (ondx < 0 || ondx >= x->x_noutlets)
+	if (ondx < 0 || ondx >= x->x_numoutlets)
 	{  /* CHECKED */
 	    loud_error((t_pd *)x, "invalid outlet number %d", ondx);
 	    return;
@@ -210,12 +214,12 @@ static t_int *matrix01_perform(t_int *w)
     t_float **ovecs = x->x_ovecs;
     t_float **osums = x->x_osums;
     int *cellp = x->x_cells;
-    int indx = x->x_ninlets;
+    int indx = x->x_numinlets;
     while (indx--)
     {
 	t_float *ivec = *ivecs++;
 	t_float **ovecp = osums;
-	int ondx = x->x_noutlets;
+	int ondx = x->x_numoutlets;
 	while (ondx--)
 	{
 	    if (*cellp++)
@@ -230,7 +234,7 @@ static t_int *matrix01_perform(t_int *w)
 	}
     }
     osums = x->x_osums;
-    indx = x->x_noutlets;
+    indx = x->x_numoutlets;
     while (indx--)
     {
 	t_float *in = *osums++;
@@ -258,11 +262,11 @@ static t_int *matrixnb_perform(t_int *w)
     float *incrp = x->x_incrs;
     float *bigincrp = x->x_bigincrs;
     int *nleftp = x->x_remains;
-    int indx = x->x_ninlets;
+    int indx = x->x_numinlets;
     while (indx--){
 	t_float *ivec = *ivecs++;
 	t_float **ovecp = osums;
-	int ondx = x->x_noutlets;
+	int ondx = x->x_numoutlets;
 	while (ondx--){
 	    t_float *in = ivec;
 	    t_float *out = *ovecp;
@@ -316,7 +320,7 @@ static t_int *matrixnb_perform(t_int *w)
 	}
     }
     osums = x->x_osums;
-    indx = x->x_noutlets;
+    indx = x->x_numoutlets;
     while (indx--)
     {
 	t_float *in = *osums++;
@@ -336,18 +340,18 @@ static void matrix_dsp(t_matrix *x, t_signal **sp)
     int i, nblock = sp[0]->s_n;
     t_float **vecp = x->x_ivecs;
     t_signal **sigp = sp;
-    for (i = 0; i < x->x_ninlets; i++){
+    for (i = 0; i < x->x_numinlets; i++){
 		*vecp++ = (*sigp++)->s_vec;
 	};
     vecp = x->x_ovecs;
-    for (i = 0; i < x->x_noutlets; i++){
+    for (i = 0; i < x->x_numoutlets; i++){
 		*vecp++ = (*sigp++)->s_vec;
 	};
     if (nblock != x->x_nblock){
 		if (nblock > x->x_maxblock){
 			size_t oldsize = x->x_maxblock * sizeof(*x->x_osums[i]),
 			newsize = nblock * sizeof(*x->x_osums[i]);
-			for (i = 0; i < x->x_noutlets; i++)
+			for (i = 0; i < x->x_numoutlets; i++)
 			x->x_osums[i] = resizebytes(x->x_osums[i], oldsize, newsize);
 			x->x_maxblock = nblock;
 		};
@@ -397,8 +401,8 @@ static void matrix_report(t_matrix *x, float *gains, float defgain,
 	int *cellp = x->x_cells;
 	float *gp = gains;
 	int indx, ondx;
-	for (indx = 0; indx < x->x_ninlets; indx++)
-	    for (ondx = 0; ondx < x->x_noutlets; ondx++, cellp++, gp++)
+	for (indx = 0; indx < x->x_numinlets; indx++)
+	    for (ondx = 0; ondx < x->x_numoutlets; ondx++, cellp++, gp++)
 		/* CHECKED all cells are printed */
 		(*cellfn)(x, indx, ondx, *cellp, *gp);
     }
@@ -406,8 +410,8 @@ static void matrix_report(t_matrix *x, float *gains, float defgain,
     {
 	int *cellp = x->x_cells;
 	int indx, ondx;
-	for (indx = 0; indx < x->x_ninlets; indx++)
-	    for (ondx = 0; ondx < x->x_noutlets; ondx++, cellp++)
+	for (indx = 0; indx < x->x_numinlets; indx++)
+	    for (ondx = 0; ondx < x->x_numoutlets; ondx++, cellp++)
 		/* CHECKED all cells are printed */
 		(*cellfn)(x, indx, ondx, *cellp, defgain);
     }
@@ -440,7 +444,7 @@ static void matrix_debugsums(t_matrix *x)
     int i;
     loudbug_startpost("nblock %d (max %d), vectors:",
 		      x->x_nblock, x->x_maxblock);
-    for (i = 0; i < x->x_noutlets; i++)
+    for (i = 0; i < x->x_numoutlets; i++)
 	loudbug_startpost(" %x", (int)x->x_osums[i]);
     loudbug_endpost();
 }
@@ -462,15 +466,15 @@ static void matrix_debug(t_matrix *x, t_symbol *s)
 static void matrix_free(t_matrix *x)
 {
     if (x->x_ivecs)
-	freebytes(x->x_ivecs, x->x_ninlets * sizeof(*x->x_ivecs));
+	freebytes(x->x_ivecs, x->x_numinlets * sizeof(*x->x_ivecs));
     if (x->x_ovecs)
-	freebytes(x->x_ovecs, x->x_noutlets * sizeof(*x->x_ovecs));
+	freebytes(x->x_ovecs, x->x_numoutlets * sizeof(*x->x_ovecs));
     if (x->x_osums)
     {
 	int i;
-	for (i = 0; i < x->x_noutlets; i++)
+	for (i = 0; i < x->x_numoutlets; i++)
 	    freebytes(x->x_osums[i], x->x_maxblock * sizeof(*x->x_osums[i]));
-	freebytes(x->x_osums, x->x_noutlets * sizeof(*x->x_osums));
+	freebytes(x->x_osums, x->x_numoutlets * sizeof(*x->x_osums));
     }
     if (x->x_cells)
 	freebytes(x->x_cells, x->x_ncells * sizeof(*x->x_cells));
@@ -504,49 +508,92 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
     }
     else{
 	t_matrix *x = (t_matrix *)pd_new(matrix_class);
+
+	t_float rampval = MATRIX_DEFRAMP;
+	x->x_numinlets = (int)MATRIX_MININLETS;
+	x->x_numoutlets = (int)MATRIX_MINOUTLETS;
+	x->x_defgain = MATRIX_DEFGAIN;
+
 	int i;
-	if (argv[0].a_type == A_FLOAT)
-	{
-	    if ((x->x_ninlets = (int)argv[0].a_w.w_float) < 1){
-			x->x_ninlets = 1;
+	int argnum = 0;
+	while(argc > 0){
+		if(argv -> a_type == A_FLOAT){
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					if(argval < MATRIX_MININLETS){
+						x->x_numinlets = (int)MATRIX_MININLETS;
+					}
+					else{
+						x->x_numinlets = (int)argval;
+					};
+					break;
+				case 1:
+					if(argval < MATRIX_MINOUTLETS){
+						x->x_numoutlets = (int)MATRIX_MINOUTLETS;
+					}
+					else{
+						x->x_numoutlets = (int)argval;
+					};
+					break;
+				case 2:
+					x->x_defgain = MATRIX_DEFGAIN;
+					break;
+				default:
+					break;
+			};
+			argc--;
+			argv++;
+			argnum++;
+		}
+		else if(argv -> a_type == A_SYMBOL){
+			t_symbol *argname = atom_getsymbolarg(0, argc, argv);
+			if(strcmp(argname->s_name, "@ramp")==0){
+				if(argc >= 2){
+					t_float argval = atom_getfloatarg(1, argc, argv);
+					if(argval < MATRIX_MINRAMP){
+						rampval = MATRIX_MINRAMP;
+					}
+					else{
+						rampval = argval;
+					};
+					argc -= 2;
+					argv += 2;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else{
+				goto errstate;
+			};
+		}
+		else{
+			goto errstate;
 		};
-	}
-	else {
-		x->x_ninlets = 1;  /* CHECKED */
 	};
-	if (argv[1].a_type == A_FLOAT)
-	{
-	    if ((x->x_noutlets = (int)argv[1].a_w.w_float) < 1){
-			x->x_noutlets = 1;
-		};
-	}
-	else{
-		x->x_noutlets = 1;  /* CHECKED */
-	};
-	x->x_ncells = x->x_ninlets * x->x_noutlets;
-	x->x_ivecs = getbytes(x->x_ninlets * sizeof(*x->x_ivecs));
-	x->x_ovecs = getbytes(x->x_noutlets * sizeof(*x->x_ovecs));
+
+	int gaingiven = argnum >= 3; //if >=  3 args given, then gain is given, binary mode is off
+
+	x->x_ncells = x->x_numinlets * x->x_numoutlets;
+	x->x_ivecs = getbytes(x->x_numinlets * sizeof(*x->x_ivecs));
+	x->x_ovecs = getbytes(x->x_numoutlets * sizeof(*x->x_ovecs));
 	x->x_nblock = x->x_maxblock = sys_getblksize();
-	x->x_osums = getbytes(x->x_noutlets * sizeof(*x->x_osums));
-	for (i = 0; i < x->x_noutlets; i++){
+	x->x_osums = getbytes(x->x_numoutlets * sizeof(*x->x_osums));
+	for (i = 0; i < x->x_numoutlets; i++){
 	    x->x_osums[i] = getbytes(x->x_maxblock * sizeof(*x->x_osums[i]));
 	};
 	x->x_cells = getbytes(x->x_ncells * sizeof(*x->x_cells));
 	matrix_clear(x);
-	if (argc >= 3){
-	    if (argv[2].a_type == A_FLOAT){
-			x->x_defgain = argv[2].a_w.w_float;
-		}
-	    else{
-			x->x_defgain = MATRIX_DEFGAIN;
-		};
+
+	if (gaingiven){
 	    x->x_gains = getbytes(x->x_ncells * sizeof(*x->x_gains));
 
 	    for (i = 0; i < x->x_ncells; i++){
 			x->x_gains[i] = x->x_defgain;
 		};
 	    x->x_ramps = getbytes(x->x_ncells * sizeof(*x->x_ramps));
-	    matrix_ramp(x, MATRIX_DEFRAMP);
+	    matrix_ramp(x, rampval);
 	    x->x_coefs = getbytes(x->x_ncells * sizeof(*x->x_coefs));
 	    
 		for (i = 0; i < x->x_ncells; i++){
@@ -567,15 +614,18 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	    x->x_incrs = 0;
 	    x->x_bigincrs = 0;
 	    x->x_remains = 0;
-	}
-	for (i = 1; i < x->x_ninlets; i++){
+	};
+	for (i = 1; i < x->x_numinlets; i++){
 	    sic_newinlet((t_sic *)x, 0.);
 	};
-	for (i = 0; i < x->x_noutlets; i++){
+	for (i = 0; i < x->x_numoutlets; i++){
 	    outlet_new((t_object *)x, &s_signal);
 	};
 	x->x_dumpout = outlet_new((t_object *)x, &s_list);
 	return (x);
+	errstate:
+		pd_error(x, "Scope~: improper args");
+		return NULL;
     }
 }
 
