@@ -1,8 +1,6 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2016 Porres
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
-
-/* Clip~ substitution is needed to handle signal input for lo and hi */
 
 #include "m_pd.h"
 #include "sickle/sic.h"
@@ -10,35 +8,37 @@
 #define THRESH_DEFLO  0.
 #define THRESH_DEFHI  0.
 
+/*typedef t_sic t_thresh;*/
+
 typedef struct _thresh
 {
     t_sic    x_sic;
     t_float  x_lastout;
 } t_thresh;
 
+
 static t_class *thresh_class;
 
 static t_int *thresh_perform(t_int *w)
 {
-    t_thresh *x = (t_thresh *)(w[1]);
-    int nblock = (int)(w[2]);
-    t_float *in1 = (t_float *)(w[3]);
-    t_float *in2 = (t_float *)(w[4]);
-    t_float *in3 = (t_float *)(w[5]);
-    t_float *out = (t_float *)(w[6]);
+    int nblock = (int)(w[1]);
+    t_float *in1 = (t_float *)(w[2]);
+    t_float *in2 = (t_float *)(w[3]);
+    t_float *in3 = (t_float *)(w[4]);
+    t_float *out = (t_float *)(w[5]);
     t_float lastout = x->x_lastout;
     while (nblock--)
     {
-    	float f = *in1++;
+    	float in = *in1++;
     	float lo = *in2++;
     	float hi = *in3++;
-        lastout = (f > lo && (f >= hi || lastout));
+        lastout = (in > lo && (in >= hi || lastout));
+        in1++;
         *out++ = lastout;
     }
     x->x_lastout = lastout;
-    return (w + 7);
+    return (w + 6);
 }
-
 
 static void thresh_dsp(t_thresh *x, t_signal **sp)
 {
@@ -49,9 +49,9 @@ static void thresh_dsp(t_thresh *x, t_signal **sp)
 static void *thresh_new(t_symbol *s, int ac, t_atom *av)
 {
     t_thresh *x = (t_thresh *)pd_new(thresh_class);
+    x->x_lastout = 0;
     sic_inlet((t_sic *)x, 1, THRESH_DEFLO, 0, ac, av);
     sic_inlet((t_sic *)x, 2, THRESH_DEFHI, 1, ac, av);
-    x->x_lastout = 0;
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
