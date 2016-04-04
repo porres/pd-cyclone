@@ -5,7 +5,6 @@
 
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 #define DELTACLIP_DEFLO  0.
 #define DELTACLIP_DEFHI  0.
