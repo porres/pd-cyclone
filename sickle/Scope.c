@@ -1081,8 +1081,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 	t_float grgreen = (t_float)SCOPE_DEFGRGREEN;
 	t_float grblue = (t_float)SCOPE_DEFGRBLUE;
 	while(argc > 0){
-		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-		if(curarg == &s_){//if curarg is a number
+		if(argv -> a_type == A_FLOAT){//if curarg is a number
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
 				case 0:
@@ -1150,7 +1149,8 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 			argc--;
 			argv++;
 		}
-		else{//curarg is a string
+		else if (argv -> a_type == A_SYMBOL){//curarg is a string
+			t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
 			if(strcmp(curarg->s_name, "@calccount") == 0){
 				if(argc >= 2){
 					period = atom_getfloatarg(1, argc, argv);
@@ -1252,6 +1252,9 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 		else{
 			goto errstate;
 		};
+		}
+		else{
+			goto errstate;
 		};
 	};
     scope_dim(x, width, height);

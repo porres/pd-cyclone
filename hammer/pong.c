@@ -75,8 +75,7 @@ static void *pong_new(t_symbol *s, int argc, t_atom *argv){
 	x->maxval = CYPONGHI_DEF;
 	x->mode = CYPONGMODE_DEF;
 	while(argc > 0 ){
-		t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
-			if(curarg == &s_){ //if nullpointer, should be float or int
+			if(argv -> a_type == A_FLOAT){ //if nullpointer, should be float or int
 				if(!pastargs){//if we aren't past the args yet
 					switch(numargs){
 						case 0: 	x->minval = atom_getfloatarg(0, argc, argv);
@@ -101,36 +100,41 @@ static void *pong_new(t_symbol *s, int argc, t_atom *argv){
 					argv++;
 				};
 			}
-			else{
-			pastargs = 1;
-			int isrange = strcmp(curarg->s_name, "@range") == 0;
-			int ismode = strcmp(curarg->s_name, "@mode") == 0;
-			if(isrange && argc >= 3){
-					t_symbol *arg1 = atom_getsymbolarg(1, argc, argv);
-					t_symbol *arg2 = atom_getsymbolarg(2, argc, argv);
-					if(arg1 == &s_ && arg2 == &s_){
-						x->minval = atom_getfloatarg(1, argc, argv);
-						x->maxval = atom_getfloatarg(2, argc, argv);
-						argc -= 3;
-						argv += 3;
-					}
-					else{
-						goto errstate;
-					};}
-	
-			else if(ismode && argc >= 2){
-					t_symbol *arg3 = atom_getsymbolarg(1, argc, argv);
-					if(arg3 != &s_){
-						x->mode = pong_setmode_help(arg3->s_name);
-						argc -= 2;
-						argv += 2;
-					}
-					else{
-						goto errstate;
-					};}
-			else{
-				goto errstate;
-			};	};
+			else if(argv -> a_type == A_SYMBOL){
+				t_symbol *curarg = atom_getsymbolarg(0, argc, argv); //returns nullpointer if not symbol
+				pastargs = 1;
+				int isrange = strcmp(curarg->s_name, "@range") == 0;
+				int ismode = strcmp(curarg->s_name, "@mode") == 0;
+				if(isrange && argc >= 3){
+						t_symbol *arg1 = atom_getsymbolarg(1, argc, argv);
+						t_symbol *arg2 = atom_getsymbolarg(2, argc, argv);
+						if(arg1 == &s_ && arg2 == &s_){
+							x->minval = atom_getfloatarg(1, argc, argv);
+							x->maxval = atom_getfloatarg(2, argc, argv);
+							argc -= 3;
+							argv += 3;
+						}
+						else{
+							goto errstate;
+						};}
+		
+				else if(ismode && argc >= 2){
+						t_symbol *arg3 = atom_getsymbolarg(1, argc, argv);
+						if(arg3 != &s_){
+							x->mode = pong_setmode_help(arg3->s_name);
+							argc -= 2;
+							argv += 2;
+						}
+						else{
+							goto errstate;
+						};}
+				else{
+					goto errstate;
+				};	
+			}
+		else{
+			goto errstate;
+		};
 	};
 
 	floatinlet_new(&x->x_obj, &x->minval);

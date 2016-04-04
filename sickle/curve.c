@@ -367,8 +367,7 @@ static void *curve_new(t_symbol *s, int argc, t_atom *argv)
 	param = PDCYCURVEPARAM;
 	int argnum = 0;
 	while(argc > 0){
-		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-		if(curarg == &s_){//if curarg is a number
+		if(argv -> a_type == A_FLOAT){//if curarg is a number
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
 				case 0:

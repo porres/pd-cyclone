@@ -89,8 +89,7 @@ static void *triangle_new(t_symbol *s, int argc, t_atom *argv)
 	
 	int argnum = 0;
 	while(argc > 0){
-		t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-		if(curarg == &s_){//if curarg is a number
+		if(argv -> a_type == A_FLOAT){//if curarg is a number
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
 				case 0:
@@ -103,7 +102,8 @@ static void *triangle_new(t_symbol *s, int argc, t_atom *argv)
 				argc--;
 				argv++;
 		}
-			else{
+			else if (argv -> a_type == A_SYMBOL){
+				t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
 				if(strcmp(curarg->s_name, "@lo")==0){
 					if(argc >= 2){
 						trilo = atom_getfloatarg(1, argc, argv);
@@ -127,8 +127,11 @@ static void *triangle_new(t_symbol *s, int argc, t_atom *argv)
 				else{
 					goto errstate;
 				};
+			}
+			else{
+				goto errstate;
 			};
-		};
+	};
 	triangle_lo(x, trilo);
 	triangle_hi(x, trihi);
 	
