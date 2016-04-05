@@ -1,0 +1,180 @@
+#N canvas 608 23 565 799 10;
+#X obj 6 700 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 616 310 382 346 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 133 LIBRARY cyclone;
+#X text 0 38 DESCRIPTION fold or wrap a signal within a given range
+;
+#X text 1 153 VERSION 0.2-beta1;
+#X text 1 171 AUTHOR Krzysztof Czaja;
+#X text 2 189 RELEASE_DATE 2002;
+#X text 3 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 3 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 0 76 INLET_1 flaot;
+#X text 0 95 INLET_2 float;
+#X text 0 57 INLET_0 float/list;
+#X text 0 114 OUTLET_0 float;
+#X text 0 0 KEYWORDS range limiter (fold \, wrap \, clip);
+#X restore 507 702 pd META;
+#X obj 6 473 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 6 510 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 6 635 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 312 452 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 203 705 pd Related_objects;
+#X obj 84 331 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 484 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 6 39 cnv 15 552 40 empty empty scale 3 12 0 18 -204280 -1 0
+;
+#X obj 6 320 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 6 593 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 5 3 pd;
+#X obj 513 53 scale;
+#X obj 103 178 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 12700 1;
+#X floatatom 100 208 5 0 0 0 - - -, f 5;
+#X obj 100 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 127 256;
+#X text 14 63 Map values to an output range;
+#X text 148 532 2) float - input high (default 127);
+#X text 148 519 1) float - input low (default 0);
+#X text 148 544 3) float - output low (default 0);
+#X text 148 570 5) float - exponential factor (default 1);
+#X obj 100 244 cyclone/scale -1 1 0 127;
+#X text 145 370 float - sets the low end of the input range;
+#X text 145 390 float - sets the high end of the input range;
+#X text 153 348 bang - Performs the scaling function on last received
+input;
+#X text 117 331 float/list - value(s) to perform the scaling function
+on;
+#X text 145 410 float - sets the low end of the output range;
+#X text 145 429 float - sets the high end of the output range;
+#X obj 84 369 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 389 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 409 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 429 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 449 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X text 135 484 float/list - the scaled values according to output
+range;
+#X text 108 605 @classic <int>;
+#N canvas 160 23 991 638 lists 0;
+#X text 100 467 Note: that prior to Max 6.0.4 the exponent was inverted.
+Thus \, if you gave it an exponent of 2 the object behaved like it
+had an exponent of 0.5 \, and if you gave it an exponent of 0.5 it
+behaved like it had an exponent of 2 Patches from versions prior to
+6.0.4 may require updating to work properly.;
+#X text 103 84 Fifth argument specifies scaling curve factor (must
+be higher than 0).;
+#X text 543 77 Classic mode uses an exponential function compatible
+with old IRCAM patchers. In this case \, the argument must be greater
+than 1 \, with larger values leading to steeper exponential curves
+(a typical value is 1.06);
+#N canvas 0 22 450 300 formulas 0;
+#X text 41 35 modern formula \; ((x-in_low)/(in_high-in_low) == 0)
+? out_low : (((x-in_low)/(in_high-in_low)) > 0) ? (out_low + (out_high-out_low)
+* ((x-in_low)/(in_high-in_low))^exp) : ( out_low + (out_high-out_low)
+* -((((-x+in_low)/(in_high-in_low)))^(exp))) \;;
+#X text 42 130 classic mode \; (out_high-out_low >= 0) ? (out_low +
+(out_high-out_low) * ((out_high - out_low) * exp(-1*(in_high-in_low)*log(power))
+* exp(x*log(power)))) : (-1) * (out_low + (out_high-out_low) * ((out_high
+- out_low) * exp(-1*(in_high-in_low) * log(power)) * exp(x*log(power))))
+\;;
+#X restore 606 378 pd formulas;
+#X restore 332 260 pd lists;
+#X text 205 605 - 0 loads "modern" exponential mode (default 1 \, classic)
+;
+#X text 148 557 4) float - output high (default 1);
+#X text 94 98 [scale] maps an input range to an output range. Values
+larger or smaller than the input range will not be clipped to output
+range. The mapping can be inverted and/or exponential.;
+#N canvas 84 151 991 638 inverted 0;
+#X text 100 467 Note: that prior to Max 6.0.4 the exponent was inverted.
+Thus \, if you gave it an exponent of 2 the object behaved like it
+had an exponent of 0.5 \, and if you gave it an exponent of 0.5 it
+behaved like it had an exponent of 2 Patches from versions prior to
+6.0.4 may require updating to work properly.;
+#X text 103 84 Fifth argument specifies scaling curve factor (must
+be higher than 0).;
+#N canvas 0 22 450 300 formulas 0;
+#X text 41 35 modern formula \; ((x-in_low)/(in_high-in_low) == 0)
+? out_low : (((x-in_low)/(in_high-in_low)) > 0) ? (out_low + (out_high-out_low)
+* ((x-in_low)/(in_high-in_low))^exp) : ( out_low + (out_high-out_low)
+* -((((-x+in_low)/(in_high-in_low)))^(exp))) \;;
+#X text 42 130 classic mode \; (out_high-out_low >= 0) ? (out_low +
+(out_high-out_low) * ((out_high - out_low) * exp(-1*(in_high-in_low)*log(power))
+* exp(x*log(power)))) : (-1) * (out_low + (out_high-out_low) * ((out_high
+- out_low) * exp(-1*(in_high-in_low) * log(power)) * exp(x*log(power))))
+\;;
+#X restore 606 378 pd formulas;
+#X text 543 77 [scale] uses by default Classic mode uses an exponential
+function compatible with old IRCAM patchers. In this case \, the argument
+must be greater than 1 \, with larger values leading to steeper exponential
+curves (a typical value is 1.06);
+#X restore 322 227 pd inverted;
+#X text 145 450 float - sets the exponential factor;
+#N canvas 84 151 991 638 Exponential 0;
+#X text 100 467 Note: that prior to Max 6.0.4 the exponent was inverted.
+Thus \, if you gave it an exponent of 2 the object behaved like it
+had an exponent of 0.5 \, and if you gave it an exponent of 0.5 it
+behaved like it had an exponent of 2 Patches from versions prior to
+6.0.4 may require updating to work properly.;
+#X text 103 84 Fifth argument specifies scaling curve factor (must
+be higher than 0).;
+#N canvas 0 22 450 300 formulas 0;
+#X text 41 35 modern formula \; ((x-in_low)/(in_high-in_low) == 0)
+? out_low : (((x-in_low)/(in_high-in_low)) > 0) ? (out_low + (out_high-out_low)
+* ((x-in_low)/(in_high-in_low))^exp) : ( out_low + (out_high-out_low)
+* -((((-x+in_low)/(in_high-in_low)))^(exp))) \;;
+#X text 42 130 classic mode \; (out_high-out_low >= 0) ? (out_low +
+(out_high-out_low) * ((out_high - out_low) * exp(-1*(in_high-in_low)*log(power))
+* exp(x*log(power)))) : (-1) * (out_low + (out_high-out_low) * ((out_high
+- out_low) * exp(-1*(in_high-in_low) * log(power)) * exp(x*log(power))))
+\;;
+#X restore 606 378 pd formulas;
+#X text 543 77 [scale] uses by default Classic mode uses an exponential
+function compatible with old IRCAM patchers. In this case \, the argument
+must be greater than 1 \, with larger values leading to steeper exponential
+curves (a typical value is 1.06);
+#X text 551 471 Classic mode is buggy as hell \, and cycling 74 knows
+it. We have a reasonably good reversed engineered version \, but you
+shouldn't really bother to use it \, just saying....;
+#X restore 311 179 pd Exponential \; classic X modern;
+#X text 133 644 Classic mode is buggy as hell and cycling 74 is aware.
+We have a reasonably good version \, but you shouldn't really bother
+to use it \, just saying...;
+#X connect 13 0 14 0;
+#X connect 14 0 21 0;
+#X connect 21 0 15 0;
