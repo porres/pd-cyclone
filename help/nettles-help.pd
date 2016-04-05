@@ -1,21 +1,21 @@
-#N canvas 246 23 570 782 10;
+#N canvas 246 23 569 830 10;
 #X declare -lib nettles;
 #X declare -lib nettles;
-#X obj 200 319 ==~;
-#X obj 200 342 !=~;
-#X obj 200 514 !/~;
-#X obj 200 462 %~;
-#X obj 201 590 !-;
-#X obj 201 566 !/;
-#X obj 200 538 !-~;
+#X obj 200 353 ==~;
+#X obj 200 376 !=~;
+#X obj 200 548 !/~;
+#X obj 200 496 %~;
+#X obj 201 624 !-;
+#X obj 201 600 !/;
+#X obj 200 572 !-~;
 #X obj 10 43 cnv 15 552 30 empty empty nettles.c 3 12 0 18 -204280
 -1 0;
-#X obj 318 244 declare -lib nettles;
-#X obj 200 487 +=~;
-#X obj 200 414 >~;
-#X obj 200 366 <~;
-#X obj 200 438 >=~;
-#X obj 200 389 <=~;
+#X obj 304 169 declare -lib nettles;
+#X obj 200 521 +=~;
+#X obj 200 448 >~;
+#X obj 200 400 <~;
+#X obj 200 472 >=~;
+#X obj 200 423 <=~;
 #X text 129 51 subset library with "weird" character objects;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
@@ -33,48 +33,52 @@
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 8 7 pd;
-#X obj 251 318 cyclone/equals~;
-#X obj 250 341 cyclone/notequals~;
-#X obj 250 366 cyclone/greaterthan~;
-#X obj 250 389 cyclone/greaterthaneq~;
-#X obj 250 413 cyclone/lessthan~;
-#X obj 250 438 cyclone/lessthaneq~;
-#X obj 250 462 cyclone/modulo~;
-#X text 231 319 =;
-#X text 231 342 =;
-#X text 231 367 =;
-#X text 231 390 =;
-#X text 231 413 =;
-#X text 231 438 =;
-#X text 231 461 =;
-#X text 99 95 You may need to use [declare] to load the "nettles" library
-(a subset library of cyclone) in order to load all these 12 objects
-below with "weird" character names (right click on them for help patches).
-;
-#X text 98 244 load the nettles objects this way:;
+#X obj 251 352 cyclone/equals~;
+#X obj 250 375 cyclone/notequals~;
+#X obj 250 400 cyclone/greaterthan~;
+#X obj 250 423 cyclone/greaterthaneq~;
+#X obj 250 447 cyclone/lessthan~;
+#X obj 250 472 cyclone/lessthaneq~;
+#X obj 250 496 cyclone/modulo~;
+#X text 231 353 =;
+#X text 231 376 =;
+#X text 231 401 =;
+#X text 231 424 =;
+#X text 231 447 =;
+#X text 231 472 =;
+#X text 231 495 =;
 #X obj 433 51 declare -lib nettles;
-#X text 97 286 Nettles objects and their alphanumerical aliases in
+#X text 104 327 Nettles objects and their alphanumerical aliases in
 cyclone:;
-#X text 231 515 =;
-#X text 231 538 =;
-#X obj 250 514 cyclone/rdiv~;
-#X obj 250 538 cyclone/rminus~;
-#X text 231 566 =;
-#X text 231 589 =;
-#X obj 250 565 cyclone/rdiv;
-#X obj 250 589 cyclone/rminus;
-#X text 231 488 =;
-#X obj 250 488 cyclone/plusequals~;
-#X text 99 160 Pd may not like these names \, so we're looking for
-a way to safely load them without issues and the need of a declare
-object. We also have objects with their alphanumerical alias name \,
-these are outside nettles and inside cyclone \, so they can be loaded
-without any problem or the need for [declare].;
-#X text 110 632 There are also abstractions in cyclone with the nettles
-objects names. They are loaded if you don't declare the nettles library.
-They basically internally load the library and object \, but most won't
-have full functionalities. In this case \, a warning is given in the
-Pd window \, which will also tell you what to do to load the objects.
-If you have an abstraction \, check warning in Pd window or click on
-it to see if it opens. But none above are abstractions \, because this
-example patch correctly loads the nettles library!;
+#X text 231 549 =;
+#X text 231 572 =;
+#X obj 250 548 cyclone/rdiv~;
+#X obj 250 572 cyclone/rminus~;
+#X text 231 600 =;
+#X text 231 623 =;
+#X obj 250 599 cyclone/rdiv;
+#X obj 250 623 cyclone/rminus;
+#X text 231 522 =;
+#X obj 250 522 cyclone/plusequals~;
+#X text 99 95 "nettles" is a subset library of cyclone that load all
+these 12 objects below with "weird" character names (right click on
+them for help patches). You can load this library by inclusing "nettles"
+in the startup window. But if don't have nettles in the startup \,
+you can still load the library with the [declare object] like this:
+;
+#X text 100 200 We have to call these objects via a library because
+Pd may not like these names. A Newer release way find a way to safely
+load these objects without the need to load "nettles".;
+#X text 102 260 Cyclone includes alphanumerical objects outside nettles
+\, so they can be loaded without any problem or the need for loadind
+nettles. These alphanumerical object names exist in Max/MSP and are
+compatible to it.;
+#X text 110 662 There are also abstractions in cyclone with the nettles
+objects names. They are loaded if you don't have "nettles" loaded.
+They basically internally load the library with [declare] and call
+the object \, but most won't have full functionalities. Also \, a warning
+is given in the Pd window \, which tells you what to do to load nettles.
+To see if you loaded an abstractio \, check for warnings in the Pd
+window or click on the to see if it opens. But none of the above are
+abstractions \, because this example patch correctly loads the nettles
+library via [declare]!;
