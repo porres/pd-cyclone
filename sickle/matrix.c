@@ -500,12 +500,6 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 				  (t_newmethod)matrix_new, argc, argv))){
 		return (z);
 	}
-    else if (argc < 2){
-	loud_error(0, "bad creation arguments for class '%s'",
-		   matrixps_matrixtilde->s_name);
-	loud_errand(0, "missing number of %s", (argc ? "outlets" : "inlets"));
-	return (0);  /* CHECKED */
-    }
     else{
 	t_matrix *x = (t_matrix *)pd_new(matrix_class);
 
