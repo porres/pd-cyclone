@@ -164,6 +164,7 @@ rdiv.class.sources := hammer/rdiv.c $(hplain)
 rdiv2.class.sources := hammer/rdiv2.c $(hplain) # rename to !/ after compiled
 rminus.class.sources := hammer/rminus.c $(hplain)
 rminus2.class.sources := hammer/rminus2.c $(hplain) # rename to !- after compiled
+scale.class.sources := hammer/scale.c
 seq.class.sources := hammer/seq.c $(hseq)
 sinh.class.sources := hammer/sinh.c $(hplain)
 speedlim.class.sources := hammer/speedlim.c $(hgrow)

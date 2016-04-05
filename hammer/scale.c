@@ -1,28 +1,28 @@
 /************
  Copyright (c) 2016 Marco Matteo Markidis
  mm.markidis@gmail.com
+ 
+ For information on usage and redistribution, and for a DISCLAIMER OF ALL
+ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
  Made while listening:
  Hiatus Kaiyote -- Choose Your Weapon
 *************/
 
+#include <string.h>
+
 #include "m_pd.h"
 #include <math.h>
 
-#define ARG (4) /* number of default args */
-
-enum mode {
-  LIN,
-  EXP,
-  CLAS
-};
+/* 0 modern mode 
+   1 classic mode */
 
 static t_class *scale_class;
 
 typedef struct _scale
 {
   t_object obj; /* object header */
-  t_float f; /* incoming value */
+  t_float in; /* stored input value */
   t_outlet *float_outlet;
   t_float minin;
   t_float maxin;
@@ -32,6 +32,7 @@ typedef struct _scale
   t_atom *output_list; /* for list output */
   t_int a_bytes;
   t_int flag;
+  t_int ac;
 } t_scale;
 
 void *scale_new(t_symbol *s, int argc, t_atom *argv);
@@ -39,9 +40,7 @@ void scale_ft(t_scale *x, t_floatarg f);
 void scale_bang(t_scale *x);
 void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv);
 void scale_free(t_scale *x);
-void scale_classic(t_scale *x,t_floatarg f);
 void scale_setexpo(t_scale *x, t_floatarg f);
-void scale_set(t_scale *x, t_floatarg f);
 
 t_float scaling(t_scale *x, t_float f);
 t_float exp_scaling(t_scale *x, t_float f);
@@ -58,29 +57,82 @@ void *scale_new(t_symbol *s, int argc, t_atom *argv)
   floatinlet_new(&x->obj,&x->minout);
   floatinlet_new(&x->obj,&x->maxout);
   inlet_new(&x->obj,&x->obj.ob_pd,gensym("float"),gensym("setexpo")); 
-  if(argc<ARG || argc>ARG+1) {
-    pd_error(x,"scale: %d arguments needed!\nscale is inizialized with default args.",ARG);
-    x->minin = 0;
-    x->maxin = 127;
-    x->minout = 0;
-    x->maxout = 1;
-    return (x);
+  x->minin = 0;
+  x->maxin = 127;
+  x->minout = 0;
+  x->maxout = 1;
+  x->flag = 1;
+  x->expo = 1.f;
+  t_int numargs = 0;
+  t_float tmp = -1.f;
+
+  while(argc>0) {
+    t_symbol *firstarg = atom_getsymbolarg(0,argc,argv);
+    if(firstarg==&s_){
+      switch(numargs) {
+      case 0:
+	x->minin = atom_getfloatarg(0,argc,argv);
+	numargs++;
+	argc--;
+	argv++;
+	break;
+      case 1:
+	x->maxin = atom_getfloatarg(0,argc,argv);
+	numargs++;
+	argc--;
+	argv++;
+	break;
+      case 2:
+	x->minout = atom_getfloatarg(0,argc,argv);
+	numargs++;
+	argc--;
+	argv++;
+	break;
+      case 3:
+	x->maxout = atom_getfloatarg(0,argc,argv);
+	numargs++;
+	argc--;
+	argv++;
+	break;
+      case 4:
+	tmp = atom_getfloatarg(0,argc,argv);
+	numargs++;
+	argc--;
+	argv++;
+	break;
+      default:
+	argc--;
+	argv++;
+      }
+    }
+    else {
+      t_int isclassic = strcmp(firstarg->s_name,"@classic") == 0;
+      if(isclassic && argc>=1) {
+	t_symbol *arg = atom_getsymbolarg(1,argc,argv);
+	if(arg == &s_) {
+	  t_int dummy = atom_getintarg(1,argc,argv);
+	  if(dummy==0)
+	    x->flag = 0;
+	  argc-=2;
+	  argv+=2;
+	}
+      }
+      else {
+	argc = 0;
+	pd_error(x,"scale: improper args");
+      }
+    }
   }
 
-  x->flag = LIN;
-  x->expo = -1.f;
+
+  if(tmp!=-1) {
+    if(x->flag==0)
+      x->expo = ((tmp<0.f) ? 0.f : tmp);
+    else x->expo = ((tmp<1.f) ? 0.f : tmp);
+  }
   
-  x->minin = atom_getfloatarg(0,argc,argv); /* inserire controlli */
-  x->maxin = atom_getfloatarg(1,argc,argv);
-  x->minout = atom_getfloatarg(2,argc,argv);
-  x->maxout = atom_getfloatarg(3,argc,argv);
-
-  if(argc==ARG+1) {
-    x->expo = atom_getfloatarg(4,argc,argv);
-    x->flag = EXP;
-  }
-
-  x->a_bytes = sizeof(t_atom);
+  x->ac = 1;
+  x->a_bytes = x->ac*sizeof(t_atom);
   x->output_list = (t_atom *)getbytes(x->a_bytes);
   if(x->output_list==NULL) {
     pd_error(x,"scale: memory allocation failure");
@@ -99,33 +151,22 @@ void scale_setup(void)
   class_addfloat(c,(t_method)scale_ft);
   class_addbang(c,(t_method)scale_bang);
   class_addlist(c,(t_method)scale_list);
-  class_addmethod(c,(t_method)scale_classic,gensym("classic"),A_DEFFLOAT,0);
-  class_addmethod(c,(t_method)scale_setexpo,gensym("exp"),A_DEFFLOAT,0);
-  class_addmethod(c,(t_method)scale_set,gensym("set"),A_DEFFLOAT,0);
+  class_addmethod(c,(t_method)scale_setexpo,gensym("setexpo"),A_DEFFLOAT,0);
 }
 
 void scale_ft(t_scale *x, t_floatarg f)
 {
+  x->in = f;
   check(x);
-  outlet_float(x->float_outlet,ptrtoscaling(x,f));
-  return;
-}
-
-void scale_classic(t_scale *x,t_floatarg f)
-{
-  if(x->expo==-1.f) {
-    pd_error(x,"5th argument is not defined");
-    return;
-  }
-  if(f==1)
-    x->flag = CLAS;
-  else x->flag = EXP;
+  t_float temp = ptrtoscaling(x,f);
+  SETFLOAT(x->output_list,temp);
+  outlet_list(x->float_outlet,0,x->ac,x->output_list);
   return;
 }
 
 t_float scaling(t_scale *x, t_float f)
 {
-  f = f / (x->maxin - x->minin) * (x->maxout-x->minout) + x->minout;
+  f = (x->maxout - x->minout)*(f-x->minin)/(x->maxin-x->minin) + x->minout;
   return f;
 }
 
@@ -133,9 +174,9 @@ t_float exp_scaling(t_scale *x, t_float f)
 {
   f = ((f-x->minin)/(x->maxin-x->minin) == 0) 
     ? x->minout : (((f-x->minin)/(x->maxin-x->minin)) > 0) 
-    ? (x->minout + (x->maxout-x->minout) * pow(x->expo,(f-x->minin)/(x->maxin-x->minin))) 
-    : ( x->minout + (x->maxout-x->minout) * -(pow(x->expo,((-f+x->minin)/(x->maxin-x->minin)))));
-    return f;
+    ? (x->minout + (x->maxout-x->minout) * pow((f-x->minin)/(x->maxin-x->minin),x->expo)) 
+    : ( x->minout + (x->maxout-x->minout) * -(pow(((-f+x->minin)/(x->maxin-x->minin)),x->expo)));
+  return f;
 }
 
 t_float clas_scaling(t_scale *x, t_float f)
@@ -148,7 +189,7 @@ t_float clas_scaling(t_scale *x, t_float f)
 
 void scale_bang(t_scale *x)
 {
-  outlet_float(x->float_outlet,x->f);
+  scale_ft(x,x->in);
   return;
 }
 
@@ -156,9 +197,11 @@ void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
 {
   int i = 0;
   int old_a = x->a_bytes;
+  x->ac = argc;
   x->a_bytes = argc*sizeof(t_atom);
   x->output_list = (t_atom *)t_resizebytes(x->output_list,old_a,x->a_bytes);
   check(x);
+  x->in = atom_getfloatarg(0,argc,argv);
   for(i=0;i<argc;i++)
     SETFLOAT(x->output_list+i,ptrtoscaling(x,atom_getfloatarg(i,argc,argv)));
   outlet_list(x->float_outlet,0,argc,x->output_list);
@@ -167,34 +210,24 @@ void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
 
 void scale_setexpo(t_scale *x, t_floatarg f)
 {
-  if(f<=1) {
-    pd_error(x,"Exp must be > 1");
-    x->expo = 1.06;
-  }
-  else x->expo = f;
-  return;
-}
-
-void scale_set(t_scale *x, t_floatarg f)
-{
-  check(x);
-  x->f = ptrtoscaling(x,f);
+  if(x->flag==1)
+    x->expo = ((f<1.)?1.:f);
+  else x->expo = ((f<0.)?0.:f);
   return;
 }
 
 void check(t_scale *x)
 {
   switch (x->flag) {
-  case LIN:
-    ptrtoscaling = scaling;
-    break;
-  case EXP:
+  case 0:
     ptrtoscaling = exp_scaling;
     break;
   default:
     ptrtoscaling = clas_scaling;
     break;
   }
+  if(x->expo==1)
+    ptrtoscaling = scaling;
   return;
 }
 
