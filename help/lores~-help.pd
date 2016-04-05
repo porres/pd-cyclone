@@ -1,7 +1,7 @@
-#N canvas 509 23 567 754 10;
-#X obj 6 712 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 509 23 565 773 10;
+#X obj 6 732 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 386 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 406 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 608 337 360 272 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -21,69 +21,63 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 511 714 pd META;
-#X obj 6 498 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 511 734 pd META;
+#X obj 6 518 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 535 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 555 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 6 614 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 6 634 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 310 494 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 214 714 pd Related_objects;
-#X obj 85 400 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 214 734 pd Related_objects;
+#X obj 85 420 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 444 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 85 464 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 6 40 cnv 15 552 40 empty empty lores~ 3 12 0 18 -204280 -1 0
 ;
 #X obj 509 47 lores~;
 #X obj 119 208 phasor~ 150;
-#X text 118 400 signal;
-#X obj 85 468 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 153 420 signal;
+#X obj 85 488 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 502 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 528 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 501 signal;
-#X text 211 506 - output of filer;
-#X text 100 547 1) float;
-#X text 185 549 - initial cutoff frequency (default 0);
-#X text 100 567 2) float;
+#X text 155 528 signal;
+#X text 143 567 1) float;
+#X text 143 587 2) float;
 #X obj 157 330 output~;
-#X text 118 444 float/signal;
-#X text 209 443 - cutoff frequency;
-#X text 118 469 float/signal;
-#X text 210 468 - resonance;
+#X text 118 464 float/signal;
+#X text 209 463 - cutoff frequency;
+#X text 118 489 float/signal;
+#X text 210 488 - resonance;
 #X obj 119 239 triangle~ 0;
 #X text 18 63 Low-pass resonant filter;
-#X obj 342 283 line~;
-#X msg 342 258 \$1 100;
-#X obj 246 250 +~ 1000;
-#X obj 345 215 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X floatatom 342 235 5 0 0 0 - - -, f 5;
-#X obj 246 226 *~ 750;
-#X obj 246 197 osc~ 1;
-#X text 209 400 - signal to be filteredce;
-#X text 185 567 - intial resonance: 0 is a little bit sharp and 1 as
-sharp as possible (default 0).;
-#X obj 182 289 cyclone/lores~ 250 0.8;
-#X text 366 215 resonance (0-1);
+#X obj 318 283 line~;
+#X msg 318 258 \$1 100;
+#X obj 222 250 +~ 1000;
+#X obj 321 215 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 10100 1;
+#X floatatom 318 235 5 0 0 0 - - -, f 5;
+#X obj 222 226 *~ 750;
+#X obj 222 197 osc~ 1;
+#X text 342 215 resonance (0-1);
 #X text 130 185 input;
-#X text 118 422 clear;
-#X text 140 672 Since it is a recursive filter \, you may need to use
+#X text 160 442 clear;
+#X text 133 691 Since it is a recursive filter \, you may need to use
 the "clear" message if it blows up.;
-#X text 139 624 The equation of the filter is <yn = scale * xn - c1
+#X text 132 643 The equation of the filter is <yn = scale * xn - c1
 * yn-1 + c2 * yn-2> \, where scale \, c1 \, and c2 are parameters calculated
 from the cutoff frequency and resonance factor.;
-#X text 245 175 LFO (filter sweep);
+#X text 221 175 LFO (filter sweep);
 #X text 99 89 [lores~] implements an inexpensive resonant lowpass filter.
 The first argument or middle inlet sets the cutoff frequency \, and
 the resonance is set by the second argument or the right inlet. Below
 \, we use a LFO to control the cutoff \, resulting in a filter sweep
 effect.;
-#X text 210 420 - clears the buffer and resets the filter;
+#X text 210 440 - clears the buffer and resets the filter;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -100,14 +94,20 @@ effect.;
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 5 5 pd;
-#X connect 11 0 25 0;
-#X connect 25 0 36 0;
-#X connect 27 0 36 2;
-#X connect 28 0 27 0;
-#X connect 29 0 36 1;
-#X connect 30 0 31 0;
-#X connect 31 0 28 0;
-#X connect 32 0 29 0;
-#X connect 33 0 32 0;
-#X connect 36 0 20 0;
-#X connect 36 0 20 1;
+#X text 209 420 - signal to be filtered;
+#X text 211 527 - output of filter;
+#X obj 182 289 cyclone/lores~;
+#X text 212 569 - cutoff frequency (default 0);
+#X text 212 587 - resonance (default 0): minimum is 0 (a little bit
+sharp) and maximum is 1 (as sharp as possible).;
+#X connect 11 0 23 0;
+#X connect 23 0 43 0;
+#X connect 25 0 43 2;
+#X connect 26 0 25 0;
+#X connect 27 0 43 1;
+#X connect 28 0 29 0;
+#X connect 29 0 26 0;
+#X connect 30 0 27 0;
+#X connect 31 0 30 0;
+#X connect 43 0 18 0;
+#X connect 43 0 18 1;

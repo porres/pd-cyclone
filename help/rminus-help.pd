@@ -1,15 +1,10 @@
-#N canvas 688 55 572 755 10;
-#X declare -lib nettles;
-#X declare -lib nettles;
-#X declare -lib nettles;
+#N canvas 688 55 570 540 10;
 #X obj 1 40 cnv 15 552 50 empty empty !- 3 12 0 18 -204280 -1 0;
-#X obj 7 677 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 7 497 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 7 383 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 434 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 7 487 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -28,27 +23,26 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 510 679 pd META;
+#X restore 510 499 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 198 679 pd Related_objects;
+#X restore 198 499 pd Related_objects;
 #X obj 7 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X floatatom 304 179 5 0 0 0 - - -, f 5;
+#X floatatom 315 179 5 0 0 0 - - -, f 5;
 #X floatatom 258 182 5 0 0 0 - - -, f 5;
 #X floatatom 70 189 5 0 0 0 - - -, f 5;
 #X floatatom 163 186 5 0 0 0 - - -, f 5;
-#X obj 274 212 !-;
 #X obj 525 67 !-;
 #X text 13 67 Subtraction object (inlets reversed): alias of [rminus]
 ;
-#X floatatom 274 244 5 0 0 0 - - -, f 5;
+#X floatatom 258 244 5 0 0 0 - - -, f 5;
 #X obj 508 46 rminus;
 #X floatatom 70 242 5 0 0 0 - - -, f 5;
 #X obj 418 224 -;
 #X obj 416 201 swap;
-#X text 338 217 same as:;
+#X text 338 214 same as:;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -69,14 +63,6 @@ adapted the patch to pd-extended 2015-02-02;
 #X floatatom 448 173 5 0 0 0 - - -, f 5;
 #X floatatom 402 176 5 0 0 0 - - -, f 5;
 #X floatatom 418 251 5 0 0 0 - - -, f 5;
-#X obj 417 529 declare -lib nettles, f 21;
-#X obj 418 640 nettles-help;
-#X text 63 641 Open help files of "nettles" to understand what it is
-===>;
-#X text 60 516 So far \, [!-] only correctly loads if you declare the
-"nettles" library with the declare object like this =====>;
-#X text 62 604 You can also load the alias object [cyclone/rminus]
-with no such issues and outside "nettles".;
 #X text 77 110 [rminus] or [!-] Subtracts the input from a specified
 value. The [!-] object functions just like the [-] object \, but the
 inlets' functions are reversed.;
@@ -102,21 +88,18 @@ by numbers received in the left inlet (cold inlet).;
 ;
 #X obj 93 405 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 61 550 There's a [cyclone/!-] abstraction that internally loads
-the object if you didn't declare nettles. If you are not sure if you
-have an abstraction \, check warning in Pd window or click on it to
-see if it opens.;
 #X obj 42 188 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X connect 8 0 12 1;
-#X connect 9 0 12 0;
-#X connect 10 0 22 0;
-#X connect 11 0 22 1;
-#X connect 12 0 15 0;
-#X connect 18 0 25 0;
-#X connect 19 0 18 0;
-#X connect 19 1 18 1;
+#X obj 258 212 cyclone/!-;
+#X connect 7 0 40 1;
+#X connect 8 0 40 0;
+#X connect 9 0 20 0;
+#X connect 10 0 20 1;
+#X connect 16 0 23 0;
+#X connect 17 0 16 0;
+#X connect 17 1 16 1;
+#X connect 20 0 15 0;
+#X connect 21 0 17 1;
 #X connect 22 0 17 0;
-#X connect 23 0 19 1;
-#X connect 24 0 19 0;
-#X connect 47 0 22 0;
+#X connect 39 0 20 0;
+#X connect 40 0 13 0;

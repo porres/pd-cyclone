@@ -1,4 +1,4 @@
-#N canvas 360 23 571 818 10;
+#N canvas 360 23 563 809 10;
 #X obj 6 766 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 13 542 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -44,25 +44,23 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 92 603 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 127 601 signal;
-#X text 121 636 signal;
+#X text 126 636 signal;
 #X text 192 636 - the triangle wavetable output based on args;
-#X text 103 680 1) float;
+#X text 114 681 1) float;
 #X floatatom 168 257 6 0 0 0 - - -, f 6;
-#X msg 168 279 hi \$1;
 #X floatatom 218 280 6 0 0 0 - - -, f 6;
-#X msg 218 302 lo \$1;
 #X text 192 575 - lo/hi messages change the lo/hi points (default -1/1)
 ;
 #X text 121 575 message;
 #X obj 90 442 output~;
-#X obj 334 343 line~;
+#X obj 334 341 line~;
 #X obj 337 264 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 5600 1;
+-1 -1 11300 1;
 #X floatatom 334 292 5 0 0 0 - - -, f 5;
 #X obj 171 216 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -249661
 -1 -1 0 1;
-#X obj 235 239 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -249661
--1 -1 0 1;
+#X obj 221 239 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -249661
+-1 -1 12700 1;
 #X text 423 505 -1;
 #X text 426 459 0;
 #X text 426 407 1;
@@ -201,24 +199,26 @@ like waveforms to triangular ones.;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 502 88 pd;
 #X text 192 680 - peak position from 0 to 1 (default 0.5);
-#X obj 133 369 cyclone/triangle~ @lo -0.5 @hi 0.5;
 #X msg 334 315 \$1 50;
 #X obj 89 280 phasor~ 229;
 #X obj 15 714 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856
 -1 0;
 #X text 174 721 @lo <f> (default 0) - same as "lo" message;
 #X text 174 736 @hi <f> (default 1) - same as "hi" message;
-#X connect 16 0 17 0;
-#X connect 17 0 40 0;
-#X connect 18 0 19 0;
-#X connect 19 0 40 0;
-#X connect 23 0 40 1;
-#X connect 24 0 25 0;
-#X connect 25 0 41 0;
-#X connect 26 0 16 0;
-#X connect 27 0 18 0;
-#X connect 40 0 22 0;
-#X connect 40 0 22 1;
-#X connect 40 0 36 0;
-#X connect 41 0 23 0;
-#X connect 42 0 40 0;
+#X msg 168 279 lo \$1;
+#X msg 218 302 hi \$1;
+#X obj 133 368 cyclone/triangle~ @lo -0.5 @hi 0.5;
+#X connect 16 0 43 0;
+#X connect 17 0 44 0;
+#X connect 21 0 45 1;
+#X connect 22 0 23 0;
+#X connect 23 0 38 0;
+#X connect 24 0 16 0;
+#X connect 25 0 17 0;
+#X connect 38 0 21 0;
+#X connect 39 0 45 0;
+#X connect 43 0 45 0;
+#X connect 44 0 45 0;
+#X connect 45 0 20 0;
+#X connect 45 0 20 1;
+#X connect 45 0 34 0;

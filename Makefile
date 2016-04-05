@@ -307,6 +307,7 @@ delta~.class.sources := sickle/delta.c $(ssic)
 deltaclip~.class.sources := sickle/deltaclip.c $(ssic)
 edge~.class.sources := sickle/edge.c $(ssic)
 equals~.class.sources := sickle/equals.c $(ssic)
+equals2~.class.sources := sickle/equals2.c $(ssic) # rename to ==~ after compiled
 frameaccum~.class.sources := sickle/frameaccum.c $(sgrow)
 framedelta~.class.sources := sickle/framedelta.c $(sgrow)
 greaterthan~.class.sources := sickle/greaterthan.c $(ssic)
