@@ -40,7 +40,7 @@ static void *equals_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void setup_0x3d0x3d0x7e(void)
+void setup_0x3d0x3d_tilde(void)
 {
     equals_class = class_new(gensym("==~"),
 			      (t_newmethod)equals_new, 0,
@@ -49,5 +49,5 @@ void setup_0x3d0x3d0x7e(void)
 }
 
 void setup(void){
-    setup_0x3d0x3d0x7e();
+    setup_0x3d0x3d_tilde();
 }

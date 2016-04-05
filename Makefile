@@ -161,7 +161,9 @@ prob.class.sources := hammer/prob.c $(hrandfile)
 pv.class.sources := hammer/pv.c $(hgrow)
 round.class.sources := hammer/round.c
 rdiv.class.sources := hammer/rdiv.c $(hplain)
+rdiv2.class.sources := hammer/rdiv2.c $(hplain) # rename to !/ after compiled
 rminus.class.sources := hammer/rminus.c $(hplain)
+rminus2.class.sources := hammer/rminus2.c $(hplain) # rename to !- after compiled
 seq.class.sources := hammer/seq.c $(hseq)
 sinh.class.sources := hammer/sinh.c $(hplain)
 speedlim.class.sources := hammer/speedlim.c $(hgrow)
@@ -311,11 +313,15 @@ equals2~.class.sources := sickle/equals2.c $(ssic) # rename to ==~ after compile
 frameaccum~.class.sources := sickle/frameaccum.c $(sgrow)
 framedelta~.class.sources := sickle/framedelta.c $(sgrow)
 greaterthan~.class.sources := sickle/greaterthan.c $(ssic)
+greaterthan2~.class.sources := sickle/greaterthan2.c $(ssic) # rename to >~ after compiled
 greaterthaneq~.class.sources := sickle/greaterthaneq.c $(ssic)
+greaterthaneq2~.class.sources := sickle/greaterthaneq2.c $(ssic) # rename to >=~ after compiled
 index~.class.sources := sickle/index.c $(sarsic)
 kink~.class.sources := sickle/kink.c $(ssic)
 lessthan~.class.sources := sickle/lessthan.c $(ssic)
+lessthan2~.class.sources := sickle/lessthan2.c $(ssic) # rename to <~ after compiled
 lessthaneq~.class.sources := sickle/lessthaneq.c $(ssic)
+lessthaneq2~.class.sources := sickle/lessthaneq2.c $(ssic) # rename to <=~ after compiled
 Line~.class.sources := sickle/Line.c $(sgrow)
 linedrive.class.sources := sickle/linedrive.c $(splainnotilde)
 log~.class.sources := sickle/log.c $(ssic)
@@ -326,8 +332,10 @@ maximum~.class.sources := sickle/maximum.c $(ssic)
 minimum~.class.sources := sickle/minimum.c $(ssic)
 minmax~.class.sources := sickle/minmax.c $(ssic)
 modulo~.class.sources := sickle/modulo.c $(ssic)
+modulo2~.class.sources := sickle/modulo2.c $(ssic) # rename to %~ after compiled
 mstosamps~.class.sources := sickle/mstosamps.c $(ssic)
 notequals~.class.sources := sickle/notequals.c $(ssic)
+notequals2~.class.sources := sickle/notequals2.c $(ssic) # rename to !=~ after compiled
 onepole~.class.sources := sickle/onepole.c $(ssic)
 overdrive~.class.sources := sickle/overdrive.c $(ssic)
 peakamp~.class.sources := sickle/peakamp.c $(ssic)
@@ -336,6 +344,7 @@ phasewrap~.class.sources := sickle/phasewrap.c $(ssic)
 pink~.class.sources := sickle/pink.c $(ssic)
 play~.class.sources := sickle/play.c $(sarsic)
 plusequals~.class.sources := sickle/plusequals.c $(ssic)
+plusequals2~.class.sources := sickle/plusequals2.c $(ssic) # rename to +=~ after compiled
 poke~.class.sources := sickle/poke.c $(sarsic)
 poltocar~.class.sources := sickle/poltocar.c $(sfragile)
 pong~.class.sources := sickle/pong.c
@@ -343,7 +352,9 @@ pow~.class.sources := sickle/pow.c $(ssic)
 rampsmooth~.class.sources := sickle/rampsmooth.c $(ssic)
 rand~.class.sources := sickle/rand.c $(ssic)
 rdiv~.class.sources := sickle/rdiv.c $(ssic)
+rdiv2~.class.sources := sickle/rdiv2.c $(ssic) # rename to !/~ after compiled
 rminus~.class.sources := sickle/rminus.c $(ssic)
+rminus2~.class.sources := sickle/rminus2.c $(ssic) # rename to !-~ after compiled
 record~.class.sources := sickle/record.c $(sarsic)
 reson~.class.sources := sickle/reson.c $(ssic)
 round~.class.sources := sickle/round.c 
