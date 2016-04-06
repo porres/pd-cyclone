@@ -1304,6 +1304,7 @@ void scope_tilde_setup(void)
 			    (t_method)scope_free,
 			    sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new, gensym("Scope~"), A_GIMME, 0); // back compatible
+    class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // back compatible
 //    class_addcreator((t_newmethod)scope_new, gensym("cyclone/scope~"), A_GIMME, 0);
     sic_setup(scope_class, scope_dsp, scope_float);
 	class_addmethod(scope_class, (t_method)scope_period,

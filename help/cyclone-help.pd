@@ -1,0 +1,49 @@
+#N canvas 722 23 573 565 10;
+#X declare -lib cyclone;
+#X obj 10 43 cnv 15 552 30 empty empty cyclone.c 3 12 0 18 -204280
+-1 0;
+#X text 129 51 subset library with "weird" character objects;
+#N canvas 439 241 715 321 (subpatch) 0;
+#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+0;
+#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+0;
+#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
+0;
+#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X coords 0 -1 1 1 554 30 1 50 50;
+#X restore 8 7 pd;
+#X text 99 370 But if the library is not preloaded via the startup
+\, you can still load it with [declare] \, as long as the cyclone folder
+is in your search path. In this case \, declare it as below:;
+#X obj 119 181 ==~;
+#X obj 119 204 !=~;
+#X obj 119 228 <~;
+#X obj 149 182 <=~;
+#X obj 150 204 >~;
+#X obj 149 227 >=~;
+#X obj 187 181 %~;
+#X obj 218 181 +=~;
+#X obj 187 227 !/~;
+#X obj 187 204 !-~;
+#X obj 218 227 !/;
+#X obj 218 205 !-;
+#X text 88 136 The nettles objects are:;
+#X text 270 199 check their help files more info.;
+#X text 96 273 ============================================================
+;
+#X text 88 93 Cyclone is a library with a subset library of cyclone
+that loads the 12 objects below with "weird" character names.;
+#X text 67 307 Loading the cyclone library:;
+#X obj 303 429 declare -lib cyclone;
+#X text 99 338 You need to load cyclone via the startup. How to do
+that was instructed in the "How to Install Cyclone" process.;
+#X text 109 470 If you actually read the instructions on how to install
+and already had cyclone loaded via the startup \, [declare] tells you
+"cyclone: already loaded" in the Pd window.;
