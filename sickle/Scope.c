@@ -1341,7 +1341,7 @@ void scope_tilde_setup(void)
     fitter_setup(scope_class, 0);
 }
 
-void scope_tilde_setup(void)
+void Scope_tilde_setup(void)
 {
-    scope_tilde_setup();
+    Scope_tilde_setup();
 }
