@@ -1,4 +1,4 @@
-#N canvas 1 82 872 997 10;
+#N canvas 571 23 872 803 10;
 #X obj 14 5 cyclone/abs~;
 #X obj 14 30 cyclone/acos~;
 #X obj 14 55 cyclone/acosh~;
@@ -63,8 +63,6 @@
 #X obj 436 505 cyclone/reson~;
 #X obj 436 530 cyclone/sah~;
 #X obj 436 555 cyclone/sampstoms~;
-#X obj 436 580 cyclone/Scope~ 130 95 256 3 128 -1 1 0 0 0 0 102 255
-51 135 135 135 0;
 #X obj 436 680 cyclone/sinh~;
 #X obj 436 705 cyclone/sinx~;
 #X obj 436 730 cyclone/slide~;
@@ -79,3 +77,5 @@
 #X obj 436 955 cyclone/vectral~;
 #X obj 436 980 cyclone/wave~;
 #X obj 436 1005 cyclone/zerox~;
+#X obj 436 577 cyclone/scope~ 150 94 256 3 128 -1 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
