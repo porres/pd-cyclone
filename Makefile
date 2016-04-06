@@ -1,6 +1,6 @@
 # Makefile for pure data externals in lib cyclone
 
-lib.name = cyclone
+lib.name = cyclone # seems useless
 
 # for the MINGW which has the timespec struct defined twice
 cflags = -Ishared -DHAVE_STRUCT_TIMESPEC
@@ -381,7 +381,7 @@ zerox~.class.sources := sickle/zerox.c $(ssic)
 
 # nettles.class.sources := shadow/nettles.c $(ssic)
 
-nettles.class.sources := shadow/nettles.c $(ssic)
+cyclone.class.sources := shadow/cyclone $(ssic)
 
 datafiles = \
 $(wildcard help/*-help.pd) \
