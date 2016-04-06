@@ -42,5 +42,12 @@ void equals_tilde_setup(void)
     equals_class = class_new(gensym("equals~"),
 			      (t_newmethod)equals_new, 0,
 			      sizeof(t_equals), 0, A_GIMME, 0);
+//   class_addcreator((t_newmethod)equals_new, gensym("Equals~"), A_GIMME, 0);
+//    class_addcreator((t_newmethod)equals_new, gensym("==~"), A_GIMME, 0);
     sic_setup(equals_class, equals_dsp, SIC_FLOATTOSIGNAL);
 }
+
+/*void Equals_tilde_setup(void)
+{
+    equals_tilde_setup();
+}*/

@@ -1343,5 +1343,5 @@ void scope_tilde_setup(void)
 
 void Scope_tilde_setup(void)
 {
-    Scope_tilde_setup();
+    scope_tilde_setup();
 }
