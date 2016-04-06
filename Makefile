@@ -379,8 +379,9 @@ vectral~.class.sources := sickle/vectral.c $(ssic)
 wave~.class.sources := sickle/wave.c $(sarsic)
 zerox~.class.sources := sickle/zerox.c $(ssic)
 
-nettles.class.sources := shadow/nettles.c $(ssic)
+# nettles.class.sources := shadow/nettles.c $(ssic)
 
+nettles.class.sources := shadow/nettles.c $(ssic)
 
 datafiles = \
 $(wildcard help/*-help.pd) \
