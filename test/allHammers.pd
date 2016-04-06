@@ -1,9 +1,8 @@
-#N canvas 587 79 887 1000 10;
+#N canvas 587 22 887 803 10;
 #X obj 26 25 cyclone/accum;
 #X obj 26 50 cyclone/acos;
 #X obj 26 75 cyclone/active;
 #X obj 26 100 cyclone/anal;
-#X obj 26 125 cyclone/Append;
 #X obj 26 150 cyclone/asin;
 #X obj 26 175 cyclone/bangbang;
 #X obj 26 200 cyclone/bondo;
@@ -79,3 +78,4 @@
 #X obj 411 950 cyclone/zl;
 #X obj 411 475 cyclone/sprintf foo %s;
 #X obj 25 400 cyclone/comment 0 12 Courier ? 0 0 128 128 comment;
+#X obj 26 125 cyclone/Append;
