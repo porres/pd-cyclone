@@ -1293,18 +1293,18 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     return (x);
 	
 	errstate:
-		pd_error(x, "Scope~: improper args");
+		pd_error(x, "scope~: improper args");
 		return NULL;
 }
 
-void Scope_tilde_setup(void)
+void scope_tilde_setup(void)
 {
-    scope_class = class_new(gensym("Scope~"),
+    scope_class = class_new(gensym("scope~"),
 			    (t_newmethod)scope_new,
 			    (t_method)scope_free,
 			    sizeof(t_scope), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)scope_new, gensym("scope~"), A_GIMME, 0);
-    class_addcreator((t_newmethod)scope_new, gensym("cyclone/scope~"), A_GIMME, 0);
+    class_addcreator((t_newmethod)scope_new, gensym("Scope~"), A_GIMME, 0); // back compatible
+//    class_addcreator((t_newmethod)scope_new, gensym("cyclone/scope~"), A_GIMME, 0);
     sic_setup(scope_class, scope_dsp, scope_float);
 	class_addmethod(scope_class, (t_method)scope_period,
 			gensym("calccount"), A_FLOAT, 0);
@@ -1343,5 +1343,5 @@ void Scope_tilde_setup(void)
 
 void scope_tilde_setup(void)
 {
-    Scope_tilde_setup();
+    scope_tilde_setup();
 }

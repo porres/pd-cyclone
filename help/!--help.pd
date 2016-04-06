@@ -90,7 +90,7 @@ by numbers received in the left inlet (cold inlet).;
 ;
 #X obj 42 188 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 258 212 cyclone/!-;
+#X obj 258 212 !-;
 #X connect 7 0 40 1;
 #X connect 8 0 40 0;
 #X connect 9 0 20 0;
