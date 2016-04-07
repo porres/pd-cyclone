@@ -60,7 +60,7 @@ void Clip_tilde_setup(void)
     sic_setup(clip_class, clip_dsp, SIC_FLOATTOSIGNAL);
 }
 
-void clip_tilde_setup(void)
+void cLip_tilde_setup(void)
 {
     Clip_tilde_setup();
 }
