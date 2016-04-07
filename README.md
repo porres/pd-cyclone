@@ -4,7 +4,7 @@ Cyclone is a library of clones of Max/MSP objects for Pure Data
 
 <strong>Original Project Description (by Krzysztof Czaja):</strong>
 
-Cyclone is a library of PureData classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
+Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
 In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. In this respect, cyclone has much in common with Thomas Grill's flext, and flext-based externals. See Thomas' page. While flext enables developing new cross-platform classes, cyclone makes existing classes cross-platform. 
 
@@ -50,7 +50,7 @@ http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 cyclone
 -------
 
-Cyclone is a library of PureData classes, bringing some level of compatibility
+Cyclone is a library of Pure Data classes, bringing some level of compatibility
 between Max/MSP and Pd environments.  Although being itself in the early stage
 of development, it is meant to eventually become part of a much larger
 project, aiming at unification and standardization of computer musician's
