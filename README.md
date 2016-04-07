@@ -1,5 +1,5 @@
 -------
-Cyclone - a set of objects for Pure Data cloned from Max/MSP 
+Cyclone - a set of Pure Data objects cloned from Max/MSP 
 -------
 
 --------------------
