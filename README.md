@@ -1,4 +1,6 @@
+-------
 Cyclone is a library of clones of Max/MSP objects for Pure Data
+-------
 
 <strong>Original Project Description (by Krzysztof Czaja):</strong>
 
@@ -32,7 +34,9 @@ February 22nd 2016 (last edited, april 7th)
 
 ============================================================================================================================
 
-Cyclone's original ReadMe
+Cyclone's original ReadMe:
+
+============================================================================================================================
 
 http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 
