@@ -1,4 +1,18 @@
+Changelog with things that changed between cyclone versions.
+============================================================
+
+Current version: 0.3-beta-1 (release xx/xx/xx)
+
+TO DO for cyclone, next release:
+
+ 
+================
 DONE for cyclone
+================
+
+0.3-beta-1
+
+Coming soon…
 
 0.2beta1 has no changelog 
 

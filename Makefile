@@ -11,7 +11,7 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
 endif
 
 ################################################################################
-### hammer #####################################################################
+### hammer (Max) ###############################################################
 ################################################################################
 
 
@@ -101,7 +101,7 @@ shared/common/fitter.c \
 shared/unstable/forky.c
 
 
-# hammer classes
+# hammer (Max) classes
 accum.class.sources := hammer/accum.c $(hplain)
 acos.class.sources := hammer/acos.c $(hplain)
 acosh.class.sources := hammer/acosh.c $(hplain)
@@ -193,7 +193,7 @@ zl.class.sources := hammer/zl.c $(hgrow)
 
 
 ################################################################################
-### sickle #####################################################################
+### sickle (MSP) ###############################################################
 ################################################################################
 
 
@@ -271,7 +271,7 @@ shared/common/loud.c \
 shared/common/fitter.c
 
 
-# sickle classes
+# sickle (MSP) classes
 
 abs~.class.sources := sickle/abs.c $(ssic)
 acos~.class.sources := sickle/acos.c $(ssic)
@@ -367,9 +367,11 @@ vectral~.class.sources := sickle/vectral.c $(ssic)
 wave~.class.sources := sickle/wave.c $(sarsic)
 zerox~.class.sources := sickle/zerox.c $(ssic)
 
-# nettles.class.sources := shadow/nettles.c $(ssic)
+################################################################################
+### Cyclone (sub library with non alphanumeric objects (Max and MSP classes) ###
+################################################################################
 
-cyclone.class.sources := shadow/cyclone_lib $(ssic)
+cyclone.class.sources := shadow/cyclone_lib $(ssic) # updated from old nettles.c
 
 datafiles = \
 $(wildcard help/*-help.pd) \
