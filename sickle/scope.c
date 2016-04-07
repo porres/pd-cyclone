@@ -18,6 +18,7 @@ also if(cv = scope_isvisible(x)) seems to be incorrect but is also everywhere th
 - Derek Kwan
 */
 
+#include<math.h>
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
@@ -55,8 +56,10 @@ also if(cv = scope_isvisible(x)) seems to be incorrect but is also everywhere th
 #define SCOPE_MINTRIGMODE    SCOPE_TRIGLINEMODE
 #define SCOPE_MAXTRIGMODE    SCOPE_TRIGDOWNMODE
 #define SCOPE_DEFTRIGLEVEL   0.
-#define SCOPE_MINCOLOR       0
-#define SCOPE_MAXCOLOR     255
+#define SCOPE_MINRGB       0
+#define SCOPE_MAXRGB     255
+#define SCOPE_MINCOLOR      0.
+#define SCOPE_MAXCOLOR     1.
 #define SCOPE_DEFFGRED     205
 #define SCOPE_DEFFGGREEN   229
 #define SCOPE_DEFFGBLUE    232
@@ -471,8 +474,8 @@ static void scope_triglevel(t_scope *x, t_float lvl)
     x->x_triglevel = lvl;
 }
 
-static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
-{
+static void scope_fgcolor(t_scope *x, t_float fr, t_float fg, t_float fb)
+{//scale is 0-1
 	if(fr < SCOPE_MINCOLOR){
 		fr = SCOPE_MINCOLOR;
 	}
@@ -492,6 +495,14 @@ static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
 		fb = SCOPE_MAXCOLOR;
 	};
 
+	//scaling to 255 and rounding
+	
+	fr *= (float)SCOPE_MAXRGB;
+	fr = round(fr);
+	fg *= (float)SCOPE_MAXRGB;
+	fg = round(fg);
+	fb *= (float)SCOPE_MAXRGB;
+	fb = round(fb);
 	t_canvas *cv;
     x->x_fgred = (int)fr;
     x->x_fggreen = (int)fg;
@@ -502,9 +513,41 @@ static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
 	};
 }
 
-static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
-{
-    if(br < SCOPE_MINCOLOR){
+
+static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
+{//scale is 0-255
+	if(fr < SCOPE_MINRGB){
+		fr = SCOPE_MINRGB;
+	}
+	else if(fr > SCOPE_MAXRGB){
+		fr = SCOPE_MAXRGB;
+	};
+    if(fg < SCOPE_MINRGB){
+		fg = SCOPE_MINRGB;
+	}
+	else if(fg > SCOPE_MAXRGB){
+		fg = SCOPE_MAXRGB;
+	};
+	if(fb < SCOPE_MINRGB){
+		fb = SCOPE_MINRGB;
+	}
+	else if(fb > SCOPE_MAXRGB){
+		fb = SCOPE_MAXRGB;
+	};
+
+	t_canvas *cv;
+    x->x_fgred = (int)fr;
+    x->x_fggreen = (int)fg;
+    x->x_fgblue = (int)fb;
+    if (cv = scope_isvisible(x)) {
+		sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+		 cv, x->x_fgtag, x->x_fgred, x->x_fggreen, x->x_fgblue);
+	};
+}
+
+static void scope_bgcolor(t_scope *x, t_float br, t_float bg, t_float bb)
+{//scale is 0-1
+	if(br < SCOPE_MINCOLOR){
 		br = SCOPE_MINCOLOR;
 	}
 	else if(br > SCOPE_MAXCOLOR){
@@ -522,6 +565,47 @@ static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
 	else if(bb > SCOPE_MAXCOLOR){
 		bb = SCOPE_MAXCOLOR;
 	};
+
+	//scaling to 255 and rounding
+	
+	br *= (float)SCOPE_MAXRGB;
+	br = round(br);
+	bg *= (float)SCOPE_MAXRGB;
+	bg = round(bg);
+	bb *= (float)SCOPE_MAXRGB;
+	bb = round(bb);
+	t_canvas *cv;
+    x->x_bgred = (int)br;
+    x->x_bggreen = (int)bg;
+    x->x_bgblue = (int)bb;
+    if (cv = scope_isvisible(x)) {
+		sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+		 cv, x->x_bgtag, x->x_bgred, x->x_bggreen, x->x_bgblue);
+	};
+}
+
+
+
+static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
+{//scale is 0-255
+    if(br < SCOPE_MINRGB){
+		br = SCOPE_MINRGB;
+	}
+	else if(br > SCOPE_MAXRGB){
+		br = SCOPE_MAXRGB;
+	};
+    if(bg < SCOPE_MINRGB){
+		bg = SCOPE_MINRGB;
+	}
+	else if(bg > SCOPE_MAXRGB){
+		bg = SCOPE_MAXRGB;
+	};
+	if(bb < SCOPE_MINRGB){
+		bb = SCOPE_MINRGB;
+	}
+	else if(bb > SCOPE_MAXRGB){
+		bb = SCOPE_MAXRGB;
+	};
 	
 	t_canvas *cv;
     x->x_bgred = (int)br;
@@ -533,8 +617,8 @@ static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
 	};
 }
 
-static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
-{   
+static void scope_gridcolor(t_scope *x, t_float gr, t_float gg, t_float gb)
+{//scale is 0-1
 	if(gr < SCOPE_MINCOLOR){
 		gr = SCOPE_MINCOLOR;
 	}
@@ -552,6 +636,47 @@ static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
 	}
 	else if(gb > SCOPE_MAXCOLOR){
 		gb = SCOPE_MAXCOLOR;
+	};
+
+	//scaling to 255 and rounding
+	
+	gr *= (float)SCOPE_MAXRGB;
+	gr = round(gr);
+	gg *= (float)SCOPE_MAXRGB;
+	gg = round(gg);
+	gb *= (float)SCOPE_MAXRGB;
+	gb = round(gb);
+	t_canvas *cv;
+    x->x_grred = (int)gr;
+    x->x_grgreen = (int)gg;
+    x->x_grblue = (int)gb;
+    if (cv = scope_isvisible(x)) {
+		sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+		 cv, x->x_gridtag, x->x_grred, x->x_grgreen, x->x_grblue);
+	};
+}
+
+
+
+static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
+{  //scale 0-255 
+	if(gr < SCOPE_MINRGB){
+		gr = SCOPE_MINRGB;
+	}
+	else if(gr > SCOPE_MAXRGB){
+		gr = SCOPE_MAXRGB;
+	};
+    if(gg < SCOPE_MINRGB){
+		gg = SCOPE_MINRGB;
+	}
+	else if(gg > SCOPE_MAXRGB){
+		gg = SCOPE_MAXRGB;
+	};
+	if(gb < SCOPE_MINRGB){
+		gb = SCOPE_MINRGB;
+	}
+	else if(gb > SCOPE_MAXRGB){
+		gb = SCOPE_MAXRGB;
 	};
 	
 
@@ -1062,6 +1187,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 
 	//int pastargs = 0;
 	int argnum = 0;
+	
 	t_float width = SCOPE_DEFWIDTH;
 	t_float height = SCOPE_DEFHEIGHT;
 	t_float period = (t_float)SCOPE_DEFPERIOD;
@@ -1080,6 +1206,23 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 	t_float grred = (t_float)SCOPE_DEFGRRED;
 	t_float grgreen = (t_float)SCOPE_DEFGRGREEN;
 	t_float grblue = (t_float)SCOPE_DEFGRBLUE;
+
+	//default to using rgb methods but if color version
+	//(instead of rgb) version is specified, set indicator flags
+	//fcolset, bcolset, gcolset
+	
+	int fcolset = 0;
+	int bcolset = 0;
+	int gcolset = 0;
+	t_float fcred = (t_float)SCOPE_MINCOLOR;
+	t_float fcgreen = (t_float)SCOPE_MINCOLOR;
+	t_float fcblue = (t_float)SCOPE_MINCOLOR;
+	t_float bcred = (t_float)SCOPE_MINCOLOR;
+	t_float bcgreen = (t_float)SCOPE_MINCOLOR;
+	t_float bcblue = (t_float)SCOPE_MINCOLOR;
+	t_float gcred = (t_float)SCOPE_MINCOLOR;
+	t_float gcgreen = (t_float)SCOPE_MINCOLOR;
+	t_float gcblue = (t_float)SCOPE_MINCOLOR;
 	while(argc > 0){
 		if(argv -> a_type == A_FLOAT){//if curarg is a number
 			t_float argval = atom_getfloatarg(0, argc, argv);
@@ -1225,33 +1368,72 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 					goto errstate;
 				};
 		}
-		else if(strcmp(curarg->s_name, "@brgb") == 0){
-			if(argc >= 4){
-				bgred = atom_getfloatarg(1, argc, argv);
-				bggreen = atom_getfloatarg(2, argc, argv);
-				bgblue = atom_getfloatarg(3, argc, argv);
-				argc-=4;
-				argv+=4;
+			else if(strcmp(curarg->s_name, "@brgb") == 0){
+				if(argc >= 4){
+					bgred = atom_getfloatarg(1, argc, argv);
+					bggreen = atom_getfloatarg(2, argc, argv);
+					bgblue = atom_getfloatarg(3, argc, argv);
+					argc-=4;
+					argv+=4;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@grgb") == 0){
+				if(argc >= 4){
+					grred = atom_getfloatarg(1, argc, argv);
+					grgreen = atom_getfloatarg(2, argc, argv);
+					grblue = atom_getfloatarg(3, argc, argv);
+					argc-=4;
+					argv+=4;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@fgcolor") == 0){
+				if(argc >= 4){
+					fcolset = 1;
+					fcred = atom_getfloatarg(1, argc, argv);
+					fcgreen = atom_getfloatarg(2, argc, argv);
+					fcblue = atom_getfloatarg(3, argc, argv);
+					argc-=4;
+					argv+=4;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@bgcolor") == 0){
+				if(argc >= 4){
+					bcolset = 1;
+					bcred = atom_getfloatarg(1, argc, argv);
+					bcgreen = atom_getfloatarg(2, argc, argv);
+					bcblue = atom_getfloatarg(3, argc, argv);
+					argc-=4;
+					argv+=4;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@gridcolor") == 0){
+				if(argc >= 4){
+					gcolset = 1;
+					gcred = atom_getfloatarg(1, argc, argv);
+					gcgreen = atom_getfloatarg(2, argc, argv);
+					gcblue = atom_getfloatarg(3, argc, argv);
+					argc-=4;
+					argv+=4;
+				}
+				else{
+					goto errstate;
+				};
 			}
 			else{
 				goto errstate;
 			};
-		}
-		else if(strcmp(curarg->s_name, "@gridcolor") == 0){
-			if(argc >= 4){
-				grred = atom_getfloatarg(1, argc, argv);
-				grgreen = atom_getfloatarg(2, argc, argv);
-				grblue = atom_getfloatarg(3, argc, argv);
-				argc-=4;
-				argv+=4;
-			}
-			else{
-				goto errstate;
-			};
-		}
-		else{
-			goto errstate;
-		};
 		}
 		else{
 			goto errstate;
@@ -1270,6 +1452,17 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 	scope_frgb(x, fgred, fggreen, fgblue);
 	scope_brgb(x, bgred, bggreen, bgblue);
 	scope_grgb(x, grred, grgreen, grblue);
+
+	//now to see if we're calling the color versions
+	if(fcolset){
+		scope_fgcolor(x, fcred, fcgreen, fcblue);
+	};
+	if(bcolset){
+		scope_bgcolor(x, bcred, bcgreen, bcblue);
+	};
+	if(gcolset){
+		scope_gridcolor(x, gcred, gcgreen, gcblue);
+	};
 
 	
     sprintf(x->x_tag, "all%lx", (unsigned long)x);
@@ -1324,6 +1517,12 @@ void scope_tilde_setup(void)
     class_addmethod(scope_class, (t_method)scope_brgb,
 		    gensym("brgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_grgb,
+		    gensym("grgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_fgcolor,
+		    gensym("fgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_bgcolor,
+		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_gridcolor,
 		    gensym("gridcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_click,
 		    gensym("click"),
