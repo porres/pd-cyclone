@@ -10,6 +10,7 @@
 typedef struct _count
 {
     t_sic  x_sic;
+    t_float  x_lastin;
     int    x_min;
     int    x_max;
     int    x_limit;
@@ -104,6 +105,7 @@ static t_int *count_perform(t_int *w)
     t_count *x = (t_count *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *out = (t_float *)(w[3]);
+    t_float lastin = x->x_lastin;
     int count = x->x_count;
     int limit = x->x_limit;
     if (x->x_on)
@@ -116,6 +118,7 @@ static t_int *count_perform(t_int *w)
     }
     else
 	while (nblock--) *out++ = count;
+    x->x_lastin = lastin;
     x->x_count = count;
     return (w + 4);
 }
@@ -130,6 +133,7 @@ static void *count_new(t_floatarg minval, t_floatarg maxval,
 		       t_floatarg onflag, t_floatarg autoflag)
 {
     t_count *x = (t_count *)pd_new(count_class);
+    x->x_lastin = 0;
     count_min(x, minval);
     count_max(x, maxval);
     x->x_on = (onflag != 0);
