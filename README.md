@@ -14,7 +14,7 @@ Cyclone also comes handy, somewhat, in the task of importing Max/MSP 4.x patches
 
 -------
 
-<strong>History Of Cyclone up tp the present day:</strong>
+<strong>History Of Cyclone up to the present day:</strong>
 
 Original author of cyclone is Krzysztof Czaja, who maintained it from 2002-2005. After that, cyclone was also a part of Pd Extended and was maintained by Hans-Christoph Steiner until Pd Extended was left unmaintained (up to 2013). Fred Jan Kraan maintained cyclone from dec-2014 to feb-2016. Since feb-2016, a new maintenance is now being proposed by Porres and Schiavoni & collaborators on this repository.
 
