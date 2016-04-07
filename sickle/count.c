@@ -21,10 +21,10 @@ typedef struct _count
 
 static t_class *count_class;
 
-static void count_bang(t_count *x)
+static void count_bang(t_count *x) // mensagem bang
 {
-    x->x_count = x->x_min;
-    x->x_on = 1;
+    x->x_count = x->x_min; // seta pro mínimo
+    x->x_on = 1; // liga contador
 }
 
 static void count_min(t_count *x, t_floatarg f)
@@ -94,10 +94,10 @@ static void count_set(t_count *x, t_symbol *s, int ac, t_atom *av)
     } 
 }
 
-static void count_stop(t_count *x)
+static void count_stop(t_count *x) // mensagem stop
 {
-    x->x_count = x->x_min;
-    x->x_on = 0;
+    x->x_count = x->x_min; // seta pro mínimo
+    x->x_on = 0; // desliga contador
 }
 
 // LOGIC to include
