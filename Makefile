@@ -369,7 +369,7 @@ zerox~.class.sources := sickle/zerox.c $(ssic)
 
 # nettles.class.sources := shadow/nettles.c $(ssic)
 
-cyclone.class.sources := shadow/cyclone $(ssic)
+cyclone.class.sources := shadow/cyclone_lib $(ssic)
 
 datafiles = \
 $(wildcard help/*-help.pd) \
