@@ -70,9 +70,9 @@ or -lib maxmode option, consists of:
    respectively, Max and MSP classes;
 
  * cyclone sub-library, taking care of loading hammer and sickle, and which
-   itself contains: a small set of operators (!-, !/, ==~, !=~, <~, <=~, >~,
-   >=~, !-~, !/~, %~, +=~); an importing mechanism provided by the cyclone
-   class.
+   itself contains: 
+- a small set of operators !-, !/, ==~, !=~, <~, <=~, >~, >=~, !-~, !/~, %~, +=~  
+- an importing mechanism provided by the cyclone class.
 
  * optional dummies sub-library, which contains a large set of dummy classes,
    serving as substitutions for Max/MSP classes not (yet) implemented in
