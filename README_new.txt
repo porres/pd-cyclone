@@ -1,16 +1,24 @@
 https://github.com/porres/pd-cyclone
 
--------
-cyclone
--------
+—————————————————————————————————————————————————————
+cyclone 0.3-beta-1 *
 
-Cyclone is a library of PureData classes, bringing some level of compatibility
-between Max/MSP and Pd environments, mainly for people using both Max and Pd, and
-thus wanting to develop cross-platform patches. Cyclone comes with individual external binaries and a cyclone sub-library:
+* The binaries and library provided in this release were tested in Pd Vanilla 0.46-7 32 and 64 bits - it can work elsewhere, but hasn’t been tested.
 
- * The individual external binaries can be loaded only by inserting cyclone folder in the search path of Pd. 
+—————————————————————————————————————————————————————
 
- * The cyclone sub-library loads a small set of operators (!-, !/, ==~, !=~, <~, <=~, >~, >=~, !-~, !/~, %~, +=~) and can be loaded in Pd’s startup once the search path contains the cyclone folder.
+About Cyclone:
+——————————————
+
+Cyclone is a library of Pure Data objects cloned from Max/MSP. It brings some level of compatibility between Max/MSP and Pd environments, mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. 
+
+Cyclone comes with individual external binaries and a cyclone sub-library:
+
+* The individual external binaries can be loaded only by inserting cyclone folder in the search path of Pd. It is recommend to include it in the “extra” folder of pd vanilla to work properly. 
+
+ * The cyclone sub-library loads a small set of operators (!-, !/, ==~, !=~, <~, <=~, >~, >=~, !-~, !/~, %~, +=~) and can be loaded in Pd’s startup once the search path contains the cyclone folder. Alphanumeric versions of these objects are also available as single binaries outside this library subset.
+
+! Check “How to Install” for more details 
 
 Current objects:
 
@@ -35,9 +43,4 @@ rand~, record~, reson~, sah~, sampstoms~, Scope~, sinh~, sinx~, slide~,
 Snapshot~, spike~, svf~, tanh~, tanx~, train~, trapezoid~, triangle~,
 vectral~, wave~, and zerox~.
 
-
-Caveats:
-
-* The binaries provided in this release were tested in xxx
-
-* First capital letters.
+To Do: include new objects
