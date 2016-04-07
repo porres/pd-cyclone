@@ -100,6 +100,16 @@ static void count_stop(t_count *x)
     x->x_on = 0;
 }
 
+// LOGIC to include
+// if(in != 0 && lastin == 0, 1, if(in == 0 lastin != 0, -1, 0))
+// if == 1, then "bang" (start counting):
+//     {x->x_count = x->x_min;
+//     x->x_on = 1;}
+// if == -1, then "stop"
+//     {x->x_count = x->x_min;
+//     x->x_on = 0;}
+// if == 0, do nothing
+
 static t_int *count_perform(t_int *w)
 {
     t_count *x = (t_count *)(w[1]);
