@@ -354,7 +354,6 @@ static void curve_factor(t_curve *x, t_float f){
 	else{
 		x->x_ccinput = f;
 	};
-	post("factor: %f", f);
 
 };
 
