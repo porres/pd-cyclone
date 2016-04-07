@@ -4,6 +4,9 @@ Changelog with things that changed between cyclone versions.
 Current version: 0.3-beta-1 (release xx/xx/xx)
 
 TO DO for cyclone, next release:
+- update remaining outdated objects
+- include new objects
+- fix known bugs and look for more
 
  
 ================
