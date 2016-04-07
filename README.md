@@ -2,8 +2,6 @@
 Cyclone - a set of Pure Data objects cloned from Max/MSP 
 -------
 
---------------------
-
 > Cyclone expands Pd Vanilla with objects cloned from Max/MSP. For users of both Max/MSP and Pd, It provides some level of compatibility between the two environments, helping in the development of cross-platform patches. 
 
 --------------------
