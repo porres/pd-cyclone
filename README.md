@@ -42,9 +42,10 @@ This repository/project is open to collaboration to anyone who wishes to work ac
 
 February 22nd 2016 (last edited, april 7th)
 
-============================================================================================================================
 
+-------
 <strong>pdlibbuilder</strong>
+-------
 
 Cyclone is currently relying on the "pd-lib-builder" by Katja Vetter, available here: https://github.com/pure-data/pd-lib-builder
 
