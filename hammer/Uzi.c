@@ -6,7 +6,7 @@
 
 #include "m_pd.h"
 
-typedef struct _Uzi
+typedef struct _uzi
 {
     t_object   x_obj;
     t_float    x_nbangs;
@@ -15,14 +15,14 @@ typedef struct _Uzi
     int        x_running;
     t_outlet  *x_out2;
     t_outlet  *x_out3;
-} t_Uzi;
+} t_uzi;
 
-static t_class *Uzi_class;
+static t_class *uzi_class;
 
 #define UZI_RUNNING  1
 #define UZI_PAUSED   2
 
-static void Uzi_dobang(t_Uzi *x)
+static void uzi_dobang(t_uzi *x)
 {
     /* CHECKME reentrancy */
     if (!x->x_running)
@@ -49,48 +49,48 @@ static void Uzi_dobang(t_Uzi *x)
     }
 }
 
-static void Uzi_bang(t_Uzi *x)
+static void uzi_bang(t_uzi *x)
 {
     /* CHECKED: always restarts (when paused too) */
     x->x_count = 0;
     x->x_running = 0;
-    Uzi_dobang(x);
+    uzi_dobang(x);
 }
 
-static void Uzi_float(t_Uzi *x, t_float f)
+static void uzi_float(t_uzi *x, t_float f)
 {
     /* CHECKED: always sets a new value and restarts (when paused too) */
     x->x_nbangs = f;
-    Uzi_bang(x);
+    uzi_bang(x);
 }
 
 /* CHECKED: 'pause, resume' (but not just 'resume')
    sends a carry bang when not running (a bug?) */
-static void Uzi_pause(t_Uzi *x)
+static void uzi_pause(t_uzi *x)
 {
     if (!x->x_running)
 	x->x_count = (int)x->x_nbangs;  /* bug emulation? */
     x->x_running = UZI_PAUSED;
 }
 
-static void Uzi_resume(t_Uzi *x)
+static void uzi_resume(t_uzi *x)
 {
     if (x->x_running == UZI_PAUSED)
     {
 	x->x_running = 0;
-	Uzi_dobang(x);
+	uzi_dobang(x);
     }
 }
 
-static void Uzi_offset(t_Uzi *x, t_float f)
+static void uzi_offset(t_uzi *x, t_float f)
 {
     x->x_offset = f;
 }
 
 
-static void *Uzi_new(t_floatarg f1, t_floatarg f2)
+static void *uzi_new(t_floatarg f1, t_floatarg f2)
 {
-    t_Uzi *x = (t_Uzi *)pd_new(Uzi_class);
+    t_uzi *x = (t_uzi *)pd_new(uzi_class);
     x->x_nbangs = (f1 > 1. ? f1 : 1.);
     x->x_offset = 1;
     x->x_count = 0;
@@ -103,23 +103,23 @@ static void *Uzi_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void Uzi_setup(void)
-{
-    Uzi_class = class_new(gensym("Uzi"),
-			  (t_newmethod)Uzi_new, 0,
-			  sizeof(t_Uzi), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)Uzi_new, gensym("uzi"), A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)Uzi_new, gensym("cyclone/uzi"), A_DEFFLOAT, 0);
-    class_addbang(Uzi_class, Uzi_bang);
-    class_addfloat(Uzi_class, Uzi_float);
-    class_addmethod(Uzi_class, (t_method)Uzi_pause, gensym("pause"), 0);
-    class_addmethod(Uzi_class, (t_method)Uzi_pause, gensym("break"), 0);
-    class_addmethod(Uzi_class, (t_method)Uzi_resume, gensym("resume"), 0);
-    class_addmethod(Uzi_class, (t_method)Uzi_resume, gensym("continue"), 0);
-    class_addmethod(Uzi_class, (t_method)Uzi_offset, gensym("offset"), A_DEFFLOAT, 0);
-}
-
 void uzi_setup(void)
 {
-  Uzi_setup();
+    uzi_class = class_new(gensym("uzi"),
+			  (t_newmethod)uzi_new, 0,
+			  sizeof(t_uzi), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)uzi_new, gensym("Uzi"), A_DEFFLOAT, 0); // back compatible
+    class_addcreator((t_newmethod)uzi_new, gensym("cyclone/Uzi"), A_DEFFLOAT, 0);// back compatible
+    class_addbang(uzi_class, uzi_bang);
+    class_addfloat(uzi_class, uzi_float);
+    class_addmethod(uzi_class, (t_method)uzi_pause, gensym("pause"), 0);
+    class_addmethod(uzi_class, (t_method)uzi_pause, gensym("break"), 0);
+    class_addmethod(uzi_class, (t_method)uzi_resume, gensym("resume"), 0);
+    class_addmethod(uzi_class, (t_method)uzi_resume, gensym("continue"), 0);
+    class_addmethod(uzi_class, (t_method)uzi_offset, gensym("offset"), A_DEFFLOAT, 0);
+}
+
+void Uzi_setup(void)
+{
+  uzi_setup();
 }
