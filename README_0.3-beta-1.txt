@@ -30,8 +30,11 @@ Cyclone 0.3-beta-1 carries a a set of xxx Pure Data externals, it comes with A) 
 
 ———————————————————————————————————————————————————————————————————————————
 
-! Check “How to Install” for more details  ==> LINK
+! Check “How to Install” for more details:
+     https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
-! Check list of objects ==> LINK
+! Check list of objects:
+     https://github.com/porres/pd-cyclone/wiki/List-of-objects
 
-! Report a bug or issue ==> LINK
+! Report a bug or issue:
+     https://github.com/porres/pd-cyclone/issues
