@@ -52,13 +52,8 @@ Cyclone has relyed on "pd-lib-builder" by Katja Vetter, available here: https://
 
 -------
 Cyclone's original ReadMe:
--------
 
 http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-
--------
-cyclone
--------
 
 Cyclone is a library of Pure Data classes, bringing some level of compatibility
 between Max/MSP and Pd environments.  Although being itself in the early stage
