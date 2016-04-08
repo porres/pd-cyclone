@@ -10,6 +10,7 @@ typedef struct _Uzi
 {
     t_object   x_obj;
     t_float    x_nbangs;
+    t_float    x_offset;
     int        x_count;
     int        x_running;
     t_outlet  *x_out2;
@@ -27,10 +28,11 @@ static void Uzi_dobang(t_Uzi *x)
     if (!x->x_running)
     {
 	int count, nbangs = (int)x->x_nbangs;
+    int offset = (int)x->x_offset;
 	x->x_running = UZI_RUNNING;
-	for (count = x->x_count + 1; count <= nbangs; count++)
+	for (count = x->x_count; count < nbangs; count++)
 	{
-	    outlet_float(x->x_out3, count);
+	    outlet_float(x->x_out3, count + offset);
 	    outlet_bang(((t_object *)x)->ob_outlet);
 	    if (x->x_running == UZI_PAUSED)
 	    {
@@ -80,10 +82,17 @@ static void Uzi_resume(t_Uzi *x)
     }
 }
 
-static void *Uzi_new(t_floatarg f)
+static void Uzi_offset(t_Uzi *x, t_float f)
+{
+    x->x_offset = f;
+}
+
+
+static void *Uzi_new(t_floatarg f1, t_floatarg f2)
 {
     t_Uzi *x = (t_Uzi *)pd_new(Uzi_class);
-    x->x_nbangs = (f > 1. ? f : 1.);
+    x->x_nbangs = (f1 > 1. ? f1 : 1.);
+    x->x_offset = 1;
     x->x_count = 0;
     x->x_running = 0;
     /* CHECKED: set when paused, but then 'resume' is blocked (a bug?) */
@@ -98,7 +107,7 @@ void Uzi_setup(void)
 {
     Uzi_class = class_new(gensym("Uzi"),
 			  (t_newmethod)Uzi_new, 0,
-			  sizeof(t_Uzi), 0, A_DEFFLOAT, 0);
+			  sizeof(t_Uzi), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Uzi_new, gensym("uzi"), A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Uzi_new, gensym("cyclone/uzi"), A_DEFFLOAT, 0);
     class_addbang(Uzi_class, Uzi_bang);
@@ -107,6 +116,7 @@ void Uzi_setup(void)
     class_addmethod(Uzi_class, (t_method)Uzi_pause, gensym("break"), 0);
     class_addmethod(Uzi_class, (t_method)Uzi_resume, gensym("resume"), 0);
     class_addmethod(Uzi_class, (t_method)Uzi_resume, gensym("continue"), 0);
+    class_addmethod(Uzi_class, (t_method)Uzi_offset, gensym("offset"), A_DEFFLOAT, 0);
 }
 
 void uzi_setup(void)
