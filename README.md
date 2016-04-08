@@ -47,11 +47,8 @@ February 22nd 2016 (last edited, april 7th)
 
 -------
 <strong>pdlibbuilder</strong>
--------
 
 Cyclone has relyed on "pd-lib-builder" by Katja Vetter, available here: https://github.com/pure-data/pd-lib-builder
-
-============================================================================================================================
 
 -------
 Cyclone's original ReadMe:
