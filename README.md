@@ -47,7 +47,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 February 22nd 2016 (last edited, april 8th)
 
 -------
-<strong>pdlibbuilder</strong>
+<strong>pd-lib-builder</strong>
 
 Cyclone has relyed on a new build system called "pd-lib-builder" by Katja Vetter, available here: <https://github.com/pure-data/pd-lib-builder> 
 
