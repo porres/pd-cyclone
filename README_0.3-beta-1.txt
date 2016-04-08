@@ -28,6 +28,10 @@ Cyclone 0.3-beta-1 carries a a set of xxx Pure Data externals, it comes with A) 
 
 - B) The cyclone sub-library loads a small set of objects with non alphanumeric names: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], [!-~], [!/~], [%~], [+=~]. The library can be loaded in Pd’s startup once the search path contains the cyclone folder. Objects with alphanumeric names corresponding to these objects are also available as single binaries outside the cyclone library.
 
-! Check “How to Install” for more details 
+———————————————————————————————————————————————————————————————————————————
 
-! Check list of objects
+! Check “How to Install” for more details  ==> LINK
+
+! Check list of objects ==> LINK
+
+! Report a bug or issue ==> LINK
