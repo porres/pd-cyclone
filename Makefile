@@ -1,6 +1,6 @@
 # Makefile for pure data externals in lib cyclone
 
-lib.name = cyclone # seems useless
+lib.name = cyclone
 
 # for the MINGW which has the timespec struct defined twice
 cflags = -Ishared -DHAVE_STRUCT_TIMESPEC
@@ -11,7 +11,7 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
 endif
 
 ################################################################################
-### hammer (Max) ###############################################################
+### hammer (control objects; Max) ##############################################
 ################################################################################
 
 
@@ -101,7 +101,7 @@ shared/common/fitter.c \
 shared/unstable/forky.c
 
 
-# hammer (Max) classes
+# hammer (control; Max) classes
 accum.class.sources := hammer/accum.c $(hplain)
 acos.class.sources := hammer/acos.c $(hplain)
 acosh.class.sources := hammer/acosh.c $(hplain)
@@ -193,7 +193,7 @@ zl.class.sources := hammer/zl.c $(hgrow)
 
 
 ################################################################################
-### sickle (MSP) ###############################################################
+### sickle (signal objects; MSP) ###############################################
 ################################################################################
 
 
@@ -271,7 +271,7 @@ shared/common/loud.c \
 shared/common/fitter.c
 
 
-# sickle (MSP) classes
+# sickle (signal; MSP) classes
 
 abs~.class.sources := sickle/abs.c $(ssic)
 acos~.class.sources := sickle/acos.c $(ssic)
@@ -284,6 +284,7 @@ atan~.class.sources := sickle/atan.c $(ssic)
 atanh~.class.sources := sickle/atanh.c $(ssic)
 atodb~.class.sources := sickle/atodb.c
 average~.class.sources := sickle/average.c $(ssic)
+average2~.class.sources := sickle/average2.c $(ssic)
 avg~.class.sources := sickle/avg.c $(ssic)
 bitand~.class.sources := sickle/bitand.c $(sforky)
 bitnot~.class.sources := sickle/bitnot.c $(ssic)
@@ -368,14 +369,13 @@ wave~.class.sources := sickle/wave.c $(sarsic)
 zerox~.class.sources := sickle/zerox.c $(ssic)
 
 ################################################################################
-### Cyclone (sub library with non alphanumeric objects (Max and MSP classes) ###
+### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
 ################################################################################
 
 cyclone.class.sources := shadow/cyclone_lib $(ssic) # updated from old nettles.c
 
 datafiles = \
 $(wildcard help/*-help.pd) \
-help/dspSwitch~.pd \
 help/output~.pd \
 help/test.mid \
 help/voice.wav \
