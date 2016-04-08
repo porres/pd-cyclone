@@ -7,7 +7,7 @@ https://github.com/porres/pd-cyclone
 
 ———————————————————————————————————————————————————————————————————————————
 
-version: cyclone 0.3-beta-1 - released xx/xx/xx
+current version: cyclone 0.3-beta-1 - released xx/xx/xx
 
 This release was tested in Pd Vanilla 0.46-7 (32 & 64 bits);
 It can work elsewhere, but hasn’t been tested.
