@@ -10,6 +10,28 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
     ldlibs += -lpthread
 endif
 
+
+
+################################################################################
+### new classes which don'tuse the framework functions #########################
+################################################################################
+
+# hammer (control; Max) classes
+
+
+atodb.class.sources := hammer/atodb.c
+dbtoa.class.sources := hammer/dbtoa.c
+pong.class.sources := hammer/pong.c
+scale.class.sources := hammer/scale.c
+round.class.sources := hammer/round.c
+
+# sickle (signal; MSP) classes
+
+atodb~.class.sources := sickle/atodb.c
+dbtoa~.class.sources := sickle/dbtoa.c
+round~.class.sources := sickle/round.c
+trunc~.class.sources := sickle/trunc.c
+
 ################################################################################
 ### hammer (control objects; Max) ##############################################
 ################################################################################
@@ -102,16 +124,16 @@ shared/unstable/forky.c
 
 
 # hammer (control; Max) classes
+
 accum.class.sources := hammer/accum.c $(hplain)
 acos.class.sources := hammer/acos.c $(hplain)
-acosh.class.sources := hammer/acosh.c $(hplain)
+acosh.class.sources := hammer/acosh.c $(hplain)  # NEW CLASS!
 active.class.sources := hammer/active.c $(hgui)
 anal.class.sources := hammer/anal.c $(hloud)
 Append.class.sources := hammer/Append.c $(hgrowfitter)
 asin.class.sources := hammer/asin.c $(hplain)
-asinh.class.sources := hammer/asinh.c $(hplain)
-atanh.class.sources := hammer/atanh.c $(hplain)
-atodb.class.sources := hammer/atodb.c
+asinh.class.sources := hammer/asinh.c $(hplain)  # NEW CLASS!
+atanh.class.sources := hammer/atanh.c $(hplain)  # NEW CLASS!
 bangbang.class.sources := hammer/bangbang.c $(hfitter)
 bondo.class.sources := hammer/bondo.c $(hgrow)
 Borax.class.sources := hammer/Borax.c $(hloud)
@@ -125,7 +147,6 @@ comment.class.sources := hammer/comment.c $(hforky)
 cosh.class.sources := hammer/cosh.c $(hplain)
 counter.class.sources := hammer/counter.c $(hfitter)
 cycle.class.sources := hammer/cycle.c $(hfitter)
-dbtoa.class.sources := hammer/dbtoa.c
 decide.class.sources := hammer/decide.c $(hloud)
 Decode.class.sources := hammer/Decode.c $(hfitter)
 drunk.class.sources := hammer/drunk.c $(hrand)
@@ -138,7 +159,7 @@ gate.class.sources := hammer/gate.c $(hfitter)
 grab.class.sources := hammer/grab.c $(hfragile)
 Histo.class.sources := hammer/Histo.c $(hloud)
 iter.class.sources := hammer/iter.c $(hgrow)
-loadmess.class.sources := hammer/loadmess.c $(hfile)
+loadmess.class.sources := hammer/loadmess.c $(hfile) # NEW CLASS!
 match.class.sources := hammer/match.c $(hgrow)
 maximum.class.sources := hammer/maximum.c $(hfitter)
 mean.class.sources := hammer/mean.c $(hplain)
@@ -155,14 +176,11 @@ onebang.class.sources := hammer/onebang.c $(hplain)
 past.class.sources := hammer/past.c $(hgrowfitter)
 Peak.class.sources := hammer/Peak.c $(hplain)
 poltocar.class.sources := hammer/poltocar.c $(hplain)
-pong.class.sources := hammer/pong.c 
 prepend.class.sources := hammer/prepend.c $(hgrowfitter)
 prob.class.sources := hammer/prob.c $(hrandfile)
 pv.class.sources := hammer/pv.c $(hgrow)
-round.class.sources := hammer/round.c
 rdiv.class.sources := hammer/rdiv.c $(hplain)
 rminus.class.sources := hammer/rminus.c $(hplain)
-scale.class.sources := hammer/scale.c
 seq.class.sources := hammer/seq.c $(hseq)
 sinh.class.sources := hammer/sinh.c $(hplain)
 speedlim.class.sources := hammer/speedlim.c $(hgrow)
@@ -176,7 +194,7 @@ switch.class.sources := hammer/switch.c $(hfitter)
 Table.class.sources := hammer/Table.c $(hrandgrowfile)
 tanh.class.sources := hammer/tanh.c $(hplain)
 testmess.class.sources := hammer/testmess.c $(hfragile)
-thresh.class.sources := hammer/thresh.c $(hgrow)
+thresh.class.sources := hammer/thresh.c $(hgrow) # NEW CLASS!
 TogEdge.class.sources := hammer/TogEdge.c $(hloud)
 tosymbol.class.sources := hammer/tosymbol.c $(hgrow)
 Trough.class.sources := hammer/Trough.c $(hplain)
@@ -282,7 +300,6 @@ asinh~.class.sources := sickle/asinh.c $(ssic)
 atan2~.class.sources := sickle/atan2.c $(ssic)
 atan~.class.sources := sickle/atan.c $(ssic)
 atanh~.class.sources := sickle/atanh.c $(ssic)
-atodb~.class.sources := sickle/atodb.c
 average~.class.sources := sickle/average.c $(ssic)
 # average2~.class.sources := sickle/average2.c $(ssic)
 avg~.class.sources := sickle/avg.c $(ssic)
@@ -303,7 +320,6 @@ cosx~.class.sources := sickle/cosx.c $(ssic)
 count~.class.sources := sickle/count.c $(ssic)
 curve~.class.sources := sickle/curve.c $(sgrowclc)
 cycle~.class.sources := sickle/cycle.c $(svefl)
-dbtoa~.class.sources := sickle/dbtoa.c
 delay~.class.sources := sickle/delay.c $(ssic)
 delta~.class.sources := sickle/delta.c $(ssic)
 deltaclip~.class.sources := sickle/deltaclip.c $(ssic)
@@ -347,7 +363,6 @@ rdiv~.class.sources := sickle/rdiv.c $(ssic)
 rminus~.class.sources := sickle/rminus.c $(ssic)
 record~.class.sources := sickle/record.c $(sarsic)
 reson~.class.sources := sickle/reson.c $(ssic)
-round~.class.sources := sickle/round.c 
 sah~.class.sources := sickle/sah.c $(ssic)
 sampstoms~.class.sources := sickle/sampstoms.c $(ssic)
 scope~.class.sources := sickle/scope.c $(sgrowforky)
@@ -359,11 +374,10 @@ spike~.class.sources := sickle/spike.c $(ssic)
 svf~.class.sources := sickle/svf.c $(ssic)
 tanh~.class.sources := sickle/tanh.c $(ssic)
 tanx~.class.sources := sickle/tanx.c $(ssic)
-thresh~.class.sources := sickle/thresh.c $(ssic)
+thresh~.class.sources := sickle/thresh.c $(ssic)  # NEW CLASS!
 train~.class.sources := sickle/train.c $(ssic)
 trapezoid~.class.sources := sickle/trapezoid.c $(ssic)
 triangle~.class.sources := sickle/triangle.c $(ssic)
-trunc~.class.sources := sickle/trunc.c
 vectral~.class.sources := sickle/vectral.c $(ssic)
 wave~.class.sources := sickle/wave.c $(sarsic)
 zerox~.class.sources := sickle/zerox.c $(ssic)
@@ -373,6 +387,8 @@ zerox~.class.sources := sickle/zerox.c $(ssic)
 ################################################################################
 
 cyclone.class.sources := shadow/cyclone_lib $(ssic) # updated from old nettles.c
+
+################################################################################
 
 datafiles = \
 $(wildcard help/*-help.pd) \
