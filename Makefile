@@ -421,7 +421,7 @@ include $(firstword $(wildcard Makefile.pdlibbuilder \
 
 install: install-aliases
 
-# on Linux, add symbolic links for lower case aliases
+# on Linux, add symbolic links for UPPER case aliases
 install-aliases: all
 ifeq ($(uname), Linux)
 	$(INSTALL_DIR) -v $(installpath)
@@ -448,14 +448,14 @@ ifeq ($(uname), Linux)
         ln -s -f TogEdge-help.pd togedge-help.pd; \
         ln -s -f Trough.$(extension) trough.$(extension); \
         ln -s -f Trough-help.pd trough-help.pd; \
-        ln -s -f Uzi.$(extension) uzi.$(extension); \
-        ln -s -f Uzi-help.pd uzi-help.pd; \
+        ln -s -f uzi.$(extension) Uzi.$(extension); \
+        ln -s -f uzi-help.pd Uzi-help.pd; \
         ln -s -f Clip~.$(extension) clip~.$(extension); \
         ln -s -f Clip~-help.pd clip~-help.pd; \
-        ln -s -f Line~.$(extension) line~.$(extension); \
-        ln -s -f Line~-help.pd line~-help.pd; \
-        ln -s -f Scope~.$(extension) scope~.$(extension); \
-        ln -s -f Scope~-help.pd scope~-help.pd; \
+        ln -s -f line~.$(extension) Line~.$(extension); \
+        ln -s -f line~-help.pd Line~-help.pd; \
+        ln -s -f scope~.$(extension) Scope~.$(extension); \
+        ln -s -f scope~-help.pd Scope~-help.pd; \
         ln -s -f Snapshot~.$(extension) snapshot~.$(extension); \
         ln -s -f Snapshot~-help.pd snapshot~-help.pd
 endif
