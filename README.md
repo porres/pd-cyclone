@@ -39,7 +39,26 @@ This repository is faithful to the original goal of cyclone in creating an exter
 
 This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Ideally, all of the possible Max/MSP objects could be cloned or updated, but this is a fair amount of work, so collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. Some collaborators are already helping coding new objects, a list of known bugs and things "to do" will be made available with the first release to come from this repository.
 
+
 February 22nd 2016 (last edited, april 7th)
+
+============================================================================================================================
+
+<strong>pdlibbuilder</strong>
+
+Cyclone is currently relying on the "pd-lib-builder" by Katja Vetter, available here: https://github.com/pure-data/pd-lib-builder
+
+<strong>Compiling with pdlibbuilder</strong>
+
+PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, yo have to specify the path yourself using the pdincludepath variable. Example:
+
+<pre>make pdincludepath=~/pd-0.46-6/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.46-6/bin/)</pre>
+
+<strong>Installing with pdlibbuilder</strong>
+
+The default path for installing might not be the best, surely for testing. Use the pkglibdir variable for this. Example:
+
+<pre>make install pkglibdir=~/pd-externals/</pre>
 
 ============================================================================================================================
 
