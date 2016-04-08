@@ -43,6 +43,7 @@ This repository/project is open to collaboration to anyone who wishes to work ac
 
 Some collaborators are already helping coding new objects and updating/fixing old ones, a list of known bugs and things "to do" will be made available with the first release to come from this repository.
 
+Check more stuff in our wiki page: https://github.com/porres/pd-cyclone/wiki/
 
 February 22nd 2016 (last edited, april 8th)
 
