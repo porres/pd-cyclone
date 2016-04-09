@@ -15,7 +15,7 @@ In its current form, cyclone is mainly for people using both Max and Pd, and thu
 
 -------
 
-<strong>History of cyclone up to the present day:</strong>
+<strong>History of cyclone's maintenance up to the present day:</strong>
 
 Original author of cyclone is Krzysztof Czaja, who developed it from 2002-2005. After that, cyclone ended up incorporated into Pd Extended, and was eventually under the maintenance of Hans-Christoph Steiner until Pd Extended was left unmaintained (up to jan-2013). Fred Jan Kraan maintained cyclone from dec-2014 to feb-2016. Since feb-2016, a new maintenance is being proposed on this repository by Porres/Schiavoni & collaborators.
 
