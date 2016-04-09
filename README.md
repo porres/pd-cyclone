@@ -11,7 +11,7 @@ Cyclone: a set of Pure Data objects cloned from Max/MSP
 
 In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches.
 
-(more words and about the original project on the original readme provided in this repository)
+(more words and about the original project on the original readme provided in this repository: <https://github.com/porres/pd-cyclone/blob/master/README_original.txt>)
 
 -------
 
