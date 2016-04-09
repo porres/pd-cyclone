@@ -5,33 +5,35 @@ Cyclone: a set of Pure Data objects cloned from Max/MSP
 
 --------------------
 
-<strong>Original Project Description (by Krzysztof Czaja):</strong>
+<strong>Exerpt from Cyclone's original Readme (by Krzysztof Czaja):</strong>
 
 "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
-In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. In this respect, cyclone has much in common with Thomas Grill's flext, and flext-based externals. See Thomas' page. While flext enables developing new cross-platform classes, cyclone makes existing classes cross-platform. 
+In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches.
 
-Cyclone also comes handy, somewhat, in the task of importing Max/MSP 4.x patches into Pd. Do not expect miracles, though, it is usually not an easy task."
-
-(more about the original project on the original readme provided in this repository)
+(more words and about the original project on the original readme provided in this repository)
 
 -------
 
 <strong>History of cyclone up to the present day:</strong>
 
-Original author of cyclone is Krzysztof Czaja, who developed it from 2002-2005. After that, cyclone ended up incorporatged into Pd Extended, and was eventually under the maintenance of Hans-Christoph Steiner until Pd Extended was left unmaintained (up to january 2013). Fred Jan Kraan maintained cyclone from dec-2014 to feb-2016. Since feb-2016, a new maintenance is being proposed on this repository by Porres/Schiavoni & collaborators.
+Original author of cyclone is Krzysztof Czaja, who developed it from 2002-2005. After that, cyclone ended up incorporated into Pd Extended, and was eventually under the maintenance of Hans-Christoph Steiner until Pd Extended was left unmaintained (up to jan-2013). Fred Jan Kraan maintained cyclone from dec-2014 to feb-2016. Since feb-2016, a new maintenance is being proposed on this repository by Porres/Schiavoni & collaborators.
 
 -------
 
-<strong>About this repository - Goals & Further Development:</strong>
+<strong>About this repository and earlier versions:</strong>
 
 Location of this repository is: https://github.com/porres/pd-cyclone. 
 
-The original cyclone library, amongst other things, is found at the <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/> repository, which carries the cyclone library version 0.1-Alpha56, present in the last release of Pd Extended [version 0.43.4] from january  2013. The 0.1-Alpha56 version is now also available via the deken plug in as "cyclone-v0-0extended". Check the deken plugin at: <https://github.com/pure-data/deken>.  
+The original cyclone library and repository, amongst other things, is found at the <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>, which carries the cyclone library version 0.1-Alpha56, present in the last release of Pd Extended [version 0.43.4] from january  2013. The 0.1-Alpha56 version is now also available via the deken plug in as "cyclone-v0-0extended". Check the deken plugin at: <https://github.com/pure-data/deken>.  
 
-A fork from this original repository is found at <https://github.com/electrickery/pd-miXedSon> and includes the version 0.1alpha57 (which can be found here <https://github.com/porres/pd-cyclone/releases/tag/0.1alpha57>) from october 2015 and a newer version "0.2beta1" (from december 2015). Cyclone 0.2beta1 is also available for download via the deken plug in but also here <https://github.com/porres/pd-cyclone/releases/tag/0.2beta1>. The work from <https://github.com/electrickery/pd-miXedSon> is now forked to this repository. 
+A fork from this original repository is found at <https://github.com/electrickery/pd-miXedSon> and includes the version 0.1alpha57 from october 2015 (which can be found here <https://github.com/porres/pd-cyclone/releases/tag/0.1alpha57>) and a newer version "0.2beta1" (from december 2015). Cyclone 0.2beta1 is available for download via the deken plugin as well - but you can also find it here <https://github.com/porres/pd-cyclone/releases/tag/0.2beta1>. 
 
-An update version of cyclone could emerge anytime from this repository with bug fixes, new objects and new functionalities aiming to an up to date set of Max/MSP cloned objects. Cyclone was originally developed around the time of Max/MSP 4.6 - but since then, Max has introduced new functionalities on some objects in Max 5+ versions. Thus, some objects in cyclone are outdated to Max/MSP 4. Cyclone "0.2beta1" had still some objects with functionalities from Max/MSP 4, but with already some objects updated to include new functionalities introduced in Max 5 (but still missing functionalities from Max 6+ versions). 
+The work made up to cyclone 0.2beta1 is now forked to this repository. An update version of cyclone could emerge anytime from this repository with bug fixes, new objects and new functionalities aiming to an up to date set of Max/MSP cloned objects.
+
+<strong>Goals & Further Development:</strong>
+
+Cyclone was originally developed around the time of Max/MSP 4.6 - but since then, Max has introduced new functionalities on some objects in Max 5+ versions. Thus, some objects in cyclone are outdated to Max/MSP 4. Cyclone "0.2beta1" had still some objects with functionalities from Max/MSP 4, but with already some objects updated to include new functionalities introduced in Max 5 (but still missing functionalities from Max 6+ versions). 
 
 This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. If in agreement to the Pd community of users and developers, this repository will release updates of the cyclone project (starting with version "0.3-beta-1"). If so be it, besides bug fixes in current existing objects, new/further developments can include:
 
