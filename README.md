@@ -31,7 +31,9 @@ A fork from this original repository is found at <https://github.com/electricker
 
 The work made up to cyclone 0.2beta1 is now forked to this repository. An update version of cyclone could emerge anytime from this repository with bug fixes, new objects and new functionalities aiming to an up to date set of Max/MSP cloned objects.
 
-<strong>Goals & Further Development:</strong>
+-------
+
+<strong>This repository's Goals & Further Development:</strong>
 
 Cyclone was originally developed around the time of Max/MSP 4.6 - but since then, Max has introduced new functionalities on some objects in Max 5+ versions. Thus, some objects in cyclone are outdated to Max/MSP 4. Cyclone "0.2beta1" had still some objects with functionalities from Max/MSP 4, but with already some objects updated to include new functionalities introduced in Max 5 (but still missing functionalities from Max 6+ versions). 
 
