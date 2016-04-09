@@ -35,9 +35,9 @@ An update version of cyclone could emerge anytime from this repository with bug 
 
 This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. If in agreement to the Pd community of users and developers, this repository will release updates of the cyclone project (starting with version "0.3-beta-1"). If so be it, besides bug fixes in current existing objects, new/further developments can include:
 
-<strong>- A)</strong> New functionalities introduced in newer versions of Max (from 5 to 7) into the already existing objects in cyclone.
+<strong>- A)</strong> New functionalities introduced in newer versions of Max (from Max 5 and on) into the already existing objects in cyclone.
 
-<strong>- B)</strong> New objects according to the most current Max version of version (7 nowadays). 
+<strong>- B)</strong> New objects comptaible to the most current Max version (Max 7 nowadays). 
 
 This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Ideally, every possible objects could be cloned or updated, but since this is a fair amount of work, collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. 
 
