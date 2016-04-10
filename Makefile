@@ -11,13 +11,11 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
 endif
 
 
-
 ################################################################################
-### new classes which don'tuse the framework functions #########################
+### new classes which don'tuse the old framework functions #####################
 ################################################################################
 
 # hammer (control; Max) classes
-
 
 atodb.class.sources := hammer/atodb.c
 dbtoa.class.sources := hammer/dbtoa.c
@@ -33,7 +31,7 @@ round~.class.sources := sickle/round.c
 trunc~.class.sources := sickle/trunc.c
 
 ################################################################################
-### hammer (control objects; Max) ##############################################
+### hammer (control; Max) objects ##############################################
 ################################################################################
 
 
@@ -211,7 +209,7 @@ zl.class.sources := hammer/zl.c $(hgrow)
 
 
 ################################################################################
-### sickle (signal objects; MSP) ###############################################
+### sickle (signal; MSP) objects ###############################################
 ################################################################################
 
 
@@ -402,7 +400,7 @@ $(wildcard abstractions/*.pd)
 
 
 ################################################################################
-### pdlibbuilder ###############################################################
+### pd-lib-builder #############################################################
 ################################################################################
 
 
@@ -422,6 +420,7 @@ include $(firstword $(wildcard Makefile.pdlibbuilder \
 install: install-aliases
 
 # on Linux, add symbolic links for UPPER case aliases
+
 install-aliases: all
 ifeq ($(uname), Linux)
 	$(INSTALL_DIR) -v $(installpath)

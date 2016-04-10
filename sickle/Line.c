@@ -323,7 +323,8 @@ void Line_tilde_setup(void)
 			   (t_newmethod)line_new,
 			   (t_method)line_free,
 			   sizeof(t_line), 0, A_DEFFLOAT, 0);
-//  class_addcreator((t_newmethod)line_new, gensym("line~"), A_DEFFLOAT, 0);
+/* avoid name clash with vanilla
+    class_addcreator((t_newmethod)line_new, gensym("line~"), A_DEFFLOAT, 0); */
     class_addcreator((t_newmethod)line_new, gensym("cyclone/line~"), A_DEFFLOAT, 0);
     sic_setup(line_class, line_dsp, SIC_NOMAINSIGNALIN);
     class_addfloat(line_class, line_float);
@@ -336,8 +337,6 @@ void Line_tilde_setup(void)
 		    gensym("pause"), 0);
     class_addmethod(line_class, (t_method)line_resume,
 		    gensym("resume"), 0);
-//    logpost(NULL, 4, "this is cyclone/Line~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
 
 void line_tilde_setup(void)

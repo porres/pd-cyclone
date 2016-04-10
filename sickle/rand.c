@@ -53,6 +53,7 @@ static t_int *rand_perform(t_int *w)
 	}
 	*out++ = ph * scaling + target;
 	lastph = ph;
+    if (rate >= 44100) rate = 44099.999; // change to "sr"
 	if (rate > 0) rate = -rate;
     	tfph += rate * rcpsr;
 	wrappy.w_d = tfph;
