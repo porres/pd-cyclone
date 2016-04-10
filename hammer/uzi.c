@@ -27,26 +27,27 @@ static void uzi_dobang(t_uzi *x)
     /* CHECKME reentrancy */
     if (!x->x_running)
     {
-	int count, nbangs = (int)x->x_nbangs;
+    int count = (int)x->x_offset;
+    int nbangs = (int)x->x_nbangs;
     int offset = (int)x->x_offset;
 	x->x_running = UZI_RUNNING;
 // If resuming/continuing, count restart the counter from where it stoped, even if the offset has changed
 // something like count = last_count
-	for (count = x->x_count + offset; count < (offset + nbangs); count++)
+	for (count = x->x_count; count < (offset + nbangs); count++)
 	{
 	    outlet_float(x->x_out3, count);
 	    outlet_bang(((t_object *)x)->ob_outlet);
 	    if (x->x_running == UZI_PAUSED)
 	    {
 		/* CHECKED: carry bang not sent, even if this is last bang */
-		x->x_count = count;
+		x->x_count = count + 1;
 		return;
 	    }
 	}
 	/* CHECKED: carry bang sent also when there are no left-outlet bangs */
 	/* CHECKED: sent after left outlet, not before */
 	outlet_bang(x->x_out2);
-	x->x_count = 0;
+	x->x_count = offset;
 	x->x_running = 0;
     }
 }
@@ -54,7 +55,7 @@ static void uzi_dobang(t_uzi *x)
 static void uzi_bang(t_uzi *x)
 {
     /* CHECKED: always restarts (when paused too) */
-    x->x_count = 0;
+    x->x_count = (int)x->x_offset;
     x->x_running = 0;
     uzi_dobang(x);
 }
@@ -95,7 +96,7 @@ static void *uzi_new(t_floatarg f1, t_floatarg f2)
     t_uzi *x = (t_uzi *)pd_new(uzi_class);
     x->x_nbangs = (f1 > 1. ? f1 : 1.);
     x->x_offset = 1;
-    x->x_count = 0;
+    x->x_count = x->x_offset;
     x->x_running = 0;
     /* CHECKED: set when paused, but then 'resume' is blocked (a bug?) */
     floatinlet_new((t_object *)x, &x->x_nbangs);
