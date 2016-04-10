@@ -139,7 +139,7 @@ Bucket.class.sources := hammer/Bucket.c $(hplain)
 buddy.class.sources := hammer/buddy.c $(hgrow)
 capture.class.sources := hammer/capture.c $(hfile)
 cartopol.class.sources := hammer/cartopol.c $(hplain)
-Clip.class.sources := hammer/Clip.c $(hgrow)
+clip.class.sources := hammer/clip.c $(hgrow)
 coll.class.sources := hammer/coll.c $(hfile)
 comment.class.sources := hammer/comment.c $(hforky)
 cosh.class.sources := hammer/cosh.c $(hplain)
@@ -431,8 +431,8 @@ ifeq ($(uname), Linux)
         ln -s -f Borax-help.pd borax-help.pd; \
         ln -s -f Bucket.$(extension) bucket.$(extension); \
         ln -s -f Bucket-help.pd bucket-help.pd; \
-        ln -s -f Clip.$(extension) clip.$(extension); \
-        ln -s -f Clip-help.pd clip-help.pd; \
+        ln -s -f clip.$(extension) Clip.$(extension); \
+        ln -s -f clip-help.pd Clip-help.pd; \
         ln -s -f Decode.$(extension) decode.$(extension); \
         ln -s -f Decode-help.pd decode-help.pd; \
         ln -s -f Histo.$(extension) histo.$(extension); \
