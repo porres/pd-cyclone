@@ -317,7 +317,7 @@ static void *line_new(t_floatarg f)
     return (x);
 }
 
-void line_tilde_setup(void)
+void Line_tilde_setup(void)
 {
     line_class = class_new(gensym("Line~"),  // avoid name clash with vanilla
 			   (t_newmethod)line_new,
@@ -338,8 +338,8 @@ void line_tilde_setup(void)
 		    gensym("resume"), 0);
 }
 
-void Line_tilde_setup(void)
+void line_tilde_setup(void)
 {
-    line_tilde_setup();
+    Line_tilde_setup();
 }
 
