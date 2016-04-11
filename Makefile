@@ -311,7 +311,7 @@ capture~.class.sources := sickle/capture.c $(sfile)
 cartopol~.class.sources := sickle/cartopol.c $(sfragile)
 change~.class.sources := sickle/change.c $(ssic)
 click~.class.sources := sickle/click.c $(sgrow)
-Clip~.class.sources := sickle/Clip.c $(ssic)
+clip~.class.sources := sickle/clip.c $(ssic)
 comb~.class.sources := sickle/comb.c $(ssic)
 cosh~.class.sources := sickle/cosh.c $(ssic)
 cosx~.class.sources := sickle/cosx.c $(ssic)
@@ -425,14 +425,15 @@ install-aliases: all
 ifeq ($(uname), Linux)
 	$(INSTALL_DIR) -v $(installpath)
 	cd $(installpath); \
+# Control
         ln -s -f Append.$(extension) append.$(extension); \
         ln -s -f Append-help.pd append-help.pd; \
         ln -s -f Borax.$(extension) borax.$(extension); \
         ln -s -f Borax-help.pd borax-help.pd; \
         ln -s -f Bucket.$(extension) bucket.$(extension); \
         ln -s -f Bucket-help.pd bucket-help.pd; \
-        ln -s -f clip.$(extension) Clip.$(extension); \
-        ln -s -f clip-help.pd Clip-help.pd; \
+        ln -s -f clip.$(extension) Clip.$(extension); \  # testing
+        ln -s -f clip-help.pd Clip-help.pd; \ # testing
         ln -s -f Decode.$(extension) decode.$(extension); \
         ln -s -f Decode-help.pd decode-help.pd; \
         ln -s -f Histo.$(extension) histo.$(extension); \
@@ -447,14 +448,15 @@ ifeq ($(uname), Linux)
         ln -s -f TogEdge-help.pd togedge-help.pd; \
         ln -s -f Trough.$(extension) trough.$(extension); \
         ln -s -f Trough-help.pd trough-help.pd; \
-        ln -s -f uzi.$(extension) Uzi.$(extension); \
-        ln -s -f uzi-help.pd Uzi-help.pd; \
-        ln -s -f Clip~.$(extension) clip~.$(extension); \
-        ln -s -f Clip~-help.pd clip~-help.pd; \
-        ln -s -f line~.$(extension) Line~.$(extension); \
-        ln -s -f line~-help.pd Line~-help.pd; \
-        ln -s -f scope~.$(extension) Scope~.$(extension); \
-        ln -s -f scope~-help.pd Scope~-help.pd; \
+        ln -s -f uzi.$(extension) Uzi.$(extension); \  # OK
+        ln -s -f uzi-help.pd Uzi-help.pd; \ # OK
+# Signal
+        ln -s -f clip~.$(extension) Clip~.$(extension); \ # testing
+        ln -s -f clip~-help.pd Clip~-help.pd; \ # testing
+        ln -s -f line~.$(extension) Line~.$(extension); \ # OK
+        ln -s -f line~-help.pd Line~-help.pd; \ # OK
+        ln -s -f scope~.$(extension) Scope~.$(extension); \ # OK
+        ln -s -f scope~-help.pd Scope~-help.pd; \ # OK
         ln -s -f Snapshot~.$(extension) snapshot~.$(extension); \
         ln -s -f Snapshot~-help.pd snapshot~-help.pd
 endif
