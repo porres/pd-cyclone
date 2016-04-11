@@ -1,7 +1,6 @@
 /* Copyright (c) 2004 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
-//updated 2016 by Derek Kwan
 
 #include <math.h>
 #include "m_pd.h"
@@ -20,8 +19,11 @@
    range 1, and generates nans for ccinput > .995 (cf comment in clc.h). */
 
 
-#define PDCYCURVEINITVAL 0.f
-#define PDCYCURVEPARAM 0.f
+// updated 2016 by Derek Kwan to change arg specification to A_GIMME
+// and add defaults for initial value and curve param.
+// also adding factor message that calls curve_factor (new method)
+#define PDCYCURVEINITVAL 0.
+#define PDCYCURVEPARAM 0.
 #define CURVE_INISIZE  64  /* LATER rethink */
 #define CURVE_MAXSIZE  64
 
@@ -300,7 +302,7 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
 	    segp->s_delta = av[1].a_w.w_float;
 	else
 	    segp->s_delta = 0;
-	curve_cc(x, segp, 0.);
+	curve_cc(x, segp, x->x_ccinput);
     }
     x->x_deltaset = 0;
     x->x_target = x->x_segs->s_target;
@@ -337,13 +339,6 @@ static void curve_dsp(t_curve *x, t_signal **sp)
     dsp_add(curve_perform, 3, x, sp[0]->s_vec, sp[0]->s_n);
 }
 
-static void curve_free(t_curve *x)
-{
-    if (x->x_segs != x->x_segini)
-	freebytes(x->x_segs, x->x_size * sizeof(*x->x_segs));
-    if (x->x_clock) clock_free(x->x_clock);
-}
-
 static void curve_factor(t_curve *x, t_float f){
 	if(f < -1.){
 		x->x_ccinput = -1.;
@@ -358,35 +353,42 @@ static void curve_factor(t_curve *x, t_float f){
 };
 
 
+static void curve_free(t_curve *x)
+{
+    if (x->x_segs != x->x_segini)
+	freebytes(x->x_segs, x->x_size * sizeof(*x->x_segs));
+    if (x->x_clock) clock_free(x->x_clock);
+}
+
 static void *curve_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_curve *x = (t_curve *)pd_new(curve_class);
-	t_float initval, param;
-	initval = PDCYCURVEINITVAL;
-	param = PDCYCURVEPARAM;
+    t_float initval = PDCYCURVEINITVAL;
+	t_float param = PDCYCURVEPARAM;
 	int argnum = 0;
 	while(argc > 0){
-		if(argv -> a_type == A_FLOAT){//if curarg is a number
+		if(argv -> a_type == A_FLOAT){
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
-				case 0:
-					initval = argval;
+				case 0: initval = argval;
 					break;
-				case 1:
-					param = argval;
+				case 1: param = argval;
 					break;
 				default:
-					break;
-				};
-				argnum++;
-				argc--;
-				argv++;
+					break; 
+			};
+			argnum++;
+			argc--;
+			argv++;
+
 		}
-		else{//curarg is a symbol
+		else{
 			goto errstate;
 		};
+
 	};
-    x->x_value = x->x_target = initval;
+
+	x->x_value = x->x_target = initval;
     curve_factor(x, param);
     x->x_deltaset = 0;
     x->x_ksr = sys_getsr() * 0.001;
@@ -397,7 +399,7 @@ static void *curve_new(t_symbol *s, int argc, t_atom *argv)
     x->x_segs = x->x_segini;
     x->x_curseg = 0;
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
-    floatinlet_new((t_object *)x, &x->x_ccinput);
+    inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("factor"));
     outlet_new((t_object *)x, &s_signal);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
     x->x_clock = clock_new(x, (t_method)curve_tick);
@@ -419,6 +421,6 @@ void curve_tilde_setup(void)
     class_addlist(curve_class, curve_list);
     class_addmethod(curve_class, (t_method)curve_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(curve_class, (t_method)curve_factor,
+	class_addmethod(curve_class, (t_method)curve_factor,
 		    gensym("factor"), A_FLOAT, 0);
 }
