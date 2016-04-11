@@ -1,10 +1,10 @@
-/* Update from old nettles, now in the graveyard  */
+/* Update from old nettles (which now lies in the graveyard)  */
 
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
 #include "sickle/sic.h"
-#include "shadow.h"
+#include "shadow/shadow.h"
 
 #if defined(_WIN32) || defined(__APPLE__)
 /* cf pd/src/x_arithmetic.c */
@@ -541,7 +541,7 @@ void cyclone_setup(void)
 			     (t_newmethod)sigleq_new, 0,
 			     sizeof(t_sigleq), 0, A_GIMME, 0);
     sic_setup(sigleq_class, sigleq_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigleq_class, gensym("<lessthaneq~"));
+    class_sethelpsymbol(sigleq_class, gensym("lessthaneq~"));
     
     siggeq_class = class_new(gensym(">=~"),
 			     (t_newmethod)siggeq_new, 0,

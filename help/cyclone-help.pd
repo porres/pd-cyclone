@@ -1,5 +1,5 @@
-#N canvas 722 23 573 565 10;
-#X declare -lib cyclone;
+#N canvas 401 23 569 835 10;
+#X declare -stdlib cyclone/cyclone;
 #X obj 10 43 cnv 15 552 30 empty empty cyclone.c 3 12 0 18 -204280
 -1 0;
 #X text 129 51 subset library with "weird" character objects;
@@ -19,31 +19,67 @@
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 8 7 pd;
-#X text 99 370 But if the library is not preloaded via the startup
-\, you can still load it with [declare] \, as long as the cyclone folder
-is in your search path. In this case \, declare it as below:;
-#X obj 119 181 ==~;
-#X obj 119 204 !=~;
-#X obj 119 228 <~;
-#X obj 149 182 <=~;
-#X obj 150 204 >~;
-#X obj 149 227 >=~;
-#X obj 187 181 %~;
-#X obj 218 181 +=~;
-#X obj 187 227 !/~;
-#X obj 187 204 !-~;
-#X obj 218 227 !/;
-#X obj 218 205 !-;
-#X text 88 136 The nettles objects are:;
-#X text 270 199 check their help files more info.;
-#X text 96 273 ============================================================
-;
-#X text 88 93 Cyclone is a library with a subset library of cyclone
-that loads the 12 objects below with "weird" character names.;
-#X text 67 307 Loading the cyclone library:;
-#X obj 303 429 declare -lib cyclone;
-#X text 99 338 You need to load cyclone via the startup. How to do
+#X obj 221 312 ==~;
+#X obj 221 334 !=~;
+#X obj 221 359 <~;
+#X obj 221 382 <=~;
+#X obj 221 408 >~;
+#X obj 221 431 >=~;
+#X obj 222 464 %~;
+#X obj 221 579 +=~;
+#X obj 222 505 !-~;
+#X obj 222 485 !-;
+#X text 108 670 You need to load cyclone via the startup. How to do
 that was instructed in the "How to Install Cyclone" process.;
-#X text 109 470 If you actually read the instructions on how to install
-and already had cyclone loaded via the startup \, [declare] tells you
-"cyclone: already loaded" in the Pd window.;
+#X text 108 702 But if the library is not preloaded via the startup
+\, you can still load it with [declare] as below:;
+#X text 114 356 Comparatives:;
+#X text 125 579 Accumulator:;
+#X obj 312 313 equals~;
+#X obj 312 335 notequals~;
+#X obj 312 359 lessthan~;
+#X obj 312 382 lessthaneq~;
+#X text 253 313 same as;
+#X text 253 335 same as;
+#X text 253 359 same as;
+#X text 253 382 same as;
+#X text 253 407 same as;
+#X obj 312 407 greaterthan~;
+#X text 253 431 same as;
+#X obj 312 431 greaterthaneq~;
+#X text 82 91 Most objects in cyclone are single binaries. But since
+you can't load non-alphanumeric object in certain file systems that
+way \, there's the "cyclone" library that loads 12 objects with such
+"weird" character names.;
+#X text 83 154 This is then just a sub-library in the whole cyclone
+package needed for such objects. Nevertheless \, outside the cyclone
+sub-library \, you also find alphanumeric versions (or "aliases") of
+the objects as signle binaries.;
+#X text 81 216 ============================================================
+;
+#X text 83 240 Here's the subset of objects that come in the cyclone
+library \, along their alphanumeric versions (which also exist in Max/MSP
+- thus are compatible to it). Check their individual help files for
+more info.;
+#X text 255 464 same as;
+#X text 255 505 same as;
+#X text 255 486 same as;
+#X obj 314 464 modulo~;
+#X obj 314 505 rminus~;
+#X text 255 546 same as;
+#X text 255 526 same as;
+#X obj 222 526 !/;
+#X obj 314 526 rdiv;
+#X obj 314 485 rminus;
+#X obj 314 546 rdiv~;
+#X obj 222 546 !/~;
+#X text 256 580 same as;
+#X obj 315 580 plusequals~;
+#X text 117 497 Math objects:;
+#X text 92 611 ============================================================
+;
+#X obj 281 741 declare -stdlib cyclone/cyclone;
+#X text 114 771 If this isn't working \, you did not install cyclone
+correctly and you need to Read "How to Install Cyclone" for more details.
+;
+#X text 56 641 Loading/Installing the cyclone library:;
