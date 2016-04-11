@@ -1,4 +1,4 @@
-/* Copy of old nettles  */
+/* Update from old nettles, now in the graveyard  */
 
 #include <math.h>
 #include "m_pd.h"
@@ -498,74 +498,74 @@ void cyclone_setup(void)
 			     sizeof(t_rbinop), 0, A_DEFFLOAT, 0);
     class_addbang(rminus_class, rminus_bang);
     class_addfloat(rminus_class, rminus_float);
-    class_sethelpsymbol(rminus_class, gensym("!-"));
+    class_sethelpsymbol(rminus_class, gensym("rminus"));
     
     rdiv_class = class_new(gensym("!/"),
 			   (t_newmethod)rdiv_new, 0,
 			   sizeof(t_rbinop), 0, A_DEFFLOAT, 0);
     class_addbang(rdiv_class, rdiv_bang);
     class_addfloat(rdiv_class, rdiv_float);
-    class_sethelpsymbol(rdiv_class, gensym("!/"));
+    class_sethelpsymbol(rdiv_class, gensym("rdiv"));
     
     sigeq_class = class_new(gensym("==~"),
 			    (t_newmethod)sigeq_new, 0,
 			    sizeof(t_sigeq), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)sigeq_new,
+/*    class_addcreator((t_newmethod)sigeq_new,
 		     gensym("_==1~"), A_GIMME, 0);
     class_addcreator((t_newmethod)sigeq_new,
-		     gensym("_==2~"), A_GIMME, 0);
+		     gensym("_==2~"), A_GIMME, 0); */
     sic_setup(sigeq_class, sigeq_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(sigeq_class, (t_method)sigeq__algo,
-		    gensym("_algo"), A_FLOAT, 0);
-    /*class_sethelpsymbol(sigeq_class, gensym("==~"));*/
+		    gensym("_algo"), A_FLOAT, 0); // for testing purposes / undocumented
+    class_sethelpsymbol(sigeq_class, gensym("equals~"));
 
     signeq_class = class_new(gensym("!=~"),
 			     (t_newmethod)signeq_new, 0,
 			     sizeof(t_signeq), 0, A_GIMME, 0);
     sic_setup(signeq_class, signeq_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(signeq_class, gensym("!=~"));
+    class_sethelpsymbol(signeq_class, gensym("notequals~"));
     
     siglt_class = class_new(gensym("<~"),
 			    (t_newmethod)siglt_new, 0,
 			    sizeof(t_siglt), 0, A_GIMME, 0);
     sic_setup(siglt_class, siglt_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(siglt_class, gensym("<~"));
+    class_sethelpsymbol(siglt_class, gensym("lessthan~"));
     
     siggt_class = class_new(gensym(">~"),
 			    (t_newmethod)siggt_new, 0,
 			    sizeof(t_siggt), 0, A_GIMME, 0);
     sic_setup(siggt_class, siggt_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(siggt_class, gensym(">~"));
+    class_sethelpsymbol(siggt_class, gensym("greaterthan~"));
     
     sigleq_class = class_new(gensym("<=~"),
 			     (t_newmethod)sigleq_new, 0,
 			     sizeof(t_sigleq), 0, A_GIMME, 0);
     sic_setup(sigleq_class, sigleq_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigleq_class, gensym("<=~"));
+    class_sethelpsymbol(sigleq_class, gensym("<lessthaneq~"));
     
     siggeq_class = class_new(gensym(">=~"),
 			     (t_newmethod)siggeq_new, 0,
 			     sizeof(t_siggeq), 0, A_GIMME, 0);
     sic_setup(siggeq_class, siggeq_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(siggeq_class, gensym(">=~"));
+    class_sethelpsymbol(siggeq_class, gensym("greaterthaneq~"));
     
     sigrminus_class = class_new(gensym("!-~"),
 				(t_newmethod)sigrminus_new, 0,
 				sizeof(t_sigrminus), 0, A_GIMME, 0);
     sic_setup(sigrminus_class, sigrminus_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigrminus_class, gensym("!-~"));
+    class_sethelpsymbol(sigrminus_class, gensym("rminus~"));
     
     sigrover_class = class_new(gensym("!/~"),
 			       (t_newmethod)sigrover_new, 0,
 			       sizeof(t_sigrover), 0, A_GIMME, 0);
     sic_setup(sigrover_class, sigrover_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigrover_class, gensym("!/~"));
+    class_sethelpsymbol(sigrover_class, gensym("rdiv~"));
     
     sigmod_class = class_new(gensym("%~"),
 			     (t_newmethod)sigmod_new, 0,
 			     sizeof(t_sigmod), 0, A_GIMME, 0);
     sic_setup(sigmod_class, sigmod_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigmod_class, gensym("%~"));
+    class_sethelpsymbol(sigmod_class, gensym("modulo~"));
     
     plusequals_class = class_new(gensym("+=~"),
 			       (t_newmethod)plusequals_new, 0,
@@ -574,15 +574,14 @@ void cyclone_setup(void)
     class_addbang(plusequals_class, plusequals_bang);
     class_addmethod(plusequals_class, (t_method)plusequals_set,
 		    gensym("set"), A_FLOAT, 0);
-    class_sethelpsymbol(plusequals_class, gensym("+=~"));
+    class_sethelpsymbol(plusequals_class, gensym("plusequals~"));
     //    logpost(NULL, 4, "this is cyclone lib %s, %dth %s build",
     //    containing non alphanumeric objects +=~, etc...
     //	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 
 }
 
-
-void allcyclone_setup(void)
+void allcyclone_setup(void) // ??????????
 {
     cyclone_setup();
 }
