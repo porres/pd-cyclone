@@ -1,10 +1,14 @@
-#N canvas 147 26 563 626 10;
+#N canvas 147 26 576 806 10;
+#X declare -lib nettles;
+#X declare -lib nettles;
 #X obj 6 40 cnv 15 552 50 empty empty <~ 3 12 0 18 -204280 -1 0;
-#X obj 6 574 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 6 774 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 425 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 6 475 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 6 578 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X obj 84 437 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
@@ -25,26 +29,27 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 576 pd META;
+#X restore 509 776 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 197 576 pd Related_objects;
+#X restore 197 776 pd Related_objects;
 #X obj 6 355 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X text 113 436 signal -;
 #X text 93 495 1) float -;
-#X floatatom 365 175 5 0 0 0 - - -, f 5;
-#X floatatom 308 178 5 0 0 0 - - -, f 5;
+#X floatatom 338 175 5 0 0 0 - - -, f 5;
+#X floatatom 292 178 5 0 0 0 - - -, f 5;
 #X obj 308 245 cyclone/snapshot~ 1;
 #X floatatom 104 185 5 0 0 0 - - -, f 5;
 #X obj 104 247 cyclone/snapshot~ 1;
 #X obj 308 283 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
 1;
-#X obj 104 282 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
+#X obj 104 282 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 1
 1;
 #X obj 530 68 <~;
 #X obj 495 46 lessthan~;
+#X obj 308 208 <~;
 #X text 263 63 alias of [lessthan~];
 #X text 18 63 Is less than \, comparison of two signals:;
 #X text 180 436 If the signal in the left inlet is less than the value
@@ -56,7 +61,7 @@ signal is disconnected \, argument value is restored.;
 #X text 80 111 [lessthan~] or [<~] <~ outputs a 1 signal when the left
 input is less-than the right input or argument and a 0 when it is greater-than
 or equal-to the right input or argument.;
-#X obj 104 211 cyclone/lessthan~ 5;
+#X obj 104 212 cyclone/lessthan~ 5;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -74,8 +79,8 @@ or equal-to the right input or argument.;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 6 5 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -146,7 +151,7 @@ or equal-to the right input or argument.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -190,12 +195,23 @@ or equal-to the right input or argument.;
 #X text 164 369 signal;
 #X text 219 393 - value used for comparison with left inlet;
 #X text 219 369 - value is compared to right inlet's or argument;
-#X obj 308 208 cyclone/<~;
-#X connect 10 0 35 1;
-#X connect 11 0 35 0;
-#X connect 12 0 15 0;
-#X connect 13 0 24 0;
-#X connect 14 0 16 0;
-#X connect 24 0 14 0;
-#X connect 27 0 24 1;
-#X connect 35 0 12 0;
+#X obj 417 617 declare -lib nettles, f 21;
+#X obj 420 748 nettles-help;
+#X text 65 749 Open help files of "nettles" to understand what it is
+===>;
+#X text 62 604 So far \, [<~] only correctly loads if you declare the
+"nettles" library with the declare object like this =====>;
+#X text 63 640 There's a [cyclone/<~] abstraction that internally loads
+the object if you didn't declare nettles \, but the it won't load arguments
+and work as it should. If you are not sure if you have an abstraction
+\, check warning in Pd window or click on it to see if it opens.;
+#X text 64 712 You can also load the alias object [cyclone/lessthan~]
+with no such issues and outside "nettles".;
+#X connect 11 0 20 1;
+#X connect 12 0 20 0;
+#X connect 13 0 16 0;
+#X connect 14 0 26 0;
+#X connect 15 0 17 0;
+#X connect 20 0 13 0;
+#X connect 26 0 15 0;
+#X connect 29 0 26 1;

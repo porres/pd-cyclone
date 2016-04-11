@@ -1,10 +1,14 @@
-#N canvas 632 55 562 625 10;
+#N canvas 632 55 564 812 10;
+#X declare -lib nettles;
+#X declare -lib nettles;
 #X obj 6 40 cnv 15 552 50 empty empty %~ 3 12 0 18 -204280 -1 0;
-#X obj 6 584 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 6 774 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 425 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 6 482 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 6 576 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X obj 84 437 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
@@ -25,11 +29,11 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 586 pd META;
+#X restore 509 776 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 197 586 pd Related_objects;
+#X restore 197 776 pd Related_objects;
 #X obj 84 369 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 6 355 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -41,8 +45,8 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X text 113 436 signal -;
 #X text 93 498 1) float -;
-#X floatatom 376 211 5 0 0 0 - - -, f 5;
-#X floatatom 307 214 5 0 0 0 - - -, f 5;
+#X floatatom 337 211 5 0 0 0 - - -, f 5;
+#X floatatom 291 214 5 0 0 0 - - -, f 5;
 #X obj 307 281 cyclone/snapshot~ 1;
 #X floatatom 103 220 5 0 0 0 - - -, f 5;
 #X floatatom 208 217 5 0 0 0 - - -, f 5;
@@ -83,8 +87,8 @@ add together automatically.;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 5 4 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -155,7 +159,7 @@ add together automatically.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -191,17 +195,29 @@ add together automatically.;
 #X text 198 367 - signal is divided by argument or value from right
 inlet.;
 #X text 198 389 - A value by which to divide the incomming signal;
+#X obj 425 614 declare -lib nettles, f 21;
+#X obj 428 745 nettles-help;
+#X text 73 746 Open help files of "nettles" to understand what it is
+===>;
+#X text 70 601 So far \, [%~] only correctly loads if you declare the
+"nettles" library with the declare object like this =====>;
+#X text 71 637 There's a [cyclone/%~] abstraction that internally loads
+the object if you didn't declare nettles \, but the it won't load arguments
+and work as it should. If you are not sure if you have an abstraction
+\, check warning in Pd window or click on it to see if it opens.;
+#X text 72 709 You can also load the alias object [cyclone/modulo~]
+with no such issues and outside "nettles".;
+#X obj 307 244 %~ 0;
 #X text 168 498 A number by which to divide the signal coming into
 the left inlet by and get the remainder (default 0). A float on the
 right inlet overwrites the argument. If a signal is connected to the
 right inlet \, argument is ignored. If signal is disconnected \, argument
 value is restored.;
-#X obj 307 244 cyclone/%~ 0;
-#X connect 14 0 35 1;
-#X connect 15 0 35 0;
-#X connect 16 0 19 0;
-#X connect 17 0 29 0;
-#X connect 18 0 29 1;
-#X connect 20 0 21 0;
-#X connect 29 0 20 0;
-#X connect 35 0 16 0;
+#X connect 15 0 41 1;
+#X connect 16 0 41 0;
+#X connect 17 0 20 0;
+#X connect 18 0 30 0;
+#X connect 19 0 30 1;
+#X connect 21 0 22 0;
+#X connect 30 0 21 0;
+#X connect 41 0 17 0;

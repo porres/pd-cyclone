@@ -1,10 +1,15 @@
-#N canvas 658 23 565 557 10;
+#N canvas 189 45 585 731 10;
+#X declare -stdlib cyclone/cyclone;
+#X declare -stdlib cyclone/cyclone;
 #X obj 5 40 cnv 15 552 50 empty empty !-~ 3 12 0 18 -204280 -1 0;
-#X obj 5 513 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 57 53 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
+#X obj 5 647 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 356 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 5 393 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 5 441 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X obj 83 366 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
@@ -25,24 +30,25 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 515 pd META;
+#X restore 508 649 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 196 515 pd Related_objects;
+#X restore 196 649 pd Related_objects;
 #X obj 5 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X floatatom 368 150 5 0 0 0 - - -, f 5;
-#X floatatom 305 152 5 0 0 0 - - -, f 5;
-#X obj 305 211 cyclone/snapshot~ 1;
-#X floatatom 96 168 5 0 0 0 - - -, f 5;
-#X floatatom 195 164 5 0 0 0 - - -, f 5;
+#X floatatom 144 164 5 0 0 0 - - -, f 5;
+#X floatatom 98 167 5 0 0 0 - - -, f 5;
+#X obj 114 229 cyclone/snapshot~ 1;
+#X floatatom 275 162 5 0 0 0 - - -, f 5;
+#X floatatom 374 158 5 0 0 0 - - -, f 5;
+#X obj 114 197 !-~;
 #X obj 506 46 rminus~;
 #X obj 529 68 !-~;
-#X floatatom 305 238 5 0 0 0 - - -, f 5;
-#X obj 96 195 cyclone/rminus~ 5;
-#X obj 96 228 cyclone/snapshot~ 1;
-#X floatatom 96 255 5 0 0 0 - - -, f 5;
+#X floatatom 114 256 5 0 0 0 - - -, f 5;
+#X obj 275 189 cyclone/rminus~ 5;
+#X obj 275 222 cyclone/snapshot~ 1;
+#X floatatom 275 249 5 0 0 0 - - -, f 5;
 #X obj 80 300 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 80 322 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
@@ -175,27 +181,35 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 506 104 pd;
-#X text 69 103 [rminus~] or [!-~] subtracts a number by the incoming
-value. Functions like the [-~] object \, but the inlets' functions
-are reversed.;
 #X text 198 365 - The subtraction of the two numbers.;
 #X text 196 299 - Signal to be subtracted by right inlet's value/argument.
 ;
 #X text 196 324 - Values to subtract by left inlet's values.;
-#X text 9 67 signal reversed inlets subtraction: alias of [rminus~]
-;
-#X text 174 404 Sets an initial value by which to subtracr the signal
-coming into the left inlet (default 0). A float on the right inlet
-overwrites the argument. If a signal is connected to the right inlet
-\, argument is ignored. If signal is disconnected \, argument value
-is restored. If no argument is present \, and no signal is connected
-to the right inlet \, the initial value is 1 by default.;
-#X obj 305 179 cyclone/!-~;
-#X connect 8 0 34 1;
-#X connect 9 0 34 0;
-#X connect 10 0 15 0;
-#X connect 11 0 16 0;
-#X connect 12 0 16 1;
-#X connect 16 0 17 0;
-#X connect 17 0 18 0;
-#X connect 34 0 10 0;
+#X text 135 615 more about the cyclone sub-library;
+#X text 505 69 or;
+#X text 174 404 sets initial value (default 0) by which to subtract
+the signal coming into the left inlet.;
+#X text 130 450 A float on the right inlet overwrites the argument.
+If a signal is connected to the right inlet \, argument is ignored.
+If signal is disconnected \, argument's value is restored.;
+#X obj 5 501 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
+-228856 -1 0;
+#X obj 253 580 declare -stdlib cyclone/cyclone;
+#X obj 355 615 cyclone/cyclone-help;
+#X text 117 532 [rminus~] is a binary in cyclone \, the alias [!-~]
+only loads if you load the sub-library "cyclone" as informed in "How
+to Install". You can also load the cyclone library with [declare] like
+this:;
+#X obj 88 52 cnv 5 5 5 empty empty rminus~ 0 0 0 18 -204280 -1 0;
+#X text 9 67 Signal reversed inlets subtraction;
+#X text 71 101 [!-~] or [rminus~] subtracts a number by the incoming
+value. Functions like the [-~] object \, but the inlets' functions
+are reversed.;
+#X connect 10 0 15 1;
+#X connect 11 0 15 0;
+#X connect 12 0 18 0;
+#X connect 13 0 19 0;
+#X connect 14 0 19 1;
+#X connect 15 0 12 0;
+#X connect 19 0 20 0;
+#X connect 20 0 21 0;
