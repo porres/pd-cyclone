@@ -317,15 +317,14 @@ static void *line_new(t_floatarg f)
     return (x);
 }
 
-void Line_tilde_setup(void)
+void line_tilde_setup(void)
 {
-    line_class = class_new(gensym("Line~"),
+    line_class = class_new(gensym("Line~"),  // avoid name clash with vanilla
 			   (t_newmethod)line_new,
 			   (t_method)line_free,
 			   sizeof(t_line), 0, A_DEFFLOAT, 0);
-/* avoid name clash with vanilla
-    class_addcreator((t_newmethod)line_new, gensym("line~"), A_DEFFLOAT, 0); */
     class_addcreator((t_newmethod)line_new, gensym("cyclone/line~"), A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)line_new, gensym("cyclone/Line~"), A_DEFFLOAT, 0);
     sic_setup(line_class, line_dsp, SIC_NOMAINSIGNALIN);
     class_addfloat(line_class, line_float);
     class_addlist(line_class, line_list);
@@ -339,8 +338,8 @@ void Line_tilde_setup(void)
 		    gensym("resume"), 0);
 }
 
-void line_tilde_setup(void)
+void Line_tilde_setup(void)
 {
-    Line_tilde_setup();
+    line_tilde_setup();
 }
 
