@@ -51,7 +51,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 
 Check more stuff in our wiki page: https://github.com/porres/pd-cyclone/wiki/
 
-February 22nd 2016 (last edited, april 9th)
+February 22nd 2016 (last edited, april 12th)
 
 -------
 <strong>pd-lib-builder</strong>
