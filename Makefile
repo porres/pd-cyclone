@@ -128,14 +128,14 @@ acos.class.sources := hammer/acos.c $(hplain)
 acosh.class.sources := hammer/acosh.c $(hplain)  # NEW CLASS!
 active.class.sources := hammer/active.c $(hgui)
 anal.class.sources := hammer/anal.c $(hloud)
-Append.class.sources := hammer/Append.c $(hgrowfitter)
+append.class.sources := hammer/append.c $(hgrowfitter)
 asin.class.sources := hammer/asin.c $(hplain)
 asinh.class.sources := hammer/asinh.c $(hplain)  # NEW CLASS!
 atanh.class.sources := hammer/atanh.c $(hplain)  # NEW CLASS!
 bangbang.class.sources := hammer/bangbang.c $(hfitter)
 bondo.class.sources := hammer/bondo.c $(hgrow)
-Borax.class.sources := hammer/Borax.c $(hloud)
-Bucket.class.sources := hammer/Bucket.c $(hplain)
+borax.class.sources := hammer/borax.c $(hloud)
+bucket.class.sources := hammer/bucket.c $(hplain)
 buddy.class.sources := hammer/buddy.c $(hgrow)
 capture.class.sources := hammer/capture.c $(hfile)
 cartopol.class.sources := hammer/cartopol.c $(hplain)
@@ -146,7 +146,7 @@ cosh.class.sources := hammer/cosh.c $(hplain)
 counter.class.sources := hammer/counter.c $(hfitter)
 cycle.class.sources := hammer/cycle.c $(hfitter)
 decide.class.sources := hammer/decide.c $(hloud)
-Decode.class.sources := hammer/Decode.c $(hfitter)
+decode.class.sources := hammer/decode.c $(hfitter)
 drunk.class.sources := hammer/drunk.c $(hrand)
 flush.class.sources := hammer/flush.c $(hplain)
 forward.class.sources := hammer/forward.c $(hplain)
@@ -155,7 +155,7 @@ funbuff.class.sources := hammer/funbuff.c $(htreefilevefl)
 funnel.class.sources := hammer/funnel.c $(hgrow)
 gate.class.sources := hammer/gate.c $(hfitter)
 grab.class.sources := hammer/grab.c $(hfragile)
-Histo.class.sources := hammer/Histo.c $(hloud)
+histo.class.sources := hammer/histo.c $(hloud)
 iter.class.sources := hammer/iter.c $(hgrow)
 loadmess.class.sources := hammer/loadmess.c $(hfile) # NEW CLASS!
 match.class.sources := hammer/match.c $(hgrow)
@@ -172,7 +172,7 @@ next.class.sources := hammer/next.c $(hplain)
 offer.class.sources := hammer/offer.c $(htree)
 onebang.class.sources := hammer/onebang.c $(hplain)
 past.class.sources := hammer/past.c $(hgrowfitter)
-Peak.class.sources := hammer/Peak.c $(hplain)
+peak.class.sources := hammer/peak.c $(hplain)
 poltocar.class.sources := hammer/poltocar.c $(hplain)
 prepend.class.sources := hammer/prepend.c $(hgrowfitter)
 prob.class.sources := hammer/prob.c $(hrandfile)
@@ -189,19 +189,19 @@ sprintf.class.sources := hammer/sprintf.c $(hloud)
 substitute.class.sources := hammer/substitute.c $(hgrow)
 sustain.class.sources := hammer/sustain.c $(hplain)
 switch.class.sources := hammer/switch.c $(hfitter)
-Table.class.sources := hammer/Table.c $(hrandgrowfile)
+table.class.sources := hammer/table.c $(hrandgrowfile)
 tanh.class.sources := hammer/tanh.c $(hplain)
 testmess.class.sources := hammer/testmess.c $(hfragile)
 thresh.class.sources := hammer/thresh.c $(hgrow) # NEW CLASS!
 TogEdge.class.sources := hammer/TogEdge.c $(hloud)
 tosymbol.class.sources := hammer/tosymbol.c $(hgrow)
-Trough.class.sources := hammer/Trough.c $(hplain)
+trough.class.sources := hammer/trough.c $(hplain)
 universal.class.sources := hammer/universal.c $(hfragile)
 urn.class.sources := hammer/urn.c $(hrandgrow)
 uzi.class.sources := hammer/uzi.c $(hplain)
-xbendin2.class.sources := hammer/xbendin2.c $(hplain)
+# xbendin2.class.sources := hammer/xbendin2.c $(hplain)
 xbendin.class.sources := hammer/xbendin.c $(hplain)
-xbendout2.class.sources := hammer/xbendout2.c $(hplain)
+# xbendout2.class.sources := hammer/xbendout2.c $(hplain)
 xbendout.class.sources := hammer/xbendout.c $(hplain)
 xnotein.class.sources := hammer/xnotein.c $(hplain)
 xnoteout.class.sources := hammer/xnoteout.c $(hplain)
@@ -367,7 +367,7 @@ scope~.class.sources := sickle/scope.c $(sgrowforky)
 sinh~.class.sources := sickle/sinh.c $(ssic)
 sinx~.class.sources := sickle/sinx.c $(ssic)
 slide~.class.sources := sickle/slide.c $(ssic)
-Snapshot~.class.sources := sickle/Snapshot.c $(ssic)
+snapshot~.class.sources := sickle/snapshot.c $(ssic)
 spike~.class.sources := sickle/spike.c $(ssic)
 svf~.class.sources := sickle/svf.c $(ssic)
 tanh~.class.sources := sickle/tanh.c $(ssic)
@@ -426,38 +426,38 @@ ifeq ($(uname), Linux)
 	$(INSTALL_DIR) -v $(installpath)
 	cd $(installpath); \
 # Control
-        ln -s -f Append.$(extension) append.$(extension); \
-        ln -s -f Append-help.pd append-help.pd; \
-        ln -s -f Borax.$(extension) borax.$(extension); \
-        ln -s -f Borax-help.pd borax-help.pd; \
-        ln -s -f Bucket.$(extension) bucket.$(extension); \
-        ln -s -f Bucket-help.pd bucket-help.pd; \
+        ln -s -f append.$(extension) Append.$(extension); \
+        ln -s -f append-help.pd Append-help.pd; \
+        ln -s -f borax.$(extension) Borax.$(extension); \
+        ln -s -f borax-help.pd Borax-help.pd; \
+        ln -s -f bucket.$(extension) Bucket.$(extension); \
+        ln -s -f bucket-help.pd Bucket-help.pd; \
         ln -s -f clip.$(extension) Clip.$(extension); \  # testing
         ln -s -f clip-help.pd Clip-help.pd; \ # testing
-        ln -s -f Decode.$(extension) decode.$(extension); \
-        ln -s -f Decode-help.pd decode-help.pd; \
-        ln -s -f Histo.$(extension) histo.$(extension); \
-        ln -s -f Histo-help.pd histo-help.pd; \
-        ln -s -f MouseState.$(extension) mousestate.$(extension); \
-        ln -s -f MouseState-help.pd mousestate-help.pd; \
-        ln -s -f Peak.$(extension) peak.$(extension); \
-        ln -s -f Peak-help.pd peak-help.pd; \
-        ln -s -f Table.$(extension) table.$(extension); \
-        ln -s -f Table-help.pd table-help.pd; \
-        ln -s -f TogEdge.$(extension) togedge.$(extension); \
-        ln -s -f TogEdge-help.pd togedge-help.pd; \
-        ln -s -f Trough.$(extension) trough.$(extension); \
-        ln -s -f Trough-help.pd trough-help.pd; \
+        ln -s -f decode.$(extension) Decode.$(extension); \
+        ln -s -f decode-help.pd Decode-help.pd; \
+        ln -s -f histo.$(extension) Histo.$(extension); \
+        ln -s -f histo-help.pd Histo-help.pd; \
+        ln -s -f MouseState.$(extension) mousestate.$(extension); \ # ???
+        ln -s -f MouseState-help.pd mousestate-help.pd; \ # ???
+        ln -s -f peak.$(extension) Peak.$(extension); \
+        ln -s -f peak-help.pd Peak-help.pd; \
+        ln -s -f table.$(extension) Table.$(extension); \
+        ln -s -f table-help.pd Table-help.pd; \
+        ln -s -f TogEdge.$(extension) togedge.$(extension); \ # ???
+        ln -s -f TogEdge-help.pd togedge-help.pd; \ # ???
+        ln -s -f trough.$(extension) Trough.$(extension); \
+        ln -s -f trough-help.pd Trough-help.pd; \
         ln -s -f uzi.$(extension) Uzi.$(extension); \  # OK
         ln -s -f uzi-help.pd Uzi-help.pd; \ # OK
 # Signal
-        ln -s -f clip~.$(extension) Clip~.$(extension); \ # testing
-        ln -s -f clip~-help.pd Clip~-help.pd; \ # testing
+        ln -s -f clip~.$(extension) Clip~.$(extension); \ # ok
+        ln -s -f clip~-help.pd Clip~-help.pd; \ # ok
         ln -s -f line~.$(extension) Line~.$(extension); \ # OK
         ln -s -f line~-help.pd Line~-help.pd; \ # OK
         ln -s -f scope~.$(extension) Scope~.$(extension); \ # OK
         ln -s -f scope~-help.pd Scope~-help.pd; \ # OK
-        ln -s -f Snapshot~.$(extension) snapshot~.$(extension); \
-        ln -s -f Snapshot~-help.pd snapshot~-help.pd
+        ln -s -f snapshot~.$(extension) Snapshot~.$(extension); \
+        ln -s -f snapshot~-help.pd Snapshot~-help.pd
 endif
 
