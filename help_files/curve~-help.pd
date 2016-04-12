@@ -1,7 +1,7 @@
-#N canvas 584 23 573 754 10;
-#X obj 8 714 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 298 23 566 720 10;
+#X obj 8 672 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 8 387 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 8 358 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 613 452 348 203 META 0;
 #X text 0 18 LICENSE SIBSD;
@@ -19,97 +19,66 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 716 pd META;
-#X obj 6 593 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 509 674 pd META;
+#X obj 6 559 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 8 649 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 8 615 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 305 549 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 34 36 line~;
 #X obj 80 36 vline~;
-#X restore 211 716 pd Related_objects;
-#X obj 97 602 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 211 674 pd Related_objects;
+#X obj 93 568 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 8 35 cnv 15 552 40 empty empty curve~ 3 12 0 18 -204280 -1 0
 ;
-#X text 127 601 signal;
-#X text 123 658 1) float;
-#X text 123 677 2) float;
-#X obj 508 38 curve~;
-#X obj 97 397 cnv 17 3 130 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 130 567 signal;
+#X text 118 625 1) float;
+#X text 118 644 2) float;
+#X obj 508 47 curve~;
+#X obj 93 368 cnv 17 3 130 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 534 cnv 17 3 23 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 93 504 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 127 532 float;
-#X obj 97 560 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 136 505 float;
+#X obj 93 535 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 127 561 float;
-#X obj 304 228 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 136 536 float;
+#X obj 334 198 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 187 659 - set initial value (default 0);
-#X obj 97 625 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 93 591 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 127 624 bang;
-#X text 117 462 messages:;
-#X obj 70 208 osc~ 440;
-#X obj 70 261 *~;
-#X obj 61 295 dac~;
-#X text 132 400 list:;
-#X text 130 430 float:;
-#X text 187 624 - a bang is sent when final target is reached;
-#X text 125 303 0;
-#X text 127 252 1;
-#X text 119 356 -1;
-#X text 75 95 [curve~] produces a curved ramps signal that reaches
-a target value over a specified time (in ms). It takes triples of values
-(destination \, time \, curve factor). Below \, when receiving 2 triples
-\, [curve~] generates a simple Attack-Release envelope.;
-#X text 349 238 <= Bangs when finished;
-#X text 187 601 - current value or a ramp towards the target;
+#X text 142 590 bang;
+#X text 113 433 messages:;
+#X obj 70 176 osc~ 440;
+#X obj 70 229 *~;
+#X text 128 371 list:;
+#X text 126 401 float:;
+#X text 147 222 1;
+#X text 183 567 - current value or a ramp towards the target;
 #X text 21 58 Curved (non linear) ramp generator;
-#X obj 143 222 cyclone/curve~;
-#X text 187 461 - <factor "float">: adjusts curve's expenential factor
-\; - <pause>: pauses the output \; - <resume>: restores the output
-after being paused \; - <stop>: stops and clears pending target-time
-parameter triples (but continues outputting its last value).;
-#X text 187 679 - curve factor from -1 to 1 (defalut 0 - linear).;
-#X msg 143 192 1 150 -0.5 0 550 -0.5;
-#N canvas 69 50 783 578 curve_factor_examples 0;
-#X floatatom 168 182 0 0 0 0 - - -;
+#X obj 163 192 cyclone/curve~;
+#X text 182 646 - curve factor from -1 to 1 (defalut 0 - linear).;
+#N canvas 558 95 783 578 curve_factor_examples 0;
+#X floatatom 240 246 0 0 0 0 - - -;
 #X obj 16 12 cnv 15 750 20 empty empty empty 3 12 0 14 -204280 -1 0
 ;
-#X obj 171 160 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X obj 123 170 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
-#X msg 123 243 \$1 1000 \$2;
-#X obj 123 281 curve~;
-#X obj 123 328 cyclone/Scope~ 149 107 256 3 128 0 1 0 0 0 0 205 229
+#X obj 243 224 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 6800 1;
+#X obj 123 336 cyclone/Scope~ 149 107 256 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X text 108 427 0;
-#X text 110 322 1;
-#X text 199 160 curve factor;
-#X obj 123 212 pack f f;
+#X text 108 435 0;
+#X text 110 330 1;
+#X text 271 224 curve factor;
 #X text 40 64 Try different curve factor values (from -1 to 1). The
 closer to 0 the curve parameter is \, the closer the curve is to a
 straight line \, and the farther away the parameter is from 0 \, the
 steeper the curve.;
 #X text 28 14 Different exponential factor parameters for [curve~]
 ;
-#X text 53 471 The object's approximation of the exponential becomes
-better when the vector size is smaller \, but the object also becomes
-more computationally expensive.;
 #X obj 504 300 cyclone/curve~;
-#X msg 537 203 1 \, 0.5 50 -0.5 0 50 0.5;
-#X msg 519 148 1 \, 0.5 50 0.5 0 50 -0.5;
-#X msg 509 128 0 \, 0.5 50 0.5 1 50 -0.5;
-#X obj 504 242 route float;
-#X obj 567 264 trigger l b;
-#X msg 487 77 0 \, 0.5 50 -0.75 1 50 0.75;
-#X msg 530 183 0 \, 0.5 50 -0.5 1 50 0.5;
-#X msg 498 96 1 \, 0.5 50 -0.75 0 50 0.75;
 #X obj 510 396 cnv 15 198 138 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #N canvas 1 52 450 300 (subpatch) 0;
@@ -676,34 +645,41 @@ more computationally expensive.;
 #X text 497 389 1;
 #X text 497 521 0;
 #X text 494 48 Examples of "s" curves;
-#X obj 592 338 tabwrite~ \$0-curve;
-#X connect 0 0 10 1;
+#X obj 603 348 tabwrite~ \$0-curve;
+#X obj 123 289 cyclone/curve~ 0 0.5;
+#X text 53 479 The object's approximation of the exponential becomes
+better when the block size is smaller \, but the object also becomes
+more computationally expensive.;
+#X msg 487 77 0 0 0 0.5 50 -0.75 1 50 0.75;
+#X msg 498 96 1 0 0 0.5 50 -0.75 0 50 0.75;
+#X msg 509 128 0 0 0 0.5 50 0.5 1 50 -0.5;
+#X msg 519 148 1 0 0 0.5 50 0.5 0 50 -0.5;
+#X msg 530 183 0 0 0 0.5 50 -0.5 1 50 0.5;
+#X msg 537 203 1 0 0 0.5 50 -0.5 0 50 0.5;
+#X obj 504 242 trigger list bang;
+#X text 41 126 you can set the parameter with: - the second argument:
+- the third inlet: - the "factor message": - the third value in a list.
+;
+#X msg 123 231 0 \, 1 1000;
+#X msg 133 261 1 \, 0 1000;
+#X connect 0 0 16 2;
 #X connect 2 0 0 0;
-#X connect 3 0 10 0;
-#X connect 4 0 5 0;
-#X connect 5 0 6 0;
-#X connect 10 0 4 0;
-#X connect 14 0 28 0;
-#X connect 15 0 18 0;
-#X connect 16 0 18 0;
-#X connect 17 0 18 0;
-#X connect 18 0 14 0;
-#X connect 18 1 19 0;
-#X connect 19 0 14 0;
-#X connect 19 1 28 0;
-#X connect 20 0 18 0;
-#X connect 21 0 18 0;
-#X connect 22 0 18 0;
-#X restore 349 311 pd curve_factor_examples;
-#X text 187 530 - curve duration in milliseconds - needs individual
-float values into left inlet.;
-#X text 187 560 - curve exponential factor parameter (-1 to 1) - needs
-individual float values into mid and left inlet;
-#X text 187 396 - up to 42 triplets composed of: 1-destination value
+#X connect 9 0 15 0;
+#X connect 16 0 3 0;
+#X connect 18 0 24 0;
+#X connect 19 0 24 0;
+#X connect 20 0 24 0;
+#X connect 21 0 24 0;
+#X connect 22 0 24 0;
+#X connect 23 0 24 0;
+#X connect 24 0 9 0;
+#X connect 24 1 15 0;
+#X connect 26 0 16 0;
+#X connect 27 0 16 0;
+#X restore 369 281 pd curve_factor_examples;
+#X text 183 367 - up to 42 triplets composed of: 1-destination value
 \, 2- time (ms) & 3- curve factor (-1 to 1).;
-#X text 187 429 - jumps immediately to that value unless duration is
-set to other than 0 in the mid inlet.;
-#X obj 143 256 cyclone/Scope~ 147 114 256 3 128 -1 1 0 0 0 0 205 229
+#X obj 163 226 cyclone/Scope~ 147 114 256 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
@@ -827,10 +803,31 @@ set to other than 0 in the mid inlet.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 503 91 pd;
-#X connect 22 0 23 0;
-#X connect 23 0 24 0;
-#X connect 23 0 24 1;
-#X connect 35 0 23 1;
-#X connect 35 0 44 0;
-#X connect 35 1 17 0;
-#X connect 38 0 35 0;
+#X text 183 536 - curve exponential factor parameter (-1 to 1);
+#X text 183 400 - jumps immediately to that value unless duration is
+set to other than 0 in the mid inlet once before.;
+#X text 183 432 - <factor "float">: adjusts curve's expenential factor
+\; - <pause>: pauses the output \; - <resume>: restores the output
+after being paused \; - <stop>: stops and clears pending target-time
+(but continues outputting its last value).;
+#X text 183 503 - curve duration in ms - works only if a float is sent
+into the left inlet after \, and it works only once.;
+#X text 182 626 - initial value (default 0);
+#X text 183 590 - a bang is sent when final target from last ramp is
+reached;
+#X text 75 87 Similar to [cyclone/line~] \, but [curve~] produces curved
+ramp signals. Below \, when receiving 2 triples (of destination \,
+time & curve factor) \, [curve~] generates a simple Attack-Release
+envelope.;
+#X msg 163 162 1 150 -0.5 0 550 -0.5;
+#X text 145 326 0;
+#X obj 27 266 output~;
+#X text 381 202 <= Bangs when last ramp;
+#X text 419 218 is finished;
+#X connect 21 0 22 0;
+#X connect 22 0 44 0;
+#X connect 22 0 44 1;
+#X connect 28 0 22 1;
+#X connect 28 0 32 0;
+#X connect 28 1 17 0;
+#X connect 42 0 28 0;

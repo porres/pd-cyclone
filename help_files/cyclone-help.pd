@@ -1,85 +1,89 @@
-#N canvas 401 23 569 835 10;
+#N canvas 401 23 569 842 10;
 #X declare -stdlib cyclone/cyclone;
-#X obj 10 43 cnv 15 552 30 empty empty cyclone.c 3 12 0 18 -204280
--1 0;
-#X text 129 51 subset library with "weird" character objects;
+#X obj 10 43 cnv 15 552 30 empty empty cyclone 3 12 0 18 -204280 -1
+0;
+#X obj 220 335 ==~;
+#X obj 220 359 !=~;
+#X obj 220 384 <~;
+#X obj 220 407 <=~;
+#X obj 220 433 >~;
+#X obj 220 456 >=~;
+#X obj 221 489 %~;
+#X obj 220 604 +=~;
+#X obj 221 530 !-~;
+#X obj 221 510 !-;
+#X text 113 381 Comparatives:;
+#X text 124 604 Accumulator:;
+#X obj 311 336 equals~;
+#X obj 311 360 notequals~;
+#X obj 311 384 lessthan~;
+#X obj 311 407 lessthaneq~;
+#X text 252 336 same as;
+#X text 252 360 same as;
+#X text 252 384 same as;
+#X text 252 407 same as;
+#X text 252 432 same as;
+#X obj 311 432 greaterthan~;
+#X text 252 456 same as;
+#X obj 311 456 greaterthaneq~;
+#X text 83 215 ============================================================
+;
+#X text 254 489 same as;
+#X text 254 530 same as;
+#X text 254 511 same as;
+#X obj 313 489 modulo~;
+#X obj 313 530 rminus~;
+#X text 254 571 same as;
+#X text 254 551 same as;
+#X obj 221 551 !/;
+#X obj 313 551 rdiv;
+#X obj 313 510 rminus;
+#X obj 313 571 rdiv~;
+#X obj 221 571 !/~;
+#X text 255 605 same as;
+#X obj 314 605 plusequals~;
+#X text 116 522 Math objects:;
+#X text 92 636 ============================================================
+;
+#X obj 248 740 declare -stdlib cyclone/cyclone;
+#X text 62 661 Loading/Installing the cyclone library:;
+#X text 92 690 One way is to load the cyclone library via the startup
+\, as instructed in "How to Install Cyclone". But if the library is
+not preloaded via the startup \, you can still load it with [declare]
+as below:;
+#X obj 101 56 cnv 5 5 5 empty empty Library 0 0 0 15 -204280 -1 0;
 #N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+#X obj 51 51 cnv 15 552 28 empty empty cyclone 6 13 0 18 -128992 -233080
 0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+#X obj 233 65 cnv 5 5 5 empty empty set 0 0 0 12 -128992 -233080 0
 ;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+#X obj 261 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
+#X obj 284 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
 0;
+#X obj 342 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
+0;
+#X obj 392 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+;
+#X obj 430 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
+0;
+#X obj 219 65 cnv 5 5 5 empty empty A 0 0 0 12 -128992 -233080 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 8 7 pd;
-#X obj 221 312 ==~;
-#X obj 221 334 !=~;
-#X obj 221 359 <~;
-#X obj 221 382 <=~;
-#X obj 221 408 >~;
-#X obj 221 431 >=~;
-#X obj 222 464 %~;
-#X obj 221 579 +=~;
-#X obj 222 505 !-~;
-#X obj 222 485 !-;
-#X text 108 670 You need to load cyclone via the startup. How to do
-that was instructed in the "How to Install Cyclone" process.;
-#X text 108 702 But if the library is not preloaded via the startup
-\, you can still load it with [declare] as below:;
-#X text 114 356 Comparatives:;
-#X text 125 579 Accumulator:;
-#X obj 312 313 equals~;
-#X obj 312 335 notequals~;
-#X obj 312 359 lessthan~;
-#X obj 312 382 lessthaneq~;
-#X text 253 313 same as;
-#X text 253 335 same as;
-#X text 253 359 same as;
-#X text 253 382 same as;
-#X text 253 407 same as;
-#X obj 312 407 greaterthan~;
-#X text 253 431 same as;
-#X obj 312 431 greaterthaneq~;
-#X text 82 91 Most objects in cyclone are single binaries. But since
-you can't load non-alphanumeric object in certain file systems that
-way \, there's the "cyclone" library that loads 12 objects with such
-"weird" character names.;
-#X text 83 154 This is then just a sub-library in the whole cyclone
-package needed for such objects. Nevertheless \, outside the cyclone
-sub-library \, you also find alphanumeric versions (or "aliases") of
-the objects as signle binaries.;
-#X text 81 216 ============================================================
-;
-#X text 83 240 Here's the subset of objects that come in the cyclone
-library \, along their alphanumeric versions (which also exist in Max/MSP
-- thus are compatible to it). Check their individual help files for
-more info.;
-#X text 255 464 same as;
-#X text 255 505 same as;
-#X text 255 486 same as;
-#X obj 314 464 modulo~;
-#X obj 314 505 rminus~;
-#X text 255 546 same as;
-#X text 255 526 same as;
-#X obj 222 526 !/;
-#X obj 314 526 rdiv;
-#X obj 314 485 rminus;
-#X obj 314 546 rdiv~;
-#X obj 222 546 !/~;
-#X text 256 580 same as;
-#X obj 315 580 plusequals~;
-#X text 117 497 Math objects:;
-#X text 92 611 ============================================================
-;
-#X obj 281 741 declare -stdlib cyclone/cyclone;
-#X text 114 771 If this isn't working \, you did not install cyclone
-correctly and you need to Read "How to Install Cyclone" for more details.
-;
-#X text 56 641 Loading/Installing the cyclone library:;
+#X restore 9 10 pd;
+#X text 82 93 The vast majority of objects in cyclone are single binaries.
+But since you can't load non-alphanumeric objects in certain file systems
+that way \, there's the "cyclone library" that loads 12 objects with
+such "weird" character names.;
+#X text 83 156 So this is just a sub-library needed for such objects.
+But you can also find alphanumeric versions (or "aliases") of these
+objects outside this cyclone sub-library - as single binaries like
+the rest of the cyclone externals package.;
+#X text 83 235 Here's the subset of objects that come in the cyclone
+library \, along their alphanumeric versions (which \, by the way \,
+are also present in Max/MSP - thus are compatible to it). Check their
+individual help files for more info.;
+#X text 305 308 Alphaumeric;
+#X text 149 308 Non-alphaumeric;
+#X text 92 770 If even this is not working \, you did not install cyclone
+correctly and you really should Read "How to Install Cyclone" for more
+details.;
+#X text 186 50 a subset of objects with "weird" character names;

@@ -50,7 +50,6 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 127 300 cyclone/click~;
 #X obj 56 409 output~;
 #X text 133 388 test your reverberator;
-#X obj 74 368 allpass~ 40 40 0.5;
 #X text 82 102 Use [click~] to create an impulse when receiving a bang.
 An impulse is a single sample with a value of one \, followed by zeros
 and this is the default impulse generate by [click~] \, but you can
@@ -83,16 +82,17 @@ can also set your own impulse with a list of sample values sent via
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 5 6 pd;
+#X obj 74 368 cyclone/allpass~ 40 40 0.5;
 #X connect 17 0 19 0;
 #X connect 17 0 18 0;
 #X connect 18 0 16 0;
 #X connect 18 0 19 0;
 #X connect 19 0 16 0;
-#X connect 19 0 22 0;
-#X connect 22 0 20 0;
-#X connect 22 0 20 1;
-#X connect 27 0 29 0;
-#X connect 28 0 27 0;
-#X connect 29 0 32 0;
-#X connect 30 0 19 0;
-#X connect 30 0 18 0;
+#X connect 19 0 33 0;
+#X connect 26 0 28 0;
+#X connect 27 0 26 0;
+#X connect 28 0 31 0;
+#X connect 29 0 19 0;
+#X connect 29 0 18 0;
+#X connect 33 0 20 0;
+#X connect 33 0 20 1;

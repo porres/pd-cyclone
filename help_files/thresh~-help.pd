@@ -1,8 +1,8 @@
-#N canvas 603 23 562 688 10;
-#X obj 225 323 cyclone/Snapshot~ 1;
-#X obj 225 350 tgl 35 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#N canvas 603 23 569 682 10;
+#X obj 259 319 cyclone/Snapshot~ 1;
+#X obj 259 346 tgl 35 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X text 194 242 in;
+#X text 228 238 in;
 #X obj 3 35 cnv 15 552 40 empty empty thresh~ 3 12 0 18 -204280 -1
 0;
 #X obj 2 628 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
@@ -178,8 +178,8 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 227 542 - 1/0 depending on signal detect;
 #X text 134 477 float/signal;
 #X text 134 501 float/signal;
-#X text 363 245 low;
-#X text 436 267 hi;
+#X text 402 241 low;
+#X text 404 263 hi;
 #X text 63 96 Use the [thresh~] object to detect signals which exceed
 a specified level. When a sample in the input signal is greater than
 or equal to the high threshold level \, the output is 1 and continues
@@ -187,26 +187,26 @@ to be 1 until a sample in the input signal is equal to or less than
 the reset level (low threshold). If low and high threshold are the
 same \, the output is 1 until a sample in the input signal is less
 than the reset level (works as [>=~]).;
-#X obj 301 244 sig~ -0.5;
-#X obj 378 266 sig~ 0.5;
-#X obj 225 244 osc~ 0.5;
-#X obj 100 294 cyclone/Snapshot~ 1;
-#X obj 100 319 vsl 20 100 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 0 1;
-#X text 88 363 0;
-#X text 88 312 1;
-#X text 76 337 0.5;
-#X text 70 388 -0.5;
-#X text 82 411 -1;
-#X obj 225 294 cyclone/thresh~ -0.75 0.75;
+#X obj 340 240 sig~ -0.5;
+#X obj 346 262 sig~ 0.5;
+#X obj 259 240 osc~ 0.5;
+#X obj 134 290 cyclone/Snapshot~ 1;
+#X obj 134 315 vsl 20 100 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
+-1 -1 8845 1;
+#X text 122 359 0;
+#X text 122 308 1;
+#X text 110 333 0.5;
+#X text 104 384 -0.5;
+#X text 116 407 -1;
 #X text 157 582 1) float;
 #X text 227 582 - resset/low threshold (default 0).;
 #X text 157 598 2) float;
 #X text 227 598 - set/high threshold (default 0).;
+#X obj 259 290 cyclone/thresh~;
 #X connect 0 0 1 0;
-#X connect 29 0 39 1;
-#X connect 30 0 39 2;
+#X connect 29 0 43 1;
+#X connect 30 0 43 2;
 #X connect 31 0 32 0;
-#X connect 31 0 39 0;
+#X connect 31 0 43 0;
 #X connect 32 0 33 0;
-#X connect 39 0 0 0;
+#X connect 43 0 0 0;
