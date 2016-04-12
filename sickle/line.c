@@ -1,4 +1,4 @@
-ok/* Copyright (c) 2002-2003 krzYszcz and others.
+/* Copyright (c) 2002-2003 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 /* Added code for the stop, pause and resume messages, fjkraan, 20141202. */ 

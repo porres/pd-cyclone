@@ -145,7 +145,7 @@ void snapshot_tilde_setup(void)
 {
     snapshot_class = class_new(gensym("Snapshot~"),
         (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/snapshot~~"), A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/snapshot~"), A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/Snapshot~"), A_DEFFLOAT, A_DEFFLOAT, 0);
     sic_setup(snapshot_class, snapshot_dsp, snapshot_float);
     class_addbang(snapshot_class, snapshot_bang);
