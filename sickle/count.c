@@ -161,7 +161,7 @@ void count_tilde_setup(void)
 			    sizeof(t_count), 0,
 			    A_DEFFLOAT, A_DEFFLOAT,
 			    A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(count_class, count_dsp, SIC_FLOATTOSIGNAL);
+    sic_setup(count_class, count_dsp, count_float);
     class_addbang(count_class, count_bang);
     class_addfloat(count_class, count_float);
     class_addlist(count_class, count_list);
