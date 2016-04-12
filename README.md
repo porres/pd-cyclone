@@ -13,7 +13,7 @@ Pure Data (or just "Pd") project is found at: https://sourceforge.net/p/pure-dat
 
 In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches.
 
-(more words and about the original project on the original readme provided in this repository: <https://github.com/porres/pd-cyclone/blob/master/maintenance/texts/README_original.txt>)
+(more words and about the original project on the original readme provided in this repository: <https://github.com/porres/pd-cyclone/blob/master/maintenance/text_files/README_original.txt>)
 
 -------
 
