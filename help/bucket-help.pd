@@ -1,0 +1,233 @@
+#N canvas 509 81 570 482 10;
+#X obj 0 559 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 0 309 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 676 323 416 259 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 0 KEYWORDS pass float numbers;
+#X text 0 72 OUTLET_N float;
+#X text 0 36 DESCRIPTION pass numbers from outlet to outlet;
+#X text 0 160 RELEASE_DATE 2002;
+#X text 0 128 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 0 109 AUTHOR Krzysztof Czaja;
+#X text 0 178 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+updated this patch for pd-extended 2014-12-02.;
+#X text 0 90 VERSION 0.2-beta1;
+#X text 0 54 INLET_0 float;
+#X restore 500 561 pd META;
+#X obj 0 455 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 492 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 74 483 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 28 buddy;
+#X restore 203 561 pd Related_objects;
+#X obj 77 464 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Bucket 3 12 0 18 -204280 -1 0
+;
+#X text 106 319 float;
+#X text 150 319 - number to put in bucket;
+#X text 106 466 float;
+#X text 89 510 1) float;
+#X text 150 510 - set number of outlets;
+#X text 150 466 - numbers stored in bucket \, based on arg;
+#X obj 505 3 Bucket;
+#X obj 77 320 cnv 17 3 120 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#N canvas 619 626 431 288 more... 0;
+#X msg 9 30 bang;
+#X text 54 28 sends out all values without shifting;
+#X msg 14 50 freeze;
+#X text 62 49 suspend output but continue shifting;
+#X msg 20 71 thaw;
+#X text 58 71 resume output;
+#X msg 26 102 set 4;
+#X obj 9 257 s to-bucket;
+#X msg 88 137 L2R;
+#X msg 88 162 R2L;
+#X msg 42 137 l2r;
+#X msg 42 162 r2l;
+#X text 127 192 shifts (rolls) output values;
+#X text 67 94 send the arg out each outlet and set it to the next number
+to output;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 All the messages;
+#X msg 90 193 roll;
+#X text 126 137 sets shift direction from left to right (default);
+#X text 127 161 sets shift direction from right to left;
+#X connect 0 0 7 0;
+#X connect 2 0 7 0;
+#X connect 4 0 7 0;
+#X connect 6 0 7 0;
+#X connect 8 0 7 0;
+#X connect 9 0 7 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 0;
+#X connect 16 0 7 0;
+#X restore 295 89 pd more...;
+#X text 12 23 pass numbers from outlet to outlet;
+#X text 70 51 As floats are input \, output floats shift from outlet
+to outlet in a rotational pattern.;
+#X floatatom 131 288 5 0 0 0 - - -, f 5;
+#X floatatom 162 269 5 0 0 0 - - -, f 5;
+#X floatatom 193 250 5 0 0 0 - - -, f 5;
+#X msg 131 83 1 2 3 4;
+#X floatatom 87 84 5 0 0 0 - - -, f 5;
+#X obj 295 109 r to-bucket;
+#X floatatom 224 231 5 0 0 0 - - -, f 5;
+#X obj 131 109 unpack f f f f;
+#X msg 223 83 5 6 7 8;
+#X text 107 333 bang;
+#X text 150 333 - sends out all values without shifting;
+#X text 106 347 freeze;
+#X text 149 347 - suspend output but continue shifting;
+#X text 106 388 set n;
+#X text 149 388 - send the arg out each outlet and set it to the next
+number to output;
+#X text 106 361 l2r;
+#X text 106 375 r2l;
+#X text 106 430 thaw;
+#X text 149 430 - resume output stopped by freeze;
+#X text 106 415 roll;
+#X text 149 415 - shifts the values to the next/previous outlet;
+#X text 149 361 - or L2R \, ltor: sets shift direction left to right
+(default);
+#X text 149 375 - or R2L \, rtol: sets shift direction right to left
+;
+#X obj 41 81 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 131 178 cyclone/Bucket 4;
+#X text 89 525 2) float;
+#X text 150 525 - if absent or 0: classic Max 4.6 mode \, if non-zero:
+outputs all incoming floats immediately (when not frozen).;
+#N canvas 654 362 450 396 max4.6 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Compare Max 4.6 mode with Max 5 mode;
+#X obj 63 171 cyclone/Bucket 5;
+#N canvas 1110 184 432 300 countTo5 0;
+#X msg 93 114 5;
+#X obj 93 68 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 93 139 until;
+#X obj 93 164 f;
+#X obj 120 164 + 1;
+#X obj 93 89 t f f;
+#X msg 135 139 1;
+#X obj 93 191 outlet;
+#X obj 93 44 inlet;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Count 1 to 5;
+#X connect 0 0 2 0;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 0 7 0;
+#X connect 4 0 3 1;
+#X connect 5 0 0 0;
+#X connect 5 1 6 0;
+#X connect 6 0 3 1;
+#X connect 8 0 1 0;
+#X restore 63 62 pd countTo5;
+#X obj 63 32 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#N canvas 1108 185 432 300 countTo5 0;
+#X msg 93 114 5;
+#X obj 93 68 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 93 139 until;
+#X obj 93 164 f;
+#X obj 120 164 + 1;
+#X obj 93 89 t f f;
+#X msg 135 139 1;
+#X obj 93 191 outlet;
+#X obj 93 44 inlet;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Count 1 to 5;
+#X connect 0 0 2 0;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 0 7 0;
+#X connect 4 0 3 1;
+#X connect 5 0 0 0;
+#X connect 5 1 6 0;
+#X connect 6 0 3 1;
+#X connect 8 0 1 0;
+#X restore 281 64 pd countTo5;
+#X obj 281 34 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 281 173 cyclone/Bucket 5 1;
+#X floatatom 63 228 5 0 0 0 - - -, f 5;
+#X floatatom 86 244 5 0 0 0 - - -, f 5;
+#X floatatom 109 260 5 0 0 0 - - -, f 5;
+#X floatatom 156 292 5 0 0 0 - - -, f 5;
+#X floatatom 281 231 5 0 0 0 - - -, f 5;
+#X floatatom 307 247 5 0 0 0 - - -, f 5;
+#X floatatom 333 263 5 0 0 0 - - -, f 5;
+#X floatatom 386 295 5 0 0 0 - - -, f 5;
+#X floatatom 132 276 5 0 0 0 - - -, f 5;
+#X msg 20 85 0;
+#X msg 233 85 0;
+#X floatatom 359 279 5 0 0 0 - - -, f 5;
+#X msg 120 95 roll;
+#X msg 155 102 l2r;
+#X msg 92 102 r2l;
+#X msg 337 101 roll;
+#X msg 372 108 l2r;
+#X msg 309 108 r2l;
+#X obj 20 62 until;
+#X msg 20 39 6;
+#X obj 233 62 until;
+#X msg 233 39 5;
+#X text 4 330 float is not passed to an outlet;
+#X text 4 345 immediately.;
+#X text 240 314 Max 5 mode: all incoming floats;
+#X text 4 316 Classic Max 4.6 mode: the last;
+#X text 240 329 are passed to outlets immediately.;
+#X connect 2 0 8 0;
+#X connect 2 1 9 0;
+#X connect 2 2 10 0;
+#X connect 2 3 16 0;
+#X connect 2 4 11 0;
+#X connect 3 0 2 0;
+#X connect 4 0 3 0;
+#X connect 5 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 12 0;
+#X connect 7 1 13 0;
+#X connect 7 2 14 0;
+#X connect 7 3 19 0;
+#X connect 7 4 15 0;
+#X connect 17 0 2 0;
+#X connect 18 0 7 0;
+#X connect 20 0 2 0;
+#X connect 21 0 2 0;
+#X connect 22 0 2 0;
+#X connect 23 0 7 0;
+#X connect 24 0 7 0;
+#X connect 25 0 7 0;
+#X connect 26 0 17 0;
+#X connect 27 0 26 0;
+#X connect 28 0 18 0;
+#X connect 29 0 28 0;
+#X restore 295 138 pd max4.6 vs max5 mode;
+#X connect 22 0 26 0;
+#X connect 23 0 43 0;
+#X connect 24 0 43 0;
+#X connect 26 0 43 0;
+#X connect 26 1 43 0;
+#X connect 26 2 43 0;
+#X connect 26 3 43 0;
+#X connect 27 0 26 0;
+#X connect 42 0 23 0;
+#X connect 43 0 19 0;
+#X connect 43 1 20 0;
+#X connect 43 2 21 0;
+#X connect 43 3 25 0;

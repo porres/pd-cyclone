@@ -426,8 +426,8 @@ ifeq ($(uname), Linux)
 	$(INSTALL_DIR) -v $(installpath)
 	cd $(installpath); \
 # Control
-        ln -s -f append.$(extension) Append.$(extension); \
-        ln -s -f append-help.pd Append-help.pd; \
+        ln -s -f append.$(extension) Append.$(extension); \ # ???
+        ln -s -f append-help.pd Append-help.pd; \ # ???
         ln -s -f borax.$(extension) Borax.$(extension); \
         ln -s -f borax-help.pd Borax-help.pd; \
         ln -s -f bucket.$(extension) Bucket.$(extension); \
@@ -442,8 +442,8 @@ ifeq ($(uname), Linux)
         ln -s -f MouseState-help.pd mousestate-help.pd; \ # ???
         ln -s -f peak.$(extension) Peak.$(extension); \
         ln -s -f peak-help.pd Peak-help.pd; \
-        ln -s -f table.$(extension) Table.$(extension); \
-        ln -s -f table-help.pd Table-help.pd; \
+        ln -s -f table.$(extension) Table.$(extension); \ # ???
+        ln -s -f table-help.pd Table-help.pd; \ # ???
         ln -s -f TogEdge.$(extension) togedge.$(extension); \ # ???
         ln -s -f TogEdge-help.pd togedge-help.pd; \ # ???
         ln -s -f trough.$(extension) Trough.$(extension); \
