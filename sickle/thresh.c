@@ -57,7 +57,6 @@ static void *thresh_new(t_symbol *s, int ac, t_atom *av)
 void thresh_tilde_setup(void)
 {
     thresh_class = class_new(gensym("thresh~"),
-                                (t_newmethod)thresh_new, 0,
-                                sizeof(t_thresh), 0, A_GIMME, 0);
+        (t_newmethod)thresh_new, 0, sizeof(t_thresh), 0, A_GIMME, 0);
     sic_setup(thresh_class, thresh_dsp, SIC_FLOATTOSIGNAL);
 }

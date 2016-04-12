@@ -64,7 +64,6 @@ static void *sah_new(t_floatarg f)
 void sah_tilde_setup(void)
 {
     sah_class = class_new(gensym("sah~"),
-			  (t_newmethod)sah_new, 0,
-			  sizeof(t_sah), 0, A_DEFFLOAT, 0);
+        (t_newmethod)sah_new, 0, sizeof(t_sah), 0, A_DEFFLOAT, 0);
     sic_setup(sah_class, sah_dsp, sah_float);
 }

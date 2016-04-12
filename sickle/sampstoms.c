@@ -49,7 +49,6 @@ static void *sampstoms_new(void)
 void sampstoms_tilde_setup(void)
 {
     sampstoms_class = class_new(gensym("sampstoms~"),
-				(t_newmethod)sampstoms_new, 0,
-				sizeof(t_sampstoms), 0, 0);
+        (t_newmethod)sampstoms_new, 0, sizeof(t_sampstoms), 0, 0);
     sic_setup(sampstoms_class, sampstoms_dsp, sampstoms_float);
 }

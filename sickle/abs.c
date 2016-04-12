@@ -88,8 +88,7 @@ static void *abs_new(void)
 void abs_tilde_setup(void)
 {
     abs_class = class_new(gensym("cyclone/abs~"),
-			  (t_newmethod)abs_new, 0,
-			  sizeof(t_abs), 0, 0);
+        (t_newmethod)abs_new, 0, sizeof(t_abs), 0, 0);
     sic_setup(abs_class, abs_dsp, SIC_FLOATTOSIGNAL);
 #ifdef ABS_TEST
     fitter_setup(abs_class, 0);

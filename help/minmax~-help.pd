@@ -1,4 +1,4 @@
-#N canvas 261 105 564 698 10;
+#N canvas 662 127 564 698 10;
 #X obj 6 43 cnv 15 552 40 empty empty minmax~ 3 12 0 18 -204280 -1
 0;
 #X obj 6 391 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -62,7 +62,6 @@ a signal;
 #X text 140 575 float;
 #X obj 162 161 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 196 155 rand~ 1;
 #X obj 225 285 cyclone/Snapshot~ 1;
 #X obj 196 333 cyclone/Snapshot~ 1;
 #X text 192 404 - signal to analyze;
@@ -79,8 +78,6 @@ an input signal and outputs it as signal as well as floats.;
 #X obj 105 460 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 134 460 signal;
-#X text 192 459 - a non-zero signal value resets the current minimum
-and maximum.;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -203,12 +200,21 @@ and maximum.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 91 pd;
+#X obj 283 153 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 196 155 osc~ 0.1;
+#X text 192 461 - a non-zero signal value resets minimum and maximum
+to 0;
+#X obj 283 179 cyclone/click~;
+#X text 304 152 reset;
 #X connect 16 0 19 0;
-#X connect 19 0 31 0;
-#X connect 19 1 30 0;
+#X connect 19 0 30 0;
+#X connect 19 1 29 0;
 #X connect 19 2 14 0;
 #X connect 19 3 15 0;
 #X connect 28 0 19 0;
-#X connect 29 0 19 0;
-#X connect 30 0 17 0;
-#X connect 31 0 18 0;
+#X connect 29 0 17 0;
+#X connect 30 0 18 0;
+#X connect 43 0 46 0;
+#X connect 44 0 19 0;
+#X connect 46 0 19 1;
