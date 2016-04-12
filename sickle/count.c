@@ -10,7 +10,7 @@
 typedef struct _count
 {
     t_sic  x_sic;
-    t_float  x_lastin; // nova variavel pra ser usado em comparação com entrada - ainda não usada
+    t_float  x_lastin;
     int    x_min;
     int    x_max;
     int    x_limit;
@@ -21,10 +21,10 @@ typedef struct _count
 
 static t_class *count_class;
 
-static void count_bang(t_count *x) // mensagem bang
+static void count_bang(t_count *x)
 {
-    x->x_count = x->x_min; // seta pro mínimo
-    x->x_on = 1; // liga contador
+    x->x_count = x->x_min;
+    x->x_on = 1;
 }
 
 static void count_min(t_count *x, t_floatarg f)
@@ -89,47 +89,42 @@ static void count_set(t_count *x, t_symbol *s, int ac, t_atom *av)
 	{
 	    x->x_max = (int)av[1].a_w.w_float;
 	    x->x_limit = (x->x_max == 0 ? COUNTMAXINT
-		: x->x_max - 1);  /* CHECKED */
+		: x->x_max - 1);
 	}
     } 
 }
 
-static void count_stop(t_count *x) // mensagem stop
+static void count_stop(t_count *x)
 {
-    x->x_count = x->x_min; // seta pro mínimo
-    x->x_on = 0; // desliga contador
+    x->x_count = x->x_min;
+    x->x_on = 0;
 }
-
-// LOGIC to include
-// if(in != 0 && lastin == 0, 1, if(in == 0 lastin != 0, -1, 0))
-// if == 1, then "bang" (start counting):
-//     {x->x_count = x->x_min;
-//     x->x_on = 1;}
-// if == -1, then "stop"
-//     {x->x_count = x->x_min;
-//     x->x_on = 0;}
-// if == 0, do nothing
 
 static t_int *count_perform(t_int *w)
 {
     t_count *x = (t_count *)(w[1]);
     int nblock = (int)(w[2]);
-    t_float *input = (t_float *)(w[3]); // signal in
+    t_float *input = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
-    t_float lastin = x->x_lastin; // nova variavel pra ser usado em comparação com entrada - ainda não usada
+    t_float lastin = x->x_lastin;
     int count = x->x_count;
     int limit = x->x_limit;
-    
     while (nblock--)
-{
+    {
     float in = *input++;
-
-        // if in = 1, on
-        /* {
-         x->x_count = x->x_min; // seta pro mínimo
-         x->x_on = 1; // liga contador
-         }  */
-        
+// Updating to Max 5 functionality of signal input
+// (sample accurate) triggering
+    if (in != 0 && lastin == 0) // turn it on
+        {
+         count = x->x_min;
+         x->x_on = 1;
+         }
+    else if (in == 0 && lastin != 0) // turn it off
+        {
+        count = x->x_min;
+        x->x_on = 0;
+        }
+    lastin = in; // audio triggering is working!
         if (x->x_on)
         {
             {
@@ -139,7 +134,7 @@ static t_int *count_perform(t_int *w)
         }
         else *out++ = count;
     }
-    x->x_lastin = lastin; // nova variavel pra ser usado em comparação com entrada - ainda não usada
+    x->x_lastin = lastin;
     x->x_count = count;
     return (w + 5);
 }
@@ -154,7 +149,7 @@ static void *count_new(t_floatarg minval, t_floatarg maxval,
 		       t_floatarg onflag, t_floatarg autoflag)
 {
     t_count *x = (t_count *)pd_new(count_class);
-    x->x_lastin = 0; // nova variavel pra ser usado em comparação com entrada - ainda não usada
+    x->x_lastin = 0;
     count_min(x, minval);
     count_max(x, maxval);
     x->x_on = (onflag != 0);
@@ -167,11 +162,8 @@ static void *count_new(t_floatarg minval, t_floatarg maxval,
 
 void count_tilde_setup(void)
 {
-    count_class = class_new(gensym("count~"),
-			    (t_newmethod)count_new, 0,
-			    sizeof(t_count), 0,
-			    A_DEFFLOAT, A_DEFFLOAT,
-			    A_DEFFLOAT, A_DEFFLOAT, 0);
+    count_class = class_new(gensym("count~"), (t_newmethod)count_new, 0,
+        sizeof(t_count), 0, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
     sic_setup(count_class, count_dsp, count_float);
     class_addbang(count_class, count_bang);
     class_addfloat(count_class, count_float);
