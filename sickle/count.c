@@ -114,7 +114,8 @@ static t_int *count_perform(t_int *w)
 {
     t_count *x = (t_count *)(w[1]);
     int nblock = (int)(w[2]);
-    t_float *out = (t_float *)(w[3]);
+    t_float *in = (t_float *)(w[3]); // signal in
+    t_float *out = (t_float *)(w[4]);
     t_float lastin = x->x_lastin; // nova variavel pra ser usado em comparação com entrada - ainda não usada
     int count = x->x_count;
     int limit = x->x_limit;
@@ -130,13 +131,13 @@ static t_int *count_perform(t_int *w)
 	while (nblock--) *out++ = count;
     x->x_lastin = lastin; // nova variavel pra ser usado em comparação com entrada - ainda não usada
     x->x_count = count;
-    return (w + 4);
+    return (w + 5);
 }
 
 static void count_dsp(t_count *x, t_signal **sp)
 {
     if (x->x_autoreset) count_bang(x);
-    dsp_add(count_perform, 3, x, sp[0]->s_n, sp[0]->s_vec);
+    dsp_add(count_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 static void *count_new(t_floatarg minval, t_floatarg maxval,
