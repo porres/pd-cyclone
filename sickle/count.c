@@ -120,31 +120,25 @@ static t_int *count_perform(t_int *w)
     int count = x->x_count;
     int limit = x->x_limit;
     
-//    while (nblock--) {
-        
-    //    float in = *input++
-
+    while (nblock--)
+{
+    float in = *input++;
 
         // if in = 1, on
-        /*
-         {
+        /* {
          x->x_count = x->x_min; // seta pro mínimo
          x->x_on = 1; // liga contador
-         }
-         */
-        
+         }  */
         
         if (x->x_on)
         {
-        while (nblock--)
-        {
+            {
             if (count > limit) count = x->x_min;
             *out++ = (t_float)count++;
+            }
         }
-        }
-        else
-        while (nblock--) *out++ = count;
-//    }
+        else *out++ = count;
+    }
     x->x_lastin = lastin; // nova variavel pra ser usado em comparação com entrada - ainda não usada
     x->x_count = count;
     return (w + 5);
