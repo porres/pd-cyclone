@@ -53,10 +53,10 @@ static void *Trough_new(t_floatarg f)
 
 void trough_setup(void)
 {
-    Trough_class = class_new(gensym("Trough"),
+    Trough_class = class_new(gensym("trough"),
 			     (t_newmethod)Trough_new, 0,
 			     sizeof(t_Trough), 0, 0);
-    class_addcreator((t_newmethod)Trough_new, gensym("cyclone/trough"), 0, 0);
+    class_addcreator((t_newmethod)Trough_new, gensym("Trough"), 0, 0);
     class_addcreator((t_newmethod)Trough_new, gensym("cyclone/Trough"), 0, 0);
     class_addbang(Trough_class, Trough_bang);
     class_addfloat(Trough_class, Trough_float);

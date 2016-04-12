@@ -99,11 +99,11 @@ static void *Decode_new(t_floatarg val)
 
 void decode_setup(void)
 {
-    Decode_class = class_new(gensym("Decode"),
+    Decode_class = class_new(gensym("decode"),
 			     (t_newmethod)Decode_new,
 			     (t_method)Decode_free,
 			     sizeof(t_Decode), 0, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)Decode_new, gensym("cyclone/decode"), A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)Decode_new, gensym("Decode"), A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Decode_new, gensym("cyclone/Decode"), A_DEFFLOAT, 0);
     class_addfloat(Decode_class, Decode_float);
     class_addmethod(Decode_class, (t_method)Decode_allon,

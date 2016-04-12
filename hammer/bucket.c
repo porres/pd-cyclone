@@ -123,11 +123,11 @@ static void *Bucket_new(t_floatarg val, t_floatarg max5mode)
 
 void bucket_setup(void)
 {
-    Bucket_class = class_new(gensym("Bucket"),
+    Bucket_class = class_new(gensym("bucket"),
 			     (t_newmethod)Bucket_new,
 			     (t_method)Bucket_free,
 			     sizeof(t_Bucket), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)Bucket_new, gensym("cyclone/bucket"), A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)Bucket_new, gensym("Bucket"), A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Bucket_new, gensym("cyclone/Bucket"), A_DEFFLOAT, 0);
     class_addbang(Bucket_class, Bucket_bang);
     class_addfloat(Bucket_class, Bucket_float);

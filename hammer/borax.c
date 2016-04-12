@@ -163,9 +163,9 @@ static void *Borax_new(void)
 
 void borax_setup(void)
 {
-    Borax_class = class_new(gensym("Borax"),
+    Borax_class = class_new(gensym("borax"),
         (t_newmethod)Borax_new, 0, sizeof(t_Borax), 0, 0);
-    class_addcreator((t_newmethod)Borax_new, gensym("cyclone/borax"), 0, 0);
+    class_addcreator((t_newmethod)Borax_new, gensym("Borax"), 0, 0);
     class_addcreator((t_newmethod)Borax_new, gensym("cyclone/Borax"), 0, 0);
     class_addfloat(Borax_class, Borax_float);
     /* CHECKME list unfolding */

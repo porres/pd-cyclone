@@ -53,10 +53,10 @@ static void *Peak_new(t_floatarg f)
 
 void peak_setup(void)
 {
-    Peak_class = class_new(gensym("Peak"),
+    Peak_class = class_new(gensym("peak"),
 			   (t_newmethod)Peak_new, 0,
 			   sizeof(t_Peak), 0, 0);
-    class_addcreator((t_newmethod)Peak_new, gensym("cyclone/peak"), 0, 0);
+    class_addcreator((t_newmethod)Peak_new, gensym("Peak"), 0, 0);
     class_addcreator((t_newmethod)Peak_new, gensym("cyclone/Peak"), 0, 0);
     class_addbang(Peak_class, Peak_bang);
     class_addfloat(Peak_class, Peak_float);
