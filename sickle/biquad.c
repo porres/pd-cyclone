@@ -17,7 +17,10 @@ typedef struct _biquad {
     t_inlet * x_inlet_dsp_3;
     t_inlet * x_inlet_dsp_4;
     t_inlet * x_inlet_dsp_5;
-    
+    float  x_xnm1;
+    float  x_xnm2;
+    float  x_ynm1;
+    float  x_ynm2;
     t_outlet * x_outlet_dsp_0;
     
 } t_biquad;
@@ -35,9 +38,15 @@ static void biquad_dsp(t_biquad *x, t_signal **sp); //DSP function
 // biquad_clear
 // ---------------------------------------------------
 void biquad_clear(t_biquad *x){
-    post("clear");
-    //PUT YOUR CODE HERE
+   x->x_xnm1 = x->x_xnm2 = x->x_ynm1 = x->x_ynm2 = 0.;
 }
+
+// ---------------------------------------------------
+// biquad_stoke
+// ---------------------------------------------------
+void biquad_stoke(t_biquad *x){
+}
+
 
 // ---------------------------------------------------
 // Perform
@@ -52,19 +61,25 @@ static t_int * biquad_perform(t_int *w){
     t_float *b1 = (t_float *)(w[7]);
     t_float *b2 = (t_float *)(w[8]);
     t_float *out = (t_float *)(w[9]);
-/*
-    float ynm1 = x->x_ynm1;
-    float ynm2 = x->x_ynm2;
     float xnm1 = x->x_xnm1;
     float xnm2 = x->x_xnm2;
-    
-    // *out++ = yn = a0 * *xn++ + a1 * xnm1 + a2 * xnm2 - b1 * ynm1 - b2 * ynm2
-    // ynm1
-    // ynm2
-*/
-    while (n--) {*out++ = *xn++ + *a0++ + *a1++ + *a2++ + *b1++ + *b2++;}
-
-    return (w + 10); // proximo bloco
+    float ynm1 = x->x_ynm1;
+    float ynm2 = x->x_ynm2;
+    while (n--)
+    {
+    float yn;
+//      *out++ = yn = (*xn++ * *a0++) + (xnm1 * *a1++) + (xnm2 * *a2++) - (ynm1 * *b1++) - (ynm2 * *b2++);
+        *out++ = yn = (*xn++ * *a0++) + (*a1++) + (*a2++) - (*b1++) - (*b2++);
+    xnm2 = xnm1;
+    xnm1 = *xn++;
+    ynm2 = ynm1;
+    ynm1 = yn;
+    }
+    x->x_xnm1 = xnm1;
+    x->x_xnm2 = xnm2;
+    x->x_ynm1 = ynm1;
+    x->x_ynm2 = ynm2;
+    return (w + 10);
 }
 
 // ---------------------------------------------------
@@ -119,5 +134,6 @@ void biquad_tilde_setup(void)
                              sizeof (t_biquad),
                              CLASS_DEFAULT, 0);//Must always ends with a zero
     class_addmethod(biquad_class, (t_method) biquad_clear, gensym("clear"), 0);
+    class_addmethod(biquad_class, (t_method) biquad_stoke, gensym("stoke"), 0);
     class_addmethod(biquad_class, (t_method) biquad_dsp, gensym("dsp"), 0);
 }
