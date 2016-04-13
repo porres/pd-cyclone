@@ -26,6 +26,7 @@ round.class.sources := hammer/round.c
 # sickle (signal; MSP) classes
 
 atodb~.class.sources := sickle/atodb.c
+biquad~.class.sources := sickle/biquad.c
 dbtoa~.class.sources := sickle/dbtoa.c
 round~.class.sources := sickle/round.c
 trunc~.class.sources := sickle/trunc.c

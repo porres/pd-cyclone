@@ -8,6 +8,7 @@
   Made while listening:
   Evan Parker Electro-Acoustic Ensemble -- Hasselt
 */
+
 #include "m_pd.h"
 #include <math.h>
 
@@ -26,24 +27,20 @@ typedef struct _atodb {
   t_outlet *x_outlet;
 } t_atodb;
 
-
 void *atodb_new(void);
 static t_int * atodb_perform(t_int *w);
 static void atodb_dsp(t_atodb *x, t_signal **sp);
 
 static t_int * atodb_perform(t_int *w)
 {
-  /*  t_atodb *x = (t_atodb *)(w[1]); */
+  //  t_atodb *x = (t_atodb *)(w[1]); // ???
   int n = (int)(w[2]);
   t_float *in = (t_float *)(w[3]);
   t_float *out = (t_float *)(w[4]);
-    
-
   while(n--)
     *out++ = badout(20*log10(*in++));
   return (w + 5);
 }
-
 
 static void atodb_dsp(t_atodb *x, t_signal **sp)
 {
@@ -58,15 +55,8 @@ void *atodb_new(void)
   return (void *)x;
 }
 
-
 void atodb_tilde_setup(void) {
   atodb_class = class_new(gensym("atodb~"),
-			  (t_newmethod) atodb_new,
-			  0,
-			  sizeof (t_atodb),
-			  CLASS_NOINLET,
-			  0);
-    
+    (t_newmethod) atodb_new, 0, sizeof (t_atodb), CLASS_NOINLET, 0);
   class_addmethod(atodb_class, (t_method) atodb_dsp, gensym("dsp"), 0);
 }
-

@@ -13,7 +13,6 @@
 #define CYROUNDNUM_DEF 0.
 #endif
 
-
 static t_class *round_tilde_class;
 
 typedef struct _round_tilde
@@ -23,11 +22,9 @@ typedef struct _round_tilde
 	float x_nearest; //nearest attribute (1 = rounding, 0 = truncation)
 } t_round_tilde;
 
-
 static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 { float f;
 	t_round_tilde *x = (t_round_tilde *)pd_new(round_tilde_class);
-
 		int numargs = 0;
 		int pastargs = 0;//if we haven't declared any attrs yet
 		x->x_nearest = CYROUNDNEAR_DEF;
@@ -41,7 +38,6 @@ static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 									argc--;
 									argv++;
 									break;
-					
 						default:	argc--;
 									argv++;
 									break;
@@ -75,13 +71,6 @@ static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 			};
 	};
 
-
-
-
-
-
-
-
 	pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), f);
 	 outlet_new(&x->x_obj, gensym("signal"));
 	return (x);
@@ -90,6 +79,7 @@ static void *round_tilde_new(t_symbol *s, int argc, t_atom *argv)
 		pd_error(x, "round~: improper args");
 		return NULL;
 }
+
 static t_int *round_tilde_perform(t_int *w)
 {
 	t_round_tilde *x = (t_round_tilde *)(w[1]);
@@ -99,7 +89,6 @@ static t_int *round_tilde_perform(t_int *w)
 	int n = (int)(w[5]);
 	float nearfloat;
 	int nearest;
-
 	nearfloat = x->x_nearest;
 	if(nearfloat <= 0.){
 		nearest = 0;
@@ -107,7 +96,6 @@ static t_int *round_tilde_perform(t_int *w)
 	else{
 		nearest = 1;
 	};
-	
 	while (n--){
 		float rounded,div;
 		float val = *(in1++);
@@ -123,13 +111,11 @@ static t_int *round_tilde_perform(t_int *w)
 		}
 		else{//round is 0, do nothing
 			rounded = val;
-
 		};
 		*out++ = rounded;
 	};
 	return (w+6);
 }
-
 
 static void round_tilde_nearest(t_round_tilde *x, t_float f, t_float glob){
 	if(f <= 0.){
@@ -143,7 +129,6 @@ static void round_tilde_dsp(t_round_tilde *x, t_signal **sp)
 {
 	dsp_add(round_tilde_perform, 5, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[0]->s_n);
 }
-
 
 void round_tilde_setup(void)
 {
