@@ -1,5 +1,4 @@
 /* Update from old nettles (which now lies in the graveyard)  */
-
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
@@ -10,44 +9,41 @@
 #define fmodf  fmod
 #endif
 
-/* Two remaining control binops have their inputs reversed.
-   LATER think about float-to-int conversion -- there is no point in making
+/* think about float-to-int conversion -- there is no point in making
    the two below compatible, while all the others are not compatible... */
 
-/* CHECKED left inlet causes output (refman's error -- a total rubbish) */
-
-typedef struct _rbinop
+typedef struct _rev_op
 {
     t_object  x_ob;
-    t_float   x_f1;  /* left inlet value */
+    t_float   x_f1;
     t_float   x_f2;
-} t_rbinop;
+} t_rev_op;
 
 static t_class *rminus_class;
 
-static void rminus_bang(t_rbinop *x)
+static void rminus_bang(t_rev_op *x)
 {
     outlet_float(((t_object *)x)->ob_outlet, x->x_f2 - x->x_f1);
 }
 
-static void rminus_float(t_rbinop *x, t_float f)
+static void rminus_float(t_rev_op *x, t_float f)
 {
     outlet_float(((t_object *)x)->ob_outlet, x->x_f2 - (x->x_f1 = f));
 }
 
 static void *rminus_new(t_floatarg f)
 {
-    t_rbinop *x = (t_rbinop *)pd_new(rminus_class);
-    floatinlet_new((t_object *)x, &x->x_f2);  /* CHECKED */
+    t_rev_op *x = (t_rev_op *)pd_new(rminus_class);
+    floatinlet_new((t_object *)x, &x->x_f2);
     outlet_new((t_object *)x, &s_float);
     x->x_f1 = 0;
-    x->x_f2 = f;  /* CHECKED */
+    x->x_f2 = f;
     return (x);
 }
 
 static t_class *rdiv_class;
 
-static void rdiv_bang(t_rbinop *x)
+static void rdiv_bang(t_rev_op *x)
 {
     if (x->x_f1 != 0.)
 	outlet_float(((t_object *)x)->ob_outlet, x->x_f2 / x->x_f1);
@@ -59,7 +55,7 @@ static void rdiv_bang(t_rbinop *x)
 		     (x->x_f2 > 0 ? SHARED_INT_MAX : SHARED_INT_MIN));
 }
 
-static void rdiv_float(t_rbinop *x, t_float f)
+static void rdiv_float(t_rev_op *x, t_float f)
 {
     x->x_f1 = f;
     rdiv_bang(x);
@@ -67,7 +63,7 @@ static void rdiv_float(t_rbinop *x, t_float f)
 
 static void *rdiv_new(t_floatarg f)
 {
-    t_rbinop *x = (t_rbinop *)pd_new(rdiv_class);
+    t_rev_op *x = (t_rev_op *)pd_new(rdiv_class);
     floatinlet_new((t_object *)x, &x->x_f2);
     outlet_new((t_object *)x, &s_float);
     x->x_f1 = 0;
@@ -494,14 +490,14 @@ void cyclone_setup(void)
 {
     rminus_class = class_new(gensym("!-"),
 			     (t_newmethod)rminus_new, 0,
-			     sizeof(t_rbinop), 0, A_DEFFLOAT, 0);
+			     sizeof(t_rev_op), 0, A_DEFFLOAT, 0);
     class_addbang(rminus_class, rminus_bang);
     class_addfloat(rminus_class, rminus_float);
     class_sethelpsymbol(rminus_class, gensym("rminus"));
     
     rdiv_class = class_new(gensym("!/"),
 			   (t_newmethod)rdiv_new, 0,
-			   sizeof(t_rbinop), 0, A_DEFFLOAT, 0);
+			   sizeof(t_rev_op), 0, A_DEFFLOAT, 0);
     class_addbang(rdiv_class, rdiv_bang);
     class_addfloat(rdiv_class, rdiv_float);
     class_sethelpsymbol(rdiv_class, gensym("rdiv"));
