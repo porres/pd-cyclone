@@ -865,12 +865,12 @@ static void *table_new(t_symbol *s)
     return (x);
 }
 
-void Table_setup(void)
+void table_setup(void)
 {
     table_class = class_new(gensym("Table"),
-			    (t_newmethod)table_new,
-			    (t_method)table_free,
-			    sizeof(t_table), 0, A_DEFSYM, 0);
+        (t_newmethod)table_new, (t_method)table_free, sizeof(t_table), 0, A_DEFSYM, 0);
+    class_addcreator((t_newmethod)table_new, gensym("cyclone/table"), A_DEFSYM, 0);
+    class_addcreator((t_newmethod)table_new, gensym("cyclone/Table"), A_DEFSYM, 0);
     class_addbang(table_class, table_bang);
     class_addfloat(table_class, table_float);
     class_addmethod(table_class, (t_method)table_ft1,
@@ -937,6 +937,7 @@ void Table_setup(void)
     class_addmethod(table_class, (t_method)table_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    
 #ifdef TABLE_DEBUG
     class_addmethod(table_class, (t_method)table_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);
@@ -948,4 +949,9 @@ void Table_setup(void)
        class itself has been already set up above), but it is better to
        have it around, just in case... */
     hammerfile_setup(tablecommon_class, 0);
+}
+
+void Table_setup(void)
+{
+    table_setup();
 }
