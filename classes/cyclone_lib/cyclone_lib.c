@@ -4,7 +4,6 @@
 #include "m_pd.h"
 #include "shared.h"
 #include "sickle/sic.h"
-#include "shadow/shadow.h"
 
 #if defined(_WIN32) || defined(__APPLE__)
 /* cf pd/src/x_arithmetic.c */
@@ -509,14 +508,14 @@ void cyclone_setup(void)
     
     sigeq_class = class_new(gensym("==~"),
 			    (t_newmethod)sigeq_new, 0,
-			    sizeof(t_sigeq), 0, A_GIMME, 0);
+                sizeof(t_sigeq), 0, A_GIMME, 0);
+    sic_setup(sigeq_class, sigeq_dsp, SIC_FLOATTOSIGNAL);
 /*    class_addcreator((t_newmethod)sigeq_new,
 		     gensym("_==1~"), A_GIMME, 0);
     class_addcreator((t_newmethod)sigeq_new,
-		     gensym("_==2~"), A_GIMME, 0); */
-    sic_setup(sigeq_class, sigeq_dsp, SIC_FLOATTOSIGNAL);
+		     gensym("_==2~"), A_GIMME, 0);
     class_addmethod(sigeq_class, (t_method)sigeq__algo,
-		    gensym("_algo"), A_FLOAT, 0); // for testing purposes / undocumented
+		    gensym("_algo"), A_FLOAT, 0); // for testing purposes / undocumented */
     class_sethelpsymbol(sigeq_class, gensym("equals~"));
 
     signeq_class = class_new(gensym("!=~"),
@@ -578,10 +577,4 @@ void cyclone_setup(void)
     //    logpost(NULL, 4, "this is cyclone lib %s, %dth %s build",
     //    containing non alphanumeric objects +=~, etc...
     //	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
-
-}
-
-void allcyclone_setup(void) // ??????????
-{
-    cyclone_setup();
 }

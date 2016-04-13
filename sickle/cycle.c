@@ -86,6 +86,12 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
     cycle_gettable(x);
 }
 
+
+static void cycle_setall(t_cycle *x, t_symbol *s)
+{
+}
+
+
 static t_int *cycle_perform(t_int *w)
 {
     t_cycle *x = (t_cycle *)(w[1]);
@@ -181,6 +187,6 @@ void cycle_tilde_setup(void)
 			    (t_newmethod)cycle_new, 0,
 			    sizeof(t_cycle), 0, A_GIMME, 0);
     sic_setup(cycle_class, cycle_dsp, SIC_FLOATTOSIGNAL);
-    class_addmethod(cycle_class, (t_method)cycle_set,
-		    gensym("set"), A_DEFSYMBOL, A_DEFFLOAT, 0);
+    class_addmethod(cycle_class, (t_method)cycle_set,gensym("set"), A_DEFSYMBOL, A_DEFFLOAT, 0);
+    class_addmethod(cycle_class, (t_method)cycle_set,gensym("setall"), A_DEFSYMBOL, 0);
 }

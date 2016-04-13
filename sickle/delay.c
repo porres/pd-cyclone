@@ -29,6 +29,12 @@ static void delay_clear(t_delay *x)
     }
 }
 
+/* static void delay_maxsize(t_delay *x, t_float f)
+{
+    x->x_maxsize = f;
+    x->x_delsize = f;
+} // not working */
+
 static void delay_ft1(t_delay *x, t_floatarg f)
 {
     x->x_delsize = (f > 0 ? (int)f : 0);
@@ -109,7 +115,8 @@ void delay_tilde_setup(void)
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(delay_class, (t_method)delay_clear,
 		    gensym("clear"), 0);
-                    
+//    class_addmethod(delay_class, (t_method)delay_maxsize, gensym("maxsize"), A_DEFFLOAT, 0);
+    
     int major, minor, bugfix;
     sys_getversion(&major, &minor, &bugfix);
     if (major > 0 || minor > 42) 

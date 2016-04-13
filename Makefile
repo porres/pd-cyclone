@@ -27,6 +27,8 @@ round.class.sources := hammer/round.c
 
 atodb~.class.sources := sickle/atodb.c
 biquad~.class.sources := sickle/biquad.c
+# biquad2~.class.sources := sickle/biquad2.c
+# downsamp~.class.sources := sickle/downsamp.c
 dbtoa~.class.sources := sickle/dbtoa.c
 round~.class.sources := sickle/round.c
 trunc~.class.sources := sickle/trunc.c
