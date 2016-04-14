@@ -229,10 +229,28 @@ parameter triples (but continues outputting its last value);
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 508 101 pd;
 #X obj 154 308 cyclone/line~ 0.5;
-#N canvas 0 22 450 300 conflicts_with_Pd 0;
-#N canvas 0 22 450 300 backwards-compatibility 0;
-#X restore 120 75 pd backwards-compatibility;
-#X restore 350 224 pd conflicts_with_Pd & alias;
+#N canvas 77 23 456 535 Conflicts 0;
+#X text 117 317 or even:;
+#X text 50 104 Cyclone avoids name clashing and overwritting an internal
+in Pd Vanilla \, so you need to have the cyclone folder properly installed
+in Pd Vanilla's extra folder and create it as:;
+#X text 50 354 ============================================================
+;
+#X text 169 440 <= from Pd Vanilla;
+#X text 53 208 There's the old way of creating this object in cyclone
+(and still present for backwards compatibility reasons). This option
+is creating the object with a first capital letter:;
+#X text 50 64 Pd also has a vanilla object named [line~]. Though very
+similar \, they're not compatible!;
+#X obj 165 167 cyclone/line~;
+#X obj 204 280 Line~;
+#X obj 184 317 cyclone/Line~;
+#X obj 126 440 line~;
+#X text 55 384 So \, if you still want the object from vanilla \, you
+even if you created the objects above \, you can still instantiate
+it as:;
+#X restore 366 229 pd Conflicts with internal \; Backwards Compatibility
+;
 #X connect 14 0 48 1;
 #X connect 16 0 48 0;
 #X connect 17 0 48 0;
