@@ -31,9 +31,9 @@ Original author of cyclone is Krzysztof Czaja, who developed it from 2002-2005. 
 
 Location of this repository is: https://github.com/porres/pd-cyclone. 
 
-The original cyclone library and repository, amongst other things, is found at the <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>, which carries the cyclone library version 0.1-Alpha56, present in the last release of Pd Extended [version 0.43.4] from january  2013. The 0.1-Alpha56 version is now also available via the deken plug in as "cyclone-v0-0extended". Check the deken plugin at: <https://github.com/pure-data/deken>.  
+The original cyclone library and repository is found at the <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/> (amongst other things). It carries the cyclone library version 0.1-Alpha56, present in the last release of Pd Extended [version 0.43.4] from january  2013. The 0.1-Alpha56 version is now also available via the deken plug in as "cyclone-v0-0extended". Check the deken plugin at: <https://github.com/pure-data/deken>.  
 
-A fork from this original repository is found at <https://github.com/electrickery/pd-miXedSon> and includes the version 0.1alpha57 from october 2015 (which can be found here <https://github.com/porres/pd-cyclone/releases/tag/0.1alpha57>) and a newer version "0.2beta1" (from december 2015). Cyclone 0.2beta1 is available for download via the deken plugin as well - but you can also find it here <https://github.com/porres/pd-cyclone/releases/tag/0.2beta1>. 
+A fork from this original repository is found at <https://github.com/electrickery/pd-miXedSon>, including further development such as the version 0.1alpha57 from october 2015 (found here <https://github.com/porres/pd-cyclone/releases/tag/0.1alpha57>) and a newer version "0.2beta1" (from december 2015) - also available for download via the deken plugin but you can find it here too <https://github.com/porres/pd-cyclone/releases/tag/0.2beta1>. 
 
 The work made up to cyclone 0.2beta1 is now forked to this repository. An update version of cyclone could emerge anytime from this repository with bug fixes, new objects and new functionalities aiming to an up to date set of Max/MSP cloned objects.
 
