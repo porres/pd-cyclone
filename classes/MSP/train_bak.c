@@ -3,19 +3,18 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "math.h"
 #include "shared.h"
 #include "sickle/sic.h"
 
 #define TRAIN_DEFPERIOD  1000
-#define TRAIN_DEFWIDTH   0.5
-#define TRAIN_DEFOFFSET  0
+#define TRAIN_DEFWIDTH      0.5
+#define TRAIN_DEFOFFSET     0
 
 typedef struct _train
 {
     t_sic      x_sic;
-    t_float    x_last_phase_offset;
-    float      x_phase;
+    double     x_phase;
+	 double		x_prev;
     float      x_rcpksr;
     t_outlet  *x_bangout;
     t_clock   *x_clock;
@@ -36,45 +35,71 @@ static t_int *train_perform(t_int *w)
     t_float *in2 = (t_float *)(w[4]);
     t_float *in3 = (t_float *)(w[5]);
     t_float *out = (t_float *)(w[6]);
-    t_float last_phase_offset = x->x_last_phase_offset;
     float rcpksr = x->x_rcpksr;
-    float phase = x->x_phase;
-    
+    double phase = x->x_phase;
+	 double prev = x->x_prev;
+    //double tfph = phase + SHARED_UNITBIT32;
+    t_shared_wrappy wrappy;
+    int32_t normhipart;
+    unsigned int edge = 0;
+
+    wrappy.w_d = SHARED_UNITBIT32;
+    normhipart = wrappy.w_i[SHARED_HIOFFSET];
+
    while (nblock--)
    {
-        float next_phase;
-		float period = *in1++; // period
-        float phase_step = rcpksr / period; // phase_step
-        float width = *in2++; // pulse_width
-        if (width < 0.) width = 0.;
-        if (width > 1.) width = 1.;
-        float phase_offset = *in3++; // phase input inlet
-        if (phase_offset < 0.) phase_offset = 0.;
-        if (phase_offset > 1.) phase_offset = 1.;
-        float phase_dif = phase_offset - last_phase_offset;
-        {
-        phase = phase + phase_dif;
-        if (phase < 0.) phase = phase + 1.;
-        next_phase = fmod(phase, 1) + phase_step;
-           if (phase >= 1)
-           {
-               *out++ = 1.;
-               clock_delay(x->x_clock, 0);
-           }
-           else if(next_phase >= 1) *out++ = 0.;
-           else  *out++ = (phase < width) ? 1. : 0.;
-        }
-        last_phase_offset = phase_offset;
-		phase = next_phase;
-        }
-    x->x_last_phase_offset = last_phase_offset;
+		double width, offset, offsetphase;
+		double next = 0.;
+		float period = *in1++;
+	
+		float width_inlet = *in2++;
+		if (width_inlet < 0.) width_inlet = 0.;
+		if (width_inlet >= 1.)
+		{
+			width = 1.;
+			wrappy.w_d = offset + phase + (rcpksr / period) + SHARED_UNITBIT32;
+			wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+			next = wrappy.w_d - SHARED_UNITBIT32;
+		}
+		else
+		{
+			wrappy.w_d = width_inlet + SHARED_UNITBIT32;
+    		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+			width = wrappy.w_d - SHARED_UNITBIT32;
+		}
+
+		//offset
+		wrappy.w_d = *in3++ + SHARED_UNITBIT32;
+		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+		offset = wrappy.w_d - SHARED_UNITBIT32;
+
+		wrappy.w_d = offset + phase + SHARED_UNITBIT32;
+		wrappy.w_i[SHARED_HIOFFSET] = normhipart;
+		offsetphase = wrappy.w_d - SHARED_UNITBIT32;
+
+		//printf("width: %f, offsetphase: %f, prev: %f\n",width, offsetphase, prev);
+
+		if (0 == width && offsetphase <= prev) *out++ = 1.;
+		else if (1 == width && offsetphase > next) *out++ = 0.; 
+		else *out++ = (offsetphase <= width) ? 1. : 0.;
+
+		if (offsetphase <= prev)
+		{
+			clock_delay(x->x_clock, 0);
+		}
+
+		prev = offsetphase;
+		if (period > rcpksr)  /* LATER rethink */
+			phase += rcpksr / period;  /* LATER revisit (profiling?) */
+    }
     x->x_phase = phase;
+	 x->x_prev = prev;
     return (w + 7);
 }
 
 static void train_dsp(t_train *x, t_signal **sp)
 {
-    x->x_rcpksr = 1000. / sp[0]->s_sr; // reciprocal sample rate in Khz
+    x->x_rcpksr = 1000. / sp[0]->s_sr;
     dsp_add(train_perform, 6, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
@@ -88,7 +113,7 @@ static void *train_new(t_symbol *s, int ac, t_atom *av)
 {
     t_train *x = (t_train *)pd_new(train_class);
     x->x_phase = 0;
-    x->x_last_phase_offset = 0;
+	 x->x_prev = 0.;
     sic_inlet((t_sic *)x, 0, TRAIN_DEFPERIOD, 0, ac, av);
     sic_inlet((t_sic *)x, 1, TRAIN_DEFWIDTH, 1, ac, av);
     sic_inlet((t_sic *)x, 2, TRAIN_DEFOFFSET, 2, ac, av);

@@ -23,8 +23,7 @@ static t_int *modulo_perform(t_int *w)
 	t_float f1 = *in1++;
 	t_float f2 = *in2++;
         /* LATER think about using ieee-754 normalization tricks */
-        *out++ = (f2 == 0. ? 0.  /* CHECKED */
-                  : fmod(f1, f2));
+        *out++ = (f2 == 0. ? 0. : fmod(f1, f2));
     }
     return (w + 5);
 }
