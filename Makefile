@@ -12,33 +12,32 @@ endif
 
 
 ################################################################################
-### new classes which don'tuse the old framework functions #####################
+### new classes which don'tuse the old framework common functions ##############
 ################################################################################
 
-# hammer (control; Max) classes
+# Max (or "hammer") classes
 
-atodb.class.sources := classes/hammer/atodb.c
-dbtoa.class.sources := classes/hammer/dbtoa.c
-pong.class.sources := classes/hammer/pong.c
-scale.class.sources := classes/hammer/scale.c
-round.class.sources := classes/hammer/round.c
+atodb.class.sources := classes/MAX/atodb.c
+dbtoa.class.sources := classes/MAX/dbtoa.c
+pong.class.sources := classes/MAX/pong.c
+scale.class.sources := classes/MAX/scale.c
+round.class.sources := classes/MAX/round.c
 
-# sickle (signal; MSP) classes
+# MSP (or "sickle") classes
 
-atodb~.class.sources := classes/sickle/atodb.c
-biquad~.class.sources := classes/sickle/biquad.c
-# biquad2~.class.sources := classes/sickle/biquad2.c
-# downsamp~.class.sources := classes/sickle/downsamp.c
-dbtoa~.class.sources := classes/sickle/dbtoa.c
-round~.class.sources := classes/sickle/round.c
-trunc~.class.sources := classes/sickle/trunc.c
+atodb~.class.sources := classes/MSP/atodb.c
+biquad~.class.sources := classes/MSP/biquad.c
+# biquad2~.class.sources := classes/MSP/biquad2.c
+# downsamp~.class.sources := classes/MSP/downsamp.c
+dbtoa~.class.sources := classes/MSP/dbtoa.c
+round~.class.sources := classes/MSP/round.c
+trunc~.class.sources := classes/MSP/trunc.c
 
 ################################################################################
-### hammer (control; Max) objects ##############################################
+### Max (or "hammer") objects ##################################################
 ################################################################################
 
-
-# common sources for hammer types
+# common sources for Max (or "hammer") classes
 
 hloud := \
 shared/common/loud.c
@@ -124,99 +123,102 @@ shared/common/fitter.c \
 shared/unstable/forky.c
 
 
-# hammer (control; Max) classes
+# Max classes (or "hammer classes")
 
-accum.class.sources := classes/hammer/accum.c $(hplain)
-acos.class.sources := classes/hammer/acos.c $(hplain)
-acosh.class.sources := classes/hammer/acosh.c $(hplain)  # NEW CLASS!
-active.class.sources := classes/hammer/active.c $(hgui)
-anal.class.sources := classes/hammer/anal.c $(hloud)
-append.class.sources := classes/hammer/append.c $(hgrowfitter)
-asin.class.sources := classes/hammer/asin.c $(hplain)
-asinh.class.sources := classes/hammer/asinh.c $(hplain)  # NEW CLASS!
-atanh.class.sources := classes/hammer/atanh.c $(hplain)  # NEW CLASS!
-bangbang.class.sources := classes/hammer/bangbang.c $(hfitter)
-bondo.class.sources := classes/hammer/bondo.c $(hgrow)
-borax.class.sources := classes/hammer/borax.c $(hloud)
-bucket.class.sources := classes/hammer/bucket.c $(hplain)
-buddy.class.sources := classes/hammer/buddy.c $(hgrow)
-capture.class.sources := classes/hammer/capture.c $(hfile)
-cartopol.class.sources := classes/hammer/cartopol.c $(hplain)
-clip.class.sources := classes/hammer/clip.c $(hgrow)
-coll.class.sources := classes/hammer/coll.c $(hfile)
-comment.class.sources := classes/hammer/comment.c $(hforky)
-cosh.class.sources := classes/hammer/cosh.c $(hplain)
-counter.class.sources := classes/hammer/counter.c $(hfitter)
-cycle.class.sources := classes/hammer/cycle.c $(hfitter)
-decide.class.sources := classes/hammer/decide.c $(hloud)
-decode.class.sources := classes/hammer/decode.c $(hfitter)
-drunk.class.sources := classes/hammer/drunk.c $(hrand)
-flush.class.sources := classes/hammer/flush.c $(hplain)
-forward.class.sources := classes/hammer/forward.c $(hplain)
-fromsymbol.class.sources := classes/hammer/fromsymbol.c $(hplain)
-funbuff.class.sources := classes/hammer/funbuff.c $(htreefilevefl)
-funnel.class.sources := classes/hammer/funnel.c $(hgrow)
-gate.class.sources := classes/hammer/gate.c $(hfitter)
-grab.class.sources := classes/hammer/grab.c $(hfragile)
-histo.class.sources := classes/hammer/histo.c $(hloud)
-iter.class.sources := classes/hammer/iter.c $(hgrow)
-loadmess.class.sources := classes/hammer/loadmess.c $(hfile) # NEW CLASS!
-match.class.sources := classes/hammer/match.c $(hgrow)
-maximum.class.sources := classes/hammer/maximum.c $(hfitter)
-mean.class.sources := classes/hammer/mean.c $(hplain)
-midiflush.class.sources := classes/hammer/midiflush.c $(hplain)
-midiformat.class.sources := classes/hammer/midiformat.c $(hplain)
-midiparse.class.sources := classes/hammer/midiparse.c $(hplain)
-minimum.class.sources := classes/hammer/minimum.c $(hfitter)
-mousefilter.class.sources := classes/hammer/mousefilter.c $(hgui)
-mousestate.class.sources := classes/hammer/mousestate.c $(hgui)
-mtr.class.sources := classes/hammer/mtr.c $(hfile)
-next.class.sources := classes/hammer/next.c $(hplain)
-offer.class.sources := classes/hammer/offer.c $(htree)
-onebang.class.sources := classes/hammer/onebang.c $(hplain)
-past.class.sources := classes/hammer/past.c $(hgrowfitter)
-peak.class.sources := classes/hammer/peak.c $(hplain)
-poltocar.class.sources := classes/hammer/poltocar.c $(hplain)
-prepend.class.sources := classes/hammer/prepend.c $(hgrowfitter)
-prob.class.sources := classes/hammer/prob.c $(hrandfile)
-pv.class.sources := classes/hammer/pv.c $(hgrow)
-rdiv.class.sources := classes/hammer/rdiv.c $(hplain)
-rminus.class.sources := classes/hammer/rminus.c $(hplain)
-seq.class.sources := classes/hammer/seq.c $(hseq)
-sinh.class.sources := classes/hammer/sinh.c $(hplain)
-speedlim.class.sources := classes/hammer/speedlim.c $(hgrow)
-spell.class.sources := classes/hammer/spell.c $(hloud)
-split.class.sources := classes/hammer/split.c $(hplain)
-spray.class.sources := classes/hammer/spray.c $(hloud)
-sprintf.class.sources := classes/hammer/sprintf.c $(hloud)
-substitute.class.sources := classes/hammer/substitute.c $(hgrow)
-sustain.class.sources := classes/hammer/sustain.c $(hplain)
-switch.class.sources := classes/hammer/switch.c $(hfitter)
-table.class.sources := classes/hammer/table.c $(hrandgrowfile)
-tanh.class.sources := classes/hammer/tanh.c $(hplain)
-testmess.class.sources := classes/hammer/testmess.c $(hfragile)
-thresh.class.sources := classes/hammer/thresh.c $(hgrow) # NEW CLASS!
-togedge.class.sources := classes/hammer/togedge.c $(hloud)
-tosymbol.class.sources := classes/hammer/tosymbol.c $(hgrow)
-trough.class.sources := classes/hammer/trough.c $(hplain)
-universal.class.sources := classes/hammer/universal.c $(hfragile)
-urn.class.sources := classes/hammer/urn.c $(hrandgrow)
-uzi.class.sources := classes/hammer/uzi.c $(hplain)
-# xbendin2.class.sources := classes/hammer/xbendin2.c $(hplain)
-xbendin.class.sources := classes/hammer/xbendin.c $(hplain)
-# xbendout2.class.sources := classes/hammer/xbendout2.c $(hplain)
-xbendout.class.sources := classes/hammer/xbendout.c $(hplain)
-xnotein.class.sources := classes/hammer/xnotein.c $(hplain)
-xnoteout.class.sources := classes/hammer/xnoteout.c $(hplain)
-zl.class.sources := classes/hammer/zl.c $(hgrow)
+# The old build system also allowed these classes to be compiled into the "hammer library"
+# Since cyclone version alpha57, this new build system only allows single binaries
+
+accum.class.sources := classes/MAX/accum.c $(hplain)
+acos.class.sources := classes/MAX/acos.c $(hplain)
+acosh.class.sources := classes/MAX/acosh.c $(hplain)  # NEW CLASS!
+active.class.sources := classes/MAX/active.c $(hgui)
+anal.class.sources := classes/MAX/anal.c $(hloud)
+append.class.sources := classes/MAX/append.c $(hgrowfitter)
+asin.class.sources := classes/MAX/asin.c $(hplain)
+asinh.class.sources := classes/MAX/asinh.c $(hplain)  # NEW CLASS!
+atanh.class.sources := classes/MAX/atanh.c $(hplain)  # NEW CLASS!
+bangbang.class.sources := classes/MAX/bangbang.c $(hfitter)
+bondo.class.sources := classes/MAX/bondo.c $(hgrow)
+borax.class.sources := classes/MAX/borax.c $(hloud)
+bucket.class.sources := classes/MAX/bucket.c $(hplain)
+buddy.class.sources := classes/MAX/buddy.c $(hgrow)
+capture.class.sources := classes/MAX/capture.c $(hfile)
+cartopol.class.sources := classes/MAX/cartopol.c $(hplain)
+clip.class.sources := classes/MAX/clip.c $(hgrow)
+coll.class.sources := classes/MAX/coll.c $(hfile)
+comment.class.sources := classes/MAX/comment.c $(hforky)
+cosh.class.sources := classes/MAX/cosh.c $(hplain)
+counter.class.sources := classes/MAX/counter.c $(hfitter)
+cycle.class.sources := classes/MAX/cycle.c $(hfitter)
+decide.class.sources := classes/MAX/decide.c $(hloud)
+decode.class.sources := classes/MAX/decode.c $(hfitter)
+drunk.class.sources := classes/MAX/drunk.c $(hrand)
+flush.class.sources := classes/MAX/flush.c $(hplain)
+forward.class.sources := classes/MAX/forward.c $(hplain)
+fromsymbol.class.sources := classes/MAX/fromsymbol.c $(hplain)
+funbuff.class.sources := classes/MAX/funbuff.c $(htreefilevefl)
+funnel.class.sources := classes/MAX/funnel.c $(hgrow)
+gate.class.sources := classes/MAX/gate.c $(hfitter)
+grab.class.sources := classes/MAX/grab.c $(hfragile)
+histo.class.sources := classes/MAX/histo.c $(hloud)
+iter.class.sources := classes/MAX/iter.c $(hgrow)
+loadmess.class.sources := classes/MAX/loadmess.c $(hfile) # NEW CLASS!
+match.class.sources := classes/MAX/match.c $(hgrow)
+maximum.class.sources := classes/MAX/maximum.c $(hfitter)
+mean.class.sources := classes/MAX/mean.c $(hplain)
+midiflush.class.sources := classes/MAX/midiflush.c $(hplain)
+midiformat.class.sources := classes/MAX/midiformat.c $(hplain)
+midiparse.class.sources := classes/MAX/midiparse.c $(hplain)
+minimum.class.sources := classes/MAX/minimum.c $(hfitter)
+mousefilter.class.sources := classes/MAX/mousefilter.c $(hgui)
+mousestate.class.sources := classes/MAX/mousestate.c $(hgui)
+mtr.class.sources := classes/MAX/mtr.c $(hfile)
+next.class.sources := classes/MAX/next.c $(hplain)
+offer.class.sources := classes/MAX/offer.c $(htree)
+onebang.class.sources := classes/MAX/onebang.c $(hplain)
+past.class.sources := classes/MAX/past.c $(hgrowfitter)
+peak.class.sources := classes/MAX/peak.c $(hplain)
+poltocar.class.sources := classes/MAX/poltocar.c $(hplain)
+prepend.class.sources := classes/MAX/prepend.c $(hgrowfitter)
+prob.class.sources := classes/MAX/prob.c $(hrandfile)
+pv.class.sources := classes/MAX/pv.c $(hgrow)
+rdiv.class.sources := classes/MAX/rdiv.c $(hplain)
+rminus.class.sources := classes/MAX/rminus.c $(hplain)
+seq.class.sources := classes/MAX/seq.c $(hseq)
+sinh.class.sources := classes/MAX/sinh.c $(hplain)
+speedlim.class.sources := classes/MAX/speedlim.c $(hgrow)
+spell.class.sources := classes/MAX/spell.c $(hloud)
+split.class.sources := classes/MAX/split.c $(hplain)
+spray.class.sources := classes/MAX/spray.c $(hloud)
+sprintf.class.sources := classes/MAX/sprintf.c $(hloud)
+substitute.class.sources := classes/MAX/substitute.c $(hgrow)
+sustain.class.sources := classes/MAX/sustain.c $(hplain)
+switch.class.sources := classes/MAX/switch.c $(hfitter)
+table.class.sources := classes/MAX/table.c $(hrandgrowfile)
+tanh.class.sources := classes/MAX/tanh.c $(hplain)
+testmess.class.sources := classes/MAX/testmess.c $(hfragile)
+thresh.class.sources := classes/MAX/thresh.c $(hgrow) # NEW CLASS!
+togedge.class.sources := classes/MAX/togedge.c $(hloud)
+tosymbol.class.sources := classes/MAX/tosymbol.c $(hgrow)
+trough.class.sources := classes/MAX/trough.c $(hplain)
+universal.class.sources := classes/MAX/universal.c $(hfragile)
+urn.class.sources := classes/MAX/urn.c $(hrandgrow)
+uzi.class.sources := classes/MAX/uzi.c $(hplain)
+# xbendin2.class.sources := classes/MAX/xbendin2.c $(hplain)
+xbendin.class.sources := classes/MAX/xbendin.c $(hplain)
+# xbendout2.class.sources := classes/MAX/xbendout2.c $(hplain)
+xbendout.class.sources := classes/MAX/xbendout.c $(hplain)
+xnotein.class.sources := classes/MAX/xnotein.c $(hplain)
+xnoteout.class.sources := classes/MAX/xnoteout.c $(hplain)
+zl.class.sources := classes/MAX/zl.c $(hgrow)
 
 
 ################################################################################
-### sickle (signal; MSP) objects ###############################################
+### MSP (or "sickle") objects ##################################################
 ################################################################################
 
 
-# common sources for sickle types
+# common sources for MSP (or "sickle") classes
 
 ssic := \
 shared/sickle/sic.c \
@@ -290,98 +292,101 @@ shared/common/loud.c \
 shared/common/fitter.c
 
 
-# sickle (signal; MSP) classes
+# MSP classes (or "sickle classes")
 
-abs~.class.sources := classes/sickle/abs.c $(ssic)
-acos~.class.sources := classes/sickle/acos.c $(ssic)
-acosh~.class.sources := classes/sickle/acosh.c $(ssic)
-allpass~.class.sources := classes/sickle/allpass.c $(ssic)
-asin~.class.sources := classes/sickle/asin.c $(ssic)
-asinh~.class.sources := classes/sickle/asinh.c $(ssic)
-atan2~.class.sources := classes/sickle/atan2.c $(ssic)
-atan~.class.sources := classes/sickle/atan.c $(ssic)
-atanh~.class.sources := classes/sickle/atanh.c $(ssic)
-average~.class.sources := classes/sickle/average.c $(ssic)
-# average2~.class.sources := classes/sickle/average2.c $(ssic)
-avg~.class.sources := classes/sickle/avg.c $(ssic)
-bitand~.class.sources := classes/sickle/bitand.c $(sforky)
-bitnot~.class.sources := classes/sickle/bitnot.c $(ssic)
-bitor~.class.sources := classes/sickle/bitor.c $(sforky)
-bitshift~.class.sources := classes/sickle/bitshift.c $(ssic)
-bitxor~.class.sources := classes/sickle/bitxor.c $(sforky)
-buffir~.class.sources := classes/sickle/buffir.c $(sarsicfitter)
-capture~.class.sources := classes/sickle/capture.c $(sfile)
-cartopol~.class.sources := classes/sickle/cartopol.c $(sfragile)
-change~.class.sources := classes/sickle/change.c $(ssic)
-click~.class.sources := classes/sickle/click.c $(sgrow)
-clip~.class.sources := classes/sickle/clip.c $(ssic)
-comb~.class.sources := classes/sickle/comb.c $(ssic)
-cosh~.class.sources := classes/sickle/cosh.c $(ssic)
-cosx~.class.sources := classes/sickle/cosx.c $(ssic)
-count~.class.sources := classes/sickle/count.c $(ssic)
-curve~.class.sources := classes/sickle/curve.c $(sgrowclc)
-cycle~.class.sources := classes/sickle/cycle.c $(svefl)
-delay~.class.sources := classes/sickle/delay.c $(ssic)
-delta~.class.sources := classes/sickle/delta.c $(ssic)
-deltaclip~.class.sources := classes/sickle/deltaclip.c $(ssic)
-edge~.class.sources := classes/sickle/edge.c $(ssic)
-equals~.class.sources := classes/sickle/equals.c $(ssic)
-frameaccum~.class.sources := classes/sickle/frameaccum.c $(sgrow)
-framedelta~.class.sources := classes/sickle/framedelta.c $(sgrow)
-greaterthan~.class.sources := classes/sickle/greaterthan.c $(ssic)
-greaterthaneq~.class.sources := classes/sickle/greaterthaneq.c $(ssic)
-index~.class.sources := classes/sickle/index.c $(sarsic)
-kink~.class.sources := classes/sickle/kink.c $(ssic)
-lessthan~.class.sources := classes/sickle/lessthan.c $(ssic)
-lessthaneq~.class.sources := classes/sickle/lessthaneq.c $(ssic)
-line~.class.sources := classes/sickle/line.c $(sgrow)
-linedrive.class.sources := classes/sickle/linedrive.c $(splainnotilde)
-log~.class.sources := classes/sickle/log.c $(ssic)
-lookup~.class.sources := classes/sickle/lookup.c $(sarsic)
-lores~.class.sources := classes/sickle/lores.c $(ssic)
-matrix~.class.sources := classes/sickle/matrix.c $(sfragilefitter)
-maximum~.class.sources := classes/sickle/maximum.c $(ssic)
-minimum~.class.sources := classes/sickle/minimum.c $(ssic)
-minmax~.class.sources := classes/sickle/minmax.c $(ssic)
-modulo~.class.sources := classes/sickle/modulo.c $(ssic)
-mstosamps~.class.sources := classes/sickle/mstosamps.c $(ssic)
-notequals~.class.sources := classes/sickle/notequals.c $(ssic)
-onepole~.class.sources := classes/sickle/onepole.c $(ssic)
-overdrive~.class.sources := classes/sickle/overdrive.c $(ssic)
-peakamp~.class.sources := classes/sickle/peakamp.c $(ssic)
-peek~.class.sources := classes/sickle/peek.c $(sarsic)
-phasewrap~.class.sources := classes/sickle/phasewrap.c $(ssic)
-pink~.class.sources := classes/sickle/pink.c $(ssic)
-play~.class.sources := classes/sickle/play.c $(sarsic)
-plusequals~.class.sources := classes/sickle/plusequals.c $(ssic)
-poke~.class.sources := classes/sickle/poke.c $(sarsic)
-poltocar~.class.sources := classes/sickle/poltocar.c $(sfragile)
-pong~.class.sources := classes/sickle/pong.c
-pow~.class.sources := classes/sickle/pow.c $(ssic)
-rampsmooth~.class.sources := classes/sickle/rampsmooth.c $(ssic)
-rand~.class.sources := classes/sickle/rand.c $(ssic)
-rdiv~.class.sources := classes/sickle/rdiv.c $(ssic)
-rminus~.class.sources := classes/sickle/rminus.c $(ssic)
-record~.class.sources := classes/sickle/record.c $(sarsic)
-reson~.class.sources := classes/sickle/reson.c $(ssic)
-sah~.class.sources := classes/sickle/sah.c $(ssic)
-sampstoms~.class.sources := classes/sickle/sampstoms.c $(ssic)
-scope~.class.sources := classes/sickle/scope.c $(sgrowforky)
-sinh~.class.sources := classes/sickle/sinh.c $(ssic)
-sinx~.class.sources := classes/sickle/sinx.c $(ssic)
-slide~.class.sources := classes/sickle/slide.c $(ssic)
-snapshot~.class.sources := classes/sickle/snapshot.c $(ssic)
-spike~.class.sources := classes/sickle/spike.c $(ssic)
-svf~.class.sources := classes/sickle/svf.c $(ssic)
-tanh~.class.sources := classes/sickle/tanh.c $(ssic)
-tanx~.class.sources := classes/sickle/tanx.c $(ssic)
-thresh~.class.sources := classes/sickle/thresh.c $(ssic)  # NEW CLASS!
-train~.class.sources := classes/sickle/train.c $(ssic)
-trapezoid~.class.sources := classes/sickle/trapezoid.c $(ssic)
-triangle~.class.sources := classes/sickle/triangle.c $(ssic)
-vectral~.class.sources := classes/sickle/vectral.c $(ssic)
-wave~.class.sources := classes/sickle/wave.c $(sarsic)
-zerox~.class.sources := classes/sickle/zerox.c $(ssic)
+# The old build system also allowed these classes to be compiled into the "sickle library"
+# Since cyclone version alpha57, this new build system only allows single binaries
+
+abs~.class.sources := classes/MSP/abs.c $(ssic)
+acos~.class.sources := classes/MSP/acos.c $(ssic)
+acosh~.class.sources := classes/MSP/acosh.c $(ssic)
+allpass~.class.sources := classes/MSP/allpass.c $(ssic)
+asin~.class.sources := classes/MSP/asin.c $(ssic)
+asinh~.class.sources := classes/MSP/asinh.c $(ssic)
+atan2~.class.sources := classes/MSP/atan2.c $(ssic)
+atan~.class.sources := classes/MSP/atan.c $(ssic)
+atanh~.class.sources := classes/MSP/atanh.c $(ssic)
+average~.class.sources := classes/MSP/average.c $(ssic)
+# average2~.class.sources := classes/MSP/average2.c $(ssic)
+avg~.class.sources := classes/MSP/avg.c $(ssic)
+bitand~.class.sources := classes/MSP/bitand.c $(sforky)
+bitnot~.class.sources := classes/MSP/bitnot.c $(ssic)
+bitor~.class.sources := classes/MSP/bitor.c $(sforky)
+bitshift~.class.sources := classes/MSP/bitshift.c $(ssic)
+bitxor~.class.sources := classes/MSP/bitxor.c $(sforky)
+buffir~.class.sources := classes/MSP/buffir.c $(sarsicfitter)
+capture~.class.sources := classes/MSP/capture.c $(sfile)
+cartopol~.class.sources := classes/MSP/cartopol.c $(sfragile)
+change~.class.sources := classes/MSP/change.c $(ssic)
+click~.class.sources := classes/MSP/click.c $(sgrow)
+clip~.class.sources := classes/MSP/clip.c $(ssic)
+comb~.class.sources := classes/MSP/comb.c $(ssic)
+cosh~.class.sources := classes/MSP/cosh.c $(ssic)
+cosx~.class.sources := classes/MSP/cosx.c $(ssic)
+count~.class.sources := classes/MSP/count.c $(ssic)
+curve~.class.sources := classes/MSP/curve.c $(sgrowclc)
+cycle~.class.sources := classes/MSP/cycle.c $(svefl)
+delay~.class.sources := classes/MSP/delay.c $(ssic)
+delta~.class.sources := classes/MSP/delta.c $(ssic)
+deltaclip~.class.sources := classes/MSP/deltaclip.c $(ssic)
+edge~.class.sources := classes/MSP/edge.c $(ssic)
+equals~.class.sources := classes/MSP/equals.c $(ssic)
+frameaccum~.class.sources := classes/MSP/frameaccum.c $(sgrow)
+framedelta~.class.sources := classes/MSP/framedelta.c $(sgrow)
+greaterthan~.class.sources := classes/MSP/greaterthan.c $(ssic)
+greaterthaneq~.class.sources := classes/MSP/greaterthaneq.c $(ssic)
+index~.class.sources := classes/MSP/index.c $(sarsic)
+kink~.class.sources := classes/MSP/kink.c $(ssic)
+lessthan~.class.sources := classes/MSP/lessthan.c $(ssic)
+lessthaneq~.class.sources := classes/MSP/lessthaneq.c $(ssic)
+line~.class.sources := classes/MSP/line.c $(sgrow)
+linedrive.class.sources := classes/MSP/linedrive.c $(splainnotilde)
+log~.class.sources := classes/MSP/log.c $(ssic)
+lookup~.class.sources := classes/MSP/lookup.c $(sarsic)
+lores~.class.sources := classes/MSP/lores.c $(ssic)
+matrix~.class.sources := classes/MSP/matrix.c $(sfragilefitter)
+maximum~.class.sources := classes/MSP/maximum.c $(ssic)
+minimum~.class.sources := classes/MSP/minimum.c $(ssic)
+minmax~.class.sources := classes/MSP/minmax.c $(ssic)
+modulo~.class.sources := classes/MSP/modulo.c $(ssic)
+mstosamps~.class.sources := classes/MSP/mstosamps.c $(ssic)
+notequals~.class.sources := classes/MSP/notequals.c $(ssic)
+onepole~.class.sources := classes/MSP/onepole.c $(ssic)
+overdrive~.class.sources := classes/MSP/overdrive.c $(ssic)
+peakamp~.class.sources := classes/MSP/peakamp.c $(ssic)
+peek~.class.sources := classes/MSP/peek.c $(sarsic)
+phasewrap~.class.sources := classes/MSP/phasewrap.c $(ssic)
+pink~.class.sources := classes/MSP/pink.c $(ssic)
+play~.class.sources := classes/MSP/play.c $(sarsic)
+plusequals~.class.sources := classes/MSP/plusequals.c $(ssic)
+poke~.class.sources := classes/MSP/poke.c $(sarsic)
+poltocar~.class.sources := classes/MSP/poltocar.c $(sfragile)
+pong~.class.sources := classes/MSP/pong.c
+pow~.class.sources := classes/MSP/pow.c $(ssic)
+rampsmooth~.class.sources := classes/MSP/rampsmooth.c $(ssic)
+rand~.class.sources := classes/MSP/rand.c $(ssic)
+rdiv~.class.sources := classes/MSP/rdiv.c $(ssic)
+rminus~.class.sources := classes/MSP/rminus.c $(ssic)
+record~.class.sources := classes/MSP/record.c $(sarsic)
+reson~.class.sources := classes/MSP/reson.c $(ssic)
+sah~.class.sources := classes/MSP/sah.c $(ssic)
+sampstoms~.class.sources := classes/MSP/sampstoms.c $(ssic)
+scope~.class.sources := classes/MSP/scope.c $(sgrowforky)
+sinh~.class.sources := classes/MSP/sinh.c $(ssic)
+sinx~.class.sources := classes/MSP/sinx.c $(ssic)
+slide~.class.sources := classes/MSP/slide.c $(ssic)
+snapshot~.class.sources := classes/MSP/snapshot.c $(ssic)
+spike~.class.sources := classes/MSP/spike.c $(ssic)
+svf~.class.sources := classes/MSP/svf.c $(ssic)
+tanh~.class.sources := classes/MSP/tanh.c $(ssic)
+tanx~.class.sources := classes/MSP/tanx.c $(ssic)
+thresh~.class.sources := classes/MSP/thresh.c $(ssic)  # NEW CLASS!
+train~.class.sources := classes/MSP/train.c $(ssic)
+trapezoid~.class.sources := classes/MSP/trapezoid.c $(ssic)
+triangle~.class.sources := classes/MSP/triangle.c $(ssic)
+vectral~.class.sources := classes/MSP/vectral.c $(ssic)
+wave~.class.sources := classes/MSP/wave.c $(sarsic)
+zerox~.class.sources := classes/MSP/zerox.c $(ssic)
 
 ################################################################################
 ### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
