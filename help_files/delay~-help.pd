@@ -48,30 +48,27 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X text 178 472 - delay in samples;
 #X text 103 570 2) float;
-#X obj 146 174 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 117 190 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 116 472 float;
 #X text 116 450 clear;
 #X text 178 450 - clears delay buffer;
-#X text 178 553 - defines the maximum delay in samples (Default 512)
-;
-#X text 178 571 - initial delay in samples (Default 0);
-#X obj 146 345 output~;
+#X obj 161 345 output~;
 #X obj 204 317 cyclone/delay~ 44100 4410;
 #X obj 246 265 cyclone/mstosamps~;
 #X obj 249 221 hsl 128 15 0 1000 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
+-1 -1 800 1;
 #X floatatom 246 241 5 0 0 0 - - -, f 5;
 #X floatatom 351 291 5 0 0 0 - - -, f 5;
 #X text 219 288 up to 1 second delay;
-#X text 224 350 at 44.1kHz sample rate the;
+#X text 299 359 at 44.1kHz sample rate the;
 #X text 19 63 delay signal by a number of samples;
 #X text 101 102 Use the [delay~] object to delay a signal by a certain
 amount of time defined in samples (thus determined by the sampling
 rate).;
 #X text 284 240 ms;
 #X text 394 290 samples;
-#X text 224 364 maximum delay is 1 second;
+#X text 299 373 maximum delay is 1 second;
 #N canvas 1 79 450 300 noise 0;
 #X obj 97 118 noise~;
 #X obj 97 188 *~;
@@ -86,7 +83,7 @@ rate).;
 #X connect 2 0 1 1;
 #X connect 3 0 2 0;
 #X connect 5 0 3 0;
-#X restore 146 210 pd noise burst;
+#X restore 117 226 pd noise burst;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -103,11 +100,14 @@ rate).;
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 6 6 pd;
-#X connect 18 0 37 0;
-#X connect 25 0 24 1;
-#X connect 26 1 29 0;
-#X connect 27 0 28 0;
-#X connect 28 0 26 0;
-#X connect 29 0 25 1;
-#X connect 37 0 24 0;
-#X connect 37 0 25 0;
+#X text 178 553 - defines the maximum delay in samples (default 512)
+;
+#X text 178 571 - initial delay in samples (default 0);
+#X connect 18 0 35 0;
+#X connect 23 0 22 1;
+#X connect 24 1 27 0;
+#X connect 25 0 26 0;
+#X connect 26 0 24 0;
+#X connect 27 0 23 1;
+#X connect 35 0 22 0;
+#X connect 35 0 23 0;

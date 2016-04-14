@@ -1,68 +1,34 @@
-#N canvas 631 23 571 843 10;
-#X declare -lib nettles;
-#X declare -lib nettles;
-#X declare -lib nettles;
+#N canvas 183 23 570 851 10;
+#X declare -stdlib cyclone/cyclone;
+#X declare -stdlib cyclone/cyclone;
 #X obj 7 40 cnv 15 552 50 empty empty +=~ 3 12 0 18 -204280 -1 0;
-#X obj 8 802 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 8 512 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 8 559 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 8 514 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 86 524 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 8 561 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 8 603 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X obj 86 526 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 413 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#N canvas 502 391 401 260 META 0;
-#X text 0 22 LICENSE SIBSD;
-#X text 0 102 LIBRARY cyclone;
-#X text 0 62 INLET_0 signal;
-#X text 0 82 OUTLET_0 signal;
-#X text 0 42 DESCRIPTION takes the arc tangent function for signals
+#X obj 8 403 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
-#X text 0 123 VERSION 0.2-beta1;
-#X text 0 141 AUTHOR Krzysztof Czaja;
-#X text 1 159 RELEASE_DATE 2002;
-#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X obj 86 413 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 511 804 pd META;
-#N canvas 232 526 441 120 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 199 804 pd Related_objects;
-#X obj 86 432 cnv 17 3 68 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 8 422 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
-;
-#X obj 86 432 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 83 338 cyclone/snapshot~ 1;
+#X obj 64 342 cyclone/snapshot~ 1;
 #X obj 531 68 +=~;
 #X obj 483 46 plusequals~;
-#X obj 303 361 cyclone/snapshot~ 1;
-#X text 19 67 Signal accumulator: alias of [plusequals~];
-#X floatatom 303 389 5 0 0 0 - - -, f 5;
-#X obj 253 314 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
--1 -1;
-#X text 124 433 signal;
-#X text 136 461 bang;
-#X text 142 478 set;
-#X msg 407 295 set 10;
-#X text 189 476 - set message followed by a number sets the stored
-value to that number;
-#X floatatom 83 368 0 0 0 0 - - -;
-#X text 125 525 signal;
-#X text 110 571 1) float;
-#X obj 303 260 metro 1000;
-#X obj 303 291 cyclone/click~;
-#X obj 303 234 tgl 15 0 empty empty empty 17 7 0 10 -261682 -1 -1 0
+#X obj 355 346 cyclone/snapshot~ 1;
+#X floatatom 355 374 5 0 0 0 - - -, f 5;
+#X text 134 414 signal;
+#X text 146 442 bang;
+#X msg 301 287 set 10;
+#X floatatom 64 372 0 0 0 0 - - -;
+#X text 135 523 signal;
+#X text 120 569 1) float;
+#X obj 355 260 metro 1000;
+#X obj 355 287 cyclone/click~;
+#X obj 355 234 tgl 15 0 empty empty empty 17 7 0 10 -261682 -1 -1 0
 1;
-#X obj 253 279 sel 1;
 #X text 72 105 [plusequals~] or [+=~] accumulates all the values it
 receives \, it stores the last output value to add it to the next input
 value. The result can grow very large \, very fast.;
@@ -70,7 +36,7 @@ value. The result can grow very large \, very fast.;
 to produce a running sum. For instance \, assuming the sum started
 at 0 \, an input signal consisting of 1 \, 1 \, 1 \, 1 would produce
 1 \, 2 \, 3 \, 4 as an output signal.;
-#X obj 83 303 cyclone/plusequals~;
+#X obj 64 307 cyclone/plusequals~;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
 0;
@@ -193,41 +159,82 @@ at 0 \, an input signal consisting of 1 \, 1 \, 1 \, 1 would produce
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 507 104 pd;
-#X obj 417 642 declare -lib nettles, f 21;
-#X obj 418 773 nettles-help;
-#X text 63 774 Open help files of "nettles" to understand what it is
-===>;
-#X text 60 629 So far \, [+=~] only correctly loads if you declare
-the "nettles" library with the declare object like this =====>;
-#X text 62 737 You can also load the alias object [cyclone/plusequals~]
-with no such issues and outside "nettles".;
-#X obj 303 330 +=~;
-#X text 187 461 - resets initial stored value to 0;
-#X text 188 431 - signal value is accumulated. Accumulated value is
+#X obj 355 318 +=~;
+#X text 187 442 - resets initial stored value to 0;
+#X text 188 412 - signal value is accumulated. Accumulated value is
 output only if a signal is connected;
-#X text 190 525 - each sample is the sum of all previous input samples.
+#X text 190 523 - each sample is the sum of all previous input samples.
 ;
-#X text 186 571 - sets the initial stored value for the sum (default
+#X text 186 569 - sets the initial stored value for the sum (default
 is 0).;
-#X text 61 663 There's a [cyclone/+=~] abstraction that internally
-loads the object if you didn't declare nettles \, but it won't work
-well and receive bang/set messages! If you are not sure if you have
-an abstraction \, check warning in Pd window or click on it to see
-if it opens.;
-#X obj 83 252 sig~ 1e-05;
-#X obj 100 276 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
+#X obj 80 281 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682 -1
+-1;
+#X text 194 234 reset;
+#X text 19 67 Signal accumulator;
+#X text 505 68 or;
+#X obj 55 53 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
+#X obj 86 53 cnv 5 5 5 empty empty plusequals~ 0 0 0 18 -204280 -1
+0;
+#X obj 175 270 cyclone/click~;
+#X obj 175 235 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
 -1 -1;
-#X text 121 276 reset;
-#X connect 11 0 23 0;
-#X connect 14 0 16 0;
-#X connect 17 0 40 0;
-#X connect 21 0 40 0;
-#X connect 26 0 27 0;
-#X connect 27 0 40 0;
-#X connect 28 0 26 0;
-#X connect 28 0 29 0;
-#X connect 29 0 17 0;
-#X connect 32 0 11 0;
-#X connect 40 0 14 0;
-#X connect 46 0 32 0;
-#X connect 47 0 32 0;
+#X text 98 280 reset;
+#X text 182 250 sample accurate;
+#X obj 64 256 sig~ 0.0001;
+#X obj 7 599 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 5 814 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 502 391 401 260 META 0;
+#X text 0 22 LICENSE SIBSD;
+#X text 0 102 LIBRARY cyclone;
+#X text 0 62 INLET_0 signal;
+#X text 0 82 OUTLET_0 signal;
+#X text 0 42 DESCRIPTION takes the arc tangent function for signals
+;
+#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
+#X text 0 123 VERSION 0.2-beta1;
+#X text 0 141 AUTHOR Krzysztof Czaja;
+#X text 1 159 RELEASE_DATE 2002;
+#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 508 816 pd META;
+#N canvas 232 526 441 120 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 196 816 pd Related_objects;
+#X text 121 774 more about the cyclone sub-library;
+#X obj 5 662 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
+-228856 -1 0;
+#X obj 342 736 declare -stdlib cyclone/cyclone;
+#X obj 341 773 cyclone-help;
+#X text 135 609 A float on the right inlet overwrites the argument.
+If a signal is connected to the right inlet \, argument is ignored.
+If signal is disconnected \, argument's value is restored.;
+#X obj 85 479 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 134 479 signal;
+#X text 105 459 set <float>;
+#X text 187 459 - sets the stored value to that number;
+#X text 186 479 - signal different than 0 resets initial stored value
+to 0;
+#X text 58 692 [plusequals~] is a single binary in cyclone \, but [+=~]
+is only created if you load the sub-library "cyclone" in the startup
+as informed in "How to Install". You can also load the cyclone library
+with [declare] like this:;
+#X connect 7 0 15 0;
+#X connect 10 0 11 0;
+#X connect 14 0 26 0;
+#X connect 18 0 19 0;
+#X connect 19 0 26 0;
+#X connect 20 0 18 0;
+#X connect 23 0 7 0;
+#X connect 26 0 10 0;
+#X connect 31 0 23 0;
+#X connect 37 0 23 1;
+#X connect 38 0 37 0;
+#X connect 41 0 23 0;
