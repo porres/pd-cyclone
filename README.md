@@ -7,7 +7,7 @@ Cyclone: a set of Pure Data objects cloned from Max/MSP
 
 Pure Data (or just "Pd") project is found at: https://sourceforge.net/p/pure-data/pure-data/ci/master/tree/
 
-Max is found at: https://cycling74.com/products/max/
+Max is found at: https://cycling74.com/
 
 <strong>Exerpt from Cyclone's original Readme (by Krzysztof Czaja):</strong>
 
