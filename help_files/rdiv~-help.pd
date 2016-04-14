@@ -1,39 +1,13 @@
-#N canvas 185 108 567 764 10;
-#X declare -lib nettles;
-#X declare -lib nettles;
+#N canvas 185 108 562 741 10;
+#X declare -stdlib cyclone/cyclone;
+#X declare -stdlib cyclone/cyclone;
 #X obj 7 40 cnv 15 552 50 empty empty !/~ 3 12 0 18 -204280 -1 0;
-#X obj 7 720 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
 #X obj 7 365 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 411 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 7 515 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
 #X obj 85 377 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#N canvas 502 391 401 260 META 0;
-#X text 0 22 LICENSE SIBSD;
-#X text 0 102 LIBRARY cyclone;
-#X text 0 62 INLET_0 signal;
-#X text 0 82 OUTLET_0 signal;
-#X text 0 42 DESCRIPTION takes the arc tangent function for signals
-;
-#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
-#X text 0 123 VERSION 0.2-beta1;
-#X text 0 141 AUTHOR Krzysztof Czaja;
-#X text 1 159 RELEASE_DATE 2002;
-#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 510 722 pd META;
-#N canvas 232 526 441 120 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 198 722 pd Related_objects;
 #X obj 85 314 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 7 301 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -185,33 +159,57 @@ Functions like the [/~] object \, but the inlets' functions are reversed.
 ;
 #X text 114 338 float/signal;
 #X text 201 338 - Values to divided by left inlet's values.;
-#X obj 415 556 declare -lib nettles, f 21;
-#X obj 418 687 nettles-help;
-#X text 63 688 Open help files of "nettles" to understand what it is
-===>;
-#X text 60 543 So far \, [!/~] only correctly loads if you declare
-the "nettles" library with the declare object like this =====>;
-#X text 61 577 There's a [cyclone/!/~] abstraction that internally
-loads the object if you didn't declare nettles \, but the it won't
-load arguments and work as it should. If you are not sure if you have
-an abstraction \, check warning in Pd window or click on it to see
-if it opens.;
-#X text 62 651 You can also load the alias object [cyclone/rdiv~] with
-no such issues and outside "nettles".;
 #X text 147 376 signal;
 #X obj 291 202 !/~;
-#X text 168 420 Sets an initial value by which to divide the signal
-coming into the left inlet (default 0). A float on the right inlet
-overwrites the argument. If a signal is connected to the right inlet
-\, argument is ignored. If signal is disconnected \, argument value
-is restored. If no argument is present \, and no signal is connected
-to the right inlet.;
-#X text 19 66 signal reversed inlets division: alias of [rdiv~];
-#X connect 13 0 39 1;
-#X connect 14 0 39 0;
-#X connect 15 0 26 0;
-#X connect 16 0 26 1;
-#X connect 22 0 23 0;
-#X connect 24 0 25 0;
-#X connect 26 0 24 0;
-#X connect 39 0 22 0;
+#X obj 5 687 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 502 391 401 260 META 0;
+#X text 0 22 LICENSE SIBSD;
+#X text 0 102 LIBRARY cyclone;
+#X text 0 62 INLET_0 signal;
+#X text 0 82 OUTLET_0 signal;
+#X text 0 42 DESCRIPTION takes the arc tangent function for signals
+;
+#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
+#X text 0 123 VERSION 0.2-beta1;
+#X text 0 141 AUTHOR Krzysztof Czaja;
+#X text 1 159 RELEASE_DATE 2002;
+#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 508 689 pd META;
+#N canvas 232 526 441 120 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 196 689 pd Related_objects;
+#X text 121 656 more about the cyclone sub-library;
+#X obj 5 524 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
+-228856 -1 0;
+#X obj 290 619 declare -stdlib cyclone/cyclone;
+#X obj 341 655 cyclone-help;
+#X text 168 420 sets an initial value for the divisor (default 0).
+;
+#X obj 7 450 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 135 460 A float on the right inlet overwrites the argument.
+If a signal is connected to the right inlet \, argument is ignored.
+If signal is disconnected \, argument's value is restored.;
+#X text 504 69 or;
+#X text 19 66 signal reversed inlets division;
+#X obj 62 52 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
+#X obj 93 52 cnv 5 5 5 empty empty rdiv~ 0 0 0 18 -204280 -1 0;
+#X text 117 555 [rdiv~] is a single binary in cyclone \, but [!/~]
+is only created if you load the sub-library "cyclone" in the startup
+as informed in "How to Install". You can also load the cyclone library
+with [declare] like this:;
+#X connect 9 0 29 1;
+#X connect 10 0 29 0;
+#X connect 11 0 22 0;
+#X connect 12 0 22 1;
+#X connect 18 0 19 0;
+#X connect 20 0 21 0;
+#X connect 22 0 20 0;
+#X connect 29 0 18 0;

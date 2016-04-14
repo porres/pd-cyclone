@@ -1,40 +1,13 @@
-#N canvas 641 86 577 756 10;
-#X declare -lib nettles;
-#X declare -lib nettles;
-#X declare -lib nettles;
+#N canvas 153 43 565 693 10;
+#X declare -stdlib cyclone/cyclone;
+#X declare -stdlib cyclone/cyclone;
 #X obj 8 41 cnv 15 552 50 empty empty !/ 3 12 0 18 -204280 -1 0;
-#X obj 13 691 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
 #X obj 13 385 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
 0;
 #X obj 13 432 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 13 486 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
 #X obj 91 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#N canvas 502 391 401 260 META 0;
-#X text 0 22 LICENSE SIBSD;
-#X text 0 102 LIBRARY cyclone;
-#X text 0 62 INLET_0 signal;
-#X text 0 82 OUTLET_0 signal;
-#X text 0 42 DESCRIPTION takes the arc tangent function for signals
-;
-#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
-#X text 0 123 VERSION 0.2-beta1;
-#X text 0 141 AUTHOR Krzysztof Czaja;
-#X text 1 159 RELEASE_DATE 2002;
-#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 516 693 pd META;
-#N canvas 232 526 441 120 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 204 693 pd Related_objects;
 #X obj 91 285 cnv 17 3 44 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 13 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -68,9 +41,6 @@ be divided by - it's a hot inlet (produces output).;
 numbers received in the left inlet (cold inlet).;
 #X text 205 396 - The division of the two numbers.;
 #X text 129 398 float;
-#X text 344 68 alias of [rdiv];
-#X text 20 68 Revered inlets division (divide input from a number):
-;
 #X floatatom 260 223 0 0 0 0 - - -;
 #X obj 412 176 swap;
 #X obj 414 203 /;
@@ -95,28 +65,55 @@ numbers received in the left inlet (cold inlet).;
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 7 4 pd;
-#X obj 414 532 declare -lib nettles, f 21;
-#X text 60 654 Open help files of "nettles" to understand what it is
-===>;
-#X text 57 519 So far \, [!/] only correctly loads if you declare the
-"nettles" library with the declare object like this =====>;
-#X text 59 617 You can also load the alias object [cyclone/rdiv] with
-no such issues and outside "nettles".;
-#X text 188 445 sets an initial value for the divisor (default 0).
+#X text 189 447 sets an initial value for the divisor (default 0).
 ;
-#X text 58 553 There's a [cyclone/!/] abstraction that internally loads
-the object. If you are not sure if you have an abstraction \, check
-warning in Pd window or click on it to see if it opens.;
-#X obj 415 653 nettles-help;
-#X connect 13 0 17 1;
-#X connect 14 0 17 0;
-#X connect 15 0 36 0;
-#X connect 16 0 36 1;
-#X connect 17 0 33 0;
-#X connect 25 0 36 0;
-#X connect 34 0 35 0;
-#X connect 34 1 35 1;
-#X connect 35 0 39 0;
-#X connect 36 0 20 0;
-#X connect 37 0 34 1;
-#X connect 38 0 34 0;
+#X obj 50 54 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
+#X obj 81 54 cnv 5 5 5 empty empty rdiv 0 0 0 18 -204280 -1 0;
+#X text 20 68 Revered inlets division (divide input from a number)
+;
+#X text 509 68 or;
+#X obj 5 647 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 502 391 401 260 META 0;
+#X text 0 22 LICENSE SIBSD;
+#X text 0 102 LIBRARY cyclone;
+#X text 0 62 INLET_0 signal;
+#X text 0 82 OUTLET_0 signal;
+#X text 0 42 DESCRIPTION takes the arc tangent function for signals
+;
+#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
+#X text 0 123 VERSION 0.2-beta1;
+#X text 0 141 AUTHOR Krzysztof Czaja;
+#X text 1 159 RELEASE_DATE 2002;
+#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 508 649 pd META;
+#N canvas 232 526 441 120 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 196 649 pd Related_objects;
+#X text 121 616 more about the cyclone sub-library;
+#X obj 5 484 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
+-228856 -1 0;
+#X obj 290 579 declare -stdlib cyclone/cyclone;
+#X obj 341 615 cyclone-help;
+#X text 117 515 [rdiv] is a single binary in cyclone \, but [!/] is
+only created if you load the sub-library "cyclone" in the startup as
+informed in "How to Install". You can also load the cyclone library
+with [declare] like this:;
+#X connect 9 0 13 1;
+#X connect 10 0 13 0;
+#X connect 11 0 30 0;
+#X connect 12 0 30 1;
+#X connect 13 0 27 0;
+#X connect 21 0 30 0;
+#X connect 28 0 29 0;
+#X connect 28 1 29 1;
+#X connect 29 0 33 0;
+#X connect 30 0 16 0;
+#X connect 31 0 28 1;
+#X connect 32 0 28 0;
