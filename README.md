@@ -7,6 +7,8 @@ Cyclone: a set of Pure Data objects cloned from Max/MSP
 
 Pure Data (or just "Pd") project is found at: https://sourceforge.net/p/pure-data/pure-data/ci/master/tree/
 
+Max is found at: https://cycling74.com/products/max/
+
 <strong>Exerpt from Cyclone's original Readme (by Krzysztof Czaja):</strong>
 
 "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
