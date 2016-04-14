@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+// fixed and rewritten by Porres
+
 #include "m_pd.h"
 #include "math.h"
 #include "shared.h"
@@ -14,7 +16,6 @@
 typedef struct _train
 {
     t_sic      x_sic;
-    t_float    x_last_phase_offset;
     float      x_phase;
     float      x_rcpksr;
     t_outlet  *x_bangout;
@@ -36,7 +37,6 @@ static t_int *train_perform(t_int *w)
     t_float *in2 = (t_float *)(w[4]);
     t_float *in3 = (t_float *)(w[5]);
     t_float *out = (t_float *)(w[6]);
-    t_float last_phase_offset = x->x_last_phase_offset;
     float rcpksr = x->x_rcpksr;
     float phase = x->x_phase;
     
@@ -51,23 +51,24 @@ static t_int *train_perform(t_int *w)
         float phase_offset = *in3++; // phase input inlet
         if (phase_offset < 0.) phase_offset = 0.;
         if (phase_offset > 1.) phase_offset = 1.;
-        float phase_dif = phase_offset - last_phase_offset;
-        {
-        phase = phase + phase_dif;
-        if (phase < 0.) phase = phase + 1.;
-        next_phase = fmod(phase, 1) + phase_step;
-           if (phase >= 1)
+        float wrap_low = phase_offset;
+        float wrap_high = phase_offset + 1;
+        float wrapped_phase;
+       {
+           wrapped_phase = (phase >= wrap_high) ? wrap_low : phase;
+           next_phase = wrapped_phase + phase_step;
+
+           if (phase >= wrap_high)
            {
                *out++ = 1.;
                clock_delay(x->x_clock, 0);
            }
-           else if(next_phase >= 1) *out++ = 0.;
-           else  *out++ = (phase < width) ? 1. : 0.;
+           else if (phase < wrap_low) *out++ = 0.;
+           else if(next_phase >= wrap_high) *out++ = 0.;
+           else  *out++ = (phase < (width + phase_offset)) ? 1. : 0.;
         }
-        last_phase_offset = phase_offset;
 		phase = next_phase;
         }
-    x->x_last_phase_offset = last_phase_offset;
     x->x_phase = phase;
     return (w + 7);
 }
@@ -88,7 +89,6 @@ static void *train_new(t_symbol *s, int ac, t_atom *av)
 {
     t_train *x = (t_train *)pd_new(train_class);
     x->x_phase = 0;
-    x->x_last_phase_offset = 0;
     sic_inlet((t_sic *)x, 0, TRAIN_DEFPERIOD, 0, ac, av);
     sic_inlet((t_sic *)x, 1, TRAIN_DEFWIDTH, 1, ac, av);
     sic_inlet((t_sic *)x, 2, TRAIN_DEFOFFSET, 2, ac, av);
