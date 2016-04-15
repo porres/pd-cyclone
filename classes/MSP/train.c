@@ -43,19 +43,19 @@ static t_int *train_perform(t_int *w)
    while (nblock--)
    {
         float next_phase;
-		float period = *in1++; // period
-        float phase_step = rcpksr / period; // phase_step
-        float width = *in2++; // pulse_width
+		float period = *in1++;
+        float phase_step = rcpksr / period;
+        float width = *in2++;
         if (width < 0.) width = 0.;
         if (width > 1.) width = 1.;
-        float phase_offset = *in3++; // phase input inlet
+        float phase_offset = *in3++;
         if (phase_offset < 0.) phase_offset = 0.;
         if (phase_offset > 1.) phase_offset = 1.;
         float wrap_low = phase_offset;
         float wrap_high = phase_offset + 1;
         float wrapped_phase;
        {
-           wrapped_phase = (phase >= wrap_high) ? wrap_low : phase;
+           wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase;
            next_phase = wrapped_phase + phase_step;
 
            if (phase >= wrap_high)
@@ -63,7 +63,7 @@ static t_int *train_perform(t_int *w)
                *out++ = 1.;
                clock_delay(x->x_clock, 0);
            }
-           else if (phase < wrap_low) *out++ = 0.;
+           else if (phase < wrap_low) *out++ = 0.; // not working
            else if(next_phase >= wrap_high) *out++ = 0.;
            else  *out++ = (phase < (width + phase_offset)) ? 1. : 0.;
         }
