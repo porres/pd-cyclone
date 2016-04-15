@@ -20,8 +20,8 @@ typedef struct _allpass
 
 static t_class *allpass_class;
 
-/* maximum delay defaults to 50 ms (cycling has 10 ms here) */
-#define ALLPASS_DEFMAXDELAY  50.0
+/* maximum delay defaults to 10 ms (as in max/msp) */
+#define ALLPASS_DEFMAXDELAY  10.0
 
 /* LATER choose the best way (compare with comb~) */
 #define ALLPASS_MAXFEEDBACK  0.999
