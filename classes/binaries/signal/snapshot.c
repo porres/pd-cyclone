@@ -140,7 +140,7 @@ static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
     x->x_nblock = 64;  /* redundant */
     x->x_ksr = 44.1;  /* redundant */
 	t_float interval, offset, active;
-	interval = PDCYSSINITV;
+	interval = PDCYSSINTV;
 	offset = PDCYSSOFFSET;
 	active = PDCYSSACTIVE;
 	int argnum = 0;

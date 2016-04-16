@@ -212,6 +212,10 @@ static void *count_new(t_symbol *s, int argc, t_atom *argv)
     inlet_new(&x->x_obj, &x->x_obj.ob_pd,&s_float, gensym("ft1"));
     outlet_new(&x->x_obj, &s_signal);
     return (x);
+    
+    errstate:
+    pd_error(x, "count~: improper args");
+    return NULL;
 }
 
 void count_tilde_setup(void)
