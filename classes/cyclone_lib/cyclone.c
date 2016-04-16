@@ -1,4 +1,19 @@
-/* Update from old nettles (which now lies in the graveyard)  */
+/* This is the cyclone library containing 12 non alphanumeric objects
+ Originally, the externals in cyclone used to come in a library called
+ "cyclone", which included these 12 objects plus the "hammer" and "sicle"
+ libraries (control/MAX and signal/MSP objects respectively). In (and since)
+ the Pd-Extended days, the objects used to come as single binaries and these
+ 12 objects were lost to oblivion, as they need to come in a library because
+ some file systems don't like and agree with these characters. 
+ 
+ So, the original cyclone library is now restored, but only containing these
+ 12 objects, which are: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], 
+ [!-~], [!/~], [%~], [+=~] (the original code for such objects are in the 
+ nettles.c file).
+ 
+ Alternatively, alphanumeric versions of these objects are included as sigle 
+ binaries in the cyclone package */
+
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"

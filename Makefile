@@ -391,7 +391,7 @@ zerox~.class.sources := classes/binaries/signal/zerox.c $(ssic)
 ### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
 ################################################################################
 
-cyclone.class.sources := classes/cyclone_lib/cyclone_lib.c $(ssic)
+cyclone.class.sources := classes/cyclone_lib/cyclone.c $(ssic)
 
 ################################################################################
 
