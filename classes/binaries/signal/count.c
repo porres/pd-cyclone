@@ -2,14 +2,20 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+//updating argument parsing on object creation and adding autoreset attribute - Derek Kwan 2016
+#include <string.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-#define COUNTMAXINT 0x7fffffff 
+#define COUNTMAXINT 0x7fffffff
+
+#define PDCYCMINV 0.
+#define PDCYCMAXV 0.
+#define PDCYCONFL 0
+#define PDCYCAUTO 0 
 
 typedef struct _count
 {
-    t_sic  x_sic;
+    t_object x_obj;
     t_float  x_lastin;
     int    x_min;
     int    x_max;
@@ -145,29 +151,78 @@ static void count_dsp(t_count *x, t_signal **sp)
     dsp_add(count_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *count_new(t_floatarg minval, t_floatarg maxval,
-		       t_floatarg onflag, t_floatarg autoflag)
+static void *count_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_count *x = (t_count *)pd_new(count_class);
     x->x_lastin = 0;
+	t_float minval, maxval, onflag, autoflag;
+	minval = PDCYCMINV;
+	maxval = PDCYCMAXV;
+	onflag = PDCYCONFL;
+	autoflag = PDCYCAUTO;
+	int argnum = 0;
+	while(argc > 0){
+		if(argv -> a_type == A_FLOAT){
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					minval = argval;
+					break;
+				case 1:
+					maxval = argval;
+					break;
+				case 2:
+					onflag = argval;
+					break;
+				case 3:
+					autoflag = argval;
+					break;
+				default:
+					break;
+				};
+			argnum++;
+			argc--;
+			argv++;
+			}
+		else if(argv -> a_type == A_SYMBOL){
+			t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
+			if(strcmp(curarg->s_name, "@autoreset") == 0){
+				if(argc >= 2){
+					t_float argval = atom_getfloatarg(1, argc, argv);
+					autoflag = argval;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else{
+				goto errstate;
+			};
+		}
+		else{
+			goto errstate;
+		};
+
+	};
     count_min(x, minval);
     count_max(x, maxval);
     x->x_on = (onflag != 0);
     count_autoreset(x, autoflag);
     x->x_count = x->x_min;
-    inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
-    outlet_new((t_object *)x, &s_signal);
+    inlet_new(&x->x_obj, &x->x_obj.ob_pd,&s_float, gensym("ft1"));
+    outlet_new(&x->x_obj, &s_signal);
     return (x);
 }
 
 void count_tilde_setup(void)
 {
     count_class = class_new(gensym("count~"), (t_newmethod)count_new, 0,
-        sizeof(t_count), 0, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(count_class, count_dsp, count_float);
-    class_addbang(count_class, count_bang);
-    class_addfloat(count_class, count_float);
-    class_addlist(count_class, count_list);
+        sizeof(t_count), 0, A_GIMME, 0);
+	class_domainsignalin(count_class, -1);
+	class_addfloat(count_class, (t_method)count_float);
+    class_addmethod(count_class, (t_method)count_dsp, gensym("dsp"), A_CANT, 0);
+    class_addbang(count_class, (t_method)count_bang);
+    class_addlist(count_class, (t_method)count_list);
     class_addmethod(count_class, (t_method)count_max,
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(count_class, (t_method)count_autoreset,
