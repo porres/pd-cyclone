@@ -208,10 +208,10 @@ void snapshot_tilde_setup(void)
         (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_GIMME,0);
     class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/snapshot~"), A_GIMME, 0);
     class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/Snapshot~"), A_GIMME, 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_dsp, gensym("dsp"), A_CANT, 0);
 	class_domainsignalin(snapshot_class, -1);
 	class_addfloat(snapshot_class, (t_method)snapshot_float);
-    class_addbang(snapshot_class, snapshot_bang);
+    class_addmethod(snapshot_class, (t_method)snapshot_dsp, gensym("dsp"), A_CANT, 0);
+    class_addbang(snapshot_class, (t_method)snapshot_bang);
     class_addmethod(snapshot_class, (t_method)snapshot_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(snapshot_class, (t_method)snapshot_offset,
