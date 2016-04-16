@@ -1,4 +1,4 @@
-# Makefile.pdlibbuilder version 0.2.1, dated 2015-12-27
+# Makefile.pdlibbuilder version 0.2.3, dated 2016-03-29
 #
 # Helper makefile for Pure Data external libraries.
 # Written by Katja Vetter March-June 2015 for the public domain. No warranties.
@@ -250,8 +250,7 @@
 #=== targets ===================================================================
 #
 #
-# all: build $(executables) plus optional pre and post targets
-# pre: target to build before $(executables)
+# all: build $(executables) plus optional post target
 # post: target to build after $(executables)
 # alldebug: build all with -g option turned on for debug symbols
 # <classname>: force clean build of an individual class
@@ -728,7 +727,7 @@ MAKEFLAGS += --no-builtin-rules
 
 .PRECIOUS:
 .SUFFIXES:
-.PHONY: all pre post build-lib \
+.PHONY: all post build-lib \
         $(classes) $(makefiledirs) $(makefiles) \
         install install-executables install-datafiles install-datadirs \
         force clean vars allvars depend help
@@ -739,16 +738,14 @@ MAKEFLAGS += --no-builtin-rules
 ################################################################################
 
 
-# Target all forces the build of targets [pre $(executables) post] in
+# Target all forces the build of targets [$(executables) post] in
 # deterministic order. Target $(executables) builds class executables plus 
 # optional shared lib or alternatively a single lib executable when 
-# make-lib-executable=true. Targets pre and post are optionally defined by
+# make-lib-executable=true. Target post is optionally defined by
 # library makefile.
 
 all: post
 post: $(executables)
-$(executables): pre
-pre:
 
 all:
 	$(info ++++info: target all in lib $(lib.name) completed)
@@ -887,9 +884,16 @@ $(foreach v, $(classes), $(eval $(declare-class-executable-target)))
 # which case implicit prerequisites are not checked.
 
 # When the Pd include path contains spaces it will mess up the implicit
-# prerequisites rules so we do not evaluate them in that case.
+# prerequisites rules. Also it is known that multiple arch flags are
+# incompatible with preprocessor option -MM on OSX <= 10.5. Dependency
+# tracking must be disabled in those cases.
 
-ifndef pdincludepathwithspaces
+oldfat := $(and $(filter ppc i386, $(machine)), \
+          $(filter-out 0 1, $(words $(filter -arch, $(c.flags)))))
+
+disable-dependency-tracking := pdincludepathwithspaces oldfat
+
+ifndef disable-dependency-tracking
   must-build-everything := $(filter all, $(goals))
   must-build-class := $(filter $(classes), $(goals))
   must-build-sources := $(foreach v, $(must-build-class), $($v.class.sources))

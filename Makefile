@@ -27,8 +27,6 @@ round.class.sources := classes/binaries/control/round.c
 
 atodb~.class.sources := classes/binaries/signal/atodb.c
 biquad~.class.sources := classes/binaries/signal/biquad.c
-# biquad2~.class.sources := classes/binaries/signal/biquad2.c
-# downsamp~.class.sources := classes/binaries/signal/downsamp.c
 dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
 round~.class.sources := classes/binaries/signal/round.c
 trunc~.class.sources := classes/binaries/signal/trunc.c
@@ -329,7 +327,7 @@ cycle~.class.sources := classes/binaries/signal/cycle.c $(svefl)
 delay~.class.sources := classes/binaries/signal/delay.c $(ssic)
 delta~.class.sources := classes/binaries/signal/delta.c $(ssic)
 deltaclip~.class.sources := classes/binaries/signal/deltaclip.c $(ssic)
-downsamp~.class.sources := classes/binaries/signal/downsamp.c $(ssic)
+# downsamp~.class.sources := classes/binaries/signal/downsamp.c $(ssic)
 edge~.class.sources := classes/binaries/signal/edge.c $(ssic)
 equals~.class.sources := classes/binaries/signal/equals.c $(ssic)
 frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrow)
