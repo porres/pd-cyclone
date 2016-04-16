@@ -6,7 +6,6 @@
 //updating argument parsing for object creation, adding interval and active attributes - Derek Kwan 2016
 #include <string.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 /* CHECKME for a fixed minimum deltime, if any (5ms for c74's metro) */
 
