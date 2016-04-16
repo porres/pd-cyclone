@@ -151,8 +151,7 @@ static void count_dsp(t_count *x, t_signal **sp)
     dsp_add(count_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *count_new(t_floatarg minval, t_floatarg maxval,
-		       t_floatarg onflag, t_floatarg autoflag)
+static void *count_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_count *x = (t_count *)pd_new(count_class);
     x->x_lastin = 0;
