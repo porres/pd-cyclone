@@ -2,14 +2,21 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+
+//updating argument parsing for object creation, adding interval and active attributes - Derek Kwan 2016
+#include <string.h>
 #include "m_pd.h"
 #include "sickle/sic.h"
 
 /* CHECKME for a fixed minimum deltime, if any (5ms for c74's metro) */
 
+#define PDCYSSINTV 0.
+#define PDCYSSOFFSET 0
+#define PDCYSSACTIVE 0
+
 typedef struct _snapshot
 {
-    t_sic     x_sic;
+    t_object  x_obj;
     t_float   x_value;
     int       x_rqoffset;  /* requested */
     int       x_offset;    /* effective (truncated) */
@@ -125,7 +132,7 @@ static void snapshot_free(t_snapshot *x)
     if (x->x_clock) clock_free(x->x_clock);
 }
 
-static void *snapshot_new(t_floatarg f1, t_floatarg f2)
+static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
 {
     t_snapshot *x = (t_snapshot *)pd_new(snapshot_class);
     x->x_stopped = 0;  /* CHECKED */
@@ -133,21 +140,78 @@ static void *snapshot_new(t_floatarg f1, t_floatarg f2)
     x->x_value = 0;
     x->x_nblock = 64;  /* redundant */
     x->x_ksr = 44.1;  /* redundant */
-    inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
-    outlet_new((t_object *)x, &s_float);
+	t_float interval, offset, active;
+	interval = PDCYSSINITV;
+	offset = PDCYSSOFFSET;
+	active = PDCYSSACTIVE;
+	int argnum = 0;
+	while(argc > 0){
+		if(argv -> a_type == A_FLOAT){
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					interval = argval;
+					break;
+				case 1:
+					offset = argval;
+					break;
+				default:
+					break;
+			};
+			argnum++;
+			argc--;
+			argv++;
+		}
+		else if(argv -> a_type == A_SYMBOL){
+			t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
+			if(strcmp(curarg->s_name, "@interval")==0){
+				if(argc >= 2){
+					t_float argval = atom_getfloatarg(1, argc, argv);
+					interval = argval;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@active")==0){
+				if(argc >= 2){
+					t_float argval = atom_getfloatarg(1, argc, argv);
+					active = argval;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else{
+				goto errstate;
+			};
+
+		}
+		else{
+			goto errstate;
+		};
+	};
+    inlet_new(&x->x_obj, &x->x_obj.ob_pd,&s_float, gensym("ft1"));
+    outlet_new(&x->x_obj, &s_float);
     x->x_clock = clock_new(x, (t_method)snapshot_tick);
-    snapshot_offset(x, f2);  /* CHECKME (this is fixed at nblock-1 in Pd) */
-    snapshot_ft1(x, f1);
+    snapshot_offset(x, offset);  /* CHECKME (this is fixed at nblock-1 in Pd) */
+    snapshot_ft1(x, interval);
+	snapshot_float(x, active);
     return (x);
+	errstate:
+		pd_error(x, "snapshot~: improper args");
+		return NULL;
 }
 
 void snapshot_tilde_setup(void)
 {
     snapshot_class = class_new(gensym("Snapshot~"),
-        (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/snapshot~"), A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/Snapshot~"), A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(snapshot_class, snapshot_dsp, snapshot_float);
+        (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_GIMME,0);
+    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/snapshot~"), A_GIMME, 0);
+    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/Snapshot~"), A_GIMME, 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_dsp, gensym("dsp"), A_CANT, 0);
+	class_domainsignalin(snapshot_class, -1);
+	class_addfloat(snapshot_class, (t_method)snapshot_float);
     class_addbang(snapshot_class, snapshot_bang);
     class_addmethod(snapshot_class, (t_method)snapshot_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
