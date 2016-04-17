@@ -210,7 +210,7 @@ loopover:
 	    goto alldone;
 	}
     }
-    while (nblock--) *out++ = -1; //fixing sync output to 0;
+    while (nblock--) *out++ = 0; //fixing sync output to 0;
 alldone:
     return (w + sic->s_nperfargs + 1);
 }
