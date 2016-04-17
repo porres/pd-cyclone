@@ -10,6 +10,18 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
     ldlibs += -lpthread
 endif
 
+################################################################################
+
+## START OF CYCLONE CLASSES ##
+
+################################################################################
+    ###         ###     ###         ### ###         ###     ###         ###
+    ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
+    ###         ###     ###         ### ###         ###     ###         ###
+    ### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
+    ###         ###     ###         ### ###         ###     ###         ###
+################################################################################
+
 
 ################################################################################
 ########### classes outside the old framework common functions #################
@@ -440,6 +452,19 @@ cyclone.class.sources := classes/cyclone_lib/cyclone.c $(ssic)
 
 ################################################################################
 
+################################################################################
+###         ###     ###         ### ###         ###     ###         ###
+### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
+###         ###     ###         ### ###         ###     ###         ###
+### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
+###         ###     ###         ### ###         ###     ###         ###
+################################################################################
+
+        ## END OF CYCLONE CLASSES ##
+
+################################################################################
+
+
 datafiles = \
 $(wildcard help/*-help.pd) \
 help/output~.pd \
@@ -455,14 +480,7 @@ $(wildcard abstractions/*.pd)
 ### pd-lib-builder #############################################################
 ################################################################################
 
-
-# Include Makefile.pdlibbuilder from this directory, or else from central
-# externals directory in pd-extended configuration.
-
-externalsdir = ../..
-
-include $(firstword $(wildcard Makefile.pdlibbuilder \
-  $(externalsdir)/Makefile.pdlibbuilder))
+include pd-lib-builder/Makefile.pdlibbuilder
 
 
 ################################################################################
