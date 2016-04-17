@@ -29,18 +29,22 @@ static void delay_clear(t_delay *x)
     }
 }
 
-/* static void delay_maxsize(t_delay *x, t_float f)
+static void delay_maxsize(t_delay *x, t_float f)
 {
-    x->x_maxsize = f;
-    x->x_delsize = f;
+    int maxsize = x->x_maxsize = (f > 1 ? (int)f : 1);
+    t_float *buf = (t_float *)getbytes(maxsize * sizeof(*buf));
+    if (x->x_delsize > x->x_maxsize)
+	x->x_delsize = x->x_maxsize;
+    x->x_buf = x->x_whead = buf;
+    x->x_bufend = buf + maxsize - 1;
 } // not working */
+
 
 static void delay_ft1(t_delay *x, t_floatarg f)
 {
     x->x_delsize = (f > 0 ? (int)f : 0);
     if (x->x_delsize > x->x_maxsize)
-	x->x_delsize = x->x_maxsize;  /* CHECKED */
-    /* CHECKED: all buffered values should be available */
+	x->x_delsize = x->x_maxsize;
 }
 
 static t_int *delay_perform(t_int *w)
@@ -115,11 +119,10 @@ void delay_tilde_setup(void)
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(delay_class, (t_method)delay_clear,
 		    gensym("clear"), 0);
-//    class_addmethod(delay_class, (t_method)delay_maxsize, gensym("maxsize"), A_DEFFLOAT, 0);
-    
-    int major, minor, bugfix;
+    class_addmethod(delay_class, (t_method)delay_maxsize, gensym("maxsize"), A_DEFFLOAT, 0);
+/*    int major, minor, bugfix;
     sys_getversion(&major, &minor, &bugfix);
     if (major > 0 || minor > 42) 
     logpost(NULL, 4, "this is cyclone/delay~ %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);*/
 }

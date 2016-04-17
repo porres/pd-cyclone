@@ -19,7 +19,7 @@ instead of 0-255
 - Derek Kwan
 */
 
-#include<math.h>
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
