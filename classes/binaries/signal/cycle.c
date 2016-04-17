@@ -9,7 +9,7 @@
 #include "common/vefl.h"
 #include "sickle/sic.h"
 
-#define CYCLE_TABSIZE  512
+#define CYCLE_TABSIZE  16384
 
 typedef struct _cycle
 {
