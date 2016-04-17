@@ -190,6 +190,8 @@ static void *count_new(t_symbol *s, int argc, t_atom *argv)
 				if(argc >= 2){
 					t_float argval = atom_getfloatarg(1, argc, argv);
 					autoflag = argval;
+					argc-=2;
+					argv+=2;
 				}
 				else{
 					goto errstate;

@@ -11,7 +11,7 @@
 
 #define PDCYSSINTV 0.
 #define PDCYSSOFFSET 0
-#define PDCYSSACTIVE 0
+#define PDCYSSACTIVE 1
 
 typedef struct _snapshot
 {
@@ -167,6 +167,8 @@ static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
 				if(argc >= 2){
 					t_float argval = atom_getfloatarg(1, argc, argv);
 					interval = argval;
+					argc-=2;
+					argv+=2;
 				}
 				else{
 					goto errstate;
@@ -176,6 +178,8 @@ static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
 				if(argc >= 2){
 					t_float argval = atom_getfloatarg(1, argc, argv);
 					active = argval;
+					argc-=2;
+					argv+=2;
 				}
 				else{
 					goto errstate;
