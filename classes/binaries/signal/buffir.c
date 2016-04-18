@@ -6,12 +6,11 @@
 #include "m_pd.h"
 #include "shared.h"
 #include "common/loud.h"
-#include "common/fitter.h"
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
 
 #define BUFFIR_DEFSIZE    0  /* CHECKED */
-#define BUFFIR_MAXSIZE  128
+#define BUFFIR_MAXSIZE  4096
 
 typedef struct _buffir
 {
@@ -20,10 +19,9 @@ typedef struct _buffir
     t_pd    *x_sizinlet;
     t_float *x_lohead;
     t_float *x_hihead;
-    int      x_histsize;
     t_float *x_histlo;
     t_float *x_histhi;
-    t_float  x_histini[2 * BUFFIR_MAXSIZE];
+    t_float  x_histbuf[2 * BUFFIR_MAXSIZE];
 } t_buffir;
 
 static t_class *buffir_class;
@@ -36,65 +34,17 @@ static void buffir_setrange(t_buffir *x, t_floatarg f1, t_floatarg f2)
 	off = 0;
     if (siz <= 0)
 	siz = BUFFIR_DEFSIZE;
-    if (siz > x->x_histsize)
-    {
-	int newsize, pos = x->x_lohead - x->x_histlo;
-	int oldbytes = x->x_histsize * sizeof(*x->x_histlo);
-	static int warned = 0;
-	if (fittermax_get() && !warned)
-	{
-	    fittermax_warning(buffir_class, "stretching history buffer");
-	    warned = 1;
-	}
-	newsize = x->x_histsize * 2;
-	while (newsize < siz) newsize *= 2;
-	if (x->x_histlo == x->x_histini)
-	{
-	    if (!(x->x_histlo = getbytes(2 * newsize * sizeof(*x->x_histlo))))
-		x->x_histlo = x->x_histini;
-	    else
-	    {
-		x->x_histhi = x->x_histlo + newsize;
-		memcpy(x->x_histhi + pos - x->x_histsize,
-		       x->x_lohead, oldbytes);
-		x->x_lohead = x->x_histlo + pos;
-		x->x_hihead = x->x_histhi + pos;
-		x->x_histsize = newsize;
-	    }
-	}
-	else
-	{
-	    if (!(x->x_histlo =
-		  resizebytes(x->x_histlo, 2 * oldbytes,
-			      2 * newsize * sizeof(*x->x_histlo))))
-	    {
-		x->x_histsize = BUFFIR_MAXSIZE;
-		x->x_histlo = x->x_histini;
-		memset(x->x_histlo, 0,
-		       2 * x->x_histsize * sizeof(*x->x_histlo));
-		x->x_lohead = x->x_histlo;
-		x->x_hihead = x->x_histhi = x->x_histlo + x->x_histsize;
-	    }
-	    else
-	    {
-		x->x_histhi = x->x_histlo + newsize;
-		memcpy(x->x_histhi + pos - x->x_histsize,
-		       x->x_lohead, oldbytes);
-		x->x_lohead = x->x_histlo + pos;
-		x->x_hihead = x->x_histhi + pos;
-		x->x_histsize = newsize;
-	    }
-	}
-    }
-    pd_float(x->x_offinlet, off);
-    pd_float(x->x_sizinlet, siz);
+	if (siz > BUFFIR_MAXSIZE)
+	siz = BUFFIR_MAXSIZE;
+	pd_float(x->x_offinlet, off);
+	pd_float(x->x_sizinlet, siz);
 }
 
 static void buffir_clear(t_buffir *x)
 {
-    memset(x->x_histlo, 0, 2 * x->x_histsize * sizeof(*x->x_histlo));
+    memset(x->x_histlo, 0, 2 * BUFFIR_MAXSIZE * sizeof(*x->x_histlo));
     x->x_lohead = x->x_histlo;
-    x->x_hihead = x->x_histhi = x->x_histlo + x->x_histsize;
+    x->x_hihead = x->x_histhi = x->x_histlo + BUFFIR_MAXSIZE;
 }
 
 static void buffir_set(t_buffir *x, t_symbol *s, t_floatarg f1, t_floatarg f2)
@@ -118,7 +68,6 @@ static t_int *buffir_perform(t_int *w)
 	t_float *sin = (t_float *)(w[5]);
 	int vecsize = sic->s_vecsize;
 	t_word *vec = sic->s_vectors[0];  /* playable implies nonzero (mono) */
-	int histsize = x->x_histsize;
 	while (nblock--)
 	{
 	    /* CHECKME every sample or once per block.
@@ -128,13 +77,12 @@ static t_int *buffir_perform(t_int *w)
 	    int npoints = (int)*sin++;
 	    if (off < 0)
 		off = 0;
-	    if (npoints > histsize)
-		npoints = histsize;
+	    if (npoints > BUFFIR_MAXSIZE)
+		npoints = BUFFIR_MAXSIZE;
 	    if (npoints > vecsize - off)
 		npoints = vecsize - off;
 	    if (npoints > 0)
 	    {
-//		t_float *coefp = vec + off;
 		t_float *coefp = &vec[0].w_float + off;
 		t_float *hp = hihead;
 		t_float sum = 0.;
@@ -177,8 +125,6 @@ static void buffir_dsp(t_buffir *x, t_signal **sp)
 
 static void buffir_free(t_buffir *x)
 {
-    if (x->x_histlo != x->x_histini)
-	freebytes(x->x_histlo, 2 * x->x_histsize * sizeof(*x->x_histlo));
     arsic_free((t_arsic *)x);
 }
 
@@ -193,8 +139,8 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 	x->x_offinlet = (t_pd *)sic_newinlet((t_sic *)x, f1);
 	x->x_sizinlet = (t_pd *)sic_newinlet((t_sic *)x, f2);
 	outlet_new((t_object *)x, &s_signal);
-	x->x_histsize = BUFFIR_MAXSIZE;
-	x->x_histlo = x->x_histini;
+	x->x_histlo = x->x_histbuf;
+	x->x_histhi = x->x_histbuf+BUFFIR_MAXSIZE;
 	buffir_clear(x);
 	buffir_setrange(x, f1, f2);
     }
@@ -213,5 +159,6 @@ void buffir_tilde_setup(void)
 		    gensym("clear"), 0);
     class_addmethod(buffir_class, (t_method)buffir_set,
 		    gensym("set"), A_SYMBOL, A_DEFFLOAT, A_DEFFLOAT, 0);
-    fitter_setup(buffir_class, 0);
+//    logpost(NULL, 4, "this is cyclone/buffir~ %s, %dth %s build",
+//	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
