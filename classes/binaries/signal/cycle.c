@@ -9,7 +9,8 @@
 #include "common/vefl.h"
 #include "sickle/sic.h"
 
-#define CYCLE_TABSIZE  512
+#define CYCLE_DEF_TABSIZE  512
+#define COS_TABSIZE = 16384
 
 typedef struct _cycle
 {
@@ -18,9 +19,10 @@ typedef struct _cycle
     double     x_conv;
     t_symbol  *x_name;
     int        x_offset;
+    int        x_cycle_tabsize;
     t_float   *x_table;
     t_float   *x_costable;
-    t_float    x_usertable[CYCLE_TABSIZE + 1];
+    t_float    x_usertable[CYCLE_DEF_TABSIZE + 1];
 } t_cycle;
 
 static t_class *cycle_class;
@@ -37,14 +39,14 @@ static void cycle_gettable(t_cycle *x)
 	{
 	    int tablePtr;
 	    int samplesFromTable = tabsize - x->x_offset;
-	    int samplesToCopy = samplesFromTable < CYCLE_TABSIZE ?
-		samplesFromTable : CYCLE_TABSIZE;
+	    int samplesToCopy = samplesFromTable < CYCLE_DEF_TABSIZE ?
+		samplesFromTable : CYCLE_DEF_TABSIZE;
 		
 //	    post("samplesFromTable: %d, samplesToCopy: %d, tabsize: %d", 
 //	        samplesFromTable, samplesToCopy, tabsize);
 	    // copy the internal table from the external one as far as 
 	    // its size permits and fill the rest with zeroes.
-	    for (tablePtr = 0; tablePtr < CYCLE_TABSIZE; tablePtr++)
+	    for (tablePtr = 0; tablePtr < CYCLE_DEF_TABSIZE; tablePtr++)
 	    {
 		if (samplesToCopy > 0) 
 		{
@@ -59,7 +61,7 @@ static void cycle_gettable(t_cycle *x)
 	    }
 	    // the 513th sample
 	    x->x_usertable[tablePtr] = (samplesFromTable > 0) ?
-		table[x->x_offset + CYCLE_TABSIZE].w_float : 0;
+		table[x->x_offset + CYCLE_DEF_TABSIZE].w_float : 0;
 
 	    x->x_table = x->x_usertable;
 	    /* CHECKED else no complaint */
@@ -70,7 +72,7 @@ static void cycle_gettable(t_cycle *x)
     {
 	/* CHECKED (incompatible) cycle~ is disabled -- garbage is output */
 	x->x_table = x->x_usertable;
-	memset(x->x_table, 0, (CYCLE_TABSIZE + 1) * sizeof(*x->x_table));
+	memset(x->x_table, 0, (CYCLE_DEF_TABSIZE + 1) * sizeof(*x->x_table));
     }
 }
 
@@ -121,19 +123,19 @@ static t_int *cycle_perform(t_int *w)
     wrappy.w_d = SHARED_UNITBIT32;
     normhipart = wrappy.w_i[SHARED_HIOFFSET];
 
-    wrappy.w_d = dphase + CYCLE_TABSIZE * *in2++;  /* CHECKED */
+    wrappy.w_d = dphase + CYCLE_DEF_TABSIZE * *in2++;  /* CHECKED */
     dphase += *in1++ * conv;
-    addr = tab + (wrappy.w_i[SHARED_HIOFFSET] & (CYCLE_TABSIZE-1));
+    addr = tab + (wrappy.w_i[SHARED_HIOFFSET] & (CYCLE_DEF_TABSIZE-1));
     wrappy.w_i[SHARED_HIOFFSET] = normhipart;
     frac = wrappy.w_d - SHARED_UNITBIT32;
 
     while (--nblock)
     {
-	wrappy.w_d = dphase + CYCLE_TABSIZE * *in2++;  /* CHECKED */
+	wrappy.w_d = dphase + CYCLE_DEF_TABSIZE * *in2++;  /* CHECKED */
     	dphase += *in1++ * conv;
 	f1 = addr[0];
 	f2 = addr[1];
-	addr = tab + (wrappy.w_i[SHARED_HIOFFSET] & (CYCLE_TABSIZE-1));
+	addr = tab + (wrappy.w_i[SHARED_HIOFFSET] & (CYCLE_DEF_TABSIZE-1));
 	wrappy.w_i[SHARED_HIOFFSET] = normhipart;
 	*out++ = f1 + frac * (f2 - f1);
 	frac = wrappy.w_d - SHARED_UNITBIT32;
@@ -142,18 +144,18 @@ static t_int *cycle_perform(t_int *w)
     f2 = addr[1];
     *out++ = f1 + frac * (f2 - f1);
 
-    wrappy.w_d = SHARED_UNITBIT32 * CYCLE_TABSIZE;
+    wrappy.w_d = SHARED_UNITBIT32 * CYCLE_DEF_TABSIZE;
     normhipart = wrappy.w_i[SHARED_HIOFFSET];
-    wrappy.w_d = dphase + (SHARED_UNITBIT32 * CYCLE_TABSIZE - SHARED_UNITBIT32);
+    wrappy.w_d = dphase + (SHARED_UNITBIT32 * CYCLE_DEF_TABSIZE - SHARED_UNITBIT32);
     wrappy.w_i[SHARED_HIOFFSET] = normhipart;
-    x->x_phase = wrappy.w_d - (SHARED_UNITBIT32 * CYCLE_TABSIZE);
+    x->x_phase = wrappy.w_d - (SHARED_UNITBIT32 * CYCLE_DEF_TABSIZE);
     return (w + 6);
 }
 
 static void cycle_dsp(t_cycle *x, t_signal **sp)
 {
     cycle_gettable(x);
-    x->x_conv = CYCLE_TABSIZE / sp[0]->s_sr;
+    x->x_conv = CYCLE_DEF_TABSIZE / sp[0]->s_sr;
     dsp_add(cycle_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
@@ -162,14 +164,18 @@ static void *cycle_new(t_symbol *s, int ac, t_atom *av)
 {
     t_cycle *x = (t_cycle *)pd_new(cycle_class);
     int i = (ac && av->a_type == A_FLOAT ? 1 : 0);
-    int tabsize = CYCLE_TABSIZE;
-    x->x_costable = sic_makecostable(&tabsize);
-    if (tabsize != CYCLE_TABSIZE)
+    int tabsize = CYCLE_DEF_TABSIZE;
+    int costabsize = 512;
+    x->x_costable = sic_makecostable(&costabsize);
+    x->x_cycle_tabsize = tabsize;
+    
+/*  if (tabsize != CYCLE_DEF_TABSIZE)
     {
 	loudbug_bug("cycle_new");
 	pd_free((t_pd *)x);
 	return (0);
-    }
+    } */
+    
     if (ac && av->a_type == A_FLOAT)
     {
 	sic_inlet((t_sic *)x, 0, 0, 0, ac, av);
