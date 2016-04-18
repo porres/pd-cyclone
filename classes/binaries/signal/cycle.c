@@ -9,7 +9,7 @@
 #include "common/vefl.h"
 #include "sickle/sic.h"
 
-#define CYCLE_TABSIZE  16384
+#define CYCLE_TABSIZE  512
 
 typedef struct _cycle
 {
@@ -86,8 +86,20 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
     cycle_gettable(x);
 }
 
+static void cycle_buffer_offset(t_cycle *x, t_floatarg f)
+{
+    if ((x->x_offset = (int)f) < 0)
+    x->x_offset = 0;
+    cycle_gettable(x);
+}
+
 
 static void cycle_setall(t_cycle *x, t_symbol *s)
+{
+}
+
+
+static void cycle_buffer_sizeinsamps(t_cycle *x, t_symbol *s)
 {
 }
 
@@ -184,9 +196,19 @@ static void *cycle_new(t_symbol *s, int ac, t_atom *av)
 void cycle_tilde_setup(void)
 {    
     cycle_class = class_new(gensym("cycle~"),
-			    (t_newmethod)cycle_new, 0,
-			    sizeof(t_cycle), 0, A_GIMME, 0);
+        (t_newmethod)cycle_new, 0,
+        sizeof(t_cycle), 0, A_GIMME, 0);
     sic_setup(cycle_class, cycle_dsp, SIC_FLOATTOSIGNAL);
-    class_addmethod(cycle_class, (t_method)cycle_set,gensym("set"), A_DEFSYMBOL, A_DEFFLOAT, 0);
-    class_addmethod(cycle_class, (t_method)cycle_set,gensym("setall"), A_DEFSYMBOL, 0);
+    class_addmethod(cycle_class,
+        (t_method)cycle_set,gensym("set"),
+        A_DEFSYMBOL, A_DEFFLOAT, 0);
+    class_addmethod(cycle_class,
+        (t_method)cycle_buffer_offset,gensym("buffer_offset"),
+        A_DEFFLOAT, 0);
+    class_addmethod(cycle_class,
+        (t_method)cycle_buffer_sizeinsamps,gensym("buffer_sizeinsamps"),
+        A_DEFFLOAT, 0);
+    class_addmethod(cycle_class,
+        (t_method)cycle_setall,gensym("setall"),
+        A_DEFSYMBOL, 0);
 }
