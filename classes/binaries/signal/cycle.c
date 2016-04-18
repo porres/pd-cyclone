@@ -29,6 +29,7 @@ static t_class *cycle_class;
 
 static void cycle_gettable(t_cycle *x)
 {
+    int cycle_tabsize = x->x_cycle_tabsize;
     x->x_table = 0;
     if (x->x_name)
     {
@@ -36,17 +37,17 @@ static void cycle_gettable(t_cycle *x)
 	t_word *table = vefl_get(x->x_name, &tabsize, 1, (t_pd *)x);
 	/* CHECKED buffer is copied */
 	if (table)
-	{
+    {
 	    int tablePtr;
 	    int samplesFromTable = tabsize - x->x_offset;
-	    int samplesToCopy = samplesFromTable < CYCLE_DEF_TABSIZE ?
-		samplesFromTable : CYCLE_DEF_TABSIZE;
+	    int samplesToCopy = samplesFromTable < cycle_tabsize ?
+		samplesFromTable : cycle_tabsize;
 		
 //	    post("samplesFromTable: %d, samplesToCopy: %d, tabsize: %d", 
 //	        samplesFromTable, samplesToCopy, tabsize);
 	    // copy the internal table from the external one as far as 
 	    // its size permits and fill the rest with zeroes.
-	    for (tablePtr = 0; tablePtr < CYCLE_DEF_TABSIZE; tablePtr++)
+	    for (tablePtr = 0; tablePtr < cycle_tabsize; tablePtr++)
 	    {
 		if (samplesToCopy > 0) 
 		{
@@ -61,7 +62,7 @@ static void cycle_gettable(t_cycle *x)
 	    }
 	    // the 513th sample
 	    x->x_usertable[tablePtr] = (samplesFromTable > 0) ?
-		table[x->x_offset + CYCLE_DEF_TABSIZE].w_float : 0;
+		table[x->x_offset + cycle_tabsize].w_float : 0;
 
 	    x->x_table = x->x_usertable;
 	    /* CHECKED else no complaint */
@@ -72,7 +73,7 @@ static void cycle_gettable(t_cycle *x)
     {
 	/* CHECKED (incompatible) cycle~ is disabled -- garbage is output */
 	x->x_table = x->x_usertable;
-	memset(x->x_table, 0, (CYCLE_DEF_TABSIZE + 1) * sizeof(*x->x_table));
+	memset(x->x_table, 0, (cycle_tabsize + 1) * sizeof(*x->x_table));
     }
 }
 
