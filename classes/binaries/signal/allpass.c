@@ -71,7 +71,7 @@ static t_int *allpass_perform(t_int *w)
 	float rph;  /* reading head */
 	if (gain < -ALLPASS_MAXFEEDBACK) gain = -ALLPASS_MAXFEEDBACK;
 	else if (gain > ALLPASS_MAXFEEDBACK) gain = ALLPASS_MAXFEEDBACK;
-	yn = -gain * xn;
+	yn = xn;
 	if (delsize > 0)
 	{
 	    int ndx;
@@ -82,6 +82,7 @@ static t_int *allpass_perform(t_int *w)
 	    val = buf[ndx];
 	    /* ``a cheezy linear interpolation'' ala msp,
 	       (vd~ uses 4-point interpolation...) */
+        yn = -gain * xn;
 	    yn += val + (buf[ndx+1] - val) * (rph - ndx);
 	}
 	*out++ = yn;
