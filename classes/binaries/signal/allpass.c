@@ -24,7 +24,7 @@ static t_class *allpass_class;
 #define ALLPASS_DEFMAXDELAY  10.0
 
 /* LATER choose the best way (compare with comb~) */
-#define ALLPASS_MAXFEEDBACK  0.999
+#define ALLPASS_MAXFEEDBACK  0.99999
 
 static void allpass_clear(t_allpass *x)
 {
