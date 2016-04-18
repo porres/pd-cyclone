@@ -117,6 +117,7 @@ static t_int *cycle_perform(t_int *w)
     t_float *addr, f1, f2, frac;
     double dphase = x->x_phase + SHARED_UNITBIT32;
     double conv = x->x_conv;
+    int cycle_tabsize = x->x_cycle_tabsize;
     int32_t normhipart;
     t_shared_wrappy wrappy;
     
@@ -155,7 +156,7 @@ static t_int *cycle_perform(t_int *w)
 static void cycle_dsp(t_cycle *x, t_signal **sp)
 {
     cycle_gettable(x);
-    x->x_conv = CYCLE_DEF_TABSIZE / sp[0]->s_sr;
+    x->x_conv = x->x_cycle_tabsize / sp[0]->s_sr;
     dsp_add(cycle_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
