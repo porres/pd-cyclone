@@ -124,19 +124,19 @@ static t_int *cycle_perform(t_int *w)
     wrappy.w_d = SHARED_UNITBIT32;
     normhipart = wrappy.w_i[SHARED_HIOFFSET];
 
-    wrappy.w_d = dphase + CYCLE_DEF_TABSIZE * *in2++;  /* CHECKED */
+    wrappy.w_d = dphase + cycle_tabsize * *in2++;  /* CHECKED */
     dphase += *in1++ * conv;
-    addr = tab + (wrappy.w_i[SHARED_HIOFFSET] & (CYCLE_DEF_TABSIZE-1));
+    addr = tab + (wrappy.w_i[SHARED_HIOFFSET] & (cycle_tabsize-1));
     wrappy.w_i[SHARED_HIOFFSET] = normhipart;
     frac = wrappy.w_d - SHARED_UNITBIT32;
 
     while (--nblock)
     {
-	wrappy.w_d = dphase + CYCLE_DEF_TABSIZE * *in2++;  /* CHECKED */
+	wrappy.w_d = dphase + cycle_tabsize * *in2++;  /* CHECKED */
     	dphase += *in1++ * conv;
 	f1 = addr[0];
 	f2 = addr[1];
-	addr = tab + (wrappy.w_i[SHARED_HIOFFSET] & (CYCLE_DEF_TABSIZE-1));
+	addr = tab + (wrappy.w_i[SHARED_HIOFFSET] & (cycle_tabsize-1));
 	wrappy.w_i[SHARED_HIOFFSET] = normhipart;
 	*out++ = f1 + frac * (f2 - f1);
 	frac = wrappy.w_d - SHARED_UNITBIT32;
@@ -145,11 +145,11 @@ static t_int *cycle_perform(t_int *w)
     f2 = addr[1];
     *out++ = f1 + frac * (f2 - f1);
 
-    wrappy.w_d = SHARED_UNITBIT32 * CYCLE_DEF_TABSIZE;
+    wrappy.w_d = SHARED_UNITBIT32 * cycle_tabsize;
     normhipart = wrappy.w_i[SHARED_HIOFFSET];
-    wrappy.w_d = dphase + (SHARED_UNITBIT32 * CYCLE_DEF_TABSIZE - SHARED_UNITBIT32);
+    wrappy.w_d = dphase + (SHARED_UNITBIT32 * cycle_tabsize - SHARED_UNITBIT32);
     wrappy.w_i[SHARED_HIOFFSET] = normhipart;
-    x->x_phase = wrappy.w_d - (SHARED_UNITBIT32 * CYCLE_DEF_TABSIZE);
+    x->x_phase = wrappy.w_d - (SHARED_UNITBIT32 * cycle_tabsize);
     return (w + 6);
 }
 
