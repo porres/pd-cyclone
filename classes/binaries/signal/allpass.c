@@ -74,15 +74,14 @@ static t_int *allpass_perform(t_int *w)
 	yn = xn;
 	if (delsize > 0)
 	{
+        yn = -gain * xn;
 	    int ndx;
 	    float val;
 	    rph = wph - (delsize > guardpoint ? guardpoint : delsize);
 	    if (rph < 0) rph += guardpoint;
 	    ndx = (int)rph;
 	    val = buf[ndx];
-	    /* ``a cheezy linear interpolation'' ala msp,
-	       (vd~ uses 4-point interpolation...) */
-        yn = -gain * xn;
+	    /* linear interpolation */
 	    yn += val + (buf[ndx+1] - val) * (rph - ndx);
 	}
 	*out++ = yn;
