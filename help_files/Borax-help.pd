@@ -1,0 +1,228 @@
+#N canvas 405 28 572 533 10;
+#X obj 2 519 cnv 3 552 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 609 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 843 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 82 571 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty borax 4 14 0 18 -204280 -1 0
+;
+#X text 14 71 reports current info on note on/off;
+#X obj 110 172 notein 1;
+#X floatatom 110 474 5 0 0 0 - - -, f 5;
+#X floatatom 121 447 5 0 0 0 - - -, f 5;
+#X floatatom 133 422 5 0 0 0 - - -, f 5;
+#X floatatom 144 396 5 0 0 0 - - -, f 5;
+#X floatatom 156 370 5 0 0 0 - - -, f 5;
+#X floatatom 168 344 5 0 0 0 - - -, f 5;
+#X floatatom 179 318 5 0 0 0 - - -, f 5;
+#X floatatom 191 292 5 0 0 0 - - -, f 5;
+#X floatatom 203 266 5 0 0 0 - - -, f 5;
+#X msg 203 172 bang;
+#X obj 82 643 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 549 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 666 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 620 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 689 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 712 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 735 cnv 17 3 24 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 768 cnv 17 3 17 empty empty 6 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 792 cnv 17 3 17 empty empty 7 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 815 cnv 17 3 17 empty empty 8 5 9 0 16 -228856 -162280 0
+;
+#X obj 498 55 Borax;
+#X obj 82 527 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 980 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 461 494 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 311 95 585 320 Examples 0;
+#X obj 2 2 cnv 15 580 40 empty empty Borax 3 12 0 18 -204280 -1 0;
+#X obj 2 296 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 533 161 374 114 credits 0;
+#X text 88 31 Examples from Max 7 Documentation.;
+#X restore 502 299 pd credits;
+#X text 39 25 examples;
+#X obj 56 60 notein 1;
+#X obj 327 60 notein 1;
+#X floatatom 79 222 5 0 0 0 - - -, f 5;
+#X obj 137 142 funbuff;
+#C restore;
+#X obj 79 258 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X floatatom 125 185 5 0 0 0 - - -, f 5;
+#X floatatom 149 118 5 0 0 0 - - -, f 5;
+#X obj 327 225 sel 15;
+#X obj 327 256 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 349 130 pack 0 0 0, f 11;
+#X obj 349 177 route 1 2 3 4;
+#X obj 186 110 cyclone/comment 80 11 helvetica ? 0 80 80 80 time between
+note-ons;
+#X obj 163 187 cyclone/comment 60 11 helvetica ? 0 80 80 80 duration
+of each note;
+#X obj 115 235 cyclone/comment 80 11 helvetica ? 0 80 80 80 how many
+notes are being held?;
+#X obj 422 132 cyclone/comment 140 11 helvetica ? 0 80 80 80 voice
+# \, pitch \, velocity;
+#X obj 412 195 cyclone/comment 140 11 helvetica ? 0 80 80 80 route
+notes to different destinations;
+#X obj 348 268 cyclone/comment 140 11 helvetica ? 0 80 80 80 look for
+15th note;
+#X obj 56 92 cyclone/borax, f 16;
+#X obj 327 95 cyclone/borax, f 30;
+#X connect 4 0 21 0;
+#X connect 4 1 21 1;
+#X connect 5 0 22 0;
+#X connect 5 1 22 1;
+#X connect 6 0 8 0;
+#X connect 10 0 7 1;
+#X connect 11 0 12 0;
+#X connect 13 0 14 0;
+#X connect 21 2 6 0;
+#X connect 21 6 9 0;
+#X connect 21 7 7 0;
+#X connect 21 8 10 0;
+#X connect 22 0 11 0;
+#X connect 22 1 13 0;
+#X connect 22 3 13 1;
+#X connect 22 4 13 2;
+#X restore 461 494 pd Examples;
+#X obj 2 960 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 470 118 432 461 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 270 LIBRARY cyclone;
+#X text 1 0 KEYWORDS midi note music pitch velocity;
+#X text 1 36 DESCRIPTION reports current info on note on/off;
+#X text 1 108 OUTLET_0 float;
+#X text 1 126 OUTLET_1 float;
+#X text 1 144 OUTLET_2 float;
+#X text 1 162 OUTLET_3 float;
+#X text 1 180 OUTLET_4 float;
+#X text 1 198 OUTLET_5 float;
+#X text 1 216 OUTLET_6 float;
+#X text 1 234 OUTLET_7 float;
+#X text 1 252 OUTLET_8 float;
+#X text 0 288 VERSION 0.2-beta1;
+#X text 0 306 AUTHOR Krzysztof Czaja;
+#X text 1 324 RELEASE_DATE 2002;
+#X text 2 343 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 53 INLET_0 float;
+#X text 1 72 INLET_1 float;
+#X text 1 90 INLET_2 bang;
+#X text 2 375 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.46-7.;
+#X restore 504 962 pd META;
+#N canvas 367 145 489 68 Related_objects 0;
+#X obj 2 2 cnv 15 484 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 21 30 notein;
+#X obj 119 30 midiin;
+#X obj 64 30 noteout;
+#X obj 162 30 midiout;
+#X obj 255 30 cyclone/midiparse;
+#X obj 364 30 cyclone/midiformat;
+#X obj 217 30 poly;
+#X restore 210 962 pd Related_objects;
+#X text 158 529 -;
+#X text 118 529 float;
+#X text 158 550 -;
+#X text 118 550 float;
+#X text 158 572 -;
+#X text 124 572 bang;
+#X text 158 621 -;
+#X text 118 621 float;
+#X text 158 644 -;
+#X text 118 644 float;
+#X text 158 668 -;
+#X text 118 668 float;
+#X text 158 691 -;
+#X text 118 691 float;
+#X text 158 714 -;
+#X text 118 714 float;
+#X text 158 737 -;
+#X text 118 737 float;
+#X text 158 771 -;
+#X text 118 771 float;
+#X text 158 794 -;
+#X text 118 794 float;
+#X text 158 817 -;
+#X text 118 817 float;
+#X text 173 529 midi note number, f 60;
+#X text 173 550 velocity, f 60;
+#X text 173 572 reset all values, f 60;
+#X text 173 691 pitch of current on/off received, f 60;
+#X text 173 714 velocity of current note, f 60;
+#X text 173 771 duration of last note completed, f 60;
+#X text 173 794 total count of delta times (see below), f 60;
+#X text 173 817 delta time of last two note ons, f 60;
+#X text 100 860 (none), f 9;
+#X obj 44 108 cyclone/comment 480 10 monaco ? 0 80 80 80 Borax acquires
+comprehensive outputs information regarding note-on and note-off events.
+Information includes note counts \, event details and time between
+note events.;
+#X obj 241 173 cyclone/comment 100 11 helvetica ? 0 80 80 80 reset
+all values;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 244 269 cyclone/comment 275 11 helvetica ? 0 80 80 80 8 - Delta-time
+between note-ons;
+#X obj 231 295 cyclone/comment 263 11 helvetica ? 0 80 80 80 7 - Event
+number associated with delta-time report;
+#X obj 217 320 cyclone/comment 251 11 helvetica ? 0 80 80 80 6 - Duration
+value (sent out with note-off);
+#X obj 207 345 cyclone/comment 256 11 helvetica ? 0 80 80 80 5 - Event
+number associated with duration report;
+#X obj 194 370 cyclone/comment 278 11 helvetica ? 0 80 80 80 4 - Velocity
+of incoming note (0 for note-off);
+#X obj 183 396 cyclone/comment 285 11 helvetica ? 0 80 80 80 3 - Pitch
+of incoming note;
+#X obj 172 423 cyclone/comment 271 11 helvetica ? 0 80 80 80 2 - Number
+of notes currently held down;
+#X obj 160 448 cyclone/comment 288 11 helvetica ? 0 80 80 80 1 -;
+#X obj 177 448 cyclone/comment 270 11 helvetica ? 0 80 80 80 Voice
+Allocation Number. Use this as an index to refer to a note when storing
+the other information from Borax;
+#X obj 147 474 cyclone/comment 283 11 helvetica ? 0 80 80 80 0 - Event
+number associated with pitch and velocity report;
+#X text 173 621 number of incoming note that is turned on or off,
+f 60;
+#X text 173 644 voice number of incoming note on / off, f 60;
+#X text 173 668 number of notes being held (i.e. ons without offs)
+, f 60;
+#X text 173 737 number of all completed notes (i.e. number of note
+offs received), f 60;
+#X obj 110 225 cyclone/borax, f 16;
+#X obj 2 894 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 138 917 cyclone/Borax;
+#X text 229 912 legacy way to call borax still working for backward
+compatibility, f 34;
+#X connect 6 0 85 0;
+#X connect 6 1 85 1;
+#X connect 16 0 85 2;
+#X connect 85 0 7 0;
+#X connect 85 1 8 0;
+#X connect 85 2 9 0;
+#X connect 85 3 10 0;
+#X connect 85 4 11 0;
+#X connect 85 5 12 0;
+#X connect 85 6 13 0;
+#X connect 85 7 14 0;
+#X connect 85 8 15 0;

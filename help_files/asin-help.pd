@@ -1,9 +1,104 @@
-#N canvas 540 80 554 420 10;
-#X obj 0 392 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 232 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 404 27 557 515 10;
+#X obj 2 304 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 411 289 429 289 META 0;
+#X obj 2 376 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 423 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 385 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty asin 4 14 0 18 -204280 -1 0;
+#X obj 281 146 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 281 256 0 0 0 0 - - -;
+#X floatatom 176 256 0 0 0 0 - - -;
+#X floatatom 176 146 10 -1 1 0 - - -, f 10;
+#X obj 505 52 asin;
+#X obj 81 319 cnv 17 3 46 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 176 206 cyclone/asin;
+#X obj 281 206 cyclone/asin 0.5;
+#X text 15 72 arc-sine(x) function;
+#X obj 463 276 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 371 94 435 269 Examples 0;
+#X obj 2 2 cnv 15 430 40 empty empty asin 3 12 0 18 -204280 -1 0;
+#X floatatom 66 84 10 -1 1 0 - rcv_numbox1 -, f 10;
+#X floatatom 66 180 10 0 0 0 - - -, f 10;
+#X floatatom 290 84 10 -1 1 0 - rcv_numbox2 -, f 10;
+#X floatatom 290 180 10 0 0 0 - - -, f 10;
+#X obj 172 82 bng 20 250 50 0 empty rcv_bng empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 172 180 10 0 0 0 - - -, f 10;
+#X obj 2 245 cnv 15 430 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 522 160 384 114 credits 0;
+#X text 86 34 Examples from Max 7 Documentation.;
+#X restore 351 247 pd credits;
+#X obj 66 118 cyclone/asin;
+#X obj 172 118 cyclone/asin 0;
+#X obj 290 118 cyclone/asin;
+#X obj 112 56 cyclone/comment 290 11 helvetica ? 0 80 80 80 floating-point
+input in the range (-1 \, 1);
+#X obj 98 208 cyclone/comment 290 11 helvetica ? 0 80 80 80 arcsine
+of the input \, in radians (range: -π/2 \, π/2).;
+#N canvas 440 135 430 233 settings 0;
+#X obj 53 107 loadbang;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 51 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 number box
+1;
+#X obj 30 49 cyclone/comment 99 11 helvetica ? 0 80 80 80 set initial
+state of:;
+#X msg 53 129 1;
+#X obj 53 151 s rcv_numbox1;
+#X obj 293 107 loadbang;
+#X obj 291 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 number box
+2;
+#X obj 293 151 s rcv_numbox2;
+#X msg 293 129 -1;
+#X obj 173 107 loadbang;
+#X obj 171 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 bang gui
+;
+#X obj 173 151 s rcv_bgn;
+#X text 6 4 asin examples preset;
+#X connect 0 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 9 0;
+#X connect 9 0 8 0;
+#X connect 10 0 12 0;
+#X restore 273 247 pd settings;
+#X text 18 23 example;
+#X connect 1 0 9 0;
+#X connect 3 0 11 0;
+#X connect 5 0 10 0;
+#X connect 9 0 2 0;
+#X connect 10 0 6 0;
+#X connect 11 0 4 0;
+#X restore 463 276 pd Examples;
+#X obj 2 511 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 108 141 cyclone/comment 80 11 helvetica ? 0 80 80 80 with input
+as float value to take acos of;
+#X obj 303 147 cyclone/comment 90 11 helvetica ? 0 80 80 80 with bang
+button and argument inside acos object;
+#X obj 52 107 cyclone/comment 350 10 monaco ? 0 80 80 80 acos outputs
+the arccosine value of the input float value.;
+#X text 158 319 -;
+#X text 125 319 bang;
+#X text 158 342 -;
+#X text 118 342 float;
+#X text 158 387 -;
+#X text 118 386 float;
+#X text 158 440 -;
+#X text 100 440 1) float;
+#X text 173 319 output arc-sine of argument, f 60;
+#X text 173 342 the number to take arc-sine of, f 60;
+#X text 173 387 arc-sine of input, f 60;
+#X text 172 440 initial value to compute (optional), f 60;
+#X obj 2 511 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 491 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 511 104 368 314 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 100 LIBRARY cyclone;
 #X text 0 60 INLET_0 float bang;
@@ -12,71 +107,38 @@
 #X text 1 153 RELEASE_DATE 2002;
 #X text 2 172 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 204 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
 #X text 0 40 DESCRIPTION arc-sine(x) function;
 #X text 0 0 KEYWORDS sin sine arc-sine arcsin asin arc;
 #X text 0 80 OUTLET_0 float arc-sine of input;
-#X restore 499 394 pd META;
-#X obj 0 297 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 334 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#N canvas 172 403 427 171 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 5 75 cyclone/acosh~;
-#X obj 6 28 cyclone/acos;
-#X obj 105 75 cyclone/asinh~;
-#X obj 106 51 cyclone/asin~;
-#X obj 202 50 cyclone/atan~;
-#X obj 202 75 cyclone/atanh~;
-#X obj 5 122 cyclone/cosh~;
-#X obj 5 99 cyclone/cosh;
-#X obj 5 147 cyclone/cosx~;
-#X obj 5 52 cyclone/acos~;
-#X obj 106 29 cyclone/asin;
-#X obj 106 99 cyclone/sinh;
-#X obj 105 122 cyclone/sinh~;
-#X obj 105 146 cyclone/sinx~;
-#X obj 202 98 cyclone/tanh;
-#X obj 203 121 cyclone/tanh~;
-#X obj 202 145 cyclone/tanx~;
-#X obj 307 25 cos~;
-#X restore 189 394 pd Related_objects;
-#X obj 79 306 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty asin 3 12 0 18 -204280 -1 0;
-#X text 106 246 float;
-#X text 106 265 bang;
-#X text 106 307 float;
-#X text 88 356 1) float;
-#X text 160 356 - optional initial value to compute;
-#X obj 279 80 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X floatatom 279 204 0 0 0 0 - - -;
-#X floatatom 174 204 0 0 0 0 - - -;
-#X floatatom 174 80 0 0 0 0 - - -;
-#X obj 516 4 asin;
-#X text 50 42 acos outputs the arccosine value of the input float value.
-;
-#X obj 79 249 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 74 69 with input as;
-#X text 74 81 float value to;
-#X text 75 93 take acos of;
-#X text 342 69 with bang button and;
-#X text 342 81 argument inside acos;
-#X text 342 93 object;
-#X obj 174 150 cyclone/asin;
-#X obj 279 150 cyclone/asin 0.5;
-#X text 13 23 arc-sine(x) function;
-#X text 160 307 - arc-sine of input;
-#X text 160 267 - output arc-sine of argument;
-#X text 160 245 - the number to take arc-sine of;
-#X connect 13 0 27 0;
-#X connect 16 0 26 0;
-#X connect 26 0 15 0;
-#X connect 27 0 14 0;
+#X text 2 204 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.46-7.;
+#X restore 491 493 pd META;
+#N canvas 368 144 430 179 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 7 2 Related Objects;
+#X obj 76 76 cyclone/acosh~;
+#X obj 77 29 cyclone/acos;
+#X obj 206 76 cyclone/asinh~;
+#X obj 207 53 cyclone/asin~;
+#X obj 323 30 cyclone/atan~;
+#X obj 323 53 cyclone/atanh~;
+#X obj 76 123 cyclone/cosh~;
+#X obj 76 100 cyclone/cosh;
+#X obj 76 147 cyclone/cosx~;
+#X obj 76 52 cyclone/acos~;
+#X obj 207 30 cyclone/asin;
+#X obj 207 99 cyclone/sinh;
+#X obj 206 122 cyclone/sinh~;
+#X obj 206 145 cyclone/sinx~;
+#X obj 323 76 cyclone/tanh;
+#X obj 323 99 cyclone/tanh~;
+#X obj 323 122 cyclone/tanx~;
+#X obj 13 29 sin~;
+#X restore 205 493 pd Related_objects;
+#X connect 5 0 12 0;
+#X connect 8 0 11 0;
+#X connect 11 0 7 0;
+#X connect 12 0 6 0;
