@@ -54,7 +54,7 @@ static void record_setsync(t_record *x)
     else
     {
 	x->x_sync = (float)(phase - x->x_startindex) / range;
-	x->x_syncincr = 1. / range;
+        x->x_syncincr = 1. / range; // Not Working!
     }
 }
 
@@ -138,7 +138,9 @@ static t_int *record_perform(t_int *w)
     t_float *out = (t_float *)(w[3 + nch]);
     t_record *x = (t_record *)sic;
     int phase = x->x_phase;
-    int endphase = x->x_endindex;
+    float endphase = x->x_endindex;
+    float startphase = x->x_startindex;
+    float phase_range = (float)(endphase - startphase);
     float sync = x->x_sync;
     if (sic->s_playable && endphase > phase)
     {
@@ -173,13 +175,11 @@ loopover:
 	}
 	i = nxfer;
 
-	sync = phase;
-	syncincr = 1.;
-
+    sync = (float)(phase - startphase) / phase_range;
+        
 	while (i--)
 	{
 	    *out++ = sync;
-	    sync += syncincr;
 	}
 	if (over)
 	{
@@ -210,7 +210,7 @@ loopover:
 	    goto alldone;
 	}
     }
-    while (nblock--) *out++ = 0; //fixing sync output to 0;
+    while (nblock--) *out++ = 0.; // sync output = 0
 alldone:
     return (w + sic->s_nperfargs + 1);
 }
