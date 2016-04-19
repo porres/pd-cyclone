@@ -39,25 +39,26 @@ typedef struct _curveseg
 
 typedef struct _curve
 {
-    t_sic        x_sic;
-    float        x_value;
-    float        x_ccinput;
-    float        x_target;
-    float        x_delta;
-    int          x_deltaset;
-    double       x_vv;
-    double       x_bb;
-    double       x_mm;
-    float        x_y0;
-    float        x_dy;
-    float        x_ksr;
-    int          x_nleft;
-    int          x_retarget;
-    int          x_size;   /* as allocated */
-    int          x_nsegs;  /* as used */
+    t_sic       x_sic;
+    float       x_value;
+    float       x_ccinput;
+    float       x_target;
+    float       x_delta;
+    int         x_deltaset;
+    double      x_vv;
+    double      x_bb;
+    double      x_mm;
+    float       x_y0;
+    float       x_dy;
+    float       x_ksr;
+    int         x_nleft;
+    int         x_retarget;
+    int         x_size;   /* as allocated */
+    int         x_nsegs;  /* as used */
+    int         x_pause;
     t_curveseg  *x_curseg;
     t_curveseg  *x_segs;
-    t_curveseg   x_segini[CURVE_INISIZE];
+    t_curveseg  x_segini[CURVE_INISIZE];
     t_clock     *x_clock;
     t_outlet    *x_bangout;
 #ifdef CURVE_DEBUG
@@ -352,6 +353,31 @@ static void curve_factor(t_curve *x, t_float f){
 
 };
 
+////////////////////////////////////////////////
+// STOP
+////////////////////////////////////////////////
+static void curve_stop(t_curve *x)
+{
+    x->x_nsegs = 0;
+    x->x_nleft = 0;
+}
+
+////////////////////////////////////////////////
+// PAUSE
+////////////////////////////////////////////////
+static void curve_pause(t_curve *x)
+{
+    x->x_pause = 1;
+}
+
+////////////////////////////////////////////////
+// RESUME
+////////////////////////////////////////////////
+static void curve_resume(t_curve *x)
+{
+    x->x_pause = 0;
+}
+
 
 static void curve_free(t_curve *x)
 {
@@ -394,6 +420,7 @@ static void *curve_new(t_symbol *s, int argc, t_atom *argv)
     x->x_ksr = sys_getsr() * 0.001;
     x->x_nleft = 0;
     x->x_retarget = 0;
+    x->x_pause = 0;
     x->x_size = CURVE_INISIZE;
     x->x_nsegs = 0;
     x->x_segs = x->x_segini;
@@ -423,4 +450,11 @@ void curve_tilde_setup(void)
 		    gensym("ft1"), A_FLOAT, 0);
 	class_addmethod(curve_class, (t_method)curve_factor,
 		    gensym("factor"), A_FLOAT, 0);
+    class_addmethod(curve_class, (t_method)curve_stop,
+                    gensym("stop"), 0);
+    class_addmethod(curve_class, (t_method)curve_pause,
+                    gensym("pause"), 0);
+    class_addmethod(curve_class, (t_method)curve_resume,
+                    gensym("resume"), 0);
+    
 }

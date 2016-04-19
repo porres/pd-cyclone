@@ -51,18 +51,11 @@ endif
 # UPDATED CLASSES that were Removed from old framework:
 
     count~.class.sources := classes/binaries/signal/count.c
-    curve~.class.sources := classes/binaries/signal/curve.c
     deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
     pong~.class.sources := classes/binaries/signal/pong.c
     snapshot~.class.sources := classes/binaries/signal/snapshot.c
     trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
     triangle~.class.sources := classes/binaries/signal/triangle.c
-
-# New classes still in the old framework
-
-    thresh~.class.sources := classes/binaries/signal/thresh.c $(ssic)
-    loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile) # coz the clicking
-
 
 # hplain: old classes that used to end in $(hplain)
 # which seemed to be doing nothing in the new build system:
@@ -210,6 +203,7 @@ testmess.class.sources := classes/binaries/control/testmess.c $(hfragile)
 universal.class.sources := classes/binaries/control/universal.c $(hfragile)
 grab.class.sources := classes/binaries/control/grab.c $(hfragile)
 
+loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile) # coz the clicking // new class
 capture.class.sources := classes/binaries/control/capture.c $(hfile)
 coll.class.sources := classes/binaries/control/coll.c $(hfile)
 mtr.class.sources := classes/binaries/control/mtr.c $(hfile)
@@ -293,12 +287,11 @@ shared/common/grow.c \
 shared/sickle/sic.c \
 shared/common/loud.c
 
-# This wasn't being used for some reason....'
-# sgrowclc := \
-# shared/common/grow.c \
-# shared/common/clc.c \
-# shared/sickle/sic.c \
-# shared/common/loud.c
+sgrowclc := \
+shared/common/grow.c \
+shared/common/clc.c \
+shared/sickle/sic.c \
+shared/common/loud.c
 
 sgrowforky := \
 shared/common/grow.c \
@@ -408,6 +401,8 @@ train~.class.sources := classes/binaries/signal/train.c $(ssic)
 vectral~.class.sources := classes/binaries/signal/vectral.c $(ssic)
 zerox~.class.sources := classes/binaries/signal/zerox.c $(ssic)
 
+thresh~.class.sources := classes/binaries/signal/thresh.c $(ssic) # New class still in the old framework
+
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
 bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
 bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
@@ -430,6 +425,8 @@ line~.class.sources := classes/binaries/signal/line.c $(sgrow)
     wave~.class.sources := classes/binaries/signal/wave.c $(sarsic)
 
 # Single cases:
+
+    curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc)
 
     capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
 
