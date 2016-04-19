@@ -57,26 +57,26 @@ instead of 0-255
 #define SCOPE_MINTRIGMODE    SCOPE_TRIGLINEMODE
 #define SCOPE_MAXTRIGMODE    SCOPE_TRIGDOWNMODE
 #define SCOPE_DEFTRIGLEVEL   0.
-#define SCOPE_MINRGB       0
-#define SCOPE_MAXRGB     255
-#define SCOPE_MINCOLOR      0.
-#define SCOPE_MAXCOLOR     1.
-#define SCOPE_DEFFGRED     205
-#define SCOPE_DEFFGGREEN   229
-#define SCOPE_DEFFGBLUE    232
-#define SCOPE_DEFBGRED     	74
-#define SCOPE_DEFBGGREEN   	79
-#define SCOPE_DEFBGBLUE    	77
+#define SCOPE_MINRGB         0
+#define SCOPE_MAXRGB         255
+#define SCOPE_MINCOLOR       0.
+#define SCOPE_MAXCOLOR       1.
+#define SCOPE_DEFFGRED       205
+#define SCOPE_DEFFGGREEN     229
+#define SCOPE_DEFFGBLUE      232
+#define SCOPE_DEFBGRED     	 74
+#define SCOPE_DEFBGGREEN   	 79
+#define SCOPE_DEFBGBLUE    	 77
 #define SCOPE_DEFGRRED       96
 #define SCOPE_DEFGRGREEN     98
 #define SCOPE_DEFGRBLUE      102
 #define SCOPE_SELCOLOR       "#4a4f4d"  /* a bit lighter shade of blue */
-#define SCOPE_SELBORDER       "#5aadef" /* border select color that seems to be in max */
+#define SCOPE_SELBORDER      "#5aadef" /* border select color that seems to be in max */
 #define SCOPE_FGWIDTH        0.7  /* line width is float */
 #define SCOPE_GRIDWIDTH      0.9
 #define SCOPE_SELBDWIDTH     3.0
-#define SCOPEHANDLE_WIDTH   10    /* item size is int */
-#define SCOPEHANDLE_HEIGHT  10
+#define SCOPEHANDLE_WIDTH    10    /* item size is int */
+#define SCOPEHANDLE_HEIGHT   10
 /* these are performance-related hacks, LATER investigate */
 #define SCOPE_GUICHUNKMONO  16
 #define SCOPE_GUICHUNKXY    32
@@ -147,7 +147,6 @@ static void scope_clear(t_scope *x, int withdelay)
     x->x_bufphase = 0;
     x->x_phase = 0;
     x->x_precount = (withdelay ? (int)(x->x_delay * x->x_ksr) : 0);
-    /* CHECKED delay does not matter (refman is wrong) */
     x->x_retrigger = (x->x_trigmode != SCOPE_TRIGLINEMODE);
     x->x_trigx = x->x_triglevel;
 }
