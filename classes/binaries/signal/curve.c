@@ -107,6 +107,11 @@ static t_int *curve_perform(t_int *w)
     double mm = x->x_mm;
     float dy = x->x_dy;
     float y0 = x->x_y0;
+    if (x->x_pause)
+    {
+        while (nblock--) *out++ = curval;
+        return (w + 4);
+    }
     if (PD_BIGORSMALL(curval))  /* LATER rethink */
 	curval = x->x_value = 0;
 retarget:
@@ -243,6 +248,7 @@ static void curve_float(t_curve *x, t_float f)
     	x->x_nleft = 0;
 	x->x_retarget = 0;
     }
+    x->x_pause = 0;
 }
 
 /* CHECKED delta is not persistent, but ccinput is */
@@ -309,6 +315,7 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     x->x_target = x->x_segs->s_target;
     x->x_curseg = x->x_segs;
     x->x_retarget = 1;
+    x->x_pause = 0;
 }
 
 /* CHECKED no stop, pity... */
