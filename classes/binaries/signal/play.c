@@ -29,12 +29,25 @@ static void play_start(t_play *x, t_floatarg f1, t_floatarg f2, t_floatarg f3)
 
 
 ////////////////////////////////////////////////
-// tgl
+// float
 ////////////////////////////////////////////////
-static void play_tgl(t_play *x, t_floatarg f)
+static void play_float(t_play *x, t_floatarg f)
 {
-//    x->x_? = (int)f;
+/*    if (x->x_isrunning = (f != 0))
+    {
+        // LATER consider restart if x->x_pauseindex == SHARED_INT_MAX
+        x->x_phase = x->x_appendmode ? x->x_pauseindex : x->x_startindex;
+        if (x->x_phase >= x->x_endindex) x->x_phase = SHARED_INT_MAX;
+    }
+    else if (x->x_phase != SHARED_INT_MAX)  // CHECKED: no rewind
+    {
+        clock_delay(x->x_clock, 10.);
+        x->x_pauseindex = x->x_phase;
+        x->x_phase = SHARED_INT_MAX;
+    }
+    record_setsync(x); */
 }
+
 
 
 ////////////////////////////////////////////////
@@ -93,7 +106,7 @@ static t_int *play_perform(t_int *w)
 
 	for (iblock = 0; iblock < nblock; iblock++)
 	{
-	    float phase = *xin++ * ksr;
+	    float phase = *xin++ * ksr; // converts input in ms to samples!
 	    int ndx;
 	    int ch = nch;
 	    float frac,  a,  b,  c,  d, cminusb;
@@ -172,11 +185,10 @@ void play_tilde_setup(void)
 			   (t_method)play_free,
 			   sizeof(t_play), 0,
 			   A_DEFSYM, A_DEFFLOAT, 0);
-    arsic_setup(play_class, play_dsp, SIC_FLOATTOSIGNAL);
+//   arsic_setup(play_class, play_dsp, SIC_FLOATTOSIGNAL); // no SIC_FLOATTOSIGNAL, make it like record~
+  arsic_setup(play_class, play_dsp, play_float); // this is from record~
     class_addmethod(play_class, (t_method)play_set,
 		    gensym("set"), A_SYMBOL, 0);
-    class_addmethod(play_class, (t_method)play_tgl,
-                    gensym("tgl"), A_FLOAT, 0);
     class_addmethod(play_class, (t_method)play_start,
                     gensym("start"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(play_class, (t_method)play_stop,

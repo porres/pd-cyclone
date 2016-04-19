@@ -222,8 +222,11 @@ static void *count_new(t_symbol *s, int argc, t_atom *argv)
 
 void count_tilde_setup(void)
 {
-    count_class = class_new(gensym("count~"), (t_newmethod)count_new, 0,
-        sizeof(t_count), 0, A_GIMME, 0);
+    count_class = class_new(gensym("count~"),
+        (t_newmethod)count_new,
+        0,
+        sizeof(t_count), 0,
+        A_GIMME, 0);
 	class_domainsignalin(count_class, -1);
 	class_addfloat(count_class, (t_method)count_float);
     class_addmethod(count_class, (t_method)count_dsp, gensym("dsp"), A_CANT, 0);
