@@ -18,6 +18,61 @@ static void play_set(t_play *x, t_symbol *s)
     arsic_setarray((t_arsic *)x, s, 1);
 }
 
+
+////////////////////////////////////////////////
+// START
+////////////////////////////////////////////////
+static void play_start(t_play *x, t_floatarg f1, t_floatarg f2, t_floatarg f3)
+{
+    //    x->x_? = (int)f;
+}
+
+
+////////////////////////////////////////////////
+// tgl
+////////////////////////////////////////////////
+static void play_tgl(t_play *x, t_floatarg f)
+{
+//    x->x_? = (int)f;
+}
+
+
+////////////////////////////////////////////////
+// STOP
+////////////////////////////////////////////////
+static void play_stop(t_play *x)
+{
+//    x->x_nsegs = 0;
+}
+
+
+////////////////////////////////////////////////
+// PAUSE
+////////////////////////////////////////////////
+static void play_pause(t_play *x)
+{
+ //   x->x_pause = 1;
+}
+
+
+////////////////////////////////////////////////
+// RESUME
+////////////////////////////////////////////////
+static void play_resume(t_play *x)
+{
+//    x->x_pause = 0;
+}
+
+
+////////////////////////////////////////////////
+// RESUME
+////////////////////////////////////////////////
+static void play_loop(t_play *x, t_floatarg f)
+{
+    //    x->x_pause = 0;
+}
+
+
 /* LATER optimize */
 static t_int *play_perform(t_int *w)
 {
@@ -120,6 +175,18 @@ void play_tilde_setup(void)
     arsic_setup(play_class, play_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(play_class, (t_method)play_set,
 		    gensym("set"), A_SYMBOL, 0);
+    class_addmethod(play_class, (t_method)play_tgl,
+                    gensym("tgl"), A_FLOAT, 0);
+    class_addmethod(play_class, (t_method)play_start,
+                    gensym("start"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(play_class, (t_method)play_stop,
+                    gensym("stop"), 0);
+    class_addmethod(play_class, (t_method)play_pause,
+                    gensym("pause"), 0);
+    class_addmethod(play_class, (t_method)play_resume,
+                    gensym("resume"), 0);
+    class_addmethod(play_class, (t_method)play_loop,
+                    gensym("loop"), A_FLOAT, 0);
 //    logpost(NULL, 4, "this is cyclone/play~ %s, %dth %s build",
 //	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
