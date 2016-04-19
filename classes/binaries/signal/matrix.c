@@ -618,7 +618,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_dumpout = outlet_new((t_object *)x, &s_list);
 	return (x);
 	errstate:
-		pd_error(x, "Scope~: improper args");
+		pd_error(x, "matrix~: improper args");
 		return NULL;
     }
 }
