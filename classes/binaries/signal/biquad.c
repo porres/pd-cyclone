@@ -67,15 +67,13 @@ static t_int * biquad_perform(t_int *w){
     float ynm2 = x->x_ynm2;
     while (n--)
     {
-    float yn;
-    float xn = *in++;
+    float yn, xn = *in++;
     float a0 = *coef_a0++;
     float a1 = *coef_a1++;
     float a2 = *coef_a2++;
     float b1 = *coef_b1++;
     float b2 = *coef_b2++;
-    *out++ = yn = a0 * xn + a1 * xnm1 + a2 * xnm2 - b1 * ynm1 - b2 * ynm2;
-//  *out++ = yn = (*xn++ * *a0++) + (*a1++) + (*a2++) - (*b1++) - (*b2++);
+    *out++ = yn = a0 * xn + a1 * xnm1 + a2 * xnm2 -b1 * ynm1 -b2 * ynm2;
     xnm2 = xnm1;
     xnm1 = xn;
     ynm2 = ynm1;
