@@ -168,7 +168,8 @@ static void play_free(t_play *x)
 static void *play_new(t_symbol *s, t_floatarg f)
 {
     /* one auxiliary signal:  position input */
-    t_play *x = (t_play *)arsic_new(play_class, s, (int)f, 0, 1);
+    int chn_n = (int)f > 4 ? 4 : (int)f;
+    t_play *x = (t_play *)arsic_new(play_class, s, chn_n == 3 ? 2 : chn_n, 0, 1);
     if (x)
     {
 	int nch = arsic_getnchannels((t_arsic *)x);
