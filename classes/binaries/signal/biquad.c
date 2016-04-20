@@ -41,11 +41,27 @@ void biquad_clear(t_biquad *x){
    x->x_xnm1 = x->x_xnm2 = x->x_ynm1 = x->x_ynm2 = 0.;
 }
 
+
 // ---------------------------------------------------
 // biquad_stoke
 // ---------------------------------------------------
-void biquad_stoke(t_biquad *x){
+void biquad_stoke(t_biquad *x,
+    t_floatarg f1, t_floatarg f2, t_floatarg f3, t_floatarg f4)
+{
+    x->x_xnm1 = f1;
+    x->x_xnm2 = f2;
+    x->x_ynm1 = f3;
+    x->x_ynm2 = f4;
 }
+
+
+// ---------------------------------------------------
+// biquad_smooth
+// ---------------------------------------------------
+void biquad_smooth(t_biquad *x, t_floatarg f){
+}
+
+
 
 
 // ---------------------------------------------------
@@ -139,6 +155,8 @@ void biquad_tilde_setup(void)
                              sizeof (t_biquad),
                              CLASS_NOINLET, 0);//Must always ends with a zero
     class_addmethod(biquad_class, (t_method) biquad_clear, gensym("clear"), 0);
-    class_addmethod(biquad_class, (t_method) biquad_stoke, gensym("stoke"), 0);
+    class_addmethod(biquad_class, (t_method) biquad_stoke, gensym("stoke"),
+                    A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addmethod(biquad_class, (t_method) biquad_smooth, gensym("smooth"), A_DEFFLOAT, 0);
     class_addmethod(biquad_class, (t_method) biquad_dsp, gensym("dsp"), 0);
 }
