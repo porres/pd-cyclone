@@ -1,105 +1,24 @@
-#N canvas 404 28 572 531 10;
-#X obj 2 45 cnv 15 552 48 empty empty Append 4 14 0 18 -204280 -1 0
+#N canvas 555 80 558 457 10;
+#X obj 0 0 cnv 15 552 40 empty empty Append 3 12 0 18 -204280 -1 0
 ;
-#X obj 3 304 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 0 231 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 434 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 0 333 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 489 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 0 389 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 445 cnv 17 3 25 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 79 342 cnv 17 3 25 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 318 cnv 17 3 98 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 79 245 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 492 52 Append;
-#X text 20 71 append a message to the incoming message;
-#X obj 126 256 print;
-#X msg 126 127 foo;
-#X msg 156 127 foo bar;
-#X msg 86 126 bang;
-#X msg 257 149 set FOO BAR;
-#X msg 214 128 2;
-#X msg 247 128 3 4 5;
-#X obj 126 203 cyclone/Append FOO;
-#X obj 463 275 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#N canvas 178 96 715 423 Examples 0;
-#X obj 2 2 cnv 15 710 40 empty empty Append 3 12 0 18 -204280 -1 0
-;
-#X obj 2 399 cnv 15 710 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 0 430 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 551 162 384 114 credits 0;
-#X text 91 37 Examples from Max 7 Documentation., f 35;
-#X restore 631 401 pd credits;
-#X floatatom 27 80 5 0 0 0 - - -, f 5;
-#X obj 27 119 cyclone/Append minutes;
-#X obj 27 161 prepend set;
-#X text 39 25 examples;
-#X floatatom 247 83 5 0 0 0 - - -, f 5;
-#X obj 247 161 prepend set;
-#X msg 316 72 set green apples;
-#X msg 338 93 set oranges;
-#X obj 247 119 cyclone/Append;
-#X msg 27 186, f 14;
-#X msg 247 186, f 14;
-#X obj 507 161 prepend set;
-#X msg 507 186, f 13;
-#X msg 507 78 only;
-#X msg 567 78 exactly;
-#X obj 507 119 cyclone/Append 0.3 hour remain;
-#X obj 90 259 cyclone/split 0 127, f 20;
-#X obj 90 288 cyclone/Append is;
-#X obj 207 288 cyclone/Append is not;
-#X obj 90 321 cyclone/Append a valid number;
-#X obj 90 350 print Input;
-#X msg 408 244 Sequence1;
-#X msg 488 244 Sequence2;
-#X obj 408 281 cyclone/Append record;
-#X obj 408 303 route Sequence1 Sequence2;
-#X obj 408 338 seq;
-#X obj 481 338 seq;
-#X obj 166 355 cyclone/comment 30 11 helvetica ? 0 80 80 80 <----;
-#X obj 191 355 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
-of print object in Pd main window;
-#X msg 90 229 60;
-#X msg 129 229 128;
-#X connect 3 0 4 0;
-#X connect 4 0 5 0;
-#X connect 5 0 12 0;
-#X connect 7 0 11 0;
-#X connect 8 0 13 0;
-#X connect 9 0 11 0;
-#X connect 10 0 11 0;
-#X connect 11 0 8 0;
-#X connect 14 0 15 0;
-#X connect 16 0 18 0;
-#X connect 17 0 18 0;
-#X connect 18 0 14 0;
-#X connect 19 0 20 0;
-#X connect 19 1 21 0;
-#X connect 20 0 22 0;
-#X connect 21 0 22 0;
-#X connect 22 0 23 0;
-#X connect 24 0 26 0;
-#X connect 25 0 26 0;
-#X connect 26 0 27 0;
-#X connect 27 0 28 0;
-#X connect 27 1 29 0;
-#X connect 32 0 19 0;
-#X connect 33 0 19 0;
-#X restore 463 275 pd Examples;
-#X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 575 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 555 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 349 116 430 68 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 51 29 cyclone/prepend;
-#X obj 12 29 pack;
-#X obj 153 29 cyclone/zl;
-#X restore 208 557 pd Related_objects;
-#N canvas 510 124 379 261 META 0;
+#N canvas 242 347 428 75 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 10 31 cyclone/prepend;
+#X restore 206 432 pd Related_objects;
+#N canvas 706 282 379 261 META 0;
 #X text 1 0 KEYWORDS signal max_compatible;
 #X text 1 124 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
@@ -107,45 +26,41 @@ of print object in Pd main window;
 #X text 1 20 LICENSE SIBSD;
 #X text 0 62 VERSION 0.2-beta1;
 #X text 0 103 RELEASE_DATE 2002;
-#X text 1 40 DESCRIPTION append a message to the incoming message;
 #X text 1 154 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
-#X restore 491 557 pd META;
-#X text 158 318 -;
-#X text 125 318 bang;
-#X text 158 339 -;
-#X text 118 339 float;
-#X text 173 318 repeats the stored value, f 60;
-#X text 173 339 sends the float with the stored value appended, f
-60;
-#X text 158 360 -;
-#X text 158 380 -;
-#X text 124 360 list;
-#X text 100 380 anything;
-#X text 158 401 -;
-#X text 130 401 set;
-#X text 173 401 updates the stored value, f 60;
-#X text 173 380 sends the anything with the stored value appended,
-f 60;
-#X text 173 360 sends the list with the stored value appended, f 60
-;
-#X text 158 445 -;
-#X text 100 445 anything;
-#X text 173 445 the inlet message \, with the stored value appended
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 40 DESCRIPTION append a message to the incoming message;
+#X restore 502 432 pd META;
+#X obj 504 5 Append;
+#X text 8 23 append a message to the incoming message;
+#X obj 74 195 print;
+#X msg 74 66 foo;
+#X msg 104 66 foo bar;
+#X msg 34 65 bang;
+#X text 107 245 bang;
+#X text 107 342 message;
+#X msg 205 88 set FOO BAR;
+#X text 162 245 - repeats the stored value;
+#X text 86 402 creation arg sets the stored value;
+#X text 107 303 set;
+#X text 162 303 - updates the stored value;
+#X text 107 259 float;
+#X msg 162 67 2;
+#X msg 195 67 3 4 5;
+#X text 107 274 list;
+#X text 162 259 - sends the float with the stored value appended;
+#X text 162 274 - sends the list with the stored value appended;
+#X text 160 342 - the inlet message \, with the stored value appended
 \, separated with a space. On bang send the stored value;
-#X text 169 506 -;
-#X text 182 506 set initial value (optional), f 58;
-#X text 92 506 1) anything;
-#X obj 166 256 cyclone/comment 30 11 helvetica ? 0 80 80 80 <----;
-#X obj 193 256 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
-of print object in Pd main window;
-#X connect 9 0 15 0;
-#X connect 10 0 15 0;
-#X connect 11 0 15 0;
-#X connect 12 0 15 0;
-#X connect 13 0 15 0;
-#X connect 14 0 15 0;
-#X connect 15 0 8 0;
+#X text 107 288 anything;
+#X text 162 288 - sends the lanything with the stored value appended
+;
+#X obj 74 142 cyclone/Append FOO;
+#X connect 12 0 31 0;
+#X connect 13 0 31 0;
+#X connect 14 0 31 0;
+#X connect 17 0 31 0;
+#X connect 23 0 31 0;
+#X connect 24 0 31 0;
+#X connect 31 0 11 0;

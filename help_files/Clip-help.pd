@@ -1,86 +1,9 @@
-#N canvas 411 28 572 553 10;
-#X obj 2 399 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
-;
-#X obj 2 561 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 2 611 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#N canvas 553 81 556 533 10;
+#X obj 0 569 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 82 408 cnv 17 3 65 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 0 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 82 573 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 2 45 cnv 15 552 48 empty empty Clip 4 14 0 18 -204280 -1 0;
-#X floatatom 215 262 0 0 0 0 - - -;
-#X floatatom 162 235 0 0 0 0 - - -;
-#X floatatom 110 115 0 0 0 0 - - -;
-#X msg 150 151 0 20 40 60 80 100 120;
-#X msg 156 191 set 100 200;
-#X obj 110 352 print;
-#X obj 508 56 Clip;
-#X obj 110 292 cyclone/Clip 10 50;
-#X obj 82 492 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X obj 82 522 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
-;
-#X obj 2 718 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 465 370 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#N canvas 319 95 585 411 Examples 0;
-#X obj 2 2 cnv 15 580 40 empty empty Clip 3 12 0 18 -204280 -1 0;
-#X obj 2 387 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X text 29 25 examples;
-#N canvas 540 160 363 105 credits 0;
-#X text 74 34 Examples from Max 7 Documentation, f 37;
-#X restore 501 389 pd credits;
-#X msg 32 147 64;
-#X floatatom 32 213 5 0 0 0 - - -, f 5;
-#X obj 32 181 cyclone/Clip 96 127, f 20;
-#X floatatom 121 353 5 0 0 0 - - -, f 5;
-#X obj 121 321 cyclone/Clip 96 127;
-#X floatatom 238 227 5 0 0 0 - - -, f 5;
-#X obj 238 185 cyclone/Clip 96 127;
-#X floatatom 422 213 5 0 0 0 - - -, f 5;
-#X obj 422 181 cyclone/Clip 96 127;
-#X floatatom 355 353 5 0 0 0 - - -, f 5;
-#X obj 355 321 cyclone/Clip 96 127;
-#X obj 525 49 loadbang;
-#X msg 121 289 98.9;
-#X msg 238 151 108;
-#X msg 422 147 128;
-#X msg 355 289 127.9;
-#X obj 32 110 r lb;
-#X obj 238 114 r lb;
-#X obj 422 110 r lb;
-#X obj 121 252 r lb;
-#X obj 355 252 r lb;
-#X obj 525 71 s lb;
-#X obj 30 76 cyclone/comment 80 11 helvetica ? 0 80 80 80 constrained
-to minimum value;
-#X obj 230 75 cyclone/comment 80 11 helvetica ? 0 80 80 80 passed on
-unchanged;
-#X obj 418 75 cyclone/comment 80 11 helvetica ? 0 80 80 80 constrained
-to maximum value;
-#X connect 4 0 6 0;
-#X connect 6 0 5 0;
-#X connect 8 0 7 0;
-#X connect 10 0 9 0;
-#X connect 12 0 11 0;
-#X connect 14 0 13 0;
-#X connect 15 0 25 0;
-#X connect 16 0 8 0;
-#X connect 17 0 10 0;
-#X connect 18 0 12 0;
-#X connect 19 0 14 0;
-#X connect 20 0 4 0;
-#X connect 21 0 17 0;
-#X connect 22 0 18 0;
-#X connect 23 0 16 0;
-#X connect 24 0 19 0;
-#X restore 465 370 pd Examples;
-#X obj 2 698 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 520 123 366 329 META 0;
+#N canvas 515 371 430 247 META 0;
 #X text 1 20 LICENSE SIBSD;
 #X text 1 113 LIBRARY cyclone;
 #X text 1 0 KEYWORDS range constrain filter pass;
@@ -96,64 +19,58 @@ a certain range;
 #X text 2 219 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
-#X restore 501 700 pd META;
-#N canvas 377 143 570 68 Related_objects 0;
-#X obj 2 2 cnv 15 565 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 7 3 Related Objects;
-#X obj 167 29 cyclone/minimum;
-#X obj 369 29 cyclone/Clip~;
-#X obj 268 29 cyclone/maximum;
-#X obj 458 29 cyclone/split;
-#X obj 131 29 expr;
-#X obj 13 29 <;
-#X obj 42 29 <=;
-#X obj 72 29 >;
-#X obj 102 29 >=;
-#X restore 203 700 pd Related_objects;
-#X obj 2 2 cyclone/fancy/cyheader;
-#X obj 138 118 cyclone/comment 200 11 helvetica ? 0 80 80 80 input
-is clipped to range;
-#X obj 289 151 cyclone/comment 200 11 helvetica ? 0 80 80 80 clip will
-process lists of numbers;
-#X obj 236 192 cyclone/comment 300 11 helvetica ? 0 80 80 80 change
-the clipping range with the set message;
-#X obj 188 232 cyclone/comment 200 11 helvetica ? 0 80 80 80 output
-minimum;
-#X obj 242 257 cyclone/comment 200 11 helvetica ? 0 80 80 80 output
-maximum;
-#X text 158 411 -;
-#X text 118 411 float;
-#X text 173 411 float to pass through range filter, f 60;
-#X text 158 431 -;
-#X text 124 431 list;
-#X text 173 431 list of floats to filter, f 60;
-#X text 158 451 -;
-#X text 107 451 message;
-#X text 173 452 "set m n": minimum m and maximum n values, f 60;
-#X text 158 493 -;
-#X text 118 493 float;
-#X text 158 523 -;
-#X text 118 523 float;
-#X text 173 493 set the minimum value, f 60;
-#X text 173 523 set the maximum value, f 60;
-#X text 158 575 -;
-#X text 118 575 float;
-#X text 173 575 outputs number if inside range, f 60;
-#X text 158 630 -;
-#X text 100 630 1) float;
-#X text 158 652 -;
-#X text 100 652 2) float;
-#X text 172 652 sets maximum number of range, f 60;
-#X text 172 630 sets minimum number of range, f 60;
-#X text 20 71 Constrains an float or list within a certain range;
-#X obj 176 350 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
-of print object in Pd main window;
-#X obj 150 354 cyclone/comment 79 11 helvetica ? 0 80 80 80 <----;
-#X connect 6 0 13 2;
-#X connect 7 0 13 1;
-#X connect 8 0 13 0;
-#X connect 9 0 13 0;
-#X connect 10 0 13 0;
-#X connect 13 0 11 0;
+adapted the patch to pd-extended 2015-02-02;
+#X restore 499 571 pd META;
+#X obj 0 456 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 500 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 76 484 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 30 cyclone/minimum;
+#X obj 114 30 cyclone/Clip~;
+#X obj 8 52 cyclone/maximum;
+#X obj 8 75 cyclone/split;
+#X restore 201 571 pd Related_objects;
+#X obj 80 339 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 468 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 0 0 cnv 15 552 40 empty empty Clip 3 12 0 18 -204280 -1 0;
+#X text 12 23 Constrains an int \, float or list within a certain range
+;
+#X text 111 338 float;
+#X text 171 338 - float to pass through range filter;
+#X text 111 356 list;
+#X text 171 354 - list of floats to filter;
+#X floatatom 213 153 0 0 0 0 - - -;
+#X floatatom 160 152 0 0 0 0 - - -;
+#X floatatom 119 105 0 0 0 0 - - -;
+#X msg 108 82 0 20 40 60 80 100 120;
+#X msg 156 129 set 100 200;
+#X obj 108 293 print;
+#X text 111 467 float;
+#X text 171 467 - outputs number if inside range;
+#X text 92 509 1) float;
+#X text 171 509 - sets minimun number of range;
+#X text 93 530 2) float;
+#X text 171 531 - sets maximum number of range;
+#X obj 508 3 Clip;
+#X obj 108 233 cyclone/Clip 10 50;
+#X obj 80 402 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 110 403 float;
+#X obj 80 428 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 110 424 float;
+#X text 111 375 set m n;
+#X text 170 403 - set the minimum value;
+#X text 171 373 - set minimum m and maximum n values;
+#X text 170 422 - set the maximum value;
+#X connect 14 0 27 2;
+#X connect 15 0 27 1;
+#X connect 16 0 27 0;
+#X connect 17 0 27 0;
+#X connect 18 0 27 0;
+#X connect 27 0 19 0;
