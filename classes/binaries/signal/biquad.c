@@ -132,7 +132,7 @@ void biquad_tilde_setup(void)
                              (t_newmethod) biquad_new, // Constructor
                              (t_method) biquad_destroy, // Destructor
                              sizeof (t_biquad),
-                             CLASS_DEFAULT, 0);//Must always ends with a zero
+                             CLASS_NOINLET, 0);//Must always ends with a zero
     class_addmethod(biquad_class, (t_method) biquad_clear, gensym("clear"), 0);
     class_addmethod(biquad_class, (t_method) biquad_stoke, gensym("stoke"), 0);
     class_addmethod(biquad_class, (t_method) biquad_dsp, gensym("dsp"), 0);
