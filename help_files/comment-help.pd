@@ -1,80 +1,88 @@
-#N canvas 526 81 569 531 10;
-#X obj 0 0 cnv 15 552 40 empty empty comment 3 12 0 18 -204280 -1 0
-;
-#X obj 0 492 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 540 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 577 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#N canvas 407 28 572 545 10;
+#X obj 2 45 cnv 15 552 48 empty empty comment 4 14 0 18 -204280 -1
 0;
-#X obj 0 718 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 556 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 604 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 641 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 242 347 428 75 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 206 722 pd Related_objects;
-#N canvas 571 307 379 261 META 0;
+#X text 98 614 (none);
+#X text 98 569 (none);
+#X text 17 107 comment;
+#X text 75 493 ___________________________________________________
+;
+#X obj 21 125 comment 0 12 Courier ? 0 0 0 0 [comment];
+#X text 114 124 a text comment with some formatting options \, meant
+to be Max/MSP compatible;
+#X text 23 162 Comment accepts three arguments which define the basic
+formatting: width \, font-size \, font-face;
+#X text 25 283 Here are some examples:;
+#X text 39 216 - font-size: in pixels;
+#X text 39 233 - font-face: one of the Pd standards (Courier \, Times
+\, or Helvetica) as well as any other single-word font available on
+your system.;
+#X text 23 515 * Note: Using the mouse you can click-drag the top right
+edge of the comment to change the width.;
+#X text 39 199 - width: in pixels \, wraps text to this width *;
+#X text 19 435 Click the object in edit mode \, then press <F4> to
+show the object name and arguments.;
+#X text 19 465 You can also press <F5> to duplicate the comment text
+into a new Pd text object.;
+#X text 18 71 a text comment with some formatting options;
+#X text 98 648 1;
+#X text 132 648 - pixelWidth;
+#X text 133 663 - fontSize;
+#X text 133 677 - fontName;
+#X text 133 691 - encoding;
+#X text 134 705 - fontProperties;
+#X text 134 719 - red value (0-255);
+#X text 134 734 - green value (0-255);
+#X text 134 749 - blue value (0-255);
+#X text 99 663 2;
+#X text 99 677 3;
+#X text 99 691 4;
+#X text 100 705 5;
+#X text 100 720 6;
+#X text 100 735 7;
+#X text 100 748 8;
+#X obj 16 297 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
+Courier];
+#X obj 27 330 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
+;
+#X obj 335 280 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
+14 Helvetica];
+#N canvas 0 22 450 300 comment 0;
+#X text 101 100 cyclone/comment;
+#X coords 0 -1 1 1 97 16 2 100 100;
+#X restore 440 53 pd comment;
+#X obj 4 802 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 196 392 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
+0 14 Helvetica ? 0 0 128 128];
+#X obj 23 356 cyclone/comment 315 20 Times ? 0 255 128 0 [comment 0
+20 Times ? 0 255 128 0];
+#X obj 2 782 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 371 145 432 70 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 81 36 comment 0 10 helvetica ? 0 0 0 0 comment;
+#X text 14 33 comment;
+#X restore 208 785 pd Related_objects;
+#N canvas 508 124 379 261 META 0;
 #X text 1 135 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
 #X text 1 93 AUTHOR Krzysztof Czaja;
 #X text 1 20 LICENSE SIBSD;
 #X text 0 73 VERSION 0.2-beta1;
 #X text 0 114 RELEASE_DATE 2002;
-#X text 1 165 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
 #X text 1 0 KEYWORDS max_compatible GUI;
 #X text 1 40 DESCRIPTION a text comment with formatting options \,
 meant to be Max/MSP compatible;
-#X restore 502 722 pd META;
-#X obj 495 4 _comment;
-#X text 96 550 (none);
-#X text 96 505 (none);
-#X text 15 43 comment;
-#X text 73 429 ___________________________________________________
-;
-#X obj 19 61 comment 0 12 Courier ? 0 0 0 0 [comment];
-#X text 112 60 a text comment with some formatting options \, meant
-to be Max/MSP compatible;
-#X text 21 98 Comment accepts three arguments which define the basic
-formatting: width \, font-size \, font-face;
-#X text 23 219 Here are some examples:;
-#X text 37 152 - font-size: in pixels;
-#X text 37 169 - font-face: one of the Pd standards (Courier \, Times
-\, or Helvetica) as well as any other single-word font available on
-your system.;
-#X text 21 451 * Note: Using the mouse you can click-drag the top right
-edge of the comment to change the width.;
-#X text 37 135 - width: in pixels \, wraps text to this width *;
-#X text 17 371 Click the object in edit mode \, then press <F4> to
-show the object name and arguments.;
-#X text 17 401 You can also press <F5> to duplicate the comment text
-into a new Pd text object.;
-#X text 8 23 a text comment with some formatting options;
-#X text 96 584 1;
-#X text 130 584 - pixelWidth;
-#X text 131 599 - fontSize;
-#X text 131 613 - fontName;
-#X text 131 627 - encoding;
-#X text 132 641 - fontProperties;
-#X text 132 655 - red value (0-255);
-#X text 132 670 - green value (0-255);
-#X text 132 685 - blue value (0-255);
-#X text 97 599 2;
-#X text 97 613 3;
-#X text 97 627 4;
-#X text 98 641 5;
-#X text 98 656 6;
-#X text 98 671 7;
-#X text 98 684 8;
-#X obj 14 233 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
-Courier];
-#X obj 194 328 cyclone/comment 329 14 Helvetica ? 0 0 128 128 [comment
-0 14 Helvetica ? 0 0 128 128];
-#X obj 20 291 cyclone/comment 0 20 Times ? 0 255 128 0 [comment 0 20
-Times ? 0 255 128 0];
-#X obj 25 266 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
-;
-#X obj 333 216 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
-14 Helvetica];
+#X text 1 165 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.46-7.;
+#X restore 504 785 pd META;
+#X obj 2 2 cyclone/fancy/cyheader;

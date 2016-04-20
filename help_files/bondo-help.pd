@@ -1,9 +1,188 @@
-#N canvas 504 81 559 530 10;
-#X obj 0 500 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 322 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 385 27 572 530 10;
+#X obj 2 380 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 404 362 406 316 META 0;
+#X obj 2 611 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 697 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 83 620 cnv 17 3 38 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 390 cnv 17 3 192 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty bondo 4 14 0 18 -204280 -1 0
+;
+#X text 14 70 sync a group of messages;
+#X msg 185 135 brown;
+#X msg 118 114 fox;
+#X obj 118 329 print three;
+#X msg 176 114 quick;
+#X msg 235 114 a;
+#X msg 315 134 set newval;
+#X msg 246 134 bang;
+#X obj 506 55 bondo;
+#X obj 176 300 print two;
+#X obj 235 271 print one;
+#X obj 2 862 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 118 211 cyclone/bondo 3 500, f 20;
+#X obj 470 352 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 261 94 625 493 Examples 0;
+#X obj 2 2 cnv 15 620 40 empty empty bondo 3 12 0 18 -204280 -1 0;
+#X obj 2 469 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 526 200 384 114 credits 0;
+#X text 59 31 Pitch bend example from Max 7 Documentation.;
+#X restore 542 471 pd credits;
+#X text 22 25 examples;
+#X obj 158 345 bendin 3;
+#X obj 267 345 bendin 5;
+#X obj 377 345 bendin 7;
+#X obj 158 376 bondo 3, f 37;
+#X obj 158 422 pack 0 0 0, f 37;
+#X obj 31 172 bondo 4 1500, f 29;
+#X obj 280 172 bondo 4 1500 n, f 35;
+#X msg 207 123 tutu 46 98e oxi;
+#X msg 106 99 34 oi 93 U2;
+#X obj 32 69 cyclone/comment 250 11 helvetica ? 0 80 80 80 ... bondo
+behavior;
+#X obj 180 97 cyclone/comment 250 11 helvetica ? 0 80 80 80 <-----------------
+click on list messages;
+#X obj 357 112 cyclone/comment 250 11 helvetica ? 0 80 80 80 |;
+#X obj 357 120 cyclone/comment 250 11 helvetica ? 0 80 80 80 |;
+#X obj 312 124 cyclone/comment 250 11 helvetica ? 0 80 80 80 <----------
+;
+#X obj 499 173 cyclone/comment 250 11 helvetica ? 0 80 80 80 <----
+with "n" argument;
+#X obj 143 321 cyclone/comment 450 11 helvetica ? 0 80 80 80 pitch
+bend data arriving from three different MIDI sources...;
+#N canvas 627 184 220 231 set 0;
+#X obj 48 51 inlet;
+#X obj 48 88 prepend set;
+#X obj 48 135 outlet;
+#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
+was created for enhance readability of the parent patch;
+#X text 7 4 Setting message boxes;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 31 205 pd set;
+#X obj 399 381 cyclone/comment 160 11 helvetica ? 0 80 80 80 ...always
+comes out together when any source sends data;
+#N canvas 627 184 220 231 set 0;
+#X obj 48 51 inlet;
+#X obj 48 88 prepend set;
+#X obj 48 135 outlet;
+#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
+was created for enhance readability of the parent patch;
+#X text 7 4 Setting message boxes;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 88 205 pd set;
+#N canvas 627 184 220 231 set 0;
+#X obj 48 51 inlet;
+#X obj 48 88 prepend set;
+#X obj 48 135 outlet;
+#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
+was created for enhance readability of the parent patch;
+#X text 7 4 Setting message boxes;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 145 205 pd set;
+#N canvas 627 184 220 231 set 0;
+#X obj 48 51 inlet;
+#X obj 48 88 prepend set;
+#X obj 48 135 outlet;
+#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
+was created for enhance readability of parent patch;
+#X text 7 4 Setting message boxes;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 202 205 pd set;
+#N canvas 627 184 220 231 set 0;
+#X obj 48 51 inlet;
+#X obj 48 88 prepend set;
+#X obj 48 135 outlet;
+#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
+was created for enhance readability of the parent patch;
+#X text 7 4 Setting message boxes;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 280 205 pd set;
+#N canvas 627 184 220 231 set 0;
+#X obj 48 51 inlet;
+#X obj 48 88 prepend set;
+#X obj 48 135 outlet;
+#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
+was created for enhance readability of the parent patch;
+#X text 7 4 Setting message boxes;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 361 205 pd set;
+#N canvas 627 184 220 231 set 0;
+#X obj 48 51 inlet;
+#X obj 48 88 prepend set;
+#X obj 48 135 outlet;
+#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
+was created for enhance readability of the parent patch;
+#X text 7 4 Setting message boxes;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 410 205 pd set;
+#N canvas 627 184 220 231 set 0;
+#X obj 48 51 inlet;
+#X obj 48 88 prepend set;
+#X obj 48 135 outlet;
+#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
+was created for enhance readability of the parent patch;
+#X text 7 4 Setting message boxes;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 517 205 pd set;
+#X msg 31 233;
+#X msg 88 233;
+#X msg 145 233;
+#X msg 202 233;
+#X msg 280 234;
+#X msg 361 233;
+#X msg 410 233;
+#X msg 517 233;
+#X connect 4 0 7 0;
+#X connect 5 0 7 1;
+#X connect 6 0 7 2;
+#X connect 7 0 8 0;
+#X connect 7 1 8 1;
+#X connect 7 2 8 2;
+#X connect 9 0 20 0;
+#X connect 9 1 22 0;
+#X connect 9 2 23 0;
+#X connect 9 3 24 0;
+#X connect 10 0 25 0;
+#X connect 10 1 26 0;
+#X connect 10 2 27 0;
+#X connect 10 3 28 0;
+#X connect 11 0 10 2;
+#X connect 11 0 9 2;
+#X connect 12 0 9 0;
+#X connect 12 0 10 0;
+#X connect 20 0 29 0;
+#X connect 22 0 30 0;
+#X connect 23 0 31 0;
+#X connect 24 0 32 0;
+#X connect 25 0 33 0;
+#X connect 26 0 34 0;
+#X connect 27 0 35 0;
+#X connect 28 0 36 0;
+#X restore 470 352 pd Examples;
+#X obj 2 842 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 499 115 368 303 META 0;
 #X text 1 20 LICENSE SIBSD;
 #X text 1 100 LIBRARY cyclone;
 #X text 1 0 KEYWORDS message bond syncronize sync print;
@@ -18,52 +197,72 @@
 #X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 503 502 pd META;
-#X obj 0 411 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.46-7.;
+#X restore 485 844 pd META;
+#N canvas 347 144 430 70 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 21 29 pack;
+#X obj 56 29 unpack;
+#X obj 102 29 cyclone/buddy;
+#X obj 191 29 cyclone/onebang;
+#X obj 292 29 cyclone/thresh;
+#X restore 214 844 pd Related_objects;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 247 215 cyclone/comment 250 11 helvetica ? 0 80 80 80 <= Arguments:
+3 inlets/outlets \, 500 ms delay;
+#X text 158 392 -;
+#X text 125 392 bang;
+#X text 158 415 -;
+#X text 158 501 -;
+#X text 107 415 message;
+#X text 173 392 will output all values (can be from any inlet), f
+60;
+#X text 125 500 list;
+#X text 158 622 -;
+#X text 158 645 -;
+#X text 107 622 message;
+#X text 125 644 list;
+#X text 173 622 sends out all messages stored in sync, f 60;
+#X text 173 645 if the "n" argument was used \, sends out all list
+with/without messages stored in sync., f 60;
+#X text 158 716 -;
+#X text 172 716 sets the number of inlets/outlets. (optional), f 60
 ;
-#X obj 0 448 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#N canvas 189 488 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 9 31 pack;
-#X obj 44 31 unpack;
-#X restore 212 502 pd Related_objects;
-#X obj 81 420 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
-;
-#X obj 82 337 cnv 17 3 60 empty empty n 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty bondo 3 12 0 18 -204280 -1 0;
-#X text 12 23 sync a group of messages;
-#X msg 164 88 brown;
-#X msg 116 66 fox;
-#X obj 116 296 print three;
-#X msg 159 66 quick;
-#X msg 203 66 a;
-#X msg 270 118 set newval;
-#X msg 221 118 bang;
-#X text 105 463 1) float;
-#X text 115 334 message;
-#X text 115 380 bang;
-#X text 181 379 - will output all values (can be from any inlet);
-#X text 116 421 message;
-#X text 181 419 - sends out all messages stored in syn;
-#X obj 509 5 bondo;
-#X text 181 462 - sets the number of inlets/outlets;
-#X obj 159 275 print two;
-#X obj 203 254 print one;
-#X text 181 335 - "set value" will set an inlet to a value without
-producing output. Other message are produced immediately in sync with
-other inlet messages;
-#X obj 116 193 cyclone/bondo 3;
-#X connect 10 0 28 1;
-#X connect 11 0 28 0;
-#X connect 13 0 28 1;
-#X connect 14 0 28 2;
-#X connect 15 0 28 2;
-#X connect 15 0 28 0;
-#X connect 16 0 28 2;
-#X connect 28 0 12 0;
-#X connect 28 1 25 0;
-#X connect 28 2 26 0;
+#X text 158 739 -;
+#X text 172 739 sets the time delay to output messages after received
+some value or list in inlets. (optional), f 60;
+#X text 158 774 -;
+#X text 95 774 3) symbol;
+#X text 95 739 2) float;
+#X text 95 716 1) float;
+#X text 172 774 using the symbol "n" as an argument \, bondo is able
+to synchronize lists which arrive in different inlets. (optional),
+f 60;
+#X obj 249 298 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 248 295 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 246 289 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 268 294 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X text 173 415 "set <value>":, f 60;
+#X text 173 501 In any inlet \, the elements of the list are parsed
+among the inlets. The first element in the list is sent out the outlet
+which corresponds to the inlet which received the list and each subsequent
+element in the list is sent out each subsequent outlet. If the "n"
+argument was used \, bondo will store and output lists for each outlet
+in addition to single numbers.;
+#X text 263 415 set an inlet to a <value> without producing output.
+Other message are produced immediately in sync with other inlet messages.
+If no message has yet been received in a particular inlet \, 0 is sent
+out of the corresponding outlet., f 45;
+#X connect 7 0 18 1;
+#X connect 8 0 18 0;
+#X connect 10 0 18 1;
+#X connect 11 0 18 2;
+#X connect 12 0 18 2;
+#X connect 12 0 18 0;
+#X connect 13 0 18 2;
+#X connect 18 0 9 0;
+#X connect 18 1 15 0;
+#X connect 18 2 16 0;
