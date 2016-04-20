@@ -227,10 +227,12 @@ static void record_free(t_record *x)
     if (x->x_clock) clock_free(x->x_clock);
 }
 
+
 static void *record_new(t_symbol *s, t_floatarg f)
 {
     /* one auxiliary signal:  sync output */
-    t_record *x = (t_record *)arsic_new(record_class, s, (int)f, 0, 1);
+    int chn_n = (int)f > 4 ? 4 : (int)f;
+    t_record *x = (t_record *)arsic_new(record_class, s, chn_n == 3 ? 2 : chn_n, 0, 1);
     if (x)
     {
 	int nch = arsic_getnchannels((t_arsic *)x);
