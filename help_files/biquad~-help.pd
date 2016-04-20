@@ -8,9 +8,7 @@
 #X obj 217 282 sig~;
 #X obj 253 282 sig~;
 #X msg 119 194 0.02635 0 -0.02635 -1.97899 0.982357;
-#X msg 143 225 0.252176 0 -0.252176 -1.68963 0.72158;
 #X obj 119 169 loadbang;
-#X obj 102 327 cyclone/biquad~;
 #X text 350 194 (a0 \, a1 \, a2 \, b1 \, b2);
 #X obj 2 40 cnv 15 552 50 empty empty biquad~ 3 12 0 18 -204280 -1
 0;
@@ -32,7 +30,7 @@
 #X restore 1 4 pd;
 #X obj 502 67 biquad~;
 #X text 14 67 biquad filter;
-#X text 111 457 This is an abstraction \, it does not support arguments
+#X text 27 457 This is an abstraction \, it does not support arguments
 and is not a proper clone of the object since it does not implement
 features only possible via a compiled object. It serves as a basis
 to code a new object.;
@@ -97,20 +95,36 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X restore 205 771 pd Related_objects;
-#X text 135 744 This abstraction does not support arguments;
-#X connect 0 0 11 0;
+#X obj 102 327 ./abstractions/biquad~;
+#X msg 143 225 0.002975 0 -0.002975 -1.88076 0.992233;
+#X obj 334 347 ./cyclone/biquad~;
+#X obj 333 281 noise~;
+#X obj 291 380 output~;
+#X text 398 383 an object that just;
+#X text 396 399 works as the abstraction;
+#X text 409 420 so far;
+#X text 135 744 not supported;
+#X connect 0 0 44 0;
 #X connect 2 0 3 0;
 #X connect 2 1 4 0;
 #X connect 2 2 5 0;
 #X connect 2 3 6 0;
 #X connect 2 4 7 0;
-#X connect 3 0 11 1;
-#X connect 4 0 11 2;
-#X connect 5 0 11 3;
-#X connect 6 0 11 4;
-#X connect 7 0 11 5;
+#X connect 3 0 44 1;
+#X connect 3 0 46 1;
+#X connect 4 0 44 2;
+#X connect 4 0 46 2;
+#X connect 5 0 44 3;
+#X connect 5 0 46 3;
+#X connect 6 0 44 4;
+#X connect 6 0 46 4;
+#X connect 7 0 44 5;
+#X connect 7 0 46 5;
 #X connect 8 0 2 0;
-#X connect 9 0 2 0;
-#X connect 10 0 8 0;
-#X connect 11 0 1 0;
-#X connect 11 0 1 1;
+#X connect 9 0 8 0;
+#X connect 44 0 1 0;
+#X connect 44 0 1 1;
+#X connect 45 0 2 0;
+#X connect 46 0 48 0;
+#X connect 46 0 48 1;
+#X connect 47 0 46 0;

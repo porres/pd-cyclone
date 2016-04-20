@@ -54,12 +54,12 @@ void biquad_stoke(t_biquad *x){
 static t_int * biquad_perform(t_int *w){
     t_biquad *x = (t_biquad *)(w[1]);
     int n = (int)(w[2]);
-    t_float *xn = (t_float *)(w[3]);
-    t_float *a0 = (t_float *)(w[4]);
-    t_float *a1 = (t_float *)(w[5]);
-    t_float *a2 = (t_float *)(w[6]);
-    t_float *b1 = (t_float *)(w[7]);
-    t_float *b2 = (t_float *)(w[8]);
+    t_float *in = (t_float *)(w[3]);
+    t_float *coef_a0 = (t_float *)(w[4]);
+    t_float *coef_a1 = (t_float *)(w[5]);
+    t_float *coef_a2 = (t_float *)(w[6]);
+    t_float *coef_b1 = (t_float *)(w[7]);
+    t_float *coef_b2 = (t_float *)(w[8]);
     t_float *out = (t_float *)(w[9]);
     float xnm1 = x->x_xnm1;
     float xnm2 = x->x_xnm2;
@@ -68,10 +68,16 @@ static t_int * biquad_perform(t_int *w){
     while (n--)
     {
     float yn;
-//      *out++ = yn = (*xn++ * *a0++) + (xnm1 * *a1++) + (xnm2 * *a2++) - (ynm1 * *b1++) - (ynm2 * *b2++);
-        *out++ = yn = (*xn++ * *a0++) + (*a1++) + (*a2++) - (*b1++) - (*b2++);
+    float xn = *in++;
+    float a0 = *coef_a0++;
+    float a1 = *coef_a1++;
+    float a2 = *coef_a2++;
+    float b1 = *coef_b1++;
+    float b2 = *coef_b2++;
+    *out++ = yn = a0 * xn + a1 * xnm1 + a2 * xnm2 - b1 * ynm1 - b2 * ynm2;
+//  *out++ = yn = (*xn++ * *a0++) + (*a1++) + (*a2++) - (*b1++) - (*b2++);
     xnm2 = xnm1;
-    xnm1 = *xn++;
+    xnm1 = xn;
     ynm2 = ynm1;
     ynm1 = yn;
     }
@@ -95,16 +101,17 @@ static void biquad_dsp(t_biquad *x, t_signal **sp){
 // ---------------------------------------------------
 void * biquad_new(void){
     t_biquad *x = (t_biquad *) pd_new(biquad_class);
-    
     x->x_inlet_dsp_0 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_1 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_2 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_3 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_4 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_5 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
-    
+    x->x_xnm1 = 0;
+    x->x_xnm2 = 0;
+    x->x_ynm1 = 0;
+    x->x_ynm2 = 0;
     x->x_outlet_dsp_0 = outlet_new(&x->x_obj, &s_signal);
-    
     return (void *) x;
 }
 
