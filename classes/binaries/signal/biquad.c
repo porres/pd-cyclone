@@ -11,12 +11,12 @@ static t_class *biquad_class;
 // ---------------------------------------------------
 typedef struct _biquad {
     t_object x_obj;
+    t_float x_f;
     t_inlet * x_inlet_dsp_0;
     t_inlet * x_inlet_dsp_1;
     t_inlet * x_inlet_dsp_2;
     t_inlet * x_inlet_dsp_3;
     t_inlet * x_inlet_dsp_4;
-    t_inlet * x_inlet_dsp_5;
     float  x_xnm1;
     float  x_xnm2;
     float  x_ynm1;
@@ -41,7 +41,6 @@ void biquad_clear(t_biquad *x){
    x->x_xnm1 = x->x_xnm2 = x->x_ynm1 = x->x_ynm2 = 0.;
 }
 
-
 // ---------------------------------------------------
 // biquad_stoke
 // ---------------------------------------------------
@@ -54,15 +53,11 @@ void biquad_stoke(t_biquad *x,
     x->x_ynm2 = f4;
 }
 
-
 // ---------------------------------------------------
 // biquad_smooth
 // ---------------------------------------------------
 void biquad_smooth(t_biquad *x, t_floatarg f){
 }
-
-
-
 
 // ---------------------------------------------------
 // Perform
@@ -82,19 +77,19 @@ static t_int * biquad_perform(t_int *w){
     float ynm1 = x->x_ynm1;
     float ynm2 = x->x_ynm2;
     while (n--)
-    {
-    float yn, xn = *in++;
-    float a0 = *coef_a0++;
-    float a1 = *coef_a1++;
-    float a2 = *coef_a2++;
-    float b1 = *coef_b1++;
-    float b2 = *coef_b2++;
-    *out++ = yn = a0 * xn + a1 * xnm1 + a2 * xnm2 -b1 * ynm1 -b2 * ynm2;
-    xnm2 = xnm1;
-    xnm1 = xn;
-    ynm2 = ynm1;
-    ynm1 = yn;
-    }
+        {
+        float yn, xn = *in++;
+        float a0 = *coef_a0++;
+        float a1 = *coef_a1++;
+        float a2 = *coef_a2++;
+        float b1 = *coef_b1++;
+        float b2 = *coef_b2++;
+        *out++ = yn = a0 * xn + a1 * xnm1 + a2 * xnm2 -b1 * ynm1 -b2 * ynm2;
+        xnm2 = xnm1;
+        xnm1 = xn;
+        ynm2 = ynm1;
+        ynm1 = yn;
+        }
     x->x_xnm1 = xnm1;
     x->x_xnm2 = xnm2;
     x->x_ynm1 = ynm1;
@@ -120,7 +115,6 @@ void * biquad_new(void){
     x->x_inlet_dsp_2 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_3 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_4 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
-    x->x_inlet_dsp_5 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_xnm1 = 0;
     x->x_xnm2 = 0;
     x->x_ynm1 = 0;
@@ -139,7 +133,6 @@ void biquad_destroy(t_biquad *x)
     inlet_free(x->x_inlet_dsp_2);
     inlet_free(x->x_inlet_dsp_3);
     inlet_free(x->x_inlet_dsp_4);
-    inlet_free(x->x_inlet_dsp_5);
     
     outlet_free(x->x_outlet_dsp_0);
 }
@@ -153,7 +146,9 @@ void biquad_tilde_setup(void)
                              (t_newmethod) biquad_new, // Constructor
                              (t_method) biquad_destroy, // Destructor
                              sizeof (t_biquad),
-                             CLASS_NOINLET, 0);//Must always ends with a zero
+                             CLASS_DEFAULT, // Tipo de classe
+                             0);//Must always ends with a zero
+    CLASS_MAINSIGNALIN(biquad_class, t_biquad, x_f);
     class_addmethod(biquad_class, (t_method) biquad_clear, gensym("clear"), 0);
     class_addmethod(biquad_class, (t_method) biquad_stoke, gensym("stoke"),
                     A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
