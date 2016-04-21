@@ -3,7 +3,6 @@
 * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "shared.h"
 #include "sickle/sic.h"
 
 #define THRESH_DEFLO  0.
@@ -31,8 +30,7 @@ static t_int *thresh_perform(t_int *w)
         float in = *in1++;
         float lo = *in2++;
         float hi = *in3++;
-        last = (in > lo && (in >= hi || last));
-        *out++ = last;
+        *out++ = last = (in > lo && (in >= hi || last));
     }
     x->x_last = last;
     return (w + 7);
@@ -46,7 +44,7 @@ static void thresh_dsp(t_thresh *x, t_signal **sp)
 
 static void *thresh_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_thresh *x = (t_thresh *)pd_new(thresh_class);
+    t_thresh *x = (t_thresh *) pd_new(thresh_class);
     sic_inlet((t_sic *)x, 1, THRESH_DEFLO, 0, ac, av);
     sic_inlet((t_sic *)x, 2, THRESH_DEFHI, 1, ac, av);
     outlet_new((t_object *)x, &s_signal);
@@ -57,6 +55,11 @@ static void *thresh_new(t_symbol *s, int ac, t_atom *av)
 void thresh_tilde_setup(void)
 {
     thresh_class = class_new(gensym("thresh~"),
-        (t_newmethod)thresh_new, 0, sizeof(t_thresh), 0, A_GIMME, 0);
+        (t_newmethod)thresh_new,
+        0,
+        sizeof(t_thresh),
+        0,
+        A_GIMME, 0);
     sic_setup(thresh_class, thresh_dsp, SIC_FLOATTOSIGNAL);
+//    class_addmethod(thresh_class, nullfn, gensym("signal"), 0);
 }

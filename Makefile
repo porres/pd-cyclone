@@ -29,7 +29,7 @@ endif
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
-    # Max (or "hammer") classes
+    # Control classes (MAX or "hammer")
 
     atodb.class.sources := classes/binaries/control/atodb.c
     dbtoa.class.sources := classes/binaries/control/dbtoa.c
@@ -40,7 +40,7 @@ endif
     asinh.class.sources := classes/binaries/control/asinh.c
     atanh.class.sources := classes/binaries/control/atanh.c
 
-    # MSP (or "sickle") classes
+    # Signal classes (MSP or "sickle")
 
     atodb~.class.sources := classes/binaries/signal/atodb.c
     biquad~.class.sources := classes/binaries/signal/biquad.c
@@ -48,7 +48,7 @@ endif
     round~.class.sources := classes/binaries/signal/round.c
     trunc~.class.sources := classes/binaries/signal/trunc.c
 
-# UPDATED CLASSES that were Removed from old framework:
+# UPDATED SIGNAL CLASSES that were Removed from old framework:
 
     count~.class.sources := classes/binaries/signal/count.c
     deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
@@ -97,10 +97,10 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
 
 
 ################################################################################
-### Control (or "hammer") objects ##############################################
+### Control (MAX or "hammer") objects ##########################################
 ################################################################################
 
-# common sources for control/Max (or "hammer") classes
+# common sources:
 
 hfile := \
 shared/hammer/file.c \
@@ -185,11 +185,12 @@ shared/common/os.c \
 shared/unstable/forky.c \
 shared/unstable/fragile.c
 
-# Control/Max classes (or "hammer classes")
+# Control Classes (MAX or "hammer classes")
 
 # The old build system also allowed these classes to be compiled into the "hammer library"
 # Since cyclone version alpha57, this new build system only allows single binaries
 
+# hfitter classes
 bangbang.class.sources := classes/binaries/control/bangbang.c $(hfitter)
 counter.class.sources := classes/binaries/control/counter.c $(hfitter)
 cycle.class.sources := classes/binaries/control/cycle.c $(hfitter)
@@ -199,19 +200,23 @@ maximum.class.sources := classes/binaries/control/maximum.c $(hfitter)
 minimum.class.sources := classes/binaries/control/minimum.c $(hfitter)
 switch.class.sources := classes/binaries/control/switch.c $(hfitter)
 
+# hfragile classes
 testmess.class.sources := classes/binaries/control/testmess.c $(hfragile)
 universal.class.sources := classes/binaries/control/universal.c $(hfragile)
 grab.class.sources := classes/binaries/control/grab.c $(hfragile)
 
+# hfile classes
 loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile) # coz the clicking // new class
 capture.class.sources := classes/binaries/control/capture.c $(hfile)
 coll.class.sources := classes/binaries/control/coll.c $(hfile)
 mtr.class.sources := classes/binaries/control/mtr.c $(hfile)
 
+# hgui classes
 active.class.sources := classes/binaries/control/active.c $(hgui)
 mousefilter.class.sources := classes/binaries/control/mousefilter.c $(hgui)
 mousestate.class.sources := classes/binaries/control/mousestate.c $(hgui)
 
+# hgrow classes
 bondo.class.sources := classes/binaries/control/bondo.c $(hgrow)
 buddy.class.sources := classes/binaries/control/buddy.c $(hgrow)
 clip.class.sources := classes/binaries/control/clip.c $(hgrow)
@@ -225,10 +230,12 @@ tosymbol.class.sources := classes/binaries/control/tosymbol.c $(hgrow)
 zl.class.sources := classes/binaries/control/zl.c $(hgrow)
 pv.class.sources := classes/binaries/control/pv.c $(hgrow)
 
+# hgrowfitter classes
 append.class.sources := classes/binaries/control/append.c $(hgrowfitter)
 prepend.class.sources := classes/binaries/control/prepend.c $(hgrowfitter)
 past.class.sources := classes/binaries/control/past.c $(hgrowfitter)
 
+# hloud classes
 anal.class.sources := classes/binaries/control/anal.c $(hloud)
 borax.class.sources := classes/binaries/control/borax.c $(hloud)
 decide.class.sources := classes/binaries/control/decide.c $(hloud)
@@ -237,6 +244,8 @@ spray.class.sources := classes/binaries/control/spray.c $(hloud)
 sprintf.class.sources := classes/binaries/control/sprintf.c $(hloud)
 togedge.class.sources := classes/binaries/control/togedge.c $(hloud)
 histo.class.sources := classes/binaries/control/histo.c $(hloud)
+
+# Single cases:
 
 comment.class.sources := classes/binaries/control/comment.c $(hforky)
 
@@ -256,11 +265,11 @@ funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 
 
 ################################################################################
-########## Signal (or "sickle") objects ########################################
+########## Signal (MSP or "sickle") objects ####################################
 ################################################################################
 
 
-# common sources for singal/MSP (or "sickle") classes
+# common sources
 
 ssic := \
 shared/sickle/sic.c \
@@ -334,7 +343,7 @@ shared/common/loud.c \
 shared/common/fitter.c
 
 
-# Signal/MSP classes (or "sickle classes")
+# Signal classes (MSP or "sickle classes")
 
 # The old build system also allowed these classes to be compiled into the "sickle library"
 # Since cyclone version alpha57, this new build system only allows single binaries
@@ -403,13 +412,16 @@ zerox~.class.sources := classes/binaries/signal/zerox.c $(ssic)
 
 thresh~.class.sources := classes/binaries/signal/thresh.c $(ssic) # New class still in the old framework
 
+# sforky classes
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
 bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
 bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
 
+# sfragile classes
 cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
 poltocar~.class.sources := classes/binaries/signal/poltocar.c $(sfragile)
 
+# sgrow classes
 click~.class.sources := classes/binaries/signal/click.c $(sgrow)
 frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrow)
 framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrow)
