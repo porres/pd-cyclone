@@ -11,12 +11,16 @@ static t_class *biquad_class;
 // ---------------------------------------------------
 typedef struct _biquad {
     t_object x_obj;
-    t_float x_f;
     t_inlet * x_inlet_dsp_0;
     t_inlet * x_inlet_dsp_1;
     t_inlet * x_inlet_dsp_2;
     t_inlet * x_inlet_dsp_3;
     t_inlet * x_inlet_dsp_4;
+    t_sample x_fb1;
+    t_sample x_fb2;
+    t_sample x_ff1;
+    t_sample x_ff2;
+    t_sample x_ff3;
     float  x_xnm1;
     float  x_xnm2;
     float  x_ynm1;
@@ -28,11 +32,31 @@ typedef struct _biquad {
 // ---------------------------------------------------
 // Functions signature
 // ---------------------------------------------------
-void * biquad_new(void);// Constructor
+// void * biquad_new(void);// Constructor
+void * biquad_new(t_symbol *s, int argc, t_atom *argv); // Constructor
 void biquad_destroy(t_biquad *x); //Destructor
 void biquad_clear(t_biquad *x); // Message function
 static t_int * biquad_perform(t_int *w); //Perform function
 static void biquad_dsp(t_biquad *x, t_signal **sp); //DSP function
+
+
+// ---------------------------------------------------
+// biquad_list
+// ---------------------------------------------------
+static void biquad_list(t_biquad *x, t_symbol *s, int argc, t_atom *argv)
+{
+    t_float ff1 = atom_getfloatarg(0, argc, argv);
+    t_float ff2 = atom_getfloatarg(1, argc, argv);
+    t_float ff3 = atom_getfloatarg(2, argc, argv);
+    t_float fb1 = atom_getfloatarg(3, argc, argv);
+    t_float fb2 = atom_getfloatarg(4, argc, argv);
+    x->x_ff1 = ff1;
+    x->x_ff2 = ff2;
+    x->x_ff3 = ff3;
+    x->x_fb1 = fb1;
+    x->x_fb2 = fb2;
+}
+
 
 // ---------------------------------------------------
 // biquad_clear
@@ -108,7 +132,7 @@ static void biquad_dsp(t_biquad *x, t_signal **sp){
 // ---------------------------------------------------
 // Constructor of the class
 // ---------------------------------------------------
-void * biquad_new(void){
+void * biquad_new(t_symbol *s, int argc, t_atom *argv){
     t_biquad *x = (t_biquad *) pd_new(biquad_class);
     x->x_inlet_dsp_0 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_1 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
@@ -119,6 +143,7 @@ void * biquad_new(void){
     x->x_xnm2 = 0;
     x->x_ynm1 = 0;
     x->x_ynm2 = 0;
+    biquad_list(x, s, argc, argv);
     x->x_outlet_dsp_0 = outlet_new(&x->x_obj, &s_signal);
     return (void *) x;
 }
@@ -146,9 +171,11 @@ void biquad_tilde_setup(void)
                              (t_newmethod) biquad_new, // Constructor
                              (t_method) biquad_destroy, // Destructor
                              sizeof (t_biquad),
-                             CLASS_DEFAULT, // Tipo de classe
+                             CLASS_DEFAULT, // ou "0" - Tipo de classe
+                             A_GIMME, // qqer coisa... (argumentos em lista nesse caso)
                              0);//Must always ends with a zero
-    CLASS_MAINSIGNALIN(biquad_class, t_biquad, x_f);
+    class_addmethod(biquad_class, nullfn, gensym("signal"), 0);
+    class_addlist(biquad_class, biquad_list);
     class_addmethod(biquad_class, (t_method) biquad_clear, gensym("clear"), 0);
     class_addmethod(biquad_class, (t_method) biquad_stoke, gensym("stoke"),
                     A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
