@@ -22,6 +22,7 @@ typedef struct _buffir
     t_float *x_histlo;
     t_float *x_histhi;
     t_float  x_histbuf[2 * BUFFIR_MAXSIZE];
+    int      x_checked;
 } t_buffir;
 
 static t_class *buffir_class;
@@ -64,12 +65,14 @@ static t_int *buffir_perform(t_int *w)
     t_float *hihead = x->x_hihead;
     if (sic->s_playable)
     {	
+
 	t_float *oin = (t_float *)(w[4]);
 	t_float *sin = (t_float *)(w[5]);
 	int vecsize = sic->s_vecsize;
 	t_word *vec = sic->s_vectors[0];  /* playable implies nonzero (mono) */
 	while (nblock--)
 	{
+
 	    /* CHECKME every sample or once per block.
 	       If once per block, then LATER think about performance. */
 	    /* CHECKME rounding */
@@ -83,12 +86,17 @@ static t_int *buffir_perform(t_int *w)
 		npoints = vecsize - off;
 	    if (npoints > 0)
 	    {
-		t_float *coefp = &vec[0].w_float + off;
+	    if (!(x->x_checked))
+	    {
+	    x->x_checked = 1;
+	    }
+		t_word *coefp = vec;
 		t_float *hp = hihead;
 		t_float sum = 0.;
 		*lohead++ = *hihead++ = *xin++;
 		while (npoints--)
-		    sum += *coefp++ * *hp--;
+			sum += coefp[off++].w_float * *hp--;
+			//sum += coefp->w_float * *hp--;
 		*out++ = sum;
 	    }
 	    else
@@ -120,6 +128,7 @@ static t_int *buffir_perform(t_int *w)
 
 static void buffir_dsp(t_buffir *x, t_signal **sp)
 {
+	x->x_checked = 0;
     arsic_dsp((t_arsic *)x, sp, buffir_perform, 1);
 }
 
@@ -141,6 +150,7 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 	outlet_new((t_object *)x, &s_signal);
 	x->x_histlo = x->x_histbuf;
 	x->x_histhi = x->x_histbuf+BUFFIR_MAXSIZE;
+	x->x_checked = 0;
 	buffir_clear(x);
 	buffir_setrange(x, f1, f2);
     }
