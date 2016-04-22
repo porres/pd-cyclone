@@ -137,6 +137,7 @@ static void biquad_dsp(t_biquad *x, t_signal **sp){
 // ---------------------------------------------------
 void * biquad_new(t_symbol *s, int argc, t_atom *argv){
     t_biquad *x = (t_biquad *) pd_new(biquad_class);
+//    post ("%d parameters received", argc);
     x->x_inlet_dsp_0 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_1 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
     x->x_inlet_dsp_2 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);

@@ -41,6 +41,7 @@ void scale_bang(t_scale *x);
 void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv);
 void scale_free(t_scale *x);
 void scale_setexpo(t_scale *x, t_floatarg f);
+void scale_classic(t_scale *x, t_floatarg f);
 
 t_float scaling(t_scale *x, t_float f);
 t_float exp_scaling(t_scale *x, t_float f);
@@ -152,7 +153,16 @@ void scale_setup(void)
   class_addbang(c,(t_method)scale_bang);
   class_addlist(c,(t_method)scale_list);
   class_addmethod(c,(t_method)scale_setexpo,gensym("setexpo"),A_DEFFLOAT,0);
+  class_addmethod(c,(t_method)scale_classic,gensym("classic"),A_DEFFLOAT,0);
 }
+
+
+void scale_classic(t_scale *x, t_floatarg f)
+{
+    x->flag = f;
+    check(x);
+}
+
 
 void scale_ft(t_scale *x, t_floatarg f)
 {
