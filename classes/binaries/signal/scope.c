@@ -1507,6 +1507,8 @@ void scope_tilde_setup(void)
 			gensym("calccount"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bufsize,
 		    gensym("bufsize"), A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_resize,
+                    gensym("dim"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_range,
 		    gensym("range"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_delay,
