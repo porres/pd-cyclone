@@ -2,11 +2,23 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+/* Derek Kwan 2016
+adding defaults for numchannels, append, loopstatus, loopstart, loopend
+adding record_getarraysmp
+adding attribute parsing and making numchannels arg optional 
+*/
+ 
 #include <string.h>
 #include "m_pd.h"
+#include "m_imp.h"
 #include "shared.h"
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
+
+#define PDCYREC_NCH 1
+#define PDCYREC_APPEND 0
+#define PDCYREC_LOOPSTATUS 0
+#define PDCYREC_LOOPSTART 0
 
 #define RECORD_REDRAWPAUSE  1000.  /* refractory period */
 
@@ -26,9 +38,24 @@ typedef struct _record
     int       x_isrunning;   /* to know if sync should be 0.0 or 1.0 */
     t_clock  *x_clock;
     double    x_clocklasttick;
+
 } t_record;
 
 static t_class *record_class;
+
+
+static t_float record_getarraysmp(t_record *x, t_symbol *arrayname){
+  t_garray *garray;
+	t_float retsmp = -1;
+
+  if(!(garray = (t_garray *)pd_findbyclass(arrayname,garray_class))) {
+    pd_error(x, "%s: no such table", arrayname->s_name);
+  } else {
+   	retsmp = garray_npoints(garray);
+  };
+	return retsmp;
+}
+
 
 static void record_tick(t_record *x)
 {
@@ -228,18 +255,109 @@ static void record_free(t_record *x)
 }
 
 
-static void *record_new(t_symbol *s, t_floatarg f)
+static void *record_new(t_symbol *s, int argc, t_atom *argv)
 {
+	t_float numchan = PDCYREC_NCH;
+	t_float append = PDCYREC_APPEND;
+	t_float loopstatus = PDCYREC_LOOPSTATUS;
+	t_float loopstart = PDCYREC_LOOPSTART;
+	t_float loopend = -1;
+	
+	t_symbol * arrname;
+	//first arg HAS to be array name, parse it now
+	if(argv ->a_type == A_SYMBOL){
+		arrname = atom_getsymbolarg(0, argc, argv);
+		argc--;
+		argv++;
+	}
+	else{
+		goto errstate;
+	};
+	
+	//NOW parse the rest of the args
+	int argnum = 0;
+	while(argc > 0){
+		if(argv->a_type == A_SYMBOL){
+			t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
+			if(strcmp(curarg->s_name, "@append")==0){
+				if(argc >= 2){
+					append = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@loop")==0){
+				if(argc >= 2){
+					loopstatus = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@loopstart")==0){
+				if(argc >= 2){
+					loopstart = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@loopend")==0){
+				if(argc >= 2){
+					loopend = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else{
+				goto errstate;
+			};
+		}
+		else if(argv->a_type == A_FLOAT){
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					numchan = argval;
+					break;
+				default:
+					break;
+			};
+			argnum++;
+			argc--;
+			argv++;
+		}
+		else{
+			goto errstate;
+		};
+	};
     /* one auxiliary signal:  sync output */
-    int chn_n = (int)f > 4 ? 4 : (int)f;
-    t_record *x = (t_record *)arsic_new(record_class, s, chn_n == 3 ? 2 : chn_n, 0, 1);
+    int chn_n = (int)numchan > 4 ? 4 : (int)numchan;
+    t_record *x = (t_record *)arsic_new(record_class, arrname, chn_n == 3 ? 2 : chn_n, 0, 1);
     if (x)
     {
+	
 	int nch = arsic_getnchannels((t_arsic *)x);
+	t_float arraysmp = record_getarraysmp(x, arrname);
+	if(loopend < 0 && arraysmp > 0){
+		//if loopend not set or less than 0 and arraysmp doesn't fail,set it to arraylen in ms
+		loopend = (arraysmp/(sys_getsr()*0.001));
+	};
 	arsic_setminsize((t_arsic *)x, 2);
-	x->x_appendmode = 0;
-	x->x_loopmode = 0;
+	record_append(x, append);	
+	record_loop(x, loopstatus);
 	record_reset(x);
+	record_startpoint(x, loopstart);
+	record_endpoint(x, loopend); 
 	x->x_clock = clock_new(x, (t_method)record_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
 	while (--nch)
@@ -249,6 +367,10 @@ static void *record_new(t_symbol *s, t_floatarg f)
 	outlet_new((t_object *)x, &s_signal);
     }
     return (x);
+	errstate:
+		post("record~: improper args");
+		return NULL;
+
 }
 
 void record_tilde_setup(void)
@@ -257,7 +379,7 @@ void record_tilde_setup(void)
 			     (t_newmethod)record_new,
 			     (t_method)record_free,
 			     sizeof(t_record), 0,
-			     A_DEFSYM, A_DEFFLOAT, 0);
+			     A_GIMME, 0);
     arsic_setup(record_class, record_dsp, record_float);
     class_addmethod(record_class, (t_method)record_startpoint,
 		    gensym("ft-2"), A_FLOAT, 0);
