@@ -13,9 +13,7 @@ static t_class *trunc_class;
 typedef struct _trunc {
    t_object x_obj;
    t_inlet * x_inlet_dsp_0;
-
    t_outlet * x_outlet_dsp_0;
-
 } t_trunc;
 
 // ---------------------------------------------------
@@ -30,7 +28,7 @@ static void trunc_dsp(t_trunc *x, t_signal **sp); //DSP function
 // Perform
 // ---------------------------------------------------
 static t_int * trunc_perform(t_int *w){
-    //    t_trunc *x = (t_trunc *)(w[1]); // Seu objeto
+    t_trunc *x = (t_trunc *)(w[1]); // Seu objeto
     int n = (int)(w[2]); // Numero de samples no bloco
     t_float *in1 = (t_float *)(w[3]); // bloco de entrada
     t_float *out1 = (t_float *)(w[4]); // bloco de saida
@@ -81,9 +79,26 @@ void trunc_tilde_setup(void) {
       (t_newmethod) trunc_new, // Constructor
       (t_method) trunc_destroy, // Destructor
       sizeof (t_trunc),
-      CLASS_NOINLET,
+      0,
       0);//Must always ends with a zero
 
    class_addmethod(trunc_class, (t_method) trunc_dsp, gensym("dsp"), 0);
 }
 // EOF---------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

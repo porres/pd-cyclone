@@ -50,8 +50,8 @@ endif
 
 # UPDATED SIGNAL CLASSES that were Removed from old framework:
 
-    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c # no float in
-    thresh~.class.sources := classes/binaries/signal/thresh.c # no float in
+    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
+    thresh~.class.sources := classes/binaries/signal/thresh.c
     mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
     sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
     count~.class.sources := classes/binaries/signal/count.c
