@@ -487,8 +487,8 @@ include pd-lib-builder/Makefile.pdlibbuilder
 install: install-aliases
 install-aliases: all
 ifeq ($(uname), Linux)
-    $(INSTALL_DIR) -v $(installpath)
-    cd $(installpath); \
+	$(INSTALL_DIR) -v $(installpath)
+	cd $(installpath); \
         ln -s -f append.$(extension) Append.$(extension); \
         ln -s -f append-help.pd Append-help.pd; \
         ln -s -f borax.$(extension) Borax.$(extension); \
