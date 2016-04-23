@@ -531,7 +531,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 					};
 					break;
 				case 2:
-					x->x_defgain = MATRIX_DEFGAIN;
+					x->x_defgain = argval;
 					break;
 				default:
 					break;
