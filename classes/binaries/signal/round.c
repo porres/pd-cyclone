@@ -18,7 +18,6 @@ static t_class *round_tilde_class;
 typedef struct _round_tilde
 {
 	t_object x_obj;
-	//float x_f; //dummy var needed for CLASS_MAINSIGNALIN
 	float x_nearest; //nearest attribute (1 = rounding, 0 = truncation)
 } t_round_tilde;
 
@@ -134,7 +133,6 @@ void round_tilde_setup(void)
 {
 	round_tilde_class = class_new(gensym("round~"), (t_newmethod)round_tilde_new, 0,
 	sizeof(t_round_tilde), 0, A_GIMME, 0);
-	//CLASS_MAINSIGNALIN(round_tilde_class, t_round_tilde, 0);
 	class_addmethod(round_tilde_class, nullfn, gensym("signal"), 0);
 	class_addmethod(round_tilde_class, (t_method)round_tilde_dsp, gensym("dsp"), 0);
 	class_addmethod(round_tilde_class, (t_method)round_tilde_nearest,  gensym("nearest"), A_FLOAT, 0);

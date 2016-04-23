@@ -3,11 +3,13 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include "sickle/sic.h"
 
 typedef struct _sampstoms
 {
     t_object x_obj;
     float      x_rcpksr;
+    float      x_f;
     t_outlet  *x_floatout;
 } t_sampstoms;
 
@@ -16,6 +18,7 @@ static t_class *sampstoms_class;
 
 static void sampstoms_float(t_sampstoms *x, t_float f)
 {
+	x->x_f = f;
     outlet_float(x->x_floatout, f * x->x_rcpksr);
 }
 
@@ -43,6 +46,7 @@ static void *sampstoms_new(void)
     x->x_rcpksr = 1000. / sys_getsr();  /* LATER rethink */
     outlet_new((t_object *)x, &s_signal);
     x->x_floatout = outlet_new((t_object *)x, &s_float);
+    x->x_f = 0;
     return (x);
 }
 
@@ -51,9 +55,8 @@ void sampstoms_tilde_setup(void)
     sampstoms_class = class_new(gensym("sampstoms~"),
         (t_newmethod)sampstoms_new, 0, sizeof(t_sampstoms), CLASS_DEFAULT, 0);
     class_addmethod(sampstoms_class,
-                    nullfn, gensym("signal"), 0);
-    class_addmethod(sampstoms_class,
                     (t_method)sampstoms_dsp, gensym("dsp"), A_CANT, 0);
+    CLASS_MAINSIGNALIN(sampstoms_class, t_sampstoms, x_f);
     class_addfloat(sampstoms_class,
                    (t_method)sampstoms_float);
 }
