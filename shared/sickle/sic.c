@@ -71,6 +71,7 @@ t_float *sic_makecostable(int *sizep)
     else
     {
 	int cnt = sz + 1;
+	int i;
 	float phase = 0, phsinc = SHARED_2PI / sz;
 	t_float *table = (t_float *)getbytes(cnt * sizeof(*table)), *tp = table;
 	if (table)
@@ -78,10 +79,19 @@ t_float *sic_makecostable(int *sizep)
 #ifdef SIC_DEBUG
 	    loudbug_post("got %d points of a costable", cnt);
 #endif
-	    while (cnt--)
+		for (i=sz/4; i; i--)
 	    {
-		*tp++ = cosf(phase);
-		phase += phsinc;
+			*tp++ = cosf(phase);
+			phase += phsinc;		
+	    }
+	    *tp++ = 0;
+	    for (i=sz/4 - 1; i > -1; i--)
+	    {
+	    	*tp++ = -table[i];
+	    }
+	    for (i=sz/2 - 1; i > -1; i--)
+	    {
+	    	*tp++ = table[i];
 	    }
 	}
 	return (sic_costables[ndx] = table);
