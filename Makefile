@@ -50,16 +50,17 @@ endif
 
 # UPDATED SIGNAL CLASSES that were Removed from old framework:
 
-    sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
     deltaclip~.class.sources := classes/binaries/signal/deltaclip.c # no float in
     thresh~.class.sources := classes/binaries/signal/thresh.c # no float in
+    mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
+    sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
     count~.class.sources := classes/binaries/signal/count.c
-    pong~.class.sources := classes/binaries/signal/pong.c
     snapshot~.class.sources := classes/binaries/signal/snapshot.c
+    pong~.class.sources := classes/binaries/signal/pong.c
     trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
     triangle~.class.sources := classes/binaries/signal/triangle.c
 
-# hplain: old classes that used to end in $(hplain)
+# old Control classes that used to end in $(hplain)
 # which seemed to be doing nothing in the new build system:
 
 accum.class.sources := classes/binaries/control/accum.c
@@ -88,14 +89,11 @@ tanh.class.sources := classes/binaries/control/tanh.c
 trough.class.sources := classes/binaries/control/trough.c
 uzi.class.sources := classes/binaries/control/uzi.c
 xbendin.class.sources := classes/binaries/control/xbendin.c
+xbendin2.class.sources := classes/binaries/control/xbendin2.c
 xbendout.class.sources := classes/binaries/control/xbendout.c
+xbendout2.class.sources := classes/binaries/control/xbendout2.c
 xnotein.class.sources := classes/binaries/control/xnotein.c
 xnoteout.class.sources := classes/binaries/control/xnoteout.c
-
-# Obsolete?
-
-# xbendin2.class.sources := classes/binaries/control/xbendin2.c
-# xbendout2.class.sources := classes/binaries/control/xbendout2.c
 
 
 ################################################################################
@@ -248,22 +246,14 @@ togedge.class.sources := classes/binaries/control/togedge.c $(hloud)
 histo.class.sources := classes/binaries/control/histo.c $(hloud)
 
 # Single cases:
-
-comment.class.sources := classes/binaries/control/comment.c $(hforky)
-
-drunk.class.sources := classes/binaries/control/drunk.c $(hrand)
-
-prob.class.sources := classes/binaries/control/prob.c $(hrandfile)
-
-urn.class.sources := classes/binaries/control/urn.c $(hrandgrow)
-
-table.class.sources := classes/binaries/control/table.c $(hrandgrowfile)
-
-seq.class.sources := classes/binaries/control/seq.c $(hseq)
-
-offer.class.sources := classes/binaries/control/offer.c $(htree)
-
-funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
+    comment.class.sources := classes/binaries/control/comment.c $(hforky)
+    drunk.class.sources := classes/binaries/control/drunk.c $(hrand)
+    prob.class.sources := classes/binaries/control/prob.c $(hrandfile)
+    urn.class.sources := classes/binaries/control/urn.c $(hrandgrow)
+    table.class.sources := classes/binaries/control/table.c $(hrandgrowfile)
+    seq.class.sources := classes/binaries/control/seq.c $(hseq)
+    offer.class.sources := classes/binaries/control/offer.c $(htree)
+    funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 
 
 ################################################################################
@@ -384,7 +374,6 @@ minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
 minmax~.class.sources := classes/binaries/signal/minmax.c $(ssic)
 modulo~.class.sources := classes/binaries/signal/modulo.c $(ssic)
 log~.class.sources := classes/binaries/signal/log.c $(ssic)
-mstosamps~.class.sources := classes/binaries/signal/mstosamps.c $(ssic)
 notequals~.class.sources := classes/binaries/signal/notequals.c $(ssic)
 onepole~.class.sources := classes/binaries/signal/onepole.c $(ssic)
 overdrive~.class.sources := classes/binaries/signal/overdrive.c $(ssic)
