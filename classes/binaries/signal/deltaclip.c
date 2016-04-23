@@ -4,7 +4,6 @@
 //updated 2016 by Derek Kwan
 
 #include "m_pd.h"
-#include "shared.h"
 
 #define DELTACLIP_DEFLO  0.
 #define DELTACLIP_DEFHI  0.
@@ -64,8 +63,6 @@ static void *deltaclip_free(t_deltaclip *x)
 			return (void *)x;
 }
 
-
-
 static void *deltaclip_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_deltaclip *x = (t_deltaclip *)pd_new(deltaclip_class);
@@ -115,7 +112,8 @@ static void *deltaclip_new(t_symbol *s, int argc, t_atom *argv)
 void deltaclip_tilde_setup(void)
 {
     deltaclip_class = class_new(gensym("deltaclip~"),
-				(t_newmethod)deltaclip_new, (t_method)deltaclip_free,
+				(t_newmethod)deltaclip_new,
+                (t_method)deltaclip_free,
 				sizeof(t_deltaclip), 0, A_GIMME, 0);
     class_addmethod(deltaclip_class, (t_method)deltaclip_dsp, gensym("dsp"), A_CANT, 0);
    CLASS_MAINSIGNALIN(deltaclip_class, t_deltaclip, x_f);
