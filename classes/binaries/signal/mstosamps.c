@@ -3,12 +3,12 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _mstosamps
 {
-    t_sic      x_sic;
+    t_object x_obj;
     float      x_ksr;
+    float      x_f;
     t_outlet  *x_floatout;
 } t_mstosamps;
 
@@ -16,6 +16,7 @@ static t_class *mstosamps_class;
 
 static void mstosamps_float(t_mstosamps *x, t_float f)
 {
+    x->x_f = f;
     outlet_float(x->x_floatout, f * x->x_ksr);
 }
 
@@ -43,13 +44,17 @@ static void *mstosamps_new(void)
     x->x_ksr = sys_getsr() * .001;  /* LATER rethink */
     outlet_new((t_object *)x, &s_signal);
     x->x_floatout = outlet_new((t_object *)x, &s_float);
+    x->x_f = 0;
     return (x);
 }
 
 void mstosamps_tilde_setup(void)
 {
     mstosamps_class = class_new(gensym("mstosamps~"),
-				(t_newmethod)mstosamps_new, 0,
-				sizeof(t_mstosamps), 0, 0);
-    sic_setup(mstosamps_class, mstosamps_dsp, mstosamps_float);
+            (t_newmethod)mstosamps_new, 0, sizeof(t_mstosamps),
+            CLASS_DEFAULT, 0);
+    class_addmethod(mstosamps_class,
+            (t_method)mstosamps_dsp, gensym("dsp"), A_CANT, 0);
+    CLASS_MAINSIGNALIN(mstosamps_class, t_mstosamps, x_f);
+    class_addfloat(mstosamps_class, (t_method)mstosamps_float);
 }
