@@ -50,8 +50,9 @@ endif
 
 # UPDATED SIGNAL CLASSES that were Removed from old framework:
 
+    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c # no float in
+    thresh~.class.sources := classes/binaries/signal/thresh.c # no float in
     count~.class.sources := classes/binaries/signal/count.c
-    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
     pong~.class.sources := classes/binaries/signal/pong.c
     snapshot~.class.sources := classes/binaries/signal/snapshot.c
     trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
@@ -409,8 +410,6 @@ tanx~.class.sources := classes/binaries/signal/tanx.c $(ssic)
 train~.class.sources := classes/binaries/signal/train.c $(ssic)
 vectral~.class.sources := classes/binaries/signal/vectral.c $(ssic)
 zerox~.class.sources := classes/binaries/signal/zerox.c $(ssic)
-
-thresh~.class.sources := classes/binaries/signal/thresh.c $(ssic) # New class still in the old framework
 
 # sforky classes
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)

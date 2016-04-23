@@ -12,9 +12,8 @@ typedef struct _deltaclip
 {
     t_object x_obj;
     t_float  x_last;
-	t_inlet *x_lolet;
+	t_inlet  *x_lolet;
 	t_inlet  *x_hilet;
-	t_float  x_f; //dummy
 } t_deltaclip;
 
 static t_class *deltaclip_class;
@@ -95,7 +94,7 @@ static void *deltaclip_new(t_symbol *s, int argc, t_atom *argv)
 		};
 
 	};
-
+    
 	x->x_lolet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
 	pd_float((t_pd *)x->x_lolet, cliplo);
 	x->x_hilet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
@@ -115,8 +114,7 @@ void deltaclip_tilde_setup(void)
 				(t_newmethod)deltaclip_new,
                 (t_method)deltaclip_free,
 				sizeof(t_deltaclip), 0, A_GIMME, 0);
+    class_addmethod(deltaclip_class, nullfn, gensym("signal"), 0);
     class_addmethod(deltaclip_class, (t_method)deltaclip_dsp, gensym("dsp"), A_CANT, 0);
-   CLASS_MAINSIGNALIN(deltaclip_class, t_deltaclip, x_f);
-    class_addmethod(deltaclip_class, (t_method)deltaclip_reset,
-		    gensym("reset"), 0);
+    class_addmethod(deltaclip_class, (t_method)deltaclip_reset, gensym("reset"), 0);
 }
