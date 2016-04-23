@@ -3,14 +3,14 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _sampstoms
 {
-    t_sic      x_sic;
+    t_object x_obj;
     float      x_rcpksr;
     t_outlet  *x_floatout;
 } t_sampstoms;
+
 
 static t_class *sampstoms_class;
 
@@ -49,6 +49,11 @@ static void *sampstoms_new(void)
 void sampstoms_tilde_setup(void)
 {
     sampstoms_class = class_new(gensym("sampstoms~"),
-        (t_newmethod)sampstoms_new, 0, sizeof(t_sampstoms), 0, 0);
-    sic_setup(sampstoms_class, sampstoms_dsp, sampstoms_float);
+        (t_newmethod)sampstoms_new, 0, sizeof(t_sampstoms), CLASS_DEFAULT, 0);
+    class_addmethod(sampstoms_class,
+                    nullfn, gensym("signal"), 0);
+    class_addmethod(sampstoms_class,
+                    (t_method)sampstoms_dsp, gensym("dsp"), A_CANT, 0);
+    class_addfloat(sampstoms_class,
+                   (t_method)sampstoms_float);
 }
