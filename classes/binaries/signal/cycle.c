@@ -13,6 +13,8 @@
 #define CYCLE_DEF_TABSIZE  512
 #define COS_TABSIZE  16384
 
+
+
 typedef struct _cycle
 {
     t_sic      x_sic;
@@ -113,7 +115,7 @@ static void cycle_gettable(t_cycle *x)
 	    }
 	    // the 513th sample
 	    x->x_usertable[tablePtr] = (samplesFromTable > 0) ?
-		table[x->x_offset + cycle_tabsize].w_float : 0;
+		table[x->x_offset].w_float : 0;
 
 	    x->x_table = x->x_usertable;
 	    /* CHECKED else no complaint */
@@ -139,6 +141,7 @@ static void cycle_gettable(t_cycle *x)
 static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 {
 	x->x_use_all = 0;
+	x->x_offset = 0;
 	x->x_cycle_tabsize = CYCLE_DEF_TABSIZE;
     if (s && s != &s_)
     {
@@ -153,6 +156,7 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 static void cycle_setall(t_cycle *x, t_symbol *s)
 {
 	x->x_use_all = 1;
+	x->x_offset = 0;
     if (s && s != &s_)
 		x->x_name = s;
     else x->x_name = 0;
