@@ -50,7 +50,6 @@ static void cycle_gettable(t_cycle *x)
 	if (table)
     {
     	if (x->x_use_all) cycle_tabsize = x->x_cycle_tabsize = tabsize;
-    	//else cycle_tabsize = x->x_cycle_tabsize = x->x_buffer_sizeinsamps;
     	int usertable_tabsize = x->x_usertable_tabsize;
 	    int tablePtr, oldbytes;
 	    int samplesFromTable = tabsize - x->x_offset;
@@ -113,7 +112,6 @@ static void cycle_gettable(t_cycle *x)
 		    x->x_usertable[tablePtr] = 0;
 		}
 	    }
-	    // the 513th sample
 	    x->x_usertable[tablePtr] = (samplesFromTable > 0) ?
 		table[x->x_offset].w_float : 0;
 
@@ -128,12 +126,6 @@ static void cycle_gettable(t_cycle *x)
     	}
     	x->x_name = 0;
     	x->x_cycle_tabsize = COS_TABSIZE;
-    }
-    if (!x->x_table)
-    {
-	/* CHECKED (incompatible) cycle~ is disabled -- garbage is output */
-	x->x_table = x->x_usertable;
-	memset(x->x_table, 0, (cycle_tabsize + 1) * sizeof(*x->x_table));
     }
 }
 
@@ -259,7 +251,7 @@ static t_int *cycle_perform(t_int *w)
 	else if (dphase<=0.)
 	{
 		intphase = (int)dphase;
-		intphase --;
+		intphase--;
 		dphase -= intphase;
 	}
 	x->x_phase = dphase;
