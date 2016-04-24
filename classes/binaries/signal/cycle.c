@@ -14,7 +14,6 @@
 #define COS_TABSIZE  16384
 
 
-
 typedef struct _cycle
 {
     t_sic      x_sic;

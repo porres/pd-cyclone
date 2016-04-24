@@ -1,19 +1,20 @@
 // Copyright (c) 2016 Porres. check "LICENSE.txt"
 
 #include "m_pd.h"
-#include "sickle/sic.h"
-
-#define EQUALS_DEFRHS  0.
-
-// ---------------------------------------------------
-// Data structure definition
-// ---------------------------------------------------
-typedef t_sic t_equals;
 
 // ---------------------------------------------------
 // Class definition
 // ---------------------------------------------------
 static t_class *equals_class;
+
+// ---------------------------------------------------
+// Data structure definition
+// ---------------------------------------------------
+typedef struct _equals
+{
+    t_object x_obj;
+    t_inlet  *x_inlet;
+} t_equals;
 
 // ---------------------------------------------------
 // Perform
@@ -42,13 +43,22 @@ static void equals_dsp(t_equals *x, t_signal **sp)
             sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
+// FREE
+static void *equals_free(t_equals *x)
+{
+    inlet_free(x->x_inlet);
+    return (void *)x;
+}
+
 // ---------------------------------------------------
 // Functions signature
 // ---------------------------------------------------
-static void *equals_new(t_symbol *s, int ac, t_atom *av)
+static void *equals_new(t_floatarg f)
 {
     t_equals *x = (t_equals *)pd_new(equals_class);
-    sic_inlet((t_sic *)x, 1, EQUALS_DEFRHS, 0, ac, av);
+//    sic_inlet((t_sic *)x, 1, EQUALS_DEFRHS, 0, ac, av);
+    x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
@@ -59,7 +69,65 @@ static void *equals_new(t_symbol *s, int ac, t_atom *av)
 void equals_tilde_setup(void)
 {
     equals_class = class_new(gensym("equals~"),
-			      (t_newmethod)equals_new, 0,
-			      sizeof(t_equals), 0, A_GIMME, 0);
-    sic_setup(equals_class, equals_dsp, SIC_FLOATTOSIGNAL);
+            (t_newmethod)equals_new,
+            (t_method)equals_free,
+            sizeof(t_equals), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addmethod(equals_class, nullfn, gensym("signal"), 0);
+    class_addmethod(equals_class, (t_method)equals_dsp, gensym("dsp"), A_CANT, 0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

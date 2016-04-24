@@ -27,40 +27,7 @@ endif
 ########### classes outside the old framework common functions #################
 ################################################################################
 
-# NEW CLASSES - that don'tuse the old framework common functions
-
-    # Control classes (MAX or "hammer")
-
-    atodb.class.sources := classes/binaries/control/atodb.c
-    dbtoa.class.sources := classes/binaries/control/dbtoa.c
-    pong.class.sources := classes/binaries/control/pong.c
-    scale.class.sources := classes/binaries/control/scale.c
-    round.class.sources := classes/binaries/control/round.c
-    acosh.class.sources := classes/binaries/control/acosh.c
-    asinh.class.sources := classes/binaries/control/asinh.c
-    atanh.class.sources := classes/binaries/control/atanh.c
-
-    # Signal classes (MSP or "sickle")
-
-    atodb~.class.sources := classes/binaries/signal/atodb.c
-    biquad~.class.sources := classes/binaries/signal/biquad.c
-    dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
-    round~.class.sources := classes/binaries/signal/round.c
-    trunc~.class.sources := classes/binaries/signal/trunc.c
-
-# UPDATED SIGNAL CLASSES that were Removed from old framework:
-
-    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
-    thresh~.class.sources := classes/binaries/signal/thresh.c
-    mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
-    sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
-    count~.class.sources := classes/binaries/signal/count.c
-    snapshot~.class.sources := classes/binaries/signal/snapshot.c
-    pong~.class.sources := classes/binaries/signal/pong.c
-    trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
-    triangle~.class.sources := classes/binaries/signal/triangle.c
-
-# old Control classes that used to end in $(hplain)
+# Control classes that used to end in $(hplain)
 # which seemed to be doing nothing in the new build system:
 
 accum.class.sources := classes/binaries/control/accum.c
@@ -95,6 +62,40 @@ xbendout2.class.sources := classes/binaries/control/xbendout2.c
 xnotein.class.sources := classes/binaries/control/xnotein.c
 xnoteout.class.sources := classes/binaries/control/xnoteout.c
 
+# NEW CLASSES - that don'tuse the old framework common functions
+
+    # Control classes (MAX or "hammer")
+
+    atodb.class.sources := classes/binaries/control/atodb.c
+    dbtoa.class.sources := classes/binaries/control/dbtoa.c
+    pong.class.sources := classes/binaries/control/pong.c
+    scale.class.sources := classes/binaries/control/scale.c
+    round.class.sources := classes/binaries/control/round.c
+    acosh.class.sources := classes/binaries/control/acosh.c
+    asinh.class.sources := classes/binaries/control/asinh.c
+    atanh.class.sources := classes/binaries/control/atanh.c
+
+    # Signal classes (MSP or "sickle")
+
+    atodb~.class.sources := classes/binaries/signal/atodb.c
+    biquad~.class.sources := classes/binaries/signal/biquad.c
+    dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
+    round~.class.sources := classes/binaries/signal/round.c
+    trunc~.class.sources := classes/binaries/signal/trunc.c
+
+    equals~.class.sources := classes/binaries/signal/equals.c
+
+# UPDATED SIGNAL CLASSES that were Removed from old framework:
+
+    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
+    thresh~.class.sources := classes/binaries/signal/thresh.c
+    mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
+    sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
+    count~.class.sources := classes/binaries/signal/count.c
+    snapshot~.class.sources := classes/binaries/signal/snapshot.c
+    pong~.class.sources := classes/binaries/signal/pong.c
+    trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
+    triangle~.class.sources := classes/binaries/signal/triangle.c
 
 ################################################################################
 ### Control (MAX or "hammer") objects ##########################################
@@ -260,7 +261,6 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 ########## Signal (MSP or "sickle") objects ####################################
 ################################################################################
 
-
 # common sources
 
 ssic := \
@@ -363,7 +363,6 @@ delay~.class.sources := classes/binaries/signal/delay.c $(ssic)
 delta~.class.sources := classes/binaries/signal/delta.c $(ssic)
 # downsamp~.class.sources := classes/binaries/signal/downsamp.c $(ssic)
 edge~.class.sources := classes/binaries/signal/edge.c $(ssic)
-equals~.class.sources := classes/binaries/signal/equals.c $(ssic)
 greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c $(ssic)
 kink~.class.sources := classes/binaries/signal/kink.c $(ssic)
 lessthan~.class.sources := classes/binaries/signal/lessthan.c $(ssic)
@@ -426,13 +425,13 @@ line~.class.sources := classes/binaries/signal/line.c $(sgrow)
 
 # Single cases:
 
+    scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky) # UPDATED
+
     curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc)
 
     capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
 
     buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter)
-
-    scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky) # UPDATED
 
     cycle~.class.sources := classes/binaries/signal/cycle.c $(svefl)
 
