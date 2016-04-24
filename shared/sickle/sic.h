@@ -19,7 +19,7 @@ typedef struct _sic
 
 t_inlet *sic_inlet(t_sic *x, int ix, t_float df, int ax, int ac, t_atom *av);
 t_inlet *sic_newinlet(t_sic *x, t_float f);
-t_float *sic_makecostable(int *sizep);
+double *sic_makecostable(int *sizep);
 void sic_setup(t_class *c, void *dspfn, void *floatfn);
 
 #endif

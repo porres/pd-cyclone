@@ -26,7 +26,7 @@ typedef struct _cycle
     int        x_cycle_tabsize; //how far to loop
     int		   x_use_all;
     t_float   *x_table;
-    t_float   *x_costable;
+    double    *x_costable;
     t_float   *x_usertable;
     t_float    x_usertableini[CYCLE_DEF_TABSIZE + 1];
     int        x_usertable_tabsize; // actual table size -- loop size might be smaller
@@ -125,9 +125,8 @@ static void cycle_gettable(t_cycle *x)
     	if (x->x_name)
     	{
     		loud_error((t_pd *)x, "using cosine table");
-    		x->x_name = 0;
     	}
-    	x->x_table = x->x_costable;
+    	x->x_name = 0;
     	x->x_cycle_tabsize = COS_TABSIZE;
     }
     if (!x->x_table)
@@ -208,10 +207,12 @@ static t_int *cycle_perform(t_int *w)
 	t_float *in2 = (t_float *)(w[4]);
 	t_float *out = (t_float *)(w[5]);
 	t_float *tab = x->x_table;
+	double  *costab = x->x_costable;
 	double dphase = x->x_phase;
 	double conv = x->x_conv;
 	double wrapphase, tabphase, frac;
 	t_float f1, f2, freq, phasein;
+	double df1, df2;
 	int intphase, index;
 	int cycle_tabsize = x->x_cycle_tabsize;
 	
@@ -235,10 +236,18 @@ static t_int *cycle_perform(t_int *w)
 		tabphase = wrapphase * cycle_tabsize;
 		index = (int)tabphase;
 		frac = tabphase - index;
-		f1 = tab[index++];
-		f2 = tab[index];
-		*out++ = f1 + frac * (f2 - f1);
-		
+		if (x->x_name)
+		{
+			f1 = tab[index++];
+			f2 = tab[index];
+			*out++ = f1 + frac * (f2 - f1);
+		}
+		else
+		{
+			df1 = costab[index++];
+			df2 = costab[index];
+			*out++ = (t_float) (df1 + frac * (df2 - df1));
+		}
 		dphase += freq * conv ;
 	}
 	

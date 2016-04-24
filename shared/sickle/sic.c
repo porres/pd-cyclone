@@ -48,10 +48,10 @@ t_inlet *sic_newinlet(t_sic *x, t_float f)
     return (sic_inlet(x, 1, f, 0, 0, 0));
 }
 
-t_float *sic_makecostable(int *sizep)
+double *sic_makecostable(int *sizep)
 {
     /* permanent cache (tables are never freed); LATER rethink */
-    static t_float *sic_costables[SIC_NCOSTABLES];
+    static double *sic_costables[SIC_NCOSTABLES];
     int ndx, sz;
     /* round upwards -- always return at least requested number of elements,
        unless the maximum of 2^SIC_NCOSTABLES is exceeded; LATER rethink */
@@ -72,8 +72,8 @@ t_float *sic_makecostable(int *sizep)
     {
 	int cnt = sz + 1;
 	int i;
-	float phase = 0, phsinc = SHARED_2PI / sz;
-	t_float *table = (t_float *)getbytes(cnt * sizeof(*table)), *tp = table;
+	double phase = 0, phsinc = SHARED_2PI / sz;
+	double *table = getbytes(cnt * sizeof(*table)), *tp = table;
 	if (table)
 	{
 #ifdef SIC_DEBUG
@@ -81,7 +81,7 @@ t_float *sic_makecostable(int *sizep)
 #endif
 		for (i=sz/4; i; i--)
 	    {
-			*tp++ = cosf(phase);
+			*tp++ = cos(phase);
 			phase += phsinc;		
 	    }
 	    *tp++ = 0;
