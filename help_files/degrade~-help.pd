@@ -55,8 +55,8 @@ adapted the patch to pd-extended 2015-02-02;
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 2 5 pd;
-#X obj 79 273 output~;
-#X floatatom 183 176 0 1 10000 0 - - -;
+#X obj 94 275 output~;
+#X floatatom 183 176 0 0 1 0 - - -;
 #X text 117 484 float/signal;
 #X text 135 584 This abstraction does not support arguments;
 #X text 107 370 This is an abstraction \, it does not support arguments
@@ -68,13 +68,12 @@ to code a new object.;
 #X text 82 97 [degrade~] takes any given signal and reduces the sampling
 rate and bit-depth as specified/desired.;
 #X obj 186 155 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 500 1;
+-1 -1 12700 1;
 #X text 195 155 sample rate (0-1);
 #X floatatom 333 176 0 1 10000 0 - - -;
 #X obj 336 155 hsl 128 15 1 24 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 12700 1;
 #X text 346 155 bit depth (1-24);
-#X obj 111 166 osc~ 440;
 #X text 209 458 - signal to be degraded (resampled and quantized);
 #X text 166 547 signal - degraded (resampled and quantized) signal
 ;
@@ -83,14 +82,15 @@ rate and bit-depth as specified/desired.;
 ;
 #X text 117 508 float/signal;
 #X text 208 509 - bit depth (1-24);
-#X obj 166 245 scope~ 182 107 2 3 128 -1 1 250 0 0 0 205 229 232 74
+#X obj 201 245 scope~ 182 107 2 3 128 -1 1 250 0 0 0 205 229 232 74
 79 77 96 98 102 0;
 #X obj 137 215 cyclone/degrade~;
-#X connect 13 0 33 1;
+#X obj 111 166 osc~ 440;
+#X connect 13 0 32 1;
 #X connect 20 0 13 0;
-#X connect 22 0 33 2;
+#X connect 22 0 32 2;
 #X connect 23 0 22 0;
-#X connect 25 0 33 0;
-#X connect 33 0 12 0;
-#X connect 33 0 12 1;
+#X connect 32 0 12 0;
+#X connect 32 0 12 1;
+#X connect 32 0 31 0;
 #X connect 33 0 32 0;
