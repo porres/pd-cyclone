@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Porres. check "LICENSE.txt"
+// Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
 
@@ -56,7 +56,6 @@ static void *equals_free(t_equals *x)
 static void *equals_new(t_floatarg f)
 {
     t_equals *x = (t_equals *)pd_new(equals_class);
-//    sic_inlet((t_sic *)x, 1, EQUALS_DEFRHS, 0, ac, av);
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
@@ -75,59 +74,3 @@ void equals_tilde_setup(void)
     class_addmethod(equals_class, nullfn, gensym("signal"), 0);
     class_addmethod(equals_class, (t_method)equals_dsp, gensym("dsp"), A_CANT, 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

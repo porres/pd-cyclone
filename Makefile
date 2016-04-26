@@ -47,8 +47,6 @@ next.class.sources := classes/binaries/control/next.c
 onebang.class.sources := classes/binaries/control/onebang.c
 peak.class.sources := classes/binaries/control/peak.c
 poltocar.class.sources := classes/binaries/control/poltocar.c
-rdiv.class.sources := classes/binaries/control/rdiv.c
-rminus.class.sources := classes/binaries/control/rminus.c
 sinh.class.sources := classes/binaries/control/sinh.c
 split.class.sources := classes/binaries/control/split.c
 sustain.class.sources := classes/binaries/control/sustain.c
@@ -74,6 +72,8 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
     acosh.class.sources := classes/binaries/control/acosh.c
     asinh.class.sources := classes/binaries/control/asinh.c
     atanh.class.sources := classes/binaries/control/atanh.c
+    rminus.class.sources := classes/binaries/control/rminus.c
+    rdiv.class.sources := classes/binaries/control/rdiv.c
 
     # Signal classes (MSP or "sickle")
 
@@ -82,8 +82,8 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
     dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
     round~.class.sources := classes/binaries/signal/round.c
     trunc~.class.sources := classes/binaries/signal/trunc.c
-
     equals~.class.sources := classes/binaries/signal/equals.c
+    downsamp~.class.sources := classes/binaries/signal/downsamp.c
 
 # UPDATED SIGNAL CLASSES that were Removed from old framework:
 
@@ -361,7 +361,6 @@ cosh~.class.sources := classes/binaries/signal/cosh.c $(ssic)
 cosx~.class.sources := classes/binaries/signal/cosx.c $(ssic)
 delay~.class.sources := classes/binaries/signal/delay.c $(ssic)
 delta~.class.sources := classes/binaries/signal/delta.c $(ssic)
-# downsamp~.class.sources := classes/binaries/signal/downsamp.c $(ssic)
 edge~.class.sources := classes/binaries/signal/edge.c $(ssic)
 greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c $(ssic)
 kink~.class.sources := classes/binaries/signal/kink.c $(ssic)
