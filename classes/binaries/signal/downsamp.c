@@ -24,13 +24,10 @@ static t_int *downsamp_perform(t_int *w)
 while (nblock--)
 {
     float input = *in1++;
-//    float phase_step, samples = *in2++;
     float phase_step;
     float samples = *in2++;
-//    float phase_step = 1. / samples;
     phase_step = 1. / (samples > 1. ? samples : 1.);
         if (phase >= 1.)
-//        lastout = input;
         lastout = input;
         *out++ = lastout;
     phase = fmod(phase, 1.) + phase_step;
@@ -40,14 +37,11 @@ x->x_lastout = lastout;
 return (w + 6);
 }
 
-
-
 static void downsamp_dsp(t_downsamp *x, t_signal **sp)
 {
     dsp_add(downsamp_perform, 5, x, sp[0]->s_n,
             sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
-
 
 static void *downsamp_free(t_downsamp *x)
 {
@@ -59,7 +53,6 @@ static void *downsamp_new(t_floatarg f)
 {
     t_downsamp *x = (t_downsamp *)pd_new(downsamp_class);
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-//    pd_float((t_pd *)x->x_inlet, f);
     pd_float((t_pd *)x->x_inlet, (f > 1. ? f : 1.));
     outlet_new((t_object *)x, &s_signal);
     x->x_lastout = 0;
@@ -80,4 +73,3 @@ void downsamp_tilde_setup(void)
         class_addmethod(downsamp_class, nullfn, gensym("signal"), 0);
         class_addmethod(downsamp_class, (t_method)downsamp_dsp, gensym("dsp"), A_CANT, 0);
 }
-

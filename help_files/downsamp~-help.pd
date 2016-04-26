@@ -1,7 +1,7 @@
-#N canvas 657 23 559 646 10;
-#X obj 3 590 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 657 23 558 569 10;
+#X obj 3 527 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 455 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 392 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 378 396 407 280 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -21,23 +21,23 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 592 pd META;
-#X obj 3 511 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 502 529 pd META;
+#X obj 3 448 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 548 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 485 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 947 59 434 83 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 205 592 pd Related_objects;
-#X obj 85 487 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 205 529 pd Related_objects;
+#X obj 85 424 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 3 40 cnv 15 552 40 empty empty downsamp~ 3 12 0 18 -204280 -1
 0;
-#X text 153 464 signal;
-#X obj 86 520 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 153 401 signal;
+#X obj 86 457 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 464 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 401 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #N canvas 439 241 715 321 (subpatch) 0;
 #X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
@@ -55,34 +55,28 @@ adapted the patch to pd-extended 2015-02-02;
 0;
 #X coords 0 -1 1 1 554 30 1 50 50;
 #X restore 2 5 pd;
-#X obj 118 179 noise~;
-#X obj 99 291 output~;
-#X floatatom 217 216 5 1 10000 0 - - -, f 5;
+#X obj 118 209 noise~;
+#X obj 99 311 output~;
+#X floatatom 217 236 5 1 10000 0 - - -, f 5;
 #X text 82 100 [downsamp~] samples and holds a signal received in the
 left inlet at a rate expressed in samples. No interpolation of the
 output is performed.;
-#X text 117 489 float/signal;
-#X text 208 490 - rate (in samples) used to downsample the input signal
+#X text 117 426 float/signal;
+#X text 208 427 - rate (in samples) used to downsample the input signal
 ;
-#X floatatom 297 296 5 0 0 0 - - -, f 5;
-#X obj 297 316 cyclone/mstosamps~;
-#X floatatom 402 340 5 0 0 0 - - -, f 5;
-#X text 224 271 you can convert ms to samples with mstosamps~;
-#X text 256 213 <= set downsample rate in samples;
-#X text 209 463 - signal to be downsampled;
-#X text 164 521 signal - downsampled signal;
-#X text 142 558 This abstraction does not support arguments;
-#X text 101 376 This is an abstraction \, it does not support arguments
-and is not a proper clone of the object since it does not implement
-features only possible via a compiled object. It serves as a basis
-to code a new object.;
-#X obj 118 242 cyclone/downsamp~;
+#X obj 315 346 cyclone/mstosamps~;
+#X text 244 320 you can convert ms to samples with mstosamps~;
+#X text 209 400 - signal to be downsampled;
+#X text 164 458 signal - downsampled signal;
+#X obj 118 262 cyclone/downsamp~;
 #X text 15 63 Downsample a signal;
 #X obj 491 52 downsamp~;
-#X text 383 233 (default 1);
-#X connect 12 0 27 0;
-#X connect 14 0 27 1;
-#X connect 18 0 19 0;
-#X connect 19 1 20 0;
-#X connect 27 0 13 0;
-#X connect 27 0 13 1;
+#X text 256 233 <= downsample rate in samples;
+#X text 153 495 1) float - rate as number of samples (default 1).;
+#X text 83 148 You can specify the number of samples with floating-point
+values \, but the downsamp~ object will sample the input at most as
+frequently as the current sampling rate (1 sample).;
+#X connect 12 0 22 0;
+#X connect 14 0 22 1;
+#X connect 22 0 13 0;
+#X connect 22 0 13 1;
