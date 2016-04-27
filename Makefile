@@ -80,10 +80,10 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
     atodb~.class.sources := classes/binaries/signal/atodb.c
     biquad~.class.sources := classes/binaries/signal/biquad.c
     dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
+    downsamp~.class.sources := classes/binaries/signal/downsamp.c
+    equals~.class.sources := classes/binaries/signal/equals.c
     round~.class.sources := classes/binaries/signal/round.c
     trunc~.class.sources := classes/binaries/signal/trunc.c
-    equals~.class.sources := classes/binaries/signal/equals.c
-    downsamp~.class.sources := classes/binaries/signal/downsamp.c
 
 # UPDATED SIGNAL CLASSES that were Removed from old framework:
 

@@ -1,15 +1,7 @@
-#N canvas 643 23 564 817 10;
-#X obj 55 256 noise~;
-#X obj 86 378 output~;
-#X obj 119 254 unpack f f f f f;
-#X obj 119 282 sig~;
-#X obj 152 282 sig~;
-#X obj 184 282 sig~;
-#X obj 217 282 sig~;
-#X obj 253 282 sig~;
-#X msg 119 194 0.02635 0 -0.02635 -1.97899 0.982357;
-#X obj 119 169 loadbang;
-#X text 350 194 (a0 \, a1 \, a2 \, b1 \, b2);
+#N canvas 633 23 566 796 10;
+#X obj 141 232 noise~;
+#X obj 122 341 output~;
+#X msg 204 228 0.02635 0 -0.02635 -1.97899 0.982357;
 #X obj 2 40 cnv 15 552 50 empty empty biquad~ 3 12 0 18 -204280 -1
 0;
 #N canvas 439 241 715 321 (subpatch) 0;
@@ -30,45 +22,40 @@
 #X restore 1 4 pd;
 #X obj 502 67 biquad~;
 #X text 14 67 biquad filter;
-#X text 27 457 This is an abstraction \, it does not support arguments
-and is not a proper clone of the object since it does not implement
-features only possible via a compiled object. It serves as a basis
-to code a new object.;
-#X obj 3 540 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 410 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 687 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 627 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 85 568 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 78 512 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 153 549 signal;
-#X obj 86 696 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 139 419 signal;
+#X obj 78 636 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 549 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 78 419 cnv 17 3 84 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 117 570 float/signal;
-#X obj 85 589 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 104 514 float/signal;
+#X obj 78 533 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 117 591 float/signal;
-#X text 74 100 biquad filter \, equation:;
-#X text 76 122 y[0] = a0*x[0] + a1*x[-1] + a2*x[-2] - b1*y[-1] - b2*y[-2]
+#X text 104 535 float/signal;
+#X text 76 118 y[0] = a0*x[0] + a1*x[-1] + a2*x[-2] - b1*y[-1] - b2*y[-2]
 ;
-#X text 209 548 - input to filter;
-#X text 208 571 - a0 coefficient;
-#X text 208 592 - a1 coefficient;
-#X obj 85 610 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X text 198 418 - input to filter;
+#X text 199 515 - a0 coefficient;
+#X text 199 536 - a1 coefficient;
+#X obj 78 554 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X text 117 612 float/signal;
-#X obj 85 631 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+#X text 104 556 float/signal;
+#X obj 78 575 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X text 117 633 float/signal;
-#X obj 85 653 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+#X text 104 577 float/signal;
+#X obj 78 597 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
 ;
-#X text 117 655 float/signal;
-#X text 208 613 - a2 coefficient;
-#X text 208 634 - b1 coefficient;
-#X text 208 656 - b2 coefficient;
-#X text 165 696 signal - filter output;
-#X obj 3 769 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 104 599 float/signal;
+#X text 199 557 - a2 coefficient;
+#X text 199 578 - b1 coefficient;
+#X text 199 600 - b2 coefficient;
+#X text 165 636 signal - filter output;
+#X obj 3 759 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 378 396 407 280 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -88,43 +75,92 @@ to code a new object.;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 771 pd META;
-#X obj 3 734 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X restore 502 761 pd META;
+#X obj 3 664 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 947 59 434 83 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 205 771 pd Related_objects;
-#X obj 102 327 ./abstractions/biquad~;
-#X msg 143 225 0.002975 0 -0.002975 -1.88076 0.992233;
-#X obj 334 347 ./cyclone/biquad~;
-#X obj 333 281 noise~;
-#X obj 291 380 output~;
-#X text 398 383 an object that just;
-#X text 396 399 works as the abstraction;
-#X text 409 420 so far;
-#X text 135 744 not supported;
-#X connect 0 0 44 0;
-#X connect 2 0 3 0;
-#X connect 2 1 4 0;
-#X connect 2 2 5 0;
-#X connect 2 3 6 0;
-#X connect 2 4 7 0;
-#X connect 3 0 44 1;
-#X connect 3 0 46 1;
-#X connect 4 0 44 2;
-#X connect 4 0 46 2;
-#X connect 5 0 44 3;
-#X connect 5 0 46 3;
-#X connect 6 0 44 4;
-#X connect 6 0 46 4;
-#X connect 7 0 44 5;
-#X connect 7 0 46 5;
-#X connect 8 0 2 0;
-#X connect 9 0 8 0;
-#X connect 44 0 1 0;
-#X connect 44 0 1 1;
-#X connect 45 0 2 0;
-#X connect 46 0 48 0;
-#X connect 46 0 48 1;
-#X connect 47 0 46 0;
+#X restore 205 761 pd Related_objects;
+#X obj 141 299 cyclone/biquad~ 0.252176 0 -0.252176 -1.68963 0.72158
+;
+#X text 74 100 [biquad~] is a 2-pole/2-zero filter unsing the equation:
+;
+#X msg 219 258 0.252176 0 -0.252176 -1.68963 0.72158;
+#X text 75 142 You can specify the coefficients a0 \, a1 \, a2 \, b1
+\, and b2 as signals or floats (if you make the filter explode by making
+the b coefficients too high \, you can recover (after lowering them)
+with the clear message \, or by turning the audio on and off).;
+#X msg 78 256 clear;
+#X text 145 438 list;
+#X text 198 437 - the 5 coefficients (a0 \, a1 \, a2 \, b1 \, b2);
+#N canvas 0 22 450 300 inconsistencies 0;
+#X text 203 88 dictionary;
+#X restore 340 365 pd inconsistencies;
+#X text 145 456 clear;
+#X text 145 488 stoke;
+#X text 199 456 - clears the memory of previous inputs (x[-1] & x[-2])and
+outputs (y[-1] & y[-2]) to zeroes.;
+#X text 199 489 - resets previous in/outputs (x[-1] \, x[-2] \, y[-1]
+& y[-2]);
+#X text 147 671 1) float - a0 coefficient;
+#X text 147 686 2) float - a1 coefficient;
+#X text 147 701 3) float - a2 coefficient;
+#X text 147 716 4) float - b1 coefficient;
+#X text 147 731 5) float - b2 coefficient;
+#N canvas 581 68 656 573 stoke 0;
+#X obj 482 326 v pi;
+#X floatatom 178 182 5 0 0 0 - - -, f 5;
+#X obj 398 300 samplerate~;
+#X obj 398 267 loadbang;
+#X obj 398 330 v sr;
+#X obj 178 201 expr $f1 * 2*pi / sr;
+#X text 58 202 radians per sample;
+#X floatatom 316 202 5 0 0 0 - - -, f 5;
+#X text 349 189 initial phase;
+#X obj 482 299 expr 4 * atan(1);
+#X text 154 181 Hz;
+#X text 357 205 in radians;
+#X obj 136 454 output~;
+#X obj 251 419 scope~ 271 129 2 3 128 -1 1 200 0 0 0 205 229 232 74
+79 77 96 98 102 0;
+#X msg 94 299 clear;
+#X obj 178 287 pack;
+#X obj 178 234 expr sin($f2 - $f1) \; sin($f2 - 2 * $f1) \; -2 * cos($f1)
+;
+#X floatatom 295 331 0 0 0 0 - - -;
+#X msg 178 332 stoke 0 0 \$1 \$2;
+#X obj 178 361 cyclone/biquad~ 0 0 0 0 1;
+#X obj 178 154 cyclone/loadmess 440;
+#X obj 2 3 cnv 15 650 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 15 4 stoke;
+#X text 152 40 The stoke message can be used to artificially set the
+delay memory. This example uses just the feedback samples of the biquad~
+(with no input!) to create an oscillation.;
+#X text 153 86 Needs to be stoked AFTER dsp has been started \, because
+starting the dsp will reset the sample memory.;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 9 0;
+#X connect 5 0 16 0;
+#X connect 7 0 16 1;
+#X connect 9 0 0 0;
+#X connect 14 0 19 0;
+#X connect 15 0 18 0;
+#X connect 16 0 15 0;
+#X connect 16 1 15 1;
+#X connect 16 2 17 0;
+#X connect 17 0 19 4;
+#X connect 18 0 19 0;
+#X connect 19 0 12 0;
+#X connect 19 0 12 1;
+#X connect 19 0 13 0;
+#X connect 20 0 1 0;
+#X restore 339 333 pd stoke;
+#X connect 0 0 34 0;
+#X connect 2 0 34 0;
+#X connect 34 0 1 0;
+#X connect 34 0 1 1;
+#X connect 36 0 34 0;
+#X connect 38 0 34 0;
