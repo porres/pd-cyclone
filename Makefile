@@ -83,6 +83,7 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
     downsamp~.class.sources := classes/binaries/signal/downsamp.c
     equals~.class.sources := classes/binaries/signal/equals.c
     round~.class.sources := classes/binaries/signal/round.c
+    scale~.class.sources := classes/binaries/signal/scale.c
     trunc~.class.sources := classes/binaries/signal/trunc.c
 
 # UPDATED SIGNAL CLASSES that were Removed from old framework:
