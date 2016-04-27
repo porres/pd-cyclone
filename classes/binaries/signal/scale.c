@@ -17,9 +17,19 @@ typedef struct _scale
     t_inlet  *x_inlet_3;
     t_inlet  *x_inlet_4;
     t_inlet  *x_inlet_5;
+    t_int    x_classic;
 } t_scale;
 
 static t_class *scale_class;
+
+
+// ---------------------------------------------------
+// classic
+// ---------------------------------------------------
+void scale_classic(t_scale *x, t_floatarg f)
+{
+    x->x_classic = (int)f;
+}
 
 static t_int *scale_perform(t_int *w)
 {
@@ -32,17 +42,32 @@ static t_int *scale_perform(t_int *w)
     t_float *in5 = (t_float *)(w[7]);
     t_float *in6 = (t_float *)(w[8]);
     t_float *out = (t_float *)(w[9]);
+    t_int classic_flag = x->x_classic;
     while (nblock--)
     {
-        float in = *in1++;
-        float minin = *in2++;
-        float maxin = *in3++;
-        float minout = *in4++;
-        float maxout = *in5++;
-        float expo = *in6++;
-        {
-        *out++ = (maxout - minout >= 0) ? (minout + (maxout - minout) * ((maxout - minout) * exp(-1*(maxin - minin)*log(expo)) * exp(in * log(expo)))) : (-1) * (minout + (maxout - minout) * ((maxout - minout) * exp(-1*(maxin - minin)*log(expo)) * exp(in * log(expo))));
+    float in = *in1++;
+    float il = *in2++; // Input LOW
+    float ih = *in3++; // Input HIGH
+    float ol = *in4++; // Output LOW
+    float oh = *in5++; // Output HIGH
+    float p = *in6++; // power (exponential) factor
+    float output;
+    if (classic_flag != 0)
+        {p = p <= 1 ? 1 : p;
+        if (p == 1) output = ((in - il) / (ih - il) == 0) ? ol : (((in - il) / (ih - il)) > 0) ? (ol + (oh - ol) * pow((in - il) / (ih - il), p)) : (ol + (oh - ol) * -(pow(((-in + il) / (ih - il)), p)));
+            else {output = ol + (oh - ol) * ((oh - ol) * exp((il - ih) * log(p)) * exp(in * log(p)));
+            if (oh - ol >= 0) output = output * -1;
+            output = output * -1; // fucking bizarre
+            }
         }
+        else {
+        p = p <= 0 ? 0 : p;
+        output = ((in - il) / (ih - il) == 0) ? ol :
+        (((in - il) / (ih - il)) > 0) ?
+        (ol + (oh - ol) * pow((in - il) / (ih - il), p)) :
+        (ol + (oh - ol) * -(pow(((-in + il) / (ih - il)), p)));
+        }
+    *out++ = output;
     }
     return (w + 10);
 }
@@ -119,6 +144,8 @@ static void *scale_new(t_symbol *s, int argc, t_atom *argv)
 
     outlet_new((t_object *)x, &s_signal);
     
+    x->x_classic = 1;
+    
     return (x);
 	errstate:
 		pd_error(x, "scale~: improper args");
@@ -133,5 +160,5 @@ void scale_tilde_setup(void)
 				sizeof(t_scale), 0, A_GIMME, 0);
     class_addmethod(scale_class, nullfn, gensym("signal"), 0);
     class_addmethod(scale_class, (t_method)scale_dsp, gensym("dsp"), A_CANT, 0);
-//    class_addmethod(scale_class, (t_method) scale_classic, gensym("classic"), A_DEFFLOAT, 0);
+    class_addmethod(scale_class, (t_method) scale_classic, gensym("classic"), A_DEFFLOAT, 0);
 }
