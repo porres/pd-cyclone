@@ -1,8 +1,46 @@
-#N canvas 506 79 559 509 10;
-#X obj 0 484 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 266 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 402 28 572 511 10;
+#X obj 2 311 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 434 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 471 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 443 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty xnoteout 4 14 0 18 -204280 -1
+0;
+#X text 108 325 float;
+#X text 108 444 float;
+#X text 90 493 1) float;
+#X obj 81 328 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 166 138 5 0 0 0 - - -, f 5;
+#X floatatom 217 138 5 0 0 0 - - -, f 5;
+#X floatatom 319 138 5 0 0 0 - - -, f 5;
+#X obj 166 265 print out;
+#X obj 173 243 midiout 1;
+#X text 13 71 compose midi messages with release velocity;
+#X text 108 348 float;
+#X obj 81 351 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 108 372 float;
+#X obj 81 375 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 108 397 float;
+#X obj 81 400 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 162 324 - state;
+#X text 162 347 - pitch;
+#X text 162 371 - velocity;
+#X text 162 396 - channel;
+#X text 162 493 - initial channel;
+#X obj 486 53 xnoteout;
+#X text 162 444 - three byte midi message;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 550 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 529 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 593 427 429 289 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 135 LIBRARY cyclone;
@@ -22,54 +60,25 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 0 98 OUTLET_0 float velocity;
 #X text 0 116 OUTLET_0 float 0/1 = off/on;
 #X text 0 0 KEYWORDS midi notein max_compatible;
-#X restore 499 486 pd META;
-#X obj 0 389 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 426 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 501 531 pd META;
 #N canvas 450 534 427 114 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 13 32 cyclone/xnotein;
 #X obj 118 32 midiout;
 #X obj 119 55 noteout;
-#X restore 189 486 pd Related_objects;
-#X obj 79 398 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 191 531 pd Related_objects;
+#X obj 165 122 cyclone/comment 71 11 helvetica ? 0 80 80 80 state;
+#X obj 216 122 cyclone/comment 71 11 helvetica ? 0 80 80 80 pitch;
+#X obj 264 122 cyclone/comment 71 11 helvetica ? 0 80 80 80 velocity
 ;
-#X obj 0 0 cnv 15 552 40 empty empty xnoteout 3 12 0 18 -204280 -1
-0;
-#X text 106 280 float;
-#X text 106 399 float;
-#X text 88 448 1) float;
-#X obj 79 283 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 316 122 cyclone/comment 71 11 helvetica ? 0 80 80 80 channel
 ;
-#X floatatom 164 63 5 0 0 0 - - -;
-#X floatatom 199 63 5 0 0 0 - - -;
-#X floatatom 234 63 5 0 0 0 - - -;
-#X floatatom 269 63 5 0 0 0 - - -;
-#X obj 164 230 print out;
-#X obj 171 208 midiout 1;
-#X text 11 23 compose midi messages with release velocity;
-#X text 106 303 float;
-#X obj 79 306 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 106 327 float;
-#X obj 79 330 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 106 352 float;
-#X obj 79 355 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 160 279 - state;
-#X text 160 302 - pitch;
-#X text 160 326 - velocity;
-#X text 160 351 - channel;
-#X text 160 448 - initial channel;
-#X obj 496 4 xnoteout;
-#X obj 164 135 cyclone/xnoteout 1;
-#X text 160 399 - three byte midi message;
-#X connect 12 0 31 0;
-#X connect 13 0 31 1;
-#X connect 14 0 31 2;
-#X connect 15 0 31 3;
-#X connect 31 0 16 0;
-#X connect 31 0 17 0;
+#X obj 166 180 cyclone/xnoteout, f 26;
+#X floatatom 267 138 5 0 0 0 - - -, f 5;
+#X connect 9 0 37 0;
+#X connect 10 0 37 1;
+#X connect 11 0 37 3;
+#X connect 37 0 12 0;
+#X connect 37 0 13 0;
+#X connect 38 0 37 2;

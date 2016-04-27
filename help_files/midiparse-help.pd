@@ -1,8 +1,56 @@
-#N canvas 619 82 568 533 10;
-#X obj 0 669 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 412 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 339 28 572 557 10;
+#X obj 2 541 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 580 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 758 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 78 727 cnv 17 3 17 empty empty 6 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty midiparse 4 14 0 18 -204280 -1
+0;
+#X text 117 727 float;
+#X obj 78 551 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 616 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 638 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 661 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 117 661 float;
+#X obj 78 682 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X text 117 682 float;
+#X obj 78 704 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X text 117 704 float;
+#X obj 78 594 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 213 594 - pitch/velocity pairs make noteon messages;
+#X text 213 616 - aftertouch/pitch pairs make poly aftertouch messages
+;
+#X text 213 638 - controller val/ controller nr make control messages
+;
+#X text 213 661 - program change message;
+#X text 213 682 - aftertouch;
+#X text 213 704 - pitch bend;
+#X text 213 727 - channel number (wraps like n%16);
+#X text 117 550 midi message;
+#X obj 466 55 midiparse, f 12;
+#X text 14 71 deconstruct midi messages;
+#X obj 36 144 midiin;
+#X text 117 594 list;
+#X text 117 616 list;
+#X text 117 638 list;
+#X text 213 551 - midi message to parse;
+#X text 117 770 (none);
+#X obj 36 388 cyclone/midiparse, f 71;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 819 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 798 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 614 313 352 306 META 0;
 #X text 0 18 LICENSE SIBSD;
 #X text 0 198 LIBRARY cyclone;
@@ -25,96 +73,143 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 499 671 pd META;
-#X obj 0 451 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 629 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 501 800 pd META;
 #N canvas 472 654 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 7 29 cyclone/Borax;
 #X obj 7 52 cyclone/midiformat;
 #X obj 133 30 midiin;
-#X restore 205 671 pd Related_objects;
-#X obj 76 598 cnv 17 3 17 empty empty 6 5 9 0 16 -228856 -162280 0
+#X restore 207 800 pd Related_objects;
+#X obj 137 177 cyclone/comment 100 11 helvetica ? 0 80 80 80 note on
 ;
-#X obj 0 0 cnv 15 552 40 empty empty midiparse 3 12 0 18 -204280 -1
+#X obj 146 200 cyclone/comment 100 11 helvetica ? 0 80 80 80 note on
+channel 2;
+#X obj 172 223 cyclone/comment 100 11 helvetica ? 0 80 80 80 poly key
+pressure;
+#X obj 185 247 cyclone/comment 100 11 helvetica ? 0 80 80 80 control
+change;
+#X obj 191 270 cyclone/comment 100 11 helvetica ? 0 80 80 80 program
+change;
+#X obj 24 103 cyclone/comment 456 10 monaco ? 0 80 80 80 Separates
+raw MIDI bytes into standard message types. This object works particularly
+well formatting the output of the [midiin] and [seq] objects.;
+#X msg 57 177 144 \, 60 \, 70;
+#X msg 68 197 145 \, 80 \, 90;
+#X obj 216 317 cyclone/comment 100 11 helvetica ? 0 80 80 80 pitch
+bend;
+#X msg 94 221 160 \, 60 \, 50;
+#X msg 107 245 176 \, 55 65;
+#X msg 139 314 224 \, 95 \, 95;
+#X obj 200 291 cyclone/comment 100 11 helvetica ? 0 80 80 80 after
+touch;
+#X msg 143 289 208 \, 85;
+#X msg 136 269 192 \, 75;
+#X obj 36 420 unpack f f;
+#X floatatom 36 442 5 0 0 0 - - -, f 5;
+#X floatatom 68 442 5 0 0 0 - - -, f 5;
+#X obj 36 461 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 106 420 unpack f f;
+#X floatatom 106 442 5 0 0 0 - - -, f 5;
+#X floatatom 138 442 5 0 0 0 - - -, f 5;
+#X obj 106 461 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 177 420 unpack f f;
+#X floatatom 177 442 5 0 0 0 - - -, f 5;
+#X floatatom 209 442 5 0 0 0 - - -, f 5;
+#X obj 177 461 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 247 442 5 0 0 0 - - -, f 5;
+#X obj 247 461 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 318 442 5 0 0 0 - - -, f 5;
+#X obj 318 461 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 388 442 5 0 0 0 - - -, f 5;
+#X obj 388 461 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 459 442 5 0 0 0 - - -, f 5;
+#X obj 459 461 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 33 480 cyclone/comment 28 11 helvetica ? 0 80 80 80 note on/off
+;
+#X obj 103 480 cyclone/comment 50 11 helvetica ? 0 80 80 80 poly pressure
+;
+#X obj 175 480 cyclone/comment 50 11 helvetica ? 0 80 80 80 control
+change;
+#X obj 245 480 cyclone/comment 50 11 helvetica ? 0 80 80 80 program
+change;
+#X obj 317 480 cyclone/comment 50 11 helvetica ? 0 80 80 80 aftertouch
+;
+#X obj 386 480 cyclone/comment 29 11 helvetica ? 0 80 80 80 pitch bend
+;
+#X obj 457 480 cyclone/comment 50 11 helvetica ? 0 80 80 80 MIDI channel
+;
+#X obj 467 517 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 332 94 465 246 Examples 0;
+#X obj 2 2 cnv 15 460 40 empty empty midiformat 3 12 0 18 -204280 -1
 0;
-#X text 115 598 float;
-#X obj 76 422 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 2 222 cnv 15 460 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 69 25 examples;
+#N canvas 440 304 378 120 credits 0;
+#X text 44 28 Patched by Esteban Viveros from Max 7 Reference Documentation
+and [capture] object Help on 2016-02-29., f 47;
+#X restore 381 224 pd credits;
+#X obj 177 148 cyclone/comment 100 11 helvetica ? 0 80 80 80 channel
 ;
-#X obj 76 487 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 41 73 midiin 1;
+#X obj 41 115 cyclone/midiparse;
+#X obj 41 145 unpack;
+#X floatatom 41 167 5 0 0 0 - - -, f 5;
+#X floatatom 74 167 5 0 0 0 - - -, f 5;
+#X floatatom 123 167 5 0 0 0 - - -, f 5;
+#X floatatom 140 144 5 0 0 0 - - -, f 5;
+#X obj 157 170 cyclone/comment 100 11 helvetica ? 0 80 80 80 bend;
+#X obj 35 184 cyclone/comment 100 11 helvetica ? 0 80 80 80 pitch;
+#X obj 78 184 cyclone/comment 100 11 helvetica ? 0 80 80 80 velocity
 ;
-#X obj 76 509 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
-;
-#X obj 76 532 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
-;
-#X text 115 532 float;
-#X obj 76 553 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
-;
-#X text 115 553 float;
-#X obj 76 575 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
-;
-#X text 115 575 float;
-#X obj 76 465 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 211 465 - pitch/velocity pairs make noteon messages;
-#X text 211 487 - aftertouch/pitch pairs make poly aftertouch messages
-;
-#X text 211 509 - controller val/ controller nr make control messages
-;
-#X text 211 532 - program change message;
-#X text 211 553 - aftertouch;
-#X text 211 575 - pitch bend;
-#X text 211 598 - channel number (wraps like n%16);
-#X text 115 421 midi message;
-#X obj 447 6 midiparse;
-#X text 12 23 deconstruct midi messages;
-#X obj 144 64 midiin;
-#X obj 144 339 unpack f f;
-#X floatatom 144 366 5 0 0 0 - - -;
-#X floatatom 201 366 5 0 0 0 - - -;
-#X text 143 382 pitch;
-#X text 200 383 velocity;
-#X obj 160 275 unpack f f;
-#X floatatom 160 302 5 0 0 0 - - -;
-#X floatatom 217 302 5 0 0 0 - - -;
-#X text 159 317 aftert;
-#X text 217 319 pitch;
-#X obj 177 212 unpack f f;
-#X floatatom 177 238 5 0 0 0 - - -;
-#X floatatom 234 238 5 0 0 0 - - -;
-#X text 176 253 value;
-#X text 234 253 ctrl nr;
-#X floatatom 193 185 5 0 0 0 - - -;
-#X floatatom 210 163 5 0 0 0 - - -;
-#X floatatom 226 140 5 0 0 0 - - -;
-#X floatatom 243 117 5 0 0 0 - - -;
-#X text 115 465 list;
-#X text 115 487 list;
-#X text 115 509 list;
-#X text 211 422 - midi message to parse;
-#X text 115 641 (none);
-#X obj 144 91 cyclone/midiparse;
-#X text 226 339 0;
-#X text 239 275 1;
-#X text 256 212 2;
-#X text 240 185 3;
-#X text 255 165 4;
-#X text 271 141 5;
-#X text 286 116 6;
-#X connect 29 0 54 0;
-#X connect 30 0 31 0;
-#X connect 30 1 32 0;
-#X connect 35 0 36 0;
-#X connect 35 1 37 0;
-#X connect 40 0 41 0;
-#X connect 40 1 42 0;
-#X connect 54 0 30 0;
-#X connect 54 1 35 0;
-#X connect 54 2 40 0;
-#X connect 54 3 45 0;
-#X connect 54 4 46 0;
-#X connect 54 5 47 0;
-#X connect 54 6 48 0;
+#X obj 281 115 cyclone/midiparse;
+#X obj 281 73 midiin 2;
+#X obj 330 174 s pgms;
+#X obj 363 144 s bendinfo;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 6 5 10 0;
+#X connect 6 6 11 0;
+#X connect 7 0 8 0;
+#X connect 7 1 9 0;
+#X connect 15 3 17 0;
+#X connect 15 5 18 0;
+#X connect 16 0 15 0;
+#X restore 467 517 pd Examples;
+#X connect 26 0 32 0;
+#X connect 32 0 53 0;
+#X connect 32 1 57 0;
+#X connect 32 2 61 0;
+#X connect 32 3 65 0;
+#X connect 32 4 67 0;
+#X connect 32 5 69 0;
+#X connect 32 6 71 0;
+#X connect 44 0 32 0;
+#X connect 45 0 32 0;
+#X connect 47 0 32 0;
+#X connect 48 0 32 0;
+#X connect 49 0 32 0;
+#X connect 51 0 32 0;
+#X connect 52 0 32 0;
+#X connect 53 0 54 0;
+#X connect 53 1 55 0;
+#X connect 54 0 56 0;
+#X connect 57 0 58 0;
+#X connect 57 1 59 0;
+#X connect 58 0 60 0;
+#X connect 61 0 62 0;
+#X connect 61 1 63 0;
+#X connect 62 0 64 0;
+#X connect 65 0 66 0;
+#X connect 67 0 68 0;
+#X connect 69 0 70 0;
+#X connect 71 0 72 0;

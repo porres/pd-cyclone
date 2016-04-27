@@ -1,9 +1,93 @@
-#N canvas 531 90 570 533 10;
-#X obj 0 507 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 358 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 400 28 572 524 10;
+#X obj 2 439 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 600 370 364 234 META 0;
+#X obj 2 508 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 570 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 450 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 517 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty fromsymbol 4 14 0 18 -204280
+-1 0;
+#X obj 471 55 fromsymbol;
+#X msg 307 182 this is a list of symbols;
+#X symbolatom 328 256 25 0 0 0 - - -, f 25;
+#X obj 307 331 print THIS_IS_A_LIST;
+#X msg 87 178 4;
+#X floatatom 87 379 5 0 0 0 - - -, f 5;
+#X text 14 71 transform symbol to numbers or messages;
+#X obj 87 225 cyclone/tosymbol;
+#X obj 87 301 cyclone/fromsymbol;
+#X obj 307 222 cyclone/tosymbol;
+#X obj 307 302 cyclone/fromsymbol;
+#X obj 124 180 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 133 379 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 87 352 route float bang;
+#X obj 465 417 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 262 154 805 286 Examples 0;
+#X obj 2 2 cnv 15 800 40 empty empty fromsymbol 3 12 0 18 -204280 -1
+0;
+#X obj 2 262 cnv 15 800 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 440 304 374 114 credits 0;
+#X text 80 31 From Max 7 Reference Documentation, f 38;
+#X restore 721 264 pd credits;
+#X text 89 25 examples;
+#X obj 44 182 unpack f f f, f 18;
+#X floatatom 44 210 5 0 0 0 - - -, f 5;
+#X floatatom 96 210 5 0 0 0 - - -, f 5;
+#X floatatom 149 210 5 0 0 0 - - -, f 5;
+#X msg 44 68 -23.6 4.56 0.01;
+#X obj 44 94 cyclone/tosymbol;
+#X obj 44 140 cyclone/fromsymbol;
+#X floatatom 274 210 5 0 0 0 - - -, f 5;
+#X obj 274 94 cyclone/tosymbol;
+#X obj 274 140 cyclone/fromsymbol;
+#X msg 274 68 3 more characters;
+#X obj 350 185 prepend set;
+#X obj 427 185 prepend set;
+#X msg 350 208, f 10;
+#X msg 427 208, f 10;
+#X obj 574 94 cyclone/tosymbol;
+#X obj 574 140 cyclone/fromsymbol;
+#X obj 574 185 prepend set;
+#X msg 574 208, f 10;
+#X msg 574 68 resume 500 200;
+#X obj 574 162 unpack s 0 0, f 25;
+#X obj 274 162 unpack float symbol symbol;
+#X floatatom 647 210 5 0 0 0 - - -, f 5;
+#X floatatom 721 210 5 0 0 0 - - -, f 5;
+#X connect 4 0 5 0;
+#X connect 4 1 6 0;
+#X connect 4 2 7 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 4 0;
+#X connect 12 0 13 0;
+#X connect 13 0 25 0;
+#X connect 14 0 12 0;
+#X connect 15 0 17 0;
+#X connect 16 0 18 0;
+#X connect 19 0 20 0;
+#X connect 20 0 24 0;
+#X connect 21 0 22 0;
+#X connect 23 0 19 0;
+#X connect 24 0 21 0;
+#X connect 24 1 26 0;
+#X connect 24 2 27 0;
+#X connect 25 0 11 0;
+#X connect 25 1 15 0;
+#X connect 25 2 16 0;
+#X restore 465 417 pd Examples;
+#X obj 2 777 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 757 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 481 235 382 331 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 100 LIBRARY cyclone;
 #X text 0 0 KEYWORDS symbol transform messages numbers;
@@ -18,73 +102,58 @@
 #X text 2 206 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 503 509 pd META;
-#X obj 0 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 461 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.46-7.;
+#X restore 505 759 pd META;
+#N canvas 587 239 430 94 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 16 33 symbol;
+#X obj 62 33 cyclone/tosymbol;
+#X obj 168 33 cyclone/sprintf;
+#X obj 269 33 cyclone/zl;
+#X restore 202 759 pd Related_objects;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 86 149 cyclone/comment 100 11 helvetica ? 0 80 80 80 works with
+symbols:;
+#X obj 304 153 cyclone/comment 210 11 helvetica ? 0 80 80 80 also works
+with list of symbols:;
+#X text 158 475 -;
+#X text 158 453 -;
+#X text 124 453 list;
+#X text 112 475 symbol;
+#X text 173 453 list of symbols to be transformed, f 60;
+#X text 173 475 the symbol to be transformed, f 60;
+#X text 158 519 -;
+#X text 124 519 list;
+#X text 173 519 symbols input can be transformed to numbers \, messages
+\, etc., f 60;
+#X text 100 586 (none), f 9;
+#X obj 319 377 cyclone/comment 25 11 helvetica ? 0 80 80 80 ---;
+#X obj 318 357 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 316 351 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 333 376 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X obj 2 622 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#N canvas 300 499 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 124 35 symbol;
-#X obj 10 35 cyclone/tosymbol;
-#X restore 200 509 pd Related_objects;
-#X obj 79 369 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 79 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty fromsymbol 3 12 0 18 -204280 -1
-0;
-#X obj 483 4 fromsymbol;
-#X text 29 50 since pd lacks a quoting mechanism (like `foo bar`) there
-is;
-#X text 30 62 no support for spaces in symbols \, so the original max
-way of;
-#X text 29 74 using from/tosymbol won't work. One has to construct
-symbols;
-#X text 28 89 with other tools like;
-#X obj 280 91 makesymbol;
-#X text 262 88 or;
-#X text 346 89 from zexy;
-#X msg 255 143 this is a list of symbols;
-#X symbolatom 266 193 25 0 0 0 - - -;
-#X obj 255 318 print THIS_IS_A_LIST;
-#X msg 35 137 4;
-#X floatatom 35 318 5 0 0 0 - - -;
-#X text 108 368 symbol;
-#X text 108 390 list;
-#X text 171 389 - list of symbols to be transformed;
-#X text 108 427 list;
-#X text 171 427 - symbols input can be transformed to numbers \, messages
-\, etc.;
-#X text 108 477 (none);
-#X text 28 113 works with symbols:;
-#X text 244 115 also works with list of symbols:;
-#X text 412 143 so this...;
-#X text 12 23 transform symbol to numbers or messages;
-#X text 428 189 ...becomes a symbol;
-#X text 384 311 ...and can be transformed;
-#X text 402 325 back into a list;
-#X obj 35 164 cyclone/tosymbol;
-#X obj 35 240 cyclone/fromsymbol;
-#X obj 255 169 cyclone/tosymbol;
-#X obj 255 240 cyclone/fromsymbol;
-#X obj 72 139 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 81 318 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 35 291 route float bang;
-#X text 446 201 with spaces...;
-#X text 171 368 - the symbol to be transformed;
-#X obj 160 90 cyclone/tosymbol;
-#X connect 17 0 37 0;
-#X connect 20 0 35 0;
-#X connect 35 0 36 0;
-#X connect 36 0 41 0;
-#X connect 37 0 18 0;
-#X connect 37 0 38 0;
-#X connect 38 0 19 0;
-#X connect 39 0 35 0;
-#X connect 41 0 21 0;
-#X connect 41 1 40 0;
+#X obj 233 719 makesymbol;
+#X obj 112 719 cyclone/tosymbol;
+#X text 110 642 since pd lacks a quoting mechanism (like `foo bar`)
+there is no support for spaces in symbols \, so the original max way
+of using from/tosymbol won't work. One has to construct symbols with
+other tools like [cyclone/tosymbol] or [makesymbol] from zexy;
+#X obj 24 103 cyclone/comment 363 10 monaco ? 0 80 80 80 fromsymbol
+will take the individual characters in a symbol and convert them from
+a symbol back to numbers/messages.;
+#X obj 318 365 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 318 373 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X connect 7 0 15 0;
+#X connect 10 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 19 0;
+#X connect 15 0 8 0;
+#X connect 15 0 16 0;
+#X connect 16 0 9 0;
+#X connect 17 0 13 0;
+#X connect 19 0 11 0;
+#X connect 19 1 18 0;

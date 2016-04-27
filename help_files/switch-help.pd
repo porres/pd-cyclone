@@ -1,8 +1,50 @@
-#N canvas 502 79 559 517 10;
-#X obj 0 489 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 321 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 403 29 572 517 10;
+#X obj 2 387 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 473 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 512 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 86 398 cnv 17 3 34 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 446 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty switch 4 14 0 18 -204280 -1 0
+;
+#X obj 499 54 switch;
+#X text 14 71 output a message from a specific inlet;
+#X text 120 447 message;
+#X text 190 446 - any message to pass through;
+#X text 120 483 message;
+#X text 190 483 - passed message \, from open inlet;
+#X text 102 517 1) float;
+#X text 190 517 - set the number of inlets;
+#X text 120 396 float;
+#X text 120 416 bang;
+#X text 190 417 - output open outlet number;
+#X obj 86 484 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 190 396 - set which inlet is open;
+#X floatatom 131 197 5 0 0 0 - - -, f 5;
+#X msg 204 193 one;
+#X msg 227 214 two;
+#X msg 250 236 three;
+#X msg 274 257 four;
+#X msg 181 137 bang;
+#X obj 274 165 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X text 102 530 2) float;
+#X obj 181 283 cyclone/switch 4;
+#X obj 131 119 vradio 15 1 0 5 empty empty empty 0 -8 0 10 -262144
+-1 -1 3;
+#X text 119 116 0;
+#X text 119 177 4;
+#X text 190 530 - default open inlet (optional);
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 576 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 555 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 627 301 351 222 META 0;
 #X text 0 19 LICENSE SIBSD;
 #X text 0 114 LIBRARY cyclone;
@@ -20,66 +62,31 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 491 pd META;
-#X obj 0 407 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 505 557 pd META;
 #N canvas 316 416 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 5 54 cyclone/gate;
 #X obj 5 29 cyclone/cycle;
-#X restore 203 491 pd Related_objects;
-#X obj 84 332 cnv 17 3 34 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 84 380 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty switch 3 12 0 18 -204280 -1 0
-;
-#X obj 499 10 switch;
-#X text 12 23 output a message from a specific inlet;
-#X text 118 381 message;
-#X text 188 380 - any message to pass through;
-#X text 118 417 message;
-#X text 188 417 - passed message \, from open inlet;
-#X text 100 451 1) float;
-#X text 188 451 - set the number of inlets;
-#X text 118 330 float;
-#X text 118 350 bang;
-#X text 188 351 - output open outlet number;
-#X obj 84 418 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 188 330 - set which inlet is open;
-#X obj 179 297 print;
-#X floatatom 119 139 5 0 0 0 - - -;
-#X msg 202 133 one;
-#X msg 225 154 two;
-#X msg 248 176 three;
-#X msg 272 197 four;
-#X msg 179 77 bang;
-#X text 245 76 which one's open ?;
-#X obj 272 105 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X text 149 53 set which inlet is open;
-#X text 100 464 2) float;
-#X obj 179 253 cyclone/switch 4;
-#X text 291 105 bang all inlets \;;
-#X text 291 119 open inlet passes message;
-#X obj 129 59 vradio 15 1 0 5 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
-#X text 117 56 0;
-#X text 117 117 4;
-#X text 188 464 - default open inlet (optional);
-#X connect 24 0 33 1;
-#X connect 25 0 33 2;
-#X connect 26 0 33 3;
-#X connect 27 0 33 4;
-#X connect 28 0 33 0;
-#X connect 30 0 24 0;
-#X connect 30 0 25 0;
-#X connect 30 0 26 0;
-#X connect 30 0 27 0;
-#X connect 33 0 22 0;
-#X connect 36 0 33 0;
-#X connect 36 0 23 0;
+#X restore 205 557 pd Related_objects;
+#X obj 181 317 prepend set;
+#X msg 181 339 three;
+#X obj 150 112 cyclone/comment 129 11 helvetica ? 0 80 80 80 set which
+inlet is open;
+#X obj 263 146 cyclone/comment 129 11 helvetica ? 0 80 80 80 which
+one's open?;
+#X obj 296 168 cyclone/comment 142 11 helvetica ? 0 80 80 80 bang all
+inlets \; open inlet passes message;
+#X connect 19 0 27 0;
+#X connect 20 0 27 1;
+#X connect 21 0 27 2;
+#X connect 22 0 27 3;
+#X connect 23 0 27 4;
+#X connect 24 0 27 0;
+#X connect 25 0 20 0;
+#X connect 25 0 21 0;
+#X connect 25 0 22 0;
+#X connect 25 0 23 0;
+#X connect 27 0 37 0;
+#X connect 28 0 19 0;
+#X connect 37 0 38 0;

@@ -1,8 +1,46 @@
-#N canvas 515 80 559 500 10;
-#X obj 0 474 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 274 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 405 28 572 500 10;
+#X obj 2 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 321 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 384 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 2 425 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 82 293 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 333 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty xbendin 4 14 0 18 -204280 -1
+0;
+#X obj 497 52 xbendin;
+#X floatatom 181 236 8 0 0 0 - - -, f 8;
+#X floatatom 280 236 8 0 0 0 - - -, f 8;
+#X floatatom 181 114 5 0 0 0 - - -, f 5;
+#X floatatom 286 115 5 0 0 0 - - -, f 5;
+#X text 182 293 - midi stream to input;
+#X text 113 332 float;
+#X text 182 332 - 14 bit pitchbend value;
+#X obj 82 357 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 113 356 float;
+#X text 182 356 - channel number;
+#X text 113 293 midi;
+#X text 113 441 in/output from;
+#X obj 221 446 midiin;
+#X obj 312 446 midiout;
+#X text 271 441 or to;
+#X text 95 397 1) float;
+#X text 182 397 - sets initial channel number;
+#X obj 181 151 cyclone/xbendout 0;
+#X obj 181 196 cyclone/xbendin 0;
+#X text 14 71 deconstruct extra precision midi pitchbend objects 14
+bit;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 502 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 481 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 624 297 367 324 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 129 LIBRARY cyclone;
@@ -21,13 +59,7 @@ updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
 #X text 0 40 DESCRIPTION deconstruct extra precision midi pitchbend
 objects 14 bit;
-#X restore 504 476 pd META;
-#X obj 0 314 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 377 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 0 418 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
+#X restore 506 483 pd META;
 #N canvas 347 521 428 119 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
@@ -36,38 +68,41 @@ objects 14 bit;
 #X obj 11 87 cyclone/xbendout2;
 #X obj 137 60 midiin;
 #X obj 137 37 bendin;
-#X restore 206 476 pd Related_objects;
-#X obj 80 286 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 208 483 pd Related_objects;
+#X obj 462 255 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#X obj 80 326 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#N canvas 389 95 465 230 Examples 0;
+#X obj 2 2 cnv 15 460 40 empty empty xbendin 3 12 0 18 -204280 -1 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty xbendin 3 12 0 18 -204280 -1 0
+#X obj 2 206 cnv 15 460 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 12 25 examples;
+#N canvas 412 182 310 101 credits 0;
+#X text 44 30 From Max 7 Reference Documentation., f 37;
+#X restore 382 208 pd credits;
+#X obj 46 147 cyclone/comment 119 11 helvetica ? 0 80 80 80 14-bit
+value;
+#X obj 50 72 midiin;
+#X floatatom 50 127 5 0 0 0 - - -, f 5;
+#X floatatom 137 127 5 0 0 0 - - -, f 5;
+#X obj 134 148 cyclone/comment 119 11 helvetica ? 0 80 80 80 MIDI channel
 ;
-#X obj 497 12 xbendin;
-#X floatatom 179 228 5 0 0 0 - - -;
-#X floatatom 278 228 5 0 0 0 - - -;
-#X floatatom 179 50 5 0 0 0 - - -;
-#X floatatom 284 51 5 0 0 0 - - -;
-#X text 180 286 - midi stream to input;
-#X text 111 325 float;
-#X text 180 325 - 14 bit pitchbend value;
-#X obj 80 350 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X text 111 349 float;
-#X text 180 349 - channel number;
-#X text 111 286 midi;
-#X text 111 434 in/output from;
-#X obj 219 439 midiin;
-#X obj 310 439 midiout;
-#X text 269 434 or to;
-#X text 93 390 1) float;
-#X text 180 390 - sets initial channel number;
-#X obj 179 93 cyclone/xbendout 0;
-#X obj 179 168 cyclone/xbendin 0;
-#X text 12 23 deconstruct extra precision midi pitchbend objects 14
-bit;
-#X connect 13 0 28 0;
-#X connect 14 0 28 1;
-#X connect 28 0 29 0;
-#X connect 29 0 11 0;
-#X connect 29 1 12 0;
+#X obj 251 145 cyclone/comment 119 11 helvetica ? 0 80 80 80 14-bit
+value;
+#X obj 255 72 midiin;
+#X floatatom 255 127 5 0 0 0 - - -, f 5;
+#X obj 255 98 xbendin 1;
+#X obj 322 78 cyclone/comment 119 11 helvetica ? 0 80 80 80 with argument
+\, gives pitch bend only on single MIDI channel;
+#X obj 50 98 cyclone/xbendin;
+#X connect 5 0 14 0;
+#X connect 10 0 12 0;
+#X connect 12 0 11 0;
+#X connect 14 0 6 0;
+#X connect 14 1 7 0;
+#X restore 462 255 pd Examples;
+#X connect 10 0 25 0;
+#X connect 11 0 25 1;
+#X connect 25 0 26 0;
+#X connect 26 0 8 0;
+#X connect 26 1 9 0;

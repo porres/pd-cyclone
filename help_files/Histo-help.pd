@@ -1,0 +1,156 @@
+#N canvas 412 30 572 481 10;
+#X obj 2 345 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 432 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 492 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 87 354 cnv 17 3 65 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 87 465 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty histo 4 14 0 18 -204280 -1 0
+;
+#X text 14 70 generates a histogram of the received numbers;
+#X msg 204 182 clear;
+#X floatatom 208 300 5 0 0 0 - - -, f 5;
+#X floatatom 325 300 5 0 0 0 - - -, f 5;
+#X floatatom 325 205 5 0 0 0 - - -, f 5;
+#X text 117 353 float;
+#X text 174 353 - number to go into histogram;
+#X text 117 386 message;
+#X obj 87 441 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 117 441 float;
+#X text 174 441 - the current input;
+#X text 174 465 - number of times the current input was received;
+#X text 117 465 float;
+#X text 117 370 list;
+#X text 174 370 - list of numbers to go into histogram;
+#X text 174 402 - bang: same as repeating the last number in right
+inlet;
+#X text 174 386 - clear: erase received numbers;
+#X text 115 505 (none);
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 551 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 551 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 530 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 575 228 385 258 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 114 LIBRARY cyclone;
+#X text 0 0 KEYWORDS histogram count generate;
+#X text 0 38 DESCRIPTION generates a histogram of the received numbers
+;
+#X text 0 57 INLET_0 float list message;
+#X text 0 76 OUTLET_0 float;
+#X text 0 95 OUTLET_1 float;
+#X text 0 133 VERSION 0.2-beta1;
+#X text 0 151 AUTHOR Krzysztof Czaja;
+#X text 1 169 RELEASE_DATE 2002;
+#X text 2 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 220 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 532 pd META;
+#N canvas 298 380 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 6 29 cyclone/anal;
+#X restore 201 532 pd Related_objects;
+#X msg 214 206 bang;
+#X obj 362 114 vradio 15 1 1 7 empty empty empty 0 -8 0 10 -262144
+-1 -1 4;
+#X msg 169 125 1 \, 1 \, 1 \, 1 \, 3 \, 3 \, 4 \, 6 \, 6 \, 6, f 14
+;
+#X obj 384 115 cyclone/comment 100 11 helvetica ? 0 80 80 80 0;
+#X obj 384 130 cyclone/comment 100 11 helvetica ? 0 80 80 80 1;
+#X obj 384 145 cyclone/comment 100 11 helvetica ? 0 80 80 80 2;
+#X obj 384 160 cyclone/comment 100 11 helvetica ? 0 80 80 80 3;
+#X obj 384 175 cyclone/comment 100 11 helvetica ? 0 80 80 80 4;
+#X obj 384 191 cyclone/comment 100 11 helvetica ? 0 80 80 80 5;
+#X obj 384 207 cyclone/comment 100 11 helvetica ? 0 80 80 80 6;
+#X obj 56 127 cyclone/comment 100 11 helvetica ? 0 80 80 80 click a
+set of numbers to keep track of;
+#X obj 126 127 cyclone/comment 44 11 helvetica ? 0 80 80 80 ------->
+;
+#X obj 430 121 cyclone/comment 100 11 helvetica ? 0 80 80 80 query
+;
+#X obj 405 121 cyclone/comment 100 11 helvetica ? 0 80 80 80 <----
+;
+#X obj 156 302 cyclone/comment 100 11 helvetica ? 0 80 80 80 the value
+;
+#X obj 247 302 cyclone/comment 100 11 helvetica ? 0 80 80 80 was repeated
+;
+#X obj 361 302 cyclone/comment 100 11 helvetica ? 0 80 80 80 times
+;
+#X floatatom 190 161 8 0 6 0 - - -, f 8;
+#X obj 463 323 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 268 100 625 358 Examples 0;
+#X obj 2 2 cnv 15 620 40 empty empty histo 3 12 0 18 -204280 -1 0;
+#X text 21 24 examples;
+#X obj 2 354 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 334 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 440 304 384 114 credits 0;
+#X text 61 31 Examples from Max 7 Reference Documentation., f 45;
+#X restore 543 336 pd credits;
+#X obj 35 69 cyclone/comment 148 11 helvetica ? 0 80 80 80 ... about
+the behavior;
+#X obj 223 81 loadbang;
+#X obj 223 103 t b b b b;
+#X msg 32 168 6;
+#X msg 274 165 6;
+#X floatatom 32 222 5 0 0 0 - - -, f 5;
+#X floatatom 107 222 5 0 0 0 - - -, f 5;
+#X floatatom 199 222 5 0 0 0 - - -, f 5;
+#X floatatom 274 222 5 0 0 0 - - -, f 5;
+#X obj 30 249 cyclone/comment 110 11 helvetica ? 0 80 80 80 count the
+number first \, then report the count;
+#X obj 198 249 cyclone/comment 134 11 helvetica ? 0 80 80 80 don't
+count the number this time \, but report how many times it has been
+received previously;
+#X obj 465 147 notein 1;
+#X obj 465 169 stripnote;
+#X obj 465 233 cyclone/Table;
+#C restore;
+#X obj 430 202 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 400 91 cyclone/comment 201 11 helvetica ? 0 80 80 80 [Histo]
+can be helfull to use random "quantile" messages to make probabilistic
+choices based on past history;
+#X obj 32 190 cyclone/histo;
+#X obj 199 190 cyclone/histo;
+#X obj 465 201 cyclone/histo;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 7 1 8 0;
+#X connect 7 2 8 0;
+#X connect 7 3 9 0;
+#X connect 7 3 8 0;
+#X connect 8 0 21 0;
+#X connect 9 0 22 1;
+#X connect 16 0 17 0;
+#X connect 17 0 23 0;
+#X connect 19 0 18 0;
+#X connect 21 0 10 0;
+#X connect 21 1 11 0;
+#X connect 22 0 12 0;
+#X connect 22 1 13 0;
+#X connect 23 0 18 0;
+#X restore 463 323 pd Examples;
+#X obj 208 234 cyclone/histo, f 20;
+#X obj 508 53 histo;
+#X connect 7 0 50 0;
+#X connect 10 0 50 1;
+#X connect 30 0 50 0;
+#X connect 31 0 10 0;
+#X connect 32 0 50 0;
+#X connect 47 0 50 0;
+#X connect 50 0 8 0;
+#X connect 50 1 9 0;

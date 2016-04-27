@@ -1,8 +1,51 @@
-#N canvas 504 79 558 433 10;
-#X obj 0 405 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 267 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 389 27 572 453 10;
+#X obj 2 344 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 401 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 438 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 84 354 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 410 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty pv 4 14 0 18 -204280 -1 0;
+#X msg 339 169 bang;
+#X obj 339 224 print my_private_bar;
+#X msg 86 114 foo;
+#X text 113 352 message;
+#X text 188 352 - message to set as stored private variable;
+#X text 113 371 bang;
+#X text 188 371 - output stored pv;
+#X text 113 410 message;
+#X text 188 410 - stored private variable;
+#X text 95 450 1) message;
+#X text 188 450 - name of private variable;
+#X obj 498 53 pv foo;
+#X msg 48 228 bang;
+#X obj 48 283 print my_private_underground_bar;
+#X text 15 70 private variables for patch and its subpatches;
+#X obj 86 148 cyclone/pv my_private_bar;
+#X obj 48 254 cyclone/pv my_private_bar;
+#X obj 339 195 cyclone/pv my_private_bar;
+#N canvas 604 369 433 300 mysubpatch 0;
+#X msg 72 96 bang;
+#X obj 72 122 cyclone/pv my_private_bar;
+#X obj 72 151 print my_private_subpatch_bar;
+#X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 5 4 also works here;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 289 296 pd mysubpatch;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 503 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 482 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 313 327 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 201 484 pd Related_objects;
 #N canvas 608 214 369 225 META 0;
 #X text 0 19 LICENSE SIBSD;
 #X text 0 95 LIBRARY cyclone;
@@ -20,54 +63,49 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 407 pd META;
-#X obj 0 324 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 505 484 pd META;
+#X obj 116 112 cyclone/comment 234 11 helvetica ? 0 80 80 80 <--- store
+message in variable my_private_bar;
+#X obj 313 146 cyclone/comment 234 11 helvetica ? 0 80 80 80 ...then
+access it here;
+#X obj 377 171 cyclone/comment 234 11 helvetica ? 0 80 80 80 <--- click
+here;
+#X obj 44 205 cyclone/comment 234 11 helvetica ? 0 80 80 80 also works
+here:;
+#X obj 84 229 cyclone/comment 234 11 helvetica ? 0 80 80 80 <--- bang
+it!!;
+#X obj 278 276 cyclone/comment 234 11 helvetica ? 0 80 80 80 also here:
 ;
-#X obj 0 361 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#N canvas 313 327 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 199 407 pd Related_objects;
-#X obj 82 277 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 82 333 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty pv 3 12 0 18 -204280 -1 0;
-#X msg 57 172 bang;
-#X obj 57 227 print my_private_bar;
-#X msg 57 85 foo;
-#X text 111 275 message;
-#X text 186 275 - message to set as stored private variable;
-#X text 111 294 bang;
-#X text 186 294 - output stored pv;
-#X text 111 333 message;
-#X text 186 333 - stored private variable;
-#X text 93 373 1) message;
-#X text 186 373 - name of private variable;
-#X obj 502 7 pv foo;
-#X msg 293 173 bang;
-#X obj 293 228 print my_private_underground_bar;
-#X text 342 95 also works here:;
-#X text 41 149 ...then access it here:;
-#X text 13 23 private variables for patch and its subpatches;
-#X obj 57 109 cyclone/pv my_private_bar;
-#X obj 293 199 cyclone/pv my_private_bar;
-#X obj 57 198 cyclone/pv my_private_bar;
-#N canvas 1007 304 433 300 mysubpatch 0;
-#X msg 72 96 bang;
-#X obj 72 122 cyclone/pv my_private_bar;
-#X obj 72 151 print my_private_subpatch_bar;
-#X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 3 26;
-#X text 5 4 also works here;
-#X connect 0 0 1 0;
+#N canvas 357 94 430 302 more 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 29 51 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373 -1
+-1;
+#X obj 29 94 pv goop 40 50 60;
+#X obj 29 118 print;
+#X msg 265 64 status;
+#X msg 173 208 marsha 77;
+#X msg 263 208 1 2 3 4 5;
+#X msg 83 208 symbol bbq;
+#X obj 83 240 pv goop;
+#X text 5 3 more about [pv];
+#X obj 52 49 cyclone/comment 234 11 helvetica ? 0 80 80 80 <--- click
+and watch the Pd main window;
+#X obj 316 63 cyclone/comment 86 11 helvetica ? 0 80 80 80 report about
+all groups of [pv] objects tied together in Pd main window;
+#X obj 79 173 cyclone/comment 314 11 helvetica ? 0 80 80 80 ...or symbols
+\, floats \, lists \, or arbitrary messages can be stored (click pv
+object above after clicking on messages below);
 #X connect 1 0 2 0;
-#X restore 349 115 pd mysubpatch;
-#X text 287 150 also works here:;
-#X text 38 47 store message in variable my_private_bar:;
-#X connect 9 0 28 0;
-#X connect 11 0 26 0;
-#X connect 21 0 27 0;
-#X connect 27 0 22 0;
-#X connect 28 0 10 0;
+#X connect 2 0 3 0;
+#X connect 4 0 2 0;
+#X connect 5 0 8 0;
+#X connect 6 0 8 0;
+#X connect 7 0 8 0;
+#X restore 411 296 pd more about;
+#X obj 443 279 cyclone/comment 234 11 helvetica ? 0 80 80 80 ... see
+too;
+#X connect 6 0 23 0;
+#X connect 8 0 21 0;
+#X connect 18 0 22 0;
+#X connect 22 0 19 0;
+#X connect 23 0 7 0;

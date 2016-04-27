@@ -1,0 +1,99 @@
+#N canvas 406 28 572 532 10;
+#X obj 3 432 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 588 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 652 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 2 45 cnv 15 552 48 empty empty maxmode 4 14 0 18 -204280 -1
+0;
+#X text 101 440 float;
+#X text 101 457 bang;
+#X text 176 442 - to set new value and output;
+#X text 101 599 float;
+#X obj 81 597 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 442 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 492 56 maxmode;
+#X text 83 668 none;
+#X text 101 628 float;
+#X obj 81 626 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 101 485 cd;
+#X text 101 501 click;
+#X text 101 517 get;
+#X text 101 532 import;
+#X text 101 548 pwd;
+#X text 101 565 set;
+#X text 176 486 - adds the argument to the path evaluated by pwd;
+#X text 176 502 - File open box to read a (patch?) file;
+#X text 176 518 - reports the current compatibility mode right outlet
+;
+#X text 176 549 - evaluates the path as symbol;
+#X text 176 599 -;
+#X text 176 628 -;
+#X text 220 102 simulate mouse click to open panel;
+#X obj 257 398 print mode;
+#X msg 234 211 set max;
+#X msg 241 233 set barry;
+#X msg 244 277 bang;
+#X msg 230 189 set;
+#X obj 170 397 print result;
+#X msg 243 255 get;
+#X msg 208 123 click 0 0 0 0 0;
+#X msg 165 145 cd path;
+#X msg 178 167 pwd path;
+#X text 217 146 set open panel directory;
+#X text 236 167 set current and open panel directory;
+#X obj 170 338 cyclone/maxmode;
+#X obj 2 689 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 22 70 switches from pd mode to Max mode;
+#X text 176 458 - output the list of dummies (not the abstraction replacements)
+;
+#X text 272 338 <- click to import a Max/MSP patch;
+#X text 176 534 - Opens file open box to import a Max/MSP 4.6 patch
+file;
+#X text 176 566 - argument sets compatibility mode. No argument is
+'none';
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 779 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 758 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 638 261 424 317 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 119 LIBRARY cyclone;
+#X text 0 140 VERSION 0.2-beta1;
+#X text 2 160 AUTHOR Krzysztof Czaja;
+#X text 2 180 RELEASE_DATE 2002;
+#X text 3 197 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 226 HELP_PATCH_AUTHORS Fred Jan Kraan created the patch to
+pd-extended 2014-12-03;
+#X text 1 60 INLET_0 float bang cd click get import pwd set;
+#X text 1 99 OUTLET_1;
+#X text 1 81 OUTLET_0;
+#X text 1 40 DESCRIPTION compatibility configurator and switcher;
+#X text 1 0 KEYWORDS compatbility max/msp fitter;
+#X restore 502 760 pd META;
+#N canvas 130 487 428 85 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 29 +;
+#X obj 38 29 *;
+#X restore 198 760 pd Related_objects;
+#X text 83 705 The maxmode object attempts to load abstractions for
+150+ Max/MSP 4.6 objects and replaces them with dummy objects if these
+are not found.;
+#X connect 28 0 39 0;
+#X connect 29 0 39 0;
+#X connect 30 0 39 0;
+#X connect 31 0 39 0;
+#X connect 33 0 39 0;
+#X connect 34 0 39 0;
+#X connect 35 0 39 0;
+#X connect 36 0 39 0;
+#X connect 39 0 32 0;
+#X connect 39 1 27 0;

@@ -1,8 +1,39 @@
-#N canvas 623 81 559 531 10;
-#X obj 0 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 333 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 400 28 572 530 10;
+#X obj 2 417 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 482 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 542 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 83 426 cnv 17 3 47 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 515 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty mean 4 14 0 18 -204280 -1 0;
+#X obj 512 53 mean;
+#X text 14 72 find the running average of a stream of numbers;
+#X floatatom 233 349 5 0 0 0 - - -, f 5;
+#X obj 233 219 line;
+#X msg 233 198 0 \, 1 1000;
+#X msg 269 256 1 2 3 4 5;
+#X floatatom 332 349 5 0 0 0 - - -, f 5;
+#X text 110 425 list;
+#X text 110 442 float;
+#X text 183 442 - number to add running average;
+#X text 110 457 message;
+#X text 110 492 float;
+#X text 183 492 - running average;
+#X text 110 560 (none);
+#X obj 83 492 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 110 515 float;
+#X text 183 515 - total number of values processed;
+#X obj 233 298 cyclone/mean, f 17;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 611 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 590 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 594 316 370 225 META 0;
 #X text 0 18 LICENSE SIBSD;
 #X text 0 108 LIBRARY cyclone;
@@ -21,50 +52,35 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 508 pd META;
-#X obj 0 398 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 458 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 505 592 pd META;
 #N canvas 307 431 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 207 508 pd Related_objects;
-#X obj 81 342 cnv 17 3 47 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 209 592 pd Related_objects;
+#X msg 156 246 clear;
+#X obj 192 146 vsl 26 58 0 127 0 0 snd rcv empty 0 -9 0 10 -216373
+-1 -1 0 1;
+#X floatatom 192 212 5 0 0 0 - - -, f 5;
+#X text 183 425 - list of numbers to take average;
+#X text 183 457 - "clear": clear average \, start over;
+#X obj 369 354 cyclone/comment 80 11 helvetica ? 0 80 80 80 how many
+numbers have been received;
+#X obj 109 232 cyclone/comment 80 11 helvetica ? 0 80 80 80 zero the
+memory;
+#X obj 336 261 cyclone/comment 60 11 helvetica ? 0 80 80 80 average
+numbers in a list;
+#X obj 228 166 cyclone/comment 80 11 helvetica ? 0 80 80 80 average
+stream of numbers;
+#X obj 270 355 cyclone/comment 48 11 helvetica ? 0 80 80 80 mean;
+#X obj 255 366 cyclone/comment 48 11 helvetica ? 0 80 80 80 (average)
 ;
-#X obj 81 431 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty mean 3 12 0 18 -204280 -1 0;
-#X obj 519 4 mean;
-#X text 12 23 find the running average of a stream of numbers;
-#X floatatom 96 302 5 0 0 0 - - -;
-#X floatatom 124 94 5 0 0 0 - - -;
-#X obj 147 170 line;
-#X msg 96 70 clear;
-#X msg 147 145 0 \, 1 1000;
-#X msg 136 119 1 2 3 4 5;
-#X floatatom 165 302 5 0 0 0 - - -;
-#X text 203 296 total no of values included in the;
-#X text 203 311 averaging process;
-#X text 131 303 mean;
-#X text 108 341 list;
-#X text 181 341 - list of numbers to take avg;
-#X text 108 358 float;
-#X text 181 358 - number to add running average;
-#X text 108 373 message;
-#X text 181 373 - clear: clear avg \, start over;
-#X text 108 408 float;
-#X text 181 408 - running average;
-#X text 108 476 (none);
-#X obj 81 408 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 108 431 float;
-#X text 181 431 - total number of values processed;
-#X obj 96 234 cyclone/mean;
-#X connect 12 0 33 0;
-#X connect 13 0 33 0;
-#X connect 14 0 33 0;
-#X connect 15 0 13 0;
-#X connect 16 0 33 0;
-#X connect 33 0 11 0;
-#X connect 33 1 17 0;
+#X obj 33 105 cyclone/comment 358 10 monaco ? 0 80 80 80 calculates
+the mean (average) of all numbers it has received and outputs it.;
+#X connect 9 0 23 0;
+#X connect 10 0 9 0;
+#X connect 11 0 23 0;
+#X connect 23 0 8 0;
+#X connect 23 1 12 0;
+#X connect 29 0 23 0;
+#X connect 30 0 31 0;
+#X connect 31 0 23 0;

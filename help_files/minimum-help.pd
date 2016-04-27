@@ -1,8 +1,38 @@
-#N canvas 619 82 559 486 10;
-#X obj 0 459 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 280 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 350 27 572 485 10;
+#X obj 2 349 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 444 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 481 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 83 358 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 419 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 10 552 48 empty empty minimum 4 14 0 18 -204280 -1
+0;
+#X text 118 357 list;
+#X text 118 372 bang;
+#X text 183 372 - send most recent output again;
+#X text 118 388 float;
+#X obj 83 454 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 118 419 float;
+#X text 118 454 float;
+#X text 100 497 1) float;
+#X obj 494 53 minimum;
+#X text 14 72 output the smallest in a list of numbers;
+#X text 183 454 - the stored minimum value;
+#X text 183 497 - initial minimum to compare to left outlet;
+#X text 183 419 - set current minimum value;
+#X text 183 388 - output if lower than current value \, otherwise output
+current minimum value;
+#X text 183 357 - list of numbers. the minimum value is send;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 549 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 528 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 619 248 351 245 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 120 LIBRARY cyclone;
@@ -20,64 +50,91 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 505 461 pd META;
-#X obj 0 375 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 507 530 pd META;
 #N canvas 305 325 426 172 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 30 43 minimum;
 #X obj 83 44 Peak;
 #X obj 82 66 Trough;
-#X restore 204 461 pd Related_objects;
-#X obj 81 289 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 81 350 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty minimum 3 12 0 18 -204280 -1 0
-;
-#X text 116 288 list;
-#X text 116 303 bang;
-#X text 181 303 - send most recent output again;
-#X text 116 319 float;
-#X obj 81 385 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 116 350 float;
-#X text 116 385 float;
-#X text 98 428 1) float;
-#X obj 498 6 minimum;
-#X text 12 23 output the smallest in a list of numbers;
-#X msg 305 81 1 2 3 4 3 2;
-#X floatatom 305 249 5 0 0 0 - - -;
-#X msg 258 106 bang;
-#X text 181 385 - the stored minimum value;
-#X text 181 428 - initial minimum to compare to left outlet;
-#X floatatom 62 248 5 0 0 0 - - -;
-#X msg 41 82 bang;
-#X floatatom 62 106 5 0 0 0 - - -;
-#X floatatom 161 109 5 0 0 0 - - -;
-#X obj 62 170 cyclone/minimum 5;
-#X text 35 52 comparing floats;
-#X obj 62 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X restore 206 530 pd Related_objects;
+#X floatatom 34 287 8 0 0 0 - - -, f 8;
+#X floatatom 34 208 8 0 0 0 - - -, f 8;
+#X floatatom 133 208 8 0 0 0 - - -, f 8;
+#X obj 34 304 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X obj 305 228 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X floatatom 345 254 5 0 0 0 - - -, f 5;
+#X obj 345 271 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X msg 320 105 5 7 9 8 6 4;
-#X obj 305 171 cyclone/minimum;
-#X text 332 52 comparing floats in a list;
-#X text 181 350 - set current minimum value;
-#X text 181 319 - output if lower than current value \, otherwise output
-current minimum value;
-#X text 181 288 - list of numbers. the minimum value is send;
-#X connect 19 0 33 0;
-#X connect 21 0 33 0;
-#X connect 25 0 28 0;
-#X connect 26 0 28 0;
-#X connect 27 0 28 1;
-#X connect 28 0 24 0;
-#X connect 28 0 30 0;
-#X connect 32 0 33 0;
-#X connect 33 0 20 0;
-#X connect 33 0 31 0;
+#X msg 345 154 5 7 9 8 6 4;
+#X obj 133 144 vsl 24 55 0 127 0 0 empty empty empty 0 -9 0 10 -216373
+-1 -1 0 1;
+#X obj 34 144 vsl 24 55 0 127 0 0 empty empty empty 0 -9 0 10 -216373
+-1 -1 0 1;
+#X obj 162 139 cyclone/comment 89 11 helvetica ? 0 80 80 80 change
+the current minimum value;
+#X obj 30 110 cyclone/comment 96 10 monaco ? 0 80 80 80 comparing floats
+;
+#X obj 335 120 cyclone/comment 195 10 monaco ? 0 80 80 80 comparing
+floats in a list;
+#X obj 151 249 cyclone/comment 100 11 helvetica ? 0 80 80 80 optional
+argument sets initial minimum;
+#X obj 465 324 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 297 95 585 356 Examples 0;
+#X obj 2 2 cnv 15 580 40 empty empty minimum 3 12 0 18 -204280 -1 0
+;
+#X obj 2 331 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 39 24 examples;
+#N canvas 440 304 400 122 credits 0;
+#X text 54 28 Examples based on Max 7 Reference Documentation and on
+the last old cyclone help maximum-help., f 48;
+#X restore 501 333 pd credits;
+#X msg 55 115 30 89 77 21;
+#X floatatom 43 269 5 0 0 0 - - -, f 5;
+#X obj 147 209 cyclone/comment 112 11 helvetica ? 0 80 80 80 in a list
+compare mode \, the current minimum value is not used;
+#X obj 43 285 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 62 140 12 78 64 22 12 64;
+#X obj 31 62 cyclone/comment 164 11 helvetica ? 0 80 80 80 numbers
+in a list are compared with each other \, not with the stored value
+;
+#X msg 363 115 bang;
+#X msg 337 81 12 78 64 22 12 64;
+#X obj 441 179 cyclone/comment 112 11 helvetica ? 0 80 80 80 the second
+smallest value (22) becomes the new stored value;
+#X obj 398 119 cyclone/comment 57 11 helvetica ? 0 80 80 80 repeat
+last operation;
+#X obj 363 236 print maximum output;
+#X obj 396 266 cyclone/comment 74 11 helvetica ? 0 80 80 80 see results
+of print object in Pd window;
+#X obj 377 265 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 376 262 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 374 256 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 363 158 cyclone/minimum 3;
+#X obj 43 197 cyclone/minimum;
+#X connect 4 0 20 0;
+#X connect 5 0 7 0;
+#X connect 8 0 20 0;
+#X connect 10 0 19 0;
+#X connect 11 0 19 0;
+#X connect 19 0 14 0;
+#X connect 20 0 5 0;
+#X restore 465 324 pd Examples;
+#X obj 445 203 cyclone/comment 80 11 helvetica ? 0 80 80 80 finds the
+minimum in a list of numbers;
+#X obj 422 159 cyclone/comment 80 11 helvetica ? 0 80 80 80 <--- Click
+here;
+#X obj 345 199 cyclone/minimum;
+#X obj 34 241 cyclone/minimum 5;
+#X connect 26 0 29 0;
+#X connect 27 0 44 0;
+#X connect 28 0 44 1;
+#X connect 30 0 31 0;
+#X connect 32 0 43 0;
+#X connect 33 0 28 0;
+#X connect 34 0 27 0;
+#X connect 43 0 30 0;
+#X connect 44 0 26 0;

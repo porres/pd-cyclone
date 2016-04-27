@@ -1,8 +1,43 @@
-#N canvas 617 83 570 531 10;
-#X obj 0 628 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 410 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 403 27 572 533 10;
+#X obj 2 368 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 409 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 451 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 86 378 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 85 418 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty grab 4 14 0 18 -204280 -1 0;
+#X obj 514 52 grab;
+#X text 14 71 intercept the output of another object;
+#X obj 216 246 * 10;
+#X floatatom 216 272 5 0 0 0 - - -, f 5;
+#X floatatom 147 319 5 0 0 0 - - -, f 5;
+#X msg 147 149 2;
+#X floatatom 237 222 5 0 0 0 - - -, f 5;
+#X text 97 464 1) float;
+#X text 97 496 2) object;
+#X text 186 496 - optional received object to send input to;
+#X text 114 378 anything;
+#X text 114 418 anything;
+#X text 186 378 - anything that is sent to grab output;
+#X text 186 418 - anything that was grabbed from the object;
+#X text 186 464 - optional number of additional outlets (corresponding
+to grabbed object's outlets);
+#X obj 2 520 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 291 319 * 10;
+#X obj 147 197 cyclone/grab;
+#X text 99 529 by connecting grab to the inlet of an object \, it can
+intercept data to the objects outlets and redirect it to its own leftmost
+outlet or send it to another object.;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 607 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 586 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 617 371 355 223 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 100 LIBRARY cyclone;
@@ -19,92 +54,138 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 630 pd META;
-#X obj 0 451 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 493 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 504 588 pd META;
 #N canvas 855 585 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 14 54 cyclone/universal;
 #X obj 14 32 cyclone/offer;
-#X restore 214 630 pd Related_objects;
-#X obj 84 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 216 588 pd Related_objects;
+#X obj 39 109 cyclone/comment 402 10 monaco ? 0 80 80 80 intercept
+messages before they are output by the receiving object;
+#X obj 474 342 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#X obj 83 460 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty grab 3 12 0 18 -204280 -1 0;
-#X obj 517 5 grab;
-#X text 12 23 intercept the output of another object;
-#X obj 119 260 * 10;
-#X floatatom 119 286 5 0 0 0 - - -;
-#X floatatom 50 307 5 0 0 0 - - -;
-#X msg 50 103 2;
-#X floatatom 140 236 5 0 0 0 - - -;
-#X obj 345 293 r test;
-#X floatatom 317 251 5 0 0 0 - - -;
-#X text 95 506 1) float;
-#X text 95 538 2) object;
-#X text 184 538 - optional received object to send input to;
-#X floatatom 428 251 5 0 0 0 - - -;
-#X obj 400 286 loadbang;
-#X msg 400 307 1 2 \, 3 4 \, 5 6;
-#X msg 305 107 1;
-#X text 112 420 anything;
-#X text 112 460 anything;
-#X text 184 420 - anything that is sent to grab output;
-#X text 184 460 - anything that was grabbed from the object;
-#X text 184 506 - optional number of additional outlets (corresponding
-to grabbed object's outlets);
-#X text 339 64 here output from coll's 1st;
-#X text 339 77 and 2nd outlets correspond to;
-#X text 338 90 grab object's outlets;
-#X msg 317 127 2;
-#X obj 0 562 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#N canvas 306 94 605 662 Examples 0;
+#X obj 2 2 cnv 15 600 40 empty empty grab 3 12 0 18 -204280 -1 0;
+#X text 24 24 examples;
+#X obj 2 658 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 638 cnv 15 600 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 154 258 < the result is;
-#X text 166 283 without being outputted;
-#X text 164 270 forwarded to grab;
-#X text 87 306 < the output from;
-#X obj 198 308 * 10;
-#N canvas 693 508 432 300 as 0;
-#X msg 74 78 hello;
-#X obj 245 96 r foo;
-#X obj 245 119 print foo;
-#X msg 110 124 set bar;
-#X msg 89 100 let's go;
-#X obj 315 96 r bar;
-#X obj 315 119 print bar;
-#X obj 74 211 cyclone/grab 0 foo;
-#X msg 111 144 set foo;
-#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 4 grab as settable send;
-#X connect 0 0 7 0;
-#X connect 1 0 2 0;
-#X connect 3 0 7 0;
-#X connect 4 0 7 0;
-#X connect 5 0 6 0;
-#X connect 8 0 7 0;
-#X restore 432 387 pd as settable send;
-#X text 32 64 intercept messages before they are output;
-#X text 33 77 by the receiving object;
-#X obj 50 171 cyclone/grab;
-#X obj 317 180 cyclone/grab 2 test;
-#X obj 345 334 cyclone/coll;
+#N canvas 440 304 378 120 credits 0;
+#X text 40 32 First example from Max 7 Reference Documentation.;
+#X restore 521 640 pd credits;
+#X obj 271 454 r test;
+#X floatatom 157 586 5 0 0 0 - - -, f 5;
+#X floatatom 268 586 5 0 0 0 - - -, f 5;
+#X obj 326 439 loadbang;
+#X msg 326 460 1 2 \, 3 4 \, 5 6;
+#X msg 130 453 1;
+#X obj 157 535 cyclone/grab 2 test;
+#X obj 271 496 cyclone/coll;
 #C restore;
-#X text 97 571 by connecting grab to the inlet of an object \, it can
-intercept data to the objects outlets and redirect it to its own leftmost
-outlet or send it to another object.;
-#X connect 11 0 12 0;
-#X connect 14 0 43 0;
-#X connect 15 0 11 1;
-#X connect 16 0 45 0;
-#X connect 22 0 23 0;
-#X connect 23 0 45 0;
-#X connect 24 0 44 0;
-#X connect 33 0 44 0;
-#X connect 43 0 13 0;
-#X connect 43 1 11 0;
-#X connect 44 0 17 0;
-#X connect 44 1 21 0;
+#X obj 127 408 cyclone/comment 165 11 helvetica ? 0 80 80 80 here output
+from coll's 1st and 2nd outlets correspond to grab object's outlets
+;
+#X msg 39 108 stop;
+#X obj 39 180 metro 50;
+#X obj 81 108 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 126 218 - 1;
+#X obj 198 323 hsl 100 22 0 127 0 0 empty empty empty -2 -8 0 10 -216373
+-1 -1 0 1;
+#X floatatom 195 350 5 0 0 0 - - -, f 5;
+#X obj 39 258 cyclone/counter;
+#X floatatom 39 280 5 0 0 0 - - -, f 5;
+#X obj 125 107 cyclone/comment 83 11 helvetica ? 0 80 80 80 click to
+start cycling through the table;
+#X obj 99 107 cyclone/comment 83 11 helvetica ? 0 80 80 80 <----;
+#X msg 126 161 length;
+#X obj 126 187 cyclone/grab;
+#X obj 20 69 cyclone/comment 227 11 helvetica ? 0 80 80 80 grab is
+used here to get the length of the table to set the limits of the counter
+;
+#X msg 148 475 3;
+#X msg 165 497 5;
+#X msg 393 134 hello;
+#X obj 403 297 r foo;
+#X obj 403 320 print foo;
+#X msg 429 180 set bar;
+#X msg 408 156 let's go;
+#X obj 473 297 r bar;
+#X obj 473 320 print bar;
+#X obj 393 267 cyclone/grab 0 foo;
+#X msg 430 200 set foo;
+#X obj 385 108 cyclone/comment 227 11 helvetica ? 0 80 80 80 ... and
+here as a setable send;
+#N canvas 276 44 500 434 Table 0;
+#X obj 50 66 loadbang;
+#X obj 50 320 outlet;
+#X msg 50 95 0 -1 \, 1 1 \, 2 2 \, 3 4 \, 4 5 \, 5 6 \, 6 7 \, 7 9
+\, 8 10 \, 9 11 \, 10 13 \, 11 14 \, 12 16 \, 13 17 \, 14 19 \, 15
+20 \, 16 24 \, 17 28 \, 18 30 \, 19 32 \, 20 34 \, 21 36 \, 22 39 \,
+23 42 \, 24 46 \, 25 50 \, 26 53 \, 27 56 \, 28 59 \, 29 62 \, 30 64
+\, 31 66 \, 32 68 \, 33 69 \, 34 71 \, 35 73 \, 36 75 \, 37 76 \, 38
+78 \, 39 80 \, 40 82 \, 41 84 \, 42 85 \, 43 86 \, 44 87 \, 45 88 \,
+46 89 \, 47 90 \, 48 91 \, 49 92 \, 50 92 \, 51 93 \, 52 93 \, 53 91
+\, 54 90 \, 55 89 \, 56 88 \, 57 87 \, 58 85 \, 59 83 \, 60 80 \, 61
+78 \, 62 77 \, 63 75 \, 64 74 \, 65 72 \, 66 71 \, 67 70 \, 68 69 \,
+69 68 \, 70 68 \, 71 67 \, 72 67 \, 73 66 \, 74 66 \, 75 65 \, 76 65
+\, 77 65 \, 78 65 \, 79 65 \, 80 66 \, 81 67 \, 82 68 \, 83 70 \, 84
+72 \, 85 75 \, 86 77 \, 87 79 \, 88 81 \, 89 83 \, 90 86 \, 91 88 \,
+92 90 \, 93 91 \, 94 91 \, 95 89 \, 96 89 \, 97 88 \, 98 87 \, 99 86
+\, 100 85 \, 101 84 \, 102 83 \, 103 82 \, 104 81 \, 105 80 \, 106
+79 \, 107 75 \, 108 73 \, 109 65 \, 110 52 \, 111 50 \, 112 48 \, 113
+46 \, 114 44 \, 115 41 \, 116 38 \, 117 37 \, 118 36 \, 119 31 \, 120
+29 \, 121 23 \, 122 10 \, 123 9 \, 124 7 \, 125 1 \, 126 0 \, 127 -1
+;
+#X obj 2 2 cnv 15 495 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 7 4 content to Table object;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X restore 204 262 pd Table content;
+#X obj 195 294 cyclone/Table;
+#C restore;
+#X obj 483 350 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 482 347 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 480 341 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 503 350 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X connect 5 0 12 0;
+#X connect 8 0 9 0;
+#X connect 9 0 12 0;
+#X connect 10 0 11 0;
+#X connect 11 0 6 0;
+#X connect 11 1 7 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
+#X connect 16 0 15 0;
+#X connect 16 0 24 0;
+#X connect 17 0 20 4;
+#X connect 18 0 19 0;
+#X connect 20 0 21 0;
+#X connect 21 0 40 0;
+#X connect 24 0 25 0;
+#X connect 25 0 17 0;
+#X connect 25 1 40 0;
+#X connect 27 0 11 0;
+#X connect 28 0 11 0;
+#X connect 29 0 36 0;
+#X connect 30 0 31 0;
+#X connect 32 0 36 0;
+#X connect 33 0 36 0;
+#X connect 34 0 35 0;
+#X connect 37 0 36 0;
+#X connect 39 0 40 0;
+#X connect 40 0 18 0;
+#X restore 474 342 pd Examples;
+#X obj 277 246 cyclone/comment 80 11 helvetica ? 0 80 80 80 the result
+is forwarded to grab without being outputted;
+#X obj 251 247 cyclone/comment 80 11 helvetica ? 0 80 80 80 <----;
+#X obj 212 321 cyclone/comment 80 11 helvetica ? 0 80 80 80 the output
+from;
+#X obj 184 321 cyclone/comment 80 11 helvetica ? 0 80 80 80 <----;
+#X connect 8 0 9 0;
+#X connect 11 0 23 0;
+#X connect 12 0 8 1;
+#X connect 23 0 10 0;
+#X connect 23 1 8 0;

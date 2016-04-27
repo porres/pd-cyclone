@@ -1,8 +1,70 @@
-#N canvas 624 80 570 549 10;
-#X obj 0 787 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 379 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 335 25 572 548 10;
+#X obj 2 500 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 706 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 782 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 2 821 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 79 513 cnv 17 3 140 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty mtr 4 14 0 18 -204280 -1 0;
+#X obj 514 54 mtr;
+#X msg 121 147 record;
+#X msg 144 168 play;
+#X obj 314 336 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 0 1;
+#X obj 288 336 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 0 1;
+#X obj 262 336 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
+-1 -1 0 1;
+#X msg 234 263 next;
+#X msg 205 237 rewind;
+#X msg 163 189 stop;
+#X obj 192 412 print;
+#X msg 192 218 clear;
+#X text 110 511 message;
+#X text 190 511 - accepts:;
+#X text 320 529 mute;
+#X text 320 547 unmute;
+#X text 320 565 clear;
+#X text 320 583 delay ms;
+#X text 320 601 write;
+#X text 320 619 read;
+#X text 210 637 tempo float;
+#X text 320 637 first;
+#X text 210 529 record;
+#X text 210 547 play;
+#X text 210 565 stop;
+#X text 210 583 clear;
+#X text 210 601 rewind;
+#X text 210 619 next;
+#X text 92 792 1) float;
+#X text 190 792 - number of tracks to mix (max 32);
+#X text 110 718 list;
+#X text 110 676 track;
+#X text 190 676 - track to record (for inlets 1...n);
+#X obj 79 676 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X text 190 718 - when "next" received \, outputs list with track #
+and duration;
+#X obj 79 751 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X text 110 751 track;
+#X text 190 751 - one to one mapping of inlets to outlets;
+#X obj 79 718 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 88 834 The leftmost inlet of mtr is a control inlet for all
+tracks. You can send the same messages to individual tracks as well.
+Each track records what comes into its inlet \, and plays it back through
+the outlet directly below the inlet.;
+#X obj 192 300 cyclone/mtr 3;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 929 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 908 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 622 298 361 258 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 140 LIBRARY cyclone;
@@ -22,86 +84,133 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 789 pd META;
-#X obj 0 585 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 661 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 0 700 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
+#X restore 504 910 pd META;
 #N canvas 321 448 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 86 33 qlist;
 #X obj 6 32 cyclone/seq;
-#X restore 208 789 pd Related_objects;
-#X obj 77 392 cnv 17 3 140 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 210 910 pd Related_objects;
+#X obj 200 441 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 199 438 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 197 432 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 220 438 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X obj 465 476 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty mtr 3 12 0 18 -204280 -1 0;
-#X obj 522 8 mtr;
-#X text 12 23 Multi-track recorder for any kind of message;
-#X msg 109 79 record;
-#X msg 128 100 play;
-#X obj 211 302 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
--1 -1 0 1;
-#X obj 185 302 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
--1 -1 0 1;
-#X obj 159 302 vsl 18 47 0 128 0 0 empty empty empty 0 -8 0 8 -262144
--1 -1 0 1;
-#X msg 163 191 next;
-#X msg 155 166 rewind;
-#X msg 141 121 stop;
-#X obj 109 358 print;
-#X text 143 357 track# duration;
-#X msg 147 143 clear;
-#X text 108 390 message;
-#X text 188 390 - accepts:;
-#X text 318 408 mute;
-#X text 318 426 unmute;
-#X text 318 444 clear;
-#X text 318 462 delay ms;
-#X text 318 480 write;
-#X text 318 498 read;
-#X text 208 516 tempo float;
-#X text 318 516 first;
-#X text 208 408 record;
-#X text 208 426 play;
-#X text 208 444 stop;
-#X text 208 462 clear;
-#X text 208 480 rewind;
-#X text 208 498 next;
-#X text 90 671 1) float;
-#X text 188 671 - number of tracks to mix (max 32);
-#X text 108 597 list;
-#X text 108 555 track;
-#X text 188 555 - track to record (for inlets 1...n);
-#X obj 77 555 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
-;
-#X text 188 597 - when "next" received \, outputs list with track #
-and duration;
-#X obj 77 630 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
-;
-#X text 108 630 track;
-#X text 188 630 - one to one mapping of inlets to outlets;
-#X obj 77 597 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 86 713 The leftmost inlet of mtr is a control inlet for all
-tracks. You can send the same messages to individual tracks as well.
-Each track records what comes into its inlet \, and plays it back through
-the outlet directly below the inlet.;
-#X obj 109 246 cyclone/mtr 3;
-#X text 79 42 Control messages sent to an individual;
-#X text 79 54 track affect that track only.;
-#X connect 11 0 50 0;
-#X connect 12 0 50 0;
-#X connect 13 0 50 3;
-#X connect 14 0 50 2;
-#X connect 15 0 50 1;
-#X connect 16 0 50 0;
-#X connect 17 0 50 0;
-#X connect 18 0 50 0;
-#X connect 21 0 50 0;
-#X connect 50 0 19 0;
-#X connect 50 1 15 0;
-#X connect 50 2 14 0;
-#X connect 50 3 13 0;
+#N canvas 239 97 685 385 Examples 0;
+#X obj 2 2 cnv 15 680 40 empty empty mtr 3 12 0 18 -204280 -1 0;
+#X obj 2 361 cnv 15 680 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 12 24 examples;
+#N canvas 440 304 400 122 credits 0;
+#X text 54 28 Examples based on Max 7 Reference Documentation and on
+the last old cyclone help maximum-help., f 48;
+#X restore 601 363 pd credits;
+#X obj 234 57 notein, f 10;
+#X obj 234 88 pack 0 0 0;
+#X obj 153 146 cyclone/gate 4;
+#X floatatom 153 91 5 0 4 0 - rcv_numbox -, f 5;
+#N canvas 521 304 431 233 settings 0;
+#X obj 73 97 loadbang;
+#X msg 73 119 3;
+#X obj 73 141 s rcv_numbox;
+#X obj 233 93 loadbang;
+#X msg 233 115 86;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 4 mtr examples preset;
+#X obj 71 77 cyclone/comment 99 11 helvetica ? 0 80 80 80 track number
+box;
+#X obj 232 76 cyclone/comment 99 11 helvetica ? 0 80 80 80 horizontal
+slider;
+#X obj 30 39 cyclone/comment 99 11 helvetica ? 0 80 80 80 set initial
+values of:;
+#X obj 233 137 s rcv_hslider;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 3 0 4 0;
+#X connect 4 0 10 0;
+#X restore 518 363 pd settings;
+#X msg 98 90 record;
+#X msg 27 90 play;
+#X msg 61 90 stop;
+#X obj 123 187 cyclone/mtr 4, f 19;
+#X obj 150 231 unpack 0 0 0;
+#X obj 150 266 noteout, f 12;
+#X obj 32 208 cyclone/comment 114 11 helvetica ? 0 80 80 80 record
+tracks separately \, then play them back together;
+#X msg 452 84 record;
+#X msg 381 84 play;
+#X msg 415 84 stop;
+#X obj 453 205 cyclone/mtr 4, f 19;
+#X obj 480 124 pgmin 1;
+#X obj 508 143 bendin 1;
+#X obj 536 162 ctlin 1 1;
+#X obj 567 184 hsl 56 15 0 127 0 0 empty rcv_hslider empty -2 -8 0
+10 -216373 -1 -1 3724 1;
+#X obj 544 92 cyclone/comment 99 11 helvetica ? 0 80 80 80 record messages
+from any kind of object;
+#X text 149 77 track:;
+#X obj 564 231 ctlout 7;
+#X obj 480 291 pgmout;
+#X obj 508 271 bendout;
+#X obj 536 251 ctlout 1;
+#X connect 4 0 5 0;
+#X connect 4 1 5 1;
+#X connect 4 2 5 2;
+#X connect 5 0 6 1;
+#X connect 6 0 12 1;
+#X connect 6 1 12 2;
+#X connect 6 2 12 3;
+#X connect 6 3 12 4;
+#X connect 7 0 6 0;
+#X connect 9 0 6 1;
+#X connect 10 0 12 0;
+#X connect 11 0 12 0;
+#X connect 12 1 13 0;
+#X connect 12 2 13 0;
+#X connect 12 3 13 0;
+#X connect 12 4 13 0;
+#X connect 13 0 14 0;
+#X connect 13 1 14 1;
+#X connect 13 2 14 2;
+#X connect 16 0 19 0;
+#X connect 17 0 19 0;
+#X connect 18 0 19 0;
+#X connect 19 1 27 0;
+#X connect 19 2 28 0;
+#X connect 19 3 29 0;
+#X connect 19 4 26 0;
+#X connect 20 0 19 1;
+#X connect 21 0 19 2;
+#X connect 22 0 19 3;
+#X connect 23 0 19 4;
+#X restore 465 476 pd Examples;
+#X obj 21 102 cyclone/comment 291 10 monaco ? 0 80 80 80 records messages
+and provides sequenced playback for any indiviual track;
+#X text 14 71 multi-track recorder for any kind of message;
+#X obj 233 413 cyclone/comment 83 11 helvetica ? 0 80 80 80 track#
+duration;
+#X obj 170 149 cyclone/comment 159 11 helvetica ? 0 80 80 80 1) click
+on record message;
+#X obj 297 309 cyclone/comment 95 11 helvetica ? 0 80 80 80 2) slide
+it...;
+#X obj 198 191 cyclone/comment 95 11 helvetica ? 0 80 80 80 3) stop
+the record;
+#X obj 181 169 cyclone/comment 199 11 helvetica ? 0 80 80 80 4) finally
+click on play message and see!;
+#X obj 54 228 cyclone/comment 81 11 helvetica ? 0 80 80 80 follow the
+steps 1) \, 2) \, 3) \, 4) and understand all;
+#X connect 7 0 45 0;
+#X connect 8 0 45 0;
+#X connect 9 0 45 3;
+#X connect 10 0 45 2;
+#X connect 11 0 45 1;
+#X connect 12 0 45 0;
+#X connect 13 0 45 0;
+#X connect 14 0 45 0;
+#X connect 16 0 45 0;
+#X connect 45 0 15 0;
+#X connect 45 1 11 0;
+#X connect 45 2 10 0;
+#X connect 45 3 9 0;

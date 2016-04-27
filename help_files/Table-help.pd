@@ -1,0 +1,315 @@
+#N canvas 413 28 572 591 10;
+#X obj 2 434 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 562 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 629 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 2 685 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 80 443 cnv 17 3 78 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 80 573 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty Table 4 14 0 18 -204280 -1 0
+;
+#X obj 506 52 Table;
+#C restore;
+#X text 14 71 Store and graphically edit an array of numbers;
+#X text 200 442 - outputs number at position of float;
+#X text 104 442 int;
+#X text 104 462 <int1> <int2>;
+#X text 104 482 inv <int>;
+#X text 200 483 - get position of <int> in array;
+#X text 104 505 other messages;
+#X text 104 572 float;
+#X text 200 574 - could mean various things depending on input;
+#X text 200 643 - option arg to name the table \, or to read in from
+the table name specified, f 55;
+#X obj 80 598 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 104 597 bang;
+#X text 200 599 - when table has been changed by editing it with the
+mouse, f 55;
+#X obj 187 179 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X msg 362 232 quantile \$1;
+#X msg 157 119 open;
+#X msg 305 214 inv \$1;
+#X obj 305 134 vsl 22 48 0 79 0 0 empty empty empty 0 -8 0 8 -216373
+-66577 -1 0 1;
+#X floatatom 157 375 6 0 0 0 - - -, f 6;
+#X obj 232 365 bng 26 250 50 0 empty empty empty 17 7 0 10 -216373
+-262130 -1;
+#X floatatom 362 213 0 0 0 0 - - -;
+#X obj 362 194 << 9;
+#X text 111 747 You may name the table with an argument. Many boxes
+may share the same table by using the same name. If there is a file
+by that name it will be read into the table if possible.;
+#X msg 167 139 sum;
+#X msg 176 159 length;
+#X text 111 702 You can close the table window by clicking its close
+box \, and reopen it by double-clicking the "table" box or sending
+it the open message.;
+#X obj 362 134 vsl 22 48 0 79 0 0 empty empty empty 0 -8 0 8 -216373
+-66577 -1 0 1;
+#X obj 253 135 vsl 22 48 0 79 0 0 empty empty empty 0 -8 0 8 -216373
+-66577 -1 4700 1;
+#X text 200 505 - open \, sum \, length;
+#X obj 80 532 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 87 643 1) table name;
+#X obj 157 322 cyclone/Table;
+#C restore;
+#X text 104 531 float;
+#X text 200 533 - value to be written;
+#X obj 453 157 t b b;
+#X msg 453 233 100;
+#X msg 480 233 42;
+#X obj 453 131 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#N canvas 440 38 471 706 complete 0;
+#X text 16 33 inlet 0 messages;
+#X msg 15 60 bang;
+#X msg 15 81 clear;
+#X msg 15 102 const n;
+#X msg 16 122 dump;
+#X msg 16 143 cancel;
+#X msg 16 172 fquantile n;
+#X msg 17 194 getbits a s n;
+#X msg 16 257 inv c;
+#X msg 17 285 length;
+#X msg 17 306 max;
+#X msg 17 327 min;
+#X msg 17 348 load;
+#X msg 17 369 open;
+#X msg 17 396 next;
+#X msg 17 417 normal;
+#X msg 17 438 quantile n;
+#X msg 17 459 prev;
+#X msg 17 481 set l;
+#X msg 17 508 setbits a s n v;
+#X msg 16 529 sum;
+#X msg 17 551 read f;
+#X msg 17 594 refer t;
+#X msg 18 620 wclose;
+#X msg 18 642 write;
+#X text 107 58 same as a quantile message with a random number;
+#X text 107 78 set all table values to 0;
+#X text 108 99 overwrites all values in the table with n;
+#X text 108 120 dumps all table values;
+#X text 108 141 forget the right inlet number;
+#X text 108 193 retrieve n bits from address a starting with bit s
+;
+#X text 110 215 sets the pointer to address a;
+#X msg 17 215 goto a;
+#X msg 17 236 flags s d;
+#X text 109 233 sets Save and Don't Save option flags (0 / 1);
+#X text 107 254 finds the first value >= c and outputs its address
+;
+#X text 107 303 sends the largest value to the left outlet;
+#X text 107 284 sends the size of the table to the left outlet;
+#X text 107 323 sends the smallest value to the left outlet;
+#X text 107 345 switch table to load mode;
+#X text 108 412 switch table to normal mode;
+#X text 109 395 outputs value at current address and increments pointer
+;
+#X text 108 458 outputs value at current address and decrements pointer
+;
+#X text 107 368 opens table graphic editor;
+#X text 109 479 stores values. The first element is the start address
+;
+#X text 107 430 calculates the quantile of n and table. outputs the
+address of the value equal or greater that the result;
+#X text 108 162 calculates the fractional quantile of n and table.
+outputs the address of the value equal or greater that the result;
+#X text 119 506 sets value v to bit n from address a starting with
+bit s;
+#X text 109 531 sends the sum of all values to th eleft outlet;
+#X text 108 550 load the table with values from file f;
+#X msg 17 573 send r a v;
+#X text 108 570 sends the value from address a to object r;
+#X text 108 591 have the table object read its values from table t
+;
+#X text 111 619 close the table graphic window;
+#X text 108 643 write the table contents to a file (opens Save dialog)
+;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X restore 328 508 pd complete message list;
+#X text 200 462 - store <int 2> at postion <int 1>;
+#N canvas 549 495 430 300 fill 0;
+#X obj 107 164 f;
+#X obj 134 164 + 1;
+#X msg 69 126 0;
+#X obj 107 128 metro 10;
+#X obj 107 194 moses 128;
+#X msg 168 96 0;
+#X obj 107 224 t f f;
+#X obj 107 277 outlet;
+#X obj 107 45 inlet;
+#X obj 107 71 t b b;
+#X obj 153 277 outlet;
+#X obj 2 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 4 5 table filler;
+#X connect 0 0 1 0;
+#X connect 0 0 4 0;
+#X connect 1 0 0 1;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 6 0;
+#X connect 4 1 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 1 10 0;
+#X connect 8 0 9 0;
+#X connect 9 0 3 0;
+#X connect 9 1 2 0;
+#X restore 50 160 pd fill table;
+#X obj 80 133 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373 -66577
+-1;
+#X obj 50 201 pack f f;
+#X obj 305 193 + 100;
+#X obj 97 181 + 100;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 833 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 812 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 601 221 372 242 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 126 LIBRARY cyclone;
+#X text 0 0 KEYWORDS table graph store array;
+#X text 0 36 DESCRIPTION store and graphically edit an array of numbers
+;
+#X text 0 54 INLET_0 int <int1>_<int2> inv_<int> other;
+#X text 0 72 INLET_1 ??????;
+#X text 0 90 OUTLET_0 float;
+#X text 0 108 OUTLET_1 bang;
+#X text 1 145 VERSION 0.2-beta1;
+#X text 1 163 AUTHOR Krzysztof Czaja;
+#X text 2 181 RELEASE_DATE 2002;
+#X text 3 200 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 3 232 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 814 pd META;
+#N canvas 664 608 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 10 31 cyclone/coll;
+#C restore;
+#X obj 10 57 cyclone/funbuff;
+#C restore;
+#X obj 10 81 cyclone/Histo;
+#X restore 198 814 pd Related_objects;
+#X obj 77 115 cyclone/comment 51 11 helvetica ? 0 80 80 80 store;
+#X obj 207 181 cyclone/comment 51 11 helvetica ? 0 80 80 80 random
+;
+#X obj 251 114 cyclone/comment 51 11 helvetica ? 0 80 80 80 read;
+#X obj 296 114 cyclone/comment 51 11 helvetica ? 0 80 80 80 inv read
+;
+#X obj 350 114 cyclone/comment 62 11 helvetica ? 0 80 80 80 read quantile
+;
+#X obj 428 114 cyclone/comment 85 11 helvetica ? 0 80 80 80 write one
+value;
+#X obj 244 325 cyclone/comment 206 11 helvetica ? 0 80 80 80 <--- click
+to see Table contents;
+#X obj 268 373 cyclone/comment 126 11 helvetica ? 0 80 80 80 bang from
+second outlet when data is changed in the user interface;
+#X obj 470 410 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 348 95 565 282 Examples 0;
+#X obj 2 2 cnv 15 560 40 empty empty Table 3 12 0 18 -204280 -1 0;
+#X text 22 24 examples;
+#X obj 2 278 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 258 cnv 15 560 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 440 304 378 120 credits 0;
+#X text 40 32 First example from Max 7 Reference Documentation.;
+#X restore 481 260 pd credits;
+#X obj 89 86 cyclone/comment 227 11 helvetica ? 0 80 80 80 store 36
+at address 12;
+#X msg 45 87 12 36;
+#X msg 68 111 12;
+#X obj 45 146 cyclone/Table;
+#C restore;
+#X floatatom 45 194 8 0 0 0 - - -, f 8;
+#X obj 100 111 cyclone/comment 98 11 helvetica ? 0 80 80 80 output
+what's stored at address 12;
+#X floatatom 255 193 8 0 0 0 - - -, f 8;
+#X obj 326 94 cyclone/comment 98 11 helvetica ? 0 80 80 80 these two
+Tables share the same content;
+#X obj 255 145 cyclone/Table bulls;
+#C restore;
+#X msg 255 86 goto 0;
+#X msg 278 110 next;
+#X floatatom 419 193 8 0 0 0 - - -, f 8;
+#X obj 419 145 cyclone/Table bulls;
+#C restore;
+#X msg 419 86 goto 11;
+#X msg 442 110 prev;
+#N canvas 391 117 430 409 settings 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 18 34 cyclone/comment 162 11 helvetica ? 0 80 80 80 set content
+of Table bulls:;
+#X text 6 4 speedlim examples preset;
+#X obj 31 63 loadbang;
+#X obj 31 319 cyclone/Table bulls;
+#C restore;
+#X msg 31 93 0 -1 \, 1 1 \, 2 2 \, 3 4 \, 4 5 \, 5 6 \, 6 7 \, 7 9
+\, 8 10 \, 9 11 \, 10 13 \, 11 14 \, 12 16 \, 13 17 \, 14 19 \, 15
+20 \, 16 24 \, 17 28 \, 18 30 \, 19 32 \, 20 34 \, 21 36 \, 22 39 \,
+23 42 \, 24 46 \, 25 50 \, 26 53 \, 27 56 \, 28 59 \, 29 62 \, 30 64
+\, 31 66 \, 32 68 \, 33 69 \, 34 71 \, 35 73 \, 36 75 \, 37 76 \, 38
+78 \, 39 80 \, 40 82 \, 41 84 \, 42 85 \, 43 86 \, 44 87 \, 45 88 \,
+46 89 \, 47 90 \, 48 91 \, 49 92 \, 50 92 \, 51 93 \, 52 93 \, 53 91
+\, 54 90 \, 55 89 \, 56 88 \, 57 87 \, 58 85 \, 59 83 \, 60 80 \, 61
+78 \, 62 77 \, 63 75 \, 64 74 \, 65 72 \, 66 71 \, 67 70 \, 68 69 \,
+69 68 \, 70 68 \, 71 67 \, 72 67 \, 73 66 \, 74 66 \, 75 65 \, 76 65
+\, 77 65 \, 78 65 \, 79 65 \, 80 66 \, 81 67 \, 82 68 \, 83 70 \, 84
+72 \, 85 75 \, 86 77 \, 87 79 \, 88 81 \, 89 83 \, 90 86 \, 91 88 \,
+92 90 \, 93 91 \, 94 91 \, 95 89 \, 96 89 \, 97 88 \, 98 87 \, 99 86
+\, 100 85 \, 101 84 \, 102 83 \, 103 82 \, 104 81 \, 105 80 \, 106
+79 \, 107 75 \, 108 73 \, 109 65 \, 110 52 \, 111 50 \, 112 48 \, 113
+46 \, 114 44 \, 115 41 \, 116 38 \, 117 37 \, 118 36 \, 119 31 \, 120
+29 \, 121 23 \, 122 10 \, 123 9 \, 124 7 \, 125 1 \, 126 0 \, 127 -1
+;
+#X connect 3 0 5 0;
+#X connect 5 0 4 0;
+#X restore 396 260 pd settings;
+#X connect 6 0 8 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 13 0 11 0;
+#X connect 14 0 13 0;
+#X connect 15 0 13 0;
+#X connect 17 0 16 0;
+#X connect 18 0 17 0;
+#X connect 19 0 17 0;
+#X restore 470 410 pd Examples;
+#X connect 21 0 39 0;
+#X connect 22 0 39 0;
+#X connect 23 0 39 0;
+#X connect 24 0 39 0;
+#X connect 25 0 51 0;
+#X connect 28 0 22 0;
+#X connect 29 0 28 0;
+#X connect 31 0 39 0;
+#X connect 32 0 39 0;
+#X connect 34 0 29 0;
+#X connect 35 0 39 0;
+#X connect 39 0 26 0;
+#X connect 39 1 27 0;
+#X connect 42 0 43 0;
+#X connect 42 1 44 0;
+#X connect 43 0 39 0;
+#X connect 44 0 39 1;
+#X connect 45 0 42 0;
+#X connect 48 0 50 0;
+#X connect 48 1 52 0;
+#X connect 49 0 48 0;
+#X connect 50 0 39 0;
+#X connect 51 0 24 0;
+#X connect 52 0 50 1;

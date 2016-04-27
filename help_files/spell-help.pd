@@ -1,8 +1,33 @@
-#N canvas 622 80 561 392 10;
-#X obj 0 365 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 244 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 400 28 572 396 10;
+#X obj 2 337 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 375 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 82 346 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 384 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty spell 4 14 0 18 -204280 -1 0
+;
+#X obj 506 53 spell;
+#X text 14 71 convert input to ascii values;
+#X text 121 346 list;
+#X text 121 384 list;
+#X text 182 384 - ascii values of data from inlet;
+#X msg 103 113 63;
+#X msg 184 130 t h i s;
+#X msg 138 122 34 45;
+#X msg 249 143 or that;
+#X text 119 425 (none);
+#X text 182 346 - list of any numbers \, text \, etc to convert to
+ascii;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 479 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 458 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 583 213 379 219 META 0;
 #X text 1 19 LICENSE SIBSD;
 #X text 1 95 LIBRARY cyclone;
@@ -19,39 +44,29 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 367 pd META;
-#X obj 0 282 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 319 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 505 460 pd META;
 #N canvas 433 320 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 104 26 key;
 #X obj 105 48 keyup;
 #X obj 5 27 cyclone/sprintf;
-#X restore 200 367 pd Related_objects;
-#X obj 80 253 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 80 291 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty spell 3 12 0 18 -204280 -1 0;
-#X obj 506 9 spell;
-#X text 12 23 convert input to ascii values;
-#X text 119 253 list;
-#X text 119 291 list;
-#X text 180 291 - ascii values of data from inlet;
-#X obj 170 217 print spell;
-#X msg 170 49 63;
-#X msg 188 90 t h i s;
-#X msg 182 69 34 45;
-#X msg 192 112 or that;
-#X text 117 332 (none);
-#X text 180 253 - list of any numbers \, text \, etc to convert to
-ascii;
-#X obj 170 167 cyclone/spell;
-#X connect 15 0 21 0;
-#X connect 16 0 21 0;
-#X connect 17 0 21 0;
-#X connect 18 0 21 0;
-#X connect 21 0 14 0;
+#X restore 202 460 pd Related_objects;
+#X obj 103 185 s spll;
+#X obj 158 248 cyclone/spell;
+#X obj 158 274 print spell default;
+#X obj 158 205 r spll;
+#X obj 338 205 r spll;
+#X obj 338 248 cyclone/spell 8;
+#X obj 338 274 print spell minimum;
+#X obj 132 276 cyclone/comment 25 11 helvetica ? 0 80 80 80 ---->;
+#X obj 63 275 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X connect 11 0 22 0;
+#X connect 12 0 22 0;
+#X connect 13 0 22 0;
+#X connect 14 0 22 0;
+#X connect 23 0 24 0;
+#X connect 25 0 23 0;
+#X connect 26 0 27 0;
+#X connect 27 0 28 0;

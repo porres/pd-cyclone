@@ -1,8 +1,36 @@
-#N canvas 516 79 558 440 10;
-#X obj 0 412 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 251 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 393 31 572 441 10;
+#X obj 2 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 445 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 83 340 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 417 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty midiflush 4 14 0 18 -204280 -1
+0;
+#X text 14 71 send note offs for all hanging notes in a raw midi stream
+;
+#X obj 192 114 midiin;
+#X obj 192 282 midiout;
+#X msg 210 146 bang;
+#X msg 220 181 clear;
+#X text 114 338 midi stream;
+#X text 217 338 - midi stream to flush;
+#X text 114 357 message;
+#X text 114 417 midi stream;
+#X text 217 417 - modified flushed midistream;
+#X text 114 461 (none);
+#X obj 482 53 midiflush;
+#X obj 192 231 cyclone/midiflush;
+#X text 217 357 - bang: send note off for all notes still on;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 512 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 491 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 596 212 366 240 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 113 LIBRARY cyclone;
@@ -20,11 +48,7 @@ raw midi stream;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 505 414 pd META;
-#X obj 0 329 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 366 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 507 493 pd META;
 #N canvas 515 495 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
@@ -32,30 +56,243 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 10 56 cyclone/sustain;
 #X obj 117 32 midiin;
 #X obj 117 55 midiout;
-#X restore 203 414 pd Related_objects;
-#X obj 81 261 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 205 493 pd Related_objects;
+#X obj 470 306 cnv 12 66 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#X obj 81 338 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty midiflush 3 12 0 18 -204280 -1
+#X obj 247 146 cyclone/comment 100 11 helvetica ? 0 80 80 80 tells
+midiflush to turn the notes off;
+#X text 217 374 - clear: erases any note-ons held by midiflush \, without
+sending any note-offs, f 54;
+#X obj 262 184 cyclone/comment 100 11 helvetica ? 0 80 80 80 forget
+all previous notes \, no note off;
+#N canvas 422 141 636 443 Example 0;
+#X obj 5 5 cnv 15 625 40 empty empty midiflush 3 12 0 18 -204280 -1
 0;
-#X text 12 23 send note offs for all hanging notes in a raw midi stream
-;
-#X obj 90 53 midiin;
-#X obj 90 221 midiout;
-#X msg 186 73 bang;
-#X msg 138 73 clear;
-#X text 112 259 midi stream;
-#X text 215 259 - midi stream to flush;
-#X text 112 278 message;
-#X text 112 338 midi stream;
-#X text 215 338 - modified flushed midistream;
-#X text 112 382 (none);
-#X obj 490 5 midiflush;
-#X text 215 295 - clear: forget all previous notes \, no note off;
-#X obj 90 170 cyclone/midiflush;
-#X text 215 278 - bang: send note off for all notes still on;
-#X connect 10 0 22 0;
-#X connect 12 0 22 0;
-#X connect 13 0 22 0;
-#X connect 22 0 11 0;
+#X obj 5 404 cnv 15 625 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 440 304 384 114 credits 0;
+#X text 82 27 From Max 7 Reference Documentation.;
+#X restore 550 406 pd credits;
+#N canvas 638 210 405 345 polysynth 0;
+#X obj 121 60 inlet;
+#X obj 2 2 cnv 15 400 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 342 31 loadbang;
+#X msg 342 53 \; pd dsp 1;
+#X obj 121 102 poly 6 1;
+#N canvas 667 245 390 355 synth 0;
+#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 199 228 / 127;
+#X obj 81 245 *~;
+#X obj 81 267 *~ 0.2;
+#X obj 81 204 phasor~;
+#X obj 81 162 mtof;
+#X obj 81 61 inlet;
+#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
+number / pitch / velocity);
+#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
+simple sawtooth wave oscillator synth;
+#X text 8 3 Simple synth;
+#X obj 81 314 outlet~;
+#X obj 81 122 unpack f f;
+#X connect 1 0 2 1;
+#X connect 2 0 3 0;
+#X connect 3 0 10 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 11 0;
+#X connect 11 0 5 0;
+#X connect 11 1 1 0;
+#X restore 34 209 pd synth;
+#X obj 115 134 pack f f f;
+#X obj 95 166 route 1 2 3 4 5 6, f 38;
+#N canvas 665 236 390 355 synth 0;
+#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 199 228 / 127;
+#X obj 81 245 *~;
+#X obj 81 267 *~ 0.2;
+#X obj 81 204 phasor~;
+#X obj 81 162 mtof;
+#X obj 81 61 inlet;
+#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
+number / pitch / velocity);
+#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
+simple sawtooth wave oscillator synth;
+#X text 8 3 Simple synth;
+#X obj 81 314 outlet~;
+#X obj 81 122 unpack f f;
+#X connect 1 0 2 1;
+#X connect 2 0 3 0;
+#X connect 3 0 10 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 11 0;
+#X connect 11 0 5 0;
+#X connect 11 1 1 0;
+#X restore 94 209 pd synth;
+#N canvas 668 260 390 355 synth 0;
+#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 199 228 / 127;
+#X obj 81 245 *~;
+#X obj 81 267 *~ 0.2;
+#X obj 81 204 phasor~;
+#X obj 81 162 mtof;
+#X obj 81 61 inlet;
+#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
+number / pitch / velocity);
+#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
+simple sawtooth wave oscillator synth;
+#X text 8 3 Simple synth;
+#X obj 81 314 outlet~;
+#X obj 81 122 unpack f f;
+#X connect 1 0 2 1;
+#X connect 2 0 3 0;
+#X connect 3 0 10 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 11 0;
+#X connect 11 0 5 0;
+#X connect 11 1 1 0;
+#X restore 154 209 pd synth;
+#N canvas 659 256 390 355 synth 0;
+#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 199 228 / 127;
+#X obj 81 245 *~;
+#X obj 81 267 *~ 0.2;
+#X obj 81 204 phasor~;
+#X obj 81 162 mtof;
+#X obj 81 61 inlet;
+#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
+number / pitch / velocity);
+#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
+simple sawtooth wave oscillator synth;
+#X text 8 3 Simple synth;
+#X obj 81 314 outlet~;
+#X obj 81 122 unpack f f;
+#X connect 1 0 2 1;
+#X connect 2 0 3 0;
+#X connect 3 0 10 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 11 0;
+#X connect 11 0 5 0;
+#X connect 11 1 1 0;
+#X restore 214 209 pd synth;
+#N canvas 656 257 390 355 synth 0;
+#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 199 228 / 127;
+#X obj 81 245 *~;
+#X obj 81 267 *~ 0.2;
+#X obj 81 204 phasor~;
+#X obj 81 162 mtof;
+#X obj 81 61 inlet;
+#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
+number / pitch / velocity);
+#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
+simple sawtooth wave oscillator synth;
+#X text 8 3 Simple synth;
+#X obj 81 314 outlet~;
+#X obj 81 122 unpack f f;
+#X connect 1 0 2 1;
+#X connect 2 0 3 0;
+#X connect 3 0 10 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 11 0;
+#X connect 11 0 5 0;
+#X connect 11 1 1 0;
+#X restore 274 209 pd synth;
+#N canvas 662 257 390 355 synth 0;
+#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 199 228 / 127;
+#X obj 81 245 *~;
+#X obj 81 267 *~ 0.2;
+#X obj 81 204 phasor~;
+#X obj 81 162 mtof;
+#X obj 81 61 inlet;
+#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
+number / pitch / velocity);
+#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
+simple sawtooth wave oscillator synth;
+#X text 8 3 Simple synth;
+#X obj 81 314 outlet~;
+#X obj 81 122 unpack f f;
+#X connect 1 0 2 1;
+#X connect 2 0 3 0;
+#X connect 3 0 10 0;
+#X connect 4 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 11 0;
+#X connect 11 0 5 0;
+#X connect 11 1 1 0;
+#X restore 334 209 pd synth;
+#X text 8 3 Simple polyphonic synth;
+#X obj 35 31 cyclone/comment 147 11 helvetica ? 0 80 80 80 six voices
+polyphonic synth;
+#X obj 183 298 outlet~;
+#X obj 186 131 cyclone/comment 200 11 helvetica ? 0 80 80 80 (voice
+number / pitch / velocity);
+#X connect 0 0 4 0;
+#X connect 2 0 3 0;
+#X connect 4 0 6 0;
+#X connect 4 1 6 1;
+#X connect 4 2 6 2;
+#X connect 5 0 15 0;
+#X connect 6 0 7 0;
+#X connect 7 0 5 0;
+#X connect 7 1 8 0;
+#X connect 7 2 9 0;
+#X connect 7 3 10 0;
+#X connect 7 4 11 0;
+#X connect 7 5 12 0;
+#X connect 8 0 15 0;
+#X connect 9 0 15 0;
+#X connect 10 0 15 0;
+#X connect 11 0 15 0;
+#X connect 12 0 15 0;
+#X restore 98 325 pd polysynth;
+#X obj 98 357 dac~;
+#X obj 66 115 prepend set;
+#X msg 66 135 39 0;
+#X obj 48 175 cyclone/midiformat;
+#X obj 98 247 cyclone/midiflush;
+#X obj 98 289 cyclone/midiparse;
+#X obj 198 327 cyclone/borax;
+#X floatatom 216 358 5 0 0 0 - - -, f 5;
+#X obj 252 359 cyclone/comment 100 11 helvetica ? 0 80 80 80 number
+of notes "held down";
+#X obj 218 176 bng 30 250 50 0 empty empty empty 17 7 0 10 -216373
+-108187 -1;
+#X obj 253 191 cyclone/comment 100 11 helvetica ? 0 80 80 80 bang tells
+flush to turn the notes off;
+#X obj 150 65 cyclone/comment 100 11 helvetica ? 0 80 80 80 <---;
+#X obj 171 66 cyclone/comment 100 11 helvetica ? 0 80 80 80 Click to
+activate the Tabajara Key;
+#X obj 300 73 cyclone/comment 260 10 monaco ? 0 80 80 80 Once you activate
+the "Tabajara Key" abstraction you can use your computer keyboard to
+play like a MIDI keyboard;
+#X obj 371 133 cyclone/comment 220 10 monaco ? 0 80 80 80 "Tabajara
+Key" starts playing C3 with "a" key \, D3 with "s" key \, D#3 with
+"e" key \, E note with "d" key \, and so on. To "z" and "x" keys transpose
+octaves to down and to up.;
+#X text 72 28 example;
+#X obj 350 222 cyclone/comment 220 10 monaco ? 0 80 80 80 but this
+abstraction have a bug \, it produces held notes when you transpose
+octaves while some note still pressed. To mute held notes in these
+example \, bang midiflush object;
+#X obj 48 61 cyclone/fancy/tabajara-key;
+#X connect 3 0 4 0;
+#X connect 3 0 4 1;
+#X connect 5 0 6 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 9 0 3 0;
+#X connect 10 2 11 0;
+#X connect 13 0 8 0;
+#X connect 21 0 7 0;
+#X connect 21 0 5 0;
+#X restore 470 306 pd Example;
+#X connect 7 0 18 0;
+#X connect 9 0 18 0;
+#X connect 10 0 18 0;
+#X connect 18 0 8 0;

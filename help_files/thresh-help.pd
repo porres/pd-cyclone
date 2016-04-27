@@ -1,8 +1,36 @@
-#N canvas 506 79 559 401 10;
-#X obj 0 373 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 224 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 411 28 572 401 10;
+#X obj 2 349 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 412 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 454 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 359 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 424 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty thresh 4 14 0 18 -204280 -1 0
+;
+#X obj 81 385 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 113 385 float;
+#X text 95 467 1) float;
+#X obj 502 51 thresh;
+#X text 113 358 float;
+#X text 113 424 list;
+#X text 14 70 combine numbers that are received close together into
+a list;
+#X text 181 385 - time interval within numbers are added to the list
+;
+#X text 182 467 - initial time interval (default 10 ms);
+#X text 181 424 - list of numbers stored that a recieved within interval
+;
+#X text 181 358 - numbers to store into list;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 519 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 498 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 626 169 351 238 META 0;
 #X text 0 19 LICENSE SIBSD;
 #X text 0 127 LIBRARY cyclone;
@@ -21,40 +49,99 @@ into a list;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 375 pd META;
-#X obj 0 287 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 329 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 504 500 pd META;
 #N canvas 318 298 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 200 375 pd Related_objects;
-#X obj 79 234 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 202 500 pd Related_objects;
+#X msg 115 154 76;
+#X obj 235 308 print t55;
+#X obj 115 308 print t35;
+#X obj 115 188 t f f f;
+#X obj 134 226 pipe 45;
+#X obj 115 266 cyclone/thresh 35;
+#X obj 235 266 cyclone/thresh 55;
+#X obj 25 104 cyclone/comment 461 10 monaco ? 0 80 80 80 Collects items
+into a list if they appear within a certain specifiable amount of time.
+Each time an item arrives \, the time is reset.;
+#X obj 146 155 cyclone/comment 133 11 helvetica ? 0 80 80 80 <-----
 ;
-#X obj 79 299 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 176 155 cyclone/comment 149 11 helvetica ? 0 80 80 80 click
+here and watch the print objects in Pd main window;
+#X obj 470 324 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#X obj 0 0 cnv 15 552 40 empty empty thresh 3 12 0 18 -204280 -1 0
+#N canvas 201 95 705 315 Examples 0;
+#X obj 2 2 cnv 15 700 40 empty empty thresh 3 12 0 18 -204280 -1 0
 ;
-#X obj 79 260 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X text 111 260 float;
-#X text 93 342 1) float;
-#X obj 501 10 thresh;
-#X obj 160 201 print thresh;
-#X floatatom 160 56 5 0 0 0 - - -;
-#X floatatom 265 57 5 0 0 0 - - -;
-#X text 111 233 float;
-#X text 111 299 list;
-#X text 12 23 combine numbers that are received close together into
-a list;
-#X obj 160 132 cyclone/thresh 100;
-#X text 179 260 - time interval within numbers are added to the list
-;
-#X text 180 342 - initial time interval (default 10 ms);
-#X text 179 299 - list of numbers stored that a recieved within interval
-;
-#X text 179 233 - numbers to store into list;
-#X connect 14 0 19 0;
-#X connect 15 0 19 1;
-#X connect 19 0 13 0;
+#X text 32 24 examples;
+#X obj 2 308 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 291 cnv 15 700 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 440 304 378 120 credits 0;
+#X text 40 32 First example from Max 7 Reference Documentation.;
+#X restore 622 293 pd credits;
+#X obj 369 108 cyclone/comment 52 11 helvetica ? 0 80 80 80 just under
+50 ms apart;
+#X obj 491 164 cyclone/comment 48 11 helvetica ? 0 80 80 80 just over
+50 ms apart;
+#X obj 62 64 bng 22 250 50 0 empty empty empty 17 7 0 10 -216373 -66577
+-1;
+#X obj 312 64 bng 22 250 50 0 empty empty empty 17 7 0 10 -216373 -66577
+-1;
+#X obj 62 101 t b b;
+#X msg 51 132 127;
+#X msg 89 132 60;
+#X obj 51 165 cyclone/thresh 50;
+#X obj 51 243 makenote 63 50;
+#X obj 92 191 prepend set;
+#X msg 92 213 60 127;
+#X msg 272 132 60;
+#X obj 312 102 delay 50;
+#X msg 312 132 127;
+#X obj 272 165 cyclone/thresh 50;
+#X obj 272 243 makenote 63 50;
+#X obj 313 191 prepend set;
+#X msg 313 213 60 127;
+#X obj 554 213 cyclone/comment 52 11 helvetica ? 0 80 80 80 even;
+#X obj 582 64 bng 22 250 50 0 empty empty empty 17 7 0 10 -216373 -66577
+-1;
+#X msg 582 132 60;
+#X obj 502 102 delay 50;
+#X msg 502 132 127;
+#X obj 542 165 cyclone/thresh 50;
+#X obj 542 243 makenote 63 50;
+#X obj 583 191 prepend set;
+#X msg 583 213 60 127;
+#X connect 7 0 9 0;
+#X connect 8 0 17 0;
+#X connect 8 0 16 0;
+#X connect 9 0 10 0;
+#X connect 9 1 11 0;
+#X connect 10 0 12 0;
+#X connect 11 0 12 0;
+#X connect 12 0 13 0;
+#X connect 12 0 14 0;
+#X connect 14 0 15 0;
+#X connect 16 0 19 0;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 19 0 20 0;
+#X connect 19 0 21 0;
+#X connect 21 0 22 0;
+#X connect 24 0 26 0;
+#X connect 24 0 25 0;
+#X connect 25 0 28 0;
+#X connect 26 0 27 0;
+#X connect 27 0 28 0;
+#X connect 28 0 29 0;
+#X connect 28 0 30 0;
+#X connect 30 0 31 0;
+#X restore 470 324 pd Examples;
+#X connect 22 0 25 0;
+#X connect 25 0 27 0;
+#X connect 25 1 26 0;
+#X connect 25 2 28 0;
+#X connect 26 0 27 0;
+#X connect 26 0 28 0;
+#X connect 27 0 24 0;
+#X connect 28 0 23 0;

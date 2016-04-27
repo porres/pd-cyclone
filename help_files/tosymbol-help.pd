@@ -1,8 +1,39 @@
-#N canvas 559 98 567 530 10;
-#X obj 0 636 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 0 490 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 412 28 572 531 10;
+#X obj 2 379 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 443 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 480 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 393 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 452 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty tosymbol 4 14 0 18 -204280 -1
+0;
+#X text 109 414 list;
+#X text 107 499 (none);
+#X obj 492 55 tosymbol;
+#X text 109 391 message;
+#X text 181 391 - messgae to be transformed into symbol;
+#X text 181 414 - list of messages to turn into symbols;
+#X text 109 452 symbol;
+#X text 181 452 - symbol (including whitespace) of input;
+#X msg 308 176 this is a list of symbols;
+#X symbolatom 308 271 25 0 0 0 - - -, f 25;
+#X msg 88 171 4;
+#X obj 88 291 route float;
+#X floatatom 88 318 5 0 0 0 - - -, f 5;
+#X text 14 72 transform messages to symbols;
+#X obj 308 220 cyclone/tosymbol;
+#X obj 279 304 cyclone/fromsymbol;
+#X obj 88 222 cyclone/tosymbol;
+#X obj 88 269 cyclone/fromsymbol;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 694 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 673 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 615 363 366 224 META 0;
 #X text 0 22 LICENSE SIBSD;
 #X text 0 102 LIBRARY cyclone;
@@ -19,77 +50,67 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 638 pd META;
-#X obj 0 554 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 0 591 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
+#X restore 504 675 pd META;
 #N canvas 318 476 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 6 28 cyclone/fromsymbol;
 #X obj 125 29 symbol;
-#X restore 205 638 pd Related_objects;
-#X obj 79 504 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 81 563 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty tosymbol 3 12 0 18 -204280 -1
+#X restore 207 675 pd Related_objects;
+#X obj 2 535 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 47 324 tosymbol;
-#X text 109 324 can also be used to generate non space symbols from
-lists:;
-#X text 107 525 list;
-#X text 105 610 (none);
-#X obj 490 10 tosymbol;
-#X text 107 502 message;
-#X text 179 502 - messgae to be transformed into symbol;
-#X text 179 525 - list of messages to turn into symbols;
-#X text 107 563 symbol;
-#X text 179 563 - symbol (including whitespace) of input;
-#X text 40 54 since pd lacks a quoting mechanism (like `foo bar`) there
-is;
-#X text 41 66 no support for spaces in symbols \, so the original max
-way of;
-#X text 40 78 using from/tosymbol won't work. One has to construct
-symbols;
-#X text 40 92 with other tools like;
-#X obj 292 95 makesymbol;
-#X text 273 93 or;
-#X text 357 94 from zexy;
-#X msg 266 143 this is a list of symbols;
-#X symbolatom 266 238 25 0 0 0 - - -;
-#X obj 237 298 print THIS_IS_A_LIST;
-#X msg 46 138 4;
-#X obj 46 258 route float;
-#X floatatom 46 285 5 0 0 0 - - -;
-#X text 39 114 works with symbols:;
-#X text 255 115 also works with list of symbols:;
-#X text 423 143 so this...;
-#X text 78 358 1;
-#X text 78 382 2;
-#X msg 107 381 lets place a _ instead of a space inside;
-#X msg 95 359 separator _;
-#X symbolatom 107 465 0 0 0 0 - - -;
-#X text 12 23 transform messages to symbols;
-#X text 422 230 ...becomes a symbol;
-#X text 423 242 with spaces;
-#X obj 266 187 cyclone/tosymbol;
-#X obj 237 271 cyclone/fromsymbol;
-#X obj 46 189 cyclone/tosymbol;
-#X obj 46 236 cyclone/fromsymbol;
-#X obj 107 426 cyclone/tosymbol;
-#X text 366 292 ...and can be transformed;
-#X text 366 304 back into a list;
-#X obj 171 95 cyclone/tosymbol;
-#X connect 26 0 43 0;
-#X connect 29 0 45 0;
-#X connect 30 0 31 0;
-#X connect 37 0 47 0;
-#X connect 38 0 47 0;
-#X connect 43 0 27 0;
-#X connect 43 0 44 0;
-#X connect 44 0 28 0;
-#X connect 45 0 46 0;
-#X connect 46 0 30 0;
-#X connect 47 0 39 0;
+#X obj 233 625 makesymbol;
+#X obj 112 625 cyclone/tosymbol;
+#X text 110 548 since pd lacks a quoting mechanism (like `foo bar`)
+there is no support for spaces in symbols \, so the original max way
+of using from/tosymbol won't work. One has to construct symbols with
+other tools like [cyclone/tosymbol] or [makesymbol] from zexy;
+#X obj 24 103 cyclone/comment 409 10 monaco ? 0 80 80 80 tosymbol accepts
+any message \, number \, or list \, and converts it into a single symbol.
+The symbol has a maximum length of 2048 characters.;
+#X obj 86 149 cyclone/comment 100 11 helvetica ? 0 80 80 80 works with
+symbols:;
+#X obj 304 153 cyclone/comment 210 11 helvetica ? 0 80 80 80 works
+with list of symbols:;
+#X obj 279 331 print List;
+#X obj 465 356 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 262 154 550 379 Examples 0;
+#X obj 2 2 cnv 15 545 40 empty empty tosymbol 3 12 0 18 -204280 -1
+0;
+#X obj 2 355 cnv 15 545 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 440 304 374 114 credits 0;
+#X text 38 35 Second example from Max 7 Reference Documentation;
+#X restore 467 357 pd credits;
+#X text 51 25 examples;
+#X obj 29 69 tosymbol;
+#X msg 89 126 lets place a _ instead of a space inside;
+#X msg 77 104 separator _;
+#X symbolatom 89 210 0 0 0 0 - - -;
+#X obj 89 171 cyclone/tosymbol;
+#X obj 85 72 cyclone/comment 344 11 helvetica ? 0 80 80 80 can also
+be used to generate non space symbols from lists:;
+#X obj 155 102 cyclone/comment 344 11 helvetica ? 0 80 80 80 <--- first
+click here;
+#X obj 342 126 cyclone/comment 344 11 helvetica ? 0 80 80 80 <--- then
+here;
+#X msg 280 226 someday we will all be one;
+#X obj 280 258 cyclone/tosymbol;
+#X obj 387 259 cyclone/comment 98 11 helvetica ? 0 80 80 80 turn a
+list of symbol into one symbol;
+#X symbolatom 280 310 32 0 0 0 - - -, f 32;
+#X connect 5 0 8 0;
+#X connect 6 0 8 0;
+#X connect 8 0 7 0;
+#X connect 12 0 13 0;
+#X connect 13 0 15 0;
+#X restore 465 356 pd Examples;
+#X connect 14 0 20 0;
+#X connect 16 0 22 0;
+#X connect 17 0 18 0;
+#X connect 20 0 15 0;
+#X connect 20 0 21 0;
+#X connect 21 0 36 0;
+#X connect 22 0 23 0;
+#X connect 23 0 17 0;

@@ -1,8 +1,173 @@
-#N canvas 497 82 571 531 10;
-#X obj 0 997 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 1 340 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 390 29 573 564 10;
+#X obj 2 557 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 2 1059 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
+0;
+#X obj 2 1175 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 86 568 cnv 17 3 450 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty funbuff 4 14 0 18 -204280 -1
+0;
+#X obj 86 1068 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 1031 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 13 71 store x \, y pairs of numbers together;
+#X obj 495 53 funbuff;
+#C restore;
+#N canvas 427 110 605 613 more 0;
+#X msg 74 43 1 10 \, 2 20 \, 3 3.33;
+#X floatatom 189 137 5 0 0 0 - - -, f 5;
+#X obj 198 492 print funbuff;
+#X msg 121 72 4 4.4;
+#X msg 142 98 4 44.4;
+#X msg 77 277 clear;
+#X msg 232 190 embed \$1;
+#X obj 232 170 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X msg 245 245 goto \$1;
+#X floatatom 245 225 5 0 0 0 - - -, f 5;
+#X msg 256 277 next;
+#X msg 270 316 min;
+#X msg 270 335 max;
+#X msg 74 332 write;
+#X msg 62 392 read;
+#X msg 382 419 read /tmp/test.funbuff;
+#X msg 382 398 write /tmp/test.funbuff;
+#X obj 198 466 funbuff /tmp/test.funbuff;
+#C restore;
+#X obj 2 2 cnv 15 600 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 7 3 More funbuff messages;
+#X obj 201 48 cyclone/comment 120 11 helvetica ? 0 80 80 80 store x
+y pairs;
+#X obj 193 101 cyclone/comment 226 11 helvetica ? 0 80 80 80 replace
+a previously stored y value;
+#X obj 227 139 cyclone/comment 226 11 helvetica ? 0 80 80 80 retrieve
+corresponding y value;
+#X obj 298 179 cyclone/comment 244 11 helvetica ? 0 80 80 80 with nonzero
+arg the contents of the object are saved with the patch \, this is
+the default behaviour;
+#X obj 299 245 cyclone/comment 203 11 helvetica ? 0 80 80 80 jump to
+x position and output y value;
+#X obj 293 280 cyclone/comment 211 11 helvetica ? 0 80 80 80 jump to
+next position and output y value;
+#X obj 299 317 cyclone/comment 211 11 helvetica ? 0 80 80 80 output
+smallest;
+#X obj 299 336 cyclone/comment 211 11 helvetica ? 0 80 80 80 or largest
+stored y value;
+#X obj 313 380 cyclone/comment 220 11 helvetica ? 0 80 80 80 with filename
+as argument no dialog appears:;
+#X obj 359 471 cyclone/comment 116 11 helvetica ? 0 80 80 80 argument
+sets initial filename to load;
+#X obj 42 261 cyclone/comment 116 11 helvetica ? 0 80 80 80 erase contents
+;
+#X obj 28 319 cyclone/comment 116 11 helvetica ? 0 80 80 80 save contents
+;
+#X obj 29 378 cyclone/comment 116 11 helvetica ? 0 80 80 80 load contents
+;
+#X obj 212 520 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 211 517 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 209 511 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 232 517 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X connect 0 0 17 0;
+#X connect 1 0 17 0;
+#X connect 3 0 17 0;
+#X connect 4 0 17 0;
+#X connect 5 0 17 0;
+#X connect 6 0 17 0;
+#X connect 7 0 6 0;
+#X connect 8 0 17 0;
+#X connect 9 0 8 0;
+#X connect 10 0 17 0;
+#X connect 11 0 17 0;
+#X connect 12 0 17 0;
+#X connect 13 0 17 0;
+#X connect 14 0 17 0;
+#X connect 15 0 17 0;
+#X connect 16 0 17 0;
+#X connect 17 0 2 0;
+#X restore 446 513 pd more funbuff;
+#X obj 86 1113 cnv 17 3 25 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 1143 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 117 568 bang;
+#X text 181 568 - prints status information in console.;
+#X text 181 582 - x value of a x-y pair.;
+#X text 117 582 float x;
+#X text 117 596 list x y;
+#X text 181 596 - defines the pair x y in the funbuff buffer. More
+than one pair is allowed.;
+#X text 117 622 clear;
+#X text 181 622 - erases all x-y pairs.;
+#X text 117 665 delete x [y];
+#X text 193 665 - with two numbers \, delete the pair if both x and
+y match. with one number \, deletes the pair when x matches.;
+#X text 117 638 copy;
+#X text 117 706 embed n;
+#X text 117 692 dump;
+#X text 117 731 goto x;
+#X text 116 745 find y;
+#X text 116 759 interp x;
+#X text 115 812 interptab x t;
+#X text 116 839 next;
+#X text 181 889 - prints status information in console.;
+#X text 117 1033 float y;
+#X text 116 826 min;
+#X text 117 864 paste;
+#X text 117 889 print;
+#X text 117 927 select s e;
+#X text 117 955 set x y;
+#X text 118 995 write [fn];
+#X text 181 638 - copies the x-y pair selected by the select message
+to the global funbuff clipboard.;
+#X text 181 706 - a non-zero n will make the buffer contents persistent
+in the patch.;
+#X text 181 692 - dumps al x-y pairs to the middle and left outlets.
+;
+#X text 181 731 - sets the buffer pointer to the specified x.;
+#X text 180 745 - finds the x values which have y as their y value.
+;
+#X text 180 759 - if a x-y pair with the specified x exists \, send
+the y value to the left outlet. If the x does not exist \, interpolate
+the y value from the two neigbouring x-y pair y values and send this
+value.;
+#X text 197 812 - same as interp \, but uses the table t as buffer.
+;
+#X text 180 839 - finds the y value matching the buffer pointer to
+x (or greater) and sends it to the left outlet.;
+#X text 180 826 - sends the lowest y value in the bugger to the left
+outlet.;
+#X text 181 864 - adds the x-y pairs from the global funbuff clipboard
+to the funbuff buffer.;
+#X text 117 902 read [fn];
+#X text 181 902 - read buffer contens from a file fn. If no filename
+is provided \, a file open box is shown.;
+#X text 181 927 - selects 'e' x-y pairs \, starting with 's' for copy
+\, cut and past operations.;
+#X text 117 980 undo;
+#X text 181 954 - defines the pair x y in the funbuff buffer. More
+than one pair is allowed.;
+#X text 181 979 - undoes the latest cut or paste operation.;
+#X text 182 995 - writes buffer contents to a file fn. If no filename
+is provided \, a file open box is shown.;
+#X text 180 1033 - y value of an x-y pair;
+#X text 117 1068 float;
+#X text 180 1068 - the y value corresponding with the x (or a lower
+x) received on the left inlet. On a next message the y value of the
+next greater x is send.;
+#X text 117 1113 float;
+#X text 117 1143 bang;
+#X text 180 1143 - when the end of the buffer is reached.;
+#X text 117 1186 the default filename;
+#X text 180 1113 - on a next message the difference with the previous
+x value is send;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 1234 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 1214 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 957 577 382 257 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 173 LIBRARY cyclone;
@@ -24,254 +189,258 @@ adapted the patch to pd-extended 2015-02-02;
 goto interp interptab min next paste print read select set undo write
 ;
 #X text 0 40 DESCRIPTION store x \, y pairs of numbers together;
-#X restore 500 999 pd META;
-#X obj 1 842 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 1 958 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 85 351 cnv 17 3 450 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 1 0 cnv 15 552 40 empty empty funbuff 3 12 0 18 -204280 -1 0
-;
-#X obj 85 851 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
-;
+#X restore 501 1216 pd META;
 #N canvas 90 529 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 13 33 clip~;
 #X obj 56 33 -~;
 #X obj 87 33 +~;
-#X restore 197 999 pd Related_objects;
-#X obj 85 814 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 198 1216 pd Related_objects;
+#X obj 469 535 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#X text 13 23 store x \, y pairs of numbers together;
-#X obj 500 9 funbuff;
-#C restore;
-#N canvas 424 299 618 472 more 0;
-#X msg 22 30 1 10 \, 2 20 \, 3 3.33;
-#X floatatom 137 124 5 0 0 0 - - -;
-#X obj 136 469 print funbuff;
-#X msg 69 59 4 4.4;
-#X text 165 47 store x y pairs;
-#X msg 90 85 4 44.4;
-#X text 163 86 replace a previously stored y value;
-#X text 185 122 retrieve corresponding y value;
-#X msg 25 264 clear;
-#X text -7 245 erase contents;
-#X msg 180 177 embed \$1;
-#X obj 180 157 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
-1;
-#X text 249 171 with nonzero arg the contents of the object are;
-#X text 248 182 saved with the patch \, this is the default behaviour
+#N canvas 347 95 787 665 Examples 0;
+#X obj 3 3 cnv 15 780 40 empty empty funbuff 3 12 0 18 -204280 -1 0
 ;
-#X msg 193 232 goto \$1;
-#X floatatom 193 212 5 0 0 0 - - -;
-#X text 255 216 jump to x position;
-#X msg 194 254 next;
-#X text 255 256 and output y val;
-#X text 255 227 or next x > num;
-#X msg 218 298 min;
-#X msg 218 322 max;
-#X text 259 300 output smallest;
-#X text 259 323 or largest stored y val;
-#X msg 22 319 write;
-#X text -7 302 save contents;
-#X msg 10 379 read;
-#X text -8 362 load contents;
-#X msg 282 396 read /tmp/test.funbuff;
-#X msg 282 375 write /tmp/test.funbuff;
-#X text 253 357 with filename as arg no dialog appears:;
-#X text 344 443 arg sets initial filename to load;
-#X obj 136 443 cyclone/funbuff /tmp/test.funbuff;
-#C restore;
-#X obj -20 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0
-;
-#X text -15 4 More funbuff messages;
-#X connect 0 0 32 0;
-#X connect 1 0 32 0;
-#X connect 3 0 32 0;
-#X connect 5 0 32 0;
-#X connect 8 0 32 0;
-#X connect 10 0 32 0;
-#X connect 11 0 10 0;
-#X connect 14 0 32 0;
-#X connect 15 0 14 0;
-#X connect 17 0 32 0;
-#X connect 20 0 32 0;
-#X connect 21 0 32 0;
-#X connect 24 0 32 0;
-#X connect 26 0 32 0;
-#X connect 28 0 32 0;
-#X connect 29 0 32 0;
-#X connect 32 0 2 0;
-#X restore 419 289 pd more funbuff;
-#N canvas 480 405 678 590 even 0;
-#X msg 45 330 set 1 2 4 5 7 8 11 12 13 14;
-#X text 41 313 load some values:;
-#X msg 121 355 goto 0;
-#X msg 143 386 next;
-#X text 176 356 goto start;
-#X floatatom 121 541 5 0 0 0 - - -;
-#X text 168 540 y value;
-#X floatatom 164 521 5 0 0 0 - - -;
-#X text 212 520 diff between current and prev x vla;
-#X obj 208 498 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 3 639 cnv 15 780 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 40 26 examples;
+#X msg 47 375 set 1 2 4 5 7 8 11 12 13 14;
+#X msg 63 400 goto 0;
+#X msg 85 431 next;
+#X floatatom 63 543 5 0 0 0 - - -, f 5;
+#X floatatom 82 513 5 0 0 0 - - -, f 5;
+#X obj 102 487 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X text 237 498 we reached the end ...;
-#X floatatom 594 382 5 0 0 0 - - -;
-#X floatatom 507 420 5 0 0 0 - - -;
-#X floatatom 507 534 5 0 0 0 - - -;
-#X text 400 398 then x \, and use x to retrieve y:;
-#X text 554 363 set y value first:;
-#X text 40 294 the other outlets make sense too:;
-#X text 401 311 and again another way to load data:;
-#X text 187 387 hit this a couple of times;
-#X obj 438 240 print funbuff2;
-#X msg 400 64 bang;
-#X text 440 64 print status info;
-#X msg 358 39 set 1 1 2 2.2 3 3.5;
-#X text 308 21 another way to store pairs:;
-#X msg 450 86 delete 1 1;
-#X text 526 87 delete matching pair;
-#X msg 457 111 delete 2;
-#X text 520 113 delete pair where x=2;
-#X msg 547 144 delete 3 4;
-#X text 476 127 no! we don't have it:;
-#X obj 144 204 print funbuffY;
-#X obj 101 231 print funbuffX;
-#X msg 59 50 1 2 \, 3 4 \, 5 6 \, 7 8;
-#X msg 108 78 dump;
-#X text 205 49 load some vals;
-#X text 155 78 and dump them;
-#X obj 101 142 cyclone/funbuff;
+#X floatatom 690 149 5 0 0 0 - - -, f 5;
+#X floatatom 629 187 5 0 0 0 - - -, f 5;
+#X floatatom 629 251 5 0 0 0 - - -, f 5;
+#X obj 342 301 print funbuff2;
+#X msg 329 141 bang;
+#X msg 287 116 set 1 1 2 2.2 3 3.5;
+#X msg 342 177 delete 1 1;
+#X msg 349 202 delete 2;
+#X msg 462 232 delete 3 4;
+#X obj 102 172 print funbuffY;
+#X obj 83 204 print funbuffX;
+#X msg 27 69 1 2 \, 3 4 \, 5 6 \, 7 8;
+#X msg 76 97 dump;
+#X obj 83 137 funbuff;
 #C restore;
-#X obj 121 440 cyclone/funbuff;
+#X obj 63 465 funbuff;
 #C restore;
-#X obj 507 479 cyclone/funbuff;
+#X obj 629 216 funbuff;
 #C restore;
-#X obj 438 200 cyclone/funbuff;
+#X obj 342 261 funbuff;
 #C restore;
-#X obj 6 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 More demonstrations of fun with funbuff;
-#X connect 0 0 37 0;
-#X connect 2 0 37 0;
-#X connect 3 0 37 0;
-#X connect 11 0 38 1;
-#X connect 12 0 38 0;
-#X connect 20 0 39 0;
-#X connect 22 0 39 0;
-#X connect 24 0 39 0;
-#X connect 26 0 39 0;
-#X connect 28 0 39 0;
-#X connect 32 0 36 0;
-#X connect 33 0 36 0;
-#X connect 36 0 31 0;
-#X connect 36 1 30 0;
-#X connect 37 0 5 0;
-#X connect 37 1 7 0;
-#X connect 37 2 9 0;
-#X connect 38 0 13 0;
-#X connect 39 0 19 0;
-#X restore 420 310 pd even more funbuff;
-#X obj 126 245 cyclone/funbuff;
+#X obj 105 233 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 104 230 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 102 224 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 125 486 cyclone/comment 120 11 helvetica ? 0 80 80 80 we reached
+the end...;
+#X obj 118 515 cyclone/comment 100 11 helvetica ? 0 80 80 80 difference
+between current and preview x value;
+#X obj 76 560 cyclone/comment 246 11 helvetica ? 0 80 80 80 y value
+;
+#X obj 120 430 cyclone/comment 168 11 helvetica ? 0 80 80 80 <--- hit
+this a couple of times;
+#X obj 112 401 cyclone/comment 168 11 helvetica ? 0 80 80 80 goto start
+;
+#X obj 25 339 cyclone/comment 168 11 helvetica ? 0 80 80 80 the outher
+outlets make sense too:;
+#X obj 47 360 cyclone/comment 168 11 helvetica ? 0 80 80 80 load some
+values:;
+#X obj 145 68 cyclone/comment 168 11 helvetica ? 0 80 80 80 <-- load
+some values;
+#X obj 113 97 cyclone/comment 168 11 helvetica ? 0 80 80 80 and dump
+them;
+#X obj 275 98 cyclone/comment 168 11 helvetica ? 0 80 80 80 another
+way to store pairs:;
+#X obj 365 141 cyclone/comment 168 11 helvetica ? 0 80 80 80 print
+status info;
+#X obj 413 177 cyclone/comment 168 11 helvetica ? 0 80 80 80 delete
+matching pair;
+#X obj 406 204 cyclone/comment 168 11 helvetica ? 0 80 80 80 delete
+pair where x=2;
+#X obj 434 219 cyclone/comment 168 11 helvetica ? 0 80 80 80 no! we
+don't have it:;
+#X obj 547 112 cyclone/comment 196 11 helvetica ? 0 80 80 80 ... and
+again another way to load data:;
+#X obj 660 132 cyclone/comment 196 11 helvetica ? 0 80 80 80 set y
+value first;
+#X obj 595 160 cyclone/comment 78 11 helvetica ? 0 80 80 80 then x
+\, and use x to retrieve y:;
+#X msg 301 370 set 0 0 10 100 30 200;
+#X obj 334 465 funbuff;
 #C restore;
-#X msg 175 88 1;
-#X msg 204 88 2;
-#X msg 233 88 3;
-#X msg 226 138 clear;
-#X msg 225 116 delete 2;
-#X obj 213 317 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X msg 334 427 interp 18;
+#X floatatom 334 507 5 0 0 0 - - -, f 5;
+#X obj 461 374 cyclone/comment 119 11 helvetica ? 0 80 80 80 click
+and store pairs 0 \, 0 and 10 \, 100 and 30 \, 200;
+#X obj 401 425 cyclone/comment 88 11 helvetica ? 0 80 80 80 compare
+18 to its x value neighbors 10 and 30;
+#X obj 439 374 cyclone/comment 119 11 helvetica ? 0 80 80 80 <---;
+#X obj 371 507 cyclone/comment 110 11 helvetica ? 0 80 80 80 140 is
+40% of the way from 100 to 200 \, just as 18 is 40% of the way from
+10 to 30;
+#X obj 537 536 funbuff;
+#C restore;
+#X msg 567 508 interp 18;
+#X floatatom 537 568 5 0 0 0 - - -, f 5;
+#X obj 635 514 cyclone/comment 168 11 helvetica ? 0 80 80 80 compare
+18 to its x value neighbors 10 and 30;
+#X msg 554 474 delete 10;
+#X obj 325 396 s fb2;
+#X obj 537 451 r fb2;
+#X obj 515 432 cyclone/comment 119 11 helvetica ? 0 80 80 80 ... at
+last:;
+#X obj 622 461 cyclone/comment 129 11 helvetica ? 0 80 80 80 delete
+the pair that has an x value of 10 (10 \, 100);
+#X obj 523 589 cyclone/comment 202 11 helvetica ? 0 80 80 80 120 is
+60% of the way from 0 to 200 \, just as 18 is 60% of the way from 0
+to 30;
+#X obj 285 348 cyclone/comment 168 11 helvetica ? 0 80 80 80 come on
+estimate some values:;
+#X obj 125 231 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X connect 3 0 23 0;
+#X connect 4 0 23 0;
+#X connect 5 0 23 0;
+#X connect 9 0 24 1;
+#X connect 10 0 24 0;
+#X connect 13 0 25 0;
+#X connect 14 0 25 0;
+#X connect 15 0 25 0;
+#X connect 16 0 25 0;
+#X connect 17 0 25 0;
+#X connect 20 0 22 0;
+#X connect 21 0 22 0;
+#X connect 22 0 19 0;
+#X connect 22 1 18 0;
+#X connect 23 0 6 0;
+#X connect 23 1 7 0;
+#X connect 23 2 8 0;
+#X connect 24 0 11 0;
+#X connect 25 0 12 0;
+#X connect 46 0 47 0;
+#X connect 46 0 59 0;
+#X connect 47 0 49 0;
+#X connect 48 0 47 0;
+#X connect 54 0 56 0;
+#X connect 55 0 54 0;
+#X connect 58 0 54 0;
+#X connect 60 0 54 0;
+#X restore 469 535 pd Examples;
+#X floatatom 37 496 5 0 0 0 - - -, f 5;
+#X floatatom 119 496 5 0 0 0 - - -, f 5;
+#X obj 202 495 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 85 896 cnv 17 3 25 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 37 512 cyclone/comment 35 11 helvetica ? 0 80 80 80 value output
 ;
-#X obj 85 926 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 102 513 cyclone/comment 90 11 helvetica ? 0 80 80 80 element
+count (next message);
+#X obj 197 514 cyclone/comment 93 11 helvetica ? 0 80 80 80 "next"
+reached end (send 1 to reset);
+#X msg 363 130 goto 2;
+#X msg 369 149 next;
+#X msg 376 173 clear;
+#X obj 380 198 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 384 222 dump;
+#X msg 385 251 find 4;
+#X msg 381 292 interp 4;
+#X obj 410 135 cyclone/comment 120 11 helvetica ? 0 80 80 80 "goto
+n" can be used to specify the "next" event;
+#X obj 420 173 cyclone/comment 243 11 helvetica ? 0 80 80 80 clear
+all data;
+#X obj 402 200 cyclone/comment 243 11 helvetica ? 0 80 80 80 information
 ;
-#X text 116 351 bang;
-#X text 180 351 - prints status information in console.;
-#X text 180 365 - x value of a x-y pair.;
-#X text 116 365 float x;
-#X text 116 379 list x y;
-#X text 180 379 - defines the pair x y in the funbuff buffer. More
-than one pair is allowed.;
-#X text 116 405 clear;
-#X text 180 405 - erases all x-y pairs.;
-#X text 116 448 delete x [y];
-#X text 192 448 - with two numbers \, delete the pair if both x and
-y match. with one number \, deletes the pair when x matches.;
-#X text 116 421 copy;
-#X text 116 489 embed n;
-#X text 116 475 dump;
-#X text 116 514 goto x;
-#X text 115 528 find y;
-#X text 115 542 interp x;
-#X text 114 595 interptab x t;
-#X text 115 622 next;
-#X text 180 672 - prints status information in console.;
-#X text 116 816 float y;
-#X text 115 609 min;
-#X text 116 647 paste;
-#X text 116 672 print;
-#X text 116 710 select s e;
-#X text 116 738 set x y;
-#X text 117 778 write [fn];
-#X text 180 421 - copies the x-y pair selected by the select message
-to the global funbuff clipboard.;
-#X text 180 489 - a non-zero n will make the buffer contents persistent
-in the patch.;
-#X text 180 475 - dumps al x-y pairs to the middle and left outlets.
+#X obj 420 224 cyclone/comment 243 11 helvetica ? 0 80 80 80 dump all
 ;
-#X text 180 514 - sets the buffer pointer to the specified x.;
-#X text 179 528 - finds the x values which have y as their y value.
+#X obj 432 252 cyclone/comment 88 11 helvetica ? 0 80 80 80 "find n"
+outputs all x values at which n is stored;
+#X obj 441 292 cyclone/comment 243 11 helvetica ? 0 80 80 80 interpolate
 ;
-#X text 179 542 - if a x-y pair with the specified x exists \, send
-the y value to the left outlet. If the x does not exist \, interpolate
-the y value from the two neigbouring x-y pair y values and send this
-value.;
-#X text 196 595 - same as interp \, but uses the table t as buffer.
+#X obj 363 317 s fb;
+#X msg 19 182 1 2;
+#X msg 49 182 3 4;
+#X msg 79 182 5 6;
+#X msg 109 182 5 3;
+#X obj 37 436 r fb;
+#X obj 19 214 s fb;
+#X obj 18 131 cyclone/comment 123 11 helvetica ? 0 80 80 80 list of
+two numbers in left (or int in right followed by int in left) inserts
+or replaces a list element;
+#X msg 145 148 -2;
+#X msg 174 148 1;
+#X msg 203 148 2;
+#X msg 232 148 3;
+#X msg 261 148 4;
+#X msg 290 148 5;
+#X floatatom 290 187 5 0 0 0 - - -, f 5;
+#X obj 290 209 s fb;
+#X obj 158 182 cyclone/comment 123 11 helvetica ? 0 80 80 80 an int
+causes the corresponding (or closest) int to be output;
+#X msg 270 387 select 3 5;
+#X msg 281 408 cut;
+#X msg 282 433 copy;
+#X obj 270 464 s fb;
+#X obj 269 362 cyclone/comment 123 11 helvetica ? 0 80 80 80 selects
+the region of the funbuff from x to x+y;
+#X obj 319 413 cyclone/comment 107 11 helvetica ? 0 80 80 80 cut/copy
+the selected region to a global funbuff clipboard;
+#X obj 428 392 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 428 439 funbuff;
+#C restore;
+#X obj 37 469 cyclone/funbuff;
+#C restore;
+#X msg 456 413 undo;
+#X msg 449 392 paste;
+#X obj 441 361 cyclone/comment 80 11 helvetica ? 0 80 80 80 one may
+paste among funbufs;
+#X msg 151 342 embed 0;
+#X msg 203 342 embed 1;
+#X obj 149 315 cyclone/comment 116 11 helvetica ? 0 80 80 80 save funbuff
+in patcher: no (default) -- yes --;
+#X obj 151 374 s fb;
+#X msg 131 291 write;
+#X msg 98 291 read;
+#X obj 173 289 cyclone/comment 243 11 helvetica ? 0 80 80 80 file I/O
 ;
-#X text 179 622 - finds the y value matching the buffer pointer to
-x (or greater) and sends it to the left outlet.;
-#X text 179 609 - sends the lowest y value in the bugger to the left
-outlet.;
-#X text 180 647 - adds the x-y pairs from the global funbuff clipboard
-to the funbuff buffer.;
-#X text 116 685 read [fn];
-#X text 180 685 - read buffer contens from a file fn. If no filename
-is provided \, a file open box is shown.;
-#X text 180 710 - selects 'e' x-y pairs \, starting with 's' for copy
-\, cut and past operations.;
-#X text 116 763 undo;
-#X text 180 737 - defines the pair x y in the funbuff buffer. More
-than one pair is allowed.;
-#X text 180 762 - undoes the latest cut or paste operation.;
-#X text 181 778 - writes buffer contents to a file fn. If no filename
-is provided \, a file open box is shown.;
-#X text 179 816 - y value of an x-y pair;
-#X text 116 851 float;
-#X text 179 851 - the y value corresponding with the x (or a lower
-x) received on the left inlet. On a next message the y value of the
-next greater x is send.;
-#X text 116 896 float;
-#X text 116 926 bang;
-#X text 179 926 - when the end of the buffer is reached.;
-#X text 116 969 the default filename;
-#X obj 126 316 print y;
-#X msg 226 160 bang;
-#X obj 169 296 print diff;
-#X msg 226 182 next;
-#X msg 226 204 goto 1;
-#X text 179 896 - on a next message the difference with the previous
-x value is send;
-#X msg 126 66 1 11 \, 2 22 \, 4 44 \, 8 88;
-#X connect 14 0 73 0;
-#X connect 14 1 75 0;
-#X connect 14 2 20 0;
-#X connect 15 0 14 0;
-#X connect 16 0 14 0;
-#X connect 17 0 14 0;
-#X connect 18 0 14 0;
-#X connect 19 0 14 0;
-#X connect 74 0 14 0;
-#X connect 76 0 14 0;
-#X connect 77 0 14 0;
-#X connect 79 0 14 0;
+#X obj 13 108 cyclone/comment 38 12 helvetica ? 0 80 80 80 Store;
+#X obj 344 108 cyclone/comment 73 12 helvetica ? 0 80 80 80 Manage
+;
+#X obj 85 265 cyclone/comment 38 12 helvetica ? 0 80 80 80 Recall;
+#X connect 76 0 89 0;
+#X connect 77 0 89 0;
+#X connect 78 0 89 0;
+#X connect 79 0 89 0;
+#X connect 80 0 89 0;
+#X connect 81 0 89 0;
+#X connect 82 0 89 0;
+#X connect 90 0 95 0;
+#X connect 91 0 95 0;
+#X connect 92 0 95 0;
+#X connect 93 0 95 0;
+#X connect 94 0 114 0;
+#X connect 97 0 103 0;
+#X connect 98 0 103 0;
+#X connect 99 0 103 0;
+#X connect 100 0 103 0;
+#X connect 101 0 103 0;
+#X connect 102 0 103 0;
+#X connect 103 0 104 0;
+#X connect 106 0 109 0;
+#X connect 107 0 109 0;
+#X connect 108 0 109 0;
+#X connect 112 0 113 0;
+#X connect 114 0 70 0;
+#X connect 114 1 71 0;
+#X connect 114 2 72 0;
+#X connect 115 0 113 0;
+#X connect 116 0 113 0;
+#X connect 118 0 121 0;
+#X connect 119 0 121 0;
+#X connect 122 0 121 0;
+#X connect 123 0 121 0;

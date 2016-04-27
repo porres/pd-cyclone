@@ -1,8 +1,34 @@
-#N canvas 622 81 570 534 10;
-#X obj 1 728 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 2 442 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 403 27 572 565 10;
+#X obj 4 453 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
+#X obj 5 664 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 5 713 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 83 462 cnv 17 3 125 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 601 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty drunk 4 14 0 18 -204280 -1 0
+;
+#X obj 499 53 drunk;
+#X floatatom 36 308 5 0 0 0 - - -, f 5;
+#X obj 60 164 metro 300;
+#X obj 60 114 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X text 14 71 output random numbers in a moving range;
+#X obj 83 673 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 625 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 60 235 cyclone/drunk 10;
+#X text 78 291 0;
+#X text 226 291 10;
+#X obj 76 308 hradio 15 1 0 11 empty empty empty 0 -8 0 10 -262144
+-1 -1 3;
+#X obj 2 979 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 959 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #N canvas 569 272 390 294 META 0;
 #X text 1 20 LICENSE SIBSD;
 #X text 1 140 LIBRARY cyclone;
@@ -21,78 +47,174 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 501 730 pd META;
-#X obj 3 610 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 503 961 pd META;
+#N canvas 317 453 430 108 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 11 30 random;
+#X obj 60 30 cyclone/decide;
+#X obj 156 30 cyclone/rand~;
+#X obj 245 30 cyclone/urn;
+#X restore 210 961 pd Related_objects;
+#X floatatom 289 236 5 0 0 0 - - -, f 5;
+#X msg 310 169 set \$1;
+#X floatatom 310 150 5 0 0 0 - - -, f 5;
+#X msg 407 173 10 20 4;
+#X msg 421 233 5 30;
+#X msg 360 140 seed \$1;
+#X floatatom 360 121 5 0 0 0 - - -, f 5;
+#X floatatom 416 284 5 0 0 0 - - -, f 5;
+#X floatatom 463 310 5 0 0 0 - - -, f 5;
+#X obj 370 336 cyclone/drunk 10;
+#X floatatom 370 378 5 0 0 0 - - -, f 5;
+#X obj 370 396 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 36 326 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 82 194 s metro;
+#X obj 290 301 r metro;
+#X obj 463 430 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#X obj 3 660 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#N canvas 450 118 435 449 Examples 0;
+#X obj 2 2 cnv 15 430 40 empty empty drunk 3 12 0 18 -204280 -1 0;
+#X obj 2 425 cnv 15 430 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 317 453 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 9 28 random;
-#X obj 58 28 decide;
-#X obj 107 28 rand~;
-#X restore 208 730 pd Related_objects;
-#X obj 81 451 cnv 17 3 100 empty empty 0 5 9 0 16 -228856 -162280 0
+#N canvas 440 304 384 114 credits 0;
+#X text 55 35 Examples from Max 7 Reference Documentation.;
+#X restore 351 427 pd credits;
+#X text 39 25 examples;
+#X obj 41 87 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 41 114 cyclone/drunk;
+#X floatatom 41 146 5 0 0 0 - - -, f 5;
+#X msg 78 87 100;
+#X msg 116 87 11;
+#X obj 132 211 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 132 249 metro 250;
+#X obj 132 335 makenote 127 250;
+#X obj 132 293 cyclone/drunk 127 13;
+#X obj 272 293 cyclone/drunk 127 64;
+#N canvas 267 188 390 394 synth 0;
+#X obj 143 331 dac~;
+#X obj 194 39 inlet;
+#X obj 149 39 inlet;
+#X obj 149 90 poly 1 1;
+#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 simple synth;
+#N canvas 429 286 450 140 credits 0;
+#X text 45 37 http://libremusicproduction.com/tutorials/creating-simple-synthesizer-pure-data-%E2%80%93-part-i
 ;
-#X obj 81 560 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X obj 0 0 cnv 15 552 40 empty empty drunk 3 12 0 18 -204280 -1 0;
-#X obj 509 5 drunk;
-#X floatatom 114 411 5 0 0 0 - - -;
-#X obj 114 82 metro 300;
-#X obj 114 59 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
-;
-#X floatatom 123 107 5 0 0 0 - - -;
-#X msg 132 153 set \$1;
-#X floatatom 132 134 5 0 0 0 - - -;
-#X msg 151 224 10 20 4;
-#X msg 151 246 5 30;
-#X msg 139 199 seed \$1;
-#X floatatom 139 180 5 0 0 0 - - -;
-#X floatatom 160 271 5 0 0 0 - - -;
-#X floatatom 207 291 5 0 0 0 - - -;
-#X text 12 23 output random numbers in a moving range;
-#X text 114 451 bang;
-#X text 181 451 - trigger output;
-#X text 114 472 float;
-#X text 181 472 - set new value and output;
-#X text 114 490 list;
-#X text 181 490 - first value set current value \, second sets bound
-\, third limits stepsize;
-#X obj 81 619 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 114 560 float;
-#X text 114 619 float;
-#X text 181 619 - random number output;
-#X text 95 673 1) float;
-#X text 181 673 - set initial bound \, default to 128;
-#X text 95 697 2) float;
-#X text 181 560 - set upper boud;
-#X obj 81 584 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
-;
-#X text 114 584 float;
-#X text 181 584 - set stepsize;
-#X obj 114 340 cyclone/drunk 10;
-#X text 181 697 - set maximum stepsize \, default is 2;
-#X text 156 396 0;
-#X text 304 396 10;
-#X text 114 517 seed;
-#X text 181 517 - seeds the internal random number generator;
-#X text 114 534 set;
-#X text 181 534 - sets the current value;
-#X obj 154 413 hradio 15 1 0 11 empty empty empty 0 -8 0 10 -262144
--1 -1 1;
-#X connect 11 0 40 0;
+#X restore 310 363 pd credits;
+#X obj 143 122 pack 0 0 0;
+#X obj 143 147 route 1;
+#X obj 143 171 unpack 0 0;
+#X obj 143 193 mtof;
+#X obj 143 215 phasor~;
+#X obj 200 234 / 127;
+#X obj 143 257 *~;
+#X obj 143 279 *~ 0.2;
+#X obj 9 316 loadbang;
+#X msg 9 338 \; pd dsp 1;
+#X connect 1 0 3 1;
+#X connect 2 0 3 0;
+#X connect 3 0 7 0;
+#X connect 3 1 7 1;
+#X connect 3 2 7 2;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 9 1 12 0;
+#X connect 10 0 11 0;
+#X connect 11 0 13 0;
+#X connect 12 0 13 1;
+#X connect 13 0 14 0;
+#X connect 14 0 0 0;
+#X connect 14 0 0 1;
+#X connect 15 0 16 0;
+#X restore 132 364 pd synth;
+#X obj 155 71 cyclone/comment 135 11 helvetica ? 0 80 80 80 range is
+0 to 100 \, in steps no larger than 10;
+#X obj 161 201 cyclone/comment 77 11 helvetica ? 0 80 80 80 random
+melody generator;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 7 0 5 1;
+#X connect 8 0 5 2;
+#X connect 9 0 10 0;
+#X connect 10 0 12 0;
+#X connect 10 0 13 0;
+#X connect 11 0 14 0;
+#X connect 11 1 14 1;
 #X connect 12 0 11 0;
-#X connect 13 0 40 0;
-#X connect 14 0 40 0;
-#X connect 15 0 14 0;
-#X connect 16 0 40 0;
-#X connect 17 0 40 0;
-#X connect 18 0 40 0;
-#X connect 19 0 18 0;
-#X connect 20 0 40 1;
-#X connect 21 0 40 2;
-#X connect 40 0 10 0;
-#X connect 40 0 48 0;
+#X connect 13 0 11 1;
+#X restore 463 430 pd Examples;
+#X obj 4 793 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 113 809 There are many types of random behavior that can be
+modeled by the computer. The [random] object provides the closest approximation
+to "pure" randomness we can get \, every number within its range has
+an equal probability of being selected. An alternative to the random
+object is the [drunk] object \, so-called because it allows you to
+perform the “drunken walk” through a range of numbers \, this randomization
+(technically a variant of something called brownian motion) characterizes
+many "random" processes in nature.;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 81 110 cyclone/comment 135 11 helvetica ? 0 80 80 80 <-- click
+to start;
+#X obj 249 149 cyclone/comment 60 11 helvetica ? 0 80 80 80 set current
+value with no output;
+#X obj 400 112 cyclone/comment 90 11 helvetica ? 0 80 80 80 seed the
+random number system;
+#X obj 448 275 cyclone/comment 90 11 helvetica ? 0 80 80 80 set output
+range;
+#X obj 498 315 cyclone/comment 60 11 helvetica ? 0 80 80 80 set step
+size;
+#X text 158 465 -;
+#X text 125 465 bang;
+#X text 158 486 -;
+#X text 118 486 float;
+#X text 173 465 trigger output, f 60;
+#X text 173 486 set new value and output, f 60;
+#X text 158 508 -;
+#X text 124 508 list;
+#X text 173 508 first value set current value \, second sets bound
+\, third limits stepsize, f 60;
+#X text 158 541 -;
+#X text 107 541 message;
+#X text 173 542 "seed n":;
+#X text 233 542 seeds the internal random number generator to "n" value
+, f 50;
+#X text 158 603 -;
+#X text 118 603 float;
+#X text 158 627 -;
+#X text 118 627 float;
+#X text 173 627 set stepsize, f 60;
+#X text 173 603 set upper bound, f 60;
+#X text 158 676 -;
+#X text 118 676 float;
+#X text 173 676 random number output, f 60;
+#X text 158 729 -;
+#X text 100 729 1) float;
+#X text 158 752 -;
+#X text 100 752 2) float;
+#X text 172 729 set initial bound \, default to 128, f 60;
+#X text 172 752 set maximum stepsize \, default is 2, f 60;
+#X connect 7 0 33 0;
+#X connect 8 0 13 0;
+#X connect 8 0 34 0;
+#X connect 9 0 8 0;
+#X connect 13 0 7 0;
+#X connect 13 0 16 0;
+#X connect 21 0 30 0;
+#X connect 22 0 30 0;
+#X connect 23 0 22 0;
+#X connect 24 0 30 0;
+#X connect 25 0 30 0;
+#X connect 26 0 30 0;
+#X connect 27 0 26 0;
+#X connect 28 0 30 1;
+#X connect 29 0 30 2;
+#X connect 30 0 31 0;
+#X connect 31 0 32 0;
+#X connect 35 0 30 0;

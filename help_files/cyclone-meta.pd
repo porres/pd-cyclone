@@ -1,0 +1,18 @@
+#N canvas 387 545 450 350 10;
+#X text 16 34 LICENSE SIBSD;
+#X text 16 142 LIBRARY cyclone;
+#X text 16 124 OUTLET_0 signal;
+#X text 16 70 INLET_0 signal message;
+#X text 16 16 KEYWORDS signal wavetable wave table interpolation;
+#X text 16 52 DESCRIPTION variable size wavetable;
+#X text 16 88 INLET_1 float signal;
+#X text 16 106 INLET_2 float signal;
+#X text 15 160 VERSION 0.1-alpha56;
+#X text 15 178 AUTHOR Krzysztof Czaja;
+#X text 16 196 RELEASE_DATE 2002;
+#X text 17 215 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 17 247 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2014-12-03;
