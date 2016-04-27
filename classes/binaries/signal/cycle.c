@@ -3,6 +3,12 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+//matt barber updated cycle~ in 2016
+/*derek kwan updated attributes,
+  de-'sic'-ified (except for the costable making method),
+  added cycle_free in 2016
+  */
+
 #include <string.h>
 #include "m_pd.h"
 #include "shared.h"
@@ -10,13 +16,18 @@
 #include "common/vefl.h"
 #include "sickle/sic.h"
 
-#define CYCLE_DEF_TABSIZE  512
+#define PDCYCYCLE_FREQ 	0
+#define PDCYCYCLE_PHASE 0
+#define PDCYCYCLE_OFFSET 0
+#define PDCYCYCLE_TABSIZE  512
 #define COS_TABSIZE  16384
 
 
 typedef struct _cycle
 {
-    t_sic      x_sic;
+    t_object      x_obj;
+
+	t_float    x_freq;
     double     x_phase;
     double     x_conv;
     t_symbol  *x_name;
@@ -27,8 +38,11 @@ typedef struct _cycle
     t_float   *x_table;
     double    *x_costable;
     t_float   *x_usertable;
-    t_float    x_usertableini[CYCLE_DEF_TABSIZE + 1];
+    t_float    x_usertableini[PDCYCYCLE_TABSIZE + 1];
     int        x_usertable_tabsize; // actual table size -- loop size might be smaller
+
+	t_inlet    *x_phaselet;
+	t_outlet   *x_outlet;
 } t_cycle;
 
 static t_class *cycle_class;
@@ -68,8 +82,8 @@ static void cycle_gettable(t_cycle *x)
 					getbytes((usertable_tabsize + 1) * sizeof(*x->x_usertable))))
 				{
 					x->x_usertable = x->x_usertableini;
-					x->x_cycle_tabsize = x->x_usertable_tabsize = CYCLE_DEF_TABSIZE;
-					pd_error(x,"unable to resize buffer; using size %d",CYCLE_DEF_TABSIZE);
+					x->x_cycle_tabsize = x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
+					pd_error(x,"unable to resize buffer; using size %d",PDCYCYCLE_TABSIZE);
 				}
 				else
 				{
@@ -86,8 +100,8 @@ static void cycle_gettable(t_cycle *x)
 				{
 					freebytes(x->x_usertable, oldbytes);
 					x->x_usertable = x->x_usertableini;
-					x->x_cycle_tabsize = x->x_usertable_tabsize = CYCLE_DEF_TABSIZE;
-					pd_error(x,"unable to resize buffer; using size %d",CYCLE_DEF_TABSIZE);
+					x->x_cycle_tabsize = x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
+					pd_error(x,"unable to resize buffer; using size %d",PDCYCYCLE_TABSIZE);
 				}
 				else
 				{
@@ -132,7 +146,7 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 {
 	x->x_use_all = 0;
 	x->x_offset = 0;
-	x->x_cycle_tabsize = CYCLE_DEF_TABSIZE;
+	x->x_cycle_tabsize = PDCYCYCLE_TABSIZE;
     if (s && s != &s_)
     {
 	x->x_name = s;
@@ -170,7 +184,7 @@ static void cycle_buffer_sizeinsamps(t_cycle *x, t_floatarg f)
 	if (!f)
 	{
 		x->x_use_all = 0;
-		x->x_cycle_tabsize = CYCLE_DEF_TABSIZE;
+		x->x_cycle_tabsize = PDCYCYCLE_TABSIZE;
 	}
 	else if (f == -1.)
 	{
@@ -267,54 +281,170 @@ static void cycle_dsp(t_cycle *x, t_signal **sp)
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *cycle_new(t_symbol *s, int ac, t_atom *av)
+static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_cycle *x = (t_cycle *)pd_new(cycle_class);
 //    int i = (ac && av->a_type == A_FLOAT ? 1 : 0);
-    int tabsize = CYCLE_DEF_TABSIZE;
-    int costabsize = COS_TABSIZE;
-    x->x_costable = sic_makecostable(&costabsize);
-    x->x_usertable = x->x_usertableini;
-    x->x_cycle_tabsize = x->x_usertable_tabsize = tabsize;
 
     
-/*  if (tabsize != CYCLE_DEF_TABSIZE)
+/*  if (tabsize != PDCYCYCLE_TABSIZE)
     {
 	loudbug_bug("cycle_new");
 	pd_free((t_pd *)x);
 	return (0);
     } */
     
-    if (ac && av->a_type == A_FLOAT)
-    {
-	sic_inlet((t_sic *)x, 0, 0, 0, ac, av);
-	ac--, av++;
-    }
-    sic_newinlet((t_sic *)x, 0);
-    outlet_new((t_object *)x, &s_signal);
-    x->x_offset = 0;
-    if (ac && av->a_type == A_SYMBOL)
-    {
-	x->x_name = av->a_w.w_symbol;
-	ac--, av++;
-	if (ac && av->a_type == A_FLOAT)
-	    if ((x->x_offset = (int)av->a_w.w_float) < 0)
-		x->x_offset = 0;
-    }
-    else x->x_name = 0;
+	t_symbol * name;
+	t_float phase, freq, offset, bufsz;
+
+	phase = PDCYCYCLE_PHASE;
+	freq = PDCYCYCLE_FREQ;
+	offset = PDCYCYCLE_OFFSET;
+	bufsz = PDCYCYCLE_TABSIZE;
+	int argnum = 0;
+	int anamedef = 0; //flag if array name is defined
+	int pastargs = 0; //flag if attributes are specified, then don't accept array name anymore
+	while(argc > 0){
+		if(argv -> a_type == A_FLOAT){
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			switch(argnum){
+				case 0:
+					freq = argval;
+					break;
+				case 1:
+					offset = argval;
+					break;
+				default:
+					break;
+				};
+				argc--;
+				argv++;
+				argnum++;
+			}
+
+		else if(argv -> a_type == A_SYMBOL){
+			t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
+			if(strcmp(curarg->s_name, "@buffer")==0){
+				if(argc >= 2){
+					if((argv+1) -> a_type == A_SYMBOL){
+						name = atom_getsymbolarg(1, argc, argv);
+						argc-=2;
+						argv+=2;
+						anamedef = 1;
+						pastargs = 1;
+					}
+					else{
+						goto errstate;
+					};
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@buffer_offset")==0){
+				if(argc >= 2){
+					offset = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+					pastargs = 1;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@buffer_sizeinsamps")==0){
+				if(argc >= 2){
+					bufsz = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+					pastargs = 1;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@phase")==0){
+				if(argc >= 2){
+					phase = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+					pastargs = 1;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(strcmp(curarg->s_name, "@frequency")==0){
+				if(argc >= 2){
+					freq  = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+					pastargs = 1;
+				}
+				else{
+					goto errstate;
+				};
+			}
+			else if(!pastargs){
+				//specifying buffer name through argt
+					name = curarg;
+					argc--;
+					argv++;
+					anamedef = 1;
+			}
+			else{
+				goto errstate;
+			};
+		}
+		else{
+			goto errstate;
+		};
+	};
+
+    int tabsize = (int)bufsz;
+    int costabsize = COS_TABSIZE;
+    x->x_costable = sic_makecostable(&costabsize);
+    x->x_usertable = x->x_usertableini;
+    x->x_cycle_tabsize = x->x_usertable_tabsize = tabsize;
+
+	x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_phaselet, phase);
+	x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
+	if(offset < 0){
+		offset = 0;
+	};
+    x->x_offset = offset;
+    if(anamedef){
+		x->x_name = name;
+    	}
+    else{
+		x->x_name = 0;
+	};
+	x->x_freq = freq;
     x->x_table = 0;
-    x->x_phase = 0.;
+    x->x_phase = phase;
     x->x_conv = 0.;
     x->x_use_all = 0;
     return (x);
+	errstate:
+		pd_error(x, "cycle~: improper args");
+		return NULL;
+}
+
+static void *cycle_free(t_cycle *x)
+{
+	outlet_free(x->x_outlet);
+	inlet_free(x->x_phaselet);
+	return (void *)x;
 }
 
 void cycle_tilde_setup(void)
 {    
     cycle_class = class_new(gensym("cycle~"),
-        (t_newmethod)cycle_new, 0,
+        (t_newmethod)cycle_new, (t_method)cycle_free,
         sizeof(t_cycle), 0, A_GIMME, 0);
-    sic_setup(cycle_class, cycle_dsp, SIC_FLOATTOSIGNAL);
+	CLASS_MAINSIGNALIN(cycle_class, t_cycle, x_freq); 
+	class_addmethod(cycle_class, (t_method)cycle_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(cycle_class,
         (t_method)cycle_set,gensym("set"),
         A_DEFSYMBOL, A_DEFFLOAT, 0);
