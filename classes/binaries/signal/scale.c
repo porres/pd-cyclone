@@ -2,6 +2,7 @@
 
 #include "m_pd.h"
 #include <math.h>
+#include <string.h>
 
 #define SCALE_MININ  0.
 #define SCALE_MAXIN  127.
@@ -54,10 +55,13 @@ static t_int *scale_perform(t_int *w)
     float output;
     if (classic_flag != 0)
         {p = p <= 1 ? 1 : p;
-        if (p == 1) output = ((in - il) / (ih - il) == 0) ? ol : (((in - il) / (ih - il)) > 0) ? (ol + (oh - ol) * pow((in - il) / (ih - il), p)) : (ol + (oh - ol) * -(pow(((-in + il) / (ih - il)), p)));
-            else {output = ol + (oh - ol) * ((oh - ol) * exp((il - ih) * log(p)) * exp(in * log(p)));
-            if (oh - ol >= 0) output = output * -1;
-            output = output * -1; // fucking bizarre
+        if (p == 1) output = ((in - il) / (ih - il) == 0) ? ol
+            : (((in - il) / (ih - il)) > 0) ? (ol + (oh - ol) * pow((in - il) / (ih - il), p))
+            : (ol + (oh - ol) * -(pow(((-in + il) / (ih - il)), p)));
+        else
+            {output = ol + (oh - ol) * ((oh - ol) * exp((il - ih) * log(p)) * exp(in * log(p)));
+            if (oh - ol <= 0) output = output * -1;
+            
             }
         }
         else {
@@ -91,17 +95,19 @@ static void *scale_free(t_scale *x)
 static void *scale_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_scale *x = (t_scale *)pd_new(scale_class);
-    
     t_float min_in, max_in, min_out, max_out, exponential;
     min_in = SCALE_MININ;
     max_in = SCALE_MAXIN;
     min_out = SCALE_MINOUT;
     max_out = SCALE_MAXOUT;
     exponential = SCALE_EXPO;
+    t_int classic_exp;
+    classic_exp = 1;
     
 	int argnum = 0;
 	while(argc > 0){
-		if(argv -> a_type == A_FLOAT){
+		if(argv -> a_type == A_FLOAT)
+        {
 			t_float argval = atom_getfloatarg(0,argc,argv);
 				switch(argnum){
 					case 0:
@@ -125,11 +131,30 @@ static void *scale_new(t_symbol *s, int argc, t_atom *argv)
 				argc--;
 				argv++;
 				argnum++;
-		}
-		else{
-			goto errstate;
-		};
-	};
+        }
+// attribute
+        else if(argv -> a_type == A_SYMBOL){
+            t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
+            if(strcmp(curarg->s_name, "@classic")==0){
+                if(argc >= 2){
+                    t_float argval = atom_getfloatarg(1, argc, argv);
+                    classic_exp = (int)argval;
+                    argc-=2;
+                    argv+=2;
+                }
+                else{
+                    goto errstate;
+                };
+            }
+            else{
+                goto errstate;
+            };
+            
+        }
+        else{
+            goto errstate;
+        };
+    };
     
 	x->x_inlet_1 = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
 	pd_float((t_pd *)x->x_inlet_1, min_in);
@@ -144,7 +169,7 @@ static void *scale_new(t_symbol *s, int argc, t_atom *argv)
 
     outlet_new((t_object *)x, &s_signal);
     
-    x->x_classic = 1;
+    x->x_classic = classic_exp;
     
     return (x);
 	errstate:
