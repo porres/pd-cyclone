@@ -55,12 +55,12 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 
 Check more stuff in our wiki page: https://github.com/porres/pd-cyclone/wiki/
 
-February 22nd 2016 (last edited, april 13th)
+February 22nd 2016 (last edited, april 27th)
 
 -------
 <strong>pd-lib-builder</strong>
 
-Cyclone has relyed on a new build system called "pd-lib-builder" by Katja Vetter, available here: <https://github.com/pure-data/pd-lib-builder> 
+Cyclone has recently relyed on the new build system called "pd-lib-builder" by Katja Vetter, available here: <https://github.com/pure-data/pd-lib-builder> 
 
-The transition to this new build system started with 0.1-alpha57. The old build configuration used to also compile the objects in libraries. The new system, at the moment, only builds each object in a separate file plus the cyclone sub-library containing 12 non alphanumeric objects.
+The transition to this build system started with 0.1-alpha57. The old build configuration used to also compile the objects in libraries. The new system, up to this moment, only builds each object in a separate file - with the exception of the cyclone sub-library (containing 12 non alphanumeric objects).
 
