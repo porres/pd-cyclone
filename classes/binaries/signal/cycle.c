@@ -1,4 +1,3 @@
-
 /* Copyright (c) 2002-2003 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
@@ -25,9 +24,10 @@
 
 typedef struct _cycle
 {
-    t_object      x_obj;
+    t_object   x_obj;
 
 	t_float    x_freq;
+	t_float	   x_init_phase;
     double     x_phase;
     double     x_conv;
     t_symbol  *x_name;
@@ -176,12 +176,10 @@ static void cycle_buffer_offset(t_cycle *x, t_floatarg f)
 
 
 
-
-
-static void cycle_buffer_sizeinsamps(t_cycle *x, t_floatarg f)
+static void cycle_set_buffersize(t_cycle *x, t_floatarg f)
 {
-
-	if (!f)
+	//post("trying to set buffersize to %d", (int)f);
+	if (f==0.)
 	{
 		x->x_use_all = 0;
 		x->x_cycle_tabsize = PDCYCYCLE_TABSIZE;
@@ -200,6 +198,12 @@ static void cycle_buffer_sizeinsamps(t_cycle *x, t_floatarg f)
 		loud_error((t_pd *)x, "buffer_sizeinsamps must be a power of two <= 65536");
 		return;
 	}
+}
+
+static void cycle_buffer_sizeinsamps(t_cycle *x, t_floatarg f)
+{
+
+	cycle_set_buffersize(x, f);
 	cycle_gettable(x);
 }
 
@@ -275,7 +279,8 @@ static void cycle_dsp(t_cycle *x, t_signal **sp)
 {
     cycle_gettable(x);
     x->x_conv = 1.0 / sp[0]->s_sr;
-    x->x_phase = 0.;
+    x->x_phase = x->x_init_phase;
+    pd_float((t_pd *)x->x_phaselet, 0.);
     //post("cycle tabsize = %d", x->x_cycle_tabsize);
     dsp_add(cycle_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
@@ -401,14 +406,15 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 		};
 	};
 
-    int tabsize = (int)bufsz;
+    //int tabsize = (int)bufsz;
     int costabsize = COS_TABSIZE;
     x->x_costable = sic_makecostable(&costabsize);
     x->x_usertable = x->x_usertableini;
-    x->x_cycle_tabsize = x->x_usertable_tabsize = tabsize;
+    x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
+   // x->x_cycle_tabsize = x->x_usertable_tabsize = tabsize;
+    
 
 	x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
-    pd_float((t_pd *)x->x_phaselet, phase);
 	x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
 	if(offset < 0){
 		offset = 0;
@@ -422,9 +428,10 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 	};
 	x->x_freq = freq;
     x->x_table = 0;
-    x->x_phase = phase;
+    x->x_init_phase = phase;
     x->x_conv = 0.;
-    x->x_use_all = 0;
+    cycle_set_buffersize(x, bufsz);
+   // x->x_use_all = 0;
     return (x);
 	errstate:
 		pd_error(x, "cycle~: improper args");
@@ -433,6 +440,8 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 
 static void *cycle_free(t_cycle *x)
 {
+	if (x->x_usertable != x->x_usertableini) 
+		freebytes(x->x_usertable, (x->x_usertable_tabsize + 1) * sizeof(*x->x_usertable));
 	outlet_free(x->x_outlet);
 	inlet_free(x->x_phaselet);
 	return (void *)x;
