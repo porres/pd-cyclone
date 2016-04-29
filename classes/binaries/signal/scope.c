@@ -805,7 +805,7 @@ static void scope_drawfgxy(t_scope *x, t_canvas *cv,
     float *xbp = x->x_xbuffer, *ybp = x->x_ybuffer;
     char chunk[200 * SCOPE_GUICHUNKXY];  /* LATER estimate */
     char *chunkp = chunk;
-    char cmd1[64], cmd2[64];
+    char cmd1[64], cmd2[128];
     float xx, yy, xsc, ysc;
     xx = yy = 0;
     /* subtract 1-pixel margins, see below */
