@@ -3,17 +3,24 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
-
-typedef struct _bitnot
-{
-    t_sic  x_sic;
-    int    x_convert1;
-} t_bitnot;
+#include <math.h>
 
 static t_class *bitnot_class;
 
-static t_int *bitnot_perform(t_int *w)
+typedef struct _bitnot {
+    t_object x_obj;
+    t_outlet *x_outlet;
+    int    x_convert1;
+} t_bitnot;
+
+void *bitnot_new(t_floatarg f);
+static t_int * bitnot_perform(t_int *w);
+static void bitnot_dsp(t_bitnot *x, t_signal **sp);
+static void bitnot_mode(t_bitnot *x, t_floatarg f);
+static void bitnot_float(t_bitnot *x, t_float f);
+
+
+static t_int * bitnot_perform(t_int *w)
 {
     t_bitnot *x = (t_bitnot *)(w[1]);
     int nblock = (int)(w[2]);
@@ -22,15 +29,15 @@ static t_int *bitnot_perform(t_int *w)
     /* LATER think about performance */
     if (x->x_convert1) while (nblock--)
     {
-	/* CHECKME */
-	t_int i = ~((t_int)*in++);
-	*out++ = (t_float)i;
+        /* CHECKME */
+        t_int i = ~((t_int)*in++);
+        *out++ = (t_float)i;
     }
     else while (nblock--)
     {
-	/* CHECKME */
-	t_int i = ~(*(t_int *)(t_float *)in++);
-	*out++ = *(t_float *)&i;
+        /* CHECKME */
+        t_int i = ~(*(t_int *)(t_float *)in++);
+        *out++ = *(t_float *)&i;
     }
     return (w + 5);
 }
@@ -46,21 +53,37 @@ static void bitnot_mode(t_bitnot *x, t_floatarg f)
     x->x_convert1 = (i > 0);  /* CHECKME */
 }
 
-static void *bitnot_new(t_floatarg f)
+static void bitnot_float(t_bitnot *x, t_float f)
+{
+    int i = (int)f;
+    x->x_convert1 = (i > 0);  /* CHECKME */
+}
+
+
+void *bitnot_new(t_floatarg f)
 {
     t_bitnot *x = (t_bitnot *)pd_new(bitnot_class);
-    outlet_new((t_object *)x, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     bitnot_mode(x, f);
     return (x);
 }
 
-void bitnot_tilde_setup(void)
-{
+void bitnot_tilde_setup(void) {
     bitnot_class = class_new(gensym("bitnot~"),
-			     (t_newmethod)bitnot_new, 0,
-			     sizeof(t_bitnot), 0,
-			     A_DEFFLOAT, 0);
-    sic_setup(bitnot_class, bitnot_dsp, SIC_FLOATTOSIGNAL);
+        (t_newmethod) bitnot_new,
+        0,
+        sizeof (t_bitnot),
+        CLASS_DEFAULT,
+        A_DEFFLOAT,
+        0);
+    class_addmethod(bitnot_class, nullfn, gensym("signal"), 0);
+    class_addmethod(bitnot_class, (t_method) bitnot_dsp, gensym("dsp"), 0);
     class_addmethod(bitnot_class, (t_method)bitnot_mode,
-		    gensym("mode"), A_FLOAT, 0);
+                    gensym("mode"), A_FLOAT, 0);
+            class_addfloat(bitnot_class, (t_method)bitnot_float);
 }
+
+
+
+
+
