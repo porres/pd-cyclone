@@ -94,6 +94,7 @@ static t_int *biquad_perform(t_int *w)
 
 static void biquad_dsp(t_biquad *x, t_signal **sp)
 {
+    x->x_xnm1 = x->x_xnm2 = x->x_ynm1 = x->x_ynm2 = 0.;
     dsp_add(biquad_perform, 9, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec,
             sp[2]->s_vec, sp[3]->s_vec, sp[4]->s_vec, sp[5]->s_vec, sp[6]->s_vec);
 }
