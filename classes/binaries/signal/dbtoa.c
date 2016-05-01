@@ -56,7 +56,7 @@ void dbtoa_tilde_setup(void) {
 			  (t_newmethod) dbtoa_new,
 			  0,
 			  sizeof (t_dbtoa),
-			  0,
+			  CLASS_NOINLET,
 			  0);
   class_addmethod(dbtoa_class, (t_method) dbtoa_dsp, gensym("dsp"), 0);
 }

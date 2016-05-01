@@ -1,13 +1,15 @@
 /*
-  Copyright (c) 2016 Marco Matteo Markidis
-  mm.markidis@gmail.com
+ Copyright (c) 2016 Marco Matteo Markidis
+ mm.markidis@gmail.com
+ 
+ For information on usage and redistribution, and for a DISCLAIMER OF ALL
+ WARRANTIES, see the file, "LICENSE.txt," in this distribution.
+ 
+ Made while listening:
+ Evan Parker Electro-Acoustic Ensemble -- Hasselt
+ */
 
-  For information on usage and redistribution, and for a DISCLAIMER OF ALL
-  WARRANTIES, see the file, "LICENSE.txt," in this distribution.
 
-  Made while listening:
-  Evan Parker Electro-Acoustic Ensemble -- Hasselt
-*/
 
 #include "m_pd.h"
 #include <math.h>
@@ -33,7 +35,7 @@ static void atodb_dsp(t_atodb *x, t_signal **sp);
 
 static t_int * atodb_perform(t_int *w)
 {
-   t_atodb *x = (t_atodb *)(w[1]); // ???
+   t_atodb *x = (t_atodb *)(w[1]);
   int n = (int)(w[2]);
   t_float *in = (t_float *)(w[3]);
   t_float *out = (t_float *)(w[4]);
@@ -57,6 +59,6 @@ void *atodb_new(void)
 
 void atodb_tilde_setup(void) {
   atodb_class = class_new(gensym("atodb~"),
-    (t_newmethod) atodb_new, 0, sizeof (t_atodb), 0, 0);
+    (t_newmethod) atodb_new, 0, sizeof (t_atodb), CLASS_NOINLET, 0);
   class_addmethod(atodb_class, (t_method) atodb_dsp, gensym("dsp"), 0);
 }
