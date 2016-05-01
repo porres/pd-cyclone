@@ -88,6 +88,7 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
 
 # UPDATED SIGNAL CLASSES that were Removed from old framework:
 
+    bitnot~.class.sources := classes/binaries/signal/bitnot.c
     deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
     thresh~.class.sources := classes/binaries/signal/thresh.c
     mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
@@ -353,7 +354,6 @@ atanh~.class.sources := classes/binaries/signal/atanh.c $(ssic)
 average~.class.sources := classes/binaries/signal/average.c $(ssic)
 # average2~.class.sources := classes/binaries/signal/average2.c $(ssic)
 avg~.class.sources := classes/binaries/signal/avg.c $(ssic)
-bitnot~.class.sources := classes/binaries/signal/bitnot.c $(ssic)
 bitshift~.class.sources := classes/binaries/signal/bitshift.c $(ssic)
 change~.class.sources := classes/binaries/signal/change.c $(ssic)
 clip~.class.sources := classes/binaries/signal/clip.c $(ssic)
