@@ -89,12 +89,14 @@ static void record_mstoindex(t_record *x)
 {
     t_arsic *sic = (t_arsic *)x;
     x->x_startindex = (int)(x->x_startpoint * sic->s_ksr);
-    if (x->x_startindex < 0)
-	x->x_startindex = 0;  /* CHECKED */
+    if (x->x_startindex < 0){
+		x->x_startindex = 0;  /* CHECKED */
+	};
     x->x_endindex = (int)(x->x_endpoint * sic->s_ksr);
     if (x->x_endindex > sic->s_vecsize
-	|| x->x_endindex <= 0)
-	x->x_endindex = sic->s_vecsize;  /* CHECKED (both ways) */
+	|| x->x_endindex <= 0){
+		x->x_endindex = sic->s_vecsize;  /* CHECKED (both ways) */
+	};
     record_setsync(x);
 }
 
@@ -263,15 +265,17 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	t_float loopstart = PDCYREC_LOOPSTART;
 	t_float loopend = -1;
 	
-	t_symbol * arrname;
-	//first arg HAS to be array name, parse it now
-	if(argv ->a_type == A_SYMBOL){
+	t_symbol * arrname = gensym("record_def");
+	if(argc > 0 && argv ->a_type == A_SYMBOL){
+		//first arg HAS to be array name, parse it now
 		arrname = atom_getsymbolarg(0, argc, argv);
 		argc--;
 		argv++;
+		//post("record~ setting to '%s'", arrname->s_name);
 	}
 	else{
-		goto errstate;
+	// else default to dummy name but warn
+		post("defaulting to name '%s'", arrname->s_name);
 	};
 	
 	//NOW parse the rest of the args
@@ -342,7 +346,10 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	};
     /* one auxiliary signal:  sync output */
     int chn_n = (int)numchan > 4 ? 4 : (int)numchan;
-    t_record *x = (t_record *)arsic_new(record_class, arrname, chn_n == 3 ? 2 : chn_n, 0, 1);
+	if(chn_n == 3){
+		chn_n = 2;
+	};
+    t_record *x = (t_record *)arsic_new(record_class, arrname, chn_n, 0, 1);
     if (x)
     {
 	
@@ -356,15 +363,17 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	record_append(x, append);	
 	record_loop(x, loopstatus);
 	record_reset(x);
-	record_startpoint(x, loopstart);
-	record_endpoint(x, loopend); 
 	x->x_clock = clock_new(x, (t_method)record_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
-	while (--nch)
+	while (--nch){
 	    inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+	};
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft-2"));
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft-1"));
 	outlet_new((t_object *)x, &s_signal);
+
+	record_startpoint(x, loopstart);
+	record_endpoint(x, loopend); 
     }
     return (x);
 	errstate:

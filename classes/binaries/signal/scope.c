@@ -1182,7 +1182,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     x->x_height = (int)height;
 	*/
 	//x->x_allocsize = 0;
-	x->x_allocsize = SCOPE_DEFBUFSIZE;
+	x->x_allocsize =  (int) SCOPE_DEFBUFSIZE;
 	x->x_xbuffer = x->x_xbufini;
 	x->x_ybuffer = x->x_ybufini;
     x->x_bufsize = 0;

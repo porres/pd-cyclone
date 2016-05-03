@@ -152,7 +152,7 @@ void *arsic_new(t_class *c, t_symbol *s,
     t_int *perfargs = 0;
     t_symbol **channames = 0;
     if (!s) s = &s_;
-    if (nchannels < 1)
+    if (nchannels <= 1)
     {
 	nchannels = 1;
 	mononame = s;
