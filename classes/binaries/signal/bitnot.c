@@ -3,7 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include <math.h>
 
 static t_class *bitnot_class;
 
