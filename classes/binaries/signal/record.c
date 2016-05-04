@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
+ /* Copyright (c) 2002-2003 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -25,6 +25,7 @@ adding attribute parsing and making numchannels arg optional
 typedef struct _record
 {
     t_arsic   x_arsic;
+    float     x_array_ms;  // array size in ms
     float     x_startpoint;  /* the inputs */
     float     x_endpoint;
     int       x_appendmode;
@@ -34,7 +35,7 @@ typedef struct _record
     int       x_pauseindex;
     int       x_phase;       /* writing head */
     float     x_sync;
-    float     x_syncincr;
+//    float     x_syncincr;
     int       x_isrunning;   /* to know if sync should be 0.0 or 1.0 */
     t_clock  *x_clock;
     double    x_clocklasttick;
@@ -76,12 +77,12 @@ static void record_setsync(t_record *x)
     if (phase == SHARED_INT_MAX || range < 1.)
     {
 	x->x_sync = (x->x_isrunning ? 1. : 0.);  /* CHECKED */
-	x->x_syncincr = 0.;
+//	x->x_syncincr = 0.;
     }
     else
     {
 	x->x_sync = (float)(phase - x->x_startindex) / range;
-        x->x_syncincr = 1. / range; // Not Working!
+//        x->x_syncincr = 1. / range; // Not Working!
     }
 }
 
@@ -108,10 +109,12 @@ static void record_set(t_record *x, t_symbol *s)
 
 static void record_reset(t_record *x)
 {
-    x->x_startpoint = x->x_endpoint = 0.;
+//    x->x_startpoint = x->x_endpoint = 0.;
+    x->x_startpoint = 0.;
+    x->x_endpoint = x->x_array_ms;
     x->x_pauseindex = SHARED_INT_MAX;
     x->x_phase = SHARED_INT_MAX;
-    x->x_isrunning = 0;
+//    x->x_isrunning = 0;
     record_mstoindex(x);
 }
 
@@ -134,7 +137,7 @@ static void record_float(t_record *x, t_float f)
 	/* CHECKED: no (re)start in append mode */
 	/* LATER consider restart if x->x_pauseindex == SHARED_INT_MAX */
 	x->x_phase = x->x_appendmode ? x->x_pauseindex : x->x_startindex;
-	if (x->x_phase >= x->x_endindex) x->x_phase = SHARED_INT_MAX;
+        if (x->x_phase >= x->x_endindex) x->x_phase = SHARED_INT_MAX;
     }
     else if (x->x_phase != SHARED_INT_MAX)  /* CHECKED: no rewind */
     {
@@ -174,7 +177,7 @@ static t_int *record_perform(t_int *w)
     if (sic->s_playable && endphase > phase)
     {
 	int vecsize = sic->s_vecsize;
-	float syncincr = x->x_syncincr;
+//	float syncincr = x->x_syncincr;
 	int ch, over, i, nxfer, ndone = 0;
 loopover:
 	if ((nxfer = endphase - phase) > nblock)
@@ -218,7 +221,7 @@ loopover:
 		&& (phase = x->x_startindex) < endphase)
 	    {
 		x->x_phase = phase;
-		x->x_sync = sync = 0;
+		x->x_sync = sync = 0.;
 		if (nblock > 0)
 		{
 		    ndone += nxfer;
@@ -230,7 +233,7 @@ loopover:
 	    x->x_pauseindex = SHARED_INT_MAX;
 	    x->x_phase = SHARED_INT_MAX;
 	    x->x_sync = 1.;
-	    x->x_syncincr = 0.;
+//	    x->x_syncincr = 0.;
 	}
 	else
 	{
@@ -344,7 +347,6 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 			goto errstate;
 		};
 	};
-    /* one auxiliary signal:  sync output */
     int chn_n = (int)numchan > 4 ? 4 : (int)numchan;
 	if(chn_n == 3){
 		chn_n = 2;
@@ -356,8 +358,8 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	int nch = arsic_getnchannels((t_arsic *)x);
 	t_float arraysmp = record_getarraysmp(x, arrname);
 	if(loopend < 0 && arraysmp > 0){
-		//if loopend not set or less than 0 and arraysmp doesn't fail,set it to arraylen in ms
-		loopend = (arraysmp/(sys_getsr()*0.001));
+//if loopend not set or less than 0 and arraysmp doesn't fail, set it to arraylen in ms
+       loopend = (arraysmp/(sys_getsr()*0.001));
 	};
 	arsic_setminsize((t_arsic *)x, 2);
 	record_append(x, append);	
@@ -365,21 +367,21 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	record_reset(x);
 	x->x_clock = clock_new(x, (t_method)record_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
+    x->x_array_ms = loopend;
 	while (--nch){
 	    inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
 	};
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft-2"));
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft-1"));
-	outlet_new((t_object *)x, &s_signal);
-
+	outlet_new((t_object *)x, &s_signal); //  sync output
+    
 	record_startpoint(x, loopstart);
-	record_endpoint(x, loopend); 
+	record_endpoint(x, loopend);
     }
     return (x);
 	errstate:
 		post("record~: improper args");
 		return NULL;
-
 }
 
 void record_tilde_setup(void)
