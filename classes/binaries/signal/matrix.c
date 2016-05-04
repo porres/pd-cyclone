@@ -110,8 +110,8 @@ static void matrix_list(t_matrix *x, t_symbol *s, int ac, t_atom *av)
     x->x_cells[cellndx] = onoff;
     if (x->x_gains)
     {
-	if (onoff)  /* CHECKME */
-	    x->x_gains[cellndx] = gain;
+	if (onoff)  // CHECKME
+	    x->x_gains[cellndx] = gain; // shouldn't rewrite argument!
 	ac--; av++;
 	if (ac)
 	{
@@ -134,7 +134,7 @@ static void matrix_clear(t_matrix *x)
 //	x->x_cells[i] = 0;
 }
 
-static void matrix_set(t_matrix *x, t_floatarg f1, t_floatarg f2)
+/*static void matrix_set(t_matrix *x, t_floatarg f1, t_floatarg f2)
 {
     int i, onoff;
     float gain = f1;
@@ -152,13 +152,13 @@ static void matrix_set(t_matrix *x, t_floatarg f1, t_floatarg f2)
 	float ramp = (f2 < MATRIX_MINRAMP ? 0. : f2);
 	for (i = 0; i < x->x_ncells; i++)
 	{
-	    if (onoff)  /* LATER rethink */
+	    if (onoff)  // LATER rethink
 		x->x_gains[i] = gain;
 	    x->x_ramps[i] = ramp;
 	    matrix_retarget(x, i);
 	}
     }
-}
+} */
 
 /* CHECKED c74's refman and help patch are wrong about int pairs --
    the actual syntax is "[dis]connect indx ondx1 [ondx2 [ondx3..." */
@@ -635,8 +635,8 @@ void matrix_tilde_setup(void)
     class_addlist(matrix_class, matrix_list);
     class_addmethod(matrix_class, (t_method)matrix_clear,
 		    gensym("clear"), 0);
-    class_addmethod(matrix_class, (t_method)matrix_set,
-		    gensym("set"), A_FLOAT, A_DEFFLOAT, 0);
+//    class_addmethod(matrix_class, (t_method)matrix_set,
+//		    gensym("set"), A_FLOAT, A_DEFFLOAT, 0);
     class_addmethod(matrix_class, (t_method)matrix_connect,
 		    gensym("connect"), A_GIMME, 0);
     class_addmethod(matrix_class, (t_method)matrix_connect,
