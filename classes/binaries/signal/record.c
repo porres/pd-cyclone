@@ -27,7 +27,7 @@ tried it out yet but that's my theory of what needs to be done... */
 #define PDCYREC_LOOPSTATUS 0
 #define PDCYREC_LOOPSTART 0
 
-#define RECORD_REDRAWPAUSE  1000.  /* refractory period */
+#define RECORD_REDRAWPAUSE  50.  /* refractory period */
 
 typedef struct _record
 {
@@ -81,7 +81,8 @@ static void record_setsync(t_record *x)
     int phase = x->x_phase;
     if (phase == SHARED_INT_MAX || range < 1.)
     {
-	x->x_sync = (x->x_isrunning ? 1. : 0.);  /* CHECKED */
+//	x->x_sync = (x->x_isrunning ? 1. : 0.);  /* CHECKED */
+    x->x_sync = x->x_isrunning;  /* CHECKED */
     }
     else
     {
@@ -110,14 +111,11 @@ static void record_set(t_record *x, t_symbol *s)
     record_mstoindex(x);
 }
 
-static void record_reset(t_record *x)
+
+static void record_reset(t_record *x) // new
 {
-//    x->x_startpoint = x->x_endpoint = 0.;
-    x->x_startpoint = 0.; // trying not reseting endpoint
+    x->x_startpoint = x->x_phase = 0.;
     x->x_endpoint = x->x_array_ms;
-    x->x_pauseindex = SHARED_INT_MAX;
-    x->x_phase = SHARED_INT_MAX;
-//    x->x_isrunning = 0; // trying not turning recording off - didn't work
     record_mstoindex(x);
 }
 
@@ -142,7 +140,7 @@ static void record_float(t_record *x, t_float f)
 	x->x_phase = x->x_appendmode ? x->x_pauseindex : x->x_startindex;
         if (x->x_phase >= x->x_endindex) x->x_phase = SHARED_INT_MAX;
     }
-    else if (x->x_phase != SHARED_INT_MAX)  /* CHECKED: no rewind */
+    else if (x->x_phase != SHARED_INT_MAX)
     {
 	clock_delay(x->x_clock, 10.);
 	x->x_pauseindex = x->x_phase;
@@ -197,24 +195,22 @@ loopover:
 		t_float *ip = (t_float *)(w[3 + ch]) + ndone;
 		vp += phase;
 		i = nxfer;
-		/* LATER consider handling under and overflows */
-//		while (i--) *vp++ = *ip++;
+//		while (i--) *vp++ = *ip++; /* LATER consider handling under and overflows */
 		int j = 0;
 		while (i--) 
-		{
-			vp[j].w_float = ip[j];
-			j++;
-		}
+            {vp[j].w_float = ip[j];
+                j++;}
 	    }
 	}
 	i = nxfer;
-
-    sync = (float)(phase - startphase) / phase_range;
         
-	while (i--)
-	{
-	    *out++ = sync;
-	}
+    sync = (float)(phase - startphase) / phase_range;
+	
+    while (i--)
+        {
+        *out++ = sync;
+        }
+        
 	if (over)
 	{
 	    clock_delay(x->x_clock, 0);
@@ -231,8 +227,7 @@ loopover:
 		}
 		goto alldone;
 	    }
-	    /* CHECKED: no restart in append mode */
-	    x->x_pauseindex = SHARED_INT_MAX;
+        x->x_pauseindex = SHARED_INT_MAX;   /* CHECKED: no restart in append mode */
 	    x->x_phase = SHARED_INT_MAX;
 	    x->x_sync = 1.;
 	}
@@ -243,7 +238,7 @@ loopover:
 	    goto alldone;
 	}
     }
-    while (nblock--) *out++ = 0.; // sync output = 0
+    while (nblock--) *out++ = sync; // sync output = 0
 alldone:
     return (w + sic->s_nperfargs + 1);
 }
