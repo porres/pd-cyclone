@@ -35,7 +35,6 @@ typedef struct _record
     int       x_pauseindex;
     int       x_phase;       /* writing head */
     float     x_sync;
-//    float     x_syncincr;
     int       x_isrunning;   /* to know if sync should be 0.0 or 1.0 */
     t_clock  *x_clock;
     double    x_clocklasttick;
@@ -77,12 +76,10 @@ static void record_setsync(t_record *x)
     if (phase == SHARED_INT_MAX || range < 1.)
     {
 	x->x_sync = (x->x_isrunning ? 1. : 0.);  /* CHECKED */
-//	x->x_syncincr = 0.;
     }
     else
     {
 	x->x_sync = (float)(phase - x->x_startindex) / range;
-//        x->x_syncincr = 1. / range; // Not Working!
     }
 }
 
@@ -177,7 +174,6 @@ static t_int *record_perform(t_int *w)
     if (sic->s_playable && endphase > phase)
     {
 	int vecsize = sic->s_vecsize;
-//	float syncincr = x->x_syncincr;
 	int ch, over, i, nxfer, ndone = 0;
 loopover:
 	if ((nxfer = endphase - phase) > nblock)
@@ -233,7 +229,6 @@ loopover:
 	    x->x_pauseindex = SHARED_INT_MAX;
 	    x->x_phase = SHARED_INT_MAX;
 	    x->x_sync = 1.;
-//	    x->x_syncincr = 0.;
 	}
 	else
 	{
