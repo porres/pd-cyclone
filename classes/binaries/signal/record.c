@@ -7,6 +7,13 @@ adding defaults for numchannels, append, loopstatus, loopstart, loopend
 adding record_getarraysmp
 adding attribute parsing and making numchannels arg optional 
 */
+
+/* i looked at it a little and in regards to the append thing,.. well, i
+think it's setting it at the first place? like at the end of the
+constructor (record_new),.. setting x->x_pauseindex or whatever to 0. and once
+the over flag in the dsp method is set and it hits the if ( if (over)),
+setting pauseindex to startpoint and stopping if not looping. haven't
+tried it out yet but that's my theory of what needs to be done... */
  
 #include <string.h>
 #include "m_pd.h"
@@ -38,7 +45,6 @@ typedef struct _record
     int       x_isrunning;   /* to know if sync should be 0.0 or 1.0 */
     t_clock  *x_clock;
     double    x_clocklasttick;
-
 } t_record;
 
 static t_class *record_class;
@@ -107,11 +113,11 @@ static void record_set(t_record *x, t_symbol *s)
 static void record_reset(t_record *x)
 {
 //    x->x_startpoint = x->x_endpoint = 0.;
-    x->x_startpoint = 0.;
+    x->x_startpoint = 0.; // trying not reseting endpoint
     x->x_endpoint = x->x_array_ms;
     x->x_pauseindex = SHARED_INT_MAX;
     x->x_phase = SHARED_INT_MAX;
-//    x->x_isrunning = 0;
+//    x->x_isrunning = 0; // trying not turning recording off - didn't work
     record_mstoindex(x);
 }
 
