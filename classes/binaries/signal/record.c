@@ -110,14 +110,24 @@ static void record_set(t_record *x, t_symbol *s)
     record_mstoindex(x);
 }
 
+/* OLD reset
+ static void record_reset(t_record *x)
+ {
+ x->x_startpoint = x->x_endpoint = 0.;
+ x->x_pauseindex = SHARED_INT_MAX;
+ x->x_phase = SHARED_INT_MAX;
+ x->x_isrunning = 0;
+ record_mstoindex(x);
+ } // */
 
-static void record_reset(t_record *x) // new
+// new
+static void record_reset(t_record *x)
 {
     x->x_startpoint = 0.;
     x->x_endpoint = x->x_array_ms;
-    record_mstoindex(x);
     if (x->x_isrunning) x->x_phase = 0.;
-}
+    record_mstoindex(x);
+} // */
 
 static void record_startpoint(t_record *x, t_floatarg f)
 {
