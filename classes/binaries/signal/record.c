@@ -27,7 +27,7 @@ tried it out yet but that's my theory of what needs to be done... */
 #define PDCYREC_LOOPSTATUS 0
 #define PDCYREC_LOOPSTART 0
 
-#define RECORD_REDRAWPAUSE  50.  /* refractory period */
+#define RECORD_REDRAWPAUSE  1000.  /* refractory period */
 
 typedef struct _record
 {
@@ -81,7 +81,6 @@ static void record_setsync(t_record *x)
     int phase = x->x_phase;
     if (phase == SHARED_INT_MAX || range < 1.)
     {
-//	x->x_sync = (x->x_isrunning ? 1. : 0.);  /* CHECKED */
     x->x_sync = x->x_isrunning;  /* CHECKED */
     }
     else
@@ -114,9 +113,10 @@ static void record_set(t_record *x, t_symbol *s)
 
 static void record_reset(t_record *x) // new
 {
-    x->x_startpoint = x->x_phase = 0.;
+    x->x_startpoint = 0.;
     x->x_endpoint = x->x_array_ms;
     record_mstoindex(x);
+    if (x->x_isrunning) x->x_phase = 0.;
 }
 
 static void record_startpoint(t_record *x, t_floatarg f)
@@ -133,7 +133,8 @@ static void record_endpoint(t_record *x, t_floatarg f)
 
 static void record_float(t_record *x, t_float f)
 {
-    if (x->x_isrunning = (f != 0))
+    x->x_isrunning = (f != 0);
+    if (x->x_isrunning)
     {
 	/* CHECKED: no (re)start in append mode */
 	/* LATER consider restart if x->x_pauseindex == SHARED_INT_MAX */
