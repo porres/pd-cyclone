@@ -110,24 +110,13 @@ static void record_set(t_record *x, t_symbol *s)
     record_mstoindex(x);
 }
 
-/* OLD reset
- static void record_reset(t_record *x)
- {
- x->x_startpoint = x->x_endpoint = 0.;
- x->x_pauseindex = SHARED_INT_MAX;
- x->x_phase = SHARED_INT_MAX;
- x->x_isrunning = 0;
- record_mstoindex(x);
- } // */
-
-// new
 static void record_reset(t_record *x)
 {
     x->x_startpoint = 0.;
     x->x_endpoint = x->x_array_ms;
     if (x->x_isrunning) x->x_phase = 0.;
     record_mstoindex(x);
-} // */
+} 
 
 static void record_startpoint(t_record *x, t_floatarg f)
 {
@@ -371,7 +360,12 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	arsic_setminsize((t_arsic *)x, 2);
 	record_append(x, append);	
 	record_loop(x, loopstatus);
-	record_reset(x);
+    
+    x->x_pauseindex = SHARED_INT_MAX; // instead of record_reset(x);
+    x->x_phase = SHARED_INT_MAX;
+    x->x_isrunning = 0;
+    record_mstoindex(x);
+        
 	x->x_clock = clock_new(x, (t_method)record_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
     x->x_array_ms = loopend;
