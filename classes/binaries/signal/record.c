@@ -8,12 +8,7 @@ adding record_getarraysmp
 adding attribute parsing and making numchannels arg optional 
 */
 
-/* i looked at it a little and in regards to the append thing,.. well, i
-think it's setting it at the first place? like at the end of the
-constructor (record_new),.. setting x->x_pauseindex or whatever to 0. and once
-the over flag in the dsp method is set and it hits the if ( if (over)),
-setting pauseindex to startpoint and stopping if not looping. haven't
-tried it out yet but that's my theory of what needs to be done... */
+/* Porres 2016 fixed bugs with sync output, append mode, reset message, max number channels in  */
  
 #include <string.h>
 #include "m_pd.h"
@@ -110,13 +105,13 @@ static void record_set(t_record *x, t_symbol *s)
     record_mstoindex(x);
 }
 
-static void record_reset(t_record *x)
+static void record_reset(t_record *x) // new
 {
     x->x_startpoint = 0.;
     x->x_endpoint = x->x_array_ms;
     if (x->x_isrunning) x->x_phase = 0.;
     record_mstoindex(x);
-} 
+} // */
 
 static void record_startpoint(t_record *x, t_floatarg f)
 {
@@ -361,11 +356,8 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	record_append(x, append);	
 	record_loop(x, loopstatus);
     
-    x->x_pauseindex = SHARED_INT_MAX; // instead of record_reset(x);
-    x->x_phase = SHARED_INT_MAX;
-    x->x_isrunning = 0;
-    record_mstoindex(x);
-        
+    x->x_phase = SHARED_INT_MAX; // instead of old record_reset(x) and so it doesn't record when DSP is on (stupid code);
+    x->x_pauseindex = 0; // instead of old record_reset(x)'s SHARED_INT_MAX so append works
 	x->x_clock = clock_new(x, (t_method)record_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
     x->x_array_ms = loopend;
