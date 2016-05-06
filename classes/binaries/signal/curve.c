@@ -24,8 +24,7 @@
 // also adding factor message that calls curve_factor (new method)
 #define PDCYCURVEINITVAL 0.
 #define PDCYCURVEPARAM 0.
-#define CURVE_INISIZE  64  /* LATER rethink */
-#define CURVE_MAXSIZE  64
+#define CURVE_MAXSIZE  42
 
 typedef struct _curveseg
 {
@@ -58,7 +57,7 @@ typedef struct _curve
     int         x_pause;
     t_curveseg  *x_curseg;
     t_curveseg  *x_segs;
-    t_curveseg  x_segini[CURVE_INISIZE];
+    t_curveseg  x_segini[CURVE_MAXSIZE];
     t_clock     *x_clock;
     t_outlet    *x_bangout;
 #ifdef CURVE_DEBUG
@@ -276,11 +275,11 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     odd = natoms % 3;
     nsegs = natoms / 3;
     if (odd) nsegs++;
-    if (nsegs > x->x_size)
+    if (nsegs > x->x_size) nsegs = CURVE_MAXSIZE;
     {
 	int ns = nsegs;
 	x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
-				CURVE_INISIZE, x->x_segini,
+				CURVE_MAXSIZE, x->x_segini,
 				sizeof(*x->x_segs));
 	if (ns < nsegs)
 	{
@@ -428,7 +427,7 @@ static void *curve_new(t_symbol *s, int argc, t_atom *argv)
     x->x_nleft = 0;
     x->x_retarget = 0;
     x->x_pause = 0;
-    x->x_size = CURVE_INISIZE;
+    x->x_size = CURVE_MAXSIZE;
     x->x_nsegs = 0;
     x->x_segs = x->x_segini;
     x->x_curseg = 0;
