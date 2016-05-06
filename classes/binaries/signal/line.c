@@ -13,8 +13,7 @@
 //#define LINE_DEBUG
 #endif
 
-#define LINE_INISIZE  64  /* LATER rethink */
-#define LINE_MAXSIZE  64
+#define LINE_MAXSIZE  128
 
 typedef struct _lineseg
 {
@@ -39,7 +38,7 @@ typedef struct _line
     int         x_pause;
     t_lineseg  *x_curseg;
     t_lineseg  *x_segs;
-    t_lineseg   x_segini[LINE_INISIZE];
+    t_lineseg   x_segini[LINE_MAXSIZE];
     t_clock    *x_clock;
     t_outlet   *x_bangout;
 #ifdef LINE_DEBUG
@@ -215,11 +214,11 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     odd = natoms % 2;
     nsegs = natoms / 2;
     if (odd) nsegs++;
-    if (nsegs > x->x_size)
+    if (nsegs > LINE_MAXSIZE) nsegs = LINE_MAXSIZE;
     {
 	int ns = nsegs;
 	x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
-				LINE_INISIZE, x->x_segini,
+				LINE_MAXSIZE, x->x_segini,
 				sizeof(*x->x_segs));
 	if (ns < nsegs)
 	{
@@ -305,7 +304,7 @@ static void *line_new(t_floatarg f)
     x->x_deltaset = 0;
     x->x_nleft = 0;
     x->x_retarget = 0;
-    x->x_size = LINE_INISIZE;
+    x->x_size = LINE_MAXSIZE;
     x->x_nsegs = 0;
     x->x_pause = 0;
     x->x_segs = x->x_segini;
