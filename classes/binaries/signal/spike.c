@@ -26,6 +26,12 @@ static void spike_tick(t_spike *x)
     x->x_count = x->x_precount;
 }
 
+static void spike_bang(t_spike *x)
+{
+x->x_count = 0;
+}
+
+
 static void spike_ft1(t_spike *x, t_floatarg f)
 {
     if ((x->x_waittime = f) < 0.)
@@ -106,4 +112,5 @@ void spike_tilde_setup(void)
     sic_setup(spike_class, spike_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(spike_class, (t_method)spike_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
+    class_addbang (spike_class, spike_bang);
 }
