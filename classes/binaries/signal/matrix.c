@@ -40,8 +40,9 @@ typedef struct _matrix
        unallocated in binary mode.  This is CHECKED to be incompatible:  c74
        always accepts (and reports) gains and ramps, although they are actually
        meaningless in binary mode, and switching modes is not supported. */
-    float      x_defgain;
+    float      x_defgain; // gain given as argument
     float     *x_gains;  /* target gains */
+//    float     *x_gain_given;  /* gain given as argument */
     float      x_deframp;
     float     *x_ramps;
     float      x_ksr;
@@ -73,6 +74,25 @@ static void matrix_retarget(t_matrix *x, int cellndx)
     	x->x_incrs[cellndx] =
 	    (target - x->x_coefs[cellndx]) / (float)x->x_remains[cellndx];
 	x->x_bigincrs[cellndx] = x->x_nblock * x->x_incrs[cellndx];
+    }
+}
+
+/* called only in nonbinary mode;  LATER deal with changing nblock/ksr */
+static void matrix_retarget_connect(t_matrix *x, int cellndx)
+{
+    float target = (x->x_cells[cellndx] ? x->x_gains[cellndx] = x->x_defgain : 0.);
+    if (x->x_ramps[cellndx] < MATRIX_MINRAMP)
+    {
+        x->x_coefs[cellndx] = target;
+        x->x_remains[cellndx] = 0;
+    }
+    else
+    {
+        x->x_remains[cellndx] =
+        x->x_ramps[cellndx] * x->x_ksr + 0.5;  /* LATER rethink */
+        x->x_incrs[cellndx] =
+        (target - x->x_coefs[cellndx]) / (float)x->x_remains[cellndx];
+        x->x_bigincrs[cellndx] = x->x_nblock * x->x_incrs[cellndx];
     }
 }
 
@@ -134,34 +154,7 @@ static void matrix_clear(t_matrix *x)
 //	x->x_cells[i] = 0;
 }
 
-/*static void matrix_set(t_matrix *x, t_floatarg f1, t_floatarg f2)
-{
-    int i, onoff;
-    float gain = f1;
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(*(t_pd *)x, "'set' not supported in Max");
-	warned = 1;
-    }
-    onoff = (gain < -MATRIX_GAINEPSILON || gain > MATRIX_GAINEPSILON);
-    for (i = 0; i < x->x_ncells; i++)
-	x->x_cells[i] = onoff;
-    if (x->x_gains)
-    {
-	float ramp = (f2 < MATRIX_MINRAMP ? 0. : f2);
-	for (i = 0; i < x->x_ncells; i++)
-	{
-	    if (onoff)  // LATER rethink
-		x->x_gains[i] = gain;
-	    x->x_ramps[i] = ramp;
-	    matrix_retarget(x, i);
-	}
-    }
-} */
 
-/* CHECKED c74's refman and help patch are wrong about int pairs --
-   the actual syntax is "[dis]connect indx ondx1 [ondx2 [ondx3..." */
 static void matrix_connect(t_matrix *x, t_symbol *s, int ac, t_atom *av)
 {
     int onoff = (s == gensym("connect")), indx, celloffset;
@@ -188,7 +181,7 @@ static void matrix_connect(t_matrix *x, t_symbol *s, int ac, t_atom *av)
 	cellndx = celloffset + ondx;
 	x->x_cells[cellndx] = onoff;
 	if (x->x_gains)
-	    matrix_retarget(x, cellndx);
+	    matrix_retarget_connect(x, cellndx);
 	ac--; av++;
     }
 }
@@ -582,10 +575,11 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 
 	if (gaingiven){
 	    x->x_gains = getbytes(x->x_ncells * sizeof(*x->x_gains));
-
+ //       x->x_gain_given = x->x_defgain;
 	    for (i = 0; i < x->x_ncells; i++){
-			x->x_gains[i] = x->x_defgain;
+            x->x_gains[i] = x->x_defgain;
 		};
+        
 	    x->x_ramps = getbytes(x->x_ncells * sizeof(*x->x_ramps));
 	    matrix_ramp(x, rampval);
 	    x->x_coefs = getbytes(x->x_ncells * sizeof(*x->x_coefs));
@@ -603,6 +597,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	}
 	else{
 	    x->x_gains = 0;
+  //      x->x_gain_given = 0;
 	    x->x_ramps = 0;
 	    x->x_coefs = 0;
 	    x->x_incrs = 0;
@@ -635,8 +630,6 @@ void matrix_tilde_setup(void)
     class_addlist(matrix_class, matrix_list);
     class_addmethod(matrix_class, (t_method)matrix_clear,
 		    gensym("clear"), 0);
-//    class_addmethod(matrix_class, (t_method)matrix_set,
-//		    gensym("set"), A_FLOAT, A_DEFFLOAT, 0);
     class_addmethod(matrix_class, (t_method)matrix_connect,
 		    gensym("connect"), A_GIMME, 0);
     class_addmethod(matrix_class, (t_method)matrix_connect,
