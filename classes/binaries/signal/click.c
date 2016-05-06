@@ -6,7 +6,7 @@
 #include "common/grow.h"
 #include "sickle/sic.h"
 
-#define CLICK_INISIZE  16  /* LATER rethink */
+#define CLICK_MAX_SIZE  256  //
 
 typedef struct _click
 {
@@ -14,7 +14,7 @@ typedef struct _click
     int       x_nsamples;  /* as used */
     int       x_bufsize;   /* as allocated */
     t_float  *x_buffer;
-    t_float   x_bufini[CLICK_INISIZE];
+    t_float   x_bufini[CLICK_MAX_SIZE];
     int       x_nleft;
     t_float  *x_head;
 } t_click;
@@ -38,10 +38,8 @@ static void click_set(t_click *x, t_symbol *s, int ac, t_atom *av)
 	/* CHECKED no restrictions (refman's error about 0.0-1.0 range)
 	   CHECKED nonnumeric atoms silently ignored */
     }
-    if (nsamples > x->x_bufsize)
-	x->x_buffer = grow_nodata(&nsamples, &x->x_bufsize, x->x_buffer,
-				  CLICK_INISIZE, x->x_bufini,
-				  sizeof(*x->x_buffer));
+    if (nsamples > CLICK_MAX_SIZE)
+        nsamples = CLICK_MAX_SIZE;
     if (nsamples)
     {
 	x->x_nsamples = nsamples;
@@ -96,7 +94,7 @@ static void *click_new(t_symbol *s, int ac, t_atom *av)
 {
     t_click *x = (t_click *)pd_new(click_class);
     x->x_nsamples = 1;  /* CHECKED */
-    x->x_bufsize = CLICK_INISIZE;
+    x->x_bufsize = CLICK_MAX_SIZE;
     x->x_buffer = x->x_bufini;
     x->x_buffer[0] = 1.;  /* CHECKED */
     x->x_nleft = 0;

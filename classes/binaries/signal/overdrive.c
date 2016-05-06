@@ -73,7 +73,6 @@ void overdrive_tilde_setup(void)
     overdrive_class = class_new(gensym("overdrive~"),
 				(t_newmethod)overdrive_new, 0,
 				sizeof(t_overdrive), 0, A_DEFFLOAT, 0);
-    /* CHECKED no float-to-signal conversion */
     sic_setup(overdrive_class, overdrive_dsp, overdrive_float);
     class_addmethod(overdrive_class, (t_method)overdrive_ft1,
 		    gensym("ft1"), A_FLOAT, 0);

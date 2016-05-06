@@ -42,7 +42,6 @@ typedef struct _matrix
        meaningless in binary mode, and switching modes is not supported. */
     float      x_defgain; // gain given as argument
     float     *x_gains;  /* target gains */
-//    float     *x_gain_given;  /* gain given as argument */
     float      x_deframp;
     float     *x_ramps;
     float      x_ksr;
@@ -575,7 +574,6 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 
 	if (gaingiven){
 	    x->x_gains = getbytes(x->x_ncells * sizeof(*x->x_gains));
- //       x->x_gain_given = x->x_defgain;
 	    for (i = 0; i < x->x_ncells; i++){
             x->x_gains[i] = x->x_defgain;
 		};
@@ -597,7 +595,6 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	}
 	else{
 	    x->x_gains = 0;
-  //      x->x_gain_given = 0;
 	    x->x_ramps = 0;
 	    x->x_coefs = 0;
 	    x->x_incrs = 0;
