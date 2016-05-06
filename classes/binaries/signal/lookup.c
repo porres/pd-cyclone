@@ -10,14 +10,35 @@
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
 
-typedef t_arsic t_lookup;
+// typedef t_arsic t_lookup;
+
+typedef struct _lookup
+{
+    t_arsic   x_arsic;
+    t_float   x_array_samp;  // array size in samples
+} t_lookup;
+
+
 static t_class *lookup_class;
 
 #define LOOKUP_DEFSIZE  512
 
+static t_float lookup_getarraysmp(t_lookup *x, t_symbol *arrayname){
+    t_garray *garray;
+    t_float lkpsmp = -1;
+    
+    if(!(garray = (t_garray *)pd_findbyclass(arrayname,garray_class))) {
+        pd_error(x, "%s: no such table", arrayname->s_name);
+    } else {
+        lkpsmp = garray_npoints(garray);
+    };
+    return lkpsmp;
+}
+
 static void lookup_set(t_lookup *x, t_symbol *s)
 {
     arsic_setarray((t_arsic *)x, s, 1);
+    x->x_array_samp = lookup_getarraysmp(x, s);
 }
 
 static t_int *lookup_perform(t_int *w)
@@ -30,12 +51,15 @@ static t_int *lookup_perform(t_int *w)
 	t_float *xin = (t_float *)(w[3]);
 	t_float *oin = (t_float *)(w[4]);
 	t_float *sin = (t_float *)(w[5]);
+    t_float array_maxsize = x->x_array_samp;
 	int vecsize = sic->s_vecsize;
 	t_word *vec = sic->s_vectors[0];  /* playable implies nonzero (mono) */
 	while (nblock--)
 	{
 	    float off = *oin++;  /* msp: converted to int (if not a signal) */
 	    int siz = (int)*sin++ - 1;  /* msp: converted to int (signal too) */
+        if(siz >= array_maxsize)
+            siz = array_maxsize - 1;
 	    float pos;
 //	    pos = (siz > 0 ? off + siz * (*xin++ + 1.0) * 0.5 : off);  // range: off - (off + siz)
 	    pos = (siz > 0 ? off + (siz - off) * (*xin++ + 1.0) * 0.5 : off);  // range: off - siz
@@ -77,9 +101,12 @@ static void *lookup_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 	arsic_setminsize((t_arsic *)x, 2);
 	if (f1 < 0) f1 = 0;
 	if (f2 <= 0) f2 = LOOKUP_DEFSIZE;
+    t_float arraysmp = lookup_getarraysmp(x, s);
+	if (f2 >= arraysmp) f2 = arraysmp;
 	sic_newinlet((t_sic *)x, f1);
 	sic_newinlet((t_sic *)x, f2);
 	outlet_new((t_object *)x, &s_signal);
+    x->x_array_samp = arraysmp;
     }
     return (x);
 }
