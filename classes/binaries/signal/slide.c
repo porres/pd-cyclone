@@ -53,6 +53,22 @@ static t_int *slide_perform(t_int *w)
     return (w + 7);
 }
 
+static void slide_reset(t_slide *x)
+{
+    x->x_last = 0; //    Sets the current output sample value to 0(the next incoming value will smoothly transition from that 0).
+}
+
+static void slide_slide_up(t_slide *x, t_floatarg f)
+{
+// followed by a float specifies the slide-up value to be
+// used when an incoming value is greater than the current value.
+}
+
+static void slide_slide_down(t_slide *x, t_floatarg f)
+{
+//
+}
+
 static void slide_dsp(t_slide *x, t_signal **sp)
 {
     dsp_add(slide_perform, 6, x, sp[0]->s_n,
@@ -75,4 +91,7 @@ void slide_tilde_setup(void)
 			    (t_newmethod)slide_new, 0,
 			    sizeof(t_slide), 0, A_GIMME, 0);
     sic_setup(slide_class, slide_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(slide_class, (t_method)slide_reset, gensym("reset"), 0);
+    class_addmethod(slide_class, (t_method)slide_slide_up, gensym("slide_up"), A_FLOAT, 0);
+    class_addmethod(slide_class, (t_method)slide_slide_down, gensym("slide_down"), A_FLOAT, 0);
 }
