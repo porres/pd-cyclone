@@ -46,12 +46,13 @@ static t_int *lookup_perform(t_int *w)
     t_arsic *sic = (t_arsic *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *out = (t_float *)(w[6]);
+    t_lookup *x = (t_lookup *)sic;
+    float array_maxsize = x->x_array_samp;
     if (sic->s_playable)
     {	
 	t_float *xin = (t_float *)(w[3]);
 	t_float *oin = (t_float *)(w[4]);
 	t_float *sin = (t_float *)(w[5]);
-    t_float array_maxsize = x->x_array_samp;
 	int vecsize = sic->s_vecsize;
 	t_word *vec = sic->s_vectors[0];  /* playable implies nonzero (mono) */
 	while (nblock--)
