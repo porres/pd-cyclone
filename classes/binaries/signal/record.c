@@ -40,6 +40,8 @@ typedef struct _record
     int       x_isrunning;   /* to know if sync should be 0.0 or 1.0 */
     t_clock  *x_clock;
     double    x_clocklasttick;
+
+	int 	  x_numchan;
 } t_record;
 
 static t_class *record_class;
@@ -47,10 +49,17 @@ static t_class *record_class;
 
 static t_float record_getarraysmp(t_record *x, t_symbol *arrayname){
   t_garray *garray;
+	char bufname[MAXPDSTRING];
 	t_float retsmp = -1;
-
+	int numchan = x->x_numchan;
+	if(numchan > 1){
+		sprintf(bufname, "0-%s", arrayname->s_name);
+	}
+	else{
+		sprintf(bufname, "%s", arrayname->s_name);
+	};
   if(!(garray = (t_garray *)pd_findbyclass(arrayname,garray_class))) {
-    pd_error(x, "%s: no such table", arrayname->s_name);
+    pd_error(x, "%s: no such table", bufname);
   } else {
    	retsmp = garray_npoints(garray);
   };
@@ -347,6 +356,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
     {
 	
 	int nch = arsic_getnchannels((t_arsic *)x);
+	x->x_numchan = nch;
 	t_float arraysmp = record_getarraysmp(x, arrname);
 	if(loopend < 0 && arraysmp > 0){
 //if loopend not set or less than 0 and arraysmp doesn't fail, set it to arraylen in ms

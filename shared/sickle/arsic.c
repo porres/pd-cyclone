@@ -77,7 +77,7 @@ int arsic_getnchannels(t_arsic *x)
 }
 
 void arsic_setarray(t_arsic *x, t_symbol *s, int complain)
-{
+{ 	
     if (s)
     {
 	if (x->s_mononame) x->s_mononame = s;
@@ -152,36 +152,42 @@ void *arsic_new(t_class *c, t_symbol *s,
     t_int *perfargs = 0;
     t_symbol **channames = 0;
     if (!s) s = &s_;
-    if (nchannels <= 1)
-    {
-	nchannels = 1;
-	mononame = s;
-	stub = 0;
+    if (nchannels <= 1){
+		nchannels = 1;
+		mononame = s;
+		stub = 0;
     }
-    else
-    {
-	mononame = 0;
-	stub = s->s_name;
-    }
-    if (!(vectors = (t_float **)getbytes(nchannels * sizeof(*vectors))))
-	return (0);
-    if (nauxsigs > 0)
-	nperfargs = nchannels + nauxsigs + 2;
-    else if (nsigs > 0)
-	nperfargs = nsigs + 2;
-    if (nperfargs
+    else{
+		mononame = 0;
+		stub = s->s_name;
+    };
+    if (!(vectors = (t_float **)getbytes(nchannels * sizeof(*vectors)))){
+		return (0);
+	};
+    
+	if (nauxsigs > 0){
+		nperfargs = nchannels + nauxsigs + 2;
+	}
+    else if (nsigs > 0){
+		nperfargs = nsigs + 2;
+	};
+
+	if (nperfargs
 	&& !(perfargs = (t_int *)getbytes(nperfargs * sizeof(*perfargs))))
     {
-	freebytes(vectors, nchannels * sizeof(*vectors));
-	return (0);
-    }
-    if (stub &&
+		freebytes(vectors, nchannels * sizeof(*vectors));
+		return (0);
+    };
+    
+	if (stub &&
 	!(channames = (t_symbol **)getbytes(nchannels * sizeof(*channames))))
     {
-	freebytes(vectors, nchannels * sizeof(*vectors));
-	if (perfargs) freebytes(perfargs, nperfargs * sizeof(*perfargs));
+		freebytes(vectors, nchannels * sizeof(*vectors));
+		if (perfargs){
+			freebytes(perfargs, nperfargs * sizeof(*perfargs));
+			};
 	return (0);
-    }
+    };
     x = (t_arsic *)pd_new(c);
     x->s_vecsize = 0;
     x->s_nchannels = nchannels;
