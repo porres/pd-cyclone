@@ -43,8 +43,9 @@ t_word *vefl_get(t_symbol *name, int *vszp, int indsp, t_pd *complain)
 	    else loud_error(complain,  /* always complain */
 			    "bad template of array '%s'", name->s_name);
 	}
-	else if (complain)
+	else if (complain){
 	    loud_error(complain, "no such array '%s'", name->s_name);
+	};
     }
     return (0);
 }
@@ -133,8 +134,9 @@ int vefl_renew(t_vefl *vp, t_symbol *name, t_pd *complain)
 #endif  /* LATER check all the cases and decide... */
 	if (!(vp->v_garray = (t_garray *)pd_findbyclass(name, garray_class)))
 	{
-	    if (complain)
+	    if (complain){
 		loud_error(complain, "no such array '%s'", name->s_name);
+		};
 	}
 	else if (!garray_getfloatwords(vp->v_garray, &vp->v_size, &vp->v_data))
 	{
