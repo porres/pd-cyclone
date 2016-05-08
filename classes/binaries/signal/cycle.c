@@ -311,20 +311,22 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 	int pastargs = 0; //flag if attributes are specified, then don't accept array name anymore
 	while(argc > 0){
 		if(argv -> a_type == A_FLOAT){
-			t_float argval = atom_getfloatarg(0, argc, argv);
-			switch(argnum){
-				case 0:
-					freq = argval;
-					break;
-				case 1:
-					offset = argval;
-					break;
-				default:
-					break;
+			if(!pastargs){
+				t_float argval = atom_getfloatarg(0, argc, argv);
+				switch(argnum){
+					case 0:
+						freq = argval;
+						break;
+					case 1:
+						offset = argval;
+						break;
+					default:
+						break;
+					};
+					argc--;
+					argv++;
+					argnum++;
 				};
-				argc--;
-				argv++;
-				argnum++;
 			}
 
 		else if(argv -> a_type == A_SYMBOL){
