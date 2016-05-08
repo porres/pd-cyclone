@@ -5,7 +5,7 @@
 //matt barber updated cycle~ in 2016
 /*derek kwan updated attributes,
   de-'sic'-ified (except for the costable making method),
-  added cycle_free in 2016
+  added cycle_free and cycle_buffer in 2016
   */
 
 #include <string.h>
@@ -155,6 +155,16 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
     }
     else x->x_name = 0;
     cycle_gettable(x);
+}
+
+static void cycle_buffer(t_cycle *x, t_symbol *s){
+	if(s && s != &s_){
+		x->x_name = s;
+	}
+	else{
+		x->x_name = 0;
+	};
+	cycle_gettable(x);
 }
 
 static void cycle_setall(t_cycle *x, t_symbol *s)
@@ -323,10 +333,10 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 					default:
 						break;
 					};
-					argc--;
-					argv++;
 					argnum++;
 				};
+				argc--;
+				argv++;
 			}
 
 		else if(argv -> a_type == A_SYMBOL){
@@ -459,6 +469,9 @@ void cycle_tilde_setup(void)
     class_addmethod(cycle_class,
         (t_method)cycle_set,gensym("set"),
         A_DEFSYMBOL, A_DEFFLOAT, 0);
+	class_addmethod(cycle_class,
+		(t_method)cycle_buffer, gensym("buffer"),
+		A_DEFSYMBOL, 0);
     class_addmethod(cycle_class,
         (t_method)cycle_buffer_offset,gensym("buffer_offset"),
         A_DEFFLOAT, 0);
