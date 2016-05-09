@@ -1,6 +1,5 @@
 #N canvas 657 23 575 342 10;
-#X declare -stdlib cyclone/cyclone;
-#N canvas 58 31 639 570 Control 1;
+#N canvas 769 224 639 570 Control 0;
 #X obj 26 25 cyclone/accum;
 #X obj 26 50 cyclone/acos;
 #X obj 26 75 cyclone/active;

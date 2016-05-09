@@ -12,8 +12,6 @@
 typedef struct _slide
 {
     t_sic    x_sic;
-    t_int    x_slide_up;
-    t_int    x_slide_down;
     t_float  x_last;
 } t_slide;
 
@@ -24,86 +22,66 @@ static t_int *slide_perform(t_int *w)
     t_slide *x = (t_slide *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *in1 = (t_float *)(w[3]);
-    t_float *out = (t_float *)(w[4]);
+    t_float *in2 = (t_float *)(w[4]);
+    t_float *in3 = (t_float *)(w[5]);
+    t_float *out = (t_float *)(w[6]);
     t_float last = x->x_last;
     while (nblock--)
     {
-    float f = *in1++;
+    	float f = *in1++;
 	if (f >= last)
 	{
-	    if (x->x_slide_up > 1.)
-		last += (f - last) / x->x_slide_up;
+	    float up = *in2++;
+	    if (up > 1.)  /* CHECKED */
+		last += (f - last) / up;
 	    else
 		last = f;
+	    in3++;
 	}
 	else if (f < last)
 	{
-	    if (x->x_slide_down > 1)
-		last += (f - last) / x->x_slide_down;
+	    float dn = *in3++;
+	    if (dn > 1.)  /* CHECKED */
+		last += (f - last) / dn;
 	    else
 		last = f;
+	    in2++;
 	}
 	*out++ = last;
     }
-    x->x_last = last;
-    return (w + 5);
+    x->x_last = (PD_BIGORSMALL(last) ? 0. : last);
+    return (w + 7);
 }
 
 static void slide_reset(t_slide *x)
 {
-    x->x_last = 0;
-//    Sets the current output sample value to 0(the next incoming value will smoothly transition from that 0).
+    x->x_last = 0; //    Sets the current output sample value to 0(the next incoming value will smoothly transition from that 0).
 }
 
 static void slide_slide_up(t_slide *x, t_floatarg f)
 {
-    int i = (int)f;
-    if (i > 1)
-    {
-        x->x_slide_up = i;
-    }
-    else
-    {
-        x->x_slide_up = 0;
-    }
+// followed by a float specifies the slide-up value to be
+// used when an incoming value is greater than the current value.
 }
 
 static void slide_slide_down(t_slide *x, t_floatarg f)
 {
-    int i = (int)f;
-    if (i > 1)
-    {
-        x->x_slide_down = i;
-    }
-    else
-    {
-        x->x_slide_down = 0;
-    }
+//
 }
 
 static void slide_dsp(t_slide *x, t_signal **sp)
 {
-    dsp_add(slide_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
+    dsp_add(slide_perform, 6, x, sp[0]->s_n,
+	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
 static void *slide_new(t_symbol *s, int ac, t_atom *av)
 {
     t_slide *x = (t_slide *)pd_new(slide_class);
-    float f1 = SLIDE_DEFUP;
-    float f2 = SLIDE_DEFDN;
-    if (ac && av->a_type == A_FLOAT)
-    {
-        f1 = av->a_w.w_float;
-        ac--; av++;
-        if (ac && av->a_type == A_FLOAT)
-            f2 = av->a_w.w_float;
-    }
-    slide_slide_up(x, f1);
-    slide_slide_down(x, f2);
-    x->x_last = 0.;
-    inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("slide_up"));
-    inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("slide_down"));
+    sic_inlet((t_sic *)x, 1, SLIDE_DEFUP, 0, ac, av);
+    sic_inlet((t_sic *)x, 2, SLIDE_DEFDN, 1, ac, av);
     outlet_new((t_object *)x, &s_signal);
+    x->x_last = 0;
     return (x);
 }
 
