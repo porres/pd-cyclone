@@ -12,7 +12,6 @@ static t_class *trunc_class;
 // ---------------------------------------------------
 typedef struct _trunc {
    t_object x_obj;
-   t_inlet * x_inlet_dsp_0;
    t_outlet * x_outlet_dsp_0;
 } t_trunc;
 
@@ -27,12 +26,13 @@ static void trunc_dsp(t_trunc *x, t_signal **sp); //DSP function
 // ---------------------------------------------------
 // Perform
 // ---------------------------------------------------
-static t_int * trunc_perform(t_int *w){
+static t_int * trunc_perform(t_int *w)
+{
     t_trunc *x = (t_trunc *)(w[1]); // Seu objeto
-    int n = (int)(w[2]); // Numero de samples no bloco
+    int n = (int)(w[2]); // Número de samples no bloco
     t_float *in1 = (t_float *)(w[3]); // bloco de entrada
     t_float *out1 = (t_float *)(w[4]); // bloco de saida
-    
+
     //interagir com todas as amostras do bloco (de 0 a n)
     int i = 0;
     for (i = 0 ; i < n ; i++){
@@ -44,31 +44,27 @@ static t_int * trunc_perform(t_int *w){
 // ---------------------------------------------------
 // DSP Function
 // ---------------------------------------------------
-static void trunc_dsp(t_trunc *x, t_signal **sp){
+static void trunc_dsp(t_trunc *x, t_signal **sp)
+{
    dsp_add(trunc_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 // ---------------------------------------------------
 // Constructor of the class
 // ---------------------------------------------------
-void * trunc_new(void){
+void * trunc_new(void)
+{
    t_trunc *x = (t_trunc *) pd_new(trunc_class);
-
-   x->x_inlet_dsp_0 = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
-
    x->x_outlet_dsp_0 = outlet_new(&x->x_obj, &s_signal);
-
    return (void *) x;
 }
 
 // ---------------------------------------------------
 // Destroy the class
 // ---------------------------------------------------
-void trunc_destroy(t_trunc *x) {
-   inlet_free(x->x_inlet_dsp_0);
-
+void trunc_destroy(t_trunc *x)
+{
    outlet_free(x->x_outlet_dsp_0);
-
 }
 
 // ---------------------------------------------------
@@ -79,26 +75,12 @@ void trunc_tilde_setup(void) {
       (t_newmethod) trunc_new, // Constructor
       (t_method) trunc_destroy, // Destructor
       sizeof (t_trunc),
-      0,
+      CLASS_DEFAULT,
       0);//Must always ends with a zero
-
-   class_addmethod(trunc_class, (t_method) trunc_dsp, gensym("dsp"), 0);
+    
+   class_addmethod(trunc_class, nullfn, gensym("signal"), 0);
+   class_addmethod(trunc_class, (t_method) trunc_dsp, gensym("dsp"), A_CANT, 0);
 }
 // EOF---------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
