@@ -100,6 +100,7 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
     pong~.class.sources := classes/binaries/signal/pong.c
     trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
     triangle~.class.sources := classes/binaries/signal/triangle.c
+    change~.class.sources := classes/binaries/signal/change.c 
 
 
 ################################################################################
@@ -357,7 +358,6 @@ atanh~.class.sources := classes/binaries/signal/atanh.c $(ssic)
 average~.class.sources := classes/binaries/signal/average.c $(ssic)
 # average2~.class.sources := classes/binaries/signal/average2.c $(ssic)
 avg~.class.sources := classes/binaries/signal/avg.c $(ssic)
-change~.class.sources := classes/binaries/signal/change.c $(ssic)
 clip~.class.sources := classes/binaries/signal/clip.c $(ssic)
 comb~.class.sources := classes/binaries/signal/comb.c $(ssic)
 cosh~.class.sources := classes/binaries/signal/cosh.c $(ssic)
