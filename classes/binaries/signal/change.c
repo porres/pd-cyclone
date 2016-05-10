@@ -3,15 +3,20 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _change
 {
-    t_sic    x_sic;
+    t_object x_obj;
     t_float  x_last;
+    t_outlet *x_outlet
 } t_change;
 
 static t_class *change_class;
+
+static void *change_new(void);
+static t_int * change_perform(t_int *w);
+static void change_dsp(t_change *x, t_signal **sp);
+static void change_float(t_change *x, t_float f);
 
 static t_int *change_perform(t_int *w)
 {
@@ -35,18 +40,25 @@ static void change_dsp(t_change *x, t_signal **sp)
     dsp_add(change_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
+static void change_float(t_change *x, t_float f)
+{
+    x->x_last = f;
+}
+
+
 static void *change_new(void)
 {
     t_change *x = (t_change *)pd_new(change_class);
-    outlet_new((t_object *)x, &s_signal);
-    x->x_last = 0;  /* CHECKME startup conditions */
+    x->x_outlet = outlet_new((t_object *)x, &s_signal);
+    x->x_last = 0;
     return (x);
 }
 
 void change_tilde_setup(void)
 {
-    change_class = class_new(gensym("change~"),
-			     (t_newmethod)change_new, 0,
-			     sizeof(t_change), 0, 0);
-    sic_setup(change_class, change_dsp, SIC_FLOATTOSIGNAL);
+    change_class = class_new(gensym("change~"), (t_newmethod)change_new, 0,
+            sizeof(t_change), CLASS_DEFAULT, 0);
+    class_addmethod(change_class, nullfn, gensym("signal"), 0);
+    class_addmethod(change_class, (t_method) change_dsp, gensym("dsp"), A_CANT, 0);
+    class_addfloat(change_class, (t_method)change_float);
 }
