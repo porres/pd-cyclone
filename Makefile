@@ -77,26 +77,26 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
 
     # Signal classes (MSP or "sickle")
 
-    atodb~.class.sources := classes/binaries/signal/atodb.c
-    biquad~.class.sources := classes/binaries/signal/biquad.c
-    dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
-    downsamp~.class.sources := classes/binaries/signal/downsamp.c
-    equals~.class.sources := classes/binaries/signal/equals.c
-    round~.class.sources := classes/binaries/signal/round.c
-    scale~.class.sources := classes/binaries/signal/scale.c
-    trunc~.class.sources := classes/binaries/signal/trunc.c
-    plusequals~.class.sources := classes/binaries/signal/plusequals.c
+    atodb~.class.sources := classes/binaries/signal/atodb.c  // ???
+    biquad~.class.sources := classes/binaries/signal/biquad.c  // ???
+    dbtoa~.class.sources := classes/binaries/signal/dbtoa.c  // ???
+    downsamp~.class.sources := classes/binaries/signal/downsamp.c  // ???
+    equals~.class.sources := classes/binaries/signal/equals.c  // ???
+    round~.class.sources := classes/binaries/signal/round.c  // ???
+    scale~.class.sources := classes/binaries/signal/scale.c  // ???
+    trunc~.class.sources := classes/binaries/signal/trunc.c  // ???
+    plusequals~.class.sources := classes/binaries/signal/plusequals.c   // ???
 
 # FIXED/UPDATED SIGNAL CLASSES that were Removed from old framework:
 
     bitnot~.class.sources := classes/binaries/signal/bitnot.c
     bitshift~.class.sources := classes/binaries/signal/bitshift.c
-    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
-    thresh~.class.sources := classes/binaries/signal/thresh.c
+    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c  // ???
+    thresh~.class.sources := classes/binaries/signal/thresh.c  // ???
     mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
     sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
-    count~.class.sources := classes/binaries/signal/count.c
-    snapshot~.class.sources := classes/binaries/signal/snapshot.c
+    count~.class.sources := classes/binaries/signal/count.c  // ???
+    snapshot~.class.sources := classes/binaries/signal/snapshot.c  // ???
     pong~.class.sources := classes/binaries/signal/pong.c
     trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
     triangle~.class.sources := classes/binaries/signal/triangle.c

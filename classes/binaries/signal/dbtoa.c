@@ -26,11 +26,11 @@ static void dbtoa_dsp(t_dbtoa *x, t_signal **sp);
 
 static t_int * dbtoa_perform(t_int *w)
 {
+  t_dbtoa *x = (t_dbtoa *)(w[1]);
   int n = (int)(w[2]);
   t_float *in = (t_float *)(w[3]);
   t_float *out = (t_float *)(w[4]);
     
-
   while(n--)
     *out++ = pow(10.,*in++/20);
   return (w + 5);
@@ -44,8 +44,7 @@ static void dbtoa_dsp(t_dbtoa *x, t_signal **sp)
 
 void *dbtoa_new(void)
 {
-  t_dbtoa *x = (t_dbtoa *)pd_new(dbtoa_class); 
-  x->x_inlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+  t_dbtoa *x = (t_dbtoa *)pd_new(dbtoa_class);
   x->x_outlet = outlet_new(&x->x_obj, &s_signal);
   return (void *)x;
 }
@@ -56,8 +55,9 @@ void dbtoa_tilde_setup(void) {
 			  (t_newmethod) dbtoa_new,
 			  0,
 			  sizeof (t_dbtoa),
-			  CLASS_NOINLET,
+			  CLASS_DEFAULT,
 			  0);
+  class_addmethod(dbtoa_class, nullfn, gensym("signal"), 0);
   class_addmethod(dbtoa_class, (t_method) dbtoa_dsp, gensym("dsp"), 0);
 }
 

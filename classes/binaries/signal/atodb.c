@@ -9,8 +9,6 @@
  Evan Parker Electro-Acoustic Ensemble -- Hasselt
  */
 
-
-
 #include "m_pd.h"
 #include <math.h>
 
@@ -51,14 +49,14 @@ static void atodb_dsp(t_atodb *x, t_signal **sp)
 
 void *atodb_new(void)
 {
-  t_atodb *x = (t_atodb *)pd_new(atodb_class); 
-  x->x_inlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+  t_atodb *x = (t_atodb *)pd_new(atodb_class);
   x->x_outlet = outlet_new(&x->x_obj, &s_signal);
   return (void *)x;
 }
 
 void atodb_tilde_setup(void) {
   atodb_class = class_new(gensym("atodb~"),
-    (t_newmethod) atodb_new, 0, sizeof (t_atodb), CLASS_NOINLET, 0);
+    (t_newmethod) atodb_new, 0, sizeof (t_atodb), CLASS_DEFAULT, 0);
+  class_addmethod(atodb_class, nullfn, gensym("signal"), 0);
   class_addmethod(atodb_class, (t_method) atodb_dsp, gensym("dsp"), 0);
 }
