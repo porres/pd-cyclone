@@ -29,23 +29,26 @@ static t_int *slide_perform(t_int *w)
     while (nblock--)
     {
     float f = *in1++;
+    float output;
 	if (f >= last)
 	{
 	    if (x->x_slide_up > 1.)
-		last += (f - last) / x->x_slide_up;
+        output = last + ((f - last) / x->x_slide_up);
 	    else
-		last = f;
+		output = last = f;
 	}
 	else if (f < last)
 	{
 	    if (x->x_slide_down > 1)
-		last += (f - last) / x->x_slide_down;
+        output = last + ((f - last) / x->x_slide_down);
 	    else
-		last = f;
+		output = last = f;
 	}
-	*out++ = last;
+    if (output == last && output != f) output = f;
+    *out++ = output;
+    last = output; 
     }
-    x->x_last = last;
+    x->x_last = (PD_BIGORSMALL(last) ? 0. : last);
     return (w + 5);
 }
 
