@@ -6,11 +6,6 @@
 #include "shared.h"
 #include "sickle/sic.h"
 
-/* LATER select the mode fitter-optionally */
-/* #define RAMPSMOOTH_GEOMETRIC  /* geometric series (same as slide~) CHECKED */
-#ifndef RAMPSMOOTH_GEOMETRIC
-#define RAMPSMOOTH_LINEAR
-#endif
 #define RAMPSMOOTH_DEFNUP    0.
 #define RAMPSMOOTH_DEFNDOWN  0.
 
@@ -22,17 +17,13 @@ typedef struct _rampsmooth
     double   x_upcoef;
     double   x_downcoef;
     t_float  x_last;
-#ifdef RAMPSMOOTH_LINEAR
     t_float  x_target;
     double   x_incr;
     int      x_nleft;
-#endif
 } t_rampsmooth;
 
 static t_class *rampsmooth_class;
 
-#ifdef RAMPSMOOTH_LINEAR
-/* this is a true linear ramper */
 static t_int *rampsmooth_perform(t_int *w)
 {
     t_rampsmooth *x = (t_rampsmooth *)(w[1]);
@@ -91,42 +82,6 @@ static t_int *rampsmooth_perform(t_int *w)
     return (w + 5);
 }
 
-#else
-
-/* this ramper generates a geometric series output for a single step input */
-static t_int *rampsmooth_perform(t_int *w)
-{
-    t_rampsmooth *x = (t_rampsmooth *)(w[1]);
-    int nblock = (int)(w[2]);
-    t_float *in = (t_float *)(w[3]);
-    t_float *out = (t_float *)(w[4]);
-    t_float last = x->x_last;
-    while (nblock--)
-    {
-    	t_float f = *in++;
-	if (f > last)
-	{
-	    if (x->x_nup > 1)
-	    {
-		*out++ = (last += (f - last) * x->x_upcoef);
-		continue;
-	    }
-	}
-	else if (f < last)
-	{
-	    if (x->x_ndown > 1)
-	    {
-		*out++ = (last += (f - last) * x->x_downcoef);
-		continue;
-	    }
-	}
-	*out++ = last = f;
-    }
-    x->x_last = (PD_BIGORSMALL(last) ? 0. : last);
-    return (w + 5);
-}
-#endif
-
 static void rampsmooth_dsp(t_rampsmooth *x, t_signal **sp)
 {
     dsp_add(rampsmooth_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
@@ -135,7 +90,7 @@ static void rampsmooth_dsp(t_rampsmooth *x, t_signal **sp)
 static void rampsmooth_rampup(t_rampsmooth *x, t_floatarg f)
 {
     int i = (int)f;
-    if (i > 1)  /* CHECKME if 1 and 0 differ in any way */
+    if (i > 1)
     {
 	x->x_nup = i;
 	x->x_upcoef = 1. / (float)i;
@@ -150,7 +105,7 @@ static void rampsmooth_rampup(t_rampsmooth *x, t_floatarg f)
 static void rampsmooth_rampdown(t_rampsmooth *x, t_floatarg f)
 {
     int i = (int)f;
-    if (i > 1)  /* CHECKME if 1 and 0 differ in any way */
+    if (i > 1)
     {
 	x->x_ndown = i;
 	x->x_downcoef = 1. / (float)i;
@@ -162,12 +117,12 @@ static void rampsmooth_rampdown(t_rampsmooth *x, t_floatarg f)
     }
 }
 
-/* CHECKED */
 static void rampsmooth_ramp(t_rampsmooth *x, t_floatarg f)
 {
     rampsmooth_rampup(x, f);
     rampsmooth_rampdown(x, f);
 }
+
 
 static void *rampsmooth_new(t_symbol *s, int ac, t_atom *av)
 {
@@ -184,13 +139,11 @@ static void *rampsmooth_new(t_symbol *s, int ac, t_atom *av)
     rampsmooth_rampup(x, f1);
     rampsmooth_rampdown(x, f2);
     x->x_last = 0.;
-#ifdef RAMPSMOOTH_LINEAR
     x->x_target = 0.;
     x->x_incr = 0.;
     x->x_nleft = 0;
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("rampup"));
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("rampdown"));
-#endif
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
