@@ -17,15 +17,6 @@
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define fmodf  fmod
-#endif
-
-/* think about float-to-int conversion -- there is no point in making
-   the two below compatible, while all the others are not compatible... */
 
 typedef struct _rev_op
 {
@@ -60,7 +51,14 @@ static t_class *rdiv_class;
 
 static void rdiv_bang(t_rev_op *x)
 {
-outlet_float(((t_object *)x)->ob_outlet, (x->x_f1 == 0. ? 0. : x->x_f2 / x->x_f1));
+    if (x->x_f1 != 0.)
+	outlet_float(((t_object *)x)->ob_outlet, x->x_f2 / x->x_f1);
+    else
+	/* CHECKED int mode: nonnegative/0 == 0, negative/0 == -1,
+	   float mode: positive/0 == INT_MAX, nonpositive/0 == INT_MIN
+	   LATER rethink -- why is it INT_MAX, not FLT_MAX? */
+	outlet_float(((t_object *)x)->ob_outlet,
+		     (x->x_f2 > 0 ? SHARED_INT_MAX : SHARED_INT_MIN));
 }
 
 static void rdiv_float(t_rev_op *x, t_float f)
@@ -75,15 +73,11 @@ static void *rdiv_new(t_floatarg f)
     floatinlet_new((t_object *)x, &x->x_f2);
     outlet_new((t_object *)x, &s_float);
     x->x_f1 = 0;
-    x->x_f2 = f;  /* CHECKED (refman's error) */
+    x->x_f2 = f;  // CHECKED (refman's error)
     return (x);
 }
 
-/* The implementation of signal relational operators below has been tuned
-   somewhat, mostly in order to get rid of costly int->float conversions.
-   Loops are not hand-unrolled, because these have proven to be slower
-   in all the tests performed so far.  LATER find a good soul willing to
-   make a serious profiling research... */
+
 
 typedef struct _sigeq
 {

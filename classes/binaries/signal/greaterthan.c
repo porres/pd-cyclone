@@ -1,18 +1,24 @@
-/* Copyright (c) 2003 krzYszcz and others.
- * For information on usage and redistribution, and for a DISCLAIMER OF ALL
- * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
-
-/* LATER use hasfeeders */
+// Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-#define GREATERTHAN_DEFRHS  0.  /* CHECKED */
-
-
-typedef t_sic t_greaterthan;
+// ---------------------------------------------------
+// Class definition
+// ---------------------------------------------------
 static t_class *greaterthan_class;
 
+// ---------------------------------------------------
+// Data structure definition
+// ---------------------------------------------------
+typedef struct _greaterthan
+{
+    t_object x_obj;
+    t_inlet  *x_inlet;
+} t_greaterthan;
+
+// ---------------------------------------------------
+// Perform
+// ---------------------------------------------------
 static t_int *greaterthan_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
@@ -21,33 +27,50 @@ static t_int *greaterthan_perform(t_int *w)
     t_float *out = (t_float *)(w[4]);
     while (nblock--)
     {
-	t_float f1 = *in1++;
-	t_float f2 = *in2++;
-	/*out++ = (f1 > f2 ? f1 : f2);*/
-    /*out++ = (*in1++ == *in2++);*/
-    *out++ = (f1 > f2);
+        t_float f1 = *in1++;
+        t_float f2 = *in2++;
+        *out++ = (f1 > f2);
     }
     return (w + 5);
 }
 
+// ---------------------------------------------------
+// DSP Function
+// ---------------------------------------------------
 static void greaterthan_dsp(t_greaterthan *x, t_signal **sp)
 {
     dsp_add(greaterthan_perform, 4, sp[0]->s_n,
-	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
+            sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *greaterthan_new(t_symbol *s, int ac, t_atom *av)
+// FREE
+static void *greaterthan_free(t_greaterthan *x)
+{
+    inlet_free(x->x_inlet);
+    return (void *)x;
+}
+
+// ---------------------------------------------------
+// Functions signature
+// ---------------------------------------------------
+static void *greaterthan_new(t_floatarg f)
 {
     t_greaterthan *x = (t_greaterthan *)pd_new(greaterthan_class);
-    sic_inlet((t_sic *)x, 1, GREATERTHAN_DEFRHS, 0, ac, av);
+    x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
+// ---------------------------------------------------
+// Setup
+// ---------------------------------------------------
 void greaterthan_tilde_setup(void)
 {
     greaterthan_class = class_new(gensym("greaterthan~"),
-			      (t_newmethod)greaterthan_new, 0,
-			      sizeof(t_greaterthan), 0, A_GIMME, 0);
-    sic_setup(greaterthan_class, greaterthan_dsp, SIC_FLOATTOSIGNAL);
+                             (t_newmethod)greaterthan_new,
+                             (t_method)greaterthan_free,
+                             sizeof(t_greaterthan), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addmethod(greaterthan_class, nullfn, gensym("signal"), 0);
+    class_addmethod(greaterthan_class, (t_method)greaterthan_dsp, gensym("dsp"), A_CANT, 0);
 }

@@ -1,12 +1,6 @@
-/* Copyright (c) 2016 Porres.
- * For information on usage and redistribution, and for a DISCLAIMER OF ALL
- * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
+// Copyright (c) 2016 Porres.
 
-#include <math.h>
 #include "m_pd.h"
-
-#if defined(_WIN32) || defined(__APPLE__)/* Precisa? */
-#endif
 
 typedef struct _rminus
 {
@@ -39,9 +33,8 @@ static void *rminus_new(t_floatarg f)
 
 void rminus_setup(void)
 {
-    rminus_class = class_new(gensym("rminus"),
-			     (t_newmethod)rminus_new, 0,
-			     sizeof(t_rminus), 0, A_DEFFLOAT, 0);
+    rminus_class = class_new(gensym("rminus"), (t_newmethod)rminus_new,
+            0, sizeof(t_rminus), 0, A_DEFFLOAT, 0);
     class_addbang(rminus_class, rminus_bang);
     class_addfloat(rminus_class, rminus_float);
 }

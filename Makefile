@@ -26,6 +26,7 @@ endif
 ########### classes outside the old framework common functions #################
 ################################################################################
 
+
 # Control classes that used to end in $(hplain)
 # which seemed to be doing nothing in the new build system:
 
@@ -86,8 +87,7 @@ endif
     acosh.class.sources := classes/binaries/control/acosh.c
     asinh.class.sources := classes/binaries/control/asinh.c
     atanh.class.sources := classes/binaries/control/atanh.c
-    rminus.class.sources := classes/binaries/control/rminus.c
-    rdiv.class.sources := classes/binaries/control/rdiv.c
+
 
     # Signal classes
 
@@ -95,13 +95,27 @@ endif
     biquad~.class.sources := classes/binaries/signal/biquad.c
     dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
     downsamp~.class.sources := classes/binaries/signal/downsamp.c
-    equals~.class.sources := classes/binaries/signal/equals.c
-    plusequals~.class.sources := classes/binaries/signal/plusequals.c
     round~.class.sources := classes/binaries/signal/round.c
     scale~.class.sources := classes/binaries/signal/scale.c
     thresh~.class.sources := classes/binaries/signal/thresh.c
     trunc~.class.sources := classes/binaries/signal/trunc.c
 
+# new alphanumeric versions of cyclone lib objects
+
+# control
+rminus.class.sources := classes/binaries/control/rminus.c
+rdiv.class.sources := classes/binaries/control/rdiv.c
+# signal
+equals~.class.sources := classes/binaries/signal/equals.c
+notequals~.class.sources := classes/binaries/signal/notequals.c
+plusequals~.class.sources := classes/binaries/signal/plusequals.c
+greaterthan~.class.sources := classes/binaries/signal/greaterthan.c
+greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c
+lessthan~.class.sources := classes/binaries/signal/lessthan.c
+lessthaneq~.class.sources := classes/binaries/signal/lessthaneq.c
+modulo~.class.sources := classes/binaries/signal/modulo.c
+rdiv~.class.sources := classes/binaries/signal/rdiv.c
+rminus~.class.sources := classes/binaries/signal/rminus.c
 
 ################################################################################
 ### Control (MAX or "hammer") objects ##########################################
@@ -379,17 +393,11 @@ cosx~.class.sources := classes/binaries/signal/cosx.c $(ssic)
 delay~.class.sources := classes/binaries/signal/delay.c $(ssic)
 delta~.class.sources := classes/binaries/signal/delta.c $(ssic)
 edge~.class.sources := classes/binaries/signal/edge.c $(ssic)
-greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c $(ssic)
 kink~.class.sources := classes/binaries/signal/kink.c $(ssic)
-lessthan~.class.sources := classes/binaries/signal/lessthan.c $(ssic)
-lessthaneq~.class.sources := classes/binaries/signal/lessthaneq.c $(ssic)
-greaterthan~.class.sources := classes/binaries/signal/greaterthan.c $(ssic)
 maximum~.class.sources := classes/binaries/signal/maximum.c $(ssic)
 minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
 minmax~.class.sources := classes/binaries/signal/minmax.c $(ssic)
-modulo~.class.sources := classes/binaries/signal/modulo.c $(ssic)
 log~.class.sources := classes/binaries/signal/log.c $(ssic)
-notequals~.class.sources := classes/binaries/signal/notequals.c $(ssic)
 onepole~.class.sources := classes/binaries/signal/onepole.c $(ssic)
 overdrive~.class.sources := classes/binaries/signal/overdrive.c $(ssic)
 peakamp~.class.sources := classes/binaries/signal/peakamp.c $(ssic)
@@ -399,8 +407,6 @@ pink~.class.sources := classes/binaries/signal/pink.c $(ssic)
 pow~.class.sources := classes/binaries/signal/pow.c $(ssic)
 rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c $(ssic)
 rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
-rdiv~.class.sources := classes/binaries/signal/rdiv.c $(ssic)
-rminus~.class.sources := classes/binaries/signal/rminus.c $(ssic)
 reson~.class.sources := classes/binaries/signal/reson.c $(ssic)
 sah~.class.sources := classes/binaries/signal/sah.c $(ssic)
 sinh~.class.sources := classes/binaries/signal/sinh.c $(ssic)
