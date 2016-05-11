@@ -22,7 +22,6 @@ endif
     ###         ###     ###         ### ###         ###     ###         ###
 ################################################################################
 
-
 ################################################################################
 ########### classes outside the old framework common functions #################
 ################################################################################
@@ -30,35 +29,50 @@ endif
 # Control classes that used to end in $(hplain)
 # which seemed to be doing nothing in the new build system:
 
-accum.class.sources := classes/binaries/control/accum.c
-acos.class.sources := classes/binaries/control/acos.c
-asin.class.sources := classes/binaries/control/asin.c
-bucket.class.sources := classes/binaries/control/bucket.c
-cartopol.class.sources := classes/binaries/control/cartopol.c
-cosh.class.sources := classes/binaries/control/cosh.c
-flush.class.sources := classes/binaries/control/flush.c
-forward.class.sources := classes/binaries/control/forward.c
-fromsymbol.class.sources := classes/binaries/control/fromsymbol.c
-mean.class.sources := classes/binaries/control/mean.c
-midiflush.class.sources := classes/binaries/control/midiflush.c
-midiformat.class.sources := classes/binaries/control/midiformat.c
-midiparse.class.sources := classes/binaries/control/midiparse.c
-next.class.sources := classes/binaries/control/next.c
-onebang.class.sources := classes/binaries/control/onebang.c
-peak.class.sources := classes/binaries/control/peak.c
-poltocar.class.sources := classes/binaries/control/poltocar.c
-sinh.class.sources := classes/binaries/control/sinh.c
-split.class.sources := classes/binaries/control/split.c
-sustain.class.sources := classes/binaries/control/sustain.c
-tanh.class.sources := classes/binaries/control/tanh.c
-trough.class.sources := classes/binaries/control/trough.c
-uzi.class.sources := classes/binaries/control/uzi.c
-xbendin.class.sources := classes/binaries/control/xbendin.c
-xbendin2.class.sources := classes/binaries/control/xbendin2.c
-xbendout.class.sources := classes/binaries/control/xbendout.c
-xbendout2.class.sources := classes/binaries/control/xbendout2.c
-xnotein.class.sources := classes/binaries/control/xnotein.c
-xnoteout.class.sources := classes/binaries/control/xnoteout.c
+    accum.class.sources := classes/binaries/control/accum.c
+    acos.class.sources := classes/binaries/control/acos.c
+    asin.class.sources := classes/binaries/control/asin.c
+    bucket.class.sources := classes/binaries/control/bucket.c
+    cartopol.class.sources := classes/binaries/control/cartopol.c
+    cosh.class.sources := classes/binaries/control/cosh.c
+    flush.class.sources := classes/binaries/control/flush.c
+    forward.class.sources := classes/binaries/control/forward.c
+    fromsymbol.class.sources := classes/binaries/control/fromsymbol.c
+    mean.class.sources := classes/binaries/control/mean.c
+    midiflush.class.sources := classes/binaries/control/midiflush.c
+    midiformat.class.sources := classes/binaries/control/midiformat.c
+    midiparse.class.sources := classes/binaries/control/midiparse.c
+    next.class.sources := classes/binaries/control/next.c
+    onebang.class.sources := classes/binaries/control/onebang.c
+    peak.class.sources := classes/binaries/control/peak.c
+    poltocar.class.sources := classes/binaries/control/poltocar.c
+    sinh.class.sources := classes/binaries/control/sinh.c
+    split.class.sources := classes/binaries/control/split.c
+    sustain.class.sources := classes/binaries/control/sustain.c
+    tanh.class.sources := classes/binaries/control/tanh.c
+    trough.class.sources := classes/binaries/control/trough.c
+    uzi.class.sources := classes/binaries/control/uzi.c
+    xbendin.class.sources := classes/binaries/control/xbendin.c
+    xbendin2.class.sources := classes/binaries/control/xbendin2.c
+    xbendout.class.sources := classes/binaries/control/xbendout.c
+    xbendout2.class.sources := classes/binaries/control/xbendout2.c
+    xnotein.class.sources := classes/binaries/control/xnotein.c
+    xnoteout.class.sources := classes/binaries/control/xnoteout.c
+
+# SIGNAL CLASSES Removed from old framework:
+
+    abs~.class.sources := classes/binaries/signal/abs.c
+    bitnot~.class.sources := classes/binaries/signal/bitnot.c
+    bitshift~.class.sources := classes/binaries/signal/bitshift.c
+    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
+    mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
+    sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
+    count~.class.sources := classes/binaries/signal/count.c
+    snapshot~.class.sources := classes/binaries/signal/snapshot.c
+    pong~.class.sources := classes/binaries/signal/pong.c
+    trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
+    triangle~.class.sources := classes/binaries/signal/triangle.c
+    change~.class.sources := classes/binaries/signal/change.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -88,26 +102,14 @@ xnoteout.class.sources := classes/binaries/control/xnoteout.c
     thresh~.class.sources := classes/binaries/signal/thresh.c
     trunc~.class.sources := classes/binaries/signal/trunc.c
 
-# FIXED/UPDATED SIGNAL CLASSES that were Removed from old framework:
-
-    bitnot~.class.sources := classes/binaries/signal/bitnot.c
-    bitshift~.class.sources := classes/binaries/signal/bitshift.c
-    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
-    mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
-    sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
-    count~.class.sources := classes/binaries/signal/count.c
-    snapshot~.class.sources := classes/binaries/signal/snapshot.c
-    pong~.class.sources := classes/binaries/signal/pong.c
-    trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
-    triangle~.class.sources := classes/binaries/signal/triangle.c
-    change~.class.sources := classes/binaries/signal/change.c 
-
 
 ################################################################################
 ### Control (MAX or "hammer") objects ##########################################
 ################################################################################
 
+#################
 # common sources:
+#################
 
 hfile := \
 shared/hammer/file.c \
@@ -192,7 +194,9 @@ shared/common/os.c \
 shared/unstable/forky.c \
 shared/unstable/fragile.c
 
+###########################################
 # Control Classes (MAX or "hammer classes")
+###########################################
 
 # The old build system also allowed these classes to be compiled into the "hammer library"
 # Since cyclone version alpha57, this new build system only allows single binaries
@@ -213,7 +217,7 @@ universal.class.sources := classes/binaries/control/universal.c $(hfragile)
 grab.class.sources := classes/binaries/control/grab.c $(hfragile)
 
 # hfile classes
-loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile) # coz the clicking // new class
+loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile) # for "click" (new class)
 capture.class.sources := classes/binaries/control/capture.c $(hfile)
 coll.class.sources := classes/binaries/control/coll.c $(hfile)
 mtr.class.sources := classes/binaries/control/mtr.c $(hfile)
@@ -253,13 +257,21 @@ togedge.class.sources := classes/binaries/control/togedge.c $(hloud)
 histo.class.sources := classes/binaries/control/histo.c $(hloud)
 
 # Single cases:
+
     comment.class.sources := classes/binaries/control/comment.c $(hforky)
+
     drunk.class.sources := classes/binaries/control/drunk.c $(hrand)
+
     prob.class.sources := classes/binaries/control/prob.c $(hrandfile)
+
     urn.class.sources := classes/binaries/control/urn.c $(hrandgrow)
+
     table.class.sources := classes/binaries/control/table.c $(hrandgrowfile)
+
     seq.class.sources := classes/binaries/control/seq.c $(hseq)
+
     offer.class.sources := classes/binaries/control/offer.c $(htree)
+
     funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 
 
@@ -267,7 +279,9 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 ########## Signal (MSP or "sickle") objects ####################################
 ################################################################################
 
+################
 # common sources
+################
 
 ssic := \
 shared/sickle/sic.c \
@@ -340,13 +354,13 @@ splainnotilde := \
 shared/common/loud.c \
 shared/common/fitter.c
 
-
+##########################################
 # Signal classes (MSP or "sickle classes")
+##########################################
 
 # The old build system also allowed these classes to be compiled into the "sickle library"
 # Since cyclone version alpha57, this new build system only allows single binaries
 
-abs~.class.sources := classes/binaries/signal/abs.c $(ssic)
 acos~.class.sources := classes/binaries/signal/acos.c $(ssic)
 acosh~.class.sources := classes/binaries/signal/acosh.c $(ssic)
 allpass~.class.sources := classes/binaries/signal/allpass.c $(ssic)
@@ -416,17 +430,17 @@ framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrow)
 line~.class.sources := classes/binaries/signal/line.c $(sgrow)
 
 # array classes - $(sarsic)
-    index~.class.sources := classes/binaries/signal/index.c $(sarsic)
-    lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsic)
-    peek~.class.sources := classes/binaries/signal/peek.c $(sarsic)
-    play~.class.sources := classes/binaries/signal/play.c $(sarsic)
-    poke~.class.sources := classes/binaries/signal/poke.c $(sarsic)
-    record~.class.sources := classes/binaries/signal/record.c $(sarsic)
-    wave~.class.sources := classes/binaries/signal/wave.c $(sarsic)
+index~.class.sources := classes/binaries/signal/index.c $(sarsic)
+lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsic)
+peek~.class.sources := classes/binaries/signal/peek.c $(sarsic)
+play~.class.sources := classes/binaries/signal/play.c $(sarsic)
+poke~.class.sources := classes/binaries/signal/poke.c $(sarsic)
+record~.class.sources := classes/binaries/signal/record.c $(sarsic)
+wave~.class.sources := classes/binaries/signal/wave.c $(sarsic)
 
 # Single cases:
 
-    scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky) # UPDATED
+    scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
 
     curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc)
 
@@ -457,7 +471,7 @@ cyclone.class.sources := classes/cyclone_lib/cyclone.c $(ssic)
 ###         ###     ###         ### ###         ###     ###         ###
 ################################################################################
 
-        ## END OF CYCLONE CLASSES ##
+                         ## END OF CYCLONE CLASSES ##
 
 ################################################################################
 
