@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+// Updated by Porres in 2016
+
 #include <math.h>
 #include "m_pd.h"
 
@@ -19,10 +21,13 @@ typedef struct _overdrive
 
 static t_class *overdrive_class;
 
-// a design flaw, redundanct and undocumented in Max
+// this is an actual behaviour in Max that was replicated in cyclone before.
+// it's a design flaw, redundanct and undocumented in Max and kept for backwards
+// compatibilty, but won't be documented anymore (Porres 2016).
 static void overdrive_float(t_overdrive *x, t_float f)
 {
     x->x_drivefactor = f;
+    pd_float((t_pd *)x->x_inlet, x->x_drivefactor);
 }
 
 /* CHECKED negative parameter values may cause output to go out of bounds */
