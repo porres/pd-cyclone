@@ -159,11 +159,8 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 
 void buffir_tilde_setup(void)
 {
-    buffir_class = class_new(gensym("buffir~"),
-			     (t_newmethod)buffir_new,
-			     (t_method)buffir_free,
-			     sizeof(t_buffir), 0,
-			     A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, 0);
+    buffir_class = class_new(gensym("buffir~"), (t_newmethod)buffir_new, (t_method)buffir_free,
+                             sizeof(t_buffir), 0, A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, 0);
     arsic_setup(buffir_class, buffir_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(buffir_class, (t_method)buffir_clear,
 		    gensym("clear"), 0);

@@ -2,18 +2,20 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* Clip~ substitution is needed to handle signal input for lo and hi */
-
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 #define CLIP_DEFLO  0.
 #define CLIP_DEFHI  0.
 
-typedef t_sic t_clip;
+typedef struct _clip {
+    t_object x_obj;
+    t_inlet  *x_lolet;
+    t_inlet  *x_hilet;
+} t_clip;
+
 static t_class *clip_class;
 
-static t_int *Clip_perform(t_int *w)
+static t_int *clip_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -37,26 +39,63 @@ static t_int *Clip_perform(t_int *w)
 
 static void clip_dsp(t_clip *x, t_signal **sp)
 {
-    dsp_add(Clip_perform, 5, sp[0]->s_n,
+    dsp_add(clip_perform, 5, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
-static void *clip_new(t_symbol *s, int ac, t_atom *av)
+
+static void *clip_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_clip *x = (t_clip *)pd_new(clip_class);
-    sic_inlet((t_sic *)x, 1, CLIP_DEFLO, 0, ac, av);
-    sic_inlet((t_sic *)x, 2, CLIP_DEFHI, 1, ac, av);
+    
+    t_float cliplo, cliphi;
+    cliplo = CLIP_DEFLO;
+    cliphi = CLIP_DEFHI;
+    
+    int argnum = 0;
+    while(argc > 0){
+        if(argv -> a_type == A_FLOAT){
+            t_float argval = atom_getfloatarg(0,argc,argv);
+            switch(argnum){
+                case 0:
+                    cliplo = argval;
+                    break;
+                case 1:
+                    cliphi = argval;
+                    break;
+                default:
+                    break;
+            };
+            
+            argc--;
+            argv++;
+            argnum++;
+        }
+        else{
+            goto errstate;
+        };
+    };
+    x->x_lolet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_lolet, cliplo);
+    x->x_hilet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_hilet, cliphi);
+    
     outlet_new((t_object *)x, &s_signal);
     return (x);
+errstate:
+    pd_error(x, "clip~: improper args");
+    return NULL;
 }
+
 
 void clip_tilde_setup(void)
 {
     clip_class = class_new(gensym("cyclone/clip~"),
-			   (t_newmethod)clip_new, 0, sizeof(t_clip), 0, A_GIMME, 0);
+			   (t_newmethod)clip_new, 0, sizeof(t_clip), CLASS_DEFAULT, A_GIMME, 0);
     class_addcreator((t_newmethod)clip_new, gensym("Clip~"), A_GIMME, 0);
     class_addcreator((t_newmethod)clip_new, gensym("cyclone/Clip~"), A_GIMME, 0);
-    sic_setup(clip_class, clip_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(clip_class, nullfn, gensym("signal"), 0);
+    class_addmethod(clip_class, (t_method) clip_dsp, gensym("dsp"), 0);
 }
 
 void Clip_tilde_setup(void)

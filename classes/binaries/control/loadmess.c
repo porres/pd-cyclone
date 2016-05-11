@@ -1,5 +1,7 @@
+// based on [init] 
+
 /* Copyright (c) 2000-2006 Thomas Musil @ IEM KUG Graz Austria
-   Copyright (c) 2010      Joel Matthys
+   Copyright (c) 2016      Joel Matthys
    Copyright (c) 2016      Marco Matteo Markidis
    */
 

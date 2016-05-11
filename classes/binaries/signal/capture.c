@@ -9,7 +9,7 @@
 #include "g_canvas.h"
 #include "common/loud.h"
 #include "hammer/file.h"
-#include "sickle/sic.h"
+// #include "sickle/sic.h"
 
 #define CAPTURE_DEFSIZE     4096
 #define CAPTURE_DEFPRECISION   4
@@ -18,7 +18,8 @@
 
 typedef struct _capture
 {
-    t_sic          x_sic;
+    t_object       x_obj;
+    t_inlet       *x_inlet;
     t_glist       *x_glist;
     char           x_mode;  /* 'f' for first or 0 for last */
     int            x_precision;
@@ -392,8 +393,9 @@ void capture_tilde_setup(void)
     capture_class = class_new(gensym("capture~"),
 			      (t_newmethod)capture_new,
 			      (t_method)capture_free,
-			      sizeof(t_capture), 0, A_GIMME, 0);
-    sic_setup(capture_class, capture_dsp, SIC_FLOATTOSIGNAL);
+			      sizeof(t_capture), CLASS_DEFAULT, A_GIMME, 0);
+    class_addmethod(capture_class, nullfn, gensym("signal"), 0);
+    class_addmethod(capture_class, (t_method) capture_dsp, gensym("dsp"), 0);
     class_addmethod(capture_class, (t_method)capture_clear,
 		    gensym("clear"), 0);
     class_addmethod(capture_class, (t_method)capture_write,
