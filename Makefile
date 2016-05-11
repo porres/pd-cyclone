@@ -74,6 +74,9 @@ endif
     trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
     triangle~.class.sources := classes/binaries/signal/triangle.c
     change~.class.sources := classes/binaries/signal/change.c
+    log~.class.sources := classes/binaries/signal/log.c
+    overdrive~.class.sources := classes/binaries/signal/overdrive.c
+    clip~.class.sources := classes/binaries/signal/clip.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -100,6 +103,15 @@ endif
     thresh~.class.sources := classes/binaries/signal/thresh.c
     trunc~.class.sources := classes/binaries/signal/trunc.c
 
+
+################################################################################
+### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
+################################################################################
+
+cyclone.class.sources := classes/cyclone_lib/cyclone.c
+
+################################################################################
+
 # new alphanumeric versions of cyclone lib objects
 
 # control
@@ -118,8 +130,14 @@ rdiv~.class.sources := classes/binaries/signal/rdiv.c
 rminus~.class.sources := classes/binaries/signal/rminus.c
 
 ################################################################################
-### Control (MAX or "hammer") objects ##########################################
+############ classes inside the old framework common functions #################
 ################################################################################
+
+################################################################################
+
+#########################################
+### Control (MAX or "hammer") objects ###
+#########################################
 
 #################
 # common sources:
@@ -208,9 +226,9 @@ shared/common/os.c \
 shared/unstable/forky.c \
 shared/unstable/fragile.c
 
-###########################################
-# Control Classes (MAX or "hammer classes")
-###########################################
+#############################################
+# Control Classes (MAX or "hammer classes") #
+#############################################
 
 # The old build system also allowed these classes to be compiled into the "hammer library"
 # Since cyclone version alpha57, this new build system only allows single binaries
@@ -288,10 +306,11 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 
     funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 
+################################################################################
 
-################################################################################
-########## Signal (MSP or "sickle") objects ####################################
-################################################################################
+########################################
+### Signal (MSP or "sickle") objects ###
+########################################
 
 ################
 # common sources
@@ -384,9 +403,7 @@ atan2~.class.sources := classes/binaries/signal/atan2.c $(ssic)
 atan~.class.sources := classes/binaries/signal/atan.c $(ssic)
 atanh~.class.sources := classes/binaries/signal/atanh.c $(ssic)
 average~.class.sources := classes/binaries/signal/average.c $(ssic)
-# average2~.class.sources := classes/binaries/signal/average2.c $(ssic)
 avg~.class.sources := classes/binaries/signal/avg.c $(ssic)
-clip~.class.sources := classes/binaries/signal/clip.c $(ssic)
 comb~.class.sources := classes/binaries/signal/comb.c $(ssic)
 cosh~.class.sources := classes/binaries/signal/cosh.c $(ssic)
 cosx~.class.sources := classes/binaries/signal/cosx.c $(ssic)
@@ -397,9 +414,7 @@ kink~.class.sources := classes/binaries/signal/kink.c $(ssic)
 maximum~.class.sources := classes/binaries/signal/maximum.c $(ssic)
 minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
 minmax~.class.sources := classes/binaries/signal/minmax.c $(ssic)
-log~.class.sources := classes/binaries/signal/log.c $(ssic)
 onepole~.class.sources := classes/binaries/signal/onepole.c $(ssic)
-overdrive~.class.sources := classes/binaries/signal/overdrive.c $(ssic)
 peakamp~.class.sources := classes/binaries/signal/peakamp.c $(ssic)
 lores~.class.sources := classes/binaries/signal/lores.c $(ssic)
 phasewrap~.class.sources := classes/binaries/signal/phasewrap.c $(ssic)
@@ -460,14 +475,6 @@ wave~.class.sources := classes/binaries/signal/wave.c $(sarsic)
 
     matrix~.class.sources := classes/binaries/signal/matrix.c $(sfragilefitter)
 
-
-################################################################################
-### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
-################################################################################
-
-cyclone.class.sources := classes/cyclone_lib/cyclone.c $(ssic)
-
-################################################################################
 
 ################################################################################
 ###         ###     ###         ### ###         ###     ###         ###
