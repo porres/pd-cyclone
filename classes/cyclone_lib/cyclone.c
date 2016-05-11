@@ -19,10 +19,10 @@
 #include "shared.h"
 #include "sickle/sic.h"
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
+// #if defined(_WIN32) || defined(__APPLE__) // necessary?
+// cf pd/src/x_arithmetic.c // why?
 #define fmodf  fmod
-#endif
+// #endif
 
 /* think about float-to-int conversion -- there is no point in making
    the two below compatible, while all the others are not compatible... */
@@ -87,7 +87,8 @@ static void *rdiv_new(t_floatarg f)
 
 typedef struct _equals
 {
-    t_sic  x_sic;
+    t_object x_obj;
+    t_inlet  *x_inlet;
     int    x_algo;
 } t_equals;
 
@@ -117,6 +118,7 @@ static t_int *equals_perform0(t_int *w)
     return (w + 5);
 }
 
+/*
 static t_int *equals_perform1(t_int *w)
 {
     int nblock = (int)(w[1]);
@@ -145,11 +147,11 @@ static t_int *equals_perform2(t_int *w)
 	out[6] = f6 == g6; out[7] = f7 == g7;
     }
     return (w + 5);
-}
+} */ // For Testing
 
 static void equals_dsp(t_equals *x, t_signal **sp)
 {
-    switch (x->x_algo)
+/*    switch (x->x_algo)
     {
     case 1:
 	dsp_add(equals_perform1, 4, sp[0]->s_n,
@@ -159,30 +161,39 @@ static void equals_dsp(t_equals *x, t_signal **sp)
 	dsp_add(equals_perform2, 4, sp[0]->s_n,
 		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 	break;
-    default:
+    default: */ // For testing
 	dsp_add(equals_perform0, 4, sp[0]->s_n,
 		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
-    }
+    // }
 }
 
-static void equals__algo(t_equals *x, t_floatarg f)
+/*static void equals__algo(t_equals *x, t_floatarg f)
 {
     x->x_algo = f;
+}*/
+
+// FREE
+static void *equals_free(t_equals *x)
+{
+    inlet_free(x->x_inlet);
+    return (void *)x;
 }
 
-static void *equals_new(t_symbol *s, int ac, t_atom *av)
+static void *equals_new(t_floatarg f)
 {
     t_equals *x = (t_equals *)pd_new(equals_class);
-    if (s == gensym("_==1~"))
-	x->x_algo = 1;
-    else if (s == gensym("_==2~"))
-	x->x_algo = 2;
-    else
-	x->x_algo = 0;
-    sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
+//    if (s == gensym("_==1~"))
+//	x->x_algo = 1;
+//  else if (s == gensym("_==2~"))
+//	x->x_algo = 2;
+//    else
+//	x->x_algo = 0;
+    x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
+
 
 typedef t_sic t_notequals;
 static t_class *notequals_class;
@@ -511,9 +522,10 @@ void cyclone_setup(void)
     class_sethelpsymbol(rdiv_class, gensym("rdiv"));
     
     equals_class = class_new(gensym("==~"),
-			    (t_newmethod)equals_new, 0,
-                sizeof(t_equals), 0, A_GIMME, 0);
-    sic_setup(equals_class, equals_dsp, SIC_FLOATTOSIGNAL);
+			    (t_newmethod)equals_new, (t_method)equals_free,
+                sizeof(t_equals), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addmethod(equals_class, nullfn, gensym("signal"), 0);
+    class_addmethod(equals_class, (t_method)equals_dsp, gensym("dsp"), A_CANT, 0);
 /*    class_addcreator((t_newmethod)equals_new,
 		     gensym("_==1~"), A_GIMME, 0);
     class_addcreator((t_newmethod)equals_new,
