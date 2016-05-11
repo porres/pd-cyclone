@@ -38,10 +38,12 @@ static void poke_set(t_poke *x, t_symbol *s)
     arsic_setarray((t_arsic *)x, s, 1);
 }
 
+/*
 static void poke_bang(t_poke *x)
 {
     arsic_redraw((t_arsic *)x);
 }
+*/
 
 /* CHECKED: index 0-based, negative values block input, overflowed are clipped.
    LATER revisit: incompatibly, the code below is nop for any out-of-range index
@@ -91,6 +93,7 @@ static t_int *poke_perform(t_int *w)
     t_word *vp = sic->s_vectors[x->x_effchannel];
     if (vp && sic->s_playable)
     {
+    arsic_redraw((t_arsic *)x);
 	int vecsize = sic->s_vecsize;
 	while (nblock--)
 	{
@@ -147,7 +150,7 @@ void poke_tilde_setup(void)
 			   sizeof(t_poke), 0,
 			   A_DEFSYM, A_DEFFLOAT, 0);
     arsic_setup(poke_class, poke_dsp, poke_float);
-    class_addbang(poke_class, poke_bang);  /* LATER rethink */
+    //class_addbang(poke_class, poke_bang);  /* LATER rethink */
     class_addfloat(poke_class, poke_float);
     class_addmethod(poke_class, (t_method)poke_set,
 		    gensym("set"), A_SYMBOL, 0);
