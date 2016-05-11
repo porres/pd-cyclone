@@ -85,15 +85,15 @@ static void *rdiv_new(t_floatarg f)
    in all the tests performed so far.  LATER find a good soul willing to
    make a serious profiling research... */
 
-typedef struct _sigeq
+typedef struct _equals
 {
     t_sic  x_sic;
     int    x_algo;
-} t_sigeq;
+} t_equals;
 
-static t_class *sigeq_class;
+static t_class *equals_class;
 
-static t_int *sigeq_perform0(t_int *w)
+static t_int *equals_perform0(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -117,7 +117,7 @@ static t_int *sigeq_perform0(t_int *w)
     return (w + 5);
 }
 
-static t_int *sigeq_perform1(t_int *w)
+static t_int *equals_perform1(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -127,7 +127,7 @@ static t_int *sigeq_perform1(t_int *w)
     return (w + 5);
 }
 
-static t_int *sigeq_perform2(t_int *w)
+static t_int *equals_perform2(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -147,32 +147,32 @@ static t_int *sigeq_perform2(t_int *w)
     return (w + 5);
 }
 
-static void sigeq_dsp(t_sigeq *x, t_signal **sp)
+static void equals_dsp(t_equals *x, t_signal **sp)
 {
     switch (x->x_algo)
     {
     case 1:
-	dsp_add(sigeq_perform1, 4, sp[0]->s_n,
+	dsp_add(equals_perform1, 4, sp[0]->s_n,
 		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 	break;
     case 2:
-	dsp_add(sigeq_perform2, 4, sp[0]->s_n,
+	dsp_add(equals_perform2, 4, sp[0]->s_n,
 		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 	break;
     default:
-	dsp_add(sigeq_perform0, 4, sp[0]->s_n,
+	dsp_add(equals_perform0, 4, sp[0]->s_n,
 		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
     }
 }
 
-static void sigeq__algo(t_sigeq *x, t_floatarg f)
+static void equals__algo(t_equals *x, t_floatarg f)
 {
     x->x_algo = f;
 }
 
-static void *sigeq_new(t_symbol *s, int ac, t_atom *av)
+static void *equals_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_sigeq *x = (t_sigeq *)pd_new(sigeq_class);
+    t_equals *x = (t_equals *)pd_new(equals_class);
     if (s == gensym("_==1~"))
 	x->x_algo = 1;
     else if (s == gensym("_==2~"))
@@ -184,10 +184,10 @@ static void *sigeq_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-typedef t_sic t_signeq;
-static t_class *signeq_class;
+typedef t_sic t_notequals;
+static t_class *notequals_class;
 
-static t_int *signeq_perform(t_int *w)
+static t_int *notequals_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -202,24 +202,24 @@ static t_int *signeq_perform(t_int *w)
     return (w + 5);
 }
 
-static void signeq_dsp(t_signeq *x, t_signal **sp)
+static void notequals_dsp(t_notequals *x, t_signal **sp)
 {
-    dsp_add(signeq_perform, 4, sp[0]->s_n,
+    dsp_add(notequals_perform, 4, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *signeq_new(t_symbol *s, int ac, t_atom *av)
+static void *notequals_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_signeq *x = (t_signeq *)pd_new(signeq_class);
+    t_notequals *x = (t_notequals *)pd_new(notequals_class);
     sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
-typedef t_sic t_siglt;
-static t_class *siglt_class;
+typedef t_sic t_lessthan;
+static t_class *lessthan_class;
 
-static t_int *siglt_perform(t_int *w)
+static t_int *lessthan_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -234,24 +234,24 @@ static t_int *siglt_perform(t_int *w)
     return (w + 5);
 }
 
-static void siglt_dsp(t_siglt *x, t_signal **sp)
+static void lessthan_dsp(t_lessthan *x, t_signal **sp)
 {
-    dsp_add(siglt_perform, 4, sp[0]->s_n,
+    dsp_add(lessthan_perform, 4, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *siglt_new(t_symbol *s, int ac, t_atom *av)
+static void *lessthan_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_siglt *x = (t_siglt *)pd_new(siglt_class);
+    t_lessthan *x = (t_lessthan *)pd_new(lessthan_class);
     sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
-typedef t_sic t_siggt;
-static t_class *siggt_class;
+typedef t_sic t_greaterthan;
+static t_class *greaterthan_class;
 
-static t_int *siggt_perform(t_int *w)
+static t_int *greaterthan_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -266,24 +266,24 @@ static t_int *siggt_perform(t_int *w)
     return (w + 5);
 }
 
-static void siggt_dsp(t_siggt *x, t_signal **sp)
+static void greaterthan_dsp(t_greaterthan *x, t_signal **sp)
 {
-    dsp_add(siggt_perform, 4, sp[0]->s_n,
+    dsp_add(greaterthan_perform, 4, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *siggt_new(t_symbol *s, int ac, t_atom *av)
+static void *greaterthan_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_siggt *x = (t_siggt *)pd_new(siggt_class);
+    t_greaterthan *x = (t_greaterthan *)pd_new(greaterthan_class);
     sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
-typedef t_sic t_sigleq;
-static t_class *sigleq_class;
+typedef t_sic t_lessthaneq;
+static t_class *lessthaneq_class;
 
-static t_int *sigleq_perform(t_int *w)
+static t_int *lessthaneq_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -298,24 +298,24 @@ static t_int *sigleq_perform(t_int *w)
     return (w + 5);
 }
 
-static void sigleq_dsp(t_sigleq *x, t_signal **sp)
+static void lessthaneq_dsp(t_lessthaneq *x, t_signal **sp)
 {
-    dsp_add(sigleq_perform, 4, sp[0]->s_n,
+    dsp_add(lessthaneq_perform, 4, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *sigleq_new(t_symbol *s, int ac, t_atom *av)
+static void *lessthaneq_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_sigleq *x = (t_sigleq *)pd_new(sigleq_class);
+    t_lessthaneq *x = (t_lessthaneq *)pd_new(lessthaneq_class);
     sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
-typedef t_sic t_siggeq;
-static t_class *siggeq_class;
+typedef t_sic t_greaterthaneq;
+static t_class *greaterthaneq_class;
 
-static t_int *siggeq_perform(t_int *w)
+static t_int *greaterthaneq_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -330,24 +330,24 @@ static t_int *siggeq_perform(t_int *w)
     return (w + 5);
 }
 
-static void siggeq_dsp(t_siggeq *x, t_signal **sp)
+static void greaterthaneq_dsp(t_greaterthaneq *x, t_signal **sp)
 {
-    dsp_add(siggeq_perform, 4, sp[0]->s_n,
+    dsp_add(greaterthaneq_perform, 4, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *siggeq_new(t_symbol *s, int ac, t_atom *av)
+static void *greaterthaneq_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_siggeq *x = (t_siggeq *)pd_new(siggeq_class);
+    t_greaterthaneq *x = (t_greaterthaneq *)pd_new(greaterthaneq_class);
     sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
-typedef t_sic t_sigrminus;
-static t_class *sigrminus_class;
+typedef t_sic t_rminus_tilde;
+static t_class *rminus_tilde_class;
 
-static t_int *sigrminus_perform(t_int *w)
+static t_int *rminus_tilde_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -357,24 +357,24 @@ static t_int *sigrminus_perform(t_int *w)
     return (w + 5);
 }
 
-static void sigrminus_dsp(t_sigrminus *x, t_signal **sp)
+static void rminus_tilde_dsp(t_rminus_tilde *x, t_signal **sp)
 {
-    dsp_add(sigrminus_perform, 4, sp[0]->s_n,
+    dsp_add(rminus_tilde_perform, 4, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *sigrminus_new(t_symbol *s, int ac, t_atom *av)
+static void *rminus_tilde_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_sigrminus *x = (t_sigrminus *)pd_new(sigrminus_class);
+    t_rminus_tilde *x = (t_rminus_tilde *)pd_new(rminus_tilde_class);
     sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
-typedef t_sic t_sigrover;
-static t_class *sigrover_class;
+typedef t_sic t_rdiv_tilde;
+static t_class *rdiv_tilde_class;
 
-static t_int *sigrover_perform(t_int *w)
+static t_int *rdiv_tilde_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -391,25 +391,25 @@ static t_int *sigrover_perform(t_int *w)
     return (w + 5);
 }
 
-static void sigrover_dsp(t_sigrover *x, t_signal **sp)
+static void rdiv_tilde_dsp(t_rdiv_tilde *x, t_signal **sp)
 {
-    dsp_add(sigrover_perform, 4, sp[0]->s_n,
+    dsp_add(rdiv_tilde_perform, 4, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *sigrover_new(t_symbol *s, int ac, t_atom *av)
+static void *rdiv_tilde_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_sigrover *x = (t_sigrover *)pd_new(sigrover_class);
+    t_rdiv_tilde *x = (t_rdiv_tilde *)pd_new(rdiv_tilde_class);
     /* CHECKED default 0 (refman's error), LATER rethink */
     sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
-typedef t_sic t_sigmod;
-static t_class *sigmod_class;
+typedef t_sic t_modulo;
+static t_class *modulo_class;
 
-static t_int *sigmod_perform(t_int *w)
+static t_int *modulo_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
     t_float *in1 = (t_float *)(w[2]);
@@ -426,15 +426,15 @@ static t_int *sigmod_perform(t_int *w)
     return (w + 5);
 }
 
-static void sigmod_dsp(t_sigmod *x, t_signal **sp)
+static void modulo_dsp(t_modulo *x, t_signal **sp)
 {
-    dsp_add(sigmod_perform, 4, sp[0]->s_n,
+    dsp_add(modulo_perform, 4, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *sigmod_new(t_symbol *s, int ac, t_atom *av)
+static void *modulo_new(t_symbol *s, int ac, t_atom *av)
 {
-    t_sigmod *x = (t_sigmod *)pd_new(sigmod_class);
+    t_modulo *x = (t_modulo *)pd_new(modulo_class);
     /* CHECKED default 0 (refman's error), LATER rethink */
     sic_inlet((t_sic *)x, 1, 0, 0, ac, av);
     outlet_new((t_object *)x, &s_signal);
@@ -510,65 +510,65 @@ void cyclone_setup(void)
     class_addfloat(rdiv_class, rdiv_float);
     class_sethelpsymbol(rdiv_class, gensym("rdiv"));
     
-    sigeq_class = class_new(gensym("==~"),
-			    (t_newmethod)sigeq_new, 0,
-                sizeof(t_sigeq), 0, A_GIMME, 0);
-    sic_setup(sigeq_class, sigeq_dsp, SIC_FLOATTOSIGNAL);
-/*    class_addcreator((t_newmethod)sigeq_new,
+    equals_class = class_new(gensym("==~"),
+			    (t_newmethod)equals_new, 0,
+                sizeof(t_equals), 0, A_GIMME, 0);
+    sic_setup(equals_class, equals_dsp, SIC_FLOATTOSIGNAL);
+/*    class_addcreator((t_newmethod)equals_new,
 		     gensym("_==1~"), A_GIMME, 0);
-    class_addcreator((t_newmethod)sigeq_new,
+    class_addcreator((t_newmethod)equals_new,
 		     gensym("_==2~"), A_GIMME, 0);
-    class_addmethod(sigeq_class, (t_method)sigeq__algo,
+    class_addmethod(equals_class, (t_method)equals__algo,
 		    gensym("_algo"), A_FLOAT, 0); // for testing purposes / undocumented */
-    class_sethelpsymbol(sigeq_class, gensym("equals~"));
+    class_sethelpsymbol(equals_class, gensym("equals~"));
 
-    signeq_class = class_new(gensym("!=~"),
-			     (t_newmethod)signeq_new, 0,
-			     sizeof(t_signeq), 0, A_GIMME, 0);
-    sic_setup(signeq_class, signeq_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(signeq_class, gensym("notequals~"));
+    notequals_class = class_new(gensym("!=~"),
+			     (t_newmethod)notequals_new, 0,
+			     sizeof(t_notequals), 0, A_GIMME, 0);
+    sic_setup(notequals_class, notequals_dsp, SIC_FLOATTOSIGNAL);
+    class_sethelpsymbol(notequals_class, gensym("notequals~"));
     
-    siglt_class = class_new(gensym("<~"),
-			    (t_newmethod)siglt_new, 0,
-			    sizeof(t_siglt), 0, A_GIMME, 0);
-    sic_setup(siglt_class, siglt_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(siglt_class, gensym("lessthan~"));
+    lessthan_class = class_new(gensym("<~"),
+			    (t_newmethod)lessthan_new, 0,
+			    sizeof(t_lessthan), 0, A_GIMME, 0);
+    sic_setup(lessthan_class, lessthan_dsp, SIC_FLOATTOSIGNAL);
+    class_sethelpsymbol(lessthan_class, gensym("lessthan~"));
     
-    siggt_class = class_new(gensym(">~"),
-			    (t_newmethod)siggt_new, 0,
-			    sizeof(t_siggt), 0, A_GIMME, 0);
-    sic_setup(siggt_class, siggt_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(siggt_class, gensym("greaterthan~"));
+    greaterthan_class = class_new(gensym(">~"),
+			    (t_newmethod)greaterthan_new, 0,
+			    sizeof(t_greaterthan), 0, A_GIMME, 0);
+    sic_setup(greaterthan_class, greaterthan_dsp, SIC_FLOATTOSIGNAL);
+    class_sethelpsymbol(greaterthan_class, gensym("greaterthan~"));
     
-    sigleq_class = class_new(gensym("<=~"),
-			     (t_newmethod)sigleq_new, 0,
-			     sizeof(t_sigleq), 0, A_GIMME, 0);
-    sic_setup(sigleq_class, sigleq_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigleq_class, gensym("lessthaneq~"));
+    lessthaneq_class = class_new(gensym("<=~"),
+			     (t_newmethod)lessthaneq_new, 0,
+			     sizeof(t_lessthaneq), 0, A_GIMME, 0);
+    sic_setup(lessthaneq_class, lessthaneq_dsp, SIC_FLOATTOSIGNAL);
+    class_sethelpsymbol(lessthaneq_class, gensym("lessthaneq~"));
     
-    siggeq_class = class_new(gensym(">=~"),
-			     (t_newmethod)siggeq_new, 0,
-			     sizeof(t_siggeq), 0, A_GIMME, 0);
-    sic_setup(siggeq_class, siggeq_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(siggeq_class, gensym("greaterthaneq~"));
+    greaterthaneq_class = class_new(gensym(">=~"),
+			     (t_newmethod)greaterthaneq_new, 0,
+			     sizeof(t_greaterthaneq), 0, A_GIMME, 0);
+    sic_setup(greaterthaneq_class, greaterthaneq_dsp, SIC_FLOATTOSIGNAL);
+    class_sethelpsymbol(greaterthaneq_class, gensym("greaterthaneq~"));
     
-    sigrminus_class = class_new(gensym("!-~"),
-				(t_newmethod)sigrminus_new, 0,
-				sizeof(t_sigrminus), 0, A_GIMME, 0);
-    sic_setup(sigrminus_class, sigrminus_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigrminus_class, gensym("rminus~"));
+    rminus_tilde_class = class_new(gensym("!-~"),
+				(t_newmethod)rminus_tilde_new, 0,
+				sizeof(t_rminus_tilde), 0, A_GIMME, 0);
+    sic_setup(rminus_tilde_class, rminus_tilde_dsp, SIC_FLOATTOSIGNAL);
+    class_sethelpsymbol(rminus_tilde_class, gensym("rminus~"));
     
-    sigrover_class = class_new(gensym("!/~"),
-			       (t_newmethod)sigrover_new, 0,
-			       sizeof(t_sigrover), 0, A_GIMME, 0);
-    sic_setup(sigrover_class, sigrover_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigrover_class, gensym("rdiv~"));
+    rdiv_tilde_class = class_new(gensym("!/~"),
+			       (t_newmethod)rdiv_tilde_new, 0,
+			       sizeof(t_rdiv_tilde), 0, A_GIMME, 0);
+    sic_setup(rdiv_tilde_class, rdiv_tilde_dsp, SIC_FLOATTOSIGNAL);
+    class_sethelpsymbol(rdiv_tilde_class, gensym("rdiv~"));
     
-    sigmod_class = class_new(gensym("%~"),
-			     (t_newmethod)sigmod_new, 0,
-			     sizeof(t_sigmod), 0, A_GIMME, 0);
-    sic_setup(sigmod_class, sigmod_dsp, SIC_FLOATTOSIGNAL);
-    class_sethelpsymbol(sigmod_class, gensym("modulo~"));
+    modulo_class = class_new(gensym("%~"),
+			     (t_newmethod)modulo_new, 0,
+			     sizeof(t_modulo), 0, A_GIMME, 0);
+    sic_setup(modulo_class, modulo_dsp, SIC_FLOATTOSIGNAL);
+    class_sethelpsymbol(modulo_class, gensym("modulo~"));
     
     plusequals_class = class_new(gensym("+=~"),
 			       (t_newmethod)plusequals_new, 0,
