@@ -4,14 +4,17 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define acosf  acos
-#endif
+typedef struct _acos {
+    t_object x_obj;
+    t_inlet *acos;
+    t_outlet *x_outlet;
+} t_acos;
 
-typedef t_sic t_acos;
+void *acos_new(void);
+static t_int * acos_perform(t_int *w);
+static void acos_dsp(t_acos *x, t_signal **sp);
+
 static t_class *acos_class;
 
 static t_int *acos_perform(t_int *w)
@@ -32,17 +35,17 @@ static void acos_dsp(t_acos *x, t_signal **sp)
     dsp_add(acos_perform, 3, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *acos_new(void)
+void *acos_new(void)
 {
     t_acos *x = (t_acos *)pd_new(acos_class);
-    outlet_new((t_object *)x, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     return (x);
 }
 
 void acos_tilde_setup(void)
 {
-    acos_class = class_new(gensym("acos~"),
-			   (t_newmethod)acos_new, 0,
-			   sizeof(t_acos), 0, 0);
-    sic_setup(acos_class, acos_dsp, SIC_FLOATTOSIGNAL);
+    acos_class = class_new(gensym("acos~"), (t_newmethod)acos_new, 0,
+        sizeof(t_acos), CLASS_DEFAULT, 0);
+    class_addmethod(acos_class, nullfn, gensym("signal"), 0);
+    class_addmethod(acos_class, (t_method) acos_dsp, gensym("dsp"), 0);
 }

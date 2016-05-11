@@ -4,14 +4,17 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-/* LATER ask about osx */
-#if defined(_WIN32) || defined(__APPLE__)
-#define asinhf(x)  (log(x + sqrt(x * x + 1)))
-#endif
+typedef struct _asinh {
+    t_object x_obj;
+    t_inlet *asinh;
+    t_outlet *x_outlet;
+} t_asinh;
 
-typedef t_sic t_asinh;
+void *asinh_new(void);
+static t_int * asinh_perform(t_int *w);
+static void asinh_dsp(t_asinh *x, t_signal **sp);
+
 static t_class *asinh_class;
 
 static t_int *asinh_perform(t_int *w)
@@ -21,8 +24,8 @@ static t_int *asinh_perform(t_int *w)
     t_float *out = (t_float *)(w[3]);
     while (nblock--)
     {
-	float f = *in++;
-	*out++ = asinhf(f);  /* CHECKME no protection against NaNs */
+        float f = *in++;
+        *out++ = asinhf(f);  /* CHECKED no protection against NaNs */
     }
     return (w + 4);
 }
@@ -32,17 +35,17 @@ static void asinh_dsp(t_asinh *x, t_signal **sp)
     dsp_add(asinh_perform, 3, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *asinh_new(void)
+void *asinh_new(void)
 {
     t_asinh *x = (t_asinh *)pd_new(asinh_class);
-    outlet_new((t_object *)x, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     return (x);
 }
 
 void asinh_tilde_setup(void)
 {
-    asinh_class = class_new(gensym("asinh~"),
-			    (t_newmethod)asinh_new, 0,
-			    sizeof(t_asinh), 0, 0);
-    sic_setup(asinh_class, asinh_dsp, SIC_FLOATTOSIGNAL);
+    asinh_class = class_new(gensym("asinh~"), (t_newmethod)asinh_new, 0,
+                           sizeof(t_asinh), CLASS_DEFAULT, 0);
+    class_addmethod(asinh_class, nullfn, gensym("signal"), 0);
+    class_addmethod(asinh_class, (t_method) asinh_dsp, gensym("dsp"), 0);
 }

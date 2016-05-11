@@ -4,14 +4,17 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define atanf  atan
-#endif
+typedef struct _atan {
+    t_object x_obj;
+    t_inlet *atan;
+    t_outlet *x_outlet;
+} t_atan;
 
-typedef t_sic t_atan;
+void *atan_new(void);
+static t_int * atan_perform(t_int *w);
+static void atan_dsp(t_atan *x, t_signal **sp);
+
 static t_class *atan_class;
 
 static t_int *atan_perform(t_int *w)
@@ -21,8 +24,8 @@ static t_int *atan_perform(t_int *w)
     t_float *out = (t_float *)(w[3]);
     while (nblock--)
     {
-	float f = *in++;
-	*out++ = atanf(f);  /* CHECKME no protection against NaNs */
+        float f = *in++;
+        *out++ = atanf(f);  /* CHECKED no protection against NaNs */
     }
     return (w + 4);
 }
@@ -32,17 +35,17 @@ static void atan_dsp(t_atan *x, t_signal **sp)
     dsp_add(atan_perform, 3, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *atan_new(void)
+void *atan_new(void)
 {
     t_atan *x = (t_atan *)pd_new(atan_class);
-    outlet_new((t_object *)x, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     return (x);
 }
 
 void atan_tilde_setup(void)
 {
-    atan_class = class_new(gensym("atan~"),
-			   (t_newmethod)atan_new, 0,
-			   sizeof(t_atan), 0, 0);
-    sic_setup(atan_class, atan_dsp, SIC_FLOATTOSIGNAL);
+    atan_class = class_new(gensym("atan~"), (t_newmethod)atan_new, 0,
+                            sizeof(t_atan), CLASS_DEFAULT, 0);
+    class_addmethod(atan_class, nullfn, gensym("signal"), 0);
+    class_addmethod(atan_class, (t_method) atan_dsp, gensym("dsp"), 0);
 }

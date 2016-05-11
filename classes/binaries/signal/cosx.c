@@ -4,17 +4,17 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-/* by definition, this is just an interface to the -lm call
-   (do not use costable) */
+typedef struct _cosx {
+    t_object x_obj;
+    t_inlet *cosx;
+    t_outlet *x_outlet;
+} t_cosx;
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define cosf  cos
-#endif
+void *cosx_new(void);
+static t_int * cosx_perform(t_int *w);
+static void cosx_dsp(t_cosx *x, t_signal **sp);
 
-typedef t_sic t_cosx;
 static t_class *cosx_class;
 
 static t_int *cosx_perform(t_int *w)
@@ -24,8 +24,8 @@ static t_int *cosx_perform(t_int *w)
     t_float *out = (t_float *)(w[3]);
     while (nblock--)
     {
-	float f = *in++;
-	*out++ = cosf(f);
+        float f = *in++;
+        *out++ = cosf(f);  /* CHECKED no protection against NaNs */
     }
     return (w + 4);
 }
@@ -35,17 +35,17 @@ static void cosx_dsp(t_cosx *x, t_signal **sp)
     dsp_add(cosx_perform, 3, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *cosx_new(void)
+void *cosx_new(void)
 {
     t_cosx *x = (t_cosx *)pd_new(cosx_class);
-    outlet_new((t_object *)x, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     return (x);
 }
 
 void cosx_tilde_setup(void)
 {
-    cosx_class = class_new(gensym("cosx~"),
-			   (t_newmethod)cosx_new, 0,
-			   sizeof(t_cosx), 0, 0);
-    sic_setup(cosx_class, cosx_dsp, SIC_FLOATTOSIGNAL);
+    cosx_class = class_new(gensym("cosx~"), (t_newmethod)cosx_new, 0,
+                           sizeof(t_cosx), CLASS_DEFAULT, 0);
+    class_addmethod(cosx_class, nullfn, gensym("signal"), 0);
+    class_addmethod(cosx_class, (t_method) cosx_dsp, gensym("dsp"), 0);
 }

@@ -4,17 +4,17 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-/* by definition, this is just an interface to the -lm call
-   (do not use costable) */
+typedef struct _sinx {
+    t_object x_obj;
+    t_inlet *sinx;
+    t_outlet *x_outlet;
+} t_sinx;
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define sinf  sin
-#endif
+void *sinx_new(void);
+static t_int * sinx_perform(t_int *w);
+static void sinx_dsp(t_sinx *x, t_signal **sp);
 
-typedef t_sic t_sinx;
 static t_class *sinx_class;
 
 static t_int *sinx_perform(t_int *w)
@@ -24,8 +24,8 @@ static t_int *sinx_perform(t_int *w)
     t_float *out = (t_float *)(w[3]);
     while (nblock--)
     {
-	float f = *in++;
-	*out++ = sinf(f);
+        float f = *in++;
+        *out++ = sinf(f);  /* CHECKED no protection against NaNs */
     }
     return (w + 4);
 }
@@ -35,17 +35,17 @@ static void sinx_dsp(t_sinx *x, t_signal **sp)
     dsp_add(sinx_perform, 3, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *sinx_new(void)
+void *sinx_new(void)
 {
     t_sinx *x = (t_sinx *)pd_new(sinx_class);
-    outlet_new((t_object *)x, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     return (x);
 }
 
 void sinx_tilde_setup(void)
 {
-    sinx_class = class_new(gensym("sinx~"),
-			   (t_newmethod)sinx_new, 0,
-			   sizeof(t_sinx), 0, 0);
-    sic_setup(sinx_class, sinx_dsp, SIC_FLOATTOSIGNAL);
+    sinx_class = class_new(gensym("sinx~"), (t_newmethod)sinx_new, 0,
+                           sizeof(t_sinx), CLASS_DEFAULT, 0);
+    class_addmethod(sinx_class, nullfn, gensym("signal"), 0);
+    class_addmethod(sinx_class, (t_method) sinx_dsp, gensym("dsp"), 0);
 }

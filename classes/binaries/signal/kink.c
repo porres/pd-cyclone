@@ -8,12 +8,13 @@
    clock this exception out from the perf routine. */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-#define KINK_DEFSLOPE  1.0
-
-typedef t_sic t_kink;
 static t_class *kink_class;
+
+typedef struct _kink {
+    t_object x_obj;
+    t_inlet  *x_slope_inlet;
+} t_kink;
 
 static t_int *kink_perform(t_int *w)
 {
@@ -25,6 +26,7 @@ static t_int *kink_perform(t_int *w)
     {
 	float iph = *in1++;
 	float slope = *in2++;
+    slope = (slope < 0 ? 100 : slope);
 	float oph = iph * slope;
 	if (oph > .5)
 	{
@@ -45,10 +47,19 @@ static void kink_dsp(t_kink *x, t_signal **sp)
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *kink_new(t_symbol *s, int ac, t_atom *av)
+static void *kink_free(t_kink *x)
+{
+    inlet_free(x->x_slope_inlet);
+    return (void *)x;
+}
+
+static void *kink_new(t_floatarg f)
 {
     t_kink *x = (t_kink *)pd_new(kink_class);
-    sic_inlet((t_sic *)x, 1, KINK_DEFSLOPE, 0, ac, av);
+    f = (f < 0 ? 0 : f);
+    f = (f == 0 ? 1 : f);
+    x->x_slope_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_slope_inlet, f);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
@@ -57,6 +68,7 @@ void kink_tilde_setup(void)
 {
     kink_class = class_new(gensym("kink~"),
 			   (t_newmethod)kink_new, 0,
-			   sizeof(t_kink), 0, A_GIMME, 0);
-    sic_setup(kink_class, kink_dsp, SIC_FLOATTOSIGNAL);
+			   sizeof(t_kink), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addmethod(kink_class, nullfn, gensym("signal"), 0);
+    class_addmethod(kink_class, (t_method)kink_dsp, gensym("dsp"), A_CANT, 0);
 }

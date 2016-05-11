@@ -4,14 +4,17 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define coshf  cosh
-#endif
+typedef struct _cosh {
+    t_object x_obj;
+    t_inlet *cosh;
+    t_outlet *x_outlet;
+} t_cosh;
 
-typedef t_sic t_cosh;
+void *cosh_new(void);
+static t_int * cosh_perform(t_int *w);
+static void cosh_dsp(t_cosh *x, t_signal **sp);
+
 static t_class *cosh_class;
 
 static t_int *cosh_perform(t_int *w)
@@ -21,8 +24,8 @@ static t_int *cosh_perform(t_int *w)
     t_float *out = (t_float *)(w[3]);
     while (nblock--)
     {
-	float f = *in++;
-	*out++ = coshf(f);  /* CHECKME no protection against overflow */
+        float f = *in++;
+        *out++ = coshf(f);  /* CHECKED no protection against NaNs */
     }
     return (w + 4);
 }
@@ -32,17 +35,17 @@ static void cosh_dsp(t_cosh *x, t_signal **sp)
     dsp_add(cosh_perform, 3, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void *cosh_new(void)
+void *cosh_new(void)
 {
     t_cosh *x = (t_cosh *)pd_new(cosh_class);
-    outlet_new((t_object *)x, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     return (x);
 }
 
 void cosh_tilde_setup(void)
 {
-    cosh_class = class_new(gensym("cosh~"),
-			   (t_newmethod)cosh_new, 0,
-			   sizeof(t_cosh), 0, 0);
-    sic_setup(cosh_class, cosh_dsp, SIC_FLOATTOSIGNAL);
+    cosh_class = class_new(gensym("cosh~"), (t_newmethod)cosh_new, 0,
+                            sizeof(t_cosh), CLASS_DEFAULT, 0);
+    class_addmethod(cosh_class, nullfn, gensym("signal"), 0);
+    class_addmethod(cosh_class, (t_method) cosh_dsp, gensym("dsp"), 0);
 }

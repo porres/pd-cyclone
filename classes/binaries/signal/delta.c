@@ -3,11 +3,12 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _delta
 {
-    t_sic    x_sic;
+    t_object x_obj;
+    t_inlet *delta;
+    t_outlet *x_outlet;
     t_float  x_last;
 } t_delta;
 
@@ -38,7 +39,7 @@ static void delta_dsp(t_delta *x, t_signal **sp)
 static void *delta_new(void)
 {
     t_delta *x = (t_delta *)pd_new(delta_class);
-    outlet_new((t_object *)x, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, &s_signal);
     x->x_last = 0;
     return (x);
 }
@@ -47,6 +48,7 @@ void delta_tilde_setup(void)
 {
     delta_class = class_new(gensym("delta~"),
 			    (t_newmethod)delta_new, 0,
-			    sizeof(t_delta), 0, 0);
-    sic_setup(delta_class, delta_dsp, SIC_FLOATTOSIGNAL);
+			    sizeof(t_delta), CLASS_DEFAULT, 0);
+    class_addmethod(delta_class, nullfn, gensym("signal"), 0);
+    class_addmethod(delta_class, (t_method) delta_dsp, gensym("dsp"), 0);
 }

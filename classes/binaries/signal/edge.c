@@ -3,11 +3,12 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _edge
 {
-    t_sic      x_sic;
+    t_object   x_obj;
+    t_inlet   *edge;
+    t_outlet  *x_outlet;
     t_float    x_last;
     int        x_zeroleft;
     int        x_zerohit;
@@ -18,8 +19,7 @@ typedef struct _edge
 static t_class *edge_class;
 
 static void edge_tick(t_edge *x)
-{
-    /* CHECKED both may fire simultaneously */
+{ /* CHECKED both may fire simultaneously */
     if (x->x_zeroleft)
     {
 	outlet_bang(((t_object *)x)->ob_outlet);
@@ -84,12 +84,12 @@ static void edge_free(t_edge *x)
     if (x->x_clock) clock_free(x->x_clock);
 }
 
-static void *edge_new(t_floatarg f)
+static void *edge_new(void)
 {
     t_edge *x = (t_edge *)pd_new(edge_class);
     x->x_last = 0.;  /* CHECKED fires at startup */
     x->x_zeroleft = x->x_zerohit = 0;
-    outlet_new((t_object *)x, &s_bang);
+    x->x_outlet = outlet_new((t_object *)x, &s_bang);
     x->x_out2 = outlet_new((t_object *)x, &s_bang);
     x->x_clock = clock_new(x, (t_method)edge_tick);
     return (x);
@@ -100,7 +100,7 @@ void edge_tilde_setup(void)
     edge_class = class_new(gensym("edge~"),
 			   (t_newmethod)edge_new,
 			   (t_method)edge_free,
-			   sizeof(t_edge), 0,
-			   A_DEFFLOAT, 0);
-    sic_setup(edge_class, edge_dsp, SIC_FLOATTOSIGNAL);
+			   sizeof(t_edge), CLASS_DEFAULT, 0);
+    class_addmethod(edge_class, nullfn, gensym("signal"), 0);
+    class_addmethod(edge_class, (t_method) edge_dsp, gensym("dsp"), 0);
 }
