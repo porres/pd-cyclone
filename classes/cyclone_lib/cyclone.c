@@ -1,4 +1,9 @@
-/* This is the cyclone library containing 12 non alphanumeric objects
+/* Copyright (c) 2003 krzYszcz and others.
+ * For information on usage and redistribution, and for a DISCLAIMER OF ALL
+ * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
+
+/* Porres 2016: 
+ This is the cyclone library containing 12 non alphanumeric objects
  Originally, the externals in cyclone used to come in a library called
  "cyclone", which included these 12 objects plus the "hammer" and "sicle"
  libraries (control/MAX and signal/MSP objects respectively). In (and since)
@@ -9,24 +14,17 @@
  So, the original cyclone library is now restored, but only containing these
  12 objects, which are: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], 
  [!-~], [!/~], [%~], [+=~] (the original code for such objects are in the 
- nettles.c file).
+ nettles.c file - now in the graveyard).
  
- Alternatively, alphanumeric versions of these objects are included as sigle 
- binaries in the cyclone package */
+ Alternatively, alphanumeric versions of these objects are ialso ncluded as 
+ single binaries in the cyclone package */
 
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
-
-// #if defined(_WIN32) || defined(__APPLE__) // necessary?
-// cf pd/src/x_arithmetic.c // why?
-#define fmodf  fmod
-// #endif
 
 /* think about float-to-int conversion -- there is no point in making
    the two below compatible, while all the others are not compatible... */
-
 
 /* ------------------------------ [!-] AND [!/]  ------------------------------ */
 

@@ -28,8 +28,9 @@ endif
 ########### classes outside the old framework common functions #################
 ################################################################################
 
-# Control classes that used to end in $(hplain)
-# which seemed to be doing nothing in the new build system:
+# CONTROL CLASSES Removed from old framework:
+# these used to end in $(hplain) which seemed
+# to be doing nothing in the new build system:
 
     accum.class.sources := classes/binaries/control/accum.c
     acos.class.sources := classes/binaries/control/acos.c
@@ -61,7 +62,7 @@ endif
     xnotein.class.sources := classes/binaries/control/xnotein.c
     xnoteout.class.sources := classes/binaries/control/xnoteout.c
 
-# SIGNAL CLASSES Removed from old framework:
+# SIGNAL CLASSES Removed from old framework (mostly "ssic"):
 
     abs~.class.sources := classes/binaries/signal/abs.c
     acos~.class.sources := classes/binaries/signal/acos.c
