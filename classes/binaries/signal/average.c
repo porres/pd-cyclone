@@ -7,7 +7,6 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "common/loud.h"
 
 #define AVERAGE_DEFNPOINTS  100  /* CHECKME */
 #define AVERAGE_DEFMODE     AVERAGE_BIPOLAR
@@ -68,11 +67,6 @@ static void average_setmode(t_average *x, int mode)
 	x->x_sumfn = average_absolutesum;
     else if (mode == AVERAGE_RMS)
 	x->x_sumfn = average_rmssum;
-    else
-    {
-	loudbug_bug("average_setmode");
-	return;
-    }
     x->x_mode = mode;
     x->x_phase = x->x_npoints;
     x->x_accum = 0;
@@ -175,18 +169,12 @@ static void *average_new(t_symbol *s, t_floatarg f)
 
 void average_tilde_setup(void)
 {
-    average_class = class_new(gensym("average~"),
-			      (t_newmethod)average_new,
-			      (t_method)average_free,
-			      sizeof(t_average), 0,
-			      A_DEFFLOAT, A_DEFSYM, 0);
-    class_addmethod(average_class, nullfn, gensym("signal"), 0);
+    average_class = class_new(gensym("average~"), (t_newmethod)average_new,
+            (t_method)average_free, sizeof(t_average), 0, A_DEFFLOAT, A_DEFSYM, 0);
     class_addmethod(average_class, (t_method) average_dsp, gensym("dsp"), 0);
+    class_addmethod(average_class, nullfn, gensym("signal"), 0);
+    class_addmethod(average_class, (t_method)average_bipolar, gensym("bipolar"), 0);
+    class_addmethod(average_class, (t_method)average_absolute, gensym("absolute"), 0);
+    class_addmethod(average_class, (t_method)average_rms, gensym("rms"), 0);
     class_addfloat(average_class, (t_method)average_float);
-    class_addmethod(average_class, (t_method)average_bipolar,
-		    gensym("bipolar"), 0);
-    class_addmethod(average_class, (t_method)average_absolute,
-		    gensym("absolute"), 0);
-    class_addmethod(average_class, (t_method)average_rms,
-		    gensym("rms"), 0);
 }
