@@ -114,6 +114,8 @@ endif
     vectral~.class.sources := classes/binaries/signal/vectral.c
     onepole~.class.sources := classes/binaries/signal/onepole.c
     atan2~.class.sources := classes/binaries/signal/atan2.c
+    maximum~.class.sources := classes/binaries/signal/maximum.c
+    minimum~.class.sources := classes/binaries/signal/minimum.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -431,8 +433,6 @@ shared/common/fitter.c
 train~.class.sources := classes/binaries/signal/train.c $(ssic)
 rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
 average~.class.sources := classes/binaries/signal/average.c $(ssic)
-maximum~.class.sources := classes/binaries/signal/maximum.c $(ssic)
-minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
 
 # sforky classes
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
