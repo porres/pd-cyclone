@@ -6,11 +6,11 @@
 
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 typedef struct _rand
 {
-    t_sic    x_sic;
+    t_object    x_obj;
+    t_float     x_input;
     double   x_lastphase;
     double   x_nextphase;
     float    x_rcpsr;
@@ -42,6 +42,7 @@ static t_int *rand_perform(t_int *w)
     while (nblock--)
     {
 	float rate = *rin++;
+    if (rate < 0) rate = 0;
 	if (ph > lastph)
 	{
 	    int state = x->x_state;
@@ -79,16 +80,15 @@ static void *rand_new(t_floatarg f)
     x->x_lastphase = 0.;
     x->x_nextphase = 1.;  /* start from 0, force retargetting */
     x->x_target = x->x_scaling = 0;
-    x->x_sic.s_f = (f > 0. ? f : 0.);
+    x->x_input = (f > 0. ? f : 0.);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
 void rand_tilde_setup(void)
 {
-    rand_class = class_new(gensym("rand~"),
-			   (t_newmethod)rand_new, 0,
-			   sizeof(t_rand), 0,
-			   A_DEFFLOAT, 0);
-    sic_setup(rand_class, rand_dsp, SIC_FLOATTOSIGNAL);
+    rand_class = class_new(gensym("rand~"), (t_newmethod)rand_new, 0,
+            sizeof(t_rand), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addmethod(rand_class, (t_method)rand_dsp, gensym("dsp"), 0);
+    CLASS_MAINSIGNALIN(rand_class, t_rand, x_input);
 }

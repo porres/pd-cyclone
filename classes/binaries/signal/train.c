@@ -5,8 +5,8 @@
 // fixed and rewritten by Porres
 
 #include "m_pd.h"
-#include "math.h"
-#include "shared.h"
+// #include "math.h" // get it back?
+// #include "shared.h"// get it back?
 #include "sickle/sic.h"
 
 #define TRAIN_DEFPERIOD  1000
