@@ -114,6 +114,7 @@ endif
     tanh~.class.sources := classes/binaries/signal/tanh.c
     tanx~.class.sources := classes/binaries/signal/tanx.c
     trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
+    train~.class.sources := classes/binaries/signal/train.c
     triangle~.class.sources := classes/binaries/signal/triangle.c
     vectral~.class.sources := classes/binaries/signal/vectral.c
     zerox~.class.sources := classes/binaries/signal/zerox.c
@@ -356,9 +357,9 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 # common sources
 ################
 
-ssic := \
-shared/sickle/sic.c \
-shared/common/loud.c
+# ssic := \ # not used anymore, all classes have been removed from this structure
+# shared/sickle/sic.c \
+# shared/common/loud.c
 
 sforky := \
 shared/sickle/sic.c \
@@ -430,8 +431,6 @@ shared/common/fitter.c
 ############################################
 # Signal classes (MSP or "sickle classes") #
 ############################################
-
-train~.class.sources := classes/binaries/signal/train.c $(ssic)
 
 # sforky classes
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
