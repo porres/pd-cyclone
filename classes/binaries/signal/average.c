@@ -8,12 +8,6 @@
 #include <math.h>
 #include "m_pd.h"
 #include "common/loud.h"
-#include "sickle/sic.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define sqrtf  sqrt
-#endif
 
 #define AVERAGE_DEFNPOINTS  100  /* CHECKME */
 #define AVERAGE_DEFMODE     AVERAGE_BIPOLAR
@@ -21,14 +15,15 @@ enum { AVERAGE_BIPOLAR, AVERAGE_ABSOLUTE, AVERAGE_RMS };
 
 typedef struct _average
 {
-    t_sic     x_sic;
-    int       x_mode;
-    float   (*x_sumfn)(t_float*, int, float);
-    int       x_phase;
-    int       x_npoints;
-    float     x_result;
-    float     x_accum;
-    t_clock  *x_clock;
+    t_object    x_obj;
+    t_inlet    *x_inlet1;
+    int         x_mode;
+    float     (*x_sumfn)(t_float*, int, float);
+    int         x_phase;
+    int         x_npoints;
+    float       x_result;
+    float       x_accum;
+    t_clock    *x_clock;
 } t_average;
 
 static t_class *average_class;
@@ -185,7 +180,9 @@ void average_tilde_setup(void)
 			      (t_method)average_free,
 			      sizeof(t_average), 0,
 			      A_DEFFLOAT, A_DEFSYM, 0);
-    sic_setup(average_class, average_dsp, average_float);
+    class_addmethod(average_class, nullfn, gensym("signal"), 0);
+    class_addmethod(average_class, (t_method) average_dsp, gensym("dsp"), 0);
+    class_addfloat(average_class, (t_method)average_float);
     class_addmethod(average_class, (t_method)average_bipolar,
 		    gensym("bipolar"), 0);
     class_addmethod(average_class, (t_method)average_absolute,

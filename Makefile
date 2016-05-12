@@ -28,7 +28,6 @@ endif
 ########### classes outside the old framework common functions #################
 ################################################################################
 
-
 # Control classes that used to end in $(hplain)
 # which seemed to be doing nothing in the new build system:
 
@@ -116,6 +115,9 @@ endif
     atan2~.class.sources := classes/binaries/signal/atan2.c
     maximum~.class.sources := classes/binaries/signal/maximum.c
     minimum~.class.sources := classes/binaries/signal/minimum.c
+
+    average~.class.sources := classes/binaries/signal/average.c
+
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -432,7 +434,6 @@ shared/common/fitter.c
 
 train~.class.sources := classes/binaries/signal/train.c $(ssic)
 rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
-average~.class.sources := classes/binaries/signal/average.c $(ssic)
 
 # sforky classes
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
