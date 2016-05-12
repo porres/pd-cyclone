@@ -14,6 +14,7 @@ typedef struct _rand
     double   x_lastphase;
     double   x_nextphase;
     float    x_rcpsr;
+    float    x_sr;
     int      x_state;
     float    x_target;
     float    x_scaling;  /* LATER use phase increment */
@@ -33,6 +34,7 @@ static t_int *rand_perform(t_int *w)
     t_shared_wrappy wrappy;
     int32_t normhipart;
     float rcpsr = x->x_rcpsr;
+    float sr = x->x_sr;
     float target = x->x_target;
     float scaling = x->x_scaling;
 
@@ -54,6 +56,7 @@ static t_int *rand_perform(t_int *w)
 	}
 	*out++ = ph * scaling + target;
 	lastph = ph;
+    if (rate >= sr) rate = sr - 1;
 	if (rate > 0) rate = -rate;
     	tfph += rate * rcpsr;
 	wrappy.w_d = tfph;
@@ -67,6 +70,7 @@ static t_int *rand_perform(t_int *w)
 
 static void rand_dsp(t_rand *x, t_signal **sp)
 {
+    x->x_sr = sp[0]->s_sr;
     x->x_rcpsr = 1. / sp[0]->s_sr;
     dsp_add(rand_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
