@@ -11,7 +11,6 @@
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 #if defined(_WIN32) || defined(__APPLE__)
 /* cf pd/src/x_arithmetic.c */
@@ -26,7 +25,10 @@
 
 typedef struct _reson
 {
-    t_sic  x_sic;
+    t_object  x_obj;
+    t_inlet  *x_gain_inlet;
+    t_inlet  *x_freq_inlet;
+    t_inlet  *x_q_inlet;
     float  x_srcoef;
     float  x_xnm1;
     float  x_xnm2;
@@ -104,9 +106,12 @@ static void *reson_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     if (f2 < 0.) f2 = 0.;
     if (f3 <= 0.)
 	f3 = RESON_DEFQ;  /* CHECKED */
-    sic_newinlet((t_sic *)x, f1);
-    sic_newinlet((t_sic *)x, f2);
-    sic_newinlet((t_sic *)x, f3);
+    x->x_gain_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_gain_inlet, f1);
+    x->x_freq_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_freq_inlet, f2);
+    x->x_q_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_q_inlet, f3);
     outlet_new((t_object *)x, &s_signal);
     reson_clear(x);
     return (x);
@@ -118,6 +123,7 @@ void reson_tilde_setup(void)
 			    (t_newmethod)reson_new, 0,
 			    sizeof(t_reson), 0,
 			    A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(reson_class, reson_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(reson_class, nullfn, gensym("signal"), 0);
+    class_addmethod(reson_class, (t_method)reson_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(reson_class, (t_method)reson_clear, gensym("clear"), 0);
 }

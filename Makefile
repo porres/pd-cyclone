@@ -100,6 +100,15 @@ endif
     pink~.class.sources := classes/binaries/signal/pink.c
     slide~.class.sources := classes/binaries/signal/slide.c
     sah~.class.sources := classes/binaries/signal/sah.c
+    svf~.class.sources := classes/binaries/signal/svf.c
+    reson~.class.sources := classes/binaries/signal/reson.c
+    peakamp~.class.sources := classes/binaries/signal/peakamp.c
+    rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c
+    avg~.class.sources := classes/binaries/signal/avg.c
+    lores~.class.sources := classes/binaries/signal/lores.c
+    delay~.class.sources := classes/binaries/signal/delay.c
+minmax~.class.sources := classes/binaries/signal/minmax.c
+zerox~.class.sources := classes/binaries/signal/zerox.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -424,18 +433,10 @@ atan2~.class.sources := classes/binaries/signal/atan2.c $(ssic)
 maximum~.class.sources := classes/binaries/signal/maximum.c $(ssic)
 minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
 
-avg~.class.sources := classes/binaries/signal/avg.c $(ssic)
-delay~.class.sources := classes/binaries/signal/delay.c $(ssic)
-minmax~.class.sources := classes/binaries/signal/minmax.c $(ssic)
 onepole~.class.sources := classes/binaries/signal/onepole.c $(ssic)
-peakamp~.class.sources := classes/binaries/signal/peakamp.c $(ssic)
-lores~.class.sources := classes/binaries/signal/lores.c $(ssic)
 phasewrap~.class.sources := classes/binaries/signal/phasewrap.c $(ssic)
-rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c $(ssic)
-reson~.class.sources := classes/binaries/signal/reson.c $(ssic)
-svf~.class.sources := classes/binaries/signal/svf.c $(ssic)
 vectral~.class.sources := classes/binaries/signal/vectral.c $(ssic)
-zerox~.class.sources := classes/binaries/signal/zerox.c $(ssic)
+
 
 # sforky classes
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)

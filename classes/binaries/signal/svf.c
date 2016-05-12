@@ -12,7 +12,6 @@
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 #if defined(_WIN32) || defined(__APPLE__)
 /* cf pd/src/x_arithmetic.c */
@@ -33,7 +32,10 @@
 
 typedef struct _svf
 {
-    t_sic  x_sic;
+    t_object x_obj;
+    t_inlet *svf;
+    t_inlet  *x_freq_inlet;
+    t_inlet  *x_q_inlet;
     int    x_mode;
     float  x_srcoef;
     float  x_band;
@@ -148,8 +150,12 @@ static void *svf_new(t_symbol *s, int ac, t_atom *av)
 	    qcoef = av->a_w.w_float;
     }
     x->x_srcoef = SHARED_PI / sys_getsr();
-    sic_newinlet((t_sic *)x, freq);
-    sic_newinlet((t_sic *)x, qcoef);
+//  sic_newinlet((t_sic *)x, freq);
+//  sic_newinlet((t_sic *)x, qcoef);
+    x->x_freq_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_freq_inlet, freq);
+    x->x_q_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_q_inlet, qcoef);
     outlet_new((t_object *)x, &s_signal);
     outlet_new((t_object *)x, &s_signal);
     outlet_new((t_object *)x, &s_signal);
@@ -179,7 +185,8 @@ void svf_tilde_setup(void)
     svf_class = class_new(gensym("svf~"),
 			  (t_newmethod)svf_new, 0,
 			  sizeof(t_svf), 0, A_GIMME, 0);
-    sic_setup(svf_class, svf_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(svf_class, nullfn, gensym("signal"), 0);
+    class_addmethod(svf_class, (t_method)svf_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(svf_class, (t_method)svf_clear, gensym("clear"), 0);
     class_addmethod(svf_class, (t_method)svf_hz, ps_hz, 0);
     class_addmethod(svf_class, (t_method)svf_hz, gensym("Hz"), 0);

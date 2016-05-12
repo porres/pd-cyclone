@@ -3,13 +3,13 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 #define ZEROX_DEFVOLUME  1.
 
 typedef struct _zerox
 {
-    t_sic    x_sic;
+    t_object x_obj;
+    t_inlet  *x_inlet;
     t_float  x_volume;
     int      x_lastsign;
 } t_zerox;
@@ -72,7 +72,8 @@ void zerox_tilde_setup(void)
     zerox_class = class_new(gensym("zerox~"),
 			    (t_newmethod)zerox_new, 0,
 			    sizeof(t_zerox), 0, A_DEFFLOAT, 0);
-    sic_setup(zerox_class, zerox_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(zerox_class, nullfn, gensym("signal"), 0);
+    class_addmethod(zerox_class, (t_method)zerox_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(zerox_class, (t_method)zerox_set,
 		    gensym("set"), A_FLOAT, 0);  /* CHECKED arg obligatory */
 }

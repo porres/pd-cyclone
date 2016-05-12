@@ -2,7 +2,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* The general two-pole resonator (csound's lp2).  For a nice analysis
+/* The general two-pole loresator (csound's lp2).  For a nice analysis
    see section 9.1.3 of ``Introduction to Digital Filters'' by Smith. */
 
 /* CHECKME if creation args (or defaults) restored after signal disconnection */
@@ -10,7 +10,6 @@
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 #if defined(_WIN32) || defined(__APPLE__)
 /* cf pd/src/x_arithmetic.c */
@@ -18,15 +17,17 @@
 #define cosf  cos
 #endif
 
-/* CHECKME negative resonance */
-/* CHECKME max resonance, esp. at low freqs (watch out, gain not normalized) */
-#define LORES_MAXRESONANCE  (1. - 1e-20)
+/* CHECKME negative loresance */
+/* CHECKME max loresance, esp. at low freqs (watch out, gain not normalized) */
+#define LORES_MAXloresANCE  (1. - 1e-20)
 #define LORES_MINOMEGA      .0001         /* CHECKME */
 #define LORES_MAXOMEGA      SHARED_PI     /* CHECKME */
 
 typedef struct _lores
 {
-    t_sic  x_sic;
+    t_object  x_obj;
+    t_inlet  *x_freq_inlet;
+    t_inlet  *x_q_inlet;
     float  x_srcoef;
     float  x_ynm1;
     float  x_ynm2;
@@ -58,8 +59,8 @@ static t_int *lores_perform(t_int *w)
 	omega = LORES_MINOMEGA;
     else if (omega > LORES_MAXOMEGA)
 	omega = LORES_MAXOMEGA;
-    if (rin0 > LORES_MAXRESONANCE)
-	rin0 = LORES_MAXRESONANCE;
+    if (rin0 > LORES_MAXloresANCE)
+	rin0 = LORES_MAXloresANCE;
     /* radius = pow(base, rin0 - 1), which maps rin0 of 0..1 to radius
        of 1/base..1, where base=exp(.125), and 1/base=.882496902585 */
     radius = expf(rin0 * .125) * .882496902585;
@@ -91,8 +92,10 @@ static void *lores_new(t_floatarg f1, t_floatarg f2)
 {
     t_lores *x = (t_lores *)pd_new(lores_class);
     x->x_srcoef = SHARED_2PI / sys_getsr();
-    sic_newinlet((t_sic *)x, f1);
-    sic_newinlet((t_sic *)x, f2);
+    x->x_freq_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_freq_inlet, f1);
+    x->x_q_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_q_inlet, f2);
     outlet_new((t_object *)x, &s_signal);
     lores_clear(x);
     return (x);
@@ -104,6 +107,7 @@ void lores_tilde_setup(void)
 			    (t_newmethod)lores_new, 0,
 			    sizeof(t_lores), 0,
 			    A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(lores_class, lores_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(lores_class, nullfn, gensym("signal"), 0);
+    class_addmethod(lores_class, (t_method)lores_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(lores_class, (t_method)lores_clear, gensym("clear"), 0);
 }

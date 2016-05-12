@@ -3,11 +3,11 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _minmax
 {
-    t_sic      x_sic;
+    t_object x_obj;
+    t_inlet  *x_inlet;
     t_float    x_min;
     t_float    x_max;
     t_outlet  *x_minout;
@@ -74,7 +74,8 @@ void minmax_tilde_setup(void)
 {
     minmax_class = class_new(gensym("minmax~"),
         (t_newmethod)minmax_new, 0, sizeof(t_minmax), 0, 0);
-    sic_setup(minmax_class, minmax_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(minmax_class, nullfn, gensym("signal"), 0);
+    class_addmethod(minmax_class, (t_method)minmax_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(minmax_class, minmax_bang);
     class_addmethod(minmax_class, (t_method)minmax_reset, gensym("reset"), 0);
 }

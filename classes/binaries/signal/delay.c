@@ -5,11 +5,11 @@
 #include <string.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 typedef struct _delay
 {
-    t_sic     x_sic;
+    t_object x_obj;
+    t_inlet  *x_inlet;
     t_float  *x_buf;
     t_float  *x_bufend;
     t_float  *x_whead;
@@ -114,7 +114,8 @@ void delay_tilde_setup(void)
     delay_class = class_new(gensym("delay~"),
 			    (t_newmethod)delay_new, (t_method)delay_free,
 			    sizeof(t_delay), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(delay_class, delay_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(delay_class, nullfn, gensym("signal"), 0);
+    class_addmethod(delay_class, (t_method)delay_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(delay_class, (t_method)delay_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(delay_class, (t_method)delay_clear,

@@ -4,14 +4,14 @@
 
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 #define RAMPSMOOTH_DEFNUP    0.
 #define RAMPSMOOTH_DEFNDOWN  0.
 
 typedef struct _rampsmooth
 {
-    t_sic    x_sic;
+    t_object x_obj;
+    t_inlet  *rampsmooth;
     int      x_nup;
     int      x_ndown;
     double   x_upcoef;
@@ -123,7 +123,6 @@ static void rampsmooth_ramp(t_rampsmooth *x, t_floatarg f)
     rampsmooth_rampdown(x, f);
 }
 
-
 static void *rampsmooth_new(t_symbol *s, int ac, t_atom *av)
 {
     t_rampsmooth *x = (t_rampsmooth *)pd_new(rampsmooth_class);
@@ -153,7 +152,8 @@ void rampsmooth_tilde_setup(void)
     rampsmooth_class = class_new(gensym("rampsmooth~"),
 				 (t_newmethod)rampsmooth_new, 0,
 				 sizeof(t_rampsmooth), 0, A_GIMME, 0);
-    sic_setup(rampsmooth_class, rampsmooth_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(rampsmooth_class, nullfn, gensym("signal"), 0);
+    class_addmethod(rampsmooth_class, (t_method) rampsmooth_dsp, gensym("dsp"), 0);
     class_addmethod(rampsmooth_class, (t_method)rampsmooth_rampup,
 		    gensym("rampup"), A_FLOAT, 0);
     class_addmethod(rampsmooth_class, (t_method)rampsmooth_rampdown,

@@ -3,11 +3,11 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _peakamp
 {
-    t_sic     x_sic;
+    t_object  x_obj;
+    t_inlet  *peakamp;
     t_float   x_value;
     int       x_nwait;
     int       x_nleft;
@@ -100,7 +100,8 @@ void peakamp_tilde_setup(void)
 			      (t_method)peakamp_free,
 			      sizeof(t_peakamp), 0,
 			      A_DEFFLOAT, 0);
-    sic_setup(peakamp_class, peakamp_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(peakamp_class, nullfn, gensym("signal"), 0);
+    class_addmethod(peakamp_class, (t_method) peakamp_dsp, gensym("dsp"), 0);
     class_addbang(peakamp_class, peakamp_bang);
     class_addmethod(peakamp_class, (t_method)peakamp_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
