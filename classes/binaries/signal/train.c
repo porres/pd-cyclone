@@ -60,7 +60,7 @@ static t_int *train_perform(t_int *w)
            wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase;
            next_phase = wrapped_phase + phase_step;
            
-           if (phase_step = 0) *out++ = 0;
+           if (phase_step == 0) *out++ = 0;
            else if (phase >= wrap_high)
            {
                *out++ = 1.;
