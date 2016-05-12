@@ -3,7 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 #define VECTRAL_DEFSIZE  512
 
@@ -13,7 +12,8 @@ typedef void (*t_vectral_perform)(struct _vectral *, int,
 
 typedef struct _vectral
 {
-    t_sic              x_sic;
+    t_object           x_obj;
+    t_inlet           *x_inlet;
     t_vectral_perform  x_perform;
     int                x_bufsize;
     t_float           *x_buffer;
@@ -225,7 +225,8 @@ void vectral_tilde_setup(void)
 			      (t_newmethod)vectral_new,
 			      (t_method)vectral_free,
 			      sizeof(t_vectral), 0, A_DEFFLOAT, 0);
-    sic_setup(vectral_class, vectral_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(vectral_class, nullfn, gensym("signal"), 0);
+    class_addmethod(vectral_class, (t_method)vectral_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(vectral_class, (t_method)vectral_rampsmooth,
 		    gensym("rampsmooth"), A_GIMME, 0);
     class_addmethod(vectral_class, (t_method)vectral_slide,

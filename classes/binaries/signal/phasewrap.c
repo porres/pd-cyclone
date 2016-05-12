@@ -5,11 +5,11 @@
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 typedef struct _phasewrap
 {
-    t_sic  x_sic;
+    t_object x_obj;
+    t_inlet  *x_inlet;
     int    x_algo;
 } t_phasewrap;
 
@@ -125,7 +125,8 @@ void phasewrap_tilde_setup(void)
 		     gensym("_phasewrap1~"), A_GIMME, 0);
     class_addcreator((t_newmethod)phasewrap_new,
 		     gensym("_phasewrap2~"), A_GIMME, 0);
-    sic_setup(phasewrap_class, phasewrap_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(phasewrap_class, nullfn, gensym("signal"), 0);
+    class_addmethod(phasewrap_class, (t_method)phasewrap_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(phasewrap_class, (t_method)phasewrap__algo,
 		    gensym("_algo"), A_FLOAT, 0);
 }

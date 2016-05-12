@@ -10,12 +10,6 @@
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define sinf  sin
-#endif
 
 #define ONEPOLE_HZ        0
 #define ONEPOLE_LINEAR    1
@@ -27,7 +21,8 @@
 
 typedef struct _onepole
 {
-    t_sic  x_sic;
+    t_object x_obj;
+    t_inlet  *x_inlet;
     int    x_mode;
     float  x_srcoef;
     float  x_ynm1;
@@ -115,7 +110,8 @@ static void *onepole_new(t_symbol *s, t_floatarg f)
     t_onepole *x = (t_onepole *)pd_new(onepole_class);
     x->x_srcoef = SHARED_2PI / sys_getsr();
     /* CHECKED no int-to-float conversion (any int bashed to 0.) */
-    sic_newinlet((t_sic *)x, f);
+    x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
     onepole_clear(x);
     if (s == ps_linear)
@@ -142,7 +138,8 @@ void onepole_tilde_setup(void)
 			      (t_newmethod)onepole_new, 0,
 			      sizeof(t_onepole), 0,
 			      A_DEFFLOAT, A_DEFSYM, 0);
-    sic_setup(onepole_class, onepole_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(onepole_class, nullfn, gensym("signal"), 0);
+    class_addmethod(onepole_class, (t_method)onepole_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(onepole_class, (t_method)onepole_clear, gensym("clear"), 0);
     class_addmethod(onepole_class, (t_method)onepole_hz, ps_hz, 0);
     class_addmethod(onepole_class, (t_method)onepole_hz, gensym("Hz"), 0);

@@ -1,5 +1,6 @@
-
-# Makefile for pure data externals in lib cyclone
+################################################################################
+############ Makefile for pure data externals in lib cyclone ###################
+################################################################################
 
 lib.name = cyclone
 
@@ -107,8 +108,11 @@ endif
     avg~.class.sources := classes/binaries/signal/avg.c
     lores~.class.sources := classes/binaries/signal/lores.c
     delay~.class.sources := classes/binaries/signal/delay.c
-minmax~.class.sources := classes/binaries/signal/minmax.c
-zerox~.class.sources := classes/binaries/signal/zerox.c
+    minmax~.class.sources := classes/binaries/signal/minmax.c
+    zerox~.class.sources := classes/binaries/signal/zerox.c
+    phasewrap~.class.sources := classes/binaries/signal/phasewrap.c
+    vectral~.class.sources := classes/binaries/signal/vectral.c
+    onepole~.class.sources := classes/binaries/signal/onepole.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -140,11 +144,11 @@ zerox~.class.sources := classes/binaries/signal/zerox.c
 ### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
 ################################################################################
 
-cyclone.class.sources := classes/cyclone_lib/cyclone.c
+    cyclone.class.sources := classes/cyclone_lib/cyclone.c
 
-################################################################################
-
-# new alphanumeric versions of cyclone lib objects
+################################################################
+# new alphanumeric versions of the cyclone sub library objects #
+################################################################
 
 # control
 rminus.class.sources := classes/binaries/control/rminus.c
@@ -165,11 +169,12 @@ rminus~.class.sources := classes/binaries/signal/rminus.c
 ############ classes inside the old framework common functions #################
 ################################################################################
 
-################################################################################
-
 #########################################
 ### Control (MAX or "hammer") objects ###
 #########################################
+
+# The old build system also allowed these classes to be compiled into the "hammer library"
+# Since cyclone version alpha57, this new build system only allows single binaries
 
 #################
 # common sources:
@@ -262,9 +267,6 @@ shared/unstable/fragile.c
 # Control Classes (MAX or "hammer classes") #
 #############################################
 
-# The old build system also allowed these classes to be compiled into the "hammer library"
-# Since cyclone version alpha57, this new build system only allows single binaries
-
 # hfitter classes
 bangbang.class.sources := classes/binaries/control/bangbang.c $(hfitter)
 counter.class.sources := classes/binaries/control/counter.c $(hfitter)
@@ -343,6 +345,9 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 ########################################
 ### Signal (MSP or "sickle") objects ###
 ########################################
+
+# The old build system also allowed these classes to be compiled into the "sickle library"
+# Since cyclone version alpha57, this new build system only allows single binaries
 
 ################
 # common sources
@@ -423,20 +428,12 @@ shared/common/fitter.c
 # Signal classes (MSP or "sickle classes")
 ##########################################
 
-# The old build system also allowed these classes to be compiled into the "sickle library"
-# Since cyclone version alpha57, this new build system only allows single binaries
-
 train~.class.sources := classes/binaries/signal/train.c $(ssic)
 rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
 average~.class.sources := classes/binaries/signal/average.c $(ssic)
 atan2~.class.sources := classes/binaries/signal/atan2.c $(ssic)
 maximum~.class.sources := classes/binaries/signal/maximum.c $(ssic)
 minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
-
-onepole~.class.sources := classes/binaries/signal/onepole.c $(ssic)
-phasewrap~.class.sources := classes/binaries/signal/phasewrap.c $(ssic)
-vectral~.class.sources := classes/binaries/signal/vectral.c $(ssic)
-
 
 # sforky classes
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
