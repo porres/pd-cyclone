@@ -113,6 +113,7 @@ endif
     phasewrap~.class.sources := classes/binaries/signal/phasewrap.c
     vectral~.class.sources := classes/binaries/signal/vectral.c
     onepole~.class.sources := classes/binaries/signal/onepole.c
+    atan2~.class.sources := classes/binaries/signal/atan2.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -126,7 +127,6 @@ endif
     acosh.class.sources := classes/binaries/control/acosh.c
     asinh.class.sources := classes/binaries/control/asinh.c
     atanh.class.sources := classes/binaries/control/atanh.c
-
 
     # Signal classes
 
@@ -424,14 +424,13 @@ splainnotilde := \
 shared/common/loud.c \
 shared/common/fitter.c
 
-##########################################
-# Signal classes (MSP or "sickle classes")
-##########################################
+############################################
+# Signal classes (MSP or "sickle classes") #
+############################################
 
 train~.class.sources := classes/binaries/signal/train.c $(ssic)
 rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
 average~.class.sources := classes/binaries/signal/average.c $(ssic)
-atan2~.class.sources := classes/binaries/signal/atan2.c $(ssic)
 maximum~.class.sources := classes/binaries/signal/maximum.c $(ssic)
 minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
 
