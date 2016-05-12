@@ -113,8 +113,8 @@ endif
     svf~.class.sources := classes/binaries/signal/svf.c
     tanh~.class.sources := classes/binaries/signal/tanh.c
     tanx~.class.sources := classes/binaries/signal/tanx.c
-    trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
     train~.class.sources := classes/binaries/signal/train.c
+    trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
     triangle~.class.sources := classes/binaries/signal/triangle.c
     vectral~.class.sources := classes/binaries/signal/vectral.c
     zerox~.class.sources := classes/binaries/signal/zerox.c

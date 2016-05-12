@@ -11,12 +11,7 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define sinf  sin
-#endif
+#include "shared.h" // later remove (only for 2pi)
 
 #define SVF_HZ        0
 #define SVF_LINEAR    1

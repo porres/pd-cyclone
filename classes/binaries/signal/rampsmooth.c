@@ -3,7 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "shared.h"
 
 #define RAMPSMOOTH_DEFNUP    0.
 #define RAMPSMOOTH_DEFNDOWN  0.

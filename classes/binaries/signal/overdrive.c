@@ -7,11 +7,6 @@
 #include <math.h>
 #include "m_pd.h"
 
-/* FIXME this is unnecessary in vc > 6.0 and darwin? */
-#if defined(_WIN32) || defined(__APPLE__)
-#define powf  pow
-#endif
-
 typedef struct _overdrive
 {
     t_object x_obj;

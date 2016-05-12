@@ -9,7 +9,7 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h"
+#include "shared.h"  // later remove ( for 2pi)
 
 #define ONEPOLE_HZ        0
 #define ONEPOLE_LINEAR    1
@@ -17,7 +17,7 @@
 #define ONEPOLE_MINB0     .0001  /* CHECKED 1st term of ir for b0=0 */
 #define ONEPOLE_MAXB0     .99    /* CHECKED 1st term of ir for b0=1 */
 #define ONEPOLE_MINOMEGA  0.     /* CHECKME */
-#define ONEPOLE_MAXOMEGA  (SHARED_PI * .5)  /* CHECKME */
+#define ONEPOLE_MAXOMEGA  (SHARED_PI * .5)  // later remove
 
 typedef struct _onepole
 {

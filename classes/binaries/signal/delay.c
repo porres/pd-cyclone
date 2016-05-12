@@ -4,7 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "shared.h"
+#include "shared.h" // really necessary?
 
 typedef struct _delay
 {

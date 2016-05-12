@@ -9,13 +9,8 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h"
+#include "shared.h" // only for 2pi, easily removable
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define expf  exp
-#define cosf  cos
-#endif
 
 /* CHECKME negative loresance */
 /* CHECKME max loresance, esp. at low freqs (watch out, gain not normalized) */

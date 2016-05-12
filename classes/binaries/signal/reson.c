@@ -10,13 +10,8 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h"
+#include "shared.h" // later remove (2pi only)
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define expf  exp
-#define cosf  cos
-#endif
 
 #define RESON_DEFQ      .01
 #define RESON_MINQ      1e-20      /* CHECKME */
