@@ -53,7 +53,6 @@ static t_int *rand_perform(t_int *w)
 	}
 	*out++ = ph * scaling + target;
 	lastph = ph;
-    if (rate >= 44100) rate = 44099.999; // change to "sr"
 	if (rate > 0) rate = -rate;
     	tfph += rate * rcpsr;
 	wrappy.w_d = tfph;
@@ -92,6 +91,4 @@ void rand_tilde_setup(void)
 			   sizeof(t_rand), 0,
 			   A_DEFFLOAT, 0);
     sic_setup(rand_class, rand_dsp, SIC_FLOATTOSIGNAL);
-//    logpost(NULL, 4, "this is cyclone/rand~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

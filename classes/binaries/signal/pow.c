@@ -4,15 +4,14 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define powf  pow
-#endif
-
-typedef t_sic t_pow;
 static t_class *pow_class;
+
+typedef struct _pow
+{
+    t_object x_obj;
+    t_inlet  *x_inlet;
+} t_pow;
 
 static t_int *pow_perform(t_int *w)
 {
@@ -22,11 +21,9 @@ static t_int *pow_perform(t_int *w)
     t_float *out = (t_float *)(w[4]);
     while (nblock--)
     {
-	float f1 = *in1++;
-	float f2 = *in2++;
-	/* CHECKED arg order, no protection against NaNs (negative base),
-	   under-, and overflows */
-	*out++ = powf(f2, f1);
+        t_float f1 = *in1++;
+        t_float f2 = *in2++;
+       *out++ = powf(f2, f1);
     }
     return (w + 5);
 }
@@ -34,21 +31,28 @@ static t_int *pow_perform(t_int *w)
 static void pow_dsp(t_pow *x, t_signal **sp)
 {
     dsp_add(pow_perform, 4, sp[0]->s_n,
-	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
+            sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
+}
+
+static void *pow_free(t_pow *x)
+{
+    inlet_free(x->x_inlet);
+    return (void *)x;
 }
 
 static void *pow_new(t_floatarg f)
 {
     t_pow *x = (t_pow *)pd_new(pow_class);
-    sic_newinlet((t_sic *)x, f);  /* CHECKED default 0 */
+    x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
 void pow_tilde_setup(void)
 {
-    pow_class = class_new(gensym("cyclone/pow~"),
-			  (t_newmethod)pow_new, 0,
-			  sizeof(t_pow), 0, A_DEFFLOAT, 0);
-    sic_setup(pow_class, pow_dsp, SIC_FLOATTOSIGNAL);
+    pow_class = class_new(gensym("pow~"), (t_newmethod)pow_new,
+        (t_method)pow_free, sizeof(t_pow), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addmethod(pow_class, nullfn, gensym("signal"), 0);
+    class_addmethod(pow_class, (t_method)pow_dsp, gensym("dsp"), A_CANT, 0);
 }

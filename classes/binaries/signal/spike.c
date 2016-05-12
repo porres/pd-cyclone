@@ -3,11 +3,11 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _spike
 {
-    t_sic     x_sic;
+    t_object  x_obj;
+    t_inlet  *spike;
     t_float   x_last;
     int       x_count;
     int       x_precount;
@@ -107,10 +107,10 @@ void spike_tilde_setup(void)
     spike_class = class_new(gensym("spike~"),
 			    (t_newmethod)spike_new,
 			    (t_method)spike_free,
-			    sizeof(t_spike), 0,
+			    sizeof(t_spike), CLASS_DEFAULT,
 			    A_DEFFLOAT, 0);
-    sic_setup(spike_class, spike_dsp, SIC_FLOATTOSIGNAL);
-    class_addmethod(spike_class, (t_method)spike_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(spike_class, nullfn, gensym("signal"), 0);
+    class_addmethod(spike_class, (t_method) spike_dsp, gensym("dsp"), 0);
+    class_addmethod(spike_class, (t_method)spike_ft1, gensym("ft1"), A_FLOAT, 0);
     class_addbang (spike_class, spike_bang);
 }

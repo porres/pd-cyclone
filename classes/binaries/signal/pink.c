@@ -6,38 +6,35 @@
    used in jMax, Csound, etc.  LATER compare to McCartney's (sc).
    Rng: noise~ code from d_osc.c. */
 
+// Max has a dummy signal in (needed for begin~)
+
 #include "m_pd.h"
-#include "common/loud.h"
-#include "sickle/sic.h"
 
 /* more like 0.085 in c74's */
 #define PINK_GAIN  .105
 
 typedef struct _pink
 {
-    t_sic  x_sic;
-    int    x_state;
-    float  x_b0;
-    float  x_b1;
-    float  x_b2;
-    float  x_b3;
-    float  x_b4;
-    float  x_b5;
-    float  x_b6;
+    t_object  x_obj;
+    t_inlet  *pink;
+    int       x_state;
+    float     x_b0;
+    float     x_b1;
+    float     x_b2;
+    float     x_b3;
+    float     x_b4;
+    float     x_b5;
+    float     x_b6;
 } t_pink;
 
 static t_class *pink_class;
-
-static void pink_float(t_pink *x, t_float f)
-{
-    loud_nomethod((t_pd *)x, &s_float);  /* LATER rethink */
-}
 
 static t_int *pink_perform(t_int *w)
 {
     t_pink *x = (t_pink *)(w[1]);
     int nblock = (int)(w[2]);
-    t_float *out = (t_float *)(w[3]);
+    t_float *in = (t_float *)(w[3]);
+    t_float *out = (t_float *)(w[4]);
     int state = x->x_state;
     float b0 = x->x_b0;
     float b1 = x->x_b1;
@@ -69,12 +66,12 @@ static t_int *pink_perform(t_int *w)
     x->x_b4 = b4;
     x->x_b5 = b5;
     x->x_b6 = b6;
-    return (w + 4);
+    return (w + 5);
 }
 
 static void pink_dsp(t_pink *x, t_signal **sp)
 {
-    dsp_add(pink_perform, 3, x, sp[1]->s_n, sp[1]->s_vec);
+    dsp_add(pink_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 static void *pink_new(void)
@@ -93,8 +90,6 @@ void pink_tilde_setup(void)
     pink_class = class_new(gensym("pink~"),
 			   (t_newmethod)pink_new, 0,
 			   sizeof(t_pink), 0, 0);
-    /* dummy float method: we need signal in (for begin~), but neither
-       float-to-signal conversion, nor a float method (the only control
-       input is 'enable').  LATER rethink. */
-    sic_setup(pink_class, pink_dsp, pink_float);
+    class_addmethod(pink_class, nullfn, gensym("signal"), 0);
+    class_addmethod(pink_class, (t_method) pink_dsp, gensym("dsp"), 0);
 }

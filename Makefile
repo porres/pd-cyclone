@@ -1,3 +1,4 @@
+
 # Makefile for pure data externals in lib cyclone
 
 lib.name = cyclone
@@ -77,6 +78,24 @@ endif
     log~.class.sources := classes/binaries/signal/log.c
     overdrive~.class.sources := classes/binaries/signal/overdrive.c
     clip~.class.sources := classes/binaries/signal/clip.c
+    tanh~.class.sources := classes/binaries/signal/tanh.c
+    tanx~.class.sources := classes/binaries/signal/tanx.c
+    sinx~.class.sources := classes/binaries/signal/sinx.c
+    sinh~.class.sources := classes/binaries/signal/sinh.c
+    cosx~.class.sources := classes/binaries/signal/cosx.c
+    acos~.class.sources := classes/binaries/signal/acos.c
+    cosh~.class.sources := classes/binaries/signal/cosh.c
+    atanh~.class.sources := classes/binaries/signal/atanh.c
+    atan~.class.sources := classes/binaries/signal/atan.c
+    asinh~.class.sources := classes/binaries/signal/asinh.c
+    asin~.class.sources := classes/binaries/signal/asin.c
+    acosh~.class.sources := classes/binaries/signal/acosh.c
+    edge~.class.sources := classes/binaries/signal/edge.c
+    delta~.class.sources := classes/binaries/signal/delta.c
+    kink~.class.sources := classes/binaries/signal/kink.c
+    spike~.class.sources := classes/binaries/signal/spike.c
+    pow~.class.sources := classes/binaries/signal/pow.c
+    pink~.class.sources := classes/binaries/signal/pink.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -394,44 +413,27 @@ shared/common/fitter.c
 # The old build system also allowed these classes to be compiled into the "sickle library"
 # Since cyclone version alpha57, this new build system only allows single binaries
 
-acos~.class.sources := classes/binaries/signal/acos.c $(ssic)
-acosh~.class.sources := classes/binaries/signal/acosh.c $(ssic)
-allpass~.class.sources := classes/binaries/signal/allpass.c $(ssic)
-asin~.class.sources := classes/binaries/signal/asin.c $(ssic)
-asinh~.class.sources := classes/binaries/signal/asinh.c $(ssic)
-atan2~.class.sources := classes/binaries/signal/atan2.c $(ssic)
-atan~.class.sources := classes/binaries/signal/atan.c $(ssic)
-atanh~.class.sources := classes/binaries/signal/atanh.c $(ssic)
+sah~.class.sources := classes/binaries/signal/sah.c $(ssic)
+train~.class.sources := classes/binaries/signal/train.c $(ssic)
+rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
 average~.class.sources := classes/binaries/signal/average.c $(ssic)
-avg~.class.sources := classes/binaries/signal/avg.c $(ssic)
-comb~.class.sources := classes/binaries/signal/comb.c $(ssic)
-cosh~.class.sources := classes/binaries/signal/cosh.c $(ssic)
-cosx~.class.sources := classes/binaries/signal/cosx.c $(ssic)
-delay~.class.sources := classes/binaries/signal/delay.c $(ssic)
-delta~.class.sources := classes/binaries/signal/delta.c $(ssic)
-edge~.class.sources := classes/binaries/signal/edge.c $(ssic)
-kink~.class.sources := classes/binaries/signal/kink.c $(ssic)
+atan2~.class.sources := classes/binaries/signal/atan2.c $(ssic)
 maximum~.class.sources := classes/binaries/signal/maximum.c $(ssic)
 minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
+
+allpass~.class.sources := classes/binaries/signal/allpass.c $(ssic)
+avg~.class.sources := classes/binaries/signal/avg.c $(ssic)
+comb~.class.sources := classes/binaries/signal/comb.c $(ssic)
+delay~.class.sources := classes/binaries/signal/delay.c $(ssic)
 minmax~.class.sources := classes/binaries/signal/minmax.c $(ssic)
 onepole~.class.sources := classes/binaries/signal/onepole.c $(ssic)
 peakamp~.class.sources := classes/binaries/signal/peakamp.c $(ssic)
 lores~.class.sources := classes/binaries/signal/lores.c $(ssic)
 phasewrap~.class.sources := classes/binaries/signal/phasewrap.c $(ssic)
-pink~.class.sources := classes/binaries/signal/pink.c $(ssic)
-pow~.class.sources := classes/binaries/signal/pow.c $(ssic)
 rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c $(ssic)
-rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
 reson~.class.sources := classes/binaries/signal/reson.c $(ssic)
-sah~.class.sources := classes/binaries/signal/sah.c $(ssic)
-sinh~.class.sources := classes/binaries/signal/sinh.c $(ssic)
-sinx~.class.sources := classes/binaries/signal/sinx.c $(ssic)
 slide~.class.sources := classes/binaries/signal/slide.c $(ssic)
-spike~.class.sources := classes/binaries/signal/spike.c $(ssic)
 svf~.class.sources := classes/binaries/signal/svf.c $(ssic)
-tanh~.class.sources := classes/binaries/signal/tanh.c $(ssic)
-tanx~.class.sources := classes/binaries/signal/tanx.c $(ssic)
-train~.class.sources := classes/binaries/signal/train.c $(ssic)
 vectral~.class.sources := classes/binaries/signal/vectral.c $(ssic)
 zerox~.class.sources := classes/binaries/signal/zerox.c $(ssic)
 
