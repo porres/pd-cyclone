@@ -4,11 +4,12 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _allpass
 {
-    t_sic     x_sic;
+    t_object  x_obj;
+    t_inlet  *x_del_inlet;
+    t_inlet  *x_gain_inlet;
     float     x_sr;
     float     x_ksr;
     t_float  *x_buf;
@@ -69,8 +70,6 @@ static t_int *allpass_perform(t_int *w)
 	float gain = *gin++;
 	float yn;
 	float rph;  /* reading head */
-	if (gain < -ALLPASS_MAXFEEDBACK) gain = -ALLPASS_MAXFEEDBACK;
-	else if (gain > ALLPASS_MAXFEEDBACK) gain = ALLPASS_MAXFEEDBACK;
 	yn = xn;
 	if (delsize > 0)
 	{
@@ -129,8 +128,10 @@ static void *allpass_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     if (f2 < 0) f2 = 0;
     if (f3 < -ALLPASS_MAXFEEDBACK) f3 = -ALLPASS_MAXFEEDBACK;
     else if (f3 > ALLPASS_MAXFEEDBACK) f3 = ALLPASS_MAXFEEDBACK;
-    sic_newinlet((t_sic *)x, f2);
-    sic_newinlet((t_sic *)x, f3);
+    x->x_del_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_del_inlet, f2);
+    x->x_gain_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_gain_inlet, f3);
     outlet_new((t_object *)x, &s_signal);
     allpass_clear(x);
     return (x);
@@ -148,6 +149,7 @@ void allpass_tilde_setup(void)
 			      (t_method)allpass_free,
 			      sizeof(t_allpass), 0,
 			      A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(allpass_class, allpass_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(allpass_class, nullfn, gensym("signal"), 0);
+    class_addmethod(allpass_class, (t_method)allpass_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(allpass_class, (t_method)allpass_clear, gensym("clear"), 0);
 }
