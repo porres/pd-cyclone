@@ -63,74 +63,73 @@ endif
 
 # SIGNAL CLASSES Removed from old framework:
 
-    comb~.class.sources := classes/binaries/signal/comb.c
-    allpass~.class.sources := classes/binaries/signal/allpass.c
     abs~.class.sources := classes/binaries/signal/abs.c
-    bitnot~.class.sources := classes/binaries/signal/bitnot.c
-    bitshift~.class.sources := classes/binaries/signal/bitshift.c
-    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
-    mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
-    sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
-    count~.class.sources := classes/binaries/signal/count.c
-    snapshot~.class.sources := classes/binaries/signal/snapshot.c
-    pong~.class.sources := classes/binaries/signal/pong.c
-    trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
-    triangle~.class.sources := classes/binaries/signal/triangle.c
-    change~.class.sources := classes/binaries/signal/change.c
-    log~.class.sources := classes/binaries/signal/log.c
-    overdrive~.class.sources := classes/binaries/signal/overdrive.c
-    clip~.class.sources := classes/binaries/signal/clip.c
-    tanh~.class.sources := classes/binaries/signal/tanh.c
-    tanx~.class.sources := classes/binaries/signal/tanx.c
-    sinx~.class.sources := classes/binaries/signal/sinx.c
-    sinh~.class.sources := classes/binaries/signal/sinh.c
-    cosx~.class.sources := classes/binaries/signal/cosx.c
     acos~.class.sources := classes/binaries/signal/acos.c
-    cosh~.class.sources := classes/binaries/signal/cosh.c
-    atanh~.class.sources := classes/binaries/signal/atanh.c
-    atan~.class.sources := classes/binaries/signal/atan.c
+    acosh~.class.sources := classes/binaries/signal/acosh.c
+    allpass~.class.sources := classes/binaries/signal/allpass.c
     asinh~.class.sources := classes/binaries/signal/asinh.c
     asin~.class.sources := classes/binaries/signal/asin.c
-    acosh~.class.sources := classes/binaries/signal/acosh.c
-    edge~.class.sources := classes/binaries/signal/edge.c
-    delta~.class.sources := classes/binaries/signal/delta.c
-    kink~.class.sources := classes/binaries/signal/kink.c
-    spike~.class.sources := classes/binaries/signal/spike.c
-    pow~.class.sources := classes/binaries/signal/pow.c
-    pink~.class.sources := classes/binaries/signal/pink.c
-    slide~.class.sources := classes/binaries/signal/slide.c
-    sah~.class.sources := classes/binaries/signal/sah.c
-    svf~.class.sources := classes/binaries/signal/svf.c
-    reson~.class.sources := classes/binaries/signal/reson.c
-    peakamp~.class.sources := classes/binaries/signal/peakamp.c
-    rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c
-    avg~.class.sources := classes/binaries/signal/avg.c
-    lores~.class.sources := classes/binaries/signal/lores.c
-    delay~.class.sources := classes/binaries/signal/delay.c
-    minmax~.class.sources := classes/binaries/signal/minmax.c
-    zerox~.class.sources := classes/binaries/signal/zerox.c
-    phasewrap~.class.sources := classes/binaries/signal/phasewrap.c
-    vectral~.class.sources := classes/binaries/signal/vectral.c
-    onepole~.class.sources := classes/binaries/signal/onepole.c
+    atan~.class.sources := classes/binaries/signal/atan.c
     atan2~.class.sources := classes/binaries/signal/atan2.c
+    atanh~.class.sources := classes/binaries/signal/atanh.c
+    average~.class.sources := classes/binaries/signal/average.c
+    avg~.class.sources := classes/binaries/signal/avg.c
+    bitnot~.class.sources := classes/binaries/signal/bitnot.c
+    bitshift~.class.sources := classes/binaries/signal/bitshift.c
+    change~.class.sources := classes/binaries/signal/change.c
+    clip~.class.sources := classes/binaries/signal/clip.c
+    cosh~.class.sources := classes/binaries/signal/cosh.c
+    cosx~.class.sources := classes/binaries/signal/cosx.c
+    count~.class.sources := classes/binaries/signal/count.c
+    comb~.class.sources := classes/binaries/signal/comb.c
+    delay~.class.sources := classes/binaries/signal/delay.c
+    delta~.class.sources := classes/binaries/signal/delta.c
+    deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
+    edge~.class.sources := classes/binaries/signal/edge.c
+    kink~.class.sources := classes/binaries/signal/kink.c
+    log~.class.sources := classes/binaries/signal/log.c
+    lores~.class.sources := classes/binaries/signal/lores.c
     maximum~.class.sources := classes/binaries/signal/maximum.c
     minimum~.class.sources := classes/binaries/signal/minimum.c
-
-    average~.class.sources := classes/binaries/signal/average.c
-
+    minmax~.class.sources := classes/binaries/signal/minmax.c
+    mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
+    onepole~.class.sources := classes/binaries/signal/onepole.c
+    overdrive~.class.sources := classes/binaries/signal/overdrive.c
+    peakamp~.class.sources := classes/binaries/signal/peakamp.c
+    phasewrap~.class.sources := classes/binaries/signal/phasewrap.c
+    pink~.class.sources := classes/binaries/signal/pink.c
+    pong~.class.sources := classes/binaries/signal/pong.c
+    pow~.class.sources := classes/binaries/signal/pow.c
+    rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c
+    rand~.class.sources := classes/binaries/signal/rand.c
+    reson~.class.sources := classes/binaries/signal/reson.c
+    sah~.class.sources := classes/binaries/signal/sah.c
+    sampstoms~.class.sources := classes/binaries/signal/sampstoms.c
+    sinh~.class.sources := classes/binaries/signal/sinh.c
+    sinx~.class.sources := classes/binaries/signal/sinx.c
+    slide~.class.sources := classes/binaries/signal/slide.c
+    snapshot~.class.sources := classes/binaries/signal/snapshot.c
+    spike~.class.sources := classes/binaries/signal/spike.c
+    svf~.class.sources := classes/binaries/signal/svf.c
+    tanh~.class.sources := classes/binaries/signal/tanh.c
+    tanx~.class.sources := classes/binaries/signal/tanx.c
+    trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
+    triangle~.class.sources := classes/binaries/signal/triangle.c
+    vectral~.class.sources := classes/binaries/signal/vectral.c
+    zerox~.class.sources := classes/binaries/signal/zerox.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
     # Control classes
 
-    atodb.class.sources := classes/binaries/control/atodb.c
-    dbtoa.class.sources := classes/binaries/control/dbtoa.c
-    pong.class.sources := classes/binaries/control/pong.c
-    scale.class.sources := classes/binaries/control/scale.c
-    round.class.sources := classes/binaries/control/round.c
     acosh.class.sources := classes/binaries/control/acosh.c
     asinh.class.sources := classes/binaries/control/asinh.c
     atanh.class.sources := classes/binaries/control/atanh.c
+    atodb.class.sources := classes/binaries/control/atodb.c
+    dbtoa.class.sources := classes/binaries/control/dbtoa.c
+    pong.class.sources := classes/binaries/control/pong.c
+    round.class.sources := classes/binaries/control/round.c
+    scale.class.sources := classes/binaries/control/scale.c
 
     # Signal classes
 
@@ -433,7 +432,6 @@ shared/common/fitter.c
 ############################################
 
 train~.class.sources := classes/binaries/signal/train.c $(ssic)
-rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
 
 # sforky classes
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
