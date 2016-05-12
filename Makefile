@@ -63,6 +63,8 @@ endif
 
 # SIGNAL CLASSES Removed from old framework:
 
+    comb~.class.sources := classes/binaries/signal/comb.c
+    allpass~.class.sources := classes/binaries/signal/allpass.c
     abs~.class.sources := classes/binaries/signal/abs.c
     bitnot~.class.sources := classes/binaries/signal/bitnot.c
     bitshift~.class.sources := classes/binaries/signal/bitshift.c
@@ -96,6 +98,8 @@ endif
     spike~.class.sources := classes/binaries/signal/spike.c
     pow~.class.sources := classes/binaries/signal/pow.c
     pink~.class.sources := classes/binaries/signal/pink.c
+    slide~.class.sources := classes/binaries/signal/slide.c
+    sah~.class.sources := classes/binaries/signal/sah.c
 
 # NEW CLASSES - that don'tuse the old framework common functions
 
@@ -413,7 +417,6 @@ shared/common/fitter.c
 # The old build system also allowed these classes to be compiled into the "sickle library"
 # Since cyclone version alpha57, this new build system only allows single binaries
 
-sah~.class.sources := classes/binaries/signal/sah.c $(ssic)
 train~.class.sources := classes/binaries/signal/train.c $(ssic)
 rand~.class.sources := classes/binaries/signal/rand.c $(ssic)
 average~.class.sources := classes/binaries/signal/average.c $(ssic)
@@ -421,9 +424,7 @@ atan2~.class.sources := classes/binaries/signal/atan2.c $(ssic)
 maximum~.class.sources := classes/binaries/signal/maximum.c $(ssic)
 minimum~.class.sources := classes/binaries/signal/minimum.c $(ssic)
 
-allpass~.class.sources := classes/binaries/signal/allpass.c $(ssic)
 avg~.class.sources := classes/binaries/signal/avg.c $(ssic)
-comb~.class.sources := classes/binaries/signal/comb.c $(ssic)
 delay~.class.sources := classes/binaries/signal/delay.c $(ssic)
 minmax~.class.sources := classes/binaries/signal/minmax.c $(ssic)
 onepole~.class.sources := classes/binaries/signal/onepole.c $(ssic)
@@ -432,7 +433,6 @@ lores~.class.sources := classes/binaries/signal/lores.c $(ssic)
 phasewrap~.class.sources := classes/binaries/signal/phasewrap.c $(ssic)
 rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c $(ssic)
 reson~.class.sources := classes/binaries/signal/reson.c $(ssic)
-slide~.class.sources := classes/binaries/signal/slide.c $(ssic)
 svf~.class.sources := classes/binaries/signal/svf.c $(ssic)
 vectral~.class.sources := classes/binaries/signal/vectral.c $(ssic)
 zerox~.class.sources := classes/binaries/signal/zerox.c $(ssic)

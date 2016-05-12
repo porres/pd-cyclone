@@ -4,11 +4,14 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _comb
 {
-    t_sic     x_sic;
+    t_object  x_obj;
+    t_inlet  *x_del_inlet;
+    t_inlet  *x_a_inlet;
+    t_inlet  *x_b_inlet;
+    t_inlet  *x_c_inlet;
     float     x_sr;
     float     x_ksr;
     t_float  *x_buf;
@@ -25,7 +28,7 @@ static t_class *comb_class;
 
 /* LATER choose the best way.  From msp help patch:
    no clipping is done on a, b, or c coefficient input */
-#define COMB_MAXFEEDBACK  0.999
+// #define COMB_MAXFEEDBACK  0.999
 
 static void comb_clear(t_comb *x)
 {
@@ -74,8 +77,8 @@ static t_int *comb_perform(t_int *w)
 	float cgain = *cin++;
 	float yn = *ain++ * xn;
 	float rph;  /* reading head */
-	if (cgain < -COMB_MAXFEEDBACK) cgain = -COMB_MAXFEEDBACK;
-	else if (cgain > COMB_MAXFEEDBACK) cgain = COMB_MAXFEEDBACK;
+//	if (cgain < -COMB_MAXFEEDBACK) cgain = -COMB_MAXFEEDBACK;
+//	else if (cgain > COMB_MAXFEEDBACK) cgain = COMB_MAXFEEDBACK;
 	if (delsize > 1.0)
 	{
 	    int ndx;
@@ -133,12 +136,16 @@ static void *comb_new(t_floatarg f1, t_floatarg f2,
     x->x_bufsize = x->x_maxsize = bufsize;
     x->x_buf = buf;
     if (f2 < 0) f2 = 0;
-    if (f5 < -COMB_MAXFEEDBACK) f5 = -COMB_MAXFEEDBACK;
-    else if (f5 > COMB_MAXFEEDBACK) f5 = COMB_MAXFEEDBACK;
-    sic_newinlet((t_sic *)x, f2);
-    sic_newinlet((t_sic *)x, f3);
-    sic_newinlet((t_sic *)x, f4);
-    sic_newinlet((t_sic *)x, f5);
+//  if (f5 < -COMB_MAXFEEDBACK) f5 = -COMB_MAXFEEDBACK;
+//  else if (f5 > COMB_MAXFEEDBACK) f5 = COMB_MAXFEEDBACK;
+    x->x_del_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_del_inlet, f2);
+    x->x_a_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_a_inlet, f3);
+    x->x_b_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_b_inlet, f4);
+    x->x_c_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_c_inlet, f5);
     outlet_new((t_object *)x, &s_signal);
     comb_clear(x);
     return (x);
@@ -157,6 +164,7 @@ void comb_tilde_setup(void)
 			   sizeof(t_comb), 0,
 			   A_DEFFLOAT, A_DEFFLOAT,
 			   A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(comb_class, comb_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(comb_class, nullfn, gensym("signal"), 0);
+    class_addmethod(comb_class, (t_method)comb_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(comb_class, (t_method)comb_clear, gensym("clear"), 0);
 }

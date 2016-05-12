@@ -7,9 +7,10 @@
 
 typedef struct _avg
 {
-    t_sic  x_sic;
-    float  x_count;
-    float  x_accum;
+    t_object x_obj;
+    t_inlet *avg;
+    float    x_count;
+    float    x_accum;
 } t_avg;
 
 static t_class *avg_class;
@@ -57,6 +58,7 @@ void avg_tilde_setup(void)
     avg_class = class_new(gensym("avg~"),
 			  (t_newmethod)avg_new, 0,
 			  sizeof(t_avg), 0, 0);
-    sic_setup(avg_class, avg_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(avg_class, nullfn, gensym("signal"), 0);
+    class_addmethod(avg_class, (t_method) avg_dsp, gensym("dsp"), 0);
     class_addbang(avg_class, avg_bang);
 }

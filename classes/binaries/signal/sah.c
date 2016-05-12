@@ -3,11 +3,10 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "sickle/sic.h"
 
 typedef struct _sah
 {
-    t_sic    x_sic;
+    t_object x_obj;
     t_float  x_threshold;
     t_float  x_lastin;
     t_float  x_lastout;
@@ -63,7 +62,9 @@ static void *sah_new(t_floatarg f)
 
 void sah_tilde_setup(void)
 {
-    sah_class = class_new(gensym("sah~"),
-        (t_newmethod)sah_new, 0, sizeof(t_sah), 0, A_DEFFLOAT, 0);
-    sic_setup(sah_class, sah_dsp, sah_float);
+    sah_class = class_new(gensym("sah~"), (t_newmethod)sah_new, 0,
+                        sizeof(t_sah), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addmethod(sah_class, nullfn, gensym("signal"), 0);
+    class_addmethod(sah_class, (t_method)sah_dsp, gensym("dsp"), A_CANT, 0);
+    class_addfloat(sah_class, (t_method)sah_float);
 }

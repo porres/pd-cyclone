@@ -4,14 +4,14 @@
 
 #include "m_pd.h"
 #include "shared.h"
-#include "sickle/sic.h"
 
 #define SLIDE_DEFUP  1.
 #define SLIDE_DEFDN  1.
 
 typedef struct _slide
 {
-    t_sic    x_sic;
+    t_object x_obj;
+    t_inlet *slide;
     t_int    x_slide_up;
     t_int    x_slide_down;
     t_float  x_last;
@@ -55,7 +55,6 @@ static t_int *slide_perform(t_int *w)
 static void slide_reset(t_slide *x)
 {
     x->x_last = 0;
-//    Sets the current output sample value to 0(the next incoming value will smoothly transition from that 0).
 }
 
 static void slide_slide_up(t_slide *x, t_floatarg f)
@@ -115,7 +114,8 @@ void slide_tilde_setup(void)
     slide_class = class_new(gensym("slide~"),
 			    (t_newmethod)slide_new, 0,
 			    sizeof(t_slide), 0, A_GIMME, 0);
-    sic_setup(slide_class, slide_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(slide_class, nullfn, gensym("signal"), 0);
+    class_addmethod(slide_class, (t_method) slide_dsp, gensym("dsp"), 0);
     class_addmethod(slide_class, (t_method)slide_reset, gensym("reset"), 0);
     class_addmethod(slide_class, (t_method)slide_slide_up, gensym("slide_up"), A_FLOAT, 0);
     class_addmethod(slide_class, (t_method)slide_slide_down, gensym("slide_down"), A_FLOAT, 0);

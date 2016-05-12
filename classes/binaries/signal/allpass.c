@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+// should not allow blowup for float input in inlets...
+
 #include <string.h>
 #include "m_pd.h"
 
@@ -21,11 +23,8 @@ typedef struct _allpass
 
 static t_class *allpass_class;
 
-/* maximum delay defaults to 10 ms (as in max/msp) */
 #define ALLPASS_DEFMAXDELAY  10.0
-
-/* LATER choose the best way (compare with comb~) */
-#define ALLPASS_MAXFEEDBACK  0.99999
+#define ALLPASS_MAXFEEDBACK  1
 
 static void allpass_clear(t_allpass *x)
 {
@@ -126,8 +125,8 @@ static void *allpass_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     x->x_bufsize = x->x_maxsize = bufsize;
     x->x_buf = buf;
     if (f2 < 0) f2 = 0;
-    if (f3 < -ALLPASS_MAXFEEDBACK) f3 = -ALLPASS_MAXFEEDBACK;
-    else if (f3 > ALLPASS_MAXFEEDBACK) f3 = ALLPASS_MAXFEEDBACK;
+//    if (f3 < -ALLPASS_MAXFEEDBACK) f3 = -ALLPASS_MAXFEEDBACK;
+//    else if (f3 > ALLPASS_MAXFEEDBACK) f3 = ALLPASS_MAXFEEDBACK;
     x->x_del_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_del_inlet, f2);
     x->x_gain_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
