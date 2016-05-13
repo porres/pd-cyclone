@@ -178,13 +178,6 @@ rminus~.class.sources := classes/binaries/signal/rminus.c
 ### Control (MAX or "hammer") objects ###
 #########################################
 
-# The old build system also allowed these classes to be compiled into the "hammer library"
-# Since cyclone version alpha57, this new build system only allows single binaries
-
-#################
-# common sources:
-#################
-
 hfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
@@ -268,10 +261,6 @@ shared/common/os.c \
 shared/unstable/forky.c \
 shared/unstable/fragile.c
 
-#############################################
-# Control Classes (MAX or "hammer classes") #
-#############################################
-
 # hfitter classes
 bangbang.class.sources := classes/binaries/control/bangbang.c $(hfitter)
 counter.class.sources := classes/binaries/control/counter.c $(hfitter)
@@ -345,32 +334,25 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 
     funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 
-################################################################################
 
 ########################################
 ### Signal (MSP or "sickle") objects ###
 ########################################
 
-# The old build system also allowed these classes to be compiled into the "sickle library"
-# Since cyclone version alpha57, this new build system only allows single binaries
-
-################
-# common sources
-################
-
-# ssic := \ # not used anymore, all classes have been removed from this structure
-# shared/sickle/sic.c \
-# shared/common/loud.c
-
 sforky := \
-shared/sickle/sic.c \
 shared/common/loud.c \
 shared/unstable/forky.c
 
+bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
+bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
+bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
+
 sfragile := \
-shared/sickle/sic.c \
 shared/common/loud.c \
 shared/unstable/fragile.c
+
+cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
+poltocar~.class.sources := classes/binaries/signal/poltocar.c $(sfragile)
 
 sfragilefitter := \
 shared/sickle/sic.c \
@@ -378,16 +360,25 @@ shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
 
+matrix~.class.sources := classes/binaries/signal/matrix.c $(sfragilefitter)
+
 sgrow := \
 shared/common/grow.c \
 shared/sickle/sic.c \
 shared/common/loud.c
+
+click~.class.sources := classes/binaries/signal/click.c $(sgrow)
+frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrow)
+framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrow)
+line~.class.sources := classes/binaries/signal/line.c $(sgrow)
 
 sgrowclc := \
 shared/common/grow.c \
 shared/common/clc.c \
 shared/sickle/sic.c \
 shared/common/loud.c
+
+curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc)
 
 sgrowforky := \
 shared/common/grow.c \
@@ -396,11 +387,15 @@ shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
 
+scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
+
 svefl := \
 shared/common/vefl.c \
 shared/sickle/sic.c \
 shared/common/loud.c \
 shared/unstable/fragile.c
+
+cycle~.class.sources := classes/binaries/signal/cycle.c $(svefl)
 
 sarsic := \
 shared/sickle/sic.c \
@@ -408,6 +403,14 @@ shared/sickle/arsic.c \
 shared/common/vefl.c \
 shared/common/loud.c \
 shared/unstable/fragile.c
+
+index~.class.sources := classes/binaries/signal/index.c $(sarsic)
+lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsic)
+peek~.class.sources := classes/binaries/signal/peek.c $(sarsic)
+play~.class.sources := classes/binaries/signal/play.c $(sarsic)
+poke~.class.sources := classes/binaries/signal/poke.c $(sarsic)
+record~.class.sources := classes/binaries/signal/record.c $(sarsic)
+wave~.class.sources := classes/binaries/signal/wave.c $(sarsic)
 
 sarsicfitter := \
 shared/sickle/sic.c \
@@ -417,6 +420,8 @@ shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
 
+buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter)
+
 sfile := \
 shared/hammer/file.c \
 shared/sickle/sic.c \
@@ -424,55 +429,13 @@ shared/common/loud.c \
 shared/common/os.c \
 shared/unstable/forky.c
 
-# special case: sickle but not tilde (see class linedrive)
+capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
+
 splainnotilde := \
 shared/common/loud.c \
 shared/common/fitter.c
 
-############################################
-# Signal classes (MSP or "sickle classes") #
-############################################
-
-# sforky classes
-bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
-bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
-bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
-
-# sfragile classes
-cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
-poltocar~.class.sources := classes/binaries/signal/poltocar.c $(sfragile)
-
-# sgrow classes
-click~.class.sources := classes/binaries/signal/click.c $(sgrow)
-frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrow)
-framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrow)
-line~.class.sources := classes/binaries/signal/line.c $(sgrow)
-
-# array classes - $(sarsic)
-index~.class.sources := classes/binaries/signal/index.c $(sarsic)
-lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsic)
-peek~.class.sources := classes/binaries/signal/peek.c $(sarsic)
-play~.class.sources := classes/binaries/signal/play.c $(sarsic)
-poke~.class.sources := classes/binaries/signal/poke.c $(sarsic)
-record~.class.sources := classes/binaries/signal/record.c $(sarsic)
-wave~.class.sources := classes/binaries/signal/wave.c $(sarsic)
-
-# Single cases:
-
-    scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
-
-    curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc)
-
-    capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
-
-    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter)
-
-    cycle~.class.sources := classes/binaries/signal/cycle.c $(svefl)
-
-    linedrive.class.sources := classes/binaries/signal/linedrive.c $(splainnotilde)
-
-    matrix~.class.sources := classes/binaries/signal/matrix.c $(sfragilefitter)
-
+linedrive.class.sources := classes/binaries/signal/linedrive.c $(splainnotilde)
 
 ################################################################################
 ###         ###     ###         ### ###         ###     ###         ###
