@@ -4,7 +4,6 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "unstable/fragile.h"
 
 typedef struct _poltocar
 {
@@ -47,12 +46,8 @@ static t_int *poltocar_perform_noimag(t_int *w)
 
 static void poltocar_dsp(t_poltocar *x, t_signal **sp)
 {
-    if (fragile_outlet_connections(x->x_out2))
 	dsp_add(poltocar_perform, 5, sp[0]->s_n, sp[0]->s_vec,
 		sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
-    else
-	dsp_add(poltocar_perform_noimag, 4, sp[0]->s_n, sp[0]->s_vec,
-		sp[1]->s_vec, sp[2]->s_vec);
 }
 
 static void *poltocar_new(void)
@@ -67,8 +62,8 @@ static void *poltocar_new(void)
 void poltocar_tilde_setup(void)
 {
     poltocar_class = class_new(gensym("poltocar~"),
-			       (t_newmethod)poltocar_new, 0,
-                               sizeof(t_poltocar), 0, 0);
+            (t_newmethod)poltocar_new, 0,
+            sizeof(t_poltocar), 0, 0);
     class_addmethod(poltocar_class, nullfn, gensym("signal"), 0);
     class_addmethod(poltocar_class, (t_method) poltocar_dsp, gensym("dsp"), 0);
 }

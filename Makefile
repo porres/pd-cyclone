@@ -116,6 +116,7 @@ endif
     peakamp~.class.sources := classes/binaries/signal/peakamp.c
     phasewrap~.class.sources := classes/binaries/signal/phasewrap.c
     pink~.class.sources := classes/binaries/signal/pink.c
+    poltocar~.class.sources := classes/binaries/signal/poltocar.c
     pong~.class.sources := classes/binaries/signal/pong.c
     pow~.class.sources := classes/binaries/signal/pow.c
     rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c
@@ -337,7 +338,6 @@ bitor~.class.sources := classes/binaries/signal/bitor.c $(shared/unstable/forky.
 bitxor~.class.sources := classes/binaries/signal/bitxor.c $(shared/unstable/forky.c)
 
 cartopol~.class.sources := classes/binaries/signal/cartopol.c $(shared/unstable/fragile.c)
-poltocar~.class.sources := classes/binaries/signal/poltocar.c $(shared/unstable/fragile.c)
 
 # Old complex framework of several dependencies:
 
