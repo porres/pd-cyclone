@@ -3,13 +3,8 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "common/loud.h"
 
 static t_class *bitshift_class;
-
-#ifdef KRZYSZCZ
-//#define BITSHIFT_DEBUG
-#endif
 
 typedef struct _bitshift {
     t_object x_obj;
@@ -39,13 +34,11 @@ static t_int * bitshift_perform(t_int *w)
         unsigned int shift = x->x_lshift;
         if (x->x_convert1) while (nblock--)
         {
-            /* CHECKED */
             t_int i = ((t_int)*in++ << shift);
             *out++ = (t_float)i;
         }
         else while (nblock--)
         {
-            /* CHECKED */
             t_int i = (*(t_int *)(t_float *)in++ << shift);
             *out++ = *(t_float *)&i;
         }
@@ -55,14 +48,12 @@ static t_int * bitshift_perform(t_int *w)
         unsigned int shift = x->x_rshift;
         if (x->x_convert1) while (nblock--)
         {
-            /* CHECKME */
-            t_int i = ((t_int)*in++ >> shift);
+            t_int i = ((t_int)*in++ >> shift); /* CHECKME */
             *out++ = (t_float)i;
         }
         else while (nblock--)
         {
-            /* CHECKME */
-            t_int i = (*(t_int *)(t_float *)in++ >> shift);
+            t_int i = (*(t_int *)(t_float *)in++ >> shift);  /* CHECKME */
             *out++ = *(t_float *)&i;
         }
     }
@@ -77,7 +68,6 @@ static void bitshift_dsp(t_bitshift *x, t_signal **sp)
 {
     dsp_add(bitshift_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
-
 
 static void bitshift_mode(t_bitshift *x, t_floatarg f)
 {
@@ -99,10 +89,6 @@ static void bitshift_shift(t_bitshift *x, t_floatarg f)
     x->x_lover = 0;
     if (i > 0)
     {
-#ifdef BITSHIFT_DEBUG
-        loudbug_post("%.8x << %d == %.8x, %.8x << %d == %.8x",
-                     1, i, 1 << i, -1, i, -1 << i);
-#endif
         if (i < nbits)
             x->x_lshift = i;
         else
@@ -110,14 +96,9 @@ static void bitshift_shift(t_bitshift *x, t_floatarg f)
     }
     else if (i < 0)
     {
-#ifdef BITSHIFT_DEBUG
-        loudbug_post("%.8x >> %d == %.8x, %.8x >> %d == %.8x",
-                     0x7fffffff, -i, 0x7fffffff >> -i, -1, -i, -1 >> -i);
-#endif
         x->x_rshift = (i <= -nbits ? nbits - 1 : -i);
     }
 }
-
 
 void *bitshift_new(t_floatarg f1, t_floatarg f2)
 {
@@ -128,20 +109,12 @@ void *bitshift_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void bitshift_tilde_setup(void) {
-    bitshift_class = class_new(gensym("bitshift~"),
-        (t_newmethod) bitshift_new,
-        0,
-        sizeof (t_bitshift),
-        CLASS_DEFAULT,
-        A_DEFFLOAT, A_DEFFLOAT,
-        0);
+void bitshift_tilde_setup(void) { bitshift_class = class_new(gensym("bitshift~"),
+        (t_newmethod) bitshift_new, 0, sizeof (t_bitshift), CLASS_DEFAULT,
+        A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addfloat(bitshift_class, (t_method)bitshift_float);
     class_addmethod(bitshift_class, nullfn, gensym("signal"), 0);
     class_addmethod(bitshift_class, (t_method) bitshift_dsp, gensym("dsp"), 0);
-    class_addmethod(bitshift_class, (t_method)bitshift_mode,
-                    gensym("mode"), A_FLOAT, 0);
-            class_addfloat(bitshift_class, (t_method)bitshift_float);
-    class_addmethod(bitshift_class, (t_method)bitshift_shift,
-                    gensym("shift"), A_FLOAT, 0);
+    class_addmethod(bitshift_class, (t_method)bitshift_mode, gensym("mode"), A_FLOAT, 0);
+    class_addmethod(bitshift_class, (t_method)bitshift_shift, gensym("shift"), A_FLOAT, 0);
 }
-

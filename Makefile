@@ -340,7 +340,6 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 ########################################
 
 sforky := \
-shared/common/loud.c \
 shared/unstable/forky.c
 
 bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
