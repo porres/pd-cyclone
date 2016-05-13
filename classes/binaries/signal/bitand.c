@@ -7,11 +7,11 @@
 
 #include "m_pd.h"
 #include "unstable/forky.h"
-#include "sickle/sic.h"
 
 typedef struct _bitand
 {
-    t_sic     x_sic;
+    t_object x_obj;
+    t_inlet *bitand;
     t_glist  *x_glist;
     t_int     x_mask;  // set as 'bits' message or argument
     int       x_mode;
@@ -115,7 +115,8 @@ void bitand_tilde_setup(void)
 {
     bitand_class = class_new(gensym("bitand~"), (t_newmethod)bitand_new, 0,
                              sizeof(t_bitand), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(bitand_class, bitand_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(bitand_class, nullfn, gensym("signal"), 0);
+    class_addmethod(bitand_class, (t_method) bitand_dsp, gensym("dsp"), 0);
     class_addmethod(bitand_class, (t_method)bitand_bits, gensym("bits"), A_GIMME, 0);
     class_addmethod(bitand_class, (t_method)bitand_mode, gensym("mode"), A_FLOAT, 0);
 }

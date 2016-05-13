@@ -5,13 +5,13 @@
 #include <string.h>
 #include "m_pd.h"
 #include "common/grow.h"
-#include "sickle/sic.h"
 
 #define FRAMEDELTA_INISIZE  512
 
 typedef struct _framedelta
 {
-    t_sic     x_sic;
+    t_object  x_obj;
+    t_inlet  *framedelta;
     int       x_size;
     t_float  *x_frame;
     t_float   x_frameini[FRAMEDELTA_INISIZE];
@@ -72,5 +72,6 @@ void framedelta_tilde_setup(void)
 				 (t_newmethod)framedelta_new,
 				 (t_method)framedelta_free,
 				 sizeof(t_framedelta), 0, 0);
-    sic_setup(framedelta_class, framedelta_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(framedelta_class, nullfn, gensym("signal"), 0);
+    class_addmethod(framedelta_class, (t_method) framedelta_dsp, gensym("dsp"), 0);
 }

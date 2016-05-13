@@ -6,11 +6,11 @@
 
 #include "m_pd.h"
 #include "unstable/forky.h"
-#include "sickle/sic.h"
 
 typedef struct _bitor
 {
-    t_sic     x_sic;
+    t_object x_obj;
+    t_inlet *bitor;
     t_glist  *x_glist;
     t_int     x_mask;  /* set by a 'bits' message or a creation argument */
     int       x_mode;
@@ -136,9 +136,8 @@ void bitor_tilde_setup(void)
 			    (t_newmethod)bitor_new, 0,
 			    sizeof(t_bitor), 0,
 			    A_DEFFLOAT, A_DEFFLOAT, 0);
-    sic_setup(bitor_class, bitor_dsp, SIC_FLOATTOSIGNAL);
-    class_addmethod(bitor_class, (t_method)bitor_bits,
-		    gensym("bits"), A_GIMME, 0);
-    class_addmethod(bitor_class, (t_method)bitor_mode,
-		    gensym("mode"), A_FLOAT, 0);
+    class_addmethod(bitor_class, nullfn, gensym("signal"), 0);
+    class_addmethod(bitor_class, (t_method) bitor_dsp, gensym("dsp"), 0);
+    class_addmethod(bitor_class, (t_method)bitor_bits, gensym("bits"), A_GIMME, 0);
+    class_addmethod(bitor_class, (t_method)bitor_mode, gensym("mode"), A_FLOAT, 0);
 }

@@ -5,17 +5,11 @@
 #include <math.h>
 #include "m_pd.h"
 #include "unstable/fragile.h"
-#include "sickle/sic.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define atan2f  atan2
-#define hypotf  hypot
-#endif
 
 typedef struct _cartopol
 {
-    t_sic      x_sic;
+    t_object x_obj;
+    t_inlet *cartopol;
     t_outlet  *x_out2;
 } t_cartopol;
 
@@ -75,5 +69,6 @@ void cartopol_tilde_setup(void)
     cartopol_class = class_new(gensym("cartopol~"),
 			       (t_newmethod)cartopol_new, 0,
 			       sizeof(t_cartopol), 0, 0);
-    sic_setup(cartopol_class, cartopol_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(cartopol_class, nullfn, gensym("signal"), 0);
+    class_addmethod(cartopol_class, (t_method) cartopol_dsp, gensym("dsp"), 0);
 }

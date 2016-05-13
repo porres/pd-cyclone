@@ -5,17 +5,11 @@
 #include <math.h>
 #include "m_pd.h"
 #include "unstable/fragile.h"
-#include "sickle/sic.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define sinf  sin
-#define cosf  cos
-#endif
 
 typedef struct _poltocar
 {
-    t_sic      x_sic;
+    t_object x_obj;
+    t_inlet *poltocar;
     t_outlet  *x_out2;
 } t_poltocar;
 
@@ -74,6 +68,7 @@ void poltocar_tilde_setup(void)
 {
     poltocar_class = class_new(gensym("poltocar~"),
 			       (t_newmethod)poltocar_new, 0,
-			       sizeof(t_poltocar), 0, 0);
-    sic_setup(poltocar_class, poltocar_dsp, SIC_FLOATTOSIGNAL);
+                               sizeof(t_poltocar), 0, 0);
+    class_addmethod(poltocar_class, nullfn, gensym("signal"), 0);
+    class_addmethod(poltocar_class, (t_method) poltocar_dsp, gensym("dsp"), 0);
 }

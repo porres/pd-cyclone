@@ -8,13 +8,13 @@
 #include <string.h>
 #include "m_pd.h"
 #include "unstable/forky.h"
-#include "sickle/sic.h"
 
 #define PDCYBITMASK 0
 #define PDCYOPMODE 0
 typedef struct _bitxor
 {
-    t_sic     x_sic;
+    t_object x_obj;
+    t_inlet *bitxor;
     t_glist  *x_glist;
     t_int     x_mask;  /* set by a 'bits' message or a creation argument */
     int       x_mode;
@@ -186,7 +186,8 @@ void bitxor_tilde_setup(void)
 			     (t_newmethod)bitxor_new, 0,
 			     sizeof(t_bitxor), 0,
 			     A_GIMME, 0);
-    sic_setup(bitxor_class, bitxor_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(bitxor_class, nullfn, gensym("signal"), 0);
+    class_addmethod(bitxor_class, (t_method) bitxor_dsp, gensym("dsp"), 0);
     class_addmethod(bitxor_class, (t_method)bitxor_bits,
 		    gensym("bits"), A_GIMME, 0);
     class_addmethod(bitxor_class, (t_method)bitxor_mode,

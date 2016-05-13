@@ -166,6 +166,4 @@ void buffir_tilde_setup(void)
 		    gensym("clear"), 0);
     class_addmethod(buffir_class, (t_method)buffir_set,
 		    gensym("set"), A_SYMBOL, A_DEFFLOAT, A_DEFFLOAT, 0);
-//    logpost(NULL, 4, "this is cyclone/buffir~ %s, %dth %s build",
-//	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

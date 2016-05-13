@@ -6,7 +6,6 @@
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "sickle/sic.h"
 #include "shared.h"
 
 #define FRAMEACCUM_INISIZE  512
@@ -14,7 +13,8 @@
 
 typedef struct _frameaccum
 {
-    t_sic     x_sic;
+    t_object  x_obj;
+    t_inlet  *frameaccum;
     int       x_size;
     int       x_wrapFlag;
     t_float  *x_frame;
@@ -94,5 +94,6 @@ void frameaccum_tilde_setup(void)
 				 (t_newmethod)frameaccum_new,
 				 (t_method)frameaccum_free,
 				 sizeof(t_frameaccum), 0, A_GIMME, 0);
-    sic_setup(frameaccum_class, frameaccum_dsp, SIC_FLOATTOSIGNAL);
+    class_addmethod(frameaccum_class, nullfn, gensym("signal"), 0);
+    class_addmethod(frameaccum_class, (t_method) frameaccum_dsp, gensym("dsp"), 0);
 }
