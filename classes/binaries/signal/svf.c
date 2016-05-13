@@ -11,7 +11,6 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h" // later remove (only for 2pi)
 
 #define SVF_HZ        0
 #define SVF_LINEAR    1
@@ -21,7 +20,9 @@
 #define SVF_MINR      0.    /* CHECKME */
 #define SVF_MAXR      1.2   /* CHECKME */
 #define SVF_MINOMEGA  0.    /* CHECKME */
-#define SVF_MAXOMEGA  (SHARED_PI * .5)  /* CHECKME */
+#define SVF_MAXOMEGA  (M_PI * .5)  /* CHECKME */
+#define TWO_PI            (M_PI * 2.)
+
 #define SVF_DEFFREQ   0.
 #define SVF_DEFQ       .01  /* CHECKME */
 
@@ -97,7 +98,7 @@ static t_int *svf_perform(t_int *w)
 	/* CHECKED irs slightly drift apart at high omega, LATER investigate */
     }
     else if (x->x_mode == SVF_LINEAR)
-	c1 = sinf(fin0 * (SHARED_PI * .5));  /* CHECKME actual range of fin0 */
+	c1 = sinf(fin0 * (M_PI * .5));  /* CHECKME actual range of fin0 */
     else
 	c1 = fin0;  /* CHECKME range */
     while (nblock--)
@@ -117,7 +118,7 @@ static t_int *svf_perform(t_int *w)
 
 static void svf_dsp(t_svf *x, t_signal **sp)
 {
-    x->x_srcoef = SHARED_2PI / sp[0]->s_sr;
+    x->x_srcoef = TWO_PI / sp[0]->s_sr;
     svf_clear(x);
     dsp_add(svf_perform, 9, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec,
@@ -144,7 +145,7 @@ static void *svf_new(t_symbol *s, int ac, t_atom *av)
 	if (ac)
 	    qcoef = av->a_w.w_float;
     }
-    x->x_srcoef = SHARED_PI / sys_getsr();
+    x->x_srcoef = M_PI / sys_getsr();
 //  sic_newinlet((t_sic *)x, freq);
 //  sic_newinlet((t_sic *)x, qcoef);
     x->x_freq_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);

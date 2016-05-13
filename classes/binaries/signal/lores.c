@@ -9,14 +9,13 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h" // only for 2pi, easily removable
-
 
 /* CHECKME negative loresance */
 /* CHECKME max loresance, esp. at low freqs (watch out, gain not normalized) */
 #define LORES_MAXloresANCE  (1. - 1e-20)
 #define LORES_MINOMEGA      .0001         /* CHECKME */
-#define LORES_MAXOMEGA      SHARED_PI     /* CHECKME */
+#define LORES_MAXOMEGA      M_PI     /* CHECKME */
+#define TWO_PI              (M_PI * 2.)
 
 typedef struct _lores
 {
@@ -77,7 +76,7 @@ static t_int *lores_perform(t_int *w)
 
 static void lores_dsp(t_lores *x, t_signal **sp)
 {
-    x->x_srcoef = SHARED_2PI / sp[0]->s_sr;
+    x->x_srcoef = TWO_PI / sp[0]->s_sr;
     lores_clear(x);
     dsp_add(lores_perform, 6, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
@@ -86,7 +85,7 @@ static void lores_dsp(t_lores *x, t_signal **sp)
 static void *lores_new(t_floatarg f1, t_floatarg f2)
 {
     t_lores *x = (t_lores *)pd_new(lores_class);
-    x->x_srcoef = SHARED_2PI / sys_getsr();
+    x->x_srcoef = TWO_PI / sys_getsr();
     x->x_freq_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_freq_inlet, f1);
     x->x_q_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);

@@ -10,13 +10,12 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h" // later remove (2pi only)
-
 
 #define RESON_DEFQ      .01
 #define RESON_MINQ      1e-20      /* CHECKME */
 #define RESON_MINOMEGA  .0001      /* CHECKME */
-#define RESON_MAXOMEGA  SHARED_PI  /* CHECKME */
+#define RESON_MAXOMEGA      M_PI     /* CHECKME */
+#define TWO_PI              (M_PI * 2.)
 
 typedef struct _reson
 {
@@ -86,7 +85,7 @@ static t_int *reson_perform(t_int *w)
 
 static void reson_dsp(t_reson *x, t_signal **sp)
 {
-    x->x_srcoef = SHARED_2PI / sp[0]->s_sr;
+    x->x_srcoef = TWO_PI / sp[0]->s_sr;
     reson_clear(x);
     dsp_add(reson_perform, 7, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec,
@@ -96,7 +95,7 @@ static void reson_dsp(t_reson *x, t_signal **sp)
 static void *reson_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
 {
     t_reson *x = (t_reson *)pd_new(reson_class);
-    x->x_srcoef = SHARED_2PI / sys_getsr();
+    x->x_srcoef = TWO_PI / sys_getsr();
     if (f1 < 0.) f1 = 0.;
     if (f2 < 0.) f2 = 0.;
     if (f3 <= 0.)

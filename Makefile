@@ -79,10 +79,10 @@ endif
     bitshift~.class.sources := classes/binaries/signal/bitshift.c
     change~.class.sources := classes/binaries/signal/change.c
     clip~.class.sources := classes/binaries/signal/clip.c
+    comb~.class.sources := classes/binaries/signal/comb.c
     cosh~.class.sources := classes/binaries/signal/cosh.c
     cosx~.class.sources := classes/binaries/signal/cosx.c
     count~.class.sources := classes/binaries/signal/count.c
-    comb~.class.sources := classes/binaries/signal/comb.c
     delay~.class.sources := classes/binaries/signal/delay.c
     delta~.class.sources := classes/binaries/signal/delta.c
     deltaclip~.class.sources := classes/binaries/signal/deltaclip.c

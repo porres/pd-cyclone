@@ -9,7 +9,6 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h"  // later remove ( for 2pi)
 
 #define ONEPOLE_HZ        0
 #define ONEPOLE_LINEAR    1
@@ -17,7 +16,8 @@
 #define ONEPOLE_MINB0     .0001  /* CHECKED 1st term of ir for b0=0 */
 #define ONEPOLE_MAXB0     .99    /* CHECKED 1st term of ir for b0=1 */
 #define ONEPOLE_MINOMEGA  0.     /* CHECKME */
-#define ONEPOLE_MAXOMEGA  (SHARED_PI * .5)  // later remove
+#define ONEPOLE_MAXOMEGA  (M_PI * .5)  // later remove
+#define TWO_PI            (M_PI * 2.)
 
 typedef struct _onepole
 {
@@ -82,7 +82,7 @@ static t_int *onepole_perform(t_int *w)
 	b0 = sinf(omega);
     }
     else if (mode == ONEPOLE_LINEAR)
-	b0 = sinf(fin0 * (SHARED_PI * .5));  /* CHECKME actual range of fin0 */
+	b0 = sinf(fin0 * (M_PI * .5));  /* CHECKME actual range of fin0 */
     else
 	b0 = fin0;
     if (b0 < ONEPOLE_MINB0)
@@ -99,7 +99,7 @@ static t_int *onepole_perform(t_int *w)
 
 static void onepole_dsp(t_onepole *x, t_signal **sp)
 {
-    x->x_srcoef = SHARED_2PI / sp[0]->s_sr;
+    x->x_srcoef = TWO_PI / sp[0]->s_sr;
     onepole_clear(x);
     dsp_add(onepole_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
@@ -108,7 +108,7 @@ static void onepole_dsp(t_onepole *x, t_signal **sp)
 static void *onepole_new(t_symbol *s, t_floatarg f)
 {
     t_onepole *x = (t_onepole *)pd_new(onepole_class);
-    x->x_srcoef = SHARED_2PI / sys_getsr();
+    x->x_srcoef = TWO_PI / sys_getsr();
     /* CHECKED no int-to-float conversion (any int bashed to 0.) */
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);

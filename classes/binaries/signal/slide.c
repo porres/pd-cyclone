@@ -3,7 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "shared.h"
 
 #define SLIDE_DEFUP  1.
 #define SLIDE_DEFDN  1.
