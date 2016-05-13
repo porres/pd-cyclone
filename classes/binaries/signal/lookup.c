@@ -41,6 +41,11 @@ static void lookup_set(t_lookup *x, t_symbol *s)
     x->x_array_samp = lookup_getarraysmp(x, s);
 }
 
+static void lookup_float(t_lookup *x, t_float f)
+{
+    pd_error(x, "lookup~: no method for 'float'");
+}
+
 static t_int *lookup_perform(t_int *w)
 {
     t_arsic *sic = (t_arsic *)(w[1]);
@@ -119,9 +124,7 @@ void lookup_tilde_setup(void)
 			     (t_method)lookup_free,
 			     sizeof(t_lookup), 0,
 			     A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, 0);
-    arsic_setup(lookup_class, lookup_dsp, SIC_FLOATTOSIGNAL);
+    arsic_setup(lookup_class, lookup_dsp, lookup_float);
     class_addmethod(lookup_class, (t_method)lookup_set,
 		    gensym("set"), A_SYMBOL, 0);
-//    logpost(NULL, 4, "this is cyclone/lookup~ %s, %dth %s build",
-//	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
