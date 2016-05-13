@@ -359,7 +359,7 @@ shared/common/grow.c \
 shared/common/clc.c \
 shared/common/loud.c
 
-curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc & loud
+curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc && loud
 frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc) # only one with loud
 framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrowclc)
 line~.class.sources := classes/binaries/signal/line.c $(sgrowclc)
