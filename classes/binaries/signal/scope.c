@@ -1501,48 +1501,47 @@ void scope_tilde_setup(void)
 			    sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new, gensym("Scope~"), A_GIMME, 0); // back compatible
     class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // back compatible
-//    class_addcreator((t_newmethod)scope_new, gensym("cyclone/scope~"), A_GIMME, 0);
     sic_setup(scope_class, scope_dsp, scope_float);
-	class_addmethod(scope_class, (t_method)scope_period,
-			gensym("calccount"), A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_bufsize,
-		    gensym("bufsize"), A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_resize,
-                    gensym("dim"), A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_range,
-		    gensym("range"), A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_delay,
-		    gensym("delay"), A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_trigger,
-		    gensym("trigger"), A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_triglevel,
-		    gensym("triglevel"), A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_frgb,
-		    gensym("frgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_brgb,
-		    gensym("brgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_grgb,
-		    gensym("grgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_fgcolor,
-		    gensym("fgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_bgcolor,
-		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_gridcolor,
-		    gensym("gridcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_click,
-		    gensym("click"),
-		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-     class_addmethod(scope_class, (t_method)scope_resize,
-		    gensym("resize"),
-		    A_FLOAT, A_FLOAT, 0);
+	class_addmethod(scope_class, (t_method)scope_period, gensym("calccount"),
+                    A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_bufsize, gensym("bufsize"),
+                    A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_resize, gensym("dim"),
+                    A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_range, gensym("range"),
+                    A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_delay, gensym("delay"),
+                    A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_trigger, gensym("trigger"),
+                    A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_triglevel, gensym("triglevel"),
+                    A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_frgb, gensym("frgb"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_brgb, gensym("brgb"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_grgb, gensym("grgb"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_fgcolor, gensym("fgcolor"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_bgcolor, gensym("bgcolor"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_gridcolor, gensym("gridcolor"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_click, gensym("click"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+     class_addmethod(scope_class, (t_method)scope_resize, gensym("resize"),
+                     A_FLOAT, A_FLOAT, 0);
+    
     class_setwidget(scope_class, &scope_widgetbehavior);
+    
     forky_setsavefn(scope_class, scope_save);
-    scopehandle_class = class_new(gensym("_scopehandle"), 0, 0,
-				  sizeof(t_scopehandle), CLASS_PD, 0);
-    class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook,
-		    gensym("_click"), A_FLOAT, 0);
-    class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook,
-		    gensym("_motion"), A_FLOAT, A_FLOAT, 0);
+    
+    scopehandle_class = class_new(gensym("_scopehandle"), 0, 0, sizeof(t_scopehandle), CLASS_PD, 0);
+    class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook, gensym("_click"),
+                    A_FLOAT, 0);
+    class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"),
+                    A_FLOAT, A_FLOAT, 0);
     fitter_setup(scope_class, 0);
 }
 

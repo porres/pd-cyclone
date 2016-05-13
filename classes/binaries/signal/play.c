@@ -18,7 +18,6 @@ static void play_set(t_play *x, t_symbol *s)
     arsic_setarray((t_arsic *)x, s, 1);
 }
 
-
 ////////////////////////////////////////////////
 // START
 ////////////////////////////////////////////////
@@ -181,25 +180,14 @@ static void *play_new(t_symbol *s, t_floatarg f)
 
 void play_tilde_setup(void)
 {
-    play_class = class_new(gensym("play~"),
-			   (t_newmethod)play_new,
-			   (t_method)play_free,
-			   sizeof(t_play), 0,
-			   A_DEFSYM, A_DEFFLOAT, 0);
-//   arsic_setup(play_class, play_dsp, SIC_FLOATTOSIGNAL); // no SIC_FLOATTOSIGNAL, make it like record~
-  arsic_setup(play_class, play_dsp, play_float); // this is from record~
-    class_addmethod(play_class, (t_method)play_set,
-		    gensym("set"), A_SYMBOL, 0);
-    class_addmethod(play_class, (t_method)play_start,
-                    gensym("start"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(play_class, (t_method)play_stop,
-                    gensym("stop"), 0);
-    class_addmethod(play_class, (t_method)play_pause,
-                    gensym("pause"), 0);
-    class_addmethod(play_class, (t_method)play_resume,
-                    gensym("resume"), 0);
-    class_addmethod(play_class, (t_method)play_loop,
-                    gensym("loop"), A_FLOAT, 0);
-//    logpost(NULL, 4, "this is cyclone/play~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+    play_class = class_new(gensym("play~"), (t_newmethod)play_new, (t_method)play_free,
+			   sizeof(t_play), 0, A_DEFSYM, A_DEFFLOAT, 0);
+  arsic_setup(play_class, play_dsp, play_float);
+    class_addmethod(play_class, (t_method)play_set, gensym("set"), A_SYMBOL, 0);
+    class_addmethod(play_class, (t_method)play_stop, gensym("stop"), 0);
+    class_addmethod(play_class, (t_method)play_pause, gensym("pause"), 0);
+    class_addmethod(play_class, (t_method)play_resume, gensym("resume"), 0);
+    class_addmethod(play_class, (t_method)play_loop, gensym("loop"), A_FLOAT, 0);
+    class_addmethod(play_class, (t_method)play_start, gensym("start"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
 }
