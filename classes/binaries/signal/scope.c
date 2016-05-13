@@ -19,6 +19,9 @@ instead of 0-255
 - Derek Kwan
 */
 
+
+/* 2016 = Porres cleaned "sic" old dependency */
+
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -28,7 +31,6 @@ instead of 0-255
 #include "common/grow.h"
 #include "common/fitter.h"
 #include "unstable/forky.h"
-#include "sickle/sic.h"
 
 #ifdef KRZYSZCZ
 //#define SCOPE_DEBUG
@@ -83,7 +85,8 @@ instead of 0-255
 
 typedef struct _scope
 {
-    t_sic      x_sic;
+    t_object   x_obj;
+    t_inlet   *scope;
     t_glist   *x_glist;
     t_canvas  *x_canvas;  /* also an 'isvised' flag */
     char       x_tag[64];
@@ -1501,7 +1504,9 @@ void scope_tilde_setup(void)
 			    sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new, gensym("Scope~"), A_GIMME, 0); // back compatible
     class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // back compatible
-    sic_setup(scope_class, scope_dsp, scope_float);
+    class_addmethod(scope_class, nullfn, gensym("signal"), 0);
+    class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), 0);
+    class_addfloat(scope_class, (t_method)scope_float);
 	class_addmethod(scope_class, (t_method)scope_period, gensym("calccount"),
                     A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bufsize, gensym("bufsize"),
