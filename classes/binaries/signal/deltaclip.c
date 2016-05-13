@@ -118,37 +118,3 @@ void deltaclip_tilde_setup(void)
     class_addmethod(deltaclip_class, (t_method)deltaclip_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(deltaclip_class, (t_method)deltaclip_reset, gensym("reset"), 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

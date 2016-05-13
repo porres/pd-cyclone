@@ -30,6 +30,11 @@ static void wave_set(t_wave *x, t_symbol *s)
     arsic_setarray((t_arsic *)x, s, 1);
 }
 
+static void wave_float(t_wave *x, t_float f)
+{
+    pd_error(x, "wave~: no method for 'float'");
+}
+
 static t_int *wave_perform(t_int *w)
 {
     t_arsic *sic = (t_arsic *)(w[1]);
@@ -46,7 +51,7 @@ static t_int *wave_perform(t_int *w)
 	t_word **vectable = sic->s_vectors;
 	float ksr = sic->s_ksr;
 	int nointerp = x->x_nointerp;
-	int maxindex = (nointerp ? vecsize - 1 : vecsize - 3);
+	int maxwave = (nointerp ? vecsize - 1 : vecsize - 3);
 	int iblock;
 
 	for (iblock = 0; iblock < nblock; iblock++)
@@ -54,7 +59,7 @@ static t_int *wave_perform(t_int *w)
 	    float spos = *sin++ * ksr;
 	    float xpos = *ein++ * ksr;
 	    /* msp seems to be buggy here, but CHECKME again */
-	    int siz = (int)((xpos > 0 ? xpos : maxindex) - spos);
+	    int siz = (int)((xpos > 0 ? xpos : maxwave) - spos);
 	    float phase = *xin++;
 	    int ndx;
 	    int ch = nch;
@@ -66,7 +71,7 @@ static t_int *wave_perform(t_int *w)
 	    if (nointerp)
 	    {
 		if (ndx < 0) ndx = 0;
-		else if (ndx > maxindex) ndx = maxindex;
+		else if (ndx > maxwave) ndx = maxwave;
 		while (ch--)
 		{
 		    t_word *vp = vectable[ch];
@@ -79,8 +84,8 @@ static t_int *wave_perform(t_int *w)
 		float frac,  a,  b,  c,  d, cminusb;
 		if (ndx < 1)
 		    ndx = 1, frac = 0;
-		else if (ndx > maxindex)
-		    ndx = maxindex, frac = 1;
+		else if (ndx > maxwave)
+		    ndx = maxwave, frac = 1;
 		else frac = xpos - ndx;
 		while (ch--)
 		{
@@ -153,12 +158,10 @@ void wave_tilde_setup(void)
 			   (t_newmethod)wave_new,
 			   (t_method)wave_free,
 			   sizeof(t_wave), 0,
-			   A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
-    arsic_setup(wave_class, wave_dsp, SIC_FLOATTOSIGNAL);
+                A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+    arsic_setup(wave_class, wave_dsp, wave_float);
     class_addmethod(wave_class, (t_method)wave_set,
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(wave_class, (t_method)wave_interp,
 		    gensym("interp"), A_FLOAT, 0);
-//    logpost(NULL, 4, "this is cyclone/wave~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

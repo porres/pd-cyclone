@@ -54,6 +54,12 @@ static void buffir_set(t_buffir *x, t_symbol *s, t_floatarg f1, t_floatarg f2)
     buffir_setrange(x, f1, f2);
 }
 
+
+static void buffir_float(t_buffir *x, t_float f)
+{
+    pd_error(x, "buffir~: no method for 'float'");
+}
+
 static t_int *buffir_perform(t_int *w)
 {
     t_arsic *sic = (t_arsic *)(w[1]);
@@ -161,7 +167,7 @@ void buffir_tilde_setup(void)
 {
     buffir_class = class_new(gensym("buffir~"), (t_newmethod)buffir_new, (t_method)buffir_free,
                              sizeof(t_buffir), 0, A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, 0);
-    arsic_setup(buffir_class, buffir_dsp, SIC_FLOATTOSIGNAL);
+    arsic_setup(buffir_class, buffir_dsp, buffir_float);
     class_addmethod(buffir_class, (t_method)buffir_clear,
 		    gensym("clear"), 0);
     class_addmethod(buffir_class, (t_method)buffir_set,

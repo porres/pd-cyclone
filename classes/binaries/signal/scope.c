@@ -10,17 +10,16 @@
    One way or the other, the traffic from the gui layer should be kept possibly
    low, at least in run-mode. */
 
-/*2016 = haven't finished cleaning out old dependencies
- (common/grow, common/loud, common/fitter, unstable/forky, sickle/sic)
+// 2016 = Porres cleaned "sickle/sic" old dependency
+
+/* 2016 = haven't finished cleaning out old dependencies
+ (common/grow, common/loud, common/fitter, unstable/forky)
 but methods (bufsize, period/calccount, range, delay, trigger, triglevel, frgb, brgb)
 for setting attributes are rewritten, as well as attr declaration. 
 Have written the color version of the colorsetting methods that take vals 0-1
 instead of 0-255
 - Derek Kwan
 */
-
-
-/* 2016 = Porres cleaned "sic" old dependency */
 
 #include <math.h>
 #include <stdio.h>

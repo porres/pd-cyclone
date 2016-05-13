@@ -56,12 +56,17 @@ static t_int *index_perform(t_int *w)
     return (w + 5);
 }
 
+static void index_float(t_index *x, t_float f)
+{
+    pd_error(x, "index~: no method for 'float'");
+}
+
 static void index_ft1(t_index *x, t_floatarg f)
 {
     if ((x->x_reqchannel = (f > 1 ? (int)f - 1 : 0)) > x->x_maxchannels)
-	x->x_effchannel = x->x_maxchannels - 1;
+        x->x_effchannel = x->x_maxchannels - 1;
     else
-	x->x_effchannel = x->x_reqchannel;
+        x->x_effchannel = x->x_reqchannel;
 }
 
 static void index_dsp(t_index *x, t_signal **sp)
@@ -100,11 +105,9 @@ void index_tilde_setup(void)
 			    (t_method)index_free,
 			    sizeof(t_index), 0,
 			    A_DEFSYM, A_DEFFLOAT, 0);
-    arsic_setup(index_class, index_dsp, SIC_FLOATTOSIGNAL);
+    arsic_setup(index_class, index_dsp, index_float);
     class_addmethod(index_class, (t_method)index_set,
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(index_class, (t_method)index_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
-//    logpost(NULL, 4, "this is cyclone/index~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
