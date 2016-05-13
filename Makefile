@@ -24,7 +24,7 @@ endif
     ###         ###     ###         ### ###         ###     ###         ###
 ################################################################################
 
-######### new classes outside the old framework common functions ###############
+########## New classes outside the old framework common functions ##############
 
 # Control classes
     acosh.class.sources := classes/binaries/control/acosh.c
@@ -46,11 +46,10 @@ endif
     thresh~.class.sources := classes/binaries/signal/thresh.c
     trunc~.class.sources := classes/binaries/signal/trunc.c
 
-########### classes removed old framework common functions #################
+###### classes removed from old dependencies framework of common functions ######
 
 # CONTROL CLASSES - used to end in $(hplain) which seemed
 # to be doing nothing in the new build system:
-
     accum.class.sources := classes/binaries/control/accum.c
     acos.class.sources := classes/binaries/control/acos.c
     asin.class.sources := classes/binaries/control/asin.c
@@ -82,7 +81,6 @@ endif
     xnoteout.class.sources := classes/binaries/control/xnoteout.c
 
 # SIGNAL CLASSES Removed from old framework (mostly "ssic"):
-
     abs~.class.sources := classes/binaries/signal/abs.c
     acos~.class.sources := classes/binaries/signal/acos.c
     acosh~.class.sources := classes/binaries/signal/acosh.c
@@ -150,27 +148,27 @@ endif
 ################################################################
 
 # control
-rminus.class.sources := classes/binaries/control/rminus.c
-rdiv.class.sources := classes/binaries/control/rdiv.c
+    rdiv.class.sources := classes/binaries/control/rdiv.c
+    rminus.class.sources := classes/binaries/control/rminus.c
 # signal
-equals~.class.sources := classes/binaries/signal/equals.c
-notequals~.class.sources := classes/binaries/signal/notequals.c
-plusequals~.class.sources := classes/binaries/signal/plusequals.c
-greaterthan~.class.sources := classes/binaries/signal/greaterthan.c
-greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c
-lessthan~.class.sources := classes/binaries/signal/lessthan.c
-lessthaneq~.class.sources := classes/binaries/signal/lessthaneq.c
-modulo~.class.sources := classes/binaries/signal/modulo.c
-rdiv~.class.sources := classes/binaries/signal/rdiv.c
-rminus~.class.sources := classes/binaries/signal/rminus.c
+    equals~.class.sources := classes/binaries/signal/equals.c
+    greaterthan~.class.sources := classes/binaries/signal/greaterthan.c
+    greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c
+    lessthan~.class.sources := classes/binaries/signal/lessthan.c
+    lessthaneq~.class.sources := classes/binaries/signal/lessthaneq.c
+    modulo~.class.sources := classes/binaries/signal/modulo.c
+    notequals~.class.sources := classes/binaries/signal/notequals.c
+    plusequals~.class.sources := classes/binaries/signal/plusequals.c
+    rdiv~.class.sources := classes/binaries/signal/rdiv.c
+    rminus~.class.sources := classes/binaries/signal/rminus.c
 
-################################################################################
-############ classes inside the old framework common functions #################
-################################################################################
+####################################################################################
+############ classes still stuck in the old dependencies framework #################
+####################################################################################
 
-#########################################
-### Control (MAX or "hammer") objects ###
-#########################################
+#######################
+### Control objects ###
+#######################
 
 hfile := \
 shared/hammer/file.c \
@@ -329,22 +327,19 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
     funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 
 
-########################################
-### Signal (MSP or "sickle") objects ###
-########################################
+######################
+### Signal objects ###
+######################
 
-sforky := \
-shared/unstable/forky.c
+# Single Dependencies:
+bitand~.class.sources := classes/binaries/signal/bitand.c $(shared/unstable/forky.c)
+bitor~.class.sources := classes/binaries/signal/bitor.c $(shared/unstable/forky.c)
+bitxor~.class.sources := classes/binaries/signal/bitxor.c $(shared/unstable/forky.c)
 
-bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
-bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
-bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
+cartopol~.class.sources := classes/binaries/signal/cartopol.c $(shared/unstable/fragile.c)
+poltocar~.class.sources := classes/binaries/signal/poltocar.c $(shared/unstable/fragile.c)
 
-sfragile := \
-shared/unstable/fragile.c
-
-cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
-poltocar~.class.sources := classes/binaries/signal/poltocar.c $(sfragile)
+# Old complex framework of several dependencies:
 
 sfragilefitter := \
 shared/sickle/sic.c \
@@ -396,17 +391,15 @@ shared/common/fitter.c \
 shared/unstable/fragile.c
 
 # Buffer Classes
-
-buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter) # only with 'fitter'
-cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfitter) # no arsic (was svefl)
-index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter) # these ones below were "sarsic"
-lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfitter)
-peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfitter)
-play~.class.sources := classes/binaries/signal/play.c $(sarsicfitter)
-poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfitter)
-record~.class.sources := classes/binaries/signal/record.c $(sarsicfitter)
-wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfitter)
-
+    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter) # only with 'fitter'
+    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfitter) # no arsic (was svefl)
+    index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter) # these ones below were "sarsic"
+    lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfitter)
+    peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfitter)
+    play~.class.sources := classes/binaries/signal/play.c $(sarsicfitter)
+    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfitter)
+    record~.class.sources := classes/binaries/signal/record.c $(sarsicfitter)
+    wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfitter)
 
 ################################################################################
 ###         ###     ###         ### ###         ###     ###         ###
