@@ -229,16 +229,12 @@ void count_tilde_setup(void)
         A_GIMME, 0);
 	class_domainsignalin(count_class, -1);
 	class_addfloat(count_class, (t_method)count_float);
+    class_addlist(count_class, (t_method)count_list);
     class_addmethod(count_class, (t_method)count_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(count_class, (t_method)count_bang);
-    class_addlist(count_class, (t_method)count_list);
-    class_addmethod(count_class, (t_method)count_max,
-		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(count_class, (t_method)count_autoreset,
-		    gensym("autoreset"), A_FLOAT, 0);
-    class_addmethod(count_class, (t_method)count_min,
-		    gensym("min"), A_FLOAT, 0);
-    class_addmethod(count_class, (t_method)count_set,
-		    gensym("set"), A_GIMME, 0);
+    class_addmethod(count_class, (t_method)count_max, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(count_class, (t_method)count_autoreset, gensym("autoreset"), A_FLOAT, 0);
+    class_addmethod(count_class, (t_method)count_min, gensym("min"), A_FLOAT, 0);
+    class_addmethod(count_class, (t_method)count_set, gensym("set"), A_GIMME, 0);
     class_addmethod(count_class, (t_method)count_stop, gensym("stop"), 0);
 }

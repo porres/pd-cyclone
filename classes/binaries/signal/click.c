@@ -4,13 +4,12 @@
 
 #include "m_pd.h"
 #include "common/grow.h"
-#include "sickle/sic.h"
 
 #define CLICK_MAX_SIZE  256  //
 
 typedef struct _click
 {
-    t_sic     x_sic;
+    t_object x_obj;
     int       x_nsamples;  /* as used */
     int       x_bufsize;   /* as allocated */
     t_float  *x_buffer;
@@ -110,8 +109,10 @@ void click_tilde_setup(void)
 			    (t_newmethod)click_new,
 			    (t_method)click_free,
 			    sizeof(t_click), 0, A_GIMME, 0);
-    sic_setup(click_class, click_dsp, SIC_NOMAINSIGNALIN);
+    class_domainsignalin(click_class, -1);
     class_addbang(click_class, click_bang);
-    class_addmethod(click_class, (t_method)click_set,
-		    gensym("set"), A_GIMME, 0);
+    class_addmethod(click_class, (t_method)click_dsp, gensym("dsp"), A_CANT, 0);
+    class_addmethod(click_class, (t_method)click_set, gensym("set"), A_GIMME, 0);
 }
+
+

@@ -3,13 +3,14 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include <string.h>
+#include <math.h>
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "shared.h"
 
 #define FRAMEACCUM_INISIZE  512
 #define FRAMEACCUM_NOWRAP   0.f
+#define TWO_PI              (M_PI * 2.)
 
 typedef struct _frameaccum
 {
@@ -36,11 +37,11 @@ static t_int *frameaccum_perform(t_int *w)
         while (nblock--)
         { 
             *frame += *in++;
-             double dnorm = *frame + SHARED_PI;
+             double dnorm = *frame + M_PI;
              if (dnorm < 0)
-                 *frame = SHARED_PI - fmod(-dnorm, SHARED_2PI);
+                 *frame = M_PI - fmod(-dnorm, TWO_PI);
              else
-                 *frame = fmod(dnorm, SHARED_2PI) - SHARED_PI;
+                 *frame = fmod(dnorm, TWO_PI) - M_PI;
             *out++ = *frame++;
         }
     } else {

@@ -7,7 +7,6 @@
 #include "shared.h"
 #include "common/grow.h"
 #include "common/loud.h"
-#include "sickle/sic.h"
 
 #ifdef KRZYSZCZ
 //#define LINE_DEBUG
@@ -23,7 +22,7 @@ typedef struct _lineseg
 
 typedef struct _line
 {
-    t_sic       x_sic;
+    t_object x_obj;
     float       x_value;
     float       x_target;
     float       x_delta;
@@ -322,17 +321,14 @@ void line_tilde_setup(void)
         (t_newmethod)line_new, (t_method)line_free, sizeof(t_line), 0, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)line_new, gensym("cyclone/line~"), A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)line_new, gensym("cyclone/Line~"), A_DEFFLOAT, 0);
-    sic_setup(line_class, line_dsp, SIC_NOMAINSIGNALIN);
+    class_domainsignalin(line_class, -1);
+    class_addmethod(line_class, (t_method)line_dsp, gensym("dsp"), A_CANT, 0);
     class_addfloat(line_class, line_float);
     class_addlist(line_class, line_list);
-    class_addmethod(line_class, (t_method)line_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(line_class, (t_method)line_stop,
-		    gensym("stop"), 0);
-    class_addmethod(line_class, (t_method)line_pause,
-		    gensym("pause"), 0);
-    class_addmethod(line_class, (t_method)line_resume,
-		    gensym("resume"), 0);
+    class_addmethod(line_class, (t_method)line_ft1, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(line_class, (t_method)line_stop, gensym("stop"), 0);
+    class_addmethod(line_class, (t_method)line_pause, gensym("pause"), 0);
+    class_addmethod(line_class, (t_method)line_resume, gensym("resume"), 0);
 }
 
 void Line_tilde_setup(void)

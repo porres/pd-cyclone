@@ -8,7 +8,6 @@
 #include "common/grow.h"
 #include "common/loud.h"
 #include "common/clc.h"
-#include "sickle/sic.h"
 
 #ifdef KRZYSZCZ
 //#define CURVE_DEBUG
@@ -38,7 +37,7 @@ typedef struct _curveseg
 
 typedef struct _curve
 {
-    t_sic       x_sic;
+    t_object    x_obj;
     float       x_value;
     float       x_ccinput;
     float       x_target;
@@ -449,7 +448,8 @@ void curve_tilde_setup(void)
 			    (t_method)curve_free,
 			    sizeof(t_curve), 0,
 			    A_GIMME, 0);
-    sic_setup(curve_class, curve_dsp, SIC_NOMAINSIGNALIN);
+    class_domainsignalin(curve_class, -1);
+    class_addmethod(curve_class, (t_method)curve_dsp, gensym("dsp"), A_CANT, 0);
     class_addfloat(curve_class, curve_float);
     class_addlist(curve_class, curve_list);
     class_addmethod(curve_class, (t_method)curve_ft1,

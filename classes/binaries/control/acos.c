@@ -5,11 +5,6 @@
 #include <math.h>
 #include "m_pd.h"
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define acosf  acos
-#endif
-
 typedef struct _acos
 {
     t_object  x_ob;
@@ -40,8 +35,7 @@ static void *acos_new(t_floatarg f)
 
 void acos_setup(void)
 {
-    acos_class = class_new(gensym("acos"),
-			   (t_newmethod)acos_new, 0,
+    acos_class = class_new(gensym("acos"), (t_newmethod)acos_new, 0,
 			   sizeof(t_acos), 0, A_DEFFLOAT, 0);
     class_addbang(acos_class, acos_bang);
     class_addfloat(acos_class, acos_float);

@@ -9,7 +9,6 @@
 #include "g_canvas.h"
 #include "common/loud.h"
 #include "hammer/file.h"
-// #include "sickle/sic.h"
 
 #define CAPTURE_DEFSIZE     4096
 #define CAPTURE_DEFPRECISION   4
