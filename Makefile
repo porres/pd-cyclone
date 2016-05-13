@@ -332,14 +332,17 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 ### Signal objects ###
 ######################
 
-# Single Dependencies:
-bitand~.class.sources := classes/binaries/signal/bitand.c $(shared/unstable/forky.c)
-bitor~.class.sources := classes/binaries/signal/bitor.c $(shared/unstable/forky.c)
-bitxor~.class.sources := classes/binaries/signal/bitxor.c $(shared/unstable/forky.c)
+sforky := \
+shared/unstable/forky.c
 
-cartopol~.class.sources := classes/binaries/signal/cartopol.c $(shared/unstable/fragile.c)
+bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
+bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
+bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
 
-# Old complex framework of several dependencies:
+sfragile := \
+shared/unstable/fragile.c
+
+cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
 
 sfragilefitter := \
 shared/sickle/sic.c \
