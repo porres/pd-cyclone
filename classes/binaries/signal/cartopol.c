@@ -24,7 +24,7 @@ static t_int *cartopol_perform(t_int *w)
     t_float *out2 = (t_float *)(w[5]);
     while (nblock--)
     {
-        float rl = *in1++, im = *in2++;  /* checked against Max5 */
+        float rl = *in1++, im = *in2++;
         *out1++ = hypotf(rl, im);
         *out2++ = atan2f(im, rl);
     }
