@@ -568,16 +568,6 @@ static void *matrix_free(t_matrix *x)
 
 static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 {
-	/*
-    t_pd *z;
-    if (!fittermax_get() &&
-	(z = fragile_class_mutate(matrixps_matrixtilde,
-				  (t_newmethod)matrix_new, argc, argv))){
-		return (z);
-	}
-    else{
-	*/
-
 	t_matrix *x = (t_matrix *)pd_new(matrix_class);
 
 	t_float rampval = MATRIX_DEFRAMP;
@@ -688,10 +678,8 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	};
 	for (i = 1; i < x->x_numinlets; i++){
 		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), 0.);
-	   // sic_newinlet((t_sic *)x, 0.);
 	};
 	for (i = 0; i < x->x_numoutlets; i++){
-	   // outlet_new((t_object *)x, &s_signal);
 	 	outlet_new(&x->x_obj, gensym("signal"));
 	};
 	x->x_dumpout = outlet_new((t_object *)x, &s_list);
@@ -699,18 +687,14 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	errstate:
 		pd_error(x, "matrix~: improper args");
 		return NULL;
-   // }
 }
 
 void matrix_tilde_setup(void)
 {
-    //matrixps_matrixtilde = gensym("matrix~");
     matrix_class = class_new(gensym("matrix~"),
 			     (t_newmethod)matrix_new,
 			     (t_method)matrix_free,
 			     sizeof(t_matrix), 0, A_GIMME, 0);
-    //fragile_class_raise(matrixps_matrixtilde, (t_newmethod)matrix_new);
-    //sic_setup(matrix_class, matrix_dsp, matrix_float);
 	class_addfloat(matrix_class, matrix_float);
 	class_domainsignalin(matrix_class, -1); // not sure why needed, but crashes withouts
     class_addmethod(matrix_class, (t_method)matrix_dsp, gensym("dsp"), A_CANT, 0);
@@ -730,9 +714,10 @@ void matrix_tilde_setup(void)
 		    gensym("dumptarget"), 0);
     class_addmethod(matrix_class, (t_method)matrix_print,
 		    gensym("print"), 0);
-#ifdef MATRIX_DEBUG
+	/*
+	#ifdef MATRIX_DEBUG
     class_addmethod(matrix_class, (t_method)matrix_debug,
 		    gensym("debug"), A_DEFSYM, 0);
-#endif
-    //fitter_setup(matrix_class, 0);
+	#endif
+	*/
 }
