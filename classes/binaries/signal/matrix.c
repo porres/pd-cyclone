@@ -696,24 +696,16 @@ void matrix_tilde_setup(void)
 			     (t_method)matrix_free,
 			     sizeof(t_matrix), 0, A_GIMME, 0);
 	class_addfloat(matrix_class, matrix_float);
+    class_addlist(matrix_class, matrix_list);
 	class_domainsignalin(matrix_class, -1); // not sure why needed, but crashes withouts
     class_addmethod(matrix_class, (t_method)matrix_dsp, gensym("dsp"), A_CANT, 0);
-    
-	class_addlist(matrix_class, matrix_list);
-    class_addmethod(matrix_class, (t_method)matrix_clear,
-		    gensym("clear"), 0);
-    class_addmethod(matrix_class, (t_method)matrix_connect,
-		    gensym("connect"), A_GIMME, 0);
-    class_addmethod(matrix_class, (t_method)matrix_connect,
-		    gensym("disconnect"), A_GIMME, 0);
-    class_addmethod(matrix_class, (t_method)matrix_ramp,
-		    gensym("ramp"), A_FLOAT, 0);
-    class_addmethod(matrix_class, (t_method)matrix_dump,
-		    gensym("dump"), 0);
-    class_addmethod(matrix_class, (t_method)matrix_dumptarget,
-		    gensym("dumptarget"), 0);
-    class_addmethod(matrix_class, (t_method)matrix_print,
-		    gensym("print"), 0);
+    class_addmethod(matrix_class, (t_method)matrix_clear, gensym("clear"), 0);
+    class_addmethod(matrix_class, (t_method)matrix_connect, gensym("connect"), A_GIMME, 0);
+    class_addmethod(matrix_class, (t_method)matrix_connect, gensym("disconnect"), A_GIMME, 0);
+    class_addmethod(matrix_class, (t_method)matrix_ramp, gensym("ramp"), A_FLOAT, 0);
+    class_addmethod(matrix_class, (t_method)matrix_dump, gensym("dump"), 0);
+    class_addmethod(matrix_class, (t_method)matrix_dumptarget, gensym("dumptarget"), 0);
+    class_addmethod(matrix_class, (t_method)matrix_print, gensym("print"), 0);
 	/*
 	#ifdef MATRIX_DEBUG
     class_addmethod(matrix_class, (t_method)matrix_debug,

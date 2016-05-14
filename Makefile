@@ -80,7 +80,8 @@ endif
     xnotein.class.sources := classes/binaries/control/xnotein.c
     xnoteout.class.sources := classes/binaries/control/xnoteout.c
 
-# SIGNAL CLASSES Removed from old framework (mostly "ssic"):
+# SIGNAL CLASSES Removed from old framework
+# mostly "ssic":
     abs~.class.sources := classes/binaries/signal/abs.c
     acos~.class.sources := classes/binaries/signal/acos.c
     acosh~.class.sources := classes/binaries/signal/acosh.c
@@ -137,6 +138,9 @@ endif
     triangle~.class.sources := classes/binaries/signal/triangle.c
     vectral~.class.sources := classes/binaries/signal/vectral.c
     zerox~.class.sources := classes/binaries/signal/zerox.c
+# more complex removals
+    matrix~.class.sources := classes/binaries/signal/matrix.c # used to be $(sfragilefitter)
+
 
 ################################################################################
 ### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
@@ -343,13 +347,6 @@ shared/common/loud.c \
 shared/unstable/fragile.c
     cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
 
-sfragilefitter := \
-shared/sickle/sic.c \
-shared/common/loud.c \
-shared/common/fitter.c \
-shared/unstable/fragile.c
-    matrix~.class.sources := classes/binaries/signal/matrix.c $(sfragilefitter)
-
 sgrowclc := \
 shared/common/grow.c \
 shared/common/clc.c \
@@ -377,9 +374,9 @@ shared/unstable/forky.c
 splainnotilde := \
 shared/common/loud.c \
 shared/common/fitter.c
-    linedrive.class.sources := classes/binaries/signal/linedrive.c $(splainnotilde)
+    linedrive.class.sources := classes/binaries/signal/linedrive.c $(splainnotilde) # not signal!!!
 
-# Buffer Classes
+# Buffer Classes (agrouped)
 sarsicfitter := \
 shared/sickle/sic.c \
 shared/sickle/arsic.c \
