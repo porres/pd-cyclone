@@ -334,57 +334,52 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 
 sforky := \
 shared/unstable/forky.c
-
-bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
-bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
-bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
+    bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
+    bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
+    bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
 
 sfragile := \
+shared/common/loud.c \
 shared/unstable/fragile.c
-
-cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
+    cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
 
 sfragilefitter := \
 shared/sickle/sic.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
-
-matrix~.class.sources := classes/binaries/signal/matrix.c $(sfragilefitter)
+    matrix~.class.sources := classes/binaries/signal/matrix.c $(sfragilefitter)
 
 sgrowclc := \
 shared/common/grow.c \
 shared/common/clc.c \
 shared/common/loud.c
-
-curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc && loud
-frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc) # only one with loud
-framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrowclc)
-line~.class.sources := classes/binaries/signal/line.c $(sgrowclc)
-click~.class.sources := classes/binaries/signal/click.c $(sgrowclc)
+    curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc && loud
+    frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc) # only one with loud
+    framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrowclc)
+    line~.class.sources := classes/binaries/signal/line.c $(sgrowclc)
+    click~.class.sources := classes/binaries/signal/click.c $(sgrowclc)
 
 sgrowforky := \
 shared/common/grow.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
-
-scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
+    scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
 
 sfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
 shared/common/os.c \
 shared/unstable/forky.c
-
-capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
+    capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
 
 splainnotilde := \
 shared/common/loud.c \
 shared/common/fitter.c
+    linedrive.class.sources := classes/binaries/signal/linedrive.c $(splainnotilde)
 
-linedrive.class.sources := classes/binaries/signal/linedrive.c $(splainnotilde)
-
+# Buffer Classes
 sarsicfitter := \
 shared/sickle/sic.c \
 shared/sickle/arsic.c \
@@ -392,8 +387,6 @@ shared/common/vefl.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
-
-# Buffer Classes
     buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter) # only with 'fitter'
     cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfitter) # no arsic (was svefl)
     index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter) # these ones below were "sarsic"

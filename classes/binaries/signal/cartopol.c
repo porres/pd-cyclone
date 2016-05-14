@@ -24,7 +24,7 @@ static t_int *cartopol_perform(t_int *w)
     t_float *out2 = (t_float *)(w[5]);
     while (nblock--)
     {
-        float rl = *in1++, im = *in2++;
+        float rl = *in1++, im = *in2++;  /* checked against Max5 */
         *out1++ = hypotf(rl, im);
         *out2++ = atan2f(im, rl);
     }
@@ -48,11 +48,11 @@ static t_int *cartopol_perform_nophase(t_int *w)
 static void cartopol_dsp(t_cartopol *x, t_signal **sp)
 {
     if (fragile_outlet_connections(x->x_out2))
-	dsp_add(cartopol_perform, 5, sp[0]->s_n, sp[0]->s_vec,
-		sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
+        dsp_add(cartopol_perform, 5, sp[0]->s_n, sp[0]->s_vec,
+                sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
     else
-	dsp_add(cartopol_perform_nophase, 4, sp[0]->s_n, sp[0]->s_vec,
-		sp[1]->s_vec, sp[2]->s_vec);
+        dsp_add(cartopol_perform_nophase, 4, sp[0]->s_n, sp[0]->s_vec,
+                sp[1]->s_vec, sp[2]->s_vec);
 }
 
 static void *cartopol_new(void)
@@ -67,8 +67,8 @@ static void *cartopol_new(void)
 void cartopol_tilde_setup(void)
 {
     cartopol_class = class_new(gensym("cartopol~"),
-			       (t_newmethod)cartopol_new, 0,
-			       sizeof(t_cartopol), 0, 0);
+                               (t_newmethod)cartopol_new, 0,
+                               sizeof(t_cartopol), 0, 0);
     class_addmethod(cartopol_class, nullfn, gensym("signal"), 0);
     class_addmethod(cartopol_class, (t_method) cartopol_dsp, gensym("dsp"), 0);
 }
