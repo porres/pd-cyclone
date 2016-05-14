@@ -1,18 +1,30 @@
 /* Copyright (c) 2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
-//updated to add @ramp attribute, slightly updated argument parsing - Derek Kwan
+
+/*
+updated to add @ramp attribute, slightly updated argument parsing.
+left a lot of legacy code (the way all methods do things remains intact)
+but managed to remove all external dependencies. commented out the loud_debug stuff
+(which got turned on when MATRIX_DEBUG was defined).
+
+matrix_float is there because the first inlet shouldn't accept floats
+(and not do the usu convert float to signal business)
+
+for some reason this code segfaults if class_domainsignalin(matrix_class, -1)
+isn't there (don't ask me why)
+
+changed matrix_free to return void * instead of nothing
+(for consistency's sake)
+- Derek Kwan 2016
+*/
 
 #include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
-#include "common/fitter.h"
-#include "unstable/fragile.h"
-#include "sickle/sic.h"
 
-#ifdef KRZYSZCZ
+//#include "common/loud.h" //used for debugging, 
+
 //#define MATRIX_DEBUG
-#endif
 
 #define MATRIX_DEFGAIN  0.  /* CHECKED */
 #define MATRIX_DEFRAMP  10.  /* CHECKED */
@@ -25,7 +37,8 @@
 
 typedef struct _matrix
 {
-    t_sic      x_sic;
+	t_object 	x_obj;
+    //t_sic      x_sic;
     int        x_numinlets;
     int        x_numoutlets;
     int        x_nblock;
@@ -55,7 +68,7 @@ typedef void (*t_matrix_cellfn)(t_matrix *x, int indx, int ondx,
 				int onoff, float gain);
 
 static t_class *matrix_class;
-static t_symbol *matrixps_matrixtilde;
+//static t_symbol *matrixps_matrixtilde;
 
 /* called only in nonbinary mode;  LATER deal with changing nblock/ksr */
 static void matrix_retarget(t_matrix *x, int cellndx)
@@ -97,48 +110,83 @@ static void matrix_retarget_connect(t_matrix *x, int cellndx)
 
 static void matrix_float(t_matrix *x, t_float f)
 {
-    loud_nomethod((t_pd *)x, &s_float);  /* CHECKED */
+	pd_error(x, "matrix~: no method for float");
 }
 
-static void matrix_list(t_matrix *x, t_symbol *s, int ac, t_atom *av)
+static void matrix_list(t_matrix *x, t_symbol *s, int argc, t_atom *argv)
 {
-    int indx, ondx, cellndx, onoff;
-    float gain;
-    if (ac < 3)
-	return;  /* CHECKED list silently ignored if ac < 3 */
-    /* CHECKED floats silently clipped, symbols converted to 0 */
-    indx = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-    if (indx < 0 || indx >= x->x_numinlets)
-    {  /* CHECKED */
-	loud_error((t_pd *)x, "invalid inlet number %d", indx);
-	return;
-    }
-    ac--; av++;
-    /* CHECKED floats silently clipped, symbols converted to 0 */
-    ondx = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-    if (ondx < 0 || ondx >= x->x_numoutlets)
-    {  /* CHECKED */
-	loud_error((t_pd *)x, "invalid outlet number %d", ondx);
-	return;
-    }
-    cellndx = indx * x->x_numoutlets + ondx;
-    ac--; av++;
-    /* CHECKED negative gain used in nonbinary mode, accepted as 1 in binary */
-    gain = (av->a_type == A_FLOAT ? av->a_w.w_float : 0.);
+
+	int inlet_idx, outlet_idx, cell_idx, onoff;
+    float gain, ramp;
+
+	//init vals
+	inlet_idx = 0;
+	outlet_idx = 0;
+	cell_idx = 0;
+	onoff = 0;
+	gain = 0;
+	ramp = 0;
+
+    if (argc < 3){
+		//ignore if less than 3 args
+		return;  
+	};
+
+	int argnum = 0;
+	int rampset = 0; //setting of ramp arg flag
+	while(argc > 0){
+		//argument parsing
+		t_float argval = 0; //if not float, set equal to 0, else get value
+		if(argv -> a_type == A_FLOAT){
+			argval = atom_getfloatarg(0,argc,argv);
+		};
+		switch(argnum){
+			//if more than 4 args, then just ignore;
+			case 0:
+				inlet_idx = (int)argval;
+				break;
+			case 1:
+				outlet_idx = (int)argval;
+				break;
+			case 2:
+				gain = argval;
+				break;
+			case 3:
+				ramp = argval;
+				rampset = 1;
+				break;
+			default:
+				break;
+		};
+		argnum++;
+		argc--;
+		argv++;
+	};
+
+	//now for bounds checking!!!
+	if(inlet_idx < 0 || inlet_idx >= x->x_numinlets){
+		pd_error(x, "matrix~: %d is not a valid inlet index!", inlet_idx);
+		return;
+	};
+	if(outlet_idx < 0 || outlet_idx >= x->x_numoutlets){
+		pd_error(x, "matrix~: %d is not a valid outlet index!", outlet_idx);
+		return;
+	};
+
+    cell_idx = inlet_idx * x->x_numoutlets + outlet_idx;
+    //negative gain used in nonbinary mode, accepted as 1 in binary (legacy code)
     onoff = (gain < -MATRIX_GAINEPSILON || gain > MATRIX_GAINEPSILON);
-    x->x_cells[cellndx] = onoff;
-    if (x->x_gains)
-    {
-	if (onoff)  // CHECKME
-	    x->x_gains[cellndx] = gain; // shouldn't rewrite argument!
-	ac--; av++;
-	if (ac)
-	{
-	    float ramp = (av->a_type == A_FLOAT ? av->a_w.w_float : 0.);
-	    x->x_ramps[cellndx] = (ramp < MATRIX_MINRAMP ? 0. : ramp);
-	}
-	matrix_retarget(x, cellndx);
-    }
+    x->x_cells[cell_idx] = onoff;
+    if (x->x_gains){
+		//if in nonbinary mode
+		if (onoff){ // CHECKME
+		    x->x_gains[cell_idx] = gain; // shouldn't rewrite argument!
+		};
+		if (rampset){
+	    	x->x_ramps[cell_idx] = (ramp < MATRIX_MINRAMP ? 0. : ramp);
+		};
+	matrix_retarget(x, cell_idx);
+    };
 }
 
 static void matrix_clear(t_matrix *x)
@@ -154,35 +202,56 @@ static void matrix_clear(t_matrix *x)
 }
 
 
-static void matrix_connect(t_matrix *x, t_symbol *s, int ac, t_atom *av)
+static void matrix_connect(t_matrix *x, t_symbol *s, int argc, t_atom *argv)
 {
-    int onoff = (s == gensym("connect")), indx, celloffset;
-    if (ac < 2)
-	return;  /* CHECKED */
-    /* CHECKED floats silently clipped, symbols converted to 0 */
-    indx = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-    if (indx < 0 || indx >= x->x_numinlets)
-    {  /* CHECKED */
-	loud_error((t_pd *)x, "invalid inlet number %d", indx);
-	return;
-    }
-    celloffset = indx * x->x_numoutlets;
-    ac--; av++;
-    while (ac)
+    int onoff = (s == gensym("connect")), inlet_idx, celloffset;
+    if (argc < 2){ //if less than 2 args, fail gracefully
+		return;  /* CHECKED */
+	};
+
+	//parse first arg as inlet index
+	//if symbol, let equal 0
+	t_float inlet_flidx = 0;
+	if(argv ->a_type == A_FLOAT){
+		inlet_flidx  = atom_getfloatarg(0, argc, argv);
+	};
+	inlet_idx = (int)inlet_flidx;
+	//bounds checking for inlet index
+	if(inlet_idx < 0 || inlet_idx >= x->x_numinlets){
+		pd_error(x, "matrix~: %d is not a valid inlet index!", inlet_idx);
+		return;
+	};
+	argc--;
+	argv++;
+
+    celloffset = inlet_idx * x->x_numoutlets;
+
+	//parse the rest of the args as outlet indices
+    while (argc > 0)
     {
-	/* CHECKED floats silently clipped, symbols converted to 0 */
-	int cellndx, ondx = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-	if (ondx < 0 || ondx >= x->x_numoutlets)
-	{  /* CHECKED */
-	    loud_error((t_pd *)x, "invalid outlet number %d", ondx);
-	    return;
-	}
-	cellndx = celloffset + ondx;
-	x->x_cells[cellndx] = onoff;
-	if (x->x_gains)
-	    matrix_retarget_connect(x, cellndx);
-	ac--; av++;
-    }
+		int outlet_idx, cell_idx;
+
+		//pasre arg as outlet idx, if symbol, let equal 0
+		t_float outlet_flidx = 0;
+		if(argv -> a_type == A_FLOAT){
+			outlet_flidx = atom_getfloatarg(0, argc, argv);
+		};
+		outlet_idx = (int)outlet_flidx;
+		//bounds checking for outlet index
+		if(outlet_idx < 0 || outlet_idx >= x->x_numoutlets){
+			pd_error(x, "matrix~: %d is not a valid outlet index!", outlet_idx);
+			return;
+		};
+		argc--;
+		argv++;
+
+		cell_idx = celloffset + outlet_idx;
+		x->x_cells[cell_idx] = onoff;
+		if (x->x_gains){
+			//if in nonbinary mode
+			matrix_retarget_connect(x, cell_idx);
+		};
+    };
 }
 
 /* CHECKED active ramps are not retargeted */
@@ -377,6 +446,10 @@ static void matrix_cellprint(t_matrix *x, int indx, int ondx,
     post("%d %d %g", indx, ondx, (onoff ? gain : 0.));
 }
 
+/*
+
+   legacy debug:
+
 #ifdef MATRIX_DEBUG
 static void matrix_celldebug(t_matrix *x, int indx, int ondx,
 			     int onoff, float gain)
@@ -384,6 +457,7 @@ static void matrix_celldebug(t_matrix *x, int indx, int ondx,
     loudbug_post("%d %d %g", indx, ondx, gain);
 }
 #endif
+*/
 
 static void matrix_report(t_matrix *x, float *gains, float defgain,
 			  t_matrix_cellfn cellfn)
@@ -425,6 +499,10 @@ static void matrix_print(t_matrix *x)
     matrix_report(x, x->x_coefs, 1., matrix_cellprint);
 }
 
+/*
+
+   legacy debug:
+
 #ifdef MATRIX_DEBUG
 static void matrix_debugramps(t_matrix *x)
 {
@@ -455,7 +533,9 @@ static void matrix_debug(t_matrix *x, t_symbol *s)
 }
 #endif
 
-static void matrix_free(t_matrix *x)
+*/
+
+static void *matrix_free(t_matrix *x)
 {
     if (x->x_ivecs)
 	freebytes(x->x_ivecs, x->x_numinlets * sizeof(*x->x_ivecs));
@@ -482,10 +562,13 @@ static void matrix_free(t_matrix *x)
 	freebytes(x->x_bigincrs, x->x_ncells * sizeof(*x->x_bigincrs));
     if (x->x_remains)
 	freebytes(x->x_remains, x->x_ncells * sizeof(*x->x_remains));
+
+	return (void *)x;
 }
 
 static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 {
+	/*
     t_pd *z;
     if (!fittermax_get() &&
 	(z = fragile_class_mutate(matrixps_matrixtilde,
@@ -493,6 +576,8 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 		return (z);
 	}
     else{
+	*/
+
 	t_matrix *x = (t_matrix *)pd_new(matrix_class);
 
 	t_float rampval = MATRIX_DEFRAMP;
@@ -602,29 +687,35 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	    x->x_remains = 0;
 	};
 	for (i = 1; i < x->x_numinlets; i++){
-	    sic_newinlet((t_sic *)x, 0.);
+		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), 0.);
+	   // sic_newinlet((t_sic *)x, 0.);
 	};
 	for (i = 0; i < x->x_numoutlets; i++){
-	    outlet_new((t_object *)x, &s_signal);
+	   // outlet_new((t_object *)x, &s_signal);
+	 	outlet_new(&x->x_obj, gensym("signal"));
 	};
 	x->x_dumpout = outlet_new((t_object *)x, &s_list);
 	return (x);
 	errstate:
 		pd_error(x, "matrix~: improper args");
 		return NULL;
-    }
+   // }
 }
 
 void matrix_tilde_setup(void)
 {
-    matrixps_matrixtilde = gensym("matrix~");
-    matrix_class = class_new(matrixps_matrixtilde,
+    //matrixps_matrixtilde = gensym("matrix~");
+    matrix_class = class_new(gensym("matrix~"),
 			     (t_newmethod)matrix_new,
 			     (t_method)matrix_free,
 			     sizeof(t_matrix), 0, A_GIMME, 0);
-    fragile_class_raise(matrixps_matrixtilde, (t_newmethod)matrix_new);
-    sic_setup(matrix_class, matrix_dsp, matrix_float);
-    class_addlist(matrix_class, matrix_list);
+    //fragile_class_raise(matrixps_matrixtilde, (t_newmethod)matrix_new);
+    //sic_setup(matrix_class, matrix_dsp, matrix_float);
+	class_addfloat(matrix_class, matrix_float);
+	class_domainsignalin(matrix_class, -1); // not sure why needed, but crashes withouts
+    class_addmethod(matrix_class, (t_method)matrix_dsp, gensym("dsp"), A_CANT, 0);
+    
+	class_addlist(matrix_class, matrix_list);
     class_addmethod(matrix_class, (t_method)matrix_clear,
 		    gensym("clear"), 0);
     class_addmethod(matrix_class, (t_method)matrix_connect,
@@ -643,5 +734,5 @@ void matrix_tilde_setup(void)
     class_addmethod(matrix_class, (t_method)matrix_debug,
 		    gensym("debug"), A_DEFSYM, 0);
 #endif
-    fitter_setup(matrix_class, 0);
+    //fitter_setup(matrix_class, 0);
 }
