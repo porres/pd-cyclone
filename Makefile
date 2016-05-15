@@ -4,8 +4,7 @@
 
 lib.name = cyclone
 
-# for the MINGW which has the timespec struct defined twice
-cflags = -Ishared -DHAVE_STRUCT_TIMESPEC
+cflags = -Ishared -DHAVE_STRUCT_TIMESPEC # for MINGW (has timespec defined 2x)
 
 uname := $(shell uname -s)
 ifeq (MINGW,$(findstring MINGW,$(uname)))
@@ -13,9 +12,7 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
 endif
 
 ################################################################################
-
                      ## START OF CYCLONE CLASSES ##
-
 ################################################################################
     ###         ###     ###         ### ###         ###     ###         ###
     ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
@@ -24,9 +21,31 @@ endif
     ###         ###     ###         ### ###         ###     ###         ###
 ################################################################################
 
+################################################################################
+### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
+################################################################################
+
+cyclone.class.sources := classes/cyclone_lib/cyclone.c
+
+######### new alphanumeric versions of the cyclone sub library objects: ########
+# Control:
+    rdiv.class.sources := classes/binaries/control/rdiv.c
+    rminus.class.sources := classes/binaries/control/rminus.c
+# Signal:
+    equals~.class.sources := classes/binaries/signal/equals.c
+    greaterthan~.class.sources := classes/binaries/signal/greaterthan.c
+    greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c
+    lessthan~.class.sources := classes/binaries/signal/lessthan.c
+    lessthaneq~.class.sources := classes/binaries/signal/lessthaneq.c
+    modulo~.class.sources := classes/binaries/signal/modulo.c
+    notequals~.class.sources := classes/binaries/signal/notequals.c
+    plusequals~.class.sources := classes/binaries/signal/plusequals.c
+    rdiv~.class.sources := classes/binaries/signal/rdiv.c
+    rminus~.class.sources := classes/binaries/signal/rminus.c
+
 ########## New classes outside the old framework common functions ##############
 
-# Control classes
+# Control classes:
     acosh.class.sources := classes/binaries/control/acosh.c
     asinh.class.sources := classes/binaries/control/asinh.c
     atanh.class.sources := classes/binaries/control/atanh.c
@@ -36,7 +55,7 @@ endif
     round.class.sources := classes/binaries/control/round.c
     scale.class.sources := classes/binaries/control/scale.c
 
-# Signal classes
+# Signal classes:
     atodb~.class.sources := classes/binaries/signal/atodb.c
     biquad~.class.sources := classes/binaries/signal/biquad.c
     dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
@@ -48,8 +67,7 @@ endif
 
 ###### classes removed from old dependencies framework of common functions ######
 
-# CONTROL CLASSES - used to end in $(hplain) which seemed
-# to be doing nothing in the new build system:
+# CONTROL CLASSES - mostly $(hplain) seemingly useless in the new build system:
     accum.class.sources := classes/binaries/control/accum.c
     acos.class.sources := classes/binaries/control/acos.c
     asin.class.sources := classes/binaries/control/asin.c
@@ -138,34 +156,11 @@ endif
     triangle~.class.sources := classes/binaries/signal/triangle.c
     vectral~.class.sources := classes/binaries/signal/vectral.c
     zerox~.class.sources := classes/binaries/signal/zerox.c
+    click~.class.sources := classes/binaries/signal/click.c
+
 # more complex removals
-    matrix~.class.sources := classes/binaries/signal/matrix.c # used to be $(sfragilefitter)
+    matrix~.class.sources := classes/binaries/signal/matrix.c # was 'sfragilefitter'
 
-
-################################################################################
-### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
-################################################################################
-
-    cyclone.class.sources := classes/cyclone_lib/cyclone.c
-
-################################################################
-# new alphanumeric versions of the cyclone sub library objects #
-################################################################
-
-# control
-    rdiv.class.sources := classes/binaries/control/rdiv.c
-    rminus.class.sources := classes/binaries/control/rminus.c
-# signal
-    equals~.class.sources := classes/binaries/signal/equals.c
-    greaterthan~.class.sources := classes/binaries/signal/greaterthan.c
-    greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c
-    lessthan~.class.sources := classes/binaries/signal/lessthan.c
-    lessthaneq~.class.sources := classes/binaries/signal/lessthaneq.c
-    modulo~.class.sources := classes/binaries/signal/modulo.c
-    notequals~.class.sources := classes/binaries/signal/notequals.c
-    plusequals~.class.sources := classes/binaries/signal/plusequals.c
-    rdiv~.class.sources := classes/binaries/signal/rdiv.c
-    rminus~.class.sources := classes/binaries/signal/rminus.c
 
 ####################################################################################
 ############ classes still stuck in the old dependencies framework #################
@@ -258,6 +253,10 @@ shared/common/os.c \
 shared/unstable/forky.c \
 shared/unstable/fragile.c
 
+splainnotilde := \
+shared/common/loud.c \
+shared/common/fitter.c
+
 # hfitter classes
 bangbang.class.sources := classes/binaries/control/bangbang.c $(hfitter)
 counter.class.sources := classes/binaries/control/counter.c $(hfitter)
@@ -331,10 +330,16 @@ histo.class.sources := classes/binaries/control/histo.c $(hloud)
 
     funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 
+    linedrive.class.sources := classes/binaries/control/linedrive.c $(splainnotilde) # not signal!!!
 
 ######################
 ### Signal objects ###
 ######################
+
+sfragile := \
+shared/common/loud.c \
+shared/unstable/fragile.c
+    cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
 
 sforky := \
 shared/unstable/forky.c
@@ -342,20 +347,14 @@ shared/unstable/forky.c
     bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
     bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
 
-sfragile := \
-shared/common/loud.c \
-shared/unstable/fragile.c
-    cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
-
 sgrowclc := \
 shared/common/grow.c \
 shared/common/clc.c \
 shared/common/loud.c
-    curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc && loud
-    frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc) # only one with loud
+    frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc)
     framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrowclc)
     line~.class.sources := classes/binaries/signal/line.c $(sgrowclc)
-    click~.class.sources := classes/binaries/signal/click.c $(sgrowclc)
+    curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
 
 sgrowforky := \
 shared/common/grow.c \
@@ -371,12 +370,8 @@ shared/common/os.c \
 shared/unstable/forky.c
     capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
 
-splainnotilde := \
-shared/common/loud.c \
-shared/common/fitter.c
-    linedrive.class.sources := classes/binaries/signal/linedrive.c $(splainnotilde) # not signal!!!
 
-# Buffer Classes (agrouped)
+# Buffer Classes (agrouped) - still "sic-fied"
 sarsicfitter := \
 shared/sickle/sic.c \
 shared/sickle/arsic.c \
@@ -386,7 +381,8 @@ shared/common/fitter.c \
 shared/unstable/fragile.c
     buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter) # only with 'fitter'
     cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfitter) # no arsic (was svefl)
-    index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter) # these ones below were "sarsic"
+# remaining ones below were "sarsic":
+    index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter)
     lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfitter)
     peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfitter)
     play~.class.sources := classes/binaries/signal/play.c $(sarsicfitter)
@@ -401,9 +397,7 @@ shared/unstable/fragile.c
 ### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
 ###         ###     ###         ### ###         ###     ###         ###
 ################################################################################
-
                          ## END OF CYCLONE CLASSES ##
-
 ################################################################################
 
 

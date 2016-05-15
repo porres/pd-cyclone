@@ -3,15 +3,14 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "common/grow.h"
 
-#define CLICK_MAX_SIZE  256  //
+#define CLICK_MAX_SIZE  256  
 
 typedef struct _click
 {
     t_object x_obj;
-    int       x_nsamples;  /* as used */
-    int       x_bufsize;   /* as allocated */
+    int       x_nsamples;  // as used
+    int       x_bufsize;   // as allocated
     t_float  *x_buffer;
     t_float   x_bufini[CLICK_MAX_SIZE];
     int       x_nleft;
@@ -45,7 +44,7 @@ static void click_set(t_click *x, t_symbol *s, int ac, t_atom *av)
 	bp = x->x_buffer;
 	while (nsamples--) *bp++ = av++->a_w.w_float;
     }
-    else x->x_nsamples = 0;  /* CHECKED, need to 'set 1' explicitly */
+    else x->x_nsamples = 0;  // CHECKED, needs to 'set 1' explicitly
     x->x_nleft = 0;
     x->x_head = x->x_buffer;
 }
@@ -92,10 +91,10 @@ static void click_free(t_click *x)
 static void *click_new(t_symbol *s, int ac, t_atom *av)
 {
     t_click *x = (t_click *)pd_new(click_class);
-    x->x_nsamples = 1;  /* CHECKED */
+    x->x_nsamples = 1;  // CHECKED
     x->x_bufsize = CLICK_MAX_SIZE;
     x->x_buffer = x->x_bufini;
-    x->x_buffer[0] = 1.;  /* CHECKED */
+    x->x_buffer[0] = 1.;  // CHECKED
     x->x_nleft = 0;
     x->x_head = x->x_buffer;
     outlet_new((t_object *)x, &s_signal);
@@ -114,5 +113,3 @@ void click_tilde_setup(void)
     class_addmethod(click_class, (t_method)click_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(click_class, (t_method)click_set, gensym("set"), A_GIMME, 0);
 }
-
-

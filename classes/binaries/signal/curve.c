@@ -4,7 +4,6 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h"
 #include "common/grow.h"
 #include "common/loud.h"
 #include "common/clc.h"

@@ -4,13 +4,12 @@
 /* Added code for the stop, pause and resume messages, fjkraan, 20141202. */ 
 
 #include "m_pd.h"
-#include "shared.h"
 #include "common/grow.h"
 #include "common/loud.h"
 
-#ifdef KRZYSZCZ
+/* #ifdef KRZYSZCZ
 //#define LINE_DEBUG
-#endif
+#endif */
 
 #define LINE_MAXSIZE  128
 
@@ -40,11 +39,11 @@ typedef struct _line
     t_lineseg   x_segini[LINE_MAXSIZE];
     t_clock    *x_clock;
     t_outlet   *x_bangout;
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
     int         dbg_nretargets;
     int         dbg_exitpoint;
     int         dbg_npoints;
-#endif
+#endif */
 } t_line;
 
 static t_class *line_class;
@@ -52,13 +51,13 @@ static t_class *line_class;
 static void line_tick(t_line *x)
 {
     outlet_bang(x->x_bangout);
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
     loudbug_post("exit point %d, after %d retarget calls",
 		 x->dbg_exitpoint, x->dbg_nretargets);
     loudbug_post("at value %g, after last %d npoints, with inc %g, biginc %g",
 		 x->x_value, x->dbg_npoints, x->x_inc, x->x_biginc);
     x->dbg_nretargets = x->dbg_exitpoint = x->dbg_npoints = 0;
-#endif
+#endif */
 }
 
 static t_int *line_perform(t_int *w)
@@ -84,9 +83,9 @@ retarget:
 	float target = x->x_curseg->s_target;
 	float delta = x->x_curseg->s_delta;
     	int npoints = delta * x->x_ksr + 0.5;  /* LATER rethink */
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
 	x->dbg_nretargets++;
-#endif
+#endif */
 	x->x_nsegs--;
 	x->x_curseg++;
     	while (npoints <= 0)
@@ -104,9 +103,9 @@ retarget:
 	    {
 		while (nblock--) *out++ = curval;
 		x->x_nleft = 0;
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
 		x->dbg_exitpoint = 1;
-#endif
+#endif */
 		clock_delay(x->x_clock, 0);
 		x->x_retarget = 0;
 		return (w + 4);
@@ -118,9 +117,9 @@ retarget:
 	biginc = nblock * inc;
 	x->x_target = target;
     	x->x_retarget = 0;
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
 	x->dbg_npoints = npoints;
-#endif
+#endif */
     }
     if (nxfer >= nblock)
     {
@@ -129,9 +128,9 @@ retarget:
 	    if (x->x_nsegs) x->x_retarget = 1;
 	    else
 	    {
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
 		x->dbg_exitpoint = 2;
-#endif
+#endif */
 		clock_delay(x->x_clock, 0);
 	    }
 	    x->x_value = x->x_target;
@@ -156,9 +155,9 @@ retarget:
 	{
 	    while (nblock--) *out++ = curval;
 	    x->x_nleft = 0;
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
 	    x->dbg_exitpoint = 3;
-#endif
+#endif */
 	    clock_delay(x->x_clock, 0);
 	}
     }
@@ -227,27 +226,27 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
 	}
     }
     x->x_nsegs = nsegs;
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
     loudbug_post("%d segments:", x->x_nsegs);
-#endif
+#endif */
     segp = x->x_segs;
     if (odd) nsegs--;
     while (nsegs--)
     {
 	segp->s_target = av++->a_w.w_float;
 	segp->s_delta = av++->a_w.w_float;
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
 	loudbug_post("%g %g", segp->s_target, segp->s_delta);
-#endif
+#endif */
 	segp++;
     }
     if (odd)
     {
 	segp->s_target = av->a_w.w_float;
 	segp->s_delta = 0;
-#ifdef LINE_DEBUG
+/* #ifdef LINE_DEBUG
 	loudbug_post("%g %g", segp->s_target, segp->s_delta);
-#endif
+#endif */
     }
     x->x_deltaset = 0;
     x->x_target = x->x_segs->s_target;
@@ -256,7 +255,7 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     x->x_pause = 0;
 }
 
-#if 0
+#if 0  // ?
 static void line_stop(t_line *x)
 {
     x->x_target = x->x_value;
