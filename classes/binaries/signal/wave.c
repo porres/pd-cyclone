@@ -138,7 +138,6 @@ static void *wave_new(t_symbol *s, t_floatarg f1, t_floatarg f2, t_floatarg f3)
 {
     /* three auxiliary signals:  phase, clipstart, and clipend inputs */
     int chn_n = (int)f3 > 4 ? 4 : (int)f3;
-//  t_play *x = (t_play *)arsic_new(play_class, s, chn_n == 3 ? 2 : chn_n, 0, 1);
     t_wave *x = (t_wave *)arsic_new(wave_class, s, chn_n == 3 ? 2 : chn_n, 0, 3);
     if (x)
     {
