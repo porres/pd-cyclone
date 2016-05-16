@@ -380,7 +380,8 @@ shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
     buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter) # only with 'fitter'
-    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfitter) # no arsic (was svefl)
+# partially de-sic-fied:
+    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfitter) # no sarsic (was svefl)
 # remaining ones below were "sarsic":
     index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter)
     lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfitter)
