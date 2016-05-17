@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+// Porres 2016 - checked no protection agains nan and fixed
+
 #include <math.h>
 #include "m_pd.h"
 
@@ -20,14 +22,12 @@ static void acos_bang(t_acos *x)
 
 static void acos_float(t_acos *x, t_float f)
 {
-    if (f < -1.0) f = -1.0; else if (f > 1.0) f = 1.0;  /* CHECKME */
     outlet_float(((t_object *)x)->ob_outlet, x->x_value = acosf(f));
 }
 
 static void *acos_new(t_floatarg f)
 {
     t_acos *x = (t_acos *)pd_new(acos_class);
-    if (f < -1.0) f = -1.0; else if (f > 1.0) f = 1.0;  /* CHECKME */
     x->x_value = acosf(f);
     outlet_new((t_object *)x, &s_float);
     return (x);

@@ -16,15 +16,15 @@ static void atanh_bang(t_atanh *x)
     outlet_float(((t_object *)x)->ob_outlet, x->x_value);
 }
 
-static void atanh_float(t_atanh *x, t_float f)
+static void atanh_float(t_atanh *x, t_float f)  // checked: no protection against NaNs
 {
-    outlet_float(((t_object *)x)->ob_outlet, x->x_value = atanhf(f)); // no protection against NaNs
+    outlet_float(((t_object *)x)->ob_outlet, x->x_value = atanhf(f));
 }
 
-static void *atanh_new(t_floatarg f)
+static void *atanh_new(t_floatarg f) // checked: no protection against NaNs
 {
     t_atanh *x = (t_atanh *)pd_new(atanh_class);
-    x->x_value = atanhf(f); // no protection against NaNs
+    x->x_value = atanhf(f);
     outlet_new((t_object *)x, &s_float);
     return (x);
 }

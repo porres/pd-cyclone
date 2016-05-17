@@ -1,13 +1,7 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
- * For information on usage and redistribution, and for a DISCLAIMER OF ALL
- * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
+// Porres 2016
 
 #include <math.h>
 #include "m_pd.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-#define asinhf  asinh
-#endif
 
 typedef struct _asinh
 {
@@ -17,20 +11,20 @@ typedef struct _asinh
 
 static t_class *asinh_class;
 
-static void asinh_bang(t_asinh *x)
+static void asinh_bang(t_asinh *x) // checked: no protection against NaNs
 {
     outlet_float(((t_object *)x)->ob_outlet, x->x_value);
 }
 
 static void asinh_float(t_asinh *x, t_float f)
 {
-    outlet_float(((t_object *)x)->ob_outlet, x->x_value = asinhf(f)); /* no protection against NaNs */
+    outlet_float(((t_object *)x)->ob_outlet, x->x_value = asinhf(f));
 }
 
-static void *asinh_new(t_floatarg f)
+static void *asinh_new(t_floatarg f) // checked: no protection against NaNs
 {
     t_asinh *x = (t_asinh *)pd_new(asinh_class);
-    x->x_value = asinhf(f); /* no protection against NaNs */
+    x->x_value = asinhf(f);
     outlet_new((t_object *)x, &s_float);
     return (x);
 }

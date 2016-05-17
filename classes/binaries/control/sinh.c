@@ -2,13 +2,11 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+// Porres 2016 - checked large numbers in Max, it crashes,
+// decided to leave this unprotected against 'inf' as cosh
+
 #include <math.h>
 #include "m_pd.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
-#define sinhf  sinh
-#endif
 
 typedef struct _sinh
 {
@@ -25,14 +23,12 @@ static void sinh_bang(t_sinh *x)
 
 static void sinh_float(t_sinh *x, t_float f)
 {
-    /* CHECKME large values */
     outlet_float(((t_object *)x)->ob_outlet, x->x_value = sinhf(f));
 }
 
 static void *sinh_new(t_floatarg f)
 {
     t_sinh *x = (t_sinh *)pd_new(sinh_class);
-    /* CHECKME large values */
     x->x_value = sinhf(f);
     outlet_new((t_object *)x, &s_float);
     return (x);
@@ -40,8 +36,7 @@ static void *sinh_new(t_floatarg f)
 
 void sinh_setup(void)
 {
-    sinh_class = class_new(gensym("sinh"),
-			   (t_newmethod)sinh_new, 0,
+    sinh_class = class_new(gensym("sinh"), (t_newmethod)sinh_new, 0,
 			   sizeof(t_sinh), 0, A_DEFFLOAT, 0);
     class_addbang(sinh_class, sinh_bang);
     class_addfloat(sinh_class, sinh_float);

@@ -11,24 +11,16 @@ typedef struct _acosh
 
 static t_class *acosh_class;
 
-static void acosh_bang(t_acosh *x)
+static void acosh_bang(t_acosh *x)  // checked: no protection against NaNs
 {
     float value = acoshf(x->x_value);
-/*  if (isnan(value))
-    {
-        pd_error(x, "acosh warning: output is 'nan'");
-    } */
     outlet_float(((t_object *)x)->ob_outlet, value);
 }
 
-static void acosh_float(t_acosh *x, t_float f)
+static void acosh_float(t_acosh *x, t_float f)  // checked: no protection against NaNs
 {
     float value = acoshf(value);
-/*  if (isnan(value))
-    {
-        pd_error(x, "acosh warning: output is 'nan'");
-    } */
-        outlet_float(((t_object *)x)->ob_outlet, x->x_value = value);
+    outlet_float(((t_object *)x)->ob_outlet, x->x_value = value);
 }
 
 static void *acosh_new(t_floatarg f)
