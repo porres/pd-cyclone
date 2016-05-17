@@ -23,10 +23,11 @@ static t_int *asin_perform(t_int *w)
     t_float *in = (t_float *)(w[2]);
     t_float *out = (t_float *)(w[3]);
     while (nblock--)
-    {
+    {// CHECKED now there's protection against nan/inf
         float f = *in++;
-        *out++ = asinf(f);  /* CHECKED no protection against NaNs */
-    }
+        f = asinf(f);
+        *out++ = (isnan(f) || isinf(f)) ? 0 : f;
+    }    
     return (w + 4);
 }
 

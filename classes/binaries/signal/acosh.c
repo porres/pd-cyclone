@@ -23,9 +23,10 @@ static t_int *acosh_perform(t_int *w)
     t_float *in = (t_float *)(w[2]);
     t_float *out = (t_float *)(w[3]);
     while (nblock--)
-    {
+    {// CHECKED now there's protection against nan/inf
         float f = *in++;
-        *out++ = acoshf(f);  /* CHECKED no protection against NaNs */
+        f = acoshf(f);
+        *out++ = (isnan(f) || isinf(f)) ? 0 : f;
     }
     return (w + 4);
 }

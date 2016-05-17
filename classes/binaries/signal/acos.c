@@ -23,9 +23,10 @@ static t_int *acos_perform(t_int *w)
     t_float *in = (t_float *)(w[2]);
     t_float *out = (t_float *)(w[3]);
     while (nblock--)
-    {
-	float f = *in++;
-	*out++ = acosf(f);  /* CHECKED no protection against NaNs */
+    {// CHECKED now there's protection against nan/inf
+        float f = *in++;
+        f = acosf(f);
+        *out++ = (isnan(f) || isinf(f)) ? 0 : f;
     }
     return (w + 4);
 }
