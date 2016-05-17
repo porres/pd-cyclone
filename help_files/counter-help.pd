@@ -425,8 +425,6 @@ f 55;
 #X obj 2 879 cnv 9 222 34 empty empty not_implemented_yet 20 22 0 14
 -261234 -66577 0;
 #X text 9 881 state;
-#X text 238 880 Will cause the [counter] object to report its current
-state to the Pd Window., f 55;
 #X obj 226 915 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
 0;
 #X obj 2 915 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
@@ -439,6 +437,8 @@ state to the Pd Window., f 55;
 upward until it reaches the specified maximum \, then counts down until
 it reaches the specified minimum \, then up \, then down \, and so
 on., f 55;
+#X text 238 880 Will cause the [counter] object to report its current
+state to the Pd main window., f 55;
 #X restore 398 756 pd allMessages;
 #X text 179 720 "set n" \, "goto n" \, "jam n": control the counter
 value, f 59;

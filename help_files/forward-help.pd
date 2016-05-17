@@ -10,26 +10,26 @@
 #X obj 2 45 cnv 15 552 48 empty empty forward 4 14 0 18 -204280 -1
 0;
 #X text 14 71 send remote messages;
-#X floatatom 332 223 5 0 0 0 - - -, f 5;
-#X floatatom 73 170 5 0 0 0 - - -, f 5;
-#X msg 98 219 send bar;
-#X obj 50 141 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+#X floatatom 332 207 5 0 0 0 - - -, f 5;
+#X floatatom 97 170 5 0 0 0 - - -, f 5;
+#X msg 122 219 send bar;
+#X obj 74 141 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#X msg 98 200 send foo;
-#X obj 481 55 forward;
-#X obj 332 197 receive foo;
-#X floatatom 439 223 5 0 0 0 - - -, f 5;
-#X obj 439 197 receive bar;
-#X obj 50 282 cyclone/forward foo;
-#X obj 457 316 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+#X msg 122 200 send foo;
+#X obj 491 53 forward;
+#X obj 332 181 receive foo;
+#X floatatom 439 207 5 0 0 0 - - -, f 5;
+#X obj 439 181 receive bar;
+#X obj 74 282 cyclone/forward foo;
+#X obj 463 316 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 315 177 755 312 Examples 0;
+#N canvas 143 95 755 312 Examples 0;
 #X obj 2 2 cnv 15 750 40 empty empty forward 3 12 0 18 -204280 -1 0
 ;
 #X obj 2 288 cnv 15 750 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 384 114 credits 0;
-#X text 82 27 From Max 7 Reference Documentation.;
+#N canvas 513 138 347 93 credits 0;
+#X text 89 27 From Max 7 Documentation.;
 #X restore 672 290 pd credits;
 #X text 59 25 examples;
 #X msg 53 85 64;
@@ -63,17 +63,17 @@ method \, using semicolons in a message box;
 #X connect 12 0 15 0;
 #X connect 13 0 14 0;
 #X connect 16 0 17 0;
-#X restore 457 316 pd Examples;
+#X restore 463 316 pd Examples;
 #X text 113 427 (none), f 69;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 34 115 cyclone/comment 190 11 helvetica ? 0 80 80 80 send anything
+#X obj 58 115 cyclone/comment 190 11 helvetica ? 0 80 80 80 send anything
 from forward to receive:;
-#X obj 74 141 cyclone/comment 100 11 helvetica ? 0 80 80 80 bang;
-#X obj 118 168 cyclone/comment 100 11 helvetica ? 0 80 80 80 number
+#X obj 98 141 cyclone/comment 100 11 helvetica ? 0 80 80 80 bang;
+#X obj 142 168 cyclone/comment 100 11 helvetica ? 0 80 80 80 number
 ;
-#X obj 163 210 cyclone/comment 100 11 helvetica ? 0 80 80 80 select
+#X obj 187 210 cyclone/comment 100 11 helvetica ? 0 80 80 80 select
 receiver;
-#X obj 327 156 cyclone/comment 190 11 helvetica ? 0 80 80 80 receive
+#X obj 317 156 cyclone/comment 190 11 helvetica ? 0 80 80 80 receive
 remotely gets the message;
 #X text 158 354 -;
 #X text 100 354 anything;
@@ -87,7 +87,7 @@ remotely gets the message;
 #X obj 2 547 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 527 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 471 187 378 292 META 0;
+#N canvas 515 107 378 292 META 0;
 #X text 2 18 LICENSE SIBSD;
 #X text 2 72 LIBRARY cyclone;
 #X text 2 54 INLET_0 anything;
@@ -104,13 +104,14 @@ updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.46-7.;
 #X restore 492 529 pd META;
-#N canvas 565 192 430 93 Related_objects 0;
+#N canvas 361 144 430 93 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
-#X obj 12 30 receive;
-#X obj 12 51 send;
-#X obj 80 30 route;
-#X obj 134 30 value;
+#X obj 12 35 receive;
+#X obj 112 35 send;
+#X obj 67 35 route;
+#X obj 150 35 value;
+#X msg 201 35;
 #X restore 210 529 pd Related_objects;
 #X connect 7 0 15 0;
 #X connect 8 0 15 0;

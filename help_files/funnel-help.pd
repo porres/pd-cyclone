@@ -29,9 +29,9 @@
 #X obj 89 237 cyclone/funnel 4;
 #X obj 344 237 cyclone/funnel 2;
 #X msg 344 182 list foo;
-#X obj 463 371 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+#X obj 463 362 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 473 171 640 499 Examples 0;
+#N canvas 265 95 640 499 Examples 0;
 #X obj 2 2 cnv 15 620 40 empty empty funnel 3 12 0 18 -204280 -1 0
 ;
 #X text 49 25 examples;
@@ -77,7 +77,7 @@
 #X obj 2 690 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 440 304 384 114 credits 0;
-#X text 61 31 Examples from Max 7 Reference Documentation., f 45;
+#X text 88 33 Examples from Max 7 Documentation., f 35;
 #X restore 543 692 pd credits;
 #X obj 348 218 cyclone/comment 234 11 helvetica ? 0 80 80 80 an optional
 second argument sets a starting offset (other than 0) for the inlet
@@ -129,9 +129,9 @@ data according to inlet number;
 #X connect 30 0 32 0;
 #X connect 31 0 32 1;
 #X connect 33 0 28 0;
-#X restore 463 371 pd Examples;
-#X obj 2 645 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 625 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X restore 463 362 pd Examples;
+#X obj 2 713 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 693 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 610 328 382 213 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -150,11 +150,11 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
 #X text 1 60 INLET_N anything bang;
-#X restore 482 627 pd META;
+#X restore 482 695 pd META;
 #N canvas 294 360 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 191 627 pd Related_objects;
+#X restore 191 695 pd Related_objects;
 #X obj 2 2 cyclone/fancy/cyheader;
 #X obj 183 321 cyclone/comment 100 11 helvetica ? 0 80 80 80 value
 of inlet;
@@ -183,6 +183,10 @@ number for first inlet is 0;
 last received value of the inlet;
 #X obj 410 302 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
 of print object in Pd main window;
+#X obj 2 615 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 110 634 Since Max 5 \, [funbuff] have support to "set" and
+"offset" messages. It's not implemented yet.;
 #X connect 7 0 19 0;
 #X connect 10 0 19 1;
 #X connect 11 0 19 2;

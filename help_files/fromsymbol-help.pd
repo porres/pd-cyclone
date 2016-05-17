@@ -29,13 +29,13 @@
 #X obj 87 352 route float bang;
 #X obj 465 417 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 262 154 805 286 Examples 0;
+#N canvas 60 96 805 286 Examples 0;
 #X obj 2 2 cnv 15 800 40 empty empty fromsymbol 3 12 0 18 -204280 -1
 0;
 #X obj 2 262 cnv 15 800 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 374 114 credits 0;
-#X text 80 31 From Max 7 Reference Documentation, f 38;
+#N canvas 537 160 318 93 credits 0;
+#X text 80 28 From Max 7 Documentation, f 28;
 #X restore 721 264 pd credits;
 #X text 89 25 examples;
 #X obj 44 182 unpack f f f, f 18;
@@ -84,10 +84,10 @@
 #X connect 25 1 15 0;
 #X connect 25 2 16 0;
 #X restore 465 417 pd Examples;
-#X obj 2 777 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 757 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 847 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 827 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 481 235 382 331 META 0;
+#N canvas 498 117 372 308 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 100 LIBRARY cyclone;
 #X text 0 0 KEYWORDS symbol transform messages numbers;
@@ -104,15 +104,15 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.46-7.;
-#X restore 505 759 pd META;
-#N canvas 587 239 430 94 Related_objects 0;
+#X restore 485 829 pd META;
+#N canvas 345 144 430 94 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 16 33 symbol;
 #X obj 62 33 cyclone/tosymbol;
 #X obj 168 33 cyclone/sprintf;
 #X obj 269 33 cyclone/zl;
-#X restore 202 759 pd Related_objects;
+#X restore 202 829 pd Related_objects;
 #X obj 2 2 cyclone/fancy/cyheader;
 #X obj 86 149 cyclone/comment 100 11 helvetica ? 0 80 80 80 works with
 symbols:;
@@ -136,17 +136,20 @@ with list of symbols:;
 of print object in Pd main window;
 #X obj 2 622 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 233 719 makesymbol;
-#X obj 112 719 cyclone/tosymbol;
-#X text 110 642 since pd lacks a quoting mechanism (like `foo bar`)
-there is no support for spaces in symbols \, so the original max way
-of using from/tosymbol won't work. One has to construct symbols with
-other tools like [cyclone/tosymbol] or [makesymbol] from zexy;
+#X obj 233 715 makesymbol;
+#X obj 112 715 cyclone/tosymbol;
 #X obj 24 103 cyclone/comment 363 10 monaco ? 0 80 80 80 fromsymbol
 will take the individual characters in a symbol and convert them from
 a symbol back to numbers/messages.;
 #X obj 318 365 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
 #X obj 318 373 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X text 110 642 Since pd lacks a quoting mechanism (like `foo bar`)
+there is no support for spaces in symbols \, so the original max way
+of using from/tosymbol won't work. One has to construct symbols with
+other tools like [cyclone/tosymbol] or [makesymbol] from zexy:;
+#X text 110 752 Besides in Max 5 and above the behavior of [tosymbol]
+is for any float in input it will simply pass through to the output.
+This behavior are not implemented yet.;
 #X connect 7 0 15 0;
 #X connect 10 0 13 0;
 #X connect 13 0 14 0;

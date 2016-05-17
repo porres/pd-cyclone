@@ -1,13 +1,13 @@
 #N canvas 403 27 572 565 10;
 #X obj 4 453 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 664 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 669 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 713 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 718 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 83 462 cnv 17 3 125 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 601 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 606 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty drunk 4 14 0 18 -204280 -1 0
 ;
@@ -17,19 +17,19 @@
 #X obj 60 114 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
 #X text 14 71 output random numbers in a moving range;
-#X obj 83 673 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 678 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 625 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 83 630 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
 #X obj 60 235 cyclone/drunk 10;
 #X text 78 291 0;
 #X text 226 291 10;
 #X obj 76 308 hradio 15 1 0 11 empty empty empty 0 -8 0 10 -262144
--1 -1 3;
-#X obj 2 979 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 959 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+-1 -1 6;
+#X obj 2 984 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 964 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 569 272 390 294 META 0;
+#N canvas 503 108 375 337 META 0;
 #X text 1 20 LICENSE SIBSD;
 #X text 1 140 LIBRARY cyclone;
 #X text 1 80 INLET_1 float;
@@ -46,16 +46,17 @@
 #X text 2 246 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 503 961 pd META;
-#N canvas 317 453 430 108 Related_objects 0;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.46-7.;
+#X restore 503 966 pd META;
+#N canvas 350 143 430 81 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 11 30 random;
 #X obj 60 30 cyclone/decide;
 #X obj 156 30 cyclone/rand~;
 #X obj 245 30 cyclone/urn;
-#X restore 210 961 pd Related_objects;
+#X restore 210 966 pd Related_objects;
 #X floatatom 289 236 5 0 0 0 - - -, f 5;
 #X msg 310 169 set \$1;
 #X floatatom 310 150 5 0 0 0 - - -, f 5;
@@ -75,12 +76,12 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 290 301 r metro;
 #X obj 463 430 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 450 118 435 449 Examples 0;
+#N canvas 401 94 435 449 Examples 0;
 #X obj 2 2 cnv 15 430 40 empty empty drunk 3 12 0 18 -204280 -1 0;
 #X obj 2 425 cnv 15 430 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 384 114 credits 0;
-#X text 55 35 Examples from Max 7 Reference Documentation.;
+#N canvas 530 204 384 114 credits 0;
+#X text 84 35 Examples from Max 7 Documentation.;
 #X restore 351 427 pd credits;
 #X text 39 25 examples;
 #X obj 41 87 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -149,9 +150,9 @@ melody generator;
 #X connect 12 0 11 0;
 #X connect 13 0 11 1;
 #X restore 463 430 pd Examples;
-#X obj 4 793 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 4 798 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 113 809 There are many types of random behavior that can be
+#X text 113 814 There are many types of random behavior that can be
 modeled by the computer. The [random] object provides the closest approximation
 to "pure" randomness we can get \, every number within its range has
 an equal probability of being selected. An alternative to the random
@@ -185,21 +186,23 @@ size;
 #X text 173 542 "seed n":;
 #X text 233 542 seeds the internal random number generator to "n" value
 , f 50;
-#X text 158 603 -;
-#X text 118 603 float;
-#X text 158 627 -;
-#X text 118 627 float;
-#X text 173 627 set stepsize, f 60;
-#X text 173 603 set upper bound, f 60;
-#X text 158 676 -;
-#X text 118 676 float;
-#X text 173 676 random number output, f 60;
-#X text 158 729 -;
-#X text 100 729 1) float;
-#X text 158 752 -;
-#X text 100 752 2) float;
-#X text 172 729 set initial bound \, default to 128, f 60;
-#X text 172 752 set maximum stepsize \, default is 2, f 60;
+#X text 158 608 -;
+#X text 118 608 float;
+#X text 158 632 -;
+#X text 118 632 float;
+#X text 173 632 set stepsize, f 60;
+#X text 173 608 set upper bound, f 60;
+#X text 158 681 -;
+#X text 118 681 float;
+#X text 173 681 random number output, f 60;
+#X text 158 734 -;
+#X text 100 734 1) float;
+#X text 158 757 -;
+#X text 100 757 2) float;
+#X text 172 734 set initial bound \, default to 128, f 60;
+#X text 172 757 set maximum stepsize \, default is 2, f 60;
+#X text 173 572 "set n":;
+#X text 227 572 set current value to "n" without output, f 51;
 #X connect 7 0 33 0;
 #X connect 8 0 13 0;
 #X connect 8 0 34 0;
