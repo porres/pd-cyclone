@@ -59,6 +59,7 @@ cyclone.class.sources := classes/cyclone_lib/cyclone.c
 # Signal classes:
     atodb~.class.sources := classes/binaries/signal/atodb.c
     biquad~.class.sources := classes/binaries/signal/biquad.c
+    bitsafe~.class.sources := classes/binaries/signal/bitsafe.c
     dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
     downsamp~.class.sources := classes/binaries/signal/downsamp.c
     round~.class.sources := classes/binaries/signal/round.c

@@ -1,13 +1,7 @@
-/* Copyright (c) 2002-2003 krzYszcz and others.
- * For information on usage and redistribution, and for a DISCLAIMER OF ALL
- * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
+// Porres 2016
 
 #include <math.h>
 #include "m_pd.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-#define acoshf  acosh
-#endif
 
 typedef struct _acosh
 {
@@ -19,26 +13,35 @@ static t_class *acosh_class;
 
 static void acosh_bang(t_acosh *x)
 {
-    outlet_float(((t_object *)x)->ob_outlet, x->x_value);
+    float value = acoshf(x->x_value);
+/*  if (isnan(value))
+    {
+        pd_error(x, "acosh warning: output is 'nan'");
+    } */
+    outlet_float(((t_object *)x)->ob_outlet, value);
 }
 
 static void acosh_float(t_acosh *x, t_float f)
 {
-    outlet_float(((t_object *)x)->ob_outlet, x->x_value = acoshf(f)); /* no protection against NaNs */
+    float value = acoshf(value);
+/*  if (isnan(value))
+    {
+        pd_error(x, "acosh warning: output is 'nan'");
+    } */
+        outlet_float(((t_object *)x)->ob_outlet, x->x_value = value);
 }
 
 static void *acosh_new(t_floatarg f)
 {
     t_acosh *x = (t_acosh *)pd_new(acosh_class);
-    x->x_value = acoshf(f); /* no protection against NaNs */
+    x->x_value = isnan(acoshf(f)) ? 0 : acoshf(f);
     outlet_new((t_object *)x, &s_float);
     return (x);
 }
 
 void acosh_setup(void)
 {
-    acosh_class = class_new(gensym("acosh"),
-			   (t_newmethod)acosh_new, 0,
+    acosh_class = class_new(gensym("acosh"), (t_newmethod)acosh_new, 0,
 			   sizeof(t_acosh), 0, A_DEFFLOAT, 0);
     class_addbang(acosh_class, acosh_bang);
     class_addfloat(acosh_class, acosh_float);

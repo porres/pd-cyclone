@@ -24,9 +24,9 @@ static t_int *cartopol_perform(t_int *w)
     t_float *out2 = (t_float *)(w[5]);
     while (nblock--)
     {
-        float rl = *in1++, im = *in2++;  /* checked against Max5 */
-        *out1++ = hypotf(rl, im);
-        *out2++ = atan2f(im, rl);
+        float re = *in1++, im = *in2++;
+        *out1++ = hypotf(re, im);
+        *out2++ = atan2f(im, re);
     }
     return (w + 6);
 }
@@ -39,8 +39,8 @@ static t_int *cartopol_perform_nophase(t_int *w)
     t_float *out1 = (t_float *)(w[4]);
     while (nblock--)
     {
-        float rl = *in1++, im = *in2++;  /* checked against Max5 */
-        *out1++ = hypotf(rl, im);
+        float re = *in1++, im = *in2++;
+        *out1++ = hypotf(re, im);
     }
     return (w + 5);
 }
@@ -66,9 +66,8 @@ static void *cartopol_new(void)
 
 void cartopol_tilde_setup(void)
 {
-    cartopol_class = class_new(gensym("cartopol~"),
-                               (t_newmethod)cartopol_new, 0,
-                               sizeof(t_cartopol), 0, 0);
+    cartopol_class = class_new(gensym("cartopol~"), (t_newmethod)cartopol_new, 0,
+            sizeof(t_cartopol), 0, 0);
     class_addmethod(cartopol_class, nullfn, gensym("signal"), 0);
     class_addmethod(cartopol_class, (t_method) cartopol_dsp, gensym("dsp"), 0);
 }
