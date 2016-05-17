@@ -174,7 +174,7 @@ static void *biquad_new(t_symbol *s, int argc, t_atom *argv)
 
 void biquad_tilde_setup(void)
 {
-    biquad_class = class_new(gensym("biquad~"),
+    biquad_class = class_new(gensym("cyclone/biquad~"),
 				(t_newmethod)biquad_new,
                 (t_method)biquad_free,
 				sizeof(t_biquad), 0, A_GIMME, 0);
