@@ -41,7 +41,6 @@
 ;
 #X obj 82 815 cnv 17 3 17 empty empty 8 5 9 0 16 -228856 -162280 0
 ;
-#X obj 498 55 Borax;
 #X obj 82 527 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 980 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
@@ -214,15 +213,16 @@ offs received), f 60;
 #X obj 138 917 cyclone/Borax;
 #X text 229 912 legacy way to call borax still working for backward
 compatibility, f 34;
-#X connect 6 0 85 0;
-#X connect 6 1 85 1;
-#X connect 16 0 85 2;
-#X connect 85 0 7 0;
-#X connect 85 1 8 0;
-#X connect 85 2 9 0;
-#X connect 85 3 10 0;
-#X connect 85 4 11 0;
-#X connect 85 5 12 0;
-#X connect 85 6 13 0;
-#X connect 85 7 14 0;
-#X connect 85 8 15 0;
+#X obj 498 55 borax;
+#X connect 6 0 84 0;
+#X connect 6 1 84 1;
+#X connect 16 0 84 2;
+#X connect 84 0 7 0;
+#X connect 84 1 8 0;
+#X connect 84 2 9 0;
+#X connect 84 3 10 0;
+#X connect 84 4 11 0;
+#X connect 84 5 12 0;
+#X connect 84 6 13 0;
+#X connect 84 7 14 0;
+#X connect 84 8 15 0;

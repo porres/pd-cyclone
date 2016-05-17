@@ -175,8 +175,8 @@ pair "60 \, 64" has occurred once;
 f 58;
 #X text 209 516 combination, f 54;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 647 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 627 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 710 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 690 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 532 101 369 314 META 0;
 #X text 1 101 LIBRARY cyclone;
@@ -196,7 +196,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.46-7.;
-#X restore 492 629 pd META;
+#X restore 492 692 pd META;
 #N canvas 306 111 434 71 Related_objects 0;
 #X obj 3 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 9 5 Related Objects;
@@ -205,7 +205,7 @@ this patch for Pd-Vanilla 0.46-7.;
 #X obj 71 33 cyclone/Histo;
 #X obj 163 33 cyclone/prob;
 #C restore;
-#X restore 197 629 pd Related_objects;
+#X restore 197 692 pd Related_objects;
 #X text 158 373 -;
 #X text 173 373 output the current value, f 60;
 #X text 158 396 -;
@@ -225,6 +225,10 @@ this patch for Pd-Vanilla 0.46-7.;
 #X obj 149 274 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
 #X obj 67 282 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
 of print object in Pd main window;
+#X obj 2 612 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 110 631 The max size size of number par array in Max is 16384
+since Max 4.8 and this feature are not implemented at this moment;
 #X connect 7 0 18 0;
 #X connect 8 0 18 0;
 #X connect 9 0 18 0;

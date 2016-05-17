@@ -3,7 +3,7 @@
 ;
 #X obj 2 561 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 611 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 631 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 82 408 cnv 17 3 65 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
@@ -22,7 +22,7 @@
 ;
 #X obj 82 522 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 718 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 738 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 465 370 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
 #N canvas 319 95 585 411 Examples 0;
@@ -78,7 +78,7 @@ to maximum value;
 #X connect 23 0 16 0;
 #X connect 24 0 19 0;
 #X restore 465 370 pd Examples;
-#X obj 2 698 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 718 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 520 123 366 329 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -98,7 +98,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.46-7.;
-#X restore 501 700 pd META;
+#X restore 501 720 pd META;
 #N canvas 377 143 570 68 Related_objects 0;
 #X obj 2 2 cnv 15 565 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 7 3 Related Objects;
@@ -111,7 +111,7 @@ this patch for Pd-Vanilla 0.46-7.;
 #X obj 42 29 <=;
 #X obj 72 29 >;
 #X obj 102 29 >=;
-#X restore 203 700 pd Related_objects;
+#X restore 203 720 pd Related_objects;
 #X obj 2 2 cyclone/fancy/cyheader;
 #X obj 138 118 cyclone/comment 200 11 helvetica ? 0 80 80 80 input
 is clipped to range;
@@ -141,16 +141,19 @@ maximum;
 #X text 158 575 -;
 #X text 118 575 float;
 #X text 173 575 outputs number if inside range, f 60;
-#X text 158 630 -;
-#X text 100 630 1) float;
-#X text 158 652 -;
-#X text 100 652 2) float;
-#X text 172 652 sets maximum number of range, f 60;
-#X text 172 630 sets minimum number of range, f 60;
+#X text 158 650 -;
+#X text 100 650 1) float;
+#X text 158 672 -;
+#X text 100 672 2) float;
+#X text 172 672 sets maximum number of range, f 60;
+#X text 172 650 sets minimum number of range, f 60;
 #X text 20 71 Constrains an float or list within a certain range;
 #X obj 176 350 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
 of print object in Pd main window;
 #X obj 150 354 cyclone/comment 79 11 helvetica ? 0 80 80 80 <----;
+#X text 158 596 -;
+#X text 124 596 list;
+#X text 173 596 list of floats inside range, f 60;
 #X connect 6 0 13 2;
 #X connect 7 0 13 1;
 #X connect 8 0 13 0;

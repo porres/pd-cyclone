@@ -1,13 +1,13 @@
-#N canvas 408 28 557 521 10;
+#N canvas 408 28 557 541 10;
 #X obj 2 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 373 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 393 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 421 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 441 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 84 295 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 295 cnv 17 3 32 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 322 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 84 342 cnv 17 3 32 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty decide 4 14 0 18 -204280 -1 0
 ;
@@ -23,22 +23,22 @@
 1;
 #X obj 333 238 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X obj 84 382 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 402 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 333 195 cyclone/decide;
 #X obj 116 196 cyclone/decide 12;
 #X text 14 71 output 0 or 1 randomly;
 #X obj 466 261 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 423 90 575 630 Examples 0;
+#N canvas 321 96 575 630 Examples 0;
 #X obj 2 2 cnv 15 570 40 empty empty decide 3 12 0 18 -204280 -1 0
 ;
 #X obj 2 606 cnv 15 570 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 384 114 credits 0;
-#X text 51 34 Spare examples from Max 7 Reference Documentation.;
+#N canvas 504 194 365 122 credits 0;
+#X text 51 34 Spare examples from Max 7 Documentation.;
 #X restore 489 608 pd credits;
-#N canvas 330 276 432 316 seed 0;
+#N canvas 438 116 432 316 seed 0;
 #X obj 52 51 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 52 198 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
@@ -157,22 +157,22 @@ of print object in Pd main window;
 #X obj 2 2 cyclone/fancy/cyheader;
 #X text 158 298 -;
 #X text 125 298 bang;
-#X text 158 324 -;
-#X text 118 324 float;
+#X text 158 344 -;
+#X text 119 344 float;
 #X text 173 298 output 0 or 1 by default, f 60;
-#X text 173 324 set the seed for the random number generator. 0 will
+#X text 173 344 set the seed for the random number generator. 0 will
 use a random seed \, any other integer float is the seed., f 60;
-#X text 158 384 -;
-#X text 118 384 float;
-#X text 173 384 random 0 or 1 by default, f 60;
-#X text 158 438 -;
-#X text 100 438 1) float;
-#X text 172 438 seed for the random number generator. No argument or
+#X text 158 404 -;
+#X text 118 404 float;
+#X text 173 404 random 0 or 1 by default, f 60;
+#X text 158 458 -;
+#X text 100 458 1) float;
+#X text 172 458 seed for the random number generator. No argument or
 0 uses rand(), f 60;
-#X obj 2 517 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 497 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 537 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 517 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 449 155 374 327 META 0;
+#N canvas 511 114 374 327 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 120 LIBRARY cyclone;
 #X text 0 0 KEYWORDS output 0 1 binary random;
@@ -190,15 +190,18 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.46-7.;
-#X restore 491 499 pd META;
-#N canvas 551 135 430 81 Related_objects 0;
+#X restore 491 519 pd META;
+#N canvas 350 145 430 81 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 13 30 random;
 #X obj 62 30 cyclone/drunk;
 #X obj 152 30 cyclone/rand~;
 #X obj 243 30 cyclone/urn;
-#X restore 210 499 pd Related_objects;
+#X restore 210 519 pd Related_objects;
+#X text 158 316 -;
+#X text 119 316 float;
+#X text 173 316 same as bang, f 60;
 #X connect 8 0 16 0;
 #X connect 9 0 8 0;
 #X connect 10 0 16 1;

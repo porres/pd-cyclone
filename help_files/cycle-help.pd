@@ -1,4 +1,4 @@
-#N canvas 414 28 572 559 10;
+#N canvas 368 27 572 559 10;
 #X obj 2 382 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 465 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -39,7 +39,7 @@
 -1 -1;
 #X msg 212 149 set 1;
 #X obj 80 211 cyclone/cycle 3 0;
-#N canvas 486 149 430 489 more 0;
+#N canvas 432 93 430 489 more 0;
 #X floatatom 110 332 5 0 0 0 - - -, f 5;
 #X floatatom 159 332 5 0 0 0 - - -, f 5;
 #X floatatom 189 153 5 0 0 0 - - -, f 5;
@@ -88,12 +88,12 @@ of print object in Pd main window;
 #X connect 13 2 14 0;
 #X connect 14 0 15 0;
 #X restore 362 341 pd more on modes and events;
-#N canvas 577 149 495 304 Example 0;
+#N canvas 358 94 495 304 Example 0;
 #X obj 2 2 cnv 15 490 40 empty empty cycle 3 12 0 18 -204280 -1 0;
 #X obj 2 280 cnv 15 490 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 384 114 credits 0;
-#X text 55 35 Example from Max 7 Reference Documentation.;
+#N canvas 484 200 384 114 credits 0;
+#X text 90 36 Example from Max 7 Documentation.;
 #X restore 413 282 pd credits;
 #X obj 94 72 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -149,7 +149,7 @@ a string in numbers (ASCII);
 #X obj 2 683 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 663 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 443 319 411 239 META 0;
+#N canvas 442 109 411 297 META 0;
 #X text 1 18 LICENSE SIBSD;
 #X text 1 90 LIBRARY cyclone;
 #X text 1 0 KEYWORDS send data cycle;
@@ -164,16 +164,17 @@ a string in numbers (ASCII);
 #X text 2 196 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.46-7.;
 #X restore 489 665 pd META;
-#N canvas 191 451 505 79 Related_objects 0;
+#N canvas 336 143 505 79 Related_objects 0;
 #X obj 2 2 cnv 15 500 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 9 29 cyclone/gate;
-#X obj 96 29 cyclone/Bucket;
 #X obj 192 29 cyclone/counter;
 #X obj 293 29 cyclone/spell;
 #X obj 382 29 cyclone/spray;
+#X obj 96 29 cyclone/bucket;
 #X restore 207 665 pd Related_objects;
 #X connect 8 0 22 0;
 #X connect 9 0 23 0;
