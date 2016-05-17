@@ -27,7 +27,8 @@ endif
 
 cyclone.class.sources := classes/cyclone_lib/cyclone.c
 
-######### new alphanumeric versions of the cyclone sub library objects: ########
+###### new alphanumeric versions of the cyclone sub library objects:
+
 # Control:
     rdiv.class.sources := classes/binaries/control/rdiv.c
     rminus.class.sources := classes/binaries/control/rminus.c
