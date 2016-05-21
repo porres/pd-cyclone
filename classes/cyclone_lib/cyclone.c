@@ -636,7 +636,21 @@ static void *plusequals_new(t_floatarg f)
 
 void cyclone_setup(void)
 {
-
+    
+/* -- post cyclone lib version -- */
+        {
+        post("********************************************************************************");
+        post("* CYCLONE (Version 0.3 Beta-1) Compiled may 20 2016;");
+        post("* This is the cyclone sub library containing the objects:");
+        post("* [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], [!-~], [!/~], [%~] and [+=~]"); // how to post "%"?
+        post("********************************************************************************");
+        }
+        endpost();
+        endpost();
+        endpost();
+        endpost();
+        endpost();
+    
 /* -- [!-] -- */
 
     rminus_class = class_new(gensym("!-"),
@@ -742,7 +756,5 @@ void cyclone_setup(void)
     class_addbang(plusequals_class, plusequals_bang);
     class_addmethod(plusequals_class, (t_method)plusequals_set, gensym("set"), A_FLOAT, 0);
     class_sethelpsymbol(plusequals_class, gensym("plusequals~"));
-    //    logpost(NULL, 4, "this is cyclone lib %s, %dth %s build",
-    //    containing non alphanumeric objects +=~, etc...
-    //	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+    
 }

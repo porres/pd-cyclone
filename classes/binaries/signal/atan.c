@@ -25,7 +25,7 @@ static t_int *atan_perform(t_int *w)
     while (nblock--)
     {
         float f = *in++;
-        *out++ = atanf(f);  /* CHECKED no protection against NaNs */
+        *out++ = atanf(f);  // CHECKED no protection against NaNs
     }
     return (w + 4);
 }
