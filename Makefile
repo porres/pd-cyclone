@@ -114,7 +114,7 @@ cyclone.class.sources := classes/cyclone_lib/cyclone.c
     average~.class.sources := classes/binaries/signal/average.c
     avg~.class.sources := classes/binaries/signal/avg.c
     bitnot~.class.sources := classes/binaries/signal/bitnot.c
-    bitshift~.class.sources := classes/binaries/signal/bitshift.c
+#    bitshift~.class.sources := classes/binaries/signal/bitshift.c
     change~.class.sources := classes/binaries/signal/change.c
     clip~.class.sources := classes/binaries/signal/clip.c
     comb~.class.sources := classes/binaries/signal/comb.c
@@ -344,10 +344,13 @@ shared/unstable/fragile.c
     cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
 
 sforky := \
+shared/sickle/sic.c \
+shared/common/loud.c \
 shared/unstable/forky.c
     bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
     bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
     bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
+    bitshift~.class.sources := classes/binaries/signal/bitshift.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
