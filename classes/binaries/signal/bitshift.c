@@ -9,7 +9,7 @@ static t_class *bitshift_class;
 typedef struct _bitshift {
     t_object x_obj;
     t_outlet *x_outlet;
-    int      x_convert1;
+    t_int      x_convert1;
     t_float  x_lshift;
     t_float  x_rshift;
 } t_bitshift;
@@ -24,7 +24,7 @@ static void bitshift_float(t_bitshift *x, t_float f);
 static t_int * bitshift_perform(t_int *w)
 {   // LATER think about performance
     t_bitshift *x = (t_bitshift *)(w[1]);
-    int nblock = (int)(w[2]);
+    t_int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
     if (x->x_lshift)

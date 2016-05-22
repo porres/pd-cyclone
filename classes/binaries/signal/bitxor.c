@@ -32,36 +32,29 @@ static t_int *bitxor_perform(t_int *w)
     t_float *out = (t_float *)(w[5]);
     t_int mask = x->x_mask;
     switch (x->x_mode)
-    {
-	/* LATER think about performance */
-    case 0:
-	/* CHECKED */
+    { // LATER think about performance
+    case 0: // CHECKED - dont convert to int
 	while (nblock--)
 	{
-	    t_int i = ((*(t_int *)(t_float *)in1++) ^
-		       (*(t_int *)(t_float *)in2++));
+	    t_int i = ((*(t_int *)(t_float *)in1++) ^ (*(t_int *)(t_float *)in2++));
 	    *out++ = *(t_float *)&i;
 	}
 	break;
-    case 1:
-	/* CHECKED */
+    case 1: // CHECKED - convert both to int
 	while (nblock--)
 	{
-	    t_int i = (((t_int)*in1++) ^
-		       ((t_int)*in2++));
+	    t_int i = (((t_int)*in1++) ^ ((t_int)*in2++));
 	    *out++ = (t_float)i;
 	}
 	break;
-    case 2:
-	/* CHECKED */
+    case 2: // CHECKED - convert right to int
 	while (nblock--)
 	{
 	    t_int i = (*(t_int *)(t_float *)in1++) ^ ((t_int)*in2++);
 	    *out++ = *(t_float *)&i;
 	}
 	break;
-    case 3:
-	/* CHECKED */
+    case 3: // WRONG - convert left to int
 	while (nblock--)
 	{
 	    t_int i = ((t_int)*in1++) ^ (*(t_int *)(t_float *)in2++);
@@ -102,7 +95,7 @@ static void bitxor_dsp(t_bitxor *x, t_signal **sp)
 	   CHECKED (incompatible) second inlet's int is persistent */
 	dsp_add(bitxor_perform, 5, x, sp[0]->s_n, sp[0]->s_vec,
 		sp[1]->s_vec, sp[2]->s_vec);
-    else  /* use the mask set by a 'bits' message or a creation argument */
+    else  // use mask from 'bits' message or argument || WRONG!!!!!!!!!
 	dsp_add(bitxor_perform_noin2, 4, x, sp[0]->s_n, sp[0]->s_vec,
 		sp[1]->s_vec);
 }
@@ -116,9 +109,9 @@ static void bitxor_mode(t_bitxor *x, t_floatarg f)
 {
     int i = (int)f;
     if (i < 0)
-	i = 0;  /* CHECKED */
+	i = 0;  // CHECKED
     else if (i > 3)
-	i = 3;  /* CHECKED */
+	i = 3;  // CHECKED
     x->x_mode = i;
     x->x_convert1 = (x->x_mode == 1 || x->x_mode == 3);
 }
@@ -135,7 +128,7 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom *argv)
 	t_float xbitmask = (t_float)PDCYBITMASK;
 	int argnum = 0;
 	while(argc > 0){
-		if(argv -> a_type == A_FLOAT){//if curarg is a number
+		if(argv -> a_type == A_FLOAT){ // if curarg is a number
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
 				case 0:
@@ -151,7 +144,7 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom *argv)
 			argv++;
 			argnum++;
 		}
-		else if(argv -> a_type == A_SYMBOL){//curarg is a string
+		else if(argv -> a_type == A_SYMBOL){ // curarg is a string
 			t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
 			if(strcmp(curarg->s_name, "@mode")==0){
 				if(argc >= 2){
