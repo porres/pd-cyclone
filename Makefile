@@ -130,6 +130,7 @@ atanh.class.sources := classes/binaries/control/atanh.c
 atodb.class.sources := classes/binaries/control/atodb.c
 dbtoa.class.sources := classes/binaries/control/dbtoa.c
 pong.class.sources := classes/binaries/control/pong.c
+pak.class.sources := classes/binaries/control/pak.c
 round.class.sources := classes/binaries/control/round.c
 scale.class.sources := classes/binaries/control/scale.c
 
