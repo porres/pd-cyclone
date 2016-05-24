@@ -63,21 +63,10 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
         else if(argv[i].a_type == A_SYMBOL)
         {
             c = argv[i].a_w.w_symbol->s_name[0];
-            if(c == 's')
+            if(c == 'f')
             {
-                x->x_vec[i].a_type       = A_SYMBOL;
-                x->x_vec[i].a_w.w_symbol = &s_symbol;
-                x->x_ins[i].x_pd    = pak_inlet_class;
-                x->x_ins[i].x_atoms = x->x_vec+i;
-                x->x_ins[i].x_max   = x->x_n-i;
-                x->x_ins[i].x_owner = x;
-                inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
-            }
-            else if(c == 'p')
-            {
-                x->x_vec[i].a_type         = A_POINTER;
-                x->x_vec[i].a_w.w_gpointer = (t_gpointer *)getbytes(sizeof(*x->x_vec[i].a_w.w_gpointer));
-                gpointer_init(x->x_vec[i].a_w.w_gpointer);
+                x->x_vec[i].a_type      = A_FLOAT;
+                x->x_vec[i].a_w.w_float = 0.f;
                 x->x_ins[i].x_pd    = pak_inlet_class;
                 x->x_ins[i].x_atoms = x->x_vec+i;
                 x->x_ins[i].x_max   = x->x_n-i;
@@ -86,12 +75,8 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
             }
             else
             {
-                if(c != 'f')
-                {
-                    pd_error(x, "pak: %s: bad type", argv[i].a_w.w_symbol->s_name);
-                }
-                x->x_vec[i].a_type      = A_FLOAT;
-                x->x_vec[i].a_w.w_float = 0.f;
+                x->x_vec[i].a_type       = A_SYMBOL;
+                x->x_vec[i].a_w.w_symbol = argv[i].a_w.w_symbol; // loads symbol from arg
                 x->x_ins[i].x_pd    = pak_inlet_class;
                 x->x_ins[i].x_atoms = x->x_vec+i;
                 x->x_ins[i].x_max   = x->x_n-i;
