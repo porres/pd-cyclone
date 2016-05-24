@@ -104,26 +104,27 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
     int i;
     for(i = 0; i < ndest && i < nsrc; ++i)
     {
-        if(src[i].a_type == A_FLOAT)
+        if(src[i].a_type == A_FLOAT) // SOURCE TYPE IS FLOAT
         {
-            if(dest[i].a_type == A_FLOAT)
+            if(dest[i].a_type == A_FLOAT) // DESTINATION TYPE IS FLOAT
             {
-                dest[i].a_w.w_float = src[i].a_w.w_float;
+                dest[i].a_w.w_float = src[i].a_w.w_float; // SOURCE IS DESTINATION
             }
-            else
+            else // DESTINATION TYPE IS SYMBOL
             {
                 pd_error(x, "pak: wrong type (float)"); //  needs to be a blank symbol
             }
         }
-        if(src[i].a_type == A_SYMBOL)
+        if(src[i].a_type == A_SYMBOL) // SOURCE TYPE IS SYMBOL
         {
-            if(dest[i].a_type == A_SYMBOL)
+            if(dest[i].a_type == A_SYMBOL) // DESTINATION TYPE IS SYMBOL
             {
-                dest[i].a_w.w_symbol = src[i].a_w.w_symbol;
+                dest[i].a_w.w_symbol = src[i].a_w.w_symbol; // SOURCE IS DESTINATION
             }
-            else
+            else  // DESTINATION TYPE IS FLOAT
             {
-                pd_error(x, "pak: wrong type (symbol)"); // needs to be "0
+            //    pd_error(x, "pak: wrong type (symbol)"); // needs to be "0
+            dest[i].a_w.w_float = 0; // DESTINATION IS 0
             }
         }
     }
