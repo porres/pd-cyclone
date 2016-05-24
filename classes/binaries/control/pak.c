@@ -112,7 +112,7 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             }
             else
             {
-                pd_error(x, "pak: wrong type (float)");
+                pd_error(x, "pak: wrong type (float)"); //  needs to be a blank symbol
             }
         }
         if(src[i].a_type == A_SYMBOL)
@@ -123,7 +123,7 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             }
             else
             {
-                pd_error(x, "pak: wrong type (symbol)");
+                pd_error(x, "pak: wrong type (symbol)"); // needs to be "0
             }
         }
     }
@@ -152,7 +152,7 @@ static void pak_inlet_float(t_pak_inlet *x, float f)
     }
     else
     {
-        pd_error(x, "pak: wrong type (float)");
+        pd_error(x, "pak: wrong type (float)"); //  needs to be a blank symbol
     }
 }
 
@@ -165,7 +165,7 @@ static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s)
     }
     else
     {
-        pd_error(x, "pak: wrong type (symbol)");
+        pd_error(x, "pak: wrong type (symbol)");  // needs to be "0
     }
 }
 
@@ -183,7 +183,7 @@ static void pak_inlet_anything(t_pak_inlet *x, t_symbol* s, int argc, t_atom* ar
     }
     else
     {
-        pd_error(x, "pak: wrong type (symbol)");
+        pd_error(x, "pak: wrong type (symbol)");  // needs to be "0 (why not there's not the other error?)
     }
     pak_copy(x->x_owner, x->x_max-1, x->x_atoms+1, argc, argv);
     pak_bang(x->x_owner);
@@ -193,12 +193,6 @@ static void pak_inlet_set(t_pak_inlet *x, t_symbol* s, int argc, t_atom* argv)
 {
     pak_copy(x->x_owner, x->x_max, x->x_atoms, argc, argv);
 }
-
-
-
-
-
-
 
 
 extern void pak_setup(void)
