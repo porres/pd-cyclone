@@ -144,11 +144,11 @@ static void pak_inlet_bang(t_pak_inlet *x)
     pak_bang(x->x_owner);
 }
 
-static void pak_inlet_float(t_pak_inlet *x, float f)
+static void pak_inlet_float(t_pak_inlet *x, float f) // FLOAT METHOD!!
 {
-    if(x->x_atoms->a_type == A_FLOAT)
+    if(x->x_atoms->a_type == A_FLOAT) // TYPE IS FLOAT!!
     {
-        x->x_atoms->a_w.w_float = f;
+        x->x_atoms->a_w.w_float = f; // FLOAT GOES THROUGH
         pak_bang(x->x_owner);
     }
     else
@@ -157,16 +157,18 @@ static void pak_inlet_float(t_pak_inlet *x, float f)
     }
 }
 
-static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s)
+static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s) // SYMBOL METHOD!!
 {
-    if(x->x_atoms->a_type == A_SYMBOL)
+    if(x->x_atoms->a_type == A_SYMBOL) // TYPE IS SYMBOL!!
     {
-        x->x_atoms->a_w.w_symbol = s;
+        x->x_atoms->a_w.w_symbol = s; // SYMBOL GOES THROUGH
         pak_bang(x->x_owner);
     }
-    else
+    else // TYPE IS ACTUALLY SUPPOSED TO BE FLOAT!!!!!!!!!!
     {
-        pd_error(x, "pak: wrong type (symbol)");  // needs to be "0
+ //       pd_error(x, "pak: wrong type (symbol)");  // needs to be "0
+            x->x_atoms->a_w.w_float = 0; // FLOAT is ZERO!!!!!!
+            pak_bang(x->x_owner);
     }
 }
 
