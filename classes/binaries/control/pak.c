@@ -96,14 +96,6 @@ static void pak_bang(t_pak *x)
     int i;
     for(i = 0; i < x->x_n; ++i)
     {
-        if(x->x_vec[i].a_type == A_POINTER)
-        {
-            if(!gpointer_check(x->x_vec[i].a_w.w_gpointer, 1))
-            {
-                pd_error(x, "pak: stale pointer");
-                return;
-            }
-        }
         x->x_out[i] = x->x_vec[i];
     }
     outlet_list(x->x_obj.ob_outlet, &s_list, x->x_n, x->x_out);
