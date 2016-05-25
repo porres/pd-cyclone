@@ -125,22 +125,6 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
                 dest[i].a_w.w_symbol = &s_; // float becomes blank symbol
             }
         }
-/*        else if(src[i].a_type == A_POINTER)
-        {
-            if(dest[i].a_type == A_POINTER)
-            {
-                gpointer_unset(dest[i+1].a_w.w_gpointer);
-                *(dest[i+1].a_w.w_gpointer) = *(src[i].a_w.w_gpointer);
-                if(dest[i+1].a_w.w_gpointer->gp_stub)
-                {
-                    dest[i+1].a_w.w_gpointer->gp_stub->gs_refcount++;
-                }
-            }
-            else
-            {
-                pd_error(x, "pak: wrong type (pointer)");
-            }
-        } */
         else if(src[i].a_type == A_SYMBOL)
         {
             if(dest[i].a_type == A_SYMBOL)
@@ -157,16 +141,6 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
 
 static void pak_free(t_pak *x)
 {
-/*    int i;
-    for(i = 0; i < x->x_n; ++i)
-    {
-        if(x->x_vec[i].a_type == A_POINTER)
-        {
-            gpointer_unset(x->x_vec[i].a_w.w_gpointer);
-            freebytes(x->x_vec[i].a_w.w_gpointer, sizeof(t_gpointer));
-            x->x_vec[i].a_w.w_gpointer = NULL;
-        }
-    } */
     freebytes(x->x_vec, x->x_n * sizeof(*x->x_vec));
     freebytes(x->x_out, x->x_n * sizeof(*x->x_out));
     freebytes(x->x_ins, x->x_n * sizeof(*x->x_ins));
@@ -191,24 +165,6 @@ static void pak_inlet_float(t_pak_inlet *x, float f)
         pak_bang(x->x_owner);
     }
 }
-
-/*static void pak_inlet_pointer(t_pak_inlet *x, t_gpointer *gp)
-{
-    if(x->x_atoms->a_type == A_POINTER)
-    {
-        gpointer_unset(x->x_atoms->a_w.w_gpointer);
-        *(x->x_atoms->a_w.w_gpointer) = *gp;
-        if(x->x_atoms->a_w.w_gpointer->gp_stub)
-        {
-            x->x_atoms->a_w.w_gpointer->gp_stub->gs_refcount++;
-        }
-        pak_bang(x->x_owner);
-    }
-    else
-    {
-        pd_error(x, "pak: wrong type (pointer)");
-    }
-}*/
 
 static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s)
 {
@@ -257,7 +213,6 @@ extern void pak_setup(void)
     if(c)
     {
         class_addbang(c,    (t_method)pak_inlet_bang);
- //       class_addpointer(c, (t_method)pak_inlet_pointer);
         class_addfloat(c,   (t_method)pak_inlet_float);
         class_addsymbol(c,  (t_method)pak_inlet_symbol);
         class_addlist(c,    (t_method)pak_inlet_list);
