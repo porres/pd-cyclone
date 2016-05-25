@@ -4,6 +4,8 @@
  // WARRANTIES, see the file, "LICENSE.txt," in this distribution.
  */
 
+// further adapted to conform with Max/MSP fullest compatibility as possible.
+
 #include <m_pd.h>
 
 static t_class *pak_class;
@@ -63,7 +65,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
         else if(argv[i].a_type == A_SYMBOL)
         {
             c = argv[i].a_w.w_symbol->s_name[0];
-            if(c == 'f')
+            if(c == 'f') // should only convert "f" to float, not anything that starts with "f".
             {
                 x->x_vec[i].a_type      = A_FLOAT;
                 x->x_vec[i].a_w.w_float = 0.f;
@@ -120,9 +122,7 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             }
             else
             {
-                
-                dest[i].a_w.w_symbol = &s_;
-       //         pd_error(x, "pak: wrong type (float)");
+                dest[i].a_w.w_symbol = &s_; // float becomes blank symbol
             }
         }
         else if(src[i].a_type == A_POINTER)
@@ -149,8 +149,7 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             }
             else
             {
-            //    pd_error(x, "pak: wrong type (symbol)");
-            dest[i].a_w.w_float = 0; // DESTINATION IS 0
+            dest[i].a_w.w_float = 0; // symbol becomes 0
             }
         }
     }
@@ -188,9 +187,8 @@ static void pak_inlet_float(t_pak_inlet *x, float f)
     }
     else
     {
-        x->x_atoms->a_w.w_symbol =  &s_;
+        x->x_atoms->a_w.w_symbol =  &s_; // float becomes blank symbol
         pak_bang(x->x_owner);
-    //    pd_error(x, "pak: wrong type (float)");
     }
 }
 
@@ -221,8 +219,7 @@ static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s)
     }
     else
     {
-        //       pd_error(x, "pak: wrong type (symbol)");  // needs to be "0
-        x->x_atoms->a_w.w_float = 0; // FLOAT is ZERO!!!!!!
+        x->x_atoms->a_w.w_float = 0; // symbol becomes 0
         pak_bang(x->x_owner);
     }
 }
@@ -241,7 +238,7 @@ static void pak_inlet_anything(t_pak_inlet *x, t_symbol* s, int argc, t_atom* ar
     }
     else
     {
-        pd_error(x, "pak: wrong type (symbol)");
+        x->x_atoms[0].a_w.w_float = 0; // symbol becomes 0
     }
     pak_copy(x->x_owner, x->x_max-1, x->x_atoms+1, argc, argv);
     pak_bang(x->x_owner);
