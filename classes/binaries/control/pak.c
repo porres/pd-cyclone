@@ -157,7 +157,7 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
 
 static void pak_free(t_pak *x)
 {
-    int i;
+/*    int i;
     for(i = 0; i < x->x_n; ++i)
     {
         if(x->x_vec[i].a_type == A_POINTER)
@@ -166,7 +166,7 @@ static void pak_free(t_pak *x)
             freebytes(x->x_vec[i].a_w.w_gpointer, sizeof(t_gpointer));
             x->x_vec[i].a_w.w_gpointer = NULL;
         }
-    }
+    } */
     freebytes(x->x_vec, x->x_n * sizeof(*x->x_vec));
     freebytes(x->x_out, x->x_n * sizeof(*x->x_out));
     freebytes(x->x_ins, x->x_n * sizeof(*x->x_ins));
