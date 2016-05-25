@@ -120,7 +120,9 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             }
             else
             {
-                pd_error(x, "pak: wrong type (float)");
+                
+                dest[i].a_w.w_symbol = &s_;
+       //         pd_error(x, "pak: wrong type (float)");
             }
         }
         else if(src[i].a_type == A_POINTER)
@@ -186,7 +188,9 @@ static void pak_inlet_float(t_pak_inlet *x, float f)
     }
     else
     {
-        pd_error(x, "pak: wrong type (float)");
+        x->x_atoms->a_w.w_symbol =  &s_;
+        pak_bang(x->x_owner);
+    //    pd_error(x, "pak: wrong type (float)");
     }
 }
 
