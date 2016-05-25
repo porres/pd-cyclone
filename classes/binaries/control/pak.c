@@ -34,7 +34,6 @@ typedef struct _pak_inlet
 static void *pak_new(t_symbol *s, int argc, t_atom *argv)
 {
     int i;
-    char c;
     t_pak *x = (t_pak *)pd_new(pak_class);
     t_atom defarg[2];
     if(!argc)
@@ -64,8 +63,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
         }
         else if(argv[i].a_type == A_SYMBOL)
         {
-            c = argv[i].a_w.w_symbol->s_name[0];
-            if(c == 'f') // should only convert "f" to float, not anything that starts with "f".
+        if(argv[i].a_w.w_symbol == gensym("f")) // only "f" arg converts to float
             {
                 x->x_vec[i].a_type      = A_FLOAT;
                 x->x_vec[i].a_w.w_float = 0.f;
