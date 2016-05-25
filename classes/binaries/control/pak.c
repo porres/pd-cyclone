@@ -125,7 +125,7 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
                 dest[i].a_w.w_symbol = &s_; // float becomes blank symbol
             }
         }
-        else if(src[i].a_type == A_POINTER)
+/*        else if(src[i].a_type == A_POINTER)
         {
             if(dest[i].a_type == A_POINTER)
             {
@@ -140,8 +140,8 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             {
                 pd_error(x, "pak: wrong type (pointer)");
             }
-        }
-        if(src[i].a_type == A_SYMBOL)
+        } */
+        else if(src[i].a_type == A_SYMBOL)
         {
             if(dest[i].a_type == A_SYMBOL)
             {
