@@ -192,7 +192,7 @@ static void pak_inlet_float(t_pak_inlet *x, float f)
     }
 }
 
-static void pak_inlet_pointer(t_pak_inlet *x, t_gpointer *gp)
+/*static void pak_inlet_pointer(t_pak_inlet *x, t_gpointer *gp)
 {
     if(x->x_atoms->a_type == A_POINTER)
     {
@@ -208,7 +208,7 @@ static void pak_inlet_pointer(t_pak_inlet *x, t_gpointer *gp)
     {
         pd_error(x, "pak: wrong type (pointer)");
     }
-}
+}*/
 
 static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s)
 {
