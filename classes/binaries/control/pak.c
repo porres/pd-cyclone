@@ -73,6 +73,16 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
                 x->x_ins[i].x_owner = x;
                 inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
             }
+        if(argv[i].a_w.w_symbol == gensym("i")) // only "i" arg should be integer
+            {
+                x->x_vec[i].a_type      = A_FLOAT;
+                x->x_vec[i].a_w.w_float = 0.f;
+                x->x_ins[i].x_pd    = pak_inlet_class;
+                x->x_ins[i].x_atoms = x->x_vec+i;
+                x->x_ins[i].x_max   = x->x_n-i;
+                x->x_ins[i].x_owner = x;
+                inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
+            }
             else
             {
                 x->x_vec[i].a_type       = A_SYMBOL;
@@ -110,7 +120,7 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             {
                 dest[i].a_w.w_float = src[i].a_w.w_float;
             }
-            else
+            else if(dest[i].a_type == A_SYMBOL)
             {
                 dest[i].a_w.w_symbol = &s_; // float becomes blank symbol
             }
@@ -121,7 +131,7 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             {
                 dest[i].a_w.w_symbol = src[i].a_w.w_symbol;
             }
-            else
+            else if(dest[i].a_type == A_FLOAT)
             {
             dest[i].a_w.w_float = 0; // symbol becomes 0
             }
@@ -149,7 +159,7 @@ static void pak_inlet_float(t_pak_inlet *x, float f)
         x->x_atoms->a_w.w_float = f;
         pak_bang(x->x_owner);
     }
-    else
+    else if(x->x_atoms->a_type == A_SYMBOL)
     {
         x->x_atoms->a_w.w_symbol =  &s_; // float becomes blank symbol
         pak_bang(x->x_owner);
@@ -163,7 +173,7 @@ static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s)
         x->x_atoms->a_w.w_symbol = s;
         pak_bang(x->x_owner);
     }
-    else
+    else if(x->x_atoms->a_type == A_FLOAT)
     {
         x->x_atoms->a_w.w_float = 0; // symbol becomes 0
         pak_bang(x->x_owner);
@@ -182,7 +192,7 @@ static void pak_inlet_anything(t_pak_inlet *x, t_symbol* s, int argc, t_atom* ar
     {
         x->x_atoms[0].a_w.w_symbol = s;
     }
-    else
+    else if (x->x_atoms[0].a_type == A_FLOAT)
     {
         x->x_atoms[0].a_w.w_float = 0; // symbol becomes 0
     }
