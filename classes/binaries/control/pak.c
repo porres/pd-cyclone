@@ -147,7 +147,8 @@ static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
             }
             else
             {
-                pd_error(x, "pak: wrong type (symbol)");
+            //    pd_error(x, "pak: wrong type (symbol)");
+            dest[i].a_w.w_float = 0; // DESTINATION IS 0
             }
         }
     }
@@ -216,7 +217,9 @@ static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s)
     }
     else
     {
-        pd_error(x, "pak: wrong type (symbol)");
+        //       pd_error(x, "pak: wrong type (symbol)");  // needs to be "0
+        x->x_atoms->a_w.w_float = 0; // FLOAT is ZERO!!!!!!
+        pak_bang(x->x_owner);
     }
 }
 
