@@ -27,6 +27,7 @@ typedef struct _pak_inlet
     t_class*    x_pd;
     t_atom*     x_atoms;
     t_int       x_max;
+    t_int       x_int;
     t_pak*      x_owner;
 } t_pak_inlet;
 
@@ -59,6 +60,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
             x->x_ins[i].x_atoms = x->x_vec+i;
             x->x_ins[i].x_max   = x->x_n-i;
             x->x_ins[i].x_owner = x;
+            x->x_ins[i].x_int = 0;
             inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
         }
         else if(argv[i].a_type == A_SYMBOL)
@@ -71,9 +73,11 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
                 x->x_ins[i].x_atoms = x->x_vec+i;
                 x->x_ins[i].x_max   = x->x_n-i;
                 x->x_ins[i].x_owner = x;
+                x->x_ins[i].x_int = 0;
                 inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
+                
             }
-        if(argv[i].a_w.w_symbol == gensym("i")) // only "i" arg should be integer
+        else if(argv[i].a_w.w_symbol == gensym("i")) // only "i" arg should be integer
             {
                 x->x_vec[i].a_type      = A_FLOAT;
                 x->x_vec[i].a_w.w_float = 0.f;
@@ -81,6 +85,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
                 x->x_ins[i].x_atoms = x->x_vec+i;
                 x->x_ins[i].x_max   = x->x_n-i;
                 x->x_ins[i].x_owner = x;
+                x->x_ins[i].x_int = 1;
                 inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
             }
             else
@@ -91,6 +96,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
                 x->x_ins[i].x_atoms = x->x_vec+i;
                 x->x_ins[i].x_max   = x->x_n-i;
                 x->x_ins[i].x_owner = x;
+                x->x_ins[i].x_int = 0;
                 inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
             }
         }
@@ -154,7 +160,12 @@ static void pak_inlet_bang(t_pak_inlet *x)
 
 static void pak_inlet_float(t_pak_inlet *x, float f)
 {
-    if(x->x_atoms->a_type == A_FLOAT)
+    if(x->x_int)
+    {
+        x->x_atoms->a_w.w_float = (int)f;
+        pak_bang(x->x_owner);
+    }
+    else if(x->x_atoms->a_type == A_FLOAT)
     {
         x->x_atoms->a_w.w_float = f;
         pak_bang(x->x_owner);
