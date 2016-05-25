@@ -257,7 +257,7 @@ extern void pak_setup(void)
     if(c)
     {
         class_addbang(c,    (t_method)pak_inlet_bang);
-        class_addpointer(c, (t_method)pak_inlet_pointer);
+ //       class_addpointer(c, (t_method)pak_inlet_pointer);
         class_addfloat(c,   (t_method)pak_inlet_float);
         class_addsymbol(c,  (t_method)pak_inlet_symbol);
         class_addlist(c,    (t_method)pak_inlet_list);
