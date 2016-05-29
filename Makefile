@@ -1,5 +1,5 @@
 ################################################################################
-############ Makefile for pure data externals in lib cyclone ###################
+######## Makefile for the Cyclone library of Pure Data externals ###############
 ################################################################################
 
 lib.name = cyclone
@@ -12,23 +12,22 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
 ldlibs += -lpthread
 endif
 
-################################################################################
+#######################################################################
 
-## START OF CYCLONE CLASSES ##
+                    ## START OF CYCLONE CLASSES ##
 
-################################################################################
-###         ###     ###         ### ###         ###     ###         ###
+#######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
-###         ###     ###         ### ###         ###     ###         ###
 ### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
-###         ###     ###         ### ###         ###     ###         ###
-################################################################################
+#######################################################################
 
-################################################################################
-########### classes outside the old framework common functions #################
-################################################################################
 
-# CONTROL CLASSES Removed from old framework:
+##############################################################
+########### classes outside old dependencies #################
+##############################################################
+
+# CONTROL CLASSES Removed from old dependencies
+
 # these used to end in $(hplain) which seemed
 # to be doing nothing in the new build system:
 
@@ -78,6 +77,7 @@ avg~.class.sources := classes/binaries/signal/avg.c
 bitnot~.class.sources := classes/binaries/signal/bitnot.c
 bitshift~.class.sources := classes/binaries/signal/bitshift.c
 change~.class.sources := classes/binaries/signal/change.c
+click~.class.sources := classes/binaries/signal/click.c
 clip~.class.sources := classes/binaries/signal/clip.c
 cosh~.class.sources := classes/binaries/signal/cosh.c
 cosx~.class.sources := classes/binaries/signal/cosx.c
@@ -90,6 +90,7 @@ edge~.class.sources := classes/binaries/signal/edge.c
 kink~.class.sources := classes/binaries/signal/kink.c
 log~.class.sources := classes/binaries/signal/log.c
 lores~.class.sources := classes/binaries/signal/lores.c
+matrix~.class.sources := classes/binaries/signal/matrix.c
 maximum~.class.sources := classes/binaries/signal/maximum.c
 minimum~.class.sources := classes/binaries/signal/minimum.c
 minmax~.class.sources := classes/binaries/signal/minmax.c
@@ -99,6 +100,7 @@ overdrive~.class.sources := classes/binaries/signal/overdrive.c
 peakamp~.class.sources := classes/binaries/signal/peakamp.c
 phasewrap~.class.sources := classes/binaries/signal/phasewrap.c
 pink~.class.sources := classes/binaries/signal/pink.c
+poltocar~.class.sources := classes/binaries/signal/poltocar.c
 pong~.class.sources := classes/binaries/signal/pong.c
 pow~.class.sources := classes/binaries/signal/pow.c
 rampsmooth~.class.sources := classes/binaries/signal/rampsmooth.c
@@ -120,45 +122,11 @@ triangle~.class.sources := classes/binaries/signal/triangle.c
 vectral~.class.sources := classes/binaries/signal/vectral.c
 zerox~.class.sources := classes/binaries/signal/zerox.c
 
-poltocar~.class.sources := classes/binaries/signal/poltocar.c
-click~.class.sources := classes/binaries/signal/click.c
-matrix~.class.sources := classes/binaries/signal/matrix.c
-
-# NEW CLASSES - that don'tuse the old framework common functions
-
-# Control classes
-
-acosh.class.sources := classes/binaries/control/acosh.c
-asinh.class.sources := classes/binaries/control/asinh.c
-atanh.class.sources := classes/binaries/control/atanh.c
-atodb.class.sources := classes/binaries/control/atodb.c
-dbtoa.class.sources := classes/binaries/control/dbtoa.c
-pong.class.sources := classes/binaries/control/pong.c
-pak.class.sources := classes/binaries/control/pak.c
-round.class.sources := classes/binaries/control/round.c
-scale.class.sources := classes/binaries/control/scale.c
-
-# Signal classes
-
-atodb~.class.sources := classes/binaries/signal/atodb.c
-biquad~.class.sources := classes/binaries/signal/biquad.c
-dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
-downsamp~.class.sources := classes/binaries/signal/downsamp.c
-round~.class.sources := classes/binaries/signal/round.c
-scale~.class.sources := classes/binaries/signal/scale.c
-thresh~.class.sources := classes/binaries/signal/thresh.c
-trunc~.class.sources := classes/binaries/signal/trunc.c
-
-
-################################################################################
-### Cyclone (sub library with non-alphanumeric objects (Max and MSP classes) ###
-################################################################################
+# Cyclone sub library (with non-alphanumeric objects): #
 
 cyclone.class.sources := classes/cyclone_lib/cyclone.c
 
-################################################################
-# new alphanumeric versions of the cyclone sub library objects #
-################################################################
+# New objects with alphanumeric versions
 
 # control
 rminus.class.sources := classes/binaries/control/rminus.c
@@ -176,20 +144,38 @@ modulo~.class.sources := classes/binaries/signal/modulo.c
 rdiv~.class.sources := classes/binaries/signal/rdiv.c
 rminus~.class.sources := classes/binaries/signal/rminus.c
 
-################################################################################
-############ classes inside the old framework common functions #################
-################################################################################
+# Other NEW CLASSES:
 
-#########################################
-### Control (MAX or "hammer") objects ###
-#########################################
+# Control
+acosh.class.sources := classes/binaries/control/acosh.c
+asinh.class.sources := classes/binaries/control/asinh.c
+atanh.class.sources := classes/binaries/control/atanh.c
+atodb.class.sources := classes/binaries/control/atodb.c
+dbtoa.class.sources := classes/binaries/control/dbtoa.c
+pong.class.sources := classes/binaries/control/pong.c
+pak.class.sources := classes/binaries/control/pak.c
+round.class.sources := classes/binaries/control/round.c
+scale.class.sources := classes/binaries/control/scale.c
 
-# The old build system also allowed these classes to be compiled into the "hammer library"
-# Since cyclone version alpha57, this new build system only allows single binaries
+# Signal
+atodb~.class.sources := classes/binaries/signal/atodb.c
+biquad~.class.sources := classes/binaries/signal/biquad.c
+dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
+downsamp~.class.sources := classes/binaries/signal/downsamp.c
+round~.class.sources := classes/binaries/signal/round.c
+scale~.class.sources := classes/binaries/signal/scale.c
+thresh~.class.sources := classes/binaries/signal/thresh.c
+trunc~.class.sources := classes/binaries/signal/trunc.c
 
-#################
-# common sources:
-#################
+############################################################
+## classes still inside the old framework of dependencies ##
+############################################################
+
+#######################
+### Control objects ###
+#######################
+
+# dependencies:
 
 hfile := \
 shared/hammer/file.c \
@@ -274,9 +260,7 @@ shared/common/os.c \
 shared/unstable/forky.c \
 shared/unstable/fragile.c
 
-#############################################
-# Control Classes (MAX or "hammer classes") #
-#############################################
+# Control Classes:
 
 # hfitter classes
 bangbang.class.sources := classes/binaries/control/bangbang.c $(hfitter)
@@ -358,9 +342,9 @@ offer.class.sources := classes/binaries/control/offer.c $(htree)
 
 funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 
-################################################################################
-
-# Signal classes (MSP or "sickle classes") #
+###################
+# Signal classes: #
+###################
 
 sfragile := \
 shared/common/loud.c \
@@ -397,37 +381,34 @@ shared/unstable/forky.c
     capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
 
 # Buffer Classes (agrouped) - still "sic-fied"
-sarsicfitter := \
+sarsicfittervefl := \
 shared/sickle/sic.c \
 shared/sickle/arsic.c \
 shared/common/vefl.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
-    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter) # only with 'fitter'
+    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfittervefl) # was 'sarsicfitter'
 # partially de-sic-fied:
-    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfitter) # no sarsic (was svefl)
-# remaining ones below were "sarsic":
-    index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter)
-    lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfitter)
-    peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfitter)
-    play~.class.sources := classes/binaries/signal/play.c $(sarsicfitter)
-    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfitter)
-    record~.class.sources := classes/binaries/signal/record.c $(sarsicfitter)
-    wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfitter)
+    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfittervefl) # was 'svefl'
+# remaining ones below were 'sarsic':
+    index~.class.sources := classes/binaries/signal/index.c $(sarsicfittervefl)
+    lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfittervefl)
+    peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfittervefl)
+    play~.class.sources := classes/binaries/signal/play.c $(sarsicfittervefl)
+    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfittervefl)
+    record~.class.sources := classes/binaries/signal/record.c $(sarsicfittervefl)
+    wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfittervefl)
 
-################################################################################
-###         ###     ###         ### ###         ###     ###         ###
+
+#######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
-###         ###     ###         ### ###         ###     ###         ###
 ### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
-###         ###     ###         ### ###         ###     ###         ###
-################################################################################
+#######################################################################
 
-## END OF CYCLONE CLASSES ##
+                    ## END OF CYCLONE CLASSES ##
 
-################################################################################
-
+#######################################################################
 
 datafiles = \
 $(wildcard help/*-help.pd) \
@@ -439,13 +420,11 @@ README.md \
 cyclone-meta.pd \
 $(wildcard abstractions/*.pd)
 
-
 ################################################################################
 ### pd-lib-builder #############################################################
 ################################################################################
 
 include pd-lib-builder/Makefile.pdlibbuilder
-
 
 ################################################################################
 ### Install UPPER case aliases for Linux #######################################
