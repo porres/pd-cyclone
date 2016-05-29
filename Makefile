@@ -160,6 +160,7 @@ scale.class.sources := classes/binaries/control/scale.c
 # Signal
 atodb~.class.sources := classes/binaries/signal/atodb.c
 biquad~.class.sources := classes/binaries/signal/biquad.c
+bitsafe~.class.sources := classes/binaries/signal/bitsafe.c
 dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
 downsamp~.class.sources := classes/binaries/signal/downsamp.c
 round~.class.sources := classes/binaries/signal/round.c
@@ -278,10 +279,12 @@ universal.class.sources := classes/binaries/control/universal.c $(hfragile)
 grab.class.sources := classes/binaries/control/grab.c $(hfragile)
 
 # hfile classes
-loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile) # for "click" (new class)
 capture.class.sources := classes/binaries/control/capture.c $(hfile)
 coll.class.sources := classes/binaries/control/coll.c $(hfile)
 mtr.class.sources := classes/binaries/control/mtr.c $(hfile)
+
+# NEW CLASS!!!
+    loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile)
 
 # hgui classes
 active.class.sources := classes/binaries/control/active.c $(hgui)
