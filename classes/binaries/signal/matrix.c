@@ -38,7 +38,6 @@ changed matrix_free to return void * instead of nothing
 typedef struct _matrix
 {
 	t_object 	x_obj;
-    //t_sic      x_sic;
     int        x_numinlets;
     int        x_numoutlets;
     int        x_nblock;
@@ -68,7 +67,6 @@ typedef void (*t_matrix_cellfn)(t_matrix *x, int indx, int ondx,
 				int onoff, float gain);
 
 static t_class *matrix_class;
-//static t_symbol *matrixps_matrixtilde;
 
 /* called only in nonbinary mode;  LATER deal with changing nblock/ksr */
 static void matrix_retarget(t_matrix *x, int cellndx)
@@ -127,21 +125,21 @@ static void matrix_list(t_matrix *x, t_symbol *s, int argc, t_atom *argv)
 	gain = 0;
 	ramp = 0;
 
-    if (argc < 3){
-		//ignore if less than 3 args
+    if (argc < 3)
+    { //ignore if less than 3 args
 		return;  
 	};
 
 	int argnum = 0;
 	int rampset = 0; //setting of ramp arg flag
-	while(argc > 0){
-		//argument parsing
+	while(argc > 0)
+        { //argument parsing
 		t_float argval = 0; //if not float, set equal to 0, else get value
 		if(argv -> a_type == A_FLOAT){
 			argval = atom_getfloatarg(0,argc,argv);
 		};
-		switch(argnum){
-			//if more than 4 args, then just ignore;
+		switch(argnum)
+            { //if more than 4 args, then just ignore;
 			case 0:
 				inlet_idx = (int)argval;
 				break;
@@ -157,7 +155,7 @@ static void matrix_list(t_matrix *x, t_symbol *s, int argc, t_atom *argv)
 				break;
 			default:
 				break;
-		};
+            };
 		argnum++;
 		argc--;
 		argv++;
@@ -177,16 +175,18 @@ static void matrix_list(t_matrix *x, t_symbol *s, int argc, t_atom *argv)
     //negative gain used in nonbinary mode, accepted as 1 in binary (legacy code)
     onoff = (gain < -MATRIX_GAINEPSILON || gain > MATRIX_GAINEPSILON);
     x->x_cells[cell_idx] = onoff;
-    if (x->x_gains){
-		//if in nonbinary mode
-		if (onoff){ // CHECKME
-		    x->x_gains[cell_idx] = gain; // shouldn't rewrite argument!
-		};
-		if (rampset){
+    if (x->x_gains)
+        { //if in nonbinary mode
+		if (onoff)
+            { // CHECKME
+		    x->x_gains[cell_idx] = gain;
+            };
+		if (rampset)
+            {
 	    	x->x_ramps[cell_idx] = (ramp < MATRIX_MINRAMP ? 0. : ramp);
-		};
-	matrix_retarget(x, cell_idx);
-    };
+            };
+        matrix_retarget(x, cell_idx);
+        };
 }
 
 static void matrix_clear(t_matrix *x)
@@ -198,7 +198,6 @@ static void matrix_clear(t_matrix *x)
         if (x->x_gains)
             matrix_retarget(x, i);
     }
-//	x->x_cells[i] = 0;
 }
 
 
@@ -494,13 +493,11 @@ static void matrix_dumptarget(t_matrix *x)
 }
 
 static void matrix_print(t_matrix *x)
-{
-    /* CHECKED same output as 'dump' -> [matrix~] -> [print] */
+{ // CHECKED same output as 'dump' -> [matrix~] -> [print]
     matrix_report(x, x->x_coefs, 1., matrix_cellprint);
 }
 
 /*
-
    legacy debug:
 
 #ifdef MATRIX_DEBUG
