@@ -14,7 +14,7 @@ endif
 
 #######################################################################
 
-                    ## START OF CYCLONE CLASSES ##
+## START OF CYCLONE CLASSES ##
 
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
@@ -279,12 +279,10 @@ universal.class.sources := classes/binaries/control/universal.c $(hfragile)
 grab.class.sources := classes/binaries/control/grab.c $(hfragile)
 
 # hfile classes
+loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile) # for "click" (new class)
 capture.class.sources := classes/binaries/control/capture.c $(hfile)
 coll.class.sources := classes/binaries/control/coll.c $(hfile)
 mtr.class.sources := classes/binaries/control/mtr.c $(hfile)
-
-# NEW CLASS!!!
-    loadmess.class.sources := classes/binaries/control/loadmess.c $(hfile)
 
 # hgui classes
 active.class.sources := classes/binaries/control/active.c $(hgui)
@@ -352,36 +350,36 @@ funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 sfragile := \
 shared/common/loud.c \
 shared/unstable/fragile.c
-    cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
+cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
 
 sforky := \
 shared/unstable/forky.c
-    bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
-    bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
-    bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
+bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
+bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
+bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
 shared/common/clc.c \
 shared/common/loud.c
-    frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc)
-    framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrowclc)
-    line~.class.sources := classes/binaries/signal/line.c $(sgrowclc)
-    curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
+frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc)
+framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrowclc)
+line~.class.sources := classes/binaries/signal/line.c $(sgrowclc)
+curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
 
 sgrowforky := \
 shared/common/grow.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
-    scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
+scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
 
 sfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
 shared/common/os.c \
 shared/unstable/forky.c
-    capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
+capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
 
 # Buffer Classes (agrouped) - still "sic-fied"
 sarsicfittervefl := \
@@ -391,17 +389,17 @@ shared/common/vefl.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
-    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfittervefl) # was 'sarsicfitter'
+buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfittervefl) # was 'sarsicfitter'
 # partially de-sic-fied:
-    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfittervefl) # was 'svefl'
+cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfittervefl) # was 'svefl'
 # remaining ones below were 'sarsic':
-    index~.class.sources := classes/binaries/signal/index.c $(sarsicfittervefl)
-    lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfittervefl)
-    peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfittervefl)
-    play~.class.sources := classes/binaries/signal/play.c $(sarsicfittervefl)
-    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfittervefl)
-    record~.class.sources := classes/binaries/signal/record.c $(sarsicfittervefl)
-    wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfittervefl)
+index~.class.sources := classes/binaries/signal/index.c $(sarsicfittervefl)
+lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfittervefl)
+peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfittervefl)
+play~.class.sources := classes/binaries/signal/play.c $(sarsicfittervefl)
+poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfittervefl)
+record~.class.sources := classes/binaries/signal/record.c $(sarsicfittervefl)
+wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfittervefl)
 
 
 #######################################################################
@@ -409,7 +407,7 @@ shared/unstable/fragile.c
 ### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
 #######################################################################
 
-                    ## END OF CYCLONE CLASSES ##
+## END OF CYCLONE CLASSES ##
 
 #######################################################################
 
