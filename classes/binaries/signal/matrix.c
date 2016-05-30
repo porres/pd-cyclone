@@ -400,7 +400,8 @@ static void matrix_dsp(t_matrix *x, t_signal **sp)
     int i, nblock = sp[0]->s_n;
     t_float **vecp = x->x_ivecs;
     t_signal **sigp = sp;
-    for (i = 0; i < x->x_numinlets; i++){
+    for (i = 0; i < x->x_numinlets; i++)
+    {
 		*vecp++ = (*sigp++)->s_vec;
 	};
     vecp = x->x_ovecs;

@@ -35,26 +35,17 @@ static void selector_dsp(t_selector *x, t_signal **sp)
 
 /* static void selector_dsp(t_selector *x, t_signal **sp) // trying to copy from matrix...
 {
-    int i, nblock = sp[0]->s_n;
+    int i;
     t_float **vecp = x->x_ivecs;
     t_signal **sigp = sp;
-    for (i = 0; i < x->x_inputs; i++) *vecp++ = (*sigp++)->s_vec;
+    for (i = 0; i < x->x_inputs; i++)
+    {
+    *vecp++ = (*sigp++)->s_vec;
+    }
     vecp = x->x_ovecs;
     for (i = 0; i < 1; i++) *vecp++ = (*sigp++)->s_vec;
-    
-    if (nblock != x->x_nblock){
-        if (nblock > x->x_maxblock){
-            size_t oldsize = x->x_maxblock * sizeof(*x->x_osums[i]),
-            newsize = nblock * sizeof(*x->x_osums[i]);
-            for (i = 0; i < x->x_numoutlets; i++)
-                x->x_osums[i] = resizebytes(x->x_osums[i], oldsize, newsize);
-            x->x_maxblock = nblock;
-        };
-        x->x_nblock = nblock;
-    };
-    dsp_add(selector_perform, 2, x, nblock);
+    dsp_add(selector_perform, 2, x, sp[0]->s_n);
 } */
-
 
 static void *selector_new(t_symbol *s, int argc, t_atom *argv)
 {
