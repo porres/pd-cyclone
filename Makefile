@@ -166,6 +166,7 @@ dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
 downsamp~.class.sources := classes/binaries/signal/downsamp.c
 round~.class.sources := classes/binaries/signal/round.c
 scale~.class.sources := classes/binaries/signal/scale.c
+selector~.class.sources := classes/binaries/signal/selector.c
 thresh~.class.sources := classes/binaries/signal/thresh.c
 trunc~.class.sources := classes/binaries/signal/trunc.c
 
