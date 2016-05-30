@@ -1,16 +1,34 @@
-#include <m_pd.h>
+//Work by Derek Kwan in 2016, built on the work of Pierre Guillot for pak
+
+
+#include "m_pd.h"
+#include<stdlib.h>
+#include<string.h>
+
+
+
+//taken from puredata's src/x_list.c
+
+static void atoms_copy(int argc, t_atom *from, t_atom *to)
+{
+    int i;
+    for (i = 0; i < argc; i++)
+        to[i] = from[i];
+}
+
+// ---------------------------
 
 static t_class *join_class;
 static t_class* join_inlet_class;
 
 struct _join_inlet;
 
+
 typedef struct _join
 {
     t_object            x_obj;
-    t_int               x_n;
-    t_atom*             x_vec;
-    t_atom*             x_out;
+    int               x_numinlets;
+	int 				x_totlen; //total len of all atoms from join_inlet
     struct _join_inlet*  x_ins;
 } t_join;
 
@@ -18,181 +36,186 @@ typedef struct _join_inlet
 {
     t_class*    x_pd;
     t_atom*     x_atoms;
-    t_int       x_max;
-    t_int       x_int;
-    t_join*     x_owner;
+    int 		x_numatoms;
+	int 		x_trig; //trigger flag
+	int 		x_id; //inlet number
+	t_join*      x_owner;
 } t_join_inlet;
 
 
 static void *join_new(t_symbol *s, int argc, t_atom *argv)
 {
-    int i;
     t_join *x = (t_join *)pd_new(join_class);
-    t_atom defarg[2];
-    if(!argc)
-    {
-        argv = defarg;
-        argc = 2;
-        SETFLOAT(&defarg[0], 0);
-        SETFLOAT(&defarg[1], 0);
-    }
+	t_float numinlets = 0;
+
+	int * triggervals;
+	int i;
+
+	//parse first arg, should be giving the number of inlets
+	if(argc > 0){
+		if(argv -> a_type == A_FLOAT){
+			numinlets = atom_getfloatarg(0, argc, argv);
+			argc--;
+			argv++;
+		};
+	};
+	x->x_numinlets = (int)numinlets;
+
+	triggervals = (int *)calloc(x->x_numinlets,sizeof(int));
+	triggervals[0] = 1; //default, only left inlet is hot
+
+	//the next arg should be for the attribute @trigger
+	if(argc > 0){
+		if(argv -> a_type == A_SYMBOL){
+			t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
+			if(strcmp(curarg->s_name, "@trigger") == 0){
+				argc--;
+				argv++;
+				int trigcount = 0; //counter for position in triggervals
+				while(argc > 0 && trigcount < x->x_numinlets){
+					//if there's stuff left to parse and we don't go beyond numinlets
+					t_float curval = atom_getfloatarg(0, argc, argv);
+					if(curval == -1){
+						//this sets all inlets to be hot
+						for(i=0; i<x->x_numinlets; i++){
+								triggervals[i] = 1;
+						};
+						break;
+					}
+					else{
+						triggervals[trigcount] = (int)(curval > 0);
+						trigcount++;
+						argc--;
+						argv++;
+					};
+				};
+			};
+		};
+
+	};
+
+    x->x_ins = (t_join_inlet *)getbytes(x->x_numinlets * sizeof(t_join_inlet));
     
-    x->x_n   = argc;
-    x->x_vec = (t_atom *)getbytes(argc * sizeof(*x->x_vec));
-    x->x_out = (t_atom *)getbytes(argc * sizeof(*x->x_out));
-    x->x_ins = (t_join_inlet *)getbytes(argc * sizeof(*x->x_ins));
-    
-    for(i = 0; i < x->x_n; ++i)
+
+	x->x_totlen = x->x_numinlets;
+
+    for(i = 0; i < x->x_numinlets; ++i)
     {
-        if(argv[i].a_type == A_FLOAT)
-        {
-            x->x_vec[i].a_type      = A_FLOAT;
-            x->x_vec[i].a_w.w_float = argv[i].a_w.w_float;
             x->x_ins[i].x_pd    = join_inlet_class;
-            x->x_ins[i].x_atoms = x->x_vec+i;
-            x->x_ins[i].x_max   = x->x_n-i;
-            x->x_ins[i].x_owner = x;
-            x->x_ins[i].x_int = 0;
+            x->x_ins[i].x_atoms = (t_atom *)getbytes(1 * sizeof(t_atom));
+			SETFLOAT(x->x_ins[i].x_atoms, 0);
+			x->x_ins[i].x_numatoms = 1;
+			x->x_ins[i].x_owner = x;
+            x->x_ins[i].x_trig = triggervals[i];
+			x->x_ins[i].x_id = i;
             inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
-        }
-        else if(argv[i].a_type == A_SYMBOL)
-        {
-        if(argv[i].a_w.w_symbol == gensym("f")) // only "f" arg converts to float
-            {
-                x->x_vec[i].a_type      = A_FLOAT;
-                x->x_vec[i].a_w.w_float = 0.f;
-                x->x_ins[i].x_pd    = join_inlet_class;
-                x->x_ins[i].x_atoms = x->x_vec+i;
-                x->x_ins[i].x_max   = x->x_n-i;
-                x->x_ins[i].x_owner = x;
-                inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
-            }
-            else
-            {
-                x->x_vec[i].a_type       = A_SYMBOL;
-                x->x_vec[i].a_w.w_symbol = argv[i].a_w.w_symbol; // loads symbol from arg
-                x->x_ins[i].x_pd    = join_inlet_class;
-                x->x_ins[i].x_atoms = x->x_vec+i;
-                x->x_ins[i].x_max   = x->x_n-i;
-                x->x_ins[i].x_owner = x;
-                x->x_ins[i].x_int = 0;
-                inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
-            }
-        }
-    }
+    };
     outlet_new(&x->x_obj, &s_list);
+	free(triggervals);
     return (x);
 }
 
-static void join_bang(t_join *x)
-{
-    int i;
-    for(i = 0; i < x->x_n; ++i)
-    {
-        x->x_out[i] = x->x_vec[i];
-    }
-    outlet_list(x->x_obj.ob_outlet, &s_list, x->x_n, x->x_out);
+static void join_inlet_atoms(t_join_inlet *x, int argc, t_atom * argv ){
+//setting of the atoms
+	t_join * owner = x->x_owner;
+	freebytes(x->x_atoms, x->x_numatoms * sizeof(t_atom));
+	owner->x_totlen -= x->x_numatoms;
+
+	x->x_atoms = (t_atom *)getbytes(argc * sizeof(t_atom));
+	owner->x_totlen += argc;
+
+	x->x_numatoms = (t_int)argc;
+	atoms_copy(argc, argv, x->x_atoms);
+
 }
 
-static void join_copy(t_join *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
+static void* join_free(t_join *x)
 {
-    int i;
-    for(i = 0; i < ndest && i < nsrc; ++i)
-    {
-        if(src[i].a_type == A_FLOAT)
-        {
-            if(dest[i].a_type == A_FLOAT)
-            {
-                dest[i].a_w.w_float = src[i].a_w.w_float;
-            }
-            else if(dest[i].a_type == A_SYMBOL)
-            {
-                dest[i].a_w.w_symbol = &s_; // float becomes blank symbol
-            }
-        }
-        else if(src[i].a_type == A_SYMBOL)
-        {
-            if(dest[i].a_type == A_SYMBOL)
-            {
-                dest[i].a_w.w_symbol = src[i].a_w.w_symbol;
-            }
-            else if(dest[i].a_type == A_FLOAT)
-            {
-            dest[i].a_w.w_float = 0; // symbol becomes 0
-            }
-        }
-    }
+	int i;
+	for(i=0; i<x->x_numinlets; i++){ 
+		//free the t_atoms of each inlet
+		freebytes(x->x_ins[i].x_atoms, x->x_ins[i].x_numatoms*sizeof(t_atom));
+	};
+    freebytes(x->x_ins, x->x_numinlets * sizeof(t_join_inlet));
+	return (void *)free;
 }
 
-static void join_free(t_join *x)
-{
-    freebytes(x->x_vec, x->x_n * sizeof(*x->x_vec));
-    freebytes(x->x_out, x->x_n * sizeof(*x->x_out));
-    freebytes(x->x_ins, x->x_n * sizeof(*x->x_ins));
-}
+static void join_output(t_join *x){
 
+	int i;
+	t_atom * outatom;
+	outatom = (t_atom *)getbytes(x->x_totlen * sizeof(t_atom));
+
+	int offset = 0;
+		for(i=0; i < x->x_numinlets; i++){
+				int curnum = x->x_ins[i].x_numatoms; //number of atoms for current inlet
+				atoms_copy(curnum, x->x_ins[i].x_atoms, outatom + offset); //copy them over to outatom
+				offset += curnum; //increment offset
+		};
+
+    outlet_list(x->x_obj.ob_outlet, &s_list, x->x_totlen, outatom);
+	freebytes(outatom, x->x_totlen * sizeof(t_atom));
+
+}
 
 static void join_inlet_bang(t_join_inlet *x)
 {
-    join_bang(x->x_owner);
-}
-
-static void join_inlet_float(t_join_inlet *x, float f)
-{
-    if(x->x_int)
-    {
-        x->x_atoms->a_w.w_float = (int)f;
-        join_bang(x->x_owner);
-    }
-    else if(x->x_atoms->a_type == A_FLOAT)
-    {
-        x->x_atoms->a_w.w_float = f;
-        join_bang(x->x_owner);
-    }
-    else if(x->x_atoms->a_type == A_SYMBOL)
-    {
-        x->x_atoms->a_w.w_symbol =  &s_; // float becomes blank symbol
-        join_bang(x->x_owner);
-    }
-}
-
-static void join_inlet_symbol(t_join_inlet *x, t_symbol* s)
-{
-    if(x->x_atoms->a_type == A_SYMBOL)
-    {
-        x->x_atoms->a_w.w_symbol = s;
-        join_bang(x->x_owner);
-    }
-    else if(x->x_atoms->a_type == A_FLOAT)
-    {
-        x->x_atoms->a_w.w_float = 0; // symbol becomes 0
-        join_bang(x->x_owner);
-    }
+	if(x->x_id == 0){
+		join_output(x->x_owner);
+	};
 }
 
 static void join_inlet_list(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv)
 {
-    join_copy(x->x_owner, x->x_max, x->x_atoms, argc, argv);
-    join_bang(x->x_owner);
+		join_inlet_atoms(x, argc, argv);
+		if(x->x_trig == 1){
+			join_output(x->x_owner);
+		};
+
 }
 
 static void join_inlet_anything(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv)
 {
-    if(x->x_atoms[0].a_type == A_SYMBOL)
-    {
-        x->x_atoms[0].a_w.w_symbol = s;
-    }
-    else if (x->x_atoms[0].a_type == A_FLOAT)
-    {
-        x->x_atoms[0].a_w.w_float = 0; // symbol becomes 0
-    }
-    join_copy(x->x_owner, x->x_max-1, x->x_atoms+1, argc, argv);
-    join_bang(x->x_owner);
+
+	//we want to treat "bob tom" and "list bob tom" as the same
+	//default way is to treat first symbol as selector, we don't want this!
+	if(strcmp(s->s_name, "list") != 0){
+		t_atom * tofeed = (t_atom *)getbytes((argc+1)*sizeof(t_atom));
+		SETSYMBOL(tofeed, s);
+		atoms_copy(argc, argv, tofeed+1);
+		join_inlet_list(x, 0, argc+1, tofeed);
+		freebytes(tofeed, (argc+1)*sizeof(t_atom));
+	}
+	else{
+		join_inlet_list(x, 0, argc, argv);
+	};
 }
+
+
+static void join_inlet_float(t_join_inlet *x, float f)
+{
+	t_atom * newatom;
+	newatom = (t_atom *)getbytes(1 * sizeof(t_atom));
+	SETFLOAT(newatom, f);
+	join_inlet_list(x, 0, 1, newatom);
+	freebytes(newatom, 1*sizeof(t_atom));
+}
+
+static void join_inlet_symbol(t_join_inlet *x, t_symbol* s)
+{
+	t_atom * newatom;
+	newatom = (t_atom *)getbytes(1 * sizeof(t_atom));
+	SETSYMBOL(newatom, s);
+	join_inlet_list(x, 0, 1, newatom);
+	freebytes(newatom, 1*sizeof(t_atom));
+
+
+}
+
 
 static void join_inlet_set(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv)
 {
-    join_copy(x->x_owner, x->x_max, x->x_atoms, argc, argv);
+    join_inlet_atoms(x, argc, argv);
 }
 
 extern void join_setup(void)
