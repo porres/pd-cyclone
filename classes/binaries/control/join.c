@@ -160,9 +160,9 @@ static void join_output(t_join *x){
 
 static void join_inlet_bang(t_join_inlet *x)
 {
-	if(x->x_id == 0){
+	//if(x->x_id == 0){
 		join_output(x->x_owner);
-	};
+	//};
 }
 
 static void join_inlet_list(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv)
