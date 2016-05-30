@@ -59,7 +59,7 @@ static void *join_new(t_symbol *s, int argc, t_atom *argv)
 			argv++;
 		};
 	};
-	x->x_numinlets = (int)numinlets;
+	x->x_numinlets = ((int)numinlets < 2) ? 2 : (int)numinlets;
 
 	triggervals = (int *)calloc(x->x_numinlets,sizeof(int));
 	triggervals[0] = 1; //default, only left inlet is hot
@@ -68,11 +68,12 @@ static void *join_new(t_symbol *s, int argc, t_atom *argv)
 	if(argc > 0){
 		if(argv -> a_type == A_SYMBOL){
 			t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
-			if(strcmp(curarg->s_name, "@trigger") == 0){
+			if(strcmp(curarg->s_name, "@triggers") == 0){
+				//triggers are specified, make the left inlet cold (for now)
+				triggervals[0] = 0;
 				argc--;
 				argv++;
-				int trigcount = 0; //counter for position in triggervals
-				while(argc > 0 && trigcount < x->x_numinlets){
+				while(argc > 0){
 					//if there's stuff left to parse and we don't go beyond numinlets
 					t_float curval = atom_getfloatarg(0, argc, argv);
 					if(curval == -1){
@@ -83,8 +84,10 @@ static void *join_new(t_symbol *s, int argc, t_atom *argv)
 						break;
 					}
 					else{
-						triggervals[trigcount] = (int)(curval > 0);
-						trigcount++;
+						int trigidx = (int)curval;
+						if(trigidx >= 0 && trigidx < x->x_numinlets){
+							triggervals[trigidx] = 1;
+						};
 						argc--;
 						argv++;
 					};
@@ -160,9 +163,9 @@ static void join_output(t_join *x){
 
 static void join_inlet_bang(t_join_inlet *x)
 {
-	if(x->x_id == 0){
+	//if(x->x_id == 0){
 		join_output(x->x_owner);
-	};
+	//};
 }
 
 static void join_inlet_list(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv)
@@ -218,6 +221,30 @@ static void join_inlet_set(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv)
     join_inlet_atoms(x, argc, argv);
 }
 
+static void join_inlet_triggers(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv){
+	if(x->x_id == 0){	
+		//accept if only leftmost inlet, else ignore
+		t_join * owner = x->x_owner;
+		int i, trigidx;
+		for(i=0; i< owner->x_numinlets; i++){
+			//zero out all trigger values
+			owner->x_ins[i].x_trig = 0;
+		};
+
+		//now start parsing inlet indices
+		
+		while(argc > 0){
+			t_float argval = atom_getfloatarg(0, argc, argv);
+			trigidx = (int)argval;
+			if(trigidx >= 0 && trigidx < owner->x_numinlets){
+				owner->x_ins[trigidx].x_trig = 1;
+			};
+			argc--;
+			argv++;
+		};
+	};
+
+}
 extern void join_setup(void)
 {
     t_class* c = NULL;
@@ -231,6 +258,7 @@ extern void join_setup(void)
         class_addlist(c,    (t_method)join_inlet_list);
         class_addanything(c,(t_method)join_inlet_anything);
         class_addmethod(c,  (t_method)join_inlet_set, gensym("set"), A_GIMME, 0);
+        class_addmethod(c,  (t_method)join_inlet_triggers, gensym("triggers"), A_GIMME, 0);
     }
     join_inlet_class = c;
     
