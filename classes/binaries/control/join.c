@@ -59,7 +59,7 @@ static void *join_new(t_symbol *s, int argc, t_atom *argv)
 			argv++;
 		};
 	};
-	x->x_numinlets = (int)numinlets;
+	x->x_numinlets = ((int)numinlets < 2) ? 2 : (int)numinlets;
 
 	triggervals = (int *)calloc(x->x_numinlets,sizeof(int));
 	triggervals[0] = 1; //default, only left inlet is hot
@@ -68,7 +68,7 @@ static void *join_new(t_symbol *s, int argc, t_atom *argv)
 	if(argc > 0){
 		if(argv -> a_type == A_SYMBOL){
 			t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
-			if(strcmp(curarg->s_name, "@trigger") == 0){
+			if(strcmp(curarg->s_name, "@triggers") == 0){
 				argc--;
 				argv++;
 				int trigcount = 0; //counter for position in triggervals
