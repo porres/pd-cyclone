@@ -13,10 +13,10 @@
 #define PDCYOPMODE 0
 typedef struct _bitxor
 {
-    t_object x_obj;
-    t_inlet *bitxor;
+    t_object  x_obj;
+    t_inlet  *bitxor;
     t_glist  *x_glist;
-    t_int     x_mask;  /* set by a 'bits' message or a creation argument */
+    int32_t  x_mask;  /* set by a 'bits' message or a creation argument */
     int       x_mode;
     int       x_convert1;
 } t_bitxor;
@@ -30,34 +30,34 @@ static t_int *bitxor_perform(t_int *w)
     t_float *in1 = (t_float *)(w[3]);
     t_float *in2 = (t_float *)(w[4]);
     t_float *out = (t_float *)(w[5]);
-    t_int mask = x->x_mask;
+    int32_t mask = x->x_mask;
     switch (x->x_mode)
     { // LATER think about performance
     case 0: // CHECKED - dont convert to int
 	while (nblock--)
 	{
-	    t_int i = ((*(t_int *)(t_float *)in1++) ^ (*(t_int *)(t_float *)in2++));
+	    int32_t i = ((*(int32_t *)(t_float *)in1++) ^ (*(int32_t *)(t_float *)in2++));
 	    *out++ = *(t_float *)&i;
 	}
 	break;
     case 1: // CHECKED - convert both to int
 	while (nblock--)
 	{
-	    t_int i = (((t_int)*in1++) ^ ((t_int)*in2++));
+	    int32_t i = (((int32_t)*in1++) ^ ((int32_t)*in2++));
 	    *out++ = (t_float)i;
 	}
 	break;
     case 2: // CHECKED - convert right to int
 	while (nblock--)
 	{
-	    t_int i = (*(t_int *)(t_float *)in1++) ^ ((t_int)*in2++);
+	    int32_t i = (*(int32_t *)(t_float *)in1++) ^ ((int32_t)*in2++);
 	    *out++ = *(t_float *)&i;
 	}
 	break;
     case 3: // WRONG - convert left to int
 	while (nblock--)
 	{
-	    t_int i = ((t_int)*in1++) ^ (*(t_int *)(t_float *)in2++);
+	    int32_t i = ((int32_t)*in1++) ^ (*(int32_t *)(t_float *)in2++);
 	    *out++ = (t_float)i;
 	}
 	break;
@@ -71,18 +71,18 @@ static t_int *bitxor_perform_noin2(t_int *w)
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
-    t_int mask = x->x_mask;
+    int32_t mask = x->x_mask;
     /* LATER think about performance */
     if (x->x_convert1) while (nblock--)
     {
 	/* CHECKED */
-	t_int i = ((t_int)*in++) ^ mask;
+	int32_t i = ((int32_t)*in++) ^ mask;
 	*out++ = (t_float)i;
     }
     else while (nblock--)
     {
 	/* CHECKED */
-	t_int i = (*(t_int *)(t_float *)in++) ^ mask;
+	int32_t i = (*(int32_t *)(t_float *)in++) ^ mask;
 	*out++ = *(t_float *)&i;
     }
     return (w + 5);
@@ -164,21 +164,18 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom *argv)
 			goto errstate;
 		};
 	};
-    x->x_mask = (t_int)xbitmask;  /* FIXME (how?) */
+    x->x_mask = (int32_t)xbitmask;  /* FIXME (how?) */
     bitxor_mode(x, xmode);
     return (x);
 	errstate:
 		pd_error(x, "bitxor~: improper args");
 		return NULL;
-
 }
 
 void bitxor_tilde_setup(void)
 {
-    bitxor_class = class_new(gensym("bitxor~"),
-			     (t_newmethod)bitxor_new, 0,
-			     sizeof(t_bitxor), 0,
-			     A_GIMME, 0);
+    bitxor_class = class_new(gensym("bitxor~"), (t_newmethod)bitxor_new, 0,
+        sizeof(t_bitxor), 0, A_GIMME, 0);
     class_addmethod(bitxor_class, nullfn, gensym("signal"), 0);
     class_addmethod(bitxor_class, (t_method) bitxor_dsp, gensym("dsp"), 0);
     class_addmethod(bitxor_class, (t_method)bitxor_bits,

@@ -27,6 +27,6 @@ t_pd *forky_newobject(t_symbol *s, int ac, t_atom *av);
 void forky_setsavefn(t_class *c, t_forkysavefn fn);
 void forky_setpropertiesfn(t_class *c, t_forkypropertiesfn fn);
 int forky_hasfeeders(t_object *x, t_glist *glist, int inno, t_symbol *outsym);
-t_int forky_getbitmask(int ac, t_atom *av);
+int32_t forky_getbitmask(int ac, t_atom *av);
 
 #endif

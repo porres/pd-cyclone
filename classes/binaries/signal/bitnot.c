@@ -20,22 +20,19 @@ static void bitnot_float(t_bitnot *x, t_float f);
 
 
 static t_int * bitnot_perform(t_int *w)
-{
+{   // LATER think about performance
     t_bitnot *x = (t_bitnot *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
-    /* LATER think about performance */
     if (x->x_convert1) while (nblock--)
     {
-        /* CHECKME */
-        t_int i = ~((t_int)*in++);
+        int32_t i = ~((int32_t)*in++);
         *out++ = (t_float)i;
     }
     else while (nblock--)
     {
-        /* CHECKME */
-        t_int i = ~(*(t_int *)(t_float *)in++);
+        int32_t i = ~(*(int32_t *)(t_float *)in++);
         *out++ = *(t_float *)&i;
     }
     return (w + 5);
@@ -49,13 +46,13 @@ static void bitnot_dsp(t_bitnot *x, t_signal **sp)
 static void bitnot_mode(t_bitnot *x, t_floatarg f)
 {
     int i = (int)f;
-    x->x_convert1 = (i > 0);  /* CHECKME */
+    x->x_convert1 = (i > 0);
 }
 
 static void bitnot_float(t_bitnot *x, t_float f)
 {
     int i = (int)f;
-    x->x_convert1 = (i > 0);  /* CHECKME */
+    x->x_convert1 = (i > 0);
 }
 
 

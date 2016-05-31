@@ -32,12 +32,12 @@ static t_int * bitshift_perform(t_int *w)
         unsigned int shift = (int)x->x_lshift;
         if (x->x_convert1) while (nblock--)
         {
-            t_int i = ((t_int)*in++ << shift);
+            int32_t i = ((int32_t)*in++ << shift);
             *out++ = (t_float)i;
         }
         else while (nblock--)
         {
-            t_int i = (*(t_int *)(t_float *)in++ << shift);
+            int32_t i = (*(int32_t *)(t_float *)in++ << shift);
             *out++ = *(t_float *)&i;
         }
     }
@@ -46,12 +46,12 @@ static t_int * bitshift_perform(t_int *w)
         unsigned int shift = (int)x->x_rshift;
         if (x->x_convert1) while (nblock--)
         {
-            t_int i = ((t_int)*in++ >> shift); /* CHECKME */
+            int32_t i = ((int32_t)*in++ >> shift); /* CHECKME */
             *out++ = (t_float)i;
         }
         else while (nblock--)
         {
-            t_int i = (*(t_int *)(t_float *)in++ >> shift);  /* CHECKME */
+            int32_t i = (*(int32_t *)(t_float *)in++ >> shift);  /* CHECKME */
             *out++ = *(t_float *)&i;
         }
     }

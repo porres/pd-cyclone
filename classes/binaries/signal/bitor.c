@@ -9,10 +9,10 @@
 
 typedef struct _bitor
 {
-    t_object x_obj;
-    t_inlet *bitor;
+    t_object  x_obj;
+    t_inlet  *bitor;
     t_glist  *x_glist;
-    t_int     x_mask;  /* set by a 'bits' message or a creation argument */
+    int32_t  x_mask;  /* set by a 'bits' message or a creation argument */
     int       x_mode;
     int       x_convert1;
 } t_bitor;
@@ -26,7 +26,7 @@ static t_int *bitor_perform(t_int *w)
     t_float *in1 = (t_float *)(w[3]);
     t_float *in2 = (t_float *)(w[4]);
     t_float *out = (t_float *)(w[5]);
-    t_int mask = x->x_mask;
+    int32_t mask = x->x_mask;
     switch (x->x_mode)
     {
 	/* LATER think about performance */
@@ -34,34 +34,32 @@ static t_int *bitor_perform(t_int *w)
 	/* CHECKED */
 	while (nblock--)
 	{
-	    t_int i = ((*(t_int *)(t_float *)in1++) |
-		       (*(t_int *)(t_float *)in2++));
-	    *out++ = *(t_float *)&i;
+    int32_t i = ((*(int32_t *)(t_float *)in1++) | (*(int32_t *)(t_float *)in2++));
+    *out++ = *(t_float *)&i;
 	}
 	break;
     case 1:
 	/* CHECKED */
 	while (nblock--)
 	{
-	    t_int i = (((t_int)*in1++) |
-		       ((t_int)*in2++));
-	    *out++ = (t_float)i;
+    int32_t i = (((int32_t)*in1++) | ((int32_t)*in2++));
+    *out++ = (t_float)i;
 	}
 	break;
     case 2:
 	/* CHECKED */
 	while (nblock--)
 	{
-	    t_int i = (*(t_int *)(t_float *)in1++) | ((t_int)*in2++);
-	    *out++ = *(t_float *)&i;
+    int32_t i = (*(int32_t *)(t_float *)in1++) | ((int32_t)*in2++);
+    *out++ = *(t_float *)&i;
 	}
 	break;
     case 3:
 	/* CHECKED */
 	while (nblock--)
 	{
-	    t_int i = ((t_int)*in1++) | (*(t_int *)(t_float *)in2++);
-	    *out++ = (t_float)i;
+    int32_t i = ((int32_t)*in1++) | (*(int32_t *)(t_float *)in2++);
+    *out++ = (t_float)i;
 	}
 	break;
     }
@@ -74,18 +72,18 @@ static t_int *bitor_perform_noin2(t_int *w)
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
-    t_int mask = x->x_mask;
+    int32_t mask = x->x_mask;
     /* LATER think about performance */
     if (x->x_convert1) while (nblock--)
     {
 	/* CHECKED */
-	t_int i = ((t_int)*in++) | mask;
+	int32_t i = ((int32_t)*in++) | mask;
 	*out++ = (t_float)i;
     }
     else while (nblock--)
     {
 	/* CHECKED */
-	t_int i = (*(t_int *)(t_float *)in++) | mask;
+	int32_t i = (*(int32_t *)(t_float *)in++) | mask;
 	*out++ = *(t_float *)&i;
     }
     return (w + 5);
@@ -125,7 +123,7 @@ static void *bitor_new(t_floatarg f1, t_floatarg f2)
     x->x_glist = canvas_getcurrent();
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
-    x->x_mask = (t_int)f1;  /* FIXME (how?) */
+    x->x_mask = (int32_t)f1;  /* FIXME (how?) */
     bitor_mode(x, f2);
     return (x);
 }

@@ -10,10 +10,10 @@
 
 typedef struct _bitand
 {
-    t_object x_obj;
-    t_inlet *bitand;
+    t_object  x_obj;
+    t_inlet  *bitand;
     t_glist  *x_glist;
-    t_int     x_mask;  // set as 'bits' message or argument
+    int32_t  x_mask;  // set as 'bits' message or argument
     int       x_mode;
     int       x_convert1;
 } t_bitand;
@@ -27,32 +27,33 @@ static t_int *bitand_perform(t_int *w) // LATER think about performance
     t_float *in1 = (t_float *)(w[3]);
     t_float *in2 = (t_float *)(w[4]);
     t_float *out = (t_float *)(w[5]);
-    t_int mask = x->x_mask;
+    int32_t mask = x->x_mask;
     switch (x->x_mode)
     {
-        case 0:	while (nblock--)  // float inputs as raw 32bit
-        { t_int i = (*(t_int *)(t_float *)in1++) & (*(t_int *)(t_float *)in2++);
+        case 0:	while (nblock--)  // treat input as float (?)
+        { int32_t i = (*(int32_t *)(t_float *)in1++) & (*(int32_t *)(t_float *)in2++);
 	    *out++ = *(t_float *)&i;
         }
         break;
-        case 1: while (nblock--) // convert float inputs to int
-        { t_int i = ((t_int)*in1++) & ((t_int)*in2++);
+        case 1: while (nblock--) // convert to int
+        { int32_t i = ((int32_t)*in1++) & ((int32_t)*in2++);
 	    *out++ = (t_float)i;
         }
         break;
-        case 2: while (nblock--) // left input as raw 32bit - right as int
-        { t_int i = (*(t_int *)(t_float *)in1++) & ((t_int)*in2++);
+        case 2: while (nblock--) // right as int - NOT WORKING in 64 bits!!!
+        { int32_t i = (*(int32_t *)(t_float *)in1++) & ((int32_t)*in2++);
 	    *out++ = *(t_float *)&i;
         }
         break;
-        case 3: while (nblock--) // right input as raw 32bit - left as int
-        { t_int i = ((t_int)*in1++) & (*(t_int *)(t_float *)in2++); // NOT WORKING!!!
-	    *out++ = (t_float)i;
+        case 3: while (nblock--) // left as int - NOT WORKING in 64 bits!!!
+        { int32_t i = ((int32_t)*in1++) & (*(int32_t *)(t_float *)in2++);
+        *out++ = (t_float)i;
         }
 	break;
     }
     return (w + 6);
 }
+
 
 static t_int *bitand_perform_noin2(t_int *w)
 { // LATER think about performance
@@ -60,13 +61,13 @@ static t_int *bitand_perform_noin2(t_int *w)
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
-    t_int mask = x->x_mask;
+    int32_t mask = x->x_mask;
     if (x->x_convert1) while (nblock--) // Mode 1 or 3 (left as int)
-        { t_int i = ((t_int)*in++) & mask;
+        { int32_t i = ((int32_t)*in++) & mask;
           *out++ = (t_float)i;
         }
     else while (nblock--)
-        { t_int i = (*(t_int *)(t_float *)in++) & mask;
+        { int32_t i = (*(int32_t *)(t_float *)in++) & mask;
           *out++ = *(t_float *)&i;
         }
     return (w + 5);
@@ -106,7 +107,7 @@ static void *bitand_new(t_floatarg f1, t_floatarg f2)
     x->x_glist = canvas_getcurrent();
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
-    x->x_mask = (t_int)f1;  // FIXME (how?) || argument not working if anything (not only signal) is connected to it at object creation...
+    x->x_mask = (int32_t)f1;  // FIXME (what/how?)
     bitand_mode(x, f2);
     return (x);
 }
