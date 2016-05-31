@@ -65,21 +65,10 @@ void *bitnot_new(t_floatarg f)
 }
 
 void bitnot_tilde_setup(void) {
-    bitnot_class = class_new(gensym("bitnot~"),
-        (t_newmethod) bitnot_new,
-        0,
-        sizeof (t_bitnot),
-        CLASS_DEFAULT,
-        A_DEFFLOAT,
-        0);
+    bitnot_class = class_new(gensym("bitnot~"), (t_newmethod) bitnot_new, 0,
+        sizeof (t_bitnot), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(bitnot_class, nullfn, gensym("signal"), 0);
     class_addmethod(bitnot_class, (t_method) bitnot_dsp, gensym("dsp"), 0);
-    class_addmethod(bitnot_class, (t_method)bitnot_mode,
-                    gensym("mode"), A_FLOAT, 0);
-            class_addfloat(bitnot_class, (t_method)bitnot_float);
+    class_addmethod(bitnot_class, (t_method)bitnot_mode, gensym("mode"), A_FLOAT, 0);
+    class_addfloat(bitnot_class, (t_method)bitnot_float);
 }
-
-
-
-
-

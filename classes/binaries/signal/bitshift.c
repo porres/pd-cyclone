@@ -20,7 +20,6 @@ static void bitshift_dsp(t_bitshift *x, t_signal **sp);
 static void bitshift_mode(t_bitshift *x, t_floatarg f);
 static void bitshift_float(t_bitshift *x, t_float f);
 
-
 static t_int * bitshift_perform(t_int *w)
 {   // LATER think about performance
     t_bitshift *x = (t_bitshift *)(w[1]);
@@ -46,17 +45,17 @@ static t_int * bitshift_perform(t_int *w)
         unsigned int shift = (int)x->x_rshift;
         if (x->x_convert1) while (nblock--)
         {
-            int32_t i = ((int32_t)*in++ >> shift); /* CHECKME */
+            int32_t i = ((int32_t)*in++ >> shift);
             *out++ = (t_float)i;
         }
         else while (nblock--)
         {
-            int32_t i = (*(int32_t *)(t_float *)in++ >> shift);  /* CHECKME */
+            int32_t i = (*(int32_t *)(t_float *)in++ >> shift);
             *out++ = *(t_float *)&i;
         }
     }
     else
-        while (nblock--) *out++ = *in++;  // CHECKED both modes
+        while (nblock--) *out++ = *in++;
     return (w + 5);
 }
 
@@ -68,15 +67,14 @@ static void bitshift_dsp(t_bitshift *x, t_signal **sp)
 static void bitshift_mode(t_bitshift *x, t_floatarg f)
 {
     int i = (int)f;
-    x->x_convert1 = (i > 0);  /* CHECKME */
+    x->x_convert1 = (i > 0);
 }
 
 static void bitshift_float(t_bitshift *x, t_float f)
 {
     int i = (int)f;
-    x->x_convert1 = (i > 0);  /* CHECKME */
+    x->x_convert1 = (i > 0);
 }
-
 
 static void bitshift_shift(t_bitshift *x, t_floatarg f)
  {
