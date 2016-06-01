@@ -1,4 +1,4 @@
-// Derek Kwan - 20166
+// Derek Kwan - 2016
 
 #include "m_pd.h"
 #include <math.h>
