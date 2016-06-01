@@ -718,7 +718,8 @@ void cyclone_setup(void)
 
 /* -- [>=~] -- */
     
-    greaterthaneq_class = class_new(gensym(">=~"), (t_newmethod)greaterthaneq_new,                                   (t_method)greaterthaneq_free, sizeof(t_greaterthaneq), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    greaterthaneq_class = class_new(gensym(">=~"), (t_newmethod)greaterthaneq_new,
+        (t_method)greaterthaneq_free, sizeof(t_greaterthaneq), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(greaterthaneq_class, nullfn, gensym("signal"), 0);
     class_addmethod(greaterthaneq_class, (t_method)greaterthaneq_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(greaterthaneq_class, gensym("greaterthaneq~"));

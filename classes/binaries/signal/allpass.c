@@ -125,12 +125,13 @@ static void *allpass_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     x->x_bufsize = x->x_maxsize = bufsize;
     x->x_buf = buf;
     if (f2 < 0) f2 = 0;
-//    if (f3 < -ALLPASS_MAXFEEDBACK) f3 = -ALLPASS_MAXFEEDBACK;
-//    else if (f3 > ALLPASS_MAXFEEDBACK) f3 = ALLPASS_MAXFEEDBACK;
+    
     x->x_del_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_del_inlet, f2);
+    
     x->x_gain_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_gain_inlet, f3);
+    
     outlet_new((t_object *)x, &s_signal);
     allpass_clear(x);
     return (x);
