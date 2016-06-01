@@ -30,18 +30,18 @@ static t_int *gate_perform(t_int *w)
 	for(i = 0; i < nblock; i++)
     {
 		int curst = (int)state[i];
-		t_float gate_out = 0; // all outputs should == 0 - but HOW????
+//		t_float gate_out = 0; // all outputs should == 0 - but HOW????
 		if(curst != 0)      // if index != 0, start counter
         {
 			for(j = 0; j < sig_outs; j++) // 'for' counter
             {
 				if(curst == (j+1)) // if index == count
                 {
-                    gate_out = ovecs[j][i]; // gate_out == indexed output
+                    ovecs[j][i] = ivec[i]; // gate_out == indexed output
 				};
 			};
 		};
-		ivec[i] = gate_out;
+//		ivec[i] = gate_out;
 	};
     return (w + 3);
 }
