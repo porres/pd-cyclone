@@ -640,9 +640,9 @@ void cyclone_setup(void)
 /* -- post cyclone lib version -- */
         {
         post("********************************************************************************");
-        post("* CYCLONE (Version 0.3 Beta-1) Compiled may 20 2016;");
+        post("* CYCLONE (Version 0.3 Beta-1) Compiled may 31 2016;");
         post("* This is the cyclone sub library containing the objects:");
-        post("* [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], [!-~], [!/~], [%~] and [+=~]"); // how to post "%"?
+        post("* [!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("********************************************************************************");
         }
         endpost();
