@@ -164,6 +164,7 @@ biquad~.class.sources := classes/binaries/signal/biquad.c
 bitsafe~.class.sources := classes/binaries/signal/bitsafe.c
 dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
 downsamp~.class.sources := classes/binaries/signal/downsamp.c
+gate~.class.sources := classes/binaries/signal/gate.c
 round~.class.sources := classes/binaries/signal/round.c
 scale~.class.sources := classes/binaries/signal/scale.c
 selector~.class.sources := classes/binaries/signal/selector.c
