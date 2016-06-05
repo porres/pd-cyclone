@@ -1,48 +1,150 @@
 // Porres 2016
 
 #include "m_pd.h"
+#include <math.h>
+
+#define PI M_PI
+#define PHI ((PI/2) * (2./3))
+#define TWO_COS_PHI (2 * cosf(PHI))
+#define TWO_SIN_PHI (2 * sinf(PHI))
 
 typedef struct _cross {
     t_object    x_obj;
-    t_float     x_input;    //dummy var
-    t_inlet    *x_inlet_y;  // main 1st inlet
-    t_inlet    *x_inlet_x;  // 2nd inlet
+    t_inlet    *x_inlet_freq;  // 2nd inlet
     t_outlet   *x_out1;
     t_outlet   *x_out2;
-} t_cross;
+    t_float     x_nyq;
+    t_float     x_last_f;
+    t_float     x_lo1_x1;
+    t_float     x_lo1_y1;
+    t_float     x_lo2_x1;
+    t_float     x_lo2_x2;
+    t_float     x_lo2_y1;
+    t_float     x_lo2_y2;
+    t_float     x_hi1_x1;
+    t_float     x_hi1_y1;
+    t_float     x_hi2_x1;
+    t_float     x_hi2_x2;
+    t_float     x_hi2_y1;
+    t_float     x_hi2_y2;
+    } t_cross;
 
 static t_class *cross_class;
 
+void cross_clear(t_cross *x)
+{
+    x->x_lo1_x1 = x->x_lo2_x1 = x->x_lo2_x2 =
+    x->x_lo1_y1 = x->x_lo2_y1 = x->x_lo2_y2 = 0.;
+}
+
 static t_int *cross_perform(t_int *w)
 {
-    int nblock = (int)(w[1]);
-    t_float *in1 = (t_float *)(w[2]);
-    t_float *in2 = (t_float *)(w[3]);
-    t_float *out1 = (t_float *)(w[4]);
+    t_cross *x = (t_cross *)(w[1]);
+    int nblock = (int)(w[2]);
+    t_float *in1 = (t_float *)(w[3]);
+    t_float *in2 = (t_float *)(w[4]);
     t_float *out1 = (t_float *)(w[5]);
+    t_float *out2 = (t_float *)(w[6]);
+    t_float lo1_x1 = x->x_lo1_x1; // 1st order zero LOWPASS
+    t_float lo1_y1 = x->x_lo1_y1; // 1st order pole LOWPASS
+    t_float lo2_x1 = x->x_lo2_x1; // 2nd order zero1 LOWPASS
+    t_float lo2_x2 = x->x_lo2_x2; // 2nd order zero2 LOWPASS
+    t_float lo2_y1 = x->x_lo2_y1; // 2nd order pole1 LOWPASS
+    t_float lo2_y2 = x->x_lo2_y2; // 2nd order pole2 LOWPASS
+    t_float hi1_x1 = x->x_hi1_x1; // 1st order zero HIGHPASS
+    t_float hi1_y1 = x->x_hi1_y1; // 1st order pole HIGHPASS
+    t_float hi2_x1 = x->x_hi2_x1; // 2nd order zero1 HIGHPASS
+    t_float hi2_x2 = x->x_hi2_x2; // 2nd order zero2 HIGHPASS
+    t_float hi2_y1 = x->x_hi2_y1; // 2nd order pole1 HIGHPASS
+    t_float hi2_y2 = x->x_hi2_y2; // 2nd order pole2 HIGHPASS
+    t_float nyq = x->x_nyq;
+    t_float last_f = x->x_last_f;
     while (nblock--)
     {
-	float f1 = *in1++;
-	float f2 = *in2++;
-	*out1++ = f1 + f2;
-    *out2++ = f1 - f2;
+        float lo2_yn, lo1_yn, lo2_xn, hi2_yn, hi1_yn, hi2_xn, lo1_xn, hi1_xn, f = *in2++;
+        lo1_xn = hi1_xn = *in1++;
+        if (f < 1) f = last_f;
+        if (f > nyq) f = nyq;
+        float r = tanf((f/nyq) * (PI/2));
+        last_f = f;
+        // poles:
+        float p1 = (1 - r*r) / (1 + r*r + 2*r);
+        float re = (1 - r*r) / (1 + r*r + r*TWO_COS_PHI);
+        float im = r*TWO_SIN_PHI / (1 + r*r + r*TWO_COS_PHI);
+        float p2 = 2*re;
+        float p3 = -pow(hypotf(re, im), 2);
+        
+        // start of lowpass:
+        float lz1 = fabsf(1 - p1) * 0.5; // gain
+        lo2_xn = lo1_yn = lz1*lo1_xn + lz1*lo1_x1 + p1*lo1_y1; // 1sr order section
+        lo1_x1 = lo1_xn;
+        lo1_y1 = lo1_yn;
+        float lg = (pow(re-1, 2) + pow(im, 2)) * 0.25; // gain
+        lo2_yn = lg*lo2_xn + 2*lg*lo2_x1 + lg*lo2_x2 + p2*lo2_y1 + p3*lo2_y2; // 2nd order section
+        lo2_x2 = lo2_x1;
+        lo2_x1 = lo2_xn;
+        lo2_y2 = lo2_y1;
+        lo2_y1 = lo2_yn;
+        *out1++ = lo2_yn; // LOWPASS OUTPUT
+        
+        // start of highpass:
+        float hz1 = (p1 + 1) * 0.5; // gain
+        hi2_xn = hi1_yn = hz1*lo1_xn + hz1*lo1_x1 + p1*lo1_y1; // 1sr order section
+        hi1_x1 = hi1_xn;
+        hi1_y1 = hi1_yn;
+        float hg = (pow(re+1, 2) + pow(im, 2)) * 0.25; // gain
+        hi2_yn = hg*hi2_xn - 2*hg*hi2_x1 + hg*hi2_x2 + p2*hi2_y1 + p3*hi2_y2; // 2nd order section
+        hi2_x2 = hi2_x1;
+        hi2_x1 = hi2_xn;
+        hi2_y2 = hi2_y1;
+        hi2_y1 = hi2_yn;
+        *out2++ = hi2_yn; // HIGHPASS OUTPUT
     }
-    return (w + 6);
+    x->x_lo1_x1 = lo1_x1;
+    x->x_lo1_y1 = lo1_y1;
+    x->x_lo2_x1 = lo2_x1;
+    x->x_lo2_x2 = lo2_x2;
+    x->x_lo2_y1 = lo2_y1;
+    x->x_lo2_y2 = lo2_y2;
+    x->x_hi1_x1 = hi1_x1;
+    x->x_hi1_y1 = hi1_y1;
+    x->x_hi2_x1 = hi2_x1;
+    x->x_hi2_x2 = hi2_x2;
+    x->x_hi2_y1 = hi2_y1;
+    x->x_hi2_y2 = hi2_y2;
+    x->x_last_f = last_f;
+    return (w + 7);
 }
+
+
 
 static void cross_dsp(t_cross *x, t_signal **sp)
 {
-    dsp_add(cross_perform, 5, sp[0]->s_n, sp[0]->s_vec,
+    x->x_nyq = sp[0]->s_sr / 2;
+    dsp_add(cross_perform, 6, x, sp[0]->s_n, sp[0]->s_vec,
             sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
 static void *cross_new(t_floatarg f)
 {
     t_cross *x = (t_cross *)pd_new(cross_class);
-    x->x_inlet_x = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-    pd_float((t_pd *)x->x_inlet_x, f);
+    x->x_inlet_freq = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    pd_float((t_pd *)x->x_inlet_freq, f);
     x->x_out1 = outlet_new((t_object *)x, &s_signal);
     x->x_out2 = outlet_new((t_object *)x, &s_signal);
+    x->x_lo1_x1 = 0;
+    x->x_lo1_y1 = 0;
+    x->x_lo2_x1 = 0;
+    x->x_lo2_x2 = 0;
+    x->x_lo2_y1 = 0;
+    x->x_lo2_y2 = 0;
+    x->x_hi1_x1 = 0;
+    x->x_hi1_y1 = 0;
+    x->x_hi2_x1 = 0;
+    x->x_hi2_x2 = 0;
+    x->x_hi2_y1 = 0;
+    x->x_hi2_y2 = 0;
+    x->x_last_f = 1000;
     return (x);
 }
 
@@ -51,5 +153,6 @@ void cross_tilde_setup(void)
     cross_class = class_new(gensym("cross~"), (t_newmethod)cross_new, 0,
         sizeof(t_cross), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(cross_class, (t_method)cross_dsp, gensym("dsp"), 0);
-    CLASS_MAINSIGNALIN(cross_class, t_cross, x_input); // no main signal in...
+    class_addmethod(cross_class, nullfn, gensym("signal"), 0);
+    class_addmethod(cross_class, (t_method) cross_clear, gensym("clear"), 0);
 }
