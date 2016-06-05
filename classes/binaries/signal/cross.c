@@ -68,19 +68,19 @@ static t_int *cross_perform(t_int *w)
         float r = tanf((f/nyq) * (PI/2));
         last_f = f;
         // poles:
-        float p1 = (1 - r*r) / (1 + r*r + 2*r);
+        float c1 = (1 - r*r) / (1 + r*r + 2*r);
         float re = (1 - r*r) / (1 + r*r + r*TWO_COS_PHI);
         float im = r*TWO_SIN_PHI / (1 + r*r + r*TWO_COS_PHI);
-        float p2 = 2*re;
-        float p3 = -pow(hypotf(re, im), 2);
+        float c2 = 2*re;
+        float c3 = -pow(hypotf(re, im), 2);
         
         // start of lowpass:
-        float lz1 = fabsf(1 - p1) * 0.5; // gain
-        lo2_xn = lo1_yn = lz1*lo1_xn + lz1*lo1_x1 + p1*lo1_y1; // 1sr order section
+        float lg1 = fabsf(1 - c1) * 0.5; // gain
+        lo2_xn = lo1_yn = lg1*lo1_xn + lg1*lo1_x1 + c1*lo1_y1; // 1sr order section
         lo1_x1 = lo1_xn;
         lo1_y1 = lo1_yn;
-        float lg = (pow(re-1, 2) + pow(im, 2)) * 0.25; // gain
-        lo2_yn = lg*lo2_xn + 2*lg*lo2_x1 + lg*lo2_x2 + p2*lo2_y1 + p3*lo2_y2; // 2nd order section
+        float lg2 = (pow(re-1, 2) + pow(im, 2)) * 0.25; // gain
+        lo2_yn = lg2*lo2_xn + 2*lg2*lo2_x1 + lg2*lo2_x2 + c2*lo2_y1 + c3*lo2_y2; // 2nd order section
         lo2_x2 = lo2_x1;
         lo2_x1 = lo2_xn;
         lo2_y2 = lo2_y1;
@@ -88,12 +88,12 @@ static t_int *cross_perform(t_int *w)
         *out1++ = lo2_yn; // LOWPASS OUTPUT
         
         // start of highpass:
-        float hz1 = (p1 + 1) * 0.5; // gain
-        hi2_xn = hi1_yn = hz1*lo1_xn + hz1*lo1_x1 + p1*lo1_y1; // 1sr order section
+        float hg1 = (c1 + 1) * 0.5; // gain
+        hi2_xn = hi1_yn = hg1*lo1_xn + hg1*lo1_x1 + c1*lo1_y1; // 1sr order section
         hi1_x1 = hi1_xn;
         hi1_y1 = hi1_yn;
-        float hg = (pow(re+1, 2) + pow(im, 2)) * 0.25; // gain
-        hi2_yn = hg*hi2_xn - 2*hg*hi2_x1 + hg*hi2_x2 + p2*hi2_y1 + p3*hi2_y2; // 2nd order section
+        float hg2 = (pow(re+1, 2) + pow(im, 2)) * 0.25; // gain
+        hi2_yn = hg2*hi2_xn - 2*hg2*hi2_x1 + hg2*hi2_x2 + c2*hi2_y1 + c3*hi2_y2; // 2nd order section
         hi2_x2 = hi2_x1;
         hi2_x1 = hi2_xn;
         hi2_y2 = hi2_y1;
@@ -115,7 +115,6 @@ static t_int *cross_perform(t_int *w)
     x->x_last_f = last_f;
     return (w + 7);
 }
-
 
 
 static void cross_dsp(t_cross *x, t_signal **sp)
