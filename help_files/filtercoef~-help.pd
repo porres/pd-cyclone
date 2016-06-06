@@ -1,0 +1,41 @@
+#N canvas 616 129 596 462 10;
+#X obj 90 235 noise~;
+#X obj 140 359 output~;
+#X obj 304 102 vsl 15 120 0.01 10 1 0 empty q empty -52 10 0 15 -166441
+-1 -1 11516 1;
+#X obj 215 39 vsl 15 120 -24 24 0 0 empty db empty 22 10 0 15 -166441
+-1 -1 7025 1;
+#X floatatom 144 214 7 0 0 0 - - -, f 7;
+#X text 305 76 Q;
+#X obj 144 72 vsl 15 128 20 10000 1 0 empty hz empty 0 -9 0 10 -191407
+-1 -1 7995 1;
+#X text 163 70 Freq;
+#X text 238 35 Gain (db);
+#X floatatom 215 173 7 0 0 0 - - -, f 7;
+#X msg 390 77 \; q 8 \; db 12 \; hz 1000;
+#X obj 390 51 loadbang;
+#X obj 175 240 filtercoef~ gainlpass;
+#X msg 382 222 lowpass \; highpass \; bandpass \; bandstop \; peaknotch
+\; lowshelf \; highshelf \; ressonant \; allpass;
+#X msg 480 242 gainlpass \; gainhpass \; gainbpass \; gainbstop \;
+gainresonant \; gainapass;
+#X text 492 215 to do;
+#X obj 156 304 cyclone/biquad~;
+#X obj 224 216 atodb~;
+#X obj 224 195 sig~;
+#X connect 0 0 16 0;
+#X connect 2 0 12 2;
+#X connect 3 0 9 0;
+#X connect 4 0 12 0;
+#X connect 6 0 4 0;
+#X connect 9 0 18 0;
+#X connect 11 0 10 0;
+#X connect 12 0 16 1;
+#X connect 12 1 16 2;
+#X connect 12 2 16 3;
+#X connect 12 3 16 4;
+#X connect 12 4 16 5;
+#X connect 16 0 1 0;
+#X connect 16 0 1 1;
+#X connect 17 0 12 1;
+#X connect 18 0 17 1;
