@@ -16,10 +16,85 @@ typedef struct _filtercoeff {
     t_outlet   *x_out_b2;
     t_float     x_nyq;
     t_float     x_lastq;
+    t_int       x_mode;
     } t_filtercoeff;
 
 static t_class *filtercoeff_class;
 
+void filtercoeff_lowpass(t_filtercoeff *x)
+{
+    x->x_mode = 0;
+}
+
+void filtercoeff_highpass(t_filtercoeff *x)
+{
+    x->x_mode = 1;
+}
+
+void filtercoeff_bandpass(t_filtercoeff *x)
+{
+    x->x_mode = 2;
+}
+
+void filtercoeff_bandstop(t_filtercoeff *x)
+{
+    x->x_mode = 3;
+}
+
+void filtercoeff_resonant(t_filtercoeff *x)
+{
+    x->x_mode = 4;
+}
+
+void filtercoeff_peaknotch(t_filtercoeff *x)
+{
+    x->x_mode = 5;
+}
+
+void filtercoeff_lowshelf(t_filtercoeff *x)
+{
+    x->x_mode = 6;
+}
+
+void filtercoeff_highshelf(t_filtercoeff *x)
+{
+    x->x_mode = 7;
+}
+
+void filtercoeff_allpass(t_filtercoeff *x)
+{
+    x->x_mode = 8;
+}
+
+void filtercoeff_gainlpass(t_filtercoeff *x)
+{
+    x->x_mode = 9;
+}
+
+void filtercoeff_gainhpass(t_filtercoeff *x)
+{
+    x->x_mode = 10;
+}
+
+void filtercoeff_gainbpass(t_filtercoeff *x)
+{
+    x->x_mode = 11;
+}
+
+void filtercoeff_gainbstop(t_filtercoeff *x)
+{
+    x->x_mode = 12;
+}
+
+void filtercoeff_gainresonant(t_filtercoeff *x)
+{
+    x->x_mode = 13;
+}
+
+void filtercoeff_gainapass(t_filtercoeff *x)
+{
+    x->x_mode = 14;
+}
 
 static t_int *filtercoeff_perform(t_int *w)
 {
@@ -37,20 +112,182 @@ static t_int *filtercoeff_perform(t_int *w)
     t_float lastq = x->x_lastq;
     while (nblock--)
     {
-        float omega, alphaQ, a0, a1, a2, b0, b1, b2, f = *in1++, q = *in3++;
-        if (q < 0) q = lastq;
+        float omega, a0, a1, a2, b0, b1, b2, f = *in1++, g = *in2++, q = *in3++;
+        if (q <= 0) q = lastq;
         lastq = q;
         if (f < 0) f = 0;
         if (f > nyq) f = nyq;
         omega = f * PI/nyq;
-        // ALLPASS
-        alphaQ = sinf(omega) / (2*q);
-        b0 = alphaQ + 1;
-        a0 = (1 - alphaQ) / b0;
-        a1 = -2*cosf(omega) / b0;
-        a2 = 1;
-        b1 = a1;
-        b2 = a0;
+        switch (x->x_mode)
+        {
+            case 0:  // lowpass
+            {
+                t_float alphaQ = sinf(omega) / (2*q);
+                t_float cos_w = cosf(omega);
+                b0 = alphaQ + 1;
+                a0 = (1-cos_w) / (2*b0);
+                a1 = (1-cos_w) / b0;
+                a2 = a0;
+                b1 = -2*cos_w / b0;
+                b2 = (1 - alphaQ) / b0;
+            }
+                break;
+            case 1: // highpass
+            {
+                t_float alphaQ = sinf(omega) / (2*q);
+                t_float cos_w = cosf(omega);
+                b0 = alphaQ + 1;
+                a0 = (1+cos_w) / (2*b0);
+                a1 = -(1+cos_w) / b0;
+                a2 = a0;
+                b1 = -2*cos_w / b0;
+                b2 = (1 - alphaQ) / b0;
+            }
+                break;
+            case 2: // bandpass
+            {
+                t_float alphaQ = sinf(omega) / (2*q);
+                t_float cos_w = cosf(omega);
+                b0 = alphaQ + 1;
+                a0 = alphaQ / b0;
+                a1 = 0;
+                a2 = -a0;
+                b1 = -2*cos_w / b0;
+                b2 = (1 - alphaQ) / b0;
+            }
+                break;
+            case 3: // bandstop
+            {
+                t_float alphaQ = sinf(omega) / (2*q);
+                t_float cos_w = cosf(omega);
+                b0 = alphaQ + 1;
+                a0 = 1 / b0;
+                a1 = -2*cos_w / b0;
+                a2 = a0;
+                b1 = a1;
+                b2 = (1 - alphaQ) / b0;
+            }
+                break;
+            case 4: // resonant
+            {
+                t_float alphaQ = sinf(omega) / (2*q);
+                t_float cos_w = cosf(omega);
+                b0 = alphaQ + 1;
+                a0 = alphaQ*q / b0;
+                a1 = 0;
+                a2 = -a0;
+                b1 = -2*cos_w / b0;
+                b2 = (1 - alphaQ) / b0;
+            }
+                break;
+            case 5: // peaknotch
+            {
+                t_float alphaQ = sinf(omega) / (2*q);
+                t_float cos_w = cosf(omega);
+                g = pow(10., g/40);
+                b0 = alphaQ/g + 1;
+                a0 = (1 + alphaQ*g) / b0;
+                a1 = -2*cos_w / b0;
+                a2 = (1 - alphaQ*g) / b0;;
+                b1 = a1;
+                b2 = (1 - alphaQ/g) / b0;
+            }
+                break;
+            case 6: // lowshelf
+            {
+                if(q > 1) q = 1;
+                g = pow(10., g/40);
+                t_float alphaS = sinf(omega) * sqrtf((g*g + 1) * (1/q - 1) + 2*g);
+                t_float cos_w = cosf(omega);
+                b0 = g+1 + (g-1)*cos_w + alphaS;
+                a0 = g*(g+1 - (g-1)*cos_w + alphaS) / b0;
+                a1 = 2*g*(g-1 - (g+1)*cos_w) / b0;
+                a2 = g*(g+1 - (g-1)*cos_w - alphaS) / b0;;
+                b1 = -2*(g-1 + (g+1)*cos_w) / b0;
+                b2 = (g+1 + (g-1)*cos_w - alphaS) / b0;
+            }
+                break;
+            case 7:  // highshelf
+            {
+                if(q > 1) q = 1;
+                g = pow(10., g/40);
+                t_float alphaS = sinf(omega) * sqrtf((g*g + 1) * (1/q - 1) + 2*g);
+                t_float cos_w = cosf(omega);
+                b0 = g+1 - (g-1)*cos_w + alphaS;
+                a0 = g*(g+1 + (g-1)*cos_w + alphaS) / b0;
+                a1 = -2*g*(g-1 + (g+1)*cos_w) / b0;
+                a2 = g*(g+1 + (g-1)*cos_w - alphaS) / b0;
+                b1 = 2*(g-1 - (g+1)*cos_w) / b0;
+                b2 = (g+1 - (g-1)*cos_w - alphaS) / b0;
+            }
+                break;
+            case 8:  // allpass
+            {
+                t_float alphaQ = sinf(omega) / (2*q);
+                t_float cos_w = cosf(omega);
+                b0 = alphaQ + 1;
+                a0 = (1 - alphaQ) / b0;
+                a1 = -2*cos_w / b0;
+                a2 = 1;
+                b1 = a1;
+                b2 = a0;
+            }
+                break;
+            case 9:  // gainlpass
+            {
+                a0 = 0;
+                a1 = 0;
+                a2 = 0;
+                b1 = 0;
+                b2 = 0;
+            }
+                break;
+            case 10:  // gainhpass
+            {
+                a0 = 0;
+                a1 = 0;
+                a2 = 0;
+                b1 = 0;
+                b2 = 0;
+            }
+                break;
+            case 11:  // gainbpass
+            {
+                a0 = 0;
+                a1 = 0;
+                a2 = 0;
+                b1 = 0;
+                b2 = 0;
+            }
+                break;
+            case 12:  // gainbstop
+            {
+                a0 = 0;
+                a1 = 0;
+                a2 = 0;
+                b1 = 0;
+                b2 = 0;
+            }
+                break;
+            case 13:  // gainresonant
+            {
+                a0 = 0;
+                a1 = 0;
+                a2 = 0;
+                b1 = 0;
+                b2 = 0;
+            }
+                break;
+            case 14:  // gainapass
+            {
+                a0 = 0;
+                a1 = 0;
+                a2 = 0;
+                b1 = 0;
+                b2 = 0;
+            }
+                break;
+        }
         *out1++ = a0;
         *out2++ = a1;
         *out3++ = a2;
@@ -80,6 +317,7 @@ static void *filtercoeff_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     x->x_out_a2 = outlet_new((t_object *)x, &s_signal);
     x->x_out_b1 = outlet_new((t_object *)x, &s_signal);
     x->x_out_b2 = outlet_new((t_object *)x, &s_signal);
+    x->x_mode = (int)f1;
     x->x_lastq = 1;
     return (x);
 }
@@ -90,4 +328,19 @@ void filtercoeff_tilde_setup(void)
         sizeof(t_filtercoeff), CLASS_DEFAULT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(filtercoeff_class, (t_method)filtercoeff_dsp, gensym("dsp"), 0);
     class_addmethod(filtercoeff_class, nullfn, gensym("signal"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_lowpass, gensym("lowpass"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_highpass, gensym("highpass"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_bandpass, gensym("bandpass"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_bandstop, gensym("bandstop"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_resonant, gensym("resonant"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_peaknotch, gensym("peaknotch"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_lowshelf, gensym("lowshelf"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_highshelf, gensym("highshelf"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_allpass, gensym("allpass"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_gainlpass, gensym("gainlpass"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_gainhpass, gensym("gainhpass"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_gainbpass, gensym("gainbpass"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_gainbstop, gensym("gainbstop"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_gainresonant, gensym("gainresonant"), 0);
+    class_addmethod(filtercoeff_class, (t_method) filtercoeff_gainapass, gensym("gainapass"), 0);
 }
