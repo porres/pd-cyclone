@@ -98,6 +98,7 @@ mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
 onepole~.class.sources := classes/binaries/signal/onepole.c
 overdrive~.class.sources := classes/binaries/signal/overdrive.c
 peakamp~.class.sources := classes/binaries/signal/peakamp.c
+phaseshift~.class.sources := classes/binaries/signal/phaseshift.c
 phasewrap~.class.sources := classes/binaries/signal/phasewrap.c
 pink~.class.sources := classes/binaries/signal/pink.c
 poltocar~.class.sources := classes/binaries/signal/poltocar.c
