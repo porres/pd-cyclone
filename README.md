@@ -23,7 +23,7 @@ In its current form, cyclone is mainly for people using both Max and Pd, and thu
 
 <strong>History of cyclone's maintenance up to the present day:</strong>
 
-Cyclone's original author is Krzysztof Czaja, who worked on it mostly from 2002-2005. After that, cyclone ended up incorporated into Pd Extended, and was eventually under the maintenance of Hans-Christoph Steiner until Pd Extended was left unmaintained (up to jan-2013). Fred Jan Kraan maintained cyclone from dec-2014 to feb-2016. Since feb-2016, a new maintenance is being proposed by Porres & collaborators on this repository.
+Cyclone's original author is Krzysztof Czaja, who worked on it mostly from 2002-2005. After that, cyclone ended up incorporated into Pd Extended, and was eventually under the maintenance of Hans-Christoph Steiner until Pd Extended was left unmaintained (up to jan-2013). After unmaintained for a while, Fred Jan Kraan did maintain cyclone from dec-2014 to feb-2016. Since feb-2016, a new maintenance is being proposed by Porres & collaborators on this repository.
 
 -------
 
@@ -55,7 +55,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 
 Check more stuff in our wiki page: https://github.com/porres/pd-cyclone/wiki/
 
-Readme file created February 22nd 2016 (last edited, june 1st 2016)
+Readme file created February 22nd 2016 (last edited, june 7th 2016)
 
 -------
 <strong>pd-lib-builder</strong>
