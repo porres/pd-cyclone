@@ -438,38 +438,38 @@ include pd-lib-builder/Makefile.pdlibbuilder
 install: install-aliases
 install-aliases: all
 ifeq ($(uname), Linux)
-$(INSTALL_DIR) -v $(installpath)
-cd $(installpath); \
-ln -s -f append.$(extension) Append.$(extension); \
-ln -s -f append-help.pd Append-help.pd; \
-ln -s -f borax.$(extension) Borax.$(extension); \
-ln -s -f borax-help.pd Borax-help.pd; \
-ln -s -f bucket.$(extension) Bucket.$(extension); \
-ln -s -f bucket-help.pd Bucket-help.pd; \
-ln -s -f clip.$(extension) Clip.$(extension); \
-ln -s -f clip-help.pd Clip-help.pd; \
-ln -s -f decode.$(extension) Decode.$(extension); \
-ln -s -f decode-help.pd Decode-help.pd; \
-ln -s -f histo.$(extension) Histo.$(extension); \
-ln -s -f histo-help.pd Histo-help.pd; \
-ln -s -f mousestate.$(extension) MouseState.$(extension); \
-ln -s -f mousestate-help.pd MouseState-help.pd; \
-ln -s -f peak.$(extension) Peak.$(extension); \
-ln -s -f peak-help.pd Peak-help.pd; \
-ln -s -f table.$(extension) Table.$(extension); \
-ln -s -f table-help.pd Table-help.pd; \
-ln -s -f togedge.$(extension) TogEdge.$(extension); \
-ln -s -f togedge-help.pd TogEdge-help.pd; \
-ln -s -f trough.$(extension) Trough.$(extension); \
-ln -s -f trough-help.pd Trough-help.pd; \
-ln -s -f uzi.$(extension) Uzi.$(extension); \
-ln -s -f uzi-help.pd Uzi-help.pd; \
-ln -s -f clip~.$(extension) Clip~.$(extension); \
-ln -s -f clip~-help.pd Clip~-help.pd; \
-ln -s -f line~.$(extension) Line~.$(extension); \
-ln -s -f line~-help.pd Line~-help.pd; \
-ln -s -f scope~.$(extension) Scope~.$(extension); \
-ln -s -f scope~-help.pd Scope~-help.pd; \
-ln -s -f snapshot~.$(extension) Snapshot~.$(extension); \
-ln -s -f snapshot~-help.pd Snapshot~-help.pd
+	$(INSTALL_DIR) -v $(installpath)
+	cd $(installpath); \
+	ln -s -f append.$(extension) Append.$(extension); \
+	ln -s -f append-help.pd Append-help.pd; \
+	ln -s -f borax.$(extension) Borax.$(extension); \
+	ln -s -f borax-help.pd Borax-help.pd; \
+	ln -s -f bucket.$(extension) Bucket.$(extension); \
+	ln -s -f bucket-help.pd Bucket-help.pd; \
+	ln -s -f clip.$(extension) Clip.$(extension); \
+	ln -s -f clip-help.pd Clip-help.pd; \
+	ln -s -f decode.$(extension) Decode.$(extension); \
+	ln -s -f decode-help.pd Decode-help.pd; \
+	ln -s -f histo.$(extension) Histo.$(extension); \
+	ln -s -f histo-help.pd Histo-help.pd; \
+	ln -s -f mousestate.$(extension) MouseState.$(extension); \
+	ln -s -f mousestate-help.pd MouseState-help.pd; \
+	ln -s -f peak.$(extension) Peak.$(extension); \
+	ln -s -f peak-help.pd Peak-help.pd; \
+	ln -s -f table.$(extension) Table.$(extension); \
+	ln -s -f table-help.pd Table-help.pd; \
+	ln -s -f togedge.$(extension) TogEdge.$(extension); \
+	ln -s -f togedge-help.pd TogEdge-help.pd; \
+	ln -s -f trough.$(extension) Trough.$(extension); \
+	ln -s -f trough-help.pd Trough-help.pd; \
+	ln -s -f uzi.$(extension) Uzi.$(extension); \
+	ln -s -f uzi-help.pd Uzi-help.pd; \
+	ln -s -f clip~.$(extension) Clip~.$(extension); \
+	ln -s -f clip~-help.pd Clip~-help.pd; \
+	ln -s -f line~.$(extension) Line~.$(extension); \
+	ln -s -f line~-help.pd Line~-help.pd; \
+	ln -s -f scope~.$(extension) Scope~.$(extension); \
+	ln -s -f scope~-help.pd Scope~-help.pd; \
+	ln -s -f snapshot~.$(extension) Snapshot~.$(extension); \
+	ln -s -f snapshot~-help.pd Snapshot~-help.pd
 endif
