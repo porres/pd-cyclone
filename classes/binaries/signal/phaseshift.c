@@ -15,7 +15,7 @@ typedef struct _phaseshift {
     t_float     x_x2;
     t_float     x_y1;
     t_float     x_y2;
-    t_lastq     x_lastq;
+    t_float     x_lastq;
     } t_phaseshift;
 
 static t_class *phaseshift_class;
