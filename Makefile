@@ -14,7 +14,7 @@ endif
 
 #######################################################################
 
-## START OF CYCLONE CLASSES ##
+                    ## START OF CYCLONE CLASSES ##
 
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
@@ -89,6 +89,7 @@ deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
 edge~.class.sources := classes/binaries/signal/edge.c
 kink~.class.sources := classes/binaries/signal/kink.c
 log~.class.sources := classes/binaries/signal/log.c
+lookup~.class.sources := classes/binaries/signal/lookup.c
 lores~.class.sources := classes/binaries/signal/lores.c
 matrix~.class.sources := classes/binaries/signal/matrix.c
 maximum~.class.sources := classes/binaries/signal/maximum.c
@@ -98,7 +99,6 @@ mstosamps~.class.sources := classes/binaries/signal/mstosamps.c
 onepole~.class.sources := classes/binaries/signal/onepole.c
 overdrive~.class.sources := classes/binaries/signal/overdrive.c
 peakamp~.class.sources := classes/binaries/signal/peakamp.c
-phaseshift~.class.sources := classes/binaries/signal/phaseshift.c
 phasewrap~.class.sources := classes/binaries/signal/phasewrap.c
 pink~.class.sources := classes/binaries/signal/pink.c
 poltocar~.class.sources := classes/binaries/signal/poltocar.c
@@ -163,9 +163,12 @@ scale.class.sources := classes/binaries/control/scale.c
 atodb~.class.sources := classes/binaries/signal/atodb.c
 biquad~.class.sources := classes/binaries/signal/biquad.c
 bitsafe~.class.sources := classes/binaries/signal/bitsafe.c
+cross~.class.sources := classes/binaries/signal/cross.c
 dbtoa~.class.sources := classes/binaries/signal/dbtoa.c
 downsamp~.class.sources := classes/binaries/signal/downsamp.c
+filtercoeff~.class.sources := classes/binaries/signal/filtercoeff.c
 gate~.class.sources := classes/binaries/signal/gate.c
+phaseshift~.class.sources := classes/binaries/signal/phaseshift.c
 round~.class.sources := classes/binaries/signal/round.c
 scale~.class.sources := classes/binaries/signal/scale.c
 selector~.class.sources := classes/binaries/signal/selector.c
@@ -354,36 +357,36 @@ funbuff.class.sources := classes/binaries/control/funbuff.c $(htreefilevefl)
 sfragile := \
 shared/common/loud.c \
 shared/unstable/fragile.c
-cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
+    cartopol~.class.sources := classes/binaries/signal/cartopol.c $(sfragile)
 
 sforky := \
 shared/unstable/forky.c
-bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
-bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
-bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
+    bitand~.class.sources := classes/binaries/signal/bitand.c $(sforky)
+    bitor~.class.sources := classes/binaries/signal/bitor.c $(sforky)
+    bitxor~.class.sources := classes/binaries/signal/bitxor.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
 shared/common/clc.c \
 shared/common/loud.c
-frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc)
-framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrowclc)
-line~.class.sources := classes/binaries/signal/line.c $(sgrowclc)
-curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
+    frameaccum~.class.sources := classes/binaries/signal/frameaccum.c $(sgrowclc)
+    framedelta~.class.sources := classes/binaries/signal/framedelta.c $(sgrowclc)
+    line~.class.sources := classes/binaries/signal/line.c $(sgrowclc)
+    curve~.class.sources := classes/binaries/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
 
 sgrowforky := \
 shared/common/grow.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
-scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
+    scope~.class.sources := classes/binaries/signal/scope.c $(sgrowforky)
 
 sfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
 shared/common/os.c \
 shared/unstable/forky.c
-capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
+    capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
 
 # Buffer Classes (agrouped) - still "sic-fied"
 sarsicfittervefl := \
@@ -393,17 +396,16 @@ shared/common/vefl.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
-buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfittervefl) # was 'sarsicfitter'
+    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfittervefl) # was 'sarsicfitter'
 # partially de-sic-fied:
-cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfittervefl) # was 'svefl'
+    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfittervefl) # was 'svefl'
 # remaining ones below were 'sarsic':
-index~.class.sources := classes/binaries/signal/index.c $(sarsicfittervefl)
-lookup~.class.sources := classes/binaries/signal/lookup.c $(sarsicfittervefl)
-peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfittervefl)
-play~.class.sources := classes/binaries/signal/play.c $(sarsicfittervefl)
-poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfittervefl)
-record~.class.sources := classes/binaries/signal/record.c $(sarsicfittervefl)
-wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfittervefl)
+    index~.class.sources := classes/binaries/signal/index.c $(sarsicfittervefl)
+    peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfittervefl)
+    play~.class.sources := classes/binaries/signal/play.c $(sarsicfittervefl)
+    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfittervefl)
+    record~.class.sources := classes/binaries/signal/record.c $(sarsicfittervefl)
+    wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfittervefl)
 
 
 #######################################################################
@@ -411,7 +413,7 @@ wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfittervefl)
 ### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
 #######################################################################
 
-## END OF CYCLONE CLASSES ##
+                        ## END OF CYCLONE CLASSES ##
 
 #######################################################################
 
