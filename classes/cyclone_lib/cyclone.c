@@ -333,6 +333,10 @@ static void *greaterthan_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
+    {
+    post("[>~] loaded as part of cyclone sub-library");
+    }
+    endpost();
     return (x);
 }
 
