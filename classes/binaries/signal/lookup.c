@@ -99,11 +99,13 @@ static t_int *lookup_perform(t_int *w)
 		else if(curoff > maxidx){
 			curoff = maxidx;
 		};
-		if((curlupsz + curoff) > npoints){
-			//resize lookup size if offset + lookup size goes beyond array
-			curlupsz = npoints-curoff;	
-		};
 
+		//think of lookup size as always counting from 0 in the array
+		//so offset effects lookup size
+		curlupsz = curlupsz - curoff;
+		if(curlupsz < 1){
+			curlupsz = 1;
+		};
 
 		if(curphs >= -1 && curphs <= 1 && buf){
 			//if phase if b/w -1 and 1, map and read, else 0
