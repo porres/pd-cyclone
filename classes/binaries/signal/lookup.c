@@ -15,8 +15,8 @@ typedef struct _lookup
 	t_float x_f; //dummy variable
 	int x_npoints; //arraysize in samples
 
-	t_inlet *x_offlet; //inlet for stpt
-	t_inlet *x_sizelet; //inlet for endpoint
+	t_inlet *x_startlet; //inlet for stpt
+	t_inlet *x_endlet; //inlet for endpoint
 	t_outlet *x_out; //outlet
 } t_lookup;
 
@@ -96,10 +96,10 @@ static void *lookup_new(t_symbol *s, int argc, t_atom *argv){
 	};
 
 	x->x_arrayname = name;
-	x->x_offlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
-	x->x_sizelet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
-	pd_float((t_pd *)x->x_offlet, stpt);
-	pd_float( (t_pd *)x->x_sizelet, endpt);
+	x->x_startlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+	x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+	pd_float((t_pd *)x->x_startlet, stpt);
+	pd_float( (t_pd *)x->x_endlet, endpt);
 	x->x_out = outlet_new(&x->x_obj, gensym("signal"));
 	
 	return (x);
@@ -182,8 +182,8 @@ static void lookup_dsp(t_lookup *x, t_signal **sp)
 
 static void *lookup_free(t_lookup *x)
 {
-	inlet_free(x->x_offlet);
-	inlet_free(x->x_sizelet);
+	inlet_free(x->x_startlet);
+	inlet_free(x->x_endlet);
 	outlet_free(x->x_out);
 	return (void *)x;
 }
