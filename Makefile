@@ -396,16 +396,17 @@ shared/common/vefl.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
-    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfittervefl) # was 'sarsicfitter'
-# partially de-sic-fied:
-    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfittervefl) # was 'svefl'
-# remaining ones below were 'sarsic':
+# were 'sarsic':
     index~.class.sources := classes/binaries/signal/index.c $(sarsicfittervefl)
     peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfittervefl)
     play~.class.sources := classes/binaries/signal/play.c $(sarsicfittervefl)
     poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfittervefl)
     record~.class.sources := classes/binaries/signal/record.c $(sarsicfittervefl)
     wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfittervefl)
+# partially de-sic-fied (was 'svefl' (only with loud):
+    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfittervefl)
+# was 'sarsicfitter' (so only one with fitter)
+    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfittervefl)
 
 
 #######################################################################
