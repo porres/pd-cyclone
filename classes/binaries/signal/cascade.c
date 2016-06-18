@@ -38,7 +38,7 @@ void cascade_zero(t_cascade *x, t_floatarg f)
  x->x_zero = (int)f;
 }
 
-static void cascade_coef_list(t_cascade *x, t_symbol *s, int argc, t_atom *argv)
+static void cascade_list(t_cascade *x, t_symbol *s, int argc, t_atom *argv)
 {
     x->x_a0 = atom_getfloatarg(0, argc, argv);
     x->x_a1 = atom_getfloatarg(1, argc, argv);
@@ -46,13 +46,6 @@ static void cascade_coef_list(t_cascade *x, t_symbol *s, int argc, t_atom *argv)
     x->x_b1 = atom_getfloatarg(3, argc, argv);
     x->x_b2 = atom_getfloatarg(4, argc, argv);
 }
-
-
-static void cascade_list(t_cascade *x, t_symbol *s, int argc, t_atom *argv)
-{
-    pd_error(x, "cascade~: no method for list");
-}
-
 
 static t_int * cascade_perform(t_int *w)
 {
@@ -100,7 +93,8 @@ static void cascade_dsp(t_cascade *x, t_signal **sp)
 void *cascade_new(void)
 {
   t_cascade *x = (t_cascade *)pd_new(cascade_class);
-  inlet_new((t_object *)x, (t_pd *)x, &s_list, gensym("cascade_coef_list"));
+//  inlet_new((t_object *)x, (t_pd *)x, &s_list, gensym("cascade_list")); // didn't work
+    inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_list, gensym("cascade_list")); // not working yet
   x->x_outlet = outlet_new(&x->x_obj, &s_signal);
   x->x_xnm1 = x->x_xnm2 = x->x_ynm1 = x->x_ynm2 = 0.;
   x->x_zero = x->x_bypass = 0;
@@ -116,7 +110,5 @@ void cascade_tilde_setup(void)
     class_addmethod(cascade_class, (t_method) cascade_clear, gensym("clear"), 0);
     class_addmethod(cascade_class, (t_method) cascade_bypass, gensym("bypass"), A_DEFFLOAT, 0);
     class_addmethod(cascade_class, (t_method) cascade_zero, gensym("zero"), A_DEFFLOAT, 0);
-    class_addmethod(cascade_class, (t_method) cascade_coef_list,
-                    gensym("cascade_coef_list"), A_GIMME, 0);
     class_addlist(cascade_class, cascade_list);
 }
