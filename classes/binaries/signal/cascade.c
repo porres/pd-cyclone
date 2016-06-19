@@ -4,6 +4,7 @@
 
 #define CSDCFNUM 5   //number of coeffs per filter
 #define CSDMAXCF 100 //defining max number of coeffs to take
+#define CSDSGNUM 20 //number of stages = CSDMAXCF/CASCFNUM
 static t_class *cascade_class;
 
 typedef struct _cascade {
@@ -13,10 +14,10 @@ typedef struct _cascade {
 
 	//i don't know if double precision helps with audio stuff
 	//but i like to put it like that jist in case - Derek
-    double   x_xnm1;
-    double   x_xnm2;
-    double   x_ynm1;
-    double   x_ynm2;
+    double   x_xnm1[CSDSGNUM];
+    double   x_xnm2[CSDSGNUM];
+    double   x_ynm1[CSDSGNUM];
+    double   x_ynm2[CSDSGNUM];
     t_int     x_bypass;
     t_int     x_zero;
 	int 	  x_numfilt; //number of biquad filters
@@ -83,10 +84,6 @@ static t_int * cascade_perform(t_int *w)
   int nblock = (int)(w[2]);
   t_float *in = (t_float *)(w[3]);
   t_float *out = (t_float *)(w[4]);
-    double xnm1 = x->x_xnm1;
-    double xnm2 = x->x_xnm2;
-    double ynm1 = x->x_ynm1;
-    double ynm2 = x->x_ynm2;
     t_int zero = x->x_zero;
     t_int bypass = x->x_bypass;
 	int numfilt = x->x_numfilt;
@@ -94,15 +91,13 @@ static t_int * cascade_perform(t_int *w)
   {
       if (bypass != 0) *out++ = *in++;
       else if (zero != 0) *out++ = 0;
-      else
-      {
-      double yn;
+      else{
 	  double xn = *in++;
-	  double inout = xn;
 	  int curfilt = 0; //filter counter
 	  while(curfilt < numfilt){
-		/*inout gets used as the input of the filter each time so 
-		we want to set the output of the current filter to inout as well
+		/*xn gets used as the input of the filter each time so 
+		we want to set the output of the current filter to xn as well
+		(after we save it in xnm1 for the next iteration)
 		- Derek
 		*/
 
@@ -112,20 +107,31 @@ static t_int * cascade_perform(t_int *w)
 		double a2 = x->x_coeff[curidx+2];
 		double b1 = x->x_coeff[curidx+3];
 		double b2 = x->x_coeff[curidx+4];
-      	inout = a0*inout + a1*xnm1 + a2*xnm2 -b1*ynm1 -b2*ynm2;
+		double xnm1 = x->x_xnm1[curfilt];
+		double xnm2 = x->x_xnm2[curfilt];
+		double ynm1 = x->x_ynm1[curfilt];
+		double ynm2 = x->x_ynm2[curfilt];
+
+		//calculate current result of diff eq
+      	double yn = a0*xn + a1*xnm1 + a2*xnm2 -b1*ynm1 -b2*ynm2;
+
+		//save results for next iteration
+		x->x_xnm2[curfilt] = xnm1;
+		x->x_xnm1[curfilt] = xn;
+		x->x_ynm2[curfilt] = ynm1;
+		x->x_ynm1[curfilt] = yn;
+
+		//make xn the current yn for the next stage
+		xn = yn;
+
+		//and iterate the counter
 		curfilt++;
 	  };
-      *out++ = yn = inout;
-      xnm2 = xnm1;
-      xnm1 = xn;
-      ynm2 = ynm1;
-      ynm1 = yn;
-      }
-  }
-    x->x_xnm1 = xnm1;
-    x->x_xnm2 = xnm2;
-    x->x_ynm1 = ynm1;
-    x->x_ynm2 = ynm2;
+
+	  //at the end of it all, xn should hold the final result of the cascaded diff eq
+      *out++ = xn;
+      };
+  };
   return (w + 5);
 }
 
@@ -146,7 +152,6 @@ void *cascade_new(void)
   t_cascade *x = (t_cascade *)pd_new(cascade_class);
 	x->x_coefflet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_list, gensym("coeffs"));
   x->x_outlet = outlet_new(&x->x_obj, &s_signal);
-  x->x_xnm1 = x->x_xnm2 = x->x_ynm1 = x->x_ynm2 = 0.f;
   x->x_zero = x->x_bypass = 0;
   x->x_numfilt = 0; //setting number of filters to 0 initially bc no coeffs
   x->x_maxfilt = (int)(CSDMAXCF/CSDCFNUM); //max number of filters
@@ -154,6 +159,13 @@ void *cascade_new(void)
   int i;
   for(i=0; i<CSDMAXCF; i++){
 	x->x_coeff[i] = 0.f;
+  };
+  //zeroing out diff eq vars
+  for(i=0; i<CSDSGNUM; i++){
+	x->x_xnm1[i] = 0.f;
+	x->x_xnm2[i] = 0.f;
+	x->x_ynm1[i] = 0.f;
+	x->x_ynm2[i] = 0.f;
   };
   return (x);
 }
