@@ -76,6 +76,7 @@ average~.class.sources := classes/binaries/signal/average.c
 avg~.class.sources := classes/binaries/signal/avg.c
 bitnot~.class.sources := classes/binaries/signal/bitnot.c
 bitshift~.class.sources := classes/binaries/signal/bitshift.c
+cascade~.class.sources := classes/binaries/signal/cascade.c
 change~.class.sources := classes/binaries/signal/change.c
 click~.class.sources := classes/binaries/signal/click.c
 clip~.class.sources := classes/binaries/signal/clip.c
