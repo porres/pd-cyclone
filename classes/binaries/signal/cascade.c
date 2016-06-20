@@ -1,5 +1,7 @@
 //alexandre torres porres and derek kwan - 2016
 
+// max sateges????
+
 #include "m_pd.h"
 
 #define CSDCFNUM 5   //number of coeffs per filter
@@ -14,10 +16,10 @@ typedef struct _cascade {
 
 	//i don't know if double precision helps with audio stuff
 	//but i like to put it like that jist in case - Derek
-    double   x_xnm1[CSDSGNUM];
-    double   x_xnm2[CSDSGNUM];
-    double   x_ynm1[CSDSGNUM];
-    double   x_ynm2[CSDSGNUM];
+    double    x_xnm1[CSDSGNUM];
+    double    x_xnm2[CSDSGNUM];
+    double    x_ynm1[CSDSGNUM];
+    double    x_ynm2[CSDSGNUM];
     t_int     x_bypass;
     t_int     x_zero;
 	int 	  x_numfilt; //number of biquad filters
@@ -31,11 +33,11 @@ void *cascade_new(void);
 
 void cascade_clear(t_cascade *x)
 {
-	int i;
-  for(i=0; i<CSDMAXCF; i++){
-	x->x_coeff[i] = 0.f;
-  };
-
+  int i;
+  for( i = 0; i < x->x_numfilt; i++)
+  {
+	x->x_xnm1[i] = x->x_xnm2[i] = x->x_ynm1[i] = x->x_ynm2[i] = 0.f;
+  }
 }
 
 void cascade_bypass(t_cascade *x, t_floatarg f)
@@ -50,20 +52,17 @@ void cascade_zero(t_cascade *x, t_floatarg f)
 
 static void cascade_coeffs(t_cascade *x, t_symbol *s, int argc, t_atom *argv)
 {
-	//order is a0, a1, a2, b1, b2
-	
-	//this floors to the nearest mult of CSDCFNUM anything over not 
-	//meeting a mult gets ignored 
+	// numfilt = nearest multiple of CSDCFNUM - anything over is ignored
 	int numfilt = (int)(argc/CSDCFNUM);
-	if(numfilt > x->x_maxfilt){ 
-		// divided amt = max number of filters
+	if(numfilt > x->x_maxfilt){
 		numfilt = x->x_maxfilt;
 	};
 	x->x_numfilt = numfilt;
 
-	int curfilt = 0;//filter counter
-	while(curfilt < numfilt){
-		int curidx = CSDCFNUM*curfilt; //current starting index
+	int curfilt = 0; // filter counter
+	while(curfilt < numfilt)
+    {
+		int curidx = CSDCFNUM*curfilt; // current starting index
 		t_float a0 = atom_getfloatarg(curidx, argc, argv);
 		t_float a1 = atom_getfloatarg(curidx+1, argc, argv);
 		t_float a2 = atom_getfloatarg(curidx+2, argc, argv);
@@ -76,31 +75,26 @@ static void cascade_coeffs(t_cascade *x, t_symbol *s, int argc, t_atom *argv)
 		x->x_coeff[curidx+4] = (double)b2;
 		curfilt++;
 	};
-  }
+}
 
 static t_int * cascade_perform(t_int *w)
 {
-   t_cascade *x = (t_cascade *)(w[1]);
-  int nblock = (int)(w[2]);
-  t_float *in = (t_float *)(w[3]);
-  t_float *out = (t_float *)(w[4]);
+    t_cascade *x = (t_cascade *)(w[1]);
+    int nblock = (int)(w[2]);
+    t_float *in = (t_float *)(w[3]);
+    t_float *out = (t_float *)(w[4]);
     t_int zero = x->x_zero;
     t_int bypass = x->x_bypass;
-	int numfilt = x->x_numfilt;
-  while(nblock--)
-  {
+    int numfilt = x->x_numfilt;
+    while(nblock--)
+    {
       if (bypass != 0) *out++ = *in++;
       else if (zero != 0) *out++ = 0;
-      else{
-	  double xn = *in++;
-	  int curfilt = 0; //filter counter
-	  while(curfilt < numfilt){
-		/*xn gets used as the input of the filter each time so 
-		we want to set the output of the current filter to xn as well
-		(after we save it in xnm1 for the next iteration)
-		- Derek
-		*/
-
+      else
+      {
+      double xn = *in++;
+	  int curfilt = 0; // filter section counter
+	  while(curfilt < numfilt) {
 		int curidx = CSDCFNUM*curfilt; //current starting index
 		double a0 = x->x_coeff[curidx];
 		double a1 = x->x_coeff[curidx+1];
@@ -111,25 +105,16 @@ static t_int * cascade_perform(t_int *w)
 		double xnm2 = x->x_xnm2[curfilt];
 		double ynm1 = x->x_ynm1[curfilt];
 		double ynm2 = x->x_ynm2[curfilt];
-
-		//calculate current result of diff eq
-      	double yn = a0*xn + a1*xnm1 + a2*xnm2 -b1*ynm1 -b2*ynm2;
-
+      	double yn = a0*xn + a1*xnm1 + a2*xnm2 -b1*ynm1 -b2*ynm2; // biquad section
 		//save results for next iteration
 		x->x_xnm2[curfilt] = xnm1;
 		x->x_xnm1[curfilt] = xn;
 		x->x_ynm2[curfilt] = ynm1;
 		x->x_ynm1[curfilt] = yn;
-
-		//make xn the current yn for the next stage
-		xn = yn;
-
-		//and iterate the counter
-		curfilt++;
-	  };
-
-	  //at the end of it all, xn should hold the final result of the cascaded diff eq
-      *out++ = xn;
+		xn = yn; // next stage's xn is previous yn!
+        curfilt++; // iterate the filter section counter
+        };
+        *out++ = xn; //at the end, xn holds the cascaded output
       };
   };
   return (w + 5);
@@ -144,23 +129,22 @@ static void *cascade_free(t_cascade *x){
 	inlet_free(x->x_coefflet);
 	outlet_free(x->x_outlet);
 	return (void *)x;
-
 }
 
 void *cascade_new(void)
 {
   t_cascade *x = (t_cascade *)pd_new(cascade_class);
-	x->x_coefflet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_list, gensym("coeffs"));
+  x->x_coefflet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_list, gensym("coeffs"));
   x->x_outlet = outlet_new(&x->x_obj, &s_signal);
   x->x_zero = x->x_bypass = 0;
-  x->x_numfilt = 0; //setting number of filters to 0 initially bc no coeffs
-  x->x_maxfilt = (int)(CSDMAXCF/CSDCFNUM); //max number of filters
+  x->x_numfilt = 0; // setting number of filters to 0 initially bc no coeffs
+  x->x_maxfilt = (int)(CSDMAXCF/CSDCFNUM); // max number of filters
   //zeroing out coeff array 
   int i;
   for(i=0; i<CSDMAXCF; i++){
 	x->x_coeff[i] = 0.f;
   };
-  //zeroing out diff eq vars
+  // zeroing out filter's memory
   for(i=0; i<CSDSGNUM; i++){
 	x->x_xnm1[i] = 0.f;
 	x->x_xnm2[i] = 0.f;
