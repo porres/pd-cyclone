@@ -57,9 +57,9 @@ static t_int *freqshift_perform(t_int *w)
     t_float i2_y2 = x->x_im_ap2_y2;
     while (nblock--)
     {
-        float r1_xn = *in1++;
-        float i1_xn = *in1++;
-        float r1_yn, r2_xn, r2_yn, i1_yn, i2_xn, i2_yn;
+        float r1_yn, r1_xn = *in1++;
+        float i1_yn, i1_xn = *in1++;
+        float r2_xn, r2_yn, i2_xn, i2_yn;
         float re, im;
         r2_xn = r1_yn = 0.94657*r1_xn - 1.94632*r1_x1 + r1_x2 + 1.94632*r1_y1 - 0.94657*r1_y2;
         r1_x2 = r1_x1;
