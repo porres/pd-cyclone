@@ -57,7 +57,9 @@ static t_int *freqshift_perform(t_int *w)
     t_float i2_y2 = x->x_im_ap2_y2;
     while (nblock--)
     {
-        float r1_yn, r2_xn, r2_yn, i1_yn, i2_xn, i2_yn, r1_xn = i1_xn = *in1++;
+        float r1_xn = *in1++;
+        float i1_xn = *in1++;
+        float r1_yn, r2_xn, r2_yn, i1_yn, i2_xn, i2_yn;
         float re, im;
         r2_xn = r1_yn = 0.94657*r1_xn - 1.94632*r1_x1 + r1_x2 + 1.94632*r1_y1 - 0.94657*r1_y2;
         r1_x2 = r1_x1;
@@ -75,10 +77,10 @@ static t_int *freqshift_perform(t_int *w)
         i1_y2 = i1_y1;
         i1_y1 = i1_yn;
         im = i2_yn = 0.870686*i2_xn - 1.8685*i2_x1 + i2_x2 + 1.8685*i2_y1 - 0.870686*i2_y2;
-        r2_x2 = r2_x1;
-        r2_x1 = r2_xn;
-        r2_y2 = r2_y1;
-        r2_y1 = r2_yn;
+        i2_x2 = i2_x1;
+        i2_x1 = i2_xn;
+        i2_y2 = i2_y1;
+        i2_y1 = i2_yn;
         *out1++ = re;
         *out2++ = im;
     }
@@ -101,7 +103,6 @@ static t_int *freqshift_perform(t_int *w)
     return (w + 7);
 }
 
-
 static void freqshift_dsp(t_freqshift *x, t_signal **sp)
 {
     dsp_add(freqshift_perform, 6, x, sp[0]->s_n, sp[0]->s_vec,
@@ -115,22 +116,22 @@ static void *freqshift_new(t_floatarg f)
     pd_float((t_pd *)x->x_inlet_freq, f);
     x->x_out1 = outlet_new((t_object *)x, &s_signal);
     x->x_out2 = outlet_new((t_object *)x, &s_signal);
-    x->x_re_ap1_x1 = 0;
-    x->x_re_ap1_x2 = 0;
-    x->x_re_ap1_y1 = 0;
-    x->x_re_ap1_y2 = 0;
-    x->x_re_ap2_x1 = 0;
-    x->x_re_ap2_x2 = 0;
-    x->x_re_ap2_y1 = 0;
-    x->x_re_ap2_y2 = 0;
-    x->x_im_ap1_x1 = 0;
-    x->x_im_ap1_x2 = 0;
-    x->x_im_ap1_y1 = 0;
-    x->x_im_ap1_y2 = 0;
-    x->x_im_ap2_x1 = 0;
-    x->x_im_ap2_x2 = 0;
-    x->x_im_ap2_y1 = 0;
-    x->x_im_ap2_y2 = 0;
+    x->x_re_ap1_x1 = 0.;
+    x->x_re_ap1_x2 = 0.;
+    x->x_re_ap1_y1 = 0.;
+    x->x_re_ap1_y2 = 0.;
+    x->x_re_ap2_x1 = 0.;
+    x->x_re_ap2_x2 = 0.;
+    x->x_re_ap2_y1 = 0.;
+    x->x_re_ap2_y2 = 0.;
+    x->x_im_ap1_x1 = 0.;
+    x->x_im_ap1_x2 = 0.;
+    x->x_im_ap1_y1 = 0.;
+    x->x_im_ap1_y2 = 0.;
+    x->x_im_ap2_x1 = 0.;
+    x->x_im_ap2_x2 = 0.;
+    x->x_im_ap2_y1 = 0.;
+    x->x_im_ap2_y2 = 0.;
     return (x);
 }
 
