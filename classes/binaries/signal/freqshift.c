@@ -1,26 +1,28 @@
 // Porres 2016
 
 #include "m_pd.h"
-#include <math.h>
-
-#define PI M_PI
 
 typedef struct _freqshift {
     t_object    x_obj;
     t_inlet    *x_inlet_freq;
     t_outlet   *x_out;
-    t_float     x_nyq;
-    t_float     x_x1;
-    t_float     x_x2;
-    t_float     x_y1;
-    t_float     x_y2;
+    t_float     x_r1x1;
+    t_float     x_r1x2;
+    t_float     x_r1y1;
+    t_float     x_r1y2;
+    
+    t_float     x_r2x1;
+    t_float     x_r2x2;
+    t_float     x_r2y1;
+    t_float     x_r2y2;
     } t_freqshift;
 
 static t_class *freqshift_class;
 
 void freqshift_clear(t_freqshift *x)
 {
-    x->x_x1 = x->x_x2 = x->x_y1 = x->x_y2 = 0.;
+    x->x_r1x1 = x->x_r1x2 = x->x_r1y1 = x->x_r1y2 = 0.;
+    x->x_r2x1 = x->x_r2x2 = x->x_r2y1 = x->x_r2y2 = 0.;
 }
 
 static t_int *freqshift_perform(t_int *w)
@@ -30,32 +32,48 @@ static t_int *freqshift_perform(t_int *w)
     t_float *in1 = (t_float *)(w[3]);
     t_float *in2 = (t_float *)(w[4]);
     t_float *out = (t_float *)(w[5]);
-    t_float x1 = x->x_x1;
-    t_float x2 = x->x_x2;
-    t_float y1 = x->x_y1;
-    t_float y2 = x->x_y2;
+    t_float r1x1 = x->x_r1x1;
+    t_float r1x2 = x->x_r1x2;
+    t_float r1y1 = x->x_r1y1;
+    t_float r1y2 = x->x_r1y2;
+    
+    t_float r2x1 = x->x_r2x1;
+    t_float r2x2 = x->x_r2x2;
+    t_float r2y1 = x->x_r2y1;
+    t_float r2y2 = x->x_r2y2;
     while (nblock--)
     {
-        float b0, a0, a1, yn, xn = *in1++, f = *in2++;
-        a0 = 0.94657;
-        a1 = -1.94632;
-        yn = a0*xn + a1*x1 + x2 - a1*y1 - a0*y2;
-        x2 = x1;
-        x1 = xn;
-        y2 = y1;
-        y1 = yn;
-        *out++ = yn;
+        float r2xn, r2yn, r1yn, r1xn = *in1++, f = *in2++;
+//        r1yn = 0.94657*r1xn - 1.94632*r1x1 + r1x2 + 1.94632*r1y1 - 0.94657*r1y2;
+        r1yn = -0.260502*r1xn + 0.02569*r1x1 + r1x2 - 0.02569*r1y1 + 0.260502*r1y2;
+
+        r1x2 = r1x1;
+        r1x1 = r1xn;
+        r1y2 = r1y1;
+        r1y1 = r1yn;
+        r2xn = r1yn;
+//        r2yn = 0.06338*r2xn - 0.83774*r2x1 + r2x2 + 0.83774*r2y1 - 0.06338*r2y2;
+        r2yn = 0.870686*r2xn - 1.8685*r2x1 + r2x2 + 1.8685*r2y1 - 0.870686*r2y2;
+        r2x2 = r2x1;
+        r2x1 = r2xn;
+        r2y2 = r2y1;
+        r2y1 = r2yn;
+        *out++ = r2yn;
     }
-    x->x_x1 = x1;
-    x->x_x2 = x2;
-    x->x_y1 = y1;
-    x->x_y2 = y2;
+    x->x_r1x1 = r1x1;
+    x->x_r1x2 = r1x2;
+    x->x_r1y1 = r1y1;
+    x->x_r1y2 = r1y2;
+    
+    x->x_r2x1 = r2x1;
+    x->x_r2x2 = r2x2;
+    x->x_r2y1 = r2y1;
+    x->x_r2y2 = r2y2;
     return (w + 6);
 }
 
 static void freqshift_dsp(t_freqshift *x, t_signal **sp)
 {
-    x->x_nyq = sp[0]->s_sr / 2;
     dsp_add(freqshift_perform, 5, x, sp[0]->s_n, sp[0]->s_vec,
         sp[1]->s_vec, sp[2]->s_vec);
 }
@@ -66,10 +84,15 @@ static void *freqshift_new(t_floatarg f)
     x->x_inlet_freq = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet_freq, f);
     x->x_out = outlet_new((t_object *)x, &s_signal);
-    x->x_x1 = 0;
-    x->x_y1 = 0;
-    x->x_x2 = 0;
-    x->x_y2 = 0;
+    x->x_r1x1 = 0;
+    x->x_r1y1 = 0;
+    x->x_r1x2 = 0;
+    x->x_r1y2 = 0;
+    
+    x->x_r2x1 = 0;
+    x->x_r2y1 = 0;
+    x->x_r2x2 = 0;
+    x->x_r2y2 = 0;
     return (x);
 }
 
