@@ -1,0 +1,7 @@
+#N canvas 601 32 484 440 10;
+#X obj 178 156 rect~ 440 0.7;
+#X obj 169 220 output~;
+#X obj 253 108 phasor~ 320;
+#X connect 0 0 1 0;
+#X connect 0 0 1 1;
+#X connect 2 0 0 2;

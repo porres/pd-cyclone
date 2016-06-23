@@ -1,0 +1,7 @@
+#N canvas 601 32 350 339 10;
+#X obj 85 206 output~;
+#X obj 139 110 phasor~ 320;
+#X obj 94 142 saw~ 440;
+#X connect 1 0 2 1;
+#X connect 2 0 0 0;
+#X connect 2 0 0 1;
