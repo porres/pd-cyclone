@@ -79,7 +79,7 @@ static t_int *comb_perform(t_int *w)
 	float rph;  /* reading head */
 //	if (cgain < -COMB_MAXFEEDBACK) cgain = -COMB_MAXFEEDBACK;
 //	else if (cgain > COMB_MAXFEEDBACK) cgain = COMB_MAXFEEDBACK;
-	if (delsize > 1.0)
+	if (delsize >= 0)
 	{
 	    int ndx;
 	    float val;
