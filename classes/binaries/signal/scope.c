@@ -788,18 +788,30 @@ static void scope_drawfgmono(t_scope *x, t_canvas *cv,
     sys_vgui("-fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
 	     x->x_fgred, x->x_fggreen, x->x_fgblue,
 	     SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);
+}
 
+
+static void scope_drawmargins(t_scope *x, t_canvas *cv,
+		int x1, int y1, int x2, int y2)
+{
     /* margin lines:  masking overflows, so that they appear as gaps,
        rather than clipped signal values, LATER rethink */
-    sys_vgui(".x%lx.c create line %d %d %d %d\
+    sys_vgui(".x%lx.c create line %d %d\
+ %d %d\
+ %d %d\
+ %d %d\
+ %d %d\
  -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
-	     cv, x1, y1, x2, y1, x->x_bgred, x->x_bggreen, x->x_bgblue,
+	     cv, x1, y1, x2, y1, x2, y2, x1, y2, x1, y1,
+	     x->x_bgred, x->x_bggreen, x->x_bgblue,
 	     1., x->x_margintag, x->x_tag);
-    sys_vgui(".x%lx.c create line %d %d %d %d\
- -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
-	     cv, x1, y2, x2, y2, x->x_bgred, x->x_bggreen, x->x_bgblue,
-	     1., x->x_margintag, x->x_tag);
+//     sys_vgui(".x%lx.c create line %d %d %d %d\
+//  -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
+// 	     cv, x1, y2, x2, y2, x->x_bgred, x->x_bggreen, x->x_bgblue,
+// 	     1., x->x_margintag, x->x_tag);
+	     
 }
+
 
 static void scope_drawfgxy(t_scope *x, t_canvas *cv,
 			int x1, int y1, int x2, int y2)
@@ -815,6 +827,10 @@ static void scope_drawfgxy(t_scope *x, t_canvas *cv,
 	{
 		xx = x1 + xsc * (*xbp - x->x_minval);
 		yy = y2 - ysc * (*ybp - x->x_minval);
+#ifndef SCOPE_DEBUG
+		if (xx > x2) xx = x2 - 1; else if (xx < x1) xx = x1 + 1;
+		if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
+#endif
 		sys_vgui("%d %d \\\n", (int)xx, (int)yy);
 	}
 	sys_vgui("-fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
@@ -854,6 +870,7 @@ static void scope_drawmono(t_scope *x, t_canvas *cv)
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     scope_drawbg(x, cv, x1, y1, x2, y2);
     scope_drawfgmono(x, cv, x1, y1, x2, y2);
+    scope_drawmargins(x, cv, x1, y1, x2, y2);
 }
 
 static void scope_redrawmono(t_scope *x, t_canvas *cv)
@@ -908,6 +925,7 @@ static void scope_drawxy(t_scope *x, t_canvas *cv)
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     scope_drawbg(x, cv, x1, y1, x2, y2);
     scope_drawfgxy(x, cv, x1, y1, x2, y2);
+    scope_drawmargins(x, cv, x1, y1, x2, y2);
 }
 
 
@@ -930,6 +948,10 @@ static void scope_redrawxy(t_scope *x, t_canvas *cv)
 		{
 			xx = x1 + xsc * (*xbp++ - x->x_minval);
 			yy = y2 - ysc * (*ybp++ - x->x_minval);
+#ifndef SCOPE_DEBUG
+			if (xx > x2) xx = x2; else if (xx < x1) xx = x1 ;
+	   	 	if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
+#endif
 			sprintf(chunkp, "%d %d ", (int)xx, (int)yy);
 			chunkp += strlen(chunkp);
 		}
@@ -942,6 +964,10 @@ static void scope_redrawxy(t_scope *x, t_canvas *cv)
 	{
 		xx = x1 + xsc * (*xbp++ - x->x_minval);
 		yy = y2 - ysc * (*ybp++ - x->x_minval);
+#ifndef SCOPE_DEBUG
+		if (xx > x2) xx = x2 ; else if (xx < x1) xx = x1 ;
+		if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
+#endif
 		sprintf(chunkp, "%d %d ", (int)xx, (int)yy);
 		chunkp += strlen(chunkp);
 	}
@@ -1031,13 +1057,14 @@ static void scope_setxymode(t_scope *x, int xymode)
 	t_canvas *cv;
 	if (cv = scope_isvisible(x))
 	{
-	    sys_vgui(".x%lx.c delete %s\n", cv, x->x_fgtag);
+	    sys_vgui(".x%lx.c delete %s %s\n", cv, x->x_fgtag, x->x_margintag);
 	    
 	    
 		int x1, y1, x2, y2;
 		scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
 		if (xymode) scope_drawfgxy(x, cv, x1, y1, x2, y2);
 		else scope_drawfgmono(x, cv, x1, y1, x2, y2);
+		scope_drawmargins(x, cv, x1, y1, x2, y2);
 	    
 	}
 	x->x_xymode = xymode;
