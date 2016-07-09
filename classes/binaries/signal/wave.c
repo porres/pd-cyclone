@@ -9,7 +9,14 @@
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
 
+
+#define CYWAVEMAXOUT 4 //max number of outs
+#define CYWAVEINTERP 1 //default interp mode
+
 /* CHECKME (the refman): the extra channels are not played */
+
+//adding wave_getarraysmp, adding attributes - Derek Kwan 2016
+
 
 typedef struct _wave
 {
@@ -18,11 +25,33 @@ typedef struct _wave
     int               x_interp_mode;
     t_float	          x_bias;
     t_float           x_tension;
+	t_inlet 		 *x_startlet;
+	t_inlet 		 *x_endlet;
 } t_wave;
 
 static t_class *wave_class;
 
 
+
+static t_float wave_getarraysmp(t_wave *x, t_symbol *arrayname){
+  t_garray *garray;
+    t_arsic *sic = (t_arsic *)x;
+	char bufname[MAXPDSTRING];
+	t_float retsmp = -1;
+	int numchan = sic->s_nchannels;
+	if(numchan > 1){
+		sprintf(bufname, "0-%s", arrayname->s_name);
+	}
+	else{
+		sprintf(bufname, "%s", arrayname->s_name);
+	};
+  if(!(garray = (t_garray *)pd_findbyclass(arrayname,garray_class))) {
+    pd_error(x, "%s: no such table", bufname);
+  } else {
+   	retsmp = garray_npoints(garray);
+  };
+	return retsmp;
+}
 
 
 
@@ -64,6 +93,7 @@ static void wave_interp(t_wave *x, t_floatarg f)
 static void wave_set(t_wave *x, t_symbol *s)
 {
     arsic_setarray((t_arsic *)x, s, 1);
+
 }
 
 
@@ -418,6 +448,7 @@ static t_int *wave_perform(t_int *w)
     }
     else
     {
+	
 	int ch = nch;
 	while (ch--)
 	{
@@ -431,17 +462,158 @@ static t_int *wave_perform(t_int *w)
 
 static void wave_dsp(t_wave *x, t_signal **sp)
 {
+
     arsic_dsp((t_arsic *)x, sp, wave_perform, 1);
 }
 
 static void wave_free(t_wave *x)
 {
+
+	inlet_free(x->x_startlet);
+	inlet_free(x->x_endlet);
     arsic_free((t_arsic *)x);
 }
 
+static void *wave_new(t_symbol *s, int argc, t_atom * argv){
+
+	//mostly copying this for what i did with record~ - DXK
+	t_symbol * name;
+	int nameset = 0; //flag if name is set
+	int floatarg = 0;//argument counter for floatargs (don't include symbol arg)
+	//setting defaults
+	t_float stpt = 0;
+	t_float endpt = -1; //if it's still -1 after parsing args, means didn't get passed
+	t_float numouts = 1; //i'm assuming the default is 1 - DXK
+	t_float bias = 0;
+	t_float tension = 0;
+	t_float interp = CYWAVEINTERP;
+
+	while(argc){
+		if(argv -> a_type == A_SYMBOL){
+
+			if(floatarg == 0 && !nameset){
+				//we haven't hit any floatargs, go ahead and set name
+				name = atom_getsymbolarg(0, argc, argv);
+				nameset = 1; //set nameset flag
+				argc--;
+				argv++;
+			}
+			else if(nameset){
+				t_symbol * curarg = atom_getsymbolarg(0, argc, argv); 
+				//parse args only if array name is set, sound alright? -DXK
+				if(argc >=2){ //needs to be at least two args left, the attribute symbol and the arg for it
+					t_float curfl = atom_getfloatarg(1, argc, argv);
+					if(strcmp(curarg->s_name, "@interp") == 0){
+						interp = curfl;
+					}
+					else if(strcmp(curarg->s_name, "@interp_bias") == 0){
+						bias = curfl;
+					}
+					else if(strcmp(curarg->s_name, "@interp_tension") == 0){
+						tension = curfl;
+					}
+					else{
+						goto errstate;
+					};
+					argc -=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
+			};
+		}
+		else{
+			//else we're dealing with a float
+			switch(floatarg){
+				case 0:
+					stpt = atom_getfloatarg(0, argc, argv);
+					break;
+				case 1:
+					endpt = atom_getfloatarg(0, argc, argv);
+					break;
+				case 2:
+					numouts = atom_getfloatarg(0, argc, argv);
+					break;
+				default:
+					break;
+			};
+			floatarg++; //increment the floatarg we're looking at
+			argc--;
+			argv++;
+		};
+	};
+
+	/*
+	 * handled by arsic, needed if we de-arsic
+	if(!nameset){
+		//if name isn't set, set to null symbol
+		name = &s_;
+	};
+	*/
+
+    //some boundschecking
+	if(numouts > CYWAVEMAXOUT){
+		numouts = CYWAVEMAXOUT;
+	}
+	else if(numouts < 1.0){
+		numouts = 1;
+	};
+
+
+	t_wave *x = (t_wave *)arsic_new(wave_class, name, (int)numouts, 0, 3);
+	
+	//more boundschecking
+	//it looks everything is stored as samples then later converted to ms
+	if(stpt < 0){
+		stpt = 0;
+	}
+	else{
+		stpt = (t_float)floor(stpt); //basically typecasting to int without actual typecasting
+	};
+
+	if(endpt < 0){
+		//endpt not passed as art,.. get the array number of samples if set
+		if(nameset){
+			t_float arraysmp = wave_getarraysmp(x, name);
+			endpt = arraysmp;
+		}
+		else{ //else just set to 0
+			endpt = 0;
+		};
+	}
+	else{//if passed, floor it
+		endpt = (t_float)floor(endpt);
+	};
+
+
+		wave_interp(x, interp);
+	x->x_bias = bias;
+	x->x_tension = tension;
+
+	//x->x_startlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal); //normalway
+	//x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal); //normal way
+	x->x_startlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal); //arsic way
+	x->x_endlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal); //arsic way
+	pd_float((t_pd *)x->x_startlet, stpt);
+	pd_float( (t_pd *)x->x_endlet, endpt);
+
+	int i;
+	for(i=0; i < (int)numouts; i++){
+		//outlet_new(&x->x_obj, gensym("signal")); //normal way
+		outlet_new((t_object *)x, gensym("signal")); //arsic way
+	};
+
+	return (x);
+	errstate:
+		post("wave~: improper args");
+		return NULL;
+	}
+
+/*
 static void *wave_new(t_symbol *s, t_floatarg f1, t_floatarg f2, t_floatarg f3)
 {
-    /* three auxiliary signals:  phase, clipstart, and clipend inputs */
+    // three auxiliary signals:  phase, clipstart, and clipend inputs 
     t_wave *x = (t_wave *)arsic_new(wave_class, s, (int)f3, 0, 3);
     if (x)
     {
@@ -460,13 +632,15 @@ static void *wave_new(t_symbol *s, t_floatarg f1, t_floatarg f2, t_floatarg f3)
     return (x);
 }
 
+*/
+
 void wave_tilde_setup(void)
 {
     wave_class = class_new(gensym("wave~"),
 			   (t_newmethod)wave_new,
 			   (t_method)wave_free,
 			   sizeof(t_wave), 0,
-			   A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+			   A_GIMME, 0);
     arsic_setup(wave_class, wave_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(wave_class, (t_method)wave_set,
 		    gensym("set"), A_SYMBOL, 0);
