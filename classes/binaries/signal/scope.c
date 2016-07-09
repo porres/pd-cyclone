@@ -79,7 +79,7 @@ instead of 0-255
 #define SCOPEHANDLE_WIDTH    10    /* item size is int */
 #define SCOPEHANDLE_HEIGHT   10
 /* these are performance-related hacks, LATER investigate */
-#define SCOPE_GUICHUNK  32
+#define SCOPE_GUICHUNK  128
 //#define SCOPE_GUICHUNKXY    32
 
 typedef struct _scope
@@ -92,6 +92,7 @@ typedef struct _scope
     char       x_fgtag[64];
     char       x_bgtag[64];
     char       x_gridtag[64];
+    char	   x_margintag[64];
     int        x_width;
     int        x_height;
     float      x_minval;
@@ -793,11 +794,11 @@ static void scope_drawfgmono(t_scope *x, t_canvas *cv,
     sys_vgui(".x%lx.c create line %d %d %d %d\
  -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
 	     cv, x1, y1, x2, y1, x->x_bgred, x->x_bggreen, x->x_bgblue,
-	     1., x->x_fgtag, x->x_tag);
+	     1., x->x_margintag, x->x_tag);
     sys_vgui(".x%lx.c create line %d %d %d %d\
  -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
 	     cv, x1, y2, x2, y2, x->x_bgred, x->x_bggreen, x->x_bgblue,
-	     1., x->x_fgtag, x->x_tag);
+	     1., x->x_margintag, x->x_tag);
 }
 
 static void scope_drawfgxy(t_scope *x, t_canvas *cv,
@@ -1466,6 +1467,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     sprintf(x->x_bgtag, "bg%lx", (unsigned long)x);
     sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
     sprintf(x->x_fgtag, "fg%lx", (unsigned long)x);
+    sprintf(x->x_margintag, "ma%lx", (unsigned long)x);
     x->x_xymode = 0;
     x->x_ksr = sys_getsr() * 0.001;  /* redundant */
     x->x_frozen = 0;
