@@ -15,16 +15,8 @@
 
 /* CHECKME (the refman): the extra channels are not played */
 
-//adding wave_getarraysmp, wave_setdefendpt, adding attributes - Derek Kwan 2016
+//adding wave_getarraysmp, adding attributes - Derek Kwan 2016
 
-/*hacky i know, but since everything takes ms and i only can get array size as samples.
-  i'm first setting default end point (which is defaulting to the size of the table)
-  using sys_getsr() which return system sample rate (and doesn't deal with
-  up/downsampling well... and i'm resetting it in the perform method if the incoming 
-  sample rate doesn't match the current sample rate..., we can revisit this....
-  i'm adding x_enddef, x_arraysmp and x_sr to the struct to facilitate this
-  - dxk
-    */
 
 typedef struct _wave
 {
@@ -35,11 +27,6 @@ typedef struct _wave
     t_float           x_tension;
 	t_inlet 		 *x_startlet;
 	t_inlet 		 *x_endlet;
-	int 			  x_arraysmp; //array size in samples
-	int 			  x_enddef; //if we are defaulting to size of table for endpoint
-	int 			  x_sr; /*sample rate, i know arsic stores it but i don't want to break
-							anything by setting/resetting it so i'm adding it to the struct
-							 - dxk */
 } t_wave;
 
 static t_class *wave_class;
@@ -66,13 +53,6 @@ static t_float wave_getarraysmp(t_wave *x, t_symbol *arrayname){
 	return retsmp;
 }
 
-//setting default endpoint function if defaulting to tablesize for endpoint - dxk
-static void wave_setdefendpt(t_wave *x){
-	int sr = x->x_sr; //stored sample rate
-	int arraysmp = x->x_arraysmp; //stored array size in samples
-	t_float endpt = arraysmp * (t_float)x->x_sr * 0.001;
-	pd_float( (t_pd *)x->x_endlet, endpt);
-}
 
 
 /* interpolation functions w/ jump table -- code was cleaner than a massive
@@ -114,14 +94,6 @@ static void wave_set(t_wave *x, t_symbol *s)
 {
     arsic_setarray((t_arsic *)x, s, 1);
 
-	//start of hacky setting of endpoint to default table size (if defaulted on instantiation)
-	if(x->x_enddef == 1){
-		t_float arraysmp = wave_getarraysmp(x, s);
-		x->x_arraysmp = (int)arraysmp;
-		wave_setdefendpt(x);
-	};
-	//end hackiness
-	
 }
 
 
@@ -490,13 +462,6 @@ static t_int *wave_perform(t_int *w)
 
 static void wave_dsp(t_wave *x, t_signal **sp)
 {
-	//start hackiness for endpoint table size default -dxk
-	int cursr = sp[0]->s_sr;
-	if((cursr != x->x_sr) && (x->x_enddef == 1)){
-		x->x_sr = cursr;
-		wave_setdefendpt(x);
-	};
-	//end hackiness
 
     arsic_dsp((t_arsic *)x, sp, wave_perform, 1);
 }
@@ -607,16 +572,11 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		stpt = (t_float)floor(stpt); //basically typecasting to int without actual typecasting
 	};
 
-	//start of hacky stuff for compensating for potentional changing sample rates - dxk
-	x->x_enddef = 0; //setting flag for if we're defaulting to table size in ms
-	x->x_sr = (int)sys_getsr();
 	if(endpt < 0){
 		//endpt not passed as art,.. get the array number of samples if set
 		if(nameset){
 			t_float arraysmp = wave_getarraysmp(x, name);
-			x->x_arraysmp = (int)arraysmp;
-			endpt = arraysmp * (t_float)x->x_sr * 0.001;
-			x->x_enddef = 1; //setting flag for defaulting to table size in ms
+			endpt = arraysmp;
 		}
 		else{ //else just set to 0
 			endpt = 0;
@@ -626,7 +586,6 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		endpt = (t_float)floor(endpt);
 	};
 
-	//end hackiness
 
 		wave_interp(x, interp);
 	x->x_bias = bias;
