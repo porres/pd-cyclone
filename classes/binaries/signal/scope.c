@@ -79,8 +79,8 @@ instead of 0-255
 #define SCOPEHANDLE_WIDTH    10    /* item size is int */
 #define SCOPEHANDLE_HEIGHT   10
 /* these are performance-related hacks, LATER investigate */
-#define SCOPE_GUICHUNKMONO  16
-#define SCOPE_GUICHUNKXY    32
+#define SCOPE_GUICHUNK  32
+//#define SCOPE_GUICHUNKXY    32
 
 typedef struct _scope
 {
@@ -801,67 +801,26 @@ static void scope_drawfgmono(t_scope *x, t_canvas *cv,
 }
 
 static void scope_drawfgxy(t_scope *x, t_canvas *cv,
-			   int x1, int y1, int x2, int y2)
+			int x1, int y1, int x2, int y2)
 {
-    int nleft = x->x_bufsize;
-    float *xbp = x->x_xbuffer, *ybp = x->x_ybuffer;
-    char chunk[200 * SCOPE_GUICHUNKXY];  /* LATER estimate */
-    char *chunkp = chunk;
-    char cmd1[64], cmd2[128];
-    float xx, yy, xsc, ysc;
-    xx = yy = 0;
-    /* subtract 1-pixel margins, see below */
-    xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
-    ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
-    sprintf(cmd1, ".x%lx.c create line", (unsigned long)cv);
-    sprintf(cmd2, "-fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n ",
-	    x->x_fgred, x->x_fggreen, x->x_fgblue,
-	    SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);
-    while (nleft > SCOPE_GUICHUNKXY)
-    {
-	int i = SCOPE_GUICHUNKXY;
-	while (i--)
+	int i;
+	float xx, yy, xsc, ysc;
+	float *xbp, *ybp;
+	xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
+	ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
+	sys_vgui(".x%lx.c create line \\\n", cv);
+	for (i = 0, xbp = x->x_xbuffer, ybp = x->x_ybuffer;
+		i < x->x_bufsize; i++, xbp++, ybp++)
 	{
-	    float oldx = xx, oldy = yy, dx, dy;
-	    xx = x1 + xsc * (*xbp++ - x->x_minval);
-	    yy = y2 - ysc * (*ybp++ - x->x_minval);
-	    /* using 1-pixel margins */
-	    dx = (xx > oldx ? 1. : -1.);
-	    dy = (yy > oldy ? 1. : -1.);
-#ifndef SCOPE_DEBUG
-	    if (xx < x1 || xx > x2 || yy < y1 || yy > y2)
-		continue;
-#endif
-	    sprintf(chunkp, "%s %d %d %d %d %s", cmd1,
-		    (int)(xx - dx), (int)(yy - dy),
-		    (int)(xx + dx), (int)(yy + dy), cmd2);
-	    chunkp += strlen(chunkp);
+		xx = x1 + xsc * (*xbp - x->x_minval);
+		yy = y2 - ysc * (*ybp - x->x_minval);
+		sys_vgui("%d %d \\\n", (int)xx, (int)yy);
 	}
-	if (chunkp > chunk)
-	    sys_gui(chunk);
-	chunkp = chunk;
-	nleft -= SCOPE_GUICHUNKXY;
-    }
-    while (nleft--)
-    {
-	float oldx = xx, oldy = yy, dx, dy;
-	xx = x1 + xsc * (*xbp++ - x->x_minval);
-	yy = y2 - ysc * (*ybp++ - x->x_minval);
-	/* using 1-pixel margins */
-	dx = (xx > oldx ? 1. : -1.);
-	dy = (yy > oldy ? 1. : -1.);
-#ifndef SCOPE_DEBUG
-	if (xx < x1 || xx > x2 || yy < y1 || yy > y2)
-	    continue;
-#endif
-	sprintf(chunkp, "%s %d %d %d %d %s", cmd1,
-		(int)(xx - dx), (int)(yy - dy),
-		(int)(xx + dx), (int)(yy + dy), cmd2);
-	chunkp += strlen(chunkp);
-    }
-    if (chunkp > chunk)
-	sys_gui(chunk);
+	sys_vgui("-fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
+		x->x_fgred, x->x_fggreen, x->x_fgblue,
+		SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);	
 }
+
 
 static void scope_drawbg(t_scope *x, t_canvas *cv,
 			 int x1, int y1, int x2, int y2)
@@ -900,7 +859,7 @@ static void scope_redrawmono(t_scope *x, t_canvas *cv)
 {
     int nleft = x->x_bufsize;
     float *bp = x->x_xbuffer;
-    char chunk[32 * SCOPE_GUICHUNKMONO];  /* LATER estimate */
+    char chunk[32 * SCOPE_GUICHUNK];  /* LATER estimate */
     char *chunkp = chunk;
     int x1, y1, x2, y2;
     float dx, dy, xx, yy, sc;
@@ -909,9 +868,9 @@ static void scope_redrawmono(t_scope *x, t_canvas *cv)
     sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
     xx = x1;
     sys_vgui(".x%lx.c coords %s \\\n", cv, x->x_fgtag);
-    while (nleft > SCOPE_GUICHUNKMONO)
+    while (nleft > SCOPE_GUICHUNK)
     {
-	int i = SCOPE_GUICHUNKMONO;
+	int i = SCOPE_GUICHUNK;
 	while (i--)
 	{
 	    yy = (y2 - 1) - sc * (*bp++ - x->x_minval);
@@ -925,7 +884,7 @@ static void scope_redrawmono(t_scope *x, t_canvas *cv)
 	strcpy(chunkp, "\\\n");
 	sys_gui(chunk);
 	chunkp = chunk;
-	nleft -= SCOPE_GUICHUNKMONO;
+	nleft -= SCOPE_GUICHUNK;
     }
     while (nleft--)
     {
@@ -941,6 +900,7 @@ static void scope_redrawmono(t_scope *x, t_canvas *cv)
     sys_gui(chunk);
 }
 
+
 static void scope_drawxy(t_scope *x, t_canvas *cv)
 {
     int x1, y1, x2, y2;
@@ -949,12 +909,43 @@ static void scope_drawxy(t_scope *x, t_canvas *cv)
     scope_drawfgxy(x, cv, x1, y1, x2, y2);
 }
 
+
 static void scope_redrawxy(t_scope *x, t_canvas *cv)
 {
-    int x1, y1, x2, y2;
-    scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-    sys_vgui(".x%lx.c delete %s\n", cv, x->x_fgtag);
-    scope_drawfgxy(x, cv, x1, y1, x2, y2);
+	int nleft = x->x_bufsize;
+	float *xbp = x->x_xbuffer, *ybp = x->x_ybuffer;
+	char chunk[32 * SCOPE_GUICHUNK];
+	char *chunkp = chunk;
+	int x1, y1, x2, y2;
+	float xx, yy, xsc, ysc;
+	scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
+	xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
+	ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
+	sys_vgui(".x%lx.c coords %s \\\n", cv, x->x_fgtag);
+	while (nleft > SCOPE_GUICHUNK)
+	{
+		int i = SCOPE_GUICHUNK;
+		while (i--)
+		{
+			xx = x1 + xsc * (*xbp++ - x->x_minval);
+			yy = y2 - ysc * (*ybp++ - x->x_minval);
+			sprintf(chunkp, "%d %d ", (int)xx, (int)yy);
+			chunkp += strlen(chunkp);
+		}
+		strcpy(chunkp, "\\\n");
+		sys_gui(chunk);
+		chunkp = chunk;
+		nleft -= SCOPE_GUICHUNK;
+	}
+	while (nleft--)
+	{
+		xx = x1 + xsc * (*xbp++ - x->x_minval);
+		yy = y2 - ysc * (*ybp++ - x->x_minval);
+		sprintf(chunkp, "%d %d ", (int)xx, (int)yy);
+		chunkp += strlen(chunkp);
+	}
+	strcpy(chunkp, "\n");
+	sys_gui(chunk);
 }
 
 static void scope_revis(t_scope *x, t_canvas *cv)
@@ -1040,12 +1031,13 @@ static void scope_setxymode(t_scope *x, int xymode)
 	if (cv = scope_isvisible(x))
 	{
 	    sys_vgui(".x%lx.c delete %s\n", cv, x->x_fgtag);
-	    if (!xymode)
-	    {
+	    
+	    
 		int x1, y1, x2, y2;
 		scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-		scope_drawfgmono(x, cv, x1, y1, x2, y2);
-	    }
+		if (xymode) scope_drawfgxy(x, cv, x1, y1, x2, y2);
+		else scope_drawfgmono(x, cv, x1, y1, x2, y2);
+	    
 	}
 	x->x_xymode = xymode;
 	scope_clear(x, 0);
