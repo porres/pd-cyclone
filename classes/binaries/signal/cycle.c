@@ -320,6 +320,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 	int anamedef = 0; //flag if array name is defined
 	int pastargs = 0; //flag if attributes are specified, then don't accept array name anymore
 	int bufferattrib = 0; //flag if @buffer attribute is set; needs to default to whole buffer
+	int buffersizeattrib = 0; // flag if @buffer_sizeinsamps attribute is set
 	while(argc > 0){
 		if(argv -> a_type == A_FLOAT){
 			if(!pastargs){
@@ -377,6 +378,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 					argc-=2;
 					argv+=2;
 					pastargs = 1;
+					buffersizeattrib = 1;
 				}
 				else{
 					goto errstate;
@@ -446,7 +448,8 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     x->x_conv = 0.;
     cycle_set_buffersize(x, bufsz);
     if(bufferattrib){
-    	x->x_use_all = 1;
+    	if (!buffersizeattrib)
+    		x->x_use_all = 1;
     }
    // x->x_use_all = 0;
     return (x);
