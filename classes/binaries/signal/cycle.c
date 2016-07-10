@@ -188,7 +188,6 @@ static void cycle_buffer_offset(t_cycle *x, t_floatarg f)
 
 static void cycle_set_buffersize(t_cycle *x, t_floatarg f)
 {
-	//post("trying to set buffersize to %d", (int)f);
 	if (f==0.)
 	{
 		x->x_use_all = 0;
