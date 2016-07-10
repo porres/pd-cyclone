@@ -157,15 +157,15 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
     cycle_gettable(x);
 }
 
-static void cycle_buffer(t_cycle *x, t_symbol *s){
-	if(s && s != &s_){
-		x->x_name = s;
-	}
-	else{
-		x->x_name = 0;
-	};
-	cycle_gettable(x);
-}
+// static void cycle_buffer(t_cycle *x, t_symbol *s){
+// 	if(s && s != &s_){
+// 		x->x_name = s;
+// 	}
+// 	else{
+// 		x->x_name = 0;
+// 	};
+// 	cycle_gettable(x);
+// }
 
 static void cycle_setall(t_cycle *x, t_symbol *s)
 {
@@ -319,6 +319,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 	int argnum = 0;
 	int anamedef = 0; //flag if array name is defined
 	int pastargs = 0; //flag if attributes are specified, then don't accept array name anymore
+	int bufferattrib = 0; //flag if @buffer attribute is set; needs to default to whole buffer
 	while(argc > 0){
 		if(argv -> a_type == A_FLOAT){
 			if(!pastargs){
@@ -349,6 +350,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 						argv+=2;
 						anamedef = 1;
 						pastargs = 1;
+						bufferattrib = 1;
 					}
 					else{
 						goto errstate;
@@ -443,6 +445,9 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     x->x_init_phase = phase;
     x->x_conv = 0.;
     cycle_set_buffersize(x, bufsz);
+    if(bufferattrib){
+    	x->x_use_all = 1;
+    }
    // x->x_use_all = 0;
     return (x);
 	errstate:
@@ -470,7 +475,7 @@ void cycle_tilde_setup(void)
         (t_method)cycle_set,gensym("set"),
         A_DEFSYMBOL, A_DEFFLOAT, 0);
 	class_addmethod(cycle_class,
-		(t_method)cycle_buffer, gensym("buffer"),
+		(t_method)cycle_setall, gensym("buffer"),
 		A_DEFSYMBOL, 0);
     class_addmethod(cycle_class,
         (t_method)cycle_buffer_offset,gensym("buffer_offset"),
