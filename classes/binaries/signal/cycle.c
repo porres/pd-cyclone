@@ -198,14 +198,14 @@ static void cycle_set_buffersize(t_cycle *x, t_floatarg f)
 	{
 		x->x_use_all = 1;
 	}
-	else if (f == (1 << ilog2(f)) && f <= 65536. && f > 0)
+	else if (f == (1 << ilog2(f)) && f <= 65536. && f >= 16)
 	{
 		x->x_use_all = 0;
 		x->x_cycle_tabsize = f;
 	}
 	else
 	{
-		loud_error((t_pd *)x, "buffer_sizeinsamps must be a power of two <= 65536");
+		loud_error((t_pd *)x, "buffer_sizeinsamps must be a power of two from 16 to 65536");
 		return;
 	}
 }
