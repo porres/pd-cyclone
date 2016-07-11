@@ -19,7 +19,6 @@
 #define PDCYCYCLE_TABSIZE  512
 #define COS_TABSIZE  16384
 
-
 typedef struct _cycle
 {
     t_object   x_obj;
@@ -44,26 +43,76 @@ typedef struct _cycle
 
 static t_class *cycle_class;
 
+
 //making the cosine table
-static double *cycle_makecostab(){
+static double *cycle_makecostab(t_cycle *x){
 	/*it looks like the original sickle was rounding up from the specified table length so COS_TABSIZE
 	 originally wasn't even reflective of the actual table size... 
 	 I've tried stepsize being twopi/(COS_TABSIZE) and also twopi/(COS_TABSIZE+1),.. in the former
 	 case the last index would be cos(twopi) while in the latter it would be cos(twopi-1/(COS_TABSIZE+1))...
 	 both seem to get no clicks,.. but if I make the wavetable exactly COS_TABSIZE indices,.. clicks....
-	 so it has to be the way the tablesize is used in the perform methods... - DXK */
+	 so it has to be the way the tablesize is used in the perform methods... - DXK 
+	 
+	Matt's comments: yes, it was rounding up in case some other object using the makecostable function
+	 asked for something that wasn't a power of 2.
+	 
+	 The function from sic made a table of COS_TABSIZE+1, and made sure that the waveform was symmetric.
+	 In order to do this, the first quarter of the wave table was generated, then the 0 in the next index,
+	 which needs to be exactly 0 (and cos(x) doesn't guarantee that even with a precise 2.f*M_PI). Then
+	 the first quarter is copied in reverse order with a phase reversal, and then the first half is
+	 copied exactly, in reverse order. This ensures that the guard point is the same as the 0th point, which
+	 is exactly 1.0. The stepsize has to be twopi/(COS_TABSIZE) to get this to work, since you want a full
+	 cycle through the first COS_TABSIZE, and then the beginning of a new cycle at the guard point.
+	 
+	 One last thing - since this table is exactly the same for each instance of [cycle~], it can be moved
+	 out and accessed in one place by all instances, as in [osc~], rather than having each instance own its
+	 own table. This saves memory (not that it is breaking the bank), but more importantly load time. So when
+	 we call this function it either makes the table and returns a pointer, or if it's already been made it
+	 just returns the pointer.
+	*/
+	 
+	static double *costable; // stays allocated as long as pd is running
+	 
+	if (costable)
+	{
+		return costable;
+	}
+	double twopi = 2.0 * M_PI;
+	int ndx, sz = COS_TABSIZE;
+	int cnt = sz + 1;
+	costable = getbytes(cnt * sizeof(*costable));
+	double *tp = costable;
 	int i;
-	double twopi = 2.f * M_PI;
-	double stepsize = twopi/((double)COS_TABSIZE+1);
-	double * costable = malloc(sizeof(double)*(COS_TABSIZE+1));
-	double phase = 0;
-	for(i=0; i<=COS_TABSIZE; i++){
-		costable[i] = cos(phase);
-		phase += stepsize;
-	};
+	double phase = 0, phsinc = twopi / sz;
+	if (costable)
+	{
+		i = sz/4;
+		while (i--)
+	    {
+			*tp++ = cos(phase);
+			phase += phsinc;		
+	    }
+	    *tp++ = 0;
+	    i = sz/4;
+	    while (i--)
+	    {
+	    	*tp++ = -costable[i];
+	    }
+	    i = sz/2;
+	    while (i--)
+	    {
+	    	*tp++ = costable[i];
+	    }
+	}
+	else
+	{
+		pd_error(x, "could not make cosine table");
+	}
 	return costable;
 }
 
+
+/* Removed some superfluous semicolons from here -- Matt */
 static t_word *cycle_fetcharray(t_cycle * x, int * tabsz, int indsp){
 	//modifying old vefl_get a bit - DXK
 	t_symbol * name = x->x_name;
@@ -73,21 +122,25 @@ static t_word *cycle_fetcharray(t_cycle * x, int * tabsz, int indsp){
 			int tabsize;
 			t_word *vec;
 			if (garray_getfloatwords(ap, &tabsize, &vec)){
-				if (indsp){
+				if (indsp)
+				{
 					garray_usedindsp(ap);
-				};
-			if (tabsz){
-				*tabsz = tabsize;
-			};
-			return (vec);
 				}
-			else{ /* always complain */
+				if (tabsz)
+				{
+					*tabsz = tabsize;
+				}
+				return (vec);
+			}
+			else 
+			{ /* always complain */
 				pd_error(x, "bad template of array '%s'", name->s_name);
-			};
+			}
 		}
-		else if (x){
+		else if (x)
+		{
 			pd_error(x, "no such array '%s'", name->s_name);
-		};
+		}
 	}
 	return (0);
 
@@ -446,7 +499,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 		};
 	};
 
-    x->x_costable = cycle_makecostab();
+    x->x_costable = cycle_makecostab(x);
     x->x_usertable = x->x_usertableini;
     x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
 	x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
@@ -481,7 +534,7 @@ static void *cycle_free(t_cycle *x)
 	if (x->x_usertable != x->x_usertableini){
 		freebytes(x->x_usertable, (x->x_usertable_tabsize + 1) * sizeof(*x->x_usertable));
 	};
-	free(x->x_costable);
+	//free(x->x_costable);
 	outlet_free(x->x_outlet);
 	inlet_free(x->x_phaselet);
 	return (void *)x;
