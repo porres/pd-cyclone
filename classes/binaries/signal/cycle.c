@@ -3,17 +3,16 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 //matt barber updated cycle~ in 2016
-/*derek kwan updated attributes,
-  de-'sic'-ified (except for the costable making method),
-  added cycle_free and cycle_buffer in 2016
+/*derek kwan - 2016: updated attributes,
+  de-'sic'-ified, also de-'loud'-ified and de-'vefl'-ified
+  added cycle_free,cycle_buffer, cycle_makecostab,cycle_fetcharray
   */
 
 #include <string.h>
+#include<math.h>
+#include<stdlib.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "common/loud.h"
-#include "common/vefl.h"
-#include "sickle/sic.h"
 
 #define PDCYCYCLE_FREQ 	0
 #define PDCYCYCLE_PHASE 0
@@ -47,6 +46,47 @@ typedef struct _cycle
 
 static t_class *cycle_class;
 
+//making the cosine table
+static double *cycle_makecostab(){
+	int i;
+	double twopi = 2.f * 3.14159265358979;
+	double * costable = malloc(sizeof(double)*COS_TABSIZE);
+	for(i=0; i<COS_TABSIZE; i++){
+		double idx = ((double)i*twopi)/(double)COS_TABSIZE;
+		costable[i] = cos(idx);
+	};
+	return costable;
+}
+
+static t_word *cycle_fetcharray(t_cycle * x, int * tabsz, int indsp){
+	//modifying old vefl_get a bit - DXK
+	t_symbol * name = x->x_name;
+	if (name && name != &s_){
+		t_garray *ap = (t_garray *)pd_findbyclass(name, garray_class);
+	if (ap){
+			int tabsize;
+			t_word *vec;
+			if (garray_getfloatwords(ap, &tabsize, &vec)){
+				if (indsp){
+					garray_usedindsp(ap);
+				};
+			if (tabsz){
+				*tabsz = tabsize;
+			};
+			return (vec);
+				}
+			else{ /* always complain */
+				pd_error(x, "bad template of array '%s'", name->s_name);
+			};
+		}
+		else if (x){
+			pd_error(x, "no such array '%s'", name->s_name);
+		};
+	}
+	return (0);
+
+}
+
 static void cycle_gettable(t_cycle *x)
 {   
     x->x_table = 0;
@@ -54,10 +94,9 @@ static void cycle_gettable(t_cycle *x)
     t_word *table = 0;
     int tabsize;
     
-    if (x->x_name)
-    {	
-	table = vefl_get(x->x_name, &tabsize, 1, (t_pd *)x);
-	}
+    if (x->x_name){	
+		table = cycle_fetcharray(x, &tabsize, 1);
+	};
 		
 	/* CHECKED buffer is copied */
 	if (table)
@@ -135,7 +174,7 @@ static void cycle_gettable(t_cycle *x)
     {
     	if (x->x_name)
     	{
-    		loud_error((t_pd *)x, "using cosine table");
+			pd_error(x, "using cosine table");
     	}
     	x->x_name = 0;
     	x->x_cycle_tabsize = COS_TABSIZE;
@@ -204,7 +243,7 @@ static void cycle_set_buffersize(t_cycle *x, t_floatarg f)
 	}
 	else
 	{
-		loud_error((t_pd *)x, "buffer_sizeinsamps must be a power of two from 16 to 65536");
+		pd_error(x, "buffer_sizeinsamps must be a power of two from 16 to 65536");
 		return;
 	}
 }
@@ -422,8 +461,8 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 	};
 
     //int tabsize = (int)bufsz;
-    int costabsize = COS_TABSIZE;
-    x->x_costable = sic_makecostable(&costabsize);
+    //int costabsize = COS_TABSIZE;
+    x->x_costable = cycle_makecostab();
     x->x_usertable = x->x_usertableini;
     x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
    // x->x_cycle_tabsize = x->x_usertable_tabsize = tabsize;
@@ -459,8 +498,10 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 
 static void *cycle_free(t_cycle *x)
 {
-	if (x->x_usertable != x->x_usertableini) 
+	if (x->x_usertable != x->x_usertableini){
 		freebytes(x->x_usertable, (x->x_usertable_tabsize + 1) * sizeof(*x->x_usertable));
+	};
+	free(x->x_costable);
 	outlet_free(x->x_outlet);
 	inlet_free(x->x_phaselet);
 	return (void *)x;
