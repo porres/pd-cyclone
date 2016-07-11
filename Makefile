@@ -402,7 +402,7 @@ shared/unstable/fragile.c
     index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter)
     peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfitter)
     play~.class.sources := classes/binaries/signal/play.c $(sarsicfitter)
-    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfitter)
+    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfitter) # fragile
     record~.class.sources := classes/binaries/signal/record.c $(sarsicfitter)
     wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfitter)
 # was 'sarsicfitter' (so only one with fitter)

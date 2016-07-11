@@ -5,11 +5,10 @@
 #include <string.h>
 #include "m_pd.h"
 #include "shared.h"
-// #include "common/loud.h"
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
 
-#define BUFFIR_DEFSIZE    0  /* CHECKED */
+#define BUFFIR_DEFSIZE    0
 #define BUFFIR_MAXSIZE  4096
 
 typedef struct _buffir
@@ -168,8 +167,7 @@ void buffir_tilde_setup(void)
     buffir_class = class_new(gensym("buffir~"), (t_newmethod)buffir_new, (t_method)buffir_free,
                              sizeof(t_buffir), 0, A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, 0);
     arsic_setup(buffir_class, buffir_dsp, buffir_float);
-    class_addmethod(buffir_class, (t_method)buffir_clear,
-		    gensym("clear"), 0);
-    class_addmethod(buffir_class, (t_method)buffir_set,
-		    gensym("set"), A_SYMBOL, A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addmethod(buffir_class, (t_method)buffir_clear, gensym("clear"), 0);
+    class_addmethod(buffir_class, (t_method)buffir_set, gensym("set"), A_SYMBOL,
+                    A_DEFFLOAT, A_DEFFLOAT, 0);
 }
