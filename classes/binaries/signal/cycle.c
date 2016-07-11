@@ -12,7 +12,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include "m_pd.h"
-#include "shared.h" // needed?
 
 #define PDCYCYCLE_FREQ 	0
 #define PDCYCYCLE_PHASE 0
@@ -48,11 +47,13 @@ static t_class *cycle_class;
 //making the cosine table
 static double *cycle_makecostab(){
 	int i;
-	double twopi = 2.f * 3.14159265358979;
-	double * costable = malloc(sizeof(double)*COS_TABSIZE);
-	for(i=0; i<COS_TABSIZE; i++){
-		double idx = ((double)i*twopi)/(double)COS_TABSIZE;
-		costable[i] = cos(idx);
+	double twopi = 2.f * M_PI;
+	double stepsize = twopi/((double)COS_TABSIZE);
+	double * costable = malloc(sizeof(double)*(COS_TABSIZE+1));
+	double phase = 0;
+	for(i=0; i<=COS_TABSIZE; i++){
+		costable[i] = cos(phase);
+		phase += stepsize;
 	};
 	return costable;
 }
