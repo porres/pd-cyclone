@@ -72,7 +72,7 @@ static void *degrade_new(t_floatarg f1, t_floatarg f2)
 void degrade_tilde_setup(void)
 {
     {
-        post("degrade jun 1st 5:44 pm");
+        post("degrade jun 1st 5:44 pm"); // default arguments??? ratio 1 / depth 24
     }
     degrade_class = class_new(gensym("degrade~"), (t_newmethod)degrade_new,
         (t_method)degrade_free, sizeof(t_degrade), CLASS_DEFAULT, A_DEFFLOAT, A_DEFFLOAT, 0);
