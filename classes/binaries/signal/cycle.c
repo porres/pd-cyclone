@@ -12,14 +12,12 @@
 #include<math.h>
 #include<stdlib.h>
 #include "m_pd.h"
-#include "shared.h"
 
 #define PDCYCYCLE_FREQ 	0
 #define PDCYCYCLE_PHASE 0
 #define PDCYCYCLE_OFFSET 0
 #define PDCYCYCLE_TABSIZE  512
 #define COS_TABSIZE  16384
-
 
 typedef struct _cycle
 {
@@ -49,11 +47,13 @@ static t_class *cycle_class;
 //making the cosine table
 static double *cycle_makecostab(){
 	int i;
-	double twopi = 2.f * 3.14159265358979;
-	double * costable = malloc(sizeof(double)*COS_TABSIZE);
-	for(i=0; i<COS_TABSIZE; i++){
-		double idx = ((double)i*twopi)/(double)COS_TABSIZE;
-		costable[i] = cos(idx);
+	double twopi = 2.f * (double)M_PI;
+	double stepsize = twopi/(double)COS_TABSIZE;
+	double * costable = malloc(sizeof(double)*(COS_TABSIZE+1));
+	double phs = 0.f;
+	for(i=0; i<=COS_TABSIZE; i++){
+		costable[i] = cos(phs);
+		phs += stepsize;
 	};
 	return costable;
 }
@@ -466,7 +466,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     x->x_usertable = x->x_usertableini;
     x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
    // x->x_cycle_tabsize = x->x_usertable_tabsize = tabsize;
-    
+   	x->x_cycle_tabsize = COS_TABSIZE; 
 
 	x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
