@@ -46,9 +46,15 @@ static t_class *cycle_class;
 
 //making the cosine table
 static double *cycle_makecostab(){
+	/*it looks like the original sickle was rounding up from the specified table length so COS_TABSIZE
+	 originally wasn't even reflective of the actual table size... 
+	 I've tried stepsize being twopi/(COS_TABSIZE) and also twopi/(COS_TABSIZE+1),.. in the former
+	 case the last index would be cos(twopi) while in the latter it would be cos(twopi-1/(COS_TABSIZE+1))...
+	 both seem to get no clicks,.. but if I make the wavetable exactly COS_TABSIZE indices,.. clicks....
+	 so it has to be the way the tablesize is used in the perform methods... - DXK */
 	int i;
 	double twopi = 2.f * M_PI;
-	double stepsize = twopi/((double)COS_TABSIZE);
+	double stepsize = twopi/((double)COS_TABSIZE+1);
 	double * costable = malloc(sizeof(double)*(COS_TABSIZE+1));
 	double phase = 0;
 	for(i=0; i<=COS_TABSIZE; i++){
