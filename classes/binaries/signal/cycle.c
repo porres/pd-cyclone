@@ -9,10 +9,10 @@
   */
 
 #include <string.h>
-#include<math.h>
-#include<stdlib.h>
+#include <math.h>
+#include <stdlib.h>
 #include "m_pd.h"
-#include "shared.h"
+#include "shared.h" // needed?
 
 #define PDCYCYCLE_FREQ 	0
 #define PDCYCYCLE_PHASE 0
@@ -31,7 +31,6 @@ typedef struct _cycle
     double     x_conv;
     t_symbol  *x_name;
     int        x_offset;
-    //int		   x_buffer_sizeinsamps;
     int        x_cycle_tabsize; //how far to loop
     int		   x_use_all;
     t_float   *x_table;
@@ -196,16 +195,6 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
     cycle_gettable(x);
 }
 
-// static void cycle_buffer(t_cycle *x, t_symbol *s){
-// 	if(s && s != &s_){
-// 		x->x_name = s;
-// 	}
-// 	else{
-// 		x->x_name = 0;
-// 	};
-// 	cycle_gettable(x);
-// }
-
 static void cycle_setall(t_cycle *x, t_symbol *s)
 {
 	x->x_use_all = 1;
@@ -222,7 +211,6 @@ static void cycle_buffer_offset(t_cycle *x, t_floatarg f)
     x->x_offset = 0;
     cycle_gettable(x);
 }
-
 
 
 static void cycle_set_buffersize(t_cycle *x, t_floatarg f)
@@ -337,15 +325,6 @@ static void cycle_dsp(t_cycle *x, t_signal **sp)
 static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_cycle *x = (t_cycle *)pd_new(cycle_class);
-//    int i = (ac && av->a_type == A_FLOAT ? 1 : 0);
-
-    
-/*  if (tabsize != PDCYCYCLE_TABSIZE)
-    {
-	loudbug_bug("cycle_new");
-	pd_free((t_pd *)x);
-	return (0);
-    } */
     
 	t_symbol * name;
 	t_float phase, freq, offset, bufsz;
@@ -460,14 +439,9 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 		};
 	};
 
-    //int tabsize = (int)bufsz;
-    //int costabsize = COS_TABSIZE;
     x->x_costable = cycle_makecostab();
     x->x_usertable = x->x_usertableini;
     x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
-   // x->x_cycle_tabsize = x->x_usertable_tabsize = tabsize;
-    
-
 	x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
 	if(offset < 0){
@@ -489,7 +463,6 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     	if (!buffersizeattrib)
     		x->x_use_all = 1;
     }
-   // x->x_use_all = 0;
     return (x);
 	errstate:
 		pd_error(x, "cycle~: improper args");
@@ -509,24 +482,18 @@ static void *cycle_free(t_cycle *x)
 
 void cycle_tilde_setup(void)
 {    
-    cycle_class = class_new(gensym("cycle~"),
-        (t_newmethod)cycle_new, (t_method)cycle_free,
+    cycle_class = class_new(gensym("cycle~"), (t_newmethod)cycle_new, (t_method)cycle_free,
         sizeof(t_cycle), 0, A_GIMME, 0);
 	CLASS_MAINSIGNALIN(cycle_class, t_cycle, x_freq); 
 	class_addmethod(cycle_class, (t_method)cycle_dsp, gensym("dsp"), A_CANT, 0);
-    class_addmethod(cycle_class,
-        (t_method)cycle_set,gensym("set"),
+    class_addmethod(cycle_class, (t_method)cycle_set,gensym("set"),
         A_DEFSYMBOL, A_DEFFLOAT, 0);
-	class_addmethod(cycle_class,
-		(t_method)cycle_setall, gensym("buffer"),
+	class_addmethod(cycle_class, (t_method)cycle_setall, gensym("buffer"),
 		A_DEFSYMBOL, 0);
-    class_addmethod(cycle_class,
-        (t_method)cycle_buffer_offset,gensym("buffer_offset"),
+    class_addmethod(cycle_class, (t_method)cycle_buffer_offset,gensym("buffer_offset"),
         A_DEFFLOAT, 0);
-    class_addmethod(cycle_class,
-        (t_method)cycle_buffer_sizeinsamps,gensym("buffer_sizeinsamps"),
+    class_addmethod(cycle_class, (t_method)cycle_buffer_sizeinsamps,gensym("buffer_sizeinsamps"),
         A_DEFFLOAT, 0);
-    class_addmethod(cycle_class,
-        (t_method)cycle_setall,gensym("setall"),
+    class_addmethod(cycle_class, (t_method)cycle_setall,gensym("setall"),
         A_DEFSYMBOL, 0);
 }

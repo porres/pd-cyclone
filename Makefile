@@ -61,7 +61,7 @@ xbendout2.class.sources := classes/binaries/control/xbendout2.c
 xnotein.class.sources := classes/binaries/control/xnotein.c
 xnoteout.class.sources := classes/binaries/control/xnoteout.c
 
-# SIGNAL CLASSES Removed from old framework (mostly "ssic"):
+# SIGNAL CLASSES Removed from old framework:
 
 abs~.class.sources := classes/binaries/signal/abs.c
 acos~.class.sources := classes/binaries/signal/acos.c
@@ -84,6 +84,7 @@ cosh~.class.sources := classes/binaries/signal/cosh.c
 cosx~.class.sources := classes/binaries/signal/cosx.c
 count~.class.sources := classes/binaries/signal/count.c
 comb~.class.sources := classes/binaries/signal/comb.c
+cycle~.class.sources := classes/binaries/signal/cycle.c
 delay~.class.sources := classes/binaries/signal/delay.c
 delta~.class.sources := classes/binaries/signal/delta.c
 deltaclip~.class.sources := classes/binaries/signal/deltaclip.c
@@ -391,24 +392,21 @@ shared/unstable/forky.c
     capture~.class.sources := classes/binaries/signal/capture.c $(sfile)
 
 # Buffer Classes (agrouped) - still "sic-fied"
-sarsicfittervefl := \
+sarsicfitter := \
 shared/sickle/sic.c \
 shared/sickle/arsic.c \
-shared/common/vefl.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
 # were 'sarsic':
-    index~.class.sources := classes/binaries/signal/index.c $(sarsicfittervefl)
-    peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfittervefl)
-    play~.class.sources := classes/binaries/signal/play.c $(sarsicfittervefl)
-    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfittervefl)
-    record~.class.sources := classes/binaries/signal/record.c $(sarsicfittervefl)
-    wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfittervefl)
-# partially de-sic-fied (was 'svefl' (only with loud):
-    cycle~.class.sources := classes/binaries/signal/cycle.c $(sarsicfittervefl)
+    index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter)
+    peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfitter)
+    play~.class.sources := classes/binaries/signal/play.c $(sarsicfitter)
+    poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfitter)
+    record~.class.sources := classes/binaries/signal/record.c $(sarsicfitter)
+    wave~.class.sources := classes/binaries/signal/wave.c $(sarsicfitter)
 # was 'sarsicfitter' (so only one with fitter)
-    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfittervefl)
+    buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter)
 
 
 #######################################################################
