@@ -1,7 +1,7 @@
-#N canvas 626 41 562 624 10;
-#X obj 4 569 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 626 41 560 604 10;
+#X obj 4 559 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 4 380 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 4 370 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 579 244 378 247 META 0;
 #X text 1 32 LICENSE SIBSD;
@@ -22,50 +22,76 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 505 571 pd META;
-#X obj 4 471 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 505 561 pd META;
+#X obj 4 461 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 530 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 520 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 306 384 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 209 571 pd Related_objects;
-#X obj 100 389 cnv 17 3 47 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 209 561 pd Related_objects;
+#X obj 100 379 cnv 17 3 47 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 100 482 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 100 472 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 127 389 signal;
-#X text 186 389 - input signal to detect transitions;
-#X obj 100 445 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 127 379 signal;
+#X text 186 379 - input signal to detect transitions;
+#X obj 100 435 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 132 445 float;
-#X text 132 480 float;
-#X text 126 541 (none);
-#X floatatom 257 216 0 0 0 0 - - -;
-#X floatatom 176 270 0 0 0 0 - - -;
-#X obj 176 242 cyclone/spike~;
-#X text 232 269 ms;
-#X text 186 445 - set refractory period \, the maximal reporting rate
+#X text 132 435 float;
+#X text 132 470 float;
+#X text 126 531 (none);
+#X floatatom 257 206 0 0 0 0 - - -;
+#X floatatom 176 260 0 0 0 0 - - -;
+#X obj 176 232 cyclone/spike~;
+#X text 232 259 ms;
+#X text 186 435 - set refractory period \, the maximal reporting rate
 ;
-#X text 287 215 set refractory frequency;
-#X obj 176 180 cyclone/train~ 500;
-#X obj 176 298 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X text 287 205 set refractory frequency;
+#X obj 176 170 cyclone/train~ 500;
+#X obj 176 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 138 198 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 138 188 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X text 139 409 bang;
-#X text 185 409 - restarts the countdown of the refractory period from
+#X text 139 399 bang;
+#X text 185 399 - restarts the countdown of the refractory period from
 the time at which the bang was received.;
-#N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 16 2 comment 0 40 times ? 0 0 0 0 spike~;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 19 54 comment 0 18 times ? 0 0 0 0 Report zero to non-zero transition
+intervals;
+#X text 72 92 [spike~] reports intervals of zero to non-zero transitions
+from the signal input. The refractory period is set at the second inlet
+\, which defines how soon after detecting a transition the spike~ object
+will report the next instance.;
+#X text 89 321 The reported interval is not perfectly accurate because
+of the resolution of the block size.;
+#X text 186 469 - The interval (in milliseconds) since the last zero
+to non-zero signal transition has occurred (which includes the refractory
+period \, if one is set).;
+#N canvas 207 34 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
-#N canvas 939 367 324 271 set_color 0;
+#N canvas 977 77 379 291 set_color 0;
 #X obj 47 30 inlet;
-#X obj 96 146 s \$0-cnv;
-#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
 #N canvas 0 22 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
@@ -82,7 +108,6 @@ the time at which the bang was received.;
 #X obj 210 351 - 1;
 #X obj 191 184 unpack f f f;
 #X obj 379 423 pack;
-#X msg 378 447 color \$1 \$2;
 #X msg 395 152 124 124 124;
 #X msg 203 154 220 220 220;
 #X obj 238 121 t b b;
@@ -106,31 +131,29 @@ the time at which the bang was received.;
 #X connect 13 0 9 0;
 #X connect 13 1 10 0;
 #X connect 13 2 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 20 0;
-#X connect 16 0 6 0;
-#X connect 17 0 13 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
 #X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 19 0 18 0;
 #X restore 47 113 pd off;
-#X obj 47 83 select 0 1;
-#X obj 47 168 list append 0;
-#X obj 47 195 list trim;
-#X obj 47 220 s \$0-tgl-r;
-#X connect 0 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 5 0;
-#X connect 3 0 1 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 4 1 2 0;
-#X connect 5 0 6 0;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
 #X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
-#N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -128992
+#N canvas 121 482 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -162,32 +185,7 @@ the time at which the bang was received.;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 506 90 pd;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 spike~;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Report zero to non-zero transition
-intervals;
-#X text 72 92 [spike~] reports intervals of zero to non-zero transitions
-from the signal input. The refractory period is set at the second inlet
-\, which defines how soon after detecting a transition the spike~ object
-will report the next instance.;
-#X text 89 331 The reported interval is not perfectly accurate because
-of the resolution of the block size.;
-#X text 186 479 - The interval (in milliseconds) since the last zero
-to non-zero signal transition has occurred (which includes the refractory
-period \, if one is set).;
+#X restore 504 71 pd;
 #X connect 14 0 16 1;
 #X connect 15 0 21 0;
 #X connect 16 0 15 0;

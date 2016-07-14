@@ -55,7 +55,7 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X floatatom 233 270 0 0 0 0 - - -;
 #X obj 236 293 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 6955 1;
+-1 -1 6243 1;
 #X msg 114 194 44100;
 #X msg 66 193 10000;
 #X obj 8 638 all_about_cyclone;
@@ -88,6 +88,11 @@ in many level-detection tasks.;
 #X text 321 152 modes;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal average in different
 forms;
+#X text 52 92 Use the [average~] object for a running/moving average
+of a signal over a specified number of samples. There are three averaging
+methods available: bipolar \, absolute and rms.;
+#X text 171 380 - sets to bipolar average mode (default);
+#X text 134 604 This object is not yet compatible to Max 5+;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -192,11 +197,6 @@ forms;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 52 92 Use the [average~] object for a running/moving average
-of a signal over a specified number of samples. There are three averaging
-methods available: bipolar \, absolute and rms.;
-#X text 171 380 - sets to bipolar average mode (default);
-#X text 134 604 This object is not yet compatible to Max 5+;
 #X connect 9 0 16 0;
 #X connect 10 0 16 0;
 #X connect 11 0 16 0;

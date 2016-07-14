@@ -1,41 +1,99 @@
-#N canvas 616 129 596 462 10;
-#X obj 90 235 noise~;
-#X obj 140 359 output~;
-#X obj 304 102 vsl 15 120 0.01 10 1 0 empty q empty -52 10 0 15 -166441
--1 -1 11516 1;
-#X obj 215 39 vsl 15 120 -24 24 0 0 empty db empty 22 10 0 15 -166441
--1 -1 7025 1;
-#X floatatom 144 214 7 0 0 0 - - -, f 7;
-#X text 305 76 Q;
-#X obj 144 72 vsl 15 128 20 10000 1 0 empty hz empty 0 -9 0 10 -191407
--1 -1 7995 1;
-#X text 163 70 Freq;
-#X text 238 35 Gain (db);
-#X floatatom 215 173 7 0 0 0 - - -, f 7;
-#X msg 390 77 \; q 8 \; db 12 \; hz 1000;
-#X obj 390 51 loadbang;
-#X obj 175 240 filtercoef~ gainlpass;
-#X msg 382 222 lowpass \; highpass \; bandpass \; bandstop \; peaknotch
-\; lowshelf \; highshelf \; ressonant \; allpass;
-#X msg 480 242 gainlpass \; gainhpass \; gainbpass \; gainbstop \;
-gainresonant \; gainapass;
-#X text 492 215 to do;
-#X obj 156 304 cyclone/biquad~;
-#X obj 224 216 atodb~;
-#X obj 224 195 sig~;
-#X connect 0 0 16 0;
-#X connect 2 0 12 2;
-#X connect 3 0 9 0;
-#X connect 4 0 12 0;
-#X connect 6 0 4 0;
-#X connect 9 0 18 0;
-#X connect 11 0 10 0;
-#X connect 12 0 16 1;
-#X connect 12 1 16 2;
-#X connect 12 2 16 3;
-#X connect 12 3 16 4;
-#X connect 12 4 16 5;
-#X connect 16 0 1 0;
-#X connect 16 0 1 1;
-#X connect 17 0 12 1;
-#X connect 18 0 17 1;
+#N canvas 752 39 594 755 10;
+#X obj 4 689 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 5 325 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 620 287 348 320 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 126 LIBRARY cyclone;
+#X text 1 108 OUTLET_0 signal;
+#X text 1 54 INLET_0 signal message;
+#X text 1 0 KEYWORDS signal wavetable wave table interpolation;
+#X text 1 36 DESCRIPTION variable size wavetable;
+#X text 1 72 INLET_1 float signal;
+#X text 1 90 INLET_2 float signal;
+#X text 0 144 VERSION 0.2-beta1;
+#X text 0 162 AUTHOR Krzysztof Czaja;
+#X text 1 180 RELEASE_DATE 2002;
+#X text 2 199 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 231 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 691 pd META;
+#X obj 5 443 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 5 623 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 320 422 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 209 691 pd Related_objects;
+#X obj 72 335 cnv 17 3 38 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 228 629 - array name;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 filtercoeff~;
+#X text 77 93 [join] takes any type of messages (anything \, float
+\, symbol \, list) in any inlet and combines them all into an output
+list.;
+#X text 137 381 anything;
+#X text 198 381 - any message type to be combined;
+#X text 161 400 bang;
+#X text 94 335 triggers <list>;
+#X text 156 631 1) float;
+#X text 198 400 - forces output of stored messages;
+#X text 198 418 - sets a message to that inlet without output;
+#X obj 5 656 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 163 664 @triggers <list> - default "0" (left inlet is hot)
+;
+#X text 101 418 set <anything>;
+#X text 197 335 - define a list of input numbers that will trigger
+the output (make the inlet "hot") \, 0 is the first inlet \, 1 the
+second and so on (-1 makes all inlets "hot"), f 57;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Generate biquad coefficients
+;
+#X obj 232 181 cyclone/filtercoeff~;
+#X obj 88 456 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 88 475 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 189 458 - a0 coefficient;
+#X text 189 476 - a1 coefficient;
+#X obj 88 494 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 88 513 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 88 532 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X text 189 495 - a2 coefficient;
+#X text 189 513 - b1 coefficient;
+#X text 189 532 - b2 coefficient;
+#X text 130 458 signal;
+#X text 130 475 signal;
+#X text 130 494 signal;
+#X text 130 513 signal;
+#X text 130 532 signal;
+#X obj 215 216 cyclone/biquad~;
+#X obj 199 256 cyclone/output~;
+#X connect 28 0 44 1;
+#X connect 28 1 44 2;
+#X connect 28 2 44 3;
+#X connect 28 3 44 4;
+#X connect 28 4 44 5;
+#X connect 44 0 45 0;
+#X connect 44 0 45 1;

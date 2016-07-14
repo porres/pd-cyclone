@@ -37,7 +37,7 @@ updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
 #X restore 506 529 pd META;
 #X obj 169 343 nbx 8 20 -1e+37 1e+37 0 0 empty empty dBFS 130 11 0
-16 -228856 -1 -1 0 256;
+16 -228856 -1 -1 -999 256;
 #X obj 169 214 nbx 5 14 0 1 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
 #X obj 172 188 hsl 180 15 1e-05 1 0 0 empty empty empty -2 -8 0 10
@@ -64,9 +64,15 @@ conversion for signals;
 #X text 215 411 - linear amplitude value;
 #X text 156 411 signal;
 #X obj 169 243 sig~;
+#X text 216 455 - converted dBFS amplitude value;
+#X text 61 95 Use the [atodb~] to convert a signal representing a linear
+amplitude value to a deciBel Full Scale (dBFS) equivalent.;
+#X obj 169 311 cyclone/snapshot~ 10;
+#X text 62 129 Conversion formula: dbFS = log10(amp) * 20 (minimum
+output value is -999)., f 42;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -135,7 +141,7 @@ conversion for signals;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -168,14 +174,8 @@ conversion for signals;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 216 455 - converted dBFS amplitude value;
-#X text 61 95 Use the [atodb~] to convert a signal representing a linear
-amplitude value to a deciBel Full Scale (dBFS) equivalent.;
-#X obj 169 311 cyclone/snapshot~ 10;
-#X text 62 129 Conversion formula: dbFS = log10(amp) * 20 (minimum
-output value is -999)., f 42;
 #X connect 11 0 26 0;
 #X connect 12 0 11 0;
-#X connect 13 0 30 0;
+#X connect 13 0 29 0;
 #X connect 26 0 13 0;
-#X connect 30 0 10 0;
+#X connect 29 0 10 0;

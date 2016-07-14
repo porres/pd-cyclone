@@ -56,15 +56,54 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 60 234 ms;
 #X text 236 479 - converted number of samples;
 #X text 236 457 - converted number of samples;
-#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 mstosamps~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Convert milliseconds to samples
+;
+#X text 86 93 [mstosamps~] takes time in milliseconds and converts
+to a corresponding number of samples (depending on sample rate).;
+#X text 87 127 It works with floats and signals. A signal input will
+convert only to the signal outlet \, but a float input converts to
+both float and signal outlets. When a signal input is present \, the
+float input is ignored.;
+#X obj 291 243 cyclone/line~;
+#X obj 291 310 cyclone/snapshot~ 1;
+#X obj 89 297 cyclone/snapshot~ 1;
+#N canvas 221 147 452 243 delay~ 0;
+#X obj 126 160 cyclone/delay~;
+#X obj 150 108 mstosamps~;
+#X floatatom 207 132 5 0 0 0 - - -, f 5;
+#X floatatom 150 81 5 0 0 0 - - -, f 5;
+#X text 191 81 ms;
+#X text 247 132 samples;
+#X text 54 26 convert delay time from ms to samples to use it on [delay~]
+;
+#X connect 1 1 2 0;
+#X connect 2 0 0 1;
+#X connect 3 0 1 0;
+#X restore 470 321 pd delay~;
+#N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
-#N canvas 939 367 324 271 set_color 0;
+#N canvas 977 77 379 291 set_color 0;
 #X obj 47 30 inlet;
-#X obj 96 146 s \$0-cnv;
-#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
 #N canvas 0 22 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
@@ -81,7 +120,6 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 210 351 - 1;
 #X obj 191 184 unpack f f f;
 #X obj 379 423 pack;
-#X msg 378 447 color \$1 \$2;
 #X msg 395 152 124 124 124;
 #X msg 203 154 220 220 220;
 #X obj 238 121 t b b;
@@ -105,31 +143,29 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 13 0 9 0;
 #X connect 13 1 10 0;
 #X connect 13 2 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 20 0;
-#X connect 16 0 6 0;
-#X connect 17 0 13 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
 #X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 19 0 18 0;
 #X restore 47 113 pd off;
-#X obj 47 83 select 0 1;
-#X obj 47 168 list append 0;
-#X obj 47 195 list trim;
-#X obj 47 220 s \$0-tgl-r;
-#X connect 0 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 5 0;
-#X connect 3 0 1 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 4 1 2 0;
-#X connect 5 0 6 0;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
 #X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
-#N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -212593
+#N canvas 121 482 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -161,51 +197,13 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 504 90 pd;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 mstosamps~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Convert milliseconds to samples
-;
-#X text 86 93 [mstosamps~] takes time in milliseconds and converts
-to a corresponding number of samples (depending on sample rate).;
-#X text 87 127 It works with floats and signals. A signal input will
-convert only to the signal outlet \, but a float input converts to
-both float and signal outlets. When a signal input is present \, the
-float input is ignored.;
-#X obj 291 243 cyclone/line~;
-#X obj 291 310 cyclone/snapshot~ 1;
-#X obj 89 297 cyclone/snapshot~ 1;
-#N canvas 221 147 452 243 delay~ 1;
-#X obj 126 160 cyclone/delay~;
-#X obj 150 108 mstosamps~;
-#X floatatom 207 132 5 0 0 0 - - -, f 5;
-#X floatatom 150 81 5 0 0 0 - - -, f 5;
-#X text 191 81 ms;
-#X text 247 132 samples;
-#X text 54 26 convert delay time from ms to samples to use it on [delay~]
-;
-#X connect 1 1 2 0;
-#X connect 2 0 0 1;
-#X connect 3 0 1 0;
-#X restore 470 321 pd delay~;
-#X connect 8 0 40 0;
+#X restore 504 71 pd;
+#X connect 8 0 39 0;
 #X connect 11 0 17 0;
-#X connect 17 0 42 0;
+#X connect 17 0 41 0;
 #X connect 17 1 10 0;
-#X connect 18 0 41 0;
+#X connect 18 0 40 0;
 #X connect 18 1 22 0;
-#X connect 40 0 18 0;
-#X connect 41 0 9 0;
-#X connect 42 0 21 0;
+#X connect 39 0 18 0;
+#X connect 40 0 9 0;
+#X connect 41 0 21 0;

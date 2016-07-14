@@ -90,6 +90,11 @@ Max/MSP;
 229 232 74 79 77 96 98 102 0;
 #X obj 303 269 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
 205 229 232 74 79 77 96 98 102 0;
+#X text 66 97 Use [atan~] to output the arc-tangent of each input sample
+(probably only useful for mathematical calculations).;
+#X text 167 193 * pi;
+#X text 373 185 * 2pi;
+#X text 377 203 - pi;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -193,12 +198,7 @@ Max/MSP;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 502 71 pd;
-#X text 66 97 Use [atan~] to output the arc-tangent of each input sample
-(probably only useful for mathematical calculations).;
-#X text 167 193 * pi;
-#X text 373 185 * 2pi;
-#X text 377 203 - pi;
+#X restore 504 71 pd;
 #X connect 8 0 30 0;
 #X connect 9 0 31 0;
 #X connect 10 0 9 0;

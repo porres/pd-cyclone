@@ -88,9 +88,17 @@ function;
 205 229 232 74 79 77 96 98 102 0;
 #X obj 307 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0
 205 229 232 74 79 77 96 98 102 0;
+#X text 54 93 Use [atanh~] to output the hyperbolic arc-tangent of
+each input sample (probably only useful for mathematical calculations).
+;
+#X obj 106 199 cyclone/atanh~;
+#X obj 2 523 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 154 532 For input values <= -1 or >=1 \, the output is zero!
+;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -159,7 +167,7 @@ function;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -192,14 +200,6 @@ function;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 54 93 Use [atanh~] to output the hyperbolic arc-tangent of
-each input sample (probably only useful for mathematical calculations).
-;
-#X obj 106 199 cyclone/atanh~;
-#X obj 2 523 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 154 532 For input values <= -1 or >=1 \, the output is zero!
-;
 #X connect 10 0 32 0;
 #X connect 11 0 33 0;
 #X connect 13 0 19 0;

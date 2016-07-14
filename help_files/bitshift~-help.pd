@@ -95,6 +95,7 @@ signed integer representation of this value is used for the operation.
 ;
 #X restore 367 289 pd signal_conversion_to_int;
 #X text 290 266 1: converts input signal to int;
+#X text 91 409 shift <float>;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -199,7 +200,6 @@ signed integer representation of this value is used for the operation.
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 91 409 shift <float>;
 #X connect 12 0 38 0;
 #X connect 13 0 12 0;
 #X connect 28 0 38 0;

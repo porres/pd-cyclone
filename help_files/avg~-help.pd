@@ -43,7 +43,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 165 241 *~;
 #X obj 299 279 cyclone/avg~;
 #X obj 299 338 vsl 30 124 -1 1 0 0 asflksjdf nthihjkdbvk empty 0 -9
-0 10 -228856 -1 -1 8435 1;
+0 10 -228856 -1 -1 8636 1;
 #X text 333 453 -1;
 #X text 338 391 0;
 #X text 337 332 1;
@@ -72,6 +72,15 @@ Max/MSP;
 #X obj 9 634 all_about_cyclone;
 #X obj 165 336 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
+#X text 191 502 - the signal to take its absolute average;
+#X text 191 520 - compute average since the last received bang;
+#X text 57 88 Use the [avg~] object to keep track of the absolute average
+from the input signal when receiving a bang. The output value is the
+sum of the absolute values of the input divided by the number of elapsed
+samples.;
+#X text 191 565 - the input signal's absolute average.;
+#X obj 299 305 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.404272 256;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -176,23 +185,14 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 191 502 - the signal to take its absolute average;
-#X text 191 520 - compute average since the last received bang;
-#X text 57 88 Use the [avg~] object to keep track of the absolute average
-from the input signal when receiving a bang. The output value is the
-sum of the absolute values of the input divided by the number of elapsed
-samples.;
-#X text 191 565 - the input signal's absolute average.;
-#X obj 299 305 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.371523 256;
 #X connect 9 0 31 0;
 #X connect 15 0 16 0;
 #X connect 15 0 36 0;
-#X connect 16 0 42 0;
+#X connect 16 0 41 0;
 #X connect 29 0 15 0;
 #X connect 30 0 15 1;
 #X connect 31 1 16 0;
 #X connect 31 1 32 0;
 #X connect 33 0 9 0;
 #X connect 34 0 9 0;
-#X connect 42 0 17 0;
+#X connect 41 0 17 0;

@@ -85,15 +85,53 @@ form;
 #X text 286 163 Imaginary;
 #X text 29 287 Amplitude;
 #X text 325 288 Phase;
-#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 16 2 comment 0 40 times ? 0 0 0 0 cartopol~;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 19 56 comment 0 18 times ? 0 0 0 0 Signal cartesian to polar
+conversion;
+#X obj 128 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 227 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 101 288 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 238 289 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 79 95 Use the [cartopol~] object to convert signal values representing
+cartesian coordinates to a signal composed of polar coordinates - useful
+for spectral processing.;
+#X text 188 402 - amplitude output of the polar form;
+#X text 189 427 - phase in radians (-pi to pi) output of the polar
+form;
+#X obj 6 493 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 128 218 cyclone/cartopol~;
+#X obj 101 260 cyclone/snapshot~ 1;
+#X obj 238 260 cyclone/snapshot~ 1;
+#X text 125 501 If the right outlet ins't connected to anything \,
+the object won't compute the phase \, saving you some CPU.;
+#N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
-#N canvas 939 367 324 271 set_color 0;
+#N canvas 977 77 379 291 set_color 0;
 #X obj 47 30 inlet;
-#X obj 96 146 s \$0-cnv;
-#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
 #N canvas 0 22 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
@@ -110,7 +148,6 @@ form;
 #X obj 210 351 - 1;
 #X obj 191 184 unpack f f f;
 #X obj 379 423 pack;
-#X msg 378 447 color \$1 \$2;
 #X msg 395 152 124 124 124;
 #X msg 203 154 220 220 220;
 #X obj 238 121 t b b;
@@ -134,30 +171,28 @@ form;
 #X connect 13 0 9 0;
 #X connect 13 1 10 0;
 #X connect 13 2 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 20 0;
-#X connect 16 0 6 0;
-#X connect 17 0 13 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
 #X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 19 0 18 0;
 #X restore 47 113 pd off;
-#X obj 47 83 select 0 1;
-#X obj 47 168 list append 0;
-#X obj 47 195 list trim;
-#X obj 47 220 s \$0-tgl-r;
-#X connect 0 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 5 0;
-#X connect 3 0 1 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 4 1 2 0;
-#X connect 5 0 6 0;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
 #X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
-#N canvas 0 22 450 300 (subpatch) 0;
+#N canvas 121 482 450 300 (subpatch) 0;
 #X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
@@ -190,49 +225,12 @@ form;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 507 94 pd;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 cartopol~;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 56 comment 0 18 times ? 0 0 0 0 Signal cartesian to polar
-conversion;
-#X obj 128 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 33 256;
-#X obj 227 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 24 256;
-#X obj 101 288 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 40.8044 256;
-#X obj 238 289 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.628796 256;
-#X text 79 95 Use the [cartopol~] object to convert signal values representing
-cartesian coordinates to a signal composed of polar coordinates - useful
-for spectral processing.;
-#X text 188 402 - amplitude output of the polar form;
-#X text 189 427 - phase in radians (-pi to pi) output of the polar
-form;
-#X obj 6 493 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X obj 128 218 cyclone/cartopol~;
-#X obj 101 260 cyclone/snapshot~ 1;
-#X obj 238 260 cyclone/snapshot~ 1;
-#X text 125 501 If the right outlet ins't connected to anything \,
-the object won't compute the phase \, saving you some CPU.;
-#X connect 16 0 41 0;
-#X connect 17 0 41 1;
-#X connect 33 0 16 0;
-#X connect 34 0 17 0;
-#X connect 41 0 42 0;
-#X connect 41 1 43 0;
+#X restore 504 71 pd;
+#X connect 16 0 40 0;
+#X connect 17 0 40 1;
+#X connect 32 0 16 0;
+#X connect 33 0 17 0;
+#X connect 40 0 41 0;
+#X connect 40 1 42 0;
+#X connect 41 0 34 0;
 #X connect 42 0 35 0;
-#X connect 43 0 36 0;

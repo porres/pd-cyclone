@@ -73,13 +73,13 @@ to gather information on the signs of the inputs in order to return
 the appropriate quadrant of the computed angle \, which is not possible
 for the single-argument arctangent function.;
 #X obj 222 101 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 27 256;
+-228856 -1 -1 0 256;
 #X obj 373 99 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
+-228856 -1 -1 0 256;
 #X obj 201 247 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
--228856 -1 -1 0.110657 256;
+-228856 -1 -1 0 256;
 #X obj 373 252 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
--228856 -1 -1 0.110657 256;
+-228856 -1 -1 0 256;
 #X connect 0 0 2 0;
 #X connect 1 0 12 0;
 #X connect 2 0 13 0;
@@ -119,6 +119,18 @@ Max/MSP;
 #X obj 95 3 comment 0 37 times ? 0 0 0 0 ~;
 #X obj 8 471 all_about_cyclone;
 #X text 190 434 - value of "b" (not documented in Max);
+#X text 54 99 Use the [atan2~] object to output the arc-tangent of
+two given values ("a" and "b") calculated as: Arc-tangent (a/b).;
+#X text 54 134 Useful for mathematical calculations such as finding
+the phase from cartesian coordinates.;
+#X obj 119 192 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 200 192 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 119 276 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 0 256;
+#X text 218 279 Arc-tangent (a/b);
+#X text 189 397 - result of arctan(a/b) in radians;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -223,19 +235,7 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 54 99 Use the [atan2~] object to output the arc-tangent of
-two given values ("a" and "b") calculated as: Arc-tangent (a/b).;
-#X text 54 134 Useful for mathematical calculations such as finding
-the phase from cartesian coordinates.;
-#X obj 119 192 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 12 256;
-#X obj 200 192 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 119 276 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
--228856 -1 -1 1.5708 256;
-#X text 218 279 Arc-tangent (a/b);
-#X text 189 397 - result of arctan(a/b) in radians;
-#X connect 24 0 35 0;
+#X connect 24 0 34 0;
 #X connect 25 0 24 0;
-#X connect 33 0 25 0;
-#X connect 34 0 25 1;
+#X connect 32 0 25 0;
+#X connect 33 0 25 1;

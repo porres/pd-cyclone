@@ -308,9 +308,22 @@ to integer \, depending on the mode \, what happens is that the floating
 point value is converted/truncated to an integer and the 32 bit signed
 integer representation of this value is used for comparison.;
 #X restore 345 252 pd signal_conversion_to_int;
+#X text 107 171 Compare two signals:;
+#X obj 105 216 sig~;
+#X obj 186 216 sig~;
+#X obj 105 194 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 186 194 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 105 302 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 182 378 - bits plus 32 bit (0/1) values sets a raw 32 bits
+bitmask;
+#X text 183 436 - converted to integer and used as bitmask (not working
+yet);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -379,7 +392,7 @@ integer representation of this value is used for comparison.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -411,25 +424,12 @@ integer representation of this value is used for comparison.;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 503 70 pd;
-#X text 107 171 Compare two signals:;
-#X obj 105 216 sig~;
-#X obj 186 216 sig~;
-#X obj 105 194 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 186 194 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 105 302 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X text 182 378 - bits plus 32 bit (0/1) values sets a raw 32 bits
-bitmask;
-#X text 183 436 - converted to integer and used as bitmask (not working
-yet);
-#X connect 21 0 53 0;
+#X restore 504 65 pd;
+#X connect 21 0 52 0;
 #X connect 22 0 33 0;
 #X connect 23 0 22 0;
 #X connect 33 0 21 0;
-#X connect 49 0 33 0;
-#X connect 50 0 33 1;
+#X connect 48 0 33 0;
+#X connect 49 0 33 1;
+#X connect 50 0 48 0;
 #X connect 51 0 49 0;
-#X connect 52 0 50 0;
