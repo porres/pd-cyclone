@@ -1,7 +1,7 @@
-#N canvas 498 123 565 546 10;
-#X obj 2 504 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 536 30 563 514 10;
+#X obj 2 468 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 2 356 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 2 320 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 571 347 385 259 META 0;
 #X text 0 117 LIBRARY cyclone;
@@ -21,10 +21,10 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 0 80 INLET_1 signal;
 #X text 0 100 OUTLET_0 signal;
 #X text 0 20 LICENSE SIBSD;
-#X restore 507 506 pd META;
-#X obj 2 424 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 470 pd META;
+#X obj 2 388 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 461 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 425 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 214 425 427 193 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -48,60 +48,87 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 301 141 cyclone/tanx~;
 #X text 28 65 vanilla;
 #X obj 32 90 atan2;
-#X restore 208 506 pd Related_objects;
-#X obj 86 433 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 208 470 pd Related_objects;
+#X obj 79 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 42 cnv 15 552 40 empty empty atan2~ 3 12 0 18 -204280 -1 0
+#X text 142 397 signal;
+#X obj 79 333 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 432 signal;
-#X text 118 477 (none);
-#X obj 86 369 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 80 356 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 201 256 cyclone/atan2~;
-#X text 179 432 - arctan(x/y) of the signal;
-#X text 41 105 Use the atan2~ object to take two given x and y values
-and output a signal which is their arc-tangent function \, calculated
-as follows: Arc-tangent (y/x);
-#X floatatom 201 229 5 0 0 0 - - -, f 5;
-#X floatatom 282 229 5 0 0 0 - - -, f 5;
-#X obj 201 286 cyclone/snapshot~ 100;
-#X floatatom 201 317 0 0 0 0 - - -;
-#X obj 512 55 atan2~;
-#X obj 87 392 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 132 434 1) float;
+#N canvas 424 23 586 436 calculating 0;
+#X obj 373 197 cyclone/atan2~;
+#X obj 201 214 cyclone/snapshot~ 1;
+#X obj 373 227 cyclone/snapshot~ 1;
+#X obj 373 122 sig~;
+#X obj 222 125 sig~;
+#X text 220 78 real;
+#X text 370 76 imaginary;
+#X obj 102 183 cyclone/cartopol~;
+#X text 55 32 Calculating the phase value from a real and imaginary
+part (cartesian coordinates):;
+#X text 112 305 The purpose of using two arguments instead of one is
+to gather information on the signs of the inputs in order to return
+the appropriate quadrant of the computed angle \, which is not possible
+for the single-argument arctangent function.;
+#X obj 222 101 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 27 256;
+#X obj 373 99 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 3 256;
+#X obj 201 247 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 0.110657 256;
+#X obj 373 252 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 0.110657 256;
+#X connect 0 0 2 0;
+#X connect 1 0 12 0;
+#X connect 2 0 13 0;
+#X connect 3 0 0 0;
+#X connect 3 0 7 1;
+#X connect 4 0 0 1;
+#X connect 4 0 7 0;
+#X connect 7 1 1 0;
+#X connect 10 0 4 0;
+#X connect 11 0 3 0;
+#X restore 377 236 pd calculating phase;
+#X text 103 190 a;
+#X text 184 190 b;
+#X text 111 358 float/signal - "b" value input to an arc-tangent function
 ;
-#X text 41 155 This is probably only useful for mathematical calculations
-\, like finding the phase argument from cartesian coordinates (if you
-know what I mean...);
-#X text 13 65 Standard C function for arctan(y/x) for signals;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+#X text 112 333 float/signal - "a" value input to an arc-tangent function
+;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 atan;
+#X obj 17 59 comment 0 18 times ? 0 0 0 0 Signal arctan(a/b) function
 ;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 9 pd;
-#X text 119 369 float/signal - y value input to an arc-tangent function
-;
-#X text 118 394 float/signal - x value input to an arc-tangent function
-;
-#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 119 248 cyclone/snapshot~ 1;
+#X obj 119 218 cyclone/atan2~;
+#X obj 77 9 comment 0 30 times ? 0 0 0 0 2;
+#X obj 95 3 comment 0 37 times ? 0 0 0 0 ~;
+#X obj 8 471 all_about_cyclone;
+#X text 190 434 - value of "b" (not documented in Max);
+#N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
-#N canvas 939 367 324 271 set_color 0;
+#N canvas 977 77 379 291 set_color 0;
 #X obj 47 30 inlet;
-#X obj 96 146 s \$0-cnv;
-#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
 #N canvas 0 22 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
@@ -118,7 +145,6 @@ know what I mean...);
 #X obj 210 351 - 1;
 #X obj 191 184 unpack f f f;
 #X obj 379 423 pack;
-#X msg 378 447 color \$1 \$2;
 #X msg 395 152 124 124 124;
 #X msg 203 154 220 220 220;
 #X obj 238 121 t b b;
@@ -142,30 +168,28 @@ know what I mean...);
 #X connect 13 0 9 0;
 #X connect 13 1 10 0;
 #X connect 13 2 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 20 0;
-#X connect 16 0 6 0;
-#X connect 17 0 13 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
 #X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 19 0 18 0;
 #X restore 47 113 pd off;
-#X obj 47 83 select 0 1;
-#X obj 47 168 list append 0;
-#X obj 47 195 list trim;
-#X obj 47 220 s \$0-tgl-r;
-#X connect 0 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 5 0;
-#X connect 3 0 1 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 4 1 2 0;
-#X connect 5 0 6 0;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
 #X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
-#N canvas 0 22 450 300 (subpatch) 0;
+#N canvas 121 482 450 300 (subpatch) 0;
 #X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
@@ -198,8 +222,20 @@ know what I mean...);
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 503 91 pd;
-#X connect 11 0 16 0;
-#X connect 14 0 11 0;
-#X connect 15 0 11 1;
-#X connect 16 0 17 0;
+#X restore 504 71 pd;
+#X text 54 99 Use the [atan2~] object to output the arc-tangent of
+two given values ("a" and "b") calculated as: Arc-tangent (a/b).;
+#X text 54 134 Useful for mathematical calculations such as finding
+the phase from cartesian coordinates.;
+#X obj 119 192 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 12 256;
+#X obj 200 192 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 119 276 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 1.5708 256;
+#X text 218 279 Arc-tangent (a/b);
+#X text 189 397 - result of arctan(a/b) in radians;
+#X connect 24 0 35 0;
+#X connect 25 0 24 0;
+#X connect 33 0 25 0;
+#X connect 34 0 25 1;

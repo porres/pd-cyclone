@@ -1,7 +1,7 @@
-#N canvas 504 23 566 651 10;
-#X obj 7 597 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 429 164 561 594 10;
+#X obj 7 543 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 458 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 404 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 618 257 359 239 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -21,76 +21,44 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 510 599 pd META;
-#X obj 7 502 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 510 545 pd META;
+#X obj 7 448 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 559 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 505 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 319 385 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 212 599 pd Related_objects;
-#X obj 86 469 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 212 545 pd Related_objects;
+#X obj 106 415 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 88 511 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 108 457 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 7 39 cnv 15 552 40 empty empty mstosamps~ 3 12 0 18 -204280
--1 0;
-#X obj 486 45 mstosamps~;
-#X msg 316 258 0 \, 1000 3000;
-#X floatatom 316 411 0 0 0 0 - - -;
-#X floatatom 219 395 0 0 0 0 - - -;
-#X floatatom 114 292 0 0 0 0 - - -;
-#X text 370 412 number of samples;
-#X text 119 512 signal;
-#X text 118 571 (none);
-#X text 119 533 float;
-#X obj 88 533 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X msg 291 213 0 \, 1000 3000;
+#X floatatom 291 335 0 0 0 0 - - -;
+#X floatatom 194 336 0 0 0 0 - - -;
+#X floatatom 89 233 0 0 0 0 - - -;
+#X text 296 357 number of samples;
+#X text 175 458 signal;
+#X text 174 515 (none);
+#X text 181 479 float;
+#X obj 108 479 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 19 62 Convert milliseconds to number of samples;
-#X obj 114 328 cyclone/mstosamps~;
-#X obj 316 338 cyclone/mstosamps~;
-#X obj 316 389 cyclone/Snapshot~ 100;
-#X obj 316 288 cyclone/Line~;
-#X text 86 95 Use the [mstosamps~] object to convert an incoming signal
-carrying a millisecond value and output a signal which converts those
-millisecond values to a number of samples (at the current sampling
-rate).;
-#X text 119 468 float/signal;
-#X text 216 468 - time in milliseconds;
-#X floatatom 114 395 0 0 0 0 - - -;
-#X obj 114 356 cyclone/Snapshot~ 100;
-#X floatatom 421 363 0 0 0 0 - - -;
-#X text 110 268 float input;
-#X text 312 233 signal input;
-#X text 87 159 [mstosamps~] works with floats and signal. A signal
-input wil converto only to the signal outlet \, but a float input converts
-to both float and signal output. When a signal input is present \,
-the float input is ignored.;
-#X text 122 419 number of samples;
-#X text 146 293 ms;
-#X text 332 314 ms;
-#X text 186 533 - converted number of samples;
-#X text 186 511 - converted number of samples;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 6 5 pd;
+#X obj 89 269 cyclone/mstosamps~;
+#X obj 291 282 cyclone/mstosamps~;
+#X text 139 415 float/signal;
+#X text 236 415 - time in milliseconds;
+#X floatatom 89 336 0 0 0 0 - - -;
+#X floatatom 396 334 0 0 0 0 - - -;
+#X text 86 209 float input;
+#X text 384 243 signal input;
+#X text 95 360 number of samples;
+#X text 60 234 ms;
+#X text 236 479 - converted number of samples;
+#X text 236 457 - converted number of samples;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -161,7 +129,7 @@ the float input is ignored.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -194,12 +162,50 @@ the float input is ignored.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 90 pd;
-#X connect 10 0 23 0;
-#X connect 13 0 20 0;
-#X connect 20 0 28 0;
-#X connect 20 1 12 0;
-#X connect 21 0 22 0;
-#X connect 21 1 29 0;
-#X connect 22 0 11 0;
-#X connect 23 0 21 0;
-#X connect 28 0 27 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 mstosamps~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Convert milliseconds to samples
+;
+#X text 86 93 [mstosamps~] takes time in milliseconds and converts
+to a corresponding number of samples (depending on sample rate).;
+#X text 87 127 It works with floats and signals. A signal input will
+convert only to the signal outlet \, but a float input converts to
+both float and signal outlets. When a signal input is present \, the
+float input is ignored.;
+#X obj 291 243 cyclone/line~;
+#X obj 291 310 cyclone/snapshot~ 1;
+#X obj 89 297 cyclone/snapshot~ 1;
+#N canvas 221 147 452 243 delay~ 1;
+#X obj 126 160 cyclone/delay~;
+#X obj 150 108 mstosamps~;
+#X floatatom 207 132 5 0 0 0 - - -, f 5;
+#X floatatom 150 81 5 0 0 0 - - -, f 5;
+#X text 191 81 ms;
+#X text 247 132 samples;
+#X text 54 26 convert delay time from ms to samples to use it on [delay~]
+;
+#X connect 1 1 2 0;
+#X connect 2 0 0 1;
+#X connect 3 0 1 0;
+#X restore 470 321 pd delay~;
+#X connect 8 0 40 0;
+#X connect 11 0 17 0;
+#X connect 17 0 42 0;
+#X connect 17 1 10 0;
+#X connect 18 0 41 0;
+#X connect 18 1 22 0;
+#X connect 40 0 18 0;
+#X connect 41 0 9 0;
+#X connect 42 0 21 0;

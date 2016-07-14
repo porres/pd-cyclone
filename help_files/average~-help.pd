@@ -1,7 +1,7 @@
-#N canvas 547 23 561 783 10;
-#X obj 2 742 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 380 81 560 679 10;
+#X obj 2 636 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 455 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 335 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 638 422 399 237 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -20,91 +20,84 @@ signal;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 745 pd META;
-#X obj 3 566 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 502 639 pd META;
+#X obj 3 440 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 607 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 481 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 3 661 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 3 535 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 155 571 428 92 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 6 29 cyclone/avg~;
-#X restore 201 745 pd Related_objects;
-#X obj 79 581 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 201 639 pd Related_objects;
+#X obj 78 454 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 40 cnv 15 552 40 empty empty average~ 3 12 0 18 -204280 -1
-0;
-#X text 104 468 signal;
-#X text 142 672 RMS values are often used to measure signal levels.
-The RMS mode of the average~ object is considerably more CPU intensive
-than the absolute mode. The absolute mode often works as well as the
-RMS mode in many level-detection tasks.;
-#X obj 246 180 cycle~ 100;
-#X msg 295 251 rms;
-#X msg 279 208 bipolar;
-#X msg 290 230 absolute;
-#X text 104 489 message;
-#X obj 498 58 average~;
-#X obj 79 471 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 110 347 signal;
+#X msg 332 216 rms;
+#X msg 316 173 bipolar;
+#X msg 327 195 absolute;
+#X obj 79 346 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 104 537 float;
-#X msg 171 223 500;
-#X msg 207 222 10;
-#X obj 246 280 cyclone/average~ 1000;
-#X text 171 537 - the number of samples the average is applied to;
-#X text 171 488 - bipolar: sets bipolar average mode.;
-#X text 171 504 - absolute: sets absolute average mode.;
-#X text 171 519 - rms: sets roor mean square (RMS) average mode.;
-#X text 171 467 - the signal to be averaged;
-#X text 104 580 signal;
-#X text 52 106 use the [average~] object for a running average of a
-signal over a specified number of samples. There are three methods
-of averaging available: bipolar \, absolute and rms;
-#X text 171 580 - the signal composed by the moving average.;
-#X text 14 63 reports various forms of running/moving averages of a
-signal;
-#X text 98 619 1) float;
-#X text 174 620 - sets number of samples to be average (default 100)
+#X text 116 363 float;
+#X msg 159 193 500;
+#X msg 195 192 10;
+#X obj 233 247 cyclone/average~ 1000;
+#X text 171 363 - the number of samples the average is applied to;
+#X text 171 347 - the signal to be averaged;
+#X text 110 454 signal;
+#X text 98 491 1) float;
+#X text 171 491 - sets number of samples to be average (default 100)
 ;
-#X text 99 637 2) symbol;
-#X text 182 636 - sets mode: bipolar \, absolute or rms (default bipolar)
+#X text 98 509 2) symbol;
+#X text 171 509 - sets mode: bipolar \, absolute or rms (default bipolar)
 ;
-#X text 130 368 Max/MSP won't tell you that \, but In the bipolar mode
-\, [average~] works as a moving average filter.;
-#N canvas 0 22 450 300 moving_average_filter 0;
-#X restore 211 418 pd moving_average_filter;
-#X floatatom 245 303 0 0 0 0 - - -;
-#X obj 248 326 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 6580 1;
-#X msg 126 224 44100;
-#X msg 78 223 10000;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+#X floatatom 233 270 0 0 0 0 - - -;
+#X obj 236 293 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 6955 1;
+#X msg 114 194 44100;
+#X msg 66 193 10000;
+#X obj 8 638 all_about_cyclone;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 2 5 pd;
-#N canvas 673 40 366 264 (subpatch) 0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 average~;
+#X text 104 380 bipolar;
+#X text 98 396 absolute;
+#X text 128 412 rms;
+#X text 171 396 - sets to absolute average mode;
+#X text 171 412 - sets to root mean square (RMS) average mode;
+#X text 171 454 - the signal composed by the moving average;
+#X text 133 546 RMS values are often used to measure signal levels.
+The RMS mode of the [average~] object is more CPU intensive than the
+absolute mode. The absolute mode often works as well as the RMS mode
+in many level-detection tasks.;
+#X obj 233 167 osc~ 100;
+#X text 86 167 number of samples;
+#X text 321 152 modes;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal average in different
+forms;
+#N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
-#N canvas 939 367 324 271 set_color 0;
+#N canvas 977 77 379 291 set_color 0;
 #X obj 47 30 inlet;
-#X obj 96 146 s \$0-cnv;
-#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
 #N canvas 0 22 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
@@ -121,7 +114,6 @@ signal;
 #X obj 210 351 - 1;
 #X obj 191 184 unpack f f f;
 #X obj 379 423 pack;
-#X msg 378 447 color \$1 \$2;
 #X msg 395 152 124 124 124;
 #X msg 203 154 220 220 220;
 #X obj 238 121 t b b;
@@ -145,30 +137,28 @@ signal;
 #X connect 13 0 9 0;
 #X connect 13 1 10 0;
 #X connect 13 2 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 20 0;
-#X connect 16 0 6 0;
-#X connect 17 0 13 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
 #X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 19 0 18 0;
 #X restore 47 113 pd off;
-#X obj 47 83 select 0 1;
-#X obj 47 168 list append 0;
-#X obj 47 195 list trim;
-#X obj 47 220 s \$0-tgl-r;
-#X connect 0 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 5 0;
-#X connect 3 0 1 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 4 1 2 0;
-#X connect 5 0 6 0;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
 #X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
-#N canvas 0 22 450 300 (subpatch) 0;
+#N canvas 121 482 450 300 (subpatch) 0;
 #X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
@@ -201,14 +191,19 @@ signal;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 503 91 pd;
-#X connect 11 0 21 0;
-#X connect 12 0 21 0;
-#X connect 13 0 21 0;
-#X connect 14 0 21 0;
-#X connect 19 0 21 0;
-#X connect 20 0 21 0;
-#X connect 21 0 37 0;
-#X connect 37 0 38 0;
-#X connect 39 0 21 0;
-#X connect 40 0 21 0;
+#X restore 504 71 pd;
+#X text 52 92 Use the [average~] object for a running/moving average
+of a signal over a specified number of samples. There are three averaging
+methods available: bipolar \, absolute and rms.;
+#X text 171 380 - sets to bipolar average mode (default);
+#X text 134 604 This object is not yet compatible to Max 5+;
+#X connect 9 0 16 0;
+#X connect 10 0 16 0;
+#X connect 11 0 16 0;
+#X connect 14 0 16 0;
+#X connect 15 0 16 0;
+#X connect 16 0 24 0;
+#X connect 24 0 25 0;
+#X connect 26 0 16 0;
+#X connect 27 0 16 0;
+#X connect 43 0 16 0;

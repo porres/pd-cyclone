@@ -1,7 +1,7 @@
-#N canvas 442 28 571 692 10;
-#X obj 7 650 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 744 37 565 665 10;
+#X obj 7 620 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 8 504 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 8 482 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 603 276 370 307 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -21,17 +21,15 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X text 0 79 OUTLET_0 bang;
 #X text 0 97 OUTLET_1 bang;
-#X restore 507 652 pd META;
-#X obj 8 546 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 622 pd META;
+#X obj 8 524 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 8 609 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 8 587 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 92 515 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 102 495 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 8 41 cnv 15 552 40 empty empty edge~ 3 12 0 18 -204280 -1 0
-;
-#X text 123 515 signal;
-#X obj 92 555 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 133 495 signal;
+#X obj 102 535 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #N canvas 90 529 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -39,61 +37,41 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 13 33 clip~;
 #X obj 56 33 -~;
 #X obj 87 33 +~;
-#X restore 204 652 pd Related_objects;
-#X text 123 620 (none);
-#X obj 511 43 edge~;
-#X obj 92 578 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 204 622 pd Related_objects;
+#X text 134 596 (none);
+#X obj 102 558 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 123 555 bang;
-#X text 123 578 bang;
-#X text 186 515 - signal to analyse;
-#X obj 147 299 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 145 535 bang;
+#X text 145 558 bang;
+#X text 186 495 - signal to analyse;
+#X obj 138 288 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 264 274 cyclone/Line~;
-#X msg 264 231 1 \, 0 500 0 200 -1 500 -1 200 0 500 0 200 1 500;
-#X obj 394 357 vsl 20 128 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
+#X msg 254 211 1 \, 0 500 0 200 -1 500 -1 200 0 500 0 200 1 500;
+#X obj 384 337 vsl 20 128 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
 -1 -1 6350 1;
-#X obj 72 268 cyclone/edge~;
-#X obj 72 237 sig~;
-#X msg 41 200 1;
-#X msg 72 200 0;
-#X obj 264 334 cyclone/edge~;
-#X msg 103 200 -1;
-#X text 20 64 Detect signal transitions;
-#X text 79 106 Use the edge~ to detect zero to non-zero (and vice versa)
+#X obj 63 257 cyclone/edge~;
+#X obj 63 226 sig~;
+#X msg 32 189 1;
+#X msg 63 189 0;
+#X obj 254 314 cyclone/edge~;
+#X msg 94 189 -1;
+#X text 86 93 Use the edge~ to detect zero to non-zero (and vice versa)
 signal transitions and report a bang out of one of its two outlets
 according to which direction the transition has occurred.;
-#X text 186 555 - zero to non-zero transition;
-#X text 186 578 - non- zero to zero transition;
-#X text 68 352 zero to non-zero;
-#X text 138 327 non zero to zero;
-#X obj 72 321 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X text 186 535 - zero to non-zero transition;
+#X text 186 558 - non- zero to zero transition;
+#X text 48 341 zero to non-zero;
+#X text 122 316 non zero to zero;
+#X obj 63 310 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X text 214 407 non zero to zero =>;
-#X text 136 432 zero to non-zero =>;
-#X obj 339 407 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 204 387 non zero to zero =>;
+#X text 126 412 zero to non-zero =>;
+#X obj 329 387 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 264 431 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 254 411 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 394 312 cyclone/Snapshot~ 100;
-#X obj 394 335 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 384 315 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 7 6 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -200,16 +178,34 @@ according to which direction the transition has occurred.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 505 91 pd;
-#X connect 17 0 24 0;
-#X connect 17 0 37 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 edge~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Detect signal transitions
+;
+#X obj 384 292 cyclone/snapshot~ 100;
+#X obj 254 254 cyclone/line~;
+#X connect 15 0 44 0;
+#X connect 17 0 28 0;
+#X connect 17 1 14 0;
 #X connect 18 0 17 0;
-#X connect 20 0 32 0;
-#X connect 20 1 16 0;
-#X connect 21 0 20 0;
-#X connect 22 0 21 0;
-#X connect 23 0 21 0;
-#X connect 24 0 36 0;
-#X connect 24 1 35 0;
-#X connect 25 0 21 0;
-#X connect 37 0 38 0;
-#X connect 38 0 19 0;
+#X connect 19 0 18 0;
+#X connect 20 0 18 0;
+#X connect 21 0 32 0;
+#X connect 21 1 31 0;
+#X connect 22 0 18 0;
+#X connect 33 0 16 0;
+#X connect 43 0 33 0;
+#X connect 44 0 21 0;
+#X connect 44 0 43 0;

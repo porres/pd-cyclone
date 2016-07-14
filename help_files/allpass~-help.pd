@@ -1,7 +1,7 @@
-#N canvas 730 38 560 755 10;
-#X obj 3 690 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 298 30 559 679 10;
+#X obj 3 632 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 405 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 380 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 378 396 407 280 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -21,12 +21,12 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 502 692 pd META;
-#X obj 3 511 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 502 634 pd META;
+#X obj 3 486 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 548 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 523 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 3 612 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 3 584 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 947 59 434 83 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -34,125 +34,121 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 79 34 cyclone/comb~;
 #X obj 172 33 cyclone/teeth~;
 #X obj 268 33 cyclone/phaseshift~;
-#X restore 205 692 pd Related_objects;
-#X obj 125 453 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 205 634 pd Related_objects;
+#X obj 115 428 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 40 cnv 15 552 40 empty empty allpass~ 3 12 0 18 -204280 -1
+#X obj 66 150 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 1 1
+;
+#X msg 81 215 clear;
+#X obj 115 454 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 115 495 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 115 389 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 146 207 Delay (ms);
+#X text 136 311 a = gain coefficient;
+#X text 136 326 D = Delay time in ms;
+#X text 157 456 float/signal - gain coefficient;
+#X obj 66 128 loadbang;
+#X obj 269 243 cnv 15 260 120 empty empty empty 20 12 0 14 -228856
+-66577 0;
+#X text 319 256 |;
+#X text 319 268 |;
+#X text 319 280 |;
+#X text 300 291 |;
+#X text 342 291 |;
+#X text 342 311 |;
+#X text 300 311 |;
+#X text 303 282 _______;
+#X text 303 311 _______;
+#X text 348 300 -----;
+#X text 319 283 v;
+#X text 374 282 |;
+#X text 374 294 |;
+#X text 374 258 |;
+#X text 374 270 |;
+#X text 374 257 ^;
+#X text 460 256 |;
+#X text 460 268 |;
+#X text 460 280 |;
+#X text 441 291 |;
+#X text 483 291 |;
+#X text 483 311 |;
+#X text 441 311 |;
+#X text 444 282 _______;
+#X text 444 311 _______;
+#X text 460 283 v;
+#X text 405 282 |;
+#X text 405 294 |;
+#X text 405 258 |;
+#X text 405 270 |;
+#X text 405 257 ^;
+#X text 481 249 >;
+#X text 407 300 -(*a)-;
+#X obj 234 190 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 245 190 Gain coefficient;
+#X text 300 301 | z^-D |;
+#X text 441 301 | z^-D |;
+#X text 283 339 y(n) = -a * x(n) + x(n-D) + a * y(n-D);
+#X text 157 430 float/signal - delay time (im ms);
+#X text 199 406 clear - clears the buffer;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X floatatom 138 242 4 0 500 0 - - -, f 4;
-#X obj 59 163 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 1 1
-;
-#X floatatom 206 246 0 0 100 0 - - -;
-#X msg 71 250 clear;
-#X obj 496 52 allpass~;
-#X obj 125 479 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
-;
-#X obj 125 520 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 125 414 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 59 324 output~;
-#X text 160 573 2) float - delay time;
-#X text 160 585 3) float - gain coefficient;
-#X text 15 63 Allpass filter;
-#X text 100 221 Delay (ms);
-#X text 402 219 a = gain coefficient;
-#X text 401 234 D = Delay time in ms;
-#X text 167 481 float/signal - gain coefficient;
-#X text 204 521 signal - The filtered signal.;
-#X text 426 196 Filter Equation:;
-#X text 120 621 An all pass filter passes all frequencies equally \,
-but changes the phase relationship between various frequencies. It
-does this by varying its propogation delay with frequency.;
-#N canvas 1 81 431 311 short-noise-bursts 0;
-#X obj 123 184 noise~;
-#X obj 163 214 *~;
-#X obj 178 124 metro 300;
-#X obj 178 94 inlet;
-#X obj 163 247 outlet~;
-#X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 7 3 create noise bursts;
-#X obj 178 183 vline~;
-#X msg 178 153 1 10 \, 0 20 20;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 allpass~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 All Pass filter;
+#X text 194 496 signal - the filtered signal;
+#X obj 148 226 nbx 5 14 0 1000 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X obj 231 214 nbx 5 14 0 1000 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X text 142 532 1) float - maximum delay time in ms (default 10);
+#X text 142 545 2) float - delay time in ms (default 0);
+#X text 142 557 3) float - gain coefficient (default 0);
+#N canvas 169 180 367 254 noise-bursts 0;
+#X obj 67 136 noise~;
+#X obj 107 166 *~;
+#X obj 122 76 metro 300;
+#X obj 122 46 inlet;
+#X obj 107 199 outlet~;
+#X text 147 166 create noise bursts;
+#X obj 122 135 vline~;
+#X msg 122 105 1 10 \, 0 20 20;
 #X connect 0 0 1 0;
 #X connect 1 0 4 0;
-#X connect 2 0 8 0;
+#X connect 2 0 7 0;
 #X connect 3 0 2 0;
-#X connect 7 0 1 1;
-#X connect 8 0 7 0;
-#X restore 59 194 pd short-noise-bursts;
-#X obj 59 140 loadbang;
-#X obj 278 263 cnv 15 260 120 empty empty empty 20 12 0 14 -228856
--66577 0;
-#X text 328 276 |;
-#X text 328 288 |;
-#X text 328 300 |;
-#X text 309 311 |;
-#X text 351 311 |;
-#X text 351 331 |;
-#X text 309 331 |;
-#X text 312 302 _______;
-#X text 312 331 _______;
-#X text 357 320 -----;
-#X text 328 303 v;
-#X text 383 302 |;
-#X text 383 314 |;
-#X text 383 278 |;
-#X text 383 290 |;
-#X text 383 277 ^;
-#X text 469 276 |;
-#X text 469 288 |;
-#X text 469 300 |;
-#X text 450 311 |;
-#X text 492 311 |;
-#X text 492 331 |;
-#X text 450 331 |;
-#X text 453 302 _______;
-#X text 453 331 _______;
-#X text 469 303 v;
-#X text 414 302 |;
-#X text 414 314 |;
-#X text 414 278 |;
-#X text 414 290 |;
-#X text 414 277 ^;
-#X text 490 269 >;
-#X text 416 320 -(*a)-;
-#X text 288 268 x[n] ---(*-a)--(+)--(+)----------- y[n];
-#X obj 209 222 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 11700 1;
-#X text 160 560 1) float - maximum delay time (default 10 ms);
-#X text 220 222 Gain coefficient;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+#X connect 6 0 1 1;
+#X connect 7 0 6 0;
+#X restore 66 177 pd noise-bursts;
+#X text 279 248 x[n] ---(*-a)--(+)--(+)----------- y[n];
+#X obj 423 215 comment 0 16 times ? 0 0 0 0 Filter Equation:;
+#X text 193 389 signal - signal input to filter;
+#X obj 23 301 cyclone/output~;
+#X obj 8 635 all_about_cyclone;
+#X obj 66 259 cyclone/allpass~ 1000 10 0.7;
+#X text 81 89 Use [allpass~] for allpass filtering and delay effects.
 ;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 2 5 pd;
-#X text 84 95 use [allpass~] for allpass filtering and delay effects
-;
-#X text 309 321 | z^-D |;
-#X text 450 321 | z^-D |;
-#X text 292 359 y(n) = -a * x(n) + x(n-D) + a * y(n-D);
-#X text 167 455 float/signal - delay time (im ms);
-#X obj 59 276 cyclone/allpass~ 1000 0 0;
-#X text 203 414 signal - signal to filter;
-#X text 209 431 clear - clears the buffer;
-#X connect 9 0 74 1;
-#X connect 10 0 28 0;
-#X connect 11 0 74 2;
-#X connect 12 0 74 0;
-#X connect 28 0 74 0;
-#X connect 29 0 10 0;
-#X connect 65 0 11 0;
-#X connect 74 0 17 0;
-#X connect 74 0 17 1;
+#X text 142 592 The All Pass filter passes all frequencies without
+altering the gain - but changes the frequencies' phase.;
+#X connect 8 0 73 0;
+#X connect 9 0 79 0;
+#X connect 17 0 8 0;
+#X connect 52 0 69 0;
+#X connect 68 0 79 1;
+#X connect 69 0 79 2;
+#X connect 73 0 79 0;
+#X connect 79 0 77 0;
+#X connect 79 0 77 1;

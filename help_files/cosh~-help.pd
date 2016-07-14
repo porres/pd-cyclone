@@ -1,7 +1,7 @@
-#N canvas 551 83 566 617 10;
-#X obj 6 568 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 551 83 560 558 10;
+#X obj 6 515 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 443 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 393 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 402 294 434 278 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -20,10 +20,10 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 503 570 pd META;
-#X obj 6 487 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 503 517 pd META;
+#X obj 6 437 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 528 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 478 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 222 438 429 173 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -46,53 +46,24 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 206 121 cyclone/tanh~;
 #X obj 205 145 cyclone/tanx~;
 #X obj 310 27 cos~;
-#X restore 213 570 pd Related_objects;
-#X obj 89 498 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 213 517 pd Related_objects;
+#X obj 119 448 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 6 44 cnv 15 552 40 empty empty cosh~ 3 12 0 18 -204280 -1 0
+#X text 153 409 signal;
+#X text 153 448 signal;
+#X text 153 489 (none);
+#X obj 119 409 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 123 459 signal;
-#X text 123 498 signal;
-#X text 123 539 (none);
-#X obj 206 250 -~ 1.5708;
-#X obj 206 227 *~ 3.14159;
-#X text 179 459 - input to cosh function;
-#X obj 516 47 cosh~;
-#X obj 89 459 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 179 498 - output of cosh function;
-#X obj 206 278 cyclone/cosh~;
-#X obj 206 205 phasor~ 2;
-#X text 339 410 0;
-#X text 335 354 pi/2;
-#X text 337 298 pi;
-#X text 75 166 This is probably only useful for mathematical calculations
-;
-#X text 72 109 Use the [cosh~] object to calculate and output a signal
-that is the hyperbolic cosine function of each sample of the input
-signal.;
-#X text 22 68 Hyperbolic cosine function for signals;
-#X obj 206 304 cyclone/Scope~ 123 117 256 3 128 0 3.14 0 0 0 0 205
+#X obj 206 228 cyclone/cosh~;
+#X obj 206 153 phasor~ 2;
+#X text 339 360 0;
+#X text 335 304 pi/2;
+#X text 337 248 pi;
+#X obj 206 254 cyclone/Scope~ 123 117 256 3 128 0 3.14 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 5 8 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -163,7 +134,7 @@ signal.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -196,7 +167,33 @@ signal.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 500 98 pd;
-#X connect 11 0 17 0;
-#X connect 12 0 11 0;
-#X connect 17 0 25 0;
-#X connect 18 0 12 0;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal hyperbolic cosine
+function;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 15 4 comment 0 37 times ? 0 0 0 0 cosh~;
+#X text 61 93 Use [cosh~] to output the hyperbolic cosine function
+of each input sample (probably only useful for mathematical calculations).
+;
+#X text 277 177 * pi;
+#X text 276 201 - pi/2;
+#X text 209 409 - input to hyperbolic cosine function;
+#X text 209 448 - output of hyperbolic cosine function;
+#X obj 9 518 all_about_cyclone;
+#X obj 206 177 *~ 3.14159;
+#X obj 206 200 -~ 1.5708;
+#X connect 11 0 16 0;
+#X connect 12 0 32 0;
+#X connect 32 0 33 0;
+#X connect 33 0 11 0;

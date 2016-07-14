@@ -1,73 +1,46 @@
-#N canvas 207 246 560 638 10;
-#X obj 3 594 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 582 60 563 559 10;
+#X obj 6 503 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 414 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 395 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 573 348 385 259 META 0;
-#X text 0 22 LICENSE SIBSD;
-#X text 0 102 LIBRARY cyclone;
-#X text 0 62 INLET_0 signal;
-#X text 0 82 OUTLET_0 signal;
-#X text 0 42 DESCRIPTION takes the arc sine function for signals;
-#X text 0 0 KEYWORDS arc sine arcsine arcsin asin signal;
-#X text 0 120 VERSION 0.2-beta1;
-#X text 0 138 AUTHOR Krzysztof Czaja;
-#X text 1 156 RELEASE_DATE 2002;
-#X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 367 383 441 271 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 113 LIBRARY cyclone;
+#X text 0 73 INLET_0 signal;
+#X text 0 93 OUTLET_0 signal;
+#X text 0 0 KEYWORDS boolean bitnot bitwise signal;
+#X text 0 40 DESCRIPTION performs bitwise boolean operations on a float
+signal;
+#X text 0 134 VERSION 0.2-beta1;
+#X text 0 152 AUTHOR Krzysztof Czaja;
+#X text 1 170 RELEASE_DATE 2002;
+#X text 2 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 596 pd META;
-#X obj 3 462 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 504 506 pd META;
+#X obj 6 434 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 499 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 465 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 3 542 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#N canvas 352 486 427 173 Related_objects 0;
+#N canvas 158 549 586 196 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X obj 5 74 cyclone/acosh~;
-#X obj 6 27 cyclone/acos;
-#X obj 105 74 cyclone/asinh~;
-#X obj 106 50 cyclone/asin~;
-#X obj 202 49 cyclone/atan~;
-#X obj 202 74 cyclone/atanh~;
-#X obj 5 121 cyclone/cosh~;
-#X obj 5 98 cyclone/cosh;
-#X obj 5 146 cyclone/cosx~;
-#X obj 5 51 cyclone/acos~;
-#X obj 106 28 cyclone/asin;
-#X obj 106 98 cyclone/sinh;
-#X obj 105 121 cyclone/sinh~;
-#X obj 105 145 cyclone/sinx~;
-#X obj 202 97 cyclone/tanh;
-#X obj 203 120 cyclone/tanh~;
-#X obj 202 144 cyclone/tanx~;
-#X obj 307 24 cos~;
-#X restore 209 596 pd Related_objects;
-#X obj 87 471 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 7 27 cyclone/bitnot~;
+#X obj 7 54 cyclone/bitor~;
+#X obj 7 77 cyclone/bitxor~;
+#X obj 109 28 cyclone/bitshift~;
+#X obj 158 100 expr~ isnan($v1) \; isinf($v1);
+#X obj 277 105 expr~ if(isnan($v1) || isinf($v1) \, 0 \, $v1);
+#X text 313 85 bitsafe~ in expr~;
+#X restore 216 506 pd Related_objects;
+#X obj 90 441 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 119 470 signal;
-#X text 119 428 signal;
-#X text 110 511 (none);
-#X obj 87 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 231 309 0;
-#X text 232 371 -pi/2;
-#X text 231 248 pi/2;
-#X obj 296 164 phasor~ 2;
-#X text 433 307 0;
-#X text 434 369 -pi/2;
-#X text 433 246 pi/2;
-#X text 60 117 Could also be used for some waveshaping \, like turning
-a sine wave into a trianglular wave.;
-#X obj 7 597 all_about_cyclone;
-#X text 61 94 Use [asin~] to output the arc-sine of each input sample.
-;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal arc-sine function
+#X text 126 440 signal;
+#X text 126 403 signal;
+#X obj 90 403 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -82,19 +55,38 @@ a sine wave into a trianglular wave.;
 #X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 asin~;
-#X obj 296 192 cyclone/triangle~ 1;
-#X obj 95 217 cyclone/asin~;
-#X obj 296 221 cyclone/asin~;
-#X obj 95 183 osc~ 2;
-#X text 179 428 - input to arc-sine function;
-#X obj 95 252 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0 205
-229 232 74 79 77 96 98 102 0;
-#X obj 296 252 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
-205 229 232 74 79 77 96 98 102 0;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 bitsafe~;
+#X obj 7 506 all_about_cyclone;
+#X obj 148 222 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 129 244 print~ nan;
+#X obj 109 293 cyclone/bitsafe~;
+#X obj 128 326 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 109 352 print~ zero;
+#X obj 344 222 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 305 293 cyclone/bitsafe~;
+#X obj 324 326 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 305 352 print~ zero;
+#X obj 305 183 expr~ atanh(1);
+#X obj 325 244 print~ inf;
+#X text 181 403 - input signals to have nan/inf values replaced with
+0;
+#X text 181 440 - the signal which has 0 values where nan/inf values
+existed;
+#X text 126 475 (none);
+#X obj 109 183 expr~ acosh(0);
+#X obj 16 59 comment 0 18 times ? 0 0 0 0 Replace nan/inf signals with
+0;
+#X text 70 97 Use [bitsafe~] to replace NaN (not a number) and +/-
+infinity values of an incoming signal with zero. This is useful in
+conjunction with the bitwise operators \, or any other situation where
+these values are possible.;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -163,7 +155,7 @@ Max/MSP;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -196,12 +188,13 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 128 553 When yhe input is -1 to 1 \, output is from -pi/2 to
-pi/2. For input values outside the -1 to 1 range \, the output is zero!
-;
-#X text 180 471 - the arc-sine of the input;
-#X connect 15 0 30 0;
-#X connect 30 0 32 0;
-#X connect 31 0 35 0;
-#X connect 32 0 36 0;
-#X connect 33 0 31 0;
+#X connect 18 0 19 0;
+#X connect 20 0 22 0;
+#X connect 21 0 22 0;
+#X connect 23 0 28 0;
+#X connect 24 0 26 0;
+#X connect 25 0 26 0;
+#X connect 27 0 24 0;
+#X connect 27 0 28 0;
+#X connect 32 0 19 0;
+#X connect 32 0 20 0;

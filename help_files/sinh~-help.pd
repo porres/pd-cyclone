@@ -1,7 +1,7 @@
-#N canvas 736 47 561 586 10;
-#X obj 3 543 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 736 47 559 558 10;
+#X obj 3 513 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 427 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 397 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 601 259 370 225 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -20,10 +20,10 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 500 545 pd META;
-#X obj 3 470 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 500 515 pd META;
+#X obj 3 440 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 507 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 477 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 308 377 428 174 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -46,61 +46,31 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 204 121 cyclone/tanh~;
 #X obj 203 145 cyclone/tanx~;
 #X obj 308 27 cos~;
-#X restore 201 545 pd Related_objects;
-#X obj 92 480 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 201 515 pd Related_objects;
+#X obj 108 450 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 38 cnv 15 552 40 empty empty sinh~ 3 12 0 18 -204280 -1 0
+#X text 147 411 signal;
+#X text 147 450 signal;
+#X text 147 486 (none);
+#X obj 334 204 -~ 3.14159;
+#X obj 334 181 *~ 6.28319;
+#X obj 90 199 *~ 3.14159;
+#X obj 108 411 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 131 441 signal;
-#X text 131 480 signal;
-#X text 131 516 (none);
-#X obj 510 47 sinh~;
-#X obj 334 234 -~ 3.14159;
-#X obj 334 211 *~ 6.28319;
-#X obj 90 217 *~ 3.14159;
-#X text 194 441 - input to sinh function;
-#X text 194 480 - output of sinh function;
-#X text 161 220 be greater than 1;
-#X text 160 208 input values must;
-#X obj 92 441 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 334 268 cyclone/sinh~;
-#X obj 90 259 cyclone/sinh~;
-#X text 19 63 Hyperbolic sine function for signals;
-#X text 72 153 This is probably only useful for mathematical calculations
-;
-#X text 69 103 Use the [sinh~] object to calculate and output a signal
-that is the hyperbolic sine function of each sample of the input signal.
-;
-#X obj 90 187 cycle~ 2;
-#X text 224 288 12;
-#X text 225 340 0;
-#X text 223 390 -12;
-#X obj 334 189 phasor~ 2;
-#X text 469 293 12;
-#X text 472 345 0;
-#X text 468 395 -12;
-#X obj 90 293 cyclone/Scope~ 127 108 256 3 128 -12 12 0 0 0 0 205 229
+#X obj 334 238 cyclone/sinh~;
+#X obj 90 229 cyclone/sinh~;
+#X obj 90 169 cycle~ 2;
+#X text 224 258 12;
+#X text 225 310 0;
+#X text 223 360 -12;
+#X obj 334 152 phasor~ 2;
+#X text 469 263 12;
+#X text 472 315 0;
+#X text 468 365 -12;
+#X obj 90 263 cyclone/Scope~ 127 108 256 3 128 -12 12 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X msg 200 253 range -12 12;
-#X obj 334 299 cyclone/Scope~ 127 108 256 3 128 -12 12 0 0 0 0 205
+#X obj 334 269 cyclone/Scope~ 127 108 256 3 128 -12 12 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 2 3 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -207,11 +177,32 @@ that is the hyperbolic sine function of each sample of the input signal.
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 500 88 pd;
-#X connect 12 0 20 0;
-#X connect 13 0 12 0;
-#X connect 14 0 21 0;
-#X connect 20 0 35 0;
-#X connect 21 0 33 0;
-#X connect 25 0 14 0;
-#X connect 29 0 13 0;
-#X connect 34 0 33 0;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal hyperbolic sine function
+;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 15 4 comment 0 37 times ? 0 0 0 0 sinh~;
+#X text 61 93 Use [sinh~] to output the hyperbolic sine function of
+each input sample (probably only useful for mathematical calculations).
+;
+#X text 210 411 - input to hyperbolic sine function;
+#X text 210 450 - output of hyperbolic sine function;
+#X obj 8 515 all_about_cyclone;
+#X connect 10 0 14 0;
+#X connect 11 0 10 0;
+#X connect 12 0 15 0;
+#X connect 14 0 25 0;
+#X connect 15 0 24 0;
+#X connect 16 0 12 0;
+#X connect 20 0 11 0;

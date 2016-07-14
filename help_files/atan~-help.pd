@@ -1,23 +1,20 @@
-#N canvas 731 115 563 632 10;
-#X obj 3 585 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 462 52 560 588 10;
+#X obj 3 543 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 459 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 417 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 502 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 460 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 542 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 500 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 514 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 472 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 4 37 cnv 15 552 40 empty empty atan~ 3 12 0 18 -204280 -1 0
-;
-#X text 110 513 signal;
-#X text 110 473 signal;
-#X text 110 554 (none);
-#X obj 97 223 *~ 3.14159;
-#X obj 303 248 -~ 3.14195;
-#X obj 303 228 *~ 6.28319;
-#X obj 514 41 atan~;
+#X text 130 471 signal;
+#X text 130 431 signal;
+#X text 130 512 (none);
+#X obj 97 191 *~ 3.14159;
+#X obj 303 204 -~ 3.14195;
+#X obj 303 184 *~ 6.28319;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
 #X text 0 102 LIBRARY cyclone;
@@ -35,7 +32,7 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 506 587 pd META;
+#X restore 506 545 pd META;
 #N canvas 232 526 429 203 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
@@ -57,56 +54,52 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 203 109 cyclone/tanh~;
 #X obj 202 133 cyclone/tanx~;
 #X obj 333 95 cos~;
-#X restore 194 587 pd Related_objects;
-#X obj 81 474 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 194 545 pd Related_objects;
+#X obj 101 432 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 254 cyclone/atan~;
-#X obj 303 277 cyclone/atan~;
-#X text 162 474 - Input to arc-tangent function;
-#X text 164 512 - The arc-tangent of the input.;
-#X obj 303 202 phasor~ 2;
-#X obj 97 195 cycle~ 2;
-#X text 66 106 Use the [atan~] object to calculate and output a signal
-that is the arc-tangent function of each sample of the input signal.
+#X obj 303 158 phasor~ 2;
+#X text 234 321 0;
+#X text 233 386 -pi/2;
+#X text 234 262 pi/2;
+#X text 440 321 0;
+#X text 439 386 -pi/2;
+#X text 440 262 pi/2;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 atan~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal arc-tangent function
 ;
-#X text 234 353 0;
-#X text 233 418 -pi/2;
-#X text 234 294 pi/2;
-#X text 440 365 0;
-#X text 439 430 -pi/2;
-#X text 440 306 pi/2;
-#X text 68 155 This is probably only useful for mathematical calculations.
-;
-#X text 15 60 Signal arc-tangent function for signals;
-#X obj 97 299 cyclone/Scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0 205
+#X obj 8 545 all_about_cyclone;
+#X obj 97 222 cyclone/atan~;
+#X obj 303 233 cyclone/atan~;
+#X obj 97 161 osc~ 2;
+#X text 184 470 - the arc-tangent of the input;
+#X text 182 432 - input to arc-tangent function;
+#X obj 97 267 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
-#X obj 303 313 cyclone/Scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
+#X obj 303 269 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
 205 229 232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 4 pd;
-#N canvas 673 40 366 264 (subpatch) 0;
+#N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
-#N canvas 939 367 324 271 set_color 0;
+#N canvas 977 77 379 291 set_color 0;
 #X obj 47 30 inlet;
-#X obj 96 146 s \$0-cnv;
-#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
 #N canvas 0 22 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
@@ -123,7 +116,6 @@ that is the arc-tangent function of each sample of the input signal.
 #X obj 210 351 - 1;
 #X obj 191 184 unpack f f f;
 #X obj 379 423 pack;
-#X msg 378 447 color \$1 \$2;
 #X msg 395 152 124 124 124;
 #X msg 203 154 220 220 220;
 #X obj 238 121 t b b;
@@ -147,30 +139,28 @@ that is the arc-tangent function of each sample of the input signal.
 #X connect 13 0 9 0;
 #X connect 13 1 10 0;
 #X connect 13 2 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 20 0;
-#X connect 16 0 6 0;
-#X connect 17 0 13 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
 #X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 19 0 18 0;
 #X restore 47 113 pd off;
-#X obj 47 83 select 0 1;
-#X obj 47 168 list append 0;
-#X obj 47 195 list trim;
-#X obj 47 220 s \$0-tgl-r;
-#X connect 0 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 5 0;
-#X connect 3 0 1 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 4 1 2 0;
-#X connect 5 0 6 0;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
 #X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
-#N canvas 0 22 450 300 (subpatch) 0;
+#N canvas 121 482 450 300 (subpatch) 0;
 #X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
@@ -203,11 +193,16 @@ that is the arc-tangent function of each sample of the input signal.
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 503 91 pd;
-#X connect 9 0 16 0;
-#X connect 10 0 17 0;
-#X connect 11 0 10 0;
-#X connect 16 0 31 0;
-#X connect 17 0 32 0;
-#X connect 20 0 11 0;
-#X connect 21 0 9 0;
+#X restore 502 71 pd;
+#X text 66 97 Use [atan~] to output the arc-tangent of each input sample
+(probably only useful for mathematical calculations).;
+#X text 167 193 * pi;
+#X text 373 185 * 2pi;
+#X text 377 203 - pi;
+#X connect 8 0 30 0;
+#X connect 9 0 31 0;
+#X connect 10 0 9 0;
+#X connect 14 0 10 0;
+#X connect 30 0 35 0;
+#X connect 31 0 36 0;
+#X connect 32 0 8 0;

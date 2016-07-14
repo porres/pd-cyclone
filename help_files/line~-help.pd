@@ -1,5 +1,5 @@
-#N canvas 586 23 566 786 10;
-#X obj 4 736 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 586 23 559 779 10;
+#X obj 4 734 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 453 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -19,112 +19,82 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 updated this patch for pd-extended 2014-12-02.;
-#X restore 507 738 pd META;
-#X obj 4 628 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 736 pd META;
+#X obj 4 626 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 691 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 689 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 305 484 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 210 738 pd Related_objects;
-#X obj 83 467 cnv 17 3 118 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 210 736 pd Related_objects;
+#X obj 83 465 cnv 17 3 118 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 595 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 82 593 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 4 40 cnv 15 552 40 empty empty line~ 3 12 0 18 -204280 -1 0
+#X text 117 466 float;
+#X obj 83 635 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 111 504 float;
-#X obj 88 637 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 109 596 float;
-#X text 115 637 signal;
-#X text 96 706 1) float;
+#X text 118 594 float;
+#X text 113 635 signal;
+#X text 101 702 1) float;
 #X msg 253 284 5000;
-#X text 186 596 - sets the time for the next float send to the left
+#X text 175 594 - sets the time for the next float send to the left
 inlet;
-#X msg 110 207 pause;
-#X msg 154 208 resume;
-#X msg 169 232 stop;
-#X obj 216 264 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 110 223 pause;
+#X msg 154 224 resume;
+#X msg 169 248 stop;
+#X obj 216 265 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X floatatom 216 285 5 0 0 0 - - -, f 5;
-#X text 135 337 1;
-#X text 135 427 0;
-#X text 123 382 0.5;
-#X obj 226 241 t b b;
-#X obj 226 219 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 137 337 1;
+#X text 137 425 0;
+#X text 125 381 0.5;
+#X obj 226 243 t b b;
+#X obj 226 223 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 111 532 messages;
-#X text 114 469 list;
-#X text 188 500 - jumps immediately to that value unless duration is
-set to other than 0 via the second inlet.;
+#X text 123 496 list;
 #X obj 333 337 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 376 345 <= Bangs when finished;
-#X text 88 46 Linear ramp generator;
-#X text 177 706 - sets an initial value for the signal output (default
+#X text 177 702 - sets an initial value for the signal output (default
 0);
-#X text 78 89 Use the [line~] object to generate a signal ramp or envelope.
-it takes a target value and duration (in ms) to reach it. then generates
-a ramp signal from its current value to the target value. Target and
-duration can be set in pairs on a list.;
-#X text 184 465 - pairs that specify target value and duration (in
-ms) to reach it (up to 128 target-time pairs).;
 #X text 289 285 duration;
 #X text 167 283 target;
 #X text 278 308 argument: initial value;
-#X obj 89 660 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 84 658 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 116 660 bang;
-#X text 178 660 - a bang is sent when final target is reached;
-#X msg 68 179 0 \, 1 1000 0 1000 0.5 2500;
-#X text 177 637 - current value or a ramp towards the target;
-#N canvas 173 23 438 372 linear_envelope_example 0;
-#X obj 70 146 osc~ 440;
-#X obj 70 199 *~;
-#X obj 61 233 dac~;
-#X text 143 253 0;
-#X text 145 201 1;
-#X text 136 305 -1;
-#X obj 164 149 cyclone/line~;
-#X msg 164 118 1 100 0.6 100 0.6 500 0 700;
-#X text 21 63 [line~] used to generate a linear ADSR envelope;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 4 3 Linear envelope;
-#X obj 164 206 cyclone/Scope~ 147 110 256 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 0 98 102 0;
+#X text 125 658 bang;
+#X text 178 658 - a bang is sent when final target is reached;
+#X msg 68 195 0 \, 1 1000 0 1000 0.5 2500;
+#X text 177 635 - current value or a ramp towards the target;
+#N canvas 173 23 389 355 linear_envelope_example 0;
+#X obj 69 147 osc~ 440;
+#X obj 69 200 *~;
+#X obj 60 245 dac~;
+#X text 145 202 1;
+#X obj 163 150 cyclone/line~;
+#X msg 163 119 1 100 0.6 100 0.6 500 0 700;
+#X obj 34 10 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 40 15 comment 0 18 times ? 0 0 0 0 Linear envelope:;
+#X text 30 64 [cyclone/line~] generating a linear ADSR envelope;
+#X obj 163 208 cyclone/scope~ 150 108 256 3 128 0 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X text 134 254 0.5;
+#X text 147 306 0;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 1 0 2 1;
-#X connect 6 0 1 1;
-#X connect 6 0 11 0;
-#X connect 7 0 6 0;
+#X connect 4 0 1 1;
+#X connect 4 0 9 0;
+#X connect 5 0 4 0;
 #X restore 371 399 pd linear_envelope_example;
-#X text 188 532 - pause: pauses the output \; - resume: restores the
-output after being paused \; - stop: stops and clears pending target-time
-parameter triples (but continues outputting its last value);
 #X obj 154 343 cyclone/Scope~ 143 93 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 5 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -195,7 +165,7 @@ parameter triples (but continues outputting its last value);
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -229,37 +199,68 @@ parameter triples (but continues outputting its last value);
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 508 101 pd;
 #X obj 154 308 cyclone/line~ 0.5;
-#N canvas 77 23 456 535 Conflicts 0;
-#X text 117 317 or even:;
-#X text 50 104 Cyclone avoids name clashing and overwritting an internal
+#N canvas 77 23 457 483 Conflicts 0;
+#X text 118 290 or even:;
+#X text 51 77 Cyclone avoids name clashing and overwritting an internal
 in Pd Vanilla \, so you need to have the cyclone folder properly installed
 in Pd Vanilla's extra folder and create it as:;
-#X text 50 354 ============================================================
+#X text 51 327 ============================================================
 ;
-#X text 169 440 <= from Pd Vanilla;
-#X text 53 208 There's the old way of creating this object in cyclone
+#X text 170 413 <= from Pd Vanilla;
+#X text 54 181 There's the old way of creating this object in cyclone
 (and still present for backwards compatibility reasons). This option
 is creating the object with a first capital letter:;
-#X text 50 64 Pd also has a vanilla object named [line~]. Though very
+#X text 51 37 Pd also has a vanilla object named [line~]. Though very
 similar \, they're not compatible!;
-#X obj 165 167 cyclone/line~;
-#X obj 204 280 Line~;
-#X obj 184 317 cyclone/Line~;
-#X obj 126 440 line~;
-#X text 55 384 So \, if you still want the object from vanilla \, you
+#X obj 166 140 cyclone/line~;
+#X obj 205 253 Line~;
+#X obj 185 290 cyclone/Line~;
+#X obj 127 413 line~;
+#X text 56 357 So \, if you still want the object from vanilla \, you
 even if you created the objects above \, you can still instantiate
 it as:;
 #X restore 366 229 pd Conflicts with internal \; Backwards Compatibility
 ;
-#X connect 14 0 48 1;
-#X connect 16 0 48 0;
-#X connect 17 0 48 0;
-#X connect 18 0 48 0;
-#X connect 19 0 20 0;
-#X connect 20 0 48 0;
-#X connect 24 0 19 0;
-#X connect 24 1 14 0;
-#X connect 25 0 24 0;
-#X connect 41 0 48 0;
-#X connect 48 0 45 0;
-#X connect 48 1 29 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 line~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Linear ramp generator;
+#X text 78 85 Use [cyclone/line~] to generate a signal ramp or envelope.
+It takes a target value and a duration (in ms) to reach it and then
+generates a ramp from its current value to the target value.;
+#X text 80 144 Target and duration can be set in pairs on a list or
+in different inlets.;
+#X text 174 465 - jumps immediately to that value unless duration is
+set to other than 0 via the second inlet;
+#X text 174 495 - pairs that specify target value and duration (in
+ms) to reach it (maximum is 128 target-time pairs);
+#X text 117 525 pause;
+#X text 111 543 resume;
+#X text 123 561 stop;
+#X text 177 525 - pauses the output;
+#X text 177 543 - restores the output after being paused;
+#X text 177 561 - stops and clears pending target-time parameter triples
+(but continues outputting its last value);
+#X connect 13 0 40 1;
+#X connect 15 0 40 0;
+#X connect 16 0 40 0;
+#X connect 17 0 40 0;
+#X connect 18 0 19 0;
+#X connect 19 0 40 0;
+#X connect 23 0 18 0;
+#X connect 23 1 13 0;
+#X connect 24 0 23 0;
+#X connect 35 0 40 0;
+#X connect 40 0 38 0;
+#X connect 40 1 26 0;

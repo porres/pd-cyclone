@@ -1,7 +1,7 @@
-#N canvas 179 32 564 684 10;
-#X obj 3 633 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 785 50 559 589 10;
+#X obj 3 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 466 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 416 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 594 208 385 259 META 0;
 #X text 1 19 LICENSE SIBSD;
@@ -22,77 +22,41 @@ to milliseconds;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 635 pd META;
-#X obj 3 525 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 547 pd META;
+#X obj 3 455 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 588 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 513 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 316 355 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 204 635 pd Related_objects;
-#X obj 81 560 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 204 547 pd Related_objects;
+#X obj 105 485 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 38 cnv 15 552 40 empty empty sampstoms~ 3 12 0 18 -204280
--1 0;
-#X obj 480 48 sampstoms~;
-#X text 109 534 signal;
-#X text 109 599 (none);
-#X text 109 560 float;
-#X obj 81 534 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 174 464 signal;
+#X text 173 521 (none);
+#X text 180 488 float;
+#X obj 105 464 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 15 61 Convert number of samples at sampling rate to milliseconds
+#X text 226 464 - converted duration in ms;
+#X text 226 490 - converted duration in ms;
+#X obj 106 426 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 202 534 - converted duration in ms;
-#X text 202 560 - converted duration in ms;
-#X text 201 476 - time as number of samples;
-#X obj 82 476 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 115 475 float/signal;
-#X floatatom 302 412 0 0 0 0 - - -;
-#X floatatom 205 396 0 0 0 0 - - -;
-#X floatatom 100 293 0 0 0 0 - - -;
-#X obj 100 329 cyclone/mstosamps~;
-#X obj 302 339 cyclone/mstosamps~;
-#X obj 302 390 cyclone/Snapshot~ 100;
-#X obj 302 289 cyclone/Line~;
-#X floatatom 100 396 0 0 0 0 - - -;
-#X obj 100 357 cyclone/Snapshot~ 100;
+#X text 139 427 float/signal;
+#X floatatom 302 365 0 0 0 0 - - -;
+#X floatatom 204 338 0 0 0 0 - - -;
+#X floatatom 99 235 0 0 0 0 - - -;
+#X floatatom 99 338 0 0 0 0 - - -;
 #X floatatom 407 364 0 0 0 0 - - -;
-#X text 96 269 float input;
-#X text 298 234 signal input;
-#X text 119 420 miliseconds;
-#X text 358 413 miliseconds;
-#X text 318 315 number of samples;
-#X text 132 294 number of samples;
-#X msg 302 259 0 \, 44100 3000;
-#X text 86 98 Use the [sampstoms~] object to convert an incoming signal
-carrying a time value in samples and output a signal which converts
-that number of samples to a number of milliseconds (at the current
-sampling rate).;
-#X text 86 158 [sampstoms~] works with floats and signal. A signal
-input wil converto only to the signal outlet \, but a float input converts
-to both float and signal output. When a signal input is present \,
-the float input is ignored.;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 2 4 pd;
+#X text 95 211 float input;
+#X text 335 284 signal input;
+#X text 122 360 miliseconds;
+#X text 327 382 miliseconds;
+#X text 131 236 number of samples;
+#X msg 302 229 0 \, 44100 3000;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -163,7 +127,7 @@ the float input is ignored.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -195,13 +159,54 @@ the float input is ignored.;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 507 84 pd;
-#X connect 21 0 22 0;
-#X connect 22 0 27 0;
-#X connect 22 1 20 0;
-#X connect 23 0 24 0;
-#X connect 23 1 28 0;
-#X connect 24 0 19 0;
-#X connect 25 0 23 0;
-#X connect 27 0 26 0;
-#X connect 35 0 25 0;
+#X restore 505 74 pd;
+#X obj 302 309 cyclone/sampstoms~;
+#X obj 99 271 cyclone/sampstoms~;
+#X obj 99 299 cyclone/Snapshot~ 1;
+#X obj 302 342 cyclone/Snapshot~ 1;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 sampstoms~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Convert samples to milliseconds
+;
+#X text 86 98 Use the [sampstoms~] object to convert a time value in
+samples to milliseconds (depending on the sample rate).;
+#X text 86 132 [sampstoms~] works with floats and signal. A signal
+input converts only to the signal outlet \, but a float input converts
+to both float and signal output. When a signal input is present \,
+the float input is ignored.;
+#X obj 302 259 cyclone/line~;
+#X text 225 427 - number of samples;
+#N canvas 221 147 444 223 train~ 0;
+#X floatatom 195 132 5 0 0 0 - - -, f 5;
+#X floatatom 138 77 5 0 0 0 - - -, f 5;
+#X text 42 22 convert period time from samples to ms to use it on [train~]
+;
+#X obj 195 159 cyclone/train~;
+#X text 235 132 ms;
+#X text 179 77 samples;
+#X obj 138 104 sampstoms~;
+#X connect 0 0 3 0;
+#X connect 1 0 6 0;
+#X connect 6 1 0 0;
+#X restore 470 321 pd train~;
+#X connect 17 0 28 0;
+#X connect 25 0 41 0;
+#X connect 27 0 30 0;
+#X connect 27 1 19 0;
+#X connect 28 0 29 0;
+#X connect 28 1 16 0;
+#X connect 29 0 18 0;
+#X connect 30 0 15 0;
+#X connect 41 0 27 0;

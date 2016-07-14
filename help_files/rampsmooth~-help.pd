@@ -1,4 +1,4 @@
-#N canvas 86 23 564 715 10;
+#N canvas 239 63 564 715 10;
 #X obj 7 662 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 7 429 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -28,28 +28,24 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X restore 214 664 pd Related_objects;
-#X obj 89 438 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 98 438 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 89 576 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 98 576 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 7 39 cnv 15 552 40 empty empty rampsmooth~ 3 12 0 18 -204280
--1 0;
-#X text 19 62 smooth out an incoming signal via a ramp;
-#X text 118 438 signal;
+#X text 183 438 signal;
 #X text 238 438 - incoming signal to smooth out;
-#X text 118 575 signal;
-#X text 100 612 1) float;
-#X text 100 633 2) float;
-#X text 118 474 rampup <float>;
-#X text 118 456 ramp <float>;
-#X text 118 492 rampdown <float>;
-#X obj 477 47 rampsmooth~;
-#X obj 89 515 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 181 575 signal;
+#X text 170 612 1) float;
+#X text 170 633 2) float;
+#X text 135 474 rampup <float>;
+#X text 147 456 ramp <float>;
+#X text 122 492 rampdown <float>;
+#X obj 98 515 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 89 539 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 98 539 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 538 signal;
-#X text 118 514 float;
+#X text 181 538 signal;
+#X text 188 514 float;
 #X obj 157 241 sig~;
 #X obj 157 200 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -62,7 +58,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 139 394 0;
 #X text 139 304 1;
 #X text 238 575 - smoothed out/filtered signal;
-#X text 61 94 [rampsmooth~] smooths an incoming signal across a given
+#X text 61 90 [rampsmooth~] smooths an incoming signal across a given
 number of samples. Each time an incoming value changes \, it begins
 a linear ramp of 'n' samples to reach this value. It is also useful
 for envelope following and lowpass filtering.;
@@ -78,22 +74,6 @@ for envelope following and lowpass filtering.;
 #X text 339 173 ramp-down;
 #X obj 157 305 cyclone/Scope~ 178 100 512 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 6 5 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -200,12 +180,27 @@ for envelope following and lowpass filtering.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 90 pd;
-#X connect 23 0 35 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 rampsmooth~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Smooth signals;
+#X connect 20 0 32 0;
+#X connect 21 0 20 0;
+#X connect 22 0 32 2;
+#X connect 23 0 32 1;
 #X connect 24 0 23 0;
-#X connect 25 0 35 2;
-#X connect 26 0 35 1;
-#X connect 27 0 26 0;
-#X connect 28 0 25 0;
-#X connect 29 0 26 0;
-#X connect 30 0 25 0;
-#X connect 35 0 45 0;
+#X connect 25 0 22 0;
+#X connect 26 0 23 0;
+#X connect 27 0 22 0;
+#X connect 32 0 42 0;

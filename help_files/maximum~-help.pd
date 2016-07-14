@@ -1,7 +1,7 @@
-#N canvas 709 66 566 591 10;
-#X obj 4 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 688 23 559 677 10;
+#X obj 4 633 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 4 394 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 4 435 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 602 233 360 245 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -20,65 +20,41 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 506 547 pd META;
-#X obj 4 462 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 506 635 pd META;
+#X obj 4 497 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 509 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 544 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 274 305 457 172 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 55 55 minimum;
-#X restore 210 547 pd Related_objects;
-#X obj 86 403 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 210 635 pd Related_objects;
+#X obj 86 444 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 431 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 86 468 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 4 40 cnv 15 552 40 empty empty maximum~ 3 12 0 18 -204280 -1
-0;
-#X obj 86 471 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 506 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 16 63 output the maximum of two signals;
-#X obj 493 45 maximum~;
-#X floatatom 82 183 5 0 0 0 - - -, f 5;
-#X obj 82 327 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 5 256;
-#X text 114 403 signal;
-#X text 114 471 signal;
-#X text 102 517 1) float;
-#X obj 280 214 cyclone/maximum~;
-#X obj 82 290 cyclone/Snapshot~ 100;
-#X text 67 97 [maximum~] outputs a signal which is the maximum of two
-input signals \, or the maximum of an input signal and a given argument.
+#X floatatom 82 235 5 0 0 0 - - -, f 5;
+#X text 150 444 signal;
+#X text 150 506 signal;
+#X text 137 556 1) float;
+#X obj 280 261 cyclone/maximum~;
+#X text 68 163 [maximum~] outputs a signal which is the maximum of
+two input signals \, or the maximum of an input signal and a given
+argument.;
+#X text 114 468 float/signal;
+#X text 205 556 - value to compare maximum (default 0);
+#X text 205 444 - value to compare maximum with argument or right inlet
 ;
-#X text 114 431 float/signal;
-#X text 204 471 - The maximum value (greater of the two).;
-#X text 205 517 - value to compare maximum (default 0);
-#X text 205 403 - value to compare maximum with argument or right inlet
-;
-#X text 205 431 - value to compare maximum with left inlet;
-#X obj 82 208 sig~;
-#X obj 82 247 cyclone/maximum~ 5;
-#X obj 280 183 osc~ 2;
-#X obj 373 185 osc~ 3.14;
-#X obj 280 254 cyclone/Scope~ 171 110 256 3 128 -1 1 0 0 0 0 205 229
+#X text 205 468 - value to compare maximum with left inlet;
+#X obj 82 260 sig~;
+#X obj 82 299 cyclone/maximum~ 5;
+#X obj 280 230 osc~ 2;
+#X obj 373 232 osc~ 3.14;
+#X obj 280 301 cyclone/Scope~ 171 110 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 6 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -184,11 +160,42 @@ input signals \, or the maximum of an input signal and a given argument.
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 501 91 pd;
-#X connect 12 0 25 0;
-#X connect 17 0 29 0;
-#X connect 18 0 13 0;
-#X connect 25 0 26 0;
-#X connect 26 0 18 0;
-#X connect 27 0 17 0;
-#X connect 28 0 17 1;
+#X restore 501 81 pd;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 maximum~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal maximum of two values
+;
+#X obj 82 381 nbx 6 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 11
+-228856 -1 -1 5 256;
+#X obj 82 342 cyclone/snapshot~ 100;
+#X text 204 506 - the maximum value (the greater of the two);
+#X obj 73 93 cnv 15 350 45 empty empty empty 20 12 0 14 -248754 -66577
+0;
+#X obj 93 98 comment 0 15 times ? 0 0 0 0 Redundanct object;
+#X obj 2 581 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 88 595 you can use;
+#X obj 165 596 max~;
+#X text 201 596 from vanilla instead \, the only difference is that
+an argument turns the secondary inlet to a control inlet;
+#X text 93 117 Too similar to Pd Vanilla's [max~] (see "more info")
+;
+#X connect 9 0 19 0;
+#X connect 13 0 23 0;
+#X connect 19 0 20 0;
+#X connect 20 0 34 0;
+#X connect 21 0 13 0;
+#X connect 22 0 13 1;
+#X connect 34 0 33 0;

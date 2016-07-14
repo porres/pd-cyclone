@@ -1,7 +1,7 @@
-#N canvas 158 23 568 690 10;
-#X obj 6 636 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 711 44 561 565 10;
+#X obj 6 513 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 458 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 368 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 367 383 441 271 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -20,87 +20,185 @@ signal;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 504 639 pd META;
-#X obj 6 547 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 504 516 pd META;
+#X obj 6 440 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 588 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 475 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 158 549 428 109 Related_objects 0;
+#N canvas 73 613 428 204 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 7 27 cyclone/bitnot~;
 #X obj 7 54 cyclone/bitor~;
 #X obj 7 77 cyclone/bitxor~;
 #X obj 109 28 cyclone/bitshift~;
-#X restore 216 639 pd Related_objects;
-#X obj 90 554 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 243 54 expr~ ~ ($v1);
+#X restore 216 516 pd Related_objects;
+#X obj 90 447 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 6 40 cnv 15 551 41 empty empty bitnot~ 3 12 0 18 -204280 -1
-0;
-#X text 126 553 signal;
-#X text 126 465 signal;
-#X obj 309 345 clip~ -1 1;
-#X msg 175 295 mode \$1;
-#X floatatom 121 263 0 0 0 0 - - -;
-#X obj 121 289 sig~ 0;
-#X obj 309 276 cycle~ 440;
-#X obj 121 363 Snapshot~ 100;
-#X text 108 600 1) float;
-#X obj 505 44 bitnot~;
-#X obj 90 466 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 148 447 signal;
+#X text 148 375 signal;
+#X msg 65 217 mode \$1;
+#X floatatom 126 190 0 0 0 0 - - -;
+#X text 136 484 1) float;
+#X obj 90 376 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 291 383 output~;
-#X text 284 236 bitwise boolean operation;
-#X text 282 248 on a signal as bits;
-#X obj 309 312 cyclone/bitnot~;
-#X floatatom 121 398 0 0 0 0 - - -;
-#X text 138 527 mode;
-#X text 181 600 - mode: <0> (default) or <1>:;
-#X text 181 465 - signal to do "bitwise not" with;
-#X text 26 64 Bitwise inversion of a floating point signal;
-#X text 70 102 Use the [bitnot~] object to perform a bitwise inversion
-on an incoming floating-point signal as either raw 32-bit data or as
-an integer value. All bit values of 1 are set to 0 and vice versa.
-;
-#X obj 175 268 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X floatatom 126 318 0 0 0 0 - - -;
+#X obj 65 190 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 121 331 cyclone/bitnot~ 1;
-#X text 181 553 - The resulting bit inverted floating-point signal
-;
-#X text 72 164 Floating-point signal bit values are expressed in the
-following form \; <1 sign bit> <8 exponent bits> <23 mantissa bits>
-;
-#X obj 84 283 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 170 217 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 132 483 float;
-#X text 180 527 - <mode 0> or <mode 1>;
-#X text 181 483 - <0>: mode 0 - treat floating point input as raw 32
-bit value \; - <1>: mode 1 - convert floating point input to integer
+#X text 154 412 float;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 bitnot~;
+#X text 203 485 - mode [0 or 1] (default 0);
+#X text 124 393 mode <0/1>;
+#X text 202 413 - sets mode [0 or 1];
+#X obj 7 516 all_about_cyclone;
+#X obj 20 60 comment 0 18 times ? 0 0 0 0 Signal Bitwise-NOT;
+#X text 203 375 - signal to perform "Bitwise NOT" on;
+#X text 203 448 - the resulting bit inverted signal;
+#X text 203 393 - sets mode (details above);
+#X obj 126 216 sig~;
+#X obj 126 291 cyclone/snapshot~ 1;
+#X obj 126 258 cyclone/bitnot~;
+#X text 66 102 [bitnot~] takes a signal and performs Bitwise NOT operation
+\, also known as bitwise inversion or one's complement (all bit values
+of 1 are set to 0 and vice versa). The operation is done in two modes
+(see below).;
+#X obj 274 202 cnv 15 265 80 empty empty empty 20 12 0 14 -253822 -66577
+0;
+#X text 281 205 Modes:;
+#X text 287 222 0: (default) doesn't convert to int;
+#X text 287 235 1: converts input signal to int;
+#N canvas 495 23 476 167 signal_conversion_to_int 0;
+#X text 62 35 Signals are 32 bit floating point by default and their
+32 bit representation is used for comparison. When converting a signal
+to integer \, depending on the mode \, what happens is that the floating
+point value is converted/truncated to an integer \, and the 32 bit
+signed integer representation of this value is used for the operation.
 ;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+#X restore 367 259 pd signal_conversion_to_int;
+#N canvas 207 34 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 977 77 379 291 set_color 0;
+#X obj 47 30 inlet;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
+#X connect 18 0 17 0;
+#X restore 47 113 pd off;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 121 482 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 5 5 pd;
-#X connect 10 0 19 0;
-#X connect 10 0 19 1;
-#X connect 11 0 30 0;
-#X connect 12 0 13 0;
-#X connect 13 0 30 0;
-#X connect 14 0 22 0;
-#X connect 15 0 23 0;
-#X connect 22 0 10 0;
-#X connect 29 0 11 0;
-#X connect 30 0 15 0;
-#X connect 33 0 30 0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 504 70 pd;
+#X connect 9 0 34 0;
+#X connect 10 0 32 0;
+#X connect 14 0 9 0;
+#X connect 15 0 34 0;
+#X connect 32 0 34 0;
+#X connect 33 0 13 0;
+#X connect 34 0 33 0;

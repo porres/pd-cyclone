@@ -1,7 +1,7 @@
-#N canvas 159 72 571 720 10;
-#X obj 7 660 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 678 54 562 687 10;
+#X obj 4 646 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 429 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 425 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 574 330 356 236 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -20,76 +20,42 @@ deviation frames;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 505 662 pd META;
-#X obj 7 473 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 502 648 pd META;
+#X obj 7 469 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 511 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 507 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 275 455 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 10 29 count~;
 #X obj 58 29 framedelta~;
-#X restore 209 662 pd Related_objects;
-#X obj 90 441 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 206 648 pd Related_objects;
+#X obj 90 437 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 90 482 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 90 478 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 7 40 cnv 15 552 40 empty empty frameaccum~ 3 12 0 18 -204280
--1 0;
-#X obj 484 46 frameaccum~;
-#X text 121 440 signal;
-#X text 121 482 signal;
-#X obj 109 305 cyclone/frameaccum~;
-#X obj 264 255 sig~ 0.01;
-#X obj 267 366 hsl 128 15 -3.14153 3.14153 0 0 empty empty empty -2
--8 0 10 -228856 -1 -1 10652 1;
-#X msg 264 209 -0.01;
-#X msg 272 231 0.01;
-#X text 235 365 -PI;
-#X text 401 367 PI, f 4;
-#X obj 264 388 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--1 -262144 -1 2.12809 256;
-#X obj 264 291 cyclone/frameaccum~ 1;
-#X obj 264 332 Snapshot~ 10;
-#X obj 109 348 Snapshot~ 10;
-#X text 121 520 float;
-#X text 405 290 wrap at phase values;
-#X text 70 156 It can also automatically wrap at phase boundaries (from
+#X text 130 436 signal;
+#X text 130 478 signal;
+#X obj 109 301 cyclone/frameaccum~;
+#X obj 264 251 sig~ 0.01;
+#X obj 267 362 hsl 128 15 -3.14153 3.14153 0 0 empty empty empty -2
+-8 0 10 -228856 -1 -1 5757 1;
+#X msg 264 205 -0.01;
+#X msg 272 227 0.01;
+#X text 235 361 -PI;
+#X text 401 363 PI, f 4;
+#X obj 264 287 cyclone/frameaccum~ 1;
+#X text 136 516 float;
+#X text 405 286 wrap at phase values;
+#X text 67 163 It can also automatically wrap at phase boundaries (from
 -pi to pi) via an argument.;
-#X obj 7 566 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 7 562 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 142 578 For each block \, the first sample of its output will
+#X text 142 574 For each block \, the first sample of its output will
 be the sum of all of the first samples in each signal block it has
 received \, the second sample of its output will be the sum of all
 the second samples in each signal vector \, and so on...;
-#X text 19 63 computes accumulated phase of FFT frames;
-#X text 69 93 [frameaccum~] was designed to compute a running phase
-by keeping an accumulated sum of the values in each sample of an incoming
-signal block. It can keep a running phase of an FFT because the FFT
-size is equal to the signal block size.;
-#X text 190 440 - incoming FFT frame.;
-#X text 186 483 - accumulated FFT frame.;
-#X obj 109 386 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--1 -262144 -1 64.9555 256;
-#X text 186 520 - "1" enables phase wrap between -PI and PI. "0" disables
-and values are accumulated without bounds (default 0).;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 6 5 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -196,12 +162,42 @@ and values are accumulated without bounds (default 0).;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 90 pd;
-#X connect 12 0 22 0;
-#X connect 13 0 20 0;
-#X connect 13 0 12 0;
-#X connect 14 0 19 0;
-#X connect 15 0 13 0;
-#X connect 16 0 13 0;
-#X connect 20 0 21 0;
-#X connect 21 0 14 0;
-#X connect 22 0 32 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 frameaccum~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 FFT frame accumulation;
+#X obj 109 329 cyclone/snapshot~ 10;
+#X obj 264 328 cyclone/snapshot~ 10;
+#X obj 264 388 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 -0.293482 256;
+#X obj 109 388 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 873.611 256;
+#X text 66 85 [frameaccum~] was specially designed to compute a running
+phase of FFT frames by keeping an accumulated sum of the values in
+each sample of an incoming signal block.;
+#X text 66 131 It can keep a running phase of an FFT because the FFT
+size is equal to the signal block size.;
+#X text 186 479 - accumulated FFT frame;
+#X text 190 436 - incoming FFT frame;
+#X text 186 516 - "1" enables phase wrapping between -PI and PI. "0"
+(default) disables and values are accumulated without bounds.;
+#X connect 10 0 32 0;
+#X connect 11 0 17 0;
+#X connect 11 0 10 0;
+#X connect 12 0 34 0;
+#X connect 13 0 11 0;
+#X connect 14 0 11 0;
+#X connect 17 0 33 0;
+#X connect 32 0 35 0;
+#X connect 33 0 12 0;

@@ -1,7 +1,7 @@
-#N canvas 502 79 562 615 10;
-#X obj 4 563 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 572 151 562 611 10;
+#X obj 4 557 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 4 455 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 4 444 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 485 319 494 254 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -20,10 +20,10 @@ signals;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 565 pd META;
-#X obj 4 495 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 505 559 pd META;
+#X obj 4 484 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 534 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 523 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 316 464 428 174 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -46,24 +46,20 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 201 120 cyclone/tanh~;
 #X obj 200 144 cyclone/tanx~;
 #X obj 305 26 cos~;
-#X restore 208 565 pd Related_objects;
-#X obj 86 466 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 208 559 pd Related_objects;
+#X obj 136 455 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 506 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 136 495 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 4 37 cnv 15 552 40 empty empty tanh~ 3 12 0 18 -204280 -1 0
-;
-#X text 114 466 signal;
-#X text 114 506 signal;
-#X text 112 544 (none);
-#X obj 515 46 tanh~;
-#X obj 103 223 -~ 3.14159;
-#X obj 103 200 *~ 6.28319;
-#X obj 103 258 cyclone/tanh~;
-#X text 20 59 Hyperbolic tangent function for signals;
-#X text 181 466 - input to hyperbolic tangent function;
-#X text 181 506 - output of hyperbolic tangent function;
-#X obj 103 178 phasor~ 2;
+#X text 164 455 signal;
+#X text 164 495 signal;
+#X text 165 532 (none);
+#X obj 103 216 -~ 3.14159;
+#X obj 103 193 *~ 6.28319;
+#X obj 103 247 cyclone/tanh~;
+#X text 231 455 - input to hyperbolic tangent function;
+#X text 231 495 - output of hyperbolic tangent function;
+#X obj 103 167 phasor~ 2;
 #N canvas 774 137 444 424 waveshaping 0;
 #X obj 225 206 +~ 11;
 #X obj 225 179 *~ 10;
@@ -86,28 +82,9 @@ circuitry does clip a signal in overdrive.;
 #X connect 5 0 4 0;
 #X connect 5 0 4 1;
 #X connect 6 0 5 0;
-#X restore 318 346 pd waveshaping analog distortion;
-#X text 66 97 Use the [tanh~] object to calculate and output a signal
-that is the hyperbolic tangent function of each sample of the input
-signal.;
-#X obj 103 293 cyclone/Scope~ 153 137 512 3 128 -1 1 0 0 0 0 205 229
+#X restore 318 335 pd waveshaping analog distortion;
+#X obj 103 282 cyclone/Scope~ 153 137 512 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 4 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -214,7 +191,31 @@ signal.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 501 89 pd;
-#X connect 13 0 15 0;
-#X connect 14 0 13 0;
-#X connect 15 0 22 0;
-#X connect 19 0 14 0;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal hyperbolic tangent
+function;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 15 4 comment 0 37 times ? 0 0 0 0 tanh~;
+#X obj 8 560 all_about_cyclone;
+#X text 180 194 * 2pi;
+#X text 181 216 - pi;
+#X text 79 409 -1;
+#X text 84 277 1;
+#X text 66 97 [tanh~] calculates the hyperbolic tangent function of
+input sample. It is also useful for waveshaping \, where it simulates
+analog distortion.;
+#X connect 11 0 13 0;
+#X connect 12 0 11 0;
+#X connect 13 0 18 0;
+#X connect 16 0 12 0;

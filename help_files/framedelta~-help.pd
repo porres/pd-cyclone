@@ -1,7 +1,7 @@
-#N canvas 536 23 570 716 10;
-#X obj 8 675 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 583 23 563 664 10;
+#X obj 8 602 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 8 429 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 8 392 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 606 302 357 233 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -20,78 +20,37 @@ FFT frames;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 510 677 pd META;
-#X obj 8 472 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 510 604 pd META;
+#X obj 8 435 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 8 631 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 8 568 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 304 426 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 12 32 count~;
 #X obj 64 32 frameaccum~;
-#X restore 212 677 pd Related_objects;
-#X obj 90 441 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 212 604 pd Related_objects;
+#X obj 109 404 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 91 483 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 110 446 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 8 41 cnv 15 552 40 empty empty framedelta~ 3 12 0 18 -204280
--1 0;
-#X text 116 441 signal;
-#X text 116 483 signal;
-#X text 116 648 (none);
-#X obj 485 46 framedelta~;
-#X obj 154 223 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 135 404 signal;
+#X text 135 446 signal;
+#X text 141 577 (none);
+#X obj 197 198 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 154 254 count~;
-#X obj 154 302 cyclone/framedelta~;
-#X obj 49 331 cyclone/Snapshot~ 100;
-#X obj 339 256 cyclone/cartopol~;
-#X obj 371 291 cyclone/framedelta~;
-#X obj 371 317 cyclone/phasewrap~;
-#X text 47 224 start counter =>;
-#X obj 342 314 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X text 190 441 - The input on which the deviation will be computed.
-;
-#X obj 154 358 cyclone/Snapshot~ 100;
-#X text 30 63 computes deviation between successive FFT frames;
-#X text 81 103 the [framedelta~] object was designed to compute a running
-phase deviation of a FFT analysis by subtracting values in each position
-of its previously received signal block from the current signal block.
-When used in a FFT subpatch \, it can keep a running phase deviation
-of the FFT because the FFT size is equal to the block size.;
-#X text 138 543 For each signal block \, the first sample of its output
+#X obj 197 277 cyclone/framedelta~;
+#X obj 395 289 cyclone/framedelta~;
+#X obj 395 315 cyclone/phasewrap~;
+#X text 90 199 start counter =>;
+#X text 138 490 For each signal block \, the first sample of its output
 will be the first sample in the current block minus the first sample
 in the previous block \, the second sample of its output will be the
 second sample in the current block minus the second sample in the previous
 block \, and so on.;
-#X obj 49 376 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--1 -262144 -1 0 256;
-#X obj 154 386 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--1 -262144 -1 0 256;
-#X obj 9 525 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 9 478 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 190 483 - Deviation between successive FFT frames.;
-#X obj 378 383 table \$0-phase-deviation;
-#X obj 371 353 tabwrite~ \$0-phase-deviation;
-#X text 319 220 Recording phase deviation;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 7 6 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -197,14 +156,44 @@ block \, and so on.;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 500 100 pd;
+#X restore 500 92 pd;
+#X obj 42 306 cyclone/snapshot~ 100;
+#X obj 197 333 cyclone/snapshot~ 100;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 framedelta~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 FFT frame deviation;
+#X text 81 92 The [framedelta~] object was designed specially to compute
+a running phase deviation of a FFT analysis by subtracting values in
+each position of its previously received signal block from the current
+signal block. When used in a FFT subpatch \, it can keep a running
+phase deviation of the FFT because the FFT size is equal to the block
+size.;
+#X obj 197 360 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 64 256;
+#X obj 42 346 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1.28911e+07 256;
+#X obj 197 229 cyclone/count~;
+#X text 199 446 - Deviation between successive FFT frames;
+#X text 199 404 - The input on which the deviation will be computed
+;
+#X text 365 237 properly check phase deviation;
+#X text 391 255 with [phasewrap~];
+#X connect 11 0 32 0;
+#X connect 12 0 20 0;
 #X connect 13 0 14 0;
-#X connect 14 0 16 0;
-#X connect 14 0 15 0;
-#X connect 15 0 23 0;
-#X connect 16 0 27 0;
-#X connect 17 1 18 0;
-#X connect 18 0 19 0;
-#X connect 19 0 32 0;
-#X connect 21 0 32 0;
-#X connect 23 0 28 0;
+#X connect 19 0 31 0;
+#X connect 20 0 30 0;
+#X connect 32 0 12 0;
+#X connect 32 0 19 0;

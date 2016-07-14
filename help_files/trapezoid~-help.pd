@@ -31,14 +31,11 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X restore 210 742 pd Related_objects;
-#X obj 94 512 cnv 17 3 44 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 94 510 cnv 17 3 49 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 94 619 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 5 39 cnv 15 552 40 empty empty trapezoid~ 3 12 0 18 -204280
--1 0;
-#X text 17 62 a trapezoidal wavetable;
-#X text 159 511 signal;
+#X text 159 509 signal;
 #X obj 94 563 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 94 583 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
@@ -47,14 +44,14 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 147 652 1) float;
 #X text 147 668 2) float;
 #X text 123 564 float/signal;
-#X text 211 510 - input phase signal;
+#X text 211 509 - input phase signal;
 #X text 123 585 float/signal;
 #X floatatom 142 230 6 0 0 0 - - -, f 6;
 #X floatatom 167 286 6 0 0 0 - - -, f 6;
 #X floatatom 63 260 0 0 0 0 - - -;
 #X obj 100 402 output~;
 #X obj 260 265 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 9900 1;
+-1 -1 0 1;
 #X floatatom 257 293 5 0 0 0 - - -, f 5;
 #X obj 145 202 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -249661
 -1 -1 0 1;
@@ -64,41 +61,16 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 473 420 0;
 #X text 474 363 1;
 #X obj 376 288 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 5300 1;
+-1 -1 0 1;
 #X floatatom 373 311 5 0 0 0 - - -, f 5;
-#X text 95 89 [trapezoid~] is a trapezoidal wavetable that is read
-with a [phasor~] object in the first inlet. A second and third inlet
-change the position of ramp up/down points.;
-#X text 96 135 The default lo/hi values are 0 and 1 \, but may be changed
-using the lo/hi messages to any given range (convenient when used as
-LFO for control).;
 #X obj 213 371 cyclone/Scope~ 250 113 3 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 4 pd;
 #X text 210 652 - ramp up (default 0.1);
 #X text 210 668 - ramp down (default 0.9);
 #X text 211 564 - ramp up (destination point \, changing its steepness)
 ;
 #X text 210 586 - ramp down (start point \, changing its steepness)
 ;
-#X text 141 529 messages:;
-#X text 211 529 - "lo <f>" changes lowest point (default 0);
-#X text 211 544 - "hi <f>" changes highest point (default 1);
 #X obj 4 692 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #X text 163 699 @lo <f> (default 0) - same as "lo" message;
@@ -108,21 +80,45 @@ LFO for control).;
 #X msg 142 252 lo \$1;
 #X msg 167 308 hi \$1;
 #X text 210 619 - the trapezoidal waveform output;
-#X obj 483 50 trapezoid~;
 #X obj 63 285 phasor~ 229;
 #X obj 142 334 cyclone/trapezoid~ 0.2 0.8 @lo -1 @hi 1;
-#X connect 19 0 48 0;
-#X connect 20 0 49 0;
-#X connect 21 0 52 0;
-#X connect 23 0 24 0;
-#X connect 24 0 53 1;
-#X connect 25 0 19 0;
-#X connect 26 0 20 0;
-#X connect 30 0 31 0;
-#X connect 31 0 53 2;
-#X connect 48 0 53 0;
-#X connect 49 0 53 0;
-#X connect 52 0 53 0;
-#X connect 53 0 22 0;
-#X connect 53 0 22 1;
-#X connect 53 0 34 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 trapezoid~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Trapezoidal wavetable;
+#X text 211 528 - changes lowest point (default 0);
+#X text 135 527 lo <float>;
+#X text 135 544 hi <float>;
+#X text 211 543 - changes highest point (default 1);
+#X text 96 142 The default lo/hi values are 0 and 1 \, but may be changed
+using the lo/hi messages or attributes to any given range.;
+#X text 95 81 [trapezoid~] is a trapezoidal wavetable that is read
+with phase values from 0 to 1 into the first inlet- a [phasor~] input
+turns it into a wavetable oscillator. A second and third inlet change
+the position of ramp up/down points.;
+#X connect 17 0 40 0;
+#X connect 18 0 41 0;
+#X connect 19 0 43 0;
+#X connect 21 0 22 0;
+#X connect 22 0 44 1;
+#X connect 23 0 17 0;
+#X connect 24 0 18 0;
+#X connect 28 0 29 0;
+#X connect 29 0 44 2;
+#X connect 40 0 44 0;
+#X connect 41 0 44 0;
+#X connect 43 0 44 0;
+#X connect 44 0 20 0;
+#X connect 44 0 20 1;
+#X connect 44 0 30 0;

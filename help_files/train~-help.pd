@@ -31,67 +31,46 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X restore 206 718 pd Related_objects;
-#X obj 112 513 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 121 513 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 112 535 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 121 535 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 4 40 cnv 15 552 40 empty empty train~ 3 12 0 18 -204280 -1 0
+#X obj 121 558 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 506 49 train~;
-#X text 16 63 Pulse-train generator and metronome;
-#X obj 112 558 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 119 598 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 110 598 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 183 598 signal;
+#X text 238 598 - the pulse train signal;
+#X text 171 657 1) float;
+#X text 171 674 2) float;
+#X text 171 690 3) float;
+#X obj 119 622 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 174 598 signal;
-#X text 229 598 - the pulse train signal;
-#X text 162 657 1) float;
-#X text 162 674 2) float;
-#X text 162 690 3) float;
-#X obj 110 622 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X text 186 622 bang;
-#X text 229 622 - when transition from 0 to 1 occurs;
-#X floatatom 346 264 0 0 0 0 - - -;
-#X obj 142 361 *~ 1000;
-#X obj 384 294 bng 23 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 195 622 bang;
+#X text 238 622 - when transition from 0 to 1 occurs;
+#X floatatom 326 264 0 0 0 0 - - -;
+#X obj 364 294 bng 23 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X floatatom 278 242 0 0 0 0 - - -;
-#X obj 99 429 output~;
-#X obj 142 326 cyclone/sah~;
-#X obj 142 394 cyclone/cycle~;
-#X text 139 559 float/signal;
-#X floatatom 211 242 5 0 0 0 - - -, f 5;
-#X obj 281 216 hsl 128 16 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+#X floatatom 258 242 0 0 0 0 - - -;
+#X obj 122 429 output~;
+#X obj 122 326 cyclone/sah~;
+#X obj 122 394 cyclone/cycle~;
+#X text 148 559 float/signal;
+#X floatatom 191 242 5 0 2000 0 - - -, f 5;
+#X obj 261 216 hsl 128 16 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 139 514 float/signal;
-#X text 139 537 float/signal;
-#X obj 349 242 hsl 128 16 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+#X text 148 514 float/signal;
+#X text 148 537 float/signal;
+#X obj 329 242 hsl 128 16 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 291 216 pulse width (0-1);
-#X obj 142 290 noise~;
-#X text 419 466 -1;
-#X text 423 398 0;
-#X text 423 333 1;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 6 pd;
+#X text 271 216 pulse width (0-1);
+#X obj 122 290 noise~;
+#X text 489 466 -1;
+#X text 493 398 0;
+#X text 493 333 1;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -162,7 +141,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -195,37 +174,54 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 501 91 pd;
-#X obj 258 341 cyclone/scope~ 159 141 147 3 64 -1 1 0 0 0 0 205 229
+#X obj 328 341 cyclone/scope~ 159 141 147 3 64 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X text 229 514 - pulse period (in ms);
-#X text 229 537 - pulse width (0-1);
-#X text 358 242 onset phase (0-1);
-#X text 229 559 - onset phase offset (0-1);
-#X text 45 322 triggering a;
-#X text 36 339 sample and hold;
-#X text 205 222 period;
-#X text 186 241 ms;
-#X text 228 656 - period in ms (default 1000);
-#X text 228 673 - pulse width from 0-1 (default 0.5);
-#X text 228 690 - onset phase offset from 0-1 (default 0);
+#X text 238 514 - pulse period (in ms);
+#X text 238 537 - pulse width (0-1);
+#X text 338 242 onset phase (0-1);
+#X text 238 559 - onset phase offset (0-1);
+#X text 25 322 triggering a;
+#X text 16 339 sample and hold;
+#X text 185 222 period;
+#X text 166 241 ms;
+#X text 237 656 - period in ms (default 1000);
+#X text 237 673 - pulse width from 0-1 (default 0.5);
+#X text 237 690 - onset phase offset from 0-1 (default 0);
 #X text 91 91 [train~] generates a pulse signal alternating from on
 (1) to off (0) at a period given in ms. It also sends a bang when going
 from 0 to 1 \, so it can be used as a metronome.;
+#X obj 122 361 cyclone/scale~ -1 1 500 1000;
+#X obj 191 290 cyclone/train~ 1000 0.5;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 16 2 comment 0 40 times ? 0 0 0 0 train~;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 19 54 comment 0 18 times ? 0 0 0 0 Pulse-train generator and
+metronome;
 #X text 92 136 A pulse width of 0 has the smallest "on" pulse size
 (a single sample) \, while a pulse widht of 1 has the largest (the
-entire period except the last sample). The onset phase offset delays
-the "on" portion by a fraction of the total pulse period.;
-#X obj 211 290 cyclone/train~ 1000 0.5;
-#X connect 21 0 55 2;
-#X connect 22 0 27 0;
-#X connect 24 0 55 1;
-#X connect 26 0 22 0;
-#X connect 27 0 25 0;
-#X connect 27 0 25 1;
-#X connect 29 0 55 0;
-#X connect 30 0 24 0;
-#X connect 33 0 21 0;
-#X connect 35 0 26 0;
-#X connect 55 0 26 1;
-#X connect 55 0 41 0;
-#X connect 55 1 23 0;
+entire period except the last sample). The "onset phase" delays the
+"on" portion by a fraction of the total pulse period.;
+#X connect 18 0 50 2;
+#X connect 20 0 50 1;
+#X connect 22 0 49 0;
+#X connect 23 0 21 0;
+#X connect 23 0 21 1;
+#X connect 25 0 50 0;
+#X connect 26 0 20 0;
+#X connect 29 0 18 0;
+#X connect 31 0 22 0;
+#X connect 49 0 23 0;
+#X connect 50 0 22 1;
+#X connect 50 0 36 0;
+#X connect 50 1 19 0;

@@ -1,7 +1,7 @@
-#N canvas 485 23 567 623 10;
-#X obj 6 573 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 475 209 560 588 10;
+#X obj 6 543 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 451 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 431 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 613 162 350 207 META 0;
 #X text 1 19 LICENSE SIBSD;
@@ -19,72 +19,47 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 575 pd META;
-#X obj 6 491 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 509 545 pd META;
+#X obj 6 471 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 528 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 508 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 308 259 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 208 575 pd Related_objects;
-#X obj 87 462 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 208 545 pd Related_objects;
+#X obj 110 442 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 501 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 110 481 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 6 39 cnv 15 552 40 empty empty rand~ 3 12 0 18 -204280 -1 0
-;
-#X obj 511 48 rand~;
-#X text 207 462 - set frequency;
-#X floatatom 269 221 0 0 0 0 - - -;
-#X text 122 501 signal;
-#X text 104 540 1) float;
-#X obj 269 306 output~;
-#X text 18 62 bandlimited random noise (interpolated);
-#X obj 272 200 hsl 128 15 41.1 44100 1 0 empty empty empty -2 -8 0
+#X floatatom 254 196 0 0 0 0 - - -;
+#X text 177 482 signal;
+#X text 165 517 1) float;
+#X obj 254 281 output~;
+#X obj 257 175 hsl 128 15 41.1 44100 1 0 empty empty empty -2 -8 0
 10 -228856 -1 -1 0 1;
-#X text 207 501 - interpolated random noise signal;
-#X text 101 97 Use the [rand~] object to generate a signal consisting
-of random values between -1 and 1 generated at a frequency specified
-by its input or argument. The resulting sound is bandlimited from 0
-to that frequency. The [rand~] object interpolates linearly between
-the generated values.;
-#N canvas 173 37 452 382 random 0;
-#X obj 165 144 rand~ 1;
-#X obj 165 190 expr~ $v1 * 300 + 800;
-#X obj 165 230 cyclone/cycle~;
-#X obj 140 275 output~;
-#X text 46 62 you can use [rand~]as an LFO to generate random ramps
-up and down to control several parameters. Below \, it generates random
-glissandi.;
-#X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 5 4 [rand~] as random control;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X connect 2 0 3 0;
-#X connect 2 0 3 1;
-#X restore 302 390 pd random control;
-#X text 207 540 - set intial frequency (default 0);
-#X text 122 462 float/signal;
-#X obj 269 244 cyclone/rand~ 441;
-#X obj 104 299 cyclone/Scope~ 130 130 16 3 128 -1 1 50 0 0 0 205 229
-232 74 79 77 96 98 102 0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
+#X text 233 482 - interpolated random noise signal;
+#N canvas 173 37 415 355 random 0;
+#X obj 136 179 expr~ $v1 * 300 + 800;
+#X obj 111 264 output~;
+#X obj 25 10 cnv 15 210 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+#X obj 31 15 comment 0 18 times ? 0 0 0 0 [rand~] as random control
 ;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 5 5 pd;
+#X text 25 59 you can use [rand~] at a low frequency to generate random
+ramps up and down to control several parameters. Below \, it generates
+random glissandi.;
+#X obj 136 219 osc~;
+#X obj 136 143 cyclone/rand~ 1;
+#X connect 0 0 5 0;
+#X connect 5 0 1 0;
+#X connect 5 0 1 1;
+#X connect 6 0 0 0;
+#X restore 287 365 pd random control;
+#X text 142 442 float/signal;
+#X obj 254 219 cyclone/rand~ 441;
+#X obj 89 274 cyclone/Scope~ 130 130 16 3 128 -1 1 50 0 0 0 205 229
+232 74 79 77 96 98 102 0;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -191,8 +166,29 @@ glissandi.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 503 90 pd;
-#X connect 11 0 22 0;
+#X text 233 442 - sets frequency;
+#X text 75 102 [rand~] generates random values between -1 and 1 at
+a given frequency \, interpolating linearly between the generated values.
+The resulting sound is a bandlimited noise.;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 rand~;
+#X obj 16 59 comment 0 18 times ? 0 0 0 0 Interpolated bandlimited
+noise;
+#X text 233 517 - sets intial frequency (default 0);
+#X connect 8 0 16 0;
+#X connect 12 0 8 0;
 #X connect 16 0 11 0;
-#X connect 22 0 14 0;
-#X connect 22 0 14 1;
-#X connect 22 0 23 0;
+#X connect 16 0 11 1;
+#X connect 16 0 17 0;

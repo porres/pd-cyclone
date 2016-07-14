@@ -1,7 +1,7 @@
-#N canvas 396 52 563 732 10;
-#X obj 5 687 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 396 52 562 718 10;
+#X obj 5 666 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 513 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 508 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 598 348 359 228 META 0;
 #X text 1 31 LICENSE SIBSD;
@@ -22,45 +22,31 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 506 689 pd META;
-#X obj 5 574 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 506 668 pd META;
+#X obj 5 563 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 294 469 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 203 689 pd Related_objects;
-#X obj 84 526 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 203 668 pd Related_objects;
+#X obj 84 519 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 580 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 573 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 5 38 cnv 15 552 40 empty empty zerox~ 3 12 0 18 -204280 -1 0
-;
-#X obj 505 48 zerox~;
 #X obj 174 200 loadbang;
 #X obj 174 222 samplerate~;
 #X obj 174 246 / 64;
-#X text 129 525 signal;
-#X text 129 579 signal;
-#X obj 84 614 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 129 518 signal;
+#X text 129 572 signal;
+#X obj 84 597 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 129 614 signal;
+#X text 129 597 signal;
 #X obj 380 279 cyclone/zerox~;
-#X obj 5 650 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 629 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 118 661 1) float;
-#X text 99 546 set <float>;
-#X text 183 546 - set impulse value sent to right outlet;
-#X text 191 660 - float sets impulse value from 0-1 (default 1).;
-#X text 17 61 Detect zero crossings;
-#X text 183 525 - signal to be analyzed.;
-#X text 75 96 [zerox~] functions as a zero-crossing counter or transient
-detector. Left outlet ouputs a value that corresponds to the number
-of zero crossings per signal block - so it depends on the block size.
-Right outlet send an impulse at every zero crossing.;
-#X text 182 579 - a signal corresponding to the number of zero crossings
-per signal block.;
-#X text 182 614 - a click (impulse) whenever a zero-crossing is detected.
-;
+#X text 118 640 1) float;
+#X text 99 539 set <float>;
+#X text 183 539 - set impulse value sent to right outlet;
 #X obj 88 348 *~ 0.5;
 #X obj 37 261 cyclone/zerox~ 1;
 #X obj 37 211 osc~ 1000;
@@ -76,7 +62,7 @@ per signal block.;
 #X obj 380 196 osc~ 1;
 #X obj 324 316 cyclone/snapshot~ 1;
 #X obj 324 347 vsl 20 80 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 225 1;
+-1 -1 126 1;
 #X text 349 420 -1, f 3;
 #X text 352 338 1, f 3;
 #X text 352 381 0;
@@ -85,9 +71,9 @@ per signal block.;
 #X obj 147 165 zerox~;
 #X obj 147 204 cyclone/snapshot~ 1;
 #X obj 147 271 vsl 20 128 0 32 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 1587 1;
+-1 -1 0 1;
 #X obj 147 235 nbx 5 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
--228856 -1 -1 4 256;
+-228856 -1 -1 0 256;
 #X text 42 51 look at the difference between "ssss" and "aaa" or any
 noisy/tansient input as opposed to a tonal and stable one.;
 #X obj 6 12 cnv 15 400 20 empty empty empty 3 12 0 14 -204280 -1 0
@@ -97,25 +83,9 @@ noisy/tansient input as opposed to a tonal and stable one.;
 #X connect 1 0 2 0;
 #X connect 2 0 4 0;
 #X connect 4 0 3 0;
-#X restore 208 475 pd transient_detection;
+#X restore 214 463 pd transient_detection;
 #X obj 88 412 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--249661 -1 -1 1000 256;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 4 5 pd;
+-249661 -1 -1 1033.59 256;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -222,19 +192,44 @@ noisy/tansient input as opposed to a tonal and stable one.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 503 90 pd;
-#X connect 9 0 10 0;
-#X connect 10 0 11 0;
-#X connect 11 0 31 0;
-#X connect 16 1 38 0;
-#X connect 16 1 38 1;
-#X connect 27 0 30 0;
-#X connect 28 0 32 0;
-#X connect 29 0 28 0;
-#X connect 30 0 46 0;
-#X connect 31 0 32 1;
-#X connect 32 0 27 0;
-#X connect 36 0 16 0;
-#X connect 37 0 16 0;
-#X connect 39 0 16 0;
-#X connect 39 0 40 0;
-#X connect 40 0 41 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 16 2 comment 0 40 times ? 0 0 0 0 zerox~;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 19 54 comment 0 18 times ? 0 0 0 0 Detect zero crossings;
+#X text 75 88 [zerox~] functions as a zero-crossing detector and/or
+a zero-crossing counter (for transient detection).;
+#X text 76 122 Left outlet ouputs a value that corresponds to the number
+of zero crossings per signal block - so it depends on the block size.
+Right outlet send an impulse at every zero crossing.;
+#X text 183 518 - signal to be analyzed;
+#X text 191 639 - float sets impulse value from 0-1 (default 1);
+#X text 182 597 - a click (impulse) whenever a zero-crossing is detected
+;
+#X text 182 572 - the number of zero crossings per signal block;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 23 0;
+#X connect 14 1 30 0;
+#X connect 14 1 30 1;
+#X connect 19 0 22 0;
+#X connect 20 0 24 0;
+#X connect 21 0 20 0;
+#X connect 22 0 38 0;
+#X connect 23 0 24 1;
+#X connect 24 0 19 0;
+#X connect 28 0 14 0;
+#X connect 29 0 14 0;
+#X connect 31 0 14 0;
+#X connect 31 0 32 0;
+#X connect 32 0 33 0;

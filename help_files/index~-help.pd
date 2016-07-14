@@ -1,7 +1,7 @@
-#N canvas 625 105 567 676 10;
-#X obj 5 633 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 625 105 563 646 10;
+#X obj 5 603 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 489 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 459 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 589 162 378 222 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -19,75 +19,72 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 635 pd META;
-#X obj 5 554 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 508 605 pd META;
+#X obj 5 524 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 591 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 561 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 301 275 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 202 635 pd Related_objects;
-#X obj 101 499 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 202 605 pd Related_objects;
+#X obj 121 469 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 101 564 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 121 534 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 5 40 cnv 15 552 40 empty empty index~ 3 12 0 18 -204280 -1 0
+#X text 146 468 signal;
+#X text 146 533 signal;
+#X obj 121 494 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 507 42 index~;
-#X text 126 498 signal;
-#X text 126 563 signal;
-#X text 193 563 - signal without interpolation;
-#X obj 101 524 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 152 493 float;
+#X obj 94 387 output~;
+#X text 130 572 1) symbol;
+#X text 214 572 - name of array;
+#X obj 269 299 line~;
+#X text 372 266 backwards;
+#X text 214 493 - channel number (not implemented yet);
+#X msg 117 234 bang;
+#X msg 127 257 stop;
+#X obj 117 286 cyclone/count~ 0 62078;
+#X msg 269 243 0 \, 62078 1407;
+#X msg 283 268 62078 \, 0 1407;
+#X text 357 242 forwards;
+#X text 214 468 - index to read the array;
+#X obj 231 408 soundfiler;
+#X obj 312 408 table \$0-voice;
+#X obj 231 383 cyclone/loadmess read -resize voice.wav \$0-voice;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 index~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Read from an array (no interpolation)
 ;
-#X text 126 523 float;
-#X obj 101 422 output~;
-#X text 17 63 read from an array without interpolation;
-#X text 110 602 1) symbol;
-#X text 193 602 - name of array;
-#X obj 276 334 line~;
-#X text 379 301 backwards;
-#X obj 124 378 index~ \$0-voice;
-#X text 193 523 - channel number (not implemented yet);
-#X msg 124 269 bang;
-#X msg 134 292 stop;
-#X obj 124 321 cyclone/count~ 0 62078;
-#X msg 276 278 0 \, 62078 1407;
-#X msg 290 303 62078 \, 0 1407;
-#X text 364 277 forwards;
-#X text 97 109 Use [index~] to read an array with no interpolation.
-Unlike [peek~] is specified as a signal \, not a float. It is very
-similar to pd vanilla's [tabread~].;
-#X text 193 498 - index to read the array;
-#X text 97 159 since the index~ object does no interpolation \, it
-is less useful for general sample playback tasks than other objects
-such as [play~] and [tabread4~] \, such as playing in different speeds.
-That's why using [count~] is very convenient and accurate.;
-#X obj 242 411 soundfiler;
-#X obj 323 411 table \$0-voice;
-#X obj 242 386 cyclone/loadmess read -resize voice.wav \$0-voice;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+#X obj 117 343 cyclone/index~ \$0-voice;
+#X text 97 94 Use [index~] to read an array with no interpolation.
+Unlike [peek~] \, the index is specified as a signal \, not a float.
+It is very similar to pd vanilla's [tabread~].;
+#X text 97 140 Since there's no interpolation \, using [cyclone/count~]
+is very convenient - [index~] is less useful for general sample playback
+tasks than other objects such as [cyclone/play~] \, [cyclone/wave~]
+and [tabread4~] \, such as playing in different speeds.;
+#X text 214 533 - signal read from the array without interpolation
 ;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 4 6 pd;
-#X connect 19 0 21 0;
-#X connect 21 0 15 1;
+#X connect 15 0 36 0;
+#X connect 18 0 20 0;
+#X connect 19 0 20 0;
+#X connect 20 0 36 0;
 #X connect 21 0 15 0;
-#X connect 23 0 25 0;
-#X connect 24 0 25 0;
-#X connect 25 0 21 0;
-#X connect 26 0 19 0;
-#X connect 27 0 19 0;
-#X connect 34 0 32 0;
+#X connect 22 0 15 0;
+#X connect 27 0 25 0;
+#X connect 36 0 12 1;
+#X connect 36 0 12 0;

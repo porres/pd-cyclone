@@ -1,7 +1,7 @@
-#N canvas 580 23 575 693 10;
-#X obj 4 656 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 580 23 561 686 10;
+#X obj 4 640 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 4 286 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 4 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 1102 100 422 247 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -20,73 +20,28 @@ in text window;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 497 658 pd META;
-#X obj 4 400 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 497 642 pd META;
+#X obj 4 385 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 449 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 433 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 4 598 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 4 582 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 466 526 428 77 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 214 658 pd Related_objects;
-#X obj 85 295 cnv 17 3 96 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 214 642 pd Related_objects;
+#X obj 85 280 cnv 17 3 96 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 4 41 cnv 15 551 43 empty empty capture~ 3 12 0 18 -204280 -1
-0;
-#X msg 293 215 write;
-#X msg 223 204 clear;
-#X text 112 294 signal;
-#X obj 495 45 capture~;
-#X text 17 64 Collect samples from a signal and examine in a text window
-;
-#X text 340 216 Write to file;
-#X obj 272 153 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+#X msg 298 204 write;
+#X msg 228 193 clear;
+#X text 131 279 signal;
+#X obj 277 142 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 185 293 - An excerpt of the signal is stored in a text format.
-;
-#X text 185 329 - write: save to file (dialog box asks for filename)
-\, or "write /path/to/filename.txt" to write directly to file.;
-#X text 184 360 - open: opens text window (like double clicking).;
-#X text 184 378 - wclose: closes text window.;
-#X text 113 311 messages:;
-#X text 118 457 1) symbol (optional): behavioral-flag \, "f" for "first
-mode" where it stops collecting data after receiving the specified
-number of samples (if flag is not given \, defaults to "last mode"
-\, where it continues to collect data \, throwing away old values if
-it has received more than the specified samples).;
-#X text 118 524 2) float - number of samples (default 4096);
-#X text 118 544 3) float - decimal precision (default 4);
-#X text 118 561 4) list - up to 10 numbers representing indices within
-a signal vector. If no list is given \, entire vector is stored.;
-#X text 117 409 (none) - no output \, but the stored values can be
-copied/pasted elsewhere or saved to a file.;
-#X text 23 110 [capture~] is designed for signal debugging/investigation.
-;
-#X obj 272 187 cyclone/count~;
-#X obj 272 243 cyclone/capture~ f 85 0 0 1 2 3 4;
-#X text 185 312 - clear: clear stored values and starts capturing again
-;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 5 pd;
+#X obj 277 176 cyclone/count~;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -157,7 +112,7 @@ copied/pasted elsewhere or saved to a file.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -189,14 +144,60 @@ copied/pasted elsewhere or saved to a file.;
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 504 94 pd;
-#X text 21 155 click to store values from [count~] =>;
-#X text 100 244 Click to open text window =>;
-#X text 119 605 [capture~]'s text window holds a limited amount of
+#X restore 504 79 pd;
+#X text 36 144 click to store values from [count~] =>;
+#X text 119 589 [capture~]'s text window holds a limited amount of
 data \, so it's easy to capture more than you can see. In this case
 \, to see it all \, write it to a text file and open elsewhere.;
-#X connect 9 0 28 0;
-#X connect 10 0 28 0;
-#X connect 15 0 10 0;
-#X connect 15 0 27 0;
-#X connect 27 0 28 0;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 capture~;
+#X obj 17 55 comment 0 18 times ? 0 0 0 0 Collect samples to a text
+;
+#X text 102 233 click to open text window =>;
+#X text 62 91 [capture~] is designed for signal debugging/investigation
+\, it captures samples into a text window or text file.;
+#X text 345 205 Write to a text file;
+#X text 185 297 - clear stored values and starts capturing again;
+#X text 137 296 clear;
+#X text 137 313 write;
+#X text 143 343 open;
+#X text 184 361 - closes text window;
+#X text 131 361 wclose;
+#X text 184 344 - opens text window (like double clicking);
+#X text 185 278 - signal to be stored in a text format;
+#X text 185 314 - save to file (dialog box asks for filename) \, or
+"write /path/to/filename.txt" to write directly to the file;
+#X text 173 440 - behavioral-flag \, "f" for "first mode" where it
+stops collecting data after receiving the specified number of samples.
+If not given \, the default is "last mode" \, where it continues to
+collect data \, throwing away old values if it has received more than
+the specified samples.;
+#X text 174 510 - number of samples (default 4096);
+#X text 174 530 - decimal precision (default 4);
+#X text 174 548 - up to 10 numbers representing indices within a signal
+vector. If no list is given \, entire vector is stored.;
+#X text 108 441 1) symbol;
+#X text 108 511 2) float;
+#X text 108 531 3) float;
+#X text 108 548 4) list;
+#X text 133 393 (none), f 47;
+#X text 185 393 - no output \, but the stored values can be copied/pasted
+elsewhere or saved to a file;
+#X obj 277 232 cyclone/capture~ f 85 4 0 1 2 3 4;
+#X connect 8 0 46 0;
+#X connect 9 0 46 0;
+#X connect 11 0 9 0;
+#X connect 11 0 12 0;
+#X connect 12 0 46 0;
