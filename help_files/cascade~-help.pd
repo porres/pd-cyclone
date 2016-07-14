@@ -1,0 +1,87 @@
+#N canvas 633 23 566 796 10;
+#X obj 141 232 noise~;
+#X obj 122 341 output~;
+#X obj 3 410 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 517 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X text 139 419 signal;
+#X obj 78 526 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 419 cnv 17 3 84 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 198 418 - input to filter;
+#X text 165 526 signal - filter output;
+#X obj 3 649 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 378 396 407 280 META 0;
+#X text 0 19 LICENSE SIBSD;
+#X text 0 133 LIBRARY cyclone;
+#X text 0 57 INLET_0 signal;
+#X text 0 0 KEYWORDS filter pass;
+#X text 0 76 INLET_1 float delay time;
+#X text 0 95 INLET_2 float gain;
+#X text 0 114 OUTLET_0 signal;
+#X text 0 38 DESCRIPTION allpass filter for signal;
+#X text 1 153 VERSION 0.2-beta1;
+#X text 1 171 AUTHOR Krzysztof Czaja;
+#X text 2 189 RELEASE_DATE 2002;
+#X text 3 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 3 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 651 pd META;
+#X obj 3 554 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 947 59 434 83 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 205 651 pd Related_objects;
+#X text 75 102 You can specify the coefficients a0 \, a1 \, a2 \, b1
+\, and b2 as signals or floats (if you make the filter explode by making
+the b coefficients too high \, you can recover (after lowering them)
+with the clear message \, or by turning the audio on and off).;
+#X msg 78 256 clear;
+#X text 145 438 list;
+#X text 198 437 - the 5 coefficients (a0 \, a1 \, a2 \, b1 \, b2);
+#N canvas 0 22 450 300 inconsistencies 0;
+#X text 203 88 dictionary;
+#X restore 340 341 pd inconsistencies;
+#X text 145 456 clear;
+#X text 145 488 stoke;
+#X text 199 456 - clears the memory of previous inputs (x[-1] & x[-2])and
+outputs (y[-1] & y[-2]) to zeroes.;
+#X text 199 489 - resets previous in/outputs (x[-1] \, x[-2] \, y[-1]
+& y[-2]);
+#X text 147 561 1) float - a0 coefficient;
+#X text 147 576 2) float - a1 coefficient;
+#X text 147 591 3) float - a2 coefficient;
+#X text 147 606 4) float - b1 coefficient;
+#X text 147 621 5) float - b2 coefficient;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 cascade~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Cascade series of biquad
+filters;
+#X obj 141 299 cyclone/cascade~;
+#X msg 204 228 0.02635 0 -0.02635 -1.97899 0.982357;
+#X msg 219 258 0.252176 0 -0.252176 -1.68963 0.72158;
+#X connect 0 0 35 0;
+#X connect 14 0 35 0;
+#X connect 35 0 1 0;
+#X connect 35 0 1 1;
+#X connect 36 0 35 1;
+#X connect 37 0 35 1;

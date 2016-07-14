@@ -1,78 +1,40 @@
-#N canvas 153 43 565 693 10;
-#X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone/cyclone;
-#X obj 8 41 cnv 15 552 50 empty empty !/ 3 12 0 18 -204280 -1 0;
-#X obj 13 385 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
+#N canvas 611 324 561 499 10;
+#X obj 13 358 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
 0;
-#X obj 13 432 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 13 405 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 91 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 99 370 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 91 285 cnv 17 3 44 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 99 285 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 13 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 91 337 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 99 327 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 91 285 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 99 285 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 114 447 1) float -;
-#X floatatom 290 162 5 0 0 0 - - -, f 5;
-#X floatatom 244 165 5 0 0 0 - - -, f 5;
-#X floatatom 95 177 5 0 0 0 - - -, f 5;
-#X floatatom 182 174 5 0 0 0 - - -, f 5;
-#X obj 260 195 !/;
-#X obj 532 69 !/;
-#X text 82 108 [rdiv] or [!/] divides a number by the incoming value.
-Functions like the [/] object \, but the inlets' functions are reversed.
-;
-#X floatatom 95 238 0 0 0 0 - - -;
-#X obj 526 47 rdiv;
-#X text 130 285 float;
-#X text 133 312 bang;
-#X text 187 313 - Performs the division with the numbers currently
-stored.;
-#X obj 47 178 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X text 124 420 1) float -;
+#X floatatom 292 158 5 0 0 0 - - -, f 5;
+#X floatatom 246 161 5 0 0 0 - - -, f 5;
+#X floatatom 97 173 5 0 0 0 - - -, f 5;
+#X floatatom 184 170 5 0 0 0 - - -, f 5;
+#X obj 262 191 !/;
+#X floatatom 97 234 0 0 0 0 - - -;
+#X text 135 285 float;
+#X text 140 303 bang;
+#X obj 65 172 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X text 130 337 float;
-#X text 190 281 - The value that right inlet's value or argument will
-be divided by - it's a hot inlet (produces output).;
-#X text 190 335 - Numbers received in the right inlet are divided by
-numbers received in the left inlet (cold inlet).;
-#X text 205 396 - The division of the two numbers.;
-#X text 129 398 float;
-#X floatatom 260 223 0 0 0 0 - - -;
-#X obj 412 176 swap;
-#X obj 414 203 /;
-#X obj 95 205 cyclone/rdiv 10;
-#X floatatom 444 153 5 0 0 0 - - -, f 5;
-#X floatatom 398 153 5 0 0 0 - - -, f 5;
-#X floatatom 414 230 5 0 0 0 - - -, f 5;
-#X text 346 193 same as:;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 7 4 pd;
-#X text 189 447 sets an initial value for the divisor (default 0).
-;
-#X obj 50 54 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
-#X obj 81 54 cnv 5 5 5 empty empty rdiv 0 0 0 18 -204280 -1 0;
-#X text 20 68 Revered inlets division (divide input from a number)
-;
-#X text 509 68 or;
-#X obj 5 647 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 135 328 float;
+#X text 134 371 float;
+#X floatatom 262 219 0 0 0 0 - - -;
+#X obj 414 172 swap;
+#X obj 416 199 /;
+#X obj 97 201 cyclone/rdiv 10;
+#X floatatom 446 149 5 0 0 0 - - -, f 5;
+#X floatatom 400 149 5 0 0 0 - - -, f 5;
+#X floatatom 416 226 5 0 0 0 - - -, f 5;
+#X text 348 189 same as:;
+#X obj 5 451 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -91,29 +53,46 @@ numbers received in the left inlet (cold inlet).;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 649 pd META;
+#X restore 508 453 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 196 649 pd Related_objects;
-#X text 121 616 more about the cyclone sub-library;
-#X obj 5 484 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
--228856 -1 0;
-#X obj 290 579 declare -stdlib cyclone/cyclone;
-#X obj 341 615 cyclone-help;
-#X text 117 515 [rdiv] is a single binary in cyclone \, but [!/] is
-only created if you load the sub-library "cyclone" in the startup as
-informed in "How to Install". You can also load the cyclone library
-with [declare] like this:;
-#X connect 9 0 13 1;
-#X connect 10 0 13 0;
-#X connect 11 0 30 0;
-#X connect 12 0 30 1;
-#X connect 13 0 27 0;
-#X connect 21 0 30 0;
-#X connect 28 0 29 0;
-#X connect 28 1 29 1;
-#X connect 29 0 33 0;
-#X connect 30 0 16 0;
-#X connect 31 0 28 1;
-#X connect 32 0 28 0;
+#X restore 196 453 pd Related_objects;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 15 4 comment 0 37 times ? 0 0 0 0 !/;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Reversed inlets division
+;
+#X text 190 283 - the divisor (hot inlet);
+#X text 188 328 - the dividend (cold inlet);
+#X text 189 371 - the result of the division;
+#X text 199 420 sets an initial value for the dividend (default 0)
+;
+#X text 187 304 - performs the division with the numbers currently
+stored;
+#X text 82 95 [rdiv] or [!/] divides a number by the incoming value
+on the left inlet. Functions like the [/] object \, but the inlets'
+functions are reversed.;
+#X connect 8 0 12 1;
+#X connect 9 0 12 0;
+#X connect 10 0 22 0;
+#X connect 11 0 22 1;
+#X connect 12 0 19 0;
+#X connect 16 0 22 0;
+#X connect 20 0 21 0;
+#X connect 20 1 21 1;
+#X connect 21 0 25 0;
+#X connect 22 0 13 0;
+#X connect 23 0 20 1;
+#X connect 24 0 20 0;

@@ -1,72 +1,40 @@
-#N canvas 139 96 570 709 10;
-#X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone/cyclone;
-#X obj 1 40 cnv 15 552 50 empty empty rminus 3 12 0 18 -204280 -1 0
+#N canvas 110 23 561 482 10;
+#X obj 7 342 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 383 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 7 434 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 388 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 7 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 256 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X floatatom 304 179 5 0 0 0 - - -, f 5;
-#X floatatom 258 182 5 0 0 0 - - -, f 5;
-#X floatatom 70 189 5 0 0 0 - - -, f 5;
-#X floatatom 163 186 5 0 0 0 - - -, f 5;
-#X obj 274 212 !-;
-#X obj 525 67 !-;
-#X floatatom 274 244 5 0 0 0 - - -, f 5;
-#X obj 508 46 rminus;
-#X floatatom 70 242 5 0 0 0 - - -, f 5;
-#X obj 418 224 -;
-#X obj 416 201 swap;
-#X text 338 217 same as:;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
+#X floatatom 304 150 5 0 0 0 - - -, f 5;
+#X floatatom 258 153 5 0 0 0 - - -, f 5;
+#X floatatom 70 160 5 0 0 0 - - -, f 5;
+#X floatatom 163 157 5 0 0 0 - - -, f 5;
+#X obj 274 183 !-;
+#X floatatom 274 215 5 0 0 0 - - -, f 5;
+#X floatatom 70 213 5 0 0 0 - - -, f 5;
+#X obj 418 195 -;
+#X obj 416 172 swap;
+#X text 338 188 same as:;
+#X obj 70 187 cyclone/rminus 5;
+#X floatatom 448 144 5 0 0 0 - - -, f 5;
+#X floatatom 402 147 5 0 0 0 - - -, f 5;
+#X floatatom 418 222 5 0 0 0 - - -, f 5;
+#X text 136 402 1) float -;
+#X text 135 264 float;
+#X text 141 281 bang;
+#X text 135 310 float;
+#X text 134 356 float;
+#X obj 100 264 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 0 4 pd;
-#X obj 70 216 cyclone/rminus 5;
-#X floatatom 448 173 5 0 0 0 - - -, f 5;
-#X floatatom 402 176 5 0 0 0 - - -, f 5;
-#X floatatom 418 251 5 0 0 0 - - -, f 5;
-#X text 77 110 [rminus] or [!-] Subtracts the input from a specified
-value. The [!-] object functions just like the [-] object \, but the
-inlets' functions are reversed.;
-#X text 136 452 1) float -;
-#X text 142 293 float;
-#X text 145 320 bang;
-#X text 142 351 float;
-#X text 141 405 float;
-#X text 192 290 - The value that right inlet's value or argument will
-be dsubtracted by - it's a hot inlet (produces output).;
-#X text 189 321 - Performs the subtraction with the numbers currently
-stored.;
-#X text 192 350 - Numbers received in the right inlet are subtracted
-by numbers received in the left inlet (cold inlet).;
-#X text 189 405 - The subtraction of the two numbers.;
-#X obj 93 297 cnv 17 3 44 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 100 308 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 349 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 100 264 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 297 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 100 356 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 405 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 42 188 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 42 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 5 646 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 5 430 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -85,33 +53,45 @@ by numbers received in the left inlet (cold inlet).;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 648 pd META;
+#X restore 508 432 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 196 648 pd Related_objects;
-#X text 121 615 more about the cyclone sub-library;
-#X obj 5 483 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
--228856 -1 0;
-#X obj 290 578 declare -stdlib cyclone/cyclone;
-#X obj 341 614 cyclone-help;
-#X text 13 67 Subtraction object (inlets reversed);
-#X text 502 68 or;
-#X text 117 514 [rminus] is a single binary in cyclone \, but [!-]
-is only created if you load the sub-library "cyclone" in the startup
-as informed in "How to Install". You can also load the cyclone library
-with [declare] like this:;
-#X text 210 452 sets an initial value to subtract from (default 0).
+#X restore 196 432 pd Related_objects;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 15 4 comment 0 37 times ? 0 0 0 0 !-;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Reversed inlets subtraction
 ;
-#X connect 4 0 8 1;
-#X connect 5 0 8 0;
-#X connect 6 0 17 0;
-#X connect 7 0 17 1;
-#X connect 8 0 10 0;
-#X connect 13 0 20 0;
-#X connect 14 0 13 0;
-#X connect 14 1 13 1;
-#X connect 17 0 12 0;
-#X connect 18 0 14 1;
-#X connect 19 0 14 0;
-#X connect 35 0 17 0;
+#X text 182 356 - the difference of the two numbers;
+#X text 77 94 [rminus] or [!-] is like the [-] object \, but the inlets'
+functions are reversed.;
+#X text 185 264 - the subtrahend (hot inlet);
+#X text 210 402 sets an initial value to subtract from (default 0)
+;
+#X text 182 282 - performs the subtraction with the numbers currently
+stored;
+#X text 185 309 - the minuend (cold inlet);
+#X connect 3 0 7 1;
+#X connect 4 0 7 0;
+#X connect 5 0 13 0;
+#X connect 6 0 13 1;
+#X connect 7 0 8 0;
+#X connect 10 0 16 0;
+#X connect 11 0 10 0;
+#X connect 11 1 10 1;
+#X connect 13 0 9 0;
+#X connect 14 0 11 1;
+#X connect 15 0 11 0;
+#X connect 26 0 13 0;

@@ -38,9 +38,6 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X obj 90 548 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 9 40 cnv 15 552 40 empty empty vectral~ 3 12 0 18 -204280 -1
-0;
-#X obj 500 47 vectral~;
 #X floatatom 137 180 0 0 0 0 - - -;
 #X floatatom 62 180 0 0 0 0 - - -;
 #X floatatom 313 181 0 0 0 0 - - -;
@@ -127,25 +124,8 @@ limited mode \; - <clear>: clears filter \; - <size>: vector size;
 #X obj 375 154 noise~;
 #X text 215 510 - frame signal to filter;
 #X text 215 548 - filtered frame signal;
-#X text 21 63 smooth/filter frame changes.;
 #X text 70 101 [vectral~] is useful for smoothening/filtering frame
 based signal data such as the output of [fft~];
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 8 6 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -252,20 +232,36 @@ based signal data such as the output of [fft~];
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 510 90 pd;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 vectral~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Smooth/filter frame changes
+;
+#X connect 8 0 26 1;
+#X connect 9 0 26 0;
 #X connect 10 0 28 1;
 #X connect 11 0 28 0;
-#X connect 12 0 30 1;
-#X connect 13 0 30 0;
-#X connect 14 0 29 1;
-#X connect 15 0 29 0;
-#X connect 28 0 38 0;
-#X connect 29 0 38 0;
-#X connect 30 0 38 0;
-#X connect 32 0 33 0;
-#X connect 32 1 33 1;
-#X connect 33 0 38 2;
-#X connect 36 0 37 0;
-#X connect 37 0 35 0;
-#X connect 38 0 35 0;
-#X connect 41 0 36 0;
-#X connect 43 0 32 0;
+#X connect 12 0 27 1;
+#X connect 13 0 27 0;
+#X connect 26 0 36 0;
+#X connect 27 0 36 0;
+#X connect 28 0 36 0;
+#X connect 30 0 31 0;
+#X connect 30 1 31 1;
+#X connect 31 0 36 2;
+#X connect 34 0 35 0;
+#X connect 35 0 33 0;
+#X connect 36 0 33 0;
+#X connect 39 0 34 0;
+#X connect 41 0 30 0;

@@ -1,14 +1,403 @@
-#N canvas 706 191 426 283 10;
-#X obj 107 49 noise~;
-#X obj 96 171 output~;
-#X obj 107 131 +~;
-#X obj 122 103 phaseshift~ 500 1;
-#X obj 171 78 scale~ -1 1 500 1000;
-#X obj 171 51 osc~ 1;
-#X connect 0 0 2 0;
+#N canvas 644 23 563 728 10;
+#X obj 4 640 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 5 455 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 620 287 348 320 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 126 LIBRARY cyclone;
+#X text 1 108 OUTLET_0 signal;
+#X text 1 54 INLET_0 signal message;
+#X text 1 0 KEYWORDS signal wavetable wave table interpolation;
+#X text 1 36 DESCRIPTION variable size wavetable;
+#X text 1 72 INLET_1 float signal;
+#X text 1 90 INLET_2 float signal;
+#X text 0 144 VERSION 0.2-beta1;
+#X text 0 162 AUTHOR Krzysztof Czaja;
+#X text 1 180 RELEASE_DATE 2002;
+#X text 2 199 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 231 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 500 643 pd META;
+#X obj 5 553 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 5 589 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 320 422 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 209 643 pd Related_objects;
+#X obj 98 465 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 525 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 164 463 signal;
+#X obj 97 502 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 563 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 164 562 signal;
+#X text 144 615 2) float;
+#X text 144 598 1) symbol;
+#X text 128 527 float/signal;
+#X text 128 504 float/signal;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 phaseshift~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 2nd order Allpass filter
+;
+#X text 216 527 - sets Q;
+#X text 170 482 clear;
+#X text 216 614 - sets Q (default ?);
+#X floatatom 244 273 0 0 0 0 - - -;
+#X obj 41 347 output~;
+#X obj 61 306 +~;
+#X obj 61 234 noise~;
+#X obj 152 228 hsl 128 15 100 2000 1 0 \$0-Freq \$0-Freq_set empty
+-2 -8 0 10 -228856 -1 -1 9300 1;
+#X floatatom 149 252 0 0 0 0 - - -;
+#X obj 247 250 hsl 128 15 0.1 5 1 0 \$0-Q \$0-Q_set empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#N canvas 614 353 726 323 phase_response 0;
+#X obj 101 101 cnv 15 298 98 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array \$0-phase_shift 400 float 1;
+#A 0 0 0.0633636 0.0834105 0.097891 0.109614 0.119625 0.128447 0.136384
+0.146122 0.148653 0.151229 0.153843 0.156499 0.159197 0.161939 0.164723
+0.167549 0.170424 0.173339 0.176301 0.179307 0.182361 0.185459 0.188604
+0.191798 0.195039 0.198326 0.201663 0.205046 0.208481 0.211964 0.215496
+0.219078 0.222712 0.226392 0.230126 0.23391 0.237746 0.24163 0.245566
+0.249554 0.253594 0.257685 0.261824 0.266017 0.270263 0.274555 0.278902
+0.2833 0.287746 0.292244 0.296788 0.301387 0.306032 0.310727 0.315468
+0.320261 0.325098 0.329981 0.334909 0.339884 0.344906 0.349968 0.355074
+0.360221 0.36541 0.370639 0.375907 0.381209 0.386551 0.391929 0.39734
+0.402782 0.408258 0.413767 0.419298 0.424863 0.430449 0.436063 0.441698
+0.447357 0.453033 0.458725 0.464435 0.47016 0.4759 0.481652 0.48741
+0.493178 0.498949 0.504728 0.510506 0.516289 0.522069 0.52785 0.533623
+0.539388 0.545147 0.550897 0.556637 0.562361 0.568071 0.573769 0.579445
+0.585101 0.590743 0.596358 0.601949 0.607513 0.613057 0.618568 0.624051
+0.629504 0.634925 0.640313 0.645667 0.650987 0.656272 0.661521 0.666733
+0.671903 0.677034 0.682129 0.687182 0.692192 0.69716 0.702089 0.706971
+0.711811 0.716609 0.721361 0.726067 0.73073 0.735349 0.739921 0.744451
+0.748933 0.75337 0.757759 0.762104 0.766404 0.77066 0.774869 0.779032
+0.783152 0.787226 0.791255 0.795241 0.799184 0.80308 0.806936 0.810746
+0.814516 0.818242 0.821927 0.82557 0.829172 0.832735 0.836255 0.839738
+0.843184 0.846589 0.849956 0.853285 0.856578 0.859837 0.863058 0.866245
+0.869397 0.872517 0.875602 0.878654 0.881675 0.884665 0.887623 0.890553
+0.893452 0.896323 0.899166 0.901983 0.904771 0.907534 0.910271 0.912985
+0.915673 0.91834 0.920983 0.923603 0.926202 0.928782 0.93134 0.93388
+0.9364 0.938904 0.941388 0.943857 0.946311 0.948749 0.951172 0.953582
+0.955977 0.958361 0.960733 0.963092 0.965442 0.967782 0.970113 0.972435
+0.974749 0.977056 0.979357 0.981651 0.983941 0.986226 0.988507 0.990784
+0.99306 0.995334 0.997606 0.999879 -0.99785 -0.995576 -0.993302 -0.991025
+-0.988746 -0.986463 -0.984175 -0.981883 -0.979585 -0.977281 -0.97497
+-0.972651 -0.970323 -0.967987 -0.965641 -0.963285 -0.960918 -0.958539
+-0.956147 -0.953742 -0.951323 -0.94889 -0.946441 -0.943976 -0.941495
+-0.938996 -0.936479 -0.933942 -0.931386 -0.928811 -0.926214 -0.923594
+-0.920953 -0.918288 -0.915599 -0.912886 -0.910146 -0.907381 -0.904589
+-0.901769 -0.89892 -0.896042 -0.893134 -0.890195 -0.887224 -0.884222
+-0.881186 -0.878116 -0.875011 -0.871871 -0.868695 -0.865482 -0.862231
+-0.858942 -0.855613 -0.852244 -0.848835 -0.845383 -0.841889 -0.838352
+-0.834772 -0.831146 -0.827475 -0.823758 -0.819993 -0.816181 -0.812321
+-0.808411 -0.804452 -0.800442 -0.79638 -0.792266 -0.7881 -0.78388 -0.779606
+-0.775278 -0.770893 -0.766453 -0.761956 -0.757402 -0.75279 -0.74812
+-0.743391 -0.738602 -0.733753 -0.728844 -0.723874 -0.718842 -0.713748
+-0.708593 -0.703375 -0.698094 -0.69275 -0.687342 -0.68187 -0.676335
+-0.670735 -0.665071 -0.659343 -0.65355 -0.647693 -0.641771 -0.635785
+-0.629734 -0.623618 -0.617439 -0.611195 -0.604887 -0.598516 -0.592082
+-0.585584 -0.579023 -0.5724 -0.565715 -0.558969 -0.552161 -0.545293
+-0.538365 -0.531378 -0.524332 -0.517227 -0.510065 -0.502846 -0.49557
+-0.488239 -0.480853 -0.473412 -0.465918 -0.458371 -0.450772 -0.443121
+-0.435419 -0.427668 -0.419866 -0.412016 -0.404117 -0.396171 -0.388177
+-0.380136 -0.372049 -0.363915 -0.355736 -0.347511 -0.33924 -0.330924
+-0.322563 -0.314155 -0.305702 -0.297203 -0.288657 -0.280063 -0.271422
+-0.262731 -0.253991 -0.245199 -0.236354 -0.227456 -0.218501 -0.209488
+-0.200415 -0.191279 -0.182078 -0.172809 -0.163467 -0.15405 -0.144554
+-0.134974 -0.125306 -0.115544 -0.105683 -0.0957171 -0.0856389 -0.0754425
+-0.0651194 -0.0546614 -0.0440593 -0.0333033 -0.0223827 -0.0112858 1.14909e-07
+;
+#X coords 0 1 399 -1 300 100 1 0 0;
+#X restore 100 100 graph;
+#X obj 466 65 r \$0-Freq;
+#X obj 559 65 r \$0-Q;
+#N canvas 67 204 551 409 init 0;
+#X obj 73 28 loadbang;
+#X msg 214 250 400;
+#X text 244 250 array size;
+#X obj 73 64 trigger b b b;
+#X obj 236 155 v midi_range_\$0;
+#X obj 236 129 ftom;
+#X msg 236 103 8750.55;
+#X obj 228 186 expr atan(1) * 4;
+#X obj 228 217 v pi_\$0;
+#N canvas 760 51 399 549 get-freq 0;
+#X msg 193 198 resize \$1;
+#X obj 88 66 change;
+#X obj 212 137 v table_size_\$0;
+#X obj 88 99 trigger bang float;
+#X obj 193 172 change 400;
+#X obj 88 29 inlet;
+#N canvas 192 80 935 668 loop 0;
+#X obj 106 192 until;
+#X obj 144 241 + 1;
+#X msg 124 216 0;
+#X obj 106 95 t f f;
+#X obj 483 216 until;
+#X obj 529 265 + 1;
+#X msg 501 241 0;
+#X obj 106 270 t f f;
+#X obj 211 355 +;
+#X obj 106 370 mtof;
+#X obj 106 144 t f b f;
+#X obj 483 191 t f b f;
+#X obj 483 326 /;
+#X obj 106 31 inlet;
+#X obj 106 574 outlet;
+#X obj 259 583 outlet;
+#X obj 483 144 expr table_size_\$0 - $f1;
+#X obj 483 265 f;
+#X obj 483 379 expr pow($f1 \, 0.4);
+#X obj 106 241 f;
+#X obj 483 296 trigger f f;
+#X obj 106 63 expr rint(table_size_\$0 * 0.98);
+#X obj 483 407 * 20.6017;
+#X text 556 407 MIDI 16;
+#X obj 106 298 expr (($f1 + 1) * (midi_range_\$0 / $f2)) + 16;
+#X obj 106 465 expr $f1 * (2 * pi_\$0) / 44100;
+#X obj 483 498 expr $f1 * (2 * pi_\$0) / 44100;
+#X connect 0 0 19 0;
+#X connect 1 0 19 1;
+#X connect 2 0 19 1;
+#X connect 3 0 10 0;
+#X connect 3 1 16 0;
+#X connect 4 0 17 0;
+#X connect 5 0 17 1;
+#X connect 6 0 17 1;
+#X connect 7 0 24 0;
+#X connect 7 1 8 0;
+#X connect 8 0 15 0;
+#X connect 9 0 25 0;
+#X connect 10 0 0 0;
+#X connect 10 1 2 0;
+#X connect 10 2 24 1;
+#X connect 11 0 4 0;
+#X connect 11 1 6 0;
+#X connect 11 2 12 1;
+#X connect 12 0 18 0;
+#X connect 13 0 21 0;
+#X connect 16 0 8 1;
+#X connect 16 0 11 0;
+#X connect 17 0 5 0;
+#X connect 17 0 20 0;
+#X connect 18 0 22 0;
+#X connect 19 0 1 0;
+#X connect 19 0 7 0;
+#X connect 20 0 12 0;
+#X connect 20 1 15 0;
+#X connect 21 0 3 0;
+#X connect 22 0 26 0;
+#X connect 24 0 9 0;
+#X connect 25 0 14 0;
+#X connect 26 0 14 0;
+#X restore 88 129 pd loop;
+#X obj 193 237 s freq_\$0;
+#X obj 73 280 expr cos($f1) \; sin($f1) \; cos($f1 * 2) \; sin($f1
+* 2) \; $f2;
+#X obj 66 433 tabwrite sinW_\$0;
+#X obj 99 461 tabwrite cos2W_\$0;
+#X obj 35 397 tabwrite cosW_\$0;
+#X obj 131 492 tabwrite sin2W_\$0;
+#X connect 0 0 7 0;
+#X connect 1 0 3 0;
+#X connect 3 0 6 0;
+#X connect 3 1 2 0;
+#X connect 3 1 4 0;
+#X connect 4 0 0 0;
+#X connect 5 0 1 0;
+#X connect 6 0 8 0;
+#X connect 6 1 8 1;
+#X connect 8 0 11 0;
+#X connect 8 1 9 0;
+#X connect 8 2 10 0;
+#X connect 8 3 12 0;
+#X connect 8 4 9 1;
+#X connect 8 4 10 1;
+#X connect 8 4 11 1;
+#X connect 8 4 12 1;
+#X restore 214 278 pd get-freq;
+#X obj 391 195 table sin2W_\$0 400;
+#X obj 391 170 table cos2W_\$0 400;
+#X obj 392 133 table sinW_\$0 400;
+#X obj 392 108 table cosW_\$0 400;
+#X msg 73 283 500;
+#X obj 100 222 / 2;
+#X obj 129 222 v sr_\$0;
+#X obj 73 164 t b b;
+#X obj 100 250 s \$0-nyquist;
+#X obj 73 307 s \$0-Freq_set;
+#X obj 33 337 s \$0-Q_set;
+#X msg 33 286 1;
+#X obj 100 189 f 44100;
 #X connect 0 0 3 0;
-#X connect 2 0 1 0;
-#X connect 2 0 1 1;
-#X connect 3 0 2 1;
-#X connect 4 0 3 1;
+#X connect 1 0 9 0;
+#X connect 3 0 17 0;
+#X connect 3 1 1 0;
+#X connect 3 2 6 0;
+#X connect 3 2 7 0;
 #X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 7 0 8 0;
+#X connect 14 0 19 0;
+#X connect 15 0 18 0;
+#X connect 17 0 14 0;
+#X connect 17 0 21 0;
+#X connect 17 1 22 0;
+#X connect 21 0 20 0;
+#X connect 22 0 15 0;
+#X connect 22 0 16 0;
+#X restore 611 117 pd init \; tables;
+#X obj 526 195 trigger float float;
+#N canvas 284 136 433 419 H(z) 0;
+#X obj 32 34 inlet;
+#X obj 148 36 inlet;
+#X obj 125 253 -;
+#X obj 125 278 expr $f1 / pi_\$0;
+#X obj 125 338 outlet;
+#X obj 32 84 list;
+#X obj 32 119 expr $f4 + ($f5 * cosW_\$0[$f1]) + ($f6 * cos2W_\$0[$f1])
+\; ($f5 * sinW_\$0[$f1]) + ($f6 * sin2W_\$0[$f1]) \; 1 - ($f2 * cosW_\$0[$f1])
+- ($f3 * cos2W_\$0[$f1]) \; 0 - ($f2 * sinW_\$0[$f1]) - ($f3 * sin2W_\$0[$f1])
+;
+#X obj 125 304 cyclone/pong -1 1 @mode wrap;
+#X obj 32 209 cyclone/cartopol;
+#X obj 254 199 cyclone/cartopol;
+#X connect 0 0 5 0;
+#X connect 1 0 5 1;
+#X connect 2 0 3 0;
+#X connect 3 0 7 0;
+#X connect 5 0 6 0;
+#X connect 6 0 8 0;
+#X connect 6 1 8 1;
+#X connect 6 2 9 0;
+#X connect 6 3 9 1;
+#X connect 7 0 4 0;
+#X connect 8 1 2 0;
+#X connect 9 1 2 1;
+#X restore 526 222 pd H(z);
+#X obj 466 137 trigger bang list;
+#X obj 427 166 cyclone/uzi 400 0;
+#X obj 526 254 tabwrite \$0-phase_shift;
+#N canvas 412 120 398 419 allpass_coeff 0;
+#X obj 78 319 pack f f f f 1;
+#X obj 173 319 v b0;
+#X obj 211 317 v alphaQ;
+#X obj 78 209 expr 2*cos(w) / b0 \; (alphaQ - 1) / b0 \; (1 - alphaQ)
+/ b0 \; -2*cos(w) / b0 \; 1 \; alphaQ + 1 \; sin(w) / (2*Q);
+#X text 201 193 APF \; - b1 = 2*cos(w) / b0 \; - b2 = (alphaQ - 1)
+/ b0 \; - a0 = (1 - alphaQ) / b0 \; - a1 = -2*cos(w) / b0 \; - a2 =
+1 \; - b0 = 1 + alphaQ \; - alphaQ = sin(w) / (2*Q);
+#X obj 78 350 outlet;
+#X obj 51 55 inlet;
+#X obj 113 57 inlet;
+#X obj 113 155 t b f;
+#X obj 140 179 v Q;
+#X obj 78 155 v w;
+#X obj 51 131 t b f;
+#N canvas 307 33 259 246 w 0;
+#X obj 47 18 inlet;
+#X obj 47 155 outlet;
+#X obj 86 61 r \$0-nyquist;
+#X obj 47 86 clip 20;
+#X obj 47 127 expr $f1 * 2*pi_\$0/sr_\$0;
+#X connect 0 0 3 0;
+#X connect 2 0 3 2;
+#X connect 3 0 4 0;
+#X connect 4 0 1 0;
+#X restore 51 95 pd w;
+#X obj 113 122 max 0;
+#X connect 0 0 5 0;
+#X connect 3 0 0 0;
+#X connect 3 1 0 1;
+#X connect 3 2 0 2;
+#X connect 3 3 0 3;
+#X connect 3 4 0 4;
+#X connect 3 5 1 0;
+#X connect 3 6 2 0;
+#X connect 6 0 12 0;
+#X connect 7 0 13 0;
+#X connect 8 0 3 0;
+#X connect 8 1 9 0;
+#X connect 11 0 3 0;
+#X connect 11 1 10 0;
+#X connect 12 0 11 0;
+#X connect 13 0 8 0;
+#X restore 466 95 pd allpass_coeff;
+#X connect 2 0 10 0;
+#X connect 3 0 10 1;
+#X connect 5 0 6 0;
+#X connect 5 1 9 1;
+#X connect 6 0 9 0;
+#X connect 7 0 8 0;
+#X connect 7 1 6 1;
+#X connect 8 2 5 0;
+#X connect 10 0 7 0;
+#X coords 0 -1 1 1 300 100 2 100 100;
+#X restore 194 322 pd phase_response;
+#X text 500 316 180ª;
+#X text 501 413 -180ª;
+#X text 500 366 0ª/360ª;
+#X text 216 463 - signal whose phase will be shifted;
+#X text 216 482 - clears filter's memory;
+#X obj 391 297 comment 0 16 times ? 0 0 0 0 phase response;
+#X obj 76 275 cyclone/phaseshift~ 500 1;
+#X text 178 681 no arguments fucks audio... (default?);
+#X text 181 227 frequency;
+#X text 303 250 Q;
+#X text 324 426 500;
+#X text 254 426 100;
+#X text 192 426 0;
+#X text 385 426 2k;
+#X text 475 426 22k;
+#X text 124 425 frequency:;
+#X text 178 337 p;
+#X text 178 350 h;
+#X text 178 363 a;
+#X text 178 376 s;
+#X text 178 387 e;
+#X text 216 504 - sets filter's frequency point to be shifted to 180º
+;
+#X text 216 596 - sets filter's frequency (default 0);
+#X text 216 562 - the phase shifted signal;
+#X text 83 180 In this example \, we add the phase shifted signal to
+the original \, which cancels frequencies by phase opposition.;
+#X text 83 82 [phaseshift~] is a 2nd allpass filter. It doesn't change
+the gain but alters the phase from 0 (at 0 hz) to 360º (at the Nyquist
+frequency).;
+#X text 83 124 The frequency point at which it shifts to 180º is specified
+as the filter's frequency. The steepness of the phase response curve
+is determined by the Q parameter (see graph below \, which considers
+a 44.1khz sample rate).;
+#X connect 27 0 41 2;
+#X connect 29 0 28 0;
+#X connect 29 0 28 1;
+#X connect 30 0 29 0;
+#X connect 30 0 41 0;
+#X connect 31 0 32 0;
+#X connect 32 0 41 1;
+#X connect 33 0 27 0;
+#X connect 41 0 29 1;

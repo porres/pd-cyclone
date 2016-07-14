@@ -1,54 +1,22 @@
-#N canvas 185 108 562 741 10;
-#X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone/cyclone;
-#X obj 7 40 cnv 15 552 50 empty empty !/~ 3 12 0 18 -204280 -1 0;
+#N canvas 602 75 560 500 10;
 #X obj 7 365 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 411 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 85 377 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 115 377 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 314 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 115 314 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 7 301 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 85 336 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 115 336 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 314 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 115 314 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 94 421 1) float -;
-#X floatatom 324 174 5 0 0 0 - - -, f 5;
-#X floatatom 278 173 5 0 0 0 - - -, f 5;
-#X floatatom 111 183 5 0 0 0 - - -, f 5;
-#X floatatom 204 180 5 0 0 0 - - -, f 5;
-#X text 199 376 - The division of the two numbers.;
-#X obj 530 68 !/~;
-#X text 61 115 [rdiv~] or [!/~] divides a number by the incoming value.
-Functions like the [/~] object \, but the inlets' functions are reversed.
-;
-#X text 151 313 signal;
-#X obj 519 46 rdiv~;
-#X obj 291 232 cyclone/snapshot~ 1;
-#X floatatom 291 264 5 0 0 0 - - -, f 5;
-#X obj 111 239 cyclone/snapshot~ 1;
-#X floatatom 111 271 5 0 0 0 - - -, f 5;
-#X obj 111 210 cyclone/rdiv~ 10;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 6 4 pd;
+#X text 121 421 1) float -;
+#X text 181 313 signal;
+#X obj 300 230 cyclone/snapshot~ 1;
+#X obj 82 237 cyclone/snapshot~ 1;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -154,14 +122,32 @@ Functions like the [/~] object \, but the inlets' functions are reversed.
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 507 103 pd;
-#X text 201 313 - Signal to be divided by right inlet's value or argument.
-;
-#X text 114 338 float/signal;
-#X text 201 338 - Values to divided by left inlet's values.;
-#X text 147 376 signal;
-#X obj 291 202 !/~;
-#X obj 5 687 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X restore 500 86 pd;
+#X text 144 338 float/signal;
+#X text 180 376 signal;
+#X obj 82 185 sig~ 5;
+#X obj 82 208 cyclone/rdiv~ 10;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 15 4 comment 0 37 times ? 0 0 0 0 !/~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Reversed inlets division
+for signals;
+#X text 61 94 [rdiv~] or [!/~] divides a number by the incoming value
+on the left inlet. Functions like the [/~] object \, but the inlets'
+functions are reversed.;
+#X obj 264 171 sig~ 10;
+#X obj 5 453 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -180,36 +166,36 @@ Functions like the [/~] object \, but the inlets' functions are reversed.
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 689 pd META;
+#X restore 508 455 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 196 689 pd Related_objects;
-#X text 121 656 more about the cyclone sub-library;
-#X obj 5 524 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
--228856 -1 0;
-#X obj 290 619 declare -stdlib cyclone/cyclone;
-#X obj 341 655 cyclone-help;
-#X text 168 420 sets an initial value for the divisor (default 0).
+#X restore 196 455 pd Related_objects;
+#X text 231 313 - the divisor;
+#X text 231 338 - the dividend;
+#X text 231 376 - the division of the two numbers;
+#X text 195 421 sets an initial value for the dividend (default 0)
 ;
-#X obj 7 450 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 135 460 A float on the right inlet overwrites the argument.
-If a signal is connected to the right inlet \, argument is ignored.
-If signal is disconnected \, argument's value is restored.;
-#X text 504 69 or;
-#X text 19 66 signal reversed inlets division;
-#X obj 62 52 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
-#X obj 93 52 cnv 5 5 5 empty empty rdiv~ 0 0 0 18 -204280 -1 0;
-#X text 117 555 [rdiv~] is a single binary in cyclone \, but [!/~]
-is only created if you load the sub-library "cyclone" in the startup
-as informed in "How to Install". You can also load the cyclone library
-with [declare] like this:;
-#X connect 9 0 29 1;
-#X connect 10 0 29 0;
-#X connect 11 0 22 0;
-#X connect 12 0 22 1;
-#X connect 18 0 19 0;
-#X connect 20 0 21 0;
-#X connect 22 0 20 0;
-#X connect 29 0 18 0;
+#X obj 82 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 175 161 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 339 150 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 18 256;
+#X obj 264 150 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 37 256;
+#X obj 82 266 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 2 256;
+#X obj 300 258 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.486486 256;
+#X obj 300 200 !/~ 100;
+#X connect 9 0 38 0;
+#X connect 10 0 37 0;
+#X connect 14 0 15 0;
+#X connect 15 0 10 0;
+#X connect 25 0 39 0;
+#X connect 33 0 14 0;
+#X connect 34 0 15 1;
+#X connect 35 0 39 1;
+#X connect 36 0 25 0;
+#X connect 39 0 9 0;

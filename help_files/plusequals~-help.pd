@@ -1,58 +1,35 @@
-#N canvas 183 23 570 851 10;
-#X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone/cyclone;
-#X obj 7 40 cnv 15 552 50 empty empty +=~ 3 12 0 18 -204280 -1 0;
-#X obj 8 512 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#N canvas 680 23 560 634 10;
+#X obj 8 510 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 8 559 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 8 557 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 86 524 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 522 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 413 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 411 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 8 403 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 8 401 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 86 413 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 411 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 64 342 cyclone/snapshot~ 1;
-#X obj 531 68 +=~;
-#X obj 483 46 plusequals~;
-#X obj 355 346 cyclone/snapshot~ 1;
-#X floatatom 355 374 5 0 0 0 - - -, f 5;
-#X text 134 414 signal;
-#X text 146 442 bang;
-#X msg 301 287 set 10;
-#X floatatom 64 372 0 0 0 0 - - -;
-#X text 135 523 signal;
-#X text 120 569 1) float;
-#X obj 355 260 metro 1000;
-#X obj 355 287 cyclone/click~;
-#X obj 355 234 tgl 15 0 empty empty empty 17 7 0 10 -261682 -1 -1 0
+#X obj 64 336 cyclone/snapshot~ 1;
+#X obj 355 341 cyclone/snapshot~ 1;
+#X text 134 412 signal;
+#X text 146 440 bang;
+#X msg 301 284 set 10;
+#X text 135 521 signal;
+#X text 120 567 1) float;
+#X obj 355 261 metro 1000;
+#X obj 355 286 cyclone/click~;
+#X obj 355 238 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X text 72 105 [plusequals~] or [+=~] accumulates all the values it
+#X text 72 94 [plusequals~] or [+=~] accumulates all the values it
 receives \, it stores the last output value to add it to the next input
 value. The result can grow very large \, very fast.;
-#X text 72 155 Each sample of the input is added to all previous samples
+#X text 72 144 Each sample of the input is added to all previous samples
 to produce a running sum. For instance \, assuming the sum started
 at 0 \, an input signal consisting of 1 \, 1 \, 1 \, 1 would produce
 1 \, 2 \, 3 \, 4 as an output signal.;
-#X obj 64 307 cyclone/plusequals~;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 6 5 pd;
+#X obj 64 301 cyclone/plusequals~;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -158,32 +135,21 @@ at 0 \, an input signal consisting of 1 \, 1 \, 1 \, 1 would produce
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 507 104 pd;
-#X obj 355 318 +=~;
-#X text 187 442 - resets initial stored value to 0;
-#X text 188 412 - signal value is accumulated. Accumulated value is
+#X restore 507 93 pd;
+#X obj 355 315 +=~;
+#X text 187 440 - resets initial stored value to 0;
+#X text 188 410 - signal value is accumulated. Accumulated value is
 output only if a signal is connected;
-#X text 190 523 - each sample is the sum of all previous input samples.
-;
-#X text 186 569 - sets the initial stored value for the sum (default
-is 0).;
-#X obj 80 281 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682 -1
+#X obj 80 275 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X text 194 234 reset;
-#X text 19 67 Signal accumulator;
-#X text 505 68 or;
-#X obj 55 53 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
-#X obj 86 53 cnv 5 5 5 empty empty plusequals~ 0 0 0 18 -204280 -1
-0;
-#X obj 175 270 cyclone/click~;
-#X obj 175 235 bng 15 250 50 0 empty empty empty 17 7 0 10 -261682
+#X text 194 228 reset;
+#X obj 175 267 cyclone/click~;
+#X obj 175 229 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 98 280 reset;
-#X text 182 250 sample accurate;
-#X obj 64 256 sig~ 0.0001;
-#X obj 7 599 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X obj 5 814 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 98 274 reset;
+#X text 182 247 sample accurate;
+#X obj 64 250 sig~ 0.0001;
+#X obj 5 592 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -202,39 +168,52 @@ is 0).;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 816 pd META;
+#X restore 508 594 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 196 816 pd Related_objects;
-#X text 121 774 more about the cyclone sub-library;
-#X obj 5 662 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
--228856 -1 0;
-#X obj 342 736 declare -stdlib cyclone/cyclone;
-#X obj 341 773 cyclone-help;
-#X text 135 609 A float on the right inlet overwrites the argument.
-If a signal is connected to the right inlet \, argument is ignored.
-If signal is disconnected \, argument's value is restored.;
-#X obj 85 479 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 196 594 pd Related_objects;
+#X obj 85 477 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 134 479 signal;
-#X text 105 459 set <float>;
-#X text 187 459 - sets the stored value to that number;
-#X text 186 479 - signal different than 0 resets initial stored value
+#X text 134 477 signal;
+#X text 105 457 set <float>;
+#X text 187 457 - sets the stored value to that number;
+#X text 186 477 - signal different than 0 resets initial stored value
 to 0;
-#X text 58 692 [plusequals~] is a single binary in cyclone \, but [+=~]
-is only created if you load the sub-library "cyclone" in the startup
-as informed in "How to Install". You can also load the cyclone library
-with [declare] like this:;
-#X connect 7 0 15 0;
-#X connect 10 0 11 0;
-#X connect 14 0 26 0;
-#X connect 18 0 19 0;
-#X connect 19 0 26 0;
-#X connect 20 0 18 0;
-#X connect 23 0 7 0;
-#X connect 26 0 10 0;
-#X connect 31 0 23 0;
-#X connect 37 0 23 1;
-#X connect 38 0 37 0;
-#X connect 41 0 23 0;
+#X obj 355 214 loadbang;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 13 7 comment 0 37 times ? 0 0 0 0 +=~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal accumulator;
+#X text 190 521 - each sample is the sum of all previous input samples
+;
+#X text 186 567 - sets the initial stored value for the sum (default
+0);
+#X obj 64 366 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 300.481 256;
+#X obj 355 367 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 68 256;
+#X connect 6 0 49 0;
+#X connect 7 0 50 0;
+#X connect 10 0 20 0;
+#X connect 13 0 14 0;
+#X connect 14 0 20 0;
+#X connect 15 0 13 0;
+#X connect 18 0 6 0;
+#X connect 20 0 7 0;
+#X connect 23 0 18 0;
+#X connect 25 0 18 1;
+#X connect 26 0 25 0;
+#X connect 29 0 18 0;
+#X connect 38 0 15 0;

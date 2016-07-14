@@ -1,63 +1,30 @@
-#N canvas 702 33 560 791 10;
+#N canvas 752 85 561 543 10;
 #X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone/cyclone;
-#X obj 5 39 cnv 15 552 50 empty empty ==~ 3 12 0 18 -204280 -1 0;
-#X obj 7 413 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 470 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 7 521 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X obj 85 425 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 89 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 358 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 7 347 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 342 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 85 383 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 89 378 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 114 383 float/signal;
-#X obj 85 358 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 118 378 float/signal;
+#X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 114 424 signal -;
-#X text 102 480 1) float -;
-#X floatatom 341 177 5 0 0 0 - - -, f 5;
-#X floatatom 292 176 5 0 0 0 - - -, f 5;
-#X obj 308 243 cyclone/snapshot~ 1;
-#X floatatom 111 182 5 0 0 0 - - -, f 5;
-#X obj 111 245 cyclone/snapshot~ 1;
-#X obj 308 281 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
+#X obj 294 238 cyclone/snapshot~ 1;
+#X obj 73 242 cyclone/snapshot~ 1;
+#X obj 294 276 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 111 280 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
+#X obj 73 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X text 175 424 If the signal in the left inlet is less than or equal
-to the value in the right inlet 1 is sent out - 0 otherwise.;
-#X obj 506 45 equals~;
-#X obj 529 67 ==~;
-#X text 150 359 signal;
-#X obj 308 206 ==~ 30;
-#X text 59 109 [equals~] or [==~] outputs a 1 signal when the left
-input is equal to the right input or argument and sends a 0 when it
-is not equal to the right inlet or argument.;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 4 5 pd;
+#X text 154 354 signal;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -128,7 +95,7 @@ is not equal to the right inlet or argument.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -161,15 +128,8 @@ is not equal to the right inlet or argument.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 505 104 pd;
-#X text 205 383 - value used for comparison with left inlet;
-#X text 205 359 - value is compared to right inlet's or argument;
-#X obj 111 210 cyclone/equals~;
-#X floatatom 198 182 5 0 0 0 - - -, f 5;
-#X obj 54 51 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
-#X obj 85 51 cnv 5 5 5 empty empty equals~ 0 0 0 18 -204280 -1 0;
-#X text 17 66 Is equal to \, comparison of two signals;
-#X text 503 69 or;
-#X obj 5 747 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 205 354 - value is compared to right inlet's or argument;
+#X obj 5 486 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -188,30 +148,86 @@ is not equal to the right inlet or argument.;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 749 pd META;
+#X restore 507 488 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 196 749 pd Related_objects;
-#X text 121 716 more about the cyclone sub-library;
-#X obj 5 584 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
--228856 -1 0;
-#X obj 290 679 declare -stdlib cyclone/cyclone;
-#X obj 341 715 cyclone-help;
-#X text 135 531 A float on the right inlet overwrites the argument.
-If a signal is connected to the right inlet \, argument is ignored.
-If signal is disconnected \, argument's value is restored.;
-#X text 176 480 A number to be used for comparison with incoming from
-left inlet (default 0).;
-#X text 117 615 [equals~] is a single binary in cyclone \, but [==~]
-is only created if you load the sub-library "cyclone" in the startup
-as informed in "How to Install". You can also load the cyclone library
-with [declare] like this:;
-#X connect 12 0 23 1;
-#X connect 13 0 23 0;
-#X connect 14 0 17 0;
-#X connect 15 0 29 0;
-#X connect 16 0 18 0;
-#X connect 23 0 14 0;
-#X connect 29 0 16 0;
-#X connect 30 0 29 1;
+#X restore 196 488 pd Related_objects;
+#X obj 73 186 sig~ 30;
+#X obj 73 212 cyclone/equals~ 30;
+#X text 205 378 - value used for comparison with left inlet's input
+;
+#N canvas 301 68 478 298 cyclone_sub_library 0;
+#N canvas 782 294 439 360 open_cyclone 0;
+#X msg 129 208 \; pd-cyclone-help.pd vis 1;
+#X obj 102 156 f;
+#X obj 131 156 + 1;
+#X obj 102 103 bng 17 250 50 0 dsvv wwg empty 17 7 0 10 -228856 -1
+-1;
+#X obj 102 182 sel 0;
+#X msg 130 132 0;
+#X text 119 103 Open cyclone-help;
+#X msg 102 258 \; pd-open_cyclone obj 300 150 cyclone-help \; pd-cyclone-help.pd
+vis 1;
+#X connect 1 0 2 0;
+#X connect 1 0 4 0;
+#X connect 2 0 1 1;
+#X connect 3 0 1 0;
+#X connect 4 0 7 0;
+#X connect 4 1 0 0;
+#X connect 5 0 1 1;
+#X coords 0 -1 1 1 127 23 2 100 100;
+#X restore 282 204 pd open_cyclone;
+#X obj 209 99 declare -stdlib cyclone/cyclone;
+#X text 63 206 More about the cyclone sub-library;
+#X text 58 51 [equals~] is a single binary in cyclone \, but [==~]
+is from the "cyclone sub-library" \, loaded via startup or with [declare]
+like this:;
+#X text 66 136 If you need more details in installing cyclone \, check:
+https://github.com/porres/pd-cyclone/wiki/How-To-Install;
+#X restore 383 292 pd cyclone_sub_library;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 ==~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 "Is equal to" comparison
+for signals;
+#X text 59 95 [equals~] or [==~] outputs a signal that is "1" when
+the left input is equal to the right input or argument or "0" when
+it isn't.;
+#X text 176 456 - value for comparison with left inlet's input (default
+0);
+#X text 154 419 signal;
+#X text 114 456 1) float;
+#X text 205 419 - 1 or 0 (depending on the result of the comparison)
+;
+#X obj 73 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 178 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 274 159 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 14 256;
+#X obj 338 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 294 183 sig~;
+#X obj 294 211 ==~ 5;
+#X connect 8 0 10 0;
+#X connect 9 0 11 0;
+#X connect 18 0 19 0;
+#X connect 19 0 9 0;
+#X connect 35 0 18 0;
+#X connect 36 0 19 1;
+#X connect 37 0 39 0;
+#X connect 38 0 40 1;
+#X connect 39 0 40 0;
+#X connect 40 0 8 0;

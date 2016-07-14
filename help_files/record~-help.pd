@@ -1,5 +1,5 @@
-#N canvas 424 23 566 791 10;
-#X obj 7 740 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 670 44 562 809 10;
+#X obj 7 760 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 7 341 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -21,134 +21,93 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 742 pd META;
-#X obj 7 584 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 509 762 pd META;
+#X obj 7 608 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 660 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 680 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 299 459 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 14 30 tabwrite~;
-#X restore 200 742 pd Related_objects;
-#X obj 80 349 cnv 17 3 175 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 200 762 pd Related_objects;
+#X obj 80 379 cnv 17 3 165 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 536 cnv 17 3 17 empty empty n-1 5 9 0 16 -228856 -162280
+#X obj 80 555 cnv 17 3 17 empty empty n+1 5 9 0 16 -228856 -162280
 0;
-#X obj 7 42 cnv 15 552 40 empty empty record~ 3 12 0 18 -204280 -1
+#X text 133 617 signal;
+#X text 132 354 signal;
+#X obj 80 580 cnv 17 3 17 empty empty n+2 5 9 0 16 -228856 -162280
 0;
-#X obj 498 52 record~;
-#X text 118 593 signal;
-#X text 135 348 signal;
-#X text 193 348 - signal to record;
-#X obj 80 561 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+#X text 140 556 float;
+#X obj 88 617 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 140 536 float;
-#X obj 88 593 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 140 561 float;
-#X text 113 684 2) float;
-#X obj 258 186 tgl 25 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
+#X text 140 582 float;
+#X text 113 707 2) float;
+#X obj 266 137 tgl 25 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
-#X floatatom 299 307 5 0 0 0 - - -, f 5;
-#X msg 361 190 loop \$1;
-#X obj 361 167 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+#X floatatom 287 290 0 0 0 0 - - -;
+#X msg 335 165 loop \$1;
+#X obj 335 143 tgl 15 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
-#X floatatom 369 223 5 0 0 0 - - -, f 5;
-#X floatatom 440 223 5 0 0 0 - - -, f 5;
-#X text 22 163 1;
-#X text 15 299 -1;
-#X text 18 65 Record sound into an array;
-#X obj 299 283 cyclone/Snapshot~ 10;
-#X text 141 366 float;
-#X text 147 382 list;
-#X text 193 383 - list can be used to specify loop-start and loop-end
+#X floatatom 357 213 5 0 0 0 - - -, f 5;
+#X floatatom 428 213 5 0 0 0 - - -, f 5;
+#X text 23 181 1;
+#X text 16 294 -1;
+#X text 141 384 float;
+#X text 147 400 list;
+#X text 193 401 - list can be used to specify loop-start and loop-end
 points or timing/synchronization settings for transport.;
-#X text 119 412 messages:;
-#X text 193 412 - set <symbol>: change array for recording values \;
-- <reset>: resets the record-loop points to the default values (record
-through the whole duration of the array) \; - <loop> followed by a
-non-zero number enables loop mode (continue recording at start point
-when reaching the end). <loop 0> disables it (default) \; - <append>
-followed by a non-zero number enables append mode (when recording is
-on \, continues from where was last stopped). <append 0> disables it
-(default).;
-#X text 193 366 - 0 stops recording. Any non-zero number starts recording.
+#X text 193 384 - 0 stops recording. Any non-zero number starts recording.
 ;
-#X text 80 93 [record~] records a signal into an array. You can record
+#X text 51 93 [record~] records a signal into an array. You can record
 up to 4 channels by specifying the optional argument. Recording stops
 when the array is filled.;
-#X text 113 664 1) symbol;
-#X text 190 663 - array name (required);
-#X text 190 681 - number of input channels (1 \, 2 \, or 4). This determines
-the number of inlets [record~] has ("n"). The two rightmost inlets
-(n-1 & n) always set start and end points.;
-#X text 191 539 - startpoint in ms (default 0);
-#X text 193 561 - endpoint in ms (default array size);
-#X obj 299 160 noise~;
-#X text 194 591 - Sync output. During recording \, this outlet outputs
-a signal that goes from 0 when recording at the start point to 1 when
-recording reaches the end point. When not recording \, a zero signal
-is output.;
-#X obj 299 247 cyclone/record~ \$0-array;
-#N canvas 317 156 444 439 multichannel 0;
-#X obj 55 122 adc~;
-#X obj 38 93 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
-;
-#X text 24 71 optional int arg is nr of channels:;
-#X text 172 165 can be 1 \, 2 or 4;
-#X text 24 197 table naming convention is;
-#X text 25 210 0...4-tablename:;
-#X text 23 58 enable multichannel by using an;
+#X text 113 687 1) symbol;
+#X text 190 686 - array name (required);
+#X text 191 555 - startpoint in ms (default 0);
+#X obj 287 170 noise~;
+#N canvas 238 129 434 586 multichannel 0;
+#X obj 155 172 adc~;
+#X obj 135 139 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
+1;
 #X obj 3 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 151 248 hsl 75 60 0 127 0 0 eliminate_outlet eliminate_inlet
-empty -2 -8 0 10 -262144 -262144 -262144 0 1;
-#X obj 53 247 hsl 75 60 0 127 0 0 eliminate_outlet eliminate_inlet
-empty -2 -8 0 10 -262144 -262144 -262144 0 1;
-#N canvas 0 22 450 300 (subpatch) 0;
-#X array 1-smp 22050 float 0;
-#X coords 0 1 22049 -1 80 60 1 0 0;
-#X restore 148 248 graph;
-#N canvas 0 22 450 300 (subpatch) 0;
-#X array 0-smp 22050 float 0;
-#X coords 0 1 22049 -1 80 60 1;
-#X restore 50 247 graph;
-#X text 134 241 1;
-#X text 129 291 -1;
-#X obj 38 166 cyclone/record~ smp 2;
 #X text 6 5 multi channel;
-#X text 35 335 The record object also takes into account any changes
-in the buffer~ object’s sampling rate if the buffer~ object’s length
-is modified for the purpose of establishing loop points.;
-#X connect 0 0 14 0;
-#X connect 0 1 14 1;
-#X connect 1 0 14 0;
-#X restore 452 286 pd multichannel;
-#X obj 38 170 cnv 15 198 138 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 142 328 cnv 15 198 98 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 1 80 450 300 (subpatch) 0;
+#X array 0-smp 22050 float 0;
+#X coords 0 1 22049 -1 200 100 1 0 0;
+#X restore 141 327 graph;
+#X obj 141 448 cnv 15 198 98 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 1 80 450 300 (subpatch) 0;
+#X array 1-smp 22050 float 0;
+#X coords 0 1 22049 -1 200 100 1 0 0;
+#X restore 140 447 graph;
+#X obj 135 212 cyclone/record~ smp 2;
+#X text 27 42 Multichannel recording is possible for stereo and quadraphonic
+settings if you specify a second argument with the number of channels.
+Possible values are: 1 (mono) 2 (stereo) or 4 (quadraphonic) \, the
+number of channels defines the number of inlets - where the first inlets
+are the channel inputs.;
+#X text 24 249 if more than one channel is set \, the name convention
+is the table name preceded by "0-" and "1-" for stereo recording such
+as in this example (or "0-" \, "1-" \, "2-" & "3-" for quadraphonic).
+;
+#X connect 0 0 8 0;
+#X connect 0 1 8 1;
+#X connect 1 0 8 0;
+#X restore 440 276 pd multichannel;
+#X obj 39 188 cnv 15 168 118 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 1 80 450 300 (subpatch) 0;
 #X array \$0-array 44100 float 0;
-#X coords 0 1 44099 -1 200 140 1 0 0;
-#X restore 37 169 graph;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 6 8 pd;
+#X coords 0 1 44099 -1 170 120 1 0 0;
+#X restore 38 187 graph;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -219,7 +178,7 @@ is modified for the purpose of establishing loop points.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -252,11 +211,64 @@ is modified for the purpose of establishing loop points.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 93 pd;
-#X connect 18 0 42 0;
-#X connect 20 0 42 0;
-#X connect 21 0 20 0;
-#X connect 22 0 42 1;
-#X connect 23 0 42 2;
-#X connect 27 0 19 0;
-#X connect 40 0 42 0;
-#X connect 42 0 27 0;
+#X obj 80 352 cnv 17 3 17 empty empty 0-n 5 9 0 16 -228856 -162280
+0;
+#X text 190 354 - signal to record in the input channels (1 \, 2 or
+4 inlets);
+#X text 98 429 set <symbol>;
+#X text 140 441 reset;
+#X text 145 468 loop;
+#X text 133 509 append;
+#X text 193 582 - endpoint in ms (default array's size);
+#X text 190 704 - number of input channels (1 \, 2 \, or 4). This determines
+the number of inlets [record~] has ("n"). The two rightmost inlets
+always set start and end points.;
+#X text 389 212 start;
+#X text 463 212 end;
+#X obj 287 264 cyclone/Snapshot~ 1;
+#X obj 290 313 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 391 144 tgl 15 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
+1;
+#X msg 391 167 append \$1;
+#X obj 287 237 cyclone/record~ \$0-array;
+#X msg 232 185 reset;
+#X text 193 430 - change array for recording values \; - resets the
+record-loop points to the default values (0 to whole array) and restarts
+recording if recording is on \; - followed by a non-zero number enables
+loop mode (continue recording at start point when reaching the end).
+<loop 0> disables it (default) \; - followed by a non-zero number enables
+append mode (when recording is on \, continues from where was last
+stopped). <append 0> disables it (default).;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 record~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Record signsal into an array
+;
+#X text 194 615 - sync output. During recording \, this outlet outputs
+a signal that goes from 0 when recording at the start point to 1 when
+recording reaches the end point. When not recording \, a zero signal
+is output.;
+#X connect 15 0 50 0;
+#X connect 16 0 47 0;
+#X connect 17 0 50 0;
+#X connect 18 0 17 0;
+#X connect 19 0 50 1;
+#X connect 20 0 50 2;
+#X connect 31 0 50 0;
+#X connect 46 0 16 0;
+#X connect 48 0 49 0;
+#X connect 49 0 50 0;
+#X connect 50 0 46 0;
+#X connect 51 0 50 0;

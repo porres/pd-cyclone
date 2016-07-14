@@ -1,15 +1,7 @@
-#N canvas 782 23 559 811 10;
-#X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone/cyclone;
-#X obj 4 40 cnv 15 552 50 empty empty >~ 3 12 0 18 -204280 -1 0;
-#X obj 473 46 greaterthan~;
-#X obj 528 68 >~;
-#X obj 327 212 >~;
-#X obj 4 764 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 212 23 560 548 10;
+#X obj 4 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 416 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
-;
-#X obj 82 428 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
@@ -28,58 +20,29 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 765 pd META;
+#X restore 507 507 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 195 766 pd Related_objects;
-#X obj 82 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 195 508 pd Related_objects;
+#X obj 92 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 4 354 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 82 388 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 92 388 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 125 389 float/signal;
-#X obj 82 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 92 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 111 427 signal -;
-#X floatatom 357 179 5 0 0 0 - - -, f 5;
-#X floatatom 311 182 5 0 0 0 - - -, f 5;
-#X obj 327 249 cyclone/snapshot~ 1;
-#X floatatom 123 189 5 0 0 0 - - -, f 5;
-#X obj 123 251 cyclone/snapshot~ 1;
-#X obj 327 287 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
-1;
-#X obj 123 289 tgl 40 0 empty empty empty 17 7 0 10 -261234 -1 -1 0
-1;
-#X text 178 427 If the signal in the left inlet is greater than the
-value in the right inlet \, 1 is sent out - otherwise \, 0 is sent
-out.;
-#X text 63 110 [greaterthan~] or [>~] outputs a 1 signal when the left
+#X obj 315 249 cyclone/snapshot~ 1;
+#X obj 80 260 cyclone/snapshot~ 1;
+#X text 63 97 [greaterthan~] or [>~] outputs a 1 signal when the left
 input is greater-than the right input or argument and a 0 when it is
 less-than or equal-to the right input or argument.;
 #X text 162 365 signal;
-#X floatatom 240 191 5 0 0 0 - - -, f 5;
-#X obj 123 216 cyclone/greaterthan~;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 5 pd;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -150,7 +113,7 @@ less-than or equal-to the right input or argument.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -185,35 +148,55 @@ less-than or equal-to the right input or argument.;
 #X restore 503 104 pd;
 #X text 216 388 - value for comparison with left inlet;
 #X text 216 364 - value is compared to right inlet's or argument;
-#X obj 45 53 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
-#X obj 76 51 cnv 5 5 5 empty empty greaterthan~ 0 0 0 18 -204280 -1
+#X obj 7 459 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 127 718 more about the cyclone sub-library;
-#X obj 11 586 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
--228856 -1 0;
-#X obj 296 681 declare -stdlib cyclone/cyclone;
-#X obj 347 717 cyclone-help;
-#X obj 7 467 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 80 228 cyclone/greaterthan~ 10;
+#X obj 80 201 sig~ 10;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 7 518 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X text 102 477 1) float -;
-#X text 135 528 A float on the right inlet overwrites the argument.
-If a signal is connected to the right inlet \, argument is ignored.
-If signal is disconnected \, argument's value is restored.;
-#X text 176 477 A number to be used for comparison with incoming from
-left inlet (default 0).;
-#X text 123 617 [greaterthan~] is a single binary in cyclone \, but
-[>~] is only created if you load the sub-library "cyclone" in the startup
-as informed in "How to Install". You can also load the cyclone library
-with [declare] like this:;
-#X text 503 68 or;
-#X text 16 63 Is greater than \, comparison of two signals;
-#X connect 3 0 17 0;
-#X connect 15 0 3 1;
-#X connect 16 0 3 0;
-#X connect 17 0 20 0;
-#X connect 18 0 26 0;
-#X connect 19 0 21 0;
-#X connect 25 0 26 1;
-#X connect 26 0 19 0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 >~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 "Is greater than" comparison
+for signals;
+#X obj 315 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 80 287 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X text 176 469 - value for comparison with left inlet's input (default
+0);
+#X text 110 469 1) float;
+#X obj 92 429 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 161 428 signal;
+#X text 212 428 - 1 or 0 (depending on the result of the comparison)
+;
+#X obj 315 222 >~ 30;
+#X obj 80 172 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 215 172 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 369 170 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 305 169 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 315 196 sig~;
+#X connect 9 0 27 0;
+#X connect 10 0 28 0;
+#X connect 17 0 10 0;
+#X connect 18 0 17 0;
+#X connect 34 0 9 0;
+#X connect 35 0 18 0;
+#X connect 36 0 17 1;
+#X connect 37 0 34 1;
+#X connect 38 0 39 0;
+#X connect 39 0 34 0;

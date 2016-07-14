@@ -1,7 +1,7 @@
-#N canvas 775 23 563 794 10;
-#X obj 5 743 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 653 23 563 794 10;
+#X obj 5 688 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 424 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 395 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 615 372 354 242 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -21,91 +21,57 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 745 pd META;
-#X obj 5 594 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 508 690 pd META;
+#X obj 5 557 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 631 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 594 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 5 689 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 5 652 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 302 510 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 204 745 pd Related_objects;
-#X obj 78 434 cnv 17 3 120 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 204 690 pd Related_objects;
+#X obj 69 405 cnv 17 3 125 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 78 603 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 78 566 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 5 42 cnv 15 552 40 empty empty Snapshot~ 3 12 0 18 -204280 -1
-0;
-#X obj 487 50 Snapshot~;
-#X text 133 432 signal;
-#X text 193 431 - signal to sample;
-#X text 145 447 bang;
-#X text 139 465 float;
-#X text 150 603 float;
-#X text 133 642 1) float;
-#X text 206 642 - self clocking interval (default 0);
-#X text 133 662 2) float;
-#X text 206 662 - sample offset within a vector (default 0);
-#X floatatom 251 250 0 0 0 0 - - -;
-#X msg 251 271 offset \$1;
-#X obj 191 198 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 163 403 signal;
+#X text 175 419 bang;
+#X text 168 566 float;
+#X text 133 605 1) float;
+#X text 206 605 - self clocking interval (default 0);
+#X text 133 625 2) float;
+#X text 206 625 - sample offset within a vector (default 0);
+#X floatatom 255 234 0 0 0 0 - - -;
+#X msg 255 255 offset \$1;
+#X obj 191 181 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X msg 239 221 stop;
-#X msg 234 192 start;
-#X obj 78 566 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X msg 245 208 stop;
+#X msg 235 185 start;
+#X obj 69 534 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 137 566 float;
-#X text 193 566 - interval for self-clocking;
-#X obj 223 163 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X text 168 535 float;
+#X text 215 535 - interval for self-clocking;
+#X obj 223 160 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 148 250 noise~;
-#X text 17 66 Convert signal values to numbers;
-#X text 85 101 Use the [snapshot~] object to convert a signal value
-into a float message when a bang is received or according to a specified
-interval.;
-#X floatatom 275 317 0 0 1000 0 - - -;
-#X text 193 448 - output a value from most recent signal block;
-#X text 193 463 - Any non-zero value turns on interval-based reporting
-\, 0 turns it off.;
-#X text 76 200 converts to float;
-#X text 283 247 sample offset in block;
-#X text 248 163 on/off (interval-based reporting);
-#X text 277 192 start interval-based reporting;
-#X text 274 220 stop interval-based reporting;
-#X text 268 297 set time for interval interval-based reporting;
-#X text 410 317 in msec (0 stops it);
-#X text 114 494 messages:;
-#X obj 223 379 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
--228856 -1 -1 0 256;
-#X msg 337 317 100;
-#X msg 368 317 1000;
-#X msg 305 318 0;
-#X text 206 603 - converted values from input;
-#X text 193 493 - offset <int>: change offset within block range is
-from 0 (least recent \, default) to block size - 1 (most recent) \;
-- start: starts interval-based reporting \; - stop: stops interval-based
-reporting \; - sampleinterval: Set interval in samples;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 4 8 pd;
+#X obj 148 233 noise~;
+#X floatatom 275 300 0 0 1000 0 - - -;
+#X text 76 183 converts to float;
+#X text 280 234 sample offset in block;
+#X text 248 160 on/off (interval-based reporting);
+#X text 278 185 start interval-based reporting;
+#X text 280 207 stop interval-based reporting;
+#X text 268 280 set time for interval interval-based reporting;
+#X text 410 300 in msec (0 stops it);
+#X obj 223 362 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
+-228856 -1 -1 0.945695 256;
+#X msg 337 300 100;
+#X msg 368 300 1000;
+#X msg 305 301 0;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -176,7 +142,7 @@ reporting \; - sampleinterval: Set interval in samples;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -209,8 +175,7 @@ reporting \; - sampleinterval: Set interval in samples;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 502 94 pd;
-#X text 135 702 object's internal clock runs only when DSP is on;
-#X obj 223 345 cyclone/Snapshot~ 1000;
+#X text 137 663 object's internal clock runs only when DSP is on;
 #N canvas 77 23 456 535 Conflicts 0;
 #X text 117 317 or even:;
 #X text 50 104 Cyclone avoids name clashing and overwritting an internal
@@ -231,17 +196,53 @@ it as:;
 #X obj 103 440 snapshot~;
 #X text 50 64 Pd also has a vanilla object named [line~]. Though very
 similar \, they're not compatible.;
-#X restore 25 346 pd Conflicts with internal \; Backwards Compatibility
+#X restore 25 329 pd Conflicts with internal \; Backwards Compatibility
 ;
-#X connect 20 0 21 0;
-#X connect 21 0 52 0;
-#X connect 22 0 52 0;
-#X connect 23 0 52 0;
-#X connect 24 0 52 0;
-#X connect 28 0 52 0;
-#X connect 29 0 52 0;
-#X connect 32 0 52 1;
-#X connect 44 0 52 1;
-#X connect 45 0 52 1;
-#X connect 46 0 52 1;
-#X connect 52 0 43 0;
+#X obj 223 328 cyclone/snapshot~ 1000;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 snapshot~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Convert signal to float;
+#X text 127 486 offset <int>;
+#X text 215 450 - starts interval-based reporting;
+#X text 175 468 stop;
+#X text 79 513 sampleinterval <int>;
+#X text 215 402 - signal to convert to float;
+#X text 215 420 - outputs a value from the most recent signal block
+;
+#X text 169 452 start;
+#X text 63 94 Use [cyclone/snapshot~] to convert a signal sample to
+a float message when a bang is received or according to a specified
+interval.;
+#X text 215 433 - turns interval-based reports on (non-0) or off (0)
+;
+#X text 169 435 float;
+#X text 215 485 - sets sample offset within block from 0 (least recent
+\, default) to block size - 1 (most recent);
+#X text 215 468 - stops interval-based reporting;
+#X text 215 514 - sets interval in samples;
+#X text 215 566 - converted sample from input;
+#X msg 183 726 sampleinterval 100;
+#X connect 16 0 17 0;
+#X connect 17 0 41 0;
+#X connect 18 0 41 0;
+#X connect 19 0 41 0;
+#X connect 20 0 41 0;
+#X connect 24 0 41 0;
+#X connect 25 0 41 0;
+#X connect 26 0 41 1;
+#X connect 35 0 41 1;
+#X connect 36 0 41 1;
+#X connect 37 0 41 1;
+#X connect 41 0 34 0;

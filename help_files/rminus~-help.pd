@@ -1,18 +1,10 @@
-#N canvas 634 31 561 727 10;
-#X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone/cyclone;
-#X obj 5 40 cnv 15 552 50 empty empty !-~ 3 12 0 18 -204280 -1 0;
-#X obj 57 53 cnv 5 5 5 empty empty or 0 0 0 15 -204280 -1 0;
-#X obj 5 671 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 110 155 564 494 10;
+#X obj 5 443 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 363 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 5 400 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 5 448 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X obj 83 373 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
 #X text 0 102 LIBRARY cyclone;
@@ -30,53 +22,18 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 673 pd META;
+#X restore 508 445 pd META;
 #N canvas 232 526 441 120 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 196 673 pd Related_objects;
+#X restore 196 445 pd Related_objects;
 #X obj 5 291 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X floatatom 134 163 5 0 0 0 - - -, f 5;
-#X floatatom 88 166 5 0 0 0 - - -, f 5;
-#X obj 104 228 cyclone/snapshot~ 1;
-#X floatatom 262 169 5 0 0 0 - - -, f 5;
-#X obj 104 196 !-~;
-#X obj 506 46 rminus~;
-#X obj 529 68 !-~;
-#X floatatom 104 255 5 0 0 0 - - -, f 5;
-#X obj 262 196 cyclone/rminus~ 5;
-#X obj 262 229 cyclone/snapshot~ 1;
-#X floatatom 262 256 5 0 0 0 - - -, f 5;
-#X obj 80 303 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 80 329 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X obj 80 303 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 146 302 signal;
-#X text 109 331 float/signal;
-#X text 146 372 signal;
-#X text 100 412 1) float -;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 5 5 pd;
+#X obj 240 223 cyclone/snapshot~ 1;
+#X obj 43 229 cyclone/snapshot~ 1;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -147,7 +104,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -180,36 +137,68 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 506 104 pd;
-#X text 198 372 - The subtraction of the two numbers.;
-#X text 121 640 more about the cyclone sub-library;
-#X text 505 69 or;
-#X text 135 456 A float on the right inlet overwrites the argument.
-If a signal is connected to the right inlet \, argument is ignored.
-If signal is disconnected \, argument's value is restored.;
-#X obj 5 508 cnv 3 550 3 empty empty cyclone_sub-library 8 12 0 13
--228856 -1 0;
-#X obj 290 603 declare -stdlib cyclone/cyclone;
-#X obj 88 52 cnv 5 5 5 empty empty rminus~ 0 0 0 18 -204280 -1 0;
-#X text 9 67 Signal reversed inlets subtraction;
-#X text 68 101 [!-~] or [rminus~] subtracts a number by the incoming
-value. Functions like the [-~] object \, but the inlets' functions
-are reversed.;
-#X text 174 411 value by which to subtract the signal from left inlet
-(default 0).;
-#X obj 404 213 expr~ 5 - $v1;
-#X text 412 192 same as:;
-#X text 196 331 - values to subtract by left inlet's values.;
-#X text 196 302 - values subtracted from right inlet's value or argument.
+#X obj 381 177 expr~ 5 - $v1;
+#X text 389 156 same as:;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 15 4 comment 0 37 times ? 0 0 0 0 !-~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Reversed inlets subtraction
+for signals;
+#X text 68 91 [rminus~] or [!-~] is like the [-~] object \, but the
+inlets' functions are reversed.;
+#X text 116 412 1) float -;
+#X text 177 375 float;
+#X text 225 375 - the difference of the two numbers;
+#X text 225 304 - the subtrahend (hot inlet);
+#X text 190 412 sets an initial value to subtract from (default 0)
 ;
-#X obj 341 639 cyclone-help;
-#X text 117 539 [rminus~] is a single binary in cyclone \, but [!-~]
-is only created if you load the sub-library "cyclone" in the startup
-as informed in "How to Install". You can also load the cyclone library
-with [declare] like this:;
-#X connect 10 0 14 1;
-#X connect 11 0 14 0;
-#X connect 12 0 17 0;
-#X connect 13 0 18 0;
-#X connect 14 0 12 0;
-#X connect 18 0 19 0;
-#X connect 19 0 20 0;
+#X text 225 327 - the minuend (cold inlet);
+#X obj 100 304 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 100 326 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 100 304 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 171 304 signal;
+#X text 135 327 float/signal;
+#X obj 100 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 100 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 43 169 sig~ 5;
+#X obj 228 161 sig~ 10;
+#X obj 43 144 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 148 144 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 303 140 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 228 140 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 43 196 cyclone/rminus~ 50;
+#X obj 240 191 !-~ 500;
+#X obj 43 258 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 45 256;
+#X obj 240 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 490 256;
+#X connect 6 0 42 0;
+#X connect 7 0 41 0;
+#X connect 33 0 39 0;
+#X connect 34 0 40 0;
+#X connect 35 0 33 0;
+#X connect 36 0 39 1;
+#X connect 37 0 40 1;
+#X connect 38 0 34 0;
+#X connect 39 0 7 0;
+#X connect 40 0 6 0;
