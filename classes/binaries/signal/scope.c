@@ -129,12 +129,16 @@ typedef struct _scope
     unsigned char  x_grgreen; 
     unsigned char  x_grblue;
     int        x_xymode;
-    float     *x_xbuffer;
-    float     *x_ybuffer;
-    float      x_xbufini[SCOPE_MAXBUFSIZE];
-    float      x_ybufini[SCOPE_MAXBUFSIZE];
+    int		   x_xymodelast;
+    float	  *x_xbuffer;
+    float	  *x_ybuffer;
+    float      x_xbuf[SCOPE_MAXBUFSIZE];
+    float      x_ybuf[SCOPE_MAXBUFSIZE];
+    float	   x_xbuflast[SCOPE_MAXBUFSIZE];
+    float	   x_ybuflast[SCOPE_MAXBUFSIZE];
     int        x_allocsize;
     int        x_bufsize;
+    int		   x_lastbufsize;
     int        x_bufphase;
     int        x_period;
     int        x_phase;
@@ -927,7 +931,17 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
 static void scope_revis(t_scope *x, t_canvas *cv)
 {
     sys_vgui(".x%lx.c delete %s\n", cv, x->x_tag);
+    int xymode = x->x_xymode;
+    int bufsize = x->x_bufsize;
+    x->x_xymode = x->x_xymodelast;
+    x->x_bufsize = x->x_lastbufsize;
+    x->x_xbuffer = x->x_xbuflast;
+    x->x_ybuffer = x->x_ybuflast;
 	scope_draw(x, cv);
+	x->x_xymode = xymode;
+	x->x_bufsize = bufsize;
+	x->x_xbuffer = x->x_xbuf;
+	x->x_ybuffer = x->x_ybuf;
 }
 
 static void scope_vis(t_gobj *z, t_glist *glist, int vis)
@@ -942,7 +956,17 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 	rtext_new(glist, t, glist->gl_editor->e_rtext, 0);
 #endif
 	sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)cv, (unsigned long)sh);
+    int xymode = x->x_xymode;
+    int bufsize = x->x_bufsize;
+    x->x_xymode = x->x_xymodelast;
+    x->x_bufsize = x->x_lastbufsize;
+    x->x_xbuffer = x->x_xbuflast;
+    x->x_ybuffer = x->x_ybuflast;
 	scope_draw(x, cv);
+	x->x_xymode = xymode;
+	x->x_bufsize = bufsize;
+	x->x_xbuffer = x->x_xbuf;
+	x->x_ybuffer = x->x_ybuf;
     }
     else
     {
@@ -1024,6 +1048,10 @@ static void scope_tick(t_scope *x)
 		scope_redraw(x, cv);
     }
     scope_clear(x, 1);
+    x->x_xymodelast = x->x_xymode;
+    x->x_lastbufsize = x->x_bufsize;
+    memcpy(x->x_xbuflast, x->x_xbuffer, x->x_bufsize * sizeof(*x->x_xbuffer));
+    memcpy(x->x_ybuflast, x->x_ybuffer, x->x_bufsize * sizeof(*x->x_ybuffer));
 }
 
 static void scope_resize(t_scope *x, t_float w, t_float h)
@@ -1100,12 +1128,6 @@ static void scope_free(t_scope *x)
     if (x->x_clock){
 		clock_free(x->x_clock);
 	};
-    if (x->x_xbuffer != x->x_xbufini){
-		freebytes(x->x_xbuffer, x->x_allocsize * sizeof(*x->x_xbuffer));
-	};
-    if (x->x_ybuffer != x->x_ybufini){
-		freebytes(x->x_ybuffer, x->x_allocsize * sizeof(*x->x_ybuffer));
-	};
     if (x->x_handle)
     {
 		pd_unbind(x->x_handle, ((t_scopehandle *)x->x_handle)->h_bindsym);
@@ -1144,8 +1166,6 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 	*/
 	//x->x_allocsize = 0;
 	x->x_allocsize =  (int) SCOPE_DEFBUFSIZE;
-	x->x_xbuffer = x->x_xbufini;
-	x->x_ybuffer = x->x_ybufini;
     x->x_bufsize = 0;
 
 
@@ -1407,6 +1427,8 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     scope_dim(x, width, height);
 	scope_period(x, period);
     /* CHECKME 6th argument (default 3 for mono, 1 for xy */
+    x->x_xbuffer = x->x_xbuf;
+    x->x_ybuffer = x->x_ybuf;
     scope_bufsize(x, bufsize);
     scope_range(x, minval, maxval);
     scope_delay(x, delay);
