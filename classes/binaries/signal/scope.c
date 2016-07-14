@@ -82,10 +82,29 @@ instead of 0-255
 #define SCOPE_GUICHUNK  128
 //#define SCOPE_GUICHUNKXY    32
 
+union inletunion
+{
+    t_symbol *iu_symto;
+    t_gpointer *iu_pointerslot;
+    t_float *iu_floatslot;
+    t_symbol **iu_symslot;
+    t_float iu_floatsignalvalue;
+};
+
+struct _inlet
+{
+    t_pd i_pd;
+    struct _inlet *i_next;
+    t_object *i_owner;
+    t_pd *i_dest;
+    t_symbol *i_symfrom;
+    union inletunion i_un;
+};
+
 typedef struct _scope
 {
     t_object   x_obj;
-    t_inlet   *scope;
+    t_inlet   *x_rightinlet;
     t_glist   *x_glist;
     t_canvas  *x_canvas;  /* also an 'isvised' flag */
     char       x_tag[64];
@@ -112,8 +131,8 @@ typedef struct _scope
     int        x_xymode;
     float     *x_xbuffer;
     float     *x_ybuffer;
-    float      x_xbufini[SCOPE_DEFBUFSIZE];
-    float      x_ybufini[SCOPE_DEFBUFSIZE];
+    float      x_xbufini[SCOPE_MAXBUFSIZE];
+    float      x_ybufini[SCOPE_MAXBUFSIZE];
     int        x_allocsize;
     int        x_bufsize;
     int        x_bufphase;
@@ -144,6 +163,7 @@ typedef struct _scopehandle
 
 static t_class *scope_class;
 static t_class *scopehandle_class;
+static void scope_bufsize(t_scope *x, t_float bufsz);
 
 static void scope_clear(t_scope *x, int withdelay)
 {
@@ -161,7 +181,9 @@ static t_int *scope_perform(t_int *w)
     if (!xymode)
     	return (w + 5);
     int bufphase = x->x_bufphase;
-    int bufsize = x->x_bufsize;
+    float bufsize = x->x_rightinlet->i_un.iu_floatsignalvalue;
+    if ((int)bufsize != x->x_bufsize)
+    	scope_bufsize(x, bufsize);
     if (bufphase < bufsize)
     {
 	int nblock = (int)(w[2]);
@@ -346,57 +368,17 @@ static void scope_float(t_scope *x, t_float f)
 }
 
 static void scope_bufsize(t_scope *x, t_float bufsz)
-{ 	float bufsize;
+{ 	
 	if(bufsz < SCOPE_MINBUFSIZE){
-		bufsize = SCOPE_MINBUFSIZE;
+		x->x_bufsize = SCOPE_MINBUFSIZE;
 	}
 	else if(bufsz > SCOPE_MAXBUFSIZE){
-		bufsize = SCOPE_MAXBUFSIZE;
+		x->x_bufsize = SCOPE_MAXBUFSIZE;
 	}
 	else{
-		bufsize = bufsz;
-	};
-	int newsize = (int)bufsize;
-	if (newsize > x->x_allocsize)
-	{
-	    int nrequested = newsize;
-	    int allocsize = x->x_allocsize;
-	    int oldsize = x->x_bufsize;
-	    x->x_xbuffer = grow_withdata(&nrequested, &oldsize,
-					 &allocsize, x->x_xbuffer,
-					 SCOPE_DEFBUFSIZE, x->x_xbufini,
-					 sizeof(*x->x_xbuffer));
-	    if (nrequested == newsize)
-	    {
-		allocsize = x->x_allocsize;
-		oldsize = x->x_bufsize;
-		x->x_ybuffer = grow_withdata(&nrequested, &oldsize,
-					     &allocsize, x->x_ybuffer,
-					     SCOPE_DEFBUFSIZE, x->x_ybufini,
-					     sizeof(*x->x_ybuffer));
-	    }
-	    if (nrequested == newsize)
-	    {
-		x->x_allocsize = allocsize;
-		x->x_bufsize = newsize;
-	    }
-	    else
-	    {
-		if (x->x_xbuffer != x->x_xbufini)
-		    freebytes(x->x_xbuffer,
-			      x->x_allocsize * sizeof(*x->x_xbuffer));
-		if (x->x_ybuffer != x->x_ybufini)
-		    freebytes(x->x_ybuffer,
-			      x->x_allocsize * sizeof(*x->x_ybuffer));
-		x->x_allocsize = SCOPE_DEFBUFSIZE;
-		x->x_bufsize = SCOPE_DEFBUFSIZE;
-		x->x_xbuffer = x->x_xbufini;
-		x->x_ybuffer = x->x_ybufini;
-	    }
+		x->x_bufsize = bufsz;
 	}
-	else{
-		x->x_bufsize = newsize;
-	};
+	pd_float((t_pd *)x->x_rightinlet, x->x_bufsize);
 	scope_clear(x, 0);
 }
 
@@ -777,7 +759,7 @@ static void scope_drawfg(t_scope *x, t_canvas *cv,
 		else if (xymode == 2)
     	{
     		yy = oldy;
-			xx = (x2 - 1) + sc * (*ybp++ - x->x_minval);
+			xx = (x2 - 1) - sc * (*ybp++ - x->x_minval);
 			if (xx > x2) xx = x2; else if (xx < x1) xx = x1;
 			oldy += dy;
 		}
@@ -795,31 +777,6 @@ static void scope_drawfg(t_scope *x, t_canvas *cv,
 	     SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);
 }
 
-
-// static void scope_drawfgxy(t_scope *x, t_canvas *cv,
-// 			int x1, int y1, int x2, int y2)
-// {
-// 	int i;
-// 	float xx, yy, xsc, ysc;
-// 	float *xbp, *ybp;
-// 	xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
-// 	ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
-// 	sys_vgui(".x%lx.c create line \\\n", cv);
-// 	for (i = 0, xbp = x->x_xbuffer, ybp = x->x_ybuffer;
-// 		i < x->x_bufsize; i++, xbp++, ybp++)
-// 	{
-// 		xx = x1 + xsc * (*xbp - x->x_minval);
-// 		yy = y2 - ysc * (*ybp - x->x_minval);
-// #ifndef SCOPE_DEBUG
-// 		if (xx > x2) xx = x2; else if (xx < x1) xx = x1;
-// 		if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
-// #endif
-// 		sys_vgui("%d %d \\\n", (int)xx, (int)yy);
-// 	}
-// 	sys_vgui("-fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
-// 		x->x_fgred, x->x_fggreen, x->x_fgblue,
-// 		SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);	
-// }
 
 
 static void scope_drawmargins(t_scope *x, t_canvas *cv,
@@ -882,19 +839,19 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
     char *chunkp = chunk;
     int x1, y1, x2, y2, xymode = x->x_xymode;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-    float dx, dy, xx, yy, oldx, oldy, xsc, ysc;
+    float dx, dy, xx, yy, oldx, oldy, sc, xsc, ysc;
     float *xbp = x->x_xbuffer, *ybp = x->x_ybuffer;
     if (xymode == 1)
     {
     	dx = (float)(x2 - x1) / (float)x->x_bufsize;
     	oldx = x1;
-   		ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
+   		sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
    	}
    	else if (xymode == 2)
    	{
    		dy = (float)(y2 - y1) / (float)x->x_bufsize;
    		oldy = y1;
-   		xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
+   		sc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
    	}
    	else if (xymode == 3)
    	{
@@ -910,14 +867,14 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
     	if (xymode == 1)
     	{
     		xx = oldx;
-			yy = (y2 - 1) - ysc * (*xbp++ - x->x_minval);
+			yy = (y2 - 1) - sc * (*xbp++ - x->x_minval);
 			if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
 			oldx += dx;
 		}
 		else if (xymode == 2)
     	{
     		yy = oldy;
-			xx = (x2 - 1) - xsc * (*ybp++ - x->x_minval);
+			xx = (x2 - 1) - sc * (*ybp++ - x->x_minval);
 			if (xx > x2) xx = x2; else if (xx < x1) xx = x1;
 			oldy += dy;
 		}
@@ -966,62 +923,6 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
     sys_gui(chunk);
 }
 
-
-// static void scope_drawxy(t_scope *x, t_canvas *cv)
-// {
-//     int x1, y1, x2, y2;
-//     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-//     scope_drawbg(x, cv, x1, y1, x2, y2);
-//     scope_drawfgxy(x, cv, x1, y1, x2, y2);
-//     scope_drawmargins(x, cv, x1, y1, x2, y2);
-// }
-// 
-// 
-// static void scope_redrawxy(t_scope *x, t_canvas *cv)
-// {
-// 	int nleft = x->x_bufsize;
-// 	float *xbp = x->x_xbuffer, *ybp = x->x_ybuffer;
-// 	char chunk[32 * SCOPE_GUICHUNK];
-// 	char *chunkp = chunk;
-// 	int x1, y1, x2, y2;
-// 	float xx, yy, xsc, ysc;
-// 	scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-// 	xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
-// 	ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
-// 	sys_vgui(".x%lx.c coords %s \\\n", cv, x->x_fgtag);
-// 	while (nleft > SCOPE_GUICHUNK)
-// 	{
-// 		int i = SCOPE_GUICHUNK;
-// 		while (i--)
-// 		{
-// 			xx = x1 + xsc * (*xbp++ - x->x_minval);
-// 			yy = y2 - ysc * (*ybp++ - x->x_minval);
-// #ifndef SCOPE_DEBUG
-// 			if (xx > x2) xx = x2; else if (xx < x1) xx = x1 ;
-// 	   	 	if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
-// #endif
-// 			sprintf(chunkp, "%d %d ", (int)xx, (int)yy);
-// 			chunkp += strlen(chunkp);
-// 		}
-// 		strcpy(chunkp, "\\\n");
-// 		sys_gui(chunk);
-// 		chunkp = chunk;
-// 		nleft -= SCOPE_GUICHUNK;
-// 	}
-// 	while (nleft--)
-// 	{
-// 		xx = x1 + xsc * (*xbp++ - x->x_minval);
-// 		yy = y2 - ysc * (*ybp++ - x->x_minval);
-// #ifndef SCOPE_DEBUG
-// 		if (xx > x2) xx = x2 ; else if (xx < x1) xx = x1 ;
-// 		if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
-// #endif
-// 		sprintf(chunkp, "%d %d ", (int)xx, (int)yy);
-// 		chunkp += strlen(chunkp);
-// 	}
-// 	strcpy(chunkp, "\n");
-// 	sys_gui(chunk);
-// }
 
 static void scope_revis(t_scope *x, t_canvas *cv)
 {
@@ -1502,6 +1403,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 			goto errstate;
 		};
 	};
+	x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     scope_dim(x, width, height);
 	scope_period(x, period);
     /* CHECKME 6th argument (default 3 for mono, 1 for xy */
@@ -1536,7 +1438,6 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     x->x_xymode = 0;
     x->x_ksr = sys_getsr() * 0.001;  /* redundant */
     x->x_frozen = 0;
-    inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     x->x_clock = clock_new(x, (t_method)scope_tick);
     scope_clear(x, 0);
 
@@ -1610,5 +1511,6 @@ void scope_tilde_setup(void)
 
 void Scope_tilde_setup(void)
 {
+	
     scope_tilde_setup();
 }

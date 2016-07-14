@@ -10,7 +10,7 @@
 
 typedef struct _cross {
     t_object    x_obj;
-    t_inlet    *x_inlet_freq;  // 2nd inlet
+    t_inlet    *x_inlet_freq;  
     t_outlet   *x_out1;
     t_outlet   *x_out2;
     t_float     x_nyq;
