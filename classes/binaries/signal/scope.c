@@ -31,7 +31,12 @@ instead of 0-255
 #include "common/fitter.h"
 #include "unstable/forky.h"
 
-#define SCOPE_DEFWIDTH     130
+#ifdef KRZYSZCZ
+//#define SCOPE_DEBUG
+#endif
+
+/* these are powers of 2 + margins */
+#define SCOPE_DEFWIDTH     130  /* CHECKED */
 #define SCOPE_MINWIDTH      66
 #define SCOPE_DEFHEIGHT    130  /* CHECKED */
 #define SCOPE_MINHEIGHT     34
@@ -40,7 +45,7 @@ instead of 0-255
 #define SCOPE_MAXPERIOD   8192
 #define SCOPE_DEFBUFSIZE   128
 #define SCOPE_MINBUFSIZE     8
-#define SCOPE_MAXBUFSIZE   256
+#define SCOPE_MAXBUFSIZE   256  /* LATER rethink */
 #define SCOPE_WARNBUFSIZE  256
 #define SCOPE_DEFMINVAL     -1.
 #define SCOPE_DEFMAXVAL      1.
@@ -113,6 +118,7 @@ typedef struct _scope
     float      x_ybuf[SCOPE_MAXBUFSIZE];
     float	   x_xbuflast[SCOPE_MAXBUFSIZE];
     float	   x_ybuflast[SCOPE_MAXBUFSIZE];
+    t_float	  *x_signalscalar;
     int        x_allocsize;
     int        x_bufsize;
     int		   x_lastbufsize;
@@ -162,8 +168,7 @@ static t_int *scope_perform(t_int *w)
     if (!xymode)
     	return (w + 5);
     int bufphase = x->x_bufphase;
-    t_float *scalar = obj_findsignalscalar(x, 1);
-    t_float bufsize = *scalar;
+    t_float bufsize = *x->x_signalscalar;
     if ((int)bufsize != x->x_bufsize)
     	scope_bufsize(x, bufsize);
     if (bufphase < bufsize)
@@ -1124,7 +1129,6 @@ static void scope_dim(t_scope *x, t_float _width, t_float _height){
 	x->x_height = (int)_height;
 };
 
-
 static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_scope *x = (t_scope *)pd_new(scope_class);
@@ -1404,16 +1408,17 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     scope_dim(x, width, height);
 	scope_period(x, period);
-    /* CHECKME 6th argument (default 3 for mono, 1 for xy */ // ??????????????????????????????
+    /* CHECKME 6th argument (default 3 for mono, 1 for xy */
     x->x_xbuffer = x->x_xbuf;
     x->x_ybuffer = x->x_ybuf;
     scope_bufsize(x, bufsize);
+    x->x_signalscalar = obj_findsignalscalar(x, 1);
     scope_range(x, minval, maxval);
     scope_delay(x, delay);
-    /* CHECKME 11th argument (default 0.) */ // ????????????????????????
+    /* CHECKME 11th argument (default 0.) */
     scope_trigger(x, trigger);
     scope_triglevel(x, triglevel);
-    /* CHECKME last argument (default 0) */ // ?????????????????????
+    /* CHECKME last argument (default 0) */
 	scope_frgb(x, fgred, fggreen, fgblue);
 	scope_brgb(x, bgred, bggreen, bgblue);
 	scope_grgb(x, grred, grgreen, grblue);
@@ -1492,7 +1497,7 @@ void scope_tilde_setup(void)
                     A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_gridcolor, gensym("gridcolor"),
                     A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_click, gensym("click"), // ??????????????????????????
+    class_addmethod(scope_class, (t_method)scope_click, gensym("click"),
                     A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
      class_addmethod(scope_class, (t_method)scope_resize, gensym("resize"),
                      A_FLOAT, A_FLOAT, 0);
@@ -1507,6 +1512,7 @@ void scope_tilde_setup(void)
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"),
                     A_FLOAT, A_FLOAT, 0);
     fitter_setup(scope_class, 0);
+
 }
 
 void Scope_tilde_setup(void)
