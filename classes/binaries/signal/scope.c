@@ -151,6 +151,7 @@ typedef struct _scopehandle
 static t_class *scope_class;
 static t_class *scopehandle_class;
 static void scope_bufsize(t_scope *x, t_float bufsz);
+EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 static void scope_clear(t_scope *x, int withdelay)
 {
@@ -168,8 +169,10 @@ static t_int *scope_perform(t_int *w)
     if (!xymode)
     	return (w + 5);
     int bufphase = x->x_bufphase;
-    t_float bufsize = *x->x_signalscalar;
-    if ((int)bufsize != x->x_bufsize)
+    
+    int bufsize = (int)*x->x_signalscalar;
+
+    if (bufsize != x->x_bufsize)
     	scope_bufsize(x, bufsize);
     if (bufphase < bufsize)
     {
@@ -1039,11 +1042,12 @@ static void scope_tick(t_scope *x)
 
 static void scope_resize(t_scope *x, t_float w, t_float h)
 {
-    x->x_width  = (int)(w > 0.0f) ? w : x->x_width;
-    x->x_height = (int)(h > 0.0f) ? h : x->x_height;
+    x->x_width  = (int)(w < SCOPE_MINWIDTH ? SCOPE_MINWIDTH : w);
+    x->x_height = (int)(h < SCOPE_MINHEIGHT ? SCOPE_MINHEIGHT : h);
     if (x->x_xymode)
         scope_redraw(x, x->x_canvas);
     scope_revis(x, x->x_canvas);
+    canvas_fixlinesfor(x->x_glist, (t_text *)x);
 }
 
 static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
@@ -1456,7 +1460,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     return (x);
 	
 	errstate:
-		pd_error(x, "scope~: improper args");
+		pd_error(x, "scope~: improper creation arguments");
 		return NULL;
 }
 
