@@ -1,25 +1,4 @@
-#N canvas 530 23 559 830 10;
-#X obj 4 41 cnv 15 552 50 empty empty output~ 3 12 0 18 -204280 -1
-0;
-#N canvas 439 241 715 321 (subpatch) 0;
-#X obj 51 51 cnv 15 552 28 empty empty Cyclone: 6 13 0 18 -128992 -233080
-0;
-#X obj 217 65 cnv 5 5 5 empty empty Library 0 0 0 12 -128992 -233080
-0;
-#X obj 275 65 cnv 5 5 5 empty empty of 0 0 0 12 -128992 -233080 0;
-#X obj 298 64 cnv 5 5 5 empty empty objects 0 0 0 12 -128992 -233080
-0;
-#X obj 356 64 cnv 5 5 5 empty empty cloned 0 0 0 12 -128992 -233080
-0;
-#X obj 406 64 cnv 5 5 5 empty empty from 0 0 0 12 -128992 -233080 0
-;
-#X obj 444 64 cnv 5 5 5 empty empty Max/MSP 0 0 0 12 -128992 -233080
-0;
-#X coords 0 -1 1 1 554 30 1 50 50;
-#X restore 3 7 pd;
-#X obj 499 68 output~_;
-#X text 16 68 Stereo Output with volume control and DSP switch abstraction
-;
+#N canvas 268 35 559 830 10;
 #X obj 253 220 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X floatatom 250 240 5 0 0 0 - - -, f 5;
@@ -109,13 +88,8 @@ mode \, [output~] works only as a gain scaler;
 #X text 430 226 linear;
 #X floatatom 407 248 5 0 0 0 - - -, f 5;
 #X floatatom 157 193 5 0 0 0 - - -, f 5;
-#X obj 157 298 output~;
 #X obj 157 223 osc~ 440;
 #X text 392 173 slider scaling;
-#X text 85 104 NOT AT ALL a clone (very losely related to [gain~] in
-Max/MSP) \, [output~] is provided in cyclone and used in its help files
-as a convenient abstraction for stereo output. It has on/off swicthes
-for mute \, dac output & DSP.;
 #X text 179 507 - <on> turns DSP On. <off> turns DSP Off \; - "mute
 <1/0>" turns mute on/off (affects outlets) \; - "dac <1/0>" turns dac
 output on/off (outlets not affected);
@@ -129,23 +103,44 @@ output on/off (outlets not affected);
 checks the sate and laods the GUI accordingly. If DSP is off and you
 move the slider \, DSP is turned on. A nice feature is that you can
 switch DSP \, mute and dac without any clicks!;
-#X connect 4 0 5 0;
-#X connect 5 0 56 2;
-#X connect 8 0 11 0;
-#X connect 9 0 10 0;
-#X connect 12 0 56 2;
-#X connect 13 0 12 0;
-#X connect 15 0 56 2;
-#X connect 16 0 56 2;
-#X connect 42 0 43 0;
-#X connect 43 0 56 2;
-#X connect 48 0 56 2;
-#X connect 50 0 54 0;
-#X connect 54 0 48 0;
-#X connect 55 0 57 0;
-#X connect 56 0 8 0;
-#X connect 56 1 9 0;
-#X connect 56 2 6 0;
-#X connect 57 0 56 0;
-#X connect 57 0 56 1;
+#X text 85 98 [output~] is provided in cyclone and used in its help
+files as a convenient abstraction for stereo output. It has on/off
+swicthes for mute \, dac output & DSP. IT'S NOT AT ALL a max/msp clone
+(only very losely related to [gain~] in Max/MSP).;
+#X obj 157 297 cyclone/output~;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 output~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Stereo Output with volume
+control and DSP switch abstraction;
+#X connect 0 0 1 0;
+#X connect 1 0 62 2;
+#X connect 4 0 7 0;
+#X connect 5 0 6 0;
+#X connect 8 0 62 2;
+#X connect 9 0 8 0;
+#X connect 11 0 62 2;
+#X connect 12 0 62 2;
+#X connect 38 0 39 0;
+#X connect 39 0 62 2;
+#X connect 44 0 62 2;
+#X connect 46 0 50 0;
+#X connect 50 0 44 0;
+#X connect 51 0 52 0;
+#X connect 52 0 62 0;
+#X connect 52 0 62 1;
+#X connect 62 0 4 0;
+#X connect 62 1 5 0;
+#X connect 62 2 2 0;
 #X coords 0 830 1 829 74 39 0;

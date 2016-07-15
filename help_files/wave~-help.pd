@@ -1,4 +1,4 @@
-#N canvas 153 29 559 700 10;
+#N canvas 153 29 564 764 10;
 #X obj 4 653 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 361 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -164,6 +164,9 @@ many options for interpolation.;
 #X msg 442 239 set;
 #X text 228 409 - set inpterpolation modes <0-6> (see details above)
 ;
+#X obj 2 703 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 153 710 @mode <int> (default: 0) - sets mode argument;
 #X connect 11 0 32 0;
 #X connect 17 0 30 0;
 #X connect 18 0 17 0;

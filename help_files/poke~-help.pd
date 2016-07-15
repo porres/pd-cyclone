@@ -37,14 +37,13 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 123 655 2) float;
 #X obj 78 557 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 148 557 float;
-#X text 154 597 none;
-#X text 106 470 set <symbol>;
+#X text 145 557 float;
+#X text 103 470 set <symbol>;
 #X text 189 655 - channel (default 1);
-#X text 106 432 float/signal;
-#X text 154 450 list;
-#X text 106 498 float/signal;
-#X text 199 431 - values to write into an array;
+#X text 103 432 float/signal;
+#X text 151 450 list;
+#X text 103 498 float/signal;
+#X text 196 431 - values to write into an array;
 #X text 189 636 - array name to write to (required);
 #X obj 160 161 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -56,10 +55,10 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 298 207 hsl 128 15 0 4410 0 0 empty sliders empty -2 -8 0 10
 -228856 -1 -1 0 1;
 #X floatatom 295 228 0 0 0 0 - - -;
-#X text 198 496 - index of value being recorded. If there is a signal
+#X text 195 496 - index of value being recorded. If there is a signal
 connected to this inlet \, a float is ignored. If the index signal
 is negative or larger than the size of the array \, no data is recorded.
-;
+, f 58;
 #X obj 340 285 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #N canvas 1 79 450 300 (subpatch) 0;
@@ -89,7 +88,7 @@ is negative or larger than the size of the array \, no data is recorded.
 #X connect 9 2 4 1;
 #X restore 107 345 pd write with messages;
 #X obj 160 253 cyclone/count~ 0 4410 1;
-#X text 199 450 - value \, sample-index and channel-number;
+#X text 196 450 - value \, sample-index and channel-number;
 #X obj 96 236 osc~ 11;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -109,8 +108,8 @@ Max/MSP;
 #X text 77 92 [poke~] writes samples into an array at indexes specified
 by a signal. It can also write values via messages (similarly to [cyclone/peek~]).
 ;
-#X text 199 471 - sets array name;
-#X text 189 557 - sets the channel for the value being recorded;
+#X text 196 471 - sets array name;
+#X text 186 557 - sets the channel for the value being recorded;
 #X text 123 636 1) symbol;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
@@ -216,10 +215,11 @@ by a signal. It can also write values via messages (similarly to [cyclone/peek~]
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 19 0 24 0;
-#X connect 19 0 31 0;
-#X connect 24 0 23 0;
-#X connect 25 0 26 0;
-#X connect 26 0 31 1;
-#X connect 31 0 22 1;
-#X connect 33 0 22 0;
+#X text 142 597 (none);
+#X connect 18 0 23 0;
+#X connect 18 0 30 0;
+#X connect 23 0 22 0;
+#X connect 24 0 25 0;
+#X connect 25 0 30 1;
+#X connect 30 0 21 1;
+#X connect 32 0 21 0;

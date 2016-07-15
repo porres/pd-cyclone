@@ -1,4 +1,4 @@
-#N canvas 477 27 559 718 10;
+#N canvas 617 29 559 718 10;
 #X obj 4 677 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 342 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -78,7 +78,7 @@ smallest line is 2 samples/points long.;
 #X connect 4 0 3 0;
 #X connect 5 0 1 0;
 #X connect 6 0 3 0;
-#X restore 393 247 pd bufsize/calccount;
+#X restore 393 267 pd bufsize/calccount;
 #N canvas 273 38 429 780 trigger_mode 0;
 #X obj 69 549 vsl 15 126 -1 1 0 1 empty empty empty 0 -9 0 10 -228856
 -1 -1 6250 1;
@@ -127,7 +127,7 @@ or right.;
 #X connect 7 0 8 0;
 #X connect 8 0 4 0;
 #X connect 9 0 10 0;
-#X restore 278 247 pd trigger_mode;
+#X restore 278 267 pd trigger_mode;
 #X floatatom 215 177 5 8 256 0 - - -, f 5;
 #X obj 31 204 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
 #X obj 22 325 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
@@ -175,7 +175,7 @@ freezes for as long as you hold the cursor's position.;
 #X connect 11 0 0 0;
 #X connect 15 0 0 0;
 #X connect 18 0 0 0;
-#X restore 279 220 pd Basic_settings;
+#X restore 299 240 pd Basic_settings;
 #N canvas 12 23 999 661 X-Y_Mode 0;
 #X obj 330 343 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
@@ -247,7 +247,7 @@ displays in "Y Mode" only.;
 #X connect 24 0 3 1;
 #X connect 27 0 24 0;
 #X connect 28 0 25 1;
-#X restore 278 275 pd X-Y_Mode;
+#X restore 278 295 pd X-Y_Mode;
 #X text 198 517 - onset time delay between displays (default 0);
 #X text 67 125 frequency;
 #X text 109 383 calccount <f>;
@@ -371,7 +371,7 @@ Check the messages below;
 #X connect 30 0 0 0;
 #X connect 32 0 31 0;
 #X connect 33 0 32 0;
-#X restore 422 220 pd colors;
+#X restore 420 240 pd colors;
 #N canvas 207 237 442 245 backwards-compatibility 0;
 #X text 49 70 [scope~] used to be compiled as [Scope~] to avoid name
 conflicts with an old (and not existing anymore) Pd Vanilla's object.
@@ -385,7 +385,7 @@ create this object as [Scope~] or [cyclone/Scope~] for backwards compatibility
 reasons. But [scope~] or [cyclone/scope~] is the reasonable and sensible
 way nowadays and the current plan is to phase out the capital letters
 in cyclone's objects.;
-#X restore 357 275 pd backwards-compatibility;
+#X restore 357 295 pd backwards-compatibility;
 #X text 133 472 dim <f f>;
 #X text 132 629 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
 f f> | @range <f f> | @trigger <f> | @triglevel <f> | @bufsize <f>
@@ -421,14 +421,12 @@ or 2 (down);
 ;
 #X obj 19 54 comment 0 18 times ? 0 0 0 0 Oscilloscope display;
 #X floatatom 118 173 5 2 8192 0 - - -, f 5;
-#X text 71 90 Use [scope~] to display a signal in an oscilloscope style.
-;
 #N canvas 0 22 450 300 inconsistency 0;
 #X text 171 96 no drawstyle;
-#X restore 349 303 pd inconsistency;
+#X restore 378 215 pd inconsistency;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -497,7 +495,7 @@ or 2 (down);
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -530,6 +528,10 @@ or 2 (down);
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#N canvas 0 22 450 300 mouse 0;
+#X restore 299 215 pd mouse;
+#X text 89 88 [scope~] displays a signal in the style of an oscilloscope.
+;
 #X connect 9 0 11 0;
 #X connect 11 0 25 0;
 #X connect 17 0 42 1;

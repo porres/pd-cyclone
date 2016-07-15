@@ -1,4 +1,4 @@
-#N canvas 670 44 562 809 10;
+#N canvas 670 44 562 802 10;
 #X obj 7 760 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 7 341 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -31,19 +31,19 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 6 1 Related Objects;
 #X obj 14 30 tabwrite~;
 #X restore 200 762 pd Related_objects;
-#X obj 80 379 cnv 17 3 165 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 379 cnv 17 3 165 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 555 cnv 17 3 17 empty empty n+1 5 9 0 16 -228856 -162280
+#X obj 84 555 cnv 17 3 17 empty empty n+1 5 9 0 16 -228856 -162280
 0;
-#X text 133 617 signal;
-#X text 132 354 signal;
-#X obj 80 580 cnv 17 3 17 empty empty n+2 5 9 0 16 -228856 -162280
+#X text 128 617 signal;
+#X text 127 354 signal;
+#X obj 84 580 cnv 17 3 17 empty empty n+2 5 9 0 16 -228856 -162280
 0;
-#X text 140 556 float;
-#X obj 88 617 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 135 556 float;
+#X obj 83 617 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 140 582 float;
-#X text 113 707 2) float;
+#X text 135 582 float;
+#X text 108 707 2) float;
 #X obj 266 137 tgl 25 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
 #X floatatom 287 290 0 0 0 0 - - -;
@@ -54,18 +54,18 @@ adapted the patch to pd-extended 2015-02-02;
 #X floatatom 428 213 5 0 0 0 - - -, f 5;
 #X text 23 181 1;
 #X text 16 294 -1;
-#X text 141 384 float;
-#X text 147 400 list;
-#X text 193 401 - list can be used to specify loop-start and loop-end
+#X text 136 384 float;
+#X text 142 400 list;
+#X text 188 401 - list can be used to specify loop-start and loop-end
 points or timing/synchronization settings for transport.;
-#X text 193 384 - 0 stops recording. Any non-zero number starts recording.
+#X text 188 384 - 0 stops recording. Any non-zero number starts recording.
 ;
 #X text 51 93 [record~] records a signal into an array. You can record
 up to 4 channels by specifying the optional argument. Recording stops
 when the array is filled.;
-#X text 113 687 1) symbol;
-#X text 190 686 - array name (required);
-#X text 191 555 - startpoint in ms (default 0);
+#X text 108 687 1) symbol;
+#X text 185 686 - array name (required);
+#X text 186 555 - startpoint in ms (default 0);
 #X obj 287 170 noise~;
 #N canvas 238 129 434 586 multichannel 0;
 #X obj 155 172 adc~;
@@ -105,16 +105,16 @@ as in this example (or "0-" \, "1-" \, "2-" & "3-" for quadraphonic).
 #X array \$0-array 44100 float 0;
 #X coords 0 1 44099 -1 170 120 1 0 0;
 #X restore 38 187 graph;
-#X obj 80 352 cnv 17 3 17 empty empty 0-n 5 9 0 16 -228856 -162280
+#X obj 84 352 cnv 17 3 17 empty empty 0-n 5 9 0 16 -228856 -162280
 0;
-#X text 190 354 - signal to record in the input channels (1 \, 2 or
+#X text 185 354 - signal to record in the input channels (1 \, 2 or
 4 inlets);
-#X text 98 429 set <symbol>;
-#X text 140 441 reset;
-#X text 145 468 loop;
-#X text 133 509 append;
-#X text 193 582 - endpoint in ms (default array's size);
-#X text 190 704 - number of input channels (1 \, 2 \, or 4). This determines
+#X text 93 429 set <symbol>;
+#X text 135 441 reset;
+#X text 140 468 loop;
+#X text 128 509 append;
+#X text 188 582 - endpoint in ms (default array's size);
+#X text 185 704 - number of input channels (1 \, 2 \, or 4). This determines
 the number of inlets [record~] has ("n"). The two rightmost inlets
 always set start and end points.;
 #X text 389 212 start;
@@ -127,7 +127,7 @@ always set start and end points.;
 #X msg 391 167 append \$1;
 #X obj 287 237 cyclone/record~ \$0-array;
 #X msg 232 185 reset;
-#X text 193 430 - change array for recording values \; - resets the
+#X text 188 430 - change array for recording values \; - resets the
 record-loop points to the default values (0 to whole array) and restarts
 recording if recording is on \; - followed by a non-zero number enables
 loop mode (continue recording at start point when reaching the end).
@@ -150,7 +150,7 @@ Max/MSP;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 record~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Record signsal into an array
 ;
-#X text 194 615 - sync output. During recording \, this outlet outputs
+#X text 189 615 - sync output. During recording \, this outlet outputs
 a signal that goes from 0 when recording at the start point to 1 when
 recording reaches the end point. When not recording \, a zero signal
 is output.;
