@@ -28,8 +28,7 @@ endif
 
 # CONTROL CLASSES Removed from old dependencies
 
-# these used to end in $(hplain) which seemed
-# to be doing nothing in the new build system:
+# these were 'hplain' which did nothing...
 
 accum.class.sources := classes/binaries/control/accum.c
 acos.class.sources := classes/binaries/control/acos.c
@@ -273,6 +272,10 @@ shared/common/os.c \
 shared/unstable/forky.c \
 shared/unstable/fragile.c
 
+splainnotilde := \
+shared/common/loud.c \
+shared/common/fitter.c
+
 # Control Classes:
 
 # hfitter classes
@@ -329,11 +332,6 @@ spray.class.sources := classes/binaries/control/spray.c $(hloud)
 sprintf.class.sources := classes/binaries/control/sprintf.c $(hloud)
 togedge.class.sources := classes/binaries/control/togedge.c $(hloud)
 histo.class.sources := classes/binaries/control/histo.c $(hloud)
-
-# special case: sickle but not tilde (see class linedrive)
-splainnotilde := \
-shared/common/loud.c \
-shared/common/fitter.c
 
 # Single cases:
 
