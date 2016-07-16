@@ -8,7 +8,7 @@ https://github.com/porres/pd-cyclone
 
 Current version: cyclone 0.3-beta-1 - released xx/xx/xxxx
 
-This release was tested in Pd Vanilla 0.46-7 (32 & 64 bits);
+This release was tested in Pd Vanilla 0.47-1 (32 & 64 bits);
 It can work elsewhere, but hasn’t been tested.
 
 
@@ -23,9 +23,9 @@ Cyclone expands Pd Vanilla with objects cloned from Max/MSP. For users of both M
 About the current version:
 ——————————————————————————
 
-Cyclone 0.3-beta-1 carries a a set of xxx Pure Data externals, it comes with; A) single external binaries & B) cyclone sub-library:
+Cyclone 0.3-beta-1 carries a a set of over 200 Pure Data externals, it comes with; A) single external binaries or abstractions & B) cyclone sub-library:
 
-- A) The individual external binaries can be loaded only by inserting cyclone folder in the search path of Pd (or using Pd Vanilla’s [declare] object). It is recommend to include it in the “extra” folder of pd vanilla to work properly. 
+- A) The individual external binaries and abstractions can be loaded only by inserting cyclone folder in the search path of Pd (or using Pd Vanilla’s [declare] object). 
 
 - B) The cyclone sub-library loads a small set of objects with non alphanumeric names: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], [!-~], [!/~], [%~], [+=~]. The library can be loaded in Pd’s startup (or using Pd Vanilla’s [declare] object). Objects with alphanumeric names corresponding to these objects are also available as single binaries outside this sub-library.
 
