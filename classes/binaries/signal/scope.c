@@ -25,11 +25,14 @@ instead of 0-255
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include "m_imp.h"
 #include "g_canvas.h"
+#include "g_all_guis.h"
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/fitter.h"
 #include "unstable/forky.h"
+
 
 #ifdef KRZYSZCZ
 //#define SCOPE_DEBUG
@@ -37,9 +40,9 @@ instead of 0-255
 
 /* these are powers of 2 + margins */
 #define SCOPE_DEFWIDTH     130  /* CHECKED */
-#define SCOPE_MINWIDTH      10
+#define SCOPE_MINWIDTH      10 //66
 #define SCOPE_DEFHEIGHT    130  /* CHECKED */
-#define SCOPE_MINHEIGHT     10
+#define SCOPE_MINHEIGHT     10 //34
 #define SCOPE_DEFPERIOD    256
 #define SCOPE_MINPERIOD      2
 #define SCOPE_MAXPERIOD   8192
@@ -51,6 +54,7 @@ instead of 0-255
 #define SCOPE_DEFMAXVAL      1.
 #define SCOPE_DEFDELAY       0
 #define SCOPE_MINDELAY       0
+#define SCOPE_DEFDRAWSTYLE	 0
 #define SCOPE_TRIGLINEMODE   0
 #define SCOPE_TRIGUPMODE     1
 #define SCOPE_TRIGDOWNMODE   2
@@ -101,6 +105,7 @@ typedef struct _scope
     int        x_delay;
     int        x_trigmode;
     float      x_triglevel;
+    int		   x_drawstyle;
     unsigned char  x_fgred;
     unsigned char  x_fggreen;
     unsigned char  x_fgblue;
@@ -386,15 +391,20 @@ static void scope_range(t_scope *x, t_float min, t_float max)
 	else{
 	x->x_minval = maxval;
 	x->x_maxval = minval;
-    };
+    }
 }
 
 static void scope_delay(t_scope *x, t_float del)
 {
     if(del < SCOPE_MINDELAY){
 		del = SCOPE_MINDELAY;
-	};
+	}
 	x->x_delay = del;
+}
+
+static void scope_drawstyle(t_scope *x, t_float drawstyle)
+{
+	x->x_drawstyle = (drawstyle == 0 ? 0 : 1);
 }
 
 static void scope_trigger(t_scope *x, t_float trig)
@@ -408,11 +418,11 @@ static void scope_trigger(t_scope *x, t_float trig)
 	}
 	else{
 		trigmode = trig;
-	};
+	}
     x->x_trigmode = (int)trigmode;
     if (x->x_trigmode == SCOPE_TRIGLINEMODE){
 		x->x_retrigger = 0;
-	};
+	}
 }
 
 static void scope_triglevel(t_scope *x, t_float lvl)
@@ -1132,6 +1142,110 @@ static void scope_dim(t_scope *x, t_float _width, t_float _height){
 	x->x_width = (int) _width;
 	x->x_height = (int)_height;
 };
+	
+
+static void scope_properties(t_gobj *z, t_glist *owner)
+{
+    t_scope *x = (t_scope *)z;
+    int bgcol, grcol, fgcol;
+    
+    bgcol = ((int)x->x_bgred << 16) + ((int)x->x_bggreen << 8) + (int)x->x_bgblue;
+    grcol = ((int)x->x_grred << 16) + ((int)x->x_grgreen << 8) + (int)x->x_grblue;
+    fgcol = ((int)x->x_fgred << 16) + ((int)x->x_fggreen << 8) + (int)x->x_fgblue;
+    
+    
+    char buf[1000];
+    //t_symbol *srl[3];
+
+   // iemgui_properties(&x->x_gui, srl);
+    sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
+dim %d wdt: %d hgt: \
+buf %d cal: %d bfs: \
+rng %g min: %g max: \
+del %d del: drs %d drs: \
+trg %d tmd: %g tlv: \
+dim_mins %d %d \
+cal_min_max %d %d bfs_min_max %d %d \
+del_mins %d \
+#%06x #%06x #%06x\n",
+            x->x_width, x->x_height,
+            x->x_period, x->x_bufsize,
+            x->x_minval, x->x_maxval,
+            x->x_delay, x->x_drawstyle,
+            x->x_trigmode, x->x_triglevel,
+            SCOPE_MINWIDTH, SCOPE_MINHEIGHT,
+            SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
+            SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
+            SCOPE_MINDELAY,
+            bgcol, grcol, fgcol);
+    //post("%s", buf);
+    gfxstub_new(&x->x_obj.ob_pd, x, buf);
+}
+
+static int scope_getcolorarg(int index, int argc, t_atom *argv)
+{
+    if(index < 0 || index >= argc)
+        return 0;
+    if(IS_A_FLOAT(argv,index))
+        return atom_getintarg(index, argc, argv);
+    if(IS_A_SYMBOL(argv,index))
+    {
+        t_symbol*s=atom_getsymbolarg(index, argc, argv);
+        if ('#' == s->s_name[0])
+            return strtol(s->s_name+1, 0, 16);
+    }
+    return 0;
+}
+
+static void scope_dialog(t_scope *x, t_symbol *s, int argc, t_atom *argv)
+{
+	int width = (int)atom_getintarg(0, argc, argv);
+	int height = (int)atom_getintarg(1, argc, argv);
+	int period = (int)atom_getintarg(2, argc, argv);
+	int bufsize = (int)atom_getintarg(3, argc, argv);
+	float minval = (float)atom_getfloatarg(4, argc, argv);
+	float maxval = (float)atom_getfloatarg(5, argc, argv);
+	int delay = (int)atom_getintarg(6, argc, argv);
+	int drawstyle = (int)atom_getintarg(7, argc, argv);
+	int trigmode = (int)atom_getintarg(8, argc, argv);
+	float triglevel = (float)atom_getfloatarg(9, argc, argv);
+	int bgcol = (int)scope_getcolorarg(10, argc, argv);
+	int grcol = (int)scope_getcolorarg(11, argc, argv);
+	int fgcol = (int)scope_getcolorarg(12, argc, argv);
+	
+	int bgred = (bgcol & 0xFF0000) >> 16;
+	int bggreen = (bgcol & 0x00FF00) >> 8;
+	int bgblue = (bgcol & 0x0000FF);
+	
+	int grred = (grcol & 0xFF0000) >> 16;
+	int grgreen = (grcol & 0x00FF00) >> 8;
+	int grblue = (grcol & 0x0000FF);
+	
+	int fgred = (fgcol & 0xFF0000) >> 16;
+	int fggreen = (fgcol & 0x00FF00) >> 8;
+	int fgblue = (fgcol & 0x0000FF);
+	
+	//post ("drawstyle %d", drawstyle);
+	scope_period(x, period);
+	scope_bufsize(x, bufsize);
+	scope_range(x, minval, maxval);
+	scope_delay(x, delay);
+	scope_drawstyle(x, drawstyle);
+	scope_trigger(x, trigmode);
+	scope_triglevel(x, triglevel);
+	if (x->x_width != width || x->x_height != height || 
+		x->x_bgred != bgred || x->x_bggreen != bggreen || x->x_bgblue != bgblue ||
+		x->x_grred != grred || x->x_grgreen != grgreen || x->x_grblue != grblue ||
+		x->x_fgred != fgred || x->x_fggreen != fggreen || x->x_fgblue != fgblue)
+	{
+		scope_brgb(x, bgred, bggreen, bgblue);
+		scope_grgb(x, grred, grgreen, grblue);
+		scope_frgb(x, fgred, fggreen, fgblue);
+		scope_resize(x, width, height);
+		canvas_dirty(x->x_canvas, 1);
+	}
+	
+}
 
 static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 {
@@ -1165,6 +1279,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 	t_float minval = (t_float)SCOPE_DEFMINVAL;
 	t_float maxval = (t_float)SCOPE_DEFMAXVAL;
 	t_float delay = (t_float)SCOPE_DEFDELAY;
+	t_float drawstyle = (t_float)SCOPE_DEFDRAWSTYLE;
 	t_float trigger = (t_float)SCOPE_DEFTRIGMODE;
 	t_float triglevel = (t_float)SCOPE_DEFTRIGLEVEL;
 	t_float fgred = (t_float)SCOPE_DEFFGRED;
@@ -1306,6 +1421,16 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 					goto errstate;
 				};
 			}
+			else if(strcmp(curarg->s_name, "@drawstyle") == 0){
+				if(argc >= 2){
+					drawstyle = atom_getfloatarg(1, argc, argv);
+					argc-=2;
+					argv+=2;
+				}
+				else{
+					goto errstate;
+				};
+			}
 			else if(strcmp(curarg->s_name, "@trigger") == 0){
 				if(argc >= 2){
 					trigger = atom_getfloatarg(1, argc, argv);
@@ -1416,9 +1541,11 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     x->x_xbuffer = x->x_xbuf;
     x->x_ybuffer = x->x_ybuf;
     scope_bufsize(x, bufsize);
+    
     x->x_signalscalar = obj_findsignalscalar(x, 1);
     scope_range(x, minval, maxval);
     scope_delay(x, delay);
+    scope_drawstyle(x, drawstyle);
     /* CHECKME 11th argument (default 0.) */
     scope_trigger(x, trigger);
     scope_triglevel(x, triglevel);
@@ -1466,12 +1593,15 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 
 void scope_tilde_setup(void)
 {
+	t_symbol *dirsym;
     scope_class = class_new(gensym("scope~"),
 			    (t_newmethod)scope_new,
 			    (t_method)scope_free,
 			    sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new, gensym("Scope~"), A_GIMME, 0); // back compatible
     class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // back compatible
+    class_addmethod(scope_class, (t_method)scope_dialog, gensym("dialog"),
+    				A_GIMME, 0);
     class_addmethod(scope_class, nullfn, gensym("signal"), 0);
     class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), 0);
     class_addfloat(scope_class, (t_method)scope_float);
@@ -1503,8 +1633,9 @@ void scope_tilde_setup(void)
                     A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_click, gensym("click"),
                     A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-     class_addmethod(scope_class, (t_method)scope_resize, gensym("resize"),
-                     A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_resize, gensym("resize"),
+                    A_FLOAT, A_FLOAT, 0);
+
     
     class_setwidget(scope_class, &scope_widgetbehavior);
     
@@ -1516,6 +1647,10 @@ void scope_tilde_setup(void)
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"),
                     A_FLOAT, A_FLOAT, 0);
     fitter_setup(scope_class, 0);
+    class_setpropertiesfn(scope_class, scope_properties);
+    dirsym = scope_class->c_externdir;
+    sys_vgui("source {%s/dialog_scope.tcl}\n", dirsym->s_name);
+    
 
 }
 
