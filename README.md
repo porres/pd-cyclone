@@ -15,7 +15,7 @@ Max is found at: https://cycling74.com/
 
 "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
-In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches.
+In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches."
 
 (more in the original readme provided in this repository: <https://github.com/porres/pd-cyclone/blob/master/maintenance/text_files/README_original.txt>)
 
