@@ -263,16 +263,30 @@ static t_int *scope_perform(t_int *w)
 				if (xymode == 1)
 				{
 					/* CHECKED */
-					if ((currx < 0 && (f1 < currx || f1 > -currx)) ||
-					(currx > 0 && (f1 > currx || f1 < -currx)))
-					currx = f1;
+					if (!x->x_drawstyle)
+					{
+						if ((currx < 0 && (f1 < currx || f1 > -currx)) ||
+						(currx > 0 && (f1 > currx || f1 < -currx)))
+						currx = f1;
+					}
+					else
+					{
+						if (f1 < currx) currx = f1;
+					}
 					curry = 0.;
 				}
 				else if (xymode == 2)
 				{
-					if ((curry < 0 && (f2 < curry || f2 > -curry)) ||
-					(curry > 0 && (f2 > curry || f2 < -curry)))
-					curry = f2;
+					if (!x->x_drawstyle)
+					{
+						if ((curry < 0 && (f2 < curry || f2 > -curry)) ||
+						(curry > 0 && (f2 > curry || f2 < -curry)))
+						curry = f2;
+					}
+					else
+					{
+						if (f2 < curry) curry = f2;
+					}
 					currx = 0.;
 				}
 				else
@@ -298,6 +312,7 @@ static t_int *scope_perform(t_int *w)
 					currx *= freq;
 					curry *= freq;
 				}
+				
 				if (++bufphase >= bufsize)
 				{
 					*bp1 = currx;
@@ -363,10 +378,13 @@ static void scope_period(t_scope *x, t_float per)
 	else if(per > SCOPE_MAXPERIOD){
 		per = SCOPE_MAXPERIOD;
 	};
-	x->x_period = (int)per;
-	x->x_phase = 0;
-	x->x_bufphase = 0;
-	scope_clear(x, 0);
+	if (x->x_period != (int)per)
+	{
+		x->x_period = (int)per;
+		x->x_phase = 0;
+		x->x_bufphase = 0;
+		scope_clear(x, 0);
+	}
 }
 
 static void scope_float(t_scope *x, t_float f)
@@ -1626,6 +1644,8 @@ void scope_tilde_setup(void)
     class_addmethod(scope_class, (t_method)scope_range, gensym("range"),
                     A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_delay, gensym("delay"),
+                    A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_drawstyle, gensym("drawstyle"),
                     A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_trigger, gensym("trigger"),
                     A_FLOAT, 0);
