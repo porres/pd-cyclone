@@ -399,7 +399,6 @@ shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
 # were 'sarsic':
-    index~.class.sources := classes/binaries/signal/index.c $(sarsicfitter)
     peek~.class.sources := classes/binaries/signal/peek.c $(sarsicfitter)
     play~.class.sources := classes/binaries/signal/play.c $(sarsicfitter)
     poke~.class.sources := classes/binaries/signal/poke.c $(sarsicfitter) # fragile
@@ -409,6 +408,9 @@ shared/unstable/fragile.c
     buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter)
 
 
+#cybuf (aka arsic replacement) classes
+scybuf := shared/cybuf.c
+    index~.class.sources := classes/binaries/signal/index.c $(scybuf)
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
 ### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
