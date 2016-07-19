@@ -116,13 +116,13 @@ typedef struct _scope
     unsigned char  x_grgreen; 
     unsigned char  x_grblue;
     int        x_xymode;
-    int		   x_xymodelast;
-    float	  *x_xbuffer;
-    float	  *x_ybuffer;
-    float      x_xbuf[SCOPE_MAXBUFSIZE];
-    float      x_ybuf[SCOPE_MAXBUFSIZE];
-    float	   x_xbuflast[SCOPE_MAXBUFSIZE];
-    float	   x_ybuflast[SCOPE_MAXBUFSIZE];
+    int		   x_lastxymode;
+//     float	  *x_xbuffer;
+//     float	  *x_ybuffer;
+    float      x_xbuffer[SCOPE_MAXBUFSIZE*4];
+    float      x_ybuffer[SCOPE_MAXBUFSIZE*4];
+    float	   x_xbuflast[SCOPE_MAXBUFSIZE*4];
+    float	   x_ybuflast[SCOPE_MAXBUFSIZE*4];
     t_float	  *x_signalscalar;
     int        x_allocsize;
     int        x_bufsize;
@@ -160,8 +160,8 @@ EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 static void scope_clear(t_scope *x, int withdelay)
 {
-    x->x_bufphase = 0;
-    x->x_phase = 0;
+    //x->x_bufphase = 0;
+    //x->x_phase = 0;
     x->x_precount = (withdelay ? (int)(x->x_delay * x->x_ksr) : 0);
     x->x_retrigger = (x->x_trigmode != SCOPE_TRIGLINEMODE);
     x->x_trigx = x->x_triglevel;
@@ -178,7 +178,10 @@ static t_int *scope_perform(t_int *w)
     int bufsize = (int)*x->x_signalscalar;
 
     if (bufsize != x->x_bufsize)
+    {
     	scope_bufsize(x, bufsize);
+    	bufsize = x->x_bufsize;
+    }
     if (bufphase < bufsize)
     {
 	int nblock = (int)(w[2]);
@@ -192,8 +195,8 @@ static t_int *scope_perform(t_int *w)
 	    int phase = x->x_phase;
 	    int period = x->x_period;
 	    float freq = 1. / period;
-	    float *bp1 = x->x_xbuffer + bufphase;
-	    float *bp2 = x->x_ybuffer + bufphase;
+	    float *bp1;
+	    float *bp2;
 	    float currx = x->x_currx;
 	    float curry = x->x_curry;
 	    if (x->x_precount > 0)
@@ -203,7 +206,7 @@ static t_int *scope_perform(t_int *w)
 			in2 += x->x_precount;
 			x->x_precount = 0;
 	    }
-	    if (xymode == 1 || xymode == 2)
+	    if (x->x_trigmode && (xymode == 1 || xymode == 2))
 	    {
 	    	if (xymode == 1) in = in1;
 	    	else in = in2;
@@ -251,6 +254,8 @@ static t_int *scope_perform(t_int *w)
 		else if (x->x_retrigger) x->x_retrigger = 0;
 	    while (nblock--)
 	    {
+	    	bp1 = x->x_xbuffer + bufphase;
+	    	bp2 = x->x_ybuffer + bufphase;
 			if (phase)
 			{
 				t_float f1 = *in1++;
@@ -285,7 +290,7 @@ static t_int *scope_perform(t_int *w)
 				currx = 0.;  /* CHECKED NaNs bashed to zeros */
 			if (curry != curry)
 				curry = 0.;
-			if (++phase == period)
+			if (++phase >= period)
 			{
 				phase = 0;
 				if (xymode == 3)
@@ -293,17 +298,22 @@ static t_int *scope_perform(t_int *w)
 					currx *= freq;
 					curry *= freq;
 				}
-				if (++bufphase == bufsize)
+				if (++bufphase >= bufsize)
 				{
 					*bp1 = currx;
 					*bp2 = curry;
+					bufphase = 0;
+					x->x_lastxymode = xymode;
+   					x->x_lastbufsize = bufsize;
+   					memcpy(x->x_xbuflast, x->x_xbuffer, bufsize * sizeof(*x->x_xbuffer));
+    				memcpy(x->x_ybuflast, x->x_ybuffer, bufsize * sizeof(*x->x_ybuffer));
 					clock_delay(x->x_clock, 0);
-					break;
+					//break;
 				}
 				else
 				{
-					*bp1++ = currx;
-					*bp2++ = curry;
+					*bp1 = currx;
+					*bp2 = curry;
 				}
 			}
 	    }
@@ -354,6 +364,8 @@ static void scope_period(t_scope *x, t_float per)
 		per = SCOPE_MAXPERIOD;
 	};
 	x->x_period = (int)per;
+	x->x_phase = 0;
+	x->x_bufphase = 0;
 	scope_clear(x, 0);
 }
 
@@ -374,6 +386,8 @@ static void scope_bufsize(t_scope *x, t_float bufsz)
 		x->x_bufsize = bufsz;
 	}
 	pd_float((t_pd *)x->x_rightinlet, x->x_bufsize);
+	x->x_phase = 0;
+	x->x_bufphase = 0;
 	scope_clear(x, 0);
 }
 
@@ -726,18 +740,19 @@ static void scope_delete(t_gobj *z, t_glist *glist)
 static void scope_drawfg(t_scope *x, t_canvas *cv,
 			     int x1, int y1, int x2, int y2)
 {
-    int i, xymode = x->x_xymode;
+    int i, xymode = x->x_lastxymode;
     float dx, dy, xx, yy, oldx, oldy, sc, xsc, ysc;
-    float *xbp = x->x_xbuffer, *ybp = x->x_ybuffer;
+    float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
+    int bufsize = x->x_lastbufsize;
     if (xymode == 1)
     {
-    	dx = (float)(x2 - x1) / (float)x->x_bufsize;
+    	dx = (float)(x2 - x1) / (float)bufsize;
     	oldx = x1;
    		sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
    	}
    	else if (xymode == 2)
    	{
-   		dy = (float)(y2 - y1) / (float)x->x_bufsize;
+   		dy = (float)(y2 - y1) / (float)bufsize;
    		oldy = y1;
    		sc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
    	}
@@ -747,7 +762,7 @@ static void scope_drawfg(t_scope *x, t_canvas *cv,
 		ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
 	}
     sys_vgui(".x%lx.c create line \\\n", cv);
-    for (i = 0; i < x->x_bufsize; i++)
+    for (i = 0; i < bufsize; i++)
     {
     	if (xymode == 1)
     	{
@@ -790,7 +805,7 @@ static void scope_drawmargins(t_scope *x, t_canvas *cv,
  %d %d\
  %d %d\
  -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
-	     cv, x1, y1, x2, y1, x2, y2, x1, y2, x1, y1,
+	     cv, x1, y1 , x2, y1, x2, y2, x1, y2, x1, y1,
 	     x->x_bgred, x->x_bggreen, x->x_bgblue,
 	     1., x->x_margintag, x->x_tag);
 }
@@ -826,30 +841,31 @@ static void scope_draw(t_scope *x, t_canvas *cv)
     int x1, y1, x2, y2;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     scope_drawbg(x, cv, x1, y1, x2, y2);
-    if (x->x_xymode)
+    if (x->x_lastxymode)
     	scope_drawfg(x, cv, x1, y1, x2, y2);
     scope_drawmargins(x, cv, x1, y1, x2, y2);
 }
 
 static void scope_redraw(t_scope *x, t_canvas *cv)
 {
-    int nleft = x->x_bufsize;
-    float *bp = x->x_xbuffer;
+	int bufsize;
+    int nleft = bufsize = x->x_lastbufsize;
+    //float *bp = x->x_xbuflast;
     char chunk[32 * SCOPE_GUICHUNK];  /* LATER estimate */
     char *chunkp = chunk;
-    int x1, y1, x2, y2, xymode = x->x_xymode;
+    int x1, y1, x2, y2, xymode = x->x_lastxymode;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     float dx, dy, xx, yy, oldx, oldy, sc, xsc, ysc;
-    float *xbp = x->x_xbuffer, *ybp = x->x_ybuffer;
+    float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
     if (xymode == 1)
     {
-    	dx = (float)(x2 - x1) / (float)x->x_bufsize;
+    	dx = (float)(x2 - x1) / (float)bufsize;
     	oldx = x1;
    		sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
    	}
    	else if (xymode == 2)
    	{
-   		dy = (float)(y2 - y1) / (float)x->x_bufsize;
+   		dy = (float)(y2 - y1) / (float)bufsize;
    		oldy = y1;
    		sc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
    	}
@@ -898,14 +914,14 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
     	if (xymode == 1)
     	{
     		xx = oldx;
-			yy = (y2 - 1) - ysc * (*xbp++ - x->x_minval);
+			yy = (y2 - 1) - sc * (*xbp++ - x->x_minval);
 			if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
 			oldx += dx;
 		}
 		else if (xymode == 2)
     	{
     		yy = oldy;
-			xx = (x2 - 1) - xsc * (*ybp++ - x->x_minval);
+			xx = (x2 - 1) - sc * (*ybp++ - x->x_minval);
 			if (xx > x2) xx = x2; else if (xx < x1) xx = x1;
 			oldy += dy;
 		}
@@ -927,17 +943,16 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
 static void scope_revis(t_scope *x, t_canvas *cv)
 {
     sys_vgui(".x%lx.c delete %s\n", cv, x->x_tag);
-    int xymode = x->x_xymode;
-    int bufsize = x->x_bufsize;
-    x->x_xymode = x->x_xymodelast;
-    x->x_bufsize = x->x_lastbufsize;
-    x->x_xbuffer = x->x_xbuflast;
-    x->x_ybuffer = x->x_ybuflast;
+//     int xymode = x->x_xymode;
+//     int bufsize = x->x_lastbufsize;
+//     x->x_xymode = x->x_lastxymode;
+//     x->x_xbuffer = x->x_xbuflast;
+//     x->x_ybuffer = x->x_ybuflast;
 	scope_draw(x, cv);
-	x->x_xymode = xymode;
-	x->x_bufsize = bufsize;
-	x->x_xbuffer = x->x_xbuf;
-	x->x_ybuffer = x->x_ybuf;
+// 	x->x_xymode = xymode;
+// 	x->x_bufsize = bufsize;
+// 	x->x_xbuffer = x->x_xbuf;
+// 	x->x_ybuffer = x->x_ybuf;
 }
 
 static void scope_vis(t_gobj *z, t_glist *glist, int vis)
@@ -954,15 +969,15 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 	sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)cv, (unsigned long)sh);
     int xymode = x->x_xymode;
     int bufsize = x->x_bufsize;
-    x->x_xymode = x->x_xymodelast;
+    x->x_xymode = x->x_lastxymode;
     x->x_bufsize = x->x_lastbufsize;
-    x->x_xbuffer = x->x_xbuflast;
-    x->x_ybuffer = x->x_ybuflast;
+//     x->x_xbuffer = x->x_xbuflast;
+//     x->x_ybuffer = x->x_ybuflast;
 	scope_draw(x, cv);
 	x->x_xymode = xymode;
 	x->x_bufsize = bufsize;
-	x->x_xbuffer = x->x_xbuf;
-	x->x_ybuffer = x->x_ybuf;
+// 	x->x_xbuffer = x->x_xbuf;
+// 	x->x_ybuffer = x->x_ybuf;
     }
     else
     {
@@ -1044,10 +1059,6 @@ static void scope_tick(t_scope *x)
 		scope_redraw(x, cv);
     }
     scope_clear(x, 1);
-    x->x_xymodelast = x->x_xymode;
-    x->x_lastbufsize = x->x_bufsize;
-    memcpy(x->x_xbuflast, x->x_xbuffer, x->x_bufsize * sizeof(*x->x_xbuffer));
-    memcpy(x->x_ybuflast, x->x_ybuffer, x->x_bufsize * sizeof(*x->x_ybuffer));
 }
 
 static void scope_resize(t_scope *x, t_float w, t_float h)
@@ -1276,6 +1287,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 	t_float height = SCOPE_DEFHEIGHT;
 	t_float period = (t_float)SCOPE_DEFPERIOD;
 	t_float bufsize = (t_float)SCOPE_DEFBUFSIZE;
+	x->x_lastbufsize = (int)bufsize;
 	t_float minval = (t_float)SCOPE_DEFMINVAL;
 	t_float maxval = (t_float)SCOPE_DEFMAXVAL;
 	t_float delay = (t_float)SCOPE_DEFDELAY;
@@ -1538,8 +1550,8 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     scope_dim(x, width, height);
 	scope_period(x, period);
     /* CHECKME 6th argument (default 3 for mono, 1 for xy */
-    x->x_xbuffer = x->x_xbuf;
-    x->x_ybuffer = x->x_ybuf;
+//     x->x_xbuffer = x->x_xbuf;
+//     x->x_ybuffer = x->x_ybuf;
     scope_bufsize(x, bufsize);
     
     x->x_signalscalar = obj_findsignalscalar(x, 1);
