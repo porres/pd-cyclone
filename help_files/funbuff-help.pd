@@ -98,7 +98,7 @@ of print object in Pd main window;
 #X obj 2 874 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 854 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 499 104 375 383 META 0;
+#N canvas 492 105 375 383 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 173 LIBRARY cyclone;
 #X text 0 193 VERSION 0.2-beta1;
@@ -119,16 +119,16 @@ goto interp interptab min next paste print read select set undo write
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 494 856 pd META;
 #N canvas 339 145 430 83 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
-#X obj 50 33 table;
-#X obj 12 33 line;
-#X obj 97 33 cyclone/coll;
+#X obj 50 30 table;
+#X obj 12 30 line;
+#X obj 97 30 cyclone/coll;
 #C restore;
-#X obj 186 33 cyclone/Table;
+#X obj 186 30 cyclone/Table;
 #C restore;
 #X restore 198 856 pd Related_objects;
 #X obj 469 535 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0

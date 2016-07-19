@@ -195,7 +195,7 @@ f 58;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 492 692 pd META;
 #N canvas 306 111 434 71 Related_objects 0;
 #X obj 3 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;

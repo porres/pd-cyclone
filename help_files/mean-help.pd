@@ -1,13 +1,13 @@
 #N canvas 400 28 572 530 10;
 #X obj 2 417 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 482 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 524 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 542 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 584 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 83 426 cnv 17 3 47 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 515 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 557 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty mean 4 14 0 18 -204280 -1 0;
 #X obj 512 53 mean;
@@ -17,24 +17,16 @@
 #X msg 233 198 0 \, 1 1000;
 #X msg 269 256 1 2 3 4 5;
 #X floatatom 332 349 5 0 0 0 - - -, f 5;
-#X text 110 425 list;
-#X text 110 442 float;
-#X text 183 442 - number to add running average;
-#X text 110 457 message;
-#X text 110 492 float;
-#X text 183 492 - running average;
-#X text 110 560 (none);
-#X obj 83 492 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 110 600 (none);
+#X obj 83 534 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 110 515 float;
-#X text 183 515 - total number of values processed;
 #X obj 233 298 cyclone/mean, f 17;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 611 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 653 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 590 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 632 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 594 316 370 225 META 0;
+#N canvas 483 101 389 340 META 0;
 #X text 0 18 LICENSE SIBSD;
 #X text 0 108 LIBRARY cyclone;
 #X text 0 0 KEYWORDS average list mean;
@@ -51,18 +43,23 @@
 #X text 2 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 505 592 pd META;
-#N canvas 307 431 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 209 592 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 505 634 pd META;
+#N canvas 346 145 430 80 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 46 29 cyclone/accum;
+#X obj 136 29 cyclone/anal;
+#X obj 13 29 bag;
+#X obj 222 29 cyclone/histo;
+#X obj 312 29 cyclone/prob;
+#C restore;
+#X restore 209 634 pd Related_objects;
 #X msg 156 246 clear;
 #X obj 192 146 vsl 26 58 0 127 0 0 snd rcv empty 0 -9 0 10 -216373
--1 -1 0 1;
+-1 -1 1400 1;
 #X floatatom 192 212 5 0 0 0 - - -, f 5;
-#X text 183 425 - list of numbers to take average;
-#X text 183 457 - "clear": clear average \, start over;
 #X obj 369 354 cyclone/comment 80 11 helvetica ? 0 80 80 80 how many
 numbers have been received;
 #X obj 109 232 cyclone/comment 80 11 helvetica ? 0 80 80 80 zero the
@@ -76,11 +73,31 @@ stream of numbers;
 ;
 #X obj 33 105 cyclone/comment 358 10 monaco ? 0 80 80 80 calculates
 the mean (average) of all numbers it has received and outputs it.;
-#X connect 9 0 23 0;
+#X text 158 448 -;
+#X text 118 448 float;
+#X text 158 469 -;
+#X text 124 469 list;
+#X text 158 489 -;
+#X text 107 489 message;
+#X text 173 448 number to add running average, f 60;
+#X text 173 469 list of numbers to take average, f 60;
+#X text 227 489 clear average \, start over, f 51;
+#X text 173 489 "clear":;
+#X text 158 536 -;
+#X text 118 536 float;
+#X text 158 558 -;
+#X text 118 558 float;
+#X text 173 536 running average, f 60;
+#X text 173 558 total number of values processed, f 60;
+#X text 158 428 -;
+#X text 125 428 bang;
+#X text 173 428 sends out the previous output (the stored average value)
+, f 60;
+#X connect 9 0 15 0;
 #X connect 10 0 9 0;
-#X connect 11 0 23 0;
-#X connect 23 0 8 0;
-#X connect 23 1 12 0;
-#X connect 29 0 23 0;
-#X connect 30 0 31 0;
-#X connect 31 0 23 0;
+#X connect 11 0 15 0;
+#X connect 15 0 8 0;
+#X connect 15 1 12 0;
+#X connect 21 0 15 0;
+#X connect 22 0 23 0;
+#X connect 23 0 15 0;

@@ -1,21 +1,17 @@
-#N canvas 393 26 557 472 10;
+#N canvas 393 26 557 542 10;
 #X obj 2 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 363 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 405 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 458 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 82 318 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 318 cnv 17 3 66 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 376 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 421 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty iter 4 14 0 18 -204280 -1 0;
 #X obj 512 52 iter;
-#X text 110 317 list;
-#X text 110 336 float;
-#X text 182 336 - floats just pass through;
-#X text 110 376 float;
-#X text 110 419 (none);
+#X text 110 472 (none);
 #X msg 53 148 1 2 3 4;
 #X obj 53 245 print;
 #X floatatom 411 148 5 0 0 0 - - -, f 5;
@@ -23,19 +19,17 @@
 #X obj 233 245 print;
 #X msg 233 148 foo bar del mar;
 #X text 14 71 split a list into a series of data;
-#X text 182 317 - list to split into series of data;
-#X text 182 376 - series of data from input list;
 #X obj 53 192 cyclone/iter;
 #X obj 233 192 cyclone/iter;
 #X obj 411 192 cyclone/iter;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 469 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 539 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 469 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 539 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 448 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 518 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 595 166 366 215 META 0;
+#N canvas 474 99 405 345 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 100 LIBRARY cyclone;
 #X text 0 0 KEYWORDS split list series;
@@ -50,12 +44,17 @@
 #X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 492 450 pd META;
-#N canvas 302 272 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 202 450 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 492 520 pd META;
+#N canvas 339 143 430 84 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 13 34 cyclone/cycle;
+#X obj 110 34 cyclone/thresh;
+#X obj 213 34 unpack;
+#X obj 269 34 zl;
+#X restore 202 520 pd Related_objects;
 #X obj 470 284 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
 #X obj 49 119 cyclone/comment 163 11 helvetica ? 0 80 80 80 works for
@@ -64,7 +63,7 @@ lists of numbers;
 lists of words;
 #X obj 409 116 cyclone/comment 100 11 helvetica ? 0 80 80 80 single
 floats just pass through;
-#N canvas 418 92 485 285 Examples 0;
+#N canvas 349 94 485 285 Examples 0;
 #X obj 52 62 cyclone/comment 98 11 helvetica ? 0 80 80 80 can be used
 to play chord from lists;
 #X msg 59 94 60 63 67;
@@ -84,7 +83,7 @@ off;
 #X obj 2 261 cnv 15 480 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 19 24 examples;
-#N canvas 440 304 378 120 credits 0;
+#N canvas 494 181 378 120 credits 0;
 #X text 83 34 From Max 7 Reference Documentation., f 40;
 #X restore 402 263 pd credits;
 #X connect 1 0 2 0;
@@ -98,9 +97,22 @@ off;
 #X obj 91 246 cyclone/comment 25 11 helvetica ? 0 80 80 80 <----;
 #X obj 118 244 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
 of print object in Pd main window;
-#X connect 12 0 21 0;
-#X connect 14 0 23 0;
-#X connect 17 0 22 0;
-#X connect 21 0 13 0;
-#X connect 22 0 16 0;
-#X connect 23 0 15 0;
+#X text 158 351 -;
+#X text 118 351 float;
+#X text 158 372 -;
+#X text 124 372 list;
+#X text 173 372 list to split into series of data, f 60;
+#X text 173 351 floats just pass through, f 60;
+#X text 158 422 -;
+#X text 118 422 float;
+#X text 173 422 series of data from input list, f 60;
+#X text 158 319 -;
+#X text 125 319 bang;
+#X text 173 319 output number or list most recently received \, in
+sequential order., f 60;
+#X connect 8 0 15 0;
+#X connect 10 0 17 0;
+#X connect 13 0 16 0;
+#X connect 15 0 9 0;
+#X connect 16 0 12 0;
+#X connect 17 0 11 0;

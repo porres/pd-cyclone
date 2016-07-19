@@ -1,35 +1,23 @@
 #N canvas 397 27 572 506 10;
 #X obj 4 406 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 475 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 513 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 512 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 564 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 85 417 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 484 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 526 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty match 4 14 0 18 -204280 -1 0
 ;
 #X obj 504 54 match;
-#X text 119 417 list;
-#X text 102 527 1) list;
-#X text 182 526 - list of numbers to match \, nn can be used as wildcard
-for any number;
-#X text 119 484 list;
-#X text 119 432 float;
-#X text 182 432 - a series of floats in the proper order are send as
-a list;
-#X text 182 417 - a list of floats matching the pattern is send;
-#X text 182 484 - list of floats that match the pattern;
-#X text 119 446 set;
-#X text 182 446 - defines a new pattern to match;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 586 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 661 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 565 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 640 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 585 247 370 239 META 0;
+#N canvas 481 101 401 341 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 100 LIBRARY cyclone;
 #X text 0 0 KEYWORDS series match list;
@@ -44,12 +32,17 @@ a list;
 #X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 505 567 pd META;
-#N canvas 302 378 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 206 567 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 505 642 pd META;
+#N canvas 344 143 430 83 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 144 34 cyclone/iter;
+#X obj 15 34 join;
+#X obj 54 34 pack;
+#X obj 94 34 select;
+#X restore 206 642 pd Related_objects;
 #X floatatom 206 348 5 0 0 0 - - -, f 5;
 #X floatatom 240 348 5 0 0 0 - - -, f 5;
 #X obj 206 313 unpack f f f;
@@ -76,14 +69,14 @@ to send a sequence of numbers to match object;
 output;
 #X obj 474 377 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 307 94 600 601 Examples 0;
+#N canvas 292 94 600 601 Examples 0;
 #X obj 2 2 cnv 15 595 40 empty empty match 3 12 0 18 -204280 -1 0;
 #X text 24 24 examples;
 #X obj 2 597 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 577 cnv 15 595 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 378 120 credits 0;
-#X text 40 32 Some examples from Max 7 Reference Documentation.;
+#N canvas 518 179 378 120 credits 0;
+#X text 60 32 Some examples from Max 7 Documentation.;
 #X restore 517 579 pd credits;
 #X msg 283 114 34;
 #X msg 295 136 set 34 erg 88;
@@ -177,19 +170,41 @@ of elements or a list equal to the argument are left;
 incoming stream of floats \, symbols \, list \, or messages \, and
 outputs the stream after it has met the specification of its arguments
 ;
+#X text 158 418 -;
+#X text 118 418 float;
+#X text 158 439 -;
+#X text 124 439 list;
+#X text 158 459 -;
+#X text 107 459 message;
+#X text 173 418 a series of floats in the proper order are send as
+a list, f 60;
+#X text 173 439 a list of floats matching the pattern is send, f 60
+;
+#X text 173 477 "set":;
+#X text 215 477 defines a new pattern to match, f 53;
+#X text 173 459 "clear":;
+#X text 227 459 forget all numbers it has received up to that time
+, f 51;
+#X text 158 527 -;
+#X text 124 527 list;
+#X text 173 527 list of floats that match the pattern, f 60;
+#X text 158 582 -;
+#X text 100 582 1) list;
+#X text 172 582 list of numbers to match \, nn can be used as wildcard
+for any number;
+#X connect 12 0 16 0;
+#X connect 13 0 17 0;
+#X connect 14 0 12 0;
+#X connect 14 1 13 0;
+#X connect 14 2 15 0;
+#X connect 15 0 18 0;
+#X connect 19 0 21 0;
+#X connect 19 1 25 0;
+#X connect 19 2 22 0;
+#X connect 20 0 19 0;
+#X connect 21 0 26 0;
 #X connect 22 0 26 0;
-#X connect 23 0 27 0;
-#X connect 24 0 22 0;
-#X connect 24 1 23 0;
-#X connect 24 2 25 0;
-#X connect 25 0 28 0;
-#X connect 29 0 31 0;
-#X connect 29 1 35 0;
-#X connect 29 2 32 0;
-#X connect 30 0 29 0;
-#X connect 31 0 36 0;
-#X connect 32 0 36 0;
-#X connect 33 0 36 0;
-#X connect 34 0 36 0;
-#X connect 35 0 36 0;
-#X connect 36 0 24 0;
+#X connect 23 0 26 0;
+#X connect 24 0 26 0;
+#X connect 25 0 26 0;
+#X connect 26 0 14 0;

@@ -1,78 +1,128 @@
-#N canvas 402 28 572 433 10;
-#X obj 2 362 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 402 28 572 515 10;
+#X obj 2 392 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 439 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 645 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 476 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 761 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 371 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 401 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 448 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 654 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty substitute 4 14 0 18 -204280
 -1 0;
 #X obj 476 53 substitute;
 #X text 14 71 substitute a symbol for another symbol in a message;
-#X msg 319 201 bar foo;
-#X text 109 371 message;
-#X text 184 371 - string to input and check for substitution;
-#X obj 81 400 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X msg 319 221 bar foo;
+#X obj 81 550 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 109 400 message;
-#X text 184 400 - format <str1> <str2> \, change replacement policy
-to if see str1 change to str2;
-#X text 109 448 message;
-#X text 184 448 - output message with replaced strings;
-#X text 92 488 1) string;
-#X text 92 506 2) string;
-#X text 186 488 - string to search for;
-#X text 186 506 - string to replace with;
-#X msg 113 149 far boo;
+#X msg 113 169 far boo;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 559 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 967 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 538 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 946 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 613 201 357 237 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 127 LIBRARY cyclone;
-#X text 0 0 KEYWORDS substitute symbol replace;
-#X text 0 38 DESCRIPTION substitute a symbol for another symbol in
+#N canvas 490 103 384 343 META 0;
+#X text 9 29 LICENSE SIBSD;
+#X text 9 137 LIBRARY cyclone;
+#X text 9 10 KEYWORDS substitute symbol replace;
+#X text 9 48 DESCRIPTION substitute a symbol for another symbol in
 a message;
-#X text 0 70 INLET_0 message;
-#X text 0 89 INLET_1 message;
-#X text 0 108 OUTLET_0 message;
-#X text 0 147 VERSION 0.2-beta1;
-#X text 0 165 AUTHOR Krzysztof Czaja;
-#X text 1 183 RELEASE_DATE 2002;
-#X text 2 202 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 9 80 INLET_0 message;
+#X text 9 99 INLET_1 message;
+#X text 9 118 OUTLET_0 message;
+#X text 9 157 VERSION 0.2-beta1;
+#X text 9 175 AUTHOR Krzysztof Czaja;
+#X text 10 193 RELEASE_DATE 2002;
+#X text 11 212 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 234 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 11 244 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 499 540 pd META;
-#N canvas 314 328 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 203 540 pd Related_objects;
-#X obj 319 314 print unchanged;
-#X msg 186 218 foo foo foo 37;
-#X msg 166 194 1 2 3 4;
-#X msg 143 171 bar 1 foo;
-#X obj 166 313 print replaced;
-#X obj 166 253 cyclone/substitute foo LoL;
-#X msg 343 224 1 hithere;
-#X obj 233 151 cyclone/comment 129 11 helvetica ? 0 80 80 80 hit the
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 499 948 pd META;
+#N canvas 347 143 430 76 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 16 31 cyclone/sprintf %d;
+#X obj 141 31 cyclone/zl;
+#X restore 203 948 pd Related_objects;
+#X obj 319 334 print unchanged;
+#X msg 186 238 foo foo foo 37;
+#X msg 166 214 1 2 3 4;
+#X msg 143 191 bar 1 foo;
+#X obj 166 333 print replaced;
+#X msg 343 244 1 hithere;
+#X obj 233 171 cyclone/comment 129 11 helvetica ? 0 80 80 80 hit the
 messages and watch the Pd main window;
 #X obj 33 101 cyclone/comment 450 10 monaco ? 0 80 80 80 matches messages
 to its own arguments \; whenever it finds a match \, will make the
 appropriate substitution.;
-#X connect 8 0 31 1;
-#X connect 20 0 31 0;
-#X connect 27 0 31 0;
-#X connect 28 0 31 0;
-#X connect 29 0 31 0;
-#X connect 31 0 30 0;
-#X connect 31 1 26 0;
-#X connect 32 0 31 1;
+#X text 158 460 -;
+#X text 125 460 bang;
+#X text 158 480 -;
+#X text 118 480 float;
+#X text 158 501 -;
+#X text 158 402 -;
+#X text 124 501 list;
+#X text 100 402 anything;
+#X text 158 521 -;
+#X text 107 521 message;
+#X text 173 521 "set":;
+#X text 173 402 the input is echoed to the output \, but if the message
+received contains an element matching the match symbol or number \,
+the element is replaced by the replacement symbol or number when the
+message is repeated to the output.;
+#X text 173 460 same as anything, f 60;
+#X text 173 480 same as anything, f 60;
+#X text 173 501 same as anything, f 60;
+#X text 215 521 same as anything, f 53;
+#X text 158 551 -;
+#X text 100 551 anything;
+#X text 158 609 -;
+#X text 107 609 message;
+#X text 173 609 "set":;
+#X text 173 551 the [substitute] object accepts a message of two numbers
+or symbols in its inlet 1 The first number or symbol specifies the
+match \, which identifies what should be replaced in an incoming message
+;
+#X text 215 609 same as anything \, except that the word set is ignored
+;
+#X text 158 712 -;
+#X text 158 654 -;
+#X text 100 654 anything;
+#X text 173 654 the input message is echoed to the output with elements
+matching the match symbol or number replaced by the replacement number
+or symbol, f 60;
+#X obj 81 712 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 100 712 anything;
+#X text 173 712 if no substitution occurred when sending out the incoming
+message \, the original input message is passed out here, f 60;
+#X text 169 779 -;
+#X text 92 779 1) anything;
+#X text 182 779 the first number or symbol specifies the match \, which
+identifies what should be replaced in an incoming message. The default
+match value is 0 (optional);
+#X text 169 827 -;
+#X text 92 827 2) anything;
+#X text 182 827 the second number or symbol specifies the replacement
+for the match. The default replacement value is 0 (optional), f 58
+;
+#X text 169 862 -;
+#X text 92 862 3) anything;
+#X text 182 862 any third number or symbol sets the "replace first
+message only" mode of the substitute object. Only the first instance
+of the specified match will be replaced. (optional), f 58;
+#X obj 246 906 cnv 9 120 20 empty empty (not_implemented_yet) 2 3 0
+10 -262144 -258113 0;
+#X obj 166 273 cyclone/substitute foo LoL;
+#X connect 8 0 64 1;
+#X connect 10 0 64 0;
+#X connect 17 0 64 0;
+#X connect 18 0 64 0;
+#X connect 19 0 64 0;
+#X connect 21 0 64 1;
+#X connect 64 0 20 0;
+#X connect 64 1 16 0;

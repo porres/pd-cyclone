@@ -1,24 +1,17 @@
-#N canvas 401 28 572 447 10;
+#N canvas 401 28 572 487 10;
 #X obj 2 408 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 462 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 539 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 502 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 594 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 89 419 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 89 419 cnv 17 3 49 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 89 473 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 89 557 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty spray 4 14 0 18 -204280 -1 0
 ;
 #X obj 505 52 spray;
-#X text 117 419 list;
-#X text 179 419 - x \, y pairs \, where x is number to send and y is
-the outlet number;
-#X text 117 473 float;
-#X text 179 473 - number send from inlet to specific outlet;
-#X text 99 515 1) float;
-#X text 179 516 - number of outlets;
 #X floatatom 180 351 5 0 0 0 - - -, f 5;
 #X floatatom 223 351 5 0 0 0 - - -, f 5;
 #X floatatom 267 351 5 0 0 0 - - -, f 5;
@@ -49,36 +42,40 @@ The outlet number is the first of the list.;
 #X connect 5 0 0 0;
 #X connect 6 0 0 0;
 #X connect 7 0 0 0;
-#X restore 347 529 pd outlet offsets;
-#X text 99 529 2) float;
-#X text 179 530 - outlet offset number.See:;
+#X restore 326 632 pd outlet offsets;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 583 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 698 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 562 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 677 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 601 222 355 207 META 0;
-#X text 1 19 LICENSE SIBSD;
-#X text 1 95 LIBRARY cyclone;
-#X text 1 0 KEYWORDS integer to number send;
-#X text 1 38 DESCRIPTION distribute an integer to a numbered outlet
+#N canvas 490 103 394 345 META 0;
+#X text 11 29 LICENSE SIBSD;
+#X text 11 105 LIBRARY cyclone;
+#X text 11 10 KEYWORDS integer to number send;
+#X text 11 48 DESCRIPTION distribute an integer to a numbered outlet
 ;
-#X text 1 57 INLET_0 list;
-#X text 1 76 OUTLET_N float;
-#X text 0 113 VERSION 0.2-beta1;
-#X text 0 131 AUTHOR Krzysztof Czaja;
-#X text 1 149 RELEASE_DATE 2002;
-#X text 2 168 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 11 67 INLET_0 list;
+#X text 11 86 OUTLET_N float;
+#X text 10 123 VERSION 0.2-beta1;
+#X text 10 141 AUTHOR Krzysztof Czaja;
+#X text 11 159 RELEASE_DATE 2002;
+#X text 12 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 200 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 12 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 503 564 pd META;
-#N canvas 296 325 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 204 564 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 503 679 pd META;
+#N canvas 347 145 430 96 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 107 33 cyclone/cycle;
+#X obj 197 33 cyclone/funnel;
+#X obj 295 33 cyclone/gate;
+#X obj 11 33 route;
+#X obj 55 33 unpack;
+#X restore 204 679 pd Related_objects;
 #X msg 214 193 0 3.8;
 #X text 14 71 distribute a value to a numbered outlet;
 #X obj 124 174 cyclone/comment 129 11 helvetica ? 0 80 80 80 outlet-number/value
@@ -97,13 +94,33 @@ and one or more values that follow are sent out that outlet and those
 to its right \, in right-to-left order. The argument sets the number
 of outlets (there is no set limit). The default number of outlets is
 2;
-#X connect 16 0 19 0;
-#X connect 17 0 19 0;
-#X connect 18 0 19 0;
-#X connect 19 0 13 0;
-#X connect 19 1 14 0;
-#X connect 19 2 15 0;
-#X connect 20 0 19 0;
-#X connect 21 0 19 0;
-#X connect 22 0 19 0;
-#X connect 31 0 19 0;
+#X text 158 419 -;
+#X text 124 419 list;
+#X text 158 451 -;
+#X text 107 451 message;
+#X text 173 419 x \, y pairs \, where x is number to send and y is
+the outlet number, f 60;
+#X text 173 451 "offset":;
+#X text 233 451 the word "offset" followed by a number will offset
+the output of the object by the number of outlets given shifted to
+the left (a negative number will specify the number of outlets offset
+to the right)., f 50;
+#X text 158 558 -;
+#X text 119 558 float;
+#X text 173 558 number send from inlet to specific outlet, f 60;
+#X text 158 613 -;
+#X text 100 613 1) float;
+#X text 158 632 -;
+#X text 172 613 number of outlets, f 60;
+#X text 172 632 outlet offset number.See:, f 60;
+#X text 100 632 2) float;
+#X connect 10 0 13 0;
+#X connect 11 0 13 0;
+#X connect 12 0 13 0;
+#X connect 13 0 7 0;
+#X connect 13 1 8 0;
+#X connect 13 2 9 0;
+#X connect 14 0 13 0;
+#X connect 15 0 13 0;
+#X connect 16 0 13 0;
+#X connect 23 0 13 0;

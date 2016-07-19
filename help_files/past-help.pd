@@ -1,76 +1,63 @@
-#N canvas 397 26 572 535 10;
+#N canvas 397 26 572 550 10;
 #X obj 2 362 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 469 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 494 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 517 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 549 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 81 371 cnv 17 3 85 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 487 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 512 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty past 4 14 0 18 -204280 -1 0;
 #X obj 509 55 past;
 #X text 14 71 report when input increases beyond a certain number;
-#X text 111 370 float;
-#X text 111 412 set x;
-#X text 111 433 clear;
-#X text 111 487 bang;
-#X text 93 531 1) float;
-#X text 182 531 - initial limit;
-#X obj 2 577 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 2 633 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 111 390 list;
-#X text 93 559 n) list;
-#X text 182 559 - initial list of limits;
-#X text 107 545 or;
-#X text 182 487 - bang if input number is more than limit or list or
-limits;
-#X text 182 433 - reset the 'past' state \, so a next matching float
-or list will send a bang;
-#X text 182 412 - set the new limit to x. x is a float or list of floats
-;
-#X text 182 390 - list of floats to check if past limit;
-#X text 183 371 - float to check if past limit;
-#X text 95 594 The behaviour with floats and lists is consistent with
+#X text 133 579 or;
+#X text 95 650 The behaviour with floats and lists is consistent with
 the Max implementation \, but not the Max5 documentation;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 650 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 730 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 629 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 709 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 981 323 494 275 META 0;
-#X text 0 90 OUTLET_0 bang;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 0 KEYWORDS control max_compatible;
-#X text 0 70 INLET_0 float message;
-#X text 0 127 VERSION 0.2-beta1;
-#X text 0 145 AUTHOR Krzysztof Czaja;
-#X text 1 163 RELEASE_DATE 2002;
-#X text 2 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 450 97 450 382 META 0;
+#X text 40 100 OUTLET_0 bang;
+#X text 40 29 LICENSE SIBSD;
+#X text 40 10 KEYWORDS control max_compatible;
+#X text 40 80 INLET_0 float message;
+#X text 40 137 VERSION 0.2-beta1;
+#X text 40 155 AUTHOR Krzysztof Czaja;
+#X text 41 173 RELEASE_DATE 2002;
+#X text 42 192 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 41 119 LIBRARY cyclone;
+#X text 40 49 DESCRIPTION report when input increases beyond a certain
+number;
+#X text 42 224 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X text 1 109 LIBRARY cyclone;
-#X text 0 39 DESCRIPTION report when input increases beyond a certain
-number;
-#X restore 502 631 pd META;
-#N canvas 323 350 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 210 631 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 502 711 pd META;
+#N canvas 341 142 430 82 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 18 35 >;
+#X obj 51 35 cyclone/maximum;
+#X obj 156 35 cyclone/peak;
+#X restore 210 711 pd Related_objects;
 #X obj 462 339 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 314 95 585 511 Examples 0;
+#N canvas 314 93 585 511 Examples 0;
 #X obj 2 2 cnv 15 580 40 empty empty past 3 12 0 18 -204280 -1 0;
 #X obj 2 487 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 12 25 examples;
 #N canvas 440 304 471 125 credits 0;
-#X text 41 38 Examples from Max 7 Reference Documentation \, except
-the first., f 64;
+#X text 71 38 Examples from Max 7 Documentation \, except the first.
+, f 54;
 #X restore 501 489 pd credits;
 #X floatatom 59 68 5 0 0 0 - - -, f 5;
 #X msg 81 85 set 8;
@@ -79,7 +66,7 @@ the first., f 64;
 #X obj 117 107 spigot;
 #X obj 164 107 tgl 16 0 empty empty empty 17 7 0 10 -216373 -1 -1 0
 1;
-#N canvas 490 210 445 372 weirdness 0;
+#N canvas 446 123 445 372 weirdness 0;
 #X obj 81 249 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
 #X floatatom 11 67 5 0 0 0 - - -, f 5;
@@ -227,7 +214,7 @@ work properly;
 #X obj 33 262 cyclone/comment 228 11 helvetica ? 0 80 80 80 only if
 each element in received list are equal or greater than the element
 in same position in argument list [past] will send a bang;
-#N canvas 521 304 431 233 preset 0;
+#N canvas 387 161 431 233 preset 0;
 #X obj 123 107 loadbang;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X obj 121 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 horizontal
@@ -291,15 +278,39 @@ list behavior please see Examples;
 ;
 #X obj 183 240 cyclone/comment 88 11 helvetica ? 0 80 80 80 forget
 previously received input;
-#X connect 32 0 33 0;
-#X connect 32 0 35 0;
-#X connect 35 0 40 0;
-#X connect 36 0 35 0;
-#X connect 37 0 35 0;
-#X connect 43 0 44 0;
-#X connect 44 0 41 0;
-#X connect 44 0 42 0;
-#X connect 45 0 44 0;
-#X connect 46 0 44 0;
-#X connect 47 0 44 0;
-#X connect 48 0 44 0;
+#X text 158 374 -;
+#X text 118 374 float;
+#X text 158 395 -;
+#X text 124 395 list;
+#X text 158 415 -;
+#X text 107 415 message;
+#X text 173 374 float to check if past limit, f 60;
+#X text 173 395 list of floats to check if past limit, f 60;
+#X text 173 415 "clear":;
+#X text 227 415 reset the 'past' state \, so a next matching float
+or list will send a bang, f 51;
+#X text 173 445 "set <x>":;
+#X text 239 445 set the new limit to <x>. <x> is a float or list of
+floats, f 49;
+#X text 158 513 -;
+#X text 125 513 bang;
+#X text 173 513 bang if input number is more than limit or list or
+limits, f 60;
+#X text 158 563 -;
+#X text 100 563 1) float;
+#X text 172 563 initial limit, f 60;
+#X text 158 597 -;
+#X text 100 597 2) list;
+#X text 172 597 initial list of limits, f 60;
+#X connect 18 0 19 0;
+#X connect 18 0 21 0;
+#X connect 21 0 26 0;
+#X connect 22 0 21 0;
+#X connect 23 0 21 0;
+#X connect 29 0 30 0;
+#X connect 30 0 27 0;
+#X connect 30 0 28 0;
+#X connect 31 0 30 0;
+#X connect 32 0 30 0;
+#X connect 33 0 30 0;
+#X connect 34 0 30 0;

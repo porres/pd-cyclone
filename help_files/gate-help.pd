@@ -24,7 +24,7 @@
 #X obj 340 234 cyclone/gate 3, f 18;
 #X obj 461 346 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 393 172 585 365 Examples 0;
+#N canvas 329 94 585 365 Examples 0;
 #X obj 2 2 cnv 15 580 40 empty empty gate 3 12 0 18 -204280 -1 0;
 #X obj 2 341 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -152,7 +152,7 @@ Graph-On-Parent patch to send numbers from 0 to 500;
 #X obj 2 596 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 576 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 572 254 390 217 META 0;
+#N canvas 501 104 400 309 META 0;
 #X text 0 18 LICENSE SIBSD;
 #X text 0 108 LIBRARY cyclone;
 #X text 0 0 KEYWORDS data specific output gate;
@@ -168,13 +168,16 @@ Graph-On-Parent patch to send numbers from 0 to 500;
 #X text 2 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 493 578 pd META;
-#N canvas 302 362 430 110 Related_objects 0;
+#N canvas 357 145 430 88 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
-#X obj 15 33 switch;
-#X obj 16 54 cyclone/cycle;
+#X obj 96 33 cyclone/cycle;
+#X obj 187 33 cyclone/switch;
+#X obj 15 33 route;
+#X obj 58 33 send;
 #X restore 203 578 pd Related_objects;
 #X obj 73 115 cyclone/comment 300 11 helvetica ? 0 85 85 85 <-- send
 data to which outlet?;

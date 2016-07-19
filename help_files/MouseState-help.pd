@@ -19,10 +19,6 @@
 #X floatatom 270 357 5 0 0 0 - - -, f 5;
 #X msg 160 259 zero;
 #X msg 178 292 reset;
-#X text 107 521 bang;
-#X text 201 521 - update current state;
-#X text 107 541 other messages;
-#X text 201 542 - poll: poll mouse device;
 #X obj 84 658 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 84 681 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
@@ -31,29 +27,15 @@
 ;
 #X obj 84 728 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X text 201 636 - is button pressed?;
-#X text 107 636 toggle;
-#X text 107 658 float;
-#X text 107 681 float;
-#X text 107 705 float;
-#X text 107 728 float;
-#X text 201 705 - delta x from last poll;
-#X text 201 728 - delta y from last poll;
 #X text 108 772 (none);
-#X text 201 557 - nopoll: do not poll mouse device;
-#X text 201 598 - reset: set 0 \, 0 (upper left corner);
 #X text 14 71 report mouse x/y \, delta x/delta y \, and buttonpress
 ;
-#X text 201 570 - zero: set current position to 0 \, 0;
-#X text 214 584 of pd coordinate system;
-#X text 201 658 - absolute x position;
-#X text 201 681 - absolute y position;
 #X obj 2 2 cyclone/fancy/cyheader;
 #X obj 2 821 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
 #X obj 2 800 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 616 310 351 289 META 0;
+#N canvas 498 95 369 388 META 0;
 #X text 0 18 LICENSE SIBSD;
 #X text 0 175 LIBRARY cyclone;
 #X text 0 0 KEYWORDS signal max maximum;
@@ -74,12 +56,13 @@ buttonpress;
 #X text 2 280 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 500 802 pd META;
-#N canvas 303 494 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 8 33 cyclone/mousefilter;
+#N canvas 346 143 430 68 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 8 29 cyclone/mousefilter;
 #X restore 203 802 pd Related_objects;
 #N canvas 652 213 446 444 poll-nopoll 0;
 #X obj 106 103 inlet;
@@ -137,15 +120,14 @@ delta;
 #X obj 165 331 cyclone/mousestate;
 #X obj 465 490 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 282 100 600 320 Examples 0;
+#N canvas 263 94 585 305 Examples 0;
 #X obj 2 2 cnv 15 580 40 empty empty mousestate 3 12 0 18 -204280 -1
 0;
 #X obj 2 281 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 75 24 examples;
-#N canvas 440 304 400 122 credits 0;
-#X text 54 28 Examples based on Max 7 Reference Documentation and on
-the last old cyclone help maximum-help., f 48;
+#N canvas 481 166 400 122 credits 0;
+#X text 77 40 Examples based on Max 7 Documentation., f 48;
 #X restore 501 283 pd credits;
 #X obj 53 152 cyclone/mousestate;
 #X obj 53 64 tgl 22 0 tgl_snd tgl_rcv empty 17 7 0 10 -216373 -1 -1
@@ -190,18 +172,48 @@ change;
 0 \, 0 point from which to measure the mouse location;
 #X obj 219 294 cyclone/comment 265 11 helvetica ? 0 80 80 80 resets
 to 0 \, 0 point to its default (upper left corner);
-#X obj 35 104 cyclone/comment 467 10 monaco ? 0 80 80 80 provides button
+#X obj 35 104 cyclone/comment 467 10 monaco ? 0 80 80 80 Provides button
 status and cursor position information about the mouse/cursor when
 the cursor is positioned within a Max patcher window.;
-#X obj 35 131 cyclone/comment 467 10 monaco ? 0 80 80 80 the mouse
-position is sampled every input bang;
-#X connect 11 0 52 0;
-#X connect 12 0 52 0;
-#X connect 42 0 44 0;
-#X connect 43 0 42 0;
-#X connect 44 0 52 0;
-#X connect 52 0 6 0;
-#X connect 52 1 7 0;
-#X connect 52 2 8 0;
-#X connect 52 3 9 0;
-#X connect 52 4 10 0;
+#X obj 35 131 cyclone/comment 467 10 monaco ? 0 80 80 80 The mouse
+position is sampled every input bang.;
+#X text 158 524 -;
+#X text 125 524 bang;
+#X text 173 524 repeats the stored value, f 60;
+#X text 158 545 -;
+#X text 107 545 message;
+#X text 173 545 "poll":;
+#X text 221 545 poll mouse device, f 52;
+#X text 173 563 "nopoll":;
+#X text 233 563 do not poll mouse device, f 50;
+#X text 173 582 "zero":;
+#X text 221 582 set current position to 0 \, 0 of pd coordinate system
+;
+#X text 173 600 "reset":;
+#X text 227 600 set 0 \, 0 (upper left corner), f 51;
+#X text 158 638 -;
+#X text 118 638 float;
+#X text 173 638 works like toogle \, 1 mouse button is pressed \, 0
+not pressed, f 60;
+#X text 158 659 -;
+#X text 118 659 float;
+#X text 173 659 absolute x position, f 60;
+#X text 158 682 -;
+#X text 118 682 float;
+#X text 173 682 absolute y position, f 60;
+#X text 158 706 -;
+#X text 118 706 float;
+#X text 173 706 delta x from last poll, f 60;
+#X text 158 729 -;
+#X text 118 729 float;
+#X text 173 729 delta y from last poll, f 60;
+#X connect 11 0 34 0;
+#X connect 12 0 34 0;
+#X connect 24 0 26 0;
+#X connect 25 0 24 0;
+#X connect 26 0 34 0;
+#X connect 34 0 6 0;
+#X connect 34 1 7 0;
+#X connect 34 2 8 0;
+#X connect 34 3 9 0;
+#X connect 34 4 10 0;

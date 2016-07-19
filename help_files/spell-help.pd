@@ -1,57 +1,53 @@
-#N canvas 400 28 572 396 10;
+#N canvas 400 28 557 552 10;
 #X obj 2 337 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 375 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 385 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 430 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 82 346 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 384 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 394 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty spell 4 14 0 18 -204280 -1 0
 ;
 #X obj 506 53 spell;
 #X text 14 71 convert input to ascii values;
-#X text 121 346 list;
-#X text 121 384 list;
-#X text 182 384 - ascii values of data from inlet;
 #X msg 103 113 63;
 #X msg 184 130 t h i s;
 #X msg 138 122 34 45;
 #X msg 249 143 or that;
-#X text 119 425 (none);
-#X text 182 346 - list of any numbers \, text \, etc to convert to
-ascii;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 479 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 549 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 458 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 528 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 583 213 379 219 META 0;
-#X text 1 19 LICENSE SIBSD;
-#X text 1 95 LIBRARY cyclone;
-#X text 1 0 KEYWORDS ascii values convert;
-#X text 1 38 DESCRIPTION convert input to ascii values;
-#X text 1 57 INLET_0 list;
-#X text 1 76 OUTLET_0 list;
-#X text 0 116 VERSION 0.2-beta1;
-#X text 0 134 AUTHOR Krzysztof Czaja;
-#X text 1 152 RELEASE_DATE 2002;
-#X text 2 171 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 479 105 410 330 META 0;
+#X text 17 30 LICENSE SIBSD;
+#X text 17 106 LIBRARY cyclone;
+#X text 17 11 KEYWORDS ascii values convert;
+#X text 17 49 DESCRIPTION convert input to ascii values;
+#X text 17 68 INLET_0 list;
+#X text 17 87 OUTLET_0 list;
+#X text 16 127 VERSION 0.2-beta1;
+#X text 16 145 AUTHOR Krzysztof Czaja;
+#X text 17 163 RELEASE_DATE 2002;
+#X text 18 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 203 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 18 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 505 460 pd META;
-#N canvas 433 320 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 104 26 key;
-#X obj 105 48 keyup;
-#X obj 5 27 cyclone/sprintf;
-#X restore 202 460 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 490 530 pd META;
+#N canvas 343 145 430 96 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 51 33 key;
+#X obj 84 33 keyup;
+#X obj 130 33 cyclone/sprintf;
+#X obj 13 33 atoi;
+#X restore 202 530 pd Related_objects;
 #X obj 103 185 s spll;
 #X obj 158 248 cyclone/spell;
 #X obj 158 274 print spell default;
@@ -62,11 +58,24 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 132 276 cyclone/comment 25 11 helvetica ? 0 80 80 80 ---->;
 #X obj 63 275 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
 of print object in Pd main window;
-#X connect 11 0 22 0;
-#X connect 12 0 22 0;
-#X connect 13 0 22 0;
-#X connect 14 0 22 0;
-#X connect 23 0 24 0;
-#X connect 25 0 23 0;
-#X connect 26 0 27 0;
-#X connect 27 0 28 0;
+#X text 158 349 -;
+#X text 124 349 list;
+#X text 173 349 list of any numbers \, text \, etc to convert to ascii
+, f 60;
+#X text 158 394 -;
+#X text 124 394 list;
+#X text 173 394 ascii values of data from inlet, f 60;
+#X text 158 444 -;
+#X text 100 444 1) float;
+#X text 172 444 sets the minimum output size. Any input that doesn't
+"spell" to the minimum length is followed by enough fill characters
+(the default is the space character \, 32 in ASCII) to satisfy the
+minimum requirement.;
+#X connect 8 0 17 0;
+#X connect 9 0 17 0;
+#X connect 10 0 17 0;
+#X connect 11 0 17 0;
+#X connect 18 0 19 0;
+#X connect 20 0 18 0;
+#X connect 21 0 22 0;
+#X connect 22 0 23 0;

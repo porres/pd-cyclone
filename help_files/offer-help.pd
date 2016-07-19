@@ -1,13 +1,13 @@
 #N canvas 359 27 572 502 10;
 #X obj 2 379 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 501 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 500 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 538 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 546 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 82 388 cnv 17 3 57 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 510 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 509 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty offer 4 14 0 18 -204280 -1 0
 ;
@@ -16,54 +16,48 @@
 #X msg 158 130 bang;
 #X msg 158 186 0;
 #X msg 215 186 0.23;
-#X text 111 387 float;
-#X text 182 387 - read find y value correspoding to float and delete
-pair;
-#X text 111 408 list;
-#X text 182 407 - list of x \, y pairs to store in object;
-#X text 111 430 message;
-#X text 111 509 float;
-#X text 182 509 - y values correspoding to input x from inlet;
-#X text 111 550 (none);
+#X text 111 558 (none);
 #X obj 80 464 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 111 467 float;
-#X text 182 467 - input y value;
 #X obj 158 239 cyclone/offer;
 #X msg 102 186 0;
-#X text 182 430 - clear: clear contents of buffer;
 #X text 14 70 store \, retrieve x \, y pairs and delete afterwards
 ;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 599 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 625 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 578 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 604 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 626 288 352 218 META 0;
-#X text 0 18 LICENSE SIBSD;
-#X text 0 108 LIBRARY cyclone;
-#X text 0 0 KEYWORDS x y pairs cartesian;
-#X text 0 36 DESCRIPTION store x \, y pairs of values (x is int only)
+#N canvas 437 102 410 344 META 0;
+#X text 19 26 LICENSE SIBSD;
+#X text 19 116 LIBRARY cyclone;
+#X text 19 8 KEYWORDS x y pairs cartesian;
+#X text 19 44 DESCRIPTION store x \, y pairs of values (x is int only)
 ;
-#X text 0 54 INLET_0 float list message;
-#X text 0 72 INLET_1 float;
-#X text 0 90 OUTLET_0 float;
-#X text 0 126 VERSION 0.2-beta1;
-#X text 0 144 AUTHOR Krzysztof Czaja;
-#X text 1 162 RELEASE_DATE 2002;
-#X text 2 181 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 19 62 INLET_0 float list message;
+#X text 19 80 INLET_1 float;
+#X text 19 98 OUTLET_0 float;
+#X text 19 134 VERSION 0.2-beta1;
+#X text 19 152 AUTHOR Krzysztof Czaja;
+#X text 20 170 RELEASE_DATE 2002;
+#X text 21 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 213 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 21 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 504 580 pd META;
-#N canvas 315 396 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 13 27 funbuff;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 504 606 pd META;
+#N canvas 305 143 430 82 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 13 29 cyclone/coll;
 #C restore;
-#X restore 203 580 pd Related_objects;
+#X obj 98 29 cyclone/funbuff;
+#C restore;
+#X obj 201 29 cyclone/Table;
+#C restore;
+#X restore 203 606 pd Related_objects;
 #X obj 55 187 cyclone/comment 71 11 helvetica ? 0 80 80 80 get it out
 ;
 #X obj 30 112 cyclone/comment 156 11 helvetica ? 0 80 80 80 hit bang
@@ -84,14 +78,31 @@ of print object in Pd main window;
 2 3;
 #X obj 158 293 print offer1;
 #X obj 328 311 print offer2;
+#X text 158 390 -;
+#X text 118 390 float;
+#X text 158 411 -;
+#X text 124 411 list;
+#X text 158 431 -;
+#X text 107 431 message;
+#X text 173 390 read find y value correspoding to float and delete
+pair, f 60;
+#X text 173 411 list of x \, y pairs to store in object, f 60;
+#X text 173 431 "clear": clear contents of buffer, f 60;
+#X text 158 464 -;
+#X text 118 464 float;
+#X text 173 464 input y value, f 60;
+#X text 158 510 -;
+#X text 118 510 float;
+#X text 173 510 y values correspoding to input x from inlet, f 60
+;
 #X connect 7 0 9 0;
 #X connect 7 1 10 0;
 #X connect 8 0 7 0;
-#X connect 9 0 22 0;
-#X connect 10 0 22 1;
-#X connect 22 0 44 0;
-#X connect 23 0 22 0;
-#X connect 39 0 41 0;
-#X connect 40 0 41 0;
-#X connect 41 0 45 0;
-#X connect 42 0 41 0;
+#X connect 9 0 13 0;
+#X connect 10 0 13 1;
+#X connect 13 0 34 0;
+#X connect 14 0 13 0;
+#X connect 29 0 31 0;
+#X connect 30 0 31 0;
+#X connect 31 0 35 0;
+#X connect 32 0 31 0;

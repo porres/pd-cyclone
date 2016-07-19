@@ -1,9 +1,9 @@
 #N canvas 404 28 572 532 10;
 #X obj 2 378 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 483 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 491 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 579 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 588 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 83 387 cnv 17 3 59 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
@@ -11,74 +11,59 @@
 ;
 #X obj 2 45 cnv 15 552 48 empty empty peak 4 14 0 18 -204280 -1 0;
 #X text 14 71 output only numbers greater than the previous;
-#X text 110 386 float;
-#X text 110 408 bang;
-#X text 110 430 list;
-#X obj 83 492 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 500 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 110 455 float;
-#X text 110 492 float;
-#X text 92 592 1) float;
-#X obj 83 517 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 525 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 542 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 83 550 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
 #X floatatom 220 162 5 0 0 0 - - -, f 5;
 #X floatatom 220 314 5 0 0 0 - - -, f 5;
 #X msg 167 193 bang;
 #X floatatom 301 193 5 0 0 0 - - -, f 5;
 #X obj 220 236 cyclone/Peak 4;
-#X text 110 517 float;
-#X text 183 408 - sends current maximum value out the left outlet;
-#X text 183 455 - set new maximum value;
-#X text 183 592 - intial maximum value;
-#X text 183 517 - 0 = not a new maximum value \, 1 = new maximum value
-;
-#X text 183 430 - 2nd sets new maximum value \, 1st is a value;
-#X text 110 542 float;
-#X text 183 492 - maximum value;
-#X text 182 542 - 0 = new maximum value \, 1 = not a new maximum value
-;
-#X obj 2 622 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 2 642 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 183 386 - value checked against maximum;
-#X text 91 636 if a value is not above maximum \, outlet 2 is banged.
+#X text 91 656 if a value is not above maximum \, outlet 2 is banged.
 ;
-#X text 91 650 if the value is above maximum \, outlet 1 is banged
+#X text 91 670 if the value is above maximum \, outlet 1 is banged
 and a new maximum is set;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 711 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 750 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 690 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 729 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 612 296 379 338 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 152 LIBRARY cyclone;
-#X text 0 0 KEYWORDS output peak max maximum;
-#X text 0 38 DESCRIPTION output only numbers greater than previous
+#N canvas 494 101 375 404 META 0;
+#X text 5 29 LICENSE SIBSD;
+#X text 5 162 LIBRARY cyclone;
+#X text 5 10 KEYWORDS output peak max maximum;
+#X text 5 48 DESCRIPTION output only numbers greater than previous
 ;
-#X text 0 57 INLET_0 float bang list;
-#X text 0 76 INLET_1 float;
-#X text 0 95 OUTLET_0 float;
-#X text 0 114 OUTLET_1 bang;
-#X text 0 133 OUTLET_2 bang;
-#X text 0 170 VERSION 0.2-beta1;
-#X text 0 188 AUTHOR Krzysztof Czaja;
-#X text 1 206 RELEASE_DATE 2002;
-#X text 2 225 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 5 67 INLET_0 float bang list;
+#X text 5 86 INLET_1 float;
+#X text 5 105 OUTLET_0 float;
+#X text 5 124 OUTLET_1 bang;
+#X text 5 143 OUTLET_2 bang;
+#X text 5 180 VERSION 0.2-beta1;
+#X text 5 198 AUTHOR Krzysztof Czaja;
+#X text 6 216 RELEASE_DATE 2002;
+#X text 7 235 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 257 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 7 267 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 499 692 pd META;
-#N canvas 309 471 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 21 31 Trough;
-#X obj 69 32 minimum;
-#X obj 69 52 maximum;
-#X restore 200 692 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 499 731 pd META;
+#N canvas 345 144 430 78 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 9 33 >;
+#X obj 39 33 cyclone/maximum;
+#X obj 141 33 cyclone/minimum;
+#X obj 326 33 cyclone/trough;
+#X obj 243 33 cyclone/past;
+#X restore 200 731 pd Related_objects;
 #X obj 220 332 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373
 -66577 -1;
 #X obj 257 318 cyclone/comment 143 11 helvetica ? 0 80 80 80 current
@@ -138,10 +123,38 @@ maximum value --->;
 0 1;
 #X obj 301 260 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
-#X connect 16 0 20 0;
-#X connect 17 0 39 0;
-#X connect 18 0 20 0;
-#X connect 19 0 20 1;
-#X connect 20 0 17 0;
-#X connect 20 1 51 0;
-#X connect 20 2 52 0;
+#X text 158 388 -;
+#X text 125 388 bang;
+#X text 158 409 -;
+#X text 118 409 float;
+#X text 158 430 -;
+#X text 124 430 list;
+#X text 173 388 value checked against maximum, f 60;
+#X text 173 409 sends current maximum value out the left outlet, f
+60;
+#X text 173 430 2nd sets new maximum value \, 1st is a value, f 60
+;
+#X text 158 455 -;
+#X text 118 455 float;
+#X text 173 455 set new maximum value, f 60;
+#X text 158 503 -;
+#X text 118 503 float;
+#X text 173 503 maximum value, f 60;
+#X text 158 527 -;
+#X text 118 527 float;
+#X text 158 552 -;
+#X text 118 552 float;
+#X text 173 527 0 = not a new maximum value \, 1 = new maximum value
+, f 60;
+#X text 173 552 0 = new maximum value \, 1 = not a new maximum value
+, f 60;
+#X text 158 606 -;
+#X text 100 606 1) float;
+#X text 172 606 intial maximum value, f 60;
+#X connect 10 0 14 0;
+#X connect 11 0 23 0;
+#X connect 12 0 14 0;
+#X connect 13 0 14 1;
+#X connect 14 0 11 0;
+#X connect 14 1 35 0;
+#X connect 14 2 36 0;

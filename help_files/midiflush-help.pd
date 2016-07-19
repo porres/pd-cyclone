@@ -1,13 +1,13 @@
-#N canvas 393 31 572 441 10;
+#N canvas 393 31 572 450 10;
 #X obj 2 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 471 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 445 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 556 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 83 340 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 417 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 480 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty midiflush 4 14 0 18 -204280 -1
 0;
@@ -17,21 +17,15 @@
 #X obj 192 282 midiout;
 #X msg 210 146 bang;
 #X msg 220 181 clear;
-#X text 114 338 midi stream;
-#X text 217 338 - midi stream to flush;
-#X text 114 357 message;
-#X text 114 417 midi stream;
-#X text 217 417 - modified flushed midistream;
-#X text 114 461 (none);
+#X text 114 572 (none);
 #X obj 482 53 midiflush;
 #X obj 192 231 cyclone/midiflush;
-#X text 217 357 - bang: send note off for all notes still on;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 512 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 640 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 491 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 618 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 596 212 366 240 META 0;
+#N canvas 503 105 368 347 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 113 LIBRARY cyclone;
 #X text 0 0 KEYWORDS note midi notes raw stream;
@@ -47,32 +41,31 @@ raw midi stream;
 #X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 507 493 pd META;
-#N canvas 515 495 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 10 33 cyclone/flush;
-#X obj 10 56 cyclone/sustain;
-#X obj 117 32 midiin;
-#X obj 117 55 midiout;
-#X restore 205 493 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 477 620 pd META;
+#N canvas 338 148 430 78 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 117 31 cyclone/flush;
+#X obj 209 31 cyclone/sustain;
+#X obj 11 30 midiin;
+#X obj 61 31 midiout;
+#X restore 205 620 pd Related_objects;
 #X obj 470 306 cnv 12 66 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
 #X obj 247 146 cyclone/comment 100 11 helvetica ? 0 80 80 80 tells
 midiflush to turn the notes off;
-#X text 217 374 - clear: erases any note-ons held by midiflush \, without
-sending any note-offs, f 54;
 #X obj 262 184 cyclone/comment 100 11 helvetica ? 0 80 80 80 forget
 all previous notes \, no note off;
-#N canvas 422 141 636 443 Example 0;
-#X obj 5 5 cnv 15 625 40 empty empty midiflush 3 12 0 18 -204280 -1
+#N canvas 233 97 630 425 Example 0;
+#X obj 2 2 cnv 15 625 40 empty empty midiflush 3 12 0 18 -204280 -1
 0;
-#X obj 5 404 cnv 15 625 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 401 cnv 15 625 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 384 114 credits 0;
-#X text 82 27 From Max 7 Reference Documentation.;
-#X restore 550 406 pd credits;
+#N canvas 558 171 312 82 credits 0;
+#X text 82 21 From Max 7 Documentation.;
+#X restore 547 403 pd credits;
 #N canvas 638 210 405 345 polysynth 0;
 #X obj 121 60 inlet;
 #X obj 2 2 cnv 15 400 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -249,37 +242,37 @@ number / pitch / velocity);
 #X connect 10 0 15 0;
 #X connect 11 0 15 0;
 #X connect 12 0 15 0;
-#X restore 98 325 pd polysynth;
-#X obj 98 357 dac~;
-#X obj 66 115 prepend set;
-#X msg 66 135 39 0;
-#X obj 48 175 cyclone/midiformat;
-#X obj 98 247 cyclone/midiflush;
-#X obj 98 289 cyclone/midiparse;
-#X obj 198 327 cyclone/borax;
-#X floatatom 216 358 5 0 0 0 - - -, f 5;
-#X obj 252 359 cyclone/comment 100 11 helvetica ? 0 80 80 80 number
+#X restore 95 322 pd polysynth;
+#X obj 95 354 dac~;
+#X obj 63 112 prepend set;
+#X msg 63 132 67 0;
+#X obj 45 172 cyclone/midiformat;
+#X obj 95 244 cyclone/midiflush;
+#X obj 95 286 cyclone/midiparse;
+#X obj 195 324 cyclone/borax;
+#X floatatom 213 355 5 0 0 0 - - -, f 5;
+#X obj 249 356 cyclone/comment 100 11 helvetica ? 0 80 80 80 number
 of notes "held down";
-#X obj 218 176 bng 30 250 50 0 empty empty empty 17 7 0 10 -216373
+#X obj 215 173 bng 30 250 50 0 empty empty empty 17 7 0 10 -216373
 -108187 -1;
-#X obj 253 191 cyclone/comment 100 11 helvetica ? 0 80 80 80 bang tells
+#X obj 250 188 cyclone/comment 100 11 helvetica ? 0 80 80 80 bang tells
 flush to turn the notes off;
-#X obj 150 65 cyclone/comment 100 11 helvetica ? 0 80 80 80 <---;
-#X obj 171 66 cyclone/comment 100 11 helvetica ? 0 80 80 80 Click to
+#X obj 147 62 cyclone/comment 100 11 helvetica ? 0 80 80 80 <---;
+#X obj 168 63 cyclone/comment 100 11 helvetica ? 0 80 80 80 Click to
 activate the Tabajara Key;
-#X obj 300 73 cyclone/comment 260 10 monaco ? 0 80 80 80 Once you activate
+#X obj 297 70 cyclone/comment 260 10 monaco ? 0 80 80 80 Once you activate
 the "Tabajara Key" abstraction you can use your computer keyboard to
 play like a MIDI keyboard;
-#X obj 371 133 cyclone/comment 220 10 monaco ? 0 80 80 80 "Tabajara
+#X obj 371 138 cyclone/comment 220 10 monaco ? 0 80 80 80 "Tabajara
 Key" starts playing C3 with "a" key \, D3 with "s" key \, D#3 with
 "e" key \, E note with "d" key \, and so on. To "z" and "x" keys transpose
 octaves to down and to up.;
-#X text 72 28 example;
-#X obj 350 222 cyclone/comment 220 10 monaco ? 0 80 80 80 but this
+#X text 69 25 example;
+#X obj 350 240 cyclone/comment 220 10 monaco ? 0 80 80 80 but this
 abstraction have a bug \, it produces held notes when you transpose
 octaves while some note still pressed. To mute held notes in these
 example \, bang midiflush object;
-#X obj 48 61 cyclone/fancy/tabajara-key;
+#X obj 45 58 cyclone/fancy/tabajara-key;
 #X connect 3 0 4 0;
 #X connect 3 0 4 1;
 #X connect 5 0 6 0;
@@ -292,7 +285,28 @@ example \, bang midiflush object;
 #X connect 21 0 7 0;
 #X connect 21 0 5 0;
 #X restore 470 306 pd Example;
-#X connect 7 0 18 0;
-#X connect 9 0 18 0;
-#X connect 10 0 18 0;
-#X connect 18 0 8 0;
+#X obj 155 170 print;
+#X text 158 341 -;
+#X text 125 341 bang;
+#X text 158 362 -;
+#X text 118 362 float;
+#X text 158 422 -;
+#X text 107 422 message;
+#X text 173 341 send note off for all notes still on, f 60;
+#X text 173 422 "clear":;
+#X text 227 422 erases any note-ons held by midiflush \, without sending
+any note-offs, f 51;
+#X text 173 362 Raw MIDI data from a source such as [seq] or [midiin]
+will be passed through unchanged \, while the object observes which
+note-on messages on each channel have not received matching note-off
+messages.;
+#X text 158 482 -;
+#X text 118 482 float;
+#X text 173 482 [midiflush] passes all its input through to its output
+\, and sends MIDI note-off messages (as a series of numbers) for all
+note-ons which have not been matched by note-offs at its input.;
+#X connect 7 0 13 0;
+#X connect 7 0 23 0;
+#X connect 9 0 13 0;
+#X connect 10 0 13 0;
+#X connect 13 0 8 0;

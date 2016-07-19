@@ -1,9 +1,9 @@
-#N canvas 436 28 572 533 10;
-#X obj 2 580 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#N canvas 436 28 572 536 10;
+#X obj 2 710 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 643 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 786 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 83 591 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 721 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty sustain 4 14 0 18 -204280 -1
 0;
@@ -11,7 +11,7 @@
 #X text 14 71 hold note offs and output them on request;
 #X obj 2 449 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 83 459 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 459 cnv 17 3 120 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X floatatom 73 354 5 0 0 0 - - -, f 5;
 #X floatatom 180 355 5 0 0 0 - - -, f 5;
@@ -25,27 +25,13 @@
 #X floatatom 495 278 5 0 0 0 - - -, f 5;
 #X floatatom 408 205 5 0 0 0 - - -, f 5;
 #X floatatom 451 205 5 0 0 0 - - -, f 5;
-#X text 183 458 - send x \, y pair that represent pitch and velocity
-\, velocity zero turns note off;
-#X obj 83 540 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 83 660 cnv 17 3 38 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 109 540 toggle;
-#X text 183 540 - when on \, sustain holds back all note offs and outputs
-them when turned off again;
-#X text 109 591 float;
-#X text 183 591 - pitch;
-#X text 108 655 (none);
-#X obj 83 616 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 108 798 (none);
+#X obj 83 748 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 109 616 float;
-#X text 183 616 - velocity;
-#X obj 83 514 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 619 cnv 17 3 26 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 109 458 list;
-#X text 109 514 float;
-#X text 183 514 - set velocity;
-#X text 109 489 float;
-#X text 183 489 - set pitch;
 #X obj 93 274 cyclone/sustain;
 #X obj 408 241 cyclone/sustain;
 #X msg 100 196 44 0;
@@ -53,38 +39,40 @@ them when turned off again;
 #X obj 114 352 print;
 #X obj 114 329 pack f f;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 706 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 976 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 685 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 955 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 607 308 368 258 META 0;
-#X text 1 19 LICENSE SIBSD;
-#X text 1 152 LIBRARY cyclone;
-#X text 1 76 INLET_1 float;
-#X text 1 114 OUTLET_0 float;
-#X text 1 0 KEYWORDS pitch velocity hold note offs;
-#X text 1 38 DESCRIPTION hold note offs and output them on request
+#N canvas 526 102 390 380 META 0;
+#X text 11 29 LICENSE SIBSD;
+#X text 11 162 LIBRARY cyclone;
+#X text 11 86 INLET_1 float;
+#X text 11 124 OUTLET_0 float;
+#X text 11 10 KEYWORDS pitch velocity hold note offs;
+#X text 11 48 DESCRIPTION hold note offs and output them on request
 ;
-#X text 1 57 INLET_0 list float;
-#X text 1 95 INLET_2 toggle;
-#X text 1 133 OUTLET_1 float;
-#X text 0 174 VERSION 0.2-beta1;
-#X text 0 192 AUTHOR Krzysztof Czaja;
-#X text 1 210 RELEASE_DATE 2002;
-#X text 2 229 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 11 67 INLET_0 list float;
+#X text 11 105 INLET_2 toggle;
+#X text 11 143 OUTLET_1 float;
+#X text 10 184 VERSION 0.2-beta1;
+#X text 10 202 AUTHOR Krzysztof Czaja;
+#X text 11 220 RELEASE_DATE 2002;
+#X text 12 239 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 261 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 12 271 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 505 687 pd META;
-#N canvas 521 618 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 5 30 cyclone/flush;
-#X obj 5 52 cyclone/midiflush;
-#X obj 133 29 stripnote;
-#X restore 207 687 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 505 957 pd META;
+#N canvas 383 144 430 89 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 151 33 cyclone/flush;
+#X obj 246 33 cyclone/midiflush;
+#X obj 82 33 stripnote;
+#X obj 17 33 makenote;
+#X restore 207 957 pd Related_objects;
 #X obj 126 156 cyclone/comment 129 11 helvetica ? 0 80 80 80 note-ons
 go through;
 #X obj 33 101 cyclone/comment 450 10 monaco ? 0 80 80 80 matches messages
@@ -131,10 +119,10 @@ are held until sustain is turned off;
 #X obj 308 155 noteout 2, f 32;
 #X obj 2 198 cnv 15 560 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 378 120 credits 0;
-#X text 40 32 First example from Max 7 Reference Documentation.;
+#N canvas 552 182 378 120 credits 0;
+#X text 68 33 First example from Max 7 Documentation.;
 #X restore 481 200 pd credits;
-#N canvas 575 161 430 312 settings 0;
+#N canvas 520 118 430 312 settings 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X obj 20 38 cyclone/comment 141 11 helvetica ? 0 80 80 80 set initial
 state of the ilusion:;
@@ -182,18 +170,59 @@ behavior;
 #X connect 13 0 14 0;
 #X connect 13 1 14 1;
 #X restore 470 426 pd Examples;
-#X connect 10 0 34 0;
-#X connect 11 0 34 2;
-#X connect 12 0 34 0;
-#X connect 13 0 35 2;
-#X connect 16 0 35 0;
-#X connect 17 0 35 1;
-#X connect 34 0 8 0;
-#X connect 34 0 39 0;
-#X connect 34 1 9 0;
-#X connect 34 1 39 1;
-#X connect 35 0 14 0;
-#X connect 35 1 15 0;
-#X connect 36 0 34 0;
-#X connect 37 0 34 0;
-#X connect 39 0 38 0;
+#X text 158 460 -;
+#X text 118 460 float;
+#X text 158 532 -;
+#X text 124 532 list;
+#X text 158 565 -;
+#X text 107 565 message;
+#X text 173 532 A two-item list consisting of a note-velocity pair
+can be input, f 60;
+#X text 173 565 "clear":;
+#X text 173 595 "flush":;
+#X text 227 595 output all held note-offs, f 51;
+#X text 158 620 -;
+#X text 118 620 float;
+#X text 173 620 the number is stored as a velocity to be paired with
+pitch numbers received in the left inlet., f 60;
+#X text 158 661 -;
+#X text 118 661 float;
+#X text 173 460 the number is the pitch value of a pitch-velocity pair.
+If the velocity value currently held by [sustain] is not 0 \, then
+the pair is sent out immediately. If the velocity is 0 \, the note-off
+is either sent out or held \, depending on whether [sustain] is turned
+on;
+#X text 227 565 clears the [sustain] object's internal memory. No note-off
+messages are output, f 51;
+#X text 173 661 if the number is not 0 \, [sustain] is turned on \,
+and all note-offs are held. If the number is 0 \, [sustain] is turned
+off \, and all note-offs are sent out immediately, f 60;
+#X text 158 722 -;
+#X text 124 722 list;
+#X text 158 750 -;
+#X text 124 750 list;
+#X text 173 722 the pitch value of a pitch-velocity pair, f 60;
+#X text 173 750 the velocity value of a pitch-velocity pair, f 60
+;
+#X obj 2 833 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 110 852 Note-on pairs are always sent out immediately. If sustain
+is turned on \, note-offs are held until it is turned off. Otherwise
+\, note-offs are sent out immediately.;
+#X text 110 896 Attributes features of Max objects are not implemented
+yet in Cyclone library.;
+#X connect 10 0 22 0;
+#X connect 11 0 22 2;
+#X connect 12 0 22 0;
+#X connect 13 0 23 2;
+#X connect 16 0 23 0;
+#X connect 17 0 23 1;
+#X connect 22 0 8 0;
+#X connect 22 0 27 0;
+#X connect 22 1 9 0;
+#X connect 22 1 27 1;
+#X connect 23 0 14 0;
+#X connect 23 1 15 0;
+#X connect 24 0 22 0;
+#X connect 25 0 22 0;
+#X connect 27 0 26 0;

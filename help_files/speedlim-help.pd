@@ -1,15 +1,15 @@
 #N canvas 392 28 573 508 10;
 #X obj 2 343 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 406 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 415 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 459 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 478 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 2 504 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 2 530 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X obj 81 352 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 419 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty speedlim 4 14 0 18 -204280 -1
 0;
@@ -20,53 +20,46 @@
 #X floatatom 189 298 8 0 0 0 - - -, f 8;
 #X floatatom 189 148 8 0 0 0 - rcv_input -, f 8;
 #X floatatom 346 235 5 0 10000 0 - - -, f 5;
-#X text 110 379 float;
-#X text 110 351 anything;
-#X text 110 418 anything;
-#X text 181 351 - message to input;
-#X text 92 475 1) float;
-#X text 124 516 clock message (as in the max version) not supported
-for;
-#X text 124 529 obvious reasons.;
-#X text 181 379 - change delay time (ms);
 #X obj 130 159 tgl 20 0 snd_start rcv_start empty 17 7 0 10 -216373
 -66577 -1 0 1;
 #X obj 189 249 cyclone/speedlim 1000;
 #X obj 130 208 metro 500;
 #X msg 313 193 450;
 #X msg 320 214 1000;
-#X text 181 418 - output message only if minimum delay after last output
-is met;
-#X text 181 475 - initial delay time;
 #X obj 130 231 bng 10 250 50 0 empty empty empty 17 7 0 10 -241339
 -1 -1;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 579 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 620 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 558 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 599 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 602 245 361 228 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 114 LIBRARY cyclone;
-#X text 0 0 KEYWORDS delay speed limit ms milliseconds;
-#X text 0 38 DESCRIPTION speed limit for incoming messages;
-#X text 0 57 INLET_0 anything;
-#X text 0 95 OUTLET_1 anything;
-#X text 0 76 INLET_1 float;
-#X text 1 133 VERSION 0.2-beta1;
-#X text 1 151 AUTHOR Krzysztof Czaja;
-#X text 2 169 RELEASE_DATE 2002;
-#X text 3 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 498 100 382 374 META 0;
+#X text 8 28 LICENSE SIBSD;
+#X text 8 123 LIBRARY cyclone;
+#X text 8 9 KEYWORDS delay speed limit ms milliseconds;
+#X text 8 47 DESCRIPTION speed limit for incoming messages;
+#X text 8 66 INLET_0 anything;
+#X text 8 104 OUTLET_1 anything;
+#X text 8 85 INLET_1 float;
+#X text 9 142 VERSION 0.2-beta1;
+#X text 9 160 AUTHOR Krzysztof Czaja;
+#X text 10 178 RELEASE_DATE 2002;
+#X text 11 197 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 3 220 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 11 229 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 492 560 pd META;
-#N canvas 304 363 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 203 560 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 492 601 pd META;
+#N canvas 336 144 430 83 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 12 33 delay;
+#X obj 107 33 cyclone/mousefilter;
+#X obj 237 33 cyclone/thresh;
+#X obj 59 33 timer;
+#X restore 203 601 pd Related_objects;
 #X obj 472 320 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
 #N canvas 314 95 600 341 Examples 0;
@@ -74,7 +67,7 @@ adapted the patch to pd-extended 2015-02-02;
 0;
 #X text 52 25 examples;
 #X obj 225 74 vsl 28 52 0 127 0 0 empty rcv_vslider1 empty 0 -9 0 10
--216373 -66577 -1 2550 1;
+-216373 -66577 -1 8 1;
 #X obj 342 74 vsl 28 52 0 127 0 0 empty rcv_vslider2 empty 0 -9 0 10
 -216373 -66577 -1 1165 1;
 #X floatatom 225 154 5 0 0 0 - - -, f 5;
@@ -173,8 +166,8 @@ first vertical slider;
 #X obj 91 157 * 63.5;
 #X obj 91 179 s rcv_vslider1;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -245,7 +238,7 @@ first vertical slider;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -312,13 +305,28 @@ delay time (ms);
 #X obj 25 104 cyclone/comment 461 10 monaco ? 0 80 80 80 limit the
 throughput speed of incoming messages to a fixed time limit \; the
 time is specified in milliseconds;
-#X connect 11 0 38 0;
-#X connect 12 0 22 1;
-#X connect 21 0 23 0;
-#X connect 22 0 10 0;
-#X connect 22 0 36 0;
-#X connect 23 0 22 0;
-#X connect 23 0 28 0;
-#X connect 24 0 22 1;
-#X connect 25 0 22 1;
-#X connect 38 0 22 0;
+#X text 158 379 -;
+#X text 118 379 float;
+#X text 158 352 -;
+#X text 100 352 anything;
+#X text 173 352 message to input, f 60;
+#X text 173 379 change delay time (ms), f 60;
+#X text 158 429 -;
+#X text 100 429 anything;
+#X text 173 429 output message only if minimum delay after last output
+is met, f 60;
+#X text 158 494 -;
+#X text 100 494 1) float;
+#X text 172 494 initial delay time, f 60;
+#X text 124 542 Clock message (as in the max version) not supported.
+, f 54;
+#X connect 11 0 28 0;
+#X connect 12 0 14 1;
+#X connect 13 0 15 0;
+#X connect 14 0 10 0;
+#X connect 14 0 26 0;
+#X connect 15 0 14 0;
+#X connect 15 0 18 0;
+#X connect 16 0 14 1;
+#X connect 17 0 14 1;
+#X connect 28 0 14 0;

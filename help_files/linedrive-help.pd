@@ -1,15 +1,15 @@
 #N canvas 409 28 572 532 10;
-#X obj 2 458 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 2 468 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 522 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 542 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 562 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 592 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 2 639 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 2 682 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 81 468 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 478 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 494 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 81 504 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty linedrive 4 14 0 18 -204280 -1
 0;
@@ -17,22 +17,18 @@
 #X text 14 71 scale numbers exponentially for use with line~;
 #X obj 120 309 line~ 0;
 #X obj 127 241 print linedrive;
-#X text 109 468 message;
-#X text 109 494 float;
-#X text 109 535 float;
-#X text 181 535 - scaled number;
-#X obj 81 535 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 555 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 96 771 The output is a list of two values \, the second one
-being equal to argument4 and can be sent directly to a line~ 0;
-#X text 96 658 The [linedrive] object converts integers for use with
+#X text 96 814 The output is a list of two values \, the second one
+being equal to argument4 and can be sent directly to a line~ 0, f
+60;
+#X text 96 701 The [linedrive] object converts integers for use with
 line~. Linedrive takes integers ranging from -argument1 to +argument1
 and scales them to fall within the range -argument2 to +argument2.
 If the input equals argument1 \, the output is equal to argument value2.
 Output varies exponentially with the input depending on argument3.
 With the arguments shown \, input values between 0 and 127 are converted
 from 2*dB to linear amplitude with 127 becoming 1;
-#X text 181 468 - integer message as input;
 #X obj 271 343 *~;
 #X obj 271 373 output~;
 #X msg 120 144 0;
@@ -43,19 +39,18 @@ from 2*dB to linear amplitude with 127 becoming 1;
 #X obj 120 201 cyclone/linedrive 127 1 1.06 5000;
 #X obj 37 368 cyclone/Snapshot~ 100;
 #X floatatom 37 392 8 0 0 0 - - -, f 8;
-#X obj 93 393 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+#X obj 95 392 hsl 70 15 0 1 0 0 empty empty empty -2 -8 0 10 -216373
 -1 -1 0 1;
-#X text 101 577 1) is the reference input (int) \; 2) is the reference
+#X text 101 607 1) is the reference input (int) \; 2) is the reference
 output (float) \; 3) is the base value (float);
-#X text 181 494 - time value in milliseconds for line~;
-#X text 101 616 4) is the time value (for Line~) in milliseconds (int)
+#X text 101 646 4) is the time value (for Line~) in milliseconds (int)
 ;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 831 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 894 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 810 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 873 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 597 264 368 237 META 0;
+#N canvas 515 103 374 362 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 120 LIBRARY cyclone;
 #X text 0 0 KEYWORDS scale exponential line;
@@ -72,15 +67,16 @@ output (float) \; 3) is the base value (float);
 #X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 504 812 pd META;
-#N canvas 295 395 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 128 33 line~;
-#X obj 7 33 cyclone/Line~;
-#X obj 127 56 expr;
-#X restore 205 812 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 504 875 pd META;
+#N canvas 353 145 430 83 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 53 31 line~;
+#X obj 97 31 cyclone/Line~;
+#X obj 15 31 expr;
+#X restore 205 875 pd Related_objects;
 #N canvas 673 40 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -195,17 +191,17 @@ message to change last argument \, which is time in milliseconds;
 #X obj 235 229 cyclone/comment 230 11 helvetica ? 0 80 80 80 outputs
 two values which can be sent to line~ as a destination and a time in
 milliseconds;
-#X obj 463 432 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+#X obj 463 442 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 371 108 600 522 Examples 0;
+#N canvas 285 95 600 522 Examples 0;
 #X obj 2 2 cnv 15 580 40 empty empty linedrive 3 12 0 18 -204280 -1
 0;
 #X text 74 24 examples;
 #X obj 2 714 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 694 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 378 120 credits 0;
-#X text 40 32 First example from Max 7 Reference Documentation.;
+#N canvas 525 190 378 120 credits 0;
+#X text 69 36 First example from Max 7 Documentation.;
 #X restore 502 696 pd credits;
 #X obj 204 391 cyclone/linedrive 127 12543.9 1.05946 200;
 #X obj 323 354 cyclone/comment 147 11 helvetica ? 0 80 80 80 map one
@@ -334,7 +330,7 @@ allow you...;
 #X connect 31 0 26 0;
 #X connect 31 0 29 0;
 #X coords 0 522 1 521 85 60 0;
-#X restore 463 432 pd Examples;
+#X restore 463 442 pd Examples;
 #X obj 355 329 loadbang;
 #X msg 355 351 0.75;
 #X obj 139 267 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
@@ -342,19 +338,29 @@ allow you...;
 #X obj 136 258 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
 #X obj 159 263 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
 of print object in Pd main window;
-#X connect 9 0 19 1;
-#X connect 9 0 27 0;
-#X connect 19 0 20 0;
-#X connect 19 0 20 1;
-#X connect 21 0 26 0;
-#X connect 22 0 26 0;
-#X connect 23 0 26 0;
-#X connect 24 0 26 1;
-#X connect 25 0 26 1;
-#X connect 26 0 9 0;
-#X connect 26 0 10 0;
-#X connect 27 0 29 0;
-#X connect 27 0 28 0;
-#X connect 39 0 19 0;
-#X connect 45 0 46 0;
-#X connect 46 0 20 2;
+#X text 158 506 -;
+#X text 118 506 float;
+#X text 158 479 -;
+#X text 107 479 message;
+#X text 173 479 integer message as input \, see more_info session,
+f 60;
+#X text 173 506 time value in milliseconds for line~, f 60;
+#X text 158 556 -;
+#X text 118 556 float;
+#X text 173 556 scaled number, f 60;
+#X connect 9 0 14 1;
+#X connect 9 0 22 0;
+#X connect 14 0 15 0;
+#X connect 14 0 15 1;
+#X connect 16 0 21 0;
+#X connect 17 0 21 0;
+#X connect 18 0 21 0;
+#X connect 19 0 21 1;
+#X connect 20 0 21 1;
+#X connect 21 0 9 0;
+#X connect 21 0 10 0;
+#X connect 22 0 24 0;
+#X connect 22 0 23 0;
+#X connect 33 0 14 0;
+#X connect 39 0 40 0;
+#X connect 40 0 15 2;

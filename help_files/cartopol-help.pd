@@ -112,6 +112,8 @@
 ;
 #X obj 261 228 cyclone/comment 100 10 monaco ? 0 80 80 80 x \, theta
 out;
+#X obj 273 115 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
 #X connect 4 0 6 0;
 #X connect 4 1 7 0;
 #X connect 5 0 4 0;
@@ -124,6 +126,7 @@ out;
 #X connect 16 0 8 1;
 #X connect 17 0 11 0;
 #X connect 18 0 11 1;
+#X connect 21 0 8 0;
 #X restore 467 531 pd Examples;
 #X obj 2 765 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -145,7 +148,7 @@ out;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 501 767 pd META;
 #N canvas 348 144 430 79 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -154,7 +157,7 @@ this patch for Pd-Vanilla 0.46-7.;
 #X obj 12 30 atan2;
 #X obj 54 30 pow;
 #X restore 219 767 pd Related_objects;
-#X obj 43 109 cyclone/comment 460 10 monaco ? 0 80 80 80 cartopol converts
+#X obj 29 104 cyclone/comment 460 10 monaco ? 0 80 80 80 cartopol converts
 a cartesian-coordinate pair consisting of real and imaginary values
 into a polar-coordinate pair of distance and angle values.;
 #X obj 32 170 cyclone/comment 100 11 helvetica ? 0 80 80 80 click to

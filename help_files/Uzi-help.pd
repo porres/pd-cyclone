@@ -1,73 +1,61 @@
 #N canvas 394 28 572 528 10;
 #X obj 2 394 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 490 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 499 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 579 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 597 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 84 403 cnv 17 3 42 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 499 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 508 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty uzi 4 14 0 18 -204280 -1 0;
-#X text 111 403 bang;
-#X text 184 402 - send x number of bangs;
-#X text 111 423 messages;
-#X text 184 423 - pause \, break \, continue \, resume (all in reference
-to sending bangs);
 #X obj 84 462 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 111 462 float;
-#X text 184 461 - set number of bangs to output;
-#X text 96 595 1) float;
-#X text 184 594 - set number of bangs;
 #X obj 139 306 print uzi;
 #X obj 139 157 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X floatatom 214 201 5 0 0 0 - - -, f 5;
 #X floatatom 214 263 5 0 0 0 - - -, f 5;
 #X obj 176 284 print lastbang;
-#X text 111 498 bang;
-#X text 184 498 - bang (based on number of bangs stored);
-#X text 111 551 float;
-#X obj 84 525 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 84 534 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 111 524 bang;
-#X obj 84 551 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 84 560 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 184 524 - bangs when the last bang has fired;
-#X text 184 551 - number of bangs sent;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 650 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 682 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 629 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 661 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 588 373 383 264 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 157 LIBRARY cyclone;
-#X text 1 0 KEYWORDS bang set send fast;
-#X text 1 36 DESCRIPTION send a specified number of bangs as fast as
-possible;
-#X text 1 67 INLET_0 bang messages;
-#X text 1 103 OUTLET_0 bang;
-#X text 1 85 INLET_1 float;
-#X text 1 121 OUTLET_1 bang;
-#X text 1 139 OUTLET_2 float;
-#X text 0 176 VERSION 0.2-beta1;
-#X text 0 194 AUTHOR Krzysztof Czaja;
-#X text 1 212 RELEASE_DATE 2002;
-#X text 2 231 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 492 101 386 387 META 0;
+#X text 11 28 LICENSE SIBSD;
+#X text 11 167 LIBRARY cyclone;
+#X text 11 10 KEYWORDS bang set send fast;
+#X text 11 46 DESCRIPTION send a specified number of bangs as fast
+as possible;
+#X text 11 77 INLET_0 bang messages;
+#X text 11 113 OUTLET_0 bang;
+#X text 11 95 INLET_1 float;
+#X text 11 131 OUTLET_1 bang;
+#X text 11 149 OUTLET_2 float;
+#X text 10 186 VERSION 0.2-beta1;
+#X text 10 204 AUTHOR Krzysztof Czaja;
+#X text 11 222 RELEASE_DATE 2002;
+#X text 12 241 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 263 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 12 273 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 503 631 pd META;
-#N canvas 313 532 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 8 30 counter;
-#X restore 204 631 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 503 663 pd META;
+#N canvas 341 143 430 78 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 104 34 cyclone/counter;
+#X obj 19 34 line;
+#X obj 60 34 metro;
+#X restore 204 663 pd Related_objects;
 #X obj 164 156 cyclone/comment 80 11 helvetica ? 0 80 80 80 <--- click
 to start;
 #X obj 202 178 cyclone/comment 154 11 helvetica ? 0 80 80 80 set number
@@ -82,14 +70,14 @@ sended;
 #X obj 24 100 cyclone/comment 433 10 monaco ? 0 80 80 80 Outputs a
 specified number of bang messages quickly. uzi is designed for rapid-fire
 output of a large number of bang messages.;
-#X obj 462 372 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+#X obj 473 372 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
 #N canvas 259 94 640 337 Examples 0;
 #X obj 2 2 cnv 15 635 40 empty empty uzi 3 12 0 18 -204280 -1 0;
 #X obj 2 313 cnv 15 635 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 12 25 examples;
-#N canvas 412 182 310 101 credits 0;
+#N canvas 542 158 310 101 credits 0;
 #X text 44 30 From Max 7 Reference Documentation., f 37;
 #X restore 557 315 pd credits;
 #X obj 123 118 cyclone/comment 188 11 helvetica ? 0 80 80 80 break
@@ -135,7 +123,7 @@ table with onecycle of sine wave;
 #X connect 18 0 19 0;
 #X connect 18 0 20 0;
 #X connect 19 0 20 1;
-#X restore 462 372 pd Examples;
+#X restore 473 372 pd Examples;
 #X obj 154 335 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
 #X obj 153 332 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
 #X obj 151 326 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
@@ -143,9 +131,82 @@ table with onecycle of sine wave;
 of print object in Pd main window;
 #X obj 139 223 cyclone/uzi 2;
 #X obj 509 50 uzi, f 5;
-#X connect 16 0 46 0;
-#X connect 17 0 46 1;
-#X connect 35 0 46 0;
-#X connect 46 0 15 0;
-#X connect 46 1 19 0;
-#X connect 46 2 18 0;
+#X text 158 403 -;
+#X text 125 403 bang;
+#X text 158 422 -;
+#X text 107 422 message;
+#X text 158 616 -;
+#X text 100 616 1) float;
+#X text 172 616 set number of bangs, f 60;
+#X text 173 403 send out random number, f 60;
+#X text 158 463 -;
+#X text 118 463 float;
+#X text 173 463 set number of bangs to output, f 60;
+#X text 158 508 -;
+#X text 125 508 bang;
+#X text 158 534 -;
+#X text 125 534 bang;
+#X text 158 561 -;
+#X text 118 561 float;
+#X text 173 508 bang (based on number of bangs stored), f 60;
+#X text 173 534 bangs when the last bang has fired, f 60;
+#X text 173 561 number of bangs sent, f 60;
+#X text 173 422 see:;
+#N canvas 594 91 594 379 allMessages 0;
+#X obj 226 2 cnv 15 365 46 empty empty Description 128 18 0 12 -187701
+-1 0;
+#X obj 226 174 cnv 9 365 114 empty empty empty 20 12 0 14 -216373 -66577
+0;
+#X obj 226 98 cnv 9 365 74 empty empty empty 20 12 0 14 -257983 -66577
+0;
+#X obj 226 74 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
+0;
+#X obj 226 50 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
+0;
+#X obj 226 290 cnv 9 365 50 empty empty empty 20 12 0 14 -257983 -66577
+0;
+#X obj 2 174 cnv 9 222 114 empty empty empty 20 12 0 14 -216373 -66577
+0;
+#X obj 2 98 cnv 9 222 74 empty empty empty 20 12 0 14 -257983 -66577
+0;
+#X obj 2 74 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
+0;
+#X obj 2 50 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
+0;
+#X obj 2 290 cnv 9 222 50 empty empty empty 20 12 0 14 -257983 -66577
+0;
+#X obj 2 2 cnv 15 222 46 empty empty Message 56 18 0 12 -187701 -1
+0;
+#X obj 4 375 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 364 cnv 10 589 12 empty empty empty 1 1 0 8 -187701 -33289
+0;
+#X obj 2 342 cnv 15 589 21 empty empty empty 1 1 0 4 -233017 -33289
+0;
+#X text 9 53 break;
+#X text 9 76 continue;
+#X text 9 177 pause;
+#X text 9 292 resume;
+#X text 9 102 offset <number>;
+#X text 238 101 The word "offset" followed by a <number> of bangs will
+set the object to output a count of bangs which is offset by the given
+number (the number is subtracted from the previously assigned number
+of bangs to equal the new total number of bangs)., f 55;
+#X text 238 177 In inlet 0 causes [uzi] to stop in the midst of sending
+its output. (Since [uzi] sends its output as fast as possible \, this
+message must be triggered in some way by the output of uzi itself.)
+uzi keeps track of how many bang messages it has sent \, and if it
+receives the pause message before sending out all its bang messages
+\, it can then be caused to send out the rest of its bang messages
+with a resume or continue message., f 55;
+#X text 238 53 Same as pause., f 55;
+#X text 238 77 Same as resume., f 55;
+#X text 238 293 In inlet 0 if [uzi] has been stopped by a pause message
+in the midst of sending its output \, resume causes it to send out
+the rest of its output., f 55;
+#X restore 201 422 pd allMessages;
+#X connect 8 0 32 0;
+#X connect 9 0 32 1;
+#X connect 21 0 32 0;
+#X connect 32 0 7 0;
+#X connect 32 1 11 0;
+#X connect 32 2 10 0;

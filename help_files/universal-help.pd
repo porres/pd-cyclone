@@ -1,19 +1,16 @@
 #N canvas 383 26 572 512 10;
 #X obj 2 616 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 664 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 668 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 705 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 716 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 79 632 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty universal 4 14 0 18 -204280 -1
 0;
 #X obj 484 52 universal;
-#X text 111 632 message;
-#X text 179 632 - message to send to all instances of same class in
-patch;
-#X text 110 677 (none);
+#X text 110 681 (none);
 #X obj 82 562 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
 #X obj 103 555 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
@@ -166,42 +163,41 @@ patch;
 1;
 #X obj 191 312 tgl 20 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
 1;
-#X text 95 722 1) float;
-#X text 179 722 - nonzero arg means all subpatches get the message
-too;
 #X obj 65 269 cyclone/universal;
 #X obj 312 264 cyclone/universal;
 #X obj 86 504 cyclone/universal 1;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 778 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 802 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 757 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 781 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 617 367 360 195 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 80 LIBRARY cyclone;
-#X text 0 0 KEYWORDS send message object objects class remote patch
+#N canvas 488 99 379 332 META 0;
+#X text 6 30 LICENSE SIBSD;
+#X text 6 90 LIBRARY cyclone;
+#X text 6 10 KEYWORDS send message object objects class remote patch
 ;
-#X text 0 40 DESCRIPTION send message to all objects of the same class
+#X text 6 50 DESCRIPTION send message to all objects of the same class
 ;
-#X text 0 60 INLET_0 message;
-#X text 1 100 VERSION 0.2-beta1;
-#X text 1 118 AUTHOR Krzysztof Czaja;
-#X text 2 136 RELEASE_DATE 2002;
-#X text 3 155 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 6 70 INLET_0 message;
+#X text 7 110 VERSION 0.2-beta1;
+#X text 7 128 AUTHOR Krzysztof Czaja;
+#X text 8 146 RELEASE_DATE 2002;
+#X text 9 165 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 3 187 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 9 197 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 503 759 pd META;
-#N canvas 314 454 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 9 32 cyclone/forward;
-#X obj 119 33 send;
-#X obj 119 54 receive;
-#X restore 204 759 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 503 783 pd META;
+#N canvas 325 142 430 83 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 160 31 cyclone/forward;
+#X obj 19 31 send;
+#X obj 59 31 receive;
+#X obj 115 31 value;
+#X restore 204 783 pd Related_objects;
 #X msg 98 462 bng color 16;
 #X obj 24 100 cyclone/comment 474 10 monaco ? 0 80 80 80 Sends a input
 message to all instances of the same class of object in a patcher.
@@ -210,14 +206,22 @@ The order in which the messages arrive is not defined.;
 to all objecs in patch and its subpatches:;
 #X obj 290 558 cyclone/comment 356 11 helvetica ? 0 80 80 80 look here
 --->;
-#X connect 13 0 47 0;
-#X connect 14 0 49 0;
-#X connect 18 0 47 0;
-#X connect 19 0 47 0;
-#X connect 20 0 47 0;
-#X connect 37 0 48 0;
-#X connect 38 0 37 0;
-#X connect 38 0 40 0;
-#X connect 39 0 38 0;
-#X connect 40 0 48 0;
-#X connect 55 0 49 0;
+#X text 158 632 -;
+#X text 107 632 message;
+#X text 173 632 message to send to all instances of same class in patch
+, f 58;
+#X text 158 736 -;
+#X text 100 736 1) float;
+#X text 172 736 nonzero arguments means all subpatches get the message
+too, f 60;
+#X connect 11 0 43 0;
+#X connect 12 0 45 0;
+#X connect 16 0 43 0;
+#X connect 17 0 43 0;
+#X connect 18 0 43 0;
+#X connect 35 0 44 0;
+#X connect 36 0 35 0;
+#X connect 36 0 38 0;
+#X connect 37 0 36 0;
+#X connect 38 0 44 0;
+#X connect 51 0 45 0;

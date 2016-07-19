@@ -37,7 +37,7 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 500 1096 pd META;
 #X obj 2 754 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;

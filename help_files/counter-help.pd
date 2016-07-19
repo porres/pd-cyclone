@@ -229,7 +229,7 @@ count from 0 to 9 in 1 second;
 0;
 #X obj 2 1536 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 485 122 372 433 META 0;
+#N canvas 486 104 372 433 META 0;
 #X text 1 18 LICENSE SIBSD;
 #X text 1 216 LIBRARY cyclone;
 #X text 1 144 OUTLET_0 float;
@@ -251,7 +251,7 @@ count from 0 to 9 in 1 second;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 updated this patch for Pd-extended and Pd-l2ork. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 502 1538 pd META;
 #N canvas 357 144 430 74 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;

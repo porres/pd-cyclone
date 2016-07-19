@@ -1,39 +1,26 @@
 #N canvas 350 27 572 485 10;
 #X obj 2 349 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 444 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 476 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 481 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 523 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 83 358 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 358 cnv 17 3 68 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 419 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 439 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 10 552 48 empty empty minimum 4 14 0 18 -204280 -1
 0;
-#X text 118 357 list;
-#X text 118 372 bang;
-#X text 183 372 - send most recent output again;
-#X text 118 388 float;
-#X obj 83 454 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 486 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 419 float;
-#X text 118 454 float;
-#X text 100 497 1) float;
 #X obj 494 53 minimum;
 #X text 14 72 output the smallest in a list of numbers;
-#X text 183 454 - the stored minimum value;
-#X text 183 497 - initial minimum to compare to left outlet;
-#X text 183 419 - set current minimum value;
-#X text 183 388 - output if lower than current value \, otherwise output
-current minimum value;
-#X text 183 357 - list of numbers. the minimum value is send;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 549 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 606 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 528 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 585 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 619 248 351 245 META 0;
+#N canvas 457 99 382 347 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 120 LIBRARY cyclone;
 #X text 0 80 INLET_1 float;
@@ -49,15 +36,16 @@ current minimum value;
 #X text 2 227 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 507 530 pd META;
-#N canvas 305 325 426 172 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 30 43 minimum;
-#X obj 83 44 Peak;
-#X obj 82 66 Trough;
-#X restore 206 530 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 507 587 pd META;
+#N canvas 293 142 430 76 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 150 33 cyclone/trough;
+#X obj 16 33 <;
+#X obj 47 33 cyclone/maximum;
+#X restore 206 587 pd Related_objects;
 #X floatatom 34 287 8 0 0 0 - - -, f 8;
 #X floatatom 34 208 8 0 0 0 - - -, f 8;
 #X floatatom 133 208 8 0 0 0 - - -, f 8;
@@ -81,15 +69,14 @@ floats in a list;
 argument sets initial minimum;
 #X obj 465 324 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 297 95 585 356 Examples 0;
+#N canvas 252 95 585 356 Examples 0;
 #X obj 2 2 cnv 15 580 40 empty empty minimum 3 12 0 18 -204280 -1 0
 ;
 #X obj 2 331 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 39 24 examples;
 #N canvas 440 304 400 122 credits 0;
-#X text 54 28 Examples based on Max 7 Reference Documentation and on
-the last old cyclone help maximum-help., f 48;
+#X text 82 32 Examples based on Max 7 Documentation;
 #X restore 501 333 pd credits;
 #X msg 55 115 30 89 77 21;
 #X floatatom 43 269 5 0 0 0 - - -, f 5;
@@ -129,12 +116,31 @@ minimum in a list of numbers;
 here;
 #X obj 345 199 cyclone/minimum;
 #X obj 34 241 cyclone/minimum 5;
-#X connect 26 0 29 0;
-#X connect 27 0 44 0;
-#X connect 28 0 44 1;
-#X connect 30 0 31 0;
-#X connect 32 0 43 0;
-#X connect 33 0 28 0;
-#X connect 34 0 27 0;
-#X connect 43 0 30 0;
-#X connect 44 0 26 0;
+#X text 158 360 -;
+#X text 125 360 bang;
+#X text 158 381 -;
+#X text 118 381 float;
+#X text 158 413 -;
+#X text 124 413 list;
+#X text 173 413 list of numbers. the minimum value is send, f 60;
+#X text 173 360 send most recent output again, f 60;
+#X text 173 381 output if lower than current value \, otherwise output
+current minimum value;
+#X text 158 440 -;
+#X text 118 440 float;
+#X text 173 440 set current minimum value;
+#X text 158 487 -;
+#X text 118 487 float;
+#X text 173 487 the stored minimum value;
+#X text 158 541 -;
+#X text 100 541 1) float;
+#X text 172 541 initial minimum to compare to left outlet, f 60;
+#X connect 14 0 17 0;
+#X connect 15 0 32 0;
+#X connect 16 0 32 1;
+#X connect 18 0 19 0;
+#X connect 20 0 31 0;
+#X connect 21 0 16 0;
+#X connect 22 0 15 0;
+#X connect 31 0 18 0;
+#X connect 32 0 14 0;

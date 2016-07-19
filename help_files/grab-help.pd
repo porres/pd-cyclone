@@ -17,28 +17,19 @@
 #X floatatom 147 319 5 0 0 0 - - -, f 5;
 #X msg 147 149 2;
 #X floatatom 237 222 5 0 0 0 - - -, f 5;
-#X text 97 464 1) float;
-#X text 97 496 2) object;
-#X text 186 496 - optional received object to send input to;
-#X text 114 378 anything;
-#X text 114 418 anything;
-#X text 186 378 - anything that is sent to grab output;
-#X text 186 418 - anything that was grabbed from the object;
-#X text 186 464 - optional number of additional outlets (corresponding
-to grabbed object's outlets);
-#X obj 2 520 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 2 530 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X obj 291 319 * 10;
 #X obj 147 197 cyclone/grab;
-#X text 99 529 by connecting grab to the inlet of an object \, it can
+#X text 99 539 by connecting grab to the inlet of an object \, it can
 intercept data to the objects outlets and redirect it to its own leftmost
 outlet or send it to another object.;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 607 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 617 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 586 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 596 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 617 371 355 223 META 0;
+#N canvas 499 102 376 352 META 0;
 #X text 0 20 LICENSE SIBSD;
 #X text 0 100 LIBRARY cyclone;
 #X text 0 0 KEYWORDS intercept output grab;
@@ -53,14 +44,17 @@ outlet or send it to another object.;
 #X text 2 206 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 504 588 pd META;
-#N canvas 855 585 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 14 54 cyclone/universal;
-#X obj 14 32 cyclone/offer;
-#X restore 216 588 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 504 598 pd META;
+#N canvas 349 144 430 87 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 199 34 cyclone/universal;
+#X obj 16 34 cyclone/offer;
+#X obj 107 34 cyclone/Table;
+#C restore;
+#X restore 216 598 pd Related_objects;
 #X obj 39 109 cyclone/comment 402 10 monaco ? 0 80 80 80 intercept
 messages before they are output by the receiving object;
 #X obj 474 342 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
@@ -71,8 +65,8 @@ messages before they are output by the receiving object;
 #X obj 2 658 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 638 cnv 15 600 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 378 120 credits 0;
-#X text 40 32 First example from Max 7 Reference Documentation.;
+#N canvas 547 180 316 118 credits 0;
+#X text 40 32 First example from Max 7 Documentation.;
 #X restore 521 640 pd credits;
 #X obj 271 454 r test;
 #X floatatom 157 586 5 0 0 0 - - -, f 5;
@@ -184,8 +178,21 @@ is forwarded to grab without being outputted;
 #X obj 212 321 cyclone/comment 80 11 helvetica ? 0 80 80 80 the output
 from;
 #X obj 184 321 cyclone/comment 80 11 helvetica ? 0 80 80 80 <----;
+#X text 168 380 -;
+#X text 110 380 anything;
+#X text 183 380 anything that is sent to grab output, f 57;
+#X text 168 420 -;
+#X text 110 420 anything;
+#X text 183 420 anything that was grabbed from the object, f 57;
+#X text 158 468 -;
+#X text 158 501 -;
+#X text 95 501 2) float;
+#X text 95 468 1) float;
+#X text 172 468 optional number of additional outlets (corresponding
+to grabbed object's outlets);
+#X text 172 501 optional received object to send input to, f 60;
 #X connect 8 0 9 0;
-#X connect 11 0 23 0;
+#X connect 11 0 15 0;
 #X connect 12 0 8 1;
-#X connect 23 0 10 0;
-#X connect 23 1 8 0;
+#X connect 15 0 10 0;
+#X connect 15 1 8 0;

@@ -1,30 +1,22 @@
-#N canvas 376 28 572 532 10;
+#N canvas 376 28 572 564 10;
 #X obj 2 408 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 560 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 587 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 623 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 659 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 80 417 cnv 17 3 125 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 596 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 80 623 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty prob 4 14 0 18 -204280 -1 0;
 #X obj 509 53 prob;
 #C restore;
 #X text 14 71 weighted series of random numbers;
 #X floatatom 120 356 5 0 0 0 - - -, f 5;
-#X text 108 417 list;
-#X text 108 459 bang;
-#X text 180 459 - puts out a number and sets prob to this value;
-#X text 108 569 float;
-#X text 180 569 - random number based on prob function;
-#X obj 80 569 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 80 596 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 108 596 bang;
-#X text 180 596 - when we reach a number for which there is no rule
-;
-#X text 108 632 (none);
+#X text 108 668 (none);
 #X msg 120 170 0 1 80 \, 0 2 20 \, 1 2 10 \, 1 0 90 \, 2 0 50 \, 2
 1 50;
 #X obj 128 218 metro 500;
@@ -34,48 +26,37 @@
 #C restore;
 #X obj 125 336 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144
 -1 -1 0;
-#X text 180 417 - list of triplets \, specifying probability function
-in form <x \, y \, prob> where x has an prob (in %) chance of being
-followed by y;
-#X text 107 476 clear;
-#X text 107 491 dump;
-#X text 107 507 embed;
-#X text 180 506 - save matrix with the patch;
-#X text 180 491 - print out all rule;
-#X text 180 476 - clear the matrix;
-#X text 107 524 reset n;
-#X text 180 521 - set a default n \, for when a number is reached for
-which there is no rule;
 #X obj 2 2 cyclone/fancy/cyheader;
-#X obj 2 681 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 735 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 660 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 714 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 616 320 359 239 META 0;
-#X text 1 19 LICENSE SIBSD;
-#X text 1 114 LIBRARY cyclone;
-#X text 1 0 KEYWORDS random generator weighted;
-#X text 1 38 DESCRIPTION weighted series of random numbers;
-#X text 1 57 INLET_0 list bang message;
-#X text 1 95 OUTLET_1 bang;
-#X text 1 76 OUTLET_0 float;
-#X text 0 132 VERSION 0.2-beta1;
-#X text 0 150 AUTHOR Krzysztof Czaja;
-#X text 1 168 RELEASE_DATE 2002;
-#X text 2 187 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 458 100 398 342 META 0;
+#X text 13 29 LICENSE SIBSD;
+#X text 13 124 LIBRARY cyclone;
+#X text 13 10 KEYWORDS random generator weighted;
+#X text 13 48 DESCRIPTION weighted series of random numbers;
+#X text 13 67 INLET_0 list bang message;
+#X text 13 105 OUTLET_1 bang;
+#X text 13 86 OUTLET_0 float;
+#X text 12 142 VERSION 0.2-beta1;
+#X text 12 160 AUTHOR Krzysztof Czaja;
+#X text 13 178 RELEASE_DATE 2002;
+#X text 14 197 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 219 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 14 229 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 503 663 pd META;
-#N canvas 312 453 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 10 29 anal;
-#X obj 10 51 Histo;
-#X obj 9 74 mean;
-#X restore 202 663 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 503 717 pd META;
+#N canvas 321 94 430 80 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 12 31 cyclone/anal;
+#X obj 97 31 cyclone/histo;
+#X obj 188 31 cyclone/mean;
+#X restore 202 717 pd Related_objects;
 #X obj 31 102 cyclone/comment 316 10 monaco ? 0 80 80 80 prob maintains
 a probability matrix a.k.a 1st order markov chain and outputs a number
 according to it.;
@@ -135,9 +116,9 @@ the current table when the patcher is saved;
 #X obj 2 655 cnv 15 800 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 440 304 378 120 credits 0;
-#X text 40 32 First example from Max 7 Reference Documentation.;
+#X text 67 35 First example from Max 7 Documentation.;
 #X restore 713 657 pd credits;
-#N canvas 521 304 430 233 settings 0;
+#N canvas 557 135 430 233 settings 0;
 #X obj 123 107 loadbang;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X obj 121 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 toogle;
@@ -196,7 +177,7 @@ no transition has been specified for 3;
 #X msg 158 179 2 0 50 \, 2 1 40 \, 2 3 10;
 #X msg 134 96 bang;
 #X obj 114 430 hradio 15 1 0 5 empty empty empty 0 -8 0 10 -262144
--1 -1 4;
+-1 -1 2;
 #X msg 398 430 reset n;
 #X obj 64 84 metro 100;
 #X msg 158 204 3 0 10 \, 3 1 10 \, 3 2 75 \, 3 4 5;
@@ -291,9 +272,36 @@ too ---->;
 #X connect 41 1 32 0;
 #X restore 463 383 pd Examples;
 #X obj 120 149 loadbang;
-#X connect 18 0 21 0;
-#X connect 19 0 21 0;
-#X connect 20 0 19 0;
-#X connect 21 0 8 0;
-#X connect 21 0 22 0;
-#X connect 47 0 18 0;
+#X text 158 419 -;
+#X text 125 419 bang;
+#X text 158 598 -;
+#X text 118 598 float;
+#X text 158 439 -;
+#X text 124 439 list;
+#X text 158 484 -;
+#X text 107 484 message;
+#X text 173 419 puts out a number and sets prob to this value, f 60
+;
+#X text 173 598 random number based on prob function, f 60;
+#X text 173 439 list of triplets \, specifying probability function
+in form <x \, y \, prob> where x has an prob (in %) chance of being
+followed by y, f 60;
+#X text 173 484 "clear":;
+#X text 227 484 clear the matrix, f 51;
+#X text 173 502 "dump":;
+#X text 221 502 print out all rule, f 52;
+#X text 173 520 "embed":;
+#X text 227 520 save matrix with the patch, f 51;
+#X text 173 538 "reset <n>":;
+#X text 251 538 set a default <n> \, for when a number is reached for
+which there is no rule, f 47;
+#X text 158 623 -;
+#X text 125 623 bang;
+#X text 173 623 when we reach a number for which there is no rule,
+f 60;
+#X connect 11 0 14 0;
+#X connect 12 0 14 0;
+#X connect 13 0 12 0;
+#X connect 14 0 8 0;
+#X connect 14 0 15 0;
+#X connect 31 0 11 0;

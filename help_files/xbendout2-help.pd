@@ -1,30 +1,23 @@
-#N canvas 399 29 557 540 10;
+#N canvas 399 29 557 590 10;
 #X obj 2 303 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 392 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 400 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 431 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 448 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 2 470 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 2 499 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 82 403 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 411 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 82 315 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty xbendout2 4 14 0 18 -204280 -1
 0;
-#X text 116 403 midiout;
-#X text 116 315 float;
 #X obj 82 339 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 116 339 float;
-#X text 98 443 1) float;
-#X text 194 403 - output of midi stream;
 #X obj 486 51 xbendout2;
 #X obj 82 363 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 116 363 float;
-#X text 194 363 - channel number;
 #X obj 191 211 xbendin2 1;
 #X obj 191 169 xbendout2 1, f 18;
 #X floatatom 191 257 5 0 0 0 - - -, f 5;
@@ -32,49 +25,43 @@
 #X floatatom 248 257 5 0 0 0 - - -, f 5;
 #X floatatom 296 134 5 0 0 0 - - -, f 5;
 #X floatatom 243 134 5 0 0 0 - - -, f 5;
-#X text 194 443 - initial channel number;
-#X text 116 482 in/output from;
-#X obj 224 487 midiin;
-#X obj 315 487 midiout;
-#X text 274 482 or to;
-#X text 194 315 - Most Significant Byte (msb);
-#X text 194 339 - Least Significant Byte (lsb);
 #X text 14 71 construct extra precision midi pitchbend objects 14 bit
 ;
-#X obj 4 537 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 4 587 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 516 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 566 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 617 289 382 345 META 0;
-#X text 0 33 LICENSE SIBSD;
-#X text 0 163 LIBRARY cyclone;
-#X text 0 0 KEYWORDS midi pitchbend pitch bend 14 bit channel msb lsb
+#N canvas 498 100 384 383 META 0;
+#X text 8 40 LICENSE SIBSD;
+#X text 8 170 LIBRARY cyclone;
+#X text 8 7 KEYWORDS midi pitchbend pitch bend 14 bit channel msb lsb
 most significant bit least;
-#X text 0 143 OUTLET_0 midi;
-#X text 0 83 INLET_0 float;
-#X text 0 103 INLET_1 float;
-#X text 0 123 INLET_2 float;
-#X text 0 182 VERSION 0.2-beta1;
-#X text 0 200 AUTHOR Krzysztof Czaja;
-#X text 1 218 RELEASE_DATE 2002;
-#X text 2 237 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X text 8 150 OUTLET_0 midi;
+#X text 8 90 INLET_0 float;
+#X text 8 110 INLET_1 float;
+#X text 8 130 INLET_2 float;
+#X text 8 189 VERSION 0.2-beta1;
+#X text 8 207 AUTHOR Krzysztof Czaja;
+#X text 9 225 RELEASE_DATE 2002;
+#X text 10 244 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X text 2 269 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+#X text 8 60 DESCRIPTION construct extra precision midi pitchbend objects
+14 bit;
+#X text 10 276 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X text 0 53 DESCRIPTION construct extra precision midi pitchbend objects
-14 bit;
-#X restore 491 518 pd META;
-#N canvas 322 427 428 127 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 36 37 cyclone/xbendin;
-#X obj 36 62 cyclone/xbendout;
-#X obj 36 87 cyclone/xbendin2;
-#X obj 161 36 midiin;
-#X obj 162 62 midiout;
-#X restore 211 518 pd Related_objects;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 491 568 pd META;
+#N canvas 346 145 475 78 Related_objects 0;
+#X obj 2 2 cnv 15 470 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 233 32 cyclone/xbendin;
+#X obj 336 32 cyclone/xbendout;
+#X obj 123 31 cyclone/xbendin2;
+#X obj 18 31 midiin;
+#X obj 68 31 midiout;
+#X restore 211 568 pd Related_objects;
 #X obj 2 2 cyclone/fancy/cyheader;
 #X obj 190 120 cyclone/comment 119 11 helvetica ? 0 80 80 80 MSB;
 #X obj 242 120 cyclone/comment 119 11 helvetica ? 0 80 80 80 LSB;
@@ -82,13 +69,13 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X obj 471 279 cnv 12 67 19 empty empty empty 0 0 0 18 -257983 -1 0
 ;
-#N canvas 373 94 385 290 Example 0;
+#N canvas 476 96 385 290 Example 0;
 #X obj 2 2 cnv 15 380 40 empty empty xbendout2 3 12 0 18 -204280 -1
 0;
 #X obj 2 266 cnv 15 380 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 412 182 310 101 credits 0;
-#X text 44 30 From Max 7 Reference Documentation., f 37;
+#N canvas 553 166 310 101 credits 0;
+#X text 73 28 From Max 7 Documentation., f 26;
 #X restore 302 268 pd credits;
 #X text 71 25 example;
 #X msg 109 62 66;
@@ -111,9 +98,28 @@ with leastsignificant byte;
 #X connect 8 0 9 0;
 #X connect 9 0 10 0;
 #X restore 471 279 pd Example;
-#X connect 17 0 19 0;
-#X connect 17 1 21 0;
-#X connect 18 0 17 0;
-#X connect 20 0 18 0;
-#X connect 22 0 18 2;
-#X connect 23 0 18 1;
+#X text 116 519 in/output from;
+#X obj 209 518 midiin;
+#X obj 300 518 midiout;
+#X text 259 519 or to;
+#X text 158 412 -;
+#X text 158 317 -;
+#X text 118 317 float;
+#X text 158 340 -;
+#X text 118 340 float;
+#X text 158 463 -;
+#X text 100 463 1) float;
+#X text 172 463 sets initial channel number, f 60;
+#X text 173 340 Least Significant Byte (lsb), f 60;
+#X text 173 317 Most Significant Byte (msb), f 60;
+#X text 158 364 -;
+#X text 118 364 float;
+#X text 106 412 midiout;
+#X text 173 412 output of midi stream, f 60;
+#X text 173 364 channel number, f 60;
+#X connect 10 0 12 0;
+#X connect 10 1 14 0;
+#X connect 11 0 10 0;
+#X connect 13 0 11 0;
+#X connect 15 0 11 2;
+#X connect 16 0 11 1;

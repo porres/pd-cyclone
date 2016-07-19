@@ -149,7 +149,7 @@ a string in numbers (ASCII);
 #X obj 2 683 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 663 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 442 109 411 297 META 0;
+#N canvas 439 104 411 297 META 0;
 #X text 1 18 LICENSE SIBSD;
 #X text 1 90 LIBRARY cyclone;
 #X text 1 0 KEYWORDS send data cycle;
@@ -165,7 +165,7 @@ a string in numbers (ASCII);
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 489 665 pd META;
 #N canvas 336 143 505 79 Related_objects 0;
 #X obj 2 2 cnv 15 500 20 empty empty empty 3 12 0 14 -204280 -1 0;

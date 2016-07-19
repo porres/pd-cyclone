@@ -76,7 +76,7 @@
 #X obj 2 710 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 690 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 440 304 384 114 credits 0;
+#N canvas 515 185 384 114 credits 0;
 #X text 88 33 Examples from Max 7 Documentation., f 35;
 #X restore 543 692 pd credits;
 #X obj 348 218 cyclone/comment 234 11 helvetica ? 0 80 80 80 an optional
@@ -133,7 +133,7 @@ data according to inlet number;
 #X obj 2 713 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 693 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 610 328 382 213 META 0;
+#N canvas 500 103 390 363 META 0;
 #X text 1 20 LICENSE SIBSD;
 #X text 1 100 LIBRARY cyclone;
 #X text 1 0 KEYWORDS tag data inlet input;
@@ -145,15 +145,18 @@ data according to inlet number;
 #X text 1 157 RELEASE_DATE 2002;
 #X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
+#X text 1 60 INLET_N anything bang;
 #X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X text 1 60 INLET_N anything bang;
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 482 695 pd META;
-#N canvas 294 360 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
+#N canvas 359 145 430 77 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 6 29 listfunnel;
+#X obj 80 29 cyclone/spray;
 #X restore 191 695 pd Related_objects;
 #X obj 2 2 cyclone/fancy/cyheader;
 #X obj 183 321 cyclone/comment 100 11 helvetica ? 0 80 80 80 value

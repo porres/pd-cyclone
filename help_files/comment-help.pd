@@ -69,7 +69,7 @@ Courier];
 #X obj 81 36 comment 0 10 helvetica ? 0 0 0 0 comment;
 #X text 14 33 comment;
 #X restore 208 785 pd Related_objects;
-#N canvas 508 124 379 261 META 0;
+#N canvas 494 103 379 261 META 0;
 #X text 1 135 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
 #X text 1 93 AUTHOR Krzysztof Czaja;
@@ -83,6 +83,6 @@ meant to be Max/MSP compatible;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 504 785 pd META;
 #X obj 2 2 cyclone/fancy/cyheader;

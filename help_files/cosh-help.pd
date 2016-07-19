@@ -10,7 +10,7 @@
 #X obj 83 429 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 45 cnv 15 552 48 empty empty cosh 4 14 0 18 -204280 -1 0;
-#X obj 510 52 cosh;
+#X obj 510 53 cosh;
 #X floatatom 324 285 8 0 0 0 - - -, f 8;
 #X msg 324 156 bang;
 #X floatatom 163 285 8 0 0 0 - - -, f 8;
@@ -97,7 +97,7 @@ button and argument inside cosh object;
 #X obj 2 557 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 537 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 470 119 386 320 META 0;
+#N canvas 470 103 386 320 META 0;
 #X text 2 20 LICENSE SIBSD;
 #X text 2 100 LIBRARY cyclone;
 #X text 2 60 INLET_0 float bang;
@@ -113,7 +113,7 @@ button and argument inside cosh object;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.46-7.;
+this patch for Pd-Vanilla 0.47-2.;
 #X restore 492 539 pd META;
 #N canvas 344 145 430 183 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
