@@ -7,7 +7,7 @@
 #include "common/loud.h"
 
 #define ANAL_DEFSIZE  128
-#define ANAL_MAXSIZE  1024
+#define ANAL_MAXSIZE  16384
 
 typedef struct _anal
 {
