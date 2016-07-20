@@ -163,8 +163,8 @@ static void scope_clear(t_scope *x, int withdelay)
     //x->x_bufphase = 0;
     //x->x_phase = 0;
     x->x_precount = (withdelay ? (int)(x->x_delay * x->x_ksr) : 0);
-    x->x_retrigger = (x->x_trigmode != SCOPE_TRIGLINEMODE);
-    x->x_trigx = x->x_triglevel;
+//     x->x_retrigger = (x->x_trigmode != SCOPE_TRIGLINEMODE);
+//     x->x_trigx = x->x_triglevel;
 }
 
 static t_int *scope_perform(t_int *w)
@@ -204,6 +204,8 @@ static t_int *scope_perform(t_int *w)
 			nblock -= x->x_precount;
 			in1 += x->x_precount;
 			in2 += x->x_precount;
+			phase = 0;
+			bufphase = 0;
 			x->x_precount = 0;
 	    }
 	    if (x->x_trigmode && (xymode == 1 || xymode == 2))
@@ -217,11 +219,14 @@ static t_int *scope_perform(t_int *w)
 				{
 					if (x->x_trigx < triglevel)
 					{
-						while (nblock--) if (*in++ >= triglevel)
+						while (nblock--) if (*in >= triglevel)
 						{
 							x->x_retrigger = 0;
+							phase = 0;
+							bufphase = 0;
 							break;
 						}
+						else in++;
 					}
 					else while (nblock--) if (*in++ < triglevel)
 						{
@@ -233,11 +238,14 @@ static t_int *scope_perform(t_int *w)
 				{
 					if (x->x_trigx > triglevel)
 					{
-						while (nblock--) if (*in++ <= triglevel)
+						while (nblock--) if (*in <= triglevel)
 						{
+							phase = 0;
+							bufphase = 0;
 							x->x_retrigger = 0;
 							break;
 						}
+						else in++;
 					}
 					else while (nblock--) if (*in++ > triglevel)
 						{
@@ -245,8 +253,13 @@ static t_int *scope_perform(t_int *w)
 						break;
 						}
 				}
+				
 				if (nblock <= 0)
+				{
+					x->x_bufphase = bufphase;
+					x->x_phase = phase;
 					return (w + 5);
+				}
 			}
 			if (xymode == 1) in1 = in;
 			else in2 = in;
@@ -322,6 +335,11 @@ static t_int *scope_perform(t_int *w)
    					x->x_lastbufsize = bufsize;
    					memcpy(x->x_xbuflast, x->x_xbuffer, bufsize * sizeof(*x->x_xbuffer));
     				memcpy(x->x_ybuflast, x->x_ybuffer, bufsize * sizeof(*x->x_ybuffer));
+    				x->x_retrigger = (x->x_trigmode != SCOPE_TRIGLINEMODE);
+    				x->x_trigx = x->x_triglevel;
+    				{
+    				
+    				}
 					clock_delay(x->x_clock, 0);
 					//break;
 				}
@@ -335,9 +353,10 @@ static t_int *scope_perform(t_int *w)
 	    x->x_currx = currx;
 	    x->x_curry = curry;
 	    x->x_bufphase = bufphase;
-	    x->x_phase = phase;
+		x->x_phase = phase;
 	}
     }
+    
     return (w + 5);
 }
 
@@ -1623,6 +1642,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 
 void scope_tilde_setup(void)
 {
+	#include "scope_dialog.c"
 	t_symbol *dirsym;
     scope_class = class_new(gensym("scope~"),
 			    (t_newmethod)scope_new,
@@ -1681,7 +1701,7 @@ void scope_tilde_setup(void)
     fitter_setup(scope_class, 0);
     class_setpropertiesfn(scope_class, scope_properties);
     dirsym = scope_class->c_externdir;
-    sys_vgui("source {%s/dialog_scope.tcl}\n", dirsym->s_name);
+    //sys_vgui("source {%s/dialog_scope.tcl}\n", dirsym->s_name);
     
 
 }
