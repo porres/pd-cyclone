@@ -1,0 +1,210 @@
+#N canvas 405 28 572 576 10;
+#X obj 2 320 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 467 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 514 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 83 476 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty buddy 4 14 0 18 -204280 -1 0
+;
+#X floatatom 215 274 5 0 0 0 - - -, f 5;
+#X floatatom 258 274 5 0 0 0 - - -, f 5;
+#X floatatom 302 274 5 0 0 0 - - -, f 5;
+#X floatatom 215 162 5 0 0 0 - - -, f 5;
+#X floatatom 258 163 5 0 0 0 - - -, f 5;
+#X floatatom 302 163 5 0 0 0 - - -, f 5;
+#X msg 158 172 clear;
+#X obj 504 56 buddy;
+#X obj 83 332 cnv 17 3 108 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X text 14 71 sync inputs when all inlets receive data;
+#X obj 215 217 cyclone/buddy 3;
+#X obj 464 293 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 297 79 730 431 Examples 0;
+#X obj 2 2 cnv 15 710 40 empty empty buddy 3 12 0 18 -204280 -1 0;
+#X text 39 25 examples;
+#X msg 81 509 5 7 1;
+#X obj 151 544 cyclone/buddy 3, f 22;
+#X msg 151 509 5;
+#X msg 215 509 7;
+#X msg 280 509 1;
+#X obj 409 544 cyclone/buddy 3, f 22;
+#X obj 409 470 receive from_x;
+#X obj 473 490 receive from_y;
+#X obj 538 510 receive from_z;
+#X obj 151 566 prepend set;
+#X obj 215 586 prepend set;
+#X obj 280 608 prepend set;
+#X obj 409 566 prepend set;
+#X obj 473 586 prepend set;
+#X obj 538 608 prepend set;
+#X msg 151 630 5, f 6;
+#X msg 215 630 7, f 6;
+#X msg 280 630 1, f 6;
+#X msg 409 630 5, f 6;
+#X msg 473 630 7, f 6;
+#X msg 538 630 1, f 6;
+#X obj 70 141 ctlin;
+#X obj 69 172 cyclone/buddy;
+#X obj 69 197 pack, f 13;
+#X obj 69 235 print;
+#X obj 2 728 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 387 126 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 387 176 send unknown;
+#X obj 496 183 r unknown;
+#X obj 577 183 r unknown;
+#X msg 577 205 33.6;
+#X msg 496 205 21;
+#X obj 496 237 cyclone/buddy, f 14;
+#X obj 496 279 print second;
+#X obj 577 279 print first;
+#X msg 145 321 1;
+#X obj 145 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 145 353 cyclone/buddy 4, f 20;
+#X msg 184 321 2;
+#X msg 223 321 3;
+#X msg 262 321 4;
+#X obj 2 708 cnv 15 710 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 510 199 378 120 credits 0;
+#X text 85 33 Examples from Max 7 Documentation., f 37;
+#X restore 621 710 pd credits;
+#X obj 52 75 cyclone/comment 180 11 helvetica ? 0 80 80 80 With MIDI
+objects such as ctlin \, buddy allows you to reverse the order of the
+controller value and the controller number;
+#X obj 381 74 cyclone/comment 70 11 helvetica ? 0 80 80 80 Click here
+an watch the order in the Pd window;
+#X obj 523 110 cyclone/comment 180 11 helvetica ? 0 80 80 80 When messages
+go through a send \, their order to receive objects is unknown. With
+buddy \, you can ensure that the two values come out in a specified
+order.;
+#X obj 159 176 cyclone/comment 120 11 helvetica ? 0 80 80 80 the list
+starts with the controller value \, then the number;
+#X obj 279 356 cyclone/comment 280 11 helvetica ? 0 80 80 80 buddy
+only sends its input when all inputs have been received. note that
+the button doesn't fire until you click on all the numbers. Then all
+inputs are cleared.;
+#X obj 179 464 cyclone/comment 120 11 helvetica ? 0 80 80 80 numbers
+can be received in any order;
+#X obj 37 536 cyclone/comment 100 11 helvetica ? 0 80 80 80 ... or
+as a list;
+#X obj 157 663 cyclone/comment 400 11 helvetica ? 0 80 80 80 output
+is always right-to-left;
+#X obj 94 264 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 93 261 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 91 255 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 115 259 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X connect 2 0 3 0;
+#X connect 3 0 11 0;
+#X connect 3 1 12 0;
+#X connect 3 2 13 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 1;
+#X connect 6 0 3 2;
+#X connect 7 0 14 0;
+#X connect 7 1 15 0;
+#X connect 7 2 16 0;
+#X connect 8 0 7 0;
+#X connect 9 0 7 1;
+#X connect 10 0 7 2;
+#X connect 11 0 17 0;
+#X connect 12 0 18 0;
+#X connect 13 0 19 0;
+#X connect 14 0 20 0;
+#X connect 15 0 21 0;
+#X connect 16 0 22 0;
+#X connect 23 0 24 1;
+#X connect 23 1 24 0;
+#X connect 24 0 25 0;
+#X connect 24 1 25 1;
+#X connect 25 0 26 0;
+#X connect 28 0 29 0;
+#X connect 30 0 33 0;
+#X connect 31 0 32 0;
+#X connect 32 0 34 1;
+#X connect 33 0 34 0;
+#X connect 34 0 35 0;
+#X connect 34 1 36 0;
+#X connect 37 0 39 0;
+#X connect 39 0 38 0;
+#X connect 40 0 39 1;
+#X connect 41 0 39 2;
+#X connect 42 0 39 3;
+#X restore 464 293 pd Examples;
+#X text 105 478 any message, f 12;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 31 107 cyclone/comment 600 10 monaco ? 0 80 80 80 Once buddy
+receives all input data \, it outputs that data in parallel simultaneously.
+;
+#X obj 114 153 cyclone/comment 80 11 helvetica ? 0 80 80 80 clear all
+stored values;
+#X text 158 400 -;
+#X text 107 400 message;
+#X text 158 357 -;
+#X text 118 357 float;
+#X text 158 378 -;
+#X text 158 425 -;
+#X text 124 378 list;
+#X text 100 425 anything;
+#X text 173 357 number to sync with other numbers, f 60;
+#X text 173 378 list to sync with other numbers or lists, f 60;
+#X text 173 401 "clear": clears all stored values, f 60;
+#X text 173 425 anything to sync with other anything, f 60;
+#X text 180 478 -;
+#X text 195 478 distributed all synced data to outlets, f 57;
+#X text 158 527 -;
+#X text 100 527 1) float;
+#X text 172 527 sets the number of inlets/outlets (optional), f 60
+;
+#X obj 354 185 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 158 336 -;
+#X text 124 336 bang;
+#X text 173 336 in any inlet: same as the number 0 (not implemented
+yet), f 60;
+#X obj 2 594 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 574 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 574 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 504 123 370 289 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 0 KEYWORDS pass float numbers;
+#X text 1 36 DESCRIPTION pass numbers from inlet to outlet;
+#X text 1 72 OUTLET_N float;
+#X text 0 90 VERSION 0.2-beta1;
+#X text 0 108 AUTHOR Krzysztof Czaja;
+#X text 1 126 RELEASE_DATE 2002;
+#X text 2 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 54 INLET_N float clear;
+#X text 2 177 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 491 576 pd META;
+#N canvas 372 144 540 76 Related_objects 0;
+#X obj 2 2 cnv 15 535 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 148 34 cyclone/bondo;
+#X obj 239 34 cyclone/Bucket;
+#X obj 338 34 cyclone/onebang;
+#X obj 20 34 pack;
+#X obj 110 34 swap;
+#X obj 443 34 cyclone/thresh;
+#X obj 59 34 unpack;
+#X restore 217 576 pd Related_objects;
+#X connect 8 0 15 0;
+#X connect 9 0 15 1;
+#X connect 10 0 15 2;
+#X connect 11 0 15 0;
+#X connect 15 0 5 0;
+#X connect 15 1 6 0;
+#X connect 15 2 7 0;
+#X connect 39 0 15 2;

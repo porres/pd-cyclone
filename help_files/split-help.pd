@@ -1,0 +1,111 @@
+#N canvas 403 28 572 531 10;
+#X obj 2 324 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 451 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 520 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 82 333 cnv 17 3 40 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 460 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty split 4 14 0 18 -204280 -1 0
+;
+#X obj 504 52 split;
+#X text 14 70 look for a range of numbers;
+#X floatatom 203 279 5 0 0 0 - - -, f 5;
+#X floatatom 314 279 5 0 0 0 - - -, f 5;
+#X floatatom 203 117 5 0 0 0 - - -, f 5;
+#X floatatom 258 147 5 0 0 0 - - -, f 5;
+#X floatatom 314 183 5 0 0 0 - - -, f 5;
+#X msg 139 128 3 0 10;
+#X obj 82 391 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 416 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 484 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 203 209 cyclone/split 10 20;
+#X obj 320 231 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 209 231 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 622 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 601 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 487 107 387 368 META 0;
+#X text 10 29 LICENSE SIBSD;
+#X text 10 162 LIBRARY cyclone;
+#X text 10 86 INLET_1 float;
+#X text 10 124 OUTLET_0 float;
+#X text 10 10 KEYWORDS min max minimum maximum range;
+#X text 10 48 DESCRIPTION look for a range of numbers;
+#X text 10 67 INLET_0 list float;
+#X text 10 105 INLET_2 float;
+#X text 10 143 OUTLET_1 float;
+#X text 9 181 VERSION 0.2-beta1;
+#X text 9 199 AUTHOR Krzysztof Czaja;
+#X text 10 217 RELEASE_DATE 2002;
+#X text 11 236 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 11 268 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 503 603 pd META;
+#N canvas 350 145 430 83 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 15 32 <=;
+#X obj 48 32 >=;
+#X obj 81 32 route;
+#X obj 126 32 select;
+#X restore 207 603 pd Related_objects;
+#X obj 240 116 cyclone/comment 183 11 helvetica ? 0 80 80 80 input
+number to be split;
+#X obj 296 150 cyclone/comment 183 11 helvetica ? 0 80 80 80 set limit
+min;
+#X obj 350 183 cyclone/comment 183 11 helvetica ? 0 80 80 80 set limit
+max;
+#X obj 57 129 cyclone/comment 73 11 helvetica ? 0 80 80 80 list provides
+in the order: input number \, limit min \, limit max;
+#X obj 239 283 cyclone/comment 183 11 helvetica ? 0 80 80 80 is in
+range;
+#X obj 351 284 cyclone/comment 183 11 helvetica ? 0 80 80 80 is not
+in range;
+#X text 158 333 -;
+#X text 118 333 float;
+#X text 158 352 -;
+#X text 124 352 list;
+#X text 173 333 input value, f 60;
+#X text 173 352 format: the input value \, minimum \, maximum. Minimum
+and maximum are set first \, then the value is compared, f 60;
+#X text 158 393 -;
+#X text 118 393 float;
+#X text 158 416 -;
+#X text 118 416 float;
+#X text 158 461 -;
+#X text 118 461 float;
+#X text 158 484 -;
+#X text 118 484 float;
+#X text 173 393 set minimum, f 60;
+#X text 173 416 set maximum, f 60;
+#X text 173 461 output if number from inlet 0 in range, f 60;
+#X text 173 484 output if number from inlet 0 not in range, f 60;
+#X text 158 535 -;
+#X text 100 535 1) float;
+#X text 158 555 -;
+#X text 100 555 2) float;
+#X text 172 535 initial minimum, f 60;
+#X text 172 555 initial maximum, f 60;
+#X connect 10 0 17 0;
+#X connect 11 0 17 1;
+#X connect 12 0 17 2;
+#X connect 13 0 17 0;
+#X connect 17 0 8 0;
+#X connect 17 0 19 0;
+#X connect 17 1 9 0;
+#X connect 17 1 18 0;

@@ -1,0 +1,156 @@
+#N canvas 401 28 572 513 10;
+#X obj 2 391 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 453 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 501 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 403 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 465 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty sprintf 4 14 0 18 -204280 -1
+0;
+#X obj 493 51 sprintf;
+#X text 14 70 format a message of strings and numbers;
+#X obj 54 302 print;
+#X msg 54 190 -bar;
+#X floatatom 195 194 5 0 0 0 - - -, f 5;
+#X obj 54 246 cyclone/sprintf foo%s-%d;
+#X obj 300 301 print;
+#X msg 300 193 myFloat;
+#X msg 397 191 42.88;
+#X msg 495 192 64;
+#X obj 300 245 cyclone/sprintf variable %s=%f %c;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 3 623 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 602 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 494 101 388 344 META 0;
+#X text 10 29 LICENSE SIBSD;
+#X text 10 105 LIBRARY cyclone;
+#X text 10 10 KEYWORDS print format string;
+#X text 10 48 DESCRIPTION format a message of string and numbers;
+#X text 10 67 INLET_N message;
+#X text 10 86 OUTLET_0 message;
+#X text 10 123 VERSION 0.2-beta1;
+#X text 10 141 AUTHOR Krzysztof Czaja;
+#X text 11 159 RELEASE_DATE 2002;
+#X text 12 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 503 605 pd META;
+#N canvas 344 144 480 76 Related_objects 0;
+#X obj 2 2 cnv 15 475 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 363 31 cyclone/spell;
+#X obj 135 31 cyclone/fromsymbol;
+#X obj 256 31 cyclone/tosymbol;
+#X obj 55 30 key;
+#X obj 89 30 keyup;
+#X obj 16 30 atoi;
+#X restore 206 605 pd Related_objects;
+#X obj 63 330 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 62 327 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 60 321 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 83 329 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X obj 56 176 cyclone/comment 129 11 helvetica ? 0 80 80 80 this is
+the 'hot' inlet;
+#X obj 33 99 cyclone/comment 450 10 monaco ? 0 80 80 80 Uses the common
+C-language "printf" function. You can combine symbols \, organize lists
+of numbers \, or format messages or menu items. For complete documentation
+\, refer to a standard C library reference manual.;
+#N canvas 457 209 460 183 link-address 0;
+#X text 76 60 https://en.wikipedia.org/wiki/Printf_format_string;
+#X restore 409 128 pd link-address;
+#X obj 472 368 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 247 95 640 316 Examples 0;
+#X obj 2 2 cnv 15 620 40 empty empty sprintf 3 12 0 18 -204280 -1 0
+;
+#X text 44 25 examples;
+#X obj 102 67 cyclone/comment 71 11 helvetica ? 0 80 80 80 list example
+;
+#X obj 2 649 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 628 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 544 134 363 117 credits 0;
+#X text 76 34 Examples from Max 7 Documentation., f 38;
+#X restore 536 630 pd credits;
+#X obj 71 106 vsl 24 48 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 22 89 cyclone/comment 56 11 helvetica ? 0 80 80 80 then move
+the slider;
+#X obj 9 89 cyclone/comment 56 11 helvetica ? 0 80 80 80 2);
+#X msg 248 118 45;
+#X obj 219 101 cyclone/comment 56 11 helvetica ? 0 80 80 80 click here
+first;
+#X obj 206 101 cyclone/comment 56 11 helvetica ? 0 80 80 80 1);
+#X obj 71 199 print;
+#X obj 82 228 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 81 225 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 79 219 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 102 227 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X obj 392 126 cyclone/comment 153 11 helvetica ? 0 80 80 80 The argument
+to sprintf is the "format string" which specifies the output. The output
+string is re-processed and sent out as a list of numbers and symbols.
+sprintf provides an inlet for each % argument specified.;
+#X obj 75 309 cyclone/comment 106 11 helvetica ? 0 80 80 80 message
+example;
+#X msg 83 332 -99 Granville;
+#X obj 83 416 print;
+#X obj 417 309 cyclone/comment 106 11 helvetica ? 0 80 80 80 float
+example;
+#X obj 423 416 print;
+#X floatatom 423 328 8 0 0 0 - - -, f 8;
+#X obj 144 463 cyclone/comment 155 11 helvetica ? 0 80 80 80 combining
+string example;
+#X obj 71 167 cyclone/sprintf %ld 34 %ld 555;
+#X obj 83 364 cyclone/sprintf Error %ld in sector %s;
+#X obj 423 364 cyclone/sprintf %.2fdB;
+#X obj 151 521 cyclone/sprintf %s%s;
+#X obj 291 521 cyclone/sprintf %c%c%c%c;
+#X msg 151 493 tom tom;
+#X msg 291 493 76 79 86 69;
+#X obj 249 553 prepend set;
+#X msg 249 585 LOVE;
+#X connect 6 0 25 0;
+#X connect 9 0 25 1;
+#X connect 19 0 26 0;
+#X connect 23 0 27 0;
+#X connect 25 0 12 0;
+#X connect 26 0 20 0;
+#X connect 27 0 22 0;
+#X connect 28 0 32 0;
+#X connect 29 0 32 0;
+#X connect 30 0 28 0;
+#X connect 31 0 29 0;
+#X connect 32 0 33 0;
+#X restore 472 368 pd Examples;
+#X text 169 530 -;
+#X text 158 404 -;
+#X text 107 404 message;
+#X text 92 530 1) string;
+#X text 182 530 the string format to output. Each % creates an inlet.
+%s - string \, %d integer \, %f float \, %c - character \; the format
+is derived from the c function sprintf, f 53;
+#X text 173 404 inlet type is specified by format string given as argument
+to [sprintf];
+#X text 158 465 -;
+#X text 107 465 message;
+#X text 173 465 the formatted string;
+#X connect 9 0 11 0;
+#X connect 10 0 11 1;
+#X connect 11 0 8 0;
+#X connect 13 0 16 0;
+#X connect 14 0 16 1;
+#X connect 15 0 16 2;
+#X connect 16 0 12 0;

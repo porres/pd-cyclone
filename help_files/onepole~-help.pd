@@ -1,0 +1,124 @@
+#N canvas 792 23 566 746 10;
+#X obj 7 665 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 7 371 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 617 272 357 233 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 100 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal lowpass filter low pass pole;
+#X text 0 40 DESCRIPTION single-pole lowpass filter;
+#X text 0 60 INLET_0 signal;
+#X text 0 80 INLET_1 float signal;
+#X text 0 140 VERSION 0.2-beta1;
+#X text 0 158 AUTHOR Krzysztof Czaja;
+#X text 1 176 RELEASE_DATE 2002;
+#X text 2 195 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 227 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 509 667 pd META;
+#X obj 7 509 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 7 546 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 7 611 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#N canvas 312 395 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 204 667 pd Related_objects;
+#X obj 89 384 cnv 17 3 87 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 89 476 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 154 385 signal;
+#X text 154 519 signal;
+#X text 132 558 1) float;
+#X obj 89 519 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 113 296 output~;
+#X text 118 477 float/signal;
+#X text 205 519 - output of low-pass filter;
+#X floatatom 290 216 5 0 0 0 - - -, f 5;
+#X obj 290 265 line~;
+#X msg 290 240 \$1 10;
+#X obj 293 191 hsl 128 15 100 10000 1 1 empty empty empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X text 333 190 cutoff;
+#X text 132 577 2) symbol;
+#X text 205 556 - cutoff frequency (default 0?);
+#X text 206 384 - signal to be filtered;
+#X text 205 477 - cutoff frequency;
+#X obj 139 199 phasor~ 250;
+#X obj 139 225 triangle~ 0;
+#X obj 139 254 cyclone/onepole~ 100;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 onepole~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 One pole lowpass filter;
+#X text 105 90 Similar to vanila's [lop~] \, [onepole~] implements
+the simplest of IIR filters \, providing a 6dB per octave attenuation.
+;
+#X text 104 136 This filter is very efficient and useful for gently
+rolling off harsh high end and for smoothing out control signals.;
+#N canvas 750 179 521 404 frequency 0;
+#X text 97 152 - The 'hz' mode is simply an input in hertz.;
+#X text 98 171 - The 'linear' mode is just a scaled version of the
+standard hertz mode with values in the 0-1 range.;
+#X text 98 218 - The 'radians' mode lets you set the center frequency
+of the equation directly \, while the input has the same range as linear
+(0-1) \, the output has a curved frequency response that is closer
+to the exponential pitch scale of the human ear.;
+#X obj 50 18 cnv 15 182 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 56 23 comment 0 18 times ? 0 0 0 0 Frequency input modes;
+#X text 39 184 linear:;
+#X text 63 152 hz:;
+#X text 33 218 radians:;
+#X text 98 297 Try sweeping the cutoff frequency in linear mode then
+in radians mode to appreciate the difference. A similar principle operates
+in the amplitude domain \, where exponential audio faders are used
+to match our logarithmic perception of loudness.;
+#X text 97 74 [onepole~] has three different modes (set by messages
+or argument) for mapping input values onto cutoff frequency. These
+are mainly for convenience \, but they may also slightly improve efficiency.
+;
+#X restore 375 289 pd frequency input mode;
+#X text 143 636 where k represents the cutoff frequency in radians.
+;
+#X text 206 577 - frequency mode: <Hz> (default) \, <linear> or <radians>
+;
+#X text 154 421 linear;
+#X text 148 438 radians;
+#X text 160 456 clear;
+#X text 205 402 - sets frequency input mode to 'hertz';
+#X text 178 402 hz;
+#X text 205 420 - sets frequency input mode to 'linear';
+#X text 205 438 - sets frequency input mode to 'radians';
+#X text 205 456 - clears filter's memory;
+#X text 142 621 The filter equation is: out = prev + k * (in - prev)
+\,;
+#X text 179 704 - cutoff frequency (default 0?) - Hz or hz?;
+#X connect 16 0 18 0;
+#X connect 17 0 27 1;
+#X connect 18 0 17 0;
+#X connect 19 0 16 0;
+#X connect 25 0 26 0;
+#X connect 26 0 27 0;
+#X connect 27 0 13 0;
+#X connect 27 0 13 1;

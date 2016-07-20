@@ -1,0 +1,234 @@
+#N canvas 715 36 559 575 10;
+#X obj 3 338 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 422 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 484 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 88 432 cnv 17 3 42 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 88 349 cnv 17 3 56 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X msg 214 158 clear;
+#X msg 215 179 reset;
+#X msg 111 158 1;
+#X msg 140 158 2;
+#X msg 169 158 3;
+#X floatatom 156 296 5 0 0 0 - - -, f 5;
+#X floatatom 226 296 5 0 0 0 - - -, f 5;
+#X floatatom 297 296 5 0 0 0 - - -, f 5;
+#X obj 177 245 print;
+#N canvas 355 91 679 434 Examples 0;
+#X msg 34 200 60;
+#X msg 301 200 60;
+#X msg 167 200 64;
+#X msg 434 200 64;
+#X obj 34 224 cyclone/anal;
+#X obj 167 224 cyclone/anal;
+#X obj 301 224 cyclone/anal;
+#X obj 434 224 cyclone/anal;
+#X obj 34 266 cyclone/prob;
+#C restore;
+#X obj 167 266 cyclone/prob;
+#C restore;
+#X obj 301 266 cyclone/prob;
+#C restore;
+#X obj 434 266 cyclone/prob;
+#C restore;
+#X obj 582 157 notein;
+#X obj 582 187 stripnote;
+#X obj 603 252 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 2 378 cnv 15 670 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 242 34 675 714 markov_chain_example 0;
+#X obj 2 117 cnv 15 670 70 empty empty maximum_input_value_to_16384_not_implemented_yet
+100 23 0 14 -261234 -1 0;
+#X obj 135 48 notein;
+#X obj 135 85 stripnote;
+#X obj 190 234 cyclone/Bucket;
+#X msg 190 205 set 0;
+#X obj 190 256 << 7;
+#X obj 135 281 +;
+#X obj 451 160 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X msg 451 273 clear;
+#X obj 135 395 cyclone/prob;
+#C restore;
+#X obj 135 333 cyclone/anal 16384;
+#X obj 308 383 unpack f f f, f 15;
+#X floatatom 308 405 5 0 0 0 - - -, f 5;
+#X floatatom 351 405 5 0 0 0 - - -, f 5;
+#X floatatom 395 405 5 0 0 0 - - -, f 5;
+#X obj 91 350 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373 -66577
+-1;
+#X obj 204 428 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X floatatom 155 429 5 0 0 0 - - -, f 5;
+#X obj 135 487 % 128;
+#X obj 135 605 makenote 86 200;
+#X obj 135 641 noteout;
+#X obj 2 690 cnv 15 670 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 440 304 314 103 credits 0;
+#X text 62 28 From Max 7 [anal] object Help., f 38;
+#X restore 591 692 pd credits;
+#X obj 236 32 cyclone/comment 380 11 helvetica ? 0 80 80 80 By default
+\, anal creates a table of transition probabilities from one note to
+another (1st order Markov chain).;
+#X obj 235 58 cyclone/comment 380 11 helvetica ? 0 80 80 80 This patch
+shows how we can use it to create transition probabilities from two
+notes to a third note (2nd order markov chain).;
+#X obj 479 160 cyclone/comment 80 11 helvetica ? 0 80 80 80 <-- start
+over;
+#X obj 46 243 cyclone/comment 100 11 helvetica ? 0 80 80 80 encode
+previous input value and current value into one big number;
+#X obj 225 257 cyclone/comment 100 11 helvetica ? 0 80 80 80 store
+"previous" note in the high seven bits of our value;
+#X obj 353 325 cyclone/comment 220 11 helvetica ? 0 80 80 80 our anal
+size is 128*128 because we're shoving two MIDI values into one;
+#X obj 432 407 cyclone/comment 200 11 helvetica ? 0 80 80 80 now our
+anal outputs transitions from two-note pairs to other two-note pairs
+;
+#X obj 177 492 cyclone/comment 380 11 helvetica ? 0 80 80 80 weed out
+the "previous" note that was stored in the high 7 bits;
+#X obj 237 602 cyclone/comment 380 11 helvetica ? 0 80 80 80 magic!
+our playback is comprised of transition probabilities based on the
+two preceeding notes! This should yield results that sound less random
+than if we're just looking at one note at a time.;
+#X obj 2 2 cnv 15 670 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 markox chain
+example;
+#X connect 1 0 2 0;
+#X connect 1 1 2 1;
+#X connect 2 0 6 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 5 0 6 1;
+#X connect 6 0 10 0;
+#X connect 7 0 4 0;
+#X connect 7 0 8 0;
+#X connect 8 0 10 0;
+#X connect 8 0 9 0;
+#X connect 9 0 17 0;
+#X connect 9 0 18 0;
+#X connect 9 1 16 0;
+#X connect 10 0 9 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 11 1 13 0;
+#X connect 11 2 14 0;
+#X connect 15 0 9 0;
+#X connect 18 0 19 0;
+#X connect 19 0 20 0;
+#X connect 19 1 20 1;
+#X restore 264 380 pd markov_chain_example;
+#N canvas 497 198 384 114 credits 0;
+#X text 93 33 Examples from Max 7 Documentation.;
+#X restore 591 380 pd credits;
+#X obj 9 199 cyclone/comment 80 11 helvetica ? 0 80 80 80 1;
+#X obj 145 199 cyclone/comment 80 11 helvetica ? 0 80 80 80 2;
+#X obj 279 199 cyclone/comment 80 11 helvetica ? 0 80 80 80 3;
+#X obj 412 199 cyclone/comment 80 11 helvetica ? 0 80 80 80 4;
+#X obj 30 151 cyclone/comment 80 11 helvetica ? 0 80 80 80 on the first
+number \, nothing happens;
+#X obj 165 152 cyclone/comment 80 11 helvetica ? 0 80 80 80 now the
+pair "60 \, 64" has occurred once;
+#X obj 300 152 cyclone/comment 80 11 helvetica ? 0 80 80 80 now the
+pair "64 \, 60" has occurred once;
+#X obj 432 152 cyclone/comment 80 11 helvetica ? 0 80 80 80 now the
+pair "60 \, 64" has occurred once;
+#X text 44 63 The output of [anal] list is designed to serve as input
+to the [prob] object \, to create a probability matrix of transitions
+from one number to another (known as a first-order Markov chain).,
+f 65;
+#X obj 582 224 cyclone/anal;
+#X obj 582 276 cyclone/prob;
+#C restore;
+#X connect 0 0 4 0;
+#X connect 1 0 6 0;
+#X connect 2 0 5 0;
+#X connect 3 0 7 0;
+#X connect 4 0 8 0;
+#X connect 5 0 9 0;
+#X connect 6 0 10 0;
+#X connect 7 0 11 0;
+#X connect 12 0 13 0;
+#X connect 13 0 27 0;
+#X connect 14 0 28 0;
+#X connect 27 0 28 0;
+#X restore 346 223 pd Examples;
+#X obj 2 552 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 532 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 532 101 369 314 META 0;
+#X text 1 101 LIBRARY cyclone;
+#X text 0 122 VERSION 0.2-beta1;
+#X text 1 142 AUTHOR Krzysztof Czaja;
+#X text 1 162 RELEASE_DATE 2002;
+#X text 2 179 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 0 0 KEYWORDS control storage max_compatible;
+#X text 0 60 INLET_0 float clear reset;
+#X text 0 80 OUTLET_0 list;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 40 DESCRIPTION generates a histogram of number pairs received
+;
+#X text 1 209 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 492 533 pd META;
+#N canvas 306 111 434 71 Related_objects 0;
+#X obj 3 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 9 5 Related Objects;
+#X obj 163 33 cyclone/prob;
+#C restore;
+#X obj 71 33 cyclone/histo;
+#X restore 197 533 pd Related_objects;
+#X text 124 349 float;
+#X text 125 433 list, f 5;
+#X text 100 498 1) float, f 9;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 anal;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 156 271 unpack float float float;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Make a histogram of number
+pairs;
+#X obj 156 218 cyclone/anal 32;
+#X text 82 88 Use [anal] to report how many times a number pair has
+been received. The output is designed to serve as input to the [cyclone/prob]
+object.;
+#X text 174 433 - composed of 3 floats: 1 - the number received before
+the latest. 2 - the lastest received number. 3 - the times the last
+two number are received in combination;
+#X text 173 349 - output the current value, f 60;
+#X text 124 369 clear;
+#X text 173 369 - clears all received numbers, f 60;
+#X text 123 390 reset;
+#X text 173 390 - removes the last two recevied numbers, f 60;
+#X text 172 498 - sets maximum input value - clipped between zero and
+this value (default is 128 \, maximum is 16384).;
+#X connect 5 0 31 0;
+#X connect 6 0 31 0;
+#X connect 7 0 31 0;
+#X connect 8 0 31 0;
+#X connect 9 0 31 0;
+#X connect 29 0 10 0;
+#X connect 29 1 11 0;
+#X connect 29 2 12 0;
+#X connect 31 0 13 0;
+#X connect 31 0 29 0;

@@ -1,0 +1,211 @@
+#N canvas 408 28 557 541 10;
+#X obj 2 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 393 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 441 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 84 295 cnv 17 3 32 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 342 cnv 17 3 32 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty decide 4 14 0 18 -204280 -1 0
+;
+#X obj 496 54 decide;
+#X obj 116 239 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 116 154 metro 300;
+#X obj 116 120 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X floatatom 215 155 5 0 0 0 - - -, f 5;
+#X obj 333 153 metro 300;
+#X obj 333 120 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 333 238 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 84 402 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 333 195 cyclone/decide;
+#X obj 116 196 cyclone/decide 12;
+#X text 14 71 output 0 or 1 randomly;
+#X obj 466 261 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 321 96 575 630 Examples 0;
+#X obj 2 2 cnv 15 570 40 empty empty decide 3 12 0 18 -204280 -1 0
+;
+#X obj 2 606 cnv 15 570 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 504 194 365 122 credits 0;
+#X text 51 34 Spare examples from Max 7 Documentation.;
+#X restore 489 608 pd credits;
+#N canvas 438 116 432 316 seed 0;
+#X obj 52 51 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 52 198 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 52 259 print;
+#N canvas 805 451 450 300 tru 0;
+#X obj 36 43 inlet;
+#X obj 36 73 outlet;
+#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 35 108 I should really try to find out how list should be used...
+;
+#X connect 0 0 1 0;
+#X restore 143 248 pd tru;
+#X msg 121 196 0;
+#X obj 52 226 list prepend;
+#X msg 133 51 0;
+#X msg 160 80 1;
+#X obj 2 2 cnv 15 427 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X msg 167 109 1.23457e+07;
+#X text 7 3 Testing with simple seeds;
+#X obj 52 134 cyclone/decide;
+#X obj 152 192 cyclone/comment 200 11 helvetica ? 0 80 80 80 clear
+the list;
+#X obj 194 76 cyclone/comment 250 11 helvetica ? 0 80 80 80 a 1 gives
+a recognizable pattern (18 zeros);
+#X obj 166 45 cyclone/comment 200 11 helvetica ? 0 80 80 80 a 0 uses
+the standard c rand() function;
+#X connect 0 0 11 0;
+#X connect 1 0 5 0;
+#X connect 3 0 5 1;
+#X connect 4 0 5 1;
+#X connect 5 0 2 0;
+#X connect 5 0 3 0;
+#X connect 6 0 11 1;
+#X connect 7 0 11 1;
+#X connect 9 0 11 1;
+#X connect 11 0 1 0;
+#X restore 490 583 pd seed test;
+#X obj 66 59 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 66 96 cyclone/decide;
+#X msg 66 148 Heads!;
+#X obj 66 118 select 0 1, f 25;
+#X msg 139 148 Tails!;
+#X obj 66 189 print "The winner is";
+#X obj 391 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 391 133 metro 5000;
+#X obj 391 155 decide;
+#X obj 391 179 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 391 199 metro 125;
+#X obj 391 234 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 27 287 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 27 327 metro 250;
+#X obj 27 379 decide;
+#X obj 27 402 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X floatatom 119 321 5 0 0 0 - - -, f 5;
+#X obj 160 379 select 0 1, f 39;
+#X obj 160 421 cyclone/counter;
+#X obj 275 421 cyclone/counter;
+#X obj 430 351 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 160 448 5 0 0 1 NO - -, f 5;
+#X floatatom 275 448 5 0 0 1 YES - -, f 5;
+#X obj 160 482 cyclone/bondo;
+#X obj 160 504 pack 0 0, f 13;
+#X obj 160 526 /;
+#X floatatom 160 558 10 0 0 0 - - -, f 10;
+#X obj 430 391 t b b;
+#X obj 46 283 cyclone/comment 200 11 helvetica ? 0 80 80 80 <-- Click
+and make some decisions;
+#X obj 156 318 cyclone/comment 200 11 helvetica ? 0 80 80 80 <-- set
+seed value;
+#X obj 450 346 cyclone/comment 200 11 helvetica ? 0 80 80 80 <-- reset
+counters;
+#X obj 74 217 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 73 214 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 71 208 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 95 214 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X text 31 23 examples;
+#X connect 4 0 5 0;
+#X connect 5 0 7 0;
+#X connect 6 0 9 0;
+#X connect 7 0 6 0;
+#X connect 7 1 8 0;
+#X connect 8 0 9 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 19 0 21 0;
+#X connect 20 0 18 1;
+#X connect 21 0 22 0;
+#X connect 21 1 23 0;
+#X connect 22 0 25 0;
+#X connect 23 0 26 0;
+#X connect 24 0 31 0;
+#X connect 25 0 27 0;
+#X connect 26 0 27 1;
+#X connect 27 0 28 0;
+#X connect 27 1 28 1;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 31 0 22 2;
+#X connect 31 1 23 2;
+#X restore 466 261 pd Examples;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X text 158 298 -;
+#X text 125 298 bang;
+#X text 158 344 -;
+#X text 119 344 float;
+#X text 173 298 output 0 or 1 by default, f 60;
+#X text 173 344 set the seed for the random number generator. 0 will
+use a random seed \, any other integer float is the seed., f 60;
+#X text 158 404 -;
+#X text 118 404 float;
+#X text 173 404 random 0 or 1 by default, f 60;
+#X text 158 458 -;
+#X text 100 458 1) float;
+#X text 172 458 seed for the random number generator. No argument or
+0 uses rand(), f 60;
+#X obj 2 537 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 517 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 509 103 374 327 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 0 KEYWORDS output 0 1 binary random;
+#X text 0 100 OUTLET_0 float;
+#X text 0 60 INLET_0 bang;
+#X text 0 80 INLET_1 float;
+#X text 0 138 VERSION 0.2-beta1;
+#X text 0 156 AUTHOR Krzysztof Czaja;
+#X text 1 174 RELEASE_DATE 2002;
+#X text 2 193 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 0 40 DESCRIPTION output 0 or 1 randomly;
+#X text 2 225 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 491 519 pd META;
+#N canvas 350 145 430 81 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 13 30 random;
+#X obj 62 30 cyclone/drunk;
+#X obj 152 30 cyclone/rand~;
+#X obj 243 30 cyclone/urn;
+#X restore 210 519 pd Related_objects;
+#X text 158 316 -;
+#X text 119 316 float;
+#X text 173 316 same as bang, f 60;
+#X connect 8 0 16 0;
+#X connect 9 0 8 0;
+#X connect 10 0 16 1;
+#X connect 11 0 15 0;
+#X connect 12 0 11 0;
+#X connect 15 0 13 0;
+#X connect 16 0 7 0;

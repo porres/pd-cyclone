@@ -1,0 +1,144 @@
+#N canvas 377 29 557 561 10;
+#X obj 2 347 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 466 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 82 362 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 429 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty cosh 4 14 0 18 -204280 -1 0;
+#X obj 510 53 cosh;
+#X floatatom 324 285 8 0 0 0 - - -, f 8;
+#X msg 324 156 bang;
+#X floatatom 163 285 8 0 0 0 - - -, f 8;
+#X obj 163 179 / 100;
+#X floatatom 163 154 5 0 0 0 - - -, f 5;
+#X obj 163 226 cyclone/cosh;
+#X obj 324 227 cyclone/cosh 0.2;
+#X text 14 72 hyperbolic cosine(x) function;
+#X obj 468 319 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 336 95 435 277 Examples 0;
+#X obj 2 2 cnv 15 430 40 empty empty cosh 3 12 0 18 -204280 -1 0;
+#X obj 66 124 cyclone/acos;
+#X floatatom 66 90 10 0 0 0 - rcv_numbox1 -, f 10;
+#X floatatom 66 186 10 0 0 0 - - -, f 10;
+#X obj 290 124 cyclone/acos;
+#X floatatom 290 90 10 0 0 0 - rcv_numbox2 -, f 10;
+#X floatatom 290 186 10 0 0 0 - - -, f 10;
+#X obj 172 88 bng 20 250 50 0 empty rcv_bgn empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 172 186 10 0 0 0 - - -, f 10;
+#X obj 172 124 cyclone/acos 0;
+#X obj 2 253 cnv 15 430 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 493 159 388 101 credits 0;
+#X text 95 28 Example from Max 7 Documentation.;
+#X restore 351 255 pd credits;
+#X text 29 25 examples;
+#X obj 143 59 cyclone/comment 400 10 monaco ? 0 80 80 80 floating-point
+input;
+#X obj 128 215 cyclone/comment 400 10 monaco ? 0 80 80 80 hyperbolic
+cosine of the input;
+#N canvas 419 136 430 233 settings 0;
+#X obj 53 107 loadbang;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 51 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 number box
+1;
+#X obj 30 49 cyclone/comment 99 11 helvetica ? 0 80 80 80 set initial
+state of:;
+#X msg 53 129 1;
+#X obj 53 151 s rcv_numbox1;
+#X obj 293 107 loadbang;
+#X obj 291 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 number box
+2;
+#X obj 293 151 s rcv_numbox2;
+#X msg 293 129 -1;
+#X obj 173 107 loadbang;
+#X obj 171 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 bang gui
+;
+#X obj 173 151 s rcv_bgn;
+#X text 6 4 cosh examples preset;
+#X connect 0 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 9 0;
+#X connect 9 0 8 0;
+#X connect 10 0 12 0;
+#X restore 273 255 pd settings;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 7 0 9 0;
+#X connect 9 0 8 0;
+#X restore 468 319 pd Examples;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 100 108 cyclone/comment 400 10 monaco ? 0 80 80 80 outputs the
+hyperbolic cosine value of input float value.;
+#X obj 93 147 cyclone/comment 80 11 helvetica ? 0 80 80 80 with input
+as float value to take cosh of;
+#X obj 366 155 cyclone/comment 100 11 helvetica ? 0 80 80 80 with bang
+button and argument inside cosh object;
+#X text 158 363 -;
+#X text 125 363 bang;
+#X text 158 384 -;
+#X text 118 384 float;
+#X text 173 363 output cosh of stored value, f 60;
+#X text 173 384 number to take cosh of, f 60;
+#X text 158 430 -;
+#X text 118 430 float;
+#X text 173 430 cosh of input value, f 60;
+#X text 158 482 -;
+#X text 100 482 1) float;
+#X text 172 482 optional initial value to compute, f 60;
+#X obj 2 557 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 537 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 470 103 386 320 META 0;
+#X text 2 20 LICENSE SIBSD;
+#X text 2 100 LIBRARY cyclone;
+#X text 2 60 INLET_0 float bang;
+#X text 2 0 KEYWORDS cos cosine cosh hyperbolic;
+#X text 2 80 OUTLET_0 float;
+#X text 0 119 VERSION 0.2-beta1;
+#X text 0 137 AUTHOR Krzysztof Czaja;
+#X text 1 155 RELEASE_DATE 2002;
+#X text 2 174 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 40 DESCRIPTION hyperbolic cosine(x) function;
+#X text 2 206 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 492 539 pd META;
+#N canvas 344 145 430 183 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 7 2 Related Objects;
+#X obj 76 78 cyclone/acosh~;
+#X obj 77 31 cyclone/acos;
+#X obj 206 78 cyclone/asinh~;
+#X obj 207 55 cyclone/asin~;
+#X obj 323 32 cyclone/atan~;
+#X obj 323 55 cyclone/atanh~;
+#X obj 76 125 cyclone/cosh~;
+#X obj 76 102 cyclone/cosh;
+#X obj 76 149 cyclone/cosx~;
+#X obj 76 54 cyclone/acos~;
+#X obj 207 32 cyclone/asin;
+#X obj 207 101 cyclone/sinh;
+#X obj 206 124 cyclone/sinh~;
+#X obj 206 147 cyclone/sinx~;
+#X obj 323 78 cyclone/tanh;
+#X obj 323 101 cyclone/tanh~;
+#X obj 323 124 cyclone/tanx~;
+#X obj 13 31 cos~;
+#X restore 205 539 pd Related_objects;
+#X connect 8 0 13 0;
+#X connect 10 0 12 0;
+#X connect 11 0 10 0;
+#X connect 12 0 9 0;
+#X connect 13 0 7 0;

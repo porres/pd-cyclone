@@ -1,0 +1,90 @@
+#N canvas 760 232 560 454 10;
+#X obj 2 409 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 258 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 383 289 391 328 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 113 LIBRARY cyclone;
+#X text 0 73 INLET_0 signal;
+#X text 0 93 OUTLET_0 signal;
+#X text 0 40 DESCRIPTION takes the arc hyperbolic cosine function for
+signals;
+#X text 0 0 KEYWORDS hyperbolic cosine cosh signal acos acosh;
+#X text 0 134 VERSION 0.2-beta1;
+#X text 0 155 AUTHOR Krzysztof Czaja;
+#X text 1 174 RELEASE_DATE 2002;
+#X text 1 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 224 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 505 411 pd META;
+#X obj 2 326 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 363 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 108 413 427 190 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 5 76 cyclone/acosh~;
+#X obj 6 29 cyclone/acos;
+#X obj 105 76 cyclone/asinh~;
+#X obj 106 52 cyclone/asin~;
+#X obj 202 45 cyclone/atan~;
+#X obj 202 70 cyclone/atanh~;
+#X obj 5 123 cyclone/cosh~;
+#X obj 5 100 cyclone/cosh;
+#X obj 5 148 cyclone/cosx~;
+#X obj 5 53 cyclone/acos~;
+#X obj 106 30 cyclone/asin;
+#X obj 106 100 cyclone/sinh;
+#X obj 105 123 cyclone/sinh~;
+#X obj 105 147 cyclone/sinx~;
+#X obj 202 93 cyclone/tanh;
+#X obj 203 116 cyclone/tanh~;
+#X obj 202 140 cyclone/tanx~;
+#X obj 332 104 cos~;
+#X text 325 74 vanilla;
+#X restore 199 411 pd Related_objects;
+#X obj 91 338 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 91 268 cnv 17 3 46 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 238 152 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-245500 -1 -1 0 256;
+#X obj 202 149 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 95 93 Use the [asinh] object to calculate and output the hyperbolic
+arc-sine of any given number.;
+#X text 129 339 float;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 asinh;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Hyperbolic arc-sine function
+;
+#X floatatom 238 220 0 0 0 0 - - -;
+#X text 129 267 float;
+#X text 134 296 bang;
+#X text 181 296 - calculates output according to the stored input;
+#X text 180 267 - input to hyperbolic arc-sine function \, this value
+is stored and updates the argument;
+#X text 181 339 - the hyperbolic arc-sine of the input;
+#X text 112 378 1) float;
+#X text 181 378 - initially stored input value (default 0);
+#X obj 238 190 cyclone/asinh 100;
+#X connect 8 0 28 0;
+#X connect 9 0 28 0;
+#X connect 28 0 20 0;

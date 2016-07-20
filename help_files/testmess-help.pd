@@ -1,0 +1,74 @@
+#N canvas 488 79 557 508 10;
+#X msg 126 120 1;
+#X obj 126 188 print;
+#X msg 166 120 asdf;
+#X obj 0 0 cnv 15 552 40 empty empty testmess 3 12 0 18 -204280 -1
+0;
+#X text 18 25 test object for messages;
+#X obj 482 9 testmess;
+#X obj 0 504 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 614 282 357 242 META 0;
+#X text 1 22 LICENSE SIBSD;
+#X text 1 102 LIBRARY cyclone;
+#X text 0 122 VERSION 0.2-beta1;
+#X text 0 140 AUTHOR Krzysztof Czaja;
+#X text 1 158 RELEASE_DATE 2002;
+#X text 2 177 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 209 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 0 KEYWORDS test message;
+#X text 1 42 DESCRIPTION generates test messages for cyclone objects
+;
+#X text 1 62 INLET_0 control;
+#X text 1 81 OUTLET_0 control;
+#X restore 500 506 pd META;
+#N canvas 307 413 428 174 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 197 506 pd Related_objects;
+#X obj 126 155 testmess 3;
+#X obj 0 263 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 340 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 0 381 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 0 420 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 77 276 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 77 352 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 110 394 float - the size of the generated float list;
+#X floatatom 151 89 5 0 0 0 - - -, f 5;
+#X symbolatom 198 89 10 0 0 0 - - -, f 10;
+#X obj 198 66 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 92 120 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 218 119 set 5;
+#X text 111 276 anything;
+#X text 167 276 - value to be prepended to the generated list of floats
+;
+#X text 111 352 list;
+#X text 167 352 - the inlet value plust the generated list;
+#X text 111 314 set n;
+#X text 167 314 - specify the size of the generated list of floats
+;
+#X text 111 296 bang;
+#X text 167 296 - send the generated list (without inlet value);
+#X text 109 436 testmess is not a Max object \, but a tool used in
+the test patches. It prepends the value from the inlet to a generated
+list of floats. The default float list size is 100;
+#X connect 0 0 9 0;
+#X connect 2 0 9 0;
+#X connect 9 0 1 0;
+#X connect 17 0 9 0;
+#X connect 18 0 9 0;
+#X connect 19 0 18 0;
+#X connect 20 0 9 0;
+#X connect 21 0 9 0;

@@ -1,0 +1,111 @@
+#N canvas 404 27 557 536 10;
+#X obj 2 276 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 349 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 399 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 2 450 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 79 361 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 288 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty xbendout 4 14 0 18 -204280 -1
+0;
+#X obj 79 312 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 490 52 xbendout;
+#X floatatom 183 221 8 0 0 0 - - -, f 8;
+#X floatatom 282 221 8 0 0 0 - - -, f 8;
+#X floatatom 183 114 5 0 0 0 - - -, f 5;
+#X floatatom 288 117 5 0 0 0 - - -, f 5;
+#X text 117 464 in/output from;
+#X obj 209 464 midiin;
+#X obj 300 464 midiout;
+#X text 260 464 or to;
+#X obj 183 149 cyclone/xbendout 0;
+#X obj 183 189 cyclone/xbendin 0;
+#X text 14 71 construct extra precision midi pitchbend objects 14 bit
+;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 533 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 512 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 501 99 386 357 META 0;
+#X text 9 28 LICENSE SIBSD;
+#X text 9 137 LIBRARY cyclone;
+#X text 9 8 KEYWORDS midi pitchbend pitch bend 14 bit channel;
+#X text 9 117 OUTLET_0 midi;
+#X text 9 77 INLET_0 float;
+#X text 9 97 INLET_1 float;
+#X text 9 156 VERSION 0.2-beta1;
+#X text 9 174 AUTHOR Krzysztof Czaja;
+#X text 10 192 RELEASE_DATE 2002;
+#X text 11 211 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 9 48 DESCRIPTION construct extra precision midi pitchbend objects
+14 bit;
+#X text 11 243 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 490 514 pd META;
+#N canvas 349 143 475 86 Related_objects 0;
+#X obj 2 2 cnv 15 470 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 118 32 cyclone/xbendin;
+#X obj 223 32 cyclone/xbendin2;
+#X obj 332 32 cyclone/xbendout2;
+#X obj 12 32 midiin;
+#X obj 61 32 midiout;
+#X restore 199 514 pd Related_objects;
+#X obj 471 252 cnv 12 67 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 466 94 385 250 Example 0;
+#X obj 2 2 cnv 15 380 40 empty empty xbendout 3 12 0 18 -204280 -1
+0;
+#X obj 2 226 cnv 15 380 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 544 157 310 101 credits 0;
+#X text 83 31 From Max 7 Documentation.;
+#X restore 302 228 pd credits;
+#X obj 90 66 hsl 72 16 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 87 107 5 0 0 0 - - -, f 5;
+#X obj 87 146 cyclone/xbendout 1, f 27;
+#X text 56 25 example;
+#X obj 128 111 cyclone/comment 119 11 helvetica ? 0 80 80 80 decimal
+value;
+#X floatatom 246 91 5 0 0 0 - - -, f 5;
+#X obj 244 75 cyclone/comment 119 11 helvetica ? 0 80 80 80 MIDI Channel
+;
+#X obj 87 192 midiout;
+#X obj 123 83 cyclone/comment 98 11 helvetica ? 0 80 80 80 | center
+point;
+#X obj 87 87 i;
+#X connect 3 0 12 0;
+#X connect 4 0 5 0;
+#X connect 5 0 10 0;
+#X connect 8 0 5 1;
+#X connect 12 0 4 0;
+#X restore 471 252 pd Example;
+#X text 158 363 -;
+#X text 158 290 -;
+#X text 118 290 float;
+#X text 125 363 midi;
+#X text 158 313 -;
+#X text 118 313 float;
+#X text 158 414 -;
+#X text 100 414 1) float;
+#X text 172 414 sets initial channel number, f 60;
+#X text 173 313 channel number, f 60;
+#X text 173 290 14 bit pitchbend value, f 60;
+#X text 173 363 output of midi stream, f 60;
+#X connect 11 0 17 0;
+#X connect 12 0 17 1;
+#X connect 17 0 18 0;
+#X connect 18 0 9 0;
+#X connect 18 1 10 0;

@@ -1,0 +1,219 @@
+#N canvas 400 27 572 534 10;
+#X obj 2 513 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 627 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 759 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 84 523 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 636 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty mousestate 4 14 0 18 -204280
+-1 0;
+#X obj 165 467 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X floatatom 191 437 5 0 0 0 - - -, f 5;
+#X floatatom 217 415 5 0 0 0 - - -, f 5;
+#X floatatom 243 379 5 0 0 0 - - -, f 5;
+#X floatatom 270 357 5 0 0 0 - - -, f 5;
+#X msg 160 259 zero;
+#X msg 178 292 reset;
+#X obj 84 658 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 681 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 705 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 728 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X text 108 772 (none);
+#X text 14 71 report mouse x/y \, delta x/delta y \, and buttonpress
+;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 821 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 800 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 498 95 369 388 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 175 LIBRARY cyclone;
+#X text 0 0 KEYWORDS signal max maximum;
+#X text 0 36 DESCRIPTION report mouse x/y \, delta x/delta y \, and
+buttonpress;
+#X text 0 67 INLET_0 bang message;
+#X text 0 96 comment;
+#X text 0 85 OUTLET_0 toggle;
+#X text 0 109 OUTLET_1 float;
+#X text 0 121 OUTLET_2 float;
+#X text 0 139 OUTLET_3 float;
+#X text 0 157 OUTLET_4 float;
+#X text 0 193 VERSION 0.2-beta1;
+#X text 0 211 AUTHOR Krzysztof Czaja;
+#X text 1 229 RELEASE_DATE 2002;
+#X text 2 248 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 280 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 500 802 pd META;
+#N canvas 346 143 430 68 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 8 29 cyclone/mousefilter;
+#X restore 203 802 pd Related_objects;
+#N canvas 652 213 446 444 poll-nopoll 0;
+#X obj 106 103 inlet;
+#X obj 175 210 select 0 1;
+#X msg 245 237 poll;
+#X msg 175 237 nopoll;
+#X obj 245 294 prepend set;
+#X obj 106 351 outlet;
+#X obj 238 105 loadbang;
+#X msg 238 127 1;
+#X obj 238 149 s tgl_rcv;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 2 Generates poll / nopoll messages;
+#X obj 299 141 cyclone/comment 100 11 helvetica ? 0 80 80 80 set init
+value of toogle in parent patch;
+#X obj 244 208 cyclone/comment 81 11 helvetica ? 0 80 80 80 select
+message poll/nopoll;
+#X obj 321 300 cyclone/comment 81 11 helvetica ? 0 80 80 80 set the
+message box outside this subpatch;
+#X obj 24 184 cyclone/comment 80 11 helvetica ? 0 80 80 80 bang message
+box outside this subpatch after select poll/nopoll message;
+#X obj 26 33 cyclone/comment 367 11 helvetica ? 0 80 80 80 the default
+behavior of mousestate is send cursor/mouse info whenever it receives
+bang \, poll message make mousestate send cursor info whenever it changes
+\, nopoll message revert to default behavior;
+#X obj 106 159 t bang float;
+#X connect 0 0 16 0;
+#X connect 1 0 3 0;
+#X connect 1 1 2 0;
+#X connect 2 0 4 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 7 0 16 0;
+#X connect 16 0 5 0;
+#X connect 16 1 1 0;
+#X restore 125 208 pd poll-nopoll;
+#X obj 125 170 tgl 22 0 tgl_snd tgl_rcv empty 17 7 0 10 -216373 -1
+-1 1 1;
+#X msg 125 234 poll;
+#X obj 219 210 cyclone/comment 178 11 helvetica ? 0 80 80 80 <-- click
+for more info;
+#X obj 236 439 cyclone/comment 108 11 helvetica ? 0 80 80 80 x - horizontal
+position;
+#X obj 263 415 cyclone/comment 108 11 helvetica ? 0 80 80 80 y - vertical
+position;
+#X obj 314 357 cyclone/comment 108 11 helvetica ? 0 80 80 80 dy - vertical
+delta;
+#X obj 286 380 cyclone/comment 108 11 helvetica ? 0 80 80 80 dx - horizontal
+delta;
+#X obj 187 470 cyclone/comment 108 11 helvetica ? 0 80 80 80 button
+;
+#X obj 471 55 mousestate;
+#X obj 165 331 cyclone/mousestate;
+#X obj 465 490 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 263 94 585 305 Examples 0;
+#X obj 2 2 cnv 15 580 40 empty empty mousestate 3 12 0 18 -204280 -1
+0;
+#X obj 2 281 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 75 24 examples;
+#N canvas 481 166 400 122 credits 0;
+#X text 77 40 Examples based on Max 7 Documentation., f 48;
+#X restore 501 283 pd credits;
+#X obj 53 152 cyclone/mousestate;
+#X obj 53 64 tgl 22 0 tgl_snd tgl_rcv empty 17 7 0 10 -216373 -1 -1
+1 1;
+#X obj 53 105 metro 50;
+#X floatatom 79 217 5 0 0 0 - - -, f 5;
+#X floatatom 105 191 5 0 0 0 - - -, f 5;
+#X obj 142 193 cyclone/comment 61 11 helvetica ? 0 80 80 80 vertical
+pos.;
+#X obj 117 222 cyclone/comment 61 11 helvetica ? 0 80 80 80 horizontal
+pos.;
+#X obj 111 116 cyclone/comment 74 11 helvetica ? 0 80 80 80 report
+position every 50 ms;
+#X msg 296 63 0;
+#X obj 296 85 select 0;
+#X obj 321 115 cyclone/mousestate, f 19;
+#X floatatom 349 236 5 0 0 0 - - -, f 5;
+#X floatatom 376 206 5 0 0 0 - - -, f 5;
+#X floatatom 404 176 5 0 0 0 - - -, f 5;
+#X floatatom 432 146 5 0 0 0 - - -, f 5;
+#X obj 469 146 cyclone/comment 108 11 helvetica ? 0 80 80 80 vertical
+change;
+#X obj 440 179 cyclone/comment 108 11 helvetica ? 0 80 80 80 horizontal
+change;
+#X obj 414 206 cyclone/comment 108 11 helvetica ? 0 80 80 80 vertical
+;
+#X obj 385 238 cyclone/comment 108 11 helvetica ? 0 80 80 80 horizontal
+;
+#X connect 4 1 7 0;
+#X connect 4 2 8 0;
+#X connect 5 0 6 0;
+#X connect 6 0 4 0;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 12 0;
+#X connect 14 1 15 0;
+#X connect 14 2 16 0;
+#X connect 14 3 17 0;
+#X connect 14 4 18 0;
+#X restore 465 490 pd Examples;
+#X obj 197 260 cyclone/comment 314 11 helvetica ? 0 80 80 80 set the
+0 \, 0 point from which to measure the mouse location;
+#X obj 219 294 cyclone/comment 265 11 helvetica ? 0 80 80 80 resets
+to 0 \, 0 point to its default (upper left corner);
+#X obj 35 104 cyclone/comment 467 10 monaco ? 0 80 80 80 Provides button
+status and cursor position information about the mouse/cursor when
+the cursor is positioned within a Max patcher window.;
+#X obj 35 131 cyclone/comment 467 10 monaco ? 0 80 80 80 The mouse
+position is sampled every input bang.;
+#X text 158 524 -;
+#X text 125 524 bang;
+#X text 173 524 repeats the stored value, f 60;
+#X text 158 545 -;
+#X text 107 545 message;
+#X text 173 545 "poll":;
+#X text 221 545 poll mouse device, f 52;
+#X text 173 563 "nopoll":;
+#X text 233 563 do not poll mouse device, f 50;
+#X text 173 582 "zero":;
+#X text 221 582 set current position to 0 \, 0 of pd coordinate system
+;
+#X text 173 600 "reset":;
+#X text 227 600 set 0 \, 0 (upper left corner), f 51;
+#X text 158 638 -;
+#X text 118 638 float;
+#X text 173 638 works like toogle \, 1 mouse button is pressed \, 0
+not pressed, f 60;
+#X text 158 659 -;
+#X text 118 659 float;
+#X text 173 659 absolute x position, f 60;
+#X text 158 682 -;
+#X text 118 682 float;
+#X text 173 682 absolute y position, f 60;
+#X text 158 706 -;
+#X text 118 706 float;
+#X text 173 706 delta x from last poll, f 60;
+#X text 158 729 -;
+#X text 118 729 float;
+#X text 173 729 delta y from last poll, f 60;
+#X connect 11 0 34 0;
+#X connect 12 0 34 0;
+#X connect 24 0 26 0;
+#X connect 25 0 24 0;
+#X connect 26 0 34 0;
+#X connect 34 0 6 0;
+#X connect 34 1 7 0;
+#X connect 34 2 8 0;
+#X connect 34 3 9 0;
+#X connect 34 4 10 0;

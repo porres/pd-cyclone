@@ -1,0 +1,332 @@
+#N canvas 392 28 573 508 10;
+#X obj 2 343 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 415 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 478 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 2 530 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 81 352 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty speedlim 4 14 0 18 -204280 -1
+0;
+#X obj 81 379 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 487 53 speedlim;
+#X text 14 71 speed limit for incoming messages;
+#X floatatom 189 298 8 0 0 0 - - -, f 8;
+#X floatatom 189 148 8 0 0 0 - rcv_input -, f 8;
+#X floatatom 346 235 5 0 10000 0 - - -, f 5;
+#X obj 130 159 tgl 20 0 snd_start rcv_start empty 17 7 0 10 -216373
+-66577 -1 0 1;
+#X obj 189 249 cyclone/speedlim 1000;
+#X obj 130 208 metro 500;
+#X msg 313 193 450;
+#X msg 320 214 1000;
+#X obj 130 231 bng 10 250 50 0 empty empty empty 17 7 0 10 -241339
+-1 -1;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 620 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 599 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 498 100 382 374 META 0;
+#X text 8 28 LICENSE SIBSD;
+#X text 8 123 LIBRARY cyclone;
+#X text 8 9 KEYWORDS delay speed limit ms milliseconds;
+#X text 8 47 DESCRIPTION speed limit for incoming messages;
+#X text 8 66 INLET_0 anything;
+#X text 8 104 OUTLET_1 anything;
+#X text 8 85 INLET_1 float;
+#X text 9 142 VERSION 0.2-beta1;
+#X text 9 160 AUTHOR Krzysztof Czaja;
+#X text 10 178 RELEASE_DATE 2002;
+#X text 11 197 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 11 229 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 492 601 pd META;
+#N canvas 336 144 430 83 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 12 33 delay;
+#X obj 107 33 cyclone/mousefilter;
+#X obj 237 33 cyclone/thresh;
+#X obj 59 33 timer;
+#X restore 203 601 pd Related_objects;
+#X obj 472 320 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 314 95 600 341 Examples 0;
+#X obj 2 2 cnv 15 580 40 empty empty speedlim 3 12 0 18 -204280 -1
+0;
+#X text 52 25 examples;
+#X obj 225 74 vsl 28 52 0 127 0 0 empty rcv_vslider1 empty 0 -9 0 10
+-216373 -66577 -1 8 1;
+#X obj 342 74 vsl 28 52 0 127 0 0 empty rcv_vslider2 empty 0 -9 0 10
+-216373 -66577 -1 1165 1;
+#X floatatom 225 154 5 0 0 0 - - -, f 5;
+#X obj 342 134 * 20;
+#X floatatom 342 156 5 0 0 0 - - -, f 5;
+#X floatatom 225 217 5 0 0 0 - - -, f 5;
+#X obj 115 106 cyclone/comment 81 11 helvetica ? 0 80 80 80 int in
+left repeats to outlet at possibly reduced rate;
+#X obj 199 105 cyclone/comment 117 11 helvetica ? 0 80 80 80 --->;
+#X obj 381 99 cyclone/comment 117 11 helvetica ? 0 80 80 80 <---;
+#X obj 406 99 cyclone/comment 71 11 helvetica ? 0 80 80 80 int in right
+inlet sets speed in milliseconds;
+#X obj 225 179 cyclone/speedlim 250;
+#X obj 73 278 tgl 22 0 empty rcv_tgl empty 17 7 0 10 -216373 -66577
+-1 0 1;
+#X obj 52 423 bng 14 250 50 0 empty empty empty 17 7 0 10 -241339 -1
+-1;
+#X obj 105 282 cyclone/comment 180 11 helvetica ? 0 80 80 80 start
+the metronome and compare the intervals of the two buttons;
+#X obj 73 326 metro 800;
+#X obj 73 386 cyclone/speedlim 1000;
+#X obj 52 355 bng 14 250 50 0 empty empty empty 17 7 0 10 -241339 -1
+-1;
+#X obj 73 422 print;
+#X obj 82 452 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
+#X obj 81 449 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 79 443 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
+#X obj 102 449 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
+of print object in Pd main window;
+#X msg 73 354 I do not wear hats in the classroom;
+#X obj 2 573 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 552 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 440 304 471 125 credits 0;
+#X text 41 38 Examples from Max 7 Reference Documentation \, except
+the first., f 64;
+#X restore 501 554 pd credits;
+#X obj 461 289 bendin 1;
+#X obj 461 314 speedlim 25;
+#X floatatom 461 343 5 0 0 0 - - snd_numbox4, f 5;
+#X obj 406 244 cyclone/comment 89 11 helvetica ? 0 80 80 80 no more
+than 40 pitchbend values per second are pased on;
+#X obj 353 399 ctlin 1 1;
+#X obj 353 466 speedlim;
+#X obj 353 496 makenote 127;
+#X obj 425 429 hsl 56 12 0 750 0 0 snd_hslider rcv_hslider empty -2
+-8 0 10 -216373 -99865 -1 1100 1;
+#X floatatom 422 446 5 0 0 0 - - -, f 5;
+#N canvas 391 117 432 414 settings 0;
+#X obj 255 75 loadbang;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 253 55 cyclone/comment 99 11 helvetica ? 0 80 80 80 horizontal
+slider;
+#X obj 40 36 cyclone/comment 99 11 helvetica ? 0 80 80 80 set initial
+state of:;
+#X msg 255 97 150;
+#X obj 255 119 s rcv_hslider;
+#X obj 105 75 loadbang;
+#X obj 103 55 cyclone/comment 99 11 helvetica ? 0 80 80 80 vertical
+slider 2;
+#X obj 105 119 s rcv_vslider2;
+#X msg 105 97 29;
+#X obj 42 169 cyclone/comment 136 11 helvetica ? 0 80 80 80 random
+frequency oscilator for input values;
+#X obj 112 353 s rcv_input;
+#X obj 136 191 r snd_start;
+#X obj 112 299 line 0 5;
+#X obj 112 253 random 1000;
+#X obj 112 214 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 112 234 metro 200;
+#X obj 112 275 pack f 200;
+#X obj 112 321 / 7.874;
+#X text 6 4 speedlim examples preset;
+#X connect 0 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 9 0;
+#X connect 9 0 8 0;
+#X connect 12 0 15 0;
+#X connect 13 0 18 0;
+#X connect 14 0 17 0;
+#X connect 15 0 16 0;
+#X connect 16 0 14 0;
+#X connect 17 0 13 0;
+#X connect 18 0 11 0;
+#X restore 416 554 pd settings;
+#N canvas 0 22 444 299 LFO1 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 40 49 cyclone/comment 155 11 helvetica ? 0 80 80 80 LFO for
+first vertical slider;
+#X text 6 4 LFO;
+#X obj 91 91 osc~ 0.25;
+#X obj 91 113 snaps~;
+#X obj 91 135 + 1;
+#X obj 91 157 * 63.5;
+#X obj 91 179 s rcv_vslider1;
+#N canvas 673 40 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 939 367 324 271 set_color 0;
+#X obj 47 30 inlet;
+#X obj 96 146 s \$0-cnv;
+#X msg 96 114 color -4.86997e+06 -1.34937e+07;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 378 447 color \$1 \$2;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 15 0;
+#X connect 15 0 20 0;
+#X connect 16 0 6 0;
+#X connect 17 0 13 0;
+#X connect 18 0 17 0;
+#X connect 18 1 16 0;
+#X connect 19 0 18 0;
+#X restore 47 113 pd off;
+#X obj 47 83 select 0 1;
+#X obj 47 168 list append 0;
+#X obj 47 195 list trim;
+#X obj 47 220 s \$0-tgl-r;
+#X connect 0 0 4 0;
+#X connect 2 0 1 0;
+#X connect 2 0 5 0;
+#X connect 3 0 1 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -128992
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 167 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 167 86 snapshot~;
+#X obj 167 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X obj 91 52 del 5;
+#X connect 0 0 2 0;
+#X connect 1 0 4 0;
+#X connect 1 0 6 0;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 6 0 2 0;
+#X connect 6 0 4 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 353 46 pd;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X restore 166 73 pd LFO1;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 12 0;
+#X connect 5 0 6 0;
+#X connect 6 0 12 1;
+#X connect 12 0 7 0;
+#X connect 13 0 16 0;
+#X connect 16 0 24 0;
+#X connect 16 0 18 0;
+#X connect 17 0 14 0;
+#X connect 17 0 19 0;
+#X connect 24 0 17 0;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 32 0 33 0;
+#X connect 33 0 34 0;
+#X connect 35 0 36 0;
+#X connect 36 0 33 1;
+#X connect 36 0 34 2;
+#X restore 472 320 pd Examples;
+#X obj 169 298 bng 14 250 50 0 empty empty empty 17 7 0 10 -241339
+-1 -1;
+#X obj 348 185 cyclone/comment 71 11 helvetica ? 0 80 80 80 change
+delay time (ms);
+#X obj 192 169 hsl 85 15 0 127 0 0 empty empty input 28 8 1 11 -216373
+-99865 -108187 0 1;
+#X obj 25 104 cyclone/comment 461 10 monaco ? 0 80 80 80 limit the
+throughput speed of incoming messages to a fixed time limit \; the
+time is specified in milliseconds;
+#X text 158 379 -;
+#X text 118 379 float;
+#X text 158 352 -;
+#X text 100 352 anything;
+#X text 173 352 message to input, f 60;
+#X text 173 379 change delay time (ms), f 60;
+#X text 158 429 -;
+#X text 100 429 anything;
+#X text 173 429 output message only if minimum delay after last output
+is met, f 60;
+#X text 158 494 -;
+#X text 100 494 1) float;
+#X text 172 494 initial delay time, f 60;
+#X text 124 542 Clock message (as in the max version) not supported.
+, f 54;
+#X connect 11 0 28 0;
+#X connect 12 0 14 1;
+#X connect 13 0 15 0;
+#X connect 14 0 10 0;
+#X connect 14 0 26 0;
+#X connect 15 0 14 0;
+#X connect 15 0 18 0;
+#X connect 16 0 14 1;
+#X connect 17 0 14 1;
+#X connect 28 0 14 0;

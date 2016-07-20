@@ -1,0 +1,140 @@
+#N canvas 410 28 572 510 10;
+#X obj 2 358 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 426 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 497 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 369 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 435 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty togedge 4 14 0 18 -204280 -1
+0;
+#X obj 495 52 TogEdge;
+#X floatatom 201 160 5 0 0 0 - - -, f 5;
+#X obj 265 235 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X msg 251 208 1;
+#X text 108 509 (none);
+#X obj 81 461 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 14 71 report zero / non-zero transitions;
+#X obj 88 182 - 3;
+#X floatatom 88 204 5 0 0 0 - - -, f 5;
+#X msg 238 184 0;
+#X obj 88 161 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144 -1
+-1 3;
+#X obj 201 314 bng 16 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X obj 288 315 bng 16 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 631 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 610 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 498 102 391 352 META 0;
+#X text 10 30 LICENSE SIBSD;
+#X text 10 130 LIBRARY cyclone;
+#X text 10 10 KEYWORDS toggle edge transition zero non-zero nz;
+#X text 10 50 DESCRIPTION report zero / non-zero transitions;
+#X text 10 70 INLET_0 float bang list;
+#X text 10 90 OUTLET_0 bang;
+#X text 10 110 OUTLET_1 bang;
+#X text 10 153 VERSION 0.2-beta1;
+#X text 10 171 AUTHOR Krzysztof Czaja;
+#X text 11 189 RELEASE_DATE 2002;
+#X text 12 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 501 612 pd META;
+#N canvas 354 144 430 77 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 77 33 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X text 83 46 toogle;
+#X obj 19 33 change;
+#X restore 196 612 pd Related_objects;
+#X obj 25 104 cyclone/comment 490 10 monaco ? 0 80 80 80 Output bangs
+for 0-to-1 transitions out the left outlet \, and bangs the right outlet
+for 1-to-0 transitions. Outlets alternate output when bangs are received.
+;
+#X obj 153 321 cyclone/comment 52 11 helvetica ? 0 80 80 80 zero to
+non -zero;
+#X obj 311 320 cyclone/comment 52 11 helvetica ? 0 80 80 80 non-zero
+to zero;
+#X obj 90 148 cyclone/comment 52 11 helvetica ? 0 80 80 80 -3;
+#X obj 181 148 cyclone/comment 52 11 helvetica ? 0 80 80 80 3;
+#X obj 137 148 cyclone/comment 52 11 helvetica ? 0 80 80 80 0;
+#X obj 470 336 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 388 95 485 245 Examples 0;
+#X obj 2 2 cnv 15 480 40 empty empty togedge 3 12 0 18 -204280 -1 0
+;
+#X obj 2 221 cnv 15 480 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 19 24 examples;
+#N canvas 522 176 378 120 credits 0;
+#X text 83 34 From Max 7 Reference Documentation., f 40;
+#X restore 402 223 pd credits;
+#X obj 48 64 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577 -1
+0 1;
+#X obj 48 100 cyclone/togedge;
+#X obj 48 64 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577 -1
+0 1;
+#X obj 48 133 bng 24 250 50 0 empty empty empty 17 7 0 10 -216373 -204786
+-1;
+#X obj 135 133 bng 24 250 50 0 empty empty empty 17 7 0 10 -216373
+-204786 -1;
+#X obj 15 160 cyclone/comment 63 11 helvetica ? 0 80 80 80 bang when
+turned on;
+#X obj 139 160 cyclone/comment 63 11 helvetica ? 0 80 80 80 bang when
+turned off;
+#X obj 275 106 cyclone/togedge;
+#X obj 275 139 bng 24 250 50 0 empty empty empty 17 7 0 10 -216373
+-204786 -1;
+#X obj 362 139 bng 24 250 50 0 empty empty empty 17 7 0 10 -216373
+-204786 -1;
+#X obj 275 69 bng 24 250 50 0 empty empty empty 17 7 0 10 -216373 -204786
+-1;
+#X obj 372 68 cyclone/comment 63 11 helvetica ? 0 80 80 80 alternate
+between outlets;
+#X connect 4 0 5 0;
+#X connect 5 0 7 0;
+#X connect 5 1 8 0;
+#X connect 11 0 12 0;
+#X connect 11 1 13 0;
+#X connect 14 0 11 0;
+#X restore 471 336 pd Examples;
+#X obj 2 545 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 110 564 Can be called [cyclone/TogEdge] for backward compatibility.
+;
+#X obj 201 271 cyclone/togedge;
+#X text 158 369 -;
+#X text 125 369 bang;
+#X text 158 390 -;
+#X text 118 390 float;
+#X text 173 369 switch 0 to non-0 transition, f 60;
+#X text 173 390 number to input \, check for transitions, f 60;
+#X text 158 437 -;
+#X text 125 437 bang;
+#X text 158 461 -;
+#X text 125 461 bang;
+#X text 173 437 zero to non-zero transition detected, f 60;
+#X text 173 461 non-zero to zero transition detected, f 60;
+#X connect 7 0 34 0;
+#X connect 8 0 34 0;
+#X connect 9 0 34 0;
+#X connect 13 0 14 0;
+#X connect 14 0 34 0;
+#X connect 15 0 34 0;
+#X connect 16 0 13 0;
+#X connect 34 0 17 0;
+#X connect 34 1 18 0;

@@ -1,0 +1,182 @@
+#N canvas 400 23 558 760 10;
+#X obj 3 721 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 5 447 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 552 276 413 321 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 180 LIBRARY cyclone;
+#X text 0 160 OUTLET_0 signal;
+#X text 0 0 KEYWORDS signal comb filter buffer delay;
+#X text 0 40 DESCRIPTION comb filter;
+#X text 0 60 INLET_0 signal list message;
+#X text 0 80 INLET_0 float signal;
+#X text 0 100 INLET_0 float signal;
+#X text 0 120 INLET_0 float signal;
+#X text 0 140 INLET_0 float signal;
+#X text 0 200 VERSION 0.2-beta1;
+#X text 0 218 AUTHOR Krzysztof Czaja;
+#X text 1 236 RELEASE_DATE 2002;
+#X text 2 255 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 287 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 503 723 pd META;
+#X obj 5 583 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 5 618 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 310 489 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 30 buffir~;
+#X restore 209 723 pd Related_objects;
+#X obj 83 458 cnv 17 3 28 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 493 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 170 228 5 0 100 0 - - -, f 5;
+#X floatatom 226 227 5 0 100 0 - - -, f 5;
+#X floatatom 282 227 5 0 0 0 - - -, f 5;
+#X floatatom 339 228 5 0 0 0 - - -, f 5;
+#X msg 62 203 clear;
+#X text 162 456 signal;
+#X text 228 456 - signal to pass through comb filter;
+#X obj 83 513 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 553 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 591 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 533 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 533 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 162 592 signal;
+#X text 228 593 - output from comb filter;
+#X text 150 628 1) float;
+#X text 150 645 2) float;
+#X text 150 662 3) float;
+#X text 150 679 4) float;
+#X obj 96 293 output~;
+#X text 212 225 a;
+#X text 268 225 b;
+#X text 325 227 c;
+#X text 150 694 5) float;
+#X obj 242 311 cnv 15 270 120 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#X text 289 324 |;
+#X text 289 336 |;
+#X text 289 348 |;
+#X text 270 359 |;
+#X text 312 359 |;
+#X text 312 379 |;
+#X text 270 379 |;
+#X text 273 350 _______;
+#X text 273 379 _______;
+#X text 289 351 v;
+#X text 351 351 |;
+#X text 351 362 |;
+#X text 351 332 |;
+#X text 351 341 |;
+#X text 351 327 ^;
+#X text 435 325 |;
+#X text 435 337 |;
+#X text 435 349 |;
+#X text 416 360 |;
+#X text 458 360 |;
+#X text 458 380 |;
+#X text 416 380 |;
+#X text 419 351 _______;
+#X text 419 380 _______;
+#X text 435 352 v;
+#X text 381 353 |;
+#X text 381 363 |;
+#X text 381 331 |;
+#X text 381 341 |;
+#X text 381 326 ^;
+#X text 458 317 >;
+#X text 318 368 -(*b)-;
+#X text 382 369 -(*c)-;
+#X text 249 318 x[n] -----(*a)--(+)--(+)----------- y[n];
+#X text 156 226 D;
+#X text 270 369 | z^-D |;
+#X text 251 403 y[n] = a * x[n] + b * x[n-D] + c * y[n-D];
+#X text 228 473 - clears buffer;
+#X text 126 494 float/signal;
+#X text 126 513 float/signal;
+#X text 126 533 float/signal;
+#X obj 229 153 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 11500 1;
+#X obj 285 176 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 500 1;
+#X obj 342 198 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 12400 1;
+#X text 367 197 feedback (c);
+#X text 308 176 feedforward (b);
+#X text 416 370 | z^-D |;
+#X obj 114 136 loadbang;
+#X text 75 92 Use [comb~] for comb filtering and delay effects.;
+#N canvas 130 134 296 254 noise-bursts 0;
+#X obj 61 128 noise~;
+#X obj 93 158 *~;
+#X obj 90 39 inlet;
+#X obj 93 191 outlet~;
+#X obj 90 70 switch~;
+#X obj 108 127 cyclone/train~ 300 0.1;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 2 0 4 0;
+#X connect 5 0 1 1;
+#X restore 114 189 pd noise-bursts;
+#X text 168 473 clear;
+#X text 126 553 float/signal;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 comb~;
+#X obj 19 56 comment 0 18 times ? 0 0 0 0 Comb filter;
+#X text 228 628 - maximum delay time in ms (default 10 ms);
+#X text 18 366 D = delay time;
+#X text 228 494 - D: delay time in ms;
+#X text 228 533 - b: feedforward gain coefficient;
+#X text 228 553 - c: feedback gain coefficient;
+#X obj 408 285 comment 0 16 times ? 0 0 0 0 Filter Equation:;
+#X obj 114 161 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 1
+1;
+#X obj 8 723 all_about_cyclone;
+#X text 228 643 - D: delay time in ms (default 0);
+#X text 228 677 - b: feedforward gain coefficient (default 0);
+#X text 228 692 - c: feedback gain coefficient (default 0);
+#X obj 114 256 cyclone/comb~ 100 10.5 0.25 0.33 0.925;
+#X text 18 379 a = input gain coefficient;
+#X text 18 393 b = feedforward gain coefficient;
+#X text 18 406 c = feedback gain coefficient;
+#X text 228 513 - a: input gain coefficient;
+#X text 228 660 - a: input gain coefficient (default 0);
+#X text 260 152 input (a);
+#X connect 8 0 103 1;
+#X connect 9 0 103 2;
+#X connect 10 0 103 3;
+#X connect 11 0 103 4;
+#X connect 12 0 103 0;
+#X connect 73 0 9 0;
+#X connect 74 0 10 0;
+#X connect 75 0 11 0;
+#X connect 79 0 98 0;
+#X connect 81 0 103 0;
+#X connect 98 0 81 0;
+#X connect 103 0 26 0;
+#X connect 103 0 26 1;

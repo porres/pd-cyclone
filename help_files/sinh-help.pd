@@ -1,0 +1,146 @@
+#N canvas 403 28 557 509 10;
+#X obj 3 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 377 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 424 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 84 386 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty sinh 4 14 0 18 -204280 -1 0;
+#X obj 515 55 sinh;
+#X text 13 70 calculate hyperbolic sine function;
+#X floatatom 292 261 8 0 0 0 - - -, f 8;
+#X msg 292 144 bang;
+#X obj 84 321 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 148 263 8 0 0 0 - - -, f 8;
+#X obj 148 163 / 100;
+#X floatatom 148 139 5 0 0 0 - - -, f 5;
+#X obj 292 207 cyclone/sinh 0.2;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 506 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 485 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 483 102 394 361 META 0;
+#X text 11 30 LICENSE SIBSD;
+#X text 11 110 LIBRARY cyclone;
+#X text 11 70 INLET_0 float bang;
+#X text 11 90 OUTLET_0 float;
+#X text 11 10 KEYWORDS sin sine sinh hyperbolic;
+#X text 11 50 DESCRIPTION takes the hyperbolic sine value of a float
+;
+#X text 10 130 VERSION 0.2-beta1;
+#X text 10 148 AUTHOR Krzysztof Czaja;
+#X text 11 166 RELEASE_DATE 2002;
+#X text 12 185 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 217 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 492 487 pd META;
+#X obj 468 283 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 376 96 435 277 Examples 0;
+#X obj 2 2 cnv 15 430 40 empty empty sinh 3 12 0 18 -204280 -1 0;
+#X floatatom 66 90 10 0 0 0 - rcv_numbox1 -, f 10;
+#X floatatom 66 186 10 0 0 0 - - -, f 10;
+#X floatatom 290 90 10 0 0 0 - rcv_numbox2 -, f 10;
+#X floatatom 290 186 10 0 0 0 - - -, f 10;
+#X obj 172 88 bng 20 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 172 186 10 0 0 0 - - -, f 10;
+#X obj 2 253 cnv 15 430 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 506 160 384 114 credits 0;
+#X text 81 31 Example from Max 7 Documentation.;
+#X restore 351 255 pd credits;
+#X text 29 25 examples;
+#X obj 143 59 cyclone/comment 400 10 monaco ? 0 80 80 80 floating-point
+input;
+#X obj 128 215 cyclone/comment 400 10 monaco ? 0 80 80 80 hyperbolic
+sine of the input;
+#X obj 66 124 cyclone/sinh;
+#X obj 172 124 cyclone/sinh 0;
+#X obj 290 124 cyclone/sinh;
+#N canvas 481 118 430 233 settings 0;
+#X obj 53 107 loadbang;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 51 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 number box
+1;
+#X obj 30 49 cyclone/comment 99 11 helvetica ? 0 80 80 80 set initial
+state of:;
+#X msg 53 129 1;
+#X obj 53 151 s rcv_numbox1;
+#X obj 293 107 loadbang;
+#X obj 291 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 number box
+2;
+#X obj 293 151 s rcv_numbox2;
+#X text 6 4 sinh examples preset;
+#X msg 293 129 -1;
+#X obj 173 107 loadbang;
+#X obj 171 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 bang gui
+;
+#X obj 173 151 s rcv_bgn;
+#X connect 0 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 10 0;
+#X connect 10 0 8 0;
+#X connect 11 0 13 0;
+#X restore 273 255 pd settings;
+#X connect 1 0 12 0;
+#X connect 3 0 14 0;
+#X connect 5 0 13 0;
+#X connect 12 0 2 0;
+#X connect 13 0 6 0;
+#X connect 14 0 4 0;
+#X restore 468 283 pd Examples;
+#N canvas 351 144 430 183 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 7 2 Related Objects;
+#X obj 76 78 cyclone/acosh~;
+#X obj 77 31 cyclone/acos;
+#X obj 206 78 cyclone/asinh~;
+#X obj 207 55 cyclone/asin~;
+#X obj 323 32 cyclone/atan~;
+#X obj 323 55 cyclone/atanh~;
+#X obj 76 125 cyclone/cosh~;
+#X obj 76 102 cyclone/cosh;
+#X obj 76 149 cyclone/cosx~;
+#X obj 76 54 cyclone/acos~;
+#X obj 207 32 cyclone/asin;
+#X obj 207 101 cyclone/sinh;
+#X obj 206 124 cyclone/sinh~;
+#X obj 206 147 cyclone/sinx~;
+#X obj 323 78 cyclone/tanh;
+#X obj 323 101 cyclone/tanh~;
+#X obj 323 124 cyclone/tanx~;
+#X obj 13 31 cos~;
+#X restore 205 487 pd Related_objects;
+#X obj 80 108 cyclone/comment 400 10 monaco ? 0 80 80 80 outputs the
+hyperbolic sine value of input float value.;
+#X obj 73 137 cyclone/comment 80 11 helvetica ? 0 80 80 80 with input
+as float value to take sinh of;
+#X obj 336 145 cyclone/comment 100 11 helvetica ? 0 80 80 80 with bang
+button and argument inside sinh object;
+#X obj 148 208 cyclone/sinh;
+#X text 158 321 -;
+#X text 125 321 bang;
+#X text 158 342 -;
+#X text 118 342 float;
+#X text 173 342 the number to take sinh of, f 60;
+#X text 173 321 output sinh of stored value, f 60;
+#X text 158 388 -;
+#X text 118 388 float;
+#X text 173 388 sinh of stored value, f 60;
+#X text 158 440 -;
+#X text 100 440 1) float;
+#X text 172 440 initial value to compute (optional), f 60;
+#X connect 8 0 13 0;
+#X connect 11 0 24 0;
+#X connect 12 0 11 0;
+#X connect 13 0 7 0;
+#X connect 24 0 10 0;

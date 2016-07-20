@@ -1,0 +1,164 @@
+#N canvas 406 28 572 538 10;
+#X obj 2 394 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 510 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 606 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 86 404 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 473 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty trough 4 14 0 18 -204280 -1 0
+;
+#X obj 86 519 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 544 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 569 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 14 72 output only numbers smaller than the previous;
+#X floatatom 219 148 8 0 0 0 - - -, f 8;
+#X floatatom 219 331 5 0 0 0 - - -, f 5;
+#X msg 276 179 4 4;
+#X msg 240 179 6 7;
+#X msg 310 179 3 2;
+#X msg 168 186 bang;
+#X floatatom 312 212 5 0 0 0 - - -, f 5;
+#X obj 265 300 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+0 1;
+#X obj 2 661 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 798 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 777 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 494 101 388 370 META 0;
+#X text 10 29 LICENSE SIBSD;
+#X text 10 169 LIBRARY cyclone;
+#X text 10 9 KEYWORDS smaller min minimum compare;
+#X text 10 49 DESCRIPTION output only numbers smaller than the previous
+;
+#X text 10 69 INLET_0 float bang list;
+#X text 10 89 INLET_1 float;
+#X text 10 129 OUTLET_1 bang;
+#X text 10 149 OUTLET_2 bang;
+#X text 10 109 OUTLET_0 float;
+#X text 10 189 VERSION 0.2-beta1;
+#X text 10 207 AUTHOR Krzysztof Czaja;
+#X text 11 225 RELEASE_DATE 2002;
+#X text 12 244 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 276 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 502 779 pd META;
+#N canvas 352 145 431 87 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 49 32 cyclone/minimum;
+#X obj 155 32 cyclone/maximum;
+#X obj 261 32 cyclone/peak;
+#X obj 14 32 <;
+#X restore 212 779 pd Related_objects;
+#X obj 24 103 cyclone/comment 389 10 monaco ? 0 80 80 80 Compares an
+input value to the stored value and \, if it's smaller it sends the
+input to the output and sets it as the new trough.;
+#X obj 501 51 trough;
+#X obj 219 248 cyclone/trough 4;
+#X obj 312 276 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+0 1;
+#X obj 256 335 cyclone/comment 100 11 helvetica ? 0 80 80 80 current
+trough;
+#X obj 288 307 cyclone/comment 100 11 helvetica ? 0 80 80 80 new trough
+;
+#X obj 336 283 cyclone/comment 100 11 helvetica ? 0 80 80 80 not trough
+;
+#X obj 108 185 cyclone/comment 56 11 helvetica ? 0 80 80 80 output
+current value;
+#X obj 472 372 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 314 95 585 277 Examples 0;
+#X obj 2 2 cnv 15 580 40 empty empty trough 3 12 0 18 -204280 -1 0
+;
+#X obj 2 253 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 32 25 examples;
+#N canvas 470 161 471 125 credits 0;
+#X text 71 38 Examples from Max 7 Documentation \, except the first.
+, f 53;
+#X restore 501 255 pd credits;
+#X obj 52 180 cyclone/comment 151 11 helvetica ? 0 80 80 80 if less
+than the minimum \, it becomes the new minimum;
+#X msg 57 63 1 \, 4 \, 5 \, -9 \, 3 \, 7 \, 6 \, 2;
+#X msg 138 96 0;
+#X obj 168 99 cyclone/comment 122 11 helvetica ? 0 80 80 80 initial
+minimum value;
+#X obj 207 61 cyclone/comment 122 11 helvetica ? 0 80 80 80 <--- click
+here;
+#X floatatom 57 160 5 0 0 0 - - -, f 5;
+#X msg 498 121 34;
+#X floatatom 399 199 5 0 0 0 - - -, f 5;
+#X floatatom 448 199 5 0 0 0 - - -, f 5;
+#X floatatom 498 199 5 0 0 0 - - -, f 5;
+#X obj 369 119 cyclone/comment 188 11 helvetica ? 0 80 80 80 reset
+minimum value --->;
+#X obj 57 120 cyclone/trough;
+#X obj 399 157 cyclone/trough, f 17;
+#X connect 5 0 15 0;
+#X connect 6 0 15 1;
+#X connect 10 0 16 1;
+#X connect 15 0 9 0;
+#X connect 16 0 11 0;
+#X connect 16 1 12 0;
+#X connect 16 2 13 0;
+#X restore 472 372 pd Examples;
+#X obj 144 186 cyclone/comment 56 11 helvetica ? 0 80 80 80 --->;
+#X obj 219 348 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X text 96 685 Can be called [cyclone/Trough] for backward compatibility.
+, f 58;
+#X text 96 705 If value is not below minimum \, outlet 2 is banged
+\; If value is below minimum \, outlet 1 is banged and new minimum
+value is set, f 58;
+#X text 158 404 -;
+#X text 125 404 bang;
+#X text 158 425 -;
+#X text 118 425 float;
+#X text 158 446 -;
+#X text 124 446 list;
+#X text 173 404 sends current minimum value out the left outlet, f
+60;
+#X text 173 425 value, f 60;
+#X text 173 446 2nd sets new minimum value \, 1st is a value, f 60
+;
+#X text 158 474 -;
+#X text 118 474 float;
+#X text 173 474 set new minimum value, f 60;
+#X text 158 519 -;
+#X text 118 519 float;
+#X text 173 519 minimum value, f 60;
+#X text 158 544 -;
+#X text 118 544 float;
+#X text 173 544 0 = not a new minimum value \, 1 = new minimum value
+, f 60;
+#X text 158 570 -;
+#X text 118 570 float;
+#X text 173 570 0 = new minimum value \, 1 = not a new minimum value
+, f 60;
+#X text 158 625 -;
+#X text 100 625 1) float;
+#X text 172 625 intial minimum value, f 60;
+#X connect 10 0 26 0;
+#X connect 11 0 35 0;
+#X connect 12 0 26 0;
+#X connect 13 0 26 0;
+#X connect 14 0 26 0;
+#X connect 15 0 26 0;
+#X connect 16 0 26 1;
+#X connect 26 0 11 0;
+#X connect 26 1 17 0;
+#X connect 26 2 27 0;

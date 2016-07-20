@@ -1,0 +1,182 @@
+#N canvas 402 28 572 513 10;
+#X obj 2 302 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 525 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 571 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 82 311 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 429 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty onebang 4 14 0 18 -204280 -1
+0;
+#X obj 491 55 onebang;
+#X text 14 71 traffic control for bang messages;
+#X obj 55 117 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X obj 55 241 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X obj 154 145 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X obj 82 534 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 55 187 cyclone/onebang 1;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 734 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 713 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 489 103 398 326 META 0;
+#X text 13 30 LICENSE SIBSD;
+#X text 13 130 LIBRARY cyclone;
+#X text 13 10 KEYWORDS bang filter traffic control;
+#X text 13 50 DESCRIPTION traffic control for bang messages;
+#X text 13 90 INLET_1 bang;
+#X text 13 70 INLET_0 bang;
+#X text 13 110 OUTLET_0 bang;
+#X text 13 149 VERSION 0.2-beta1;
+#X text 13 167 AUTHOR Krzysztof Czaja;
+#X text 14 185 RELEASE_DATE 2002;
+#X text 15 204 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 15 236 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 493 715 pd META;
+#N canvas 346 145 430 72 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 12 29 cyclone/gate;
+#X restore 194 715 pd Related_objects;
+#X obj 463 279 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 393 172 585 365 Examples 0;
+#X obj 2 2 cnv 15 580 40 empty empty onebang 3 12 0 18 -204280 -1 0
+;
+#X obj 2 341 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 37 25 examples;
+#N canvas 440 304 378 120 credits 0;
+#X text 40 32 First example from Max 7 Reference Documentation.;
+#X restore 501 343 pd credits;
+#N canvas 521 304 431 233 settings 0;
+#X obj 123 107 loadbang;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 121 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 track number
+box;
+#X obj 80 49 cyclone/comment 99 11 helvetica ? 0 80 80 80 set initial
+values of:;
+#X text 6 4 onebang examples preset;
+#X obj 123 151 s tgl_rcv;
+#X msg 123 129 1;
+#X connect 0 0 6 0;
+#X connect 6 0 5 0;
+#X restore 421 343 pd settings;
+#X obj 342 120 notein 1, f 9;
+#X obj 342 151 stripnote;
+#X obj 342 183 select 60;
+#X obj 441 184 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-1 -1;
+#X obj 342 215 cyclone/onebang 1;
+#X obj 342 251 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X obj 338 74 cyclone/comment 165 11 helvetica ? 0 80 80 80 detect
+the first time that middle C is played \, but ignore subsequent occurrences
+until reset occurs.;
+#X obj 463 179 cyclone/comment 165 11 helvetica ? 0 80 80 80 reset
+;
+#X obj 66 125 notein 1, f 9;
+#X obj 66 152 stripnote;
+#X obj 66 197 cyclone/onebang 1;
+#X obj 165 169 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-1 -1;
+#X obj 66 236 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X obj 187 164 cyclone/comment 165 11 helvetica ? 0 80 80 80 reset
+;
+#X obj 142 113 cyclone/comment 84 11 helvetica ? 0 80 80 80 detect
+(only) the first note played;
+#X connect 5 0 6 0;
+#X connect 5 1 6 1;
+#X connect 6 0 7 0;
+#X connect 7 0 9 0;
+#X connect 8 0 9 1;
+#X connect 9 0 10 0;
+#X connect 13 0 14 0;
+#X connect 13 1 14 1;
+#X connect 14 0 15 0;
+#X connect 15 0 17 0;
+#X connect 16 0 15 1;
+#X restore 463 279 pd Examples;
+#X obj 79 119 cyclone/comment 200 11 helvetica ? 0 80 80 80 <-- a bang
+in this inlet...;
+#X obj 187 148 cyclone/comment 101 11 helvetica ? 0 80 80 80 will only
+get through after a bang in this inlet.;
+#X obj 177 148 cyclone/comment 121 11 helvetica ? 0 80 80 80 ...;
+#X obj 83 250 cyclone/comment 127 11 helvetica ? 0 80 80 80 only one
+left bang gets through for each right inlet;
+#X obj 376 240 cyclone/comment 200 11 helvetica ? 0 80 80 80 no more
+than one bang gets throughevery 10 seconds;
+#X obj 347 131 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-1 -1;
+#X obj 434 131 tgl 20 0 empty tgl_rcv empty 17 7 0 10 -216373 -1 -1
+1 1;
+#X obj 434 156 metro 10000;
+#X obj 347 188 cyclone/onebang;
+#X obj 347 230 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X text 158 331 -;
+#X text 125 331 bang;
+#X text 173 331 only gets through if bang was previously received in
+the right inlet, f 60;
+#X text 158 535 -;
+#X text 125 535 bang;
+#X text 173 535 only passes if inlet 0 receives bang after inlet 1
+, f 60;
+#X text 158 587 -;
+#X text 100 587 1) float;
+#X text 172 587 nonzero arg allows the first bang on inlet 0 to pass
+, f 60;
+#X text 158 312 -;
+#X text 100 312 anything;
+#X text 173 312 converted to bang, f 60;
+#X text 158 361 -;
+#X text 118 361 float;
+#X text 158 381 -;
+#X text 124 381 list;
+#X text 158 401 -;
+#X text 107 401 message;
+#X text 173 401 "stop":;
+#X text 221 401 Undoes the effect of a bang in the right inlet, f
+52;
+#X obj 177 415 cnv 9 120 20 empty empty (not_implemented_yet) 2 3 0
+10 -262144 -258113 0;
+#X text 173 361 same as a bang, f 60;
+#X text 173 381 same as a bang, f 60;
+#X text 158 449 -;
+#X text 125 449 bang;
+#X text 158 430 -;
+#X text 100 430 anything;
+#X text 173 430 converted to bang, f 60;
+#X text 158 469 -;
+#X text 118 469 float;
+#X text 158 489 -;
+#X text 124 489 list;
+#X text 173 469 same as a bang, f 60;
+#X text 173 489 same as a bang, f 60;
+#X text 173 449 regulates bangs passed through inlet 0, f 60;
+#X obj 2 622 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 110 641 The "stop" message and right outlet are not implemented
+yet \, they features since Max 5 The right outlet output the bangs
+not passed by [onebang].;
+#X connect 8 0 12 0;
+#X connect 10 0 12 1;
+#X connect 12 0 9 0;
+#X connect 25 0 28 0;
+#X connect 26 0 27 0;
+#X connect 27 0 28 1;
+#X connect 28 0 29 0;

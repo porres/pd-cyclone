@@ -1,0 +1,146 @@
+#N canvas 404 27 557 524 10;
+#X obj 2 328 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 395 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 440 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 77 338 cnv 17 3 34 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 77 404 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty tanh 4 14 0 18 -204280 -1 0;
+#X obj 512 52 tanh;
+#X text 13 71 calculate hyperbolic tangent function;
+#X floatatom 155 273 8 0 0 0 - - -, f 8;
+#X obj 155 170 / 100;
+#X floatatom 155 146 5 0 0 0 - - -, f 5;
+#X floatatom 315 273 8 0 0 0 - - -, f 8;
+#X msg 315 151 bang;
+#X obj 315 219 cyclone/tanh 0.2;
+#X obj 155 221 cyclone/tanh 0.2;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 521 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 500 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 484 103 396 360 META 0;
+#X text 10 30 LICENSE SIBSD;
+#X text 10 110 LIBRARY cyclone;
+#X text 10 70 INLET_0 float bang;
+#X text 10 90 OUTLET_0 float;
+#X text 10 10 KEYWORDS tan tangent tanh hyperbolic;
+#X text 10 50 DESCRIPTION takes hyperbolic tangent value of a float
+;
+#X text 10 130 VERSION 0.2-beta1;
+#X text 10 148 AUTHOR Krzysztof Czaja;
+#X text 11 166 RELEASE_DATE 2002;
+#X text 12 185 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 217 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 490 502 pd META;
+#X obj 468 306 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
+;
+#N canvas 392 94 435 277 Examples 0;
+#X obj 2 2 cnv 15 430 40 empty empty tanh 3 12 0 18 -204280 -1 0;
+#X floatatom 66 90 10 0 0 0 - rcv_numbox1 -, f 10;
+#X floatatom 66 186 10 0 0 0 - - -, f 10;
+#X floatatom 290 90 10 0 0 0 - rcv_numbox2 -, f 10;
+#X floatatom 290 186 10 0 0 0 - - -, f 10;
+#X obj 172 88 bng 20 250 50 0 empty rcv_bgn empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 172 186 10 0 0 0 - - -, f 10;
+#X obj 2 253 cnv 15 430 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 505 144 384 114 credits 0;
+#X text 90 31 Example from Max 7 Documentation.;
+#X restore 351 255 pd credits;
+#X text 29 25 examples;
+#X obj 143 59 cyclone/comment 400 10 monaco ? 0 80 80 80 floating-point
+input;
+#X obj 128 215 cyclone/comment 400 10 monaco ? 0 80 80 80 hyperbolic
+tangent of the input;
+#N canvas 517 115 430 233 settings 0;
+#X obj 53 107 loadbang;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 51 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 number box
+1;
+#X obj 30 49 cyclone/comment 99 11 helvetica ? 0 80 80 80 set initial
+state of:;
+#X msg 53 129 1;
+#X obj 53 151 s rcv_numbox1;
+#X obj 293 107 loadbang;
+#X obj 291 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 number box
+2;
+#X obj 293 151 s rcv_numbox2;
+#X msg 293 129 -1;
+#X obj 173 107 loadbang;
+#X obj 171 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 bang gui
+;
+#X obj 173 151 s rcv_bgn;
+#X text 6 4 tanh examples preset;
+#X connect 0 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 9 0;
+#X connect 9 0 8 0;
+#X connect 10 0 12 0;
+#X restore 273 255 pd settings;
+#X obj 66 124 cyclone/tanh;
+#X obj 172 124 cyclone/tanh 0;
+#X obj 290 124 cyclone/tanh;
+#X connect 1 0 13 0;
+#X connect 3 0 15 0;
+#X connect 5 0 14 0;
+#X connect 13 0 2 0;
+#X connect 14 0 6 0;
+#X connect 15 0 4 0;
+#X restore 468 306 pd Examples;
+#X obj 91 104 cyclone/comment 400 10 monaco ? 0 80 80 80 outputs the
+hyperbolic tangent value of input float value.;
+#X obj 77 139 cyclone/comment 80 11 helvetica ? 0 80 80 80 with input
+as float value to take tanh of;
+#X obj 360 151 cyclone/comment 100 11 helvetica ? 0 80 80 80 with bang
+button and argument inside tanh object;
+#N canvas 352 143 430 183 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 7 2 Related Objects;
+#X obj 76 78 cyclone/acosh~;
+#X obj 77 31 cyclone/acos;
+#X obj 206 78 cyclone/asinh~;
+#X obj 207 55 cyclone/asin~;
+#X obj 323 32 cyclone/atan~;
+#X obj 323 55 cyclone/atanh~;
+#X obj 76 125 cyclone/cosh~;
+#X obj 76 102 cyclone/cosh;
+#X obj 76 149 cyclone/cosx~;
+#X obj 76 54 cyclone/acos~;
+#X obj 207 32 cyclone/asin;
+#X obj 207 101 cyclone/sinh;
+#X obj 206 124 cyclone/sinh~;
+#X obj 206 147 cyclone/sinx~;
+#X obj 323 78 cyclone/tanh;
+#X obj 323 101 cyclone/tanh~;
+#X obj 323 124 cyclone/tanx~;
+#X obj 13 31 cos~;
+#X restore 205 503 pd Related_objects;
+#X text 158 338 -;
+#X text 125 338 bang;
+#X text 158 359 -;
+#X text 118 359 float;
+#X text 173 338 output tanh of argument, f 60;
+#X text 173 359 the number to take tanh of, f 60;
+#X text 158 404 -;
+#X text 118 404 float;
+#X text 173 404 tanh of input, f 60;
+#X text 159 456 -;
+#X text 100 456 1) float, f 9;
+#X text 172 456 initial value to compute (optional), f 60;
+#X connect 9 0 14 0;
+#X connect 10 0 9 0;
+#X connect 12 0 13 0;
+#X connect 13 0 11 0;
+#X connect 14 0 8 0;

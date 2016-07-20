@@ -1,0 +1,90 @@
+#N canvas 397 28 572 488 10;
+#X obj 2 353 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 409 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 515 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 45 cnv 15 552 48 empty empty xnotein 4 14 0 18 -204280 -1
+0;
+#X obj 81 370 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 13 73 decompose midi messages with release velocity;
+#X obj 494 53 xnotein;
+#X floatatom 159 296 5 0 0 0 - - -, f 5;
+#X floatatom 208 274 5 0 0 0 - - -, f 5;
+#X msg 159 121 144 \, 68 \, 120;
+#X msg 187 145 128 \, 68 \, 88;
+#X obj 257 249 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+0 1;
+#X obj 81 454 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 478 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 2 cyclone/fancy/cyheader;
+#X obj 2 600 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 579 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 482 102 394 325 META 0;
+#X text 11 28 LICENSE SIBSD;
+#X text 11 108 LIBRARY cyclone;
+#X text 11 68 INLET_0 float bang;
+#X text 11 88 OUTLET_0 float arcsine of input;
+#X text 11 125 VERSION 0.2-beta1;
+#X text 11 143 AUTHOR Krzysztof Czaja;
+#X text 12 161 RELEASE_DATE 2002;
+#X text 13 180 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 11 48 DESCRIPTION decompose midi messages with release velocity
+;
+#X text 11 8 KEYWORDS midi max_compatible;
+#X text 13 212 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 501 581 pd META;
+#N canvas 343 144 428 80 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 126 32 cyclone/xnoteout;
+#X obj 70 32 notein;
+#X obj 14 31 midiin;
+#X restore 191 581 pd Related_objects;
+#X obj 246 115 cyclone/comment 119 11 helvetica ? 0 80 80 80 note on
+;
+#X obj 267 143 cyclone/comment 119 11 helvetica ? 0 80 80 80 note off
+;
+#X obj 159 195 cyclone/xnotein, f 25;
+#X obj 282 249 cyclone/comment 71 11 helvetica ? 0 80 80 80 1 for note
+on \, 0 for note off;
+#X obj 244 280 cyclone/comment 173 11 helvetica ? 0 80 80 80 velocity/release
+velocity;
+#X obj 194 300 cyclone/comment 71 11 helvetica ? 0 80 80 80 pitch;
+#X floatatom 306 221 5 0 0 0 - - -, f 5;
+#X obj 344 224 cyclone/comment 71 11 helvetica ? 0 80 80 80 MIDI Channel
+;
+#X text 158 455 -;
+#X text 118 455 float;
+#X text 158 480 -;
+#X text 118 480 float;
+#X text 158 533 -;
+#X text 100 533 1) float;
+#X text 172 533 midi channel, f 60;
+#X text 158 428 -;
+#X text 118 428 float;
+#X text 158 373 -;
+#X text 113 373 floats;
+#X text 173 373 set of three floats (not a list!), f 60;
+#X text 173 428 note number, f 60;
+#X text 173 455 velocity, f 60;
+#X text 173 480 0/1 = off/on, f 60;
+#X connect 10 0 22 0;
+#X connect 11 0 22 0;
+#X connect 22 0 8 0;
+#X connect 22 1 9 0;
+#X connect 22 2 12 0;
+#X connect 22 3 26 0;
