@@ -268,7 +268,6 @@ minimum.class.sources := classes/binaries/control/minimum.c $(hfitter)
 switch.class.sources := classes/binaries/control/switch.c $(hfitter)
 
 # hfragile classes
-testmess.class.sources := classes/binaries/control/testmess.c $(hfragile)
 universal.class.sources := classes/binaries/control/universal.c $(hfragile)
 grab.class.sources := classes/binaries/control/grab.c $(hfragile)
 
