@@ -17,19 +17,8 @@ endif
                     ## START OF CYCLONE CLASSES ##
 
 #######################################################################
-### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
-### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
-#######################################################################
 
-
-##############################################################
-########### classes outside old dependencies #################
-##############################################################
-
-# CONTROL CLASSES Removed from old dependencies
-
-# these were 'hplain' which did nothing...
-
+# CONTROL CLASSES
 accum.class.sources := classes/binaries/control/accum.c
 acos.class.sources := classes/binaries/control/acos.c
 asin.class.sources := classes/binaries/control/asin.c
@@ -59,9 +48,19 @@ xbendout.class.sources := classes/binaries/control/xbendout.c
 xbendout2.class.sources := classes/binaries/control/xbendout2.c
 xnotein.class.sources := classes/binaries/control/xnotein.c
 xnoteout.class.sources := classes/binaries/control/xnoteout.c
+# NEW ones:
+acosh.class.sources := classes/binaries/control/acosh.c
+asinh.class.sources := classes/binaries/control/asinh.c
+atanh.class.sources := classes/binaries/control/atanh.c
+atodb.class.sources := classes/binaries/control/atodb.c
+dbtoa.class.sources := classes/binaries/control/dbtoa.c
+join.class.sources := classes/binaries/control/join.c
+pong.class.sources := classes/binaries/control/pong.c
+pak.class.sources := classes/binaries/control/pak.c
+round.class.sources := classes/binaries/control/round.c
+scale.class.sources := classes/binaries/control/scale.c
 
-# SIGNAL CLASSES Removed from old framework:
-
+# SIGNAL CLASSES:
 abs~.class.sources := classes/binaries/signal/abs.c
 acos~.class.sources := classes/binaries/signal/acos.c
 acosh~.class.sources := classes/binaries/signal/acosh.c
@@ -123,44 +122,7 @@ trapezoid~.class.sources := classes/binaries/signal/trapezoid.c
 triangle~.class.sources := classes/binaries/signal/triangle.c
 vectral~.class.sources := classes/binaries/signal/vectral.c
 zerox~.class.sources := classes/binaries/signal/zerox.c
-
-# Cyclone sub library (with non-alphanumeric objects): #
-
-cyclone.class.sources := classes/cyclone_lib/cyclone.c
-
-# New objects with alphanumeric versions
-
-# control
-rminus.class.sources := classes/binaries/control/rminus.c
-rdiv.class.sources := classes/binaries/control/rdiv.c
-
-# signal
-equals~.class.sources := classes/binaries/signal/equals.c
-notequals~.class.sources := classes/binaries/signal/notequals.c
-plusequals~.class.sources := classes/binaries/signal/plusequals.c
-greaterthan~.class.sources := classes/binaries/signal/greaterthan.c
-greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c
-lessthan~.class.sources := classes/binaries/signal/lessthan.c
-lessthaneq~.class.sources := classes/binaries/signal/lessthaneq.c
-modulo~.class.sources := classes/binaries/signal/modulo.c
-rdiv~.class.sources := classes/binaries/signal/rdiv.c
-rminus~.class.sources := classes/binaries/signal/rminus.c
-
-# Other NEW CLASSES:
-
-# Control
-acosh.class.sources := classes/binaries/control/acosh.c
-asinh.class.sources := classes/binaries/control/asinh.c
-atanh.class.sources := classes/binaries/control/atanh.c
-atodb.class.sources := classes/binaries/control/atodb.c
-dbtoa.class.sources := classes/binaries/control/dbtoa.c
-join.class.sources := classes/binaries/control/join.c
-pong.class.sources := classes/binaries/control/pong.c
-pak.class.sources := classes/binaries/control/pak.c
-round.class.sources := classes/binaries/control/round.c
-scale.class.sources := classes/binaries/control/scale.c
-
-# Signal
+# NEW ones:
 atodb~.class.sources := classes/binaries/signal/atodb.c
 biquad~.class.sources := classes/binaries/signal/biquad.c
 bitsafe~.class.sources := classes/binaries/signal/bitsafe.c
@@ -178,6 +140,23 @@ scale~.class.sources := classes/binaries/signal/scale.c
 selector~.class.sources := classes/binaries/signal/selector.c
 thresh~.class.sources := classes/binaries/signal/thresh.c
 trunc~.class.sources := classes/binaries/signal/trunc.c
+
+# CYCLONE SUB LIBRARY (with non-alphanumeric objects): #
+cyclone.class.sources := classes/cyclone_lib/cyclone.c
+# New objects with alphanumeric versions
+rminus.class.sources := classes/binaries/control/rminus.c
+rdiv.class.sources := classes/binaries/control/rdiv.c
+equals~.class.sources := classes/binaries/signal/equals.c
+notequals~.class.sources := classes/binaries/signal/notequals.c
+plusequals~.class.sources := classes/binaries/signal/plusequals.c
+greaterthan~.class.sources := classes/binaries/signal/greaterthan.c
+greaterthaneq~.class.sources := classes/binaries/signal/greaterthaneq.c
+lessthan~.class.sources := classes/binaries/signal/lessthan.c
+lessthaneq~.class.sources := classes/binaries/signal/lessthaneq.c
+modulo~.class.sources := classes/binaries/signal/modulo.c
+rdiv~.class.sources := classes/binaries/signal/rdiv.c
+rminus~.class.sources := classes/binaries/signal/rminus.c
+
 
 ############################################################
 ## classes still inside the old framework of dependencies ##
@@ -407,10 +386,10 @@ shared/unstable/fragile.c
 # was 'sarsicfitter' (so only one with fitter)
     buffir~.class.sources := classes/binaries/signal/buffir.c $(sarsicfitter)
 
-
 #cybuf (aka arsic replacement) classes
 scybuf := shared/cybuf.c
     index~.class.sources := classes/binaries/signal/index.c $(scybuf)
+
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
 ### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
