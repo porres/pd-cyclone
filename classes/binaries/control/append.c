@@ -309,17 +309,8 @@ static void *append_new(t_symbol *s, int ac, t_atom *av)
     x->x_auxbuf = 0;
     x->x_entered = 0;
     append_setnatoms(x, 0);
-    if (ac)
-    {
 	x->x_proxy = 0;
 	append_doset(x, 0, ac, av);
-    }
-    else
-    {
-	x->x_proxy = pd_new(appendxy_class);
-	((t_appendxy *)x->x_proxy)->xy_owner = x;
-	inlet_new((t_object *)x, x->x_proxy, 0, 0);
-    }
     outlet_new((t_object *)x, &s_anything);
     return (x);
 }
