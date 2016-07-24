@@ -40,10 +40,19 @@ static void Trough_float(t_Trough *x, t_float f)
     }
 }
 
-static void *Trough_new(t_floatarg f)
+static void *Trough_new(t_symbol *s, int ac, t_atom *av)
 {
     t_Trough *x = (t_Trough *)pd_new(Trough_class);
-    x->x_value = TROUGH_INITIAL;
+    t_float f1 = 128;
+    switch(ac){
+        default:
+        case 1:
+            f1=atom_getfloat(av);
+            break;
+        case 0:
+            break;
+    }
+    x->x_value = f1;
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     x->x_out2 = outlet_new((t_object *)x, &s_float);
@@ -53,11 +62,11 @@ static void *Trough_new(t_floatarg f)
 
 void trough_setup(void)
 {
-    Trough_class = class_new(gensym("trough"),
-			     (t_newmethod)Trough_new, 0,
-			     sizeof(t_Trough), 0, 0);
-    class_addcreator((t_newmethod)Trough_new, gensym("Trough"), 0, 0);
-    class_addcreator((t_newmethod)Trough_new, gensym("cyclone/Trough"), 0, 0);
+    Trough_class = class_new(gensym("trough"), (t_newmethod)Trough_new, 0,
+			     sizeof(t_Trough), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)Trough_new, gensym("Trough"), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)Trough_new, gensym("cyclone/Trough"), 0,
+                     A_GIMME, 0);
     class_addbang(Trough_class, Trough_bang);
     class_addfloat(Trough_class, Trough_float);
     class_addmethod(Trough_class, (t_method)Trough_ft1,
