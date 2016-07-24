@@ -17,7 +17,7 @@ typedef struct _bitand
 
 static t_class *bitand_class;
 
-static t_int *bitand_perform(t_int *w)
+static t_int *bitand_perform(t_int *w) // compare signals
 {
     t_bitand *x = (t_bitand *)(w[1]);
     int nblock = (int)(w[2]);
@@ -36,12 +36,12 @@ static t_int *bitand_perform(t_int *w)
 	    *out++ = (t_float)i;
         }
         break;
-        case 2: while (nblock--) // right input as int
+        case 2: while (nblock--) // convert right input to int
         { int32_t i = (*(int32_t *)(t_float *)in1++) & ((int32_t)*in2++);
 	    *out++ = *(t_float *)&i;
         }
         break;
-        case 3: while (nblock--) // left input as int
+        case 3: while (nblock--) // convert left input to int
         { int32_t i = ((int32_t)*in1++) & (*(int32_t *)(t_float *)in2++);
         *out++ = (t_float)i;
         }
@@ -50,14 +50,14 @@ static t_int *bitand_perform(t_int *w)
     return (w + 6);
 }
 
-static t_int *bitand_perform_noin2(t_int *w)
+static t_int *bitand_perform_noin2(t_int *w) // compare to bitmask
 { // LATER think about performance
     t_bitand *x = (t_bitand *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
     int32_t mask = x->x_mask;
-    if (x->x_convert1) // Modes 1 (both as int) or 3 (left as int)
+    if (x->x_convert1) // convert left signal to int: Modes 1 (both as int) or 3 (left as int)
     while (nblock--)
         { int32_t i = ((int32_t)*in++) & mask;
           *out++ = (t_float)i;
@@ -71,9 +71,10 @@ static t_int *bitand_perform_noin2(t_int *w)
 
 static void bitand_dsp(t_bitand *x, t_signal **sp)
 {
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 1, 0))
-	dsp_add(bitand_perform, 5, x, // use mask from 2nd in sig/float
+    if (forky_hasfeeders((t_object *)x, x->x_glist, 1, 0)) // compare signals
+	dsp_add(bitand_perform, 5, x,
         sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
+    
     else  // use mask set by 'bits' message or argument
 	dsp_add(bitand_perform_noin2, 4, x, sp[0]->s_n,
             sp[0]->s_vec, sp[1]->s_vec);
