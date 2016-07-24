@@ -1,0 +1,202 @@
+#N canvas 575 23 561 511 10;
+#X obj 3 300 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 359 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 408 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 97 311 cnv 17 3 35 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 376 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 67 259 5 0 0 0 - - -, f 5;
+#X floatatom 124 259 5 0 0 0 - - -, f 5;
+#X obj 313 252 print;
+#X obj 205 200 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
+-1;
+#X obj 67 230 unpack f f;
+#X obj 313 217 cyclone/funnel 2;
+#N canvas 265 95 640 499 Examples 0;
+#X obj 2 2 cnv 15 620 40 empty empty funnel 3 12 0 18 -204280 -1 0
+;
+#X text 49 25 examples;
+#X obj 84 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 4100 1;
+#X obj 144 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 4100 1;
+#X obj 205 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 3300 1;
+#X obj 266 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 327 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X floatatom 84 173 5 0 0 0 - - -, f 5;
+#X floatatom 144 173 5 0 0 0 - - -, f 5;
+#X floatatom 205 173 5 0 0 0 - - -, f 5;
+#X floatatom 266 173 5 0 0 0 - - -, f 5;
+#X floatatom 327 173 5 0 0 0 - - -, f 5;
+#X obj 174 264 prepend set;
+#X msg 174 286 1 65.9114, f 15;
+#X obj 84 334 cyclone/spray 5, f 41;
+#X floatatom 84 373 5 0 0 0 - - -, f 5;
+#X floatatom 144 373 5 0 0 0 - - -, f 5;
+#X floatatom 205 373 5 0 0 0 - - -, f 5;
+#X floatatom 266 373 5 0 0 0 - - -, f 5;
+#X floatatom 327 373 5 0 0 0 - - -, f 5;
+#X obj 84 222 cyclone/funnel 5 1, f 41;
+#X obj 93 511 cyclone/funnel 5, f 24;
+#X msg 198 462 35;
+#X obj 93 533 unpack, f 13;
+#X floatatom 93 565 5 0 0 0 - - -, f 5;
+#X floatatom 168 565 5 0 0 0 - - -, f 5;
+#X obj 362 511 cyclone/funnel 4 60, f 29;
+#X msg 419 461 79 112 2000;
+#X obj 362 543 coll;
+#C restore;
+#X obj 362 571 makenote;
+#X floatatom 362 603 5 0 0 0 - - -, f 5;
+#X floatatom 407 603 5 0 0 0 - - -, f 5;
+#X obj 362 632 noteout, f 10;
+#X msg 318 512 61;
+#X obj 2 710 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 690 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 515 185 384 114 credits 0;
+#X text 88 33 Examples from Max 7 Documentation., f 35;
+#X restore 543 692 pd credits;
+#X obj 348 218 cyclone/comment 234 11 helvetica ? 0 80 80 80 an optional
+second argument sets a starting offset (other than 0) for the inlet
+number output to let you combine multiple funnels more easily;
+#X obj 282 284 cyclone/comment 234 11 helvetica ? 0 80 80 80 list output
+of funnel;
+#X obj 341 332 cyclone/comment 234 11 helvetica ? 0 80 80 80 the funnel
+and spray objects work well together;
+#X obj 61 450 cyclone/comment 234 11 helvetica ? 0 80 80 80 inlets
+are numbered from 0;
+#X obj 431 541 cyclone/comment 103 11 helvetica ? 0 80 80 80 store
+data according to inlet number;
+#X obj 92 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 0;
+#X obj 128 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 1;
+#X obj 163 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 2;
+#X obj 204 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 3;
+#X obj 233 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 4;
+#X obj 359 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 60;
+#X obj 428 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 61;
+#X obj 473 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 62;
+#X obj 529 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 63;
+#X connect 2 0 7 0;
+#X connect 3 0 8 0;
+#X connect 4 0 9 0;
+#X connect 5 0 10 0;
+#X connect 6 0 11 0;
+#X connect 7 0 20 0;
+#X connect 8 0 20 1;
+#X connect 9 0 20 2;
+#X connect 10 0 20 3;
+#X connect 11 0 20 4;
+#X connect 12 0 13 0;
+#X connect 14 0 15 0;
+#X connect 14 1 16 0;
+#X connect 14 2 17 0;
+#X connect 14 3 18 0;
+#X connect 14 4 19 0;
+#X connect 20 0 12 0;
+#X connect 20 0 14 0;
+#X connect 21 0 23 0;
+#X connect 22 0 21 3;
+#X connect 23 0 24 0;
+#X connect 23 1 25 0;
+#X connect 26 0 28 0;
+#X connect 27 0 26 1;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 29 1 31 0;
+#X connect 30 0 32 0;
+#X connect 31 0 32 1;
+#X connect 33 0 28 0;
+#X restore 459 235 pd Examples;
+#X obj 2 471 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 500 103 390 363 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 100 LIBRARY cyclone;
+#X text 1 0 KEYWORDS tag data inlet input;
+#X text 1 40 DESCRIPTION tag data based on the inlet it arrived in
+;
+#X text 1 80 OUTLET_0 anything;
+#X text 0 121 VERSION 0.2-beta1;
+#X text 0 139 AUTHOR Krzysztof Czaja;
+#X text 1 157 RELEASE_DATE 2002;
+#X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 60 INLET_N anything bang;
+#X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 482 473 pd META;
+#N canvas 359 145 430 77 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 6 29 listfunnel;
+#X obj 80 29 cyclone/spray;
+#X restore 191 473 pd Related_objects;
+#X obj 161 262 cyclone/comment 100 11 helvetica ? 0 80 80 80 value
+;
+#X obj 39 261 cyclone/comment 100 11 helvetica ? 0 80 80 80 inlet;
+#X text 174 312 -;
+#X text 141 312 bang;
+#X text 174 376 -;
+#X text 174 333 -;
+#X text 116 333 anything;
+#X text 174 420 -;
+#X text 116 420 1) float;
+#X text 174 442 -;
+#X text 116 442 2) float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 funnel;
+#X text 188 442 first inlet number offset (default 0);
+#X text 188 420 sets 'n' number of inlets (default 2);
+#X obj 67 163 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 122 163 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 178 164 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 8 256;
+#X obj 67 197 cyclone/funnel 3, f 19;
+#X text 205 182 value from;
+#X text 227 197 inlet;
+#X msg 313 177 symbol hi;
+#X msg 406 177 list how do you do?;
+#X obj 20 58 comment 0 18 times ? 0 0 0 0 Tag data based on inlet;
+#X text 93 89 [funnel] sends incoming data tagged with an inlet number.
+It can be used to store values into a table/coll based or to set a
+destination with an object such as [spray] or [route].;
+#X text 189 312 repeats last received message from the inlet, f 55
+;
+#X text 189 333 any data to be tagged, f 55;
+#X text 139 376 list;
+#X text 189 376 a message preceded with the inlet number, f 55;
+#X connect 8 0 38 2;
+#X connect 9 0 5 0;
+#X connect 9 1 6 0;
+#X connect 10 0 7 0;
+#X connect 35 0 38 0;
+#X connect 36 0 38 1;
+#X connect 37 0 38 2;
+#X connect 38 0 9 0;
+#X connect 41 0 10 0;
+#X connect 42 0 10 1;

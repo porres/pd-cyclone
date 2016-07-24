@@ -1,0 +1,111 @@
+#N canvas 808 131 558 612 10;
+#X obj 2 338 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 381 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 504 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 400 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 351 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X msg 153 156 144 \, 68 \, 120;
+#X msg 181 180 128 \, 68 \, 88;
+#X obj 221 254 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+1 1;
+#X obj 81 426 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 450 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 589 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 568 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 482 102 394 325 META 0;
+#X text 11 28 LICENSE SIBSD;
+#X text 11 108 LIBRARY cyclone;
+#X text 11 68 INLET_0 float bang;
+#X text 11 88 OUTLET_0 float arcsine of input;
+#X text 11 125 VERSION 0.2-beta1;
+#X text 11 143 AUTHOR Krzysztof Czaja;
+#X text 12 161 RELEASE_DATE 2002;
+#X text 13 180 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 11 48 DESCRIPTION decompose midi messages with release velocity
+;
+#X text 11 8 KEYWORDS midi max_compatible;
+#X text 13 212 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 501 570 pd META;
+#N canvas 343 144 428 80 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 126 32 cyclone/xnoteout;
+#X obj 70 32 notein;
+#X obj 14 31 midiin;
+#X restore 191 570 pd Related_objects;
+#X text 158 427 -;
+#X text 118 427 float;
+#X text 158 452 -;
+#X text 118 452 float;
+#X text 158 514 -;
+#X text 100 514 1) float;
+#X text 158 400 -;
+#X text 118 400 float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 xnotein;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Retrieve release velocity
+messages;
+#X obj 97 166 midiin;
+#X text 235 156 Note On (raw MIDI data);
+#X text 257 180 Note Off (raw MIDI data);
+#X text 279 234 MIDI channel;
+#X obj 190 301 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 46 256;
+#X obj 207 281 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 21 256;
+#X text 230 302 Pitch;
+#X obj 240 234 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 3 256;
+#X text 242 256 Note On (1) / Note Off (0);
+#X text 75 90 [xnotein] is more powerful than [notein] as it retrieves
+(from raw MIDI data streams) not only Note On Velocity but also Note
+Off (Release) velocity.;
+#X text 248 283 Note On/Off Velocity;
+#X text 113 353 float;
+#X text 158 353 - raw MIDI data stream;
+#X text 173 427 velocity of Note On and Note Off Messages, f 60;
+#X text 173 452 state: Note On (1) / Note Off (0 - for Note Off messages)
+;
+#X obj 153 211 cyclone/xnotein;
+#X text 172 514 sets channel number - if no channel is set \, the object
+has an extra right outlet that outputs the MIDI channel number. The
+default is no channel set.;
+#X obj 81 473 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 158 475 -;
+#X text 118 475 float;
+#X text 173 475 MIDI channel;
+#X text 173 400 MIDI note number (pitch), f 60;
+#X connect 5 0 45 0;
+#X connect 6 0 45 0;
+#X connect 30 0 45 0;
+#X connect 45 0 34 0;
+#X connect 45 1 35 0;
+#X connect 45 2 7 0;
+#X connect 45 3 37 0;

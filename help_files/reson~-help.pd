@@ -1,0 +1,111 @@
+#N canvas 729 29 562 748 10;
+#X obj 5 701 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 5 375 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 946 439 373 349 META 0;
+#X text 1 19 LICENSE SIBSD;
+#X text 1 153 LIBRARY cyclone;
+#X text 1 134 OUTLET_0 signal;
+#X text 1 77 INLET_1 flaot signal;
+#X text 1 96 INLET_2 float signal;
+#X text 1 58 INLET_0 signal;
+#X text 1 115 INLET_3 float signal;
+#X text 0 171 VERSION 0.2-beta1;
+#X text 0 189 AUTHOR Krzysztof Czaja;
+#X text 1 207 RELEASE_DATE 2002;
+#X text 2 226 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 258 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X text 1 0 KEYWORDS signal resonant bandpass filter gain frequency
+;
+#X text 1 38 DESCRIPTION resonant bandpass filter;
+#X restore 507 703 pd META;
+#X obj 5 503 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 5 542 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 320 447 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 208 703 pd Related_objects;
+#X obj 103 385 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 103 479 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X text 168 384 signal;
+#X obj 103 435 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 103 458 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 103 513 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 168 513 signal;
+#X text 156 551 1) float;
+#X text 156 568 2) float;
+#X text 156 584 3) float;
+#X floatatom 329 216 0 1 100 0 - - -;
+#X floatatom 217 203 5 0 10 0 - - -, f 5;
+#X obj 149 295 output~;
+#X text 229 551 - initial gain (default 0);
+#X text 229 584 - initial Q range (default 0.01);
+#X text 132 458 float/signal;
+#X text 132 479 float/signal;
+#X text 229 513 - filtered signal;
+#X text 132 437 float/signal;
+#X obj 262 207 *~ 500;
+#X obj 262 184 osc~ 1;
+#X obj 262 228 +~ 1000;
+#X obj 220 139 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 105 203 input;
+#X text 266 138 gain;
+#X text 358 217 resonance (Q);
+#X text 180 401 list;
+#X text 174 417 clear;
+#X obj 172 255 cyclone/reson~ 1 200 23;
+#X obj 147 203 noise~;
+#X text 229 401 - initial gain \, center frequency \, Q;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 reson~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Resonant bandpass filter
+;
+#X text 229 384 - signal to be filtered;
+#X text 229 417 - clears the internal buffer's memory;
+#X text 228 436 - sets gain;
+#X text 227 458 - sets center frequency;
+#X text 228 479 - sets the resonance Q;
+#X text 229 568 - initial center frequency (default 0);
+#X obj 6 610 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 128 662 Since it is a recursive filter \, you may need to use
+the "clear" message if it blows up.;
+#X text 128 619 The equation of the filter is: y[n] = a0 * (x[n] -
+r * x[n-2]) + b1 * y[n-1] + b2 * y[n-2] - where r \, b1 \, and b2 are
+calculated from 'Q' and center frequency.;
+#X text 258 165 center frequency;
+#X text 74 95 [reson~] is a resonant bandpass filter.;
+#X connect 16 0 34 3;
+#X connect 17 0 34 1;
+#X connect 25 0 27 0;
+#X connect 26 0 25 0;
+#X connect 27 0 34 2;
+#X connect 28 0 17 0;
+#X connect 34 0 18 0;
+#X connect 34 0 18 1;
+#X connect 35 0 34 0;

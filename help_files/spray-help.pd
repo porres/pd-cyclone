@@ -1,0 +1,124 @@
+#N canvas 482 26 559 540 10;
+#X obj 2 318 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 405 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 442 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 67 329 cnv 17 3 49 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 89 415 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 162 241 cyclone/spray 3;
+#N canvas 470 110 433 300 outlet 0;
+#X obj 161 158 cyclone/spray 3 3;
+#X floatatom 161 223 5 0 0 0 - - -, f 5;
+#X floatatom 210 223 5 0 0 0 - - -, f 5;
+#X floatatom 260 223 5 0 0 0 - - -, f 5;
+#X msg 256 83 5 5;
+#X msg 207 83 4 6;
+#X msg 161 83 3 7;
+#X msg 110 83 2 8;
+#X text 59 25 The second argument sets an offset for the outlet numbers.
+The outlet number is the first of the list.;
+#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 5 4 2nd arguments: outlet number offset;
+#X connect 0 0 1 0;
+#X connect 0 1 2 0;
+#X connect 0 2 3 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X restore 340 246 pd outlet offsets;
+#X obj 2 516 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 495 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 490 103 394 345 META 0;
+#X text 11 29 LICENSE SIBSD;
+#X text 11 105 LIBRARY cyclone;
+#X text 11 10 KEYWORDS integer to number send;
+#X text 11 48 DESCRIPTION distribute an integer to a numbered outlet
+;
+#X text 11 67 INLET_0 list;
+#X text 11 86 OUTLET_N float;
+#X text 10 123 VERSION 0.2-beta1;
+#X text 10 141 AUTHOR Krzysztof Czaja;
+#X text 11 159 RELEASE_DATE 2002;
+#X text 12 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 503 498 pd META;
+#N canvas 347 145 430 96 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 107 33 cyclone/cycle;
+#X obj 197 33 cyclone/funnel;
+#X obj 295 33 cyclone/gate;
+#X obj 11 33 route;
+#X obj 55 33 unpack;
+#X restore 204 497 pd Related_objects;
+#X text 164 329 -;
+#X text 130 329 list;
+#X text 158 416 -;
+#X text 119 416 float;
+#X text 173 416 number send from inlet to specific outlet, f 60;
+#X text 158 450 -;
+#X text 100 450 1) float;
+#X text 158 469 -;
+#X text 100 469 2) float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 spray;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Distribute values to outlets
+;
+#X text 74 91 [spray] accepts lists where the first value indicates
+the outlet number and the other values are sent ues that follow are
+sent out that outlet and those to its right \, in right-to-left order.
+The argument sets the number of outlets (there is no set limit). The
+default number of outlets is 2;
+#X msg 247 199 0 2 2;
+#X msg 206 199 1 1 1;
+#X msg 163 199 2 3.8;
+#X msg 110 199 0 4 3 2;
+#X msg 67 199 0 1.2;
+#X obj 249 269 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 205 269 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 162 269 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 161 286 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 0;
+#X obj 206 286 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 1;
+#X obj 249 286 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 2;
+#X text 179 329 outlet index and values to be distributed;
+#X text 74 350 offset <float> -;
+#X text 179 350 offsets the output of the object by the number of outlets
+given shifted to the left (a negative number will specify the number
+of outlets offset to the right)., f 61;
+#X text 172 469 outlet offset number (default x?);
+#X text 172 450 sets the number of outlets (default 2);
+#X connect 5 0 36 0;
+#X connect 5 1 35 0;
+#X connect 5 2 34 0;
+#X connect 29 0 5 0;
+#X connect 30 0 5 0;
+#X connect 31 0 5 0;
+#X connect 32 0 5 0;
+#X connect 33 0 5 0;

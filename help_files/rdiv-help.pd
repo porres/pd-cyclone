@@ -1,0 +1,98 @@
+#N canvas 611 324 561 499 10;
+#X obj 13 358 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
+0;
+#X obj 13 405 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 99 370 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 99 285 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 13 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 99 327 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 99 285 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 124 420 1) float -;
+#X floatatom 292 158 5 0 0 0 - - -, f 5;
+#X floatatom 246 161 5 0 0 0 - - -, f 5;
+#X floatatom 97 173 5 0 0 0 - - -, f 5;
+#X floatatom 184 170 5 0 0 0 - - -, f 5;
+#X obj 262 191 !/;
+#X floatatom 97 234 0 0 0 0 - - -;
+#X text 135 285 float;
+#X text 140 303 bang;
+#X obj 65 172 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 135 328 float;
+#X text 134 371 float;
+#X floatatom 262 219 0 0 0 0 - - -;
+#X obj 414 172 swap;
+#X obj 416 199 /;
+#X obj 97 201 cyclone/rdiv 10;
+#X floatatom 446 149 5 0 0 0 - - -, f 5;
+#X floatatom 400 149 5 0 0 0 - - -, f 5;
+#X floatatom 416 226 5 0 0 0 - - -, f 5;
+#X text 348 189 same as:;
+#X obj 5 451 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 502 391 401 260 META 0;
+#X text 0 22 LICENSE SIBSD;
+#X text 0 102 LIBRARY cyclone;
+#X text 0 62 INLET_0 signal;
+#X text 0 82 OUTLET_0 signal;
+#X text 0 42 DESCRIPTION takes the arc tangent function for signals
+;
+#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
+#X text 0 123 VERSION 0.2-beta1;
+#X text 0 141 AUTHOR Krzysztof Czaja;
+#X text 1 159 RELEASE_DATE 2002;
+#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 508 453 pd META;
+#N canvas 232 526 441 120 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 196 453 pd Related_objects;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 15 4 comment 0 37 times ? 0 0 0 0 !/;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Reversed inlets division
+;
+#X text 190 283 - the divisor (hot inlet);
+#X text 188 328 - the dividend (cold inlet);
+#X text 189 371 - the result of the division;
+#X text 199 420 sets an initial value for the dividend (default 0)
+;
+#X text 187 304 - performs the division with the numbers currently
+stored;
+#X text 82 95 [rdiv] or [!/] divides a number by the incoming value
+on the left inlet. Functions like the [/] object \, but the inlets'
+functions are reversed.;
+#X connect 8 0 12 1;
+#X connect 9 0 12 0;
+#X connect 10 0 22 0;
+#X connect 11 0 22 1;
+#X connect 12 0 19 0;
+#X connect 16 0 22 0;
+#X connect 20 0 21 0;
+#X connect 20 1 21 1;
+#X connect 21 0 25 0;
+#X connect 22 0 13 0;
+#X connect 23 0 20 1;
+#X connect 24 0 20 0;

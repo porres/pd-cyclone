@@ -1,0 +1,145 @@
+#N canvas 685 243 558 492 10;
+#X obj 2 367 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 419 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 113 375 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 270 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 113 281 cnv 17 3 32 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 251 161 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+0 1;
+#X obj 113 342 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X text 142 428 (none);
+#X obj 113 396 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 113 320 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 164 198 cyclone/sustain;
+#X obj 2 452 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 526 102 390 380 META 0;
+#X text 11 29 LICENSE SIBSD;
+#X text 11 162 LIBRARY cyclone;
+#X text 11 86 INLET_1 float;
+#X text 11 124 OUTLET_0 float;
+#X text 11 10 KEYWORDS pitch velocity hold note offs;
+#X text 11 48 DESCRIPTION hold note offs and output them on request
+;
+#X text 11 67 INLET_0 list float;
+#X text 11 105 INLET_2 toggle;
+#X text 11 143 OUTLET_1 float;
+#X text 10 184 VERSION 0.2-beta1;
+#X text 10 202 AUTHOR Krzysztof Czaja;
+#X text 11 220 RELEASE_DATE 2002;
+#X text 12 239 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 271 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 505 454 pd META;
+#N canvas 383 144 430 89 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 151 33 cyclone/flush;
+#X obj 246 33 cyclone/midiflush;
+#X obj 82 33 stripnote;
+#X obj 17 33 makenote;
+#X restore 207 454 pd Related_objects;
+#X text 188 279 -;
+#X text 148 279 float;
+#X text 188 298 -;
+#X text 154 298 list;
+#X text 188 321 -;
+#X text 148 321 float;
+#X text 188 343 -;
+#X text 148 343 float;
+#X text 188 376 -;
+#X text 188 398 -;
+#X text 203 376 the pitch value of a pitch-velocity pair, f 49;
+#X text 203 398 the velocity value of a pitch-velocity pair, f 49
+;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 sustain;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Sustain pedal emulator;
+#X obj 251 225 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 254 242 velocity;
+#X obj 164 225 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 50 256;
+#X text 167 242 pitch;
+#X text 280 165 On/Off;
+#X obj 108 139 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 50 256;
+#X obj 108 165 makenote 100 1500;
+#X text 75 92 [sustain] holds the note off messages while it is on
+and sends the held note off messages when it's switched off.;
+#X text 148 376 float;
+#X text 148 398 float;
+#X text 203 298 a pair of pitch/velocity velues from note message;
+#X text 203 279 the pitch part of a note message;
+#X text 203 321 the velocity part of a note message, f 49;
+#X text 203 343 pedal swicth: on <1> \, off <0>;
+#N canvas 684 185 441 481 examples 0;
+#X obj 204 75 ctlin 64 1;
+#X obj 204 101 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+0 1;
+#X obj 111 134 cyclone/sustain, f 16;
+#X text 33 19 You can access the MIDI message from an actual sustain
+pedal and feed it to the [sutain] object.;
+#X obj 111 95 notein;
+#X floatatom 204 162 5 0 0 0 - - -, f 5;
+#X floatatom 111 162 5 0 0 0 - - -, f 5;
+#X obj 297 305 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+0 1;
+#X obj 204 338 cyclone/sustain, f 16;
+#X floatatom 297 366 5 0 0 0 - - -, f 5;
+#X floatatom 204 366 5 0 0 0 - - -, f 5;
+#X msg 225 261 69 127;
+#X msg 244 284 69 0;
+#X msg 148 262 60 127;
+#X msg 180 286 60 0;
+#X text 45 223 [sustain] also accepts a list (pitch / velocity) as
+note messages.;
+#X obj 204 419 print;
+#X obj 204 392 pack float float;
+#X connect 0 0 1 0;
+#X connect 1 0 2 2;
+#X connect 2 0 6 0;
+#X connect 2 1 5 0;
+#X connect 4 0 2 0;
+#X connect 4 1 2 1;
+#X connect 7 0 8 2;
+#X connect 8 0 10 0;
+#X connect 8 1 9 0;
+#X connect 9 0 17 1;
+#X connect 10 0 17 0;
+#X connect 11 0 8 0;
+#X connect 12 0 8 0;
+#X connect 13 0 8 0;
+#X connect 14 0 8 0;
+#X connect 17 0 16 0;
+#X restore 387 193 pd examples;
+#X connect 5 0 10 2;
+#X connect 10 0 36 0;
+#X connect 10 1 34 0;
+#X connect 39 0 40 0;
+#X connect 40 0 10 0;
+#X connect 40 1 10 1;

@@ -1,0 +1,158 @@
+#N canvas 314 415 572 556 10;
+#X obj 2 344 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 562 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 609 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 84 354 cnv 17 3 146 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 571 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X msg 339 169 bang;
+#X obj 339 224 print my_private_bar;
+#X msg 86 114 foo;
+#X msg 48 228 bang;
+#X obj 48 283 print my_private_underground_bar;
+#X obj 86 148 cyclone/pv my_private_bar;
+#X obj 48 254 cyclone/pv my_private_bar;
+#X obj 339 195 cyclone/pv my_private_bar;
+#N canvas 604 369 433 300 mysubpatch 0;
+#X msg 72 96 bang;
+#X obj 72 122 cyclone/pv my_private_bar;
+#X obj 72 151 print my_private_subpatch_bar;
+#X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 5 4 also works here;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 289 296 pd mysubpatch;
+#X obj 2 803 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 782 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 333 144 430 82 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 15 30 float;
+#X obj 59 30 int;
+#X obj 91 30 receive;
+#X obj 147 30 send;
+#X obj 187 30 value;
+#X restore 201 784 pd Related_objects;
+#N canvas 458 99 397 322 META 0;
+#X text 10 29 LICENSE SIBSD;
+#X text 10 105 LIBRARY cyclone;
+#X text 10 10 KEYWORDS private variable patch store;
+#X text 10 48 DESCRIPTION private variables for patch and its subpatches
+;
+#X text 10 67 INLET_0 message bang;
+#X text 10 86 OUTLET_0 message;
+#X text 10 125 VERSION 0.2-beta1;
+#X text 10 143 AUTHOR Krzysztof Czaja;
+#X text 11 161 RELEASE_DATE 2002;
+#X text 12 180 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 212 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 505 784 pd META;
+#X obj 116 112 cyclone/comment 234 11 helvetica ? 0 80 80 80 <--- store
+message in variable my_private_bar;
+#X obj 313 146 cyclone/comment 234 11 helvetica ? 0 80 80 80 ...then
+access it here;
+#X obj 377 171 cyclone/comment 234 11 helvetica ? 0 80 80 80 <--- click
+here;
+#X obj 44 205 cyclone/comment 234 11 helvetica ? 0 80 80 80 also works
+here:;
+#X obj 84 229 cyclone/comment 234 11 helvetica ? 0 80 80 80 <--- bang
+it!!;
+#X obj 278 276 cyclone/comment 234 11 helvetica ? 0 80 80 80 also here:
+;
+#N canvas 357 94 430 302 more 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X obj 29 51 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373 -1
+-1;
+#X obj 29 94 pv goop 40 50 60;
+#X obj 29 118 print;
+#X msg 265 64 status;
+#X msg 173 208 marsha 77;
+#X msg 263 208 1 2 3 4 5;
+#X msg 83 208 symbol bbq;
+#X obj 83 240 pv goop;
+#X text 5 3 more about [pv];
+#X obj 52 49 cyclone/comment 234 11 helvetica ? 0 80 80 80 <--- click
+and watch the Pd main window;
+#X obj 316 63 cyclone/comment 86 11 helvetica ? 0 80 80 80 report about
+all groups of [pv] objects tied together in Pd main window;
+#X obj 79 173 cyclone/comment 314 11 helvetica ? 0 80 80 80 ...or symbols
+\, floats \, lists \, or arbitrary messages can be stored (click pv
+object above after clicking on messages below);
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 4 0 2 0;
+#X connect 5 0 8 0;
+#X connect 6 0 8 0;
+#X connect 7 0 8 0;
+#X restore 411 296 pd more about;
+#X obj 443 279 cyclone/comment 234 11 helvetica ? 0 80 80 80 ... see
+too;
+#X text 158 424 -;
+#X text 125 424 bang;
+#X text 158 484 -;
+#X text 107 484 message;
+#X text 173 424 output stored pv, f 60;
+#X text 173 484 message to set as stored private variable, f 60;
+#X text 158 573 -;
+#X text 107 573 message;
+#X text 173 573 stored private variable, f 60;
+#X text 169 626 -;
+#X text 182 626 name of private variable (obligatory), f 58;
+#X text 158 355 -;
+#X text 100 355 anything;
+#X text 173 355 the message is stored \, to be shared by all other
+[pv] objects of the same name that are inside the object's patcher
+or its subpatches (or \, if in a subpatch \, its parent patch). A message
+received in any other such [pv] object will change the stored message.
+, f 60;
+#X text 158 443 -;
+#X text 118 443 float;
+#X text 158 464 -;
+#X text 124 464 list;
+#X text 173 443 same as the anything message, f 60;
+#X text 173 464 same as the anything message, f 60;
+#X text 173 501 "status":;
+#X text 233 501 posts Pd Window information about the comunications
+between all [pv] objects involved in the patcher., f 50;
+#X text 169 646 -;
+#X text 92 646 n) anything;
+#X text 92 626 1) message;
+#X text 182 646 any message typed in after the first argument initializes
+the stored contents of the [pv] object. Note that when two or more
+[pv] objects in a patcher file that share the same name are initialized
+to different values \, the one which is initialized last determines
+the value. Since the order in which [pv] objects will be initialized
+cannot be precisely determined \, the best practice is to initialize
+only one of the related pv objects. (optional);
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 pv;
+#X obj 20 58 comment 0 18 times ? 0 0 0 0 private variables for patch
+and its subpatches;
+#X connect 5 0 12 0;
+#X connect 7 0 10 0;
+#X connect 8 0 11 0;
+#X connect 11 0 9 0;
+#X connect 12 0 6 0;

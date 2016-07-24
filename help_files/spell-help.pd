@@ -1,0 +1,118 @@
+#N canvas 678 23 557 552 10;
+#X obj 2 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 355 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 400 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 78 321 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 78 366 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X msg 97 172 63;
+#X msg 120 217 t h i s;
+#X msg 107 194 34 45;
+#X msg 129 242 or that;
+#X obj 2 519 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 498 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 479 105 410 330 META 0;
+#X text 17 30 LICENSE SIBSD;
+#X text 17 106 LIBRARY cyclone;
+#X text 17 11 KEYWORDS ascii values convert;
+#X text 17 49 DESCRIPTION convert input to ascii values;
+#X text 17 68 INLET_0 list;
+#X text 17 87 OUTLET_0 list;
+#X text 16 127 VERSION 0.2-beta1;
+#X text 16 145 AUTHOR Krzysztof Czaja;
+#X text 17 163 RELEASE_DATE 2002;
+#X text 18 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 18 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 490 500 pd META;
+#N canvas 343 145 430 96 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 51 33 key;
+#X obj 84 33 keyup;
+#X obj 130 33 cyclone/sprintf;
+#X obj 13 33 atoi;
+#X restore 202 500 pd Related_objects;
+#X obj 228 226 cyclone/spell;
+#X obj 338 225 cyclone/spell 8;
+#X text 154 321 -;
+#X text 154 366 -;
+#X text 158 414 -;
+#X text 100 414 1) float;
+#X text 172 414 sets the minimum output size. Any input that doesn't
+"spell" to the minimum length is followed by enough fill characters
+(the default is the space character \, 32 in ASCII) to satisfy the
+minimum requirement.;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 spell;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Convert input to ascii values
+;
+#X obj 228 266 print spell;
+#X obj 338 265 print spell_minimum;
+#X obj 97 269 s \$0-spell;
+#X obj 228 183 r \$0-spell;
+#X obj 338 182 r \$0-spell;
+#X text 93 88 [spell] converts the input to UTF-8 (Unicode) code. It
+accepts a numeric stream and outputs and outputs ASCII characters.
+Options arguments provide for forced-length messages.;
+#X text 100 321 anything;
+#X text 169 321 any message to convert to ascii, f 60;
+#X text 120 366 float;
+#X text 169 366 The ascii representation of each character from the
+input;
+#N canvas 199 23 1018 582 more 0;
+#X text 45 86 The ASCII value of each of the digits of the number is
+sent out the outlet \, one digit at a time.;
+#X text 52 52 INT;
+#X text 61 142 LIST;
+#X text 62 184 Each int in the list is converted to ASCII as described
+above \, and a space character (32) is sent out between items in the
+list. Any float or symbol items in the list are ignored.;
+#X text 54 270 anything;
+#X text 66 308 If the message begins with a symbol \, all int and symbol
+items in the message are converted to ASCII one character at a time
+\, and a space character (32) is placed between them. Any float items
+in the list are ignored. If the message begins with a float \, both
+floats and symbols are ignored.;
+#X text 66 406 symbol;
+#X text 76 443 The ASCII value of each letter \, digit \, or other
+character in the symbol is sent out the outlet \, one character at
+a time.;
+#X obj 30 299 s \$0-spell;
+#X text 570 237 spell takes two optional arguments. The first is a
+minimum output size. The second is the UTF-8 number of a fill character
+to put between words and at the end of a word if it is less than the
+minimum output. The default minimum is 0 (none) \, and the default
+fill character is space (32) \, to use 0 as a fill character \, supply
+a negative number as a second argument.;
+#X restore 467 209 pd more;
+#X connect 5 0 30 0;
+#X connect 6 0 30 0;
+#X connect 7 0 30 0;
+#X connect 8 0 30 0;
+#X connect 13 0 28 0;
+#X connect 14 0 29 0;
+#X connect 31 0 13 0;
+#X connect 32 0 14 0;

@@ -1,0 +1,198 @@
+#N canvas 428 81 564 680 10;
+#X obj 7 631 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 7 491 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 431 386 390 256 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 100 LIBRARY cyclone;
+#X text 1 80 OUTLET_0 float;
+#X text 1 40 DESCRIPTION computes the average value of signal;
+#X text 1 60 INLET_0 signal bang;
+#X text 1 0 KEYWORDS average mean signal;
+#X text 0 121 VERSION 0.2-beta1;
+#X text 0 139 AUTHOR Krzysztof Czaja;
+#X text 1 157 RELEASE_DATE 2002;
+#X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 502 633 pd META;
+#X obj 7 552 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 7 593 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 163 537 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 8 32 cyclone/average~;
+#X restore 215 633 pd Related_objects;
+#X obj 91 565 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 123 502 signal;
+#X text 130 565 float;
+#X floatatom 252 196 0 0 0 0 - - -;
+#X text 135 520 bang;
+#X text 125 604 (none);
+#X obj 91 502 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 282 193 try different intervals to see;
+#X text 282 205 the change in avg~ behavior;
+#X obj 165 241 *~;
+#X obj 299 279 cyclone/avg~;
+#X obj 299 338 vsl 30 124 -1 1 0 0 asflksjdf nthihjkdbvk empty 0 -9
+0 10 -228856 -1 -1 8636 1;
+#X text 333 453 -1;
+#X text 338 391 0;
+#X text 337 332 1;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 avg~;
+#X obj 17 55 comment 0 18 times ? 0 0 0 0 Signal absolute average;
+#X obj 165 186 osc~ 100;
+#X obj 180 215 osc~ 2;
+#X obj 252 230 cyclone/train~ 200;
+#X obj 357 256 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 252 169 200;
+#X msg 282 169 500;
+#X obj 9 634 all_about_cyclone;
+#X obj 165 336 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X text 191 502 - the signal to take its absolute average;
+#X text 191 520 - compute average since the last received bang;
+#X text 57 88 Use the [avg~] object to keep track of the absolute average
+from the input signal when receiving a bang. The output value is the
+sum of the absolute values of the input divided by the number of elapsed
+samples.;
+#X text 191 565 - the input signal's absolute average.;
+#X obj 299 305 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.404272 256;
+#N canvas 207 34 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 977 77 379 291 set_color 0;
+#X obj 47 30 inlet;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
+#X connect 18 0 17 0;
+#X restore 47 113 pd off;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 121 482 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 504 71 pd;
+#X connect 9 0 31 0;
+#X connect 15 0 16 0;
+#X connect 15 0 36 0;
+#X connect 16 0 41 0;
+#X connect 29 0 15 0;
+#X connect 30 0 15 1;
+#X connect 31 1 16 0;
+#X connect 31 1 32 0;
+#X connect 33 0 9 0;
+#X connect 34 0 9 0;
+#X connect 41 0 17 0;

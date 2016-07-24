@@ -1,0 +1,113 @@
+#N canvas 781 44 559 496 10;
+#X obj 2 268 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 359 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 419 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 83 277 cnv 17 3 73 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 83 392 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 112 428 (none);
+#X obj 83 369 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 120 198 cyclone/mean;
+#X obj 2 474 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 453 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 483 101 389 340 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 108 LIBRARY cyclone;
+#X text 0 0 KEYWORDS average list mean;
+#X text 0 36 DESCRIPTION find the running average of a stream of numbers
+;
+#X text 0 54 INLET_0 list float message;
+#X text 0 90 OUTLET_1 float;
+#X text 0 72 OUTLET_0 float;
+#X text 0 127 VERSION 0.2-beta1;
+#X text 0 145 AUTHOR Krzysztof Czaja;
+#X text 1 163 RELEASE_DATE 2002;
+#X text 2 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 505 455 pd META;
+#N canvas 346 145 430 80 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 46 29 cyclone/accum;
+#X obj 136 29 cyclone/anal;
+#X obj 13 29 bag;
+#X obj 222 29 cyclone/histo;
+#X obj 312 29 cyclone/prob;
+#C restore;
+#X restore 209 455 pd Related_objects;
+#X msg 70 163 clear;
+#X text 158 299 -;
+#X text 118 299 float;
+#X text 124 335 list;
+#X text 158 371 -;
+#X text 118 371 float;
+#X text 158 393 -;
+#X text 118 393 float;
+#X text 173 393 total number of values processed, f 60;
+#X text 158 279 -;
+#X text 125 279 bang;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 mean;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Moving mean average;
+#X obj 120 153 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 -5 256;
+#X obj 120 227 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 25.1326 256;
+#X obj 189 226 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 264 256;
+#X text 173 279 resends the most recent output, f 60;
+#X text 51 93 [mean] calculates a running/moving average of all received
+numbers (the sum of all received values by the number of received elements).
+;
+#X text 173 371 the moving average, f 60;
+#X text 118 317 clear;
+#X text 208 209 number of values;
+#X text 244 224 processed;
+#X text 158 335 - clears memory and calclates the mean from the list
+;
+#X text 158 317 - clears memory (previously received numbers);
+#X text 173 299 number to add to the moving average, f 60;
+#X text 37 225 mean average;
+#X msg 354 161 -4 1 3 13 5;
+#X obj 354 209 cyclone/mean;
+#X obj 354 238 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 17.6667 256;
+#X obj 423 238 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 6 256;
+#X msg 374 186 -14 7 11 39 13 50;
+#X obj 136 175 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 358 139 list behaviour;
+#X connect 7 0 32 0;
+#X connect 7 1 33 0;
+#X connect 12 0 7 0;
+#X connect 31 0 7 0;
+#X connect 44 0 45 0;
+#X connect 45 0 46 0;
+#X connect 45 1 47 0;
+#X connect 48 0 45 0;
+#X connect 49 0 7 0;

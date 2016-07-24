@@ -1,0 +1,255 @@
+#N canvas 205 65 559 723 10;
+#X obj 2 410 cnv 3 552 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 475 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 655 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 97 454 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 501 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 435 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 520 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 482 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 539 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 558 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 577 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 596 cnv 17 3 17 empty empty 6 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 615 cnv 17 3 17 empty empty 7 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 634 cnv 17 3 17 empty empty 8 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 416 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#N canvas 744 142 632 281 Examples 0;
+#X obj 80 89 notein 1;
+#X obj 102 159 pack 0 0 0, f 11;
+#X obj 102 206 route 1 2 3 4;
+#X obj 165 224 cyclone/comment 140 11 helvetica ? 0 80 80 80;
+#X obj 80 124 cyclone/borax, f 30;
+#X obj 371 96 notein 1;
+#X obj 359 167 pack 0 0 0, f 11;
+#X obj 359 214 route 1 2 3 4;
+#X obj 371 131 poly, f 7;
+#X text 437 167 voice # \, pitch \, velocity;
+#X text 174 160 voice # \, pitch \, velocity;
+#X text 93 32 using [borax] to route voices in the same way as [poly].
+;
+#X connect 0 0 4 0;
+#X connect 0 1 4 1;
+#X connect 1 0 2 0;
+#X connect 4 1 1 0;
+#X connect 4 3 1 1;
+#X connect 4 4 1 2;
+#X connect 5 0 8 0;
+#X connect 5 1 8 1;
+#X connect 6 0 7 0;
+#X connect 8 0 6 0;
+#X connect 8 1 6 1;
+#X connect 8 2 6 2;
+#X restore 431 291 pd Examples;
+#X obj 2 682 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 470 118 432 461 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 270 LIBRARY cyclone;
+#X text 1 0 KEYWORDS midi note music pitch velocity;
+#X text 1 36 DESCRIPTION reports current info on note on/off;
+#X text 1 108 OUTLET_0 float;
+#X text 1 126 OUTLET_1 float;
+#X text 1 144 OUTLET_2 float;
+#X text 1 162 OUTLET_3 float;
+#X text 1 180 OUTLET_4 float;
+#X text 1 198 OUTLET_5 float;
+#X text 1 216 OUTLET_6 float;
+#X text 1 234 OUTLET_7 float;
+#X text 1 252 OUTLET_8 float;
+#X text 0 288 VERSION 0.2-beta1;
+#X text 0 306 AUTHOR Krzysztof Czaja;
+#X text 1 324 RELEASE_DATE 2002;
+#X text 2 343 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 1 53 INLET_0 float;
+#X text 1 72 INLET_1 float;
+#X text 1 90 INLET_2 bang;
+#X text 2 375 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 504 684 pd META;
+#N canvas 367 145 489 68 Related_objects 0;
+#X obj 2 2 cnv 15 484 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 21 30 notein;
+#X obj 119 30 midiin;
+#X obj 64 30 noteout;
+#X obj 162 30 midiout;
+#X obj 255 30 cyclone/midiparse;
+#X obj 364 30 cyclone/midiformat;
+#X obj 217 30 poly;
+#X restore 210 684 pd Related_objects;
+#X text 162 417 -;
+#X text 122 417 float;
+#X text 162 436 -;
+#X text 122 436 float;
+#X text 162 455 -;
+#X text 128 455 bang;
+#X text 162 484 -;
+#X text 122 484 float;
+#X text 162 502 -;
+#X text 122 502 float;
+#X text 162 521 -;
+#X text 122 521 float;
+#X text 162 541 -;
+#X text 122 541 float;
+#X text 162 559 -;
+#X text 122 559 float;
+#X text 162 579 -;
+#X text 122 579 float;
+#X text 162 599 -;
+#X text 122 599 float;
+#X text 162 617 -;
+#X text 122 617 float;
+#X text 162 636 -;
+#X text 122 636 float;
+#X text 178 417 midi note number, f 47;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 borax;
+#X obj 17 62 comment 0 18 times ? 0 0 0 0 Reports note on/off info
+;
+#N canvas 762 173 447 311 backwards 0;
+#X text 185 110 or even:;
+#X text 49 150 But please don't \, just stick to;
+#X text 166 183 or;
+#X text 44 53 Nevertheless \, the old way of creating this object is
+still present for backwards compatibility reasons. So you can still
+use:;
+#X text 53 220 Which is the reasonable and sensible way nowadays \,
+as the current plan is to phase out the capital letters in cyclone's
+objects.;
+#X text 43 20 [borax] used to be compiled as [Borax] \, probably to
+avoid some name conflicts \, but this is not the case anymore.;
+#X obj 136 110 Borax;
+#X obj 252 110 cyclone/Borax;
+#X obj 114 182 borax;
+#X obj 201 183 cyclone/borax;
+#X restore 424 329 pd backwards \; compatibility;
+#X text 117 661 (none);
+#X text 177 436 note velocity, f 47;
+#X msg 226 159 bang;
+#N canvas 111 227 240 305 random_notes 1;
+#X obj 58 207 makenote;
+#X obj 103 233 outlet;
+#X obj 43 233 outlet;
+#X obj 58 42 inlet;
+#X obj 58 81 metro;
+#X obj 58 122 expr random(40 \, 70) \; random(50 \, 127) \; random
+(500 \, 2000) \; random (100 \, 1000);
+#X obj 139 44 inlet;
+#X connect 0 0 2 0;
+#X connect 0 1 1 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 0 0;
+#X connect 5 1 0 1;
+#X connect 5 2 0 2;
+#X connect 5 3 4 1;
+#X connect 6 0 5 0;
+#X restore 55 153 pd random_notes;
+#X obj 55 129 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 162 158 notein;
+#X obj 142 130 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 75 129 <= metro;
+#X text 177 455 resets by sending note-offs and erasing events' memory
+;
+#X text 93 92 [borax] sends detailed MIDI Note-On/Note-Off information.
+;
+#X text 263 158 resets [borax];
+#X text 177 541 pitch of note from report, f 50;
+#X text 177 559 velocity of note from report (0 means Note-Off);
+#X text 177 484 note event number from report, f 50;
+#X text 177 521 number of voices (notes currently On), f 51;
+#X text 177 502 voice number from report (when more notes are reported)
+;
+#X text 177 579 event number from note duration report (see 6);
+#X text 177 617 event number from delta-time report (see 8), f 51
+;
+#X text 177 636 delta-time (time difference in ms) between Note-Ons
+;
+#X text 177 599 note duration (in ms) report, f 51;
+#X obj 55 192 cyclone/borax, f 30;
+#X obj 290 216 cyclone/comment 0 11 helvetica ? 0 0 0 0 8- Note-On
+Delta-time;
+#X obj 260 233 cyclone/comment 263 11 helvetica ? 0 0 0 0 7- Event
+of delta-time report;
+#X obj 267 258 cyclone/comment 251 11 helvetica ? 0 0 0 0 6- Note duration
+;
+#X obj 236 274 cyclone/comment 256 11 helvetica ? 0 0 0 0 5- Event
+of duration report;
+#X obj 224 298 cyclone/comment 278 11 helvetica ? 0 0 0 0 4- Velocity
+;
+#X obj 213 317 cyclone/comment 285 11 helvetica ? 0 0 0 0 3- Pitch
+;
+#X obj 202 340 cyclone/comment 271 11 helvetica ? 0 0 0 0 2- Number
+of voices;
+#X obj 187 361 cyclone/comment 270 11 helvetica ? 0 0 0 0 1- Voice
+number;
+#X obj 177 383 cyclone/comment 283 11 helvetica ? 0 0 0 0 0- Note event
+;
+#X obj 137 381 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 152 360 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 163 338 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 173 316 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 184 296 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 199 273 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 210 256 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 224 231 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 232 214 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X connect 55 0 73 2;
+#X connect 56 0 73 0;
+#X connect 56 1 73 1;
+#X connect 57 0 56 0;
+#X connect 58 0 73 0;
+#X connect 58 1 73 1;
+#X connect 59 0 56 1;
+#X connect 73 0 83 0;
+#X connect 73 1 84 0;
+#X connect 73 2 85 0;
+#X connect 73 3 86 0;
+#X connect 73 4 87 0;
+#X connect 73 5 88 0;
+#X connect 73 6 89 0;
+#X connect 73 7 90 0;
+#X connect 73 8 91 0;

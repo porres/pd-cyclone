@@ -1,0 +1,129 @@
+#N canvas 402 28 576 632 10;
+#X obj 4 317 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 5 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 5 465 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 82 326 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 351 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 428 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 377 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 256 290 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 209 290 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 163 290 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 2 521 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 501 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 500 102 380 374 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 140 LIBRARY cyclone;
+#X text 1 0 KEYWORDS send 1/0 binary specific;
+#X text 1 40 DESCRIPTION send out 1/0 to a specific outlet;
+#X text 1 120 OUTLET_N float;
+#X text 1 80 INLET_1 toggle;
+#X text 1 100 INLET_2 toggle;
+#X text 1 60 INLET_0 float;
+#X text 0 158 VERSION 0.2-beta1;
+#X text 0 176 AUTHOR Krzysztof Czaja;
+#X text 1 194 RELEASE_DATE 2002;
+#X text 2 213 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 245 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 491 503 pd META;
+#N canvas 347 145 430 79 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 11 29 select;
+#X obj 62 29 gate;
+#X obj 101 29 route;
+#X obj 147 30 cyclone/bucket;
+#X obj 248 31 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X restore 203 503 pd Related_objects;
+#X text 158 353 -;
+#X text 112 353 toggle;
+#X text 158 378 -;
+#X text 112 378 toggle;
+#X text 173 353 write 0 or 1 to all outlets, f 60;
+#X text 173 378 disable all outlets (overrides inlet 1), f 60;
+#X text 158 430 -;
+#X text 118 430 float;
+#X text 173 430 1 or 0 based on which outlets selected, f 60;
+#X text 158 480 -;
+#X text 100 480 1) float;
+#X text 172 480 number of outlets, f 60;
+#X obj 163 259 cyclone/decode 3;
+#X text 158 327 -;
+#X text 118 327 float;
+#X text 173 327 outlet number to receive 1, f 60;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 decode;
+#X obj 20 58 comment 0 18 times ? 0 0 0 0 send out 1/0 to a specific
+outlet;
+#N canvas 0 22 450 300 back-compat 0;
+#X restore 388 248 pd back-compat;
+#X obj 163 231 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 3 256;
+#X msg 103 191 -1;
+#X msg 133 191 0;
+#X msg 163 191 1;
+#X msg 193 191 2;
+#X msg 225 191 3;
+#X obj 116 292 cyclone/comment 100 11 helvetica ? 0 0 0 0 0 or less
+;
+#X obj 199 291 cyclone/comment 100 11 helvetica ? 0 0 0 0 1;
+#X obj 277 292 cyclone/comment 100 11 helvetica ? 0 0 0 0 2 or more
+;
+#X text 82 87 [decode] receives a number and sends "1" to a matching
+outlet (numbered from left to right \, starting at 0) and "0" to non
+matching outlets.;
+#X text 83 131 If the input is higher than the number of given outlets
+\, then "1" is sent to the rightmost outlet. But if it's less than
+0 \, then "1" is sent to the leftmost outlet.;
+#N canvas 235 74 578 416 hierarchiocal 0;
+#X obj 231 207 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 278 228 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 252 208 cyclone/comment 0 11 helvetica ? 0 0 0 0 turn remaining
+on or off;
+#X obj 296 229 cyclone/comment 0 11 helvetica ? 0 0 0 0 disable (turns
+all off );
+#X text 105 96 Provides hierarchical switching. The right inlet is
+the master disable switch \, while the middle inlet is a submaster
+enable. The left inlet can turn on a single outlet provided neither
+the submaster switch nor the master switch is active.;
+#X restore 360 211 pd hierarchiocal switching;
+#X connect 26 0 9 0;
+#X connect 26 1 8 0;
+#X connect 26 2 7 0;
+#X connect 39 0 26 0;
+#X connect 40 0 39 0;
+#X connect 41 0 39 0;
+#X connect 42 0 39 0;
+#X connect 43 0 39 0;
+#X connect 44 0 39 0;

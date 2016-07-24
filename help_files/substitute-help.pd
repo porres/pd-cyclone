@@ -1,0 +1,108 @@
+#N canvas 402 28 558 583 10;
+#X obj 2 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 409 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 465 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 75 321 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 75 418 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 75 343 cnv 17 3 60 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 564 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 543 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 490 103 384 343 META 0;
+#X text 9 29 LICENSE SIBSD;
+#X text 9 137 LIBRARY cyclone;
+#X text 9 10 KEYWORDS substitute symbol replace;
+#X text 9 48 DESCRIPTION substitute a symbol for another symbol in
+a message;
+#X text 9 80 INLET_0 message;
+#X text 9 99 INLET_1 message;
+#X text 9 118 OUTLET_0 message;
+#X text 9 157 VERSION 0.2-beta1;
+#X text 9 175 AUTHOR Krzysztof Czaja;
+#X text 10 193 RELEASE_DATE 2002;
+#X text 11 212 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 11 244 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 499 545 pd META;
+#N canvas 347 143 430 76 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 16 31 cyclone/sprintf %d;
+#X obj 141 31 cyclone/zl;
+#X restore 203 545 pd Related_objects;
+#X obj 294 269 print unchanged;
+#X msg 129 169 1 2 3 4;
+#X text 134 322 anything;
+#X text 134 372 anything;
+#X text 134 418 anything;
+#X obj 75 439 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 134 439 anything;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 substitute;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Substitute elements in messages
+;
+#X text 98 343 set <anything>;
+#X text 190 322 - any message to have elements substituted;
+#X text 190 343 - set followed by 2 items sets the 1st to be substituted
+by the 2nd \, other elements are ignored;
+#X text 190 373 - sets 1st element to be substituted by the 2nd \,
+other elements are ignored, f 57;
+#X text 92 478 1) float/symbol;
+#X text 92 495 2) float/symbol;
+#X text 192 478 - element to be substituted;
+#X text 192 495 - element to substitute the 1st given element to;
+#X text 192 418 - the substituted message;
+#X text 192 439 - the input message if no substitution occurred;
+#X text 52 91 [substitue] substitutes an element in an input message
+to another given element.;
+#X msg 303 199 set 5 10;
+#X msg 294 175 5 4;
+#X msg 278 151 this that;
+#X obj 129 238 cyclone/substitute that this;
+#X msg 149 198 this and that;
+#X msg 106 146 5 5 5;
+#X obj 129 268 print substituted;
+#X text 92 513 3) float/symbol;
+#X text 192 513 - sets to "replace only first message" mode;
+#N canvas 196 23 574 514 first_only 0;
+#X obj 177 118 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 172 169 cyclone/substitute bang bunda;
+#X text 136 209 the input is echoed to the output \, but if the message
+received contains an element matching the match symbol or number \,
+the element is replaced by the replacement symbol or number when the
+message is repeated to the output.;
+#X connect 0 0 1 0;
+#X restore 409 220 pd first_only;
+#X connect 11 0 39 0;
+#X connect 36 0 39 1;
+#X connect 37 0 39 1;
+#X connect 38 0 39 1;
+#X connect 39 0 42 0;
+#X connect 39 1 10 0;
+#X connect 40 0 39 0;
+#X connect 41 0 39 0;

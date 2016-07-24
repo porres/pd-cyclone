@@ -1,0 +1,95 @@
+#N canvas 789 72 558 461 10;
+#X obj 4 296 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 352 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 392 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 90 307 cnv 17 3 38 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 90 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 147 400 (none);
+#X obj 212 253 print;
+#X obj 212 226 cyclone/iter;
+#X obj 3 421 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 474 99 405 345 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 100 LIBRARY cyclone;
+#X text 0 0 KEYWORDS split list series;
+#X text 0 40 DESCRIPTION split a list into a series of data;
+#X text 0 60 INLET_0 list float;
+#X text 0 80 OUTLET_0 float;
+#X text 0 121 VERSION 0.2-beta1;
+#X text 0 139 AUTHOR Krzysztof Czaja;
+#X text 1 157 RELEASE_DATE 2002;
+#X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 499 423 pd META;
+#N canvas 339 143 430 84 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 13 34 cyclone/cycle;
+#X obj 110 34 cyclone/thresh;
+#X obj 213 34 unpack;
+#X obj 269 34 zl;
+#X restore 203 423 pd Related_objects;
+#X text 159 308 bang;
+#X text 111 365 float/symbol;
+#X text 135 327 anything;
+#X text 196 308 - outputs the last received input as sequential elements
+;
+#X text 196 327 - split elements sequentially;
+#X obj 25 63 comment 0 18 times ? 0 0 0 0 Split messages sequentially
+;
+#X msg 181 145 1 2 three;
+#X msg 212 171 list one two 3;
+#X msg 232 198 any message type;
+#X text 196 365 - according to the input element \, in sequential order
+;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 iter;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 66 256 print;
+#X obj 38 180 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 66 150 loadbang;
+#X msg 66 180 1 2 3;
+#X obj 66 224 cyclone/iter;
+#X text 70 92 [iter] is similar to [unnpack] \, it splits a message
+(to floats/symbols) but outputs them sequentially in the given order.
+;
+#X msg 389 163 60 63 67;
+#X obj 389 191 cyclone/iter;
+#X obj 389 225 makenote 64 500;
+#X obj 429 257 noteout;
+#X text 380 141 a chord from list;
+#X connect 7 0 6 0;
+#X connect 17 0 7 0;
+#X connect 18 0 7 0;
+#X connect 19 0 7 0;
+#X connect 29 0 32 0;
+#X connect 30 0 31 0;
+#X connect 31 0 32 0;
+#X connect 32 0 28 0;
+#X connect 34 0 35 0;
+#X connect 35 0 36 0;
+#X connect 36 0 37 0;
+#X connect 36 1 37 1;

@@ -1,0 +1,160 @@
+#N canvas 766 61 559 587 10;
+#X obj 2 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 512 118 368 338 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 126 LIBRARY cyclone;
+#X text 1 0 KEYWORDS store float edit;
+#X text 1 36 DESCRIPTION store and edit numbers;
+#X text 1 54 INLET_0 float;
+#X text 1 72 INLET_1 list;
+#X text 1 90 INLET_2 messages;
+#X text 1 108 OUTLET_0 list;
+#X text 0 144 VERSION 0.2-beta1;
+#X text 0 162 AUTHOR Krzysztof Czaja;
+#X text 1 180 RELEASE_DATE 2002;
+#X text 2 199 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 231 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 500 547 pd META;
+#X obj 2 418 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 462 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 364 145 430 73 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 46 32 textfile;
+#X obj 106 32 cyclone/coll;
+#C restore;
+#X obj 192 32 cyclone/funbuff;
+#C restore;
+#X obj 10 32 text;
+#X obj 341 32 table;
+#X obj 297 32 array;
+#X restore 216 547 pd Related_objects;
+#X obj 73 298 cnv 17 3 115 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 73 432 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#N canvas 303 95 708 609 Examples 0;
+#X msg 197 151 open;
+#X floatatom 138 82 5 0 0 0 - - -, f 5;
+#X msg 111 59 10 20 30 40;
+#X msg 197 130 dump;
+#X obj 138 323 print dump;
+#X msg 197 109 clear;
+#X msg 197 172 wclose;
+#X msg 197 193 count;
+#X msg 197 214 write;
+#X msg 197 238 write /tmp/test.txt;
+#X obj 138 287 cyclone/capture 64;
+#X obj 187 59 cyclone/comment 300 11 helvetica ? 0 80 80 80 list is
+stored from first to last;
+#X obj 173 83 cyclone/comment 300 11 helvetica ? 0 80 80 80 numbers
+are stored sequentially;
+#X obj 238 109 cyclone/comment 300 11 helvetica ? 0 80 80 80 clear
+contents;
+#X obj 233 130 cyclone/comment 300 11 helvetica ? 0 80 80 80 send out
+all stored values sequentially;
+#X obj 229 152 cyclone/comment 300 11 helvetica ? 0 80 80 80 open editing
+window;
+#X obj 241 173 cyclone/comment 300 11 helvetica ? 0 80 80 80 close
+editing window;
+#X obj 236 196 cyclone/comment 300 11 helvetica ? 0 80 80 80 print
+number of items to the console;
+#X obj 237 217 cyclone/comment 300 11 helvetica ? 0 80 80 80 save to
+textfile (dialog box asks for filename);
+#X obj 320 241 cyclone/comment 300 11 helvetica ? 0 80 80 80 write
+to file (no dialog);
+#X obj 263 284 cyclone/comment 260 11 helvetica ? 0 80 80 80 first
+arg is number of values to store (default 512);
+#X obj 263 297 cyclone/comment 260 11 helvetica ? 0 80 80 80 second
+arg is x - values are in hex;
+#X obj 329 308 cyclone/comment 260 11 helvetica ? 0 80 80 80 m - values
+< 128 decimal \, larger numbers are hex;
+#X obj 329 320 cyclone/comment 260 11 helvetica ? 0 80 80 80 d - decimal
+\, default max behaviour \, only ints;
+#X obj 311 331 cyclone/comment 260 11 helvetica ? 0 80 80 80 none -
+values are decimal \, supports float;
+#X floatatom 222 342 5 0 0 0 - - -, f 5;
+#X connect 0 0 10 0;
+#X connect 1 0 10 0;
+#X connect 2 0 10 0;
+#X connect 3 0 10 0;
+#X connect 5 0 10 0;
+#X connect 6 0 10 0;
+#X connect 7 0 10 0;
+#X connect 8 0 10 0;
+#X connect 9 0 10 0;
+#X connect 10 0 4 0;
+#X connect 10 0 25 0;
+#X restore 438 204 pd Examples;
+#X text 183 314 -;
+#X text 108 473 1) float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 capture;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Store data;
+#X text 142 314 clear;
+#X text 183 331 -;
+#X text 142 331 count;
+#X text 183 348 -;
+#X text 183 365 -;
+#X text 148 348 dump;
+#X text 148 365 open;
+#X text 183 381 -;
+#X text 197 381 closes editing window;
+#X msg 87 163 10 20 30 40;
+#X msg 201 192 dump;
+#X obj 173 256 print dump;
+#X obj 173 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 -55 256;
+#X text 239 193 outputs stored values;
+#X text 198 347 outputs out all stored values sequentially, f 52;
+#X text 197 314 clears stored values, f 51;
+#X text 136 381 wclose;
+#X text 197 365 opens editing window \, same as clicking on it;
+#X text 47 87 [capture] stores items in the received order for viewing
+\, editing \, and saving to a file. If the maximum number of items
+has been exceeded \, the earliest stored item is dropped as each new
+item is received.;
+#X text 88 397 write <symbol>;
+#X text 183 397 -;
+#X text 197 397 saves to textfile (no symbol opens dialog box);
+#X text 100 434 float/symbol;
+#X text 183 434 - stored items in sequential order (on dump message)
+;
+#X obj 173 226 cyclone/capture 8;
+#X text 287 226 <= stores 8 items;
+#X text 108 491 2) symbol;
+#X text 172 491 - x (values are in hex) m (values < 128 decimal \,
+larger numbers are hex) d (decimal \, default max behaviour \, only
+integers) none (default) values are decimal \, supports float;
+#X text 73 223 click to open;
+#X text 78 236 text window;
+#X text 124 299 anything;
+#X text 183 299 - stores items (float/symbol) sequentially;
+#X text 198 332 prints number of received item on the Pd window;
+#X text 172 473 - number of stored values (default 512), f 60;
+#X connect 28 0 43 0;
+#X connect 29 0 43 0;
+#X connect 31 0 43 0;
+#X connect 43 0 30 0;

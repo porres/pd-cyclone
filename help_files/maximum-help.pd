@@ -1,0 +1,124 @@
+#N canvas 818 27 558 541 10;
+#X obj 2 295 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 404 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 461 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 95 304 cnv 17 3 57 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 95 367 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 95 413 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 500 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 504 103 374 363 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 120 LIBRARY cyclone;
+#X text 0 80 INLET_1 float;
+#X text 0 0 KEYWORDS max maximum greatesst list;
+#X text 0 40 DESCRIPTION output the greatest in a list of numbers;
+#X text 0 60 INLET_0 list bang float;
+#X text 0 100 OUTLET_0 float;
+#X text 0 139 VERSION 0.2-beta1;
+#X text 0 157 AUTHOR Krzysztof Czaja;
+#X text 1 175 RELEASE_DATE 2002;
+#X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 489 502 pd META;
+#N canvas 344 144 430 84 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 149 33 cyclone/peak;
+#X obj 47 33 cyclone/minimum;
+#X obj 235 33 cyclone/trough;
+#X obj 16 33 >;
+#X obj 334 33 cyclone/past;
+#X restore 201 502 pd Related_objects;
+#X text 170 305 -;
+#X text 136 305 bang;
+#X text 130 324 float;
+#X text 136 343 list;
+#X text 130 368 float;
+#X text 170 415 -;
+#X text 130 415 float;
+#X text 112 474 1) float;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 maximum;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Compare maximum;
+#X obj 317 221 cyclone/maximum;
+#X text 170 343 - maximum number in the list is output and updates
+argument;
+#X obj 48 189 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 185 305 resends the most recent output, f 56;
+#X obj 317 254 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 19 256;
+#X text 311 141 find maximum in a list;
+#X msg 317 167 10 5 7 2 19 8 6 4;
+#X obj 85 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 178 172 updates argument;
+#X obj 85 189 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 190 191 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 72 150 compare float;
+#X text 77 166 to argument;
+#X text 171 324 - value to compare maximum with argument or right inlet
+, f 59;
+#X text 170 368 - value to compare maximum with left inlet (updates
+argument), f 61;
+#X obj 95 437 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 130 438 float;
+#X text 170 438 - the index of maximum value from a list, f 61;
+#X obj 85 221 cyclone/maximum 12;
+#N canvas 780 286 475 319 list 0;
+#X text 47 33 More about list:;
+#X text 47 63 - Numbers in a list are compared with each other \, not
+with the argument!;
+#X obj 146 207 cyclone/maximum 1000;
+#X floatatom 95 163 5 0 0 0 - - -, f 5;
+#X text 49 97 - The maximum number in a list updates the argument;
+#X obj 146 239 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 89 256;
+#X msg 146 142 30 89 77 21 43;
+#X msg 163 172 22 12 78 64 12 64;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 6 0 2 0;
+#X connect 7 0 2 0;
+#X restore 476 236 pd list;
+#X text 70 92 [maximum] compares and outputs the maximum of two or
+more values. It compares two floats or values in a list.;
+#X msg 339 194 -5 -9 -12 -1 -3;
+#X text 172 474 - value to compare maximum with (default 0), f 60
+;
+#X text 185 415 the maximum (greatest) value of two or more numbers
+;
+#X connect 25 0 29 0;
+#X connect 27 0 43 0;
+#X connect 31 0 25 0;
+#X connect 34 0 43 0;
+#X connect 35 0 43 1;
+#X connect 43 0 32 0;
+#X connect 46 0 25 0;

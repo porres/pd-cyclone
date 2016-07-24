@@ -1,0 +1,143 @@
+#N canvas 616 61 559 631 10;
+#X obj 2 358 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 457 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 542 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 86 368 cnv 17 3 57 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 432 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 466 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 488 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 86 510 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 242 213 5 0 0 0 - - -, f 5;
+#X obj 195 294 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
+1;
+#X obj 2 615 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 582 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 494 101 388 370 META 0;
+#X text 10 29 LICENSE SIBSD;
+#X text 10 169 LIBRARY cyclone;
+#X text 10 9 KEYWORDS smaller min minimum compare;
+#X text 10 49 DESCRIPTION output only numbers smaller than the previous
+;
+#X text 10 69 INLET_0 float bang list;
+#X text 10 89 INLET_1 float;
+#X text 10 129 OUTLET_1 bang;
+#X text 10 149 OUTLET_2 bang;
+#X text 10 109 OUTLET_0 float;
+#X text 10 189 VERSION 0.2-beta1;
+#X text 10 207 AUTHOR Krzysztof Czaja;
+#X text 11 225 RELEASE_DATE 2002;
+#X text 12 244 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 12 276 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 502 585 pd META;
+#N canvas 352 145 431 87 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 49 32 cyclone/minimum;
+#X obj 155 32 cyclone/maximum;
+#X obj 261 32 cyclone/peak;
+#X obj 14 32 <;
+#X restore 212 585 pd Related_objects;
+#X obj 242 273 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
+1;
+#X obj 149 302 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X text 158 368 -;
+#X text 125 368 bang;
+#X text 158 389 -;
+#X text 118 389 float;
+#X text 158 410 -;
+#X text 124 410 list;
+#X text 158 433 -;
+#X text 118 433 float;
+#X text 158 466 -;
+#X text 118 466 float;
+#X text 158 488 -;
+#X text 118 488 float;
+#X text 158 511 -;
+#X text 118 511 float;
+#X text 158 556 -;
+#X text 100 556 1) float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 trough;
+#X obj 20 58 comment 0 18 times ? 0 0 0 0 Output numbers smaller than
+the previous;
+#N canvas 0 22 450 300 back 0;
+#X restore 450 309 pd back;
+#X obj 242 296 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 149 249 cyclone/trough 4;
+#N canvas 0 22 450 300 list 0;
+#X msg 140 93 4 4;
+#X msg 104 93 6 7;
+#X msg 174 93 3 2;
+#X restore 440 268 pd list;
+#X obj 149 278 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X obj 152 182 hsl 128 15 -99 99 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 0;
+#X obj 149 213 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 72 279 cyclone/comment 100 11 helvetica ? 0 0 0 0 current trough
+;
+#X text 217 318 new trough;
+#X obj 195 317 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 320 225 and outputs it;
+#X obj 102 212 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 173 368 sends current 'trough' value to the left outlet, f
+60;
+#X text 173 389 a value to be compared with 'trough', f 60;
+#X text 173 410 2nd number sets new 'trough' \, then 1st element is
+input;
+#X text 173 433 set new 'trough' value, f 60;
+#X text 173 488 0 (input is not a new through) / 1 (input is a new
+through);
+#X text 173 511 0 (input is a new through) / 0 (input is not a new
+through);
+#X text 60 90 [trough] compares the input to a 'trough' (minimum) value.
+If it's smaller \, the input becomes the new trough and is sent out.
+The middle outlet sends 1 when a new trough is set and 0 otherwise.
+The right outlet sends 1 when the input is not smaller than the trough
+and 0 otherwise.;
+#X text 173 466 the current 'trough' (minimum) value, f 60;
+#X text 280 210 <= sets new trough (minimum);
+#X text 261 294 not a new trough;
+#X text 172 556 intial 'trough' value (default 128), f 36;
+#X connect 8 0 42 1;
+#X connect 9 0 49 0;
+#X connect 14 0 41 0;
+#X connect 42 0 44 0;
+#X connect 42 1 9 0;
+#X connect 42 2 14 0;
+#X connect 44 0 15 0;
+#X connect 45 0 46 0;
+#X connect 46 0 42 0;
+#X connect 51 0 42 0;

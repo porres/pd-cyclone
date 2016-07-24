@@ -1,0 +1,115 @@
+#N canvas 403 28 559 521 10;
+#X obj 2 263 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 359 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 417 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 82 272 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 368 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X floatatom 254 175 5 0 0 0 - - -, f 5;
+#X floatatom 313 175 5 0 0 0 - - -, f 5;
+#X obj 82 310 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 335 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 82 392 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 499 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 478 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 487 107 387 368 META 0;
+#X text 10 29 LICENSE SIBSD;
+#X text 10 162 LIBRARY cyclone;
+#X text 10 86 INLET_1 float;
+#X text 10 124 OUTLET_0 float;
+#X text 10 10 KEYWORDS min max minimum maximum range;
+#X text 10 48 DESCRIPTION look for a range of numbers;
+#X text 10 67 INLET_0 list float;
+#X text 10 105 INLET_2 float;
+#X text 10 143 OUTLET_1 float;
+#X text 9 181 VERSION 0.2-beta1;
+#X text 9 199 AUTHOR Krzysztof Czaja;
+#X text 10 217 RELEASE_DATE 2002;
+#X text 11 236 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 11 268 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 503 480 pd META;
+#N canvas 350 145 430 83 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 15 32 <=;
+#X obj 48 32 >=;
+#X obj 81 32 route;
+#X obj 126 32 select;
+#X restore 207 480 pd Related_objects;
+#X text 158 272 -;
+#X text 118 272 float;
+#X text 158 291 -;
+#X text 124 291 list;
+#X text 158 312 -;
+#X text 118 312 float;
+#X text 158 335 -;
+#X text 118 335 float;
+#X text 158 369 -;
+#X text 118 369 float;
+#X text 158 392 -;
+#X text 118 392 float;
+#X text 100 432 1) float;
+#X text 100 452 2) float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 split;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Split numbers according to
+a range;
+#X obj 313 228 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 -1 256;
+#X obj 196 228 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 3 256;
+#X text 135 228 in range;
+#X text 259 157 min;
+#X text 317 157 max;
+#X obj 196 175 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 200 157 input;
+#X text 173 272 number to be split, f 60;
+#X text 372 227 outside range;
+#X text 64 167 in \, min \, max;
+#X text 173 291 <in \, min \, max> \, min/max are set first \, then
+input is checked;
+#X text 173 312 sets minimum range value, f 60;
+#X text 173 335 sets maximum range value, f 60;
+#X text 173 392 input number that is outside a given range;
+#X text 173 369 input number that is in a given range;
+#X text 81 89 [split] splits numbers in a given range from numbers
+outside it. If an input is in between a min/max value or equal to them
+\, the value is sent to the left outlet \, or to the right outlet otherwise.
+;
+#X text 158 452 - initial maximum range (default 0);
+#X text 158 432 - initial minimum range (default 0);
+#X obj 196 201 cyclone/split -15 15;
+#X msg 148 168 3 0 5;
+#X connect 5 0 54 1;
+#X connect 6 0 54 2;
+#X connect 41 0 54 0;
+#X connect 54 0 37 0;
+#X connect 54 1 36 0;
+#X connect 55 0 54 0;

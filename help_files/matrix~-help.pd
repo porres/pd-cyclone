@@ -1,0 +1,274 @@
+#N canvas 565 23 567 855 10;
+#X obj 9 818 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 4 389 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 611 363 351 231 META 0;
+#X text 1 20 LICENSE SIBSD;
+#X text 1 100 LIBRARY cyclone;
+#X text 1 0 KEYWORDS signal switching matrix mixing;
+#X text 1 40 DESCRIPTION a switching or mixing matrix for signals;
+#X text 1 60 INLET_N signal message;
+#X text 1 80 OUTLET_N signal list;
+#X text 0 121 VERSION 0.2-beta1;
+#X text 0 139 AUTHOR Krzysztof Czaja;
+#X text 1 157 RELEASE_DATE 2002;
+#X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 509 820 pd META;
+#X obj 2 620 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 6 684 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 309 485 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X restore 221 820 pd Related_objects;
+#X obj 70 591 cnv 1 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
+0;
+#X obj 416 321 print dump;
+#X msg 219 207 dump;
+#X text 143 593 signal;
+#X text 140 631 signal;
+#X text 152 652 list;
+#X obj 227 322 output~;
+#X text 122 211 0;
+#X text 137 211 1;
+#X text 152 211 2;
+#X text 167 211 3;
+#N canvas 0 23 892 491 matrix-logic 0;
+#X obj 496 410 outlet;
+#X obj 112 48 inlet;
+#X obj 496 375 t b a;
+#X msg 353 272 0 0 \$1;
+#X msg 401 272 1 0 \$1;
+#X msg 450 273 2 0 \$1;
+#X msg 504 274 3 0 \$1;
+#X msg 560 276 0 1 \$1;
+#X msg 612 277 1 1 \$1;
+#X msg 664 279 2 1 \$1;
+#X msg 720 280 3 1 \$1;
+#X obj 496 348 cyclone/prepend set;
+#X obj 122 196 s \$0-r00;
+#X obj 108 232 s \$0-r10;
+#X obj 91 257 s \$0-r20;
+#X obj 81 280 s \$0-r30;
+#X obj 234 175 s \$0-r01;
+#X obj 223 198 s \$0-r11;
+#X obj 220 227 s \$0-r21;
+#X obj 211 252 s \$0-r31;
+#X obj 495 147 r \$0-s00;
+#X obj 497 173 r \$0-s10;
+#X obj 511 196 r \$0-s20;
+#X obj 513 222 r \$0-s30;
+#X obj 702 162 r \$0-s01;
+#X obj 704 188 r \$0-s11;
+#X obj 718 211 r \$0-s21;
+#X obj 720 237 r \$0-s31;
+#X obj 300 100 tgl 15 0 \$0-s00 \$0-r00 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 315 100 tgl 15 0 \$0-s10 \$0-r10 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 330 100 tgl 15 0 \$0-s20 \$0-r20 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 345 100 tgl 15 0 \$0-s30 \$0-r30 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 300 115 tgl 15 0 \$0-s01 \$0-r01 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 315 115 tgl 15 0 \$0-s11 \$0-r11 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 330 115 tgl 15 0 \$0-s21 \$0-r21 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X obj 345 115 tgl 15 0 \$0-s31 \$0-r31 empty 17 7 0 10 -228856 -1
+-1 0 1;
+#X msg 562 385 0 0 0;
+#X connect 1 0 12 0;
+#X connect 1 0 13 0;
+#X connect 1 0 14 0;
+#X connect 1 0 15 0;
+#X connect 1 0 16 0;
+#X connect 1 0 17 0;
+#X connect 1 0 18 0;
+#X connect 1 0 19 0;
+#X connect 2 0 0 0;
+#X connect 2 1 0 0;
+#X connect 3 0 11 0;
+#X connect 4 0 11 0;
+#X connect 5 0 11 0;
+#X connect 6 0 11 0;
+#X connect 7 0 11 0;
+#X connect 8 0 11 0;
+#X connect 9 0 11 0;
+#X connect 10 0 11 0;
+#X connect 11 0 2 0;
+#X connect 11 0 36 0;
+#X connect 20 0 3 0;
+#X connect 21 0 4 0;
+#X connect 22 0 5 0;
+#X connect 23 0 6 0;
+#X connect 24 0 7 0;
+#X connect 25 0 8 0;
+#X connect 26 0 9 0;
+#X connect 27 0 10 0;
+#X coords 0 -1 1 1 60 30 2 300 100;
+#X restore 118 227 pd matrix-logic;
+#X text 152 395 list;
+#X obj 70 397 cnv 17 3 190 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X msg 154 151 clear;
+#X obj 232 243 osc~ 300;
+#X obj 290 243 osc~ 400;
+#X obj 353 243 osc~ 500;
+#X obj 416 243 osc~ 600;
+#X msg 118 188 set 0;
+#X text 234 306 0;
+#X text 321 307 1;
+#X text 207 271 0;
+#X text 275 271 1;
+#X text 340 271 2;
+#X text 403 272 3;
+#X msg 118 267 0 0 0;
+#X text 128 691 1) float;
+#X text 128 708 2) float;
+#X text 128 725 3) float;
+#X obj 71 650 cnv 1 3 17 empty empty n+1 5 9 0 16 -228856 -162280 0
+;
+#X text 194 592 - signals to route and mix;
+#X text 190 630 - routed/mixed signals from inlets;
+#N canvas 320 23 879 556 binary_vs_non-binary 0;
+#X obj 578 149 osc~ 300;
+#X obj 635 149 osc~ 400;
+#X obj 694 149 osc~ 500;
+#X obj 750 150 osc~ 600;
+#X floatatom 501 96 5 0 0 0 - - -, f 5;
+#X obj 577 216 output~;
+#X floatatom 543 342 5 0 0 0 - - -, f 5;
+#X obj 585 391 osc~ 300;
+#X obj 642 391 osc~ 400;
+#X obj 701 391 osc~ 500;
+#X obj 757 391 osc~ 600;
+#X obj 562 462 output~;
+#X obj 585 425 cyclone/matrix~ 4 1 1;
+#X obj 501 71 hradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856 -1
+-1 0;
+#X obj 543 321 hradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856
+-1 -1 3;
+#X text 36 130 "binary" mode (default):;
+#X text 36 191 "non-binary" mode:;
+#X msg 543 363 clear \, \$1 0 0.5;
+#X msg 501 119 clear \, connect \$1 0 1;
+#X obj 578 182 cyclone/matrix~ 4 2;
+#X obj 23 81 cnv 15 220 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 29 83 comment 0 18 times ? 0 0 0 0 Binary & Non-binary mode:
+;
+#X text 53 154 - in "binary" mode \, connections are either on or off.
+This can cause audible clicks when routing.;
+#X text 53 212 - in "non-binary" mode (requires more CPU time) \, each
+connection has a variable linear gain (0-1). When you send a list in
+"non-binary" mode \, the 3rd float sets the gain of the connection.
+This mode also allows for a ramp time for fade in/out or crossfading.
+;
+#X text 53 294 - "non-binary" mode is set when there is a third argument
+(that also specifies the default gain for all connections).;
+#X text 55 334 In "non-binary" mode \, connections formed with the
+<connect> message always have the gain specified by the third argument.
+However \, list messages can alter the gain of connections formed with
+the <connect> message. So \, if you want to specify the gain of each
+connection in "non-binary" mode \, you must use three- or four-element
+list messages rather than the <connect> message.;
+#X text 462 41 In binary mode \, only 0/1 gain values (clicks occur):
+;
+#X text 470 286 In non-binary mode \, you can set gain values and ramp
+time:;
+#X connect 0 0 19 0;
+#X connect 1 0 19 1;
+#X connect 2 0 19 2;
+#X connect 3 0 19 3;
+#X connect 4 0 18 0;
+#X connect 6 0 17 0;
+#X connect 7 0 12 0;
+#X connect 8 0 12 1;
+#X connect 9 0 12 2;
+#X connect 10 0 12 3;
+#X connect 12 0 11 0;
+#X connect 12 0 11 1;
+#X connect 13 0 4 0;
+#X connect 14 0 6 0;
+#X connect 17 0 12 0;
+#X connect 18 0 19 0;
+#X connect 19 0 5 0;
+#X connect 19 1 5 1;
+#X restore 334 181 pd binary_vs_non-binary mode;
+#X obj 71 629 cnv 1 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
+0;
+#X text 62 227 output 0;
+#X text 62 242 output 1;
+#X text 80 211 input:;
+#X text 192 725 - sets to "non-binary" mode and the gain value for
+connections. If not provided \, "binary" mode is on;
+#X obj 10 763 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856
+-1 0;
+#X msg 200 179 ramp 100;
+#X obj 227 287 cyclone/matrix~ 4 2 1 @ramp 1000;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 matrix~;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Signal routing/mixing matrix
+;
+#X text 95 93 [matrix~] routs signals from any inlets to one or more
+outlets. If more than one inlet connects to an outlet \, the output
+is the sum of the inlets' signals.;
+#X text 149 495 clear;
+#X text 155 478 dump;
+#X text 107 512 ramp <float>;
+#X text 95 529 connect <list>;
+#X text 136 769 @ramp <float> - only in non-binary mode (that is \,
+if all 3 arguments are given \, you can include a ramp value as an
+attribute) - default is 10 ms.;
+#X text 77 559 disconnect <list>;
+#X text 193 511 - sets ramp (fade) time - only in non-binary mode;
+#X text 193 477 - outputs the current gains of all connections;
+#X text 193 494 - removes all connections;
+#X text 193 528 - connects any inlet specified by the 1st value to
+outlet(s) specified by remaining value(s), f 59;
+#X text 193 558 - disconnects any inlet specified by the 1st value
+to outlet(s) specified by the remaining value(s);
+#X text 190 652 - on <dump> messages \, rightmost outlet dumps a list
+with all connections: <inlet# \, outlet# \, gain>, f 58;
+#X text 195 395 - in binary mode: the 1st number specifies the inlet
+\, the 2nd the outlet (in/outlets are numbered from left to right \,
+starting at 0) and a 3rd specifies connection <nonzero> or disconnection
+<0> \; - in non-binary mode: a 3rd float sets the gain of the connection
+and a 4th value can set the ramp time;
+#X text 192 708 - 'n' number of outputs (1 to 500 \, default 1);
+#X text 192 691 - 'n' number of inputs (1 to 250 \, default 1);
+#X connect 8 0 47 0;
+#X connect 17 0 32 0;
+#X connect 20 0 25 0;
+#X connect 20 0 47 0;
+#X connect 21 0 47 0;
+#X connect 22 0 47 1;
+#X connect 23 0 47 2;
+#X connect 24 0 47 3;
+#X connect 25 0 17 0;
+#X connect 32 0 47 0;
+#X connect 46 0 47 0;
+#X connect 47 0 12 0;
+#X connect 47 1 12 1;
+#X connect 47 2 7 0;

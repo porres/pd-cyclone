@@ -1,0 +1,107 @@
+#N canvas 686 53 562 601 10;
+#X obj 5 556 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 7 375 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#N canvas 589 279 370 225 META 0;
+#X text 0 20 LICENSE SIBSD;
+#X text 0 100 LIBRARY cyclone;
+#X text 0 0 KEYWORDS signal delay samples delayed;
+#X text 0 40 DESCRIPTION delay incoming signal for a number of samples
+;
+#X text 0 60 INLET_0 signal;
+#X text 0 80 OUTLET_0 signal;
+#X text 0 121 VERSION 0.2-beta1;
+#X text 0 139 AUTHOR Krzysztof Czaja;
+#X text 1 157 RELEASE_DATE 2002;
+#X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02;
+#X restore 507 557 pd META;
+#X obj 7 458 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 7 495 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#N canvas 289 399 428 109 Related_objects 0;
+#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 6 1 Related Objects;
+#X obj 9 31 delread~;
+#X obj 11 74 vd~ foo;
+#X obj 10 53 delwrite~ foo;
+#X restore 196 557 pd Related_objects;
+#X obj 127 467 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 156 384 signal;
+#X text 218 384 - signal to delay;
+#X text 156 467 signal;
+#X text 218 467 - delayed signal;
+#X text 143 505 1) float;
+#X obj 127 384 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 127 428 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 218 428 - delay in samples;
+#X text 143 523 2) float;
+#X obj 96 169 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 162 428 float;
+#X text 162 404 clear;
+#X text 218 404 - clears delay buffer;
+#X obj 134 299 output~;
+#X obj 225 219 cyclone/mstosamps~;
+#X obj 228 175 hsl 128 15 0 1000 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X floatatom 225 195 5 0 0 0 - - -, f 5;
+#X floatatom 330 245 5 0 0 0 - - -, f 5;
+#X text 198 242 up to 1 second delay;
+#X text 272 313 at 44.1kHz sample rate the;
+#X text 85 102 Use the [delay~] object to delay a signal by a certain
+amount of time defined in samples (thus determined by the sampling
+rate).;
+#X text 263 194 ms;
+#X text 373 244 samples;
+#X text 272 327 maximum delay is 1 second;
+#N canvas 417 214 206 199 noise 0;
+#X obj 42 79 noise~;
+#X obj 66 121 *~;
+#X obj 66 153 outlet~;
+#X obj 94 27 inlet;
+#X obj 94 90 vline~;
+#X msg 94 59 1 \, 0 0 100;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 3 0 5 0;
+#X connect 4 0 1 1;
+#X connect 5 0 4 0;
+#X restore 96 205 pd noise burst;
+#X text 218 506 - defines the maximum delay in samples (default 512)
+;
+#X text 218 524 - initial delay in samples (default 0);
+#X obj 177 271 cyclone/delay~ 441000 4410;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 delay~;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Delay signal by a number
+of samples;
+#X connect 16 0 31 0;
+#X connect 21 1 24 0;
+#X connect 22 0 23 0;
+#X connect 23 0 21 0;
+#X connect 24 0 34 1;
+#X connect 31 0 20 0;
+#X connect 31 0 34 0;
+#X connect 34 0 20 1;

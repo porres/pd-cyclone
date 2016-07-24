@@ -1,0 +1,107 @@
+#N canvas 317 28 559 609 10;
+#X obj 2 315 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 429 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 510 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 85 332 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 441 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 177 176 bng 20 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X floatatom 290 213 5 0 0 0 - - -, f 5;
+#X msg 273 177 seed \$1;
+#X floatatom 273 155 5 0 0 0 - - -, f 5;
+#X obj 290 258 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X obj 85 393 cnv 17 3 30 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 475 cnv 17 3 30 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 588 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 567 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 500 105 395 392 META 0;
+#X text 12 29 LICENSE SIBSD;
+#X text 12 156 LIBRARY cyclone;
+#X text 12 80 INLET_0 bang seed float;
+#X text 12 99 INLET_1 float;
+#X text 12 118 OUTLET_0 float;
+#X text 12 137 OUTLET_1 bang;
+#X text 12 48 DESCRIPTION random number generator without duplicate
+numbers;
+#X text 12 10 KEYWORDS random generator number rng;
+#X text 11 174 VERSION 0.2-beta1;
+#X text 11 192 AUTHOR Krzysztof Czaja;
+#X text 12 210 RELEASE_DATE 2002;
+#X text 13 229 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 13 261 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 504 569 pd META;
+#N canvas 349 144 430 84 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 19 33 random;
+#X obj 169 33 cyclone/drunk;
+#X obj 69 33 cyclone/decide;
+#X restore 210 569 pd Related_objects;
+#X text 142 330 bang;
+#X text 136 394 float;
+#X text 143 475 bang;
+#X text 136 442 float;
+#X text 119 524 1) float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 urn;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Unrepeated random numbers
+;
+#X msg 215 177 clear;
+#X obj 215 266 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 313 259 done;
+#X text 56 91 [urn] generates 'n' random numbers (from 0 to n-1) without
+repeating them. When all numbers have been output \, a bang is sent
+to the right outlet and it stops generating numbers unless it receives
+a clear.;
+#X text 327 212 'n';
+#X text 211 282 random numbers;
+#X text 184 330 - generates unrepeated random number, f 57;
+#X text 136 349 clear;
+#X text 94 369 seed <flaot>;
+#X text 184 349 - clears the memory (the list of already generated
+numbers);
+#X text 184 394 - clears the memory and sets 'n' (random numbers are
+from 0 to n-1);
+#X text 184 442 - unrepeated random number output - when receiving
+a bang (if not all have been generated yet);
+#X text 184 475 - if all random numbers have already been generated
+- when receiving a bang;
+#X text 182 524 - sets 'n' (random numbers are from 0 to n-1) - default
+is 1 (only 0 is generated);
+#X obj 215 233 cyclone/urn 4;
+#X text 184 369 - reseeds the random number generator, f 45;
+#X connect 5 0 43 0;
+#X connect 6 0 43 1;
+#X connect 7 0 43 0;
+#X connect 8 0 7 0;
+#X connect 29 0 43 0;
+#X connect 43 0 30 0;
+#X connect 43 1 9 0;

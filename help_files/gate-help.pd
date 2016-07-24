@@ -1,0 +1,130 @@
+#N canvas 759 61 558 531 10;
+#X obj 2 314 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 393 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 437 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 94 323 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 94 365 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X msg 433 186 symbol bar;
+#X obj 94 405 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X obj 97 142 vradio 15 1 0 4 sdvs asfgasgf empty 0 -8 0 10 -228856
+-1 -1 1;
+#X obj 2 492 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 501 104 400 309 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 108 LIBRARY cyclone;
+#X text 0 0 KEYWORDS data specific output gate;
+#X text 0 36 DESCRIPTION send data out the specified output;
+#X text 0 54 INLET_0 bang float;
+#X text 0 72 INLET_1 anything;
+#X text 0 90 OUTLET_N anything;
+#X text 0 127 VERSION 0.2-beta1;
+#X text 0 145 AUTHOR Krzysztof Czaja;
+#X text 1 163 RELEASE_DATE 2002;
+#X text 2 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 493 494 pd META;
+#N canvas 357 145 430 88 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 96 33 cyclone/cycle;
+#X obj 187 33 cyclone/switch;
+#X obj 15 33 route;
+#X obj 58 33 send;
+#X restore 203 494 pd Related_objects;
+#X text 144 323 bang;
+#X text 138 344 float;
+#X text 120 366 anything;
+#X text 120 406 anything;
+#X obj 190 197 nbx 3 15 -1e+37 1e+37 0 0 xfkvds asfmnv empty 0 -8 0
+12 -228856 -1 -1 615 256;
+#X obj 97 212 nbx 2 15 -1e+37 1e+37 0 0 xfkvds asfmnv empty 0 -8 0
+12 -228856 -1 -1 1 256;
+#X obj 190 260 nbx 3 13 -1e+37 1e+37 0 0 xfkvds asfmnv empty 0 -8 0
+10 -228856 -1 -1 536 256;
+#X obj 143 260 nbx 3 13 -1e+37 1e+37 0 0 xfkvds asfmnv empty 0 -8 0
+10 -228856 -1 -1 572 256;
+#X obj 97 260 nbx 3 13 -1e+37 1e+37 0 0 xfkvds asfmnv empty 0 -8 0
+10 -228856 -1 -1 615 256;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 gate;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Route message to an outlet
+;
+#X text 186 344 - sets outlet number (0 is none), f 33;
+#X text 186 366 - message to send through a specified outlet;
+#X text 115 142 none;
+#X text 115 157 1st;
+#X text 115 172 2nd;
+#X text 115 187 3rd;
+#X text 51 172 outlet;
+#X text 68 91 [gate] routes a message from the second inlet to one
+of 'n' specified outlets or none of them.;
+#X text 186 323 - reports the open outlet number on the left outlet
+, f 52;
+#X text 120 446 1) float;
+#X text 186 446 - 'n' number of outlets (1 to 100 \, default 1);
+#X obj 317 180 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+1;
+#X obj 317 214 cyclone/gate, f 18;
+#X text 45 158 specify;
+#X obj 190 280 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 143 280 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 97 280 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 395 161 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 422 157 1 2 3;
+#X msg 451 214 x;
+#X obj 317 262 print;
+#X obj 284 180 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 334 240 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 120 466 2) float;
+#X obj 97 234 cyclone/gate 3 1;
+#X text 186 466 - sets initially open outlet (default 0 - none);
+#X text 186 407 - 'n' outlets for routing any received message;
+#X text 190 175 float;
+#X text 405 133 other messages;
+#X connect 5 0 40 1;
+#X connect 7 0 16 0;
+#X connect 15 0 52 1;
+#X connect 16 0 52 0;
+#X connect 17 0 42 0;
+#X connect 18 0 43 0;
+#X connect 19 0 44 0;
+#X connect 39 0 40 0;
+#X connect 40 0 48 0;
+#X connect 40 0 50 0;
+#X connect 45 0 40 1;
+#X connect 46 0 40 1;
+#X connect 47 0 40 1;
+#X connect 49 0 40 0;
+#X connect 52 0 19 0;
+#X connect 52 1 18 0;
+#X connect 52 2 17 0;

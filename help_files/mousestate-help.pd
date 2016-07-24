@@ -1,0 +1,258 @@
+#N canvas 735 23 559 565 10;
+#X obj 2 287 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 382 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 493 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 84 297 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 391 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 411 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 431 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 451 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 84 471 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X text 112 501 (none);
+#X obj 2 524 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 498 95 369 388 META 0;
+#X text 0 18 LICENSE SIBSD;
+#X text 0 175 LIBRARY cyclone;
+#X text 0 0 KEYWORDS signal max maximum;
+#X text 0 36 DESCRIPTION report mouse x/y \, delta x/delta y \, and
+buttonpress;
+#X text 0 67 INLET_0 bang message;
+#X text 0 96 comment;
+#X text 0 85 OUTLET_0 toggle;
+#X text 0 109 OUTLET_1 float;
+#X text 0 121 OUTLET_2 float;
+#X text 0 139 OUTLET_3 float;
+#X text 0 157 OUTLET_4 float;
+#X text 0 193 VERSION 0.2-beta1;
+#X text 0 211 AUTHOR Krzysztof Czaja;
+#X text 1 229 RELEASE_DATE 2002;
+#X text 2 248 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 280 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 500 526 pd META;
+#N canvas 346 143 430 68 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 8 29 cyclone/mousefilter;
+#X restore 203 526 pd Related_objects;
+#X msg 131 180 poll;
+#X obj 121 217 cyclone/mousestate, f 39;
+#X text 125 296 bang;
+#X text 158 393 -;
+#X text 118 393 float;
+#X text 158 412 -;
+#X text 118 412 float;
+#X text 158 432 -;
+#X text 118 432 float;
+#X text 158 452 -;
+#X text 118 452 float;
+#X text 158 472 -;
+#X text 118 472 float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 mousestate;
+#X obj 33 59 comment 0 18 times ? 0 0 0 0 Retrieve mouse data;
+#N canvas 0 22 450 300 back 0;
+#X restore 467 153 pd back;
+#X msg 121 152 nopoll;
+#X obj 89 175 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 349 260 delta y;
+#X obj 352 242 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 -1 256;
+#X obj 294 242 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 291 259 delta x;
+#X obj 236 242 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 210 256;
+#X obj 178 242 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 541 256;
+#X text 179 259 x pos;
+#X text 239 259 y pos;
+#X obj 121 240 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X text 112 259 click;
+#X text 125 311 poll;
+#X text 113 326 nopoll;
+#X obj 196 185 metro 500;
+#X obj 196 162 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 125 341 zero;
+#X text 119 356 reset;
+#X text 158 341 - sets current position to 0 \, 0 of pd coordinate
+system;
+#X text 158 356 - set 0 \, 0 (upper left corner), f 51;
+#N canvas 263 94 486 287 examples 0;
+#X obj 76 170 cyclone/mousestate, f 19;
+#X floatatom 103 202 3 0 0 0 - - -, f 3;
+#X floatatom 131 202 3 0 0 0 - - -, f 3;
+#X floatatom 159 202 4 0 0 0 - - -, f 4;
+#X floatatom 187 201 4 0 0 0 - - -, f 4;
+#X obj 104 117 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 104 143 select 1;
+#X obj 103 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 131 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 159 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 187 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 284 169 cyclone/mousestate, f 19;
+#X floatatom 311 201 3 0 0 0 - - -, f 3;
+#X floatatom 339 201 3 0 0 0 - - -, f 3;
+#X floatatom 367 200 4 0 0 0 - - -, f 4;
+#X floatatom 395 200 4 0 0 0 - - -, f 4;
+#X obj 312 116 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 311 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 339 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 367 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 395 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 312 142 select 0;
+#X text 151 34 Report mouse data on:;
+#X text 39 82 pressing the mouse button:;
+#X text 251 82 releasing the mouse button:;
+#X connect 0 0 5 0;
+#X connect 0 1 1 0;
+#X connect 0 2 2 0;
+#X connect 0 3 3 0;
+#X connect 0 4 4 0;
+#X connect 1 0 7 0;
+#X connect 2 0 8 0;
+#X connect 3 0 9 0;
+#X connect 4 0 10 0;
+#X connect 5 0 6 0;
+#X connect 6 0 0 0;
+#X connect 11 0 16 0;
+#X connect 11 1 12 0;
+#X connect 11 2 13 0;
+#X connect 11 3 14 0;
+#X connect 11 4 15 0;
+#X connect 12 0 17 0;
+#X connect 13 0 18 0;
+#X connect 14 0 19 0;
+#X connect 15 0 20 0;
+#X connect 16 0 21 0;
+#X connect 21 0 11 0;
+#X restore 456 220 pd examples;
+#X text 158 296 - polls position data;
+#X text 158 326 - does not poll position data (only via bang), f 50
+;
+#X text 173 393 click status: 1 <button is pressed> \, 0 <button is
+released>;
+#X text 173 412 absolute x position on computer screen (in pixels)
+, f 60;
+#X text 173 432 absolute y position on computer screen (in pixels)
+, f 60;
+#X text 173 452 delta x (position difference) from last poll, f 60
+;
+#X text 173 472 delta y (position difference) from last poll, f 60
+;
+#X obj 158 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 158 311 - poll position data automatically when mouse cursor
+moves;
+#X text 72 87 [mousestate] reports click status \, cursor position
+and cursor delta. The click report is always given (and sampled every
+50 ms) \, the rest needs to be polled.;
+#N canvas 263 94 486 287 modes 0;
+#X obj 76 170 cyclone/mousestate, f 19;
+#X floatatom 103 202 3 0 0 0 - - -, f 3;
+#X floatatom 131 202 3 0 0 0 - - -, f 3;
+#X floatatom 159 202 4 0 0 0 - - -, f 4;
+#X floatatom 187 201 4 0 0 0 - - -, f 4;
+#X obj 104 117 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 104 143 select 1;
+#X obj 103 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 131 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 159 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 187 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 284 169 cyclone/mousestate, f 19;
+#X floatatom 311 201 3 0 0 0 - - -, f 3;
+#X floatatom 339 201 3 0 0 0 - - -, f 3;
+#X floatatom 367 200 4 0 0 0 - - -, f 4;
+#X floatatom 395 200 4 0 0 0 - - -, f 4;
+#X obj 312 116 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 311 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 339 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 367 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 395 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 312 142 select 0;
+#X text 151 34 Report mouse data on:;
+#X text 39 82 pressing the mouse button:;
+#X text 251 82 releasing the mouse button:;
+#X connect 0 0 5 0;
+#X connect 0 1 1 0;
+#X connect 0 2 2 0;
+#X connect 0 3 3 0;
+#X connect 0 4 4 0;
+#X connect 1 0 7 0;
+#X connect 2 0 8 0;
+#X connect 3 0 9 0;
+#X connect 4 0 10 0;
+#X connect 5 0 6 0;
+#X connect 6 0 0 0;
+#X connect 11 0 16 0;
+#X connect 11 1 12 0;
+#X connect 11 2 13 0;
+#X connect 11 3 14 0;
+#X connect 11 4 15 0;
+#X connect 12 0 17 0;
+#X connect 13 0 18 0;
+#X connect 14 0 19 0;
+#X connect 15 0 20 0;
+#X connect 16 0 21 0;
+#X connect 21 0 11 0;
+#X restore 461 247 pd modes;
+#X connect 13 0 14 0;
+#X connect 14 0 45 0;
+#X connect 14 1 42 0;
+#X connect 14 1 63 0;
+#X connect 14 2 41 0;
+#X connect 14 3 39 0;
+#X connect 14 4 38 0;
+#X connect 35 0 14 0;
+#X connect 36 0 14 0;
+#X connect 49 0 14 0;
+#X connect 50 0 49 0;

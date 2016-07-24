@@ -1,0 +1,127 @@
+#N canvas 592 32 559 448 10;
+#X obj 4 276 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 336 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 367 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 105 289 cnv 17 3 40 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X msg 125 206 send bar;
+#X msg 120 183 send foo;
+#X obj 218 197 receive foo;
+#X obj 325 197 receive bar;
+#X obj 62 235 cyclone/forward foo;
+#X text 201 288 -;
+#X text 143 288 anything;
+#X obj 2 404 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#N canvas 512 103 378 292 META 0;
+#X text 2 18 LICENSE SIBSD;
+#X text 2 72 LIBRARY cyclone;
+#X text 2 54 INLET_0 anything;
+#X text 2 0 KEYWORDS send remote message;
+#X text 2 36 DESCRIPTION send remote messages;
+#X text 0 91 VERSION 0.2-beta1;
+#X text 0 109 AUTHOR Krzysztof Czaja;
+#X text 1 127 RELEASE_DATE 2002;
+#X text 2 146 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+;
+#X text 2 178 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 492 406 pd META;
+#N canvas 361 144 430 93 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 12 35 receive;
+#X obj 112 35 send;
+#X obj 67 35 route;
+#X obj 150 35 value;
+#X msg 201 35;
+#X restore 210 406 pd Related_objects;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 forward;
+#X obj 20 58 comment 0 18 times ? 0 0 0 0 Send remote messages;
+#X obj 62 193 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 12 256;
+#X text 216 288 any message to be sent forward, f 32;
+#X text 113 309 send <symbol>;
+#X text 201 309 - sets an address to send to;
+#X text 136 381 1) symbol;
+#X text 201 381 - initially set address;
+#X obj 218 229 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 12 256;
+#X obj 325 229 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 155 345 (none);
+#X text 84 90 [forward] is similar to the [send] object \, it sends
+messages to corresponding [receive] counterparts - and also anything
+else that a [send] objects sends message to (like to an array \, to
+"pd" \, etc..).;
+#N canvas 380 213 811 446 examples 0;
+#X obj 2 2 cnv 15 750 40 empty empty forward 3 12 0 18 -204280 -1 0
+;
+#X text 59 25 examples;
+#X msg 53 85 64;
+#X msg 53 147 send somewhere \, set \$1 \, send elsewhere \, 1, f
+19;
+#X obj 53 215 forward;
+#X msg 276 125 1;
+#X msg 388 125 set \$1;
+#X obj 276 147 send elsewhere;
+#X obj 388 147 send somewhere;
+#X msg 276 87 64;
+#X obj 273 224 receive somewhere;
+#X obj 403 224 receive elsewhere;
+#X obj 403 249 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X msg 586 129 \; somewhere set \$1 \; elsewhere 1;
+#X obj 85 76 cyclone/comment 154 11 helvetica ? 0 80 80 80 specify
+the destination \, then send message there;
+#X obj 313 81 cyclone/comment 200 11 helvetica ? 0 80 80 80 a send
+object can have only one destination \, fixed by its argument;
+#X obj 585 182 cyclone/comment 100 11 helvetica ? 0 80 80 80 an equivalent
+method \, using semicolons in a message box;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array array 10 float 3;
+#A 0 0 0 0 1 0 0 0 0 0 0;
+#X coords 0 1 10 -1 200 140 1;
+#X restore 286 294 graph;
+#X obj 161 352 forward pd;
+#X msg 164 315 dsp 0;
+#X msg 273 249 1;
+#X msg 640 98 fuck you;
+#X msg 586 87 1 2 3;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 5 0 7 0;
+#X connect 6 0 8 0;
+#X connect 9 0 5 0;
+#X connect 9 0 6 0;
+#X connect 10 0 20 0;
+#X connect 11 0 12 0;
+#X connect 19 0 18 0;
+#X connect 21 0 13 0;
+#X connect 22 0 13 0;
+#X restore 453 226 pd examples;
+#X text 68 162 sets receive object:;
+#X connect 4 0 8 0;
+#X connect 5 0 8 0;
+#X connect 6 0 28 0;
+#X connect 7 0 29 0;
+#X connect 22 0 8 0;
