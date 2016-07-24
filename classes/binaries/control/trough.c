@@ -4,8 +4,6 @@
 
 #include "m_pd.h"
 
-#define TROUGH_INITIAL  128  /* CHECKME */
-
 typedef struct _Trough
 {
     t_object   x_ob;
