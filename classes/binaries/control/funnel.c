@@ -53,6 +53,11 @@ static void funnel_proxy_offset(t_funnel_proxy *x, t_floatarg f)
     x->p_offset = f;
 }
 
+static void funnel_proxy_float(t_funnel_proxy *x, t_float f)
+{
+    x->p_value = f;
+    funnel_proxy_bang(x);
+}
 
 
 static void funnel_proxy_symbol(t_funnel_proxy *x, t_symbol *s)
