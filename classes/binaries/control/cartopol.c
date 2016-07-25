@@ -15,6 +15,8 @@ typedef struct _cartopol
 {
     t_object   x_ob;
     t_float    x_imag;
+    t_float    x_amp;
+    t_float    x_ph;
     t_outlet  *x_out2;
 } t_cartopol;
 
@@ -22,9 +24,16 @@ static t_class *cartopol_class;
 
 static void cartopol_float(t_cartopol *x, t_float f)
 {
-    outlet_float(x->x_out2, atan2f(x->x_imag, f));
-    outlet_float(((t_object *)x)->ob_outlet, hypotf(f, x->x_imag));
+    outlet_float(x->x_out2, x->x_ph = atan2f(x->x_imag, f));
+    outlet_float(((t_object *)x)->ob_outlet, x->x_amp = hypotf(f, x->x_imag));
 }
+
+static void cartopol_bang(t_cartopol *x)
+{
+    outlet_float(x->x_out2, x->x_ph);
+    outlet_float(((t_object *)x)->ob_outlet, x->x_amp);
+}
+
 
 static void *cartopol_new(void)
 {
@@ -37,8 +46,9 @@ static void *cartopol_new(void)
 
 void cartopol_setup(void)
 {
-    cartopol_class = class_new(gensym("cartopol"),
-			       (t_newmethod)cartopol_new, 0,
+    cartopol_class = class_new(gensym("cartopol"),(t_newmethod)cartopol_new, 0,
 			       sizeof(t_cartopol), 0, 0);
     class_addfloat(cartopol_class, cartopol_float);
+    class_addbang(cartopol_class, cartopol_bang);
+
 }
