@@ -28,6 +28,7 @@ static t_class *Decode_class;
 /* CHECKED: all outlets deliver after any action */
 /* CHECKED: outlets output in right-to-left order */
 
+
 static void Decode_deliver(t_Decode *x)
 {
     int i = x->x_numouts;
@@ -49,6 +50,12 @@ static void Decode_float(t_Decode *x, t_floatarg f)
 	val = x->x_numouts - 1;
     /* CHECKED: while in all-off mode, input is stored, not ignored */
     x->x_onout = val;
+    Decode_deliver(x);
+}
+
+
+static void Decode_bang(t_Decode *x)
+{
     Decode_deliver(x);
 }
 
@@ -106,6 +113,7 @@ void decode_setup(void)
     class_addcreator((t_newmethod)Decode_new, gensym("Decode"), A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)Decode_new, gensym("cyclone/Decode"), A_DEFFLOAT, 0);
     class_addfloat(Decode_class, Decode_float);
+    class_addbang(Decode_class, Decode_bang);
     class_addmethod(Decode_class, (t_method)Decode_allon,
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(Decode_class, (t_method)Decode_alloff,
