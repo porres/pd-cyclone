@@ -43,11 +43,9 @@ static void funnel_proxy_bang(t_funnel_proxy *x)
     outlet_list(x->p_out, &s_list, 2, at);
 }
 
-
-static void funnel_proxy_offset(t_funnel_proxy *x, t_float f)
+static void funnel_proxy_offset(t_funnel_proxy *x, t_floatarg f)
 {
-    x->p_value = f;
-    funnel_proxy_bang(x);
+    x->p_offset = f;
 }
 
 static void funnel_proxy_float(t_funnel_proxy *x, t_float f)
@@ -60,7 +58,6 @@ static void funnel_proxy_anything(t_funnel_proxy *x, t_symbol *s, int ac, t_atom
 {
     // nothing yet
 }
-
 
 
 
@@ -115,6 +112,12 @@ static void funnel_proxy_list(t_funnel_proxy *x,
 static void funnel_bang(t_funnel *x)
 {
     funnel_proxy_bang((t_funnel_proxy *)x->x_proxies[0]);
+}
+
+
+static void funnel_offset(t_funnel *x, t_floatarg f)
+{
+    funnel_proxy_offset((t_funnel_proxy *)x->x_proxies[0], f);
 }
 
 static void funnel_float(t_funnel *x, t_float f)
@@ -206,7 +209,7 @@ void funnel_setup(void)
 //    class_addlist(funnel_class, funnel_anything);  // just change to anything?
     class_addanything(funnel_class, funnel_anything);
 //    class_addmethod(funnel_class, (t_method)funnel_set, gensym("set"), A_GIMME, 0);
-    class_addmethod(funnel_class, (t_method)funnel_offset, gensym("offset"), A_DEFFLOAT, 0);
+    class_addmethod(funnel_class, (t_method)funnel_offset, gensym("offset"), A_FLOAT, 0);
 // proxy
     funnel_proxy_class = class_new(gensym("_funnel_proxy"), 0, 0,
                                    sizeof(t_funnel_proxy),CLASS_PD | CLASS_NOINLET, 0);
@@ -220,5 +223,5 @@ void funnel_setup(void)
     //    class_addlist(funnel_proxy_class, funnel_proxy_anything);  // just change to anything?
     class_addanything(funnel_proxy_class, funnel_proxy_anything);
 //    class_addmethod(funnel_proxy_class, (t_method)funnel_proxy_set, gensym("set"), A_GIMME, 0);
-    class_addmethod(funnel_proxy_class, (t_method)funnel_proxy_offset, gensym("offset"), A_DEFFLOAT, 0);
+    class_addmethod(funnel_proxy_class, (t_method)funnel_proxy_offset, gensym("offset"), A_FLOAT, 0);
 }
