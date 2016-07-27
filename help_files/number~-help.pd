@@ -1,4 +1,4 @@
-#N canvas 440 77 567 619 10;
+#N canvas 579 72 567 619 10;
 #X obj 8 12 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -170,27 +170,26 @@ with the basic behaviour from the original in Max/MSP.;
 #X text 206 331 signal monitor output;
 #X text 115 255 <= signal input (for monitoring);
 #X text 112 193 <= generated signal output;
-#X obj 105 136 number~ 1;
-#X obj 105 285 number~;
 #X text 48 33 Use [number~] to generate a signal \, send the value
 though a mathematical operation and then display the result.;
-#X connect 0 0 10 1;
-#X connect 2 0 11 0;
-#X connect 10 0 2 0;
-#X connect 10 1 6 0;
-#X connect 11 1 1 0;
+#X obj 105 136 number~ 1;
+#X obj 105 285 number~;
+#X connect 0 0 11 1;
+#X connect 2 0 12 0;
+#X connect 11 0 2 0;
+#X connect 11 1 6 0;
+#X connect 12 1 1 0;
 #X restore 475 354 pd example;
-#X floatatom 345 278 0 0 0 0 - - -;
-#X obj 272 313 number~ 1;
-#X text 357 313 signal generator (arrow);
-#X text 375 280 ramp time;
+#X floatatom 355 278 0 0 0 0 - - -;
+#X obj 271 313 number~ 1;
+#X text 385 280 ramp time;
 #X floatatom 158 347 0 0 0 0 - - -;
 #X text 21 348 signal monitor output;
-#X obj 85 283 osc~ 1;
-#X text 49 257 as signal monitor (tilde);
+#X obj 74 283 osc~ 1;
+#X text 38 257 as signal monitor (tilde);
 #X text 260 254 as signal generator (down arrow);
-#X obj 272 339 cyclone/snapshot~ 1;
-#X floatatom 272 363 0 0 0 0 - - -;
+#X obj 271 339 cyclone/snapshot~ 1;
+#X floatatom 271 363 0 0 0 0 - - -;
 #X obj 90 426 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 124 426 float;
@@ -205,15 +204,16 @@ though a mathematical operation and then display the result.;
 #X text 170 529 - mode: 0 (signal monitor \, default) non-0 (signal
 generator);
 #X text 170 546 - ramp time in ms (default 0);
-#X obj 85 312 number~;
+#X text 77 158 In the signal monitor mode \, it has a "tilde" status
+mark. If you click on it \, it changes to signal generator mode \,
+marked with a down arrow. Clicking on switches it to monitor mode.
+;
 #X text 77 208 Only the interface changes \, the behaviour of the input
 and output remains regardless of the mode switching.;
-#X text 77 158 In the signal monitor mode \, it has a "tilde" status
-mark. If you click on it \, it changes to signal generator mode (marked
-with a down arrow). Another click switches to monitor mode.;
+#X obj 74 312 number~;
 #X connect 23 0 24 1;
-#X connect 24 0 32 0;
-#X connect 29 0 45 0;
-#X connect 32 0 33 0;
-#X connect 45 1 27 0;
+#X connect 24 0 31 0;
+#X connect 28 0 46 0;
+#X connect 31 0 32 0;
+#X connect 46 1 26 0;
 #X coords 0 619 1 618 78 16 0;
