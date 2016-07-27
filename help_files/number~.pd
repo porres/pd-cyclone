@@ -1,22 +1,22 @@
-#N canvas 102 192 943 461 10;
+#N canvas 395 200 931 436 10;
 #X obj 225 250 line~;
-#X obj 394 27 inlet~;
-#X obj 225 359 outlet~;
-#X obj 451 27 inlet;
+#X obj 394 17 inlet~;
+#X obj 225 389 outlet~;
+#X obj 451 17 inlet;
 #X obj 326 236 f;
 #X obj 225 166 spigot;
 #X obj 326 281 s \$0-set-n;
 #X obj 225 83 r \$0-n;
 #X obj 287 65 r \$0-tgl;
-#X obj 394 143 cyclone/snapshot~ 1;
+#X obj 394 148 cyclone/snapshot~ 1;
 #X obj 117 100 nbx 5 17 -1e+37 1e+37 0 0 \$0-n \$0-set-n empty 0 -8
-0 12 -99865 -262144 -1 -0.67 256;
+0 12 -99865 -262144 -1 0 256;
 #X obj 100 100 tgl 17 0 \$0-tgl \$0-tgl-set empty 17 7 0 10 -228856
--1 -4032 1 1;
-#X obj 101 101 cnv 15 15 15 empty \$0-cnv-c empty 2 6 0 19 -99865 -204800
+-1 -4032 0 1;
+#X obj 101 101 cnv 15 15 15 empty \$0-cnv-c ~ 2 6 0 19 -99865 -204800
 0;
 #X obj 417 246 spigot;
-#X obj 394 359 outlet;
+#X obj 394 389 outlet;
 #X obj 287 93 trigger f f;
 #X obj 571 99 f \$1;
 #X obj 571 125 != 0;
@@ -36,17 +36,22 @@
 #X msg 699 259 label;
 #X msg 806 260 label |;
 #X msg 743 260 label v;
-#X obj 101 101 cnv 2 2 2 empty \$0-cnv-b v 4 8 0 12 -99865 -204800
-0;
-#X obj 101 101 cnv 2 2 2 empty \$0-cnv-a | 4 7 0 12 -99865 -204800
-0;
 #X obj 225 223 pack f \$2;
+#X obj 176 101 cnv 3 3 3 empty empty empty 20 12 0 14 -99865 -66577
+0;
+#X obj 796 330 s \$0-cnv-d;
+#X obj 101 101 cnv 2 2 2 empty \$0-cnv-a empty 4 7 0 12 -99865 -204800
+0;
+#X obj 101 101 cnv 2 2 2 empty \$0-cnv-b empty 4 8 0 12 -99865 -204800
+0;
+#X obj 451 51 max 0;
+#X obj 451 74 change -1;
 #X connect 0 0 2 0;
 #X connect 1 0 9 0;
-#X connect 3 0 36 1;
+#X connect 3 0 39 0;
 #X connect 4 0 6 0;
 #X connect 5 0 4 1;
-#X connect 5 0 36 0;
+#X connect 5 0 34 0;
 #X connect 7 0 5 0;
 #X connect 8 0 15 0;
 #X connect 9 0 13 0;
@@ -71,7 +76,11 @@
 #X connect 28 1 33 0;
 #X connect 31 0 30 0;
 #X connect 31 0 29 0;
+#X connect 31 0 36 0;
 #X connect 32 0 29 0;
+#X connect 32 0 36 0;
 #X connect 33 0 30 0;
-#X connect 36 0 0 0;
+#X connect 34 0 0 0;
+#X connect 39 0 40 0;
+#X connect 40 0 34 1;
 #X coords 0 -1 1 1 80 17 1 100 100;
