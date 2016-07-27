@@ -205,16 +205,15 @@ though a mathematical operation and then display the result.;
 #X text 170 529 - mode: 0 (signal monitor \, default) non-0 (signal
 generator);
 #X text 170 546 - ramp time in ms (default 0);
-#X text 77 158 In the signal monitor mode \, it has a "tilde" status
-mark. If you click on it \, it changes to signal generator mode \,
-marked with a down arrow. Clicking on switches it to monitor mode.
-;
 #X obj 85 312 number~;
 #X text 77 208 Only the interface changes \, the behaviour of the input
 and output remains regardless of the mode switching.;
+#X text 77 158 In the signal monitor mode \, it has a "tilde" status
+mark. If you click on it \, it changes to signal generator mode (marked
+with a down arrow). Another click switches to monitor mode.;
 #X connect 23 0 24 1;
 #X connect 24 0 32 0;
-#X connect 29 0 46 0;
+#X connect 29 0 45 0;
 #X connect 32 0 33 0;
-#X connect 46 1 27 0;
+#X connect 45 1 27 0;
 #X coords 0 619 1 618 78 16 0;
