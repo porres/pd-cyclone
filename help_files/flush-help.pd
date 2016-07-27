@@ -1,22 +1,22 @@
-#N canvas 395 28 560 570 10;
-#X obj 2 309 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 534 29 560 570 10;
+#X obj 2 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 426 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 429 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 493 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 491 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 84 318 cnv 17 3 76 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 321 cnv 17 3 76 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 400 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 84 403 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X floatatom 166 209 5 0 0 0 - - -, f 5;
 #X floatatom 229 210 5 0 0 0 - - -, f 5;
-#X obj 84 435 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 438 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 458 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 84 461 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 154 234 cyclone/flush;
-#X obj 2 524 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 522 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 501 103 374 349 META 0;
 #X text 0 18 LICENSE SIBSD;
@@ -37,7 +37,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 485 526 pd META;
+#X restore 485 524 pd META;
 #N canvas 343 144 605 88 Related_objects 0;
 #X obj 2 2 cnv 15 600 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -48,103 +48,21 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 14 34 bag;
 #X obj 279 34 cyclone/offer;
 #X obj 183 34 cyclone/borax;
-#X restore 212 526 pd Related_objects;
-#N canvas 287 95 605 385 Examples 0;
-#X obj 2 2 cnv 15 600 40 empty empty flush 3 12 0 18 -204280 -1 0;
-#X obj 2 361 cnv 15 600 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 486 173 384 114 credits 0;
-#X text 113 34 From Max 7 Documentation.;
-#X restore 523 363 pd credits;
-#X text 39 25 examples;
-#X obj 55 87 vsl 10 80 20 120 0 0 empty rcv_pitch pitch -10 -9 0 10
--262144 -1 -1 3002 1;
-#X obj 130 87 vsl 10 80 0 127 0 0 empty rcv_vel velocity -10 -9 0 10
--262144 -1 -1 0 1;
-#X obj 55 245 cyclone/flush;
-#X obj 82 210 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 326 147 notein;
-#X obj 326 259 cyclone/flush;
-#X obj 326 291 noteout, f 16;
-#X floatatom 419 174 5 0 0 0 - rcv_MIDICh -, f 5;
-#X obj 419 197 change;
-#N canvas 723 253 390 309 synth 0;
-#X obj 94 255 dac~;
-#X obj 212 53 inlet;
-#X obj 94 53 inlet;
-#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 simple synth;
-#X obj 212 164 / 127;
-#X obj 94 181 *~;
-#X obj 94 203 *~ 0.2;
-#X obj 312 242 loadbang;
-#X msg 312 264 \; pd dsp 1;
-#X obj 94 135 phasor~;
-#X connect 1 0 5 0;
-#X connect 2 0 10 0;
-#X connect 5 0 6 1;
-#X connect 6 0 7 0;
-#X connect 7 0 0 0;
-#X connect 7 0 0 1;
-#X connect 8 0 9 0;
-#X connect 10 0 6 0;
-#X restore 55 280 pd synth;
-#X obj 419 219 t f b;
-#X obj 55 185 t f b;
-#X obj 486 300 cyclone/active;
-#N canvas 512 129 430 264 settings 0;
-#X obj 89 51 inlet;
-#X obj 89 83 select 0 1, f 20;
-#X text 124 223 Simple patch to set:, f 49;
-#X text 250 223 pitch and velocity sliders \, MIDICh numberbox., f
-28;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 patch setting;
-#X msg 48 123 \; rcv_vel 0 \; rcv_pitch 58 \; rcv_MIDICh 10 \;;
-#X msg 159 122 \; rcv_vel 20 \; rcv_pitch 46 \; rcv_MIDICh 10 \;;
-#X connect 0 0 1 0;
-#X connect 1 0 6 0;
-#X connect 1 1 7 0;
-#X restore 486 322 pd settings;
-#X obj 123 281 cyclone/comment 140 11 helvetica ? 0 80 80 80 a note-off
-is provided for each note before the next note-on is sent;
-#X obj 322 63 cyclone/comment 100 11 helvetica ? 0 80 80 80 turns off
-any held notes whenever the channel is changed \, so that note-offs
-will be on the correct channel;
-#X obj 462 168 cyclone/comment 100 11 helvetica ? 0 80 80 80 assign
-notes to a new MIDI channel;
-#X connect 4 0 15 0;
-#X connect 5 0 6 1;
-#X connect 6 0 13 0;
-#X connect 6 1 13 1;
-#X connect 7 0 6 0;
-#X connect 8 0 9 0;
-#X connect 8 1 9 1;
-#X connect 9 0 10 0;
-#X connect 9 1 10 1;
-#X connect 11 0 12 0;
-#X connect 12 0 14 0;
-#X connect 14 0 10 2;
-#X connect 14 1 9 0;
-#X connect 15 0 6 0;
-#X connect 15 1 7 0;
-#X connect 16 0 17 0;
-#X restore 470 245 pd Examples;
-#X text 158 319 -;
-#X text 125 319 bang;
-#X text 158 340 -;
-#X text 118 340 float;
-#X text 158 361 -;
-#X text 124 361 list;
-#X text 158 382 -;
-#X text 158 402 -;
-#X text 118 402 float;
-#X text 158 437 -;
-#X text 118 437 float;
-#X text 158 460 -;
-#X text 118 460 float;
-#X text 111 502 (none);
+#X restore 212 524 pd Related_objects;
+#X text 158 322 -;
+#X text 125 322 bang;
+#X text 158 343 -;
+#X text 118 343 float;
+#X text 158 364 -;
+#X text 124 364 list;
+#X text 158 385 -;
+#X text 158 405 -;
+#X text 118 405 float;
+#X text 158 440 -;
+#X text 118 440 float;
+#X text 158 463 -;
+#X text 118 463 float;
+#X text 111 500 (none);
 #X obj 2 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -165,21 +83,20 @@ messages that weren't switched off and "flushes" them by sending corresponding
 note-offs when it receives a bang.;
 #X obj 117 181 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 173 361 sets a pitch/velocity pair of a note message, f 60
+#X text 173 364 sets a pitch/velocity pair of a note message, f 60
 ;
-#X text 173 383, f 60;
-#X text 173 382 clears the hanging notes that [flush] keeps track off
+#X text 173 385 clears the hanging notes that [flush] keeps track off
 ;
-#X text 173 319 sends note off for hanging notes, f 60;
-#X text 118 382 clear;
-#X text 173 402 sets the velocity part of the note message, f 60;
-#X text 173 340 sets the pitch part of the note message, f 60;
-#X text 173 437 the pitch part of a note message, f 60;
-#X text 173 460 the velocity part of a note message, f 60;
+#X text 173 322 sends note off for hanging notes, f 60;
+#X text 118 385 clear;
+#X text 173 405 sets the velocity part of the note message, f 60;
+#X text 173 343 sets the pitch part of the note message, f 60;
+#X text 173 440 the pitch part of a note message, f 60;
+#X text 173 463 the velocity part of a note message, f 60;
 #X obj 229 259 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 154 259 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 93 256;
+-228856 -1 -1 0 256;
 #X text 279 259 velocity;
 #X text 112 259 pitch;
 #X text 48 182 flush them;
@@ -190,11 +107,218 @@ note-offs when it receives a bang.;
 #X obj 154 279 print pitch;
 #X text 166 190 pitch;
 #X text 225 190 velocity;
+#N canvas 248 169 625 500 example 0;
+#X obj 231 226 cnv 15 140 40 empty empty empty 20 12 0 14 -245500 -66577
+0;
+#N canvas 1000 225 443 345 polysynth 0;
+#X obj 85 63 inlet;
+#X obj 173 298 outlet~;
+#X obj 25 16 cyclone/comment 0 15 helvetica ? 0 0 0 0 Six voices polyphonic
+synth;
+#N canvas 292 354 342 369 voice 0;
+#X obj 197 123 / 127;
+#X obj 182 228 *~;
+#X obj 182 260 *~ 0.2;
+#X obj 92 149 phasor~;
+#X obj 92 117 mtof;
+#X obj 92 42 inlet;
+#X obj 182 297 outlet~;
+#X obj 197 183 line~;
+#X msg 197 148 \$1 250;
+#X obj 49 184 cyclone/triangle~ 0.7;
+#X obj 92 83 unpack float float;
+#X connect 0 0 8 0;
+#X connect 1 0 2 0;
+#X connect 2 0 6 0;
+#X connect 3 0 9 0;
+#X connect 4 0 3 0;
+#X connect 5 0 10 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 4 0;
+#X connect 10 1 0 0;
+#X restore 24 209 pd voice;
+#N canvas 292 354 342 369 voice 0;
+#X obj 197 123 / 127;
+#X obj 182 228 *~;
+#X obj 182 260 *~ 0.2;
+#X obj 92 149 phasor~;
+#X obj 92 117 mtof;
+#X obj 92 42 inlet;
+#X obj 182 297 outlet~;
+#X obj 197 183 line~;
+#X msg 197 148 \$1 250;
+#X obj 49 184 cyclone/triangle~ 0.7;
+#X obj 92 83 unpack float float;
+#X connect 0 0 8 0;
+#X connect 1 0 2 0;
+#X connect 2 0 6 0;
+#X connect 3 0 9 0;
+#X connect 4 0 3 0;
+#X connect 5 0 10 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 4 0;
+#X connect 10 1 0 0;
+#X restore 87 209 pd voice;
+#N canvas 292 354 342 369 voice 0;
+#X obj 197 123 / 127;
+#X obj 182 228 *~;
+#X obj 182 260 *~ 0.2;
+#X obj 92 149 phasor~;
+#X obj 92 117 mtof;
+#X obj 92 42 inlet;
+#X obj 182 297 outlet~;
+#X obj 197 183 line~;
+#X msg 197 148 \$1 250;
+#X obj 49 184 cyclone/triangle~ 0.7;
+#X obj 92 83 unpack float float;
+#X connect 0 0 8 0;
+#X connect 1 0 2 0;
+#X connect 2 0 6 0;
+#X connect 3 0 9 0;
+#X connect 4 0 3 0;
+#X connect 5 0 10 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 4 0;
+#X connect 10 1 0 0;
+#X restore 154 209 pd voice;
+#N canvas 292 354 342 369 voice 0;
+#X obj 197 123 / 127;
+#X obj 182 228 *~;
+#X obj 182 260 *~ 0.2;
+#X obj 92 149 phasor~;
+#X obj 92 117 mtof;
+#X obj 92 42 inlet;
+#X obj 182 297 outlet~;
+#X obj 197 183 line~;
+#X msg 197 148 \$1 250;
+#X obj 49 184 cyclone/triangle~ 0.7;
+#X obj 92 83 unpack float float;
+#X connect 0 0 8 0;
+#X connect 1 0 2 0;
+#X connect 2 0 6 0;
+#X connect 3 0 9 0;
+#X connect 4 0 3 0;
+#X connect 5 0 10 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 4 0;
+#X connect 10 1 0 0;
+#X restore 217 209 pd voice;
+#N canvas 292 354 342 369 voice 0;
+#X obj 197 123 / 127;
+#X obj 182 228 *~;
+#X obj 182 260 *~ 0.2;
+#X obj 92 149 phasor~;
+#X obj 92 117 mtof;
+#X obj 92 42 inlet;
+#X obj 182 297 outlet~;
+#X obj 197 183 line~;
+#X msg 197 148 \$1 250;
+#X obj 49 184 cyclone/triangle~ 0.7;
+#X obj 92 83 unpack float float;
+#X connect 0 0 8 0;
+#X connect 1 0 2 0;
+#X connect 2 0 6 0;
+#X connect 3 0 9 0;
+#X connect 4 0 3 0;
+#X connect 5 0 10 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 4 0;
+#X connect 10 1 0 0;
+#X restore 284 209 pd voice;
+#N canvas 292 354 342 369 voice 0;
+#X obj 197 123 / 127;
+#X obj 182 228 *~;
+#X obj 182 260 *~ 0.2;
+#X obj 92 149 phasor~;
+#X obj 92 117 mtof;
+#X obj 92 42 inlet;
+#X obj 182 297 outlet~;
+#X obj 197 183 line~;
+#X msg 197 148 \$1 250;
+#X obj 49 184 cyclone/triangle~ 0.7;
+#X obj 92 83 unpack float float;
+#X connect 0 0 8 0;
+#X connect 1 0 2 0;
+#X connect 2 0 6 0;
+#X connect 3 0 9 0;
+#X connect 4 0 3 0;
+#X connect 5 0 10 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 4 0;
+#X connect 10 1 0 0;
+#X restore 347 209 pd voice;
+#X obj 85 97 poly 6 1;
+#X obj 85 136 cyclone/join 3;
+#X obj 130 63 inlet;
+#X obj 85 166 route 1 2 3 4 5 6, f 38;
+#X connect 0 0 9 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 7 0 1 0;
+#X connect 8 0 1 0;
+#X connect 9 0 10 0;
+#X connect 9 1 10 1;
+#X connect 9 2 10 2;
+#X connect 10 0 12 0;
+#X connect 11 0 9 1;
+#X connect 12 0 3 0;
+#X connect 12 1 4 0;
+#X connect 12 2 5 0;
+#X connect 12 3 6 0;
+#X connect 12 4 7 0;
+#X connect 12 5 8 0;
+#X restore 251 335 pd polysynth;
+#X obj 379 311 cyclone/borax;
+#X obj 194 191 bng 30 250 50 0 empty empty empty 17 7 0 10 -216373
+-108187 -1;
+#X obj 251 53 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 397 344 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 438 338 cyclone/comment 100 12 helvetica ? 0 0 0 0 number of
+notes "hanging";
+#X text 88 201 Flush them off;
+#X obj 228 383 output~;
+#X obj 251 78 expr random(50 \, 80);
+#X obj 251 239 cyclone/flush;
+#X obj 251 139 stripnote;
+#X obj 251 108 makenote 100 500;
+#X text 121 137 filter out note off \; leave notes hanging;
+#X text 61 54 generate random note messages;
+#X connect 1 0 8 0;
+#X connect 1 0 8 1;
+#X connect 2 2 5 0;
+#X connect 3 0 10 0;
+#X connect 4 0 9 0;
+#X connect 9 0 12 0;
+#X connect 10 0 2 0;
+#X connect 10 0 1 0;
+#X connect 10 1 2 1;
+#X connect 10 1 1 1;
+#X connect 11 0 10 0;
+#X connect 11 1 10 1;
+#X connect 12 0 11 0;
+#X connect 12 1 11 1;
+#X restore 470 265 pd example;
 #X connect 5 0 9 0;
 #X connect 6 0 9 1;
-#X connect 9 0 48 0;
-#X connect 9 1 47 0;
-#X connect 37 0 9 0;
-#X connect 47 0 55 0;
-#X connect 48 0 56 0;
-#X connect 52 0 9 0;
+#X connect 9 0 46 0;
+#X connect 9 1 45 0;
+#X connect 36 0 9 0;
+#X connect 45 0 53 0;
+#X connect 46 0 54 0;
+#X connect 50 0 9 0;

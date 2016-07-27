@@ -1,7 +1,8 @@
 #N canvas 773 76 560 537 10;
+#X declare -stdlib cyclone/cyclone;
 #X obj 292 259 cyclone/snapshot~ 1;
 #X obj 61 251 cyclone/snapshot~ 1;
-#X text 63 100 [greaterthaneq~] or [>=~] outputs a 1 signal when the
+#X text 63 94 [greaterthaneq~] or [>=~] outputs a 1 signal when the
 left input is greater-than or equal-to the right input or argument
 and a 0 when it is less-than the right input or argument.;
 #X obj 61 220 cyclone/greaterthaneq~ 5;
@@ -188,6 +189,16 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#N canvas 724 142 478 298 cyclone_sub_library 0;
+#X obj 209 99 declare -stdlib cyclone/cyclone;
+#X text 63 206 More about the cyclone sub-library;
+#X text 66 136 If you need more details in installing cyclone \, check:
+https://github.com/porres/pd-cyclone/wiki/How-To-Install;
+#X obj 283 206 cyclone-help;
+#X text 58 51 [greaterthaneq~] is a single binary in cyclone \, but
+[>=~] is from the cyclone "sub-library" \, loaded via startup or with
+[declare] like this:;
+#X restore 407 304 pd cyclone_sub_library;
 #X connect 0 0 25 0;
 #X connect 1 0 26 0;
 #X connect 3 0 1 0;

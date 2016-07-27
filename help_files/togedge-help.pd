@@ -74,14 +74,12 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 togedge;
 #X obj 20 58 comment 0 18 times ? 0 0 0 0 report zero / non-zero transitions
 ;
-#N canvas 0 22 450 300 back 0;
-#X restore 457 200 pd back;
 #X obj 134 250 cyclone/comment 52 11 helvetica ? 0 0 0 0 0 to non-0
 ;
 #X obj 297 249 cyclone/comment 52 11 helvetica ? 0 0 0 0 non-0 to 0
 ;
 #X obj 189 182 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -1 256;
+-228856 -1 -1 0 256;
 #X msg 221 157 1;
 #X msg 189 154 0;
 #X msg 158 157 -1;
@@ -98,11 +96,28 @@ to zero" transitions.;
 #X text 173 312 switches the stored value from 0 to non-zero \, or
 vice versa \, and the change is reported by a corresponding bang output
 ;
+#N canvas 762 173 447 311 backwards 0;
+#X text 185 110 or even:;
+#X text 49 150 But please don't \, just stick to;
+#X text 166 183 or;
+#X text 44 53 Nevertheless \, the old way of creating this object is
+still present for backwards compatibility reasons. So you can still
+use:;
+#X text 53 220 Which is the reasonable and sensible way nowadays \,
+as the current plan is to phase out the capital letters in cyclone's
+objects.;
+#X obj 136 110 TogEdge;
+#X obj 252 110 cyclone/TogEdge;
+#X obj 114 183 togedge;
+#X obj 201 183 cyclone/togedge;
+#X text 43 20 [togedge] used to be compiled as [TogEdge] \, probably
+to avoid some name conflicts \, but this is not the case anymore.;
+#X restore 444 237 pd backwards \; compatibility;
 #X connect 5 0 14 0;
 #X connect 14 0 8 0;
 #X connect 14 1 9 0;
-#X connect 34 0 14 0;
-#X connect 35 0 34 0;
-#X connect 36 0 34 0;
-#X connect 37 0 34 0;
-#X connect 42 0 14 0;
+#X connect 33 0 14 0;
+#X connect 34 0 33 0;
+#X connect 35 0 33 0;
+#X connect 36 0 33 0;
+#X connect 41 0 14 0;

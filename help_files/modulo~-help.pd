@@ -1,4 +1,5 @@
 #N canvas 230 23 562 508 10;
+#X declare -stdlib cyclone/cyclone;
 #X obj 6 466 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 385 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -188,6 +189,16 @@ the remainder is output.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#N canvas 724 142 478 298 cyclone_sub_library 0;
+#X obj 209 99 declare -stdlib cyclone/cyclone;
+#X text 63 206 More about the cyclone sub-library;
+#X text 66 136 If you need more details in installing cyclone \, check:
+https://github.com/porres/pd-cyclone/wiki/How-To-Install;
+#X obj 283 206 cyclone-help;
+#X text 58 51 [modulo~] is a single binary in cyclone \, but [%~] is
+from the cyclone "sub-library" \, loaded via startup or with [declare]
+like this:;
+#X restore 407 277 pd cyclone_sub_library;
 #X connect 12 0 38 0;
 #X connect 13 0 37 0;
 #X connect 30 0 12 0;

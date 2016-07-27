@@ -1,4 +1,4 @@
-#N canvas 268 23 561 608 10;
+#N canvas 673 73 561 608 10;
 #X declare -stdlib cyclone/cyclone;
 #X obj 206 238 ==~;
 #X obj 206 262 !=~;
@@ -52,16 +52,9 @@
 #X obj 323 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
 Max/MSP;
 #X obj 364 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 3 comment 0 37 times ? 0 0 0 0 cyclone library;
+#X obj 11 3 comment 0 37 times ? 0 0 0 0 cyclone sub library;
 #X obj 19 56 comment 0 18 times ? 0 0 0 0 A subset of objects with
 "weird" character names;
-#X text 79 91 Objects in cyclone are mostly single binaries. But since
-you can't load non-alphanumeric objects that way in certain file systems
-\, there's the "cyclone sub-library" that loads 12 objects with such
-"weird" character names.;
-#X text 80 151 You can also find alphanumeric versions of these objects
-as single binaries outside this sub-library (which also exist in Max/MSP).
-Here they are (check their help for more info):;
 #X obj 101 214 comment 0 18 times ? 0 0 0 0 Non-alphaumeric;
 #X obj 296 214 comment 0 18 times ? 0 0 0 0 Alphaumeric;
 #N canvas 209 90 518 331 load_cyclone 0;
@@ -80,3 +73,10 @@ you can still use [declare] as \, for example \, below:;
 ;
 #X text 101 532 ============================================================
 ;
+#X text 80 151 You can also find alphanumeric versions of these objects
+as single binaries outside this sub-library (whith the same name alias
+as in Max/MSP). Check their help for more info:;
+#X text 79 91 Objects in cyclone are mostly single binaries. But since
+you can't load non-alphanumeric objects that way in certain file systems
+\, there's this "sub-library" to load 12 objects with such "weird"
+character names.;

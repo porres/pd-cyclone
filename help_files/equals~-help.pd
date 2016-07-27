@@ -1,4 +1,4 @@
-#N canvas 752 85 561 543 10;
+#N canvas 752 85 559 524 10;
 #X declare -stdlib cyclone/cyclone;
 #X obj 7 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
@@ -52,34 +52,15 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 205 378 - value used for comparison with left inlet's input
 ;
 #N canvas 301 68 478 298 cyclone_sub_library 0;
-#N canvas 782 294 439 360 open_cyclone 0;
-#X msg 129 208 \; pd-cyclone-help.pd vis 1;
-#X obj 102 156 f;
-#X obj 131 156 + 1;
-#X obj 102 103 bng 17 250 50 0 dsvv wwg empty 17 7 0 10 -228856 -1
--1;
-#X obj 102 182 sel 0;
-#X msg 130 132 0;
-#X text 119 103 Open cyclone-help;
-#X msg 102 258 \; pd-open_cyclone obj 300 150 cyclone-help \; pd-cyclone-help.pd
-vis 1;
-#X connect 1 0 2 0;
-#X connect 1 0 4 0;
-#X connect 2 0 1 1;
-#X connect 3 0 1 0;
-#X connect 4 0 7 0;
-#X connect 4 1 0 0;
-#X connect 5 0 1 1;
-#X coords 0 -1 1 1 127 23 2 100 100;
-#X restore 282 204 pd open_cyclone;
 #X obj 209 99 declare -stdlib cyclone/cyclone;
 #X text 63 206 More about the cyclone sub-library;
-#X text 58 51 [equals~] is a single binary in cyclone \, but [==~]
-is from the "cyclone sub-library" \, loaded via startup or with [declare]
-like this:;
 #X text 66 136 If you need more details in installing cyclone \, check:
 https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X restore 383 292 pd cyclone_sub_library;
+#X obj 283 206 cyclone-help;
+#X text 58 51 [equals~] is a single binary in cyclone \, but [==~]
+is from the cyclone "sub-library" \, loaded via startup or with [declare]
+like this:;
+#X restore 407 294 pd cyclone_sub_library;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
