@@ -99,6 +99,13 @@ static void snapshot_offset(t_snapshot *x, t_floatarg f)
     snapshot_correct(x);
 }
 
+static void snapshot_sampleinterval(t_snapshot *x, t_floatarg f)
+{
+    int samples = f > 0. ? (int)f : 0.;
+    x->x_deltime = samples / x->x_ksr;
+    snapshot_correct(x);
+}
+
 static t_int *snapshot_perform(t_int *w)
 {
     t_snapshot *x = (t_snapshot *)(w[1]);
@@ -224,6 +231,8 @@ void snapshot_tilde_setup(void)
 		    gensym("start"), 0);
     class_addmethod(snapshot_class, (t_method)snapshot_stop,
 		    gensym("stop"), 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_sampleinterval,
+                    gensym("sampleinterval"), A_FLOAT, 0);
 }
 
 void Snapshot_tilde_setup(void)
