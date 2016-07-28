@@ -2,23 +2,14 @@
 
 #include "m_pd.h"
 
-// ---------------------------------------------------
-// Class definition
-// ---------------------------------------------------
 static t_class *rdiv_class;
 
-// ---------------------------------------------------
-// Data structure definition
-// ---------------------------------------------------
 typedef struct _rdiv
 {
     t_object x_obj;
     t_inlet  *x_inlet;
 } t_rdiv;
 
-// ---------------------------------------------------
-// Perform
-// ---------------------------------------------------
 static t_int *rdiv_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
@@ -29,30 +20,23 @@ static t_int *rdiv_perform(t_int *w)
     {
         t_float f1 = *in1++;
         t_float f2 = *in2++;
-        *out++ = (f1 == 0. ? 0. : *in2++ / f1);
+        *out++ = (f1 == 0. ? 0. : f2 / f1);
     }
     return (w + 5);
 }
 
-// ---------------------------------------------------
-// DSP Function
-// ---------------------------------------------------
 static void rdiv_dsp(t_rdiv *x, t_signal **sp)
 {
     dsp_add(rdiv_perform, 4, sp[0]->s_n,
             sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-// FREE
 static void *rdiv_free(t_rdiv *x)
 {
     inlet_free(x->x_inlet);
     return (void *)x;
 }
 
-// ---------------------------------------------------
-// Functions signature
-// ---------------------------------------------------
 static void *rdiv_new(t_floatarg f)
 {
     t_rdiv *x = (t_rdiv *)pd_new(rdiv_class);
@@ -62,15 +46,10 @@ static void *rdiv_new(t_floatarg f)
     return (x);
 }
 
-// ---------------------------------------------------
-// Setup
-// ---------------------------------------------------
 void rdiv_tilde_setup(void)
 {
-    rdiv_class = class_new(gensym("rdiv~"),
-                             (t_newmethod)rdiv_new,
-                             (t_method)rdiv_free,
-                             sizeof(t_rdiv), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    rdiv_class = class_new(gensym("rdiv~"), (t_newmethod)rdiv_new,
+        (t_method)rdiv_free, sizeof(t_rdiv), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(rdiv_class, nullfn, gensym("signal"), 0);
     class_addmethod(rdiv_class, (t_method)rdiv_dsp, gensym("dsp"), A_CANT, 0);
 }
