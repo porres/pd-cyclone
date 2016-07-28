@@ -1,7 +1,7 @@
-#N canvas 595 117 563 624 10;
-#X obj 5 578 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 439 193 559 434 10;
+#X obj 5 395 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 461 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 280 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 617 192 359 207 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -19,32 +19,22 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 580 pd META;
-#X obj 7 501 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 397 pd META;
+#X obj 7 320 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 542 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 361 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 309 291 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 202 580 pd Related_objects;
-#X obj 117 473 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 202 397 pd Related_objects;
+#X obj 117 292 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 117 512 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 117 331 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 154 369 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X text 150 473 signal;
-#X text 150 512 signal;
-#X text 150 551 (none);
-#X obj 202 302 cyclone/phasewrap~;
-#X text 60 367 wrapped output;
-#X obj 157 396 hsl 128 15 -3.1415 3.1415 0 0 empty empty empty -2 -8
-0 10 -228856 -1 -1 0 1;
-#X text 271 414 pi;
-#X text 150 416 -pi;
-#X obj 322 333 cyclone/Scope~ 132 107 70 3 256 -3.14 3.14 0 0 0 0 205
-229 232 74 79 77 96 98 102 0;
+#X text 150 292 signal;
+#X text 150 331 signal;
+#X text 150 370 (none);
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -60,25 +50,11 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 phasewrap~;
 #X obj 14 57 comment 0 18 times ? 0 0 0 0 Wrap between π & -π;
-#X text 91 95 Use the [phasewrap~] object to take any input signal
-and wrap it between π (pi) and -π (-pi) values - specially useful
-for wrapping phase values.;
-#X obj 154 338 cyclone/snapshot~ 10;
-#X text 92 141 When the input exceeds π (around 3.14159) \, the output
-signal value is "wrapped" to a range whose lower bound is -π (around
--3.14159). Thus a signal of increasing value outputs a sawtooth waveform
-with -π and π as lower and upper values.;
-#X obj 202 274 line~;
-#X msg 202 248 0 \, 1000 500000;
-#X obj 202 223 loadbang;
-#X text 456 431 -pi;
-#X text 458 325 pi;
-#X text 460 378 0;
-#X text 215 512 - the wrapped signal;
-#X text 215 473 - the signal to be wrapped;
+#X text 215 331 - the wrapped signal;
+#X text 215 292 - the signal to be wrapped;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -147,7 +123,7 @@ with -π and π as lower and upper values.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -180,10 +156,62 @@ with -π and π as lower and upper values.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 8 0 14 0;
-#X connect 12 0 17 0;
-#X connect 12 0 27 0;
-#X connect 27 0 8 0;
-#X connect 29 0 12 0;
-#X connect 30 0 29 0;
-#X connect 31 0 30 0;
+#X obj 209 205 cyclone/phasewrap~;
+#X obj 209 243 number~;
+#X obj 209 169 number~ 1;
+#N canvas 728 225 620 452 example 0;
+#X obj 141 238 cyclone/phasewrap~;
+#X text 242 278 wrapped output;
+#X obj 65 315 cyclone/Scope~ 132 100 70 3 256 -3.14 3.14 0 0 0 0 205
+229 232 74 79 77 96 98 102 0;
+#X obj 141 180 line~;
+#X msg 141 154 0 \, 1000 500000;
+#X text 199 404 -pi;
+#X text 201 307 pi;
+#X text 203 357 0;
+#X obj 141 276 number~;
+#X obj 225 317 vsl 15 95 -3.14 3.14 0 0 empty empty empty 0 -9 0 10
+-228856 -1 -1 8089 1;
+#X obj 161 209 number~;
+#X obj 141 92 cyclone/active;
+#X obj 141 123 sel 1;
+#X obj 421 238 cyclone/phasewrap~;
+#X text 522 278 wrapped output;
+#X obj 345 315 cyclone/Scope~ 132 100 70 3 256 -3.14 3.14 0 0 0 0 205
+229 232 74 79 77 96 98 102 0;
+#X obj 421 180 line~;
+#X text 479 404 -pi;
+#X text 481 307 pi;
+#X text 483 357 0;
+#X obj 421 276 number~;
+#X obj 505 317 vsl 15 95 -3.14 3.14 0 0 empty empty empty 0 -9 0 10
+-228856 -1 -1 1234 1;
+#X obj 441 209 number~;
+#X obj 421 92 cyclone/active;
+#X obj 421 123 sel 1;
+#X msg 421 154 0 \, -1000 500000;
+#X text 103 29 A signal of increasing or decreasing value outputs a
+sawtooth like waveform with -π and π as lower and upper values.;
+#X connect 0 0 2 0;
+#X connect 0 0 8 0;
+#X connect 3 0 0 0;
+#X connect 3 0 10 0;
+#X connect 4 0 3 0;
+#X connect 8 1 9 0;
+#X connect 11 0 12 0;
+#X connect 12 0 4 0;
+#X connect 13 0 15 0;
+#X connect 13 0 20 0;
+#X connect 16 0 13 0;
+#X connect 16 0 22 0;
+#X connect 20 1 21 0;
+#X connect 23 0 24 0;
+#X connect 24 0 25 0;
+#X connect 25 0 16 0;
+#X restore 451 226 pd example;
+#X text 81 87 Use [phasewrap~] ro wrap the input between π (pi) and
+-π (-pi) - useful for wrapping phase values. When the input exceeds
+π (around 3.14159) \, the output signal value is "wrapped" to a range
+whose lower bound is -π (around -3.14159).;
+#X connect 22 0 23 0;
+#X connect 24 0 22 0;

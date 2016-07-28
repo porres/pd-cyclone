@@ -36,7 +36,6 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X obj 86 506 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 82 235 5 0 0 0 - - -, f 5;
 #X text 150 444 signal;
 #X text 150 506 signal;
 #X text 137 556 1) float;
@@ -48,8 +47,7 @@ argument.;
 #X text 205 444 - value to compare maximum with argument or right inlet
 ;
 #X text 205 468 - value to compare maximum with left inlet;
-#X obj 82 260 sig~;
-#X obj 82 299 cyclone/maximum~ 5;
+#X obj 71 319 cyclone/maximum~ 5;
 #X obj 280 230 osc~ 2;
 #X obj 373 232 osc~ 3.14;
 #X obj 280 301 cyclone/Scope~ 171 110 256 3 128 -1 1 0 0 0 0 205 229
@@ -70,9 +68,6 @@ Max/MSP;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 maximum~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal maximum of two values
 ;
-#X obj 82 381 nbx 6 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 11
--228856 -1 -1 0 256;
-#X obj 82 342 cyclone/snapshot~ 100;
 #X text 204 506 - the maximum value (the greater of the two);
 #X obj 73 93 cnv 15 350 45 empty empty empty 20 12 0 14 -248754 -66577
 0;
@@ -86,8 +81,8 @@ an argument turns the secondary inlet to a control inlet;
 #X text 93 117 Too similar to Pd Vanilla's [max~] (see "more info")
 ;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -156,7 +151,7 @@ an argument turns the secondary inlet to a control inlet;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -190,10 +185,13 @@ an argument turns the secondary inlet to a control inlet;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
 #X text 205 556 - value to compare maximum with (default 0);
-#X connect 9 0 18 0;
-#X connect 13 0 22 0;
-#X connect 18 0 19 0;
-#X connect 19 0 32 0;
-#X connect 20 0 13 0;
-#X connect 21 0 13 1;
-#X connect 32 0 31 0;
+#X obj 71 272 number~ 1;
+#X obj 71 372 number~;
+#X obj 187 273 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X connect 12 0 20 0;
+#X connect 17 0 40 0;
+#X connect 18 0 12 0;
+#X connect 19 0 12 1;
+#X connect 39 0 17 0;
+#X connect 41 0 17 1;

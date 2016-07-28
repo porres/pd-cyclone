@@ -1,23 +1,23 @@
-#N canvas 741 23 564 674 10;
-#X obj 6 422 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 741 23 561 661 10;
+#X obj 6 416 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 493 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 487 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 537 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 531 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 85 504 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 498 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 436 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 430 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 149 436 signal;
-#X text 148 504 signal;
-#X obj 6 624 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 149 430 signal;
+#X text 148 498 signal;
+#X obj 6 618 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 246 345 428 75 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 9 28 abs~;
-#X restore 212 626 pd Related_objects;
+#X restore 212 620 pd Related_objects;
 #N canvas 1058 474 379 288 META 0;
 #X text 1 0 KEYWORDS signal max_compatible;
 #X text 1 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
@@ -35,20 +35,14 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 1 40 DESCRIPTION output the log (to a specified base) of a
 signal;
 #X text 1 80 INLET_0 float;
-#X restore 508 626 pd META;
-#X obj 85 462 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 508 620 pd META;
+#X obj 85 456 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 128 362 cyclone/snapshot~ 1;
-#X text 136 546 1) float;
-#X text 113 462 float/signal;
-#X obj 128 331 cyclone/log~;
-#X text 203 546 - sets the base of the logarithm (default "e");
-#X obj 128 296 sig~;
-#X floatatom 128 263 5 0 0 0 - - -, f 5;
-#X floatatom 197 307 0 0 0 0 - - -;
-#X msg 197 250 10;
-#X msg 213 278 2.71828;
-#X text 202 505 - the logarithm of the inlet signal to the specified
+#X text 136 540 1) float;
+#X text 113 456 float/signal;
+#X obj 166 331 cyclone/log~, f 14;
+#X text 203 540 - sets the base of the logarithm (default "e");
+#X text 202 499 - the logarithm of the inlet signal to the specified
 base;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -71,24 +65,21 @@ Max/MSP;
 ;
 #X text 103 133 is now considered unnecessary and obsolete!;
 #X text 103 118 with the new [log~] object in Pd Vanilla \, this;
-#X text 212 331 * needs "cyclone/" to differentiate from vanilla;
 #X text 74 174 [cyclone/abs~]* outputs the logarithms of its input
 values. You can specify the logarithmic base as an argument or via
 the right inlet. If the base is less or equal to 0 \, the value of
 "e" (around 2.71828) is considered.;
-#X obj 128 389 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -23.0259 256;
-#X text 204 436 - the input to the logarithm;
-#X text 204 462 - base of the logarithm;
-#X obj 2 578 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X text 204 430 - the input to the logarithm;
+#X text 204 456 - base of the logarithm;
+#X obj 2 572 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 125 590 just use;
-#X text 223 591 from vanilla instead \, it's virtually the same thing
+#X text 125 584 just use;
+#X text 223 585 from vanilla instead \, it's virtually the same thing
 ;
-#X obj 188 590 log~;
+#X obj 188 584 log~;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -157,7 +148,7 @@ the right inlet. If the base is less or equal to 0 \, the value of
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -190,10 +181,16 @@ the right inlet. If the base is less or equal to 0 \, the value of
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 11 0 36 0;
-#X connect 14 0 11 0;
-#X connect 16 0 14 0;
-#X connect 17 0 16 0;
-#X connect 18 0 14 1;
-#X connect 19 0 18 0;
-#X connect 20 0 18 0;
+#X obj 166 374 number~;
+#X obj 107 280 number~ 1;
+#X obj 247 304 nbx 7 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 0 256;
+#X msg 247 250 10;
+#X msg 258 278 2.71828;
+#X text 270 331 * needs "cyclone/" to;
+#X text 260 348 differentiate from vanilla;
+#X connect 13 0 36 0;
+#X connect 37 0 13 0;
+#X connect 38 0 13 1;
+#X connect 39 0 38 0;
+#X connect 40 0 38 0;

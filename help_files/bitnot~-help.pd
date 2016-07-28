@@ -1,7 +1,7 @@
-#N canvas 711 44 561 565 10;
-#X obj 6 513 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 711 44 562 539 10;
+#X obj 6 497 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 368 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 352 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 367 383 441 271 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -20,10 +20,10 @@ signal;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 504 516 pd META;
-#X obj 6 440 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 504 500 pd META;
+#X obj 6 424 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 475 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 459 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 73 613 428 204 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -33,22 +33,18 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 7 77 cyclone/bitxor~;
 #X obj 109 28 cyclone/bitshift~;
 #X obj 243 54 expr~ ~ ($v1);
-#X restore 216 516 pd Related_objects;
-#X obj 90 447 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 216 500 pd Related_objects;
+#X obj 90 431 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 148 447 signal;
-#X text 148 375 signal;
-#X msg 65 217 mode \$1;
-#X floatatom 126 190 0 0 0 0 - - -;
-#X text 136 484 1) float;
-#X obj 90 376 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 148 431 signal;
+#X text 148 359 signal;
+#X msg 75 222 mode \$1;
+#X text 136 468 1) float;
+#X obj 90 360 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 126 318 0 0 0 0 - - -;
-#X obj 65 190 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 75 195 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 170 217 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
-#X text 154 412 float;
+#X text 154 396 float;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -63,17 +59,15 @@ adapted the patch to pd-extended 2015-02-02;
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 bitnot~;
-#X text 203 485 - mode [0 or 1] (default 0);
-#X text 124 393 mode <0/1>;
-#X text 202 413 - sets mode [0 or 1];
-#X obj 7 516 all_about_cyclone;
+#X text 203 469 - mode [0 or 1] (default 0);
+#X text 124 377 mode <0/1>;
+#X text 202 397 - sets mode [0 or 1];
+#X obj 7 500 all_about_cyclone;
 #X obj 20 60 comment 0 18 times ? 0 0 0 0 Signal Bitwise-NOT;
-#X text 203 375 - signal to perform "Bitwise NOT" on;
-#X text 203 448 - the resulting bit inverted signal;
-#X text 203 393 - sets mode (details above);
-#X obj 126 216 sig~;
-#X obj 126 291 cyclone/snapshot~ 1;
-#X obj 126 258 cyclone/bitnot~;
+#X text 203 359 - signal to perform "Bitwise NOT" on;
+#X text 203 432 - the resulting bit inverted signal;
+#X text 203 377 - sets mode (details above);
+#X obj 136 258 cyclone/bitnot~;
 #X text 66 102 [bitnot~] takes a signal and performs Bitwise NOT operation
 \, also known as bitwise inversion or one's complement (all bit values
 of 1 are set to 0 and vice versa). The operation is done in two modes
@@ -195,10 +189,9 @@ signed integer representation of this value is used for the operation.
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 9 0 34 0;
-#X connect 10 0 32 0;
-#X connect 14 0 9 0;
-#X connect 15 0 34 0;
-#X connect 32 0 34 0;
-#X connect 33 0 13 0;
-#X connect 34 0 33 0;
+#X obj 136 212 number~ 1;
+#X obj 136 297 number~;
+#X connect 9 0 29 0;
+#X connect 12 0 9 0;
+#X connect 29 0 38 0;
+#X connect 37 0 29 0;

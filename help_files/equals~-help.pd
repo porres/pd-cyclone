@@ -1,4 +1,4 @@
-#N canvas 752 85 559 524 10;
+#N canvas 537 88 559 524 10;
 #X declare -stdlib cyclone/cyclone;
 #X obj 7 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
@@ -15,11 +15,10 @@
 #X text 118 378 float/signal;
 #X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 294 238 cyclone/snapshot~ 1;
-#X obj 73 242 cyclone/snapshot~ 1;
-#X obj 294 276 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 273 243 cyclone/snapshot~ 1;
+#X obj 156 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X obj 73 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 273 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X text 154 354 signal;
 #X text 205 354 - value is compared to right inlet's or argument;
@@ -47,20 +46,10 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X restore 196 488 pd Related_objects;
-#X obj 73 186 sig~ 30;
-#X obj 73 212 cyclone/equals~ 30;
+#X obj 273 187 sig~ 30;
+#X obj 273 213 cyclone/equals~ 30;
 #X text 205 378 - value used for comparison with left inlet's input
 ;
-#N canvas 301 68 478 298 cyclone_sub_library 0;
-#X obj 209 99 declare -stdlib cyclone/cyclone;
-#X text 63 206 More about the cyclone sub-library;
-#X text 66 136 If you need more details in installing cyclone \, check:
-https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X obj 283 206 cyclone-help;
-#X text 58 51 [equals~] is a single binary in cyclone \, but [==~]
-is from the cyclone "sub-library" \, loaded via startup or with [declare]
-like this:;
-#X restore 407 294 pd cyclone_sub_library;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -77,7 +66,7 @@ Max/MSP;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 ==~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 "Is equal to" comparison
 for signals;
-#X text 59 95 [equals~] or [==~] outputs a signal that is "1" when
+#X text 59 93 [equals~] or [==~] outputs a signal that is "1" when
 the left input is equal to the right input or argument or "0" when
 it isn't.;
 #X text 176 456 - value for comparison with left inlet's input (default
@@ -86,19 +75,13 @@ it isn't.;
 #X text 114 456 1) float;
 #X text 205 419 - 1 or 0 (depending on the result of the comparison)
 ;
-#X obj 73 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 273 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 178 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 378 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 274 159 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 338 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 294 183 sig~;
-#X obj 294 211 ==~ 5;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -167,7 +150,7 @@ it isn't.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -200,13 +183,26 @@ it isn't.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 72 161 number~ 1;
+#X obj 72 211 ==~, f 5;
+#X obj 99 186 number~ 1;
+#X obj 72 244 number~;
+#N canvas 301 68 478 298 cyclone 0;
+#X obj 209 99 declare -stdlib cyclone/cyclone;
+#X text 63 206 More about the cyclone sub-library;
+#X text 66 136 If you need more details in installing cyclone \, check:
+https://github.com/porres/pd-cyclone/wiki/How-To-Install;
+#X obj 283 206 cyclone-help;
+#X text 58 51 [equals~] is a single binary in cyclone \, but [==~]
+is from the cyclone "sub-library" \, loaded via startup or with [declare]
+like this:;
+#X restore 456 280 pd cyclone \; sub_library;
 #X connect 8 0 10 0;
-#X connect 9 0 11 0;
-#X connect 17 0 18 0;
-#X connect 18 0 9 0;
-#X connect 34 0 17 0;
-#X connect 35 0 18 1;
+#X connect 16 0 17 0;
+#X connect 17 0 8 0;
+#X connect 32 0 16 0;
+#X connect 33 0 17 1;
+#X connect 35 0 36 0;
 #X connect 36 0 38 0;
-#X connect 37 0 39 1;
-#X connect 38 0 39 0;
-#X connect 39 0 8 0;
+#X connect 37 0 36 1;
+#X connect 38 1 9 0;

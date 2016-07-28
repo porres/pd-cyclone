@@ -72,19 +72,17 @@ Max/MSP;
 #X obj 152 145 *~ 3;
 #X obj 170 290 cyclone/output~;
 #X obj 152 106 phasor~ 0.5;
-#X obj 184 176 cyclone/snapshot~ 1;
-#X floatatom 184 205 7 0 0 0 - - -, f 7;
 #X text 37 22 You can set the outlet number with a signal input \,
 this allows gate to be controlle with sample accuracy. Signal values
 are truncated to integers.;
 #X obj 255 214 noise~;
+#X obj 169 181 number~;
 #X connect 0 0 2 0;
 #X connect 0 1 2 1;
 #X connect 1 0 0 0;
-#X connect 1 0 4 0;
+#X connect 1 0 6 0;
 #X connect 3 0 1 0;
-#X connect 4 0 5 0;
-#X connect 7 0 0 1;
+#X connect 5 0 0 1;
 #X restore 382 213 pd signal-rate;
 #X text 167 396 signal;
 #X text 220 396 - signal to be routed;
@@ -98,8 +96,8 @@ are truncated to integers.;
 #X text 221 490 - initial outlet to route to (default 0 - none);
 #X text 220 470 - 'n' number of outlets (1 to 500 \, default 1);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -168,7 +166,7 @@ are truncated to integers.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

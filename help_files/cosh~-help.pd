@@ -54,12 +54,12 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 153 489 (none);
 #X obj 119 409 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 206 228 cyclone/cosh~;
-#X obj 206 153 phasor~ 2;
-#X text 339 360 0;
-#X text 335 304 pi/2;
-#X text 337 248 pi;
-#X obj 206 254 cyclone/Scope~ 123 117 256 3 128 0 3.14 0 0 0 0 205
+#X obj 156 228 cyclone/cosh~;
+#X obj 156 153 phasor~ 2;
+#X text 289 360 0;
+#X text 285 304 pi/2;
+#X text 287 248 pi;
+#X obj 156 254 cyclone/Scope~ 123 117 256 3 128 0 3.14 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal hyperbolic cosine
 function;
@@ -80,13 +80,13 @@ Max/MSP;
 #X text 61 93 Use [cosh~] to output the hyperbolic cosine function
 of each input sample (probably only useful for mathematical calculations).
 ;
-#X text 277 177 * pi;
-#X text 276 201 - pi/2;
+#X text 227 177 * pi;
+#X text 226 201 - pi/2;
 #X text 209 409 - input to hyperbolic cosine function;
 #X text 209 448 - output of hyperbolic cosine function;
 #X obj 9 518 all_about_cyclone;
-#X obj 206 177 *~ 3.14159;
-#X obj 206 200 -~ 1.5708;
+#X obj 156 177 *~ 3.14159;
+#X obj 156 200 -~ 1.5708;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -191,7 +191,12 @@ of each input sample (probably only useful for mathematical calculations).
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 371 245 number~ 1;
+#X obj 371 328 number~;
+#X obj 371 287 cyclone/cosh~;
 #X connect 11 0 16 0;
 #X connect 12 0 31 0;
 #X connect 31 0 32 0;
 #X connect 32 0 11 0;
+#X connect 34 0 36 0;
+#X connect 36 0 35 0;

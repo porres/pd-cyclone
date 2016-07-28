@@ -12,9 +12,9 @@
 #X text 130 471 signal;
 #X text 130 431 signal;
 #X text 130 512 (none);
-#X obj 97 191 *~ 3.14159;
-#X obj 303 204 -~ 3.14195;
-#X obj 303 184 *~ 6.28319;
+#X obj 40 191 *~ 3.14159;
+#X obj 236 204 -~ 3.14195;
+#X obj 236 184 *~ 6.28319;
 #N canvas 502 391 401 260 META 0;
 #X text 0 22 LICENSE SIBSD;
 #X text 0 102 LIBRARY cyclone;
@@ -57,13 +57,13 @@ adapted the patch to pd-extended 2015-02-02;
 #X restore 194 545 pd Related_objects;
 #X obj 101 432 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 303 158 phasor~ 2;
-#X text 234 321 0;
-#X text 233 386 -pi/2;
-#X text 234 262 pi/2;
-#X text 440 321 0;
-#X text 439 386 -pi/2;
-#X text 440 262 pi/2;
+#X obj 236 158 phasor~ 2;
+#X text 177 321 0;
+#X text 176 386 -pi/2;
+#X text 177 262 pi/2;
+#X text 373 321 0;
+#X text 372 386 -pi/2;
+#X text 373 262 pi/2;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -81,20 +81,20 @@ Max/MSP;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal arc-tangent function
 ;
 #X obj 8 545 all_about_cyclone;
-#X obj 97 222 cyclone/atan~;
-#X obj 303 233 cyclone/atan~;
-#X obj 97 161 osc~ 2;
+#X obj 40 222 cyclone/atan~;
+#X obj 236 233 cyclone/atan~;
+#X obj 40 161 osc~ 2;
 #X text 184 470 - the arc-tangent of the input;
 #X text 182 432 - input to arc-tangent function;
-#X obj 97 267 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0 205
+#X obj 40 267 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
-#X obj 303 269 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
+#X obj 236 269 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
 205 229 232 74 79 77 96 98 102 0;
 #X text 66 97 Use [atan~] to output the arc-tangent of each input sample
 (probably only useful for mathematical calculations).;
-#X text 167 193 * pi;
-#X text 373 185 * 2pi;
-#X text 377 203 - pi;
+#X text 110 193 * pi;
+#X text 306 185 * 2pi;
+#X text 310 203 - pi;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -199,6 +199,9 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 439 262 number~ 1;
+#X obj 439 345 number~;
+#X obj 439 304 cyclone/atan~;
 #X connect 8 0 30 0;
 #X connect 9 0 31 0;
 #X connect 10 0 9 0;
@@ -206,3 +209,5 @@ Max/MSP;
 #X connect 30 0 35 0;
 #X connect 31 0 36 0;
 #X connect 32 0 8 0;
+#X connect 42 0 44 0;
+#X connect 44 0 43 0;

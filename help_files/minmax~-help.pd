@@ -1,24 +1,24 @@
-#N canvas 704 39 563 669 10;
-#X obj 6 391 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 704 39 561 612 10;
+#X obj 6 343 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 487 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 439 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 591 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 540 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 105 496 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 105 448 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 105 400 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 105 352 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 134 400 signal;
-#X text 133 496 signal;
-#X text 133 599 (none);
-#X obj 6 627 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 134 352 signal;
+#X text 133 448 signal;
+#X text 133 548 (none);
+#X obj 6 572 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 246 345 428 75 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 9 28 abs~;
-#X restore 212 629 pd Related_objects;
+#X restore 212 574 pd Related_objects;
 #N canvas 569 308 379 337 META 0;
 #X text 2 231 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
@@ -38,45 +38,41 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 1 130 OUTLET_2 float;
 #X text 1 37 DESCRIPTION computes the minimum and maximum values of
 a signal;
-#X restore 508 629 pd META;
-#X floatatom 254 261 0 0 0 1 - - -;
-#X floatatom 283 240 0 0 0 1 - - -;
-#X msg 214 180 reset;
-#X floatatom 225 310 0 0 0 1 - - -;
-#X floatatom 196 355 0 0 0 1 - - -;
-#X obj 196 205 cyclone/minmax~;
-#X text 146 417 bang;
-#X text 140 434 reset;
-#X obj 105 518 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 508 574 pd META;
+#X msg 196 180 reset;
+#X obj 178 205 cyclone/minmax~;
+#X text 146 369 bang;
+#X text 140 386 reset;
+#X obj 105 470 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 133 518 signal;
-#X obj 105 539 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 133 470 signal;
+#X obj 105 491 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 105 561 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 105 513 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X text 140 539 float;
-#X text 140 563 float;
-#X obj 162 161 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 140 491 float;
+#X text 140 515 float;
+#X obj 144 161 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 192 400 - signal to analyze;
-#X text 192 417 - outputs minimum and maximum for floats;
-#X text 192 434 - reset minimum and maximum to 0;
-#X text 186 496 - minimum level since startup or last reset;
-#X text 186 518 - maximum level since startup or last reset;
-#X text 186 539 - on bang: minimum level since startup or last reset
+#X text 192 352 - signal to analyze;
+#X text 192 369 - outputs minimum and maximum for floats;
+#X text 192 386 - reset minimum and maximum to 0;
+#X text 186 448 - minimum level since startup or last reset;
+#X text 186 470 - maximum level since startup or last reset;
+#X text 186 491 - on bang: minimum level since startup or last reset
 ;
-#X text 186 563 - on bang: maximum level since startup or last reset
+#X text 186 515 - on bang: maximum level since startup or last reset
 ;
-#X obj 105 456 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 105 408 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 134 456 signal;
-#X obj 283 153 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 134 408 signal;
+#X obj 265 153 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 196 155 osc~ 0.1;
-#X text 192 457 - a non-zero signal value resets minimum and maximum
+#X obj 178 155 osc~ 0.1;
+#X text 192 409 - a non-zero signal value resets minimum and maximum
 to 0;
-#X obj 283 179 cyclone/click~;
-#X text 304 152 reset;
+#X obj 265 179 cyclone/click~;
+#X text 286 152 reset;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -93,14 +89,12 @@ Max/MSP;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 minmax~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal's minimum/maximum
 amplitude;
-#X obj 225 285 cyclone/snapshot~ 1;
-#X obj 196 334 cyclone/snapshot~ 1;
-#X text 82 89 [minmax~] outputs the minimum and maximum amplitude values
+#X text 71 89 [minmax~] outputs the minimum and maximum amplitude values
 of an input signal since it was last reset. It outputs signals as well
 as floats.;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -169,7 +163,7 @@ as floats.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -202,14 +196,22 @@ as floats.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 13 0 16 0;
-#X connect 16 0 49 0;
-#X connect 16 1 48 0;
-#X connect 16 2 11 0;
-#X connect 16 3 12 0;
-#X connect 25 0 16 0;
-#X connect 35 0 38 0;
-#X connect 36 0 16 0;
-#X connect 38 0 16 1;
-#X connect 48 0 14 0;
-#X connect 49 0 15 0;
+#X obj 207 282 number~;
+#X obj 178 307 number~;
+#X obj 236 254 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 -1 256;
+#X obj 265 232 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1 256;
+#X text 275 310 Minimum level;
+#X text 304 283 Maximum level;
+#X text 301 255 Minimum level;
+#X text 329 232 Maximum level;
+#X connect 11 0 12 0;
+#X connect 12 0 47 0;
+#X connect 12 1 46 0;
+#X connect 12 2 48 0;
+#X connect 12 3 49 0;
+#X connect 21 0 12 0;
+#X connect 31 0 34 0;
+#X connect 32 0 12 0;
+#X connect 34 0 12 1;

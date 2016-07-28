@@ -1,4 +1,4 @@
-#N canvas 34 37 559 642 10;
+#N canvas 483 29 559 642 10;
 #X obj 2 443 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 489 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -35,13 +35,13 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
 #X restore 504 604 pd META;
-#X text 116 413 -1;
-#X text 120 351 0;
-#X text 122 288 1;
-#X obj 138 226 osc~ 60;
+#X text 76 413 -1;
+#X text 80 351 0;
+#X text 82 288 1;
+#X obj 98 226 osc~ 60;
 #X obj 73 97 cnv 15 350 65 empty empty empty 20 12 0 14 -248754 -66577
 0;
-#X obj 138 256 cyclone/abs~;
+#X obj 98 256 cyclone/abs~;
 #X obj 93 102 comment 0 15 times ? 0 0 0 0 Avoid using this object!
 ;
 #X text 103 122 with the new [abs~] object in Pd Vanilla \, this;
@@ -70,7 +70,7 @@ Max/MSP;
 ;
 #X text 164 455 - the signal input with positive and negative values
 ;
-#X obj 138 295 cyclone/scope~ 213 131 3 3 128 -1 1 200 0 0 0 205 229
+#X obj 98 295 cyclone/scope~ 213 131 3 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
@@ -180,6 +180,12 @@ Max/MSP;
 ;
 #X text 86 178 Use [cyclone/abs~]* to get the absolute function for
 signals and convert negative values to positive values.;
-#X text 223 255 * needs "cyclone/" to differentiate from vanilla;
+#X text 183 255 * needs "cyclone/" to differentiate from vanilla;
+#X obj 388 317 number~ 1;
+#X obj 388 355 cyclone/abs~;
+#X obj 388 396 number~;
+#X text 386 294 click and drag;
 #X connect 14 0 16 0;
 #X connect 16 0 34 0;
+#X connect 39 0 40 0;
+#X connect 40 0 41 0;

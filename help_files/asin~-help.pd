@@ -55,13 +55,13 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 110 511 (none);
 #X obj 87 428 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 231 309 0;
-#X text 232 371 -pi/2;
-#X text 231 248 pi/2;
-#X obj 296 164 phasor~ 2;
-#X text 433 307 0;
-#X text 434 369 -pi/2;
-#X text 433 246 pi/2;
+#X text 181 309 0;
+#X text 182 371 -pi/2;
+#X text 181 248 pi/2;
+#X obj 237 164 phasor~ 2;
+#X text 374 307 0;
+#X text 375 369 -pi/2;
+#X text 374 246 pi/2;
 #X text 60 117 Could also be used for some waveshaping \, like turning
 a sine wave into a trianglular wave.;
 #X obj 7 597 all_about_cyclone;
@@ -83,14 +83,14 @@ a sine wave into a trianglular wave.;
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 asin~;
-#X obj 296 192 cyclone/triangle~ 1;
-#X obj 95 217 cyclone/asin~;
-#X obj 296 221 cyclone/asin~;
-#X obj 95 183 osc~ 2;
+#X obj 237 192 cyclone/triangle~ 1;
+#X obj 45 217 cyclone/asin~;
+#X obj 237 221 cyclone/asin~;
+#X obj 45 183 osc~ 2;
 #X text 179 428 - input to arc-sine function;
-#X obj 95 252 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0 205
+#X obj 45 252 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
-#X obj 296 252 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
+#X obj 237 252 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
 205 229 232 74 79 77 96 98 102 0;
 #X text 128 553 When yhe input is -1 to 1 \, output is from -pi/2 to
 pi/2. For input values outside the -1 to 1 range \, the output is zero!
@@ -200,8 +200,13 @@ pi/2. For input values outside the -1 to 1 range \, the output is zero!
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 439 262 number~ 1;
+#X obj 439 345 number~;
+#X obj 439 304 cyclone/asin~;
 #X connect 15 0 30 0;
 #X connect 30 0 32 0;
 #X connect 31 0 35 0;
 #X connect 32 0 36 0;
 #X connect 33 0 31 0;
+#X connect 40 0 42 0;
+#X connect 42 0 41 0;

@@ -1,7 +1,7 @@
-#N canvas 261 49 560 579 10;
-#X obj 6 541 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 261 49 561 559 10;
+#X obj 6 520 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 328 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 1088 157 431 306 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -22,28 +22,28 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 510 543 pd META;
-#X obj 6 392 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 510 522 pd META;
+#X obj 6 371 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 457 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 436 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 1095 187 428 164 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 35 41 poltocar~;
-#X restore 222 544 pd Related_objects;
-#X text 132 465 (none);
-#X text 131 340 signal;
-#X text 131 364 signal;
-#X text 131 403 signal;
-#X text 131 427 signal;
-#X obj 100 341 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 222 523 pd Related_objects;
+#X text 132 444 (none);
+#X text 131 319 signal;
+#X text 131 343 signal;
+#X text 131 382 signal;
+#X text 131 406 signal;
+#X obj 100 320 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 100 365 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 100 344 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 100 405 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 100 384 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 100 428 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 100 407 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #N canvas 323 228 534 482 spectral_processing 0;
 #X obj 110 239 cnv 15 300 100 empty empty polar: 6 10 0 14 -233017
@@ -74,17 +74,15 @@ the general idea:;
 #X connect 2 1 4 1;
 #X connect 3 0 1 0;
 #X connect 3 1 1 1;
-#X restore 352 208 pd spectral_processing;
-#X obj 128 187 sig~;
-#X obj 227 187 sig~;
-#X text 188 364 - imaginary part of the complex signal in cartesian
+#X restore 396 256 pd spectral_processing;
+#X text 188 343 - imaginary part of the complex signal in cartesian
 form;
-#X text 188 340 - real part of the complex signal in cartesian form
+#X text 188 319 - real part of the complex signal in cartesian form
 ;
-#X text 88 163 Real;
-#X text 286 163 Imaginary;
-#X text 29 287 Amplitude;
-#X text 325 288 Phase;
+#X text 157 154 Real;
+#X text 249 154 Imaginary;
+#X text 140 274 Amplitude;
+#X text 257 274 Phase;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -101,30 +99,20 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 19 56 comment 0 18 times ? 0 0 0 0 Signal cartesian to polar
 conversion;
-#X obj 128 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 227 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 101 288 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 238 289 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
 #X text 79 95 Use the [cartopol~] object to convert signal values representing
 cartesian coordinates to a signal composed of polar coordinates - useful
 for spectral processing.;
-#X text 188 402 - amplitude output of the polar form;
-#X text 189 427 - phase in radians (-pi to pi) output of the polar
+#X text 188 381 - amplitude output of the polar form;
+#X text 189 406 - phase in radians (-pi to pi) output of the polar
 form;
-#X obj 6 493 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 6 472 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 128 218 cyclone/cartopol~;
-#X obj 101 260 cyclone/snapshot~ 1;
-#X obj 238 260 cyclone/snapshot~ 1;
-#X text 125 501 If the right outlet ins't connected to anything \,
+#X obj 128 210 cyclone/cartopol~, f 18;
+#X text 125 480 If the right outlet ins't connected to anything \,
 the object won't compute the phase \, saving you some CPU.;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -193,7 +181,7 @@ the object won't compute the phase \, saving you some CPU.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -226,11 +214,11 @@ the object won't compute the phase \, saving you some CPU.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 16 0 40 0;
-#X connect 17 0 40 1;
-#X connect 32 0 16 0;
-#X connect 33 0 17 0;
-#X connect 40 0 41 0;
-#X connect 40 1 42 0;
-#X connect 41 0 34 0;
-#X connect 42 0 35 0;
+#X obj 233 175 number~ 1;
+#X obj 128 174 number~ 1;
+#X obj 128 250 number~;
+#X obj 233 250 number~;
+#X connect 34 0 39 0;
+#X connect 34 1 40 0;
+#X connect 37 0 34 1;
+#X connect 38 0 34 0;

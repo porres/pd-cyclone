@@ -1,31 +1,31 @@
-#N canvas 575 23 561 511 10;
-#X obj 3 300 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 575 23 560 518 10;
+#X obj 3 295 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 359 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 4 375 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 408 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 97 311 cnv 17 3 35 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 95 303 cnv 17 3 67 empty empty n 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 376 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 95 385 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 67 259 5 0 0 0 - - -, f 5;
-#X floatatom 124 259 5 0 0 0 - - -, f 5;
-#X obj 313 252 print;
-#X obj 205 200 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
+#X floatatom 67 258 5 0 0 0 - - -, f 5;
+#X floatatom 124 258 5 0 0 0 - - -, f 5;
+#X obj 313 251 print;
+#X obj 205 199 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
 -1;
-#X obj 67 230 unpack f f;
-#X obj 313 217 cyclone/funnel 2;
+#X obj 67 229 unpack f f;
+#X obj 313 216 cyclone/funnel 2;
 #N canvas 265 95 640 499 Examples 0;
 #X obj 2 2 cnv 15 620 40 empty empty funnel 3 12 0 18 -204280 -1 0
 ;
 #X text 49 25 examples;
 #X obj 84 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 4100 1;
+-1 -1 0 1;
 #X obj 144 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 4100 1;
+-1 -1 0 1;
 #X obj 205 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 3300 1;
+-1 -1 0 1;
 #X obj 266 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 327 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
@@ -114,8 +114,8 @@ data according to inlet number;
 #X connect 30 0 32 0;
 #X connect 31 0 32 1;
 #X connect 33 0 28 0;
-#X restore 459 235 pd Examples;
-#X obj 2 471 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X restore 459 234 pd Examples;
+#X obj 2 469 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 500 103 390 363 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -135,25 +135,25 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 482 473 pd META;
+#X restore 482 471 pd META;
 #N canvas 359 145 430 77 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 6 29 listfunnel;
 #X obj 80 29 cyclone/spray;
-#X restore 191 473 pd Related_objects;
-#X obj 161 262 cyclone/comment 100 11 helvetica ? 0 80 80 80 value
+#X restore 191 471 pd Related_objects;
+#X obj 161 261 cyclone/comment 100 11 helvetica ? 0 80 80 80 value
 ;
-#X obj 39 261 cyclone/comment 100 11 helvetica ? 0 80 80 80 inlet;
-#X text 174 312 -;
-#X text 141 312 bang;
-#X text 174 376 -;
-#X text 174 333 -;
-#X text 116 333 anything;
-#X text 174 420 -;
-#X text 116 420 1) float;
-#X text 174 442 -;
-#X text 116 442 2) float;
+#X obj 32 260 cyclone/comment 100 11 helvetica ? 0 80 80 80 inlet #
+;
+#X text 165 339 bang;
+#X text 187 385 -;
+#X text 198 305 -;
+#X text 140 305 anything;
+#X text 187 421 -;
+#X text 129 421 1) float;
+#X text 187 443 -;
+#X text 129 443 2) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -168,35 +168,40 @@ this patch for Pd-Vanilla 0.47-2.;
 Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 funnel;
-#X text 188 442 first inlet number offset (default 0);
-#X text 188 420 sets 'n' number of inlets (default 2);
-#X obj 67 163 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X text 201 443 first inlet number offset (default 0);
+#X text 201 421 sets 'n' number of inlets (default 2);
+#X obj 67 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 122 163 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 122 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 178 164 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 8 256;
-#X obj 67 197 cyclone/funnel 3, f 19;
-#X text 205 182 value from;
-#X text 227 197 inlet;
-#X msg 313 177 symbol hi;
-#X msg 406 177 list how do you do?;
+#X obj 178 163 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 67 196 cyclone/funnel 3, f 19;
+#X text 205 181 value from;
+#X text 227 196 inlet;
+#X msg 313 176 symbol hi;
+#X msg 406 176 list how do you do?;
 #X obj 20 58 comment 0 18 times ? 0 0 0 0 Tag data based on inlet;
-#X text 93 89 [funnel] sends incoming data tagged with an inlet number.
-It can be used to store values into a table/coll based or to set a
-destination with an object such as [spray] or [route].;
-#X text 189 312 repeats last received message from the inlet, f 55
+#X text 152 385 list;
+#X text 202 385 an incoming message preceded with the inlet number
+, f 51;
+#X text 108 354 offset <float> - sets an offset for the inlet numbers
 ;
-#X text 189 333 any data to be tagged, f 55;
-#X text 139 376 list;
-#X text 189 376 a message preceded with the inlet number, f 55;
-#X connect 8 0 38 2;
+#X text 213 305 any data to be tagged and output, f 45;
+#X text 84 87 [funnel] receives data from many inlets and funnels them
+to an outlet. The incoming data is tagged with an inlet number to be
+retrieved with [route] or [cyclone/spray]. It can also be used to store
+values into a table/coll.;
+#X text 108 323 set <anything> - sets a message and doesn't output
+it;
+#X text 198 339 - sends the last received message from the inlet;
+#X connect 8 0 37 2;
 #X connect 9 0 5 0;
 #X connect 9 1 6 0;
 #X connect 10 0 7 0;
-#X connect 35 0 38 0;
-#X connect 36 0 38 1;
-#X connect 37 0 38 2;
-#X connect 38 0 9 0;
-#X connect 41 0 10 0;
-#X connect 42 0 10 1;
+#X connect 34 0 37 0;
+#X connect 35 0 37 1;
+#X connect 36 0 37 2;
+#X connect 37 0 9 0;
+#X connect 40 0 10 0;
+#X connect 41 0 10 1;

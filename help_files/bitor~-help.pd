@@ -1,4 +1,4 @@
-#N canvas 569 74 562 593 10;
+#N canvas 569 74 560 563 10;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -14,11 +14,11 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 bitor~;
 #X obj 21 61 comment 0 18 times ? 0 0 0 0 Signal Bitwise-OR;
-#X obj 5 550 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 5 524 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 352 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 326 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 466 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 440 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 214 725 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -28,32 +28,28 @@ Max/MSP;
 #X obj 6 78 cyclone/bitxor~;
 #X obj 108 29 cyclone/bitshift~;
 #X obj 258 50 &;
-#X restore 208 553 pd Related_objects;
-#X obj 80 475 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 208 527 pd Related_objects;
+#X obj 80 449 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 134 475 signal;
-#X obj 82 360 cnv 17 3 54 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 134 449 signal;
+#X obj 82 334 cnv 17 3 54 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 419 cnv 17 3 34 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 81 393 cnv 17 3 34 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 8 499 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 8 473 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 132 360 signal;
-#X text 145 396 mode;
-#X obj 7 552 all_about_cyclone;
-#X text 132 508 1) float;
-#X obj 105 276 cyclone/snapshot~ 1;
-#X msg 39 219 mode \$1;
-#X obj 39 197 nbx 3 14 0 3 0 0 empty empty empty 0 -8 0 10 -228856
--1 -1 0 256;
-#X text 133 418 signal;
-#X text 139 435 float;
-#X text 102 379 bits <list>;
-#X text 132 526 2) float;
-#X text 192 526 - mode [0-3] (default 0);
-#X text 183 397 - <0-3>: modes of conversion to integers (details above)
+#X text 132 334 signal;
+#X text 145 370 mode;
+#X obj 7 526 all_about_cyclone;
+#X text 132 482 1) float;
+#X text 133 392 signal;
+#X text 139 409 float;
+#X text 102 353 bits <list>;
+#X text 132 500 2) float;
+#X text 192 500 - mode [0-3] (default 0);
+#X text 183 371 - <0-3>: modes of conversion to integers (details above)
 ;
-#X text 192 508 - converted to integer and used as bitmask (default
+#X text 192 482 - converted to integer and used as bitmask (default
 0);
 #N canvas 670 414 340 251 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -72,15 +68,14 @@ point signal as bits or as a float;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 508 553 pd META;
+#X restore 508 527 pd META;
 #X text 72 91 [bitor~] compares the bits of two values with "Bitwise
 OR" (bits are set to 1 if any of them is "1" \, 0 otherwise). It compares
 two signals or a signal to a given bitmask. The comparison is done
 in four modes (see below).;
-#X obj 105 251 cyclone/bitor~;
-#X text 182 360 - signal to execute Bitwise OR on;
-#X text 183 418 - signal to execute Bitwise OR on;
-#X text 186 475 - signal as result of "Bitwise OR";
+#X text 182 334 - signal to execute Bitwise OR on;
+#X text 183 392 - signal to execute Bitwise OR on;
+#X text 186 449 - signal as result of "Bitwise OR";
 #N canvas 813 147 527 559 integer_bitmask 0;
 #X obj 136 263 clip~ -1 1;
 #X obj 136 151 *~ 10000;
@@ -103,8 +98,7 @@ to int and update the argument (this is not working yet).;
 #X connect 2 0 0 0;
 #X connect 5 0 1 0;
 #X connect 9 0 2 0;
-#X restore 424 319 pd integer_bitmask;
-#X text 244 304 compare to a given bitmask:;
+#X restore 424 289 pd integer_bitmask;
 #N canvas 111 247 684 525 raw_bitmask 0;
 #X obj 141 338 clip~ -1 1;
 #X obj 98 404 cyclone/output~;
@@ -293,37 +287,28 @@ input;
 #X connect 14 0 9 0;
 #X connect 15 0 17 0;
 #X connect 17 0 14 0;
-#X restore 424 293 pd raw_bitmask;
-#X obj 257 168 cnv 15 265 110 empty empty empty 20 12 0 14 -253822
+#X restore 324 288 pd raw_bitmask;
+#X obj 286 163 cnv 15 265 110 empty empty empty 20 12 0 14 -253822
 -66577 0;
-#X text 266 172 Modes:;
-#X text 270 202 1: converts both inputs to int;
-#X text 270 189 0: (default) doesn't convert to int;
-#X text 270 215 2: converts right signal to int;
-#X text 270 228 3: converts left signal to int;
+#X text 295 167 Modes:;
+#X text 299 197 1: converts both inputs to int;
+#X text 299 184 0: (default) doesn't convert to int;
+#X text 299 210 2: converts right signal to int;
+#X text 299 223 3: converts left signal to int;
 #N canvas 400 337 476 167 signal_conversion_to_int 0;
 #X text 62 35 Signals are 32 bit floating point by default and their
 32 bit representation is used for comparison. When converting a signal
 to integer \, depending on the mode \, what happens is that the floating
 point value is converted/truncated to an integer and the 32 bit signed
 integer representation of this value is used for comparison.;
-#X restore 345 252 pd signal_conversion_to_int;
-#X text 107 171 Compare two signals:;
-#X obj 105 216 sig~;
-#X obj 186 216 sig~;
-#X obj 105 194 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 186 194 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 105 302 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X text 182 378 - bits plus 32 bit (0/1) values sets a raw 32 bits
+#X restore 374 247 pd signal_conversion_to_int;
+#X text 182 352 - bits plus 32 bit (0/1) values sets a raw 32 bits
 bitmask;
-#X text 183 436 - converted to integer and used as bitmask (not working
+#X text 183 410 - converted to integer and used as bitmask (not working
 yet);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -392,7 +377,7 @@ yet);
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -425,11 +410,18 @@ yet);
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 65 pd;
-#X connect 21 0 52 0;
-#X connect 22 0 33 0;
-#X connect 23 0 22 0;
-#X connect 33 0 21 0;
-#X connect 48 0 33 0;
-#X connect 49 0 33 1;
-#X connect 50 0 48 0;
-#X connect 51 0 49 0;
+#X msg 22 199 mode \$1;
+#X obj 22 177 nbx 3 14 0 3 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X text 93 175 Compare two signals:;
+#X obj 80 272 number~;
+#X obj 80 199 number~ 1;
+#X obj 179 199 number~ 1;
+#X obj 80 239 cyclone/bitor~, f 17;
+#X text 233 284 compare to a;
+#X text 228 296 given bitmask:;
+#X connect 45 0 51 0;
+#X connect 46 0 45 0;
+#X connect 49 0 51 0;
+#X connect 50 0 51 1;
+#X connect 51 0 48 0;

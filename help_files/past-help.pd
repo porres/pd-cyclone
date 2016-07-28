@@ -76,7 +76,7 @@ a given limit value. The input needs to fall back to this limit or
 below it for another bang to be output.;
 #X text 193 372 clears the memory so a next input may trigger a bang
 ;
-#N canvas 78 23 941 605 list_behaviour 0;
+#N canvas 111 154 941 605 list_behaviour 1;
 #X obj 65 229 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X text 158 246 The behaviour with floats and lists is consistent with
@@ -235,6 +235,18 @@ in same position in argument list [past] will send a bang;
 #X msg 775 230 set 2 10 20;
 #X obj 646 158 cyclone/comment 143 11 helvetica ? 0 80 80 80 can be
 used with lists...;
+#X msg 655 422 0 8 20;
+#X msg 707 422 0 10 20;
+#X msg 764 422 2 10 20;
+#X msg 768 457 set 0 10 20;
+#X msg 783 476 set 2 10 20;
+#X obj 654 404 cyclone/comment 143 11 helvetica ? 0 80 80 80 can be
+used with lists...;
+#X obj 711 545 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 758 541 crashy...;
+#X text 761 565 only once;
+#X obj 707 503 cyclone/past 0 1 20;
 #X connect 6 0 8 0;
 #X connect 7 0 8 0;
 #X connect 8 0 9 0;
@@ -245,11 +257,17 @@ used with lists...;
 #X connect 19 0 17 0;
 #X connect 20 0 17 0;
 #X connect 21 0 17 0;
+#X connect 23 0 32 0;
+#X connect 24 0 32 0;
+#X connect 25 0 32 0;
+#X connect 26 0 32 0;
+#X connect 27 0 32 0;
+#X connect 32 0 29 0;
 #X restore 386 239 pd list_behaviour;
 #X obj 165 173 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 9400 1;
+-1 -1 0 1;
 #X obj 162 200 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 94 256;
+-228856 -1 -1 0 256;
 #X obj 162 253 cyclone/past 63.5;
 #X connect 8 0 37 0;
 #X connect 9 0 37 0;

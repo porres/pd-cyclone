@@ -55,19 +55,19 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 148 507 (none);
 #X obj 114 429 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 101 187 *~ 3.14159;
-#X obj 308 193 -~ 3.14159;
-#X obj 308 171 *~ 6.28319;
-#X obj 308 145 phasor~ 2;
-#X text 83 252 2;
-#X text 293 255 2;
-#X text 78 375 -2;
-#X text 83 313 0;
-#X text 286 378 -2;
-#X text 293 316 0;
-#X text 171 187 * pi;
-#X text 378 171 * 2pi;
-#X text 380 194 - pi;
+#X obj 61 187 *~ 3.14159;
+#X obj 249 193 -~ 3.14159;
+#X obj 249 171 *~ 6.28319;
+#X obj 249 145 phasor~ 2;
+#X text 43 252 2;
+#X text 233 255 2;
+#X text 38 375 -2;
+#X text 43 313 0;
+#X text 226 378 -2;
+#X text 233 316 0;
+#X text 131 187 * pi;
+#X text 319 171 * 2pi;
+#X text 321 194 - pi;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -85,13 +85,13 @@ Max/MSP;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal hyperbolic arc-sine
 function;
 #X obj 7 537 all_about_cyclone;
-#X obj 101 216 cyclone/asinh~;
-#X obj 308 221 cyclone/asinh~;
-#X obj 101 157 osc~ 2;
+#X obj 61 216 cyclone/asinh~;
+#X obj 249 221 cyclone/asinh~;
+#X obj 61 157 osc~ 2;
 #X text 204 428 - input to hyperbolic arc-sine function;
-#X obj 101 259 cyclone/scope~ 130 130 256 3 128 -2 2 0 0 0 0 205 229
+#X obj 61 259 cyclone/scope~ 130 130 256 3 128 -2 2 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 308 259 cyclone/scope~ 130 130 256 3 128 -2 2 0 0 0 0 205 229
+#X obj 249 259 cyclone/scope~ 130 130 256 3 128 -2 2 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 79 95 Use [asinh~] to output the hyperbolic arc-sine of each
 input sample (probably only useful for mathematical calculations).
@@ -201,6 +201,9 @@ input sample (probably only useful for mathematical calculations).
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 439 262 number~ 1;
+#X obj 439 345 number~;
+#X obj 439 304 cyclone/asinh~;
 #X connect 11 0 33 0;
 #X connect 12 0 34 0;
 #X connect 13 0 12 0;
@@ -208,3 +211,5 @@ input sample (probably only useful for mathematical calculations).
 #X connect 33 0 37 0;
 #X connect 34 0 38 0;
 #X connect 35 0 11 0;
+#X connect 42 0 44 0;
+#X connect 44 0 43 0;

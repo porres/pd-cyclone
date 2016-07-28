@@ -929,7 +929,7 @@ com o MENU.;
 #X obj 36 125 noise~;
 #X obj 90 206 cyclone/output~;
 #X obj 126 105 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2000 256;
+-228856 -1 -1 0 256;
 #X obj 377 22 vradio 15 1 0 15 \$0-type \$0-set_type empty 0 -8 0 10
 -228856 -1 -1 2;
 #X text 397 52 bandpass;
@@ -949,14 +949,14 @@ com o MENU.;
 #X text 397 83 bandstop;
 #X obj 126 129 cyclone/filtercoeff~ lowpass;
 #X obj 291 105 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.1 256;
+-228856 -1 -1 0 256;
 #X obj 208 105 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -24 256;
+-228856 -1 -1 0 256;
 #X obj 30 49 cnv 14 80 14 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X symbolatom 30 49 13 0 0 0 - #0-symbol-set -, f 13;
 #X obj 126 20 vsl 18 70 200 2000 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 6900 1;
+-1 -1 0 1;
 #X obj 208 20 vsl 18 70 -24 24 0 0 empty empty empty 0 -9 0 10 -228856
 -1 -1 0 1;
 #X obj 291 20 vsl 18 70 0.1 100 1 0 empty empty empty 0 -9 0 10 -228856
@@ -978,8 +978,6 @@ com o MENU.;
 #X connect 28 0 22 0;
 #X restore 379 254 pd filter_types;
 #X obj 172 201 cyclone/filtercoeff~ lowpass;
-#X obj 172 171 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
 #X text 159 465 off;
 #X text 190 465 - sets no filter (original input is output);
 #X obj 337 171 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -995,6 +993,7 @@ com o MENU.;
 #X text 190 585 - a2 (feedforward 2) coefficient;
 #X text 190 603 - b1 (feedback 1) coefficient;
 #X text 190 622 - b2 (feedback 2) coefficient;
+#X obj 172 169 number~ 1;
 #X connect 25 0 26 0;
 #X connect 25 0 26 1;
 #X connect 35 0 25 0;
@@ -1003,5 +1002,5 @@ com o MENU.;
 #X connect 45 2 25 3;
 #X connect 45 3 25 4;
 #X connect 45 4 25 5;
-#X connect 46 0 45 0;
-#X connect 49 0 45 2;
+#X connect 48 0 45 2;
+#X connect 56 0 45 0;

@@ -1,12 +1,8 @@
 #N canvas 540 162 562 532 10;
 #X declare -stdlib cyclone/cyclone;
-#X obj 307 237 cyclone/snapshot~ 1;
 #X text 53 91 [notequals~] or [!=~] outputs a 1 signal when the left
 input is not-equal to the right input or argument and a 0 when it is
 equal to the right input or argument.;
-#X obj 73 251 cyclone/snapshot~ 1;
-#X obj 73 195 sig~ 5;
-#X obj 73 223 cyclone/notequals~ 5;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -38,10 +34,6 @@ for signals;
 #X text 118 378 float/signal;
 #X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 307 279 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
-#X obj 73 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
 #X text 154 354 signal;
 #X text 205 354 - value is compared to right inlet's or argument;
 #X obj 5 486 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
@@ -76,19 +68,9 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 114 456 1) float;
 #X text 205 419 - 1 or 0 (depending on the result of the comparison)
 ;
-#X obj 73 170 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 190 172 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 350 157 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 283 157 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 307 207 !=~ 10;
-#X obj 307 180 sig~;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -157,7 +139,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -190,7 +172,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#N canvas 724 142 478 298 cyclone_sub_library 0;
+#N canvas 724 142 478 298 cyclone 0;
 #X obj 209 99 declare -stdlib cyclone/cyclone;
 #X text 63 206 More about the cyclone sub-library;
 #X text 66 136 If you need more details in installing cyclone \, check:
@@ -199,14 +181,28 @@ https://github.com/porres/pd-cyclone/wiki/How-To-Install;
 #X text 58 51 [notequals~] is a single binary in cyclone \, but [!=~]
 is from the cyclone "sub-library" \, loaded via startup or with [declare]
 like this:;
-#X restore 407 298 pd cyclone_sub_library;
-#X connect 0 0 21 0;
-#X connect 2 0 22 0;
-#X connect 3 0 4 0;
-#X connect 4 0 2 0;
-#X connect 33 0 3 0;
-#X connect 34 0 4 1;
-#X connect 35 0 37 1;
-#X connect 36 0 38 0;
-#X connect 37 0 0 0;
+#X restore 463 277 pd cyclone \; sub_library;
+#X obj 273 242 cyclone/snapshot~ 1;
+#X obj 153 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 273 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 273 186 sig~ 30;
+#X obj 273 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 396 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 69 160 number~ 1;
+#X obj 96 185 number~ 1;
+#X obj 69 243 number~;
+#X obj 69 210 !=~, f 5;
+#X obj 273 212 cyclone/notequals~ 30;
+#X connect 29 0 31 0;
+#X connect 32 0 39 0;
+#X connect 33 0 32 0;
+#X connect 34 0 39 1;
+#X connect 35 0 38 0;
+#X connect 36 0 38 1;
+#X connect 37 1 30 0;
 #X connect 38 0 37 0;
+#X connect 39 0 29 0;

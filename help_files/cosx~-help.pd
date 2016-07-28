@@ -1,4 +1,4 @@
-#N canvas 787 23 562 612 10;
+#N canvas 148 104 562 612 10;
 #X obj 4 568 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 385 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -53,17 +53,17 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 115 398 signal;
 #X text 115 434 signal;
 #X text 115 471 (none);
-#X obj 195 166 *~ 6.28319;
+#X obj 195 173 *~ 6.28319;
 #X obj 82 398 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 195 200 cyclone/cosx~;
+#X obj 195 201 cyclone/cosx~;
 #X text 171 434 - output of cosine function;
-#X obj 195 134 phasor~ 2;
-#X obj 195 231 cyclone/Scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
+#X obj 195 141 phasor~ 2;
+#X obj 195 232 cyclone/Scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X text 171 352 -1;
-#X text 175 290 0;
-#X text 177 227 1;
+#X text 171 353 -1;
+#X text 175 291 0;
+#X text 177 228 1;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal cosine function (radian
 input);
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -80,10 +80,9 @@ input);
 #X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X text 267 167 * 2pi;
+#X text 267 174 * 2pi;
 #X obj 7 570 all_about_cyclone;
 #X text 171 398 - input to cosine function (in radians);
-#X text 62 93 [cosx~] calculates the cosine of each input sample.;
 #X text 129 503 Like [cyclone/sinx~] & [cyclone/tanx~] \, it expects
 input values in radians. Thus \, unlike [cos~] (from vanilla and max/msp)
 \, it's not designed to work with [phasor~]'s output (from 0 to 1).
@@ -192,6 +191,14 @@ input values in radians. Thus \, unlike [cos~] (from vanilla and max/msp)
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 401 245 number~ 1;
+#X obj 401 328 number~;
+#X obj 401 287 cyclone/cosx~;
+#X text 62 93 Properly designed for mathematical operations \, [cosx~]
+it expects an input in radians to calculate the cosine of each input
+sample.;
 #X connect 11 0 13 0;
 #X connect 13 0 16 0;
 #X connect 15 0 11 0;
+#X connect 33 0 35 0;
+#X connect 35 0 34 0;

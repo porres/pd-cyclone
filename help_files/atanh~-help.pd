@@ -54,17 +54,17 @@ for signals;
 #X text 161 494 (none);
 #X obj 117 422 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 106 199 cyclone/atanh~;
-#X obj 307 218 cyclone/atanh~;
-#X text 243 304 0;
-#X obj 307 147 phasor~ 2;
-#X text 242 369 -pi;
-#X text 243 245 pi;
-#X text 444 303 0;
-#X text 443 368 -pi;
-#X text 444 244 pi;
-#X obj 307 182 cyclone/triangle~ 1;
-#X obj 106 165 osc~ 2;
+#X obj 46 199 cyclone/atanh~;
+#X obj 247 218 cyclone/atanh~;
+#X text 183 304 0;
+#X obj 247 147 phasor~ 2;
+#X text 182 369 -pi;
+#X text 183 245 pi;
+#X text 384 303 0;
+#X text 383 368 -pi;
+#X text 384 244 pi;
+#X obj 247 182 cyclone/triangle~ 1;
+#X obj 46 165 osc~ 2;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -84,14 +84,14 @@ function;
 #X obj 8 565 all_about_cyclone;
 #X text 164 420 signal - input to hyperbolic arc-tangent function;
 #X text 207 460 - the hyperbolic arc-tangent of the input;
-#X obj 106 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0
-205 229 232 74 79 77 96 98 102 0;
-#X obj 307 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0
+#X obj 46 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0 205
+229 232 74 79 77 96 98 102 0;
+#X obj 247 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0
 205 229 232 74 79 77 96 98 102 0;
 #X text 54 93 Use [atanh~] to output the hyperbolic arc-tangent of
 each input sample (probably only useful for mathematical calculations).
 ;
-#X obj 106 199 cyclone/atanh~;
+#X obj 46 199 cyclone/atanh~;
 #X obj 2 523 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X text 154 532 For input values <= -1 or >=1 \, the output is zero!
@@ -200,8 +200,13 @@ each input sample (probably only useful for mathematical calculations).
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 439 262 number~ 1;
+#X obj 439 345 number~;
+#X obj 439 304 cyclone/atanh~;
 #X connect 10 0 32 0;
 #X connect 11 0 33 0;
 #X connect 13 0 19 0;
 #X connect 19 0 11 0;
 #X connect 20 0 10 0;
+#X connect 39 0 41 0;
+#X connect 41 0 40 0;

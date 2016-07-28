@@ -39,9 +39,9 @@
 #X text 164 490 (none);
 #X obj 135 419 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 299 163 phasor~ 2;
-#X text 217 248 pi;
-#X text 434 249 pi;
+#X obj 249 163 phasor~ 2;
+#X text 197 248 pi;
+#X text 384 249 pi;
 #N canvas 626 399 427 281 META 0;
 #X text 1 22 LICENSE SIBSD;
 #X text 1 102 LIBRARY cyclone;
@@ -75,12 +75,12 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 74 113 Could also be used for some waveshaping \, like turning
 a sine wave into a trianglular wave.;
 #X obj 7 565 all_about_cyclone;
-#X obj 299 221 cyclone/acos~;
-#X obj 299 190 cyclone/triangle~ 1;
-#X obj 80 211 cyclone/acos~;
-#X obj 80 177 osc~ 2;
+#X obj 249 221 cyclone/acos~;
+#X obj 249 190 cyclone/triangle~ 1;
+#X obj 60 211 cyclone/acos~;
+#X obj 60 177 osc~ 2;
 #X text 219 418 - input to arc-cosine function;
-#X obj 299 254 cyclone/scope~ 130 130 256 3 128 0 3.14 0 0 0 0 205
+#X obj 249 254 cyclone/scope~ 130 130 256 3 128 0 3.14 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 acos~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal arc-cosine function
@@ -89,8 +89,8 @@ a sine wave into a trianglular wave.;
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -159,7 +159,7 @@ Max/MSP;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -192,17 +192,22 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 80 253 cyclone/scope~ 130 130 256 3 128 0 3.14 0 0 0 0 205 229
+#X obj 60 253 cyclone/scope~ 130 130 256 3 128 0 3.14 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X text 218 371 0;
-#X text 435 372 0;
-#X text 217 312 pi/2;
-#X text 434 313 pi/2;
+#X text 198 371 0;
+#X text 385 372 0;
+#X text 197 312 pi/2;
+#X text 384 313 pi/2;
 #X text 126 524 When input is from -1 to 1 \, output is from 0 to pi.
 For input values outside the -1 to 1 range \, the output is zero!;
 #X text 219 455 - the arc-cosine of the input;
+#X obj 442 262 number~ 1;
+#X obj 442 304 cyclone/acos~;
+#X obj 442 345 number~;
 #X connect 11 0 23 0;
 #X connect 22 0 27 0;
 #X connect 23 0 22 0;
 #X connect 24 0 33 0;
 #X connect 25 0 24 0;
+#X connect 40 0 41 0;
+#X connect 41 0 42 0;
