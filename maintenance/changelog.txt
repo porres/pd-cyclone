@@ -1,25 +1,24 @@
 Changelog with things that changed between cyclone versions.
 ============================================================
 
-Current version: 0.3-beta-1 (release xx/xx/xx)
+Current version: 0.3-beta-0 (release xx/xx/2016)
 
 TO DO for cyclone, next release:
 - update remaining outdated objects
-- include new objects
-- fix known bugs and look for more
+- fix some known bugs
 
  
 ================
 DONE for cyclone
 ================
 
-0.3-beta-1
+0.3-beta-0
 
 Coming soon…
 
 0.2beta1 has no changelog 
 
-the versions below are 0.1 from alpha 50 to 57:
+the versions below are “0.1” from alpha 50 to 57:
 
 alpha57 (unreleased, so most of this changes are in 0.2beta1)
 * fixed "bits " message for bitand~, bitor~ and bitxor~ (bug #1186, svn r17418), 

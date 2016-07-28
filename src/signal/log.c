@@ -5,9 +5,6 @@
 #include <math.h>
 #include "m_pd.h"
 
-#define logf  log
-#endif
-
 #define LOG_MININPUT  1e-10  /* CHECKED */
 
 typedef struct _log
@@ -66,9 +63,8 @@ static void *log_new(t_floatarg f)
 
 void log_tilde_setup(void)
 {
-    log_class = class_new(gensym("cyclone/log~"),
-			  (t_newmethod)log_new, (t_method)log_free,
-			  sizeof(t_log), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    log_class = class_new(gensym("cyclone/log~"), (t_newmethod)log_new,
+        (t_method)log_free, sizeof(t_log), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(log_class, nullfn, gensym("signal"), 0);
     class_addmethod(log_class, (t_method)log_dsp, gensym("dsp"), A_CANT, 0);
 }
