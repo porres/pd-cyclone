@@ -5,8 +5,6 @@
 #include <math.h>
 #include "m_pd.h"
 
-#if defined(_WIN32) || defined(__APPLE__)
-/* cf pd/src/x_arithmetic.c */
 #define logf  log
 #endif
 
