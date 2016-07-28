@@ -80,12 +80,9 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 214 467 - he tangent of the input.;
 #X text 214 426 - input to tangent function (in radians);
-#X text 75 89 [tanx~] calculates the tangent function of each input
-sample. Like [cyclone/cosx~] & [cyclone/sinx~] \, it expects input
-values between 0 and 2pi.;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -154,7 +151,7 @@ values between 0 and 2pi.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -187,6 +184,14 @@ values between 0 and 2pi.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 425 272 number~ 1;
+#X obj 425 355 number~;
+#X obj 425 314 cyclone/tanx~;
+#X text 75 89 Like [cyclone/cosx~] & [cyclone/sinx~] \, [tanx~] is
+properly designed for mathematical operations. Thus \, it expects an
+input in radians to calculate the tangent of each input sample.;
 #X connect 11 0 12 0;
 #X connect 12 0 17 0;
 #X connect 13 0 11 0;
+#X connect 30 0 32 0;
+#X connect 32 0 31 0;

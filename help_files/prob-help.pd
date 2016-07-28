@@ -1,30 +1,29 @@
-#N canvas 167 240 572 564 10;
-#X obj 2 408 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 463 37 559 566 10;
+#X obj 2 318 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 587 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 447 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 659 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 499 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 80 417 cnv 17 3 125 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 73 327 cnv 17 3 110 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 623 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 80 475 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 120 356 5 0 0 0 - - -, f 5;
-#X obj 80 596 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 80 454 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 108 668 (none);
-#X msg 120 170 0 1 80 \, 0 2 20 \, 1 2 10 \, 1 0 90 \, 2 0 50 \, 2
-1 50;
-#X obj 128 218 metro 500;
-#X obj 79 144 tgl 22 0 empty tgl_rcv empty 17 7 0 10 -216373 -66577
--1 1 1;
-#X obj 120 295 cyclone/prob;
+#X text 115 507 (none);
+#X msg 128 191 0 1 80 \, 0 2 20 \, 1 2 10 \, 1 0 90 \, 2 0 50 \, 2
+1 50, f 16;
+#X obj 57 223 metro 500;
+#X obj 57 198 tgl 18 0 empty empty empty 17 7 0 10 -216373 -1 -1 1
+1;
+#X obj 128 252 cyclone/prob;
 #C restore;
-#X obj 125 336 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144
--1 -1 2;
-#X obj 2 735 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 128 283 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+-1 -1 0;
+#X obj 2 553 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 714 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 528 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 458 100 398 342 META 0;
 #X text 13 29 LICENSE SIBSD;
@@ -44,33 +43,56 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 717 pd META;
+#X restore 503 531 pd META;
 #N canvas 321 94 430 80 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 12 31 cyclone/anal;
 #X obj 97 31 cyclone/histo;
 #X obj 188 31 cyclone/mean;
-#X restore 202 717 pd Related_objects;
-#X obj 31 102 cyclone/comment 316 10 monaco ? 0 80 80 80 prob maintains
-a probability matrix a.k.a 1st order markov chain and outputs a number
-according to it.;
-#X obj 235 191 cyclone/comment 201 11 helvetica ? 0 80 80 80 has a
-80% chance to be followed by 1 \, and a 20% chance to be followed by
-2;
-#X obj 225 191 cyclone/comment 201 11 helvetica ? 0 80 80 80 0;
-#X obj 225 219 cyclone/comment 201 11 helvetica ? 0 80 80 80 1;
-#X obj 235 219 cyclone/comment 185 11 helvetica ? 0 80 80 80 has a
-10% change to be followed 2 \, and a 90% chance to be followed by 0
+#X restore 202 531 pd Related_objects;
+#X obj 128 163 loadbang;
+#X text 119 455 float;
+#X text 136 346 list;
+#X text 125 475 bang;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 comment 0 37 times ? 0 0 0 0 prob;
+#X obj 20 58 comment 0 18 times ? 0 0 0 0 Probability matrix;
+#X text 230 191 0 has 80% chance to go to 1 and 20% to go to 2 \;;
+#X text 230 204 1 has 10% chance to go to 2 and 90% to go to 0 \;;
+#X text 230 218 2 has a 50/50 chance to go to 1 and 0!;
+#X text 208 252 <== click to view table;
+#X text 73 91 [prob] outputs a weighted series of random numbers (1st
+order markov chain). It accepts lists of 3 numbers where the 3rd represents
+the weight/chance of going from value 1 to value 2 \, a bang will force
+[prob] to output. See below:;
+#X obj 88 283 nbx 2 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 0 256;
+#X text 159 455 - random number based on prob function;
+#X text 158 475 - when we reach a number for which there is no rule
 ;
-#X obj 225 248 cyclone/comment 201 11 helvetica ? 0 80 80 80 2;
-#X obj 235 248 cyclone/comment 250 11 helvetica ? 0 80 80 80 has a
-50% change to be followed by either 0 or 1;
-#X obj 202 295 cyclone/comment 250 11 helvetica ? 0 80 80 80 <--- click
-will show table in viewer;
-#X obj 463 383 cnv 12 73 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#N canvas 209 95 820 435 Examples 0;
+#X text 167 346 - list of <value 1 \, value 2 \, weight>;
+#X text 137 327 bang -, f 6;
+#X text 131 363 clear - clears the probability matrix;
+#X text 137 379 dump - print out all rule;
+#X text 131 395 embed - save matrix with the patch;
+#X text 182 327 choses a weighted random number;
+#X text 83 412 reset <float> -;
+#X text 179 412 sets a default value for when a number is reached for
+which there is no rule, f 60;
+#N canvas 209 95 820 435 examples 0;
 #X obj 2 2 cnv 15 800 40 empty empty prob 3 12 0 18 -204280 -1 0;
 #X text 15 25 examples;
 #X msg 27 105 1;
@@ -234,6 +256,19 @@ the value will get 4 \, it is stuck until a;
 #X restore 644 76 pd complex_example;
 #X obj 569 78 cyclone/comment 135 11 helvetica ? 0 80 80 80 see it
 too ---->;
+#N canvas 618 194 464 302 discussion 0;
+#X text 51 102 When it receives a bang \, [prob] makes a random jump
+from its current state to another state based on its current weighting
+of transitions. If a transition can be made \, the new state is sent
+out the left outlet. If not \, a bang is sent out the right outlet.
+, f 62;
+#X text 51 178 For any state \, the weights of all possible transition
+states are summed. Thus if a state could jump to three states that
+had weights of 3 4 and 1 \, the first one (3) would occur 37.5% of
+the time \, the second 50% of the time \, and the third 12.5%. Note
+that any state can make a transition to itself with a list of the form
+(state state weight)., f 62;
+#X restore 427 254 pd discussion;
 #X connect 2 0 12 0;
 #X connect 3 0 12 0;
 #X connect 4 0 12 0;
@@ -265,54 +300,11 @@ too ---->;
 #X connect 40 2 24 0;
 #X connect 41 0 36 0;
 #X connect 41 1 32 0;
-#X restore 463 383 pd Examples;
-#X obj 120 149 loadbang;
-#X text 158 419 -;
-#X text 125 419 bang;
-#X text 158 598 -;
-#X text 118 598 float;
-#X text 158 439 -;
-#X text 124 439 list;
-#X text 158 484 -;
-#X text 107 484 message;
-#X text 173 419 puts out a number and sets prob to this value, f 60
-;
-#X text 173 598 random number based on prob function, f 60;
-#X text 173 439 list of triplets \, specifying probability function
-in form <x \, y \, prob> where x has an prob (in %) chance of being
-followed by y, f 60;
-#X text 173 484 "clear":;
-#X text 227 484 clear the matrix, f 51;
-#X text 173 502 "dump":;
-#X text 221 502 print out all rule, f 52;
-#X text 173 520 "embed":;
-#X text 227 520 save matrix with the patch, f 51;
-#X text 173 538 "reset <n>":;
-#X text 251 538 set a default <n> \, for when a number is reached for
-which there is no rule, f 47;
-#X text 158 623 -;
-#X text 125 623 bang;
-#X text 173 623 when we reach a number for which there is no rule,
-f 60;
-#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 4 graph;
-#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 prob;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 weighted series of random
-numbers;
-#X connect 8 0 11 0;
-#X connect 9 0 11 0;
-#X connect 10 0 9 0;
-#X connect 11 0 5 0;
-#X connect 11 0 12 0;
-#X connect 27 0 8 0;
+#X restore 443 267 pd examples;
+#X connect 7 0 10 0;
+#X connect 8 0 10 0;
+#X connect 9 0 8 0;
+#X connect 10 0 11 0;
+#X connect 10 0 33 0;
+#X connect 16 0 7 0;
+#X connect 16 0 9 0;

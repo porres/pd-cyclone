@@ -1,23 +1,23 @@
-#N canvas 626 32 563 521 10;
-#X obj 7 355 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 626 32 563 472 10;
+#X obj 7 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 403 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 355 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 440 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 392 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 116 412 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 116 364 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 116 369 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 116 321 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 144 412 signal;
-#X text 144 450 (none);
-#X obj 7 477 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 144 364 signal;
+#X text 144 402 (none);
+#X obj 7 424 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 244 346 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 140 49 cyclone/round~;
-#X restore 213 479 pd Related_objects;
+#X restore 213 426 pd Related_objects;
 #N canvas 571 307 379 261 META 0;
 #X text 1 0 KEYWORDS signal max_compatible;
 #X text 1 163 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
@@ -33,17 +33,14 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 479 pd META;
-#X obj 124 316 nbx 5 20 -1e+37 1e+37 0 0 empty empty truncated_value
-88 11 0 16 -228856 -1 -1 0 256;
-#X obj 124 184 nbx 8 14 -127 127 0 0 empty empty empty 0 -8 0 10 -228856
+#X restore 509 426 pd META;
+#X obj 216 174 nbx 8 14 -127 127 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
-#X obj 127 158 hsl 180 15 -127 127 0 0 empty empty empty -2 -8 0 10
+#X obj 219 148 hsl 180 15 -127 127 0 0 empty empty empty -2 -8 0 10
 -228856 -1 -1 0 1;
-#X obj 124 209 sig~;
-#X obj 124 248 cyclone/trunc~;
-#X text 144 369 signal;
-#X obj 124 281 cyclone/snapshot~ 10;
+#X obj 216 199 sig~;
+#X obj 216 232 cyclone/trunc~;
+#X text 144 321 signal;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -62,8 +59,8 @@ Max/MSP;
 #X text 78 95 [trunc~] converts signals with fractional values such
 as 1.75 to 1 (negative values are modified so that -1.75 becomes -1).
 ;
-#X text 199 369 - a signal whose values will be truncated;
-#X text 197 412 - the truncated input signal;
+#X text 199 321 - a signal whose values will be truncated;
+#X text 197 364 - the truncated input signal;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -168,8 +165,9 @@ as 1.75 to 1 (negative values are modified so that -1.75 becomes -1).
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 11 0 13 0;
-#X connect 12 0 11 0;
-#X connect 13 0 14 0;
-#X connect 14 0 16 0;
-#X connect 16 0 10 0;
+#X obj 216 264 number~;
+#X text 68 263 The truncated value =>;
+#X connect 10 0 12 0;
+#X connect 11 0 10 0;
+#X connect 12 0 13 0;
+#X connect 13 0 27 0;

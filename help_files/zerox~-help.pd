@@ -1,7 +1,7 @@
-#N canvas 396 52 562 718 10;
-#X obj 5 666 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 396 52 561 605 10;
+#X obj 5 566 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 508 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 408 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 598 348 359 228 META 0;
 #X text 1 31 LICENSE SIBSD;
@@ -22,70 +22,38 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 506 668 pd META;
-#X obj 5 563 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 506 568 pd META;
+#X obj 5 463 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 294 469 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 203 668 pd Related_objects;
-#X obj 84 519 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 203 568 pd Related_objects;
+#X obj 84 419 cnv 17 3 36 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 573 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 473 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 162 200 loadbang;
-#X obj 162 222 samplerate~;
-#X obj 162 246 / 64;
-#X text 129 518 signal;
-#X text 129 572 signal;
-#X obj 84 597 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 129 418 signal;
+#X text 129 472 signal;
+#X obj 84 497 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 129 597 signal;
-#X obj 368 279 cyclone/zerox~;
-#X obj 5 629 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X text 129 497 signal;
+#X obj 162 242 cyclone/zerox~;
+#X obj 5 529 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 118 640 1) float;
-#X text 99 539 set <float>;
-#X text 183 539 - set impulse value sent to right outlet;
-#X obj 76 348 *~ 0.5;
-#X obj 25 261 cyclone/zerox~ 1;
-#X obj 25 211 osc~ 1000;
-#X obj 76 376 cyclone/snapshot~ 1;
-#X floatatom 162 272 0 0 0 0 - - -;
-#X obj 76 316 *~;
-#X text 108 315 multiply by block frequency;
-#X text 120 348 half the zero crossings;
-#X text 138 412 frequency estimate;
-#X msg 407 252 set 0.5;
-#X msg 403 228 set 1;
-#X obj 449 361 output~;
-#X obj 368 196 osc~ 1;
-#X obj 312 316 cyclone/snapshot~ 1;
-#X obj 312 347 vsl 20 80 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 7664 1;
-#X text 337 420 -1, f 3;
-#X text 340 338 1, f 3;
-#X text 340 381 0;
-#N canvas 594 162 429 437 transient_detection 0;
-#X obj 147 114 adc~ 1;
-#X obj 147 165 zerox~;
-#X obj 147 204 cyclone/snapshot~ 1;
-#X obj 147 271 vsl 20 128 0 32 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 2778 1;
-#X obj 147 235 nbx 5 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
--228856 -1 -1 7 256;
-#X text 42 51 look at the difference between "ssss" and "aaa" or any
-noisy/tansient input as opposed to a tonal and stable one.;
-#X obj 6 12 cnv 15 400 20 empty empty empty 3 12 0 14 -204280 -1 0
-;
-#X text 18 14 transient detection;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X connect 2 0 4 0;
-#X connect 4 0 3 0;
-#X restore 202 463 pd transient_detection;
-#X obj 76 412 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--249661 -1 -1 1033.59 256;
+#X text 118 540 1) float;
+#X text 99 439 set <float>;
+#X text 183 439 - set impulse value sent to right outlet;
+#X msg 221 206 set 0.5;
+#X msg 217 182 set 1;
+#X obj 243 324 output~;
+#X obj 162 181 osc~ 1;
+#X obj 106 279 cyclone/snapshot~ 1;
+#X obj 106 310 vsl 20 80 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
+-1 -1 6379 1;
+#X text 131 383 -1, f 3;
+#X text 134 301 1, f 3;
+#X text 134 344 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -106,11 +74,11 @@ a zero-crossing counter (for transient detection).;
 #X text 76 122 Left outlet ouputs a value that corresponds to the number
 of zero crossings per signal block - so it depends on the block size.
 Right outlet send an impulse at every zero crossing.;
-#X text 183 518 - signal to be analyzed;
-#X text 191 639 - float sets impulse value from 0-1 (default 1);
-#X text 182 597 - a click (impulse) whenever a zero-crossing is detected
+#X text 183 418 - signal to be analyzed;
+#X text 191 539 - float sets impulse value from 0-1 (default 1);
+#X text 182 497 - a click (impulse) whenever a zero-crossing is detected
 ;
-#X text 182 572 - the number of zero crossings per signal block;
+#X text 182 472 - the number of zero crossings per signal block;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -215,19 +183,54 @@ Right outlet send an impulse at every zero crossing.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 7 0 8 0;
-#X connect 8 0 9 0;
-#X connect 9 0 23 0;
-#X connect 14 1 30 0;
-#X connect 14 1 30 1;
-#X connect 19 0 22 0;
-#X connect 20 0 24 0;
-#X connect 21 0 20 0;
-#X connect 22 0 38 0;
-#X connect 23 0 24 1;
-#X connect 24 0 19 0;
-#X connect 28 0 14 0;
-#X connect 29 0 14 0;
-#X connect 31 0 14 0;
-#X connect 31 0 32 0;
-#X connect 32 0 33 0;
+#N canvas 104 75 488 400 frequency 0;
+#X obj 279 114 loadbang;
+#X obj 279 136 samplerate~;
+#X obj 193 262 *~ 0.5;
+#X obj 142 175 cyclone/zerox~ 1;
+#X obj 142 125 osc~ 1000;
+#X obj 193 290 cyclone/snapshot~ 1;
+#X floatatom 279 186 0 0 0 0 - - -;
+#X obj 193 230 *~;
+#X text 225 229 multiply by block frequency;
+#X text 237 262 half the zero crossings;
+#X text 177 345 frequency estimate;
+#X obj 193 322 number~;
+#X obj 25 11 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 31 16 comment 0 18 times ? 0 0 0 0 Frequency estimate:;
+#X text 77 58 An example on how to use [zerox~] to estimate frequency
+;
+#X obj 279 160 / 64;
+#X connect 0 0 1 0;
+#X connect 1 0 15 0;
+#X connect 2 0 5 0;
+#X connect 3 0 7 0;
+#X connect 4 0 3 0;
+#X connect 5 0 11 0;
+#X connect 6 0 7 1;
+#X connect 7 0 2 0;
+#X connect 15 0 6 0;
+#X restore 438 283 pd frequency \; estimate;
+#N canvas 326 74 412 385 transient 0;
+#X obj 147 122 adc~ 1;
+#X obj 231 217 vsl 20 128 0 32 0 0 empty empty empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X obj 147 185 number~;
+#X text 32 62 Look at the difference between "ssss" and "aaa" or any
+noisy/tansient input as opposed to a tonal and stable one.;
+#X obj 25 11 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 31 16 comment 0 18 times ? 0 0 0 0 Transient detection:;
+#X obj 147 154 cyclone/zerox~;
+#X connect 0 0 6 0;
+#X connect 2 1 1 0;
+#X connect 6 0 2 0;
+#X restore 439 336 pd transient \; detection;
+#X connect 11 1 18 0;
+#X connect 11 1 18 1;
+#X connect 16 0 11 0;
+#X connect 17 0 11 0;
+#X connect 19 0 11 0;
+#X connect 19 0 20 0;
+#X connect 20 0 21 0;

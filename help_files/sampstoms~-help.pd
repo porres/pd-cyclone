@@ -1,7 +1,7 @@
-#N canvas 785 50 559 589 10;
-#X obj 3 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 785 50 557 553 10;
+#X obj 3 515 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 416 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 386 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 594 208 385 259 META 0;
 #X text 1 19 LICENSE SIBSD;
@@ -22,42 +22,30 @@ to milliseconds;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 547 pd META;
-#X obj 3 455 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 517 pd META;
+#X obj 3 425 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 513 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 483 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 316 355 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 204 547 pd Related_objects;
-#X obj 105 485 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X restore 204 517 pd Related_objects;
+#X obj 105 455 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 174 464 signal;
-#X text 173 521 (none);
-#X text 180 488 float;
-#X obj 105 464 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 174 434 signal;
+#X text 173 491 (none);
+#X text 180 458 float;
+#X obj 105 434 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 226 464 - converted duration in ms;
-#X text 226 490 - converted duration in ms;
-#X obj 106 426 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 226 434 - converted duration in ms;
+#X text 226 460 - converted duration in ms;
+#X obj 106 396 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 139 427 float/signal;
-#X floatatom 302 365 0 0 0 0 - - -;
-#X floatatom 204 338 0 0 0 0 - - -;
-#X floatatom 99 235 0 0 0 0 - - -;
-#X floatatom 99 338 0 0 0 0 - - -;
-#X floatatom 407 364 0 0 0 0 - - -;
-#X text 95 211 float input;
-#X text 335 284 signal input;
-#X text 122 360 miliseconds;
-#X text 327 382 miliseconds;
-#X text 131 236 number of samples;
-#X msg 302 229 0 \, 44100 3000;
-#X obj 302 309 cyclone/sampstoms~;
-#X obj 99 271 cyclone/sampstoms~;
-#X obj 99 299 cyclone/Snapshot~ 1;
-#X obj 302 342 cyclone/Snapshot~ 1;
+#X text 139 397 float/signal;
+#X text 46 213 float input;
+#X text 96 351 miliseconds;
+#X text 307 362 miliseconds;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -80,24 +68,10 @@ samples to milliseconds (depending on the sample rate).;
 input converts only to the signal outlet \, but a float input converts
 to both float and signal output. When a signal input is present \,
 the float input is ignored.;
-#X obj 302 259 cyclone/line~;
-#X text 225 427 - number of samples;
-#N canvas 221 147 444 223 train~ 0;
-#X floatatom 195 132 5 0 0 0 - - -, f 5;
-#X floatatom 138 77 5 0 0 0 - - -, f 5;
-#X text 42 22 convert period time from samples to ms to use it on [train~]
-;
-#X obj 195 159 cyclone/train~;
-#X text 235 132 ms;
-#X text 179 77 samples;
-#X obj 138 104 sampstoms~;
-#X connect 0 0 3 0;
-#X connect 1 0 6 0;
-#X connect 6 1 0 0;
-#X restore 470 321 pd train~;
+#X text 225 397 - number of samples;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -166,7 +140,7 @@ the float input is ignored.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -199,12 +173,38 @@ the float input is ignored.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 17 0 27 0;
-#X connect 25 0 40 0;
-#X connect 26 0 29 0;
-#X connect 26 1 19 0;
-#X connect 27 0 28 0;
-#X connect 27 1 16 0;
-#X connect 28 0 18 0;
-#X connect 29 0 15 0;
-#X connect 40 0 26 0;
+#N canvas 221 147 444 223 example 0;
+#X floatatom 195 132 5 0 0 0 - - -, f 5;
+#X floatatom 138 77 5 0 0 0 - - -, f 5;
+#X text 42 22 convert period time from samples to ms to use it on [train~]
+;
+#X obj 195 159 cyclone/train~;
+#X text 235 132 ms;
+#X text 179 77 samples;
+#X obj 138 104 sampstoms~;
+#X connect 0 0 3 0;
+#X connect 1 0 6 0;
+#X connect 6 1 0 0;
+#X restore 470 304 pd example \; train~;
+#X text 342 249 signal input;
+#X obj 252 251 cyclone/line~;
+#X obj 52 321 number~;
+#X obj 157 323 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 52 238 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 252 332 number~;
+#X obj 357 334 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 252 221 0 \, 1000 1000;
+#X obj 52 281 cyclone/sampstoms~;
+#X obj 252 305 cyclone/sampstoms~;
+#X text 263 277 <= number of samples;
+#X text 62 258 <= number of samples;
+#X connect 32 0 40 0;
+#X connect 35 0 39 0;
+#X connect 38 0 32 0;
+#X connect 39 0 33 0;
+#X connect 39 1 34 0;
+#X connect 40 0 36 0;
+#X connect 40 1 37 0;

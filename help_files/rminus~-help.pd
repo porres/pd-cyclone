@@ -1,4 +1,4 @@
-#N canvas 110 155 564 494 10;
+#N canvas 780 58 564 494 10;
 #X declare -stdlib cyclone/cyclone;
 #X obj 5 443 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -30,9 +30,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X restore 196 445 pd Related_objects;
 #X obj 5 291 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 240 223 cyclone/snapshot~ 1;
-#X obj 43 229 cyclone/snapshot~ 1;
-#X obj 381 177 expr~ 5 - $v1;
+#X obj 362 235 expr~ 5 - $v1;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -70,22 +68,6 @@ inlets' functions are reversed.;
 ;
 #X obj 100 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 43 169 sig~ 5;
-#X obj 228 161 sig~ 10;
-#X obj 43 144 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 148 144 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 303 140 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 228 140 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 43 196 cyclone/rminus~ 50;
-#X obj 240 191 !-~ 500;
-#X obj 43 258 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 45 256;
-#X obj 240 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 490 256;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -200,14 +182,19 @@ https://github.com/porres/pd-cyclone/wiki/How-To-Install;
 is from the cyclone "sub-library" \, loaded via startup or with [declare]
 like this:;
 #X restore 470 242 pd cyclone \; sub_library;
-#X text 385 156 similar to:;
-#X connect 6 0 40 0;
-#X connect 7 0 39 0;
-#X connect 31 0 37 0;
-#X connect 32 0 38 0;
-#X connect 33 0 31 0;
-#X connect 34 0 37 1;
-#X connect 35 0 38 1;
-#X connect 36 0 32 0;
-#X connect 37 0 7 0;
-#X connect 38 0 6 0;
+#X text 366 214 similar to:;
+#X obj 338 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 57 160 number~ 1;
+#X obj 84 185 number~ 1;
+#X obj 57 243 number~;
+#X obj 221 160 number~ 1;
+#X obj 221 250 number~;
+#X obj 57 210 !-~, f 5;
+#X obj 221 202 cyclone/rminus~ 10;
+#X connect 32 0 39 1;
+#X connect 33 0 38 0;
+#X connect 34 0 38 1;
+#X connect 36 0 39 0;
+#X connect 38 0 35 0;
+#X connect 39 0 37 0;

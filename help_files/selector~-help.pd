@@ -67,26 +67,24 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 96 171 1st inlet;
 #X text 96 186 2nd inlet;
 #X text 96 200 3rd inlet;
-#N canvas 787 211 417 459 signal-rate 0;
+#N canvas 787 211 416 415 signal-rate 0;
 #X obj 152 145 *~ 3;
-#X obj 129 351 cyclone/output~;
+#X obj 129 321 cyclone/output~;
 #X obj 152 106 phasor~ 0.5;
-#X obj 184 176 cyclone/snapshot~ 1;
-#X floatatom 184 205 7 0 0 0 - - -, f 7;
-#X obj 274 264 noise~;
-#X obj 152 297 cyclone/selector~ 2;
+#X obj 274 234 noise~;
+#X obj 152 267 cyclone/selector~ 2;
 #X text 37 22 You can set the inlet number with a signal input \, this
 allows [selector~] to be controlle with sample accuracy. Signal values
 are truncated to integers.;
-#X obj 207 264 osc~ 440;
-#X connect 0 0 3 0;
-#X connect 0 0 6 0;
+#X obj 207 234 osc~ 440;
+#X obj 177 189 number~;
+#X connect 0 0 4 0;
+#X connect 0 0 7 0;
 #X connect 2 0 0 0;
-#X connect 3 0 4 0;
-#X connect 5 0 6 2;
-#X connect 6 0 1 0;
-#X connect 6 0 1 1;
-#X connect 8 0 6 1;
+#X connect 3 0 4 2;
+#X connect 4 0 1 0;
+#X connect 4 0 1 1;
+#X connect 6 0 4 1;
 #X restore 382 225 pd signal-rate;
 #X obj 105 434 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;

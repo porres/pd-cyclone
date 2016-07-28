@@ -1,5 +1,5 @@
 #N canvas 258 109 555 622 10;
-#X obj 242 328 tgl 35 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 326 331 tgl 35 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X obj 2 583 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -55,13 +55,13 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 323 222 sig~ -0.5;
 #X obj 329 244 sig~ 0.5;
 #X obj 242 222 osc~ 0.5;
-#X obj 117 297 vsl 20 100 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 829 1;
-#X text 105 341 0;
-#X text 105 290 1;
-#X text 93 315 0.5;
-#X text 87 366 -0.5;
-#X text 99 389 -1;
+#X obj 204 297 vsl 20 100 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
+-1 -1 9896 1;
+#X text 192 341 0;
+#X text 192 290 1;
+#X text 180 315 0.5;
+#X text 174 366 -0.5;
+#X text 186 389 -1;
 #X text 157 542 1) float;
 #X text 157 558 2) float;
 #X obj 242 272 cyclone/thresh~;
@@ -81,8 +81,6 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 thresh~;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Detect signal above a threshold
 ;
-#X obj 117 272 cyclone/snapshot~ 1;
-#X obj 242 301 cyclone/snapshot~ 1;
 #X text 74 96 [thresh~] is a "Schmitt trigger". When the input is greater
 than or equal to the high threshold level \, the output is 1 and becomes
 0 when the signal is equal to or less than the reset level (low threshold).
@@ -196,10 +194,12 @@ is 1 until a sample in the input signal is less than the reset level
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 242 303 number~;
+#X obj 120 265 number~;
 #X connect 21 0 32 1;
 #X connect 22 0 32 2;
 #X connect 23 0 32 0;
-#X connect 23 0 41 0;
-#X connect 32 0 42 0;
-#X connect 41 0 24 0;
-#X connect 42 0 0 0;
+#X connect 23 0 47 0;
+#X connect 32 0 46 0;
+#X connect 46 1 0 0;
+#X connect 47 1 24 0;

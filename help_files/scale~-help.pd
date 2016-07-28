@@ -1,5 +1,5 @@
-#N canvas 736 23 561 756 10;
-#X obj 6 714 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 736 23 561 728 10;
+#X obj 6 689 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 616 310 382 346 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -20,65 +20,63 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 0 57 INLET_0 float/list;
 #X text 0 114 OUTLET_0 float;
 #X text 0 0 KEYWORDS range limiter (fold \, wrap \, clip);
-#X restore 507 716 pd META;
-#X obj 6 488 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 691 pd META;
+#X obj 6 463 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 525 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 500 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 6 649 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 6 624 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #N canvas 312 452 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 203 719 pd Related_objects;
-#X obj 93 341 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 203 694 pd Related_objects;
+#X obj 93 316 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 94 499 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 94 474 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 6 332 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 607 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X obj 6 582 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #X obj 124 158 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X floatatom 121 184 5 0 0 0 - - -, f 5;
-#X text 146 545 2) float - input high (default 127);
-#X text 146 532 1) float - input low (default 0);
-#X text 146 557 3) float - output low (default 0);
-#X obj 93 381 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 146 520 2) float - input high (default 127);
+#X text 146 507 1) float - input low (default 0);
+#X text 146 532 3) float - output low (default 0);
+#X obj 93 356 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 401 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 93 376 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 421 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 93 396 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 441 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+#X obj 93 416 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X obj 93 461 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+#X obj 93 436 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
 ;
-#X text 134 500 float/list - the scaled values according to output
+#X text 134 475 float/list - the scaled values according to output
 range;
-#X text 108 619 @classic <int>;
-#X text 205 619 - 0 loads "modern" exponential mode (default 1 \, classic)
+#X text 108 594 @classic <int>;
+#X text 205 594 - 0 loads "modern" exponential mode (default 1 \, classic)
 ;
-#X text 146 570 4) float - output high (default 1);
-#X text 130 656 Originally in Max/MSP \, "classic mode" is buggy as
+#X text 146 545 4) float - output high (default 1);
+#X text 130 631 Originally in Max/MSP \, "classic mode" is buggy as
 hell and cycling 74 is aware. We have a reasonably good version \,
 but you shouldn't really bother to use it \, just saying...;
-#X text 146 583 5) float - exponential factor (default 1 - linear)
+#X text 146 558 5) float - exponential factor (default 1 - linear)
 ;
-#X text 126 362 classic <f> -;
+#X text 126 337 classic <f> -;
 #X obj 121 208 sig~;
-#X floatatom 121 291 0 0 0 0 - - -;
-#X text 156 343 signal - value to perform the scaling function on;
-#X text 122 382 float/signal - sets the low end of the input range
+#X text 156 318 signal - value to perform the scaling function on;
+#X text 122 357 float/signal - sets the low end of the input range
 ;
-#X text 122 402 float/signal - sets the high end of the input range
+#X text 122 377 float/signal - sets the high end of the input range
 ;
-#X text 122 422 float/signal - sets the low end of the output range
+#X text 122 397 float/signal - sets the low end of the output range
 ;
-#X text 122 441 float/signal - sets the high end of the output range
+#X text 122 416 float/signal - sets the high end of the output range
 ;
-#X text 122 462 float/signal - sets the exponential factor;
+#X text 122 437 float/signal - sets the exponential factor;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -95,7 +93,6 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 19 54 comment 0 18 times ? 0 0 0 0 Map signals to an output
 range;
-#X obj 121 266 cyclone/snapshot~ 1;
 #X text 88 87 [scale] maps an input range to an output range. Values
 larger or smaller than the input range will not be clipped to the output
 range. The mapping can be inverted and/or exponential.;
@@ -166,20 +163,20 @@ may require updating to work properly in modern mode.;
 #X connect 27 0 24 0;
 #X connect 28 0 29 0;
 #X connect 29 0 27 0;
-#X restore 323 193 pd Exponential \; Classic X Modern;
-#X text 210 362 sets to classic mode <classic 1> or modern <classic
+#X restore 347 248 pd Exponential \; Classic X Modern;
+#X text 210 337 sets to classic mode <classic 1> or modern <classic
 0>;
-#N canvas 695 23 452 683 advanced 0;
+#N canvas 695 23 457 614 advanced 0;
 #X obj 140 91 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 245 136 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 331 335 Inverted;
-#X obj 168 482 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
+#X text 349 321 Inverted;
+#X obj 168 448 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 165 510 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 165 476 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 50 401 If the input value is outside the input range \, [scale]
+#X text 50 367 If the input value is outside the input range \, [scale]
 will not clip the values to the output range but keep scaling outside
 that boundary with the same conversion parameters.;
 #X text 59 31 The scaling can be inverted by reversing one of the ranges
@@ -190,45 +187,33 @@ that boundary with the same conversion parameters.;
 #X obj 71 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 71 190 sig~;
-#X obj 71 271 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 71 245 cyclone/snapshot~ 1;
-#X obj 165 558 cyclone/scale~ 53.5 73.5 -1 1;
-#X obj 165 533 sig~;
-#X obj 165 623 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 165 597 cyclone/snapshot~ 1;
-#X obj 245 335 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 245 309 cyclone/snapshot~ 1;
-#X text 347 243 Inverted;
-#X obj 261 243 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 261 217 cyclone/snapshot~ 1;
+#X obj 165 524 cyclone/scale~ 53.5 73.5 -1 1;
+#X obj 165 499 sig~;
+#X text 358 228 Inverted;
 #X obj 245 158 sig~;
+#X obj 71 253 number~;
+#X obj 261 227 number~;
+#X obj 245 317 number~;
+#X obj 165 561 number~;
 #X connect 0 0 1 0;
 #X connect 0 0 10 0;
-#X connect 1 0 23 0;
+#X connect 1 0 15 0;
 #X connect 3 0 4 0;
-#X connect 4 0 15 0;
-#X connect 7 0 13 0;
-#X connect 8 0 22 0;
-#X connect 9 0 19 0;
+#X connect 4 0 13 0;
+#X connect 7 0 16 0;
+#X connect 8 0 17 0;
+#X connect 9 0 18 0;
 #X connect 10 0 11 0;
 #X connect 11 0 7 0;
+#X connect 12 0 19 0;
 #X connect 13 0 12 0;
-#X connect 14 0 17 0;
-#X connect 15 0 14 0;
-#X connect 17 0 16 0;
-#X connect 19 0 18 0;
-#X connect 22 0 21 0;
-#X connect 23 0 9 0;
-#X connect 23 0 8 0;
-#X restore 335 240 pd advanced;
-#X obj 121 239 cyclone/scale~ -1 1 0 127;
+#X connect 15 0 9 0;
+#X connect 15 0 8 0;
+#X restore 462 256 pd advanced;
+#X obj 121 237 cyclone/scale~ -1 1 0 127;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -297,7 +282,7 @@ that boundary with the same conversion parameters.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -330,8 +315,10 @@ that boundary with the same conversion parameters.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 10 0 11 0;
-#X connect 11 0 27 0;
-#X connect 27 0 48 0;
-#X connect 43 0 28 0;
-#X connect 48 0 43 0;
+#X obj 121 268 number~;
+#X obj 121 184 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 -1 256;
+#X connect 10 0 48 0;
+#X connect 26 0 45 0;
+#X connect 45 0 47 0;
+#X connect 48 0 26 0;
