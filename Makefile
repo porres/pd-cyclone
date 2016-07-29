@@ -20,144 +20,144 @@ endif
 #######################################################################
 
 # CONTROL CLASSES
-accum.class.sources := src/control/accum.c
-acos.class.sources := src/control/acos.c
-asin.class.sources := src/control/asin.c
-bucket.class.sources := src/control/bucket.c
-cartopol.class.sources := src/control/cartopol.c
-cosh.class.sources := src/control/cosh.c
-flush.class.sources := src/control/flush.c
-forward.class.sources := src/control/forward.c
-fromsymbol.class.sources := src/control/fromsymbol.c
-mean.class.sources := src/control/mean.c
-midiflush.class.sources := src/control/midiflush.c
-midiformat.class.sources := src/control/midiformat.c
-midiparse.class.sources := src/control/midiparse.c
-next.class.sources := src/control/next.c
-onebang.class.sources := src/control/onebang.c
-peak.class.sources := src/control/peak.c
-poltocar.class.sources := src/control/poltocar.c
-sinh.class.sources := src/control/sinh.c
-split.class.sources := src/control/split.c
-sustain.class.sources := src/control/sustain.c
-tanh.class.sources := src/control/tanh.c
-trough.class.sources := src/control/trough.c
-uzi.class.sources := src/control/uzi.c
-xbendin.class.sources := src/control/xbendin.c
-xbendin2.class.sources := src/control/xbendin2.c
-xbendout.class.sources := src/control/xbendout.c
-xbendout2.class.sources := src/control/xbendout2.c
-xnotein.class.sources := src/control/xnotein.c
-xnoteout.class.sources := src/control/xnoteout.c
+accum.class.sources := binaries_src/control/accum.c
+acos.class.sources := binaries_src/control/acos.c
+asin.class.sources := binaries_src/control/asin.c
+bucket.class.sources := binaries_src/control/bucket.c
+cartopol.class.sources := binaries_src/control/cartopol.c
+cosh.class.sources := binaries_src/control/cosh.c
+flush.class.sources := binaries_src/control/flush.c
+forward.class.sources := binaries_src/control/forward.c
+fromsymbol.class.sources := binaries_src/control/fromsymbol.c
+mean.class.sources := binaries_src/control/mean.c
+midiflush.class.sources := binaries_src/control/midiflush.c
+midiformat.class.sources := binaries_src/control/midiformat.c
+midiparse.class.sources := binaries_src/control/midiparse.c
+next.class.sources := binaries_src/control/next.c
+onebang.class.sources := binaries_src/control/onebang.c
+peak.class.sources := binaries_src/control/peak.c
+poltocar.class.sources := binaries_src/control/poltocar.c
+sinh.class.sources := binaries_src/control/sinh.c
+split.class.sources := binaries_src/control/split.c
+sustain.class.sources := binaries_src/control/sustain.c
+tanh.class.sources := binaries_src/control/tanh.c
+trough.class.sources := binaries_src/control/trough.c
+uzi.class.sources := binaries_src/control/uzi.c
+xbendin.class.sources := binaries_src/control/xbendin.c
+xbendin2.class.sources := binaries_src/control/xbendin2.c
+xbendout.class.sources := binaries_src/control/xbendout.c
+xbendout2.class.sources := binaries_src/control/xbendout2.c
+xnotein.class.sources := binaries_src/control/xnotein.c
+xnoteout.class.sources := binaries_src/control/xnoteout.c
 # NEW ones:
-acosh.class.sources := src/control/acosh.c
-asinh.class.sources := src/control/asinh.c
-atanh.class.sources := src/control/atanh.c
-atodb.class.sources := src/control/atodb.c
-dbtoa.class.sources := src/control/dbtoa.c
-join.class.sources := src/control/join.c
-pong.class.sources := src/control/pong.c
-pak.class.sources := src/control/pak.c
-round.class.sources := src/control/round.c
-scale.class.sources := src/control/scale.c
+acosh.class.sources := binaries_src/control/acosh.c
+asinh.class.sources := binaries_src/control/asinh.c
+atanh.class.sources := binaries_src/control/atanh.c
+atodb.class.sources := binaries_src/control/atodb.c
+dbtoa.class.sources := binaries_src/control/dbtoa.c
+join.class.sources := binaries_src/control/join.c
+pong.class.sources := binaries_src/control/pong.c
+pak.class.sources := binaries_src/control/pak.c
+round.class.sources := binaries_src/control/round.c
+scale.class.sources := binaries_src/control/scale.c
 
 # SIGNAL CLASSES:
-abs~.class.sources := src/signal/abs.c
-acos~.class.sources := src/signal/acos.c
-acosh~.class.sources := src/signal/acosh.c
-allpass~.class.sources := src/signal/allpass.c
-asinh~.class.sources := src/signal/asinh.c
-asin~.class.sources := src/signal/asin.c
-atan~.class.sources := src/signal/atan.c
-atan2~.class.sources := src/signal/atan2.c
-atanh~.class.sources := src/signal/atanh.c
-average~.class.sources := src/signal/average.c
-avg~.class.sources := src/signal/avg.c
-bitnot~.class.sources := src/signal/bitnot.c
-bitshift~.class.sources := src/signal/bitshift.c
-cascade~.class.sources := src/signal/cascade.c
-change~.class.sources := src/signal/change.c
-click~.class.sources := src/signal/click.c
-clip~.class.sources := src/signal/clip.c
-cosh~.class.sources := src/signal/cosh.c
-cosx~.class.sources := src/signal/cosx.c
-count~.class.sources := src/signal/count.c
-comb~.class.sources := src/signal/comb.c
-cycle~.class.sources := src/signal/cycle.c
-delay~.class.sources := src/signal/delay.c
-delta~.class.sources := src/signal/delta.c
-deltaclip~.class.sources := src/signal/deltaclip.c
-edge~.class.sources := src/signal/edge.c
-kink~.class.sources := src/signal/kink.c
-log~.class.sources := src/signal/log.c
-lookup~.class.sources := src/signal/lookup.c
-lores~.class.sources := src/signal/lores.c
-matrix~.class.sources := src/signal/matrix.c
-maximum~.class.sources := src/signal/maximum.c
-minimum~.class.sources := src/signal/minimum.c
-minmax~.class.sources := src/signal/minmax.c
-mstosamps~.class.sources := src/signal/mstosamps.c
-onepole~.class.sources := src/signal/onepole.c
-overdrive~.class.sources := src/signal/overdrive.c
-peakamp~.class.sources := src/signal/peakamp.c
-phasewrap~.class.sources := src/signal/phasewrap.c
-pink~.class.sources := src/signal/pink.c
-poltocar~.class.sources := src/signal/poltocar.c
-pong~.class.sources := src/signal/pong.c
-pow~.class.sources := src/signal/pow.c
-rampsmooth~.class.sources := src/signal/rampsmooth.c
-rand~.class.sources := src/signal/rand.c
-reson~.class.sources := src/signal/reson.c
-sah~.class.sources := src/signal/sah.c
-sampstoms~.class.sources := src/signal/sampstoms.c
-sinh~.class.sources := src/signal/sinh.c
-sinx~.class.sources := src/signal/sinx.c
-slide~.class.sources := src/signal/slide.c
-snapshot~.class.sources := src/signal/snapshot.c
-spike~.class.sources := src/signal/spike.c
-svf~.class.sources := src/signal/svf.c
-tanh~.class.sources := src/signal/tanh.c
-tanx~.class.sources := src/signal/tanx.c
-train~.class.sources := src/signal/train.c
-trapezoid~.class.sources := src/signal/trapezoid.c
-triangle~.class.sources := src/signal/triangle.c
-vectral~.class.sources := src/signal/vectral.c
-zerox~.class.sources := src/signal/zerox.c
+abs~.class.sources := binaries_src/signal/abs.c
+acos~.class.sources := binaries_src/signal/acos.c
+acosh~.class.sources := binaries_src/signal/acosh.c
+allpass~.class.sources := binaries_src/signal/allpass.c
+asinh~.class.sources := binaries_src/signal/asinh.c
+asin~.class.sources := binaries_src/signal/asin.c
+atan~.class.sources := binaries_src/signal/atan.c
+atan2~.class.sources := binaries_src/signal/atan2.c
+atanh~.class.sources := binaries_src/signal/atanh.c
+average~.class.sources := binaries_src/signal/average.c
+avg~.class.sources := binaries_src/signal/avg.c
+bitnot~.class.sources := binaries_src/signal/bitnot.c
+bitshift~.class.sources := binaries_src/signal/bitshift.c
+cascade~.class.sources := binaries_src/signal/cascade.c
+change~.class.sources := binaries_src/signal/change.c
+click~.class.sources := binaries_src/signal/click.c
+clip~.class.sources := binaries_src/signal/clip.c
+cosh~.class.sources := binaries_src/signal/cosh.c
+cosx~.class.sources := binaries_src/signal/cosx.c
+count~.class.sources := binaries_src/signal/count.c
+comb~.class.sources := binaries_src/signal/comb.c
+cycle~.class.sources := binaries_src/signal/cycle.c
+delay~.class.sources := binaries_src/signal/delay.c
+delta~.class.sources := binaries_src/signal/delta.c
+deltaclip~.class.sources := binaries_src/signal/deltaclip.c
+edge~.class.sources := binaries_src/signal/edge.c
+kink~.class.sources := binaries_src/signal/kink.c
+log~.class.sources := binaries_src/signal/log.c
+lookup~.class.sources := binaries_src/signal/lookup.c
+lores~.class.sources := binaries_src/signal/lores.c
+matrix~.class.sources := binaries_src/signal/matrix.c
+maximum~.class.sources := binaries_src/signal/maximum.c
+minimum~.class.sources := binaries_src/signal/minimum.c
+minmax~.class.sources := binaries_src/signal/minmax.c
+mstosamps~.class.sources := binaries_src/signal/mstosamps.c
+onepole~.class.sources := binaries_src/signal/onepole.c
+overdrive~.class.sources := binaries_src/signal/overdrive.c
+peakamp~.class.sources := binaries_src/signal/peakamp.c
+phasewrap~.class.sources := binaries_src/signal/phasewrap.c
+pink~.class.sources := binaries_src/signal/pink.c
+poltocar~.class.sources := binaries_src/signal/poltocar.c
+pong~.class.sources := binaries_src/signal/pong.c
+pow~.class.sources := binaries_src/signal/pow.c
+rampsmooth~.class.sources := binaries_src/signal/rampsmooth.c
+rand~.class.sources := binaries_src/signal/rand.c
+reson~.class.sources := binaries_src/signal/reson.c
+sah~.class.sources := binaries_src/signal/sah.c
+sampstoms~.class.sources := binaries_src/signal/sampstoms.c
+sinh~.class.sources := binaries_src/signal/sinh.c
+sinx~.class.sources := binaries_src/signal/sinx.c
+slide~.class.sources := binaries_src/signal/slide.c
+snapshot~.class.sources := binaries_src/signal/snapshot.c
+spike~.class.sources := binaries_src/signal/spike.c
+svf~.class.sources := binaries_src/signal/svf.c
+tanh~.class.sources := binaries_src/signal/tanh.c
+tanx~.class.sources := binaries_src/signal/tanx.c
+train~.class.sources := binaries_src/signal/train.c
+trapezoid~.class.sources := binaries_src/signal/trapezoid.c
+triangle~.class.sources := binaries_src/signal/triangle.c
+vectral~.class.sources := binaries_src/signal/vectral.c
+zerox~.class.sources := binaries_src/signal/zerox.c
 # NEW ones:
-atodb~.class.sources := src/signal/atodb.c
-biquad~.class.sources := src/signal/biquad.c
-bitsafe~.class.sources := src/signal/bitsafe.c
-cross~.class.sources := src/signal/cross.c
-dbtoa~.class.sources := src/signal/dbtoa.c
-degrade~.class.sources := src/signal/degrade.c
-downsamp~.class.sources := src/signal/downsamp.c
-filtercoeff~.class.sources := src/signal/filtercoeff.c
-freqshift~.class.sources := src/signal/freqshift.c
-gate~.class.sources := src/signal/gate.c
-hilbert~.class.sources := src/signal/hilbert.c
-phaseshift~.class.sources := src/signal/phaseshift.c
-round~.class.sources := src/signal/round.c
-scale~.class.sources := src/signal/scale.c
-selector~.class.sources := src/signal/selector.c
-thresh~.class.sources := src/signal/thresh.c
-trunc~.class.sources := src/signal/trunc.c
+atodb~.class.sources := binaries_src/signal/atodb.c
+biquad~.class.sources := binaries_src/signal/biquad.c
+bitsafe~.class.sources := binaries_src/signal/bitsafe.c
+cross~.class.sources := binaries_src/signal/cross.c
+dbtoa~.class.sources := binaries_src/signal/dbtoa.c
+degrade~.class.sources := binaries_src/signal/degrade.c
+downsamp~.class.sources := binaries_src/signal/downsamp.c
+filtercoeff~.class.sources := binaries_src/signal/filtercoeff.c
+freqshift~.class.sources := binaries_src/signal/freqshift.c
+gate~.class.sources := binaries_src/signal/gate.c
+hilbert~.class.sources := binaries_src/signal/hilbert.c
+phaseshift~.class.sources := binaries_src/signal/phaseshift.c
+round~.class.sources := binaries_src/signal/round.c
+scale~.class.sources := binaries_src/signal/scale.c
+selector~.class.sources := binaries_src/signal/selector.c
+thresh~.class.sources := binaries_src/signal/thresh.c
+trunc~.class.sources := binaries_src/signal/trunc.c
 
 # CYCLONE SUB LIBRARY (with non-alphanumeric objects): #
-cyclone.class.sources := src/sub_lib_cyclone.c
+cyclone.class.sources := binaries_src/sub_lib_cyclone.c
 
 # New objects with alphanumeric versions
-rminus.class.sources := src/control/rminus.c
-rdiv.class.sources := src/control/rdiv.c
-equals~.class.sources := src/signal/equals.c
-notequals~.class.sources := src/signal/notequals.c
-plusequals~.class.sources := src/signal/plusequals.c
-greaterthan~.class.sources := src/signal/greaterthan.c
-greaterthaneq~.class.sources := src/signal/greaterthaneq.c
-lessthan~.class.sources := src/signal/lessthan.c
-lessthaneq~.class.sources := src/signal/lessthaneq.c
-modulo~.class.sources := src/signal/modulo.c
-rdiv~.class.sources := src/signal/rdiv.c
-rminus~.class.sources := src/signal/rminus.c
+rminus.class.sources := binaries_src/control/rminus.c
+rdiv.class.sources := binaries_src/control/rdiv.c
+equals~.class.sources := binaries_src/signal/equals.c
+notequals~.class.sources := binaries_src/signal/notequals.c
+plusequals~.class.sources := binaries_src/signal/plusequals.c
+greaterthan~.class.sources := binaries_src/signal/greaterthan.c
+greaterthaneq~.class.sources := binaries_src/signal/greaterthaneq.c
+lessthan~.class.sources := binaries_src/signal/lessthan.c
+lessthaneq~.class.sources := binaries_src/signal/lessthaneq.c
+modulo~.class.sources := binaries_src/signal/modulo.c
+rdiv~.class.sources := binaries_src/signal/rdiv.c
+rminus~.class.sources := binaries_src/signal/rminus.c
 
 
 ############################################################
@@ -260,78 +260,78 @@ shared/common/fitter.c
 # Control Classes:
 
 # hfitter classes
-bangbang.class.sources := src/control/bangbang.c $(hfitter)
-counter.class.sources := src/control/counter.c $(hfitter)
-cycle.class.sources := src/control/cycle.c $(hfitter)
-decode.class.sources := src/control/decode.c $(hfitter)
-gate.class.sources := src/control/gate.c $(hfitter)
-maximum.class.sources := src/control/maximum.c $(hfitter)
-minimum.class.sources := src/control/minimum.c $(hfitter)
-switch.class.sources := src/control/switch.c $(hfitter)
+bangbang.class.sources := binaries_src/control/bangbang.c $(hfitter)
+counter.class.sources := binaries_src/control/counter.c $(hfitter)
+cycle.class.sources := binaries_src/control/cycle.c $(hfitter)
+decode.class.sources := binaries_src/control/decode.c $(hfitter)
+gate.class.sources := binaries_src/control/gate.c $(hfitter)
+maximum.class.sources := binaries_src/control/maximum.c $(hfitter)
+minimum.class.sources := binaries_src/control/minimum.c $(hfitter)
+switch.class.sources := binaries_src/control/switch.c $(hfitter)
 
 # hfragile classes
-universal.class.sources := src/control/universal.c $(hfragile)
-grab.class.sources := src/control/grab.c $(hfragile)
+universal.class.sources := binaries_src/control/universal.c $(hfragile)
+grab.class.sources := binaries_src/control/grab.c $(hfragile)
 
 # hfile classes
-loadmess.class.sources := src/control/loadmess.c $(hfile) # for "click" (new class)
-capture.class.sources := src/control/capture.c $(hfile)
-coll.class.sources := src/control/coll.c $(hfile)
-mtr.class.sources := src/control/mtr.c $(hfile)
+loadmess.class.sources := binaries_src/control/loadmess.c $(hfile) # for "click" (new class)
+capture.class.sources := binaries_src/control/capture.c $(hfile)
+coll.class.sources := binaries_src/control/coll.c $(hfile)
+mtr.class.sources := binaries_src/control/mtr.c $(hfile)
 
 # hgui classes
-active.class.sources := src/control/active.c $(hgui)
-mousefilter.class.sources := src/control/mousefilter.c $(hgui)
-mousestate.class.sources := src/control/mousestate.c $(hgui)
+active.class.sources := binaries_src/control/active.c $(hgui)
+mousefilter.class.sources := binaries_src/control/mousefilter.c $(hgui)
+mousestate.class.sources := binaries_src/control/mousestate.c $(hgui)
 
 # hgrow classes
-bondo.class.sources := src/control/bondo.c $(hgrow)
-buddy.class.sources := src/control/buddy.c $(hgrow)
-clip.class.sources := src/control/clip.c $(hgrow)
-funnel.class.sources := src/control/funnel.c $(hgrow)
-iter.class.sources := src/control/iter.c $(hgrow)
-match.class.sources := src/control/match.c $(hgrow)
-speedlim.class.sources := src/control/speedlim.c $(hgrow)
-substitute.class.sources := src/control/substitute.c $(hgrow)
-thresh.class.sources := src/control/thresh.c $(hgrow)
-tosymbol.class.sources := src/control/tosymbol.c $(hgrow)
-zl.class.sources := src/control/zl.c $(hgrow)
-pv.class.sources := src/control/pv.c $(hgrow)
+bondo.class.sources := binaries_src/control/bondo.c $(hgrow)
+buddy.class.sources := binaries_src/control/buddy.c $(hgrow)
+clip.class.sources := binaries_src/control/clip.c $(hgrow)
+funnel.class.sources := binaries_src/control/funnel.c $(hgrow)
+iter.class.sources := binaries_src/control/iter.c $(hgrow)
+match.class.sources := binaries_src/control/match.c $(hgrow)
+speedlim.class.sources := binaries_src/control/speedlim.c $(hgrow)
+substitute.class.sources := binaries_src/control/substitute.c $(hgrow)
+thresh.class.sources := binaries_src/control/thresh.c $(hgrow)
+tosymbol.class.sources := binaries_src/control/tosymbol.c $(hgrow)
+zl.class.sources := binaries_src/control/zl.c $(hgrow)
+pv.class.sources := binaries_src/control/pv.c $(hgrow)
 
 # hgrowfitter classes
-append.class.sources := src/control/append.c $(hgrowfitter)
-prepend.class.sources := src/control/prepend.c $(hgrowfitter)
-past.class.sources := src/control/past.c $(hgrowfitter)
+append.class.sources := binaries_src/control/append.c $(hgrowfitter)
+prepend.class.sources := binaries_src/control/prepend.c $(hgrowfitter)
+past.class.sources := binaries_src/control/past.c $(hgrowfitter)
 
 # hloud classes
-anal.class.sources := src/control/anal.c $(hloud)
-borax.class.sources := src/control/borax.c $(hloud)
-decide.class.sources := src/control/decide.c $(hloud)
-spell.class.sources := src/control/spell.c $(hloud)
-spray.class.sources := src/control/spray.c $(hloud)
-sprintf.class.sources := src/control/sprintf.c $(hloud)
-togedge.class.sources := src/control/togedge.c $(hloud)
-histo.class.sources := src/control/histo.c $(hloud)
+anal.class.sources := binaries_src/control/anal.c $(hloud)
+borax.class.sources := binaries_src/control/borax.c $(hloud)
+decide.class.sources := binaries_src/control/decide.c $(hloud)
+spell.class.sources := binaries_src/control/spell.c $(hloud)
+spray.class.sources := binaries_src/control/spray.c $(hloud)
+sprintf.class.sources := binaries_src/control/sprintf.c $(hloud)
+togedge.class.sources := binaries_src/control/togedge.c $(hloud)
+histo.class.sources := binaries_src/control/histo.c $(hloud)
 
 # Single cases:
 
-linedrive.class.sources := src/control/linedrive.c $(splainnotilde)
+linedrive.class.sources := binaries_src/control/linedrive.c $(splainnotilde)
 
-comment.class.sources := src/control/comment.c $(hforky)
+comment.class.sources := binaries_src/control/comment.c $(hforky)
 
-drunk.class.sources := src/control/drunk.c $(hrand)
+drunk.class.sources := binaries_src/control/drunk.c $(hrand)
 
-prob.class.sources := src/control/prob.c $(hrandfile)
+prob.class.sources := binaries_src/control/prob.c $(hrandfile)
 
-urn.class.sources := src/control/urn.c $(hrandgrow)
+urn.class.sources := binaries_src/control/urn.c $(hrandgrow)
 
-table.class.sources := src/control/table.c $(hrandgrowfile)
+table.class.sources := binaries_src/control/table.c $(hrandgrowfile)
 
-seq.class.sources := src/control/seq.c $(hseq)
+seq.class.sources := binaries_src/control/seq.c $(hseq)
 
-offer.class.sources := src/control/offer.c $(htree)
+offer.class.sources := binaries_src/control/offer.c $(htree)
 
-funbuff.class.sources := src/control/funbuff.c $(htreefilevefl)
+funbuff.class.sources := binaries_src/control/funbuff.c $(htreefilevefl)
 
 ###################
 # Signal classes: #
@@ -340,36 +340,36 @@ funbuff.class.sources := src/control/funbuff.c $(htreefilevefl)
 sfragile := \
 shared/common/loud.c \
 shared/unstable/fragile.c
-    cartopol~.class.sources := src/signal/cartopol.c $(sfragile)
+    cartopol~.class.sources := binaries_src/signal/cartopol.c $(sfragile)
 
 sforky := \
 shared/unstable/forky.c
-    bitand~.class.sources := src/signal/bitand.c $(sforky)
-    bitor~.class.sources := src/signal/bitor.c $(sforky)
-    bitxor~.class.sources := src/signal/bitxor.c $(sforky)
+    bitand~.class.sources := binaries_src/signal/bitand.c $(sforky)
+    bitor~.class.sources := binaries_src/signal/bitor.c $(sforky)
+    bitxor~.class.sources := binaries_src/signal/bitxor.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
 shared/common/clc.c \
 shared/common/loud.c
-    frameaccum~.class.sources := src/signal/frameaccum.c $(sgrowclc)
-    framedelta~.class.sources := src/signal/framedelta.c $(sgrowclc)
-    line~.class.sources := src/signal/line.c $(sgrowclc)
-    curve~.class.sources := src/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
+    frameaccum~.class.sources := binaries_src/signal/frameaccum.c $(sgrowclc)
+    framedelta~.class.sources := binaries_src/signal/framedelta.c $(sgrowclc)
+    line~.class.sources := binaries_src/signal/line.c $(sgrowclc)
+    curve~.class.sources := binaries_src/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
 
 sgrowforky := \
 shared/common/grow.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
-    scope~.class.sources := src/signal/scope.c $(sgrowforky)
+    scope~.class.sources := binaries_src/signal/scope.c $(sgrowforky)
 
 sfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
 shared/common/os.c \
 shared/unstable/forky.c
-    capture~.class.sources := src/signal/capture.c $(sfile)
+    capture~.class.sources := binaries_src/signal/capture.c $(sfile)
 
 # Buffer Classes (agrouped) - still "sic-fied"
 sarsicfitter := \
@@ -379,17 +379,17 @@ shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
 # were 'sarsic':
-    peek~.class.sources := src/signal/peek.c $(sarsicfitter)
-    play~.class.sources := src/signal/play.c $(sarsicfitter)
-    poke~.class.sources := src/signal/poke.c $(sarsicfitter) # fragile
-    record~.class.sources := src/signal/record.c $(sarsicfitter)
-    wave~.class.sources := src/signal/wave.c $(sarsicfitter)
+    peek~.class.sources := binaries_src/signal/peek.c $(sarsicfitter)
+    play~.class.sources := binaries_src/signal/play.c $(sarsicfitter)
+    poke~.class.sources := binaries_src/signal/poke.c $(sarsicfitter) # fragile
+    record~.class.sources := binaries_src/signal/record.c $(sarsicfitter)
+    wave~.class.sources := binaries_src/signal/wave.c $(sarsicfitter)
 # was 'sarsicfitter' (so only one with fitter)
-    buffir~.class.sources := src/signal/buffir.c $(sarsicfitter)
+    buffir~.class.sources := binaries_src/signal/buffir.c $(sarsicfitter)
 
 #cybuf (aka arsic replacement) classes
 scybuf := shared/cybuf.c
-    index~.class.sources := src/signal/index.c $(scybuf)
+    index~.class.sources := binaries_src/signal/index.c $(scybuf)
 
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
