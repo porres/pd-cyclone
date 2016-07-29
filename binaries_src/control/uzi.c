@@ -94,7 +94,7 @@ static void uzi_offset(t_uzi *x, t_float f)
 static void *uzi_new(t_symbol *s, int ac, t_atom *av)
 {
     t_uzi *x = (t_uzi *)pd_new(uzi_class);
-    t_float f1 = 1, f2 = 1;
+    t_float f1 = 0, f2 = 1;
 	switch(ac){
 	default:
 	case 2:
@@ -105,7 +105,7 @@ static void *uzi_new(t_symbol *s, int ac, t_atom *av)
 	case 0:
 		break;
 	}
-    x->x_nbangs = (f1 > 1. ? f1 : 1.);
+    x->x_nbangs = (f1 >= 0. ? f1 : 0.);
     x->x_offset = f2;
     x->x_count = x->x_offset;
     x->x_running = 0;
