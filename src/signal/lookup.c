@@ -12,7 +12,7 @@ typedef struct _lookup
 	t_object x_obj;
 	t_symbol *x_arrayname;
 	t_word *x_vec;
-	t_float x_f; //dummy variable
+//	t_float x_f; //dummy variable
 	int x_npoints; //arraysize in samples
 
 	t_inlet *x_startlet; //inlet for stpt
@@ -194,10 +194,10 @@ void lookup_tilde_setup(void)
    lookup_class = class_new(gensym("lookup~"),
 			     (t_newmethod)lookup_new,
 			     (t_method)lookup_free,
-			     sizeof(t_lookup), 0,
+			     sizeof(t_lookup), CLASS_DEFAULT,
 			     A_GIMME, 0);
-
-    CLASS_MAINSIGNALIN(lookup_class, t_lookup, x_f);
+//    CLASS_MAINSIGNALIN(lookup_class, t_lookup, x_f);
+    class_addmethod(lookup_class, nullfn, gensym("signal"), 0);
     class_addmethod(lookup_class, (t_method)lookup_dsp,
         gensym("dsp"), A_CANT, 0);
     class_addmethod(lookup_class, (t_method)lookup_set,

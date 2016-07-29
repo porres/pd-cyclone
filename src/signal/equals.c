@@ -2,23 +2,14 @@
 
 #include "m_pd.h"
 
-// ---------------------------------------------------
-// Class definition
-// ---------------------------------------------------
 static t_class *equals_class;
 
-// ---------------------------------------------------
-// Data structure definition
-// ---------------------------------------------------
 typedef struct _equals
 {
     t_object x_obj;
     t_inlet  *x_inlet;
 } t_equals;
 
-// ---------------------------------------------------
-// Perform
-// ---------------------------------------------------
 static t_int *equals_perform(t_int *w)
 {
     int nblock = (int)(w[1]);
@@ -34,9 +25,6 @@ static t_int *equals_perform(t_int *w)
     return (w + 5);
 }
 
-// ---------------------------------------------------
-// DSP Function
-// ---------------------------------------------------
 static void equals_dsp(t_equals *x, t_signal **sp)
 {
     dsp_add(equals_perform, 4, sp[0]->s_n,
@@ -50,9 +38,6 @@ static void *equals_free(t_equals *x)
     return (void *)x;
 }
 
-// ---------------------------------------------------
-// Functions signature
-// ---------------------------------------------------
 static void *equals_new(t_floatarg f)
 {
     t_equals *x = (t_equals *)pd_new(equals_class);
@@ -62,9 +47,6 @@ static void *equals_new(t_floatarg f)
     return (x);
 }
 
-// ---------------------------------------------------
-// Setup
-// ---------------------------------------------------
 void equals_tilde_setup(void)
 {
     equals_class = class_new(gensym("equals~"),
