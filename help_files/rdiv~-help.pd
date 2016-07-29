@@ -189,9 +189,6 @@ like this:;
 #X obj 57 220 !/~, f 5;
 #X obj 261 212 cyclone/rdiv~ 10;
 #X obj 261 260 number~;
-#X obj 376 257 print~;
-#X obj 385 228 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
 #X text 455 186 similar to:;
 #X obj 451 207 expr~ 10 / $v1;
 #X connect 29 0 35 1;
@@ -200,5 +197,3 @@ like this:;
 #X connect 33 0 35 0;
 #X connect 34 0 32 0;
 #X connect 35 0 36 0;
-#X connect 35 0 37 0;
-#X connect 38 0 37 0;

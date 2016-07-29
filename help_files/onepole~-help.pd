@@ -1,5 +1,5 @@
-#N canvas 792 23 566 746 10;
-#X obj 7 665 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 426 92 561 641 10;
+#X obj 7 605 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 7 371 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -20,42 +20,37 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 667 pd META;
+#X restore 509 607 pd META;
 #X obj 7 509 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 546 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 7 611 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
 #N canvas 312 395 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 204 667 pd Related_objects;
+#X restore 204 607 pd Related_objects;
 #X obj 89 384 cnv 17 3 87 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 89 476 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 154 385 signal;
 #X text 154 519 signal;
-#X text 132 558 1) float;
+#X text 135 558 1) float;
 #X obj 89 519 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 113 296 output~;
 #X text 118 477 float/signal;
 #X text 205 519 - output of low-pass filter;
-#X floatatom 290 216 5 0 0 0 - - -, f 5;
-#X obj 290 265 line~;
-#X msg 290 240 \$1 10;
-#X obj 293 191 hsl 128 15 100 10000 1 1 empty empty empty -2 -8 0 10
+#X floatatom 268 216 7 0 0 0 - - -, f 7;
+#X obj 268 265 line~;
+#X msg 268 240 \$1 10;
+#X obj 271 191 hsl 128 15 100 10000 1 1 empty empty empty -2 -8 0 10
 -228856 -1 -1 0 1;
-#X text 333 190 cutoff;
-#X text 132 577 2) symbol;
-#X text 205 556 - cutoff frequency (default 0?);
+#X text 311 190 cutoff;
+#X text 135 577 2) symbol;
 #X text 206 384 - signal to be filtered;
 #X text 205 477 - cutoff frequency;
 #X obj 139 199 phasor~ 250;
 #X obj 139 225 triangle~ 0;
-#X obj 139 254 cyclone/onepole~ 100;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -71,54 +66,114 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 onepole~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 One pole lowpass filter;
-#X text 105 90 Similar to vanila's [lop~] \, [onepole~] implements
-the simplest of IIR filters \, providing a 6dB per octave attenuation.
-;
-#X text 104 136 This filter is very efficient and useful for gently
+#X text 95 136 This filter is very efficient and useful for gently
 rolling off harsh high end and for smoothing out control signals.;
-#N canvas 750 179 521 404 frequency 0;
-#X text 97 152 - The 'hz' mode is simply an input in hertz.;
-#X text 98 171 - The 'linear' mode is just a scaled version of the
-standard hertz mode with values in the 0-1 range.;
-#X text 98 218 - The 'radians' mode lets you set the center frequency
-of the equation directly \, while the input has the same range as linear
-(0-1) \, the output has a curved frequency response that is closer
-to the exponential pitch scale of the human ear.;
-#X obj 50 18 cnv 15 182 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X obj 56 23 comment 0 18 times ? 0 0 0 0 Frequency input modes;
-#X text 39 184 linear:;
-#X text 63 152 hz:;
-#X text 33 218 radians:;
-#X text 98 297 Try sweeping the cutoff frequency in linear mode then
-in radians mode to appreciate the difference. A similar principle operates
-in the amplitude domain \, where exponential audio faders are used
-to match our logarithmic perception of loudness.;
-#X text 97 74 [onepole~] has three different modes (set by messages
-or argument) for mapping input values onto cutoff frequency. These
-are mainly for convenience \, but they may also slightly improve efficiency.
-;
-#X restore 375 289 pd frequency input mode;
-#X text 143 636 where k represents the cutoff frequency in radians.
-;
 #X text 206 577 - frequency mode: <Hz> (default) \, <linear> or <radians>
 ;
 #X text 154 421 linear;
 #X text 148 438 radians;
 #X text 160 456 clear;
 #X text 205 402 - sets frequency input mode to 'hertz';
-#X text 178 402 hz;
 #X text 205 420 - sets frequency input mode to 'linear';
 #X text 205 438 - sets frequency input mode to 'radians';
 #X text 205 456 - clears filter's memory;
-#X text 142 621 The filter equation is: out = prev + k * (in - prev)
-\,;
-#X text 179 704 - cutoff frequency (default 0?) - Hz or hz?;
-#X connect 16 0 18 0;
-#X connect 17 0 27 1;
-#X connect 18 0 17 0;
-#X connect 19 0 16 0;
-#X connect 25 0 26 0;
-#X connect 26 0 27 0;
-#X connect 27 0 13 0;
-#X connect 27 0 13 1;
+#X text 96 90 Similar to Pd vanilla's [lop~] \, [onepole~] implements
+the simplest of IIR filters \, providing a 6dB per octave attenuation.
+;
+#N canvas 179 23 979 555 frequency 0;
+#X obj 42 37 cnv 15 182 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 48 42 comment 0 18 times ? 0 0 0 0 Frequency input modes;
+#X text 509 32 linear:;
+#X text 55 150 hz:;
+#X text 502 248 radians:;
+#X text 89 88 [onepole~] has three different modes (set by messages
+or argument) for mapping input values onto cutoff frequency. These
+are mainly for convenience \, but they may also slightly improve efficiency.
+;
+#X text 565 264 where k represents the cutoff frequency in radians.
+;
+#X text 564 249 The filter equation is: y[n] = y[-1] + k * (x[n] -
+y[-1]) \,;
+#X text 89 150 - The 'hz' mode is simply an input in hertz \, as in
+our main example in the parent patch.;
+#X obj 621 108 noise~;
+#X obj 599 174 cyclone/output~;
+#X floatatom 787 139 7 0 0 0 - - -, f 7;
+#X obj 771 111 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 811 110 cutoff;
+#X obj 621 140 cyclone/onepole~ 0 linear;
+#X text 837 138 linear;
+#X text 567 288 - The 'radians' mode lets you set the center frequency
+of the equation directly \, while the input has the same range as linear
+(0-1) \, the output has a curved frequency response that is closer
+to the exponential pitch scale of the human ear. Compare the difference
+below.;
+#X obj 630 408 noise~;
+#X obj 608 474 cyclone/output~;
+#X floatatom 802 439 7 0 0 0 - - -, f 7;
+#X obj 786 411 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 826 410 cutoff;
+#X obj 630 440 cyclone/onepole~ 0 radians;
+#X text 852 438 radians;
+#X obj 182 376 noise~;
+#X obj 160 442 cyclone/output~;
+#X obj 330 321 samplerate~;
+#X obj 330 296 loadbang;
+#X obj 330 346 / 4;
+#X floatatom 330 372 6 0 0 0 - - -, f 6;
+#X floatatom 249 301 7 0 0 0 - - -, f 7;
+#X obj 252 268 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
+-1 -1 12700 1;
+#X text 294 268 cutoff;
+#X obj 275 365 *;
+#X obj 182 408 cyclone/onepole~;
+#X floatatom 297 398 7 0 0 0 - - -, f 7;
+#X text 91 190 But please note that the effective cutoff frequency
+in hertz is the sample rate frequency divided by 4 \, or half the Nyquist
+frequency.;
+#X text 568 32 - The 'linear' mode is just a scaled version of the
+standard hertz mode with values in the 0-1 range instead 0 and half
+the Nyquist.;
+#X text 345 398 hertz;
+#X msg 546 380 linear;
+#X msg 600 380 radians;
+#X connect 9 0 14 0;
+#X connect 12 0 11 0;
+#X connect 12 0 14 1;
+#X connect 14 0 10 0;
+#X connect 14 0 10 1;
+#X connect 17 0 22 0;
+#X connect 20 0 19 0;
+#X connect 20 0 22 1;
+#X connect 22 0 18 0;
+#X connect 22 0 18 1;
+#X connect 24 0 34 0;
+#X connect 26 0 28 0;
+#X connect 27 0 26 0;
+#X connect 28 0 29 0;
+#X connect 29 0 33 1;
+#X connect 30 0 33 0;
+#X connect 31 0 30 0;
+#X connect 33 0 34 1;
+#X connect 33 0 35 0;
+#X connect 34 0 25 0;
+#X connect 34 0 25 1;
+#X connect 39 0 22 0;
+#X connect 40 0 22 0;
+#X restore 434 313 pd frequency \; input modes;
+#X obj 139 254 cyclone/onepole~;
+#X text 318 215 hz;
+#X text 178 402 Hz;
+#X text 205 556 - cutoff frequency (default 1);
+#X obj 113 296 cyclone/output~;
+#X connect 14 0 16 0;
+#X connect 15 0 43 1;
+#X connect 16 0 15 0;
+#X connect 17 0 14 0;
+#X connect 22 0 23 0;
+#X connect 23 0 43 0;
+#X connect 43 0 47 0;
+#X connect 43 0 47 1;

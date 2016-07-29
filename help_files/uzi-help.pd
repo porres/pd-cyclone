@@ -1,7 +1,7 @@
-#N canvas 382 34 562 678 10;
-#X obj 6 604 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 429 24 559 561 10;
+#X obj 5 523 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 320 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 289 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 588 373 383 264 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -23,40 +23,36 @@ possible;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 606 pd META;
-#X obj 5 465 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 506 525 pd META;
+#X obj 5 401 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 552 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 476 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 313 532 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 8 30 counter;
-#X restore 208 606 pd Related_objects;
-#X obj 114 328 cnv 17 3 108 empty empty 0 5 9 0 16 -228856 -162280
-0;
-#X obj 114 477 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 207 525 pd Related_objects;
+#X obj 87 297 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 157 344 bang;
-#X obj 114 440 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 86 411 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 150 440 float;
-#X text 197 439 - set number of bangs to output;
-#X text 131 564 1) float;
-#X obj 154 279 print uzi;
-#X obj 179 182 bng 17 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
+#X text 162 312 bang;
+#X obj 86 378 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 155 378 float;
+#X text 136 484 1) float;
+#X obj 162 255 print uzi;
+#X obj 187 168 bng 17 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
 -1;
-#X floatatom 272 205 0 0 100 0 - - -;
-#X text 155 476 bang;
-#X text 203 476 - bang (based on number of bangs stored);
-#X text 149 524 float;
-#X obj 114 500 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X floatatom 280 181 0 0 100 0 - - -;
+#X text 160 410 bang;
+#X text 154 454 float;
+#X obj 86 432 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 155 500 bang;
-#X obj 114 522 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 160 432 bang;
+#X obj 86 452 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 203 500 - bangs when the last bang has fired;
-#X text 203 524 - number of bangs sent;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -72,114 +68,159 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 uzi;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 bang loop / counter;
-#X text 151 359 pause;
-#X text 133 404 continue;
-#X text 145 389 resume;
-#X text 131 581 2) float;
-#X text 145 419 offset;
-#X obj 323 278 print counter;
-#X text 197 345 - send the specified number of bangs;
-#X text 151 329 float;
-#X text 197 328 - sets the number of bang messages and outputs them
-;
-#X text 203 581 - sets the counter starting point (offset) - default
+#X text 136 501 2) float;
+#X obj 310 254 print counter;
+#X text 156 297 float;
+#X text 202 501 - sets the counter starting point (offset) - default
 1;
-#X text 203 564 - sets number of bangs - default 0;
-#X text 86 642 if 0 only carry bang is printed;
-#X text 151 374 break;
-#X text 197 404 - same as 'resume';
-#X text 197 359 - stops sending bangs;
-#X text 197 373 - same as 'pause';
-#X text 197 389 - retsart sending bangs after being paused;
-#X text 197 418 - sets the starting point of the counter;
-#X obj 225 279 print carry_on;
-#X text 288 641 default is 0 \, not 1!;
-#X obj 128 183 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X text 202 356 - sets the starting point of the counter;
+#X obj 132 177 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X msg 203 204 offset \$1;
-#X floatatom 203 183 5 0 0 0 - - -, f 5;
-#X obj 323 260 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X msg 211 180 offset \$1;
+#X floatatom 211 158 5 0 0 0 - - -, f 5;
+#X obj 310 236 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#N canvas 730 226 632 475 pause/resume 0;
-#X obj 193 239 sel 105;
-#X msg 193 269 pause;
-#X obj 88 144 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X text 120 327 pause/break;
+#X text 96 342 resume/continue;
+#X text 102 357 offset <float>;
+#X text 202 327 - stops banging/counting;
+#X text 202 454 - bang counter;
+#X obj 187 211 cyclone/uzi 10 0;
+#X obj 233 255 print done;
+#N canvas 180 242 447 311 backwards 0;
+#X text 185 110 or even:;
+#X text 49 150 But please don't \, just stick to;
+#X text 166 183 or;
+#X text 44 53 Nevertheless \, the old way of creating this object is
+still present for backwards compatibility reasons. So you can still
+use:;
+#X text 53 220 Which is the reasonable and sensible way nowadays \,
+as the current plan is to phase out the capital letters in cyclone's
+objects.;
+#X text 43 20 [uzi] used to be compiled as [Uzi] \, probably to avoid
+some name conflicts \, but this is not the case anymore.;
+#X obj 136 110 Uzi, f 4;
+#X obj 252 110 cyclone/Uzi;
+#X obj 114 182 uzi, f 4;
+#X obj 201 183 cyclone/uzi;
+#X restore 456 240 pd backwards \; compatibility;
+#X text 202 312 - starts the banging/counting loop;
+#X text 202 342 - restarts banging/counting after being paused;
+#X text 202 296 - sets the number of bangs and starts looping;
+#X text 202 377 - sets the number of bangs to output;
+#X text 202 410 - bang according to the counter loop;
+#X text 202 484 - sets the number of bangs (default 0);
+#X text 202 432 - bangs after the last bang in the loop has fired;
+#N canvas 286 108 609 399 array 0;
+#X obj 92 183 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 207 213 print;
-#X obj 88 180 cyclone/uzi 10 101;
-#X msg 118 145 resume;
-#X obj 384 151 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 79 46 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 89 50 comment 0 18 times ? 0 0 0 0 Sweep an array:;
+#X obj 92 223 cyclone/uzi 100 0;
+#X obj 191 257 tabread array;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array array 100 float 1;
+#A 0 -0.585727 -0.585727 -0.585727 -0.585727 -0.585727 -0.585727 -0.585727
+-0.580965 -0.576203 -0.571441 -0.547631 -0.523821 -0.500011 -0.457153
+-0.300006 -0.171432 -0.0714296 5.96046e-07 0.0285727 0.0571448 0.0857168
+0.104765 0.123813 0.142861 0.157147 0.171433 0.185719 0.200005 0.214291
+0.228577 0.242863 0.250006 0.257149 0.263499 0.269848 0.276197 0.282547
+0.288896 0.295245 0.301595 0.307944 0.314294 0.314294 0.314294 0.314294
+0.314294 0.314294 0.291436 0.268578 0.245721 0.222863 0.200005 0.166671
+0.133337 0.100003 0.0828596 0.0657164 0.0485731 0.0314299 0.0142866
+0.0142866 0.0142866 0.0142866 0.0392872 0.0642878 0.0892884 0.114289
+0.16429 0.214291 0.257149 0.300007 0.32858 0.357152 0.385724 0.402867
+0.42001 0.437153 0.454297 0.47144 0.476202 0.480964 0.485726 0.489298
+0.492869 0.496441 0.500012 0.500012 0.500012 0.500012 0.500012 0.500012
+0.500012 0.500012 0.500012 0.500012 0.500012 0.500012 0.500012 0.514298
+0.714303;
+#X coords 0 1 99 -1 200 140 1 0 0;
+#X restore 323 193 graph;
+#X obj 191 293 print;
+#X text 111 107 [uzi] is useful for sweeping through arrays \, using
+the counter as the index input.;
+#X connect 0 0 3 0;
+#X connect 3 2 4 0;
+#X connect 4 0 6 0;
+#X restore 450 212 pd array sweep;
+#N canvas 286 108 836 544 pause/resume 0;
+#X msg 220 415 pause;
+#X obj 115 256 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 479 270 print;
-#X msg 465 326 break;
-#X msg 342 117 continue;
-#X obj 384 237 cyclone/uzi 10;
-#X msg 428 187 offset 1;
-#X msg 437 209 offset 11;
-#X msg 417 165 offset -9;
-#X obj 465 296 sel 5;
-#X connect 0 0 1 0;
-#X connect 1 0 4 0;
-#X connect 2 0 4 0;
-#X connect 4 2 0 0;
-#X connect 4 2 3 0;
-#X connect 5 0 4 0;
-#X connect 6 0 10 0;
-#X connect 8 0 10 0;
-#X connect 9 0 10 0;
-#X connect 10 2 7 0;
-#X connect 10 2 14 0;
-#X connect 11 0 10 0;
-#X connect 12 0 10 0;
-#X connect 13 0 10 0;
-#X connect 14 0 8 0;
-#X restore 411 204 pd pause/resume;
-#X obj 179 235 cyclone/uzi 10 0;
-#X text 78 92 [uzi] outputs in the left outlet a given number of bangs
-as fast as possible (in a "programing loop" fashion). It also outputs
-a counter in the right outlet whose starting value is setable. After
-outputing all bangs \, it sends a last bang (a "carry on" bang) in
-the middle outlet.;
-#N canvas 730 226 632 475 back 0;
-#X obj 193 239 sel 105;
-#X msg 193 269 pause;
-#X obj 88 144 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
--1;
-#X obj 207 213 print;
-#X obj 88 180 cyclone/uzi 10 101;
-#X msg 118 145 resume;
-#X obj 384 151 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 115 326 cyclone/uzi 10 101;
+#X msg 134 294 resume;
+#X obj 571 337 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 479 270 print;
-#X msg 465 326 break;
-#X msg 342 117 continue;
-#X obj 384 237 cyclone/uzi 10;
-#X msg 428 187 offset 1;
-#X msg 437 209 offset 11;
-#X msg 417 165 offset -9;
-#X obj 465 296 sel 5;
-#X connect 0 0 1 0;
-#X connect 1 0 4 0;
-#X connect 2 0 4 0;
-#X connect 4 2 0 0;
-#X connect 4 2 3 0;
-#X connect 5 0 4 0;
-#X connect 6 0 10 0;
-#X connect 8 0 10 0;
-#X connect 9 0 10 0;
-#X connect 10 2 7 0;
-#X connect 10 2 14 0;
-#X connect 11 0 10 0;
-#X connect 12 0 10 0;
-#X connect 13 0 10 0;
-#X connect 14 0 8 0;
-#X restore 421 239 pd back compatibility;
-#X connect 14 0 57 0;
-#X connect 15 0 57 1;
-#X connect 52 0 57 0;
-#X connect 53 0 57 0;
-#X connect 54 0 53 0;
-#X connect 55 0 37 0;
-#X connect 57 0 13 0;
-#X connect 57 1 50 0;
-#X connect 57 2 55 0;
+#X obj 669 439 print;
+#X msg 652 495 break;
+#X msg 526 307 continue;
+#X msg 624 383 offset 11;
+#X msg 604 337 offset -9;
+#X obj 652 465 sel 5;
+#X obj 220 385 select 105;
+#X obj 116 418 print bangs;
+#X obj 234 360 print counter;
+#X text 30 93 [uzi] iterates in a programing loop fashion. So \, once
+it starts \, it goes all the way to the end as fast as possible. In
+order to stop it \, you need to break the loop with some logic as below
+\, where we use [select] to pause [uzi] when the counter reaches "105".
+;
+#X text 31 172 Thus \, before breaking the loop \, it sends 5 bangs
+(corresponding from 101 to 105 in the counter). You can then continue
+to output the remaining 5 bangs (from 106 to 110) with the "resume"
+message.;
+#X text 37 478 This may be useful to perform a special oeration in
+the middle of the loop.;
+#X obj 33 35 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 43 39 comment 0 18 times ? 0 0 0 0 Pause / Resume:;
+#X text 143 259 <= start;
+#X text 185 294 <= resume;
+#X text 436 34 You can also use "break" instead of "pause" and "continue"
+instead of "resume".;
+#X msg 613 359 offset 1;
+#X text 438 78 After pausing [uzi] \, you can reset the offset value.
+This changes the total number of bangs being sent in the end. In the
+example below \, if you break and continue without changing the offset
+\, it goes from 1 to 5 \, then 6 to 10 \, but lets change the offset
+after the break and before continuing and see what happens.;
+#X text 439 164 If you increase the offset from "1" to "11" \, the
+counter target is supposed to be "20" \, so it continues from 6 until
+reaching 20!;
+#X text 439 214 But if you decrease the offset from "1" to "-9" \,
+the counter target is supposed to be "0". Imn this case \, it cannot
+continue outputting any bangs \, because the counter is already past
+the target \, so it only ouputs a bang in the middle outlet saying
+it's done!;
+#X obj 571 411 cyclone/uzi 10;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 2 0 12 0;
+#X connect 2 2 11 0;
+#X connect 2 2 13 0;
+#X connect 3 0 2 0;
+#X connect 4 0 26 0;
+#X connect 6 0 26 0;
+#X connect 7 0 26 0;
+#X connect 8 0 26 0;
+#X connect 9 0 26 0;
+#X connect 10 0 6 0;
+#X connect 11 0 0 0;
+#X connect 22 0 26 0;
+#X connect 26 2 5 0;
+#X connect 26 2 10 0;
+#X restore 444 187 pd pause/resume;
+#X text 70 84 [uzi] loops firing a given number of bangs (left outlet)
+and outputs a count for each bang (right outlet). The middle outlet
+bangs after the loop is done. The 1st argument is the number of bangs.
+The counter starts from a given offset (2nd argument).;
+#X connect 13 0 42 0;
+#X connect 14 0 42 1;
+#X connect 33 0 42 0;
+#X connect 34 0 42 0;
+#X connect 35 0 34 0;
+#X connect 36 0 29 0;
+#X connect 42 0 12 0;
+#X connect 42 1 43 0;
+#X connect 42 2 36 0;

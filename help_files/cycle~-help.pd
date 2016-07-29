@@ -38,8 +38,8 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 89 543 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 176 542 signal;
-#X obj 139 188 cyclone/cycle~ 440;
-#X obj 113 230 output~;
+#X obj 162 188 cyclone/cycle~ 440;
+#X obj 136 230 output~;
 #X text 142 506 float/signal;
 #X text 142 352 float/signal;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -64,10 +64,10 @@ Max/MSP;
 #X text 113 590 2) symbol;
 #X text 113 618 3) float;
 #X text 189 618 - sets offset within the given array (default 0);
-#X obj 139 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 162 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 198 159 frequency in hertz;
-#X text 267 188 <= as a cosine wave oscillator;
+#X text 221 159 frequency in hertz;
+#X text 290 188 <= as a cosine wave oscillator;
 #X text 124 435 setall <symbol>;
 #X text 124 452 buffer <symbol>;
 #X text 225 435 - sets an array using its entire length;
@@ -171,7 +171,7 @@ normalize;
 #X connect 26 0 23 0;
 #X connect 26 0 23 1;
 #X connect 26 0 24 0;
-#X restore 264 237 pd set_and_setall messages;
+#X restore 330 236 pd set_and_setall messages;
 #N canvas 370 108 928 683 attributes 0;
 #X obj 34 10 cnv 15 130 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -235,7 +235,7 @@ remainder is filled with zeros.;
 #X connect 21 0 16 0;
 #X connect 21 0 16 1;
 #X connect 21 0 17 0;
-#X restore 264 264 pd attributes;
+#X restore 330 263 pd attributes;
 #N canvas 152 45 929 687 phase 0;
 #X obj 638 514 *~;
 #X msg 719 502 \$1 10;
@@ -302,8 +302,8 @@ mode - so nevermind if you hear "clicks" when editing the patch!;
 #X connect 26 0 0 0;
 #X connect 27 0 4 0;
 #X connect 27 0 4 1;
-#X restore 372 264 pd phase;
-#X text 98 300 * The similar [wave~] object from cyclone provides other
+#X restore 438 263 pd phase;
+#X text 58 300 * The similar [wave~] object from cyclone provides other
 interpolation types.;
 #X text 63 84 [cycle~] is a linear interpolating oscillator* that reads
 repeatedly through one cycle of a waveform. The default internal waveform
@@ -321,8 +321,8 @@ only) \, default is an internal cosine table;
 ;
 #X text 225 506 - phase offset (0 to 1);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -391,7 +391,7 @@ only) \, default is an internal cosine table;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

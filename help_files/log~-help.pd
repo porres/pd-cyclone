@@ -40,7 +40,7 @@ signal;
 ;
 #X text 136 540 1) float;
 #X text 113 456 float/signal;
-#X obj 166 331 cyclone/log~, f 14;
+#X obj 142 331 cyclone/log~, f 18;
 #X text 203 540 - sets the base of the logarithm (default "e");
 #X text 202 499 - the logarithm of the inlet signal to the specified
 base;
@@ -65,10 +65,6 @@ Max/MSP;
 ;
 #X text 103 133 is now considered unnecessary and obsolete!;
 #X text 103 118 with the new [log~] object in Pd Vanilla \, this;
-#X text 74 174 [cyclone/abs~]* outputs the logarithms of its input
-values. You can specify the logarithmic base as an argument or via
-the right inlet. If the base is less or equal to 0 \, the value of
-"e" (around 2.71828) is considered.;
 #X text 204 430 - the input to the logarithm;
 #X text 204 456 - base of the logarithm;
 #X obj 2 572 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
@@ -181,16 +177,20 @@ the right inlet. If the base is less or equal to 0 \, the value of
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 166 374 number~;
-#X obj 107 280 number~ 1;
+#X obj 142 370 number~;
+#X obj 142 277 number~ 1;
 #X obj 247 304 nbx 7 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
 -228856 -1 -1 0 256;
 #X msg 247 250 10;
 #X msg 258 278 2.71828;
-#X text 270 331 * needs "cyclone/" to;
-#X text 260 348 differentiate from vanilla;
-#X connect 13 0 36 0;
-#X connect 37 0 13 0;
-#X connect 38 0 13 1;
-#X connect 39 0 38 0;
-#X connect 40 0 38 0;
+#X text 266 331 * needs "cyclone/" to;
+#X text 256 348 differentiate from vanilla;
+#X text 74 174 [cyclone/log~]* outputs the logarithms of its input
+values. You can specify the logarithmic base as an argument or via
+the right inlet. If the base is less or equal to 0 \, the value of
+"e" (around 2.71828) is considered.;
+#X connect 13 0 35 0;
+#X connect 36 0 13 0;
+#X connect 37 0 13 1;
+#X connect 38 0 37 0;
+#X connect 39 0 37 0;
