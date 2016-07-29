@@ -105,18 +105,33 @@ static void onepole_dsp(t_onepole *x, t_signal **sp)
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-static void *onepole_new(t_symbol *s, t_floatarg f)
+
+static void *onepole_new(t_symbol *s, int ac, t_atom *av)
 {
     t_onepole *x = (t_onepole *)pd_new(onepole_class);
+    t_float f = 1;
+    t_symbol *sym;
+    switch(ac)
+    {
+        default:
+        case 2:
+            sym=atom_getsymbol(av+1);
+        case 1:
+            f=atom_getfloat(av);
+            break;
+        case 0:
+            break;
+    }
+    
     x->x_srcoef = TWO_PI / sys_getsr();
     /* CHECKED no int-to-float conversion (any int bashed to 0.) */
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
     onepole_clear(x);
-    if (s == ps_linear)
+    if (sym == ps_linear)
 	x->x_mode = ONEPOLE_LINEAR;
-    else if (s == ps_radians)
+    else if (sym == ps_radians)
 	x->x_mode = ONEPOLE_RADIANS;
     else
     {
@@ -129,15 +144,15 @@ static void *onepole_new(t_symbol *s, t_floatarg f)
     return (x);
 }
 
+// anything for hz?
+
 void onepole_tilde_setup(void)
 {
     ps_hz = gensym("hz");
     ps_linear = gensym("linear");
     ps_radians = gensym("radians");
-    onepole_class = class_new(gensym("onepole~"),
-			      (t_newmethod)onepole_new, 0,
-			      sizeof(t_onepole), 0,
-			      A_DEFFLOAT, A_DEFSYM, 0);
+    onepole_class = class_new(gensym("onepole~"), (t_newmethod)onepole_new, 0,
+        sizeof(t_onepole), 0, A_GIMME, 0);
     class_addmethod(onepole_class, nullfn, gensym("signal"), 0);
     class_addmethod(onepole_class, (t_method)onepole_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(onepole_class, (t_method)onepole_clear, gensym("clear"), 0);

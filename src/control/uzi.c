@@ -109,7 +109,6 @@ static void *uzi_new(t_symbol *s, int ac, t_atom *av)
     x->x_offset = f2;
     x->x_count = x->x_offset;
     x->x_running = 0;
-    /* CHECKED: set when paused, but then 'resume' is blocked (a bug?) */
     floatinlet_new((t_object *)x, &x->x_nbangs);
     outlet_new((t_object *)x, &s_bang);
     x->x_out2 = outlet_new((t_object *)x, &s_bang);

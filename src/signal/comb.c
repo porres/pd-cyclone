@@ -23,7 +23,6 @@ typedef struct _comb
 
 static t_class *comb_class;
 
-/* maximum delay defaults to 10 ms (as in max/msp) */
 #define COMB_DEFMAXDELAY  10.0
 
 /* LATER choose the best way.  From msp help patch:
