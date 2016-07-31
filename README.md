@@ -31,7 +31,9 @@ After that, cyclone ended up incorporated into Pd Extended and was eventually un
 
 <strong>About earlier versions and other repositories:</strong>
 
-A copy of the original cyclone page (including the cyclone library version 0.1-Alpha54 from 2005) is available at: http://fjkraan.home.xs4all.nl/digaud/puredata/cyclone/cyclone_site/cyclone.html
+A copy of the original cyclone page, from the original author (including the cyclone library version 0.1-Alpha54 from 2005) is available at: http://fjkraan.home.xs4all.nl/digaud/puredata/cyclone/cyclone_site/cyclone.html
+
+In the Pd-extended days, the 0.1-Alpha55 release, under the maintenance of Hans Steiner, was introduced in the release of Pd-extended 0.42-5, in september 2010. 
 
 Currently, the original cyclone library and repository - amongst other things - is found at the <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/> . This original repository carries the version 0.1-Alpha56 of cyclone, present in the last release of Pd Extended [version 0.43.4 from january  2013]. The 0.1-Alpha56 version is also available as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (since version 0.47-0).
 
