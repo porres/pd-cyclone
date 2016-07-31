@@ -333,9 +333,6 @@ static void *greaterthan_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
-    {
-    post("[>~] loaded as part of cyclone sub-library");
-    }
     endpost();
     return (x);
 }
@@ -642,14 +639,12 @@ void cyclone_setup(void)
 {
     
 /* -- post cyclone lib version -- */
-        {
-        post("********************************************************************************");
-        post("* CYCLONE (Version 0.3 Beta-1) Compiled may 31 2016;");
-        post("* This is the cyclone sub library containing the objects:");
-        post("* [!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
-        post("********************************************************************************");
-        }
-        endpost();
+    {
+        post("---------------------------------------------------------------------------------");
+        post("CYCLONE 0.3 Beta-0; A sub library containing the objects:");
+        post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
+        post("---------------------------------------------------------------------------------");
+    }
         endpost();
         endpost();
         endpost();
