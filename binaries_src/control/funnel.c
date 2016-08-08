@@ -17,6 +17,7 @@
 removing grow dependency
    IDEA:for each proxy, if the incoming message is beyond the size - 1, allocate a new t_atom on the heap,
  -routing everything through funnel_proxy_anything but setting list in funnel_msg_set first
+ --offset just changed one proxy's offset, needed to change them all
 
 before: p_value just stored one float which bang output, this was wrong. now outputs entire list
 PROXY:
@@ -27,6 +28,7 @@ PROXY:
     renaming  p_messini to p_mstack
     removing   p_entered
     adding     p_heaped
+    adding    p_owner
 
 EDITED:
     funnel_new
@@ -38,6 +40,8 @@ REDONE:
     funnel_proxy_symbol
     funnel_proxy_float
     funnel_proxy_bang
+    funnel_offset
+    funnel_proxy_offset
 
 NEW:
     funnel_msg_set
@@ -68,15 +72,11 @@ typedef struct _funnel_proxy
     t_atom    *p_msg;  //point this to p_mstack if < FUNNEL_INISIZE, else allocate on heap - DK
     int        p_heaped; //adding this to indicate if using heap or not -DK
     t_atom     p_mstack[FUNNEL_INISIZE]; //the stack for the message -DK
+    t_funnel  *p_owner;
 } t_funnel_proxy;
 
 static t_class *funnel_class;
 static t_class *funnel_proxy_class;
-
-static void funnel_proxy_offset(t_funnel_proxy *x, t_floatarg f)
-{
-    x->p_offset = f;
-}
 
 static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int argc, t_atom * argv){
     //new method, sets the message but doesn't output - Derek Kwan 2016
@@ -185,11 +185,6 @@ static void funnel_proxy_symbol(t_funnel_proxy *x, t_symbol *s)
     funnel_proxy_anything(x,s, 0, 0);
 }
 
-static void funnel_offset(t_funnel *x, t_floatarg f)
-{
-    funnel_proxy_offset((t_funnel_proxy *)x->x_proxies[0], f);
-}
-
 static void funnel_float(t_funnel *x, t_float f)
 {
     funnel_proxy_float((t_funnel_proxy *)x->x_proxies[0], f);
@@ -224,6 +219,22 @@ static void funnel_bang(t_funnel *x)
     funnel_proxy_bang((t_funnel_proxy *)x->x_proxies[0]);
 }
 
+
+static void funnel_offset(t_funnel *x, t_floatarg f)
+{
+    int i;
+    for(i=0;i<x->x_numactual; i++){
+        t_funnel_proxy *p = (t_funnel_proxy *)x->x_proxies[i];
+        p->p_offset = f;
+    };
+
+}
+
+static void funnel_proxy_offset(t_funnel_proxy *x, t_floatarg f)
+{
+    t_funnel *y = x->p_owner;
+    funnel_offset(y, f);
+}
 
 
 static void funnel_free(t_funnel *x)
@@ -279,6 +290,7 @@ static void *funnel_new(t_floatarg f1, t_floatarg f2)
         y->p_heaped = 0;
         y->p_msg = y->p_mstack; //initially point pointer to heaped t_atom
         //don't make new inlet for proxy[0], make for others
+        y->p_owner = x;
 	if (i) inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     }
     return (x);
