@@ -1,121 +1,18 @@
-#N canvas 575 23 560 518 10;
-#X obj 3 295 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 341 96 560 491 10;
+#X obj 3 286 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 375 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 4 366 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 403 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 95 303 cnv 17 3 67 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 93 294 cnv 17 3 67 empty empty n 5 9 0 16 -228856 -162280 0
 ;
-#X obj 95 385 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 93 376 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 67 258 5 0 0 0 - - -, f 5;
-#X floatatom 124 258 5 0 0 0 - - -, f 5;
-#X obj 313 251 print;
-#X obj 205 199 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
+#X obj 305 245 print;
+#X obj 203 201 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
 -1;
-#X obj 67 229 unpack f f;
-#X obj 313 216 cyclone/funnel 2;
-#N canvas 265 95 640 499 Examples 0;
-#X obj 2 2 cnv 15 620 40 empty empty funnel 3 12 0 18 -204280 -1 0
-;
-#X text 49 25 examples;
-#X obj 84 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 144 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 205 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 266 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 327 75 vsl 30 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X floatatom 84 173 5 0 0 0 - - -, f 5;
-#X floatatom 144 173 5 0 0 0 - - -, f 5;
-#X floatatom 205 173 5 0 0 0 - - -, f 5;
-#X floatatom 266 173 5 0 0 0 - - -, f 5;
-#X floatatom 327 173 5 0 0 0 - - -, f 5;
-#X obj 174 264 prepend set;
-#X msg 174 286 1 65.9114, f 15;
-#X obj 84 334 cyclone/spray 5, f 41;
-#X floatatom 84 373 5 0 0 0 - - -, f 5;
-#X floatatom 144 373 5 0 0 0 - - -, f 5;
-#X floatatom 205 373 5 0 0 0 - - -, f 5;
-#X floatatom 266 373 5 0 0 0 - - -, f 5;
-#X floatatom 327 373 5 0 0 0 - - -, f 5;
-#X obj 84 222 cyclone/funnel 5 1, f 41;
-#X obj 93 511 cyclone/funnel 5, f 24;
-#X msg 198 462 35;
-#X obj 93 533 unpack, f 13;
-#X floatatom 93 565 5 0 0 0 - - -, f 5;
-#X floatatom 168 565 5 0 0 0 - - -, f 5;
-#X obj 362 511 cyclone/funnel 4 60, f 29;
-#X msg 419 461 79 112 2000;
-#X obj 362 543 coll;
-#C restore;
-#X obj 362 571 makenote;
-#X floatatom 362 603 5 0 0 0 - - -, f 5;
-#X floatatom 407 603 5 0 0 0 - - -, f 5;
-#X obj 362 632 noteout, f 10;
-#X msg 318 512 61;
-#X obj 2 710 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 690 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 515 185 384 114 credits 0;
-#X text 88 33 Examples from Max 7 Documentation., f 35;
-#X restore 543 692 pd credits;
-#X obj 348 218 cyclone/comment 234 11 helvetica ? 0 80 80 80 an optional
-second argument sets a starting offset (other than 0) for the inlet
-number output to let you combine multiple funnels more easily;
-#X obj 282 284 cyclone/comment 234 11 helvetica ? 0 80 80 80 list output
-of funnel;
-#X obj 341 332 cyclone/comment 234 11 helvetica ? 0 80 80 80 the funnel
-and spray objects work well together;
-#X obj 61 450 cyclone/comment 234 11 helvetica ? 0 80 80 80 inlets
-are numbered from 0;
-#X obj 431 541 cyclone/comment 103 11 helvetica ? 0 80 80 80 store
-data according to inlet number;
-#X obj 92 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 0;
-#X obj 128 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 1;
-#X obj 163 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 2;
-#X obj 204 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 3;
-#X obj 233 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 4;
-#X obj 359 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 60;
-#X obj 428 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 61;
-#X obj 473 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 62;
-#X obj 529 494 cyclone/comment 234 10 helvetica ? 0 80 80 80 63;
-#X connect 2 0 7 0;
-#X connect 3 0 8 0;
-#X connect 4 0 9 0;
-#X connect 5 0 10 0;
-#X connect 6 0 11 0;
-#X connect 7 0 20 0;
-#X connect 8 0 20 1;
-#X connect 9 0 20 2;
-#X connect 10 0 20 3;
-#X connect 11 0 20 4;
-#X connect 12 0 13 0;
-#X connect 14 0 15 0;
-#X connect 14 1 16 0;
-#X connect 14 2 17 0;
-#X connect 14 3 18 0;
-#X connect 14 4 19 0;
-#X connect 20 0 12 0;
-#X connect 20 0 14 0;
-#X connect 21 0 23 0;
-#X connect 22 0 21 3;
-#X connect 23 0 24 0;
-#X connect 23 1 25 0;
-#X connect 26 0 28 0;
-#X connect 27 0 26 1;
-#X connect 28 0 29 0;
-#X connect 29 0 30 0;
-#X connect 29 1 31 0;
-#X connect 30 0 32 0;
-#X connect 31 0 32 1;
-#X connect 33 0 28 0;
-#X restore 459 234 pd Examples;
-#X obj 2 469 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 453 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 500 103 390 363 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -135,25 +32,18 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 482 471 pd META;
+#X restore 482 455 pd META;
 #N canvas 359 145 430 77 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
-#X obj 6 29 listfunnel;
 #X obj 80 29 cyclone/spray;
-#X restore 191 471 pd Related_objects;
-#X obj 161 261 cyclone/comment 100 11 helvetica ? 0 80 80 80 value
-;
-#X obj 32 260 cyclone/comment 100 11 helvetica ? 0 80 80 80 inlet #
-;
-#X text 165 339 bang;
-#X text 187 385 -;
-#X text 198 305 -;
-#X text 140 305 anything;
-#X text 187 421 -;
-#X text 129 421 1) float;
-#X text 187 443 -;
-#X text 129 443 2) float;
+#X obj 6 29 listfunnel;
+#X restore 191 455 pd Related_objects;
+#X text 168 330 bang;
+#X text 201 296 -;
+#X text 143 296 anything;
+#X text 144 412 1) float;
+#X text 144 429 2) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -168,40 +58,141 @@ this patch for Pd-Vanilla 0.47-2.;
 Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 funnel;
-#X text 201 443 first inlet number offset (default 0);
-#X text 201 421 sets 'n' number of inlets (default 2);
-#X obj 67 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 65 165 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 122 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 120 165 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 178 163 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 176 166 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 67 196 cyclone/funnel 3, f 19;
-#X text 205 181 value from;
-#X text 227 196 inlet;
-#X msg 313 176 symbol hi;
-#X msg 406 176 list how do you do?;
+#X text 203 183 value from;
+#X text 225 198 inlet;
 #X obj 20 58 comment 0 18 times ? 0 0 0 0 Tag data based on inlet;
-#X text 152 385 list;
-#X text 202 385 an incoming message preceded with the inlet number
-, f 51;
-#X text 108 354 offset <float> - sets an offset for the inlet numbers
+#X text 168 376 list;
+#X text 111 345 offset <float> - sets an offset for the inlet numbers
 ;
-#X text 213 305 any data to be tagged and output, f 45;
+#X text 216 296 any data to be tagged and output, f 45;
 #X text 84 87 [funnel] receives data from many inlets and funnels them
 to an outlet. The incoming data is tagged with an inlet number to be
 retrieved with [route] or [cyclone/spray]. It can also be used to store
 values into a table/coll.;
-#X text 108 323 set <anything> - sets a message and doesn't output
+#X text 111 314 set <anything> - sets a message and doesn't output
 it;
-#X text 198 339 - sends the last received message from the inlet;
-#X connect 8 0 37 2;
-#X connect 9 0 5 0;
-#X connect 9 1 6 0;
-#X connect 10 0 7 0;
-#X connect 34 0 37 0;
-#X connect 35 0 37 1;
-#X connect 36 0 37 2;
-#X connect 37 0 9 0;
-#X connect 40 0 10 0;
-#X connect 41 0 10 1;
+#X text 201 330 - sends the last received message in that inlet;
+#X obj 65 252 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 98 252 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 65 224 unpack;
+#X obj 305 210 cyclone/funnel 3, f 26;
+#N canvas 265 95 812 476 examples 0;
+#X obj 434 35 vsl 20 134 0 127 0 0 afdaf adsgasfg empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X obj 94 148 coll;
+#C restore;
+#X obj 94 176 makenote;
+#X floatatom 94 208 5 0 0 0 - - -, f 5;
+#X floatatom 139 208 5 0 0 0 - - -, f 5;
+#X obj 94 237 noteout, f 10;
+#X obj 87 100 cyclone/comment 234 10 helvetica ? 0 80 80 80 0;
+#X obj 121 99 cyclone/comment 234 10 helvetica ? 0 80 80 80 1;
+#X obj 152 99 cyclone/comment 234 10 helvetica ? 0 80 80 80 2;
+#X obj 186 99 cyclone/comment 234 10 helvetica ? 0 80 80 80 3;
+#X obj 434 223 s \$0-table;
+#X obj 434 182 cyclone/funnel 5, f 20;
+#X obj 586 33 cnv 15 198 138 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array \$0-table 5 float 2;
+#X coords 0 128 5 -1 200 140 1 0 0;
+#X restore 585 32 graph;
+#X obj 514 211 unpack;
+#X obj 514 235 nbx 1 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 4 256;
+#X obj 547 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 463 35 vsl 20 134 0 127 0 0 afdaf adsgasfg empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X obj 492 35 vsl 20 134 0 127 0 0 afdaf adsgasfg empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X obj 521 35 vsl 20 134 0 127 0 0 afdaf adsgasfg empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X obj 551 35 vsl 20 134 0 127 0 0 afdaf adsgasfg empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X text 622 223 send values to a table;
+#X obj 436 349 r \$0-funnel;
+#X text 430 302 the funnel and spray objects work well together;
+#X obj 436 407 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 21 256;
+#X obj 509 407 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 17 256;
+#X obj 582 407 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 34 256;
+#X obj 655 407 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 52 256;
+#X obj 43 357 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 21 256;
+#X obj 116 357 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 17 256;
+#X obj 189 357 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 34 256;
+#X obj 262 357 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 52 256;
+#X obj 43 430 s \$0-funnel;
+#X obj 43 388 cyclone/funnel 4 10, f 37;
+#X obj 436 377 cyclone/spray 4 10, f 37;
+#X text 33 283 the second argument sets a starting offset (other than
+0) for the inlet number output to let you combine multiple funnels
+more easily;
+#X obj 94 116 cyclone/funnel 4, f 17;
+#X msg 127 66 60 127 500;
+#X msg 50 117 1;
+#X text 51 20 store data according to an inlet number;
+#X connect 0 0 11 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 1 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 5 1;
+#X connect 11 0 10 0;
+#X connect 11 0 14 0;
+#X connect 14 0 15 0;
+#X connect 14 1 16 0;
+#X connect 17 0 11 1;
+#X connect 18 0 11 2;
+#X connect 19 0 11 3;
+#X connect 20 0 11 4;
+#X connect 22 0 34 0;
+#X connect 28 0 33 0;
+#X connect 29 0 33 1;
+#X connect 30 0 33 2;
+#X connect 31 0 33 3;
+#X connect 33 0 32 0;
+#X connect 34 0 24 0;
+#X connect 34 1 25 0;
+#X connect 34 2 26 0;
+#X connect 34 3 27 0;
+#X connect 36 0 1 0;
+#X connect 37 0 36 1;
+#X connect 38 0 1 0;
+#X restore 459 249 pd examples;
+#X msg 305 170 hi;
+#X msg 341 170 list how are you?;
+#X msg 458 170 symbol fine;
+#X obj 65 198 cyclone/funnel 3 1, f 19;
+#X obj 26 254 cyclone/comment 100 12 helvetica ? 0 0 0 0 inlet #;
+#X obj 138 254 cyclone/comment 100 12 helvetica ? 0 0 0 0 value;
+#X text 201 376 - an incoming message preceded with the inlet number
+;
+#X text 201 412 - sets 'n' number of inlets (default 2);
+#X text 201 429 - first inlet number offset (default 0);
+#X connect 6 0 42 2;
+#X connect 22 0 42 0;
+#X connect 23 0 42 1;
+#X connect 24 0 42 2;
+#X connect 36 0 34 0;
+#X connect 36 1 35 0;
+#X connect 37 0 5 0;
+#X connect 39 0 37 0;
+#X connect 40 0 37 1;
+#X connect 41 0 37 2;
+#X connect 42 0 36 0;

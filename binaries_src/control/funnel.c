@@ -7,7 +7,7 @@
 
 #define FUNNEL_MINSLOTS   2
 #define FUNNEL_INISIZE   32  /* LATER rethink */
-#define FUNNEL_MAXSIZE  256
+#define FUNNEL_MAXSIZE  4096
 
 /*
  FROM READING THE OLD CODE: there are the same number of proxies as inlets!
