@@ -126,9 +126,11 @@ static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int argc, t_atom * ar
     SETFLOAT(&x->p_msg[lpos],outid);
     lpos++;
     //we want to include the "selector" if it isn't "list" or "symbol" or "set" or "offset" 
-    if(strcmp(s->s_name, "list") != 0 && strcmp(s->s_name, "symbol") != 0 && strcmp(s->s_name, "set") != 0  && strcmp(s->s_name, "offset") != 0) {
-        SETSYMBOL(&x->p_msg[lpos],s);
-        lpos++;
+    if(s){
+         if(strcmp(s->s_name, "list") != 0 && strcmp(s->s_name, "symbol") != 0 && strcmp(s->s_name, "set") != 0  && strcmp(s->s_name, "offset") != 0) {
+             SETSYMBOL(&x->p_msg[lpos],s);
+             lpos++;
+         };
     };
 
     //now copy the rest of the messages up to FUNNEL_MAXSIZE
