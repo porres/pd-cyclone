@@ -2,79 +2,118 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+#include <math.h>
 #include "m_pd.h"
 #include "unstable/forky.h"
+
+EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
+
+union i32_fl {
+	int32_t if_int32;
+	t_float if_float;
+};
 
 typedef struct _bitand
 {
     t_object  x_obj;
-    t_inlet  *bitand;
+    t_inlet  *x_rightinlet;
     t_glist  *x_glist;
     int32_t   x_mask;
     int       x_mode;
     int       x_convert1;
+    t_float  *x_signalscalar;
+    
 } t_bitand;
 
 static t_class *bitand_class;
 
-static t_int *bitand_perform(t_int *w) // compare signals
+static void bitand_intmask(t_bitand *x, t_floatarg f)
+{
+	x->x_mask = (int32_t)f;
+	pd_float(x->x_rightinlet, (t_float)x->x_mask);
+}
+
+static t_int *bitand_perform(t_int *w)
 {
     t_bitand *x = (t_bitand *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *in1 = (t_float *)(w[3]);
     t_float *in2 = (t_float *)(w[4]);
     t_float *out = (t_float *)(w[5]);
+    union i32_fl left, right, result;
     switch (x->x_mode)
     {
         case 0:	while (nblock--)  // treat inputs as float
-        { int32_t i = (*(int32_t *)(t_float *)in1++) & (*(int32_t *)(t_float *)in2++);
-	    *out++ = *(t_float *)&i;
+        {
+        left.if_float = *in1++;
+        right.if_float = *in2++;
+        result.if_int32 = left.if_int32 & right.if_int32;
+        *out++ = result.if_float;
+//      { int32_t i = (*(int32_t *)(t_float *)in1++) & (*(int32_t *)(t_float *)in2++);
+// 	    *out++ = *(t_float *)&i;
         }
         break;
         case 1: while (nblock--) // convert inputs to int
-        { int32_t i = ((int32_t)*in1++) & ((int32_t)*in2++);
+    	{ 
+    	int32_t i = ((int32_t)*in1++) & ((int32_t)*in2++);
 	    *out++ = (t_float)i;
         }
         break;
-        case 2: while (nblock--) // convert right input to int
-        { int32_t i = (*(int32_t *)(t_float *)in1++) & ((int32_t)*in2++);
-	    *out++ = *(t_float *)&i;
+        case 2: while (nblock--) // right input as int
+        {
+        left.if_float = *in1++;
+        result.if_int32 = left.if_int32 & ((int32_t)*in2++);
+        *out++ = result.if_float;
+//         { int32_t i = (*(int32_t *)(t_float *)in1++) & ((int32_t)*in2++);
+// 	    *out++ = *(t_float *)&i;
         }
         break;
-        case 3: while (nblock--) // convert left input to int
-        { int32_t i = ((int32_t)*in1++) & (*(int32_t *)(t_float *)in2++);
+        case 3: while (nblock--) // left input as int
+        {
+        right.if_float = *in2++;
+        int32_t i = ((int32_t)*in1++) & right.if_int32;
         *out++ = (t_float)i;
+//         { int32_t i = ((int32_t)*in1++) & (*(int32_t *)(t_float *)in2++);
+//         *out++ = (t_float)i;
         }
 	break;
     }
     return (w + 6);
 }
 
-static t_int *bitand_perform_noin2(t_int *w) // compare to bitmask
+static t_int *bitand_perform_noin2(t_int *w)
 { // LATER think about performance
     t_bitand *x = (t_bitand *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
+    union i32_fl left, result;
     int32_t mask = x->x_mask;
-    if (x->x_convert1) // convert left signal to int: Modes 1 (both as int) or 3 (left as int)
+    t_float inmask = *x->x_signalscalar;
+    if (!isnan(inmask) && mask != (int32_t)inmask)
+    {
+    	bitand_intmask(x, inmask);
+    }
+    if (x->x_convert1) // Modes 1 (both as int) or 3 (left as int)
     while (nblock--)
         { int32_t i = ((int32_t)*in++) & mask;
           *out++ = (t_float)i;
         }
     else while (nblock--)
-        { int32_t i = (*(int32_t *)(t_float *)in++) & mask;
-          *out++ = *(t_float *)&i;
+        { 
+          left.if_float = *in++;
+          result.if_int32 = left.if_int32 & mask;
+         //int32_t i = (*(int32_t *)(t_float *)in++) & mask;
+          *out++ = result.if_float;
         }
     return (w + 5);
 }
 
 static void bitand_dsp(t_bitand *x, t_signal **sp)
 {
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 1, 0)) // compare signals
-	dsp_add(bitand_perform, 5, x,
+    if (forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal))
+	dsp_add(bitand_perform, 5, x, // use mask from 2nd in sig/float
         sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
-    
     else  // use mask set by 'bits' message or argument
 	dsp_add(bitand_perform_noin2, 4, x, sp[0]->s_n,
             sp[0]->s_vec, sp[1]->s_vec);
@@ -83,7 +122,10 @@ static void bitand_dsp(t_bitand *x, t_signal **sp)
 static void bitand_bits(t_bitand *x, t_symbol *s, int ac, t_atom *av)
 {
     x->x_mask = forky_getbitmask(ac, av); // should overwrite argument???
+    pd_float(x->x_rightinlet, NAN);
 }
+
+
 
 static void bitand_mode(t_bitand *x, t_floatarg f)
 {
@@ -96,9 +138,10 @@ static void *bitand_new(t_floatarg f1, t_floatarg f2)
 {
     t_bitand *x = (t_bitand *)pd_new(bitand_class);
     x->x_glist = canvas_getcurrent();
-    inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
-    x->x_mask = (int32_t)f1;
+    x->x_signalscalar = obj_findsignalscalar(x, 1);
+    bitand_intmask(x, f1);
     bitand_mode(x, f2);
     return (x);
 }
