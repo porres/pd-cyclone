@@ -52,8 +52,6 @@ static t_int *bitand_perform(t_int *w)
         	*out++ = 0;
         else
             *out++ = result.if_float;
-//      { int32_t i = (*(int32_t *)(t_float *)in1++) & (*(int32_t *)(t_float *)in2++);
-// 	    *out++ = *(t_float *)&i;
         }
         break;
         case 1: while (nblock--) // convert inputs to int
@@ -74,8 +72,6 @@ static t_int *bitand_perform(t_int *w)
         	*out++ = 0;
         else
             *out++ = result.if_float;
-//         { int32_t i = (*(int32_t *)(t_float *)in1++) & ((int32_t)*in2++);
-// 	    *out++ = *(t_float *)&i;
         }
         break;
         case 3: while (nblock--) // left input as int
@@ -87,8 +83,6 @@ static t_int *bitand_perform(t_int *w)
     		*out++ = 0;
     	else
 	    	*out++ = f;
-//         { int32_t i = ((int32_t)*in1++) & (*(int32_t *)(t_float *)in2++);
-//         *out++ = (t_float)i;
         }
 	break;
     }
@@ -108,7 +102,7 @@ static t_int *bitand_perform_noin2(t_int *w)
     {
     	bitand_intmask(x, inmask);
     }
-    if (x->x_convert1) // Modes 1 (both as int) or 3 (left as int)
+    if (x->x_convert1)
     while (nblock--)
         { int32_t i = ((int32_t)*in++) & mask;
           t_float f = (t_float)i;
@@ -121,7 +115,6 @@ static t_int *bitand_perform_noin2(t_int *w)
         { 
           left.if_float = *in++;
           result.if_int32 = left.if_int32 & mask;
-         //int32_t i = (*(int32_t *)(t_float *)in++) & mask;
           if (FORKY_ISDENORM(result.if_float))
         	*out++ = 0;
           else
@@ -133,7 +126,7 @@ static t_int *bitand_perform_noin2(t_int *w)
 static void bitand_dsp(t_bitand *x, t_signal **sp)
 {
     if (forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal))
-	dsp_add(bitand_perform, 5, x, // use mask from 2nd in sig/float
+	dsp_add(bitand_perform, 5, x, // use mask from 2nd input signal
         sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
     else  // use mask set by 'bits' message or argument
 	dsp_add(bitand_perform_noin2, 4, x, sp[0]->s_n,
@@ -142,11 +135,9 @@ static void bitand_dsp(t_bitand *x, t_signal **sp)
 
 static void bitand_bits(t_bitand *x, t_symbol *s, int ac, t_atom *av)
 {
-    x->x_mask = forky_getbitmask(ac, av); // should overwrite argument???
+    x->x_mask = forky_getbitmask(ac, av);
     pd_float(x->x_rightinlet, NAN);
 }
-
-
 
 static void bitand_mode(t_bitand *x, t_floatarg f)
 {
