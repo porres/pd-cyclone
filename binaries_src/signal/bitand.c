@@ -48,7 +48,10 @@ static t_int *bitand_perform(t_int *w)
         left.if_float = *in1++;
         right.if_float = *in2++;
         result.if_int32 = left.if_int32 & right.if_int32;
-        *out++ = result.if_float;
+        if (FORKY_ISDENORM(result.if_float))
+        	*out++ = 0;
+        else
+            *out++ = result.if_float;
 //      { int32_t i = (*(int32_t *)(t_float *)in1++) & (*(int32_t *)(t_float *)in2++);
 // 	    *out++ = *(t_float *)&i;
         }
@@ -56,14 +59,21 @@ static t_int *bitand_perform(t_int *w)
         case 1: while (nblock--) // convert inputs to int
     	{ 
     	int32_t i = ((int32_t)*in1++) & ((int32_t)*in2++);
-	    *out++ = (t_float)i;
+    	t_float f = (t_float)i;
+    	if (FORKY_ISDENORM(f))
+    		*out++ = 0;
+    	else
+	    	*out++ = f;
         }
         break;
         case 2: while (nblock--) // right input as int
         {
         left.if_float = *in1++;
         result.if_int32 = left.if_int32 & ((int32_t)*in2++);
-        *out++ = result.if_float;
+        if (FORKY_ISDENORM(result.if_float))
+        	*out++ = 0;
+        else
+            *out++ = result.if_float;
 //         { int32_t i = (*(int32_t *)(t_float *)in1++) & ((int32_t)*in2++);
 // 	    *out++ = *(t_float *)&i;
         }
@@ -72,7 +82,11 @@ static t_int *bitand_perform(t_int *w)
         {
         right.if_float = *in2++;
         int32_t i = ((int32_t)*in1++) & right.if_int32;
-        *out++ = (t_float)i;
+        t_float f = (t_float)i;
+    	if (FORKY_ISDENORM(f))
+    		*out++ = 0;
+    	else
+	    	*out++ = f;
 //         { int32_t i = ((int32_t)*in1++) & (*(int32_t *)(t_float *)in2++);
 //         *out++ = (t_float)i;
         }
@@ -97,14 +111,21 @@ static t_int *bitand_perform_noin2(t_int *w)
     if (x->x_convert1) // Modes 1 (both as int) or 3 (left as int)
     while (nblock--)
         { int32_t i = ((int32_t)*in++) & mask;
-          *out++ = (t_float)i;
+          t_float f = (t_float)i;
+    	if (FORKY_ISDENORM(f))
+    		*out++ = 0;
+    	else
+	    	*out++ = f;
         }
     else while (nblock--)
         { 
           left.if_float = *in++;
           result.if_int32 = left.if_int32 & mask;
          //int32_t i = (*(int32_t *)(t_float *)in++) & mask;
-          *out++ = result.if_float;
+          if (FORKY_ISDENORM(result.if_float))
+        	*out++ = 0;
+          else
+            *out++ = result.if_float;
         }
     return (w + 5);
 }

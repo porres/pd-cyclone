@@ -29,4 +29,17 @@ void forky_setpropertiesfn(t_class *c, t_forkypropertiesfn fn);
 int forky_hasfeeders(t_object *x, t_glist *glist, int inno, t_symbol *outsym);
 int32_t forky_getbitmask(int ac, t_atom *av);
 
+typedef  union
+{
+    t_float f;
+    unsigned int ui;
+}t_isdenorm;
+
+static inline int FORKY_ISDENORM(t_float f)
+{
+	t_isdenorm mask;
+	mask.f = f;
+	return ((mask.ui & 0x07f800000) == 0);
+}
+
 #endif
