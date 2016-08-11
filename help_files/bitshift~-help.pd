@@ -1,7 +1,7 @@
-#N canvas 718 39 564 609 10;
-#X obj 8 559 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 718 39 564 605 10;
+#X obj 8 566 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 341 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 333 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 328 331 433 291 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -20,10 +20,10 @@ point signal as bits or as a float.;
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 509 561 pd META;
-#X obj 7 461 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 509 568 pd META;
+#X obj 7 447 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 498 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 479 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 114 398 465 241 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -31,17 +31,17 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 7 74 cyclone/bitnot~;
 #X obj 7 53 cyclone/bitor~;
 #X obj 6 31 cyclone/bitand~;
-#X restore 223 561 pd Related_objects;
-#X obj 82 470 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 223 568 pd Related_objects;
+#X obj 82 456 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 120 470 signal;
-#X text 133 352 signal;
-#X text 108 526 2) float;
-#X obj 82 349 cnv 17 3 97 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 133 456 signal;
+#X text 133 341 signal;
+#X text 121 503 2) float;
+#X obj 82 342 cnv 17 3 97 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 139 390 float;
-#X msg 150 239 mode \$1;
-#X obj 150 212 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X text 139 379 float;
+#X msg 44 227 mode \$1;
+#X obj 44 200 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -57,30 +57,22 @@ adapted the patch to pd-extended 2015-02-02;
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 bitshift~;
-#X text 108 506 1) float;
+#X text 121 485 1) float;
 #X obj 18 57 comment 0 18 times ? 0 0 0 0 Signal Bit-Shifting;
-#X text 189 353 - signal to bitshift;
-#X text 177 527 - mode: 0 (default) or 1;
-#X text 175 470 - output of bit shifted signal;
-#X text 189 409 - specifies the number and direction of the shift.
-Positive values shift that number of bits to the left while negative
-shift to the right.;
-#X text 175 507 - number of bits to shift (default 0);
-#X msg 48 221 shift \$1;
-#X floatatom 48 196 5 0 0 0 - - -, f 5;
+#X text 189 456 - output of bit shifted signal;
+#X text 189 486 - number of bits to shift (default 0);
+#X msg 140 231 shift \$1;
 #X text 66 90 [bitshift~] takes a signal and performs Bitwise Shifting
 (shift bit values to the left or right) depending on a shift value
 (positive values shift that number of bits to the left \, while negative
 values shift to the right). The operation is done in two modes (see
 below).;
-#X text 109 370 mode <0/1>;
-#X text 189 369 - sets mode (details above);
-#X text 189 390 - sets mode [0 or 1];
-#X obj 14 561 all_about_cyclone;
-#X obj 269 212 cnv 15 265 80 empty empty empty 20 12 0 14 -253822 -66577
+#X text 109 359 mode <0/1>;
+#X text 189 358 - sets mode (details above);
+#X obj 269 209 cnv 15 265 80 empty empty empty 20 12 0 14 -253822 -66577
 0;
-#X text 276 215 Modes:;
-#X text 282 232 0: (default) doesn't convert to int;
+#X text 276 212 Modes:;
+#X text 282 229 0: (default) doesn't convert to int;
 #N canvas 495 23 476 167 signal_conversion_to_int 0;
 #X text 62 35 Signals are 32 bit floating point by default and their
 32 bit representation is used for comparison. When converting a signal
@@ -88,9 +80,9 @@ to integer \, depending on the mode \, what happens is that the floating
 point value is converted/truncated to an integer \, and the 32 bit
 signed integer representation of this value is used for the operation.
 ;
-#X restore 359 268 pd signal_conversion_to_int;
-#X text 282 245 1: converts input signal to int;
-#X text 91 409 shift <float>;
+#X restore 359 265 pd signal_conversion_to_int;
+#X text 282 242 1: converts input signal to int;
+#X text 91 398 shift <float>;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -195,12 +187,24 @@ signed integer representation of this value is used for the operation.
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 117 300 number~;
-#X obj 117 181 number~ 1;
-#X obj 117 264 cyclone/bitshift~ -2;
-#X connect 12 0 44 0;
+#X obj 117 297 number~;
+#X obj 117 178 number~ 1;
+#X obj 117 261 cyclone/bitshift~ -2;
+#X text 189 398 - specifies the number and direction of the shift -
+positive values shift that number of bits to the left while negative
+shift to the right;
+#X text 189 379 - sets conversion mode [0 or 1];
+#X text 191 504 - sets conversion mode: 0 (default) or 1;
+#X text 189 342 - signal to Bit-Shift;
+#X obj 140 207 nbx 5 16 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 0 256;
+#X obj 8 523 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 122 531 [bitshift~] can produce NaNs and +/-INFs - but denormals
+are zeroed out.;
+#X connect 12 0 38 0;
 #X connect 13 0 12 0;
-#X connect 28 0 44 0;
-#X connect 29 0 28 0;
-#X connect 43 0 44 0;
-#X connect 44 0 42 0;
+#X connect 25 0 38 0;
+#X connect 37 0 38 0;
+#X connect 38 0 36 0;
+#X connect 43 0 25 0;
