@@ -1,4 +1,4 @@
-#N canvas 180 175 560 590 10;
+#N canvas 618 47 560 590 10;
 #X obj 5 552 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 319 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -62,7 +62,7 @@ Max/MSP;
 -1 -1 0 256;
 #X text 134 385 signal;
 #X text 140 402 float;
-#N canvas 266 23 935 442 integer_bitmask 0;
+#N canvas 442 394 935 442 integer_bitmask 0;
 #X obj 553 220 clip~ -1 1;
 #X obj 553 108 *~ 10000;
 #X obj 553 184 /~ 10000;
@@ -71,13 +71,13 @@ Max/MSP;
 #X obj 510 311 cyclone/output~;
 #X obj 553 73 osc~ 220;
 #X obj 658 108 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 -1 256;
 #X obj 553 143 cyclone/bitand~ -1;
 #X msg 458 104 mode \$1;
 #X obj 458 85 nbx 2 12 0 3 0 0 safsdf sdfsdf empty 0 -8 0 10 -228856
--1 -1 0 256;
+-1 -1 3 256;
 #X obj 458 20 vradio 15 1 0 4 dfhdfgdj sggh empty 0 -8 0 10 -228856
--1 -1 0;
+-1 -1 3;
 #X text 448 19 0;
 #X text 448 33 1;
 #X text 448 49 2;
@@ -106,11 +106,11 @@ signal input has priority over the argument or the float input.;
 #X connect 0 0 3 0;
 #X connect 0 0 4 0;
 #X connect 0 0 4 1;
-#X connect 1 0 7 0;
-#X connect 2 0 0 0;
 #X connect 5 0 1 0;
+#X connect 5 0 7 0;
 #X connect 6 0 7 1;
 #X connect 7 0 2 0;
+#X connect 7 0 0 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;
 #X connect 10 0 9 0;
@@ -119,7 +119,7 @@ signal input has priority over the argument or the float input.;
 #X text 103 346 bits <list>;
 #X text 122 487 2) float;
 #X text 111 175 Compare two signals:;
-#N canvas 134 24 692 666 raw_bitmask 0;
+#N canvas 494 114 692 666 raw_bitmask 0;
 #X obj 121 368 clip~ -1 1;
 #N canvas 303 196 881 396 x 0;
 #X obj 201 101 cnv 15 458 44 empty empty empty 20 12 0 14 -249661 -66577
@@ -277,7 +277,7 @@ i i i i i i i i i i i i i i, f 126;
 #X obj 148 218 hradio 15 1 0 4 \$0-dslsjdhfk \$0-dsdsdjfslkjhllsjdhfk
 empty 0 -8 0 10 -228856 -1 -1 3;
 #X obj 34 162 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 220 256;
 #X obj 121 334 /~ 10000;
 #X obj 34 222 *~ 10000;
 #X msg 121 184 bits 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
