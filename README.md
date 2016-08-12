@@ -53,7 +53,7 @@ If in agreement to the Pd community, this repository will release updates of the
 
 <strong>- A)</strong> New functionalities introduced in newer versions of Max (from Max 5 and on) into the already existing objects in cyclone.
 
-<strong>- B)</strong> New objects compatible to the most current Max version (Max 7 nowadays). 
+<strong>- B)</strong> New objects compatible to the up to date Max version (currently Max 7.2.4). 
 
 This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Ideally, any possible MAX/MSP object could be cloned or updated, but since this is a fair amount of work, collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. 
 
