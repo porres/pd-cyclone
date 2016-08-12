@@ -17,7 +17,7 @@ Max is found at: https://cycling74.com/
 
 In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches."
 
-(more in the original readme provided in this repository: <https://github.com/porres/pd-cyclone/blob/master/maintenance/text_files/README_original.txt>)
+(the full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/text_files/README_original.txt>)
 
 -------
 
