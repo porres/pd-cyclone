@@ -17,7 +17,7 @@
 //#define MTR_DEBUG
 #endif
 
-#define MTR_C74MAXTRACKS    32
+#define MTR_C74MAXTRACKS    64
 #define MTR_FILEBUFSIZE   4096
 #define MTR_FILEMAXCOLUMNS  78
 
