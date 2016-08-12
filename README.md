@@ -25,7 +25,7 @@ In its current form, cyclone is mainly for people using both Max and Pd, and thu
 
 Cyclone's original author is Krzysztof Czaja, who worked on it mostly from 2002-2005. 
 
-After that, cyclone ended up incorporated into Pd Extended and was eventually under the maintenance of Hans-Christoph Steiner until Pd Extended was left unmaintained (up to jan-2013). After unmaintained for a while, Fred Jan Kraan did maintain and develop for cyclone from dec-2014 to feb-2016, when development for cyclone was abandoned (though maintenance for his last package is still active). Since feb-2016, an active further development of cyclone is being proposed by Porres & collaborators on this repository.
+After that, cyclone ended up incorporated into Pd Extended and was eventually under the maintenance of Hans-Christoph Steiner until Pd Extended was left unmaintained (in jan-2013). After that, cyclone was left unmaintained as well. After a while, Fred Jan Kraan did maintain and develop for cyclone from dec-2014 to feb-2016, when development for cyclone was abandoned (though maintenance for his last package is still active). Since feb-2016, an active further development of cyclone is being proposed by Porres & collaborators on this repository.
 
 -------
 
@@ -33,17 +33,25 @@ After that, cyclone ended up incorporated into Pd Extended and was eventually un
 
 A copy of the original cyclone page, from the original author (including the cyclone library version 0.1-Alpha54 from 2005) is available at: http://fjkraan.home.xs4all.nl/digaud/puredata/cyclone/cyclone_site/cyclone.html
 
-In the Pd-extended days, under the maintenance of Hans-Christoph Steiner, the 0.1-Alpha55 version of cyclone is found in Pd-extended 0.42-5, where it was introduced and released in september 2010. Currently, the original cyclone library and repository - amongst other things - is found at the <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/> . This original repository carries the version 0.1-Alpha56 of cyclone, present in the last release of Pd Extended [version 0.43.4 from january  2013]. The 0.1-Alpha56 version is also available as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (since Pd Vanilla 0.47-0).
+In the Pd-extended days, under the maintenance of Hans-Christoph Steiner, the 0.1-Alpha55 version of cyclone was introduced and is still found in Pd-extended 0.42-5, released in september 2010. 
 
-Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon> where he worked on further developments and releases, such as cyclone version 0.1alpha57 from october 2015 (available here: <https://github.com/porres/pd-cyclone/releases/tag/0.1alpha57>) and a newer version - "0.2beta" - also found when searching for externals in Pd Vanilla. 
+Original Repository:
+
+In january of 2013, the release of Pd-extended 0.43 carried the 0.1-Alpha56 version of cyclone, which is found (amongst other things) at the original repository <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/> - this version of cyclone is available as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (since Pd Vanilla 0.47-0).
+
+Fred Jan Kraan's Repository:
+
+Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon> where he worked on further developments and releases, such as cyclone version 0.1alpha57 from october 2015 (available here: <https://github.com/porres/pd-cyclone/releases/tag/0.1alpha57>).
+
+Cyclone "0.2beta" is the next and last currently released version of Cyclone. It is found in Fred Jan Kraan's repository and also available when searching for externals in Pd Vanilla. But you can check it here too: <https://github.com/porres/pd-cyclone/releases/tag/0.2beta1>.
 
 -------
 
-<strong>About this repository's Goals & Further Development:</strong>
+<strong>About this repository and its Goals:</strong>
 
 Location of this repository is: https://github.com/porres/pd-cyclone. 
 
-When cyclone was been left unmaintained (in February 2016), Porres forked cyclone to this new repository, where developments for further releases have been made since then.
+When cyclone was been left unmaintained (in February 2016), Porres forked cyclone to this new repository, where developments for a further release have been made since then.
 
 This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. 
 
@@ -66,6 +74,6 @@ Readme file created February 22nd 2016 (last edited, august 12th 2016)
 -------
 <strong>Building Cyclone</strong>
 
-Since version 0.1-alpha57, cyclone has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). With this new build system, all you have to do is type "make" and build cyclone in different platforms.  
+Since version 0.1-alpha57, cyclone has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). With this new build system, all you have to do is type "make" and build cyclone in different platforms.
 
-Cyclone originally used to also compile the objects in libraries (such as "hammer" for control objects and "sickle" for signal objects). But in the Pd extended era, only single binaries were available. The new build system system, up to this moment, only builds each object in a separate file as in the old Pd extended days - with the exception a sub-library (containing 12 non alphanumeric objects). The current maintenance considers to restore the possibility of also compiling cyclone as a library in the same way it was originally developed.
+Cyclone originally used to also compile the objects in libraries (such as "hammer" for control objects and "sickle" for signal objects). But in the Pd extended era, only single binaries were available. The new build system system, up to this moment, only builds each object in a separate file as in the old Pd extended days - with the exception of a sub-library (containing 12 non alphanumeric objects). The current maintenance considers to restore the possibility of also compiling cyclone as a library in the same way it was originally developed.
