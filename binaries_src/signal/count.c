@@ -36,7 +36,6 @@ static void count_bang(t_count *x)
 static void count_min(t_count *x, t_floatarg f)
 {
     x->x_min = (int)f;
-    count_bang(x);
 }
 
 static void count_max(t_count *x, t_floatarg f)
@@ -45,7 +44,6 @@ static void count_max(t_count *x, t_floatarg f)
     /* MAYBE use 64 bits */
     x->x_limit = (x->x_max == 0 ? COUNTMAXINT
 		  : x->x_max - 1);  /* CHECKED */
-    count_bang(x);
 }
 
 static void count_autoreset(t_count *x, t_floatarg f)
