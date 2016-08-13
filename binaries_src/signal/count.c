@@ -86,6 +86,10 @@ static void count_set(t_count *x, t_symbol *s, int ac, t_atom *av)
     {
 	if (av[0].a_type == A_FLOAT) {
 	    x->x_min = (int)av[0].a_w.w_float;
+        {
+            x->x_max = (int)0;
+            x->x_limit = (x->x_max == 0 ? COUNTMAXINT : x->x_max - 1);
+        }
 	}
     }
     if (ac > 1)
@@ -103,7 +107,7 @@ static void count_stop(t_count *x)
 {
     if (x->x_sig) {
         x->x_count = x->x_min;
-        x->x_on = 1;
+//        x->x_on = 1;
     }
     else {
     x->x_count = x->x_min;
@@ -131,7 +135,7 @@ static t_int *count_perform(t_int *w)
          x->x_on = 1;
          x->x_sig = 1;
          }
-    else if (in == 0) // turn it off
+    else if (in == 0 && lastin != 0) // turn it off
         {
         count = x->x_min;
         x->x_on = 0;
