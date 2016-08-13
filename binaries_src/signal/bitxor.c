@@ -211,7 +211,7 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom * argv)
     bitxor_mode(x, opmode);
     return (x);
     errstate:
-	pd_error(x, "bitxor~~: improper args");
+	pd_error(x, "bitxor~: improper args");
         return NULL;
 
 }
