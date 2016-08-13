@@ -2,9 +2,16 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+//adding argument parsing and errstate - Derek Kwan 2016
+
+#include <string.h>
 #include <math.h>
 #include "m_pd.h"
 #include "unstable/forky.h"
+
+#define PDCYBXORMASK 0 //default for bitmask
+#define PDCYBXORMODE 0 //default for mode
+
 
 EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
@@ -146,22 +153,73 @@ static void bitxor_mode(t_bitxor *x, t_floatarg f)
     x->x_convert1 = (x->x_mode == 1 || x->x_mode == 3);
 }
 
-static void *bitxor_new(t_floatarg f1, t_floatarg f2)
+static void *bitxor_new(t_symbol *s, int argc, t_atom * argv)
 {
     t_bitxor *x = (t_bitxor *)pd_new(bitxor_class);
     x->x_glist = canvas_getcurrent();
     x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
     x->x_signalscalar = obj_findsignalscalar(x, 1);
-    bitxor_intmask(x, f1);
-    bitxor_mode(x, f2);
+
+    //defaults
+    t_float bitmask = PDCYBXORMASK;
+    t_float opmode = PDCYBXORMODE;
+    int curarg = 0; //current argument
+    //argument parsing
+    while(argc > 0){
+        if(argv->a_type == A_FLOAT){
+            t_float curfloat = atom_getfloatarg(0, argc, argv);
+            switch(curarg){
+                case 0:
+                    bitmask = curfloat;
+                    break;
+                case 1:
+                    opmode = curfloat;
+                    break;
+                default:
+                    break;
+            };
+            //increment
+            curarg++;
+            argc--;
+            argv++;
+        }
+        else if(argv->a_type == A_SYMBOL){
+            if(argc >= 2){
+                t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+                t_float curfloat = atom_getfloatarg(1, argc, argv);
+                if(strcmp(cursym->s_name, "@mode") == 0){
+                    opmode = curfloat;
+                    //increment
+                    curarg+=2;
+                    argc-=2;
+                    argv+=2;
+                }
+                else{
+                    goto errstate;
+                };
+            }
+            else{
+                goto errstate;
+            };
+        }
+        else{
+            goto errstate;
+        };
+    };
+    bitxor_intmask(x, bitmask);
+    bitxor_mode(x, opmode);
     return (x);
+    errstate:
+	pd_error(x, "bitxor~~: improper args");
+        return NULL;
+
 }
 
 void bitxor_tilde_setup(void)
 {
     bitxor_class = class_new(gensym("bitxor~"), (t_newmethod)bitxor_new, 0,
-                            sizeof(t_bitxor), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
+                            sizeof(t_bitxor), 0, A_GIMME, 0);
     class_addmethod(bitxor_class, nullfn, gensym("signal"), 0);
     class_addmethod(bitxor_class, (t_method) bitxor_dsp, gensym("dsp"), 0);
     class_addmethod(bitxor_class, (t_method)bitxor_bits, gensym("bits"), A_GIMME, 0);
