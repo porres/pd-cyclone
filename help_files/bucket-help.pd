@@ -1,17 +1,17 @@
-#N canvas 760 33 558 581 10;
-#X obj 2 293 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 374 123 558 572 10;
+#X obj 2 284 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 445 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 436 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 477 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 468 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 79 454 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 81 445 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 303 cnv 17 3 136 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 294 cnv 17 3 136 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 88 149 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 2 540 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 531 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 512 121 373 275 META 0;
 #X text 0 18 LICENSE SIBSD;
@@ -29,7 +29,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 updated this patch for pd-extended 2014-12-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 502 542 pd META;
+#X restore 504 533 pd META;
 #N canvas 365 145 463 75 Related_objects 0;
 #X obj 2 2 cnv 15 458 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -38,12 +38,12 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 196 29 cyclone/decode;
 #X obj 291 29 cyclone/gate;
 #X obj 372 29 cyclone/spray;
-#X restore 205 542 pd Related_objects;
-#X text 130 339 bang;
-#X text 124 307 float;
-#X text 124 456 float;
-#X text 103 485 1) float;
-#X text 103 503 2) float;
+#X restore 207 533 pd Related_objects;
+#X text 132 330 bang;
+#X text 126 298 float;
+#X text 126 447 float;
+#X text 105 476 1) float;
+#X text 105 494 2) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -60,40 +60,40 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 bucket;
 #X obj 17 57 comment 0 18 times ? 0 0 0 0 Pass numbers from outlet
 to outlet;
-#X obj 88 256 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 54 256;
-#X obj 123 256 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 10 256;
-#X obj 158 256 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 17 256;
-#X obj 193 256 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 13 256;
+#X obj 88 254 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 123 254 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 158 254 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 193 254 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
 #X obj 88 199 nbx 2 14 -9 99 0 0 empty empty empty 0 -8 0 10 -228856
--1 -1 54 256;
-#X text 172 485 - sets number of outlets (default 1), f 60;
-#N canvas 809 322 440 285 output-flag 0;
+-1 -1 0 256;
+#X text 174 476 - sets number of outlets (default 1), f 60;
+#N canvas 823 75 440 285 output-flag 0;
 #X obj 225 44 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 225 94 nbx 2 14 -9 99 0 0 empty empty empty 0 -8 0 10 -228856
--1 -1 83 256;
+-1 -1 0 256;
 #X obj 225 68 random 100;
 #X obj 258 186 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 83 256;
+-228856 -1 -1 0 256;
 #X obj 293 186 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 93 256;
+-228856 -1 -1 0 256;
 #X obj 328 186 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 10 256;
+-228856 -1 -1 0 256;
 #X obj 363 186 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 64 256;
+-228856 -1 -1 0 256;
 #X obj 258 154 cyclone/bucket 4 1;
 #X obj 82 191 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 93 256;
+-228856 -1 -1 0 256;
 #X obj 117 191 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 10 256;
+-228856 -1 -1 0 256;
 #X obj 152 191 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 64 256;
+-228856 -1 -1 0 256;
 #X obj 187 191 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 46 256;
+-228856 -1 -1 0 256;
 #X obj 82 159 cyclone/bucket 4 0;
 #X text 122 229 (default);
 #X obj 16 50 cnv 15 180 30 empty empty empty 20 12 0 14 -228856 -66577
@@ -114,40 +114,40 @@ to outlet;
 #X connect 12 1 9 0;
 #X connect 12 2 10 0;
 #X connect 12 3 11 0;
-#X restore 436 174 pd output-flag;
-#X text 136 389 l2r;
-#X text 136 406 r2l;
-#X text 175 389 - or 'L2R'/'ltor': sets shift from left to right (default)
+#X restore 440 189 pd output-flag;
+#X text 138 380 l2r;
+#X text 138 397 r2l;
+#X text 177 380 - or 'L2R'/'ltor': sets shift from left to right (default)
 ;
-#X text 175 406 - or 'R2L'/'rtol': sets shift from right to left;
-#X text 88 323 set <float>;
-#X text 130 423 roll;
-#X text 130 372 thaw;
-#X text 118 355 freeze;
-#X msg 310 137 freeze;
-#X msg 317 161 thaw;
-#X msg 331 189 l2r;
-#X msg 337 211 r2l;
-#X msg 372 218 roll;
-#X msg 237 173 set \$1;
-#X floatatom 237 152 5 0 0 0 - - -, f 5;
-#X obj 310 252 send bucket;
-#X obj 287 175 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 177 397 - or 'R2L'/'rtol': sets shift from right to left;
+#X text 90 314 set <float>;
+#X text 132 414 roll;
+#X text 132 363 thaw;
+#X text 120 346 freeze;
+#X msg 310 136 freeze;
+#X msg 317 160 thaw;
+#X msg 331 188 l2r;
+#X msg 337 210 r2l;
+#X msg 372 217 roll;
+#X msg 237 172 set \$1;
+#X floatatom 237 151 5 0 0 0 - - -, f 5;
+#X obj 310 251 send bucket;
+#X obj 287 174 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 140 197 r bucket;
-#X text 175 307 - the input number, f 60;
-#X text 175 323 - sets input value and outputs it to all outlets;
-#X text 175 339 - outputs all stored values without shifting, f 60
+#X text 177 298 - the input number, f 60;
+#X text 177 314 - sets input value and outputs it to all outlets;
+#X text 177 330 - outputs all stored values without shifting, f 60
 ;
-#X text 175 355 - suspends output \, but continues to shift input internally
+#X text 177 346 - suspends output \, but continues to shift input internally
 ;
-#X text 175 372 - resumes the output after being freezed, f 51;
-#X text 175 423 - shifts stores values in loop (according to direction)
+#X text 177 363 - resumes the output after being freezed, f 51;
+#X text 177 414 - shifts stores values in loop (according to direction)
 ;
-#X text 175 456 - numbers being passed;
+#X text 177 447 - numbers being passed;
 #X obj 88 224 cyclone/bucket 4 1;
 #X obj 88 173 random 100;
-#X text 172 503 - output flag: <0> (default) holds the input and passes
+#X text 174 494 - output flag: <0> (default) holds the input and passes
 it on the next round \, <1> outputs the input immediately;
 #X text 49 87 As [bucket] is input with floats \, it outputs them shiftting
 from outlet to outlet in a rotational pattern (or "passing the bucket"
@@ -168,7 +168,7 @@ use:;
 #X text 53 220 Which is the reasonable and sensible way nowadays \,
 as the current plan is to phase out the capital letters in cyclone's
 objects.;
-#X restore 438 210 pd backwards \; compatibility;
+#X restore 443 215 pd backwards \; compatibility;
 #X connect 5 0 55 0;
 #X connect 26 0 54 0;
 #X connect 37 0 44 0;

@@ -1,136 +1,15 @@
-#N canvas 685 25 558 619 10;
-#X obj 2 310 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 624 80 558 533 10;
+#X obj 2 287 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 378 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 485 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 74 437 cnv 17 3 38 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 76 387 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
 ;
-#X obj 74 320 cnv 17 3 100 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 76 295 cnv 17 3 75 empty empty n 5 9 0 16 -228856 -162280 0
 ;
-#N canvas 632 136 625 493 Examples 0;
-#X obj 31 172 bondo 4 1500, f 29;
-#X msg 106 99 34 oi 93 U2;
-#N canvas 627 184 220 231 set 0;
-#X obj 48 51 inlet;
-#X obj 48 88 prepend set;
-#X obj 48 135 outlet;
-#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
-was created for enhance readability of the parent patch;
-#X text 7 4 Setting message boxes;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X restore 31 205 pd set;
-#N canvas 627 184 220 231 set 0;
-#X obj 48 51 inlet;
-#X obj 48 88 prepend set;
-#X obj 48 135 outlet;
-#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
-was created for enhance readability of the parent patch;
-#X text 7 4 Setting message boxes;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X restore 88 205 pd set;
-#N canvas 627 184 220 231 set 0;
-#X obj 48 51 inlet;
-#X obj 48 88 prepend set;
-#X obj 48 135 outlet;
-#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
-was created for enhance readability of the parent patch;
-#X text 7 4 Setting message boxes;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X restore 145 205 pd set;
-#N canvas 627 184 220 231 set 0;
-#X obj 48 51 inlet;
-#X obj 48 88 prepend set;
-#X obj 48 135 outlet;
-#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
-was created for enhance readability of parent patch;
-#X text 7 4 Setting message boxes;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X restore 202 205 pd set;
-#N canvas 627 184 220 231 set 0;
-#X obj 48 51 inlet;
-#X obj 48 135 outlet;
-#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
-was created for enhance readability of the parent patch;
-#X text 7 4 Setting message boxes;
-#X obj 48 88 cyclone/prepend set;
-#X connect 0 0 5 0;
-#X connect 5 0 1 0;
-#X restore 350 205 pd set;
-#N canvas 627 184 220 231 set 0;
-#X obj 48 51 inlet;
-#X obj 48 135 outlet;
-#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
-was created for enhance readability of the parent patch;
-#X text 7 4 Setting message boxes;
-#X obj 48 88 cyclone/prepend set;
-#X connect 0 0 5 0;
-#X connect 5 0 1 0;
-#X restore 421 205 pd set;
-#X msg 31 233 0;
-#X msg 88 233 0;
-#X msg 280 234 11 3 f g;
-#X msg 350 233 a 7 4 c;
-#X msg 145 233 tutu;
-#X msg 202 233 46;
-#X msg 421 233 x 1 21 b;
-#X obj 175 384 cyclone/bondo;
-#X symbolatom 175 407 10 0 0 0 - - -, f 10;
-#X symbolatom 250 407 10 0 0 0 - - -, f 10;
-#N canvas 627 184 220 231 set 0;
-#X obj 48 51 inlet;
-#X obj 48 135 outlet;
-#X obj 2 2 cnv 15 215 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 46 170 cyclone/comment 130 11 helvetica ? 0 80 80 80 this subpatch
-was created for enhance readability of the parent patch;
-#X text 7 4 Setting message boxes;
-#X obj 48 88 cyclone/prepend set;
-#X connect 0 0 5 0;
-#X connect 5 0 1 0;
-#X restore 280 205 pd set;
-#X obj 280 172 bondo 3 0 n, f 24;
-#X msg 280 132 \$1 3 f g;
-#X floatatom 280 110 5 0 0 0 - - -, f 5;
-#X msg 350 131 a \$1 4 c;
-#X floatatom 350 110 5 0 0 0 - - -, f 5;
-#X msg 421 131 x 1 \$1 b;
-#X floatatom 421 110 5 0 0 0 - - -, f 5;
-#X connect 0 0 2 0;
-#X connect 0 1 3 0;
-#X connect 0 2 4 0;
-#X connect 0 3 5 0;
-#X connect 1 0 0 0;
-#X connect 2 0 8 0;
-#X connect 3 0 9 0;
-#X connect 4 0 12 0;
-#X connect 5 0 13 0;
-#X connect 6 0 11 0;
-#X connect 7 0 14 0;
-#X connect 15 0 16 0;
-#X connect 15 1 17 0;
-#X connect 18 0 10 0;
-#X connect 19 0 18 0;
-#X connect 19 1 6 0;
-#X connect 19 2 7 0;
-#X connect 20 0 19 0;
-#X connect 21 0 20 0;
-#X connect 22 0 19 1;
-#X connect 23 0 22 0;
-#X connect 24 0 19 2;
-#X connect 25 0 24 0;
-#X restore 412 216 pd Examples;
-#X obj 2 577 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 492 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 499 115 368 303 META 0;
 #X text 1 20 LICENSE SIBSD;
@@ -149,7 +28,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 499 579 pd META;
+#X restore 499 494 pd META;
 #N canvas 347 144 430 70 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -158,15 +37,13 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 102 29 cyclone/buddy;
 #X obj 191 29 cyclone/onebang;
 #X obj 292 29 cyclone/thresh;
-#X restore 214 579 pd Related_objects;
-#X text 144 322 bang;
-#X text 144 364 list;
-#X text 145 458 list;
-#X text 159 495 -;
-#X text 159 518 -;
-#X text 159 539 -;
-#X text 96 518 2) float;
-#X text 96 495 1) float;
+#X restore 214 494 pd Related_objects;
+#X text 144 295 bang;
+#X text 159 422 -;
+#X text 159 445 -;
+#X text 159 466 -;
+#X text 96 445 2) float;
+#X text 96 422 1) float;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -183,49 +60,205 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Sync a group of messages
 ;
-#X floatatom 170 204 5 0 0 0 - - -, f 5;
-#X floatatom 228 204 5 0 0 0 - - -, f 5;
-#X floatatom 287 204 5 0 0 0 - - -, f 5;
-#X obj 287 275 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
-#X obj 228 275 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X floatatom 203 185 5 0 0 0 - - -, f 5;
+#X floatatom 261 185 5 0 0 0 - - -, f 5;
+#X floatatom 320 185 5 0 0 0 - - -, f 5;
+#X obj 320 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 261 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 2 256;
-#X obj 170 275 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 203 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 10 256;
-#X obj 170 239 cyclone/bondo 3, f 20;
-#X obj 111 170 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 203 220 cyclone/bondo 3, f 20;
+#X obj 144 155 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 63 92 [bondo] synchronizes and outputs a set of inputs when
-any input is received in any inlet (all inlets are "hot"). It can also
-be set with a time interval in milliseconds to wait before sending
-its output.;
-#X text 173 495 sets the number of inlets/outlets (default 2), f 60
+#X msg 238 157 2 3;
+#X text 96 466 3) symbol;
+#X msg 172 156 set 10 2;
+#X text 84 354 set <anything>;
+#X text 120 312 anything;
+#X text 181 312 - one element messages go to the corresponding outlet.
+If there are more than 1 element \, they're parsed among the inlets
+unless the "n" argument is used (see example above);
+#N canvas 594 134 512 460 anything 0;
+#N canvas 627 184 377 431 set 0;
+#X obj 202 147 inlet;
+#X obj 202 260 s \$0-cnv;
+#X obj 201 301 cnv 15 70 20 empty \$0-cnv I 6 11 1 14 -233017 -1 0
 ;
-#X text 173 518 sets the time delay to output messages (default 0)
-, f 60;
-#X text 181 322 - in any inlet \, forces [bondo] to ouptut;
-#X msg 205 172 2 3;
-#X text 181 364 - the elements are parsed among the inlets (1st element
-is sent to corresponding outlet and each subsequent element to each
-subsequent outlet. If the "n" argument was used \, the list is output
-at corresponding inlet;
-#X text 181 439 - float or symbol from corresponding input;
-#X text 181 459 - from corresponding inlet if the "n" argument was
-used;
-#X text 96 539 3) symbol;
-#X text 173 539 the symbol "n" changes the default behaviour and sets
-to output a list from a corresponding inlet;
-#X msg 139 171 set 10 2;
-#X text 84 343 set <anything>;
-#X text 181 343 - set input (to float \, symbol or list) without output
+#X obj 202 214 cyclone/prepend label;
+#X obj 202 183 cyclone/tosymbol;
+#X connect 0 0 4 0;
+#X connect 3 0 1 0;
+#X connect 4 0 3 0;
+#X coords 0 -1 1 1 72 22 1 200 300;
+#X restore 143 362 pd set;
+#X msg 143 166 symbol bondo;
+#X msg 180 192 cyclone rules;
+#X obj 143 328 bondo 3, f 29;
+#N canvas 627 184 377 431 set 0;
+#X obj 202 137 inlet;
+#X obj 202 214 cyclone/prepend label;
+#X obj 202 260 s \$0-cnv-2;
+#X obj 201 301 cnv 15 70 20 empty \$0-cnv-2 three 6 11 1 14 -233017
+-1 0;
+#X obj 202 176 cyclone/tosymbol;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 4 0 1 0;
+#X coords 0 -1 1 1 72 22 1 200 300;
+#X restore 228 362 pd set;
+#N canvas 627 184 377 431 set 0;
+#X obj 202 147 inlet;
+#X obj 202 214 cyclone/prepend label;
+#X obj 202 260 s \$0-cnv-3;
+#X obj 201 301 cnv 15 70 20 empty \$0-cnv-3 4 6 11 1 14 -233017 -1
+0;
+#X obj 202 183 cyclone/tosymbol;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 4 0 1 0;
+#X coords 0 -1 1 1 72 22 1 200 300;
+#X restore 314 362 pd set;
+#X msg 314 291 12 13;
+#X msg 195 221 list I like this;
+#X msg 109 165 you;
+#X msg 256 302 1 two;
+#X msg 239 279 one 2;
+#X msg 228 256 list three 4;
+#X msg 68 211 1 2 3;
+#X msg 194 282 1 2;
+#X text 355 289 only 1st element;
+#X text 363 303 goes through;
+#X text 51 33 The [bondo] objects accepts any message type. One element
+messages go straight to the corresponding outlet. But if the input
+message has more than 1 element \, then the default behaviour is to
+parse the elements among the inlets (the 1st element of the message
+goes to the corresponding outlet \, then the subsequent element goes
+to the next outlet and so on until you reach out of outlets).;
+#X connect 1 0 3 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 3 1 4 0;
+#X connect 3 2 5 0;
+#X connect 6 0 3 2;
+#X connect 7 0 3 0;
+#X connect 8 0 3 0;
+#X connect 9 0 3 1;
+#X connect 10 0 3 1;
+#X connect 11 0 3 1;
+#X connect 12 0 3 0;
+#X connect 13 0 3 1;
+#X restore 450 216 pd anything;
+#X text 121 389 anything;
+#X text 181 389 - messages from corresponding input;
+#N canvas 632 136 486 323 "n" 0;
+#X msg 111 246 0 1 2 3 4 5 6 7 8 9;
+#X text 57 25 A third argument 'n' changes the default behaviour and
+outputs messages with more than one element through the corresponding
+inlet.;
+#X obj 246 93 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 54 256;
+#X obj 111 217 cyclone/prepend set;
+#X obj 111 179 bondo 2 0 n, f 23;
+#X msg 246 246 a b c d e f g h i j;
+#X obj 246 217 cyclone/prepend set;
+#X msg 111 132 0 1 2 3 4 5 6 7 8 9;
+#X msg 246 122 \$1 x 1 abacate;
+#X msg 260 151 a b c d e f g h i j;
+#X connect 2 0 8 0;
+#X connect 3 0 0 0;
+#X connect 4 0 3 0;
+#X connect 4 1 6 0;
+#X connect 6 0 5 0;
+#X connect 7 0 4 0;
+#X connect 8 0 4 1;
+#X connect 9 0 4 1;
+#X restore 441 244 pd "n" argument;
+#X text 173 422 sets the number of inlets/outlets (default 2), f 60
 ;
-#X text 96 439 float/symbol;
-#X connect 25 0 31 0;
-#X connect 26 0 31 1;
-#X connect 27 0 31 2;
-#X connect 31 0 30 0;
-#X connect 31 1 29 0;
-#X connect 31 2 28 0;
-#X connect 32 0 31 0;
-#X connect 37 0 31 1;
-#X connect 43 0 31 0;
+#X text 173 445 sets the sync time (default 0), f 60;
+#X text 58 92 [bondo] synchronizes and outputs messages when any inlet
+gets a message. It can wait a time interval for input messages (see
+[pd sync time]) or send them automatically as below.;
+#X text 181 354 - set any input message without output;
+#X text 181 295 - outputs last stored values;
+#X text 173 467 "n" sets outlets to send messages with more than 1
+element;
+#N canvas 210 154 835 382 sync-time 0;
+#X floatatom 139 213 5 0 0 0 - - -, f 5;
+#X floatatom 197 213 5 0 0 0 - - -, f 5;
+#X floatatom 256 213 5 0 0 0 - - -, f 5;
+#X obj 256 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 116 256;
+#X obj 197 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 -24 256;
+#X obj 139 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 22 256;
+#X text 58 34 A second argument specifies a time interval to wait for
+incoming messages \, so it is able to sync them and output them all
+at once.;
+#X text 59 83 Below we have a sync time of 1500 ms \, which means that
+it waits 1500 ms for other messages arived after an input. If a message
+is received within this period \, the time count restarts and waits
+again for other incoming messages on the next 1500 ms. If no other
+message is received within this period \, then bondo outputs the last
+received values.;
+#X obj 139 245 cyclone/bondo 3 1500;
+#X obj 256 307 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 197 307 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 139 307 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 546 169 5 0 0 0 - - -, f 5;
+#X floatatom 651 169 5 0 0 0 - - -, f 5;
+#X obj 651 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 715 256;
+#X obj 546 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 583 256;
+#X obj 651 263 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 546 263 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 546 201 cyclone/bondo 2 50;
+#X obj 651 118 delay 25;
+#X obj 651 144 random 1000;
+#X obj 546 135 random 1000;
+#X obj 546 93 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 678 264 print right;
+#X obj 569 262 print left;
+#X text 500 40 Syncing delayed messages together:;
+#X connect 0 0 8 0;
+#X connect 1 0 8 1;
+#X connect 2 0 8 2;
+#X connect 3 0 9 0;
+#X connect 4 0 10 0;
+#X connect 5 0 11 0;
+#X connect 8 0 5 0;
+#X connect 8 1 4 0;
+#X connect 8 2 3 0;
+#X connect 12 0 18 0;
+#X connect 13 0 18 1;
+#X connect 14 0 16 0;
+#X connect 14 0 23 0;
+#X connect 15 0 17 0;
+#X connect 15 0 24 0;
+#X connect 18 0 15 0;
+#X connect 18 1 14 0;
+#X connect 19 0 20 0;
+#X connect 20 0 13 0;
+#X connect 21 0 12 0;
+#X connect 22 0 21 0;
+#X connect 22 0 19 0;
+#X restore 447 188 pd sync-time;
+#X connect 22 0 28 0;
+#X connect 23 0 28 1;
+#X connect 24 0 28 2;
+#X connect 28 0 27 0;
+#X connect 28 1 26 0;
+#X connect 28 2 25 0;
+#X connect 29 0 28 0;
+#X connect 30 0 28 1;
+#X connect 32 0 28 0;
