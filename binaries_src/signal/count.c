@@ -21,6 +21,7 @@ typedef struct _count
     int    x_max;
     int    x_limit;
     int    x_on;
+    int    x_sig;
     int    x_autoreset;
     int    x_count;  /* MAYBE use 64 bits (if 13.5 hours is not enough...) */
 } t_count;
@@ -100,8 +101,14 @@ static void count_set(t_count *x, t_symbol *s, int ac, t_atom *av)
 
 static void count_stop(t_count *x)
 {
+    if (x->x_sig) {
+        x->x_count = x->x_min;
+        x->x_on = 1;
+    }
+    else {
     x->x_count = x->x_min;
     x->x_on = 0;
+    }
 }
 
 static t_int *count_perform(t_int *w)
@@ -122,11 +129,13 @@ static t_int *count_perform(t_int *w)
         {
          count = x->x_min;
          x->x_on = 1;
+         x->x_sig = 1;
          }
-    else if (in == 0 && lastin != 0) // turn it off
+    else if (in == 0) // turn it off
         {
         count = x->x_min;
         x->x_on = 0;
+        x->x_sig = 0;
         }
     lastin = in; // audio triggering is working!
         if (x->x_on)
@@ -220,11 +229,8 @@ static void *count_new(t_symbol *s, int argc, t_atom *argv)
 
 void count_tilde_setup(void)
 {
-    count_class = class_new(gensym("count~"),
-        (t_newmethod)count_new,
-        0,
-        sizeof(t_count), 0,
-        A_GIMME, 0);
+    count_class = class_new(gensym("count~"), (t_newmethod)count_new,
+        0, sizeof(t_count), 0, A_GIMME, 0);
 	class_domainsignalin(count_class, -1);
 	class_addfloat(count_class, (t_method)count_float);
     class_addlist(count_class, (t_method)count_list);
