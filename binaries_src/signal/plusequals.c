@@ -23,24 +23,37 @@ static t_int *plusequals_perform(t_int *w)
     t_float sum = x->x_sum;
     while (nblock--)
     {
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
-        {
-        float x1 = *in1++;
-        float x2 = *in2++;
-        sum = sum * (x2 == 0);
-        *out++ = sum += x1;
-        }
-    else *out++ = 0;
+    float x1 = *in1++;
+    float x2 = *in2++;
+    sum = sum * (x2 == 0);
+    *out++ = sum += x1;
     }
     x->x_sum = sum;
     return (w + 6);
 }
 
+static t_int *plusequals_perform_no_in(t_int *w)
+{
+    t_plusequals *x = (t_plusequals *)(w[1]);
+    int nblock = (t_int)(w[2]);
+    t_float *out = (t_float *)(w[5]);
+    while (nblock--)
+    {
+    *out++ = 0;
+    }
+    return (w + 6);
+}
+
 static void plusequals_dsp(t_plusequals *x, t_signal **sp)
 {
-    dsp_add(plusequals_perform, 5, x, sp[0]->s_n,
+    if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
+        dsp_add(plusequals_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
+    else
+        dsp_add(plusequals_perform_no_in, 5, x, sp[0]->s_n,
+        sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
+
 
 static void plusequals_bang(t_plusequals *x)
 {

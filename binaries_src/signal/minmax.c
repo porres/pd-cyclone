@@ -13,6 +13,7 @@ typedef struct _minmax
     t_glist  *x_glist;
     t_float    x_min;
     t_float    x_max;
+    t_int      x_feederflag;
     t_outlet  *x_minout;
     t_outlet  *x_maxout;
 } t_minmax;
@@ -21,8 +22,14 @@ static t_class *minmax_class;
 
 static void minmax_bang(t_minmax *x)
 {
-    outlet_float(x->x_maxout, x->x_max);
-    outlet_float(x->x_minout, x->x_min);
+    if (x->x_feederflag) {
+        outlet_float(x->x_maxout, x->x_max);
+        outlet_float(x->x_minout, x->x_min);
+        }
+    else {
+        outlet_float(x->x_maxout, 0);
+        outlet_float(x->x_minout, 0);
+    }
 }
 
 static void minmax_reset(t_minmax *x)
@@ -73,12 +80,11 @@ static t_int *minmax_perform_no_in(t_int *w)
 
 static void minmax_dsp(t_minmax *x, t_signal **sp)
 {
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
-        dsp_add(minmax_perform, 6, x, sp[0]->s_n, sp[0]->s_vec,
-                sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
-    else
-        dsp_add(minmax_perform_no_in, 6, x, sp[0]->s_n, sp[0]->s_vec,
-                sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
+    x->x_feederflag = forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal);
+    if (x->x_feederflag) dsp_add(minmax_perform, 6, x, sp[0]->s_n,
+        sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
+    else dsp_add(minmax_perform_no_in, 6, x, sp[0]->s_n, sp[0]->s_vec,
+        sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
 static void *minmax_new(void)
