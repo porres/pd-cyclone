@@ -96,7 +96,6 @@ lores~.class.sources := binaries_src/signal/lores.c
 matrix~.class.sources := binaries_src/signal/matrix.c
 maximum~.class.sources := binaries_src/signal/maximum.c
 minimum~.class.sources := binaries_src/signal/minimum.c
-minmax~.class.sources := binaries_src/signal/minmax.c
 mstosamps~.class.sources := binaries_src/signal/mstosamps.c
 onepole~.class.sources := binaries_src/signal/onepole.c
 overdrive~.class.sources := binaries_src/signal/overdrive.c
@@ -338,6 +337,7 @@ shared/unstable/forky.c
 
     plusequals~.class.sources := binaries_src/signal/plusequals.c $(sforky)
     cyclone.class.sources := binaries_src/sub_lib_cyclone.c $(sforky)
+    minmax~.class.sources := binaries_src/signal/minmax.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
