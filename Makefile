@@ -102,7 +102,6 @@ overdrive~.class.sources := binaries_src/signal/overdrive.c
 peakamp~.class.sources := binaries_src/signal/peakamp.c
 phasewrap~.class.sources := binaries_src/signal/phasewrap.c
 pink~.class.sources := binaries_src/signal/pink.c
-poltocar~.class.sources := binaries_src/signal/poltocar.c
 pong~.class.sources := binaries_src/signal/pong.c
 pow~.class.sources := binaries_src/signal/pow.c
 rampsmooth~.class.sources := binaries_src/signal/rampsmooth.c
@@ -324,10 +323,12 @@ funbuff.class.sources := binaries_src/control/funbuff.c $(htreefilevefl)
 
 # Signal classes:
 
-sfragile := \
+sfragileforkyloud := \
 shared/common/loud.c \
-shared/unstable/fragile.c
-    cartopol~.class.sources := binaries_src/signal/cartopol.c $(sfragile)
+shared/unstable/fragile.c \
+shared/unstable/forky.c
+    cartopol~.class.sources := binaries_src/signal/cartopol.c $(sfragileforkyloud)
+    poltocar~.class.sources := binaries_src/signal/poltocar.c $(sfragileforkyloud)
 
 sforky := \
 shared/unstable/forky.c
