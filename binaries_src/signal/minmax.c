@@ -24,7 +24,8 @@ static void minmax_bang(t_minmax *x)
 
 static void minmax_reset(t_minmax *x)
 {
-    x->x_min = x->x_max = 0;
+    x->x_min = 1000000000;
+    x->x_max = -1000000000;
 }
 
 static t_int *minmax_perform(t_int *w)
@@ -41,9 +42,11 @@ static t_int *minmax_perform(t_int *w)
     {
 	t_float f = *in1++;
     t_float reset = *in2++;
-    if (reset != 0) {fmin = fmax = 0;} // CHECK ME
-    if (f < fmin) fmin = f * (reset == 0);
-	else if (f > fmax) fmax = f * (reset == 0);
+        if (reset != 0) fmin = fmax = f;
+        else {
+            if (f < fmin) fmin = f;
+            if (f > fmax) fmax = f;
+            }
 	*outmin++ = fmin;
 	*outmax++ = fmax;
     }
