@@ -143,15 +143,11 @@ selector~.class.sources := binaries_src/signal/selector.c
 thresh~.class.sources := binaries_src/signal/thresh.c
 trunc~.class.sources := binaries_src/signal/trunc.c
 
-# CYCLONE SUB LIBRARY (with non-alphanumeric objects): #
-cyclone.class.sources := binaries_src/sub_lib_cyclone.c
-
-# New objects with alphanumeric versions
 rminus.class.sources := binaries_src/control/rminus.c
 rdiv.class.sources := binaries_src/control/rdiv.c
+
 equals~.class.sources := binaries_src/signal/equals.c
 notequals~.class.sources := binaries_src/signal/notequals.c
-plusequals~.class.sources := binaries_src/signal/plusequals.c
 greaterthan~.class.sources := binaries_src/signal/greaterthan.c
 greaterthaneq~.class.sources := binaries_src/signal/greaterthaneq.c
 lessthan~.class.sources := binaries_src/signal/lessthan.c
@@ -161,15 +157,9 @@ rdiv~.class.sources := binaries_src/signal/rdiv.c
 rminus~.class.sources := binaries_src/signal/rminus.c
 
 
-############################################################
-## classes still inside the old framework of dependencies ##
-############################################################
+## classes with dependencies #################################################
 
-#######################
-### Control objects ###
-#######################
-
-# dependencies:
+# Control Classes
 
 hfile := \
 shared/hammer/file.c \
@@ -258,8 +248,6 @@ splainnotilde := \
 shared/common/loud.c \
 shared/common/fitter.c
 
-# Control Classes:
-
 # hfitter classes
 bangbang.class.sources := binaries_src/control/bangbang.c $(hfitter)
 counter.class.sources := binaries_src/control/counter.c $(hfitter)
@@ -333,9 +321,9 @@ offer.class.sources := binaries_src/control/offer.c $(htree)
 
 funbuff.class.sources := binaries_src/control/funbuff.c $(htreefilevefl)
 
-###################
-# Signal classes: #
-###################
+##############################################################################
+
+# Signal classes:
 
 sfragile := \
 shared/common/loud.c \
@@ -347,6 +335,9 @@ shared/unstable/forky.c
     bitand~.class.sources := binaries_src/signal/bitand.c $(sforky)
     bitor~.class.sources := binaries_src/signal/bitor.c $(sforky)
     bitxor~.class.sources := binaries_src/signal/bitxor.c $(sforky)
+
+    plusequals~.class.sources := binaries_src/signal/plusequals.c $(sforky)
+    cyclone.class.sources := binaries_src/sub_lib_cyclone.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \

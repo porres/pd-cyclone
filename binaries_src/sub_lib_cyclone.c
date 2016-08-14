@@ -3,25 +3,27 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 /* Porres 2016: 
+ This library has been fixed and updated by Porres;
  This is the cyclone library containing 12 non alphanumeric objects
  Originally, the externals in cyclone used to come in a library called
  "cyclone", which included these 12 objects plus the "hammer" and "sicle"
  libraries (control/MAX and signal/MSP objects respectively). In (and since)
  the Pd-Extended days, the objects used to come as single binaries and these
  12 objects were lost to oblivion, as they need to come in a library because
- some file systems don't like and agree with these characters. 
+ some file systems don't like and agree with these characters names.
  
  So, the original cyclone library is now restored, but only containing these
  12 objects, which are: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], 
- [!-~], [!/~], [%~], [+=~] (the original code for such objects are in the 
+ [!-~], [!/~], [%~], [+=~] (the original code for such objects are in the
  nettles.c file - now in the graveyard).
  
  Alternatively, alphanumeric versions of these objects are ialso ncluded as 
- single binaries in the cyclone package */
+ single binaries in the cyclone package  */
 
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
+#include "unstable/forky.h"
 
 /* think about float-to-int conversion -- there is no point in making
    the two below compatible, while all the others are not compatible... */
@@ -578,6 +580,7 @@ typedef struct _plusequals
     t_object x_obj;
     t_float  x_sum;
     t_inlet  *x_triglet;
+    t_glist  *x_glist;
 } t_plusequals;
 
 static t_class *plusequals_class;
@@ -592,10 +595,14 @@ static t_int *plusequals_perform(t_int *w)
     t_float sum = x->x_sum;
     while (nblock--)
     {
+    if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
+        {
         float x1 = *in1++;
         float x2 = *in2++;
         sum = sum * (x2 == 0);
         *out++ = sum += x1;
+        }
+    else *out++ = 0;
     }
     x->x_sum = sum;
     return (w + 6);
@@ -628,6 +635,7 @@ static void *plusequals_new(t_floatarg f)
 {
     t_plusequals *x = (t_plusequals *)pd_new(plusequals_class);
     x->x_sum = f;
+    x->x_glist = canvas_getcurrent();
     x->x_triglet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
     return (x);
@@ -640,10 +648,10 @@ void cyclone_setup(void)
     
 /* -- post cyclone lib version -- */
     {
-        post("--------------------------------------------------------------------");
+        post("------------------------------------------------------------------");
         post("CYCLONE Library 0.3 Beta-0; A sub library containing the objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
-        post("--------------------------------------------------------------------");
+        post("------------------------------------------------------------------");
     }
         endpost();
         endpost();
