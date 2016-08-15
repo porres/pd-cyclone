@@ -8,6 +8,7 @@
 typedef struct _fromsymbol
 {
     t_object   x_ob;
+    t_symbol  *x_separator;
 } t_fromsymbol;
 
 static t_class *fromsymbol_class;
@@ -19,7 +20,12 @@ static void fromsymbol_bang(t_fromsymbol *x)
 
 static void fromsymbol_float(t_fromsymbol *x, t_float f)
 {
-    /* CHECKED: fromsymbol: doesn't understand "int", "float" */
+outlet_float(((t_object *)x)->ob_outlet, f);
+}
+
+static void fromsymbol_separator(t_fromsymbol *x, t_symbol *s)
+{
+    x->x_separator = (s ? s : &s_);  /* default: empty string */
 }
 
 static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s)
@@ -57,11 +63,15 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s)
     }
 }
 
-static void fromsymbol_list(t_fromsymbol *x, t_symbol *s, int ac, t_atom *av)
+
+static void fromsymbol_list(t_fromsymbol *x, t_symbol *s, int argc, t_atom *argv)
 {
-    /* CHECKED: fromsymbol: doesn't understand "int", "float",
-       'list <symbol>' ignored without complaining. */
+    if(argv->a_type == A_FLOAT){
+        t_float f = atom_getfloatarg(0, argc, argv);
+        outlet_float(((t_object *)x)->ob_outlet, f);
+    }
 }
+
 
 static void fromsymbol_anything(t_fromsymbol *x, t_symbol *s, int ac, t_atom *av)
 {
@@ -71,6 +81,7 @@ static void fromsymbol_anything(t_fromsymbol *x, t_symbol *s, int ac, t_atom *av
 static void *fromsymbol_new(void)
 {
     t_fromsymbol *x = (t_fromsymbol *)pd_new(fromsymbol_class);
+    x->x_separator = 0;  /* default: a space */
     outlet_new((t_object *)x, &s_anything);
     return (x);
 }
@@ -85,4 +96,5 @@ void fromsymbol_setup(void)
     class_addsymbol(fromsymbol_class, fromsymbol_symbol);
     class_addlist(fromsymbol_class, fromsymbol_list);
     class_addanything(fromsymbol_class, fromsymbol_anything);
+    class_addmethod(fromsymbol_class, (t_method)fromsymbol_separator, gensym("separator"), A_DEFSYM, 0);
 }
