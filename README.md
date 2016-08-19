@@ -23,7 +23,7 @@ In its current form, cyclone is mainly for people using both Max and Pd, and thu
 
 <strong>History of cyclone's maintenance up to the present day:</strong>
 
-Cyclone's original author is Krzysztof Czaja, who worked on it mostly from 2002-2005. 
+Cyclone's original author is Krzysztof Czaja, who worked on it mostly from 2002-2005 and then abandoned it. 
 
 After that, cyclone ended up incorporated into Pd Extended and, around 2007, was under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of the Pd-Extended project. Cyclone was then maintained until the last release of Pd Extended (in jan-2013). After unmaintained for a while, Fred Jan Kraan did maintain and develop for cyclone from dec-2014 to feb-2016, when development for cyclone was abandoned (though maintenance for his last package is still active). Since feb-2016, an active further development of cyclone is being proposed by Alexandre Porres & collaborators on this repository (mainly Derek Kwan and Matt Barber).
 
@@ -37,7 +37,7 @@ Cyclone was originally part of the MiXed library (also written by cyclone's orig
 
 Krzysztof Czaja had a webpage for cyclone that no longer exists, but a copy of it from its last state is available here:  <http://fjkraan.home.xs4all.nl/digaud/puredata/cyclone/cyclone_site/cyclone.html> - where you can find the cyclone version 0.1-Alpha54 from 2005 for download. 
 
-The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4, from jan-2013, and it carries the 0.1-Alpha56 version of cyclone. The last version from the original cyclone repository is 0.1-alpha-56 as well and it can also be foung as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (since Pd Vanilla 0.47-0).
+The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone. The last version from the original cyclone repository is 0.1-alpha-56 as well and it can also be foung as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (since Pd Vanilla 0.47-0).
 
 Fred Jan Kraan's Repository (versions 0.1-Alpha-57 and 0.2beta1):
 
