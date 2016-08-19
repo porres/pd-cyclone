@@ -4,6 +4,8 @@
 
 /* CHECKME undocumented: readbinbuf, writebinbuf (a clipboard-like thing?) */
 
+//Derek Kwan 2016 - changing mtrack_list to mtrack_anything, fixing issues with first elts interpreted as selctors
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -222,10 +224,35 @@ static void mtrack_symbol(t_mtrack *tp, t_symbol *s)
     }
 }
 
-static void mtrack_list(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
+static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
 {
-    if (tp->tr_mode == MTR_RECMODE)
-	mtrack_doadd(tp, ac, av);
+    if (tp->tr_mode == MTR_RECMODE){
+        if(strcmp(s->s_name, "list") != 0 && strcmp(s->s_name, "symbol") != 0){
+            //copy list to new t_atom with symbol as first elt
+            int destpos = 0; //position in copied list
+            t_atom at[ac+1];
+            SETSYMBOL(&at[destpos], s);
+            destpos++;
+            int arrpos = 0; //position in arriving list
+            for(destpos=1; destpos<ac+1; destpos++){
+                if((av+arrpos)->a_type == A_FLOAT){
+                    t_float curfloat = atom_getfloatarg(arrpos, ac, av);
+                    SETFLOAT(&at[destpos], curfloat);
+                }
+                else{
+                    t_symbol * cursym = atom_getsymbolarg(arrpos, ac, av);
+                    SETSYMBOL(&at[destpos], cursym);
+                };
+
+            //increment
+            arrpos++;
+            };
+            mtrack_doadd(tp, ac+1, &at);
+        }
+        else{
+            mtrack_doadd(tp, ac, av);
+        };
+    };
 }
 
 static void mtrack_record(t_mtrack *tp)
@@ -794,7 +821,8 @@ void mtr_setup(void)
 			     sizeof(t_mtrack), CLASS_PD | CLASS_NOINLET, 0);
     class_addfloat(mtrack_class, mtrack_float);
     class_addsymbol(mtrack_class, mtrack_symbol);
-    class_addlist(mtrack_class, mtrack_list);
+    class_addanything(mtrack_class, mtrack_anything);
+    class_addlist(mtrack_class, mtrack_anything);
     class_addmethod(mtrack_class, (t_method)mtrack_record,
 		    gensym("record"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_play,
