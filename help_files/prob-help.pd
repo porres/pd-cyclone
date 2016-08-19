@@ -1,29 +1,27 @@
-#N canvas 463 37 559 566 10;
-#X obj 2 318 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 676 23 558 561 10;
+#X obj 2 328 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 447 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 442 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 499 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 494 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 73 327 cnv 17 3 110 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 336 cnv 17 3 98 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 475 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 470 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 454 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 449 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 115 507 (none);
-#X msg 128 191 0 1 80 \, 0 2 20 \, 1 2 10 \, 1 0 90 \, 2 0 50 \, 2
+#X text 139 500 (none);
+#X msg 137 187 0 1 80 \, 0 2 20 \, 1 2 10 \, 1 0 90 \, 2 0 50 \, 2
 1 50, f 16;
-#X obj 57 223 metro 500;
-#X obj 57 198 tgl 18 0 empty empty empty 17 7 0 10 -216373 -1 -1 1
+#X obj 36 217 metro 500;
+#X obj 36 192 tgl 18 0 empty empty empty 17 7 0 10 -216373 -1 -1 0
 1;
-#X obj 128 252 cyclone/prob;
+#X obj 137 248 cyclone/prob;
 #C restore;
-#X obj 128 283 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
--1 -1 0;
-#X obj 2 553 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
-#X obj 2 528 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 137 299 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+-1 -1 2;
+#X obj 2 522 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 458 100 398 342 META 0;
 #X text 13 29 LICENSE SIBSD;
@@ -43,18 +41,18 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 531 pd META;
+#X restore 503 525 pd META;
 #N canvas 321 94 430 80 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 12 31 cyclone/anal;
 #X obj 97 31 cyclone/histo;
 #X obj 188 31 cyclone/mean;
-#X restore 202 531 pd Related_objects;
-#X obj 128 163 loadbang;
-#X text 119 455 float;
-#X text 136 346 list;
-#X text 125 475 bang;
+#X restore 202 525 pd Related_objects;
+#X obj 137 159 loadbang;
+#X text 144 450 float;
+#X text 150 354 list;
+#X text 150 470 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -70,241 +68,99 @@ Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 prob;
 #X obj 20 58 comment 0 18 times ? 0 0 0 0 Probability matrix;
-#X text 230 191 0 has 80% chance to go to 1 and 20% to go to 2 \;;
-#X text 230 204 1 has 10% chance to go to 2 and 90% to go to 0 \;;
-#X text 230 218 2 has a 50/50 chance to go to 1 and 0!;
-#X text 208 252 <== click to view table;
-#X text 73 91 [prob] outputs a weighted series of random numbers (1st
+#X text 239 187 0 has 80% chance to go to 1 and 20% to go to 2 \;;
+#X text 239 200 1 has 10% chance to go to 2 and 90% to go to 0 \;;
+#X text 239 214 2 has a 50/50 chance to go to 1 and 0!;
+#X text 73 89 [prob] outputs a weighted series of random numbers (1st
 order markov chain). It accepts lists of 3 numbers where the 3rd represents
 the weight/chance of going from value 1 to value 2 \, a bang will force
 [prob] to output. See below:;
-#X obj 88 283 nbx 2 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
--228856 -1 -1 0 256;
-#X text 159 455 - random number based on prob function;
-#X text 158 475 - when we reach a number for which there is no rule
+#X text 181 450 - random number based on prob function;
+#X text 181 470 - when we reach a number for which there is no rule
 ;
-#X text 167 346 - list of <value 1 \, value 2 \, weight>;
-#X text 137 327 bang -, f 6;
-#X text 131 363 clear - clears the probability matrix;
-#X text 137 379 dump - print out all rule;
-#X text 131 395 embed - save matrix with the patch;
-#X text 182 327 choses a weighted random number;
-#X text 83 412 reset <float> -;
-#X text 179 412 sets a default value for when a number is reached for
-which there is no rule, f 60;
-#N canvas 209 95 820 435 examples 0;
-#X obj 2 2 cnv 15 800 40 empty empty prob 3 12 0 18 -204280 -1 0;
-#X text 15 25 examples;
-#X msg 27 105 1;
-#X msg 124 145 dump;
-#X obj 170 102 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
--1 -1;
-#X msg 209 129 1 2 1;
-#X msg 259 129 2 1 1;
-#X msg 309 129 1 1 0;
-#X msg 359 129 2 2 0;
-#X msg 409 129 1 3 1;
-#X msg 409 199 embed 1;
-#X msg 409 169 reset 2;
-#X obj 170 240 cyclone/prob;
-#C restore;
-#X floatatom 170 266 5 0 0 0 - - -, f 5;
-#X obj 143 264 bng 16 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+#X text 181 354 - list of <value 1 \, value 2 \, weight>;
+#X text 151 335 bang -;
+#X text 145 371 clear - clears the probability matrix;
+#X text 151 387 dump - print out all rule;
+#X text 196 335 choses a weighted random number;
+#X text 97 420 reset <float> -;
+#N canvas 311 107 930 457 examples 0;
+#X obj 80 222 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373 -1
 -1;
-#X obj 239 264 bng 16 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+#X obj 181 301 bng 16 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
-#X obj 24 66 cyclone/comment 107 11 helvetica ? 0 80 80 80 to assign
-directly a current state \, send an integer in the inlet;
-#X obj 82 123 cyclone/comment 66 11 helvetica ? 0 80 80 80 see tables
-in Pd main window;
-#X obj 159 75 cyclone/comment 66 11 helvetica ? 0 80 80 80 choose a
-new state;
-#X obj 203 108 cyclone/comment 300 11 helvetica ? 0 80 80 80 click
-on these message boxes to build a simple table;
-#X obj 466 158 cyclone/comment 135 11 helvetica ? 0 80 80 80 Set a
-state that prob goes back to when it gets stuck.;
-#X obj 464 204 cyclone/comment 146 11 helvetica ? 0 80 80 80 store
-the current table when the patcher is saved;
-#X msg 78 456 0 1 75 \, 0 2 25;
-#X msg 178 456 1 0 50 \, 1 2 50;
-#X msg 276 456 2 0 20 \, 2 1 75 \, 2 3 5;
-#X obj 2 676 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
-#X obj 2 655 cnv 15 800 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 440 304 378 120 credits 0;
-#X text 67 35 First example from Max 7 Documentation.;
-#X restore 713 657 pd credits;
-#N canvas 557 135 430 233 settings 0;
-#X obj 123 107 loadbang;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 121 87 cyclone/comment 99 11 helvetica ? 0 80 80 80 toogle;
-#X obj 80 49 cyclone/comment 99 11 helvetica ? 0 80 80 80 set initial
-state of:;
-#X obj 123 151 s tgl_rcv;
-#X msg 123 129 1;
-#X text 6 4 prob examples preset;
-#X connect 0 0 5 0;
-#X connect 5 0 4 0;
-#X restore 633 657 pd settings;
-#X obj 423 558 cyclone/prob;
-#C restore;
-#X obj 423 483 metro 90;
-#X obj 423 444 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577
--1 0 1;
-#X msg 494 464 reset 0;
-#X floatatom 423 600 5 0 0 0 - - -, f 5;
-#X obj 676 575 t b;
-#X obj 676 405 t b;
-#X obj 423 422 t b;
-#X obj 69 405 cyclone/comment 213 11 helvetica ? 0 80 80 80 0 has a
-75% chance of being followed by 1 \, and a 25% chance of being followed
-by 2;
-#X obj 388 342 bng 25 250 50 0 empty empty empty 17 7 0 10 -216373
--1 -1;
-#X obj 388 370 t b b;
-#X obj 295 414 t b b b;
-#X obj 449 396 t b b;
-#X obj 425 358 cyclone/comment 246 11 helvetica ? 0 80 80 80 each bang
-selects the next number based on the previous number and its probable
-successors;
-#X obj 551 467 cyclone/comment 105 11 helvetica ? 0 80 80 80 when a
-3 is sent out \, prob resets internally to 0;
-#X obj 492 579 cyclone/comment 198 11 helvetica ? 0 80 80 80 turn off
-metro when 3 is sent out;
-#X obj 69 521 cyclone/comment 213 11 helvetica ? 0 80 80 80 in the
-(5%) event that 2 is followedby 3 \, prob will get "stuck" because
-no transition has been specified for 3;
-#X obj 549 61 cnv 15 235 48 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#N canvas 412 141 585 507 complex_example 0;
-#X msg 155 132 0 1 30 \, 0 2 30 \, 0 3 40;
-#X msg 157 156 1 2 30 \, 1 0 70;
-#X floatatom 64 429 5 0 0 0 - - -, f 5;
-#X obj 133 377 bng 15 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
--1;
-#X obj 64 107 bng 15 250 50 0 empty empty empty 0 -6 0 8 -257983 -1
--1;
-#X msg 174 315 reset 0;
-#X msg 173 292 clear;
-#X msg 172 246 dump;
-#X msg 173 269 embed;
-#X obj 64 345 cyclone/prob;
-#C restore;
-#X msg 158 179 2 0 50 \, 2 1 40 \, 2 3 10;
-#X msg 134 96 bang;
-#X obj 114 430 hradio 15 1 0 5 empty empty empty 0 -8 0 10 -262144
--1 -1 2;
-#X msg 398 430 reset n;
-#X obj 64 84 metro 100;
-#X msg 158 204 3 0 10 \, 3 1 10 \, 3 2 75 \, 3 4 5;
-#X obj 2 2 cnv 15 580 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 9 3 Complex example;
-#X obj 64 48 tgl 22 0 empty tgl_rcv empty 17 7 0 10 -216373 -66577
--1 1 1;
-#X obj 170 96 cyclone/comment 107 11 helvetica ? 0 80 80 80 <--- load
-probabilities:;
-#X obj 301 121 cyclone/comment 107 11 helvetica ? 0 80 80 80 of each
-triplet:;
-#X obj 303 134 cyclone/comment 121 11 helvetica ? 0 80 80 80 -;
-#X obj 313 134 cyclone/comment 121 11 helvetica ? 0 80 80 80 the first
-is a start value \,;
-#X obj 303 147 cyclone/comment 121 11 helvetica ? 0 80 80 80 -;
-#X obj 313 147 cyclone/comment 141 11 helvetica ? 0 80 80 80 the second
-is an end value \,;
-#X obj 303 160 cyclone/comment 121 11 helvetica ? 0 80 80 80 -;
-#X obj 313 160 cyclone/comment 181 11 helvetica ? 0 80 80 80 the third
-the chance in percents this target is chosen;
-#X obj 348 204 cyclone/comment 121 11 helvetica ? 0 80 80 80 <----
-;
-#X obj 375 204 cyclone/comment 181 11 helvetica ? 0 80 80 80 when 3
-\, there is a 5% change the end value will be 4 and will be stuck there
-\, as there are no rules for 4;
-#X obj 213 244 cyclone/comment 181 11 helvetica ? 0 80 80 80 print
-out all rules;
-#X obj 219 268 cyclone/comment 181 11 helvetica ? 0 80 80 80 save matrix
-with the patch;
-#X obj 226 293 cyclone/comment 181 11 helvetica ? 0 80 80 80 clear
-matrix;
-#X obj 232 317 cyclone/comment 222 11 helvetica ? 0 80 80 80 set a
-default target in case it gets stuck;
-#X obj 155 377 cyclone/comment 222 11 helvetica ? 0 80 80 80 bang when
-we reach a number for which we have no rule is send (n being a valid
-value);
-#X obj 118 415 cyclone/comment 181 11 helvetica ? 0 80 80 80 0;
-#X obj 177 415 cyclone/comment 181 11 helvetica ? 0 80 80 80 4;
-#X obj 193 432 cyclone/comment 222 11 helvetica ? 0 80 80 80 <--- if
-the value will get 4 \, it is stuck until a;
-#X connect 0 0 9 0;
-#X connect 1 0 9 0;
-#X connect 4 0 9 0;
-#X connect 5 0 9 0;
-#X connect 6 0 9 0;
-#X connect 7 0 9 0;
-#X connect 8 0 9 0;
-#X connect 9 0 2 0;
-#X connect 9 0 12 0;
-#X connect 9 1 3 0;
-#X connect 10 0 9 0;
-#X connect 11 0 0 0;
-#X connect 11 0 1 0;
-#X connect 11 0 10 0;
-#X connect 11 0 15 0;
-#X connect 14 0 4 0;
-#X connect 15 0 9 0;
-#X connect 18 0 14 0;
-#X restore 644 76 pd complex_example;
-#X obj 569 78 cyclone/comment 135 11 helvetica ? 0 80 80 80 see it
-too ---->;
-#N canvas 618 194 464 302 discussion 0;
-#X text 51 102 When it receives a bang \, [prob] makes a random jump
+#X text 44 22 When it receives a bang \, [prob] makes a random jump
 from its current state to another state based on its current weighting
 of transitions. If a transition can be made \, the new state is sent
 out the left outlet. If not \, a bang is sent out the right outlet.
 , f 62;
-#X text 51 178 For any state \, the weights of all possible transition
-states are summed. Thus if a state could jump to three states that
-had weights of 3 4 and 1 \, the first one (3) would occur 37.5% of
-the time \, the second 50% of the time \, and the third 12.5%. Note
-that any state can make a transition to itself with a list of the form
-(state state weight)., f 62;
-#X restore 427 254 pd discussion;
-#X connect 2 0 12 0;
-#X connect 3 0 12 0;
-#X connect 4 0 12 0;
-#X connect 5 0 12 0;
-#X connect 6 0 12 0;
-#X connect 7 0 12 0;
-#X connect 8 0 12 0;
-#X connect 9 0 12 0;
-#X connect 11 0 12 0;
-#X connect 12 0 13 0;
-#X connect 12 0 14 0;
-#X connect 12 1 15 0;
-#X connect 22 0 29 0;
-#X connect 23 0 29 0;
-#X connect 24 0 29 0;
-#X connect 29 0 33 0;
-#X connect 29 1 34 0;
-#X connect 30 0 29 0;
-#X connect 31 0 30 0;
-#X connect 32 0 29 0;
-#X connect 34 0 35 0;
-#X connect 35 0 36 0;
-#X connect 36 0 31 0;
-#X connect 38 0 39 0;
-#X connect 39 0 41 0;
-#X connect 39 1 40 0;
-#X connect 40 0 22 0;
-#X connect 40 1 23 0;
-#X connect 40 2 24 0;
-#X connect 41 0 36 0;
-#X connect 41 1 32 0;
-#X restore 443 267 pd examples;
+#X text 21 202 choose state;
+#X msg 201 246 embed 1;
+#X obj 112 168 loadbang;
+#X obj 112 276 cyclone/prob;
+#C restore;
+#X msg 196 217 reset 1;
+#X text 43 98 The matrix below just goes from 0 to 3 and has no rule
+for when it reaches 3 \, so it gets stuck. You can use the "reset"
+message to set a value for whenever [prob] gets stuck.;
+#X text 254 246 store the current table;
+#X text 236 265 when the patcher is saved *;
+#X text 194 196 sets a value that prob goes back;
+#X text 253 216 to when it gets stuck;
+#X obj 112 302 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 60 346 * embed <1> will set the [prob] object to store the
+probability matrix table within the patch when the patch is saved \,
+so the next time you open the patch it already has that table initialized
+- embed <0> (the default) disables it.;
+#X msg 112 201 0 1 100 \, 1 2 100 \, 2 3 100, f 8;
+#X obj 641 115 loadbang;
+#X obj 641 195 cyclone/prob;
+#C restore;
+#X text 499 31 For any state \, the weights of all possible transition
+states are summed \, and the probability percentage is the weight value
+divided by that sum x 100 So \, if you have the messages "0 1 80" and
+"0 2 20" \, the sum is 100 and the percentage is 80% and 20%., f 62
+;
+#X msg 641 140 0 1 3 \, 0 2 4 \, 0 0 1, f 7;
+#X text 508 233 Below \, we have the weights 3 4 and 1 \, the sum is
+8 and the first weight (3) represents a 37.5% chance \, the second
+(4) represents 50% and the third (1) represents 12.5%. Note that any
+state can make a transition to itself \, such as the last list above
+(0 0 1).;
+#X obj 656 365 cyclone/anal;
+#X obj 656 393 cyclone/prob;
+#C restore;
+#X text 510 331 The [anal] object was designed to feed [prob] \, check
+its help file.;
+#X text 200 315 for which there is no rule;
+#X text 200 300 <== when we reach a number;
+#X connect 0 0 6 0;
+#X connect 4 0 6 0;
+#X connect 5 0 15 0;
+#X connect 6 0 13 0;
+#X connect 6 1 1 0;
+#X connect 7 0 6 0;
+#X connect 15 0 6 0;
+#X connect 16 0 19 0;
+#X connect 19 0 17 0;
+#X connect 21 0 22 0;
+#X restore 464 294 pd examples;
+#X text 193 420 sets a value for when reaching a number with no rule
+;
+#X msg 89 176 dump;
+#X obj 80 289 print;
+#X obj 137 276 nbx 2 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 0 256;
+#X text 97 403 embed <float> -;
+#X text 192 403 <1> enables saving the matrix with the patch \, <0>
+disables;
+#X text 217 248 <== click to view the probability matrix table;
 #X connect 7 0 10 0;
 #X connect 8 0 10 0;
 #X connect 9 0 8 0;
-#X connect 10 0 11 0;
-#X connect 10 0 33 0;
-#X connect 16 0 7 0;
-#X connect 16 0 9 0;
+#X connect 10 0 42 0;
+#X connect 10 0 43 0;
+#X connect 15 0 7 0;
+#X connect 41 0 10 0;
+#X connect 43 0 11 0;

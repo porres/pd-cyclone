@@ -1,39 +1,69 @@
-#N canvas 482 26 559 540 10;
-#X obj 2 318 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 482 26 559 489 10;
+#X obj 2 260 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 405 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 335 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 442 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 385 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 67 329 cnv 17 3 49 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 268 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 89 415 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 81 343 cnv 17 3 34 empty empty n 5 9 0 16 -228856 -162280 0
 ;
-#X obj 162 241 cyclone/spray 3;
-#N canvas 470 110 433 300 outlet 0;
-#X obj 161 158 cyclone/spray 3 3;
-#X floatatom 161 223 5 0 0 0 - - -, f 5;
-#X floatatom 210 223 5 0 0 0 - - -, f 5;
-#X floatatom 260 223 5 0 0 0 - - -, f 5;
-#X msg 256 83 5 5;
-#X msg 207 83 4 6;
-#X msg 161 83 3 7;
-#X msg 110 83 2 8;
-#X text 59 25 The second argument sets an offset for the outlet numbers.
-The outlet number is the first of the list.;
-#X obj 3 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 5 4 2nd arguments: outlet number offset;
-#X connect 0 0 1 0;
-#X connect 0 1 2 0;
-#X connect 0 2 3 0;
-#X connect 4 0 0 0;
-#X connect 5 0 0 0;
-#X connect 6 0 0 0;
-#X connect 7 0 0 0;
-#X restore 340 246 pd outlet offsets;
-#X obj 2 516 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
-#X obj 2 495 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 690 294 453 257 outlet 0;
+#X msg 143 123 5 5;
+#X msg 105 121 4 6;
+#X msg 34 117 2 8;
+#X obj 72 164 cyclone/spray 3 3;
+#X obj 171 204 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 121 204 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 72 204 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 72 119 3 7;
+#X obj 334 202 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 290 202 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 247 202 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 247 162 cyclone/spray 3;
+#X obj 292 102 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 247 102 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 247 126 pack f f;
+#X msg 357 126 offset \$1;
+#X floatatom 357 99 5 0 0 0 - - -, f 5;
+#X text 43 24 You can set an offset with the 2nd argument or the "offset"
+message (default is 0). This way \, the first outlet is numbered after
+the offset value. Positive and nagetive values are allowed.;
+#X obj 171 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 121 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 72 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X connect 0 0 3 0;
+#X connect 1 0 3 0;
+#X connect 2 0 3 0;
+#X connect 3 0 6 0;
+#X connect 3 1 5 0;
+#X connect 3 2 4 0;
+#X connect 4 0 18 0;
+#X connect 5 0 19 0;
+#X connect 6 0 20 0;
+#X connect 7 0 3 0;
+#X connect 11 0 10 0;
+#X connect 11 1 9 0;
+#X connect 11 2 8 0;
+#X connect 12 0 14 1;
+#X connect 13 0 14 0;
+#X connect 14 0 11 0;
+#X connect 15 0 11 0;
+#X connect 16 0 15 0;
+#X restore 423 179 pd outlet offsets;
+#X obj 2 450 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 490 103 394 345 META 0;
 #X text 11 29 LICENSE SIBSD;
@@ -53,7 +83,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 498 pd META;
+#X restore 503 453 pd META;
 #N canvas 347 145 430 96 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -62,16 +92,15 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 295 33 cyclone/gate;
 #X obj 11 33 route;
 #X obj 55 33 unpack;
-#X restore 204 497 pd Related_objects;
-#X text 164 329 -;
-#X text 130 329 list;
-#X text 158 416 -;
-#X text 119 416 float;
-#X text 173 416 number send from inlet to specific outlet, f 60;
-#X text 158 450 -;
-#X text 100 450 1) float;
-#X text 158 469 -;
-#X text 100 469 2) float;
+#X restore 204 452 pd Related_objects;
+#X text 157 269 -;
+#X text 123 269 list;
+#X text 157 342 -;
+#X text 117 342 float;
+#X text 157 393 -;
+#X text 99 393 1) float;
+#X text 157 411 -;
+#X text 99 411 2) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -88,37 +117,66 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 spray;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Distribute values to outlets
 ;
-#X text 74 91 [spray] accepts lists where the first value indicates
-the outlet number and the other values are sent ues that follow are
-sent out that outlet and those to its right \, in right-to-left order.
-The argument sets the number of outlets (there is no set limit). The
-default number of outlets is 2;
-#X msg 247 199 0 2 2;
-#X msg 206 199 1 1 1;
-#X msg 163 199 2 3.8;
-#X msg 110 199 0 4 3 2;
-#X msg 67 199 0 1.2;
-#X obj 249 269 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 205 269 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 162 269 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 161 286 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 0;
-#X obj 206 286 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 1;
-#X obj 249 286 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 2;
-#X text 179 329 outlet index and values to be distributed;
-#X text 74 350 offset <float> -;
-#X text 179 350 offsets the output of the object by the number of outlets
+#X msg 238 156 2 3.8;
+#X msg 162 157 0 1.2;
+#X obj 304 219 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 3.8 256;
+#X obj 254 219 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1 256;
+#X obj 205 219 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1.2 256;
+#X obj 204 236 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 0;
+#X obj 255 236 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 1;
+#X obj 304 236 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 2;
+#X text 172 269 outlet index and values to be distributed;
+#X text 171 393 sets the number of outlets (default 2);
+#X text 171 411 outlet offset number (default 0);
+#X obj 205 191 cyclone/spray 3, f 17;
+#X text 157 428 -;
+#X text 99 428 3) float;
+#X text 171 428 non-0 sets to output list mode (default 0);
+#X text 157 360 -;
+#X text 123 360 list;
+#X text 172 342 number sent from inlet to specified outlet, f 60;
+#X text 172 360 list instead of float in "list output" mode (see 3rd
+argument), f 62;
+#X text 91 287 offset <f> -;
+#X text 172 287 offsets the output of the object by the number of outlets
 given shifted to the left (a negative number will specify the number
-of outlets offset to the right)., f 61;
-#X text 172 469 outlet offset number (default x?);
-#X text 172 450 sets the number of outlets (default 2);
-#X connect 5 0 36 0;
-#X connect 5 1 35 0;
-#X connect 5 2 34 0;
-#X connect 29 0 5 0;
-#X connect 30 0 5 0;
-#X connect 31 0 5 0;
-#X connect 32 0 5 0;
-#X connect 33 0 5 0;
+of outlets offset to the right);
+#X msg 205 156 1 1;
+#X text 66 84 [spray] accepts lists where the 1st value indicates the
+outlet number (starting at 0) and the 2nd value is sent to that outlet
+- other values are sent to the outlets to its right \, or to that same
+outlet (when in "output list" mode).;
+#N canvas 717 345 453 257 list 1;
+#X msg 278 94 0 2 2;
+#X msg 234 91 1 1 1;
+#X msg 190 89 2 3.8;
+#X msg 136 90 0 4 3 2;
+#X msg 92 91 0 1.2;
+#X text 216 57 symbols are ignored...;
+#X floatatom 70 150 5 0 0 0 - - -, f 5;
+#X text 257 216 fix error to no float method;
+#X msg 123 55 1 cu 2 bosta;
+#X obj 190 131 cyclone/spray 3 0 1;
+#X obj 100 183 print um;
+#X obj 199 192 print dois;
+#X obj 295 185 print tres;
+#X connect 0 0 9 0;
+#X connect 1 0 9 0;
+#X connect 2 0 9 0;
+#X connect 3 0 9 0;
+#X connect 4 0 9 0;
+#X connect 6 0 9 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 9 1 11 0;
+#X connect 9 2 12 0;
+#X restore 432 209 pd list input \; and output;
+#X connect 25 0 36 0;
+#X connect 26 0 36 0;
+#X connect 36 0 29 0;
+#X connect 36 1 28 0;
+#X connect 36 2 27 0;
+#X connect 46 0 36 0;

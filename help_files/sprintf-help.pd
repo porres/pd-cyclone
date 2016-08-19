@@ -1,24 +1,24 @@
-#N canvas 600 23 565 558 10;
-#X obj 2 321 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 558 40 559 599 10;
+#X obj 2 325 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 372 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 422 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 410 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 460 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 333 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 67 333 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 384 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 434 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 74 277 print;
-#X floatatom 221 215 5 0 0 0 - - -, f 5;
-#X obj 300 281 print;
-#X msg 300 193 myFloat;
-#X msg 397 191 42.88;
-#X msg 495 192 64;
-#X obj 300 245 cyclone/sprintf variable %s=%f %c;
-#X obj 3 470 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 74 290 print;
+#X floatatom 221 228 5 0 0 0 - - -, f 5;
+#X obj 300 294 print;
+#X msg 300 206 myFloat;
+#X msg 397 204 42.88;
+#X msg 495 205 64;
+#X obj 300 258 cyclone/sprintf variable %s=%f %c;
+#X obj 3 554 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 449 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 526 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 494 101 388 344 META 0;
 #X text 10 29 LICENSE SIBSD;
@@ -37,7 +37,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 452 pd META;
+#X restore 503 529 pd META;
 #N canvas 344 144 480 76 Related_objects 0;
 #X obj 2 2 cnv 15 475 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -46,73 +46,9 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 256 31 cyclone/tosymbol;
 #X obj 55 30 key;
 #X obj 89 30 keyup;
-#X obj 16 30 atoi;
-#X restore 206 452 pd Related_objects;
-#N canvas 247 95 640 316 Examples 0;
-#X obj 2 2 cnv 15 620 40 empty empty sprintf 3 12 0 18 -204280 -1 0
-;
-#X text 44 25 examples;
-#X obj 102 67 cyclone/comment 71 11 helvetica ? 0 80 80 80 list example
-;
-#X obj 2 649 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
-#X obj 2 628 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 544 134 363 117 credits 0;
-#X text 76 34 Examples from Max 7 Documentation., f 38;
-#X restore 536 630 pd credits;
-#X obj 71 106 vsl 24 48 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 22 89 cyclone/comment 56 11 helvetica ? 0 80 80 80 then move
-the slider;
-#X obj 9 89 cyclone/comment 56 11 helvetica ? 0 80 80 80 2);
-#X msg 248 118 45;
-#X obj 219 101 cyclone/comment 56 11 helvetica ? 0 80 80 80 click here
-first;
-#X obj 206 101 cyclone/comment 56 11 helvetica ? 0 80 80 80 1);
-#X obj 71 199 print;
-#X obj 82 228 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 81 225 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 79 219 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 102 227 cyclone/comment 79 11 helvetica ? 0 80 80 80 see results
-of print object in Pd main window;
-#X obj 392 126 cyclone/comment 153 11 helvetica ? 0 80 80 80 The argument
-to sprintf is the "format string" which specifies the output. The output
-string is re-processed and sent out as a list of numbers and symbols.
-sprintf provides an inlet for each % argument specified.;
-#X obj 75 309 cyclone/comment 106 11 helvetica ? 0 80 80 80 message
-example;
-#X msg 83 332 -99 Granville;
-#X obj 83 416 print;
-#X obj 417 309 cyclone/comment 106 11 helvetica ? 0 80 80 80 float
-example;
-#X obj 423 416 print;
-#X floatatom 423 328 8 0 0 0 - - -, f 8;
-#X obj 144 463 cyclone/comment 155 11 helvetica ? 0 80 80 80 combining
-string example;
-#X obj 71 167 cyclone/sprintf %ld 34 %ld 555;
-#X obj 83 364 cyclone/sprintf Error %ld in sector %s;
-#X obj 423 364 cyclone/sprintf %.2fdB;
-#X obj 151 521 cyclone/sprintf %s%s;
-#X obj 291 521 cyclone/sprintf %c%c%c%c;
-#X msg 151 493 tom tom;
-#X msg 291 493 76 79 86 69;
-#X obj 249 553 prepend set;
-#X msg 249 585 LOVE;
-#X connect 6 0 25 0;
-#X connect 9 0 25 1;
-#X connect 19 0 26 0;
-#X connect 23 0 27 0;
-#X connect 25 0 12 0;
-#X connect 26 0 20 0;
-#X connect 27 0 22 0;
-#X connect 28 0 32 0;
-#X connect 29 0 32 0;
-#X connect 30 0 28 0;
-#X connect 31 0 29 0;
-#X connect 32 0 33 0;
-#X restore 415 280 pd Examples;
-#X text 169 421 -;
+#X text 16 32 atoi;
+#X restore 206 529 pd Related_objects;
+#X text 164 471 -;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -129,28 +65,120 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 sprintf;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Format a message of strings
 and numbers;
-#X text 107 334 anything;
-#X text 107 384 anything;
-#X msg 74 213 brass;
-#X msg 124 213 wood;
-#X text 89 421 1) anything;
-#X msg 55 177 mamma mia amore;
-#X obj 74 241 cyclone/sprintf %s-%s.wav;
-#X text 78 90 [sprintf] uses the C-language "printf" function to format
-messages. The message to be formated is set as argument. Each '%' creates
-an inlet. Options: %s (string) \, %d (integer) \, %f (float) and %c
-(character).;
-#X text 182 421 the message to be formated. Each '%' creates an inlet.
+#X text 107 434 anything;
+#X msg 74 220 brass;
+#X msg 124 226 wood;
+#X text 89 471 1) anything;
+#X obj 74 254 cyclone/sprintf %s-%s.wav;
+#X text 164 434 - the formatted message;
+#X msg 55 190 bla bla bla;
+#X floatatom 454 228 5 0 0 0 - - -, f 5;
+#X floatatom 362 228 5 0 0 0 - - -, f 5;
+#N canvas 385 132 1037 673 examples 0;
+#X obj 130 371 print;
+#X obj 381 441 print;
+#X obj 381 402 cyclone/sprintf %.2fdB;
+#X obj 151 521 cyclone/sprintf %s%s;
+#X obj 291 521 cyclone/sprintf %c%c%c%c;
+#X msg 151 493 tom tom;
+#X msg 291 493 76 79 86 69;
+#X obj 249 563 prepend set;
+#X msg 249 595 LOVE;
+#X text 66 44 The argument to sprintf is the "format string" which
+specifies the output. The output string is re-processed and sent out
+as a list of numbers and symbols. sprintf provides an inlet for each
+% argument specified.;
+#X text 167 461 combining string example;
+#X text 223 301 message example;
+#X text 442 360 float example;
+#X text 196 126 list example;
+#X obj 131 165 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 10.6 256;
+#X obj 381 362 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 388 274 print;
+#X obj 388 235 cyclone/sprintf %ld;
+#X floatatom 378 206 5 0 0 0 - - -, f 5;
+#X text 631 293 Arguments \; \; float - may be received in any inlet
+that corresponds to a %f argument. If received in an inlet corresponding
+to a %ld or %c argument \, it is converted to int.;
+#X text 633 375 symbol - may be received in any inlet that corresponds
+to a %s argument. The number will be stored in place of that argument.
 ;
-#X text 164 334 - inlet type is specified by corresponding '%' in the
-argument - explain.;
-#X text 164 384 - the formatted message;
-#X connect 6 0 32 1;
+#X text 93 432 The left inlet is the hot inlet.;
+#X symbolatom 131 232 10 0 0 0 - - -, f 10;
+#X msg 131 139 10.6;
+#X obj 417 131 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 417 160 cyclone/sprintf symbol a-%ld;
+#X symbolatom 417 198 10 0 0 0 - - -, f 10;
+#X msg 417 105 10.6;
+#X msg 130 300 99 Granville;
+#X text 627 52 The arguments form a message to be sent out \, in a
+format resembling the C programming language. The arguments may be
+float/symbol atoms and changeable arguments for incoming symbols (
+%s) \, ints ( %ld ) \, floats ( %f ) \, and ints that are to be formatted
+as ASCII characters ( %c ). For complete documentation \, refer to
+a standard C library reference manual.;
+#X text 627 152 The number of changeable arguments determines the number
+of inlets \, with each inlet corresponding to a changeable argument
+\, in order.;
+#X text 627 203 If no value has been received for a changeable number
+argument (%ld or %f) \, a "0" will be substituted for that argument.
+If no value has been received for a %s or %c argument \, a blank space
+will be substituted.;
+#X obj 130 332 cyclone/sprintf Error %ld in sector %s;
+#X obj 131 194 cyclone/sprintf symbol a-%d;
+#X connect 2 0 1 0;
+#X connect 3 0 7 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
+#X connect 6 0 4 0;
+#X connect 7 0 8 0;
+#X connect 14 0 33 0;
+#X connect 15 0 2 0;
+#X connect 17 0 16 0;
+#X connect 18 0 17 0;
+#X connect 23 0 14 0;
+#X connect 24 0 25 0;
+#X connect 25 0 26 0;
+#X connect 27 0 24 0;
+#X connect 28 0 32 0;
+#X connect 32 0 0 0;
+#X connect 33 0 22 0;
+#X restore 459 293 pd examples;
+#X text 227 565 no args error;
+#X obj 34 256 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 181 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 134 334 bang;
+#X text 167 334 - formats the message using the values currently stored
+;
+#X obj 374 185 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 80 351 list/anything;
+#X text 168 350 - messages with more than one item treats each item
+as if if it had been received in a separate inlet.;
+#X text 78 88 [sprintf] uses the C language "printf" function to format
+messages. The message to be formated is set as an argument. Each changeable
+arguments '%' creates an inlet \, some of the options are: %s (symbol)
+\, %d (int) \, %f (float) and %c (ASCII character). For complete documentation
+\, refer to a standard C library reference manual.;
+#X text 176 471 any float/symbol atoms & changeable arguments (%s \,
+%d \, %f \, %c) - if the 1st element is 'symout' \, a formated single
+symbol message is output ('symout' itself not included).;
+#X connect 6 0 29 1;
 #X connect 8 0 11 0;
 #X connect 9 0 11 1;
 #X connect 10 0 11 2;
 #X connect 11 0 7 0;
-#X connect 28 0 32 0;
-#X connect 29 0 32 0;
-#X connect 31 0 32 0;
-#X connect 32 0 5 0;
+#X connect 26 0 29 0;
+#X connect 27 0 29 0;
+#X connect 29 0 5 0;
+#X connect 31 0 29 0;
+#X connect 32 0 11 2;
+#X connect 33 0 11 1;
+#X connect 36 0 29 0;
+#X connect 37 0 29 1;
+#X connect 40 0 11 0;

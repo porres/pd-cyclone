@@ -1,15 +1,15 @@
-#N canvas 691 153 558 548 10;
-#X obj 2 320 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 622 23 558 532 10;
+#X obj 2 309 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 412 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 401 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 457 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 101 330 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 319 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 101 427 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 416 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 501 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 490 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 450 97 450 382 META 0;
 #X text 40 100 OUTLET_0 bang;
@@ -29,22 +29,22 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 502 503 pd META;
+#X restore 502 492 pd META;
 #N canvas 341 142 430 82 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 18 35 >;
 #X obj 51 35 cyclone/maximum;
 #X obj 156 35 cyclone/peak;
-#X restore 210 503 pd Related_objects;
-#X msg 222 200 set 25;
-#X msg 231 225 clear;
-#X obj 162 280 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
+#X restore 210 492 pd Related_objects;
+#X msg 222 189 set 25;
+#X msg 231 214 clear;
+#X obj 162 269 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
 -1 -1;
-#X text 178 353 -;
-#X text 144 353 list;
-#X text 178 427 -;
-#X text 145 427 bang;
+#X text 178 342 -;
+#X text 144 342 list;
+#X text 178 416 -;
+#X text 145 416 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -61,22 +61,19 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 past;
 #X obj 20 58 comment 0 18 times ? 0 0 0 0 Check if input increases
 past a limit;
-#X text 193 427 if input went past the limit or list or limits;
-#X text 90 475 1) float/list;
-#X text 112 390 set <list> -;
-#X text 142 372 clear -;
-#X text 142 332 float -;
-#X text 193 332 value to check if went past the limit, f 52;
-#X text 193 353 values to check if went past the limit, f 52;
-#X text 179 475 - value(s) of initial limit(s) - required (no defaults)
+#X text 193 416 if input went past the limit or list or limits;
+#X text 90 464 1) float/list;
+#X text 112 379 set <list> -;
+#X text 142 361 clear -;
+#X text 142 321 float -;
+#X text 193 321 value to check if went past the limit, f 52;
+#X text 193 342 values to check if went past the limit, f 52;
+#X text 179 464 - value(s) of initial limit(s) - required (no defaults)
 ;
-#X text 193 390 sets the limit to one or more values;
-#X text 70 99 [past] sends a bang when an input is first past above
-a given limit value. The input needs to fall back to this limit or
-below it for another bang to be output.;
-#X text 193 372 clears the memory so a next input may trigger a bang
+#X text 193 379 sets the limit to one or more values;
+#X text 193 361 clears the memory so a next input may trigger a bang
 ;
-#N canvas 111 154 941 605 list_behaviour 1;
+#N canvas 394 23 941 605 list_behaviour 0;
 #X obj 65 229 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X text 158 246 The behaviour with floats and lists is consistent with
@@ -263,14 +260,17 @@ used with lists...;
 #X connect 26 0 32 0;
 #X connect 27 0 32 0;
 #X connect 32 0 29 0;
-#X restore 386 239 pd list_behaviour;
-#X obj 165 173 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X obj 162 200 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 162 253 cyclone/past 63.5;
-#X connect 8 0 37 0;
-#X connect 9 0 37 0;
+#X restore 386 228 pd list_behaviour;
+#X obj 165 162 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 5300 1;
+#X obj 162 189 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 53 256;
+#X obj 162 242 cyclone/past 63.5;
+#X text 70 99 [past] sends a bang when an input raises past a given
+limit value. The input needs to fall back to this limit or below it
+for another bang to be output when it raises again.;
+#X connect 8 0 36 0;
+#X connect 9 0 36 0;
+#X connect 34 0 35 0;
 #X connect 35 0 36 0;
-#X connect 36 0 37 0;
-#X connect 37 0 10 0;
+#X connect 36 0 10 0;

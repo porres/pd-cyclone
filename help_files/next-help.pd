@@ -1,20 +1,20 @@
-#N canvas 490 72 571 596 10;
-#X obj 4 432 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 521 23 558 470 10;
+#X obj 4 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 467 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 342 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 523 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 398 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 82 443 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 318 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 500 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 81 375 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 116 531 (none);
-#X obj 81 476 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 116 406 (none);
+#X obj 81 351 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 577 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 452 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 556 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 431 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 459 103 386 405 META 0;
 #X text 9 28 LICENSE SIBSD;
@@ -34,139 +34,23 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 502 558 pd META;
+#X restore 502 433 pd META;
 #N canvas 314 144 430 85 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 57 29 cyclone/uzi;
 #X obj 13 29 delay;
-#X restore 204 558 pd Related_objects;
-#X obj 196 335 cyclone/next;
-#X obj 196 234 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+#X restore 204 433 pd Related_objects;
+#X obj 196 242 cyclone/next;
+#X obj 196 181 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
 -1 -1;
-#X msg 281 266 1 \, 2 \, 3;
-#X obj 376 265 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+#X obj 196 271 bng 22 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 376 288 uzi 5;
-#X obj 196 382 bng 22 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 265 271 bng 22 250 50 0 empty empty empty 17 7 0 10 -216373
 -1 -1;
-#X obj 265 382 bng 22 250 50 0 empty empty empty 17 7 0 10 -216373
--1 -1;
-#X obj 161 199 cyclone/comment 71 11 helvetica ? 0 80 80 80 same event
-should not flash;
-#X obj 151 387 cyclone/comment 53 11 helvetica ? 0 80 80 80 different
-;
-#X obj 292 383 cyclone/comment 53 11 helvetica ? 0 80 80 80 same event
-;
-#X obj 157 398 cyclone/comment 53 11 helvetica ? 0 80 80 80 event;
-#X obj 276 236 cyclone/comment 71 11 helvetica ? 0 80 80 80 same event
-should flash;
-#X obj 363 236 cyclone/comment 71 11 helvetica ? 0 80 80 80 same event
-should flash;
-#X obj 272 201 cyclone/comment 180 11 helvetica ? 0 80 80 80 different
-event will always flash when events are separated by clicks;
-#N canvas 164 95 710 485 Examples 0;
-#X obj 2 2 cnv 15 705 40 empty empty next 3 12 0 18 -204280 -1 0;
-#X obj 2 461 cnv 15 705 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X text 12 24 examples;
-#N canvas 472 219 400 122 credits 0;
-#X text 106 23 "Practical application" example;
-#X text 122 40 from Max 7 Documentation;
-#X restore 627 463 pd credits;
-#X obj 263 279 r nxt;
-#X obj 273 306 cyclone/next;
-#X obj 273 330 bng 30 250 50 0 empty empty empty 17 7 0 10 -216373
--261234 -1;
-#X obj 342 330 bng 30 250 50 0 empty empty empty 17 7 0 10 -216373
--204786 -1;
-#X obj 271 364 cyclone/comment 53 11 helvetica ? 0 80 80 80 different
-;
-#X obj 345 363 cyclone/comment 53 11 helvetica ? 0 80 80 80 same event
-;
-#X obj 276 375 cyclone/comment 53 11 helvetica ? 0 80 80 80 event;
-#X obj 100 100 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
--1;
-#X msg 37 125 1;
-#X msg 68 125 2;
-#X msg 100 125 3;
-#X msg 143 102 1 \, 2 \, 3 \, 4;
-#X obj 154 164 print multiple events;
-#X obj 78 164 s nxt;
-#X obj 63 75 cyclone/comment 90 11 helvetica ? 0 80 80 80 different
-inputs;
-#X floatatom 235 103 5 0 0 0 - - -, f 5;
-#X obj 186 191 cyclone/comment 148 11 helvetica ? 0 80 80 80 notice
-how pd main window was printed with one event per line \, in other
-words \, pd treats them as multiple events;
-#X obj 164 189 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 162 183 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 167 191 cyclone/comment 121 11 helvetica ? 0 80 80 80 ----;
-#X msg 409 113 1 2 3 4;
-#X obj 448 150 spigot;
-#X obj 481 126 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
-1;
-#X obj 435 224 print one event;
-#X obj 409 244 s nxt;
-#X msg 448 177 4 3 2 1 dog;
-#X obj 386 71 cyclone/comment 227 11 helvetica ? 0 80 80 80 try clicking
-in messages 1) and 2) separately and watch "different event" bang light
-up.;
-#X obj 395 113 cyclone/comment 227 11 helvetica ? 0 80 80 80 1);
-#X obj 435 177 cyclone/comment 227 11 helvetica ? 0 80 80 80 2);
-#X obj 532 124 cyclone/comment 103 11 helvetica ? 0 80 80 80 now click
-it toogle and try message 1) again and see "same event" bang assignaled
-down there;
-#X obj 501 125 cyclone/comment 112 11 helvetica ? 0 80 80 80 <-----
-;
-#X obj 34 289 cyclone/comment 215 11 helvetica ? 0 80 80 80 we can
-say [next] first detect one different event and above same events \,
-that's the reason to see the two bangs alight \, remembering \, an
-event here is your mouse click \, if you click once and we have multiple
-messages with the same click it's characterized in that is "same event"
-;
-#X obj 425 303 cyclone/comment 227 11 helvetica ? 0 80 80 80 a "practical
-applicaton" for [next]:;
-#X msg 449 332 60 \, 63 \, 67 \, 70;
-#X obj 449 384 makenote 64 1000;
-#X obj 449 414 noteout, f 19;
-#X obj 574 342 cyclone/comment 103 11 helvetica ? 0 80 80 80 change
-the active MIDI channel with each chord sent;
-#X obj 491 360 cyclone/next;
-#X obj 560 384 cyclone/counter 1 16;
-#X connect 4 0 5 0;
-#X connect 5 0 6 0;
-#X connect 5 1 7 0;
-#X connect 11 0 12 0;
-#X connect 11 0 13 0;
-#X connect 11 0 14 0;
-#X connect 12 0 16 0;
-#X connect 12 0 17 0;
-#X connect 13 0 16 0;
-#X connect 13 0 17 0;
-#X connect 14 0 16 0;
-#X connect 14 0 17 0;
-#X connect 15 0 16 0;
-#X connect 15 0 17 0;
-#X connect 19 0 17 0;
-#X connect 19 0 16 0;
-#X connect 24 0 27 0;
-#X connect 24 0 25 0;
-#X connect 24 0 28 0;
-#X connect 25 0 29 0;
-#X connect 26 0 25 1;
-#X connect 29 0 27 0;
-#X connect 29 0 28 0;
-#X connect 37 0 38 0;
-#X connect 37 0 41 0;
-#X connect 38 0 39 0;
-#X connect 38 1 39 1;
-#X connect 41 1 42 0;
-#X connect 42 0 39 2;
-#X restore 465 378 pd Examples;
-#X text 104 443 anything;
-#X text 128 477 bang;
-#X text 128 501 bang;
+#X text 104 318 anything;
+#X text 128 352 bang;
+#X text 128 376 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -183,33 +67,82 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 next;
 #X obj 20 58 comment 0 18 times ? 0 0 0 0 detect separation of messages
 ;
-#X text 58 99 [next] sends a bang out its left outlet when an incoming
-in not part of the same pd "event" as a previous message. (An "event"
-is a mouse click \, key press \, MIDI event) Otherwise \, [next] sends
-a bang out its right outlet.;
-#X text 55 163 next is useful for doing something once per dump of
-an object such as coll.;
-#N canvas 86 23 450 300 (subpatch) 1;
-#X text 29 61 [next] checks if a message is part of the same logical
-event as the previous one. For example \, if you click on a bang twice
-\, the two bangs are not part of the same logical event. But if you
-put bang \, bang in a message box \, or use the uzi object to send
-out two bangs in a row \, these bangs are part of the same logical
-event.;
-#X restore 400 374 pd;
-#X text 68 358 mouse? key? MIDI?;
-#X obj 123 284 delay 500;
-#X text 162 443 - message to check if it's part of a same logical event
+#X text 161 352 - if the current message is not part of a logical event
 ;
-#X text 161 477 - if the current message is not part of a logical event
+#X text 161 376 - if the current message is part of a logical event
 ;
-#X text 161 501 - if the current message is part of a logical event
-;
-#X connect 11 0 16 0;
-#X connect 11 1 17 0;
+#X text 85 179 different events;
+#X text 92 274 different event;
+#X text 293 274 same event;
+#X text 162 318 - any messages to check if it's part of a same logical
+event;
+#X text 271 209 same event as the previous;
+#X text 270 194 the second message is from the;
+#X obj 131 213 delay 500;
+#X text 73 94 [next] sends a bang to the left outlet when an incoming
+message is not part of the same "logival event" as the previous message
+\, and a bang out its right outlet otherwise. An "event" is a single
+mesage \, a mouse click \, key press \, MIDI event.;
+#N canvas 302 120 855 418 examples 0;
+#X msg 558 157 60 \, 63 \, 67 \, 70;
+#X obj 558 266 makenote 64 1000;
+#X obj 558 322 noteout, f 19;
+#X obj 669 250 cyclone/next;
+#X obj 669 279 cyclone/counter 1 16;
+#X text 21 24 [next] checks if a message is part of the same logical
+event as the previous one.;
+#X text 21 60 For example \, if you click on a bang twice \, or if
+you have a bang going through a delay (as in the parent patch) \, the
+two bangs are not part of the same logical event.;
+#X obj 150 278 cyclone/next;
+#X obj 150 211 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-1 -1;
+#X obj 150 307 bng 22 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 219 307 bng 22 250 50 0 empty empty empty 17 7 0 10 -216373
+-1 -1;
+#X msg 161 241 bang;
+#X obj 214 241 cyclone/uzi 2;
+#X obj 214 211 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-1 -1;
+#X text 155 186 same events;
+#X obj 558 222 trigger float float;
+#X msg 579 186 61 \, 64 \, 68 \, 71;
+#X msg 113 243 bang;
+#X text 21 120 But if you send it a bang also connected other bangs
+\, or use the uzi object to send bangs in a row \, these bangs are
+part of the same logical event.;
+#X obj 150 365 print different;
+#X obj 219 341 print same;
+#X text 444 54 Thus \, [next] is useful for doing something once per
+object message dump \, be it via a message or a dump from an object
+such as [uzi] or [coll].;
+#X text 444 106 Below \, we change the MIDI channel with each sent
+chord;
+#X connect 0 0 15 0;
+#X connect 1 0 2 0;
+#X connect 1 1 2 1;
+#X connect 3 0 4 0;
+#X connect 4 0 2 2;
+#X connect 7 0 9 0;
+#X connect 7 1 10 0;
+#X connect 8 0 7 0;
+#X connect 8 0 11 0;
+#X connect 8 0 17 0;
+#X connect 9 0 19 0;
+#X connect 10 0 20 0;
+#X connect 11 0 7 0;
+#X connect 12 0 7 0;
+#X connect 13 0 12 0;
+#X connect 15 0 1 0;
+#X connect 15 1 3 0;
+#X connect 16 0 15 0;
+#X connect 17 0 7 0;
+#X restore 465 271 pd examples;
+#X msg 232 200 1 \, 2;
+#X connect 11 0 13 0;
+#X connect 11 1 14 0;
 #X connect 12 0 11 0;
-#X connect 12 0 41 0;
-#X connect 13 0 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 11 0;
-#X connect 41 0 11 0;
+#X connect 12 0 34 0;
+#X connect 34 0 11 0;
+#X connect 37 0 11 0;

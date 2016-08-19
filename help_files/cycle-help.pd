@@ -1,90 +1,27 @@
-#N canvas 810 169 561 543 10;
-#X obj 2 292 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 707 23 558 486 10;
+#X obj 2 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 368 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 357 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 413 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 395 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 83 304 cnv 17 3 53 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 290 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 378 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 83 366 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
 ;
-#X msg 160 171 1;
-#X msg 191 171 2;
-#X msg 222 171 3;
-#X msg 141 146 1 2 3;
-#X obj 141 256 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X msg 199 168 1;
+#X msg 230 168 2;
+#X msg 261 168 3;
+#X msg 180 143 1 2 3;
+#X obj 180 249 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X msg 90 171 set 1;
-#X obj 141 211 cyclone/cycle 3 0;
-#N canvas 432 93 667 627 more 0;
-#X floatatom 110 332 5 0 0 0 - - -, f 5;
-#X floatatom 159 332 5 0 0 0 - - -, f 5;
-#X floatatom 189 153 5 0 0 0 - - -, f 5;
-#X msg 297 180 1 2 3 4;
-#X msg 297 204 1 \, 2 \, 3 \, 4;
-#X obj 110 398 print left;
-#X msg 233 152 1;
-#X msg 264 152 2;
-#X msg 294 152 3;
-#X msg 325 153 4;
-#X msg 110 139 thresh \$1;
-#X msg 110 94 0;
-#X msg 120 116 1;
-#X obj 110 267 cyclone/cycle 3 0;
-#X floatatom 209 332 5 0 0 0 - - -, f 5;
-#X obj 209 353 print right;
-#X obj 159 376 print middle;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 5 4 More on modes and events;
-#X obj 19 45 cyclone/comment 360 11 helvetica ? 0 80 80 80 a 0 mode
-0 always cycles through outlets \, while mode 1 restarts at the left
-outlet with each new event;
-#X obj 143 90 cyclone/comment 360 11 helvetica ? 0 80 80 80 cycle regardless
-of events;
-#X obj 150 113 cyclone/comment 360 11 helvetica ? 0 80 80 80 event
-restarts at left;
-#X obj 428 286 metro 300;
-#X obj 428 248 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
-1;
-#X obj 428 395 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X obj 515 394 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X obj 428 356 cyclone/cycle 2;
-#X msg 428 319 x y;
-#X obj 377 385 print x;
-#X obj 466 407 print y;
-#X connect 0 0 5 0;
-#X connect 1 0 16 0;
-#X connect 2 0 13 0;
-#X connect 3 0 13 0;
-#X connect 4 0 13 0;
-#X connect 6 0 13 0;
-#X connect 7 0 13 0;
-#X connect 8 0 13 0;
-#X connect 9 0 13 0;
-#X connect 10 0 13 0;
-#X connect 11 0 10 0;
-#X connect 12 0 10 0;
-#X connect 13 0 0 0;
-#X connect 13 1 1 0;
-#X connect 13 2 14 0;
-#X connect 14 0 15 0;
-#X connect 22 0 27 0;
-#X connect 23 0 22 0;
-#X connect 26 0 24 0;
-#X connect 26 0 28 0;
-#X connect 26 1 25 0;
-#X connect 26 1 29 0;
-#X connect 27 0 26 0;
-#X restore 322 215 pd more on modes and events;
-#X text 132 303 anything;
-#X text 159 423 -;
-#X text 101 423 1) float;
-#X text 159 444 -;
-#X text 101 444 2) float;
-#X obj 2 502 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X msg 129 164 set 1;
+#X text 135 289 anything;
+#X text 159 402 -;
+#X text 101 402 1) float;
+#X text 159 420 -;
+#X text 101 420 2) float;
+#X obj 2 443 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 439 104 411 297 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -103,7 +40,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 489 504 pd META;
+#X restore 489 445 pd META;
 #N canvas 336 143 505 79 Related_objects 0;
 #X obj 2 2 cnv 15 500 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -112,7 +49,7 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 293 29 cyclone/spell;
 #X obj 382 29 cyclone/spray;
 #X obj 96 29 cyclone/bucket;
-#X restore 207 504 pd Related_objects;
+#X restore 207 445 pd Related_objects;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -127,41 +64,92 @@ this patch for Pd-Vanilla 0.47-2.;
 Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 cycle;
-#X text 173 423 sets number of outlets (default 1), f 60;
-#X text 173 444 output mode: 0 - values cycle through outlets \, regardless
-of events - 1 or any non-zero value - restart at left outlet for each
-new event;
+#X text 173 402 sets number of outlets (default 1), f 60;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Round-robin messages to outlets
 ;
-#X text 81 87 Each incoming number is sent to the next outlet \, wrapping
-around to the first outlet after the last has been reached \, in a
-"round-robin scheduling" way.;
-#X text 112 380 float/symbol;
-#X text 195 380 - the cycled element;
-#X text 114 322 set <float>;
-#X text 196 340 - switches output mode, f 51;
-#X text 196 323 - sets the next outlet (starting at 0), f 51;
-#X text 196 303 - can input anything to send to different outlets,
-f 51;
-#X text 96 340 thresh <float>;
-#X obj 147 236 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
-#X obj 190 255 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 117 317 set <float>;
+#X text 194 335 - switches output mode, f 51;
+#X text 99 335 thresh <float>;
+#X obj 180 229 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 3 256;
+#X obj 223 248 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 196 235 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
-#X obj 240 254 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 223 228 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 2 256;
+#X obj 267 247 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 248 235 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 267 228 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 1 256;
-#X connect 5 0 11 0;
-#X connect 6 0 11 0;
-#X connect 7 0 11 0;
-#X connect 8 0 11 0;
-#X connect 10 0 11 0;
-#X connect 11 0 39 0;
-#X connect 11 0 9 0;
-#X connect 11 1 41 0;
-#X connect 11 1 40 0;
-#X connect 11 2 43 0;
-#X connect 11 2 42 0;
+#X text 76 86 Each incoming number is sent to the next outlet \, wrapping
+around to the first outlet after the last has been reached \, completing
+a cycle in a "round-robin scheduling" way.;
+#X text 194 318 - sets the next output outlet (starting at 0), f 51
+;
+#X text 194 289 - any message type. Messages with more than one element
+outputs each element to a different outlet;
+#X obj 180 204 cyclone/cycle 3;
+#X text 173 420 mode: Non-0 sets to "event sensitive mode" (default
+0);
+#N canvas 933 177 456 477 mode 0;
+#X msg 169 270 1;
+#X msg 200 270 2;
+#X msg 230 270 3;
+#X msg 156 240 thresh \$1;
+#X obj 156 357 cyclone/cycle 3 1;
+#X msg 233 322 1 \, 2 \, 3;
+#X obj 156 215 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+1;
+#X obj 156 409 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 156 384 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1 256;
+#X obj 205 408 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 205 383 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 2 256;
+#X obj 255 407 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 255 383 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 2 256;
+#X msg 95 322 set 1;
+#X msg 233 297 1 2;
+#X text 54 108 Examples of separate events include messages with delays
+between them \, and messages triggered by successive mouse clicks or
+MIDI events.;
+#X text 55 155 A stream of items separated by commas in a message box
+is considered a single event.;
+#X text 53 34 In the event sensitive mode (set with the second argument
+or with the "tresh" message) \, any new event will restart the output
+from the leftmost outlet. In the default mode (0) \, the values cycle
+through all the outlets \, regardless of whether they are attached
+to separate events or not.;
+#X text 177 213 changes the mode (1 event sensitive);
+#X connect 0 0 4 0;
+#X connect 1 0 4 0;
+#X connect 2 0 4 0;
+#X connect 3 0 4 0;
+#X connect 4 0 8 0;
+#X connect 4 1 10 0;
+#X connect 4 2 12 0;
+#X connect 5 0 4 0;
+#X connect 6 0 3 0;
+#X connect 8 0 7 0;
+#X connect 10 0 9 0;
+#X connect 12 0 11 0;
+#X connect 13 0 4 0;
+#X connect 14 0 4 0;
+#X restore 437 237 pd mode example;
+#X text 111 368 float/symbol;
+#X text 193 368 - a float or a symbol atom element \, depending on
+the input;
+#X connect 5 0 39 0;
+#X connect 6 0 39 0;
+#X connect 7 0 39 0;
+#X connect 8 0 39 0;
+#X connect 10 0 39 0;
+#X connect 31 0 9 0;
+#X connect 33 0 32 0;
+#X connect 35 0 34 0;
+#X connect 39 0 31 0;
+#X connect 39 1 33 0;
+#X connect 39 2 35 0;

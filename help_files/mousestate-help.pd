@@ -1,4 +1,4 @@
-#N canvas 735 23 559 565 10;
+#N canvas 103 196 559 565 10;
 #X obj 2 287 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 382 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -77,21 +77,19 @@ Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 mousestate;
 #X obj 33 59 comment 0 18 times ? 0 0 0 0 Retrieve mouse data;
-#N canvas 0 22 450 300 back 0;
-#X restore 467 153 pd back;
 #X msg 121 152 nopoll;
 #X obj 89 175 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X text 349 260 delta y;
 #X obj 352 242 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -1 256;
+-228856 -1 -1 0 256;
 #X obj 294 242 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 291 259 delta x;
 #X obj 236 242 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 210 256;
+-228856 -1 -1 0 256;
 #X obj 178 242 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 541 256;
+-228856 -1 -1 0 256;
 #X text 179 259 x pos;
 #X text 239 259 y pos;
 #X obj 121 240 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
@@ -245,14 +243,29 @@ and cursor delta. The click report is always given (and sampled every
 #X connect 16 0 21 0;
 #X connect 21 0 11 0;
 #X restore 461 247 pd modes;
+#N canvas 762 173 447 291 backwards 0;
+#X text 185 110 or even:;
+#X text 49 150 But please don't \, just stick to;
+#X text 166 183 or;
+#X text 53 220 Which is the reasonable and sensible way nowadays \,
+as the current plan is to phase out the capital letters in cyclone's
+objects.;
+#X text 43 20 [mousestate] used to be compiled as [MouseState]. The
+old way of creating this object is still present for backwards compatibility
+reasons. So you can still use:;
+#X obj 113 110 MouseState;
+#X obj 252 110 cyclone/MouseState;
+#X obj 84 182 mousestate;
+#X obj 201 183 cyclone/mousestate;
+#X restore 446 170 pd backwards \; compatibility;
 #X connect 13 0 14 0;
-#X connect 14 0 45 0;
-#X connect 14 1 42 0;
-#X connect 14 1 63 0;
-#X connect 14 2 41 0;
-#X connect 14 3 39 0;
-#X connect 14 4 38 0;
+#X connect 14 0 44 0;
+#X connect 14 1 41 0;
+#X connect 14 1 62 0;
+#X connect 14 2 40 0;
+#X connect 14 3 38 0;
+#X connect 14 4 37 0;
+#X connect 34 0 14 0;
 #X connect 35 0 14 0;
-#X connect 36 0 14 0;
-#X connect 49 0 14 0;
-#X connect 50 0 49 0;
+#X connect 48 0 14 0;
+#X connect 49 0 48 0;

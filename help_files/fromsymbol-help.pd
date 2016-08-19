@@ -1,18 +1,18 @@
-#N canvas 133 58 558 544 10;
-#X obj 2 303 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 391 68 558 526 10;
+#X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 398 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 388 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 441 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 421 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 313 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 299 cnv 17 3 83 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 409 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X symbolatom 128 197 15 0 0 0 - - -, f 15;
-#X obj 128 229 cyclone/fromsymbol;
-#X obj 2 525 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 505 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X symbolatom 127 189 15 0 0 0 - - -, f 15;
+#X obj 127 221 cyclone/fromsymbol;
+#X obj 2 504 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 484 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 491 103 372 308 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -31,7 +31,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 485 507 pd META;
+#X restore 485 486 pd META;
 #N canvas 345 144 430 94 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -39,11 +39,11 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 62 33 cyclone/tosymbol;
 #X obj 168 33 cyclone/sprintf;
 #X obj 269 33 cyclone/zl;
-#X restore 202 507 pd Related_objects;
-#X text 175 312 symbol;
-#X text 170 450 (none);
-#X obj 128 263 nbx 10 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0
-10 -228856 -1 -1 0 256;
+#X restore 202 486 pd Related_objects;
+#X text 175 298 symbol;
+#X text 176 429 (none);
+#X obj 127 255 nbx 10 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0
+10 -228856 -1 -1 1 256;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -60,11 +60,10 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Convert symbol to anything
 ;
-#X text 164 409 anything;
-#X text 225 409 - a converted message from a symbol;
-#X text 225 312 - the symbol to be converted to anything, f 41;
-#X text 226 194 <= atom symbol box;
-#X text 233 262 <= number box;
+#X text 164 397 anything;
+#X text 225 397 - a converted message from a symbol;
+#X text 225 186 <= atom symbol box;
+#X text 232 254 <= number box;
 #N canvas 238 136 839 565 symbol_to_lists 0;
 #X obj 114 132 cyclone/tosymbol;
 #X obj 114 220 cyclone/fromsymbol;
@@ -105,6 +104,8 @@ and see the difference:;
 by spaces) into a list of 3 floats. Also note the usage of [cyclone/tosymbol]
 - it's handy to convert any message to a symbol since you can't do
 that easily in Pd Vanilla.;
+#X text 420 432 note that you need to have more than one element in
+the list \, otherwise it is ignored.;
 #X connect 0 0 11 0;
 #X connect 1 0 10 0;
 #X connect 3 0 4 0;
@@ -124,32 +125,32 @@ that easily in Pd Vanilla.;
 #X connect 17 1 20 0;
 #X connect 17 1 21 0;
 #X connect 22 0 16 0;
-#X restore 400 171 pd symbol_to_lists;
-#N canvas 455 75 925 513 symbol_to_anything 0;
-#X obj 134 229 cyclone/fromsymbol;
-#X msg 134 182 symbol something;
-#X symbolatom 165 268 10 0 0 0 - - -, f 10;
-#X msg 250 183 symbol else;
-#X obj 214 348 print Not_a_Symbol;
-#X obj 134 308 route symbol;
-#X obj 203 391 route something else;
-#X obj 203 417 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X restore 400 172 pd symbol_to_lists;
+#N canvas 455 75 892 434 symbol_to_anything 0;
+#X obj 114 175 cyclone/fromsymbol;
+#X msg 114 128 symbol something;
+#X symbolatom 145 214 10 0 0 0 - - -, f 10;
+#X msg 230 129 symbol else;
+#X obj 194 294 print Not_a_Symbol;
+#X obj 114 254 route symbol;
+#X obj 183 337 route something else;
+#X obj 183 363 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 261 417 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 241 363 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X text 61 94 If you send a symbol message to [fromsymbol] \, it removes
+#X text 41 40 If you send a symbol message to [fromsymbol] \, it removes
 the "symbol" selector and convert the message to "anything" (composed
 of one element).;
-#X msg 605 215 anything goes;
-#X obj 605 257 cyclone/tosymbol;
-#X symbolatom 605 296 17 0 0 0 - - -, f 17;
-#X obj 605 366 route list;
-#X obj 605 330 cyclone/fromsymbol;
-#X obj 662 397 print Not_a_list;
-#X text 480 126 And \, as you might already have noticed \, a symbol
+#X msg 575 155 anything goes;
+#X obj 575 197 cyclone/tosymbol;
+#X symbolatom 575 236 17 0 0 0 - - -, f 17;
+#X obj 575 270 cyclone/fromsymbol;
+#X obj 674 337 print Not_a_list;
+#X text 460 66 And \, as you might already have noticed \, a symbol
 composed of more than one element without a list selector is converted
 to "anything" (with more than one element). Just making it really clear...
 ;
+#X obj 575 306 route symbol list;
 #X connect 0 0 2 0;
 #X connect 0 0 5 0;
 #X connect 1 0 0 0;
@@ -160,29 +161,39 @@ to "anything" (with more than one element). Just making it really clear...
 #X connect 6 1 8 0;
 #X connect 10 0 11 0;
 #X connect 11 0 12 0;
-#X connect 12 0 14 0;
-#X connect 13 1 15 0;
-#X connect 14 0 13 0;
-#X restore 391 191 pd symbol_to_anything;
-#X text 85 165 symbol to float:;
-#N canvas 455 75 500 377 symbol_to_bang 0;
-#X obj 185 197 cyclone/fromsymbol;
-#X symbolatom 185 156 20 0 0 0 - - -, f 20;
-#X msg 185 119 symbol bang;
-#X obj 185 267 route bang;
-#X obj 185 301 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X text 65 48 Since the [fromsymbol] object removes the "symbol" selector
+#X connect 12 0 13 0;
+#X connect 13 0 16 0;
+#X connect 16 2 14 0;
+#X restore 391 192 pd symbol_to_anything;
+#X text 105 163 symbol to float:;
+#N canvas 455 75 444 344 symbol_to_bang 0;
+#X obj 68 184 cyclone/fromsymbol;
+#X symbolatom 68 143 20 0 0 0 - - -, f 20;
+#X msg 68 106 symbol bang;
+#X obj 68 254 route bang;
+#X obj 68 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X text 43 23 Since the [fromsymbol] object removes the "symbol" selector
 \, if you have a "symbol bang" message \, it converts it to a bang:
 ;
-#X text 212 300 <= bang message;
-#X obj 213 228 print fromsymbol;
+#X text 95 287 <= bang message;
+#X obj 96 215 print fromsymbol;
+#X obj 265 212 cyclone/fromsymbol;
+#X obj 265 260 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 275 237 <= bang message;
+#X obj 265 188 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 315 184 as a bang;
+#X text 263 169 a bang just comes out;
 #X connect 0 0 3 0;
 #X connect 0 0 7 0;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
 #X connect 3 0 4 0;
-#X restore 405 211 pd symbol_to_bang;
+#X connect 8 0 9 0;
+#X connect 11 0 8 0;
+#X restore 405 212 pd symbol_to_bang;
 #N canvas 688 403 500 377 separators 0;
 #X symbolatom 185 156 20 0 0 0 - - -, f 20;
 #X obj 213 228 print fromsymbol;
@@ -208,20 +219,24 @@ one element from the other. The default separator is a "space".;
 #X connect 5 1 7 0;
 #X connect 5 2 8 0;
 #X connect 5 3 9 0;
-#X restore 420 247 pd separators;
-#X text 70 93 [fromsymbol] converts a symbol message to anything (any
+#X restore 420 248 pd separators;
+#X text 70 90 [fromsymbol] converts a symbol message to anything (any
 kind of message). Start by typing a float in the atom symbol box below
 and see how it converts to a float message \, then check more examples.
 ;
-#X text 225 372 - sets the separator character;
-#X text 182 332 float;
-#X text 225 332 - just goes right through as a float;
-#X text 188 352 list;
-#X text 225 352 - truncates to first element;
-#X text 104 372 separator <symbol>;
-#X obj 2 473 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X text 225 365 - sets the separator character;
+#X text 181 331 float;
+#X text 225 331 - just goes right through as a float;
+#X text 187 348 list;
+#X text 103 365 separator <symbol>;
+#X obj 2 452 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 105 482 @separator <symbol>;
-#X text 225 482 - sets the separator character (default "space");
+#X text 105 461 @separator <symbol>;
+#X text 225 461 - sets the separator character (default "space");
+#X text 225 298 - the symbol to be converted to any message type;
+#X text 187 314 bang;
+#X text 225 314 - outputs a bang;
+#X text 225 348 - if the 1st element is a float \, it goes through
+;
 #X connect 5 0 6 0;
 #X connect 6 0 13 0;

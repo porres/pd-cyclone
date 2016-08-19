@@ -1,25 +1,19 @@
-#N canvas 635 23 572 481 10;
-#X obj 2 380 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 428 39 559 545 10;
+#X obj 2 308 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 452 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 400 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 512 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 452 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 87 391 cnv 17 3 54 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 87 319 cnv 17 3 54 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 485 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 87 430 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X msg 152 202 clear;
-#X floatatom 138 280 5 0 0 0 - - -, f 5;
-#X floatatom 255 280 5 0 0 0 - - -, f 5;
-#X floatatom 255 222 5 0 0 0 - - -, f 5;
-#X obj 87 461 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X msg 111 213 clear;
+#X floatatom 284 223 5 0 0 0 - - -, f 5;
+#X obj 87 408 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 599 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
-#X obj 2 599 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
-#X obj 2 578 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 484 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 500 115 387 333 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -40,7 +34,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 580 pd META;
+#X restore 503 486 pd META;
 #N canvas 358 146 430 80 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -49,91 +43,21 @@ this patch for Pd-Vanilla 0.47-2.;
 #C restore;
 #X obj 177 31 cyclone/Table;
 #C restore;
-#X restore 201 580 pd Related_objects;
-#X obj 255 156 vradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856
+#X restore 201 486 pd Related_objects;
+#X obj 284 157 vradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856
 -1 -1 1;
-#X obj 277 157 cyclone/comment 100 11 helvetica ? 0 80 80 80 0;
-#X obj 277 172 cyclone/comment 100 11 helvetica ? 0 80 80 80 1;
-#X obj 277 187 cyclone/comment 100 11 helvetica ? 0 80 80 80 2;
-#X obj 277 202 cyclone/comment 100 11 helvetica ? 0 80 80 80 3;
-#X obj 471 95 cyclone/comment 100 11 helvetica ? 0 80 80 80 query;
-#X obj 446 95 cyclone/comment 100 11 helvetica ? 0 80 80 80 <----;
-#X obj 86 282 cyclone/comment 100 11 helvetica ? 0 80 80 80 the value
-;
-#X obj 177 282 cyclone/comment 100 11 helvetica ? 0 80 80 80 was repeated
-;
-#X obj 291 282 cyclone/comment 100 11 helvetica ? 0 80 80 80 times
-;
-#N canvas 281 97 625 358 Examples 0;
-#X obj 2 2 cnv 15 620 40 empty empty histo 3 12 0 18 -204280 -1 0;
-#X text 21 24 examples;
-#X obj 2 354 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 334 cnv 15 620 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 520 160 390 115 credits 0;
-#X text 86 32 Examples from Max 7 Documentation., f 36;
-#X restore 543 336 pd credits;
-#X obj 35 69 cyclone/comment 148 11 helvetica ? 0 80 80 80 ... about
-the behavior;
-#X obj 223 81 loadbang;
-#X obj 223 103 t b b b b;
-#X msg 32 168 6;
-#X msg 274 165 6;
-#X floatatom 32 222 5 0 0 0 - - -, f 5;
-#X floatatom 107 222 5 0 0 0 - - -, f 5;
-#X floatatom 199 222 5 0 0 0 - - -, f 5;
-#X floatatom 274 222 5 0 0 0 - - -, f 5;
-#X obj 30 249 cyclone/comment 110 11 helvetica ? 0 80 80 80 count the
-number first \, then report the count;
-#X obj 198 249 cyclone/comment 134 11 helvetica ? 0 80 80 80 don't
-count the number this time \, but report how many times it has been
-received previously;
-#X obj 465 147 notein 1;
-#X obj 465 169 stripnote;
-#X obj 465 233 cyclone/Table;
-#C restore;
-#X obj 430 202 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 400 91 cyclone/comment 201 11 helvetica ? 0 80 80 80 [cyclone/histo]
-can be helfull to use random "quantile" messages to make probabilistic
-choices based on past history;
-#X obj 32 190 cyclone/histo;
-#X obj 199 190 cyclone/histo;
-#X obj 465 201 cyclone/histo;
-#X connect 6 0 7 0;
-#X connect 7 0 8 0;
-#X connect 7 1 8 0;
-#X connect 7 2 8 0;
-#X connect 7 3 9 0;
-#X connect 7 3 8 0;
-#X connect 8 0 21 0;
-#X connect 9 0 22 1;
-#X connect 16 0 17 0;
-#X connect 17 0 23 0;
-#X connect 19 0 18 0;
-#X connect 21 0 10 0;
-#X connect 21 1 11 0;
-#X connect 22 0 12 0;
-#X connect 22 1 13 0;
-#X connect 23 0 18 0;
-#X restore 400 258 pd Examples;
-#X obj 138 244 cyclone/histo, f 20;
-#X text 158 390 -;
-#X text 125 390 bang;
-#X text 158 410 -;
-#X text 118 410 float;
+#X obj 167 245 cyclone/histo, f 20;
+#X text 158 318 -;
+#X text 125 318 bang;
+#X text 158 338 -;
+#X text 118 338 float;
+#X text 158 358 -;
+#X text 158 409 -;
+#X text 118 409 float;
 #X text 158 430 -;
-#X text 158 463 -;
-#X text 118 463 float;
-#X text 158 485 -;
-#X text 118 485 float;
-#X text 173 463 the current input, f 60;
-#X text 173 485 number of times the current input was received, f
-60;
-#X text 158 529 -;
-#X text 95 529 1) float;
-#X text 173 529 set the size of the histogram. The default size is
-128 (0-127). (optional);
+#X text 118 430 float;
+#X text 158 461 -;
+#X text 100 461 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -150,30 +74,81 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 histo;
 #X obj 20 58 comment 0 18 times ? 0 0 0 0 Create a histogram of numbers
 ;
-#N canvas 0 22 450 300 back 0;
-#X restore 409 228 pd back;
-#X text 50 90 [histo] records and outputs histogram data of the numbers
-it receives.;
-#X obj 203 203 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 215 211 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 96 200 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -30 256;
-#X text 36 169 send it numbers;
-#X text 290 174 <= check how many times;
-#X text 311 188 it was received;
-#X text 173 390 repeat the last ouput, f 60;
-#X msg 138 163 0 \, 1 \, 1 \, 2 \, 2 \, 2 \, 2 \, 2, f 11;
-#X obj 64 212 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X text 303 171 <= check how many times;
+#X msg 167 164 0 \, 1 \, 1 \, 2 \, 2 \, 2 \, 2 \, 2, f 11;
+#X text 118 358 clear;
+#X text 173 358 erases the received numbers, f 60;
+#N canvas 180 242 447 311 backwards 0;
+#X text 185 110 or even:;
+#X text 49 150 But please don't \, just stick to;
+#X text 166 183 or;
+#X text 44 53 Nevertheless \, the old way of creating this object is
+still present for backwards compatibility reasons. So you can still
+use:;
+#X text 53 220 Which is the reasonable and sensible way nowadays \,
+as the current plan is to phase out the capital letters in cyclone's
+objects.;
+#X text 43 20 [histo] used to be compiled as [Histo] \, probably to
+avoid some name conflicts \, but this is not the case anymore.;
+#X obj 136 110 Histo;
+#X obj 252 110 cyclone/Histo;
+#X obj 114 182 histo;
+#X obj 201 183 cyclone/histo;
+#X restore 455 256 pd backwards \; compatibility;
+#N canvas 489 49 276 242 examples 0;
+#X obj 107 90 notein 1;
+#X obj 107 112 stripnote;
+#X obj 107 176 cyclone/Table;
+#C restore;
+#X obj 72 145 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X text 173 410 input values (integers from 0-127), f 60;
-#X text 118 430 clear;
-#X text 173 430 erases the received numbers, f 60;
-#X connect 5 0 26 0;
-#X connect 8 0 26 1;
-#X connect 15 0 8 0;
-#X connect 26 0 6 0;
-#X connect 26 1 7 0;
-#X connect 51 0 26 0;
-#X connect 52 0 26 0;
-#X connect 57 0 26 0;
-#X connect 58 0 52 0;
+#X obj 42 34 cyclone/comment 201 11 helvetica ? 0 80 80 80 [cyclone/histo]
+can be helfull to use random "quantile" messages to make probabilistic
+choices based on past history;
+#X obj 107 144 cyclone/histo;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 3 0 2 0;
+#X connect 5 0 2 0;
+#X restore 466 228 pd examples;
+#X obj 115 275 cyclone/comment 100 11 helvetica ? 0 0 0 0 the value
+;
+#X obj 209 275 cyclone/comment 100 11 helvetica ? 0 0 0 0 was repeated
+;
+#X obj 324 275 cyclone/comment 100 11 helvetica ? 0 0 0 0 times;
+#X text 55 171 send it numbers =>;
+#X text 310 185 a number was received;
+#X text 173 461 sets the histogram size - default 128 (0-127);
+#X text 191 514 integer error;
+#X obj 167 274 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 2 256;
+#X obj 284 274 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 10 256;
+#X text 173 338 input values (only positive integers), f 60;
+#X text 173 430 the number of times the value was received, f 60;
+#X text 173 409 the input value, f 60;
+#X obj 87 377 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 158 378 -;
+#X text 118 378 float;
+#X text 173 378 check how many tumes this number was received;
+#X floatatom 167 213 5 0 0 0 - - -, f 5;
+#X text 274 157 0;
+#X text 274 172 1;
+#X text 274 187 2;
+#X text 274 202 3;
+#X text 60 85 [histo] records how many times it received a number.
+An input number is sent out the left outlet and its occurence at the
+right outlet. A number in the right inlet checks and outputs that number's
+histogram.;
+#X text 173 318 repeat the last output or input?, f 60;
+#X connect 5 0 12 0;
+#X connect 6 0 12 1;
+#X connect 11 0 6 0;
+#X connect 12 0 46 0;
+#X connect 12 1 47 0;
+#X connect 32 0 12 0;
+#X connect 34 0 55 0;
+#X connect 55 0 12 0;

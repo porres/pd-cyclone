@@ -5,11 +5,11 @@
 ;
 #X obj 2 465 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 75 321 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 78 321 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 75 418 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 78 418 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 75 343 cnv 17 3 60 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 78 343 cnv 17 3 60 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 564 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
@@ -42,11 +42,10 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 141 31 cyclone/zl;
 #X restore 203 545 pd Related_objects;
 #X obj 294 269 print unchanged;
-#X msg 129 169 1 2 3 4;
 #X text 134 322 anything;
 #X text 134 372 anything;
 #X text 134 418 anything;
-#X obj 75 439 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 78 439 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 134 439 anything;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -66,43 +65,56 @@ Max/MSP;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Substitute elements in messages
 ;
 #X text 98 343 set <anything>;
-#X text 190 322 - any message to have elements substituted;
-#X text 190 343 - set followed by 2 items sets the 1st to be substituted
-by the 2nd \, other elements are ignored;
-#X text 190 373 - sets 1st element to be substituted by the 2nd \,
-other elements are ignored, f 57;
 #X text 92 478 1) float/symbol;
 #X text 92 495 2) float/symbol;
-#X text 192 478 - element to be substituted;
-#X text 192 495 - element to substitute the 1st given element to;
-#X text 192 418 - the substituted message;
-#X text 192 439 - the input message if no substitution occurred;
-#X text 52 91 [substitue] substitutes an element in an input message
-to another given element.;
+#X text 192 438 - the input message if no substitution occurred;
 #X msg 303 199 set 5 10;
-#X msg 294 175 5 4;
 #X msg 278 151 this that;
 #X obj 129 238 cyclone/substitute that this;
 #X msg 149 198 this and that;
-#X msg 106 146 5 5 5;
 #X obj 129 268 print substituted;
 #X text 92 513 3) float/symbol;
-#X text 192 513 - sets to "replace only first message" mode;
-#N canvas 196 23 574 514 first_only 0;
-#X obj 177 118 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 172 169 cyclone/substitute bang bunda;
-#X text 136 209 the input is echoed to the output \, but if the message
+#X text 52 91 [substitue] exchanges an element (the first argument)
+in an input message to another one (second argument).;
+#X text 190 322 - any message to have elements substituted or not;
+#X text 190 343 - set followed by 2 items sets the 1st element to be
+substituted by the 2nd (other elements are ignored);
+#X text 192 418 - the substituted message if a substitution occurred
+;
+#X text 190 373 - sets the 1st element to be substituted by the 2nd
+\, other elements are ignored (basically the same as "set");
+#X text 192 478 - the match element that should be replaced (default
+0);
+#X text 192 495 - the replacement for the match (default 0);
+#X text 192 513 - any element sets to "replace only first message"
+mode;
+#N canvas 654 176 574 514 first_only 0;
+#X text 136 258 the input is echoed to the output \, but if the message
 received contains an element matching the match symbol or number \,
 the element is replaced by the replacement symbol or number when the
 message is repeated to the output.;
-#X connect 0 0 1 0;
-#X restore 409 220 pd first_only;
-#X connect 11 0 39 0;
-#X connect 36 0 39 1;
-#X connect 37 0 39 1;
-#X connect 38 0 39 1;
-#X connect 39 0 42 0;
-#X connect 39 1 10 0;
-#X connect 40 0 39 0;
-#X connect 41 0 39 0;
+#X msg 193 122 1;
+#X floatatom 171 205 5 0 0 0 - - -, f 5;
+#X floatatom 304 199 5 0 0 0 - - -, f 5;
+#X obj 142 203 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 271 200 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 172 169 cyclone/substitute 1 2 x;
+#X connect 1 0 6 0;
+#X connect 6 0 2 0;
+#X connect 6 0 4 0;
+#X connect 6 1 3 0;
+#X connect 6 1 5 0;
+#X restore 442 243 pd first_only \; mode;
+#X msg 129 169 1 2 3 4 5;
+#X msg 106 146 5 5 5 4 4 4;
+#X msg 294 175 4 5;
+#X connect 28 0 30 1;
+#X connect 29 0 30 1;
+#X connect 30 0 32 0;
+#X connect 30 1 10 0;
+#X connect 31 0 30 0;
+#X connect 43 0 30 0;
+#X connect 44 0 30 0;
+#X connect 45 0 30 1;
