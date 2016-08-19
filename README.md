@@ -23,15 +23,15 @@ In its current form, cyclone is mainly for people using both Max and Pd, and thu
 
 <strong>History of cyclone's maintenance up to the present day:</strong>
 
-Cyclone's original author is Krzysztof Czaja, who worked on it mostly from 2002-2005 and then abandoned it. 
+Cyclone's original author is Krzysztof Czaja, who worked on it mostly from 2002 to 2005 and later abandoned it. 
 
-After that, cyclone ended up incorporated into Pd Extended and, around 2007, was under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of the Pd-Extended project. Cyclone was then maintained until the last release of Pd Extended (in jan-2013). After unmaintained for a while, Fred Jan Kraan did maintain and develop for cyclone from dec-2014 to feb-2016, when development for cyclone was abandoned (though maintenance for his last package is still active). Since feb-2016, an active further development of cyclone is being proposed by Alexandre Porres & collaborators on this repository (mainly Derek Kwan and Matt Barber).
+After being abandoned, cyclone ended up incorporated into Pd Extended and, around 2007, was under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of the Pd-Extended project. Cyclone was then maintained until the last release of Pd Extended (in jan-2013). After unmaintained for a while, Fred Jan Kraan did maintain and develop for cyclone from dec-2014 to feb-2016, when development for cyclone was abandoned (though maintenance for his last package is still active). Since feb-2016, an active further development of cyclone is being proposed by Alexandre Porres & collaborators (mainly Derek Kwan and Matt Barber) on this repository.
 
 -------
 
 <strong>About earlier versions and repositories:</strong>
 
-Original Repository (up to version 0.1-Alpha 56):
+Original Repository (up to version 0.1-Alpha-56):
 
 Cyclone was originally part of the MiXed library (also written by cyclone's original author Krzysztof Czaja). The original repository of MiXed, containing cyclone and more (such as 'toxy , 'ViCious', 'riddle') resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. 
 
