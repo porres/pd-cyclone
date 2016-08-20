@@ -4,7 +4,7 @@
 
 /* CHECKME undocumented: readbinbuf, writebinbuf (a clipboard-like thing?) */
 
-//Derek Kwan 2016 - changing mtrack_list to mtrack_anything, fixing issues with first elts interpreted as selctors
+//Derek Kwan 2016 - changing mtrack_list to mtrack_anything, fixing issues with first elts interpreted as selectors, changing mtrack_float and mtrack_symbol to feed through mtrack_anything, changing mtrack_donext to treat everything as a list
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -114,18 +114,11 @@ static void mtrack_donext(t_mtrack *tp)
 	    if (!tp->tr_muted)
 	    {
 		int ac = ixnext - ixmess;
-		if (ac > 1)
-		{
 		    if (atmess->a_type == A_FLOAT)
 			outlet_list(tp->tr_trackout, &s_list, ac, atmess);
 		    else if (atmess->a_type == A_SYMBOL)
 			outlet_anything(tp->tr_trackout,
 					atmess->a_w.w_symbol, ac-1, atmess+1);
-		}
-		else if (atmess->a_type == A_FLOAT)
-		    outlet_float(tp->tr_trackout, atmess->a_w.w_float);
-		else if (atmess->a_type == A_SYMBOL)
-			outlet_symbol(tp->tr_trackout, atmess->a_w.w_symbol);
 	    }
 	    tp->tr_atdelta = 0;
 	    tp->tr_ixnext = ixnext;
@@ -204,13 +197,47 @@ static void mtrack_doadd(t_mtrack *tp, int ac, t_atom *av)
     }
 }
 
+static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
+{
+    if (tp->tr_mode == MTR_RECMODE){
+        if(s){
+            if(strcmp(s->s_name, "list") != 0){
+                //copy list to new t_atom with symbol as first elt
+                int destpos = 0; //position in copied list
+                t_atom at[ac+1];
+                SETSYMBOL(&at[destpos], s);
+                destpos++;
+                int arrpos = 0; //position in arriving list
+                for(destpos=1; destpos<ac+1; destpos++){
+                    if((av+arrpos)->a_type == A_FLOAT){
+                        t_float curfloat = atom_getfloatarg(arrpos, ac, av);
+                        SETFLOAT(&at[destpos], curfloat);
+                    }
+                    else{
+                        t_symbol * cursym = atom_getsymbolarg(arrpos, ac, av);
+                        SETSYMBOL(&at[destpos], cursym);
+                    };
+
+                //increment
+                arrpos++;
+                };
+                mtrack_doadd(tp, ac+1, &at);
+            };
+        }
+        else{
+            mtrack_doadd(tp, ac, av);
+        };
+    };
+}
+
+
 static void mtrack_float(t_mtrack *tp, t_float f)
 {
     if (tp->tr_mode == MTR_RECMODE)
     {
 	t_atom at;
 	SETFLOAT(&at, f);
-	mtrack_doadd(tp, 1, &at);
+	mtrack_anything(tp, 0, 1, &at);
     }
 }
 
@@ -218,42 +245,15 @@ static void mtrack_symbol(t_mtrack *tp, t_symbol *s)
 {
     if (tp->tr_mode == MTR_RECMODE)
     {
-	t_atom at;
-	SETSYMBOL(&at, s);
-	mtrack_doadd(tp, 1, &at);
+	t_atom at[2];
+        t_symbol *cursym = gensym("symbol");
+        SETSYMBOL(&at[0], cursym);
+	SETSYMBOL(&at[1], s);
+	mtrack_anything(tp, 0, 2, &at);
     }
 }
 
-static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
-{
-    if (tp->tr_mode == MTR_RECMODE){
-        if(strcmp(s->s_name, "list") != 0 && strcmp(s->s_name, "symbol") != 0){
-            //copy list to new t_atom with symbol as first elt
-            int destpos = 0; //position in copied list
-            t_atom at[ac+1];
-            SETSYMBOL(&at[destpos], s);
-            destpos++;
-            int arrpos = 0; //position in arriving list
-            for(destpos=1; destpos<ac+1; destpos++){
-                if((av+arrpos)->a_type == A_FLOAT){
-                    t_float curfloat = atom_getfloatarg(arrpos, ac, av);
-                    SETFLOAT(&at[destpos], curfloat);
-                }
-                else{
-                    t_symbol * cursym = atom_getsymbolarg(arrpos, ac, av);
-                    SETSYMBOL(&at[destpos], cursym);
-                };
 
-            //increment
-            arrpos++;
-            };
-            mtrack_doadd(tp, ac+1, &at);
-        }
-        else{
-            mtrack_doadd(tp, ac, av);
-        };
-    };
-}
 
 static void mtrack_record(t_mtrack *tp)
 {
