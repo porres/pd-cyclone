@@ -39,7 +39,7 @@ Krzysztof Czaja had a webpage for cyclone that no longer exists, but a copy of i
 
 The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone. The last version from the original cyclone repository is 0.1-alpha-56 as well and it can also be foung as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (since Pd Vanilla 0.47-0).
 
-Fred Jan Kraan's Repository (versions 0.1-Alpha-57 and 0.2beta1):
+Fred Jan Kraan's Repository (versions 0.1-Alpha-57 and 0.2beta):
 
 Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the cyclone library, where he worked on further developments and releases, such as cyclone version 0.1alpha-57 from october 2015 (available here: <https://github.com/porres/pd-cyclone/releases/tag/0.1alpha57>).
 
@@ -53,7 +53,7 @@ Location of this repository is: https://github.com/porres/pd-cyclone.
 
 When cyclone was been left unmaintained (in february 2016), Porres forked cyclone in its last 0.2beta state to this new repository, where developments for a further release have been made since then.
 
-This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. 
+This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone.
 
 Cyclone was originally developed in Max/MSP 4 era - but Max has since then introduced new functionalities on some objects in the more recent versions (from Max 5 to Max 7). The current version of Cyclone (0.2beta) still has some objects with functionalities from Max/MSP 4, but with already some objects updated to include some of the new functionalities introduced in Max 5 (but still missing functionalities from Max 6 and Max 7 versions). 
 
