@@ -222,7 +222,10 @@ static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
                 arrpos++;
                 };
                 mtrack_doadd(tp, ac+1, &at);
-            };
+            }
+            else{
+                mtrack_doadd(tp, ac, av);
+             };
         }
         else{
             mtrack_doadd(tp, ac, av);
