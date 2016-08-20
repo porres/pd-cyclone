@@ -2,6 +2,9 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+
+//Derek Kwan 2016 - adding separator attribute
+
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
@@ -157,15 +160,50 @@ static void tosymbol_free(t_tosymbol *x)
 	freebytes(x->x_buffer, x->x_bufsize);
 }
 
-static void *tosymbol_new(void)
+static void *tosymbol_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_tosymbol *x = (t_tosymbol *)pd_new(tosymbol_class);
-    x->x_separator = 0;  /* default: a space */
+
+    t_symbol * sep; //separator 
+    int sepset = 0; //if the separator is passed via attribute
+    while(argc){
+        if(argv->a_type == A_SYMBOL){
+            if(argc >= 2){
+                t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+                if(strcmp(cursym->s_name, "@separator") == 0){
+                    sep = atom_getsymbolarg(1, argc, argv);
+                    sepset = 1;
+                    //increment/decrement
+                    argc-=2;
+                    argv+=2;
+                }
+                else{
+                    goto errstate;
+                };
+            }
+            else{
+                goto errstate;
+            };
+        }
+        else{
+            goto errstate;
+        };
+
+    };
+    if(sepset){
+        tosymbol_separator(x, sep);
+    }
+    else{
+        x->x_separator = 0;  /* default: a space */
+    };
     x->x_bufsize = TOSYMBOL_INISTRING;
     x->x_buffer = x->x_bufini;
     x->x_entered = 0;
     outlet_new((t_object *)x, &s_symbol);
     return (x);
+	errstate:
+		pd_error(x, "tosymbol: improper args");
+		return NULL;
 }
 
 void tosymbol_setup(void)
@@ -173,7 +211,7 @@ void tosymbol_setup(void)
     tosymbol_class = class_new(gensym("tosymbol"),
 			       (t_newmethod)tosymbol_new,
 			       (t_method)tosymbol_free,
-			       sizeof(t_tosymbol), 0, 0);
+			       sizeof(t_tosymbol), 0, A_GIMME, 0);
     class_addbang(tosymbol_class, tosymbol_bang);
     class_addfloat(tosymbol_class, tosymbol_float);
     class_addsymbol(tosymbol_class, tosymbol_symbol);
