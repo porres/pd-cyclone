@@ -51,7 +51,7 @@ Cyclone "0.2beta" is the next and last currently released version of Cyclone. It
 
 Location of this repository is: https://github.com/porres/pd-cyclone. 
 
-When cyclone was been left unmaintained (in february 2016), Porres forked cyclone in its last 0.2beta state to this new repository, where developments for a further release have been made since then.
+When cyclone was been left unmaintained (in february 2016), Porres forked cyclone in its last 0.2beta state to this new repository, where developments for a further release have been in the makings since then.
 
 This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone.
 
