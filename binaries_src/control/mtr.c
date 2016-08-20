@@ -200,8 +200,8 @@ static void mtrack_doadd(t_mtrack *tp, int ac, t_atom *av)
 static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
 {
     if (tp->tr_mode == MTR_RECMODE){
-        if(s){
-            if(strcmp(s->s_name, "list") != 0){
+        if(s && av){
+            if(strcmp(s->s_name, "list") != 0 || av->a_type != A_FLOAT){
                 //copy list to new t_atom with symbol as first elt
                 int destpos = 0; //position in copied list
                 t_atom at[ac+1];
