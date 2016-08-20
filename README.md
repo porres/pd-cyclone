@@ -29,7 +29,7 @@ After being abandoned, cyclone ended up incorporated into Pd Extended and, aroun
 
 -------
 
-<strong>About earlier versions and repositories:</strong>
+<strong>About earlier versions and other repositories:</strong>
 
 Original Repository (up to version 0.1-Alpha-56):
 
@@ -69,7 +69,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 
 Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/changelog
 
-Readme file created February 22nd 2016 (last edited, August 18th 2016)
+Readme file created February 22nd 2016 (last edited, August 19th 2016)
 
 -------
 <strong>Building Cyclone</strong>
