@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 
-//Derek Kwan 2016 - adding separator attribute
+//Derek Kwan 2016 - adding separator attribute, redoing tosymbol_separator
 
 #include <stdio.h>
 #include <string.h>
@@ -144,15 +144,35 @@ static void tosymbol_anything(t_tosymbol *x, t_symbol *s, int ac, t_atom *av)
     }
 }
 
+static void tosymbol_separator(t_tosymbol *x, t_symbol *s, int argc, t_atom * argv)
+{
+    //hack to make it detect " " - Derek Kwan
+    int numq = 0; //number of quotes in a row, if mod 2 == 0 and  > 0, count as space
+    int set = 0; //if separator is set
+    while(argc){
+        t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+        if(strcmp(cursym->s_name, "@separator")!=0){
+            x->x_separator = cursym;
+            set = 1;
+            };
+        if(strcmp(cursym->s_name, "\"\0") == 0 || strcmp(cursym->s_name, "'\0") == 0){
+            numq++;
+        };
+        argc--;
+        argv++;
+    };
+    if((numq > 0 && numq % 2 == 0) || set == 0){
+        //if follows quote conditions or not set
+        x->x_separator = gensym(" ");
+    };
+}
+
+
 static void tosymbol_list(t_tosymbol *x, t_symbol *s, int ac, t_atom *av)
 {
     tosymbol_anything(x, 0, ac, av);
 }
 
-static void tosymbol_separator(t_tosymbol *x, t_symbol *s)
-{
-    x->x_separator = (s ? s : &s_);  /* default: empty string */
-}
 
 static void tosymbol_free(t_tosymbol *x)
 {
@@ -164,46 +184,24 @@ static void *tosymbol_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_tosymbol *x = (t_tosymbol *)pd_new(tosymbol_class);
 
-    t_symbol * sep; //separator 
-    int sepset = 0; //if the separator is passed via attribute
-    while(argc){
-        if(argv->a_type == A_SYMBOL){
-            if(argc >= 1){
-                t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
-                if(strcmp(cursym->s_name, "@separator") == 0){
-                    if(argc >= 2){
-                        //if something is passed
-                        sep = atom_getsymbolarg(1, argc, argv);
-                        sepset = 1;
-                        //increment/decrement
-                        argc-=2;
-                        argv+=2;
-                    }
-                    else{
-                        //do nothing
-                        argc--;
-                        argv++;
-                    };
-                }
-                else{
-                    goto errstate;
-                };
-            }
-            else{
-                goto errstate;
-            };
+    
+    if(argc >= 1){
+        t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
+        if(strcmp(curarg->s_name, "@separator") == 0){
+            argc--;
+            argv++;
+            tosymbol_separator(x, 0, argc, argv);
         }
         else{
             goto errstate;
         };
 
-    };
-    if(sepset){
-        tosymbol_separator(x, sep);
     }
     else{
-        x->x_separator = 0;  /* default: a space */
+        tosymbol_separator(x, 0, 0, 0);
     };
+
+    
     x->x_bufsize = TOSYMBOL_INISTRING;
     x->x_buffer = x->x_bufini;
     x->x_entered = 0;
@@ -227,5 +225,5 @@ void tosymbol_setup(void)
     class_addlist(tosymbol_class, tosymbol_list);
     class_addanything(tosymbol_class, tosymbol_anything);
     class_addmethod(tosymbol_class, (t_method)tosymbol_separator,
-		    gensym("separator"), A_DEFSYM, 0);
+		    gensym("separator"), A_GIMME, 0);
 }
