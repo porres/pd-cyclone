@@ -161,9 +161,13 @@ static void tosymbol_separator(t_tosymbol *x, t_symbol *s, int argc, t_atom * ar
         argc--;
         argv++;
     };
-    if((numq > 0 && numq % 2 == 0) || set == 0){
-        //if follows quote conditions or not set
+    if(numq > 0 && numq % 2 == 0){
+        //if follows quote conditions
         x->x_separator = gensym(" ");
+    }
+    else if(!set){
+        //removes all spaces if not set
+        x->x_separator = 0;
     };
 }
 

@@ -88,6 +88,7 @@ static void fromsymbol_separator(t_fromsymbol *x, t_symbol *s, int argc, t_atom 
     };
 }
 
+
 static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
     //new and redone - Derek Kwan
     long unsigned int seplen = strlen(x->x_separator->s_name);
