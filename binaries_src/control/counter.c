@@ -172,8 +172,8 @@ static void counter_dobang(t_counter *x, int notjam)
 
 static void counter_bang(t_counter *x)
 {
-    x->x_count += x->x_inc;
     counter_dobang(x, 1);
+    x->x_count += x->x_inc;
 }
 
 static void counter_float(t_counter *x, t_float dummy)
