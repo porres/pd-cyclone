@@ -168,14 +168,22 @@ static void *tosymbol_new(t_symbol *s, int argc, t_atom *argv)
     int sepset = 0; //if the separator is passed via attribute
     while(argc){
         if(argv->a_type == A_SYMBOL){
-            if(argc >= 2){
+            if(argc >= 1){
                 t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
                 if(strcmp(cursym->s_name, "@separator") == 0){
-                    sep = atom_getsymbolarg(1, argc, argv);
-                    sepset = 1;
-                    //increment/decrement
-                    argc-=2;
-                    argv+=2;
+                    if(argc >= 2){
+                        //if something is passed
+                        sep = atom_getsymbolarg(1, argc, argv);
+                        sepset = 1;
+                        //increment/decrement
+                        argc-=2;
+                        argv+=2;
+                    }
+                    else{
+                        //do nothing
+                        argc--;
+                        argv++;
+                    };
                 }
                 else{
                     goto errstate;
