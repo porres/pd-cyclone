@@ -65,25 +65,13 @@ static void fromsymbol_float(t_fromsymbol *x, t_float f)
 outlet_float(((t_object *)x)->ob_outlet, f);
 }
 
-static void fromsymbol_separator(t_fromsymbol *x, t_symbol *s, int argc, t_atom * argv)
+static void fromsymbol_separator(t_fromsymbol *x, t_symbol *s)
 {
-    //hack to make it detect " " - Derek Kwan
-    int numq = 0; //number of quotes in a row, if mod 2 == 0 and  > 0, count as space
-    int set = 0; //if separator is set
-    while(argc){
-        t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
-        if(strcmp(cursym->s_name, "@separator")!=0){
-            x->x_separator = cursym;
-            set = 1;
-            };
-        if(strcmp(cursym->s_name, "\"\0") == 0 || strcmp(cursym->s_name, "'\0") == 0){
-            numq++;
-        };
-        argc--;
-        argv++;
-    };
-    if((numq > 0 && numq % 2 == 0) || set == 0){
-        //if follows quote conditions or not set
+    //changing it up so we default to " " 
+    if(strlen(s->s_name) > 0){
+        x->x_separator = s;
+    }
+    else{
         x->x_separator = gensym(" ");
     };
 }
@@ -185,21 +173,47 @@ static void fromsymbol_anything(t_fromsymbol *x, t_symbol *s, int ac, t_atom *av
 static void *fromsymbol_new(t_symbol * s, int argc, t_atom * argv){
     t_fromsymbol *x = (t_fromsymbol *)pd_new(fromsymbol_class);
 
-    if(argc >= 1){
-        t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
-        if(strcmp(curarg->s_name, "@separator") == 0){
-            argc--;
-            argv++;
-            fromsymbol_separator(x, 0, argc, argv);
+    t_symbol * sep; //separator 
+    int sepset = 0; //if the separator is passed via attribute
+    while(argc){
+        if(argv->a_type == A_SYMBOL){
+            if(argc >= 1){
+                t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+                if(strcmp(cursym->s_name, "@separator") == 0){
+                    if(argc >= 2){
+                        //if something is passed
+                        sep = atom_getsymbolarg(1, argc, argv);
+                        sepset = 1;
+                        //increment/decrement
+                        argc-=2;
+                        argv+=2;
+                    }
+                    else{
+                        //do nothing
+                        argc--;
+                        argv++;
+                    };
+                }
+                else{
+                    goto errstate;
+                };
+            }
+            else{
+                goto errstate;
+            };
         }
         else{
             goto errstate;
         };
 
+    };
+    if(sepset){
+        fromsymbol_separator(x, sep);
     }
     else{
-        fromsymbol_separator(x, 0, 0, 0);
+        x->x_separator = gensym(" ");  /* default: a space */
     };
+
     outlet_new((t_object *)x, &s_anything);
     return (x);
 	errstate:
@@ -217,5 +231,5 @@ void fromsymbol_setup(void)
     class_addsymbol(fromsymbol_class, fromsymbol_symbol);
     class_addlist(fromsymbol_class, fromsymbol_list);
     class_addanything(fromsymbol_class, fromsymbol_anything);
-    class_addmethod(fromsymbol_class, (t_method)fromsymbol_separator, gensym("separator"), A_GIMME, 0);
+    class_addmethod(fromsymbol_class, (t_method)fromsymbol_separator, gensym("separator"), A_DEFSYM, 0);
 }

@@ -276,7 +276,9 @@ static void counter_float2(t_counter *x, t_floatarg f)
 /* CHECKED */
 static void counter_bang3(t_counter *x)
 {
-    counter_jam(x, x->x_min);
+    counter_set(x, x->x_min);
+    counter_dobang(x, 1);
+    x->x_count += x->x_inc;
 }
 
 /* CHECKED: out-of-range values are accepted (LATER rethink) */
