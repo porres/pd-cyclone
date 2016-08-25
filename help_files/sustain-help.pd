@@ -1,25 +1,25 @@
-#N canvas 685 243 558 492 10;
-#X obj 2 367 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#N canvas 737 23 558 537 10;
+#X obj 2 390 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 419 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 439 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 113 375 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 103 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 270 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 2 275 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 113 281 cnv 17 3 32 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 103 283 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 251 161 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+#X obj 318 159 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
-#X obj 113 342 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 103 368 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 142 428 (none);
-#X obj 113 396 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 132 447 (none);
+#X obj 103 418 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 113 320 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 103 347 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 164 198 cyclone/sustain;
-#X obj 2 452 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 195 196 cyclone/sustain, f 21;
+#X obj 2 498 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 526 102 390 380 META 0;
 #X text 11 29 LICENSE SIBSD;
@@ -42,7 +42,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 505 454 pd META;
+#X restore 505 500 pd META;
 #N canvas 383 144 430 89 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -50,19 +50,19 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 246 33 cyclone/midiflush;
 #X obj 82 33 stripnote;
 #X obj 17 33 makenote;
-#X restore 207 454 pd Related_objects;
-#X text 188 279 -;
-#X text 148 279 float;
-#X text 188 298 -;
-#X text 154 298 list;
-#X text 188 321 -;
-#X text 148 321 float;
-#X text 188 343 -;
-#X text 148 343 float;
-#X text 188 376 -;
-#X text 188 398 -;
-#X text 203 376 the pitch value of a pitch-velocity pair, f 49;
-#X text 203 398 the velocity value of a pitch-velocity pair, f 49
+#X restore 207 500 pd Related_objects;
+#X text 172 281 -;
+#X text 136 281 float;
+#X text 172 298 -;
+#X text 142 298 list;
+#X text 172 348 -;
+#X text 136 348 float;
+#X text 172 369 -;
+#X text 136 369 float;
+#X text 172 398 -;
+#X text 172 420 -;
+#X text 187 398 the pitch value of a pitch-velocity pair, f 49;
+#X text 187 420 the velocity value of a pitch-velocity pair, f 49
 ;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -79,24 +79,21 @@ Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 sustain;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Sustain pedal emulator;
-#X obj 251 225 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 318 223 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 254 242 velocity;
-#X obj 164 225 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 50 256;
-#X text 167 242 pitch;
-#X text 280 165 On/Off;
-#X obj 108 139 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 50 256;
-#X obj 108 165 makenote 100 1500;
-#X text 75 92 [sustain] holds the note off messages while it is on
+#X obj 195 223 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 64 256;
+#X text 347 163 On/Off;
+#X obj 195 137 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 64 256;
+#X text 65 92 [sustain] holds the note off messages while it is on
 and sends the held note off messages when it's switched off.;
-#X text 148 376 float;
-#X text 148 398 float;
-#X text 203 298 a pair of pitch/velocity velues from note message;
-#X text 203 279 the pitch part of a note message;
-#X text 203 321 the velocity part of a note message, f 49;
-#X text 203 343 pedal swicth: on <1> \, off <0>;
+#X text 132 398 float;
+#X text 132 420 float;
+#X text 187 298 a pair of pitch/velocity velues from note message;
+#X text 187 281 the pitch part of a note message;
+#X text 187 348 the velocity part of a note message, f 49;
+#X text 187 369 pedal swicth: on <1> \, off <0>;
 #N canvas 684 185 441 481 examples 0;
 #X obj 204 75 ctlin 64 1;
 #X obj 204 101 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
@@ -120,6 +117,26 @@ pedal and feed it to the [sutain] object.;
 note messages.;
 #X obj 204 419 print;
 #X obj 204 392 pack float float;
+#N canvas 705 38 689 514 attributes 0;
+#X text 132 55 @repeatmode [int] \; Sets the behavior mode for handling
+repeated note-on messages. There are three modes of behavior \; \;
+repeatmode 0: (Historical way) Playing the same note multiple times
+will not retrigger the played note when the sustain pedal is pressed
+or after a sustain 1 message is received. This is the default state
+of the object. repeatmode 1: (Re-trigger) Playing the same note multiple
+times will send a note off message and retrigger the played note no
+matter what its sustain state is. The sustain object will also keep
+track of the notes to stop when the sustain pedal is released or a
+sustain 0 message is received. repeatmode 2: (Stop last) Playing the
+same note multiple times will cause the sustain object to keep a count
+of the number of times the note has been played \, holding and sending
+the accumulated note off messages when the sustain pedal is released
+or a sustain 0 message is received. Possible values \; 0 = 'Historical
+Way' \; 1 = 'Re-Trigger' \; 2 = 'Stop Last';
+#X text 133 365 @sustain [int] \; Enables (1) or disables (0) sustain
+mode. Setting this attribute or sending the message sustain 1 or sustain
+0 is equivalent to pressing or releasing the sustain pedal.;
+#X restore 344 444 pd attributes;
 #X connect 0 0 1 0;
 #X connect 1 0 2 2;
 #X connect 2 0 6 0;
@@ -136,10 +153,27 @@ note messages.;
 #X connect 13 0 8 0;
 #X connect 14 0 8 0;
 #X connect 17 0 16 0;
-#X restore 387 193 pd examples;
+#X restore 475 242 pd examples;
+#X obj 2 468 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 127 476 @repeatmode <float> | @sustain <float>;
+#X text 136 314 clear - clears the memory (no note-off messages are
+output);
+#X text 136 331 flush - outputs all held note-offs;
+#X msg 103 151 clear;
+#X msg 147 151 flush;
+#X text 260 222 velocity:;
+#X text 155 222 pitch:;
+#X obj 318 244 print velocity;
+#X obj 195 244 print velocity;
+#X obj 195 163 makenote 90 750;
 #X connect 5 0 10 2;
-#X connect 10 0 36 0;
+#X connect 10 0 35 0;
 #X connect 10 1 34 0;
-#X connect 39 0 40 0;
-#X connect 40 0 10 0;
-#X connect 40 1 10 1;
+#X connect 34 0 54 0;
+#X connect 35 0 55 0;
+#X connect 37 0 56 0;
+#X connect 50 0 10 0;
+#X connect 51 0 10 0;
+#X connect 56 0 10 0;
+#X connect 56 1 10 1;

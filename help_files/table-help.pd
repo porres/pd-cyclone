@@ -1,4 +1,4 @@
-#N canvas 436 113 560 576 10;
+#N canvas 724 23 564 580 10;
 #X obj 2 264 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 380 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -46,95 +46,6 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 305 33 cyclone/histo;
 #X obj 12 33 cyclone/capture;
 #X restore 198 488 pd Related_objects;
-#N canvas 523 45 629 695 allMessages 1;
-#X text 152 73 outputs the stored numbers on the left outlet, f 78
-;
-#X text 98 8 clear -;
-#X text 152 9 sets all values to 0, f 78;
-#X text 50 25 const <float> -;
-#X text 92 42 cancel -;
-#X text 104 74 dump -;
-#X text 26 106 fquantile <float> -;
-#X text 56 193 goto <float> -;
-#X text 104 257 load -;
-#X text 92 240 length -;
-#X text 152 239 outputs the table size, f 78;
-#X text 151 273 retrieves the maximum stored value, f 78;
-#X text 110 273 max -;
-#X text 110 289 min -;
-#X text 151 289 retrieves the minimum stored value, f 78;
-#X text 104 305 next -;
-#X text 151 305 sends the value stored in the address pointed at by
-the pointer out the left outlet \, then sets the pointer to the next
-address. If the pointer is currently at the last address in the [Table]
-\, it wraps around to the first address., f 78;
-#X text 92 348 normal -;
-#X text 151 348 changes from "load mode" to normal operation (see "load
-message"), f 78;
-#X text 104 366 open -;
-#X text 151 366 opens the editor window (same as double-clicking on
-it), f 78;
-#X text 104 383 prev -;
-#X text 151 383 causes the same output as the "next" message \, but
-the pointer is then decremented rather than incremented. If the pointer
-is currently at the first address in the [table] \, it wraps around
-to the last address, f 78;
-#X text 151 642 closes the editing window, f 78;
-#X text 109 626 sum -;
-#X text 91 642 wclose -;
-#X text 97 658 write -;
-#X text 151 658 opens a standard save file dialog for saving it in
-a text file format, f 78;
-#X text 151 626 outputs the sum of all values, f 78;
-#X text 32 425 quantile <float> -;
-#X text 50 466 read <symbol> -;
-#X text 43 572 setbits <list> -;
-#X text 152 25 fills the table with the given number, f 78;
-#X text 152 43 ignores a number received in the right inlet so the
-next number received in the left inlet outputs a number \, rather than
-storing a number at that address, f 78;
-#X text 68 90 flags <f \, f>;
-#X text 152 90 - <1 \, 0> saves contents with the patch when it's saved
-\, <0 \, 1> doesn't, f 78;
-#X text 152 107 sends the address at which the sum of the all values
-up to that address >= to the the sum of all table values times the
-<float> (between 0 and 1), f 78;
-#X text 44 137 getbits <list> -;
-#X text 152 137 The 1st float is the address to query \, the 2nd is
-the starting bit location (0-31) of the stored number (from LSB to
-MSB) and the 3rd float specifies how many bits to the right of the
-starting bit location should be sent out. The specified bits are sent
-out the outlet as a single decimal integer, f 78;
-#X text 152 193 sets a pointer to the address specified by the number
-, f 78;
-#X text 62 209 inv <float> -;
-#X text 152 210 finds the first table value which is >= the float and
-sends the address of that value out the left outlet, f 78;
-#X text 152 255 sets to load mode: every number received in the left
-inlet gets stored, f 78;
-#X text 151 425 multiplies the incoming float by the sum of all values
-and divides it by 2^15 (32 \, 768). Then the address at which the sum
-of all values up to that address is greater than or equal to the result
-is output, f 78;
-#X text 151 467 opens and reads data from a file specified by the symbol.
-If no symbol is given \, an open dialog is shown, f 78;
-#X text 43 496 refer <symbol> -;
-#X text 151 496 sets the object to read from a name table spevified
-by the symbol, f 78;
-#X text 7 513 send <symbol \, float> -;
-#X text 151 513 sends the value stored at the address specified by
-the float to all [receive] objects with the symbol name name, f 78
-;
-#X text 151 542 the first float specifies a starting address and the
-next numbers specify the values to be stored from that address on,
-f 78;
-#X text 67 542 set <list> -;
-#X text 151 571 changes a stored number's bit values: 1st float is
-the address \, 2nd is the starting bit location (0-31 from LSB to MSB)
-\, 3rd is how many from starting bit should be modified and 4th is
-the value (in decimal or hexadecimal form) to which those bits should
-be set, f 78;
-#X restore 201 338 pd allMessages;
 #X text 158 271 -;
 #X text 125 271 bang;
 #X text 158 299 -;
@@ -376,8 +287,92 @@ editing [Table] data content are ont implemented in cyclone yet.,
 f 87;
 #X restore 430 337 pd inconsistency;
 #X text 180 527 attributes;
-#X connect 37 0 42 0;
-#X connect 37 1 41 0;
-#X connect 38 0 37 1;
-#X connect 39 0 37 0;
-#X connect 40 0 37 0;
+#N canvas 476 23 634 599 All_Messages 0;
+#X text 150 50 outputs the stored numbers on the left outlet, f 78
+;
+#X text 97 2 clear -;
+#X text 150 3 sets all values to 0, f 78;
+#X text 49 18 const <float> -;
+#X text 91 34 cancel -;
+#X text 103 50 dump -;
+#X text 25 82 fquantile <float> -;
+#X text 55 155 goto <float> -;
+#X text 103 217 load -;
+#X text 91 200 length -;
+#X text 150 199 outputs the table size, f 78;
+#X text 150 233 retrieves the maximum stored value, f 78;
+#X text 109 233 max -;
+#X text 109 249 min -;
+#X text 150 249 retrieves the minimum stored value, f 78;
+#X text 103 265 next -;
+#X text 91 294 normal -;
+#X text 150 294 changes from "load mode" to normal operation (see "load
+message"), f 78;
+#X text 103 312 open -;
+#X text 150 312 opens the editor window (same as double-clicking on
+it), f 78;
+#X text 103 329 prev -;
+#X text 150 562 closes the editing window, f 78;
+#X text 108 546 sum -;
+#X text 90 562 wclose -;
+#X text 96 578 write -;
+#X text 150 578 opens a standard save file dialog for saving it in
+a text file format, f 78;
+#X text 150 546 outputs the sum of all values, f 78;
+#X text 49 386 read <symbol> -;
+#X text 42 492 setbits <list> -;
+#X text 150 19 fills the table with the given number, f 78;
+#X text 67 66 flags <f \, f>;
+#X text 150 67 - <1 \, 0> saves contents with the patch when it's saved
+\, <0 \, 1> doesn't, f 78;
+#X text 150 84 sends the address at which the sum of the all values
+up to that address >= to the the sum of all table values times the
+<float> (between 0 and 1), f 78;
+#X text 43 113 getbits <list> -;
+#X text 150 155 sets a pointer to the address specified by the number
+, f 78;
+#X text 61 170 inv <float> -;
+#X text 150 171 finds the first table value which is >= the float and
+sends the address of that value out the left outlet, f 78;
+#X text 150 215 sets to load mode: every number received in the left
+inlet gets stored, f 78;
+#X text 150 387 opens and reads data from a file specified by the symbol.
+If no symbol is given \, an open dialog is shown, f 78;
+#X text 42 416 refer <symbol> -;
+#X text 150 416 sets the object to read from a name table spevified
+by the symbol, f 78;
+#X text 6 433 send <symbol \, float> -;
+#X text 150 433 sends the value stored at the address specified by
+the float to all [receive] objects with the symbol name name, f 78
+;
+#X text 150 462 the first float specifies a starting address and the
+next numbers specify the values to be stored from that address on,
+f 78;
+#X text 66 462 set <list> -;
+#X text 150 491 changes a stored number's bit values: 1st float is
+the address \, 2nd is the starting bit location (0-31 from LSB to MSB)
+\, 3rd is how many from starting bit should be modified and 4th is
+the value (in decimal or hexadecimal form) to which those bits should
+be set, f 78;
+#X text 150 35 cancels last right inlet input (so next left input outputs
+a number), f 78;
+#X text 150 113 1st float is the address to query \, 2nd is starting
+bit location (0-31 from LSB to MSB) and 3rd is how many bits to the
+right of starting bit should be sent (as a single decimal integer)
+, f 78;
+#X text 150 265 sends the value stored at the pointed address on left
+outlet and sets the pointer to the next address (wraps to 1st address
+when reaching the end), f 78;
+#X text 37 357 quantile <int?> -;
+#X text 150 328 similar to "next" message \, but the decreases the
+pointer address (and wraps to last address when reaching start), f
+78;
+#X text 150 357 sends the address at which the sum of the all values
+up to that address is >= the the sum of all table values times the
+<int?> divided by 2^15 (32768), f 78;
+#X restore 201 338 pd All_Messages;
+#X connect 36 0 41 0;
+#X connect 36 1 40 0;
+#X connect 37 0 36 1;
+#X connect 38 0 36 0;
+#X connect 39 0 36 0;

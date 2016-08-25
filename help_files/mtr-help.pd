@@ -1,17 +1,17 @@
-#N canvas 413 37 559 521 10;
+#N canvas 375 60 560 489 10;
 #X obj 3 299 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 394 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 357 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 452 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 415 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 74 306 cnv 3 3 54 empty empty 0-n 5 9 0 16 -228856 -162280 0
+#X obj 74 306 cnv 3 3 17 empty empty 0-n 5 9 0 16 -228856 -162280 0
 ;
-#X obj 74 365 cnv 3 3 17 empty empty 1-n 5 9 0 16 -228856 -162280 0
+#X obj 74 328 cnv 3 3 17 empty empty 1-n 5 9 0 16 -228856 -162280 0
 ;
-#X obj 73 404 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 73 367 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 485 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 3 448 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 437 98 372 364 META 0;
 #X text 0 20 LICENSE SIBSD;
@@ -33,15 +33,15 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 505 487 pd META;
+#X restore 505 450 pd META;
 #N canvas 283 141 430 81 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
 #X obj 88 32 qlist;
 #X obj 8 31 cyclone/seq;
-#X restore 211 487 pd Related_objects;
-#X text 140 406 list;
-#X text 116 460 1) float;
+#X restore 211 450 pd Related_objects;
+#X text 140 369 list;
+#X text 116 423 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -60,12 +60,11 @@ Max/MSP;
 ;
 #X msg 123 154 record;
 #X msg 178 154 stop \, play;
-#N canvas 160 91 872 509 examples 0;
+#N canvas 472 27 853 676 examples 0;
 #X obj 248 72 notein, f 10;
 #X obj 167 161 cyclone/gate 4;
-#X msg 264 134 record;
+#X msg 269 134 record;
 #X msg 139 85 play;
-#X msg 93 85 stop;
 #X obj 139 203 cyclone/mtr 4, f 19;
 #X obj 166 282 noteout, f 12;
 #X text 162 110 track:;
@@ -75,29 +74,67 @@ Max/MSP;
 #X obj 167 132 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 248 103 pack f f f;
-#X msg 394 192 hey 1 2 3 \, 123 \, 1 2 3 \, bunda \, list w a b;
-#X text 525 165 needs anythings;
-#X connect 0 0 11 0;
-#X connect 0 1 11 1;
-#X connect 0 2 11 2;
-#X connect 1 0 5 1;
-#X connect 1 1 5 2;
-#X connect 1 2 5 3;
-#X connect 1 3 5 4;
+#X text 666 189 needs anythings;
+#X msg 411 201 record;
+#X obj 552 308 print;
+#X msg 468 234 play;
+#X obj 514 115 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 468 209 delay 100;
+#X obj 544 174 delay 100;
+#X obj 460 270 cyclone/mtr 1, f 19;
+#X msg 269 167 stop;
+#X msg 606 279 list cu ca;
+#X text 487 370 inconsistency (list);
+#X msg 535 216 hey 1 2 3 \, 123 \, 1 2 3 \, bunda \, list 1 w a b;
+#X text 133 414 Although mtr can record individual bytes of MIDI messages
+received from midiin \, it stores each byte with a separate delta time
+\, and does not format the MIDI messages the way seq does. If you want
+to record complete MIDI messages and edit them later \, seq is better
+suited for the task. On the other hand \, mtr is perfectly suited for
+recording sequences of numbers \, lists \, or symbols from virtually
+any object in Max: specialized MIDI objects such as notein or pgmin
+\, user interface objects such as number box \, slider \, and dial
+\, or any other object. In order for a file to be read into mtr for
+playback \, it must be in the proper format. An mtr multi-track sequence
+can even be typed in a text file \, provided it adheres to the format.
+The contents of the different tracks are listed in order in an mtr
+file \, and the format of each track is as follows. Note that a semicolon
+( \; ) ends each line.;
+#X text 153 658 Line 1: Line 2 \, etc.: Last line: track <track number>
+\; (Track in which to store subsequent data) <delta time> <message>
+\; end \; (End of this track’s data);
+#X connect 0 0 10 0;
+#X connect 0 1 10 1;
+#X connect 0 2 10 2;
+#X connect 1 0 4 1;
+#X connect 1 1 4 2;
+#X connect 1 2 4 3;
+#X connect 1 3 4 4;
 #X connect 2 0 1 1;
-#X connect 3 0 5 0;
-#X connect 4 0 5 0;
-#X connect 5 1 8 0;
-#X connect 5 2 8 0;
-#X connect 5 3 8 0;
-#X connect 5 4 8 0;
-#X connect 8 0 6 0;
-#X connect 8 1 6 1;
-#X connect 8 2 6 2;
-#X connect 10 0 1 0;
-#X connect 11 0 1 1;
+#X connect 3 0 4 0;
+#X connect 4 1 7 0;
+#X connect 4 2 7 0;
+#X connect 4 3 7 0;
+#X connect 4 4 7 0;
+#X connect 7 0 5 0;
+#X connect 7 1 5 1;
+#X connect 7 2 5 2;
+#X connect 9 0 1 0;
+#X connect 10 0 1 1;
+#X connect 12 0 18 0;
+#X connect 14 0 18 0;
+#X connect 15 0 12 0;
+#X connect 15 0 17 0;
+#X connect 16 0 14 0;
+#X connect 17 0 22 0;
+#X connect 17 0 16 0;
+#X connect 18 1 13 0;
+#X connect 19 0 1 1;
+#X connect 20 0 13 0;
+#X connect 22 0 18 1;
 #X restore 471 266 pd examples;
-#X text 116 367 anything;
+#X text 116 330 anything;
 #N canvas 731 60 456 595 (subpatch) 0;
 #X text 81 44 clear;
 #X text 81 126 mute;
@@ -118,118 +155,76 @@ back through the outlet directly below., f 63;
 #X text 59 168 recording;
 #X text 68 154 start =>;
 #X text 250 153 <= stop recording and start playing;
-#X text 120 306 messages sent to the leftmost inlet sets parameters
-for all tracks \, but the same messages can set only one track if sent
-to an individual inlet/track. check all possible messages here:, f
-70;
-#N canvas 641 48 591 770 All_Messages 0;
-#X text 9 525 play;
-#X text 9 660 read;
-#X text 9 740 record;
-#X text 9 836 rewind;
-#X text 9 1058 stop;
-#X text 138 660 In left inlet -;
-#X text 138 527 In left inlet -;
-#X text 140 623 Other inlets -;
-#X text 240 703 Other inlets -;
-#X text 138 365 In left inlet -;
-#X text 140 487 Other inlets -;
-#X text 138 119 In left inlet -;
-#X text 140 254 Other inlets -;
-#X text 234 119 The word "first" \, followed by a <time> number of
-milliseconds \, causes [mtr] to wait that amount of time after a play
+#N canvas 710 136 583 528 All_Messages 1;
+#X text 10 38 delay <float> -;
+#X text 10 68 first <flaot> -;
+#X text 106 38 in left inlet: sets a delay value in ms for all tracks
+to start playing. In other inlets: sets a delay time to that track
+only, f 77;
+#X text 8 280 read <symbol> -;
+#X text 15 8 clear <list> -;
+#X text 22 136 mute <list> -;
+#X text 22 167 next <list> -;
+#X text 21 236 play <list> -;
+#X text 106 280 in left inlet: opens a previously saved file with the
+symbol name (or opens a dialog box if no symbol is given). In other
+inlets: opens a file containing only the track that corresponds to
+the inlet, f 77;
+#X text 8 324 record <list> -;
+#X text 8 367 rewind <list> -;
+#X text 20 424 stop <lits> -;
+#X text 106 8 in left inlet: clears all tracks. If followed track numbers
+\, clears those track(s). In other inlets: clears corresponding track
+, f 77;
+#X text 106 67 in left inlet: waits a given time in ms after a play
 message is received before playing back. Unlike delay \, first does
 not alter the delta time value of the first event in a track \, it
 just waits a certain time (in addition to the first delta time) before
-playing back from the beginning., f 39;
-#X text 234 254 Waits the track that corresponds to the inlet., f
-39;
-#X text 234 365 Causes each track to output only the next message in
-its recorded sequence. When a next message is received \, the track
-number and the delta time of each message being output are sent out
-the leftmost outlet as a list. The word "next" \, followed by one or
-more track numbers \, outputs the next message stored in those tracks.
-, f 39;
-#X text 234 487 Outputs the next message stored on the track that corresponds
-to the inlet., f 39;
-#X text 234 527 Plays back all messages recorded earlier \, sending
-them out the corresponding outlets in the same rhythm and at the same
-speed they were recorded. The word "play" \, followed by one or more
-track numbers \, begins playing those tracks., f 39;
-#X text 234 623 Plays back all messages on the track that corresponds
-to the inlet., f 39;
-#X text 234 660 Calls up the standard Open Document dialog box \, so
-that a previously saved file can be read into [mtr]., f 39;
-#X text 334 703 Opens a file containing only the track that corresponds
-to the inlet., f 39;
-#X text 238 739 In left inlet -;
-#X text 240 797 Other inlets -;
-#X text 334 739 Begins recording all messages received in the other
-inlets. The word "record" \, followed by one or more track numbers
-\, begins recording those tracks., f 39;
-#X text 334 797 Begins recording messages on the track that corresponds
-to the inlet., f 39;
-#X text 238 833 In left inlet -;
-#X text 240 1008 Other inlets -;
-#X text 334 833 Resets [mtr] to the beginning of its recorded sequence.
-This command is used to return to the beginning of the sequence when
-stepping through messages with next . To return to the beginning of
-a sequence while playing or recording \, just repeat the play or record
-message. When [mtr] is playing or recording \, a stop message should
-precede a rewind message. The word "rewind" \, followed by one or more
-track numbers \, returns to the beginning of those tracks., f 39;
-#X text 334 1008 Returns the pointer to the beginning of the track
-that corresponds to the inlet., f 39;
-#X text 238 1059 In left inlet -;
-#X text 240 1116 Other inlets -;
-#X text 334 1059 Stops mtr when it is recording or playing. The word
-"stop" \, followed by one or more track numbers \, stops those tracks.
-, f 39;
-#X text 334 1116 Stops the track that corresponds to the inlet., f
-39;
-#X text 9 1153 unmute;
-#X text 9 1246 write;
-#X text 238 1154 In left inlet -;
-#X text 240 1211 Other inlets -;
-#X text 334 1154 Undoes any previously received mute messages. The
-word "unmute" \, followed by one or more track numbers \, unmutes those
-tracks., f 39;
-#X text 334 1211 Unmutes the track that corresponds to the inlet.,
-f 39;
-#X text 238 1246 In left inlet -;
-#X text 334 1246 Calls up the standard Save As dialog box \, allowing
-the contents of [mtr] to be saved as a separate file. Note that the
-only way to save the contents of [mtr] is with the write message \;
-the object's contents cannot be embedded in a patcher file., f 39
+playing back from the beginning. In other inlets: waits only corresponding
+track, f 77;
+#X text 106 136 in left inlet: mutes all tracks while still playing.
+If followed by track numbers \, it mutes those track(s). In other inlets:
+mutes corresponding track, f 77;
+#X text 106 167 in left inlet: causes each track to output only the
+next message in its recorded sequence (the track number and the delta
+time of each message being output are sent out the leftmost outlet
+as a list). If followed track numbers \, outputs the next message stored
+in those tracks. In other inlets: outputs the next message stored on
+corresponding track, f 77;
+#X text 106 236 in left inlet: plays recorded tracks out the corresponding
+outlets in the same rhythm/speed as recorded. If followed by track
+numbers \, it plays those tracks. In other inlets: plays corresponding
+track, f 77;
+#X text 106 324 in left inlet: begins recording all messages received
+in the other inlets. If followed by track numbers \, it begins recording
+those tracks. In other inlets: begins recording corresponding track
+, f 77;
+#X text 106 367 in left inlet: goes to start of recorded sequence.
+Can be used when using the 'next' message. If [mtr] is playing or recording
+\, a stop message should precede it. If followed by track numbers \,
+it rewinds those tracks. In other inlets: rewinds corresponing track
+, f 77;
+#X text 106 424 in left inlet: stops all recording/playing tracks.
+If followed by track numbers \, it stops those tracks. In other inlets:
+stops corresponding track, f 77;
+#X text 106 454 in left inlet: Unmutesd all muted tracks. If followed
+by track numbers \, it unmutes those tracks. In other inlets: unmute
+corresponding track, f 77;
+#X text 8 454 unmute <list> -;
+#X text 2 486 write <symbol> -;
+#X text 106 486 in left inlet: saves a file with the symbol name (or
+opens a dialog box if no symbol is given). In other inlets: saves corresponding
+track, f 77;
+#X restore 329 307 pd All_Messages;
+#X text 116 391 anything;
+#X obj 73 390 cnv 3 3 17 empty empty 1-n 5 9 0 16 -228856 -162280 0
 ;
-#X text 240 1343 Other inlets -;
-#X text 334 1343 Writes a file containing only the track that corresponds
-to the inlet., f 39;
-#X text 82 25 clear -;
-#X text 138 24 in left inlet: clears all tracks - if followed by one
-or more track numbers \, it clears the specified track(s) \; other
-inlets - clears the track corresponding to that inlet;
-#X text 33 69 delay <float> -;
-#X text 140 71 in left inlet: sets a delay value in ms \, so all tracks
-start playing after that amount of time \; other inlets - sets a delay
-time to that track only;
-#X text 33 120 first <flaot> -;
-#X text 139 295 in left inlet: mutes all tracks output while still
-playing. If followed by one or more track numbers \, it mutes the specified
-track(s) \; other inlets - mutes the track corresponding to that inlet
+#X text 176 330 - any message to be recorded in that inlet/track;
+#X text 176 391 - recorded messages from the corresponding inlet/track
 ;
-#X text 86 297 mute -;
-#X text 86 365 next -;
-#X restore 404 338 pd All_Messages;
-#X text 116 428 anything;
-#X obj 73 427 cnv 3 3 17 empty empty 1-n 5 9 0 16 -228856 -162280 0
-;
-#X text 176 367 - any message to be recorded in that inlet/track;
-#X text 176 428 - recorded messages from the corresponding inlet/track
-;
-#X text 176 406 - track number & duration (when receiving the "next"
+#X text 176 369 - track number & duration (when receiving the "next"
 message), f 61;
-#X text 176 460 - number of tracks \, default 1 (max 64);
+#X text 176 423 - number of tracks \, default 1 (max 64);
 #X obj 304 224 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 263 203 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
@@ -243,14 +238,15 @@ message), f 61;
 #X floatatom 274 268 5 0 0 0 - - -, f 5;
 #X floatatom 316 268 5 0 0 0 - - -, f 5;
 #X obj 178 245 cyclone/mtr 3, f 21;
-#X connect 19 0 45 0;
-#X connect 20 0 45 0;
-#X connect 36 0 45 3;
-#X connect 37 0 45 2;
-#X connect 38 0 45 1;
-#X connect 42 0 38 0;
-#X connect 43 0 37 0;
-#X connect 44 0 36 0;
-#X connect 45 1 42 0;
-#X connect 45 2 43 0;
-#X connect 45 3 44 0;
+#X text 120 307 check all possible messages here:, f 70;
+#X connect 19 0 44 0;
+#X connect 20 0 44 0;
+#X connect 35 0 44 3;
+#X connect 36 0 44 2;
+#X connect 37 0 44 1;
+#X connect 41 0 37 0;
+#X connect 42 0 36 0;
+#X connect 43 0 35 0;
+#X connect 44 1 41 0;
+#X connect 44 2 42 0;
+#X connect 44 3 43 0;

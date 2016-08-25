@@ -1,42 +1,109 @@
-#N canvas 390 28 572 640 10;
-#X obj 2 621 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 803 23 558 597 10;
+#X obj 2 192 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 1057 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
+#X obj 2 362 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 490 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 2 1301 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 79 199 cnv 17 3 39 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 244 cnv 17 3 26 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 273 cnv 17 3 27 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 303 cnv 17 3 26 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 333 cnv 17 3 24 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 368 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 388 cnv 17 3 36 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 429 cnv 17 3 35 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 79 467 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 2 560 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 79 630 cnv 17 3 160 empty empty 0 5 9 0 16 -228856 -162280 0
+#N canvas 486 104 372 433 META 0;
+#X text 1 18 LICENSE SIBSD;
+#X text 1 216 LIBRARY cyclone;
+#X text 1 144 OUTLET_0 float;
+#X text 1 72 INLET_1 bang float;
+#X text 1 90 INLET_2 bang float;
+#X text 1 108 INLET_3 bang float;
+#X text 1 126 INLET_4 bang float;
+#X text 1 198 OUTLET_3 float;
+#X text 1 36 DESCRIPTION count the number of bangs received;
+#X text 1 0 KEYWORDS count bangs counter;
+#X text 1 250 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
 ;
-#X obj 79 813 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X obj 79 901 cnv 17 3 33 empty empty 2 5 9 0 16 -228856 -162280 0
-;
-#X obj 79 953 cnv 17 3 33 empty empty 3 5 9 0 16 -228856 -162280 0
-;
-#X obj 79 1003 cnv 17 3 33 empty empty 4 5 9 0 16 -228856 -162280 0
-;
-#X text 191 849 0 = up, f 57;
-#X obj 79 1073 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X obj 79 1101 cnv 17 3 60 empty empty 1 5 9 0 16 -228856 -162280 0
-;
-#X obj 79 1185 cnv 17 3 40 empty empty 2 5 9 0 16 -228856 -162280 0
-;
-#X obj 79 1263 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
-;
-#X text 82 1320 arguments are specified as follows:;
-#X obj 86 1349 cyclone/counter 100;
-#X obj 86 1371 cyclone/counter 50 100;
-#X obj 85 1394 cyclone/counter 0 50 100;
-#N canvas 287 95 585 440 Examples 0;
-#X obj 2 2 cnv 15 580 40 empty empty counter 3 12 0 18 -204280 -1 0
-;
-#X obj 2 416 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 1 230 AUTHOR Krzysztof Czaja;
+#X text 1 278 RELEASE_DATE 2002;
+#X text 1 162 OUTLET_1 bang float;
+#X text 1 180 OUTLET_2 bang float;
+#X text 1 54 INLET_0 bang float message;
+#X text 0 295 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
+Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
+updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
+updated this patch for Pd-extended and Pd-l2ork. Esteban Viveros updated
+this patch for Pd-Vanilla 0.47-2.;
+#X restore 502 563 pd META;
+#N canvas 357 144 430 74 Related_objects 0;
+#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
+#X text 8 3 Related Objects;
+#X obj 10 30 count~;
+#X restore 206 563 pd Related_objects;
+#X text 159 197 -;
+#X text 125 197 bang;
+#X text 159 243 -;
+#X text 125 242 bang;
+#X text 159 257 -;
+#X text 119 256 float;
+#X text 159 271 -;
+#X text 125 271 bang;
+#X text 159 285 -;
+#X text 119 285 float;
+#X text 159 299 -;
+#X text 125 299 bang;
+#X text 159 313 -;
+#X text 119 313 float;
+#X text 159 330 -;
+#X text 125 330 bang;
+#X text 159 345 -;
+#X text 119 345 float;
+#X text 174 313 set minimum value and reset counter immediately, f
+60;
+#X text 174 299 reset to minimum value, f 60;
+#X text 159 370 -;
+#X text 119 370 float;
+#X text 159 385 -;
+#X text 125 385 bang;
+#X text 159 399 -;
+#X text 119 400 float;
+#X text 159 427 -;
+#X text 125 427 bang;
+#X text 159 443 -;
+#X text 119 443 float;
+#X text 159 469 -;
+#X text 119 469 float;
+#X text 174 469 count of overflows, f 61;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#N canvas 527 160 368 131 credits 0;
-#X text 60 39 Spare examples from Max 7 Documentation.;
-#X restore 502 418 pd credits;
-#X text 49 25 examples;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 counter;
+#X obj 17 57 comment 0 18 times ? 0 0 0 0 Counts over a range;
+#N canvas 287 95 923 648 examples 0;
 #N canvas 472 126 444 336 additional 0;
 #X msg 176 106 set \$1;
 #X floatatom 176 87 5 0 0 0 - - -, f 5;
@@ -174,362 +241,183 @@ counter's next value;
 #X obj 247 365 sel 9;
 #X obj 298 335 cyclone/comment 70 11 helvetica ? 0 80 80 80 timed to
 count from 0 to 9 in 1 second;
-#X connect 6 0 9 0;
-#X connect 7 0 6 0;
-#X connect 8 0 6 2;
-#X connect 10 0 11 0;
-#X connect 11 0 12 0;
-#X connect 12 0 13 0;
-#X connect 12 3 14 0;
-#X connect 15 0 10 0;
-#X connect 20 0 21 0;
-#X connect 21 0 22 0;
-#X connect 22 0 24 0;
-#X connect 23 0 21 0;
-#X connect 23 0 22 2;
-#X connect 24 0 25 0;
-#X connect 25 0 23 0;
-#X restore 462 548 pd Examples;
-#X obj 134 157 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 174 457 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 134 187 cyclone/counter;
-#X floatatom 134 229 5 0 0 0 - - -, f 5;
-#X obj 27 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X floatatom 27 369 5 0 0 0 - - -, f 5;
-#X obj 197 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X floatatom 174 529 5 0 0 0 - - -, f 5;
+#X obj 344 457 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 197 369 5 0 0 0 - - -, f 5;
-#X obj 382 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X floatatom 344 529 5 0 0 0 - - -, f 5;
+#X obj 529 457 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 382 369 5 0 0 0 - - -, f 5;
-#X text 237 1348 one arg = set initial maximum;
-#X text 237 1371 two args = set initial min/max;
-#X text 237 1393 three = set direction (0 \, 1 \, 2) min/max;
-#X obj 184 420 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X floatatom 529 529 5 0 0 0 - - -, f 5;
+#X obj 331 580 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 184 576 5 0 0 0 - - -, f 5;
-#X obj 225 550 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X floatatom 331 736 5 0 0 0 - - -, f 5;
+#X obj 372 710 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 266 534 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 413 694 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 184 490 cyclone/counter 0 1 4;
-#X floatatom 307 518 5 0 0 0 - - -, f 5;
-#X msg 219 436 inc;
-#X msg 247 448 dec;
-#X obj 382 327 cyclone/counter 2 1 4, f 26;
-#X obj 2 1557 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
-#X obj 2 1536 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 486 104 372 433 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 216 LIBRARY cyclone;
-#X text 1 144 OUTLET_0 float;
-#X text 1 72 INLET_1 bang float;
-#X text 1 90 INLET_2 bang float;
-#X text 1 108 INLET_3 bang float;
-#X text 1 126 INLET_4 bang float;
-#X text 1 198 OUTLET_3 float;
-#X text 1 36 DESCRIPTION count the number of bangs received;
-#X text 1 0 KEYWORDS count bangs counter;
-#X text 1 250 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#X obj 331 650 cyclone/counter 0 1 4;
+#X floatatom 454 678 5 0 0 0 - - -, f 5;
+#X msg 366 596 inc;
+#X msg 394 608 dec;
+#X obj 529 487 cyclone/counter 2 1 4, f 26;
+#X obj 205 443 cyclone/comment 133 11 helvetica ? 0 80 80 80 loop forward
 ;
-#X text 1 230 AUTHOR Krzysztof Czaja;
-#X text 1 278 RELEASE_DATE 2002;
-#X text 1 162 OUTLET_1 bang float;
-#X text 1 180 OUTLET_2 bang float;
-#X text 1 54 INLET_0 bang float message;
-#X text 0 295 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-updated this patch for Pd-extended and Pd-l2ork. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 502 1538 pd META;
-#N canvas 357 144 430 74 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 10 30 count~;
-#X restore 206 1538 pd Related_objects;
-#X obj 29 102 cyclone/comment 456 10 monaco ? 0 80 80 80 Outputs the
-current count of bang message constrained to a specified range. Can
-be set to count up \, down \, or up-then-down.;
-#X obj 237 172 cyclone/comment 133 11 helvetica ? 0 80 80 80 no arguments
-counts upwards from zero;
-#X obj 58 283 cyclone/comment 133 11 helvetica ? 0 80 80 80 loop forward
+#X obj 400 442 cyclone/comment 133 11 helvetica ? 0 80 80 80 loop backward
 ;
-#X obj 253 282 cyclone/comment 133 11 helvetica ? 0 80 80 80 loop backward
+#X obj 442 469 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
+#X obj 441 474 cyclone/comment 133 11 helvetica ? 0 80 80 80 v;
+#X obj 442 453 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
+#X obj 442 461 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
+#X obj 602 443 cyclone/comment 133 11 helvetica ? 0 80 80 80 palindrome
 ;
-#X obj 295 309 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
-#X obj 294 314 cyclone/comment 133 11 helvetica ? 0 80 80 80 v;
-#X obj 295 293 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
-#X obj 295 301 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
-#X obj 455 283 cyclone/comment 133 11 helvetica ? 0 80 80 80 palindrome
-;
-#X obj 480 309 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
-#X obj 479 314 cyclone/comment 133 11 helvetica ? 0 80 80 80 v;
-#X obj 480 293 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
-#X obj 480 301 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
-#X obj 345 521 cyclone/comment 133 11 helvetica ? 0 80 80 80 carry
+#X obj 627 469 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
+#X obj 626 474 cyclone/comment 133 11 helvetica ? 0 80 80 80 v;
+#X obj 627 453 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
+#X obj 627 461 cyclone/comment 133 11 helvetica ? 0 80 80 80 |;
+#X obj 492 681 cyclone/comment 133 11 helvetica ? 0 80 80 80 carry
 count;
-#X obj 287 538 cyclone/comment 133 11 helvetica ? 0 80 80 80 max reached
+#X obj 434 698 cyclone/comment 133 11 helvetica ? 0 80 80 80 max reached
 ;
-#X obj 246 556 cyclone/comment 133 11 helvetica ? 0 80 80 80 min reached
+#X obj 393 716 cyclone/comment 133 11 helvetica ? 0 80 80 80 min reached
 ;
-#X text 158 633 -;
-#X text 125 633 bang;
-#X text 158 777 -;
-#X text 118 777 float;
-#X text 158 650 -;
-#X text 107 650 message;
-#X text 173 633 main bang input \, where counter is collected, f 60
-;
-#X text 173 668 "up" \, down" \, "updown": change direction, f 60
-;
-#X text 347 701 the middle two outlets, f 31;
-#N canvas 502 34 609 691 allMessages 0;
-#X obj 226 51 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 2 cnv 15 365 46 empty empty Description 128 20 0 12 -187701
+#X obj 344 487 cyclone/counter 1 -4 -1, f 25;
+#X obj 174 487 cyclone/counter 1 4;
+#X obj 402 319 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856
 -1 0;
-#X obj 226 545 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 607 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 631 cnv 9 365 74 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 707 cnv 9 365 74 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 831 cnv 9 365 46 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 226 939 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1023 cnv 10 589 12 empty empty empty 20 12 0 5 -187701 -33289
-0;
-#X obj 2 1001 cnv 15 589 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X obj 2 51 cnv 9 222 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 545 cnv 9 222 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 607 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 631 cnv 9 222 74 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 707 cnv 9 222 74 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 831 cnv 9 222 46 empty empty not_implemented_yet 30 25 0 14
--261234 -66577 0;
-#X obj 2 939 cnv 9 222 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 2 cnv 15 222 46 empty empty Message 78 20 0 12 -187701 -1
-0;
-#X obj 226 99 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 99 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 9 54 dec;
-#X text 238 53 Decrements the [counter] (downward) and sends out the
-new value \, regardless of the direction in which the object has been
-set to count ordinarily., f 55;
-#X text 9 101 down;
-#X text 238 102 Sets the [counter] in downward direction., f 55;
-#X obj 226 123 cnv 9 365 112 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 123 cnv 9 222 112 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X text 9 127 carrybang;
-#X text 238 126 Causes counter to send a bang out the outlet 2 when
-the count is going upward and reaches its maximum limit \, and causes
-counter to send a bang out the outlet 1 when the count is going downward
-and reaches its minimum limit. (By default \, counter sends out the
-number 1 in those situations \, instead of bang). The state of the
-carrybang message is saved along with the patcher it is used in.,
-f 55;
-#X obj 226 237 cnv 9 365 88 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 237 cnv 9 222 88 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 9 240 carryint;
-#X text 238 240 Undoes the effect of a previously received carrybang
-message. Resets the counter to send the numbers 1 and 0 out the outlet
-1 and outlet 2 (instead of bang ) to signal when the counter reaches
-and leaves its minimum and maximum values. The state of the carryint
-message is saved along with the patcher it is used in., f 55;
-#X obj 226 327 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 327 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 351 cnv 9 365 144 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 2 351 cnv 9 222 144 empty empty not_implemented_yet 20 50 0
-14 -261234 -66577 0;
-#X text 9 357 flags <carryMode> <minimumMode>;
-#X text 238 354 The flags message followed by two numbers will set
-the <carryMode> (Underflow/Carry Mode) and set the <minimumMode> resetting
+#X text 510 338 Some messages are not implemented yet \, they are "flags"
+(Max 6+) \, "setmin" and "state" (Max 5+). In Max 6 and max 7 when
+maximum number is smaller than minimum number \, [counter] set properly
+max and min to work \, cyclone don't yet.;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 2 2;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 8 3 10 0;
+#X connect 11 0 6 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 20 0;
+#X connect 19 0 17 0;
+#X connect 19 0 18 2;
+#X connect 20 0 21 0;
+#X connect 21 0 19 0;
+#X connect 23 0 53 0;
+#X connect 25 0 52 0;
+#X connect 27 0 37 0;
+#X connect 29 0 33 0;
+#X connect 33 0 30 0;
+#X connect 33 1 31 0;
+#X connect 33 2 32 0;
+#X connect 33 3 34 0;
+#X connect 35 0 33 0;
+#X connect 36 0 33 0;
+#X connect 37 0 28 0;
+#X connect 52 0 26 0;
+#X connect 53 0 24 0;
+#X restore 476 161 pd examples;
+#X obj 201 166 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 111 495 1) list -;
+#X text 174 285 sets minimum value, f 60;
+#X text 95 225 messages:;
+#N canvas 810 26 526 558 All_Messages 0;
+#X text 86 10 dec -;
+#X text 80 38 down -;
+#X text 125 38 sets to downward direction, f 63;
+#X text 125 9 decrements the counter (downward) and sends the new value
+(regardless of the counter direction), f 63;
+#X text 50 54 carrybang -;
+#X text 125 54 instead of "1" \, makes it send a bang (on 2nd outlet)
+when reaching the maximum (counting up) and another bang (on 1st outlet)
+when reaching minimum (counting down) - the state is saved with the
+patch, f 63;
+#X text 56 110 carryint -;
+#X text 125 109 undoes the effect of a previously received carrybang
+message and resets to default (send '1' instead of a bang) - the state
+is saved with the patch, f 63;
+#X text 32 168 flags <list> -;
+#X text 125 168 flags message followed by two numbers will set the
+<carryMode> (Underflow/Carry Mode) and set the <minimumMode> resetting
 capability. If the first number is 0 \, [counter] will output a 1 when
-it hits the maximum or else output a 0 If the first number is 1 \,
-[counter] will output a bang when it hits the maximum. If the second
+it hits the maximum or else output a 0 \; If the first number is 1
+\, [counter] will output a bang when it hits the maximum. If the second
 number is 0 \, an integer in inlets 3 and 4 will override the minimum
 count temporarily. If the second number is 1 \, an integer in inlets
-3 and 4 will change the minimum count permanently., f 55;
-#X obj 226 497 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 497 cnv 9 222 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X text 9 501 inc;
-#X text 238 499 Increment the [counter] (upward) and sends out the
-new value \, regardless of the direction in which the object has been
-count ordinarily., f 55;
-#X text 9 609 next;
-#X text 238 609 Sends out the current count., f 55;
-#X obj 226 783 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 783 cnv 9 222 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 9 328 goto <integer>;
-#X text 238 330 Sets [counter] to that <integer>. Same as set message.
-, f 55;
-#X text 9 546 jam <integer>;
-#X text 238 547 Sets [counter] to that <integer> and sends the <integer>
-out immediately. If the number is outside the minimum and maximum count
-range \, this message is ignored., f 55;
-#X text 9 632 max <integer>;
-#X text 238 633 Resets the maximum value of counter to that <integer>.
+3 and 4 will change the minimum count permanently., f 63;
+#X text 86 288 inc -;
+#X text 125 288 increments the counter (upward) and sends the new value
+(regardless of the counter direction), f 63;
+#X text 38 318 jam <float> -;
+#X text 78 347 next -;
+#X text 125 347 sends out the current count, f 63;
+#X text 125 363 resets the maximum value of counter to that <integer>.
 If the <integer> is less than the current minimum value \, the maximum
 is considered to be equal to the minimum \, although the actual maximum
-value you set is stored inside the [counter] object., f 55;
-#X text 238 709 Resets the minimum value of counter to that <integer>
-\, and causes the [counter] object to set itself to that number and
-output immediately. If the number is greater than the current maximum
-value \, the minimum is set equal to the maximum., f 55;
-#X text 9 710 min <integer>;
-#X text 9 786 set <integer>;
-#X text 9 833 setmin <integer>;
-#X text 238 786 Sets the [counter] to that <integer> \, which will
-be sent out the next time a bang is received in the left inlet., f
-55;
-#X text 238 833 Sets the [counter] object's minimum count to thet <integer>
-without affecting its current count value or causing any output.,
-f 55;
-#X obj 226 879 cnv 9 365 34 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 2 879 cnv 9 222 34 empty empty not_implemented_yet 20 22 0 14
--261234 -66577 0;
-#X text 9 881 state;
-#X obj 226 915 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 915 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X text 9 916 up;
-#X text 238 918 Sets the [counter] to count in an upward direction.
-, f 55;
-#X text 9 941 updown;
-#X text 238 941 Sets the [counter] object's direction so that it counts
-upward until it reaches the specified maximum \, then counts down until
-it reaches the specified minimum \, then up \, then down \, and so
-on., f 55;
-#X text 238 880 Will cause the [counter] object to report its current
-state to the Pd main window., f 55;
-#X restore 398 756 pd allMessages;
-#X text 179 720 "set n" \, "goto n" \, "jam n": control the counter
-value, f 59;
-#X text 179 739 "next": is the same as bang, f 59;
-#X text 179 757 for a complete list of messages see:, f 59;
-#X text 173 650 "inc" and "dec": increment or decrement counter, f
-60;
-#X text 179 687 "carrybang" and "carryint": set the output type of
-, f 59;
-#X text 173 777 same as bang, f 60;
-#X text 158 814 -;
-#X text 125 814 bang;
-#X text 158 835 -;
-#X text 118 835 float;
-#X text 158 900 -;
-#X text 125 900 bang;
-#X text 158 921 -;
-#X text 118 921 float;
-#X text 158 952 -;
-#X text 125 952 bang;
-#X text 158 973 -;
-#X text 118 973 float;
-#X text 158 1003 -;
-#X text 125 1003 bang;
-#X text 158 1024 -;
-#X text 118 1024 float;
-#X text 173 814 change counter direction, f 60;
-#X text 173 835 counter direction, f 60;
-#X text 191 863 1 = down, f 57;
-#X text 191 877 2 = up and down, f 57;
-#X text 173 899 reset to minimum value, f 60;
-#X text 173 921 set minimum value, f 60;
-#X text 173 973 set minimum value and reset counter immediately, f
-60;
-#X text 173 952 reset to minimum value, f 60;
-#X text 173 1003 reset to maximum value \, wait for next bang before
-output, f 60;
-#X text 173 1024 set maximum value, f 60;
-#X text 158 1075 -;
-#X text 119 1075 float;
-#X text 173 1075 current value of counter, f 60;
-#X text 158 1103 -;
-#X text 125 1103 bang;
-#X text 158 1133 -;
-#X text 118 1133 float;
-#X text 173 1103 only when carrybang is set. When counting up \, a
-bang is send when the maximum is reached.;
-#X text 173 1133 only when carryint is set. When counting up \, an
-"1" is send when the maximum is reached. A "0" is send when the maximum
-is passed., f 60;
-#X text 158 1184 -;
-#X text 125 1184 bang;
-#X text 158 1214 -;
-#X text 118 1214 float;
-#X text 173 1184 only when carrybang is set. When counting down \,
-a bang is send when the maximum is reached., f 60;
-#X text 173 1214 only when carryint is set. When counting down \, an
-"1" is send when the minimum is reached. A "0" is send when the minimum
-is passed., f 60;
-#X text 158 1265 -;
-#X text 118 1265 float;
-#X text 173 1265 count of overflows, f 60;
-#X obj 197 327 cyclone/counter 1 -4 -1, f 25;
-#X obj 2 1432 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 110 1451 Some messages are not implemented yet \, they are
-"flags" (Max 6+) \, "setmin" and "state" (Max 5+). In Max 6 and max
-7 when maximum number is smaller than minimum number \, [counter] set
-properly max and min to work \, cyclone don't yet.;
-#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 4 graph;
-#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 counter;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Count over a range of integers
+value you set is stored inside the [counter] object, f 63;
+#X text 73 494 state -;
+#X text 91 510 up -;
+#X text 67 527 updown -;
+#X text 36 362 max <float> -;
+#X text 125 511 sets counter direction to upwards, f 63;
+#X text 125 527 sets counter to shift direction when reaching limits
+, f 63;
+#X text 19 478 setmin <float> -;
+#X text 125 478 sets minimum limit (doesn't cause output of affect
+count), f 63;
+#X text 37 417 min <float> -;
+#X text 125 418 sets minimum value to given float - sets counter to
+this value and outputs it (if greater than the maximum \, the minimum
+is set equal to the maximum), f 63;
+#X text 125 152 sets the [counter] to that float (sent when a bang
+is received), f 63;
+#X text 31 152 goto <float> -;
+#X text 37 461 set <float> -;
+#X text 125 461 same as 'goto' message, f 63;
+#X text 125 318 sets counter to that <float> and sends it (ignored
+if outside minimum/maximum range), f 63;
+#X text 125 494 reports current state to the Pd main window, f 63
 ;
-#X text 18 160;
-#X obj 27 327 cyclone/counter 1 4;
-#X connect 18 0 19 0;
-#X connect 19 0 20 0;
-#X connect 21 0 131 0;
-#X connect 23 0 119 0;
-#X connect 25 0 38 0;
-#X connect 30 0 34 0;
-#X connect 34 0 31 0;
-#X connect 34 1 32 0;
-#X connect 34 2 33 0;
-#X connect 34 3 35 0;
-#X connect 36 0 34 0;
-#X connect 37 0 34 0;
-#X connect 38 0 26 0;
-#X connect 119 0 24 0;
-#X connect 131 0 22 0;
+#X restore 388 221 pd All_Messages;
+#X text 65 84 [counter] can be set to count up \, down or up-then-down
+over a given range.;
+#X obj 201 109 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 2 527 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 102 536 @carryflag (0 - numeric / 1 bang) | @compatmode (0
+- current / 1 ancient), f 73;
+#X text 174 257 sets direction: 0 (up) \, 1 (down) \, 2 (up-then-down)
+, f 60;
+#X text 174 270 resets to minimum value, f 60;
+#X text 174 345 sets maximum value, f 60;
+#X text 174 330 resets to maximum value (wait for next bang before
+output), f 60;
+#X text 174 243 changes the counter direction from 0-2 (and wrapping)
+, f 60;
+#X text 174 427 when min is reached (and carrybang is set & counting
+down), f 61;
+#X text 174 443 (when carryint is set & counting down) 1: minimum is
+reached \, 0: minimum is passed, f 61;
+#X text 174 370 the current counter value, f 61;
+#X text 174 385 when max is reached (and 'carrybang' is set & counting
+up), f 61;
+#X text 174 400 1: maximum is reached \, 0: maximum is passed (and
+'carryint' is set & counting up), f 61;
+#X text 159 225 - for all available messages \, check:, f 62;
+#X text 224 109 <= count;
+#X text 176 495 1 float: max \, 2 floats: min/max \, 3 floats: direction
+(0 \, 1 \, 2) and min/max - default no max \, min = 0 & direction =
+up;
+#X text 174 197 outputs counter value and goes to next value, f 60
+;
+#X text 159 211 - same as bang, f 60;
+#X text 119 211 float;
+#X text 253 165 <= counter value;
+#X text 304 137 (no max range);
+#X obj 201 137 cyclone/counter;
+#X connect 63 0 84 0;
+#X connect 84 0 57 0;

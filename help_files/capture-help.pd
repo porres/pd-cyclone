@@ -1,7 +1,7 @@
-#N canvas 766 61 559 587 10;
-#X obj 2 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 613 23 559 533 10;
+#X obj 2 492 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 2 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 512 118 368 338 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -22,10 +22,10 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 500 547 pd META;
-#X obj 2 418 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 500 494 pd META;
+#X obj 2 396 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 462 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 431 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 364 145 430 73 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -38,66 +38,13 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 10 32 text;
 #X obj 341 32 table;
 #X obj 297 32 array;
-#X restore 216 547 pd Related_objects;
-#X obj 73 298 cnv 17 3 115 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 216 494 pd Related_objects;
+#X obj 73 278 cnv 17 3 112 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 73 432 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 73 405 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#N canvas 303 95 708 609 Examples 0;
-#X msg 197 151 open;
-#X floatatom 138 82 5 0 0 0 - - -, f 5;
-#X msg 111 59 10 20 30 40;
-#X msg 197 130 dump;
-#X obj 138 323 print dump;
-#X msg 197 109 clear;
-#X msg 197 172 wclose;
-#X msg 197 193 count;
-#X msg 197 214 write;
-#X msg 197 238 write /tmp/test.txt;
-#X obj 138 287 cyclone/capture 64;
-#X obj 187 59 cyclone/comment 300 11 helvetica ? 0 80 80 80 list is
-stored from first to last;
-#X obj 173 83 cyclone/comment 300 11 helvetica ? 0 80 80 80 numbers
-are stored sequentially;
-#X obj 238 109 cyclone/comment 300 11 helvetica ? 0 80 80 80 clear
-contents;
-#X obj 233 130 cyclone/comment 300 11 helvetica ? 0 80 80 80 send out
-all stored values sequentially;
-#X obj 229 152 cyclone/comment 300 11 helvetica ? 0 80 80 80 open editing
-window;
-#X obj 241 173 cyclone/comment 300 11 helvetica ? 0 80 80 80 close
-editing window;
-#X obj 236 196 cyclone/comment 300 11 helvetica ? 0 80 80 80 print
-number of items to the console;
-#X obj 237 217 cyclone/comment 300 11 helvetica ? 0 80 80 80 save to
-textfile (dialog box asks for filename);
-#X obj 320 241 cyclone/comment 300 11 helvetica ? 0 80 80 80 write
-to file (no dialog);
-#X obj 263 284 cyclone/comment 260 11 helvetica ? 0 80 80 80 first
-arg is number of values to store (default 512);
-#X obj 263 297 cyclone/comment 260 11 helvetica ? 0 80 80 80 second
-arg is x - values are in hex;
-#X obj 329 308 cyclone/comment 260 11 helvetica ? 0 80 80 80 m - values
-< 128 decimal \, larger numbers are hex;
-#X obj 329 320 cyclone/comment 260 11 helvetica ? 0 80 80 80 d - decimal
-\, default max behaviour \, only ints;
-#X obj 311 331 cyclone/comment 260 11 helvetica ? 0 80 80 80 none -
-values are decimal \, supports float;
-#X floatatom 222 342 5 0 0 0 - - -, f 5;
-#X connect 0 0 10 0;
-#X connect 1 0 10 0;
-#X connect 2 0 10 0;
-#X connect 3 0 10 0;
-#X connect 5 0 10 0;
-#X connect 6 0 10 0;
-#X connect 7 0 10 0;
-#X connect 8 0 10 0;
-#X connect 9 0 10 0;
-#X connect 10 0 4 0;
-#X connect 10 0 25 0;
-#X restore 438 204 pd Examples;
-#X text 183 314 -;
-#X text 108 473 1) float;
+#X text 177 292 -;
+#X text 112 437 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -113,48 +60,106 @@ Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 capture;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Store data;
-#X text 142 314 clear;
-#X text 183 331 -;
-#X text 142 331 count;
-#X text 183 348 -;
-#X text 183 365 -;
-#X text 148 348 dump;
-#X text 148 365 open;
-#X text 183 381 -;
-#X text 197 381 closes editing window;
-#X msg 87 163 10 20 30 40;
-#X msg 201 192 dump;
-#X obj 173 256 print dump;
-#X obj 173 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -55 256;
-#X text 239 193 outputs stored values;
-#X text 198 347 outputs out all stored values sequentially, f 52;
-#X text 197 314 clears stored values, f 51;
-#X text 136 381 wclose;
-#X text 197 365 opens editing window \, same as clicking on it;
-#X text 47 87 [capture] stores items in the received order for viewing
-\, editing \, and saving to a file. If the maximum number of items
-has been exceeded \, the earliest stored item is dropped as each new
-item is received.;
-#X text 88 397 write <symbol>;
-#X text 183 397 -;
-#X text 197 397 saves to textfile (no symbol opens dialog box);
-#X text 100 434 float/symbol;
-#X text 183 434 - stored items in sequential order (on dump message)
+#X text 136 292 clear;
+#X text 177 308 -;
+#X text 136 308 count;
+#X text 177 325 -;
+#X text 177 342 -;
+#X text 142 325 dump;
+#X text 142 342 open;
+#X text 177 358 -;
+#X text 191 358 closes editing window;
+#X msg 107 148 10 20 30 40;
+#X msg 221 177 dump;
+#X obj 193 241 print dump;
+#X obj 193 149 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 63 256;
+#X text 259 178 outputs stored values;
+#X text 192 324 outputs out all stored values sequentially, f 52;
+#X text 130 358 wclose;
+#X text 191 342 opens editing window \, same as clicking on it;
+#X text 82 374 write <symbol>;
+#X text 177 374 -;
+#X text 94 407 float/symbol;
+#X text 177 407 - stored items in sequential order (on dump message)
 ;
-#X obj 173 226 cyclone/capture 8;
-#X text 287 226 <= stores 8 items;
-#X text 108 491 2) symbol;
-#X text 172 491 - x (values are in hex) m (values < 128 decimal \,
-larger numbers are hex) d (decimal \, default max behaviour \, only
-integers) none (default) values are decimal \, supports float;
-#X text 73 223 click to open;
-#X text 78 236 text window;
-#X text 124 299 anything;
-#X text 183 299 - stores items (float/symbol) sequentially;
-#X text 198 332 prints number of received item on the Pd window;
-#X text 172 473 - number of stored values (default 512), f 60;
-#X connect 28 0 43 0;
-#X connect 29 0 43 0;
-#X connect 31 0 43 0;
-#X connect 43 0 30 0;
+#X obj 193 211 cyclone/capture 8;
+#X text 307 211 <= stores 8 items;
+#X text 112 455 2) symbol;
+#X text 89 208 click to open;
+#X text 101 221 text window;
+#X text 118 277 anything;
+#X text 177 277 - stores items (float/symbol) sequentially, f 54;
+#X text 177 437 - number of stored values (default 512), f 60;
+#N canvas 514 469 867 371 examples 0;
+#X msg 145 175 open;
+#X floatatom 62 76 5 0 0 0 - - -, f 5;
+#X msg 136 154 dump;
+#X obj 97 317 print dump;
+#X msg 116 103 clear;
+#X msg 151 196 wclose;
+#X msg 167 244 write;
+#X text 511 83 - x: values are in hexadecimal \; - m: values less than
+128 are decimal \, larger numbers are hexadecimal \; - d: decimal integers
+\; - none: decimal floats, f 53;
+#X text 493 52 Second arguments encodes the way numbers are stores
+\, the options are:;
+#X text 170 51 If a message has more than one element \, the elements
+are stored from first to last. One element messages are stored sequentially.
+, f 44;
+#X text 171 152 send out all stored values sequentially;
+#X text 179 174 open editing window;
+#X text 285 221 writes to file;
+#X text 154 103 clears stored contents;
+#X msg 126 129 count;
+#X text 164 129 prints number of received items on the Pd window;
+#X text 200 195 close editing (?) window;
+#X text 212 245 opens dialog box to save to a file;
+#X msg 156 221 write ./capture.txt;
+#X text 34 24 All Messages;
+#X symbolatom 98 77 10 0 0 0 - - -, f 10;
+#X msg 35 52 one 2 three 4 five 6;
+#X obj 97 281 cyclone/capture 32;
+#X obj 653 206 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 545 304 cyclone/capture 6;
+#X obj 587 280 cyclone/capture 6 d;
+#X obj 623 255 cyclone/capture 6 m;
+#X obj 653 232 cyclone/capture 6 x;
+#X obj 545 181 cyclone/loadmess -9 5 10.333 127 150 1.2;
+#X connect 0 0 22 0;
+#X connect 1 0 22 0;
+#X connect 2 0 22 0;
+#X connect 4 0 22 0;
+#X connect 5 0 22 0;
+#X connect 6 0 22 0;
+#X connect 14 0 22 0;
+#X connect 18 0 22 0;
+#X connect 20 0 22 0;
+#X connect 21 0 22 0;
+#X connect 22 0 3 0;
+#X connect 23 0 24 0;
+#X connect 23 0 25 0;
+#X connect 23 0 26 0;
+#X connect 23 0 27 0;
+#X connect 28 0 24 0;
+#X connect 28 0 25 0;
+#X connect 28 0 26 0;
+#X connect 28 0 27 0;
+#X restore 468 239 pd examples;
+#X text 58 86 [capture] stores items in the received order for viewing
+\, editing \, and saving to a file. If the maximum number of items
+is exceeded \, the earliest stored item is dropped.;
+#X text 174 212 =>;
+#X text 191 374 saves to file with symbol name (no symbol opens dialog
+box);
+#X text 177 455 - x: values are in hex \, m: values < 128 are decimal
+\, larger are hex \, d: decimal integers \, none: decimal floats (default)
+, f 61;
+#X text 191 292 clears stored contents, f 52;
+#X text 192 309 prints number of received items on the Pd window,
+f 52;
+#X connect 27 0 39 0;
+#X connect 28 0 39 0;
+#X connect 30 0 39 0;
+#X connect 39 0 29 0;

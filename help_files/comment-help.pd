@@ -81,7 +81,7 @@ highly outdated in respect to Max 7!;
 #X text 88 146 It also has strong inconsistencies to the Max 4 original
 object \, so it can't really be considered a proper clone. It does
 provide advantages to pd vanilla's comments though.;
-#N canvas 124 109 970 576 details/examples 0;
+#N canvas 287 23 505 683 details/examples 0;
 #X obj 159 271 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
 Courier];
 #X obj 160 294 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
@@ -106,9 +106,9 @@ with arguments as they're displaying as the comment:;
 0 14 Helvetica ? 0 0 128 128];
 #X text 95 398 The last 3 arguments set colors in RGB format \, no
 idea what the 4th and 5th arguments actually do.;
-#X text 512 124 You can set the properties settings of the comment
-box with the arguments.;
-#X text 512 55 Note: when in edit mode \, you can click on the object
+#X text 71 597 You can set the properties settings of the comment box
+with the arguments.;
+#X text 71 528 Note: when in edit mode \, you can click on the object
 to select it \, then press <F4> to show the object name and arguments.
 You can also press <F5> to duplicate the comment text into a Pd comment
 text.;

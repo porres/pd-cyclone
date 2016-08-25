@@ -1,4 +1,4 @@
-#N canvas 247 23 560 785 10;
+#N canvas 224 23 574 538 10;
 #X obj 5 742 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 616 310 360 252 META 0;
@@ -31,27 +31,27 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X restore 202 744 pd Related_objects;
-#X obj 84 398 cnv 17 3 72 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 91 398 cnv 17 3 72 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 537 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 91 537 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 499 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 91 499 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 475 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 91 475 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 147 537 signal;
-#X text 136 590 2) float;
-#X text 136 607 3) float;
+#X text 154 537 signal;
+#X text 143 590 2) float;
+#X text 143 607 3) float;
 #X msg 102 220 mode \$1;
 #X floatatom 315 219 0 -100 100 0 - - -;
 #X floatatom 238 198 0 -100 100 0 - - -;
-#X obj 133 369 cnv 5 5 5 empty empty -1 6 2 0 14 -262144 -1 0;
-#X obj 142 279 cnv 5 5 5 empty empty 1 6 2 0 14 -262144 -1 0;
+#X obj 135 369 cnv 5 5 5 empty empty -1 6 2 0 14 -262144 -1 0;
+#X obj 143 275 cnv 5 5 5 empty empty 1 6 2 0 14 -262144 -1 0;
 #X obj 241 173 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 110 476 float/signal;
-#X text 110 500 float/signal;
-#X text 109 398 float/signal;
+#X text 117 476 float/signal;
+#X text 117 500 float/signal;
+#X text 116 398 float/signal;
 #X obj 102 139 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
 #X floatatom 102 202 2 0 0 0 - - -, f 2;
@@ -66,19 +66,19 @@ adapted the patch to pd-extended 2015-02-02;
 ;
 #X obj 5 632 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 154 637 @mode;
-#X text 148 655 @range;
-#X text 136 573 1) float;
-#X text 207 656 - followed by two numbers set low and high range.;
-#X text 110 416 mode <float>;
+#X text 161 637 @mode;
+#X text 155 654 @range;
+#X text 143 573 1) float;
+#X text 207 655 - followed by two numbers set low and high range.;
+#X text 117 416 mode <float>;
 #X text 204 537 - original \, clipped \, wrapped \, or folded signal
 ;
 #X text 207 638 - <fold> \, <wrap> \, <clip> & <none>: sets the object
 mode;
-#X text 110 454 range <f \, f>;
+#X text 117 454 range <f \, f>;
 #X text 204 573 - mode: 0 (fold - default) \, 1 (wrap) \, 2 (clip)
 \, 3 (none);
-#X text 103 434 mode <symbol>;
+#X text 110 434 mode <symbol>;
 #X text 203 434 - sets mode to: <fold> \, <wrap> \, <clip> or <none>
 ;
 #X text 206 590 - low range value (default 0);
@@ -116,8 +116,8 @@ range is always the lowest value. Wrap mode is useful for modulo arithmetic.
 #X text 48 89 Use [pong~] to fold \, wrap or clip its input signal
 within a given low-high range.;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -186,7 +186,7 @@ within a given low-high range.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -219,6 +219,7 @@ within a given low-high range.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 143 322 cnv 5 5 5 empty empty 0 6 2 0 14 -262144 -1 0;
 #X connect 13 0 46 0;
 #X connect 14 0 46 2;
 #X connect 15 0 46 1;

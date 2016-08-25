@@ -1,7 +1,7 @@
-#N canvas 466 28 559 718 10;
-#X obj 4 677 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 495 23 575 598 10;
+#X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 342 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 316 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 629 308 345 214 META 0;
 #X text 0 19 LICENSE SIBSD;
@@ -18,27 +18,27 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 507 679 pd META;
-#X obj 6 571 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X restore 507 653 pd META;
+#X obj 6 545 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 597 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 571 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #N canvas 332 419 428 109 Related_objects 0;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
-#X restore 216 679 pd Related_objects;
-#X obj 77 351 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 216 653 pd Related_objects;
+#X obj 77 325 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 151 349 signal;
-#X text 151 577 (none);
-#X obj 46 127 hsl 100 18 20 200 1 0 empty empty empty 5 8 1 10 -228856
--1 -1 3200 0;
-#X text 157 366 float;
-#X floatatom 43 152 5 0 0 0 - - -, f 5;
-#X obj 77 537 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 151 323 signal;
+#X text 151 551 (none);
+#X obj 46 116 hsl 100 17 20 200 1 0 empty empty empty 5 8 1 10 -228856
+-1 -1 0 0;
+#X text 157 340 float;
+#X floatatom 43 139 5 0 0 0 - - -, f 5;
+#X obj 77 511 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 151 535 signal;
-#X text 157 551 float;
+#X text 151 509 signal;
+#X text 157 525 float;
 #N canvas 273 38 429 780 trigger_mode 0;
 #X obj 69 549 vsl 15 126 -1 1 0 1 empty empty empty 0 -9 0 10 -228856
 -1 -1 6250 1;
@@ -87,20 +87,20 @@ or right.;
 #X connect 7 0 8 0;
 #X connect 8 0 4 0;
 #X connect 9 0 10 0;
-#X restore 376 264 pd trigger_mode;
-#X floatatom 216 179 5 8 256 0 - - -, f 5;
-#X obj 31 206 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
-#X obj 22 327 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
-#X obj 30 269 cnv 5 5 5 empty empty 0 0 0 0 16 -262144 -162280 0;
-#X text 198 535 - signal to be displayed on the Y axis;
-#X text 197 349 - signal to be displayed in the X axis;
-#X text 151 603 (none);
-#X obj 4 622 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X restore 401 257 pd trigger_mode;
+#X floatatom 219 166 5 8 256 0 - - -, f 5;
+#X obj 31 193 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
+#X obj 22 299 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
+#X obj 30 246 cnv 5 5 5 empty empty 0 0 0 0 16 -262144 -162280 0;
+#X text 198 509 - signal to be displayed on the Y axis;
+#X text 197 323 - signal to be displayed in the X axis;
+#X text 151 577 (none);
+#X obj 4 596 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 43 171 osc~ 24;
-#X text 115 159 Samples per line (2-8192);
-#X text 253 178 Number of lines in buffer (8-256);
-#X text 198 551 - sets "bufsize": number of lines in buffer;
+#X obj 43 158 osc~ 24;
+#X text 115 146 Samples per line (2-8192);
+#X text 256 165 Number of lines in buffer (8-256);
+#X text 198 525 - sets "bufsize": number of lines in buffer;
 #N canvas 145 37 1036 652 X-Y_Mode 0;
 #X obj 355 345 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
@@ -172,18 +172,18 @@ displays in "Y Mode" only.;
 #X connect 24 0 3 1;
 #X connect 27 0 24 0;
 #X connect 28 0 25 1;
-#X restore 280 287 pd X-Y_Mode;
-#X text 198 517 - onset time delay between displays (default 0);
-#X text 67 127 frequency;
-#X text 109 382 calccount <f>;
-#X text 121 398 bufsize <f>;
-#X text 121 413 range <f f>;
-#X text 85 459 gridcolor <f f f>;
-#X text 121 486 trigger <f>;
-#X text 109 501 triglevel <f>;
-#X text 133 517 delay <f>;
-#X text 97 430 fgcolor <f f f>;
-#X text 97 445 bgcolor <f f f>;
+#X restore 305 280 pd X-Y_Mode;
+#X text 198 491 - onset time delay between displays (default 0);
+#X text 67 116 frequency;
+#X text 109 356 calccount <f>;
+#X text 121 372 bufsize <f>;
+#X text 121 387 range <f f>;
+#X text 85 433 gridcolor <f f f>;
+#X text 121 460 trigger <f>;
+#X text 109 475 triglevel <f>;
+#X text 133 491 delay <f>;
+#X text 97 404 fgcolor <f f f>;
+#X text 97 419 bgcolor <f f f>;
 #N canvas 207 237 475 277 backwards-compatibility 0;
 #X text 49 70 [scope~] used to be compiled as [Scope~] to avoid name
 conflicts with an old (and not existing anymore) Pd Vanilla's object.
@@ -197,7 +197,7 @@ still create this object as [Scope~] or [cyclone/Scope~] for backwards
 compatibility reasons. But [scope~] or [cyclone/scope~] is the reasonable
 and sensible way nowadays and the current plan is to phase out the
 capital letters in cyclone's objects.;
-#X restore 362 287 pd backwards-compatibility;
+#X restore 387 280 pd backwards-compatibility;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -212,24 +212,24 @@ capital letters in cyclone's objects.;
 #X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X text 197 367 - sets "calccount": samples per line (2-8192 \, default
+#X text 197 341 - sets "calccount": samples per line (2-8192 \, default
 256);
-#X text 197 383 - sets "calccount" (samples per line);
-#X text 197 398 - sets number of lines in buffer (8-256 \, default
+#X text 197 357 - sets "calccount" (samples per line);
+#X text 197 372 - sets number of lines in buffer (8-256 \, default
 128);
-#X text 197 414 - sets vertical range (default -1 1);
-#X text 197 430 - sets front/signal RGB color (values 0-1);
-#X text 197 445 - sets background RGB color (values 0-1);
-#X text 197 459 - sets grid RGB color (values 0-1);
-#X text 197 487 - sets trigger mode: 0 (none \, default) \, 1 (up)
+#X text 197 388 - sets vertical range (default -1 1);
+#X text 197 404 - sets front/signal RGB color (values 0-1);
+#X text 197 419 - sets background RGB color (values 0-1);
+#X text 197 433 - sets grid RGB color (values 0-1);
+#X text 197 461 - sets trigger mode: 0 (none \, default) \, 1 (up)
 or 2 (down);
-#X text 197 502 - sets threshold level for the trigger mode (default
+#X text 197 476 - sets threshold level for the trigger mode (default
 0);
 #X obj 19 54 comment 0 18 times ? 0 0 0 0 Oscilloscope display;
-#X floatatom 118 175 5 2 8192 0 - - -, f 5;
+#X floatatom 118 162 5 2 8192 0 - - -, f 5;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -298,7 +298,7 @@ or 2 (down);
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -331,12 +331,10 @@ or 2 (down);
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 109 472 drawstyle <f>;
-#X text 132 629 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
+#X text 109 446 drawstyle <f>;
+#X text 132 603 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
 f f> | @range <f f> | @trigger <f> | @triglevel <f> | @bufsize <f>
 @calccount <f> | @delay <f> | drawstyle <f>;
-#X text 89 81 Use [scope~] to displays a signal in the style of an
-oscilloscope. Right click for properties!;
 #N canvas 161 23 843 612 appearance_colors 0;
 #X obj 175 447 Scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333 205 229
 232 74 79 77 96 98 102 0;
@@ -447,7 +445,7 @@ Check the messages below;
 #X connect 30 0 0 0;
 #X connect 32 0 31 0;
 #X connect 33 0 32 0;
-#X restore 266 237 pd appearance_colors;
+#X restore 291 230 pd appearance_colors;
 #N canvas 75 87 950 484 appearance_others 0;
 #X obj 65 253 cyclone/rect~ 70;
 #X obj 93 19 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
@@ -493,7 +491,7 @@ message/attribute \, convenient also for some dynamic patching.;
 #X connect 17 0 19 0;
 #X connect 19 0 18 0;
 #X connect 20 0 18 0;
-#X restore 397 237 pd appearance_others;
+#X restore 422 230 pd appearance_others;
 #N canvas 52 57 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -509,7 +507,7 @@ or not) you can access its properties.;
 on it and then you can resize it by clicking and dragging on its bottom
 right corner.;
 #X connect 3 0 4 0;
-#X restore 475 264 pd mouse;
+#X restore 500 257 pd mouse;
 #N canvas 133 91 436 665 buffer 0;
 #X floatatom 141 455 5 0 0 0 - - -, f 5;
 #X obj 141 516 Scope~ 182 119 10 3 256 -1 1 0 0 0 -0.333333 205 229
@@ -549,12 +547,16 @@ smallest line is 2 samples/points long.;
 #X connect 4 0 3 0;
 #X connect 5 0 1 0;
 #X connect 6 0 3 0;
-#X restore 260 264 pd buffer settings;
-#X text 197 472 - <1> sets alternate drawing style (default 0);
-#X obj 43 203 scope~ 180 130 256 3 128 -1 1 0 0 0 0 205 229 232 74
+#X restore 285 257 pd buffer settings;
+#X text 197 446 - <1> sets alternate drawing style (default 0);
+#X obj 43 190 scope~ 183 112 256 3 128 -1 1 0 0 0 0 205 229 232 74
 79 77 96 98 102 0;
+#X text 89 83 [scope~] displays a signal in the style of an oscilloscope.
+;
+#X obj 235 201 cyclone/comment 0 12 helvetica ? 0 200 0 0 <= Right
+click for properties!;
 #X connect 9 0 11 0;
 #X connect 11 0 24 0;
-#X connect 16 0 68 1;
-#X connect 24 0 68 0;
-#X connect 58 0 68 0;
+#X connect 16 0 67 1;
+#X connect 24 0 67 0;
+#X connect 58 0 67 0;

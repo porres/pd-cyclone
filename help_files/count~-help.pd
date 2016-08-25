@@ -1,5 +1,5 @@
-#N canvas 607 32 558 601 10;
-#X obj 4 562 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 193 23 558 598 10;
+#X obj 4 559 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 257 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -20,7 +20,7 @@
 Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02;
-#X restore 504 564 pd META;
+#X restore 504 561 pd META;
 #X obj 4 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 451 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -29,7 +29,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 6 1 Related Objects;
 #X obj 50 31 counter;
-#X restore 206 564 pd Related_objects;
+#X restore 206 561 pd Related_objects;
 #X obj 74 265 cnv 17 3 125 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 74 395 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
@@ -46,8 +46,8 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 134 428 signal;
 #X obj 4 526 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 109 536 @autoreset;
-#X text 185 536 - @autoreset 1 (autoreset enabled) @autoreset 0 (disabled)
+#X text 109 535 @autoreset;
+#X text 185 535 - @autoreset 1 (autoreset enabled) @autoreset 0 (disabled)
 ;
 #X text 135 376 signal;
 #X text 185 457 - minimum value (default 0);

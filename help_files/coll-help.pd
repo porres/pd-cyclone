@@ -1,381 +1,23 @@
-#N canvas 405 28 612 800 10;
-#X obj 2 475 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
+#N canvas 761 23 559 582 10;
+#X obj 2 278 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
-#X obj 2 659 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 360 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 752 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 448 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 84 688 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 72 387 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 708 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 72 407 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 728 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 72 427 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 668 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 72 367 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 489 cnv 17 3 160 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 72 285 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#N canvas 70 39 609 676 allMessages 0;
-#X obj 226 51 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 2 cnv 15 365 46 empty empty Description 128 18 0 12 -187701
--1 0;
-#X obj 226 231 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 195 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 147 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 123 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 255 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 317 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 353 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 377 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 425 cnv 9 365 22 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 226 449 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 473 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 509 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 545 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 581 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 643 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 705 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 777 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 801 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 863 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 899 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 947 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 1009 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 1081 cnv 9 365 22 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 226 1045 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 1105 cnv 9 365 22 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 226 1129 cnv 9 365 144 empty empty empty 20 12 0 14 -257983
--66577 0;
-#X obj 226 1275 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 1299 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 1347 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 1383 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 1419 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 1467 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 1491 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 1539 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 51 cnv 9 222 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 231 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 195 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 147 cnv 9 222 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 123 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 255 cnv 9 222 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 317 cnv 9 222 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 353 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 377 cnv 9 222 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 425 cnv 9 222 22 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 2 449 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 473 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 509 cnv 9 222 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 545 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 581 cnv 9 222 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 643 cnv 9 222 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 705 cnv 9 222 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 777 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 801 cnv 9 222 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 863 cnv 9 222 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 899 cnv 9 222 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 947 cnv 9 222 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1009 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1081 cnv 9 222 22 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 2 1045 cnv 9 222 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1105 cnv 9 222 22 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 2 1129 cnv 9 222 144 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1275 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1299 cnv 9 222 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1347 cnv 9 222 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1383 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1419 cnv 9 222 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1467 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1491 cnv 9 222 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1539 cnv 9 222 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X text 9 199 dump;
-#X text 9 233 end;
-#X text 9 450 length;
-#X text 9 477 max;
-#X text 9 548 min;
-#X text 9 584 next;
-#X text 9 777 open;
-#X text 9 804 prev;
-#X text 9 901 readagain;
-#X text 9 1276 start;
-#X text 9 1468 wclose;
-#X text 9 1543 writeagain;
-#X text 238 475 finds and sends the highest numerical value in the
-collection to outlet 1 (ignores lists and symbols), f 55;
-#X text 238 547 finds and sends the lowest numerical value in the collection
-to outlet 1 (ignores lists and symbols), f 55;
-#X obj 2 2 cnv 15 222 46 empty empty Message 56 18 0 12 -187701 -1
-0;
-#X obj 226 99 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 99 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 9 101 clear;
-#X text 9 319 flags "1 0";
-#X text 45 333 "0 0";
-#X text 9 54 assoc <alias> <address>;
-#X text 238 53 Defines an <alias> for an existing <address> number.
-Each number <address> can have only one symbol associated with it.
-, f 55;
-#X text 238 102 Erases the whole collection., f 55;
-#X text 9 126 deassoc <alias> <address>;
-#X text 238 126 Removes the <alias> for the numberic <address>., f
-55;
-#X text 9 152 delete <address>;
-#X text 238 149 Removes the data at the <address> provided. If the
-specified <address> is numeric \, all higher numbered addresses are
-decremented by 1, f 55;
-#X text 238 234 Sets the address pointer to the last address., f 55
-;
-#X text 238 198 Outputs all values at outlet 1 \, all addresses at
-outlet 2 and Bang outlet 4 when completed., f 55;
-#X text 8 260 filetype <fileType|extension>;
-#X text 238 258 Sets the file type (Mac) or file extension (others)
-which can be read/written into coll object. The message "filetype"
-with no arguments restores the default file behavior., f 55;
-#X text 9 354 goto <address>;
-#X text 238 356 Sets the address pointer to the specified <address>.
-, f 55;
-#X text 238 320 Persist "1 0" or do not persist "0 0" collection on
-patch save., f 55;
-#X text 9 378 insert <address> <data>;
-#X text 238 379 Inserts a new value at <address> position and if necessary
-\, shifts up the all the other addresses with equal or greater to <address>
-provided., f 55;
-#X text 9 426 insert2 <address> <data>;
-#X text 238 452 Number of stored values to outlet 1, f 55;
-#X text 9 510 merge <address> <data>;
-#X text 238 511 Appends the <data> to the current value at <address>.
-If the <address> does not yet exist \, it is created., f 55;
-#X text 238 584 Sends the the index to outlet 1 and next index value
-to outlet 2 Sets the pointer to next index. If the address is a symbol
-rather than a number \, 0 is sent out the second outlet., f 55;
-#X text 9 707 nstore <address> <alias> <data>;
-#X text 238 707 Stores the data at the <address> and associates the
-<alias>. The format "nstore <alias> <address> <data>" is also possible.
-, f 55;
-#X obj 226 753 cnv 9 365 22 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 2 753 cnv 9 222 22 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X text 238 778 Opens a data window containing the collection., f
-55;
-#X text 238 802 Sends the address to outlet 1 and the previous address
-value to outlet 2 Sets the pointer to the previous address. If the
-address is a symbol rather than a number \, 0 is sent out the second
-outlet., f 55;
-#X text 9 866 read <fileName>;
-#X text 238 866 Without argument "read" opens the Open File dialog
-box. With argument \, attempt to open it as a file., f 55;
-#X text 9 950 refer <objectName>;
-#X text 238 901 If a file was opened before \, restore the coll object
-contents to its contents. Otherwise open an Open File dialog box.,
-f 55;
-#X text 238 949 Changes the reference to the data in another named
-coll object. Changes to the data stored in any referenced coll will
-be shared by all other similarly named objects., f 55;
-#X text 9 1012 remove <address>;
-#X text 238 1012 Removes that <address> and its contents from the collection.
-Does not alter the address of other values., f 55;
-#X text 9 1048 renumber <startAddress>;
-#X text 238 1048 Makes the list of numeric addresses consecutive. The
-<startAddress> argument is optional., f 55;
-#X text 9 1083 renumber2 <address>;
-#X text 238 1083 (not in cyclone), f 55;
-#X text 238 756 (not in cyclone), f 55;
-#X text 238 428 (not in cyclone), f 55;
-#X text 9 1107 separate <address>;
-#X text 238 1108 (not in cyclone), f 55;
-#X text 9 1135 sort <flag> <subAddress>;
-#X text 9 1350 sub <address> <subAddress> <value>;
-#X text 9 754 nsub <address> <subAddress> <data>;
-#X text 9 645 nth <address> <subAddress>;
-#X text 238 646 Selects and sends the nth element <subAddress> in the
-value addressed with <address> (starts at 1). As an example \, "nth
-75 2" will output the second item in the list stored at address 75
-, f 55;
-#X text 237 1133 Sorts the data into a specified order. If <flag> is
--1 \, the items are sorted in ascending order. If <flag> is 1 \, the
-items are sorted in descending order., f 55;
-#X text 237 1177 The <subAddress> argument specifies what data is used
-to sort the contents. If <subAddress> is -1 \, the index (either number
-or symbol) associated with the data is used. If <subAddress> is not
-present or is 0 \, the first item in the data is used. If <subAddress>
-is 1 or greater \, that data elements is used for the sorting order.
-, f 55;
-#X text 238 1277 Sets the address pointer to the first value., f 55
-;
-#X text 9 1300 store <address> <value>;
-#X text 238 1301 Stores the <value> at <address> \, it can also be
-an symbol. As an example \, "store triad 0 4 7" will store '0 4 7'
-at an address named 'triad'., f 55;
-#X text 238 1350 Replaces in the list at <address> the element at <subAddress>
-by <value> and output immediately., f 55;
-#X text 9 1385 subsym <newAddress> <oldAddress>;
-#X text 238 1384 Substitutes one symbol address \, <oldAddress> \,
-for another \, <newAddress>., f 55;
-#X text 9 1421 swap <address> <address>;
-#X text 238 1421 Exchanges the indices associated with two addresses.
-The data is unchanged \, but the indexes that they use are swapped.
-, f 55;
-#X text 238 1470 Closes the data window containing the collection.
-, f 55;
-#X text 9 1495 write <fileName>;
-#X text 239 1493 Without argument \, <fileName> \, "write" opens the
-Save As dialog box. With argument \, attempt to save it as a file.
-, f 55;
-#X text 238 1540 Saves the contents to the most recently written file.
-If no prior file write has occurred \, the request is treated like
-a write message., f 55;
-#X obj 4 1620 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 1609 cnv 10 589 12 empty empty empty 1 1 0 8 -187701 -33289
-0;
-#X obj 2 1587 cnv 15 589 21 empty empty empty 1 1 0 4 -233017 -33289
-0;
-#X restore 393 544 pd allMessages;
-#N canvas 623 42 430 675 orderByFunction 0;
-#X text 28 30 Messages ordered by function;
-#X text 28 52 operates on complete collection;
-#X text 28 59 -------------------------------;
-#X text 28 71 clear;
-#X text 28 83 dump;
-#X text 28 95 end;
-#X text 28 107 filetype extension;
-#X text 28 119 flags persist 0;
-#X text 28 131 length;
-#X text 28 143 next;
-#X text 28 155 open;
-#X text 28 167 prev;
-#X text 28 179 read;
-#X text 28 191 readagain;
-#X text 28 203 refer objectName;
-#X text 28 215 start;
-#X text 28 227 wclose;
-#X text 28 239 write filename;
-#X text 28 251 writeagain;
-#X text 28 276 operates on all address types;
-#X text 28 283 -----------------------------;
-#X text 28 297 goto address;
-#X text 28 309 merge address value;
-#X text 28 321 nth address subaddress;
-#X text 28 333 remove address;
-#X text 28 345 renumber address;
-#X text 28 357 separate address;
-#X text 28 369 sort flag subaddress;
-#X text 28 381 store address value;
-#X text 28 394 swap address address;
-#X text 28 407 sub address subaddress value;
-#X text 28 419 subsym address address;
-#X text 28 446 operates on numeric address;
-#X text 28 453 ---------------------------;
-#X text 28 467 assoc alias address;
-#X text 28 479 deassoc alias address;
-#X text 28 491 delete address;
-#X text 28 503 insert address value;
-#X text 28 515 nstore address alias value (or nstore alias address
-value);
-#X text 28 527 renumber startAddress;
-#X text 28 556 operates on symbol address;
-#X text 28 563 --------------------------;
-#X text 28 577 subsym address address;
-#X text 28 606 operates on numeric values;
-#X text 28 613 --------------------------;
-#X text 28 628 max;
-#X text 28 640 min;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X restore 351 567 pd orderByFunction;
-#X msg 89 361 delete 1;
-#X msg 101 390 remove 2;
-#X msg 110 417 clear;
-#X msg 49 214 1 123 4.001 "some text";
-#X msg 69 236 2 567 8.002 "more text";
-#X msg 99 258 3 910 11.003 "and more";
-#X msg 145 294 open;
-#X floatatom 321 274 5 0 0 0 - - -, f 5;
-#X obj 334 432 print;
-#X floatatom 375 433 5 0 0 0 - - -, f 5;
-#X obj 457 433 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg 343 336 nth 1 2;
-#X msg 365 366 dump;
-#X obj 49 322 cyclone/coll helpColl;
+#X obj 145 223 cyclone/coll helpColl;
 #C restore;
-#X obj 334 400 cyclone/coll helpColl;
-#C restore;
-#X obj 89 448 cyclone/coll helpColl;
-#C restore;
-#X msg 334 300 5;
-#X obj 2 864 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 541 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 511 120 371 362 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -397,7 +39,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 866 pd META;
+#X restore 503 543 pd META;
 #N canvas 372 145 453 92 Related_objects 0;
 #X obj 2 2 cnv 15 448 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -408,59 +50,16 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 89 34 bag;
 #X obj 184 34 tabwrite;
 #X obj 21 34 array set;
-#X restore 199 866 pd Related_objects;
-#X text 203 770 -;
-#X text 215 770 sets the time delay to output messages after received
-some value or list in inlets. (optional), f 53;
-#X text 95 770 1) /path/to/file, f 17;
-#X text 203 805 -;
-#X text 95 805 2) float, f 17;
-#X text 215 806 flag to enable threaded loading and saving data. 0
-or absent is disabled \, 1 is enabled. This allows for reading and
-writing data without dropouts., f 53;
-#X obj 222 209 cyclone/comment 100 11 helvetica ? 0 80 80 80 store
-data indexed by the first list element;
-#X obj 181 289 cyclone/comment 80 11 helvetica ? 0 80 80 80 open the
-text editing window;
-#X obj 185 319 cyclone/comment 80 11 helvetica ? 0 80 80 80 <=- Click
-to open too;
-#X obj 56 192 cyclone/comment 80 12 helvetica ? 0 80 80 80 Storage
-;
-#X obj 23 364 cyclone/comment 80 12 helvetica ? 0 80 80 80 Removal
-;
-#X obj 152 360 cyclone/comment 130 11 helvetica ? 0 80 80 80 delete
-entry and decrement higher indices;
-#X obj 163 388 cyclone/comment 100 11 helvetica ? 0 80 80 80 delete
-entry with no renumbering;
-#X obj 320 245 cyclone/comment 36 12 helvetica ? 0 80 80 80 Recall
-;
-#X obj 362 270 cyclone/comment 100 11 helvetica ? 0 80 80 80 int to
-retrieve an index and its data;
-#X obj 367 299 cyclone/comment 90 11 helvetica ? 0 80 80 80 if does
-not exist \, no response;
-#X obj 404 363 cyclone/comment 70 11 helvetica ? 0 80 80 80 output
-all stored data;
-#X text 158 490 -;
-#X text 125 490 bang;
-#X text 173 490 See next listing, f 60;
-#X text 158 511 -;
-#X text 118 511 float;
-#X text 173 511 address of the value sent out. The address at outlet
-2 \, the value at outlet 1, f 60;
-#X text 158 543 -;
-#X text 107 543 message;
-#X text 173 544 for a complete list of messages see:, f 60;
-#X text 173 567 messages ordered by function:, f 60;
-#X text 158 588 -;
-#X text 124 588 list;
-#X text 173 588 first element is interpreted as the address \, the
-others as the list to store, f 60;
-#X text 158 622 -;
-#X text 112 622 symbol;
-#X text 173 622 address of value sent out. The address at outlet 2
-\, the value at outlet 1, f 60;
-#X text 155 709 bang;
-#X text 155 729 bang;
+#X restore 199 543 pd Related_objects;
+#X text 173 456 -;
+#X text 173 485 -;
+#X text 101 486 2) float;
+#X text 137 285 -;
+#X text 104 285 bang;
+#X text 137 318 -;
+#X text 137 335 -;
+#X text 119 407 bang;
+#X text 119 427 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -475,24 +74,211 @@ others as the list to store, f 60;
 Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 coll;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 store \, edit \, organize
-and restore collections of messages;
-#X obj 154 413 cyclone/comment 80 11 helvetica ? 0 80 80 80 erase everything
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Store/edit data collections
 ;
-#X obj 397 329 cyclone/comment 120 11 helvetica ? 0 80 80 80 nth returns
-an element from an index;
-#N canvas 243 94 873 552 more 0;
-#X obj 2 2 cnv 15 868 40 empty empty coll 3 12 0 18 -204280 -1 0;
-#X obj 2 528 cnv 15 868 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X text 25 23 examples;
-#N canvas 499 157 390 133 credits 0;
-#X text 71 41 Spare examples from Max Documentation., f 41;
-#X restore 791 530 pd credits;
-#X obj 70 94 pgmin;
-#X floatatom 70 116 5 0 0 0 - - -, f 5;
-#X msg 70 236, f 15;
-#X msg 117 124 1 Strings \, 2 Marimba \, 3 Brass;
+#X text 157 407 - when finishing load or save operation, f 51;
+#X text 157 427 - when finished with a dump operation, f 51;
+#X text 71 91 [coll] allows for storage \, organization \, editing
+\, and retrieval of different messages.;
+#X text 101 456 1) symbol;
+#N canvas 497 23 663 584 All_Messages 0;
+#X text 12 380 nstore <address> <alias> <data>;
+#X text 210 373 Stores the data at the <address> and associates the
+<alias>. The format "nstore <alias> <address> <data>" is also possible.
+, f 70;
+#X text 174 596 (not in cyclone), f 76;
+#X text 222 403 (not in cyclone), f 68;
+#X text 174 234 (not in cyclone), f 76;
+#X text 174 612 (not in cyclone), f 76;
+#X text 9 402 nsub <address> <subAddress> <data>;
+#X text 38 8 assoc <symbol \, f/s> -;
+#X text 174 35 erases all data collection, f 76;
+#X text 122 35 clear -;
+#X text 26 51 deassoc <symbol/ f/s> -;
+#X text 174 7 the 1st symbol associates an alias for an address specified
+as a float or symbol (each address has only one alias), f 76;
+#X text 174 51 desassociates the alias for that address, f 76;
+#X text 26 68 delete <float/symbol> -;
+#X text 174 67 deletes data at the address provided by a float or symbol.
+If it's a float \, all higher numbered addresses are decremented by
+1, f 76;
+#X text 128 96 dump -;
+#X text 174 96 dumps all values at 1st outlet \, addresses at 2nd and
+a bang at the 4th after the dump is completed, f 76;
+#X text 174 126 sets the pointer to the last address, f 76;
+#X text 134 126 end -;
+#X text 50 143 filetype <symbol> -;
+#X text 79 173 flags <list> -;
+#X text 174 173 <1 0> saves contents when saving the patch \, <0 0>
+doesn't, f 76;
+#X text 174 189 sets the address pointer to the specified address,
+f 76;
+#X text 37 189 goto <float/symbol> -;
+#X text 174 205 inserts a new value at <address> position and if necessary
+\, shifts up the all the other addresses with equal or greater to <address>
+provided., f 76;
+#X text 13 205 insert <address> <data> -;
+#X text 7 234 insert2 <address> <data> -;
+#X text 115 250 length -;
+#X text 174 250 sends number of stored values to left outlet, f 76
+;
+#X text 133 266 max -;
+#X text 174 266 sends the highest numerical value to left outlet,
+f 76;
+#X text 19 283 merge <address> <data> -;
+#X text 174 283 appends the <data> to the current value at <address>.
+If the <address> does not yet exist \, it is created., f 76;
+#X text 133 312 min -;
+#X text 174 312 sends the lowest numerical value to the left outlet
+, f 76;
+#X text 127 328 next -;
+#X text 174 328 sends the index to 1st outlet \, next index to 2nd
+outlet and sets the pointer to next index. If the address is a symbol
+\, 0 is sent out the 2nd outlet, f 76;
+#X text 174 144 sets the file type (Mac) or file extension (others)
+which can be read or written. No symbol restores the default file behavior.
+, f 76;
+#X text 55 357 nth <f/s \, float> -;
+#X text 174 357 sends the nth element specified by the float of an
+address (starts at 1?)., f 76;
+#X text 127 419 open -;
+#X text 174 419 opens a window containing the data collection, f 76
+;
+#X text 127 435 prev -;
+#X text 73 478 read <symbol> -;
+#X text 96 507 readagain -;
+#X text 174 507 if a file was opened before \, restore the coll object
+contents to its contents. Otherwise open an Open File dialog box,
+f 76;
+#X text 174 435 sends the address to outlet 1 and the previous address
+value to outlet 2 Sets the pointer to the previous address. If the
+address is a symbol rather than a number \, 0 is sent out the second
+outlet, f 76;
+#X text 174 478 without argument "read" opens the Open File dialog
+box. With argument \, attempt to open it as a file, f 76;
+#X text 66 536 refer <symbol> -;
+#X text 174 536 refers to the data from another named [coll] object
+, f 76;
+#X text 54 552 remove <address> -;
+#X text 174 552 removes that <address> and its data (doesn't change
+other addresses), f 76;
+#X text 12 568 renumber <startAddress> -;
+#X text 174 568 makes the list of numeric addresses consecutive. The
+<startAddress> argument is optional, f 76;
+#X text 36 596 renumber2 <address> -;
+#X text 42 613 separate <address> -;
+#X text 6 630 sort <flag> <subAddress> -;
+#X text 173 630 sorts the data into a specified order. If <flag> is
+-1 \, the items are sorted in ascending order. If <flag> is 1 \, the
+items are sorted in descending order \; the <subAddress> argument specifies
+what data is used to sort the contents. If <subAddress> is -1 \, the
+index (either number or symbol) associated with the data is used. If
+<subAddress> is not present or is 0 \, the first item in the data is
+used. If <subAddress> is 1 or greater \, that data elements is used
+for the sorting order, f 76;
+#X text 120 737 start -;
+#X text 173 737 sets the address pointer to the first value, f 76
+;
+#X text 173 754 stores the <value> at <address> \, it can also be an
+symbol. As an example \, "store triad 0 4 7" will store '0 4 7' at
+an address named 'triad', f 76;
+#X text 12 754 store <address> <value> -;
+#X text 60 784 sub <f/s \, f \, f> -;
+#X text 173 784 replaces in the list at <address> the element at <subAddress>
+by <value> and outputs immediately, f 76;
+#X text 12 814 subsym <symbol \, symbol> -;
+#X text 173 814 substitutes a symbol address, f 76;
+#X text 6 830 swap <address> <address> -;
+#X text 173 830 exchanges the indices associated with two addresses.
+The data is unchanged \, but the indexes that they use are swapped
+, f 76;
+#X text 113 859 wclose -;
+#X text 173 860 closes the data window containing the collection,
+f 76;
+#X text 65 877 write <symbol> -;
+#X text 173 878 without argument \, <fileName> \, "write" opens the
+Save As dialog box. With argument \, attempt to save it as a file,
+f 76;
+#X text 88 907 writeagain -;
+#X text 173 907 saves the contents to the most recently written file.
+If no prior file write has occurred \, the request is treated like
+a write message, f 76;
+#X restore 162 337 pd All_Messages;
+#N canvas 623 42 453 376 Sorted_By_Functions 0;
+#X text 19 36 operates on complete collection;
+#X text 19 43 -------------------------------;
+#X text 19 55 clear;
+#X text 19 67 dump;
+#X text 19 79 end;
+#X text 19 91 filetype extension;
+#X text 19 103 flags persist 0;
+#X text 19 115 length;
+#X text 19 127 next;
+#X text 19 139 open;
+#X text 19 151 prev;
+#X text 19 163 read;
+#X text 19 175 readagain;
+#X text 19 187 refer objectName;
+#X text 19 199 start;
+#X text 19 211 wclose;
+#X text 19 223 write filename;
+#X text 19 235 writeagain;
+#X text 232 13 operates on all address types;
+#X text 232 20 -----------------------------;
+#X text 232 34 goto address;
+#X text 232 46 merge address value;
+#X text 232 58 nth address subaddress;
+#X text 232 70 remove address;
+#X text 232 82 renumber address;
+#X text 232 94 separate address;
+#X text 232 106 sort flag subaddress;
+#X text 232 118 store address value;
+#X text 232 131 swap address address;
+#X text 232 144 sub address subaddress value;
+#X text 232 156 subsym address address;
+#X text 229 201 assoc alias address;
+#X text 229 213 deassoc alias address;
+#X text 229 225 delete address;
+#X text 229 237 insert address value;
+#X text 229 261 renumber startAddress;
+#X text 229 301 subsym address address;
+#X text 19 257 operates on numeric values;
+#X text 19 264 --------------------------;
+#X text 19 279 max;
+#X text 19 291 min;
+#X text 229 249 nstore address alias value;
+#X text 229 180 operates on numeric addresseses;
+#X text 229 187 -------------------------------;
+#X text 229 279 operates on symbolic addresseses;
+#X text 229 286 --------------------------------;
+#X text 24 340 nstore address alias value (or nstore alias address
+value) (?), f 63;
+#X text 19 14 MESSAGES ORDERED BY FUNCTIONS:;
+#X restore 271 337 pd Sorted_By_Functions;
+#X text 185 456 sets name (objects with the same name share contents)
+or file name (searches for a file to open);
+#X text 185 486 non-0 prevents from searching for a file;
+#X text 79 335 messages;
+#X text 80 318 anything;
+#X text 152 285 see next listing, f 60;
+#X obj 168 183 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
+-1 -1 0;
+#X obj 145 249 print;
+#X obj 186 251 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1 256;
+#X text 184 183 0;
+#X text 184 198 1;
+#X msg 145 133 0 100 200 300 hi;
+#X msg 155 157 1 200 300 400 hello;
+#X text 250 133 at address 0;
+#X text 277 157 at address 1;
+#X text 44 144 stores data =>;
+#X text 199 189 <= recall data from address;
+#N canvas 243 94 981 594 examples 0;
+#X obj 20 94 pgmin;
+#X floatatom 20 116 5 0 0 0 - - -, f 5;
+#X msg 20 236 Brass, f 15;
+#X msg 67 124 1 Strings \, 2 Marimba \, 3 Brass;
 #X obj 426 165 cyclone/coll;
 #C restore;
 #X msg 426 88 store setup 5 pgm start;
@@ -937,7 +723,7 @@ it out imediately;
 #X msg 211 376 next;
 #X msg 361 376 prev;
 #X msg 511 376 prev;
-#X obj 70 165 cyclone/coll instrument;
+#X obj 20 165 cyclone/coll instrument;
 #C restore;
 #X obj 61 403 coll instrument;
 #C restore;
@@ -950,7 +736,7 @@ it out imediately;
 #X symbolatom 211 435 10 0 0 0 - - -, f 10;
 #X symbolatom 361 435 10 0 0 0 - - -, f 10;
 #X symbolatom 511 435 10 0 0 0 - - -, f 10;
-#X obj 70 207 prepend set;
+#X obj 20 207 prepend set;
 #X msg 61 376 goto 3;
 #N canvas 325 115 705 390 whether 0;
 #X obj 2 2 cnv 15 700 20 empty empty empty 3 12 0 14 -204280 -1 0;
@@ -1017,10 +803,10 @@ flag \, using something won't normally be found.;
 #X connect 18 1 15 0;
 #X connect 18 2 7 0;
 #X restore 688 333 pd whether data is in coll;
-#X obj 65 74 cyclone/comment 100 11 helvetica ? 0 80 80 80 recall messages
+#X obj 15 74 cyclone/comment 100 11 helvetica ? 0 80 80 80 recall messages
 ;
-#X obj 145 107 cyclone/comment 100 11 helvetica ? 0 80 80 80 store
-messages;
+#X obj 95 107 cyclone/comment 100 11 helvetica ? 0 80 80 80 store messages
+;
 #X obj 408 67 cyclone/comment 100 11 helvetica ? 0 80 80 80 store a
 message;
 #X obj 485 122 cyclone/comment 100 11 helvetica ? 0 80 80 80 recall
@@ -1047,49 +833,94 @@ the address 3;
 the address 2;
 #X obj 508 457 cyclone/comment 80 11 helvetica ? 0 80 80 80 value at
 the address 1;
-#X connect 4 0 5 0;
-#X connect 5 0 29 0;
-#X connect 7 0 29 0;
-#X connect 8 0 11 0;
-#X connect 9 0 8 0;
-#X connect 10 0 8 0;
-#X connect 12 0 13 0;
-#X connect 13 0 14 0;
-#X connect 15 0 17 0;
-#X connect 17 0 16 0;
-#X connect 26 0 31 0;
-#X connect 27 0 32 0;
-#X connect 28 0 33 0;
-#X connect 29 0 37 0;
-#X connect 31 0 34 0;
-#X connect 32 0 35 0;
-#X connect 33 0 36 0;
-#X connect 37 0 6 0;
-#X connect 38 0 30 0;
-#X restore 422 220 pd more examples;
-#X text 101 90 Allows for storage \, organization \, editing \, and
-retrieval of different messages. The coll object implements an associative
-array of items. The Pd types float \, symbol and list can be stored.
-The elements have a float or symbol as 'address'. The float address
-however should not be interpreted as an index of an array \, but merely
-as a directive for the order of the numeric elements.;
-#X text 107 669 float/symbol;
-#X text 193 670 - value \, either float or symbol, f 51;
-#X text 193 690 - address \, either float or symbol, f 51;
-#X text 193 709 - when finishing load or save operation, f 51;
-#X text 193 729 - when finished with a dump operation, f 51;
-#X text 107 689 float/symbol;
-#X connect 10 0 25 0;
-#X connect 11 0 25 0;
-#X connect 12 0 25 0;
-#X connect 13 0 23 0;
-#X connect 14 0 23 0;
-#X connect 15 0 23 0;
-#X connect 16 0 23 0;
-#X connect 17 0 24 0;
-#X connect 21 0 24 0;
-#X connect 22 0 24 0;
-#X connect 24 0 18 0;
-#X connect 24 1 19 0;
-#X connect 24 3 20 0;
-#X connect 26 0 24 0;
+#X text 613 80 The coll object implements an associative array of items.
+The Pd types float \, symbol and list can be stored. The elements have
+a float or symbol as 'address'. The float address however should not
+be interpreted as an index of an array \, but merely as a directive
+for the order of the numeric elements.;
+#X msg 785 195 delete 1;
+#X msg 797 224 remove 2;
+#X msg 806 251 clear;
+#X obj 719 198 cyclone/comment 80 12 helvetica ? 0 80 80 80 Removal
+;
+#X obj 848 194 cyclone/comment 130 11 helvetica ? 0 80 80 80 delete
+entry and decrement higher indices;
+#X obj 859 222 cyclone/comment 100 11 helvetica ? 0 80 80 80 delete
+entry with no renumbering;
+#X obj 850 247 cyclone/comment 80 11 helvetica ? 0 80 80 80 erase everything
+;
+#X obj 785 282 cyclone/coll helpColl;
+#C restore;
+#X floatatom 250 86 5 0 0 0 - - -, f 5;
+#X obj 263 244 print;
+#X floatatom 304 245 5 0 0 0 - - -, f 5;
+#X obj 386 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 272 148 nth 1 2;
+#X msg 294 178 dump;
+#X obj 263 212 cyclone/coll helpColl;
+#C restore;
+#X msg 263 112 5;
+#X obj 249 57 cyclone/comment 36 12 helvetica ? 0 80 80 80 Recall;
+#X obj 291 82 cyclone/comment 100 11 helvetica ? 0 80 80 80 int to
+retrieve an index and its data;
+#X obj 296 111 cyclone/comment 90 11 helvetica ? 0 80 80 80 if does
+not exist \, no response;
+#X obj 333 175 cyclone/comment 70 11 helvetica ? 0 80 80 80 output
+all stored data;
+#X obj 326 141 cyclone/comment 120 11 helvetica ? 0 80 80 80 nth returns
+an element from an index;
+#X connect 0 0 1 0;
+#X connect 1 0 25 0;
+#X connect 3 0 25 0;
+#X connect 4 0 7 0;
+#X connect 5 0 4 0;
+#X connect 6 0 4 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 11 0 13 0;
+#X connect 13 0 12 0;
+#X connect 22 0 27 0;
+#X connect 23 0 28 0;
+#X connect 24 0 29 0;
+#X connect 25 0 33 0;
+#X connect 27 0 30 0;
+#X connect 28 0 31 0;
+#X connect 29 0 32 0;
+#X connect 33 0 2 0;
+#X connect 34 0 26 0;
+#X connect 54 0 61 0;
+#X connect 55 0 61 0;
+#X connect 56 0 61 0;
+#X connect 62 0 68 0;
+#X connect 66 0 68 0;
+#X connect 67 0 68 0;
+#X connect 68 0 63 0;
+#X connect 68 1 64 0;
+#X connect 68 3 65 0;
+#X connect 69 0 68 0;
+#X restore 477 246 pd examples;
+#X text 152 318 1st element is the address and the others are stored
+an address, f 64;
+#X text 101 301 atoms -;
+#X text 152 302 address (float/symbol) sent to 2nd outlet and its data
+to the 1st, f 65;
+#X text 95 368 anything;
+#X text 155 368 - stored data, f 51;
+#X text 113 387 atoms;
+#X text 156 387 - address \, either a numeric or symbolic atom, f
+51;
+#X obj 2 508 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 284 222 <= click to open;
+#X text 307 234 text window;
+#X text 247 251 <= address;
+#X text 93 250 data =>;
+#X obj 113 190 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X connect 8 0 41 0;
+#X connect 8 1 42 0;
+#X connect 40 0 8 0;
+#X connect 45 0 8 0;
+#X connect 46 0 8 0;
+#X connect 64 0 8 0;
