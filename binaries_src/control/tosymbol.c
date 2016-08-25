@@ -167,7 +167,7 @@ static void tosymbol_separator(t_tosymbol *x, t_symbol *s, int argc, t_atom * ar
     }
     else if(!set){
         //removes all spaces if not set
-        x->x_separator = 0;
+        x->x_separator = gensym("");;
     };
 }
 
@@ -188,7 +188,7 @@ static void *tosymbol_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_tosymbol *x = (t_tosymbol *)pd_new(tosymbol_class);
 
-    
+     
     if(argc >= 1){
         t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
         if(strcmp(curarg->s_name, "@separator") == 0){
@@ -202,7 +202,7 @@ static void *tosymbol_new(t_symbol *s, int argc, t_atom *argv)
 
     }
     else{
-        tosymbol_separator(x, 0, 0, 0);
+        x->x_separator = 0;
     };
 
     
