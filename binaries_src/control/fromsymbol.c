@@ -68,11 +68,11 @@ outlet_float(((t_object *)x)->ob_outlet, f);
 static void fromsymbol_separator(t_fromsymbol *x, t_symbol *s)
 {
     //changing it up so we default to " " 
-    if(s){
+    if(strlen(s->s_name) > 0){
         x->x_separator = s;
     }
     else{
-        x->x_separator = gensym("\s");
+        x->x_separator = gensym(" ");
     };
 }
 
