@@ -187,7 +187,7 @@ static void counter_set(t_counter *x, t_floatarg f)
 {
     int i = (int)f;
     if (i >= x->x_min && i <= x->x_max)
-	x->x_count = i - x->x_inc;
+	x->x_count = i;
 }
 
 /* CHECKED: out-of-range values are ignored */
