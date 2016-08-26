@@ -29,6 +29,7 @@ typedef struct _counter
     int        x_inc;
     int        x_min;
     int        x_max;
+    int        x_compatflag;
     int        x_carrybang;
     int        x_minhitflag;
     int        x_maxhitflag;
@@ -244,6 +245,13 @@ static void counter_carryint(t_counter *x)
     x->x_carrybang = 0;
 }
 
+static void counter_carryflag(t_counter *x, t_floatarg f)
+{
+    int i = (int)f;
+    if (i == 1)  x->x_carrybang = 1;
+    if (i == 0)  x->x_carrybang = 0;
+}
+
 /* CHECKED: up/down switch */
 static void counter_bang1(t_counter *x)
 {
@@ -275,13 +283,23 @@ static void counter_bang3(t_counter *x)
     counter_jam(x, x->x_min);
 }
 
+static void counter_compatmode(t_counter *x, t_floatarg f)
+{
+    int i = (int)f;
+    if (i == 0) x->x_compatflag = 0;
+    if (i == 1) x->x_compatflag = 1;
+}
+
 /* CHECKED: out-of-range values are accepted (LATER rethink) */
 /* CHECKED: no resetting of min, nor of max (contrary to the man) */
 static void counter_float3(t_counter *x, t_floatarg f)
 {
-    // ancient
+    if (x->x_compatflag)     // ancient
+    {
     x->x_count = x->x_min = (int)f;
     counter_dobang(x, 0);
+    }
+    else  counter_jam(x, f); // current (FIX ME)
 }
 
 /* CHECKED */
@@ -323,11 +341,13 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     if (i3) x->x_dir = i1, x->x_min = i2, x->x_max = i3;
     else if (i2) x->x_min = i1, x->x_max = i2;
     else if (i1) x->x_max = i1;
-    x->x_carrybang = 0;  /* CHECKED */
+    x->x_carrybang = 0;  // ?
+    x->x_compatflag = 0; // current
     x->x_minhitflag = x->x_maxhitflag = 0;
     x->x_maxcount = 0;
     counter_dir(x, x->x_dir);
-    x->x_count = (x->x_dir == COUNTER_DOWN ? x->x_max +  x->x_inc : x->x_min - x->x_inc);
+    x->x_count = (x->x_dir == COUNTER_DOWN ?
+                  x->x_max +  x->x_inc : x->x_min - x->x_inc);
     for (i = 0; i < 4; i++)
     {
 	x->x_proxies[i] = pd_new(counter_proxy_class);
@@ -382,6 +402,10 @@ void counter_setup(void)
 		    gensym("carrybang"), 0);
     class_addmethod(counter_class, (t_method)counter_carryint,
 		    gensym("carryint"), 0);
+    class_addmethod(counter_class, (t_method)counter_compatmode,
+                    gensym("compatmode"), A_FLOAT, 0);
+    class_addmethod(counter_class, (t_method)counter_carryflag,
+                    gensym("carryflag"), A_FLOAT, 0);
     counter_proxy_class = class_new(gensym("_counter_proxy"), 0, 0,
             sizeof(t_counter_proxy), CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(counter_proxy_class, counter_proxy_bang);
