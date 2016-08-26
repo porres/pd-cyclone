@@ -292,6 +292,8 @@ static void counter_float3(t_counter *x, t_floatarg f)
 static void counter_bang4(t_counter *x)
 {
     counter_set(x, x->x_max);
+    counter_dobang(x, 1);
+    x->x_count += x->x_inc;
 }
 
 static void counter_proxy_bang(t_counter_proxy *x)
