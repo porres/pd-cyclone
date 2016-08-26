@@ -2,11 +2,22 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-//Derek Kwan 2016 - redoing fromsymbol_symbol, fromsymbol_separator, adding mtok()
+//Derek Kwan 2016 - redoing fromsymbol_symbol, fromsymbol_separator, adding mtok(), isnums()
 
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "m_pd.h"
+
+int isnums(const char *s){
+    //lifted from stack overflow, checks if every char is a digit
+    while(*s){
+        if(isdigit(*s++)==0){
+            return 0;
+        };
+    };
+    return 1;
+}
 
 char *mtok(char *input, char *delimiter) {
     // adapted from stack overflow - Derek Kwan
@@ -110,12 +121,13 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
         int atompos = 0; //position in atom
         //parsing by token
         char * ret = mtok(newstr, sep);
+        char * err; //error pointer
         while(ret != NULL){
             if(strlen(ret) > 0){
-                char * err; //error pointer
-                double f = strtod(ret, &err);
-                if(*err == 0){
+                int allnums = isnums(ret); //flag if all nums
+                if(allnums){
                     //if errpointer is at beginning, that means we've got a float
+                    double f = strtod(ret, &err);
                     SETFLOAT(&out[atompos], (t_float)f);
                 }
                 else{
@@ -123,51 +135,21 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
                     t_symbol * cursym = gensym(ret);
                     SETSYMBOL(&out[atompos], cursym);
                 };
-                ret = mtok(NULL,sep);
                 atompos++; //increment position in atom
             };
+            ret = mtok(NULL,sep);
         };
-
-	outlet_anything(((t_object *)x)->ob_outlet, &s_, atompos, out);
+        if(out->a_type == A_SYMBOL){
+	    outlet_anything(((t_object *)x)->ob_outlet, out->a_w.w_symbol, atompos-1, out+1);
+        }
+        else if(out->a_type == A_FLOAT){
+            if(atompos >= 1){
+                outlet_list(((t_object *)x)->ob_outlet, &s_list, atompos, out);
+             };
+        };
+        
     };
 }
-
-/* old fromsymbol_symbol
-static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s)
-{
-    static char zero = 0;
-    char *sname = &zero;
-    if (s)
-    {
-	sname = s->s_name;
-	while (*sname == ' ' || *sname == '\t'
-	       || *sname == '\n' || *sname == '\r') sname++;
-    }
-    if (*sname)
-    {
-	t_binbuf *bb = binbuf_new();
-	int ac;
-	t_atom *av;
-	binbuf_text(bb, sname, strlen(sname));
-	ac = binbuf_getnatom(bb);
-	av = binbuf_getvec(bb);
-	if (ac)
-	{
-	    if (av->a_type == A_SYMBOL)
-		outlet_anything(((t_object *)x)->ob_outlet,
-				av->a_w.w_symbol, ac - 1, av + 1);
-	    else if (av->a_type == A_FLOAT)
-	    {
-		if (ac > 1)
-		    outlet_list(((t_object *)x)->ob_outlet, &s_list, ac, av);
-		else
-		    outlet_float(((t_object *)x)->ob_outlet, av->a_w.w_float);
-	    }
-	}
-	binbuf_free(bb);
-    }
-}
-*/
 
 static void fromsymbol_list(t_fromsymbol *x, t_symbol *s, int argc, t_atom *argv)
 {
