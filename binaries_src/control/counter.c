@@ -280,12 +280,7 @@ static void counter_bang3(t_counter *x)
 static void counter_float3(t_counter *x, t_floatarg f)
 {
     // ancient
-    int i = (int)f;
-    if (i <  x->x_min)
-        x->x_min = i;
-    else if (i > x->x_max)
-        x->x_max = i;
-    x->x_count = i;
+    x->x_count = x->x_min = (int)f;
     counter_dobang(x, 0);
 }
 
