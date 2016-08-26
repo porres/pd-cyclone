@@ -274,7 +274,13 @@ static void counter_bang2(t_counter *x)
 /* CHECKED: 'down, float2 3, up, bang' gives 3 (LATER rethink) */
 static void counter_float2(t_counter *x, t_floatarg f)
 {
-    counter_set(x, f);  /* FIXME */
+    int i = (int)f
+    if (x->x_compatflag)     // ancient
+    {
+        x->x_count = x->x_min = i;
+        counter_set(x, i);
+    }
+    else  counter_set(x, i);  // current (FIXME)
 }
 
 /* CHECKED */
@@ -299,7 +305,7 @@ static void counter_float3(t_counter *x, t_floatarg f)
     x->x_count = x->x_min = (int)f;
     counter_dobang(x, 0);
     }
-    else  counter_jam(x, f); // current (FIX ME)
+    else  counter_jam(x, f); // current (FIXME)
 }
 
 /* CHECKED */
