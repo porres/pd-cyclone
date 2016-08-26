@@ -10,11 +10,12 @@
 #include "m_pd.h"
 
 int isnums(const char *s){
-    //lifted from stack overflow, checks if every char is a digit
+    //lifted from stack overflow, checks if every char is a digit (or period)
     while(*s){
-        if(isdigit(*s++)==0){
+        if(isdigit(*s)==0 && *s!='.'){
             return 0;
         };
+        s++;
     };
     return 1;
 }
