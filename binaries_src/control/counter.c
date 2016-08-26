@@ -99,8 +99,7 @@ static void counter_dobang(t_counter *x, int notjam)
 
     if (x->x_count < x->x_min)
     {
-	if (x->x_inc == 1)
-	else if (x->x_dir == COUNTER_UPDOWN)
+	if (x->x_dir == COUNTER_UPDOWN)
 	{
 	    x->x_inc = 1;
 	    if ((x->x_count = x->x_min + 1) > x->x_max) x->x_count = x->x_min;
@@ -280,7 +279,14 @@ static void counter_bang3(t_counter *x)
 /* CHECKED: no resetting of min, nor of max (contrary to the man) */
 static void counter_float3(t_counter *x, t_floatarg f)
 {
-    counter_jam(x, f);  /* FIXME */
+    // ancient
+    int i = (int)f;
+    if (i <  x->x_min)
+        x->x_min = i;
+    else if (i > x->x_max)
+        x->x_max = i;
+    x->x_count = i;
+    counter_dobang(x, 0);
 }
 
 /* CHECKED */
