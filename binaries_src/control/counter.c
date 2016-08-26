@@ -10,8 +10,9 @@
    differently in cycling max (e.g. inlets 3 and 4).  But I am sick
    of checking -- I will not bother, until there is some feedback. */
 
+// Porres in 2016 checked the inconsistencies and fixed them
+
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/fitter.h"
 
 #define COUNTER_UP      0
@@ -99,10 +100,6 @@ static void counter_dobang(t_counter *x, int notjam)
     if (x->x_count < x->x_min)
     {
 	if (x->x_inc == 1)
-	{
-	    /* min has changed, which should imply x->x_count == x->x_min */
-	    loudbug_bug("counter_dobang (count < min)");
-	}
 	else if (x->x_dir == COUNTER_UPDOWN)
 	{
 	    x->x_inc = 1;
@@ -289,9 +286,8 @@ static void counter_float3(t_counter *x, t_floatarg f)
 /* CHECKED */
 static void counter_bang4(t_counter *x)
 {
-    counter_set(x, x->x_max);
+    x->x_count = x->x_max;
     counter_dobang(x, 1);
-    x->x_count += x->x_inc;
 }
 
 static void counter_proxy_bang(t_counter_proxy *x)
@@ -319,7 +315,6 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     int i2 = (int)f2;
     int i3 = (int)f3;
     int i;
-    static int warned = 0;
     x->x_dir = COUNTER_UP;
     x->x_inc = 1;  /* previous value required by counter_dir() */
     x->x_min = 0;
@@ -331,8 +326,7 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     x->x_minhitflag = x->x_maxhitflag = 0;
     x->x_maxcount = 0;
     counter_dir(x, x->x_dir);
-    /* CHECKED: [counter 1 <min> <max>] starts from <max> */
-    x->x_count = (x->x_dir == COUNTER_DOWN ? x->x_max : x->x_min);
+    x->x_count = (x->x_dir == COUNTER_DOWN ? x->x_max +  x->x_inc : x->x_min - x->x_inc);
     for (i = 0; i < 4; i++)
     {
 	x->x_proxies[i] = pd_new(counter_proxy_class);
@@ -356,11 +350,9 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
 
 void counter_setup(void)
 {
-    counter_class = class_new(gensym("counter"),
-			      (t_newmethod)counter_new,
-			      (t_method)counter_free,
-			      sizeof(t_counter), 0,
-			      A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+    counter_class = class_new(gensym("counter"), (t_newmethod)counter_new,
+            (t_method)counter_free, sizeof(t_counter), 0,
+            A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addbang(counter_class, counter_bang);
     class_addfloat(counter_class, counter_float);
     class_addmethod(counter_class, (t_method)counter_bang,
@@ -390,8 +382,7 @@ void counter_setup(void)
     class_addmethod(counter_class, (t_method)counter_carryint,
 		    gensym("carryint"), 0);
     counter_proxy_class = class_new(gensym("_counter_proxy"), 0, 0,
-				    sizeof(t_counter_proxy),
-				    CLASS_PD | CLASS_NOINLET, 0);
+            sizeof(t_counter_proxy), CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(counter_proxy_class, counter_proxy_bang);
     class_addfloat(counter_proxy_class, counter_proxy_float);
     fitter_setup(counter_class, 0);
