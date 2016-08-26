@@ -172,8 +172,8 @@ static void counter_dobang(t_counter *x, int notjam)
 
 static void counter_bang(t_counter *x)
 {
-    counter_dobang(x, 1);
     x->x_count += x->x_inc;
+    counter_dobang(x, 1);
 }
 
 static void counter_float(t_counter *x, t_float dummy)
@@ -187,7 +187,7 @@ static void counter_set(t_counter *x, t_floatarg f)
 {
     int i = (int)f;
     if (i >= x->x_min && i <= x->x_max)
-	x->x_count = i;
+	x->x_count = i - x->x_inc;
 }
 
 /* CHECKED: out-of-range values are ignored */
@@ -276,9 +276,7 @@ static void counter_float2(t_counter *x, t_floatarg f)
 /* CHECKED */
 static void counter_bang3(t_counter *x)
 {
-    counter_set(x, x->x_min);
-    counter_dobang(x, 1);
-    x->x_count += x->x_inc;
+    counter_jam(x, x->x_min);
 }
 
 /* CHECKED: out-of-range values are accepted (LATER rethink) */
@@ -322,12 +320,6 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     int i3 = (int)f3;
     int i;
     static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	post("warning: counter is not fully compatible,\
- please report differences");
-	warned = 1;
-    }
     x->x_dir = COUNTER_UP;
     x->x_inc = 1;  /* previous value required by counter_dir() */
     x->x_min = 0;
