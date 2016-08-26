@@ -128,7 +128,7 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
             };
         };
 
-	outlet_list(((t_object *)x)->ob_outlet, &s_list, atompos, out);
+	outlet_anything(((t_object *)x)->ob_outlet, &s_, atompos, out);
     };
 }
 
