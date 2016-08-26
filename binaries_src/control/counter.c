@@ -245,11 +245,33 @@ static void counter_carryint(t_counter *x)
     x->x_carrybang = 0;
 }
 
+static void counter_flags(t_counter *x, t_floatarg f1, t_floatarg f2)
+{
+    int i1 = (int)f1;
+    int i2 = (int)f2;
+    if (i1 == 0)  x->x_carrybang = 0;
+    if (i1 == 1)  x->x_carrybang = 1;
+    if (i2 == 0) x->x_compatflag = 0;
+    if (i2 == 1) x->x_compatflag = 1;
+}
+
+int i = (int)f;
+if (i == 0) x->x_compatflag = 0;
+if (i == 1) x->x_compatflag = 1;
+
+
 static void counter_carryflag(t_counter *x, t_floatarg f)
 {
     int i = (int)f;
     if (i == 1)  x->x_carrybang = 1;
     if (i == 0)  x->x_carrybang = 0;
+}
+
+static void counter_compatmode(t_counter *x, t_floatarg f)
+{
+    int i = (int)f;
+    if (i == 0) x->x_compatflag = 0;
+    if (i == 1) x->x_compatflag = 1;
 }
 
 /* CHECKED: up/down switch */
@@ -274,7 +296,7 @@ static void counter_bang2(t_counter *x)
 /* CHECKED: 'down, float2 3, up, bang' gives 3 (LATER rethink) */
 static void counter_float2(t_counter *x, t_floatarg f)
 {
-    int i = (int)f
+    int i = (int)f;
     if (x->x_compatflag)     // ancient
     {
         x->x_count = x->x_min = i;
@@ -287,13 +309,6 @@ static void counter_float2(t_counter *x, t_floatarg f)
 static void counter_bang3(t_counter *x)
 {
     counter_jam(x, x->x_min);
-}
-
-static void counter_compatmode(t_counter *x, t_floatarg f)
-{
-    int i = (int)f;
-    if (i == 0) x->x_compatflag = 0;
-    if (i == 1) x->x_compatflag = 1;
 }
 
 /* CHECKED: out-of-range values are accepted (LATER rethink) */
@@ -408,6 +423,8 @@ void counter_setup(void)
 		    gensym("carrybang"), 0);
     class_addmethod(counter_class, (t_method)counter_carryint,
 		    gensym("carryint"), 0);
+    class_addmethod(counter_class, (t_method)counter_flags,
+                    gensym("flags"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(counter_class, (t_method)counter_compatmode,
                     gensym("compatmode"), A_FLOAT, 0);
     class_addmethod(counter_class, (t_method)counter_carryflag,
