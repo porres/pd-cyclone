@@ -187,6 +187,11 @@ static void counter_set(t_counter *x, t_floatarg f)
 	x->x_count = i - x->x_inc;
 }
 
+static void counter_setmin(t_counter *x, t_floatarg f)
+{
+    x->x_min = (int)f;
+}
+
 /* CHECKED: out-of-range values are ignored */
 static void counter_jam(t_counter *x, t_floatarg f)
 {
@@ -255,11 +260,6 @@ static void counter_flags(t_counter *x, t_floatarg f1, t_floatarg f2)
     if (i2 == 1) x->x_compatflag = 1;
 }
 
-int i = (int)f;
-if (i == 0) x->x_compatflag = 0;
-if (i == 1) x->x_compatflag = 1;
-
-
 static void counter_carryflag(t_counter *x, t_floatarg f)
 {
     int i = (int)f;
@@ -272,6 +272,23 @@ static void counter_compatmode(t_counter *x, t_floatarg f)
     int i = (int)f;
     if (i == 0) x->x_compatflag = 0;
     if (i == 1) x->x_compatflag = 1;
+}
+
+static void counter_state(t_counter *x)
+{
+    post("-=% CounterState %=-");
+    post("x_mincount: ?");
+    post("x_maxcount: ?");
+    post("x_direction: ?");
+    post("x_curcount: ?");
+    post("x_curdir: ?");
+    post("x_carrycount: ?");
+    post("x_carry: ");
+    post("x_under: ?");
+    post("x_carrymode: ?");
+    post("x_compat: ?");
+    post("x_startup: ?");
+    post("x_inletnum: ?");
 }
 
 /* CHECKED: up/down switch */
@@ -417,6 +434,8 @@ void counter_setup(void)
 		    gensym("dec"), 0);
     class_addmethod(counter_class, (t_method)counter_min,
 		    gensym("min"), A_FLOAT, 0);
+    class_addmethod(counter_class, (t_method)counter_setmin,
+                    gensym("setmin"), A_FLOAT, 0);
     class_addmethod(counter_class, (t_method)counter_max,
 		    gensym("max"), A_FLOAT, 0);
     class_addmethod(counter_class, (t_method)counter_carrybang,
@@ -429,6 +448,8 @@ void counter_setup(void)
                     gensym("compatmode"), A_FLOAT, 0);
     class_addmethod(counter_class, (t_method)counter_carryflag,
                     gensym("carryflag"), A_FLOAT, 0);
+    class_addmethod(counter_class, (t_method)counter_state,
+                    gensym("state"), 0);
     counter_proxy_class = class_new(gensym("_counter_proxy"), 0, 0,
             sizeof(t_counter_proxy), CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(counter_proxy_class, counter_proxy_bang);
