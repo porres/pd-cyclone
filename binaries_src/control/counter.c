@@ -412,7 +412,7 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
                     carry = (int)curfloat;
                 }
                 else if(strcmp(cursym->s_name, "@compatmode") == 0){
-                    compat = (int)compat;
+                    compat = (int)curfloat;
                 }
                 else{
                     goto errstate;
