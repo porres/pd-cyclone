@@ -284,19 +284,19 @@ static void counter_flags(t_counter *x, t_floatarg f1, t_floatarg f2)
 
 static void counter_state(t_counter *x)
 {
-    post("-=% CounterState %=-");
-    post("x_mincount: ?");
-    post("x_maxcount: ?");
-    post("x_direction: ?");
-    post("x_curcount: ?");
-    post("x_curdir: ?");
-    post("x_carrycount: ?");
-    post("x_carry: ");
-    post("x_under: ?");
-    post("x_carrymode: ?");
-    post("x_compat: ?");
-    post("x_startup: ?");
-    post("x_inletnum: ?");
+    post("-=% CounterState %=-"); // didnt print anything in this line, fix it
+    post("x_mincount: ?"); // print x_min value
+    post("x_maxcount: ?"); // print x_max value
+    post("x_direction: ?"); // print x_dir
+    post("x_curcount: ?"); // print
+    post("x_curdir: ?"); // print current direction (?)
+    post("x_carrycount: ?"); // print x_maxcount
+    post("x_carry: "); // print carryint value (?)
+    post("x_under: ?"); // print a new var that says if it's under the min
+    post("x_carrymode: ?"); // print x_carrybang
+    post("x_compat: ?"); // print x_compatflag
+    post("x_startup: ?"); // print if counter is in startup value, new var
+    post("x_inletnum: ?"); // print which inlet the message came in
 }
 
 /* CHECKED: up/down switch */
