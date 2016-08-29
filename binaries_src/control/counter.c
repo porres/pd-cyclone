@@ -12,13 +12,18 @@
 
 // Porres in 2016 checked the inconsistencies and fixed them
 
+// Adding attributes - Derek Kwan 2016
+
 #include "m_pd.h"
+#include <string.h>
 #include "common/fitter.h"
 
 #define COUNTER_UP      0
 #define COUNTER_DOWN    1
 #define COUNTER_UPDOWN  2
 #define COUNTER_DEFMAX  0x7fffffff  /* CHECKED (man says otherwise) */
+#define COUNTER_CARRY 0 //defaut for carryflag
+#define COUNTER_COMPAT 0 //default for compatmode
 
 typedef struct _counter
 {
@@ -250,17 +255,8 @@ static void counter_carryint(t_counter *x)
     x->x_carrybang = 0;
 }
 
-static void counter_flags(t_counter *x, t_floatarg f1, t_floatarg f2)
-{
-    int i1 = (int)f1;
-    int i2 = (int)f2;
-    if (i1 == 0)  x->x_carrybang = 0;
-    if (i1 == 1)  x->x_carrybang = 1;
-    if (i2 == 0) x->x_compatflag = 0;
-    if (i2 == 1) x->x_compatflag = 1;
-}
-
 static void counter_carryflag(t_counter *x, t_floatarg f)
+    //editing to handle non 0/1 input - Derek Kwan
 {
     int i = (int)f;
     if (i == 1)  x->x_carrybang = 1;
@@ -269,9 +265,21 @@ static void counter_carryflag(t_counter *x, t_floatarg f)
 
 static void counter_compatmode(t_counter *x, t_floatarg f)
 {
+// editing to handle non 0/1 input - Derek Kwan
     int i = (int)f;
-    if (i == 0) x->x_compatflag = 0;
-    if (i == 1) x->x_compatflag = 1;
+    if(i <= 0){
+        x->x_compatflag = 0;
+    }
+    else{
+        x->x_compatflag = 1;
+    };
+}
+
+static void counter_flags(t_counter *x, t_floatarg f1, t_floatarg f2)
+{
+    //simplifying to rely on other methods - Derek Kwan
+    counter_carryflag(x, f1);
+    counter_compatmode(x, f2);
 }
 
 static void counter_state(t_counter *x)
@@ -364,13 +372,62 @@ static void counter_free(t_counter *x)
 	if (x->x_proxies[i]) pd_free(x->x_proxies[i]);
 }
 
-static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
+static void *counter_new(t_symbol * s, int argc, t_atom * argv)
 {
     t_counter *x = (t_counter *)pd_new(counter_class);
     t_counter_proxy **pp = (t_counter_proxy **)x->x_proxies;
-    int i1 = (int)f1;
-    int i2 = (int)f2;
-    int i3 = (int)f3;
+    //defaults
+    int i1 = 0;
+    int i2 = 0;
+    int i3 = 0;
+    int carry = COUNTER_CARRY;
+    int compat = COUNTER_COMPAT;
+    
+    int argnum = 0; //argument number
+    while(argc){
+        if(argv -> a_type == A_FLOAT){
+            t_float curfloat = atom_getfloatarg(0, argc, argv);
+            switch(argnum){
+                case 0:
+                    i1 = (int)curfloat;
+                    break;
+                case 1:
+                    i2 = (int)curfloat;
+                    break;
+                case 2:
+                    i3 = (int)curfloat;
+                    break;
+                default:
+                    break;
+            };
+            argc--;
+            argv++;
+            argnum++;
+        }
+        else{
+            if(argc >= 2){
+                t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+                t_float curfloat = atom_getfloatarg(1, argc, argv);
+                if(strcmp(cursym->s_name, "@carryflag") == 0){
+                    carry = (int)curfloat;
+                }
+                else if(strcmp(cursym->s_name, "@compatmode") == 0){
+                    compat = (int)compat;
+                }
+                else{
+                    goto errstate;
+                };
+                argc -= 2;
+                argv += 2;
+            }
+            else{
+                goto errstate;
+            };
+        };
+    };
+    
+    counter_carryflag(x, carry);
+    counter_compatmode(x, compat);
     int i;
     x->x_dir = COUNTER_UP;
     x->x_inc = 1;  /* previous value required by counter_dir() */
@@ -379,8 +436,6 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     if (i3) x->x_dir = i1, x->x_min = i2, x->x_max = i3;
     else if (i2) x->x_min = i1, x->x_max = i2;
     else if (i1) x->x_max = i1;
-    x->x_carrybang = 0;  // ?
-    x->x_compatflag = 0; // current
     x->x_minhitflag = x->x_maxhitflag = 0;
     x->x_maxcount = 0;
     counter_dir(x, x->x_dir);
@@ -388,10 +443,10 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
                   x->x_max +  x->x_inc : x->x_min - x->x_inc);
     for (i = 0; i < 4; i++)
     {
-	x->x_proxies[i] = pd_new(counter_proxy_class);
-	((t_counter_proxy *)x->x_proxies[i])->p_master = x;
-	inlet_new((t_object *)x, x->x_proxies[i], 0, 0);
-    }
+        x->x_proxies[i] = pd_new(counter_proxy_class);
+        ((t_counter_proxy *)x->x_proxies[i])->p_master = x;
+        inlet_new((t_object *)x, x->x_proxies[i], 0, 0);
+    };
     (*pp)->p_bangmethod = counter_bang1;
     (*pp++)->p_floatmethod = counter_dir;  /* CHECKED: same as dir */
     (*pp)->p_bangmethod = counter_bang2;
@@ -405,13 +460,16 @@ static void *counter_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     x->x_out3 = outlet_new((t_object *)x, &s_anything);  /* float/bang */
     x->x_out4 = outlet_new((t_object *)x, &s_float);
     return (x);
+errstate:
+    pd_error(x, "counter: improper args");
+    return NULL;
 }
 
 void counter_setup(void)
 {
     counter_class = class_new(gensym("counter"), (t_newmethod)counter_new,
             (t_method)counter_free, sizeof(t_counter), 0,
-            A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+            A_GIMME, 0);
     class_addbang(counter_class, counter_bang);
     class_addfloat(counter_class, counter_float);
     class_addmethod(counter_class, (t_method)counter_bang,
