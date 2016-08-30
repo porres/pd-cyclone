@@ -12,7 +12,7 @@
 
 // Porres in 2016 checked the inconsistencies and fixed them
 
-// Adding attributes, p_id, x_state, editing counter_proxy methods - Derek Kwan 2016
+// Adding attributes, p_id, counter_proxy_state, editing existing counter_proxy methods - Derek Kwan 2016
 
 #include "m_pd.h"
 #include <string.h>
@@ -39,7 +39,6 @@ typedef struct _counter
     int        x_minhitflag;
     int        x_maxhitflag;
     int        x_startup;
-    int        x_state; //to keep track of last inlet accessed - DK
     t_pd      *x_proxies[4];
     t_outlet  *x_out2;
     t_outlet  *x_out3;
@@ -292,6 +291,29 @@ static void counter_flags(t_counter *x, t_floatarg f1, t_floatarg f2)
     counter_compatmode(x, f2);
 }
 
+
+static void counter_proxy_state(t_counter_proxy *x)
+{
+    //since main inlet isn't a proxy, have to do it this way - Derek Kwan
+    t_counter *m = x->p_master; 
+    post("-=%% CounterState %%=-");
+    post("x_mincount: %d", m->x_min);
+    post("x_maxcount: %d", m->x_max);
+    post("x_direction: %d", m->x_dir);
+    post("x_curcount:  %d", m->x_count);
+    post("x_curdir: %d", m->x_inc < 0);
+    post("x_carrycount: %d", m->x_maxcount);
+    post("x_carry: %d", m->x_maxhitflag);
+    post("x_under: %d", m->x_minhitflag);
+    post("x_carrymode: %d", m->x_carrybang);
+    post("x_compat: %d", m->x_compatflag);
+    post("x_startup: %d", m->x_startup); 
+    post("x_inletnum: %d", x->p_id); // print which inlet the message came in
+}
+
+
+
+
 static void counter_state(t_counter *x)
 {
     post("-=%% CounterState %%=-");
@@ -306,7 +328,7 @@ static void counter_state(t_counter *x)
     post("x_carrymode: %d", x->x_carrybang);
     post("x_compat: %d", x->x_compatflag);
     post("x_startup: %d", x->x_startup); 
-    post("x_inletnum: %d", x->x_state); // print which inlet the message came in
+    post("x_inletnum: 0"); // print which inlet the message came in
 }
 
 /* CHECKED: up/down switch */
@@ -373,14 +395,12 @@ static void counter_bang4(t_counter *x)
 static void counter_proxy_bang(t_counter_proxy *x)
 {
     t_counter *m = x->p_master; 
-    m->x_state = x->p_id;
     x->p_bangmethod(m);
 }
 
 static void counter_proxy_float(t_counter_proxy *x, t_float f)
 {
     t_counter *m = x->p_master; 
-    m->x_state = x->p_id;
     x->p_floatmethod(m, f);
 }
 
@@ -465,7 +485,7 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
     {
         x->x_proxies[i] = pd_new(counter_proxy_class);
         ((t_counter_proxy *)x->x_proxies[i])->p_master = x;
-        ((t_counter_proxy *)x->x_proxies[i])->p_id = i;
+        ((t_counter_proxy *)x->x_proxies[i])->p_id = i + 1;
         inlet_new((t_object *)x, x->x_proxies[i], 0, 0);
     };
     (*pp)->p_bangmethod = counter_bang1;
@@ -533,5 +553,6 @@ void counter_setup(void)
             sizeof(t_counter_proxy), CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(counter_proxy_class, counter_proxy_bang);
     class_addfloat(counter_proxy_class, counter_proxy_float);
+    class_addmethod(counter_proxy_class, (t_method)counter_proxy_state, gensym("state"), 0);
     fitter_setup(counter_class, 0);
 }
