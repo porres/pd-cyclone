@@ -15,9 +15,15 @@ typedef struct _mousefilter
 
 static t_class *mousefilter_class;
 
+static void mousefilter_anything(t_mousefilter *x,
+                                 t_symbol *s, int ac, t_atom *av)
+{
+// need to pass anything, symbol, list, bang, etc...
+}
+
 static void mousefilter_float(t_mousefilter *x, t_float f)
 {
-    if (x->x_isup)
+    if (x->x_isup && x->x_ispending)
 	outlet_float(((t_object *)x)->ob_outlet, f);
     else
     {
@@ -26,19 +32,12 @@ static void mousefilter_float(t_mousefilter *x, t_float f)
     }
 }
 
-static void mousefilter_anything(t_mousefilter *x,
-				 t_symbol *s, int ac, t_atom *av)
-{
-    /* dummy method, filtering out those messages from gui,
-       which are not handled explicitly */
-}
-
 static void mousefilter_doup(t_mousefilter *x, t_floatarg f)
 {
     if ((x->x_isup = (int)f) && x->x_ispending)
     {
-	x->x_ispending = 0;
-	outlet_float(((t_object *)x)->ob_outlet, x->x_value);
+        x->x_ispending = 0;
+        outlet_float(((t_object *)x)->ob_outlet, x->x_value);
     }
 }
 
@@ -66,5 +65,5 @@ void mousefilter_setup(void)
     class_addfloat(mousefilter_class, mousefilter_float);
     class_addanything(mousefilter_class, mousefilter_anything);
     class_addmethod(mousefilter_class, (t_method)mousefilter_doup,
-		    gensym("_up"), A_FLOAT, 0);
+                    gensym("_up"), A_FLOAT, 0);
 }
