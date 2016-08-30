@@ -22,8 +22,8 @@
 #define COUNTER_DOWN    1
 #define COUNTER_UPDOWN  2
 #define COUNTER_DEFMAX  0x7fffffff  /* CHECKED (man says otherwise) */
-#define COUNTER_CARRY 0 //defaut for carryflag
-#define COUNTER_COMPAT 0 //default for compatmode
+#define COUNTER_CARRY 0 // defaut for carryflag
+#define COUNTER_COMPAT 0 // default for compatmode
 
 typedef struct _counter
 {
@@ -38,6 +38,7 @@ typedef struct _counter
     int        x_carrybang;
     int        x_minhitflag;
     int        x_maxhitflag;
+    int        x_startup;
     t_pd      *x_proxies[4];
     t_outlet  *x_out2;
     t_outlet  *x_out3;
@@ -96,6 +97,7 @@ static void counter_dir(t_counter *x, t_floatarg f)
 
 static void counter_dobang(t_counter *x, int notjam)
 {
+    if(x->x_startup) x->x_startup = 0;
     int offmin = 0, offmax = 0, onmin = 0, onmax = 0;
     /* CHECKED: carry-off is not sent if min >= max */
     /* LATER rethink (this is a hack) */
@@ -174,6 +176,7 @@ static void counter_dobang(t_counter *x, int notjam)
 
 static void counter_bang(t_counter *x)
 {
+    if(x->x_startup) x->x_startup = 0;
     x->x_count += x->x_inc;
     counter_dobang(x, 1);
 }
@@ -187,6 +190,7 @@ static void counter_float(t_counter *x, t_float dummy)
 /* CHECKED: 'down, set 3, up, bang' gives 5 */
 static void counter_set(t_counter *x, t_floatarg f)
 {
+    if(x->x_startup) x->x_startup = 0;
     int i = (int)f;
     if (i >= x->x_min && i <= x->x_max)
 	x->x_count = i - x->x_inc;
@@ -200,6 +204,7 @@ static void counter_setmin(t_counter *x, t_floatarg f)
 /* CHECKED: out-of-range values are ignored */
 static void counter_jam(t_counter *x, t_floatarg f)
 {
+    if(x->x_startup) x->x_startup = 0;
     int i = (int)f;
     if (i >= x->x_min && i <= x->x_max)
     {
@@ -211,6 +216,7 @@ static void counter_jam(t_counter *x, t_floatarg f)
 /* CHECKED: sends max carry on/off in any mode  */
 static void counter_inc(t_counter *x)
 {
+    if(x->x_startup) x->x_startup = 0;
     int tempdir = x->x_dir;
     int tempinc = x->x_inc;
     counter_up(x);
@@ -222,6 +228,7 @@ static void counter_inc(t_counter *x)
 /* CHECKED: sends min carry on/off in any mode */
 static void counter_dec(t_counter *x)
 {
+    if(x->x_startup) x->x_startup = 0;
     int tempdir = x->x_dir;
     int tempinc = x->x_inc;
     counter_down(x);
@@ -233,6 +240,7 @@ static void counter_dec(t_counter *x)
 /* CHECKED: min can be set over max */
 static void counter_min(t_counter *x, t_floatarg f)
 {
+    if(x->x_startup) x->x_startup = 0;
     /* CHECKED: min change always sets count to min and bangs */
     /* do not use counter_jam() here -- avoid range checking */
     x->x_count = x->x_min = (int)f;
@@ -288,14 +296,14 @@ static void counter_state(t_counter *x)
     post("x_mincount: %d", x->x_min);
     post("x_maxcount: %d", x->x_max);
     post("x_direction: %d", x->x_dir);
-    post("x_curcount:  %d", x->x_count); 
-    post("x_curdir: ?"); // print current direction (?)
+    post("x_curcount:  %d", x->x_count);
+    post("x_curdir: %d", x->x_inc < 0);
     post("x_carrycount: %d", x->x_maxcount);
-    post("x_carry: "); // print carryint value (?)
-    post("x_under: ?"); // print a new var that says if it's under the min
+    post("x_carry: %d", x->x_maxhitflag);
+    post("x_under: %d", x->x_minhitflag);
     post("x_carrymode: %d", x->x_carrybang);
     post("x_compat: %d", x->x_compatflag);
-    post("x_startup: ?"); // print if counter is in startup value, new var
+    post("x_startup: %d", x->x_startup); 
     post("x_inletnum: ?"); // print which inlet the message came in
 }
 
@@ -313,6 +321,7 @@ static void counter_bang1(t_counter *x)
 /* CHECKED */
 static void counter_bang2(t_counter *x)
 {
+    if(x->x_startup) x->x_startup = 0;
     counter_set(x, x->x_min);
 }
 
@@ -321,6 +330,7 @@ static void counter_bang2(t_counter *x)
 /* CHECKED: 'down, float2 3, up, bang' gives 3 (LATER rethink) */
 static void counter_float2(t_counter *x, t_floatarg f)
 {
+    if(x->x_startup) x->x_startup = 0;
     int i = (int)f;
     if (x->x_compatflag)     // ancient
     {
@@ -333,6 +343,7 @@ static void counter_float2(t_counter *x, t_floatarg f)
 /* CHECKED */
 static void counter_bang3(t_counter *x)
 {
+    if(x->x_startup) x->x_startup = 0;
     counter_jam(x, x->x_min);
 }
 
@@ -340,6 +351,7 @@ static void counter_bang3(t_counter *x)
 /* CHECKED: no resetting of min, nor of max (contrary to the man) */
 static void counter_float3(t_counter *x, t_floatarg f)
 {
+    if(x->x_startup) x->x_startup = 0;
     if (x->x_compatflag)     // ancient
     {
     x->x_count = x->x_min = (int)f;
@@ -351,6 +363,7 @@ static void counter_float3(t_counter *x, t_floatarg f)
 /* CHECKED */
 static void counter_bang4(t_counter *x)
 {
+    if(x->x_startup) x->x_startup = 0;
     x->x_count = x->x_max;
     counter_dobang(x, 1);
 }
@@ -432,6 +445,7 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
     x->x_dir = COUNTER_UP;
     x->x_inc = 1;  /* previous value required by counter_dir() */
     x->x_min = 0;
+    x->x_startup = 1;
     x->x_max = COUNTER_DEFMAX;
     if (i3) x->x_dir = i1, x->x_min = i2, x->x_max = i3;
     else if (i2) x->x_min = i1, x->x_max = i2;
