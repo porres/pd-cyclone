@@ -57,7 +57,7 @@ This repository is faithful to the original goal of cyclone in creating an exter
 
 Cyclone was originally developed in Max/MSP 4 era - but Max has since then introduced new functionalities on some objects in the more recent versions (from Max 5 to Max 7). The current version of Cyclone (0.2beta) still has some objects with functionalities from Max/MSP 4, but with already some objects updated to include some of the new functionalities introduced in Max 5 (but still missing functionalities from Max 6 and Max 7 versions). 
 
-If in agreement to the Pd community, this repository will release updates of the cyclone project (starting with version "0.3-beta-0"). If so be it, besides bug fixes in current existing objects, new/further developments shall include:
+If in agreement to the Pd community, this repository will release updates of the cyclone project (starting with version "0.3-alpha-0"). If so be it, besides bug fixes in current existing objects, new/further developments shall include:
 
 <strong>- A)</strong> New functionalities introduced in newer versions of Max (from Max 5 and on) into the already existing objects in cyclone.
 
