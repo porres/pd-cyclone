@@ -12,7 +12,7 @@
 
 // Porres in 2016 checked the inconsistencies and fixed them
 
-// Adding attributes - Derek Kwan 2016
+// Adding attributes, p_id, x_state, editing counter_proxy methods - Derek Kwan 2016
 
 #include "m_pd.h"
 #include <string.h>
@@ -39,6 +39,7 @@ typedef struct _counter
     int        x_minhitflag;
     int        x_maxhitflag;
     int        x_startup;
+    int        x_state; //to keep track of last inlet accessed - DK
     t_pd      *x_proxies[4];
     t_outlet  *x_out2;
     t_outlet  *x_out3;
@@ -48,6 +49,7 @@ typedef struct _counter
 typedef struct _counter_proxy
 {
     t_object    p_ob;
+    int         p_id; //inlet id - DK
     t_counter  *p_master;
     void      (*p_bangmethod)(t_counter *x);
     void      (*p_floatmethod)(t_counter *x, t_float f);
@@ -304,7 +306,7 @@ static void counter_state(t_counter *x)
     post("x_carrymode: %d", x->x_carrybang);
     post("x_compat: %d", x->x_compatflag);
     post("x_startup: %d", x->x_startup); 
-    post("x_inletnum: ?"); // print which inlet the message came in
+    post("x_inletnum: %d", x->x_state); // print which inlet the message came in
 }
 
 /* CHECKED: up/down switch */
@@ -370,12 +372,16 @@ static void counter_bang4(t_counter *x)
 
 static void counter_proxy_bang(t_counter_proxy *x)
 {
-    x->p_bangmethod(x->p_master);
+    t_counter *m = x->p_master; 
+    m->x_state = x->p_id;
+    x->p_bangmethod(m);
 }
 
 static void counter_proxy_float(t_counter_proxy *x, t_float f)
 {
-    x->p_floatmethod(x->p_master, f);
+    t_counter *m = x->p_master; 
+    m->x_state = x->p_id;
+    x->p_floatmethod(m, f);
 }
 
 static void counter_free(t_counter *x)
@@ -459,6 +465,7 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
     {
         x->x_proxies[i] = pd_new(counter_proxy_class);
         ((t_counter_proxy *)x->x_proxies[i])->p_master = x;
+        ((t_counter_proxy *)x->x_proxies[i])->p_id = i;
         inlet_new((t_object *)x, x->x_proxies[i], 0, 0);
     };
     (*pp)->p_bangmethod = counter_bang1;
