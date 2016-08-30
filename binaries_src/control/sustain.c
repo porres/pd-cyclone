@@ -43,24 +43,23 @@ static void sustain_float(t_sustain *x, t_float f)
      when the sustain is released*/
 }
 
-static void sustain_clear(t_sustain *x)
-{
-    // clear pitch array (derek?)
-}
-
 static void sustain_flush(t_sustain *x)
 {
+    // 0: historical
     int i;
     unsigned char *pp;
     for (i = 0, pp = x->x_pitches; i < SUSTAIN_NPITCHES; i++, pp++)
     {
 	while (*pp)
-	{
+        {
 	    outlet_float(x->x_voutlet, 0);
 	    outlet_float(((t_object *)x)->ob_outlet, i);
 	    (*pp)--;
-	}
+        }
     }
+    // 1: re-trigger
+    
+    // 2: stop-last
 }
 
 static void sustain_clear(t_sustain *x)
@@ -109,8 +108,6 @@ void sustain_setup(void)
     sustain_class = class_new(gensym("sustain"), (t_newmethod)sustain_new,
 			      0,  sizeof(t_sustain), 0, 0);
     class_addfloat(sustain_class, sustain_float);
-    class_addmethod(sustain_class, (t_method)sustain_ft2,
-		    gensym("ft2"), A_FLOAT, 0);
     class_addmethod(sustain_class, (t_method)sustain_sustain,
                     gensym("sustain"), A_FLOAT, 0);
     class_addmethod(sustain_class, (t_method)sustain_repeatmode,
@@ -119,4 +116,6 @@ void sustain_setup(void)
                     gensym("flush"), 0);
     class_addmethod(sustain_class, (t_method)sustain_clear,
                     gensym("clear"), 0);
+    class_addmethod(sustain_class, (t_method)sustain_ft2,
+                    gensym("ft2"), A_FLOAT, 0);
 }

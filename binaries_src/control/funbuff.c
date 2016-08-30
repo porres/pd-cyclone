@@ -313,7 +313,8 @@ static void funbuff_find(t_funbuff *x, t_floatarg f)
 	{
 	    /* CHECKED lastdelta preserved */
 	    if (HAMMERNODE_GETFLOAT(np) == f)
-		funbuff_dooutput(x, np->n_key, x->x_lastdelta);
+//		funbuff_dooutput(x, np->n_key, x->x_lastdelta);
+ outlet_float(((t_object *)x)->ob_outlet, np->n_key);
 	}
 	while (np = np->n_next);
 	/* CHECKED no bangout, no complaint if nothing found */
