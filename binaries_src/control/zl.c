@@ -964,6 +964,11 @@ static void zl_setupallmodes(void)
     zl_setupmode("union", 0, 0, 0, zl_union_count, zl_union);
 }
 
+static void zl_zlmaxsize(t_zl *x, t_floatarg f)
+{
+    int maxsize = (int)f;
+}
+
 void zl_setup(void)
 {
     zl_class = class_new(gensym("zl"),
@@ -978,6 +983,8 @@ void zl_setup(void)
     class_addanything(zl_class, zl_anything);
     class_addmethod(zl_class, (t_method)zl_mode,
 		    gensym("mode"), A_GIMME, 0);
+    class_addmethod(zl_class, (t_method)zl_zlmaxsize,
+                    gensym("zlmaxsize"), A_FLOAT, 0);
 #ifdef ZL_DEBUG
     class_addmethod(zl_class, (t_method)zl_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);
