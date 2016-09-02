@@ -277,12 +277,15 @@ static void seq_startrecording(t_seq *x, int modechanged)
 /* CHECKED running status not used in playback */
 static void seq_startplayback(t_seq *x, int modechanged)
 {
+    clock_unset(x->x_clock);
+    x->x_playhead = 0;
+    x->x_nextscoretime = 0.;
+    
     /* CHECKED bang not sent if sequence is empty */
     if (x->x_nevents)
     {
 	if (modechanged)
 	{
-	    x->x_playhead = 0;
 	    x->x_nextscoretime = x->x_sequence->e_delta;
 	    /* playback data never sent within the scheduler event of
 	       a start message (even for the first delta <= 0), LATER rethink */
