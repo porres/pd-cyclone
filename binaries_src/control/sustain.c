@@ -22,9 +22,12 @@ typedef struct _sustain
         int             x_mode;
         t_float         x_onoff;
         t_outlet         *x_velout; //velocity outlet
+
+        int             x_noteon[SUSTAIN_NPCH]; //for mode 1, if we've gotten a note on
 } t_sustain;
 
-static int sustain_check_exists(t_sustain *x, int pitch){
+
+static int sustain_check_noteoff(t_sustain *x, int pitch){
     //finds existence of pitch in x->x_ord;
     unsigned int i;
     for(i=0; i<x->x_nord; i++){
@@ -83,7 +86,7 @@ static void sustain_check_arrsz(t_sustain *x, int sz){
 static void sustain_mode12_in(t_sustain *x, int pitch){
     //insert for mode 1 and 2
     //if not already in x_ord, add it
-    int found = sustain_check_exists(x, pitch);
+    int found = sustain_check_noteoff(x, pitch);
     if(!found){
         int nord = x->x_nord; //current number of entries
         sustain_check_arrsz(x,nord+1); //check if we have room for new entry
@@ -117,8 +120,13 @@ static void sustain_float(t_sustain *x, t_float f){
             
             if(x->x_mode == 1){
                 //if mode 1, pitch already in x_nord (ie we got a note off message for it), send note off
-                int found = sustain_check_exists(x, p);
-                if(found){
+                //ADDING, also allow if we've received a note on too - DK
+
+                int prevnoteoff = sustain_check_noteoff(x, p);
+                int prevnoteon = x->x_noteon[p]; //flag for previous note on
+
+
+                if(prevnoteoff || prevnoteon){
 	            outlet_float(x->x_velout, 0);
 	            outlet_float(((t_object *)x)->ob_outlet, p);
                 };
@@ -127,6 +135,7 @@ static void sustain_float(t_sustain *x, t_float f){
 
 	    outlet_float(x->x_velout, x->x_vel);
 	    outlet_float(((t_object *)x)->ob_outlet, p);
+            x->x_noteon[p] = 1; //note on flag
 
         }
         else{
@@ -156,6 +165,10 @@ static void sustain_clear(t_sustain *x){
     int i;
     for(i=0;i<SUSTAIN_NORD;i++){
         x->x_ord[i] = 0;
+    };
+    //clear out note on array
+    for(i=0; i<SUSTAIN_NPCH; i++){
+        x->x_noteon[i] = 0;
     };
 }
 
@@ -220,7 +233,7 @@ static void *sustain_new(t_symbol *s, int argc, t_atom *argv)
                         mode = curfloat;
                     }
                     else if(strcmp(cursym->s_name, "@sustain") == 0){
-                        onoff = onoff;
+                        onoff = curfloat;
                     }
                     else{
                         goto errstate;
