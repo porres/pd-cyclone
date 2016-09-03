@@ -260,5 +260,7 @@ void sustain_setup(void)
 	sizeof(t_sustain), 0, A_GIMME, 0);
 	class_addfloat(sustain_class, (t_method)sustain_float);
 	class_addmethod(sustain_class, (t_method)sustain_mode,  gensym("repeatmode"), A_FLOAT, 0);
-	class_addmethod(sustain_class, (t_method)sustain_onoff,  gensym("sustain"), A_FLOAT, 0);
+    class_addmethod(sustain_class, (t_method)sustain_onoff,  gensym("sustain"), A_FLOAT, 0);
+    class_addmethod(sustain_class, (t_method)sustain_clear,  gensym("clear"), 0);
+    class_addmethod(sustain_class, (t_method)sustain_flush,  gensym("flush"), 0);
 }
