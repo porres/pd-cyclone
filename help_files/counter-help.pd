@@ -1,4 +1,4 @@
-#N canvas 589 125 572 608 10;
+#N canvas 690 23 572 608 10;
 #N canvas 831 149 499 425 All_Messages 0;
 #X text 75 90 dec -;
 #X text 69 119 down -;
@@ -161,8 +161,6 @@ Max/MSP;
 #X text 157 204 - same as bang, f 60;
 #X text 117 205 float;
 #X text 238 161 <= counter value;
-#X text 172 238 changes the counter direction from 0-2 (wrapping),
-f 60;
 #X text 174 540 1 float sets max \, 2 floats sets min and max \, 3
 floats sets direction (0: up / 1: down / 2: updown) \, min and max
 - default values: direction = 0 (up) \, min = 0 \, max = 2^24.;
@@ -186,20 +184,19 @@ range \, it resets min/max according to compatmode (see example above)
 , f 57;
 #X text 89 605 @compatmode: 0 for current (default) / 1 for ancient
 (see example above), f 74;
-#N canvas 279 40 861 488 compatmode 0;
-#X obj 125 413 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#N canvas 279 40 834 389 compatmode 0;
+#X obj 88 341 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 75 281 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 38 227 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 189 339 nbx 2 14 -5 5 0 0 empty empty empty 0 -8 0 10 -228856
+#X obj 194 267 nbx 4 14 -5 5 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
-#X obj 229 359 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 247 287 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X msg 126 244 compatmode \$1;
-#X obj 126 214 tgl 17 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 88 238 compatmode \$1;
+#X obj 88 208 tgl 17 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 148 214 (0: current \, 1: ancient);
-#X obj 125 382 cyclone/counter 0 -1 1;
+#X text 110 208 (0: current \, 1: ancient);
 #X text 23 18 The 'compatmode' message or attribute sets the behaviour
 of the float input of the 3rd and 4th inlet. In both modes \, a float
 input into the 3rd inlet sets the counter value but does not output
@@ -211,74 +208,71 @@ mode' \, in which a number outside the range will set the minimum or
 maximum value just once \, reverting back to the original range after
 a round. But in 'compatmode 1' ('ancient mode') \, the minimum and
 maximum are set permanently.;
-#X obj 192 291 hsl 128 15 -5 5 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 197 239 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 232 315 hsl 128 15 -5 5 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 250 263 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 226 290 set value;
-#X text 240 314 set & output value;
-#X obj 229 336 int;
-#X obj 189 314 int;
-#X obj 513 145 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X text 231 238 set value;
+#X text 258 262 set & output value;
+#X obj 498 99 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 513 166 cyclone/pak;
-#X obj 576 145 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 498 120 cyclone/pak;
+#X obj 561 99 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 513 345 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 498 299 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 570 335 route bang;
-#X obj 570 365 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 555 289 route bang;
+#X obj 555 319 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 627 365 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 612 319 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 669 334 route bang;
-#X obj 669 364 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 654 288 route bang;
+#X obj 654 318 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 726 354 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 711 308 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 465 196 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 450 150 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 513 299 cyclone/counter 2 1 5, f 29;
-#X obj 601 224 hsl 128 15 -5 0 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 586 178 hsl 128 15 -5 0 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 598 252 nbx 2 14 -5 5 0 0 empty empty empty 0 -8 0 10 -228856
+#X obj 583 206 nbx 2 14 -5 5 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
-#X obj 644 251 hsl 128 15 -10 10 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 629 205 hsl 128 15 -10 10 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 641 276 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 626 230 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 494 124 carrymode;
-#X text 566 124 compatmode;
-#X msg 513 191 flags \$1 \$2;
-#X text 435 63 The 'flags' message can set both attributes at once
+#X text 479 78 carrymode;
+#X text 551 78 compatmode;
+#X msg 498 145 flags \$1 \$2;
+#X text 420 17 The 'flags' message can set both attributes at once
 \, the first argument is for carrymode (0: carryint \, 1: carrybang)
 and the second is for compatmode (0: current \, 1: ancient).;
-#X connect 1 0 7 0;
-#X connect 2 0 7 2;
-#X connect 3 0 7 3;
-#X connect 4 0 7 0;
+#X obj 498 253 cyclone/counter 2 1 5, f 29;
+#X obj 88 310 cyclone/counter 50 100 @compatmode 1;
+#X connect 1 0 33 0;
+#X connect 2 0 33 2;
+#X connect 3 0 33 3;
+#X connect 4 0 33 0;
 #X connect 5 0 4 0;
-#X connect 7 0 0 0;
-#X connect 10 0 15 0;
-#X connect 11 0 14 0;
-#X connect 14 0 3 0;
-#X connect 15 0 2 0;
-#X connect 16 0 17 0;
-#X connect 17 0 34 0;
-#X connect 18 0 17 1;
+#X connect 9 0 2 0;
+#X connect 10 0 3 0;
+#X connect 13 0 14 0;
+#X connect 14 0 30 0;
+#X connect 15 0 14 1;
+#X connect 17 0 18 0;
+#X connect 17 1 19 0;
 #X connect 20 0 21 0;
 #X connect 20 1 22 0;
-#X connect 23 0 24 0;
-#X connect 23 1 25 0;
+#X connect 23 0 32 0;
+#X connect 24 0 25 0;
+#X connect 25 0 32 2;
 #X connect 26 0 27 0;
-#X connect 27 0 19 0;
-#X connect 27 1 20 0;
-#X connect 27 2 23 0;
-#X connect 28 0 29 0;
-#X connect 29 0 27 2;
-#X connect 30 0 31 0;
-#X connect 31 0 27 3;
-#X connect 34 0 27 0;
+#X connect 27 0 32 3;
+#X connect 30 0 32 0;
+#X connect 32 0 16 0;
+#X connect 32 1 17 0;
+#X connect 32 2 20 0;
+#X connect 33 0 0 0;
 #X restore 465 138 pd compatmode;
 #N canvas 540 59 824 534 carrymode 0;
 #X obj 156 284 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -393,7 +387,181 @@ and 'carrybang' \, but also with the @carryflag attribute or message
 #X text 227 106 <= next value;
 #X text 172 516 counts how many times the counter reached the maximum
 , f 61;
-#N canvas 552 42 810 569 basic2 0;
+#N canvas 503 26 870 437 more 0;
+#X text 30 265 A float input has the same effect as a bang \, so [counter]
+can be used to count how many floats have been received.;
+#X obj 134 319 hsl 128 15 0 100 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 131 384 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 131 350 cyclone/counter;
+#X msg 532 94 state;
+#X obj 128 214 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -228856
+-1 -1 6;
+#X obj 128 236 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 128 127 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X text 431 23 The 'state'message reports the current settings of [counter]
+on the Pd window.;
+#X obj 580 94 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 505 94 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 128 179 cyclone/counter 7;
+#X obj 128 151 metro 150;
+#X text 30 80 Setup a [metro] to turn [counter] into a step sequencer
+\, such as the 8-step example below.;
+#X text 34 24 IMPORTANT NOTE: All values in the counter are integers
+\, so all float used to set the counter values are converted to inegers
+by disconsidering the decimal part.;
+#X floatatom 667 154 5 0 0 0 - - -, f 5;
+#X obj 622 153 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X floatatom 532 154 5 0 0 0 - - -, f 5;
+#X obj 577 153 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 532 127 cyclone/counter 0 1 5, f 23;
+#X text 443 211 x_mincount: - the minimum value \; x_maxcount: - the
+maximum value \; x_direction: - the direction mode: 0/1/2 (up/down/updown)
+\; x_curcount: - the current count value \; x_curdir: - the current
+direction: 0/1 (up/down) \; x_carrycount: - how many times it reached
+the maximum \; x_carry: - carryint value (0/1) when counting up \;
+x_under: - carryint value (0/1) when counting down \; x_carrymode:
+- carrymode: 0/1 (carryint/carrybang) \; x_compat: - compatmode: 0/1
+(current/ancient) \; x_startup: - '1' if still in the startup value
+\, '0' if not \; x_inletnum: - inlet number that the state message
+came in \;, f 60;
+#X msg 667 91 state;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 19 0;
+#X connect 5 0 6 0;
+#X connect 7 0 12 0;
+#X connect 9 0 19 1;
+#X connect 10 0 19 0;
+#X connect 11 0 5 0;
+#X connect 12 0 11 0;
+#X connect 19 0 17 0;
+#X connect 19 1 18 0;
+#X connect 19 2 16 0;
+#X connect 19 3 15 0;
+#X connect 21 0 19 4;
+#X restore 501 159 pd more;
+#X text 172 284 sets counter value with no output - if outside the
+range \, it resets min/max according to compatmode (see example above)
+;
+#X text 65 79 [counter] is an integer counter that counts up/down by
+'1' in a given range.;
+#X obj 204 134 cyclone/counter 10 15;
+#X text 337 134 (from 10 to 15);
+#X text 99 218 messages;
+#N canvas 500 23 812 529 basic_1 0;
+#X obj 203 180 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 203 116 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 203 149 cyclone/counter;
+#X obj 118 333 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 118 269 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 118 302 cyclone/counter 5;
+#X obj 137 490 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 137 426 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 258 333 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 258 269 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 33 218 Only one argument sets the maximum value \, so it counts
+from 0 to that value. Two arguments set the minimum and maximum value.
+;
+#X obj 258 302 cyclone/counter -2 2;
+#X obj 586 259 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+-1 -1 2;
+#X text 604 259 0: up;
+#X text 604 274 1: down;
+#X text 604 289 2: updown;
+#X obj 137 459 cyclone/counter 0 1 5;
+#X text 34 372 If given three arguments \, the 1st sets the direction
+(0: up \, 1: down \, 2: updown) and 2nd and 3rd the min/max.;
+#X obj 541 372 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 541 286 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X floatatom 586 313 2 0 0 0 - - -, f 2;
+#X obj 670 372 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 541 396 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 670 396 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 573 229 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 437 259 up;
+#X msg 470 260 down;
+#X msg 511 259 updown;
+#X text 702 371 <= how many;
+#X text 714 384 times max;
+#X text 702 395 was reached;
+#X text 427 102 When counting down and it reaches the minimum value
+\, it restarts from the maximum value. When in "updown" mode \, at
+the end of each count round (reaching maximum or minimum) it swiches
+the direction.;
+#X text 427 435 You can set the direction with the "up" \, "down" and
+"updown" messages \, but also with a float input in the 2nd inlet or
+a bang into the 2nd inlet (which shifts from 0 to 1 \, then from 1
+to 2 \, and from 2 back to 0 and so on);
+#X obj 541 341 cyclone/counter 1 0 5, f 22;
+#X text 683 340 <= from 5 to 0;
+#X text 689 327 counting down;
+#X msg 234 117 next;
+#X text 25 66 A bang or a 'next' message is used to make counter go
+to the next value. Note that it starts from the minimum (which is 0
+in the example below).;
+#X msg 153 270 next;
+#X msg 293 270 next;
+#X msg 168 428 next;
+#X text 24 21 If there are no arguments \, the direction is up \, the
+minimum is 0 \, and the maximum is 6.777.216 (2^24) \, the largest
+int possible in Pd (in Max is 2^31 - 1).;
+#X text 600 371 carrycount:;
+#X text 426 21 When counting up and it reaches the maximum value \,
+it restarts from the minimum value. The rightmost outlet - the 'carrycount'
+output - counts how many times the maximum was reached when counting
+up (but it doesn't count anything if the counter direction is down).
+;
+#X text 427 163 The bang input into the second inlet switches the direction
+from up to down or down to up (so it switches from mode 0 to 1 and
+vice versa \, but only changes the direction in mode 2).;
+#X text 601 230 <= switch direction;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;
+#X connect 7 0 16 0;
+#X connect 9 0 11 0;
+#X connect 11 0 8 0;
+#X connect 12 0 20 0;
+#X connect 16 0 6 0;
+#X connect 18 0 22 0;
+#X connect 19 0 33 0;
+#X connect 20 0 33 1;
+#X connect 21 0 23 0;
+#X connect 24 0 33 1;
+#X connect 25 0 33 0;
+#X connect 26 0 33 0;
+#X connect 27 0 33 0;
+#X connect 33 0 18 0;
+#X connect 33 3 21 0;
+#X connect 36 0 2 0;
+#X connect 38 0 5 0;
+#X connect 39 0 11 0;
+#X connect 40 0 16 0;
+#X restore 483 75 pd basic_1;
+#N canvas 552 42 810 569 basic_2 0;
 #X msg 142 331 set \$1;
 #X floatatom 142 308 5 0 0 0 - - -, f 5;
 #X msg 198 333 next;
@@ -501,285 +669,7 @@ forces the counter to stay within that range., f 63;
 #X connect 32 0 26 2;
 #X connect 33 0 26 3;
 #X connect 34 0 26 4;
-#X restore 489 96 pd basic2;
-#N canvas 500 23 817 537 basic1 0;
-#X obj 199 179 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 199 115 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X obj 199 148 cyclone/counter;
-#X obj 114 332 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 114 268 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X obj 114 301 cyclone/counter 5;
-#X obj 133 489 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 133 425 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X obj 254 332 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 254 268 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X text 29 217 Only one argument sets the maximum value \, so it counts
-from 0 to that value. Two arguments set the minimum and maximum value.
-;
-#X obj 254 301 cyclone/counter -2 2;
-#X obj 601 213 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
--1 -1 1;
-#X text 619 213 0: up;
-#X text 619 228 1: down;
-#X text 619 243 2: updown;
-#X obj 133 458 cyclone/counter 0 1 5;
-#X text 30 371 If given three arguments \, the 1st sets the direction
-(0: up \, 1: down \, 2: updown) and 2nd and 3rd the min/max.;
-#X obj 539 336 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 539 250 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X floatatom 601 267 2 0 0 0 - - -, f 2;
-#X obj 668 336 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 539 360 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 668 360 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 571 223 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X msg 435 223 up;
-#X msg 468 224 down;
-#X msg 509 223 updown;
-#X text 700 335 <= how many;
-#X text 712 348 times max;
-#X text 700 359 was reached;
-#X text 423 126 When counting down and it reaches the minimum value
-\, it restarts from the maximum value. When in "updown" mode \, at
-the end of each count round (reaching maximum or minimum) it swiches
-the direction.;
-#X text 433 406 You can set the direction with the "up" \, "down" and
-"updown" messages \, but also with a float input in the 2nd inlet or
-a bang into the 2nd inlet (which shifts from 0 to 1 \, then from 1
-to 2 \, and from 2 back to 0 and so on);
-#X obj 539 305 cyclone/counter 1 0 5, f 22;
-#X text 681 304 <= from 5 to 0;
-#X text 687 291 counting down;
-#X msg 230 116 next;
-#X text 21 65 A bang or a 'next' message is used to make counter go
-to the next value. Note that it starts from the minimum (which is 0
-in the example below).;
-#X msg 149 269 next;
-#X msg 289 269 next;
-#X msg 164 427 next;
-#X text 20 20 If there are no arguments \, the direction is up \, the
-minimum is 0 \, and the maximum is 6.777.216 (2^24) \, the largest
-int possible in Pd (in Max is 2^31 - 1).;
-#X text 598 335 carrycount:;
-#X text 422 45 When counting up and it reaches the maximum value \,
-it restarts from the minimum value. The rightmost outlet - the 'carrycount'
-output - counts how many times the maximum was reached when counting
-up (but it doesn't count anything if the counter direction is down).
-;
-#X connect 1 0 2 0;
-#X connect 2 0 0 0;
-#X connect 4 0 5 0;
-#X connect 5 0 3 0;
-#X connect 7 0 16 0;
-#X connect 9 0 11 0;
-#X connect 11 0 8 0;
-#X connect 12 0 20 0;
-#X connect 16 0 6 0;
-#X connect 18 0 22 0;
-#X connect 19 0 33 0;
-#X connect 20 0 33 1;
-#X connect 21 0 23 0;
-#X connect 24 0 33 1;
-#X connect 25 0 33 0;
-#X connect 26 0 33 0;
-#X connect 27 0 33 0;
-#X connect 33 0 18 0;
-#X connect 33 3 21 0;
-#X connect 36 0 2 0;
-#X connect 38 0 5 0;
-#X connect 39 0 11 0;
-#X connect 40 0 16 0;
-#X restore 489 75 pd basic1;
-#N canvas 444 23 902 486 more 1;
-#X text 30 305 A float input has the same effect as a bang \, so [counter]
-can be used to count how many floats have been received.;
-#X obj 134 359 hsl 128 15 0 100 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X obj 131 424 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 131 390 cyclone/counter;
-#X msg 592 94 state;
-#X obj 128 254 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -228856
--1 -1 6;
-#X obj 128 276 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 128 157 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
-#X obj 592 127 cyclone/counter 2 1 16, f 23;
-#X text 431 23 The 'state'message reports the current settings of [counter]
-on the Pd window.;
-#X obj 640 94 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
--1;
-#X obj 565 94 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
--1;
-#X obj 128 219 cyclone/counter 7;
-#X obj 128 181 metro 150;
-#X text 30 110 Setup a [metro] to turn [counter] into a step sequencer
-\, such as the 8-step example below.;
-#X text 34 24 IMPORTANT NOTE: All values in the counter are integers
-\, so all float used to set the counter values are converted to inegers
-by disconsidering the decimal part.;
-#X text 435 182 x_mincount: - the minimum value \; x_maxcount: - the
-maximum value \; x_direction: - the direction: 0/1/2 (up/down/updown)
-\; x_curcount: - the current count value \; x_curdir: - the current
-direction: 0/1 (up/down) \; x_carrycount: - how many times it reached
-the maximum \; x_carry: - carry value as in carryint mode: 0/1 \; x_under:
-- '1' when under the minimum \, '0' when not \; x_carrymode: - carrymode:
-0/1 (carryint/carrybang) \; x_compat: - compatmode: 0/1 (current/ancient)
-\; x_startup: - '1' if still in the startup value \, '0' if not \;
-x_inletnum: - inlet number that the state message came in \;, f 62
-;
-#X connect 1 0 3 0;
-#X connect 3 0 2 0;
-#X connect 4 0 8 0;
-#X connect 5 0 6 0;
-#X connect 7 0 13 0;
-#X connect 10 0 8 1;
-#X connect 11 0 8 0;
-#X connect 12 0 5 0;
-#X connect 13 0 12 0;
-#X restore 501 159 pd more;
-#X text 172 284 sets counter value with no output - if outside the
-range \, it resets min/max according to compatmode (see example above)
-;
-#N canvas 767 199 485 511 bugs 0;
-#X msg 37 85 min \$1;
-#X floatatom 37 57 5 0 0 0 - - -, f 5;
-#X text 82 53 when setting min over max \, counter gets stuck here
-\, but max counter doesn't work...;
-#X floatatom 37 138 8 0 0 0 - - -, f 8;
-#X obj 37 111 cyclone/counter 1 5;
-#X text 20 198 if 3 args and 1st bigger \, things fuck up!!!!!!!;
-#X text 29 225 max is 2^24? things not well for bignumbers;
-#N canvas 179 25 958 587 big 0;
-#X floatatom 715 302 0 0 0 0 - - -;
-#X obj 710 335 - 1;
-#X obj 570 402 cyclone/counter;
-#X obj 591 430 -;
-#X obj 587 286 pow 24;
-#X msg 594 259 2;
-#X msg 570 361 set \$1 \, bang;
-#X floatatom 598 312 0 0 0 0 - - -;
-#X obj 580 336 t f f;
-#X floatatom 592 502 0 0 0 0 - - -;
-#X obj 547 359 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg 699 249 2;
-#X obj 692 276 pow 31;
-#X floatatom 644 442 0 0 0 0 - - -;
-#X floatatom 557 465 0 0 0 0 - - -;
-#X obj 256 364 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 236 442 print;
-#X floatatom 346 515 0 0 0 0 - - -;
-#X floatatom 424 513 0 0 0 0 - - -;
-#X obj 392 322 expr pow(2 \, 31) - 1;
-#X msg 402 367 set 2.14748e+09 \, bang;
-#X obj 254 390 expr pow(2 \, 31) - 1;
-#X msg 281 418 set \$1 \, bang;
-#X obj 392 450 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 430 450 uzi 1e+07;
-#X obj 432 421 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X floatatom 481 476 0 0 0 0 - - -;
-#X obj 347 487 cyclone/counter;
-#X obj 433 393 print;
-#X obj 118 386 pow 31;
-#X obj 145 417 - 1;
-#X obj 132 359 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg 525 274 set \$1;
-#X floatatom 422 136 0 0 0 0 - - -;
-#X obj 356 63 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 622 96 t f f;
-#X obj 628 123 -;
-#X floatatom 628 149 0 0 0 0 - - -;
-#X obj 501 83 pow 24;
-#X msg 508 56 2;
-#X msg 389 61 set \$1 \, bang;
-#X floatatom 534 151 5 0 0 0 - - -, f 5;
-#X obj 418 112 cyclone/counter 0 1.67772e+09;
-#X connect 1 0 7 0;
-#X connect 2 0 3 0;
-#X connect 2 0 14 0;
-#X connect 2 3 13 0;
-#X connect 3 0 9 0;
-#X connect 4 0 7 0;
-#X connect 4 0 32 0;
-#X connect 5 0 4 0;
-#X connect 6 0 2 0;
-#X connect 7 0 8 0;
-#X connect 8 0 6 0;
-#X connect 8 1 3 1;
-#X connect 10 0 2 0;
-#X connect 11 0 12 0;
-#X connect 12 0 0 0;
-#X connect 12 0 1 0;
-#X connect 15 0 21 0;
-#X connect 20 0 27 0;
-#X connect 20 0 28 0;
-#X connect 21 0 22 0;
-#X connect 22 0 27 0;
-#X connect 22 0 16 0;
-#X connect 23 0 27 0;
-#X connect 24 0 27 0;
-#X connect 24 2 26 0;
-#X connect 25 0 24 0;
-#X connect 27 0 17 0;
-#X connect 27 3 18 0;
-#X connect 29 0 30 0;
-#X connect 30 0 22 0;
-#X connect 31 0 29 0;
-#X connect 32 0 42 0;
-#X connect 34 0 42 0;
-#X connect 35 0 36 1;
-#X connect 35 1 36 0;
-#X connect 36 0 37 0;
-#X connect 38 0 40 0;
-#X connect 39 0 38 0;
-#X connect 40 0 42 0;
-#X connect 42 0 33 0;
-#X connect 42 0 35 0;
-#X connect 42 3 41 0;
-#X restore 301 224 pd big numbers;
-#X msg 65 352 setmin;
-#X msg 73 310 state;
-#X floatatom 148 141 5 0 0 0 - - -, f 5;
-#X text 189 140 <= dont work;
-#X msg 72 279 compatmode;
-#X text 144 279 <= current functionality;
-#X text 54 376 With the 'setmin' message \, if you set the minimum
-to a value greater than the current count while counting up \, it'll
-still waits until the counter reaches the new minimum limit until it
-forces the counter to stay within that range., f 63;
-#X text 113 351 <= jumps to max!!!;
-#X text 112 309 <= missing values - no 1st post;
-#X text 54 438 What happens if the setmin is set over maximum?, f
-63;
-#X connect 0 0 4 0;
-#X connect 1 0 0 0;
-#X connect 4 0 3 0;
-#X connect 4 3 10 0;
-#X restore 34 148 pd bugs;
-#X text 65 79 [counter] is an integer counter that counts up/down by
-'1' in a given range.;
-#X obj 204 134 cyclone/counter 10 15;
-#X text 337 134 (from 10 to 15);
-#X text 99 218 messages;
-#X connect 55 0 88 0;
-#X connect 88 0 53 0;
+#X restore 483 96 pd basic_2;
+#X text 172 238 switches the counter direction, f 60;
+#X connect 55 0 84 0;
+#X connect 84 0 53 0;

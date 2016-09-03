@@ -1,25 +1,25 @@
-#N canvas 737 23 558 537 10;
-#X obj 2 390 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#N canvas 978 416 558 572 10;
+#X obj 2 429 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 439 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 478 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 103 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 98 436 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 275 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 103 283 cnv 17 3 60 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 98 283 cnv 17 3 95 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 318 159 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
-#X obj 103 368 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 98 407 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 132 447 (none);
-#X obj 103 418 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 148 486 (none);
+#X obj 98 457 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 103 347 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 98 386 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 195 196 cyclone/sustain, f 21;
-#X obj 2 498 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 537 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 526 102 390 380 META 0;
 #X text 11 29 LICENSE SIBSD;
@@ -42,7 +42,7 @@ Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
 updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
 adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
 this patch for Pd-Vanilla 0.47-2.;
-#X restore 505 500 pd META;
+#X restore 505 539 pd META;
 #N canvas 383 144 430 89 Related_objects 0;
 #X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Related Objects;
@@ -50,19 +50,17 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 246 33 cyclone/midiflush;
 #X obj 82 33 stripnote;
 #X obj 17 33 makenote;
-#X restore 207 500 pd Related_objects;
-#X text 172 281 -;
-#X text 136 281 float;
-#X text 172 298 -;
-#X text 142 298 list;
-#X text 172 348 -;
-#X text 136 348 float;
-#X text 172 369 -;
-#X text 136 369 float;
-#X text 172 398 -;
-#X text 172 420 -;
-#X text 187 398 the pitch value of a pitch-velocity pair, f 49;
-#X text 187 420 the velocity value of a pitch-velocity pair, f 49
+#X restore 207 539 pd Related_objects;
+#X text 157 281 float;
+#X text 163 298 list;
+#X text 192 387 -;
+#X text 156 387 float;
+#X text 192 408 -;
+#X text 156 408 float;
+#X text 192 437 -;
+#X text 192 459 -;
+#X text 207 437 the pitch value of a pitch-velocity pair, f 49;
+#X text 207 459 the velocity value of a pitch-velocity pair, f 49
 ;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -82,84 +80,148 @@ Max/MSP;
 #X obj 318 223 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 195 223 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 64 256;
+-228856 -1 -1 0 256;
 #X text 347 163 On/Off;
 #X obj 195 137 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 64 256;
+-228856 -1 -1 0 256;
 #X text 65 92 [sustain] holds the note off messages while it is on
 and sends the held note off messages when it's switched off.;
-#X text 132 398 float;
-#X text 132 420 float;
-#X text 187 298 a pair of pitch/velocity velues from note message;
-#X text 187 281 the pitch part of a note message;
-#X text 187 348 the velocity part of a note message, f 49;
-#X text 187 369 pedal swicth: on <1> \, off <0>;
-#N canvas 684 185 441 481 examples 0;
-#X obj 204 75 ctlin 64 1;
-#X obj 204 101 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+#X text 152 437 float;
+#X text 152 459 float;
+#X text 207 387 the velocity part of a note message, f 49;
+#N canvas 402 185 851 491 examples 0;
+#X obj 274 82 ctlin 64 1;
+#X obj 274 108 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
-#X obj 111 134 cyclone/sustain, f 16;
-#X text 33 19 You can access the MIDI message from an actual sustain
-pedal and feed it to the [sutain] object.;
-#X obj 111 95 notein;
-#X floatatom 204 162 5 0 0 0 - - -, f 5;
-#X floatatom 111 162 5 0 0 0 - - -, f 5;
-#X obj 297 305 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+#X obj 187 102 notein;
+#X floatatom 274 169 5 0 0 0 - - -, f 5;
+#X floatatom 187 169 5 0 0 0 - - -, f 5;
+#X floatatom 357 373 5 0 0 0 - - -, f 5;
+#X floatatom 204 373 5 0 0 0 - - -, f 5;
+#X msg 269 307 69 127;
+#X msg 320 308 69 0;
+#X msg 204 281 60 127;
+#X msg 253 280 60 0;
+#X obj 204 426 print;
+#X obj 204 399 pack float float;
+#X obj 679 204 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
+1 1;
+#X obj 556 256 cyclone/sustain, f 21;
+#X text 712 212 On/Off;
+#X obj 524 182 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 76 256;
+#X obj 556 313 pack f f f;
+#X obj 556 341 route 1 2;
+#X obj 524 206 makenote 127 500;
+#X obj 556 412 output~;
+#X obj 524 133 metro 1000;
+#X obj 524 108 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+1;
+#X floatatom 617 232 5 0 0 0 - - -, f 5;
+#X floatatom 556 232 5 0 0 0 - - -, f 5;
+#X obj 556 285 poly 2 1;
+#X obj 524 157 expr random(60 \, 80);
+#N canvas 190 40 297 318 osc 0;
+#X obj 171 110 / 127;
+#X obj 171 156 vline~;
+#X obj 156 199 *~;
+#X obj 58 109 mtof;
+#X obj 58 48 inlet;
+#X obj 156 243 outlet~;
+#X msg 171 133 \$1 250;
+#X obj 58 80 unpack;
+#X obj 58 144 osc~;
+#X connect 0 0 6 0;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 8 0;
+#X connect 4 0 7 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;
+#X connect 7 1 0 0;
+#X connect 8 0 2 0;
+#X restore 556 374 pd osc;
+#N canvas 190 40 297 318 osc 0;
+#X obj 171 110 / 127;
+#X obj 171 156 vline~;
+#X obj 156 199 *~;
+#X obj 58 109 mtof;
+#X obj 58 48 inlet;
+#X obj 156 243 outlet~;
+#X msg 171 133 \$1 250;
+#X obj 58 80 unpack;
+#X obj 58 144 osc~;
+#X connect 0 0 6 0;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 8 0;
+#X connect 4 0 7 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;
+#X connect 7 1 0 0;
+#X connect 8 0 2 0;
+#X restore 606 373 pd osc;
+#X obj 679 64 loadbang;
+#X text 550 110 random notes;
+#X text 452 26 Using the [sustain] object in a 2-voice polyphonic synth
+with random notes.;
+#X text 709 191 sustain;
+#X text 39 26 You can directly connect the [notein] object and also
+access the MIDI message from an actual sustain pedal and feed it to
+the [sustain] object.;
+#X obj 204 345 cyclone/sustain @sustain 1;
+#X msg 134 308 sustain \$1;
+#X obj 187 141 cyclone/sustain;
+#X text 51 210 [sustain] also accepts a list (pitch / velocity) as
+note messages. and you can also set the sustain parameter with the
+@sustain attribute or message;
+#X obj 134 279 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
-#X obj 204 338 cyclone/sustain, f 16;
-#X floatatom 297 366 5 0 0 0 - - -, f 5;
-#X floatatom 204 366 5 0 0 0 - - -, f 5;
-#X msg 225 261 69 127;
-#X msg 244 284 69 0;
-#X msg 148 262 60 127;
-#X msg 180 286 60 0;
-#X text 45 223 [sustain] also accepts a list (pitch / velocity) as
-note messages.;
-#X obj 204 419 print;
-#X obj 204 392 pack float float;
-#N canvas 705 38 689 514 attributes 0;
-#X text 132 55 @repeatmode [int] \; Sets the behavior mode for handling
-repeated note-on messages. There are three modes of behavior \; \;
-repeatmode 0: (Historical way) Playing the same note multiple times
-will not retrigger the played note when the sustain pedal is pressed
-or after a sustain 1 message is received. This is the default state
-of the object. repeatmode 1: (Re-trigger) Playing the same note multiple
-times will send a note off message and retrigger the played note no
-matter what its sustain state is. The sustain object will also keep
-track of the notes to stop when the sustain pedal is released or a
-sustain 0 message is received. repeatmode 2: (Stop last) Playing the
-same note multiple times will cause the sustain object to keep a count
-of the number of times the note has been played \, holding and sending
-the accumulated note off messages when the sustain pedal is released
-or a sustain 0 message is received. Possible values \; 0 = 'Historical
-Way' \; 1 = 'Re-Trigger' \; 2 = 'Stop Last';
-#X text 133 365 @sustain [int] \; Enables (1) or disables (0) sustain
-mode. Setting this attribute or sending the message sustain 1 or sustain
-0 is equivalent to pressing or releasing the sustain pedal.;
-#X restore 344 444 pd attributes;
 #X connect 0 0 1 0;
-#X connect 1 0 2 2;
-#X connect 2 0 6 0;
-#X connect 2 1 5 0;
-#X connect 4 0 2 0;
-#X connect 4 1 2 1;
-#X connect 7 0 8 2;
-#X connect 8 0 10 0;
-#X connect 8 1 9 0;
-#X connect 9 0 17 1;
-#X connect 10 0 17 0;
-#X connect 11 0 8 0;
-#X connect 12 0 8 0;
-#X connect 13 0 8 0;
-#X connect 14 0 8 0;
-#X connect 17 0 16 0;
-#X restore 475 242 pd examples;
-#X obj 2 468 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X connect 1 0 36 2;
+#X connect 2 0 36 0;
+#X connect 2 1 36 1;
+#X connect 5 0 12 1;
+#X connect 6 0 12 0;
+#X connect 7 0 34 0;
+#X connect 8 0 34 0;
+#X connect 9 0 34 0;
+#X connect 10 0 34 0;
+#X connect 12 0 11 0;
+#X connect 13 0 14 2;
+#X connect 14 0 25 0;
+#X connect 14 1 25 1;
+#X connect 16 0 19 0;
+#X connect 17 0 18 0;
+#X connect 18 0 27 0;
+#X connect 18 1 28 0;
+#X connect 19 0 24 0;
+#X connect 19 1 23 0;
+#X connect 21 0 26 0;
+#X connect 22 0 21 0;
+#X connect 23 0 14 1;
+#X connect 24 0 14 0;
+#X connect 25 0 17 0;
+#X connect 25 1 17 1;
+#X connect 25 2 17 2;
+#X connect 26 0 16 0;
+#X connect 27 0 20 0;
+#X connect 28 0 20 1;
+#X connect 29 0 13 0;
+#X connect 29 0 22 0;
+#X connect 34 0 6 0;
+#X connect 34 1 5 0;
+#X connect 35 0 34 0;
+#X connect 36 0 4 0;
+#X connect 36 1 3 0;
+#X connect 38 0 35 0;
+#X restore 476 221 pd examples;
+#X obj 2 507 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 127 476 @repeatmode <float> | @sustain <float>;
-#X text 136 314 clear - clears the memory (no note-off messages are
+#X text 192 515 @repeatmode <float> | @sustain <float>;
+#X text 157 314 clear - clears the memory (no note-off messages are
 output);
-#X text 136 331 flush - outputs all held note-offs;
+#X text 157 331 flush - outputs all held note-offs;
 #X msg 103 151 clear;
 #X msg 147 151 flush;
 #X text 260 222 velocity:;
@@ -167,13 +229,84 @@ output);
 #X obj 318 244 print velocity;
 #X obj 195 244 print velocity;
 #X obj 195 163 makenote 90 750;
+#X text 193 281 - the pitch part of a note message;
+#X text 193 298 - a pair of pitch/velocity velues from note message
+;
+#X text 121 346 sustain <f>;
+#X text 207 408 sustain pedal swicth: on <1> \, off <0>;
+#X text 193 346 - sustain pedal swicth: on <1> \, off <0>;
+#X text 103 362 repeatmode <f>;
+#X text 193 362 - historical <0> \, re-trigger <1> & stop last <2>
+;
+#N canvas 360 67 836 403 repeatmode 0;
+#X text 31 20 There are three different modes to deal with repeated
+notes while the sustain pedal is on \, set by the 'repeatmode' message
+or attribute. The options are \; - 0 (historical) \; - 1 (re-trigger)
+\; - 2 (stop last);
+#X floatatom 770 292 5 0 0 0 - - -, f 5;
+#X floatatom 533 292 5 0 0 0 - - -, f 5;
+#X obj 533 345 print;
+#X obj 533 26 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856 -1
+-1 2;
+#X floatatom 533 76 3 0 0 0 - - -, f 3;
+#X msg 533 95 repeatmode \$1;
+#X text 553 56 2 'stop last';
+#X text 553 41 1 're-trigger';
+#X text 553 26 0 'historical';
+#X obj 533 318 pack float float, f 22;
+#X obj 558 202 makenote 127 500;
+#X floatatom 651 228 5 0 0 0 - - -, f 5;
+#X floatatom 558 228 5 0 0 0 - - -, f 5;
+#X msg 558 134 60;
+#X msg 591 135 62;
+#X msg 600 166 64;
+#X msg 633 167 65;
+#X msg 476 202 flush;
+#X obj 476 154 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 624 133 <= send repeated notes to test;
+#X text 31 112 The different modes in detail:, f 60;
+#X text 31 142 0 (Historical mode - default): Playing the same note
+multiple times while the sustain pedal is on will output the Note On
+messages and hold the Note Off messages for all of them. When the sustain
+pedal is set off or the flush message is received \, all of the held
+Note Off messages are sent in the order they were received.;
+#X text 31 232 1 ('Re-trigger' mode): Playing a note that had already
+been played before and whose noteoff is being held will first send
+the corresponding Note Off before sending the new Note On message (and
+then hold the next Note Off). In other words \, it re-triggers the
+note.;
+#X text 31 315 2 ('Stop last' mode): Playing the same note multiple
+times will not re-trigger as in re-trigger mode \, but when the sustain
+is off \, only one Note Off message corresponding to a repeated note
+is sent \, instead of all of them.;
+#X obj 533 264 cyclone/sustain @repeatmode 1 @sustain 1;
+#X connect 1 0 10 1;
+#X connect 2 0 10 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 25 0;
+#X connect 10 0 3 0;
+#X connect 11 0 13 0;
+#X connect 11 1 12 0;
+#X connect 12 0 25 1;
+#X connect 13 0 25 0;
+#X connect 14 0 11 0;
+#X connect 15 0 11 0;
+#X connect 16 0 11 0;
+#X connect 17 0 11 0;
+#X connect 18 0 25 0;
+#X connect 19 0 18 0;
+#X connect 25 0 2 0;
+#X connect 25 1 1 0;
+#X restore 464 244 pd repeatmode;
 #X connect 5 0 10 2;
-#X connect 10 0 35 0;
-#X connect 10 1 34 0;
-#X connect 34 0 54 0;
-#X connect 35 0 55 0;
-#X connect 37 0 56 0;
-#X connect 50 0 10 0;
+#X connect 10 0 33 0;
+#X connect 10 1 32 0;
+#X connect 32 0 49 0;
+#X connect 33 0 50 0;
+#X connect 35 0 51 0;
+#X connect 45 0 10 0;
+#X connect 46 0 10 0;
 #X connect 51 0 10 0;
-#X connect 56 0 10 0;
-#X connect 56 1 10 1;
+#X connect 51 1 10 1;

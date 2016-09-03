@@ -1,4 +1,4 @@
-#N canvas 483 29 559 642 10;
+#N canvas 507 23 559 642 10;
 #X obj 2 443 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 489 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -19,21 +19,19 @@
 #X text 6 1 Related Objects;
 #X obj 68 42 cyclone/avg~;
 #X restore 208 604 pd Related_objects;
-#N canvas 571 307 379 261 META 0;
-#X text 1 0 KEYWORDS signal max_compatible;
-#X text 1 163 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
+#N canvas 1009 207 344 202 META 1;
+#X text 1 92 VERSION: 0.3-alpha.0, f 56;
+#X text 1 109 RELEASE_DATE: 2016, f 56;
+#X text 1 75 LIBRARY: cyclone, f 56;
+#X text 1 126 LICENSE: SIBSD, f 56;
+#X text 1 175 WEBSITE: https://github.com/porres/pd-cyclone, f 56
 ;
-#X text 1 40 DESCRIPTION absolute value of a signal;
-#X text 1 60 INLET_0 signal;
-#X text 1 80 OUTLET_0 signal;
-#X text 1 121 AUTHOR Krzysztof Czaja;
-#X text 1 20 LICENSE SIBSD;
-#X text 0 101 VERSION 0.2-beta1;
-#X text 0 142 RELEASE_DATE 2002;
-#X text 1 193 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
+#X text 1 42 INLET_0: signal, f 56;
+#X text 1 58 OUTLET_0: signal, f 56;
+#X text 1 25 DESCRIPTION: signal absolute value, f 56;
+#X text 1 143 AUTHOR: Krzysztof Czaja, f 56;
+#X text 1 159 HELP_PATCH_AUTHOR: Alexandre Torres Porres, f 56;
+#X text 1 8 KEYWORDS: signal math, f 56;
 #X restore 504 604 pd META;
 #X text 76 413 -1;
 #X text 80 351 0;
@@ -73,8 +71,8 @@ Max/MSP;
 #X obj 98 295 cyclone/scope~ 213 131 3 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -143,7 +141,7 @@ Max/MSP;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

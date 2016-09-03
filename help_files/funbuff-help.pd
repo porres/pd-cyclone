@@ -1,4 +1,4 @@
-#N canvas 443 45 557 555 10;
+#N canvas 411 70 558 552 10;
 #X obj 2 296 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -82,194 +82,197 @@ Max/MSP;
 #X obj 19 57 comment 0 18 times ? 0 0 0 0 Stores pairs of integers
 ;
 #X text 173 387 y value of an x/y pair;
-#X obj 279 267 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
+#X obj 291 267 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
 #X text 173 437 on a "next" message \, the difference with the previous
 x value, f 61;
 #X text 173 459 when the end of the buffer is reached, f 60;
 #X text 173 417 the y value of a pair;
-#X obj 88 267 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 108 267 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 88 236 cyclone/funbuff;
+#X obj 108 236 cyclone/funbuff;
 #C restore;
-#X obj 279 191 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+#X obj 291 191 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 2;
-#X floatatom 279 213 2 0 0 0 - - -, f 2;
-#X text 330 191 x;
-#X text 319 266 y;
-#X text 185 191 y;
-#X text 99 191 x;
-#X obj 175 210 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X floatatom 291 213 2 0 0 0 - - -, f 2;
+#X text 277 189 x;
+#X text 271 266 y;
+#X text 180 204 y;
+#X text 95 203 x;
+#X obj 195 205 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 88 210 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 108 205 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#N canvas 83 91 781 424 examples 0;
-#X obj 581 276 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
+#N canvas 497 34 795 446 examples 0;
+#X obj 582 270 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
 -1;
-#X msg 480 192 next;
-#X msg 469 167 goto 0;
-#X obj 516 277 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X msg 481 186 next;
+#X msg 470 161 goto 0;
+#X obj 517 271 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 452 277 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 453 271 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 450 295 y value;
-#X text 514 191 outputs and goes to next;
-#X text 602 276 <= reached the end;
-#X obj 452 253 cyclone/funbuff;
+#X text 451 289 y value;
+#X text 515 185 outputs and goes to next;
+#X text 603 270 <= reached the end;
+#X obj 453 247 cyclone/funbuff;
 #C restore;
-#X text 408 51 When using the next message \, the midle outlet outputs
+#X text 409 45 When using the next message \, the midle outlet outputs
 the difference from the current 'x' value to the previous one. The
 right outlet sends a bang when reaching the end of the buffer. The
 next message needs a pointer position \, this can be set by giving
 it an 'x' value or by the 'goto' message.;
-#X msg 489 222 min;
-#X msg 521 222 max;
-#X text 547 222 outputs minimum/maximum 'y' value;
-#N canvas 0 22 656 566 interpolation 0;
-#X msg 166 96 set 0 0 10 100 30 200;
-#X obj 199 191 funbuff;
+#X msg 490 216 min;
+#X msg 522 216 max;
+#X text 548 216 outputs minimum/maximum 'y' value;
+#N canvas 303 193 654 315 interpolation 0;
+#X msg 158 130 interp 18;
+#X obj 132 179 cyclone/funbuff;
 #C restore;
-#X msg 199 153 interp 18;
-#X floatatom 199 233 5 0 0 0 - - -, f 5;
-#X obj 326 100 cyclone/comment 119 11 helvetica ? 0 80 80 80 click
-and store pairs 0 \, 0 and 10 \, 100 and 30 \, 200;
-#X obj 266 151 cyclone/comment 88 11 helvetica ? 0 80 80 80 compare
-18 to its x value neighbors 10 and 30;
-#X obj 304 100 cyclone/comment 119 11 helvetica ? 0 80 80 80 <---;
-#X obj 236 233 cyclone/comment 110 11 helvetica ? 0 80 80 80 140 is
-40% of the way from 100 to 200 \, just as 18 is 40% of the way from
-10 to 30;
-#X obj 172 379 funbuff;
-#C restore;
-#X msg 202 351 interp 18;
-#X floatatom 172 411 5 0 0 0 - - -, f 5;
-#X obj 270 357 cyclone/comment 168 11 helvetica ? 0 80 80 80 compare
-18 to its x value neighbors 10 and 30;
-#X msg 189 317 delete 10;
-#X obj 150 275 cyclone/comment 119 11 helvetica ? 0 80 80 80 ... at
-last:;
-#X obj 257 304 cyclone/comment 129 11 helvetica ? 0 80 80 80 delete
-the pair that has an x value of 10 (10 \, 100);
-#X obj 158 432 cyclone/comment 202 11 helvetica ? 0 80 80 80 120 is
-60% of the way from 0 to 200 \, just as 18 is 60% of the way from 0
-to 30;
-#X obj 150 74 cyclone/comment 168 11 helvetica ? 0 80 80 80 come on
-estimate some values:;
+#X text 350 80 stored pairs: "10 100" and "30 200";
+#X obj 132 80 cyclone/loadmess set 10 100 30 200;
+#X text 247 121 The value '18' is compared to 'x' values in funbuff
+and is found in between the values 10 and 30 If you consider the difference
+from 30 to 10 (which is 20) to 100% \, the value 18 is 40% over 10
+and 60% under 30;
+#X obj 132 214 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 247 184 The corresponding 'y' value from 18 is also an interpolated
+value from the corresponding 'y' values of 10 and 30 \, which are 100
+and 200 \, so it should be 140 (40% of the way from 100 to 200). Click
+and check.;
+#X obj 43 42 hsl 128 15 10 30 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 40 72 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 40 105 interp \$1;
+#X text 183 43 <= move the slider and check the interpolated values
+;
 #X connect 0 0 1 0;
-#X connect 0 0 8 0;
-#X connect 1 0 3 0;
-#X connect 2 0 1 0;
-#X connect 8 0 10 0;
-#X connect 9 0 8 0;
-#X connect 12 0 8 0;
-#X restore 322 357 pd interpolation;
-#N canvas 251 23 600 456 read/write 0;
-#X obj 182 225 print funbuff;
-#X msg 198 86 write;
-#X msg 186 146 read;
-#X msg 297 155 read /tmp/test.funbuff;
-#X msg 297 134 write /tmp/test.funbuff;
-#X obj 182 199 funbuff /tmp/test.funbuff;
+#X connect 1 0 5 0;
+#X connect 3 0 1 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 1 0;
+#X restore 643 339 pd interpolation;
+#X text 467 340 More examples:;
+#N canvas 614 240 473 391 copy/paste 0;
+#X msg 53 64 select 3 5;
+#X msg 84 155 cut;
+#X msg 115 155 copy;
+#X msg 153 200 undo;
+#X msg 152 155 paste;
+#X obj 85 307 cyclone/funbuff;
 #C restore;
-#X obj 228 116 cyclone/comment 220 11 helvetica ? 0 80 80 80 with filename
-as argument no dialog appears:;
-#X obj 343 204 cyclone/comment 116 11 helvetica ? 0 80 80 80 argument
-sets initial filename to load;
-#X obj 152 73 cyclone/comment 116 11 helvetica ? 0 80 80 80 save contents
+#X msg 171 258 delete 5;
+#X text 229 233 deletes matching pair;
+#X text 183 198 or paste operation;
+#X text 165 184 undoes the latest cut;
+#X text 75 87 selects 5 elements staring from element 3 - the region
+from pointer 3 to 3 + 5 (8). Used for cut \, copy and paste operations.
 ;
-#X obj 153 132 cyclone/comment 116 11 helvetica ? 0 80 80 80 load contents
-;
-#X msg 331 338 embed 0;
-#X msg 383 338 embed 1;
-#X obj 329 311 cyclone/comment 116 11 helvetica ? 0 80 80 80 save funbuff
-in patcher: no (default) -- yes --;
-#X obj 331 370 s fb;
+#X text 228 259 deletes the pair where x = 5;
+#X msg 160 232 delete 3 2;
+#X connect 0 0 5 0;
 #X connect 1 0 5 0;
 #X connect 2 0 5 0;
 #X connect 3 0 5 0;
 #X connect 4 0 5 0;
-#X connect 5 0 0 0;
-#X connect 10 0 13 0;
-#X connect 11 0 13 0;
-#X restore 442 351 pd read/write files \; save contents;
-#X text 76 357 More examples:;
-#N canvas 251 23 600 456 copy/paste 0;
-#X msg 173 124 select 3 5;
-#X msg 184 145 cut;
-#X msg 195 170 copy;
-#X obj 172 99 cyclone/comment 123 11 helvetica ? 0 80 80 80 selects
-the region of the funbuff from x to x+y;
-#X obj 232 150 cyclone/comment 107 11 helvetica ? 0 80 80 80 cut/copy
-the selected region to a global funbuff clipboard;
-#X msg 213 227 undo;
-#X msg 206 206 paste;
-#X obj 257 199 cyclone/comment 80 11 helvetica ? 0 80 80 80 one may
-paste among funbufs;
-#X obj 185 267 cyclone/funbuff;
-#C restore;
-#X msg 320 54 delete 0 0;
-#X msg 331 80 delete 5;
-#X text 388 79 deletes the pair where x=2;
-#X text 389 53 deletes matching pair;
-#X connect 0 0 8 0;
-#X connect 1 0 8 0;
-#X connect 2 0 8 0;
-#X connect 5 0 8 0;
-#X connect 6 0 8 0;
-#X restore 582 357 pd copy/paste & delete;
-#X text 26 15 There can only be one 'x' value and a corresponding 'y'value.
+#X connect 6 0 5 0;
+#X connect 12 0 5 0;
+#X restore 614 387 pd copy/paste & delete;
+#X text 22 15 There can only be one 'x' value and a corresponding 'y'value.
 So if you can rewrite a 'y' value by sending another message.;
-#X obj 74 134 cyclone/funbuff;
+#X obj 70 134 cyclone/funbuff;
 #C restore;
-#X msg 74 78 4;
-#X obj 74 165 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X msg 70 78 4;
+#X obj 70 165 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 189 75 the value of 'y'is from;
-#X text 207 99 the last sent message;
-#X obj 166 314 print X;
-#X obj 219 314 print Y;
-#X obj 176 289 cyclone/funbuff;
+#X text 185 75 the value of 'y'is from;
+#X text 203 99 the last sent message;
+#X obj 162 394 print X;
+#X obj 215 394 print Y;
+#X obj 172 369 cyclone/funbuff;
 #C restore;
-#N canvas 251 23 600 456 pd 0;
-#X msg 186 224 find 4;
-#X msg 107 247 goto \$1;
-#X floatatom 107 227 5 0 0 0 - - -, f 5;
-#X obj 186 299 cyclone/funbuff;
+#X msg 118 75 4 10 \, 4 4;
+#X msg 133 100 4 5 \, 4 40;
+#X text 409 15 'goto' \, 'next' & 'min'/'max' messages:;
+#X obj 453 135 cyclone/loadmess set 1 1 3 2 5 3 6 2;
+#X text 516 289 difference from previous 'x';
+#X text 517 160 sets pointer to the first element;
+#N canvas 280 388 425 303 find 0;
+#X msg 82 90 find 4;
+#X msg 117 150 0 4 \, 2 4 \, 1 1 \, 5 3 \, 7 4;
+#X obj 117 127 loadbang;
+#X obj 82 244 print find;
+#X obj 82 185 cyclone/funbuff;
 #C restore;
-#X text 237 224 "find n" outputs all x values at which n is stored
-;
-#X text 148 145 jump to x position and output y value (???);
-#X floatatom 183 329 5 0 0 0 - - -, f 5;
-#X floatatom 232 332 5 0 0 0 - - -, f 5;
-#X obj 192 351 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 232 377 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 246 265 cyclone/loadmess set 1 1 3 2 5 3 6 4;
-#X obj 290 344 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X text 256 379 should output?;
-#X connect 0 0 3 0;
-#X connect 1 0 3 0;
+#X obj 82 215 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 132 89 find 'x' that correspond to '4';
+#X text 40 28 The 'find' message looks for 'x' values that correspond
+to the given 'y'.;
+#X connect 0 0 4 0;
+#X connect 1 0 4 0;
 #X connect 2 0 1 0;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;
+#X restore 570 340 pd find;
+#X msg 172 311 set 1 2 3 4 5 6 7 8;
+#X msg 192 339 dump;
+#X msg 122 329 clear;
+#X text 28 203 'set' \, 'clear' and 'dump' messages:;
+#X text 29 233 The set message can set several pairs at once. The clear
+message erases all set pairs from the memory. The dump message dumps
+all pairs to the middle (y value) and left (x value) outlets;
+#N canvas 378 115 809 371 read/write 0;
+#X msg 544 152 write;
+#X msg 502 152 read;
+#X msg 587 153 write funbuff.txt;
+#X msg 597 179 read funbuff.txt;
+#X msg 181 149 embed \$1;
+#X obj 181 125 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+1;
+#X obj 522 258 cyclone/funbuff funbuff.txt;
+#C restore;
+#X obj 181 290 pack;
+#X obj 181 261 cyclone/funbuff;
+#C embed 1;
+#C set 13 22 26 12 35 53;
+#C restore;
+#X msg 211 181 dump;
+#X text 33 27 You can save the stored values of a [funbuff] into the
+patch with the 'embed' message. If you send it 'embed 1' \, when you
+save the patch \, it also save the currently stored values into [funbuff].
+If you send it 'embed 0' and save the patch \, it won't save the contents
+and also clear if it had its contents saved.;
+#X msg 227 219 set 13 22 35 53 26 12;
+#X obj 181 318 print pairs:;
+#X msg 614 215 set 13 22 35 53 26 12;
+#X msg 459 113 dump;
+#X obj 522 323 print pairs:;
+#X obj 522 295 pack float float;
+#X text 425 27 You can also save (with the 'write' message) and load
+(with the 'read' message) from files. The argument sets a file name
+to load and read from at startup. The 'read' and 'write' messages without
+a filename symbol opens a dialog box to open/save files.;
+#X connect 0 0 6 0;
+#X connect 1 0 6 0;
+#X connect 2 0 6 0;
 #X connect 3 0 6 0;
-#X connect 3 1 7 0;
-#X connect 3 2 11 0;
-#X connect 6 0 8 0;
-#X connect 7 0 9 0;
-#X connect 10 0 3 0;
-#X restore 179 357 pd pd goto and find;
-#X msg 176 261 set 1 2 3 4 5 6 7 8 \, dump;
-#X msg 122 75 4 10 \, 4 4;
-#X msg 137 100 4 5 \, 4 40;
-#X text 13 213 The set message can set several pairs at once. The dump
-message dumps all pairs to the middle (y value) and left (x value)
-outlets;
-#X text 12 193 'set' and 'dump' messages:;
-#X text 408 21 'goto' \, 'next' & 'min'/'max' messages:;
-#X obj 452 141 cyclone/loadmess set 1 1 3 2 5 3 6 2;
-#X text 515 295 difference from previous 'x';
-#X text 516 166 sets pointer to the first element;
+#X connect 4 0 8 0;
+#X connect 5 0 4 0;
+#X connect 6 0 16 0;
+#X connect 6 1 16 1;
+#X connect 7 0 12 0;
+#X connect 8 0 7 0;
+#X connect 8 1 7 1;
+#X connect 9 0 8 0;
+#X connect 11 0 8 0;
+#X connect 13 0 6 0;
+#X connect 14 0 6 0;
+#X connect 16 0 15 0;
+#X restore 468 381 pd read/write files \; save contents (embed);
 #X connect 1 0 8 0;
 #X connect 2 0 8 0;
 #X connect 8 0 4 0;
@@ -277,33 +280,33 @@ outlets;
 #X connect 8 2 0 0;
 #X connect 10 0 8 0;
 #X connect 11 0 8 0;
-#X connect 18 0 20 0;
-#X connect 19 0 18 0;
-#X connect 25 0 23 0;
-#X connect 25 1 24 0;
-#X connect 27 0 25 0;
-#X connect 28 0 18 0;
-#X connect 29 0 18 0;
-#X connect 33 0 8 0;
-#X restore 471 263 pd examples;
+#X connect 17 0 19 0;
+#X connect 18 0 17 0;
+#X connect 24 0 22 0;
+#X connect 24 1 23 0;
+#X connect 25 0 17 0;
+#X connect 26 0 17 0;
+#X connect 28 0 8 0;
+#X connect 32 0 24 0;
+#X connect 33 0 24 0;
+#X connect 34 0 24 0;
+#X restore 472 265 pd examples;
 #X text 101 366 messages;
-#X text 87 147 If there's no matching 'x' \, [funbuff] uses the closest
+#X text 87 144 If there's no matching 'x' \, [funbuff] uses the closest
 smaller 'x' and outputs its corresponding 'y' value., f 60;
-#X text 128 267 y;
-#X text 446 211 sets x/y pairs;
+#X text 94 265 y;
+#X text 433 212 sets x/y pairs;
 #X text 172 348 two elements stores a x/y number pair in the buffer
 ;
 #X text 173 302 prints object's information in the Pd main window,
 f 60;
-#X obj 253 210 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 265 213 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 173 366 see complete list of messages:;
-#X msg 30 209 clear;
-#X text 26 192 buffer;
-#X text 26 181 clears;
+#X msg 51 203 clear;
 #X text 85 85 [funbuff] stores \, manages and recalls x/y pairs of
 integers.;
-#N canvas 606 104 536 397 All_Messages 0;
+#N canvas 834 117 536 397 All_Messages 0;
 #X text 120 317 prints status information in Pd main window, f 68
 ;
 #X text 120 115 undoes the latest cut or paste operation, f 68;
@@ -329,9 +332,6 @@ integers.;
 , f 68;
 #X text 19 132 delete <f \, f> -;
 #X text 19 38 select <f \, f> -;
-#X text 120 38 selects a range of x/y pairs (specified by the 1st float)
-starting from an index (specified by the 2nd float) - for copy/cut/paste
-, f 68;
 #X text 120 66 copies the selected x/y pair to the clipboard, f 68
 ;
 #X text 120 82 copies the selected x/y pair to the clipboard and deletes
@@ -365,25 +365,28 @@ to next pointer, f 68;
 the given number, f 68;
 #X text 120 270 same as interp \, but uses the table specified by the
 symbol <s>, f 68;
+#X text 120 38 selects a number of x/y pairs (specified by the 2nd
+float) starting from an index (specified by the 1st float) - for copy/cut/paste
+, f 68;
 #X restore 359 367 pd All_Messages;
 #X text 98 489 1) symbol - sets a file name to load in the buffer;
-#X msg 355 211 0 1 \, 1 2 \, 2 3;
-#X obj 355 189 loadbang;
-#X text 86 103 If a 'y' value is sent to the right inlet \, the next
+#X msg 346 212 0 1 \, 1 2 \, 2 3;
+#X obj 346 190 loadbang;
+#X text 86 101 If a 'y' value is sent to the right inlet \, the next
 input to the left inlet sets the value of 'x' and the pair is stored
 \, otherwise an 'x' input does output its corresponding 'y'.;
 #X text 173 320 x value of a x/y pair - saves the x/y pair if a y value
 was sent before to the right inlet \, outputs a y value otherwise,
 f 60;
-#X obj 279 239 cyclone/funbuff;
+#X obj 291 239 cyclone/funbuff;
 #C restore;
 #X connect 40 0 39 0;
 #X connect 41 0 42 0;
-#X connect 42 0 68 0;
+#X connect 42 0 66 0;
 #X connect 47 0 40 1;
 #X connect 48 0 40 0;
-#X connect 56 0 68 0;
+#X connect 56 0 66 0;
 #X connect 58 0 40 0;
-#X connect 64 0 68 0;
-#X connect 65 0 64 0;
-#X connect 68 0 35 0;
+#X connect 62 0 66 0;
+#X connect 63 0 62 0;
+#X connect 66 0 35 0;

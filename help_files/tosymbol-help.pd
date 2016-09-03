@@ -1,4 +1,4 @@
-#N canvas 187 228 558 446 10;
+#N canvas 751 31 558 446 10;
 #X obj 2 244 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 313 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -61,15 +61,13 @@ Max/MSP;
 #X obj 149 215 print;
 #X text 259 155 float;
 #X text 263 217 symbol;
-#N canvas 605 23 526 402 separator 0;
+#N canvas 89 23 526 402 separator 0;
 #X symbolatom 238 355 0 0 0 0 - - -;
 #X obj 115 232 trigger bang anything;
 #X msg 115 270 one two three four;
-#X msg 217 129 separator /;
-#X msg 34 129 separator -;
+#X msg 115 129 separator /;
 #X msg 242 191 separator;
 #X text 307 191 <= removes all spaces;
-#X obj 238 316 cyclone/tosymbol @separator |;
 #X obj 273 270 cyclone/loadmess 1 2 3 4;
 #X text 75 26 When converting a message composed of elements separated
 by spaces \, you can define a different "separator character" \, which
@@ -79,42 +77,38 @@ below:;
 #X msg 221 163 separator " ";
 #X text 308 164 <= space separator (default);
 #X text 166 355 symbol ==>;
-#X msg 115 129 separator ||||;
 #X text 296 129 <= 1 or more characters;
+#X msg 203 129 separator ||;
+#X obj 238 316 cyclone/tosymbol @separator |;
+#X msg 34 129 separator -;
 #X connect 1 0 2 0;
-#X connect 1 1 7 0;
-#X connect 2 0 7 0;
+#X connect 1 1 13 0;
+#X connect 2 0 13 0;
 #X connect 3 0 1 0;
 #X connect 4 0 1 0;
-#X connect 5 0 1 0;
-#X connect 7 0 0 0;
-#X connect 8 0 7 0;
-#X connect 10 0 1 0;
-#X connect 13 0 1 0;
+#X connect 6 0 13 0;
+#X connect 8 0 1 0;
+#X connect 12 0 1 0;
+#X connect 13 0 0 0;
+#X connect 14 0 1 0;
 #X restore 455 214 pd separator;
 #X obj 197 155 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 5 256;
 #N canvas 387 23 818 704 more 0;
 #X obj 503 115 cyclone/tosymbol;
 #X symbolatom 503 169 10 0 0 0 - - -, f 10;
-#X msg 503 77 x;
-#X symbolatom 114 512 40 0 0 0 - - -, f 40;
-#X text 106 491 Type anything \, a symbol message comes out:;
-#X obj 114 537 print;
-#X text 43 443 Note: In Pd Vanilla \, any message typed into an atom
-symbol box is treated as a symbol message.;
-#X text 430 42 Convert symbolic atoms to symbol messages:;
-#X obj 519 142 print;
+#X symbolatom 95 521 40 0 0 0 - - -, f 40;
+#X obj 95 546 print;
 #X obj 122 121 cyclone/tosymbol;
 #X symbolatom 122 175 20 0 0 0 - - -, f 20;
 #X obj 138 148 print;
 #X obj 171 61 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 58 256;
 #X obj 122 84 cyclone/pak 0 0 0;
 #X obj 234 61 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 26 256;
 #X obj 110 61 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 43 256;
 #X text 72 22 Convert list of floats to symbol:;
 #X obj 511 305 cyclone/tosymbol;
 #X symbolatom 511 359 10 0 0 0 - - -, f 10;
@@ -134,34 +128,50 @@ if you put it inside quotes (ex. "1 2 3" or "hi sir"). Since that is
 not the case in Pd \, [tosymbol] really comes in handy for converting
 any message type to a symbol!;
 #X msg 177 278 list one 2 3;
-#X msg 608 594 list hi;
-#X obj 608 627 print;
+#X msg 608 604 list hi;
+#X obj 608 637 print;
 #X symbolatom 549 454 10 0 0 0 - - -, f 10;
 #X obj 549 480 cyclone/tosymbol;
 #X symbolatom 549 509 10 0 0 0 - - -, f 10;
 #X text 443 418 A symbol goes through unchanged:;
-#X text 445 556 Also note that 1 element lists are automatically converted
-to symbols in Pd:;
+#X text 43 442 Note: In Pd Vanilla \, any message typed into an atom
+symbol box is treated as a symbol message \, even if it contains spaces.
+;
+#X text 67 500 Type anything with spaces \, a symbol message comes
+out:;
+#X symbolatom 669 169 10 0 0 0 - - -, f 10;
+#X obj 669 115 symbol;
+#X text 430 42 Convert symbolic atoms to symbol messages (like [symbol]):
+;
+#X obj 519 142 print a;
+#X msg 503 77 a;
+#X msg 669 77 b;
+#X obj 685 142 print b;
+#X text 445 556 Also note that 1 element lists are already automatically
+converted to symbols in Pd:;
 #X connect 0 0 1 0;
-#X connect 0 0 8 0;
-#X connect 2 0 0 0;
-#X connect 3 0 5 0;
-#X connect 9 0 10 0;
-#X connect 9 0 11 0;
-#X connect 12 0 13 1;
-#X connect 13 0 9 0;
-#X connect 14 0 13 2;
-#X connect 15 0 13 0;
+#X connect 0 0 35 0;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 4 0 6 0;
+#X connect 7 0 8 1;
+#X connect 8 0 4 0;
+#X connect 9 0 8 2;
+#X connect 10 0 8 0;
+#X connect 12 0 13 0;
+#X connect 12 0 14 0;
+#X connect 16 0 12 0;
 #X connect 17 0 18 0;
 #X connect 17 0 19 0;
 #X connect 21 0 17 0;
-#X connect 22 0 23 0;
-#X connect 22 0 24 0;
-#X connect 26 0 22 0;
-#X connect 28 0 22 0;
-#X connect 29 0 30 0;
-#X connect 31 0 32 0;
-#X connect 32 0 33 0;
+#X connect 23 0 17 0;
+#X connect 24 0 25 0;
+#X connect 26 0 27 0;
+#X connect 27 0 28 0;
+#X connect 33 0 32 0;
+#X connect 33 0 38 0;
+#X connect 36 0 0 0;
+#X connect 37 0 33 0;
 #X restore 484 189 pd more;
 #X text 53 90 [tosymbol] converts any kind of message to a symbol message
 (maximum of 2048 characters). Start by sending it a float with the
@@ -176,7 +186,7 @@ number box below and see how it converts to a symbol message.;
 #X text 105 381 @separator <symbol>;
 #X text 225 381 - sets the separator character (default "space");
 #X text 193 254 bang;
-#X text 230 254 - does nothing \, just goes rigth through;
+#X text 230 254 - does nothing \, just goes right through;
 #X connect 6 0 20 0;
 #X connect 6 0 21 0;
 #X connect 25 0 6 0;

@@ -1,7 +1,7 @@
 #N canvas 429 24 559 561 10;
 #X obj 5 523 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 289 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #N canvas 588 373 383 264 META 0;
 #X text 1 18 LICENSE SIBSD;
@@ -33,11 +33,11 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 6 1 Related Objects;
 #X obj 8 30 counter;
 #X restore 207 525 pd Related_objects;
-#X obj 87 297 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 87 293 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 86 411 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 162 312 bang;
+#X text 162 308 bang;
 #X obj 86 378 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 155 378 float;
@@ -67,23 +67,23 @@ adapted the patch to pd-extended 2015-02-02;
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 uzi;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 bang loop / counter;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Bang loop/counter;
 #X text 136 501 2) float;
 #X obj 310 254 print counter;
-#X text 156 297 float;
+#X text 156 292 float;
 #X text 202 501 - sets the counter starting point (offset) - default
 1;
-#X text 202 356 - sets the starting point of the counter;
+#X text 202 355 - sets the starting point of the counter;
 #X obj 132 177 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 211 180 offset \$1;
 #X floatatom 211 158 5 0 0 0 - - -, f 5;
 #X obj 310 236 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 120 327 pause/break;
-#X text 96 342 resume/continue;
-#X text 102 357 offset <float>;
-#X text 202 327 - stops banging/counting;
+#X text 120 324 pause/break;
+#X text 96 340 resume/continue;
+#X text 102 356 offset <float>;
+#X text 202 324 - stops banging/counting;
 #X text 202 454 - bang counter;
 #X obj 187 211 cyclone/uzi 10 0;
 #X obj 233 255 print done;
@@ -104,9 +104,8 @@ some name conflicts \, but this is not the case anymore.;
 #X obj 114 182 uzi, f 4;
 #X obj 201 183 cyclone/uzi;
 #X restore 456 240 pd backwards \; compatibility;
-#X text 202 312 - starts the banging/counting loop;
-#X text 202 342 - restarts banging/counting after being paused;
-#X text 202 296 - sets the number of bangs and starts looping;
+#X text 202 308 - starts the banging/counting loop;
+#X text 202 340 - restarts banging/counting after being paused;
 #X text 202 377 - sets the number of bangs to output;
 #X text 202 410 - bang according to the counter loop;
 #X text 202 484 - sets the number of bangs (default 0);
@@ -215,6 +214,7 @@ it's done!;
 and outputs a count for each bang (right outlet). The middle outlet
 bangs after the loop is done. The 1st argument is the number of bangs.
 The counter starts from a given offset (2nd argument).;
+#X text 202 291 - sets the number of bangs and starts the loop;
 #X connect 13 0 42 0;
 #X connect 14 0 42 1;
 #X connect 33 0 42 0;
