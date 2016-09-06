@@ -2,11 +2,15 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+//adding x_hires and associated bendout options - Derek Kwan 2016
+//
 #include "m_pd.h"
+#include <string.h>
 
 typedef struct _midiparse
 {
     t_object       x_ob;
+    int             x_hires;
     unsigned char  x_ready;
     unsigned char  x_status;
     unsigned char  x_channel;
@@ -20,6 +24,17 @@ typedef struct _midiparse
 } t_midiparse;
 
 static t_class *midiparse_class;
+
+static void midiparse_hires(t_midiparse *x, t_float f){
+    int hires = (int) f;
+    if(hires < 0){
+        hires = 0;
+    }
+    else if(hires > 2){
+        hires = 2;
+    };
+    x->x_hires = hires;
+}
 
 static void midiparse_clear(t_midiparse *x)
 {
@@ -58,6 +73,7 @@ static void midiparse_float(t_midiparse *x, t_float f)
 	}
 	else if (x->x_ready)
 	{
+            t_float bout;
 	    t_atom at[2];
 	    x->x_ready = 0;
 	    outlet_float(x->x_chanout, x->x_channel + 1);
@@ -92,8 +108,22 @@ static void midiparse_float(t_midiparse *x, t_float f)
 		x->x_ready = 1;
 		break;
 	    case 0xE0:
-		/* CHECKED: ignores data1 */
-		outlet_float(x->x_bendout, bval);
+                if(x->x_hires == 0){
+                    /* legacy: ignores data1 */
+                    bout=bval;
+                }
+                else{
+                    bout = (bval << 7) + x->x_data1;
+                    bout -= 8192; //max val of 14-bit number div 2
+                };
+
+                if(x->x_hires == 1){
+                    //[-1,1) range
+                    bout /= 8192;
+                };
+
+
+		outlet_float(x->x_bendout, bout);
 		break;
 	    default:;
 	    }
@@ -107,9 +137,36 @@ static void midiparse_float(t_midiparse *x, t_float f)
     else midiparse_clear(x);
 }
 
-static void *midiparse_new(void)
+static void *midiparse_new(t_symbol * s, int argc, t_atom * argv)
 {
     t_midiparse *x = (t_midiparse *)pd_new(midiparse_class);
+    
+    //defaults
+    t_float hires = 0;
+    while(argc){
+        if(argv -> a_type == A_SYMBOL){
+            if(argc >= 2){
+            t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+            t_float curfloat = atom_getfloatarg(1, argc, argv);
+            if(strcmp(cursym->s_name, "@hires") == 0){
+                hires = curfloat;
+                }
+            else{
+                goto errstate;
+                 };
+            argc-=2;
+            argv+=2;
+            }
+            else{
+                goto errstate;
+            };
+        }
+        else{
+            goto errstate;
+        };
+
+    };
+    midiparse_hires(x, hires);
     outlet_new((t_object *)x, &s_list);
     x->x_polyout = outlet_new((t_object *)x, &s_list);
     x->x_ctlout = outlet_new((t_object *)x, &s_list);
@@ -119,14 +176,18 @@ static void *midiparse_new(void)
     x->x_chanout = outlet_new((t_object *)x, &s_float);
     midiparse_clear(x);
     return (x);
+    errstate:
+        post("midiparse: improper args");
+        return NULL;
 }
 
 void midiparse_setup(void)
 {
     midiparse_class = class_new(gensym("midiparse"), 
 				(t_newmethod)midiparse_new, 0,
-				sizeof(t_midiparse), 0, 0);
+				sizeof(t_midiparse), 0, A_GIMME, 0);
     class_addbang(midiparse_class, midiparse_clear);
     class_addfloat(midiparse_class, midiparse_float);
+    class_addmethod(midiparse_class, (t_method)midiparse_hires,  gensym("hires"), A_FLOAT, 0);
     /* CHECKED autocasting lists to floats */
 }
