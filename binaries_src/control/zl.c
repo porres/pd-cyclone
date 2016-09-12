@@ -4,6 +4,13 @@
 
 /* FIXME zl sub */
 
+
+/*adding zldata_realloc, making zl_zlmaxsize actually do something, editing zldata_init
+    also adding arguments/attributes,... built everything around existing grow methods,.. which are ... messy..
+    may want to change this in the future - Derek Kwan 2016
+    */
+
+
 #include <string.h>
 #include "m_pd.h"
 #include "common/loud.h"
@@ -16,10 +23,11 @@
 //#define ZL_DEBUG
 #endif
 
-#define ZL_INISIZE     32  /* LATER rethink */
-#define ZL_MAXSIZE    256
+#define ZL_INISIZE     256  //changed from 32 - DK
+#define ZL_MAXSIZE    1024 //changed from 256 - DK
 #define ZL_MAXMODES    16
 #define ZL_DEFMODE      0
+#define ZL_MINSIZE      1 // added - DK
 
 struct _zl;
 typedef int (*t_zlintargfn)(struct _zl *, int);
@@ -66,11 +74,28 @@ typedef struct _zlproxy
 static t_class *zl_class;
 static t_class *zlproxy_class;
 
-static void zldata_init(t_zldata *d)
+//building around existing grow_withdata method, not exactly sure how it works but hopefully this does - DK
+static void zldata_realloc(t_zldata *d, int reqsz){
+        int cursz = d->d_size;
+        int natoms = d->d_natoms;
+        if(reqsz > cursz){
+	d->d_buf = grow_withdata(&reqsz, &natoms, &cursz,
+				 d->d_buf, ZL_INISIZE, d->d_bufini,
+				 sizeof(*d->d_buf));
+        };
+        d->d_size = cursz;
+
+}
+
+//changing zldata_init so it takes a size argt - DK
+static void zldata_init(t_zldata *d, int sz)
 {
     d->d_size = ZL_INISIZE;
     d->d_natoms = 0;
     d->d_buf = d->d_bufini;
+    if(sz > ZL_INISIZE){
+        zldata_realloc(d, sz);
+    }
 }
 
 static void zldata_free(t_zldata *d)
@@ -909,7 +934,7 @@ static void zl_free(t_zl *x)
     if (x->x_proxy) pd_free((t_pd *)x->x_proxy);
 }
 
-static void *zl_new(t_symbol *s, int ac, t_atom *av)
+static void *zl_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_zl *x = (t_zl *)pd_new(zl_class);
     t_zlproxy *y = (t_zlproxy *)pd_new(zlproxy_class);
@@ -917,11 +942,43 @@ static void *zl_new(t_symbol *s, int ac, t_atom *av)
     y->p_master = x;
     x->x_entered = 0;
     x->x_locked = 0;
-    zldata_init(&x->x_inbuf1);
-    zldata_init(&x->x_inbuf2);
-    zldata_init(&x->x_outbuf);
+
+    int sz = ZL_INISIZE; 
+    //argument paring
+
+    if(argc){
+        if(argv -> a_type == A_FLOAT){
+            sz = (int)atom_getfloatarg(0, argc, argv);
+            argc--;
+            argv++;
+        };
+        if(argv -> a_type == A_SYMBOL){
+                t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+                if(strcmp(cursym -> s_name, "@zlmaxsize") == 0){
+                    argc--;
+                    argv++;
+                    if(argc >= 2){
+                        if(argv -> a_type == A_FLOAT){
+                            sz  = (int)atom_getfloatarg(0, argc, argv);
+                            argc--;
+                            argv++;
+                        };
+                    };
+                };
+            };
+        };
+
+        if(sz < ZL_MINSIZE){
+            sz = ZL_MINSIZE;
+        }
+        else if(sz > ZL_MAXSIZE){
+            sz = ZL_MAXSIZE;
+        };
+    zldata_init(&x->x_inbuf1,sz);
+    zldata_init(&x->x_inbuf2,sz);
+    zldata_init(&x->x_outbuf,sz);
     x->x_mode = ZL_DEFMODE;
-    zl_mode(x, s, ac, av);
+    zl_mode(x, s, argc, argv);
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
@@ -964,9 +1021,26 @@ static void zl_setupallmodes(void)
     zl_setupmode("union", 0, 0, 0, zl_union_count, zl_union);
 }
 
+//this did nothing before - DK
 static void zl_zlmaxsize(t_zl *x, t_floatarg f)
 {
-    int maxsize = (int)f;
+    int sz = (int)f;
+    if(sz < ZL_MINSIZE){
+            sz = ZL_MINSIZE;
+        }
+        else if(sz > ZL_MAXSIZE){
+            sz = ZL_MAXSIZE;
+        };
+    if(sz > x->x_inbuf1.d_size){
+        zldata_realloc(&x->x_inbuf1,sz);
+    };
+    if(sz > x->x_inbuf2.d_size){
+        zldata_realloc(&x->x_inbuf2,sz);
+    };
+    if(sz > x->x_outbuf.d_size){
+        zldata_realloc(&x->x_outbuf,sz);
+    };
+
 }
 
 void zl_setup(void)
