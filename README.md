@@ -1,7 +1,7 @@
 Cyclone: A set of Pure Data objects cloned from Max/MSP 
 -------
 
-> Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP. It thus provides some level of compatibility between the two environments, helping users of both systems in the development of cross-platform patches. 
+> Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP. It thus provides some level of compatibility between the two environments, helping users of both systems in the development of equivalent patches. 
 
 --------------------
 
@@ -61,7 +61,7 @@ If in agreement to the Pd community, this repository will release updates of the
 
 <strong>- A)</strong> New functionalities introduced in newer versions of Max (from Max 5 and on) into the already existing objects in cyclone.
 
-<strong>- B)</strong> New objects compatible to the up to date Max version (currently Max 7.2.4). 
+<strong>- B)</strong> New objects compatible to the up to date Max version (currently Max 7.2.5). 
 
 Such updates represent the major overhaul since the original author abandoned cyclone in 2005. with such a great deal of work, this repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Ideally, any possible Max/MSP object could be cloned or updated, but since this is a fair amount of work, collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. 
 
@@ -69,7 +69,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 
 Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/changelog
 
-Readme file created on February 22nd 2016 (last edited on August 30th 2016)
+Readme file created on February 22nd 2016 (last edited on sep 15th 2016)
 
 -------
 <strong>Building Cyclone</strong>
