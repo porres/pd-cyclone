@@ -6,8 +6,13 @@
 
 
 /*adding zldata_realloc, making zl_zlmaxsize actually do something, editing zldata_init
-    also adding arguments/attributes,... built everything around existing grow methods,.. which are ... messy..
-    may want to change this in the future - Derek Kwan 2016
+    also adding arguments/attributes,... built everything around existing grow methods,.. which are ... messy
+    may want to change this in the future 
+    
+    ON BEHAVIOR:
+    -i'm trying to flip the inequalities in the zldata_add methods and wrap the bottom stuff with it,
+    basically, i'm thinking all the grow_withdata stuff should go? in the zldata_set stuff, not quite as clear what to do. it looks like they get called in everything but group. zl_doit is called on bangs. and also has grow stuff, but not quite able to make sense of what's going on. 
+    - Derek Kwan 2016
     */
 
 
@@ -46,6 +51,7 @@ static t_zldoitfn    zl_doitfn[ZL_MAXMODES];
 typedef struct _zldata
 {
     int      d_size;    /* as allocated */
+    int      d_max;    // max size allowed, must be <= d_size
     int      d_natoms;  /* as used */
     t_atom  *d_buf;
     t_atom   d_bufini[ZL_INISIZE];
@@ -90,6 +96,7 @@ static void zldata_realloc(t_zldata *d, int reqsz){
 //changing zldata_init so it takes a size argt - DK
 static void zldata_init(t_zldata *d, int sz)
 {
+    d->d_max = sz;
     d->d_size = ZL_INISIZE;
     d->d_natoms = 0;
     d->d_buf = d->d_bufini;
@@ -114,6 +121,7 @@ static void zldata_addfloat(t_zldata *d, t_float f)
 {
     int natoms = d->d_natoms;
     int nrequested = natoms + 1;
+    /*
     if (nrequested > d->d_size)
     {
 	d->d_buf = grow_withdata(&nrequested, &natoms, &d->d_size,
@@ -122,8 +130,11 @@ static void zldata_addfloat(t_zldata *d, t_float f)
 	if (natoms >= nrequested)
 	    natoms = nrequested - 1;
     }
-    SETFLOAT(d->d_buf + natoms, f);
-    d->d_natoms = natoms + 1;
+    */
+    if (nrequested <= d->d_size)
+        SETFLOAT(d->d_buf + natoms, f);
+        d->d_natoms = natoms + 1;
+    };
 }
 
 static void zldata_setsymbol(t_zldata *d, t_symbol *s)
@@ -136,6 +147,7 @@ static void zldata_addsymbol(t_zldata *d, t_symbol *s)
 {
     int natoms = d->d_natoms;
     int nrequested = natoms + 1;
+   /*
     if (nrequested > d->d_size)
     {
 	d->d_buf = grow_withdata(&nrequested, &natoms, &d->d_size,
@@ -144,24 +156,35 @@ static void zldata_addsymbol(t_zldata *d, t_symbol *s)
 	if (natoms >= nrequested)
 	    natoms = nrequested - 1;
     }
-    SETSYMBOL(d->d_buf + natoms, s);
-    d->d_natoms = natoms + 1;
+    */
+
+    if (nrequested <= d->d_size){
+        SETSYMBOL(d->d_buf + natoms, s);
+        d->d_natoms = natoms + 1;
+    };
 }
 
 static void zldata_setlist(t_zldata *d, int ac, t_atom *av)
 {
     int nrequested = ac;
+    /*
     if (nrequested > d->d_size)
 	d->d_buf = grow_nodata(&nrequested, &d->d_size, d->d_buf,
 			       ZL_INISIZE, d->d_bufini, sizeof(*d->d_buf));
-    if (d->d_natoms = nrequested)
-	memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
+    */
+
+    if (nrequested <= d->d_size){
+        if (d->d_natoms = nrequested){
+	    memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
+        };
+    };
 }
 
 static void zldata_addlist(t_zldata *d, int ac, t_atom *av)
 {
     int natoms = d->d_natoms;
     int nrequested = natoms + ac;
+    /*
     if (nrequested > d->d_size)
     {
 	d->d_buf = grow_withdata(&nrequested, &natoms, &d->d_size,
@@ -174,8 +197,12 @@ static void zldata_addlist(t_zldata *d, int ac, t_atom *av)
 		natoms = 0, ac = nrequested;
 	}
     }
-    if (d->d_natoms = natoms + ac)
-	memcpy(d->d_buf + natoms, av, ac * sizeof(*d->d_buf));
+    */
+    if(nrequested <= d->d_size){
+        if (d->d_natoms = natoms + ac){
+        	memcpy(d->d_buf + natoms, av, ac * sizeof(*d->d_buf));
+        };
+    };
 }
 
 static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av)
@@ -183,10 +210,15 @@ static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av)
     if (s && s != &s_)
     {
 	int nrequested = ac + 1;
+
+        /*
 	if (nrequested > d->d_size)
 	    d->d_buf = grow_nodata(&nrequested, &d->d_size, d->d_buf,
 				   ZL_INISIZE, d->d_bufini, sizeof(*d->d_buf));
-	if (d->d_natoms = nrequested)
+	*/
+
+        //should this be <= ? - DK
+        if (d->d_natoms = nrequested)
 	{
 	    SETSYMBOL(d->d_buf, s);
 	    if (--nrequested)
@@ -1031,6 +1063,7 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f)
         else if(sz > ZL_MAXSIZE){
             sz = ZL_MAXSIZE;
         };
+    x->d_max = sz;
     if(sz > x->x_inbuf1.d_size){
         zldata_realloc(&x->x_inbuf1,sz);
     };
