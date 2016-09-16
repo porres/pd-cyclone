@@ -1045,15 +1045,13 @@ static void zl_setupallmodes(void)
     zl_setupmode("nth", 0, zl_nth_intarg, zl_nth_anyarg, zl_nth_count, zl_nth);
     zl_setupmode("reg", 0, 0, zl_reg_anyarg, zl_reg_count, zl_reg);
     zl_setupmode("rev", 0, 0, 0, zl_rev_count, zl_rev);
-    zl_setupmode("rot",  /* CHECKED (refman's error) */
-		 0, zl_rot_intarg, 0, zl_rot_count, zl_rot);
+    zl_setupmode("rot",	0, zl_rot_intarg, 0, zl_rot_count, zl_rot);
     zl_setupmode("sect", 0, 0, 0, zl_sect_count, zl_sect);
     zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice);
     zl_setupmode("sub", 0, 0, 0, zl_sub_count, zl_sub);
     zl_setupmode("union", 0, 0, 0, zl_union_count, zl_union);
 }
 
-//this did nothing before - DK
 static void zl_zlmaxsize(t_zl *x, t_floatarg f)
 {
     int sz = (int)f;
