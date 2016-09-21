@@ -23,32 +23,6 @@
 -1 -1 2;
 #X obj 2 522 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 458 100 398 342 META 0;
-#X text 13 29 LICENSE SIBSD;
-#X text 13 124 LIBRARY cyclone;
-#X text 13 10 KEYWORDS random generator weighted;
-#X text 13 48 DESCRIPTION weighted series of random numbers;
-#X text 13 67 INLET_0 list bang message;
-#X text 13 105 OUTLET_1 bang;
-#X text 13 86 OUTLET_0 float;
-#X text 12 142 VERSION 0.2-beta1;
-#X text 12 160 AUTHOR Krzysztof Czaja;
-#X text 13 178 RELEASE_DATE 2002;
-#X text 14 197 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 14 229 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 525 pd META;
-#N canvas 321 94 430 80 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 12 31 cyclone/anal;
-#X obj 97 31 cyclone/histo;
-#X obj 188 31 cyclone/mean;
-#X restore 202 525 pd Related_objects;
 #X obj 137 159 loadbang;
 #X text 144 450 float;
 #X text 150 354 list;
@@ -159,8 +133,8 @@ disables;
 #X connect 7 0 10 0;
 #X connect 8 0 10 0;
 #X connect 9 0 8 0;
-#X connect 10 0 42 0;
-#X connect 10 0 43 0;
-#X connect 15 0 7 0;
-#X connect 41 0 10 0;
-#X connect 43 0 11 0;
+#X connect 10 0 40 0;
+#X connect 10 0 41 0;
+#X connect 13 0 7 0;
+#X connect 39 0 10 0;
+#X connect 41 0 11 0;

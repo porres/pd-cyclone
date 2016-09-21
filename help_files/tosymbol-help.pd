@@ -15,31 +15,6 @@
 0;
 #X obj 2 406 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 509 102 385 385 META 0;
-#X text 9 32 LICENSE SIBSD;
-#X text 9 112 LIBRARY cyclone;
-#X text 9 92 OUTLET_0 signal;
-#X text 9 10 KEYWORDS symbol transform messages numbers;
-#X text 9 52 DESCRIPTION transform messages to symbols;
-#X text 9 72 INLET_0 message list;
-#X text 9 132 VERSION 0.2-beta1;
-#X text 9 150 AUTHOR Krzysztof Czaja;
-#X text 10 168 RELEASE_DATE 2002;
-#X text 11 187 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 11 219 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 504 408 pd META;
-#N canvas 358 143 430 87 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 8 30 cyclone/fromsymbol;
-#X obj 127 31 symbol;
-#X obj 177 31 cyclone/zl;
-#X restore 207 408 pd Related_objects;
 #X text 181 321 symbol;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -93,7 +68,7 @@ below:;
 #X connect 14 0 1 0;
 #X restore 455 214 pd separator;
 #X obj 197 155 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 5 256;
+-228856 -1 -1 0 256;
 #N canvas 387 23 818 704 more 0;
 #X obj 503 115 cyclone/tosymbol;
 #X symbolatom 503 169 10 0 0 0 - - -, f 10;
@@ -103,12 +78,12 @@ below:;
 #X symbolatom 122 175 20 0 0 0 - - -, f 20;
 #X obj 138 148 print;
 #X obj 171 61 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 58 256;
+-228856 -1 -1 0 256;
 #X obj 122 84 cyclone/pak 0 0 0;
 #X obj 234 61 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 26 256;
+-228856 -1 -1 0 256;
 #X obj 110 61 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 43 256;
+-228856 -1 -1 0 256;
 #X text 72 22 Convert list of floats to symbol:;
 #X obj 511 305 cyclone/tosymbol;
 #X symbolatom 511 359 10 0 0 0 - - -, f 10;
@@ -187,6 +162,6 @@ number box below and see how it converts to a symbol message.;
 #X text 225 381 - sets the separator character (default "space");
 #X text 193 254 bang;
 #X text 230 254 - does nothing \, just goes right through;
-#X connect 6 0 20 0;
-#X connect 6 0 21 0;
-#X connect 25 0 6 0;
+#X connect 6 0 18 0;
+#X connect 6 0 19 0;
+#X connect 23 0 6 0;

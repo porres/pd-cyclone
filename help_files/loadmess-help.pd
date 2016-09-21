@@ -1,34 +1,10 @@
 #N canvas 700 23 561 619 10;
 #X obj 6 582 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 616 310 382 346 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 133 LIBRARY cyclone;
-#X text 0 38 DESCRIPTION fold or wrap a signal within a given range
-;
-#X text 1 153 VERSION 0.2-beta1;
-#X text 1 171 AUTHOR Krzysztof Czaja;
-#X text 2 189 RELEASE_DATE 2002;
-#X text 3 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 3 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X text 0 76 INLET_1 flaot;
-#X text 0 95 INLET_2 float;
-#X text 0 57 INLET_0 float/list;
-#X text 0 114 OUTLET_0 float;
-#X text 0 0 KEYWORDS range limiter (fold \, wrap \, clip);
-#X restore 507 584 pd META;
 #X obj 6 383 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 6 430 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 312 452 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 203 584 pd Related_objects;
 #X obj 81 324 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 80 393 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -86,11 +62,11 @@ sent before and have priority over @defer 1);
 will not output values when you load a patch;
 #X text 204 393 - the loaded message (when the patch is loaded or when
 banged/clicked);
-#X connect 9 0 10 0;
-#X connect 15 0 9 0;
-#X connect 18 0 9 0;
-#X connect 19 0 12 0;
-#X connect 20 0 9 0;
-#X connect 21 0 11 0;
-#X connect 22 0 21 0;
-#X connect 23 0 21 0;
+#X connect 7 0 8 0;
+#X connect 13 0 7 0;
+#X connect 16 0 7 0;
+#X connect 17 0 10 0;
+#X connect 18 0 7 0;
+#X connect 19 0 9 0;
+#X connect 20 0 19 0;
+#X connect 21 0 19 0;

@@ -15,35 +15,6 @@
 ;
 #X obj 2 480 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 500 115 387 333 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 114 LIBRARY cyclone;
-#X text 0 0 KEYWORDS histogram count generate;
-#X text 0 38 DESCRIPTION generates a histogram of the received numbers
-;
-#X text 0 57 INLET_0 float list message;
-#X text 0 76 OUTLET_0 float;
-#X text 0 95 OUTLET_1 float;
-#X text 0 133 VERSION 0.2-beta1;
-#X text 0 151 AUTHOR Krzysztof Czaja;
-#X text 1 169 RELEASE_DATE 2002;
-#X text 2 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 220 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 482 pd META;
-#N canvas 358 146 430 80 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 8 31 cyclone/anal;
-#X obj 93 31 cyclone/prob;
-#C restore;
-#X obj 177 31 cyclone/Table;
-#C restore;
-#X restore 201 482 pd Related_objects;
 #X obj 284 153 vradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856
 -1 -1 3;
 #X text 158 314 -;
@@ -145,11 +116,11 @@ checks and outputs that number's histogram., f 62;
 #X obj 167 241 cyclone/histo 64, f 20;
 #X text 298 241 <= size = 64 (input;
 #X text 334 256 from 0 to 63);
-#X connect 5 0 60 0;
-#X connect 6 0 60 1;
-#X connect 11 0 6 0;
-#X connect 31 0 60 0;
-#X connect 50 0 60 0;
-#X connect 58 0 50 0;
-#X connect 60 0 43 0;
-#X connect 60 1 44 0;
+#X connect 5 0 58 0;
+#X connect 6 0 58 1;
+#X connect 9 0 6 0;
+#X connect 29 0 58 0;
+#X connect 48 0 58 0;
+#X connect 56 0 48 0;
+#X connect 58 0 41 0;
+#X connect 58 1 42 0;

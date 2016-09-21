@@ -3,50 +3,10 @@
 0;
 #X obj 4 442 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 485 319 494 254 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 113 LIBRARY cyclone;
-#X text 0 73 INLET_0 signal;
-#X text 0 93 OUTLET_0 signal;
-#X text 0 0 KEYWORDS hyperbolic tan tangent tanh signal;
-#X text 0 40 DESCRIPTION takes the hyperbolic tangent function for
-signals;
-#X text 0 133 VERSION 0.2-beta1;
-#X text 0 151 AUTHOR Krzysztof Czaja;
-#X text 1 169 RELEASE_DATE 2002;
-#X text 2 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 220 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 505 557 pd META;
 #X obj 4 482 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 521 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 316 464 428 174 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 3 74 cyclone/acosh~;
-#X obj 4 27 cyclone/acos;
-#X obj 103 74 cyclone/asinh~;
-#X obj 104 50 cyclone/asin~;
-#X obj 200 49 cyclone/atan~;
-#X obj 200 74 cyclone/atanh~;
-#X obj 3 121 cyclone/cosh~;
-#X obj 3 98 cyclone/cosh;
-#X obj 3 146 cyclone/cosx~;
-#X obj 3 51 cyclone/acos~;
-#X obj 104 28 cyclone/asin;
-#X obj 104 98 cyclone/sinh;
-#X obj 103 121 cyclone/sinh~;
-#X obj 103 145 cyclone/sinx~;
-#X obj 200 97 cyclone/tanh;
-#X obj 201 120 cyclone/tanh~;
-#X obj 200 144 cyclone/tanx~;
-#X obj 305 26 cos~;
-#X restore 208 557 pd Related_objects;
 #X obj 136 453 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 136 493 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -101,7 +61,6 @@ function;
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 15 4 comment 0 37 times ? 0 0 0 0 tanh~;
-#X obj 8 558 all_about_cyclone;
 #X text 180 192 * 2pi;
 #X text 181 214 - pi;
 #X text 79 407 -1;
@@ -110,8 +69,8 @@ Max/MSP;
 input sample. It is also useful for waveshaping \, where it simulates
 analog distortion.;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -180,7 +139,7 @@ analog distortion.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -217,9 +176,9 @@ analog distortion.;
 #X obj 365 275 number~;
 #X obj 365 234 cyclone/tanh~;
 #X text 82 341 0;
-#X connect 11 0 13 0;
-#X connect 12 0 11 0;
-#X connect 13 0 18 0;
-#X connect 16 0 12 0;
-#X connect 34 0 36 0;
-#X connect 36 0 35 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 0;
+#X connect 11 0 16 0;
+#X connect 14 0 10 0;
+#X connect 31 0 33 0;
+#X connect 33 0 32 0;

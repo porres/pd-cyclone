@@ -32,40 +32,10 @@ the previous;
 #X obj 86 498 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
 #X floatatom 230 217 5 0 0 0 - - -, f 5;
-#X obj 189 294 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 1
+#X obj 189 294 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
 1;
 #X obj 2 563 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 494 101 388 370 META 0;
-#X text 10 29 LICENSE SIBSD;
-#X text 10 169 LIBRARY cyclone;
-#X text 10 9 KEYWORDS smaller min minimum compare;
-#X text 10 49 DESCRIPTION output only numbers smaller than the previous
-;
-#X text 10 69 INLET_0 float bang list;
-#X text 10 89 INLET_1 float;
-#X text 10 129 OUTLET_1 bang;
-#X text 10 149 OUTLET_2 bang;
-#X text 10 109 OUTLET_0 float;
-#X text 10 189 VERSION 0.2-beta1;
-#X text 10 207 AUTHOR Krzysztof Czaja;
-#X text 11 225 RELEASE_DATE 2002;
-#X text 12 244 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 12 276 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 502 566 pd META;
-#N canvas 352 145 431 87 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 49 32 cyclone/minimum;
-#X obj 155 32 cyclone/maximum;
-#X obj 261 32 cyclone/peak;
-#X obj 14 32 <;
-#X restore 212 566 pd Related_objects;
 #X obj 230 273 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
 1;
 #X obj 149 301 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373
@@ -89,11 +59,11 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 230 296 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 149 275 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 78.7323 256;
+-262144 -1 -1 0 256;
 #X obj 152 182 hsl 128 15 -99 99 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 11400 0;
+-1 -1 0 0;
 #X obj 149 213 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 78.7323 256;
+-228856 -1 -1 0 256;
 #X obj 75 276 cyclone/comment 100 11 helvetica ? 0 0 0 0 current peak
 ;
 #X obj 189 317 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -136,10 +106,10 @@ some name conflicts \, but this is not the case anymore.;
 #N canvas 323 43 601 417 list_input 0;
 #X obj 130 294 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
 1;
-#X obj 181 294 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 1
+#X obj 181 294 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
 1;
 #X obj 79 297 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 70 256;
+-262144 -1 -1 0 256;
 #X msg 118 206 30 20;
 #X msg 96 141 60 70;
 #X text 78 315 peak;
@@ -171,13 +141,13 @@ peak.;
 ;
 #X text 173 499 1 (input is not a new peak) / 0 (input is a new peak)
 ;
-#X connect 16 0 54 1;
-#X connect 17 0 44 0;
-#X connect 21 0 39 0;
-#X connect 40 0 22 0;
-#X connect 41 0 42 0;
-#X connect 42 0 54 0;
-#X connect 45 0 54 0;
-#X connect 54 0 40 0;
-#X connect 54 1 17 0;
-#X connect 54 2 21 0;
+#X connect 16 0 52 1;
+#X connect 17 0 42 0;
+#X connect 19 0 37 0;
+#X connect 38 0 20 0;
+#X connect 39 0 40 0;
+#X connect 40 0 52 0;
+#X connect 43 0 52 0;
+#X connect 52 0 38 0;
+#X connect 52 1 17 0;
+#X connect 52 2 19 0;

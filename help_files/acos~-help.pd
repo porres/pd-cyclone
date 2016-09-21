@@ -9,29 +9,6 @@
 0;
 #X obj 2 515 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#N canvas 217 534 427 202 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 7 74 cyclone/acosh~;
-#X obj 8 27 cyclone/acos;
-#X obj 107 74 cyclone/asinh~;
-#X obj 108 50 cyclone/asin~;
-#X obj 204 37 cyclone/atan~;
-#X obj 204 62 cyclone/atanh~;
-#X obj 7 121 cyclone/cosh~;
-#X obj 7 98 cyclone/cosh;
-#X obj 7 146 cyclone/cosx~;
-#X obj 7 51 cyclone/acos~;
-#X obj 108 28 cyclone/asin;
-#X obj 108 98 cyclone/sinh;
-#X obj 107 121 cyclone/sinh~;
-#X obj 107 145 cyclone/sinx~;
-#X obj 204 85 cyclone/tanh;
-#X obj 205 108 cyclone/tanh~;
-#X obj 204 132 cyclone/tanx~;
-#X obj 323 86 cos~;
-#X text 314 50 vanilla;
-#X restore 212 565 pd Related_objects;
 #X obj 135 455 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 163 455 signal;
@@ -42,24 +19,6 @@
 #X obj 249 163 phasor~ 2;
 #X text 197 248 pi;
 #X text 384 249 pi;
-#N canvas 626 399 427 281 META 0;
-#X text 1 22 LICENSE SIBSD;
-#X text 1 102 LIBRARY cyclone;
-#X text 1 62 INLET_0 signal;
-#X text 1 82 OUTLET_0 signal;
-#X text 1 0 KEYWORDS arc cosine arccosine arccos acos;
-#X text 1 42 DESCRIPTION takes the arc cosine function for signals
-;
-#X text 1 120 VERSION 0.2-beta1;
-#X text 0 138 AUTHOR Krzysztof Czaja;
-#X text 3 155 RELEASE_DATE 2002;
-#X text 2 171 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 203 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 502 565 pd META;
 #X text 76 94 Use [acos~] to output the arc-cosine of each input sample.
 ;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -74,7 +33,6 @@ adapted the patch to pd-extended 2015-02-02;
 #X restore 304 3 pd;
 #X text 74 113 Could also be used for some waveshaping \, like turning
 a sine wave into a trianglular wave.;
-#X obj 7 565 all_about_cyclone;
 #X obj 249 221 cyclone/acos~;
 #X obj 249 190 cyclone/triangle~ 1;
 #X obj 60 211 cyclone/acos~;
@@ -89,8 +47,8 @@ a sine wave into a trianglular wave.;
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -159,7 +117,7 @@ Max/MSP;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -204,10 +162,10 @@ For input values outside the -1 to 1 range \, the output is zero!;
 #X obj 442 262 number~ 1;
 #X obj 442 304 cyclone/acos~;
 #X obj 442 345 number~;
-#X connect 11 0 23 0;
-#X connect 22 0 27 0;
-#X connect 23 0 22 0;
-#X connect 24 0 33 0;
-#X connect 25 0 24 0;
-#X connect 40 0 41 0;
-#X connect 41 0 42 0;
+#X connect 10 0 20 0;
+#X connect 19 0 24 0;
+#X connect 20 0 19 0;
+#X connect 21 0 30 0;
+#X connect 22 0 21 0;
+#X connect 37 0 38 0;
+#X connect 38 0 39 0;

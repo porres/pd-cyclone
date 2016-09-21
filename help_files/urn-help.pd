@@ -24,34 +24,6 @@
 0;
 #X obj 2 567 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 500 105 395 392 META 0;
-#X text 12 29 LICENSE SIBSD;
-#X text 12 156 LIBRARY cyclone;
-#X text 12 80 INLET_0 bang seed float;
-#X text 12 99 INLET_1 float;
-#X text 12 118 OUTLET_0 float;
-#X text 12 137 OUTLET_1 bang;
-#X text 12 48 DESCRIPTION random number generator without duplicate
-numbers;
-#X text 12 10 KEYWORDS random generator number rng;
-#X text 11 174 VERSION 0.2-beta1;
-#X text 11 192 AUTHOR Krzysztof Czaja;
-#X text 12 210 RELEASE_DATE 2002;
-#X text 13 229 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 13 261 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 504 569 pd META;
-#N canvas 349 144 430 84 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 19 33 random;
-#X obj 169 33 cyclone/drunk;
-#X obj 69 33 cyclone/decide;
-#X restore 210 569 pd Related_objects;
 #X text 142 330 bang;
 #X text 136 394 float;
 #X text 143 475 bang;
@@ -98,10 +70,10 @@ a bang (if not all have been generated yet);
 is 1 (only 0 is generated);
 #X obj 215 233 cyclone/urn 4;
 #X text 184 369 - reseeds the random number generator, f 45;
-#X connect 5 0 43 0;
-#X connect 6 0 43 1;
-#X connect 7 0 43 0;
+#X connect 5 0 41 0;
+#X connect 6 0 41 1;
+#X connect 7 0 41 0;
 #X connect 8 0 7 0;
-#X connect 29 0 43 0;
-#X connect 43 0 30 0;
-#X connect 43 1 9 0;
+#X connect 27 0 41 0;
+#X connect 41 0 28 0;
+#X connect 41 1 9 0;

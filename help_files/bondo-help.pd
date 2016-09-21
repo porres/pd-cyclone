@@ -11,33 +11,6 @@
 ;
 #X obj 2 492 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 499 115 368 303 META 0;
-#X text 1 20 LICENSE SIBSD;
-#X text 1 100 LIBRARY cyclone;
-#X text 1 0 KEYWORDS message bond syncronize sync print;
-#X text 1 40 DESCRIPTION sync a group of messages;
-#X text 1 60 INLET_0 message bang;
-#X text 1 80 OUTLET_0 message;
-#X text 0 120 VERSION 0.2-beta1;
-#X text 0 138 AUTHOR Krzysztof Czaja;
-#X text 1 156 RELEASE_DATE 2002;
-#X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 499 494 pd META;
-#N canvas 347 144 430 70 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 21 29 pack;
-#X obj 56 29 unpack;
-#X obj 102 29 cyclone/buddy;
-#X obj 191 29 cyclone/onebang;
-#X obj 292 29 cyclone/thresh;
-#X restore 214 494 pd Related_objects;
 #X text 144 295 bang;
 #X text 159 422 -;
 #X text 159 445 -;
@@ -66,9 +39,9 @@ Max/MSP;
 #X obj 320 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 261 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X obj 203 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 10 256;
+-228856 -1 -1 0 256;
 #X obj 203 220 cyclone/bondo 3, f 20;
 #X obj 144 155 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -158,7 +131,7 @@ to the next outlet and so on until you reach out of outlets).;
 outputs messages with more than one element through the corresponding
 inlet.;
 #X obj 246 93 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 54 256;
+-228856 -1 -1 0 256;
 #X obj 111 217 cyclone/prepend set;
 #X obj 111 179 bondo 2 0 n, f 23;
 #X msg 246 246 a b c d e f g h i j;
@@ -190,11 +163,11 @@ element;
 #X floatatom 197 213 5 0 0 0 - - -, f 5;
 #X floatatom 256 213 5 0 0 0 - - -, f 5;
 #X obj 256 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 116 256;
+-228856 -1 -1 0 256;
 #X obj 197 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -24 256;
+-228856 -1 -1 0 256;
 #X obj 139 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 22 256;
+-228856 -1 -1 0 256;
 #X text 58 34 A second argument specifies a time interval to wait for
 incoming messages \, so it is able to sync them and output them all
 at once.;
@@ -214,9 +187,9 @@ received values.;
 #X floatatom 546 169 5 0 0 0 - - -, f 5;
 #X floatatom 651 169 5 0 0 0 - - -, f 5;
 #X obj 651 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 715 256;
+-228856 -1 -1 0 256;
 #X obj 546 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 583 256;
+-228856 -1 -1 0 256;
 #X obj 651 263 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 546 263 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -253,12 +226,12 @@ received values.;
 #X connect 22 0 21 0;
 #X connect 22 0 19 0;
 #X restore 447 188 pd sync-time;
-#X connect 22 0 28 0;
-#X connect 23 0 28 1;
-#X connect 24 0 28 2;
-#X connect 28 0 27 0;
-#X connect 28 1 26 0;
-#X connect 28 2 25 0;
-#X connect 29 0 28 0;
-#X connect 30 0 28 1;
-#X connect 32 0 28 0;
+#X connect 20 0 26 0;
+#X connect 21 0 26 1;
+#X connect 22 0 26 2;
+#X connect 26 0 25 0;
+#X connect 26 1 24 0;
+#X connect 26 2 23 0;
+#X connect 27 0 26 0;
+#X connect 28 0 26 1;
+#X connect 30 0 26 0;

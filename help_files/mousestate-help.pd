@@ -20,35 +20,6 @@
 #X text 112 501 (none);
 #X obj 2 524 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 498 95 369 388 META 0;
-#X text 0 18 LICENSE SIBSD;
-#X text 0 175 LIBRARY cyclone;
-#X text 0 0 KEYWORDS signal max maximum;
-#X text 0 36 DESCRIPTION report mouse x/y \, delta x/delta y \, and
-buttonpress;
-#X text 0 67 INLET_0 bang message;
-#X text 0 96 comment;
-#X text 0 85 OUTLET_0 toggle;
-#X text 0 109 OUTLET_1 float;
-#X text 0 121 OUTLET_2 float;
-#X text 0 139 OUTLET_3 float;
-#X text 0 157 OUTLET_4 float;
-#X text 0 193 VERSION 0.2-beta1;
-#X text 0 211 AUTHOR Krzysztof Czaja;
-#X text 1 229 RELEASE_DATE 2002;
-#X text 2 248 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 280 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 500 526 pd META;
-#N canvas 346 143 430 68 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 8 29 cyclone/mousefilter;
-#X restore 203 526 pd Related_objects;
 #X msg 131 180 poll;
 #X obj 121 217 cyclone/mousestate, f 39;
 #X text 125 296 bang;
@@ -258,14 +229,14 @@ reasons. So you can still use:;
 #X obj 84 182 mousestate;
 #X obj 201 183 cyclone/mousestate;
 #X restore 446 170 pd backwards \; compatibility;
-#X connect 13 0 14 0;
-#X connect 14 0 44 0;
-#X connect 14 1 41 0;
-#X connect 14 1 62 0;
-#X connect 14 2 40 0;
-#X connect 14 3 38 0;
-#X connect 14 4 37 0;
-#X connect 34 0 14 0;
-#X connect 35 0 14 0;
-#X connect 48 0 14 0;
-#X connect 49 0 48 0;
+#X connect 11 0 12 0;
+#X connect 12 0 42 0;
+#X connect 12 1 39 0;
+#X connect 12 1 60 0;
+#X connect 12 2 38 0;
+#X connect 12 3 36 0;
+#X connect 12 4 35 0;
+#X connect 32 0 12 0;
+#X connect 33 0 12 0;
+#X connect 46 0 12 0;
+#X connect 47 0 46 0;

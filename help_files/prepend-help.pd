@@ -28,28 +28,6 @@ incoming message;
 #X obj 132 238 print;
 #X obj 3 431 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 349 116 430 68 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 51 29 cyclone/prepend;
-#X obj 12 29 pack;
-#X obj 153 29 cyclone/zl;
-#X restore 209 433 pd Related_objects;
-#N canvas 510 124 379 261 META 0;
-#X text 1 0 KEYWORDS signal max_compatible;
-#X text 1 124 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 1 82 AUTHOR Krzysztof Czaja;
-#X text 1 20 LICENSE SIBSD;
-#X text 0 62 VERSION 0.2-beta1;
-#X text 0 103 RELEASE_DATE 2002;
-#X text 1 40 DESCRIPTION append a message to the incoming message;
-#X text 1 154 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 502 433 pd META;
 #X text 149 307 bang;
 #X text 182 287 -;
 #X text 125 287 anything;
@@ -66,7 +44,7 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 343 194 cyclone/prepend 1 2;
 #X msg 343 151 4 5;
 #X obj 384 153 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 4 256;
+-228856 -1 -1 0 256;
 #X text 68 87 [prepend] will add messages set as argument to the beginning
 of any message sent to the input.;
 #X text 182 329 - updates argument (message to prepend to the input
@@ -77,11 +55,11 @@ message);
 #X text 182 364 - the combined message;
 #X text 182 403 - sets message to append to input (default "nothing")
 ;
-#X connect 23 0 24 0;
-#X connect 24 0 13 0;
-#X connect 25 0 24 0;
-#X connect 26 0 24 0;
-#X connect 27 0 24 0;
-#X connect 29 0 28 0;
-#X connect 30 0 29 0;
-#X connect 31 0 29 0;
+#X connect 21 0 22 0;
+#X connect 22 0 13 0;
+#X connect 23 0 22 0;
+#X connect 24 0 22 0;
+#X connect 25 0 22 0;
+#X connect 27 0 26 0;
+#X connect 28 0 27 0;
+#X connect 29 0 27 0;

@@ -16,36 +16,14 @@
 #X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 273 243 cyclone/snapshot~ 1;
-#X obj 156 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 156 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 273 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 273 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 154 354 signal;
 #X text 205 354 - value is compared to right inlet's or argument;
 #X obj 5 486 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 502 391 401 260 META 0;
-#X text 0 22 LICENSE SIBSD;
-#X text 0 102 LIBRARY cyclone;
-#X text 0 62 INLET_0 signal;
-#X text 0 82 OUTLET_0 signal;
-#X text 0 42 DESCRIPTION takes the arc tangent function for signals
-;
-#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
-#X text 0 123 VERSION 0.2-beta1;
-#X text 0 141 AUTHOR Krzysztof Czaja;
-#X text 1 159 RELEASE_DATE 2002;
-#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 507 488 pd META;
-#N canvas 232 526 441 120 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 196 488 pd Related_objects;
 #X obj 273 187 sig~ 30;
 #X obj 273 213 cyclone/equals~ 30;
 #X text 205 378 - value used for comparison with left inlet's input
@@ -80,8 +58,8 @@ it isn't.;
 #X obj 378 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -150,7 +128,7 @@ it isn't.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -198,11 +176,11 @@ is from the cyclone "sub-library" \, loaded via startup or with [declare]
 like this:;
 #X restore 456 280 pd cyclone \; sub_library;
 #X connect 8 0 10 0;
-#X connect 16 0 17 0;
-#X connect 17 0 8 0;
-#X connect 32 0 16 0;
-#X connect 33 0 17 1;
-#X connect 35 0 36 0;
-#X connect 36 0 38 0;
-#X connect 37 0 36 1;
-#X connect 38 1 9 0;
+#X connect 14 0 15 0;
+#X connect 15 0 8 0;
+#X connect 30 0 14 0;
+#X connect 31 0 15 1;
+#X connect 33 0 34 0;
+#X connect 34 0 36 0;
+#X connect 35 0 34 1;
+#X connect 36 1 9 0;

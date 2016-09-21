@@ -3,33 +3,12 @@
 0;
 #X obj 7 248 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 617 269 359 201 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 95 LIBRARY cyclone;
-#X text 0 76 OUTLET_0 signal;
-#X text 0 0 KEYWORDS signal noise pink generator;
-#X text 0 38 DESCRIPTION pink noise generator;
-#X text 0 57 INLET_0 signal;
-#X text 0 114 VERSION 0.2-beta1;
-#X text 0 132 AUTHOR Krzysztof Czaja;
-#X text 1 150 RELEASE_DATE 2002;
-#X text 2 169 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 201 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 507 465 pd META;
 #X obj 7 287 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 327 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 7 363 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#N canvas 322 362 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 213 465 pd Related_objects;
 #X obj 117 258 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 117 299 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -63,5 +42,5 @@ Max/MSP;
 #X text 114 96 [pink~] generates pink noise and sends it to its outlet
 ;
 #X text 201 258 - ignored;
-#X connect 14 0 13 0;
-#X connect 14 0 13 1;
+#X connect 12 0 11 0;
+#X connect 12 0 11 1;

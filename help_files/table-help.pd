@@ -1,4 +1,4 @@
-#N canvas 724 23 564 580 10;
+#N canvas 724 23 559 528 10;
 #X obj 2 264 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 380 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -15,37 +15,6 @@
 ;
 #X obj 2 486 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 499 102 391 396 META 0;
-#X text 10 28 LICENSE SIBSD;
-#X text 10 136 LIBRARY cyclone;
-#X text 10 10 KEYWORDS table graph store array;
-#X text 10 46 DESCRIPTION store and graphically edit an array of numbers
-;
-#X text 10 64 INLET_0 int <int1>_<int2> inv_<int> other;
-#X text 10 82 INLET_1 ??????;
-#X text 10 100 OUTLET_0 float;
-#X text 10 118 OUTLET_1 bang;
-#X text 11 155 VERSION 0.2-beta1;
-#X text 11 173 AUTHOR Krzysztof Czaja;
-#X text 12 191 RELEASE_DATE 2002;
-#X text 13 210 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 13 242 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 488 pd META;
-#N canvas 357 144 430 87 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 116 33 cyclone/coll;
-#C restore;
-#X obj 202 33 cyclone/funbuff;
-#C restore;
-#X obj 305 33 cyclone/histo;
-#X obj 12 33 cyclone/capture;
-#X restore 198 488 pd Related_objects;
 #X text 158 271 -;
 #X text 125 271 bang;
 #X text 158 299 -;
@@ -286,7 +255,6 @@ by double-clicking with the mouse on the [Table] object.Graphically
 editing [Table] data content are ont implemented in cyclone yet.,
 f 87;
 #X restore 430 337 pd inconsistency;
-#X text 180 527 attributes;
 #N canvas 476 23 634 599 All_Messages 0;
 #X text 150 50 outputs the stored numbers on the left outlet, f 78
 ;
@@ -371,8 +339,8 @@ pointer address (and wraps to last address when reaching start), f
 up to that address is >= the the sum of all table values times the
 <int?> divided by 2^15 (32768), f 78;
 #X restore 201 338 pd All_Messages;
-#X connect 36 0 41 0;
-#X connect 36 1 40 0;
-#X connect 37 0 36 1;
-#X connect 38 0 36 0;
-#X connect 39 0 36 0;
+#X connect 34 0 39 0;
+#X connect 34 1 38 0;
+#X connect 35 0 34 1;
+#X connect 36 0 34 0;
+#X connect 37 0 34 0;

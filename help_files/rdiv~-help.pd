@@ -39,36 +39,14 @@ on the left inlet. Functions like the [/~] object \, but the inlets'
 functions are reversed.;
 #X obj 5 453 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 502 391 401 260 META 0;
-#X text 0 22 LICENSE SIBSD;
-#X text 0 102 LIBRARY cyclone;
-#X text 0 62 INLET_0 signal;
-#X text 0 82 OUTLET_0 signal;
-#X text 0 42 DESCRIPTION takes the arc tangent function for signals
-;
-#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
-#X text 0 123 VERSION 0.2-beta1;
-#X text 0 141 AUTHOR Krzysztof Czaja;
-#X text 1 159 RELEASE_DATE 2002;
-#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 508 455 pd META;
-#N canvas 232 526 441 120 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 196 455 pd Related_objects;
 #X text 231 313 - the divisor;
 #X text 231 338 - the dividend;
 #X text 231 376 - the division of the two numbers;
 #X text 195 421 sets an initial value for the dividend (default 0)
 ;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -137,7 +115,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -191,9 +169,9 @@ like this:;
 #X obj 261 260 number~;
 #X text 455 186 similar to:;
 #X obj 451 207 expr~ 10 / $v1;
-#X connect 29 0 35 1;
-#X connect 30 0 34 0;
-#X connect 31 0 34 1;
-#X connect 33 0 35 0;
-#X connect 34 0 32 0;
-#X connect 35 0 36 0;
+#X connect 27 0 33 1;
+#X connect 28 0 32 0;
+#X connect 29 0 32 1;
+#X connect 31 0 33 0;
+#X connect 32 0 30 0;
+#X connect 33 0 34 0;

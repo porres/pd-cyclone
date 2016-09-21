@@ -1,53 +1,24 @@
-#N canvas 146 174 559 483 10;
-#X obj 2 253 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 676 23 559 563 10;
+#X obj 2 339 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 291 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 377 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 373 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 459 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 101 265 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 351 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 101 302 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 388 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 101 324 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 101 410 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 459 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 545 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 438 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 524 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 502 102 385 356 META 0;
-#X text 9 27 LICENSE SIBSD;
-#X text 9 136 LIBRARY cyclone;
-#X text 9 7 KEYWORDS midi pitchbend pitch bend 14 bit channel;
-#X text 9 76 INLET_0 midi;
-#X text 9 96 OUTLET_0 float;
-#X text 9 116 OUTLET_1 float;
-#X text 9 155 VERSION 0.2-beta1;
-#X text 9 173 AUTHOR Krzysztof Czaja;
-#X text 10 191 RELEASE_DATE 2002;
-#X text 11 210 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 9 47 DESCRIPTION deconstruct extra precision midi pitchbend
-objects 14 bit;
-#X text 11 242 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 490 440 pd META;
-#N canvas 350 144 475 85 Related_objects 0;
-#X obj 2 2 cnv 15 470 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 111 32 cyclone/xbendout;
-#X obj 221 32 cyclone/xbendin2;
-#X obj 328 32 cyclone/xbendout2;
-#X obj 61 32 midiin;
-#X obj 13 32 bendin;
-#X restore 208 440 pd Related_objects;
-#X text 133 304 float;
-#X text 133 325 float;
-#X text 174 384 -;
-#X text 116 384 1) float;
+#X text 133 390 float;
+#X text 133 411 float;
+#X text 174 470 -;
+#X text 116 470 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -62,37 +33,44 @@ this patch for Pd-Vanilla 0.47-2.;
 Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 xbendin2;
-#X obj 171 138 midiin;
-#X obj 217 201 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 171 234 midiin;
+#X obj 217 297 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 150 201 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 150 297 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 188 384 sets channel number - if no channel is set \, the object
-has an extra right outlet that outputs the MIDI channel number. The
-default is no channel set.;
-#X text 133 265 float;
-#X text 174 265 - raw MIDI stream input;
-#X text 429 152 see also;
-#X obj 416 177 cyclone/xbendin;
-#X obj 171 171 cyclone/xbendin2;
-#X floatatom 296 202 5 0 0 0 - - -, f 5;
-#X text 294 222 MIDI Channel;
-#X obj 101 345 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 133 351 float;
+#X text 174 351 - raw MIDI stream input;
+#X text 429 238 see also;
+#X obj 416 263 cyclone/xbendin;
+#X obj 171 267 cyclone/xbendin2;
+#X floatatom 296 298 5 0 0 0 - - -, f 5;
+#X text 294 318 MIDI Channel;
+#X obj 101 431 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 133 346 float;
-#X text 174 346 - channel number (if no channel is set);
-#X text 174 304 - the most significant 7-bits (MSB);
-#X text 174 325 - the least significant 7-bits (LSB);
-#X text 163 221 MSB;
-#X text 229 222 LSB;
-#X text 57 92 [xbendin2] retrieves the Most and Least Significant Byte
-(7-bits values) from pitch bend messages of incoming raw MIDI data.
-;
+#X text 133 432 float;
+#X text 174 390 - the most significant 7-bits (MSB);
+#X text 174 411 - the least significant 7-bits (LSB);
+#X text 163 317 MSB;
+#X text 229 318 LSB;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Retrieve 14-bit pitch bend
 messages;
-#X text 409 200 another version of;
-#X text 417 217 the same object;
-#X connect 21 0 29 0;
-#X connect 29 0 23 0;
-#X connect 29 1 22 0;
-#X connect 29 2 30 0;
+#X text 409 286 another version of;
+#X text 417 303 the same object;
+#X text 174 432 - MIDI channel number (if no channel is set \, see
+below);
+#X text 188 470 sets channel number - if no channel is set (default)
+\, the object has an extra right outlet that outputs the MIDI channel
+number.;
+#X text 97 175 [xbendin2] retrieves the Most and Least Significant
+Byte (7-bits values) from pitch bend messages of incoming raw MIDI
+data. Both can be combined to generate a 14-bit value.;
+#X obj 113 95 cnv 15 290 65 empty empty empty 20 12 0 14 -248754 -66577
+0;
+#X obj 133 100 comment 0 15 times ? 0 0 0 0 Avoid using this object!
+;
+#X text 143 120 just use [bendin] from Pd Vanilla \, this;
+#X text 143 135 is considered unnecessary and obsolete!;
+#X connect 19 0 26 0;
+#X connect 26 0 21 0;
+#X connect 26 1 20 0;
+#X connect 26 2 27 0;

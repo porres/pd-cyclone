@@ -3,51 +3,12 @@
 0;
 #X obj 3 385 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 485 354 381 301 META 0;
-#X text 0 22 LICENSE SIBSD;
-#X text 0 102 LIBRARY cyclone;
-#X text 0 62 INLET_0 signal;
-#X text 0 82 OUTLET_0 signal;
-#X text 0 42 DESCRIPTION takes the cosine function for signals;
-#X text 0 0 KEYWORDS cosine cosx signal cos;
-#X text 0 122 VERSION 0.2-beta1;
-#X text 0 140 AUTHOR Krzysztof Czaja;
-#X text 1 158 RELEASE_DATE 2002;
-#X text 2 177 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 209 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 504 570 pd META;
 #X obj 4 423 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 460 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 4 494 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#N canvas 209 459 428 170 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 6 74 cyclone/acosh~;
-#X obj 7 27 cyclone/acos;
-#X obj 106 74 cyclone/asinh~;
-#X obj 107 50 cyclone/asin~;
-#X obj 203 49 cyclone/atan~;
-#X obj 203 74 cyclone/atanh~;
-#X obj 6 121 cyclone/cosh~;
-#X obj 6 98 cyclone/cosh;
-#X obj 6 146 cyclone/cosx~;
-#X obj 6 51 cyclone/acos~;
-#X obj 107 28 cyclone/asin;
-#X obj 107 98 cyclone/sinh;
-#X obj 106 121 cyclone/sinh~;
-#X obj 106 145 cyclone/sinx~;
-#X obj 203 97 cyclone/tanh;
-#X obj 204 120 cyclone/tanh~;
-#X obj 203 144 cyclone/tanx~;
-#X obj 308 26 cos~;
-#X restore 209 570 pd Related_objects;
 #X obj 82 434 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 115 398 signal;
@@ -81,15 +42,14 @@ input);
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 267 174 * 2pi;
-#X obj 7 570 all_about_cyclone;
 #X text 171 398 - input to cosine function (in radians);
 #X text 129 503 Like [cyclone/sinx~] & [cyclone/tanx~] \, it expects
 input values in radians. Thus \, unlike [cos~] (from vanilla and max/msp)
 \, it's not designed to work with [phasor~]'s output (from 0 to 1).
 ;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -158,7 +118,7 @@ input values in radians. Thus \, unlike [cos~] (from vanilla and max/msp)
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -197,8 +157,8 @@ input values in radians. Thus \, unlike [cos~] (from vanilla and max/msp)
 #X text 62 93 Properly designed for mathematical operations \, [cosx~]
 it expects an input in radians to calculate the cosine of each input
 sample.;
-#X connect 11 0 13 0;
-#X connect 13 0 16 0;
-#X connect 15 0 11 0;
-#X connect 33 0 35 0;
-#X connect 35 0 34 0;
+#X connect 9 0 11 0;
+#X connect 11 0 14 0;
+#X connect 13 0 9 0;
+#X connect 30 0 32 0;
+#X connect 32 0 31 0;

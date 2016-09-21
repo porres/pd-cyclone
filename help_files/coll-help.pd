@@ -1,65 +1,31 @@
-#N canvas 761 23 559 582 10;
-#X obj 2 278 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
+#N canvas 575 23 558 587 10;
+#X obj 2 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
-#X obj 2 360 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 367 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 448 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 455 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 72 387 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 76 394 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 72 407 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 76 414 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 72 427 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 76 434 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 72 367 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 76 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 72 285 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 76 292 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 145 223 cyclone/coll helpColl;
-#C restore;
-#X obj 2 541 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 549 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 511 120 371 362 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 144 LIBRARY cyclone;
-#X text 1 36 DESCRIPTION store and edit collections of messages;
-#X text 1 54 INLET_0 message;
-#X text 1 90 OUTLET_1 float;
-#X text 1 108 OUTLET_2 bang;
-#X text 1 126 OUTLET_3 bang;
-#X text 1 72 OUTLET_0 message;
-#X text 1 0 KEYWORDS store edit message index;
-#X text 0 162 VERSION 0.2-beta1;
-#X text 0 180 AUTHOR Krzysztof Czaja;
-#X text 1 198 RELEASE_DATE 2002;
-#X text 2 217 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 249 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 543 pd META;
-#N canvas 372 145 453 92 Related_objects 0;
-#X obj 2 2 cnv 15 448 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 122 34 textfile;
-#X obj 245 34 cyclone/buddy;
-#X obj 338 34 cyclone/funbuff;
-#C restore;
-#X obj 89 34 bag;
-#X obj 184 34 tabwrite;
-#X obj 21 34 array set;
-#X restore 199 543 pd Related_objects;
-#X text 173 456 -;
-#X text 173 485 -;
-#X text 101 486 2) float;
-#X text 137 285 -;
-#X text 104 285 bang;
-#X text 137 318 -;
-#X text 137 335 -;
-#X text 119 407 bang;
-#X text 119 427 bang;
+#X text 173 463 -;
+#X text 173 492 -;
+#X text 101 493 2) float;
+#X text 141 292 -;
+#X text 108 292 bang;
+#X text 141 325 -;
+#X text 141 342 -;
+#X text 123 414 bang;
+#X text 123 434 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -74,622 +40,784 @@ this patch for Pd-Vanilla 0.47-2.;
 Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 coll;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Store/edit data collections
-;
-#X text 157 407 - when finishing load or save operation, f 51;
-#X text 157 427 - when finished with a dump operation, f 51;
-#X text 71 91 [coll] allows for storage \, organization \, editing
-\, and retrieval of different messages.;
-#X text 101 456 1) symbol;
-#N canvas 497 23 663 584 All_Messages 0;
-#X text 12 380 nstore <address> <alias> <data>;
-#X text 210 373 Stores the data at the <address> and associates the
-<alias>. The format "nstore <alias> <address> <data>" is also possible.
-, f 70;
-#X text 174 596 (not in cyclone), f 76;
-#X text 222 403 (not in cyclone), f 68;
-#X text 174 234 (not in cyclone), f 76;
-#X text 174 612 (not in cyclone), f 76;
-#X text 9 402 nsub <address> <subAddress> <data>;
-#X text 38 8 assoc <symbol \, f/s> -;
-#X text 174 35 erases all data collection, f 76;
-#X text 122 35 clear -;
-#X text 26 51 deassoc <symbol/ f/s> -;
-#X text 174 7 the 1st symbol associates an alias for an address specified
-as a float or symbol (each address has only one alias), f 76;
-#X text 174 51 desassociates the alias for that address, f 76;
-#X text 26 68 delete <float/symbol> -;
-#X text 174 67 deletes data at the address provided by a float or symbol.
-If it's a float \, all higher numbered addresses are decremented by
-1, f 76;
-#X text 128 96 dump -;
-#X text 174 96 dumps all values at 1st outlet \, addresses at 2nd and
-a bang at the 4th after the dump is completed, f 76;
-#X text 174 126 sets the pointer to the last address, f 76;
-#X text 134 126 end -;
-#X text 50 143 filetype <symbol> -;
-#X text 79 173 flags <list> -;
-#X text 174 173 <1 0> saves contents when saving the patch \, <0 0>
-doesn't, f 76;
-#X text 174 189 sets the address pointer to the specified address,
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Store/edit collections of
+messages;
+#X text 101 463 1) symbol;
+#N canvas 578 23 643 638 All_Messages 0;
+#X text 179 18 erases all data collection, f 76;
+#X text 127 18 clear -;
+#X text 133 66 dump -;
+#X text 179 82 sets the pointer to the last address, f 76;
+#X text 139 82 end -;
+#X text 55 114 filetype <symbol> -;
+#X text 121 194 length -;
+#X text 139 210 max -;
+#X text 179 210 sends the highest numerical value to left outlet,
 f 76;
-#X text 37 189 goto <float/symbol> -;
-#X text 174 205 inserts a new value at <address> position and if necessary
-\, shifts up the all the other addresses with equal or greater to <address>
-provided., f 76;
-#X text 13 205 insert <address> <data> -;
-#X text 7 234 insert2 <address> <data> -;
-#X text 115 250 length -;
-#X text 174 250 sends number of stored values to left outlet, f 76
-;
-#X text 133 266 max -;
-#X text 174 266 sends the highest numerical value to left outlet,
-f 76;
-#X text 19 283 merge <address> <data> -;
-#X text 174 283 appends the <data> to the current value at <address>.
-If the <address> does not yet exist \, it is created., f 76;
-#X text 133 312 min -;
-#X text 174 312 sends the lowest numerical value to the left outlet
+#X text 139 242 min -;
+#X text 179 242 sends the lowest numerical value to the left outlet
 , f 76;
-#X text 127 328 next -;
-#X text 174 328 sends the index to 1st outlet \, next index to 2nd
-outlet and sets the pointer to next index. If the address is a symbol
-\, 0 is sent out the 2nd outlet, f 76;
-#X text 174 144 sets the file type (Mac) or file extension (others)
-which can be read or written. No symbol restores the default file behavior.
-, f 76;
-#X text 55 357 nth <f/s \, float> -;
-#X text 174 357 sends the nth element specified by the float of an
-address (starts at 1?)., f 76;
-#X text 127 419 open -;
-#X text 174 419 opens a window containing the data collection, f 76
+#X text 133 258 next -;
+#X text 61 274 nth <f/s \, float> -;
+#X text 133 321 open -;
+#X text 179 321 opens a window containing the data collection, f 76
 ;
-#X text 127 435 prev -;
-#X text 73 478 read <symbol> -;
-#X text 96 507 readagain -;
-#X text 174 507 if a file was opened before \, restore the coll object
-contents to its contents. Otherwise open an Open File dialog box,
-f 76;
-#X text 174 435 sends the address to outlet 1 and the previous address
-value to outlet 2 Sets the pointer to the previous address. If the
-address is a symbol rather than a number \, 0 is sent out the second
-outlet, f 76;
-#X text 174 478 without argument "read" opens the Open File dialog
-box. With argument \, attempt to open it as a file, f 76;
-#X text 66 536 refer <symbol> -;
-#X text 174 536 refers to the data from another named [coll] object
-, f 76;
-#X text 54 552 remove <address> -;
-#X text 174 552 removes that <address> and its data (doesn't change
-other addresses), f 76;
-#X text 12 568 renumber <startAddress> -;
-#X text 174 568 makes the list of numeric addresses consecutive. The
-<startAddress> argument is optional, f 76;
-#X text 36 596 renumber2 <address> -;
-#X text 42 613 separate <address> -;
-#X text 6 630 sort <flag> <subAddress> -;
-#X text 173 630 sorts the data into a specified order. If <flag> is
--1 \, the items are sorted in ascending order. If <flag> is 1 \, the
-items are sorted in descending order \; the <subAddress> argument specifies
-what data is used to sort the contents. If <subAddress> is -1 \, the
-index (either number or symbol) associated with the data is used. If
-<subAddress> is not present or is 0 \, the first item in the data is
-used. If <subAddress> is 1 or greater \, that data elements is used
-for the sorting order, f 76;
-#X text 120 737 start -;
-#X text 173 737 sets the address pointer to the first value, f 76
+#X text 133 337 prev -;
+#X text 79 353 read <symbol> -;
+#X text 103 369 readagain -;
+#X text 73 385 refer <symbol> -;
+#X text 126 504 start -;
+#X text 179 504 sets the address pointer to the first value, f 76
 ;
-#X text 173 754 stores the <value> at <address> \, it can also be an
-symbol. As an example \, "store triad 0 4 7" will store '0 4 7' at
-an address named 'triad', f 76;
-#X text 12 754 store <address> <value> -;
-#X text 60 784 sub <f/s \, f \, f> -;
-#X text 173 784 replaces in the list at <address> the element at <subAddress>
-by <value> and outputs immediately, f 76;
-#X text 12 814 subsym <symbol \, symbol> -;
-#X text 173 814 substitutes a symbol address, f 76;
-#X text 6 830 swap <address> <address> -;
-#X text 173 830 exchanges the indices associated with two addresses.
-The data is unchanged \, but the indexes that they use are swapped
-, f 76;
-#X text 113 859 wclose -;
-#X text 173 860 closes the data window containing the collection,
+#X text 18 552 subsym <symbol \, symbol> -;
+#X text 120 583 wclose -;
+#X text 179 584 closes the data window containing the collection,
 f 76;
-#X text 65 877 write <symbol> -;
-#X text 173 878 without argument \, <fileName> \, "write" opens the
-Save As dialog box. With argument \, attempt to save it as a file,
+#X text 72 599 write <symbol> -;
+#X text 96 615 writeagain -;
+#X text 179 353 opens file specified by the symbol (without a symbol
+\, a dialog window opens), f 76;
+#X text 179 385 refers to the data from another [coll] object with
+the symbol name, f 76;
+#X text 42 475 sort <float \, float> -;
+#X text 30 520 store <f/s \, anything> -;
+#X text 179 599 saves file specified by the symbol (without a symbol
+\, a dialog window opens), f 76;
+#X text 179 552 substitutes an address symbol (2nd element) by the
+first given symbol, f 76;
+#X text 61 415 renumber <float> -;
+#X text 179 415 makes the list of numeric addresses consecutive. An
+optional float argument specifies a starting address, f 76;
+#X text 79 130 flags <float> -;
+#X text 179 130 <1> saves contents whith the patch \, <0> doesn't \,
+same as embed attribute, f 76;
+#X text 79 98 embed <float> -;
+#X text 179 2 associates a symbol alias for an int address, f 76;
+#X text 43 2 assoc <symbol \, int> -;
+#X text 179 34 desassociates the symbol alias for an int address,
 f 76;
-#X text 88 907 writeagain -;
-#X text 173 907 saves the contents to the most recently written file.
-If no prior file write has occurred \, the request is treated like
-a write message, f 76;
-#X restore 162 337 pd All_Messages;
-#N canvas 623 42 453 376 Sorted_By_Functions 0;
-#X text 19 36 operates on complete collection;
-#X text 19 43 -------------------------------;
-#X text 19 55 clear;
-#X text 19 67 dump;
-#X text 19 79 end;
-#X text 19 91 filetype extension;
-#X text 19 103 flags persist 0;
-#X text 19 115 length;
-#X text 19 127 next;
-#X text 19 139 open;
-#X text 19 151 prev;
-#X text 19 163 read;
-#X text 19 175 readagain;
-#X text 19 187 refer objectName;
-#X text 19 199 start;
-#X text 19 211 wclose;
-#X text 19 223 write filename;
-#X text 19 235 writeagain;
-#X text 232 13 operates on all address types;
-#X text 232 20 -----------------------------;
-#X text 232 34 goto address;
-#X text 232 46 merge address value;
-#X text 232 58 nth address subaddress;
-#X text 232 70 remove address;
-#X text 232 82 renumber address;
-#X text 232 94 separate address;
-#X text 232 106 sort flag subaddress;
-#X text 232 118 store address value;
-#X text 232 131 swap address address;
-#X text 232 144 sub address subaddress value;
-#X text 232 156 subsym address address;
-#X text 229 201 assoc alias address;
-#X text 229 213 deassoc alias address;
-#X text 229 225 delete address;
-#X text 229 237 insert address value;
-#X text 229 261 renumber startAddress;
-#X text 229 301 subsym address address;
-#X text 19 257 operates on numeric values;
-#X text 19 264 --------------------------;
-#X text 19 279 max;
-#X text 19 291 min;
-#X text 229 249 nstore address alias value;
-#X text 229 180 operates on numeric addresseses;
-#X text 229 187 -------------------------------;
-#X text 229 279 operates on symbolic addresseses;
-#X text 229 286 --------------------------------;
-#X text 24 340 nstore address alias value (or nstore alias address
-value) (?), f 63;
-#X text 19 14 MESSAGES ORDERED BY FUNCTIONS:;
-#X restore 271 337 pd Sorted_By_Functions;
-#X text 185 456 sets name (objects with the same name share contents)
-or file name (searches for a file to open);
-#X text 185 486 non-0 prevents from searching for a file;
-#X text 79 335 messages;
-#X text 80 318 anything;
-#X text 152 285 see next listing, f 60;
-#X obj 168 183 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
+#X text 31 34 deassoc <symbol \, int> -;
+#X text 179 66 dumps all values (1st outlet) \, addresses (2nd) and
+bangs (4th) when done, f 76;
+#X text 25 162 insert <int \, anything> -;
+#X text 179 114 sets file type to read/writte (no symbol restores to
+default), f 76;
+#X text 19 226 merge <int/symbol \, any> -;
+#X text 179 258 same as bang: outputs next address and its data, f
+76;
+#X text 179 337 outputs previous address and its data, f 76;
+#X text 179 369 reopen last file - if no file had been open \, a dialog
+box is shown, f 76;
+#X text 43 400 remove <int/symbol> -;
+#X text 179 615 resaves last file - if no file had been saved \, a
+dialog box is shown, f 76;
+#X text 72 460 separate <int> -;
+#X text 179 459 increments indices the given int address (opening a
+slot), f 76;
+#X text 179 536 same as nsub \, but the substituted message is sent
+out, f 76;
+#X text 179 178 same as insert \, but only increments if necessary
+to include the new address, f 76;
+#X text 19 178 insert2 <int \, anything> -;
+#X text 7 290 nstore <int \, symbol \, any> -;
+#X text 18 568 swap <int/sym \, int/sym> -;
+#X text 179 568 swaps addresses. The data is unchanged \, only the
+indexes are swapped, f 76;
+#X text 102 443 renumber2 -;
+#X text 179 443 increment addresses by one, f 76;
+#X text 179 475 1st float is the sort flag (-1: ascending / 1: descending)
+\, the 2nd is the element used to sort starting from 0 (-1 sorts by
+address), f 76;
+#X text 61 146 goto <int/float> -;
+#X text 179 146 sets an address to go to (only sets the pointer \,
+no output), f 76;
+#X text 43 50 delete <int/symbol> -;
+#X text 179 50 deletes address (if an int address \, higher addresses
+are decremented by 1), f 76;
+#X text 37 305 nsub <f/s \, int \, f/s> -;
+#X text 42 536 sub <f/s \, int \, f/s> -;
+#X text 179 290 or <symbol \, int \, any> - stores any data to an int
+address with symbol alias, f 76;
+#X text 179 274 address and nth element to be output (from 0?), f
+76;
+#X text 179 98 <1> saves contents whith the patch \, <0> doesn't -
+same as 'flags', f 76;
+#X text 179 162 address and message to be inserted (increments addresses
+equal or greater), f 76;
+#X text 179 193 sends number of stored values to the left outlet,
+f 76;
+#X text 179 226 address and any message to be appended to the stored
+message, f 76;
+#X text 179 306 the address \, element number (starting at 1) and value
+to substitute it to, f 76;
+#X text 179 400 removes address and its data without renumbering,
+f 76;
+#X text 179 520 <address> and <any message> to be stored, f 76;
+#X restore 334 343 pd All_Messages;
+#X text 83 342 messages;
+#X obj 269 191 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
-#X obj 145 249 print;
-#X obj 186 251 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
-#X text 184 183 0;
-#X text 184 198 1;
-#X msg 145 133 0 100 200 300 hi;
-#X msg 155 157 1 200 300 400 hello;
-#X text 250 133 at address 0;
-#X text 277 157 at address 1;
-#X text 44 144 stores data =>;
-#X text 199 189 <= recall data from address;
-#N canvas 243 94 981 594 examples 0;
-#X obj 20 94 pgmin;
-#X floatatom 20 116 5 0 0 0 - - -, f 5;
-#X msg 20 236 Brass, f 15;
-#X msg 67 124 1 Strings \, 2 Marimba \, 3 Brass;
-#X obj 426 165 cyclone/coll;
+#X obj 225 256 print;
+#X obj 269 258 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 285 191 0;
+#X text 285 206 1;
+#X text 99 375 anything;
+#X obj 2 517 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 301 258 <= address;
+#X obj 214 201 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 142 525 @embed: <1> save contents with the patch \, <0> don't
+save;
+#X text 161 414 - when finishing load/save operations, f 51;
+#X text 161 434 - when finishing a dump operation, f 51;
+#X text 185 493 non-0 prevents from searching for a file (default)
+;
+#X text 185 463 optional: sets name (objects with the same name share
+contents) or file name (searches for a file to open);
+#X text 141 144 click messages \; & store data ==>;
+#X text 134 257 stored data =>;
+#X text 337 141 list stored at address "0";
+#X text 337 166 list stored at address "1";
+#X text 93 308 address -;
+#X text 107 325 list;
+#X text 156 325 stores data at the address specified by the 1st integer
+element, f 64;
+#X text 156 309 an "integer float" or a "symbol": outputs the stored
+data, f 64;
+#X text 59 231 click to open text window ==>;
+#X text 65 83 [coll] stores/edits any messages at addresses (an integer
+or a symbol). If an input list starts with an int \, it stores the
+other element(s) at that int address.;
+#X text 105 394 address;
+#X text 161 394 - interger or symbol address of the stored message
+, f 62;
+#X text 161 375 - the stored message at a given address, f 51;
+#X text 156 342 open to check all messages =>;
+#X msg 246 141 0 500 1000 hi;
+#X msg 256 165 1 5 10 hello;
+#X text 84 201 go to next address =>;
+#X obj 246 231 cyclone/coll;
 #C restore;
-#X msg 426 88 store setup 5 pgm start;
-#X msg 506 138 symbol setup;
-#X msg 426 210 \; \$2 \$1 \; cmd \$3;
-#X obj 543 210 r cmd, f 6;
-#X obj 543 235 seq, f 4;
-#X obj 543 261 midiout;
-#X obj 603 210 r pgm, f 6;
-#X obj 603 261 pgmout;
-#X floatatom 603 235 5 0 0 0 - - -, f 5;
-#N canvas 385 48 605 712 almost 0;
-#X obj 32 31 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X msg 41 84 next;
-#X obj 32 650 print coll;
-#X msg 127 448 clear;
-#X floatatom 89 627 5 0 0 0 - - -, f 5;
-#X obj 146 607 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X obj 203 589 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X msg 58 130 dump;
-#X msg 63 154 read /tmp/foo;
-#X msg 68 180 read;
-#X msg 85 251 length;
-#N canvas 186 81 430 260 loadsomeitems 0;
-#X obj 73 58 inlet;
-#X obj 104 225 outlet;
-#X obj 73 80 t b b;
-#X msg 123 115 4 this is a message;
-#X msg 124 182 1 10;
-#X msg 124 138 3 and another one with 12345 in it;
-#X msg 124 160 2 some_symbol;
-#X obj 2 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 4 messages prefixed with an index are stored;
-#X connect 0 0 2 0;
-#X connect 2 1 3 0;
-#X connect 2 1 5 0;
-#X connect 2 1 6 0;
-#X connect 2 1 4 0;
-#X connect 3 0 1 0;
-#X connect 4 0 1 0;
-#X connect 5 0 1 0;
-#X connect 6 0 1 0;
-#X restore 32 55 pd loadsomeitems;
-#X msg 74 204 write /tmp/foo;
-#X msg 81 227 write;
-#X floatatom 122 427 5 0 0 0 - - -, f 5;
-#X msg 161 83 bang;
-#X msg 90 273 delete 2;
-#X msg 100 317 goto 2;
-#X msg 105 339 end;
-#X msg 109 361 filetype;
-#X msg 114 383 flags 1 0;
-#X msg 117 405 flags 0 0;
-#X msg 133 471 open;
-#X msg 227 154 readagain;
-#X msg 96 295 remove 3;
-#X msg 246 204 writeagain;
-#X msg 137 493 wclose;
-#X msg 50 107 prev;
-#X obj 2 2 cnv 15 600 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 7 2 Almost all messages;
-#X obj 32 561 cyclone/coll /tmp/test.coll 1;
+#X text 156 292 outputs next address and its data, f 64;
+#N canvas 361 184 1192 574 basic 0;
+#X obj 27 260 loadbang;
+#X obj 27 386 cyclone/coll example1;
 #C restore;
-#X obj 56 33 cyclone/comment 100 11 helvetica ? 0 80 80 80 load stuff
-;
-#X obj 93 109 cyclone/comment 100 11 helvetica ? 0 80 80 80 previous
-;
-#X obj 81 85 cyclone/comment 100 11 helvetica ? 0 80 80 80 output next
-=;
-#X obj 141 57 cyclone/comment 100 11 helvetica ? 0 80 80 80 look inside
-;
-#X obj 101 132 cyclone/comment 100 11 helvetica ? 0 80 80 80 dump them
-all;
-#X obj 158 155 cyclone/comment 100 11 helvetica ? 0 80 80 80 read a
-file;
-#X obj 298 155 cyclone/comment 106 11 helvetica ? 0 80 80 80 reopens
-last file read;
-#X obj 109 180 cyclone/comment 106 11 helvetica ? 0 80 80 80 opens
-a dialog;
-#X obj 172 205 cyclone/comment 106 11 helvetica ? 0 80 80 80 write
-a file;
-#X obj 323 204 cyclone/comment 106 11 helvetica ? 0 80 80 80 rewrite
-last file written;
-#X obj 126 229 cyclone/comment 106 11 helvetica ? 0 80 80 80 open a
-dialog;
-#X obj 133 252 cyclone/comment 201 11 helvetica ? 0 80 80 80 outputs
-Nº of messages stored;
-#X obj 153 273 cyclone/comment 332 11 helvetica ? 0 80 80 80 delete
-message \, and decrement larger addressess;
-#X obj 159 295 cyclone/comment 332 11 helvetica ? 0 80 80 80 delete
-message \, leave address alone;
-#X obj 151 317 cyclone/comment 201 11 helvetica ? 0 80 80 80 goto item
-Nº;
-#X obj 137 340 cyclone/comment 201 11 helvetica ? 0 80 80 80 goto last
-item;
-#X obj 168 361 cyclone/comment 332 11 helvetica ? 0 80 80 80 useless
-on unix it's a dummy function;
-#X obj 180 385 cyclone/comment 332 11 helvetica ? 0 80 80 80 save coll's
-contents with the patch;
-#X obj 184 407 cyclone/comment 332 11 helvetica ? 0 80 80 80 don't
-save (default);
-#X obj 164 429 cyclone/comment 332 11 helvetica ? 0 80 80 80 output
-by index;
-#X obj 171 451 cyclone/comment 332 11 helvetica ? 0 80 80 80 clear
-contents;
-#X obj 174 473 cyclone/comment 332 11 helvetica ? 0 80 80 80 open editor
-;
-#X obj 188 496 cyclone/comment 332 11 helvetica ? 0 80 80 80 close
-& save;
-#X obj 221 546 cyclone/comment 332 11 helvetica ? 0 80 80 80 optional
-1st argument loads a file into coll;
-#X obj 221 559 cyclone/comment 332 11 helvetica ? 0 80 80 80 optional
-2nd argument set to 1 enableds threaded file I/O;
-#X obj 223 587 cyclone/comment 332 11 helvetica ? 0 80 80 80 bang when
-a dump operation is finished;
-#X obj 166 611 cyclone/comment 332 11 helvetica ? 0 80 80 80 bang when
-a load operation is finished;
-#X obj 125 638 cyclone/comment 332 11 helvetica ? 0 80 80 80 index
-of the message sent out;
-#X connect 0 0 11 0;
-#X connect 1 0 30 0;
-#X connect 3 0 30 0;
-#X connect 7 0 30 0;
-#X connect 8 0 30 0;
-#X connect 9 0 30 0;
-#X connect 10 0 30 0;
-#X connect 11 0 30 0;
-#X connect 12 0 30 0;
-#X connect 13 0 30 0;
-#X connect 14 0 30 0;
-#X connect 16 0 30 0;
-#X connect 17 0 30 0;
-#X connect 18 0 30 0;
-#X connect 19 0 30 0;
-#X connect 20 0 30 0;
-#X connect 21 0 30 0;
-#X connect 22 0 30 0;
-#X connect 24 0 30 0;
-#X connect 26 0 30 0;
-#X connect 27 0 30 0;
-#X connect 30 0 2 0;
-#X connect 30 1 4 0;
-#X connect 30 2 5 0;
-#X connect 30 3 6 0;
-#X restore 640 501 pd almost the whole christmas tree;
+#X obj 198 322 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 198 292 cyclone/coll example1;
+#C restore;
+#X obj 243 322 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 198 236 dump;
+#X obj 321 318 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 321 342 print dump_done;
+#X obj 198 379 print data/address;
+#X obj 198 349 pack f f;
+#X msg 216 264 clear;
+#X msg 44 340 dump;
+#X obj 27 419 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 72 419 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 150 415 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 150 439 print dump_done;
+#X obj 27 476 print data/address;
+#X obj 27 446 pack f f;
+#X msg 86 343 open;
+#X msg 131 346 wclose;
+#X text 28 11 The same collection of data can be shared and accessed
+or manipulated by different instances of the [coll] object if they
+share the same name (1st symbol argument);
+#X msg 27 292 0 0 \, 1 1 \, 2 2 \, 3 3 \, 4 4 \, 5 5, f 15;
+#X text 29 104 A dump message spits all stored data \, and then sends
+a bang in the rightmost outlet. You can visualize the data by clicking
+on the [coll] object and opening its editing window \, but also open
+and close with the "open/wclose" messages.;
+#X obj 270 472 cyclone/coll example1;
+#C restore;
+#X obj 270 413 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 270 440 6 \$1;
+#X text 28 58 Below \, the [coll] in the left stores some data that
+can be viewed and edited by the [coll] objects in the right \, because
+they have the same name ('example1').;
+#X text 259 264 <= clear the data;
+#X text 310 435 adds value;
+#X text 310 448 at address 6;
+#X text 31 179 A clear message clears all data stored in the collection.
+See how clearing the collection in one [coll] instance affects others
+with the same name - same with adding messages.;
+#X msg 597 229 write coll.txt;
+#X obj 482 288 cyclone/coll coll.txt;
+#C restore;
+#X msg 570 151 read coll.txt;
+#X msg 465 152 next;
+#X msg 482 181 prev;
+#X obj 482 317 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 619 511 cyclone/coll coll.txt;
+#C restore;
+#X msg 672 481 next;
+#X msg 671 456 prev;
+#X msg 579 177 readagain;
+#X msg 609 250 writeagain;
+#X msg 550 123 read;
+#X obj 523 317 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 589 208 write;
+#X obj 570 316 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 594 312 bang when finishing;
+#X text 592 327 read/write operations;
+#X obj 425 151 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 444 152 or;
+#X obj 619 541 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 660 541 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 644 177 reopens file;
+#X text 661 150 opens file;
+#X text 582 123 opens dialog window to open file;
+#X text 631 207 opens dialog window to save;
+#X text 692 229 saves to file;
+#X text 680 250 resaves to file;
+#X text 428 13 You can also specify with an argument a filename for
+[coll] to load when instantiated. You can read/write from an to other
+files with the read/write messages.;
+#X text 429 62 The basic navigation through [coll]'s data is with the
+"next" (same as a bang) or "prev" messages that \, respectively \,
+go to the next and previous address.;
+#X msg 534 466 goto 50;
+#X text 30 508 Please note that when you open the editing window of
+[coll] that you can type in and delete data \, then close it and save
+it. The format for each line is: "adrress \, data \; ";
+#X msg 900 289 dump;
+#X obj 949 418 print address;
+#X obj 926 443 print value;
+#X msg 926 320 refer example1;
+#X msg 951 354 refer coll.txt;
+#X obj 926 387 cyclone/coll;
+#C restore;
+#X text 816 226 The "refer" message can refer a [coll] object to a
+data collection of another [coll] object with a particular name or
+filename.;
+#X msg 902 79 dump;
+#X obj 947 147 print address;
+#X obj 902 173 print value;
+#X obj 902 117 cyclone/coll coll.txt 1;
+#C restore;
+#X text 812 16 An optional second nonzero argument prevents coll from
+serching for a filename given by the first symbol argument - the default
+is 0 (search for filename).;
+#X text 813 489 Important: A [coll] object with no name or filename
+argument will have its own sigle collection of data \, not sahred amongst
+other [coll] objects that also have no names.;
+#X msg 600 441 start;
+#X msg 619 465 end;
+#X text 448 356 The pointer to the address is set for all [coll] objects
+with the same name or loaded filename. So navigating in the object
+above affects the navigation of the object below. The "goto <address>"
+message ses the pointer to an address \, "start" goes to 1st address
+\, "end" goes to the last.;
+#X text 470 446 goes to address 50;
+#X connect 0 0 21 0;
+#X connect 1 0 12 0;
+#X connect 1 1 13 0;
+#X connect 1 3 14 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 3 1 4 0;
+#X connect 3 3 6 0;
+#X connect 4 0 9 1;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 9 0 8 0;
+#X connect 10 0 3 0;
+#X connect 11 0 1 0;
+#X connect 12 0 17 0;
+#X connect 13 0 17 1;
+#X connect 14 0 15 0;
+#X connect 17 0 16 0;
+#X connect 18 0 1 0;
+#X connect 19 0 1 0;
+#X connect 21 0 1 0;
+#X connect 24 0 25 0;
+#X connect 25 0 23 0;
+#X connect 31 0 32 0;
+#X connect 32 0 36 0;
+#X connect 32 1 43 0;
+#X connect 32 2 45 0;
+#X connect 33 0 32 0;
+#X connect 34 0 32 0;
+#X connect 35 0 32 0;
+#X connect 37 0 50 0;
+#X connect 37 1 51 0;
+#X connect 38 0 37 0;
+#X connect 39 0 37 0;
+#X connect 40 0 32 0;
+#X connect 41 0 32 0;
+#X connect 42 0 32 0;
+#X connect 44 0 32 0;
+#X connect 48 0 32 0;
+#X connect 60 0 37 0;
+#X connect 62 0 67 0;
+#X connect 65 0 67 0;
+#X connect 66 0 67 0;
+#X connect 67 0 64 0;
+#X connect 67 1 63 0;
+#X connect 69 0 72 0;
+#X connect 72 0 71 0;
+#X connect 72 1 70 0;
+#X connect 75 0 37 0;
+#X connect 76 0 37 0;
+#X restore 489 235 pd basic;
+#N canvas 64 38 795 468 more 0;
 #N canvas 461 114 430 337 find 0;
-#X obj 142 174 cnv 12 75 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X obj 143 174 cyclone/coll;
+#X obj 142 164 cyclone/coll;
 #C restore;
 #X msg 174 99 max;
 #X msg 208 100 min;
 #X msg 128 45 store symbol one 2;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
 #X text 8 3 Find minimum and maximum values - only numeric;
 #X obj 143 287 print value;
 #X obj 166 266 print address;
 #X msg 143 70 3 four \, 5 16 \, 71 8;
-#X connect 1 0 7 0;
-#X connect 1 1 8 0;
-#X connect 2 0 1 0;
-#X connect 3 0 1 0;
-#X connect 4 0 1 0;
-#X connect 9 0 1 0;
-#X restore 754 396 pd find min max;
-#N canvas 352 115 655 521 associate 0;
-#X obj 158 326 cnv 12 75 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X obj 157 327 cyclone/coll;
+#X connect 0 0 5 0;
+#X connect 0 1 6 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 7 0 0 0;
+#X restore 496 182 pd find min max;
+#N canvas 175 23 787 431 alias_address 0;
+#X obj 126 272 cyclone/coll;
 #C restore;
-#X symbolatom 167 469 10 0 0 0 - - -, f 10;
-#X msg 119 75 1;
-#X floatatom 115 486 5 0 0 0 - - -, f 5;
-#X msg 153 75 2;
-#X msg 271 107 assoc dofoo 1;
-#X msg 262 282 dofoo;
-#X msg 308 283 dobar;
-#X msg 271 133 deassoc dofoo 1;
-#X msg 87 49 1 foo \, 2 bar \, 3 boo;
-#X msg 188 75 3;
-#X msg 271 158 assoc dobar 2;
-#X msg 270 184 deassoc dobar 2;
-#X msg 353 284 dofar;
-#X msg 266 228 subsym dofar dofoo;
-#X symbolatom 256 404 10 0 0 0 - - -, f 10;
-#X floatatom 196 421 5 0 0 0 - - -, f 5;
-#X obj 2 2 cnv 15 650 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 7 3 Associate and disassociate an alias to an address value
-;
-#X obj 149 485 print value;
-#X obj 230 420 print address;
-#X obj 222 47 cyclone/comment 100 11 helvetica ? 0 80 80 80 insert
-data;
-#X obj 229 74 cyclone/comment 100 11 helvetica ? 0 80 80 80 recall
-by address;
-#X obj 372 160 cyclone/comment 300 11 helvetica ? 0 80 80 80 associate
-an alias to an address value;
-#X obj 380 186 cyclone/comment 300 11 helvetica ? 0 80 80 80 remove
-an alias to an address value;
-#X obj 398 234 cyclone/comment 300 11 helvetica ? 0 80 80 80 substitute
-one alias for another;
-#X obj 404 293 cyclone/comment 300 11 helvetica ? 0 80 80 80 try associated
-aliasses;
-#X connect 1 0 2 0;
-#X connect 1 0 4 0;
-#X connect 1 0 20 0;
-#X connect 1 1 16 0;
-#X connect 1 1 17 0;
-#X connect 1 1 21 0;
-#X connect 3 0 1 0;
-#X connect 5 0 1 0;
-#X connect 6 0 1 0;
-#X connect 7 0 1 0;
-#X connect 8 0 1 0;
-#X connect 9 0 1 0;
-#X connect 10 0 1 0;
-#X connect 11 0 1 0;
-#X connect 12 0 1 0;
-#X connect 13 0 1 0;
-#X connect 14 0 1 0;
-#X connect 15 0 1 0;
-#X restore 694 417 pd associate disassociate;
-#N canvas 462 115 430 391 changing 0;
-#X obj 86 279 cnv 12 100 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X msg 119 211 dump;
-#X msg 87 49 1 foo \, 2 bar \, 3 boo \, 4 42;
-#X msg 103 94 store triad 0 4 7;
-#X msg 93 72 store 333 3 6 9;
-#X msg 112 165 swap 333 triad;
-#X msg 109 142 nsub 333 2 7;
-#X obj 87 280 cyclone/coll foo;
+#X msg 28 208 1;
+#X msg 58 208 2;
+#X msg 71 149 1 foo \, 2 bar, f 6;
+#X msg 126 101 assoc foo 1;
+#X msg 138 122 deassoc foo 1;
+#X msg 152 152 assoc bar 2;
+#X msg 162 173 deassoc bar 2;
+#X msg 173 206 foo;
+#X msg 209 206 bar;
+#X text 226 121 deassociates foo & 1;
+#X text 202 99 associates foo & 1;
+#X text 231 151 associates bar & 2;
+#X text 251 173 deassociates bar & 2;
+#X text 22 17 Use "assoc" and "deassoc" to associate and deassociate
+a symbol alias to an int address \, so you can optionally use the symbol
+name address instead of the int address.;
+#X obj 71 125 loadbang;
+#X msg 216 239 remove foo;
+#X text 287 239 *;
+#X text 35 369 * Once you have an associated alias \, you can perform
+any operation using the alias insteas of the int \, such as removing
+the address from the collection.;
+#X obj 529 306 cyclone/coll;
 #C restore;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 4 Changing and modifying elements;
-#X obj 87 356 print value;
-#X obj 118 334 print address;
-#X obj 268 57 cyclone/comment 100 11 helvetica ? 0 80 80 80 insert
-some data;
-#X obj 224 150 cyclone/comment 100 11 helvetica ? 0 80 80 80 change
-some data;
-#X obj 167 209 cyclone/comment 100 11 helvetica ? 0 80 80 80 print
-contents;
-#X connect 1 0 7 0;
-#X connect 2 0 7 0;
-#X connect 3 0 7 0;
-#X connect 4 0 7 0;
-#X connect 5 0 7 0;
+#X obj 529 166 loadbang;
+#X msg 559 235 one;
+#X floatatom 529 363 5 0 0 0 - - -, f 5;
+#X floatatom 149 300 3 0 0 0 - - -, f 3;
+#X symbolatom 126 326 7 0 0 0 - - -, f 7;
+#X text 123 77 click to associate / deassociate;
+#X text 175 300 <= address is still an int;
+#X text 253 315 not the alias;
+#X text 71 324 data =>;
+#X text 600 247 alias;
+#X text 568 363 data;
+#X text 407 44 The format in which the alias is saved inside the [coll]
+object is: "<int> <alias> \, <data>".;
+#X msg 529 191 nstore 1 one 1.1 \, nstore two 2 2.2, f 18;
+#X msg 567 262 two;
+#X text 406 83 You can store an int address with an alias with the
+"nstore" message. The first two elements are the int address and the
+alias \, and they can come in any order <int \, symbol> or <symbol
+\, int> - the remaining element(s) set the stored data.;
+#X floatatom 552 333 5 0 0 0 - - -, f 5;
+#X text 592 332 address;
+#X connect 0 0 24 0;
+#X connect 0 1 23 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 0 0;
+#X connect 15 0 3 0;
+#X connect 16 0 0 0;
+#X connect 19 0 22 0;
+#X connect 19 1 35 0;
+#X connect 20 0 32 0;
+#X connect 21 0 19 0;
+#X connect 32 0 19 0;
+#X connect 33 0 19 0;
+#X restore 490 85 pd alias_address;
+#N canvas 236 59 822 466 insert/delete 0;
+#X text 20 19 In [coll] \, any message type can be stored at a particular
+address \, which can either an "integer float" (positive or negative)
+or a symbol.;
+#X text 19 68 If an input list starts with an int \, this first element
+is treated as an address in which the other element(s) are stored.
+Any message can be stored \, but single symbol atoms are stored as
+a symbol message.;
+#X obj 134 311 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 111 160 loadbang;
+#X obj 130 233 hradio 15 1 0 5 empty empty empty 0 -8 0 10 -228856
+-1 -1 4;
+#X obj 130 254 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 111 284 cyclone/coll;
+#C restore;
+#X obj 111 335 print coll_data;
+#X obj 71 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 116 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 161 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 206 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 111 185 0 0.1 \, 1 1 2 \, 2 list one two \, 3 hi \, 4 what's
+up?, f 29;
+#X obj 71 372 route float list symbol;
+#X text 66 418 float;
+#X text 113 418 list;
+#X text 157 418 symbol;
+#X text 202 418 anything;
+#X text 164 254 <= address;
+#X obj 446 143 loadbang;
+#X obj 446 203 cyclone/coll;
+#C restore;
+#X obj 446 253 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 23 256;
+#X msg 446 169 store -1 23 \, -1;
+#X text 493 228 address;
+#X text 416 19 You can also use the "store" message to store data at
+a given adress. It is not necessary for storing at integer addresses
+\, but it is needed if you want to store a message at a symbol address
+;
+#X obj 592 104 loadbang;
+#X obj 592 274 cyclone/coll;
+#C restore;
+#X obj 592 324 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 592 138 store gain 0.5 \, store freq 440, f 16;
+#X msg 617 210 symbol gain;
+#X symbolatom 615 299 6 0 0 0 - - -, f 6;
+#X floatatom 469 229 3 0 0 0 - - -, f 3;
+#X text 481 254 data;
+#X text 169 311 <= address;
+#X msg 624 236 symbol freq;
+#X text 621 191 addresses:;
+#X text 660 299 <= address;
+#X text 640 324 data;
+#X text 423 367 In order to retrieve data stored at symbol address
+\, you need to send a symbol message to [coll]. Symbol addresses are
+also output as a symbol message with the symbol selector.;
+#X connect 3 0 12 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
 #X connect 6 0 7 0;
-#X connect 7 0 10 0;
-#X connect 7 1 11 0;
-#X restore 736 438 pd changing values;
-#N canvas 465 115 430 331 refer 0;
-#X obj 259 70 cnv 12 62 19 empty empty empty 0 0 0 18 -237248 -1 0
-;
-#X obj 326 71 cnv 12 62 19 empty empty empty 0 0 0 18 -262015 -1 0
-;
-#X obj 29 186 cnv 12 100 19 empty empty empty 0 0 0 18 -237248 -1 0
-;
-#X obj 259 187 cnv 12 100 19 empty empty empty 0 0 0 18 -262015 -1
-0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 260 187 cyclone/coll bar;
+#X connect 6 0 13 0;
+#X connect 6 1 2 0;
+#X connect 12 0 6 0;
+#X connect 13 0 8 0;
+#X connect 13 1 9 0;
+#X connect 13 2 10 0;
+#X connect 13 3 11 0;
+#X connect 19 0 22 0;
+#X connect 20 0 21 0;
+#X connect 20 1 31 0;
+#X connect 22 0 20 0;
+#X connect 25 0 28 0;
+#X connect 26 0 27 0;
+#X connect 26 1 30 0;
+#X connect 28 0 26 0;
+#X connect 29 0 26 0;
+#X connect 34 0 26 0;
+#X restore 652 194 pd insert/delete;
+#X text 484 38 More examples;
+#N canvas 124 54 449 336 Messages_Sorted_By_Functions 0;
+#X text 21 48 operates on complete collection;
+#X text 21 55 -------------------------------;
+#X text 21 67 clear;
+#X text 21 79 dump;
+#X text 21 91 end;
+#X text 21 127 length;
+#X text 21 139 next;
+#X text 21 151 open;
+#X text 21 163 prev;
+#X text 21 175 read;
+#X text 21 187 readagain;
+#X text 21 211 start;
+#X text 21 223 wclose;
+#X text 21 247 writeagain;
+#X text 234 48 operates on all address types;
+#X text 234 55 -----------------------------;
+#X text 21 269 operates on numeric values;
+#X text 21 276 --------------------------;
+#X text 21 291 max;
+#X text 21 303 min;
+#X text 231 195 operates on numeric addresseses;
+#X text 231 202 -------------------------------;
+#X text 231 279 operates on symbolic addresseses;
+#X text 231 286 --------------------------------;
+#X text 119 14 MESSAGES ORDERED BY FUNCTIONS:;
+#X text 231 243 nstore;
+#X text 231 216 assoc / deassoc;
+#X text 231 229 delete / insert;
+#X text 231 300 subsym;
+#X text 21 103 filetype;
+#X text 21 115 flags;
+#X text 21 199 refer;
+#X text 21 235 write;
+#X text 234 81 merge;
+#X text 234 69 goto;
+#X text 234 93 nth;
+#X text 234 105 remove;
+#X text 234 117 renumber;
+#X text 234 129 separate;
+#X text 234 141 sort;
+#X text 234 153 store;
+#X text 234 166 swap;
+#X text 234 179 sub;
+#X text 231 257 renumber;
+#X restore 420 307 pd Messages_Sorted_By_Functions;
+#N canvas 136 49 1161 460 store/remove_messages 0;
+#X text 20 19 In [coll] \, any message type can be stored at a particular
+address \, which can either an "integer float" (positive or negative)
+or a symbol.;
+#X text 19 68 If an input list starts with an int \, this first element
+is treated as an address in which the other element(s) are stored.
+Any message can be stored \, but single symbol atoms are stored as
+a symbol message.;
+#X obj 134 311 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 111 160 loadbang;
+#X obj 130 233 hradio 15 1 0 5 empty empty empty 0 -8 0 10 -228856
+-1 -1 4;
+#X obj 130 254 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 111 284 cyclone/coll;
 #C restore;
-#X msg 260 71 refer foo;
-#X msg 275 102 1;
-#X msg 225 103 dump;
-#X obj 30 187 cyclone/coll foo;
+#X obj 111 335 print coll_data;
+#X obj 71 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 116 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 161 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 206 400 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 111 185 0 0.1 \, 1 1 2 \, 2 list one two \, 3 hi \, 4 what's
+up?, f 29;
+#X obj 71 372 route float list symbol;
+#X text 66 418 float;
+#X text 113 418 list;
+#X text 157 418 symbol;
+#X text 202 418 anything;
+#X text 164 254 <= address;
+#X obj 403 154 loadbang;
+#X obj 403 214 cyclone/coll;
 #C restore;
-#X msg 30 161 1 foo \, 2 bar \, 3 anything;
-#X obj 30 111 loadbang;
-#X text 8 2 Refer: connect to another collection;
-#X msg 327 72 refer bar;
-#X msg 370 107 clear;
-#X obj 291 254 print address;
-#X obj 260 276 print value;
-#X connect 5 0 16 0;
-#X connect 5 1 15 0;
+#X obj 403 264 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 23 256;
+#X msg 403 180 store -1 23 \, -1;
+#X text 450 239 address;
+#X text 413 30 You can also use the "store" message to store data at
+a given adress. It is not necessary for storing at integer addresses
+\, but it is needed if you want to store a message at a symbol address
+;
+#X obj 549 100 loadbang;
+#X obj 549 341 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 549 125 store gain 0.5 \, store freq 440, f 16;
+#X msg 574 191 symbol gain;
+#X symbolatom 572 316 6 0 0 0 - - -, f 6;
+#X floatatom 426 240 3 0 0 0 - - -, f 3;
+#X text 438 265 data;
+#X text 169 311 <= address;
+#X msg 591 237 symbol freq;
+#X text 578 172 addresses:;
+#X text 597 341 data;
+#X obj 523 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 549 291 cyclone/coll;
+#C restore;
+#X obj 876 181 loadbang;
+#X msg 894 273 dump;
+#X obj 876 335 cyclone/coll;
+#C restore;
+#X msg 958 302 remove note;
+#X text 780 101 To remove a data message from [coll] \, use the remove
+message. It removes the address specified by an int/symbol along with
+its data.;
+#X msg 876 206 store 1 0.1 \, 2 3 \, store velocity 127 \, store note
+60, f 19;
+#X msg 950 277 remove 1;
+#X obj 876 387 print coll_data;
+#X obj 899 361 print coll_address;
+#X msg 583 212 gain;
+#X msg 603 260 freq;
+#X text 616 212 works without symbol selector;
+#X text 617 316 <= address *;
+#X text 412 376 * The symbol address input has an optional symbol selector
+\, but it is output as a symbol message with the symbol selector.;
+#X connect 3 0 12 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 6 0 13 0;
+#X connect 6 1 2 0;
+#X connect 12 0 6 0;
+#X connect 13 0 8 0;
+#X connect 13 1 9 0;
+#X connect 13 2 10 0;
+#X connect 13 3 11 0;
+#X connect 19 0 22 0;
+#X connect 20 0 21 0;
+#X connect 20 1 30 0;
+#X connect 22 0 20 0;
+#X connect 25 0 27 0;
+#X connect 27 0 37 0;
+#X connect 28 0 37 0;
+#X connect 33 0 37 0;
+#X connect 36 0 37 0;
+#X connect 37 0 26 0;
+#X connect 37 1 29 0;
+#X connect 38 0 43 0;
+#X connect 39 0 40 0;
+#X connect 40 0 45 0;
+#X connect 40 1 46 0;
+#X connect 41 0 40 0;
+#X connect 43 0 40 0;
+#X connect 44 0 40 0;
+#X connect 47 0 37 0;
+#X connect 48 0 37 0;
+#X restore 442 63 pd store/remove_messages;
+#X obj 218 290 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 251 290 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 56 129 loadbang;
+#X msg 353 174 0;
+#X msg 245 191 1;
+#X obj 218 261 sel 1, f 6;
+#X obj 218 228 float;
+#X obj 56 239 cyclone/coll if;
+#C restore;
+#X obj 245 166 cyclone/coll if;
+#C restore;
+#X obj 218 109 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 262 105 <= address;
+#X obj 218 134 trigger bang float bang;
+#X msg 56 167 0 3.45 \, 1 23445 \, 2 23.432 \, 3 114 \, 4 8.7736 \,
+5 34, f 16;
+#X text 32 35 If you send a non existing address to coll \, it will
+ignore it and won't tell you that it doesn't have it. But the example
+below to the right will tell you if the address is found or not.;
+#X text 178 292 found;
+#X text 271 291 not found;
+#N canvas 602 23 655 392 renumber_addresses 0;
+#X obj 152 268 cyclone/coll;
+#C restore;
+#X obj 175 298 print address;
+#X msg 177 129 dump;
+#X obj 152 325 print value;
+#X msg 203 194 renumber 10;
+#X msg 152 80 1 100 \, 2 200, f 6;
+#X obj 152 53 loadbang;
+#X msg 191 168 renumber;
+#X text 250 168 from 0;
+#X text 280 193 from 10;
+#X msg 208 224 renumber2;
+#X text 272 223 increments by 1;
+#X connect 0 0 3 0;
+#X connect 0 1 1 0;
+#X connect 2 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
 #X connect 6 0 5 0;
-#X connect 7 0 5 0;
-#X connect 8 0 5 0;
-#X connect 10 0 9 0;
-#X connect 11 0 10 0;
-#X connect 13 0 5 0;
-#X connect 14 0 5 0;
-#X restore 730 459 pd refer other coll;
-#N canvas 454 114 450 485 symbol 0;
-#X obj 21 292 cnv 12 75 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X obj 21 293 cyclone/coll;
-#C restore;
-#X symbolatom 224 425 10 0 0 0 - - -, f 10;
-#X floatatom 43 425 5 0 0 0 - - -, f 5;
-#X symbolatom 78 425 10 0 0 0 - - -, f 10;
-#X msg 99 104 symbol one;
-#X msg 21 41 store one foo \, store two bar \, store three 42;
-#X msg 105 127 symbol two;
-#X msg 110 150 symbol three;
-#X msg 141 246 delete two;
-#X msg 123 195 symbol four;
-#X floatatom 187 425 5 0 0 0 - - -, f 5;
-#X obj 2 2 cnv 15 445 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 173 442 print k;
-#X obj 29 442 print v;
-#X msg 38 67 nstore 5 foobar stored and associated;
-#X msg 119 173 symbol foobar;
-#X text 7 3 Store \, recall and delete with symbol addresses;
-#X obj 308 37 cyclone/comment 100 11 helvetica ? 0 80 80 80 store key/values
-;
-#X obj 284 71 cyclone/comment 100 11 helvetica ? 0 80 80 80 store and
-associate at once;
-#X obj 202 126 cyclone/comment 100 11 helvetica ? 0 80 80 80 recall
-by key;
-#X obj 211 198 cyclone/comment 100 11 helvetica ? 0 80 80 80 does not
-exist \, no response;
-#X obj 223 247 cyclone/comment 100 11 helvetica ? 0 80 80 80 remove
-one;
-#X connect 1 0 3 0;
-#X connect 1 0 4 0;
-#X connect 1 0 14 0;
-#X connect 1 1 2 0;
-#X connect 1 1 11 0;
-#X connect 1 1 13 0;
-#X connect 5 0 1 0;
-#X connect 6 0 1 0;
-#X connect 7 0 1 0;
-#X connect 8 0 1 0;
-#X connect 9 0 1 0;
-#X connect 10 0 1 0;
-#X connect 15 0 1 0;
-#X connect 16 0 1 0;
-#X restore 730 354 pd symbol addresses;
-#N canvas 355 115 655 392 swap 0;
-#X obj 2 2 cnv 15 650 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 3 Swap \, sort and renumber;
-#X obj 342 263 cnv 12 75 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X obj 55 263 cnv 12 75 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X msg 88 91 dump;
-#X msg 121 233 dump;
-#X msg 104 142 swap 1 2;
-#X msg 71 69 1 100 \, 2 200;
-#X msg 359 118 sort 1;
+#X connect 7 0 0 0;
+#X connect 10 0 0 0;
+#X restore 460 106 pd renumber_addresses;
+#N canvas 437 135 794 427 swap 0;
 #X msg 366 144 dump;
 #X msg 453 118 sort -1;
 #X msg 489 228 dump;
-#X msg 55 48 clear;
-#X msg 110 213 renumber 1;
-#X obj 55 263 cyclone/coll;
-#C restore;
-#X obj 342 263 cyclone/coll;
-#C restore;
-#X obj 78 310 print address;
-#X obj 178 332 print dumpEnded;
-#X msg 114 164 dump;
 #X obj 342 334 print value;
-#X obj 465 334 print dumpEnded;
 #X obj 365 313 print address;
-#X msg 417 205 sort 1 3;
 #X msg 493 205 sort -1 3;
-#X msg 352 68 2 2 1 5 \, 1 1 8 4 \, 3 3 2 1 \, 5 5 4 3 \, 4 4 3 2;
-#X msg 342 48 clear;
-#X obj 55 332 print value;
-#X obj 161 60 cyclone/comment 100 11 helvetica ? 0 80 80 80 load ...
-;
-#X obj 176 154 cyclone/comment 100 11 helvetica ? 0 80 80 80 swap 1
-& 2;
-#X obj 406 117 cyclone/comment 28 11 helvetica ? 0 80 80 80 down;
-#X obj 508 116 cyclone/comment 100 11 helvetica ? 0 80 80 80 up;
 #X obj 438 184 cyclone/comment 100 11 helvetica ? 0 80 80 80 sort by
 3rd element:;
-#X connect 4 0 14 0;
-#X connect 5 0 14 0;
-#X connect 6 0 14 0;
-#X connect 7 0 14 0;
-#X connect 8 0 15 0;
-#X connect 9 0 15 0;
-#X connect 10 0 15 0;
-#X connect 11 0 15 0;
-#X connect 12 0 14 0;
-#X connect 13 0 14 0;
-#X connect 14 0 26 0;
-#X connect 14 1 16 0;
-#X connect 14 3 17 0;
-#X connect 15 0 19 0;
-#X connect 15 1 21 0;
-#X connect 15 3 20 0;
-#X connect 18 0 14 0;
-#X connect 22 0 15 0;
-#X connect 23 0 15 0;
-#X connect 24 0 15 0;
-#X connect 25 0 15 0;
-#X restore 718 375 pd swap sort renumber;
-#N canvas 428 114 495 517 insert 0;
-#X obj 34 407 cnv 12 75 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X msg 95 134 merge 2 and this was appended;
-#X msg 129 180 2;
-#X msg 160 201 insert 2 a new two;
-#X floatatom 182 244 5 0 0 0 - - -, f 5;
-#X msg 197 301 nsub 2 3 one;
-#X msg 212 337 sub 2 2 newer;
-#X obj 2 2 cnv 15 490 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 7 3 Insert \, merge \, nsub \, nth \, sub;
-#X obj 35 407 cyclone/coll;
+#X msg 217 135 swap 1 2;
+#X msg 417 205 sort 1 -1;
+#X msg 342 68 2 two 1 5 \, 1 one 8 4 \, 3 three 2 1 \, 5 five 4 3 \,
+4 four 3 2;
+#X msg 359 118 sort -1 -1;
+#X obj 342 263 cyclone/coll;
 #C restore;
-#X msg 213 374 nth 2 3;
+#X msg 60 187 store b 2 two 1 5;
+#X msg 85 218 store a 1 one 8 4;
+#X msg 99 240 store f 3 three 2 1;
+#X msg 112 262 store e 5 five 4 3;
+#X obj 90 327 cyclone/coll;
+#C restore;
+#X connect 0 0 11 0;
+#X connect 1 0 11 0;
+#X connect 2 0 11 0;
+#X connect 5 0 11 0;
+#X connect 8 0 11 0;
+#X connect 9 0 11 0;
+#X connect 10 0 11 0;
+#X connect 11 0 3 0;
+#X connect 11 1 4 0;
+#X connect 12 0 16 0;
+#X connect 13 0 16 0;
+#X connect 14 0 16 0;
+#X connect 15 0 16 0;
+#X restore 515 154 pd swap \, sort;
+#X text 596 107 *;
+#N canvas 297 37 443 409 embbed 0;
+#X msg 122 201 flags 1 0;
+#X msg 125 223 flags 0 0;
+#X obj 188 203 cyclone/comment 332 11 helvetica ? 0 80 80 80 save coll's
+contents with the patch;
+#X obj 192 225 cyclone/comment 332 11 helvetica ? 0 80 80 80 don't
+save (default);
+#X msg 156 250 embed;
+#X obj 92 277 cyclone/coll;
+#C restore;
+#X connect 0 0 5 0;
+#X connect 1 0 5 0;
+#X restore 509 263 pd embbed;
+#X msg 414 352 length;
+#X msg 431 402 filetype;
+#X obj 462 353 cyclone/comment 201 11 helvetica ? 0 80 80 80 outputs
+Nº of messages stored;
+#X obj 490 402 cyclone/comment 332 11 helvetica ? 0 80 80 80 useless
+on unix it's a dummy function;
+#X msg 515 434 separate;
+#X msg 619 83 subsym;
+#N canvas 586 133 870 615 merge 0;
+#X msg 95 134 merge 2 and this was appended;
+#X floatatom 132 186 5 0 0 0 - - -, f 5;
+#X obj 35 402 cyclone/coll;
+#C restore;
+#X msg 163 316 nth 2 3;
 #X obj 58 448 print address;
 #X obj 35 468 print value;
 #X msg 35 63 1 foo \, 2 bar \, 3 anything;
@@ -697,230 +825,78 @@ one;
 #X msg 69 110 2;
 #X obj 103 103 cyclone/comment 155 11 helvetica ? 0 80 80 80 merge
 appends a message to an already stored one;
-#X obj 167 170 cyclone/comment 191 11 helvetica ? 0 80 80 80 inserts
-new message at address and increments all indexes >=;
-#X obj 219 241 cyclone/comment 100 11 helvetica ? 0 80 80 80 check
+#X obj 169 183 cyclone/comment 100 11 helvetica ? 0 80 80 80 check
 it out ...;
-#X obj 225 285 cyclone/comment 153 11 helvetica ? 0 80 80 80 replace
+#X obj 175 227 cyclone/comment 153 11 helvetica ? 0 80 80 80 replace
 an item (silently);
-#X obj 288 323 cyclone/comment 153 11 helvetica ? 0 80 80 80 or send
+#X obj 238 265 cyclone/comment 153 11 helvetica ? 0 80 80 80 or send
 it out imediately;
-#X obj 242 398 cyclone/comment 280 11 helvetica ? 0 80 80 80 retrieve
+#X obj 192 340 cyclone/comment 280 11 helvetica ? 0 80 80 80 retrieve
 3rd element of message at address 2;
-#X connect 1 0 9 0;
-#X connect 2 0 9 0;
-#X connect 3 0 9 0;
-#X connect 4 0 9 0;
-#X connect 5 0 9 0;
-#X connect 6 0 9 0;
-#X connect 9 0 12 0;
-#X connect 9 1 11 0;
-#X connect 10 0 9 0;
-#X connect 13 0 9 0;
-#X connect 14 0 13 0;
-#X connect 15 0 9 0;
-#X restore 676 480 pd insert merge nsub nth sub;
-#X msg 211 376 next;
-#X msg 361 376 prev;
-#X msg 511 376 prev;
-#X obj 20 165 cyclone/coll instrument;
+#X text 41 533 merge <int/symbol \, any> -;
+#X text 202 533 appends any message to an address (1st argument) -
+it creates the address if it doesn't exist, f 76;
+#X msg 512 282 dump;
+#X msg 480 120 1 foo \, 2 bar \, 3 boo \, 4 42;
+#X msg 496 165 store triad 0 4 7;
+#X msg 486 143 store 333 3 6 9;
+#X msg 505 236 swap 333 triad;
+#X msg 502 213 nsub 333 2 7;
+#X obj 476 347 cyclone/coll foo;
 #C restore;
-#X obj 61 403 coll instrument;
+#X text 399 75 Changing and modifying elements;
+#X obj 480 427 print value;
+#X obj 511 405 print address;
+#X obj 661 128 cyclone/comment 100 11 helvetica ? 0 80 80 80 insert
+some data;
+#X obj 617 221 cyclone/comment 100 11 helvetica ? 0 80 80 80 change
+some data;
+#X obj 560 280 cyclone/comment 100 11 helvetica ? 0 80 80 80 print
+contents;
+#X msg 147 243 nsub 2 3 fuck;
+#X msg 162 279 sub 2 1 newer;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 2 0 5 0;
+#X connect 2 1 4 0;
+#X connect 3 0 2 0;
+#X connect 6 0 2 0;
+#X connect 7 0 6 0;
+#X connect 8 0 2 0;
+#X connect 16 0 22 0;
+#X connect 17 0 22 0;
+#X connect 18 0 22 0;
+#X connect 19 0 22 0;
+#X connect 20 0 22 0;
+#X connect 21 0 22 0;
+#X connect 22 0 24 0;
+#X connect 22 1 25 0;
+#X connect 29 0 2 0;
+#X connect 30 0 2 0;
+#X restore 418 232 pd merge nsub nth sub;
+#N canvas 0 22 450 300 thread 0;
+#X restore 388 431 pd thread;
+#X obj 126 408 cyclone/coll coll.txt;
 #C restore;
-#X obj 211 403 coll instrument;
-#C restore;
-#X obj 361 403 coll instrument;
-#C restore;
-#X obj 511 403 coll instrument;
-#C restore;
-#X symbolatom 211 435 10 0 0 0 - - -, f 10;
-#X symbolatom 361 435 10 0 0 0 - - -, f 10;
-#X symbolatom 511 435 10 0 0 0 - - -, f 10;
-#X obj 20 207 prepend set;
-#X msg 61 376 goto 3;
-#N canvas 325 115 705 390 whether 0;
-#X obj 2 2 cnv 15 700 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 70 144 cnv 12 123 19 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X obj 358 114 cnv 12 123 19 empty empty empty 0 0 0 18 -257983 -1
-0;
-#X floatatom 69 65 5 0 0 0 - requested -, f 5;
-#X obj 69 247 prepend set;
-#X floatatom 339 65 5 0 0 0 - requested -, f 5;
-#X obj 339 179 cyclone/zl reg;
-#X msg 498 114 -1;
-#X obj 339 231 sel -1, f 14;
-#X obj 339 290 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 420 290 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 138 35 cnv 12 160 62 empty empty empty 0 0 0 18 -257983 -1 0
-;
-#X floatatom 196 49 5 0 0 0 - - requested, f 5;
-#X text 6 3 Whether data is in coll;
-#X obj 69 144 cyclone/coll whether;
-#C restore;
-#X obj 358 114 cyclone/coll whether;
-#C restore;
-#N canvas 523 246 430 256 collWhether 0;
-#X obj 95 200 cyclone/coll whether;
-#C restore;
-#X obj 95 69 loadbang;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 3 Set values for [coll whether];
-#X msg 95 91 0 3.45 \, 1 23445 \, 2 23.432 \, 3 2314 \, 4 877436 \,
-5 34.2423, f 43;
-#X connect 1 0 4 0;
-#X connect 4 0 0 0;
-#X restore 599 357 pd collWhether;
-#X msg 69 269, f 10;
-#X obj 339 84 t b f b;
-#X obj 105 69 cyclone/comment 400 11 helvetica ? 0 80 80 80 <---------------
-requested index ----------------->;
-#X obj 21 294 cyclone/comment 100 11 helvetica ? 0 80 80 80 if data
-isn't there \, nothing comes out \, and everything stalls here.;
-#X obj 261 303 cyclone/comment 80 11 helvetica ? 0 80 80 80 data not
-there \, so do something else.;
-#X obj 439 308 cyclone/comment 60 11 helvetica ? 0 80 80 80 use the
-data.;
-#X obj 438 235 cyclone/comment 200 11 helvetica ? 0 80 80 80 if something
-other than the data is there \, it is sent out the right outlet of
-select.;
-#X obj 446 172 cyclone/comment 200 11 helvetica ? 0 80 80 80 store
-the data. If something is there \, it replaces the flag.;
-#X obj 538 103 cyclone/comment 160 11 helvetica ? 0 80 80 80 set a
-flag \, using something won't normally be found.;
-#X connect 3 0 14 0;
-#X connect 4 0 17 0;
-#X connect 5 0 18 0;
-#X connect 6 0 8 0;
-#X connect 7 0 6 1;
-#X connect 8 0 9 0;
-#X connect 8 1 10 0;
-#X connect 14 0 4 0;
-#X connect 15 0 6 1;
-#X connect 18 0 6 0;
-#X connect 18 1 15 0;
-#X connect 18 2 7 0;
-#X restore 688 333 pd whether data is in coll;
-#X obj 15 74 cyclone/comment 100 11 helvetica ? 0 80 80 80 recall messages
-;
-#X obj 95 107 cyclone/comment 100 11 helvetica ? 0 80 80 80 store messages
-;
-#X obj 408 67 cyclone/comment 100 11 helvetica ? 0 80 80 80 store a
-message;
-#X obj 485 122 cyclone/comment 100 11 helvetica ? 0 80 80 80 recall
-it by name;
-#X obj 205 316 cyclone/comment 400 11 helvetica ? 0 80 80 80 successive
-"next" and "prev" messages;
-#X obj 76 357 cyclone/comment 400 11 helvetica ? 0 80 80 80 1;
-#X obj 222 357 cyclone/comment 400 11 helvetica ? 0 80 80 80 2;
-#X obj 371 357 cyclone/comment 400 11 helvetica ? 0 80 80 80 3;
-#X obj 521 357 cyclone/comment 46 11 helvetica ? 0 80 80 80 4;
-#X obj 679 314 cyclone/comment 100 11 helvetica ? 0 80 80 80 More examples:
-;
-#X obj 121 378 cyclone/comment 400 11 helvetica ? 0 80 80 80 --------------->
-;
-#X obj 269 378 cyclone/comment 400 11 helvetica ? 0 80 80 80 --------------->
-;
-#X obj 420 378 cyclone/comment 400 11 helvetica ? 0 80 80 80 --------------->
-;
-#X obj 66 434 cyclone/comment 80 11 helvetica ? 0 80 80 80 move the
-pointer to address 3;
-#X obj 212 457 cyclone/comment 80 11 helvetica ? 0 80 80 80 value at
-the address 3;
-#X obj 364 457 cyclone/comment 80 11 helvetica ? 0 80 80 80 value at
-the address 2;
-#X obj 508 457 cyclone/comment 80 11 helvetica ? 0 80 80 80 value at
-the address 1;
-#X text 613 80 The coll object implements an associative array of items.
-The Pd types float \, symbol and list can be stored. The elements have
-a float or symbol as 'address'. The float address however should not
-be interpreted as an index of an array \, but merely as a directive
-for the order of the numeric elements.;
-#X msg 785 195 delete 1;
-#X msg 797 224 remove 2;
-#X msg 806 251 clear;
-#X obj 719 198 cyclone/comment 80 12 helvetica ? 0 80 80 80 Removal
-;
-#X obj 848 194 cyclone/comment 130 11 helvetica ? 0 80 80 80 delete
-entry and decrement higher indices;
-#X obj 859 222 cyclone/comment 100 11 helvetica ? 0 80 80 80 delete
-entry with no renumbering;
-#X obj 850 247 cyclone/comment 80 11 helvetica ? 0 80 80 80 erase everything
-;
-#X obj 785 282 cyclone/coll helpColl;
-#C restore;
-#X floatatom 250 86 5 0 0 0 - - -, f 5;
-#X obj 263 244 print;
-#X floatatom 304 245 5 0 0 0 - - -, f 5;
-#X obj 386 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg 272 148 nth 1 2;
-#X msg 294 178 dump;
-#X obj 263 212 cyclone/coll helpColl;
-#C restore;
-#X msg 263 112 5;
-#X obj 249 57 cyclone/comment 36 12 helvetica ? 0 80 80 80 Recall;
-#X obj 291 82 cyclone/comment 100 11 helvetica ? 0 80 80 80 int to
-retrieve an index and its data;
-#X obj 296 111 cyclone/comment 90 11 helvetica ? 0 80 80 80 if does
-not exist \, no response;
-#X obj 333 175 cyclone/comment 70 11 helvetica ? 0 80 80 80 output
-all stored data;
-#X obj 326 141 cyclone/comment 120 11 helvetica ? 0 80 80 80 nth returns
-an element from an index;
-#X connect 0 0 1 0;
-#X connect 1 0 25 0;
-#X connect 3 0 25 0;
-#X connect 4 0 7 0;
-#X connect 5 0 4 0;
-#X connect 6 0 4 0;
-#X connect 8 0 9 0;
-#X connect 9 0 10 0;
-#X connect 11 0 13 0;
-#X connect 13 0 12 0;
-#X connect 22 0 27 0;
-#X connect 23 0 28 0;
-#X connect 24 0 29 0;
-#X connect 25 0 33 0;
-#X connect 27 0 30 0;
-#X connect 28 0 31 0;
-#X connect 29 0 32 0;
-#X connect 33 0 2 0;
-#X connect 34 0 26 0;
-#X connect 54 0 61 0;
-#X connect 55 0 61 0;
-#X connect 56 0 61 0;
-#X connect 62 0 68 0;
-#X connect 66 0 68 0;
-#X connect 67 0 68 0;
-#X connect 68 0 63 0;
-#X connect 68 1 64 0;
-#X connect 68 3 65 0;
-#X connect 69 0 68 0;
-#X restore 477 246 pd examples;
-#X text 152 318 1st element is the address and the others are stored
-an address, f 64;
-#X text 101 301 atoms -;
-#X text 152 302 address (float/symbol) sent to 2nd outlet and its data
-to the 1st, f 65;
-#X text 95 368 anything;
-#X text 155 368 - stored data, f 51;
-#X text 113 387 atoms;
-#X text 156 387 - address \, either a numeric or symbolic atom, f
-51;
-#X obj 2 508 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
-0;
-#X text 284 222 <= click to open;
-#X text 307 234 text window;
-#X text 247 251 <= address;
-#X text 93 250 data =>;
-#X obj 113 190 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X connect 8 0 41 0;
-#X connect 8 1 42 0;
-#X connect 40 0 8 0;
-#X connect 45 0 8 0;
-#X connect 46 0 8 0;
-#X connect 64 0 8 0;
+#X msg 135 355 separate 10;
+#X connect 8 0 18 0;
+#X connect 9 0 12 1;
+#X connect 10 0 12 1;
+#X connect 11 0 6 0;
+#X connect 11 1 7 0;
+#X connect 12 0 11 0;
+#X connect 14 0 10 0;
+#X connect 15 0 17 0;
+#X connect 17 0 12 0;
+#X connect 17 1 14 0;
+#X connect 17 2 9 0;
+#X connect 18 0 13 0;
+#X connect 35 0 34 0;
+#X restore 441 258 pd more examples;
+#X text 300 197 <= recall data from address;
+#X connect 29 0 60 0;
+#X connect 37 0 60 0;
+#X connect 57 0 60 0;
+#X connect 58 0 60 0;
+#X connect 60 0 30 0;
+#X connect 60 1 31 0;

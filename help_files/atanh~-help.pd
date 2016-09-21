@@ -3,51 +3,10 @@
 0;
 #X obj 3 412 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 895 541 391 328 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 113 LIBRARY cyclone;
-#X text 0 73 INLET_0 signal;
-#X text 0 93 OUTLET_0 signal;
-#X text 0 134 VERSION 0.2-beta1;
-#X text 0 155 AUTHOR Krzysztof Czaja;
-#X text 1 174 RELEASE_DATE 2002;
-#X text 1 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 1 224 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X text 0 0 KEYWORDS Arc Hyperbolic tangent;
-#X text 0 40 DESCRIPTION takes the arc hyperbolic tangens function
-for signals;
-#X restore 506 565 pd META;
 #X obj 3 448 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 485 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 106 414 424 196 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 8 73 cyclone/acosh~;
-#X obj 9 26 cyclone/acos;
-#X obj 108 73 cyclone/asinh~;
-#X obj 109 49 cyclone/asin~;
-#X obj 205 37 cyclone/atan~;
-#X obj 205 62 cyclone/atanh~;
-#X obj 8 120 cyclone/cosh~;
-#X obj 8 97 cyclone/cosh;
-#X obj 8 145 cyclone/cosx~;
-#X obj 8 50 cyclone/acos~;
-#X obj 109 27 cyclone/asin;
-#X obj 109 97 cyclone/sinh;
-#X obj 108 120 cyclone/sinh~;
-#X obj 108 144 cyclone/sinx~;
-#X obj 205 85 cyclone/tanh;
-#X obj 206 108 cyclone/tanh~;
-#X obj 205 132 cyclone/tanx~;
-#X obj 325 97 cos~;
-#X text 321 72 vanilla;
-#X restore 200 564 pd Related_objects;
 #X obj 117 460 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 162 460 signal;
@@ -81,7 +40,6 @@ Max/MSP;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 atanh~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal hyperbolic arc-tangent
 function;
-#X obj 8 565 all_about_cyclone;
 #X text 164 420 signal - input to hyperbolic arc-tangent function;
 #X text 207 460 - the hyperbolic arc-tangent of the input;
 #X obj 46 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0 205
@@ -97,8 +55,8 @@ each input sample (probably only useful for mathematical calculations).
 #X text 154 532 For input values <= -1 or >=1 \, the output is zero!
 ;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -167,7 +125,7 @@ each input sample (probably only useful for mathematical calculations).
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -203,10 +161,10 @@ each input sample (probably only useful for mathematical calculations).
 #X obj 439 262 number~ 1;
 #X obj 439 345 number~;
 #X obj 439 304 cyclone/atanh~;
-#X connect 10 0 32 0;
-#X connect 11 0 33 0;
-#X connect 13 0 19 0;
-#X connect 19 0 11 0;
-#X connect 20 0 10 0;
-#X connect 39 0 41 0;
-#X connect 41 0 40 0;
+#X connect 8 0 29 0;
+#X connect 9 0 30 0;
+#X connect 11 0 17 0;
+#X connect 17 0 9 0;
+#X connect 18 0 8 0;
+#X connect 36 0 38 0;
+#X connect 38 0 37 0;

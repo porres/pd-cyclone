@@ -15,33 +15,6 @@
 #X obj 200 257 cyclone/midiflush;
 #X obj 2 464 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 503 105 368 347 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 113 LIBRARY cyclone;
-#X text 0 0 KEYWORDS note midi notes raw stream;
-#X text 0 40 DESCRIPTION send note offs for all hanging notes in a
-raw midi stream;
-#X text 0 73 INLET_0 midi stream message;
-#X text 0 93 OUTLET_0 midi strean;
-#X text 0 134 VERSION 0.2-beta1;
-#X text 0 152 AUTHOR Krzysztof Czaja;
-#X text 1 170 RELEASE_DATE 2002;
-#X text 2 189 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 221 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 477 466 pd META;
-#N canvas 338 148 430 78 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 117 31 cyclone/flush;
-#X obj 209 31 cyclone/sustain;
-#X obj 11 30 midiin;
-#X obj 61 31 midiout;
-#X restore 205 466 pd Related_objects;
 #N canvas 525 199 576 463 Example 0;
 #X obj 182 198 cnv 15 140 40 empty empty empty 20 12 0 14 -245500 -66577
 0;
@@ -284,6 +257,6 @@ corresponding note-offs when it receives a bang.;
 off;
 #X connect 5 0 8 0;
 #X connect 8 0 6 0;
-#X connect 8 0 24 0;
-#X connect 25 0 8 0;
-#X connect 26 0 8 0;
+#X connect 8 0 22 0;
+#X connect 23 0 8 0;
+#X connect 24 0 8 0;

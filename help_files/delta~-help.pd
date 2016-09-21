@@ -3,24 +3,6 @@
 0;
 #X obj 7 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 605 277 362 257 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 113 LIBRARY cyclone;
-#X text 0 73 INLET_0 signal;
-#X text 0 93 OUTLET_0 signal;
-#X text 0 0 KEYWORDS signal delta transform sample;
-#X text 0 40 DESCRIPTION transform signal into difference between successive
-samples;
-#X text 0 133 VERSION 0.2-beta1;
-#X text 0 151 AUTHOR Krzysztof Czaja;
-#X text 1 169 RELEASE_DATE 2002;
-#X text 2 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 220 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 506 480 pd META;
 #X obj 7 372 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 439 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -31,13 +13,6 @@ adapted the patch to pd-extended 2015-02-02;
 #X obj 91 381 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 122 381 signal;
-#N canvas 593 521 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 13 33 clip~;
-#X obj 56 33 -~;
-#X obj 87 33 +~;
-#X restore 203 480 pd Related_objects;
 #X text 122 450 (none);
 #X obj 230 222 cyclone/delta~;
 #X text 77 99 [delta~] outputs a signal which is the difference between
@@ -64,7 +39,7 @@ Max/MSP;
 last sample;
 #X obj 230 255 cyclone/snapshot~ 100;
 #X obj 230 289 nbx 10 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0
-10 -228856 -1 -1 0.000226751 256;
+10 -228856 -1 -1 0 256;
 #X text 185 381 - The difference between the current input sample and
 the previous input sample (like \, if the input signal contains 1 \,
 0.5 \, 2 \, 0.5 \, the output would be 1 \, -0.5 \, 1.5 \, -1.5);
@@ -172,6 +147,6 @@ the previous input sample (like \, if the input signal contains 1 \,
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 11 0 24 0;
-#X connect 14 0 11 0;
-#X connect 24 0 25 0;
+#X connect 9 0 22 0;
+#X connect 12 0 9 0;
+#X connect 22 0 23 0;

@@ -3,37 +3,10 @@
 0;
 #X obj 9 383 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 619 299 361 264 META 0;
-#X text 0 33 LICENSE SIBSD;
-#X text 0 153 LIBRARY cyclone;
-#X text 0 133 OUTLET_0 signal;
-#X text 0 0 KEYWORDS signal vector envelope follower rampsmooth deltaclip
-slide filter;
-#X text 0 53 DESCRIPTION a vector based envelope follower;
-#X text 0 73 INLET_0 mode;
-#X text 0 93 INLET_1 signal;
-#X text 0 113 INLET_2 signal;
-#X text 0 174 VERSION 0.2-beta1;
-#X text 0 192 AUTHOR Krzysztof Czaja;
-#X text 1 210 RELEASE_DATE 2002;
-#X text 2 229 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 261 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 512 626 pd META;
 #X obj 9 539 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 9 576 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 316 459 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 7 29 cyclone/rampsmooth~;
-#X obj 7 52 cyclone/slide~;
-#X obj 8 75 cyclone/deltaclip~;
-#X restore 214 624 pd Related_objects;
 #X obj 90 393 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 90 548 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -246,20 +219,20 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X connect 6 0 24 1;
+#X connect 7 0 24 0;
 #X connect 8 0 26 1;
 #X connect 9 0 26 0;
-#X connect 10 0 28 1;
-#X connect 11 0 28 0;
-#X connect 12 0 27 1;
-#X connect 13 0 27 0;
-#X connect 26 0 36 0;
-#X connect 27 0 36 0;
-#X connect 28 0 36 0;
-#X connect 30 0 31 0;
-#X connect 30 1 31 1;
-#X connect 31 0 36 2;
-#X connect 34 0 35 0;
-#X connect 35 0 33 0;
-#X connect 36 0 33 0;
-#X connect 39 0 34 0;
-#X connect 41 0 30 0;
+#X connect 10 0 25 1;
+#X connect 11 0 25 0;
+#X connect 24 0 34 0;
+#X connect 25 0 34 0;
+#X connect 26 0 34 0;
+#X connect 28 0 29 0;
+#X connect 28 1 29 1;
+#X connect 29 0 34 2;
+#X connect 32 0 33 0;
+#X connect 33 0 31 0;
+#X connect 34 0 31 0;
+#X connect 37 0 32 0;
+#X connect 39 0 28 0;

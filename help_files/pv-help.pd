@@ -13,34 +13,6 @@
 0;
 #X obj 3 405 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 333 144 430 82 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 15 30 float;
-#X obj 59 30 int;
-#X obj 91 30 receive;
-#X obj 147 30 send;
-#X obj 187 30 value;
-#X restore 202 407 pd Related_objects;
-#N canvas 458 99 397 322 META 0;
-#X text 10 29 LICENSE SIBSD;
-#X text 10 105 LIBRARY cyclone;
-#X text 10 10 KEYWORDS private variable patch store;
-#X text 10 48 DESCRIPTION private variables for patch and its subpatches
-;
-#X text 10 67 INLET_0 message bang;
-#X text 10 86 OUTLET_0 message;
-#X text 10 125 VERSION 0.2-beta1;
-#X text 10 143 AUTHOR Krzysztof Czaja;
-#X text 11 161 RELEASE_DATE 2002;
-#X text 12 180 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 12 212 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 506 407 pd META;
 #X text 139 274 bang;
 #X text 115 257 anything;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -68,9 +40,9 @@ objects;
 #X obj 234 168 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 234 221 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -50 256;
+-228856 -1 -1 0 256;
 #X obj 118 187 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -50 256;
+-228856 -1 -1 0 256;
 #X text 66 159 store variable 'x';
 #X text 427 140 open and check:;
 #X text 173 334 - stored private variable;
@@ -84,12 +56,12 @@ objects;
 #X msg 81 62 symbol bbq;
 #X obj 380 122 cyclone/pv list 40 50 60;
 #X obj 380 186 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 40 256;
+-228856 -1 -1 0 256;
 #X obj 380 154 unpack float float float;
 #X obj 450 185 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 50 256;
+-228856 -1 -1 0 256;
 #X obj 521 185 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 60 256;
+-228856 -1 -1 0 256;
 #X text 24 23 [pv] works with any message type;
 #X obj 114 171 cyclone/pv any;
 #X obj 100 265 cyclone/pv any;
@@ -121,15 +93,15 @@ other \, and you don't have control of wich one will be stored.;
 #X obj 167 92 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 167 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -52 256;
+-228856 -1 -1 0 256;
 #X obj 102 92 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -52 256;
+-228856 -1 -1 0 256;
 #X obj 660 102 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 660 156 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 36 256;
+-228856 -1 -1 0 256;
 #X obj 522 124 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 36 256;
+-228856 -1 -1 0 256;
 #X text 512 95 store variable 'x';
 #X text 687 103 retrieve 'x';
 #X obj 522 150 cyclone/pv y;
@@ -149,7 +121,7 @@ within this subpatch.;
 #X obj 192 129 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 192 197 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 32 256;
+-228856 -1 -1 0 256;
 #X obj 127 129 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 104 103 retrieve and store 'x';
@@ -159,9 +131,9 @@ the subpatch can be retrieved in the parent patch.;
 #X obj 657 157 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 657 211 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 93 256;
+-228856 -1 -1 0 256;
 #X obj 519 179 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 93 256;
+-228856 -1 -1 0 256;
 #X obj 519 205 cyclone/pv y;
 #X obj 657 182 cyclone/pv y;
 #X obj 192 169 cyclone/pv x;
@@ -193,7 +165,7 @@ if it has another [pv] object with the same variable name. It won't
 share with other patches!;
 #X text 173 291 - posts information in the Pd window about related
 [pv] objects in the patch;
-#X connect 23 0 25 0;
-#X connect 24 0 23 0;
-#X connect 26 0 22 0;
-#X connect 37 0 22 0;
+#X connect 21 0 23 0;
+#X connect 22 0 21 0;
+#X connect 24 0 20 0;
+#X connect 35 0 20 0;

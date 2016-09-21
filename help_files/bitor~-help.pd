@@ -3,35 +3,8 @@
 0;
 #X obj 5 319 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 670 414 340 251 META 0;
-#X text 1 20 LICENSE SIBSD;
-#X text 1 113 LIBRARY cyclone;
-#X text 1 0 KEYWORDS bitwise bit boolean signal;
-#X text 1 40 DESCRIPTION performs bitwise boolean operations on a floating
-point signal as bits or as a float;
-#X text 1 73 INLET_0 signal;
-#X text 1 93 OUTLET_0 signal;
-#X text 0 133 VERSION 0.2-beta1;
-#X text 0 151 AUTHOR Krzysztof Czaja;
-#X text 1 169 RELEASE_DATE 2002;
-#X text 2 188 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 220 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 506 552 pd META;
 #X obj 5 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 236 408 428 173 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 6 28 cyclone/bitnot~;
-#X obj 6 55 cyclone/bitor~;
-#X obj 6 78 cyclone/bitxor~;
-#X obj 108 29 cyclone/bitshift~;
-#X obj 258 50 &;
-#X restore 208 555 pd Related_objects;
 #X obj 82 437 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 134 437 signal;
@@ -50,7 +23,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 140 402 float;
 #N canvas 734 127 488 574 integer_bitmask 0;
 #X obj 262 315 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 10 256;
+-228856 -1 -1 0 256;
 #X msg 61 311 mode \$1;
 #X obj 61 292 nbx 2 12 0 3 0 0 safsdf sdfsdf empty 0 -8 0 10 -228856
 -1 -1 0 256;
@@ -319,8 +292,8 @@ this value is used for comparison.;
 #X restore 363 243 pd signal_conversion_to_int;
 #X text 97 363 mode <float>;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -389,7 +362,7 @@ this value is used for comparison.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -461,13 +434,13 @@ two signals or a signal to a given bitmask. TIt has 4 modes of comparison
 (see below).;
 #X text 183 327 - signal to execute Bitwise-OR on;
 #X text 184 385 - signal to execute Bitwise-OR on;
-#X text 122 519 [bitor~] can produce NaNs and +/-INFs - but denormals
-are zeroed out.;
 #X text 184 437 - signal as result of the "Bitwise-OR" operation;
 #X obj 98 239 cyclone/bitor~, f 17;
-#X connect 12 0 59 0;
-#X connect 13 0 12 0;
-#X connect 36 0 59 0;
-#X connect 37 0 59 1;
-#X connect 38 0 13 0;
-#X connect 59 0 35 0;
+#X text 122 519 [bitor~] can produce NaNs and +/-INFs - but denormals
+are zeroed out.;
+#X connect 10 0 56 0;
+#X connect 11 0 10 0;
+#X connect 34 0 56 0;
+#X connect 35 0 56 1;
+#X connect 36 0 11 0;
+#X connect 56 0 33 0;

@@ -1,84 +1,49 @@
-#N canvas 766 23 558 577 10;
-#X obj 2 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 766 23 558 610 10;
+#X obj 2 324 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 478 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 485 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 506 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 513 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 87 457 cnv 17 3 17 empty empty 6 5 9 0 16 -228856 -162280 0
+#X obj 83 464 cnv 17 3 17 empty empty 6 5 9 0 16 -228856 -162280 0
 ;
-#X msg 134 173 88 127;
-#X obj 110 298 midiout;
-#X msg 188 134 90 88;
-#X obj 87 484 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X msg 134 171 88 127;
+#X obj 104 293 midiout;
+#X msg 185 132 90 88;
+#X obj 83 491 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 357 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 364 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 377 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 83 384 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 397 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 83 404 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 417 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+#X obj 83 424 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 437 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+#X obj 83 444 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 337 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 331 cnv 17 3 29 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 163 262 cyclone/midiformat 5, f 26;
-#X obj 2 557 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 591 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 536 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 570 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 473 103 373 443 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 198 LIBRARY cyclone;
-#X text 1 54 INLET_0 message;
-#X text 1 72 INLET_1 message;
-#X text 1 90 INLET_2 message;
-#X text 1 108 INLET_3 float;
-#X text 1 126 INLET_4 float;
-#X text 1 162 INLET_6 float;
-#X text 1 144 INLET_5 float;
-#X text 1 180 OUTLET_0 midi message;
-#X text 1 36 DESCRIPTION de/construct midi messages;
-#X text 1 0 KEYWORDS midi messages construct format;
-#X text 0 216 VERSION 0.2-beta1;
-#X text 0 234 AUTHOR Krzysztof Czaja;
-#X text 1 252 RELEASE_DATE 2002;
-#X text 2 271 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 303 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 506 538 pd META;
-#N canvas 311 144 605 75 Related_objects 0;
-#X obj 2 2 cnv 15 600 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 121 28 cyclone/Borax;
-#X obj 11 28 midiout;
-#X obj 210 28 cyclone/midiparse;
-#X obj 66 28 noteout;
-#X obj 424 28 cyclone/xbendout;
-#X obj 324 28 cyclone/xbendin;
-#X restore 212 538 pd Related_objects;
-#X msg 152 196 88 0;
-#X text 158 398 -;
-#X text 117 398 float;
-#X text 158 419 -;
-#X text 117 419 float;
-#X text 158 439 -;
-#X text 117 439 float;
-#X text 158 458 -;
-#X text 117 458 float;
-#X text 158 338 -;
-#X text 158 359 -;
-#X text 158 378 -;
-#X text 158 486 -;
-#X text 118 486 float;
-#X text 158 512 -;
-#X text 100 513 1) float;
+#X msg 152 194 88 0;
+#X text 167 405 -;
+#X text 126 405 float;
+#X text 167 426 -;
+#X text 126 426 float;
+#X text 167 446 -;
+#X text 126 446 float;
+#X text 167 465 -;
+#X text 126 465 float;
+#X text 167 332 -;
+#X text 167 366 -;
+#X text 167 385 -;
+#X text 167 492 -;
+#X text 126 492 float;
+#X text 167 518 -;
+#X text 108 519 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -94,77 +59,164 @@ Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 midiformat;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Format MIDI messages;
-#X obj 89 154 cyclone/comment 100 11 helvetica ? 0 0 0 0 <Note / Velocity>
+#X obj 89 152 cyclone/comment 100 11 helvetica ? 0 0 0 0 <Note / Velocity>
 ;
-#X obj 226 136 cyclone/comment 285 11 helvetica ? 0 0 0 0 Polyphonic
+#X obj 223 134 cyclone/comment 285 11 helvetica ? 0 0 0 0 Polyphonic
 Aftetoutch;
-#X text 97 172 Note;
-#X text 89 191 On/Off;
-#X obj 280 183 cyclone/comment 100 11 helvetica ? 0 0 0 0 Program Change
+#X text 97 170 Note;
+#X text 89 189 On/Off;
+#X obj 283 181 cyclone/comment 100 11 helvetica ? 0 0 0 0 Program Change
 ;
-#X obj 304 204 cyclone/comment 100 11 helvetica ? 0 0 0 0 Channel Aftertouch
+#X obj 310 202 cyclone/comment 100 11 helvetica ? 0 0 0 0 Channel Aftertouch
 ;
-#X obj 330 223 cyclone/comment 100 11 helvetica ? 0 0 0 0 Pitch Bend
+#X obj 339 221 cyclone/comment 215 11 helvetica ? 0 0 0 0 Pitch Bend
+(-8192 to 8191 in @hires 2);
+#X obj 362 241 cyclone/comment 100 11 helvetica ? 0 0 0 0 MIDI Channel
 ;
-#X obj 353 244 cyclone/comment 100 11 helvetica ? 0 0 0 0 MIDI Channel
-;
-#X obj 239 182 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 242 180 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 316 241 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 328 239 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 265 202 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 271 200 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 290 221 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 299 219 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 336 136 cyclone/comment 285 11 helvetica ? 0 0 0 0 <pitch \,
+#X obj 333 134 cyclone/comment 285 11 helvetica ? 0 0 0 0 <pitch \,
 pressure>;
-#X obj 163 298 print raw_midi;
-#X text 123 338 list;
-#X text 123 359 list;
-#X text 123 378 list;
-#X msg 214 158 127 1;
-#X obj 258 161 cyclone/comment 0 11 helvetica ? 0 0 0 0 Control Change
+#X obj 157 293 print raw_midi;
+#X text 132 332 list;
+#X text 132 366 list;
+#X text 132 385 list;
+#X msg 214 156 127 1;
+#X obj 258 159 cyclone/comment 0 11 helvetica ? 0 0 0 0 Control Change
 <value \, control #>;
-#X text 173 338 <pitch/velocity> pairs for note on/off messages;
-#X text 173 398 program change value for program change message, f
-60;
-#X text 173 419 channel aftertouch value for channel aftertouch message
-, f 60;
-#X text 173 439 pitch bend value for pitch bend message, f 60;
-#X text 173 486 raw MIDI messages, f 60;
-#X text 173 513 channel number (default 1), f 58;
+#X text 182 332 <pitch/velocity> pairs for note on/off messages;
+#X text 182 405 program change value for program change message, f
+59;
+#X text 182 426 channel aftertouch value for channel aftertouch message
+, f 59;
+#X text 182 446 pitch bend value for pitch bend message, f 59;
+#X text 182 492 raw MIDI messages, f 60;
+#X text 182 519 channel number (default 1), f 58;
 #X text 51 87 [midiformat] receives different MIDI information in each
 inlet and formats to a raw MIDI message output.;
-#X text 174 359 <aftertouch/pitch> pairs for polyphonic aftertouch
+#X text 183 366 <aftertouch/pitch> pairs for polyphonic aftertouch
 messages;
-#X text 173 378 <value/controller number> pairs for control messages
+#X text 182 385 <value/controller number> pairs for control messages
 ;
-#X text 173 458 channel number (wraps at 16) - doesn't output MIDI
-messages, f 60;
-#N canvas 550 315 490 415 examples 0;
-#X obj 181 90 makenote 127 250;
-#X obj 181 121 pack;
-#X obj 181 153 cyclone/midiformat;
-#X obj 181 185 cyclone/seq;
-#X text 75 35 using [midiformat] to get note messages from a [makenote]
+#X text 182 465 channel number (wraps at 16) - doesn't output MIDI
+messages;
+#N canvas 863 73 414 536 examples 0;
+#X obj 131 70 makenote 127 250;
+#X obj 131 101 pack;
+#X obj 131 133 cyclone/midiformat;
+#X obj 131 165 cyclone/seq;
+#X text 25 15 using [midiformat] to get note messages from a [makenote]
 object and send it to a [seq] object;
-#X obj 189 297 cyclone/midiformat;
-#X obj 189 337 cyclone/midiparse;
-#X text 85 242 [midiformat] is the counterpart of the [midiparse] object.
-;
+#X text 35 222 [midiformat] is the counterpart of the [midiparse] object.
+Please check it too.;
+#X obj 195 363 cyclone/midiformat;
+#X obj 195 403 cyclone/midiparse;
+#X obj 195 297 makenote 127 500;
+#X obj 195 324 pack;
+#X obj 195 271 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 195 444 unpack float float;
+#X obj 195 473 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 300 473 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
 #X connect 0 0 1 0;
 #X connect 0 1 1 1;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
-#X connect 5 0 6 0;
-#X restore 468 295 pd examples;
-#X connect 4 0 14 0;
-#X connect 6 0 14 1;
-#X connect 14 0 5 0;
-#X connect 14 0 56 0;
-#X connect 19 0 14 0;
-#X connect 51 0 14 3;
-#X connect 52 0 14 6;
-#X connect 53 0 14 4;
-#X connect 54 0 14 5;
-#X connect 60 0 14 2;
+#X connect 6 0 7 0;
+#X connect 7 0 11 0;
+#X connect 8 0 9 0;
+#X connect 8 1 9 1;
+#X connect 9 0 6 0;
+#X connect 10 0 8 0;
+#X connect 11 0 12 0;
+#X connect 11 1 13 0;
+#X restore 468 266 pd examples;
+#X obj 157 260 cyclone/midiformat 5 @hires 2;
+#N canvas 341 79 805 403 hires 0;
+#X text 21 17 By default \, [midiformat] receives a low resolution
+7 bit (values from 0 to 127) for Pitch Bend messages \, but the 'hires'
+message or attribute sets to a high resolution of 14 bits \, which
+has been the usual resolution for Pitch Bend messages for a long time.
+;
+#X msg 331 269 hires \$1;
+#X obj 331 196 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+-1 -1 2;
+#X floatatom 331 246 5 0 0 0 - - -, f 5;
+#X obj 466 214 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 463 239 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 394 186 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 391 212 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 558 239 hsl 128 15 -8192 8191 0 0 empty empty empty -2 -8 0
+10 -228856 -1 -1 0 1;
+#X obj 555 263 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 423 17 The Pitch Bend message is composed of 3 numbers.;
+#X text 423 39 The first one determines it's a Pitch Bend message and
+it is 224 for channel 1 (225 for channel 2 \, and so on up to 239 for
+channel 16).;
+#X text 423 85 Then we have the two subsequent numbers that decode
+the Pitch Bend Value. First there's the Least Significant Byte and
+then the Most Significant Byte.;
+#X text 423 132 The 7 bit messages set only the Most Significant Byte.
+;
+#X obj 331 300 cyclone/midiformat @hires 2;
+#X text 57 196 0) 7 bit (integers from 0 to 127 \, default) =>;
+#X text 57 211 1) 14 bit (floats from -1 to 1) ============>;
+#X text 57 226 2) 14 bit (integers from -8192 to 8191) ====>;
+#X obj 438 360 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 79 160 Check the formatted Pitch Bend messages below:;
+#X obj 311 332 cyclone/midiparse @hires 2;
+#X text 346 359 Pitch Bend ==>;
+#X text 561 239 14 bit -8192 to 8191;
+#X text 415 186 7 bit 0 to 127;
+#X text 482 214 14 bit -1 to 1;
+#X text 21 94 The possible values are 0 (default \, 7 bits) \, 1 (14
+bit as float values from -1 to 1) and 2 (14 bits as integer values
+from -8192 to 8191). The [midiparse] object \, which is the counterpart
+\, also has the same parameters.;
+#X obj 504 326 print MIDI_FORMAT;
+#X connect 1 0 14 0;
+#X connect 1 0 20 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X connect 4 0 5 0;
+#X connect 5 0 14 5;
+#X connect 6 0 7 0;
+#X connect 7 0 14 5;
+#X connect 8 0 9 0;
+#X connect 9 0 14 5;
+#X connect 14 0 20 0;
+#X connect 14 0 26 0;
+#X connect 20 5 18 0;
+#X restore 486 289 pd hires;
+#X text 167 347 -;
+#X text 102 347 hires <f>;
+#X text 182 347 sets 14-bit pitch bend input precision (see example
+above);
+#X obj 2 540 cnv 3 550 3 empty empty attribute 8 12 0 13 -228856 -1
+0;
+#X text 122 547 @hires <0 \, 1 \, 2> - picth bend precision (see example
+above);
+#X connect 4 0 70 0;
+#X connect 6 0 70 1;
+#X connect 16 0 70 0;
+#X connect 48 0 70 3;
+#X connect 49 0 70 6;
+#X connect 50 0 70 4;
+#X connect 51 0 70 5;
+#X connect 57 0 70 2;
+#X connect 70 0 5 0;
+#X connect 70 0 53 0;

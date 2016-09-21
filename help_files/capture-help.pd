@@ -3,42 +3,10 @@
 0;
 #X obj 2 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 512 118 368 338 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 126 LIBRARY cyclone;
-#X text 1 0 KEYWORDS store float edit;
-#X text 1 36 DESCRIPTION store and edit numbers;
-#X text 1 54 INLET_0 float;
-#X text 1 72 INLET_1 list;
-#X text 1 90 INLET_2 messages;
-#X text 1 108 OUTLET_0 list;
-#X text 0 144 VERSION 0.2-beta1;
-#X text 0 162 AUTHOR Krzysztof Czaja;
-#X text 1 180 RELEASE_DATE 2002;
-#X text 2 199 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 231 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 500 494 pd META;
 #X obj 2 396 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 431 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 364 145 430 73 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 46 32 textfile;
-#X obj 106 32 cyclone/coll;
-#C restore;
-#X obj 192 32 cyclone/funbuff;
-#C restore;
-#X obj 10 32 text;
-#X obj 341 32 table;
-#X obj 297 32 array;
-#X restore 216 494 pd Related_objects;
 #X obj 73 278 cnv 17 3 112 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 73 405 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -73,7 +41,7 @@ Max/MSP;
 #X msg 221 177 dump;
 #X obj 193 241 print dump;
 #X obj 193 149 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 63 256;
+-228856 -1 -1 0 256;
 #X text 259 178 outputs stored values;
 #X text 192 324 outputs out all stored values sequentially, f 52;
 #X text 130 358 wclose;
@@ -159,7 +127,7 @@ box);
 #X text 191 292 clears stored contents, f 52;
 #X text 192 309 prints number of received items on the Pd window,
 f 52;
-#X connect 27 0 39 0;
-#X connect 28 0 39 0;
-#X connect 30 0 39 0;
-#X connect 39 0 29 0;
+#X connect 25 0 37 0;
+#X connect 26 0 37 0;
+#X connect 28 0 37 0;
+#X connect 37 0 27 0;

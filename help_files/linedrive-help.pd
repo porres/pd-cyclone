@@ -1,4 +1,4 @@
-#N canvas 599 23 585 623 10;
+#N canvas 599 23 558 585 10;
 #X obj 2 370 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 427 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -15,36 +15,9 @@
 0;
 #X obj 2 542 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 515 103 374 362 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 120 LIBRARY cyclone;
-#X text 0 0 KEYWORDS scale exponential line;
-#X text 0 40 DESCRIPTION scale numbers exponentially for use with line~
-;
-#X text 0 100 OUTLET_0 float;
-#X text 0 60 INLET_0 message;
-#X text 0 80 INLET_1 float;
-#X text 0 139 VERSION 0.2-beta1;
-#X text 0 157 AUTHOR Krzysztof Czaja;
-#X text 1 175 RELEASE_DATE 2002;
-#X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 504 544 pd META;
-#N canvas 353 145 430 83 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 53 31 line~;
-#X obj 97 31 cyclone/Line~;
-#X obj 15 31 expr;
-#X restore 205 544 pd Related_objects;
 #N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 939 367 324 271 set_color 0;
@@ -115,7 +88,7 @@ this patch for Pd-Vanilla 0.47-2.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -351,18 +324,18 @@ are the negative values of the ranges (argument * -1).;
 (float?) - obrigatory (no default) \; 3) exponential factor (> 1) -
 obrigatory (no default);
 #X obj 123 205 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 9300 1;
+-1 -1 0 1;
 #X obj 120 230 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 93 256;
+-228856 -1 -1 0 256;
 #X floatatom 225 325 6 0 0 0 - - -, f 6;
 #X floatatom 120 325 10 0 0 0 - - -, f 10;
 #X obj 120 296 unpack float float;
 #X obj 120 254 cyclone/linedrive 127 1 1 500;
 #X text 284 296 time must be >= 0;
 #X text 284 316 exp must be >= 1;
-#X connect 32 0 41 1;
-#X connect 36 0 37 0;
-#X connect 37 0 41 0;
-#X connect 40 0 39 0;
-#X connect 40 1 38 0;
-#X connect 41 0 40 0;
+#X connect 30 0 39 1;
+#X connect 34 0 35 0;
+#X connect 35 0 39 0;
+#X connect 38 0 37 0;
+#X connect 38 1 36 0;
+#X connect 39 0 38 0;

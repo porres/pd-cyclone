@@ -1,51 +1,25 @@
-#N canvas 750 23 560 583 10;
-#X obj 2 218 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 558 23 558 577 10;
+#X obj 2 210 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 466 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 457 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 515 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 506 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 79 473 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 79 464 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 327 184 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
+#X obj 310 181 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
 -1 -1;
-#X obj 79 494 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 79 485 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 568 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 559 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 547 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 538 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 469 104 386 384 META 0;
-#X text 10 29 LICENSE SIBSD;
-#X text 10 124 LIBRARY cyclone;
-#X text 10 10 KEYWORDS player play record MIDI midi;
-#X text 10 48 DESCRIPTION simple MIDI file player and recorder;
-#X text 10 67 INLET_0 midiin read bang other_message;
-#X text 10 86 OUTLET_0 midiout;
-#X text 10 105 OUTLET_1 bang;
-#X text 11 143 VERSION 0.2-beta1;
-#X text 11 161 AUTHOR Krzysztof Czaja;
-#X text 12 179 RELEASE_DATE 2002;
-#X text 13 198 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 13 230 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 504 549 pd META;
-#N canvas 333 144 430 89 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 10 33 cyclone/coll;
-#C restore;
-#X obj 100 33 cyclone/mtr;
-#X restore 206 549 pd Related_objects;
-#X obj 172 121 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
+#X obj 199 118 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
 -66577 -1;
-#X obj 210 185 midiout;
-#X text 144 225 bang;
-#X text 138 241 float;
+#X obj 243 182 midiout;
+#X text 144 216 bang;
+#X text 138 232 float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -60,370 +34,525 @@ this patch for Pd-Vanilla 0.47-2.;
 Max/MSP;
 #X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 seq;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Play/record MIDI sequences
+#X obj 17 58 comment 0 18 times ? 0 0 0 0 Play/record MIDI files;
+#X text 171 120 Play;
+#X obj 199 182 print;
+#X obj 79 219 cnv 17 3 233 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 144 123 Play;
-#X text 348 185 finished;
-#X obj 166 185 print;
-#X obj 79 228 cnv 17 3 230 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 191 487 sent at the end of a sequence (useful for looping)
 ;
-#X text 189 495 sent at the end of a sequence (useful for looping)
-;
-#X obj 210 156 cyclone/seq test.mid;
-#N canvas 262 23 996 758 examples 0;
-#X obj 2 2 cnv 15 595 40 empty empty seq 3 12 0 18 -204280 -1 0;
-#X text 14 24 examples;
-#X msg 106 140 read test.mid;
-#X obj 105 87 cyclone/comment 53 11 helvetica ? 0 80 80 80 <--- PLAY
-;
-#X obj 79 82 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
--66577 -1;
-#X obj 106 119 loadbang;
-#X obj 79 222 cyclone/midiparse;
-#X obj 29 60 cyclone/comment 106 11 helvetica ? 0 80 80 80 Set volume
-and PLAY...;
-#X obj 198 213 cyclone/comment 113 11 helvetica ? 0 80 80 80 [midiparse]
-take raw midi data (midi bytes) and output midi data to be used with
-polysynth;
-#X obj 176 313 cyclone/comment 115 11 helvetica ? 0 80 80 80 <--- set
-volume here;
-#X obj 407 123 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577
--1 0 1;
-#X obj 407 160 sel 1;
-#X obj 407 215 cyclone/seq test.mid;
-#X msg 434 184 stop;
-#X obj 427 267 midiout;
-#X obj 441 127 cyclone/comment 115 11 helvetica ? 0 80 80 80 <--- play/stop
-;
-#X obj 393 89 cyclone/comment 115 11 helvetica ? 0 80 80 80 That's
-a simple way to play/stop [seq];
-#X msg 767 175 write test1.mid;
-#X msg 765 96 record;
-#X msg 651 93 stop;
-#X obj 699 270 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
--1 -1;
-#X msg 765 116 stop record;
-#X msg 774 196 read test1.mid;
-#X msg 654 114 pause;
-#X msg 656 135 continue;
-#X msg 659 156 goto;
-#X msg 636 33 read test.mid;
-#X obj 636 239 cyclone/seq;
-#X obj 749 31 cyclone/comment 183 11 helvetica ? 0 80 80 80 midi file
-should be in the same folder or an open window popups to pick file
-;
-#X obj 727 31 cyclone/comment 183 11 helvetica ? 0 80 80 80 <---;
-#X obj 650 74 cyclone/comment 183 11 helvetica ? 0 80 80 80 playback
-;
-#X obj 762 77 cyclone/comment 183 11 helvetica ? 0 80 80 80 recording
-;
-#X obj 765 156 cyclone/comment 183 11 helvetica ? 0 80 80 80 save in
-patch folder;
-#X obj 711 240 cyclone/comment 183 11 helvetica ? 0 80 80 80 <--- click
-object to open list editor;
-#X obj 720 269 cyclone/comment 183 11 helvetica ? 0 80 80 80 loop;
-#X obj 636 317 midiout;
-#X obj 699 290 s bng_play;
-#X obj 768 292 cyclone/comment 203 11 helvetica ? 0 80 80 80 <--- see
-properties of "PLAY" bang gui;
-#X obj 691 324 cyclone/comment 95 11 helvetica ? 0 80 80 80 to listen
-something see [pd Examples];
-#X obj 36 441 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 143 452 Cyclone's [seq] input accepts midi files and realtime
-midi messages through [midiin]. All tracks of a multi-track midi file
-are merged into one. [notein] may be connected through a [midiformat]
-object. Left inlet outputs midi data to [midiout]. [noteout] may be
-connected through a [midiparse] object. Right inlet outputs a bang
-message at the sequence's end \, useful for loops. [seq] has his own
-midi list editor.;
-#X text 173 378 raw MIDI data stream to record [seq] does not respond
-directly to MIDI real time messages such as start \, stop \, MIDI clock
-\, etc;
-#X text 563 471 Note: The seq object reads and writes single track
-(format 0) standard MIDI files. It can also read and write text files
-in which each line consists of a start time in milliseconds (the time
-elapsed since the beginning of the sequence) followed by the (space-separated)
-bytes of a MIDI message recorded at that start time. For example \,
-, f 67;
-#X text 563 555 0 144 60 112 \;, f 55;
-#X text 563 575 1000 144 60 0 \;, f 55;
-#X text 563 595 1500 192 31 \;, f 55;
-#X text 563 615 1500 144 60 112 \;, f 55;
-#X text 563 635 2500 144 60 0 \;, f 55;
-#X text 563 661 plays the note middle C on channel 1 for one second
-\, then half a second later changes to program number 31 and plays
-middle C again for one second., f 67;
-#X text 189 610 at a tempo of 120MM. By using tick messages to advance
-the sequencer \, you can vary the tempo of playback or synchronize
-[seq] with another timing source (such as incoming MIDI Clock messages).
-;
-#X obj 674 406 midirealtimein;
-#X text 155 704 onset time in ms of the first event (all events shifted
-so 1st event occurs at the specified onset time), f 65;
-#X text 69 551 stop -;
-#X text 114 551 stops recording or playing (not needed when switching
-from playing to recording \, or vice-versa), f 65;
-#X text 534 351 start <float> -;
-#X text 632 351 plays at a tempo given by the given number ('start
-1024' is normal tempo \, 'start 512' is half the tempo \, 'start 2048'
-is twice \, etc) \, 'start -1' waits for a tick message. Just "start"
-is the same as bang, f 65;
-#X msg 188 78 stop;
-#X obj 79 186 cyclone/seq;
-#X msg 35 206 flush;
-#N canvas 638 210 405 345 polysynth 0;
-#X obj 121 60 inlet;
-#X obj 2 2 cnv 15 400 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 342 31 loadbang;
-#X msg 342 53 \; pd dsp 1;
-#X obj 121 102 poly 6 1;
-#N canvas 667 245 390 355 synth 0;
-#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 199 228 / 127;
-#X obj 81 245 *~;
-#X obj 81 267 *~ 0.2;
-#X obj 81 204 phasor~;
-#X obj 81 162 mtof;
-#X obj 81 61 inlet;
-#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
-number / pitch / velocity);
-#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
-simple sawtooth wave oscillator synth;
-#X text 8 3 Simple synth;
-#X obj 81 314 outlet~;
-#X obj 81 122 unpack f f;
-#X connect 1 0 2 1;
-#X connect 2 0 3 0;
-#X connect 3 0 10 0;
-#X connect 4 0 2 0;
-#X connect 5 0 4 0;
-#X connect 6 0 11 0;
-#X connect 11 0 5 0;
-#X connect 11 1 1 0;
-#X restore 34 209 pd synth;
-#X obj 115 134 pack f f f;
-#X obj 95 166 route 1 2 3 4 5 6, f 38;
-#N canvas 665 236 390 355 synth 0;
-#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 199 228 / 127;
-#X obj 81 245 *~;
-#X obj 81 267 *~ 0.2;
-#X obj 81 204 phasor~;
-#X obj 81 162 mtof;
-#X obj 81 61 inlet;
-#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
-number / pitch / velocity);
-#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
-simple sawtooth wave oscillator synth;
-#X text 8 3 Simple synth;
-#X obj 81 314 outlet~;
-#X obj 81 122 unpack f f;
-#X connect 1 0 2 1;
-#X connect 2 0 3 0;
-#X connect 3 0 10 0;
-#X connect 4 0 2 0;
-#X connect 5 0 4 0;
-#X connect 6 0 11 0;
-#X connect 11 0 5 0;
-#X connect 11 1 1 0;
-#X restore 94 209 pd synth;
-#N canvas 668 260 390 355 synth 0;
-#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 199 228 / 127;
-#X obj 81 245 *~;
-#X obj 81 267 *~ 0.2;
-#X obj 81 204 phasor~;
-#X obj 81 162 mtof;
-#X obj 81 61 inlet;
-#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
-number / pitch / velocity);
-#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
-simple sawtooth wave oscillator synth;
-#X text 8 3 Simple synth;
-#X obj 81 314 outlet~;
-#X obj 81 122 unpack f f;
-#X connect 1 0 2 1;
-#X connect 2 0 3 0;
-#X connect 3 0 10 0;
-#X connect 4 0 2 0;
-#X connect 5 0 4 0;
-#X connect 6 0 11 0;
-#X connect 11 0 5 0;
-#X connect 11 1 1 0;
-#X restore 154 209 pd synth;
-#N canvas 659 256 390 355 synth 0;
-#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 199 228 / 127;
-#X obj 81 245 *~;
-#X obj 81 267 *~ 0.2;
-#X obj 81 204 phasor~;
-#X obj 81 162 mtof;
-#X obj 81 61 inlet;
-#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
-number / pitch / velocity);
-#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
-simple sawtooth wave oscillator synth;
-#X text 8 3 Simple synth;
-#X obj 81 314 outlet~;
-#X obj 81 122 unpack f f;
-#X connect 1 0 2 1;
-#X connect 2 0 3 0;
-#X connect 3 0 10 0;
-#X connect 4 0 2 0;
-#X connect 5 0 4 0;
-#X connect 6 0 11 0;
-#X connect 11 0 5 0;
-#X connect 11 1 1 0;
-#X restore 214 209 pd synth;
-#N canvas 656 257 390 355 synth 0;
-#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 199 228 / 127;
-#X obj 81 245 *~;
-#X obj 81 267 *~ 0.2;
-#X obj 81 204 phasor~;
-#X obj 81 162 mtof;
-#X obj 81 61 inlet;
-#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
-number / pitch / velocity);
-#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
-simple sawtooth wave oscillator synth;
-#X text 8 3 Simple synth;
-#X obj 81 314 outlet~;
-#X obj 81 122 unpack f f;
-#X connect 1 0 2 1;
-#X connect 2 0 3 0;
-#X connect 3 0 10 0;
-#X connect 4 0 2 0;
-#X connect 5 0 4 0;
-#X connect 6 0 11 0;
-#X connect 11 0 5 0;
-#X connect 11 1 1 0;
-#X restore 274 209 pd synth;
-#N canvas 662 257 390 355 synth 0;
-#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 199 228 / 127;
-#X obj 81 245 *~;
-#X obj 81 267 *~ 0.2;
-#X obj 81 204 phasor~;
-#X obj 81 162 mtof;
-#X obj 81 61 inlet;
-#X obj 163 123 cyclone/comment 179 11 helvetica ? 0 80 80 80 (voice
-number / pitch / velocity);
-#X obj 21 34 cyclone/comment 350 11 helvetica ? 0 80 80 80 It is a
-simple sawtooth wave oscillator synth;
-#X text 8 3 Simple synth;
-#X obj 81 314 outlet~;
-#X obj 81 122 unpack f f;
-#X connect 1 0 2 1;
-#X connect 2 0 3 0;
-#X connect 3 0 10 0;
-#X connect 4 0 2 0;
-#X connect 5 0 4 0;
-#X connect 6 0 11 0;
-#X connect 11 0 5 0;
-#X connect 11 1 1 0;
-#X restore 334 209 pd synth;
-#X text 8 3 Simple polyphonic synth;
-#X obj 35 31 cyclone/comment 147 11 helvetica ? 0 80 80 80 six voices
-polyphonic synth;
-#X obj 183 298 outlet~;
-#X obj 186 131 cyclone/comment 200 11 helvetica ? 0 80 80 80 (voice
-number / pitch / velocity);
-#X connect 0 0 4 0;
-#X connect 2 0 3 0;
-#X connect 4 0 6 0;
-#X connect 4 1 6 1;
-#X connect 4 2 6 2;
-#X connect 5 0 15 0;
-#X connect 6 0 7 0;
-#X connect 7 0 5 0;
-#X connect 7 1 8 0;
-#X connect 7 2 9 0;
-#X connect 7 3 10 0;
-#X connect 7 4 11 0;
-#X connect 7 5 12 0;
-#X connect 8 0 15 0;
-#X connect 9 0 15 0;
-#X connect 10 0 15 0;
-#X connect 11 0 15 0;
-#X connect 12 0 15 0;
-#X restore 79 251 pd polysynth;
-#X obj 79 276 output~;
-#X text 223 78 should rewind?;
-#X msg 225 128 rewind;
-#X connect 2 0 57 0;
-#X connect 4 0 57 0;
-#X connect 5 0 2 0;
-#X connect 6 0 59 0;
-#X connect 10 0 11 0;
-#X connect 11 0 12 0;
-#X connect 11 1 13 0;
-#X connect 12 0 14 0;
-#X connect 13 0 12 0;
-#X connect 17 0 27 0;
-#X connect 18 0 27 0;
-#X connect 19 0 27 0;
-#X connect 20 0 36 0;
-#X connect 21 0 27 0;
-#X connect 22 0 27 0;
-#X connect 23 0 27 0;
-#X connect 24 0 27 0;
-#X connect 25 0 27 0;
-#X connect 26 0 27 0;
-#X connect 27 0 35 0;
-#X connect 27 1 20 0;
-#X connect 56 0 57 0;
-#X connect 57 0 6 0;
-#X connect 58 0 6 0;
-#X connect 59 0 60 0;
-#X connect 59 0 60 1;
-#X connect 62 0 57 0;
-#X restore 464 183 pd examples;
-#X text 194 523 a MIDI file to be read on patch load;
-#X text 136 256 append -;
-#X text 191 256 records at the end of the stored sequence, f 59;
-#X text 148 286 dump -;
-#X text 94 271 delay <float> -;
-#X text 99 313 hook <float> -;
-#X text 141 340 print -;
-#X text 191 340 prints the first 16 events of the sequence in the Pd
-Window;
-#X text 93 355 start <float> -;
-#X text 92 384 read <symbol> -;
-#X text 86 445 write <symbol> -;
-#X text 134 430 record -;
-#X text 146 414 stop -;
-#X text 146 399 tick -;
-#X text 191 271 onset time in ms of the first event, f 59;
-#X text 191 286 opens a dialog box to select a saved sequence to be
+#X text 191 514 a MIDI file to be read on patch load;
+#X text 136 247 append -;
+#X text 191 247 records at the end of the stored sequence, f 59;
+#X text 148 277 dump -;
+#X text 94 262 delay <float> -;
+#X text 99 304 hook <float> -;
+#X text 191 262 onset time in ms of the first event, f 59;
+#X text 191 277 opens a dialog box to select a saved sequence to be
 opened in a new text window \, which can be edited and saved, f 59
 ;
-#X text 191 430 starts recording raw MIDI received in the inlet, f
-59;
-#X text 191 399 external clock \, needed after 'start -1' message,
-f 59;
-#X text 138 474 float -;
-#X text 144 495 bang -;
-#X text 191 445 saves sequence to a file (no symbol opens a dialog
-box), f 59;
-#X text 191 384 reads sequence from a file (no symbol opens a dialog
-box), f 59;
-#X text 113 523 1) symbol -;
-#X msg 210 123 stop;
+#X text 140 465 float -;
+#X text 146 486 bang -;
+#X text 116 514 1) symbol -;
+#X msg 235 122 stop;
 #X text 66 87 [seq] plays/records raw MIDI streams. It can save/read
 MIDI files.;
-#X text 178 241 - raw MIDI data stream to be recorded, f 61;
-#X text 191 313 multiplies all the event times by the given number
+#X text 178 232 - raw MIDI data stream to be recorded, f 61;
+#X text 191 304 multiplies all the event times by the given number
 (even when playing), f 59;
-#X text 178 225 - starts playing a loaded MIDI sequence at normal speed
-, f 61;
-#X text 191 355 plays at a tempo specified by the given number (default
-'1024' - normal tempo) \, 'start -1' expects tick messages, f 59;
-#X text 191 414 stops recording or playing, f 59;
-#X text 189 473 raw MIDI data stream from played sequence;
-#X connect 10 0 27 0;
-#X connect 27 0 11 0;
+#X text 191 465 raw MIDI data stream from played sequence;
+#X obj 199 153 cyclone/seq seq.mid;
+#N canvas 471 245 809 468 basic 0;
+#X obj 134 315 cyclone/midiparse;
+#X obj 163 145 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577
+-1 0 1;
+#X msg 170 212 stop;
+#X obj 134 216 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 193 147 play/stop;
+#X obj 134 287 cyclone/midiflush;
+#X msg 244 245 bang;
+#X text 278 240 flush hanging;
+#X text 280 254 MIDI notes;
+#X obj 489 292 cyclone/seq;
+#X msg 506 230 record;
+#X obj 489 193 midiin;
+#X obj 633 170 notein;
+#X obj 633 220 cyclone/midiformat;
+#X obj 633 194 pack;
+#X obj 633 300 cyclone/seq;
+#X msg 516 261 play;
+#X obj 163 177 select 1 0;
+#X msg 68 175 read seq.mid;
+#X obj 68 150 loadbang;
+#X msg 244 208 read;
+#X text 250 188 open another;
+#X text 280 209 file;
+#X text 26 92 Use the 'read' message to open another file with the
+dialog box and 'read seq.mid' to re open the example.;
+#X msg 446 232 write;
+#X text 416 73 Use 'write' to save to a MIDI file with the dialog mox
+\, or use 'write <symbol>' to save to a specific file.;
+#X text 415 17 You can directly record from raw MIDI data with [midiin].
+Use the 'record' message to start recodring \, you don't need the stop
+message to switch from recording and playing.;
+#X text 417 112 You can record from specialized MIDI objects such as
+[notein] using the [midiformat] object to convert the messages to raw
+MIDI.;
+#X msg 663 247 record;
+#X msg 677 272 play;
+#X text 24 17 Below \, we play and stop with a toggle \, at the end
+of the file a bang out the 2nd outlet of [seq] makes it play again
+in a loop. When you stop it with the toggle \, it also flushes possible
+hanging MIDI notes (with [midiflush]). We use [midiparse] to send note
+messages to our synth.;
+#X obj 489 392 cyclone/midiparse;
+#X obj 632 391 cyclone/midiformat;
+#X text 425 341 Please check the help file of [midiparse] \, [midiformat]
+and [midiflush] \, which are useful in conjunction to;
+#X obj 563 428 cyclone/midiflush;
+#X obj 134 247 cyclone/seq;
+#N canvas 638 210 457 353 polysynth 0;
+#X obj 65 20 inlet;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 41 151 pd synth;
+#X obj 65 84 pack f f f;
+#X obj 100 207 outlet~;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 100 151 pd synth;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 161 152 pd synth;
+#X text 124 19 3-voice polyphonic synth;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 234 157 pd synth;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 293 157 pd synth;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 354 158 pd synth;
+#X obj 65 115 route 1 2 3 4 5 6, f 18;
+#X obj 293 213 *~ 1;
+#X obj 65 52 poly 6 0;
+#X connect 0 0 12 0;
+#X connect 1 0 3 0;
+#X connect 2 0 10 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 7 0 11 0;
+#X connect 8 0 11 0;
+#X connect 9 0 11 0;
+#X connect 10 0 1 0;
+#X connect 10 1 4 0;
+#X connect 10 2 5 0;
+#X connect 10 3 7 0;
+#X connect 10 4 8 0;
+#X connect 10 5 9 0;
+#X connect 11 0 3 0;
+#X connect 12 0 2 0;
+#X connect 12 1 2 1;
+#X connect 12 2 2 2;
+#X restore 134 348 pd polysynth;
+#X obj 114 385 output~;
+#X text 215 348 <= 3 voice polyphonic;
+#X text 243 364 synthesizer;
+#X connect 0 0 36 0;
+#X connect 1 0 17 0;
+#X connect 2 0 35 0;
+#X connect 3 0 35 0;
+#X connect 5 0 0 0;
+#X connect 6 0 5 0;
+#X connect 10 0 9 0;
+#X connect 11 0 9 0;
+#X connect 12 0 14 0;
+#X connect 12 1 14 1;
+#X connect 13 0 15 0;
+#X connect 14 0 13 0;
+#X connect 16 0 9 0;
+#X connect 17 0 3 0;
+#X connect 17 1 2 0;
+#X connect 17 1 6 0;
+#X connect 18 0 35 0;
+#X connect 19 0 18 0;
+#X connect 20 0 35 0;
+#X connect 24 0 9 0;
+#X connect 28 0 15 0;
+#X connect 29 0 15 0;
+#X connect 35 0 5 0;
+#X connect 35 1 3 0;
+#X connect 36 0 37 0;
+#X connect 36 0 37 1;
+#X restore 492 131 pd basic;
+#N canvas 404 23 924 597 more 0;
+#X text 502 28 All tracks of a multi-track midi file are merged into
+one.;
+#X text 505 55 [seq] has his own midi list editor.;
+#X obj 162 211 midirealtimein;
+#X msg 192 273 start -1;
+#X msg 156 273 tick;
+#X obj 192 358 print;
+#X obj 151 414 midiclkin;
+#X msg 151 446 tick;
+#X text 225 413 <= only clock messages;
+#X text 514 103 extra features;
+#X obj 667 122 midirealtimein;
+#X obj 667 153 route 248;
+#X text 617 328 251 - continue;
+#X obj 162 242 route 248 250 251 252;
+#X msg 258 273 continue;
+#X obj 261 360 s \$0-midi2;
+#X obj 192 326 cyclone/seq seq.mid;
+#X msg 111 333 flush;
+#X msg 354 319 flush;
+#X msg 339 232 stop;
+#X msg 424 283 pause;
+#X text 466 283 dont do nothing;
+#X msg 325 273 stop;
+#X text 378 233 goes to start / para mesmo \, não rola tocar nem com
+clock;
+#X obj 464 413 s \$0-midi2;
+#X msg 450 373 start;
+#X msg 504 372 pause;
+#X msg 558 377 continue;
+#X msg 488 343 stop;
+#X msg 79 283 goto 2;
+#X text 417 453 should continue allow ticks?;
+#X text 416 471 i think continue should set the same speed as before
+\, and it it was clock (-1) so it should allow ticks;
+#X text 617 304 252 - stop for continue?;
+#X text 416 513 stop should be pause \, then delete pause...;
+#N canvas 422 23 982 376 realtime 0;
+#X text 62 65 Used to tell a sequencer to stop playing \; Any subsequent
+MIDI Timing Clock messages are to be ignored \; Note-off messages should
+be sent for all notes which are still on \, and all controllers should
+be returned to their 'normal' settings \; \; The current song position
+pointer should be stored \, so that playing can continue from the same
+point if a MIDI Continue message is received.;
+#X text 71 41 STOP;
+#X text 500 87 Any superfluous Real Time messages should be ignored.
+For example \, if a Start message is followed by a subsequent Start
+message \, the second Start message should have no effect - not what
+happens in max with 'start 1';
+#X text 65 232 Continue \; Used to tell a sequencer to continue playing
+the current song from where it last left off. The sequencer should
+continue from the current song-position when the next Timing Clock
+message is received (;
+#X text 506 242 Start \; Used to synchronise the start-up of sequencers
+The sequence must start from song position 0 Sequencing begins at song-position
+0 when the next Timing Clock message is received;
+#X restore 218 546 pd realtime;
+#X obj 714 191 print midirealtimein;
+#X obj 769 138 midiclkin;
+#X obj 683 189 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 761 243 5 0 0 0 - - -, f 5;
+#X text 53 34 When [seq] is recording \, it stores integer floats to
+be interpreted as raw MIDI (bytes of MIDI messages) - thus it usually
+records data from [midiin] or [cyclone/midiformat] objects \, but you
+can also generate your own MIDI messages in the patch and record it.
+;
+#X text 53 112 The [seq] object can also record system exclusive messages
+from the [sysexin] object \, but it doesn't respond directly to MIDI
+real time messages such as start \, stop \, MIDI clock \, etc. For
+that \, you need to adapt and use the [midiclkin] and [midirealtimein]
+objects as below.;
+#X connect 2 0 13 0;
+#X connect 3 0 16 0;
+#X connect 3 0 17 0;
+#X connect 4 0 16 0;
+#X connect 6 0 7 0;
+#X connect 10 0 11 0;
+#X connect 10 1 38 0;
+#X connect 11 0 37 0;
+#X connect 13 0 4 0;
+#X connect 13 1 3 0;
+#X connect 13 2 14 0;
+#X connect 14 0 16 0;
+#X connect 16 0 5 0;
+#X connect 22 0 16 0;
+#X connect 25 0 24 0;
+#X connect 26 0 24 0;
 #X connect 27 0 24 0;
-#X connect 27 1 4 0;
-#X connect 52 0 27 0;
+#X connect 28 0 24 0;
+#X connect 29 0 16 0;
+#X connect 36 0 35 0;
+#X restore 498 175 pd more;
+#X text 93 153 argument opens =>;
+#X text 94 168 MIDI files;
+#X text 331 182 <= when finished;
+#X text 140 331 print -;
+#X text 191 331 prints the first 16 events of the sequence in the Pd
+Window;
+#X text 92 377 start <float> -;
+#X text 92 346 read <symbol> -;
+#X text 86 438 write <symbol> -;
+#X text 134 362 record -;
+#X text 146 405 stop -;
+#X text 146 421 tick -;
+#X text 191 362 starts recording raw MIDI received in the inlet, f
+59;
+#X text 191 421 external clock \, needed after 'start -1' message,
+f 59;
+#X text 191 405 stops recording or playing, f 59;
+#X text 191 438 saves to a MIDI file (no symbol opens a dialog box)
+, f 59;
+#X text 191 347 reads from a MIDI file (no symbol opens a dialog box)
+, f 59;
+#X text 178 216 - starts or restarts playing a sequence at normal speed
+, f 61;
+#X text 191 377 start/restart sequence at a given tempo (default '1024'
+- normal tempo) \, 'start -1' expects tick messages, f 59;
+#X text 346 126 fix MIDI;
+#N canvas 542 85 841 507 advanced 1;
+#X msg 532 369 start -1;
+#X obj 146 359 cyclone/midiparse;
+#X obj 195 406 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 157 281 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 146 387 unpack;
+#X floatatom 146 430 4 0 0 0 - - -, f 4;
+#X floatatom 179 430 4 0 0 0 - - -, f 4;
+#X msg 63 241 delay 500;
+#N canvas 61 23 405 363 osc 0;
+#X obj 186 136 / 127;
+#X msg 186 169 \$1 50;
+#X obj 141 148 mtof;
+#X obj 153 46 inlet;
+#X obj 153 82 unpack;
+#X obj 165 230 *~;
+#X obj 165 270 outlet~;
+#X obj 141 171 osc~;
+#X obj 186 193 vline~;
+#X connect 0 0 1 0;
+#X connect 1 0 8 0;
+#X connect 2 0 7 0;
+#X connect 3 0 4 0;
+#X connect 4 0 2 0;
+#X connect 4 1 0 0;
+#X connect 5 0 6 0;
+#X connect 7 0 5 0;
+#X connect 8 0 5 1;
+#X restore 82 389 pd osc;
+#X obj 39 422 output~;
+#X obj 290 317 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+1;
+#X obj 257 341 spigot;
+#X obj 290 292 loadbang;
+#X msg 146 241 delay 0;
+#X obj 195 383 sel 31;
+#X text 210 430 <= note messages (pitch/velocity);
+#X text 308 316 <= loop;
+#X text 454 13 The 'delay' message adds a delay time in ms to wait
+before sending the fisrt event. In the above patch \, let it loop and
+check the difference., f 58;
+#X msg 223 241 start 512;
+#X msg 306 241 start 2048;
+#X text 16 13 The seq object reads and writes single track (format
+0) standard MIDI files. It can also read and write text files in which
+each line consists of a start time in milliseconds (the time elapsed
+since the beginning of the sequence) followed by the bytes of a MIDI
+message and ended with a semicolon. For example:, f 67;
+#X text 68 86 0 144 60 127 \; 1000 144 60 0 \; 1500 192 31 \; 1500
+144 72 127 \; 2500 144 72 0 \;, f 17;
+#X text 17 164 The above formatted data instructs to play the note
+middle C (with a velocity of 127 on channel 1) for one second. Then
+\, half a second later \, change to program number 31 and repeat the
+the note message one octave above. See this in action in the example
+below., f 67;
+#X text 454 59 The 'start' message starts reading the loaded sequence
+and also allows you to control the speed of playback. A float after
+the 'start' message sets the speed: the normal speed is set as 'start
+1024'. So \, 'start 512' is half the tempo (reads two times slower)
+\, 'start 2048' is twice the tempo (two times faster) and so on. If
+you send it just "start" \, it plays at the original speed \, so it
+is the same as the bang message or 'start 1024'.;
+#X text 454 171 Note that the 'start' message can only set the speed
+once (at the start of the sequence) - since that when send the start
+message \, it starts playing from the start! Therefore \, a bang or
+a 'start' message can also be used to 'restart' the sequence.;
+#X obj 614 378 metro;
+#X msg 614 402 tick;
+#X obj 666 380 !/ 1000;
+#X obj 666 403 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 20.8333 256;
+#X obj 614 430 cyclone/seq seq.txt;
+#X obj 614 355 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+1;
+#X obj 614 329 loadbang;
+#X msg 666 357 48;
+#X obj 614 460 s \$0-midi;
+#X obj 59 315 r \$0-midi;
+#X text 454 243 You can use the 'tick'message to vary the playback
+tempo or to synchronize with another clock (such as incoming MIDI Clock
+messages). Original speed is 48 tick messages per second \, corresponding
+to 120 BPM (24 ticks per quarter note) and about 20.833 ms per tick.
+;
+#X text 478 369 play =>;
+#X text 214 405 <= program change 31;
+#X obj 146 317 cyclone/seq seq.txt;
+#X connect 0 0 29 0;
+#X connect 1 0 4 0;
+#X connect 1 0 8 0;
+#X connect 1 3 14 0;
+#X connect 3 0 38 0;
+#X connect 4 0 5 0;
+#X connect 4 1 6 0;
+#X connect 7 0 38 0;
+#X connect 8 0 9 0;
+#X connect 8 0 9 1;
+#X connect 10 0 11 1;
+#X connect 11 0 3 0;
+#X connect 12 0 10 0;
+#X connect 13 0 38 0;
+#X connect 14 0 2 0;
+#X connect 18 0 38 0;
+#X connect 19 0 38 0;
+#X connect 25 0 26 0;
+#X connect 26 0 29 0;
+#X connect 27 0 28 0;
+#X connect 28 0 25 1;
+#X connect 29 0 33 0;
+#X connect 30 0 25 0;
+#X connect 31 0 30 0;
+#X connect 31 0 32 0;
+#X connect 32 0 27 0;
+#X connect 34 0 1 0;
+#X connect 38 0 1 0;
+#X connect 38 1 11 0;
+#X restore 474 153 pd advanced;
+#X connect 8 0 40 0;
+#X connect 35 0 40 0;
+#X connect 40 0 9 0;
+#X connect 40 0 21 0;
+#X connect 40 1 4 0;

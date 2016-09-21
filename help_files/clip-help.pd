@@ -17,38 +17,6 @@
 ;
 #X obj 2 530 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 520 123 366 329 META 0;
-#X text 1 20 LICENSE SIBSD;
-#X text 1 113 LIBRARY cyclone;
-#X text 1 0 KEYWORDS range constrain filter pass;
-#X text 1 40 DESCRIPTION constrains an int \, float \, or list within
-a certain range;
-#X text 1 73 INLET_0 float list;
-#X text 1 93 OUTLET_0 float;
-#X text 0 132 VERSION 0.2-beta1;
-#X text 0 150 AUTHOR Krzysztof Czaja;
-#X text 1 168 RELEASE_DATE 2002;
-#X text 2 187 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 219 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 501 532 pd META;
-#N canvas 377 143 570 68 Related_objects 0;
-#X obj 2 2 cnv 15 565 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 7 3 Related Objects;
-#X obj 167 29 cyclone/minimum;
-#X obj 369 29 cyclone/Clip~;
-#X obj 268 29 cyclone/maximum;
-#X obj 458 29 cyclone/split;
-#X obj 131 29 expr;
-#X obj 13 29 <;
-#X obj 42 29 <=;
-#X obj 72 29 >;
-#X obj 102 29 >=;
-#X restore 203 532 pd Related_objects;
 #X text 165 383 float;
 #X text 165 405 float;
 #X text 147 482 1) float;
@@ -74,7 +42,7 @@ range;
 #X obj 133 211 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 133 292 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 50 256;
+-228856 -1 -1 0 256;
 #X text 163 150 sets minimum/maximum;
 #X text 184 215 min;
 #X text 237 214 max;
@@ -128,9 +96,9 @@ accepts lists.;
 #X msg 88 150 set 10 110;
 #X text 67 92 Use [cyclone/clip~] to constrain values from floats or
 lists between a range specified by a minimum and a maximum value.;
-#X connect 5 0 40 2;
-#X connect 6 0 40 1;
-#X connect 24 0 25 0;
-#X connect 25 0 40 0;
-#X connect 40 0 26 0;
-#X connect 43 0 40 0;
+#X connect 5 0 38 2;
+#X connect 6 0 38 1;
+#X connect 22 0 23 0;
+#X connect 23 0 38 0;
+#X connect 38 0 24 0;
+#X connect 41 0 38 0;

@@ -3,33 +3,10 @@
 0;
 #X obj 5 345 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 620 287 348 320 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 126 LIBRARY cyclone;
-#X text 1 108 OUTLET_0 signal;
-#X text 1 54 INLET_0 signal message;
-#X text 1 0 KEYWORDS signal wavetable wave table interpolation;
-#X text 1 36 DESCRIPTION variable size wavetable;
-#X text 1 72 INLET_1 float signal;
-#X text 1 90 INLET_2 float signal;
-#X text 0 144 VERSION 0.2-beta1;
-#X text 0 162 AUTHOR Krzysztof Czaja;
-#X text 1 180 RELEASE_DATE 2002;
-#X text 2 199 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 231 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 500 698 pd META;
 #X obj 5 536 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 5 647 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 320 422 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 209 698 pd Related_objects;
 #X obj 81 355 cnv 17 3 128 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -994,13 +971,13 @@ com o MENU.;
 #X text 190 603 - b1 (feedback 1) coefficient;
 #X text 190 622 - b2 (feedback 2) coefficient;
 #X obj 172 169 number~ 1;
-#X connect 25 0 26 0;
-#X connect 25 0 26 1;
-#X connect 35 0 25 0;
-#X connect 45 0 25 1;
-#X connect 45 1 25 2;
-#X connect 45 2 25 3;
-#X connect 45 3 25 4;
-#X connect 45 4 25 5;
-#X connect 48 0 45 2;
-#X connect 56 0 45 0;
+#X connect 23 0 24 0;
+#X connect 23 0 24 1;
+#X connect 33 0 23 0;
+#X connect 43 0 23 1;
+#X connect 43 1 23 2;
+#X connect 43 2 23 3;
+#X connect 43 3 23 4;
+#X connect 43 4 23 5;
+#X connect 46 0 43 2;
+#X connect 54 0 43 0;

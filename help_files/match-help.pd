@@ -13,32 +13,6 @@
 0;
 #X obj 2 495 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 481 101 401 341 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 100 LIBRARY cyclone;
-#X text 0 0 KEYWORDS series match list;
-#X text 0 40 DESCRIPTION look for a series of numbers;
-#X text 0 60 INLET_0 list;
-#X text 0 80 OUTLET_0 list;
-#X text 0 120 VERSION 0.2-beta1;
-#X text 0 138 AUTHOR Krzysztof Czaja;
-#X text 1 156 RELEASE_DATE 2002;
-#X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 505 497 pd META;
-#N canvas 344 143 430 83 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 144 34 cyclone/iter;
-#X obj 15 34 join;
-#X obj 54 34 pack;
-#X obj 94 34 select;
-#X restore 206 497 pd Related_objects;
 #X obj 265 329 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -57,11 +31,11 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 match;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Output matching input;
 #X obj 286 330 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 7 256;
+-228856 -1 -1 0 256;
 #X obj 208 329 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 229 330 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 9 256;
+-228856 -1 -1 0 256;
 #X obj 208 298 unpack f f;
 #X obj 208 270 cyclone/match 9 7;
 #X msg 220 233 0 1 9 7;
@@ -103,11 +77,11 @@ data is output when a sequence matches the arguments.;
 input.;
 #X obj 519 372 unpack float float;
 #X obj 519 230 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 12 256;
+-228856 -1 -1 0 256;
 #X obj 624 411 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 104 256;
+-228856 -1 -1 0 256;
 #X obj 519 411 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 103 256;
+-228856 -1 -1 0 256;
 #X text 27 40 [match] can be used with just one element. Below \, only
 the number 12 goes through...;
 #X msg 519 258 100 \$1 104;
@@ -130,11 +104,11 @@ the number 12 goes through...;
 #X connect 18 0 19 0;
 #X connect 19 0 11 0;
 #X restore 461 313 pd more;
+#X connect 19 0 18 0;
+#X connect 19 0 17 0;
+#X connect 19 1 16 0;
+#X connect 19 1 7 0;
+#X connect 20 0 19 0;
 #X connect 21 0 20 0;
-#X connect 21 0 19 0;
-#X connect 21 1 18 0;
-#X connect 21 1 9 0;
-#X connect 22 0 21 0;
-#X connect 23 0 22 0;
-#X connect 24 0 22 0;
-#X connect 34 0 22 0;
+#X connect 22 0 20 0;
+#X connect 32 0 20 0;

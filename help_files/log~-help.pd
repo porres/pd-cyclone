@@ -13,29 +13,6 @@
 #X text 148 498 signal;
 #X obj 6 618 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 246 345 428 75 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 9 28 abs~;
-#X restore 212 620 pd Related_objects;
-#N canvas 1058 474 379 288 META 0;
-#X text 1 0 KEYWORDS signal max_compatible;
-#X text 1 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 1 60 INLET_0 signal;
-#X text 1 99 OUTLET_0 signal;
-#X text 1 140 AUTHOR Krzysztof Czaja;
-#X text 1 20 LICENSE SIBSD;
-#X text 0 120 VERSION 0.2-beta1;
-#X text 0 161 RELEASE_DATE 2002;
-#X text 1 212 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X text 1 40 DESCRIPTION output the log (to a specified base) of a
-signal;
-#X text 1 80 INLET_0 float;
-#X restore 508 620 pd META;
 #X obj 85 456 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 136 540 1) float;
@@ -189,8 +166,8 @@ Max/MSP;
 values. You can specify the logarithmic base as an argument or via
 the right inlet. If the base is less or equal to 0 \, the value of
 "e" (around 2.71828) is considered.;
-#X connect 13 0 35 0;
-#X connect 36 0 13 0;
-#X connect 37 0 13 1;
-#X connect 38 0 37 0;
-#X connect 39 0 37 0;
+#X connect 11 0 33 0;
+#X connect 34 0 11 0;
+#X connect 35 0 11 1;
+#X connect 36 0 35 0;
+#X connect 37 0 35 0;

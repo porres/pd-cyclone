@@ -19,46 +19,6 @@
 #X obj 2 421 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 402 cnv 15 552 20 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 488 116 383 315 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 100 LIBRARY cyclone;
-#X text 0 60 INLET_0 float bang;
-#X text 0 80 OUTLET_0 float arccosine of input;
-#X text 0 0 KEYWORDS cos cosine arccosine arc acos;
-#X text 0 119 VERSION 0.2-beta1;
-#X text 1 138 AUTHOR Krzysztof Czaja;
-#X text 1 155 RELEASE_DATE 2002;
-#X text 2 174 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 0 40 DESCRIPTION arc-cosine(x) function;
-#X text 1 205 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 492 404 pd META;
-#N canvas 335 143 430 183 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 7 2 Related Objects;
-#X obj 76 78 cyclone/acosh~;
-#X obj 77 31 cyclone/acos;
-#X obj 206 78 cyclone/asinh~;
-#X obj 207 55 cyclone/asin~;
-#X obj 323 32 cyclone/atan~;
-#X obj 323 55 cyclone/atanh~;
-#X obj 76 125 cyclone/cosh~;
-#X obj 76 102 cyclone/cosh;
-#X obj 76 149 cyclone/cosx~;
-#X obj 76 54 cyclone/acos~;
-#X obj 207 32 cyclone/asin;
-#X obj 207 101 cyclone/sinh;
-#X obj 206 124 cyclone/sinh~;
-#X obj 206 147 cyclone/sinx~;
-#X obj 323 78 cyclone/tanh;
-#X obj 323 101 cyclone/tanh~;
-#X obj 323 124 cyclone/tanx~;
-#X obj 13 31 cos~;
-#X restore 205 404 pd Related_objects;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -88,8 +48,8 @@ Max/MSP;
 #X text 172 373 - initially stored value (default 0), f 60;
 #X text 72 95 [acos] calculates the arc-cosine of a given number.;
 #X obj 301 181 cyclone/acos 0.5;
-#X connect 4 0 32 0;
-#X connect 6 0 24 0;
-#X connect 23 0 6 0;
-#X connect 29 0 23 0;
-#X connect 32 0 25 0;
+#X connect 4 0 30 0;
+#X connect 6 0 22 0;
+#X connect 21 0 6 0;
+#X connect 27 0 21 0;
+#X connect 30 0 23 0;

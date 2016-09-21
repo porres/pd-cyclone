@@ -13,30 +13,6 @@
 #X obj 165 198 cyclone/mousefilter;
 #X obj 2 357 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 489 104 369 350 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 100 LIBRARY cyclone;
-#X text 0 0 KEYWORDS mouse mousebutton pass filter;
-#X text 0 40 DESCRIPTION passes numbers only when mousebutton is up
-;
-#X text 0 60 INLET_0 float list;
-#X text 0 80 OUTLET_0 float;
-#X text 0 120 VERSION 0.2-beta1;
-#X text 0 138 AUTHOR Krzysztof Czaja;
-#X text 1 156 RELEASE_DATE 2002;
-#X text 2 175 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 207 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 502 359 pd META;
-#N canvas 339 145 430 70 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 12 30 cyclone/mousestate;
-#X restore 224 359 pd Related_objects;
 #X text 134 264 anything;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -55,18 +31,18 @@ Max/MSP;
 #X obj 20 58 comment 0 18 times ? 0 0 0 0 Filters data with the mouse
 click;
 #X obj 165 225 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 56 256;
+-228856 -1 -1 0 256;
 #X text 134 299 anything;
 #X obj 168 146 hsl 128 16 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 5600 0;
+-1 -1 0 0;
 #X obj 165 173 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 56 256;
+-228856 -1 -1 0 256;
 #X text 201 299 - the passed messages (if the mouse button is up);
 #X text 201 264 - any message to be filtered out or passed;
 #X text 78 86 [mousefilter] doesn't let messages through when the mouse
 button is down/clicked (but the last received message is output when
 the mouse button is released).;
 #X text 307 145 <= click and drag;
-#X connect 6 0 19 0;
-#X connect 21 0 22 0;
-#X connect 22 0 6 0;
+#X connect 6 0 17 0;
+#X connect 19 0 20 0;
+#X connect 20 0 6 0;

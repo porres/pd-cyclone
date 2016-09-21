@@ -14,12 +14,7 @@
 #X text 110 535 (none);
 #X obj 2 602 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 244 346 447 103 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 68 42 cyclone/avg~;
-#X restore 208 604 pd Related_objects;
-#N canvas 1009 207 344 202 META 1;
+#N canvas 1009 207 344 202 META 0;
 #X text 1 92 VERSION: 0.3-alpha.0, f 56;
 #X text 1 109 RELEASE_DATE: 2016, f 56;
 #X text 1 75 LIBRARY: cyclone, f 56;
@@ -63,7 +58,6 @@ Max/MSP;
 0;
 #X obj 19 54 comment 0 18 times ? 0 0 0 0 Signal absolute value;
 #X text 125 572 just use;
-#X obj 7 605 all_about_cyclone;
 #X text 162 498 - the absolute value of input (negative becomes positive)
 ;
 #X text 164 455 - the signal input with positive and negative values
@@ -183,7 +177,7 @@ signals and convert negative values to positive values.;
 #X obj 388 355 cyclone/abs~;
 #X obj 388 396 number~;
 #X text 386 294 click and drag;
-#X connect 14 0 16 0;
-#X connect 16 0 34 0;
-#X connect 39 0 40 0;
-#X connect 40 0 41 0;
+#X connect 13 0 15 0;
+#X connect 15 0 32 0;
+#X connect 37 0 38 0;
+#X connect 38 0 39 0;

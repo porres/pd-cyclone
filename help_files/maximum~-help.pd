@@ -3,33 +3,10 @@
 0;
 #X obj 4 435 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 602 233 360 245 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 120 LIBRARY cyclone;
-#X text 0 100 OUTLET_0 signal;
-#X text 0 0 KEYWORDS signal max maximum;
-#X text 0 40 DESCRIPTION output the maximum of two signals;
-#X text 0 60 INLET_0 signal;
-#X text 0 80 INLET_1 signal;
-#X text 0 140 VERSION 0.2-beta1;
-#X text 0 158 AUTHOR Krzysztof Czaja;
-#X text 1 176 RELEASE_DATE 2002;
-#X text 2 195 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 227 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 506 635 pd META;
 #X obj 4 497 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 544 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 274 305 457 172 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 55 55 minimum;
-#X restore 210 635 pd Related_objects;
 #X obj 86 444 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 86 468 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
@@ -81,8 +58,8 @@ an argument turns the secondary inlet to a control inlet;
 #X text 93 117 Too similar to Pd Vanilla's [max~] (see "more info")
 ;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -151,7 +128,7 @@ an argument turns the secondary inlet to a control inlet;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -189,9 +166,9 @@ an argument turns the secondary inlet to a control inlet;
 #X obj 71 372 number~;
 #X obj 187 273 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X connect 12 0 20 0;
-#X connect 17 0 40 0;
-#X connect 18 0 12 0;
-#X connect 19 0 12 1;
-#X connect 39 0 17 0;
-#X connect 41 0 17 1;
+#X connect 10 0 18 0;
+#X connect 15 0 38 0;
+#X connect 16 0 10 0;
+#X connect 17 0 10 1;
+#X connect 37 0 15 0;
+#X connect 39 0 15 1;

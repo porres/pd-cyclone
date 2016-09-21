@@ -12,33 +12,6 @@
 0;
 #X obj 2 515 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 488 99 379 332 META 0;
-#X text 6 30 LICENSE SIBSD;
-#X text 6 90 LIBRARY cyclone;
-#X text 6 10 KEYWORDS send message object objects class remote patch
-;
-#X text 6 50 DESCRIPTION send message to all objects of the same class
-;
-#X text 6 70 INLET_0 message;
-#X text 7 110 VERSION 0.2-beta1;
-#X text 7 128 AUTHOR Krzysztof Czaja;
-#X text 8 146 RELEASE_DATE 2002;
-#X text 9 165 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 9 197 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 517 pd META;
-#N canvas 325 142 430 83 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 160 31 cyclone/forward;
-#X obj 19 31 send;
-#X obj 59 31 receive;
-#X obj 115 31 value;
-#X restore 204 517 pd Related_objects;
 #X text 120 413 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -48,18 +21,18 @@ this patch for Pd-Vanilla 0.47-2.;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 universal;
 #X obj 257 140 float;
 #X obj 110 149 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 37 256;
+-228856 -1 -1 0 256;
 #X obj 257 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 37 256;
+-228856 -1 -1 0 256;
 #X obj 17 58 comment 0 18 times ? 0 0 0 0 Send messages to all objects
 of the same type;
 #X obj 321 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 37 256;
+-228856 -1 -1 0 256;
 #X obj 260 188 float;
 #X obj 260 211 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 37 256;
+-228856 -1 -1 0 256;
 #X obj 324 211 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 37 256;
+-228856 -1 -1 0 256;
 #X obj 321 140 f;
 #X obj 324 188 f;
 #X msg 110 172 send float \$1;
@@ -79,7 +52,7 @@ object in a patch and/or in a subpatch window.;
 #X floatatom 268 120 0 0 0 0 - - -;
 #X floatatom 92 114 0 0 127 0 - - -;
 #X obj 95 92 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 5400 1;
+-1 -1 0 1;
 #X floatatom 267 178 0 0 0 0 - - -;
 #X msg 92 142 int \$1;
 #X obj 267 149 int;
@@ -90,7 +63,7 @@ object in a patch and/or in a subpatch window.;
 #X obj 309 91 int;
 #X floatatom 93 272 0 0 127 0 - - -;
 #X obj 96 250 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 3100 1;
+-1 -1 0 1;
 #X msg 93 300 int \$1;
 #X obj 93 330 cyclone/universal;
 #N canvas 672 146 435 270 subpatch 0;
@@ -137,23 +110,23 @@ window/canvas).;
 #X restore 448 189 pd mode;
 #N canvas 186 27 691 500 GUI 0;
 #X obj 243 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X obj 77 233 cyclone/universal;
 #X obj 80 181 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 4400 1;
+-1 -1 0 1;
 #X obj 260 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X obj 279 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X obj 296 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X obj 315 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X obj 332 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X msg 77 206 vsl \$1;
 #X obj 523 331 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 4400 1;
+-1 -1 0 1;
 #X text 519 307 [vslider] or [vsl];
 #X text 489 60 [bng];
 #X obj 469 60 bng 15 250 50 0 empty empty empty 20 8 0 8 -262144 -1
@@ -231,11 +204,11 @@ sending messages to vertical sliders ([vsl] object).;
 #X obj 129 387 tgl 20 1.04858e+06 empty empty empty 20 8 0 8 -228856
 -1 -1 0 1;
 #X obj 351 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X obj 369 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X obj 386 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
--1 -1 1351 1;
+-1 -1 0 1;
 #X msg 242 348 bng bang;
 #X obj 129 281 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -318,9 +291,9 @@ patches) \, default is 0 (only sends to the same patch window/canvas)
 #X restore 304 4 pd;
 #X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
 Max/MSP;
-#X connect 14 0 16 0;
-#X connect 15 0 24 0;
-#X connect 19 0 20 0;
-#X connect 22 0 18 0;
-#X connect 23 0 21 0;
-#X connect 24 0 35 0;
+#X connect 12 0 14 0;
+#X connect 13 0 22 0;
+#X connect 17 0 18 0;
+#X connect 20 0 16 0;
+#X connect 21 0 19 0;
+#X connect 22 0 33 0;

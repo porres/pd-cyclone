@@ -59,45 +59,6 @@
 #X restore 460 298 pd Examples;
 #X obj 2 654 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 470 118 432 461 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 270 LIBRARY cyclone;
-#X text 1 0 KEYWORDS midi note music pitch velocity;
-#X text 1 36 DESCRIPTION reports current info on note on/off;
-#X text 1 108 OUTLET_0 float;
-#X text 1 126 OUTLET_1 float;
-#X text 1 144 OUTLET_2 float;
-#X text 1 162 OUTLET_3 float;
-#X text 1 180 OUTLET_4 float;
-#X text 1 198 OUTLET_5 float;
-#X text 1 216 OUTLET_6 float;
-#X text 1 234 OUTLET_7 float;
-#X text 1 252 OUTLET_8 float;
-#X text 0 288 VERSION 0.2-beta1;
-#X text 0 306 AUTHOR Krzysztof Czaja;
-#X text 1 324 RELEASE_DATE 2002;
-#X text 2 343 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 1 53 INLET_0 float;
-#X text 1 72 INLET_1 float;
-#X text 1 90 INLET_2 bang;
-#X text 2 375 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 504 656 pd META;
-#N canvas 367 145 489 68 Related_objects 0;
-#X obj 2 2 cnv 15 484 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 21 30 notein;
-#X obj 119 30 midiin;
-#X obj 64 30 noteout;
-#X obj 162 30 midiout;
-#X obj 255 30 cyclone/midiparse;
-#X obj 364 30 cyclone/midiformat;
-#X obj 217 30 poly;
-#X restore 210 656 pd Related_objects;
 #X text 162 390 -;
 #X text 122 390 float;
 #X text 162 409 -;
@@ -237,19 +198,19 @@ number;
 #X obj 298 207 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 55 93 [borax] sends detailed MIDI Note information.;
-#X connect 55 0 72 2;
-#X connect 56 0 72 0;
-#X connect 56 1 72 1;
-#X connect 57 0 56 0;
-#X connect 58 0 72 0;
-#X connect 58 1 72 1;
-#X connect 59 0 56 1;
-#X connect 72 0 82 0;
-#X connect 72 1 83 0;
-#X connect 72 2 84 0;
-#X connect 72 3 85 0;
-#X connect 72 4 86 0;
-#X connect 72 5 87 0;
-#X connect 72 6 88 0;
-#X connect 72 7 89 0;
-#X connect 72 8 90 0;
+#X connect 53 0 70 2;
+#X connect 54 0 70 0;
+#X connect 54 1 70 1;
+#X connect 55 0 54 0;
+#X connect 56 0 70 0;
+#X connect 56 1 70 1;
+#X connect 57 0 54 1;
+#X connect 70 0 80 0;
+#X connect 70 1 81 0;
+#X connect 70 2 82 0;
+#X connect 70 3 83 0;
+#X connect 70 4 84 0;
+#X connect 70 5 85 0;
+#X connect 70 6 86 0;
+#X connect 70 7 87 0;
+#X connect 70 8 88 0;

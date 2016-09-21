@@ -11,7 +11,7 @@
 ;
 #X floatatom 161 251 5 0 0 0 - - -, f 5;
 #X obj 201 193 metro 300;
-#X obj 201 168 tgl 15 0 empty empty empty 0 -6 0 8 -228856 -1 -1 1
+#X obj 201 168 tgl 15 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
 #X obj 80 474 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
@@ -74,36 +74,8 @@ by a random value less than the given step size.;
 #X text 341 181 size;
 #X obj 1 549 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 504 102 375 337 META 0;
-#X text 1 20 LICENSE SIBSD;
-#X text 1 140 LIBRARY cyclone;
-#X text 1 80 INLET_1 float;
-#X text 1 100 INLET_2 float;
-#X text 1 120 OUTLET_0 float;
-#X text 1 60 INLET_0 bang float list;
-#X text 1 0 KEYWORDS output random numbers range;
-#X text 1 40 DESCRIPTION output random numbers in a moving range;
-#X text 0 159 VERSION 0.2-beta1;
-#X text 0 177 AUTHOR Krzysztof Czaja;
-#X text 1 195 RELEASE_DATE 2002;
-#X text 2 214 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 246 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 503 551 pd META;
-#N canvas 350 143 430 81 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 11 30 random;
-#X obj 60 30 cyclone/decide;
-#X obj 156 30 cyclone/rand~;
-#X obj 245 30 cyclone/urn;
-#X restore 210 551 pd Related_objects;
 #N canvas 401 94 754 394 examples 1;
-#X obj 112 49 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 112 49 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 112 84 metro 250;
 #X obj 112 205 makenote 127 250;
@@ -175,11 +147,11 @@ this patch for Pd-Vanilla 0.47-2.;
 #X text 186 359 of floats sets <value \, maximum \, step size> in this
 order;
 #X obj 201 224 cyclone/drunk 12 3, f 24;
-#X connect 6 0 57 0;
+#X connect 6 0 55 0;
 #X connect 7 0 6 0;
 #X connect 10 0 39 0;
-#X connect 40 0 57 0;
-#X connect 45 0 57 1;
-#X connect 46 0 57 2;
-#X connect 57 0 5 0;
-#X connect 57 0 10 0;
+#X connect 40 0 55 0;
+#X connect 45 0 55 1;
+#X connect 46 0 55 2;
+#X connect 55 0 5 0;
+#X connect 55 0 10 0;

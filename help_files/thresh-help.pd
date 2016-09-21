@@ -15,36 +15,6 @@
 0;
 #X obj 2 433 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 498 100 398 371 META 0;
-#X text 10 29 LICENSE SIBSD;
-#X text 10 137 LIBRARY cyclone;
-#X text 10 99 INLET_1 float;
-#X text 10 10 KEYWORDS combine numbers list threshold thresh;
-#X text 10 48 DESCRIPTION combine numbers that are received close together
-into a list;
-#X text 10 80 INLET_0 float;
-#X text 10 118 OUTLET_0 list;
-#X text 10 156 VERSION 0.2-beta1;
-#X text 10 174 AUTHOR Krzysztof Czaja;
-#X text 11 192 RELEASE_DATE 2002;
-#X text 12 211 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 12 243 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 490 435 pd META;
-#N canvas 357 144 430 81 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 11 29 pack;
-#X obj 85 29 cyclone/bondo;
-#X obj 176 29 cyclone/buddy;
-#X obj 265 29 cyclone/iter;
-#X obj 48 29 join;
-#X obj 349 29 cyclone/zl;
-#X restore 202 435 pd Related_objects;
 #X text 168 365 -;
 #X text 168 327 -;
 #X text 128 327 float;
@@ -77,7 +47,7 @@ in time;
 #X obj 95 159 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 207 192 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 49 256;
+-228856 -1 -1 0 256;
 #X obj 176 234 cyclone/thresh 50;
 #X text 271 192 <= click and drag for a;
 #X text 303 209 short period;
@@ -127,7 +97,7 @@ each incoming item.;
 #X connect 11 0 12 0;
 #X connect 12 0 13 0;
 #X restore 459 259 pd examples;
-#X connect 29 2 32 0;
-#X connect 30 0 29 0;
-#X connect 31 0 32 0;
-#X connect 32 0 28 0;
+#X connect 27 2 30 0;
+#X connect 28 0 27 0;
+#X connect 29 0 30 0;
+#X connect 30 0 26 0;

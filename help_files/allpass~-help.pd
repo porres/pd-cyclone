@@ -3,38 +3,12 @@
 0;
 #X obj 3 350 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 378 396 407 280 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 133 LIBRARY cyclone;
-#X text 0 57 INLET_0 signal;
-#X text 0 0 KEYWORDS filter pass;
-#X text 0 76 INLET_1 float delay time;
-#X text 0 95 INLET_2 float gain;
-#X text 0 114 OUTLET_0 signal;
-#X text 0 38 DESCRIPTION allpass filter for signal;
-#X text 1 153 VERSION 0.2-beta1;
-#X text 1 171 AUTHOR Krzysztof Czaja;
-#X text 2 189 RELEASE_DATE 2002;
-#X text 3 208 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 3 240 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 502 604 pd META;
 #X obj 3 456 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 493 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 3 554 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#N canvas 947 59 434 83 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 79 34 cyclone/comb~;
-#X obj 172 33 cyclone/teeth~;
-#X obj 268 33 cyclone/phaseshift~;
-#X restore 205 604 pd Related_objects;
 #X obj 115 398 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 66 120 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 1 1
@@ -137,18 +111,17 @@ Max/MSP;
 #X obj 423 185 comment 0 16 times ? 0 0 0 0 Filter Equation:;
 #X text 193 359 signal - signal input to filter;
 #X obj 23 271 cyclone/output~;
-#X obj 8 605 all_about_cyclone;
 #X obj 66 229 cyclone/allpass~ 1000 10 0.7;
 #X text 168 99 Use [allpass~] for allpass filtering and delay effects.
 ;
 #X text 142 562 The All Pass filter passes all frequencies without
 altering the gain - but changes the frequencies' phase.;
-#X connect 8 0 73 0;
-#X connect 9 0 79 0;
-#X connect 17 0 8 0;
-#X connect 52 0 69 0;
-#X connect 68 0 79 1;
-#X connect 69 0 79 2;
-#X connect 73 0 79 0;
-#X connect 79 0 77 0;
-#X connect 79 0 77 1;
+#X connect 6 0 71 0;
+#X connect 7 0 76 0;
+#X connect 15 0 6 0;
+#X connect 50 0 67 0;
+#X connect 66 0 76 1;
+#X connect 67 0 76 2;
+#X connect 71 0 76 0;
+#X connect 76 0 75 0;
+#X connect 76 0 75 1;

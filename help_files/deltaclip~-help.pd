@@ -3,26 +3,6 @@
 0;
 #X obj 3 422 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 603 278 382 257 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 148 LIBRARY cyclone;
-#X text 0 73 INLET_0 signal;
-#X text 0 128 OUTLET_0 signal;
-#X text 0 168 VERSION 0.2-beta1;
-#X text 0 186 AUTHOR Krzysztof Czaja;
-#X text 1 204 RELEASE_DATE 2002;
-#X text 2 223 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 255 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X text 0 0 KEYWORDS signal max_compatible;
-#X text 0 40 DESCRIPTION limit the change between samples in an incoming
-signal;
-#X text 0 92 INLET_1 signal;
-#X text 0 110 INLET_2 signal;
-#X restore 502 635 pd META;
 #X obj 3 531 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 583 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -32,13 +12,6 @@ signal;
 #X obj 77 540 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 138 541 signal;
-#N canvas 90 529 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 13 33 clip~;
-#X obj 56 33 -~;
-#X obj 87 33 +~;
-#X restore 199 635 pd Related_objects;
 #X text 337 159 delta max;
 #X floatatom 340 177 0 0 0 0 - - -;
 #X floatatom 340 220 0 0 0 0 - - -;
@@ -207,19 +180,19 @@ signal;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 10 0 12 0;
-#X connect 11 0 38 2;
-#X connect 12 0 11 0;
-#X connect 13 0 15 0;
-#X connect 14 0 38 1;
+#X connect 8 0 10 0;
+#X connect 9 0 36 2;
+#X connect 10 0 9 0;
+#X connect 11 0 13 0;
+#X connect 12 0 36 1;
+#X connect 13 0 12 0;
+#X connect 14 0 36 0;
 #X connect 15 0 14 0;
-#X connect 16 0 38 0;
-#X connect 17 0 16 0;
-#X connect 20 0 21 0;
-#X connect 22 0 53 0;
-#X connect 30 0 38 0;
-#X connect 36 0 17 0;
-#X connect 38 0 22 0;
-#X connect 38 0 52 0;
-#X connect 52 0 20 0;
-#X connect 53 0 49 0;
+#X connect 18 0 19 0;
+#X connect 20 0 51 0;
+#X connect 28 0 36 0;
+#X connect 34 0 15 0;
+#X connect 36 0 20 0;
+#X connect 36 0 50 0;
+#X connect 50 0 18 0;
+#X connect 51 0 47 0;

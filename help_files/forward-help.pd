@@ -16,32 +16,6 @@
 #X text 152 295 anything;
 #X obj 2 411 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 512 103 378 292 META 0;
-#X text 2 18 LICENSE SIBSD;
-#X text 2 72 LIBRARY cyclone;
-#X text 2 54 INLET_0 anything;
-#X text 2 0 KEYWORDS send remote message;
-#X text 2 36 DESCRIPTION send remote messages;
-#X text 0 91 VERSION 0.2-beta1;
-#X text 0 109 AUTHOR Krzysztof Czaja;
-#X text 1 127 RELEASE_DATE 2002;
-#X text 2 146 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 178 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 492 413 pd META;
-#N canvas 361 144 430 93 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 12 35 receive;
-#X obj 112 35 send;
-#X obj 67 35 route;
-#X obj 150 35 value;
-#X msg 201 35;
-#X restore 210 413 pd Related_objects;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -142,6 +116,6 @@ can change with each message (like a semicolon in a message in Pd/Max)
 to "pd" \, etc..).;
 #X connect 4 0 8 0;
 #X connect 5 0 8 0;
-#X connect 6 0 27 0;
-#X connect 7 0 28 0;
-#X connect 22 0 8 0;
+#X connect 6 0 25 0;
+#X connect 7 0 26 0;
+#X connect 20 0 8 0;

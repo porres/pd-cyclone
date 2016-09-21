@@ -14,32 +14,6 @@
 #X obj 212 226 cyclone/iter;
 #X obj 3 421 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 474 99 405 345 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 100 LIBRARY cyclone;
-#X text 0 0 KEYWORDS split list series;
-#X text 0 40 DESCRIPTION split a list into a series of data;
-#X text 0 60 INLET_0 list float;
-#X text 0 80 OUTLET_0 float;
-#X text 0 121 VERSION 0.2-beta1;
-#X text 0 139 AUTHOR Krzysztof Czaja;
-#X text 1 157 RELEASE_DATE 2002;
-#X text 2 176 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 208 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 499 423 pd META;
-#N canvas 339 143 430 84 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 13 34 cyclone/cycle;
-#X obj 110 34 cyclone/thresh;
-#X obj 213 34 unpack;
-#X obj 269 34 zl;
-#X restore 203 423 pd Related_objects;
 #X text 159 308 bang;
 #X text 111 365 float/symbol;
 #X text 135 327 anything;
@@ -82,14 +56,14 @@ Max/MSP;
 #X obj 429 257 noteout;
 #X text 380 141 a chord from list;
 #X connect 7 0 6 0;
+#X connect 15 0 7 0;
+#X connect 16 0 7 0;
 #X connect 17 0 7 0;
-#X connect 18 0 7 0;
-#X connect 19 0 7 0;
-#X connect 29 0 32 0;
-#X connect 30 0 31 0;
-#X connect 31 0 32 0;
-#X connect 32 0 28 0;
+#X connect 27 0 30 0;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 30 0 26 0;
+#X connect 32 0 33 0;
+#X connect 33 0 34 0;
 #X connect 34 0 35 0;
-#X connect 35 0 36 0;
-#X connect 36 0 37 0;
-#X connect 36 1 37 1;
+#X connect 34 1 35 1;

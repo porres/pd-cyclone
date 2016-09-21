@@ -13,33 +13,6 @@
 ;
 #X obj 3 448 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 437 98 372 364 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 140 LIBRARY cyclone;
-#X text 0 80 INLET_N track;
-#X text 0 60 INLET_0 message;
-#X text 0 100 OUTLET_0 list;
-#X text 0 120 OUTLET_1 track;
-#X text 0 40 DESCRIPTION multi-track recorder for any kind of message
-;
-#X text 0 0 KEYWORDS record recorder track multi-track;
-#X text 0 160 VERSION 0.2-beta1;
-#X text 0 178 AUTHOR Krzysztof Czaja;
-#X text 1 196 RELEASE_DATE 2002;
-#X text 2 215 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 247 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 505 450 pd META;
-#N canvas 283 141 430 81 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 88 32 qlist;
-#X obj 8 31 cyclone/seq;
-#X restore 211 450 pd Related_objects;
 #X text 140 369 list;
 #X text 116 423 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -186,11 +159,11 @@ track, f 77;
 message), f 61;
 #X text 176 423 - number of tracks \, default 1 (max 64);
 #X obj 304 224 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 8600 1;
+-1 -1 0 1;
 #X obj 263 203 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 7700 1;
+-1 -1 0 1;
 #X obj 221 182 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 6300 1;
+-1 -1 0 1;
 #X text 257 182 Track 1;
 #X text 305 203 Track 2;
 #X text 339 224 Track 3;
@@ -199,14 +172,14 @@ message), f 61;
 #X floatatom 316 268 5 0 0 0 - - -, f 5;
 #X obj 178 245 cyclone/mtr 3, f 21;
 #X text 120 307 check all possible messages here:, f 70;
-#X connect 19 0 43 0;
-#X connect 20 0 43 0;
-#X connect 34 0 43 3;
-#X connect 35 0 43 2;
-#X connect 36 0 43 1;
-#X connect 40 0 36 0;
-#X connect 41 0 35 0;
-#X connect 42 0 34 0;
-#X connect 43 1 40 0;
-#X connect 43 2 41 0;
-#X connect 43 3 42 0;
+#X connect 17 0 41 0;
+#X connect 18 0 41 0;
+#X connect 32 0 41 3;
+#X connect 33 0 41 2;
+#X connect 34 0 41 1;
+#X connect 38 0 34 0;
+#X connect 39 0 33 0;
+#X connect 40 0 32 0;
+#X connect 41 1 38 0;
+#X connect 41 2 39 0;
+#X connect 41 3 40 0;

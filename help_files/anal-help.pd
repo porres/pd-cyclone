@@ -16,32 +16,6 @@
 #X msg 186 176 3;
 #X obj 2 485 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 532 101 369 314 META 0;
-#X text 1 101 LIBRARY cyclone;
-#X text 0 122 VERSION 0.2-beta1;
-#X text 1 142 AUTHOR Krzysztof Czaja;
-#X text 1 162 RELEASE_DATE 2002;
-#X text 2 179 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 0 0 KEYWORDS control storage max_compatible;
-#X text 0 60 INLET_0 float clear reset;
-#X text 0 80 OUTLET_0 list;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 40 DESCRIPTION generates a histogram of number pairs received
-;
-#X text 1 209 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 492 486 pd META;
-#N canvas 306 111 434 71 Related_objects 0;
-#X obj 3 4 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 9 5 Related Objects;
-#X obj 163 33 cyclone/prob;
-#C restore;
-#X obj 71 33 cyclone/histo;
-#X restore 197 486 pd Related_objects;
 #X text 117 343 float;
 #X text 100 446 1) float, f 9;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -117,7 +91,7 @@ to a third note (2nd order markov chain)., f 65;
 #X msg 187 176 0;
 #X obj 187 218 << 7;
 #X obj 172 274 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 19 256;
+-228856 -1 -1 0 256;
 #X obj 145 90 notein;
 #X obj 145 121 stripnote;
 #X obj 286 375 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -181,13 +155,13 @@ of: 1) the previously received number \, 2) current input number \,
 3) occurence (how many times this number pair has been received).;
 #X text 166 412 - three floats: <previous number \, current number
 \, occurence>;
-#X connect 5 0 24 0;
-#X connect 6 0 24 0;
-#X connect 7 0 24 0;
-#X connect 8 0 24 0;
-#X connect 9 0 24 0;
-#X connect 22 0 32 0;
-#X connect 22 1 33 0;
-#X connect 22 2 34 0;
-#X connect 24 0 22 0;
-#X connect 31 0 24 0;
+#X connect 5 0 22 0;
+#X connect 6 0 22 0;
+#X connect 7 0 22 0;
+#X connect 8 0 22 0;
+#X connect 9 0 22 0;
+#X connect 20 0 30 0;
+#X connect 20 1 31 0;
+#X connect 20 2 32 0;
+#X connect 22 0 20 0;
+#X connect 29 0 22 0;

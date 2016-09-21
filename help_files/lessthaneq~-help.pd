@@ -23,28 +23,6 @@ comparison for signals;
 0;
 #X obj 4 406 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 502 391 401 260 META 0;
-#X text 0 22 LICENSE SIBSD;
-#X text 0 102 LIBRARY cyclone;
-#X text 0 62 INLET_0 signal;
-#X text 0 82 OUTLET_0 signal;
-#X text 0 42 DESCRIPTION takes the arc tangent function for signals
-;
-#X text 0 0 KEYWORDS arc tangent arctangent arctan atan signal;
-#X text 0 123 VERSION 0.2-beta1;
-#X text 0 141 AUTHOR Krzysztof Czaja;
-#X text 1 159 RELEASE_DATE 2002;
-#X text 2 178 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 210 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 507 497 pd META;
-#N canvas 232 526 441 120 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 195 498 pd Related_objects;
 #X obj 92 355 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 4 344 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -196,12 +174,12 @@ https://github.com/porres/pd-cyclone/wiki/How-To-Install;
 is from the cyclone "sub-library" \, loaded via startup or with [declare]
 like this:;
 #X restore 455 291 pd cyclone \; sub_library;
-#X connect 28 0 30 0;
-#X connect 31 0 38 0;
-#X connect 32 0 31 0;
-#X connect 33 0 38 1;
-#X connect 34 0 37 0;
-#X connect 35 0 37 1;
-#X connect 36 1 29 0;
-#X connect 37 0 36 0;
-#X connect 38 0 28 0;
+#X connect 26 0 28 0;
+#X connect 29 0 36 0;
+#X connect 30 0 29 0;
+#X connect 31 0 36 1;
+#X connect 32 0 35 0;
+#X connect 33 0 35 1;
+#X connect 34 1 27 0;
+#X connect 35 0 34 0;
+#X connect 36 0 26 0;

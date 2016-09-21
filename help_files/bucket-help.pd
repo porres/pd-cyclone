@@ -13,32 +13,6 @@
 -1;
 #X obj 2 531 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 512 121 373 275 META 0;
-#X text 0 18 LICENSE SIBSD;
-#X text 0 0 KEYWORDS pass float numbers;
-#X text 0 72 OUTLET_N float;
-#X text 0 36 DESCRIPTION pass numbers from outlet to outlet;
-#X text 0 160 RELEASE_DATE 2002;
-#X text 0 128 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 0 109 AUTHOR Krzysztof Czaja;
-#X text 0 90 VERSION 0.2-beta1;
-#X text 0 54 INLET_0 float;
-#X text 0 178 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-updated this patch for pd-extended 2014-12-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 504 533 pd META;
-#N canvas 365 145 463 75 Related_objects 0;
-#X obj 2 2 cnv 15 458 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 17 29 cyclone/buddy;
-#X obj 107 29 cyclone/cycle;
-#X obj 196 29 cyclone/decode;
-#X obj 291 29 cyclone/gate;
-#X obj 372 29 cyclone/spray;
-#X restore 207 533 pd Related_objects;
 #X text 132 330 bang;
 #X text 126 298 float;
 #X text 126 447 float;
@@ -169,19 +143,19 @@ use:;
 as the current plan is to phase out the capital letters in cyclone's
 objects.;
 #X restore 443 215 pd backwards \; compatibility;
-#X connect 5 0 55 0;
-#X connect 26 0 54 0;
-#X connect 37 0 44 0;
-#X connect 38 0 44 0;
-#X connect 39 0 44 0;
-#X connect 40 0 44 0;
-#X connect 41 0 44 0;
-#X connect 42 0 44 0;
+#X connect 5 0 53 0;
+#X connect 24 0 52 0;
+#X connect 35 0 42 0;
+#X connect 36 0 42 0;
+#X connect 37 0 42 0;
+#X connect 38 0 42 0;
+#X connect 39 0 42 0;
+#X connect 40 0 42 0;
+#X connect 41 0 40 0;
 #X connect 43 0 42 0;
-#X connect 45 0 44 0;
-#X connect 46 0 54 0;
-#X connect 54 0 22 0;
-#X connect 54 1 23 0;
-#X connect 54 2 24 0;
-#X connect 54 3 25 0;
-#X connect 55 0 26 0;
+#X connect 44 0 52 0;
+#X connect 52 0 20 0;
+#X connect 52 1 21 0;
+#X connect 52 2 22 0;
+#X connect 52 3 23 0;
+#X connect 53 0 24 0;

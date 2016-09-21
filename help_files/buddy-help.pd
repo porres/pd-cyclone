@@ -18,34 +18,6 @@
 #X obj 2 431 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 429 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 504 123 370 289 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 0 KEYWORDS pass float numbers;
-#X text 1 36 DESCRIPTION pass numbers from inlet to outlet;
-#X text 1 72 OUTLET_N float;
-#X text 0 90 VERSION 0.2-beta1;
-#X text 0 108 AUTHOR Krzysztof Czaja;
-#X text 1 126 RELEASE_DATE 2002;
-#X text 2 145 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 1 54 INLET_N float clear;
-#X text 2 177 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 491 431 pd META;
-#N canvas 372 144 540 76 Related_objects 0;
-#X obj 2 2 cnv 15 535 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 148 34 cyclone/bondo;
-#X obj 239 34 cyclone/Bucket;
-#X obj 338 34 cyclone/onebang;
-#X obj 20 34 pack;
-#X obj 110 34 swap;
-#X obj 443 34 cyclone/thresh;
-#X obj 59 34 unpack;
-#X restore 217 431 pd Related_objects;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -149,9 +121,9 @@ a specified order.;
 #X connect 29 3 30 0;
 #X restore 432 203 pd examples;
 #X connect 4 0 6 0;
-#X connect 6 0 26 0;
-#X connect 6 1 27 0;
-#X connect 6 2 28 0;
-#X connect 23 0 6 0;
-#X connect 24 0 6 1;
-#X connect 25 0 6 2;
+#X connect 6 0 24 0;
+#X connect 6 1 25 0;
+#X connect 6 2 26 0;
+#X connect 21 0 6 0;
+#X connect 22 0 6 1;
+#X connect 23 0 6 2;

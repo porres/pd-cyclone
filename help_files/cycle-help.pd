@@ -23,33 +23,6 @@
 #X text 101 420 2) float;
 #X obj 2 443 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 439 104 411 297 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 90 LIBRARY cyclone;
-#X text 1 0 KEYWORDS send data cycle;
-#X text 1 36 DESCRIPTION send data to individual outlets;
-#X text 1 54 INLET_0 anything;
-#X text 1 72 OUTLET_0 anything;
-#X text 0 109 VERSION 0.2-beta1;
-#X text 0 127 AUTHOR Krzysztof Czaja;
-#X text 1 145 RELEASE_DATE 2002;
-#X text 2 164 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 196 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 489 445 pd META;
-#N canvas 336 143 505 79 Related_objects 0;
-#X obj 2 2 cnv 15 500 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 9 29 cyclone/gate;
-#X obj 192 29 cyclone/counter;
-#X obj 293 29 cyclone/spell;
-#X obj 382 29 cyclone/spray;
-#X obj 96 29 cyclone/bucket;
-#X restore 207 445 pd Related_objects;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -71,15 +44,15 @@ Max/MSP;
 #X text 194 335 - switches output mode, f 51;
 #X text 99 335 thresh <float>;
 #X obj 180 229 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
+-228856 -1 -1 0 256;
 #X obj 223 248 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 223 228 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X obj 267 247 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 267 228 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X text 76 86 Each incoming number is sent to the next outlet \, wrapping
 around to the first outlet after the last has been reached \, completing
 a cycle in a "round-robin scheduling" way.;
@@ -97,20 +70,20 @@ outputs each element to a different outlet;
 #X msg 156 240 thresh \$1;
 #X obj 156 357 cyclone/cycle 3 1;
 #X msg 233 322 1 \, 2 \, 3;
-#X obj 156 215 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 156 215 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 156 409 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 156 384 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X obj 205 408 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 205 383 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X obj 255 407 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 255 383 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X msg 95 322 set 1;
 #X msg 233 297 1 2;
 #X text 54 108 Examples of separate events include messages with delays
@@ -142,14 +115,14 @@ to separate events or not.;
 #X text 111 368 float/symbol;
 #X text 193 368 - a float or a symbol atom element \, depending on
 the input;
-#X connect 5 0 39 0;
-#X connect 6 0 39 0;
-#X connect 7 0 39 0;
-#X connect 8 0 39 0;
-#X connect 10 0 39 0;
-#X connect 31 0 9 0;
+#X connect 5 0 37 0;
+#X connect 6 0 37 0;
+#X connect 7 0 37 0;
+#X connect 8 0 37 0;
+#X connect 10 0 37 0;
+#X connect 29 0 9 0;
+#X connect 31 0 30 0;
 #X connect 33 0 32 0;
-#X connect 35 0 34 0;
-#X connect 39 0 31 0;
-#X connect 39 1 33 0;
-#X connect 39 2 35 0;
+#X connect 37 0 29 0;
+#X connect 37 1 31 0;
+#X connect 37 2 33 0;

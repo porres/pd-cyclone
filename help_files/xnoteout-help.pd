@@ -19,34 +19,6 @@
 0;
 #X obj 2 484 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 486 99 399 363 META 0;
-#X text 12 28 LICENSE SIBSD;
-#X text 12 143 LIBRARY cyclone;
-#X text 12 68 INLET_0 float bang;
-#X text 12 160 VERSION 0.2-beta1;
-#X text 12 178 AUTHOR Krzysztof Czaja;
-#X text 13 196 RELEASE_DATE 2002;
-#X text 14 215 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 12 48 DESCRIPTION interpret midi messages with release velocity
-;
-#X text 12 88 OUTLET_0 float note number;
-#X text 12 106 OUTLET_0 float velocity;
-#X text 12 124 OUTLET_0 float 0/1 = off/on;
-#X text 12 8 KEYWORDS midi notein max_compatible;
-#X text 14 247 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 491 487 pd META;
-#N canvas 348 144 430 86 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 131 34 cyclone/xnotein;
-#X obj 20 34 midiout;
-#X obj 75 34 noteout;
-#X restore 191 486 pd Related_objects;
 #X obj 166 195 cyclone/xnoteout, f 26;
 #X text 206 453 -;
 #X text 148 453 1) float;
@@ -96,8 +68,8 @@ not only Note On Velocity but also Note Off (Release) velocity.;
 #X text 221 356 MIDI channel, f 43;
 #X text 206 402 - raw MIDI data stream, f 46;
 #X text 220 453 initial MIDI channel, f 44;
-#X connect 12 0 32 0;
-#X connect 34 0 12 2;
-#X connect 35 0 12 0;
-#X connect 36 0 12 1;
-#X connect 37 0 12 3;
+#X connect 10 0 30 0;
+#X connect 32 0 10 2;
+#X connect 33 0 10 0;
+#X connect 34 0 10 1;
+#X connect 35 0 10 3;

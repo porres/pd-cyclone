@@ -3,34 +3,10 @@
 0;
 #X obj 6 501 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 576 278 386 269 META 0;
-#X text 0 33 LICENSE SIBSD;
-#X text 0 153 LIBRARY cyclone;
-#X text 0 133 OUTLET_0 signal;
-#X text 0 0 KEYWORDS signal trapezoid wavetable lo hi lo/hi phase ramp
-wave;
-#X text 0 53 DESCRIPTION a trapezoid wavetable;
-#X text 0 73 INLET_0 signal message;
-#X text 0 93 INLET_1 signal float;
-#X text 0 113 INLET_2 signal float;
-#X text 0 175 VERSION 0.2-beta1;
-#X text 0 193 AUTHOR Krzysztof Czaja;
-#X text 1 211 RELEASE_DATE 2002;
-#X text 2 230 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 262 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 505 742 pd META;
 #X obj 5 610 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 5 645 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 307 438 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 210 742 pd Related_objects;
 #X obj 94 510 cnv 17 3 49 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 94 619 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -108,8 +84,8 @@ with phase values from 0 to 1 into the first inlet- a [phasor~] input
 turns it into a wavetable oscillator. A second and third inlet change
 the position of ramp up/down points.;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -178,7 +154,7 @@ the position of ramp up/down points.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -211,18 +187,18 @@ the position of ramp up/down points.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 17 0 40 0;
-#X connect 18 0 41 0;
-#X connect 19 0 43 0;
-#X connect 21 0 22 0;
-#X connect 22 0 44 1;
-#X connect 23 0 17 0;
-#X connect 24 0 18 0;
-#X connect 28 0 29 0;
-#X connect 29 0 44 2;
-#X connect 40 0 44 0;
-#X connect 41 0 44 0;
-#X connect 43 0 44 0;
-#X connect 44 0 20 0;
-#X connect 44 0 20 1;
-#X connect 44 0 30 0;
+#X connect 15 0 38 0;
+#X connect 16 0 39 0;
+#X connect 17 0 41 0;
+#X connect 19 0 20 0;
+#X connect 20 0 42 1;
+#X connect 21 0 15 0;
+#X connect 22 0 16 0;
+#X connect 26 0 27 0;
+#X connect 27 0 42 2;
+#X connect 38 0 42 0;
+#X connect 39 0 42 0;
+#X connect 41 0 42 0;
+#X connect 42 0 18 0;
+#X connect 42 0 18 1;
+#X connect 42 0 28 0;

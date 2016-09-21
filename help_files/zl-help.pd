@@ -1,1546 +1,619 @@
-#N canvas 503 34 627 809 10;
-#X obj 2 633 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 665 32 560 572 10;
+#X obj 4 252 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 771 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 4 370 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 840 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
-#X obj 2 1050 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X obj 82 644 cnv 17 3 46 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 74 259 cnv 17 3 84 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 782 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 74 378 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 702 cnv 17 3 46 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 74 348 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 95 1068 modes can be set as an arg or with a;
-#X msg 331 1068 mode mode_name [n];
-#X text 457 1068 message.;
-#X obj 82 805 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 74 399 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 1442 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
-#X obj 2 1101 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 503 120 370 355 META 0;
-#X text 1 20 LICENSE SIBSD;
-#X text 1 153 LIBRARY cyclone;
-#X text 1 0 KEYWORDS swiss army knife multi purpose list processing
-;
-#X text 1 40 DESCRIPTION multi purpose list processing object a.k.a.
-swiss army knife;
-#X text 1 73 INLET_0 list message;
-#X text 1 93 INLET_1 list float;
-#X text 1 113 OUTLET_0 list;
-#X text 1 133 OUTLET_1 float;
-#X text 0 172 VERSION 0.2-beta1;
-#X text 0 190 AUTHOR Krzysztof Czaja;
-#X text 1 208 RELEASE_DATE 2002;
-#X text 2 227 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 259 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 483 1103 pd META;
-#N canvas 370 144 495 113 Related_objects 0;
-#X obj 2 2 cnv 15 490 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 266 34 cyclone/fromsymbol;
-#X obj 386 34 cyclone/maximum;
-#X obj 11 70 cyclone/minimum;
-#X obj 188 34 qlist;
-#X obj 133 34 prepend;
-#X obj 11 34 list;
-#X obj 112 70 cyclone/mean;
-#X obj 48 34 pack;
-#X obj 84 34 unpack;
-#X obj 230 34 swap;
-#X obj 202 70 cyclone/thresh;
-#X obj 302 70 cyclone/tosymbol;
-#X restore 201 1103 pd Related_objects;
-#X obj 124 400 cnv 15 145 60 empty empty empty 20 54 0 10 -261234 -66577
-0;
-#X obj 46 332 cyclone/comment 434 10 monaco ? 0 80 80 80 The default
-maximum list length for zl objects input and output is 256 You can
-change the maximum list length limit using an optional integer argument
-for all modes of operation for the zl object. The arguments take the
-form zl <length limit> <mode> <list size>;
-#X obj 136 411 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 136 444 cyclone/uzi 1024;
-#X obj 136 470 random 5;
-#X obj 136 514 cyclone/zl 1024 group 1024;
-#X floatatom 136 578 8 0 0 0 - - -, f 8;
-#X obj 336 546 cyclone/zl len;
-#X floatatom 336 578 8 0 0 0 - - -, f 8;
-#X obj 136 546 cyclone/zl 1024 len;
-#X obj 336 514 cyclone/zl group 1024;
-#X obj 179 405 cyclone/comment 108 11 helvetica ? 0 80 80 80 maximum
-lenght feature not implemented yet;
-#X obj 307 426 cyclone/comment 208 11 helvetica ? 0 80 80 80 The zl
-object on the left has a list length set \, while the one on the right
-does not. Note that this change is not global \, as shown by the difference
-in results for the list processing that follow the addition of the
-argument;
-#X text 158 665 -;
-#X text 107 665 message;
-#X text 158 723 -;
-#X text 118 723 float;
-#X text 158 645 -;
-#X text 124 645 list;
-#X text 158 897 -;
-#X text 158 702 -;
-#X text 124 702 list;
-#X text 173 645 list to process, f 60;
-#X text 173 702 list to process, f 60;
-#X text 158 852 -;
-#X text 158 783 -;
-#X text 124 783 list;
-#X text 158 806 -;
-#X text 124 806 list;
-#X text 100 852 1) float;
-#X text 158 969 -;
-#X text 100 969 2) float;
-#X text 172 852 an optional integer arg sets the maximum list length
-for all modes of operation for the zl object. The default list length
-is 256;
-#X text 172 897 mode can be group \, change \, compare \, delace \,
-ecils \, group \, iter \, join \, lace \, len \, lookup \, median \,
-mth \, nth \, queue \, reg rev \, rot \, scramble \, sect \, slice
-\, sort \, stack \, stream \, sub \, sum \, thin \, union \, or unique
-are used as optional arguments to set the mode of the zl object;
-#X text 158 1002 -;
-#X text 100 1002 2) list;
-#X text 172 1002 intial list \, for more details see:, f 60;
-#X text 172 1015 (optional), f 60;
-#X text 173 723 change number of elements per group \, for more details
-see [pd mode-description] subpatch above, f 60;
-#X text 172 969 intial number of elements per group \, for more details
-see [pd modes-arguments] below. (optional), f 60;
-#N canvas 380 93 609 571 modes-arguments 0;
-#X obj 226 51 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 2 cnv 15 365 46 empty empty empty 128 18 0 12 -187701 -1
-0;
-#X obj 226 269 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 233 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 197 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 135 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 305 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 329 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 353 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 377 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 413 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 437 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 473 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 497 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 521 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 557 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 581 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 629 cnv 9 365 50 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 681 cnv 9 365 50 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 733 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 837 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 861 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 226 973 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 1021 cnv 9 365 38 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 226 949 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 51 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 269 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 233 cnv 9 222 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 197 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 135 cnv 9 222 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 305 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 329 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 353 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 377 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 413 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 437 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 473 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 497 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 521 cnv 9 222 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 557 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 581 cnv 9 222 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 629 cnv 9 222 50 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 681 cnv 9 222 50 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 733 cnv 9 222 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 837 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 861 cnv 9 222 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 973 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1021 cnv 9 222 38 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 949 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 2 cnv 15 222 46 empty empty empty 78 18 0 12 -187701 -1 0
-;
-#X obj 226 111 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 111 cnv 9 222 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 4 1095 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 1084 cnv 10 589 12 empty empty empty 1 1 0 8 -187701 -33289
-0;
-#X obj 2 1062 cnv 15 589 21 empty empty empty 1 1 0 4 -233017 -33289
-0;
-#X text 9 54 change;
-#X text 9 113 delace;
-#X text 9 138 ecil;
-#X text 9 202 filter;
-#X text 9 235 group;
-#X text 9 273 iter;
-#X text 8 308 join;
-#X text 9 331 lace;
-#X text 9 354 len;
-#X text 9 381 lookup;
-#X text 9 415 median;
-#X text 9 440 mth;
-#X text 9 476 nth;
-#X text 9 500 queue;
-#X text 9 523 reg;
-#X text 9 558 rev;
-#X text 238 582 The input list rotated to the right or left according
-to the positive or negative specified by the number argument., f 55
-;
-#X text 9 632 scramble;
-#X text 9 683 sect;
-#X text 9 736 slice;
-#X text 9 840 stack;
-#X text 9 864 stream;
-#X text 9 950 sum;
-#X text 9 975 thin;
-#X text 9 1023 unique;
-#X obj 226 75 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 75 cnv 9 222 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 9 80 compare;
-#X obj 226 769 cnv 9 365 66 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 769 cnv 9 222 66 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 9 772 sort;
-#X obj 226 909 cnv 9 365 38 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 909 cnv 9 222 38 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X text 9 911 sub;
-#X text 9 584 rot;
-#X obj 326 13 cyclone/comment 0 12 monaco ? 0 0 0 0 ARGUMENT DESCRIPTION
-;
-#X obj 86 13 cyclone/comment 0 12 monaco ? 0 0 0 0 MODE;
-#X text 340 53 no arguments defined for, f 38;
-#X text 340 113 no arguments defined for, f 38;
-#X text 238 138 integer -;
-#X text 238 236 integer -, f 55;
-#X text 298 138 are used to set the position to slice the input list
-\, the slice position are encountered counting from last to first element
-(optional), f 45;
-#X text 298 236 specifies the length of memory of [zl group] (optional)
-, f 45;
-#X text 238 271 integer -, f 55;
-#X text 298 271 specifies max length of output list (optional), f
-45;
-#X text 340 307 no arguments defined for, f 38;
-#X text 340 331 no arguments defined for, f 38;
-#X text 340 356 no arguments defined for, f 38;
-#X text 340 416 no arguments defined for, f 38;
-#X text 238 438 integer -, f 55;
-#X text 238 475 integer -, f 55;
-#X text 298 438 specifies the element position \, count starts from
-zero. (optional), f 45;
-#X text 298 475 specifies the element position (optional), f 45;
-#X text 340 499 no arguments defined for, f 38;
-#X text 238 523 list - are used how input list stored (optional) \;
-float - are treated as a list of one element (optional);
-#X text 238 378 list - are used how input list to analize (optional)
-\; float - are treated as a list of one element (optional);
-#X text 238 199 list - are used to compare with list input (optional)
-\; float - are treated as a list of one element (optional);
-#X text 238 77 list - are used to compare with list input (optional)
-\; float - are treated as a list of one element (optional);
-#X text 340 559 no arguments defined for, f 38;
-#X text 238 630 list -, f 55;
-#X text 280 630 are used how input list to be scrambled (optional)
-, f 48;
-#X text 238 660 float -, f 55;
-#X text 286 660 are treated as a list of one element (optional);
-#X text 238 683 list -, f 55;
-#X text 238 713 float -, f 55;
-#X text 286 713 are treated as a list of one element (optional);
-#X text 280 683 are used to be the list compared with the input list
-(optional), f 48;
-#X text 238 735 integer -;
-#X text 298 735 are used to set the position to slice the input list
-(optional), f 45;
-#X text 238 771 integer -;
-#X text 298 787 -1 - set descending alphanumeric sort, f 45;
-#X text 304 771 0 - set ascending alphanumeric sort, f 44;
-#X text 298 803 all other numbers set ascending alphanumeric sort.
-(optional), f 45;
-#X text 340 839 no arguments defined for, f 38;
-#X text 238 863 integer -;
-#X text 298 863 defines the stream length to be outputed \, negative
-values output stream reversed (optional), f 45;
-#X text 238 911 list -, f 55;
-#X text 238 928 float -, f 55;
-#X text 286 928 are treated as a list of one element (optional);
-#X text 280 911 are used how the list to be found (optional), f 48
-;
-#X text 340 952 no arguments defined for, f 38;
-#X text 340 975 no arguments defined for, f 38;
-#X obj 226 997 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 997 cnv 9 222 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 340 1000 no arguments defined for, f 38;
-#X text 9 998 unioon;
-#X text 238 1022 list -, f 55;
-#X text 238 1039 float -, f 55;
-#X text 286 1039 are treated as a list of one element (optional);
-#X text 280 1022 are used how the list to be not found (optional);
-#X restore 379 1002 pd modes-arguments;
-#N canvas 254 95 850 513 modes-outlets 0;
-#X obj 100 51 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 2 cnv 15 365 46 empty empty empty 108 18 0 12 -187701 -1
-0;
-#X obj 100 343 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 307 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 271 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 223 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 405 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 441 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 503 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 527 cnv 9 365 74 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 603 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 627 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 675 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 723 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 771 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 807 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 831 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 879 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 927 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 963 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 1089 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 1137 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 1313 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 1349 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 100 1409 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 100 1289 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 51 cnv 9 96 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 343 cnv 9 96 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 307 cnv 9 96 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 271 cnv 9 96 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 223 cnv 9 96 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 405 cnv 9 96 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 441 cnv 9 96 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 503 cnv 9 96 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 527 cnv 9 96 74 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 603 cnv 9 96 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 627 cnv 9 96 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 675 cnv 9 96 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 723 cnv 9 96 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 771 cnv 9 96 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 807 cnv 9 96 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 831 cnv 9 96 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 879 cnv 9 96 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 927 cnv 9 96 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 963 cnv 9 96 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1089 cnv 9 96 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1137 cnv 9 96 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1313 cnv 9 96 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1349 cnv 9 96 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 1409 cnv 9 96 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1289 cnv 9 96 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 2 cnv 15 96 46 empty empty empty 78 18 0 12 -187701 -1 0;
-#X obj 100 161 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 161 cnv 9 96 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 4 1479 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 1468 cnv 10 830 12 empty empty empty 1 1 0 8 -187701 -33289
-0;
-#X obj 2 1446 cnv 15 830 21 empty empty empty 1 1 0 4 -233017 -33289
-0;
-#X text 9 54 change;
-#X text 9 165 delace;
-#X text 112 164 A list which consists of every other element in the
-input list starting with the first element (if the input list is 6.2
-3 5.6 5.3 3.8 2.4 the left output list is 6.2 5.6 3.8)., f 56;
-#X text 9 226 ecil;
-#X text 112 226 A list containing the number of elements specified
-by the number argument starting at the end of the list and counting
-toward the beginning., f 56;
-#X text 9 276 filter;
-#X text 9 311 group;
-#X text 9 347 iter;
-#X text 112 273 A list with elements matching the filtering list removed.
-, f 56;
-#X text 112 310 A list containing the number of elements specified
-by the number argument., f 56;
-#X text 112 346 A number of lists having the number of elements specified
-by the number argument. The final list output may be shorter than the
-specified number of items \, depending on the stored contents of the
-zl object, f 56;
-#X text 8 410 join;
-#X text 112 408 A list containing all the elements of the lists received
-in both inlets., f 56;
-#X text 9 445 lace;
-#X text 9 504 len;
-#X text 112 506 A number which corresponds to the number of list items.
-, f 56;
-#X text 112 444 A list populated with items from both input lists interlaced
-with each other (if the left input list is 6.2 5.6 3.8 and the right
-input list is 3 5.3 2.4 the output list is 6.2 3 5.6 5.3 3.8 2.4).
-, f 56;
-#X text 9 531 lookup;
-#X text 9 605 median;
-#X text 9 630 mth;
-#X text 112 629 The mth element of the list (where 0 is the index of
-the first element of the list).;
-#X text 112 605 The median of the input-list., f 56;
-#X text 112 529 The list element located at the list index specified
-by the number received in the left inlet.(if 6.2 3 5.6 5.3 3.8 2.4
-is received in the right inlet \, a 2 received in the left inlet will
-cause the object to output 5.6 out of the left output)., f 56;
-#X text 9 678 nth;
-#X text 112 677 The nth element of the list., f 56;
-#X text 9 726 queue;
-#X text 112 726 The oldest element received., f 56;
-#X text 9 773 reg;
-#X text 112 773 The input or the most recently stored input value received
-in the right inlet., f 56;
-#X text 9 808 rev;
-#X text 112 808 The input list in reverse order., f 56;
-#X text 112 832 The input list rotated to the right or left according
-to the positive or negative specified by the number argument., f 56
-;
-#X text 9 882 scramble;
-#X text 112 881 A scrambled version of the input-list (a list containing
-the same elements as the input-list but in a randomized order)., f
-56;
-#X text 9 929 sect;
-#X text 9 966 slice;
-#X text 112 965 A list containing the number of elements specified
-by the number argument., f 56;
-#X text 112 929 A list containing all the elements common to the lists
-received in both inlets., f 56;
-#X text 9 1092 stack;
-#X text 112 1092 The most recently received message., f 56;
-#X text 9 1140 stream;
-#X text 112 1140 The stream or list consisting of the element to be
-collected a specified number of times., f 56;
-#X text 9 1290 sum;
-#X text 112 1292 The sum of the input-list., f 56;
-#X text 9 1316 thin;
-#X text 9 1351 union;
-#X text 112 1350 A list containing the items from both lists without
-repeating items common to both lists. If the left and right inlets
-contain any items in common \, only one symbol will be output., f
-56;
-#X text 112 1316 A list containing all the elements of the input list
-which are not duplicates., f 56;
-#X text 9 1411 unique;
-#X obj 100 113 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 113 cnv 9 96 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 9 118 compare;
-#X text 112 115 If the input-list received in left inlet is equal to
-the argument list or to the list received in right inlet \, the left
-outlet sends 1 \, otherwise send 0, f 56;
-#X obj 100 999 cnv 9 365 88 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 2 999 cnv 9 96 88 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X text 9 1002 sort;
-#X text 112 1001 A list containing the elements of input-list reordered
-in ascending or descending alphanumeric sequence depending on the value
-received in the right inlet or the value of the argument. If was received
-0 ascending sort \, if received -1 descending sort \, any other number
-set like 0, f 56;
-#X obj 100 1199 cnv 9 365 88 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 2 1199 cnv 9 96 88 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X text 9 1201 sub;
-#X text 112 1411 A list populated with items from the left-input-list
-which were not present in the right-input-list., f 56;
-#X text 112 1200 The number of each position which the list of argument
-or the list received in right inlet are founded in input list (left
-inlet). If [zl sub] founds more than one entry \, it will send each
-position at a time. It ever start sends after right outlet send it
-value., f 56;
-#X text 9 834 rot;
-#X obj 236 13 cyclone/comment 0 12 monaco ? 0 0 0 0 LEFT OUTLET;
-#X obj 31 13 cyclone/comment 0 12 monaco ? 0 0 0 0 MODE;
-#X text 112 53 The input-list only if it is different from the list
-which was last received. If it is different \, the new list is sent
-out the left outlet. If the list is not different \, nothing is sent
-out the left outlet., f 56;
-#X obj 467 51 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 2 cnv 15 365 46 empty empty empty 128 18 0 12 -187701 -1
-0;
-#X obj 467 343 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 307 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 271 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 223 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 405 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 441 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 503 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 527 cnv 9 365 74 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 603 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 627 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 675 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 723 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 771 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 807 cnv 9 365 22 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 831 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 879 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 927 cnv 9 365 34 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 963 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 1089 cnv 9 365 46 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 1137 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 1313 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 1349 cnv 9 365 60 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 1409 cnv 9 365 34 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 1289 cnv 9 365 22 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 161 cnv 9 365 60 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X obj 467 113 cnv 9 365 46 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 999 cnv 9 365 88 empty empty empty 20 12 0 14 -216373 -66577
-0;
-#X obj 467 1199 cnv 9 365 88 empty empty empty 20 12 0 14 -257983 -66577
-0;
-#X text 479 164 A list which consists of every other element in the
-input list starting with the second element (if the input list is 6.2
-3 5.6 5.3 3.8 2.4 \, the right output list is 3 5.3 2.4)., f 56;
-#X text 479 230 A list containing any list elements before the numbered
-element specified by the number argument., f 56;
-#X text 479 273 A list of the index numbers of list elements not filtered
-out., f 56;
-#X text 479 629 A list containing all list elements except for the
-list element specified by the number argument (where 0 is the index
-of the first element in the list).;
-#X text 479 677 A list containing all list elements except for the
-list element specified by the number argument (where 1 is the index
-of the first element in the list).;
-#X text 479 965 A list containing any list elements beyond the numbered
-element specified by the number argument., f 56;
-#X text 479 930 A bang will be sent out the right outlet if the two
-input lists contain no common elements., f 56;
-#X text 479 1140 A 1 or a 0 will be output from the right outlet depending
-on whether the list-length has been defined or not. A 1 signifies that
-the list-length has been defined and that the object is now collecting
-the stream., f 56;
-#X text 479 1200 The number of list elements specified by the number
-argument in the left input list is sent out the right outlet of the
-object. If an optional second argument is used to specify a value which
-will replace the number specified by the input value \, the resulting
-list is sent out the right outlet of the zl object., f 56;
-#X text 605 310 inactive, f 35;
-#X text 605 362 inactive, f 35;
-#X text 605 411 inactive, f 35;
-#X text 605 460 inactive, f 35;
-#X text 605 505 inactive, f 35;
-#X text 605 552 inactive, f 35;
-#X text 605 605 inactive, f 35;
-#X text 605 777 inactive, f 35;
-#X text 605 810 inactive, f 35;
-#X text 605 843 inactive, f 35;
-#X text 605 1291 inactive, f 35;
-#X text 605 1321 inactive, f 35;
-#X text 605 1367 inactive, f 35;
-#X text 605 1417 inactive, f 35;
-#X text 479 881 A list scrambled by the [zl scramble] have its indexes
-concerning the input list outputed., f 56;
-#X text 479 1025 A reordered list by the object have this indexes concerning
-to index list outputed for right outlet, f 56;
-#X text 479 1092 The size of the stack elements stored in [zl stack].
-If it receives a bang the size decrease if the object receives more
-data the size increase., f 56;
-#X text 479 726 The size of the queue elements stored in [zl queue].
-If it receives a bang the size decrease if the object receives more
-data the size increase., f 56;
-#X obj 598 13 cyclone/comment 0 12 monaco ? 0 0 0 0 RIGHT OUTLET;
-#X text 479 53 If the input-list is different from the last one received
-\, a 1 is sent out the right outlet. If the list is not different \,
-nothing is sent out the left outlet while a 0 is sent out the right
-outlet., f 56;
-#X text 479 115 If the input-list have a different element which the
-argument list or the list received in right inlet \, it output the
-index of this element (start to 0)., f 56;
-#X restore 436 806 pd modes-outlets;
-#X text 173 783 the processed list based on mode \, more details \,
-see below, f 60;
-#X text 173 806 the processed list based on mode \, more see:, f 60
-;
-#X text 173 666 change to <mode> and <int> number of elements per group
-\, please see below more_info session, f 60;
-#X obj 81 291 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 3 256;
-#X msg 81 206 beep 1 2.3 137 bap;
-#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 175 223 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 4 7 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 4 graph;
-#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X coords 0 1 100 -1 554 42 1;
+#X restore 4 6 graph;
+#X obj 307 7 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+#X obj 324 31 comment 0 13 courier ? 0 224 228 220 Objects cloned from
 Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 zl;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 List processor;
-#X obj 81 259 cyclone/zl len;
-#X text 100 897 1) symbol;
-#X text 42 95 [zl] process messages with more than one element ("list
-messages' or "anything") in many ways accroding to a mode (set via
-argument/message).;
-#X text 145 291 number of elements in a message;
-#X msg 102 235 list one 2 three;
-#X obj 324 261 list length;
-#X text 178 261 length mode - same as:;
-#X text 43 141 Available modes are: group \, ecils \, iter \, join
-\, len \, nth \, reg \, rev \, rotate \, sect \, slice (there are other
-modes still missing).;
-#N canvas 155 23 608 389 All_modes 0;
-#X msg 79 92 group;
-#X msg 79 117 iter;
-#X msg 80 144 join;
-#X msg 80 170 len;
-#X msg 78 221 reg;
-#X msg 78 245 rev;
-#X msg 79 270 sect;
-#X msg 79 294 slice;
-#X msg 305 177 union;
-#X msg 80 70 ecils;
-#X msg 78 196 nth;
-#X msg 94 333 rotate;
-#N canvas 507 97 385 315 join 0;
-#X obj 2 2 cnv 15 380 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X msg 62 73 mode join;
-#X obj 153 264 print join;
-#X msg 210 129 joined together;
-#X obj 153 73 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X obj 365 7 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 18 7 comment 0 37 times ? 0 0 0 0 zl;
+#X obj 19 60 comment 0 18 times ? 0 0 0 0 List processor;
+#X obj 175 199 cyclone/zl len;
+#X text 115 272 anything;
+#X floatatom 175 147 5 0 0 0 - - -, f 5;
+#X text 87 286 mode <symbol>;
+#X text 174 272 - one or more element messages to be processed;
+#X text 115 347 anything;
+#X text 115 398 anything;
+#X text 115 377 anything;
+#X text 87 329 zlmaxsize <f>;
+#X obj 4 424 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 4 535 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 166 448 -;
+#X text 166 430 -;
+#X text 108 430 1) float;
+#X text 108 448 1) symbol;
+#X obj 4 505 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X coords 0 1 100 -1 252 42 1;
+#X restore 306 6 graph;
+#X text 273 202 length mode (outputs the;
+#X text 228 222 number of elements in a message);
+#X msg 218 146 beep 1 2 3 4;
+#X text 139 257 bang;
+#X text 122 314 zlclear;
+#X text 174 314 - clears and reinitializes the zl object;
+#N canvas 626 68 628 511 examples 0;
+#X obj 108 138 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 153 103 t b b;
-#X msg 153 151 these are;
-#X obj 153 211 cyclone/zl;
-#X obj 48 72 cyclone/comment 185 11 helvetica ? 0 80 80 80 1;
-#X obj 140 72 cyclone/comment 185 11 helvetica ? 0 80 80 80 2;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 join mode;
-#X obj 214 239 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 211 230 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 232 239 cyclone/comment 48 11 helvetica ? 0 80 80 80 inactive
+#X obj 195 260 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#N canvas 728 59 406 428 zl_ecils 0;
+#X obj 22 8 comment 185 14 monaco ? 0 0 0 0 Mode: ecils;
+#X obj 235 271 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X text 275 269 split point;
+#X text 32 373 See also 'slice' mode;
+#X obj 68 258 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 112 332 print ecils_Left;
+#X obj 235 333 print ecils_Right;
+#X msg 122 262 a b c d e f g h;
+#X msg 112 237 1 2 3 4 5 6 7;
+#X msg 90 207 mode ecils 4;
+#X text 21 35 'ecils' is 'slice' backwards \, so it slices a list in
+reverse order. You can set the split point with an argument or with
+a float input into the right inlet \, but also when you set the mode
+with the mode message. The default point is '0' \, which means no slicing.
 ;
-#X obj 213 235 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 235 76 cyclone/comment 185 11 helvetica ? 0 80 80 80 here list
-are \, well joined;
-#X obj 29 34 cyclone/comment 185 11 helvetica ? 0 80 80 80 join \,
-combine two lists;
-#X connect 1 0 7 0;
-#X connect 3 0 7 1;
-#X connect 4 0 5 0;
-#X connect 5 0 6 0;
-#X connect 5 1 3 0;
-#X connect 6 0 7 0;
-#X connect 7 0 2 0;
-#X restore 146 143 pd join mode;
-#N canvas 491 115 430 315 sect 0;
-#X obj 199 189 cnv 15 145 60 empty empty not_implemented_yet 20 54
-0 10 -261234 -66577 0;
-#X obj 86 126 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X text 174 207 <= sets mode and split point;
+#X obj 112 295 cyclone/zl ecils 3, f 21;
+#X text 24 161 A bang performs the operation in the last received list.
+;
+#X text 22 111 If you slice at 'n' \, the left outlet spits the last
+'n' elements and the right outlet sends the first sliced elements.
+;
+#X connect 1 0 12 1;
+#X connect 4 0 12 0;
+#X connect 7 0 12 0;
+#X connect 8 0 12 0;
+#X connect 9 0 12 0;
+#X connect 12 0 5 0;
+#X connect 12 1 6 0;
+#X restore 477 85 pd zl_ecils;
+#N canvas 634 51 409 470 zl_group 0;
+#X obj 268 274 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 24 18 comment 185 14 monaco ? 0 0 0 0 Mode: group;
+#X obj 109 332 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 260 374 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X text 300 372 group size;
+#X obj 149 397 cyclone/zl group 10;
+#X floatatom 184 351 5 0 0 0 - - -, f 5;
+#X msg 159 302 a b c d e f;
+#X msg 171 325 g h i j k;
+#X text 45 333 remainder;
+#X obj 268 301 cyclone/uzi 24;
+#X text 23 228 The right outlet is inactive.;
+#X obj 149 424 print zl_group;
+#X msg 149 268 mode group 4;
+#X text 27 267 set mode & argument;
+#X text 21 130 The input can have one or more elements \, when the
+grouped elements reach the group size \, the grouped list is sent out
+the left outlet. The remaining items are stored for next group.;
+#X text 22 191 A bang message causes it to spit (and clear from the
+memory) the remaining stored elements (at the set group size).;
+#X text 22 44 The group mode aggroups 'n' elements into a list \, where
+'n' cannot be higher than the maximum zl size. You can set 'n' (the
+group size) with an argument or with a float input into the right inlet
+\, but also when you set the mode with the mode message. The default
+group size is the maximum zl size (and the minimum group size is 1).
+;
+#X connect 0 0 10 0;
+#X connect 2 0 5 0;
+#X connect 3 0 5 1;
+#X connect 5 0 12 0;
+#X connect 6 0 5 0;
+#X connect 7 0 5 0;
+#X connect 8 0 5 0;
+#X connect 10 2 5 0;
+#X connect 13 0 5 0;
+#X restore 477 107 pd zl_group;
+#N canvas 296 143 463 451 zl_iter 0;
+#X msg 171 278 1 2 3 4 5 6;
+#X msg 153 250 mode iter 4;
+#X obj 153 384 print iter;
+#X obj 24 18 comment 185 14 monaco ? 0 0 0 0 Mode: iter;
+#X text 23 49 The iter mode breaks an input list in to sucessive lists
+of a given size. If an input list is smaller than the iter size \,
+the lista is output anyway - if the last bit of the broken list is
+of a size smaller than the iter size \, it is also output.;
+#X obj 113 281 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X floatatom 196 327 5 0 0 0 - - -, f 5;
+#X obj 252 334 nbx 3 14 1 100 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 1 256;
+#X text 292 332 iter size;
+#X text 23 121 The iter size can be set with an argument or with a
+float input into the right inlet \, but also when you set the mode
+with the mode message. The minimum iter size is 1 and the default is
+'0' \, which means nothing happens.;
+#X text 24 202 The right outlet is inactive.;
+#X msg 182 303 one two three four five six;
+#X obj 153 359 cyclone/zl iter 1;
+#X text 24 182 A bang performs the operation in the last received list.
+;
+#X connect 0 0 12 0;
+#X connect 1 0 12 0;
+#X connect 5 0 12 0;
+#X connect 6 0 12 0;
+#X connect 7 0 12 1;
+#X connect 11 0 12 0;
+#X connect 12 0 2 0;
+#X restore 477 129 pd zl_iter;
+#N canvas 507 97 417 368 zl_join 0;
+#X msg 112 121 mode join;
+#X msg 240 237 joined together;
+#X obj 153 161 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 116 222 print sect;
-#X obj 116 168 cyclone/zl sect;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 27 33 cyclone/comment 271 11 helvetica ? 0 80 80 80 outputs
-the elements that are common to both lists;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 sect mode;
-#X obj 203 194 bng 16 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X obj 153 191 t b b;
+#X msg 153 239 these are;
+#X obj 153 279 cyclone/zl join;
+#X obj 25 17 comment 185 14 monaco ? 0 0 0 0 Mode: join;
+#X text 178 120 sets mode;
+#X obj 153 322 print zl_join;
+#X text 179 160 <= join them;
+#X obj 98 220 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 226 200 cyclone/comment 108 11 helvetica ? 0 80 80 80 bang if
-nothing is common between both input lists;
-#X msg 116 90 d d d;
-#X msg 136 110 a b c;
-#X msg 203 112 b c f;
-#X msg 223 132 d e f;
-#X connect 1 0 3 0;
-#X connect 3 0 2 0;
-#X connect 3 1 7 0;
-#X connect 9 0 3 0;
-#X connect 10 0 3 0;
-#X connect 11 0 3 1;
-#X connect 12 0 3 1;
-#X restore 146 262 pd sect mode;
-#N canvas 501 105 390 300 ecils 0;
-#X msg 128 79 1 2 3 4 5 6 7;
-#X floatatom 233 130 5 0 0 0 - - -, f 5;
-#X msg 140 103 a b c d e f g i;
-#X obj 128 232 print ecils1;
-#X obj 233 233 print ecils2;
-#X obj 128 169 cyclone/zl ecils 3;
-#X obj 2 2 cnv 15 385 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 273 133 cyclone/comment 185 11 helvetica ? 0 80 80 80 change
-number;
-#X obj 8 2 cyclone/comment 185 12 monaco ? 0 40 40 40 ecils mode;
-#X obj 30 30 cyclone/comment 303 11 helvetica ? 0 80 80 80 ecils slices
-a list in reverse order: output last N out right outlet \, rest out
-left. right outlet still comes out first.;
+#X text 46 219 resends;
+#X text 24 48 The join mode joins two lists sent to each inlet. A bang
+resends the last output or outputs a new list if the right inlet received
+something new. This mode has no arguments. The right outlet is inactive.
+;
 #X connect 0 0 5 0;
 #X connect 1 0 5 1;
-#X connect 2 0 5 0;
-#X connect 5 0 3 0;
-#X connect 5 1 4 0;
-#X restore 146 73 pd ecils mode;
-#N canvas 489 93 430 361 group 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 group mode;
-#X msg 76 96 list a b;
-#X msg 98 121 list c d e f;
-#X obj 76 295 print group;
-#X msg 181 153 3;
-#X msg 223 208 list a b c d e;
-#X msg 223 234 list f g;
-#X obj 76 267 cyclone/zl group 2;
-#X msg 108 213 bang;
-#X obj 270 70 cyclone/comment 121 11 helvetica ? 0 80 80 80 in group
-mode messages are grouped in bumbers of elements;
-#X obj 213 144 cyclone/comment 134 11 helvetica ? 0 80 80 80 change
-number of elements per group;
-#X obj 223 179 cyclone/comment 129 11 helvetica ? 0 80 80 80 remaining
-items are stored and used for next group;
-#X obj 288 239 cyclone/comment 185 11 helvetica ? 0 80 80 80 <--- click
-again;
-#X obj 198 266 cyclone/comment 167 11 helvetica ? 0 80 80 80 arg sets
-mode and optionally the number of elements to group;
-#X obj 106 177 cyclone/comment 52 11 helvetica ? 0 80 80 80 get the
-remainder out;
-#X obj 64 92 cyclone/comment 52 11 helvetica ? 0 80 80 80 1;
-#X obj 87 118 cyclone/comment 52 11 helvetica ? 0 80 80 80 2;
-#X obj 168 150 cyclone/comment 52 11 helvetica ? 0 80 80 80 3;
-#X obj 210 204 cyclone/comment 52 11 helvetica ? 0 80 80 80 4;
-#X obj 211 230 cyclone/comment 52 11 helvetica ? 0 80 80 80 5;
-#X obj 95 210 cyclone/comment 52 11 helvetica ? 0 80 80 80 6;
-#X obj 186 310 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 185 307 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 183 286 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 205 310 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 185 299 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 185 291 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 20 37 cyclone/comment 301 11 helvetica ? 0 80 80 80 group \,
-output a list after N items are received;
-#X connect 2 0 8 0;
-#X connect 3 0 8 0;
-#X connect 5 0 8 1;
-#X connect 6 0 8 0;
-#X connect 7 0 8 0;
-#X connect 8 0 4 0;
-#X connect 9 0 8 0;
-#X restore 146 97 pd group mode;
-#N canvas 483 106 430 331 iter 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 iter mode;
-#X msg 135 122 1 2 3 4;
-#X msg 123 100 1 2 3 4 5 6;
-#X floatatom 222 204 5 0 0 0 - - -, f 5;
-#X msg 149 144 1;
-#X msg 222 182 mode iter 4;
-#X obj 123 254 print iter;
-#X obj 123 229 cyclone/zl iter 3;
-#X obj 221 156 cyclone/comment 62 11 helvetica ? 0 80 80 80 change
-number here;
-#X obj 258 208 cyclone/comment 62 11 helvetica ? 0 80 80 80 or here
-;
-#X obj 226 272 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 225 269 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 223 248 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 245 272 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 225 261 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 225 253 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 250 75 cyclone/comment 134 11 helvetica ? 0 80 80 80 iter is
-similar to group but always sends out all available elements;
-#X obj 23 35 cyclone/comment 320 11 helvetica ? 0 80 80 80 iter \,
-put out lists of size N successively;
-#X connect 2 0 8 0;
-#X connect 3 0 8 0;
-#X connect 4 0 8 1;
-#X connect 5 0 8 0;
-#X connect 6 0 8 0;
-#X connect 8 0 7 0;
-#X restore 146 120 pd iter mode;
-#N canvas 484 100 430 315 len 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 127 198 print len;
-#X msg 127 100 this produces 3;
-#X msg 138 122 and this should be five;
-#X obj 127 162 cyclone/zl len;
-#X obj 27 36 cyclone/comment 215 11 helvetica ? 0 80 80 80 len output
-the number of elements of a list;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 len mode;
-#X obj 212 204 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 211 201 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 209 180 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 231 204 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 211 193 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 211 185 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 243 78 cyclone/comment 215 11 helvetica ? 0 80 80 80 how long
-is a list?;
-#X connect 2 0 4 0;
+#X connect 2 0 3 0;
 #X connect 3 0 4 0;
-#X connect 4 0 1 0;
-#X restore 146 166 pd len mode;
-#N canvas 364 114 675 336 nth 0;
-#X obj 2 2 cnv 15 670 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 nth mode;
-#X obj 77 223 print nth;
-#X floatatom 170 156 5 0 0 0 - - -, f 5;
-#X msg 77 123 1 10 11 100 101 110 111 1000;
-#X obj 77 187 cyclone/zl nth 3;
-#X obj 28 33 cyclone/comment 185 11 helvetica ? 0 80 80 80 sends out
-the nth element;
-#X obj 207 158 cyclone/comment 185 11 helvetica ? 0 80 80 80 change
-'n ';
-#X obj 170 223 print nthless;
-#X obj 367 233 print nth;
-#X obj 367 197 cyclone/zl nth 3;
-#X obj 460 233 print nthless;
-#X msg 367 83 5 6 7 8 9 10 11;
-#X obj 45 141 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 346 165 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X floatatom 408 125 5 0 0 0 - - -, f 5;
-#X msg 408 144 \$1 0.5;
-#X obj 408 166 t b l;
-#X msg 470 166 2 hi;
-#X obj 354 63 cyclone/comment 185 11 helvetica ? 0 80 80 80 an aditional
-feature for nth;
-#X obj 511 126 cyclone/comment 114 11 helvetica ? 0 80 80 80 extra
-argument to right inlet specifies <value>. nth element will be replaced
-with <value> in right oulet list.;
-#X connect 3 0 5 1;
-#X connect 4 0 5 0;
-#X connect 5 0 2 0;
-#X connect 5 1 8 0;
-#X connect 10 0 9 0;
-#X connect 10 1 11 0;
-#X connect 12 0 10 0;
-#X connect 13 0 5 0;
-#X connect 14 0 10 0;
-#X connect 15 0 16 0;
-#X connect 16 0 17 0;
-#X connect 17 0 10 0;
-#X connect 17 1 10 1;
-#X connect 18 0 10 1;
-#X restore 146 191 pd nth mode;
-#N canvas 488 105 430 309 rev 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 126 205 print rev;
-#X msg 135 121 10 9 8 7 6 5 4 3 2 1 0;
-#X msg 126 98 way this something means this;
-#X obj 126 160 cyclone/zl rev;
-#X obj 26 36 cyclone/comment 185 11 helvetica ? 0 80 80 80 rev reverses
-elements of the list;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 rev mode;
-#X obj 211 202 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 210 199 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 208 178 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 230 202 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 210 191 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 210 183 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X connect 2 0 4 0;
-#X connect 3 0 4 0;
-#X connect 4 0 1 0;
-#X restore 146 239 pd rev mode;
-#N canvas 521 119 365 313 slice 0;
-#X msg 83 88 1 2 3 4 5 6 7;
-#X obj 83 241 print slice1;
-#X obj 188 241 print slice2;
-#X floatatom 188 139 5 0 0 0 - - -, f 5;
-#X msg 95 112 a b c d e f g i;
-#X obj 83 187 cyclone/zl slice 3;
-#X obj 2 2 cnv 15 360 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 224 138 cyclone/comment 185 11 helvetica ? 0 80 80 80 change
-number;
-#X obj 8 2 cyclone/comment 185 12 monaco ? 0 40 40 40 slice mode;
-#X obj 56 146 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 27 35 cyclone/comment 263 11 helvetica ? 0 80 80 80 output first
-N out left outlet \, rest out right outlet. right outlet comes out
-first.;
-#X connect 0 0 5 0;
-#X connect 3 0 5 1;
-#X connect 4 0 5 0;
-#X connect 5 0 1 0;
-#X connect 5 1 2 0;
-#X connect 9 0 5 0;
-#X restore 146 285 pd slice mode;
-#N canvas 475 126 430 273 union 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 union mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 119 117 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 18 33 cyclone/comment 379 11 helvetica ? 0 80 80 80 union the
-stuff in two lists \, does not duplicate things in list 2 that are
-in list 1;
-#X obj 146 144 cyclone/zl union;
-#X msg 146 82 2.3 7 6.5;
-#X msg 239 82 6.5 4 2.3 2 2 8;
-#X obj 146 216 print union;
-#X obj 242 186 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 241 183 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 239 162 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 261 186 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 241 175 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 241 167 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X connect 3 0 5 0;
-#X connect 5 0 8 0;
-#X connect 6 0 5 0;
-#X connect 7 0 5 1;
-#X restore 354 177 pd union mode;
-#N canvas 492 130 430 332 reg 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 reg mode;
-#X msg 113 90 this is sent out immediately;
-#X obj 113 253 print reg;
-#X msg 119 150 bang;
-#X msg 212 125 this is just stored;
-#X obj 113 188 cyclone/zl reg, f 17;
-#X obj 31 35 cyclone/comment 185 11 helvetica ? 0 80 80 80 reg can
-be used to store lists;
-#X obj 154 148 cyclone/comment 52 11 helvetica ? 0 80 80 80 output
-last stored list;
-#X obj 216 230 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 215 227 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 213 206 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 235 230 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 215 219 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 215 211 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X connect 2 0 6 0;
-#X connect 4 0 6 0;
-#X connect 5 0 6 1;
-#X connect 6 0 3 0;
-#X restore 146 215 pd reg mode;
-#N canvas 366 52 468 729 not 0;
-#X msg 90 204 lookup;
-#X msg 156 85 median;
-#X msg 155 114 mth;
-#X msg 155 158 queue;
-#X msg 159 194 rot;
-#X msg 204 161 scramble;
-#X msg 299 172 sort;
-#X msg 264 47 stack;
-#X msg 264 70 stream;
-#X msg 264 92 sub;
-#X msg 264 114 sum;
-#X msg 264 136 thin;
-#X msg 290 208 unique;
-#X msg 95 49 change;
-#X msg 95 71 compare;
-#X msg 95 137 filter;
-#X msg 95 93 delace;
-#X msg 96 172 lace;
-#N canvas 483 111 430 315 change 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 25 35 cyclone/comment 154 11 helvetica ? 0 80 80 80 filter out
-list repetitions;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 change mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X msg 97 96 a b e c e;
-#X msg 189 96 1 2 2 5.5 7 5 7 7 7;
-#X obj 97 189 print change;
-#X obj 196 188 tgl 18 0 empty empty empty 17 7 0 10 -216373 -66577
--1 0 1;
-#N canvas 699 201 240 219 l== 0;
-#X obj 2 2 cnv 15 235 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 3 l== subpatch;
-#X obj 55 71 cyclone/zl change;
-#X obj 104 110 t b f;
-#X msg 95 134 1;
-#X obj 116 158 -;
-#X obj 116 180 outlet;
-#X obj 55 37 inlet;
-#X connect 2 1 3 0;
-#X connect 3 0 4 0;
-#X connect 3 1 5 1;
-#X connect 4 0 5 0;
-#X connect 5 0 6 0;
-#X connect 7 0 2 0;
-#X restore 235 147 pd l==;
-#X obj 235 188 tgl 18 0 empty empty empty 17 7 0 10 -216373 -66577
--1 0 1;
-#X obj 202 233 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 201 230 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 199 209 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 222 230 cyclone/comment 94 11 helvetica ? 0 80 80 80 1 if the
-list changed 0 otherwise;
-#X obj 201 222 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 201 214 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 97 147 cyclone/zl change;
-#X connect 4 0 8 0;
-#X connect 4 0 16 0;
-#X connect 5 0 8 0;
-#X connect 5 0 16 0;
-#X connect 8 0 9 0;
-#X connect 16 0 6 0;
-#X connect 16 1 7 0;
-#X restore 161 255 pd change mode;
-#N canvas 483 105 430 308 compare 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 25 31 cyclone/comment 253 11 helvetica ? 0 80 80 80 compare
-two lists and report if they are equals;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 compare mode
-;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 80 188 tgl 18 0 empty empty empty 17 7 0 10 -216373 -66577 -1
-0 1;
-#X obj 86 233 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 85 230 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 83 209 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 106 230 cyclone/comment 105 11 helvetica ? 0 80 80 80 1 if the
-lists are equal 0 otherwise;
-#X obj 85 222 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 85 214 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X msg 55 65 a b c;
-#X msg 80 85 a b c d;
-#X msg 221 65 a b c;
-#X msg 246 85 a b c d;
-#X obj 80 130 cyclone/zl compare a b c;
-#X obj 188 184 print index of non equals;
-#X connect 11 0 15 0;
-#X connect 12 0 15 0;
-#X connect 13 0 15 1;
-#X connect 14 0 15 1;
-#X connect 15 0 4 0;
-#X connect 15 1 16 0;
-#X restore 161 275 pd compare mode;
-#N canvas 490 102 430 255 delace 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 20 29 cyclone/comment 142 11 helvetica ? 0 80 80 80 de-interleave
-a list;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 delace mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X msg 110 81 a 1 b 2 e 2 c 5.5 e 7;
-#X obj 110 123 cyclone/zl delace;
-#X obj 110 185 print delace1;
-#X obj 209 185 print delace2;
-#X connect 4 0 5 0;
-#X connect 5 0 6 0;
-#X connect 5 1 7 0;
-#X restore 161 295 pd delace mode;
-#N canvas 489 104 430 298 filter 0;
-#X obj 56 71 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 21 33 cyclone/comment 142 11 helvetica ? 0 80 80 80 filter remove
-items in a list;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 filter mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 96 181 cyclone/zl filter toto titi;
-#X obj 96 233 print filter;
-#X obj 255 233 print filter index;
-#X msg 96 94 truc machin 2 3.4 1;
-#X msg 116 124 a b toto c titi 1;
-#X msg 242 94 toto titi;
-#X msg 266 144 truc 1;
-#X connect 0 0 5 0;
-#X connect 5 0 6 0;
-#X connect 5 1 7 0;
-#X connect 8 0 5 0;
-#X connect 9 0 5 0;
-#X connect 10 0 5 1;
-#X connect 11 0 5 1;
-#X restore 161 320 pd filter mode;
-#N canvas 480 97 430 305 lace 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 25 34 cyclone/comment 142 11 helvetica ? 0 80 80 80 lace interleave
-two lists;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 lace mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X msg 95 83 a b e c e;
-#X msg 235 83 1 2 2 5.5 7 5 7 7 7;
-#X obj 148 145 cyclone/zl lace;
-#X obj 148 207 print lace;
-#X obj 239 188 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 238 185 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 236 164 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 258 188 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 238 177 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 238 169 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X connect 4 0 6 0;
-#X connect 5 0 6 1;
-#X connect 6 0 7 0;
-#X restore 156 359 pd lace mode;
-#N canvas 478 120 430 305 lookup 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 lookup mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 284 199 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 283 196 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 281 175 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 303 199 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 283 188 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 283 180 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 28 33 cyclone/comment 304 11 helvetica ? 0 80 80 80 output the
-nth element(s) of the right list;
-#X floatatom 91 97 5 0 0 0 - - -, f 5;
-#X msg 131 95 0;
-#X msg 280 90 a b 1 4;
-#X obj 91 156 cyclone/zl lookup toto titi tutu;
-#X obj 91 218 print lookup;
-#X connect 10 0 13 0;
-#X connect 11 0 13 0;
-#X connect 12 0 13 1;
-#X connect 13 0 14 0;
-#X restore 156 386 pd lookup mode;
-#N canvas 482 114 430 311 median 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 21 32 cyclone/comment 221 11 helvetica ? 0 80 80 80 output the
-median of a list of numbers;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 median mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 227 181 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 226 178 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 224 157 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 246 181 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 226 170 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 226 162 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X msg 125 97 1 2 2 5.5 7 5 7 7 7;
-#X msg 295 97 6 1 3;
-#X obj 125 139 cyclone/zl median;
-#X floatatom 125 201 5 0 0 0 - - -, f 5;
-#X connect 10 0 12 0;
-#X connect 11 0 12 0;
-#X connect 12 0 13 0;
-#X restore 156 406 pd median mode;
-#N canvas 484 120 430 313 mth 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 18 34 cyclone/comment 232 11 helvetica ? 0 80 80 80 output mth
-element of list (count from zero);
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 mth mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 96 121 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 126 154 cyclone/zl mth 3;
-#X msg 126 88 11 12 13 14 15;
-#X floatatom 219 123 5 0 0 0 - - -, f 5;
-#X obj 126 226 print mth;
-#X obj 219 226 print mth;
+#X connect 3 1 1 0;
 #X connect 4 0 5 0;
 #X connect 5 0 8 0;
-#X connect 5 1 9 0;
-#X connect 6 0 5 0;
-#X connect 7 0 5 1;
-#X restore 155 427 pd mth mode;
-#N canvas 477 124 430 299 queue 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 20 34 cyclone/comment 300 11 helvetica ? 0 80 80 80 queue \,
-FIFO message storage (First In \, First Out);
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 queue mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 114 102 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 149 155 cyclone/zl queue;
-#X floatatom 149 71 5 0 0 0 - - -, f 5;
-#X msg 196 82 beep;
-#X msg 254 93 3.14;
-#X obj 149 207 print next;
-#X obj 242 207 print next;
-#X connect 4 0 5 0;
-#X connect 5 0 9 0;
-#X connect 5 1 10 0;
-#X connect 6 0 5 0;
-#X connect 7 0 5 0;
-#X connect 8 0 5 0;
-#X restore 159 609 pd queue mode;
-#N canvas 483 118 430 342 rot 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 rot mode;
-#X obj 97 261 print rotate;
-#X msg 97 100 sometimes my grammar is all messed up;
-#X floatatom 190 122 5 0 0 0 - - -, f 5;
-#X obj 97 188 cyclone/zl rot 3;
-#X obj 25 32 cyclone/comment 301 11 helvetica ? 0 80 80 80 rotate a
-list by N places (N can be negative);
-#X obj 93 78 cyclone/comment 185 11 helvetica ? 0 80 80 80 master yoda
-says;
-#X obj 83 98 cyclone/comment 185 11 helvetica ? 0 80 80 80 1;
-#X obj 176 121 cyclone/comment 185 11 helvetica ? 0 80 80 80 2;
-#X msg 169 147 1 2 3 4 5 6 7 8;
-#X obj 155 146 cyclone/comment 185 11 helvetica ? 0 80 80 80 3;
-#X obj 194 230 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 193 227 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 191 206 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 213 230 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 193 219 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 193 211 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X connect 3 0 5 0;
-#X connect 4 0 5 1;
-#X connect 5 0 2 0;
 #X connect 10 0 5 0;
-#X restore 145 642 pd rot mode;
-#N canvas 486 125 430 315 scramble 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 25 33 cyclone/comment 284 11 helvetica ? 0 80 80 80 scrambles
-the order of a list of items;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 scramble mode
-;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 98 100 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X restore 477 151 pd zl_join;
+#N canvas 484 100 405 384 zl_len 0;
+#X msg 154 178 this produces 3;
+#X msg 165 210 and this should be five;
+#X obj 130 277 cyclone/zl len;
+#X msg 130 147 list two elements;
+#X obj 130 313 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 71 213 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 126 144 cyclone/zl scramble;
-#X msg 126 67 1 2 3.4 toto titi tutu;
-#X msg 237 101 a b c;
-#X obj 282 99 cyclone/comment 284 11 helvetica ? 0 80 80 80 set only
-;
-#X obj 126 216 print scrambled;
-#X obj 237 216 print scramble indexes;
-#X connect 4 0 5 0;
-#X connect 5 0 9 0;
-#X connect 5 1 10 0;
-#X connect 6 0 5 0;
-#X connect 7 0 5 1;
-#X restore 145 662 pd scramble mode;
-#N canvas 488 111 430 308 sort 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 sort mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 86 121 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 45 29 cyclone/comment 263 11 helvetica ? 0 80 80 80 arrange
-a list in alphanumeric order;
-#X obj 116 154 cyclone/zl sort;
-#X msg 116 83 beep 1 2.3 137 bap;
-#X msg 211 111 0;
-#X msg 221 131 -1;
-#X obj 116 221 print sorted;
-#X obj 203 221 print sort indexes;
-#X obj 241 109 cyclone/comment 263 11 helvetica ? 0 80 80 80 ascending
-sort;
-#X obj 249 138 cyclone/comment 263 11 helvetica ? 0 80 80 80 descending
-sort;
-#X connect 3 0 5 0;
-#X connect 5 0 9 0;
-#X connect 5 1 10 0;
-#X connect 6 0 5 0;
-#X connect 7 0 5 1;
-#X connect 8 0 5 1;
-#X restore 158 454 pd sort mode;
-#N canvas 485 119 430 280 stack 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 stack mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 24 33 cyclone/comment 310 11 helvetica ? 0 80 80 80 LIFO message
-memory (Last In \, First Out);
-#X obj 123 110 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 153 144 cyclone/zl stack;
-#X msg 241 85 3.14;
-#X msg 201 85 beep;
-#X floatatom 153 84 5 0 0 0 - - -, f 5;
-#X obj 124 146 cyclone/comment 310 11 helvetica ? 0 80 80 80 pop;
-#X obj 153 206 print pop;
-#X obj 246 206 print size;
-#X connect 4 0 5 0;
-#X connect 5 0 10 0;
-#X connect 5 1 11 0;
-#X connect 6 0 5 0;
-#X connect 7 0 5 0;
-#X connect 8 0 5 0;
-#X restore 158 474 pd stack mode;
-#N canvas 484 125 430 309 stream 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 19 34 cyclone/comment 253 11 helvetica ? 0 80 80 80 make a list
-with the last N items;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 stream mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X msg 41 85 zlclear;
-#X obj 41 147 cyclone/zl stream -5;
-#X obj 41 182 prepend set;
-#X obj 221 182 prepend set;
-#X obj 221 147 cyclone/zl stream 5;
-#X obj 332 184 tgl 18 0 empty empty empty 17 7 0 10 -216373 -66577
--1 0 1;
-#X obj 322 245 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 337 226 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 335 205 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 179 246 cyclone/comment 161 11 helvetica ? 0 80 80 80 1 if all
-N elements are defined;
-#X obj 337 218 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 337 210 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 337 242 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 337 234 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X floatatom 221 88 8 0 0 0 - - -, f 8;
-#X msg 41 204 4 5 6 7 8;
-#X msg 221 204 8 7 6 5 4;
-#X connect 4 0 5 0;
-#X connect 4 0 8 0;
-#X connect 5 0 6 0;
-#X connect 6 0 19 0;
-#X connect 7 0 20 0;
-#X connect 8 0 7 0;
-#X connect 8 1 9 0;
-#X connect 18 0 5 0;
-#X connect 18 0 8 0;
-#X restore 157 495 pd stream mode;
-#N canvas 479 117 430 276 sub 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 sub mode;
-#X obj 208 169 cnv 15 120 60 empty empty not_implemented_yet 8 18 0
-10 -261234 -1 0;
-#X obj 96 79 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X msg 129 80 1 2 3 4 5 6 7 8 9 5 5 5;
-#X obj 129 142 cyclone/zl sub;
-#X msg 175 107 5;
-#X msg 210 107 11;
-#X msg 250 107 7 8 9;
-#X obj 129 204 print offset;
-#X obj 210 204 print found;
-#X obj 19 35 cyclone/comment 362 11 helvetica ? 0 80 80 80 output position
-for each occurance of right list in left;
-#X connect 3 0 5 0;
-#X connect 4 0 5 0;
-#X connect 5 0 9 0;
-#X connect 5 1 10 0;
-#X connect 6 0 5 1;
-#X connect 7 0 5 1;
-#X connect 8 0 5 1;
-#X restore 157 515 pd sub mode;
-#N canvas 480 117 430 272 sum 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 21 33 cyclone/comment 367 11 helvetica ? 0 80 80 80 return the
-sum of a list of numbers;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 sum mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 156 151 cyclone/zl sum;
-#X msg 156 88 1 2 2 5.5 7 5 7 7 7;
-#X msg 206 108 6 1 3;
-#X floatatom 156 203 5 0 0 0 - - -, f 5;
-#X obj 240 192 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 239 189 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 237 168 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 259 192 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 239 181 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 239 173 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X connect 4 0 7 0;
-#X connect 5 0 4 0;
-#X connect 6 0 4 0;
-#X restore 157 535 pd sum mode;
-#N canvas 491 122 430 298 thin 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 17 35 cyclone/comment 203 11 helvetica ? 0 80 80 80 remove all
-duplicates from an input list;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 thin mode;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 172 147 cyclone/zl thin;
-#X msg 172 85 a b e c e b b;
-#X obj 172 209 print thin;
-#X obj 263 189 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 262 186 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 260 165 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 282 189 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
-;
-#X obj 262 178 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 262 170 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
+#X obj 130 341 print zl_len;
+#X obj 25 17 comment 185 14 monaco ? 0 0 0 0 Mode: len;
+#X msg 105 118 mode len;
+#X msg 175 243 1 2 3 4 5 6 7 8 9 10 11 12 13 14;
+#X text 163 117 <= sets mode;
+#X text 20 213 resends;
+#X text 24 47 The len mode outputs how many elements a lista has. A
+bang resends the last output. This mode has no arguments. The right
+inlet/outlet are inactive.;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
 #X connect 4 0 6 0;
-#X connect 5 0 4 0;
-#X restore 157 555 pd thin mode;
-#N canvas 479 128 430 277 unique 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 2 106 cnv 15 425 70 empty empty not_implemented_yet 250 23 0
-14 -261234 -1 0;
-#X obj 239 196 cyclone/comment 25 11 helvetica ? 0 80 80 80 ----;
-#X obj 238 193 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 236 172 cyclone/comment 25 11 helvetica ? 0 80 80 80 ^;
-#X obj 258 196 cyclone/comment 105 11 helvetica ? 0 80 80 80 inactive
+#X connect 5 0 2 0;
+#X connect 8 0 2 0;
+#X connect 9 0 2 0;
+#X restore 477 173 pd zl_len;
+#X obj 30 11 comment 185 14 monaco ? 0 0 0 0 Basic:;
+#X obj 48 391 comment 185 14 monaco ? 0 0 0 0 Inconsistency;
+#X obj 227 465 zl.group;
+#X text 49 416 In Max \, zl is also a family objects \, in which a
+mode can instantiated after a dot after 'zl'. But in Pd this is not
+the case!;
+#X obj 486 53 comment 185 14 monaco ? 0 0 0 0 Modes:;
+#X text 44 338 Check details about each mode in the suboatches on the
+right. Modes introduced in the Max5+ versions are not implemented yet
+\,;
+#X obj 108 169 cyclone/uzi 512;
+#X text 30 34 You can set the size of the list with a first optional
+float argument. If you don't \, then the first argument is a symbol
+that specifies the mode type \, and the maximum size is the default:
+256 elements.;
+#X text 44 289 The mode argument is obrigatory \, there is no default
+mode. If you don't set it as an argument you have to set via the mode
+message.;
+#X text 222 150 back to default;
+#X msg 227 169 zlmaxsize 256;
+#N canvas 484 120 789 398 zl_mth 0;
+#X obj 75 235 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X obj 451 210 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X obj 25 8 comment 185 14 monaco ? 0 0 0 0 Mode: mth;
+#X msg 117 227 1 2 3 4 5 6 7 8 9 10;
+#X obj 210 261 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 72 326 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 25 148 A bang performs the operation in the last received list.
 ;
-#X obj 238 185 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 238 177 cyclone/comment 25 11 helvetica ? 0 80 80 80 |;
-#X obj 21 31 cyclone/comment 311 11 helvetica ? 0 80 80 80 unique puts
-out a list comprised of those items in the left input list that are
-not contained in the right input list.;
-#X msg 106 82 toto titi tutu;
-#X msg 136 102 1 3 5 9;
-#X msg 235 82 tata titi;
-#X msg 265 102 4 7 9 1;
-#X obj 136 154 cyclone/zl unique;
-#X obj 136 226 print unique;
-#X obj 9 3 cyclone/comment 185 12 monaco ? 0 40 40 40 unique mode;
-#X connect 9 0 13 0;
-#X connect 10 0 13 0;
-#X connect 11 0 13 1;
-#X connect 12 0 13 1;
-#X connect 13 0 14 0;
-#X restore 158 581 pd unique mode;
-#X restore 309 153 pd not implemented;
-#X text 141 333 rotate?;
-#X text 438 177 is it or not?;
-#X restore 461 236 pd All_modes;
-#X connect 17 0 18 0;
-#X connect 18 0 19 0;
-#X connect 19 0 20 0;
-#X connect 19 0 25 0;
-#X connect 20 0 24 0;
-#X connect 22 0 23 0;
-#X connect 24 0 21 0;
-#X connect 25 0 22 0;
-#X connect 61 0 70 0;
-#X connect 70 0 60 0;
-#X connect 74 0 70 0;
+#X msg 504 190 1 2 3 4 5 6 7 8 9 10;
+#X msg 595 219 4 bye;
+#X obj 440 291 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 24 36 The mode mth outputs the 'mth' element of a message through
+the left outlet. The right outlet outputs the remaining elements \,
+but can alse replace the mth element by another.;
+#X text 24 85 The mth element is set as the 1st argument. The 1st element
+is 0 (the default). If you set the mth to a number greater than the
+input list \, all the elements are sent to the right outlet.;
+#X text 421 72 The element that replaces the mth element in the right
+outlet is set as the 2nd argument. This is optional \, no second argument
+(the default) does not replace the mth element by anything.;
+#X obj 595 290 print replaced_mth;
+#X obj 484 290 print mth;
+#X text 638 219 mth / replacement;
+#X text 250 260 mth;
+#X obj 210 323 print not_the_mth;
+#X obj 117 323 print mth;
+#X obj 117 289 cyclone/zl mth 3;
+#X msg 96 187 mode mth 8;
+#X obj 484 254 cyclone/zl mth 2 hi;
+#X msg 484 162 mode mth 3 hello;
+#X connect 0 0 19 0;
+#X connect 1 0 21 0;
+#X connect 3 0 19 0;
+#X connect 4 0 19 1;
+#X connect 7 0 21 0;
+#X connect 8 0 21 1;
+#X connect 19 0 5 0;
+#X connect 19 0 18 0;
+#X connect 19 1 17 0;
+#X connect 20 0 19 0;
+#X connect 21 0 9 0;
+#X connect 21 0 14 0;
+#X connect 21 1 13 0;
+#X connect 22 0 21 0;
+#X restore 477 195 pd zl_mth;
+#N canvas 369 80 812 412 zl_nth 0;
+#X obj 127 343 print nth;
+#X obj 504 280 print nth;
+#X obj 85 255 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X obj 471 200 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X obj 25 8 comment 185 14 monaco ? 0 0 0 0 Mode: nth;
+#X msg 127 247 1 2 3 4 5 6 7 8 9 10;
+#X obj 220 281 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 260 280 nth;
+#X text 24 108 The nth element is set as the 1st argument. The 1st
+element is 1 \, if you set it as 0 (the default) or to a number greater
+than the input list \, all the elements are sent to the right outlet.
+;
+#X obj 82 346 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 127 309 cyclone/zl nth 3;
+#X text 25 171 A bang performs the operation in the last received list.
+;
+#X obj 220 343 print not_the_nth;
+#X obj 615 280 print replaced_nth;
+#X obj 504 244 cyclone/zl nth 2 hi;
+#X msg 524 180 1 2 3 4 5 6 7 8 9 10;
+#X text 421 72 The element that replaces the nth element in the right
+outlet is set as the 2nd argument. This is optional \, no second argument
+(the defaukt) does not replace the nth element by anything.;
+#X msg 615 209 4 bye;
+#X obj 460 281 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 654 209 nth / replacement;
+#X msg 109 206 mode nth 8;
+#X msg 504 152 mode nth 3 hello;
+#X text 24 36 The mode nth is the same as mth but starts counting from
+1;
+#X text 24 56 Thus \, it outputs the nth element of a message through
+the left outlet. The right outlet outputs the remaining elements \,
+but can alse replace the nth element by another.;
+#X connect 2 0 10 0;
+#X connect 3 0 14 0;
+#X connect 5 0 10 0;
+#X connect 6 0 10 1;
+#X connect 10 0 0 0;
+#X connect 10 0 9 0;
+#X connect 10 1 12 0;
+#X connect 14 0 1 0;
+#X connect 14 0 18 0;
+#X connect 14 1 13 0;
+#X connect 15 0 14 0;
+#X connect 17 0 14 1;
+#X connect 20 0 10 0;
+#X connect 21 0 14 0;
+#X restore 477 217 pd zl_nth;
+#N canvas 293 128 430 326 zl_reg 0;
+#X obj 69 280 print reg;
+#X obj 111 216 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X msg 306 186 this is stored;
+#X msg 91 187 this is stored and sent;
+#X obj 69 245 cyclone/zl reg initially stored elements;
+#X msg 69 155 1 2 3 4;
+#X msg 287 155 5 6 7 8;
+#X text 136 218 <= outputs stored list;
+#X msg 38 124 mode reg one two;
+#X text 145 123 <= sets mode and arguments;
+#X text 30 44 The reg mode stores lists. The initially stored list
+is set as an argument and changed in the right inlet. The left inlet
+stores and outputs the list. A bang sends the last stored list. The
+right outlet is inactive.;
+#X obj 33 17 comment 185 14 monaco ? 0 0 0 0 Mode: reg;
+#X connect 1 0 4 0;
+#X connect 2 0 4 1;
+#X connect 3 0 4 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 0;
+#X connect 6 0 4 1;
+#X connect 8 0 4 0;
+#X restore 477 239 pd zl_reg;
+#N canvas 488 105 422 304 zl_rev 0;
+#X msg 137 130 way this something means this;
+#X obj 117 192 cyclone/zl rev;
+#X obj 26 7 comment 185 14 monaco ? 0 0 0 0 Mode: rev;
+#X obj 81 135 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 25 38 The rev mode reverses the elements of a list. A bang
+resends the last output. This mode has no arguments. The right inlet/outlet
+are inactive.;
+#X msg 148 157 1 2 3 4 5 6 7 8 9 10;
+#X obj 117 237 print zl_rev;
+#X msg 117 95 mode rev;
+#X connect 0 0 1 0;
+#X connect 1 0 6 0;
+#X connect 3 0 1 0;
+#X connect 5 0 1 0;
+#X connect 7 0 1 0;
+#X restore 477 261 pd zl_rev;
+#N canvas 436 78 428 467 zl_rot 0;
+#X msg 135 290 sometimes my grammar is all messed up;
+#X obj 115 378 cyclone/zl rot 3;
+#X obj 208 353 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 31 15 comment 185 14 monaco ? 0 0 0 0 Mode: rot;
+#X obj 76 333 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 31 181 A bang performs the operation in the last received list.
+;
+#X text 31 201 The right outlet is inactive.;
+#X obj 115 417 print zl_rot;
+#X text 30 47 The mode rot does rotate a list. If the rotation point
+is a positive number 'n' \, the list is shifted to the right by 'n'
+positions \, and the last 'n' elements are placed at the list start.
+If 'n' is negative \, the rotation happens at the other direction.
+;
+#X text 31 120 You can set the rotation point with an argument or with
+a float input into the right inlet \, but also when you set the mode
+with the mode message. The default point is '0' \, which means no rotation.
+;
+#X msg 159 320 1 2 3 4 5 6 7 8 9 10 11 12;
+#X msg 115 249 mode rot -3;
+#X connect 0 0 1 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 1;
+#X connect 4 0 1 0;
+#X connect 10 0 1 0;
+#X connect 11 0 1 0;
+#X restore 477 283 pd zl_rot;
+#N canvas 203 172 403 371 zl_sect 0;
+#X obj 45 230 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X obj 220 305 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X text 235 321 no common elements;
+#X text 241 307 bang if there are;
+#X obj 79 313 print zl_sect;
+#X msg 82 230 1 2 3 4 5 6 7 8 9 10;
+#X msg 220 223 1 5 10 15 20;
+#X obj 79 279 cyclone/zl sect 1 10 100;
+#X msg 240 249 0 100 1000;
+#X obj 20 7 comment 185 14 monaco ? 0 0 0 0 Mode: sect;
+#X msg 69 186 mode sect 3 6 9;
+#X text 171 187 <= set mode and argument;
+#X text 18 35 The mode sect outputs the elements of an input list that
+are in common to another list (set as an argument or via the right
+inlet). The default is an empty list.;
+#X text 19 82 The right outlet outputs a bang if there are no matching
+elements.;
+#X text 19 117 A bang performs the operation in the last received list
+into the left inlet.;
+#X connect 0 0 7 0;
+#X connect 5 0 7 0;
+#X connect 6 0 7 1;
+#X connect 7 0 4 0;
+#X connect 7 1 1 0;
+#X connect 8 0 7 1;
+#X connect 10 0 7 0;
+#X restore 477 306 pd zl_sect;
+#N canvas 521 119 415 398 zl_slice 0;
+#X obj 22 8 comment 185 14 monaco ? 0 0 0 0 Mode: slice;
+#X obj 235 251 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X text 275 249 split point;
+#X obj 68 238 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X msg 122 242 a b c d e f g h;
+#X msg 112 217 1 2 3 4 5 6 7;
+#X text 174 187 <= sets mode and split point;
+#X text 24 141 A bang performs the operation in the last received list.
+;
+#X text 32 353 See also 'ecils' mode;
+#X text 21 35 The slice mode slices a list. You can set the split point
+with an argument or with a float input into the right inlet \, but
+also when you set the mode with the mode message. The default point
+is '0' \, which means no slicing.;
+#X msg 90 187 mode slice 4;
+#X obj 112 275 cyclone/zl slice 3, f 21;
+#X obj 112 312 print slice_Left;
+#X obj 235 313 print slice_Right;
+#X text 22 101 If you slice at 'n' \, the left outlet spits the first
+'n' elements and the right outlet sends the remaining elements.;
+#X connect 1 0 11 1;
+#X connect 3 0 11 0;
+#X connect 4 0 11 0;
+#X connect 5 0 11 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X connect 11 1 13 0;
+#X restore 477 328 pd zl_slice;
+#N canvas 488 111 415 301 zl_sort 0;
+#X obj 76 141 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X obj 106 174 cyclone/zl sort;
+#X msg 106 93 beep 1 2.3 137 bap;
+#X msg 193 121 0;
+#X msg 203 151 -1;
+#X obj 106 211 print sorted;
+#X obj 193 211 print sort indexes;
+#X obj 223 119 comment 263 11 helvetica ? 0 80 80 80 ascending sort
+;
+#X obj 231 158 comment 263 11 helvetica ? 0 80 80 80 descending sort
+;
+#X text 40 44 arrange a list in alphanumeric order;
+#X obj 42 13 comment 185 14 monaco ? 0 0 0 0 Mode: sort;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 1 1 6 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 1;
+#X connect 4 0 1 1;
+#X restore 477 350 pd zl_sort;
+#N canvas 479 117 430 322 zl_sub 0;
+#X obj 106 119 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X msg 139 120 1 2 3 4 5 6 7 8 9 5 5 5;
+#X obj 139 182 cyclone/zl sub;
+#X msg 185 147 5;
+#X msg 220 147 11;
+#X msg 260 147 7 8 9;
+#X obj 139 244 print offset;
+#X obj 220 244 print found;
+#X obj 32 23 comment 185 14 monaco ? 0 0 0 0 Mode: sub;
+#X text 34 70 output position for each occurance of right list in left
+;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 2 0 6 0;
+#X connect 2 1 7 0;
+#X connect 3 0 2 1;
+#X connect 4 0 2 1;
+#X connect 5 0 2 1;
+#X restore 477 372 pd zl_sub;
+#N canvas 475 126 439 357 zl_union 0;
+#X obj 93 169 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X obj 136 214 cyclone/zl union;
+#X msg 136 172 2.3 7 6.5;
+#X msg 229 172 6.5 4 2.3 2 2 8;
+#X obj 32 23 comment 185 14 monaco ? 0 0 0 0 Mode: union;
+#X text 33 58 union the stuff in two lists \, does not duplicate things
+in list 2 that are in list 1;
+#X text 35 99 The right outlet is inactive.;
+#X obj 136 266 print zl_union;
+#X connect 0 0 1 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 1;
+#X restore 477 394 pd zl_union;
+#X text 481 424 * missing;
+#X text 539 198 *;
+#X text 547 352 *;
+#X text 541 374 *;
+#X text 552 396 *;
+#X text 30 96 The maximum size is also set via the 'zlmaxsize' attribute
+or message (and it can be up to 32767).;
+#X obj 195 201 cyclone/zl 512 group 512;
+#X obj 195 232 cyclone/zl len @maxzlsize 512;
+#X connect 0 0 13 0;
+#X connect 13 2 34 0;
+#X connect 17 0 34 0;
+#X connect 17 0 35 0;
+#X connect 34 0 35 0;
+#X connect 35 0 1 0;
+#X restore 477 225 pd examples;
+#X text 174 379 - output according to the mode: see details in [pd
+examples];
+#X text 174 398 - output according to the mode: see details in [pd
+examples];
+#X text 174 257 - depends on the mode \, see [pd examples];
+#X obj 142 145 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 230 173 zlclear;
+#X text 282 172 <= reinitializes;
+#X obj 135 223 print;
+#X text 90 144 resends;
+#X text 93 160 length;
+#X text 174 347 - depends on the mode \, see [pd examples];
+#N canvas 960 243 438 237 subsequent_arguments 0;
+#X text 18 68 group;
+#X text 24 83 iter;
+#X text 30 98 mth;
+#X text 30 128 reg;
+#X text 24 159 sect;
+#X text 18 174 slice;
+#X text 24 189 sort;
+#X text 30 143 rot;
+#X text 18 54 ecils;
+#X text 30 113 nth;
+#X text 57 83 - float: max length of output list (default 0);
+#X text 57 98 - float: the element position counting from 0 (default
+0);
+#X text 57 128 - anything: stored elements (default none);
+#X text 30 203 sub;
+#X text 57 203 - anything: elements to look for (default none);
+#X text 57 68 - float: length of the grouped list (default is zlmaxsize)
+;
+#X text 57 113 - float: the element position counting from 1 (default
+0);
+#X text 57 143 - float: number to rotate to (default 0);
+#X text 57 174 - float: position to slice the list (default 0);
+#X text 57 54 - float: position to slice the list (default 0);
+#X text 57 189 - float: 0 (ascending \, default) or -1 (descending)
+;
+#X text 57 159 - anything: to compare with left input (default none)
+;
+#X text 37 6 The modes join \, len \, rev & union don't have arguments.
+The other modes can have subsequent arguments as below. See also [pd
+examples] for more details on how they work.;
+#X restore 356 479 pd subsequent_arguments;
+#X text 174 329 - sets maximum list size (from 1 to 32767);
+#X text 174 287 -;
+#X text 186 286 sets mode (you can also set subsequent arguments) -
+check [pd examples] for more info;
+#X text 180 430 optional: maximum list size (1-32767 \, default 256)
+;
+#X text 48 88 [zl] processes messages with one or more elements ("list
+messages' or "anything") according to a mode (set via argument/message).
+;
+#X text 122 512 @zlmaxsize <float> - max list size (1-32767 \, default
+256), f 62;
+#X text 180 448 mode (ecils \, group \, iter \, join \, len \, mth
+\, nth \, reg \, rev \, rot \, sect \, slice \, sort \, sub or union).
+Modes can have subsequent arguments \, check:;
+#X connect 14 0 6 0;
+#X connect 14 0 44 0;
+#X connect 16 0 14 0;
+#X connect 33 0 14 0;
+#X connect 41 0 14 0;
+#X connect 42 0 14 0;

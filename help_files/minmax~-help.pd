@@ -14,31 +14,6 @@
 #X text 134 494 (none);
 #X obj 6 517 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 246 345 428 75 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 9 28 abs~;
-#X restore 212 519 pd Related_objects;
-#N canvas 569 308 379 337 META 0;
-#X text 2 231 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 1 70 INLET_0 signal;
-#X text 2 189 AUTHOR Krzysztof Czaja;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 169 VERSION 0.2-beta1;
-#X text 1 210 RELEASE_DATE 2002;
-#X text 2 261 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X text 1 0 KEYWORDS control max_compatible;
-#X text 1 90 OUTLET_0 signal;
-#X text 1 110 OUTLET_1 signal;
-#X text 1 150 OUTLET_3 float;
-#X text 1 130 OUTLET_2 float;
-#X text 1 37 DESCRIPTION computes the minimum and maximum values of
-a signal;
-#X restore 508 519 pd META;
 #X msg 226 157 reset;
 #X text 146 331 bang;
 #X text 140 348 reset;
@@ -83,8 +58,8 @@ Max/MSP;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Minimum/Maximum values of
 a signal;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -153,7 +128,7 @@ a signal;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -189,9 +164,9 @@ a signal;
 #X obj 237 251 number~;
 #X obj 208 276 number~;
 #X obj 266 228 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -1 256;
+-228856 -1 -1 0 256;
 #X obj 295 207 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X text 305 279 Minimum level;
 #X text 334 252 Maximum level;
 #X text 331 229 Minimum level;
@@ -263,16 +238,16 @@ signals and floats) of an input signal since the startup or a reset.
 ;
 #X obj 78 182 number~;
 #X obj 162 210 vsl 17 80 -1 1 0 0 dfgj dkhkgk empty 0 -9 0 10 -228856
--1 -1 5697 1;
+-1 -1 0 1;
 #X obj 78 132 osc~ 0.1;
-#X connect 11 0 48 0;
-#X connect 20 0 48 0;
-#X connect 27 0 28 0;
-#X connect 28 0 48 1;
-#X connect 48 0 40 0;
-#X connect 48 1 39 0;
-#X connect 48 2 41 0;
-#X connect 48 3 42 0;
-#X connect 54 1 55 0;
-#X connect 56 0 54 0;
-#X connect 56 0 48 0;
+#X connect 9 0 46 0;
+#X connect 18 0 46 0;
+#X connect 25 0 26 0;
+#X connect 26 0 46 1;
+#X connect 46 0 38 0;
+#X connect 46 1 37 0;
+#X connect 46 2 39 0;
+#X connect 46 3 40 0;
+#X connect 52 1 53 0;
+#X connect 54 0 52 0;
+#X connect 54 0 46 0;

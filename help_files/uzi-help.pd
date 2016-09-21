@@ -3,36 +3,10 @@
 0;
 #X obj 6 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 588 373 383 264 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 157 LIBRARY cyclone;
-#X text 1 0 KEYWORDS bang set send fast;
-#X text 1 36 DESCRIPTION send a specified number of bangs as fast as
-possible;
-#X text 1 67 INLET_0 bang messages;
-#X text 1 103 OUTLET_0 bang;
-#X text 1 85 INLET_1 float;
-#X text 1 121 OUTLET_1 bang;
-#X text 1 139 OUTLET_2 float;
-#X text 0 176 VERSION 0.2-beta1;
-#X text 0 194 AUTHOR Krzysztof Czaja;
-#X text 1 212 RELEASE_DATE 2002;
-#X text 2 231 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 263 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 506 525 pd META;
 #X obj 5 401 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 6 476 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 313 532 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X obj 8 30 counter;
-#X restore 207 525 pd Related_objects;
 #X obj 87 293 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 86 411 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -215,12 +189,12 @@ and outputs a count for each bang (right outlet). The middle outlet
 bangs after the loop is done. The 1st argument is the number of bangs.
 The counter starts from a given offset (2nd argument).;
 #X text 202 291 - sets the number of bangs and starts the loop;
-#X connect 13 0 42 0;
-#X connect 14 0 42 1;
-#X connect 33 0 42 0;
-#X connect 34 0 42 0;
-#X connect 35 0 34 0;
-#X connect 36 0 29 0;
-#X connect 42 0 12 0;
-#X connect 42 1 43 0;
-#X connect 42 2 36 0;
+#X connect 11 0 40 0;
+#X connect 12 0 40 1;
+#X connect 31 0 40 0;
+#X connect 32 0 40 0;
+#X connect 33 0 32 0;
+#X connect 34 0 27 0;
+#X connect 40 0 10 0;
+#X connect 40 1 41 0;
+#X connect 40 2 34 0;

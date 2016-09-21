@@ -3,30 +3,10 @@
 0;
 #X obj 5 316 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 629 308 345 214 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 76 LIBRARY cyclone;
-#X text 0 0 KEYWORDS signal graphic display graph;
-#X text 0 38 DESCRIPTION graphic signal display;
-#X text 0 57 INLET_0 signal buffsize range frgb brgb;
-#X text 0 95 VERSION 0.2-beta1;
-#X text 0 113 AUTHOR Krzysztof Czaja;
-#X text 1 131 RELEASE_DATE 2002;
-#X text 2 150 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 182 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 507 653 pd META;
 #X obj 6 545 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 571 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 332 419 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 216 653 pd Related_objects;
 #X obj 77 325 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 151 323 signal;
@@ -555,8 +535,8 @@ smallest line is 2 samples/points long.;
 ;
 #X obj 235 201 cyclone/comment 0 12 helvetica ? 0 200 0 0 <= Right
 click for properties!;
-#X connect 9 0 11 0;
-#X connect 11 0 24 0;
-#X connect 16 0 67 1;
-#X connect 24 0 67 0;
-#X connect 58 0 67 0;
+#X connect 7 0 9 0;
+#X connect 9 0 22 0;
+#X connect 14 0 65 1;
+#X connect 22 0 65 0;
+#X connect 56 0 65 0;

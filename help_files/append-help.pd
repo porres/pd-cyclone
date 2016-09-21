@@ -17,28 +17,6 @@
 #X msg 247 144 3 4 5;
 #X obj 3 431 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 349 116 430 68 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 51 29 cyclone/prepend;
-#X obj 12 29 pack;
-#X obj 153 29 cyclone/zl;
-#X restore 209 433 pd Related_objects;
-#N canvas 510 124 379 261 META 0;
-#X text 1 0 KEYWORDS signal max_compatible;
-#X text 1 124 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 1 82 AUTHOR Krzysztof Czaja;
-#X text 1 20 LICENSE SIBSD;
-#X text 0 62 VERSION 0.2-beta1;
-#X text 0 103 RELEASE_DATE 2002;
-#X text 1 40 DESCRIPTION append a message to the incoming message;
-#X text 1 154 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 492 433 pd META;
 #X text 156 307 bang;
 #X text 189 287 -;
 #X text 132 287 anything;
@@ -96,10 +74,10 @@ of any message sent to the input.;
 #X text 204 287 a message that will be combined to the stored message
 ;
 #X text 189 307 - outputs the stored combined message;
-#X connect 6 0 30 0;
-#X connect 7 0 30 0;
-#X connect 8 0 30 0;
-#X connect 9 0 30 0;
-#X connect 10 0 30 0;
-#X connect 29 0 30 0;
-#X connect 30 0 5 0;
+#X connect 6 0 28 0;
+#X connect 7 0 28 0;
+#X connect 8 0 28 0;
+#X connect 9 0 28 0;
+#X connect 10 0 28 0;
+#X connect 27 0 28 0;
+#X connect 28 0 5 0;

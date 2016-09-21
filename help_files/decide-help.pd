@@ -22,33 +22,6 @@
 #X obj 2 426 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 406 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 509 103 374 327 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 120 LIBRARY cyclone;
-#X text 0 0 KEYWORDS output 0 1 binary random;
-#X text 0 100 OUTLET_0 float;
-#X text 0 60 INLET_0 bang;
-#X text 0 80 INLET_1 float;
-#X text 0 138 VERSION 0.2-beta1;
-#X text 0 156 AUTHOR Krzysztof Czaja;
-#X text 1 174 RELEASE_DATE 2002;
-#X text 2 193 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 0 40 DESCRIPTION output 0 or 1 randomly;
-#X text 2 225 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 491 408 pd META;
-#N canvas 350 145 430 81 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 13 30 random;
-#X obj 62 30 cyclone/drunk;
-#X obj 152 30 cyclone/rand~;
-#X obj 243 30 cyclone/urn;
-#X restore 210 408 pd Related_objects;
 #X text 158 267 -;
 #X text 119 267 float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -91,11 +64,11 @@ use a random seed \, any other integer float is the seed, f 60;
 #X obj 166 200 s \$0-bang;
 #X text 172 381 sets the seed - default 0 \, the standard C rand()
 function;
-#X connect 30 0 33 0;
-#X connect 30 0 34 0;
-#X connect 33 0 31 0;
-#X connect 33 1 32 0;
-#X connect 34 0 35 0;
-#X connect 39 0 42 0;
-#X connect 40 0 39 0;
-#X connect 41 0 30 0;
+#X connect 28 0 31 0;
+#X connect 28 0 32 0;
+#X connect 31 0 29 0;
+#X connect 31 1 30 0;
+#X connect 32 0 33 0;
+#X connect 37 0 40 0;
+#X connect 38 0 37 0;
+#X connect 39 0 28 0;

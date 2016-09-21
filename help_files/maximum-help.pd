@@ -13,34 +13,6 @@
 ;
 #X obj 2 500 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 504 103 374 363 META 0;
-#X text 0 20 LICENSE SIBSD;
-#X text 0 120 LIBRARY cyclone;
-#X text 0 80 INLET_1 float;
-#X text 0 0 KEYWORDS max maximum greatesst list;
-#X text 0 40 DESCRIPTION output the greatest in a list of numbers;
-#X text 0 60 INLET_0 list bang float;
-#X text 0 100 OUTLET_0 float;
-#X text 0 139 VERSION 0.2-beta1;
-#X text 0 157 AUTHOR Krzysztof Czaja;
-#X text 1 175 RELEASE_DATE 2002;
-#X text 2 194 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 226 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 489 502 pd META;
-#N canvas 344 144 430 84 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 149 33 cyclone/peak;
-#X obj 47 33 cyclone/minimum;
-#X obj 235 33 cyclone/trough;
-#X obj 16 33 >;
-#X obj 334 33 cyclone/past;
-#X restore 201 502 pd Related_objects;
 #X text 170 305 -;
 #X text 136 305 bang;
 #X text 130 324 float;
@@ -71,7 +43,7 @@ argument;
 -1;
 #X text 185 305 resends the most recent output, f 56;
 #X obj 317 254 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 19 256;
+-228856 -1 -1 0 256;
 #X text 311 141 find maximum in a list;
 #X msg 317 167 10 5 7 2 19 8 6 4;
 #X obj 85 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -100,7 +72,7 @@ with the argument!;
 #X floatatom 95 163 5 0 0 0 - - -, f 5;
 #X text 49 97 - The maximum number in a list updates the argument;
 #X obj 146 239 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 89 256;
+-228856 -1 -1 0 256;
 #X msg 146 142 30 89 77 21 43;
 #X msg 163 172 22 12 78 64 12 64;
 #X connect 2 0 5 0;
@@ -115,10 +87,10 @@ more values. It compares two floats or values in a list.;
 ;
 #X text 185 415 the maximum (greatest) value of two or more numbers
 ;
-#X connect 25 0 29 0;
-#X connect 27 0 43 0;
-#X connect 31 0 25 0;
-#X connect 34 0 43 0;
-#X connect 35 0 43 1;
-#X connect 43 0 32 0;
-#X connect 46 0 25 0;
+#X connect 23 0 27 0;
+#X connect 25 0 41 0;
+#X connect 29 0 23 0;
+#X connect 32 0 41 0;
+#X connect 33 0 41 1;
+#X connect 41 0 30 0;
+#X connect 44 0 23 0;
