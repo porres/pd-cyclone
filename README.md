@@ -55,7 +55,7 @@ When cyclone was been left unmaintained (in february 2016), Porres forked cyclon
 
 This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone.
 
-Cyclone was originally developed in Max/MSP 4 era - but Max has since then introduced new functionalities on some objects in the more recent versions (from Max 5 to Max 7). The current version of Cyclone (0.2beta) still has some objects with functionalities from Max/MSP 4, but with already some objects updated to include some of the new functionalities introduced in Max 5 (but still missing functionalities from Max 6 and Max 7 versions). 
+Cyclone was originally developed in Max/MSP 4 era - but Max has since then introduced new functionalities on some objects in the more recent versions (from Max 5 to Max 7). The current version of Cyclone (0.2beta) is still mostly outdated to Max/MSP 4, but with already some objects updated to include some of the new functionalities introduced in Max 5 (but still missing functionalities from Max 6 and Max 7 versions). 
 
 If in agreement to the Pd community, this repository will release updates of the cyclone project (starting with version "0.3-alpha-0"). If so be it, besides bug fixes in current existing objects, new/further developments shall include:
 
@@ -63,17 +63,17 @@ If in agreement to the Pd community, this repository will release updates of the
 
 <strong>- B)</strong> New objects compatible to the up to date Max version (currently Max 7.2.5). 
 
-Such updates represent the major overhaul since the original author abandoned cyclone in 2005. with such a great deal of work, this repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Ideally, any possible Max/MSP object could be cloned or updated, but since this is a fair amount of work, collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. 
+Such an update represents the major overhaul since the original author abandoned cyclone in 2005. With such a great deal of work, this repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Ideally, any possible Max/MSP object could be cloned or updated, but since this is a fair amount of work, collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. 
 
 Some collaborators are already helping coding new objects and updating/fixing old ones, a list of known bugs and things "to do" will be made available with the first release to come from this repository.
 
 Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/changelog
 
-Readme file created on February 22nd 2016 (last edited on sep 15th 2016)
+Readme file created on February 22nd 2016 (last edited on sep 21st 2016)
 
 -------
 <strong>Building Cyclone</strong>
 
-Since version 0.1-alpha57, cyclone has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). With this new build system, all you have to do is type "make" and build cyclone in different platforms.
+Since version 0.1-alpha57, cyclone has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). With this new build system, all you have to do is type "make" and build cyclone for your platform.
 
-Cyclone originally used to also compile the objects in libraries (such as "hammer" for control objects and "sickle" for signal objects). But at some point in the Pd-Extended era, only single binaries were available. The new build system system, up to this moment, only builds each object in a separate file as in the old Pd extended days - with the exception of a sub-library (containing 12 non alphanumeric objects). The current maintenance considers to restore the possibility of also compiling cyclone as a library in the same way it was originally developed.
+Cyclone originally used to also compile the objects in libraries (such as "hammer" for control objects and "sickle" for signal objects). But at some point in the Pd-Extended era, only single binaries were available. The new build system system, up to this moment, only builds each object in a separate file as in the old Pd extended days - with the exception of a sub-library (containing 12 non alphanumeric objects). The current maintenance considers to restore the possibility of also compiling cyclone as a library as originally.
