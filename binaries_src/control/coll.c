@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+//2016 - making COLLTHREAD,COLLEMBED, coll_embed, attribute parsing - Derek Kwan
+
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
@@ -18,6 +20,10 @@
 #ifdef KRZYSZCZ
 //#define COLL_DEBUG
 #endif
+
+
+#define COLLTHREAD 0 //default for threaded
+#define COLLEMBED 0 //default for save in patch
 
 enum { COLL_HEADRESET,
        COLL_HEADNEXT, COLL_HEADPREV,  /* distinction not used, currently */
@@ -68,6 +74,7 @@ typedef struct _coll
     t_outlet      *x_keyout;
     t_outlet      *x_filebangout;
     t_outlet      *x_dumpbangout;
+    int           x_threaded;
     struct _coll  *x_next;
 
 	//for thread-unsafe file i/o operations
@@ -1619,6 +1626,11 @@ static void coll_flags(t_coll *x, t_float f1, t_float f2)
 	//}
 }
 
+static void coll_embed(t_coll *x, t_float f){
+    int embed = f == 0 ? 0 : 1;
+    coll_flags(x, (t_float) embed, 0);
+}
+
 static void coll_read(t_coll *x, t_symbol *s)
 {
 	if (!x->unsafe) {
@@ -1792,6 +1804,7 @@ static void collelem_post(t_collelem *ep)
 	//}
 }
 
+
 static void collcommon_post(t_collcommon *cc)
 {
     t_collelem *ep;
@@ -1902,10 +1915,10 @@ static void coll_free(t_coll *x)
 
 static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 {
-	int ret;
-	int count = 0;
-	t_symbol *file = NULL;
     t_coll *x = (t_coll *)pd_new(coll_class);
+    
+    int ret;
+    t_symbol *file = NULL;
     x->x_canvas = canvas_getcurrent();
     outlet_new((t_object *)x, &s_);
     x->x_keyout = outlet_new((t_object *)x, &s_);
@@ -1913,26 +1926,50 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
     x->x_dumpbangout = outlet_new((t_object *)x, &s_bang);
     x->x_filehandle = hammerfile_new((t_pd *)x, coll_embedhook, 0, 0, 0);
 
+
+    //defaults
+    int embed = COLLEMBED;
+    int threaded = COLLTHREAD;
     // check arguments for filename and threaded version
-    if (argc > 0)
-	{
-		while(count < argc)
-		{
-			if (argv[count].a_type == A_SYMBOL)
-			{
-				// we got a file name
-				file = gensym(atom_getsymbol(&argv[count])->s_name);
-			}
-			else if (argv[count].a_type == A_FLOAT)
-			{
-				// we got a flag for threaded (1) vs non-threaded (0)
-				x->threaded = (int)atom_getfloat(&argv[count]);
-				if (x->threaded < 0) x->threaded = 0;
-				if (x->threaded > 1) x->threaded = 1;
-			}
-			count++;
-		}
-	}
+
+    while(argc){
+        if(argv -> a_type == A_SYMBOL){
+            t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+            argc--;
+            argv++;
+            if(strcmp(cursym -> s_name, "@embed") == 0){
+                if(argc){
+                    t_float curf = atom_getfloatarg(0, argc, argv);
+                    argc--;
+                    argv++;
+                    embed = curf == 0 ? 0 : 1;
+                };
+            }
+            else if(strcmp(cursym -> s_name, "@threaded") == 0){
+                if(argc){
+                    t_float curf = atom_getfloatarg(0, argc, argv);
+                    argc--;
+                    argv++;
+                    threaded = curf == 0 ? 0 : 1;
+                };
+            }
+            else{
+                file = cursym;
+            };
+        }
+        /* eventual parsing of float args
+        else if(argv -> a_type == A_FLOAT){
+        
+        }
+        */
+        else{
+            goto errstate;
+        };
+    };
+
+
+    x->x_threaded = threaded;
+    coll_flags(x, (int)embed, 0);
 	// if no file name provided, associate with empty symbol
 	if (file == NULL)
 		file = &s_;
@@ -1957,6 +1994,9 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
     coll_bind(x, file);
 
     return (x);
+	errstate:
+		pd_error(x, "coll: improper args");
+		return NULL;
 }
 
 void coll_setup(void)
@@ -1978,6 +2018,7 @@ void coll_setup(void)
 		    gensym("insert"), A_GIMME, 0);
     class_addmethod(coll_class, (t_method)coll_remove,
 		    gensym("remove"), A_GIMME, 0);
+
     class_addmethod(coll_class, (t_method)coll_delete,
 		    gensym("delete"), A_GIMME, 0);
     class_addmethod(coll_class, (t_method)coll_assoc,
@@ -2020,6 +2061,8 @@ void coll_setup(void)
 		    gensym("refer"), A_SYMBOL, 0);
     class_addmethod(coll_class, (t_method)coll_flags,
 		    gensym("flags"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_embed,
+		    gensym("embed"), A_FLOAT,0);
     class_addmethod(coll_class, (t_method)coll_read,
 		    gensym("read"), A_DEFSYM, 0);
     class_addmethod(coll_class, (t_method)coll_start,
