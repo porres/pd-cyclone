@@ -2,7 +2,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-//2016 - making COLLTHREAD,COLLEMBED, coll_embed, attribute parsing, redundant insert2 - Derek Kwan
+//2016 - making COLLTHREAD,COLLEMBED, coll_embed, attribute parsing, redundant insert2, edit to not autosort in collcommon_tonumkey - Derek Kwan
 
 #include <stdio.h>
 #include <string.h>
@@ -591,6 +591,9 @@ static void collcommon_adddata(t_collcommon *cc, t_collelem *ep,
     }
 }
 
+/* 
+   //old autosorting collcommon_tonumkey which INSERTS
+
 static t_collelem *collcommon_tonumkey(t_collcommon *cc, int numkey,
 				       int ac, t_atom *av, int replace)
 {
@@ -605,15 +608,15 @@ static t_collelem *collcommon_tonumkey(t_collcommon *cc, int numkey,
 	    collcommon_putbefore(cc, new, old);
 	    do
 		if (old->e_hasnumkey)
-		    /* CHECKED incremented up to the last one; incompatible:
-		       elements with numkey == 0 not incremented (a bug?) */
+		    //CHECKED incremented up to the last one; incompatible:
+		     //  elements with numkey == 0 not incremented (a bug?) 
 		    old->e_numkey++;
 	    while (old = old->e_next);
 	}
 	else
 	{
-	    /* CHECKED negative numkey always put before the last element,
-	       zero numkey always becomes the new head */
+	    // CHECKED negative numkey always put before the last element,
+	     //  zero numkey always becomes the new head 
 	    int closestkey = 0;
 	    t_collelem *closest = 0, *ep;
 	    for (ep = cc->c_first; ep; ep = ep->e_next)
@@ -640,6 +643,42 @@ static t_collelem *collcommon_tonumkey(t_collcommon *cc, int numkey,
     }
     return (new);
 }
+
+*/
+
+static t_collelem *collcommon_tonumkey(t_collcommon *cc, int numkey,
+				       int ac, t_atom *av, int replace)
+{
+    //collcommon_numkey checks existence of key
+    t_collelem *old = collcommon_numkey(cc, numkey), *new; 
+    if (old && replace)
+	collcommon_replace(cc, new = old, ac, av, &numkey, 0);
+    else
+    {
+	new = collelem_new(ac, av, &numkey, 0);
+	if (old)
+	{
+	    do
+		if (old->e_hasnumkey)
+		    //CHECKED incremented up to the last one; incompatible:
+		     //  elements with numkey == 0 not incremented (a bug?) 
+		    old->e_numkey++;
+	    while (old = old->e_next);
+	};
+	    // CHECKED negative numkey always put before the last element,
+	     //  zero numkey always becomes the new head 
+	    t_collelem *closest = 0, *ep;
+	    for (ep = cc->c_first; ep; ep = ep->e_next)
+	    {
+		closest = ep;
+	    };
+	    collcommon_putafter(cc, new, closest);
+	}
+    return (new);
+}
+
+
+
 
 static t_collelem *collcommon_tosymkey(t_collcommon *cc, t_symbol *symkey,
 				       int ac, t_atom *av, int replace)
@@ -1981,7 +2020,6 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 
 
     x->x_threaded = threaded;
-    coll_flags(x, (int)embed, 0);
 	// if no file name provided, associate with empty symbol
 	if (file == NULL)
 		file = &s_;
@@ -2004,6 +2042,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 	}
 
     coll_bind(x, file);
+    coll_flags(x, (int)embed, 0);
 
     return (x);
 	errstate:
