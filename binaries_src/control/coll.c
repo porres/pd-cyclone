@@ -2,7 +2,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-//2016 - making COLLTHREAD,COLLEMBED, coll_embed, attribute parsing - Derek Kwan
+//2016 - making COLLTHREAD,COLLEMBED, coll_embed, attribute parsing, redundant insert2 - Derek Kwan
 
 #include <stdio.h>
 #include <string.h>
@@ -1227,6 +1227,18 @@ static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
 	//}
 }
 
+static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
+{
+    //redundant placeholder for insert2 just copying coll_insert - DK
+	
+    //if (!x->busy) {
+		if (ac >= 2 && av->a_type == A_FLOAT)
+		coll_tokey(x, av, ac-1, av+1, 0, s);
+		else
+		loud_messarg((t_pd *)x, s);
+	//}
+}
+
 static void coll_remove(t_coll *x, t_symbol *s, int ac, t_atom *av)
 {
 	//if (!x->busy) {
@@ -2016,6 +2028,8 @@ void coll_setup(void)
 		    gensym("nstore"), A_GIMME, 0);
     class_addmethod(coll_class, (t_method)coll_insert,
 		    gensym("insert"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_insert2,
+		    gensym("insert2"), A_GIMME, 0);
     class_addmethod(coll_class, (t_method)coll_remove,
 		    gensym("remove"), A_GIMME, 0);
 
