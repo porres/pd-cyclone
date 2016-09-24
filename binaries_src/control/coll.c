@@ -2,7 +2,10 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-//2016 - making COLLTHREAD,COLLEMBED, coll_embed, attribute parsing, redundant insert2, edit to not autosort in collcommon_tonumkey - Derek Kwan
+/*2016 - making COLLTHREAD,COLLEMBED, coll_embed, attribute parsing,
+redundant insert2, edit to not autosort in collcommon_tonumkey,
+adding coll_renumber2 and collcommon_renumber2 - Derek Kwan
+*/
 
 #include <stdio.h>
 #include <string.h>
@@ -511,6 +514,25 @@ static void collcommon_changesymkey(t_collcommon *cc,
     ep->e_symkey = s;
     collcommon_modified(cc, 0);
 }
+
+
+static void collcommon_renumber2(t_collcommon *cc, int startkey){
+ //entries with keys >= startkey get incremented by one	    
+    t_collelem *ep;
+    for (ep = cc->c_first; ep; ep = ep->e_next){
+	if (ep->e_hasnumkey){
+            if(ep->e_numkey >= startkey){
+                ep->e_numkey = ep->e_numkey + 1;
+            };
+        };
+    };
+
+    //i have no idea what this does but renumber does it so i'm doing it too - DK
+    collcommon_modified(cc, 0);
+}
+
+
+
 
 static void collcommon_renumber(t_collcommon *cc, int startkey)
 {
@@ -1356,6 +1378,15 @@ static void coll_subsym(t_coll *x, t_symbol *s1, t_symbol *s2)
 	//}
 }
 
+static void coll_renumber2(t_coll *x, t_floatarg f)
+{
+	//if (!x->busy) {
+		int startkey;
+		if (loud_checkint((t_pd *)x, f, &startkey, gensym("renumber")))
+		collcommon_renumber2(x->x_common, startkey);
+	//}
+}
+
 static void coll_renumber(t_coll *x, t_floatarg f)
 {
 	//if (!x->busy) {
@@ -2082,6 +2113,8 @@ void coll_setup(void)
 		    gensym("subsym"), A_SYMBOL, A_SYMBOL, 0);
     class_addmethod(coll_class, (t_method)coll_renumber,
 		    gensym("renumber"), A_DEFFLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_renumber2,
+		    gensym("renumber2"), A_DEFFLOAT, 0);
     class_addmethod(coll_class, (t_method)coll_merge,
 		    gensym("merge"), A_GIMME, 0);
     class_addmethod(coll_class, (t_method)coll_sub,
