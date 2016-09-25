@@ -67,7 +67,7 @@ Such an update represents the major overhaul since the original author abandoned
 
 Some collaborators are already helping coding new objects and updating/fixing old ones, a list of known bugs and things "to do" will be made available with the first release to come from this repository.
 
-Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-alpha.0-changelog
+Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 
 Readme file created on February 22nd 2016 (last edited on sep 21st 2016)
 
