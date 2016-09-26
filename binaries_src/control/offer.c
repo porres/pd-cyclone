@@ -14,9 +14,10 @@
 typedef struct _offer
 {
     t_object      x_ob;
-    t_float       x_value;
-    int           x_valueset;
-    t_hammertree  x_tree;
+    t_float       x_value; //value received in inlet 1
+    int           x_valueset; //if a value has been received in inlet 1
+    t_hammertree  x_tree; // a red-black tree!
+    int           x_sz; //size of tree, added for convenience - DK
 } t_offer;
 
 static t_class *offer_class;
@@ -30,12 +31,14 @@ static void offer_float(t_offer *x, t_float f)
 	if (x->x_valueset)
 	{
 	    hammertree_insertfloat(&x->x_tree, ndx, x->x_value, 1);
-	    x->x_valueset = 0;
+	    x->x_sz = x->x_sz + 1;
+            x->x_valueset = 0;
 	}
 	else if (np = hammertree_search(&x->x_tree, ndx))
 	{
 	    outlet_float(((t_object *)x)->ob_outlet, HAMMERNODE_GETFLOAT(np));
 	    hammertree_delete(&x->x_tree, np);
+            x->x_sz = x->x_sz - 1;
 	}
     }
 }
@@ -50,6 +53,7 @@ static void offer_ft1(t_offer *x, t_floatarg f)
 static void offer_clear(t_offer *x)
 {
     hammertree_clear(&x->x_tree, 0);
+    x->x_sz = 0;
     /* CHECKED valueset is not cleared */
 }
 
@@ -69,10 +73,27 @@ static void *offer_new(void)
 {
     t_offer *x = (t_offer *)pd_new(offer_class);
     x->x_valueset = 0;
+    x->x_sz = 0;
     hammertree_inittyped(&x->x_tree, HAMMERTYPE_FLOAT, 0);
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     return (x);
+}
+
+static void offer_bang(t_offer * x){
+    t_atom flist[x->x_sz];
+    t_hammernode * node = x->x_tree.t_first;
+    int flidx = 0;//current index in output list
+    while(node){
+        t_float curf = HAMMERNODE_GETFLOAT(node);
+        SETFLOAT(&(flist[flidx]), curf);
+        flidx++;
+        node = node->n_next;
+
+    };
+    
+    outlet_list(x->x_ob.ob_outlet, &s_list, flidx, flist);
+
 }
 
 void offer_setup(void)
@@ -86,6 +107,7 @@ void offer_setup(void)
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(offer_class, (t_method)offer_clear,
 		    gensym("clear"), 0);
+    class_addbang(offer_class, offer_bang);
 #ifdef HAMMERTREE_DEBUG
     class_addmethod(offer_class, (t_method)offer_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);
