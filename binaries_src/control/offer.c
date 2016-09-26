@@ -6,6 +6,8 @@
 #include "common/loud.h"
 #include "hammer/tree.h"
 
+//adding offer_bang - Derek Kwan 2016
+
 /* As a class `derived' from the common hammertree code (also in funbuff),
    offer maintains the auxiliary list, the main purpose of which is faster
    traversal (not needed here).  As a side-effect, there is a bonus of a small
@@ -82,8 +84,12 @@ static void *offer_new(void)
 
 static void offer_bang(t_offer * x){
     t_atom flist[x->x_sz];
+
+    //root of red-black tree, which is also a doubly-linked list
     t_hammernode * node = x->x_tree.t_first;
     int flidx = 0;//current index in output list
+   
+    //traverse doubly-linked list, grab float value from each node and set in flist
     while(node){
         t_float curf = HAMMERNODE_GETFLOAT(node);
         SETFLOAT(&(flist[flidx]), curf);
