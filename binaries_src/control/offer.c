@@ -6,7 +6,7 @@
 #include "common/loud.h"
 #include "hammer/tree.h"
 
-//adding offer_bang - Derek Kwan 2016
+//adding offer_bang, typecasting arg in offer_ft1 to and from int to get rid of mantissa  - Derek Kwan 2016
 
 /* As a class `derived' from the common hammertree code (also in funbuff),
    offer maintains the auxiliary list, the main purpose of which is faster
@@ -19,7 +19,6 @@ typedef struct _offer
     t_float       x_value; //value received in inlet 1
     int           x_valueset; //if a value has been received in inlet 1
     t_hammertree  x_tree; // a red-black tree!
-    //int           x_sz; //size of tree, added for convenience - DK
 } t_offer;
 
 static t_class *offer_class;
@@ -33,14 +32,12 @@ static void offer_float(t_offer *x, t_float f)
 	if (x->x_valueset)
 	{
 	    hammertree_insertfloat(&x->x_tree, ndx, x->x_value, 1);
-	    //x->x_sz = x->x_sz + 1;
             x->x_valueset = 0;
 	}
 	else if (np = hammertree_search(&x->x_tree, ndx))
 	{
 	    outlet_float(((t_object *)x)->ob_outlet, HAMMERNODE_GETFLOAT(np));
 	    hammertree_delete(&x->x_tree, np);
-            //x->x_sz = x->x_sz - 1;
 	}
     }
 }
@@ -48,14 +45,16 @@ static void offer_float(t_offer *x, t_float f)
 static void offer_ft1(t_offer *x, t_floatarg f)
 {
     /* this is incompatible -- CHECKED float is silently truncated */
-    x->x_value = f;
+
+    //getting rid of the mantissa a cheap way - DK
+    int val = (int)f;
+    x->x_value = (t_float)val;
     x->x_valueset = 1;
 }
 
 static void offer_clear(t_offer *x)
 {
     hammertree_clear(&x->x_tree, 0);
-    //x->x_sz = 0;
     /* CHECKED valueset is not cleared */
 }
 
@@ -75,7 +74,6 @@ static void *offer_new(void)
 {
     t_offer *x = (t_offer *)pd_new(offer_class);
     x->x_valueset = 0;
-    //x->x_sz = 0;
     hammertree_inittyped(&x->x_tree, HAMMERTYPE_FLOAT, 0);
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
