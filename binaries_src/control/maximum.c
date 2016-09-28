@@ -68,6 +68,9 @@ static void maximum_list(t_maximum *x, t_symbol *s, int argc, t_atom *argv){
                         second = first;
                         first = curf;
                         fidx = idx;
+                    }
+                    else if(curf > second || numfloats == 2){
+                        second = curf;
                     };
                 };
 
