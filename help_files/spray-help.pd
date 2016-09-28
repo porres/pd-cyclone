@@ -1,4 +1,4 @@
-#N canvas 482 26 559 489 10;
+#N canvas 593 23 559 489 10;
 #X obj 2 260 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 335 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -120,11 +120,11 @@ Max/MSP;
 #X msg 238 156 2 3.8;
 #X msg 162 157 0 1.2;
 #X obj 304 219 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3.8 256;
+-228856 -1 -1 0 256;
 #X obj 254 219 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X obj 205 219 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1.2 256;
+-228856 -1 -1 0 256;
 #X obj 204 236 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 0;
 #X obj 255 236 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 1;
 #X obj 304 236 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 2;
@@ -149,30 +149,33 @@ of outlets offset to the right);
 outlet number (starting at 0) and the 2nd value is sent to that outlet
 - other values are sent to the outlets to its right \, or to that same
 outlet (when in "output list" mode).;
-#N canvas 717 345 453 257 list 1;
+#N canvas 952 358 460 307 list 1;
 #X msg 278 94 0 2 2;
 #X msg 234 91 1 1 1;
 #X msg 190 89 2 3.8;
-#X msg 136 90 0 4 3 2;
-#X msg 92 91 0 1.2;
-#X text 216 57 symbols are ignored...;
+#X msg 74 91 0 1.2;
 #X floatatom 70 150 5 0 0 0 - - -, f 5;
-#X text 257 216 fix error to no float method;
-#X msg 123 55 1 cu 2 bosta;
-#X obj 190 131 cyclone/spray 3 0 1;
-#X obj 100 183 print um;
-#X obj 199 192 print dois;
-#X obj 295 185 print tres;
-#X connect 0 0 9 0;
-#X connect 1 0 9 0;
-#X connect 2 0 9 0;
-#X connect 3 0 9 0;
-#X connect 4 0 9 0;
-#X connect 6 0 9 0;
-#X connect 8 0 9 0;
-#X connect 9 0 10 0;
-#X connect 9 1 11 0;
-#X connect 9 2 12 0;
+#X text 187 17 fix error to no float method;
+#X msg 118 90 0 4 3 2 3;
+#X obj 190 131 cyclone/spray 6 0 1;
+#X obj 187 209 print;
+#X msg 105 55 0 1 cu 2 bosta;
+#X obj 190 174 join 6, f 19;
+#X text 216 57 symbols are ignored... document it;
+#X connect 0 0 7 0;
+#X connect 1 0 7 0;
+#X connect 2 0 7 0;
+#X connect 3 0 7 0;
+#X connect 4 0 7 0;
+#X connect 6 0 7 0;
+#X connect 7 0 10 0;
+#X connect 7 1 10 1;
+#X connect 7 2 10 2;
+#X connect 7 3 10 3;
+#X connect 7 4 10 4;
+#X connect 7 5 10 5;
+#X connect 9 0 7 0;
+#X connect 10 0 8 0;
 #X restore 432 209 pd list input \; and output;
 #X connect 25 0 36 0;
 #X connect 26 0 36 0;

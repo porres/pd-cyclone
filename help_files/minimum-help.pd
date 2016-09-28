@@ -1,26 +1,26 @@
-#N canvas 247 27 560 548 10;
+#N canvas 138 38 560 540 10;
 #X obj 2 303 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 412 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 403 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 469 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 460 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 95 312 cnv 17 3 57 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 95 375 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 95 421 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 95 412 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 508 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 499 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 170 313 -;
 #X text 136 313 bang;
 #X text 130 332 float;
 #X text 136 351 list;
 #X text 130 376 float;
-#X text 170 423 -;
-#X text 130 423 float;
-#X text 112 482 1) float;
+#X text 170 414 -;
+#X text 130 414 float;
+#X text 112 473 1) float;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -51,27 +51,30 @@ Max/MSP;
 -228856 -1 -1 0 256;
 #X text 72 158 compare float;
 #X text 77 174 to argument;
-#X obj 95 445 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 95 436 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 130 446 float;
+#X text 130 437 float;
 #N canvas 377 120 475 319 list 0;
 #X text 47 33 More about list:;
 #X text 47 63 - Numbers in a list are compared with each other \, not
 with the argument!;
-#X floatatom 95 163 5 0 0 0 - - -, f 5;
-#X obj 146 239 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X floatatom 95 183 5 0 0 0 - - -, f 5;
+#X obj 146 259 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 49 97 - The minimum number in a list updates the argument;
-#X obj 146 207 cyclone/minimum -1000;
-#X msg 146 142 30 89 77 21 43;
-#X msg 163 172 22 12 78 64 12 64;
-#X connect 2 0 5 0;
-#X connect 5 0 3 0;
-#X connect 6 0 5 0;
-#X connect 7 0 5 0;
+#X obj 269 258 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 49 97 - The minimum number in a list is output in the left
+outlet \, its index (from 0) is output in the right outlet. The next
+minimum updates the argument.;
+#X obj 146 227 cyclone/minimum -1000;
+#X msg 163 192 22 12 78 64 -32 65 -230 45;
+#X msg 146 160 9 32 89 10 20 48 79 2 95 3 92;
+#X connect 2 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 7 0 6 0;
+#X connect 8 0 6 0;
 #X restore 476 244 pd list;
-#X text 68 91 [minimum] compares and outputs the minimum of two or
-more values. It compares two floats or values in a list.;
 #X obj 85 229 cyclone/minimum 12;
 #X text 311 149 find minimum in a list;
 #X obj 317 229 cyclone/minimum;
@@ -82,15 +85,28 @@ more values. It compares two floats or values in a list.;
 argument;
 #X text 170 376 - value to compare minimum with left inlet (updates
 argument), f 61;
-#X text 170 446 - the index of minimum value from a list, f 61;
-#X text 172 482 - value to compare minimum with (default 0), f 60
+#X text 172 473 - value to compare minimum with (default 0), f 60
 ;
-#X text 185 423 the minimum (smallest) value of two or more numbers
+#X text 185 414 the minimum (smallest) value of two or more numbers
 ;
-#X connect 23 0 37 0;
-#X connect 26 0 39 0;
-#X connect 29 0 37 0;
-#X connect 30 0 37 1;
-#X connect 37 0 27 0;
-#X connect 39 0 25 0;
-#X connect 40 0 39 0;
+#X text 68 91 [minimum] outputs the minimum of two or more values in
+the left outlet. The right outlet outputs the index of the minimum.
+;
+#X obj 190 259 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 221 247 0: left;
+#X text 221 260 1: right;
+#X text 226 272 or arg;
+#X obj 404 257 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 406 275 index in the list;
+#X text 170 437 - the index of the minimnum value, f 61;
+#X connect 23 0 36 0;
+#X connect 26 0 38 0;
+#X connect 29 0 36 0;
+#X connect 30 0 36 1;
+#X connect 36 0 27 0;
+#X connect 36 1 46 0;
+#X connect 38 0 25 0;
+#X connect 38 1 50 0;
+#X connect 39 0 38 0;

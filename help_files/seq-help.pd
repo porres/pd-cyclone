@@ -1,4 +1,4 @@
-#N canvas 558 23 558 577 10;
+#N canvas 694 168 558 577 10;
 #X obj 2 210 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 457 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -41,7 +41,6 @@ Max/MSP;
 ;
 #X text 191 487 sent at the end of a sequence (useful for looping)
 ;
-#X text 191 514 a MIDI file to be read on patch load;
 #X text 136 247 append -;
 #X text 191 247 records at the end of the stored sequence, f 59;
 #X text 148 277 dump -;
@@ -386,6 +385,7 @@ from the [sysexin] object \, but it doesn't respond directly to MIDI
 real time messages such as start \, stop \, MIDI clock \, etc. For
 that \, you need to adapt and use the [midiclkin] and [midirealtimein]
 objects as below.;
+#X text 463 545 fix the MIDI file & 3-voice polyphonic synth;
 #X connect 2 0 13 0;
 #X connect 3 0 16 0;
 #X connect 3 0 17 0;
@@ -432,8 +432,7 @@ f 59;
 , f 61;
 #X text 191 377 start/restart sequence at a given tempo (default '1024'
 - normal tempo) \, 'start -1' expects tick messages, f 59;
-#X text 346 126 fix MIDI;
-#N canvas 542 85 841 507 advanced 1;
+#N canvas 542 85 841 507 advanced 0;
 #X msg 532 369 start -1;
 #X obj 146 359 cyclone/midiparse;
 #X obj 195 406 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -551,8 +550,9 @@ to 120 BPM (24 ticks per quarter note) and about 20.833 ms per tick.
 #X connect 38 0 1 0;
 #X connect 38 1 11 0;
 #X restore 474 153 pd advanced;
-#X connect 8 0 40 0;
-#X connect 35 0 40 0;
-#X connect 40 0 9 0;
-#X connect 40 0 21 0;
-#X connect 40 1 4 0;
+#X text 191 514 a MIDI file to be loeaded;
+#X connect 8 0 39 0;
+#X connect 34 0 39 0;
+#X connect 39 0 9 0;
+#X connect 39 0 21 0;
+#X connect 39 1 4 0;
