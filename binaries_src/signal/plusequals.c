@@ -71,10 +71,13 @@ static t_int *plusequals_perform_no_in(t_int *w)
 static void plusequals_dsp(t_plusequals *x, t_signal **sp)
 {
     if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
+    {
+// MAGIC
+        x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+
         dsp_add(plusequals_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
-// MAGIC
-    x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+    }
     
     else
         dsp_add(plusequals_perform_no_in, 5, x, sp[0]->s_n,
