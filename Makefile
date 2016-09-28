@@ -364,20 +364,18 @@ shared/unstable/forky.c
     capture~.class.sources := binaries_src/signal/capture.c $(sfile)
 
 # Buffer Classes (agrouped) - still "sic-fied"
-sarsicfitter := \
+sarsic := \
 shared/sickle/sic.c \
 shared/sickle/arsic.c \
 shared/common/loud.c \
+shared/common/vefl.c \
 shared/common/fitter.c \
 shared/unstable/fragile.c
-# were 'sarsic':
-    peek~.class.sources := binaries_src/signal/peek.c $(sarsicfitter)
-    play~.class.sources := binaries_src/signal/play.c $(sarsicfitter)
-    poke~.class.sources := binaries_src/signal/poke.c $(sarsicfitter) # fragile
-    record~.class.sources := binaries_src/signal/record.c $(sarsicfitter)
-    wave~.class.sources := binaries_src/signal/wave.c $(sarsicfitter)
-# was 'sarsicfitter' (so only one with fitter)
-#    buffir~.class.sources := binaries_src/signal/buffir.c $(sarsicfitter)
+    peek~.class.sources := binaries_src/signal/peek.c $(sarsic)
+    play~.class.sources := binaries_src/signal/play.c $(sarsic)
+    poke~.class.sources := binaries_src/signal/poke.c $(sarsic) # only using fragile
+    record~.class.sources := binaries_src/signal/record.c $(sarsic)
+    wave~.class.sources := binaries_src/signal/wave.c $(sarsic)
 
 #cybuf (aka arsic replacement) classes
 scybuf := shared/cybuf.c
