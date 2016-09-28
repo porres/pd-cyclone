@@ -68,6 +68,9 @@ static void minimum_list(t_minimum *x, t_symbol *s, int argc, t_atom *argv){
                         second = first;
                         first = curf;
                         fidx = idx;
+                    }
+                    else if(curf < second || numfloats == 2){
+                        second = curf;
                     };
                 };
 
