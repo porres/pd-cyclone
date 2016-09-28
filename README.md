@@ -41,9 +41,9 @@ The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up t
 
 Fred Jan Kraan's Repository (versions 0.1-Alpha-57 and 0.2beta):
 
-Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the cyclone library, where he worked on further developments and releases, such as cyclone version 0.1alpha-57 from october 2015 (available here: <https://github.com/porres/pd-cyclone/releases/tag/0.1alpha57>).
+Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the cyclone library, where he worked on further developments and releases, such as cyclone version 0.1alpha-57 from october 2015 (found in: <http://puredata.info/downloads/cyclone/releases/0.1-alpha57>).
 
-Cyclone "0.2beta" is the next and last currently released version of Cyclone. It is found in Fred Jan Kraan's repository and also available when searching for externals in Pd Vanilla. But you can check it here too: <https://github.com/porres/pd-cyclone/releases/tag/0.2beta1>.
+Cyclone "0.2beta" is the next and last currently released version of Cyclone. It is found in Fred Jan Kraan's repository and also available when searching for externals in Pd Vanilla - check https://github.com/electrickery/pd-miXedSon/releases
 
 -------
 
