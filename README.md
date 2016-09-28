@@ -69,7 +69,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 
 Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 
-Readme file created on February 22nd 2016 (last edited on sep 21st 2016)
+Readme file created on February 22nd 2016 (last edited on sep 27th 2016)
 
 -------
 <strong>Building Cyclone</strong>
