@@ -377,11 +377,12 @@ shared/unstable/fragile.c
     record~.class.sources := binaries_src/signal/record.c $(sarsicfitter)
     wave~.class.sources := binaries_src/signal/wave.c $(sarsicfitter)
 # was 'sarsicfitter' (so only one with fitter)
-    buffir~.class.sources := binaries_src/signal/buffir.c $(sarsicfitter)
+#    buffir~.class.sources := binaries_src/signal/buffir.c $(sarsicfitter)
 
 #cybuf (aka arsic replacement) classes
 scybuf := shared/cybuf.c
     index~.class.sources := binaries_src/signal/index.c $(scybuf)
+    buffir~.class.sources := binaries_src/signal/buffir.c $(scybuf)
 
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
