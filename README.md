@@ -31,19 +31,21 @@ Cyclone then ended up incorporated into Pd Extended and, around 2007, was under 
 
 <strong>About earlier versions and other repositories:</strong>
 
-Original Repository (up to version 0.1-Alpha-56):
+Original Repository (up to version 0.1-Alpha-57):
 
 Cyclone was originally part of the MiXed library (also written by cyclone's original author Krzysztof Czaja). The original repository of MiXed, containing cyclone and more (such as 'toxy , 'ViCious', 'riddle') resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. 
 
 Krzysztof Czaja had a webpage for cyclone that no longer exists, but a copy of it from its last state is available here:  <http://fjkraan.home.xs4all.nl/digaud/puredata/cyclone/cyclone_site/cyclone.html> - where you can find the cyclone version 0.1-Alpha54 from 2005 for download. 
 
-The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone. The last version from the original cyclone repository is 0.1-alpha-56 as well and it can also be foung as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (since Pd Vanilla 0.47-0).
+The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (with the new build in deken plug in since Pd Vanilla 0.47-0).
+
+The last version currently found in the original cyclone repository is 0.1-alpha-57, which was developed by Fred Jan Kraan. 
 
 Fred Jan Kraan's Repository (versions 0.1-Alpha-57 and 0.2beta):
 
-Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the cyclone library, where he worked on further developments and releases, such as cyclone version 0.1alpha-57 from october 2015 (found in: <http://puredata.info/downloads/cyclone/releases/0.1-alpha57>).
+Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the cyclone library, where he worked on further developments and releases, such as cyclone version 0.1alpha-57 from october 2015 (found in: <http://puredata.info/downloads/cyclone/releases/0.1-alpha57>). As mentioned, this version is also found in the last snapshot of the original cyclone repository.
 
-Cyclone "0.2beta" is the next and last currently released version of Cyclone. It is found in Fred Jan Kraan's repository and also available when searching for externals in Pd Vanilla - check https://github.com/electrickery/pd-miXedSon/releases
+Cyclone "0.2beta" is the next and last currently released version of Cyclone. It is only found in Fred Jan Kraan's repository and also available when searching for externals in Pd Vanilla - check https://github.com/electrickery/pd-miXedSon/releases
 
 -------
 
@@ -51,7 +53,7 @@ Cyclone "0.2beta" is the next and last currently released version of Cyclone. It
 
 Location of this repository is: https://github.com/porres/pd-cyclone. 
 
-When cyclone was been left unmaintained (in february 2016), Porres forked cyclone in its last 0.2beta state to this new repository, where developments for a further release have been in the makings since then.
+When cyclone was been left unmaintained (in february 2016), Porres forked cyclone in its last 0.2beta1 state to this new repository, where developments for a further release have been in the makings since then.
 
 This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone.
 
@@ -69,7 +71,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 
 Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 
-Readme file created on February 22nd 2016 (last edited on sep 27th 2016)
+Readme file created on February 22nd 2016 (last edited on sep 28th 2016)
 
 -------
 <strong>Building Cyclone</strong>
