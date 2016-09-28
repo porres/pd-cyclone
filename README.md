@@ -35,9 +35,15 @@ Original Repository (up to version 0.1-Alpha-57):
 
 Cyclone was originally part of the MiXed library (also written by cyclone's original author Krzysztof Czaja). The original repository of MiXed, containing cyclone and more (such as 'toxy , 'ViCious', 'riddle') resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. 
 
+- Pre Pd-Extended era (0.1-Alpha-54)
+
 Krzysztof Czaja had a webpage for cyclone that no longer exists, but a copy of it from its last state is available here:  <http://fjkraan.home.xs4all.nl/digaud/puredata/cyclone/cyclone_site/cyclone.html> - where you can find the cyclone version 0.1-Alpha54 from 2005 for download. 
 
+- Pd-Extended era (0.1-Alpha-55 and 0.1-Alpha-56)
+
 The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (with the new build in deken plug in since Pd Vanilla 0.47-0).
+
+- Post Pd-Extended era (0.1-Alpha-57)
 
 The last version currently found in the original cyclone repository is 0.1-alpha-57, which was developed by Fred Jan Kraan. 
 
