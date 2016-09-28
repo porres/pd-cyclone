@@ -134,8 +134,7 @@ static void zldata_addfloat(t_zldata *d, t_float f)
     if (nrequested <= d->d_size)
         SETFLOAT(d->d_buf + natoms, f);
         d->d_natoms = natoms + 1;
-    };
-}
+    }
 
 static void zldata_setsymbol(t_zldata *d, t_symbol *s)
 {
@@ -1061,7 +1060,7 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f)
         else if(sz > ZL_MAXSIZE){
             sz = ZL_MAXSIZE;
         };
-    x->d_max = sz;
+    //x->d_max = sz;
     if(sz > x->x_inbuf1.d_size){
         zldata_realloc(&x->x_inbuf1,sz);
     };

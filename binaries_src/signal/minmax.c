@@ -10,15 +10,21 @@ typedef struct _minmax
 {
     t_object x_obj;
     t_inlet  *x_inlet;
-    t_glist  *x_glist;
     t_float    x_min;
     t_float    x_max;
-    t_int      x_feederflag;
     t_outlet  *x_minout;
     t_outlet  *x_maxout;
+    
+    t_glist *x_glist;
+    t_float *x_signalscalar;
+    t_float x_badfloat;
+    t_int      x_feederflag;
+    t_int      x_feederflag2;
 } t_minmax;
 
 static t_class *minmax_class;
+
+EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 static void minmax_bang(t_minmax *x)
 {
@@ -48,10 +54,23 @@ static t_int *minmax_perform(t_int *w)
     t_float *outmax = (t_float *)(w[6]);
     t_float fmin = x->x_min;
     t_float fmax = x->x_max;
+    
+// MAGIC for float for error
+    t_float scalar = *x->x_signalscalar;
+    if (scalar != x->x_badfloat)
+    {
+        x->x_badfloat = scalar;
+        pd_error(x, "inlet: expected 'signal' but got 'float'");
+    }
+    
     while (nblock--)
     {
         t_float f = *in1++;
-        t_float reset = *in2++;
+        t_float reset;
+
+        if (x->x_feederflag2) reset = *in2++;
+        else reset = 0.0;
+        
         if (reset != 0) fmin = fmax = f;
         else {
             if (f < fmin) fmin = f;
@@ -71,6 +90,15 @@ static t_int *minmax_perform_no_in(t_int *w)
     int nblock = (int)(w[2]);
     t_float *outmin = (t_float *)(w[5]);
     t_float *outmax = (t_float *)(w[6]);
+    
+    // MAGIC for float for error
+    t_float scalar = *x->x_signalscalar;
+    if (scalar != x->x_badfloat)
+    {
+        x->x_badfloat = scalar;
+        pd_error(x, "inlet: expected 'signal' but got 'float'");
+    }
+    
     while (nblock--)
     {
         *outmin++ = *outmax++ = 0;
@@ -81,6 +109,7 @@ static t_int *minmax_perform_no_in(t_int *w)
 static void minmax_dsp(t_minmax *x, t_signal **sp)
 {
     x->x_feederflag = forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal);
+    x->x_feederflag2 = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
     if (x->x_feederflag) dsp_add(minmax_perform, 6, x, sp[0]->s_n,
         sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
     else dsp_add(minmax_perform_no_in, 6, x, sp[0]->s_n, sp[0]->s_vec,
@@ -94,6 +123,7 @@ static void *minmax_new(void)
     outlet_new((t_object *)x, &s_signal);
     outlet_new((t_object *)x, &s_signal);
     x->x_glist = canvas_getcurrent();
+    x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
     x->x_minout = outlet_new((t_object *)x, &s_float);
     x->x_maxout = outlet_new((t_object *)x, &s_float);
     minmax_reset(x);
