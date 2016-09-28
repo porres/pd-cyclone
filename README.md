@@ -15,9 +15,9 @@ Max is found at: https://cycling74.com/
 
 "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
-In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches."
+In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)."
 
-(the full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>)
+The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
 
 -------
 
@@ -25,11 +25,17 @@ In its current form, cyclone is mainly for people using both Max and Pd, and thu
 
 Cyclone's original author is Krzysztof Czaja, who worked on it mostly from 2002 to 2005 and later abandoned it. 
 
-Cyclone then ended up incorporated into Pd Extended and, around 2007, was under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of the Pd-Extended project. Cyclone was left unmaintained after the last release of Pd Extended (in jan-2013). After another hiatus, Fred Jan Kraan did maintain and develop for cyclone from dec-2014 to feb-2016, when development for cyclone was abandoned (though maintenance for his last package is still active). Since feb-2016, an active further development of cyclone is being proposed by Alexandre Porres & collaborators (mainly Derek Kwan and Matt Barber) on this repository.
+Cyclone then ended up incorporated into Pd Extended and, around 2007, was under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of the Pd-Extended project. Cyclone was left unmaintained after the last release of Pd Extended (in jan-2013). 
+
+After another hiatus, Fred Jan Kraan did maintain and develop for cyclone from dec-2014 to feb-2016, when development for cyclone was abandoned (though maintenance for his last package is still active). 
+
+Since feb-2016, an active further development of cyclone is being proposed by Alexandre Porres & collaborators (mainly Derek Kwan and Matt Barber) on this repository.
 
 -------
 
 <strong>About earlier versions and other repositories:</strong>
+
+There are two other cyclone repositories, here's some info about them and earlier versions of cyclone.
 
 => <strong>Original Repository (up to version 0.1-Alpha-57):</strong>
 Cyclone was originally part of the MiXed library (also written by cyclone's original author Krzysztof Czaja). The original repository of MiXed, containing cyclone and more (such as 'toxy , 'ViCious', 'riddle') resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. 
