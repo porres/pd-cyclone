@@ -4,18 +4,17 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "shared.h"
-#include "sickle/sic.h"
-#include "sickle/arsic.h"
+#include "cybuf.h"
 
 #define BUFFIR_DEFSIZE    0
 #define BUFFIR_MAXSIZE  4096
 
 typedef struct _buffir
 {
-    t_arsic  x_arsic;
-    t_pd    *x_offinlet;
-    t_pd    *x_sizinlet;
+    t_object    x_obj;
+    t_cybuf   *x_cybuf;
+    t_inlet    *x_offlet;
+    t_inlet    *x_sizlet;
     t_float *x_lohead;
     t_float *x_hihead;
     t_float *x_histlo;
@@ -36,8 +35,8 @@ static void buffir_setrange(t_buffir *x, t_floatarg f1, t_floatarg f2)
 	siz = BUFFIR_DEFSIZE;
 	if (siz > BUFFIR_MAXSIZE)
 	siz = BUFFIR_MAXSIZE;
-	pd_float(x->x_offinlet, off);
-	pd_float(x->x_sizinlet, siz);
+	pd_float((t_pd *)x->x_offlet, off);
+	pd_float((t_pd *)x->x_sizlet, siz);
 }
 
 static void buffir_clear(t_buffir *x)
@@ -49,7 +48,7 @@ static void buffir_clear(t_buffir *x)
 
 static void buffir_set(t_buffir *x, t_symbol *s, t_floatarg f1, t_floatarg f2)
 {
-    arsic_setarray((t_arsic *)x, s, 1);
+    cybuf_setarray(x->x_cybuf, s);
     buffir_setrange(x, f1, f2);
 }
 
@@ -61,20 +60,20 @@ static void buffir_float(t_buffir *x, t_float f)
 
 static t_int *buffir_perform(t_int *w)
 {
-    t_arsic *sic = (t_arsic *)(w[1]);
-    t_buffir *x = (t_buffir *)sic;
+    t_buffir *x = (t_buffir *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *xin = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[6]);
     t_float *lohead = x->x_lohead;
     t_float *hihead = x->x_hihead;
-    if (sic->s_playable)
+    t_cybuf *c = x->x_cybuf;
+    if (c->c_playable)
     {	
 
 	t_float *oin = (t_float *)(w[4]);
 	t_float *sin = (t_float *)(w[5]);
-	int vecsize = sic->s_vecsize;
-	t_word *vec = sic->s_vectors[0];  /* playable implies nonzero (mono) */
+	int vecsize = c->c_vecsize;
+	t_word *vec = c->c_vectors[0];  /* playable implies nonzero (mono) */
 	while (nblock--)
 	{
 
@@ -134,25 +133,33 @@ static t_int *buffir_perform(t_int *w)
 static void buffir_dsp(t_buffir *x, t_signal **sp)
 {
 	x->x_checked = 0;
-    arsic_dsp((t_arsic *)x, sp, buffir_perform, 1);
+    cybuf_checkdsp(x->x_cybuf); 
+    dsp_add(buffir_perform, 6, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
 static void buffir_free(t_buffir *x)
 {
-    arsic_free((t_arsic *)x);
+    inlet_free(x->x_offlet);
+    inlet_free(x->x_sizlet);
+    cybuf_free(x->x_cybuf);
 }
 
 static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 {
     /* CHECKME always the first channel used. */
     /* three auxiliary signals: main, offset and size inputs */
-    t_buffir *x = (t_buffir *)arsic_new(buffir_class, s, 0, 0, 3);
-    if (x)
+    t_buffir *x = (t_buffir *)pd_new(buffir_class);
+    x->x_cybuf = cybuf_init(x, s, 1);
+    if (x->x_cybuf)
     {
-	arsic_setminsize((t_arsic *)x, 1);
-	x->x_offinlet = (t_pd *)sic_newinlet((t_sic *)x, f1);
-	x->x_sizinlet = (t_pd *)sic_newinlet((t_sic *)x, f2);
-	outlet_new((t_object *)x, &s_signal);
+	
+	
+        x->x_offlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+	pd_float((t_pd *)x->x_offlet, f1);
+	x->x_sizlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+        pd_float((t_pd *)x->x_sizlet, f2);
+	
+	outlet_new(&x->x_obj, gensym("signal"));
 	x->x_histlo = x->x_histbuf;
 	x->x_histhi = x->x_histbuf+BUFFIR_MAXSIZE;
 	x->x_checked = 0;
@@ -165,8 +172,11 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 void buffir_tilde_setup(void)
 {
     buffir_class = class_new(gensym("buffir~"), (t_newmethod)buffir_new, (t_method)buffir_free,
-                             sizeof(t_buffir), 0, A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, 0);
-    arsic_setup(buffir_class, buffir_dsp, buffir_float);
+    sizeof(t_buffir), CLASS_DEFAULT, A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_domainsignalin(buffir_class, -1);
+    class_addfloat(buffir_class, buffir_float);
+    class_addmethod(buffir_class, (t_method)buffir_dsp, gensym("dsp"), A_CANT, 0);
+    //class_addmethod(c, (t_method)arsic_enable, gensym("enable"), 0);
     class_addmethod(buffir_class, (t_method)buffir_clear, gensym("clear"), 0);
     class_addmethod(buffir_class, (t_method)buffir_set, gensym("set"), A_SYMBOL,
                     A_DEFFLOAT, A_DEFFLOAT, 0);
