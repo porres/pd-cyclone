@@ -328,17 +328,18 @@ shared/common/loud.c \
 shared/unstable/fragile.c \
 shared/unstable/forky.c
     cartopol~.class.sources := binaries_src/signal/cartopol.c $(sfragileforkyloud)
-    poltocar~.class.sources := binaries_src/signal/poltocar.c $(sfragileforkyloud)
+
+# loud? - get rid of loud and get fragile and forky into the same one, then agroup with the classes below
 
 sforky := \
 shared/unstable/forky.c
     bitand~.class.sources := binaries_src/signal/bitand.c $(sforky)
     bitor~.class.sources := binaries_src/signal/bitor.c $(sforky)
     bitxor~.class.sources := binaries_src/signal/bitxor.c $(sforky)
-
     plusequals~.class.sources := binaries_src/signal/plusequals.c $(sforky)
     cyclone.class.sources := binaries_src/sub_lib_cyclone.c $(sforky)
     minmax~.class.sources := binaries_src/signal/minmax.c $(sforky)
+    poltocar~.class.sources := binaries_src/signal/poltocar.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
