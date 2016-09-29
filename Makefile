@@ -117,6 +117,7 @@ spike~.class.sources := binaries_src/signal/spike.c
 svf~.class.sources := binaries_src/signal/svf.c
 tanh~.class.sources := binaries_src/signal/tanh.c
 tanx~.class.sources := binaries_src/signal/tanx.c
+teeth~.class.sources := binaries_src/signal/teeth.c
 train~.class.sources := binaries_src/signal/train.c
 trapezoid~.class.sources := binaries_src/signal/trapezoid.c
 triangle~.class.sources := binaries_src/signal/triangle.c
