@@ -20,7 +20,7 @@ typedef struct _teeth
 
 static t_class *teeth_class;
 
-#define teeth_DEFMAXDELAY  10.0
+#define TEETH_DEFMAXDELAY  10.0
 
 static void teeth_clear(t_teeth *x)
 {
@@ -65,23 +65,20 @@ static t_int *teeth_perform(t_int *w)
     {  /* TDFII scheme is used.  Do not forget, that any signal value
 	  read after writing to out has to be saved beforehand. */
 	float xn = *xin++;
-	float delsize = ksr * *din1++;
+	float ff_delsize = ksr * *din1++;
+    float fb_delsize = ksr * *din2++;
 	float bgain = *bin++;
 	float cgain = *cin++;
-	float yn = *ain++ * xn;
+	float yn = *ain++ * xn; // y = a * in
 	float rph;  /* reading head */
-//	if (cgain < -teeth_MAXFEEDBACK) cgain = -teeth_MAXFEEDBACK;
-//	else if (cgain > teeth_MAXFEEDBACK) cgain = teeth_MAXFEEDBACK;
-	if (delsize >= 0)
+	if (ff_delsize >= 0)
 	{
 	    int ndx;
 	    float val;
-	    rph = wph - (delsize > guardpoint ? guardpoint : delsize);
+	    rph = wph - (ff_delsize > guardpoint ? guardpoint : ff_delsize);
 	    if (rph < 0) rph += guardpoint;
 	    ndx = (int)rph;
-	    val = buf[ndx];
-	    /* ``a cheezy linear interpolation'' ala msp,
-	       (vd~ uses 4-point interpolation...) */
+	    val = buf[ndx]; // linear interpolation
 	    yn += val + (buf[ndx+1] - val) * (rph - ndx);
 	}
 	*out++ = yn;
@@ -111,11 +108,42 @@ static void teeth_dsp(t_teeth *x, t_signal **sp)
 	    sp[3]->s_vec, sp[4]->s_vec, sp[5]->s_vec, sp[6]->s_vec);
 }
 
-static void *teeth_new(t_floatarg f1, t_floatarg f2,
-		      t_floatarg f3, t_floatarg f4, t_floatarg f5, t_floatarg f6)
+static void *teeth_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_teeth *x;
-    float maxdelay = (f1 > 0 ? f1 : teeth_DEFMAXDELAY);
+    float maxdelay = TEETH_DEFMAXDELAY;
+    t_float ff_d = 0, fb_d = 0,  a = 0, b = 0,  c = 0;
+    int argnum = 0;
+    while(argc > 0){
+        if(argv -> a_type == A_FLOAT){
+            t_float argval = atom_getfloatarg(0, argc, argv);
+            switch(argnum){
+                case 0:
+                    maxdelay = argval;
+                    break;
+                case 1:
+                    ff_d = argval;
+                    break;
+                case 2:
+                    fb_d = argval;
+                    break;
+                case 3:
+                    a = argval;
+                    break;
+                case 4:
+                    b = argval;
+                    break;
+                case 5:
+                    c = argval;
+                    break;
+                default:
+                    break;
+            };
+            argnum++;
+            argc--;
+            argv++;
+        }
+    }
     float sr = sys_getsr();
     float ksr = sr * 0.001;
     int bufsize = ksr * maxdelay;
@@ -128,27 +156,26 @@ static void *teeth_new(t_floatarg f1, t_floatarg f2,
     x->x_ksr = ksr;
     x->x_bufsize = x->x_maxsize = bufsize;
     x->x_buf = buf;
-    if (f2 < 0) f2 = 0;
-//  if (f5 < -teeth_MAXFEEDBACK) f5 = -teeth_MAXFEEDBACK;
-//  else if (f5 > teeth_MAXFEEDBACK) f5 = teeth_MAXFEEDBACK;
+    if (ff_d < 0) ff_d = 0;
+    if (fb_d < 0) ff_d = 0;
     x->x_del_inlet1 = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-    pd_float((t_pd *)x->x_del_inlet1, f2);
+    pd_float((t_pd *)x->x_del_inlet1, ff_d);
     x->x_del_inlet2 = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-    pd_float((t_pd *)x->x_del_inlet2, f3);
+    pd_float((t_pd *)x->x_del_inlet2, fb_d);
     x->x_a_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-    pd_float((t_pd *)x->x_a_inlet, f4);
+    pd_float((t_pd *)x->x_a_inlet, a);
     x->x_b_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-    pd_float((t_pd *)x->x_b_inlet, f5);
+    pd_float((t_pd *)x->x_b_inlet, b);
     x->x_c_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-    pd_float((t_pd *)x->x_c_inlet, f6);
+    pd_float((t_pd *)x->x_c_inlet, c);
     outlet_new((t_object *)x, &s_signal);
     teeth_clear(x);
     return (x);
 }
 
 static void teeth_free(t_teeth *x)
-{
-    if (x->x_buf) freebytes(x->x_buf, x->x_bufsize * sizeof(*x->x_buf));
+{ // porra caralho
+    if(x->x_buf) freebytes(x->x_buf, x->x_bufsize * sizeof(*x->x_buf));
 }
 
 void teeth_tilde_setup(void)
@@ -157,8 +184,7 @@ void teeth_tilde_setup(void)
 			   (t_newmethod)teeth_new,
 			   (t_method)teeth_free,
 			   sizeof(t_teeth), 0,
-			   A_DEFFLOAT, A_DEFFLOAT,
-			   A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+			   A_GIMME, 0);
     class_addmethod(teeth_class, nullfn, gensym("signal"), 0);
     class_addmethod(teeth_class, (t_method)teeth_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(teeth_class, (t_method)teeth_clear, gensym("clear"), 0);
