@@ -115,7 +115,6 @@ static void *plusequals_new(t_floatarg f)
     x->x_triglet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
 // MAGIC
-    x->x_glist = canvas_getcurrent();
     x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
     
     return (x);

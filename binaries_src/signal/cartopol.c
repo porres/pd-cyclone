@@ -12,64 +12,114 @@ typedef struct _cartopol
     t_object x_obj;
     t_inlet *cartopol;
     t_outlet  *x_out2;
-    t_glist  *x_glist;
+    
+    t_glist *x_glist;
+    t_float *x_signalscalar;
+    t_float x_badfloat;
+    t_int      x_hasfeeders;
 } t_cartopol;
 
 static t_class *cartopol_class;
 
+EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
+
 static t_int *cartopol_perform(t_int *w)
 {
-    int nblock = (int)(w[1]);
-    t_float *in1 = (t_float *)(w[2]);
-    t_float *in2 = (t_float *)(w[3]);
-    t_float *out1 = (t_float *)(w[4]);
-    t_float *out2 = (t_float *)(w[5]);
+    t_cartopol *x = (t_cartopol *)(w[1]);
+    int nblock = (int)(w[2]);
+    t_float *in1 = (t_float *)(w[3]);
+    t_float *in2 = (t_float *)(w[4]);
+    t_float *out1 = (t_float *)(w[5]);
+    t_float *out2 = (t_float *)(w[6]);
+    
+    // MAGIC: poll float for error
+    t_float scalar = *x->x_signalscalar;
+    if (scalar != x->x_badfloat)
+    {
+        x->x_badfloat = scalar;
+        pd_error(x, "inlet: expected 'signal' but got 'float'");
+    }
+    
     while (nblock--)
     {
-        float re = *in1++, im = *in2++;
+        float re = *in1++;
+        float im;
+        
+        // MAGIC
+        if (x->x_hasfeeders) im = *in2++;
+        else im = 0.0;
+        
         *out1++ = hypotf(re, im);
         *out2++ = atan2f(im, re);
     }
-    return (w + 6);
+    return (w + 7);
 }
 
 static t_int *cartopol_perform_nophase(t_int *w)
 {
-    int nblock = (int)(w[1]);
-    t_float *in1 = (t_float *)(w[2]);
-    t_float *in2 = (t_float *)(w[3]);
-    t_float *out1 = (t_float *)(w[4]);
-    while (nblock--)
+    t_cartopol *x = (t_cartopol *)(w[1]);
+    int nblock = (int)(w[2]);
+    t_float *in1 = (t_float *)(w[3]);
+    t_float *in2 = (t_float *)(w[4]);
+    t_float *out1 = (t_float *)(w[5]);
+    
+    // MAGIC: poll float for error
+    t_float scalar = *x->x_signalscalar;
+    if (scalar != x->x_badfloat)
     {
-        float re = *in1++, im = *in2++;
-        *out1++ = hypotf(re, im);
+        x->x_badfloat = scalar;
+        pd_error(x, "inlet: expected 'signal' but got 'float'");
     }
-    return (w + 5);
-}
-
-static t_int *cartopol_perform_no_in(t_int *w)
-{
-    int nblock = (int)(w[1]);
-    t_float *out1 = (t_float *)(w[4]);
-    t_float *out2 = (t_float *)(w[5]);
+    
     while (nblock--)
     {
-        *out1++ = *out2++ = 0;
+        float re = *in1++;
+        float im;
+        
+        // MAGIC
+        if (x->x_hasfeeders) im = *in2++;
+        else im = 0.0;
+        
+        *out1++ = hypotf(re, im);
     }
     return (w + 6);
 }
 
+static t_int *cartopol_perform_no_in(t_int *w)
+{
+    t_cartopol *x = (t_cartopol *)(w[1]);
+    int nblock = (int)(w[2]);
+    t_float *out1 = (t_float *)(w[5]);
+    t_float *out2 = (t_float *)(w[6]);
+    
+    t_float scalar = *x->x_signalscalar;
+    if (scalar != x->x_badfloat)
+    {
+        x->x_badfloat = scalar;
+        pd_error(x, "inlet: expected 'signal' but got 'float'");
+    }
+    
+    while (nblock--)
+    {
+        *out1++ = *out2++ = 0;
+    }
+    return (w + 7);
+}
+
 static void cartopol_dsp(t_cartopol *x, t_signal **sp)
 {
+    // MAGIC
+    x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+
     if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
         {if (fragile_outlet_connections(x->x_out2))
-        dsp_add(cartopol_perform, 5, sp[0]->s_n, sp[0]->s_vec,
+        dsp_add(cartopol_perform, 6, x, sp[0]->s_n, sp[0]->s_vec,
                 sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
         else
-        dsp_add(cartopol_perform_nophase, 4, sp[0]->s_n, sp[0]->s_vec,
+        dsp_add(cartopol_perform_nophase, 5, x, sp[0]->s_n, sp[0]->s_vec,
                 sp[1]->s_vec, sp[2]->s_vec);
         }
-    else dsp_add(cartopol_perform_no_in, 5, sp[0]->s_n, sp[0]->s_vec,
+    else dsp_add(cartopol_perform_no_in, 6, x, sp[0]->s_n, sp[0]->s_vec,
                 sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
@@ -79,6 +129,7 @@ static void *cartopol_new(void)
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
     x->x_glist = canvas_getcurrent();
+    x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
     x->x_out2 = outlet_new((t_object *)x, &s_signal);
     return (x);
 }
