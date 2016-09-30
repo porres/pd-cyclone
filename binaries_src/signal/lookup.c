@@ -19,6 +19,31 @@ typedef struct _lookup
 	t_outlet *x_out; //outlet
 } t_lookup;
 
+static double lookup_getlin(t_word * arr, int sz, double idx){
+        
+        double output;
+        int tabphase1 = (int)idx;
+        int tabphase2 = tabphase1 + 1;
+        double frac = idx - (double)tabphase1;
+        if(tabphase1 >= (sz - 1)){
+                tabphase1 = sz - 1; //checking to see if index falls within bounds
+                output = arr[tabphase1].w_float;
+        }
+        else if(tabphase1 < 0){
+                tabphase1 = 0;
+                output = arr[tabphase1].w_float;
+            }
+        else{
+	    //linear interp
+            double yb = arr[tabphase2].w_float; //read the buffer!
+            double ya = arr[tabphase1].w_float; //read the buffer!
+            output = ya+((yb-ya)*frac);
+        
+        };
+        return output;
+}
+
+
 static void lookup_set(t_lookup *x, t_symbol *s)
 {
     t_garray *a;
@@ -157,14 +182,15 @@ static t_int *lookup_perform(t_int *w)
 			//mapping curphs to the realidx where -1 maps to stpt and 1 maps to stpt + cursz - 1
 			//resulting in mappings to endpt indices (if stpt = 0, and endpt = 9, 8 is the maxidx to map to)
 			//if curdir is -1, need to flip relation  
-			int realidx; //the real mapped idx in the buffer
-			realidx = curstpt + (int)(((curphs*curdir)+1.f) * 0.5f * (cursz-1));
+			
+                        //calc the  real mapped idx in the buffer
+			double realidx = (double)curstpt + (((curphs*curdir)+1.) * 0.5 * ((double)cursz-1.));
 
 			//bounds checking
 			if(realidx > maxidx){
-				realidx = maxidx;
+				realidx = (double)maxidx;
 			};
-			curout = buf[realidx].w_float; //read the buffer!
+			curout = lookup_getlin(buf, x->x_npoints, realidx); //read the buffer!
 		};
 
 		out[i] = curout;
