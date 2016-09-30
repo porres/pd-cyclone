@@ -19,7 +19,7 @@ changed matrix_free to return void * instead of nothing
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-
+#include "unstable/forky.h"
 //#include "common/loud.h" //used for debugging, 
 
 //#define MATRIX_DEBUG
@@ -64,6 +64,8 @@ typedef struct _matrix
     /* Additions for filtering floats from secondary inlets -- Matt Barber*/
     t_float   *x_zerovec;
     t_float   *x_signalscalars[MATRIX_MAXINLETS];
+    t_glist   *x_glist;
+    int        x_hasfeeders[MATRIX_MAXINLETS];
 } t_matrix;
 
 typedef void (*t_matrix_cellfn)(t_matrix *x, int indx, int ondx,
@@ -289,8 +291,8 @@ static t_int *matrix01_perform(t_int *w)
 		{
 			pd_error(x, "inlet: expected 'signal' but got 'float'");
 			*x->x_signalscalars[indx] = -0.0;
-			ivec = x->x_zerovec;
 		}
+		if (!(x->x_hasfeeders[indx])) ivec = x->x_zerovec;
 	}
 	int ondx = x->x_numoutlets;
 	while (ondx--)
@@ -344,8 +346,8 @@ static t_int *matrixnb_perform(t_int *w)
 		{
 			pd_error(x, "inlet: expected 'signal' but got 'float'");
 			*x->x_signalscalars[indx] = -0.0;
-			ivec = x->x_zerovec;
 		}
+		if (!(x->x_hasfeeders[indx])) ivec = x->x_zerovec;
 	}
 	int ondx = x->x_numoutlets;
 	while (ondx--){
@@ -424,6 +426,7 @@ static void matrix_dsp(t_matrix *x, t_signal **sp)
     for (i = 0; i < x->x_numinlets; i++)
     {
 		*vecp++ = (*sigp++)->s_vec;
+		x->x_hasfeeders[i] = forky_hasfeeders((t_object *)x, x->x_glist, i, &s_signal);
 	};
     vecp = x->x_ovecs;
     for (i = 0; i < x->x_numoutlets; i++){
@@ -441,7 +444,8 @@ static void matrix_dsp(t_matrix *x, t_signal **sp)
 			x->x_maxblock = nblock;
 		};
 	x->x_nblock = nblock;
-    };
+    }
+   
     if (x->x_gains) {
 		x->x_ksr = sp[0]->s_sr * .001;
 		dsp_add(matrixnb_perform, 2, x, nblock);
@@ -711,6 +715,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	 	outlet_new(&x->x_obj, gensym("signal"));
 	};
 	x->x_dumpout = outlet_new((t_object *)x, &s_list);
+	x->x_glist = canvas_getcurrent();
 	return (x);
 	errstate:
 		pd_error(x, "matrix~: improper args");
@@ -723,10 +728,11 @@ void matrix_tilde_setup(void)
 			     (t_newmethod)matrix_new,
 			     (t_method)matrix_free,
 			     sizeof(t_matrix), 0, A_GIMME, 0);
+	class_addmethod(matrix_class, nullfn, gensym("signal"), 0);
 	class_addfloat(matrix_class, matrix_float);
     class_addlist(matrix_class, matrix_list);
-	class_domainsignalin(matrix_class, -1); // not sure why needed, but crashes withouts
-    class_addmethod(matrix_class, (t_method)matrix_dsp, gensym("dsp"), A_CANT, 0);
+	//class_domainsignalin(matrix_class, -1); // not sure why needed, but crashes withouts
+    class_addmethod(matrix_class, (t_method)matrix_dsp, gensym("dsp"), 0);
     class_addmethod(matrix_class, (t_method)matrix_clear, gensym("clear"), 0);
     class_addmethod(matrix_class, (t_method)matrix_connect, gensym("connect"), A_GIMME, 0);
     class_addmethod(matrix_class, (t_method)matrix_connect, gensym("disconnect"), A_GIMME, 0);

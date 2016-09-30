@@ -93,7 +93,6 @@ kink~.class.sources := binaries_src/signal/kink.c
 log~.class.sources := binaries_src/signal/log.c
 lookup~.class.sources := binaries_src/signal/lookup.c
 lores~.class.sources := binaries_src/signal/lores.c
-matrix~.class.sources := binaries_src/signal/matrix.c
 maximum~.class.sources := binaries_src/signal/maximum.c
 minimum~.class.sources := binaries_src/signal/minimum.c
 mstosamps~.class.sources := binaries_src/signal/mstosamps.c
@@ -341,6 +340,7 @@ shared/unstable/forky.c
     cyclone.class.sources := binaries_src/sub_lib_cyclone.c $(sforky)
     minmax~.class.sources := binaries_src/signal/minmax.c $(sforky)
     poltocar~.class.sources := binaries_src/signal/poltocar.c $(sforky)
+    matrix~.class.sources := binaries_src/signal/matrix.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \

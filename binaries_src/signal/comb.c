@@ -153,7 +153,7 @@ static t_int *comb_perform(t_int *w)
         //now get those delayed vals
         double delx = comb_readmsdelay(x, x->x_xbuf, delms);
         double dely = comb_readmsdelay(x, x->x_ybuf, delms);
-        //figure out your current y term, y[n] = a*x[n]+b*x[n-d] + c*x[n-d]
+        //figure out your current y term: y[n] = a*x[n] + b*x[n-d] + c*x[n-d]
         double output = (double)ain[i]*input + (double)bin[i]*delx + (double)cin[i]*dely;
         //stick this guy in the ybuffer and output
         x->x_ybuf[wh] = output;
