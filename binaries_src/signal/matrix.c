@@ -17,6 +17,7 @@ changed matrix_free to return void * instead of nothing
 */
 
 #include <string.h>
+#include <math.h>
 #include "m_pd.h"
 
 //#include "common/loud.h" //used for debugging, 
@@ -60,7 +61,8 @@ typedef struct _matrix
     float     *x_incrs;
     float     *x_bigincrs;
     int       *x_remains;
-    t_glist   *x_glist;
+    /* Additions for filtering floats from secondary inlets -- Matt Barber*/
+    t_float   *x_zerovec;
     t_float   *x_signalscalars[MATRIX_MAXINLETS];
 } t_matrix;
 
@@ -277,16 +279,17 @@ static t_int *matrix01_perform(t_int *w)
     t_float **ovecs = x->x_ovecs;
     t_float **osums = x->x_osums;
     int *cellp = x->x_cells;
-    int indx = x->x_numinlets;
-    while (indx--)
+    int indx;
+    for (indx = 0; indx < x->x_numinlets; indx++)
     {
 	t_float *ivec = *ivecs++;
 	t_float **ovecp = osums;
 	if (indx){
-		if (*x->x_signalscalars[indx])
+		if (*x->x_signalscalars[indx] || !signbit(*x->x_signalscalars[indx]))
 		{
 			pd_error(x, "inlet: expected 'signal' but got 'float'");
-			*x->x_signalscalars[indx] = 0.0;
+			*x->x_signalscalars[indx] = -0.0;
+			ivec = x->x_zerovec;
 		}
 	}
 	int ondx = x->x_numoutlets;
@@ -332,15 +335,16 @@ static t_int *matrixnb_perform(t_int *w)
     float *incrp = x->x_incrs;
     float *bigincrp = x->x_bigincrs;
     int *nleftp = x->x_remains;
-    int indx = x->x_numinlets;
-    while (indx--){
+    int indx;
+    for (indx = 0; indx < x->x_numinlets; indx++){
 	t_float *ivec = *ivecs++;
 	t_float **ovecp = osums;
 	if (indx){
-		if (*x->x_signalscalars[indx])
+		if (*x->x_signalscalars[indx] || !signbit(*x->x_signalscalars[indx]))
 		{
 			pd_error(x, "inlet: expected 'signal' but got 'float'");
-			*x->x_signalscalars[indx] = 0.0;
+			*x->x_signalscalars[indx] = -0.0;
+			ivec = x->x_zerovec;
 		}
 	}
 	int ondx = x->x_numoutlets;
@@ -431,6 +435,9 @@ static void matrix_dsp(t_matrix *x, t_signal **sp)
 			newsize = nblock * sizeof(*x->x_osums[i]);
 			for (i = 0; i < x->x_numoutlets; i++)
 			x->x_osums[i] = resizebytes(x->x_osums[i], oldsize, newsize);
+			oldsize = x->x_maxblock * sizeof(*x->x_zerovec);
+			newsize = nblock * sizeof(*x->x_zerovec);
+			x->x_zerovec = resizebytes(x->x_zerovec, oldsize, newsize);
 			x->x_maxblock = nblock;
 		};
 	x->x_nblock = nblock;
@@ -555,6 +562,7 @@ static void *matrix_free(t_matrix *x)
 	int i;
 	for (i = 0; i < x->x_numoutlets; i++)
 	    freebytes(x->x_osums[i], x->x_maxblock * sizeof(*x->x_osums[i]));
+	freebytes(x->x_zerovec, x->x_maxblock * sizeof(*x->x_zerovec));
 	freebytes(x->x_osums, x->x_numoutlets * sizeof(*x->x_osums));
     }
     if (x->x_cells)
@@ -662,6 +670,8 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	    x->x_osums[i] = getbytes(x->x_maxblock * sizeof(*x->x_osums[i]));
 	};
 	x->x_cells = getbytes(x->x_ncells * sizeof(*x->x_cells));
+	/* zerovec for filtering float inputs*/
+	x->x_zerovec = getbytes(x->x_maxblock * sizeof(*x->x_zerovec));
 	matrix_clear(x);
 
 	if (gaingiven){
@@ -694,7 +704,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	    x->x_remains = 0;
 	};
 	for (i = 1; i < x->x_numinlets; i++){
-		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), 0.);
+		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), -0.);
 		x->x_signalscalars[i] = obj_findsignalscalar((t_object *)x, i);
 	};
 	for (i = 0; i < x->x_numoutlets; i++){
