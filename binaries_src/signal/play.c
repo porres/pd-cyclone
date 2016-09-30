@@ -171,7 +171,7 @@ static void *play_new(t_symbol *s, t_floatarg f)
     t_play *x = (t_play *)arsic_new(play_class, s, chn_n == 3 ? 2 : chn_n, 0, 1);
     if (x)
     {
-	int nch = arsic_getnchannels((t_arsic *)x);
+	int nch = x->x_cybuf.c_numchans;
 	while (nch--)
 	    outlet_new((t_object *)x, &s_signal);
     }
