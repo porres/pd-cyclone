@@ -2,8 +2,9 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+//de-loudized - Derek Kwan 2016
+
 #include "m_pd.h"
-#include "common/loud.h"
 
 #define SPRAY_MINOUTS  1
 /* CHECKED: no upper limit */
@@ -21,8 +22,7 @@ static t_class *spray_class;
 
 static void spray_float(t_spray *x, t_float f)
 {
-    /* CHECKED: floats ignored (LATER rethink), ints loudly rejected */
-    if (f == (int)f) loud_error((t_pd *)x, "requires list");
+    pd_error(x, "spray: requires list input!");
 }
 
 /* LATER decide, whether float in first atom is to be truncated,
