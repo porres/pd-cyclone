@@ -7,13 +7,10 @@ updated to add @ramp attribute, slightly updated argument parsing.
 left a lot of legacy code (the way all methods do things remains intact)
 but managed to remove all external dependencies. commented out the loud_debug stuff
 (which got turned on when MATRIX_DEBUG was defined).
-
 matrix_float is there because the first inlet shouldn't accept floats
 (and not do the usu convert float to signal business)
-
 for some reason this code segfaults if class_domainsignalin(matrix_class, -1)
 isn't there (don't ask me why)
-
 changed matrix_free to return void * instead of nothing
 (for consistency's sake)
 - Derek Kwan 2016
@@ -33,7 +30,9 @@ changed matrix_free to return void * instead of nothing
 #define MATRIX_MINRAMP      .001  /* LATER rethink */
 
 #define MATRIX_MININLETS 1
+#define MATRIX_MAXINLETS 250
 #define MATRIX_MINOUTLETS 1
+#define MATRIX_MAXOUTLETS 499
 
 typedef struct _matrix
 {
@@ -61,12 +60,16 @@ typedef struct _matrix
     float     *x_incrs;
     float     *x_bigincrs;
     int       *x_remains;
+    t_glist   *x_glist;
+    t_float   *x_signalscalars[MATRIX_MAXINLETS];
 } t_matrix;
 
 typedef void (*t_matrix_cellfn)(t_matrix *x, int indx, int ondx,
 				int onoff, float gain);
 
 static t_class *matrix_class;
+
+EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 /* called only in nonbinary mode;  LATER deal with changing nblock/ksr */
 static void matrix_retarget(t_matrix *x, int cellndx)
@@ -279,6 +282,13 @@ static t_int *matrix01_perform(t_int *w)
     {
 	t_float *ivec = *ivecs++;
 	t_float **ovecp = osums;
+	if (indx){
+		if (*x->x_signalscalars[indx])
+		{
+			pd_error(x, "inlet: expected 'signal' but got 'float'");
+			*x->x_signalscalars[indx] = 0.0;
+		}
+	}
 	int ondx = x->x_numoutlets;
 	while (ondx--)
 	{
@@ -326,6 +336,13 @@ static t_int *matrixnb_perform(t_int *w)
     while (indx--){
 	t_float *ivec = *ivecs++;
 	t_float **ovecp = osums;
+	if (indx){
+		if (*x->x_signalscalars[indx])
+		{
+			pd_error(x, "inlet: expected 'signal' but got 'float'");
+			*x->x_signalscalars[indx] = 0.0;
+		}
+	}
 	int ondx = x->x_numoutlets;
 	while (ondx--){
 	    t_float *in = ivec;
@@ -447,9 +464,7 @@ static void matrix_cellprint(t_matrix *x, int indx, int ondx,
 }
 
 /*
-
    legacy debug:
-
 #ifdef MATRIX_DEBUG
 static void matrix_celldebug(t_matrix *x, int indx, int ondx,
 			     int onoff, float gain)
@@ -500,13 +515,11 @@ static void matrix_print(t_matrix *x)
 
 /*
    legacy debug:
-
 #ifdef MATRIX_DEBUG
 static void matrix_debugramps(t_matrix *x)
 {
     matrix_report(x, x->x_ramps, 0., matrix_celldebug);
 }
-
 static void matrix_debugsums(t_matrix *x)
 {
     int i;
@@ -516,7 +529,6 @@ static void matrix_debugsums(t_matrix *x)
 	loudbug_startpost(" %x", (int)x->x_osums[i]);
     loudbug_endpost();
 }
-
 static void matrix_debug(t_matrix *x, t_symbol *s)
 {
     if (s == gensym("ramps"))
@@ -530,7 +542,6 @@ static void matrix_debug(t_matrix *x, t_symbol *s)
     }
 }
 #endif
-
 */
 
 static void *matrix_free(t_matrix *x)
@@ -583,6 +594,10 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 					if(argval < MATRIX_MININLETS){
 						x->x_numinlets = (int)MATRIX_MININLETS;
 					}
+					else if (argval > MATRIX_MAXINLETS){
+						x->x_numinlets = (int)MATRIX_MAXINLETS;
+						post("matrix~: resizing to %d signal inlets", (int)MATRIX_MAXINLETS);
+					}
 					else{
 						x->x_numinlets = (int)argval;
 					};
@@ -590,6 +605,10 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 				case 1:
 					if(argval < MATRIX_MINOUTLETS){
 						x->x_numoutlets = (int)MATRIX_MINOUTLETS;
+					}
+					else if (argval > MATRIX_MAXOUTLETS){
+						x->x_numoutlets = (int)MATRIX_MAXOUTLETS;
+						post("matrix~: resizing to %d signal outlets", (int)MATRIX_MAXOUTLETS);
 					}
 					else{
 						x->x_numoutlets = (int)argval;
@@ -676,6 +695,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	};
 	for (i = 1; i < x->x_numinlets; i++){
 		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), 0.);
+		x->x_signalscalars[i] = obj_findsignalscalar((t_object *)x, i);
 	};
 	for (i = 0; i < x->x_numoutlets; i++){
 	 	outlet_new(&x->x_obj, gensym("signal"));
