@@ -6,7 +6,7 @@ https://github.com/porres/pd-cyclone
 
 ———————————————————————————————————————————————————————————————————————————
 
-Current version: cyclone 0.3-beta-0 
+Current version: cyclone 0.3
 released: xx/xx/2016
 
 This release was tested in Pd Vanilla 0.47-1 (32 & 64 bits);
@@ -17,7 +17,7 @@ It is not expected to work in earlier versions.
 About Cyclone:
 ——————————————
 
-Cyclone expands Pd Vanilla with objects cloned from Max/MSP. For users of both Max/MSP and Pd, it provides some level of compatibility between the two environments, helping in the development of cross-platform patches. 
+Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP. It thus provides some level of compatibility between the two environments, helping users of both systems in the development of equivalent patches.
 
 
 ——————————————————————————
