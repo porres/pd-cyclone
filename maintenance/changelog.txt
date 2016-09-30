@@ -12,15 +12,20 @@ TO DO for cyclone, next release:
 DONE for cyclone
 ================
 
-0.3-beta-0
+0.3
 
 Coming soon…
 
-0.2beta1 has no changelog 
+0.2beta1 
 
-the versions below are “0.1” from alpha 50 to 57:
+* coll: added threaded argument from pd-l2ork (later removed for windows)
+* Scope~: Added [resize( and [grbg(
+* frameaccum~: added wrap-mode 
+* matrix~: changed default ramp for non-binary mode
+* delay~: added clear message
 
-alpha57 (unreleased, so most of this changes are in 0.2beta1)
+0.1.alpha57 (unreleased, so most of this changes are in 0.2beta1)
+
 * fixed "bits " message for bitand~, bitor~ and bitxor~ (bug #1186, svn r17418), 
 * fixed crash on "set " message for count~ (svn r17394), 
 * added "pause", "resume" and "stop" messages and behaviour to Line~ (svn r17398), 
@@ -50,10 +55,10 @@ Commited in svn but not yet in binary distribution:
 * Added examples to cyclone cartopol~ and poltocar~ help patches (svn r17493), 
 * Fixed [lookup~] behaviour (svn r17495).
 
-alpha56 - available in the last pd extended version (0.43)
+0.1.alpha56 - available in the last pd extended version (0.43)
 this version has no changelog 
 
-alpha55 -  available in Pd-Extended 0.42
+0.1.alpha55 -  available in Pd-Extended 0.42
   * new class: overdrive~
   * seq:
     . new incompatible message 'tempo': 1-based coef, does not start playback
@@ -61,12 +66,12 @@ alpha55 -  available in Pd-Extended 0.42
   * abs~: performance fix
   * slide~, rampsmooth~: bashing denormals
 
-alpha54
+0.1.alpha54
   * comment: fixing namespace bug, reducing traffic
   * testmess: optionally filling message with symbols (numbers in hex form
     or names of all registered classes)
 
-alpha53
+0.1.alpha53
   * matrix~: incompatible message 'set'
   * coll:
     . fixed descending order of 'sort' (a leaking sentinel bug)
@@ -76,7 +81,7 @@ alpha53
   * seq: editor fixes, editor bound to click (should bind to "open" too...)
   * prob, capture, capture~: viewer fixes
 
-alpha52
+0.1.alpha52
   * compatibility mode interface in maxmode object:
     messages 'set', 'get' (reply through the second outlet)
   * better handling of initial directory in open panels
@@ -91,7 +96,7 @@ alpha52
     . 'goto' fix (works in idlemode)
     . more incompatible messages: 'scoretime', 'cd', 'pwd'
 
-alpha51
+0.1.alpha51
   * dummies loaded by maxmode, not cyclone
   * setting directory in creation argument replaced with 'cd' message
     to library objects (cyclone, maxmode, hammer and sickle)
@@ -104,7 +109,7 @@ alpha51
   * fix for parsing creation arguments in svf~
   * incompatible additions to seq: 'pause', 'continue', 'goto'
 
-alpha50
+0.1.alpha50
   * max-compatibility mode switch for cyclone
     . turned on by loading cyclone libs through "-lib maxmode"
     . affects max-compatibility of prepend and Append, controls

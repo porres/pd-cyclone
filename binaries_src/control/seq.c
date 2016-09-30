@@ -11,7 +11,6 @@
 #include "shared.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "common/fitter.h"
 #include "common/mifi.h"
 #include "unstable/forky.h"
 #include "hammer/file.h"
@@ -562,14 +561,8 @@ static void seq_hook(t_seq *x, t_floatarg f)
     }
 }
 
-static void seq_pause(t_seq *x)
+static void seq_pause(t_seq *x) // not available in Max
 {
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(*(t_pd *)x, "'pause' not supported in Max");
-	warned = 1;
-    }
     if (x->x_mode == SEQ_PLAYMODE && SEQ_ISRUNNING(x))
     {
 	x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
@@ -580,14 +573,8 @@ static void seq_pause(t_seq *x)
     }
 }
 
-static void seq_continue(t_seq *x)
+static void seq_continue(t_seq *x) // not available in Max
 {
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(*(t_pd *)x, "'continue' not supported in Max");
-	warned = 1;
-    }
     if (x->x_mode == SEQ_PLAYMODE && SEQ_ISPAUSED(x))
     {
 	if (x->x_clockdelay < 0.)
@@ -597,14 +584,8 @@ static void seq_continue(t_seq *x)
     }
 }
 
-static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2)
+static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2) // not available in Max
 {
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(*(t_pd *)x, "'goto' not supported in Max");
-	warned = 1;
-    }
     if (x->x_nevents)
     {
 	t_seqevent *ev;
@@ -641,14 +622,8 @@ static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2)
     }
 }
 
-static void seq_scoretime(t_seq *x, t_symbol *s)
+static void seq_scoretime(t_seq *x, t_symbol *s) // not available in Max
 {
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(*(t_pd *)x, "'scoretime' not supported in Max");
-	warned = 1;
-    }
     if (s && s->s_thing &&
 	x->x_mode == SEQ_PLAYMODE)  /* LATER other modes */
     {
@@ -674,14 +649,8 @@ static void seq_scoretime(t_seq *x, t_symbol *s)
     }
 }
 
-static void seq_tempo(t_seq *x, t_floatarg f)
+static void seq_tempo(t_seq *x, t_floatarg f) // not available in Max
 {
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(*(t_pd *)x, "'tempo' not supported in Max");
-	warned = 1;
-    }
     if (f > SEQ_TEMPOEPSILON)
     {
 	seq_settimescale(x, 1. / f);
@@ -691,26 +660,14 @@ static void seq_tempo(t_seq *x, t_floatarg f)
     /* FIXME else pause, LATER reverse playback if (f < -SEQ_TEMPOEPSILON) */
 }
 
-static void seq_cd(t_seq *x, t_symbol *s)
+static void seq_cd(t_seq *x, t_symbol *s) // not available in Max
 {
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(*(t_pd *)x, "'cd' not supported in Max");
-	warned = 1;
-    }
     hammerpanel_setopendir(x->x_filehandle, s);
 }
 
-static void seq_pwd(t_seq *x, t_symbol *s)
+static void seq_pwd(t_seq *x, t_symbol *s) // not available in Max
 {
     t_symbol *dir;
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(*(t_pd *)x, "'pwd' not supported in Max");
-	warned = 1;
-    }
     if (s && s->s_thing && (dir = hammerpanel_getopendir(x->x_filehandle)))
 	pd_symbol(s->s_thing, dir);
 }
@@ -1160,12 +1117,6 @@ static void seq_free(t_seq *x)
 static void *seq_new(t_symbol *s)
 {
     t_seq *x = (t_seq *)pd_new(seq_class);
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	loud_warning((t_pd *)x, 0, "seq is not ready yet");
-	warned = 1;
-    }
     x->x_canvas = canvas_getcurrent();
     x->x_filehandle = hammerfile_new((t_pd *)x, 0, seq_readhook, seq_writehook,
 				     seq_editorhook);
@@ -1194,16 +1145,13 @@ static void *seq_new(t_symbol *s)
 
 void seq_setup(void)
 {
-    seq_class = class_new(gensym("seq"),
-			  (t_newmethod)seq_new,
-			  (t_method)seq_free,
-			  sizeof(t_seq), 0,
-			  A_DEFSYM, 0);
+    seq_class = class_new(gensym("seq"), (t_newmethod)seq_new,
+        (t_method)seq_free, sizeof(t_seq), 0, A_DEFSYM, 0);
     class_addbang(seq_class, seq_bang);
     class_addfloat(seq_class, seq_float);
-    /* CHECKED symbol rejected */
+// CHECKED symbol rejected
     class_addsymbol(seq_class, seq_symbol);
-    /* CHECKED 1st atom of a list accepted if a float, ignored if a symbol */
+// CHECKED 1st atom of a list accepted if a float, ignored if a symbol
     class_addlist(seq_class, seq_list);
     class_addmethod(seq_class, (t_method)seq_record,
 		    gensym("record"), 0);
@@ -1226,7 +1174,8 @@ void seq_setup(void)
     class_addmethod(seq_class, (t_method)seq_print,
 		    gensym("print"), 0);
 
-    /* incompatible extensions */
+    // not available in Max
+    // "not ready yet"
     class_addmethod(seq_class, (t_method)seq_pause,
 		    gensym("pause"), 0);
     class_addmethod(seq_class, (t_method)seq_continue,
@@ -1245,5 +1194,4 @@ void seq_setup(void)
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     hammerfile_setup(seq_class, 0);
-    fitter_setup(seq_class, 0);
 }

@@ -30,9 +30,9 @@ static t_int *kink_perform(t_int *w)
 	float oph = iph * slope;
 	if (oph > .5)
 	{
-	    slope = 1. / (slope + slope);  /* x(y=.5) */
+	    slope = 1. / (slope + slope);  // x(y=.5)
 	    if (slope == 1.)
-		*out++ = 0;  /* CHECKED */
+		*out++ = 0;
 	    else
 		*out++ = (iph - slope) / (2. - (slope + slope)) + .5;
 	}
