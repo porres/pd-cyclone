@@ -329,7 +329,7 @@ shared/unstable/fragile.c \
 shared/unstable/forky.c
     cartopol~.class.sources := binaries_src/signal/cartopol.c $(sfragileforkyloud)
 
-# loud? - get rid of loud and get fragile and forky into the same one, then agroup with the classes below
+# deloud and merge fragile/forky into a new "magic" dependency, then agroup with the ones below
 
 sforky := \
 shared/unstable/forky.c
