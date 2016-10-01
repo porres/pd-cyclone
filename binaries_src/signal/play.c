@@ -5,7 +5,6 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "shared.h"
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
 
@@ -33,19 +32,7 @@ static void play_start(t_play *x, t_floatarg f1, t_floatarg f2, t_floatarg f3)
 ////////////////////////////////////////////////
 static void play_float(t_play *x, t_floatarg f)
 {
-/*    if (x->x_isrunning = (f != 0))
-    {
-        // LATER consider restart if x->x_pauseindex == SHARED_INT_MAX
-        x->x_phase = x->x_appendmode ? x->x_pauseindex : x->x_startindex;
-        if (x->x_phase >= x->x_endindex) x->x_phase = SHARED_INT_MAX;
-    }
-    else if (x->x_phase != SHARED_INT_MAX)  // CHECKED: no rewind
-    {
-        clock_delay(x->x_clock, 10.);
-        x->x_pauseindex = x->x_phase;
-        x->x_phase = SHARED_INT_MAX;
-    }
-    record_setsync(x); */
+
 }
 
 

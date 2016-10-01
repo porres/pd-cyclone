@@ -5,7 +5,6 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h"
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
 

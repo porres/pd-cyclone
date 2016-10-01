@@ -5,7 +5,6 @@
 /* LATER: 'click' method */
 
 #include "m_pd.h"
-#include "shared.h"
 #include "unstable/fragile.h"
 #include "sickle/sic.h"
 #include "sickle/arsic.h"
@@ -150,12 +149,11 @@ void poke_tilde_setup(void)
 			   sizeof(t_poke), 0,
 			   A_DEFSYM, A_DEFFLOAT, 0);
     arsic_setup(poke_class, poke_dsp, poke_float);
-    //class_addbang(poke_class, poke_bang);  /* LATER rethink */
+    //class_addbang(poke_class, poke_bang); 
     class_addfloat(poke_class, poke_float);
     class_addmethod(poke_class, (t_method)poke_set,
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(poke_class, (t_method)poke_ft2,
 		    gensym("ft2"), A_FLOAT, 0);
-//    logpost(NULL, 4, "this is cyclone/poke~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+
 }
