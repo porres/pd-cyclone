@@ -1,32 +1,28 @@
 Changelog with things that changed between cyclone versions.
 ============================================================
 
-Current version: 0.3 (release xx/xx/2016)
+TO DO for cyclone, next release (Version 0.3 coming soon…):
+- Update outdated objects
+- Add new objects
+- Fix some known bugs
 
-TO DO for cyclone, next release:
-- update remaining outdated objects
-- fix some known bugs
-
- 
 ================
 DONE for cyclone
 ================
 
-0.3
-
-Coming soon…
+Post-Extended Era (under the maintenance of Fred Jan Kraan): 
 
 0.2beta1 
   * coll: added threaded argument from pd-l2ork (later removed for windows)
-  * scope~: Added [resize( and [grbg(
+  * scope~: Added 'resize' and 'grbg' methods
   * frameaccum~: added wrap-mode 
   * matrix~: changed default ramp for non-binary mode
   * delay~: added clear message
 
-0.1.alpha57 (unreleased, so most of this changes are in 0.2beta1)
+0.1.alpha57 (unreleased package, so these changes are found in the 0.2beta1 release)
   * fixed "bits " message for bitand~, bitor~ and bitxor~ (bug #1186, svn r17418), 
   * fixed crash on "set " message for count~ (svn r17394), 
-  * added "pause", "resume" and "stop" messages and behaviour to Line~ (svn r17398), 
+  * added 'pause', 'resum' and 'stop' messages to Line~ (svn r17398), 
   * fixed poltocar~ phase polarity (svn r17483), 
   * fixed rand~ argument (bug #1177), 
   * changed in arsic/vefl.c the call of garray_getfloatarray to garray_getfloatwords and the calling code in buffir~, cycle~, index~, lookup~, peek~, play~, poke~, record~ and wave~ perform methods (svn r17482, r17393 r17397), 
@@ -38,7 +34,7 @@ Coming soon…
   * fixed issue in slide~ with incorrect down-slide when specifying a low-value up-slide (svn r17475), 
   * changed the rampsmooth~ ramp to linear as specified in the documentation (svn r17474), 
   * checked and improved sah~ help-patch (svn r17473), 
-  * added [separate( to coll object (svn r17418), 
+  * added 'separate' message to coll object (svn r17418), 
   * fixed offset argument in cycle~ (svn r17479), 
   * fixed internal path for comment (bug #215, svn r17480, r17481), 
   * added max5mode in Bucket, different load behaviour with second argument (svn r17484), 
@@ -51,8 +47,10 @@ Coming soon…
   * Added examples to cyclone cartopol~ and poltocar~ help patches (svn r17493), 
   * Fixed [lookup~] behaviour (svn r17495).
 
-0.1.alpha56 - available in the last pd extended version (0.43)
-  * fixed inversed phase output of car-pool~
+Extended Era (under the maintenance of Hans-Christoph Steiner): 
+
+0.1.alpha56 - available in the last pd extended version (0.43.4)
+  * fixed inversed phase output of cartopol~ (but not poltocar~ ruining the pair)
   * added all-lower-case aliases to objects with capital letters since Max/MSP 4.6 converted to all lowercase
 
 0.1.alpha55 -  available up to Pd-Extended 0.42-5
@@ -62,6 +60,8 @@ Coming soon…
     . fix for double-to-float-pair calc in 'scoretime' and 'goto'
   * abs~: performance fix
   * slide~, rampsmooth~: bashing denormals
+
+Pre-Extended Era (under the maintenance of Krzysztof Czaja): 
 
 0.1.alpha54 - Last Pre Extended version
   * comment: fixing namespace bug, reducing traffic
@@ -111,3 +111,5 @@ Coming soon…
     . turned on by loading cyclone libs through "-lib maxmode"
     . affects max-compatibility of prepend and Append, controls
       compatibility warnings
+      
+ Pre History of cyclone (earlier than 0.1.alpha50) unavailable...
