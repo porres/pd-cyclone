@@ -7,7 +7,14 @@
 
 #define COMB_STACK 48000 //stack buf size, 1 sec at 48k for good measure
 #define COMB_DELAY  10.0 //maximum delay
-#define COMB_MAX 240000 //max allocated amount for delay bufs, 5 seconds at 48k
+#define COMB_MIND 1 //minumum delay 
+#define COMB_MAXD 4294967294 //max delay = 2**32 - 2
+
+#define COMB_MINMS 0. //min delay in ms
+
+#define COMB_DEFGAIN 0. //default gain
+#define COMB_DEFFF 0. //default ff gain
+#define COMB_DEFFB 0. //default fb gain
 
 static t_class *comb_class;
 
@@ -26,14 +33,14 @@ typedef struct _comb
     double * x_xbuf;
     double x_fbstack[COMB_STACK];
     int     x_alloc; //if we are using allocated bufs
-    int     x_sz; //actual size of each delay buffer
+    unsigned int     x_sz; //actual size of each delay buffer
 
     t_float     x_maxdel;  //maximum delay in ms
-    int       x_wh;     //writehead
+    unsigned int       x_wh;     //writehead
 } t_comb;
 
 static void comb_clear(t_comb *x){
-    int i;
+    unsigned int i;
     for(i=0; i<x->x_sz; i++){
         x->x_xbuf[i] = 0.;
         x->x_ybuf[i] = 0.;
@@ -46,18 +53,18 @@ static void comb_sz(t_comb *x){
     //ie if wanted size x->x_maxdel is bigger than stack, allocate
     
     //convert ms to samps
-    int newsz = (int)ceil((double)x->x_maxdel*0.001*(double)x->x_sr);
+    unsigned int newsz = (unsigned int)ceil((double)x->x_maxdel*0.001*(double)x->x_sr);
     newsz++; //add a sample for good measure since say bufsize is 2048 and 
     //you want a delay of 2048 samples,.. problem!
 
     int alloc = x->x_alloc;
-    int cursz = x->x_sz; //current size
+    unsigned int cursz = x->x_sz; //current size
 
     if(newsz < 0){
         newsz = 0;
     }
-    else if(newsz > COMB_MAX){
-        newsz = COMB_MAX;
+    else if(newsz > COMB_MAXD){
+        newsz = COMB_MAXD;
     };
     if(!alloc && newsz > COMB_STACK){
         x->x_xbuf = (double *)malloc(sizeof(double)*newsz);
@@ -73,6 +80,7 @@ static void comb_sz(t_comb *x){
     else if(alloc && newsz < COMB_STACK){
         free(x->x_xbuf);
         free(x->x_ybuf);
+        x->x_sz = COMB_STACK;
         x->x_xbuf = x->x_ffstack;
         x->x_ybuf = x->x_fbstack;
         x->x_alloc = 0;
@@ -83,13 +91,13 @@ static void comb_sz(t_comb *x){
 
 
 
-static double comb_getlin(double tab[], int sz, double idx){
+static double comb_getlin(double tab[], unsigned int sz, double idx){
     //copying from my own library, linear interpolated reader - DK
         double output;
-        int tabphase1 = (int)idx;
-        int tabphase2 = tabphase1 + 1;
+        unsigned int tabphase1 = (unsigned int)idx;
+        unsigned int tabphase2 = tabphase1 + 1;
         double frac = idx - (double)tabphase1;
-        if(tabphase1 >= (sz - 1)){
+        if(tabphase1 >= sz - 1){
                 tabphase1 = sz - 1; //checking to see if index falls within bounds
                 output = tab[tabphase1];
         }
@@ -111,6 +119,10 @@ static double comb_readmsdelay(t_comb *x, double arr[], t_float ms){
 
     //eventual reading head
     double rh = (double)ms*((double)x->x_sr*0.001); //converting ms to samples
+    //bounds checking for minimum delay in samples
+        if(rh < COMB_MIND){
+            rh = COMB_MIND;
+        };
         rh = (double)x->x_wh+((double)x->x_sz-rh); //essentially subracting from writehead to find proper position in buffer
         //wrapping into length of delay buffer
         while(rh >= x->x_sz){
@@ -179,15 +191,66 @@ static void comb_dsp(t_comb *x, t_signal **sp)
 	    sp[3]->s_vec, sp[4]->s_vec, sp[5]->s_vec);
 }
 
-static void *comb_new(t_floatarg maxdel, t_floatarg initdel,
-		      t_floatarg gain, t_floatarg ffcoeff, t_floatarg fbcoeff)
-{
+static void comb_list(t_comb *x, t_symbol *s, int argc, t_atom * argv){
+  
+   
+    int argnum = 0; //current argument
+    while(argc){
+        if(argv -> a_type == A_FLOAT){
+            t_float curf = atom_getfloatarg(0, argc, argv);
+            switch(argnum){
+                case 0:
+                    //maxdel
+                    x->x_maxdel = curf > 0 ? curf : COMB_DELAY; 
+                    comb_sz(x);
+                    break;
+                case 1:
+                    //initdel
+                        if(curf < COMB_MINMS){
+                            curf = COMB_MINMS;
+                          }
+                        else if(curf > x->x_maxdel){
+                             curf = x->x_maxdel;
+                         };
+                    pd_float((t_pd *)x->x_dellet, curf);
+                    break;
+                case 2:
+                    //gain
+                    pd_float((t_pd *)x->x_alet, curf);
+                    break;
+                case 3:
+                    //ffcoeff
+                    pd_float((t_pd *)x->x_blet, curf);
+                    break;
+                case 4:
+                    //fbcoeff
+                    pd_float((t_pd *)x->x_clet, curf);
+                    break;
+                default:
+                    break;
+            };
+            argnum++;
+        };
+        argc--;
+        argv++;
+    };
+
+
+
+}
+
+
+static void *comb_new(t_symbol *s, int argc, t_atom * argv){
     t_comb *x = (t_comb *)pd_new(comb_class);
-    
-    x->x_maxdel = maxdel > 0 ? maxdel : COMB_DELAY; 
-    x->x_sr = sys_getsr();
    
     //defaults
+    t_float maxdel = COMB_DELAY;
+    t_float initdel = COMB_MINMS;
+    t_float gain = COMB_DEFGAIN;
+    t_float ffcoeff = COMB_DEFFF;
+    t_float fbcoeff = COMB_DEFFB;
+    x->x_sr = sys_getsr();
+    
     x->x_alloc = 0;
     x->x_sz = COMB_STACK;
     //clear out stack bufs, set pointer to stack
@@ -195,15 +258,49 @@ static void *comb_new(t_floatarg maxdel, t_floatarg initdel,
     x->x_xbuf = x->x_ffstack;
     comb_clear(x);
 
-    //ship off to the helper method to deal with allocation if necessary
+    int argnum = 0; //current argument
+    while(argc){
+        if(argv -> a_type == A_FLOAT){
+            t_float curf = atom_getfloatarg(0, argc, argv);
+            switch(argnum){
+                case 0:
+                    maxdel = curf;
+                    break;
+                case 1:
+                    initdel = curf;
+                    break;
+                case 2:
+                    gain = curf;
+                    break;
+                case 3:
+                    ffcoeff = curf;
+                    break;
+                case 4:
+                    fbcoeff = curf;
+                    break;
+                default:
+                    break;
+            };
+            argnum++;
+        };
+        argc--;
+        argv++;
+    };
+    
+
+    x->x_maxdel = maxdel > 0 ? maxdel : COMB_DELAY; 
+      //ship off to the helper method to deal with allocation if necessary
     comb_sz(x);
     //boundschecking
-    if(initdel < 0){
-        initdel = 0;
+    //this is 1/44.1 (1/(sr*0.001) rounded up, good enough?
+
+    if(initdel < COMB_MINMS){
+        initdel = COMB_MINMS;
     }
     else if(initdel > x->x_maxdel){
         initdel = x->x_maxdel;
     };
+
 
     //inlets outlets
     x->x_dellet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
@@ -217,6 +314,10 @@ static void *comb_new(t_floatarg maxdel, t_floatarg initdel,
     x->x_outlet = outlet_new((t_object *)x, &s_signal);
     return (x);
 }
+
+
+
+
 
 static void * comb_free(t_comb *x){
     if(x->x_alloc){
@@ -237,9 +338,9 @@ void comb_tilde_setup(void)
 			   (t_newmethod)comb_new,
 			   (t_method)comb_free,
 			   sizeof(t_comb), 0,
-			   A_DEFFLOAT, A_DEFFLOAT,
-			   A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+			   A_GIMME, 0);
     class_addmethod(comb_class, nullfn, gensym("signal"), 0);
     class_addmethod(comb_class, (t_method)comb_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(comb_class, (t_method)comb_clear, gensym("clear"), 0);
+    class_addlist(comb_class, (t_method)comb_list);
 }
