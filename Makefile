@@ -371,13 +371,14 @@ shared/sickle/sic.c \
 shared/sickle/arsic.c \
 shared/common/loud.c \
 shared/common/vefl.c \
-shared/common/fitter.c \
 shared/unstable/fragile.c
     peek~.class.sources := binaries_src/signal/peek.c $(sarsic)
     play~.class.sources := binaries_src/signal/play.c $(sarsic)
     poke~.class.sources := binaries_src/signal/poke.c $(sarsic) # only using fragile
     record~.class.sources := binaries_src/signal/record.c $(sarsic)
     wave~.class.sources := binaries_src/signal/wave.c $(sarsic)
+
+# no fitter
 
 #cybuf (aka arsic replacement) classes
 scybuf := shared/cybuf.c
