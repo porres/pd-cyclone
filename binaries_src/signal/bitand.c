@@ -57,12 +57,8 @@ static t_int *bitand_perform(t_int *w)
         case 1: while (nblock--) // convert inputs to int
     	{ 
     	int32_t i = ((int32_t)*in1++) & ((int32_t)*in2++);
-    	t_float f = (t_float)i;
-    	if (FORKY_ISDENORM(f))
-    		*out++ = 0;
-    	else
-	    	*out++ = f;
-        }
+    	*out++ = (t_float)i;
+    	}
         break;
         case 2: while (nblock--) // right input as int
         {
@@ -78,11 +74,7 @@ static t_int *bitand_perform(t_int *w)
         {
         right.if_float = *in2++;
         int32_t i = ((int32_t)*in1++) & right.if_int32;
-        t_float f = (t_float)i;
-    	if (FORKY_ISDENORM(f))
-    		*out++ = 0;
-    	else
-	    	*out++ = f;
+        *out++ = (t_float)i;
         }
 	break;
     }
@@ -105,11 +97,7 @@ static t_int *bitand_perform_noin2(t_int *w)
     if (x->x_convert1)
     while (nblock--)
         { int32_t i = ((int32_t)*in++) & mask;
-          t_float f = (t_float)i;
-    	if (FORKY_ISDENORM(f))
-    		*out++ = 0;
-    	else
-	    	*out++ = f;
+        *out++ = (t_float)i;
         }
     else while (nblock--)
         { 

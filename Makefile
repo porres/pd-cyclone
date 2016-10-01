@@ -378,7 +378,7 @@ shared/unstable/fragile.c
     record~.class.sources := binaries_src/signal/record.c $(sarsic)
     wave~.class.sources := binaries_src/signal/wave.c $(sarsic)
 
-# no fitter
+# loud and vefl actually not being used in the classes, but needed
 
 #cybuf (aka arsic replacement) classes
 scybuf := shared/cybuf.c

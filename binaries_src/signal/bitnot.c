@@ -3,14 +3,20 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include "unstable/forky.h"
 
-static t_class *bitnot_class;
+union i32_fl {
+	int32_t if_int32;
+	t_float if_float;
+};
 
 typedef struct _bitnot {
     t_object x_obj;
     t_outlet *x_outlet;
     int    x_convert1;
 } t_bitnot;
+
+static t_class *bitnot_class;
 
 void *bitnot_new(t_floatarg f);
 static t_int * bitnot_perform(t_int *w);
@@ -25,6 +31,7 @@ static t_int * bitnot_perform(t_int *w)
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
+    union i32_fl result;
     if (x->x_convert1) while (nblock--)
     {
         int32_t i = ~((int32_t)*in++);
@@ -32,8 +39,12 @@ static t_int * bitnot_perform(t_int *w)
     }
     else while (nblock--)
     {
-        int32_t i = ~(*(int32_t *)(t_float *)in++);
-        *out++ = *(t_float *)&i;
+    	result.if_float = *in++;
+        result.if_int32 = ~result.if_int32;
+        if (FORKY_ISDENORM(result.if_float))
+        	*out++ = 0;
+        else
+        	*out++ = result.if_float;
     }
     return (w + 5);
 }
