@@ -12,14 +12,14 @@ DONE for cyclone
 
 Post-Extended Era (under the maintenance of Fred Jan Kraan): 
 
-0.2beta1 
+0.2beta - found when searching for externals (in Pd Vanilla 0.47+):
   * coll: added threaded argument from pd-l2ork (later removed for windows)
   * scope~: Added 'resize' and 'grbg' methods
   * frameaccum~: added wrap-mode 
   * matrix~: changed default ramp for non-binary mode
   * delay~: added clear message
 
-0.1.alpha57 (unreleased package, so these changes are found in the 0.2beta1 release)
+0.1.alpha57 - unreleased package, so these changes are found in the 0.2beta releases:
   * fixed "bits " message for bitand~, bitor~ and bitxor~ (bug #1186, svn r17418), 
   * fixed crash on "set " message for count~ (svn r17394), 
   * added 'pause', 'resum' and 'stop' messages to Line~ (svn r17398), 
@@ -49,11 +49,11 @@ Post-Extended Era (under the maintenance of Fred Jan Kraan):
 
 Extended Era (under the maintenance of Hans-Christoph Steiner): 
 
-0.1.alpha56 - available in the last pd extended version (0.43.4)
+0.1.alpha56 - available in the last pd extended version (0.43.4) - found as "cyclone-v0-0extended" when searching for externals (in Pd Vanilla 0.47+):
   * fixed inversed phase output of cartopol~ (but not poltocar~ ruining the pair)
   * added all-lower-case aliases to objects with capital letters since Max/MSP 4.6 converted to all lowercase
 
-0.1.alpha55 -  available up to Pd-Extended 0.42-5
+0.1.alpha55 -  available up to Pd-Extended 0.42-5:
   * new class: overdrive~
   * seq:
     . new incompatible message 'tempo': 1-based coef, does not start playback
@@ -63,12 +63,12 @@ Extended Era (under the maintenance of Hans-Christoph Steiner):
 
 Pre-Extended Era (under the maintenance of Krzysztof Czaja): 
 
-0.1.alpha54 - Last Pre Extended version
+0.1.alpha54 - Last Pre Extended version:
   * comment: fixing namespace bug, reducing traffic
   * testmess: optionally filling message with symbols (numbers in hex form
     or names of all registered classes)
 
-0.1.alpha53
+0.1.alpha53:
   * matrix~: incompatible message 'set'
   * coll:
     . fixed descending order of 'sort' (a leaking sentinel bug)
@@ -78,7 +78,7 @@ Pre-Extended Era (under the maintenance of Krzysztof Czaja):
   * seq: editor fixes, editor bound to click (should bind to "open" too...)
   * prob, capture, capture~: viewer fixes
 
-0.1.alpha52
+0.1.alpha52:
   * compatibility mode interface in maxmode object:
     messages 'set', 'get' (reply through the second outlet)
   * better handling of initial directory in open panels
@@ -93,7 +93,7 @@ Pre-Extended Era (under the maintenance of Krzysztof Czaja):
     . 'goto' fix (works in idlemode)
     . more incompatible messages: 'scoretime', 'cd', 'pwd'
 
-0.1.alpha51
+0.1.alpha51:
   * dummies loaded by maxmode, not cyclone
   * setting directory in creation argument replaced with 'cd' message
     to library objects (cyclone, maxmode, hammer and sickle)
@@ -106,7 +106,7 @@ Pre-Extended Era (under the maintenance of Krzysztof Czaja):
   * fix for parsing creation arguments in svf~
   * incompatible additions to seq: 'pause', 'continue', 'goto'
 
-0.1.alpha50
+0.1.alpha50:
   * max-compatibility mode switch for cyclone
     . turned on by loading cyclone libs through "-lib maxmode"
     . affects max-compatibility of prepend and Append, controls
