@@ -1,6 +1,5 @@
-//COPIED FROM teeth BUT ADDING AN EXTRA INLET AND ARGT FOR SEPARATE DELAYS - DK
+//COPIED FROM comb.c BUT ADDING AN EXTRA INLET AND ARGT FOR SEPARATE DELAYS - DK
 
-//almost complete rewrite since the previous version of Cyclone didn't implement it correctly (used only one delay buffer)
 //- Derek Kwan 2016
 
 #include <math.h>
