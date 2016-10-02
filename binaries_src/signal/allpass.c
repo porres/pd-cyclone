@@ -1,5 +1,5 @@
-// remade from the comb~ by Derek
-// Porres 2016
+//almost complete rewrite since the previous version of Cyclone didn't implement it correctly (used only one delay buffer)
+//- Derek Kwan 2016
 
 #include <math.h>
 #include <stdlib.h>
@@ -7,7 +7,7 @@
 
 #define ALLPASS_STACK 48000 //stack buf size, 1 sec at 48k for good measure
 #define ALLPASS_DELAY  10.0 //maximum delay
-#define ALLPASS_MIND 1 //minumum delay
+#define ALLPASS_MIND 1 //minumum delay 
 #define ALLPASS_MAXD 4294967294 //max delay = 2**32 - 2
 
 #define ALLPASS_MINMS 0. //min delay in ms
@@ -87,6 +87,8 @@ static void allpass_sz(t_allpass *x){
 }
 
 
+
+
 static double allpass_getlin(double tab[], unsigned int sz, double idx){
     //copying from my own library, linear interpolated reader - DK
         double output;
@@ -131,6 +133,7 @@ static double allpass_readmsdelay(t_allpass *x, double arr[], t_float ms){
 }
 
 
+
 static t_int *allpass_perform(t_int *w)
 {
     t_allpass *x = (t_allpass *)(w[1]);
@@ -158,8 +161,8 @@ static t_int *allpass_perform(t_int *w)
         //now get those delayed vals
         double delx = allpass_readmsdelay(x, x->x_xbuf, delms);
         double dely = allpass_readmsdelay(x, x->x_ybuf, delms);
-        //figure out your current y term: y[n] = a*x[n] + b*x[n-d] + c*x[n-d]
-        double output = (double)-ain[i]*input + delx + (double)ain[i]*dely;
+        //figure out your current y term: y[n] = -a*x[n] + x[n-d] + a*y[n-d]
+        double output = (double)ain[i]*-1.*input + delx + (double)ain[i]*dely;
         //stick this guy in the ybuffer and output
         x->x_ybuf[wh] = output;
         out[i] = output;
@@ -167,6 +170,7 @@ static t_int *allpass_perform(t_int *w)
         //increment writehead
         x->x_wh = (wh + 1) % x->x_sz;
     };
+    
     return (w + 7);
 }
 
@@ -179,12 +183,13 @@ static void allpass_dsp(t_allpass *x, t_signal **sp)
         allpass_sz(x);
     };
     dsp_add(allpass_perform, 6, x, sp[0]->s_n,
-	    sp[0]->s_vec, sp[1]->s_vec,
-        sp[2]->s_vec, sp[3]->s_vec);
+	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec,
+	    sp[3]->s_vec);
 }
 
 static void allpass_list(t_allpass *x, t_symbol *s, int argc, t_atom * argv){
   
+   
     int argnum = 0; //current argument
     while(argc){
         if(argv -> a_type == A_FLOAT){
@@ -192,7 +197,7 @@ static void allpass_list(t_allpass *x, t_symbol *s, int argc, t_atom * argv){
             switch(argnum){
                 case 0:
                     //maxdel
-                    x->x_maxdel = curf > 0 ? curf : ALLPASS_DELAY;
+                    x->x_maxdel = curf > 0 ? curf : ALLPASS_DELAY; 
                     allpass_sz(x);
                     break;
                 case 1:
@@ -217,7 +222,11 @@ static void allpass_list(t_allpass *x, t_symbol *s, int argc, t_atom * argv){
         argc--;
         argv++;
     };
+
+
+
 }
+
 
 static void *allpass_new(t_symbol *s, int argc, t_atom * argv){
     t_allpass *x = (t_allpass *)pd_new(allpass_class);
@@ -259,7 +268,7 @@ static void *allpass_new(t_symbol *s, int argc, t_atom * argv){
     };
     
 
-    x->x_maxdel = maxdel > 0 ? maxdel : ALLPASS_DELAY;
+    x->x_maxdel = maxdel > 0 ? maxdel : ALLPASS_DELAY; 
       //ship off to the helper method to deal with allocation if necessary
     allpass_sz(x);
     //boundschecking
@@ -272,6 +281,7 @@ static void *allpass_new(t_symbol *s, int argc, t_atom * argv){
         initdel = x->x_maxdel;
     };
 
+
     //inlets outlets
     x->x_dellet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_dellet, initdel);
@@ -282,6 +292,9 @@ static void *allpass_new(t_symbol *s, int argc, t_atom * argv){
 }
 
 
+
+
+
 static void * allpass_free(t_allpass *x){
     if(x->x_alloc){
         free(x->x_xbuf);
@@ -289,8 +302,6 @@ static void * allpass_free(t_allpass *x){
     };
     inlet_free(x->x_dellet);
     inlet_free(x->x_alet);
-    inlet_free(x->x_blet);
-    inlet_free(x->x_clet);
     outlet_free(x->x_outlet);
     return (void *)x;
 }

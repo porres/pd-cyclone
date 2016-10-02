@@ -179,7 +179,7 @@ static t_int *teeth_perform(t_int *w)
         //now get those delayed vals
         double delx = teeth_readmsdelay(x, x->x_xbuf, ffms);
         double dely = teeth_readmsdelay(x, x->x_ybuf, fbms);
-        //figure out your current y term, y[n] = a*x[n]+b*x[n-d] + c*x[n-d]
+        //figure out your current y term, y[n] = a*x[n]+b*x[n-d1] + c*y[n-d2]
         double output = (double)ain[i]*input + (double)bin[i]*delx + (double)cin[i]*dely;
         //stick this guy in the ybuffer and output
         x->x_ybuf[wh] = output;
