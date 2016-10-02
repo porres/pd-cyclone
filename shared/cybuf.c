@@ -207,7 +207,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
     return (c);
 }
 
-static void cybuf_enable(t_cybuf *c, t_floatarg f)
+void cybuf_enable(t_cybuf *c, t_floatarg f)
 {
     c->c_disabled = (f == 0);
     cybuf_playcheck(c);

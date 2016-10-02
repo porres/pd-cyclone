@@ -90,7 +90,7 @@ static void *index_new(t_symbol *s, t_floatarg f)
     int ch = (f > 0 ? (int)f : 0);
     /* two signals:  index input, value output */
     t_index *x = (t_index *)pd_new(index_class);
-    x->x_cybuf = cybuf_init(x, s, (ch ? INDEX_MAXCHANNELS : 0));
+    x->x_cybuf = cybuf_init((t_class *)x, s, (ch ? INDEX_MAXCHANNELS : 0));
     if (x->x_cybuf){
 	if (ch > INDEX_MAXCHANNELS)
 	    ch = INDEX_MAXCHANNELS;
