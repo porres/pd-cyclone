@@ -1,5 +1,6 @@
-Changelog with things that changed between cyclone versions.
-=============================================================
+CYCLONE CHANGELOG:
+
+Things that changed between cyclone versions.
 
 =================================
 TO DO for cyclone's next release 
