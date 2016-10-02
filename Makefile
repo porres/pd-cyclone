@@ -374,7 +374,6 @@ shared/common/vefl.c \
 shared/unstable/fragile.c
     peek~.class.sources := binaries_src/signal/peek.c $(sarsic)
     play~.class.sources := binaries_src/signal/play.c $(sarsic)
-    poke~.class.sources := binaries_src/signal/poke.c $(sarsic) # only using fragile
     record~.class.sources := binaries_src/signal/record.c $(sarsic)
     wave~.class.sources := binaries_src/signal/wave.c $(sarsic)
 
@@ -384,6 +383,7 @@ shared/unstable/fragile.c
 scybuf := shared/cybuf.c
     index~.class.sources := binaries_src/signal/index.c $(scybuf)
     buffir~.class.sources := binaries_src/signal/buffir.c $(scybuf)
+    poke~.class.sources := binaries_src/signal/poke.c $(scybuf) 
 
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###

@@ -39,10 +39,11 @@ void cybuf_playcheck(t_cybuf *c);
 //int cybuf_getnchannels(t_cybuf *x);
 void cybuf_setarray(t_cybuf *c, t_symbol *name);
 void cybuf_setminsize(t_cybuf *c, int i);
-static void cybuf_enable(t_cybuf *c, t_floatarg f);
+void cybuf_enable(t_cybuf *c, t_floatarg f);
 //void cybuf_dsp(t_cybuf *x, t_signal **sp, t_perfroutine perf, int complain);
 void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans);
 void cybuf_free(t_cybuf *c);
 //void cybuf_setup(t_class *c, void *dspfn, void *floatfn);
+void cybuf_checkdsp(t_cybuf *c);
 
 #endif
