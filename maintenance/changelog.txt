@@ -10,6 +10,7 @@ cyclone version 0.3, coming soon… (under the new maintenance of Porres, Kwan, 
 - Update outdated objects (to Max 7)
 - Add new objects
 - Fix some known bugs
+- New rewritten documentation
 
 ================
 DONE for cyclone
