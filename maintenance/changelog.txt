@@ -1,8 +1,13 @@
 Changelog with things that changed between cyclone versions.
-============================================================
+=============================================================
 
-TO DO for cyclone's next release with the maintenance of Porres, Kwan, Barber and collaborators(version 0.3, coming soon…):
-- Update outdated objects
+=================================
+TO DO for cyclone's next release 
+=================================
+
+cyclone version 0.3, coming soon… (under the new maintenance of Porres, Kwan, Barber and collaborators):
+
+- Update outdated objects (to Max 7)
 - Add new objects
 - Fix some known bugs
 
