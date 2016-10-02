@@ -1,7 +1,7 @@
 Changelog with things that changed between cyclone versions.
 ============================================================
 
-TO DO for cyclone, next release (Version 0.3 coming soon…):
+TO DO for cyclone's next release (version 0.3, coming soon…):
 - Update outdated objects
 - Add new objects
 - Fix some known bugs
