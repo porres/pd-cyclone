@@ -1,38 +1,37 @@
-#N canvas 518 44 563 682 10;
-#X obj 5 634 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 518 44 559 576 10;
+#X obj 5 537 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 401 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 457 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 450 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 494 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 483 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 86 409 cnv 17 3 35 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 87 465 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
-;
-#X text 128 408 signal;
-#X text 111 465 signal;
-#X text 93 525 2) float;
-#X obj 181 323 output~;
+#X obj 87 458 cnv 17 3 17 empty empty 0-n 5 9 0 16 -228856 -162280
+0;
+#X text 149 408 signal;
+#X text 149 459 signal;
+#X text 137 512 2) float;
+#X obj 181 327 output~;
 #X obj 196 217 phasor~;
-#X text 186 408 - signal to control positional playback in ms;
+#X text 206 408 - signal to control positional playback in ms;
 #X obj 196 249 *~;
-#N canvas 116 23 436 325 load 0;
-#X obj 60 121 soundfiler;
-#X obj 154 133 table \$0-voice;
-#X obj 60 149 - 1;
-#X obj 0 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X floatatom 60 174 5 0 0 0 - - -, f 5;
-#X obj 60 198 cyclone/sampstoms~;
-#X obj 165 232 outlet;
-#X text 14 5 load sample;
-#X obj 60 88 cyclone/loadmess read -resize voice.wav \$0-voice;
+#N canvas 116 23 360 239 load 0;
+#X obj 43 73 soundfiler;
+#X obj 134 74 table \$0-voice;
+#X obj 43 101 - 1;
+#X floatatom 43 126 5 0 0 0 - - -, f 5;
+#X obj 43 150 cyclone/sampstoms~;
+#X obj 148 184 outlet;
+#X text 238 76 load sample;
+#X obj 43 40 cyclone/loadmess read -resize voice.wav \$0-voice;
 #X connect 0 0 2 0;
-#X connect 2 0 4 0;
-#X connect 4 0 5 0;
-#X connect 5 1 6 0;
-#X connect 8 0 0 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 1 5 0;
+#X connect 7 0 0 0;
 #X restore 263 218 pd load sample;
 #X floatatom 263 246 0 0 0 0 - - -;
 #X obj 199 169 hsl 128 15 -1 1 0 0 empty \$0-freq empty -2 -8 0 10
@@ -41,23 +40,17 @@
 #X text 171 167 -1;
 #X text 335 168 1;
 #X text 318 247 ms;
-#X text 93 504 1) symbol;
-#X text 186 503 - table name;
-#X text 186 525 - number of output channels: 1 \, 2 \, or 4 (default
-1);
-#X text 186 428 - set <symbol>: sets array name;
-#X text 111 428 messages:;
+#X text 131 491 1) symbol;
+#X text 206 428 - set <symbol>: sets array name;
+#X text 131 428 messages:;
 #X text 92 97 [play~] reads an array with interpolation. Position is
 specified in ms by a signal.;
-#X text 186 465 - the playback of the array;
-#X obj 5 546 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 139 561 If the buffer~ being played has fewer channels than
+#X obj 196 283 cyclone/play~ \$0-voice;
+#N canvas 0 22 450 300 multichannel 0;
+#X text 35 123 If the buffer~ being played has fewer channels than
 the number of play~ output channels \, the extra channels output a
 zero signal. If the buffer~ has more channels \, channels are mixed
 (not implemented).;
-#X obj 196 283 cyclone/play~ \$0-voice;
-#N canvas 0 22 450 300 multichannel 0;
 #X restore 383 331 pd multichannel;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -75,11 +68,15 @@ Max/MSP;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 play~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Position-based sample playback
 ;
+#X text 206 512 - number of output channels: 1 \, 2 \, or 4 (default
+1);
+#X text 206 459 - the playback of a channel;
+#X text 206 490 - table name (required);
 #X connect 10 0 12 0;
-#X connect 12 0 29 0;
+#X connect 12 0 24 0;
 #X connect 13 0 14 0;
 #X connect 14 0 12 1;
 #X connect 15 0 16 0;
 #X connect 16 0 10 0;
-#X connect 29 0 9 0;
-#X connect 29 0 9 1;
+#X connect 24 0 9 0;
+#X connect 24 0 9 1;

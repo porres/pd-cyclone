@@ -544,7 +544,7 @@ musical purposes a band limited osicllator.;
 #X connect 20 0 17 0;
 #X connect 20 0 18 0;
 #X connect 20 0 18 1;
-#X restore 414 208 pd antialiasing;
+#X restore 449 257 pd antialiasing;
 #N canvas 830 125 450 300 sync 0;
 #X obj 219 140 phasor~;
 #X obj 219 116 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -563,7 +563,7 @@ master and force [rect~] to be synced as a slave.;
 #X connect 4 0 3 0;
 #X connect 6 0 2 0;
 #X connect 6 0 2 1;
-#X restore 442 245 pd sync;
+#X restore 497 283 pd sync;
 #X obj 163 195 cyclone/rect~ 115 0.5;
 #X text 129 495 This is an abstraction (and an extremely CPU hungry
 one)!!! A particular behaviour is that if the signal input is 0 \,
@@ -571,8 +571,8 @@ the arguments are called.;
 #X text 124 158 hz;
 #X text 235 445 - frequency (default 0);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -641,7 +641,7 @@ the arguments are called.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

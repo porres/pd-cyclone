@@ -1,5 +1,5 @@
-#N canvas 669 73 562 574 10;
-#X obj 155 215 output~;
+#N canvas 403 23 559 525 10;
+#X obj 183 217 output~;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -18,9 +18,9 @@ Max/MSP;
 ;
 #X text 48 91 [saw~] generates an anti-aliased sawtooth wave at a given
 frequency. It has a sync input.;
-#X obj 180 146 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X text 154 145 hz;
+#X obj 208 148 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 36 256;
+#X text 182 147 hz;
 #X obj 2 487 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 296 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -518,7 +518,7 @@ musical purposes a band limited osicllator.;
 #X connect 20 0 16 0;
 #X connect 20 0 17 0;
 #X connect 20 0 17 1;
-#X restore 387 190 pd antialiasing;
+#X restore 442 242 pd antialiasing;
 #N canvas 830 125 450 300 sync 0;
 #X obj 213 140 phasor~;
 #X obj 213 116 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -537,8 +537,8 @@ master and force [saw~] to be synced as a slave.;
 #X connect 4 0 3 0;
 #X connect 7 0 2 0;
 #X connect 7 0 2 1;
-#X restore 415 227 pd sync;
-#X obj 180 170 cyclone/saw~ 440;
+#X restore 488 267 pd sync;
+#X obj 208 172 cyclone/saw~ 440;
 #X text 129 434 This is an abstraction (and an extremely CPU hungry
 one)!!! A particular behaviour is that if the signal input is 0 \,
 the argument is called.;

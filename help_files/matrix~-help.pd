@@ -235,8 +235,8 @@ with all connections: <inlet# \, outlet# \, gain>, f 58;
 starting at 0) and a 3rd specifies connection <nonzero> or disconnection
 <0> \; - in non-binary mode: a 3rd float sets the gain of the connection
 and a 4th value can set the ramp time;
-#X text 192 708 - 'n' number of outputs (1 to 500 \, default 1);
 #X text 192 691 - 'n' number of inputs (1 to 250 \, default 1);
+#X text 192 708 - 'n' number of outputs (1 to 499 \, default 1);
 #X connect 6 0 45 0;
 #X connect 15 0 30 0;
 #X connect 18 0 23 0;

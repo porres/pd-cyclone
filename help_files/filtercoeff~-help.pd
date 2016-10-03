@@ -1,13 +1,13 @@
-#N canvas 752 39 572 755 10;
-#X obj 4 696 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 752 39 560 718 10;
+#X obj 4 681 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 345 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 536 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 521 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 647 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 632 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 355 cnv 17 3 128 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 340 cnv 17 3 128 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -25,44 +25,44 @@ Max/MSP;
 #X obj 16 5 comment 0 37 times ? 0 0 0 0 filtercoeff~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Generate biquad coefficients
 ;
-#X obj 80 546 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 80 531 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 565 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 80 550 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 584 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 80 569 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 603 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+#X obj 80 588 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 622 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+#X obj 80 607 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
 ;
-#X text 141 547 signal;
-#X text 141 565 signal;
-#X text 141 584 signal;
-#X text 141 603 signal;
-#X text 141 622 signal;
-#X obj 154 238 cyclone/biquad~, f 16;
-#X obj 133 275 cyclone/output~;
-#X obj 80 488 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 141 532 signal;
+#X text 141 550 signal;
+#X text 141 569 signal;
+#X text 141 588 signal;
+#X text 141 607 signal;
+#X obj 143 224 cyclone/biquad~, f 35;
+#X obj 122 261 cyclone/output~;
+#X obj 80 473 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 510 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 80 495 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 122 655 1) symbol;
-#X text 122 672 1) float;
-#X text 190 672 - resampling factor (default x?);
-#X text 190 655 - sets filter type (highpass/lowpass/etc...) default
+#X text 122 640 1) symbol;
+#X text 122 657 1) float;
+#X text 190 657 - resampling factor (default x?);
+#X text 190 640 - sets filter type (highpass/lowpass/etc...) default
 'off';
-#X text 105 356 float/signal;
-#X text 105 511 float/signal;
-#X obj 109 200 noise~;
+#X text 105 341 float/signal;
+#X text 105 496 float/signal;
+#X obj 120 176 noise~;
 #N canvas 0 22 450 300 resampling_factor 0;
-#X restore 368 286 pd resampling_factor;
-#X text 190 356 - sets cutoff/center frequency;
-#X text 105 489 float/signal;
-#X text 190 489 - sets amplitude/gain (not all filters have this parameter)
+#X restore 417 294 pd resampling_factor;
+#X text 190 341 - sets cutoff/center frequency;
+#X text 105 474 float/signal;
+#X text 190 474 - sets amplitude/gain (not all filters have this parameter)
 ;
-#X text 190 511 - sets Q / Slope;
-#X text 190 446 - resampling factor;
-#X text 129 376 anything;
+#X text 190 496 - sets Q / Slope;
+#X text 190 431 - resampling factor;
+#X text 129 361 anything;
 #X text 77 88 [filtercoeff~] generates biquad coefficients at signal-rate
 for several filter types from the parameters: 1) frequency \, 2) gain
 and 3) resonance (Q) or slope (S).;
@@ -906,9 +906,9 @@ com o MENU.;
 #X obj 36 125 noise~;
 #X obj 90 206 cyclone/output~;
 #X obj 126 105 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 878.261 256;
 #X obj 377 22 vradio 15 1 0 15 \$0-type \$0-set_type empty 0 -8 0 10
--228856 -1 -1 2;
+-228856 -1 -1 0;
 #X text 397 52 bandpass;
 #X text 397 96 peaknotch;
 #X text 397 112 lowshelf;
@@ -926,18 +926,18 @@ com o MENU.;
 #X text 397 83 bandstop;
 #X obj 126 129 cyclone/filtercoeff~ lowpass;
 #X obj 291 105 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 10 256;
 #X obj 208 105 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 17.7391 256;
 #X obj 30 49 cnv 14 80 14 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X symbolatom 30 49 13 0 0 0 - #0-symbol-set -, f 13;
 #X obj 126 20 vsl 18 70 200 2000 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 0 1;
+-1 -1 2600 1;
 #X obj 208 20 vsl 18 70 -24 24 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 0 1;
+-1 -1 6000 1;
 #X obj 291 20 vsl 18 70 0.1 100 1 0 empty empty empty 0 -9 0 10 -228856
--1 -1 0 1;
+-1 -1 4600 1;
 #X connect 1 0 3 0;
 #X connect 1 0 3 1;
 #X connect 2 0 1 0;
@@ -953,24 +953,24 @@ com o MENU.;
 #X connect 26 0 4 0;
 #X connect 27 0 23 0;
 #X connect 28 0 22 0;
-#X restore 379 254 pd filter_types;
-#X obj 172 201 cyclone/filtercoeff~ lowpass;
-#X text 159 465 off;
-#X text 190 465 - sets no filter (original input is output);
-#X obj 337 171 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X restore 447 270 pd filter_types;
+#X obj 184 187 cyclone/filtercoeff~ lowpass;
+#X text 159 450 off;
+#X text 190 450 - sets no filter (original input is output);
+#X obj 349 157 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 189 376 - 1st element sets the filter (lowpass \, highpass
+#X text 189 361 - 1st element sets the filter (lowpass \, highpass
 \, bandpass \, bandstop \, peaknotch \, lowshelf \, highshelf \, resonant
 \, allpass \, gainlpass \, gainhpass \, gainbpass \, gainbstop \, gainresonant
 \, gainapass). The other elements set gain and Q or S (if applicable)
 - see filter types example above;
-#X text 93 446 resamp <float>;
-#X text 190 547 - a0 (gain) coefficient;
-#X text 190 566 - a1 (feedforward 1) coefficient;
-#X text 190 585 - a2 (feedforward 2) coefficient;
-#X text 190 603 - b1 (feedback 1) coefficient;
-#X text 190 622 - b2 (feedback 2) coefficient;
-#X obj 172 169 number~ 1;
+#X text 93 431 resamp <float>;
+#X text 190 532 - a0 (gain) coefficient;
+#X text 190 551 - a1 (feedforward 1) coefficient;
+#X text 190 570 - a2 (feedforward 2) coefficient;
+#X text 190 588 - b1 (feedback 1) coefficient;
+#X text 190 607 - b2 (feedback 2) coefficient;
+#X obj 184 155 number~ 1;
 #X connect 23 0 24 0;
 #X connect 23 0 24 1;
 #X connect 33 0 23 0;

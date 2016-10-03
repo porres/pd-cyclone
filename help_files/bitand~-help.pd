@@ -44,13 +44,13 @@ Max/MSP;
 #X obj 510 311 cyclone/output~;
 #X obj 553 73 osc~ 220;
 #X obj 658 108 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 -1 256;
 #X obj 553 143 cyclone/bitand~ -1;
 #X msg 458 104 mode \$1;
 #X obj 458 85 nbx 2 12 0 3 0 0 safsdf sdfsdf empty 0 -8 0 10 -228856
 -1 -1 0 256;
 #X obj 458 20 vradio 15 1 0 4 dfhdfgdj sggh empty 0 -8 0 10 -228856
--1 -1 3;
+-1 -1 0;
 #X text 448 19 0;
 #X text 448 33 1;
 #X text 448 49 2;
@@ -79,11 +79,11 @@ signal input has priority over the argument or the float input.;
 #X connect 0 0 3 0;
 #X connect 0 0 4 0;
 #X connect 0 0 4 1;
+#X connect 1 0 7 0;
+#X connect 2 0 0 0;
 #X connect 5 0 1 0;
-#X connect 5 0 7 0;
 #X connect 6 0 7 1;
 #X connect 7 0 2 0;
-#X connect 7 0 0 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;
 #X connect 10 0 9 0;
@@ -312,8 +312,8 @@ this value is used for comparison.;
 #X text 183 327 - signal to execute Bitwise-AND on;
 #X text 97 363 mode <float>;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -382,7 +382,7 @@ this value is used for comparison.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

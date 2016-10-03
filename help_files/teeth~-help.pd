@@ -1,95 +1,32 @@
-#N canvas 740 60 560 668 10;
-#X obj 260 146 cnv 15 290 140 empty empty empty 20 12 0 14 -233017
--66577 0;
-#X text 313 164 |;
-#X text 313 176 |;
-#X text 313 188 |;
-#X text 294 199 |;
-#X text 336 199 |;
-#X text 336 219 |;
-#X text 294 219 |;
-#X text 297 190 _______;
-#X text 297 219 _______;
-#X text 313 191 v;
-#X text 375 191 |;
-#X text 375 202 |;
-#X text 375 172 |;
-#X text 375 181 |;
-#X text 375 167 ^;
-#X text 459 165 |;
-#X text 459 177 |;
-#X text 459 189 |;
-#X text 440 200 |;
-#X text 482 200 |;
-#X text 482 220 |;
-#X text 440 220 |;
-#X text 443 191 _______;
-#X text 443 220 _______;
-#X text 459 192 v;
-#X text 405 193 |;
-#X text 405 203 |;
-#X text 405 171 |;
-#X text 405 181 |;
-#X text 405 166 ^;
-#X text 482 157 >;
-#X text 294 209 |z^-d1 |;
-#X text 440 210 |z^-d2 |;
-#X text 274 256 y[n] = a * x[n] + b * x[n-d1] + c * y[n-d2];
-#X text 342 208 -(*b)-;
-#X text 406 209 -(*c)-;
-#X text 273 158 x[n] -----(*a)--(+)--(+)----------- y[n];
-#X floatatom 53 171 5 0 0 0 - del -, f 5;
-#X obj 37 315 output~;
-#X floatatom 85 212 5 -1 1 0 - a -, f 5;
-#X floatatom 101 232 5 -1 1 0 - b -, f 5;
-#X floatatom 118 252 5 -1 1 0 - c -, f 5;
-#X floatatom 69 192 5 0 0 0 - del -, f 5;
-#X text 91 172 ff del (d1);
-#X text 107 193 fb del (d2);
-#X text 123 210 gain (a);
-#X text 134 232 ff gain (b);
-#X text 152 251 fb gain (c);
-#X obj 37 147 noise~;
-#X obj 1 621 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 768 23 558 609 10;
+#X obj 2 570 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 400 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 547 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 436 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 584 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 465 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 97 410 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 113 295 cnv 17 3 41 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 432 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 113 339 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 165 408 signal;
-#X text 226 408 - signal to pass through comb filter;
-#X obj 97 454 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 176 293 signal;
+#X obj 113 358 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 498 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+#X obj 113 396 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X obj 99 555 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 113 443 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 477 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 113 377 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 477 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 113 377 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X text 167 554 signal;
-#X text 142 593 This abstraction does not support arguments;
-#X obj 98 520 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+#X text 176 443 signal;
+#X obj 113 415 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
 ;
-#X text 226 477 - input amplitude coefficient (a);
-#X text 226 498 - forward delay amplitude coefficient (b);
-#X text 227 520 - feedback amplitude coefficient (c);
-#X text 226 432 - forward delay time in milliseconds (d1);
-#X text 225 454 - feedback delay time in milliseconds (d2);
-#X text 95 92 [teeth~] is a comb filter with independent time control
-of feedforward and feedback delays.;
-#X text 170 315 This is an abstraction \, it does not support arguments
-and is not a proper clone of the object since it does not implement
-features only possible via a compiled object. It serves as a basis
-to code a new object.;
-#X text 226 554 - output from comb filter;
+#X text 226 378 - input amplitude coefficient (a);
+#X text 226 416 - feedback amplitude coefficient (c);
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -105,17 +42,129 @@ Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 teeth~;
 #X obj 17 56 comment 0 18 times ? 0 0 0 0 Teeth comb filter;
-#X obj 37 276 cyclone/teeth~;
-#X text 130 432 float/signal;
-#X text 130 454 float/signal;
-#X text 130 477 float/signal;
-#X text 130 498 float/signal;
-#X text 131 520 float/signal;
-#X connect 38 0 82 1;
-#X connect 40 0 82 3;
-#X connect 41 0 82 4;
-#X connect 42 0 82 5;
-#X connect 43 0 82 2;
-#X connect 49 0 82 0;
-#X connect 82 0 39 1;
-#X connect 82 0 39 0;
+#X text 140 340 float/signal;
+#X text 140 359 float/signal;
+#X text 140 378 float/signal;
+#X text 140 397 float/signal;
+#X text 140 416 float/signal;
+#X text 164 470 1) float;
+#X text 164 487 2) float;
+#X text 164 503 3) float;
+#X text 164 519 4) float;
+#X text 164 534 5) float;
+#X text 228 470 - maximum delay time in ms (default 10 ms);
+#X obj 143 224 output~;
+#X obj 139 133 noise~;
+#X obj 186 164 *~;
+#X obj 201 133 cyclone/train~ 1000 0.1;
+#X text 228 549 - c: feedback gain coefficient (default 0);
+#X text 164 549 6) float;
+#X text 228 534 - b: feedforward gain coefficient (default 0);
+#X text 228 519 - a: input gain coefficient (default 0);
+#X text 228 487 - ff_D: ff delay time in ms (default 0);
+#X text 228 503 - fb_D: fb delay time in ms (default 0);
+#X text 226 293 - signal to pass through teeth filter;
+#X text 188 309 list;
+#X text 226 324 - clears buffer;
+#X text 182 324 clear;
+#X text 226 309 - updates all 6 arguments;
+#X text 226 397 - feed forward delay amplitude coefficient (b);
+#X text 226 339 - feed forward delay time in milliseconds (ff_D);
+#X text 225 359 - feedback delay time in milliseconds (fb_D);
+#X floatatom 227 173 5 0 100 0 - sdfsdf -, f 5;
+#X floatatom 310 173 5 0 100 0 - sdfsdfs -, f 5;
+#X floatatom 351 173 5 0 0 0 - sdfsdf -, f 5;
+#X floatatom 393 173 5 0 0 0 - sdfsdf -, f 5;
+#X text 319 158 a;
+#X text 359 157 b;
+#X text 399 157 c;
+#X floatatom 268 173 5 0 100 0 - sdfsdf -, f 5;
+#X text 226 157 ff D;
+#X text 268 157 fb D;
+#N canvas 678 114 663 577 filter_equation 0;
+#X obj 68 114 cnv 15 290 140 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 121 132 |;
+#X text 121 144 |;
+#X text 121 156 |;
+#X text 102 167 |;
+#X text 144 167 |;
+#X text 144 187 |;
+#X text 102 187 |;
+#X text 105 158 _______;
+#X text 105 187 _______;
+#X text 121 159 v;
+#X text 183 159 |;
+#X text 183 170 |;
+#X text 183 140 |;
+#X text 183 149 |;
+#X text 183 135 ^;
+#X text 267 133 |;
+#X text 267 145 |;
+#X text 267 157 |;
+#X text 248 168 |;
+#X text 290 168 |;
+#X text 290 188 |;
+#X text 248 188 |;
+#X text 251 159 _______;
+#X text 251 188 _______;
+#X text 267 160 v;
+#X text 213 161 |;
+#X text 213 171 |;
+#X text 213 139 |;
+#X text 213 149 |;
+#X text 213 134 ^;
+#X text 290 125 >;
+#X text 102 177 |z^-d1 |;
+#X text 248 178 |z^-d2 |;
+#X text 82 224 y[n] = a * x[n] + b * x[n-d1] + c * y[n-d2];
+#X text 150 176 -(*b)-;
+#X text 214 177 -(*c)-;
+#X text 81 126 x[n] -----(*a)--(+)--(+)----------- y[n];
+#X floatatom 281 338 5 0 0 0 - del -, f 5;
+#X obj 265 482 output~;
+#X floatatom 313 379 5 -1 1 0 - a -, f 5;
+#X floatatom 329 399 5 -1 1 0 - b -, f 5;
+#X floatatom 346 419 5 -1 1 0 - c -, f 5;
+#X floatatom 297 359 5 0 0 0 - del -, f 5;
+#X text 319 339 ff del (d1);
+#X text 335 360 fb del (d2);
+#X text 351 377 gain (a);
+#X text 362 399 ff gain (b);
+#X text 380 418 fb gain (c);
+#X obj 265 314 noise~;
+#X obj 265 443 cyclone/teeth~;
+#X text 389 178 a = input gain coefficient;
+#X text 389 193 b = feedforward gain coefficient;
+#X text 389 208 c = feedback gain coefficient;
+#X text 383 149 d1 = feed forward delay time;
+#X text 383 163 d2 = feedback delay time;
+#X obj 194 91 comment 0 16 times ? 0 0 0 0 Filter Diagram/Equation:
+;
+#X text 137 28 Here's the filter diagram and equation for the teeth~
+filter:;
+#X connect 38 0 50 1;
+#X connect 40 0 50 3;
+#X connect 41 0 50 4;
+#X connect 42 0 50 5;
+#X connect 43 0 50 2;
+#X connect 49 0 50 0;
+#X connect 50 0 39 1;
+#X connect 50 0 39 0;
+#X restore 430 234 pd filter_equation;
+#X text 75 87 [teeth~] is a comb filter with linear interpolation and
+independent time control of feedforward and feedback delays.;
+#X text 226 443 - output from teeth filter;
+#N canvas 788 246 573 376 examples 0;
+#X restore 472 259 pd examples;
+#X obj 186 195 cyclone/teeth~ 80 80 50 0.5 0.5 0.8;
+#X connect 36 0 37 0;
+#X connect 37 0 67 0;
+#X connect 38 0 37 1;
+#X connect 53 0 67 1;
+#X connect 54 0 67 3;
+#X connect 55 0 67 4;
+#X connect 56 0 67 5;
+#X connect 60 0 67 2;
+#X connect 67 0 35 1;
+#X connect 67 0 35 0;

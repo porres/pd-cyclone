@@ -415,7 +415,7 @@ musical purposes a band limited osicllator.;
 #X connect 21 0 22 0;
 #X connect 22 0 20 1;
 #X connect 22 0 19 1;
-#X restore 366 196 pd antialiasing;
+#X restore 448 270 pd antialiasing;
 #N canvas 830 125 450 300 sync 0;
 #X obj 219 140 phasor~;
 #X obj 219 116 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -434,7 +434,7 @@ master and force [tri~] to be synced as a slave.;
 #X connect 4 0 3 0;
 #X connect 6 0 2 0;
 #X connect 6 0 2 1;
-#X restore 394 233 pd sync;
+#X restore 496 294 pd sync;
 #X obj 2 557 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 326 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0

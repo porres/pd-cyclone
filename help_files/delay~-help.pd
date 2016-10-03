@@ -28,16 +28,16 @@
 #X obj 134 299 output~;
 #X obj 225 219 cyclone/mstosamps~;
 #X obj 228 175 hsl 128 15 0 1000 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
+-1 -1 12700 1;
 #X floatatom 225 195 5 0 0 0 - - -, f 5;
-#X floatatom 330 245 5 0 0 0 - - -, f 5;
+#X floatatom 330 245 6 0 0 0 - - -, f 6;
 #X text 198 242 up to 1 second delay;
 #X text 272 313 at 44.1kHz sample rate the;
 #X text 85 102 Use the [delay~] object to delay a signal by a certain
 amount of time defined in samples (thus determined by the sampling
 rate).;
 #X text 263 194 ms;
-#X text 373 244 samples;
+#X text 385 244 samples;
 #X text 272 327 maximum delay is 1 second;
 #N canvas 417 214 206 199 noise 0;
 #X obj 42 79 noise~;

@@ -1,4 +1,4 @@
-#N canvas 724 23 559 528 10;
+#N canvas 537 28 559 528 10;
 #X obj 2 264 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 380 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -218,7 +218,7 @@ the same name \, they also share the same values, f 61;
 #X text 70 85 [table] stores and edits a number array. You can graphically
 edit by opening it or double clicking on it. There also several functions
 and messagwes via messages., f 61;
-#N canvas 77 23 457 472 conflicts 0;
+#N canvas 942 129 457 472 conflicts 0;
 #X text 118 260 or even:;
 #X text 51 47 Cyclone avoids name clashing and overwritting an internal
 in Pd Vanilla \, so you need to have the cyclone folder properly installed
