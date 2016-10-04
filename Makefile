@@ -107,7 +107,6 @@ pow~.class.sources := binaries_src/signal/pow.c
 rampsmooth~.class.sources := binaries_src/signal/rampsmooth.c
 rand~.class.sources := binaries_src/signal/rand.c
 reson~.class.sources := binaries_src/signal/reson.c
-sah~.class.sources := binaries_src/signal/sah.c
 sampstoms~.class.sources := binaries_src/signal/sampstoms.c
 sinh~.class.sources := binaries_src/signal/sinh.c
 sinx~.class.sources := binaries_src/signal/sinx.c
@@ -341,6 +340,7 @@ shared/unstable/forky.c
     minmax~.class.sources := binaries_src/signal/minmax.c $(sforky)
     poltocar~.class.sources := binaries_src/signal/poltocar.c $(sforky)
     matrix~.class.sources := binaries_src/signal/matrix.c $(sforky)
+    sah~.class.sources := binaries_src/signal/sah.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
