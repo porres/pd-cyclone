@@ -78,7 +78,7 @@ Check some stuff we've been doing in our changelog: https://github.com/porres/pd
 Readme file created on February 22nd 2016 (last edited on oct 2nd 2016)
 
 -------
-<strong>Building Cyclone</strong>
+<strong>Building Cyclone:</strong>
 
 When Fred Jan Kraan forked to his repository and worked on the release of cyclone 0.1-alpha57, the cyclone package has started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
 
