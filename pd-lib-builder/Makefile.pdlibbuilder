@@ -1,5 +1,6 @@
-# Makefile.pdlibbuilder version 0.2.3, dated 2016-03-29
-#
+# Makefile.pdlibbuilder dated 2016-10-04
+version = 0.2.7
+
 # Helper makefile for Pure Data external libraries.
 # Written by Katja Vetter March-June 2015 for the public domain. No warranties.
 # Inspired by Hans Christoph Steiner's Makefile Template and Stephan Beal's
@@ -219,18 +220,13 @@
 # Executables are built in current working directory. 
 #
 # Variable 'pdincludepath' stores a location where m_pd.h is expected to reside.
-# Locations where Makefile.pdlibbuilder tries to find it, in order of priority:
+# Location where Makefile.pdlibbuilder tries to find it:
 #
-# any OS:   $(externalsdir)../pd/src
+# Linux:    /usr/include/pd
 #
-# Linux:    /usr/include/pdextended
-#           /usr/include/pd
+# OSX:      /Applications/Pd*.app/Contents/Resources/src
 #
-# OSX:      /Applications/Pd-extended.app/Contents/Resources/include/pdextended
-#           /Applications/Pd.app/Contents/Resources/src
-#
-# Windows:  %PROGRAMFILES%/pd/include/pdextended
-#           %PROGRAMFILES%/pd/src
+# Windows:  %PROGRAMFILES%/pd/src
 #
 # The path for installation of all library components is constructed as:
 #
@@ -336,8 +332,7 @@ endif
 
 # Relative path to externals root dir in multi-lib source tree like 
 # pd-extended SVN. Default is parent of current working directory. May be
-# defined differently in including makefile. This variable is used to probe for
-# paths.
+# defined differently in including makefile.
 externalsdir ?= ..
 
 # variable you can use to check if Makefile.pdlibbuilder is already included
@@ -485,10 +480,7 @@ ifeq ($(system), Linux)
   prefix = /usr/local
   libdir := $(prefix)/lib
   pkglibdir = $(libdir)/pd-externals
-  pdincludepath := $(firstword $(wildcard \
-    $(externalsdir)/../pd/src \
-    /usr/include/pdextended \
-    /usr/include/pd))
+  pdincludepath := $(wildcard /usr/include/pd)
   extension = pd_linux
   cpp.flags := -DUNIX
   c.flags := -fpic
@@ -514,8 +506,6 @@ endif
 ifeq ($(system), Darwin)
   pkglibdir = $(HOME)/Library/Pd
   pdincludepath := $(firstword $(wildcard \
-    $(externalsdir)/../pd/src \
-    /Applications/Pd-extended*.app/Contents/Resources/include/pdextended \
     /Applications/Pd*.app/Contents/Resources/src))
   extension = pd_darwin
   cpp.flags := -DUNIX -DMACOSX -I /sw/include
@@ -554,13 +544,8 @@ endif
 # paths for 32-bit executables on 64-bit Windows aren't yet defined here (TODO)
 ifeq ($(system), Windows)
   pkglibdir := $(APPDATA)/Pd
-  pdbinpath := $(wildcard $(externalsdir)/../pd/bin)
-  pdincludepath := $(wildcard $(externalsdir)/../pd/src)
   ifndef pdbinpath
     pdbinpath := $(shell ls -d "$(PROGRAMFILES)/pd/bin")
-  endif
-  ifndef pdincludepath
-    pdincludepath := $(shell ls -d "$(PROGRAMFILES)/pd/include/pdextended")
   endif
   ifndef pdincludepath
     pdincludepath := $(shell ls -d "$(PROGRAMFILES)/pd/src")
@@ -627,7 +612,10 @@ endif
 CFLAGS = $(warn.flags) $(optimization.flags) $(arch.c.flags)
 
 # preprocessor flags
-cpp.flags += -DPD -I "$(pdincludepath)" $(CPPFLAGS)
+cpp.flags := -DPD -I "$(pdincludepath)" $(cpp.flags) $(CPPFLAGS)
+
+# flags for dependency checking (cflags from makefile may define -I options)
+depcheck.flags := $(cpp.flags) $(cflags)
 
 # architecture specifications for linker are overridable by LDFLAGS
 LDFLAGS := $(arch.ld.flags)
@@ -684,6 +672,9 @@ endif
 ifdef pdincludepath
   mpdh := $(shell ls "$(pdincludepath)/m_pd.h")
 endif
+
+# print Makefile.pdlibbuilder version
+$(info ++++ info: using Makefile.pdlibbuilder version $(version))
 
 # when making target all, check if m_pd.h is found and print info about it
 ifeq ($(goals), all)
@@ -884,14 +875,8 @@ $(foreach v, $(classes), $(eval $(declare-class-executable-target)))
 # which case implicit prerequisites are not checked.
 
 # When the Pd include path contains spaces it will mess up the implicit
-# prerequisites rules. Also it is known that multiple arch flags are
-# incompatible with preprocessor option -MM on OSX <= 10.5. Dependency
-# tracking must be disabled in those cases.
-
-oldfat := $(and $(filter ppc i386, $(machine)), \
-          $(filter-out 0 1, $(words $(filter -arch, $(c.flags)))))
-
-disable-dependency-tracking := pdincludepathwithspaces oldfat
+# prerequisites rules.
+disable-dependency-tracking := $(strip $(pdincludepathwithspaces))
 
 ifndef disable-dependency-tracking
   must-build-everything := $(filter all, $(goals))
@@ -901,8 +886,9 @@ endif
 
 # declare implicit prerequisites rule like 'object.o: header1.h header2.h ...'
 # argument $1 is input source file(s)
+# dir is explicitly added because option -MM strips it by default
 define declare-object-target
-$(filter %.o: %.h, $(shell $(CPP) $(c.flags) -MM $1)) $(MAKEFILE_LIST)
+$(dir $1)$(filter %.o: %.h, $(shell $(CPP) $(depcheck.flags) -MM $1)) $(MAKEFILE_LIST)
 endef
 
 # evaluate implicit prerequisite rules when rebuilding everything
@@ -1158,7 +1144,7 @@ depend:
 ifdef mpdh
   mpdhinfo := $(mpdh)
 else
-  mpdhinfo := m_pd.h was not found. Is Pd(-extended) installed?
+  mpdhinfo := m_pd.h was not found. Is Pd installed?
 endif
 
 help:
