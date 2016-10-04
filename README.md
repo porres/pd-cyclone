@@ -80,6 +80,8 @@ Readme file created on February 22nd 2016 (last edited on oct 2nd 2016)
 -------
 <strong>Building Cyclone</strong>
 
-When Fred Jan Kraan forked to his repository and worked on the release of cyclone 0.1-alpha57, the cyclone package has started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). With this new build system, all you have to do is type "make" and build cyclone for your platform.
+When Fred Jan Kraan forked to his repository and worked on the release of cyclone 0.1-alpha57, the cyclone package has started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
 
-Cyclone originally used to also compile the objects in libraries (such as "hammer" for control objects and "sickle" for signal objects). But at some point in the Pd-Extended era, only single binaries were available. The new build system system, up to this moment, only builds each object in a separate file as in the old Pd extended days - with the exception of a sub-library (containing 12 non alphanumeric objects). The current maintenance considers to restore the possibility of also compiling cyclone as a library as originally.
+With this new build system, all you have to do is have the latest pd vanilla installed and type "make" in your compiler to build cyclone for your platform.
+
+
