@@ -1,0 +1,73 @@
+#N canvas 685 23 561 731 10;
+#X floatatom 168 211 0 0 0 0 - - -;
+#X floatatom 219 216 0 0 0 0 - - -;
+#X obj 168 289 print;
+#X obj 2 7 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 6 graph;
+#X obj 305 7 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 6 pd;
+#X obj 322 31 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 7 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 7 comment 0 37 times ? 0 0 0 0 pak;
+#X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 10 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 10 465 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
+0;
+#X obj 10 505 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 88 476 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 17 59 comment 0 18 times ? 0 0 0 0 Output a list when any element
+changes;
+#X text 66 88 [pak] (pronounced "pock") is much like pack \, but any
+inlet triggers the output of a list. The message set avoid the output
+and a bang triggers the output.;
+#X msg 132 159 set 99 pd rules 12 13 14;
+#X obj 100 161 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 168 253 cyclone/pak 1 pure data f 10 i;
+#X msg 203 187 set cyclone's cool;
+#X msg 274 220 set 12 99 1.987;
+#X floatatom 383 222 5 0 0 0 - - -, f 5;
+#X text 103 516 1) anything;
+#X text 145 477 list;
+#X obj 78 338 cnv 3 3 120 empty empty 0=>n 5 9 0 16 -228856 -162280
+0;
+#X text 122 355 anything;
+#X text 146 338 bang;
+#X text 184 477 - the list composed of the given elements;
+#X text 184 353 - a message that updates the inlet and forces output.
+It needs to match the inlet type. If a float is given to a symbol inlet
+\, the symbol value is emptied. If a symbol is given to a float/int
+\, the value is zeroed. A float in an int inlet is truncated;
+#X text 86 423 set <anything>;
+#X text 184 423 - the given elements sets the inlet the message is
+connected to and the remaining inlet values. Doesn't output a list
+;
+#X text 184 338 - outputs the stored list of elements;
+#X text 185 516 - the number of arguments specify the 'n' number of
+inlets and each argument sets the message type for the corresponding
+inlet: A float sets it to float with that value as the initial value
+\; - 'f' sets to float type (initializes to 0) \, 'i' sets to integer
+(initializes to 0) \; - any other symbol sets it as a symbol with that
+symbol as the initial value \; - the default is two inlets set to integer
+(0);
+#X text 99 686 two inlets set to integer (0) ???? // the set list didnt
+convert to int...;
+#X connect 0 0 19 0;
+#X connect 1 0 19 1;
+#X connect 17 0 19 0;
+#X connect 18 0 19 0;
+#X connect 19 0 2 0;
+#X connect 20 0 19 1;
+#X connect 21 0 19 3;
+#X connect 22 0 19 5;
