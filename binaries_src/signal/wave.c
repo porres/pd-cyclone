@@ -5,27 +5,35 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
-#include "sickle/arsic.h"
-
+#include "cybuf.h"
 
 #define CYWAVEMAXOUT 4 //max number of outs
 #define CYWAVEINTERP 1 //default interp mode
 
 /* CHECKME (the refman): the extra channels are not played */
 
-//adding wave_getarraysmp, adding attributes - Derek Kwan 2016
+//adding wave_getarraysmp, adding attributes, dearsiced/cybufed - Derek Kwan 2016
 
 
 typedef struct _wave
 {
-    t_arsic           x_arsic;
+    t_object    x_obj;
+    t_cybuf   *x_cybuf;
+    //t_arsic           x_arsic;
     int               x_bufsize;
     int               x_interp_mode;
+    int               x_numouts; //number of outputs
+    float             x_ksr; //sample rate in ms
+    t_float           x_f; //dummy
     t_float	          x_bias;
     t_float           x_tension;
-	t_inlet 		 *x_startlet;
-	t_inlet 		 *x_endlet;
+    t_inlet 		 *x_startlet;
+    t_inlet 		 *x_endlet;
+
+    t_float         *x_in; //main inlet signal vector
+    t_float         *x_st; //start inlet vector
+    t_float         *x_e; //end inlet vector
+    t_float         **x_ovecs; // output vectors
 } t_wave;
 
 static t_class *wave_class;
@@ -34,10 +42,11 @@ static t_class *wave_class;
 
 static t_float wave_getarraysmp(t_wave *x, t_symbol *arrayname){
   t_garray *garray;
-    t_arsic *sic = (t_arsic *)x;
+    //t_arsic *sic = (t_arsic *)x;
+    t_cybuf * c = x->x_cybuf;
 	char bufname[MAXPDSTRING];
 	t_float retsmp = -1;
-	int numchan = sic->s_nchannels;
+	int numchan = c->c_numchans;
 	if(numchan > 1){
 		sprintf(bufname, "0-%s", arrayname->s_name);
 	}
@@ -85,13 +94,13 @@ static void wave_interp(t_wave *x, t_floatarg f)
 	
 	x->x_interp_mode = f < 0 ? 0 : f;
 	x->x_interp_mode = x->x_interp_mode > 7 ? 7 : x->x_interp_mode;
-    arsic_setminsize((t_arsic *)x, (x->x_interp_mode >= 4 ? 4 : 1));
-    arsic_check((t_arsic *)x);
+    cybuf_setminsize(x->x_cybuf,(x->x_interp_mode >= 4 ? 4 : 1));
+    cybuf_playcheck(x->x_cybuf);
 }
 
 static void wave_set(t_wave *x, t_symbol *s)
 {
-    arsic_setarray((t_arsic *)x, s, 1);
+    cybuf_setarray(x->x_cybuf, s);
 
 }
 
@@ -426,20 +435,26 @@ static t_int *wave_perform(t_int *w)
     	wave_lagrange
     };
     
-    t_arsic *sic = (t_arsic *)(w[1]);
+   // t_arsic *sic = (t_arsic *)(w[1]);
+    t_wave *x = (t_wave *)(w[1]);
     int nblock = (int)(w[2]);
-    t_int *outp = w + 6;
-    int nch = sic->s_nchannels;
-    if (sic->s_playable)
+    t_cybuf * c = x->x_cybuf;
+   // t_int *outp = w + 6;
+    t_int *outp = (t_int *)x->x_ovecs;
+    int nch = c->c_numchans;
+    if (c->c_playable)
     {	
-		t_wave *x = (t_wave *)sic;
-		int vecsize = sic->s_vecsize;
-		float ksr = sic->s_ksr;
-		t_word **vectable = sic->s_vectors;
-		t_float *xin = (t_float *)(w[3]);
-		t_float *sin = (t_float *)(w[4]);
-		t_float *ein = (t_float *)(w[5]);
-		int maxindex = sic->s_vecsize - 1;
+		//t_wave *x = (t_wave *)sic;
+		int vecsize = c->c_vecsize;
+		float ksr = x->x_ksr;
+		t_word **vectable = c->c_vectors;
+		//t_float *xin = (t_float *)(w[3]);
+		//t_float *sin = (t_float *)(w[4]);
+		//t_float *ein = (t_float *)(w[5]);
+                t_float *xin = x->x_in;
+                t_float *sin = x->x_st;
+                t_float *ein = x->x_e;
+		int maxindex = c->c_vecsize - 1;
 		int interp_mode = x->x_interp_mode;
 		/*Choose interpolation function from jump table. The interpolation functions also
 		  perform the block loop in order not to make a bunch of per-sample decisions.*/	
@@ -456,13 +471,25 @@ static t_int *wave_perform(t_int *w)
 	    while (n--) *out++ = 0;
 	}
     }
-    return (w + sic->s_nperfargs + 1);
+    return (w + 3);
 }
 
 static void wave_dsp(t_wave *x, t_signal **sp)
 {
+	
+    cybuf_checkdsp(x->x_cybuf); 
+    x->x_ksr = sp[0]->s_sr * 0.001;
+	int i, nblock = sp[0]->s_n;
 
-    arsic_dsp((t_arsic *)x, sp, wave_perform, 1);
+    t_signal **sigp = sp;
+	x->x_in = (*sigp++)->s_vec; //the first sig in is the input
+        x->x_st = (*sigp++)->s_vec; //next is the start input
+        x->x_e = (*sigp++)->s_vec; //next is the end input
+    for (i = 0; i < x->x_numouts; i++){ //now for the outputs
+		*(x->x_ovecs+i) = (*sigp++)->s_vec;
+	};
+	dsp_add(wave_perform, 2, x, nblock);
+
 }
 
 static void wave_free(t_wave *x)
@@ -470,7 +497,8 @@ static void wave_free(t_wave *x)
 
 	inlet_free(x->x_startlet);
 	inlet_free(x->x_endlet);
-    arsic_free((t_arsic *)x);
+        cybuf_free(x->x_cybuf);
+	 freebytes(x->x_ovecs, x->x_numouts * sizeof(*x->x_ovecs));
 }
 
 static void *wave_new(t_symbol *s, int argc, t_atom * argv){
@@ -559,8 +587,13 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		numouts = 1;
 	};
 
-
-	t_wave *x = (t_wave *)arsic_new(wave_class, name, (int)numouts, 0, 3);
+        //old arsic_new notes, nchannels = (int)numouts, nsigs = 0, nauxsigs = 3
+        t_wave *x = (t_wave *)pd_new(wave_class);
+        x->x_cybuf = cybuf_init((t_class *)x, name, (int)numouts);
+        x->x_numouts = (int)numouts;
+	
+        //allocating output vectors
+        x->x_ovecs = getbytes(x->x_numouts * sizeof(*x->x_ovecs));
 	
 	//more boundschecking
 	//it looks everything is stored as samples then later converted to ms
@@ -586,21 +619,22 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	};
 
 
-		wave_interp(x, interp);
+        x->x_ksr = (double)sys_getsr() * 0.001;
+	wave_interp(x, interp);
 	x->x_bias = bias;
 	x->x_tension = tension;
 
-	//x->x_startlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal); //normalway
-	//x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal); //normal way
-	x->x_startlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal); //arsic way
-	x->x_endlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal); //arsic way
+	x->x_startlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal); //normalway
+	x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal); //normal way
+	//x->x_startlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal); //arsic way
+	//x->x_endlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal); //arsic way
 	pd_float((t_pd *)x->x_startlet, stpt);
 	pd_float( (t_pd *)x->x_endlet, endpt);
 
 	int i;
 	for(i=0; i < (int)numouts; i++){
-		//outlet_new(&x->x_obj, gensym("signal")); //normal way
-		outlet_new((t_object *)x, gensym("signal")); //arsic way
+		outlet_new(&x->x_obj, gensym("signal")); //normal way
+	    	//outlet_new((t_object *)x, gensym("signal")); //arsic way
 	};
 
 	return (x);
@@ -609,29 +643,6 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		return NULL;
 	}
 
-/*
-static void *wave_new(t_symbol *s, t_floatarg f1, t_floatarg f2, t_floatarg f3)
-{
-    // three auxiliary signals:  phase, clipstart, and clipend inputs 
-    t_wave *x = (t_wave *)arsic_new(wave_class, s, (int)f3, 0, 3);
-    if (x)
-    {
-	int nch = arsic_getnchannels((t_arsic *)x);
-	nch = nch > 4 ? 4 : nch;
-	if (f1 < 0) f1 = 0;
-	if (f2 < 0) f2 = 0;
-	sic_newinlet((t_sic *)x, f1);
-	sic_newinlet((t_sic *)x, f2);
-	while (nch--)
-	    outlet_new((t_object *)x, &s_signal);
-	wave_interp(x, 1);
-	x->x_bias = 0;
-	x->x_tension = 0;
-    }
-    return (x);
-}
-
-*/
 
 void wave_tilde_setup(void)
 {
@@ -640,7 +651,6 @@ void wave_tilde_setup(void)
 			   (t_method)wave_free,
 			   sizeof(t_wave), 0,
 			   A_GIMME, 0);
-    arsic_setup(wave_class, wave_dsp, SIC_FLOATTOSIGNAL);
     class_addmethod(wave_class, (t_method)wave_set,
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(wave_class, (t_method)wave_interp,
@@ -649,6 +659,8 @@ void wave_tilde_setup(void)
 			gensym("interp_bias"), A_FLOAT, 0);
 	class_addmethod(wave_class, (t_method)wave_interp_tension,
 			gensym("interp_tension"), A_FLOAT, 0);
+    class_addmethod(wave_class, (t_method)wave_dsp, gensym("dsp"), 0);
+    CLASS_MAINSIGNALIN(wave_class, t_wave, x_f);
 //    logpost(NULL, 4, "this is cyclone/wave~ %s, %dth %s build",
 //	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

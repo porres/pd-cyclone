@@ -111,9 +111,15 @@ static void *selector_new(t_symbol *s, int argc, t_atom *argv)
     return (x);
 }
 
+void * selector_free(t_selector *x){
+    
+	 freebytes(x->x_ivecs, x->x_sigputs * sizeof(*x->x_ivecs));
+         return (void *) x;
+}
+
 void selector_tilde_setup(void)
 {
-    selector_class = class_new(gensym("selector~"), (t_newmethod)selector_new, 0,
+    selector_class = class_new(gensym("selector~"), (t_newmethod)selector_new, (t_method)selector_free,
             sizeof(t_selector), CLASS_DEFAULT, A_GIMME, 0);
     class_addmethod(selector_class, (t_method)selector_dsp, gensym("dsp"), A_CANT, 0);
     CLASS_MAINSIGNALIN(selector_class, t_selector, x_state);
