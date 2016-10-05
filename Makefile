@@ -395,10 +395,14 @@ scybuf := shared/cybuf.c
 #######################################################################
 
 datafiles = \
-$(wildcard help/*-help.pd) \
-help/output~.pd \
-help/test.mid \
-help/voice.wav \
+$(wildcard help_files/*-help.pd) \
+help_files/output~.pd \
+help_files/number~.pd \
+help_files/tri~.pd \
+help_files/rect~.pd \
+help_files/saw~.pd \
+help_files/seq.mid \
+help_files/voice.wav \
 LICENSE.txt \
 README.md \
 cyclone-meta.pd \
