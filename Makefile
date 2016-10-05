@@ -372,18 +372,18 @@ shared/sickle/arsic.c \
 shared/common/loud.c \
 shared/common/vefl.c \
 shared/unstable/fragile.c
-    peek~.class.sources := binaries_src/signal/peek.c $(sarsic)
     play~.class.sources := binaries_src/signal/play.c $(sarsic)
     record~.class.sources := binaries_src/signal/record.c $(sarsic)
-    wave~.class.sources := binaries_src/signal/wave.c $(sarsic)
 
 # loud and vefl actually not being used in the classes, but needed for some reason
 
 #cybuf (aka arsic replacement) classes
 scybuf := shared/cybuf.c
-    index~.class.sources := binaries_src/signal/index.c $(scybuf)
     buffir~.class.sources := binaries_src/signal/buffir.c $(scybuf)
+    index~.class.sources := binaries_src/signal/index.c $(scybuf)
+    peek~.class.sources := binaries_src/signal/peek.c $(scybuf)
     poke~.class.sources := binaries_src/signal/poke.c $(scybuf) 
+    wave~.class.sources := binaries_src/signal/wave.c $(scybuf)
 
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
