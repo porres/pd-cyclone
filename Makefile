@@ -401,8 +401,11 @@ help_files/number~.pd \
 help_files/tri~.pd \
 help_files/rect~.pd \
 help_files/saw~.pd \
-help_files/seq.mid \
 help_files/voice.wav \
+help_files/seq.mid \
+help_files/seq.txt \
+help_files/coll.txt \
+help_files/funbuff.txt \
 LICENSE.txt \
 README.md \
 cyclone-meta.pd \
