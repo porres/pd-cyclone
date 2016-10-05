@@ -6,14 +6,13 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "sickle/sic.h"
-#include "sickle/arsic.h"
-
+#include "cybuf.h"
 #define PEEK_MAXCHANNELS  4  /* LATER implement arsic resizing feature */
 
 typedef struct _peek
 {
-    t_arsic   x_arsic;
+    t_object    x_obj;
+    t_cybuf   *x_cybuf;
     int       x_maxchannels;
     int       x_effchannel;  /* effective channel (clipped reqchannel) */
     int       x_reqchannel;  /* requested channel */
@@ -23,20 +22,24 @@ typedef struct _peek
     t_clock  *x_clock;
     double    x_clocklasttick;
     int       x_clockset;
+
+    t_inlet   *x_vallet;
+    t_inlet   *x_chanlet;
+    t_outlet  *x_outlet;
 } t_peek;
 
 static t_class *peek_class;
 
 static void peek_tick(t_peek *x)
 {
-    arsic_redraw((t_arsic *)x);  /* LATER redraw only dirty channel(s!) */
+    cybuf_redraw(x->x_cybuf);  /* LATER redraw only dirty channel(s!) */
     x->x_clockset = 0;
     x->x_clocklasttick = clock_getlogicaltime();
 }
 
 static void peek_set(t_peek *x, t_symbol *s)
 {
-    arsic_setarray((t_arsic *)x, s, 1);
+    cybuf_setarray(x->x_cybuf, s);
 }
 
 #define peek_doclip(f)  (f < -1. ? -1. : (f > 1. ? 1. : f))
@@ -49,19 +52,19 @@ static void peek_set(t_peek *x, t_symbol *s)
    the refman's way... */
 static void peek_float(t_peek *x, t_float f)
 {
-    t_arsic *sic = (t_arsic *)x;
+    t_cybuf * c = x->x_cybuf;
     t_word *vp;
-    arsic_validate(sic, 0);  /* LATER rethink (efficiency, and complaining) */
-    if (vp = sic->s_vectors[x->x_effchannel])
+    cybuf_validate(c);  /* LATER rethink (efficiency, and complaining) */
+    if (vp = c->c_vectors[x->x_effchannel])
     {
 	int ndx = (int)f;
-	if (ndx >= 0 && ndx < sic->s_vecsize)
+	if (ndx >= 0 && ndx < c->c_vecsize)
 	{
 	    if (x->x_pokemode)
 	    {
 		double timesince;
-		t_float f = x->x_value;
-		vp[ndx].w_float = (x->x_clipmode ? peek_doclip(f) : f);
+		t_float val = x->x_value;
+		vp[ndx].w_float = (x->x_clipmode ? peek_doclip(val) : val);
 		x->x_pokemode = 0;
 		timesince = clock_gettimesince(x->x_clocklasttick);
 		if (timesince > 1000) peek_tick(x);
@@ -72,20 +75,20 @@ static void peek_float(t_peek *x, t_float f)
 		}
 	    }
 	    /* CHECKED: output not clipped */
-	    else outlet_float(((t_object *)x)->ob_outlet, vp[ndx].w_float);
+	    else outlet_float(x->x_outlet, vp[ndx].w_float);
 	}
     }
 }
 
-static void peek_ft1(t_peek *x, t_floatarg f)
+static void peek_value(t_peek *x, t_floatarg f)
 {
     x->x_value = f;
     x->x_pokemode = 1;
     /* CHECKED: poke-mode is reset only after receiving left inlet input
-       -- it is kept across 'ft2', 'clip', and 'set' inputs. */
+       -- it is kept across 'channel', 'clip', and 'set' inputs. */
 }
 
-static void peek_ft2(t_peek *x, t_floatarg f)
+static void peek_channel(t_peek *x, t_floatarg f)
 {
     if ((x->x_reqchannel = (f > 1 ? (int)f - 1 : 0)) > x->x_maxchannels)
 	x->x_effchannel = x->x_maxchannels - 1;
@@ -101,15 +104,18 @@ static void peek_clip(t_peek *x, t_floatarg f)
 static void peek_free(t_peek *x)
 {
     if (x->x_clock) clock_free(x->x_clock);
-    arsic_free((t_arsic *)x);
+    inlet_free(x->x_vallet);
+    inlet_free(x->x_chanlet);
+    outlet_free(x->x_outlet);
+    cybuf_free(x->x_cybuf);
 }
 
 static void *peek_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 {
     int ch = (f1 > 0 ? (int)f1 : 0);
-    t_peek *x = (t_peek *)arsic_new(peek_class, s,
-				    (ch ? PEEK_MAXCHANNELS : 0), 0, 0);
-    if (x)
+    t_peek *x = (t_peek *)pd_new(peek_class);
+    x->x_cybuf = cybuf_init((t_class *)x, s, (ch ? PEEK_MAXCHANNELS : 0));
+    if (x->x_cybuf)
     {
 	if (ch > PEEK_MAXCHANNELS)
 	    ch = PEEK_MAXCHANNELS;
@@ -118,9 +124,9 @@ static void *peek_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 	/* CHECKED (refman's error) clipping is disabled by default */
 	x->x_clipmode = ((int)f2 != 0);
 	x->x_pokemode = 0;
-	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
-	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft2"));
-	outlet_new((t_object *)x, &s_float);
+	x->x_vallet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("value"));
+	x->x_chanlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("channel"));
+	x->x_outlet = outlet_new(&x->x_obj, &s_float);
 	x->x_clock = clock_new(x, (t_method)peek_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
 	x->x_clockset = 0;
@@ -138,10 +144,10 @@ void peek_tilde_setup(void)
     class_addfloat(peek_class, peek_float);
     class_addmethod(peek_class, (t_method)peek_set,
 		    gensym("set"), A_SYMBOL, 0);
-    class_addmethod(peek_class, (t_method)peek_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(peek_class, (t_method)peek_ft2,
-		    gensym("ft2"), A_FLOAT, 0);
+    class_addmethod(peek_class, (t_method)peek_value,
+		    gensym("value"), A_FLOAT, 0);
+    class_addmethod(peek_class, (t_method)peek_channel,
+		    gensym("channel"), A_FLOAT, 0);
     class_addmethod(peek_class, (t_method)peek_clip,
 		    gensym("clip"), A_FLOAT, 0);
 //    logpost(NULL, 4, "this is cyclone/peek~ %s, %dth %s build",
