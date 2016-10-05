@@ -32,12 +32,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#X obj 17 4 comment 0 37 times ? 0 0 0 0 append;
-#X obj 323 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 364 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 18 56 comment 0 18 times ? 0 0 0 0 Append a message to the incoming
-message;
 #N canvas 497 125 456 474 conflicts 0;
 #X text 118 282 or even:;
 #X text 51 69 Cyclone avoids name clashing and overwritting an internal
@@ -74,10 +68,16 @@ of any message sent to the input.;
 #X text 204 287 a message that will be combined to the stored message
 ;
 #X text 189 307 - outputs the stored combined message;
-#X connect 6 0 28 0;
-#X connect 7 0 28 0;
-#X connect 8 0 28 0;
-#X connect 9 0 28 0;
-#X connect 10 0 28 0;
-#X connect 27 0 28 0;
-#X connect 28 0 5 0;
+#X obj 17 4 cyclone/comment 0 37 times ? 0 0 0 0 append;
+#X obj 18 56 cyclone/comment 0 18 times ? 0 0 0 0 Append a message
+to the incoming message;
+#X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 6 0 24 0;
+#X connect 7 0 24 0;
+#X connect 8 0 24 0;
+#X connect 9 0 24 0;
+#X connect 10 0 24 0;
+#X connect 23 0 24 0;
+#X connect 24 0 5 0;

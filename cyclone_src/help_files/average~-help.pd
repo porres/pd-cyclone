@@ -45,10 +45,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 average~;
 #X text 104 380 bipolar;
 #X text 98 396 absolute;
 #X text 128 412 rms;
@@ -62,8 +58,6 @@ in many level-detection tasks.;
 #X obj 233 167 osc~ 100;
 #X text 86 167 number of samples;
 #X text 321 152 modes;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal average in different
-forms;
 #X text 52 92 Use the [average~] object for a running/moving average
 of a signal over a specified number of samples. There are three averaging
 methods available: bipolar \, absolute and rms.;
@@ -172,6 +166,12 @@ methods available: bipolar \, absolute and rms.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal average in
+different forms;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 average~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 7 0 14 0;
 #X connect 8 0 14 0;
 #X connect 9 0 14 0;
@@ -181,4 +181,4 @@ methods available: bipolar \, absolute and rms.;
 #X connect 22 0 23 0;
 #X connect 24 0 14 0;
 #X connect 25 0 14 0;
-#X connect 40 0 14 0;
+#X connect 37 0 14 0;

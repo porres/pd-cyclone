@@ -23,10 +23,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 15 4 comment 0 37 times ? 0 0 0 0 bitsafe~;
 #X obj 148 222 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 129 244 print~ nan;
@@ -42,8 +38,6 @@ Max/MSP;
 existed;
 #X text 126 465 (none);
 #X obj 109 183 expr~ acosh(0);
-#X obj 16 59 comment 0 18 times ? 0 0 0 0 Replace nan/inf signals with
-0;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -154,11 +148,17 @@ existed;
 values of an incoming signal with zero. This is useful in conjunction
 with the bitwise operators \, or any other situation where these values
 are possible.;
+#X obj 16 59 cyclone/comment 0 18 times ? 0 0 0 0 Replace nan/inf signals
+with 0;
+#X obj 15 4 cyclone/comment 0 37 times ? 0 0 0 0 bitsafe~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 12 0 13 0;
+#X connect 14 0 16 0;
 #X connect 15 0 16 0;
-#X connect 17 0 19 0;
-#X connect 18 0 19 0;
-#X connect 20 0 29 0;
-#X connect 21 0 20 0;
-#X connect 21 0 28 0;
-#X connect 25 0 16 0;
-#X connect 25 0 17 0;
+#X connect 17 0 25 0;
+#X connect 18 0 17 0;
+#X connect 18 0 24 0;
+#X connect 22 0 13 0;
+#X connect 22 0 14 0;

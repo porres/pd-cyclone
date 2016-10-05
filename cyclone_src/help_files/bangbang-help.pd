@@ -30,11 +30,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 bangbang;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Send a number of bangs;
 #X obj 303 200 trigger bang bang bang;
 #X obj 303 174 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -48,6 +43,12 @@ Max/MSP;
 #X text 61 88 When it receives any input \, [bangbang] outputs bang
 messages out of each outlet (in the usual right-to-left order). The
 number of outlets is determined the argument.;
+#X obj 17 55 cyclone/comment 0 18 times ? 0 0 0 0 Send a number of
+bangs;
+#X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 bangbang;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 5 0 9 0;
 #X connect 9 0 12 0;
 #X connect 9 1 11 0;
@@ -55,4 +56,4 @@ number of outlets is determined the argument.;
 #X connect 10 0 13 0;
 #X connect 11 0 13 0;
 #X connect 12 0 13 0;
-#X connect 23 0 22 0;
+#X connect 19 0 18 0;

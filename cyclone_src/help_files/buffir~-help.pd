@@ -147,11 +147,6 @@ buffer;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 buffir~;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Buffer-based FIR filter;
 #X text 70 92 [buffir~] is a table/buffer based FIR (finite impulse
 response) filter. An input signal is convolved with 'n' samples of
 a buffer.;
@@ -161,11 +156,17 @@ a buffer.;
 #X text 197 503 - the filtered signal;
 #X text 197 464 - size/length (samples) - maximum is 4096;
 #X obj 214 255 cyclone/buffir~ buf1 0 256;
-#X connect 9 0 46 2;
-#X connect 10 0 46 0;
-#X connect 14 0 46 1;
-#X connect 15 0 46 0;
-#X connect 23 0 46 0;
-#X connect 27 0 46 0;
-#X connect 46 0 19 0;
-#X connect 46 0 19 1;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 buffir~;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Buffer-based FIR
+filter;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 9 0 42 2;
+#X connect 10 0 42 0;
+#X connect 14 0 42 1;
+#X connect 15 0 42 0;
+#X connect 23 0 42 0;
+#X connect 27 0 42 0;
+#X connect 42 0 19 0;
+#X connect 42 0 19 1;

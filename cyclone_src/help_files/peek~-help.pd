@@ -72,11 +72,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 peek~;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Read/write to array;
 #X text 101 88 Use [peek~] to read (without interpolation) and write
 values to an array via messages.;
 #X text 102 118 Not a proper signal object as it doesn't handle signals
@@ -93,17 +88,23 @@ table if a value was sent to the middle inlet;
 ;
 #X text 245 753 channel?;
 #X obj 338 405 cyclone/peek~ \$0-table;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Read/write to array
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 peek~;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 17 0 19 0;
-#X connect 19 0 66 0;
-#X connect 25 0 57 0;
+#X connect 19 0 62 0;
+#X connect 25 0 53 0;
 #X connect 26 0 25 0;
-#X connect 33 0 58 0;
+#X connect 33 0 54 0;
 #X connect 34 0 32 1;
 #X connect 36 0 46 0;
 #X connect 36 1 37 0;
 #X connect 37 0 46 1;
 #X connect 38 0 32 0;
 #X connect 38 1 34 0;
-#X connect 57 2 36 0;
-#X connect 58 2 38 0;
-#X connect 66 0 18 0;
+#X connect 53 2 36 0;
+#X connect 54 2 38 0;
+#X connect 62 0 18 0;

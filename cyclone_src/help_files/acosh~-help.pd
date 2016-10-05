@@ -22,8 +22,6 @@
 #X text 381 393 0;
 #X text 380 331 1;
 #X text 380 270 2;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal hyperbolic arc-cosine
-function;
 #X obj 2 531 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X text 134 540 For input values less than 1 \, the output is zero!
@@ -38,10 +36,6 @@ function;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 acosh~;
 #X obj 54 227 cyclone/acosh~;
 #X obj 244 226 cyclone/acosh~;
 #X obj 244 190 cyclone/scale~ 0 1 1 3;
@@ -162,11 +156,17 @@ input sample (probably only useful for mathematical calculations).
 #X obj 442 262 number~ 1;
 #X obj 442 345 number~;
 #X obj 442 304 cyclone/acosh~;
-#X connect 9 0 30 0;
-#X connect 10 0 29 0;
-#X connect 27 0 33 0;
-#X connect 28 0 34 0;
-#X connect 29 0 28 0;
-#X connect 30 0 27 0;
-#X connect 37 0 39 0;
-#X connect 39 0 38 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal hyperbolic
+arc-cosine function;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 2 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 acosh~;
+#X connect 9 0 26 0;
+#X connect 10 0 25 0;
+#X connect 23 0 29 0;
+#X connect 24 0 30 0;
+#X connect 25 0 24 0;
+#X connect 26 0 23 0;
+#X connect 33 0 35 0;
+#X connect 35 0 34 0;

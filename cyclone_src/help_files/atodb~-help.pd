@@ -27,12 +27,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 atodb~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Linear amplitude to dBFS
-conversion for signals;
 #X text 215 361 - linear amplitude value;
 #X text 156 361 signal;
 #X obj 169 242 sig~;
@@ -149,7 +143,13 @@ output value is -999)., f 42;
 #X text 266 308 dBFS;
 #X obj 169 217 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X connect 8 0 28 0;
-#X connect 9 0 26 0;
-#X connect 21 0 9 0;
-#X connect 28 0 21 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Linear amplitude
+to dBFS conversion for signals;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 atodb~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 8 0 24 0;
+#X connect 9 0 22 0;
+#X connect 17 0 9 0;
+#X connect 24 0 17 0;

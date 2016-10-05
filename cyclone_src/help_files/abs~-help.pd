@@ -35,8 +35,6 @@
 #X obj 73 97 cnv 15 350 65 empty empty empty 20 12 0 14 -248754 -66577
 0;
 #X obj 98 256 cyclone/abs~;
-#X obj 93 102 comment 0 15 times ? 0 0 0 0 Avoid using this object!
-;
 #X text 103 122 with the new [abs~] object in Pd Vanilla \, this;
 #X text 103 137 is now considered unnecessary and obsolete!;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -44,19 +42,14 @@
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 abs~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 188 572 abs~;
 #X obj 2 560 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Signal absolute value;
 #X text 125 572 just use;
 #X text 162 498 - the absolute value of input (negative becomes positive)
 ;
@@ -177,7 +170,15 @@ signals and convert negative values to positive values.;
 #X obj 388 355 cyclone/abs~;
 #X obj 388 396 number~;
 #X text 386 294 click and drag;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 abs~;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Signal absolute value
+;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 93 102 cyclone/comment 0 15 times ? 0 0 0 0 Avoid using this
+object!;
 #X connect 13 0 15 0;
-#X connect 15 0 32 0;
-#X connect 37 0 38 0;
-#X connect 38 0 39 0;
+#X connect 15 0 27 0;
+#X connect 32 0 33 0;
+#X connect 33 0 34 0;

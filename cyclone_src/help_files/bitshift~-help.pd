@@ -28,12 +28,7 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 bitshift~;
 #X text 121 485 1) float;
-#X obj 18 57 comment 0 18 times ? 0 0 0 0 Signal Bit-Shifting;
 #X text 189 456 - output of bit shifted signal;
 #X text 189 486 - number of bits to shift (default 0);
 #X msg 140 231 shift \$1;
@@ -177,9 +172,15 @@ shift to the right;
 0;
 #X text 122 531 [bitshift~] can produce NaNs and +/-INFs - but denormals
 are zeroed out.;
-#X connect 10 0 36 0;
+#X obj 18 57 cyclone/comment 0 18 times ? 0 0 0 0 Signal Bit-Shifting
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 bitshift~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 10 0 32 0;
 #X connect 11 0 10 0;
-#X connect 23 0 36 0;
-#X connect 35 0 36 0;
-#X connect 36 0 34 0;
-#X connect 41 0 23 0;
+#X connect 19 0 32 0;
+#X connect 31 0 32 0;
+#X connect 32 0 30 0;
+#X connect 37 0 19 0;

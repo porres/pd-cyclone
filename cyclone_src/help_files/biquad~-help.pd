@@ -42,7 +42,7 @@
 #X msg 170 200 0.252176 0 -0.252176 -1.68963 0.72158;
 #X msg 32 190 clear;
 #X text 158 372 list;
-#N canvas 360 265 470 194 inconsistencies 1;
+#N canvas 360 265 470 194 inconsistencies 0;
 #X text 55 16 Inconsistencies to Max/MSP:;
 #X text 57 44 - The cyclone version of max's [biquad~] is missing the
 ability to get filter values from a "dictionary" \, because we don't
@@ -61,8 +61,6 @@ this feature in Max/MSP doesn't seem to be working anyway...;
 #X text 191 184 Hz;
 #X text 394 208 in radians;
 #X obj 172 457 output~;
-#X obj 288 422 scope~ 271 129 2 3 128 -1 1 200 0 0 0 205 229 232 74
-79 77 96 98 102 0;
 #X msg 131 302 clear;
 #X obj 215 290 pack;
 #X obj 215 237 expr sin($f2 - $f1) \; sin($f2 - 2 * $f1) \; -2 * cos($f1)
@@ -90,20 +88,22 @@ y[-1] & y[-2]). This example uses just the feedback samples (y[-1]
 ;
 #X text 165 92 Note: needs to be stoked AFTER dsp has been started
 \, because starting the dsp will reset the sample memory.;
+#X obj 288 422 cyclone/scope~ 271 129 2 3 128 -1 1 200 0 0 0 205 229
+232 74 79 77 96 98 102 0;
 #X connect 0 0 1 0;
-#X connect 1 0 11 0;
-#X connect 3 0 11 1;
-#X connect 9 0 14 0;
-#X connect 10 0 13 0;
-#X connect 11 0 10 0;
-#X connect 11 1 10 1;
-#X connect 11 2 12 0;
-#X connect 12 0 14 4;
-#X connect 13 0 14 0;
-#X connect 14 0 7 0;
-#X connect 14 0 7 1;
-#X connect 14 0 8 0;
-#X connect 15 0 0 0;
+#X connect 1 0 10 0;
+#X connect 3 0 10 1;
+#X connect 8 0 13 0;
+#X connect 9 0 12 0;
+#X connect 10 0 9 0;
+#X connect 10 1 9 1;
+#X connect 10 2 11 0;
+#X connect 11 0 13 4;
+#X connect 12 0 13 0;
+#X connect 13 0 7 0;
+#X connect 13 0 7 1;
+#X connect 13 0 18 0;
+#X connect 14 0 0 0;
 #X restore 242 309 pd stoke;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -115,11 +115,6 @@ y[-1] & y[-2]). This example uses just the feedback samples (y[-1]
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 biquad~;
-#X obj 21 56 comment 0 18 times ? 0 0 0 0 Biquad filter;
 #N canvas 438 68 664 329 filter_diagram 0;
 #X obj 92 95 cnv 15 260 165 empty empty empty 20 12 0 14 -228856 -66577
 0;
@@ -152,7 +147,6 @@ Max/MSP;
 #X text 227 123 |;
 #X text 227 111 ^;
 #X text 303 103 >;
-#X obj 70 53 comment 0 16 times ? 0 0 0 0 Filter Equation:;
 #X text 263 158 | z^-1 |;
 #X text 122 158 | z^-1 |;
 #X text 141 179 |;
@@ -201,6 +195,8 @@ Max/MSP;
 #X text 388 166 a2 = feedforward coefficient 2;
 #X text 388 182 b1 = feedback coefficient 1;
 #X text 388 196 b2 = feedback coefficient 2;
+#X obj 70 53 cyclone/comment 0 16 times ? 0 0 0 0 Filter Equation:
+;
 #X restore 393 267 pd filter_diagram;
 #N canvas 302 197 476 448 clear 0;
 #X text 45 27 If the filter explodes by making the feedback coefficients
@@ -280,9 +276,14 @@ if you're using [cyclone/filtercoeff~];
 [biquad~]. You can specify the coefficients a0 \, a1 \, a2 \, b1 \,
 and b2 as a list (also note the different order format than in Pd)
 or individually as signals or floats.;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 biquad~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Biquad filter;
 #X connect 0 0 26 0;
 #X connect 1 0 26 0;
-#X connect 26 0 45 0;
-#X connect 26 0 45 1;
+#X connect 26 0 41 0;
+#X connect 26 0 41 1;
 #X connect 27 0 26 0;
 #X connect 28 0 26 0;

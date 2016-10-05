@@ -1,4 +1,4 @@
-#N canvas 207 246 560 638 10;
+#N canvas 342 23 560 638 10;
 #X obj 3 594 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 414 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -27,8 +27,6 @@
 a sine wave into a trianglular wave.;
 #X text 61 94 Use [asin~] to output the arc-sine of each input sample.
 ;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal arc-sine function
-;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -39,10 +37,6 @@ a sine wave into a trianglular wave.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 asin~;
 #X obj 237 192 cyclone/triangle~ 1;
 #X obj 45 217 cyclone/asin~;
 #X obj 237 221 cyclone/asin~;
@@ -163,10 +157,16 @@ pi/2. For input values outside the -1 to 1 range \, the output is zero!
 #X obj 439 262 number~ 1;
 #X obj 439 345 number~;
 #X obj 439 304 cyclone/asin~;
-#X connect 13 0 27 0;
-#X connect 27 0 29 0;
-#X connect 28 0 32 0;
-#X connect 29 0 33 0;
-#X connect 30 0 28 0;
-#X connect 37 0 39 0;
-#X connect 39 0 38 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal arc-sine function
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 asin~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 13 0 23 0;
+#X connect 23 0 25 0;
+#X connect 24 0 28 0;
+#X connect 25 0 29 0;
+#X connect 26 0 24 0;
+#X connect 33 0 35 0;
+#X connect 35 0 34 0;

@@ -51,15 +51,7 @@ for the single-argument arctangent function.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 atan;
-#X obj 17 59 comment 0 18 times ? 0 0 0 0 Signal arctan(a/b) function
-;
 #X obj 153 228 cyclone/atan2~;
-#X obj 77 9 comment 0 30 times ? 0 0 0 0 2;
-#X obj 95 3 comment 0 37 times ? 0 0 0 0 ~;
 #X text 190 434 - value of "b" (not documented in Max);
 #X text 54 99 Use the [atan2~] object to output the arc-tangent of
 two given values ("a" and "b") calculated as: Arc-tangent (a/b).;
@@ -176,6 +168,14 @@ the phase from cartesian coordinates.;
 #X obj 107 190 number~ 1;
 #X text 81 191 "a";
 #X text 209 190 "b";
-#X connect 20 0 30 0;
-#X connect 29 0 20 1;
-#X connect 31 0 20 0;
+#X obj 17 59 cyclone/comment 0 18 times ? 0 0 0 0 Signal arctan(a/b)
+function;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 77 9 cyclone/comment 0 30 times ? 0 0 0 0 2;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 atan;
+#X obj 95 3 cyclone/comment 0 37 times ? 0 0 0 0 ~;
+#X connect 16 0 24 0;
+#X connect 23 0 16 1;
+#X connect 25 0 16 0;

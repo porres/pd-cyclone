@@ -21,7 +21,6 @@
 #X text 156 582 2) float;
 #X text 156 600 3) float;
 #X text 156 618 4) float;
-#X obj 121 288 output~;
 #X floatatom 301 179 0 0 0 0 - - -;
 #X obj 304 155 hsl 128 15 0 1407.66 0 0 endS endR empty -2 -8 0 10
 -228856 -1 -1 0 1;
@@ -64,25 +63,24 @@
 #X obj 224 222 line~;
 #X msg 224 200 \$1 100;
 #N canvas 762 120 435 497 load_sample 0;
-#X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 9 4 load voice.wav file;
-#X floatatom 82 103 5 0 0 0 - - -, f 5;
-#X obj 82 126 - 1;
-#X obj 82 155 cyclone/sampstoms~;
-#X floatatom 187 184 0 0 0 0 - - -;
-#X text 245 186 size in ms;
+#X text 209 104 load voice.wav file;
+#X floatatom 72 103 5 0 0 0 - - -, f 5;
+#X obj 72 126 - 1;
+#X obj 72 155 cyclone/sampstoms~;
+#X floatatom 177 184 0 0 0 0 - - -;
+#X text 180 206 size in ms;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array \$0-waveTable 62079 float 0;
 #X coords 0 1 62078 -1 300 200 1 0 0;
 #X restore 64 244 graph;
-#X obj 82 79 soundfiler;
-#X obj 82 57 cyclone/loadmess read -resize voice.wav \$0-waveTable
+#X obj 72 79 soundfiler;
+#X obj 72 57 cyclone/loadmess read -resize voice.wav \$0-waveTable
 ;
+#X connect 1 0 2 0;
 #X connect 2 0 3 0;
-#X connect 3 0 4 0;
-#X connect 4 1 5 0;
-#X connect 8 0 2 0;
-#X connect 9 0 8 0;
+#X connect 3 1 4 0;
+#X connect 7 0 1 0;
+#X connect 8 0 7 0;
 #X restore 377 194 pd load_sample;
 #X text 228 487 - set endpoint (in ms);
 #X text 228 468 - set startpoint (in ms);
@@ -111,7 +109,7 @@ Max/MSP;
 #X text 228 616 - sets the number of output channels: 1 \, 2 or 4 (determines
 the number of outlets), f 48;
 #X text 128 409 interp <float>;
-#N canvas 739 128 435 497 interpolation_modes 0;
+#N canvas 749 134 435 497 interpolation_modes 1;
 #X text 31 108 The interpolation modes are \; \; - Value - Description
 \; \; 0 - No interpolation. Wavetable interpolation is disabled using
 the interp 0 message \; 1 - High-quality linear interpolation (default)
@@ -144,15 +142,16 @@ many options for interpolation.;
 #X obj 2 703 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #X text 153 710 @mode <int> (default: 0) - sets mode argument;
-#X connect 9 0 30 0;
-#X connect 15 0 28 0;
-#X connect 16 0 15 0;
-#X connect 17 0 9 0;
-#X connect 24 0 14 0;
-#X connect 24 0 14 1;
-#X connect 27 0 24 2;
-#X connect 28 0 27 0;
-#X connect 29 0 24 1;
-#X connect 30 0 29 0;
-#X connect 43 0 24 0;
-#X connect 44 0 43 0;
+#X obj 121 288 cyclone/output~;
+#X connect 9 0 29 0;
+#X connect 14 0 27 0;
+#X connect 15 0 14 0;
+#X connect 16 0 9 0;
+#X connect 23 0 62 0;
+#X connect 23 0 62 1;
+#X connect 26 0 23 2;
+#X connect 27 0 26 0;
+#X connect 28 0 23 1;
+#X connect 29 0 28 0;
+#X connect 42 0 23 0;
+#X connect 43 0 42 0;

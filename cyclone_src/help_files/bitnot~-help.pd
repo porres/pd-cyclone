@@ -28,14 +28,9 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 bitnot~;
 #X text 203 411 - mode [0 or 1] (default 0);
 #X text 124 328 mode <0/1>;
 #X text 202 348 - sets mode [0 or 1];
-#X obj 20 60 comment 0 18 times ? 0 0 0 0 Signal Bitwise-NOT;
 #X text 203 310 - signal to perform "Bitwise NOT" on;
 #X text 203 379 - the resulting bit inverted signal;
 #X text 203 328 - sets mode (details above);
@@ -167,7 +162,13 @@ signed integer representation of this value is used for the operation.
 0;
 #X text 122 441 [bitand~] can produce NaNs and +/-INFs - but denormals
 are zeroed out.;
-#X connect 7 0 26 0;
+#X obj 20 60 cyclone/comment 0 18 times ? 0 0 0 0 Signal Bitwise-NOT
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 bitnot~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 7 0 22 0;
 #X connect 10 0 7 0;
-#X connect 26 0 35 0;
-#X connect 34 0 26 0;
+#X connect 22 0 31 0;
+#X connect 30 0 22 0;

@@ -30,16 +30,11 @@
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X obj 305 3 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 avg~;
-#X obj 17 55 comment 0 18 times ? 0 0 0 0 Signal absolute average;
 #X obj 165 186 osc~ 100;
 #X obj 180 215 osc~ 2;
 #X obj 252 230 cyclone/train~ 200;
@@ -162,14 +157,20 @@ samples.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 7 0 29 0;
+#X obj 17 55 cyclone/comment 0 18 times ? 0 0 0 0 Signal absolute average
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 avg~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 7 0 25 0;
 #X connect 13 0 14 0;
-#X connect 13 0 33 0;
-#X connect 14 0 38 0;
-#X connect 27 0 13 0;
-#X connect 28 0 13 1;
-#X connect 29 1 14 0;
-#X connect 29 1 30 0;
-#X connect 31 0 7 0;
-#X connect 32 0 7 0;
-#X connect 38 0 15 0;
+#X connect 13 0 29 0;
+#X connect 14 0 34 0;
+#X connect 23 0 13 0;
+#X connect 24 0 13 1;
+#X connect 25 1 14 0;
+#X connect 25 1 26 0;
+#X connect 27 0 7 0;
+#X connect 28 0 7 0;
+#X connect 34 0 15 0;

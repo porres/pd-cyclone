@@ -73,11 +73,6 @@ are zeroed out.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 bitxor~;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Signal Bitwise-XOR;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -441,9 +436,15 @@ signal input.;
 #X connect 22 0 3 0;
 #X connect 23 0 21 0;
 #X restore 459 284 pd raw_bitmask;
-#X connect 10 0 52 0;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Signal Bitwise-XOR
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 bitxor~;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 10 0 48 0;
 #X connect 11 0 10 0;
-#X connect 31 0 52 0;
-#X connect 32 0 52 1;
+#X connect 31 0 48 0;
+#X connect 32 0 48 1;
 #X connect 33 0 11 0;
-#X connect 52 0 30 0;
+#X connect 48 0 30 0;

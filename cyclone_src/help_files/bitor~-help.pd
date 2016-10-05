@@ -423,11 +423,6 @@ bitmask;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 bitor~;
-#X obj 21 61 comment 0 18 times ? 0 0 0 0 Signal Bitwise-OR;
 #X text 88 91 [bitor~] compares the bits of two values with "Bitwise
 OR" (bits are set to 1 if any of them is "1" \, 0 otherwise). It compares
 two signals or a signal to a given bitmask. TIt has 4 modes of comparison
@@ -438,9 +433,15 @@ two signals or a signal to a given bitmask. TIt has 4 modes of comparison
 #X obj 98 239 cyclone/bitor~, f 17;
 #X text 122 519 [bitor~] can produce NaNs and +/-INFs - but denormals
 are zeroed out.;
-#X connect 10 0 56 0;
+#X obj 21 61 cyclone/comment 0 18 times ? 0 0 0 0 Signal Bitwise-OR
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 bitor~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 10 0 52 0;
 #X connect 11 0 10 0;
-#X connect 34 0 56 0;
-#X connect 35 0 56 1;
+#X connect 34 0 52 0;
+#X connect 35 0 52 1;
 #X connect 36 0 11 0;
-#X connect 56 0 33 0;
+#X connect 52 0 33 0;

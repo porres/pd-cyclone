@@ -1,4 +1,4 @@
-#N canvas 594 93 564 604 10;
+#N canvas 594 93 557 601 10;
 #X obj 2 562 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 409 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -40,12 +40,6 @@ a sine wave into a trianglular wave.;
 #X text 219 418 - input to arc-cosine function;
 #X obj 249 254 cyclone/scope~ 130 130 256 3 128 0 3.14 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 acos~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal arc-cosine function
-;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -162,10 +156,16 @@ For input values outside the -1 to 1 range \, the output is zero!;
 #X obj 442 262 number~ 1;
 #X obj 442 304 cyclone/acos~;
 #X obj 442 345 number~;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 acos~;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal arc-cosine
+function;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 10 0 20 0;
 #X connect 19 0 24 0;
 #X connect 20 0 19 0;
-#X connect 21 0 30 0;
+#X connect 21 0 26 0;
 #X connect 22 0 21 0;
-#X connect 37 0 38 0;
-#X connect 38 0 39 0;
+#X connect 33 0 34 0;
+#X connect 34 0 35 0;
