@@ -373,7 +373,6 @@ shared/common/loud.c \
 shared/common/vefl.c \
 shared/unstable/fragile.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(sarsic)
-    record~.class.sources := cyclone_src/binaries/signal/record.c $(sarsic)
 
 # loud and vefl actually not being used in the classes, but needed for some reason
 
@@ -383,6 +382,7 @@ scybuf := shared/cybuf.c
     index~.class.sources := cyclone_src/binaries/signal/index.c $(scybuf)
     peek~.class.sources := cyclone_src/binaries/signal/peek.c $(scybuf)
     poke~.class.sources := cyclone_src/binaries/signal/poke.c $(scybuf) 
+    record~.class.sources := cyclone_src/binaries/signal/record.c $(scybuf)
     wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
 
 #######################################################################

@@ -6,6 +6,7 @@
 adding defaults for numchannels, append, loopstatus, loopstart, loopend
 adding record_getarraysmp
 adding attribute parsing and making numchannels arg optional 
+de-arsic/cybuffing
 */
 
 /* Porres 2016 fixed bugs with sync output, append mode, reset message, max number channels in  */
@@ -14,8 +15,7 @@ adding attribute parsing and making numchannels arg optional
 #include "m_pd.h"
 #include "m_imp.h"
 #include "shared.h"
-#include "sickle/sic.h"
-#include "sickle/arsic.h"
+#include "cybuf.h"
 
 #define PDCYREC_NCH 1
 #define PDCYREC_APPEND 0
@@ -26,7 +26,8 @@ adding attribute parsing and making numchannels arg optional
 
 typedef struct _record
 {
-    t_arsic   x_arsic;
+    t_object    x_obj;
+    t_cybuf   *x_cybuf;
     float     x_array_ms;  // array size in ms
     float     x_startpoint;  /* the inputs */
     float     x_endpoint;
@@ -41,7 +42,15 @@ typedef struct _record
     t_clock  *x_clock;
     double    x_clocklasttick;
 
-	int 	  x_numchan;
+
+    t_inlet     *x_stlet; //start inlet
+    t_inlet     *x_endlet; //end inlet
+    t_outlet    *x_outlet;
+
+    t_float     x_ksr; //sample rate in ms
+    int 	x_numchans;
+    t_float     **x_ivecs; // input vectors
+    t_float     *x_ovec; //output vector
 } t_record;
 
 static t_class *record_class;
@@ -51,7 +60,7 @@ static t_float record_getarraysmp(t_record *x, t_symbol *arrayname){
   t_garray *garray;
 	char bufname[MAXPDSTRING];
 	t_float retsmp = -1;
-	int numchan = x->x_numchan;
+	int numchan = x->x_numchans;
 	if(numchan > 1){
 		sprintf(bufname, "0-%s", arrayname->s_name);
 	}
@@ -72,7 +81,7 @@ static void record_tick(t_record *x)
     double timesince = clock_gettimesince(x->x_clocklasttick);
     if (timesince >= RECORD_REDRAWPAUSE)
     {
-	arsic_redraw((t_arsic *)x);
+	cybuf_redraw(x->x_cybuf);
 	x->x_clocklasttick = clock_getlogicaltime();
     }
     else clock_delay(x->x_clock, RECORD_REDRAWPAUSE - timesince);
@@ -95,22 +104,22 @@ static void record_setsync(t_record *x)
 
 static void record_mstoindex(t_record *x)
 {
-    t_arsic *sic = (t_arsic *)x;
-    x->x_startindex = (int)(x->x_startpoint * sic->s_ksr);
+    t_cybuf * c = x->x_cybuf;
+    x->x_startindex = (int)(x->x_startpoint * x->x_ksr);
     if (x->x_startindex < 0){
 		x->x_startindex = 0;  /* CHECKED */
 	};
-    x->x_endindex = (int)(x->x_endpoint * sic->s_ksr);
-    if (x->x_endindex > sic->s_vecsize
+    x->x_endindex = (int)(x->x_endpoint * x->x_ksr);
+    if (x->x_endindex > c->c_vecsize
 	|| x->x_endindex <= 0){
-		x->x_endindex = sic->s_vecsize;  /* CHECKED (both ways) */
+		x->x_endindex = c->c_vecsize;  /* CHECKED (both ways) */
 	};
     record_setsync(x);
 }
 
 static void record_set(t_record *x, t_symbol *s)
 {
-    arsic_setarray((t_arsic *)x, s, 1);
+    cybuf_setarray(x->x_cybuf, s );
     record_mstoindex(x);
 }
 
@@ -169,19 +178,20 @@ static void record_loop(t_record *x, t_floatarg f)
 
 static t_int *record_perform(t_int *w)
 {
-    t_arsic *sic = (t_arsic *)(w[1]);
+    t_record *x = (t_record *)(w[1]);
+    t_cybuf * c = x->x_cybuf;
+    int nch = c->c_numchans;
+
     int nblock = (int)(w[2]);
-    int nch = sic->s_nchannels;
-    t_float *out = (t_float *)(w[3 + nch]);
-    t_record *x = (t_record *)sic;
+    t_float *out = x->x_ovec;
     int phase = x->x_phase;
     float endphase = x->x_endindex;
     float startphase = x->x_startindex;
     float phase_range = (float)(endphase - startphase);
     float sync = x->x_sync;
-    if (sic->s_playable && endphase > phase)
+    if (c->c_playable && endphase > phase)
     {
-	int vecsize = sic->s_vecsize;
+	//int vecsize = c->c_vecsize;
 	int ch, over, i, nxfer, ndone = 0;
 loopover:
 	if ((nxfer = endphase - phase) > nblock)
@@ -193,10 +203,10 @@ loopover:
 	ch = nch;
 	while (ch--)
 	{
-	    t_word *vp = sic->s_vectors[ch];
+	    t_word *vp = c->c_vectors[ch];
 	    if (vp)
 	    {
-		t_float *ip = (t_float *)(w[3 + ch]) + ndone;
+		t_float *ip = *(x->x_ivecs + ndone);
 		vp += phase;
 		i = nxfer;
 //		while (i--) *vp++ = *ip++; /* LATER consider handling under and overflows */
@@ -244,41 +254,57 @@ loopover:
     }
     while (nblock--) *out++ = sync; // sync output = 0
 alldone:
-    return (w + sic->s_nperfargs + 1);
+    return (w + 3);
 }
 
 static void record_dsp(t_record *x, t_signal **sp)
 {
-    arsic_dsp((t_arsic *)x, sp, record_perform, 1);
-    record_mstoindex(x);
+    cybuf_checkdsp(x->x_cybuf); 
+    t_float ksr= sp[0]->s_sr * 0.001;
+
+    //if sample rate changed, recalculate index
+    if(ksr != x->x_ksr){
+        record_mstoindex(x);
+    };
+    int i, nblock = sp[0]->s_n;
+
+    t_signal **sigp = sp;
+    for (i = 0; i < x->x_numchans; i++){ //input vectors first
+		*(x->x_ivecs+i) = (*sigp++)->s_vec;
+	};
+        x->x_ovec = (*sigp++)->s_vec;
+	dsp_add(record_perform, 2, x, nblock);
+
+
 }
 
 static void record_free(t_record *x)
 {
-    arsic_free((t_arsic *)x);
+    cybuf_free(x->x_cybuf);
+    inlet_free(x->x_stlet);
+    inlet_free(x->x_endlet);
+    outlet_free(x->x_outlet);
+    freebytes(x->x_ivecs, x->x_numchans * sizeof(*x->x_ivecs));
     if (x->x_clock) clock_free(x->x_clock);
 }
 
 
 static void *record_new(t_symbol *s, int argc, t_atom *argv)
 {
+        int i;
 	t_float numchan = PDCYREC_NCH;
 	t_float append = PDCYREC_APPEND;
 	t_float loopstatus = PDCYREC_LOOPSTATUS;
 	t_float loopstart = PDCYREC_LOOPSTART;
 	t_float loopend = -1;
 	
-	t_symbol * arrname = gensym("record_def");
+	t_symbol * arrname = &s_;
 	if(argc > 0 && argv ->a_type == A_SYMBOL){
 		//first arg HAS to be array name, parse it now
 		arrname = atom_getsymbolarg(0, argc, argv);
 		argc--;
 		argv++;
 		//post("record~ setting to '%s'", arrname->s_name);
-	}
-	else{
-	// else default to dummy name but warn
-		post("defaulting to name '%s'", arrname->s_name);
 	};
 	
 	//NOW parse the rest of the args
@@ -351,18 +377,23 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	if(chn_n == 3){
 		chn_n = 2;
 	};
-    t_record *x = (t_record *)arsic_new(record_class, arrname, chn_n, 0, 1);
-    if (x)
+
+        //old arsic notes - chn_n number of channels, 0 nsigs 1 nauxsigs
+    t_record *x = (t_record *)pd_new(record_class);
+    x->x_ksr = (float)sys_getsr() * 0.001;
+    x->x_cybuf = cybuf_init((t_class *)x, arrname, chn_n);
+    t_cybuf * c = x->x_cybuf;
+    if (c)
     {
 	
-	int nch = arsic_getnchannels((t_arsic *)x);
-	x->x_numchan = nch;
+	x->x_numchans = c->c_numchans;
 	t_float arraysmp = record_getarraysmp(x, arrname);
+        x->x_ivecs = getbytes(x->x_numchans * sizeof(*x->x_ivecs));
 	if(loopend < 0 && arraysmp > 0){
 //if loopend not set or less than 0 and arraysmp doesn't fail, set it to arraylen in ms
-       loopend = (arraysmp/(sys_getsr()*0.001));
+       loopend = (arraysmp/x->x_ksr);
 	};
-	arsic_setminsize((t_arsic *)x, 2);
+	cybuf_setminsize(x->x_cybuf, 2);
 	record_append(x, append);	
 	record_loop(x, loopstatus);
     
@@ -371,15 +402,16 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_clock = clock_new(x, (t_method)record_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
     x->x_array_ms = loopend;
-	while (--nch){
-	    inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+	for (i=0;i<x->x_numchans;i++){
+	    inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	};
-	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft-2"));
-	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft-1"));
-	outlet_new((t_object *)x, &s_signal); //  sync output
+	x->x_stlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("start"));
+	x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("end"));
+	x->x_outlet = outlet_new(&x->x_obj, gensym("signal")); // sync output
     
 	record_startpoint(x, loopstart);
 	record_endpoint(x, loopend);
+        record_mstoindex(x);
     }
     return (x);
 	errstate:
@@ -394,11 +426,13 @@ void record_tilde_setup(void)
 			     (t_method)record_free,
 			     sizeof(t_record), 0,
 			     A_GIMME, 0);
-    arsic_setup(record_class, record_dsp, record_float);
+    class_addfloat(record_class, record_float);
+    class_addmethod(record_class, (t_method)record_dsp, gensym("dsp"), A_CANT, 0);
+    class_domainsignalin(record_class, -1);
     class_addmethod(record_class, (t_method)record_startpoint,
-		    gensym("ft-2"), A_FLOAT, 0);
+		    gensym("start"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_endpoint,
-		    gensym("ft-1"), A_FLOAT, 0);
+		    gensym("end"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_append,
 		    gensym("append"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_loop,
