@@ -1,0 +1,74 @@
+Cyclone 0.3
+============
+
+NEW OBJECTS
+-----------
+CONTROL:
+acosh
+asinh
+atanh
+atodb
+dbtoa
+join
+linedrive
+loadmess
+pak
+pong
+rdiv
+rminus
+round
+scale
+
+SIGNAL:
+atodb~
+average2~
+biquad~
+bitsafe~
+cascade~
+dbtoa~
+degrade~
+downsamp~
+equals~
+filtercoeff~
+freqshift~
+gate~
+greaterthan~
+greaterthaneq~
+hilbert~
+indexbak~
+lessthan~
+lessthaneq~
+line~
+modulo~
+notequals~
+phaseshift~
+plusequals~
+rdiv~
+rminus~
+round~
+scale~
+selector~
+thresh~
+trunc~
+
+RENAMED OBJECTS
+---------------
+CONTROL:
+Append > append 
+Borax > borax
+Bucket > bucket
+Clip > clip
+Decode > decode
+Histo > histo
+MouseState > mousestate
+Peak > peak
+Table > table
+TogEdge > togedge
+Trough > trough
+Uzi > uzi
+
+SIGNAL:
+Clip~ > clip~
+Cross > cross~
+Scope > scope~
+Snapshot > snapshot~
