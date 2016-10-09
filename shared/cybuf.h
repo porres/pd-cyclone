@@ -28,6 +28,7 @@ typedef struct _cybuf
     int         c_playable;
     int         c_minsize;
     int         c_disabled;
+    unsigned int    c_len; //number of samples in array
 } t_cybuf;
 
 t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp);

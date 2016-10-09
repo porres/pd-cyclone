@@ -38,7 +38,7 @@ typedef struct _wave
 
 static t_class *wave_class;
 
-
+/* kept here for legacy, now cybuf has c_len
 
 static t_float wave_getarraysmp(t_wave *x, t_symbol *arrayname){
   t_garray *garray;
@@ -61,7 +61,7 @@ static t_float wave_getarraysmp(t_wave *x, t_symbol *arrayname){
 	return retsmp;
 }
 
-
+*/
 
 /* interpolation functions w/ jump table -- code was cleaner than a massive
 switch - case block in the wave_perform() routine; might be very slightly
@@ -607,7 +607,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	if(endpt < 0){
 		//endpt not passed as art,.. get the array number of samples if set
 		if(nameset){
-			t_float arraysmp = wave_getarraysmp(x, name);
+			t_float arraysmp = x->x_cybuf->c_len;
 			endpt = arraysmp;
 		}
 		else{ //else just set to 0

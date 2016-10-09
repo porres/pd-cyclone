@@ -25,6 +25,7 @@ t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp){
 	    int bufsz;
 	    t_word *vec;
 	    if (garray_getfloatwords(ap, &bufsz, &vec)){
+   	        c->c_len = garray_npoints(ap);
 		if (indsp) garray_usedindsp(ap);
 		if (bufsize) *bufsize = bufsz;
 		return (vec);
@@ -203,6 +204,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
     c->c_disabled = 0;
     c->c_playable = 0;
     c->c_minsize = 1;
+    c->c_len = 0;
     cybuf_setarray(c, bufname);
     return (c);
 }
