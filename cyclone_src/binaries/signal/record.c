@@ -55,26 +55,30 @@ typedef struct _record
 
 static t_class *record_class;
 
-
+/*
+kept here for legacy, now built into cybuf - DK
 static t_float record_getarraysmp(t_record *x, t_symbol *arrayname){
   t_garray *garray;
+  t_symbol *checkname; //name to check
 	char bufname[MAXPDSTRING];
 	t_float retsmp = -1;
 	int numchan = x->x_numchans;
 	if(numchan > 1){
 		sprintf(bufname, "0-%s", arrayname->s_name);
+                checkname = gensym(bufname);
 	}
 	else{
 		sprintf(bufname, "%s", arrayname->s_name);
+                checkname = arrayname;
 	};
-  if(!(garray = (t_garray *)pd_findbyclass(arrayname,garray_class))) {
+  if(!(garray = (t_garray *)pd_findbyclass(checkname,garray_class))) {
     pd_error(x, "%s: no such table", bufname);
   } else {
    	retsmp = garray_npoints(garray);
   };
 	return retsmp;
 }
-
+*/
 
 static void record_tick(t_record *x)
 {
@@ -387,7 +391,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
     {
 	
 	x->x_numchans = c->c_numchans;
-	t_float arraysmp = record_getarraysmp(x, arrname);
+	t_float arraysmp = (t_float)c->c_len;
         x->x_ivecs = getbytes(x->x_numchans * sizeof(*x->x_ivecs));
 	if(loopend < 0 && arraysmp > 0){
 //if loopend not set or less than 0 and arraysmp doesn't fail, set it to arraylen in ms
