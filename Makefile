@@ -86,7 +86,6 @@ cosx~.class.sources := cyclone_src/binaries/signal/cosx.c
 count~.class.sources := cyclone_src/binaries/signal/count.c
 comb~.class.sources := cyclone_src/binaries/signal/comb.c
 cycle~.class.sources := cyclone_src/binaries/signal/cycle.c
-delay~.class.sources := cyclone_src/binaries/signal/delay.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
@@ -334,6 +333,7 @@ shared/unstable/forky.c
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(sforky)
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(sforky)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(sforky)
+    delay~.class.sources := cyclone_src/binaries/signal/delay.c $(sforky)
     plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(sforky)
     cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(sforky)
     minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(sforky)
