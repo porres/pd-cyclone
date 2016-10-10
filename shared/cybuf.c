@@ -25,7 +25,7 @@ t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp){
 	    int bufsz;
 	    t_word *vec;
 	    if (garray_getfloatwords(ap, &bufsz, &vec)){
-   	        c->c_len = garray_npoints(ap);
+   	        //c->c_len = garray_npoints(ap);
 		if (indsp) garray_usedindsp(ap);
 		if (bufsize) *bufsize = bufsz;
 		return (vec);
@@ -57,7 +57,7 @@ void cybuf_bug(char *fmt, ...)
 
 void cybuf_clear(t_cybuf *c)
 {
-    c->c_vecsize = 0;
+    c->c_npts = 0;
     memset(c->c_vectors, 0, c->c_numchans * sizeof(*c->c_vectors));
 }
 
@@ -82,25 +82,25 @@ void cybuf_redraw(t_cybuf *c)
 void cybuf_validate(t_cybuf *c)
 {
     cybuf_clear(c);
-    c->c_vecsize = SHARED_INT_MAX;
+    c->c_npts = SHARED_INT_MAX;
     if (c->c_numchans <= 1 && c->c_bufname != &s_)
     {
-	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_vecsize, 1);
+	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1);
     }
     else if (c->c_numchans > 1){
 	int ch;
 	for (ch = 0; ch < c->c_numchans ; ch++){
-	    int vsz = c->c_vecsize;  /* ignore missing arrays */
+	    int vsz = c->c_npts;  /* ignore missing arrays */
 	    c->c_vectors[ch] =
 		cybuf_get(c, c->c_channames[ch], &vsz, 1);
-	    if (vsz < c->c_vecsize) c->c_vecsize = vsz;
+	    if (vsz < c->c_npts) c->c_npts = vsz;
 	}
     }
-    if (c->c_vecsize == SHARED_INT_MAX) c->c_vecsize = 0;
+    if (c->c_npts == SHARED_INT_MAX) c->c_npts = 0;
 }
 
 void cybuf_playcheck(t_cybuf *c){
-    c->c_playable = (!c->c_disabled && c->c_vecsize >= c->c_minsize);
+    c->c_playable = (!c->c_disabled && c->c_npts >= c->c_minsize);
 }
 
 /*
@@ -198,13 +198,12 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
 	return (0);
     };
     c->c_owner = owner;
-    c->c_vecsize = 0;
+    c->c_npts = 0;
     c->c_vectors = vectors;
     c->c_channames = channames;
     c->c_disabled = 0;
     c->c_playable = 0;
     c->c_minsize = 1;
-    c->c_len = 0;
     cybuf_setarray(c, bufname);
     return (c);
 }

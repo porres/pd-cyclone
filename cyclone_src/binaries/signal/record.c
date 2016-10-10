@@ -114,9 +114,9 @@ static void record_mstoindex(t_record *x)
 		x->x_startindex = 0;  /* CHECKED */
 	};
     x->x_endindex = (int)(x->x_endpoint * x->x_ksr);
-    if (x->x_endindex > c->c_vecsize
+    if (x->x_endindex > c->c_npts
 	|| x->x_endindex <= 0){
-		x->x_endindex = c->c_vecsize;  /* CHECKED (both ways) */
+		x->x_endindex = c->c_npts;  /* CHECKED (both ways) */
 	};
     record_setsync(x);
 }
@@ -195,7 +195,7 @@ static t_int *record_perform(t_int *w)
     float sync = x->x_sync;
     if (c->c_playable && endphase > phase)
     {
-	//int vecsize = c->c_vecsize;
+	//int vecsize = c->c_npts;
 	int ch, over, i, nxfer, ndone = 0;
 loopover:
 	if ((nxfer = endphase - phase) > nblock)
@@ -391,7 +391,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
     {
 	
 	x->x_numchans = c->c_numchans;
-	t_float arraysmp = (t_float)c->c_len;
+	t_float arraysmp = (t_float)c->c_npts;
         x->x_ivecs = getbytes(x->x_numchans * sizeof(*x->x_ivecs));
 	if(loopend < 0 && arraysmp > 0){
 //if loopend not set or less than 0 and arraysmp doesn't fail, set it to arraylen in ms
