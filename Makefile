@@ -154,10 +154,11 @@ modulo~.class.sources := cyclone_src/binaries/signal/modulo.c
 rdiv~.class.sources := cyclone_src/binaries/signal/rdiv.c
 rminus~.class.sources := cyclone_src/binaries/signal/rminus.c
 
+##############################################################################
+## CLASSES WITH DEPENDENCIES #################################################
+##############################################################################
 
-## classes with dependencies #################################################
-
-# Control Classes
+# Control Classes: ###########################################################
 
 hfile := \
 shared/hammer/file.c \
@@ -318,17 +319,15 @@ offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
 funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefilevefl)
 
-##############################################################################
+# Signal classes: #############################################################################
 
-# Signal classes:
+# to do: deloud and merge fragile/forky into "magic" // also deloud others below...
 
 sfragileforkyloud := \
 shared/common/loud.c \
 shared/unstable/fragile.c \
 shared/unstable/forky.c
     cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(sfragileforkyloud)
-
-# deloud and merge fragile/forky into a new "magic" dependency, then agroup with the ones below
 
 sforky := \
 shared/unstable/forky.c
@@ -365,7 +364,6 @@ shared/common/os.c \
 shared/unstable/forky.c
     capture~.class.sources := cyclone_src/binaries/signal/capture.c $(sfile)
 
-# Buffer Classes (agrouped) - still "sic-fied"
 sarsic := \
 shared/sickle/sic.c \
 shared/sickle/arsic.c \
@@ -374,9 +372,6 @@ shared/common/vefl.c \
 shared/unstable/fragile.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(sarsic)
 
-# loud and vefl actually not being used in the classes, but needed for some reason
-
-#cybuf (aka arsic replacement) classes
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
     index~.class.sources := cyclone_src/binaries/signal/index.c $(scybuf)
