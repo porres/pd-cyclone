@@ -18,7 +18,7 @@ typedef struct _cybuf
 {
     //t_sic       s_sic;
     void     *c_owner; //owner of cybuf, note i don't know if this actually works
-    int         c_vecsize;   /* used also as a validation flag */
+    int         c_npts;   /* used also as a validation flag, number of samples in an array */
     int         c_numchans;
     t_word    **c_vectors;
     t_symbol  **c_channames;
@@ -28,7 +28,6 @@ typedef struct _cybuf
     int         c_playable;
     int         c_minsize;
     int         c_disabled;
-    unsigned int    c_len; //number of samples in array
 } t_cybuf;
 
 t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp);

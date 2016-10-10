@@ -38,7 +38,7 @@ typedef struct _wave
 
 static t_class *wave_class;
 
-/* kept here for legacy, now cybuf has c_len
+/* kept here for legacy
 
 static t_float wave_getarraysmp(t_wave *x, t_symbol *arrayname){
   t_garray *garray;
@@ -445,7 +445,7 @@ static t_int *wave_perform(t_int *w)
     if (c->c_playable)
     {	
 		//t_wave *x = (t_wave *)sic;
-		int vecsize = c->c_vecsize;
+		int npts = c->c_npts;
 		float ksr = x->x_ksr;
 		t_word **vectable = c->c_vectors;
 		//t_float *xin = (t_float *)(w[3]);
@@ -454,7 +454,7 @@ static t_int *wave_perform(t_int *w)
                 t_float *xin = x->x_in;
                 t_float *sin = x->x_st;
                 t_float *ein = x->x_e;
-		int maxindex = c->c_vecsize - 1;
+		int maxindex = npts - 1;
 		int interp_mode = x->x_interp_mode;
 		/*Choose interpolation function from jump table. The interpolation functions also
 		  perform the block loop in order not to make a bunch of per-sample decisions.*/	
@@ -607,7 +607,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	if(endpt < 0){
 		//endpt not passed as art,.. get the array number of samples if set
 		if(nameset){
-			t_float arraysmp = x->x_cybuf->c_len;
+			t_float arraysmp = x->x_cybuf->c_npts;
 			endpt = arraysmp;
 		}
 		else{ //else just set to 0

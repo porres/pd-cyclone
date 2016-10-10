@@ -72,7 +72,7 @@ static t_int *buffir_perform(t_int *w)
 
 	t_float *oin = (t_float *)(w[4]);
 	t_float *sin = (t_float *)(w[5]);
-	int vecsize = c->c_vecsize;
+	int bufnpts = c->c_npts;
 	t_word *vec = c->c_vectors[0];  /* playable implies nonzero (mono) */
 	while (nblock--)
 	{
@@ -86,8 +86,8 @@ static t_int *buffir_perform(t_int *w)
 		off = 0;
 	    if (npoints > BUFFIR_MAXSIZE)
 		npoints = BUFFIR_MAXSIZE;
-	    if (npoints > vecsize - off)
-		npoints = vecsize - off;
+	    if (npoints > bufnpts - off)
+		npoints = bufnpts - off;
 	    if (npoints > 0)
 	    {
 	    if (!(x->x_checked))
@@ -149,7 +149,7 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
     /* CHECKME always the first channel used. */
     /* three auxiliary signals: main, offset and size inputs */
     t_buffir *x = (t_buffir *)pd_new(buffir_class);
-    x->x_cybuf = cybuf_init(x, s, 1);
+    x->x_cybuf = cybuf_init((t_class *)x, s, 1);
     if (x->x_cybuf)
     {
 	

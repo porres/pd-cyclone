@@ -39,7 +39,7 @@ static t_int *index_perform(t_int *w)
     if (c->c_playable)
     {	
 	t_float *xin = (t_float *)(w[3]);
-	int index, maxindex = c->c_vecsize - 1;
+	int index, maxindex = c->c_npts - 1;
 	t_word *vp = c->c_vectors[x->x_effchannel];
 	if (vp)  /* handle array swapping on the fly via ft1 */
 	{

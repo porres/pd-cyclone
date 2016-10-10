@@ -95,7 +95,7 @@ static void poke_float(t_poke *x, t_float f)
     if (vp = c->c_vectors[x->x_effchannel])
     {
 	int ndx = (int)*x->x_indexptr;
-	if (ndx >= 0 && ndx < c->c_vecsize)
+	if (ndx >= 0 && ndx < c->c_npts)
 	{
 	    double timesince;
 	    vp[ndx].w_float = f;
@@ -129,12 +129,12 @@ static t_int *poke_perform(t_int *w)
     if (vp && c->c_playable)
     {
     cybuf_redraw(c);
-	int vecsize = c->c_vecsize;
+	int npts = c->c_npts;
 	while (nblock--)
 	{
 	    t_float f = *in1++;
 	    int ndx = (int)*in2++;
-	    if (ndx >= 0 && ndx < vecsize)
+	    if (ndx >= 0 && ndx < npts)
 		vp[ndx].w_float = f;
 	}
     }
