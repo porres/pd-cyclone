@@ -187,7 +187,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
         bufname = &s_;
     };
     c->c_bufname = bufname;
-    c->c_numchans = numchans = numchans < 1 ? 1 : numchans;
+    numchans = numchans < 1 ? 1 : numchans;
     if (!(vectors = (t_float **)getbytes(numchans* sizeof(*vectors)))){
 		return (0);
 	};
@@ -204,7 +204,10 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
     c->c_disabled = 0;
     c->c_playable = 0;
     c->c_minsize = 1;
-    cybuf_setarray(c, bufname);
+    c->c_numchans = numchans;
+    if(bufname != &s_){
+        cybuf_setarray(c, bufname);
+    };
     return (c);
 }
 
