@@ -44,7 +44,7 @@ Post-Extended Era (under the maintenance of Fred Jan Kraan):
   * added 'separate' message to coll object (svn r17418), 
   * fixed offset argument in cycle~ (svn r17479), 
   * fixed internal path for comment (bug #215, svn r17480, r17481), 
-  * added max5mode in Bucket, different load behaviour with second argument (svn r17484), 
+  * added max4.6 second argument (svn r17484), 
   * changed the nettles library object to operate outside the cyclone library object (svn r17485), 
   * fixed help for the nettles and load with declare (replacing import) (svn r17486), 
   * added teeth~ abstraction (svn r17488), 
@@ -60,6 +60,8 @@ Extended Era (under the maintenance of Hans-Christoph Steiner):
   * fixed inversed phase output of cartopol~ (but not poltocar~ ruining the pair)
   * added all-lower-case aliases to objects with capital letters since Max/MSP 4.6 converted to all lowercase
 
+under the maintenance of Krzysztof Czaja: 
+
 0.1.alpha55 -  available up to Pd-Extended 0.42-5:
   * new class: overdrive~
   * seq:
@@ -68,9 +70,7 @@ Extended Era (under the maintenance of Hans-Christoph Steiner):
   * abs~: performance fix
   * slide~, rampsmooth~: bashing denormals
 
-Pre-Extended Era (under the maintenance of Krzysztof Czaja): 
-
-0.1.alpha54 - Last Pre Extended version:
+0.1.alpha54
   * comment: fixing namespace bug, reducing traffic
   * testmess: optionally filling message with symbols (numbers in hex form
     or names of all registered classes)
