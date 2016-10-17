@@ -1,61 +1,25 @@
-#N canvas 686 53 562 601 10;
-#X obj 5 556 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 524 46 559 512 10;
+#X obj 5 475 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 375 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 273 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 458 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 395 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 495 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 426 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 127 467 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 95 403 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 156 384 signal;
-#X text 218 384 - signal to delay;
-#X text 156 467 signal;
-#X text 218 467 - delayed signal;
-#X text 143 505 1) float;
-#X obj 127 384 cnv 17 3 37 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 163 281 signal;
+#X text 163 403 signal;
+#X text 151 433 1) float;
+#X obj 95 281 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 127 428 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 95 356 cnv 17 3 33 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 218 428 - delay in samples;
-#X text 143 523 2) float;
-#X obj 96 169 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856 -1
--1;
-#X text 162 428 float;
-#X text 162 404 clear;
-#X text 218 404 - clears delay buffer;
-#X obj 134 299 output~;
-#X obj 225 219 cyclone/mstosamps~;
-#X obj 228 175 hsl 128 15 0 1000 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 12700 1;
-#X floatatom 225 195 5 0 0 0 - - -, f 5;
-#X floatatom 330 245 6 0 0 0 - - -, f 6;
-#X text 198 242 up to 1 second delay;
-#X text 272 313 at 44.1kHz sample rate the;
-#X text 85 102 Use the [delay~] object to delay a signal by a certain
-amount of time defined in samples (thus determined by the sampling
-rate).;
-#X text 263 194 ms;
-#X text 385 244 samples;
-#X text 272 327 maximum delay is 1 second;
-#N canvas 417 214 206 199 noise 0;
-#X obj 42 79 noise~;
-#X obj 66 121 *~;
-#X obj 66 153 outlet~;
-#X obj 94 27 inlet;
-#X obj 94 90 vline~;
-#X msg 94 59 1 \, 0 0 100;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X connect 3 0 5 0;
-#X connect 4 0 1 1;
-#X connect 5 0 4 0;
-#X restore 96 205 pd noise burst;
-#X text 218 506 - defines the maximum delay in samples (default 512)
-;
-#X text 218 524 - initial delay in samples (default 0);
-#X obj 177 271 cyclone/delay~ 441000 4410;
+#X text 151 452 2) float;
+#X text 169 356 float;
+#X text 169 298 clear;
+#X text 221 298 - clears delay buffer, f 54;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -70,13 +34,134 @@ rate).;
 Max/MSP;
 #X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 comment 0 37 times ? 0 0 0 0 delay~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Delay signal by a number
-of samples;
-#X connect 14 0 29 0;
-#X connect 19 1 22 0;
-#X connect 20 0 21 0;
-#X connect 21 0 19 0;
-#X connect 22 0 32 1;
-#X connect 29 0 18 0;
-#X connect 29 0 32 0;
-#X connect 32 0 18 1;
+#X obj 17 56 comment 0 18 times ? 0 0 0 0 Delay a signal;
+#X obj 81 208 cyclone/output~;
+#X obj 81 144 cyclone/train~ 1000 0;
+#X obj 124 178 cyclone/delay~ 22050 22050;
+#X text 84 88 [delay~] delays a signal by a number of samples (thus
+the delay time depends on the sample rate).;
+#X text 163 374 signal;
+#X obj 280 136 hsl 128 15 0 22050 0 0 empty empty empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X floatatom 277 156 0 0 0 0 - - -;
+#X text 109 315 maxsize <float>;
+#X text 127 333 ramp <float>;
+#X text 213 229 maximum delay is 0.5 second;
+#X text 221 315 - sets a new maximum delay size in samples, f 54;
+#X text 221 281 - the signal to be delayed, f 54;
+#X text 221 356 - delay in samples (no interpolation), f 54;
+#X text 221 374 - delay in samples (with interpolation), f 54;
+#X text 221 403 - the delayed signal, f 54;
+#X text 209 215 * at a 44.1 kHz sample rate the;
+#X text 287 136 Delay in samples *;
+#N canvas 952 291 430 165 inconsistencies 0;
+#X text 34 50 [delay~] in max can set its delay time with max's time
+format syntax \, that depends on a global transport or [transport]
+objects \, which is not implemented in cyclone as of yet.;
+#X restore 438 241 pd inconsistencies;
+#N canvas 514 166 815 363 examples_1 0;
+#X text 22 298 With a float input \, values are truncated to integer
+values. Thus \, [delay~] doesnt't interpolate.;
+#X obj 452 221 -~;
+#X obj 626 168 sig~;
+#X obj 626 144 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 512 256;
+#X obj 629 120 hsl 128 15 0 512 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 12700 1;
+#X obj 509 195 cyclone/delay~ 512 0;
+#X obj 452 256 cyclone/number~;
+#X text 432 45 You can use a signal to specify the delay time with
+interpolation \, but that also adds an extra sample delay. So the signal
+is always delayed at least 1 sample., f 57;
+#X text 572 257 <= the delayed number of samples;
+#X obj 452 144 cyclone/count~ 0 441000 1;
+#X obj 165 140 cyclone/mstosamps~;
+#X obj 168 96 hsl 128 15 0 500 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X floatatom 165 116 8 0 0 0 - - -, f 8;
+#X floatatom 270 166 8 0 0 0 - - -, f 8;
+#X text 138 163 up to 1 second delay;
+#X text 225 115 ms;
+#X text 325 165 samples;
+#X obj 74 220 cyclone/output~;
+#X obj 40 60 noise~;
+#X obj 74 93 *~;
+#X obj 89 60 cyclone/train~ 1000 0.1;
+#X obj 117 192 cyclone/delay~ 22050 22050;
+#X text 24 19 You can use [mstosamps~] to convert time in ms to samples:
+;
+#X connect 1 0 6 0;
+#X connect 2 0 5 1;
+#X connect 3 0 2 0;
+#X connect 4 0 3 0;
+#X connect 5 0 1 1;
+#X connect 9 0 1 0;
+#X connect 9 0 5 0;
+#X connect 10 1 13 0;
+#X connect 11 0 12 0;
+#X connect 12 0 10 0;
+#X connect 13 0 21 1;
+#X connect 18 0 19 0;
+#X connect 19 0 17 0;
+#X connect 19 0 21 0;
+#X connect 20 0 19 1;
+#X connect 21 0 17 1;
+#X restore 468 195 pd examples_1;
+#N canvas 225 30 826 451 examples_2 0;
+#X msg 581 219 maxsize \$1;
+#X msg 707 185 4410;
+#X msg 692 159 22050;
+#X obj 516 159 cyclone/train~ 1000 0;
+#X obj 520 284 cyclone/output~;
+#X obj 563 252 cyclone/delay~ 512 512;
+#X obj 692 226 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 428 107 You can change the maximum delay size with the "maxsize"
+message.;
+#X text 22 28 The ramp message sets a ramp time to a new target value
+\, so when you send it a float message it takes that long to reach
+the new target. In this case \, it does interpolate during the ramp
+time.;
+#X obj 131 252 -~;
+#X obj 131 286 cyclone/number~;
+#X floatatom 301 196 5 0 0 0 - - -, f 5;
+#X msg 336 158 0;
+#X obj 178 226 cyclone/delay~ 1000 0;
+#X msg 301 158 1000;
+#X obj 191 157 loadbang;
+#X msg 191 186 ramp 2000;
+#X obj 131 115 cyclone/count~ 0 441000 1;
+#X text 38 345 If you set a new target while a ramp is still happening
+\, it'll wait until the target is reached before going to the next
+target. A new ramp time is also only set after a ramp is finished.
+;
+#X connect 0 0 5 0;
+#X connect 1 0 0 0;
+#X connect 1 0 6 0;
+#X connect 2 0 0 0;
+#X connect 2 0 6 0;
+#X connect 3 0 4 0;
+#X connect 3 0 5 0;
+#X connect 5 0 4 1;
+#X connect 6 0 5 1;
+#X connect 9 0 10 0;
+#X connect 11 0 13 1;
+#X connect 12 0 11 0;
+#X connect 13 0 9 1;
+#X connect 14 0 11 0;
+#X connect 15 0 16 0;
+#X connect 16 0 13 0;
+#X connect 17 0 9 0;
+#X connect 17 0 13 0;
+#X restore 468 218 pd examples_2;
+#X text 221 433 - sets the maximum delay in samples (default 512),
+f 54;
+#X text 221 452 - sets the initial delay in samples (default 0), f
+54;
+#X text 221 333 - sets a ramp time to a new target delay value in ms
+, f 54;
+#X connect 23 0 22 0;
+#X connect 23 0 24 0;
+#X connect 24 0 22 1;
+#X connect 27 0 28 0;
+#X connect 28 0 24 1;
