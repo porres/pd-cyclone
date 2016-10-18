@@ -246,7 +246,7 @@
 #X obj 101 101 cnv 5 40 14 empty \$0-cnv_dsp DSP 18 7 0 12 -228856
 -91542 0;
 #X obj 100 100 tgl 16 0 \$0-dsp-toggle \$0-dsp-toggle-set empty 19
-8 0 12 -74965 -212593 -262144 1 1;
+8 0 12 -228856 -128992 -262144 0 1;
 #X coords 0 -1 1 1 42 16 2 100 100;
 #X restore 152 100 pd DSP;
 #X coords 0 -1 1 1 94 36 2 100 100;
@@ -302,7 +302,7 @@
 #X connect 19 0 18 0;
 #X connect 20 0 16 0;
 #X restore 288 383 pd dac;
-#N canvas 329 100 340 226 gain 0;
+#N canvas 329 100 340 226 gain 1;
 #N canvas 251 205 450 331 quartic 0;
 #X obj 100 126 line~;
 #X obj 100 158 *~;
@@ -653,14 +653,12 @@
 #X connect 5 0 6 0;
 #X connect 6 0 2 1;
 #X restore 116 136 pd max_gain;
-#N canvas 287 281 636 453 load_args 0;
+#N canvas 287 281 651 407 load_args 1;
 #X obj 60 29 loadbang;
 #X obj 60 54 symbol \$1;
 #X obj 60 80 select nodac;
 #X msg 129 105 0;
-#X obj 60 327 s \$0-mode;
 #X msg 60 106 1;
-#X obj 249 325 s \$0-max_gain;
 #X obj 129 193 list append \$1;
 #X obj 129 173 b;
 #X obj 129 129 t b f;
@@ -672,23 +670,25 @@
 #X obj 267 291 print [output~];
 #X msg 267 269 error: first argument needs either 'float' or 'nodac'
 ;
+#X obj 60 327 s \$0-max_gain;
+#X obj 249 325 s \$0-mode;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X connect 2 0 5 0;
+#X connect 2 0 4 0;
 #X connect 2 1 3 0;
-#X connect 3 0 9 0;
-#X connect 5 0 12 0;
-#X connect 7 0 13 0;
-#X connect 8 0 7 0;
-#X connect 9 0 8 0;
-#X connect 9 1 10 0;
-#X connect 11 0 4 0;
-#X connect 11 1 6 0;
-#X connect 12 0 11 0;
-#X connect 12 1 10 0;
-#X connect 13 0 15 0;
-#X connect 13 1 11 0;
-#X connect 15 0 14 0;
+#X connect 3 0 7 0;
+#X connect 4 0 10 0;
+#X connect 5 0 11 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 0;
+#X connect 7 1 8 0;
+#X connect 9 0 14 0;
+#X connect 9 1 15 0;
+#X connect 10 0 9 0;
+#X connect 10 1 8 0;
+#X connect 11 0 13 0;
+#X connect 11 1 9 0;
+#X connect 13 0 12 0;
 #X restore 229 126 pd load_args;
 #X connect 0 0 5 0;
 #X connect 2 0 5 0;

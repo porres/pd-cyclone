@@ -1,4 +1,4 @@
-#N canvas 596 32 558 587 10;
+#N canvas 374 32 558 587 10;
 #X obj 1 546 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
 #X obj 1 268 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
@@ -38,11 +38,11 @@ f 60;
 #X text 177 415 - gain scaled output of left inlet, f 60;
 #X text 177 438 - gain scaled output of right inlet, f 60;
 #X text 177 459 - slider value (0-1), f 60;
-#X text 178 504 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
+#X text 178 521 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
 2 (linear), f 60;
-#N canvas 546 117 782 357 examples 0;
+#N canvas 361 63 784 363 examples 0;
 #X obj 188 149 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 6800 1;
+-1 -1 0 1;
 #X floatatom 185 169 5 0 0 0 - - -, f 5;
 #X floatatom 185 302 5 0 0 0 - - -, f 5;
 #X obj 98 303 env~;
@@ -55,7 +55,7 @@ f 60;
 #X text 200 149 set slider (0-1);
 #X msg 232 223 on;
 #X msg 232 245 off;
-#X obj 232 177 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 232 177 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X msg 232 198 dac \$1;
 #X text 259 223 DSP on;
@@ -63,12 +63,12 @@ f 60;
 #X obj 98 155 osc~ 440;
 #X text 251 177 dac~ on/off;
 #X text 182 101 mute on/off;
-#X msg 534 181 mode \$1;
-#X obj 534 104 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+#X msg 504 181 mode \$1;
+#X obj 504 104 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 2;
-#X text 557 119 dB;
-#X text 557 135 linear;
-#X floatatom 534 157 5 0 0 0 - - -, f 5;
+#X text 527 119 dB;
+#X text 527 135 linear;
+#X floatatom 504 157 5 0 0 0 - - -, f 5;
 #X text 43 284 scaled => stereo output, f 9;
 #X text 191 285 <= slider value;
 #X text 14 14 If the DSP is on when you load the patch \, the abstraction
@@ -76,52 +76,63 @@ checks the sate and laods the GUI accordingly. If DSP is off and you
 move the slider \, DSP is turned on.;
 #X text 14 58 You can switch DSP \, mute and dac without any clicks!
 , f 60;
-#X obj 447 172 osc~ 440;
-#X text 436 118 slider scaling:;
-#X msg 614 183 gain \$1;
-#X obj 614 159 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.1 256;
-#X obj 617 134 hsl 128 15 0.1 2 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 417 172 osc~ 440;
+#X text 406 118 slider scaling:;
+#X msg 584 273 gain \$1;
+#X obj 584 167 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 587 142 hsl 128 15 0.1 2 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 555 101 quartic (default);
-#X text 404 33 [output~] has 3 scaling modes for its slider and you
+#X text 525 101 quartic (default);
+#X text 404 23 [output~] has 3 scaling modes for its slider and you
 can also set a linear gain multiplier \, which needs to be greater
 than zero and also represents the maximum linear gain achieved.;
-#X floatatom 534 287 5 0 0 0 - - -, f 5;
-#X obj 447 288 env~;
-#X obj 490 287 env~;
-#X floatatom 490 312 4 0 0 0 - - -, f 4;
-#X floatatom 447 312 4 0 0 0 - - -, f 4;
-#X obj 98 229 ./output~;
-#X obj 447 215 ./output~;
+#X floatatom 504 287 5 0 0 0 - - -, f 5;
+#X obj 417 288 env~;
+#X obj 460 287 env~;
+#X floatatom 460 312 4 0 0 0 - - -, f 4;
+#X floatatom 417 312 4 0 0 0 - - -, f 4;
+#X obj 663 167 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 663 191 cyclone/dbtoa;
+#X obj 663 224 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 600 142 gain multiplier;
+#X text 588 205 <= linear;
+#X text 652 245 <= converted from dB value, f 13;
+#X obj 417 215 cyclone/output~;
+#X obj 98 229 cyclone/output~;
 #X connect 0 0 1 0;
-#X connect 1 0 40 2;
+#X connect 1 0 47 2;
 #X connect 3 0 6 0;
 #X connect 4 0 5 0;
-#X connect 7 0 40 2;
+#X connect 7 0 47 2;
 #X connect 8 0 7 0;
-#X connect 10 0 40 2;
-#X connect 11 0 40 2;
+#X connect 10 0 47 2;
+#X connect 11 0 47 2;
 #X connect 12 0 13 0;
-#X connect 13 0 40 2;
-#X connect 16 0 40 0;
-#X connect 16 0 40 1;
-#X connect 19 0 41 2;
+#X connect 13 0 47 2;
+#X connect 16 0 47 0;
+#X connect 16 0 47 1;
+#X connect 19 0 46 2;
 #X connect 20 0 23 0;
 #X connect 23 0 19 0;
-#X connect 28 0 41 0;
-#X connect 28 0 41 1;
-#X connect 30 0 41 2;
+#X connect 28 0 46 0;
+#X connect 28 0 46 1;
+#X connect 30 0 46 2;
 #X connect 31 0 30 0;
 #X connect 32 0 31 0;
 #X connect 36 0 39 0;
 #X connect 37 0 38 0;
-#X connect 40 0 3 0;
-#X connect 40 1 4 0;
-#X connect 40 2 2 0;
-#X connect 41 0 36 0;
-#X connect 41 1 37 0;
-#X connect 41 2 35 0;
+#X connect 40 0 41 0;
+#X connect 41 0 42 0;
+#X connect 42 0 30 0;
+#X connect 46 0 36 0;
+#X connect 46 1 37 0;
+#X connect 46 2 35 0;
+#X connect 47 0 3 0;
+#X connect 47 1 4 0;
+#X connect 47 2 2 0;
 #X restore 455 238 pd examples;
 #X text 109 489 1) symbol;
 #X text 109 505 2) float, f 9;
@@ -145,11 +156,6 @@ than zero and also represents the maximum linear gain achieved.;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X text 80 90 NOT AT ALL a max/msp clone (only very losely related
-to [gain~] in Max/MSP) \, [output~] is provided in cyclone and used
-in its help files as a convenient abstraction for stereo output and
-gain adjusment. It has swicthes for mute \, [dac~] output & DSP on/off.
-;
 #X text 116 338 <on/off>;
 #X text 92 354 mute <float>;
 #X text 178 338 - turns DSP on or off, f 60;
@@ -163,9 +169,14 @@ f 60;
 , f 60;
 #X text 178 386 - sets linear gain multiplier (values <= 0 are ignored)
 , f 60;
-#X text 178 520 - linear gain multipler (needs to be >= 0 \, default
+#X text 178 505 - linear gain multipler (needs to be >= 0 \, default
 1), f 60;
 #X obj 266 201 cyclone/output~;
-#X connect 18 0 50 0;
-#X connect 18 0 50 1;
+#X text 80 90 NOT AT ALL a max/msp clone (only very losely related
+to [gain~] in Max/MSP) \, [output~] is provided in cyclone and used
+in its help files as a convenient abstraction for stereo output and
+gain adjusment. It has swicthes for mute \, [dac~] output & DSP on/off.
+;
+#X connect 18 0 49 0;
+#X connect 18 0 49 1;
 #X coords 0 587 1 586 74 39 0;
