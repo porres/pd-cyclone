@@ -1,119 +1,132 @@
-#N canvas 523 23 558 613 10;
-#X obj 1 567 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
+#N canvas 596 32 558 587 10;
+#X obj 1 546 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
-#X obj 1 280 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
+#X obj 1 268 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
 -228856 -1 0;
-#X obj 1 415 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
+#X obj 1 406 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
 13 -228856 -1 0;
-#X obj 1 493 cnv 3 550 3 empty \$0-pddp.cnv.argument arguments 8 12
+#X obj 1 481 cnv 3 550 3 empty \$0-pddp.cnv.argument arguments 8 12
 0 13 -228856 -1 0;
-#X obj 87 289 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
+#X obj 80 277 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
 -162280 0;
-#X obj 87 424 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
+#X obj 80 415 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
 -162280 0;
-#X obj 87 312 cnv 17 3 17 empty \$0-pddp.cnv.let.1 1 5 9 0 16 -228856
+#X obj 80 299 cnv 17 3 17 empty \$0-pddp.cnv.let.1 1 5 9 0 16 -228856
 -162280 0;
-#X text 128 288 signal;
-#X text 128 311 signal;
-#X obj 87 335 cnv 17 3 57 empty \$0-pddp.cnv.let.2 2 5 9 0 16 -228856
+#X text 128 277 signal;
+#X text 128 299 signal;
+#X obj 80 322 cnv 17 3 78 empty \$0-pddp.cnv.let.2 2 5 9 0 16 -228856
 -162280 0;
-#X text 133 335 float;
-#X text 131 425 signal;
-#X obj 87 446 cnv 17 3 17 empty \$0-pddp.cnv.let.1 1 5 9 0 16 -228856
+#X text 134 322 float;
+#X text 127 415 signal;
+#X obj 80 437 cnv 17 3 17 empty \$0-pddp.cnv.let.1 1 5 9 0 16 -228856
 -162280 0;
-#X text 131 446 signal;
-#X obj 87 467 cnv 17 3 17 empty \$0-pddp.cnv.let.2 2 5 9 0 16 -228856
+#X text 127 438 signal;
+#X obj 80 458 cnv 17 3 17 empty \$0-pddp.cnv.let.2 2 5 9 0 16 -228856
 -162280 0;
-#X text 137 467 float;
-#X text 179 288 - incoming signal routed to left channel output;
-#X text 179 311 - incoming signal routed to right channel output;
-#X text 109 353 messages:;
-#X obj 246 168 osc~ 440;
-#X obj 226 205 cyclone/output~;
+#X text 133 459 float;
+#X text 178 277 - incoming signal routed to left channel output, f
+60;
+#X text 178 299 - incoming signal routed to right channel output,
+f 60;
+#X obj 286 164 osc~ 440;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X text 178 335 - sets slider (range is 0-1);
-#X text 181 423 - gain scaled output of left inlet;
-#X text 181 446 - gain scaled output of right inlet;
-#X text 181 467 - slider value (0-1);
-#X text 180 520 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
-2 (linear);
-#N canvas 308 23 656 558 examples 0;
-#X obj 307 84 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X floatatom 304 104 5 0 0 0 - - -, f 5;
-#X floatatom 298 226 5 0 0 0 - - -, f 5;
-#X text 337 224 slider value;
-#X obj 211 235 env~;
-#X obj 254 234 env~;
-#X floatatom 254 259 4 0 0 0 - - -, f 4;
-#X floatatom 211 259 4 0 0 0 - - -, f 4;
-#X msg 289 57 mute \$1;
-#X obj 289 36 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X text 178 322 - sets slider (range is 0-1), f 60;
+#X text 177 415 - gain scaled output of left inlet, f 60;
+#X text 177 438 - gain scaled output of right inlet, f 60;
+#X text 177 459 - slider value (0-1), f 60;
+#X text 178 504 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
+2 (linear), f 60;
+#N canvas 546 117 782 357 examples 0;
+#X obj 188 149 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 6800 1;
+#X floatatom 185 169 5 0 0 0 - - -, f 5;
+#X floatatom 185 302 5 0 0 0 - - -, f 5;
+#X obj 98 303 env~;
+#X obj 141 302 env~;
+#X floatatom 141 327 4 0 0 0 - - -, f 4;
+#X floatatom 98 327 4 0 0 0 - - -, f 4;
+#X msg 161 122 mute \$1;
+#X obj 161 101 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 319 84 set slider (0-1);
-#X msg 336 165 on;
-#X msg 336 187 off;
-#X text 78 217 gain scaled output =>;
-#X obj 346 109 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X text 200 149 set slider (0-1);
+#X msg 232 223 on;
+#X msg 232 245 off;
+#X obj 232 177 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X msg 346 130 dac \$1;
-#X text 363 165 DSP on;
-#X text 362 188 DSP off;
-#X text 109 234 (stereo);
-#X msg 461 136 mode \$1;
-#X obj 461 59 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856 -1
--1 2;
-#X text 482 56 quartic;
-#X text 484 74 dB;
-#X text 484 90 linear;
-#X floatatom 461 112 5 0 0 0 - - -, f 5;
-#X floatatom 211 57 5 0 0 0 - - -, f 5;
-#X obj 211 87 osc~ 440;
-#X text 446 37 slider scaling;
-#X obj 211 161 cyclone/output~;
-#X obj 55 368 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8
-12 0 13 -228856 -1 0;
-#X text 173 374 If the DSP is on when you load the patch \, the abstraction
+#X msg 232 198 dac \$1;
+#X text 259 223 DSP on;
+#X text 258 246 DSP off;
+#X obj 98 155 osc~ 440;
+#X text 251 177 dac~ on/off;
+#X text 182 101 mute on/off;
+#X msg 534 181 mode \$1;
+#X obj 534 104 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+-1 -1 2;
+#X text 557 119 dB;
+#X text 557 135 linear;
+#X floatatom 534 157 5 0 0 0 - - -, f 5;
+#X text 43 284 scaled => stereo output, f 9;
+#X text 191 285 <= slider value;
+#X text 14 14 If the DSP is on when you load the patch \, the abstraction
 checks the sate and laods the GUI accordingly. If DSP is off and you
-move the slider \, DSP is turned on. A nice feature is that you can
-switch DSP \, mute and dac without any clicks!;
+move the slider \, DSP is turned on.;
+#X text 14 58 You can switch DSP \, mute and dac without any clicks!
+, f 60;
+#X obj 447 172 osc~ 440;
+#X text 436 118 slider scaling:;
+#X msg 614 183 gain \$1;
+#X obj 614 159 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.1 256;
+#X obj 617 134 hsl 128 15 0.1 2 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 555 101 quartic (default);
+#X text 404 33 [output~] has 3 scaling modes for its slider and you
+can also set a linear gain multiplier \, which needs to be greater
+than zero and also represents the maximum linear gain achieved.;
+#X floatatom 534 287 5 0 0 0 - - -, f 5;
+#X obj 447 288 env~;
+#X obj 490 287 env~;
+#X floatatom 490 312 4 0 0 0 - - -, f 4;
+#X floatatom 447 312 4 0 0 0 - - -, f 4;
+#X obj 98 229 ./output~;
+#X obj 447 215 ./output~;
 #X connect 0 0 1 0;
-#X connect 1 0 28 2;
-#X connect 4 0 7 0;
-#X connect 5 0 6 0;
-#X connect 8 0 28 2;
-#X connect 9 0 8 0;
-#X connect 11 0 28 2;
-#X connect 12 0 28 2;
-#X connect 14 0 15 0;
-#X connect 15 0 28 2;
-#X connect 19 0 28 2;
-#X connect 20 0 24 0;
-#X connect 24 0 19 0;
-#X connect 25 0 26 0;
-#X connect 26 0 28 0;
-#X connect 26 0 28 1;
-#X connect 28 0 4 0;
-#X connect 28 1 5 0;
-#X connect 28 2 2 0;
-#X restore 466 237 pd examples;
-#X text 179 503 - optional "nodac" loads "dac 0" (default "dac 1")
-;
-#X text 113 503 1) symbol;
-#X text 119 521 2) float;
-#X text 119 541 3) float;
-#X text 180 540 - max gain value (default 1);
-#X text 80 90 NOT AT ALL a max/msp clone (only very losely related
-to [gain~] in Max/MSP) \, [output~] is provided in cyclone and used
-in its help files as a convenient abstraction for stereo output and
-gain adjusment. It has swicthes for mute \, dac output & DSP.;
-#X text 74 240 click and drag slider =>;
-#X text 179 353 - <on> turns DSP On. <off> turns DSP Off \; - "mute
-<1/0>" turns mute on/off (affects outlets) \; "dac <1/0>" turns dac
-output on/off (outlets not affected) \; - gain - max gain;
+#X connect 1 0 40 2;
+#X connect 3 0 6 0;
+#X connect 4 0 5 0;
+#X connect 7 0 40 2;
+#X connect 8 0 7 0;
+#X connect 10 0 40 2;
+#X connect 11 0 40 2;
+#X connect 12 0 13 0;
+#X connect 13 0 40 2;
+#X connect 16 0 40 0;
+#X connect 16 0 40 1;
+#X connect 19 0 41 2;
+#X connect 20 0 23 0;
+#X connect 23 0 19 0;
+#X connect 28 0 41 0;
+#X connect 28 0 41 1;
+#X connect 30 0 41 2;
+#X connect 31 0 30 0;
+#X connect 32 0 31 0;
+#X connect 36 0 39 0;
+#X connect 37 0 38 0;
+#X connect 40 0 3 0;
+#X connect 40 1 4 0;
+#X connect 40 2 2 0;
+#X connect 41 0 36 0;
+#X connect 41 1 37 0;
+#X connect 41 2 35 0;
+#X restore 455 238 pd examples;
+#X text 109 489 1) symbol;
+#X text 109 505 2) float, f 9;
+#X text 109 521 3) float, f 9;
+#X text 114 236 click and drag slider =>;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 4 graph;
@@ -126,12 +139,33 @@ output on/off (outlets not affected) \; - gain - max gain;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
-cloned from Max/MSP;
 #X obj 16 6 cyclone/comment 0 37 times ? 0 0 0 0 output~;
 #X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Extra: Output abstraction
 ;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 19 0 20 0;
-#X connect 19 0 20 1;
-#X coords 0 613 1 612 74 39 0;
+#X text 80 90 NOT AT ALL a max/msp clone (only very losely related
+to [gain~] in Max/MSP) \, [output~] is provided in cyclone and used
+in its help files as a convenient abstraction for stereo output and
+gain adjusment. It has swicthes for mute \, [dac~] output & DSP on/off.
+;
+#X text 116 338 <on/off>;
+#X text 92 354 mute <float>;
+#X text 178 338 - turns DSP on or off, f 60;
+#X text 98 370 dac <float>;
+#X text 178 354 - turns mute on <1> or off <0> (affects outlets),
+f 60;
+#X text 178 370 - turns dac~ on <1> or off <0> (outlets not affected)
+, f 60;
+#X text 92 386 gain <float>;
+#X text 178 489 - <nodac> (optional): loads "dac 0" (default "dac 1")
+, f 60;
+#X text 178 386 - sets linear gain multiplier (values <= 0 are ignored)
+, f 60;
+#X text 178 520 - linear gain multipler (needs to be >= 0 \, default
+1), f 60;
+#X obj 266 201 cyclone/output~;
+#X connect 18 0 50 0;
+#X connect 18 0 50 1;
+#X coords 0 587 1 586 74 39 0;
