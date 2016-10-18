@@ -58,7 +58,7 @@ and works better synchronizing with a signal like a square wave \,
 or an impulse for example.;
 #X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 The sample and hold
 arpeggiator;
-#X obj 87 523 cyclone/output~;
+#X obj 87 523 cyclone/output~, f 14;
 #X connect 0 0 23 0;
 #X connect 0 0 23 1;
 #X connect 1 0 13 0;

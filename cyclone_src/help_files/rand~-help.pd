@@ -14,13 +14,11 @@
 #X floatatom 254 185 0 0 0 0 - - -;
 #X text 177 471 signal;
 #X text 165 506 1) float;
-#X obj 254 270 output~;
 #X obj 257 164 hsl 128 15 41.1 44100 1 0 empty empty empty -2 -8 0
 10 -228856 -1 -1 0 1;
 #X text 233 471 - interpolated random noise signal;
 #N canvas 173 37 415 355 random 0;
 #X obj 136 179 expr~ $v1 * 300 + 800;
-#X obj 111 264 output~;
 #X obj 25 10 cnv 15 210 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X text 25 59 you can use [rand~] at a low frequency to generate random
@@ -30,10 +28,11 @@ random glissandi.;
 #X obj 136 143 cyclone/rand~ 1;
 #X obj 31 15 cyclone/comment 0 18 times ? 0 0 0 0 [rand~] as random
 control;
-#X connect 0 0 4 0;
-#X connect 4 0 1 0;
-#X connect 4 0 1 1;
-#X connect 5 0 0 0;
+#X obj 111 264 cyclone/output~;
+#X connect 0 0 3 0;
+#X connect 3 0 6 0;
+#X connect 3 0 6 1;
+#X connect 4 0 0 0;
 #X restore 429 371 pd random control;
 #X text 142 431 float/signal;
 #X obj 254 208 cyclone/rand~ 441;
@@ -164,8 +163,9 @@ noise;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 6 0 14 0;
-#X connect 10 0 6 0;
-#X connect 14 0 9 0;
-#X connect 14 0 9 1;
-#X connect 14 0 15 0;
+#X obj 254 270 cyclone/output~;
+#X connect 6 0 13 0;
+#X connect 9 0 6 0;
+#X connect 13 0 14 0;
+#X connect 13 0 27 0;
+#X connect 13 0 27 1;

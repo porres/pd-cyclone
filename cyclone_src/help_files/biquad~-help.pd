@@ -60,7 +60,6 @@ this feature in Max/MSP doesn't seem to be working anyway...;
 #X text 386 192 initial phase;
 #X text 191 184 Hz;
 #X text 394 208 in radians;
-#X obj 172 457 output~;
 #X msg 131 302 clear;
 #X obj 215 290 pack;
 #X obj 215 237 expr sin($f2 - $f1) \; sin($f2 - 2 * $f1) \; -2 * cos($f1)
@@ -90,20 +89,21 @@ y[-1] & y[-2]). This example uses just the feedback samples (y[-1]
 \, because starting the dsp will reset the sample memory.;
 #X obj 288 422 cyclone/scope~ 271 129 2 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
+#X obj 172 457 cyclone/output~;
 #X connect 0 0 1 0;
-#X connect 1 0 10 0;
-#X connect 3 0 10 1;
-#X connect 8 0 13 0;
-#X connect 9 0 12 0;
-#X connect 10 0 9 0;
-#X connect 10 1 9 1;
-#X connect 10 2 11 0;
-#X connect 11 0 13 4;
-#X connect 12 0 13 0;
-#X connect 13 0 7 0;
-#X connect 13 0 7 1;
-#X connect 13 0 18 0;
-#X connect 14 0 0 0;
+#X connect 1 0 9 0;
+#X connect 3 0 9 1;
+#X connect 7 0 12 0;
+#X connect 8 0 11 0;
+#X connect 9 0 8 0;
+#X connect 9 1 8 1;
+#X connect 9 2 10 0;
+#X connect 10 0 12 4;
+#X connect 11 0 12 0;
+#X connect 12 0 17 0;
+#X connect 12 0 18 0;
+#X connect 12 0 18 1;
+#X connect 13 0 0 0;
 #X restore 242 309 pd stoke;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;

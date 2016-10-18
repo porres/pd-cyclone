@@ -1,6 +1,5 @@
 #N canvas 711 32 560 588 10;
 #X obj 71 177 noise~;
-#X obj 52 286 output~;
 #X obj 3 360 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 467 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -60,9 +59,10 @@ biquad filters;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 0 0 17 0;
-#X connect 10 0 17 0;
-#X connect 17 0 1 0;
-#X connect 17 0 1 1;
-#X connect 19 0 17 1;
-#X connect 20 0 17 1;
+#X obj 52 286 cyclone/output~;
+#X connect 0 0 16 0;
+#X connect 9 0 16 0;
+#X connect 16 0 35 0;
+#X connect 16 0 35 1;
+#X connect 18 0 16 1;
+#X connect 19 0 16 1;

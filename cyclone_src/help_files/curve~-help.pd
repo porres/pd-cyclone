@@ -655,7 +655,6 @@ into the left inlet after \, and it works only once.;
 reached;
 #X msg 163 162 1 150 -0.5 0 550 -0.5;
 #X text 145 326 0;
-#X obj 27 266 output~;
 #X text 381 202 <= Bangs when last ramp;
 #X text 419 218 is finished;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -694,9 +693,10 @@ is set before to other than 0 in the mid inlet);
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 27 266 cyclone/output~;
 #X connect 16 0 17 0;
-#X connect 17 0 29 0;
-#X connect 17 0 29 1;
+#X connect 17 0 53 0;
+#X connect 17 0 53 1;
 #X connect 20 0 17 1;
 #X connect 20 0 22 0;
 #X connect 20 1 13 0;

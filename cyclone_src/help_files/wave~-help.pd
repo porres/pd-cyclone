@@ -26,7 +26,7 @@
 -228856 -1 -1 0 1;
 #X obj 304 136 hsl 128 15 0 1407 0 0 startS startR empty -2 -8 0 10
 -228856 -1 -1 0 1;
-#N canvas 832 517 450 300 ranger 0;
+#N canvas 832 517 395 242 ranger 0;
 #X obj 122 44 r startS;
 #X obj 193 44 r endS;
 #X obj 82 199 s startR;
@@ -36,10 +36,9 @@
 #X obj 83 116 moses 0;
 #X floatatom 179 171 5 0 0 0 - - -, f 5;
 #X obj 191 90 + 1;
-#X text 295 211 keeps start before end;
-#X text 295 226 and end after start;
-#X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 3 keep slider values sane;
+#X text 223 122 keeps start before end;
+#X text 223 137 and end after start;
+#X text 91 7 keep slider values sane;
 #X connect 0 0 5 0;
 #X connect 0 0 6 1;
 #X connect 1 0 6 0;

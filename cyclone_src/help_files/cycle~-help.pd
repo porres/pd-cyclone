@@ -76,7 +76,6 @@
 #X obj 137 501 nbx 9 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 236 503 Offset;
-#X obj 94 672 output~;
 #X msg 82 561 set;
 #X text 42 540 internal;
 #X text 45 560 wave;
@@ -108,7 +107,6 @@ that entire array to be used as a waveform (a 4099 points wavetable
 in this case). This is a new introduced message \, and different than
 the "set" message or the second argument \, which only reads 512 points
 from the buffer.;
-#X obj 547 575 output~;
 #X obj 671 539 cyclone/Scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 590 434 cyclone/loadmess setall \$0-saw;
@@ -130,18 +128,20 @@ normalize;
 #X obj 60 15 cyclone/comment 0 18 times ? 0 0 0 0 "set" message:;
 #X obj 549 40 cyclone/comment 0 18 times ? 0 0 0 0 "setall" message:
 ;
+#X obj 94 672 cyclone/output~;
+#X obj 547 575 cyclone/output~;
 #X connect 0 0 5 0;
-#X connect 5 0 15 0;
-#X connect 8 0 12 0;
-#X connect 12 0 7 0;
-#X connect 12 0 7 1;
-#X connect 12 0 11 0;
-#X connect 15 0 12 0;
-#X connect 15 0 16 0;
-#X connect 23 0 24 0;
-#X connect 24 0 21 0;
-#X connect 24 0 21 1;
-#X connect 24 0 22 0;
+#X connect 5 0 14 0;
+#X connect 7 0 11 0;
+#X connect 11 0 10 0;
+#X connect 11 0 28 0;
+#X connect 11 0 28 1;
+#X connect 14 0 11 0;
+#X connect 14 0 15 0;
+#X connect 21 0 22 0;
+#X connect 22 0 20 0;
+#X connect 22 0 29 0;
+#X connect 22 0 29 1;
 #X restore 330 236 pd set_and_setall messages;
 #N canvas 379 35 928 683 attributes 0;
 #X obj 34 10 cnv 15 130 30 empty empty empty 20 12 0 14 -233017 -66577
@@ -180,7 +180,6 @@ entire buffer's lenght \, and "0" \, which sets to 512 samples.;
 232 74 79 77 96 98 102 0;
 #X obj 520 404 cyclone/cycle~ 110 @buffer \$0-saw @buffer_sizeinsamps
 4096 @buffer_offset 1;
-#X obj 40 538 output~;
 #X obj 164 502 cyclone/Scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X msg 83 406 buffer_offset \$1;
@@ -199,13 +198,14 @@ If your offset is too large and close to the end of the table) \, the
 remainder is filled with zeros.;
 #X text 172 381 offset;
 #X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Attributes:;
+#X obj 40 538 cyclone/output~;
 #X connect 14 0 13 0;
-#X connect 17 0 20 0;
-#X connect 18 0 19 0;
-#X connect 19 0 17 0;
-#X connect 20 0 15 0;
-#X connect 20 0 15 1;
-#X connect 20 0 16 0;
+#X connect 16 0 19 0;
+#X connect 17 0 18 0;
+#X connect 18 0 16 0;
+#X connect 19 0 15 0;
+#X connect 19 0 24 0;
+#X connect 19 0 24 1;
 #X restore 330 263 pd attributes;
 #N canvas 152 45 929 687 phase 0;
 #X obj 638 514 *~;
@@ -213,7 +213,6 @@ remainder is filled with zeros.;
 #X obj 719 522 line~;
 #X obj 719 479 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -228856
 -1 -1 0 256;
-#X obj 514 594 output~;
 #X obj 722 457 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 734 457 Modulation Index;
@@ -235,7 +234,6 @@ internally to the 0-1 range).;
 74 79 77 96 98 102 0;
 #X obj 239 439 cyclone/cycle~;
 #X obj 320 409 phasor~ 440;
-#X obj 217 477 output~;
 #X obj 562 93 cyclone/cycle~ 0.5;
 #X obj 562 129 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
@@ -255,24 +253,26 @@ off and then on again;
 mode - so nevermind if you hear "clicks" when editing the patch!;
 #X text 78 409 [cycle~] being driven by phase only =>;
 #X obj 59 23 cyclone/comment 0 18 times ? 0 0 0 0 phase:;
-#X connect 0 0 26 1;
+#X obj 218 477 cyclone/output~;
+#X obj 514 594 cyclone/output~;
+#X connect 0 0 24 1;
 #X connect 1 0 2 0;
 #X connect 2 0 0 1;
 #X connect 3 0 1 0;
-#X connect 5 0 3 0;
-#X connect 9 0 16 1;
-#X connect 10 0 11 0;
-#X connect 11 0 9 1;
-#X connect 12 0 10 0;
-#X connect 13 0 12 0;
-#X connect 15 0 16 0;
-#X connect 17 0 19 0;
-#X connect 17 0 19 1;
-#X connect 18 0 17 1;
-#X connect 20 0 21 0;
-#X connect 25 0 0 0;
-#X connect 26 0 4 0;
-#X connect 26 0 4 1;
+#X connect 4 0 3 0;
+#X connect 8 0 15 1;
+#X connect 9 0 10 0;
+#X connect 10 0 8 1;
+#X connect 11 0 9 0;
+#X connect 12 0 11 0;
+#X connect 14 0 15 0;
+#X connect 16 0 33 0;
+#X connect 16 0 33 1;
+#X connect 17 0 16 1;
+#X connect 18 0 19 0;
+#X connect 23 0 0 0;
+#X connect 24 0 34 0;
+#X connect 24 0 34 1;
 #X restore 438 263 pd phase;
 #X text 58 300 * The similar [wave~] object from cyclone provides other
 interpolation types.;

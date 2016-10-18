@@ -26,7 +26,6 @@
 #X text 155 401 clear;
 #X text 197 419 - set (buffer/table name \, offset \, size);
 #X text 287 210 Offset;
-#X obj 193 304 output~;
 #N canvas 197 28 564 270 buffers 0;
 #X obj 61 59 cnv 15 198 138 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -162,11 +161,12 @@ filter;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 9 0 42 2;
-#X connect 10 0 42 0;
-#X connect 14 0 42 1;
-#X connect 15 0 42 0;
-#X connect 23 0 42 0;
-#X connect 27 0 42 0;
-#X connect 42 0 19 0;
-#X connect 42 0 19 1;
+#X obj 193 304 cyclone/output~;
+#X connect 9 0 41 2;
+#X connect 10 0 41 0;
+#X connect 14 0 41 1;
+#X connect 15 0 41 0;
+#X connect 22 0 41 0;
+#X connect 26 0 41 0;
+#X connect 41 0 46 0;
+#X connect 41 0 46 1;
