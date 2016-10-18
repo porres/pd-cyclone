@@ -25,16 +25,11 @@
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 trunc~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Truncate signal values;
 #X text 78 95 [trunc~] converts signals with fractional values such
 as 1.75 to 1 (negative values are modified so that -1.75 becomes -1).
 ;
@@ -144,9 +139,15 @@ as 1.75 to 1 (negative values are modified so that -1.75 becomes -1).
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 216 264 number~;
 #X text 68 263 The truncated value =>;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Truncate signal values
+;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 trunc~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 216 264 cyclone/number~;
 #X connect 8 0 10 0;
 #X connect 9 0 8 0;
 #X connect 10 0 11 0;
-#X connect 11 0 25 0;
+#X connect 11 0 26 0;

@@ -23,7 +23,7 @@ static t_class *spray_class;
 
 static void spray_float(t_spray *x, t_float f)
 {
-    pd_error(x, "spray: requires list input!");
+    pd_error(x, "spray: no method for float");
 }
 
 /* LATER decide, whether float in first atom is to be truncated,

@@ -1,4 +1,4 @@
-#N canvas 585 23 566 793 10;
+#N canvas 645 23 566 793 10;
 #X obj 7 726 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 7 472 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -91,9 +91,9 @@ table if a value was sent to the middle inlet;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Read/write to array
 ;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 peek~;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 17 0 19 0;
 #X connect 19 0 62 0;
 #X connect 25 0 53 0;

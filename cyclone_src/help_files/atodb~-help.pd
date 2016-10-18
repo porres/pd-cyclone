@@ -139,8 +139,7 @@ output value is -999)., f 42;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 169 307 number~;
-#X text 266 308 dBFS;
+#X text 285 308 dBFS;
 #X obj 169 217 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Linear amplitude
@@ -149,7 +148,8 @@ to dBFS conversion for signals;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 8 0 24 0;
-#X connect 9 0 22 0;
+#X obj 169 307 cyclone/number~;
+#X connect 8 0 23 0;
+#X connect 9 0 28 0;
 #X connect 17 0 9 0;
-#X connect 24 0 17 0;
+#X connect 23 0 17 0;

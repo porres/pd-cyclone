@@ -62,8 +62,6 @@ mode;
 #X text 121 183 mode 3: none;
 #X obj 162 245 cyclone/pong~ 1 -0.25 0.25;
 #X obj 162 212 phasor~ 1;
-#X obj 162 275 scope~ 198 100 256 3 128 -1 1 0 0 0 0 205 229 232 74
-79 77 96 98 102 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -74,12 +72,6 @@ mode;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 pong~;
-#X obj 18 57 comment 0 18 times ? 0 0 0 0 Signal range limiter (fold
-\, wrap & clip);
 #X text 204 397 - value to be limited into a given range;
 #X text 204 416 - limit mode: 0 (fold) \, 1 (wrap) \, 2 (clip) & 3
 (none);
@@ -196,6 +188,14 @@ within a given low-high range.;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
 #X obj 143 322 cnv 5 5 5 empty empty 0 6 2 0 14 -262144 -1 0;
+#X obj 162 275 cyclone/scope~ 198 100 256 3 128 -1 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 18 57 cyclone/comment 0 18 times ? 0 0 0 0 Signal range limiter
+(fold \, wrap & clip);
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 pong~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 11 0 44 0;
 #X connect 12 0 44 2;
 #X connect 13 0 44 1;
@@ -203,5 +203,5 @@ within a given low-high range.;
 #X connect 20 0 21 0;
 #X connect 21 0 11 0;
 #X connect 26 0 12 0;
-#X connect 44 0 46 0;
+#X connect 44 0 59 0;
 #X connect 45 0 44 0;

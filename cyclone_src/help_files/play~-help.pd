@@ -14,7 +14,6 @@
 #X text 149 408 signal;
 #X text 149 459 signal;
 #X text 137 512 2) float;
-#X obj 181 327 output~;
 #X obj 196 217 phasor~;
 #X text 206 408 - signal to control positional playback in ms;
 #X obj 196 249 *~;
@@ -51,7 +50,7 @@ specified in ms by a signal.;
 the number of play~ output channels \, the extra channels output a
 zero signal. If the buffer~ has more channels \, channels are mixed
 (not implemented).;
-#X restore 383 331 pd multichannel;
+#X restore 434 362 pd multichannel;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -62,21 +61,22 @@ zero signal. If the buffer~ has more channels \, channels are mixed
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 play~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Position-based sample playback
-;
 #X text 206 512 - number of output channels: 1 \, 2 \, or 4 (default
 1);
 #X text 206 459 - the playback of a channel;
 #X text 206 490 - table name (required);
-#X connect 10 0 12 0;
-#X connect 12 0 24 0;
-#X connect 13 0 14 0;
-#X connect 14 0 12 1;
-#X connect 15 0 16 0;
-#X connect 16 0 10 0;
-#X connect 24 0 9 0;
-#X connect 24 0 9 1;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Position-based sample
+playback;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 play~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 181 327 cyclone/output~;
+#X connect 9 0 11 0;
+#X connect 11 0 23 0;
+#X connect 12 0 13 0;
+#X connect 13 0 11 1;
+#X connect 14 0 15 0;
+#X connect 15 0 9 0;
+#X connect 23 0 36 0;
+#X connect 23 0 36 1;

@@ -20,7 +20,6 @@
 #X text 156 582 2) float;
 #X text 156 600 3) float;
 #X text 156 618 4) float;
-#X obj 121 288 output~;
 #X text 228 371 - phase signal to read the wavetable;
 #X text 156 565 1) symbol;
 #X text 140 491 float/signal;
@@ -39,11 +38,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 hilbert~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 xxx;
 #X text 140 390 set <symbol>;
 #X text 228 390 - sets array name;
 #X text 228 529 - the specified portion of the given wavetable;
@@ -61,5 +55,11 @@ many options for interpolation.;
 #X text 228 409 - set inpterpolation modes <0-6> (see details above)
 ;
 #X obj 148 250 cyclone/selector~ 4;
-#X connect 42 0 13 0;
-#X connect 42 0 13 1;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 xxx;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 hilbert~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 121 288 cyclone/output~;
+#X connect 37 0 42 0;
+#X connect 37 0 42 1;

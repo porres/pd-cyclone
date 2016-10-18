@@ -49,15 +49,7 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#X obj 323 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 364 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 11 3 comment 0 37 times ? 0 0 0 0 cyclone sub library;
-#X obj 19 56 comment 0 18 times ? 0 0 0 0 A subset of objects with
-"weird" character names;
-#X obj 101 214 comment 0 18 times ? 0 0 0 0 Non-alphaumeric;
-#X obj 296 214 comment 0 18 times ? 0 0 0 0 Alphaumeric;
-#N canvas 209 90 518 331 load_cyclone 0;
+#N canvas 209 90 500 273 load_cyclone 0;
 #X obj 245 125 declare -stdlib cyclone/cyclone;
 #X text 59 43 Loading/Installing the cyclone library:;
 #X text 89 155 If even this is not working \, you did not install cyclone
@@ -69,8 +61,6 @@ you can still use [declare] as \, for example \, below:;
 #X text 87 202 https://github.com/porres/pd-cyclone/wiki/How-To-Install
 ;
 #X restore 313 559 pd load_cyclone;
-#X obj 129 555 comment 0 18 times ? 0 0 0 0 How to load the library:
-;
 #X text 101 532 ============================================================
 ;
 #X text 80 151 You can also find alphanumeric versions of these objects
@@ -80,3 +70,15 @@ as in Max/MSP). Check their help for more info:;
 you can't load non-alphanumeric objects that way in certain file systems
 \, there's this "sub-library" to load 12 objects with such "weird"
 character names.;
+#X obj 296 214 cyclone/comment 0 18 times ? 0 0 0 0 Alphaumeric;
+#X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 129 555 cyclone/comment 0 18 times ? 0 0 0 0 How to load the
+library:;
+#X obj 101 214 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
+;
+#X obj 11 3 cyclone/comment 0 37 times ? 0 0 0 0 cyclone sub library
+;
+#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 A subset of objects
+with "weird" character names;

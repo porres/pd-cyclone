@@ -17,32 +17,6 @@
 0;
 #X obj 2 417 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 479 105 410 330 META 0;
-#X text 17 30 LICENSE SIBSD;
-#X text 17 106 LIBRARY cyclone;
-#X text 17 11 KEYWORDS ascii values convert;
-#X text 17 49 DESCRIPTION convert input to ascii values;
-#X text 17 68 INLET_0 list;
-#X text 17 87 OUTLET_0 list;
-#X text 16 127 VERSION 0.2-beta1;
-#X text 16 145 AUTHOR Krzysztof Czaja;
-#X text 17 163 RELEASE_DATE 2002;
-#X text 18 182 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 18 214 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 490 419 pd META;
-#N canvas 343 145 430 96 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 51 33 key;
-#X obj 84 33 keyup;
-#X obj 130 33 cyclone/sprintf;
-#X obj 13 33 atoi;
-#X restore 202 419 pd Related_objects;
 #X obj 303 227 cyclone/spell;
 #X text 120 375 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -55,12 +29,6 @@ this patch for Pd-Vanilla 0.47-2.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 spell;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Convert input to ASCII values
-;
 #X obj 303 265 print spell;
 #X obj 192 263 s \$0-spell;
 #X obj 303 186 r \$0-spell;
@@ -114,10 +82,16 @@ by 2nd argumment).;
 #X text 178 342 - the ascii representation of each input digit/character
 ;
 #X text 178 375 - minimum output size (default 0 - none);
-#X connect 5 0 24 0;
-#X connect 6 0 24 0;
-#X connect 7 0 24 0;
-#X connect 8 0 24 0;
-#X connect 13 0 23 0;
-#X connect 25 0 13 0;
-#X connect 32 0 24 0;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 spell;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Convert input to
+ASCII values;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 5 0 18 0;
+#X connect 6 0 18 0;
+#X connect 7 0 18 0;
+#X connect 8 0 18 0;
+#X connect 11 0 17 0;
+#X connect 19 0 11 0;
+#X connect 26 0 18 0;

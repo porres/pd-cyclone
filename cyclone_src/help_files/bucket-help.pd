@@ -83,7 +83,7 @@
 #X connect 12 1 9 0;
 #X connect 12 2 10 0;
 #X connect 12 3 11 0;
-#X restore 440 189 pd output-flag;
+#X restore 450 211 pd output-flag;
 #X text 138 380 l2r;
 #X text 138 397 r2l;
 #X text 177 380 - or 'L2R'/'ltor': sets shift from left to right (default)
@@ -137,7 +137,7 @@ use:;
 #X text 53 220 Which is the reasonable and sensible way nowadays \,
 as the current plan is to phase out the capital letters in cyclone's
 objects.;
-#X restore 443 215 pd backwards \; compatibility;
+#X restore 455 237 pd backwards \; compatibility;
 #X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Pass numbers from
 outlet to outlet;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 bucket;

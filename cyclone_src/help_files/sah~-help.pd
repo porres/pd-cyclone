@@ -1,27 +1,26 @@
-#N canvas 171 35 561 669 10;
-#X obj 6 626 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 171 35 561 653 10;
+#X obj 6 613 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 472 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 459 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 552 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 539 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 588 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 575 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 107 482 cnv 17 3 34 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 107 469 cnv 17 3 34 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 107 562 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 107 549 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 136 480 signal;
-#X obj 107 523 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 136 467 signal;
+#X obj 107 510 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 136 522 signal;
-#X text 136 562 signal;
-#X text 123 599 1) float;
-#X text 142 500 float;
-#X text 196 522 - trigger signal;
+#X text 136 509 signal;
+#X text 136 549 signal;
+#X text 123 586 1) float;
+#X text 142 487 float;
+#X text 196 509 - trigger signal;
 #N canvas 220 68 493 689 arpeggiator 0;
 #X obj 87 478 cyclone/cycle~;
-#X obj 87 523 output~;
 #X floatatom 96 258 0 0 0 0 - - -;
 #X floatatom 261 247 5 0 0 0 - - -, f 5;
 #X obj 264 223 hsl 128 15 50 150 0 0 empty empty empty -2 -8 0 10 -228856
@@ -40,8 +39,6 @@
 #X obj 261 270 cyclone/train~ 77;
 #X obj 34 11 cnv 15 260 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 40 15 comment 0 18 times ? 0 0 0 0 The sample and hold arpeggiator
-;
 #X obj 276 336 cyclone/scope~ 116 89 34 3 128 0 1 0 0 0 0 205 229 232
 74 79 77 96 98 102 0;
 #X obj 278 441 cyclone/scope~ 116 89 34 3 128 0 1 0 0 0 0 205 229 232
@@ -59,26 +56,28 @@ other waveforms for the input to the [sah~].;
 work with [phasor~]. Conversely \, [sah~] doesn't work well with [phasor~]
 and works better synchronizing with a signal like a square wave \,
 or an impulse for example.;
-#X connect 0 0 1 0;
-#X connect 0 0 1 1;
+#X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 The sample and hold
+arpeggiator;
+#X obj 87 523 cyclone/output~;
+#X connect 0 0 23 0;
+#X connect 0 0 23 1;
+#X connect 1 0 13 0;
 #X connect 2 0 14 0;
-#X connect 3 0 15 0;
-#X connect 4 0 3 0;
-#X connect 5 0 2 0;
-#X connect 6 0 19 0;
-#X connect 6 0 20 0;
-#X connect 14 0 6 0;
-#X connect 14 0 18 0;
-#X connect 15 0 6 1;
-#X connect 20 0 0 0;
-#X restore 308 437 pd arpeggiator example;
-#X text 196 562 - sampled and held signal according to trigger signal
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 17 0;
+#X connect 5 0 18 0;
+#X connect 13 0 5 0;
+#X connect 13 0 16 0;
+#X connect 14 0 5 1;
+#X connect 18 0 0 0;
+#X restore 448 410 pd arpeggiator example, f 14;
+#X text 196 549 - sampled and held signal according to trigger signal
 ;
-#X text 196 599 - threshold value (default 0);
+#X text 196 586 - threshold value (default 0);
 #X floatatom 189 244 8 0 0 0 - - -, f 8;
 #X obj 132 230 noise~;
 #X obj 132 348 cyclone/cycle~;
-#X obj 104 387 output~;
 #X obj 287 237 cyclone/triangle~ 1;
 #X obj 287 287 cyclone/snapshot~ 1;
 #X obj 287 318 vsl 20 70 -1 1 0 0 empty empty empty 0 -9 0 10 -249661
@@ -94,7 +93,7 @@ rescaled to 500 - 1100 Hz range:;
 #X text 308 383 -1;
 #X text 313 309 1;
 #X text 314 346 0;
-#X text 196 481 - input signal to sample and hold;
+#X text 196 468 - input signal to sample and hold;
 #X text 362 349 <= set threshold;
 #X text 300 260 <= trigger signal;
 #X text 72 255 input =>;
@@ -109,17 +108,12 @@ rescaled to 500 - 1100 Hz range:;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 sah~;
-#X obj 16 59 comment 0 18 times ? 0 0 0 0 Sample and hold;
 #X text 85 91 When a trigger signal raises above a given threshold
 \, [sah~] captures a value ("samples") from the input and continually
 outputs it ("hold") until the trigger signal rises again above the
 threshold after having dropped below it. This usually synchronizes
 one signal to the behavior of another.;
-#X text 196 501 - sets treshold value;
+#X text 196 488 - sets treshold value;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -224,15 +218,21 @@ one signal to the behavior of another.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 16 0 36 0;
-#X connect 17 0 36 0;
-#X connect 18 0 19 0;
-#X connect 18 0 19 1;
+#X obj 16 59 cyclone/comment 0 18 times ? 0 0 0 0 Sample and hold;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 sah~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 104 387 cyclone/output~;
+#X connect 16 0 35 0;
+#X connect 17 0 35 0;
+#X connect 18 0 47 0;
+#X connect 18 0 47 1;
+#X connect 19 0 20 0;
+#X connect 19 0 35 1;
 #X connect 20 0 21 0;
-#X connect 20 0 36 1;
-#X connect 21 0 22 0;
-#X connect 23 0 20 0;
-#X connect 24 0 26 0;
-#X connect 25 0 16 0;
-#X connect 27 0 18 0;
-#X connect 36 0 27 0;
+#X connect 22 0 19 0;
+#X connect 23 0 25 0;
+#X connect 24 0 16 0;
+#X connect 26 0 18 0;
+#X connect 35 0 26 0;

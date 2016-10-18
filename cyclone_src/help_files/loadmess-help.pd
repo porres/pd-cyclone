@@ -13,22 +13,16 @@
 ;
 #X obj 6 470 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 96 245 loadmess bob;
-#X obj 96 279 print;
-#X obj 355 261 print;
-#X obj 212 255 print;
 #X text 157 326 bang;
 #X text 204 442 - message to be sent (default "bang").;
-#X obj 64 200 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 82 200 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X text 117 442 1) anything;
 #X text 134 393 anything;
-#X msg 116 216 set bob;
-#X obj 212 226 loadmess foo 99 bar;
-#X msg 96 190 set blah 5 2 1 \, bang;
-#X obj 355 226 loadmess 3 4 @defer 1;
-#X msg 355 194 set 1 2;
-#X msg 418 193 set 3 4;
+#X msg 134 216 set bob;
+#X msg 114 190 set blah 5 2 1 \, bang;
+#X msg 313 222 set 1 2;
+#X msg 376 221 set 3 4;
 #X obj 7 535 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -41,12 +35,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 loadmess;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Send a message when the patch
-is loaded;
 #X text 79 97 [loadmess] outputs a message automatically when the patch
 is loaded \, or when the patch is an abstraction of another patch that
 is opened.;
@@ -62,11 +50,22 @@ sent before and have priority over @defer 1);
 will not output values when you load a patch;
 #X text 204 393 - the loaded message (when the patch is loaded or when
 banged/clicked);
-#X connect 7 0 8 0;
-#X connect 13 0 7 0;
-#X connect 16 0 7 0;
-#X connect 17 0 10 0;
-#X connect 18 0 7 0;
-#X connect 19 0 9 0;
-#X connect 20 0 19 0;
-#X connect 21 0 19 0;
+#X obj 114 245 cyclone/loadmess bob;
+#X obj 278 190 cyclone/loadmess foo 99 bar;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 loadmess;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Send a message when
+the patch is loaded;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 313 254 cyclone/loadmess 3 4 @defer 1;
+#X obj 278 282 print loadmess_defer;
+#X obj 114 279 print loadmess;
+#X connect 9 0 29 0;
+#X connect 12 0 29 0;
+#X connect 13 0 29 0;
+#X connect 14 0 35 0;
+#X connect 15 0 35 0;
+#X connect 29 0 37 0;
+#X connect 30 0 36 0;
+#X connect 35 0 36 0;

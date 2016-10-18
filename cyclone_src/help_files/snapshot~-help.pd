@@ -3,35 +3,12 @@
 0;
 #X obj 5 261 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 615 372 354 242 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 114 LIBRARY cyclone;
-#X text 0 0 KEYWORDS signal sample report values clocking snapshot
-;
-#X text 0 38 DESCRIPTION report sample values from a signal;
-#X text 0 57 INLET_0 signal bang float offset other;
-#X text 0 76 INLET_1 float;
-#X text 0 95 OUTLET_0 float;
-#X text 0 135 VERSION 0.2-beta1;
-#X text 0 153 AUTHOR Krzysztof Czaja;
-#X text 1 171 RELEASE_DATE 2002;
-#X text 2 190 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 222 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 508 567 pd META;
 #X obj 5 413 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 5 447 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 5 533 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#N canvas 302 510 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 204 567 pd Related_objects;
 #X obj 81 270 cnv 17 3 115 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 80 424 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -55,11 +32,6 @@ adapted the patch to pd-extended 2015-02-02;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 snapshot~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Convert signal to float;
 #X text 205 316 - starts interval-based reporting;
 #X text 170 334 stop;
 #X text 205 268 - signal to convert to float;
@@ -72,8 +44,8 @@ Max/MSP;
 #X text 205 334 - stops interval-based reporting;
 #X text 205 424 - converted sample from input;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -142,7 +114,7 @@ Max/MSP;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -237,7 +209,7 @@ when a bang is received or at a given interval in milliseconds.;
 1;
 #X obj 82 125 noise~;
 #X obj 158 296 nbx 8 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
--228856 -1 -1 -0.200955 256;
+-228856 -1 -1 0 256;
 #X msg 287 221 100;
 #X msg 318 221 1000;
 #X obj 158 262 cyclone/snapshot~ 1000;
@@ -248,9 +220,9 @@ when a bang is received or at a given interval in milliseconds.;
 #X obj 651 342 bang~;
 #X msg 569 377 offset \$1;
 #X obj 569 350 nbx 3 14 0 63 0 0 empty empty empty 0 -8 0 10 -228856
--1 -1 10 256;
+-1 -1 0 256;
 #X obj 651 456 nbx 3 14 0 63 0 0 empty empty empty 0 -8 0 10 -228856
--1 -1 10 256;
+-1 -1 0 256;
 #X text 243 190 sets time of the;
 #X text 241 204 interval-based reports;
 #X text 233 139 start interval-based reports;
@@ -267,9 +239,6 @@ when a bang is received or at a given interval in milliseconds.;
 #X text 54 358 The active attribute can initially set the time report
 off as an argument. When you set a time interval \, the default is
 that the report is on.;
-#X obj 26 61 comment 0 18 times ? 0 0 0 0 Basic settings:;
-#X obj 45 331 comment 0 18 times ? 0 0 0 0 Attribute;
-#X obj 472 88 comment 0 18 times ? 0 0 0 0 Offset:;
 #X text 481 115 You can convert one sample from each block \, and you
 can specify which one with the offset message or argument.;
 #X obj 651 417 cyclone/snapshot~ 1 10;
@@ -281,6 +250,9 @@ is 0 (first sample). In the example below we move the offset to "10"
 \, which reflects on the output float that matches the argument.;
 #X text 479 270 You can also set the offset with the "offset" message:
 ;
+#X obj 472 88 cyclone/comment 0 18 times ? 0 0 0 0 Offset:;
+#X obj 45 331 cyclone/comment 0 18 times ? 0 0 0 0 Attribute;
+#X obj 26 61 cyclone/comment 0 18 times ? 0 0 0 0 Basic settings:;
 #X connect 0 0 7 0;
 #X connect 1 0 7 0;
 #X connect 2 0 7 0;
@@ -290,19 +262,25 @@ is 0 (first sample). In the example below we move the offset to "10"
 #X connect 7 0 4 0;
 #X connect 8 0 7 0;
 #X connect 9 0 7 1;
-#X connect 10 0 31 0;
+#X connect 10 0 28 0;
 #X connect 11 0 10 0;
-#X connect 12 0 31 0;
+#X connect 12 0 28 0;
 #X connect 13 0 12 0;
 #X connect 20 0 24 0;
 #X connect 22 0 24 0;
 #X connect 24 0 25 0;
-#X connect 31 0 14 0;
-#X restore 413 173 pd all_features;
-#X connect 39 0 40 0;
-#X connect 40 0 41 0;
-#X connect 42 0 40 0;
-#X connect 43 0 40 1;
-#X connect 45 0 40 1;
-#X connect 48 0 40 0;
-#X connect 54 0 40 1;
+#X connect 28 0 14 0;
+#X restore 446 176 pd all_features;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Convert signal to
+float;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 snapshot~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 33 0 34 0;
+#X connect 34 0 35 0;
+#X connect 36 0 34 0;
+#X connect 37 0 34 1;
+#X connect 39 0 34 1;
+#X connect 42 0 34 0;
+#X connect 48 0 34 1;

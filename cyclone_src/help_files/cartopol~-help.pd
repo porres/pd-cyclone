@@ -54,26 +54,20 @@ the general idea:;
 form;
 #X text 188 319 - real part of the complex signal in cartesian form
 ;
-#X text 157 154 Real;
-#X text 249 154 Imaginary;
-#X text 140 274 Amplitude;
-#X text 257 274 Phase;
+#X text 137 154 Real;
+#X text 247 154 Imaginary;
+#X text 120 274 Amplitude;
+#X text 255 274 Phase;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 cartopol~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 56 comment 0 18 times ? 0 0 0 0 Signal cartesian to polar
-conversion;
 #X text 79 95 Use the [cartopol~] object to convert signal values representing
 cartesian coordinates to a signal composed of polar coordinates - useful
 for spectral processing.;
@@ -82,7 +76,7 @@ for spectral processing.;
 form;
 #X obj 6 472 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 128 210 cyclone/cartopol~, f 18;
+#X obj 108 210 cyclone/cartopol~, f 21;
 #X text 125 480 If the right outlet ins't connected to anything \,
 the object won't compute the phase \, saving you some CPU.;
 #N canvas 207 34 366 264 (subpatch) 0;
@@ -189,11 +183,17 @@ the object won't compute the phase \, saving you some CPU.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 233 175 number~ 1;
-#X obj 128 174 number~ 1;
-#X obj 128 250 number~;
-#X obj 233 250 number~;
-#X connect 32 0 37 0;
-#X connect 32 1 38 0;
-#X connect 35 0 32 1;
-#X connect 36 0 32 0;
+#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal cartesian
+to polar conversion;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 cartopol~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 231 250 cyclone/number~;
+#X obj 108 250 cyclone/number~;
+#X obj 108 174 cyclone/number~ 1;
+#X obj 231 175 cyclone/number~ 1;
+#X connect 28 0 36 0;
+#X connect 28 1 35 0;
+#X connect 37 0 28 0;
+#X connect 38 0 28 1;

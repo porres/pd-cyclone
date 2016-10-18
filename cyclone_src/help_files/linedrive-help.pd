@@ -141,12 +141,6 @@ f 60;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 linedrive;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 scale numbers exponentially
-for use with line~;
 #N canvas 158 23 555 312 x 0;
 #X text 82 234 The output is a list of two values \, the second one
 being equal to argument4 and can be sent directly to a line~ 0, f
@@ -160,50 +154,40 @@ With the arguments shown \, input values between 0 and 127 are converted
 from 2*dB to linear amplitude with 127 becoming 1;
 #X restore 454 262 pd x;
 #N canvas 285 95 883 699 examples 0;
-#X obj 2 179 cnv 15 580 40 empty empty linedrive 3 12 0 18 -204280
--1 0;
-#X text 74 201 examples;
-#X obj 2 891 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 871 cnv 15 580 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 525 190 378 120 credits 0;
-#X text 69 36 First example from Max 7 Documentation.;
-#X restore 502 873 pd credits;
-#X obj 204 568 cyclone/linedrive 127 12543.9 1.05946 200;
-#X obj 323 531 cyclone/comment 147 11 helvetica ? 0 80 80 80 map one
+#X obj 233 364 cyclone/linedrive 127 12543.9 1.05946 200;
+#X obj 352 327 cyclone/comment 147 11 helvetica ? 0 80 80 80 map one
 range of values onto another exponentially;
-#X obj 207 508 hsl 90 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+#X obj 236 304 hsl 90 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
 -1 -1 0 1;
-#X floatatom 204 528 5 0 0 0 - - -, f 5;
-#X obj 204 600 line~;
-#X floatatom 271 601 8 0 0 0 - - -, f 8;
-#X obj 145 716 mtof;
-#X obj 145 741 cyclone/cycle~;
-#X obj 145 773 *~;
-#X floatatom 249 707 5 0 0 0 - - -, f 5;
-#X obj 249 729 cyclone/linedrive 127 1 1.06 100;
-#X obj 249 756 line~;
-#X floatatom 299 757 5 0 0 0 - - -, f 5;
-#X obj 145 795 output~;
-#X obj 296 692 cyclone/comment 126 11 helvetica ? 0 80 80 80 scale
+#X floatatom 233 324 5 0 0 0 - - -, f 5;
+#X obj 233 396 line~;
+#X floatatom 300 397 8 0 0 0 - - -, f 8;
+#X obj 174 512 mtof;
+#X obj 174 537 cyclone/cycle~;
+#X obj 174 569 *~;
+#X floatatom 278 503 5 0 0 0 - - -, f 5;
+#X obj 278 525 cyclone/linedrive 127 1 1.06 100;
+#X obj 278 552 line~;
+#X floatatom 328 553 5 0 0 0 - - -, f 5;
+#X obj 325 488 cyclone/comment 126 11 helvetica ? 0 80 80 80 scale
 velocity on a curve between 1 and 0;
-#X obj 42 659 notein 1, f 20;
-#X obj 42 683 poly 1 1, f 35;
-#X obj 40 250 hsl 110 18 0 127 0 0 empty empty empty -2 -8 0 10 -216373
+#X obj 71 455 notein 1, f 20;
+#X obj 71 479 poly 1 1, f 35;
+#X obj 69 46 hsl 110 18 0 127 0 0 empty empty empty -2 -8 0 10 -216373
 -1 -1 0 1;
-#X floatatom 37 273 5 0 0 0 - - -, f 5;
-#X floatatom 295 278 5 0 0 0 - - -, f 5;
-#X obj 115 400 hsl 100 12 0 127 0 0 empty empty empty -2 -8 0 10 -108187
+#X floatatom 66 69 5 0 0 0 - - -, f 5;
+#X floatatom 324 74 5 0 0 0 - - -, f 5;
+#X obj 144 196 hsl 100 12 0 127 0 0 empty empty empty -2 -8 0 10 -108187
 -1 -1 0 1;
-#X obj 187 339 prepend set;
-#X msg 187 359 0 30;
-#X obj 112 378 * 127;
-#X obj 112 338 unpack f;
+#X obj 216 135 prepend set;
+#X msg 216 155 0 30;
+#X obj 141 174 * 127;
+#X obj 141 134 unpack f;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array behavior 127 float 2;
 #X coords 0 1 127 -1 165 165 1 0 0;
-#X restore 368 254 graph;
-#X obj 112 306 cyclone/linedrive 127 1 1.06 30;
+#X restore 397 50 graph;
+#X obj 141 102 cyclone/linedrive 127 1 1.06 30;
 #N canvas 0 22 455 317 behavior 0;
 #X obj 55 59 inlet;
 #X obj 154 60 inlet;
@@ -261,55 +245,56 @@ in behavior table;
 #X connect 5 0 2 0;
 #X connect 5 1 2 1;
 #X connect 12 0 2 0;
-#X restore 37 398 pd behavior;
-#X obj 157 250 cyclone/comment 133 11 helvetica ? 0 80 80 80 <----
-drag slider;
-#X obj 215 278 cyclone/comment 133 11 helvetica ? 0 80 80 80 slew time
+#X restore 66 194 pd behavior;
+#X obj 186 46 cyclone/comment 133 11 helvetica ? 0 80 80 80 <---- drag
+slider;
+#X obj 244 74 cyclone/comment 133 11 helvetica ? 0 80 80 80 slew time
 ---->;
-#X obj 284 692 cyclone/comment 126 11 helvetica ? 0 80 80 80 ...;
-#X obj 312 530 cyclone/comment 126 11 helvetica ? 0 80 80 80 ...;
-#X obj 98 483 cyclone/comment 126 11 helvetica ? 0 80 80 80 linedrive
+#X obj 313 488 cyclone/comment 126 11 helvetica ? 0 80 80 80 ...;
+#X obj 341 326 cyclone/comment 126 11 helvetica ? 0 80 80 80 ...;
+#X obj 127 279 cyclone/comment 126 11 helvetica ? 0 80 80 80 linedrive
 allow you...;
-#X obj 609 562 *~;
-#X obj 566 596 output~;
-#X floatatom 685 598 8 0 0 0 - - -, f 8;
-#X obj 685 571 cyclone/snapshot~ 100;
-#X obj 554 499 osc~ 440;
-#X obj 688 621 hsl 70 15 0 1 0 0 empty empty empty -2 -8 0 10 -216373
+#X obj 638 358 *~;
+#X floatatom 714 394 8 0 0 0 - - -, f 8;
+#X obj 714 367 cyclone/snapshot~ 100;
+#X obj 583 295 osc~ 440;
+#X obj 717 417 hsl 70 15 0 1 0 0 empty empty empty -2 -8 0 10 -216373
 -1 -1 0 1;
-#X obj 624 524 line~ 0;
-#X connect 5 0 9 0;
-#X connect 5 0 10 0;
+#X obj 653 320 line~ 0;
+#X obj 595 392 cyclone/output~;
+#X obj 174 591 cyclone/output~;
+#X connect 0 0 4 0;
+#X connect 0 0 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 6 0 7 0;
 #X connect 7 0 8 0;
-#X connect 8 0 5 0;
-#X connect 11 0 12 0;
-#X connect 12 0 13 0;
-#X connect 13 0 18 0;
+#X connect 8 0 39 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 10 0 12 0;
+#X connect 11 0 8 1;
 #X connect 14 0 15 0;
-#X connect 15 0 16 0;
-#X connect 15 0 17 0;
-#X connect 16 0 13 1;
+#X connect 14 1 15 1;
+#X connect 15 1 6 0;
+#X connect 15 2 9 0;
+#X connect 16 0 17 0;
+#X connect 17 0 26 0;
+#X connect 17 0 25 0;
+#X connect 18 0 25 1;
 #X connect 20 0 21 0;
-#X connect 20 1 21 1;
-#X connect 21 1 11 0;
-#X connect 21 2 14 0;
-#X connect 22 0 23 0;
-#X connect 23 0 32 0;
-#X connect 23 0 31 0;
-#X connect 24 0 31 1;
-#X connect 26 0 27 0;
-#X connect 28 0 25 0;
-#X connect 29 0 28 0;
-#X connect 29 0 32 1;
-#X connect 31 0 26 0;
-#X connect 31 0 29 0;
-#X connect 38 0 39 0;
-#X connect 38 0 39 1;
-#X connect 40 0 43 0;
-#X connect 41 0 40 0;
-#X connect 42 0 38 0;
-#X connect 44 0 38 1;
-#X connect 44 0 41 0;
+#X connect 22 0 19 0;
+#X connect 23 0 22 0;
+#X connect 23 0 26 1;
+#X connect 25 0 20 0;
+#X connect 25 0 23 0;
+#X connect 32 0 38 0;
+#X connect 32 0 38 1;
+#X connect 33 0 36 0;
+#X connect 34 0 33 0;
+#X connect 35 0 32 0;
+#X connect 37 0 32 1;
+#X connect 37 0 34 0;
 #X coords 0 699 1 698 85 60 0;
 #X restore 467 290 pd examples;
 #X text 76 95 [linedrive] scales from one range to another with an
@@ -333,9 +318,15 @@ obrigatory (no default);
 #X obj 120 254 cyclone/linedrive 127 1 1 500;
 #X text 284 296 time must be >= 0;
 #X text 284 316 exp must be >= 1;
-#X connect 30 0 39 1;
-#X connect 34 0 35 0;
-#X connect 35 0 39 0;
-#X connect 38 0 37 0;
-#X connect 38 1 36 0;
-#X connect 39 0 38 0;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 scale numbers exponentially
+for use with line~;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 linedrive;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 26 0 35 1;
+#X connect 30 0 31 0;
+#X connect 31 0 35 0;
+#X connect 34 0 33 0;
+#X connect 34 1 32 0;
+#X connect 35 0 34 0;

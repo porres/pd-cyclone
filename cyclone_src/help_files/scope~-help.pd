@@ -57,7 +57,7 @@ some changes to the trigger level will shift the waveform to the left
 or right.;
 #X obj 27 11 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 33 16 comment 0 18 times ? 0 0 0 0 Trigger mode:;
+#X obj 33 16 cyclone/comment 0 18 times ? 0 0 0 0 Trigger mode:;
 #X connect 0 0 5 0;
 #X connect 1 0 3 0;
 #X connect 2 0 10 0;
@@ -119,7 +119,6 @@ period is used. So it requires small values for a better representation
 -228856 -1 -1 0 256;
 #X obj 66 12 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 82 17 comment 0 18 times ? 0 0 0 0 X/Y mode:;
 #X obj 54 385 cyclone/cycle~ 440;
 #X obj 247 386 cyclone/cycle~ 440;
 #X obj 586 159 cyclone/cycle~ 440;
@@ -134,24 +133,25 @@ period is used. So it requires small values for a better representation
 displays in "Y Mode" only.;
 #X msg 749 16 1;
 #X obj 843 446 osc~ 60;
+#X obj 82 17 cyclone/comment 0 18 times ? 0 0 0 0 X/Y mode:;
 #X connect 0 0 1 0;
-#X connect 1 0 20 1;
-#X connect 4 0 24 0;
-#X connect 5 0 24 0;
-#X connect 6 0 24 0;
-#X connect 7 0 24 0;
-#X connect 8 0 24 0;
-#X connect 9 0 24 0;
+#X connect 1 0 19 1;
+#X connect 4 0 23 0;
+#X connect 5 0 23 0;
+#X connect 6 0 23 0;
+#X connect 7 0 23 0;
+#X connect 8 0 23 0;
+#X connect 9 0 23 0;
 #X connect 15 0 16 0;
-#X connect 16 0 24 1;
-#X connect 19 0 2 0;
-#X connect 20 0 2 1;
-#X connect 21 0 3 0;
-#X connect 22 0 21 0;
-#X connect 23 0 24 0;
-#X connect 24 0 3 1;
-#X connect 27 0 24 0;
-#X connect 28 0 25 1;
+#X connect 16 0 23 1;
+#X connect 18 0 2 0;
+#X connect 19 0 2 1;
+#X connect 20 0 3 0;
+#X connect 21 0 20 0;
+#X connect 22 0 23 0;
+#X connect 23 0 3 1;
+#X connect 26 0 23 0;
+#X connect 27 0 24 1;
 #X restore 305 280 pd X-Y_Mode;
 #X text 198 491 - onset time delay between displays (default 0);
 #X text 67 116 frequency;
@@ -170,28 +170,24 @@ conflicts with an old (and not existing anymore) Pd Vanilla's object.
 ;
 #X obj 43 20 cnv 15 210 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 56 25 comment 0 18 times ? 0 0 0 0 backwards compatibility:
-;
 #X text 51 124 There are no such conflicts nowadays \, but you can
 still create this object as [Scope~] or [cyclone/Scope~] for backwards
 compatibility reasons. But [scope~] or [cyclone/scope~] is the reasonable
 and sensible way nowadays and the current plan is to phase out the
 capital letters in cyclone's objects.;
+#X obj 56 25 cyclone/comment 0 18 times ? 0 0 0 0 backwards compatibility:
+;
 #X restore 387 280 pd backwards-compatibility;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 scope~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 197 341 - sets "calccount": samples per line (2-8192 \, default
 256);
 #X text 197 357 - sets "calccount" (samples per line);
@@ -205,7 +201,6 @@ Max/MSP;
 or 2 (down);
 #X text 197 476 - sets threshold level for the trigger mode (default
 0);
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Oscilloscope display;
 #X floatatom 118 162 5 2 8192 0 - - -, f 5;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
@@ -387,7 +382,7 @@ Check the messages below;
 \, but the alpha channel is not implemented in Pd.;
 #X obj 32 21 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 38 26 comment 0 18 times ? 0 0 0 0 Colors:;
+#X obj 38 26 cyclone/comment 0 18 times ? 0 0 0 0 Colors:;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
@@ -430,7 +425,6 @@ Check the messages below;
 #X obj 65 253 cyclone/rect~ 70;
 #X obj 93 19 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 99 24 comment 0 18 times ? 0 0 0 0 Appearance:;
 #X obj 168 344 Scope~ 219 108 10 3 185 -1.2 1.2 0 0 0 -0.333333 205
 229 232 74 79 77 96 98 102 0;
 #X msg 205 218 delay 1000;
@@ -449,7 +443,7 @@ Check the messages below;
 to analternate drawing style \, that affects some kinds of signals
 \, such as this bandlimited square wave (try it with the range -1.2
 1.2).;
-#X text 96 62 You can set the vertical (signal amplitude) range and
+#X text 97 62 You can set the vertical (signal amplitude) range and
 the onset delay (time between displays) with messages.;
 #X obj 594 204 loadbang;
 #X obj 594 302 cyclone/scope~ 50 50 256 3 128 -1 1 0 0 0 0 205 229
@@ -461,21 +455,21 @@ the onset delay (time between displays) with messages.;
 \, including dimensions (first couple of argument values). That is
 still true \, but it was considered interesting to include the "dim"
 message/attribute \, convenient also for some dynamic patching.;
-#X connect 0 0 3 0;
-#X connect 4 0 3 0;
-#X connect 6 0 3 0;
-#X connect 9 0 3 0;
-#X connect 12 0 3 0;
-#X connect 13 0 12 0;
-#X connect 14 0 3 0;
-#X connect 17 0 19 0;
-#X connect 19 0 18 0;
-#X connect 20 0 18 0;
+#X obj 99 22 cyclone/comment 0 18 times ? 0 0 0 0 Appearance:;
+#X connect 0 0 2 0;
+#X connect 3 0 2 0;
+#X connect 5 0 2 0;
+#X connect 8 0 2 0;
+#X connect 11 0 2 0;
+#X connect 12 0 11 0;
+#X connect 13 0 2 0;
+#X connect 16 0 18 0;
+#X connect 18 0 17 0;
+#X connect 19 0 17 0;
 #X restore 422 230 pd appearance_others;
 #N canvas 52 57 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 33 17 comment 0 18 times ? 0 0 0 0 mouse:;
 #X text 73 77 When you click on [scope~] with your mouse \, the display
 freezes for as long as you hold the cursor's position.;
 #X obj 152 154 cyclone/rand~ 40;
@@ -486,7 +480,8 @@ or not) you can access its properties.;
 #X text 72 369 When in edit mode \, you can selct the object by clicking
 on it and then you can resize it by clicking and dragging on its bottom
 right corner.;
-#X connect 3 0 4 0;
+#X obj 33 17 cyclone/comment 0 18 times ? 0 0 0 0 mouse:;
+#X connect 2 0 3 0;
 #X restore 500 257 pd mouse;
 #N canvas 133 91 436 665 buffer 0;
 #X floatatom 141 455 5 0 0 0 - - -, f 5;
@@ -519,7 +514,8 @@ within the period in samples are used to generate the line. So the
 smallest line is 2 samples/points long.;
 #X obj 27 12 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 33 17 comment 0 18 times ? 0 0 0 0 buffsize / calccount:;
+#X obj 33 17 cyclone/comment 0 18 times ? 0 0 0 0 buffsize / calccount:
+;
 #X connect 0 0 1 0;
 #X connect 2 0 1 1;
 #X connect 3 0 0 0;
@@ -533,10 +529,16 @@ smallest line is 2 samples/points long.;
 79 77 96 98 102 0;
 #X text 89 83 [scope~] displays a signal in the style of an oscilloscope.
 ;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Oscilloscope display
+;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scope~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 235 201 cyclone/comment 0 12 helvetica ? 0 200 0 0 <= Right
 click for properties!;
 #X connect 7 0 9 0;
 #X connect 9 0 22 0;
-#X connect 14 0 65 1;
-#X connect 22 0 65 0;
-#X connect 56 0 65 0;
+#X connect 14 0 61 1;
+#X connect 22 0 61 0;
+#X connect 52 0 61 0;

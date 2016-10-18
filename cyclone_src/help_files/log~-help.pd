@@ -17,7 +17,7 @@
 ;
 #X text 136 540 1) float;
 #X text 113 456 float/signal;
-#X obj 142 331 cyclone/log~, f 18;
+#X obj 122 331 cyclone/log~, f 22;
 #X text 203 540 - sets the base of the logarithm (default "e");
 #X text 202 499 - the logarithm of the inlet signal to the specified
 base;
@@ -26,20 +26,13 @@ base;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 log~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Signal logarithm;
 #X obj 73 93 cnv 15 350 65 empty empty empty 20 12 0 14 -248754 -66577
 0;
-#X obj 93 98 comment 0 15 times ? 0 0 0 0 Avoid using this object!
-;
 #X text 103 133 is now considered unnecessary and obsolete!;
 #X text 103 118 with the new [log~] object in Pd Vanilla \, this;
 #X text 204 430 - the input to the logarithm;
@@ -154,20 +147,28 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 142 370 number~;
-#X obj 142 277 number~ 1;
-#X obj 247 304 nbx 7 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+#X obj 251 304 nbx 7 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
 -228856 -1 -1 0 256;
-#X msg 247 250 10;
-#X msg 258 278 2.71828;
-#X text 266 331 * needs "cyclone/" to;
-#X text 256 348 differentiate from vanilla;
+#X msg 251 250 10;
+#X msg 262 278 2.71828;
+#X text 270 331 * needs "cyclone/" to;
+#X text 260 348 differentiate from vanilla;
 #X text 74 174 [cyclone/log~]* outputs the logarithms of its input
 values. You can specify the logarithmic base as an argument or via
 the right inlet. If the base is less or equal to 0 \, the value of
 "e" (around 2.71828) is considered.;
-#X connect 11 0 33 0;
-#X connect 34 0 11 0;
-#X connect 35 0 11 1;
-#X connect 36 0 35 0;
-#X connect 37 0 35 0;
+#X obj 93 98 cyclone/comment 0 15 times ? 0 0 0 0 Avoid using this
+object!;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Signal logarithm
+;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 log~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 122 370 cyclone/number~;
+#X obj 122 277 cyclone/number~ 1;
+#X connect 11 0 39 0;
+#X connect 28 0 11 1;
+#X connect 29 0 28 0;
+#X connect 30 0 28 0;
+#X connect 40 0 11 0;

@@ -22,7 +22,6 @@
 #X text 183 439 - set impulse value sent to right outlet;
 #X msg 221 206 set 0.5;
 #X msg 217 182 set 1;
-#X obj 243 324 output~;
 #X obj 162 181 osc~ 1;
 #X obj 106 279 cyclone/snapshot~ 1;
 #X obj 106 310 vsl 20 80 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
@@ -35,16 +34,11 @@
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 zerox~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Detect zero crossings;
 #X text 75 88 [zerox~] functions as a zero-crossing detector and/or
 a zero-crossing counter (for transient detection).;
 #X text 76 122 Left outlet ouputs a value that corresponds to the number
@@ -171,42 +165,51 @@ Right outlet send an impulse at every zero crossing.;
 #X text 225 229 multiply by block frequency;
 #X text 237 262 half the zero crossings;
 #X text 177 345 frequency estimate;
-#X obj 193 322 number~;
 #X obj 25 11 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 31 16 comment 0 18 times ? 0 0 0 0 Frequency estimate:;
 #X text 77 58 An example on how to use [zerox~] to estimate frequency
 ;
 #X obj 279 160 / 64;
+#X obj 31 16 cyclone/comment 0 18 times ? 0 0 0 0 Frequency estimate:
+;
+#X obj 193 322 cyclone/number~;
 #X connect 0 0 1 0;
-#X connect 1 0 15 0;
+#X connect 1 0 13 0;
 #X connect 2 0 5 0;
 #X connect 3 0 7 0;
 #X connect 4 0 3 0;
-#X connect 5 0 11 0;
+#X connect 5 0 15 0;
 #X connect 6 0 7 1;
 #X connect 7 0 2 0;
-#X connect 15 0 6 0;
-#X restore 438 283 pd frequency \; estimate;
+#X connect 13 0 6 0;
+#X restore 448 314 pd frequency \; estimate;
 #N canvas 326 74 412 385 transient 0;
 #X obj 147 122 adc~ 1;
-#X obj 231 217 vsl 20 128 0 32 0 0 empty empty empty 0 -9 0 10 -228856
+#X obj 251 217 vsl 20 128 0 32 0 0 empty empty empty 0 -9 0 10 -228856
 -1 -1 0 1;
-#X obj 147 185 number~;
 #X text 32 62 Look at the difference between "ssss" and "aaa" or any
 noisy/tansient input as opposed to a tonal and stable one.;
 #X obj 25 11 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 31 16 comment 0 18 times ? 0 0 0 0 Transient detection:;
 #X obj 147 154 cyclone/zerox~;
-#X connect 0 0 6 0;
-#X connect 2 1 1 0;
-#X connect 6 0 2 0;
-#X restore 439 336 pd transient \; detection;
-#X connect 9 1 16 0;
-#X connect 9 1 16 1;
+#X obj 31 16 cyclone/comment 0 18 times ? 0 0 0 0 Transient detection:
+;
+#X obj 147 185 cyclone/number~;
+#X connect 0 0 4 0;
+#X connect 4 0 6 0;
+#X connect 6 1 1 0;
+#X restore 449 357 pd transient \; detection;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Detect zero crossings
+;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 zerox~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 243 324 cyclone/output~;
+#X connect 9 1 39 0;
+#X connect 9 1 39 1;
 #X connect 14 0 9 0;
 #X connect 15 0 9 0;
-#X connect 17 0 9 0;
+#X connect 16 0 9 0;
+#X connect 16 0 17 0;
 #X connect 17 0 18 0;
-#X connect 18 0 19 0;

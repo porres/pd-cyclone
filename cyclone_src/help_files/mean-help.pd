@@ -38,11 +38,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 mean;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Moving mean average;
 #X obj 120 153 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 120 227 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -72,12 +67,18 @@ numbers (the sum of all received values by the number of received elements).
 #X obj 136 175 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 358 139 list behaviour;
-#X connect 7 0 30 0;
-#X connect 7 1 31 0;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Moving mean average
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 mean;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 7 0 26 0;
+#X connect 7 1 27 0;
 #X connect 10 0 7 0;
-#X connect 29 0 7 0;
-#X connect 42 0 43 0;
-#X connect 43 0 44 0;
-#X connect 43 1 45 0;
-#X connect 46 0 43 0;
-#X connect 47 0 7 0;
+#X connect 25 0 7 0;
+#X connect 38 0 39 0;
+#X connect 39 0 40 0;
+#X connect 39 1 41 0;
+#X connect 42 0 39 0;
+#X connect 43 0 7 0;

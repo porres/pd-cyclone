@@ -58,17 +58,11 @@ but you shouldn't really bother to use it \, just saying...;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 scale~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Map signals to an output
-range;
 #X text 88 87 [scale] maps an input range to an output range. Values
 larger or smaller than the input range will not be clipped to the output
 range. The mapping can be inverted and/or exponential.;
@@ -102,7 +96,6 @@ like raising to the power of the given exponential \, try it below
 (with values from 0.1 to 10).;
 #X obj 31 26 cnv 15 150 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 37 31 comment 0 18 times ? 0 0 0 0 Exponential mode;
 #X text 34 522 BEWARE: Originally in Max/MSP \, "classic mode" is buggy
 as hell (and cycling 74 is aware of it). We have a reasonably good
 version \, but you shouldn't really bother to use it \, just saying...
@@ -130,16 +123,18 @@ may require updating to work properly in modern mode.;
 #X obj 79 298 cyclone/scale~ 0 127 0 1;
 #X obj 79 240 phasor~ 10;
 #X obj 79 270 *~ 127;
-#X connect 0 0 27 5;
+#X obj 37 31 cyclone/comment 0 18 times ? 0 0 0 0 Exponential mode
+;
+#X connect 0 0 26 5;
 #X connect 1 0 0 0;
-#X connect 6 0 17 5;
+#X connect 6 0 16 5;
 #X connect 7 0 6 0;
-#X connect 17 0 21 0;
-#X connect 18 0 17 0;
-#X connect 27 0 24 0;
-#X connect 28 0 29 0;
-#X connect 29 0 27 0;
-#X restore 347 248 pd Exponential \; Classic X Modern;
+#X connect 16 0 20 0;
+#X connect 17 0 16 0;
+#X connect 26 0 23 0;
+#X connect 27 0 28 0;
+#X connect 28 0 26 0;
+#X restore 447 237 pd Exponential \; Classic X Modern;
 #X text 210 337 sets to classic mode <classic 1> or modern <classic
 0>;
 #N canvas 695 23 457 614 advanced 0;
@@ -167,25 +162,25 @@ that boundary with the same conversion parameters.;
 #X obj 165 499 sig~;
 #X text 358 228 Inverted;
 #X obj 245 158 sig~;
-#X obj 71 253 number~;
-#X obj 261 227 number~;
-#X obj 245 317 number~;
-#X obj 165 561 number~;
+#X obj 245 317 cyclone/number~;
+#X obj 71 253 cyclone/number~;
+#X obj 261 227 cyclone/number~;
+#X obj 165 561 cyclone/number~;
 #X connect 0 0 1 0;
 #X connect 0 0 10 0;
 #X connect 1 0 15 0;
 #X connect 3 0 4 0;
 #X connect 4 0 13 0;
-#X connect 7 0 16 0;
-#X connect 8 0 17 0;
-#X connect 9 0 18 0;
+#X connect 7 0 17 0;
+#X connect 8 0 18 0;
+#X connect 9 0 16 0;
 #X connect 10 0 11 0;
 #X connect 11 0 7 0;
 #X connect 12 0 19 0;
 #X connect 13 0 12 0;
 #X connect 15 0 9 0;
 #X connect 15 0 8 0;
-#X restore 462 256 pd advanced;
+#X restore 477 274 pd advanced;
 #X obj 121 237 cyclone/scale~ -1 1 0 127;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
@@ -291,10 +286,16 @@ that boundary with the same conversion parameters.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 121 268 number~;
 #X obj 121 184 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X connect 8 0 46 0;
-#X connect 24 0 43 0;
-#X connect 43 0 45 0;
-#X connect 46 0 24 0;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Map signals to an
+output range;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scale~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 121 268 cyclone/number~;
+#X connect 8 0 41 0;
+#X connect 24 0 39 0;
+#X connect 39 0 46 0;
+#X connect 41 0 24 0;

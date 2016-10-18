@@ -1,5 +1,4 @@
 #N canvas 439 174 558 595 10;
-#X obj 120 234 output~;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -10,12 +9,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 rect~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Bandlimited pulse oscillator
-;
 #X obj 2 548 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 317 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -549,7 +542,6 @@ musical purposes a band limited osicllator.;
 #X obj 219 140 phasor~;
 #X obj 219 116 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 96 211 output~;
 #X obj 320 248 switch~;
 #X obj 320 170 tgl 50 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -558,11 +550,12 @@ musical purposes a band limited osicllator.;
 #X text 51 37 In the third inlet \, you can feed a [phasor~] signal
 for oscillator syncing. The frequency from the [phasor~] will be the
 master and force [rect~] to be synced as a slave.;
-#X connect 0 0 6 2;
+#X obj 96 211 cyclone/output~;
+#X connect 0 0 5 2;
 #X connect 1 0 0 0;
-#X connect 4 0 3 0;
-#X connect 6 0 2 0;
-#X connect 6 0 2 1;
+#X connect 3 0 2 0;
+#X connect 5 0 7 0;
+#X connect 5 0 7 1;
 #X restore 497 283 pd sync;
 #X obj 163 195 cyclone/rect~ 115 0.5;
 #X text 129 495 This is an abstraction (and an extremely CPU hungry
@@ -571,8 +564,8 @@ the arguments are called.;
 #X text 124 158 hz;
 #X text 235 445 - frequency (default 0);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -641,7 +634,7 @@ the arguments are called.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -674,9 +667,16 @@ the arguments are called.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 21 0 37 0;
-#X connect 22 0 23 0;
-#X connect 23 0 37 1;
-#X connect 37 0 0 0;
-#X connect 37 0 0 1;
-#X connect 37 0 30 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Bandlimited pulse
+oscillator;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 rect~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 120 234 cyclone/output~;
+#X connect 16 0 32 0;
+#X connect 17 0 18 0;
+#X connect 18 0 32 1;
+#X connect 32 0 25 0;
+#X connect 32 0 41 0;
+#X connect 32 0 41 1;

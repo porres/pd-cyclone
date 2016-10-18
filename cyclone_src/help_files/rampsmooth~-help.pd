@@ -3,31 +3,10 @@
 0;
 #X obj 7 422 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 599 384 372 212 META 0;
-#X text 0 19 LICENSE SIBSD;
-#X text 0 95 LIBRARY cyclone;
-#X text 0 76 OUTLET_0 signal;
-#X text 0 0 KEYWORDS signal ramp smooth;
-#X text 0 38 DESCRIPTION smooth out an incoming signal via a ramp;
-#X text 0 57 INLET_0 signal ramp rampup rampdown;
-#X text 0 116 VERSION 0.2-beta1;
-#X text 0 134 AUTHOR Krzysztof Czaja;
-#X text 1 152 RELEASE_DATE 2002;
-#X text 2 171 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 203 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 505 657 pd META;
 #X obj 7 559 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 596 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 317 491 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 211 657 pd Related_objects;
 #X obj 98 431 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 98 569 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -84,11 +63,6 @@ for envelope following and lowpass filtering.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 rampsmooth~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Smooth signals;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -193,12 +167,18 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 20 0 32 0;
-#X connect 21 0 20 0;
-#X connect 22 0 32 2;
-#X connect 23 0 32 1;
-#X connect 24 0 23 0;
-#X connect 25 0 22 0;
-#X connect 26 0 23 0;
-#X connect 27 0 22 0;
-#X connect 32 0 42 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Smooth signals linearly
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 rampsmooth~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 18 0 30 0;
+#X connect 19 0 18 0;
+#X connect 20 0 30 2;
+#X connect 21 0 30 1;
+#X connect 22 0 21 0;
+#X connect 23 0 20 0;
+#X connect 24 0 21 0;
+#X connect 25 0 20 0;
+#X connect 30 0 40 0;

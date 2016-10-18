@@ -19,12 +19,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 filtercoeff~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Generate biquad coefficients
-;
 #X obj 80 531 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X obj 80 550 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
@@ -906,7 +900,7 @@ com o MENU.;
 #X obj 36 125 noise~;
 #X obj 90 206 cyclone/output~;
 #X obj 126 105 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 878.261 256;
+-228856 -1 -1 0 256;
 #X obj 377 22 vradio 15 1 0 15 \$0-type \$0-set_type empty 0 -8 0 10
 -228856 -1 -1 0;
 #X text 397 52 bandpass;
@@ -926,18 +920,18 @@ com o MENU.;
 #X text 397 83 bandstop;
 #X obj 126 129 cyclone/filtercoeff~ lowpass;
 #X obj 291 105 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 10 256;
+-228856 -1 -1 0 256;
 #X obj 208 105 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 17.7391 256;
+-228856 -1 -1 0 256;
 #X obj 30 49 cnv 14 80 14 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X symbolatom 30 49 13 0 0 0 - #0-symbol-set -, f 13;
 #X obj 126 20 vsl 18 70 200 2000 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 2600 1;
+-1 -1 0 1;
 #X obj 208 20 vsl 18 70 -24 24 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 6000 1;
+-1 -1 0 1;
 #X obj 291 20 vsl 18 70 0.1 100 1 0 empty empty empty 0 -9 0 10 -228856
--1 -1 4600 1;
+-1 -1 0 1;
 #X connect 1 0 3 0;
 #X connect 1 0 3 1;
 #X connect 2 0 1 0;
@@ -970,14 +964,20 @@ com o MENU.;
 #X text 190 570 - a2 (feedforward 2) coefficient;
 #X text 190 588 - b1 (feedback 1) coefficient;
 #X text 190 607 - b2 (feedback 2) coefficient;
-#X obj 184 155 number~ 1;
-#X connect 23 0 24 0;
-#X connect 23 0 24 1;
-#X connect 33 0 23 0;
-#X connect 43 0 23 1;
-#X connect 43 1 23 2;
-#X connect 43 2 23 3;
-#X connect 43 3 23 4;
-#X connect 43 4 23 5;
-#X connect 46 0 43 2;
-#X connect 54 0 43 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Generate biquad coefficients
+;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 6 cyclone/comment 0 37 times ? 0 0 0 0 filtercoeff~;
+#X obj 184 155 cyclone/number~ 1;
+#X connect 19 0 20 0;
+#X connect 19 0 20 1;
+#X connect 29 0 19 0;
+#X connect 39 0 19 1;
+#X connect 39 1 19 2;
+#X connect 39 2 19 3;
+#X connect 39 3 19 4;
+#X connect 39 4 19 5;
+#X connect 42 0 39 2;
+#X connect 54 0 39 0;

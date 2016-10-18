@@ -153,15 +153,15 @@ input sample (probably only useful for mathematical calculations).
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 439 262 number~ 1;
-#X obj 439 345 number~;
-#X obj 439 304 cyclone/asinh~;
+#X obj 429 304 cyclone/asinh~;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 asinh~;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal hyperbolic
 arc-sine function;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 429 345 cyclone/number~;
+#X obj 429 262 cyclone/number~ 1;
 #X connect 9 0 26 0;
 #X connect 10 0 27 0;
 #X connect 11 0 10 0;
@@ -169,5 +169,5 @@ cloned from Max/MSP;
 #X connect 26 0 30 0;
 #X connect 27 0 31 0;
 #X connect 28 0 9 0;
-#X connect 35 0 37 0;
-#X connect 37 0 36 0;
+#X connect 35 0 40 0;
+#X connect 41 0 35 0;

@@ -28,15 +28,9 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 xbendout;
 #X obj 166 264 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 308 269 MIDI Channel;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Send 14-bit pitch bend messages
-;
 #X text 208 481 - sets initial channel number;
 #X text 168 441 float;
 #X text 442 248 see also;
@@ -54,14 +48,20 @@ Max/MSP;
 #X text 205 234 14-bit;
 #X obj 113 97 cnv 15 290 65 empty empty empty 20 12 0 14 -248754 -66577
 0;
-#X obj 133 102 comment 0 15 times ? 0 0 0 0 Avoid using this object!
-;
 #X text 143 137 is considered unnecessary and obsolete!;
 #X text 143 122 just use [bendout] from Pd Vanilla \, this;
 #X text 84 264 (0 - 16383);
 #X text 68 182 [xbendout] formats and sends messages that occupy both
 bytes of the MIDI pitch bend message (14 bit from 0 - 16383).;
-#X connect 5 0 31 1;
-#X connect 11 0 19 0;
-#X connect 19 0 31 0;
-#X connect 31 0 10 0;
+#X obj 133 102 cyclone/comment 0 15 times ? 0 0 0 0 Avoid using this
+object!;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Send 14-bit pitch
+bend messages;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 xbendout;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 5 0 27 1;
+#X connect 11 0 16 0;
+#X connect 16 0 27 0;
+#X connect 27 0 10 0;

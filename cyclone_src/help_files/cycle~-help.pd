@@ -15,7 +15,6 @@
 ;
 #X text 176 542 signal;
 #X obj 162 188 cyclone/cycle~ 440;
-#X obj 136 230 output~;
 #X text 142 506 float/signal;
 #X text 142 352 float/signal;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -28,11 +27,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 cycle~;
-#X obj 14 56 comment 0 18 times ? 0 0 0 0 Wavetable oscillator;
 #X text 196 402 set;
 #X text 223 402 - only a "set" message sets to the default cosine wave
 ;
@@ -91,7 +85,6 @@ Max/MSP;
 #X obj 137 596 cyclone/cycle~ 440 \$0-wavetable 512;
 #X obj 54 10 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 60 15 comment 0 18 times ? 0 0 0 0 "set" message:;
 #X text 78 48 The set message with no arguments sets the internal waveform
 (16k cosine \, 64 bits). A set message followed by a symbol sets the
 array to be used as a waveform. After the name \, you can also optionally
@@ -107,7 +100,6 @@ filled with zeros. Below we have a table with 4099 points to use with
 [cycle~].;
 #X obj 543 35 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 549 40 comment 0 18 times ? 0 0 0 0 "setall" message:;
 #X text 80 111 With the set message \, [cycle~] reads only 512 points
 in a table (because historically it could only deal with 512 points
 tables - other new messages allow more points).;
@@ -135,23 +127,25 @@ normalize;
 #X array \$0-saw 4099 float 4;
 #X coords 0 1 4098 -1 400 140 1 0 0;
 #X restore 567 247 graph;
+#X obj 60 15 cyclone/comment 0 18 times ? 0 0 0 0 "set" message:;
+#X obj 549 40 cyclone/comment 0 18 times ? 0 0 0 0 "setall" message:
+;
 #X connect 0 0 5 0;
-#X connect 5 0 16 0;
+#X connect 5 0 15 0;
 #X connect 8 0 12 0;
 #X connect 12 0 7 0;
 #X connect 12 0 7 1;
 #X connect 12 0 11 0;
-#X connect 16 0 12 0;
-#X connect 16 0 17 0;
-#X connect 25 0 26 0;
-#X connect 26 0 23 0;
-#X connect 26 0 23 1;
-#X connect 26 0 24 0;
+#X connect 15 0 12 0;
+#X connect 15 0 16 0;
+#X connect 23 0 24 0;
+#X connect 24 0 21 0;
+#X connect 24 0 21 1;
+#X connect 24 0 22 0;
 #X restore 330 236 pd set_and_setall messages;
-#N canvas 370 108 928 683 attributes 0;
+#N canvas 379 35 928 683 attributes 0;
 #X obj 34 10 cnv 15 130 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 40 15 comment 0 18 times ? 0 0 0 0 Attributes:;
 #X text 55 154 This is different than the "set" message or setting
 the array name as the second argument \, in which cases [cycle~] only
 reads 512 points from the buffer. This is because [cycle~] could historically
@@ -204,13 +198,14 @@ message) followed by a float sets the sample offset into the buffer.
 If your offset is too large and close to the end of the table) \, the
 remainder is filled with zeros.;
 #X text 172 381 offset;
-#X connect 15 0 14 0;
-#X connect 18 0 21 0;
-#X connect 19 0 20 0;
-#X connect 20 0 18 0;
-#X connect 21 0 16 0;
-#X connect 21 0 16 1;
-#X connect 21 0 17 0;
+#X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Attributes:;
+#X connect 14 0 13 0;
+#X connect 17 0 20 0;
+#X connect 18 0 19 0;
+#X connect 19 0 17 0;
+#X connect 20 0 15 0;
+#X connect 20 0 15 1;
+#X connect 20 0 16 0;
 #X restore 330 263 pd attributes;
 #N canvas 152 45 929 687 phase 0;
 #X obj 638 514 *~;
@@ -224,7 +219,6 @@ remainder is filled with zeros.;
 #X text 734 457 Modulation Index;
 #X obj 53 18 cnv 15 60 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 59 23 comment 0 18 times ? 0 0 0 0 phase:;
 #X text 58 72 The second inlet in [cycle~] can set a phase offset with
 values between 0 and 1 (but values over this boundaries are wrapped
 internally to the 0-1 range).;
@@ -260,24 +254,25 @@ off and then on again;
 #X text 506 289 The phase is also resset in many operations in edit
 mode - so nevermind if you hear "clicks" when editing the patch!;
 #X text 78 409 [cycle~] being driven by phase only =>;
-#X connect 0 0 27 1;
+#X obj 59 23 cyclone/comment 0 18 times ? 0 0 0 0 phase:;
+#X connect 0 0 26 1;
 #X connect 1 0 2 0;
 #X connect 2 0 0 1;
 #X connect 3 0 1 0;
 #X connect 5 0 3 0;
-#X connect 10 0 17 1;
-#X connect 11 0 12 0;
-#X connect 12 0 10 1;
-#X connect 13 0 11 0;
-#X connect 14 0 13 0;
-#X connect 16 0 17 0;
-#X connect 18 0 20 0;
-#X connect 18 0 20 1;
-#X connect 19 0 18 1;
-#X connect 21 0 22 0;
-#X connect 26 0 0 0;
-#X connect 27 0 4 0;
-#X connect 27 0 4 1;
+#X connect 9 0 16 1;
+#X connect 10 0 11 0;
+#X connect 11 0 9 1;
+#X connect 12 0 10 0;
+#X connect 13 0 12 0;
+#X connect 15 0 16 0;
+#X connect 17 0 19 0;
+#X connect 17 0 19 1;
+#X connect 18 0 17 1;
+#X connect 20 0 21 0;
+#X connect 25 0 0 0;
+#X connect 26 0 4 0;
+#X connect 26 0 4 1;
 #X restore 438 263 pd phase;
 #X text 58 300 * The similar [wave~] object from cyclone provides other
 interpolation types.;
@@ -400,6 +395,13 @@ only) \, default is an internal cosine table;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 8 0 9 0;
-#X connect 8 0 9 1;
-#X connect 26 0 8 0;
+#X obj 14 56 cyclone/comment 0 18 times ? 0 0 0 0 Wavetable oscillator
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 cycle~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 136 230 cyclone/output~;
+#X connect 8 0 56 0;
+#X connect 8 0 56 1;
+#X connect 21 0 8 0;

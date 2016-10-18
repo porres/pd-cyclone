@@ -42,17 +42,11 @@
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 clip~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Constrain a signal to a given
-range;
 #N canvas 731 141 456 518 conflicts 0;
 #X obj 165 182 cyclone/clip~;
 #X obj 204 295 Clip~;
@@ -191,6 +185,12 @@ accepts signals for setting the minimum and maximum constrain.;
 between two specified values (minimum and maximum). If the maximum
 value is less than the minimum \, it becomes the minimum value and
 vice-versa.;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Constrain a signal
+to a given range;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 clip~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 10 0 11 0;
 #X connect 11 0 18 1;
 #X connect 12 0 13 0;

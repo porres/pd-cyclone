@@ -84,10 +84,10 @@ as the current plan is to phase out the capital letters in cyclone's
 objects.;
 #X text 43 20 [borax] used to be compiled as [Borax] \, probably to
 avoid some name conflicts \, but this is not the case anymore.;
-#X obj 136 110 Borax;
 #X obj 252 110 cyclone/Borax;
 #X obj 114 182 borax;
 #X obj 201 183 cyclone/borax;
+#X obj 136 110 Borax;
 #X restore 454 331 pd backwards \; compatibility;
 #X text 117 633 (none);
 #X text 177 409 note velocity, f 47;
@@ -197,7 +197,7 @@ number;
 #X connect 8 0 6 0;
 #X connect 8 1 6 1;
 #X connect 8 2 6 2;
-#X restore 460 298 pd examples;
+#X restore 466 299 pd examples;
 #X connect 52 0 69 2;
 #X connect 53 0 69 0;
 #X connect 53 1 69 1;

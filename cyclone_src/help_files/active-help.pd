@@ -60,7 +60,7 @@ it is active or not.;
 #X connect 9 0 11 0;
 #X connect 10 0 9 0;
 #X connect 12 0 4 0;
-#X restore 301 190 pd example;
+#X restore 437 217 pd example;
 #X obj 155 223 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 active;

@@ -1,5 +1,4 @@
 #N canvas 403 23 559 525 10;
-#X obj 183 217 output~;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -10,16 +9,10 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 saw~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Bandlimited sawtooth oscillator
-;
 #X text 48 91 [saw~] generates an anti-aliased sawtooth wave at a given
 frequency. It has a sync input.;
 #X obj 208 148 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 36 256;
+-228856 -1 -1 0 256;
 #X text 182 147 hz;
 #X obj 2 487 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -523,7 +516,6 @@ musical purposes a band limited osicllator.;
 #X obj 213 140 phasor~;
 #X obj 213 116 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 96 211 output~;
 #X obj 320 248 switch~;
 #X obj 320 170 tgl 50 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -532,17 +524,25 @@ musical purposes a band limited osicllator.;
 for oscillator syncing. The frequency from the [phasor~] will be the
 master and force [saw~] to be synced as a slave.;
 #X obj 120 171 cyclone/saw~ 440;
-#X connect 0 0 7 1;
+#X obj 96 211 cyclone/output~;
+#X connect 0 0 6 1;
 #X connect 1 0 0 0;
-#X connect 4 0 3 0;
-#X connect 7 0 2 0;
-#X connect 7 0 2 1;
+#X connect 3 0 2 0;
+#X connect 6 0 7 0;
+#X connect 6 0 7 1;
 #X restore 488 267 pd sync;
 #X obj 208 172 cyclone/saw~ 440;
 #X text 129 434 This is an abstraction (and an extremely CPU hungry
 one)!!! A particular behaviour is that if the signal input is 0 \,
 the argument is called.;
 #X text 235 404 - frequency (default 0);
-#X connect 10 0 29 0;
-#X connect 29 0 0 0;
-#X connect 29 0 0 1;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Bandlimited sawtooth
+oscillator;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 saw~;
+#X obj 183 217 cyclone/output~;
+#X connect 5 0 24 0;
+#X connect 24 0 31 0;
+#X connect 24 0 31 1;

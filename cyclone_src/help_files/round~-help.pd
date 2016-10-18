@@ -1,20 +1,20 @@
-#N canvas 536 23 558 728 10;
-#X obj 3 682 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 536 23 558 694 10;
+#X obj 3 652 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 475 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 445 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 574 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 544 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 611 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 581 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 79 583 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 79 553 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 123 621 1) float;
-#X obj 78 536 cnv 17 3 25 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 123 591 1) float;
+#X obj 78 506 cnv 17 3 25 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 484 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 79 454 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 645 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X obj 3 615 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #X floatatom 289 264 0 0 0 0 - - -;
 #X obj 292 243 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
@@ -22,15 +22,15 @@
 #X msg 162 241 nearest \$1;
 #X obj 162 209 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 191 621 - value to round to (default = 0 \, no rounding);
+#X text 191 591 - value to round to (default = 0 \, no rounding);
 #X text 194 212 (1 = round \, 0 truncate);
 #X obj 118 291 cyclone/round~ 0.1 @nearest 0;
-#X text 135 482 signal;
-#X text 99 537 float/signal;
-#X text 191 536 - value to round to (whose multple values will be approximated
+#X text 135 452 signal;
+#X text 99 507 float/signal;
+#X text 191 506 - value to round to (whose multple values will be approximated
 to);
-#X text 128 502 nearest;
-#X obj 118 328 cyclone/Scope~ 269 134 2 3 128 -1 1 190 0 0 0 205 229
+#X text 128 472 nearest;
+#X obj 118 328 cyclone/Scope~ 241 104 2 3 128 -1 1 190 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 86 223 osc~ 230;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -43,11 +43,6 @@ to);
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 round~;
-#X obj 20 60 comment 0 18 times ? 0 0 0 0 Rounds signals;
 #X text 53 152 It works in two modes \, rounding to the nearest multiple
 (default) or to the approximating to the truncated multiple value.
 ;
@@ -55,14 +50,14 @@ Max/MSP;
 an integer multiple of any given number that is greater or equal to
 0 (0 makes no approximation - so the original input is output unchanged).
 ;
-#X text 192 658 - sets mode: non zero = round (default) \, 0 = truncate
+#X text 192 628 - sets mode: non zero = round (default) \, 0 = truncate
 ;
-#X text 122 658 @nearest;
-#X text 193 501 - "nearest" followed by 0 sets to "truncate mode" \,
+#X text 122 628 @nearest;
+#X text 193 471 - "nearest" followed by 0 sets to "truncate mode" \,
 non zero number sets to "round to nearest mode" (default);
-#X text 193 481 - a signal value to round;
-#X text 135 584 signal;
-#X text 191 584 - rounded signal value;
+#X text 193 451 - a signal value to round;
+#X text 135 554 signal;
+#X text 191 554 - rounded signal value;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -167,6 +162,11 @@ non zero number sets to "round to nearest mode" (default);
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 20 60 cyclone/comment 0 18 times ? 0 0 0 0 Rounds signals;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 round~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 9 0 15 1;
 #X connect 10 0 9 0;
 #X connect 11 0 15 0;

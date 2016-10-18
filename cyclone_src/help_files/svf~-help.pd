@@ -3,37 +3,10 @@
 0;
 #X obj 7 372 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 617 315 365 289 META 0;
-#X text 0 18 LICENSE SIBSD;
-#X text 0 180 LIBRARY cyclone;
-#X text 0 0 KEYWORDS signal filter state variable state-variable cutoff
-;
-#X text 0 36 DESCRIPTION state-variable filter;
-#X text 0 54 INLET_0 signal;
-#X text 0 72 INLET_1 signal float;
-#X text 0 90 INLET_2 signal float;
-#X text 0 108 OUTLET_0 signal;
-#X text 0 126 OUTLET_1 signal;
-#X text 0 144 OUTLET_2 signal;
-#X text 0 162 OUTLET_3 signal;
-#X text 0 199 VERSION 0.2-beta1;
-#X text 0 217 AUTHOR Krzysztof Czaja;
-#X text 1 235 RELEASE_DATE 2002;
-#X text 2 254 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 286 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 505 671 pd META;
 #X obj 7 515 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 605 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 317 494 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 201 671 pd Related_objects;
 #X obj 124 380 cnv 17 3 85 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 124 522 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -90,11 +63,6 @@ adapted the patch to pd-extended 2015-02-02;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 svf~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 State-variable filter;
 #X text 245 493 - sets Q/resonance (0-1);
 #X text 245 471 - sets cutoff/center frequency;
 #X text 178 646 - sets frequency mode: <hz> (default) \, <linear> or
@@ -118,7 +86,6 @@ reject (notch) simultaneously in parallel (as the oulets in this order).
 #N canvas 321 233 979 555 frequency 0;
 #X obj 42 37 cnv 15 182 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 48 42 comment 0 18 times ? 0 0 0 0 Frequency input modes;
 #X text 509 32 linear:;
 #X text 55 150 hz:;
 #X text 502 269 radians:;
@@ -170,40 +137,48 @@ is closer to our logarithmic perception of pitch.;
 #X obj 640 410 cyclone/svf~ 0 0.5 radians;
 #X msg 556 350 linear;
 #X msg 610 350 radians;
-#X connect 6 0 34 0;
-#X connect 9 0 8 0;
-#X connect 9 0 34 1;
-#X connect 12 0 36 0;
-#X connect 15 0 14 0;
-#X connect 15 0 36 1;
-#X connect 18 0 33 0;
-#X connect 20 0 22 0;
-#X connect 21 0 20 0;
-#X connect 22 0 23 0;
-#X connect 23 0 27 1;
-#X connect 24 0 27 0;
-#X connect 25 0 24 0;
-#X connect 27 0 28 0;
-#X connect 27 0 33 1;
-#X connect 33 0 19 0;
-#X connect 33 0 19 1;
-#X connect 34 0 7 0;
-#X connect 34 0 7 1;
-#X connect 36 0 13 0;
-#X connect 36 0 13 1;
-#X connect 37 0 36 0;
-#X connect 38 0 36 0;
-#X restore 426 291 pd frequency \; input modes;
-#X connect 15 0 40 0;
-#X connect 16 0 40 1;
-#X connect 17 0 40 2;
-#X connect 18 0 16 0;
-#X connect 26 0 60 0;
-#X connect 36 0 17 0;
-#X connect 40 0 62 1;
-#X connect 40 1 62 2;
-#X connect 40 2 62 3;
-#X connect 40 3 62 4;
-#X connect 60 0 62 0;
-#X connect 62 0 27 0;
-#X connect 62 0 27 1;
+#X obj 48 42 cyclone/comment 0 18 times ? 0 0 0 0 Frequency input modes
+;
+#X connect 5 0 33 0;
+#X connect 8 0 7 0;
+#X connect 8 0 33 1;
+#X connect 11 0 35 0;
+#X connect 14 0 13 0;
+#X connect 14 0 35 1;
+#X connect 17 0 32 0;
+#X connect 19 0 21 0;
+#X connect 20 0 19 0;
+#X connect 21 0 22 0;
+#X connect 22 0 26 1;
+#X connect 23 0 26 0;
+#X connect 24 0 23 0;
+#X connect 26 0 27 0;
+#X connect 26 0 32 1;
+#X connect 32 0 18 0;
+#X connect 32 0 18 1;
+#X connect 33 0 6 0;
+#X connect 33 0 6 1;
+#X connect 35 0 12 0;
+#X connect 35 0 12 1;
+#X connect 36 0 35 0;
+#X connect 37 0 35 0;
+#X restore 455 324 pd frequency \; input modes;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 State-variable filter
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 svf~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 13 0 38 0;
+#X connect 14 0 38 1;
+#X connect 15 0 38 2;
+#X connect 16 0 14 0;
+#X connect 24 0 54 0;
+#X connect 34 0 15 0;
+#X connect 38 0 56 1;
+#X connect 38 1 56 2;
+#X connect 38 2 56 3;
+#X connect 38 3 56 4;
+#X connect 54 0 56 0;
+#X connect 56 0 25 0;
+#X connect 56 0 25 1;

@@ -31,12 +31,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 cartopol;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Cartesian to polar conversion
-;
 #X text 85 88 [cartopol~] converts cartesian coordinates (real / imaginary)
 to polar coordinates (amplitude / phase).;
 #X text 109 268 Amplitude;
@@ -61,9 +55,15 @@ f 51;
 #X text 141 326 bang;
 #X text 189 326 - converts the last received coordinates pair;
 #X obj 205 194 t bang float;
-#X connect 27 0 25 0;
-#X connect 27 1 26 0;
-#X connect 30 0 27 0;
-#X connect 31 0 38 0;
-#X connect 38 0 27 0;
-#X connect 38 1 27 1;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Cartesian to polar
+conversion;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 cartopol;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 23 0 21 0;
+#X connect 23 1 22 0;
+#X connect 26 0 23 0;
+#X connect 27 0 34 0;
+#X connect 34 0 23 0;
+#X connect 34 1 23 1;

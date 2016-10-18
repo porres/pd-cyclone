@@ -1,5 +1,4 @@
 #N canvas 453 58 558 593 10;
-#X obj 135 255 output~;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -10,12 +9,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 tri~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Bandlimited triangular oscillator
-;
 #X text 64 91 [tri~] generates an anti-aliased triangular wave at a
 given frequency. It has a sync input and you can set the variable duty
 cycle.;
@@ -417,10 +410,9 @@ musical purposes a band limited osicllator.;
 #X connect 22 0 19 1;
 #X restore 448 270 pd antialiasing;
 #N canvas 830 125 450 300 sync 0;
-#X obj 219 140 phasor~;
-#X obj 219 116 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 213 140 phasor~;
+#X obj 213 116 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 96 211 output~;
 #X obj 320 248 switch~;
 #X obj 320 170 tgl 50 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -429,11 +421,12 @@ musical purposes a band limited osicllator.;
 #X text 51 37 In the third inlet \, you can feed a [phasor~] signal
 for oscillator syncing. The frequency from the [phasor~] will be the
 master and force [tri~] to be synced as a slave.;
-#X connect 0 0 6 2;
+#X obj 96 211 cyclone/output~;
+#X connect 0 0 5 2;
 #X connect 1 0 0 0;
-#X connect 4 0 3 0;
-#X connect 6 0 2 0;
-#X connect 6 0 2 1;
+#X connect 3 0 2 0;
+#X connect 5 0 7 0;
+#X connect 5 0 7 1;
 #X restore 496 294 pd sync;
 #X obj 2 557 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -469,8 +462,15 @@ the arguments are called.;
 #X text 235 420 - the bandlimited triangular oscillator output;
 #X obj 160 210 cyclone/tri~ 440 0.5;
 #X text 235 454 - frequency (default 0);
-#X connect 10 0 38 0;
-#X connect 11 0 12 0;
-#X connect 12 0 38 1;
-#X connect 38 0 0 0;
-#X connect 38 0 0 1;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Bandlimited triangular
+oscillator;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 tri~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 135 255 cyclone/output~;
+#X connect 5 0 33 0;
+#X connect 6 0 7 0;
+#X connect 7 0 33 1;
+#X connect 33 0 39 0;
+#X connect 33 0 39 1;

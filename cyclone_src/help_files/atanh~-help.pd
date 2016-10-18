@@ -14,15 +14,15 @@
 #X obj 117 422 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 46 199 cyclone/atanh~;
-#X obj 247 218 cyclone/atanh~;
+#X obj 243 218 cyclone/atanh~;
 #X text 183 304 0;
-#X obj 247 147 phasor~ 2;
+#X obj 243 147 phasor~ 2;
 #X text 182 369 -pi;
 #X text 183 245 pi;
-#X text 384 303 0;
-#X text 383 368 -pi;
-#X text 384 244 pi;
-#X obj 247 182 cyclone/triangle~ 1;
+#X text 380 303 0;
+#X text 379 368 -pi;
+#X text 380 244 pi;
+#X obj 243 182 cyclone/triangle~ 1;
 #X obj 46 165 osc~ 2;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -38,7 +38,7 @@
 #X text 207 460 - the hyperbolic arc-tangent of the input;
 #X obj 46 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
-#X obj 247 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0
+#X obj 243 251 cyclone/scope~ 130 130 256 3 128 -3.14 3.14 0 0 0 0
 205 229 232 74 79 77 96 98 102 0;
 #X text 54 93 Use [atanh~] to output the hyperbolic arc-tangent of
 each input sample (probably only useful for mathematical calculations).
@@ -152,19 +152,19 @@ each input sample (probably only useful for mathematical calculations).
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 439 262 number~ 1;
-#X obj 439 345 number~;
-#X obj 439 304 cyclone/atanh~;
+#X obj 430 304 cyclone/atanh~;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal hyperbolic
 arc-tangent function;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 atanh~;
+#X obj 430 262 cyclone/number~ 1;
+#X obj 430 345 cyclone/number~;
 #X connect 8 0 25 0;
 #X connect 9 0 26 0;
 #X connect 11 0 17 0;
 #X connect 17 0 9 0;
 #X connect 18 0 8 0;
-#X connect 32 0 34 0;
-#X connect 34 0 33 0;
+#X connect 32 0 38 0;
+#X connect 37 0 32 0;

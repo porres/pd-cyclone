@@ -39,12 +39,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 xnotein;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Retrieve release velocity
-messages;
 #X obj 97 166 midiin;
 #X text 235 156 Note On (raw MIDI data);
 #X text 257 180 Note Off (raw MIDI data);
@@ -76,10 +70,16 @@ default is no channel set.;
 #X text 118 475 float;
 #X text 173 475 MIDI channel;
 #X text 173 400 MIDI note number (pitch), f 60;
-#X connect 5 0 43 0;
-#X connect 6 0 43 0;
-#X connect 28 0 43 0;
-#X connect 43 0 32 0;
-#X connect 43 1 33 0;
-#X connect 43 2 7 0;
-#X connect 43 3 35 0;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Retrieve release
+velocity messages;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 xnotein;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 5 0 39 0;
+#X connect 6 0 39 0;
+#X connect 24 0 39 0;
+#X connect 39 0 28 0;
+#X connect 39 1 29 0;
+#X connect 39 2 7 0;
+#X connect 39 3 31 0;

@@ -38,12 +38,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 histo;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 Create a histogram of numbers
-;
 #X obj 215 207 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 303 167 <= check how many times;
@@ -61,10 +55,10 @@ as the current plan is to phase out the capital letters in cyclone's
 objects.;
 #X text 43 20 [histo] used to be compiled as [Histo] \, probably to
 avoid some name conflicts \, but this is not the case anymore.;
-#X obj 136 110 Histo;
 #X obj 252 110 cyclone/Histo;
 #X obj 114 182 histo;
 #X obj 201 183 cyclone/histo;
+#X obj 136 110 Histo;
 #X restore 457 261 pd backwards \; compatibility;
 #N canvas 788 118 413 264 examples 0;
 #X obj 168 93 notein 1;
@@ -81,8 +75,6 @@ to make probabilistic choices based on past history.;
 #X connect 2 0 4 0;
 #X connect 3 0 4 0;
 #X restore 468 233 pd examples;
-#X obj 115 279 cyclone/comment 100 11 helvetica ? 0 0 0 0 the value
-;
 #X obj 209 279 cyclone/comment 100 11 helvetica ? 0 0 0 0 was repeated
 ;
 #X obj 324 279 cyclone/comment 100 11 helvetica ? 0 0 0 0 times;
@@ -116,11 +108,19 @@ checks and outputs that number's histogram., f 62;
 #X obj 167 241 cyclone/histo 64, f 20;
 #X text 298 241 <= size = 64 (input;
 #X text 334 256 from 0 to 63);
-#X connect 5 0 58 0;
-#X connect 6 0 58 1;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Create a histogram
+of numbers;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 histo;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 115 279 cyclone/comment 100 11 helvetica ? 0 0 0 0 the value
+;
+#X connect 5 0 53 0;
+#X connect 6 0 53 1;
 #X connect 9 0 6 0;
-#X connect 29 0 58 0;
-#X connect 48 0 58 0;
-#X connect 56 0 48 0;
-#X connect 58 0 41 0;
-#X connect 58 1 42 0;
+#X connect 25 0 53 0;
+#X connect 43 0 53 0;
+#X connect 51 0 43 0;
+#X connect 53 0 36 0;
+#X connect 53 1 37 0;

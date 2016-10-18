@@ -1,4 +1,4 @@
-#N canvas 583 23 559 527 10;
+#N canvas 583 23 560 526 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 390 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -31,11 +31,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 maximum;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Compare maximum;
 #X obj 317 211 cyclone/maximum;
 #X text 170 338 - maximum number in the list is output and updates
 argument;
@@ -69,12 +64,12 @@ with the argument!;
 #X obj 146 227 cyclone/maximum 1000;
 #X floatatom 95 183 5 0 0 0 - - -, f 5;
 #X obj 146 259 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 72 256;
+-228856 -1 -1 0 256;
 #X text 49 97 - The maximum number in a list is output in the left
 outlet \, its index (from 0) is output in the right outlet. The next
 maximum updates the argument.;
 #X obj 263 258 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X msg 146 160 9 32 89 10 20 48 79 2 95 43 92;
 #X msg 163 192 22 12 78 64 -32 65 -230 45;
 #X connect 2 0 4 0;
@@ -102,12 +97,17 @@ the left outlet. The right outlet outputs the index of the maximum.
 #X text 321 262 maximum;
 #X text 406 262 index in the list;
 #X text 170 424 - the index of the maximum value, f 61;
-#X connect 23 0 27 0;
-#X connect 23 1 50 0;
-#X connect 25 0 39 0;
-#X connect 29 0 23 0;
-#X connect 32 0 39 0;
-#X connect 33 0 39 1;
-#X connect 39 0 30 0;
-#X connect 39 1 44 0;
-#X connect 41 0 23 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Compare maximum;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 maximum;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 19 0 23 0;
+#X connect 19 1 46 0;
+#X connect 21 0 35 0;
+#X connect 25 0 19 0;
+#X connect 28 0 35 0;
+#X connect 29 0 35 1;
+#X connect 35 0 26 0;
+#X connect 35 1 40 0;
+#X connect 37 0 19 0;

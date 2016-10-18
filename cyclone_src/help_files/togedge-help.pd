@@ -41,14 +41,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 togedge;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 report zero / non-zero transitions
-;
-#X obj 134 250 cyclone/comment 52 11 helvetica ? 0 0 0 0 0 to non-0
-;
 #X obj 297 249 cyclone/comment 52 11 helvetica ? 0 0 0 0 non-0 to 0
 ;
 #X obj 189 182 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -86,11 +78,19 @@ objects.;
 #X text 43 20 [togedge] used to be compiled as [TogEdge] \, probably
 to avoid some name conflicts \, but this is not the case anymore.;
 #X restore 444 237 pd backwards \; compatibility;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 report zero / non-zero
+transitions;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 togedge;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 134 250 cyclone/comment 52 11 helvetica ? 0 0 0 0 0 to non-0
+;
 #X connect 5 0 12 0;
 #X connect 12 0 8 0;
 #X connect 12 1 9 0;
-#X connect 31 0 12 0;
-#X connect 32 0 31 0;
-#X connect 33 0 31 0;
-#X connect 34 0 31 0;
-#X connect 39 0 12 0;
+#X connect 26 0 12 0;
+#X connect 27 0 26 0;
+#X connect 28 0 26 0;
+#X connect 29 0 26 0;
+#X connect 34 0 12 0;

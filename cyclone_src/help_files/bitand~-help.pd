@@ -86,7 +86,7 @@ signal input has priority over the argument or the float input.;
 #X restore 330 284 pd integer_bitmask;
 #X text 103 346 bits <list>;
 #X text 122 487 2) float;
-#X text 111 175 Compare two signals:;
+#X text 111 160 Compare two signals:;
 #N canvas 494 114 692 666 raw_bitmask 0;
 #X obj 121 368 clip~ -1 1;
 #N canvas 303 196 881 396 x 0;
@@ -415,9 +415,6 @@ this value is used for comparison.;
 bitmask;
 #X text 239 279 compare to a;
 #X text 234 291 given bitmask:;
-#X obj 98 272 number~;
-#X obj 98 199 number~ 1;
-#X obj 197 199 number~ 1;
 #X text 184 385 - signal to execute Bitwise-AND on;
 #X obj 37 126 vradio 15 1 0 4 dfhdfgdj sggh empty 0 -8 0 10 -228856
 -1 -1 2;
@@ -429,7 +426,7 @@ signals or a signal to a given bitmask. It has 4 modes of comparison
 #X text 27 139 1;
 #X text 27 155 2;
 #X text 27 170 3;
-#X obj 98 239 cyclone/bitand~, f 17;
+#X obj 98 239 cyclone/bitand~;
 #X text 184 403 - converted to integer and used as bitmask;
 #X obj 8 511 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
@@ -443,9 +440,12 @@ are zeroed out.;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 14 0 48 0;
+#X obj 98 272 cyclone/number~;
+#X obj 185 212 cyclone/number~ 1;
+#X obj 98 184 cyclone/number~ 1;
+#X connect 14 0 45 0;
 #X connect 15 0 14 0;
-#X connect 39 0 48 0;
-#X connect 40 0 48 1;
-#X connect 42 0 15 0;
-#X connect 48 0 38 0;
+#X connect 39 0 15 0;
+#X connect 45 0 55 0;
+#X connect 56 0 45 1;
+#X connect 57 0 45 0;

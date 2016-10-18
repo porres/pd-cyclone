@@ -36,12 +36,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 next;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 detect separation of messages
-;
 #X text 161 352 - if the current message is not part of a logical event
 ;
 #X text 161 376 - if the current message is part of a logical event
@@ -115,9 +109,15 @@ chord;
 #X connect 17 0 7 0;
 #X restore 465 271 pd examples;
 #X msg 232 200 1 \, 2;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 detect separation
+of messages;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 next;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 9 0 11 0;
 #X connect 9 1 12 0;
 #X connect 10 0 9 0;
-#X connect 10 0 32 0;
-#X connect 32 0 9 0;
-#X connect 35 0 9 0;
+#X connect 10 0 28 0;
+#X connect 28 0 9 0;
+#X connect 31 0 9 0;

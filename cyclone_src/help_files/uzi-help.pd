@@ -37,11 +37,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 uzi;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Bang loop/counter;
 #X text 136 501 2) float;
 #X obj 310 254 print counter;
 #X text 156 292 float;
@@ -89,7 +84,6 @@ some name conflicts \, but this is not the case anymore.;
 -1;
 #X obj 79 46 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 89 50 comment 0 18 times ? 0 0 0 0 Sweep an array:;
 #X obj 92 223 cyclone/uzi 100 0;
 #X obj 191 257 tabread array;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -113,9 +107,10 @@ some name conflicts \, but this is not the case anymore.;
 #X obj 191 293 print;
 #X text 111 107 [uzi] is useful for sweeping through arrays \, using
 the counter as the index input.;
-#X connect 0 0 3 0;
-#X connect 3 2 4 0;
-#X connect 4 0 6 0;
+#X obj 89 50 cyclone/comment 0 18 times ? 0 0 0 0 Sweep an array:;
+#X connect 0 0 2 0;
+#X connect 2 2 3 0;
+#X connect 3 0 5 0;
 #X restore 450 212 pd array sweep;
 #N canvas 286 108 836 544 pause/resume 0;
 #X msg 220 415 pause;
@@ -147,7 +142,6 @@ message.;
 the middle of the loop.;
 #X obj 33 35 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 43 39 comment 0 18 times ? 0 0 0 0 Pause / Resume:;
 #X text 143 259 <= start;
 #X text 185 294 <= resume;
 #X text 436 34 You can also use "break" instead of "pause" and "continue"
@@ -167,34 +161,41 @@ continue outputting any bangs \, because the counter is already past
 the target \, so it only ouputs a bang in the middle outlet saying
 it's done!;
 #X obj 571 411 cyclone/uzi 10;
+#X obj 43 38 cyclone/comment 0 18 times ? 0 0 0 0 Pause / Resume:;
 #X connect 0 0 2 0;
 #X connect 1 0 2 0;
 #X connect 2 0 12 0;
 #X connect 2 2 11 0;
 #X connect 2 2 13 0;
 #X connect 3 0 2 0;
-#X connect 4 0 26 0;
-#X connect 6 0 26 0;
-#X connect 7 0 26 0;
-#X connect 8 0 26 0;
-#X connect 9 0 26 0;
+#X connect 4 0 25 0;
+#X connect 6 0 25 0;
+#X connect 7 0 25 0;
+#X connect 8 0 25 0;
+#X connect 9 0 25 0;
 #X connect 10 0 6 0;
 #X connect 11 0 0 0;
-#X connect 22 0 26 0;
-#X connect 26 2 5 0;
-#X connect 26 2 10 0;
+#X connect 21 0 25 0;
+#X connect 25 2 5 0;
+#X connect 25 2 10 0;
 #X restore 444 187 pd pause/resume;
 #X text 70 84 [uzi] loops firing a given number of bangs (left outlet)
 and outputs a count for each bang (right outlet). The middle outlet
 bangs after the loop is done. The 1st argument is the number of bangs.
 The counter starts from a given offset (2nd argument).;
 #X text 202 291 - sets the number of bangs and starts the loop;
-#X connect 11 0 40 0;
-#X connect 12 0 40 1;
-#X connect 31 0 40 0;
-#X connect 32 0 40 0;
-#X connect 33 0 32 0;
-#X connect 34 0 27 0;
-#X connect 40 0 10 0;
-#X connect 40 1 41 0;
-#X connect 40 2 34 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Bang loop/counter
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 uzi;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 11 0 36 0;
+#X connect 12 0 36 1;
+#X connect 27 0 36 0;
+#X connect 28 0 36 0;
+#X connect 29 0 28 0;
+#X connect 30 0 23 0;
+#X connect 36 0 10 0;
+#X connect 36 1 37 0;
+#X connect 36 2 30 0;

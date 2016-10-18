@@ -20,8 +20,6 @@
 #X text 196 308 - outputs the last received input as sequential elements
 ;
 #X text 196 327 - split elements sequentially;
-#X obj 25 63 comment 0 18 times ? 0 0 0 0 Split messages sequentially
-;
 #X msg 181 145 1 2 three;
 #X msg 212 171 list one two 3;
 #X msg 232 198 any message type;
@@ -37,10 +35,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 iter;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 66 256 print;
 #X obj 38 180 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -55,15 +49,21 @@ Max/MSP;
 #X obj 389 225 makenote 64 500;
 #X obj 429 257 noteout;
 #X text 380 141 a chord from list;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 iter;
+#X obj 25 63 cyclone/comment 0 18 times ? 0 0 0 0 Split messages sequentially
+;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 7 0 6 0;
+#X connect 14 0 7 0;
 #X connect 15 0 7 0;
 #X connect 16 0 7 0;
-#X connect 17 0 7 0;
-#X connect 27 0 30 0;
+#X connect 23 0 26 0;
+#X connect 24 0 25 0;
+#X connect 25 0 26 0;
+#X connect 26 0 22 0;
 #X connect 28 0 29 0;
 #X connect 29 0 30 0;
-#X connect 30 0 26 0;
-#X connect 32 0 33 0;
-#X connect 33 0 34 0;
-#X connect 34 0 35 0;
-#X connect 34 1 35 1;
+#X connect 30 0 31 0;
+#X connect 30 1 31 1;

@@ -58,8 +58,8 @@
 #X obj 98 295 cyclone/scope~ 213 131 3 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -128,7 +128,7 @@
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -166,9 +166,7 @@
 #X text 86 178 Use [cyclone/abs~]* to get the absolute function for
 signals and convert negative values to positive values.;
 #X text 183 255 * needs "cyclone/" to differentiate from vanilla;
-#X obj 388 317 number~ 1;
 #X obj 388 355 cyclone/abs~;
-#X obj 388 396 number~;
 #X text 386 294 click and drag;
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 abs~;
 #X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Signal absolute value
@@ -178,7 +176,9 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 93 102 cyclone/comment 0 15 times ? 0 0 0 0 Avoid using this
 object!;
+#X obj 388 317 cyclone/number~ 1;
+#X obj 388 386 cyclone/number~;
 #X connect 13 0 15 0;
 #X connect 15 0 27 0;
-#X connect 32 0 33 0;
-#X connect 33 0 34 0;
+#X connect 32 0 40 0;
+#X connect 39 0 32 0;

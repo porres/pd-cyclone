@@ -9,12 +9,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#X obj 17 4 comment 0 37 times ? 0 0 0 0 prepend;
-#X obj 323 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 364 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 18 56 comment 0 18 times ? 0 0 0 0 Prepend a message to the
-incoming message;
 #X obj 4 274 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 353 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -55,11 +49,17 @@ message);
 #X text 182 364 - the combined message;
 #X text 182 403 - sets message to append to input (default "nothing")
 ;
-#X connect 21 0 22 0;
-#X connect 22 0 13 0;
+#X obj 18 56 cyclone/comment 0 18 times ? 0 0 0 0 Prepend a message
+to the incoming message;
+#X obj 17 4 cyclone/comment 0 37 times ? 0 0 0 0 prepend;
+#X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 17 0 18 0;
+#X connect 18 0 9 0;
+#X connect 19 0 18 0;
+#X connect 20 0 18 0;
+#X connect 21 0 18 0;
 #X connect 23 0 22 0;
-#X connect 24 0 22 0;
-#X connect 25 0 22 0;
-#X connect 27 0 26 0;
-#X connect 28 0 27 0;
-#X connect 29 0 27 0;
+#X connect 24 0 23 0;
+#X connect 25 0 23 0;

@@ -31,17 +31,10 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 phaseshift~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 2nd order Allpass filter
-;
 #X text 216 527 - sets Q;
 #X text 170 482 clear;
 #X text 216 614 - sets Q (default ?);
 #X floatatom 244 273 0 0 0 0 - - -;
-#X obj 41 347 output~;
 #X obj 61 306 +~;
 #X obj 61 234 noise~;
 #X obj 152 228 hsl 128 15 100 2000 1 0 \$0-Freq \$0-Freq_set empty
@@ -342,7 +335,6 @@ Max/MSP;
 #X text 500 366 0ª/360ª;
 #X text 216 463 - signal whose phase will be shifted;
 #X text 216 482 - clears filter's memory;
-#X obj 391 297 comment 0 16 times ? 0 0 0 0 phase response;
 #X obj 76 275 cyclone/phaseshift~ 500 1;
 #X text 178 681 no arguments fucks audio... (default?);
 #X text 181 227 frequency;
@@ -475,12 +467,21 @@ a 44.1khz sample rate).;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 25 0 39 2;
-#X connect 27 0 26 0;
-#X connect 27 0 26 1;
-#X connect 28 0 27 0;
-#X connect 28 0 39 0;
-#X connect 29 0 30 0;
-#X connect 30 0 39 1;
-#X connect 31 0 25 0;
-#X connect 39 0 27 1;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 2nd order Allpass
+filter;
+#X obj 391 297 cyclone/comment 0 16 times ? 0 0 0 0 phase response
+;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 phaseshift~;
+#X obj 41 347 cyclone/output~;
+#X connect 21 0 33 2;
+#X connect 22 0 60 0;
+#X connect 22 0 60 1;
+#X connect 23 0 22 0;
+#X connect 23 0 33 0;
+#X connect 24 0 25 0;
+#X connect 25 0 33 1;
+#X connect 26 0 21 0;
+#X connect 33 0 22 1;

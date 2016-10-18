@@ -23,18 +23,18 @@
 #X obj 111 264 output~;
 #X obj 25 10 cnv 15 210 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 31 15 comment 0 18 times ? 0 0 0 0 [rand~] as random control
-;
 #X text 25 59 you can use [rand~] at a low frequency to generate random
 ramps up and down to control several parameters. Below \, it generates
 random glissandi.;
 #X obj 136 219 osc~;
 #X obj 136 143 cyclone/rand~ 1;
-#X connect 0 0 5 0;
-#X connect 5 0 1 0;
-#X connect 5 0 1 1;
-#X connect 6 0 0 0;
-#X restore 287 354 pd random control;
+#X obj 31 15 cyclone/comment 0 18 times ? 0 0 0 0 [rand~] as random
+control;
+#X connect 0 0 4 0;
+#X connect 4 0 1 0;
+#X connect 4 0 1 1;
+#X connect 5 0 0 0;
+#X restore 429 371 pd random control;
 #X text 142 431 float/signal;
 #X obj 254 208 cyclone/rand~ 441;
 #X obj 89 263 cyclone/Scope~ 130 130 16 3 128 -1 1 50 0 0 0 205 229
@@ -53,12 +53,6 @@ The resulting sound is a bandlimited noise.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 rand~;
-#X obj 16 59 comment 0 18 times ? 0 0 0 0 Interpolated bandlimited
-noise;
 #X text 233 506 - sets intial frequency (default 0);
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
@@ -164,6 +158,12 @@ noise;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 16 59 cyclone/comment 0 18 times ? 0 0 0 0 Interpolated bandlimited
+noise;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 rand~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 6 0 14 0;
 #X connect 10 0 6 0;
 #X connect 14 0 9 0;

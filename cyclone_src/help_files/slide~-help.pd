@@ -3,34 +3,10 @@
 0;
 #X obj 4 418 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#N canvas 599 339 377 257 META 0;
-#X text 0 31 LICENSE SIBSD;
-#X text 0 139 LIBRARY cyclone;
-#X text 0 121 OUTLET_0 signal;
-#X text 0 67 INLET_0 signal;
-#X text 0 85 INLET_1 float;
-#X text 0 103 INLET_2 float;
-#X text 0 49 DESCRIPTION smooth-out changes in signal values;
-#X text 0 0 KEYWORDS signal smooth smooth-out changes slideup slidedown
-slide;
-#X text 0 158 VERSION 0.2-beta1;
-#X text 0 176 AUTHOR Krzysztof Czaja;
-#X text 1 194 RELEASE_DATE 2002;
-#X text 2 213 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 245 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 500 651 pd META;
 #X obj 4 562 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 599 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 321 491 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 207 651 pd Related_objects;
 #X obj 82 426 cnv 17 3 82 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 85 572 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -83,12 +59,6 @@ following and lowpass filtering.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 slide~;
-#X obj 17 57 comment 0 18 times ? 0 0 0 0 Smooth signals logarithmically
-;
 #X text 94 445 slide_down <float>;
 #X text 106 462 slide_up <float>;
 #X text 172 480 reset;
@@ -97,8 +67,8 @@ Max/MSP;
 #X text 217 481 - sets the current output sample value to 0 (the next
 incoming value will smoothly transition from that 0);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -167,7 +137,7 @@ incoming value will smoothly transition from that 0);
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -200,12 +170,18 @@ incoming value will smoothly transition from that 0);
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 10 0 22 2;
-#X connect 12 0 22 1;
-#X connect 13 0 22 0;
-#X connect 22 0 30 0;
-#X connect 25 0 13 0;
-#X connect 31 0 12 0;
-#X connect 32 0 10 0;
-#X connect 33 0 12 0;
-#X connect 34 0 10 0;
+#X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Smooth signals logarithmically
+;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 slide~;
+#X connect 8 0 20 2;
+#X connect 10 0 20 1;
+#X connect 11 0 20 0;
+#X connect 20 0 28 0;
+#X connect 23 0 11 0;
+#X connect 29 0 10 0;
+#X connect 30 0 8 0;
+#X connect 31 0 10 0;
+#X connect 32 0 8 0;

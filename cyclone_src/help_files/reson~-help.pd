@@ -24,7 +24,6 @@
 #X text 156 584 3) float;
 #X floatatom 329 216 0 1 100 0 - - -;
 #X floatatom 217 203 5 0 10 0 - - -, f 5;
-#X obj 149 295 output~;
 #X text 229 551 - initial gain (default 0);
 #X text 229 584 - initial Q range (default 0.01);
 #X text 132 458 float/signal;
@@ -54,12 +53,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 reson~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Resonant bandpass filter
-;
 #X text 229 384 - signal to be filtered;
 #X text 229 417 - clears the internal buffer's memory;
 #X text 228 436 - sets gain;
@@ -75,12 +68,19 @@ r * x[n-2]) + b1 * y[n-1] + b2 * y[n-2] - where r \, b1 \, and b2 are
 calculated from 'Q' and center frequency.;
 #X text 258 165 center frequency;
 #X text 74 95 [reson~] is a resonant bandpass filter.;
-#X connect 14 0 32 3;
-#X connect 15 0 32 1;
-#X connect 23 0 25 0;
-#X connect 24 0 23 0;
-#X connect 25 0 32 2;
-#X connect 26 0 15 0;
-#X connect 32 0 16 0;
-#X connect 32 0 16 1;
-#X connect 33 0 32 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Resonant bandpass
+filter;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 reson~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 149 295 cyclone/output~;
+#X connect 14 0 31 3;
+#X connect 15 0 31 1;
+#X connect 22 0 24 0;
+#X connect 23 0 22 0;
+#X connect 24 0 31 2;
+#X connect 25 0 15 0;
+#X connect 31 0 53 0;
+#X connect 31 0 53 1;
+#X connect 32 0 31 0;

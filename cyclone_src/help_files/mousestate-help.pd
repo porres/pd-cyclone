@@ -43,11 +43,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 mousestate;
-#X obj 33 59 comment 0 18 times ? 0 0 0 0 Retrieve mouse data;
 #X msg 121 152 nopoll;
 #X obj 89 175 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -134,7 +129,7 @@ system;
 #X connect 15 0 20 0;
 #X connect 16 0 21 0;
 #X connect 21 0 11 0;
-#X restore 456 220 pd examples;
+#X restore 466 180 pd examples;
 #X text 158 296 - polls position data;
 #X text 158 326 - does not poll position data (only via bang), f 50
 ;
@@ -213,7 +208,7 @@ and cursor delta. The click report is always given (and sampled every
 #X connect 15 0 20 0;
 #X connect 16 0 21 0;
 #X connect 21 0 11 0;
-#X restore 461 247 pd modes;
+#X restore 483 205 pd modes;
 #N canvas 762 173 447 291 backwards 0;
 #X text 185 110 or even:;
 #X text 49 150 But please don't \, just stick to;
@@ -228,15 +223,21 @@ reasons. So you can still use:;
 #X obj 252 110 cyclone/MouseState;
 #X obj 84 182 mousestate;
 #X obj 201 183 cyclone/mousestate;
-#X restore 446 170 pd backwards \; compatibility;
+#X restore 453 231 pd backwards \; compatibility;
+#X obj 33 59 cyclone/comment 0 18 times ? 0 0 0 0 Retrieve mouse data
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 mousestate;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 11 0 12 0;
-#X connect 12 0 42 0;
-#X connect 12 1 39 0;
-#X connect 12 1 60 0;
-#X connect 12 2 38 0;
-#X connect 12 3 36 0;
-#X connect 12 4 35 0;
-#X connect 32 0 12 0;
-#X connect 33 0 12 0;
-#X connect 46 0 12 0;
-#X connect 47 0 46 0;
+#X connect 12 0 38 0;
+#X connect 12 1 35 0;
+#X connect 12 1 56 0;
+#X connect 12 2 34 0;
+#X connect 12 3 32 0;
+#X connect 12 4 31 0;
+#X connect 28 0 12 0;
+#X connect 29 0 12 0;
+#X connect 42 0 12 0;
+#X connect 43 0 42 0;

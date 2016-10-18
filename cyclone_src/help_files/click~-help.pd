@@ -15,7 +15,6 @@
 #X text 153 532 signal;
 #X obj 54 337 print~;
 #X obj 124 299 cyclone/click~;
-#X obj 106 380 output~;
 #X obj 354 227 cyclone/click~;
 #X obj 354 201 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -32,11 +31,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 17 6 comment 0 37 times ? 0 0 0 0 click~;
-#X obj 18 58 comment 0 18 times ? 0 0 0 0 Impulse generator;
 #X obj 354 289 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 174 219 set impulse value(s);
@@ -162,16 +156,23 @@ values;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 18 58 cyclone/comment 0 18 times ? 0 0 0 0 Impulse generator
+;
+#X obj 17 6 cyclone/comment 0 37 times ? 0 0 0 0 click~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 106 380 cyclone/output~;
 #X connect 9 0 8 0;
-#X connect 9 0 15 0;
-#X connect 11 0 13 0;
-#X connect 12 0 11 0;
-#X connect 13 0 24 0;
-#X connect 15 0 10 0;
-#X connect 15 0 10 1;
-#X connect 32 0 8 0;
-#X connect 32 0 9 0;
-#X connect 33 0 9 0;
-#X connect 33 0 32 0;
-#X connect 34 0 9 0;
-#X connect 34 0 32 0;
+#X connect 9 0 14 0;
+#X connect 10 0 12 0;
+#X connect 11 0 10 0;
+#X connect 12 0 19 0;
+#X connect 14 0 37 0;
+#X connect 14 0 37 1;
+#X connect 27 0 8 0;
+#X connect 27 0 9 0;
+#X connect 28 0 9 0;
+#X connect 28 0 27 0;
+#X connect 29 0 9 0;
+#X connect 29 0 27 0;

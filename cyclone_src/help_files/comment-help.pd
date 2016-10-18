@@ -20,11 +20,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 comment;
-#X obj 20 57 comment 0 18 times ? 0 0 0 0 A comment box;
 #X text 101 368 2) float;
 #X text 100 424 4) float;
 #X text 100 440 5) float;
@@ -91,3 +86,8 @@ to select it \, then press <F4> to show the object name and arguments.
 You can also press <F5> to duplicate the comment text into a Pd comment
 text.;
 #X restore 421 256 pd details/examples;
+#X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Comment box;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;

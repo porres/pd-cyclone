@@ -29,12 +29,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 past;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 Check if input increases
-past a limit;
 #X text 193 416 if input went past the limit or list or limits;
 #X text 90 464 1) float/list;
 #X text 112 379 set <list> -;
@@ -234,7 +228,7 @@ used with lists...;
 #X connect 26 0 32 0;
 #X connect 27 0 32 0;
 #X connect 32 0 29 0;
-#X restore 416 258 pd list_behaviour;
+#X restore 425 270 pd list_behaviour;
 #X obj 165 162 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 162 189 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -243,8 +237,14 @@ used with lists...;
 #X text 70 99 [past] sends a bang when an input raises past a given
 limit value. The input needs to fall back to this limit or below it
 for another bang to be output when it raises again.;
-#X connect 6 0 34 0;
-#X connect 7 0 34 0;
-#X connect 32 0 33 0;
-#X connect 33 0 34 0;
-#X connect 34 0 8 0;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Check if input increases
+past a limit;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 past;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 6 0 30 0;
+#X connect 7 0 30 0;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 30 0 8 0;

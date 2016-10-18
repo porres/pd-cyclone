@@ -9,11 +9,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 freqshift~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Frequency shifter;
 #X obj 173 271 cyclone/freqshift~;
 #X obj 4 611 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -63,11 +58,17 @@ opposite frequency shift).;
 #X text 129 560 * Internally \, [freqshift~] has a hilbert transformer
 composed of allpass filters to convert a real signal to a complex signal.
 ;
-#X connect 8 0 26 0;
-#X connect 8 0 26 1;
-#X connect 8 1 36 1;
-#X connect 8 1 36 0;
-#X connect 31 0 32 0;
-#X connect 32 0 8 1;
-#X connect 34 0 8 0;
-#X connect 35 0 34 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Frequency shifter
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 freqshift~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 4 0 22 0;
+#X connect 4 0 22 1;
+#X connect 4 1 32 1;
+#X connect 4 1 32 0;
+#X connect 27 0 28 0;
+#X connect 28 0 4 1;
+#X connect 30 0 4 0;
+#X connect 31 0 30 0;

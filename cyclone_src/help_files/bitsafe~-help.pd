@@ -142,8 +142,6 @@ existed;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 329 234 number~;
-#X obj 305 334 number~;
 #X text 70 97 [bitsafe~] replaces NaN (not a number) and +/- infinity
 values of an incoming signal with zero. This is useful in conjunction
 with the bitwise operators \, or any other situation where these values
@@ -154,11 +152,13 @@ with 0;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 305 334 cyclone/number~;
+#X obj 329 234 cyclone/number~;
 #X connect 12 0 13 0;
 #X connect 14 0 16 0;
 #X connect 15 0 16 0;
-#X connect 17 0 25 0;
+#X connect 17 0 29 0;
 #X connect 18 0 17 0;
-#X connect 18 0 24 0;
+#X connect 18 0 30 0;
 #X connect 22 0 13 0;
 #X connect 22 0 14 0;

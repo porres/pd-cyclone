@@ -1,34 +1,34 @@
-#N canvas 678 54 562 687 10;
-#X obj 4 646 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 678 54 559 633 10;
+#X obj 4 592 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 425 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 380 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 469 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 424 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 507 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 462 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 90 437 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 90 392 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 90 478 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 90 433 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 130 436 signal;
-#X text 130 478 signal;
-#X obj 109 301 cyclone/frameaccum~;
-#X obj 264 251 sig~ 0.01;
-#X obj 267 362 hsl 128 15 -3.14153 3.14153 0 0 empty empty empty -2
--8 0 10 -228856 -1 -1 0 1;
-#X msg 264 205 -0.01;
-#X msg 272 227 0.01;
-#X text 235 361 -PI;
-#X text 401 363 PI, f 4;
-#X obj 264 287 cyclone/frameaccum~ 1;
-#X text 136 516 float;
-#X text 405 286 wrap at phase values;
+#X text 130 391 signal;
+#X text 130 433 signal;
+#X obj 89 296 cyclone/frameaccum~;
+#X obj 264 241 sig~ 0.01;
+#X obj 267 352 hsl 128 15 -3.14153 3.14153 0 0 empty empty empty -2
+-8 0 10 -228856 -1 -1 10925 1;
+#X msg 264 195 -0.01;
+#X msg 272 217 0.01;
+#X text 235 351 -PI;
+#X text 401 353 PI, f 4;
+#X obj 264 277 cyclone/frameaccum~ 1;
+#X text 136 471 float;
+#X text 405 276 wrap at phase values;
 #X text 67 163 It can also automatically wrap at phase boundaries (from
 -pi to pi) via an argument.;
-#X obj 7 562 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+#X obj 7 517 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 142 574 For each block \, the first sample of its output will
+#X text 142 529 For each block \, the first sample of its output will
 be the sum of all of the first samples in each signal block it has
 received \, the second sample of its output will be the sum of all
 the second samples in each signal vector \, and so on...;
@@ -42,29 +42,18 @@ the second samples in each signal vector \, and so on...;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 frameaccum~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 FFT frame accumulation;
-#X obj 109 329 cyclone/snapshot~ 10;
-#X obj 264 328 cyclone/snapshot~ 10;
-#X obj 264 388 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 109 388 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
 #X text 66 85 [frameaccum~] was specially designed to compute a running
 phase of FFT frames by keeping an accumulated sum of the values in
 each sample of an incoming signal block.;
 #X text 66 131 It can keep a running phase of an FFT because the FFT
 size is equal to the signal block size.;
-#X text 186 479 - accumulated FFT frame;
-#X text 190 436 - incoming FFT frame;
-#X text 186 516 - "1" enables phase wrapping between -PI and PI. "0"
+#X text 186 434 - accumulated FFT frame;
+#X text 190 391 - incoming FFT frame;
+#X text 186 471 - "1" enables phase wrapping between -PI and PI. "0"
 (default) disables and values are accumulated without bounds.;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -133,7 +122,7 @@ size is equal to the signal block size.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -166,12 +155,18 @@ size is equal to the signal block size.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 8 0 29 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 FFT frame accumulation
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 frameaccum~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 89 334 cyclone/number~;
+#X obj 264 318 cyclone/number~;
+#X connect 8 0 35 0;
 #X connect 9 0 15 0;
 #X connect 9 0 8 0;
-#X connect 10 0 31 0;
 #X connect 11 0 9 0;
 #X connect 12 0 9 0;
-#X connect 15 0 30 0;
-#X connect 29 0 32 0;
-#X connect 30 0 10 0;
+#X connect 15 0 36 0;
+#X connect 36 1 10 0;

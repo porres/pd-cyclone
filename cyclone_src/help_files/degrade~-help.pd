@@ -14,7 +14,6 @@
 ;
 #X obj 100 383 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 94 272 output~;
 #X floatatom 183 173 0 1 10000 0 - - -;
 #X text 132 408 float/signal;
 #X text 79 95 [degrade~] takes any given signal and reduces the sampling
@@ -33,8 +32,6 @@ rate and bit-depth as specified/desired.;
 ;
 #X text 132 432 float/signal;
 #X text 223 433 - bit depth (1-24);
-#X obj 214 243 scope~ 182 107 2 3 128 -1 1 250 0 0 0 205 229 232 74
-79 77 96 98 102 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -45,11 +42,6 @@ rate and bit-depth as specified/desired.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 degrade~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal quality reducer;
 #X text 224 471 - degraded (resampled and quantized) signal;
 #X text 168 471 signal;
 #X text 156 510 1) float;
@@ -161,11 +153,20 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 9 0 38 1;
-#X connect 12 0 9 0;
-#X connect 14 0 38 2;
-#X connect 15 0 14 0;
-#X connect 17 0 38 0;
-#X connect 38 0 8 0;
-#X connect 38 0 8 1;
-#X connect 38 0 23 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal quality reducer
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 degrade~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 214 243 cyclone/scope~ 182 107 2 3 128 -1 1 250 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 94 272 cyclone/output~;
+#X connect 8 0 32 1;
+#X connect 11 0 8 0;
+#X connect 13 0 32 2;
+#X connect 14 0 13 0;
+#X connect 16 0 32 0;
+#X connect 32 0 38 0;
+#X connect 32 0 39 0;
+#X connect 32 0 39 1;

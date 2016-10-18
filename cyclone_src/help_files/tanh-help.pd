@@ -9,8 +9,6 @@
 0;
 #X obj 2 378 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Hyperbolic tangent function
-;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -21,10 +19,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 15 4 comment 0 37 times ? 0 0 0 0 tanh;
 #X text 61 92 [tanh] calculates the hyperbolic tangent function of
 a given number.;
 #X obj 98 316 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -51,8 +45,14 @@ a given number.;
 -228856 -1 -1 0 1;
 #X obj 141 179 cyclone/tanh;
 #X obj 327 169 cyclone/tanh 2.5;
-#X connect 24 0 30 0;
-#X connect 25 0 29 0;
-#X connect 28 0 25 0;
-#X connect 29 0 26 0;
-#X connect 30 0 27 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Hyperbolic tangent
+function;
+#X obj 15 4 cyclone/comment 0 37 times ? 0 0 0 0 tanh;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 20 0 26 0;
+#X connect 21 0 25 0;
+#X connect 24 0 21 0;
+#X connect 25 0 22 0;
+#X connect 26 0 23 0;

@@ -1,4 +1,4 @@
-#N canvas 978 416 558 572 10;
+#N canvas 571 274 558 572 10;
 #X obj 2 429 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 478 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -21,36 +21,6 @@
 #X obj 195 196 cyclone/sustain, f 21;
 #X obj 2 537 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 526 102 390 380 META 0;
-#X text 11 29 LICENSE SIBSD;
-#X text 11 162 LIBRARY cyclone;
-#X text 11 86 INLET_1 float;
-#X text 11 124 OUTLET_0 float;
-#X text 11 10 KEYWORDS pitch velocity hold note offs;
-#X text 11 48 DESCRIPTION hold note offs and output them on request
-;
-#X text 11 67 INLET_0 list float;
-#X text 11 105 INLET_2 toggle;
-#X text 11 143 OUTLET_1 float;
-#X text 10 184 VERSION 0.2-beta1;
-#X text 10 202 AUTHOR Krzysztof Czaja;
-#X text 11 220 RELEASE_DATE 2002;
-#X text 12 239 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 12 271 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 505 539 pd META;
-#N canvas 383 144 430 89 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 151 33 cyclone/flush;
-#X obj 246 33 cyclone/midiflush;
-#X obj 82 33 stripnote;
-#X obj 17 33 makenote;
-#X restore 207 539 pd Related_objects;
 #X text 157 281 float;
 #X text 163 298 list;
 #X text 192 387 -;
@@ -72,11 +42,6 @@ this patch for Pd-Vanilla 0.47-2.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 sustain;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Sustain pedal emulator;
 #X obj 318 223 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 195 223 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -109,11 +74,10 @@ and sends the held note off messages when it's switched off.;
 #X obj 556 256 cyclone/sustain, f 21;
 #X text 712 212 On/Off;
 #X obj 524 182 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 76 256;
+-228856 -1 -1 64 256;
 #X obj 556 313 pack f f f;
 #X obj 556 341 route 1 2;
 #X obj 524 206 makenote 127 500;
-#X obj 556 412 output~;
 #X obj 524 133 metro 1000;
 #X obj 524 108 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
@@ -177,44 +141,45 @@ note messages. and you can also set the sustain parameter with the
 @sustain attribute or message;
 #X obj 134 279 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
+#X obj 556 412 cyclone/output~;
 #X connect 0 0 1 0;
-#X connect 1 0 36 2;
-#X connect 2 0 36 0;
-#X connect 2 1 36 1;
+#X connect 1 0 35 2;
+#X connect 2 0 35 0;
+#X connect 2 1 35 1;
 #X connect 5 0 12 1;
 #X connect 6 0 12 0;
-#X connect 7 0 34 0;
-#X connect 8 0 34 0;
-#X connect 9 0 34 0;
-#X connect 10 0 34 0;
+#X connect 7 0 33 0;
+#X connect 8 0 33 0;
+#X connect 9 0 33 0;
+#X connect 10 0 33 0;
 #X connect 12 0 11 0;
 #X connect 13 0 14 2;
-#X connect 14 0 25 0;
-#X connect 14 1 25 1;
+#X connect 14 0 24 0;
+#X connect 14 1 24 1;
 #X connect 16 0 19 0;
 #X connect 17 0 18 0;
-#X connect 18 0 27 0;
-#X connect 18 1 28 0;
-#X connect 19 0 24 0;
-#X connect 19 1 23 0;
-#X connect 21 0 26 0;
-#X connect 22 0 21 0;
-#X connect 23 0 14 1;
-#X connect 24 0 14 0;
-#X connect 25 0 17 0;
-#X connect 25 1 17 1;
-#X connect 25 2 17 2;
-#X connect 26 0 16 0;
-#X connect 27 0 20 0;
-#X connect 28 0 20 1;
-#X connect 29 0 13 0;
-#X connect 29 0 22 0;
-#X connect 34 0 6 0;
-#X connect 34 1 5 0;
-#X connect 35 0 34 0;
-#X connect 36 0 4 0;
-#X connect 36 1 3 0;
-#X connect 38 0 35 0;
+#X connect 18 0 26 0;
+#X connect 18 1 27 0;
+#X connect 19 0 23 0;
+#X connect 19 1 22 0;
+#X connect 20 0 25 0;
+#X connect 21 0 20 0;
+#X connect 22 0 14 1;
+#X connect 23 0 14 0;
+#X connect 24 0 17 0;
+#X connect 24 1 17 1;
+#X connect 24 2 17 2;
+#X connect 25 0 16 0;
+#X connect 26 0 38 0;
+#X connect 27 0 38 1;
+#X connect 28 0 13 0;
+#X connect 28 0 21 0;
+#X connect 33 0 6 0;
+#X connect 33 1 5 0;
+#X connect 34 0 33 0;
+#X connect 35 0 4 0;
+#X connect 35 1 3 0;
+#X connect 37 0 34 0;
 #X restore 476 221 pd examples;
 #X obj 2 507 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
@@ -300,13 +265,19 @@ is sent \, instead of all of them.;
 #X connect 25 0 2 0;
 #X connect 25 1 1 0;
 #X restore 464 244 pd repeatmode;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Sustain pedal emulator
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 sustain;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 5 0 10 2;
-#X connect 10 0 33 0;
-#X connect 10 1 32 0;
-#X connect 32 0 49 0;
-#X connect 33 0 50 0;
-#X connect 35 0 51 0;
+#X connect 10 0 27 0;
+#X connect 10 1 26 0;
+#X connect 26 0 43 0;
+#X connect 27 0 44 0;
+#X connect 29 0 45 0;
+#X connect 39 0 10 0;
+#X connect 40 0 10 0;
 #X connect 45 0 10 0;
-#X connect 46 0 10 0;
-#X connect 51 0 10 0;
-#X connect 51 1 10 1;
+#X connect 45 1 10 1;

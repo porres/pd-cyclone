@@ -42,11 +42,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 drunk;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 Random drunk walk;
 #X text 171 477 - random number output as result of the drunken walk
 ;
 #X text 93 378 seed <float> -;
@@ -74,7 +69,7 @@ by a random value less than the given step size.;
 #X text 341 181 size;
 #X obj 1 549 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 401 94 754 394 examples 1;
+#N canvas 401 94 754 394 examples 0;
 #X obj 112 49 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 112 84 metro 250;
@@ -90,7 +85,6 @@ by a random value less than the given step size.;
 #X obj 112 118 cyclone/drunk 30 6;
 #X obj 112 149 + 40;
 #X obj 112 175 change;
-#X obj 96 287 output~;
 #N canvas 808 403 328 303 osc 0;
 #X obj 199 47 inlet;
 #X obj 57 48 inlet;
@@ -123,10 +117,11 @@ by a random value less than the given step size.;
 #X text 408 141 sets a current value and outputs it;
 #X text 418 168 sets current and maximum values;
 #X text 456 196 sets current \, maximum and step size values;
+#X obj 96 287 cyclone/output~;
 #X connect 0 0 1 0;
 #X connect 1 0 10 0;
-#X connect 2 0 14 0;
-#X connect 2 1 14 1;
+#X connect 2 0 13 0;
+#X connect 2 1 13 1;
 #X connect 3 0 7 0;
 #X connect 4 0 7 0;
 #X connect 5 0 4 0;
@@ -136,22 +131,28 @@ by a random value less than the given step size.;
 #X connect 10 0 11 0;
 #X connect 11 0 12 0;
 #X connect 12 0 2 0;
-#X connect 12 0 16 0;
-#X connect 14 0 13 0;
-#X connect 14 0 13 1;
-#X connect 16 0 19 0;
+#X connect 12 0 15 0;
+#X connect 13 0 23 0;
+#X connect 13 0 23 1;
+#X connect 15 0 18 0;
+#X connect 16 0 7 0;
 #X connect 17 0 7 0;
-#X connect 18 0 7 0;
-#X restore 451 250 pd examples;
+#X restore 468 265 pd examples;
 #X text 186 337 sets new current value and outputs it, f 58;
 #X text 186 359 of floats sets <value \, maximum \, step size> in this
 order;
 #X obj 201 224 cyclone/drunk 12 3, f 24;
-#X connect 6 0 55 0;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Random drunk walk
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 drunk;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 6 0 51 0;
 #X connect 7 0 6 0;
-#X connect 10 0 39 0;
-#X connect 40 0 55 0;
-#X connect 45 0 55 1;
-#X connect 46 0 55 2;
-#X connect 55 0 5 0;
-#X connect 55 0 10 0;
+#X connect 10 0 35 0;
+#X connect 36 0 51 0;
+#X connect 41 0 51 1;
+#X connect 42 0 51 2;
+#X connect 51 0 5 0;
+#X connect 51 0 10 0;

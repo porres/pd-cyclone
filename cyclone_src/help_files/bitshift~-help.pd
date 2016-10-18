@@ -157,8 +157,6 @@ signed integer representation of this value is used for the operation.
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 117 297 number~;
-#X obj 117 178 number~ 1;
 #X obj 117 261 cyclone/bitshift~ -2;
 #X text 189 398 - specifies the number and direction of the shift -
 positive values shift that number of bits to the left while negative
@@ -178,9 +176,11 @@ are zeroed out.;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 10 0 32 0;
+#X obj 117 297 cyclone/number~;
+#X obj 117 176 cyclone/number~ 1;
+#X connect 10 0 30 0;
 #X connect 11 0 10 0;
-#X connect 19 0 32 0;
-#X connect 31 0 32 0;
-#X connect 32 0 30 0;
-#X connect 37 0 19 0;
+#X connect 19 0 30 0;
+#X connect 30 0 42 0;
+#X connect 35 0 19 0;
+#X connect 43 0 30 0;

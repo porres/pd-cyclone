@@ -1,4 +1,4 @@
-#N canvas 126 224 561 672 10;
+#N canvas 272 108 561 672 10;
 #X obj 3 627 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 415 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -52,7 +52,7 @@ to);
 #X connect 3 0 4 1;
 #X connect 4 0 1 0;
 #X connect 5 0 0 0;
-#X restore 378 340 pd lists;
+#X restore 477 378 pd lists;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -63,11 +63,6 @@ to);
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 round;
-#X obj 20 60 comment 0 18 times ? 0 0 0 0 Rounds floats/lists;
 #X text 105 95 [round] approximates positive and negative numbers to
 an integer multiple of any given number that is greater or equal to
 0 (0 makes no approximation - so the original input is output unchanged).
@@ -79,6 +74,12 @@ an integer multiple of any given number that is greater or equal to
 #X text 128 597 @nearest;
 #X text 192 439 - "nearest" followed by 0 sets to "truncate mode" \,
 non zero number sets to "round to nearest mode" (default);
+#X obj 20 60 cyclone/comment 0 18 times ? 0 0 0 0 Rounds floats/lists
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 round;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 11 0 23 1;
 #X connect 14 0 11 0;
 #X connect 15 0 23 0;

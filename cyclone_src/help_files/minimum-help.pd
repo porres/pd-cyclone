@@ -31,11 +31,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 minimum;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Compare minimum;
 #X obj 48 197 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X text 185 313 resends the most recent output, f 56;
@@ -60,9 +55,9 @@ Max/MSP;
 with the argument!;
 #X floatatom 95 183 5 0 0 0 - - -, f 5;
 #X obj 146 259 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 2 256;
 #X obj 269 258 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 7 256;
 #X text 49 97 - The minimum number in a list is output in the left
 outlet \, its index (from 0) is output in the right outlet. The next
 minimum updates the argument.;
@@ -101,12 +96,17 @@ the left outlet. The right outlet outputs the index of the minimum.
 -228856 -1 -1 0 256;
 #X text 406 275 index in the list;
 #X text 170 437 - the index of the minimnum value, f 61;
-#X connect 23 0 36 0;
-#X connect 26 0 38 0;
-#X connect 29 0 36 0;
-#X connect 30 0 36 1;
-#X connect 36 0 27 0;
-#X connect 36 1 46 0;
-#X connect 38 0 25 0;
-#X connect 38 1 50 0;
-#X connect 39 0 38 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Compare minimum;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 minimum;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 19 0 32 0;
+#X connect 22 0 34 0;
+#X connect 25 0 32 0;
+#X connect 26 0 32 1;
+#X connect 32 0 23 0;
+#X connect 32 1 42 0;
+#X connect 34 0 21 0;
+#X connect 34 1 46 0;
+#X connect 35 0 34 0;

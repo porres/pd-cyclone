@@ -119,7 +119,7 @@ a specified order.;
 #X connect 29 1 25 0;
 #X connect 29 2 31 0;
 #X connect 29 3 30 0;
-#X restore 432 203 pd examples;
+#X restore 462 228 pd examples;
 #X connect 4 0 6 0;
 #X connect 6 0 24 0;
 #X connect 6 1 25 0;

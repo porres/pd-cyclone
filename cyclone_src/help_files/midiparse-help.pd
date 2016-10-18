@@ -55,11 +55,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 midiparse;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Retrieve MIDI messages;
 #X obj 42 187 unpack;
 #X text 173 276 raw MIDI data stream;
 #X obj 164 244 cyclone/comment 50 11 helvetica ? 0 0 0 0 Control;
@@ -116,7 +111,6 @@ MIDI messages from it.;
 #X text 53 22 [midiparse] is very useful to retrieve MIDI data from
 the [seq] object.;
 #X obj 200 242 makenote 127 500;
-#X obj 200 269 pack;
 #X obj 200 216 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 200 389 unpack float float;
@@ -124,15 +118,16 @@ the [seq] object.;
 -228856 -1 -1 0 256;
 #X obj 305 418 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
+#X obj 200 269 pack float float;
 #X connect 0 0 1 0;
-#X connect 1 0 9 0;
+#X connect 1 0 8 0;
 #X connect 4 0 3 0;
-#X connect 6 0 7 0;
-#X connect 6 1 7 1;
-#X connect 7 0 0 0;
-#X connect 8 0 6 0;
-#X connect 9 0 10 0;
-#X connect 9 1 11 0;
+#X connect 6 0 11 0;
+#X connect 6 1 11 1;
+#X connect 7 0 6 0;
+#X connect 8 0 9 0;
+#X connect 8 1 10 0;
+#X connect 11 0 0 0;
 #X restore 475 170 pd examples;
 #X obj 42 163 cyclone/midiparse @hires 2, f 57;
 #N canvas 482 327 795 404 hires 0;
@@ -206,17 +201,23 @@ above);
 above);
 #X obj 378 233 cyclone/comment 215 11 helvetica ? 0 0 0 0 (-8192 to
 8191 in @hires 2);
-#X connect 11 0 72 0;
-#X connect 41 0 63 0;
-#X connect 41 1 64 0;
-#X connect 65 0 66 0;
-#X connect 65 1 67 0;
-#X connect 68 0 69 0;
-#X connect 68 1 70 0;
-#X connect 72 0 41 0;
-#X connect 72 1 65 0;
-#X connect 72 2 68 0;
-#X connect 72 3 62 0;
-#X connect 72 4 61 0;
-#X connect 72 5 60 0;
-#X connect 72 6 59 0;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Retrieve MIDI messages
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 midiparse;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 11 0 68 0;
+#X connect 37 0 59 0;
+#X connect 37 1 60 0;
+#X connect 61 0 62 0;
+#X connect 61 1 63 0;
+#X connect 64 0 65 0;
+#X connect 64 1 66 0;
+#X connect 68 0 37 0;
+#X connect 68 1 61 0;
+#X connect 68 2 64 0;
+#X connect 68 3 58 0;
+#X connect 68 4 57 0;
+#X connect 68 5 56 0;
+#X connect 68 6 55 0;

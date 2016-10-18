@@ -1,4 +1,4 @@
-#N canvas 155 39 559 779 10;
+#N canvas 627 23 559 779 10;
 #X obj 4 734 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 453 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -56,17 +56,18 @@ inlet;
 #X msg 163 119 1 100 0.6 100 0.6 500 0 700;
 #X obj 34 10 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 40 15 comment 0 18 times ? 0 0 0 0 Linear envelope:;
 #X text 30 64 [cyclone/line~] generating a linear ADSR envelope;
 #X obj 163 208 cyclone/scope~ 150 108 256 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 134 254 0.5;
 #X text 147 306 0;
+#X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Linear envelope:
+;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 1 0 2 1;
 #X connect 4 0 1 1;
-#X connect 4 0 9 0;
+#X connect 4 0 8 0;
 #X connect 5 0 4 0;
 #X restore 371 399 pd linear_envelope_example;
 #X obj 154 343 cyclone/Scope~ 143 93 256 3 128 -1 1 0 0 0 0 205 229
@@ -105,11 +106,6 @@ it as:;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 line~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Linear ramp generator;
 #X text 78 85 Use [cyclone/line~] to generate a signal ramp or envelope.
 It takes a target value and a duration (in ms) to reach it and then
 generates a ramp from its current value to the target value.;
@@ -230,6 +226,12 @@ ms) to reach it (maximum is 128 target-time pairs);
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Linear ramp generator
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 line~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 11 0 37 1;
 #X connect 13 0 37 0;
 #X connect 14 0 37 0;

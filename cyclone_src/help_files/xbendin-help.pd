@@ -19,8 +19,6 @@
 #X text 133 418 float;
 #X text 174 458 -;
 #X text 116 458 1) float;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Retrieve 14-bit pitch bend
-messages;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -31,10 +29,6 @@ messages;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 xbendin;
 #X obj 173 216 midiin;
 #X text 57 182 [xbendin] retrieves 14-bit pitch bend messages from
 raw MIDI input data.;
@@ -59,10 +53,16 @@ number.;
 below);
 #X obj 113 97 cnv 15 290 65 empty empty empty 20 12 0 14 -248754 -66577
 0;
-#X obj 133 102 comment 0 15 times ? 0 0 0 0 Avoid using this object!
-;
 #X text 143 122 just use [bendin] from Pd Vanilla \, this;
 #X text 143 137 is considered unnecessary and obsolete!;
-#X connect 20 0 22 0;
-#X connect 22 0 26 0;
-#X connect 22 1 25 0;
+#X obj 133 102 cyclone/comment 0 15 times ? 0 0 0 0 Avoid using this
+object!;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Retrieve 14-bit pitch
+bend messages;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 xbendin;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 16 0 18 0;
+#X connect 18 0 22 0;
+#X connect 18 1 21 0;

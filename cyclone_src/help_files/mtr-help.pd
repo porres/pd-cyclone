@@ -25,12 +25,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 mtr;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 Multi-track message recorder
-;
 #X msg 123 154 record;
 #X msg 178 154 stop \, play;
 #N canvas 493 236 861 358 examples 0;
@@ -172,14 +166,20 @@ message), f 61;
 #X floatatom 316 268 5 0 0 0 - - -, f 5;
 #X obj 178 245 cyclone/mtr 3, f 21;
 #X text 120 307 check all possible messages here:, f 70;
-#X connect 17 0 41 0;
-#X connect 18 0 41 0;
-#X connect 32 0 41 3;
-#X connect 33 0 41 2;
-#X connect 34 0 41 1;
-#X connect 38 0 34 0;
-#X connect 39 0 33 0;
-#X connect 40 0 32 0;
-#X connect 41 1 38 0;
-#X connect 41 2 39 0;
-#X connect 41 3 40 0;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Multi-track message
+recorder;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 mtr;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 13 0 37 0;
+#X connect 14 0 37 0;
+#X connect 28 0 37 3;
+#X connect 29 0 37 2;
+#X connect 30 0 37 1;
+#X connect 34 0 30 0;
+#X connect 35 0 29 0;
+#X connect 36 0 28 0;
+#X connect 37 1 34 0;
+#X connect 37 2 35 0;
+#X connect 37 3 36 0;

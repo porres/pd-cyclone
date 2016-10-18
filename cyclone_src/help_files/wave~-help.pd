@@ -95,11 +95,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 wave~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Variable size wavetable;
 #X obj 148 199 line~;
 #X msg 148 170 0 \, 1 1400;
 #X text 140 390 set <symbol>;
@@ -109,7 +104,7 @@ Max/MSP;
 #X text 228 616 - sets the number of output channels: 1 \, 2 or 4 (determines
 the number of outlets), f 48;
 #X text 128 409 interp <float>;
-#N canvas 749 134 435 497 interpolation_modes 1;
+#N canvas 749 134 435 497 interpolation_modes 0;
 #X text 31 108 The interpolation modes are \; \; - Value - Description
 \; \; 0 - No interpolation. Wavetable interpolation is disabled using
 the interp 0 message \; 1 - High-quality linear interpolation (default)
@@ -124,7 +119,8 @@ interpolation \; \; Possible values \; 0 = 'None' (No interpotlation)
 \; 6 = 'Hermite' (Hermite interpolation);
 #X obj 35 31 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 38 36 comment 0 18 times ? 0 0 0 0 Interpolation modes:;
+#X obj 38 36 cyclone/comment 0 18 times ? 0 0 0 0 Interpolation modes:
+;
 #X restore 353 311 pd interpolation_modes;
 #X text 228 426 - hermite interpolation bias;
 #X text 228 444 - hermite interpolation tension;
@@ -143,15 +139,21 @@ many options for interpolation.;
 0;
 #X text 153 710 @mode <int> (default: 0) - sets mode argument;
 #X obj 121 288 cyclone/output~;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Variable size wavetable
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 wave~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 9 0 29 0;
 #X connect 14 0 27 0;
 #X connect 15 0 14 0;
 #X connect 16 0 9 0;
-#X connect 23 0 62 0;
-#X connect 23 0 62 1;
+#X connect 23 0 58 0;
+#X connect 23 0 58 1;
 #X connect 26 0 23 2;
 #X connect 27 0 26 0;
 #X connect 28 0 23 1;
 #X connect 29 0 28 0;
-#X connect 42 0 23 0;
-#X connect 43 0 42 0;
+#X connect 38 0 23 0;
+#X connect 39 0 38 0;

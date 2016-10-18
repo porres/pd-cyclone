@@ -13,12 +13,6 @@ and a 0 when it is less-than the right input or rgument.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 <=~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 "Is less than or equal to"
-comparison for signals;
 #X obj 4 496 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 406 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -150,7 +144,7 @@ comparison for signals;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
 #X obj 264 250 cyclone/snapshot~ 1;
-#X obj 144 285 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 154 285 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 264 285 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -159,9 +153,6 @@ comparison for signals;
 -228856 -1 -1 0 256;
 #X obj 393 171 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 60 168 number~ 1;
-#X obj 87 193 number~ 1;
-#X obj 60 251 number~;
 #X obj 60 218 <=~, f 5;
 #X obj 264 220 cyclone/lessthaneq~ 30;
 #N canvas 724 142 478 298 cyclone 0;
@@ -174,12 +165,21 @@ https://github.com/porres/pd-cyclone/wiki/How-To-Install;
 is from the cyclone "sub-library" \, loaded via startup or with [declare]
 like this:;
 #X restore 455 291 pd cyclone \; sub_library;
-#X connect 26 0 28 0;
-#X connect 29 0 36 0;
-#X connect 30 0 29 0;
-#X connect 31 0 36 1;
-#X connect 32 0 35 0;
-#X connect 33 0 35 1;
-#X connect 34 1 27 0;
-#X connect 35 0 34 0;
-#X connect 36 0 26 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 "Is less than or
+equal to" comparison for signals;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 <=~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 60 251 cyclone/number~;
+#X obj 60 168 cyclone/number~ 1;
+#X obj 87 193 cyclone/number~ 1;
+#X connect 22 0 24 0;
+#X connect 25 0 29 0;
+#X connect 26 0 25 0;
+#X connect 27 0 29 1;
+#X connect 28 0 35 0;
+#X connect 29 0 22 0;
+#X connect 35 1 23 0;
+#X connect 36 0 28 0;
+#X connect 37 0 28 1;

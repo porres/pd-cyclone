@@ -14,7 +14,6 @@
 #X text 143 593 signal;
 #X text 140 631 signal;
 #X text 152 652 list;
-#X obj 227 322 output~;
 #X text 122 211 0;
 #X text 137 211 1;
 #X text 152 211 2;
@@ -124,13 +123,11 @@
 #X obj 694 149 osc~ 500;
 #X obj 750 150 osc~ 600;
 #X floatatom 501 96 5 0 0 0 - - -, f 5;
-#X obj 577 216 output~;
 #X floatatom 543 342 5 0 0 0 - - -, f 5;
 #X obj 585 391 osc~ 300;
 #X obj 642 391 osc~ 400;
 #X obj 701 391 osc~ 500;
 #X obj 757 391 osc~ 600;
-#X obj 562 462 output~;
 #X obj 585 425 cyclone/matrix~ 4 1 1;
 #X obj 501 71 hradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856 -1
 -1 0;
@@ -143,8 +140,6 @@
 #X obj 578 182 cyclone/matrix~ 4 2;
 #X obj 23 81 cnv 15 220 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 29 83 comment 0 18 times ? 0 0 0 0 Binary & Non-binary mode:
-;
 #X text 53 154 - in "binary" mode \, connections are either on or off.
 This can cause audible clicks when routing.;
 #X text 53 212 - in "non-binary" mode (requires more CPU time) \, each
@@ -164,24 +159,28 @@ list messages rather than the <connect> message.;
 ;
 #X text 470 286 In non-binary mode \, you can set gain values and ramp
 time:;
-#X connect 0 0 19 0;
-#X connect 1 0 19 1;
-#X connect 2 0 19 2;
-#X connect 3 0 19 3;
-#X connect 4 0 18 0;
-#X connect 6 0 17 0;
-#X connect 7 0 12 0;
-#X connect 8 0 12 1;
-#X connect 9 0 12 2;
-#X connect 10 0 12 3;
-#X connect 12 0 11 0;
-#X connect 12 0 11 1;
-#X connect 13 0 4 0;
-#X connect 14 0 6 0;
-#X connect 17 0 12 0;
-#X connect 18 0 19 0;
-#X connect 19 0 5 0;
-#X connect 19 1 5 1;
+#X obj 29 83 cyclone/comment 0 18 times ? 0 0 0 0 Binary & Non-binary
+mode:;
+#X obj 577 216 cyclone/output~;
+#X obj 562 462 cyclone/output~;
+#X connect 0 0 17 0;
+#X connect 1 0 17 1;
+#X connect 2 0 17 2;
+#X connect 3 0 17 3;
+#X connect 4 0 16 0;
+#X connect 5 0 15 0;
+#X connect 6 0 10 0;
+#X connect 7 0 10 1;
+#X connect 8 0 10 2;
+#X connect 9 0 10 3;
+#X connect 10 0 27 0;
+#X connect 10 0 27 1;
+#X connect 11 0 4 0;
+#X connect 12 0 5 0;
+#X connect 15 0 10 0;
+#X connect 16 0 17 0;
+#X connect 17 0 26 0;
+#X connect 17 1 26 1;
 #X restore 334 181 pd binary_vs_non-binary mode;
 #X obj 71 629 cnv 1 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
 0;
@@ -204,12 +203,6 @@ connections. If not provided \, "binary" mode is on;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 matrix~;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Signal routing/mixing matrix
-;
 #X text 95 93 [matrix~] routs signals from any inlets to one or more
 outlets. If more than one inlet connects to an outlet \, the output
 is the sum of the inlets' signals.;
@@ -237,17 +230,24 @@ starting at 0) and a 3rd specifies connection <nonzero> or disconnection
 and a 4th value can set the ramp time;
 #X text 192 691 - 'n' number of inputs (1 to 250 \, default 1);
 #X text 192 708 - 'n' number of outputs (1 to 499 \, default 1);
-#X connect 6 0 45 0;
-#X connect 15 0 30 0;
-#X connect 18 0 23 0;
-#X connect 18 0 45 0;
-#X connect 19 0 45 0;
-#X connect 20 0 45 1;
-#X connect 21 0 45 2;
-#X connect 22 0 45 3;
-#X connect 23 0 15 0;
-#X connect 30 0 45 0;
-#X connect 44 0 45 0;
-#X connect 45 0 10 0;
-#X connect 45 1 10 1;
-#X connect 45 2 5 0;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Signal routing/mixing
+matrix;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 matrix~;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 227 322 cyclone/output~;
+#X connect 6 0 44 0;
+#X connect 14 0 29 0;
+#X connect 17 0 22 0;
+#X connect 17 0 44 0;
+#X connect 18 0 44 0;
+#X connect 19 0 44 1;
+#X connect 20 0 44 2;
+#X connect 21 0 44 3;
+#X connect 22 0 14 0;
+#X connect 29 0 44 0;
+#X connect 43 0 44 0;
+#X connect 44 0 69 0;
+#X connect 44 1 69 1;
+#X connect 44 2 5 0;

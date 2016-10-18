@@ -15,7 +15,36 @@
 #X obj 200 257 cyclone/midiflush;
 #X obj 2 464 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 525 199 576 463 Example 0;
+#X text 137 339 bang;
+#X text 131 356 float;
+#X text 130 408 float;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 4 pd;
+#X obj 149 293 print;
+#X obj 210 226 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 200 175 144 \, 67 \, 100 \, 144 \, 57 \, 100;
+#X text 216 196 and leave them hanging;
+#X text 230 227 <= flush hanging notes;
+#X text 163 155 send a couple of note on messages:;
+#X text 131 374 clear;
+#X text 170 356 - raw MIDI data stream;
+#X text 170 339 - sends note off for hanging notes;
+#X text 170 408 - raw MIDI data stream;
+#X text 72 91 Like a "panic button" \, [midiflush] keeps track of raw
+Note-on messages that weren't switched off and "flushes" them by sending
+corresponding note-offs when it receives a bang.;
+#X text 170 374 - clears the hanging notes that [midiflush] keeps track
+off;
+#N canvas 525 199 576 463 example 0;
 #X obj 182 198 cnv 15 140 40 empty empty empty 20 12 0 14 -245500 -66577
 0;
 #N canvas 638 210 443 345 polysynth 0;
@@ -23,8 +52,6 @@
 #X obj 85 105 poly 6 1;
 #X obj 85 166 route 1 2 3 4 5 6, f 38;
 #X obj 173 298 outlet~;
-#X obj 25 16 cyclone/comment 0 15 helvetica ? 0 0 0 0 Six voices polyphonic
-synth;
 #N canvas 292 354 342 369 voice 0;
 #X obj 197 123 / 127;
 #X obj 182 228 *~;
@@ -170,23 +197,25 @@ synth;
 #X connect 10 1 0 0;
 #X restore 347 209 pd voice;
 #X obj 85 134 cyclone/join 3;
+#X obj 25 16 cyclone/comment 0 15 helvetica ? 0 0 0 0 Six voices polyphonic
+synth;
 #X connect 0 0 1 0;
-#X connect 1 0 11 0;
-#X connect 1 1 11 1;
-#X connect 1 2 11 2;
-#X connect 2 0 5 0;
-#X connect 2 1 6 0;
-#X connect 2 2 7 0;
-#X connect 2 3 8 0;
-#X connect 2 4 9 0;
-#X connect 2 5 10 0;
+#X connect 1 0 10 0;
+#X connect 1 1 10 1;
+#X connect 1 2 10 2;
+#X connect 2 0 4 0;
+#X connect 2 1 5 0;
+#X connect 2 2 6 0;
+#X connect 2 3 7 0;
+#X connect 2 4 8 0;
+#X connect 2 5 9 0;
+#X connect 4 0 3 0;
 #X connect 5 0 3 0;
 #X connect 6 0 3 0;
 #X connect 7 0 3 0;
 #X connect 8 0 3 0;
 #X connect 9 0 3 0;
-#X connect 10 0 3 0;
-#X connect 11 0 2 0;
+#X connect 10 0 2 0;
 #X restore 194 326 pd polysynth;
 #X obj 194 155 cyclone/midiformat;
 #X obj 194 210 cyclone/midiflush;
@@ -202,13 +231,13 @@ synth;
 #X text 220 48 generates random note-on messages;
 #X obj 312 333 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
+#X text 30 125 Flush them off;
+#X obj 194 74 expr random(50 \, 80);
 #X obj 353 327 cyclone/comment 100 12 helvetica ? 0 0 0 0 number of
 notes "hanging";
-#X text 30 125 Flush them off;
-#X obj 169 370 output~;
-#X obj 194 74 expr random(50 \, 80);
-#X connect 1 0 15 0;
-#X connect 1 0 15 1;
+#X obj 169 370 cyclone/output~;
+#X connect 1 0 16 0;
+#X connect 1 0 16 1;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
 #X connect 4 0 5 0;
@@ -217,46 +246,17 @@ notes "hanging";
 #X connect 6 0 3 0;
 #X connect 7 0 2 0;
 #X connect 8 0 7 0;
-#X connect 9 0 16 0;
-#X connect 16 0 8 0;
-#X restore 439 267 pd Example;
-#X text 137 339 bang;
-#X text 131 356 float;
-#X text 130 408 float;
-#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 4 graph;
-#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 midiflush;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Flush hanging note-ons on
-raw MIDI;
-#X obj 149 293 print;
-#X obj 210 226 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X msg 200 175 144 \, 67 \, 100 \, 144 \, 57 \, 100;
-#X text 216 196 and leave them hanging;
-#X text 230 227 <= flush hanging notes;
-#X text 163 155 send a couple of note on messages:;
-#X text 131 374 clear;
-#X text 170 356 - raw MIDI data stream;
-#X text 170 339 - sends note off for hanging notes;
-#X text 170 408 - raw MIDI data stream;
-#X text 72 91 Like a "panic button" \, [midiflush] keeps track of raw
-Note-on messages that weren't switched off and "flushes" them by sending
-corresponding note-offs when it receives a bang.;
-#X text 170 374 - clears the hanging notes that [midiflush] keeps track
-off;
+#X connect 9 0 14 0;
+#X connect 14 0 8 0;
+#X restore 473 294 pd example;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Flush hanging note-ons
+on raw MIDI;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 midiflush;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X connect 5 0 8 0;
 #X connect 8 0 6 0;
-#X connect 8 0 22 0;
-#X connect 23 0 8 0;
-#X connect 24 0 8 0;
+#X connect 8 0 17 0;
+#X connect 18 0 8 0;
+#X connect 19 0 8 0;

@@ -44,12 +44,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 trough;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 Output numbers smaller than
-the previous;
 #X obj 242 296 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 149 249 cyclone/trough 4;
@@ -80,7 +74,7 @@ and 0 otherwise.;
 #X text 280 210 <= sets new trough (minimum);
 #X text 261 294 not a new trough;
 #X text 172 550 intial 'trough' value (default 128), f 36;
-#N canvas 762 173 445 305 backwards 0;
+#N canvas 762 173 445 305 backwards 1;
 #X text 185 110 or even:;
 #X text 49 150 But please don't \, just stick to;
 #X text 166 183 or;
@@ -92,10 +86,10 @@ as the current plan is to phase out the capital letters in cyclone's
 objects.;
 #X text 43 20 [peak] used to be compiled as [Peak] \, probably to avoid
 some name conflicts \, but this is not the case anymore.;
-#X obj 136 110 Peak;
 #X obj 252 110 cyclone/Peak;
 #X obj 114 182 peak;
 #X obj 201 183 cyclone/peak;
+#X obj 136 110 Peak;
 #X restore 448 291 pd backwards \; compatibility;
 #N canvas 323 43 581 417 list_input 0;
 #X obj 130 294 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
@@ -143,13 +137,19 @@ current trough.;
 ;
 #X text 173 508 1 (input is not a new trough) / 0 (input is a new trough)
 ;
-#X connect 6 0 33 1;
-#X connect 7 0 39 0;
-#X connect 10 0 32 0;
-#X connect 33 0 34 0;
-#X connect 33 1 7 0;
-#X connect 33 2 10 0;
-#X connect 34 0 11 0;
-#X connect 35 0 36 0;
-#X connect 36 0 33 0;
-#X connect 41 0 33 0;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Output numbers smaller
+than the previous;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 trough;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 6 0 29 1;
+#X connect 7 0 35 0;
+#X connect 10 0 28 0;
+#X connect 29 0 30 0;
+#X connect 29 1 7 0;
+#X connect 29 2 10 0;
+#X connect 30 0 11 0;
+#X connect 31 0 32 0;
+#X connect 32 0 29 0;
+#X connect 37 0 29 0;

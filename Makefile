@@ -391,11 +391,11 @@ scybuf := shared/cybuf.c
 
 datafiles = \
 $(wildcard cyclone_src/help_files/*-help.pd) \
-cyclone_src/help_files/output~.pd \
-cyclone_src/help_files/number~.pd \
-cyclone_src/help_files/tri~.pd \
-cyclone_src/help_files/rect~.pd \
-cyclone_src/help_files/saw~.pd \
+cyclone_src/help_files/Abstractions/output~.pd \
+cyclone_src/help_files/Abstractions/number~.pd \
+cyclone_src/help_files/Abstractions/tri~.pd \
+cyclone_src/help_files/Abstractions/rect~.pd \
+cyclone_src/help_files/Abstractions/saw~.pd \
 cyclone_src/help_files/voice.wav \
 cyclone_src/help_files/seq.mid \
 cyclone_src/help_files/seq.txt \

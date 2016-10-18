@@ -24,11 +24,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 phasewrap~;
-#X obj 14 57 comment 0 18 times ? 0 0 0 0 Wrap between π & -π;
 #X text 215 331 - the wrapped signal;
 #X text 215 292 - the signal to be wrapped;
 #N canvas 207 34 366 264 (subpatch) 0;
@@ -136,61 +131,67 @@ Max/MSP;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
 #X obj 209 205 cyclone/phasewrap~;
-#X obj 209 243 number~;
-#X obj 209 169 number~ 1;
-#N canvas 728 225 620 452 example 0;
+#N canvas 728 225 654 455 example 0;
 #X obj 141 238 cyclone/phasewrap~;
-#X text 242 278 wrapped output;
+#X text 262 277 wrapped output;
 #X obj 65 315 cyclone/Scope~ 132 100 70 3 256 -3.14 3.14 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
 #X obj 141 180 line~;
 #X msg 141 154 0 \, 1000 500000;
-#X text 199 404 -pi;
-#X text 201 307 pi;
-#X text 203 357 0;
-#X obj 141 276 number~;
-#X obj 225 317 vsl 15 95 -3.14 3.14 0 0 empty empty empty 0 -9 0 10
+#X text 219 404 -pi;
+#X text 221 307 pi;
+#X text 223 357 0;
+#X obj 245 317 vsl 15 95 -3.14 3.14 0 0 empty empty empty 0 -9 0 10
 -228856 -1 -1 0 1;
-#X obj 161 209 number~;
 #X obj 141 92 cyclone/active;
 #X obj 141 123 sel 1;
 #X obj 421 238 cyclone/phasewrap~;
-#X text 522 278 wrapped output;
+#X text 542 278 wrapped output;
 #X obj 345 315 cyclone/Scope~ 132 100 70 3 256 -3.14 3.14 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
 #X obj 421 180 line~;
-#X text 479 404 -pi;
-#X text 481 307 pi;
-#X text 483 357 0;
-#X obj 421 276 number~;
-#X obj 505 317 vsl 15 95 -3.14 3.14 0 0 empty empty empty 0 -9 0 10
+#X text 499 404 -pi;
+#X text 501 307 pi;
+#X text 503 357 0;
+#X obj 525 317 vsl 15 95 -3.14 3.14 0 0 empty empty empty 0 -9 0 10
 -228856 -1 -1 0 1;
-#X obj 441 209 number~;
 #X obj 421 92 cyclone/active;
 #X obj 421 123 sel 1;
 #X msg 421 154 0 \, -1000 500000;
-#X text 103 29 A signal of increasing or decreasing value outputs a
+#X text 157 20 A signal of increasing or decreasing value outputs a
 sawtooth like waveform with -π and π as lower and upper values.;
+#X obj 141 276 cyclone/number~;
+#X obj 161 209 cyclone/number~;
+#X obj 441 209 cyclone/number~;
+#X obj 421 276 cyclone/number~;
 #X connect 0 0 2 0;
-#X connect 0 0 8 0;
+#X connect 0 0 23 0;
 #X connect 3 0 0 0;
-#X connect 3 0 10 0;
+#X connect 3 0 24 0;
 #X connect 4 0 3 0;
-#X connect 8 1 9 0;
-#X connect 11 0 12 0;
-#X connect 12 0 4 0;
-#X connect 13 0 15 0;
-#X connect 13 0 20 0;
-#X connect 16 0 13 0;
-#X connect 16 0 22 0;
-#X connect 20 1 21 0;
-#X connect 23 0 24 0;
-#X connect 24 0 25 0;
-#X connect 25 0 16 0;
-#X restore 451 226 pd example;
+#X connect 9 0 10 0;
+#X connect 10 0 4 0;
+#X connect 11 0 13 0;
+#X connect 11 0 26 0;
+#X connect 14 0 11 0;
+#X connect 14 0 25 0;
+#X connect 19 0 20 0;
+#X connect 20 0 21 0;
+#X connect 21 0 14 0;
+#X connect 23 1 8 0;
+#X connect 26 1 18 0;
+#X restore 470 248 pd example;
 #X text 81 87 Use [phasewrap~] ro wrap the input between π (pi) and
 -π (-pi) - useful for wrapping phase values. When the input exceeds
 π (around 3.14159) \, the output signal value is "wrapped" to a range
 whose lower bound is -π (around -3.14159).;
-#X connect 20 0 21 0;
-#X connect 22 0 20 0;
+#X obj 14 57 cyclone/comment 0 18 times ? 0 0 0 0 Wrap between π &
+-π;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 phasewrap~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 209 169 cyclone/number~ 1;
+#X obj 209 243 cyclone/number~;
+#X connect 16 0 24 0;
+#X connect 23 0 16 0;

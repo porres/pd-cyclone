@@ -154,19 +154,19 @@ pi/2. For input values outside the -1 to 1 range \, the output is zero!
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 439 262 number~ 1;
-#X obj 439 345 number~;
-#X obj 439 304 cyclone/asin~;
+#X obj 429 304 cyclone/asin~;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal arc-sine function
 ;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 asin~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 429 345 cyclone/number~;
+#X obj 429 262 cyclone/number~ 1;
 #X connect 13 0 23 0;
 #X connect 23 0 25 0;
 #X connect 24 0 28 0;
 #X connect 25 0 29 0;
 #X connect 26 0 24 0;
-#X connect 33 0 35 0;
-#X connect 35 0 34 0;
+#X connect 33 0 38 0;
+#X connect 39 0 33 0;

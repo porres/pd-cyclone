@@ -156,8 +156,6 @@ signed integer representation of this value is used for the operation.
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 136 195 number~ 1;
-#X obj 136 270 number~;
 #X obj 8 433 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X text 122 441 [bitand~] can produce NaNs and +/-INFs - but denormals
@@ -168,7 +166,9 @@ are zeroed out.;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 136 270 cyclone/number~;
+#X obj 136 195 cyclone/number~ 1;
 #X connect 7 0 22 0;
 #X connect 10 0 7 0;
-#X connect 22 0 31 0;
-#X connect 30 0 22 0;
+#X connect 22 0 36 0;
+#X connect 37 0 22 0;

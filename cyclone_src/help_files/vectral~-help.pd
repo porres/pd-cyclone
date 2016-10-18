@@ -81,7 +81,6 @@
 #X restore 244 203 pd deltaclip;
 #X obj 443 288 block~ 256;
 #X obj 375 185 fft~;
-#X obj 361 210 cartopol~;
 #X obj 92 289 table vectral 256;
 #X obj 244 339 tabwrite~ vectral;
 #X obj 262 296 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
@@ -109,12 +108,6 @@ based signal data such as the output of [fft~];
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 vectral~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Smooth/filter frame changes
-;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -219,20 +212,27 @@ Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Smooth/filter frame
+changes;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 vectral~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 361 210 cyclone/cartopol~;
 #X connect 6 0 24 1;
 #X connect 7 0 24 0;
 #X connect 8 0 26 1;
 #X connect 9 0 26 0;
 #X connect 10 0 25 1;
 #X connect 11 0 25 0;
-#X connect 24 0 34 0;
-#X connect 25 0 34 0;
-#X connect 26 0 34 0;
-#X connect 28 0 29 0;
-#X connect 28 1 29 1;
-#X connect 29 0 34 2;
-#X connect 32 0 33 0;
-#X connect 33 0 31 0;
-#X connect 34 0 31 0;
-#X connect 37 0 32 0;
-#X connect 39 0 28 0;
+#X connect 24 0 33 0;
+#X connect 25 0 33 0;
+#X connect 26 0 33 0;
+#X connect 28 0 51 0;
+#X connect 28 1 51 1;
+#X connect 31 0 32 0;
+#X connect 32 0 30 0;
+#X connect 33 0 30 0;
+#X connect 36 0 31 0;
+#X connect 38 0 28 0;
+#X connect 51 0 33 2;

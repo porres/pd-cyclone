@@ -19,12 +19,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 15 4 comment 0 37 times ? 0 0 0 0 !-~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Reversed inlets subtraction
-for signals;
 #X text 68 91 [rminus~] or [!-~] is like the [-~] object \, but the
 inlets' functions are reversed.;
 #X text 116 412 1) float -;
@@ -163,16 +157,22 @@ like this:;
 #X text 366 214 similar to:;
 #X obj 338 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 57 160 number~ 1;
-#X obj 84 185 number~ 1;
-#X obj 57 243 number~;
-#X obj 221 160 number~ 1;
-#X obj 221 250 number~;
 #X obj 57 210 !-~, f 5;
-#X obj 221 202 cyclone/rminus~ 10;
-#X connect 30 0 37 1;
-#X connect 31 0 36 0;
-#X connect 32 0 36 1;
-#X connect 34 0 37 0;
-#X connect 36 0 33 0;
-#X connect 37 0 35 0;
+#X obj 221 202 cyclone/rminus~ 10, f 20;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Reversed inlets subtraction
+for signals;
+#X obj 15 4 cyclone/comment 0 37 times ? 0 0 0 0 !-~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 57 243 cyclone/number~;
+#X obj 84 185 cyclone/number~ 1;
+#X obj 57 158 cyclone/number~ 1;
+#X obj 221 160 cyclone/number~ 1;
+#X obj 221 250 cyclone/number~;
+#X connect 26 0 28 1;
+#X connect 27 0 33 0;
+#X connect 28 0 37 0;
+#X connect 34 0 27 1;
+#X connect 35 0 27 0;
+#X connect 36 0 28 0;

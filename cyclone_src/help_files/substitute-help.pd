@@ -15,32 +15,6 @@
 0;
 #X obj 2 527 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 490 103 384 343 META 0;
-#X text 9 29 LICENSE SIBSD;
-#X text 9 137 LIBRARY cyclone;
-#X text 9 10 KEYWORDS substitute symbol replace;
-#X text 9 48 DESCRIPTION substitute a symbol for another symbol in
-a message;
-#X text 9 80 INLET_0 message;
-#X text 9 99 INLET_1 message;
-#X text 9 118 OUTLET_0 message;
-#X text 9 157 VERSION 0.2-beta1;
-#X text 9 175 AUTHOR Krzysztof Czaja;
-#X text 10 193 RELEASE_DATE 2002;
-#X text 11 212 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 11 244 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02. Esteban Viveros updated
-this patch for Pd-Vanilla 0.47-2.;
-#X restore 499 529 pd META;
-#N canvas 347 143 430 76 Related_objects 0;
-#X obj 2 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 8 3 Related Objects;
-#X obj 16 31 cyclone/sprintf %d;
-#X obj 141 31 cyclone/zl;
-#X restore 203 529 pd Related_objects;
 #X obj 294 269 print unchanged;
 #X text 134 312 anything;
 #X text 134 362 anything;
@@ -58,12 +32,6 @@ this patch for Pd-Vanilla 0.47-2.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 substitute;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Substitute elements in messages
-;
 #X text 98 333 set <anything>;
 #X text 92 466 1) float/symbol;
 #X text 92 483 2) float/symbol;
@@ -93,7 +61,7 @@ mode;
 received contains an element matching the match symbol or number \,
 the element is replaced by the replacement symbol or number when the
 message is repeated to the output.;
-#X msg 193 122 1;
+#X msg 173 140 1;
 #X floatatom 171 205 5 0 0 0 - - -, f 5;
 #X floatatom 304 199 5 0 0 0 - - -, f 5;
 #X obj 142 203 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -110,11 +78,17 @@ message is repeated to the output.;
 #X msg 129 169 1 2 3 4 5;
 #X msg 106 146 5 5 5 4 4 4;
 #X msg 294 175 4 5;
-#X connect 28 0 30 1;
-#X connect 29 0 30 1;
-#X connect 30 0 32 0;
-#X connect 30 1 10 0;
-#X connect 31 0 30 0;
-#X connect 43 0 30 0;
-#X connect 44 0 30 0;
-#X connect 45 0 30 1;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Substitute elements
+in messages;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 substitute;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 22 0 24 1;
+#X connect 23 0 24 1;
+#X connect 24 0 26 0;
+#X connect 24 1 8 0;
+#X connect 25 0 24 0;
+#X connect 37 0 24 0;
+#X connect 38 0 24 0;
+#X connect 39 0 24 1;

@@ -27,7 +27,6 @@
 #X text 248 537 - the distorted signal;
 #X obj 221 333 cyclone/Scope~ 171 110 5 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 76 366 output~;
 #X obj 119 330 clip~ -1 1;
 #X text 88 135 If the "drive factor" is 1 \, the signal is unchanged.
 Increasing the "drive" increases the amount of distortion. If the "drive"
@@ -47,12 +46,6 @@ be careful (here we use [clip~])!;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 overdrive~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Analog overdrive simulation
-;
 #X text 250 474 - the signal to be distorted;
 #X text 87 91 [overdrive~] simulates the "soft clipping" of and overdriven
 tube-based circuit by applying a non-linear transfer function to the
@@ -161,12 +154,19 @@ incoming signal.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 10 0 23 0;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 overdrive~;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Analog overdrive
+simulation;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 322 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 76 366 cyclone/output~;
+#X connect 10 0 22 0;
 #X connect 11 0 10 0;
-#X connect 12 0 24 0;
-#X connect 20 0 19 0;
-#X connect 20 0 19 1;
-#X connect 22 0 24 1;
-#X connect 23 0 22 0;
-#X connect 24 0 18 0;
-#X connect 24 0 20 0;
+#X connect 12 0 23 0;
+#X connect 19 0 35 0;
+#X connect 19 0 35 1;
+#X connect 21 0 23 1;
+#X connect 22 0 21 0;
+#X connect 23 0 18 0;
+#X connect 23 0 19 0;

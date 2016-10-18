@@ -27,7 +27,6 @@
 #X text 424 326 1;
 #X obj 111 240 phasor~ 220;
 #X text 425 376 0.5;
-#X obj 117 467 output~;
 #X text 420 562 -1;
 #X text 426 509 0;
 #X text 425 455 1;
@@ -50,11 +49,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 kink~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Phase distortion;
 #X text 88 94 Use [kink~] to distort the phase output from [phasor~]
 by kinging/bending it. If the input times the slope is less than 0.5
 \, that value is output. Otherwise \, a complentary slope is used \,
@@ -166,13 +160,20 @@ is not equal to 1).;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 11 0 26 1;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Phase distortion
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 kink~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 117 467 cyclone/output~;
+#X connect 11 0 25 1;
 #X connect 12 0 11 0;
 #X connect 13 0 14 0;
 #X connect 14 0 12 0;
-#X connect 15 0 20 0;
-#X connect 15 0 20 1;
-#X connect 15 0 29 0;
-#X connect 18 0 26 0;
-#X connect 26 0 15 0;
-#X connect 26 0 28 0;
+#X connect 15 0 28 0;
+#X connect 15 0 41 0;
+#X connect 15 0 41 1;
+#X connect 18 0 25 0;
+#X connect 25 0 15 0;
+#X connect 25 0 27 0;

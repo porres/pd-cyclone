@@ -30,12 +30,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 thresh;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 Combine data received close
-together;
 #X text 172 407 initial time in ms (default 10), f 60;
 #X text 101 304 float/list -;
 #X text 181 304 to be combined into a list with another input close
@@ -58,7 +52,7 @@ in time;
 if they come within a certain given amount of time. Each item or list
 is appended to the previous stored items. The time count is reset at
 each incoming item.;
-#N canvas 201 95 563 461 examples 1;
+#N canvas 201 95 563 461 examples 0;
 #X obj 85 180 cyclone/thresh 50;
 #X obj 85 52 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -97,7 +91,13 @@ each incoming item.;
 #X connect 11 0 12 0;
 #X connect 12 0 13 0;
 #X restore 459 259 pd examples;
-#X connect 27 2 30 0;
-#X connect 28 0 27 0;
-#X connect 29 0 30 0;
-#X connect 30 0 26 0;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Combine data received
+close together;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 thresh;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 23 2 26 0;
+#X connect 24 0 23 0;
+#X connect 25 0 26 0;
+#X connect 26 0 22 0;

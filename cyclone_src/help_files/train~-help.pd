@@ -28,7 +28,6 @@
 #X obj 364 294 bng 23 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X floatatom 258 242 0 0 0 0 - - -;
-#X obj 122 429 output~;
 #X obj 122 326 cyclone/sah~;
 #X obj 122 394 cyclone/cycle~;
 #X text 148 559 float/signal;
@@ -67,17 +66,11 @@ from 0 to 1 \, so it can be used as a metronome.;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;
-#X obj 16 2 comment 0 40 times ? 0 0 0 0 train~;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 19 54 comment 0 18 times ? 0 0 0 0 Pulse-train generator and
-metronome;
 #X text 92 136 A pulse width of 0 has the smallest "on" pulse size
 (a single sample) \, while a pulse widht of 1 has the largest (the
 entire period except the last sample). The "onset phase" delays the
@@ -186,16 +179,23 @@ entire period except the last sample). The "onset phase" delays the
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 16 0 47 2;
-#X connect 18 0 47 1;
-#X connect 20 0 46 0;
-#X connect 21 0 19 0;
-#X connect 21 0 19 1;
-#X connect 23 0 47 0;
-#X connect 24 0 18 0;
-#X connect 27 0 16 0;
-#X connect 29 0 20 0;
-#X connect 46 0 21 0;
-#X connect 47 0 20 1;
-#X connect 47 0 33 0;
-#X connect 47 1 17 0;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Pulse-train generator
+and metronome;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 train~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 122 430 cyclone/output~;
+#X connect 16 0 46 2;
+#X connect 18 0 46 1;
+#X connect 19 0 45 0;
+#X connect 20 0 57 0;
+#X connect 20 0 57 1;
+#X connect 22 0 46 0;
+#X connect 23 0 18 0;
+#X connect 26 0 16 0;
+#X connect 28 0 19 0;
+#X connect 45 0 20 0;
+#X connect 46 0 19 1;
+#X connect 46 0 32 0;
+#X connect 46 1 17 0;

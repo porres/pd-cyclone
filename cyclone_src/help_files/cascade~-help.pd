@@ -29,12 +29,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 cascade~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Cascade series of biquad
-filters;
 #X obj 71 251 cyclone/cascade~;
 #X text 75 98 [cascade~] filters an input with a series of biquad filters
 \, each of them defined as a list of 5 coefficients (as in the [cyclone/biquad~]
@@ -59,10 +53,16 @@ standard \, not Pd's vanilla [biquad~]).;
 #X text 57 44 - The cyclone version of max's [cascade~] is missing
 the ability to get filter values from a "dictionary" \, because we
 don't have those implemented (at least yet).;
-#X restore 312 305 pd inconsistencies;
-#X connect 0 0 21 0;
-#X connect 10 0 21 0;
-#X connect 21 0 1 0;
-#X connect 21 0 1 1;
-#X connect 23 0 21 1;
-#X connect 24 0 21 1;
+#X restore 402 309 pd inconsistencies;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Cascade series of
+biquad filters;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 cascade~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 0 0 17 0;
+#X connect 10 0 17 0;
+#X connect 17 0 1 0;
+#X connect 17 0 1 1;
+#X connect 19 0 17 1;
+#X connect 20 0 17 1;

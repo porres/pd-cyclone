@@ -23,7 +23,7 @@
 #X text 140 402 float;
 #X text 103 346 bits <list>;
 #X text 122 487 2) float;
-#X text 111 175 Compare two signals:;
+#X text 105 158 Compare two signals:;
 #X text 184 364 - <0-3>: modes of conversion to integers (details above)
 ;
 #X text 184 469 - converted to integer and used as bitmask (default
@@ -48,9 +48,6 @@ this value is used for comparison.;
 bitmask;
 #X text 239 279 compare to a;
 #X text 234 291 given bitmask:;
-#X obj 98 272 number~;
-#X obj 98 199 number~ 1;
-#X obj 197 199 number~ 1;
 #X obj 37 126 vradio 15 1 0 4 dfhdfgdj sggh empty 0 -8 0 10 -228856
 -1 -1 2;
 #X text 27 125 0;
@@ -181,7 +178,7 @@ are zeroed out.;
 eXclusive OR" (bits are set to 1 if different \, 0 otherwise). It compares
 two signals or a signal to a given bitmask. It has 4 modes of comparison
 (see below).;
-#X obj 98 239 cyclone/bitxor~, f 17;
+#X obj 92 242 cyclone/bitxor~;
 #X text 183 327 - signal to execute Bitwise-XOR on;
 #X text 184 437 - signal as result of the "Bitwise-XOR" operation;
 #X text 184 385 - signal to execute Bitwise-XOR on;
@@ -219,19 +216,19 @@ converted to int or not. Thus \, here's how the modes will operate:
 int and updates the argument. If a signal is connected to the second
 inlet \, the float input will still update the argument \, but the
 signal input has priority over the argument or the float input.;
-#X obj 139 313 number~ 1;
-#X obj 139 407 number~;
 #X text 278 355 <= integer bitmask;
 #X text 286 370 (1st argument);
 #X text 266 295 updates bitmask;
 #X text 323 314 (converted to int);
 #X obj 139 355 cyclone/bitxor~ 10 1, f 21;
-#X connect 0 0 23 1;
-#X connect 1 0 23 0;
+#X obj 139 407 cyclone/number~;
+#X obj 139 313 cyclone/number~ 1;
+#X connect 0 0 21 1;
+#X connect 1 0 21 0;
 #X connect 2 0 1 0;
 #X connect 3 0 2 0;
-#X connect 17 0 23 0;
-#X connect 23 0 18 0;
+#X connect 21 0 22 0;
+#X connect 23 0 21 0;
 #X restore 330 284 pd integer_bitmask;
 #N canvas 652 166 692 666 raw_bitmask 0;
 #N canvas 303 196 881 396 x 0;
@@ -442,9 +439,12 @@ signal input.;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 10 0 48 0;
+#X obj 92 182 cyclone/number~ 1;
+#X obj 179 212 cyclone/number~ 1;
+#X obj 92 275 cyclone/number~;
+#X connect 10 0 45 0;
 #X connect 11 0 10 0;
-#X connect 31 0 48 0;
-#X connect 32 0 48 1;
-#X connect 33 0 11 0;
-#X connect 48 0 30 0;
+#X connect 30 0 11 0;
+#X connect 45 0 59 0;
+#X connect 57 0 45 0;
+#X connect 58 0 45 1;

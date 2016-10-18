@@ -12,10 +12,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 6 pd;
-#X obj 322 31 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 7 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 7 comment 0 37 times ? 0 0 0 0 pak;
 #X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 10 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -26,8 +22,6 @@ Max/MSP;
 0;
 #X obj 88 476 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 17 59 comment 0 18 times ? 0 0 0 0 Output a list when any element
-changes;
 #X text 66 88 [pak] (pronounced "pock") is much like pack \, but any
 inlet triggers the output of a list. The message set avoid the output
 and a bang triggers the output.;
@@ -63,11 +57,17 @@ symbol as the initial value \; - the default is two inlets set to integer
 (0);
 #X text 99 686 two inlets set to integer (0) ???? // the set list didnt
 convert to int...;
-#X connect 0 0 19 0;
-#X connect 1 0 19 1;
-#X connect 17 0 19 0;
-#X connect 18 0 19 0;
-#X connect 19 0 2 0;
-#X connect 20 0 19 1;
-#X connect 21 0 19 3;
-#X connect 22 0 19 5;
+#X obj 17 59 cyclone/comment 0 18 times ? 0 0 0 0 Output a list when
+any element changes;
+#X obj 16 7 cyclone/comment 0 37 times ? 0 0 0 0 pak;
+#X obj 322 31 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 7 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 0 0 15 0;
+#X connect 1 0 15 1;
+#X connect 13 0 15 0;
+#X connect 14 0 15 0;
+#X connect 15 0 2 0;
+#X connect 16 0 15 1;
+#X connect 17 0 15 3;
+#X connect 18 0 15 5;

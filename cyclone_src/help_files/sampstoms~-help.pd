@@ -32,12 +32,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 sampstoms~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Convert samples to milliseconds
-;
 #X text 86 98 Use the [sampstoms~] object to convert a time value in
 samples to milliseconds (depending on the sample rate).;
 #X text 86 132 [sampstoms~] works with floats and signal. A signal
@@ -150,37 +144,43 @@ the float input is ignored.;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
 #N canvas 221 147 444 223 example 0;
-#X floatatom 195 132 5 0 0 0 - - -, f 5;
+#X floatatom 243 134 5 0 0 0 - - -, f 5;
 #X floatatom 138 77 5 0 0 0 - - -, f 5;
 #X text 42 22 convert period time from samples to ms to use it on [train~]
 ;
-#X obj 195 159 cyclone/train~;
-#X text 235 132 ms;
+#X obj 243 161 cyclone/train~;
+#X text 283 134 ms;
 #X text 179 77 samples;
-#X obj 138 104 sampstoms~;
+#X obj 138 104 cyclone/sampstoms~;
 #X connect 0 0 3 0;
 #X connect 1 0 6 0;
 #X connect 6 1 0 0;
-#X restore 470 304 pd example \; train~;
+#X restore 470 326 pd example \; train~;
 #X text 342 249 signal input;
 #X obj 252 251 cyclone/line~;
-#X obj 52 321 number~;
-#X obj 157 323 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 169 323 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 52 238 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 252 332 number~;
-#X obj 357 334 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 375 334 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 252 221 0 \, 1000 1000;
-#X obj 52 281 cyclone/sampstoms~;
-#X obj 252 305 cyclone/sampstoms~;
+#X obj 52 281 cyclone/sampstoms~, f 20;
+#X obj 252 305 cyclone/sampstoms~, f 21;
 #X text 263 277 <= number of samples;
 #X text 62 258 <= number of samples;
-#X connect 30 0 38 0;
-#X connect 33 0 37 0;
-#X connect 36 0 30 0;
-#X connect 37 0 31 0;
-#X connect 37 1 32 0;
-#X connect 38 0 34 0;
-#X connect 38 1 35 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Convert samples to
+milliseconds;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 sampstoms~;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 252 332 cyclone/number~;
+#X obj 52 321 cyclone/number~;
+#X connect 26 0 32 0;
+#X connect 28 0 31 0;
+#X connect 30 0 26 0;
+#X connect 31 0 40 0;
+#X connect 31 1 27 0;
+#X connect 32 0 39 0;
+#X connect 32 1 29 0;

@@ -25,12 +25,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 pv;
-#X obj 20 58 comment 0 18 times ? 0 0 0 0 private (local) variables
-;
 #X text 127 291 status;
 #X text 173 257 - any message to be stored and shared by other [pv]
 objects;
@@ -44,7 +38,7 @@ objects;
 #X obj 118 187 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 66 159 store variable 'x';
-#X text 427 140 open and check:;
+#X text 434 139 open and check:;
 #X text 173 334 - stored private variable;
 #X text 96 365 1) symbol;
 #X text 96 382 2) anything;
@@ -86,29 +80,29 @@ other \, and you don't have control of wich one will be stored.;
 #X connect 6 2 8 0;
 #X connect 11 0 13 0;
 #X connect 12 0 11 0;
-#X restore 464 219 pd examples;
+#X restore 471 218 pd examples;
 #X text 115 334 anything;
-#N canvas 185 475 819 236 pv_in_a_subpatch_2 0;
-#X obj 167 131 cyclone/pv x;
-#X obj 167 92 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#N canvas 185 475 693 192 pv_in_a_subpatch_2 0;
+#X obj 173 120 cyclone/pv x;
+#X obj 173 81 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 167 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 173 149 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 102 92 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 108 81 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 660 102 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X obj 660 156 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 526 79 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 526 133 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 522 124 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 388 101 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 512 95 store variable 'x';
-#X text 687 103 retrieve 'x';
-#X obj 522 150 cyclone/pv y;
-#X obj 660 127 cyclone/pv y;
-#X text 37 28 the messages stored and retrieved below are shared with
-the parent patch and the other subpatch.;
-#X text 445 45 the messages stored and retrieved below are shared only
+#X text 378 72 store variable 'x';
+#X text 553 80 retrieve 'x';
+#X obj 388 127 cyclone/pv y;
+#X obj 526 104 cyclone/pv y;
+#X text 22 23 the messages stored and retrieved below are shared with
+the parent patch and the other subpatch., f 44;
+#X text 311 22 the messages stored and retrieved below are shared only
 within this subpatch.;
 #X connect 0 0 2 0;
 #X connect 1 0 0 0;
@@ -116,7 +110,7 @@ within this subpatch.;
 #X connect 4 0 10 0;
 #X connect 6 0 9 0;
 #X connect 10 0 5 0;
-#X restore 404 184 pd pv_in_a_subpatch_2;
+#X restore 411 183 pd pv_in_a_subpatch_2;
 #N canvas 146 277 843 323 pv_in_a_subpatch_1 0;
 #X obj 192 129 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -154,7 +148,7 @@ with the same variable name - to check it \, open [pv_in_a_subpatch_2].
 #X connect 7 0 8 0;
 #X connect 9 0 6 0;
 #X connect 10 0 1 0;
-#X restore 404 163 pd pv_in_a_subpatch_1;
+#X restore 411 162 pd pv_in_a_subpatch_1;
 #X text 258 167 <= retrieve 'x';
 #X msg 58 186 status;
 #X text 173 382 - initially stored message;
@@ -165,7 +159,13 @@ if it has another [pv] object with the same variable name. It won't
 share with other patches!;
 #X text 173 291 - posts information in the Pd window about related
 [pv] objects in the patch;
-#X connect 21 0 23 0;
-#X connect 22 0 21 0;
-#X connect 24 0 20 0;
-#X connect 35 0 20 0;
+#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 private (local) variables
+;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 pv;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 17 0 19 0;
+#X connect 18 0 17 0;
+#X connect 20 0 16 0;
+#X connect 31 0 16 0;

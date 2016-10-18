@@ -20,33 +20,8 @@
 #X text 231 453 - input to hyperbolic tangent function;
 #X text 231 493 - output of hyperbolic tangent function;
 #X obj 103 165 phasor~ 2;
-#N canvas 774 137 444 424 waveshaping 0;
-#X obj 225 206 +~ 11;
-#X obj 225 179 *~ 10;
-#X obj 225 155 cycle~ 0.5;
-#X obj 145 177 cycle~ 110;
-#X obj 111 318 output~;
-#X obj 145 272 cyclone/tanh~;
-#X obj 145 226 *~;
-#X obj 3 3 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 4 3 simulated analog distortion;
-#X text 18 44 [tanh~] will clip values between -1 and 1 \, but will
-do so not as "hard clipping" (which would be the case with the [clip~]
-object). It can actually be considered a waveshaper for soft clipping.
-This generates a distortion which is more closely related to how analog
-circuitry does clip a signal in overdrive.;
-#X connect 0 0 6 1;
-#X connect 1 0 0 0;
-#X connect 2 0 1 0;
-#X connect 3 0 6 0;
-#X connect 5 0 4 0;
-#X connect 5 0 4 1;
-#X connect 6 0 5 0;
-#X restore 318 348 pd waveshaping analog distortion;
 #X obj 103 280 cyclone/Scope~ 153 137 512 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Signal hyperbolic tangent
-function;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -57,10 +32,6 @@ function;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 15 4 comment 0 37 times ? 0 0 0 0 tanh~;
 #X text 180 192 * 2pi;
 #X text 181 214 - pi;
 #X text 79 407 -1;
@@ -173,12 +144,39 @@ analog distortion.;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
 #X obj 365 192 number~ 1;
-#X obj 365 275 number~;
 #X obj 365 234 cyclone/tanh~;
 #X text 82 341 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal hyperbolic
+tangent function;
+#X obj 15 4 cyclone/comment 0 37 times ? 0 0 0 0 tanh~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#N canvas 774 137 416 375 waveshaping 0;
+#X obj 232 172 +~ 11;
+#X obj 232 145 *~ 10;
+#X obj 163 236 cyclone/tanh~;
+#X obj 163 200 *~;
+#X text 31 19 [tanh~] will clip values between -1 and 1 \, but will
+do so not as "hard clipping" (which would be the case with the [clip~]
+object). It can actually be considered a waveshaper for soft clipping.
+This generates a distortion which is more closely related to how analog
+circuitry does clip a signal in overdrive.;
+#X obj 163 161 osc~ 110;
+#X obj 232 121 osc~ 0.5, f 18;
+#X obj 136 288 cyclone/output~;
+#X connect 0 0 3 1;
+#X connect 1 0 0 0;
+#X connect 2 0 7 0;
+#X connect 2 0 7 1;
+#X connect 3 0 2 0;
+#X connect 5 0 3 0;
+#X connect 6 0 1 0;
+#X restore 410 381 pd waveshaping \; analog distortion;
+#X obj 365 275 cyclone/number~;
 #X connect 9 0 11 0;
 #X connect 10 0 9 0;
-#X connect 11 0 16 0;
+#X connect 11 0 15 0;
 #X connect 14 0 10 0;
-#X connect 31 0 33 0;
-#X connect 33 0 32 0;
+#X connect 26 0 27 0;
+#X connect 27 0 34 0;

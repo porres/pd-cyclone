@@ -1,4 +1,4 @@
-#N canvas 790 78 558 559 10;
+#N canvas 790 78 560 547 10;
 #X obj 2 308 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 439 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -37,12 +37,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 offer;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Store one-time number pairs
-;
 #X obj 150 277 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 150 165 trigger b b;
@@ -54,7 +48,7 @@ Max/MSP;
 #X obj 150 141 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 286 277 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 13 256;
+-228856 -1 -1 0 256;
 #X text 174 394 - clears the stored pairs, f 60;
 #X text 130 377 bang;
 #X obj 301 182 hradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856
@@ -74,15 +68,21 @@ was previously set in the right inlet.;
 60;
 #X text 174 377 - outputs every stored 'y' values (without deleting)
 ;
-#X connect 7 0 27 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Store one-time number
+pairs;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 offer;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 7 0 23 0;
 #X connect 10 0 11 0;
-#X connect 11 0 35 0;
-#X connect 28 0 40 0;
-#X connect 28 1 41 0;
-#X connect 33 0 7 0;
-#X connect 34 0 28 0;
-#X connect 38 0 39 0;
-#X connect 39 0 11 0;
-#X connect 40 0 7 0;
-#X connect 41 0 7 1;
-#X connect 42 0 11 0;
+#X connect 11 0 31 0;
+#X connect 24 0 36 0;
+#X connect 24 1 37 0;
+#X connect 29 0 7 0;
+#X connect 30 0 24 0;
+#X connect 34 0 35 0;
+#X connect 35 0 11 0;
+#X connect 36 0 7 0;
+#X connect 37 0 7 1;
+#X connect 38 0 11 0;

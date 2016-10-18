@@ -25,7 +25,6 @@
 #X floatatom 142 230 6 0 0 0 - - -, f 6;
 #X floatatom 167 286 6 0 0 0 - - -, f 6;
 #X floatatom 63 260 0 0 0 0 - - -;
-#X obj 100 402 output~;
 #X obj 260 265 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X floatatom 257 293 5 0 0 0 - - -, f 5;
@@ -68,11 +67,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 trapezoid~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Trapezoidal wavetable;
 #X text 211 528 - changes lowest point (default 0);
 #X text 135 527 lo <float>;
 #X text 135 544 hi <float>;
@@ -187,18 +181,25 @@ the position of ramp up/down points.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X connect 15 0 38 0;
-#X connect 16 0 39 0;
-#X connect 17 0 41 0;
-#X connect 19 0 20 0;
-#X connect 20 0 42 1;
-#X connect 21 0 15 0;
-#X connect 22 0 16 0;
-#X connect 26 0 27 0;
-#X connect 27 0 42 2;
-#X connect 38 0 42 0;
-#X connect 39 0 42 0;
-#X connect 41 0 42 0;
-#X connect 42 0 18 0;
-#X connect 42 0 18 1;
-#X connect 42 0 28 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Trapezoidal wavetable
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 trapezoid~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 100 402 cyclone/output~;
+#X connect 15 0 37 0;
+#X connect 16 0 38 0;
+#X connect 17 0 40 0;
+#X connect 18 0 19 0;
+#X connect 19 0 41 1;
+#X connect 20 0 15 0;
+#X connect 21 0 16 0;
+#X connect 25 0 26 0;
+#X connect 26 0 41 2;
+#X connect 37 0 41 0;
+#X connect 38 0 41 0;
+#X connect 40 0 41 0;
+#X connect 41 0 27 0;
+#X connect 41 0 57 0;
+#X connect 41 0 57 1;

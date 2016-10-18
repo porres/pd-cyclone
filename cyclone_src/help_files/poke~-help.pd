@@ -188,8 +188,9 @@ by a signal. It can also write values via messages (similarly to [cyclone/peek~]
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
 #X text 142 597 (none);
-#X obj 18 58 cyclone/comment 0 18 times ? 0 0 0 0 Write to array;
 #X obj 17 6 cyclone/comment 0 37 times ? 0 0 0 0 poke~;
+#X obj 18 58 cyclone/comment 0 18 times ? 0 0 0 0 Write to an array
+;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;

@@ -17,15 +17,11 @@
 0;
 #X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X obj 363 5 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 universal;
 #X obj 257 140 float;
 #X obj 110 149 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 257 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 17 58 comment 0 18 times ? 0 0 0 0 Send messages to all objects
-of the same type;
 #X obj 321 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 260 188 float;
@@ -107,7 +103,7 @@ window/canvas).;
 #X connect 14 0 15 0;
 #X connect 16 0 17 0;
 #X connect 16 1 18 0;
-#X restore 448 189 pd mode;
+#X restore 483 210 pd mode;
 #N canvas 186 27 691 500 GUI 0;
 #X obj 243 198 vsl 12 40 0 127 0 0 empty empty empty 0 -8 0 8 -228856
 -1 -1 0 1;
@@ -274,7 +270,7 @@ sending messages to vertical sliders ([vsl] object).;
 #X connect 8 0 1 0;
 #X connect 29 0 28 0;
 #X connect 56 0 28 0;
-#X restore 449 152 pd GUI;
+#X restore 488 185 pd GUI;
 #X obj 3 467 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X text 149 475 As with send/receive objects \, the order in which
@@ -289,11 +285,15 @@ patches) \, default is 0 (only sends to the same patch window/canvas)
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 322 29 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X connect 12 0 14 0;
-#X connect 13 0 22 0;
-#X connect 17 0 18 0;
-#X connect 20 0 16 0;
-#X connect 21 0 19 0;
-#X connect 22 0 33 0;
+#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Send messages to
+all objects of the same type;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 universal;
+#X connect 10 0 12 0;
+#X connect 11 0 19 0;
+#X connect 14 0 15 0;
+#X connect 17 0 13 0;
+#X connect 18 0 16 0;
+#X connect 19 0 30 0;

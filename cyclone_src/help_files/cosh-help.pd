@@ -29,21 +29,21 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 cosh;
 #X text 172 356 - initially stored input value (default 0);
 #X text 172 281 - calculates output according to the stored input;
 #X floatatom 225 200 0 0 0 0 - - -;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Hyperbolic cosine function
-;
 #X text 82 87 [cosh] calculates the hyperbolic cosine of a given number.
 ;
 #X obj 225 171 cyclone/cosh 0.3;
 #X text 172 249 - input to hyperbolic cosine function \, this value
 is stored and updates the argument;
 #X text 172 317 - the hyperbolic cosine of the input;
-#X connect 6 0 24 0;
-#X connect 7 0 24 0;
-#X connect 24 0 21 0;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Hyperbolic cosine
+function;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 cosh;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 6 0 20 0;
+#X connect 7 0 20 0;
+#X connect 20 0 18 0;

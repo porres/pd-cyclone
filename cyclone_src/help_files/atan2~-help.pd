@@ -1,20 +1,20 @@
-#N canvas 536 30 563 514 10;
-#X obj 2 468 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 536 30 558 495 10;
+#X obj 2 457 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 2 320 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 2 309 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 388 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 377 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 425 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 414 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 79 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 79 386 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 142 397 signal;
-#X obj 79 333 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 142 386 signal;
+#X obj 79 322 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 80 356 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 80 345 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 132 434 1) float;
+#X text 132 423 1) float;
 #N canvas 154 262 556 424 calculating 0;
 #X obj 293 197 cyclone/atan2~;
 #X obj 90 203 cyclone/cartopol~;
@@ -24,22 +24,22 @@ part (cartesian coordinates):;
 to gather information on the signs of the inputs in order to return
 the appropriate quadrant of the computed angle \, which is not possible
 for the single-argument arctangent function.;
-#X obj 293 108 number~ 1;
-#X obj 181 108 number~ 1;
 #X text 307 87 Imaginary;
 #X text 209 88 Real;
-#X obj 293 245 number~;
-#X obj 189 245 number~;
-#X connect 0 0 8 0;
-#X connect 1 1 9 0;
-#X connect 4 0 1 1;
-#X connect 4 0 0 0;
-#X connect 5 0 1 0;
-#X connect 5 0 0 1;
-#X restore 377 236 pd calculating phase;
-#X text 111 358 float/signal - "b" value input to an arc-tangent function
+#X obj 293 245 cyclone/number~;
+#X obj 189 245 cyclone/number~;
+#X obj 181 108 cyclone/number~ 1;
+#X obj 293 108 cyclone/number~ 1;
+#X connect 0 0 6 0;
+#X connect 1 1 7 0;
+#X connect 8 0 1 0;
+#X connect 8 0 0 1;
+#X connect 9 0 1 1;
+#X connect 9 0 0 0;
+#X restore 422 270 pd calculating phase;
+#X text 111 347 float/signal - "b" value input to an arc-tangent function
 ;
-#X text 112 333 float/signal - "a" value input to an arc-tangent function
+#X text 112 322 float/signal - "a" value input to an arc-tangent function
 ;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -51,14 +51,14 @@ for the single-argument arctangent function.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 153 228 cyclone/atan2~;
-#X text 190 434 - value of "b" (not documented in Max);
+#X obj 142 238 cyclone/atan2~;
+#X text 190 423 - value of "b" (not documented in Max);
 #X text 54 99 Use the [atan2~] object to output the arc-tangent of
 two given values ("a" and "b") calculated as: Arc-tangent (a/b).;
 #X text 54 134 Useful for mathematical calculations such as finding
 the phase from cartesian coordinates.;
-#X text 152 288 Arc-tangent (a/b);
-#X text 189 397 - result of arctan(a/b) in radians;
+#X text 256 273 Arc-tangent (a/b);
+#X text 189 386 - result of arctan(a/b) in radians;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -163,11 +163,8 @@ the phase from cartesian coordinates.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 234 190 number~ 1;
-#X obj 153 263 number~;
-#X obj 107 190 number~ 1;
-#X text 81 191 "a";
-#X text 209 190 "b";
+#X text 116 178 "a";
+#X text 198 207 "b";
 #X obj 17 59 cyclone/comment 0 18 times ? 0 0 0 0 Signal arctan(a/b)
 function;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
@@ -176,6 +173,9 @@ cloned from Max/MSP;
 #X obj 77 9 cyclone/comment 0 30 times ? 0 0 0 0 2;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 atan;
 #X obj 95 3 cyclone/comment 0 37 times ? 0 0 0 0 ~;
-#X connect 16 0 24 0;
-#X connect 23 0 16 1;
-#X connect 25 0 16 0;
+#X obj 142 177 cyclone/number~ 1;
+#X obj 223 207 cyclone/number~ 1;
+#X obj 142 273 cyclone/number~;
+#X connect 16 0 33 0;
+#X connect 31 0 16 0;
+#X connect 32 0 16 1;
