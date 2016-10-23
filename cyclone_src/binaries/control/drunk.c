@@ -103,6 +103,10 @@ static void drunk_seed(t_drunk *x, t_floatarg f)
     rand_seed(&x->x_seed, (unsigned int)i);
 }
 
+static void drunk_state(t_drunk *x){
+    post("drunk seed: %u", x->x_seed); 
+}
+
 static void *drunk_new(t_floatarg f1, t_floatarg f2)
 {
     t_drunk *x = (t_drunk *)pd_new(drunk_class);
@@ -137,4 +141,6 @@ void drunk_setup(void)
 		    gensym("seed"), A_FLOAT, 0);  /* CHECKED arg obligatory */
     class_addmethod(drunk_class, (t_method)drunk_set,
 		    gensym("set"), A_FLOAT, 0);  /* CHECKED arg obligatory */
+    class_addmethod(drunk_class, (t_method)drunk_state,
+		    gensym("state"), 0);  /* CHECKED arg obligatory */
 }
