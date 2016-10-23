@@ -370,7 +370,6 @@ shared/sickle/arsic.c \
 shared/common/loud.c \
 shared/common/vefl.c \
 shared/unstable/fragile.c
-    play~.class.sources := cyclone_src/binaries/signal/play.c $(sarsic)
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
@@ -379,6 +378,7 @@ scybuf := shared/cybuf.c
     poke~.class.sources := cyclone_src/binaries/signal/poke.c $(scybuf) 
     record~.class.sources := cyclone_src/binaries/signal/record.c $(scybuf)
     wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
+    play~.class.sources := cyclone_src/binaries/signal/play.c $(scybuf)
 
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###

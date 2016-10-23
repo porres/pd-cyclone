@@ -21,8 +21,6 @@ typedef struct _allpass
     t_object  x_obj;
     t_inlet  *x_dellet;
     t_inlet  *x_alet;
-    t_inlet  *x_blet;
-    t_inlet  *x_clet;
     t_outlet  *x_outlet;
     int     x_sr;
     //pointers to the delay bufs
