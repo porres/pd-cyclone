@@ -364,13 +364,6 @@ shared/common/os.c \
 shared/unstable/forky.c
     capture~.class.sources := cyclone_src/binaries/signal/capture.c $(sfile)
 
-sarsic := \
-shared/sickle/sic.c \
-shared/sickle/arsic.c \
-shared/common/loud.c \
-shared/common/vefl.c \
-shared/unstable/fragile.c
-
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
     index~.class.sources := cyclone_src/binaries/signal/index.c $(scybuf)

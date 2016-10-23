@@ -3,19 +3,16 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 /* Porres 2016: 
- This library has been fixed and updated by Porres;
- This is the cyclone library containing 12 non alphanumeric objects
+ This library has been fixed and updated by Porres in 2016;
+ This is the cyclone library containing 12 non alphanumeric objects.
  Originally, the externals in cyclone used to come in a library called
  "cyclone", which included these 12 objects plus the "hammer" and "sicle"
- libraries (control/MAX and signal/MSP objects respectively). In (and since)
- the Pd-Extended days, the objects used to come as single binaries and these
- 12 objects were lost to oblivion, as they need to come in a library because
- some file systems don't like and agree with these characters names.
+ libraries (control/MAX and signal/MSP objects respectively).
  
- So, the original cyclone library is now restored, but only containing these
+ This original cyclone library is now restored, but only containing these
  12 objects, which are: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], 
- [!-~], [!/~], [%~], [+=~] (the original code for such objects are in the
- nettles.c file - now in the graveyard).
+ [!-~], [!/~], [%~], [+=~] (the original code for such objects used to be 
+ called 'nettles.c'.
  
  Alternatively, alphanumeric versions of these objects are ialso ncluded as 
  single binaries in the cyclone package  */
@@ -99,31 +96,6 @@ typedef struct _equals
 
 static t_class *equals_class;
 
-static t_int *equals_perform0(t_int *w)
-{
-    int nblock = (int)(w[1]);
-    t_float *in1 = (t_float *)(w[2]);
-    t_float *in2 = (t_float *)(w[3]);
-    t_float *out = (t_float *)(w[4]);
-    t_shared_floatint fi;
-#ifdef CYCLONE_SAFE
-    int32 truebits;
-    fi.fi_f = 1.;
-    truebits = fi.fi_i;
-#endif
-    while (nblock--)
-    {
-#ifdef CYCLONE_SAFE
-	fi.fi_i = ~((*in1++ == *in2++) - 1) & truebits;
-#else
-	fi.fi_i = ~((*in1++ == *in2++) - 1) & SHARED_TRUEBITS;
-#endif
-	*out++ = fi.fi_f;
-    }
-    return (w + 5);
-}
-
-/*
 static t_int *equals_perform1(t_int *w)
 {
     int nblock = (int)(w[1]);
@@ -134,50 +106,12 @@ static t_int *equals_perform1(t_int *w)
     return (w + 5);
 }
 
-static t_int *equals_perform2(t_int *w)
-{
-    int nblock = (int)(w[1]);
-    t_float *in1 = (t_float *)(w[2]);
-    t_float *in2 = (t_float *)(w[3]);
-    t_float *out = (t_float *)(w[4]);
-    for (; nblock; nblock -= 8, in1 += 8, in2 += 8, out += 8)
-    {
-	float f0 = in1[0], f1 = in1[1], f2 = in1[2], f3 = in1[3];
-	float f4 = in1[4], f5 = in1[5], f6 = in1[6], f7 = in1[7];
-	float g0 = in2[0], g1 = in2[1], g2 = in2[2], g3 = in2[3];
-	float g4 = in2[4], g5 = in2[5], g6 = in2[6], g7 = in2[7];
-	out[0] = f0 == g0; out[1] = f1 == g1;
-	out[2] = f2 == g2; out[3] = f3 == g3;
-	out[4] = f4 == g4; out[5] = f5 == g5;
-	out[6] = f6 == g6; out[7] = f7 == g7;
-    }
-    return (w + 5);
-} */ // For Testing
-
 static void equals_dsp(t_equals *x, t_signal **sp)
 {
-/*    switch (x->x_algo)
-    {
-    case 1:
 	dsp_add(equals_perform1, 4, sp[0]->s_n,
 		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
-	break;
-    case 2:
-	dsp_add(equals_perform2, 4, sp[0]->s_n,
-		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
-	break;
-    default: */ // For testing
-	dsp_add(equals_perform0, 4, sp[0]->s_n,
-		sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
-    // }
 }
 
-/*static void equals__algo(t_equals *x, t_floatarg f)
-{
-    x->x_algo = f;
-}*/
-
-// FREE
 static void *equals_free(t_equals *x)
 {
     inlet_free(x->x_inlet);
@@ -187,12 +121,6 @@ static void *equals_free(t_equals *x)
 static void *equals_new(t_floatarg f)
 {
     t_equals *x = (t_equals *)pd_new(equals_class);
-//    if (s == gensym("_==1~"))
-//	x->x_algo = 1;
-//  else if (s == gensym("_==2~"))
-//	x->x_algo = 2;
-//    else
-//	x->x_algo = 0;
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
@@ -265,7 +193,7 @@ static t_int *lessthan_perform(t_int *w)
     t_shared_floatint fi;
     while (nblock--)
     {
-	fi.fi_i = ~((*in1++ < *in2++) - 1) & SHARED_TRUEBITS;
+	fi.fi_i = ~((*in1++ < *in2++) - 1) & SHARED_TRUEBITS; // change?
 	*out++ = fi.fi_f;
     }
     return (w + 5);
@@ -698,7 +626,7 @@ void cyclone_setup(void)
 /* -- post cyclone lib version -- */
     {
         post("------------------------------------------------------------------");
-        post("CYCLONE Library 0.3 Pre Alpha; A sub library containing the objects:");
+        post("CYCLONE Library 0.3; A sub library containing the objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
     }
@@ -708,7 +636,7 @@ void cyclone_setup(void)
         endpost();
     
 /* -- [!-] -- */
-
+    
     rminus_class = class_new(gensym("!-"),
 			     (t_newmethod)rminus_new, 0,
 			     sizeof(t_rev_op), 0, A_DEFFLOAT, 0);
@@ -717,7 +645,7 @@ void cyclone_setup(void)
     class_sethelpsymbol(rminus_class, gensym("rminus"));
 
 /* -- [!/] -- */
-
+    
     rdiv_class = class_new(gensym("!/"),
 			   (t_newmethod)rdiv_new, 0,
 			   sizeof(t_rev_op), 0, A_DEFFLOAT, 0);
@@ -732,12 +660,6 @@ void cyclone_setup(void)
                 sizeof(t_equals), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(equals_class, nullfn, gensym("signal"), 0);
     class_addmethod(equals_class, (t_method)equals_dsp, gensym("dsp"), A_CANT, 0);
-    /* class_addcreator((t_newmethod)equals_new,
-		     gensym("_==1~"), A_GIMME, 0);
-    class_addcreator((t_newmethod)equals_new,
-		     gensym("_==2~"), A_GIMME, 0);
-    class_addmethod(equals_class, (t_method)equals__algo,
-		    gensym("_algo"), A_FLOAT, 0); // for testing purposes / undocumented */
     class_sethelpsymbol(equals_class, gensym("equals~"));
 
 /* -- [!=~] -- */
@@ -757,7 +679,7 @@ void cyclone_setup(void)
     class_sethelpsymbol(lessthan_class, gensym("lessthan~"));
 
 /* -- [>~] -- */
-
+    
     greaterthan_class = class_new(gensym(">~"), (t_newmethod)greaterthan_new,
         (t_method)greaterthan_free, sizeof(t_greaterthan), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(greaterthan_class, nullfn, gensym("signal"), 0);
