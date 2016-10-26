@@ -144,6 +144,7 @@ static t_int *poke_perform(t_int *w)
 
 static void poke_dsp(t_poke *x, t_signal **sp)
 {
+    cybuf_checkdsp(x->x_cybuf);
    // arsic_dsp((t_arsic *)x, sp, poke_perform, 0);
     dsp_add(poke_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
