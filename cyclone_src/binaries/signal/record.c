@@ -403,7 +403,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_clock = clock_new(x, (t_method)record_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
     x->x_array_ms = loopend;
-	for (i=0;i<x->x_numchans;i++){
+	for (i=1;i<x->x_numchans;i++){
 	    inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	};
 	x->x_stlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("start"));
