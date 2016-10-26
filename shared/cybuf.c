@@ -16,7 +16,7 @@
 
 //taken from old vefl_get
 /* on failure *bufsize is not modified */
-t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp){
+t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp, int complain){
 //in dsp = used in dsp, 
   
     if (name && name != &s_){
@@ -34,7 +34,9 @@ t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp){
 			"bad template of array '%s'", name->s_name);
         }
 	else{
-	    pd_error(c->c_owner, "no such array '%s'", name->s_name);
+            if(complain){
+	        pd_error(c->c_owner, "no such array '%s'", name->s_name);
+            };
 	};
     }
     return (0);
@@ -79,20 +81,20 @@ void cybuf_redraw(t_cybuf *c)
     }
 }
 
-void cybuf_validate(t_cybuf *c)
+void cybuf_validate(t_cybuf *c, int complain)
 {
     cybuf_clear(c);
     c->c_npts = SHARED_INT_MAX;
     if (c->c_numchans <= 1 && c->c_bufname != &s_)
     {
-	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1);
+	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1, complain);
     }
     else if (c->c_numchans > 1){
 	int ch;
 	for (ch = 0; ch < c->c_numchans ; ch++){
 	    int vsz = c->c_npts;  /* ignore missing arrays */
 	    c->c_vectors[ch] =
-		cybuf_get(c, c->c_channames[ch], &vsz, 1);
+		cybuf_get(c, c->c_channames[ch], &vsz, 1, complain);
 	    if (vsz < c->c_npts) c->c_npts = vsz;
 	}
     }
@@ -110,7 +112,7 @@ int cybuf_getnchannels(t_cybuf *c)
 }
 */
 
-void cybuf_setarray(t_cybuf *c, t_symbol *name){   
+void cybuf_initarray(t_cybuf *c, t_symbol *name, int complain){   
     //setting array names	
     if (name){
 	c->c_bufname = name;
@@ -122,9 +124,14 @@ void cybuf_setarray(t_cybuf *c, t_symbol *name){
 		    c->c_channames[ch] = gensym(buf);
 		};
 	};
-	cybuf_validate(c);
+	cybuf_validate(c, complain);
     };
     cybuf_playcheck(c);
+}
+
+//wrapper around cybuf_initarray so you don't have to pass the complain flag each time
+void cybuf_setarray(t_cybuf *c, t_symbol *name){
+   cybuf_initarray(c, name, 1); 
 }
 
 void cybuf_setminsize(t_cybuf *c, int i)
@@ -157,7 +164,7 @@ void cybuf_dsp(t_cybuf *x, t_signal **sp, t_perfroutine perf, int complain)
 */
 
 void cybuf_checkdsp(t_cybuf *c){
-    cybuf_validate(c);
+    cybuf_validate(c, 1);
     cybuf_playcheck(c);
 
 }
@@ -206,7 +213,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
     c->c_minsize = 1;
     c->c_numchans = numchans;
     if(bufname != &s_){
-        cybuf_setarray(c, bufname);
+        cybuf_initarray(c, bufname, 0);
     };
     return (c);
 }
