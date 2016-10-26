@@ -91,7 +91,8 @@ static void poke_float(t_poke *x, t_float f)
 
     t_cybuf *c = x->x_cybuf;
     t_word *vp;
-    cybuf_validate(c);  /* LATER rethink (efficiency, and complaining) */
+    //second arg is to allow error posting
+    cybuf_validate(c, 1);  /* LATER rethink (efficiency, and complaining) */
     if (vp = c->c_vectors[x->x_effchannel])
     {
 	int ndx = (int)*x->x_indexptr;
