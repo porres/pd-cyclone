@@ -509,8 +509,8 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	int floatarg = 0;//argument counter for floatargs (don't include symbol arg)
 	//setting defaults
 	t_float stpt = 0;
-	t_float endpt = -1; //if it's still -1 after parsing args, means didn't get passed
-	t_float numouts = 1; //i'm assuming the default is 1 - DXK
+	t_float endpt = SHARED_INT_MAX; //default to max int size (hacky i know)
+        t_float numouts = 1; //i'm assuming the default is 1 - DXK
 	t_float bias = 0;
 	t_float tension = 0;
 	t_float interp = CYWAVEINTERP;
@@ -605,14 +605,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	};
 
 	if(endpt < 0){
-		//endpt not passed as art,.. get the array number of samples if set
-		if(nameset){
-			t_float arraysmp = x->x_cybuf->c_npts;
-			endpt = arraysmp;
-		}
-		else{ //else just set to 0
 			endpt = 0;
-		};
 	}
 	else{//if passed, floor it
 		endpt = (t_float)floor(endpt);
