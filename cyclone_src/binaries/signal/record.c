@@ -266,10 +266,7 @@ static void record_dsp(t_record *x, t_signal **sp)
     cybuf_checkdsp(x->x_cybuf); 
     t_float ksr= sp[0]->s_sr * 0.001;
 
-    //if sample rate changed, recalculate index
-    if(ksr != x->x_ksr){
         record_mstoindex(x);
-    };
     int i, nblock = sp[0]->s_n;
 
     t_signal **sigp = sp;
