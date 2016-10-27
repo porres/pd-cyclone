@@ -6,6 +6,7 @@
 #include <math.h>
 #include "m_pd.h"
 #include "cybuf.h"
+#include "shared.h"
 
 #define CYWAVEMAXOUT 4 //max number of outs
 #define CYWAVEINTERP 1 //default interp mode
@@ -509,11 +510,12 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	int floatarg = 0;//argument counter for floatargs (don't include symbol arg)
 	//setting defaults
 	t_float stpt = 0;
-	t_float endpt = SHARED_INT_MAX; //default to max int size (hacky i know)
-        t_float numouts = 1; //i'm assuming the default is 1 - DXK
+	t_float endpt = SHARED_FLT_MAX; //default to max float size (hacky i know)
+        int numouts = 1; //i'm assuming the default is 1 - DXK
 	t_float bias = 0;
 	t_float tension = 0;
 	t_float interp = CYWAVEINTERP;
+        printf("before while\n");
 
 	while(argc){
 		if(argv -> a_type == A_SYMBOL){
@@ -560,7 +562,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 					endpt = atom_getfloatarg(0, argc, argv);
 					break;
 				case 2:
-					numouts = atom_getfloatarg(0, argc, argv);
+					numouts = (int)atom_getfloatarg(0, argc, argv);
 					break;
 				default:
 					break;
@@ -579,22 +581,25 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	};
 	*/
 
+        printf("after while\n");
     //some boundschecking
 	if(numouts > CYWAVEMAXOUT){
 		numouts = CYWAVEMAXOUT;
 	}
-	else if(numouts < 1.0){
+	else if(numouts < 1){
 		numouts = 1;
 	};
 
         //old arsic_new notes, nchannels = (int)numouts, nsigs = 0, nauxsigs = 3
         t_wave *x = (t_wave *)pd_new(wave_class);
-        x->x_cybuf = cybuf_init((t_class *)x, name, (int)numouts);
-        x->x_numouts = (int)numouts;
+        x->x_cybuf = cybuf_init((t_class *)x, name, numouts);
+        x->x_numouts = numouts;
 	
+        printf("before alloc");
         //allocating output vectors
         x->x_ovecs = getbytes(x->x_numouts * sizeof(*x->x_ovecs));
 	
+        printf("after alloc\n");
 	//more boundschecking
 	//it looks everything is stored as samples then later converted to ms
 	if(stpt < 0){
@@ -611,7 +616,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		endpt = (t_float)floor(endpt);
 	};
 
-
+        printf("after flooring\n");
         x->x_ksr = (double)sys_getsr() * 0.001;
 	wave_interp(x, interp);
 	x->x_bias = bias;
@@ -624,8 +629,9 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	pd_float((t_pd *)x->x_startlet, stpt);
 	pd_float( (t_pd *)x->x_endlet, endpt);
 
+        printf("after inlets\n");
 	int i;
-	for(i=0; i < (int)numouts; i++){
+	for(i=0; i < numouts; i++){
 		outlet_new(&x->x_obj, gensym("signal")); //normal way
 	    	//outlet_new((t_object *)x, gensym("signal")); //arsic way
 	};
