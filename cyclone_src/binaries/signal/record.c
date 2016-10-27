@@ -210,7 +210,7 @@ loopover:
 	    t_word *vp = c->c_vectors[ch];
 	    if (vp)
 	    {
-		t_float *ip = *(x->x_ivecs + ndone);
+		t_float *ip = *(x->x_ivecs + ch +  ndone);
 		vp += phase;
 		i = nxfer;
 //		while (i--) *vp++ = *ip++; /* LATER consider handling under and overflows */
