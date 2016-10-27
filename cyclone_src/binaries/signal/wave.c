@@ -505,7 +505,7 @@ static void wave_free(t_wave *x)
 static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 
 	//mostly copying this for what i did with record~ - DXK
-	t_symbol * name;
+	t_symbol * name = NULL;
 	int nameset = 0; //flag if name is set
 	int floatarg = 0;//argument counter for floatargs (don't include symbol arg)
 	//setting defaults
@@ -515,7 +515,6 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	t_float bias = 0;
 	t_float tension = 0;
 	t_float interp = CYWAVEINTERP;
-        printf("before while\n");
 
 	while(argc){
 		if(argv -> a_type == A_SYMBOL){
@@ -581,7 +580,6 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	};
 	*/
 
-        printf("after while\n");
     //some boundschecking
 	if(numouts > CYWAVEMAXOUT){
 		numouts = CYWAVEMAXOUT;
@@ -595,11 +593,9 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
         x->x_cybuf = cybuf_init((t_class *)x, name, numouts);
         x->x_numouts = numouts;
 	
-        printf("before alloc");
         //allocating output vectors
         x->x_ovecs = getbytes(x->x_numouts * sizeof(*x->x_ovecs));
 	
-        printf("after alloc\n");
 	//more boundschecking
 	//it looks everything is stored as samples then later converted to ms
 	if(stpt < 0){
@@ -616,7 +612,6 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		endpt = (t_float)floor(endpt);
 	};
 
-        printf("after flooring\n");
         x->x_ksr = (double)sys_getsr() * 0.001;
 	wave_interp(x, interp);
 	x->x_bias = bias;
@@ -629,7 +624,6 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	pd_float((t_pd *)x->x_startlet, stpt);
 	pd_float( (t_pd *)x->x_endlet, endpt);
 
-        printf("after inlets\n");
 	int i;
 	for(i=0; i < numouts; i++){
 		outlet_new(&x->x_obj, gensym("signal")); //normal way
