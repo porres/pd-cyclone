@@ -4,9 +4,19 @@
 
 /* Derek Kwan 2016
 adding defaults for numchannels, append, loopstatus, loopstart, loopend
-adding record_getarraysmp
+adding record_getarraysmp, record_startms, record_endms, record_list
 adding attribute parsing and making numchannels arg optional 
+rewrite record_perform, record_reset, recor_float, record_startpoint, record_endpoint
+original start and end methods redirect to startms, endms methods
+basically almost everything in this thing
 de-arsic/cybuffing
+
+
+NOTED CHANGES IN BEHAVIOR:
+start and end point inlets changed from float inlets to sig inlets
+end point inlet set to 0 no longer defaults to the whole array
+I can change this if necessariy,.. I just figure if you're sending a phasor that starts 0 and goes to some number, you don't want
+the beginning of the ramp to default to the end of the whole array, right?
 */
 
 /* Porres 2016 fixed bugs with sync output, append mode, reset message, max number channels in  */
@@ -22,27 +32,27 @@ de-arsic/cybuffing
 #define PDCYREC_LOOPSTATUS 0
 #define PDCYREC_LOOPSTART 0
 
+#define RECORD_MAXBD 1E+32 //cheap higher bound for boundary points
+                            //=floor SHARED_FLT_MAX/(16*x->x_ksr*x) (48k, 16x oversamp, another div 10 for good measure)
 #define RECORD_REDRAWPAUSE  1000.  /* refractory period */
 
 typedef struct _record
 {
     t_object    x_obj;
     t_cybuf   *x_cybuf;
-    float     x_array_ms;  // array size in ms
-    float     x_startpoint;  /* the inputs */
-    float     x_endpoint;
+    float     x_startpoint;  //input: start point in ms
+    float     x_endpoint; //input: end point in ms
     int       x_appendmode;
     int       x_loopmode;
-    int       x_startindex;
-    int       x_endindex;    /* (one past last record position) */
-    int       x_pauseindex;
     int       x_phase;       /* writing head */
-    float     x_sync;
-    int       x_isrunning;   /* to know if sync should be 0.0 or 1.0 */
+    t_float     x_sync; //sync value
     t_clock  *x_clock;
     double    x_clocklasttick;
 
-
+    int       x_npts; //array size in samples
+    int       x_isrunning;
+    int       x_newrun; //if running turned from off and on for this current block
+    
     t_inlet     *x_stlet; //start inlet
     t_inlet     *x_endlet; //end inlet
     t_outlet    *x_outlet;
@@ -50,6 +60,8 @@ typedef struct _record
     t_float     x_ksr; //sample rate in ms
     int 	x_numchans;
     t_float     **x_ivecs; // input vectors
+    t_float     *x_startvec; //start position (in ms) vector
+    t_float     *x_endvec; //endposition (in ms) vec
     t_float     *x_ovec; //output vector
 } t_record;
 
@@ -80,6 +92,34 @@ static t_float record_getarraysmp(t_record *x, t_symbol *arrayname){
 }
 */
 
+static void record_startms(t_record *x, t_floatarg f){
+        pd_float((t_pd *)x->x_stlet, f);
+}
+
+static void record_endms(t_record *x, t_floatarg f){
+        pd_float((t_pd *)x->x_endlet, f);
+}
+
+static void record_list(t_record *x, t_symbol *s, int argc, t_atom * argv){
+        t_float startms, endms;
+        switch(argc){
+            case 0: //nothing passed
+                break;
+            case 1: //startms passed
+                startms = atom_getfloatarg(0, argc, argv);
+                record_startms(x, startms);
+                break;
+            default:
+            case 2: //both passed
+                startms = atom_getfloatarg(0, argc, argv);
+                endms = atom_getfloatarg(1, argc, argv);
+                record_startms(x, startms);
+                record_endms(x, endms);
+                break;
+        };
+
+}
+
 static void record_tick(t_record *x)
 {
     double timesince = clock_gettimesince(x->x_clocklasttick);
@@ -91,60 +131,74 @@ static void record_tick(t_record *x)
     else clock_delay(x->x_clock, RECORD_REDRAWPAUSE - timesince);
 }
 
-static void record_setsync(t_record *x)
-{
-    /* CHECKED: clipped to array size -- using indices, not points */
-    float range = (float)(x->x_endindex - x->x_startindex);
-    int phase = x->x_phase;
-    if (phase == SHARED_INT_MAX || range < 1.)
-    {
-    x->x_sync = x->x_isrunning;  /* CHECKED */
-    }
-    else
-    {
-	x->x_sync = (float)(phase - x->x_startindex) / range;
-    }
-}
 
-static void record_mstoindex(t_record *x)
-{
-    t_cybuf * c = x->x_cybuf;
-    x->x_startindex = (int)(x->x_startpoint * x->x_ksr);
-    if (x->x_startindex < 0){
-		x->x_startindex = 0;  /* CHECKED */
-	};
-    x->x_endindex = (int)(x->x_endpoint * x->x_ksr);
-    if (x->x_endindex > c->c_npts
-	|| x->x_endindex <= 0){
-		x->x_endindex = c->c_npts;  /* CHECKED (both ways) */
-	};
-    record_setsync(x);
-}
 
 static void record_set(t_record *x, t_symbol *s)
 {
+    t_cybuf *c = x->x_cybuf;
     cybuf_setarray(x->x_cybuf, s );
-    record_mstoindex(x);
+    x->x_npts = c->c_npts;
 }
 
 static void record_reset(t_record *x) // new
 {
-    x->x_startpoint = 0.;
-    x->x_endpoint = x->x_array_ms;
-    if (x->x_isrunning) x->x_phase = 0.;
-    record_mstoindex(x);
+    t_float loopstart  = 0.;
+    //array size in samples
+    t_float loopend = (t_float)x->x_npts/x->x_ksr;
+    if (x->x_isrunning){
+        x->x_phase = 0.;
+        x->x_sync = 0;
+    };
+    pd_float((t_pd *)x->x_stlet, loopstart);
+    pd_float((t_pd *)x->x_endlet, loopend);
 } // */
 
-static void record_startpoint(t_record *x, t_floatarg f)
+static int record_startpoint(t_record *x, t_floatarg f)
 {
-    x->x_startpoint = f;
-    record_mstoindex(x);
+    //some bounds checking to prevent overflow
+    int startindex;
+    if(f < RECORD_MAXBD){
+        startindex = (int)(f * x->x_ksr);
+    }
+    else{
+        startindex = SHARED_INT_MAX;
+    };
+    if (startindex < 0){
+		startindex = 0;  /* CHECKED */
+	}
+    else if(startindex >= x->x_npts){
+    //make it the last index addressable
+		startindex = x->x_npts - 1;  /* CHECKED (both ways) */
+	};
+
+    return startindex;
+
 }
 
-static void record_endpoint(t_record *x, t_floatarg f)
+static int record_endpoint(t_record *x, t_floatarg f)
 {
-    x->x_endpoint = f;
-    record_mstoindex(x);
+    //noninclusive
+    int endindex;
+    
+    //some bounds checking to prevent overflow
+    if(f < RECORD_MAXBD){
+        endindex = (int)(f * x->x_ksr);
+    }
+    else{
+        endindex = SHARED_INT_MAX;
+    };
+
+    if(endindex < 0){
+        endindex = 0;
+    }
+    if (endindex >= x->x_npts){
+    //if bigger than the end, set it to the end
+		endindex = x->x_npts;  /* CHECKED (both ways) */
+	};
+
+    return endindex;
+
+
 }
 
 static void record_float(t_record *x, t_float f)
@@ -152,18 +206,12 @@ static void record_float(t_record *x, t_float f)
     x->x_isrunning = (f != 0);
     if (x->x_isrunning)
     {
-	/* CHECKED: no (re)start in append mode */
-	/* LATER consider restart if x->x_pauseindex == SHARED_INT_MAX */
-	x->x_phase = x->x_appendmode ? x->x_pauseindex : x->x_startindex;
-        if (x->x_phase >= x->x_endindex) x->x_phase = SHARED_INT_MAX;
+        x->x_newrun = 1;
     }
-    else if (x->x_phase != SHARED_INT_MAX)
-    {
-	clock_delay(x->x_clock, 10.);
-	x->x_pauseindex = x->x_phase;
-	x->x_phase = SHARED_INT_MAX;
-    }
-    record_setsync(x);
+    else{
+        //else trigger a redraw
+        clock_delay(x->x_clock, 0);
+    };
 }
 
 static void record_append(t_record *x, t_floatarg f)
@@ -188,91 +236,97 @@ static t_int *record_perform(t_int *w)
 
     int nblock = (int)(w[2]);
     t_float *out = x->x_ovec;
-    int phase = x->x_phase;
-    float endphase = x->x_endindex;
-    float startphase = x->x_startindex;
-    float phase_range = (float)(endphase - startphase);
-    float sync = x->x_sync;
-    if (c->c_playable && endphase > phase)
-    {
-	//int vecsize = c->c_npts;
-	int ch, over, i, nxfer, ndone = 0;
-loopover:
-	if ((nxfer = endphase - phase) > nblock)
-	{
-	    nxfer = nblock;
-	    over = 0;
-	}
-	else over = 1;
-	ch = nch;
-	while (ch--)
-	{
-	    t_word *vp = c->c_vectors[ch];
-	    if (vp)
-	    {
-		t_float *ip = *(x->x_ivecs + ch +  ndone);
-		vp += phase;
-		i = nxfer;
-//		while (i--) *vp++ = *ip++; /* LATER consider handling under and overflows */
-		int j = 0;
-		while (i--) 
-            {vp[j].w_float = ip[j];
-                j++;}
-	    }
-	}
-	i = nxfer;
-        
-    sync = (float)(phase - startphase) / phase_range;
-	
-    while (i--)
-        {
-        *out++ = sync;
-        }
-        
-	if (over)
-	{
-	    clock_delay(x->x_clock, 0);
-	    nblock -= nxfer;
-	    if (x->x_loopmode
-		&& (phase = x->x_startindex) < endphase)
-	    {
-		x->x_phase = phase;
-		x->x_sync = sync = 0.;
-		if (nblock > 0)
-		{
-		    ndone += nxfer;
-		    goto loopover;
-		}
-		goto alldone;
-	    }
-        x->x_pauseindex = SHARED_INT_MAX;   /* CHECKED: no restart in append mode */
-	    x->x_phase = SHARED_INT_MAX;
-	    x->x_sync = 1.;
-	}
-	else
-	{
-	    x->x_phase += nxfer;
-	    x->x_sync = sync;
-	    goto alldone;
-	}
-    }
-    while (nblock--) *out++ = sync; // sync output = 0
-alldone:
+    t_float *startin = x->x_startvec;
+    t_float *endin = x->x_endvec;
+
+    t_float startms, endms,sync;
+    int startsamp, endsamp, phase, range, i, j;
+
+    for(i=0;i<nblock; i++){
+        startms = startin[i];
+        endms = endin[i];
+        if((startms < endms) && c->c_playable && x->x_isrunning){
+            startsamp = record_startpoint(x, startms);
+            endsamp = record_endpoint(x, endms);
+
+            range = endsamp - startsamp;
+            
+            //append mode shouldn't reset phase
+            if(x->x_newrun == 1 && x->x_appendmode == 0){
+                //isrunning 0->1 from last block, means reset phase appropriately
+                x->x_newrun = 0;
+                x->x_phase = startsamp;
+                x->x_sync = 0.;
+            };
+            phase = x->x_phase;
+            
+            //boundschecking, do it here because points might changed when paused
+            
+            //easier case, when we're "done"
+            if(phase >= endsamp){
+                if(x->x_loopmode == 1){
+                    phase = startsamp;
+                }
+                else{
+                    //not looping, just stop it
+                    x->x_isrunning = 0;
+                    //mb a bit redundant, but just make sure x->x_sync is 1
+                    x->x_sync = 1;
+                    //trigger redraw
+                };
+
+                //in either case calculate a redraw
+	        clock_delay(x->x_clock, 0);
+            };
+
+            //harder case up to interpretation
+            if(phase < startsamp){
+                //if before startsamp, just jump to startsamp?
+                phase = startsamp;
+            };
+            if(x->x_isrunning == 1){
+                //if we're still running after boundschecking
+                for(j=0;j<nch;j++){
+                    t_word *vp = c->c_vectors[j];
+                    t_float *insig = x->x_ivecs[j];
+                    if(vp){
+                        vp[phase].w_float = insig[i];
+                    };
+                };
+                //sync output
+                sync = (t_float)(phase - startsamp)/(t_float)range;
+                //increment stage
+                phase++;
+                x->x_phase = phase;
+                x->x_sync = sync;
+             };
+        };
+        //in any case, output sync value
+        out[i] = x->x_sync; 
+
+    };
+    //storing changed vars locally
+    if(nblock){
+        pd_float((t_pd *)x->x_stlet, startms);
+        pd_float((t_pd *)x->x_endlet, endms);
+    };
     return (w + 3);
 }
 
 static void record_dsp(t_record *x, t_signal **sp)
 {
-    cybuf_checkdsp(x->x_cybuf); 
-    t_float ksr= sp[0]->s_sr * 0.001;
+    cybuf_checkdsp(x->x_cybuf);
+    x->x_npts = x->x_cybuf->c_npts;
+    x->x_ksr= sp[0]->s_sr * 0.001;
 
-        record_mstoindex(x);
     int i, nblock = sp[0]->s_n;
 
     t_signal **sigp = sp;
     for (i = 0; i < x->x_numchans; i++){ //input vectors first
 		*(x->x_ivecs+i) = (*sigp++)->s_vec;
 	};
+        x->x_startvec = (*sigp++)->s_vec;
+        x->x_endvec = (*sigp++)->s_vec;
         x->x_ovec = (*sigp++)->s_vec;
 	dsp_add(record_perform, 2, x, nblock);
 
@@ -299,7 +353,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	t_float loopstart = PDCYREC_LOOPSTART;
 	t_float loopend = -1;
 	
-	t_symbol * arrname = &s_;
+	t_symbol * arrname = NULL;
 	if(argc > 0 && argv ->a_type == A_SYMBOL){
 		//first arg HAS to be array name, parse it now
 		arrname = atom_getsymbolarg(0, argc, argv);
@@ -382,38 +436,61 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
         //old arsic notes - chn_n number of channels, 0 nsigs 1 nauxsigs
     t_record *x = (t_record *)pd_new(record_class);
     x->x_ksr = (float)sys_getsr() * 0.001;
+
     x->x_cybuf = cybuf_init((t_class *)x, arrname, chn_n);
     t_cybuf * c = x->x_cybuf;
+    
+    
+    //init
+    x->x_newrun = 0;
+    x->x_isrunning = 0;
+    x->x_sync = 0;
+    x->x_phase = 0;
+    
     if (c)
     {
-	
+	//setting channels and array sizes
 	x->x_numchans = c->c_numchans;
 	t_float arraysmp = (t_float)c->c_npts;
+        x->x_npts = (int)arraysmp;
+
+        //allocate input vectors
         x->x_ivecs = getbytes(x->x_numchans * sizeof(*x->x_ivecs));
-	if(loopend < 0 && arraysmp > 0){
-//if loopend not set or less than 0 and arraysmp doesn't fail, set it to arraylen in ms
-       loopend = (arraysmp/x->x_ksr);
+	
+        //bounds checking
+
+        if(loopend < 0){
+            //if loopend not set
+            //if less than 0 and if nonzero array found, set it to arraylen in ms
+            if(arraysmp > 0){
+             loopend = (arraysmp/x->x_ksr);
+            }
+            else{
+                //else default to max size of float (defaults to size of array with boundschecking
+                loopend = RECORD_MAXBD;
+            };
 	};
+
+        if(loopstart < 0){
+            loopstart = 0;
+        };
+
 	cybuf_setminsize(x->x_cybuf, 2);
 	record_append(x, append);	
 	record_loop(x, loopstatus);
     
-    x->x_phase = SHARED_INT_MAX; // instead of old record_reset(x) and so it doesn't record when DSP is on (stupid code);
-    x->x_pauseindex = 0; // instead of old record_reset(x)'s SHARED_INT_MAX so append works
 	x->x_clock = clock_new(x, (t_method)record_tick);
 	x->x_clocklasttick = clock_getlogicaltime();
-    x->x_array_ms = loopend;
 	for (i=1;i<x->x_numchans;i++){
 	    inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	};
-	x->x_stlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("start"));
-	x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("end"));
+	x->x_stlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+	x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	x->x_outlet = outlet_new(&x->x_obj, gensym("signal")); // sync output
+        pd_float((t_pd *)x->x_stlet, loopstart);
+        pd_float((t_pd *)x->x_endlet, loopend);
     
-	record_startpoint(x, loopstart);
-	record_endpoint(x, loopend);
-        record_mstoindex(x);
-    }
+    };
     return (x);
 	errstate:
 		post("record~: improper args");
@@ -429,10 +506,11 @@ void record_tilde_setup(void)
 			     A_GIMME, 0);
     class_addfloat(record_class, record_float);
     class_addmethod(record_class, (t_method)record_dsp, gensym("dsp"), A_CANT, 0);
+    class_addlist(record_class, (t_method)record_list);
     class_domainsignalin(record_class, -1);
-    class_addmethod(record_class, (t_method)record_startpoint,
+    class_addmethod(record_class, (t_method)record_startms,
 		    gensym("start"), A_FLOAT, 0);
-    class_addmethod(record_class, (t_method)record_endpoint,
+    class_addmethod(record_class, (t_method)record_endms,
 		    gensym("end"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_append,
 		    gensym("append"), A_FLOAT, 0);
