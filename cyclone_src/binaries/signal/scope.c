@@ -137,6 +137,7 @@ typedef struct _scope
     float      x_curry;
     float      x_trigx;
     int        x_frozen;
+    int		   x_vis;
     t_clock   *x_clock;
     t_pd      *x_handle;
 } t_scope;
@@ -170,6 +171,8 @@ static void scope_clear(t_scope *x, int withdelay)
 static t_int *scope_perform(t_int *w)
 {
     t_scope *x = (t_scope *)(w[1]);
+    if (x->x_vis && !x->x_canvas->gl_editor->e_onmotion)
+    	x->x_frozen = 0;
     int xymode = x->x_xymode;
     if (!xymode)
     	return (w + 5);
@@ -386,6 +389,9 @@ static t_canvas *scope_getcanvas(t_scope *x, t_glist *glist)
 /* answers the question:  ``can we draw and where to?'' */
 static t_canvas *scope_isvisible(t_scope *x)
 {
+	if (glist_isvisible(x->x_glist))
+		x->x_vis = 1;
+	else x->x_vis = 0;
     return (glist_isvisible(x->x_glist) ? x->x_canvas : 0);
 }
 
@@ -881,6 +887,8 @@ static void scope_draw(t_scope *x, t_canvas *cv)
     if (x->x_lastxymode)
     	scope_drawfg(x, cv, x1, y1, x2, y2);
     scope_drawmargins(x, cv, x1, y1, x2, y2);
+    //sys_vgui("bind .x%lx.c <ButtonRelease-1> {pdsend [concat %s release 0 \\;]}\n",
+	//	 cv, x->x_bindsym->s_name);
 }
 
 static void scope_redraw(t_scope *x, t_canvas *cv)
@@ -1027,14 +1035,27 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
     }
 }
 
+static void scope_motion(t_scope *x, t_floatarg dx, t_floatarg dy)
+{
+	
+}
+
+
 static int scope_click(t_gobj *z, t_glist *glist,
 		       int xpix, int ypix, int shift, int alt, int dbl,
 		       int doit)
 {
     t_scope *x = (t_scope *)z;
-    x->x_frozen = doit;
+    if (doit)
+    {
+    	x->x_frozen = 1;
+    	glist_grab(x->x_glist, &x->x_obj.te_g, (t_glistmotionfn)scope_motion,
+    		0, xpix, ypix);
+    }
+    else x->x_frozen = 0;
     return (CURSOR_RUNMODE_CLICKME);
 }
+
 
 /* CHECKED there is only one copy of state variables,
    the same, whether modified with messages, or in the inspector */
@@ -1100,12 +1121,16 @@ static void scope_tick(t_scope *x)
 
 static void scope_resize(t_scope *x, t_float w, t_float h)
 {
+	t_canvas *cv;
     x->x_width  = (int)(w < SCOPE_MINWIDTH ? SCOPE_MINWIDTH : w);
     x->x_height = (int)(h < SCOPE_MINHEIGHT ? SCOPE_MINHEIGHT : h);
-    if (x->x_xymode)
-        scope_redraw(x, x->x_canvas);
-    scope_revis(x, x->x_canvas);
-    canvas_fixlinesfor(x->x_glist, (t_text *)x);
+    if (cv = scope_isvisible(x))
+    {
+   		if (x->x_xymode)
+        	scope_redraw(x, x->x_canvas);
+    	scope_revis(x, x->x_canvas);
+    	canvas_fixlinesfor(x->x_glist, (t_text *)x);
+    }
 }
 
 static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
@@ -1299,7 +1324,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_scope *x = (t_scope *)pd_new(scope_class);
     t_scopehandle *sh;
-    char buf[64];
+    char hbuf[64];
     x->x_glist = canvas_getcurrent();
     x->x_canvas = 0;
 	/*
@@ -1629,8 +1654,8 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     x->x_handle = pd_new(scopehandle_class);
     sh = (t_scopehandle *)x->x_handle;
     sh->h_master = x;
-    sprintf(buf, "_h%lx", (unsigned long)sh);
-    pd_bind(x->x_handle, sh->h_bindsym = gensym(buf));
+    sprintf(hbuf, "_h%lx", (unsigned long)sh);
+    pd_bind(x->x_handle, sh->h_bindsym = gensym(hbuf));
     sprintf(sh->h_outlinetag, "h%lx", (unsigned long)sh);
     sh->h_dragon = 0;
     return (x);
@@ -1685,6 +1710,8 @@ void scope_tilde_setup(void)
                     A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_click, gensym("click"),
                     A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_motion, gensym("motion"),
+    				A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_resize, gensym("resize"),
                     A_FLOAT, A_FLOAT, 0);
 
