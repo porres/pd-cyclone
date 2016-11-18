@@ -25,9 +25,9 @@ The full original readme is provided in this repository at: <https://github.com/
 
 Cyclone's original author is Krzysztof Czaja, who worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. 
 
-In parallel, miXed had been incorporated into into Pd Extended and after being abandoned was eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of the Pd-Extended project. Cyclone was left unmaintained after the last release of Pd Extended (in jan-2013). 
+In parallel, miXed had been incorporated into into Pd Extended, so (after abandoned by Czaja) it was eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of the Pd-Extended. 
 
-Fred Jan Kraan did maintain and develop for cyclone from dec-2014 to feb-2016, when development for cyclone was abandoned again (though maintenance for his last package is still active). 
+Pd Extended was abandined after its latest release (in jan-2013), Cyclone was left unmaintained as a result until Fred Jan Kraan took over maintainance and development for cyclone in dec-2014. In feb-2016, wFred Jan decided to abandone development for cyclone, though maintenance for his last package is still active. 
 
 Since feb-2016, an active further development of cyclone is being proposed by Alexandre Porres & collaborators (mainly Derek Kwan and Matt Barber) on this repository.
 
@@ -42,11 +42,11 @@ Cyclone is originally part of the miXed library (also written by cyclone's origi
 
 - <strong>Czaja's era (up to 0.1-Alpha55):</strong> Cjaza worked on cyclone from alpha01 (2002) to alpha55 (2005). 
 
-- <strong>Hans era (0.1-Alpha-55 and 0.1-Alpha-56):</strong> Hans maintained cyclone from 2007 to 2013. The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in the latest Pd Vanilla (with the new build in deken plug in since Pd Vanilla 0.47-0).
+- <strong>Hans era (0.1-Alpha-55 and 0.1-Alpha-56):</strong> Hans maintained cyclone from 2005 to 2013. The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in Pd Vanilla (since Pd Vanilla 0.47-0).
 
-- <strong>Fred Maintenance era (0.1-Alpha-57):</strong> The last version currently found in the original cyclone repository is 0.1-alpha-57, which was developed by Fred Jan Kraan, who started maintaining cyclone frmo dec 2014. Although a compiled version for this version was made available at some point, it is not found there anymore and it is officially an "unreleased" version.
+- <strong>Fred Maintenance era (0.1-Alpha-57):</strong> The last version currently found in the original cyclone repository is 0.1-alpha-57, which was developed by Fred Jan Kraan, who started maintaining cyclone in dec 2014. Although a compiled version for this version was made available at some point, it is not found there anymore and it is officially an "unreleased" version.
 
-=> <strong>Fred Jan Kraan's Repository (0.1-Alpha-57 and 0.2beta):</strong> Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the cyclone library. This repository starts with the version 0.1alpha-57 of cyclone from october 2015 (found in: <http://puredata.info/downloads/cyclone/releases/0.1-alpha57>). As mentioned, this version today stands as "unreleased" and, besides Fred Jan's repository, it also found in the last snapshot of the original cyclone repository.
+=> <strong>Fred Jan Kraan's Repository (0.1-Alpha-57 and 0.2beta):</strong> Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the cyclone library. This repository starts with the last snapshot of the original cyclone repository: cyclone version 0.1alpha-57, from october 2015 (found in: <http://puredata.info/downloads/cyclone/releases/0.1-alpha57>).
 
 - <strong>Cyclone 0.2-beta:</strong> Cyclone "0.2beta" presents further development on Fred Jan's branch, not available in the original repository. This is the last released version of cyclone available. It is found in Fred Jan Kraan's repository and also when searching for externals in the latest Pd Vanilla - check https://github.com/electrickery/pd-miXedSon/releases
 
@@ -75,7 +75,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 
 This Readme file was created on February 22nd 2016 
-(last edited on October 25th 2016)
+(last edited on November 17th 2016)
 
 -------
 <strong>Building Cyclone:</strong>
