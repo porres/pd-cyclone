@@ -27,7 +27,7 @@ Cyclone's original author is Krzysztof Czaja, who worked on it as part of his mi
 
 In parallel, miXed had been incorporated into into Pd Extended, so (after abandoned by Czaja) it was eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of the Pd-Extended. 
 
-Pd Extended was abandined after its latest release (in jan-2013), Cyclone was left unmaintained as a result until Fred Jan Kraan took over maintainance and development for cyclone in dec-2014. In feb-2016, wFred Jan decided to abandone development for cyclone, though maintenance for his last package is still active. 
+Pd Extended was abandined after its latest release (in jan-2013), Cyclone was left unmaintained as a result until Fred Jan Kraan took over maintainance and development for cyclone in dec-2014. In feb-2016, Fred Jan decided to abandone development for cyclone, though maintenance for his last package is still active. 
 
 Since feb-2016, an active further development of cyclone is being proposed by Alexandre Porres & collaborators (mainly Derek Kwan and Matt Barber) on this repository.
 
