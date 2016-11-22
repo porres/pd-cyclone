@@ -5,6 +5,19 @@
 /* CHECKME no reset after changing of a window size? */
 /* CHECKME overlap */
 
+/* Derek Kwan 2016
+ 
+   rewrite perform method and average_bipolarsum, average_absolutesum, and average_rmssum
+   to parsing of input signal outside of average_ methods and inside perform method
+
+   getting rid of x_clock
+
+   changing float outlet to signal outlet
+
+   reinterpreting phase and resetting of phase
+
+*/
+
 #include <math.h>
 #include "m_pd.h"
 
@@ -17,45 +30,31 @@ typedef struct _average
     t_object    x_obj;
     t_inlet    *x_inlet1;
     int         x_mode;
-    float     (*x_sumfn)(t_float*, int, float);
+    float     (*x_sumfn)(t_float, float);
     int         x_phase;
     int         x_npoints;
     float       x_result;
     float       x_accum;
-    t_clock    *x_clock;
 } t_average;
 
 static t_class *average_class;
 
-static void average_tick(t_average *x)
-{
-    outlet_float(((t_object *)x)->ob_outlet, x->x_result);
-}
 
-static float average_bipolarsum(t_float *in, int nxfer, float accum)
+static float average_bipolarsum(t_float input, float accum)
 {
-    while (nxfer--)
-	accum += *in++;
+    accum += input;
     return (accum);
 }
 
-static float average_absolutesum(t_float *in, int nxfer, float accum)
+static float average_absolutesum(t_float input, float accum)
 {
-    while (nxfer--)
-    {
-	float f = *in++;
-	accum += (f >= 0 ? f : -f);
-    }
+    accum += (input >= 0 ? input : -input);
     return (accum);
 }
 
-static float average_rmssum(t_float *in, int nxfer, float accum)
+static float average_rmssum(t_float input, float accum)
 {
-    while (nxfer--)
-    {
-	float f = *in++;
-	accum += f * f;
-    }
+    accum += input * input;
     return (accum);
 }
 
@@ -68,7 +67,7 @@ static void average_setmode(t_average *x, int mode)
     else if (mode == AVERAGE_RMS)
 	x->x_sumfn = average_rmssum;
     x->x_mode = mode;
-    x->x_phase = x->x_npoints;
+    x->x_phase = 0;
     x->x_accum = 0;
 }
 
@@ -78,7 +77,7 @@ static void average_float(t_average *x, t_float f)
     if (i > 0)  /* CHECKME */
     {
 	x->x_npoints = i;
-	x->x_phase = x->x_npoints;
+	x->x_phase = 0;
 	x->x_accum = 0;
     }
 }
@@ -103,40 +102,41 @@ static t_int *average_perform(t_int *w)
     t_average *x = (t_average *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
-    float (*sumfn)(t_float*, int, float) = x->x_sumfn;
+    t_float *out = (t_float *)(w[4]);
+    float (*sumfn)(t_float, float) = x->x_sumfn;
     int phase = x->x_phase;
-    if (phase <= nblock)
-    {
-	float accum = (*sumfn)(in, phase, x->x_accum);
-	nblock -= phase;
-	if (x->x_mode == AVERAGE_RMS)
-	    /* CHECKME scaling and FIXME */
-	    x->x_result = sqrtf(accum / x->x_npoints);
-	else
-	    x->x_result = accum / x->x_npoints;
-	clock_delay(x->x_clock, 0);
-	x->x_accum = 0;
-	if (nblock < x->x_npoints)
-	    x->x_phase = x->x_npoints - nblock;
-	else
-	{
-	    x->x_phase = x->x_npoints;
-	    return (w + 4);
-	}
-    }
-    else x->x_phase -= nblock;
-    x->x_accum = (*sumfn)(in, nblock, x->x_accum);
-    return (w + 4);
+    int i;
+
+    t_float input;
+
+    for(i=0; i< nblock; i++){
+        input = in[i];
+
+        x->x_accum = (*sumfn)(input, x->x_accum);
+        phase++;
+        if(phase >= x->x_npoints){
+            if (x->x_mode == AVERAGE_RMS)
+	        /* CHECKME scaling and FIXME */
+	        x->x_result = sqrtf(x->x_accum / (t_float)x->x_npoints);
+	    else
+	        x->x_result = x->x_accum / (t_float)x->x_npoints;
+            phase = 0;
+            x->x_accum = 0;
+
+        };
+        x->x_phase = phase;
+        out[i] = x->x_result;
+    };
+    return (w + 5);
 }
 
 static void average_dsp(t_average *x, t_signal **sp)
 {
-    dsp_add(average_perform, 3, x, sp[0]->s_n, sp[0]->s_vec);
+    dsp_add(average_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 static void average_free(t_average *x)
 {
-    if (x->x_clock) clock_free(x->x_clock);
 }
 
 static void *average_new(t_symbol *s, t_floatarg f)
@@ -161,9 +161,9 @@ static void *average_new(t_symbol *s, t_floatarg f)
 	/* CHECKME a warning if (s && s != &s_) */
     }
     average_setmode(x, mode);
+    x->x_result = 0;
     /* CHECKME if not x->x_phase = 0 */
-    outlet_new((t_object *)x, &s_float);
-    x->x_clock = clock_new(x, (t_method)average_tick);
+    outlet_new((t_object *)x, &s_signal);
     return (x);
 }
 
