@@ -371,7 +371,11 @@ scybuf := shared/cybuf.c
     poke~.class.sources := cyclone_src/binaries/signal/poke.c $(scybuf) 
     record~.class.sources := cyclone_src/binaries/signal/record.c $(scybuf)
     wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
-    play~.class.sources := cyclone_src/binaries/signal/play.c $(scybuf)
+
+scybufforky := \
+shared/unstable/forky.c \
+shared/cybuf.c
+    play~.class.sources := cyclone_src/binaries/signal/play.c $(scybufforky)
 
 #######################################################################
 ### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
