@@ -22,6 +22,13 @@
 
    changing float outlet to signal outlet
 
+   changed new method to accept list rather that defsym and deffloat
+
+    NOTE: I've written the bufrd so that it only uses [0,npoints) which makes overwriting the sample that drops 
+    off the moving average easier, but this won't work if you want to resize the buffer and not clear it
+
+    also, averages are over npoints always, even if there are less than npoints accumulated so far
+
 
 */
 
@@ -49,6 +56,7 @@ typedef struct _average
     int         x_alloc; //if x_buf is allocated or stack
     unsigned int    x_sz; //allocated size for x_buf
     unsigned int    x_bufrd; //readhead for buffer
+    unsigned int         x_max; //max size of buffer as specified by argt
 } t_average;
 
 static t_class *average_class;
@@ -151,9 +159,14 @@ static void average_setmode(t_average *x, int mode)
 
 static void average_float(t_average *x, t_float f)
 {
-    int i = (int)f;  /* CHECKME noninteger */
+    unsigned int i = (unsigned int)f;  /* CHECKME noninteger */
     if (i > 0)  /* CHECKME */
     {
+        //clip at max
+        if(i >= x->x_max){
+            i = x->x_max;
+        };
+
 	x->x_npoints = i;
         average_reset(x);
     }
@@ -185,7 +198,6 @@ static t_int *average_perform(t_int *w)
     unsigned int npoints = x->x_npoints;
     for(i=0; i <nblock; i++){
         unsigned int bufrd = x->x_bufrd;
-        double divisor; //eventual divisor of running sum
         double result; //eventual result
         double input = (double)in[i];
 
@@ -213,20 +225,14 @@ static t_int *average_perform(t_int *w)
         //overwrite/store current input value into buf
         x->x_buf[bufrd] = input;
         
-        //calculate divisor of moving average
-        if(count < npoints){
-            divisor = (double)count;
-        }
-        else{
-            divisor = (double)npoints;
-        };
+        
+
 
         //calculate result
         
+        result = x->x_accum/(double)npoints;
         if (x->x_mode == AVERAGE_RMS)
-	    result = sqrt(x->x_accum / divisor);
-	else
-	    result = x->x_accum / divisor;
+	    result = sqrt(result);
 
         out[i] = result;
 
@@ -254,26 +260,39 @@ static void average_free(t_average *x)
     };
 }
 
-static void *average_new(t_symbol *s, t_floatarg f)
+static void *average_new(t_symbol *s, int argc, t_atom * argv)
 {
     t_average *x = (t_average *)pd_new(average_class);
-    unsigned int i = (unsigned int)f;  /* CHECKME noninteger */
     int mode;
-
+    t_symbol * modename = &s_;
+    unsigned int maxbuf = AVERAGE_DEFNPOINTS; //default for max buf size
     //default to stack for now...
-    x->x_buf = x->x_stack;
+    x->x_buf = x->x_stack; 
     x->x_alloc = 0;
     x->x_sz = AVERAGE_STACK;
+
+    while(argc){
+        if(argv -> a_type == A_FLOAT){
+            t_float curfloat = atom_getfloatarg(0, argc, argv);
+            maxbuf = (unsigned int)curfloat;
+        }
+        else if(argv -> a_type == A_SYMBOL){
+            modename = atom_getsymbolarg(0, argc, argv);
+        };
+        argc--;
+        argv++;
+
+    };
     /* CHECKED it looks like memory is allocated for the entire window,
        in tune with the refman's note about ``maximum averaging interval'' --
        needed for dynamic control over window size, or what? LATER rethink */
-    x->x_npoints = (i > 0 ?  /* CHECKME */
-		    i : AVERAGE_DEFNPOINTS);
-    if (s == gensym("bipolar"))
+    x->x_npoints = (maxbuf > 0 ? maxbuf : 1);
+    x->x_max = x->x_npoints; //designated max of average buffer
+    if (modename == gensym("bipolar"))
 	mode = AVERAGE_BIPOLAR;
-    else if (s == gensym("absolute"))
+    else if (modename == gensym("absolute"))
 	mode = AVERAGE_ABSOLUTE;
-    else if (s == gensym("rms"))
+    else if (modename == gensym("rms"))
 	mode = AVERAGE_RMS;
     else
     {
@@ -292,7 +311,7 @@ static void *average_new(t_symbol *s, t_floatarg f)
 void average_tilde_setup(void)
 {
     average_class = class_new(gensym("average~"), (t_newmethod)average_new,
-            (t_method)average_free, sizeof(t_average), 0, A_DEFFLOAT, A_DEFSYM, 0);
+            (t_method)average_free, sizeof(t_average), 0, A_GIMME, 0);
     class_addmethod(average_class, (t_method) average_dsp, gensym("dsp"), 0);
     class_addmethod(average_class, nullfn, gensym("signal"), 0);
     class_addmethod(average_class, (t_method)average_bipolar, gensym("bipolar"), 0);
