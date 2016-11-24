@@ -197,52 +197,53 @@ static t_int *average_perform(t_int *w)
     int i;
     unsigned int npoints = x->x_npoints;
     for(i=0; i <nblock; i++){
-        unsigned int bufrd = x->x_bufrd;
         double result; //eventual result
         double input = (double)in[i];
+        if(npoints > 1){
+            unsigned int bufrd = x->x_bufrd;
+            //add input to accumulator
+            x->x_accum = (*sumfn)(input, x->x_accum, 1);
+            unsigned int count = x->x_count;
+            if(count <= npoints){
+                //update count
+                count++;
+                x->x_count = count;
+            }
+            else{
+                //start subtracting from the accumulator the sample that drops off the moving sum
 
-        //add input to accumulator
-        x->x_accum = (*sumfn)(input, x->x_accum, 1);
-        unsigned int count = x->x_count;
-        if(count <= npoints){
-            //update count
-            count++;
-            x->x_count = count;
+                /*say npoints = 2, then when bufrd = 1, 0 and 1 are the accum, then when bufrd = 2, 1 and 2 should be the accum
+                  so you subtract 0 from accum and add 2 and 0 = bufrd - npoints
+                  if we are only using npoints of the x_buf, then bufrd will be the value we want to subtract
+                */
+            
+                //subtract current value in bufrd's location from accum
+                x->x_accum = (*sumfn)(x->x_buf[bufrd], x->x_accum, 0);
+
+            };
+
+            //overwrite/store current input value into buf
+            x->x_buf[bufrd] = input;
+ 
+
+            //calculate result
+            result = x->x_accum/(double)npoints;
+            if (x->x_mode == AVERAGE_RMS)
+                result = sqrt(result);           
+            
+            //incrementation step
+            bufrd++;
+            if(bufrd >= npoints){
+                bufrd = 0;
+            };
+            x->x_bufrd = bufrd;
+
         }
         else{
-            //start subtracting from the accumulator the sample that drops off the moving sum
-
-            /*say npoints = 2, then when bufrd = 1, 0 and 1 are the accum, then when bufrd = 2, 1 and 2 should be the accum
-              so you subtract 0 from accum and add 2 and 0 = bufrd - npoints
-              if we are only using npoints of the x_buf, then bufrd will be the value we want to subtract
-            */
-        
-            //subtract current value in bufrd's location from accum
-            x->x_accum = (*sumfn)(x->x_buf[bufrd], x->x_accum, 0);
-
+            //npoints = 1, just pass through
+            result = input;
         };
-
-        //overwrite/store current input value into buf
-        x->x_buf[bufrd] = input;
-        
-        
-
-
-        //calculate result
-        
-        result = x->x_accum/(double)npoints;
-        if (x->x_mode == AVERAGE_RMS)
-	    result = sqrt(result);
-
         out[i] = result;
-
-        //incrementation step
-        bufrd++;
-        if(bufrd >= npoints){
-            bufrd = 0;
-        };
-        x->x_bufrd = bufrd;
-
     };
 
     return (w + 5);
