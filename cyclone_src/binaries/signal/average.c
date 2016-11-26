@@ -204,7 +204,7 @@ static t_int *average_perform(t_int *w)
             //add input to accumulator
             x->x_accum = (*sumfn)(input, x->x_accum, 1);
             unsigned int count = x->x_count;
-            if(count <= npoints){
+            if(count < npoints){
                 //update count
                 count++;
                 x->x_count = count;
