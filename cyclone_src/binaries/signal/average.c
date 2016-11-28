@@ -240,8 +240,13 @@ static t_int *average_perform(t_int *w)
 
         }
         else{
-            //npoints = 1, just pass through
-            result = input;
+            //npoints = 1, just pass through (or absolute)
+            if(x->x_mode == AVERAGE_ABSOLUTE || x->x_mode == AVERAGE_RMS){
+                result = fabs(input);
+            }
+            else{
+                result = input;
+            };
         };
         out[i] = result;
     };
