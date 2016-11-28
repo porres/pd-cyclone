@@ -1,40 +1,25 @@
-#N canvas 380 81 560 652 10;
-#X obj 2 609 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 605 51 558 586 10;
+#X obj 2 547 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 335 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 368 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 440 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 463 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 481 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 497 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 3 535 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X obj 78 454 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 78 472 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 110 347 signal;
-#X msg 332 216 rms;
-#X msg 316 173 bipolar;
-#X msg 327 195 absolute;
-#X obj 79 346 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 110 377 signal;
+#X msg 296 182 rms;
+#X msg 400 182 bipolar;
+#X msg 333 182 absolute;
+#X obj 79 377 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 116 363 float;
-#X msg 159 193 500;
-#X msg 195 192 10;
-#X obj 233 247 cyclone/average~ 1000;
-#X text 171 363 - the number of samples the average is applied to;
-#X text 171 347 - the signal to be averaged;
-#X text 110 454 signal;
-#X text 98 491 1) float;
-#X text 171 491 - sets number of samples to be average (default 100)
-;
-#X text 98 509 2) symbol;
-#X text 171 509 - sets mode: bipolar \, absolute or rms (default bipolar)
-;
-#X floatatom 233 270 0 0 0 0 - - -;
-#X obj 236 293 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X msg 114 194 44100;
-#X msg 66 193 10000;
+#X text 116 393 float;
+#X text 169 377 - the signal to be averaged;
+#X text 110 472 signal;
+#X text 98 505 1) float;
+#X text 98 523 2) symbol;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -45,23 +30,9 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X text 104 380 bipolar;
-#X text 98 396 absolute;
-#X text 128 412 rms;
-#X text 171 396 - sets to absolute average mode;
-#X text 171 412 - sets to root mean square (RMS) average mode;
-#X text 171 454 - the signal composed by the moving average;
-#X text 133 546 RMS values are often used to measure signal levels.
-The RMS mode of the [average~] object is more CPU intensive than the
-absolute mode. The absolute mode often works as well as the RMS mode
-in many level-detection tasks.;
-#X obj 233 167 osc~ 100;
-#X text 86 167 number of samples;
-#X text 321 152 modes;
-#X text 52 92 Use the [average~] object for a running/moving average
-of a signal over a specified number of samples. There are three averaging
-methods available: bipolar \, absolute and rms.;
-#X text 171 380 - sets to bipolar average mode (default);
+#X text 104 410 bipolar;
+#X text 98 426 absolute;
+#X text 128 442 rms;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -166,19 +137,162 @@ methods available: bipolar \, absolute and rms.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal average in
-different forms;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal moving average
+;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 average~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 7 0 14 0;
-#X connect 8 0 14 0;
-#X connect 9 0 14 0;
-#X connect 12 0 14 0;
-#X connect 13 0 14 0;
-#X connect 14 0 22 0;
-#X connect 22 0 23 0;
-#X connect 24 0 14 0;
-#X connect 25 0 14 0;
-#X connect 37 0 14 0;
+#X obj 236 245 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 168 175 nbx 2 14 1 441 0 0 sadgaf ahah empty 0 -8 0 10 -228856
+-1 -1 1 256;
+#X text 169 523 - sets mode: bipolar (default) \, absolute or rms;
+#X obj 171 149 hsl 150 15 1 50 1 0 adsfadsg ahhah empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X obj 57 245 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 236 182 noise~;
+#X text 174 148 'n' samples to average;
+#X obj 39 291 cyclone/comment 9 14 times ? 0 0 0 0 0;
+#X obj 34 340 cyclone/comment 32 14 times ? 0 0 0 0 -1;
+#X obj 39 239 cyclone/comment 9 14 times ? 0 0 0 0 1;
+#X text 169 472 - the moving average over the last 'n' samples;
+#X text 169 505 - maximum and initial 'n' samples (default 100 \, minimum
+1);
+#X text 169 410 - outputs average over positive and negative values
+;
+#X text 169 426 - outputs average over absolute values;
+#X text 169 442 - outputs 'root mean square' (RMS) values;
+#X text 169 393 - 'n': number of last samples to apply the average
+to;
+#N canvas 917 260 425 509 backwards 0;
+#X obj 81 304 cyclone/number~;
+#X obj 227 274 cyclone/snapshot~ 1;
+#X obj 185 344 vsl 15 128 -1 1 0 0 gsgg fdssd empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X obj 227 210 cyclone/rand~ 10;
+#X obj 227 242 cyclone/average~ 44100;
+#X text 172 400 0;
+#X text 172 336 1;
+#X text 167 465 -1;
+#X obj 227 344 vsl 15 128 -1 1 0 0 gsgg fdssd empty 0 -9 0 10 -228856
+-1 -1 0 1;
+#X text 214 400 0;
+#X text 214 336 1;
+#X text 209 465 -1;
+#X obj 227 304 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 32 139 For a float output now \, you have to convert the signal
+with objects like vanilla's [snapshot~] \, [cyclone/snapshot~] or the
+new [cyclone/number~] that also works only to display the values.,
+f 60;
+#X text 32 18 [average~] had a control number output in Max 4 \, but
+Max 5 updated it to include a signal output - which implies a sample
+accurate precision! Originally developed in the Max 4 era \, the first
+versions of cyclone (up to cyclone 0.2 beta) include the old behaviour
+of [average~].;
+#X text 32 93 Cyclone 0.3 updates all original cyclone objects to Max
+7 \, and [average~] is the only update resulting in a behaviour change
+that needed to be documented., f 60;
+#X connect 0 1 2 0;
+#X connect 1 0 12 0;
+#X connect 3 0 4 0;
+#X connect 4 0 0 0;
+#X connect 4 0 1 0;
+#X connect 12 0 8 0;
+#X restore 460 320 pd backwards \; compatibility;
+#N canvas 837 154 467 357 moving 0;
+#X obj 163 90 noise~;
+#X obj 244 250 cyclone/output~;
+#X obj 120 213 cyclone/output~;
+#X obj 244 167 cyclone/average~ 8;
+#X text 57 24 In the default bipolar mode \, [average~] also acts as
+a regular moving average filter \, which is a kind of lowpass filter.
+;
+#X connect 0 0 2 0;
+#X connect 0 0 2 1;
+#X connect 0 0 3 0;
+#X connect 3 0 1 0;
+#X connect 3 0 1 1;
+#X restore 454 260 pd moving \; average filter;
+#X text 336 162 (modes);
+#X obj 236 217 cyclone/average~ 64;
+#N canvas 993 163 417 558 more 0;
+#X obj 105 437 cyclone/scope~ 189 102 2 3 64 -1 1 300 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 105 409 cyclone/average~ 100;
+#X obj 105 332 noise~;
+#X obj 190 350 nbx 3 14 1 441 0 0 sadgaf ahah empty 0 -8 0 10 -228856
+-1 -1 1 256;
+#X obj 193 300 hsl 150 15 1 100 1 0 adsfadsg ahhah empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X text 196 299 'n' samples to average;
+#X obj 190 325 int;
+#X text 23 82 The first argument specifies the maximum buffer size
+to average the signal. You can change with a float input the number
+of samples to average but values gretaer than the argument are clipped
+to that maximum value. The minimum average value is "1" \, which makes
+it the original signal for the bipolar mode \, or the absolute value
+of the original signal (for absolute and rms mode). Values smaller
+than "1" are simply ignored.;
+#X obj 190 373 change;
+#X text 23 202 Each time [average~] receives a number value \, it clears
+the samples from the buffer \, even if the number is the same as the
+previously set number. So you may have to use the [change] object if
+you don't want the same number to clear ther buffer., f 60;
+#X text 23 19 A moving/running avergae outputs an average value at
+each sample that consists of a mean between a given number of last
+samples ('n'). Only integer values make sense \, so floats are converted
+to integers!;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 8 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 8 0 1 0;
+#X restore 448 297 pd more details;
+#N canvas 292 101 1127 381 average 0;
+#X obj 90 125 cyclone/average~ 100 bipolar;
+#X obj 90 155 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 461 149 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 833 150 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X text 368 26 Absolute mode: only absolute values are considered (negative
+values atre converted to positive) \, then the mean is applied.;
+#X text 756 26 Rms mode: average is the root mean square. The arithmetic
+mean is peformed on the squares of the values \, then the square root
+is applied.;
+#X text 18 31 Bipolar mode (default): a plain arithmetic mean over
+positive and negative values.;
+#X obj 90 99 osc~ 1000;
+#X obj 461 91 osc~ 1000;
+#X obj 833 95 osc~ 1000;
+#X obj 461 117 cyclone/average~ 100 absolute;
+#X obj 833 119 cyclone/average~ 100 rms;
+#X text 569 294 RMS values are commnoly used to detect and measure
+signal levels. The absolute is often similar to the RMS \, so it may
+work fine in some level detection tasks with the advantage of being
+more efficient.;
+#X text 28 298 The bipolar mode also acts as a moving average filter
+\, as shown in the next subpatch.;
+#X connect 0 0 1 0;
+#X connect 7 0 0 0;
+#X connect 8 0 10 0;
+#X connect 9 0 11 0;
+#X connect 10 0 2 0;
+#X connect 11 0 3 0;
+#X restore 442 236 pd average modes;
+#X text 53 84 Use [average~] for a signal running/moving average over
+the last 'n' given samples. The average is done in 3 modes: bipolar
+(default) \, absolute and rms.;
+#X connect 6 0 46 0;
+#X connect 7 0 46 0;
+#X connect 8 0 46 0;
+#X connect 28 0 46 0;
+#X connect 30 0 28 0;
+#X connect 32 0 31 0;
+#X connect 32 0 46 0;
+#X connect 46 0 27 0;
