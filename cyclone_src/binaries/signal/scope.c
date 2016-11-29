@@ -171,8 +171,7 @@ static void scope_clear(t_scope *x, int withdelay)
 static t_int *scope_perform(t_int *w)
 {
     t_scope *x = (t_scope *)(w[1]);
-    if (x->x_vis && !x->x_canvas->gl_editor->e_onmotion)
-    	x->x_frozen = 0;
+
     int xymode = x->x_xymode;
     if (!xymode)
     	return (w + 5);
@@ -1110,8 +1109,13 @@ static void scope_setxymode(t_scope *x, int xymode)
 
 static void scope_tick(t_scope *x)
 {
-    t_canvas *cv;
-    if (!x->x_frozen && (cv = scope_isvisible(x)))
+    t_canvas *cv = scope_isvisible(x);
+    if (cv)
+    {
+		if (!x->x_canvas->gl_editor->e_onmotion)
+    	x->x_frozen = 0;
+    }
+    if (!x->x_frozen && cv)
     {
     if (x->x_xymode)
 		scope_redraw(x, cv);
