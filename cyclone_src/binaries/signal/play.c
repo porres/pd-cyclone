@@ -88,6 +88,7 @@ static void play_stop(t_play *x)
 {
     x->x_playing = 0;
     x->x_playnew = 0;
+    outlet_bang(x->x_donelet);
 }
 
 
