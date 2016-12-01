@@ -6,6 +6,7 @@
 /* Derek Kwan 2016 
     adding looping, loopinterp, etc. (so pretty much redone, abstracted out interpolated reading of vecs)
     not sure about array sample rate vs pd sample rate and my hacks, can be investigated more
+    adding play_play helper func
     */
 
 #include <stdlib.h>
@@ -60,6 +61,8 @@ typedef struct _play
     int 	x_numchans;
     t_float     *x_ivec; // input vector
     t_float     **x_ovecs; //output vectors
+
+    t_outlet    *x_donelet;
 } t_play;
 
 
@@ -67,6 +70,26 @@ typedef struct _play
 
 
 static t_class *play_class;
+
+static void play_play(t_play *x, int toplay){
+    //playing helper function, use this to start playing the array
+    int playing = toplay > 0 ? 1 : 0;
+    x->x_playing = playing;
+    if(playing){
+        x->x_playnew = 1;
+    };
+}
+
+
+////////////////////////////////////////////////
+// STOP
+////////////////////////////////////////////////
+static void play_stop(t_play *x)
+{
+    x->x_playing = 0;
+    x->x_playnew = 0;
+}
+
 
 static void play_calcsamp(t_play *x){
     int endsamp;
@@ -80,8 +103,13 @@ static void play_calcsamp(t_play *x){
         rate = (endms - stms)/x->x_durms;
     }
     else{
-        //easy, if durms == 0, just make rate = 1
-        rate = 1.;
+        //easy, if durms == 0, just make rate = 1 (or -1 )
+        if(endms >= stms){
+            rate = 1.;
+        }
+        else{
+            rate = -1.;
+        };
     };
     int isneg = rate < 0;
     x->x_rate = rate;
@@ -210,6 +238,9 @@ static void play_start(t_play *x, t_symbol *s, int argc, t_atom * argv){
     //calculate sample equivalents
     play_calcsamp(x);
 
+    //use play_play helper func to start playing
+    play_play(x, 1);
+
 }
 
 static void play_interptime(t_play *x, t_floatarg fadems){
@@ -226,23 +257,22 @@ static void play_interptime(t_play *x, t_floatarg fadems){
 static void play_float(t_play *x, t_floatarg f)
 {
     int playing = f > 0 ? 1 : 0;
-    x->x_playing = playing;
     if(playing){
-        x->x_playnew = 1;
+        //play whole array at original speed
+        x->x_stms = 0;
+        x->x_endms = SHARED_FLT_MAX;
+        x->x_durms = 0;
+        play_calcsamp(x);
+        //use play_play helper func to start playing
+        play_play(x, playing);
+
+    }
+    else{
+        play_stop(x);
     };
 }
 
 
-
-////////////////////////////////////////////////
-// STOP
-////////////////////////////////////////////////
-static void play_stop(t_play *x)
-{
-//    x->x_nsegs = 0;
-    x->x_playing = 0;
-    x->x_playnew = 0;
-}
 
 
 ////////////////////////////////////////////////
@@ -387,6 +417,8 @@ static t_int *play_perform(t_int *w)
                             else{
                                 //we're done playing, just output zeroes!
                                 x->x_playing = 0;
+                                //done bang
+                                outlet_bang(x->x_donelet);
                             };
                         }
                         else if(phase > stsamp){
@@ -437,6 +469,8 @@ static t_int *play_perform(t_int *w)
                             else{
                                 //we're done playing, just output zeroes!
                                 x->x_playing = 0;
+                                //done bang
+                                outlet_bang(x->x_donelet);
                             };
                         }
                         else if(phase < stsamp){
@@ -551,6 +585,7 @@ static void *play_free(t_play *x)
 {
     cybuf_free(x->x_cybuf);
     freebytes(x->x_ovecs, x->x_numchans * sizeof(*x->x_ovecs));
+    outlet_free(x->x_donelet);
     return (void *)x;
 }
 
@@ -631,6 +666,7 @@ static void *play_new(t_symbol * s, int argc, t_atom * argv)
         x->x_ovecs = getbytes(x->x_numchans * sizeof(*x->x_ovecs));
 	while (nch--)
 	    outlet_new((t_object *)x, &s_signal);
+        x->x_donelet = outlet_new(&x->x_obj, &s_bang);
         x->x_playing = 0;
         x->x_playnew = 0;
         x->x_looping = looping;
