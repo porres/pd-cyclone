@@ -60,13 +60,16 @@ Porres forked cyclone in its last 0.2beta1 state to this new repository. When cy
 
 This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone.
 
-Cyclone was originally developed in Max/MSP 4 era - but Max has since then introduced new functionalities on some objects in the more recent versions (from Max 5 to Max 7). The cyclone version at the time we forked (0.2beta1) is still outdated to Max/MSP 4 with minor exceptions that include functionalities introduced in Max 5 (but still missing functionalities from Max 6 and Max 7 versions). 
+Cyclone was originally developed in Max/MSP 4 era but was still missing functionalities  - 
+
+
+- Cyclone's original development starts in 2002 (at the time of Max 4.0) and is abandoned in 2005 with updates after Max 4.0 that never made it into the project. Further developments in cyclone were also not able to fully meet a compliance to the latest Max 4 release (Max 4.6.3 from 2007). Moreover, Max has also introduced new functionalities on some objects in the more recent versions (from Max 5 to Max 7). The cyclone version at the time we forked (0.2beta1) is still mostly outdated to Max/MSP 4, with minor exceptions that include functionalities introduced in Max 5 (but still missing functionalities from Max 6 and Max 7 versions). 
 
 If in agreement to the Pd community, this repository will release an update of the cyclone project (version 0.3). If so be it, besides bug fixes in current existing objects, new/further developments in cyclone 0.3 shall include:
 
-<strong>- A)</strong> New functionalities introduced in newer versions of Max (from Max 5 and on) into the already existing objects in cyclone.
+<strong>- A)</strong> Update cyclone to include missing functionalities from Max 4 up to the latest Max version (currently Max 7.3.1) into the already existing objects in cyclone.
 
-<strong>- B)</strong> New objects compatible to the up to date Max version (currently Max 7.3.1). 
+<strong>- B)</strong> New objects compatible to the latest Max version. 
 
 Such an update represents the major overhaul since the original author abandoned cyclone in 2005. With such a great deal of work, this repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Ideally, any possible Max/MSP object could be cloned or updated, but since this is a fair amount of work, collaborators are free to decide and work on what they consider more relevant and important. Any object that has full or "most possible" compatibility to current Max/MSP can be included. 
 
