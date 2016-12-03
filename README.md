@@ -68,7 +68,7 @@ If in agreement to the Pd community, this repository will release an update of t
 
 <strong>- B)</strong> New objects compatible to the latest Max version. 
 
-<strong>- C)</strong> New documentation. 
+<strong>- C)</strong> Completely newly written documentation from scratch. 
 
 <strong>- D)</strong> Bug fixes. 
 
