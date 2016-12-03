@@ -75,7 +75,7 @@ Some collaborators are already helping coding new objects and updating/fixing ol
 Check some stuff we've been doing in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 
 This Readme file was created on February 22nd 2016 
-(last edited on November 17th 2016)
+(last edited on December 3rd 2016)
 
 -------
 <strong>Building Cyclone:</strong>
@@ -83,3 +83,15 @@ This Readme file was created on February 22nd 2016
 When Fred Jan Kraan forked to his repository and worked on the release of cyclone 0.1-alpha57, the cyclone package has started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
 
 With this new build system, all you have to do is have the latest pd vanilla installed and type "make" in your compiler to build cyclone for your platform.
+
+* Compiling with pdlibbuilder
+
+PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, yo have to specify the path yourself using the pdincludepath variable. Example:
+
+<pre>make pdincludepath=~/pd-0.46-6/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.46-6/bin/)</pre>
+
+* Installing with pdlibbuilder
+
+The default path for installing might not be the best, surely for testing. Use the pkglibdir variable for this. Example:
+
+<pre>make install pkglibdir=~/pd-externals/</pre>
