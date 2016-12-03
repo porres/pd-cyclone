@@ -54,13 +54,11 @@ Cyclone is originally part of the miXed library (also written by cyclone's origi
 
 <strong>About this repository and its Goals:</strong>
 
-Location of this repository is: https://github.com/porres/pd-cyclone. 
+Cyclone's original development starts in 2002 (at the time of Max 4.0) and was abandoned in 2005 with updates after Max 4.0 never being ported into the project. Further developments in cyclone were also not able to fully meet a compliance to the latest Max 4 release (Max 4.6.3 from 2007). Moreover, Max has also introduced new functionalities on some objects in the more recent versions (from Max 5 to Max 7). 
 
-Porres forked cyclone in its last 0.2beta1 state to this new repository. When cyclone was been left unmaintained (in february 21st 2016), further developments for cyclone have been in the makings here since then.
+The latest cyclone version (0.2beta) is still mostly outdated to Max/MSP 4, with minor exceptions that include functionalities introduced in Max 5 (but still missing functionalities from Max 6 and Max 7 versions). The maintenance goal of cyclone 0.2 was aimed at a "legacy" distribution instead of developing on the Max Compatibility goal. Porres forked cyclone in its last 0.2beta1 state to this new repository. When former cyclone development was abandoned (in february 21st 2016), further developments for cyclone have been in the makings here since then.
 
-This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone.
-
-Cyclone's original development starts in 2002 (at the time of Max 4.0) and is abandoned in 2005 with updates after Max 4.0 that never made it into the project. Further developments in cyclone were also not able to fully meet a compliance to the latest Max 4 release (Max 4.6.3 from 2007). Moreover, Max has also introduced new functionalities on some objects in the more recent versions (from Max 5 to Max 7). The latest cyclone version (0.2beta) is still mostly outdated to Max/MSP 4, with minor exceptions that include functionalities introduced in Max 5 (but still missing functionalities from Max 6 and Max 7 versions). 
+Location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone. Keep working and expanding the Max compatibility is the main goal of this development. 
 
 If in agreement to the Pd community, this repository will release an update of the cyclone project (version 0.3). If so be it, besides bug fixes in current existing objects, new/further developments in cyclone 0.3 shall include:
 
