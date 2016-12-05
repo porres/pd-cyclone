@@ -14,9 +14,7 @@ exe.extension = .exe
 endif
 
 #######################################################################
-
                     ## START OF CYCLONE CLASSES ##
-
 #######################################################################
 
 # CONTROL CLASSES
@@ -51,7 +49,7 @@ xbendout.class.sources := cyclone_src/binaries/control/xbendout.c
 xbendout2.class.sources := cyclone_src/binaries/control/xbendout2.c
 xnotein.class.sources := cyclone_src/binaries/control/xnotein.c
 xnoteout.class.sources := cyclone_src/binaries/control/xnoteout.c
-# NEW ones:
+# NEW ones in cyclone0.3:
 acosh.class.sources := cyclone_src/binaries/control/acosh.c
 asinh.class.sources := cyclone_src/binaries/control/asinh.c
 atanh.class.sources := cyclone_src/binaries/control/atanh.c
@@ -60,6 +58,8 @@ dbtoa.class.sources := cyclone_src/binaries/control/dbtoa.c
 join.class.sources := cyclone_src/binaries/control/join.c
 pong.class.sources := cyclone_src/binaries/control/pong.c
 pak.class.sources := cyclone_src/binaries/control/pak.c
+rdiv.class.sources := cyclone_src/binaries/control/rdiv.c
+rminus.class.sources := cyclone_src/binaries/control/rminus.c
 round.class.sources := cyclone_src/binaries/control/round.c
 scale.class.sources := cyclone_src/binaries/control/scale.c
 
@@ -121,7 +121,7 @@ trapezoid~.class.sources := cyclone_src/binaries/signal/trapezoid.c
 triangle~.class.sources := cyclone_src/binaries/signal/triangle.c
 vectral~.class.sources := cyclone_src/binaries/signal/vectral.c
 zerox~.class.sources := cyclone_src/binaries/signal/zerox.c
-# NEW ones:
+# NEW ones in cyclone0.3:
 atodb~.class.sources := cyclone_src/binaries/signal/atodb.c
 biquad~.class.sources := cyclone_src/binaries/signal/biquad.c
 bitsafe~.class.sources := cyclone_src/binaries/signal/bitsafe.c
@@ -129,35 +129,29 @@ cross~.class.sources := cyclone_src/binaries/signal/cross.c
 dbtoa~.class.sources := cyclone_src/binaries/signal/dbtoa.c
 degrade~.class.sources := cyclone_src/binaries/signal/degrade.c
 downsamp~.class.sources := cyclone_src/binaries/signal/downsamp.c
+equals~.class.sources := cyclone_src/binaries/signal/equals.c
 filtercoeff~.class.sources := cyclone_src/binaries/signal/filtercoeff.c
 freqshift~.class.sources := cyclone_src/binaries/signal/freqshift.c
 gate~.class.sources := cyclone_src/binaries/signal/gate.c
+greaterthan~.class.sources := cyclone_src/binaries/signal/greaterthan.c
+greaterthaneq~.class.sources := cyclone_src/binaries/signal/greaterthaneq.c
 hilbert~.class.sources := cyclone_src/binaries/signal/hilbert.c
+lessthan~.class.sources := cyclone_src/binaries/signal/lessthan.c
+lessthaneq~.class.sources := cyclone_src/binaries/signal/lessthaneq.c
+modulo~.class.sources := cyclone_src/binaries/signal/modulo.c
+notequals~.class.sources := cyclone_src/binaries/signal/notequals.c
 phaseshift~.class.sources := cyclone_src/binaries/signal/phaseshift.c
+rdiv~.class.sources := cyclone_src/binaries/signal/rdiv.c
+rminus~.class.sources := cyclone_src/binaries/signal/rminus.c
 round~.class.sources := cyclone_src/binaries/signal/round.c
 scale~.class.sources := cyclone_src/binaries/signal/scale.c
 selector~.class.sources := cyclone_src/binaries/signal/selector.c
 thresh~.class.sources := cyclone_src/binaries/signal/thresh.c
 trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
-rminus.class.sources := cyclone_src/binaries/control/rminus.c
-rdiv.class.sources := cyclone_src/binaries/control/rdiv.c
+##################### CLASSES WITH DEPENDENCIES ##################################
 
-equals~.class.sources := cyclone_src/binaries/signal/equals.c
-notequals~.class.sources := cyclone_src/binaries/signal/notequals.c
-greaterthan~.class.sources := cyclone_src/binaries/signal/greaterthan.c
-greaterthaneq~.class.sources := cyclone_src/binaries/signal/greaterthaneq.c
-lessthan~.class.sources := cyclone_src/binaries/signal/lessthan.c
-lessthaneq~.class.sources := cyclone_src/binaries/signal/lessthaneq.c
-modulo~.class.sources := cyclone_src/binaries/signal/modulo.c
-rdiv~.class.sources := cyclone_src/binaries/signal/rdiv.c
-rminus~.class.sources := cyclone_src/binaries/signal/rminus.c
-
-##############################################################################
-## CLASSES WITH DEPENDENCIES #################################################
-##############################################################################
-
-# Control Classes: ###########################################################
+# Control classes: ###############################################
 
 hfile := \
 shared/hammer/file.c \
@@ -318,7 +312,7 @@ offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
 funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefilevefl)
 
-# Signal classes: #############################################################################
+# Signal classes: #################################################################
 
 # to do: deloud and merge fragile/forky into "magic" // also deloud others below...
 
@@ -335,7 +329,6 @@ shared/unstable/forky.c
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(sforky)
     delay~.class.sources := cyclone_src/binaries/signal/delay.c $(sforky)
     plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(sforky)
-    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(sforky)
     minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(sforky)
     poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(sforky)
     matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(sforky)
@@ -377,14 +370,17 @@ shared/unstable/forky.c \
 shared/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(scybufforky)
 
-#######################################################################
-### CYCLONE ###     ### CYCLONE ### ### CYCLONE ###     ### CYCLONE ###
-### CLASSES ###     ### CLASSES ### ### CLASSES ###     ### CLASSES ###
-#######################################################################
+# Cyclone sub-library: ################################################
 
+libforky := \
+shared/unstable/forky.c
+cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(libforky)
+
+#######################################################################
                         ## END OF CYCLONE CLASSES ##
-
 #######################################################################
+
+### datafiles #########################################################
 
 datafiles = \
 $(wildcard cyclone_src/help_files/*-help.pd) \
@@ -410,15 +406,11 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
 datafiles += pthreadGC2.dll
 endif
 
-################################################################################
-### pd-lib-builder #############################################################
-################################################################################
+### pd-lib-builder ######################################################
 
 include pd-lib-builder/Makefile.pdlibbuilder
 
-################################################################################
-### Install UPPER case aliases for Linux #######################################
-################################################################################
+### Install UPPER case aliases for Linux ###############################
 
 install: install-aliases
 install-aliases: all

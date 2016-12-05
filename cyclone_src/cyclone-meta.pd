@@ -1,13 +1,17 @@
-#N canvas 448 221 397 223 10;
+#N canvas 778 24 403 247 10;
 #X text 26 84 RELEASE_DATE: 2016, f 57;
 #X text 26 50 LIBRARY: cyclone, f 57;
 #X text 26 101 LICENSE: SIBSD, f 57;
-#X text 26 180 WEBSITE: https://github.com/porres/pd-cyclone, f 57
+#X text 26 210 WEBSITE: https://github.com/porres/pd-cyclone, f 57
 ;
-#X text 26 164 HELP_PATCH_AUTHOR: Alexandre Torres Porres, f 57;
 #X text 26 31 DESCRIPTION: Max/MSP clones, f 57;
 #X text 26 14 KEYWORDS: external library, f 57;
 #X text 26 67 VERSION: 0.3-pre_alpha, f 57;
-#X text 26 118 ORIGINAL AUTHOR: Krzysztof Czaja, f 57;
-#X text 26 135 CURRENT MAINTAINERS: Alexandre Torres Porres \, Derek
-Kwan and Matt Barber, f 57;
+#X text 26 118 ORIGINAL AUTHOR (2002-2005): Krzysztof Czaja (and others)
+;
+#X text 26 135 FOLLOWING MAINTAINERS: Hans-Christoph Steiner (2005-2013)
+and Fred Jan Kraan (2014-2016);
+#X text 26 165 CURRENT DEVELOPERS (2016-????): Alexandre Torres Porres
+\, Derek Kwan and Matt Barber, f 57;
+#X text 26 194 HELP_PATCHES_AUTHOR: Alexandre Torres Porres, f 57
+;
