@@ -11,7 +11,7 @@
 #define CYWAVEMAXOUT 4 //max number of outs
 #define CYWAVEINTERP 1 //default interp mode
 
-/* CHECKME (the refman): the extra channels are not played */
+// CHECKME (the refman): the extra channels are not played
 
 //adding wave_getarraysmp, adding attributes, dearsiced/cybufed - Derek Kwan 2016
 

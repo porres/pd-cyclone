@@ -7,7 +7,7 @@
     adding looping, loopinterp, etc. (so pretty much redone, abstracted out interpolated reading of vecs)
     not sure about array sample rate vs pd sample rate and my hacks, can be investigated more
     adding play_play helper func
-    */
+*/
 
 #include <stdlib.h>
 #include <string.h>
