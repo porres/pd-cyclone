@@ -112,7 +112,6 @@ static double *cycle_makecostab(t_cycle *x){
 }
 
 
-/* Removed some superfluous semicolons from here -- Matt */
 static t_word *cycle_fetcharray(t_cycle * x, int * tabsz, int indsp){
 	//modifying old vefl_get a bit - DXK
 	t_symbol * name = x->x_name;
@@ -303,6 +302,15 @@ static void cycle_buffer_sizeinsamps(t_cycle *x, t_floatarg f)
 	cycle_gettable(x);
 }
 
+static void cycle_frequency(t_cycle *x, t_floatarg f)
+{
+    x->x_freq = f;
+}
+
+static void cycle_phase(t_cycle *x, t_floatarg f)
+{
+    x->x_init_phase = f;
+}
 
 static t_int *cycle_perform(t_int *w)
 {
@@ -556,4 +564,6 @@ void cycle_tilde_setup(void)
         A_DEFFLOAT, 0);
     class_addmethod(cycle_class, (t_method)cycle_setall,gensym("setall"),
         A_DEFSYMBOL, 0);
+    class_addmethod(cycle_class, (t_method)cycle_frequency, gensym("frequency"), A_DEFFLOAT, 0);
+    class_addmethod(cycle_class, (t_method)cycle_phase, gensym("phase"), A_DEFFLOAT, 0);
 }
