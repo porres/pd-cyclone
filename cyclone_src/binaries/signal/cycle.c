@@ -310,6 +310,7 @@ static void cycle_frequency(t_cycle *x, t_floatarg f)
 static void cycle_phase(t_cycle *x, t_floatarg f)
 {
     x->x_init_phase = f;
+    pd_float((t_pd *)x->x_phaselet, f);
 }
 
 static t_int *cycle_perform(t_int *w)

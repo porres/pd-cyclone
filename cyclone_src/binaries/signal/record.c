@@ -554,6 +554,4 @@ void record_tilde_setup(void)
 		    gensym("loopstart"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_loopend,
 		    gensym("loopend"), A_FLOAT, 0);
-//    logpost(NULL, 4, "this is cyclone/record~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
