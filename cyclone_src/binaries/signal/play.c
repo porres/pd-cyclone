@@ -692,7 +692,6 @@ void play_tilde_setup(void)
     class_domainsignalin(play_class, -1);
     class_addfloat(play_class, play_float);
     class_addmethod(play_class, (t_method)play_dsp, gensym("dsp"), 0);
-    //class_addmethod(c, (t_method)arsic_enable, gensym("enable"), 0);
     class_addmethod(play_class, (t_method)play_set, gensym("set"), A_SYMBOL, 0);
     class_addmethod(play_class, (t_method)play_stop, gensym("stop"), 0);
     class_addmethod(play_class, (t_method)play_pause, gensym("pause"), 0);
@@ -701,6 +700,5 @@ void play_tilde_setup(void)
     class_addmethod(play_class, (t_method)play_interptime, gensym("interptime"), A_FLOAT, 0);
     class_addmethod(play_class, (t_method)play_loopinterp, gensym("loopinterp"), A_FLOAT, 0);
     class_addmethod(play_class, (t_method)play_arraysr, gensym("arraysr"), A_FLOAT, 0);
-    class_addmethod(play_class, (t_method)play_start, gensym("start"),
-                    A_GIMME, 0);
+    class_addmethod(play_class, (t_method)play_start, gensym("start"), A_GIMME, 0);
 }

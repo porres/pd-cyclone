@@ -39,30 +39,11 @@ typedef struct _wave
 
 static t_class *wave_class;
 
-/* kept here for legacy
 
-static t_float wave_getarraysmp(t_wave *x, t_symbol *arrayname){
-  t_garray *garray;
-    //t_arsic *sic = (t_arsic *)x;
-    t_cybuf * c = x->x_cybuf;
-	char bufname[MAXPDSTRING];
-	t_float retsmp = -1;
-	int numchan = c->c_numchans;
-	if(numchan > 1){
-		sprintf(bufname, "0-%s", arrayname->s_name);
-	}
-	else{
-		sprintf(bufname, "%s", arrayname->s_name);
-	};
-  if(!(garray = (t_garray *)pd_findbyclass(arrayname,garray_class))) {
-    pd_error(x, "%s: no such table", bufname);
-  } else {
-   	retsmp = garray_npoints(garray);
-  };
-	return retsmp;
+static void wave_float(t_wave *x, t_float f)
+{
+    pd_error(x, "wave~: no method for 'float'");
 }
-
-*/
 
 /* interpolation functions w/ jump table -- code was cleaner than a massive
 switch - case block in the wave_perform() routine; might be very slightly
@@ -70,9 +51,8 @@ less efficient this way but I think the clarity was worth it.
 
 The Max/MSP wave~ class seems to copy all of its interpolation functions
 directly from http://paulbourke.net/miscellaneous/interpolation/ without
-attribution. Should we find a way to attribute? Note that "cubic" is not 
-the same interpolator as in tabread4~. For convenience, I've added that
-interpolator as wave_lagrange().
+attribution. Note that "cubic" is not the same interpolator as in tabread4~. 
+For convenience, I've added that interpolator as wave_lagrange().
   -- Matt Barber */
   
 
@@ -104,18 +84,6 @@ static void wave_set(t_wave *x, t_symbol *s)
     cybuf_setarray(x->x_cybuf, s);
 
 }
-
-
-/* interpolation functions w/ jump table -- code was cleaner than a massive
-switch - case block in the wave_perform() routine; might be very slightly
-less efficient this way but I think the clarity was worth it.
-
-The Max/MSP wave~ class seems to copy all of its interpolation functions
-directly from http://paulbourke.net/miscellaneous/interpolation/ without
-attribution. Should we find a way to attribute? Note that "cubic" is not 
-the same interpolator as in tabread4~. For convenience, I've added that
-interpolator as wave_lagrange().
-  -- Matt Barber */
   
 /*stupid hacks; sorry. This saves a lot of typing.*/
 #define BOUNDS_CHECK() \
@@ -572,14 +540,6 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		};
 	};
 
-	/*
-	 * handled by arsic, needed if we de-arsic
-	if(!nameset){
-		//if name isn't set, set to null symbol
-		name = &s_;
-	};
-	*/
-
     //some boundschecking
 	if(numouts > CYWAVEMAXOUT){
 		numouts = CYWAVEMAXOUT;
@@ -588,7 +548,6 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		numouts = 1;
 	};
 
-        //old arsic_new notes, nchannels = (int)numouts, nsigs = 0, nauxsigs = 3
         t_wave *x = (t_wave *)pd_new(wave_class);
         x->x_cybuf = cybuf_init((t_class *)x, name, numouts);
         x->x_numouts = numouts;
@@ -617,17 +576,14 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	x->x_bias = bias;
 	x->x_tension = tension;
 
-	x->x_startlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal); //normalway
-	x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal); //normal way
-	//x->x_startlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal); //arsic way
-	//x->x_endlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal); //arsic way
+	x->x_startlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+	x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	pd_float((t_pd *)x->x_startlet, stpt);
 	pd_float( (t_pd *)x->x_endlet, endpt);
 
 	int i;
 	for(i=0; i < numouts; i++){
-		outlet_new(&x->x_obj, gensym("signal")); //normal way
-	    	//outlet_new((t_object *)x, gensym("signal")); //arsic way
+		outlet_new(&x->x_obj, gensym("signal"));
 	};
 
 	return (x);
@@ -653,7 +609,6 @@ void wave_tilde_setup(void)
 	class_addmethod(wave_class, (t_method)wave_interp_tension,
 			gensym("interp_tension"), A_FLOAT, 0);
     class_addmethod(wave_class, (t_method)wave_dsp, gensym("dsp"), 0);
-    CLASS_MAINSIGNALIN(wave_class, t_wave, x_f);
-//    logpost(NULL, 4, "this is cyclone/wave~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+    class_domainsignalin(wave_class, -1);
+    class_addfloat(wave_class, (t_method)wave_float);
 }
