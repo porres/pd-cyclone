@@ -4,7 +4,8 @@
 
 /* Derek Kwan 2016
 adding defaults for numchannels, append, loopstatus, loopstart, loopend
-adding record_getarraysmp, record_startms, record_endms, record_list
+adding record_getarraysmp, record_startms, record_endms, record_list,
+    record_loopstart, record_loopend
 adding attribute parsing and making numchannels arg optional 
 rewrite record_perform, record_reset, recor_float, record_startpoint, record_endpoint
 original start and end methods redirect to startms, endms methods
@@ -344,6 +345,35 @@ static void record_free(t_record *x)
 }
 
 
+static void record_loopstart(t_record *x, t_float loopstart){
+
+        if(loopstart < 0){
+            loopstart = 0;
+        };
+
+        pd_float((t_pd *)x->x_stlet, loopstart);
+
+}
+
+static void record_loopend(t_record *x, t_float loopend){
+
+	t_float arraysmp = (t_float)x->x_cybuf->c_npts;
+        if(loopend < 0){
+            //if loopend not set
+            //if less than 0 and if nonzero array found, set it to arraylen in ms
+            if(arraysmp > 0){
+             loopend = (arraysmp/x->x_ksr);
+            }
+            else{
+                //else default to max size of float (defaults to size of array with boundschecking
+                loopend = RECORD_MAXBD;
+            };
+	};
+
+        pd_float((t_pd *)x->x_endlet, loopend);
+
+}
+
 static void *record_new(t_symbol *s, int argc, t_atom *argv)
 {
         int i;
@@ -520,6 +550,10 @@ void record_tilde_setup(void)
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(record_class, (t_method)record_reset,
 		    gensym("reset"), 0);
+    class_addmethod(record_class, (t_method)record_loopstart,
+		    gensym("loopstart"), A_FLOAT, 0);
+    class_addmethod(record_class, (t_method)record_loopend,
+		    gensym("loopend"), A_FLOAT, 0);
 //    logpost(NULL, 4, "this is cyclone/record~ %s, %dth %s build",
 //	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
