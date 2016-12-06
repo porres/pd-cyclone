@@ -18,19 +18,13 @@
 #X text 152 493 float;
 #X text 130 572 1) symbol;
 #X text 214 572 - name of array;
-#X obj 269 299 line~;
-#X text 372 266 backwards;
+#X text 399 268 backwards;
 #X text 214 493 - channel number (not implemented yet);
 #X msg 117 234 bang;
 #X msg 127 257 stop;
-#X obj 117 286 cyclone/count~ 0 62078;
-#X msg 269 243 0 \, 62078 1407;
-#X msg 283 268 62078 \, 0 1407;
-#X text 357 242 forwards;
+#X text 405 225 forwards;
 #X text 214 468 - index to read the array;
-#X obj 231 408 soundfiler;
-#X obj 312 408 table \$0-voice;
-#X obj 231 383 cyclone/loadmess read -resize voice.wav \$0-voice;
+#X obj 231 403 soundfiler;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -41,7 +35,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 117 343 cyclone/index~ \$0-voice;
 #X text 97 94 Use [index~] to read an array with no interpolation.
 Unlike [peek~] \, the index is specified as a signal \, not a float.
 It is very similar to pd vanilla's [tabread~].;
@@ -51,7 +44,7 @@ tasks than other objects such as [cyclone/play~] \, [cyclone/wave~]
 and [tabread4~] \, such as playing in different speeds.;
 #X text 214 533 - signal read from the array without interpolation
 ;
-#X text 305 347 not working \, not reading tables...;
+#X text 276 341 not working \, not reading tables...;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Read from an array
 (no interpolation);
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 index~;
@@ -59,12 +52,22 @@ and [tabread4~] \, such as playing in different speeds.;
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 94 387 cyclone/output~;
-#X connect 12 0 29 0;
-#X connect 15 0 17 0;
-#X connect 16 0 17 0;
-#X connect 17 0 29 0;
-#X connect 18 0 12 0;
-#X connect 19 0 12 0;
-#X connect 24 0 22 0;
-#X connect 29 0 38 1;
-#X connect 29 0 38 0;
+#X obj 117 343 cyclone/index~ \$0-violin;
+#X obj 312 408 table \$0-violin;
+#X obj 231 378 cyclone/loadmess read -resize violin.wav \$0-violin
+;
+#X floatatom 232 425 0 0 0 0 - - -;
+#X msg 283 268 290646 \, 0 6590.61;
+#X obj 117 286 cyclone/count~ 0 290646;
+#X obj 269 299 vline~;
+#X msg 270 243 0 \, 290646 6590.61 \, 0 0 6590.61;
+#X connect 14 0 37 0;
+#X connect 15 0 37 0;
+#X connect 18 0 35 0;
+#X connect 32 0 31 1;
+#X connect 32 0 31 0;
+#X connect 34 0 18 0;
+#X connect 36 0 38 0;
+#X connect 37 0 32 0;
+#X connect 38 0 32 0;
+#X connect 39 0 38 0;

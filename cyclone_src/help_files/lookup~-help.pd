@@ -1,4 +1,4 @@
-#N canvas 411 52 558 594 10;
+#N canvas 725 93 558 594 10;
 #X obj 4 557 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 371 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -20,26 +20,25 @@
 #X text 167 471 signal;
 #X text 149 500 1) symbol;
 #X text 149 533 3) float;
-#X obj 131 227 osc~ 0.25;
 #X text 131 416 float/signal;
 #X text 131 438 float/signal;
 #X text 220 471 - ouput of transfer function lookup (waveshaping);
-#N canvas 767 189 327 178 load_sample 0;
+#N canvas 767 189 359 178 load_sample 0;
 #X obj 22 65 soundfiler;
 #X floatatom 22 90 8 0 0 0 - - -, f 8;
 #X obj 22 113 - 1;
 #X obj 22 142 outlet;
-#X obj 22 40 cyclone/loadmess read -resize voice.wav \$0-voice;
-#X obj 218 120 table \$0-voice;
 #X text 41 14 Load voice.wav sample file into a table;
 #X text 75 92 number of samples;
 #X text 93 67 <= loads file into table/array;
 #X text 53 114 find maximum index;
+#X obj 22 40 cyclone/loadmess read -resize violin.wav \$0-violin;
+#X obj 218 120 table \$0-violin;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
-#X connect 4 0 0 0;
-#X restore 272 220 pd load_sample;
+#X connect 8 0 0 0;
+#X restore 278 220 pd load_sample;
 #X text 220 502 - array/table name to be used for lookup;
 #N canvas 758 142 452 656 waveshaping_example 0;
 #X obj 74 445 cnv 15 278 178 empty empty empty 20 12 0 14 -233017 -66577
@@ -102,8 +101,8 @@ effect. Check below.;
 #X text 130 396 set <symbol>;
 #X text 220 395 - sets the array/table to be used for lookup;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -172,7 +171,7 @@ effect. Check below.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -205,13 +204,11 @@ effect. Check below.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 333 241 end point;
-#X obj 131 263 cyclone/lookup~ \$0-voice;
-#X obj 201 242 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X text 347 242 end point;
+#X obj 204 242 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 206 211 start \; point;
-#X obj 272 242 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 62078 256;
+#X obj 278 242 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 290645 256;
 #X text 71 93 [lookup~] uses arrays as transfer functions for waveshaping
 \, in which signal input values (from -1 to 1) are mapped to the table's
 indexes.;
@@ -246,7 +243,7 @@ maximum ending point is equal to the greatest index in the table. If
 you specify less or more than that \, the actual value will be clipped
 to those min/max values.;
 #X obj 39 268 cyclone/scope~ 95 66 256 3 128 -1 1 0 0 0 0 205 229 232
-74 79 77 96 98 102 0;
+74 79 77 96 98 102 0 ;
 #X obj 133 375 cyclone/output~;
 #X connect 2 0 10 1;
 #X connect 3 0 10 2;
@@ -257,7 +254,7 @@ to those min/max values.;
 #X connect 10 0 14 0;
 #X connect 10 0 14 1;
 #X connect 11 0 4 0;
-#X restore 391 304 pd start/end points;
+#X restore 401 304 pd start/end points;
 #X text 220 517 - initial start point in array/table (default 0);
 #X text 220 533 - initial end point in the array/table (default 511)
 ;
@@ -268,9 +265,12 @@ lookup table;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 13 0 29 0;
-#X connect 17 0 32 0;
-#X connect 29 0 40 0;
-#X connect 29 0 40 1;
-#X connect 30 0 29 1;
-#X connect 32 0 29 2;
+#X obj 131 263 cyclone/lookup~ \$0-violin;
+#X obj 131 215 osc~ 0.075;
+#X text 213 210 start point, f 6;
+#X connect 16 0 29 0;
+#X connect 28 0 42 1;
+#X connect 29 0 42 2;
+#X connect 42 0 37 0;
+#X connect 42 0 37 1;
+#X connect 43 0 42 0;
