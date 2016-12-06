@@ -17,7 +17,9 @@ typedef struct _capture
     float         *x_buffer;
     int            x_bufsize;
     int            x_count;
+    int            x_counter;
     int            x_head;
+    t_outlet * x_count_outlet;
     t_hammerfile  *x_filehandle;
 } t_capture;
 
@@ -32,6 +34,8 @@ static void capture_float(t_capture *x, t_float f)
 	x->x_head = 0;
     if (x->x_count < x->x_bufsize)
 	x->x_count++;
+    if (x->x_counter < x->x_bufsize)
+        x->x_counter++;
 }
 
 static void capture_list(t_capture *x, t_symbol *s, int ac, t_atom *av)
@@ -52,8 +56,8 @@ static void capture_clear(t_capture *x)
 
 static void capture_count(t_capture *x)
 {
-    post("capture: %d items received",  /* CHECKED */
-	 x->x_count);  /* CHECKED incompatible (4.07 seems buggy here) */
+    outlet_float(x->x_count_outlet, x->x_counter);
+    x->x_counter = 0;
 }
 
 static void capture_dump(t_capture *x)
@@ -230,6 +234,7 @@ static void capture_click(t_capture *x, t_floatarg xpos, t_floatarg ypos,
 
 static void capture_free(t_capture *x)
 {
+    outlet_free(x->x_count_outlet);
     hammerfile_free(x->x_filehandle);
     if (x->x_buffer)
 	freebytes(x->x_buffer, x->x_bufsize * sizeof(*x->x_buffer));
@@ -258,6 +263,7 @@ static void *capture_new(t_symbol *s, t_floatarg f)
 	x->x_buffer = buffer;
 	x->x_bufsize = bufsize;
 	outlet_new((t_object *)x, &s_float);
+    x->x_count_outlet = outlet_new((t_object *)x, &s_float);
 	x->x_filehandle = hammerfile_new((t_pd *)x, 0, 0, capture_writehook, 0);
 	capture_clear(x);
     }
