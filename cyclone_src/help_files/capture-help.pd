@@ -1,18 +1,17 @@
-#N canvas 613 23 559 533 10;
-#X obj 2 492 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 613 23 557 538 10;
+#X obj 2 499 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 2 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 2 269 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 396 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 392 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 431 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 443 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 73 278 cnv 17 3 112 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 73 276 cnv 17 3 110 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 73 405 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 73 401 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 177 292 -;
-#X text 112 437 1) float;
+#X text 110 449 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -23,37 +22,27 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X text 136 292 clear;
-#X text 177 308 -;
-#X text 136 308 count;
-#X text 177 325 -;
-#X text 177 342 -;
-#X text 142 325 dump;
-#X text 142 342 open;
-#X text 177 358 -;
-#X text 191 358 closes editing window;
+#X text 134 291 clear;
+#X text 134 307 count;
+#X text 140 324 dump;
+#X text 140 340 open;
 #X msg 107 148 10 20 30 40;
-#X msg 249 180 dump;
+#X msg 251 167 dump;
 #X obj 193 241 print dump;
 #X obj 193 149 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 283 181 outputs stored values;
-#X text 192 324 outputs out all stored values sequentially, f 52;
-#X text 130 358 wclose;
-#X text 191 342 opens editing window \, same as clicking on it;
-#X text 82 374 write <symbol>;
-#X text 177 374 -;
-#X text 94 407 float/symbol;
-#X text 177 407 - stored items in sequential order (on dump message)
+#X text 285 168 outputs stored values;
+#X text 128 356 wclose;
+#X text 80 372 write <symbol>;
+#X text 92 402 float/symbol;
+#X text 175 402 - stored items in sequential order (on dump message)
 ;
 #X text 307 211 <= stores 8 items;
-#X text 112 455 2) symbol;
+#X text 110 467 2) symbol;
 #X text 89 208 click to open;
 #X text 101 221 text window;
-#X text 118 277 anything;
-#X text 177 277 - stores items (float/symbol) sequentially, f 54;
-#X text 177 437 - number of stored values (default 512), f 60;
-#N canvas 514 469 867 371 examples 0;
+#X text 116 275 anything;
+#N canvas 509 273 867 371 examples 0;
 #X msg 145 175 open;
 #X floatatom 62 76 5 0 0 0 - - -, f 5;
 #X msg 136 154 dump;
@@ -74,7 +63,6 @@ are stored from first to last. One element messages are stored sequentially.
 #X text 285 221 writes to file;
 #X text 154 103 clears stored contents;
 #X msg 126 129 count;
-#X text 164 129 prints number of received items on the Pd window;
 #X text 200 195 close editing (?) window;
 #X text 212 245 opens dialog box to save to a file;
 #X msg 156 221 write ./capture.txt;
@@ -89,47 +77,72 @@ are stored from first to last. One element messages are stored sequentially.
 #X obj 623 255 cyclone/capture 6 m;
 #X obj 653 232 cyclone/capture 6 x;
 #X obj 545 181 cyclone/loadmess -9 5 10.333 127 150 1.2;
-#X connect 0 0 22 0;
-#X connect 1 0 22 0;
-#X connect 2 0 22 0;
-#X connect 4 0 22 0;
-#X connect 5 0 22 0;
-#X connect 6 0 22 0;
-#X connect 14 0 22 0;
-#X connect 18 0 22 0;
-#X connect 20 0 22 0;
-#X connect 21 0 22 0;
-#X connect 22 0 3 0;
-#X connect 23 0 24 0;
-#X connect 23 0 25 0;
-#X connect 23 0 26 0;
-#X connect 23 0 27 0;
-#X connect 28 0 24 0;
-#X connect 28 0 25 0;
-#X connect 28 0 26 0;
-#X connect 28 0 27 0;
+#X floatatom 202 316 5 0 0 0 - - -, f 5;
+#X text 164 129 outputs number of last received items (2nd outlet)
+;
+#X text 240 314 <= count;
+#X connect 0 0 21 0;
+#X connect 1 0 21 0;
+#X connect 2 0 21 0;
+#X connect 4 0 21 0;
+#X connect 5 0 21 0;
+#X connect 6 0 21 0;
+#X connect 14 0 21 0;
+#X connect 17 0 21 0;
+#X connect 19 0 21 0;
+#X connect 20 0 21 0;
+#X connect 21 0 3 0;
+#X connect 21 1 28 0;
+#X connect 22 0 23 0;
+#X connect 22 0 24 0;
+#X connect 22 0 25 0;
+#X connect 22 0 26 0;
+#X connect 27 0 23 0;
+#X connect 27 0 24 0;
+#X connect 27 0 25 0;
+#X connect 27 0 26 0;
 #X restore 468 239 pd examples;
 #X text 58 86 [capture] stores items in the received order for viewing
 \, editing \, and saving to a file. If the maximum number of items
 is exceeded \, the earliest stored item is dropped.;
 #X text 174 212 =>;
-#X text 191 374 saves to file with symbol name (no symbol opens dialog
-box);
-#X text 177 455 - x: values are in hex \, m: values < 128 are decimal
-\, larger are hex \, d: decimal integers \, none: decimal floats (default)
-, f 61;
-#X text 191 292 clears stored contents, f 52;
-#X text 192 309 prints number of received items on the Pd window,
-f 52;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Store data;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 capture;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 193 172 change;
+#X floatatom 292 241 5 0 0 0 - - -, f 5;
+#X msg 250 188 count;
 #X obj 193 211 cyclone/capture 8;
-#X obj 193 177 change;
-#X connect 21 0 51 0;
-#X connect 22 0 51 0;
-#X connect 24 0 52 0;
-#X connect 51 0 23 0;
-#X connect 52 0 51 0;
+#X text 134 422 float;
+#X obj 73 421 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 175 422 - number of items received since last 'count' message
+;
+#X text 175 275 - stores items (float/symbol) sequentially, f 61;
+#X text 175 291 - clears stored contents, f 61;
+#X text 175 307 - outputs number of received items since last 'count'
+message, f 61;
+#X text 175 324 - outputs out all stored values sequentially, f 61
+;
+#X text 175 340 - opens editing window \, same as clicking on it,
+f 61;
+#X text 175 356 - closes editing window, f 61;
+#X text 175 372 - saves to file with symbol name (no symbol opens dialog
+box), f 61;
+#X text 175 467 -;
+#X text 187 467 x: values are in hex \, m: values < 128 are decimal
+/ larger are hex \, d: decimal integers \, none: decimal floats (default)
+;
+#X text 289 188 outputs number of last received items;
+#X text 329 241 count;
+#X text 175 448 - number of stored values (maximum and default: 512)
+, f 62;
+#X connect 15 0 39 0;
+#X connect 16 0 39 0;
+#X connect 18 0 36 0;
+#X connect 36 0 39 0;
+#X connect 38 0 39 0;
+#X connect 39 0 17 0;
+#X connect 39 1 37 0;

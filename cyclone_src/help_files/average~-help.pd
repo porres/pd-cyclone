@@ -1,4 +1,4 @@
-#N canvas 915 34 558 584 10;
+#N canvas 532 40 558 578 10;
 #X obj 2 537 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 360 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -34,8 +34,8 @@
 #X text 98 418 absolute;
 #X text 128 434 rms;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -104,7 +104,7 @@
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -162,31 +162,31 @@ cloned from Max/MSP;
 #X text 169 434 - outputs 'root mean square' (RMS) values;
 #X text 169 385 - 'n': number of last samples to apply the average
 to;
-#N canvas 613 60 425 509 backwards 0;
+#N canvas 685 122 425 509 backwards 0;
 #X obj 89 304 cyclone/number~;
 #X obj 227 274 cyclone/snapshot~ 1;
 #X obj 193 344 vsl 15 128 -1 1 0 0 gsgg fdssd empty 0 -9 0 10 -228856
--1 -1 6793 1;
+-1 -1 0 1;
 #X obj 227 210 cyclone/rand~ 10;
 #X obj 227 242 cyclone/average~ 44100;
 #X obj 227 344 vsl 15 128 -1 1 0 0 gsgg fdssd empty 0 -9 0 10 -228856
--1 -1 6800 1;
+-1 -1 0 1;
 #X text 212 400 0;
 #X text 213 336 1;
 #X text 208 465 -1;
 #X obj 227 304 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.0709341 256;
-#X text 32 18 [average~] used to have a control number output in Max
-4 \, but Max 5 updated it a signal output - with sample accurate precision!
-Cyclone was originally developed in the Max 4 era and versions up to
-'cyclone 0.2 beta' include the old behaviour of [average~].;
-#X text 32 93 Cyclone 0.3 updates all original cyclone objects to Max
-7 \, [average~] being the only updated object that may require adapting
-older patches.;
-#X text 32 140 For a float output now \, you have to convert the signal
+-228856 -1 -1 0 256;
+#X text 32 123 For a float output now \, you have to convert the signal
 with objects like vanilla's [snapshot~] \, [cyclone/snapshot~] or the
 new [cyclone/number~] that also works for only displaying the values.
 ;
+#X text 32 18 [average~] used to have a control number output in Max
+4 \, but Max 5 updated it a signal output that provides sample accurate
+precision!, f 59;
+#X text 32 64 Originally developed in the Max 4 era \, cyclone versions
+up to '0.2 beta' include this old behaviour of [average~]. Cyclone
+0.3 updates all objects to Max 7 \, and [average~] is the only one
+that may require adapting older patches.;
 #X connect 0 1 2 0;
 #X connect 1 0 9 0;
 #X connect 3 0 4 0;
@@ -208,7 +208,7 @@ Listen to the difference below.;
 #X connect 3 0 1 0;
 #X connect 3 0 1 1;
 #X restore 453 261 pd moving \; average filter;
-#N canvas 915 134 416 549 more 0;
+#N canvas 915 134 414 521 more 0;
 #X obj 94 399 cyclone/scope~ 189 102 2 3 64 -1 1 300 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 94 371 cyclone/average~ 100;
@@ -241,7 +241,7 @@ sense \, so floats are converted to integers!, f 60;
 #X connect 6 0 3 0;
 #X connect 8 0 1 0;
 #X restore 447 295 pd more details;
-#N canvas 526 134 1132 382 average 0;
+#N canvas 271 131 1132 382 average 0;
 #X obj 90 125 cyclone/average~ 100 bipolar;
 #X obj 90 155 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
 232 74 79 77 96 98 102 0;
