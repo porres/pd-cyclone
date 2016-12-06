@@ -1,4 +1,4 @@
-#N canvas 627 23 559 779 10;
+#N canvas 311 23 559 779 10;
 #X obj 4 734 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 453 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -45,7 +45,6 @@ inlet;
 ;
 #X text 125 658 bang;
 #X text 178 658 - a bang is sent when final target is reached;
-#X msg 68 195 0 \, 1 1000 0 1000 0.5 2500;
 #X text 177 635 - current value or a ramp towards the target;
 #N canvas 173 23 389 355 linear_envelope_example 0;
 #X obj 69 147 osc~ 440;
@@ -70,8 +69,6 @@ inlet;
 #X connect 4 0 8 0;
 #X connect 5 0 4 0;
 #X restore 371 399 pd linear_envelope_example;
-#X obj 154 343 cyclone/Scope~ 143 93 256 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
 #X obj 154 308 cyclone/line~ 0.5;
 #N canvas 77 23 457 483 Conflicts 0;
 #X text 118 290 or even:;
@@ -123,8 +120,8 @@ ms) to reach it (maximum is 128 target-time pairs);
 #X text 177 561 - stops and clears pending target-time parameter triples
 (but continues outputting its last value);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -193,7 +190,7 @@ ms) to reach it (maximum is 128 target-time pairs);
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -232,15 +229,20 @@ ms) to reach it (maximum is 128 target-time pairs);
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 11 0 37 1;
-#X connect 13 0 37 0;
-#X connect 14 0 37 0;
-#X connect 15 0 37 0;
+#X obj 154 339 scope~ 131 98 50 3 128 0 1 0 0 0 0 205 229 232 74 79
+77 96 98 102 0;
+#X msg 68 195 0 \, 1 1000 0 1000 0.5 2500;
+#X floatatom 75 303 5 0 0 0 - - -, f 5;
+#X connect 11 0 35 1;
+#X connect 13 0 35 0;
+#X connect 14 0 35 0;
+#X connect 15 0 35 0;
 #X connect 16 0 17 0;
-#X connect 17 0 37 0;
+#X connect 17 0 35 0;
 #X connect 21 0 16 0;
 #X connect 21 1 11 0;
 #X connect 22 0 21 0;
-#X connect 33 0 37 0;
-#X connect 37 0 36 0;
-#X connect 37 1 24 0;
+#X connect 35 0 56 0;
+#X connect 35 1 24 0;
+#X connect 57 0 35 0;
+#X connect 58 0 56 0;

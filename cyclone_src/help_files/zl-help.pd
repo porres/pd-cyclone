@@ -217,7 +217,7 @@ inlet/outlet are inactive.;
 #X text 49 416 In Max \, zl is also a family objects \, in which a
 mode can instantiated after a dot after 'zl'. But in Pd this is not
 the case!;
-#X text 45 337 Check details about each mode in the suboatches on the
+#X text 44 338 Check details about each mode in the suboatches on the
 right. Modes introduced in the Max5+ versions are not implemented yet
 \,;
 #X obj 108 169 cyclone/uzi 512;
@@ -538,9 +538,9 @@ or message (and it can be up to 32767).;
 #X obj 195 201 cyclone/zl 512 group 512;
 #X obj 195 232 cyclone/zl len @maxzlsize 512;
 #X obj 30 11 cyclone/comment 185 14 monaco ? 0 0 0 0 Basic:;
-#X obj 486 53 cyclone/comment 185 14 monaco ? 0 0 0 0 Modes:;
-#X obj 48 391 cyclone/comment 185 14 monaco ? 0 0 0 0 Inconsistency
+#X obj 49 391 cyclone/comment 185 14 monaco ? 0 0 0 0 Inconsistency
 ;
+#X obj 486 53 cyclone/comment 185 14 monaco ? 0 0 0 0 Modes:;
 #X connect 0 0 10 0;
 #X connect 10 2 31 0;
 #X connect 14 0 31 0;
@@ -608,10 +608,10 @@ messages' or "anything") according to a mode (set via argument/message).
 \, nth \, reg \, rev \, rot \, sect \, slice \, sort \, sub or union).
 Modes can have subsequent arguments \, check:;
 #X obj 19 60 cyclone/comment 0 18 times ? 0 0 0 0 List processor;
-#X obj 18 7 cyclone/comment 0 37 times ? 0 0 0 0 zl;
 #X obj 324 31 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 365 7 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 18 7 cyclone/comment 0 37 times ? 0 0 0 0 zl;
 #X connect 10 0 6 0;
 #X connect 10 0 40 0;
 #X connect 12 0 10 0;

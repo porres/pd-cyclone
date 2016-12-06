@@ -1,5 +1,5 @@
 #N canvas 537 88 559 524 10;
-#X declare -stdlib cyclone/cyclone;
+#X declare -stdlib cyclone;
 #X obj 7 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -16,7 +16,7 @@
 #X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 273 243 cyclone/snapshot~ 1;
-#X obj 159 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 176 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 273 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -154,7 +154,6 @@
 #X restore 504 71 pd;
 #X obj 72 211 ==~, f 5;
 #N canvas 301 68 478 298 cyclone 0;
-#X obj 209 99 declare -stdlib cyclone/cyclone;
 #X text 63 206 More about the cyclone sub-library;
 #X text 66 136 If you need more details in installing cyclone \, check:
 https://github.com/porres/pd-cyclone/wiki/How-To-Install;
@@ -162,6 +161,7 @@ https://github.com/porres/pd-cyclone/wiki/How-To-Install;
 #X text 58 51 [equals~] is a single binary in cyclone \, but [==~]
 is from the cyclone "sub-library" \, loaded via startup or with [declare]
 like this:;
+#X obj 269 99 declare -stdlib cyclone;
 #X restore 456 280 pd cyclone \; sub_library;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 "Is equal to" comparison
 for signals;

@@ -1,4 +1,4 @@
-#N canvas 775 65 558 577 10;
+#N canvas 592 23 558 577 10;
 #X declare -lib cyclone;
 #X obj 2 210 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -37,15 +37,6 @@
 ;
 #X text 191 487 sent at the end of a sequence (useful for looping)
 ;
-#X text 136 247 append -;
-#X text 191 247 records at the end of the stored sequence, f 59;
-#X text 148 277 dump -;
-#X text 94 262 delay <float> -;
-#X text 99 304 hook <float> -;
-#X text 191 262 onset time in ms of the first event, f 59;
-#X text 191 277 opens a dialog box to select a saved sequence to be
-opened in a new text window \, which can be edited and saved, f 59
-;
 #X text 140 465 float -;
 #X text 146 486 bang -;
 #X text 116 514 1) symbol -;
@@ -53,8 +44,6 @@ opened in a new text window \, which can be edited and saved, f 59
 #X text 66 87 [seq] plays/records raw MIDI streams. It can save/read
 MIDI files.;
 #X text 178 232 - raw MIDI data stream to be recorded, f 61;
-#X text 191 304 multiplies all the event times by the given number
-(even when playing), f 59;
 #X text 191 465 raw MIDI data stream from played sequence;
 #X obj 199 153 cyclone/seq seq.mid;
 #N canvas 225 202 809 468 basic 0;
@@ -200,7 +189,7 @@ and [midiflush] \, which are useful in conjunction to;
 #X restore 134 348 pd polysynth;
 #X text 215 348 <= 3 voice polyphonic;
 #X msg 68 175 read seq.mid;
-#X obj 114 385 cyclone/output~;
+#X obj 113 385 cyclone/output~;
 #X connect 0 0 36 0;
 #X connect 1 0 17 0;
 #X connect 2 0 34 0;
@@ -326,28 +315,8 @@ objects as below.;
 #X text 93 153 argument opens =>;
 #X text 94 168 MIDI files;
 #X text 331 182 <= when finished;
-#X text 140 331 print -;
-#X text 191 331 prints the first 16 events of the sequence in the Pd
-Window;
-#X text 92 377 start <float> -;
-#X text 92 346 read <symbol> -;
-#X text 86 438 write <symbol> -;
-#X text 134 362 record -;
-#X text 146 405 stop -;
-#X text 146 421 tick -;
-#X text 191 362 starts recording raw MIDI received in the inlet, f
-59;
-#X text 191 421 external clock \, needed after 'start -1' message,
-f 59;
-#X text 191 405 stops recording or playing, f 59;
-#X text 191 438 saves to a MIDI file (no symbol opens a dialog box)
-, f 59;
-#X text 191 347 reads from a MIDI file (no symbol opens a dialog box)
-, f 59;
 #X text 178 216 - starts or restarts playing a sequence at normal speed
 , f 61;
-#X text 191 377 start/restart sequence at a given tempo (default '1024'
-- normal tempo) \, 'start -1' expects tick messages, f 59;
 #N canvas 93 63 841 507 advanced 0;
 #X msg 532 369 start -1;
 #X obj 146 359 cyclone/midiparse;
@@ -418,7 +387,7 @@ a 'start' message can also be used to 'restart' the sequence.;
 #X obj 614 378 metro;
 #X msg 614 402 tick;
 #X obj 666 403 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 20.8333 256;
 #X obj 614 430 cyclone/seq seq.txt;
 #X obj 614 355 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
@@ -474,8 +443,39 @@ files;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 8 0 35 0;
-#X connect 30 0 35 0;
-#X connect 35 0 9 0;
-#X connect 35 0 17 0;
-#X connect 35 1 4 0;
+#X text 136 247 append -;
+#X text 191 247 records at the end of the stored sequence, f 59;
+#X text 148 277 dump -;
+#X text 94 262 delay <float> -;
+#X text 99 304 hook <float> -;
+#X text 191 262 onset time in ms of the first event, f 59;
+#X text 191 277 opens a dialog box to select a saved sequence to be
+opened in a new text window \, which can be edited and saved, f 59
+;
+#X text 191 304 multiplies all the event times by the given number
+(even when playing), f 59;
+#X text 140 331 print -;
+#X text 191 331 prints the first 16 events of the sequence in the Pd
+Window;
+#X text 92 377 start <float> -;
+#X text 92 346 read <symbol> -;
+#X text 86 438 write <symbol> -;
+#X text 134 362 record -;
+#X text 146 405 stop -;
+#X text 146 421 tick -;
+#X text 191 362 starts recording raw MIDI received in the inlet, f
+59;
+#X text 191 421 external clock \, needed after 'start -1' message,
+f 59;
+#X text 191 405 stops recording or playing, f 59;
+#X text 191 438 saves to a MIDI file (no symbol opens a dialog box)
+, f 59;
+#X text 191 347 reads from a MIDI file (no symbol opens a dialog box)
+, f 59;
+#X text 191 377 start/restart sequence at a given tempo (default '1024'
+- normal tempo) \, 'start -1' expects tick messages, f 59;
+#X connect 8 0 27 0;
+#X connect 23 0 27 0;
+#X connect 27 0 9 0;
+#X connect 27 0 17 0;
+#X connect 27 1 4 0;

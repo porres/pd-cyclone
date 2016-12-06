@@ -98,7 +98,7 @@
 #X obj 28 47 !/;
 #X obj 120 24 cyclone/rminus;
 #X obj 120 47 cyclone/rdiv;
-#X restore 185 586 pd Control Objects (Max);
+#X restore 185 573 pd Control Objects (Max);
 #N canvas 132 102 609 478 Signal 0;
 #X obj 14 265 cyclone/abs~;
 #X obj 14 290 cyclone/acos~;
@@ -221,30 +221,30 @@
 #X obj 111 183 cyclone/rminus~;
 #X obj 111 207 cyclone/rdiv~;
 #X obj 112 232 cyclone/plusequals~;
-#X restore 342 586 pd Signal Objects (MSP);
-#X obj 4 4 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
+#X restore 342 573 pd Signal Objects (MSP);
+#X obj 4 1 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
-#X obj 29 7 comment 0 22 courier ? 0 224 228 220 cyclone;
-#X obj 30 35 comment 0 14 courier ? 0 224 228 220 version 0.3;
-#X obj 137 10 comment 0 14 courier ? 0 224 228 220 - a set of Pure
-Data objects cloned from Max/MSP;
-#X obj 272 37 comment 0 12 courier ? 0 224 228 220 https://github.com/porres/pd-cyclone
+#X obj 29 4 comment 0 22 courier ? 0 224 228 220 cyclone;
+#X obj 30 32 comment 0 14 courier ? 0 224 228 220 version 0.3;
+#X obj 137 7 comment 0 14 courier ? 0 224 228 220 - a set of Pure Data
+objects cloned from Max/MSP;
+#X obj 272 34 comment 0 12 courier ? 0 224 228 220 https://github.com/porres/pd-cyclone
 ;
-#X obj 4 64 cnv 15 552 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 4 61 cnv 15 552 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 20 76 comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
+#X obj 20 73 comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
 Data with objects cloned from Max/MSP.;
-#X obj 35 106 comment 0 14 helvetica ? 0 0 0 0 It also provides some
+#X obj 35 103 comment 0 14 helvetica ? 0 0 0 0 It also provides some
 level of compatibility between the two environments \,;
-#X obj 35 124 comment 0 14 helvetica ? 0 0 0 0 helping users of both
+#X obj 35 121 comment 0 14 helvetica ? 0 0 0 0 helping users of both
 systems in the development of cross-platform patches.;
-#X obj 45 327 comment 0 16 times ? 0 0 0 0 How to install?;
-#X obj 62 716 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
-#X text 115 747 Please report them at: https://github.com/porres/pd-cyclone/issues
+#X obj 45 314 comment 0 16 times ? 0 0 0 0 How to install?;
+#X obj 62 703 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
+#X text 115 734 Please report them at: https://github.com/porres/pd-cyclone/issues
 , f 66;
-#X obj 27 585 comment 0 16 times ? 0 0 0 0 All Cyclone's objects:;
-#X obj 400 659 switch~;
-#X obj 400 621 tgl 30 0 \$0-zxcx \$0-zxcxsfljsfl empty 17 7 0 10 -228856
+#X obj 27 572 comment 0 16 times ? 0 0 0 0 All Cyclone's objects:;
+#X obj 400 646 switch~;
+#X obj 400 608 tgl 30 0 \$0-zxcx \$0-zxcxsfljsfl empty 17 7 0 10 -228856
 -1 -1 0 1;
 #N canvas 89 23 399 416 GUI 0;
 #X obj 208 29 cyclone/comment 0 12 Courier ? 0 0 128 128 comment;
@@ -253,36 +253,36 @@ systems in the development of cross-platform patches.;
 232 74 79 77 96 98 102 0;
 #X obj 210 89 cyclone/number~;
 #X text 50 28 [cyclone/comment] ==>;
-#X restore 494 586 pd GUI;
-#X text 48 351 Most of cyclone objects are single binaries \, so all
+#X restore 494 573 pd GUI;
+#X text 48 338 Most of cyclone objects are single binaries \, so all
 you need is to have tem inside the cyclone folder amongst your other
-external libraries (preferably in the Pd standard path)., f 68;
-#X text 49 398 You can then include this folder in Pd's "Path" \, but
+external libraries (preferably in the Pd standard path)., f 72;
+#X text 49 385 You can then include this folder in Pd's "Path" \, but
 there's also a "cyclone sub-library" that includes a subset of 12 non-alphanumeric
 objects. To install it you need to include "cyclone" in Pd's Startup.
-, f 68;
-#X obj 157 491 declare -stdpath cyclone -stdlib cyclone;
-#X text 50 512 More in: https://github.com/porres/pd-cyclone/wiki/How-To-Install
+, f 72;
+#X obj 157 478 declare -stdpath cyclone -stdlib cyclone;
+#X text 50 499 More in: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 , f 60;
-#X text 52 654 Some things about Max x Pd:;
+#X text 52 641 Some things about Max x Pd:;
 #N canvas 232 27 351 390 not 0;
-#X restore 228 653 pd not yet;
-#X text 3 689 ===========================================================================================
+#X restore 228 640 pd not yet;
+#X text 3 676 ===========================================================================================
 , f 91;
-#X text 3 551 ============================================================================================
+#X text 3 538 ============================================================================================
 , f 92;
-#X text 436 626 DSP;
-#X obj 41 174 comment 0 16 times ? 0 0 0 0 About cyclone 0.3;
-#X text 43 202 - Based on 4 at first \, Cyclone was originally developed
-in the Max 4 era (2002-2005) \, which went up to 2007 (with Max 4.6.3).
-In Cyclone 0.3 \, we mainly updated the library to include missing
-functionalities from Max 4 and further updates (from Max 5 to Max 7).
-, f 69;
-#X text 43 262 - New objects were also included and several bug fixes
-were made \, check details in the changelog at: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
-, f 69;
-#X text 49 462 You can also use [declare] to add the path and/or library
+#X text 436 613 DSP;
+#X obj 41 161 comment 0 16 times ? 0 0 0 0 About Cyclone 0.3;
+#X text 49 449 You can also use [declare] to add the path and/or library
 as below:, f 68;
-#X text 3 307 ============================================================================================
+#X text 3 294 ============================================================================================
 , f 92;
+#X text 43 189 - Cyclone's development starts in 2002 (at the time
+of Max 4.0) and never reached full compliance to the latest Max 4 release
+(4.6.3 from 2007). Cyclone 0.3 updates the library by including missing
+functionalities from Max 4 and further updates (from Max 5 to Max 7).
+, f 73;
+#X text 43 249 - New objects were also included and several bug fixes
+were made \; check details in the changelog at: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
+, f 73;
 #X connect 16 0 15 0;

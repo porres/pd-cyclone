@@ -33,11 +33,11 @@
 #X text 177 358 -;
 #X text 191 358 closes editing window;
 #X msg 107 148 10 20 30 40;
-#X msg 221 177 dump;
+#X msg 249 180 dump;
 #X obj 193 241 print dump;
 #X obj 193 149 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 259 178 outputs stored values;
+#X text 283 181 outputs stored values;
 #X text 192 324 outputs out all stored values sequentially, f 52;
 #X text 130 358 wclose;
 #X text 191 342 opens editing window \, same as clicking on it;
@@ -46,7 +46,6 @@
 #X text 94 407 float/symbol;
 #X text 177 407 - stored items in sequential order (on dump message)
 ;
-#X obj 193 211 cyclone/capture 8;
 #X text 307 211 <= stores 8 items;
 #X text 112 455 2) symbol;
 #X text 89 208 click to open;
@@ -127,7 +126,10 @@ f 52;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 21 0 33 0;
-#X connect 22 0 33 0;
-#X connect 24 0 33 0;
-#X connect 33 0 23 0;
+#X obj 193 211 cyclone/capture 8;
+#X obj 193 177 change;
+#X connect 21 0 51 0;
+#X connect 22 0 51 0;
+#X connect 24 0 52 0;
+#X connect 51 0 23 0;
+#X connect 52 0 51 0;

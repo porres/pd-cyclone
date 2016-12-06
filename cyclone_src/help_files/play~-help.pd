@@ -24788,7 +24788,7 @@ cloned from Max/MSP;
 #X obj 32 52 soundfiler;
 #X obj 32 103 send \$0-array_size;
 #X obj 32 79 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 297216 256;
+-228856 -1 -1 290646 256;
 #X obj 241 55 table \$0-violin;
 #X obj 32 20 cyclone/loadmess read -resize violin.wav \$0-violin;
 #X connect 0 0 2 0;
@@ -24913,7 +24913,7 @@ duration., f 62;
 #X obj 5 570 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #X text 148 578 @loop <f> | @loopinterp <f> | @interptime <f>;
-#X obj 80 506 cnv 17 3 17 empty empty 0-n 5 9 0 16 -228856 -162280
+#X obj 80 506 cnv 17 3 17 empty empty n+1 5 9 0 16 -228856 -162280
 0;
 #X text 153 507 bang;
 #X text 334 245 finished;
@@ -24929,7 +24929,7 @@ playing \, default values are the whole array in original speed, f
 1;
 #X obj 248 366 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 176 270 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 176 270 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X msg 176 291 loopinterp \$1;
 #X msg 272 301 interptime \$1;

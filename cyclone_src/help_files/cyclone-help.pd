@@ -1,5 +1,5 @@
 #N canvas 673 73 561 608 10;
-#X declare -stdlib cyclone/cyclone;
+#X declare -stdlib cyclone;
 #X obj 206 238 ==~;
 #X obj 206 262 !=~;
 #X obj 206 287 <~;
@@ -50,7 +50,6 @@
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
 #N canvas 209 90 500 273 load_cyclone 0;
-#X obj 245 125 declare -stdlib cyclone/cyclone;
 #X text 59 43 Loading/Installing the cyclone library:;
 #X text 89 155 If even this is not working \, you did not install cyclone
 correctly and you really should Read "How to Install Cyclone" for more
@@ -60,6 +59,7 @@ to Install Cyclone". But if the library is not preloaded that way \,
 you can still use [declare] as \, for example \, below:;
 #X text 87 202 https://github.com/porres/pd-cyclone/wiki/How-To-Install
 ;
+#X obj 283 125 declare -stdlib cyclone;
 #X restore 313 559 pd load_cyclone;
 #X text 101 532 ============================================================
 ;

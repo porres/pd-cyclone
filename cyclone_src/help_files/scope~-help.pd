@@ -1,4 +1,4 @@
-#N canvas 495 23 575 598 10;
+#N canvas 613 23 575 598 10;
 #X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 316 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -7,81 +7,60 @@
 ;
 #X obj 4 571 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 77 325 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 70 325 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 151 323 signal;
-#X text 151 551 (none);
-#X obj 46 116 hsl 100 17 20 200 1 0 empty empty empty 5 8 1 10 -228856
--1 -1 0 0;
-#X text 157 340 float;
-#X floatatom 43 139 5 0 0 0 - - -, f 5;
-#X obj 77 511 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 153 323 signal;
+#X text 153 551 (none);
+#X text 159 340 float;
+#X obj 70 511 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 151 509 signal;
-#X text 157 525 float;
-#N canvas 273 38 429 780 trigger_mode 0;
-#X obj 69 549 vsl 15 126 -1 1 0 1 empty empty empty 0 -9 0 10 -228856
--1 -1 6250 1;
-#X obj 251 411 vradio 20 1 1 3 empty empty empty 0 -8 0 10 -228856
--1 -1 0;
-#X msg 251 502 trigger \$1;
-#X floatatom 251 481 5 0 0 0 - - -, f 5;
-#X msg 156 474 triglevel \$1;
-#X obj 69 695 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 69 720 s \$0-slider;
-#X obj 156 420 r \$0-slider;
-#X floatatom 156 446 5 0 0 0 - - -, f 5;
-#X obj 87 464 osc~ 150;
-#X obj 87 548 Scope~ 201 129 2 3 256 -1 1 0 0 0 0 205 229 232 74 79
-77 96 98 102 0;
-#X text 275 412 0) none;
-#X text 276 432 1) Up;
-#X text 276 453 2) Down;
-#X text 27 55 The delay onset period determines when to display a new
-waveform. In conjunction to it \, the trigger mode determines when
-a new waveform trace begins (following the delay period).;
-#X text 27 119 The default mode is "trigger 0" \, which is "none mode"
-\, where the signal is displayed the way it is.;
-#X text 29 163 "trigger 1" is "up mode" \, in which - following the
-delay period - a new display is triggered only when the signal goes
-from below the trigger level to being equal to it or above it.;
-#X text 28 228 "trigger 2" sets to down mode \, in which - following
-the delay period - a new display is shown only when the signal goes
-from above the trigger level to being equal to it or below it.;
-#X text 29 296 The "triglevel <float>" message sets the threshold for
-the trigger modes "1" (up) and "2" (down). In these cases \, as described
-above \, the waveform must increase or decrease past this value to
-trigger a new display. If you are displaying a periodic waveform \,
-some changes to the trigger level will shift the waveform to the left
-or right.;
-#X obj 27 11 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X obj 33 16 cyclone/comment 0 18 times ? 0 0 0 0 Trigger mode:;
-#X connect 0 0 5 0;
-#X connect 1 0 3 0;
-#X connect 2 0 10 0;
-#X connect 3 0 2 0;
-#X connect 4 0 10 0;
-#X connect 5 0 6 0;
-#X connect 7 0 8 0;
-#X connect 8 0 4 0;
-#X connect 9 0 10 0;
-#X restore 401 257 pd trigger_mode;
-#X floatatom 219 166 5 8 256 0 - - -, f 5;
-#X obj 31 193 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
-#X obj 22 299 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
-#X obj 30 246 cnv 5 5 5 empty empty 0 0 0 0 16 -262144 -162280 0;
+#X text 153 509 signal;
+#X text 159 525 float;
 #X text 198 509 - signal to be displayed on the Y axis;
 #X text 197 323 - signal to be displayed in the X axis;
-#X text 151 577 (none);
+#X text 153 577 (none);
 #X obj 4 596 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 43 158 osc~ 24;
-#X text 115 146 Samples per line (2-8192);
-#X text 256 165 Number of lines in buffer (8-256);
 #X text 198 525 - sets "bufsize": number of lines in buffer;
-#N canvas 145 37 1036 652 X-Y_Mode 0;
+#X text 198 491 - onset time delay between displays (default 0);
+#X text 111 356 calccount <f>;
+#X text 123 372 bufsize <f>;
+#X text 123 460 trigger <f>;
+#X text 111 475 triglevel <f>;
+#X text 135 491 delay <f>;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X text 197 341 - sets "calccount": samples per line (2-8192 \, default
+256);
+#X text 197 357 - sets "calccount" (samples per line);
+#X text 197 372 - sets number of lines in buffer (8-256 \, default
+128);
+#X text 197 388 - sets vertical range (default -1 1);
+#X text 197 404 - sets front/signal RGB color (values 0-1);
+#X text 197 419 - sets background RGB color (values 0-1);
+#X text 197 433 - sets grid RGB color (values 0-1);
+#X text 197 461 - sets trigger mode: 0 (none \, default) \, 1 (up)
+or 2 (down);
+#X text 197 476 - sets threshold level for the trigger mode (default
+0);
+#X text 111 446 drawstyle <f>;
+#X text 132 603 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
+f f> | @range <f f> | @trigger <f> | @triglevel <f> | @bufsize <f>
+@calccount <f> | @delay <f> | drawstyle <f>;
+#X text 197 446 - <1> sets alternate drawing style (default 0);
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scope~;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#N canvas 235 188 1036 652 X-Y_Mode 0;
 #X obj 355 345 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 352 364 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -153,17 +132,65 @@ displays in "Y Mode" only.;
 #X connect 26 0 23 0;
 #X connect 27 0 24 1;
 #X restore 305 280 pd X-Y_Mode;
-#X text 198 491 - onset time delay between displays (default 0);
+#X obj 46 116 hsl 100 17 20 200 1 0 empty empty empty 5 8 1 10 -228856
+-1 -1 0 0;
+#X floatatom 43 139 5 0 0 0 - - -, f 5;
+#N canvas 273 38 429 780 trigger_mode 0;
+#X obj 69 549 vsl 15 126 -1 1 0 1 empty empty empty 0 -9 0 10 -228856
+-1 -1 6250 1;
+#X obj 251 411 vradio 20 1 1 3 empty empty empty 0 -8 0 10 -228856
+-1 -1 0;
+#X msg 251 502 trigger \$1;
+#X floatatom 251 481 5 0 0 0 - - -, f 5;
+#X msg 156 474 triglevel \$1;
+#X obj 69 695 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 69 720 s \$0-slider;
+#X obj 156 420 r \$0-slider;
+#X floatatom 156 446 5 0 0 0 - - -, f 5;
+#X obj 87 464 osc~ 150;
+#X obj 87 548 Scope~ 201 129 2 3 256 -1 1 0 0 0 0 205 229 232 74 79
+77 96 98 102 0;
+#X text 275 412 0) none;
+#X text 276 432 1) Up;
+#X text 276 453 2) Down;
+#X text 27 55 The delay onset period determines when to display a new
+waveform. In conjunction to it \, the trigger mode determines when
+a new waveform trace begins (following the delay period).;
+#X text 27 119 The default mode is "trigger 0" \, which is "none mode"
+\, where the signal is displayed the way it is.;
+#X text 29 163 "trigger 1" is "up mode" \, in which - following the
+delay period - a new display is triggered only when the signal goes
+from below the trigger level to being equal to it or above it.;
+#X text 28 228 "trigger 2" sets to down mode \, in which - following
+the delay period - a new display is shown only when the signal goes
+from above the trigger level to being equal to it or below it.;
+#X text 29 296 The "triglevel <float>" message sets the threshold for
+the trigger modes "1" (up) and "2" (down). In these cases \, as described
+above \, the waveform must increase or decrease past this value to
+trigger a new display. If you are displaying a periodic waveform \,
+some changes to the trigger level will shift the waveform to the left
+or right.;
+#X obj 27 11 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 33 16 cyclone/comment 0 18 times ? 0 0 0 0 Trigger mode:;
+#X connect 0 0 5 0;
+#X connect 1 0 3 0;
+#X connect 2 0 10 0;
+#X connect 3 0 2 0;
+#X connect 4 0 10 0;
+#X connect 5 0 6 0;
+#X connect 7 0 8 0;
+#X connect 8 0 4 0;
+#X connect 9 0 10 0;
+#X restore 401 257 pd trigger_mode;
+#X obj 31 193 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
+#X obj 22 299 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
+#X obj 30 246 cnv 5 5 5 empty empty 0 0 0 0 16 -262144 -162280 0;
+#X obj 43 158 osc~ 24;
+#X text 108 142 Samples per line (2-8192);
+#X text 268 162 Number of lines in buffer (8-256);
 #X text 67 116 frequency;
-#X text 109 356 calccount <f>;
-#X text 121 372 bufsize <f>;
-#X text 121 387 range <f f>;
-#X text 85 433 gridcolor <f f f>;
-#X text 121 460 trigger <f>;
-#X text 109 475 triglevel <f>;
-#X text 133 491 delay <f>;
-#X text 97 404 fgcolor <f f f>;
-#X text 97 419 bgcolor <f f f>;
 #N canvas 207 237 475 277 backwards-compatibility 0;
 #X text 49 70 [scope~] used to be compiled as [Scope~] to avoid name
 conflicts with an old (and not existing anymore) Pd Vanilla's object.
@@ -178,30 +205,6 @@ capital letters in cyclone's objects.;
 #X obj 56 25 cyclone/comment 0 18 times ? 0 0 0 0 backwards compatibility:
 ;
 #X restore 387 280 pd backwards-compatibility;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X text 197 341 - sets "calccount": samples per line (2-8192 \, default
-256);
-#X text 197 357 - sets "calccount" (samples per line);
-#X text 197 372 - sets number of lines in buffer (8-256 \, default
-128);
-#X text 197 388 - sets vertical range (default -1 1);
-#X text 197 404 - sets front/signal RGB color (values 0-1);
-#X text 197 419 - sets background RGB color (values 0-1);
-#X text 197 433 - sets grid RGB color (values 0-1);
-#X text 197 461 - sets trigger mode: 0 (none \, default) \, 1 (up)
-or 2 (down);
-#X text 197 476 - sets threshold level for the trigger mode (default
-0);
-#X floatatom 118 162 5 2 8192 0 - - -, f 5;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -306,10 +309,6 @@ or 2 (down);
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 109 446 drawstyle <f>;
-#X text 132 603 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
-f f> | @range <f f> | @trigger <f> | @triglevel <f> | @bufsize <f>
-@calccount <f> | @delay <f> | drawstyle <f>;
 #N canvas 161 23 843 612 appearance_colors 0;
 #X obj 175 447 Scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333 205 229
 232 74 79 77 96 98 102 0;
@@ -445,17 +444,23 @@ to analternate drawing style \, that affects some kinds of signals
 1.2).;
 #X text 97 62 You can set the vertical (signal amplitude) range and
 the onset delay (time between displays) with messages.;
-#X obj 594 204 loadbang;
-#X obj 594 302 cyclone/scope~ 50 50 256 3 128 -1 1 0 0 0 0 205 229
+#X obj 700 323 cyclone/scope~ 50 50 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X msg 594 228 dim 50 50;
-#X msg 626 259 dim 100 100;
+#X msg 625 270 dim 50 50;
+#X msg 700 270 dim 100 100;
 #X text 502 51 Backwards compatibility / inconsistency note:;
 #X text 520 85 Old scope did say you could set things via arguments
 \, including dimensions (first couple of argument values). That is
 still true \, but it was considered interesting to include the "dim"
 message/attribute \, convenient also for some dynamic patching.;
 #X obj 99 22 cyclone/comment 0 18 times ? 0 0 0 0 Appearance:;
+#X obj 672 172 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 672 215 select 0 1;
+#X obj 700 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 625 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
 #X connect 0 0 2 0;
 #X connect 3 0 2 0;
 #X connect 5 0 2 0;
@@ -463,9 +468,13 @@ message/attribute \, convenient also for some dynamic patching.;
 #X connect 11 0 2 0;
 #X connect 12 0 11 0;
 #X connect 13 0 2 0;
-#X connect 16 0 18 0;
-#X connect 18 0 17 0;
-#X connect 19 0 17 0;
+#X connect 17 0 16 0;
+#X connect 18 0 16 0;
+#X connect 22 0 23 0;
+#X connect 23 0 25 0;
+#X connect 23 1 24 0;
+#X connect 24 0 18 0;
+#X connect 25 0 17 0;
 #X restore 422 230 pd appearance_others;
 #N canvas 52 57 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
@@ -524,21 +533,24 @@ smallest line is 2 samples/points long.;
 #X connect 5 0 1 0;
 #X connect 6 0 3 0;
 #X restore 285 257 pd buffer settings;
-#X text 197 446 - <1> sets alternate drawing style (default 0);
 #X obj 43 190 scope~ 183 112 256 3 128 -1 1 0 0 0 0 205 229 232 74
 79 77 96 98 102 0;
 #X text 89 83 [scope~] displays a signal in the style of an oscilloscope.
 ;
 #X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Oscilloscope display
 ;
-#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scope~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 235 201 cyclone/comment 0 12 helvetica ? 0 200 0 0 <= Right
 click for properties!;
-#X connect 7 0 9 0;
-#X connect 9 0 22 0;
-#X connect 14 0 61 1;
-#X connect 22 0 61 0;
-#X connect 52 0 61 0;
+#X text 117 387 range <f \, f>;
+#X text 87 404 fgcolor <f \, f \, f>;
+#X text 87 419 bgcolor <f \, f \, f>;
+#X text 75 433 gridcolor <f \, f \, f>;
+#X obj 110 161 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 219 161 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X connect 42 0 43 0;
+#X connect 43 0 48 0;
+#X connect 48 0 58 0;
+#X connect 66 0 58 0;
+#X connect 67 0 58 1;

@@ -1,91 +1,58 @@
-#N canvas 535 73 562 717 10;
-#X obj 6 682 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 657 134 561 588 10;
+#X obj 6 550 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 423 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 291 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 587 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 455 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 624 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 492 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 78 432 cnv 17 3 57 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 78 300 cnv 17 3 57 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 78 498 cnv 17 3 50 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 78 366 cnv 17 3 50 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 123 655 2) float;
-#X obj 78 557 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 123 523 2) float;
+#X obj 78 425 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 145 557 float;
-#X text 103 470 set <symbol>;
-#X text 189 655 - channel (default 1);
-#X text 103 432 float/signal;
-#X text 151 450 list;
-#X text 103 498 float/signal;
-#X text 196 431 - values to write into an array;
-#X text 189 636 - array name to write to (required);
-#X obj 160 161 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 145 425 float;
+#X text 103 338 set <symbol>;
+#X text 189 523 - channel (default 1);
+#X text 103 300 float/signal;
+#X text 151 318 list;
+#X text 103 366 float/signal;
+#X text 196 299 - values to write into an array;
+#X text 189 504 - array name to write to (required);
+#X obj 286 140 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 325 281 1;
-#X text 319 391 -1;
-#X obj 96 284 cyclone/poke~ \$0-array;
-#X obj 178 223 send \$0-array;
-#X msg 178 202 const 0;
-#X obj 298 207 hsl 128 15 0 4410 0 0 empty sliders empty -2 -8 0 10
--228856 -1 -1 0 1;
-#X floatatom 295 228 0 0 0 0 - - -;
-#X text 195 496 - index of value being recorded. If there is a signal
+#X obj 299 198 send \$0-array;
+#X msg 299 177 const 0;
+#X obj 424 182 hsl 100 15 0 4410 0 0 empty sliders empty -2 -8 0 10
+-228856 -1 -1 9900 1;
+#X floatatom 421 203 0 0 0 0 - - -;
+#X text 195 364 - index of value being recorded. If there is a signal
 connected to this inlet \, a float is ignored. If the index signal
 is negative or larger than the size of the array \, no data is recorded.
 , f 58;
-#X obj 340 285 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
--66577 0;
-#N canvas 1 79 450 300 (subpatch) 0;
-#X array \$0-array 4410 float 0;
-#X coords 0 1.1 4409 -1.1 200 120 1 0 0;
-#X restore 339 284 graph;
-#N canvas 227 35 381 379 write 0;
-#X obj 119 38 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
--1;
-#X text 224 82 <= index;
-#X text 146 37 write to array;
-#X obj 119 109 expr random(-100 \, 101)/100.0;
-#X obj 154 138 cyclone/poke~ \$0-table;
-#X text 84 209 1;
-#X text 78 319 -1;
-#X obj 102 213 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
--66577 0;
-#N canvas 1 79 450 300 (subpatch) 0;
-#X array \$0-table 4410 float 0;
-#X coords 0 1.1 4409 -1.1 200 120 1 0 0;
-#X restore 101 212 graph;
-#X obj 119 61 cyclone/Uzi 44100;
-#X text 44 127 random value =>;
-#X connect 0 0 9 0;
-#X connect 3 0 4 0;
-#X connect 9 0 3 0;
-#X connect 9 2 4 1;
-#X restore 107 345 pd write with messages;
-#X obj 160 253 cyclone/count~ 0 4410 1;
-#X text 196 450 - value \, sample-index and channel-number;
-#X obj 96 236 osc~ 11;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X text 196 318 - value \, sample-index and channel-number;
+#X obj 2 6 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 5 graph;
+#X obj 305 6 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
+#X restore 304 5 pd;
 #X text 77 92 [poke~] writes samples into an array at indexes specified
 by a signal. It can also write values via messages (similarly to [cyclone/peek~]).
 ;
-#X text 196 471 - sets array name;
-#X text 186 557 - sets the channel for the value being recorded;
-#X text 123 636 1) symbol;
+#X text 196 339 - sets array name;
+#X text 186 425 - sets the channel for the value being recorded;
+#X text 123 504 1) symbol;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -154,7 +121,7 @@ by a signal. It can also write values via messages (similarly to [cyclone/peek~]
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -187,17 +154,50 @@ by a signal. It can also write values via messages (similarly to [cyclone/peek~]
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 142 597 (none);
-#X obj 17 6 cyclone/comment 0 37 times ? 0 0 0 0 poke~;
-#X obj 18 58 cyclone/comment 0 18 times ? 0 0 0 0 Write to an array
+#X text 142 465 (none);
+#X obj 17 8 cyclone/comment 0 37 times ? 0 0 0 0 poke~;
+#X obj 18 60 cyclone/comment 0 18 times ? 0 0 0 0 Write to an array
 ;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 30 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 16 0 21 0;
-#X connect 16 0 28 0;
-#X connect 21 0 20 0;
-#X connect 22 0 23 0;
-#X connect 23 0 28 1;
-#X connect 28 0 19 1;
-#X connect 30 0 19 0;
+#X obj 363 6 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 27 159 1;
+#X text 21 251 -1;
+#X obj 42 163 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 1 79 450 300 (subpatch) 0;
+#X array \$0-array 4410 float 0;
+#X coords 0 1.1 4409 -1.1 150 100 1 0 0;
+#X restore 41 162 graph;
+#X obj 286 228 cyclone/count~ 0 4410 1;
+#X obj 222 259 cyclone/poke~ \$0-array;
+#X obj 222 198 osc~ 9.9;
+#N canvas 227 35 381 379 example 0;
+#X obj 119 38 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 224 82 <= index;
+#X text 146 37 write to array;
+#X obj 119 109 expr random(-100 \, 101)/100.0;
+#X obj 154 138 cyclone/poke~ \$0-table;
+#X text 84 209 1;
+#X text 78 319 -1;
+#X obj 102 213 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#N canvas 1 79 450 300 (subpatch) 0;
+#X array \$0-table 4410 float 0;
+#X coords 0 1.1 4409 -1.1 200 120 1 0 0;
+#X restore 101 212 graph;
+#X obj 119 61 cyclone/Uzi 44100;
+#X text 44 127 random value =>;
+#X connect 0 0 9 0;
+#X connect 3 0 4 0;
+#X connect 9 0 3 0;
+#X connect 9 2 4 1;
+#X restore 474 243 pd example \; messages;
+#X connect 16 0 18 0;
+#X connect 16 0 41 0;
+#X connect 18 0 17 0;
+#X connect 19 0 20 0;
+#X connect 20 0 41 1;
+#X connect 41 0 42 1;
+#X connect 43 0 42 0;

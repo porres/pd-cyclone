@@ -15,7 +15,7 @@
 ;
 #X obj 6 582 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 124 158 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 144 158 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 146 520 2) float - input high (default 127);
 #X text 146 507 1) float - input low (default 0);
@@ -42,7 +42,7 @@ but you shouldn't really bother to use it \, just saying...;
 #X text 146 558 5) float - exponential factor (default 1 - linear)
 ;
 #X text 126 337 classic <f> -;
-#X obj 121 208 sig~;
+#X obj 141 208 sig~;
 #X text 156 318 signal - value to perform the scaling function on;
 #X text 122 357 float/signal - sets the low end of the input range
 ;
@@ -63,7 +63,7 @@ but you shouldn't really bother to use it \, just saying...;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X text 88 87 [scale] maps an input range to an output range. Values
+#X text 78 87 [scale] maps an input range to an output range. Values
 larger or smaller than the input range will not be clipped to the output
 range. The mapping can be inverted and/or exponential.;
 #N canvas 308 23 863 775 Exponential 0;
@@ -134,7 +134,7 @@ may require updating to work properly in modern mode.;
 #X connect 26 0 23 0;
 #X connect 27 0 28 0;
 #X connect 28 0 26 0;
-#X restore 447 237 pd Exponential \; Classic X Modern;
+#X restore 447 207 pd Exponential \; Classic X Modern;
 #X text 210 337 sets to classic mode <classic 1> or modern <classic
 0>;
 #N canvas 695 23 457 614 advanced 0;
@@ -180,11 +180,11 @@ that boundary with the same conversion parameters.;
 #X connect 13 0 12 0;
 #X connect 15 0 9 0;
 #X connect 15 0 8 0;
-#X restore 477 274 pd advanced;
-#X obj 121 237 cyclone/scale~ -1 1 0 127;
+#X restore 477 244 pd advanced;
+#X obj 141 237 cyclone/scale~ -1 1 0 127;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -253,7 +253,7 @@ that boundary with the same conversion parameters.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -286,7 +286,7 @@ that boundary with the same conversion parameters.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 121 184 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 141 184 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Map signals to an
 output range;
@@ -294,7 +294,34 @@ output range;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 121 268 cyclone/number~;
+#X obj 141 268 cyclone/number~;
+#N canvas 695 23 432 346 crossfade 0;
+#X obj 178 192 cyclone/scale~ 0 1;
+#X obj 178 164 line~;
+#X obj 178 118 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 178 141 \$1 20;
+#X obj 181 93 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 241 136 osc~ 440;
+#X obj 262 165 osc~ 660;
+#X text 296 136 A;
+#X text 318 166 B;
+#X obj 158 248 cyclone/output~;
+#X text 163 92 A;
+#X text 314 93 B;
+#X text 46 20 [scale~] can also act as a linear crossfader at signal
+rate between two mono sound sources \, though this is not its purpose.
+;
+#X connect 0 0 9 0;
+#X connect 0 0 9 1;
+#X connect 1 0 0 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X connect 4 0 2 0;
+#X connect 5 0 0 3;
+#X connect 6 0 0 4;
+#X restore 471 266 pd crossfade;
 #X connect 8 0 41 0;
 #X connect 24 0 39 0;
 #X connect 39 0 46 0;
