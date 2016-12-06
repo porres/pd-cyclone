@@ -10,7 +10,7 @@
 #include "m_pd.h"
 #include "cybuf.h"
 
-#define INDEX_MAXCHANNELS  4  /* LATER implement arsic resizing feature */
+#define INDEX_MAXCHANNELS  4
 
 typedef struct _index
 {
@@ -18,7 +18,6 @@ typedef struct _index
     t_cybuf   *x_cybuf;
     int      x_maxchannels;
     int      x_effchannel;  /* effective channel (clipped reqchannel) */
-    int      x_reqchannel;  /* requested channel */
     t_inlet  *x_phaselet;
     t_outlet *x_outlet;
 } t_index;
@@ -66,10 +65,10 @@ static void index_float(t_index *x, t_float f)
 
 static void index_ft1(t_index *x, t_floatarg f)
 {
-    if ((x->x_reqchannel = (f > 1 ? (int)f - 1 : 0)) > x->x_maxchannels)
-        x->x_effchannel = x->x_maxchannels - 1;
-    else
-        x->x_effchannel = x->x_reqchannel;
+    int in_ch = (int)f;
+    // clip input channel
+    in_ch = (in_ch < 1 ? 1 : in_ch > x->x_maxchannels ? x->x_maxchannels : in_ch);
+    x->x_effchannel = in_ch - 1;
 }
 
 static void index_dsp(t_index *x, t_signal **sp)
@@ -95,7 +94,7 @@ static void *index_new(t_symbol *s, t_floatarg f)
 	if (ch > INDEX_MAXCHANNELS)
 	    ch = INDEX_MAXCHANNELS;
 	x->x_maxchannels = (ch ? INDEX_MAXCHANNELS : 1);
-	x->x_effchannel = x->x_reqchannel = (ch ? ch - 1 : 0);
+	x->x_effchannel = (ch ? ch - 1 : 0);
 	x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("ft1"));
 	x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
     };
