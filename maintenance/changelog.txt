@@ -32,6 +32,7 @@ Post-Extended Era (under the maintenance of Fred Jan Kraan):
   * added 'pause', 'resum' and 'stop' messages to Line~ (svn r17398), 
   * fixed poltocar~ phase polarity (svn r17483), 
   * fixed rand~ argument (bug #1177), 
+  * Bucket: added a new max 4 mode, which loads values different (svn revision 17484)
   * changed in arsic/vefl.c the call of garray_getfloatarray to garray_getfloatwords and the calling code in buffir~, cycle~, index~, lookup~, peek~, play~, poke~, record~ and wave~ perform methods (svn r17482, r17393 r17397), 
   * fixed the file handling in funbuff (bug #1188, svn r17419), 
   * fixed the seed argument in decide, and made normal behaviour more random, 
