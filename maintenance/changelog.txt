@@ -56,7 +56,7 @@ Post-Extended Era (under the maintenance of Fred Jan Kraan):
 
 0.1.alpha56 - available in the last pd extended version (0.43.4) - found as "cyclone-v0-0extended" when searching for externals (in Pd Vanilla 0.47+):
   * fixed inversed phase output of cartopol~ (but not poltocar~ ruining the pair)
-  * added all-lower-case aliases to objects with capital letters since Max/MSP 4.6 converted to all lowercase
+  * added all-lower-case aliases to objects with capital letters cause this was possible since Max 3!
 
 under the maintenance of Krzysztof Czaja: 
 
