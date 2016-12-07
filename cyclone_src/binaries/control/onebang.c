@@ -17,11 +17,33 @@ static void onebang_bang(t_onebang *x)
 {
     if (x->x_isopen)
     {
-	outlet_bang(((t_object *)x)->ob_outlet);
-	x->x_isopen = 0;
+        outlet_bang(((t_object *)x)->ob_outlet);
+        x->x_isopen = 0;
     }
     else
         outlet_bang(x->x_r_bng);
+}
+
+static void onebang_float(t_onebang *x, t_float f)
+{
+    onebang_bang(x);
+}
+
+
+static void onebang_symbol(t_onebang *x, t_symbol *s)
+{
+    onebang_bang(x);
+}
+
+
+static void onebang_list(t_onebang *x, t_symbol *s, int ac, t_atom *av)
+{
+    onebang_bang(x);
+}
+
+static void onebang_anything(t_onebang *x, t_symbol *s, int ac, t_atom *av)
+{
+    onebang_bang(x);
 }
 
 static void onebang_bang1(t_onebang *x)
@@ -38,7 +60,7 @@ static void *onebang_new(t_floatarg f)
 {
     t_onebang *x = (t_onebang *)pd_new(onebang_class);
     x->x_isopen = ((int)f != 0);  /* CHECKED */
-    inlet_new((t_object *)x, (t_pd *)x, &s_bang, gensym("bang1"));
+    inlet_new((t_object *)x, (t_pd *)x, &s_bang, gensym("bang1")); // change to anything
     outlet_new((t_object *)x, &s_bang);
     x->x_r_bng = outlet_new((t_object *)x, &s_bang);
     return (x);
@@ -54,4 +76,8 @@ void onebang_setup(void)
 		    gensym("bang1"), 0);
     class_addmethod(onebang_class, (t_method)onebang_stop,
                     gensym("stop"), 0);
+    class_addfloat(onebang_class, onebang_float);
+    class_addsymbol(onebang_class, onebang_symbol);
+    class_addlist(onebang_class, onebang_list);
+    class_addanything(onebang_class, onebang_anything);
 }
