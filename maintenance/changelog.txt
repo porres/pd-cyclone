@@ -17,7 +17,7 @@ cyclone version 0.3, coming soon… (under the new maintenance of Porres, Kwan, 
 DONE for cyclone
 ================
 
-Post-Extended Era (under the maintenance of Fred Jan Kraan): 
+Post Pd-Extended Era (under the maintenance of Fred Jan Kraan): 
 
 0.2beta1 - (version at the time of the forking)
   * coll: added threaded argument from pd-l2ork (later removed for windows)
@@ -55,11 +55,13 @@ Post-Extended Era (under the maintenance of Fred Jan Kraan):
   * Added examples to cyclone cartopol~ and poltocar~ help patches (svn r17493), 
   * Fixed [lookup~] behaviour (svn r17495).
 
+Pd-Extended Era (under the maintenance of Hans-Christoph Steiner): 
+
 0.1.alpha56 - available in the last pd extended version (0.43.4) - found as "cyclone-v0-0extended" when searching for externals (in Pd Vanilla 0.47+):
   * fixed inversed phase output of cartopol~ (but not poltocar~ ruining the pair)
   * added all-lower-case aliases to objects with capital letters cause this was possible since Max 3!
 
-under the maintenance of Krzysztof Czaja: 
+Original author era, under the maintenance of Krzysztof Czaja: 
 
 0.1.alpha55 -  available in most Pd-Extended versions up to Pd-Extended 0.42.5:
   * new class: overdrive~
