@@ -17,7 +17,7 @@ typedef struct _index
     t_object    x_obj;
     t_cybuf   *x_cybuf;
     int      x_maxchannels;
-    int      x_effchannel;  /* effective channel (clipped reqchannel) */
+    int      x_effchannel;  // effective channel
     t_inlet  *x_phaselet;
     t_outlet *x_outlet;
 } t_index;
