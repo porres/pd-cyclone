@@ -28,7 +28,7 @@ random glissandi.;
 #X obj 136 143 cyclone/rand~ 1;
 #X obj 31 15 cyclone/comment 0 18 times ? 0 0 0 0 [rand~] as random
 control;
-#X obj 111 264 cyclone/output~;
+#X obj 111 264 cyclone/out~;
 #X connect 0 0 3 0;
 #X connect 3 0 6 0;
 #X connect 3 0 6 1;
@@ -163,7 +163,7 @@ noise;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 254 270 cyclone/output~;
+#X obj 254 270 cyclone/out~;
 #X connect 6 0 13 0;
 #X connect 9 0 6 0;
 #X connect 13 0 14 0;

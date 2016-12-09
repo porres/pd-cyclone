@@ -1,4 +1,4 @@
-#N canvas 674 23 560 505 10;
+#N canvas 674 23 558 501 10;
 #X obj 2 261 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 373 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -9,15 +9,15 @@
 ;
 #X obj 79 330 cnv 17 3 35 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 176 160 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+#X obj 175 159 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
-#X obj 176 225 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+#X obj 175 224 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
-#X obj 275 161 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+#X obj 274 160 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
 #X obj 79 380 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 176 193 cyclone/onebang 1;
+#X obj 175 192 cyclone/onebang 1;
 #X obj 2 484 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
 #X obj 2 463 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
@@ -58,16 +58,16 @@ once;
 #X text 87 91 [onebang] allows a bang in the left inlet to pass through
 the left outlet once ONLY if a bang has been previously received in
 the right inlet. The bang goes to the right outlet otherwise.;
-#N canvas 261 197 585 365 examples 0;
-#X obj 342 120 notein 1, f 9;
-#X obj 342 151 stripnote;
-#X obj 342 183 select 60;
-#X obj 441 184 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+#N canvas 261 197 585 352 examples 0;
+#X obj 315 122 notein 1, f 9;
+#X obj 315 153 stripnote;
+#X obj 315 185 select 60;
+#X obj 414 186 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
 -1 -1;
-#X obj 342 215 cyclone/onebang 1;
-#X obj 342 251 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+#X obj 315 217 cyclone/onebang 1;
+#X obj 315 253 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
-#X obj 463 179 cyclone/comment 165 11 helvetica ? 0 80 80 80 reset
+#X obj 436 181 cyclone/comment 165 11 helvetica ? 0 80 80 80 reset
 ;
 #X obj 66 125 notein 1, f 9;
 #X obj 66 152 stripnote;
@@ -78,21 +78,25 @@ the right inlet. The bang goes to the right outlet otherwise.;
 -1;
 #X obj 187 164 cyclone/comment 165 11 helvetica ? 0 80 80 80 reset
 ;
-#X obj 142 113 cyclone/comment 84 11 helvetica ? 0 80 80 80 detect
-(only) the first note played;
-#X obj 338 74 cyclone/comment 165 11 helvetica ? 0 80 80 80 detect
-the first time that middle C is played \, but ignore subsequent occurrences
-until reset occurs.;
+#X obj 165 236 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X obj 414 253 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X text 308 58 Detect the first time that middle C is played \, but
+ignore subsequent occurrences until reset occurs., f 35;
+#X text 55 78 Detect (only) the first note played, f 17;
 #X connect 0 0 1 0;
 #X connect 0 1 1 1;
 #X connect 1 0 2 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 1;
 #X connect 4 0 5 0;
+#X connect 4 1 14 0;
 #X connect 7 0 8 0;
 #X connect 7 1 8 1;
 #X connect 8 0 9 0;
 #X connect 9 0 11 0;
+#X connect 9 1 13 0;
 #X connect 10 0 9 1;
 #X restore 466 230 pd examples;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Gate a bang with
@@ -101,6 +105,11 @@ a bang;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 274 223 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
+-1;
+#X msg 206 160 stop;
 #X connect 5 0 9 0;
 #X connect 7 0 9 1;
 #X connect 9 0 6 0;
+#X connect 9 1 40 0;
+#X connect 41 0 9 0;

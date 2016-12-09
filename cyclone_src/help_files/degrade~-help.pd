@@ -161,7 +161,7 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 214 243 cyclone/scope~ 182 107 2 3 128 -1 1 250 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 94 272 cyclone/output~;
+#X obj 94 272 cyclone/out~;
 #X connect 8 0 32 1;
 #X connect 11 0 8 0;
 #X connect 13 0 32 2;

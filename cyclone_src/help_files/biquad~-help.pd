@@ -89,7 +89,7 @@ y[-1] & y[-2]). This example uses just the feedback samples (y[-1]
 \, because starting the dsp will reset the sample memory.;
 #X obj 288 422 cyclone/scope~ 271 129 2 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 172 457 cyclone/output~;
+#X obj 172 457 cyclone/out~;
 #X connect 0 0 1 0;
 #X connect 1 0 9 0;
 #X connect 3 0 9 1;
@@ -206,7 +206,6 @@ on again also clears the filter memory.;
 #X text 47 95 The filter memory are the previous input samples (x[-1]
 & x[-2]) and the previous output samples (y[-1] & y[-2]). When cleared
 \, their values are resseted to zeroes.;
-#X obj 108 358 cyclone/output~;
 #X obj 127 267 noise~;
 #X msg 61 257 clear;
 #X obj 229 223 hsl 128 15 0 1.01 0 0 empty empty empty -2 -8 0 10 -228856
@@ -218,18 +217,18 @@ on again also clears the filter memory.;
 #X text 305 280 DSP off and on;
 #X text 51 160 At your own risk \, try this below:;
 #X obj 127 316 cyclone/biquad~ 1;
-#X connect 3 0 12 0;
-#X connect 4 0 12 0;
+#X obj 108 358 cyclone/out~;
+#X connect 2 0 11 0;
+#X connect 3 0 11 0;
+#X connect 4 0 5 0;
 #X connect 5 0 6 0;
-#X connect 6 0 7 0;
-#X connect 7 0 12 4;
-#X connect 7 0 12 5;
-#X connect 12 0 2 0;
-#X connect 12 0 2 1;
+#X connect 6 0 11 4;
+#X connect 6 0 11 5;
+#X connect 11 0 12 0;
+#X connect 11 0 12 1;
 #X restore 242 288 pd clear;
 #X text 199 389 - sets previous in/outputs (x[-1] \, x[-2] \, y[-1]
 & y[-2]);
-#X obj 76 269 cyclone/output~;
 #X text 199 538 - filter output;
 #X text 145 538 signal;
 #X text 198 371 - the gains of the 5 coefficients (a0 \, a1 \, a2 \,
@@ -257,20 +256,20 @@ very similar \, but note the formulas are slightly different.;
 #X obj 204 213 cyclone/biquad~;
 #X obj 221 172 cyclone/filtercoeff~;
 #X obj 138 157 noise~;
-#X obj 185 265 cyclone/output~;
 #X text 70 35 Different than in vanilla \, [cyclone/biquad~] can take
 filter coefficients as audio signals. This is particularly convenient
 if you're using [cyclone/filtercoeff~];
 #X floatatom 221 130 5 0 0 0 - - -, f 5;
-#X connect 0 0 3 0;
-#X connect 0 0 3 1;
+#X obj 186 266 cyclone/out~;
+#X connect 0 0 5 0;
+#X connect 0 0 5 1;
 #X connect 1 0 0 1;
 #X connect 1 1 0 2;
 #X connect 1 2 0 3;
 #X connect 1 3 0 4;
 #X connect 1 4 0 5;
 #X connect 2 0 0 0;
-#X connect 5 0 1 0;
+#X connect 4 0 1 0;
 #X restore 242 267 pd signal coefficients;
 #X text 154 97 Note it's a different equation than in Pd Vanilla's
 [biquad~]. You can specify the coefficients a0 \, a1 \, a2 \, b1 \,
@@ -281,9 +280,10 @@ or individually as signals or floats.;
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Biquad filter;
+#X obj 76 269 cyclone/out~;
 #X connect 0 0 26 0;
 #X connect 1 0 26 0;
-#X connect 26 0 41 0;
-#X connect 26 0 41 1;
+#X connect 26 0 54 0;
+#X connect 26 0 54 1;
 #X connect 27 0 26 0;
 #X connect 28 0 26 0;

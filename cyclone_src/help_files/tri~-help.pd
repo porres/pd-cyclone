@@ -358,7 +358,6 @@ cycle.;
 #X text 96 19 A perfectly square/pulse oscillator generates aliasing
 (check spectral analisys graphs below). Hence \, it's preferable for
 musical purposes a band limited osicllator.;
-#X obj 98 191 cyclone/output~;
 #X text 100 104 Aliasing;
 #X obj 481 206 switch~;
 #X obj 481 128 tgl 50 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
@@ -388,7 +387,6 @@ musical purposes a band limited osicllator.;
 #X connect 8 0 9 0;
 #X connect 10 0 6 0;
 #X restore 247 216 pd plot;
-#X obj 309 204 cyclone/output~;
 #X text 321 134 No Aliasing!!!;
 #X obj 309 163 cyclone/tri~ 2000;
 #X obj 98 160 cyclone/triangle~ 0.5;
@@ -397,17 +395,19 @@ musical purposes a band limited osicllator.;
 #X obj 221 117 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 247 93 variable duty;
-#X connect 9 0 20 0;
-#X connect 14 0 13 0;
-#X connect 19 0 16 0;
-#X connect 19 0 17 0;
-#X connect 19 0 17 1;
-#X connect 20 0 0 0;
-#X connect 20 0 11 0;
-#X connect 20 0 11 1;
-#X connect 21 0 22 0;
-#X connect 22 0 20 1;
-#X connect 22 0 19 1;
+#X obj 309 204 cyclone/out~;
+#X obj 98 191 cyclone/out~;
+#X connect 9 0 18 0;
+#X connect 13 0 12 0;
+#X connect 17 0 15 0;
+#X connect 17 0 22 0;
+#X connect 17 0 22 1;
+#X connect 18 0 0 0;
+#X connect 18 0 23 0;
+#X connect 18 0 23 1;
+#X connect 19 0 20 0;
+#X connect 20 0 18 1;
+#X connect 20 0 17 1;
 #X restore 448 270 pd antialiasing;
 #N canvas 830 125 450 300 sync 0;
 #X obj 213 140 phasor~;
@@ -421,7 +421,7 @@ musical purposes a band limited osicllator.;
 #X text 51 37 In the third inlet \, you can feed a [phasor~] signal
 for oscillator syncing. The frequency from the [phasor~] will be the
 master and force [tri~] to be synced as a slave.;
-#X obj 96 211 cyclone/output~;
+#X obj 96 211 cyclone/out~;
 #X connect 0 0 5 2;
 #X connect 1 0 0 0;
 #X connect 3 0 2 0;
@@ -468,7 +468,7 @@ oscillator;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 135 255 cyclone/output~;
+#X obj 135 255 cyclone/out~;
 #X connect 5 0 33 0;
 #X connect 6 0 7 0;
 #X connect 7 0 33 1;

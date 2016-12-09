@@ -1,5 +1,4 @@
 #N canvas 482 23 561 564 10;
-#X obj 140 287 output~;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -69,7 +68,6 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 96 200 3rd inlet;
 #N canvas 787 211 416 415 signal-rate 0;
 #X obj 152 145 *~ 3;
-#X obj 129 321 cyclone/output~;
 #X obj 152 106 phasor~ 0.5;
 #X obj 274 234 noise~;
 #X obj 152 267 cyclone/selector~ 2;
@@ -78,14 +76,15 @@ allows [selector~] to be controlle with sample accuracy. Signal values
 are truncated to integers.;
 #X obj 207 234 osc~ 440;
 #X obj 177 189 number~;
-#X connect 0 0 4 0;
-#X connect 0 0 7 0;
-#X connect 2 0 0 0;
-#X connect 3 0 4 2;
-#X connect 4 0 1 0;
-#X connect 4 0 1 1;
-#X connect 6 0 4 1;
-#X restore 382 225 pd signal-rate;
+#X obj 129 321 cyclone/out~;
+#X connect 0 0 3 0;
+#X connect 0 0 6 0;
+#X connect 1 0 0 0;
+#X connect 2 0 3 2;
+#X connect 3 0 7 0;
+#X connect 3 0 7 1;
+#X connect 5 0 3 1;
+#X restore 450 323 pd signal-rate;
 #X obj 105 434 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 228 400 - signal to be selected;
@@ -97,10 +96,11 @@ are truncated to integers.;
 inlets or none of them to an outlet. If no input is selected \, it
 outputs zero values.;
 #X text 228 490 - initially selected inlet (default 0 - none);
-#X connect 22 0 24 3;
-#X connect 23 0 24 2;
-#X connect 24 0 0 0;
-#X connect 24 0 0 1;
-#X connect 25 0 24 1;
-#X connect 26 0 24 0;
-#X connect 27 0 26 0;
+#X obj 140 287 cyclone/out~;
+#X connect 21 0 23 3;
+#X connect 22 0 23 2;
+#X connect 23 0 39 0;
+#X connect 23 0 39 1;
+#X connect 24 0 23 1;
+#X connect 25 0 23 0;
+#X connect 26 0 25 0;

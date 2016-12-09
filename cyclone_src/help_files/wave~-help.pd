@@ -638,7 +638,6 @@ some examples \, please check the subopatches below:, f 58;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 140 224 cyclone/output~;
 #X text 107 344 interp_bias <f>;
 #X obj 166 191 cyclone/wave~ \$0-wavetable;
 #X obj 166 141 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -657,7 +656,6 @@ cloned from Max/MSP;
 #X msg 228 178 \$1 100;
 #X obj 151 200 line~;
 #X msg 151 178 \$1 100;
-#X obj 48 261 cyclone/output~;
 #X obj 75 128 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 228 155 nbx 7 15 -1e+37 1e+37 0 0 empty \$0-end-nbx empty 0
@@ -732,7 +730,6 @@ cloned from Max/MSP;
 #X msg 578 180 \$1 100;
 #X obj 501 202 line~;
 #X msg 501 180 \$1 100;
-#X obj 398 263 cyclone/output~;
 #X obj 578 157 nbx 7 15 -1e+37 1e+37 0 0 empty \$0-end-nbx empty 0
 -8 0 10 -228856 -1 -1 6590.59 256;
 #X obj 501 157 nbx 7 15 -1e+37 1e+37 0 0 empty \$0-start-nbx empty
@@ -745,36 +742,37 @@ cloned from Max/MSP;
 #X obj 90 23 cyclone/comment 0 18 times ? 0 0 0 0 Playing a sample
 ;
 #X text 89 53 Using [wave~] to read a sample file;
-#X connect 0 0 10 0;
-#X connect 1 0 11 0;
-#X connect 4 0 28 2;
+#X obj 48 261 cyclone/out~;
+#X obj 398 263 cyclone/out~;
+#X connect 0 0 9 0;
+#X connect 1 0 10 0;
+#X connect 4 0 26 2;
 #X connect 5 0 4 0;
-#X connect 6 0 28 1;
+#X connect 6 0 26 1;
 #X connect 7 0 6 0;
-#X connect 9 0 15 0;
-#X connect 10 0 5 0;
-#X connect 11 0 7 0;
-#X connect 12 0 15 1;
-#X connect 13 0 14 0;
-#X connect 14 0 28 0;
-#X connect 15 0 13 0;
-#X connect 17 0 26 0;
-#X connect 18 0 27 0;
-#X connect 21 0 29 2;
-#X connect 22 0 21 0;
-#X connect 23 0 29 1;
-#X connect 24 0 23 0;
-#X connect 26 0 22 0;
-#X connect 27 0 24 0;
-#X connect 28 0 8 0;
-#X connect 28 0 8 1;
-#X connect 29 0 25 0;
-#X connect 29 0 25 1;
-#X connect 30 0 29 0;
-#X connect 31 0 30 0;
+#X connect 8 0 14 0;
+#X connect 9 0 5 0;
+#X connect 10 0 7 0;
+#X connect 11 0 14 1;
+#X connect 12 0 13 0;
+#X connect 13 0 26 0;
+#X connect 14 0 12 0;
+#X connect 16 0 24 0;
+#X connect 17 0 25 0;
+#X connect 20 0 27 2;
+#X connect 21 0 20 0;
+#X connect 22 0 27 1;
+#X connect 23 0 22 0;
+#X connect 24 0 21 0;
+#X connect 25 0 23 0;
+#X connect 26 0 32 0;
+#X connect 26 0 32 1;
+#X connect 27 0 33 0;
+#X connect 27 0 33 1;
+#X connect 28 0 27 0;
+#X connect 29 0 28 0;
 #X restore 437 206 pd sample_example;
 #N canvas 457 192 787 338 multichannel 0;
-#X obj 172 256 cyclone/output~;
 #X obj 37 14 cyclone/comment 0 18 times ? 0 0 0 0 Multi channel reading
 ;
 #X obj 546 42 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
@@ -25533,9 +25531,10 @@ is the table name preceded by "0-" and "1-" 2 channels (such as in
 this example) and up to 4 channels ("0-" \, "1-" \, "2-" & "3-").,
 f 58;
 #X obj 172 204 cyclone/wave~ stereo_\$0 0 1000 2, f 18;
-#X connect 8 0 11 0;
-#X connect 11 0 0 0;
-#X connect 11 1 0 1;
+#X obj 172 256 cyclone/out~;
+#X connect 7 0 10 0;
+#X connect 10 0 11 0;
+#X connect 10 1 11 1;
 #X restore 448 230 pd multichannel;
 #N canvas 785 97 376 358 load 0;
 #X obj 77 62 loadbang;
@@ -25706,7 +25705,8 @@ and end point in the array.;
 ;
 #X text 146 549 @interp_bias <f> (default 0) | @interp_tension <f>
 (default 0), f 63;
-#X connect 36 0 34 0;
-#X connect 36 0 34 1;
-#X connect 37 0 38 0;
-#X connect 38 0 36 0;
+#X obj 140 224 cyclone/out~;
+#X connect 35 0 54 0;
+#X connect 35 0 54 1;
+#X connect 36 0 37 0;
+#X connect 37 0 35 0;

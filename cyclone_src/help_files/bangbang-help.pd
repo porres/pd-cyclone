@@ -1,20 +1,20 @@
-#N canvas 713 23 558 449 10;
-#X obj 3 282 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 713 23 558 430 10;
+#X obj 3 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 322 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 311 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 361 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 350 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 291 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 280 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 333 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+#X obj 82 322 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
 ;
 #X obj 114 149 bng 20 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
 -1;
-#X obj 2 420 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
-#X obj 2 400 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 406 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X obj 2 386 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 148 372 1) float;
+#X text 101 360 1) float;
 #X obj 114 190 cyclone/bangbang 3;
 #X msg 219 213 1;
 #X msg 166 213 2;
@@ -30,15 +30,11 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 303 200 trigger bang bang bang;
-#X obj 303 174 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 296 181 trigger bang bang bang;
+#X obj 296 155 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 341 172 same as:;
-#X text 122 291 bang/anything - a bang or anything triggers [bangbang]!
-;
-#X text 176 335 bang - a bang via each inlet in the right to left order
-;
-#X text 206 372 - sets the 'n' number of bangs/outlets (default 2)
+#X text 334 153 same as:;
+#X text 129 324 bang - a bang via each inlet in the right to left order
 ;
 #X text 61 88 When it receives any input \, [bangbang] outputs bang
 messages out of each outlet (in the usual right-to-left order). The
@@ -49,6 +45,15 @@ bangs;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#N canvas 149 61 474 180 inconsistency 0;
+#X text 53 43 In Max \, [bangbang] can be abbreviated as [b]. This
+feature is not presented in cyclone.;
+#X text 54 82 In Pd Vanilla \, [b] is the abbreviation of [bang];
+#X restore 439 239 pd inconsistency;
+#X text 159 360 - sets the 'n' number of bangs/outlets (default 2 \,
+maximum 40), f 62;
+#X text 105 280 anything - a bang or any other message triggers [bangbang]!
+;
 #X connect 5 0 9 0;
 #X connect 9 0 12 0;
 #X connect 9 1 11 0;

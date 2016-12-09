@@ -159,8 +159,8 @@
 -228856 -1 -1 0 256;
 #X obj 295 207 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 308 279 Minimum level;
-#X text 337 252 Maximum level;
+#X text 325 279 Minimum level;
+#X text 354 252 Maximum level;
 #X text 331 229 Minimum level;
 #X text 359 207 Maximum level;
 #N canvas 633 287 371 512 example 0;
@@ -228,9 +228,9 @@ signals and floats) of an input signal since the startup or a reset.
 #X text 192 314 - an input signal to analyze;
 #X text 192 348 - resets minimum and maximum (to current input value)
 ;
-#X obj 162 210 vsl 17 80 -1 1 0 0 dfgj dkhkgk empty 0 -9 0 10 -228856
+#X obj 172 210 vsl 17 80 -1 1 0 0 dfgj dkhkgk empty 0 -9 0 10 -228856
 -1 -1 0 1;
-#X obj 78 132 osc~ 0.1;
+#X obj 68 132 osc~ 0.1;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Minimum/Maximum values
 of a signal;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 minmax~;
@@ -239,7 +239,7 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 208 276 cyclone/number~;
 #X obj 237 251 cyclone/number~;
-#X obj 78 182 cyclone/number~;
+#X obj 68 182 cyclone/number~;
 #X connect 9 0 40 0;
 #X connect 18 0 40 0;
 #X connect 25 0 26 0;

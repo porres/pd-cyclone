@@ -1,48 +1,44 @@
-#N canvas 729 29 562 748 10;
-#X obj 5 701 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 729 29 561 621 10;
+#X obj 5 583 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 375 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 356 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 503 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 484 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 542 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 517 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 103 385 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 103 366 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 103 479 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 103 460 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X text 168 384 signal;
-#X obj 103 435 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 168 365 signal;
+#X obj 103 416 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 103 458 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 103 439 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 103 513 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 103 493 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 168 513 signal;
-#X text 156 551 1) float;
-#X text 156 568 2) float;
-#X text 156 584 3) float;
-#X floatatom 329 216 0 1 100 0 - - -;
-#X floatatom 217 203 5 0 10 0 - - -, f 5;
-#X text 229 551 - initial gain (default 0);
-#X text 229 584 - initial Q range (default 0.01);
-#X text 132 458 float/signal;
-#X text 132 479 float/signal;
-#X text 229 513 - filtered signal;
-#X text 132 437 float/signal;
-#X obj 262 207 *~ 500;
-#X obj 262 184 osc~ 1;
-#X obj 262 228 +~ 1000;
-#X obj 220 139 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -228856
+#X text 168 493 signal;
+#X text 156 526 1) float;
+#X text 156 543 2) float;
+#X text 156 559 3) float;
+#X text 229 526 - initial gain (default 0);
+#X text 229 559 - initial Q range (default 0.01);
+#X text 132 439 float/signal;
+#X text 132 460 float/signal;
+#X text 229 493 - filtered signal;
+#X text 132 418 float/signal;
+#X obj 275 170 osc~ 1;
+#X obj 225 143 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 105 203 input;
-#X text 266 138 gain;
-#X text 358 217 resonance (Q);
-#X text 180 401 list;
-#X text 174 417 clear;
-#X obj 172 255 cyclone/reson~ 1 200 23;
-#X obj 147 203 noise~;
-#X text 229 401 - initial gain \, center frequency \, Q;
+#X text 127 174 input;
+#X text 271 142 gain;
+#X text 365 225 resonance (Q);
+#X text 180 382 list;
+#X text 174 398 clear;
+#X obj 169 249 cyclone/reson~ 1 200 23, f 27;
+#X obj 169 174 noise~;
+#X text 229 382 - initial gain \, center frequency \, Q;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -53,34 +49,39 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X text 229 384 - signal to be filtered;
-#X text 229 417 - clears the internal buffer's memory;
-#X text 228 436 - sets gain;
-#X text 227 458 - sets center frequency;
-#X text 228 479 - sets the resonance Q;
-#X text 229 568 - initial center frequency (default 0);
-#X obj 6 610 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 128 662 Since it is a recursive filter \, you may need to use
-the "clear" message if it blows up.;
-#X text 128 619 The equation of the filter is: y[n] = a0 * (x[n] -
-r * x[n-2]) + b1 * y[n-1] + b2 * y[n-2] - where r \, b1 \, and b2 are
-calculated from 'Q' and center frequency.;
-#X text 258 165 center frequency;
-#X text 74 95 [reson~] is a resonant bandpass filter.;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Resonant bandpass
+#X text 229 365 - signal to be filtered;
+#X text 229 398 - clears the internal buffer's memory;
+#X text 228 417 - sets gain;
+#X text 227 439 - sets center frequency;
+#X text 228 460 - sets the resonance Q;
+#X text 229 543 - initial center frequency (default 0);
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Bandpass resonant
 filter;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 reson~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 149 295 cyclone/output~;
-#X connect 14 0 31 3;
-#X connect 15 0 31 1;
-#X connect 22 0 24 0;
-#X connect 23 0 22 0;
-#X connect 24 0 31 2;
-#X connect 25 0 15 0;
-#X connect 31 0 53 0;
-#X connect 31 0 53 1;
-#X connect 32 0 31 0;
+#X text 74 89 [reson~] is a bandpass resonant filter. All parameters
+can be set as float or signals.;
+#X text 324 167 <= center frequency;
+#X obj 328 226 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X obj 275 198 cyclone/scale~ -1 1 500 1500;
+#X obj 222 202 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#N canvas 135 23 409 160 formula 0;
+#X text 27 76 Since it is a recursive filter \, you may need to use
+the "clear" message if it blows up.;
+#X text 27 33 The equation of the filter is: y[n] = a0 * (x[n] - r
+* x[n-2]) + b1 * y[n-1] + b2 * y[n-2] - where r \, b1 \, and b2 are
+calculated from 'Q' and center frequency.;
+#X restore 476 321 pd formula;
+#X obj 169 287 cyclone/out~;
+#X connect 20 0 47 0;
+#X connect 21 0 48 0;
+#X connect 27 0 50 0;
+#X connect 27 0 50 1;
+#X connect 28 0 27 0;
+#X connect 46 0 27 3;
+#X connect 47 0 27 2;
+#X connect 48 0 27 1;

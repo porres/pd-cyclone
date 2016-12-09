@@ -17,7 +17,6 @@
 #X text 123 535 1) symbol;
 #N canvas 266 23 913 429 multichannel 0;
 #X obj 161 220 cyclone/play~ stereo_\$0 2;
-#X obj 176 256 cyclone/output~;
 #X msg 171 190 stop;
 #X msg 161 164 start;
 #X obj 37 14 cyclone/comment 0 18 times ? 0 0 0 0 Multi channel playback
@@ -24756,11 +24755,12 @@ righmost is the bang outlet.;
 is the table name preceded by "0-" and "1-" for stereo recording such
 as in this example (or "0-" \, "1-" \, "2-" & "3-" for quadraphonic).
 ;
-#X connect 0 0 1 0;
-#X connect 0 1 1 1;
-#X connect 0 2 11 0;
+#X obj 176 256 cyclone/out~;
+#X connect 0 0 14 0;
+#X connect 0 1 14 1;
+#X connect 0 2 10 0;
+#X connect 1 0 0 0;
 #X connect 2 0 0 0;
-#X connect 3 0 0 0;
 #X restore 455 263 pd multichannel;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -24781,8 +24781,7 @@ as in this example (or "0-" \, "1-" \, "2-" & "3-" for quadraphonic).
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 196 226 cyclone/output~;
-#X obj 215 142 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 215 142 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #N canvas 577 100 347 152 load 0;
 #X obj 32 52 soundfiler;
@@ -24830,7 +24829,6 @@ disbales it;
 #X floatatom 240 166 0 0 0 0 - - -;
 #X obj 240 192 cyclone/sampstoms~;
 #X obj 240 217 cyclone/number~;
-#X obj 148 291 cyclone/output~;
 #X obj 41 225 cyclone/number~;
 #X obj 167 166 *~ 0.5;
 #X obj 167 138 osc~ 0.1;
@@ -24842,24 +24840,24 @@ speed as the example below.;
 #X text 60 86 When a signal is connected \, control play messages are
 ignored.;
 #X obj 167 256 cyclone/play~ \$0-violin;
+#X obj 148 291 cyclone/out~;
 #X connect 0 0 1 0;
-#X connect 1 0 13 0;
+#X connect 1 0 12 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
 #X connect 4 0 5 0;
 #X connect 4 0 1 1;
-#X connect 8 0 0 0;
+#X connect 7 0 0 0;
+#X connect 7 0 6 0;
 #X connect 8 0 7 0;
-#X connect 9 0 8 0;
-#X connect 13 0 6 0;
-#X connect 13 0 6 1;
+#X connect 12 0 13 0;
+#X connect 12 0 13 1;
 #X restore 443 239 pd signal control;
 #N canvas 498 84 866 388 play 0;
 #X obj 73 56 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0 1
 ;
 #X msg 105 143 stop;
 #X msg 93 106 start;
-#X obj 73 301 cyclone/output~;
 #X text 107 54 'non zero' plays the array in original speed \, <0>
 'stops' it, f 30;
 #X text 141 137 same as 'zero': stops playing and outputs 0 (cannot
@@ -24869,7 +24867,6 @@ be resumed), f 33;
 #X msg 136 219 resume;
 #X text 163 182 pauses playing;
 #X text 180 219 resumes after being paused;
-#X obj 470 303 cyclone/output~;
 #X text 30 21 Basic control messages:;
 #X text 622 194 play 1st second backwards at half the speed, f 25
 ;
@@ -24894,21 +24891,23 @@ duration., f 62;
 24;
 #X obj 73 262 cyclone/play~ \$0-violin;
 #X obj 470 265 cyclone/play~ \$0-violin;
-#X connect 0 0 25 0;
-#X connect 1 0 25 0;
-#X connect 2 0 25 0;
-#X connect 7 0 25 0;
-#X connect 8 0 25 0;
-#X connect 15 0 26 0;
-#X connect 16 0 26 0;
-#X connect 19 0 26 0;
-#X connect 23 0 26 0;
-#X connect 25 0 3 0;
-#X connect 25 0 3 1;
-#X connect 25 1 21 0;
-#X connect 26 0 11 0;
-#X connect 26 0 11 1;
-#X connect 26 1 22 0;
+#X obj 73 301 cyclone/out~;
+#X obj 470 303 cyclone/out~;
+#X connect 0 0 23 0;
+#X connect 1 0 23 0;
+#X connect 2 0 23 0;
+#X connect 6 0 23 0;
+#X connect 7 0 23 0;
+#X connect 13 0 24 0;
+#X connect 14 0 24 0;
+#X connect 17 0 24 0;
+#X connect 21 0 24 0;
+#X connect 23 0 25 0;
+#X connect 23 0 25 1;
+#X connect 23 1 19 0;
+#X connect 24 0 26 0;
+#X connect 24 0 26 1;
+#X connect 24 1 20 0;
 #X restore 449 177 pd play control \; messages;
 #X obj 5 570 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
@@ -24923,7 +24922,6 @@ duration., f 62;
 playing \, default values are the whole array in original speed, f
 58;
 #N canvas 847 75 450 578 attributes 0;
-#X obj 113 365 cyclone/output~;
 #X msg 113 291 loop \$1;
 #X obj 113 270 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
@@ -24937,7 +24935,6 @@ playing \, default values are the whole array in original speed, f
 -1 -1 0 256;
 #X obj 275 254 hsl 128 15 0 1000 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 70 496 cyclone/output~;
 #X obj 252 480 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X msg 29 233 stop;
@@ -24957,26 +24954,28 @@ fade out after the end point of the loop., f 62;
 #X text 34 137 - interptime: the crossfade time in ms when loop and
 loopinterp are enable (default is 50 ms) \, larger times introduce
 other effects besides preventing clicks., f 62;
-#X connect 1 0 15 0;
-#X connect 2 0 1 0;
-#X connect 4 0 5 0;
-#X connect 5 0 15 0;
-#X connect 6 0 15 0;
+#X obj 70 496 cyclone/out~;
+#X obj 113 365 cyclone/out~;
+#X connect 0 0 13 0;
+#X connect 1 0 0 0;
+#X connect 3 0 4 0;
+#X connect 4 0 13 0;
+#X connect 5 0 13 0;
+#X connect 6 0 5 0;
 #X connect 7 0 6 0;
-#X connect 8 0 7 0;
-#X connect 11 0 14 0;
-#X connect 11 0 15 0;
-#X connect 14 0 9 0;
-#X connect 14 0 9 1;
-#X connect 14 1 10 0;
-#X connect 15 0 0 0;
-#X connect 15 0 0 1;
-#X connect 15 1 3 0;
-#X connect 16 0 14 0;
-#X connect 16 0 15 0;
-#X connect 17 0 16 0;
-#X connect 18 0 4 0;
-#X connect 18 0 2 0;
+#X connect 9 0 12 0;
+#X connect 9 0 13 0;
+#X connect 12 0 19 0;
+#X connect 12 0 19 1;
+#X connect 12 1 8 0;
+#X connect 13 0 20 0;
+#X connect 13 0 20 1;
+#X connect 13 1 2 0;
+#X connect 14 0 12 0;
+#X connect 14 0 13 0;
+#X connect 15 0 14 0;
+#X connect 16 0 3 0;
+#X connect 16 0 1 0;
 #X restore 467 214 pd attributes;
 #X text 185 393 - pauses at a particular point (can be resumed), f
 60;
@@ -24987,11 +24986,12 @@ other effects besides preventing clicks., f 62;
 different speeds (with interpolation) and backwards. It may also loop
 with optional crossfading.;
 #X obj 215 191 cyclone/play~ \$0-violin;
-#X connect 23 0 63 0;
-#X connect 25 0 63 0;
-#X connect 26 0 63 0;
-#X connect 27 0 63 0;
-#X connect 28 0 27 0;
-#X connect 63 0 22 0;
-#X connect 63 0 22 1;
-#X connect 63 1 46 0;
+#X obj 196 226 cyclone/out~;
+#X connect 22 0 62 0;
+#X connect 24 0 62 0;
+#X connect 25 0 62 0;
+#X connect 26 0 62 0;
+#X connect 27 0 26 0;
+#X connect 62 0 63 0;
+#X connect 62 0 63 1;
+#X connect 62 1 45 0;

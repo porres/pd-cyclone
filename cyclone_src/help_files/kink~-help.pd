@@ -166,7 +166,7 @@ is not equal to 1).;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 117 467 cyclone/output~;
+#X obj 117 467 cyclone/out~;
 #X connect 11 0 25 1;
 #X connect 12 0 11 0;
 #X connect 13 0 14 0;

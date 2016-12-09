@@ -177,7 +177,7 @@ wavetable;
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 triangle~;
-#X obj 90 448 cyclone/output~;
+#X obj 90 446 cyclone/out~;
 #X connect 12 0 29 0;
 #X connect 13 0 30 0;
 #X connect 14 0 31 1;

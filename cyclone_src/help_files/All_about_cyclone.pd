@@ -248,11 +248,11 @@ systems in the development of cross-platform patches.;
 -1 -1 0 1;
 #N canvas 89 23 399 416 GUI 0;
 #X obj 208 29 cyclone/comment 0 12 Courier ? 0 0 128 128 comment;
-#X obj 229 306 cyclone/output~;
 #X obj 211 144 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 210 89 cyclone/number~;
 #X text 50 28 [cyclone/comment] ==>;
+#X obj 229 306 cyclone/out~;
 #X restore 494 573 pd GUI;
 #X text 48 338 Most of cyclone objects are single binaries \, so all
 you need is to have tem inside the cyclone folder amongst your other

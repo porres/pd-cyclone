@@ -216,14 +216,14 @@ for controlling the object;
 #X restore 453 182 pd all_messages;
 #N canvas 522 405 416 320 signal_input 0;
 #X obj 98 194 cyclone/count~;
-#X obj 185 272 hsl 128 15 0 44100 0 0 empty empty empty -2 -8 0 10
+#X obj 205 272 hsl 128 15 0 44100 0 0 empty empty empty -2 -8 0 10
 -228856 -1 -1 0 1;
-#X text 321 271 44100;
-#X text 164 273 0;
+#X text 341 271 44100;
+#X text 184 273 0;
 #X obj 36 16 cnv 15 320 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 98 115 cyclone/train~ 2000;
-#X obj 210 178 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 230 178 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 24 63 A signal input can trigger count with sample accuracy.
 A non-zero value turns the counter on \, a zero value stops it.;
@@ -237,7 +237,7 @@ with sample accuracy;
 #X connect 9 1 6 0;
 #X connect 10 1 1 0;
 #X restore 453 206 pd signal_input;
-#N canvas 205 32 544 385 index~ 1;
+#N canvas 205 32 544 385 index~ 0;
 #X msg 69 168 stop;
 #X obj 56 227 cyclone/index~ \$0-voice;
 #X obj 56 134 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
@@ -259,22 +259,22 @@ with sample accuracy;
 #X text 223 196 (loops at max value - 1);
 #X obj 66 24 cyclone/comment 0 18 times ? 0 0 0 0 Using counter to
 drive [index~] for sample playback;
-#X obj 36 276 cyclone/output~;
 #X obj 215 116 cyclone/loadmess read -resize violin.wav \$0-violin
 ;
 #X obj 424 141 table \$0-violin;
 #X obj 56 196 cyclone/count~ 0 290645 1 1;
-#X connect 0 0 19 0;
-#X connect 1 0 16 0;
-#X connect 1 0 16 1;
-#X connect 2 0 19 0;
+#X obj 36 276 cyclone/out~;
+#X connect 0 0 18 0;
+#X connect 1 0 19 0;
+#X connect 1 0 19 1;
+#X connect 2 0 18 0;
 #X connect 3 0 4 0;
-#X connect 5 0 19 1;
+#X connect 5 0 18 1;
 #X connect 6 0 7 0;
-#X connect 7 0 19 0;
+#X connect 7 0 18 0;
 #X connect 11 0 5 0;
-#X connect 17 0 11 0;
-#X connect 19 0 1 0;
+#X connect 16 0 11 0;
+#X connect 18 0 1 0;
 #X restore 489 228 pd index~;
 #X text 105 327 min <float>;
 #X text 111 343 set <f \, f>;

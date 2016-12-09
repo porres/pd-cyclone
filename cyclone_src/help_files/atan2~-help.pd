@@ -15,21 +15,21 @@
 #X obj 80 345 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 132 423 1) float;
-#N canvas 154 262 556 424 calculating 0;
-#X obj 293 197 cyclone/atan2~;
-#X obj 90 203 cyclone/cartopol~;
-#X text 55 32 Calculating the phase value from a real and imaginary
+#N canvas 154 262 436 398 calculating 0;
+#X obj 273 196 cyclone/atan2~;
+#X obj 40 202 cyclone/cartopol~;
+#X text 36 31 Calculating the phase value from a real and imaginary
 part (cartesian coordinates):;
-#X text 112 305 The purpose of using two arguments instead of one is
+#X text 32 304 The purpose of using two arguments instead of one is
 to gather information on the signs of the inputs in order to return
 the appropriate quadrant of the computed angle \, which is not possible
 for the single-argument arctangent function.;
-#X text 307 87 Imaginary;
-#X text 209 88 Real;
-#X obj 293 245 cyclone/number~;
-#X obj 189 245 cyclone/number~;
-#X obj 181 108 cyclone/number~ 1;
-#X obj 293 108 cyclone/number~ 1;
+#X text 287 86 Imaginary;
+#X text 159 87 Real;
+#X obj 273 244 cyclone/number~;
+#X obj 139 244 cyclone/number~;
+#X obj 131 107 cyclone/number~ 1;
+#X obj 273 107 cyclone/number~ 1;
 #X connect 0 0 6 0;
 #X connect 1 1 7 0;
 #X connect 8 0 1 0;

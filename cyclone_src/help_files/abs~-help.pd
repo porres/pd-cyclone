@@ -174,8 +174,8 @@ signals and convert negative values to positive values.;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 93 102 cyclone/comment 0 15 times ? 0 0 0 0 Avoid using this
-object!;
+#X obj 93 102 cyclone/comment 0 15 times ? 0 0 0 0 Deprecated: Avoid
+using this object!;
 #X obj 388 317 cyclone/number~ 1;
 #X obj 388 386 cyclone/number~;
 #X obj 11 604 All_about_cyclone;

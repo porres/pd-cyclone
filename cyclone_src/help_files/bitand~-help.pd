@@ -236,7 +236,6 @@ i i i i i i i i i i i i i i, f 126;
 #X connect 38 0 37 0;
 #X coords 0 -1 1 1 460 46 2 200 100;
 #X restore 121 123 pd x;
-#X obj 139 433 cyclone/output~;
 #X obj 34 193 osc~ 220;
 #X obj 121 513 cyclone/scope~ 226 115 5 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
@@ -272,19 +271,20 @@ priority over the given bitmask.;
 #X text 173 56 The message "bits" followed by a list of 32 bit values
 (0 or 1) sets a raw 32 bit data as a bitmask for comparison with the
 signal input.;
-#X connect 0 0 2 0;
-#X connect 0 0 2 1;
-#X connect 0 0 4 0;
-#X connect 1 0 11 0;
-#X connect 3 0 10 0;
-#X connect 5 0 12 0;
+#X obj 139 433 cyclone/out~;
+#X connect 0 0 3 0;
+#X connect 0 0 22 0;
+#X connect 0 0 22 1;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 4 0 11 0;
+#X connect 5 0 4 0;
 #X connect 6 0 5 0;
-#X connect 7 0 6 0;
-#X connect 8 0 3 0;
-#X connect 9 0 0 0;
-#X connect 10 0 12 0;
-#X connect 11 0 12 0;
-#X connect 12 0 9 0;
+#X connect 7 0 2 0;
+#X connect 8 0 0 0;
+#X connect 9 0 11 0;
+#X connect 10 0 11 0;
+#X connect 11 0 8 0;
 #X restore 459 284 pd raw_bitmask;
 #X text 184 364 - <0-3>: modes of conversion to integers (details above)
 ;

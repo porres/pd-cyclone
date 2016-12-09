@@ -54,7 +54,6 @@ cloned from Max/MSP;
 0.982273 0.992103 0.99802;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
 #X restore 406 30 graph;
-#X obj 65 242 cyclone/output~;
 #X obj 268 173 nbx 2 14 1 4 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 1 256;
 #X obj 79 197 cyclone/index~ quadraphonic_\$0 1;
@@ -132,16 +131,17 @@ input on the right inlet.;
 \, [index~] expects a multi channel (maximum 4 channels) array \, where
 the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 & "3-" as in this example.;
-#X connect 3 0 4 1;
-#X connect 4 0 2 0;
-#X connect 4 0 2 1;
-#X connect 5 0 17 0;
-#X connect 6 0 17 0;
-#X connect 7 0 3 0;
-#X connect 8 0 3 0;
-#X connect 9 0 3 0;
-#X connect 10 0 3 0;
-#X connect 17 0 4 0;
+#X obj 65 242 cyclone/out~;
+#X connect 2 0 3 1;
+#X connect 3 0 19 0;
+#X connect 3 0 19 1;
+#X connect 4 0 16 0;
+#X connect 5 0 16 0;
+#X connect 6 0 2 0;
+#X connect 7 0 2 0;
+#X connect 8 0 2 0;
+#X connect 9 0 2 0;
+#X connect 16 0 3 0;
 #X restore 448 267 pd multichannel;
 #X text 217 339 - channel number;
 #X obj 52 273 cyclone/number~;
@@ -160,8 +160,8 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X coords 0 1 16 -1 200 120 1 0 0;
 #X restore 217 164 graph;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -230,7 +230,7 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -269,7 +269,6 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X text 217 411 - array channel (1-4) default 1;
 #N canvas 886 172 390 351 play 0;
 #X msg 87 127 stop;
-#X obj 67 277 cyclone/output~;
 #X obj 85 213 cyclone/number~;
 #X obj 67 96 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -327,16 +326,17 @@ tasks than other objects such as [cyclone/play~] and [cyclone/wave~].
 ;
 #X obj 67 244 cyclone/index~ \$0-violin;
 #X obj 67 179 cyclone/count~ 0 290646 1;
-#X connect 0 0 13 0;
-#X connect 3 0 13 0;
-#X connect 5 0 10 0;
-#X connect 6 0 9 0;
-#X connect 9 0 13 0;
-#X connect 10 0 13 1;
-#X connect 12 0 1 1;
+#X obj 67 276 cyclone/out~;
+#X connect 0 0 12 0;
+#X connect 2 0 12 0;
+#X connect 4 0 9 0;
+#X connect 5 0 8 0;
+#X connect 8 0 12 0;
+#X connect 9 0 12 1;
+#X connect 11 0 13 1;
+#X connect 11 0 13 0;
 #X connect 12 0 1 0;
-#X connect 13 0 2 0;
-#X connect 13 0 12 0;
+#X connect 12 0 11 0;
 #X restore 454 240 pd play sample;
 #X text 217 365 - signal read from array without interpolation;
 #X text 77 86 [index~] reads an array without interpolation. The input

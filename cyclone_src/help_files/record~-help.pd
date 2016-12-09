@@ -33,22 +33,9 @@
 #X text 196 616 - array name (required), f 58;
 #X obj 287 170 noise~;
 #N canvas 899 195 434 586 multichannel 0;
-#X obj 155 172 adc~;
-#X obj 135 139 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
+#X obj 161 172 adc~;
+#X obj 135 139 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 1
 1;
-#X obj 170 348 cnv 15 198 98 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 1 80 450 300 (subpatch) 0;
-#X array 0-smp 22050 float 0;
-#X coords 0 1 22049 -1 200 100 1 0 0;
-#X restore 169 347 graph;
-#X obj 169 468 cnv 15 198 98 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 1 80 450 300 (subpatch) 0;
-#X array 1-smp 22050 float 0;
-#X coords 0 1 22049 -1 200 100 1 0 0;
-#X restore 168 467 graph;
-#X obj 135 207 cyclone/record~ smp 2;
 #X text 27 42 Multi channel recording is possible for stereo and quadraphonic
 settings if you specify a second argument with the number of channels.
 Possible values are: 1 (mono) 2 (stereo) or 4 (quadraphonic) \, the
@@ -65,10 +52,23 @@ as in this example (or "0-" \, "1-" \, "2-" & "3-" for quadraphonic).
 ;
 #X obj 58 386 cyclone/comment 0 18 times ? 0 0 0 0 Left Channel;
 #X obj 48 506 cyclone/comment 0 18 times ? 0 0 0 0 Right Channel;
-#X connect 0 0 6 0;
-#X connect 0 1 6 1;
-#X connect 1 0 6 0;
-#X connect 6 0 10 0;
+#X obj 169 468 cnv 15 198 98 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 1 80 450 300 (subpatch) 0;
+#X array 1-smp_\$0 22050 float 0;
+#X coords 0 1 22049 -1 200 100 1 0 0;
+#X restore 168 467 graph;
+#X obj 170 348 cnv 15 198 98 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 1 80 450 300 (subpatch) 0;
+#X array 0-smp_\$0 22050 float 0;
+#X coords 0 1 22049 -1 200 100 1 0 0;
+#X restore 169 347 graph;
+#X obj 135 207 cyclone/record~ smp_\$0 2;
+#X connect 0 0 13 0;
+#X connect 0 1 13 1;
+#X connect 1 0 13 0;
+#X connect 13 0 5 0;
 #X restore 456 290 pd multichannel;
 #X obj 39 176 cnv 15 168 118 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -252,7 +252,7 @@ as attributes/messages.;
 #X connect 5 0 10 0;
 #X connect 6 0 10 0;
 #X restore 468 266 pd attributes;
-#X text 196 633 -, f 1;
+#X text 196 633 -;
 #X text 208 633 1 \, 2 \, or 4 'n' inlets/channels to record (the two
 extra rightmost inlets set loop start and end points in ms), f 56
 ;

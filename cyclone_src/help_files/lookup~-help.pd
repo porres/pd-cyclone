@@ -72,8 +72,8 @@ Check below:;
 #X obj 130 120 osc~ 230;
 #X obj 130 206 cyclone/lookup~ \$0-shape 1 4096;
 #X text 44 404 transfer function:;
-#X obj 87 289 cyclone/output~;
 #X obj 35 16 cyclone/comment 0 18 times ? 0 0 0 0 Waveshaping;
+#X obj 87 288 cyclone/out~;
 #X connect 2 0 13 0;
 #X connect 3 0 2 1;
 #X connect 4 0 3 0;
@@ -81,8 +81,8 @@ Check below:;
 #X connect 6 0 5 0;
 #X connect 12 0 2 0;
 #X connect 13 0 10 0;
-#X connect 13 0 15 0;
-#X connect 13 0 15 1;
+#X connect 13 0 16 0;
+#X connect 13 0 16 1;
 #X restore 384 331 pd waveshaping_example;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -101,8 +101,8 @@ effect. Check below.;
 #X text 130 396 set <symbol>;
 #X text 220 395 - sets the array/table to be used for lookup;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -171,7 +171,7 @@ effect. Check below.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -243,8 +243,8 @@ maximum ending point is equal to the greatest index in the table. If
 you specify less or more than that \, the actual value will be clipped
 to those min/max values.;
 #X obj 39 268 cyclone/scope~ 95 66 256 3 128 -1 1 0 0 0 0 205 229 232
-74 79 77 96 98 102 0 ;
-#X obj 133 375 cyclone/output~;
+74 79 77 96 98 102 0;
+#X obj 133 375 cyclone/out~;
 #X connect 2 0 10 1;
 #X connect 3 0 10 2;
 #X connect 4 0 10 0;
@@ -258,7 +258,6 @@ to those min/max values.;
 #X text 220 517 - initial start point in array/table (default 0);
 #X text 220 533 - initial end point in the array/table (default 511)
 ;
-#X obj 110 300 cyclone/output~;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Transfer function
 lookup table;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 lookup~;
@@ -268,9 +267,10 @@ cloned from Max/MSP;
 #X obj 131 263 cyclone/lookup~ \$0-violin;
 #X obj 131 215 osc~ 0.075;
 #X text 213 210 start point, f 6;
+#X obj 110 300 cyclone/out~;
 #X connect 16 0 29 0;
-#X connect 28 0 42 1;
-#X connect 29 0 42 2;
-#X connect 42 0 37 0;
-#X connect 42 0 37 1;
-#X connect 43 0 42 0;
+#X connect 28 0 41 1;
+#X connect 29 0 41 2;
+#X connect 41 0 44 0;
+#X connect 41 0 44 1;
+#X connect 42 0 41 0;

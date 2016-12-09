@@ -475,7 +475,7 @@ filter;
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 phaseshift~;
-#X obj 41 347 cyclone/output~;
+#X obj 40 347 cyclone/out~;
 #X connect 21 0 33 2;
 #X connect 22 0 60 0;
 #X connect 22 0 60 1;

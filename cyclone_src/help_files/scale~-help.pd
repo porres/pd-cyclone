@@ -183,8 +183,8 @@ that boundary with the same conversion parameters.;
 #X restore 477 244 pd advanced;
 #X obj 141 237 cyclone/scale~ -1 1 0 127;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -253,7 +253,7 @@ that boundary with the same conversion parameters.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -307,14 +307,14 @@ cloned from Max/MSP;
 #X obj 262 165 osc~ 660;
 #X text 296 136 A;
 #X text 318 166 B;
-#X obj 158 248 cyclone/output~;
 #X text 163 92 A;
 #X text 314 93 B;
 #X text 46 20 [scale~] can also act as a linear crossfader at signal
 rate between two mono sound sources \, though this is not its purpose.
 ;
-#X connect 0 0 9 0;
-#X connect 0 0 9 1;
+#X obj 158 248 cyclone/out~;
+#X connect 0 0 12 0;
+#X connect 0 0 12 1;
 #X connect 1 0 0 0;
 #X connect 2 0 3 0;
 #X connect 3 0 1 0;

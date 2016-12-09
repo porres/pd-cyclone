@@ -155,16 +155,16 @@ inlet can receive a signal or float.;
 #X text 279 278 1;
 #X obj 256 195 vsl 20 90 1 4 0 0 empty empty empty 0 -9 0 10 -228856
 -1 -1 0 1;
-#X obj 99 273 cyclone/output~;
 #X obj 152 161 cyclone/number~;
-#X connect 0 0 9 0;
-#X connect 0 0 9 1;
+#X obj 99 273 cyclone/out~;
+#X connect 0 0 10 0;
+#X connect 0 0 10 1;
 #X connect 1 0 2 0;
-#X connect 1 0 10 0;
+#X connect 1 0 9 0;
 #X connect 2 0 0 0;
 #X connect 3 0 1 0;
 #X connect 4 0 3 0;
-#X connect 10 1 8 0;
+#X connect 9 1 8 0;
 #X restore 485 307 pd example;
 #X obj 258 268 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;

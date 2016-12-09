@@ -35,7 +35,6 @@
 #X text 228 440 - the requency shift value;
 #X obj 6 551 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X obj 173 314 cyclone/output~;
 #X text 82 88 [freqshift~] is a frequency shifter (not a pitch shifter!)
 implemented via complex amplitude modulation - it is also known as
 a single-sideband modulation \, as opposed to a ring modulation that
@@ -53,7 +52,6 @@ opposite frequency shift).;
 #X text 296 231 frequency shift;
 #X obj 173 245 cyclone/saw~;
 #X obj 173 219 sig~ 440;
-#X obj 278 314 cyclone/output~;
 #X text 228 416 - clears filter's memory *;
 #X text 129 560 * Internally \, [freqshift~] has a hilbert transformer
 composed of allpass filters to convert a real signal to a complex signal.
@@ -64,11 +62,13 @@ composed of allpass filters to convert a real signal to a complex signal.
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 4 0 22 0;
-#X connect 4 0 22 1;
-#X connect 4 1 32 1;
-#X connect 4 1 32 0;
-#X connect 27 0 28 0;
-#X connect 28 0 4 1;
-#X connect 30 0 4 0;
-#X connect 31 0 30 0;
+#X obj 173 314 cyclone/out~;
+#X obj 278 314 cyclone/out~;
+#X connect 4 0 37 0;
+#X connect 4 0 37 1;
+#X connect 4 1 38 1;
+#X connect 4 1 38 0;
+#X connect 26 0 27 0;
+#X connect 27 0 4 1;
+#X connect 29 0 4 0;
+#X connect 30 0 29 0;
