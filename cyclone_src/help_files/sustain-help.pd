@@ -54,7 +54,7 @@ and sends the held note off messages when it's switched off.;
 #X text 152 437 float;
 #X text 152 459 float;
 #X text 207 387 the velocity part of a note message, f 49;
-#N canvas 402 185 851 491 examples 0;
+#N canvas 388 193 851 491 examples 0;
 #X obj 274 82 ctlin 64 1;
 #X obj 274 108 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
@@ -74,7 +74,7 @@ and sends the held note off messages when it's switched off.;
 #X obj 556 256 cyclone/sustain, f 21;
 #X text 712 212 On/Off;
 #X obj 524 182 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 64 256;
+-228856 -1 -1 74 256;
 #X obj 556 313 pack f f f;
 #X obj 556 341 route 1 2;
 #X obj 524 206 makenote 127 500;
@@ -141,7 +141,7 @@ note messages. and you can also set the sustain parameter with the
 @sustain attribute or message;
 #X obj 134 279 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
-#X obj 556 412 cyclone/output~;
+#X obj 556 412 cyclone/out~;
 #X connect 0 0 1 0;
 #X connect 1 0 35 2;
 #X connect 2 0 35 0;

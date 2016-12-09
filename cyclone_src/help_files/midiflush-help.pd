@@ -235,7 +235,7 @@ synth;
 #X obj 194 74 expr random(50 \, 80);
 #X obj 353 327 cyclone/comment 100 12 helvetica ? 0 0 0 0 number of
 notes "hanging";
-#X obj 169 370 cyclone/output~;
+#X obj 169 370 cyclone/out~;
 #X connect 1 0 16 0;
 #X connect 1 0 16 1;
 #X connect 2 0 3 0;
