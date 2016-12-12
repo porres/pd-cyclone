@@ -1,12 +1,12 @@
-#N canvas 713 95 396 273 10;
-#X obj 53 36 inlet~;
-#X obj 53 193 *~;
-#X obj 105 36 inlet~;
-#X obj 105 192 *~;
-#X obj 53 78 hip~ 3;
-#X obj 105 77 hip~ 3;
+#N canvas 713 95 454 276 10;
+#X obj 40 36 inlet~;
+#X obj 40 193 *~;
+#X obj 92 36 inlet~;
+#X obj 92 192 *~;
+#X obj 40 78 hip~ 3;
+#X obj 92 77 hip~ 3;
 #X obj 274 58 block~ 64;
-#X obj 159 34 inlet;
+#X obj 146 34 inlet;
 #N canvas 627 117 636 328 set_GUI 0;
 #X obj 66 225 s \$0-set-slider;
 #X obj 98 18 inlet;
@@ -48,13 +48,13 @@
 #X connect 14 0 18 0;
 #X connect 17 0 15 0;
 #X connect 18 0 16 0;
-#X restore 159 77 pd set_GUI;
+#X restore 146 77 pd set_GUI;
 #N canvas 965 168 332 251 GUI 0;
-#X obj 103 116 hsl 89 20 0 1 0 0 \$0-slider \$0-set-slider muted 23
-9 0 14 -91674 -262144 -262144 5000 1;
+#X obj 103 116 hsl 89 20 0 1 0 0 \$0-slider \$0-set-slider volume 17
+9 0 14 -228856 -1 -1 0 1;
 #N canvas 565 338 514 332 DSP 0;
 #X obj 100 100 tgl 16 0 \$0-dsp-toggle \$0-dsp-toggle-set empty 19
-8 0 12 -74965 -212593 -262144 1 1;
+8 0 12 -228856 -128992 -262144 0 1;
 #X obj 117 101 cnv 5 24 14 empty \$0-cnv_dsp dsp 2 6 0 12 -228856 -91542
 0;
 #X coords 0 -1 1 1 42 16 2 100 100;
@@ -62,8 +62,8 @@
 #N canvas 335 32 409 332 mute 0;
 #X obj 101 101 cnv 5 34 14 empty \$0-cnv_mute mute 4 6 0 12 -228856
 -91542 0;
-#X obj 64 133 tgl 16 0 \$0-mute \$0-mute-set empty 19 7 0 12 -74965
--212593 -262144 1 1;
+#X obj 64 133 tgl 16 0 \$0-mute \$0-mute-set empty 19 7 0 12 -228856
+-128992 -262144 0 1;
 #X obj 130 162 select 0 1;
 #N canvas 612 446 324 271 set_tgl_color 0;
 #X obj 47 30 inlet;
@@ -390,8 +390,8 @@
 #X connect 14 0 13 0;
 #X connect 15 0 13 0;
 #X connect 16 0 15 1;
-#X restore 120 116 pd Gui_control;
-#X obj 53 238 dac~;
+#X restore 107 116 pd Gui_control;
+#X obj 40 238 dac~;
 #N canvas 341 432 366 298 gain-mute 0;
 #N canvas 251 205 450 331 quartic 0;
 #X obj 100 126 line~;
@@ -589,9 +589,12 @@
 #X connect 5 0 0 0;
 #X connect 6 0 1 0;
 #X connect 7 0 6 1;
-#X restore 120 152 pd gain-mute;
-#X text 167 215 Alexandre Torres Porres (2016);
-#X text 167 195 [out~]: Stereo Output;
+#X restore 107 152 pd gain-mute;
+#X text 225 239 Alexandre Torres Porres (2016);
+#X text 223 167 [out~]: Stereo Output;
+#X text 225 218 Provided in cyclone as an 'extra';
+#X text 225 187 Originally part of ELSE \; https://github.com/porres/pd-else
+;
 #X connect 0 0 4 0;
 #X connect 1 0 11 0;
 #X connect 2 0 5 0;
