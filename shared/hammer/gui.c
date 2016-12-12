@@ -8,6 +8,15 @@
    (event bindings are local only in tk8.4, and there is no other call
    to XQueryPointer() but from winfo pointer). */
 
+
+//some notes on my working through this:
+//basically we bind the sink to the symbol assoc with hashhammergui #hammergui
+//we bind virtual events <<hammer*>> with actual events like <focus> via event add
+//then we bind these virtual events <<hammer*>> with messages back to pd via pdsend 
+//
+//bindmouse = mouse clicks
+//-DK
+
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
@@ -290,11 +299,21 @@ static int hammergui_setup(void)
     sys_gui(" pdsend {#hammergui _remouse}\n");
     sys_gui("}\n");
 
-    sys_gui("proc hammergui_mousexy {target} {\n");
+    sys_gui("proc hammergui_focusmousexy {target} {\n");
+    sys_gui(" set x [winfo rootx $::focused_window]\n");
+    sys_gui(" set y [winfo rooty $::focused_window]\n");
+    sys_gui(" pdsend \"#hammermouse $target $x $y\"\n");
+    //sys_gui(" ::pdwindow::post $::focused_window\n");
+    sys_gui("}\n");
+
+
+    sys_gui("proc hammergui_screenmousexy {target} {\n");
     sys_gui(" set x [winfo pointerx .]\n");
-    sys_gui(" set y [winfo pointery .]\n");
+    sys_gui(" set y [winfo pointery . ]\n");
     sys_gui(" pdsend \"#hammermouse $target $x $y\"\n");
     sys_gui("}\n");
+
+
 
     /* visibility hack for msw, LATER rethink */
     sys_gui("global hammergui_ispolling\n");
@@ -452,10 +471,17 @@ void hammergui_unbindmouse(t_pd *master)
     else bug("hammergui_unbindmouse");
 }
 
-void hammergui_mousexy(t_symbol *s)
+void hammergui_screenmousexy(t_symbol *s)
 {
     if (hammergui_validate(0))
-	sys_vgui("hammergui_mousexy %s\n", s->s_name);
+	sys_vgui("hammergui_screenmousexy %s\n", s->s_name);
+}
+
+
+void hammergui_focusmousexy(t_symbol *s)
+{
+    if (hammergui_validate(0))
+	sys_vgui("hammergui_focusmousexy %s\n", s->s_name);
 }
 
 void hammergui_willpoll(void)
@@ -540,3 +566,4 @@ void hammergui_unbindvised(t_pd *master)
     }
     else bug("hammergui_unbindvised");
 }
+
