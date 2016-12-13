@@ -13,15 +13,16 @@
 
   Derek Kwan 2016
 
+    needed for that one x->x_indexptr, seems like not many objects use fragile anymore so decided
+    to stick it here, plus this is the only one that does this particular thing,
 */
 
 #include "m_pd.h"
 #include "cybuf.h"
 
 #define POKE_MAXCHANNELS  4  /* LATER implement arsic resizing feature */
+#define POKE_REDRAWMS 500 //redraw time in ms
 
-//needed for that one x->x_indexptr, seems like not many objects use fragile anymore so decided
-//to stick it here, plus this is the only one that does this particular thing  - DK
 union inletunion
 {
     t_symbol *iu_symto;
@@ -54,6 +55,7 @@ typedef struct _poke
     t_clock   *x_clock;
     double     x_clocklasttick;
     int        x_clockset;
+    double      x_redrawms; //time to redraw in ms
 
     t_inlet   *x_idxlet;
 } t_poke;
@@ -70,6 +72,23 @@ static void poke_tick(t_poke *x)
 static void poke_set(t_poke *x, t_symbol *s)
 {
     cybuf_setarray(x->x_cybuf, s);
+}
+
+//redraw method/limiter
+static void poke_redraw_lim(t_poke *x){
+    double redrawms = x->x_redrawms;
+    double timesince = clock_gettimesince(x->x_clocklasttick);
+    if (timesince > redrawms ) poke_tick(x);
+    else if (!x->x_clockset)
+    {
+	clock_delay(x->x_clock, redrawms - timesince);
+	x->x_clockset = 1;
+    };
+
+}
+
+static void poke_redraw_force(t_poke *x){
+    poke_tick(x);
 }
 
 /*
@@ -98,16 +117,9 @@ static void poke_float(t_poke *x, t_float f)
 	int ndx = (int)*x->x_indexptr;
 	if (ndx >= 0 && ndx < c->c_npts)
 	{
-	    double timesince;
 	    vp[ndx].w_float = f;
-	    timesince = clock_gettimesince(x->x_clocklasttick);
-	    if (timesince > 1000) poke_tick(x);
-	    else if (!x->x_clockset)
-	    {
-		clock_delay(x->x_clock, 1000 - timesince);
-		x->x_clockset = 1;
-	    }
-	}
+            poke_redraw_lim(x);
+	};
     }
 }
 
@@ -117,6 +129,11 @@ static void poke_ft2(t_poke *x, t_floatarg f)
 	x->x_effchannel = x->x_maxchannels - 1;
     else
 	x->x_effchannel = x->x_reqchannel;
+}
+
+static void poke_redraw_rate(t_poke *x, t_floatarg f){
+    double redrawms = f > 0 ? (double)f : 1;
+    x->x_redrawms = redrawms;
 }
 
 static t_int *poke_perform(t_int *w)
@@ -129,7 +146,7 @@ static t_int *poke_perform(t_int *w)
     t_word *vp = c->c_vectors[x->x_effchannel];
     if (vp && c->c_playable)
     {
-    cybuf_redraw(c);
+        poke_redraw_lim(x);
 	int npts = c->c_npts;
 	while (nblock--)
 	{
@@ -166,6 +183,7 @@ static void *poke_new(t_symbol *s, t_floatarg f)
     {
 	if (ch > POKE_MAXCHANNELS)
 	    ch = POKE_MAXCHANNELS;
+        x->x_redrawms = POKE_REDRAWMS; //default redraw rate
 	x->x_maxchannels = (ch ? POKE_MAXCHANNELS : 1);
 	x->x_effchannel = x->x_reqchannel = (ch ? ch - 1 : 0);
 	/* CHECKED: no float-to-signal conversion.
@@ -199,5 +217,9 @@ void poke_tilde_setup(void)
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(poke_class, (t_method)poke_ft2,
 		    gensym("ft2"), A_FLOAT, 0);
+    class_addmethod(poke_class, (t_method)poke_redraw_rate,
+		    gensym("redraw_rate"), A_FLOAT, 0);
+    class_addmethod(poke_class, (t_method)poke_redraw_force,
+		    gensym("redraw"), 0);
 
 }
