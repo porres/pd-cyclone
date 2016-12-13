@@ -40,7 +40,7 @@
 #X text 163 150 sets minimum/maximum;
 #X text 184 215 min;
 #X text 237 214 max;
-#N canvas 353 23 456 518 conflicts 0;
+#N canvas 978 190 456 518 conflicts 0;
 #X text 117 325 or even:;
 #X text 50 112 Cyclone avoids name clashing and overwritting an internal
 in Pd Vanilla \, so you need to have the cyclone folder properly installed
@@ -64,7 +64,7 @@ accepts lists.;
 #X obj 126 448 clip;
 #X restore 370 261 pd conflicts with internal \; backwards compatibility
 ;
-#N canvas 319 95 317 320 list 0;
+#N canvas 1055 259 317 320 list 0;
 #X obj 113 187 cyclone/tosymbol;
 #X symbolatom 113 218 15 0 0 0 - - -, f 15;
 #X obj 113 101 loadbang;

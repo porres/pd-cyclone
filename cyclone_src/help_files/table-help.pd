@@ -129,8 +129,12 @@ Tables share the same content;
 #X obj 296 208 cyclone/comment 51 11 helvetica ? 0 80 80 80 read;
 #X obj 341 208 cyclone/comment 51 11 helvetica ? 0 80 80 80 inv read
 ;
+#X obj 395 208 cyclone/comment 62 11 helvetica ? 0 80 80 80 read quantile
+;
 #X obj 483 208 cyclone/comment 85 11 helvetica ? 0 80 80 80 write one
 value;
+#X obj 289 419 cyclone/comment 206 11 helvetica ? 0 80 80 80 <--- click
+to see Table contents;
 #X obj 313 467 cyclone/comment 126 11 helvetica ? 0 80 80 80 bang from
 second outlet when data is changed in the user interface;
 #X obj 32 517 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
@@ -146,10 +150,6 @@ it the "open" message.;
 an argument \, read opens a standard Open Document dialog to choose
 a file. If the file contains valid data \, the entire contents of the
 existing [Table] are replaced with the file contents, f 86;
-#X obj 289 419 cyclone/comment 206 11 helvetica ? 0 80 80 80 <--- click
-to see Table contents;
-#X obj 395 208 cyclone/comment 62 11 helvetica ? 0 80 80 80 read quantile
-;
 #X connect 1 0 12 0;
 #X connect 2 0 12 0;
 #X connect 7 0 13 0;
@@ -333,9 +333,9 @@ pointer address (and wraps to last address when reaching start), f
 up to that address is >= the the sum of all table values times the
 <int?> divided by 2^15 (32768), f 78;
 #X restore 201 338 pd All_Messages;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 table;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
 number array;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 table;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;

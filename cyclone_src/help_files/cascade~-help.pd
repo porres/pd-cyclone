@@ -59,7 +59,7 @@ biquad filters;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 52 286 cyclone/out~;
+#X obj 52 286 ./out~;
 #X connect 0 0 16 0;
 #X connect 9 0 16 0;
 #X connect 16 0 35 0;

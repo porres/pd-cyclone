@@ -60,6 +60,6 @@ many options for interpolation.;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 121 288 cyclone/out~;
+#X obj 121 287 ./out~;
 #X connect 37 0 42 0;
 #X connect 37 0 42 1;

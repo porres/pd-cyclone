@@ -76,7 +76,7 @@ allows [selector~] to be controlle with sample accuracy. Signal values
 are truncated to integers.;
 #X obj 207 234 osc~ 440;
 #X obj 177 189 number~;
-#X obj 129 321 cyclone/out~;
+#X obj 129 321 ./out~;
 #X connect 0 0 3 0;
 #X connect 0 0 6 0;
 #X connect 1 0 0 0;
@@ -96,7 +96,7 @@ are truncated to integers.;
 inlets or none of them to an outlet. If no input is selected \, it
 outputs zero values.;
 #X text 228 490 - initially selected inlet (default 0 - none);
-#X obj 140 287 cyclone/out~;
+#X obj 140 287 ./out~;
 #X connect 21 0 23 3;
 #X connect 22 0 23 2;
 #X connect 23 0 39 0;

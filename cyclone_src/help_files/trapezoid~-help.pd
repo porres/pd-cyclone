@@ -187,7 +187,7 @@ the position of ramp up/down points.;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 100 402 cyclone/out~;
+#X obj 100 402 ./out~;
 #X connect 15 0 37 0;
 #X connect 16 0 38 0;
 #X connect 17 0 40 0;

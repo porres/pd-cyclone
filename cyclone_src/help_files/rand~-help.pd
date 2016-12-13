@@ -17,7 +17,7 @@
 #X obj 257 164 hsl 128 15 41.1 44100 1 0 empty empty empty -2 -8 0
 10 -228856 -1 -1 0 1;
 #X text 233 471 - interpolated random noise signal;
-#N canvas 173 37 415 355 random 0;
+#N canvas 832 411 415 355 random 1;
 #X obj 136 179 expr~ $v1 * 300 + 800;
 #X obj 25 10 cnv 15 210 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -28,7 +28,7 @@ random glissandi.;
 #X obj 136 143 cyclone/rand~ 1;
 #X obj 31 15 cyclone/comment 0 18 times ? 0 0 0 0 [rand~] as random
 control;
-#X obj 111 264 cyclone/out~;
+#X obj 111 264 ./out~;
 #X connect 0 0 3 0;
 #X connect 3 0 6 0;
 #X connect 3 0 6 1;
@@ -163,7 +163,7 @@ noise;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 254 270 cyclone/out~;
+#X obj 254 270 ./out~;
 #X connect 6 0 13 0;
 #X connect 9 0 6 0;
 #X connect 13 0 14 0;

@@ -1,31 +1,31 @@
-#N canvas 430 23 558 599 10;
-#X obj 2 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
+#N canvas 430 23 558 600 10;
+#X obj 2 284 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
-#X obj 2 367 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 366 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 455 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 454 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 76 394 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 76 393 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 76 414 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 76 413 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 76 434 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 76 433 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 76 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 76 373 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 76 292 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 76 291 cnv 17 3 70 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 562 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 561 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 173 463 -;
-#X text 173 492 -;
-#X text 101 493 2) float;
-#X text 141 292 -;
-#X text 108 292 bang;
-#X text 141 325 -;
-#X text 141 342 -;
-#X text 123 414 bang;
-#X text 123 434 bang;
+#X text 173 462 -;
+#X text 173 491 -;
+#X text 101 492 2) float;
+#X text 141 291 -;
+#X text 108 291 bang;
+#X text 141 324 -;
+#X text 141 341 -;
+#X text 123 413 bang;
+#X text 123 433 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -36,8 +36,8 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X text 101 463 1) symbol;
-#N canvas 658 23 641 578 All_Messages 0;
+#X text 101 462 1) symbol;
+#N canvas 720 23 641 578 All_Messages 0;
 #X text 119 181 length -;
 #X text 131 241 next -;
 #X text 131 301 open -;
@@ -148,51 +148,51 @@ use 'embed' instead), f 76;
 #X text 65 406 renumber2 <int> -;
 #X text 176 406 increments int addresses by one \, starting from the
 given address (default 0), f 76;
-#X restore 334 343 pd All_Messages;
-#X text 83 342 messages;
-#X obj 269 191 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
+#X restore 334 342 pd All_Messages;
+#X text 83 341 messages;
+#X obj 269 192 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
-#X obj 225 256 print;
+#X obj 225 257 print;
 #X obj 269 258 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 285 191 0;
-#X text 285 206 1;
-#X text 99 375 anything;
-#X obj 2 517 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X text 285 192 0;
+#X text 285 207 1;
+#X text 99 374 anything;
+#X obj 2 516 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #X text 301 258 <= address;
-#X obj 214 201 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 214 202 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 161 414 - when finishing load/save operations, f 51;
-#X text 161 434 - when finishing a dump operation, f 51;
-#X text 185 493 non-0 prevents from searching for a file (default)
+#X text 161 413 - when finishing load/save operations, f 51;
+#X text 161 433 - when finishing a dump operation, f 51;
+#X text 185 492 non-0 prevents from searching for a file (default)
 ;
-#X text 185 463 optional: sets name (objects with the same name share
+#X text 185 462 optional: sets name (objects with the same name share
 contents) or file name (searches for a file to open);
-#X text 141 144 click messages \; & store data ==>;
-#X text 134 257 stored data =>;
-#X text 337 141 list stored at address "0";
-#X text 337 166 list stored at address "1";
-#X text 93 308 address -;
-#X text 107 325 list;
-#X text 156 325 stores data at the address specified by the 1st integer
+#X text 141 145 click messages \; & store data ==>;
+#X text 134 258 stored data =>;
+#X text 337 142 list stored at address "0";
+#X text 337 167 list stored at address "1";
+#X text 93 307 address -;
+#X text 107 324 list;
+#X text 156 324 stores data at the address specified by the 1st integer
 element, f 64;
-#X text 156 309 an "integer float" or a "symbol": outputs the stored
+#X text 156 308 an "integer float" or a "symbol": outputs the stored
 data, f 64;
-#X text 59 231 click to open text window ==>;
-#X text 105 394 address;
-#X text 161 394 - interger or symbol address of the stored message
+#X text 59 232 click to open text window ==>;
+#X text 105 393 address;
+#X text 161 393 - interger or symbol address of the stored message
 , f 62;
-#X text 161 375 - the stored message at a given address, f 51;
-#X text 156 342 open to check all messages =>;
-#X msg 246 141 0 500 1000 hi;
-#X msg 256 165 1 5 10 hello;
-#X text 84 201 go to next address =>;
-#X obj 246 231 cyclone/coll;
+#X text 161 374 - the stored message at a given address, f 51;
+#X text 156 341 open to check all messages =>;
+#X msg 246 142 0 500 1000 hi;
+#X msg 256 166 1 5 10 hello;
+#X text 84 202 go to next address =>;
+#X obj 246 232 cyclone/coll;
 #C restore;
-#X text 156 292 outputs next address and its data, f 64;
-#X text 300 197 <= recall data from address;
-#X text 65 83 [coll] stores/edits any messages at given addresses (an
+#X text 156 291 outputs next address and its data, f 64;
+#X text 300 198 <= recall data from address;
+#X text 69 85 [coll] stores/edits any messages at given addresses (an
 integer or a symbol). If an input list starts with an int \, it stores
 the other element(s) at that int address.;
 #N canvas 568 23 622 589 examples 0;
@@ -301,8 +301,8 @@ by the address or an element in the data.;
 #X connect 17 0 3 0;
 #X connect 18 0 3 0;
 #X connect 25 0 1 0;
-#X restore 541 449 pd sort;
-#X text 444 496 query data:;
+#X restore 541 425 pd sort;
+#X text 444 472 query data:;
 #N canvas 318 61 901 540 swap_subsym 0;
 #X obj 61 246 loadbang;
 #X msg 103 299 1;
@@ -364,7 +364,7 @@ Four 4;
 #X connect 28 0 22 0;
 #X connect 29 0 22 0;
 #X connect 31 0 20 0;
-#X restore 499 386 pd swap_subsym;
+#X restore 499 362 pd swap_subsym;
 #N canvas 650 114 485 445 renumber(2) 0;
 #X msg 109 142 dump;
 #X obj 28 81 loadbang;
@@ -407,7 +407,7 @@ and increments all of them by one - also starting at a given value
 #X connect 14 0 9 0;
 #X connect 16 0 8 0;
 #X connect 18 0 8 0;
-#X restore 499 407 pd renumber(2);
+#X restore 499 383 pd renumber(2);
 #N canvas 525 101 456 357 separate 0;
 #X text 28 20 Given an int address as the argument \, the separate
 message increments numeric addresses equal and above it. Thus \, it
@@ -435,7 +435,7 @@ creates an open slot or a separation in the data collection.;
 #X connect 6 1 7 1;
 #X connect 7 0 8 0;
 #X connect 10 0 9 0;
-#X restore 517 428 pd separate;
+#X restore 517 404 pd separate;
 #N canvas 373 299 808 419 min_max 0;
 #X msg 164 184 max, f 4;
 #X msg 154 160 min;
@@ -503,7 +503,7 @@ number (startng at 1). This element is then output to the left outlet.
 #X connect 25 0 27 0;
 #X connect 26 0 25 0;
 #X connect 27 0 14 0;
-#X restore 517 484 pd min_max \; length \; nth;
+#X restore 517 460 pd min_max \; length \; nth;
 #N canvas 267 40 941 387 merge 0;
 #X msg 42 143 1 one;
 #X msg 109 107 merge 1 two three;
@@ -556,7 +556,7 @@ substituted message \, while "nsub" doesn't.;
 #X connect 19 0 26 0;
 #X connect 22 0 26 0;
 #X connect 26 0 16 0;
-#X restore 526 341 pd merge \; sub/nsub;
+#X restore 526 315 pd merge \; sub/nsub;
 #X text 498 113 *;
 #X text 24 15 In [coll] \, any message type can be stored at a particular
 address \, which can either an "integer float" (positive or negative)
@@ -661,12 +661,9 @@ that storing to an existing address updates it!;
 #X connect 27 0 16 0;
 #X connect 31 0 19 0;
 #X connect 32 0 19 0;
-#X restore 490 238 pd store/remove;
-#X text 386 385 change addresses:;
-#X text 406 239 change data:;
-#X text 498 201 *;
-#N canvas 0 22 450 300 threaded 0;
-#X restore 514 200 pd threaded;
+#X restore 490 212 pd store/remove;
+#X text 386 361 change addresses:;
+#X text 406 213 change data:;
 #N canvas 228 56 820 455 insert(2) 0;
 #X obj 120 115 loadbang;
 #X obj 189 373 print Address/Data;
@@ -721,7 +718,7 @@ was already in the collection (since it is now shifted up).;
 #X connect 15 0 4 0;
 #X connect 16 0 11 0;
 #X connect 19 0 4 0;
-#X restore 508 297 pd insert(2);
+#X restore 508 271 pd insert(2);
 #N canvas 682 97 433 416 delete 0;
 #X obj 144 141 loadbang;
 #X msg 102 192 dump;
@@ -753,7 +750,7 @@ in this case it acts in the same way as "remove".;
 #X connect 8 0 9 0;
 #X connect 9 0 6 0;
 #X connect 10 0 2 0;
-#X restore 526 319 pd delete;
+#X restore 526 293 pd delete;
 #N canvas 117 33 548 370 refer 0;
 #X msg 158 78 dump;
 #X obj 207 207 print address;
@@ -998,37 +995,40 @@ alias \, and they can come in any order <int \, symbol> or <symbol
 #X connect 21 0 19 0;
 #X connect 32 0 19 0;
 #X connect 33 0 19 0;
-#X restore 525 260 pd alias \; nstore;
-#X obj 506 49 cyclone/comment 0 18 times ? 0 0 0 0 Examples:;
-#X connect 12 0 38 0;
-#X connect 13 0 45 0;
+#X restore 525 234 pd alias \; nstore;
+#X obj 462 48 cyclone/comment 0 18 times ? 0 0 0 0 More Examples:;
+#X connect 12 0 36 0;
+#X connect 13 0 43 0;
 #X connect 14 0 15 0;
 #X connect 15 0 16 0;
 #X connect 16 0 21 0;
 #X connect 16 0 26 0;
 #X connect 16 1 12 0;
-#X connect 16 3 39 0;
-#X connect 16 3 40 0;
+#X connect 16 3 37 0;
+#X connect 16 3 38 0;
 #X connect 21 0 17 0;
 #X connect 21 1 18 0;
 #X connect 21 2 19 0;
 #X connect 21 3 20 0;
-#X connect 36 0 16 0;
-#X connect 37 0 16 0;
-#X connect 42 0 16 0;
+#X connect 34 0 16 0;
+#X connect 35 0 16 0;
+#X connect 40 0 16 0;
+#X connect 41 0 16 0;
 #X connect 43 0 16 0;
-#X connect 45 0 16 0;
-#X restore 461 258 pd examples;
-#X text 117 524 @embed: <1> save contents with the patch \, <0> don't
+#X restore 480 257 pd examples;
+#X text 117 523 @embed: <1> save contents with the patch \, <0> don't
 save (default), f 67;
-#X text 133 542 @threaded: <1> threaded processing \, <0> unthreaded
+#X text 133 541 @threaded: <1> threaded processing \, <0> unthreaded
 (default);
+#X obj 16 58 cyclone/comment 0 18 times ? 0 0 0 0 Store/edit message
+collections;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 coll;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Store/edit collections
-of messages;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 464 235 *;
+#N canvas 0 22 450 300 threaded 0;
+#X restore 480 234 pd threaded;
 #X connect 25 0 54 0;
 #X connect 33 0 54 0;
 #X connect 51 0 54 0;

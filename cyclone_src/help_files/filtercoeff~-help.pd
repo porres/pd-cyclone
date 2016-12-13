@@ -47,7 +47,7 @@
 #X text 105 341 float/signal;
 #X text 105 496 float/signal;
 #X obj 120 176 noise~;
-#N canvas 0 22 450 300 resampling_factor 0;
+#N canvas 952 304 450 300 resampling_factor 0;
 #X restore 417 294 pd resampling_factor;
 #X text 190 341 - sets cutoff/center frequency;
 #X text 105 474 float/signal;
@@ -865,7 +865,7 @@ b0 \; - a0 = (1 - alphaQ) / b0 \; - a1 = -2*cos(w) / b0 \; - a2 = 1
 #X connect 6 0 3 0;
 #X connect 7 2 1 0;
 #X restore 527 182 pd plot;
-#X obj 90 206 cyclone/out~;
+#X obj 90 206 ./out~;
 #X connect 1 0 29 0;
 #X connect 1 0 29 1;
 #X connect 2 0 1 0;
@@ -905,7 +905,7 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 6 cyclone/comment 0 37 times ? 0 0 0 0 filtercoeff~;
 #X obj 184 155 cyclone/number~ 1;
-#X obj 122 261 cyclone/out~;
+#X obj 122 261 ./out~;
 #X connect 19 0 54 0;
 #X connect 19 0 54 1;
 #X connect 28 0 19 0;

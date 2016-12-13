@@ -161,8 +161,8 @@ list messages rather than the <connect> message.;
 time:;
 #X obj 29 83 cyclone/comment 0 18 times ? 0 0 0 0 Binary & Non-binary
 mode:;
-#X obj 562 462 cyclone/out~;
-#X obj 577 216 cyclone/out~;
+#X obj 562 462 ./out~;
+#X obj 578 216 ./out~;
 #X connect 0 0 17 0;
 #X connect 1 0 17 1;
 #X connect 2 0 17 2;
@@ -236,7 +236,7 @@ matrix;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 227 322 cyclone/out~;
+#X obj 227 322 ./out~;
 #X connect 6 0 44 0;
 #X connect 14 0 29 0;
 #X connect 17 0 22 0;

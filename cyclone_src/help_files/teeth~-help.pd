@@ -144,7 +144,7 @@
 ;
 #X text 60 215 If the delay time lies between two samples \, a simple
 linear interpolation is performed.;
-#X obj 149 408 cyclone/out~;
+#X obj 149 408 ./out~;
 #X connect 43 0 45 1;
 #X connect 44 0 45 0;
 #X connect 45 0 62 0;
@@ -174,7 +174,7 @@ linear interpolation is performed.;
 #X obj 203 160 osc~ 0.7;
 #X text 251 186 <= independent feedforward;
 #X text 281 204 delay time;
-#X obj 140 282 cyclone/out~;
+#X obj 140 282 ./out~;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
@@ -195,7 +195,7 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 75 87 [teeth~] is a comb filter with independent time control
 of feedforward and feedback delays.;
-#X obj 125 223 cyclone/out~;
+#X obj 125 223 ./out~;
 #X connect 31 0 32 0;
 #X connect 32 0 60 0;
 #X connect 33 0 32 1;

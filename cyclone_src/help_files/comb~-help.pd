@@ -1,4 +1,4 @@
-#N canvas 690 127 558 599 10;
+#N canvas 637 23 558 599 10;
 #X obj 3 558 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -132,7 +132,7 @@ filter:, f 46;
 ;
 #X text 103 250 If the delay time lies between two samples \, a simple
 linear interpolation is performed.;
-#X obj 168 476 cyclone/out~;
+#X obj 168 476 ./out~;
 #X connect 43 0 56 1;
 #X connect 44 0 56 0;
 #X connect 47 0 56 2;
@@ -156,7 +156,7 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 78 87 [comb~] is a comb filter \, use it for filtering and
 delay effects.;
-#X obj 165 220 cyclone/out~;
+#X obj 165 220 out~;
 #X connect 34 0 35 0;
 #X connect 35 0 49 0;
 #X connect 36 0 35 1;

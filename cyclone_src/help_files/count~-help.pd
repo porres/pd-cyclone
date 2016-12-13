@@ -263,7 +263,7 @@ drive [index~] for sample playback;
 ;
 #X obj 424 141 table \$0-violin;
 #X obj 56 196 cyclone/count~ 0 290645 1 1;
-#X obj 36 276 cyclone/out~;
+#X obj 36 276 ./out~;
 #X connect 0 0 18 0;
 #X connect 1 0 19 0;
 #X connect 1 0 19 1;

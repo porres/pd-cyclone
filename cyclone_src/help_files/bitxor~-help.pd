@@ -417,7 +417,7 @@ signal input.;
 #X obj 121 339 cyclone/bitsafe~;
 #X obj 121 402 clip~ -1 1;
 #X obj 121 299 cyclone/bitxor~;
-#X obj 139 444 cyclone/out~;
+#X obj 139 444 ./out~;
 #X connect 0 0 7 0;
 #X connect 1 0 18 0;
 #X connect 3 0 22 0;

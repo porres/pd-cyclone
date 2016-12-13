@@ -170,7 +170,6 @@ one signal to the behavior of another.;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 104 387 cyclone/out~;
 #N canvas 220 68 493 689 arpeggiator 0;
 #X obj 87 478 cyclone/cycle~;
 #X floatatom 96 258 0 0 0 0 - - -;
@@ -210,7 +209,7 @@ and works better synchronizing with a signal like a square wave \,
 or an impulse for example.;
 #X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 The sample and hold
 arpeggiator;
-#X obj 87 523 cyclone/out~, f 14;
+#X obj 87 523 ./out~, f 14;
 #X connect 0 0 23 0;
 #X connect 0 0 23 1;
 #X connect 1 0 13 0;
@@ -224,10 +223,11 @@ arpeggiator;
 #X connect 14 0 5 1;
 #X connect 18 0 0 0;
 #X restore 448 410 pd arpeggiator \; example;
+#X obj 104 387 ./out~;
 #X connect 15 0 34 0;
 #X connect 16 0 34 0;
-#X connect 17 0 46 0;
-#X connect 17 0 46 1;
+#X connect 17 0 47 0;
+#X connect 17 0 47 1;
 #X connect 18 0 19 0;
 #X connect 18 0 34 1;
 #X connect 19 0 20 0;

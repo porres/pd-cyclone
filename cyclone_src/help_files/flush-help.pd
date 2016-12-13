@@ -262,7 +262,7 @@ notes "hanging";
 #X obj 251 108 makenote 100 500;
 #X text 121 137 filter out note off \; leave notes hanging;
 #X text 61 54 generate random note messages;
-#X obj 228 384 cyclone/output~;
+#X obj 228 384 ./out~;
 #X connect 1 0 14 0;
 #X connect 1 0 14 1;
 #X connect 2 2 5 0;

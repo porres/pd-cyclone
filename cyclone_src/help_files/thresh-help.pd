@@ -52,7 +52,7 @@ in time;
 if they come within a certain given amount of time. Each item or list
 is appended to the previous stored items. The time count is reset at
 each incoming item.;
-#N canvas 201 95 563 461 examples 0;
+#N canvas 784 184 563 461 examples 0;
 #X obj 85 180 cyclone/thresh 50;
 #X obj 85 52 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;

@@ -693,7 +693,7 @@ is set before to other than 0 in the mid inlet);
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 27 266 cyclone/output~;
+#X obj 27 266 ./out~;
 #X connect 16 0 17 0;
 #X connect 17 0 53 0;
 #X connect 17 0 53 1;

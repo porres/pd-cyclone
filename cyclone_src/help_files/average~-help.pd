@@ -200,13 +200,13 @@ that may require adapting older patches.;
 #X text 57 24 In the default bipolar mode \, [average~] also acts as
 a regular moving average filter \, which is a kind of lowpass filter.
 Listen to the difference below.;
-#X obj 114 229 cyclone/out~;
-#X obj 238 229 cyclone/out~;
+#X obj 238 229 ./out~;
+#X obj 114 229 ./out~;
 #X connect 0 0 1 0;
-#X connect 0 0 3 0;
-#X connect 0 0 3 1;
-#X connect 1 0 4 0;
-#X connect 1 0 4 1;
+#X connect 0 0 4 0;
+#X connect 0 0 4 1;
+#X connect 1 0 3 0;
+#X connect 1 0 3 1;
 #X restore 453 261 pd moving \; average filter;
 #N canvas 915 134 414 521 more 0;
 #X obj 94 399 cyclone/scope~ 189 102 2 3 64 -1 1 300 0 0 0 205 229

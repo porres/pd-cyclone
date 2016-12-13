@@ -69,14 +69,14 @@ can be set as float or signals.;
 #X obj 275 198 cyclone/scale~ -1 1 500 1500;
 #X obj 222 202 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
-#N canvas 135 23 409 160 formula 0;
+#N canvas 983 289 409 160 formula 0;
 #X text 27 76 Since it is a recursive filter \, you may need to use
 the "clear" message if it blows up.;
 #X text 27 33 The equation of the filter is: y[n] = a0 * (x[n] - r
 * x[n-2]) + b1 * y[n-1] + b2 * y[n-2] - where r \, b1 \, and b2 are
 calculated from 'Q' and center frequency.;
 #X restore 476 321 pd formula;
-#X obj 169 287 cyclone/out~;
+#X obj 169 287 ./out~;
 #X connect 20 0 47 0;
 #X connect 21 0 48 0;
 #X connect 27 0 50 0;

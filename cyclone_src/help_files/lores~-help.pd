@@ -73,7 +73,7 @@ filter;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 186 330 cyclone/out~;
+#X obj 186 330 ./out~;
 #X connect 17 0 30 2;
 #X connect 18 0 17 0;
 #X connect 19 0 30 1;

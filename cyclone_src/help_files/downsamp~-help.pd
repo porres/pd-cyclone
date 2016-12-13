@@ -51,7 +51,7 @@ frequently as the current sampling rate (1 sample).;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 112 297 cyclone/out~;
+#X obj 112 297 ./out~;
 #X connect 8 0 15 0;
 #X connect 9 0 15 1;
 #X connect 15 0 32 0;

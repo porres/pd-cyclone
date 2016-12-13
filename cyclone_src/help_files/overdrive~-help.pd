@@ -160,7 +160,7 @@ simulation;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 322 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 76 366 cyclone/out~;
+#X obj 76 365 ./out~;
 #X connect 10 0 22 0;
 #X connect 11 0 10 0;
 #X connect 12 0 23 0;

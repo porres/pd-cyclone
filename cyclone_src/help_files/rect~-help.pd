@@ -527,8 +527,8 @@ musical purposes a band limited osicllator.;
 #X restore 249 185 pd plot;
 #X text 313 103 No Aliasing!!!;
 #X obj 311 132 cyclone/rect~ 2000;
-#X obj 100 160 cyclone/out~;
-#X obj 311 173 cyclone/out~;
+#X obj 100 160 ./out~;
+#X obj 311 173 ./out~;
 #X connect 9 0 0 0;
 #X connect 9 0 19 0;
 #X connect 9 0 19 1;
@@ -550,7 +550,7 @@ musical purposes a band limited osicllator.;
 #X text 51 37 In the third inlet \, you can feed a [phasor~] signal
 for oscillator syncing. The frequency from the [phasor~] will be the
 master and force [rect~] to be synced as a slave.;
-#X obj 96 211 cyclone/out~;
+#X obj 96 211 ./out~;
 #X connect 0 0 5 2;
 #X connect 1 0 0 0;
 #X connect 3 0 2 0;
@@ -673,7 +673,7 @@ oscillator;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 120 234 cyclone/out~;
+#X obj 120 234 ./out~;
 #X connect 16 0 32 0;
 #X connect 17 0 18 0;
 #X connect 18 0 32 1;

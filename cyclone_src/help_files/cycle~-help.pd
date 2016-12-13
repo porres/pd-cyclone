@@ -56,7 +56,7 @@
 ;
 #X text 139 664 @buffer_offset <float> | @buffer_sizeinsamps <float>
 ;
-#N canvas 253 23 1053 796 set_and_setall 0;
+#N canvas 253 23 991 801 set_and_setall 0;
 #X obj 72 433 hsl 396 22 0 4096 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 200 556 sets buffer and offset;
@@ -111,7 +111,7 @@ from the buffer.;
 232 74 79 77 96 98 102 0;
 #X obj 590 434 cyclone/loadmess setall \$0-saw;
 #X obj 590 479 cyclone/cycle~ 110;
-#N canvas 56 206 441 227 generate-saw 0;
+#N canvas 927 315 441 227 generate-saw 0;
 #X obj 44 46 loadbang;
 #X msg 44 77 sinesum 4096 1 0.5 0.333333 0.25 0.2 0.166667 0.125 \,
 normalize;
@@ -128,8 +128,8 @@ normalize;
 #X obj 60 15 cyclone/comment 0 18 times ? 0 0 0 0 "set" message:;
 #X obj 549 40 cyclone/comment 0 18 times ? 0 0 0 0 "setall" message:
 ;
-#X obj 94 672 cyclone/out~;
-#X obj 548 573 cyclone/out~;
+#X obj 94 672 ./out~;
+#X obj 548 573 ./out~;
 #X connect 0 0 5 0;
 #X connect 5 0 14 0;
 #X connect 7 0 11 0;
@@ -198,7 +198,7 @@ If your offset is too large and close to the end of the table) \, the
 remainder is filled with zeros.;
 #X text 172 381 offset;
 #X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Attributes:;
-#X obj 40 538 cyclone/out~;
+#X obj 40 538 ./out~;
 #X connect 14 0 13 0;
 #X connect 16 0 19 0;
 #X connect 17 0 18 0;
@@ -253,8 +253,8 @@ off and then on again;
 mode - so nevermind if you hear "clicks" when editing the patch!;
 #X text 78 409 [cycle~] being driven by phase only =>;
 #X obj 59 23 cyclone/comment 0 18 times ? 0 0 0 0 phase:;
-#X obj 218 477 cyclone/out~;
-#X obj 514 594 cyclone/out~;
+#X obj 514 594 ./out~;
+#X obj 218 477 ./out~;
 #X connect 0 0 24 1;
 #X connect 1 0 2 0;
 #X connect 2 0 0 1;
@@ -266,13 +266,13 @@ mode - so nevermind if you hear "clicks" when editing the patch!;
 #X connect 11 0 9 0;
 #X connect 12 0 11 0;
 #X connect 14 0 15 0;
-#X connect 16 0 33 0;
-#X connect 16 0 33 1;
+#X connect 16 0 34 0;
+#X connect 16 0 34 1;
 #X connect 17 0 16 1;
 #X connect 18 0 19 0;
 #X connect 23 0 0 0;
-#X connect 24 0 34 0;
-#X connect 24 0 34 1;
+#X connect 24 0 33 0;
+#X connect 24 0 33 1;
 #X restore 438 263 pd phase;
 #X text 58 300 * The similar [wave~] object from cyclone provides other
 interpolation types.;
@@ -401,7 +401,7 @@ only) \, default is an internal cosine table;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 136 230 cyclone/out~;
+#X obj 136 230 ./out~;
 #X connect 8 0 56 0;
 #X connect 8 0 56 1;
 #X connect 21 0 8 0;

@@ -1,31 +1,31 @@
-#N canvas 429 164 561 560 10;
-#X obj 7 519 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 429 164 560 532 10;
+#X obj 7 494 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 381 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 356 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 425 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 400 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 482 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 457 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 106 392 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 106 367 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 108 434 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 108 409 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 175 435 signal;
-#X text 174 492 (none);
-#X text 181 456 float;
-#X obj 108 456 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 175 410 signal;
+#X text 174 467 (none);
+#X text 181 431 float;
+#X obj 108 431 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 51 268 cyclone/mstosamps~, f 20;
-#X obj 252 284 cyclone/mstosamps~, f 20;
-#X text 139 392 float/signal;
-#X text 236 392 - time in milliseconds;
-#X text 43 211 float input;
-#X text 345 250 signal input;
-#X text 65 339 number of samples;
-#X text 23 233 ms;
-#X text 236 456 - converted number of samples;
-#X text 236 434 - converted number of samples;
+#X obj 51 258 cyclone/mstosamps~, f 20;
+#X obj 252 274 cyclone/mstosamps~, f 20;
+#X text 139 367 float/signal;
+#X text 236 367 - time in milliseconds;
+#X text 121 224 float input;
+#X text 345 240 signal input;
+#X text 65 329 number of samples;
+#X text 23 223 ms;
+#X text 236 431 - converted number of samples;
+#X text 236 409 - converted number of samples;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -42,7 +42,7 @@ to a corresponding number of samples (depending on sample rate).;
 convert only to the signal outlet \, but a float input converts to
 both float and signal outlets. When a signal input is present \, the
 float input is ignored.;
-#X obj 252 250 cyclone/line~;
+#X obj 252 240 cyclone/line~;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -147,14 +147,14 @@ float input is ignored.;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X obj 168 310 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 168 300 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 51 235 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 51 225 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 269 340 number of samples;
-#X obj 369 313 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X text 269 330 number of samples;
+#X obj 369 303 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#N canvas 221 147 452 243 example 0;
+#N canvas 700 313 452 243 example 0;
 #X obj 126 160 cyclone/delay~;
 #X obj 150 108 mstosamps~;
 #X floatatom 207 132 5 0 0 0 - - -, f 5;
@@ -166,16 +166,16 @@ float input is ignored.;
 #X connect 1 1 2 0;
 #X connect 2 0 0 1;
 #X connect 3 0 1 0;
-#X restore 474 312 pd example;
-#X msg 252 220 0 \, 1000 1000;
+#X restore 474 302 pd example;
+#X msg 252 210 0 \, 1000 1000;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 mstosamps~;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Convert milliseconds
 to samples;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 51 308 cyclone/number~;
-#X obj 252 311 cyclone/number~;
+#X obj 51 298 cyclone/number~;
+#X obj 252 301 cyclone/number~;
 #X connect 10 0 38 0;
 #X connect 10 1 28 0;
 #X connect 11 0 39 0;

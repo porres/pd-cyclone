@@ -89,7 +89,7 @@ y[-1] & y[-2]). This example uses just the feedback samples (y[-1]
 \, because starting the dsp will reset the sample memory.;
 #X obj 288 422 cyclone/scope~ 271 129 2 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 172 457 cyclone/out~;
+#X obj 172 457 ./out~;
 #X connect 0 0 1 0;
 #X connect 1 0 9 0;
 #X connect 3 0 9 1;
@@ -217,7 +217,7 @@ on again also clears the filter memory.;
 #X text 305 280 DSP off and on;
 #X text 51 160 At your own risk \, try this below:;
 #X obj 127 316 cyclone/biquad~ 1;
-#X obj 108 358 cyclone/out~;
+#X obj 108 357 ./out~;
 #X connect 2 0 11 0;
 #X connect 3 0 11 0;
 #X connect 4 0 5 0;
@@ -260,7 +260,7 @@ very similar \, but note the formulas are slightly different.;
 filter coefficients as audio signals. This is particularly convenient
 if you're using [cyclone/filtercoeff~];
 #X floatatom 221 130 5 0 0 0 - - -, f 5;
-#X obj 186 266 cyclone/out~;
+#X obj 185 266 ./out~;
 #X connect 0 0 5 0;
 #X connect 0 0 5 1;
 #X connect 1 0 0 1;
@@ -280,7 +280,7 @@ or individually as signals or floats.;
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Biquad filter;
-#X obj 76 269 cyclone/out~;
+#X obj 76 269 ./out~;
 #X connect 0 0 26 0;
 #X connect 1 0 26 0;
 #X connect 26 0 54 0;

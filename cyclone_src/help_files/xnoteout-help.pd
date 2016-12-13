@@ -46,16 +46,16 @@
 not only Note On Velocity but also Note Off (Release) velocity.;
 #X obj 268 158 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
-#X obj 156 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 157 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 201 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 202 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 319 162 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 260 139 state;
 #X text 312 143 channel;
-#X text 198 142 velocity;
-#X text 155 142 pitch;
+#X text 199 142 velocity;
+#X text 156 142 pitch;
 #X text 221 277 MIDI note number (pitch), f 43;
 #X text 221 301 velocity of Note On and Note Off Messages, f 43;
 #X text 221 326 state: Note On (1) / Note Off, f 43;
