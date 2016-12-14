@@ -132,7 +132,6 @@ downsamp~.class.sources := cyclone_src/binaries/signal/downsamp.c
 equals~.class.sources := cyclone_src/binaries/signal/equals.c
 filtercoeff~.class.sources := cyclone_src/binaries/signal/filtercoeff.c
 freqshift~.class.sources := cyclone_src/binaries/signal/freqshift.c
-gate~.class.sources := cyclone_src/binaries/signal/gate.c
 greaterthan~.class.sources := cyclone_src/binaries/signal/greaterthan.c
 greaterthaneq~.class.sources := cyclone_src/binaries/signal/greaterthaneq.c
 hilbert~.class.sources := cyclone_src/binaries/signal/hilbert.c
@@ -333,6 +332,7 @@ shared/unstable/forky.c
     poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(sforky)
     matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(sforky)
     sah~.class.sources := cyclone_src/binaries/signal/sah.c $(sforky)
+    gate~.class.sources := cyclone_src/binaries/signal/gate.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \

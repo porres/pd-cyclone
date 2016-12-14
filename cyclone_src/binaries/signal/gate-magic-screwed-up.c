@@ -2,7 +2,10 @@
 
 #include "m_pd.h"
 #include <math.h>
-
+/*MAGIC
+ include forky.h for forky_hasfeeders*/
+#include "unstable/forky.h"
+/*end magic*/
 
 #define GATEOUTPUT 1 //default number of outputs
 #define MAXOUTPUT 500 //maximum number of outputs
@@ -16,9 +19,26 @@ typedef struct _gate
 	t_float    x_state;    // 0 = closed, nonzero = index of outlet to output (1 indexed)
     t_float   *x_ivec;     // input vector
     t_float  **x_ovecs;    // output vectors
+    /*MAGIC
+     *x_glist is a list of objects in the canvas
+     *x_signalscalar is a pointer to the right inlet's float field, which we're going to poll
+     x_badfloat is its value from the last dsp tick
+     x_hasfeeders is a flag telling us whether right inlet has feeders*/
+    t_glist *x_glist;
+    t_float *x_signalscalar;
+    t_float x_badfloat;
+    int x_hasfeeders;
+    /*end magic*/
 } t_gate;
 
 static t_class *gate_class;
+
+/*MAGIC
+ This is a public function that returns float fields. It is not declared in m_pd.h,
+ so we have to declare it here. The arguments are the object and the inlet number
+ (indexed from zero)*/
+EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
+/*end magic*/
 
 static t_int *gate_perform(t_int *w)
 {
@@ -29,11 +49,32 @@ static t_int *gate_perform(t_int *w)
     t_float **ovecs = x->x_ovecs;  // output vectors
 	int i, j;
 	int sig_outs = x->x_sig_outs;
+    
+    /*MAGIC
+     here we poll the float in the right inlet's float field to see if it's changed.
+     if so, that means there's been a float input and we issue an error. Unfortunately,
+     it won't work if you just input the same float over and over...
+     */
+    t_float scalar = *x->x_signalscalar;
+    if (scalar != x->x_badfloat)
+    {
+        x->x_badfloat = scalar;
+        pd_error(x, "inlet: expected 'signal' but got 'float'");
+    }
+    /*end magic*/
+    
 	for(i = 0; i < nblock; i++)
     {
+        float f;
+        /*MAGIC
+         self explanatory*/
+        if (x->x_hasfeeders) f = *ivec++;
+        else f = 0.0;
+        /*end magic*/
+        
 		int curst = (int)state[i];
-        if (curst > sig_outs){
-            curst = sig_outs;
+ //       if (curst > sig_outs){
+ //           curst = sig_outs;
         }
         
 			for(j = 0; j < sig_outs; j++) // 'for' counter
@@ -55,6 +96,11 @@ static t_int *gate_perform(t_int *w)
 
 static void gate_dsp(t_gate *x, t_signal **sp)
 {
+    /*MAGIC
+     Get flag for signal feeders.*/
+    x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+    /*end magic*/
+    
 	int i, nblock = sp[0]->s_n;
     t_signal **sigp = sp;
 	x->x_mainsig = (*sigp++)->s_vec; // gate idx
@@ -114,6 +160,12 @@ static void *gate_new(t_symbol *s, int argc, t_atom *argv)
     {
 	 	outlet_new(&x->x_obj, gensym("signal"));
     };
+    /*MAGIC
+     1. get the current glist
+     2. get a pointer to inlet 1's float field. */
+    x->x_glist = canvas_getcurrent();
+    x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
+    /*end magic*/
     return (x);
 }
 
