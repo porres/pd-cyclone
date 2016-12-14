@@ -238,8 +238,8 @@ static void join_inlet_triggers(t_join_inlet *x, t_symbol* s, int argc, t_atom* 
                         if(trigidx == -1){
                             for(i=0; i < owner->x_numinlets; i++){
                                 owner->x_ins[i].x_trig = 1;
-                                break;
                             };
+                            break;
                         };
 			if(trigidx >= 0 && trigidx < owner->x_numinlets){
 				owner->x_ins[trigidx].x_trig = 1;
