@@ -4,6 +4,7 @@
 #include <math.h>
 
 #define PDCYSELTORSIGPUT 1 //default number of sigputs (inlets without selector inlet)
+#define MAXINTPUT 500 //maximum number of channel inlets
 #define PDCYSELTORSTATE 0 //default state (0 = closed)
 
 typedef struct _selector
@@ -34,7 +35,9 @@ static t_int *selector_perform(t_int *w)
 	int sigputs = x->x_sigputs;
 
 	for(i=0; i< nblock; i++){
-		int curst = (int)state[i];
+        int curst = (int)state[i];
+        if (curst > sigputs){
+            curst = sigputs;
 		t_float output = 0;
 		if(curst != 0){
 			for(j=0; j<sigputs;j++){
@@ -92,8 +95,11 @@ static void *selector_new(t_symbol *s, int argc, t_atom *argv)
 	//bounds checking
 	if(sigputs < (t_float)PDCYSELTORSIGPUT){
 		sigputs = PDCYSELTORSIGPUT;
-	};
-	if(state < 0){
+	}
+    else if(sigputs > (t_float)MAXINTPUT){
+    sigputs = MAXINTPUT;
+    };
+    if(state < 0){
 		state = 0;
 	}
 	else if(state > sigputs){
