@@ -6,6 +6,13 @@
    unchanged messages go through the 2nd outlet (no bang there),
    3rd argument ignored (no single-replacement mode). */
 
+/*NOTE: as of 2016, has 3rd argt single-replacement mode! 
+    Not tested with what auxmatch/auxrepl are guarding against
+    (match/repl being changed during substitution process, mb?)
+    but replaceonce can't change for now so it should be fine, but 
+    if it somehow can in the future, look into this - DXK
+    */
+
 #include <string.h>
 #include "m_pd.h"
 #include "common/grow.h"
@@ -26,6 +33,7 @@ typedef struct _substitute
     t_atom     x_auxmatch;
     t_atom     x_auxrepl;
     t_outlet  *x_passout;
+    int        x_replaceonce;
 } t_substitute;
 
 typedef struct _substitute_proxy
@@ -88,7 +96,8 @@ static int substitute_check(t_substitute *x, t_symbol *s, int ac, t_atom *av)
 }
 
 static void substitute_doit(t_substitute *x,
-			    t_symbol *s, int ac, t_atom *av, int startndx)
+			    t_symbol *s, int ac, t_atom *av, int startndx,
+                            int replaceonce, int replaced)
 {
     int cnt = ac - startndx;
     if (cnt > 0)
@@ -99,8 +108,12 @@ static void substitute_doit(t_substitute *x,
 	    t_float f = x->x_match.a_w.w_float;
 	    while (cnt--)
 	    {
-		if (ap->a_type == A_FLOAT && ap->a_w.w_float == f)
+                //if were are replacing once and have replaced already, no need to replace anymore!
+		if(replaceonce && replaced) break;
+                if (ap->a_type == A_FLOAT && ap->a_w.w_float == f){ 
 		    *ap = x->x_repl;
+                    replaced = 1;
+                };
 		ap++;
 	    }
 	}
@@ -109,8 +122,12 @@ static void substitute_doit(t_substitute *x,
 	    t_symbol *match = x->x_match.a_w.w_symbol;
 	    while (cnt--)
 	    {
-		if (ap->a_type == A_SYMBOL && ap->a_w.w_symbol == match)
+                //if were are replacing once and have replaced already, no need to replace anymore!
+		if(replaceonce && replaced) break;
+		if (ap->a_type == A_SYMBOL && ap->a_w.w_symbol == match){
 		    *ap = x->x_repl;
+                    replaced = 1;
+                };
 		ap++;
 	    }
 	}
@@ -123,30 +140,47 @@ static void substitute_anything(t_substitute *x,
 {
     int matchndx = substitute_check(x, s, ac, av);
     if (matchndx < -1)
+        //if replace type is null or no match found
 	substitute_dooutput(x, s, ac, av, 1);
     else
     {
+        int replaceonce = x->x_replaceonce;
+        int replaced = 0; //if we've replaced something, useful for replaceonce
+
 	int reentered = x->x_entered;
 	int prealloc = !reentered;
 	int ntotal = ac;
 	t_atom *buf;
 	t_substitute_proxy *proxy = (t_substitute_proxy *)x->x_proxy;
 	x->x_entered = 1;
+        //while method is working, point to aux versions so if they change, won't effect
+        //currently undergoing replacement scheme
 	proxy->p_match = &x->x_auxmatch;
 	proxy->p_repl = &x->x_auxrepl;
 	if (s == &s_) s = 0;
 	if (matchndx == -1)
 	{
+            //if match type is a symbol AND is the selector 
 	    if (x->x_repl.a_type == A_FLOAT)
 	    {
+                //since we're replacing the selector and it can't be a float,
+                //need to add it to the list
 		ntotal++;
+                //if there's a rest to it, the selector needs to be a list selector
 		if (ac) s = &s_list;
+                //else there's no "rest of it", can be a float selector
 		else s = &s_float;
+
+                replaced = 1;
 	    }
 	    else if (x->x_repl.a_type == A_SYMBOL)
 	    {
+                //just replace the selector if the replace type is the symbol
+                //set matchndx to 0 to avoid the if in the message contructor clause below
 		s = x->x_repl.a_w.w_symbol;
 		matchndx = 0;
+
+                replaced = 1;
 	    }
 	}
 	else if (matchndx == 0
@@ -154,6 +188,9 @@ static void substitute_anything(t_substitute *x,
 		 && av->a_type == A_FLOAT
 		 && x->x_repl.a_type == A_SYMBOL)
 	{
+            //match index is at the beginning of a list (or singleton)
+            //incoming list[0] is a float, being replaced by a symbol
+            //just make the selector the replacement
 	    s = x->x_repl.a_w.w_symbol;
 	    ac--;
 	    av++;
@@ -161,6 +198,7 @@ static void substitute_anything(t_substitute *x,
 	}
 	if (prealloc && ac > x->x_size)
 	{
+            //if bigger that maximum size, don't bother allocating to x_message
 	    if (ntotal > SUBSTITUTE_MAXSIZE)
 		prealloc = 0;
 	    else
@@ -168,6 +206,9 @@ static void substitute_anything(t_substitute *x,
 					   SUBSTITUTE_INISIZE, x->x_messini,
 					   sizeof(*x->x_message));
 	}
+
+        //if allocated, just point stack pointer to struct's x_message
+        //else just point stack pointer to new allocated memory
 	if (prealloc) buf = x->x_message;
 	else
 	    /* LATER consider using the stack if ntotal <= MAXSTACK */
@@ -178,12 +219,16 @@ static void substitute_anything(t_substitute *x,
 	    t_atom *bp = buf;
 	    if (matchndx == -1)
 	    {
+                //only hit if x_repl is a float because of the earlier clause
 		SETFLOAT(bp++, x->x_repl.a_w.w_float);
 		ncopy--;
 	    }
+            //copy over incoming list to allocated buf (or x message), do the substitution
 	    if (ncopy)
 		memcpy(bp, av, ncopy * sizeof(*buf));
-	    substitute_doit(x, s, ntotal, buf, matchndx);
+	    substitute_doit(x, s, ntotal, buf, matchndx, replaceonce, replaced);
+            
+            //free newly allocated memory if using it
 	    if (buf != x->x_message)
 		freebytes(buf, ntotal * sizeof(*buf));
 	}
@@ -305,6 +350,8 @@ static void *substitute_new(t_symbol *s, int ac, t_atom *av)
 	x->x_size = SUBSTITUTE_INISIZE;
 	x->x_message = x->x_messini;
 	x->x_entered = 0;
+        //if there are more than 2 args passed, then we are in replace once mode
+        x->x_replaceonce = ac >= 3 ? 1 : 0; 
 	/* CHECKED: everything is to be passed unchanged, until both are set */
 	/* CHECKED: max crashes if a match has been set, but not a replacement,
 	   and there is a match */
