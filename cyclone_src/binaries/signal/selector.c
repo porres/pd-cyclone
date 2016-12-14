@@ -38,6 +38,7 @@ static t_int *selector_perform(t_int *w)
         int curst = (int)state[i];
         if (curst > sigputs){
             curst = sigputs;
+        }
 		t_float output = 0;
 		if(curst != 0){
 			for(j=0; j<sigputs;j++){
@@ -53,9 +54,7 @@ static t_int *selector_perform(t_int *w)
 
 
 static void selector_dsp(t_selector *x, t_signal **sp)
-{ 	
-	
-	
+{
 	int i, nblock = sp[0]->s_n;
     t_signal **sigp = sp;
 	x->x_mainsig = (*sigp++)->s_vec; //the first sig in is the selector idx
