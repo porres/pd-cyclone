@@ -6,7 +6,12 @@
    unchanged messages go through the 2nd outlet (no bang there),
    3rd argument ignored (no single-replacement mode). */
 
-//NOTE: as of 2016, has 3rd argt single-replacement mode! - DK
+/*NOTE: as of 2016, has 3rd argt single-replacement mode! 
+    Not tested with what auxmatch/auxrepl are guarding against
+    (match/repl being changed during substitution process, mb?)
+    but replaceonce can't change for now so it should be fine, but 
+    if it somehow can in the future, look into this - DXK
+    */
 
 #include <string.h>
 #include "m_pd.h"
