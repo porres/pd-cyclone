@@ -5,7 +5,7 @@
 #include<stdlib.h>
 #include<string.h>
 
-
+#define JOIN_MAXINLETS 255 
 
 //taken from puredata's src/x_list.c
 
@@ -59,7 +59,7 @@ static void *join_new(t_symbol *s, int argc, t_atom *argv)
 			argv++;
 		};
 	};
-	x->x_numinlets = ((int)numinlets < 2) ? 2 : ((int)numinlets > 256) ? 256 : (int)numinlets;
+	x->x_numinlets = ((int)numinlets < 2) ? 2 : ((int)numinlets > JOIN_MAXINLETS) ? JOIN_MAXINLETS : (int)numinlets;
 	triggervals = (int *)calloc(x->x_numinlets,sizeof(int));
 	triggervals[0] = 1; //default, only left inlet is hot
 
