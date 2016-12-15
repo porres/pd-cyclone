@@ -144,8 +144,7 @@ static void record_set(t_record *x, t_symbol *s)
 static void record_reset(t_record *x) // new
 {
     t_float loopstart  = 0.;
-    //array size in samples
-    t_float loopend = (t_float)x->x_npts/x->x_ksr;
+    t_float loopend = (t_float)x->x_npts/x->x_ksr; //array size in samples
     if (x->x_sync > 0){
         x->x_isrunning = 1;
     };
