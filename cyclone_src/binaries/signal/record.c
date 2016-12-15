@@ -146,9 +146,10 @@ static void record_reset(t_record *x) // new
     t_float loopstart  = 0.;
     //array size in samples
     t_float loopend = (t_float)x->x_npts/x->x_ksr;
-    if (x->x_isrunning){
+    if (x->x_sync > 0){
         x->x_phase = 0.;
-        x->x_sync = 0;
+        x->x_isrunning = 1;
+//        x->x_sync = 0;
     };
     pd_float((t_pd *)x->x_stlet, loopstart);
     pd_float((t_pd *)x->x_endlet, loopend);
@@ -212,6 +213,7 @@ static void record_float(t_record *x, t_float f)
     else{
         //else trigger a redraw
         clock_delay(x->x_clock, 0);
+        x->x_sync = 0.;
     };
 }
 
