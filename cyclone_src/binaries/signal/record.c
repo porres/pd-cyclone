@@ -211,19 +211,18 @@ static void record_float(t_record *x, t_float f)
         x->x_newrun = 1;
     }
     else{
-        //else trigger a redraw
-        clock_delay(x->x_clock, 0);
+        clock_delay(x->x_clock, 0); // trigger a redraw
         x->x_sync = 0.;
-    };
+        if (x->x_appendmode == 0)
+            {
+            x->x_phase = 0.;
+            };
+    }
 }
 
 static void record_append(t_record *x, t_floatarg f)
 {
-    if (f != 0)
-    {
-	x->x_appendmode = 1;  /* CHECKED: always allow appending */
-    }
-    else x->x_appendmode = 0;
+	x->x_appendmode = (f != 0);
 }
 
 static void record_loop(t_record *x, t_floatarg f)
