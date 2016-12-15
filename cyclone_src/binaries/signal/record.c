@@ -147,12 +147,11 @@ static void record_reset(t_record *x) // new
     //array size in samples
     t_float loopend = (t_float)x->x_npts/x->x_ksr;
     if (x->x_sync > 0){
-        x->x_phase = 0.;
         x->x_isrunning = 1;
-//        x->x_sync = 0;
     };
     pd_float((t_pd *)x->x_stlet, loopstart);
     pd_float((t_pd *)x->x_endlet, loopend);
+    x->x_phase = 0.;
 } // */
 
 static int record_startpoint(t_record *x, t_floatarg f)
