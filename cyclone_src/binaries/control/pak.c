@@ -26,6 +26,7 @@ typedef struct _pak_inlet
     t_int       x_max;
     t_int       x_int;
     t_pak*      x_owner;
+    int         x_idx; //index of inlet
 } t_pak_inlet;
 
 
@@ -34,6 +35,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
     int i;
     t_pak *x = (t_pak *)pd_new(pak_class);
     t_atom defarg[2];
+    int noargs = !argc; //go to defaults
     if(!argc)
     {
         argv = defarg;
@@ -57,7 +59,15 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
             x->x_ins[i].x_atoms = x->x_vec+i;
             x->x_ins[i].x_max   = x->x_n-i;
             x->x_ins[i].x_owner = x;
-            x->x_ins[i].x_int = 0;
+            x->x_ins[i].x_idx = i;
+            if(noargs){
+                //should default to int
+                x->x_ins[i].x_int = 1;
+            }
+            else{
+
+                x->x_ins[i].x_int = 0;
+            }
             inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
         }
         else if(argv[i].a_type == A_SYMBOL)
@@ -71,6 +81,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
                 x->x_ins[i].x_max   = x->x_n-i;
                 x->x_ins[i].x_owner = x;
                 x->x_ins[i].x_int = 0;
+                x->x_ins[i].x_idx = i;
                 inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
                 
             }
@@ -83,6 +94,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
                 x->x_ins[i].x_max   = x->x_n-i;
                 x->x_ins[i].x_owner = x;
                 x->x_ins[i].x_int = 1;
+                x->x_ins[i].x_int = i;
                 inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
             }
             else
@@ -94,6 +106,7 @@ static void *pak_new(t_symbol *s, int argc, t_atom *argv)
                 x->x_ins[i].x_max   = x->x_n-i;
                 x->x_ins[i].x_owner = x;
                 x->x_ins[i].x_int = 0;
+                x->x_ins[i].x_idx = i;
                 inlet_new((t_object *)x, &(x->x_ins[i].x_pd), 0, 0);
             }
         }
@@ -112,16 +125,23 @@ static void pak_bang(t_pak *x)
     outlet_list(x->x_obj.ob_outlet, &s_list, x->x_n, x->x_out);
 }
 
-static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src)
+static void pak_copy(t_pak *x, int ndest, t_atom* dest, int nsrc, t_atom* src, int srcidx)
 {
-    int i;
+    int i, isint;
     for(i = 0; i < ndest && i < nsrc; ++i)
     {
         if(src[i].a_type == A_FLOAT)
         {
             if(dest[i].a_type == A_FLOAT)
-            {
-                dest[i].a_w.w_float = src[i].a_w.w_float;
+            {   
+                //if current inlet is an int
+                isint = x->x_ins[srcidx+i].x_int;
+                if(isint){
+                    dest[i].a_w.w_float = (int)src[i].a_w.w_float;
+                }
+                else{
+                    dest[i].a_w.w_float = src[i].a_w.w_float;
+                };
             }
             else if(dest[i].a_type == A_SYMBOL)
             {
@@ -190,7 +210,7 @@ static void pak_inlet_symbol(t_pak_inlet *x, t_symbol* s)
 
 static void pak_inlet_list(t_pak_inlet *x, t_symbol* s, int argc, t_atom* argv)
 {
-    pak_copy(x->x_owner, x->x_max, x->x_atoms, argc, argv);
+    pak_copy(x->x_owner, x->x_max, x->x_atoms, argc, argv, x->x_idx);
     pak_bang(x->x_owner);
 }
 
@@ -204,13 +224,13 @@ static void pak_inlet_anything(t_pak_inlet *x, t_symbol* s, int argc, t_atom* ar
     {
         x->x_atoms[0].a_w.w_float = 0; // symbol becomes 0
     }
-    pak_copy(x->x_owner, x->x_max-1, x->x_atoms+1, argc, argv);
+    pak_copy(x->x_owner, x->x_max-1, x->x_atoms+1, argc, argv, x->x_idx);
     pak_bang(x->x_owner);
 }
 
 static void pak_inlet_set(t_pak_inlet *x, t_symbol* s, int argc, t_atom* argv)
 {
-    pak_copy(x->x_owner, x->x_max, x->x_atoms, argc, argv);
+    pak_copy(x->x_owner, x->x_max, x->x_atoms, argc, argv, x->x_idx);
 }
 
 extern void pak_setup(void)
