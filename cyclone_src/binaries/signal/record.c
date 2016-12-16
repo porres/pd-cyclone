@@ -50,7 +50,6 @@ typedef struct _record
     t_clock  *x_clock;
     double    x_clocklasttick;
 
-    int       x_npts; //array size in samples
     int       x_isrunning;
     int       x_newrun; //if running turned from off and on for this current block
     
@@ -136,15 +135,13 @@ static void record_tick(t_record *x)
 
 static void record_set(t_record *x, t_symbol *s)
 {
-    t_cybuf *c = x->x_cybuf;
     cybuf_setarray(x->x_cybuf, s );
-    x->x_npts = c->c_npts;
 }
 
 static void record_reset(t_record *x) // new
 {
     t_float loopstart  = 0.;
-    t_float loopend = (t_float)x->x_npts/x->x_ksr; //array size in samples
+    t_float loopend = (t_float)x->x_cybuf->c_npts/x->x_ksr; //array size in samples
     if (x->x_sync > 0){
         x->x_isrunning = 1;
     };
@@ -155,6 +152,7 @@ static void record_reset(t_record *x) // new
 
 static int record_startpoint(t_record *x, t_floatarg f)
 {
+    int npts = x->x_cybuf->c_npts;
     //some bounds checking to prevent overflow
     int startindex;
     if(f < RECORD_MAXBD){
@@ -166,9 +164,9 @@ static int record_startpoint(t_record *x, t_floatarg f)
     if (startindex < 0){
 		startindex = 0;  /* CHECKED */
 	}
-    else if(startindex >= x->x_npts){
+    else if(startindex >= npts){
     //make it the last index addressable
-		startindex = x->x_npts - 1;  /* CHECKED (both ways) */
+		startindex = npts - 1;  /* CHECKED (both ways) */
 	};
 
     return startindex;
@@ -179,7 +177,7 @@ static int record_endpoint(t_record *x, t_floatarg f)
 {
     //noninclusive
     int endindex;
-    
+    int npts = x->x_cybuf -> c_npts;
     //some bounds checking to prevent overflow
     if(f < RECORD_MAXBD){
         endindex = (int)(f * x->x_ksr);
@@ -191,9 +189,9 @@ static int record_endpoint(t_record *x, t_floatarg f)
     if(endindex < 0){
         endindex = 0;
     }
-    if (endindex >= x->x_npts){
+    if (endindex >= npts){
     //if bigger than the end, set it to the end
-		endindex = x->x_npts;  /* CHECKED (both ways) */
+		endindex = npts;  /* CHECKED (both ways) */
 	};
 
     return endindex;
@@ -316,7 +314,6 @@ static t_int *record_perform(t_int *w)
 static void record_dsp(t_record *x, t_signal **sp)
 {
     cybuf_checkdsp(x->x_cybuf);
-    x->x_npts = x->x_cybuf->c_npts;
     x->x_ksr= sp[0]->s_sr * 0.001;
 
     int i, nblock = sp[0]->s_n;
@@ -481,7 +478,6 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	//setting channels and array sizes
 	x->x_numchans = c->c_numchans;
 	t_float arraysmp = (t_float)c->c_npts;
-        x->x_npts = (int)arraysmp;
 
         //allocate input vectors
         x->x_ivecs = getbytes(x->x_numchans * sizeof(*x->x_ivecs));
