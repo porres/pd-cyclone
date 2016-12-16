@@ -240,6 +240,7 @@ static t_int *record_perform(t_int *w)
     t_float startms, endms,sync;
     int startsamp, endsamp, phase, range, i, j;
 
+    cybuf_validate(c, 0);
     for(i=0;i<nblock; i++){
         startms = startin[i];
         endms = endin[i];
