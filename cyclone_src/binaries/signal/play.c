@@ -86,9 +86,11 @@ static void play_play(t_play *x, int toplay){
 ////////////////////////////////////////////////
 static void play_stop(t_play *x)
 {
-    x->x_playing = 0;
-    x->x_playnew = 0;
-    outlet_bang(x->x_donelet);
+    if (x->x_playing){
+        x->x_playing = 0;
+        x->x_playnew = 0;
+        outlet_bang(x->x_donelet);
+    };
 }
 
 
