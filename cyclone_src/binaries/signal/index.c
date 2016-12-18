@@ -10,7 +10,7 @@
 #include "m_pd.h"
 #include "cybuf.h"
 
-#define INDEX_MAXCHANNELS  4
+#define INDEX_MAXCHANNELS  64
 
 typedef struct _index
 {

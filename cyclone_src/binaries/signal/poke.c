@@ -20,7 +20,7 @@
 #include "m_pd.h"
 #include "cybuf.h"
 
-#define POKE_MAXCHANNELS  4  /* LATER implement arsic resizing feature */
+#define POKE_MAXCHANNELS  64  /* LATER implement arsic resizing feature */
 #define POKE_REDRAWMS 500 //redraw time in ms
 
 union inletunion

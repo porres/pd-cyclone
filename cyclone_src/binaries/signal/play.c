@@ -647,10 +647,7 @@ static void *play_new(t_symbol * s, int argc, t_atom * argv)
 
     };
     /* one auxiliary signal:  position input */
-    int chn_n = (int)channels > 4 ? 4 : (int)channels;
-    //channels, if 3 then 2 else channels, nsigs = 0, nauxsigs = 1
-    //nperfargs = channels + 1 + 2;
-    //t_play *x = (t_play *)arsic_new(play_class, s, chn_n == 3 ? 2 : chn_n, 0, 1);
+    int chn_n = (int)channels > 64 ? 64 : (int)channels;
 
     t_play *x = (t_play *)pd_new(play_class);
     x->x_glist = canvas_getcurrent();

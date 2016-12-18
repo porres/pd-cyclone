@@ -7,7 +7,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "cybuf.h"
-#define PEEK_MAXCHANNELS  4  /* LATER implement arsic resizing feature */
+#define PEEK_MAXCHANNELS  64  /* LATER implement arsic resizing feature */
 
 typedef struct _peek
 {

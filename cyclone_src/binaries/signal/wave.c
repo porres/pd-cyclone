@@ -8,7 +8,7 @@
 #include "cybuf.h"
 #include "shared.h"
 
-#define CYWAVEMAXOUT 4 //max number of outs
+#define CYWAVEMAXOUT 64 //max number of outs
 #define CYWAVEINTERP 1 //default interp mode
 
 // CHECKME (the refman): the extra channels are not played

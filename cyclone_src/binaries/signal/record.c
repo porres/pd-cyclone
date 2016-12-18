@@ -455,10 +455,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 			goto errstate;
 		};
 	};
-    int chn_n = (int)numchan > 4 ? 4 : (int)numchan;
-	if(chn_n == 3){
-		chn_n = 2;
-	};
+    int chn_n = (int)numchan > 64 ? 64 : (int)numchan;
 
         //old arsic notes - chn_n number of channels, 0 nsigs 1 nauxsigs
     t_record *x = (t_record *)pd_new(record_class);
