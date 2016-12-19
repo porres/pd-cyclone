@@ -87,7 +87,15 @@ void cybuf_validate(t_cybuf *c, int complain)
     c->c_npts = SHARED_INT_MAX;
     if (c->c_numchans <= 1 && c->c_bufname != &s_)
     {
-	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1, complain);
+	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1, 0);
+        //check for 0-bufname if bufname array isn't found
+        if(!c->c_vectors[0]){
+            c->c_vectors[0] = cybuf_get(c, c->c_channames[0], &c->c_npts, 1, 0);
+            //if neither found, post about it if complain
+            if(!c->c_vectors[0] && complain){
+	        pd_error(c->c_owner, "no such array '%s' (or '0-%s')", c->c_bufname->s_name, c->c_bufname->s_name);
+            };
+        };
     }
     else if (c->c_numchans > 1){
 	int ch;
@@ -116,7 +124,7 @@ void cybuf_initarray(t_cybuf *c, t_symbol *name, int complain){
     //setting array names	
     if (name){
 	c->c_bufname = name;
-	if(c->c_numchans > 1){
+	if(c->c_numchans >= 1){
 	    char buf[MAXPDSTRING];
 	    int ch;
 	    for (ch = 0; ch < c->c_numchans; ch++){
