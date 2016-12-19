@@ -42,6 +42,34 @@ t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp, int comp
     return (0);
 }
 
+//prelim work at making peek~ work with channel number choosing, assuming 1-indexed
+t_word *cybuf_getchannel(t_cybuf *c, int chan_num){
+    int chan_idx;
+    char buf[MAXPDSTRING];
+    t_symbol * curname; //name of the current channel we want
+    int vsz = c->c_npts;  /* ignore missing arrays */
+    t_word *retvec;//pointer to the corresponding channel to return
+    //1-indexed bounds checking
+    chan_num = chan_num < 1 ? 1 : (chan_num > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : chan_num);
+    //convert to 0-indexing, separate steps and diff variable for sanity's sake
+    chan_idx = chan_num - 1;
+    //making the buffer channel name string we'll be looking for
+    if(c->c_bufname != &s_){
+        sprintf(buf, "%d-%s", chan_idx, c->c_bufname->s_name);
+        curname =  gensym(buf);
+        //always complain
+        retvec = cybuf_get(c, curname, &vsz, 1, 1);
+        //if channel found and less than c_npts, reset c_npts
+        if (vsz < c->c_npts) c->c_npts = vsz;
+
+        return retvec;
+    }
+    else{
+        return (0);
+    };
+
+}
+
 void cybuf_bug(char *fmt, ...)
 {
     //copied from old loud.c
@@ -87,7 +115,15 @@ void cybuf_validate(t_cybuf *c, int complain)
     c->c_npts = SHARED_INT_MAX;
     if (c->c_numchans <= 1 && c->c_bufname != &s_)
     {
-	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1, complain);
+	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1, 0);
+        //check for 0-bufname if bufname array isn't found
+        if(!c->c_vectors[0]){
+            c->c_vectors[0] = cybuf_get(c, c->c_channames[0], &c->c_npts, 1, 0);
+            //if neither found, post about it if complain
+            if(!c->c_vectors[0] && complain){
+	        pd_error(c->c_owner, "no such array '%s' (or '0-%s')", c->c_bufname->s_name, c->c_bufname->s_name);
+            };
+        };
     }
     else if (c->c_numchans > 1){
 	int ch;
@@ -116,7 +152,7 @@ void cybuf_initarray(t_cybuf *c, t_symbol *name, int complain){
     //setting array names	
     if (name){
 	c->c_bufname = name;
-	if(c->c_numchans > 1){
+	if(c->c_numchans >= 1){
 	    char buf[MAXPDSTRING];
 	    int ch;
 	    for (ch = 0; ch < c->c_numchans; ch++){
@@ -194,7 +230,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
         bufname = &s_;
     };
     c->c_bufname = bufname;
-    numchans = numchans < 1 ? 1 : numchans;
+    numchans = numchans < 1 ? 1 : (numchans > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : numchans);
     if (!(vectors = (t_float **)getbytes(numchans* sizeof(*vectors)))){
 		return (0);
 	};
