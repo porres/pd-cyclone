@@ -202,7 +202,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
         bufname = &s_;
     };
     c->c_bufname = bufname;
-    numchans = numchans < 1 ? 1 : numchans;
+    numchans = numchans < 1 ? 1 : (numchans > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : numchans);
     if (!(vectors = (t_float **)getbytes(numchans* sizeof(*vectors)))){
 		return (0);
 	};

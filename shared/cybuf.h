@@ -14,6 +14,8 @@
 #define SHARED_INT_MAX  0x7FFFFFFF
 #endif
 
+#define CYBUF_MAXCHANS 64 //max number of channels
+
 typedef struct _cybuf
 {
     //t_sic       s_sic;
