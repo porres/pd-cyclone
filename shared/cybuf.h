@@ -56,5 +56,6 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans);
 void cybuf_free(t_cybuf *c);
 //void cybuf_setup(t_class *c, void *dspfn, void *floatfn);
 void cybuf_checkdsp(t_cybuf *c);
+t_word *cybuf_getchannel(t_cybuf *c, int chan_num);
 
 #endif

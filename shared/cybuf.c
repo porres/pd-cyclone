@@ -42,6 +42,34 @@ t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp, int comp
     return (0);
 }
 
+//prelim work at making peek~ work with channel number choosing, assuming 1-indexed
+t_word *cybuf_getchannel(t_cybuf *c, int chan_num){
+    int chan_idx;
+    char buf[MAXPDSTRING];
+    t_symbol * curname; //name of the current channel we want
+    int vsz = c->c_npts;  /* ignore missing arrays */
+    t_word *retvec;//pointer to the corresponding channel to return
+    //1-indexed bounds checking
+    chan_num = chan_num < 1 ? 1 : (chan_num > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : chan_num);
+    //convert to 0-indexing, separate steps and diff variable for sanity's sake
+    chan_idx = chan_num - 1;
+    //making the buffer channel name string we'll be looking for
+    if(c->c_bufname != &s_){
+        sprintf(buf, "%d-%s", chan_idx, c->c_bufname->s_name);
+        curname =  gensym(buf);
+        //always complain
+        retvec = cybuf_get(c, curname, &vsz, 1, 1);
+        //if channel found and less than c_npts, reset c_npts
+        if (vsz < c->c_npts) c->c_npts = vsz;
+
+        return retvec;
+    }
+    else{
+        return (0);
+    };
+
+}
+
 void cybuf_bug(char *fmt, ...)
 {
     //copied from old loud.c
