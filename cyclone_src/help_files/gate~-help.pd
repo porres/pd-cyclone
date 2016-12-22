@@ -1,4 +1,4 @@
-#N canvas 629 59 560 533 10;
+#N canvas 629 59 595 540 10;
 #X obj 4 494 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 402 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -35,11 +35,11 @@
 #X text 177 193 3rd outlet;
 #X obj 5 341 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 97 352 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 97 350 cnv 17 3 27 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 374 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 97 382 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 131 351 float/signal;
+#X text 131 349 float/signal;
 #N canvas 726 248 416 406 signal-rate 0;
 #X obj 152 252 cyclone/gate~ 2;
 #X obj 152 145 *~ 3;
@@ -57,12 +57,10 @@ are truncated to integers.;
 #X connect 2 0 1 0;
 #X connect 4 0 0 1;
 #X restore 452 302 pd signal-rate;
-#X text 167 374 signal;
-#X text 220 374 - signal to be routed;
+#X text 167 382 signal;
+#X text 220 382 - signal to be routed;
 #X obj 159 236 cyclone/gate~ 3 1;
 #X text 155 450 1) float;
-#X text 220 351 - outlet number to route to (values truncated to int)
-;
 #X text 220 413 - 'n' outlets for routing input signal;
 #X text 221 468 - initial outlet to route to (default 0 - none);
 #X text 220 448 - 'n' number of outlets (1 to 500 \, default 1);
@@ -179,6 +177,9 @@ selected \, it outputs zero values.;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 220 349 -;
+#X text 231 349 outlet number to route to - values are truncated to
+integers and clipped from 0 to number of outlets, f 52;
 #X connect 13 0 27 0;
 #X connect 14 0 13 0;
 #X connect 15 0 27 1;

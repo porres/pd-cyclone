@@ -1,24 +1,24 @@
 #N canvas 625 55 559 471 10;
-#X obj 5 431 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 5 429 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 309 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 358 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 356 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 387 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 385 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 140 316 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 140 314 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 140 365 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 140 363 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 165 315 signal;
-#X text 165 365 signal;
-#X obj 140 337 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 165 313 signal;
+#X text 165 363 signal;
+#X obj 140 335 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 171 339 float;
-#X text 147 394 1) symbol;
-#X text 217 394 - name of array;
-#X text 217 315 - index to read the array;
+#X text 171 337 float;
+#X text 147 392 1) symbol;
+#X text 217 392 - name of array;
+#X text 217 313 - index to read the array;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -33,8 +33,8 @@
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#N canvas 456 329 845 331 multichannel 0;
-#X obj 407 31 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 388 163 833 311 multichannel 0;
+#X obj 406 29 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array 0-quadraphonic_\$0 100 float 1;
@@ -53,18 +53,17 @@ cloned from Max/MSP;
 0.770508 0.809014 0.844329 0.87631 0.904823 0.929767 0.951043 0.968568
 0.982273 0.992103 0.99802;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
-#X restore 406 30 graph;
-#X obj 268 173 nbx 2 14 1 4 0 0 empty empty empty 0 -8 0 10 -228856
+#X restore 405 28 graph;
+#X obj 266 168 nbx 2 14 1 4 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 1 256;
-#X obj 79 197 cyclone/index~ quadraphonic_\$0 1;
-#X msg 108 144 stop;
-#X obj 79 141 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X msg 106 139 stop;
+#X obj 77 136 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X msg 219 133 1;
-#X msg 251 133 2;
-#X msg 284 133 3;
-#X msg 316 133 4;
-#X obj 622 30 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
+#X msg 217 128 1;
+#X msg 249 128 2;
+#X msg 282 128 3;
+#X msg 314 128 4;
+#X obj 621 28 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array 1-quadraphonic_\$0 100 float 1;
@@ -83,8 +82,8 @@ cloned from Max/MSP;
 0.425784 0.535832 0.637421 0.728962 0.809014 0.87631 0.929767 0.968568
 0.992103;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
-#X restore 621 29 graph;
-#X obj 408 176 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
+#X restore 620 27 graph;
+#X obj 407 174 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array 2-quadraphonic_\$0 100 float 1;
@@ -103,8 +102,8 @@ cloned from Max/MSP;
 -0.154502 -0.0626618 0.0313992 0.124347 0.212892 0.293893 0.364481
 0.422165 0.464883 0.491136;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
-#X restore 407 175 graph;
-#X obj 623 175 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
+#X restore 406 173 graph;
+#X obj 622 173 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array 3-quadraphonic_\$0 100 float 1;
@@ -123,14 +122,8 @@ cloned from Max/MSP;
 -0.248025 -0.23244 -0.202251 -0.159352 -0.106442 -0.0468427 0.0156996
 0.077255 0.133958 0.182241 0.219077 0.242142;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
-#X restore 622 174 graph;
-#X obj 79 171 cyclone/count~ 0 100 1;
-#X text 22 87 Channels 1 to 4 are specified as an argument or a float
-input on the right inlet.;
-#X text 22 28 If you specify a second argument for the channel number
-\, [index~] expects a multi channel (maximum 4 channels) array \, where
-the name convention is the table name preceded by "0-" \, "1-" \, "2-"
-& "3-" as in this example.;
+#X restore 621 172 graph;
+#X obj 77 166 cyclone/count~ 0 100 1;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -234,27 +227,38 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 353 222 pd;
-#X obj 65 242 ./out~;
-#X connect 2 0 3 1;
-#X connect 3 0 20 0;
-#X connect 3 0 20 1;
-#X connect 4 0 16 0;
-#X connect 5 0 16 0;
+#X restore 352 220 pd;
+#X obj 63 237 ./out~;
+#X obj 77 192 cyclone/index~ quadraphonic_\$0 3;
+#X text 20 63 In this example we have 4 channels \, which can be specified
+as an argument or a float input into the right inlet. No argument loads
+the first channel by default.;
+#X obj 566 6 cyclone/comment 0 18 times ? 0 0 0 0 ch-1;
+#X obj 781 5 cyclone/comment 0 18 times ? 0 0 0 0 ch-2;
+#X obj 566 152 cyclone/comment 0 18 times ? 0 0 0 0 ch-3;
+#X obj 782 151 cyclone/comment 0 18 times ? 0 0 0 0 ch-4;
+#X text 20 16 [index~] also works with multi channel (maximum 64) arrays
+\, where the name convention is the table name preceded by "0-" \,
+"1-" \, "2-" \, "3-" \, and so on...;
+#X connect 2 0 18 1;
+#X connect 3 0 15 0;
+#X connect 4 0 15 0;
+#X connect 5 0 2 0;
 #X connect 6 0 2 0;
 #X connect 7 0 2 0;
 #X connect 8 0 2 0;
-#X connect 9 0 2 0;
-#X connect 16 0 3 0;
-#X restore 448 267 pd multichannel;
-#X text 217 339 - channel number;
-#X obj 52 273 cyclone/number~;
-#X obj 52 180 nbx 6 14 0 15 0 0 empty empty empty 0 -8 0 10 -228856
+#X connect 15 0 18 0;
+#X connect 18 0 17 0;
+#X connect 18 0 17 1;
+#X restore 449 274 pd multichannel;
+#X text 217 337 - channel number;
+#X obj 52 274 cyclone/number~;
+#X obj 52 181 nbx 6 14 0 15 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
-#X obj 55 159 hsl 128 15 0 15 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 55 160 hsl 128 15 0 15 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 52 204 sig~;
-#X obj 218 165 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
+#X obj 52 205 sig~;
+#X obj 232 172 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array \$0-table 16 float 3;
@@ -262,7 +266,7 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 -0.414278 -0.614286 0.157143 0.871423 0.014286 -0.414286 0.0857143
 0.257143 -0.399992;
 #X coords 0 1 16 -1 200 120 1 0 0;
-#X restore 217 164 graph;
+#X restore 231 171 graph;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
 -262144 0 1;
@@ -367,10 +371,9 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 498 76 pd;
-#X text 119 178 <= index;
-#X text 77 255 table value;
-#X text 147 411 2) channel;
-#X text 217 411 - array channel (1-4) default 1;
+#X text 119 179 <= index;
+#X text 77 256 table value;
+#X text 147 409 2) channel;
 #N canvas 886 172 390 351 play 0;
 #X msg 87 127 stop;
 #X obj 85 213 cyclone/number~;
@@ -412,7 +415,7 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X connect 14 0 17 0;
 #X connect 18 0 14 0;
 #X connect 18 1 6 0;
-#X restore 286 243 pd load \; sample;
+#X restore 282 289 pd load \; sample;
 #X obj 217 136 hsl 128 15 0 290646 0 0 \$0-end \$0-end-set empty -2
 -8 0 10 -228856 -1 -1 12700 1;
 #X obj 217 117 hsl 128 15 0 290646 0 0 \$0-start \$0-start-set empty
@@ -441,15 +444,17 @@ tasks than other objects such as [cyclone/play~] and [cyclone/wave~].
 #X connect 11 0 13 0;
 #X connect 12 0 1 0;
 #X connect 12 0 11 0;
-#X restore 454 240 pd play sample;
-#X text 217 365 - signal read from array without interpolation;
-#X text 77 86 [index~] reads an array without interpolation. The input
-signal specifies the table index. It's like [tabread~] but works with
-multi channel arrays and index values are rounded.;
-#X obj 52 230 cyclone/index~ \$0-table;
+#X restore 455 247 pd play sample;
+#X text 217 363 - signal read from array without interpolation;
+#X obj 52 231 cyclone/index~ \$0-table;
 #X obj 17 55 cyclone/comment 0 18 times ? 0 0 0 0 Non-interpolating
 array reader;
+#X text 217 409 - array channel (1-64) default 1;
+#X text 77 84 [index~] reads an array without interpolation. The input
+signal specifies the table index. It's like [tabread~] but works with
+multi channel arrays and index values are rounded instead of being
+truncated.;
 #X connect 23 0 25 0;
 #X connect 24 0 23 0;
-#X connect 25 0 36 0;
-#X connect 36 0 22 0;
+#X connect 25 0 34 0;
+#X connect 34 0 22 0;

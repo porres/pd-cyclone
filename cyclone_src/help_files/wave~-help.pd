@@ -23,7 +23,6 @@
 #X text 143 460 1) symbol;
 #X text 125 402 float/signal;
 #X text 125 382 float/signal;
-#X text 213 460 - array name, f 54;
 #X text 213 402 - set endpoint (in ms), f 54;
 #X text 213 382 - set startpoint (in ms), f 54;
 #X text 213 477 - startpoint in ms (default 0), f 54;
@@ -40,7 +39,7 @@
 #X text 125 312 set <symbol>;
 #X text 213 312 - sets array name, f 54;
 #X text 113 328 interp <float>;
-#N canvas 860 67 459 453 interpolation_modes 1;
+#N canvas 860 67 459 453 interpolation_modes 0;
 #X obj 35 28 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 38 33 cyclone/comment 0 18 times ? 0 0 0 0 Interpolation modes:
@@ -25706,7 +25705,8 @@ and end point in the array.;
 #X text 146 549 @interp_bias <f> (default 0) | @interp_tension <f>
 (default 0), f 63;
 #X obj 140 224 ./out~;
-#X connect 35 0 54 0;
-#X connect 35 0 54 1;
-#X connect 36 0 37 0;
-#X connect 37 0 35 0;
+#X text 213 460 - array name (required), f 54;
+#X connect 34 0 53 0;
+#X connect 34 0 53 1;
+#X connect 35 0 36 0;
+#X connect 36 0 34 0;

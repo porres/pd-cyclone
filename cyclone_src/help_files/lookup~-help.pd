@@ -101,8 +101,8 @@ effect. Check below.;
 #X text 130 396 set <symbol>;
 #X text 220 395 - sets the array/table to be used for lookup;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -171,7 +171,7 @@ effect. Check below.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -215,28 +215,27 @@ indexes.;
 #X text 220 378 - signal to be used as index;
 #X text 220 416 - start point of the array;
 #X text 220 438 - end point of the array;
-#N canvas 578 98 506 547 start/end 0;
+#N canvas 578 98 506 547 start/end 1;
 #X text 71 18 Input values (from -1 to 1) are mapped to table indexes.
 The default table size is 512 points \, so the default start and end
 points are \, repsectively \, 0 and 511 (since the table indexes are
 from 0 to 511).;
 #X text 73 80 You can specify another table size by setting an endpoint
 that corresponds to the last index (table size - 1).;
-#X obj 225 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 228 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 296 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+#X obj 302 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 51813.1 256;
 #X obj 155 226 cyclone/triangle~ 1;
-#X obj 299 290 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
+#X obj 305 290 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
+-228856 -1 -1 10600 1;
+#X obj 231 262 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
 -228856 -1 -1 0 1;
-#X obj 228 262 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 0 1;
-#X text 250 261 start point;
-#X text 333 290 end point;
+#X text 253 261 start point;
+#X text 339 290 end point;
 #X text 75 118 If you raise the starting point \, note that the table
 size will decrease. Also \, if the start point is greater than the
 end point \, then the indexes are reversed. Test it below:;
-#X obj 155 338 cyclone/lookup~ \$0-voice;
 #X obj 155 192 phasor~ 1;
 #X text 87 454 The minimum starting point is the index 0 \, and the
 maximum ending point is equal to the greatest index in the table. If
@@ -245,15 +244,16 @@ to those min/max values.;
 #X obj 39 268 cyclone/scope~ 95 66 256 3 128 -1 1 0 0 0 0 205 229 232
 74 79 77 96 98 102 0;
 #X obj 133 375 ./out~;
-#X connect 2 0 10 1;
-#X connect 3 0 10 2;
-#X connect 4 0 10 0;
-#X connect 4 0 13 0;
+#X obj 155 338 cyclone/lookup~ \$0-violin;
+#X connect 2 0 14 1;
+#X connect 3 0 14 2;
+#X connect 4 0 12 0;
+#X connect 4 0 14 0;
 #X connect 5 0 3 0;
 #X connect 6 0 2 0;
-#X connect 10 0 14 0;
-#X connect 10 0 14 1;
-#X connect 11 0 4 0;
+#X connect 10 0 4 0;
+#X connect 14 0 13 0;
+#X connect 14 0 13 1;
 #X restore 401 304 pd start/end points;
 #X text 220 517 - initial start point in array/table (default 0);
 #X text 220 533 - initial end point in the array/table (default 511)
