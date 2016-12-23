@@ -461,7 +461,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
     t_record *x = (t_record *)pd_new(record_class);
     x->x_ksr = (float)sys_getsr() * 0.001;
 
-    x->x_cybuf = cybuf_init((t_class *)x, arrname, chn_n);
+    x->x_cybuf = cybuf_init((t_class *)x, arrname, chn_n, 0);
     t_cybuf * c = x->x_cybuf;
     
     

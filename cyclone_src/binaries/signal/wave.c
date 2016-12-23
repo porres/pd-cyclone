@@ -549,7 +549,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	};
 
         t_wave *x = (t_wave *)pd_new(wave_class);
-        x->x_cybuf = cybuf_init((t_class *)x, name, numouts);
+        x->x_cybuf = cybuf_init((t_class *)x, name, numouts, 0);
         x->x_numouts = numouts;
 	
         //allocating output vectors

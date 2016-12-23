@@ -149,7 +149,7 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
     /* CHECKME always the first channel used. */
     /* three auxiliary signals: main, offset and size inputs */
     t_buffir *x = (t_buffir *)pd_new(buffir_class);
-    x->x_cybuf = cybuf_init((t_class *)x, s, 1);
+    x->x_cybuf = cybuf_init((t_class *)x, s, 1, 0);
     if (x->x_cybuf)
     {
 	
