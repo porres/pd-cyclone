@@ -109,7 +109,7 @@
 #X msg 231 181 vis \$1;
 #X msg 231 154 1;
 #X msg 263 154 0;
-#N canvas 920 89 460 442 \$0-buffers 1;
+#N canvas 920 89 460 442 \$0-buffers 0;
 #X restore 476 244 pd \$0-buffers;
 #X obj 58 69 route read clear name open close write;
 #N canvas 411 87 590 552 read-write 0;
@@ -184,7 +184,7 @@
 #X connect 28 0 21 0;
 #X connect 29 0 28 0;
 #X restore 58 161 pd read-write;
-#N canvas 207 69 304 346 soundfiler 1;
+#N canvas 207 69 304 346 soundfiler 0;
 #X obj 108 89 list prepend;
 #X obj 198 130 list;
 #X obj 135 165 list append;
