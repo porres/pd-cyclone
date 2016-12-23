@@ -178,7 +178,7 @@ static void *poke_new(t_symbol *s, t_floatarg f)
     int ch = (f > 0 ? (int)f : 0);
 	t_poke *x = (t_poke  *)pd_new(poke_class);
 
-    x->x_cybuf = cybuf_init((t_class *) x, s, (ch ? POKE_MAXCHANNELS : 0));
+    x->x_cybuf = cybuf_init((t_class *) x, s, (ch ? POKE_MAXCHANNELS : 0), 0);
     if (x)
     {
 	if (ch > POKE_MAXCHANNELS)

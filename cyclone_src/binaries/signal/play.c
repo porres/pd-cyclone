@@ -655,7 +655,7 @@ static void *play_new(t_symbol * s, int argc, t_atom * argv)
     x->x_pdksr = (float)sys_getsr() * 0.001;
     //set sample rate of array as pd's sample rate for now
     x->x_aksr = x->x_pdksr;
-    x->x_cybuf = cybuf_init((t_class *)x, arrname, chn_n == 3 ? 2 : chn_n);
+    x->x_cybuf = cybuf_init((t_class *)x, arrname, chn_n == 3 ? 2 : chn_n, 0);
     t_cybuf * c = x->x_cybuf;
     
     if (c)

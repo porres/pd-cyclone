@@ -30,6 +30,9 @@ typedef struct _cybuf
     int         c_playable;
     int         c_minsize;
     int         c_disabled;
+    int         c_single; //flag for single channel mode
+                        //0-regular mode, 1-load this particular channel (1-idx)
+                        //should be used with c_numchans == 1
 } t_cybuf;
 
 void cybuf_bug(char *fmt, ...);
@@ -52,10 +55,11 @@ void cybuf_setminsize(t_cybuf *c, int i);
 void cybuf_enable(t_cybuf *c, t_floatarg f);
 //void cybuf_dsp(t_cybuf *x, t_signal **sp, t_perfroutine perf, int complain);
 
-void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans);
+//single channel mode used for poke~/peek~
+void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans, int singlemode);
 void cybuf_free(t_cybuf *c);
 //void cybuf_setup(t_class *c, void *dspfn, void *floatfn);
 void cybuf_checkdsp(t_cybuf *c);
-t_word *cybuf_getchannel(t_cybuf *c, int chan_num);
+void cybuf_getchannel(t_cybuf *c, int chan_num, int complain);
 
 #endif

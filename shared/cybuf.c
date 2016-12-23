@@ -42,30 +42,37 @@ t_word *cybuf_get(t_cybuf *c, t_symbol * name, int *bufsize, int indsp, int comp
     return (0);
 }
 
-//prelim work at making peek~ work with channel number choosing, assuming 1-indexed
-t_word *cybuf_getchannel(t_cybuf *c, int chan_num){
+//making peek~ work with channel number choosing, assuming 1-indexed
+void cybuf_getchannel(t_cybuf *c, int chan_num, int complain){
     int chan_idx;
     char buf[MAXPDSTRING];
     t_symbol * curname; //name of the current channel we want
-    int vsz = c->c_npts;  /* ignore missing arrays */
-    t_word *retvec;//pointer to the corresponding channel to return
+    int vsz = c->c_npts;  
+    t_word *retvec = NULL;//pointer to the corresponding channel to return
     //1-indexed bounds checking
     chan_num = chan_num < 1 ? 1 : (chan_num > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : chan_num);
+    c->c_single = chan_num;
     //convert to 0-indexing, separate steps and diff variable for sanity's sake
     chan_idx = chan_num - 1;
     //making the buffer channel name string we'll be looking for
     if(c->c_bufname != &s_){
+        if(chan_idx == 0){
+            //if channel idx is 0, check for just plain bufname as well
+            //since checking for 0-bufname as well, don't complain here
+            retvec = cybuf_get(c, c->c_bufname, &vsz, 1, 0);
+            if(retvec){
+                c->c_vectors[0] = retvec;
+                if (vsz < c->c_npts) c->c_npts = vsz;
+                return;
+            };
+        };
         sprintf(buf, "%d-%s", chan_idx, c->c_bufname->s_name);
         curname =  gensym(buf);
-        //always complain
-        retvec = cybuf_get(c, curname, &vsz, 1, 1);
+        retvec = cybuf_get(c, curname, &vsz, 1, complain);
         //if channel found and less than c_npts, reset c_npts
         if (vsz < c->c_npts) c->c_npts = vsz;
-
-        return retvec;
-    }
-    else{
-        return (0);
+        c->c_vectors[0] = retvec;
+        return;
     };
 
 }
@@ -93,47 +100,82 @@ void cybuf_clear(t_cybuf *c)
 
 void cybuf_redraw(t_cybuf *c)
 {
-    if (c->c_numchans <= 1 && c->c_bufname != &s_)
-    {
-	t_garray *ap = (t_garray *)pd_findbyclass(c->c_bufname, garray_class);
-	if (ap) garray_redraw(ap);
-	else if (c->c_vectors[0]) cybuf_bug("cybuf_redraw 1");
+    if(!c->c_single){
+        if (c->c_numchans <= 1 && c->c_bufname != &s_)
+        {
+            t_garray *ap = (t_garray *)pd_findbyclass(c->c_bufname, garray_class);
+            if (ap) garray_redraw(ap);
+            else if (c->c_vectors[0]) cybuf_bug("cybuf_redraw 1");
+        }
+        else if (c->c_numchans > 1){
+            int ch = c->c_numchans;
+            while (ch--){
+                t_garray *ap = (t_garray *)pd_findbyclass(c->c_channames[ch], garray_class);
+                if (ap) garray_redraw(ap);
+                else if (c->c_vectors[ch]) cybuf_bug("cybuf_redraw 2");
+            }
+        };
     }
-    else if (c->c_numchans > 1){
-	int ch = c->c_numchans;
-	while (ch--){
-	    t_garray *ap = (t_garray *)pd_findbyclass(c->c_channames[ch], garray_class);
-	    if (ap) garray_redraw(ap);
-	    else if (c->c_vectors[ch]) cybuf_bug("cybuf_redraw 2");
-	}
-    }
+    else{
+        int chan_idx;
+        char buf[MAXPDSTRING];
+        t_symbol * curname; //name of the current channel we want
+        int chan_num = c->c_single; //1-indexed channel number
+        chan_num = chan_num < 1 ? 1 : (chan_num > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : chan_num);
+         //convert to 0-indexing, separate steps and diff variable for sanity's sake
+        chan_idx = chan_num - 1;
+        //making the buffer channel name string we'll be looking for
+        if(c->c_bufname != &s_){
+            if(chan_idx == 0){
+            //if channel idx is 0, check for just plain bufname as well
+            t_garray *ap = (t_garray *)pd_findbyclass(c->c_bufname, garray_class);
+            if (ap){
+                garray_redraw(ap);
+                return;
+                };
+            };
+            sprintf(buf, "%d-%s", chan_idx, c->c_bufname->s_name);
+            curname =  gensym(buf);
+            t_garray *ap = (t_garray *)pd_findbyclass(curname, garray_class);
+            if (ap) garray_redraw(ap);
+            //not really sure what the specific message is for, just copied single channel one - DK
+            else if (c->c_vectors[0]) cybuf_bug("cybuf_redraw 1");
+
+        };
+    };
 }
 
 void cybuf_validate(t_cybuf *c, int complain)
 {
     cybuf_clear(c);
     c->c_npts = SHARED_INT_MAX;
-    if (c->c_numchans <= 1 && c->c_bufname != &s_)
-    {
-	c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1, 0);
-        //check for 0-bufname if bufname array isn't found
-        if(!c->c_vectors[0]){
-            c->c_vectors[0] = cybuf_get(c, c->c_channames[0], &c->c_npts, 1, 0);
-            //if neither found, post about it if complain
-            if(!c->c_vectors[0] && complain){
-	        pd_error(c->c_owner, "no such array '%s' (or '0-%s')", c->c_bufname->s_name, c->c_bufname->s_name);
+    if(!c->c_single){
+        if (c->c_numchans <= 1 && c->c_bufname != &s_)
+        {
+            c->c_vectors[0] = cybuf_get(c, c->c_bufname, &c->c_npts, 1, 0);
+            //check for 0-bufname if bufname array isn't found
+            if(!c->c_vectors[0]){
+                c->c_vectors[0] = cybuf_get(c, c->c_channames[0], &c->c_npts, 1, 0);
+                //if neither found, post about it if complain
+                if(!c->c_vectors[0] && complain){
+                    pd_error(c->c_owner, "no such array '%s' (or '0-%s')", c->c_bufname->s_name, c->c_bufname->s_name);
+                };
+            };
+        }
+        else if (c->c_numchans > 1){
+            int ch;
+            for (ch = 0; ch < c->c_numchans ; ch++){
+                int vsz = c->c_npts;  /* ignore missing arrays */
+                c->c_vectors[ch] =
+                    //only complain if can't find first channel (ch = 0)
+                    cybuf_get(c, c->c_channames[ch], &vsz, 1, !ch && complain);
+                if (vsz < c->c_npts) c->c_npts = vsz;
             };
         };
     }
-    else if (c->c_numchans > 1){
-	int ch;
-	for (ch = 0; ch < c->c_numchans ; ch++){
-	    int vsz = c->c_npts;  /* ignore missing arrays */
-	    c->c_vectors[ch] =
-		cybuf_get(c, c->c_channames[ch], &vsz, 1, complain);
-	    if (vsz < c->c_npts) c->c_npts = vsz;
-	}
-    }
+    else{
+        cybuf_getchannel(c, c->c_single, complain);
+    };
     if (c->c_npts == SHARED_INT_MAX) c->c_npts = 0;
 }
 
@@ -221,7 +263,7 @@ void cybuf_free(t_cybuf *c)
    otherwise the channels are not used as signals, and the number of signals is
    nsigs -- provided that nsigs is positive -- or, if it is not, then an cybuf
    is not used in dsp (peek~). */
-void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
+void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans, int singlemode){
     //name of buffer (multichan usu, or not) and the number of channels associated with buffer
     t_cybuf *c = (t_cybuf *)getbytes(sizeof(t_cybuf));
     t_float **vectors;
@@ -230,7 +272,9 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
         bufname = &s_;
     };
     c->c_bufname = bufname;
-    numchans = numchans < 1 ? 1 : (numchans > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : numchans);
+    singlemode = singlemode > 0 ? 1 : 0;
+    //single mode forces numchans = 1
+    numchans = (numchans < 1 || singlemode) ? 1 : (numchans > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : numchans);
     if (!(vectors = (t_float **)getbytes(numchans* sizeof(*vectors)))){
 		return (0);
 	};
@@ -240,6 +284,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
 		freebytes(vectors, numchans * sizeof(*vectors));
 	return (0);
     };
+    c->c_single = singlemode;
     c->c_owner = owner;
     c->c_npts = 0;
     c->c_vectors = vectors;
@@ -249,7 +294,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans){
     c->c_minsize = 1;
     c->c_numchans = numchans;
     if(bufname != &s_){
-        cybuf_initarray(c, bufname, 0);
+            cybuf_initarray(c, bufname, 0);
     };
     return (c);
 }

@@ -13,9 +13,7 @@ typedef struct _peek
 {
     t_object    x_obj;
     t_cybuf   *x_cybuf;
-    int       x_maxchannels;
-    int       x_effchannel;  /* effective channel (clipped reqchannel) */
-    int       x_reqchannel;  /* requested channel */
+    int       x_channum;
     int       x_clipmode;
     int       x_pokemode;
     t_float   x_value;
@@ -53,10 +51,10 @@ static void peek_set(t_peek *x, t_symbol *s)
 static void peek_float(t_peek *x, t_float f)
 {
     t_cybuf * c = x->x_cybuf;
-    t_word *vp;
+    t_word *vp = c->c_vectors[0];
     //second arg is to allow error posting
     cybuf_validate(c, 1);  /* LATER rethink (efficiency, and complaining) */
-    if (vp = c->c_vectors[x->x_effchannel])
+    if (vp)
     {
 	int ndx = (int)f;
 	if (ndx >= 0 && ndx < c->c_npts)
@@ -91,10 +89,9 @@ static void peek_value(t_peek *x, t_floatarg f)
 
 static void peek_channel(t_peek *x, t_floatarg f)
 {
-    if ((x->x_reqchannel = (f > 1 ? (int)f - 1 : 0)) > x->x_maxchannels)
-	x->x_effchannel = x->x_maxchannels - 1;
-    else
-	x->x_effchannel = x->x_reqchannel;
+    int ch = f < 1 ? 1 : (f > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : (int) f);
+    x->x_channum = ch;
+    cybuf_getchannel(x->x_cybuf, ch, 1);
 }
 
 static void peek_clip(t_peek *x, t_floatarg f)
@@ -113,15 +110,14 @@ static void peek_free(t_peek *x)
 
 static void *peek_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
 {
-    int ch = (f1 > 0 ? (int)f1 : 0);
+    //should default to 1?
+    int ch = (f1 > 0 ? (int)f1 : 1);
     t_peek *x = (t_peek *)pd_new(peek_class);
-    x->x_cybuf = cybuf_init((t_class *)x, s, (ch ? PEEK_MAXCHANNELS : 0));
+    x->x_cybuf = cybuf_init((t_class *)x, s, 1, (ch > CYBUF_MAXCHANS ?  CYBUF_MAXCHANS: ch));
     if (x->x_cybuf)
     {
-	if (ch > PEEK_MAXCHANNELS)
-	    ch = PEEK_MAXCHANNELS;
-	x->x_maxchannels = (ch ? PEEK_MAXCHANNELS : 1);
-	x->x_effchannel = x->x_reqchannel = (ch ? ch - 1 : 0);
+	if (ch > PEEK_MAXCHANNELS) ch = PEEK_MAXCHANNELS;
+        x->x_channum = ch;
 	/* CHECKED (refman's error) clipping is disabled by default */
 	x->x_clipmode = ((int)f2 != 0);
 	x->x_pokemode = 0;
