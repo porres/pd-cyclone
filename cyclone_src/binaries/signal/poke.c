@@ -48,11 +48,9 @@ typedef struct _poke
 {
     t_object x_obj;
     t_cybuf   *x_cybuf;
-    int        x_maxchannels;
-    int        x_effchannel;  /* effective channel (clipped reqchannel) */
-    int        x_reqchannel;  /* requested channel */
     t_sample  *x_indexptr;
     t_clock   *x_clock;
+    int         x_channum; //current channel number (1-indexed)
     double     x_clocklasttick;
     int        x_clockset;
     double      x_redrawms; //time to redraw in ms
@@ -109,10 +107,10 @@ static void poke_float(t_poke *x, t_float f)
 {
 
     t_cybuf *c = x->x_cybuf;
-    t_word *vp;
+    t_word *vp = c->c_vectors[0];
     //second arg is to allow error posting
     cybuf_validate(c, 1);  /* LATER rethink (efficiency, and complaining) */
-    if (vp = c->c_vectors[x->x_effchannel])
+    if (vp)
     {
 	int ndx = (int)*x->x_indexptr;
 	if (ndx >= 0 && ndx < c->c_npts)
@@ -125,10 +123,9 @@ static void poke_float(t_poke *x, t_float f)
 
 static void poke_ft2(t_poke *x, t_floatarg f)
 {
-    if ((x->x_reqchannel = (f > 1 ? (int)f - 1 : 0)) > x->x_maxchannels)
-	x->x_effchannel = x->x_maxchannels - 1;
-    else
-	x->x_effchannel = x->x_reqchannel;
+    int ch = (f < 1) ? 1 : (f > CYBUF_MAXCHANS) ? CYBUF_MAXCHANS : (int) f;
+    x->x_channum = ch;
+    cybuf_getchannel(x->x_cybuf, ch, 1);
 }
 
 static void poke_redraw_rate(t_poke *x, t_floatarg f){
@@ -143,7 +140,7 @@ static t_int *poke_perform(t_int *w)
     int nblock = (int)(w[2]);
     t_float *in1 = (t_float *)(w[3]);
     t_float *in2 = (t_float *)(w[4]);
-    t_word *vp = c->c_vectors[x->x_effchannel];
+    t_word *vp = c->c_vectors[0];
     if (vp && c->c_playable)
     {
         poke_redraw_lim(x);
@@ -175,17 +172,16 @@ static void poke_free(t_poke *x)
 
 static void *poke_new(t_symbol *s, t_floatarg f)
 {
-    int ch = (f > 0 ? (int)f : 0);
+    //like peek~, changing so it doesn't default to 0 but 1 for the new cybuf
+    //single channel mode, not sure how much of a diff it makes... - DK
+    int ch = (f < 1) ? 1 : (f > CYBUF_MAXCHANS) ? CYBUF_MAXCHANS : (int) f;
 	t_poke *x = (t_poke  *)pd_new(poke_class);
 
-    x->x_cybuf = cybuf_init((t_class *) x, s, (ch ? POKE_MAXCHANNELS : 0), 0);
+    x->x_cybuf = cybuf_init((t_class *) x, s, 1, ch);
     if (x)
     {
-	if (ch > POKE_MAXCHANNELS)
-	    ch = POKE_MAXCHANNELS;
+        x->x_channum = ch;
         x->x_redrawms = POKE_REDRAWMS; //default redraw rate
-	x->x_maxchannels = (ch ? POKE_MAXCHANNELS : 1);
-	x->x_effchannel = x->x_reqchannel = (ch ? ch - 1 : 0);
 	/* CHECKED: no float-to-signal conversion.
 	   Floats in 2nd inlet are ignored when dsp is on, but only if a signal
 	   is connected to this inlet.  Incompatible (revisit LATER). */

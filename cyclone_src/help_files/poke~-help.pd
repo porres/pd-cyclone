@@ -1,4 +1,4 @@
-#N canvas 271 132 561 539 10;
+#N canvas 269 134 561 539 10;
 #X obj 6 502 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 272 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -21,7 +21,7 @@
 #X text 211 280 - values to write into an array;
 #X obj 2 6 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#N canvas 0 22 450 278 (subpatch) 0;
+#N canvas 0 50 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 5 graph;
 #X obj 305 6 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
@@ -32,7 +32,7 @@
 #X text 211 320 - sets array name;
 #X text 210 387 - sets the channel for the value being recorded;
 #X text 147 457 1) symbol;
-#N canvas 207 34 366 264 (subpatch) 0;
+#N canvas 207 50 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
 #X obj 215 68 route dsp;
@@ -42,7 +42,7 @@
 #X obj 147 200 s \$0-cnv;
 #X obj 47 83 select 0 1;
 #X obj 47 220 s \$0-tgl-r;
-#N canvas 0 22 712 637 off 0;
+#N canvas 0 50 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
 #X obj 409 325 +;
@@ -110,7 +110,7 @@
 #X obj 226 139 s \$0-tgl-r;
 #X msg 226 115 set \$1;
 #X msg 135 177 \; pd dsp \$1;
-#N canvas 256 32 278 194 load_check 0;
+#N canvas 256 50 278 194 load_check 0;
 #X obj 136 53 sig~ 1;
 #X obj 74 24 loadbang;
 #X obj 136 86 snapshot~;
@@ -157,10 +157,9 @@ cloned from Max/MSP;
 #X obj 329 141 sig~ -1;
 #X msg 292 138 1;
 #X msg 299 162 2;
-#X obj 292 193 selector~ 2 2;
 #X text 264 138 off;
 #X text 275 162 on;
-#N canvas 961 43 420 478 control 0;
+#N canvas 959 99 420 478 control 0;
 #X obj 148 113 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 268 157 <= index;
@@ -189,7 +188,7 @@ way \, [poke~] behaves similarly to the [peek~] object. Note \, however
 #N canvas 490 171 861 320 multichannel 0;
 #X obj 407 31 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#N canvas 0 22 450 278 (subpatch) 0;
+#N canvas 0 50 450 278 (subpatch) 0;
 #X array 0-quadraphonic_\$0 100 float 0;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
 #X restore 406 30 graph;
@@ -201,19 +200,19 @@ way \, [poke~] behaves similarly to the [peek~] object. Note \, however
 #X msg 293 181 4;
 #X obj 622 30 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#N canvas 0 22 450 278 (subpatch) 0;
+#N canvas 0 50 450 278 (subpatch) 0;
 #X array 1-quadraphonic_\$0 100 float 0;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
 #X restore 621 29 graph;
 #X obj 408 176 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
 -66577 0;
-#N canvas 0 22 450 278 (subpatch) 0;
+#N canvas 0 50 450 278 (subpatch) 0;
 #X array 2-quadraphonic_\$0 100 float 0;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
 #X restore 407 175 graph;
 #X obj 623 175 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
 -66577 0;
-#N canvas 0 22 450 278 (subpatch) 0;
+#N canvas 0 50 450 278 (subpatch) 0;
 #X array 3-quadraphonic_\$0 100 float 0;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
 #X restore 622 174 graph;
@@ -226,7 +225,7 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X obj 56 245 cyclone/poke~ quadraphonic_\$0 1;
 #X obj 56 208 noise~;
 #X obj 147 149 cyclone/count~ 0 100 1;
-#N canvas 207 34 366 264 (subpatch) 0;
+#N canvas 207 50 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
 #X obj 215 68 route dsp;
@@ -236,7 +235,7 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X obj 147 200 s \$0-cnv;
 #X obj 47 83 select 0 1;
 #X obj 47 220 s \$0-tgl-r;
-#N canvas 0 22 712 637 off 0;
+#N canvas 0 50 712 637 off 0;
 #X obj 490 220 * -1;
 #X obj 424 300 +;
 #X obj 409 325 +;
@@ -304,7 +303,7 @@ the name convention is the table name preceded by "0-" \, "1-" \, "2-"
 #X obj 226 139 s \$0-tgl-r;
 #X msg 226 115 set \$1;
 #X msg 135 177 \; pd dsp \$1;
-#N canvas 256 32 278 194 load_check 0;
+#N canvas 256 50 278 194 load_check 0;
 #X obj 136 53 sig~ 1;
 #X obj 74 24 loadbang;
 #X obj 136 86 snapshot~;
@@ -348,9 +347,10 @@ by a signal.;
 is negative or larger than the size of the array \, no data is written
 , f 51;
 #X text 213 476 - channel (default 1 \, maximum 4);
-#X connect 33 0 36 1;
-#X connect 34 0 36 0;
-#X connect 35 0 36 0;
-#X connect 36 0 44 1;
-#X connect 42 0 44 0;
-#X connect 43 0 36 2;
+#X obj 292 193 cyclone/selector~ 2 2;
+#X connect 33 0 47 1;
+#X connect 34 0 47 0;
+#X connect 35 0 47 0;
+#X connect 41 0 43 0;
+#X connect 42 0 47 2;
+#X connect 47 0 43 1;

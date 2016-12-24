@@ -16,8 +16,7 @@ typedef struct _index
 {
     t_object    x_obj;
     t_cybuf   *x_cybuf;
-    int      x_maxchannels;
-    int      x_effchannel;  // effective channel
+    int         x_channum; //requested channel number (1-indexed)
     t_inlet  *x_phaselet;
     t_outlet *x_outlet;
 } t_index;
@@ -39,7 +38,7 @@ static t_int *index_perform(t_int *w)
     {	
 	t_float *xin = (t_float *)(w[3]);
 	int index, maxindex = c->c_npts - 1;
-	t_word *vp = c->c_vectors[x->x_effchannel];
+	t_word *vp = c->c_vectors[0];
 	if (vp)  /* handle array swapping on the fly via ft1 */
 	{
 	    while (nblock--)
@@ -65,10 +64,9 @@ static void index_float(t_index *x, t_float f)
 
 static void index_ft1(t_index *x, t_floatarg f)
 {
-    int in_ch = (int)f;
-    // clip input channel
-    in_ch = (in_ch < 1 ? 1 : in_ch > x->x_maxchannels ? x->x_maxchannels : in_ch);
-    x->x_effchannel = in_ch - 1;
+    int ch = (f < 1) ? 1 : (f > CYBUF_MAXCHANS) ? CYBUF_MAXCHANS : (int) f;
+    x->x_channum = ch;
+    cybuf_getchannel(x->x_cybuf, ch, 1);
 }
 
 static void index_dsp(t_index *x, t_signal **sp)
@@ -86,16 +84,15 @@ static void index_free(t_index *x)
 
 static void *index_new(t_symbol *s, t_floatarg f)
 {
-    int ch = (f > 0 ? (int)f : 0);
+    //like peek~, changing so it doesn't default to 0 but 1 for the new cybuf
+    //single channel mode, not sure how much of a diff it makes... - DK
+    int ch = (f < 1) ? 1 : (f > CYBUF_MAXCHANS) ? CYBUF_MAXCHANS : (int) f;
     /* two signals:  index input, value output */
     t_index *x = (t_index *)pd_new(index_class);
-    x->x_cybuf = cybuf_init((t_class *)x, s, (ch ? INDEX_MAXCHANNELS : 0), 0);
+    x->x_cybuf = cybuf_init((t_class *)x, s, 1, ch);
     if (x->x_cybuf){
-	if (ch > INDEX_MAXCHANNELS)
-	    ch = INDEX_MAXCHANNELS;
-	x->x_maxchannels = (ch ? INDEX_MAXCHANNELS : 1);
-	x->x_effchannel = (ch ? ch - 1 : 0);
-	x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("ft1"));
+	x->x_channum = ch;
+        x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_float, gensym("ft1"));
 	x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
     };
     return (x);
