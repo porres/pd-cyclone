@@ -173,7 +173,7 @@ static void poke_free(t_poke *x)
 static void *poke_new(t_symbol *s, t_floatarg f)
 {
     //like peek~, changing so it doesn't default to 0 but 1 for the new cybuf
-    //single channel mode, not sure how much of a diff it makes...
+    //single channel mode, not sure how much of a diff it makes... - DK
     int ch = (f < 1) ? 1 : (f > CYBUF_MAXCHANS) ? CYBUF_MAXCHANS : (int) f;
 	t_poke *x = (t_poke  *)pd_new(poke_class);
 
