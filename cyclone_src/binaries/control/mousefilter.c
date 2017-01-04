@@ -3,7 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include<string.h>
 #include "hammer/gui.h"
 
 //2016 note: now works with anything, pre v3: only floats - Derek Kwan
