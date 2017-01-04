@@ -6,8 +6,10 @@
 #include "hammer/gui.h"
 
 //2016 note: now works with anything, pre v3: only floats - Derek Kwan
-//issue: mousefilter_doup called after float method called
-//meaning: mousedowns on slider leak through 
+//props to Thomas Musil's iemlib_anything to figure out how to do handle anythings
+
+//mousefilter_doup called after float method called -> mousedowns on slider leak through 
+
 
 //stack size
 #define MOUSEFILTER_STACK 256
