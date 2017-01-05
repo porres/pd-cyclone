@@ -1,15 +1,15 @@
-#N canvas 622 97 561 616 10;
-#X obj 5 608 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 478 191 561 669 10;
+#X obj 5 628 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 505 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 525 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 534 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 554 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 67 288 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 67 288 cnv 17 3 230 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 109 541 1) symbol;
+#X text 109 561 1) symbol;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -25,8 +25,8 @@
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -95,7 +95,7 @@ cloned from Max/MSP;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -128,23 +128,72 @@ cloned from Max/MSP;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 498 76 pd;
-#X text 190 513 (none);
-#X text 181 541 - buffer name (required), f 60;
-#X text 181 556 - audio file to load (optional), f 60;
-#X text 109 556 2) symbol;
-#X text 109 571 3) float;
-#X text 109 587 4) float;
-#X text 181 587 - number of channels (1 to 64) default 1, f 60;
-#N canvas 46 72 557 457 related 0;
-#X text 57 51 cyclone has several objetcs that work in conjunction
+#X text 190 533 (none);
+#X text 181 561 - buffer name (required), f 60;
+#X text 181 576 - audio file to load (optional), f 60;
+#X text 109 576 2) symbol;
+#X text 109 591 3) float;
+#X text 109 607 4) float;
+#X text 181 607 - number of channels (1 to 64) default 1, f 60;
+#N canvas 286 145 819 462 related 0;
+#X obj 622 45 cyclone/buffir~;
+#X obj 623 70 cyclone/lookup~;
+#X obj 623 96 cyclone/index~;
+#X obj 623 122 cyclone/peek~;
+#X obj 511 96 cyclone/poke~;
+#X obj 511 70 cyclone/play~;
+#X obj 511 121 cyclone/record~;
+#X text 25 94 For instance \, a buffer name "test" with 4 channels
+will have arrays named as: "0-test" \, "1-test" \, "2-test" \, and
+"3-test";
+#X text 436 16 Cyclone has several objetcs that work in conjunction
 with [buffer~] \, they are:;
-#X obj 81 113 cyclone/buffir~;
-#X obj 79 148 cyclone/lookup~;
-#X obj 232 111 cyclone/index~;
-#X obj 232 153 cyclone/peek~;
-#X obj 232 194 cyclone/poke~;
-#X obj 114 214 cyclone/play~;
-#X obj 174 251 cyclone/record~;
+#X msg 111 249 open;
+#X text 144 250 <= check internal array;
+#X text 79 325 Similar to:;
+#X text 211 350 <= click to open;
+#X obj 66 419 soundfiler;
+#X obj 66 387 cyclone/loadmess read -resize violin.wav vanilla_\$0
+;
+#X obj 97 350 table vanilla_\$0;
+#X obj 460 287 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 460 363 ./out~;
+#X obj 460 322 cyclone/play~ vanilla_\$0;
+#X obj 623 287 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 623 363 ./out~;
+#X obj 623 322 cyclone/play~ cyclone_\$0;
+#X text 443 247 For example:;
+#X text 439 156 All of them will work with arrays specified either
+with a [buffer~] object or a [table] object. What happens is that they
+will look for a table name with the same name as the argument (for
+vanilla compatibility) and later (if not found) look for an array specified
+in [buffer~]'s format (preeceded by the channel number).;
+#X text 661 270 finds "0-cyclone_\$0" internal array from [cyclone/buffer~]
+, f 20;
+#X text 497 285 finds table with the same name, f 16;
+#X text 24 20 [buffer~] is similar to pd vanilla's [table] object \,
+but is able to define multi channel arrays (up to 64). Like [table]
+\, buffer consists of arrays internally \, and the convention for multi
+channel ordering it the buffer name preceded by the channel number
+(starting at 0) and "-".;
+#X text 26 126 This is not true for single or "mono" buffers. A buffer
+named "test" with only one channel is has an intenral array also named:
+"test".;
+#X text 26 175 This means you can use pd vanilla's objects to access
+the internal arrays of a buffer ([tabplay~] \, for example). In the
+case of a multi channel buffer \, you have to give it the right table
+name according to a specific channel.;
+#X obj 111 276 Abstractions/buffer~ cyclone_\$0 violin.wav -1;
+#X connect 9 0 29 0;
+#X connect 14 0 13 0;
+#X connect 16 0 18 0;
+#X connect 18 0 17 0;
+#X connect 18 0 17 1;
+#X connect 19 0 21 0;
+#X connect 21 0 20 0;
+#X connect 21 0 20 1;
 #X restore 431 250 pd related objects;
 #N canvas 391 59 792 295 read/write 0;
 #X msg 448 66 read;
@@ -163,15 +212,15 @@ with [buffer~] \, they are:;
 #X text 589 150 reloads the last opened file;
 #X text 628 177 writes contents of buffer into a file, f 20;
 #X text 579 216 without symbol: opens dialog box, f 17;
-#X text 23 51 You can specify a sound file to load as the second argument
+#X text 26 38 You can specify a sound file to load as the second argument
 ot via the "read" message. Buffer can currently load 'wav' and 'aif/aiff'
 sound files.;
-#X text 23 105 The "write" mesaage Saves the contents of [buffer~]
-into an audio file. A standard file dialog is opened for naming the
-file unless the word write is followed by a symbol \, in which case
-the file is saved in the current default folder \, using the symbol
-as the filename.;
-#X text 24 180 You can also specify a sound file format in the symbol
+#X text 26 92 The "write" mesaage Saves the contents of [buffer~] into
+an audio file. A standard file dialog is opened for naming the file
+unless the word write is followed by a symbol \, in which case the
+file is saved in the current default folder \, using the symbol as
+the filename.;
+#X text 27 167 You can also specify a sound file format in the symbol
 (such as "test.wav" \, but if you don't specify a format \, [buffer~]
 will save in same format of the most recently opened audio file or
 the last given "filetype" message. By default \, [buffer~] saves in
@@ -186,72 +235,82 @@ AIFF format.;
 #X connect 10 0 18 0;
 #X connect 11 0 18 0;
 #X restore 461 199 pd read/write;
-#N canvas 0 22 450 300 other 0;
-#X msg 61 128 read \$1;
-#X obj 61 98 openpanel;
-#X obj 61 74 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X msg 111 164 read;
-#X text 118 127 read a file;
-#X text 144 164 call [openpanel] and read a file;
-#X msg 144 52 clear;
-#X text 182 54 clears buffers;
-#X msg 150 89 name x;
-#X msg 81 258 open;
-#X msg 138 260 close;
-#X msg 268 103 fill;
-#X obj 111 202 buffer~ \$0-test2 -1 8;
-#X connect 0 0 12 0;
-#X connect 1 0 0 0;
-#X connect 2 0 1 0;
-#X connect 3 0 12 0;
-#X connect 9 0 12 0;
-#X connect 10 0 12 0;
-#X restore 437 225 pd other messages;
 #X text 134 287 clear;
 #X text 140 371 open;
 #X text 134 387 close;
-#X text 181 571 - buffer size in ms (required) - '-1' is sample's size
+#X text 181 591 - buffer size in ms (required) - '-1' is sample's size
 , f 60;
-#X obj 250 216 ./out~;
-#X msg 250 158 start;
-#X msg 297 161 stop;
-#X msg 58 170 open;
-#X msg 108 180 close;
-#X text 74 84 [buffer~] stores audio in a memory buffer. It read/writes
-multichannel audio files and can be used in conjunction with [play~]
-and other related objects. For now \, only basic functionalitites have
-been cloned into this abstraction.;
+#X obj 291 219 ./out~;
+#X msg 291 161 start;
+#X msg 338 164 stop;
+#X msg 51 189 open;
+#X msg 101 199 close;
 #X obj 23 55 cyclone/comment 0 18 times ? 0 0 0 0 Audio buffer;
 #X text 182 287 - fills all arrays with zeros, f 60;
-#X text 182 403 - fills all arrays with given value, f 60;
-#X text 92 403 fill <float>;
 #X text 182 371 - opens buffer supbatch window, f 60;
 #X text 182 387 - closes buffer supbatch window, f 60;
-#X text 182 420 - changes the buffer name, f 60;
+#X text 182 437 - changes the buffer name, f 60;
 #X text 86 304 read <symbol>;
 #X text 80 337 write <symbol>;
 #X text 182 304 - reads file into buffer \, no file name opens dialog
 box, f 60;
 #X text 182 337 - writes buffer into file \, no file name opens dialog
 box, f 60;
-#X text 86 436 name <symbol>;
-#X text 92 419 set <symbol>;
-#X text 182 437 - same as 'name', f 60;
-#X text 74 453 setsize <float>;
-#X text 182 454 - sets buffer size in ms, f 60;
-#X text 74 470 sizeinsamps <f>;
-#X text 182 471 - sets buffer size in samples, f 60;
+#X text 86 453 name <symbol>;
+#X text 92 436 set <symbol>;
+#X text 182 454 - same as 'name', f 60;
+#X text 74 486 setsize <float>;
+#X text 182 487 - sets buffer size in ms, f 60;
+#X text 74 503 sizeinsamps <f>;
+#X text 182 504 - sets buffer size in samples, f 60;
 #X text 110 320 readagain;
 #X text 182 320 - reads the last opened file again, f 60;
-#X obj 250 185 cyclone/play~ buff1_\$0 2;
+#X obj 291 188 cyclone/play~ buff1_\$0 2;
 #X text 80 354 filetype <sym>;
 #X text 182 354 - sets file type to write ("wave" or "aiff"), f 60
 ;
-#X obj 58 210 buffer~ buff1_\$0 stereo.aif -1 2, f 27;
-#X connect 29 0 54 0;
-#X connect 30 0 54 0;
-#X connect 31 0 57 0;
-#X connect 32 0 57 0;
-#X connect 54 0 28 0;
-#X connect 54 1 28 1;
+#X text 86 469 normalize <f>;
+#X text 182 470 - normalizes to the given float value, f 60;
+#X text 74 84 [buffer~] stores audio in a memory buffer. It read/writes
+multichannel audio files and can be used in conjunction with [play~]
+and other related objects. This is an abstraction without the full
+functionalitites.;
+#X text 104 403 fill <any>;
+#X text 182 403 - see [pd function/generators] above, f 60;
+#X text 182 419 - see [pd function/generators] above, f 60;
+#X text 98 419 apply <any>;
+#N canvas 285 43 865 500 function/generators 0;
+#X text 432 150 Apply windowing functions: triangle \, hamming \, hanning
+\, blackman \, welch \, and kaiser. An additional "half" argument (e.g.
+apply blackman half ) applies only the second half to [buffer~]. Note:
+The kaiser function requires a second floating point argument that
+specifies the beta parameter \, which precedes the optional half argument
+(e.g. apply kaiser 4.5 half).;
+#X text 433 51 The word apply followed by "gain" and a float that specifies
+a gain value scales every sample by the gain coefficient. offset and
+a floating-point number that specifies a constant value that will be
+added to every sample in the buffer~. The word apply \, followed by
+the word getdeltas \, will replace every sample value with the a new
+value representing the difference from the previous sample.;
+#X text 45 48 The word fill followed by a float sets every sample in
+the [buffer~] to that value. The fill message can also fill the buffers
+with a specific function., f 60;
+#X text 45 96 Supported functions: sin (sine) \, cos \, (cosine) \,
+and sinc. An optional second argument (e.g. fill sin 2 ) can be used
+to define the number of cycles of the function used to fill the buffer~.
+An additional optional third argument defines a rational number of
+cycles with which to fill the buffer~ (e.g. fill cos 1 4 will fill
+a buffer~ with a quarter cycle of the cosine function).;
+#X text 45 196 Note: the sinc function requires two int arguments that
+specify the number of zero crossings and an additional flag that toggles
+starting the function at zero (e.g. fill sinc 4 1 ).;
+#X text 459 273 kaiser;
+#X restore 407 225 pd function/generators;
+#X obj 63 229 Abstractions/buffer~ buff1_\$0 ../8id.wav -1 8, f 29
+;
+#X connect 28 0 50 0;
+#X connect 29 0 50 0;
+#X connect 30 0 61 0;
+#X connect 31 0 61 0;
+#X connect 50 0 27 0;
+#X connect 50 1 27 1;
