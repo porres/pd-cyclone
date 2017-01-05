@@ -46,6 +46,7 @@ typedef struct _funbuff
 
     t_hammernode *x_selptr; //pointer for select
     int           x_selptrset; //set with select
+    int            x_selstart; //select start index
     int           x_selrng; //select range
     t_funbuffcom   *x_clip; //clipboard
     int            x_lastdelta;
@@ -508,9 +509,11 @@ static void funbuff_reduce(t_funbuff *x, t_floatarg f)
 
 static void funbuff_select(t_funbuff *x, t_floatarg f1, t_floatarg f2)
 {
-    x->x_selptr = hammertree_closest(&x->x_tree, (int)f1, 1);
+    int startidx = f1 < 0 ? 0 : (int) f1;
+    x->x_selptr = hammertree_closest(&x->x_tree, startidx, 1);
     int rng = f2 < 0 ? 0 : (int) f2;
     if(rng){
+        x->x_selstart = startidx;
         x->x_selrng = rng;
         x->x_selptrset = 1;
     };
@@ -533,13 +536,18 @@ static void funbuff_copy(t_funbuff *x)
         int idx = 0; //index into c_pairs
         t_funbuffcom * c = x->x_clip;
         int cursize = c->c_pairsz;
-        if(cursize != (rng *2)){
-            funbuffcom_alloc(c, rng*2);
+        //rng * 2 should be good but rng * 3 just to be safe?
+        //depends on what rng actually means
+        if(cursize != (rng *3)){
+            funbuffcom_alloc(c, rng*3);
         };
         int allocsz = c->c_allocsz;
         t_hammernode * np = x->x_selptr;
-        while(np && rng && c && idx < allocsz){
+        while(np && c && idx < allocsz){
 	    int xval = np->n_key;
+            if(xval >= x->x_selstart + rng){
+                break;
+            };
 	    t_float yval = HAMMERNODE_GETFLOAT(np);
             //post("%d %f", xval, yval);
             SETFLOAT(&c->c_pairs[idx], (t_float)xval);
@@ -547,7 +555,6 @@ static void funbuff_copy(t_funbuff *x)
             SETFLOAT(&c->c_pairs[idx], (t_float)yval);
             idx++;
             np = np->n_next;
-            rng--;
         };
         c->c_pairsz = idx;
     };
