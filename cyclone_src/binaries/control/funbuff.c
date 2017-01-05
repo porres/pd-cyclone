@@ -9,6 +9,28 @@
 #include "hammer/tree.h"
 #include "hammer/file.h"
 
+
+//Derek Kwan 2016 - adding cut/copy/paste/select/undo functionality, copy/paste/select so far
+//fbuffcom, the clipboard, comes from ideas from value in pd's src/x_connective.c
+//this will serve as funbuff's common clipboard
+
+//stack size
+#define FBCLIP_STACK 256
+//max alloc size
+#define FBCLIP_MAX 1024
+
+typedef struct _funbuffcom
+{
+
+    t_pd c_pd;
+    t_atom * c_pairs; //xvals and yvals
+    int     c_refcount; //how many funbuffs are active
+    int     c_allocsz; //allocated size of list
+    int     c_pairsz;  //size of xval/yval list
+    t_atom  c_pairstack[FBCLIP_STACK]; //list stack
+    int     c_heaped; //if heaped or not
+} t_funbuffcom;
+
 typedef struct _funbuff
 {
     t_object   x_ob;
@@ -21,6 +43,11 @@ typedef struct _funbuff
        -- apparently a node pointer is stored, corrupt in these cases */
     t_hammernode  *x_pointer;
     int            x_pointerset;  /* set-with-goto flag */
+
+    t_hammernode *x_selptr; //pointer for select
+    int           x_selptrset; //set with select
+    int           x_selrng; //select range
+    t_funbuffcom   *x_clip; //clipboard
     int            x_lastdelta;
     int            x_embedflag;
     t_hammerfile  *x_filehandle;
@@ -30,6 +57,71 @@ typedef struct _funbuff
 } t_funbuff;
 
 static t_class *funbuff_class;
+static t_class *funbuffcom_class;
+
+
+//value allocation helper function
+static void funbuffcom_alloc(t_funbuffcom *c, int argc){
+   int cursize = c->c_allocsz;
+    int heaped = c->c_heaped;
+
+
+    if(heaped && argc <= FBCLIP_STACK){
+        //if x_value is pointing to a heap and incoming list can fit into FBCLIP_STACK
+        //deallocate x_value and point it to stack, update status
+        freebytes((c->c_pairs), (cursize) * sizeof(t_atom));
+        c->c_pairs = c->c_pairstack;
+        c->c_heaped = 0;
+        c->c_allocsz = FBCLIP_STACK;
+        }
+    else if(heaped && argc > FBCLIP_STACK && argc > cursize){
+        //if already heaped, incoming list can't fit into FBCLIP_STACK and can't fit into allocated t_atom
+        //reallocate to accomodate larger list, update status
+        
+        int toalloc = argc; //size to allocate
+        //bounds checking for maxsize
+        if(toalloc > FBCLIP_MAX){
+            toalloc = FBCLIP_MAX;
+        };
+        c->c_pairs = (t_atom *)resizebytes(c->c_pairs, cursize * sizeof(t_atom), toalloc * sizeof(t_atom));
+        c->c_allocsz = toalloc;
+    }
+    else if(!heaped && argc > FBCLIP_STACK){
+        //if not heaped and incoming list can't fit into FBCLIP_STACK
+        //allocate and update status
+
+        int toalloc = argc; //size to allocate
+        //bounds checking for maxsize
+        if(toalloc > FBCLIP_MAX){
+            toalloc = FBCLIP_MAX;
+        };
+        c->c_pairs = (t_atom *)getbytes(toalloc * sizeof(t_atom));
+        c->c_heaped = 1;
+        c->c_allocsz = toalloc;
+    };
+
+}
+
+
+void funbuffcom_release(void)
+{
+    t_symbol * clipname = gensym("cyfunbuffclip");
+    t_funbuffcom *c = (t_funbuffcom *)pd_findbyclass(clipname, funbuffcom_class);
+    if (c)
+    {
+        if (!--c->c_refcount)
+        {
+            if(c->c_heaped){
+
+                freebytes((c->c_pairs), (c->c_allocsz) * sizeof(t_atom));
+             };
+            pd_unbind(&c->c_pd, clipname);
+            pd_free(&c->c_pd);
+        }
+    }
+    else bug("funbuffcom_release");
+}
+
 
 static void funbuff_dooutput(t_funbuff *x, float value, float delta)
 {
@@ -101,6 +193,8 @@ static void funbuff_clear(t_funbuff *x)
     hammertree_clear(&x->x_tree, 0);
     /* CHECKED valueset is not cleared */
     x->x_pointer = 0;
+    x->x_selptr = 0;
+    x->x_selptrset = 0;
 }
 
 /* LATER dirty flag handling */
@@ -297,6 +391,10 @@ static void funbuff_delete(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
 	{
 	    if (np == x->x_pointer)
 		x->x_pointer = 0;  /* CHECKED corrupt pointer left here... */
+            if (np == x->x_selptr){
+                x->x_selptr = 0;
+                x->x_selptrset = 0;
+            };
 	    hammertree_delete(&x->x_tree, np);  /* FIXME */
 	}
 	/* CHECKED mismatch silently ignored */
@@ -410,7 +508,12 @@ static void funbuff_reduce(t_funbuff *x, t_floatarg f)
 
 static void funbuff_select(t_funbuff *x, t_floatarg f1, t_floatarg f2)
 {
-    loud_notimplemented((t_pd *)x, "select");
+    x->x_selptr = hammertree_closest(&x->x_tree, (int)f1, 1);
+    int rng = f2 < 0 ? 0 : (int) f2;
+    if(rng){
+        x->x_selrng = rng;
+        x->x_selptrset = 1;
+    };
 }
 
 /* CHECKED (sub)buffer's copy is stored, as expected --
@@ -424,12 +527,50 @@ static void funbuff_cut(t_funbuff *x)
 /* CHECKED copy entire contents if no selection */
 static void funbuff_copy(t_funbuff *x)
 {
-    loud_notimplemented((t_pd *)x, "copy");
+
+    int rng = x->x_selrng;
+    if(x->x_selptrset){
+        int idx = 0; //index into c_pairs
+        t_funbuffcom * c = x->x_clip;
+        int cursize = c->c_pairsz;
+        if(cursize != (rng *2)){
+            funbuffcom_alloc(c, rng*2);
+        };
+        int allocsz = c->c_allocsz;
+        t_hammernode * np = x->x_selptr;
+        while(np && rng && c && idx < allocsz){
+	    int xval = np->n_key;
+	    t_float yval = HAMMERNODE_GETFLOAT(np);
+            //post("%d %f", xval, yval);
+            SETFLOAT(&c->c_pairs[idx], (t_float)xval);
+            idx++;
+            SETFLOAT(&c->c_pairs[idx], (t_float)yval);
+            idx++;
+            np = np->n_next;
+            rng--;
+        };
+        c->c_pairsz = idx;
+    };
 }
 
 static void funbuff_paste(t_funbuff *x)
 {
-    loud_notimplemented((t_pd *)x, "paste");
+    t_funbuffcom * c = x->x_clip;
+    int clipsize = c->c_pairsz; //# of nodes in tree
+  /*
+    t_atom * clpairs[clipsize*2]; //list to send to funbuff_set
+  
+    int idx = 0; //current index in t_atom *
+    while(np && idx < (clipsize*2)){
+        int xval = np->n_key;
+        t_float yval = HAMMERNODE_GETFLOAT(np);
+        SETFLOAT(clpairs[idx++], (t_float)xval);
+        SETFLOAT(clpairs[idx++], yval);
+        np = np -> n_next;
+    };
+    funbuff_set(x, 0, idx, clpairs);
+    */
+    funbuff_set(x, 0, clipsize, c->c_pairs); 
 }
 
 static void funbuff_undo(t_funbuff *x)
@@ -449,6 +590,7 @@ static void funbuff_free(t_funbuff *x)
 {
     hammerfile_free(x->x_filehandle);
     hammertree_clear(&x->x_tree, 0);
+    funbuffcom_release();
 }
 
 static void *funbuff_new(t_symbol *s)
@@ -458,6 +600,8 @@ static void *funbuff_new(t_symbol *s)
     x->x_valueset = 0;
     x->x_pointer = 0;
     x->x_pointerset = 0;  /* CHECKME, rename to intraversal? */
+    x->x_selptr = 0;
+    x->x_selptrset = 0;
     x->x_lastdelta = 0;
     x->x_embedflag = 0;
     hammertree_inittyped(&x->x_tree, HAMMERTYPE_FLOAT, 0);
@@ -473,6 +617,27 @@ static void *funbuff_new(t_symbol *s)
     else x->x_defname = &s_;
     x->x_filehandle = hammerfile_new((t_pd *)x, funbuff_embedhook,
 				     funbuff_readhook, funbuff_writehook, 0);
+
+    //init funbuff clipboard
+
+    //give it a long symbol name to make sure no overlaps
+    t_symbol * clipname = gensym("cyfunbuffclip");
+    t_funbuffcom *c = (t_funbuffcom *)pd_findbyclass(clipname, funbuffcom_class);
+    if(!c){
+
+        c = (t_funbuffcom *)pd_new(funbuffcom_class);
+        pd_bind(&c->c_pd, clipname);
+        c->c_refcount = 1;
+        c->c_pairsz = 0;
+        c->c_pairs = c->c_pairstack;
+        c->c_heaped = 0;
+        c->c_allocsz = FBCLIP_STACK;
+    }
+    else{
+        c->c_refcount = c->c_refcount + 1;
+    };
+    
+    x->x_clip = c;
     return (x);
 }
 
@@ -531,6 +696,10 @@ void funbuff_setup(void)
 		    gensym("debug"), A_DEFFLOAT, 0);
 #endif
     hammerfile_setup(funbuff_class, 1);
+
+
+    funbuffcom_class = class_new(gensym("funbuffcom"), 0, 0,
+        sizeof(t_funbuffcom), CLASS_PD, 0);
 //    logpost(NULL, 4, "this is cyclone/funbuff %s, %dth %s build",
 //	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
