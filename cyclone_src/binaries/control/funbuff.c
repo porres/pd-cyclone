@@ -10,7 +10,7 @@
 #include "hammer/file.h"
 
 
-//Derek Kwan 2016 - adding cut/copy/paste/select/undo functionality, copy/paste/select so far
+//Derek Kwan 2016 - adding cut/copy/paste/select/undo functionality, all but undo so far
 //fbuffcom, the clipboard, comes from ideas from value in pd's src/x_connective.c
 //this will serve as funbuff's common clipboard
 
@@ -18,6 +18,8 @@
 #define FBCLIP_STACK 256
 //max alloc size
 #define FBCLIP_MAX 1024
+
+
 
 typedef struct _funbuffcom
 {
@@ -519,14 +521,6 @@ static void funbuff_select(t_funbuff *x, t_floatarg f1, t_floatarg f2)
     };
 }
 
-/* CHECKED (sub)buffer's copy is stored, as expected --
-   'delete' does not modify the clipboard */
-/* CHECKED cut entire contents if no selection */
-static void funbuff_cut(t_funbuff *x)
-{
-    loud_notimplemented((t_pd *)x, "cut");
-}
-
 /* CHECKED copy entire contents if no selection */
 static void funbuff_copy(t_funbuff *x)
 {
@@ -584,6 +578,24 @@ static void funbuff_undo(t_funbuff *x)
 {
     /* CHECKED apparently not working in 4.07 */
     loud_notimplemented((t_pd *)x, "undo");
+}
+
+/* CHECKED (sub)buffer's copy is stored, as expected --
+   'delete' does not modify the clipboard */
+/* CHECKED cut entire contents if no selection */
+static void funbuff_cut(t_funbuff *x)
+{
+    funbuff_copy(x);
+    if(x->x_selptrset){
+        int i =0;
+        t_funbuffcom * c = x->x_clip;
+        int clipsize = c->c_pairsz; //# of nodes in tree
+        //have to go by pair since delete only goes by pair
+        for(i=0; i < clipsize; i += 2){
+            funbuff_delete(x, gensym("cut"), 2, c->c_pairs+i); 
+        };
+    };
+
 }
 
 #ifdef HAMMERTREE_DEBUG
