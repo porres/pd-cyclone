@@ -1,22 +1,22 @@
-#N canvas 173 30 562 735 10;
-#X obj 5 689 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 498 23 560 673 10;
+#X obj 5 634 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 342 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 287 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 8 533 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 8 478 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 9 570 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 9 515 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 70 353 cnv 17 3 147 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 70 298 cnv 17 3 147 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 70 506 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 70 451 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 89 543 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 89 488 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 176 542 signal;
-#X obj 162 188 cyclone/cycle~ 440;
-#X text 142 506 float/signal;
-#X text 142 352 float/signal;
+#X text 176 487 signal;
+#X obj 251 186 cyclone/cycle~ 440;
+#X text 142 451 float/signal;
+#X text 142 297 float/signal;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -27,34 +27,33 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X text 196 402 set;
-#X text 223 402 - only a "set" message sets to the default cosine wave
+#X text 196 347 set;
+#X text 223 347 - only a "set" message sets to the default cosine wave
 ;
-#X text 113 575 1) float;
-#X text 113 590 2) symbol;
-#X text 113 618 3) float;
-#X text 189 618 - sets offset within the given array (default 0);
-#X obj 162 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X text 113 520 1) float;
+#X text 113 535 2) symbol;
+#X text 113 563 3) float;
+#X text 189 563 - sets offset within the given array (default 0);
+#X obj 251 158 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 221 159 frequency in hertz;
-#X text 290 188 <= as a cosine wave oscillator;
-#X text 124 435 setall <symbol>;
-#X text 124 452 buffer <symbol>;
-#X text 225 435 - sets an array using its entire length;
-#X text 224 419 - sets array name and offset (reads only 512 points)
+#X text 310 157 frequency in hertz;
+#X text 124 380 setall <symbol>;
+#X text 124 397 buffer <symbol>;
+#X text 225 380 - sets an array using its entire length;
+#X text 224 364 - sets array name and offset (reads only 512 points)
 ;
-#X text 225 452 - sets array (analogous to the setall message);
-#X text 223 351 - sets frequency in hertz (negative values allowed)
+#X text 225 397 - sets array (analogous to the setall message);
+#X text 223 296 - sets frequency in hertz (negative values allowed)
 ;
-#X text 223 367 - sets frequency in hertz;
-#X text 223 384 - sets phase offset (0-1);
-#X text 225 469 - offset into buffer;
-#X text 82 485 buffer_sizeinsamps <f>;
-#X obj 9 641 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X text 223 312 - sets frequency in hertz;
+#X text 223 329 - sets phase offset (0-1);
+#X text 225 414 - offset into buffer;
+#X text 82 430 buffer_sizeinsamps <f>;
+#X obj 9 586 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 139 649 @frequency <float> | @phase <float> | @buffer <symbol>
+#X text 139 594 @frequency <float> | @phase <float> | @buffer <symbol>
 ;
-#X text 139 664 @buffer_offset <float> | @buffer_sizeinsamps <float>
+#X text 139 609 @buffer_offset <float> | @buffer_sizeinsamps <float>
 ;
 #N canvas 253 23 991 801 set_and_setall 0;
 #X obj 72 433 hsl 396 22 0 4096 0 0 empty empty empty -2 -8 0 10 -228856
@@ -142,7 +141,7 @@ normalize;
 #X connect 22 0 20 0;
 #X connect 22 0 29 0;
 #X connect 22 0 29 1;
-#X restore 330 236 pd set_and_setall messages;
+#X restore 384 232 pd set_and_setall messages;
 #N canvas 379 35 928 683 attributes 0;
 #X obj 34 10 cnv 15 130 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -206,8 +205,8 @@ remainder is filled with zeros.;
 #X connect 19 0 15 0;
 #X connect 19 0 24 0;
 #X connect 19 0 24 1;
-#X restore 330 263 pd attributes;
-#N canvas 152 45 929 687 phase 0;
+#X restore 462 207 pd attributes;
+#N canvas 429 45 929 687 phase 0;
 #X obj 638 514 *~;
 #X msg 719 502 \$1 10;
 #X obj 719 522 line~;
@@ -273,27 +272,23 @@ mode - so nevermind if you hear "clicks" when editing the patch!;
 #X connect 23 0 0 0;
 #X connect 24 0 33 0;
 #X connect 24 0 33 1;
-#X restore 438 263 pd phase;
-#X text 58 300 * The similar [wave~] object from cyclone provides other
-interpolation types.;
+#X restore 492 256 pd phase;
 #X text 63 84 [cycle~] is a linear interpolating oscillator* that reads
 repeatedly through one cycle of a waveform. The default internal waveform
 is one cycle of a cosine wave (16k in size \, 64 bits) \, but you can
 set other waveforms from given arrays.;
-#X text 100 418 set <symbol \, float>;
-#X text 136 385 phase <float>;
-#X text 112 368 frequency <float>;
-#X text 88 469 buffer_offset <float>;
-#X text 225 542 - a periodically repeating waveform;
-#X text 189 590 - sets array used as the wavetable (reads 512 points
-only) \, default is an internal cosine table;
-#X text 189 575 - sets frequency in Hz (default 0);
-#X text 225 485 - changes the buffer size to powers of 2 (16 to 65536)
+#X text 100 363 set <symbol \, float>;
+#X text 136 330 phase <float>;
+#X text 112 313 frequency <float>;
+#X text 88 414 buffer_offset <float>;
+#X text 225 487 - a periodically repeating waveform;
+#X text 189 520 - sets frequency in Hz (default 0);
+#X text 225 430 - changes the buffer size to powers of 2 (16 to 65536)
 ;
-#X text 225 506 - phase offset (0 to 1);
+#X text 225 451 - phase offset (0 to 1);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -362,7 +357,7 @@ only) \, default is an internal cosine table;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -401,7 +396,31 @@ only) \, default is an internal cosine table;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 136 230 ./out~;
-#X connect 8 0 56 0;
-#X connect 8 0 56 1;
+#X obj 225 224 ./out~;
+#N canvas 874 112 448 386 buffer~ 0;
+#X msg 151 133 open;
+#X text 28 19 The [cycle~] object works with any kind of array set
+in Pd as well with arrays set in the [buffer~] object. In the case
+of a multi channel [buffer~] \, [cycle~] will only read its first channel.
+;
+#X obj 129 103 cyclone/loadmess fill sin 1;
+#X obj 166 282 ./out~;
+#X obj 192 213 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 335 256;
+#X obj 129 160 cyclone/buffer~ \$0-sine @samps 512;
+#X obj 192 240 cyclone/cycle~ 440 \$0-sine;
+#X connect 0 0 5 0;
+#X connect 2 0 5 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 0 3 1;
+#X restore 383 256 pd buffer~;
+#X text 189 535 -;
+#X text 201 535 sets array used as the wavetable (but only reads 512
+points from the buffer) \, default: internal cosine table, f 58;
+#X text 20 210 *;
+#X text 32 209 [cyclone/wave~] provides other interpolation types.
+, f 26;
+#X connect 8 0 53 0;
+#X connect 8 0 53 1;
 #X connect 21 0 8 0;

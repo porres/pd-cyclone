@@ -1,4 +1,4 @@
-#N canvas 725 93 558 594 10;
+#N canvas 660 57 558 594 10;
 #X obj 4 557 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 371 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -40,7 +40,7 @@
 #X connect 8 0 0 0;
 #X restore 278 220 pd load_sample;
 #X text 220 502 - array/table name to be used for lookup;
-#N canvas 758 142 452 656 waveshaping_example 0;
+#N canvas 150 150 452 656 waveshaping_example 0;
 #X obj 74 445 cnv 15 278 178 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 300 (subpatch) 0;
@@ -83,7 +83,7 @@ Check below:;
 #X connect 13 0 10 0;
 #X connect 13 0 16 0;
 #X connect 13 0 16 1;
-#X restore 384 331 pd waveshaping_example;
+#X restore 404 310 pd waveshaping_example;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -215,7 +215,7 @@ indexes.;
 #X text 220 378 - signal to be used as index;
 #X text 220 416 - start point of the array;
 #X text 220 438 - end point of the array;
-#N canvas 578 98 506 547 start/end 1;
+#N canvas 578 98 506 547 start/end 0;
 #X text 71 18 Input values (from -1 to 1) are mapped to table indexes.
 The default table size is 512 points \, so the default start and end
 points are \, repsectively \, 0 and 511 (since the table indexes are
@@ -225,10 +225,10 @@ that corresponds to the last index (table size - 1).;
 #X obj 228 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 302 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 51813.1 256;
+-228856 -1 -1 0 256;
 #X obj 155 226 cyclone/triangle~ 1;
 #X obj 305 290 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 10600 1;
+-228856 -1 -1 0 1;
 #X obj 231 262 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
 -228856 -1 -1 0 1;
 #X text 253 261 start point;
@@ -254,7 +254,7 @@ to those min/max values.;
 #X connect 10 0 4 0;
 #X connect 14 0 13 0;
 #X connect 14 0 13 1;
-#X restore 401 304 pd start/end points;
+#X restore 421 284 pd start/end points;
 #X text 220 517 - initial start point in array/table (default 0);
 #X text 220 533 - initial end point in the array/table (default 511)
 ;
@@ -268,6 +268,39 @@ cloned from Max/MSP;
 #X obj 131 215 osc~ 0.075;
 #X text 213 210 start point, f 6;
 #X obj 110 300 ./out~;
+#N canvas 953 208 435 447 buffer~ 0;
+#X msg 181 120 open;
+#X text 28 19 The [lookup~] object works with any kind of array set
+in Pd \, and not only from the [buffer~] object. In the case of a multi
+channel [buffer~] object \, [lookup~] can only read its first channel.
+;
+#X obj 168 268 *~;
+#X obj 267 272 line~;
+#X msg 267 245 \$1 10;
+#X obj 267 221 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.177953 256;
+#X obj 270 197 hsl 128 15 0.1 1 0 1 empty empty empty -2 -8 0 10 -228856
+-1 -1 1100 1;
+#X text 301 197 Amplitude, f 10;
+#X obj 145 350 ./out~;
+#X obj 159 147 cyclone/buffer~ \$0-shape2 @samps 4096;
+#X obj 168 308 cyclone/lookup~ \$0-shape2 0 4096;
+#X obj 168 232 osc~ 50;
+#X obj 168 205 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 194 256;
+#X obj 159 90 cyclone/loadmess fill sin 4;
+#X connect 0 0 9 0;
+#X connect 2 0 10 0;
+#X connect 3 0 2 1;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 10 0 8 0;
+#X connect 10 0 8 1;
+#X connect 11 0 2 0;
+#X connect 12 0 11 0;
+#X connect 13 0 9 0;
+#X restore 476 336 pd buffer~;
 #X connect 16 0 29 0;
 #X connect 28 0 41 1;
 #X connect 29 0 41 2;
