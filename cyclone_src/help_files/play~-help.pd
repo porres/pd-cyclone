@@ -1,4 +1,4 @@
-#N canvas 607 156 558 636 10;
+#N canvas 658 38 558 636 10;
 #X obj 4 599 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 292 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -15,17 +15,17 @@
 #X text 141 485 signal;
 #X text 123 551 2) float;
 #X text 123 535 1) symbol;
-#N canvas 419 126 815 322 multichannel 0;
-#X msg 521 65 stop;
-#X msg 511 39 start;
-#X obj 658 130 bng 30 250 50 0 empty empty empty 17 7 0 10 -228856
+#N canvas 541 160 812 305 multichannel 0;
+#X msg 544 44 stop;
+#X msg 534 21 start;
+#X obj 681 104 bng 30 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 526 131 ./out~;
+#X obj 548 104 ./out~;
 #X text 30 19 Multi channel playback is possible (up to 64 channels)
 when you specify it with a second argument. The number of channels
 defines the number 'n' of outlets - where the first outlets are the
 channel inputs and the righmost is the bang outlet.;
-#X text 436 221 Inconsistency: In Max \, if [buffer~] has more channels
+#X text 438 229 Inconsistency: In Max \, if [buffer~] has more channels
 than [play~] \, the channels are mixed. This shall be implemented in
 cyclone when the [buffer~] object is turned into a compiled object.
 ;
@@ -36,8 +36,11 @@ number (starting from zero) and "-" \, such as: "0-" \, "1-" \, "2-"
 #X text 33 172 You can manually set multi channel arrays in Pd like
 that or use the [buffer~] object \, which does this internally.;
 #X msg 91 229 open;
-#X obj 511 95 cyclone/play~ stereo_\$0 2;
-#X obj 91 261 cyclone/buffer~ stereo_\$0 stereo.aif -1 2;
+#X obj 534 72 cyclone/play~ stereo_\$0 2;
+#X obj 91 257 cyclone/buffer~ stereo_\$0 stereo.aif -1 2;
+#X text 439 179 If the [buffer~] being played has fewer channels than
+the number of output channels in [play~] \, the extra channels output
+a zero signal.;
 #X connect 0 0 9 0;
 #X connect 1 0 9 0;
 #X connect 8 0 10 0;
