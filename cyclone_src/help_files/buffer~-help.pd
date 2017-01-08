@@ -1,4 +1,4 @@
-#N canvas 681 23 559 765 10;
+#N canvas 533 23 559 765 10;
 #X obj 5 727 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -25,8 +25,8 @@
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -95,7 +95,7 @@ cloned from Max/MSP;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -264,48 +264,50 @@ functionalitites from the Max/MSP original.;
 #X text 152 692 @size <float> (sets buffer size in ms), f 44;
 #X text 146 707 @samps <float> (sets buffer size in samples), f 45
 ;
-#N canvas 283 42 807 413 functions/generators 1;
-#X text 413 187 Apply windowing functions: triangle \, hamming \, hanning
-\, blackman \, welch \, and kaiser. An additional "half" argument (e.g.
-apply blackman half ) applies only the second half to [buffer~]. Note:
-The kaiser function requires a second floating point argument that
-specifies the beta parameter \, which precedes the optional half argument
-(e.g. apply kaiser 4.5 half).;
-#X obj 514 295 loadbang;
-#X msg 465 315 open;
-#X text 24 61 The word "fill" followed by a float sets every sample
-in the [buffer~] to that value. The fill message can also fill the
-buffers with a specific function.;
-#X text 24 106 The supported functions are: sin (sine) \, cos \, (cosine)
-\, and sinc., f 60;
-#X text 24 137 For sin/cos \, an optional second argument (e.g. "fill
-sin 2") can be used to define the number of cycles of the function
-used to fill the buffer. An additional optional third argument defines
-a rational number of cycles with which to fill the buffer (e.g. "fill
-cos 1 4" fills with a quarter cycle of the cosine function).;
-#X text 24 221 The sinc function requires two int arguments that specify
-the number of zero crossings and an additional flag that toggles starting
-the function at zero (e.g. fill sinc 4 1 ).;
+#N canvas 80 117 807 413 functions/generators 0;
+#X obj 514 299 loadbang;
+#X msg 465 319 open;
 #X obj 27 20 cyclone/comment 0 18 times ? 0 0 0 0 Fill;
 #X obj 416 19 cyclone/comment 0 18 times ? 0 0 0 0 Apply;
-#X text 413 61 The message "apply gain" plus a float specifying a gain
-value scales every sample by the gain coefficient., f 60;
-#X text 413 94 The message "apply offset" plus a float that specifies
-a constant value adds that value to every sample in the buffer., f
-60;
 #X text 413 139 The message "apply getdeltas" replaces every sample
 value with the a new value representing the difference from the previous
 sample., f 60;
-#X msg 514 323 fill 1 \, apply hanning;
-#X msg 69 313 open;
-#X obj 514 347 cyclone/buffer~ window_\$0 @samps 1024;
-#X obj 118 344 cyclone/buffer~ gen_\$0 @samps 1024;
-#X obj 118 312 cyclone/loadmess fill sinc 8;
-#X connect 1 0 12 0;
-#X connect 2 0 14 0;
-#X connect 12 0 14 0;
-#X connect 13 0 15 0;
-#X connect 16 0 15 0;
+#X msg 514 327 fill 1 \, apply hanning;
+#X msg 65 313 open;
+#X obj 514 351 cyclone/buffer~ window_\$0 @samps 1024;
+#X obj 114 312 cyclone/loadmess fill sinc 8;
+#X text 413 61 The message "apply gain" plus a float (specifying a
+gain value) scales every sample by the given gain coefficient., f
+60;
+#X text 413 94 The message "apply offset" plus a float (specifying
+a constant value offset) adds the offset to every sample in the buffer.
+;
+#X text 24 61 The word "fill" followed by a float sets every sample
+in the [buffer~] to that value.;
+#X text 24 97 The fill message can also fill the buffers with a specific
+function \, they are: sin (sine) \, cos \, (cosine) \, and sinc.;
+#X text 413 187 Apply can also apply evelopes from windowing functions
+\, they are: triangle \, hamming \, hanning \, blackman \, welch and
+kaiser. An additional "half" argument (e.g. apply blackman half ) applies
+only the second half to [buffer~]. The kaiser function requires a second
+floating point argument that specifies the beta parameter \, which
+precedes the optional half argument (e.g. "apply kaiser 4.5 half").
+;
+#X text 24 135 For sin/cos \, an optional second argument (e.g. "fill
+sin 2") can be used to define the number of cycles of the function
+used to fill the buffer. An additional optional third argument defines
+a rational number of cycles with which to fill the buffer. For instance
+\, "fill cos 1 4" fills with a quarter cycle of the cosine function.
+;
+#X text 24 221 The sinc function requires two arguments that specify
+the number of zero crossings and an additional flag that toggles starting
+the function at zero (e.g. "fill sinc 4 1").;
+#X obj 114 344 cyclone/buffer~ gen_\$0 @samps 1024;
+#X connect 0 0 5 0;
+#X connect 1 0 7 0;
+#X connect 5 0 7 0;
+#X connect 6 0 16 0;
+#X connect 8 0 16 0;
 #X restore 404 225 pd functions/generators;
 #X text 77 407 filetype <symbol>;
 #X text 192 407 - symbol sets file type to write ("wave" or "aiff")
