@@ -117,30 +117,49 @@ and check.;
 #X connect 9 0 1 0;
 #X restore 643 339 pd interpolation;
 #X text 467 340 More examples:;
-#N canvas 614 240 473 391 copy/paste 0;
-#X msg 53 64 select 3 5;
-#X msg 84 155 cut;
-#X msg 115 155 copy;
-#X msg 153 200 undo;
-#X msg 152 155 paste;
-#X obj 85 307 cyclone/funbuff;
+#N canvas 447 337 792 353 copy/paste 0;
+#X msg 86 92 select 3 5;
+#X msg 117 132 cut;
+#X msg 148 132 copy;
+#X msg 186 181 undo;
+#X msg 185 132 paste;
+#X obj 86 308 cyclone/funbuff;
 #C restore;
-#X msg 171 258 delete 5;
-#X text 229 233 deletes matching pair;
-#X text 183 198 or paste operation;
-#X text 165 184 undoes the latest cut;
-#X text 75 87 selects 5 elements staring from element 3 - the region
-from pointer 3 to 3 + 5 (8). Used for cut \, copy and paste operations.
-;
-#X text 228 259 deletes the pair where x = 5;
-#X msg 160 232 delete 3 2;
+#X msg 204 239 delete 5;
+#X text 262 214 deletes matching pair;
+#X text 219 179 or paste operation;
+#X text 201 163 undoes the latest cut;
+#X text 261 240 deletes the pair where x = 5;
+#X msg 30 51 1 2 \, 2 3 \, 3 4 \, 4 5 \, 5 6 \, 6 7 \, 7 8 \, 8 9 \,
+9 10 \, 10 11;
+#X obj 206 272 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 574 170 paste;
+#X obj 574 270 cyclone/funbuff;
+#C restore;
+#X msg 600 202 undo;
+#X text 235 273 print information in Pd window;
+#X obj 544 140 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 228 132 clipboard operation;
+#X obj 30 27 loadbang;
+#X text 163 79 selects 5 elements staring from element 3 - the region
+from pointer 3 to 3 + 5 (8). Used for clipboard operations: cut \,
+copy and paste., f 47;
+#X msg 193 213 delete 3 4;
 #X connect 0 0 5 0;
 #X connect 1 0 5 0;
 #X connect 2 0 5 0;
 #X connect 3 0 5 0;
 #X connect 4 0 5 0;
 #X connect 6 0 5 0;
+#X connect 11 0 5 0;
 #X connect 12 0 5 0;
+#X connect 13 0 14 0;
+#X connect 15 0 14 0;
+#X connect 17 0 14 0;
+#X connect 19 0 11 0;
+#X connect 21 0 5 0;
 #X restore 614 387 pd copy/paste & delete;
 #X text 22 15 There can only be one 'x' value and a corresponding 'y'value.
 So if you can rewrite a 'y' value by sending another message.;

@@ -85,13 +85,11 @@ cosh~.class.sources := cyclone_src/binaries/signal/cosh.c
 cosx~.class.sources := cyclone_src/binaries/signal/cosx.c
 count~.class.sources := cyclone_src/binaries/signal/count.c
 comb~.class.sources := cyclone_src/binaries/signal/comb.c
-cycle~.class.sources := cyclone_src/binaries/signal/cycle.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
 kink~.class.sources := cyclone_src/binaries/signal/kink.c
 log~.class.sources := cyclone_src/binaries/signal/log.c
-lookup~.class.sources := cyclone_src/binaries/signal/lookup.c
 lores~.class.sources := cyclone_src/binaries/signal/lores.c
 maximum~.class.sources := cyclone_src/binaries/signal/maximum.c
 minimum~.class.sources := cyclone_src/binaries/signal/minimum.c
@@ -359,6 +357,8 @@ shared/unstable/forky.c
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
+    cycle~.class.sources := cyclone_src/binaries/signal/cycle.c $(scybuf)
+    lookup~.class.sources := cyclone_src/binaries/signal/lookup.c $(scybuf)
     index~.class.sources := cyclone_src/binaries/signal/index.c $(scybuf)
     peek~.class.sources := cyclone_src/binaries/signal/peek.c $(scybuf)
     poke~.class.sources := cyclone_src/binaries/signal/poke.c $(scybuf) 
@@ -384,12 +384,14 @@ cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(libforky)
 
 datafiles = \
 $(wildcard cyclone_src/help_files/*-help.pd) \
-cyclone_src/help_files/Abstractions/output~.pd \
+cyclone_src/help_files/Abstractions/out~.pd \
+cyclone_src/help_files/Abstractions/buffer~.pd \
 cyclone_src/help_files/Abstractions/number~.pd \
 cyclone_src/help_files/Abstractions/tri~.pd \
 cyclone_src/help_files/Abstractions/rect~.pd \
 cyclone_src/help_files/Abstractions/saw~.pd \
 cyclone_src/help_files/violin.wav \
+cyclone_src/help_files/stereo.aif \
 cyclone_src/help_files/seq.mid \
 cyclone_src/help_files/seq.txt \
 cyclone_src/help_files/coll.txt \
