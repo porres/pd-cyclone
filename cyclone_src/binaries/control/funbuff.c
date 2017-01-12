@@ -4,22 +4,31 @@
 
 #include <libgen.h>
 #include "m_pd.h"
-#include "common/loud.h"
-#include "common/vefl.h"
 #include "hammer/tree.h"
 #include "hammer/file.h"
 
 
-//Derek Kwan 2016 - adding cut/copy/paste/select/undo functionality, all but undo so far
-//fbuffcom, the clipboard, comes from ideas from value in pd's src/x_connective.c
-//this will serve as funbuff's common clipboard
+/*   FUNCTIONALITY CHANGES (Derek Kwan 2016)
+    -   adding cut/copy/paste/select/undo functionality:
+        fbuffcom, the clipboard, comes from ideas from value in pd's src/x_connective.c
+        this will serve as funbuff's common clipboard
+    -   funbuff_set no longer clears previous contents
+    -   yvals now typecast to int (previously floats)
+*/
+
 
 //stack size
-#define FBCLIP_STACK 256
+#define FBUFFATOM_STACK 256
 //max alloc size
-#define FBCLIP_MAX 1024
+#define FBUFFATOM_MAX 1024
 
+typedef enum _pastaction
+{
+NOACT, //placeholder for action not cut or paste
+CUT,
+PASTE
 
+} t_pastaction;
 
 typedef struct _funbuffcom
 {
@@ -29,7 +38,7 @@ typedef struct _funbuffcom
     int     c_refcount; //how many funbuffs are active
     int     c_allocsz; //allocated size of list
     int     c_pairsz;  //size of xval/yval list
-    t_atom  c_pairstack[FBCLIP_STACK]; //list stack
+    t_atom  c_pairstack[FBUFFATOM_STACK]; //list stack
     int     c_heaped; //if heaped or not
 } t_funbuffcom;
 
@@ -57,54 +66,87 @@ typedef struct _funbuff
     t_hammertree   x_tree;
     t_outlet      *x_deltaout;
     t_outlet      *x_bangout;
+
+    //history tracking
+    t_atom *        x_hist; //history pairs pointer
+    t_atom          x_histstack[FBUFFATOM_STACK];
+    int             x_allocsz; //allocated size of list
+    int             x_histsz; //size of history list
+    int             x_heaped; //if heaped or not
+    t_pastaction    x_past; //last action affecting instance of funbuff
+
+
 } t_funbuff;
 
 static t_class *funbuff_class;
 static t_class *funbuffcom_class;
 
-
-//value allocation helper function
-static void funbuffcom_alloc(t_funbuffcom *c, int argc){
-   int cursize = c->c_allocsz;
-    int heaped = c->c_heaped;
+static void fbuffmem_alloc(t_atom * arrayptr, t_atom * stackptr, int wantsz, int * allocsz, int * ifheaped){
+     int cursize = *allocsz;
+    int heaped = *ifheaped;
 
 
-    if(heaped && argc <= FBCLIP_STACK){
-        //if x_value is pointing to a heap and incoming list can fit into FBCLIP_STACK
+    if(heaped  &&  wantsz <= FBUFFATOM_STACK){
+        //if x_value is pointing to a heap and incoming list can fit into FBUFFATOM_STACK
         //deallocate x_value and point it to stack, update status
-        freebytes((c->c_pairs), (cursize) * sizeof(t_atom));
-        c->c_pairs = c->c_pairstack;
-        c->c_heaped = 0;
-        c->c_allocsz = FBCLIP_STACK;
+        freebytes( arrayptr, (cursize) * sizeof(t_atom));
+        arrayptr = stackptr;
+        *ifheaped = 0;
+        *allocsz = FBUFFATOM_STACK;
         }
-    else if(heaped && argc > FBCLIP_STACK && argc > cursize){
-        //if already heaped, incoming list can't fit into FBCLIP_STACK and can't fit into allocated t_atom
+    else if(heaped  && wantsz > FBUFFATOM_STACK && wantsz > cursize){
+        //if already heaped, incoming list can't fit into FBUFFATOM_STACK and can't fit into allocated t_atom
         //reallocate to accomodate larger list, update status
         
-        int toalloc = argc; //size to allocate
+        int toalloc = wantsz; //size to allocate
         //bounds checking for maxsize
-        if(toalloc > FBCLIP_MAX){
-            toalloc = FBCLIP_MAX;
+        if(toalloc > FBUFFATOM_MAX){
+            toalloc = FBUFFATOM_MAX;
         };
-        c->c_pairs = (t_atom *)resizebytes(c->c_pairs, cursize * sizeof(t_atom), toalloc * sizeof(t_atom));
-        c->c_allocsz = toalloc;
+        arrayptr = (t_atom *)resizebytes(arrayptr, cursize * sizeof(t_atom), toalloc * sizeof(t_atom));
+        *allocsz = toalloc;
     }
-    else if(!heaped && argc > FBCLIP_STACK){
-        //if not heaped and incoming list can't fit into FBCLIP_STACK
+    else if(!(heaped) && wantsz > FBUFFATOM_STACK){
+        //if not heaped and incoming list can't fit into FBUFFATOM_STACK
         //allocate and update status
 
-        int toalloc = argc; //size to allocate
+        int toalloc = wantsz; //size to allocate
         //bounds checking for maxsize
-        if(toalloc > FBCLIP_MAX){
-            toalloc = FBCLIP_MAX;
+        if(toalloc > FBUFFATOM_MAX){
+            toalloc = FBUFFATOM_MAX;
         };
-        c->c_pairs = (t_atom *)getbytes(toalloc * sizeof(t_atom));
-        c->c_heaped = 1;
-        c->c_allocsz = toalloc;
+        arrayptr = (t_atom *)getbytes(toalloc * sizeof(t_atom));
+        *ifheaped = 1;
+        *allocsz = toalloc;
     };
 
 }
 
+//value allocation helper function
+static void funbuffcom_alloc(t_funbuffcom *c, int argc){
+    fbuffmem_alloc(c->c_pairs, c->c_pairstack, argc, &c->c_allocsz, &c->c_heaped);
+}
+
+static void funbuff_alloc(t_funbuff * x, int argc){
+    fbuffmem_alloc(x->x_hist, x->x_histstack, argc, &x->x_allocsz, &x->x_heaped);
+}
+
+static void funbuff_histcopy(t_funbuff *x)
+{
+    //copy contents of clipboard to history
+    int i =0;
+    t_funbuffcom * c = x->x_clip;
+    int clipsize = c->c_pairsz; //length of clipboard
+    if(clipsize != (x->x_histsz)){
+        funbuff_alloc(x, clipsize);
+    };
+    for(i=0; i<clipsize; i++){
+        t_float f = atom_getfloatarg(i, clipsize, c->c_pairs);
+        SETFLOAT(&x->x_hist[i], f);
+    };
+    x->x_histsz = clipsize;
+
+}
 
 void funbuffcom_release(void)
 {
@@ -184,20 +226,28 @@ static void funbuff_float(t_funbuff *x, t_float f)
     x->x_pointerset = 0;
 }
 
-static void funbuff_ft1(t_funbuff *x, t_floatarg f)
+static void funbuff_ft1(t_funbuff *x, t_floatarg _f)
 {
     /* this is incompatible -- CHECKED float is silently truncated */
-    x->x_value = f;
+    int f = (int) _f; //typecast to int 
+    x->x_value = (t_float)f;
     x->x_valueset = 1;
+}
+
+static void funbuff_ptrreset(t_funbuff * x)
+{
+
+    /* CHECKED valueset is not cleared */
+    x->x_pointer = 0;
+    x->x_selptr = 0;
+    x->x_selptrset = 0;
+    x->x_past = NOACT;
 }
 
 static void funbuff_clear(t_funbuff *x)
 {
     hammertree_clear(&x->x_tree, 0);
-    /* CHECKED valueset is not cleared */
-    x->x_pointer = 0;
-    x->x_selptr = 0;
-    x->x_selptrset = 0;
+    funbuff_ptrreset(x);
 }
 
 /* LATER dirty flag handling */
@@ -273,21 +323,22 @@ static void funbuff_set(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
     t_atom *ap = av;
     while (i--) if (ap++->a_type != A_FLOAT)
     {
-	loud_error((t_pd *)x, "bad input (not a number) -- no data to set");
+	pd_error((t_pd *)x, "bad input (not a number) -- no data to set");
 	return;
     }
     if (!ac || (ac % 2))
     {
 	/* CHECKED odd/null ac loudly rejected, current contents preserved */
-	loud_error((t_pd *)x, "bad input (%s) -- no data to set",
+        pd_error((t_pd *)x, "bad input (%s) -- no data to set",
 		   (ac ? "odd arg count" : "no input"));
 	return;
     }
-    funbuff_clear(x);  /* CHECKED the contents is replaced */
+    funbuff_ptrreset(x);
     while (ac--)
     {
 	int ndx = (int)av++->a_w.w_float;
-	if (!hammertree_insertfloat(&x->x_tree, ndx, av++->a_w.w_float, 1))
+        int yval = (int)av++->a_w.w_float; //typecast to int
+	if (!hammertree_insertfloat(&x->x_tree, ndx, (t_float)yval, 1))
 	    return;
 	ac--;
     }
@@ -307,11 +358,11 @@ static void funbuff_doread(t_funbuff *x, t_symbol *fn)
 	av->a_type == A_SYMBOL &&
 	av->a_w.w_symbol == gensym("funbuff"))
     {
-	post("funbuff_read: %s read successful", fn->s_name);  /* CHECKED */
+	post("funbuff: %s read successful", fn->s_name);  /* CHECKED */
 	funbuff_set(x, 0, ac-1, av+1);
     }
     else  /* CHECKED no complaints... */
-	loud_error((t_pd *)x, "invalid file %s", fn->s_name);
+	pd_error((t_pd *)x, "invalid file %s", fn->s_name);
     binbuf_free(bb);
 }
 
@@ -401,8 +452,11 @@ static void funbuff_delete(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
 	    hammertree_delete(&x->x_tree, np);  /* FIXME */
 	}
 	/* CHECKED mismatch silently ignored */
+
+        x->x_past = NOACT; //clear undo option
     }
-    else loud_messarg((t_pd *)x, s);  /* CHECKED */
+    else  pd_error((t_pd *)x, "bad arguments for message \"%s\"", s->s_name);  /* CHECKED */
+
 }
 
 static void funbuff_find(t_funbuff *x, t_floatarg f)
@@ -420,7 +474,7 @@ static void funbuff_find(t_funbuff *x, t_floatarg f)
 	while (np = np->n_next);
 	/* CHECKED no bangout, no complaint if nothing found */
     }
-    else loud_error((t_pd *)x, "nothing to find");  /* CHECKED */
+    else pd_error((t_pd *)x, "nothing to find");  /* CHECKED */
 }
 
 static void funbuff_dump(t_funbuff *x)
@@ -437,7 +491,7 @@ static void funbuff_dump(t_funbuff *x)
 	while (np = np->n_next);
 	/* CHECKED no bangout */
     }
-    else loud_error((t_pd *)x, "nothing to dump");  /* CHECKED */
+    else pd_error((t_pd *)x, "nothing to dump");  /* CHECKED */
 }
 
 /* CHECKME if pointer is updated */
@@ -458,7 +512,7 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_word *vec)
 	    float frac = f - np1->n_key;
 	    if (frac < 0 || frac >= delta)
 	    {
-		loudbug_bug("funbuff_dointerp");
+		bug("funbuff_dointerp");
 		return;
 	    }
 	    frac /= delta;
@@ -470,7 +524,7 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_word *vec)
 		float vfrac = vpos - vndx;
 		if (vndx < 0 || vndx >= vsz - 1)
 		{
-		    loudbug_bug("funbuff_dointerp redundant test...");
+		    bug("funbuff_dointerp redundant test...");
 		    return;
 		}
 		vec += vndx;
@@ -491,23 +545,35 @@ static void funbuff_interp(t_funbuff *x, t_floatarg f)
     funbuff_dointerp(x, f, 0, 0);
 }
 
+
+
 static void funbuff_interptab(t_funbuff *x, t_symbol *s, t_floatarg f)
 {
-    int vsz;
+    int vsz = 0;
     t_word *vec;
-    if (vec = vefl_get(s, &vsz, 0, (t_pd *)x))
+
+    if (s && s != &s_)
     {
-	if (vsz > 2)
-	    funbuff_dointerp(x, f, vsz, vec);
-	else
-	    funbuff_dointerp(x, f, 0, 0);
-    }
+	t_garray *ap = (t_garray *)pd_findbyclass(s, garray_class);
+	if (ap)
+	{
+	    if (!garray_getfloatwords(ap, &vsz, &vec))
+	    {
+                pd_error(x,"bad template of array '%s'", s->s_name);
+            };
+	}
+	else {
+	    pd_error(x, "no such array '%s'", s->s_name);
+	};
+    };
+
+
+    if (vsz > 2)
+	funbuff_dointerp(x, f, vsz, vec);
+    else
+	funbuff_dointerp(x, f, 0, 0);
 }
 
-static void funbuff_reduce(t_funbuff *x, t_floatarg f)
-{
-    loud_notimplemented((t_pd *)x, "reduce");
-}
 
 static void funbuff_select(t_funbuff *x, t_floatarg f1, t_floatarg f2)
 {
@@ -532,8 +598,8 @@ static void funbuff_copy(t_funbuff *x)
         int cursize = c->c_pairsz;
         //rng * 2 should be good but rng * 3 just to be safe?
         //depends on what rng actually means
-        if(cursize != (rng *3)){
-            funbuffcom_alloc(c, rng*3);
+        if(cursize != (rng *2)){
+            funbuffcom_alloc(c, rng*2);
         };
         int allocsz = c->c_allocsz;
         t_hammernode * np = x->x_selptr;
@@ -557,27 +623,32 @@ static void funbuff_copy(t_funbuff *x)
 static void funbuff_paste(t_funbuff *x)
 {
     t_funbuffcom * c = x->x_clip;
-    int clipsize = c->c_pairsz; //# of nodes in tree
-  /*
-    t_atom * clpairs[clipsize*2]; //list to send to funbuff_set
-  
-    int idx = 0; //current index in t_atom *
-    while(np && idx < (clipsize*2)){
-        int xval = np->n_key;
-        t_float yval = HAMMERNODE_GETFLOAT(np);
-        SETFLOAT(clpairs[idx++], (t_float)xval);
-        SETFLOAT(clpairs[idx++], yval);
-        np = np -> n_next;
+    int clipsize = c->c_pairsz; //length of clipboard
+    if(clipsize){
+        //record in history
+        funbuff_histcopy(x);
+        //now insert in to tree
+        funbuff_set(x, 0, clipsize, c->c_pairs); 
+        x->x_past = PASTE;
     };
-    funbuff_set(x, 0, idx, clpairs);
-    */
-    funbuff_set(x, 0, clipsize, c->c_pairs); 
 }
 
 static void funbuff_undo(t_funbuff *x)
 {
     /* CHECKED apparently not working in 4.07 */
-    loud_notimplemented((t_pd *)x, "undo");
+    if(x->x_past == CUT){
+        //opposite of cut = insert
+        funbuff_set(x, 0, x->x_histsz, x->x_hist); 
+        x->x_past = NOACT;
+    }
+    else if(x->x_past == PASTE){
+        //opposite of paste = delete
+        int i = 0;
+        for(i=0; i < x->x_histsz; i += 2){
+            funbuff_delete(x, gensym("undo"), 2, x->x_hist+i); 
+        };
+        x->x_past = NOACT;
+    };
 }
 
 /* CHECKED (sub)buffer's copy is stored, as expected --
@@ -589,12 +660,17 @@ static void funbuff_cut(t_funbuff *x)
     if(x->x_selptrset){
         int i =0;
         t_funbuffcom * c = x->x_clip;
-        int clipsize = c->c_pairsz; //# of nodes in tree
+        int clipsize = c->c_pairsz;
+        //record into history 
+        funbuff_histcopy(x); 
+        //do the deletion
         //have to go by pair since delete only goes by pair
         for(i=0; i < clipsize; i += 2){
             funbuff_delete(x, gensym("cut"), 2, c->c_pairs+i); 
         };
+        x->x_past = CUT;
     };
+    
 
 }
 
@@ -610,6 +686,9 @@ static void funbuff_free(t_funbuff *x)
     hammerfile_free(x->x_filehandle);
     hammertree_clear(&x->x_tree, 0);
     funbuffcom_release();
+    if(x->x_heaped){
+        freebytes(x->x_hist, (x->x_allocsz) * sizeof(t_atom));
+    };
 }
 
 static void *funbuff_new(t_symbol *s)
@@ -637,6 +716,14 @@ static void *funbuff_new(t_symbol *s)
     x->x_filehandle = hammerfile_new((t_pd *)x, funbuff_embedhook,
 				     funbuff_readhook, funbuff_writehook, 0);
 
+    //init history
+    
+
+    x->x_histsz = 0;
+    x->x_hist = x->x_histstack;
+    x->x_heaped = 0;
+    x->x_allocsz = FBUFFATOM_STACK;
+    x->x_past = NOACT;
     //init funbuff clipboard
 
     //give it a long symbol name to make sure no overlaps
@@ -650,7 +737,7 @@ static void *funbuff_new(t_symbol *s)
         c->c_pairsz = 0;
         c->c_pairs = c->c_pairstack;
         c->c_heaped = 0;
-        c->c_allocsz = FBCLIP_STACK;
+        c->c_allocsz = FBUFFATOM_STACK;
     }
     else{
         c->c_refcount = c->c_refcount + 1;
@@ -698,8 +785,6 @@ void funbuff_setup(void)
 		    gensym("interp"), A_FLOAT, 0);
     class_addmethod(funbuff_class, (t_method)funbuff_interptab,
 		    gensym("interptab"), A_FLOAT, A_SYMBOL, 0);
-    class_addmethod(funbuff_class, (t_method)funbuff_reduce,
-		    gensym("reduce"), A_FLOAT, 0);
     class_addmethod(funbuff_class, (t_method)funbuff_select,
 		    gensym("select"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(funbuff_class, (t_method)funbuff_cut,

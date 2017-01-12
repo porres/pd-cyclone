@@ -224,14 +224,11 @@ htree := \
 shared/hammer/tree.c \
 shared/common/loud.c
 
-htreefilevefl := \
+htreefile := \
 shared/hammer/tree.c \
 shared/hammer/file.c \
-shared/common/vefl.c \
-shared/common/loud.c \
 shared/common/os.c \
-shared/unstable/forky.c \
-shared/unstable/fragile.c
+shared/unstable/forky.c 
 
 splainnotilde := \
 shared/common/loud.c \
@@ -307,7 +304,7 @@ seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
 
 offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
-funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefilevefl)
+funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
 # Signal classes: #################################################################
 
