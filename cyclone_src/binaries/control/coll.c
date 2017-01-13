@@ -78,6 +78,7 @@ typedef struct _coll
     t_outlet      *x_filebangout;
     t_outlet      *x_dumpbangout;
     int           x_threaded;
+    int           x_nosearch;
     struct _coll  *x_next;
 
 	//for thread-unsafe file i/o operations
@@ -1046,6 +1047,7 @@ static void coll_unbind(t_coll *x)
 
 static void coll_bind(t_coll *x, t_symbol *name)
 {
+    int no_search = x->x_nosearch;
     t_collcommon *cc = 0;
     if (name == &s_)
 	name = 0;
@@ -1066,7 +1068,9 @@ static void coll_bind(t_coll *x, t_symbol *name)
 		//pthread_mutex_lock(&x->unsafe_mutex);
 		//pthread_cond_signal(&x->unsafe_cond);
 		//pthread_mutex_unlock(&x->unsafe_mutex);
-	    collcommon_doread(cc, name, x->x_canvas, 0);
+            if(!no_search){
+	        collcommon_doread(cc, name, x->x_canvas, 0);
+            };
 	}
 	else
 	{
@@ -2007,13 +2011,14 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
     x->x_filebangout = outlet_new((t_object *)x, &s_bang);
     x->x_dumpbangout = outlet_new((t_object *)x, &s_bang);
     x->x_filehandle = hammerfile_new((t_pd *)x, coll_embedhook, 0, 0, 0);
-
+    int no_search = 0;
 
     //defaults
     int embed = COLLEMBED;
     int threaded = COLLTHREAD;
-    // check arguments for filename and threaded version
 
+    // check arguments for filename and threaded version
+    //right now, don't care about arg order (mb we should?) - DK
     while(argc){
         if(argv -> a_type == A_SYMBOL){
             t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
@@ -2039,11 +2044,12 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
                 file = cursym;
             };
         }
-        /* eventual parsing of float args
         else if(argv -> a_type == A_FLOAT){
-        
+            t_float nosearch = atom_getfloatarg(0, argc, argv);
+            no_search = nosearch != 0 ? 1 : 0;
+            argc--;
+            argv++;
         }
-        */
         else{
             goto errstate;
         };
@@ -2051,6 +2057,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 
 
     x->x_threaded = threaded;
+    x->x_nosearch = no_search;
 	// if no file name provided, associate with empty symbol
 	if (file == NULL)
 		file = &s_;
@@ -2071,7 +2078,6 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 			sched_yield();
 		}
 	}
-
     coll_bind(x, file);
     coll_flags(x, (int)embed, 0);
 
