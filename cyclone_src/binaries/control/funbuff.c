@@ -22,6 +22,8 @@
 //max alloc size
 #define FBUFFATOM_MAX 1024
 
+
+//history past event identifier 
 typedef enum _pastaction
 {
 NOACT, //placeholder for action not cut or paste
@@ -617,6 +619,9 @@ static void funbuff_copy(t_funbuff *x)
             np = np->n_next;
         };
         c->c_pairsz = idx;
+    }
+    else{
+        pd_error(x, "funbuff: no data selected");
     };
 }
 
@@ -630,6 +635,9 @@ static void funbuff_paste(t_funbuff *x)
         //now insert in to tree
         funbuff_set(x, 0, clipsize, c->c_pairs); 
         x->x_past = PASTE;
+    }
+    else{
+        pd_error(x, "funbuff: clipboard empty");
     };
 }
 
