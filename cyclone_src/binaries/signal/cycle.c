@@ -246,9 +246,7 @@ static t_int *cycle_perform(t_int *w)
 			*out++ = (t_float) (df1 + frac * (df2 - df1));
 		}
 		dphase += freq * conv ;
-                //overwrite phase arg
-                pd_float((t_pd *)x->x_phaselet, phasein);
-	}
+	};
 	
 	if (dphase>=1.)
 	{
@@ -262,6 +260,8 @@ static t_int *cycle_perform(t_int *w)
 		dphase -= intphase;
 	}
 	x->x_phase = dphase;
+        //overwrite phase arg, every block should be enough? - DK
+        pd_float((t_pd *)x->x_phaselet, phasein);
 	return (w + 6);
 }
 	
