@@ -78,7 +78,7 @@
 #X msg 82 561 set;
 #X text 42 540 internal;
 #X text 45 560 wave;
-#X obj 218 636 cyclone/Scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
+#X obj 218 636 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 137 596 cyclone/cycle~ 440 \$0-wavetable 512;
 #X obj 54 10 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
@@ -106,7 +106,7 @@ that entire array to be used as a waveform (a 4099 points wavetable
 in this case). This is a new introduced message \, and different than
 the "set" message or the second argument \, which only reads 512 points
 from the buffer.;
-#X obj 671 539 cyclone/Scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
+#X obj 671 539 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 590 434 cyclone/loadmess setall \$0-saw;
 #X obj 590 479 cyclone/cycle~ 110;
@@ -175,11 +175,11 @@ interpolation.;
 it) and @phase (see next subpatch example on phase).;
 #X text 515 267 Other possible values are: "-1" \, which sets to the
 entire buffer's lenght \, and "0" \, which sets to 512 samples.;
-#X obj 520 453 cyclone/Scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
+#X obj 520 453 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 520 404 cyclone/cycle~ 110 @buffer \$0-saw @buffer_sizeinsamps
 4096 @buffer_offset 1;
-#X obj 164 502 cyclone/Scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
+#X obj 164 502 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X msg 83 406 buffer_offset \$1;
 #X obj 86 357 hsl 128 15 0 4096 0 0 empty empty empty -2 -8 0 10 -228856
