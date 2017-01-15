@@ -12,6 +12,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "m_pd.h"
+#include "cybuf.h"
 
 #define PDCYCYCLE_FREQ 	0
 #define PDCYCYCLE_PHASE 0
@@ -27,15 +28,12 @@ typedef struct _cycle
 	t_float	   x_init_phase;
     double     x_phase;
     double     x_conv;
-    t_symbol  *x_name;
     int        x_offset;
     int        x_cycle_tabsize; //how far to loop
-    int		   x_use_all;
-    t_float   *x_table;
+    int		x_use_all;
     double    *x_costable;
-    t_float   *x_usertable;
-    t_float    x_usertableini[PDCYCYCLE_TABSIZE + 1];
-    int        x_usertable_tabsize; // actual table size -- loop size might be smaller
+    t_cybuf    *x_cybuf;
+    int        x_nameset; //if nameset, use cybuf else use costable
 
 	t_inlet    *x_phaselet;
 	t_outlet   *x_outlet;
@@ -112,133 +110,6 @@ static double *cycle_makecostab(t_cycle *x){
 }
 
 
-static t_word *cycle_fetcharray(t_cycle * x, int * tabsz, int indsp){
-	//modifying old vefl_get a bit - DXK
-	t_symbol * name = x->x_name;
-	if (name && name != &s_){
-		t_garray *ap = (t_garray *)pd_findbyclass(name, garray_class);
-	if (ap){
-			int tabsize;
-			t_word *vec;
-			if (garray_getfloatwords(ap, &tabsize, &vec)){
-				if (indsp)
-				{
-					garray_usedindsp(ap);
-				}
-				if (tabsz)
-				{
-					*tabsz = tabsize;
-				}
-				return (vec);
-			}
-			else 
-			{ /* always complain */
-				pd_error(x, "bad template of array '%s'", name->s_name);
-			}
-		}
-		else if (x)
-		{
-			pd_error(x, "no such array '%s'", name->s_name);
-		}
-	}
-	return (0);
-
-}
-
-static void cycle_gettable(t_cycle *x)
-{   
-    x->x_table = 0;
-    int cycle_tabsize = x->x_cycle_tabsize;
-    t_word *table = 0;
-    int tabsize;
-    
-    if (x->x_name){	
-		table = cycle_fetcharray(x, &tabsize, 1);
-	};
-		
-	/* CHECKED buffer is copied */
-	if (table)
-    {
-    	if (x->x_use_all) cycle_tabsize = x->x_cycle_tabsize = tabsize;
-    	int usertable_tabsize = x->x_usertable_tabsize;
-	    int tablePtr, oldbytes;
-	    int samplesFromTable = tabsize - x->x_offset;
-	    int samplesToCopy = samplesFromTable < cycle_tabsize ?
-		samplesFromTable : cycle_tabsize;
-		
-		/*  If requested cycle buffer size is larger than currently allocated,
-			then resize the buffer, or if we're still using the builtin,
-			get a new buffer on the heap. */
-		if (cycle_tabsize > usertable_tabsize)
-		{
-			oldbytes = (usertable_tabsize + 1) * sizeof(*x->x_table);
-			usertable_tabsize = x->x_usertable_tabsize = x->x_cycle_tabsize;
-			if (x->x_usertable == x->x_usertableini)
-			{
-				if(!(x->x_usertable =
-					getbytes((usertable_tabsize + 1) * sizeof(*x->x_usertable))))
-				{
-					x->x_usertable = x->x_usertableini;
-					x->x_cycle_tabsize = x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
-					pd_error(x,"unable to resize buffer; using size %d",PDCYCYCLE_TABSIZE);
-				}
-				else
-				{
-					//post("getting new table of size %d", cycle_tabsize);
-					x->x_usertable_tabsize = cycle_tabsize;
-				}
-			}
-			else
-			{
-				t_float *tmp;
-				if(!(tmp =
-					resizebytes(x->x_usertable, oldbytes,
-						(usertable_tabsize + 1) * sizeof(*x->x_usertable))))
-				{
-					freebytes(x->x_usertable, oldbytes);
-					x->x_usertable = x->x_usertableini;
-					x->x_cycle_tabsize = x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
-					pd_error(x,"unable to resize buffer; using size %d",PDCYCYCLE_TABSIZE);
-				}
-				else
-				{
-					x->x_usertable = tmp;
-					x->x_usertable_tabsize = x->x_cycle_tabsize;
-				}
-			}
-		}
-	    // copy the internal table from the external one as far as 
-	    // its size permits and fill the rest with zeroes.
-	    for (tablePtr = 0; tablePtr < cycle_tabsize; tablePtr++)
-	    {
-		if (samplesToCopy > 0) 
-		{
-		    x->x_usertable[tablePtr] = 
-			table[tablePtr + x->x_offset].w_float;
-		    samplesToCopy--;
-		}
-		else 
-		{
-		    x->x_usertable[tablePtr] = 0;
-		}
-	    }
-	    x->x_usertable[tablePtr] = (samplesFromTable > 0) ?
-		table[x->x_offset].w_float : 0;
-
-	    x->x_table = x->x_usertable;
-	    /* CHECKED else no complaint */
-	}
-    else 
-    {
-    	if (x->x_name)
-    	{
-			pd_error(x, "using cosine table");
-    	}
-    	x->x_name = 0;
-    	x->x_cycle_tabsize = COS_TABSIZE;
-    }
-}
-
 static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 {
 	x->x_use_all = 0;
@@ -246,29 +117,34 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 	x->x_cycle_tabsize = PDCYCYCLE_TABSIZE;
     if (s && s != &s_)
     {
-	x->x_name = s;
-	if ((x->x_offset = (int)f) < 0)
-	    x->x_offset = 0;
+    	cybuf_setarray(x->x_cybuf, s);
+	x->x_nameset = 1;
+	x->x_offset = f < 0 ? 0 : (int)f;
     }
-    else x->x_name = 0;
-    cycle_gettable(x);
+    else{
+        x->x_nameset = 0;
+        pd_error(x, "using cosine table");
+    };
 }
 
 static void cycle_setall(t_cycle *x, t_symbol *s)
 {
 	x->x_use_all = 1;
 	x->x_offset = 0;
-    if (s && s != &s_)
-		x->x_name = s;
-    else x->x_name = 0;
-    cycle_gettable(x);
+    if (s && s != &s_){
+	cybuf_setarray(x->x_cybuf, s);
+	x->x_nameset = 1;
+	x->x_cycle_tabsize = x->x_cybuf->c_npts;
+	}
+    else{
+        x->x_nameset = 0;
+        pd_error(x, "using cosine table");
+    };
 }
 
 static void cycle_buffer_offset(t_cycle *x, t_floatarg f)
 {
-    if ((x->x_offset = (int)f) < 0)
-    x->x_offset = 0;
-    cycle_gettable(x);
+    x->x_offset = f < 0 ? 0 : (int) f;
 }
 
 
@@ -299,7 +175,6 @@ static void cycle_buffer_sizeinsamps(t_cycle *x, t_floatarg f)
 {
 
 	cycle_set_buffersize(x, f);
-	cycle_gettable(x);
 }
 
 static void cycle_frequency(t_cycle *x, t_floatarg f)
@@ -316,11 +191,12 @@ static void cycle_phase(t_cycle *x, t_floatarg f)
 static t_int *cycle_perform(t_int *w)
 {
 	t_cycle *x = (t_cycle *)(w[1]);
+	t_cybuf * c = x->x_cybuf;
 	int nblock = (int)(w[2]);
 	t_float *in1 = (t_float *)(w[3]);
 	t_float *in2 = (t_float *)(w[4]);
 	t_float *out = (t_float *)(w[5]);
-	t_float *tab = x->x_table;
+	t_word *tab = c->c_vectors[0];
 	double  *costab = x->x_costable;
 	double dphase = x->x_phase;
 	double conv = x->x_conv;
@@ -329,12 +205,14 @@ static t_int *cycle_perform(t_int *w)
 	double df1, df2;
 	int intphase, index;
 	int cycle_tabsize = x->x_cycle_tabsize;
-	
+	int offset = x->x_offset;
+	int npts = c->c_npts;
+	int usetable = x->x_nameset > 0 && c->c_playable; //use user table	
 	while (nblock--)
 	{
 		freq = *in1++;
 		phasein = *in2++;
-		wrapphase = dphase + phasein;
+                wrapphase = dphase + phasein;
 		if (wrapphase>=1.) 
 		{
 			intphase = (int)wrapphase;
@@ -346,15 +224,20 @@ static t_int *cycle_perform(t_int *w)
 			intphase--;
 			wrapphase -= intphase;
 		}
-		
-		tabphase = wrapphase * cycle_tabsize;
+		if(usetable){	
+			tabphase = wrapphase * cycle_tabsize;
+		}
+		else{
+			tabphase = wrapphase * COS_TABSIZE;
+		};
 		index = (int)tabphase;
 		frac = tabphase - index;
-		if (x->x_name)
+		if (usetable)
 		{
-			f1 = tab[index++];
-			f2 = tab[index];
-			*out++ = f1 + frac * (f2 - f1);
+			f1 = (offset + index) >= npts ? 0. : tab[offset + index].w_float;
+			index++;
+			f2 = (offset + index) >= npts ? 0. : tab[offset + index].w_float;
+			*out++ = (t_float)(f1 + frac * (f2 - f1));
 		}
 		else
 		{
@@ -363,7 +246,7 @@ static t_int *cycle_perform(t_int *w)
 			*out++ = (t_float) (df1 + frac * (df2 - df1));
 		}
 		dphase += freq * conv ;
-	}
+	};
 	
 	if (dphase>=1.)
 	{
@@ -377,12 +260,14 @@ static t_int *cycle_perform(t_int *w)
 		dphase -= intphase;
 	}
 	x->x_phase = dphase;
+        //overwrite phase arg, every block should be enough? - DK
+        pd_float((t_pd *)x->x_phaselet, phasein);
 	return (w + 6);
 }
 	
 static void cycle_dsp(t_cycle *x, t_signal **sp)
 {
-    cycle_gettable(x);
+    cybuf_checkdsp(x->x_cybuf); 
     x->x_conv = 1.0 / sp[0]->s_sr;
     x->x_phase = x->x_init_phase;
     pd_float((t_pd *)x->x_phaselet, 0.);
@@ -395,7 +280,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_cycle *x = (t_cycle *)pd_new(cycle_class);
     
-	t_symbol * name;
+	t_symbol * name = NULL;
 	t_float phase, freq, offset, bufsz;
 
 	phase = PDCYCYCLE_PHASE;
@@ -403,7 +288,6 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 	offset = PDCYCYCLE_OFFSET;
 	bufsz = PDCYCYCLE_TABSIZE;
 	int argnum = 0;
-	int anamedef = 0; //flag if array name is defined
 	int pastargs = 0; //flag if attributes are specified, then don't accept array name anymore
 	int bufferattrib = 0; //flag if @buffer attribute is set; needs to default to whole buffer
 	int buffersizeattrib = 0; // flag if @buffer_sizeinsamps attribute is set
@@ -435,7 +319,6 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 						name = atom_getsymbolarg(1, argc, argv);
 						argc-=2;
 						argv+=2;
-						anamedef = 1;
 						pastargs = 1;
 						bufferattrib = 1;
 					}
@@ -497,7 +380,6 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 					name = curarg;
 					argc--;
 					argv++;
-					anamedef = 1;
 			}
 			else{
 				goto errstate;
@@ -509,22 +391,15 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 	};
 
     x->x_costable = cycle_makecostab(x);
-    x->x_usertable = x->x_usertableini;
-    x->x_usertable_tabsize = PDCYCYCLE_TABSIZE;
-	x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
-	x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
-	if(offset < 0){
-		offset = 0;
-	};
+    x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+    x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
+    if(offset < 0){
+	    offset = 0;
+    };
     x->x_offset = offset;
-    if(anamedef){
-		x->x_name = name;
-    	}
-    else{
-		x->x_name = 0;
-	};
-	x->x_freq = freq;
-    x->x_table = 0;
+    x->x_nameset = name ? 1 : 0;
+    x->x_cybuf = cybuf_init((t_class *)x, name, 1, 0);
+    x->x_freq = freq;
     x->x_init_phase = phase;
     x->x_conv = 0.;
     cycle_set_buffersize(x, bufsz);
@@ -540,9 +415,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 
 static void *cycle_free(t_cycle *x)
 {
-	if (x->x_usertable != x->x_usertableini){
-		freebytes(x->x_usertable, (x->x_usertable_tabsize + 1) * sizeof(*x->x_usertable));
-	};
+        cybuf_free(x->x_cybuf);
 	//free(x->x_costable);
 	outlet_free(x->x_outlet);
 	inlet_free(x->x_phaselet);
