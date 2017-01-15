@@ -1,4 +1,4 @@
-#N canvas 420 107 558 600 10;
+#N canvas 430 23 558 600 10;
 #X obj 2 284 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
 #X obj 2 366 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -28,7 +28,7 @@
 #X text 123 433 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#N canvas 0 50 450 278 (subpatch) 0;
+#N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 4 graph;
 #X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
@@ -37,7 +37,7 @@
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
 #X text 101 462 1) symbol;
-#N canvas 720 50 641 578 All_Messages 0;
+#N canvas 720 23 641 578 All_Messages 0;
 #X text 119 181 length -;
 #X text 131 241 next -;
 #X text 131 301 open -;
@@ -188,13 +188,15 @@ data, f 64;
 #X msg 246 142 0 500 1000 hi;
 #X msg 256 166 1 5 10 hello;
 #X text 84 202 go to next address =>;
+#X obj 246 232 cyclone/coll;
+#C restore;
 #X text 156 291 outputs next address and its data, f 64;
 #X text 300 198 <= recall data from address;
 #X text 69 85 [coll] stores/edits any messages at given addresses (an
 integer or a symbol). If an input list starts with an int \, it stores
 the other element(s) at that int address.;
-#N canvas 566 99 622 589 examples 0;
-#N canvas 297 50 802 290 embbed 0;
+#N canvas 568 23 622 589 examples 0;
+#N canvas 297 37 802 290 embbed 0;
 #X msg 92 99 dump;
 #X obj 92 188 pack s f;
 #X msg 92 216 \$2 \$1;
@@ -234,7 +236,7 @@ patch.;
 #X connect 9 0 1 0;
 #X connect 9 1 1 1;
 #X restore 526 179 pd embbed;
-#N canvas 542 50 705 569 filetype 0;
+#N canvas 542 23 705 569 filetype 0;
 #X msg 371 136 filetype;
 #X text 83 213 The word filetype \, followed by a symbol \, sets the
 file types which can be read and written into the coll object. File
@@ -502,7 +504,7 @@ number (startng at 1). This element is then output to the left outlet.
 #X connect 26 0 25 0;
 #X connect 27 0 14 0;
 #X restore 517 460 pd min_max \; length \; nth;
-#N canvas 267 50 941 387 merge 0;
+#N canvas 267 40 941 387 merge 0;
 #X msg 42 143 1 one;
 #X msg 109 107 merge 1 two three;
 #X text 66 24 The merge message appends any message to an address.
@@ -749,7 +751,7 @@ in this case it acts in the same way as "remove".;
 #X connect 9 0 6 0;
 #X connect 10 0 2 0;
 #X restore 526 293 pd delete;
-#N canvas 117 50 548 370 refer 0;
+#N canvas 117 33 548 370 refer 0;
 #X msg 158 78 dump;
 #X obj 207 207 print address;
 #X obj 184 232 print value;
@@ -810,11 +812,8 @@ as the second argument.;
 can be viewed and edited by the [coll] objects in the right \, because
 they have the same name ('example1').;
 #X obj 31 336 cyclone/coll example1 1;
-#C restore;
 #X obj 193 242 cyclone/coll example1 1;
-#C restore;
 #X obj 282 421 cyclone/coll example1 1;
-#C restore;
 #X text 62 472 See how clearing the collection in one [coll] instance
 affects others with the same name - same with adding messages.;
 #X connect 0 0 16 0;
@@ -929,7 +928,7 @@ with the read/write messages.;
 #X connect 29 0 22 0;
 #X connect 30 0 22 0;
 #X restore 460 77 pd read/write files \; data navigation;
-#N canvas 175 50 787 431 alias 0;
+#N canvas 175 23 787 431 alias 0;
 #X obj 128 272 cyclone/coll;
 #C restore;
 #X msg 30 208 1;
@@ -1028,13 +1027,12 @@ collections;
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 464 235 *;
-#N canvas 1 99 450 300 threaded 0;
+#N canvas 0 22 450 300 threaded 0;
 #X restore 480 234 pd threaded;
-#X obj 246 232 cyclone/coll;
-#C restore;
-#X connect 25 0 66 0;
-#X connect 33 0 66 0;
-#X connect 51 0 66 0;
-#X connect 52 0 66 0;
-#X connect 66 0 26 0;
-#X connect 66 1 27 0;
+#X connect 25 0 54 0;
+#X connect 33 0 54 0;
+#X connect 51 0 54 0;
+#X connect 52 0 54 0;
+#X connect 54 0 26 0;
+#X connect 54 1 27 0;
+
