@@ -261,8 +261,8 @@ static t_int *cycle_perform(t_int *w)
 	}
 	x->x_phase = dphase;
         //overwrite phase arg, every block should be enough? - DK
-        pd_float((t_pd *)x->x_phaselet, phasein);
-	return (w + 6);
+	cycle_phase(x, phasein);
+        return (w + 6);
 }
 	
 static void cycle_dsp(t_cycle *x, t_signal **sp)
