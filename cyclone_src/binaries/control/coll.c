@@ -833,15 +833,20 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 		{
 			t_coll *x;
 			/* LATER consider making this more robust */
-			for (x = cc->c_refs; x; x = x->x_next)
-			//outlet_bang(x->x_filebangout);
+			
+                        //filebangout was commented out, maybe better to use clock_delay to bang? - DK
+			for (x = cc->c_refs; x; x = x->x_next){
+			    outlet_bang(x->x_filebangout);
+                        };
 			cc->c_lastcanvas = cv;
 			cc->c_filename = fn;
 			m->m_flag |= 0x04;
 			m->m_line = nlines;
+			/*
 			if (!threaded)
 				post("coll: finished reading %d lines from text file '%s'",
 					nlines, fn->s_name);
+			*/
 		}
 		else if (nlines < 0) {
 			m->m_flag |= 0x08;
