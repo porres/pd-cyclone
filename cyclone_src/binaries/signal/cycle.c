@@ -271,6 +271,7 @@ static void cycle_dsp(t_cycle *x, t_signal **sp)
 {
     cybuf_checkdsp(x->x_cybuf); 
     x->x_conv = 1.0 / sp[0]->s_sr;
+    cycle_phase_reset(x);
     //post("cycle tabsize = %d", x->x_cycle_tabsize);
     dsp_add(cycle_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
