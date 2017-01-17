@@ -15,7 +15,6 @@
 #include "cybuf.h"
 
 #define PDCYCYCLE_FREQ 	0
-#define PDCYCYCLE_PHASE 0
 #define PDCYCYCLE_OFFSET 0
 #define PDCYCYCLE_TABSIZE  512
 #define COS_TABSIZE  16384
@@ -25,10 +24,9 @@ typedef struct _cycle
     t_object   x_obj;
 
 	t_float    x_freq;
-	t_float	   x_init_phase;
     double     x_phase;
     double     x_conv;
-    int        x_offset;
+    int        x_offset; //offset into window
     int        x_cycle_tabsize; //how far to loop
     int		x_use_all;
     double    *x_costable;
@@ -109,6 +107,9 @@ static double *cycle_makecostab(t_cycle *x){
 	return costable;
 }
 
+static void cycle_phase_reset(t_cycle *x){
+    x->x_phase = 0.;
+}
 
 static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 {
@@ -125,6 +126,8 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
         x->x_nameset = 0;
         pd_error(x, "using cosine table");
     };
+
+    cycle_phase_reset(x);
 }
 
 static void cycle_setall(t_cycle *x, t_symbol *s)
@@ -140,6 +143,8 @@ static void cycle_setall(t_cycle *x, t_symbol *s)
         x->x_nameset = 0;
         pd_error(x, "using cosine table");
     };
+
+    cycle_phase_reset(x);
 }
 
 static void cycle_buffer_offset(t_cycle *x, t_floatarg f)
@@ -184,7 +189,7 @@ static void cycle_frequency(t_cycle *x, t_floatarg f)
 
 static void cycle_phase(t_cycle *x, t_floatarg f)
 {
-    x->x_init_phase = f;
+    f = f < 0 ? 0 : (f > 1 ? 1 : f);
     pd_float((t_pd *)x->x_phaselet, f);
 }
 
@@ -201,30 +206,29 @@ static t_int *cycle_perform(t_int *w)
 	double dphase = x->x_phase;
 	double conv = x->x_conv;
 	double wrapphase, tabphase, frac;
-	t_float f1, f2, freq, phasein;
+	t_float f1, f2, freq, phaseoff, output;
 	double df1, df2;
-	int intphase, index;
+	int i, index;
 	int cycle_tabsize = x->x_cycle_tabsize;
 	int offset = x->x_offset;
 	int npts = c->c_npts;
-	int usetable = x->x_nameset > 0 && c->c_playable; //use user table	
-	while (nblock--)
+	int usetable = x->x_nameset > 0 && c->c_playable; //use user table
+
+        for (i=0; i< nblock; i++)
 	{
-		freq = *in1++;
-		phasein = *in2++;
-                wrapphase = dphase + phasein;
-		if (wrapphase>=1.) 
-		{
-			intphase = (int)wrapphase;
-			wrapphase -= intphase;
-		}
-		else if (wrapphase<=0.) 
-		{
-			intphase = (int)wrapphase;
-			intphase--;
-			wrapphase -= intphase;
-		}
-		if(usetable){	
+		freq = in1[i];
+		phaseoff = in2[i];
+	
+                wrapphase = dphase + phaseoff;
+
+                while(wrapphase >= 1){
+                    wrapphase -= 1.;
+                };
+                while(wrapphase < 0){
+                    wrapphase += 1.;
+                };
+
+                if(usetable){	
 			tabphase = wrapphase * cycle_tabsize;
 		}
 		else{
@@ -237,31 +241,29 @@ static t_int *cycle_perform(t_int *w)
 			f1 = (offset + index) >= npts ? 0. : tab[offset + index].w_float;
 			index++;
 			f2 = (offset + index) >= npts ? 0. : tab[offset + index].w_float;
-			*out++ = (t_float)(f1 + frac * (f2 - f1));
+			output = (t_float)(f1 + frac * (f2 - f1));
 		}
 		else
 		{
 			df1 = costab[index++];
 			df2 = costab[index];
-			*out++ = (t_float) (df1 + frac * (df2 - df1));
-		}
-		dphase += freq * conv ;
+			output = (t_float) (df1 + frac * (df2 - df1));
+		};
+                out[i] = output;
+
+                //incrementation step
+                dphase += ((double)freq * conv);
+                while(dphase >= 1){
+                    dphase -= 1.;
+                };
+                while(dphase < 0){
+                    dphase += 1.;
+                };
+
 	};
+
+        x->x_phase = dphase;
 	
-	if (dphase>=1.)
-	{
-		intphase = (int)dphase;
-		dphase -= intphase;
-	}
-	else if (dphase<=0.)
-	{
-		intphase = (int)dphase;
-		intphase--;
-		dphase -= intphase;
-	}
-	x->x_phase = dphase;
-        //overwrite phase arg, every block should be enough? - DK
-	cycle_phase(x, phasein);
         return (w + 6);
 }
 	
@@ -269,8 +271,6 @@ static void cycle_dsp(t_cycle *x, t_signal **sp)
 {
     cybuf_checkdsp(x->x_cybuf); 
     x->x_conv = 1.0 / sp[0]->s_sr;
-    x->x_phase = x->x_init_phase;
-    pd_float((t_pd *)x->x_phaselet, 0.);
     //post("cycle tabsize = %d", x->x_cycle_tabsize);
     dsp_add(cycle_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
@@ -281,10 +281,10 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     t_cycle *x = (t_cycle *)pd_new(cycle_class);
     
 	t_symbol * name = NULL;
-	t_float phase, freq, offset, bufsz;
+	t_float phaseoff, freq, offset, bufsz;
 
-	phase = PDCYCYCLE_PHASE;
-	freq = PDCYCYCLE_FREQ;
+	phaseoff = 0;
+        freq = PDCYCYCLE_FREQ;
 	offset = PDCYCYCLE_OFFSET;
 	bufsz = PDCYCYCLE_TABSIZE;
 	int argnum = 0;
@@ -355,7 +355,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 			}
 			else if(strcmp(curarg->s_name, "@phase")==0){
 				if(argc >= 2){
-					phase = atom_getfloatarg(1, argc, argv);
+					phaseoff = atom_getfloatarg(1, argc, argv);
 					argc-=2;
 					argv+=2;
 					pastargs = 1;
@@ -392,6 +392,8 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 
     x->x_costable = cycle_makecostab(x);
     x->x_phaselet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+    cycle_phase(x, phaseoff);
+
     x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
     if(offset < 0){
 	    offset = 0;
@@ -400,7 +402,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     x->x_nameset = name ? 1 : 0;
     x->x_cybuf = cybuf_init((t_class *)x, name, 1, 0);
     x->x_freq = freq;
-    x->x_init_phase = phase;
+    x->x_phase = 0;
     x->x_conv = 0.;
     cycle_set_buffersize(x, bufsz);
     if(bufferattrib){
