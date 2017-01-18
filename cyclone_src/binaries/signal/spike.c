@@ -13,8 +13,8 @@ typedef struct _spike
     int       x_precount;
     int       x_nwait;
     float     x_waittime;
-    float     x_ksr;
-    float     x_rcpksr;
+    double     x_ksr;
+    double     x_rcpksr;
     t_clock  *x_clock;
 } t_spike;
 
