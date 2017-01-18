@@ -18,8 +18,8 @@ typedef struct _train
     t_float     x_input;
     t_inlet    *x_width_inlet;
     t_inlet    *x_offset_inlet;
-    float       x_phase;
-    float       x_rcpksr;
+    double       x_phase;
+    double       x_rcpksr;
     t_outlet   *x_bangout;
     t_clock    *x_clock;
 } t_train;
@@ -39,25 +39,25 @@ static t_int *train_perform(t_int *w)
     t_float *in2 = (t_float *)(w[4]);
     t_float *in3 = (t_float *)(w[5]);
     t_float *out = (t_float *)(w[6]);
-    float rcpksr = x->x_rcpksr;
-    float phase = x->x_phase;
+    double rcpksr = x->x_rcpksr;
+    double phase = x->x_phase;
+    double next_phase, phase_step, wrapped_phase, wrap_low, wrap_high;
+    t_float period, phase_offset, width;
     
    while (nblock--)
    {
-        float next_phase;
-		float period = *in1++;
-        float phase_step = rcpksr / period;
+	period = *in1++;
+        phase_step = rcpksr / period;
         if (period <= 0) phase_step = 0;
         if (phase_step > 0.5) phase_step = 0.5; // smallest period corresponds to nyquist
-        float width = *in2++;
+        width = *in2++;
         if (width < 0.) width = 0.;
         if (width > 1.) width = 1.;
-        float phase_offset = *in3++;
+        phase_offset = *in3++;
         if (phase_offset < 0.) phase_offset = 0.;
         if (phase_offset > 1.) phase_offset = 1.;
-        float wrap_low = phase_offset;
-        float wrap_high = phase_offset + 1;
-        float wrapped_phase;
+        wrap_low = (double)phase_offset;
+        wrap_high = (double)phase_offset + 1.;
        {
            wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase;
            next_phase = wrapped_phase + phase_step;
@@ -80,7 +80,7 @@ static t_int *train_perform(t_int *w)
 
 static void train_dsp(t_train *x, t_signal **sp)
 {
-    x->x_rcpksr = 1000. / sp[0]->s_sr; // reciprocal sample rate in Khz
+    x->x_rcpksr = 1000. / (double)sp[0]->s_sr; // reciprocal sample rate in Khz
     dsp_add(train_perform, 6, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
