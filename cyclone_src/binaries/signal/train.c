@@ -59,18 +59,20 @@ static t_int *train_perform(t_int *w)
         wrap_low = (double)phase_offset;
         wrap_high = (double)phase_offset + 1.;
        {
-           wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase;
-           next_phase = wrapped_phase + phase_step;
+           wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase; // wrapped phase
            
-           if (phase_step == 0) *out++ = 0;
+           next_phase = wrapped_phase + phase_step; // next phase (unwrapped)
+           
+           if (phase_step == 0) *out++ = 0; // recheck
            else if (phase >= wrap_high)
            {
-               *out++ = 1.;
+               *out++ = 1.; // 1st always 1
                clock_delay(x->x_clock, 0);
            }
            else if (phase < wrap_low) *out++ = 0.;
-           else if(next_phase >= wrap_high) *out++ = 0.;
-           else  *out++ = phase < (width + phase_offset) ? 1. : 0.;
+           else if(next_phase >= wrap_high) *out++ = 0.; // last always 0
+           else  *out++ = phase < width + phase_offset; // check
+//           *out++ = phase;
         }
 		phase = next_phase;
         }
