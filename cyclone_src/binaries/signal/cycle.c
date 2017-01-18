@@ -123,11 +123,14 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 	x->x_offset = f < 0 ? 0 : (int)f;
     }
     else{
+        if(x->x_nameset > 0){
+            //only reset if switching from named buffer
+            cycle_phase_reset(x);
+        };
         x->x_nameset = 0;
         pd_error(x, "using cosine table");
     };
 
-    cycle_phase_reset(x);
 }
 
 static void cycle_setall(t_cycle *x, t_symbol *s)
@@ -140,11 +143,14 @@ static void cycle_setall(t_cycle *x, t_symbol *s)
 	x->x_cycle_tabsize = x->x_cybuf->c_npts;
 	}
     else{
+        if(x->x_nameset > 0){
+            //only reset if switching from named buffer
+            cycle_phase_reset(x);
+        };
         x->x_nameset = 0;
         pd_error(x, "using cosine table");
     };
 
-    cycle_phase_reset(x);
 }
 
 static void cycle_buffer_offset(t_cycle *x, t_floatarg f)
