@@ -22,7 +22,7 @@ static t_class *spike_class;
 
 static void spike_tick(t_spike *x)
 {
-    outlet_float(((t_object *)x)->ob_outlet, x->x_count * x->x_rcpksr);
+    outlet_float(((t_object *)x)->ob_outlet, (x->x_count + 1) * x->x_rcpksr);
     x->x_count = x->x_precount;
 }
 
