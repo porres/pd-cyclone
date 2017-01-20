@@ -164,7 +164,7 @@ static void coll_enqueue_threaded_msgs(t_coll *x, t_msg *m)
 	char s[MAXPDSTRING];
 	if (m->m_flag & 1) {
 		//fprintf(stderr,"0x01\n");
-		sprintf(s, "coll: no coll file '%s'", x->x_s->s_name);
+		//sprintf(s, "coll: no coll file '%s'", x->x_s->s_name);
 		coll_q_enqueue(x, s);
 	}
 	if (m->m_flag & 2) {
@@ -813,7 +813,7 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 		{
 			m->m_flag |= 0x01;
 			if (!threaded)
-				loud_warning(&coll_class, 0, "no coll file '%s'", fname);
+				//loud_warning(&coll_class, 0, "no coll file '%s'", fname);
 			return(m);
 		}
 		fclose(fp);
