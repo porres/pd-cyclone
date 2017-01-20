@@ -164,7 +164,7 @@ static void coll_enqueue_threaded_msgs(t_coll *x, t_msg *m)
 	char s[MAXPDSTRING];
 	if (m->m_flag & 1) {
 		//fprintf(stderr,"0x01\n");
-		sprintf(s, "coll: no coll file '%s'", x->x_s->s_name);
+		//sprintf(s, "coll: no coll file '%s'", x->x_s->s_name);
 		coll_q_enqueue(x, s);
 	}
 	if (m->m_flag & 2) {
@@ -813,7 +813,7 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 		{
 			m->m_flag |= 0x01;
 			if (!threaded)
-				loud_warning(&coll_class, 0, "no coll file '%s'", fname);
+				//loud_warning(&coll_class, 0, "no coll file '%s'", fname);
 			return(m);
 		}
 		fclose(fp);
@@ -1075,6 +1075,11 @@ static void coll_bind(t_coll *x, t_symbol *name)
 		//pthread_mutex_unlock(&x->unsafe_mutex);
             if(!no_search){
 	        collcommon_doread(cc, name, x->x_canvas, 0);
+                if(strcmp(cc->c_filename->s_name, name->s_name) == 0){
+                    //bang if file read successful
+                    //need to use clock bc x not returned yet - DK
+                    clock_delay(x->x_clock, 0);
+                };
             };
 	}
 	else
@@ -1995,11 +2000,12 @@ static void coll_free(t_coll *x)
 		pthread_join(x->unsafe_t, NULL);
 		pthread_mutex_destroy(&x->unsafe_mutex);
 
-		clock_free(x->x_clock);
+		//clock_free(x->x_clock);
 		if (x->x_q)
 			coll_q_free(x);
 	}
 
+    clock_free(x->x_clock);
     hammerfile_free(x->x_filehandle);
     coll_unbind(x);
 }
@@ -2070,9 +2076,12 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 	// prep threading stuff
 	x->unsafe = 0;
 	x->init = 0;
+        //used to be only for threaded, now make it anyways
+        //needed for bang on instantiate - DK
+	x->x_clock = clock_new(x, (t_method)coll_tick);
 	if (x->threaded == 1)
 	{
-		x->x_clock = clock_new(x, (t_method)coll_tick);
+		//x->x_clock = clock_new(x, (t_method)coll_tick);
 		t_threadedFunctionParams rPars;
 		rPars.x = x;
 		pthread_mutex_init(&x->unsafe_mutex, NULL);
