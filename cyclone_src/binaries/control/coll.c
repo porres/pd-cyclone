@@ -164,13 +164,13 @@ static void coll_enqueue_threaded_msgs(t_coll *x, t_msg *m)
 	char s[MAXPDSTRING];
 	if (m->m_flag & 1) {
 		//fprintf(stderr,"0x01\n");
-		//sprintf(s, "coll: no coll file '%s'", x->x_s->s_name);
+		//sprintf(s, "coll: no coll file '%s'", x->x_s->s_name); // checked, no warning
 		coll_q_enqueue(x, s);
 	}
 	if (m->m_flag & 2) {
 		//fprintf(stderr,"0x02\n");
-		sprintf(s, "coll: error reading text file '%s'", x->x_s->s_name);
-		coll_q_enqueue(x, s);
+        sprintf(s, "coll: can't find file '%s'", x->x_s->s_name);
+        coll_q_enqueue(x, s);
 	}
 	if (m->m_flag & 4) {
 		//fprintf(stderr,"0x04\n");
@@ -184,7 +184,7 @@ static void coll_enqueue_threaded_msgs(t_coll *x, t_msg *m)
 	}
 	if (m->m_flag & 16) {
 		//fprintf(stderr,"0x16\n");
-		sprintf(s, "coll: error reading text file '%s'", x->x_s->s_name);
+		sprintf(s, "coll: can't find file '%s'", x->x_s->s_name);
 		coll_q_enqueue(x, s);
 	}
 	if (m->m_flag & 32) {
@@ -824,7 +824,7 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 	{
 		m->m_flag |= 0x02;
 		if (!threaded)
-			loud_error(0, "coll: error reading text file '%s'", fn->s_name);
+			loud_error(0, "coll: can't find file '%s'", fn->s_name);
 	}
     else if (!binbuf_read(bb, buf, "", 0))
     {
@@ -858,7 +858,7 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 		else {
 			m->m_flag |= 0x16;
 			if (!threaded)
-				loud_error(0, "coll: error reading text file '%s'", fn->s_name);
+				loud_error(0, "coll: can't find file '%s'", fn->s_name);
 		}
 		if (cc->c_refs)
 			collcommon_modified(cc, 1);
