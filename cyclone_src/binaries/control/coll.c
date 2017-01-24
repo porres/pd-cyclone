@@ -836,7 +836,8 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 			
                         //filebangout was commented out, maybe better to use clock_delay to bang? - DK
 			for (x = cc->c_refs; x; x = x->x_next){
-			    outlet_bang(x->x_filebangout);
+                            clock_delay(x->x_clock, 0);
+			    //outlet_bang(x->x_filebangout);
                         };
 			cc->c_lastcanvas = cv;
 			cc->c_filename = fn;
