@@ -812,10 +812,10 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 		if (!(fp = fopen(fname, "r")))
 		{
 			m->m_flag |= 0x01;
-			if (!threaded)
+			//if (!threaded)
 				//loud_warning(&coll_class, 0, "no coll file '%s'", fname);
 			return(m);
-		}
+		};
 		fclose(fp);
     }
 
@@ -853,8 +853,8 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 			m->m_flag |= 0x08;
 			m->m_line = 1 - nlines;
 			if (!threaded)
-				loud_error(0, "coll: error in line %d of text file '%s'",
-					1 - nlines, fn->s_name);
+				loud_error(0, "coll: error in line %d of text file '%s'", 1 - nlines, fn->s_name);
+			
 		}
 		else {
 			m->m_flag |= 0x16;
@@ -1075,12 +1075,14 @@ static void coll_bind(t_coll *x, t_symbol *name)
 		//pthread_cond_signal(&x->unsafe_cond);
 		//pthread_mutex_unlock(&x->unsafe_mutex);
             if(!no_search){
-	        collcommon_doread(cc, name, x->x_canvas, 0);
-                if(strcmp(cc->c_filename->s_name, name->s_name) == 0){
+	        t_msg * msg = collcommon_doread(cc, name, x->x_canvas, 0);
+		
+               if(msg->m_line > 0){
                     //bang if file read successful
                     //need to use clock bc x not returned yet - DK
                     clock_delay(x->x_clock, 0);
                 };
+		
             };
 	}
 	else
@@ -2207,3 +2209,4 @@ void coll_setup(void)
     //logpost(NULL, 4, "this is cyclone/coll %s, %dth %s build",
 	//CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
+
