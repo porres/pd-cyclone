@@ -422,7 +422,7 @@ static void collcommon_putbefore(t_collcommon *cc,
 	next->e_prev = ep;
     }
     else if (cc->c_first || cc->c_last)
-	loudbug_bug("collcommon_putbefore");
+	bug("collcommon_putbefore");
     else
 	cc->c_first = cc->c_last = ep;
     collcommon_modified(cc, 1);
@@ -441,7 +441,7 @@ static void collcommon_putafter(t_collcommon *cc,
 	prev->e_next = ep;
     }
     else if (cc->c_first || cc->c_last)
-	loudbug_bug("collcommon_putafter");
+	bug("collcommon_putafter");
     else
 	cc->c_first = cc->c_last = ep;
     collcommon_modified(cc, 1);
@@ -491,7 +491,7 @@ static void collcommon_swaplinks(t_collcommon *cc,
 	    collcommon_putafter(cc, ep1, prev2);
 	    collcommon_putbefore(cc, ep2, next1);
 	}
-	else loudbug_bug("collcommon_swaplinks");
+	else bug("collcommon_swaplinks");
     }
 }
 
@@ -572,7 +572,7 @@ static void collcommon_sort(t_collcommon *cc, int descending, int ndx)
 		     collelem_less(ep, min, ndx, descending);
 		 min = min->e_prev);
 	    if (!min)  /* LATER remove */
-		loudbug_bug("collcommon_sort");
+		bug("collcommon_sort");
 	    else if (ep != min->e_next)
 	    {
 		collcommon_takeout(cc, ep);
@@ -759,7 +759,7 @@ static int collcommon_fromatoms(t_collcommon *cc, int ac, t_atom *av)
 	    hasnumkey = 1;
 	else
 	{
-	    loud_error(0, "coll: bad atom");
+	    post("coll: bad atom");
 	    collcommon_clearall(cc);  /* LATER rethink */
 	    cc->c_increation = 0;
 	    return (-nlines);
@@ -768,7 +768,7 @@ static int collcommon_fromatoms(t_collcommon *cc, int ac, t_atom *av)
     }
     if (data)
     {
-	loud_error(0, "coll: incomplete");
+	post("coll: incomplete");
 	collcommon_clearall(cc);  /* LATER rethink */
 	cc->c_increation = 0;
 	return (-nlines);
@@ -824,7 +824,7 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 	{
 		m->m_flag |= 0x02;
 		if (!threaded)
-			loud_error(0, "coll: can't find file '%s'", fn->s_name);
+			post("coll: can't find file '%s'", fn->s_name);
 	}
     else if (!binbuf_read(bb, buf, "", 0))
     {
@@ -853,13 +853,13 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 			m->m_flag |= 0x08;
 			m->m_line = 1 - nlines;
 			if (!threaded)
-				loud_error(0, "coll: error in line %d of text file '%s'", 1 - nlines, fn->s_name);
+			    post("coll: error in line %d of text file '%s'", 1 - nlines, fn->s_name);
 			
 		}
 		else {
 			m->m_flag |= 0x16;
 			if (!threaded)
-				loud_error(0, "coll: can't find file '%s'", fn->s_name);
+				post("coll: can't find file '%s'", fn->s_name);
 		}
 		if (cc->c_refs)
 			collcommon_modified(cc, 1);
@@ -921,7 +921,7 @@ static t_msg *collcommon_dowrite(t_collcommon *cc, t_symbol *fn, t_canvas *cv, i
     if (binbuf_write(bb, buf, "", 0)) {
 		m->m_flag |= 0x32;
 		if (!threaded)
-			loud_error(0, "coll: error writing text file '%s'", fn->s_name);
+			post("coll: error writing text file '%s'", fn->s_name);
 	}
     else
 		if (!binbuf_write(bb, buf, "", 0))
@@ -984,7 +984,7 @@ static void collcommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av)
 {
     int nlines = collcommon_fromatoms((t_collcommon *)z, ac, av);
     if (nlines < 0)
-	loud_error(0, "coll: editing error in line %d", 1 - nlines);
+	post("coll: editing error in line %d", 1 - nlines);
 }
 
 static void collcommon_free(t_collcommon *cc)
@@ -1013,7 +1013,7 @@ static t_collcommon *coll_checkcommon(t_coll *x)
 	x->x_common != (t_collcommon *)pd_findbyclass(x->x_name,
 						      collcommon_class))
     {
-	loudbug_bug("coll_checkcommon");
+	bug("coll_checkcommon");
 	return (0);
     }
     return (x->x_common);
@@ -1170,7 +1170,7 @@ static t_collelem *coll_findkey(t_coll *x, t_atom *key, t_symbol *mess)
 	mess = 0;
     }
     if (!ep && mess)
-	loud_error((t_pd *)x, "no such key");
+	pd_error((t_pd *)x, "no such key");
     return (ep);
 }
 
@@ -1256,7 +1256,7 @@ static void coll_store(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ac >= 2)
 		coll_tokey(x, av, ac-1, av+1, 1, s);
 		else
-		loud_messarg((t_pd *)x, s);
+		pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1289,9 +1289,9 @@ static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av)
 			ep->e_numkey = numkey;
 			}
 		}
-		else loud_messarg((t_pd *)x, s);
+		else pd_error("bad arguments for message '%s'", s->s_name);
 		}
-		else loud_messarg((t_pd *)x, s);
+		else pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1301,7 +1301,7 @@ static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ac >= 2 && av->a_type == A_FLOAT)
 		coll_tokey(x, av, ac-1, av+1, 0, s);
 		else
-		loud_messarg((t_pd *)x, s);
+		pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1313,7 +1313,7 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ac >= 2 && av->a_type == A_FLOAT)
 		coll_tokey(x, av, ac-1, av+1, 0, s);
 		else
-		loud_messarg((t_pd *)x, s);
+		pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1326,7 +1326,7 @@ static void coll_remove(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ep = coll_findkey(x, av, s))
 			collcommon_remove(x->x_common, ep);
 		}
-		else loud_messarg((t_pd *)x, s);
+		else pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1349,7 +1349,7 @@ static void coll_delete(t_coll *x, t_symbol *s, int ac, t_atom *av)
 				collcommon_remove(x->x_common, ep);
 			}
 		}
-		else loud_messarg((t_pd *)x, s);
+		else pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1441,9 +1441,9 @@ static void coll_merge(t_coll *x, t_symbol *s, int ac, t_atom *av)
 					collcommon_putafter(cc, ep, cc->c_last);
 				}
 			}
-			else loud_messarg((t_pd *)x, s);
+			else pd_error("bad arguments for message '%s'", s->s_name);
 		}
-		else loud_messarg((t_pd *)x, s);
+		else pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1478,7 +1478,7 @@ static void coll_sub(t_coll *x, t_symbol *s, int ac, t_atom *av)
 				}
 			}
 		}
-		else loud_messarg((t_pd *)x, s);
+		else pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1510,7 +1510,7 @@ static void coll_swap(t_coll *x, t_symbol *s, int ac, t_atom *av)
 			(ep2 = coll_findkey(x, av + 1, s)))
 			collcommon_swapkeys(x->x_common, ep1, ep2);
 		}
-		else loud_messarg((t_pd *)x, s);
+		else pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1540,7 +1540,7 @@ static void coll_next(t_coll *x)
 		if (cc->c_head)
 		coll_dooutput(x, cc->c_head->e_size, cc->c_head->e_data);
 		else if (!cc->c_selfmodified)
-		loudbug_bug("coll_next");  /* LATER rethink */
+		bug("coll_next");  /* LATER rethink */
 	//}
 }
 
@@ -1562,7 +1562,7 @@ static void coll_prev(t_coll *x)
 		if (cc->c_head)
 		coll_dooutput(x, cc->c_head->e_size, cc->c_head->e_data);
 		else if (!cc->c_selfmodified)
-		loudbug_bug("coll_prev");  /* LATER rethink */
+		bug("coll_prev");  /* LATER rethink */
 	//}
 }
 
@@ -1597,7 +1597,7 @@ static void coll_goto(t_coll *x, t_symbol *s, int ac, t_atom *av)
 				cc->c_headstate = COLL_HEADRESET;
 			}
 		}
-		//else loud_messarg((t_pd *)x, s);
+		//else pd_error("bad arguments for message '%s'", s->s_name);
 		else coll_start(x);
 	//}
 }
@@ -1620,7 +1620,7 @@ static void coll_nth(t_coll *x, t_symbol *s, int ac, t_atom *av)
 				outlet_symbol(((t_object *)x)->ob_outlet, ap->a_w.w_symbol);
 			}
 		}
-		else loud_messarg((t_pd *)x, s);
+		else pd_error("bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1920,9 +1920,9 @@ static void coll_debug(t_coll *x, t_floatarg f)
 			t_collelem *ep, *last;
 			int i = 0;
 			while (x1) i++, x1 = x1->x_next;
-			loudbug_post("refcount %d", i);
+			bug("refcount %d", i);
 			for (ep = cc->c_first, last = 0; ep; ep = ep->e_next) last = ep;
-			if (last != cc->c_last) loudbug_bug("coll_debug: last element");
+			if (last != cc->c_last) bug("coll_debug: last element");
 			collcommon_post(cc);
 		}
 	//}
