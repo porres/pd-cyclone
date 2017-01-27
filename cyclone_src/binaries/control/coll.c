@@ -1256,7 +1256,7 @@ static void coll_store(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ac >= 2)
 		coll_tokey(x, av, ac-1, av+1, 1, s);
 		else
-		pd_error("bad arguments for message '%s'", s->s_name);
+		pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1289,9 +1289,9 @@ static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av)
 			ep->e_numkey = numkey;
 			}
 		}
-		else pd_error("bad arguments for message '%s'", s->s_name);
+		else pd_error(x, "bad arguments for message '%s'", s->s_name);
 		}
-		else pd_error("bad arguments for message '%s'", s->s_name);
+		else pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1301,7 +1301,7 @@ static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ac >= 2 && av->a_type == A_FLOAT)
 		coll_tokey(x, av, ac-1, av+1, 0, s);
 		else
-		pd_error("bad arguments for message '%s'", s->s_name);
+		pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1313,7 +1313,7 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ac >= 2 && av->a_type == A_FLOAT)
 		coll_tokey(x, av, ac-1, av+1, 0, s);
 		else
-		pd_error("bad arguments for message '%s'", s->s_name);
+		pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1326,7 +1326,7 @@ static void coll_remove(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ep = coll_findkey(x, av, s))
 			collcommon_remove(x->x_common, ep);
 		}
-		else pd_error("bad arguments for message '%s'", s->s_name);
+		else pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1349,7 +1349,7 @@ static void coll_delete(t_coll *x, t_symbol *s, int ac, t_atom *av)
 				collcommon_remove(x->x_common, ep);
 			}
 		}
-		else pd_error("bad arguments for message '%s'", s->s_name);
+		else pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1441,9 +1441,9 @@ static void coll_merge(t_coll *x, t_symbol *s, int ac, t_atom *av)
 					collcommon_putafter(cc, ep, cc->c_last);
 				}
 			}
-			else pd_error("bad arguments for message '%s'", s->s_name);
+			else pd_error(x, "bad arguments for message '%s'", s->s_name);
 		}
-		else pd_error("bad arguments for message '%s'", s->s_name);
+		else pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1478,7 +1478,7 @@ static void coll_sub(t_coll *x, t_symbol *s, int ac, t_atom *av)
 				}
 			}
 		}
-		else pd_error("bad arguments for message '%s'", s->s_name);
+		else pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1510,7 +1510,7 @@ static void coll_swap(t_coll *x, t_symbol *s, int ac, t_atom *av)
 			(ep2 = coll_findkey(x, av + 1, s)))
 			collcommon_swapkeys(x->x_common, ep1, ep2);
 		}
-		else pd_error("bad arguments for message '%s'", s->s_name);
+		else pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
@@ -1597,7 +1597,7 @@ static void coll_goto(t_coll *x, t_symbol *s, int ac, t_atom *av)
 				cc->c_headstate = COLL_HEADRESET;
 			}
 		}
-		//else pd_error("bad arguments for message '%s'", s->s_name);
+		//else pd_error(x, "bad arguments for message '%s'", s->s_name);
 		else coll_start(x);
 	//}
 }
@@ -1620,7 +1620,7 @@ static void coll_nth(t_coll *x, t_symbol *s, int ac, t_atom *av)
 				outlet_symbol(((t_object *)x)->ob_outlet, ap->a_w.w_symbol);
 			}
 		}
-		else pd_error("bad arguments for message '%s'", s->s_name);
+		else pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
 }
 
