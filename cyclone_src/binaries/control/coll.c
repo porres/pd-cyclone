@@ -1730,6 +1730,12 @@ static void coll_embed(t_coll *x, t_float f){
     coll_flags(x, (t_float) embed, 0);
 }
 
+
+static void coll_threaded(t_coll *x, t_float f){
+    int th = f == 0 ? 0 : 1;
+    x->x_threaded = th;
+}
+
 static void coll_read(t_coll *x, t_symbol *s)
 {
 	if (!x->unsafe) {
@@ -2173,6 +2179,8 @@ void coll_setup(void)
 		    gensym("flags"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(coll_class, (t_method)coll_embed,
 		    gensym("embed"), A_FLOAT,0);
+    class_addmethod(coll_class, (t_method)coll_threaded,
+            gensym("threaded"), A_FLOAT,0);
     class_addmethod(coll_class, (t_method)coll_read,
 		    gensym("read"), A_DEFSYM, 0);
     class_addmethod(coll_class, (t_method)coll_start,
@@ -2184,7 +2192,7 @@ void coll_setup(void)
     class_addmethod(coll_class, (t_method)coll_writeagain,
 		    gensym("writeagain"), 0);
     class_addmethod(coll_class, (t_method)coll_filetype,
-		    gensym("filetype"), A_SYMBOL, 0);
+		    gensym("filetype"), A_SYMBOL, 0); // dummy
     class_addmethod(coll_class, (t_method)coll_dump,
 		    gensym("dump"), 0);
     class_addmethod(coll_class, (t_method)coll_open,
@@ -2207,7 +2215,5 @@ void coll_setup(void)
        class itself has been already set up above), but it is better to
        have it around, just in case... */
     hammerfile_setup(collcommon_class, 0);
-    //logpost(NULL, 4, "this is cyclone/coll %s, %dth %s build",
-	//CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }
 
