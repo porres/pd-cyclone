@@ -58,7 +58,7 @@ typedef struct _collcommon
     t_collelem    *c_first;
     t_collelem    *c_last;
     t_collelem    *c_head;
-    int            c_headstate;
+   int            c_headstate;
 } t_collcommon;
 
 typedef struct _coll_q    		/* element in a linked list of stored messages waiting to be sent out */
@@ -1736,7 +1736,7 @@ static void coll_read(t_coll *x, t_symbol *s)
 		t_collcommon *cc = x->x_common;
 		if (s && s != &s_) {
 			x->x_s = s;
-			if (x->threaded == 1) {
+			if (x->x_threaded == 1) {
 				x->unsafe = 1;
 
 				pthread_mutex_lock(&x->unsafe_mutex);
@@ -1759,7 +1759,7 @@ static void coll_write(t_coll *x, t_symbol *s)
 		t_collcommon *cc = x->x_common;
 		if (s && s != &s_) {
 			x->x_s = s;
-			if (x->threaded == 1) {
+			if (x->x_threaded == 1) {
 				x->unsafe = 10;
 
 				pthread_mutex_lock(&x->unsafe_mutex);
@@ -1781,7 +1781,7 @@ static void coll_readagain(t_coll *x)
 	//if (!x->busy) {
 		t_collcommon *cc = x->x_common;
 		if (cc->c_filename) {
-			if (x->threaded == 1) {
+			if (x->x_threaded == 1) {
 				x->unsafe = 2;
 
 				pthread_mutex_lock(&x->unsafe_mutex);
@@ -1803,7 +1803,7 @@ static void coll_writeagain(t_coll *x)
 	//if (!x->busy) {
 		t_collcommon *cc = x->x_common;
 		if (cc->c_filename) {
-			if (x->threaded == 1) {
+			if (x->x_threaded == 1) {
 				x->unsafe = 11;
 
 				pthread_mutex_lock(&x->unsafe_mutex);
@@ -1992,7 +1992,7 @@ static void coll_separate(t_coll *x, t_floatarg f)
 
 static void coll_free(t_coll *x)
 {
-	if (x->threaded == 1)
+	if (x->x_threaded == 1)
 	{
 		x->unsafe = -1;
 
@@ -2043,15 +2043,16 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
                     t_float curf = atom_getfloatarg(0, argc, argv);
                     argc--;
                     argv++;
-                    embed = curf == 0 ? 0 : 1;
+                    embed = curf > 0 ? 1 : 0;
                 };
             }
             else if(strcmp(cursym -> s_name, "@threaded") == 0){
                 if(argc){
+                    post("parsing threaded");
                     t_float curf = atom_getfloatarg(0, argc, argv);
                     argc--;
                     argv++;
-                    threaded = curf == 0 ? 0 : 1;
+                    threaded = curf > 0 ? 1 : 0;
                 };
             }
             else{
@@ -2082,7 +2083,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
         //used to be only for threaded, now make it anyways
         //needed for bang on instantiate - DK
 	x->x_clock = clock_new(x, (t_method)coll_tick);
-	if (x->threaded == 1)
+	if (x->x_threaded == 1)
 	{
 		//x->x_clock = clock_new(x, (t_method)coll_tick);
 		t_threadedFunctionParams rPars;
