@@ -174,8 +174,8 @@ static void coll_enqueue_threaded_msgs(t_coll *x, t_msg *m)
 	}
 	if (m->m_flag & 4) {
 		//fprintf(stderr,"0x04\n");
-		sprintf(s, "coll: finished reading %d lines from text file '%s'", m->m_line, x->x_s->s_name);
-		coll_q_enqueue(x, s);
+		//sprintf(s, "coll: finished reading %d lines from text file '%s'", m->m_line, x->x_s->s_name);
+		//coll_q_enqueue(x, s);
 	}
 	if (m->m_flag & 8) {
 		//fprintf(stderr,"0x08\n");
@@ -834,10 +834,12 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 			t_coll *x;
 			/* LATER consider making this more robust */
 			
-                        //filebangout was commented out, maybe better to use clock_delay to bang? - DK
-			for (x = cc->c_refs; x; x = x->x_next){
-                            clock_delay(x->x_clock, 0);
-			    //outlet_bang(x->x_filebangout);
+			//seems like banging is taken care of in threaded cases via
+                        //clock_delay so this is for nonthreaded - DK
+                        if(!threaded){
+                            for (x = cc->c_refs; x; x = x->x_next){
+                                outlet_bang(x->x_filebangout);
+                            };
                         };
 			cc->c_lastcanvas = cv;
 			cc->c_filename = fn;
