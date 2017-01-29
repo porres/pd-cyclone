@@ -2056,11 +2056,10 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
             }
             else if(strcmp(cursym -> s_name, "@threaded") == 0){
                 if(argc){
-                    post("parsing threaded");
                     t_float curf = atom_getfloatarg(0, argc, argv);
                     argc--;
                     argv++;
-                    threaded = curf > 0 ? 1 : 0;
+                    threaded = curf != 0 ? 1 : 0;
                 };
             }
             else{
