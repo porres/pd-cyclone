@@ -2090,7 +2090,8 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
         //used to be only for threaded, now make it anyways
         //needed for bang on instantiate - DK
 	x->x_clock = clock_new(x, (t_method)coll_tick);
-	if (x->x_threaded == 1)
+//	if (x->x_threaded == 1) - there's something here that needs to be done in instantiating the object
+    // even for unthreaded mode, otherwise it won't bang on the 3rd outlet when in threaded mode... porres
 	{
 		//x->x_clock = clock_new(x, (t_method)coll_tick);
 		t_threadedFunctionParams rPars;
