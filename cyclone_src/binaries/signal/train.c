@@ -72,7 +72,6 @@ static t_int *train_perform(t_int *w)
            else if (phase < wrap_low) *out++ = 0.;
            else if(next_phase >= wrap_high) *out++ = 0.; // last always 0
            else  *out++ = phase < width + phase_offset; // check
-//           *out++ = phase;
         }
 		phase = next_phase;
         }
