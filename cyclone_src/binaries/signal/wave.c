@@ -520,6 +520,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 			};
 		}
 		else{
+            if(nameset){
 			//else we're dealing with a float
 			switch(floatarg){
 				case 0:
@@ -537,6 +538,10 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 			floatarg++; //increment the floatarg we're looking at
 			argc--;
 			argv++;
+            }
+            else{
+                goto errstate; // 1st arg didnt set the table name
+            };
 		};
 	};
 

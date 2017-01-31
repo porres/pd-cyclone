@@ -379,14 +379,18 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 	t_float loopstatus = PDCYREC_LOOPSTATUS;
 	t_float loopstart = PDCYREC_LOOPSTART;
 	t_float loopend = -1;
-	
+    int nameset = 0; //flag if name is set
+    
 	t_symbol * arrname = NULL;
 	if(argc > 0 && argv ->a_type == A_SYMBOL){
-		//first arg HAS to be array name, parse it now
+        if(!nameset) //if name not passed so far, count arg as array name
+        {
 		arrname = atom_getsymbolarg(0, argc, argv);
 		argc--;
-		argv++;
-		//post("record~ setting to '%s'", arrname->s_name);
+        argv++;
+        nameset = 1;
+        }
+
 	};
 	
 	//NOW parse the rest of the args
@@ -438,19 +442,27 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 				goto errstate;
 			};
 		}
-		else if(argv->a_type == A_FLOAT){
-			t_float argval = atom_getfloatarg(0, argc, argv);
-			switch(argnum){
-				case 0:
-					numchan = argval;
-					break;
-				default:
-					break;
-			};
-			argnum++;
-			argc--;
-			argv++;
-		}
+		else if(argv->a_type == A_FLOAT)
+            {
+                if(nameset)
+                {
+                    t_float argval = atom_getfloatarg(0, argc, argv);
+                    switch(argnum)
+                    {
+                        case 0:
+                            numchan = argval;
+                            break;
+                        default:
+                            break;
+                    };
+                    argnum++;
+                    argc--;
+                    argv++;
+                }
+                else{
+                    goto errstate;
+                };
+            }
 		else{
 			goto errstate;
 		};
