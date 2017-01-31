@@ -66,7 +66,7 @@ static t_int *rampsmooth_perform(t_int *w)
 	else if (nleft > 0)
 	{
 	    *out++ = (last += incr);
-	    if (--nleft == 0)
+	    if (--nleft == 1)
 	    {
 		incr = 0.;
 		last = target;
