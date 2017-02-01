@@ -19,8 +19,15 @@ DONE for cyclone
 
 | Under the maintenance of Fred Jan Kraan (Post Extended era): 
 
+0.2beta3 - (version at the time of the forking)
+  * coll: removed threaded behaviour as it has impact on the windows distribution 
+
+0.2beta2 - (version at the time of the forking)
+  * coll: added .DLL dependencies so the threaded version works in windows
+  * teeth~: replaced porres' abstraction for a compiled binary version
+
 0.2beta1 - (version at the time of the forking)
-  * coll: added threaded argument from pd-l2ork (later removed for windows)
+  * coll: substituting it for pd-l2ork's version, with threaded functionality and argument
   * scope~: Added 'resize' and 'grbg' methods
   * frameaccum~: added wrap-mode 
   * matrix~: changed default ramp for non-binary mode
