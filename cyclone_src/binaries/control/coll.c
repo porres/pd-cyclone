@@ -25,7 +25,7 @@ adding coll_renumber2 and collcommon_renumber2 - Derek Kwan
 #endif
 
 
-#define COLLTHREAD 0 //default for threaded
+#define COLLTHREAD 1 //default is threaded
 #define COLLEMBED 0 //default for save in patch
 
 enum { COLL_HEADRESET,
