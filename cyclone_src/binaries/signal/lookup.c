@@ -2,6 +2,7 @@
 
 #include "m_pd.h"
 #include <math.h>
+#include "cybuf.h"
 
 #define CYLKUPENDPT 512
 
@@ -10,9 +11,7 @@ static t_class *lookup_class;
 typedef struct _lookup
 {
 	t_object x_obj;
-	t_symbol *x_arrayname;
-	t_word *x_vec;
-    int x_npoints; //arraysize in samples
+	t_cybuf *x_cybuf;
 
 	t_inlet *x_startlet; //inlet for stpt
 	t_inlet *x_endlet; //inlet for endpoint
@@ -46,29 +45,13 @@ static double lookup_getlin(t_word * arr, int sz, double idx){
 
 static void lookup_set(t_lookup *x, t_symbol *s)
 {
-    t_garray *a;
-
-    x->x_arrayname = s;
-    if (!(a = (t_garray *)pd_findbyclass(x->x_arrayname, garray_class)))
-    {
-        if (*s->s_name){
-            pd_error(x, "lookup~: %s: no such array", x->x_arrayname->s_name);
-		};
-        x->x_vec = 0;
-    }
-    else if (!garray_getfloatwords(a, &x->x_npoints, &x->x_vec))
-    {
-        pd_error(x, "%s: bad template for lookup~", x->x_arrayname->s_name);
-        x->x_vec = 0;
-    }
-    else garray_usedindsp(a);
+   cybuf_setarray(x->x_cybuf, s); 
 }
 
 static void *lookup_new(t_symbol *s, int argc, t_atom *argv){ 
 	t_lookup *x = (t_lookup *)pd_new(lookup_class);
 
-	t_symbol * name;
-	int nameset = 0; //flag if name is set
+	t_symbol * name = NULL;
 	int floatarg = 0;//argument counter for floatargs (don't include symbol arg)
 	//setting defaults for start and end points
 	t_float stpt = 0;
@@ -79,7 +62,6 @@ static void *lookup_new(t_symbol *s, int argc, t_atom *argv){
 			if(floatarg == 0){
 				//we haven't hit any floatargs, go ahead and set name
 				name = atom_getsymbolarg(0, argc, argv);
-				nameset = 1; //set nameset flag
 			};
 		}
 		else{
@@ -100,11 +82,7 @@ static void *lookup_new(t_symbol *s, int argc, t_atom *argv){
 		argv++;
 	};
 
-	if(!nameset){
-		//if name isn't set, set to null symbol
-		name = &s_;
-	};
-
+        x->x_cybuf = cybuf_init((t_class *) x, name, 1, 0);
 	//boundschecking
 	if(stpt < 0){
 		stpt = 0;
@@ -119,7 +97,6 @@ static void *lookup_new(t_symbol *s, int argc, t_atom *argv){
 		endpt = (t_float)floor(endpt);
 	};
 
-	x->x_arrayname = name;
 	x->x_startlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	x->x_endlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 	pd_float((t_pd *)x->x_startlet, stpt);
@@ -132,14 +109,15 @@ static void *lookup_new(t_symbol *s, int argc, t_atom *argv){
 static t_int *lookup_perform(t_int *w)
 {
 	t_lookup *x = (t_lookup *)(w[1]);
+        t_cybuf *c = x->x_cybuf;
 	t_float *phase = (t_float *)(w[2]);
 	t_float *stpt = (t_float *)(w[3]);
 	t_float *endpt = (t_float *)(w[4]);
 	t_float *out = (t_float *)(w[5]);
 	int n = (int)(w[6]);
-	int npoints = x->x_npoints;
-	int maxidx = npoints -1;
-	t_word *buf = x->x_vec;
+	int npts = c->c_npts;
+	int maxidx = npts -1;
+	t_word *buf = (t_word *)c->c_vectors[0];
 
 	int i;
 	for(i=0;i<n;i++){
@@ -162,8 +140,8 @@ static t_int *lookup_perform(t_int *w)
 		
 
 		//bounds checking
-		if(curendpt > npoints){
-			curendpt = npoints;
+		if(curendpt > npts){
+			curendpt = npts;
 		};
 		if(curstpt < 0){
 			curstpt = 0;
@@ -190,7 +168,12 @@ static t_int *lookup_perform(t_int *w)
 			if(realidx > maxidx){
 				realidx = (double)maxidx;
 			};
-			curout = lookup_getlin(buf, x->x_npoints, realidx); //read the buffer!
+                        if(c->c_playable && npts){
+			    curout = lookup_getlin(buf, npts, realidx); //read the buffer!
+                        }
+                        else{
+                            curout = 0.;
+                        };
 		};
 
 		out[i] = curout;
@@ -201,8 +184,8 @@ static t_int *lookup_perform(t_int *w)
 
 static void lookup_dsp(t_lookup *x, t_signal **sp)
 {
-	lookup_set(x, x->x_arrayname);
-	dsp_add(lookup_perform, 6, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
+    cybuf_checkdsp(x->x_cybuf);	
+    dsp_add(lookup_perform, 6, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
 }
 
 static void *lookup_free(t_lookup *x)
