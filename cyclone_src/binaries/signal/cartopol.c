@@ -37,7 +37,7 @@ static t_int *cartopol_perform(t_int *w)
     if (scalar != x->x_badfloat)
     {
         x->x_badfloat = scalar;
-        pd_error(x, "inlet: expected 'signal' but got 'float'");
+        pd_error(x, "cartopol~: doesn't understand 'float'");
     }
     
     while (nblock--)

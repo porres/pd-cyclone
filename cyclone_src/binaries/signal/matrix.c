@@ -289,7 +289,7 @@ static t_int *matrix01_perform(t_int *w)
 	if (indx){
 		if (*x->x_signalscalars[indx] || !signbit(*x->x_signalscalars[indx]))
 		{
-			pd_error(x, "inlet: expected 'signal' but got 'float'");
+			pd_error(x, "matrix~: doesn't understand 'float'");
 			*x->x_signalscalars[indx] = -0.0;
 		}
 		if (!(x->x_hasfeeders[indx])) ivec = x->x_zerovec;
