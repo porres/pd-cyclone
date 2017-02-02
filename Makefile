@@ -88,7 +88,6 @@ comb~.class.sources := cyclone_src/binaries/signal/comb.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
-kink~.class.sources := cyclone_src/binaries/signal/kink.c
 log~.class.sources := cyclone_src/binaries/signal/log.c
 lores~.class.sources := cyclone_src/binaries/signal/lores.c
 maximum~.class.sources := cyclone_src/binaries/signal/maximum.c
@@ -328,6 +327,7 @@ shared/unstable/forky.c
     sah~.class.sources := cyclone_src/binaries/signal/sah.c $(sforky)
     gate~.class.sources := cyclone_src/binaries/signal/gate.c $(sforky)
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(sforky)
+    kink~.class.sources := cyclone_src/binaries/signal/kink.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
