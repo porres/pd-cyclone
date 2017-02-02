@@ -391,6 +391,7 @@ cyclone_src/help_files/violin.wav \
 cyclone_src/help_files/stereo.aif \
 cyclone_src/help_files/seq.mid \
 cyclone_src/help_files/seq.txt \
+cyclone_src/help_files/300k.txt \
 cyclone_src/help_files/coll.txt \
 cyclone_src/help_files/funbuff.txt \
 cyclone_src/cyclone-meta.pd \

@@ -1,4 +1,4 @@
-#N canvas 619 23 559 607 10;
+#N canvas 393 23 559 607 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
 #X obj 2 372 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -184,7 +184,154 @@ data;
 #X text 69 85 [coll] stores/edits any messages at given addresses (an
 integer or a symbol). If an input list starts with an int \, it stores
 the other element(s) at that int address.;
-#N canvas 718 23 622 589 examples 0;
+#X text 122 529 @embed: <1> save contents with the patch \, <0> don't
+save (default), f 67;
+#X obj 16 57 comment 0 18 times ? 0 0 0 0 Store/edit message collections
+;
+#X obj 16 4 comment 0 37 times ? 0 0 0 0 coll;
+#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+Max/MSP;
+#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 227 234 cyclone/coll;
+#C restore;
+#X text 190 498 non-0 prevents from searching for a file (default 0)
+;
+#X text 190 468 optional: sets name (objects with the same name share
+contents) or file name (searches for a file to read);
+#X text 161 331 stores data at the address specified by the 1st integer
+element, f 63;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 305 3 pd;
+#X text 138 547 @threaded: <1> threaded processing (default) \, <0>
+unthreaded;
+#N canvas 525 103 844 567 threaded 1;
+#X obj 88 204 osc~ 440;
+#N canvas 773 23 517 558 determinism 0;
+#X msg 144 194 read 3k.txt;
+#X msg 48 222 threaded \$1;
+#X obj 48 194 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 144 152 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 310 315 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 310 350 2;
+#X msg 405 348 1;
+#X obj 310 404 print;
+#X obj 144 223 trigger bang anything bang, f 44;
+#X obj 405 315 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 144 315 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 144 350 3;
+#X obj 160 273 cyclone/coll determinism 1 @threaded 0;
+#C restore;
+#X text 61 13 In unthreaded mode \, there's always a deterministic
+behaviour in your patch \, meaning that the print order below for the
+read operation is 1 \, 2 \, 3!;
+#X text 61 63 The threaded version breaks that deterministic behaviour
+for the read operation (printing: 1 \, 3 \, 2) \, which goes against
+normal Pd practice. Nonetheless \, if you need an action right after
+reading a file \, you should use and rely on [coll]'s 3rd outlet \,
+which is the best practice for [coll] one way or another.;
+#X text 80 446 Let's emphasize that this issue only manifests for the
+read operation \, and that the best practice of using [coll] is relying
+on its 3rd outlet \, instead of a [trigger] fan out like above. For
+old patches that used [trigger] instead \, it is encouraged that they
+are adapted to use the 3rd outlet instead of the "threaded 0" attribute.
+;
+#X connect 0 0 8 0;
+#X connect 1 0 12 0;
+#X connect 2 0 1 0;
+#X connect 3 0 0 0;
+#X connect 4 0 5 0;
+#X connect 5 0 7 0;
+#X connect 6 0 7 0;
+#X connect 8 0 10 0;
+#X connect 8 1 12 0;
+#X connect 8 2 9 0;
+#X connect 9 0 6 0;
+#X connect 10 0 11 0;
+#X connect 11 0 7 0;
+#X connect 12 2 4 0;
+#X restore 717 345 pd determinism;
+#X obj 213 180 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 304 269 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 330 273 finished;
+#X obj 67 249 ./out~;
+#X text 240 179 2) click and check;
+#X text 53 178 1) raise the volume;
+#X text 27 19 Since cyclone 0.3-alpha1 \, the [coll] object runs in
+threaded mode by default. The threaded behaviour (first available in
+pd-l2ork) allows the read operation to run in a separate thread. Doing
+so prevents audio drop outs as in Max \, and also that you have to
+rely on the third outlet's bang to signal that the read operation has
+been completed.;
+#X obj 226 243 coll threaded_test 1;
+#C restore;
+#X obj 642 266 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 586 269 finished;
+#X obj 516 230 coll threaded_test 1 @threaded 0;
+#C restore;
+#X text 28 114 Below \, we have [coll] loading 300 thousand entries
+from a text file. This huge amount of data would caude an audio drop
+out if not in threaded mode.;
+#X obj 213 306 timer;
+#X obj 213 330 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 162.54 256;
+#X text 282 322 time in ms it took;
+#X text 285 338 to read the file;
+#X msg 625 195 threaded \$1;
+#X obj 625 165 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 516 165 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 441 21 Cyclone still offers the old unthreaded behaviour with
+the extra @threaded attribute: "@threaded 1" (default) is the threaded
+behaviour \, while "@threaded 0" is the unthreaded behaviour. The "threaded"
+message also changes the modes.;
+#X text 487 325 An important issue with threaded vs untheaded is determinism
+\, check the subpatch ===>;
+#X text 445 99 Once again \, raise the volume above and see below how
+now the unthreaded mode freezes the DSP.;
+#X text 67 475 This extra argument broke max compatibility and is now
+replaced by the max compliant 2nd extra argument. This argument was
+introduced in Max 4.0.8 and never made it into cyclone's [coll] because
+it was cloned from the Max 4 version.;
+#X text 67 437 Cyclone 0.2 beta1/beta2 included Pd-l2ork's [coll] version
+\, which had an extra argument to define the threaded mode.;
+#X text 445 439 Cyclone 0.3 updates all objects to Max 7 \, so the
+threaded argument became an extra "threaded" attribute.;
+#X text 451 488 Users of Pd-l2ork and cyclone 0.2 beta1/beta2 that
+were using this extra argument for the threaded feature must now adapt
+their patches.;
+#X text 60 374 ============================================================
+;
+#X text 423 374 ============================================================
+;
+#X obj 63 399 comment 0 18 times ? 0 0 0 0 Backwards Compatibility
+issues:;
+#X msg 226 218 read 300k.txt;
+#X msg 516 195 read 300k.txt;
+#X connect 0 0 5 0;
+#X connect 0 0 5 1;
+#X connect 2 0 31 0;
+#X connect 2 0 14 0;
+#X connect 3 0 14 1;
+#X connect 9 2 3 0;
+#X connect 12 2 10 0;
+#X connect 14 0 15 0;
+#X connect 18 0 12 0;
+#X connect 19 0 18 0;
+#X connect 20 0 32 0;
+#X connect 31 0 9 0;
+#X connect 32 0 12 0;
+#X restore 458 233 pd threaded & \; backwards \; compatibility;
+#N canvas 718 23 622 589 details 0;
 #N canvas 297 37 802 290 embbed 0;
 #X msg 92 99 dump;
 #X obj 92 188 pack s f;
@@ -998,153 +1145,10 @@ alias \, and they can come in any order <int \, symbol> or <symbol
 #X connect 37 0 14 0;
 #X connect 38 0 14 0;
 #X connect 40 0 14 0;
-#X restore 471 202 pd examples;
-#X text 122 529 @embed: <1> save contents with the patch \, <0> don't
-save (default), f 67;
-#X obj 16 57 comment 0 18 times ? 0 0 0 0 Store/edit message collections
-;
-#X obj 16 4 comment 0 37 times ? 0 0 0 0 coll;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#N canvas 781 23 428 709 threaded 0;
-#X obj 88 194 osc~ 440;
-#N canvas 906 126 517 558 determinism 0;
-#X msg 144 194 read 3k.txt;
-#X msg 48 222 threaded \$1;
-#X obj 48 194 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
-#X obj 144 152 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X obj 310 315 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X msg 310 350 2;
-#X msg 405 348 1;
-#X obj 310 404 print;
-#X obj 144 223 trigger bang anything bang, f 44;
-#X obj 405 315 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X obj 144 315 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X msg 144 350 3;
-#X obj 160 273 cyclone/coll determinism 1 @threaded 0;
-#C restore;
-#X text 61 13 In unthreaded mode \, there's always a deterministic
-behaviour in your patch \, meaning that the print order below for the
-read operation is 1 \, 2 \, 3!;
-#X text 61 63 The threaded version breaks that deterministic behaviour
-for the read operation (printing: 1 \, 3 \, 2) \, which goes against
-normal Pd practice. Nonetheless \, if you need an action right after
-reading a file \, you should use and rely on [coll]'s 3rd outlet \,
-which is the best practice for [coll] one way or another.;
-#X text 80 446 Let's emphasize that this issue only manifests for the
-read operation \, and that the best practice of using [coll] is relying
-on its 3rd outlet \, instead of a [trigger] fan out like above. For
-old patches that used [trigger] instead \, it is encouraged that they
-are adapted to use the 3rd outlet instead of the "threaded 0" attribute.
-;
-#X connect 0 0 8 0;
-#X connect 1 0 12 0;
-#X connect 2 0 1 0;
-#X connect 3 0 0 0;
-#X connect 4 0 5 0;
-#X connect 5 0 7 0;
-#X connect 6 0 7 0;
-#X connect 8 0 10 0;
-#X connect 8 1 12 0;
-#X connect 8 2 9 0;
-#X connect 9 0 6 0;
-#X connect 10 0 11 0;
-#X connect 11 0 7 0;
-#X connect 12 2 4 0;
-#X restore 287 662 pd determinism;
-#X msg 226 208 read 3k.txt;
-#X obj 213 170 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X obj 304 259 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X text 330 263 finished;
-#X obj 67 239 ./out~;
-#X text 240 169 2) click and check;
-#X text 53 168 1) raise the volume;
-#X text 26 14 Since cyclone 0.3-alpha1 \, the [coll] object runs in
-threaded mode by default. The threaded behaviour (first available in
-pd-l2ork) allows the read operation to run in a separate thread. Doing
-so prevents audio drop outs as in Max \, and also that you have to
-rely on the third outlet's bang to signal that the read operation has
-been completed.;
-#X obj 226 233 coll threaded_test 1;
-#C restore;
-#X msg 109 517 read 3k.txt;
-#X obj 235 588 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X text 179 591 finished;
-#X obj 109 552 coll threaded_test 1 @threaded 0;
-#C restore;
-#X text 28 109 Below \, we have [coll] loading 300 thousand entries
-from a text file. This huge amount of data would caude an audio drop
-out if not in threaded mode.;
-#X obj 213 296 timer;
-#X obj 213 320 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X text 282 312 time in ms it took;
-#X text 285 328 to read the file;
-#X msg 218 517 threaded \$1;
-#X obj 218 487 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
-#X obj 109 487 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X text 36 364 Cyclone still offers the old unthreaded behaviour with
-the extra @threaded attribute: "@threaded 1" (default) is the threaded
-behaviour \, while "@threaded 0" is the unthreaded behaviour. The "threaded"
-message also changes the modes.;
-#X text 57 642 An important issue with threaded vs untheaded is determinism
-\, check the subpatch ===>;
-#X text 36 430 Once again \, raise the volume above and see below how
-now the unthreaded mode freezes the DSP.;
-#X connect 0 0 6 0;
-#X connect 0 0 6 1;
-#X connect 2 0 10 0;
-#X connect 3 0 2 0;
-#X connect 3 0 16 0;
-#X connect 4 0 16 1;
-#X connect 10 2 4 0;
-#X connect 11 0 14 0;
-#X connect 14 2 12 0;
-#X connect 16 0 17 0;
-#X connect 20 0 14 0;
-#X connect 21 0 20 0;
-#X connect 22 0 11 0;
-#X restore 471 226 pd threaded;
-#X obj 227 234 cyclone/coll;
-#C restore;
-#X text 190 498 non-0 prevents from searching for a file (default 0)
-;
-#X text 190 468 optional: sets name (objects with the same name share
-contents) or file name (searches for a file to read);
-#X text 161 331 stores data at the address specified by the 1st integer
-element, f 63;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 305 3 pd;
-#X text 138 547 @threaded: <1> threaded processing (default) \, <0>
-unthreaded;
-#N canvas 886 23 450 266 backwards 0;
-#X text 53 64 This extra argument broke max compatibility and is now
-replaced by the max compliant 2nd extra argument. This argument was
-introduced in Max 4.0.8 and never made it into cyclone's [coll] because
-it was cloned from the Max 4 version.;
-#X text 53 26 Cyclone 0.2 beta1/beta2 included Pd-l2ork's [coll] version
-\, which had an extra argument to define the threaded mode.;
-#X text 53 141 Cyclone 0.3 updates all objects to Max 7 \, so the threaded
-argument became an extra "threaded" attribute.;
-#X text 52 184 Users of Pd-l2ork and cyclone 0.2 beta1/beta2 that were
-using this extra argument for the threaded feature must now adapt their
-patches.;
-#X restore 459 250 pd backwards \; compatibility;
-#X connect 24 0 60 0;
-#X connect 32 0 60 0;
-#X connect 47 0 60 0;
-#X connect 48 0 60 0;
-#X connect 60 0 25 0;
-#X connect 60 1 26 0;
+#X restore 482 209 pd details;
+#X connect 24 0 58 0;
+#X connect 32 0 58 0;
+#X connect 47 0 58 0;
+#X connect 48 0 58 0;
+#X connect 58 0 25 0;
+#X connect 58 1 26 0;
