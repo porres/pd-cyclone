@@ -60,7 +60,7 @@ static t_int *sah_perform(t_int *w)
 	{
 		//x->x_badfloat = scalar;
 		*x->x_signalscalar = NAN;
-		pd_error(x, "inlet: expected 'signal' but got 'float'");	
+		pd_error(x, "sah~: doesn't understand 'float'");	
 	}
 	/*end magic*/
     while (nblock--)
