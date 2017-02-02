@@ -142,7 +142,6 @@ rdiv~.class.sources := cyclone_src/binaries/signal/rdiv.c
 rminus~.class.sources := cyclone_src/binaries/signal/rminus.c
 round~.class.sources := cyclone_src/binaries/signal/round.c
 scale~.class.sources := cyclone_src/binaries/signal/scale.c
-selector~.class.sources := cyclone_src/binaries/signal/selector.c
 thresh~.class.sources := cyclone_src/binaries/signal/thresh.c
 trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
@@ -328,6 +327,7 @@ shared/unstable/forky.c
     matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(sforky)
     sah~.class.sources := cyclone_src/binaries/signal/sah.c $(sforky)
     gate~.class.sources := cyclone_src/binaries/signal/gate.c $(sforky)
+    selector~.class.sources := cyclone_src/binaries/signal/selector.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \

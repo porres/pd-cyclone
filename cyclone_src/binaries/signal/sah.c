@@ -5,8 +5,9 @@
 
 #include "m_pd.h"
 /*MAGIC
-include forky.h for forky_hasfeeders*/
+include forky.h for forky_hasfeeders and math.h for NAN stuff*/
 #include "unstable/forky.h"
+#include <math.h>
 /*end magic*/
 
 typedef struct _sah
@@ -22,7 +23,7 @@ typedef struct _sah
     x_hasfeeders is a flag telling us whether right inlet has feeders*/
     t_glist *x_glist;
     t_float *x_signalscalar;
-    t_float x_badfloat;
+   // t_float x_badfloat;
     int x_hasfeeders;
     /*end magic*/
 } t_sah;
@@ -53,10 +54,12 @@ static t_int *sah_perform(t_int *w)
     if so, that means there's been a float input and we issue an error. Unfortunately,
     it won't work if you just input the same float over and over...
     */
-    t_float scalar = *x->x_signalscalar;
-	if (scalar != x->x_badfloat)
+    //t_float scalar = *x->x_signalscalar;
+	//if (scalar != x->x_badfloat)
+	if (!isnan(*x->x_signalscalar))
 	{
-		x->x_badfloat = scalar;
+		//x->x_badfloat = scalar;
+		*x->x_signalscalar = NAN;
 		pd_error(x, "inlet: expected 'signal' but got 'float'");	
 	}
 	/*end magic*/
@@ -85,6 +88,7 @@ static void sah_dsp(t_sah *x, t_signal **sp)
 	Get flag for signal feeders.*/
 	x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
 	/*end magic*/
+	*x->x_signalscalar = NAN;
     dsp_add(sah_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
