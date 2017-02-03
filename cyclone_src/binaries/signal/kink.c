@@ -2,11 +2,6 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* CHECKED negative float in 2nd inlet: "illegal slope value %f",
-   but no complaints for signal input -- this is impossible in Pd.
-   The only thing we could do (and a bit stupid one) would be to
-   clock this exception out from the perf routine. */
-
 #include "m_pd.h"
 
 static t_class *kink_class;
@@ -26,7 +21,7 @@ static t_int *kink_perform(t_int *w)
     {
 	float iph = *in1++;
 	float slope = *in2++;
-    slope = (slope < 0 ? 100 : slope);
+    slope = (slope < 0 ? 0 : slope > 100 ? 100 : slope);
 	float oph = iph * slope;
 	if (oph > .5)
 	{
