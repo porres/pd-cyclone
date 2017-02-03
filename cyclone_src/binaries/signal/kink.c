@@ -21,7 +21,7 @@ static t_int *kink_perform(t_int *w)
     {
 	float iph = *in1++;
 	float slope = *in2++;
-    slope = (slope < 0 ? 0 : slope > 100 ? 100 : slope);
+    slope = (slope < 0 ? 0 : slope);
 	float oph = iph * slope;
 	if (oph > .5)
 	{
