@@ -1,6 +1,7 @@
 // based on selector~
 
 #include "m_pd.h"
+#include "unstable/forky.h"
 #include <math.h>
 
 
@@ -16,9 +17,14 @@ typedef struct _gate
 	t_float    x_state;    // 0 = closed, nonzero = index of outlet to output (1 indexed)
     t_float   *x_ivec;     // input vector
     t_float  **x_ovecs;    // output vectors
+    t_glist   *x_glist;
+    t_float   *x_signalscalar;
+    int x_hasfeeders;
 } t_gate;
 
 static t_class *gate_class;
+
+EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 static t_int *gate_perform(t_int *w)
 {
@@ -29,8 +35,15 @@ static t_int *gate_perform(t_int *w)
     t_float **ovecs = x->x_ovecs;  // output vectors
 	int i, j;
 	int sig_outs = x->x_sig_outs;
+	if (!isnan(*x->x_signalscalar))
+	{
+		//x->x_badfloat = scalar;
+		*x->x_signalscalar = NAN;
+		pd_error(x, "gate~: doesn't understand 'float'");	
+	}
 	for(i = 0; i < nblock; i++)
     {
+    	t_float f;
 		int curst = (int)state[i];
         if (curst > sig_outs){
             curst = sig_outs;
@@ -41,12 +54,12 @@ static t_int *gate_perform(t_int *w)
 				  so the outlets are labeled BACKWARDS from intuition 
 				  */
 				int realidx = sig_outs-j-1;
-				if(curst == realidx+1) // if index == count
+				if(curst == realidx+1 && x->x_hasfeeders) // if index == count
                 {
                     ovecs[realidx][i] = ivec[i]; // gate_out == indexed output
 				}
 				else{
-					ovecs[realidx][i] = 0;
+					ovecs[realidx][i] = 0.0;
 				};
 			};
 	};
@@ -62,6 +75,8 @@ static void gate_dsp(t_gate *x, t_signal **sp)
     for (i = 0; i < x->x_sig_outs; i++){ //now for the sig_outs
 		*(x->x_ovecs+i) = (*sigp++)->s_vec;
 	};
+	x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+	*x->x_signalscalar = NAN;
 	dsp_add(gate_perform, 2, x, nblock);
 }
 
@@ -114,6 +129,8 @@ static void *gate_new(t_symbol *s, int argc, t_atom *argv)
     {
 	 	outlet_new(&x->x_obj, gensym("signal"));
     };
+    x->x_glist = canvas_getcurrent();
+    x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
     return (x);
 }
 

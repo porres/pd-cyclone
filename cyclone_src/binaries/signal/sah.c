@@ -19,11 +19,9 @@ typedef struct _sah
     /*MAGIC
     *x_glist is a list of objects in the canvas
     *x_signalscalar is a pointer to the right inlet's float field, which we're going to poll
-    x_badfloat is its value from the last dsp tick
     x_hasfeeders is a flag telling us whether right inlet has feeders*/
     t_glist *x_glist;
     t_float *x_signalscalar;
-   // t_float x_badfloat;
     int x_hasfeeders;
     /*end magic*/
 } t_sah;
@@ -54,8 +52,6 @@ static t_int *sah_perform(t_int *w)
     if so, that means there's been a float input and we issue an error. Unfortunately,
     it won't work if you just input the same float over and over...
     */
-    //t_float scalar = *x->x_signalscalar;
-	//if (scalar != x->x_badfloat)
 	if (!isnan(*x->x_signalscalar))
 	{
 		//x->x_badfloat = scalar;
@@ -65,7 +61,7 @@ static t_int *sah_perform(t_int *w)
 	/*end magic*/
     while (nblock--)
     {
-    	float f;
+    	t_float f;
     	/*MAGIC
     	self explanatory*/
     	if (x->x_hasfeeders) f = *in2++;

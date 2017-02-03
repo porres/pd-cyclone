@@ -1,6 +1,7 @@
 // Derek Kwan - 2016
 
 #include "m_pd.h"
+#include "unstable/forky.h"
 #include <math.h>
 
 #define PDCYSELTORSIGPUT 1 //default number of sigputs (inlets without selector inlet)
@@ -16,10 +17,14 @@ typedef struct _selector
     t_float  **x_ivecs; // copying from matrix
     t_float  *x_ovec; // only should be single pointer since we're dealing with an array
 						//rather than an array of arrays
+	t_glist  *x_glist;
+	t_float  **x_signalscalars;
+	int      *x_hasfeeders;
 } t_selector;
 
 static t_class *selector_class;
 
+EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 static t_int *selector_perform(t_int *w)
 {
@@ -29,6 +34,8 @@ static t_int *selector_perform(t_int *w)
 	t_float *state = x->x_mainsig;
     t_float **ivecs = x->x_ivecs;
     t_float *ovec = x->x_ovec;
+    t_float **signalscalars = x->x_signalscalars;
+    int     *hasfeeders = x->x_hasfeeders;
 
 	int i,j;
 
@@ -42,8 +49,15 @@ static t_int *selector_perform(t_int *w)
 		t_float output = 0;
 		if(curst != 0){
 			for(j=0; j<sigputs;j++){
+				if (!isnan(*(signalscalars[j])))
+				{
+					*(signalscalars[j]) = NAN;
+					pd_error(x, "selector~: doesn't understand 'float'");
+				}
 				if(curst == (j+1)){
-					output = ivecs[j][i];
+ 					if (hasfeeders[j])
+						output = ivecs[j][i];
+ 					else output = 0.0;
 				};
 			};
 		};
@@ -60,6 +74,8 @@ static void selector_dsp(t_selector *x, t_signal **sp)
 	x->x_mainsig = (*sigp++)->s_vec; //the first sig in is the selector idx
     for (i = 0; i < x->x_sigputs; i++){ //now for the sigputs
 		*(x->x_ivecs+i) = (*sigp++)->s_vec;
+		*(x->x_signalscalars[i]) = NAN;
+		x->x_hasfeeders[i] = forky_hasfeeders((t_object *)x, x->x_glist, i+1, &s_signal);
 	};
 	x->x_ovec = (*sigp++)->s_vec; //now for the outlet
 	dsp_add(selector_perform, 2, x, nblock);
@@ -108,17 +124,24 @@ static void *selector_new(t_symbol *s, int argc, t_atom *argv)
 	x->x_sigputs = (int)sigputs;
 	x->x_state = state; 
 	x->x_ivecs = getbytes(sigputs * sizeof(*x->x_ivecs));
+	x->x_signalscalars = getbytes(sigputs * sizeof(*x->x_signalscalars));
+	x->x_hasfeeders = getbytes(sigputs * sizeof(*x->x_hasfeeders));
     
 	for (i = 0; i < sigputs; i++){
-        pd_float((t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), 0.);
+        pd_float((t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), NAN);
+        x->x_signalscalars[i] = obj_findsignalscalar((t_object *)x, i+1);
     };
     outlet_new((t_object *)x, &s_signal);
+    x->x_glist = canvas_getcurrent();
+    
     return (x);
 }
 
 void * selector_free(t_selector *x){
     
 	 freebytes(x->x_ivecs, x->x_sigputs * sizeof(*x->x_ivecs));
+	 freebytes(x->x_signalscalars, x->x_sigputs * sizeof(*x->x_signalscalars));
+	 freebytes(x->x_hasfeeders, x->x_sigputs * sizeof(x->x_hasfeeders));
          return (void *) x;
 }
 
