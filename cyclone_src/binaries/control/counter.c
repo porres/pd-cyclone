@@ -172,9 +172,16 @@ static void counter_dobang(t_counter *x, int notjam)
     else if (offmax) outlet_float(x->x_out3, 0);
     else if (onmin)
         {
-        if (x->x_carrybang) outlet_bang(x->x_out2);
+        if (x->x_carrybang)
+            {
+            x->x_min = x->x_setmin;
+            x->x_max = x->x_setmax;
+            outlet_bang(x->x_out2);
+            }
         else
             {
+            x->x_min = x->x_setmin;
+            x->x_max = x->x_setmax;
             outlet_float(x->x_out2, 1);
             x->x_minhitflag = 1;
             }
@@ -364,9 +371,7 @@ static void counter_float2(t_counter *x, t_floatarg f)
     int i = (int)f;
     if (x->x_compatflag)     // ancient
     {
-        x->x_count = i;
-        if(x->x_count < x->x_min) x->x_min = x->x_setmin = x->x_count;
-        if(x->x_count > x->x_max) x->x_max = x->x_setmax = x->x_count;
+        x->x_count = x->x_min = x->x_setmin= i;
         counter_set(x, i);
     }
     else  { // current
@@ -391,16 +396,15 @@ static void counter_float3(t_counter *x, t_floatarg f)
     int i = (int)f;
     if (x->x_compatflag)     // ancient
         {
-        x->x_count = i;
-        if(x->x_count < x->x_min) x->x_min = x->x_setmin = x->x_count;
-        if(x->x_count > x->x_max) x->x_max = x->x_setmax = x->x_count;
+        x->x_count = x->x_min = x->x_setmin = i;
         counter_dobang(x, 0);
         }
     else {    // current
         x->x_count = i;
         if(x->x_count < x->x_min) x->x_min = x->x_count;
         if(x->x_count > x->x_max) x->x_max = x->x_count;
-        counter_jam(x, i);
+        counter_set(x, i);
+        counter_bang(x);
         }
 }
 
@@ -499,8 +503,7 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
     x->x_minhitflag = x->x_maxhitflag = 0;
     x->x_maxcount = 0;
     counter_dir(x, x->x_dir);
-    x->x_count = (x->x_dir == COUNTER_DOWN ?
-                  x->x_max +  x->x_inc : x->x_min - x->x_inc);
+    x->x_count = (x->x_dir == COUNTER_DOWN ? x->x_max - x->x_inc : x->x_min - x->x_inc);
     for (i = 0; i < 4; i++)
     {
         x->x_proxies[i] = pd_new(counter_proxy_class);
