@@ -21,7 +21,7 @@
 #define COUNTER_UP      0
 #define COUNTER_DOWN    1
 #define COUNTER_UPDOWN  2
-#define COUNTER_DEFMAX  0x7fffffff  /* CHECKED (man says otherwise) */
+#define COUNTER_DEFMAX  16777216  // 2ˆ24
 #define COUNTER_CARRY 0 // defaut for carryflag
 #define COUNTER_COMPAT 0 // default for compatmode
 
@@ -33,6 +33,7 @@ typedef struct _counter
     int        x_dir;
     int        x_inc;
     int        x_min;
+    int        x_setmin;
     int        x_max;
     int        x_compatflag;
     int        x_carrybang;
@@ -102,74 +103,79 @@ static void counter_dobang(t_counter *x, int notjam)
     int offmin = 0, offmax = 0, onmin = 0, onmax = 0;
     /* CHECKED: carry-off is not sent if min >= max */
     /* LATER rethink (this is a hack) */
-    if (x->x_min < x->x_max)
-	offmin = x->x_minhitflag, offmax = x->x_maxhitflag;
+    
+    if (x->x_min < x->x_max) offmin = x->x_minhitflag, offmax = x->x_maxhitflag;
     x->x_minhitflag = x->x_maxhitflag = 0;
 
     if (x->x_count < x->x_min)
-    {
-	if (x->x_dir == COUNTER_UPDOWN)
-	{
-	    x->x_inc = 1;
-	    if ((x->x_count = x->x_min + 1) > x->x_max) x->x_count = x->x_min;
-	}
-	else if ((x->x_count = x->x_max) < x->x_min) x->x_count = x->x_min;
-    }
+        {
+            if (x->x_dir == COUNTER_UPDOWN)
+            {
+                x->x_inc = 1;
+                if ((x->x_count = x->x_min + 1) > x->x_max) x->x_count = x->x_min;
+            }
+            else if ((x->x_count = x->x_max) < x->x_min) x->x_count = x->x_min; // HERE!?!
+        }
     else if (x->x_count > x->x_max)
-    {
-	if (x->x_inc == -1)
-	{
-	    /* CHECKED: ignored */
-	}
-	else if (x->x_dir == COUNTER_UPDOWN)
-	{
-	    x->x_inc = -1;
-	    if ((x->x_count = x->x_max - 1) < x->x_min) x->x_count = x->x_min;
-	}
-	else x->x_count = x->x_min;
-    }
+        {
+        if (x->x_inc == -1)
+            {
+            // <=== HERE!!! HERE!!! HERE!!!
+            }
+        else if (x->x_dir == COUNTER_UPDOWN)
+            {
+            x->x_inc = -1;
+            if ((x->x_count = x->x_max - 1) < x->x_min) x->x_count = x->x_min; // HERE!?!
+            }
+        else x->x_count = x->x_min;
+        }
 
     if (x->x_count == x->x_min && x->x_inc == -1)
-    {
-	/* CHECKED: 'jam' inhibits middle outlets (unless carry-off)
-	   carry-on is never sent if max < min, but sent if max == min */
-	if (notjam
-	    && x->x_min <= x->x_max)  /* LATER rethink (this is a hack) */
-	    onmin = 1;
-    }
+        {
+            /* CHECKED: 'jam' inhibits middle outlets (unless carry-off)
+             carry-on is never sent if max < min, but sent if max == min */
+            
+        if (notjam && x->x_min <= x->x_max)  // <= HACK!!! RETHINK
+            onmin = 1;
+        }
     else if (x->x_count == x->x_max && x->x_inc == 1)
-    {
-	/* CHECKED: this counter is never reset (and goes up to INT_MAX)
-	   -- neither after dir change, nor after max change */
-	x->x_maxcount++;  /* CHECKED: 'jam' does the increment */
-	outlet_float(x->x_out4, x->x_maxcount);
-	/* CHECKED: 'jam' inhibits middle outlets (unless carry-off)
-	   carry-on is never sent if max < min, but sent if max == min */
-	if (notjam
-	    && x->x_min <= x->x_max)  /* LATER rethink (this is a hack) */
-	    onmax = 1;
-    }
+        {
+            /* CHECKED: this counter is never reset (and goes up to INT_MAX)
+             -- neither after dir change, nor after max change */
+        x->x_maxcount++;  /* CHECKED: 'jam' does the increment */
+        outlet_float(x->x_out4, x->x_maxcount);
+            /* CHECKED: 'jam' inhibits middle outlets (unless carry-off)
+             carry-on is never sent if max < min, but sent if max == min */
+            
+        if (notjam && x->x_min <= x->x_max)  // <= HACK!!! RETHINK
+            onmax = 1;
+        }
 
     /* CHECKED: outlets deliver in right-to-left order */
     if (onmax)
-    {
-	if (x->x_carrybang) outlet_bang(x->x_out3);
-	else
-	{
-	    outlet_float(x->x_out3, 1);
-	    x->x_maxhitflag = 1;
-	}
-    }
+        {
+        if (x->x_carrybang)
+            {
+            x->x_min = x->x_setmin;
+            outlet_bang(x->x_out3);
+            }
+        else
+            {
+            x->x_min = x->x_setmin;
+            outlet_float(x->x_out3, 1);
+            x->x_maxhitflag = 1;
+            }
+        }
     else if (offmax) outlet_float(x->x_out3, 0);
     else if (onmin)
-    {
-	if (x->x_carrybang) outlet_bang(x->x_out2);
-	else
-	{
-	    outlet_float(x->x_out2, 1);
-	    x->x_minhitflag = 1;
-	}
-    }
+        {
+        if (x->x_carrybang) outlet_bang(x->x_out2);
+        else
+            {
+            outlet_float(x->x_out2, 1);
+            x->x_minhitflag = 1;
+            }
+        }
     else if (offmin) outlet_float(x->x_out2, 0);
 
     outlet_float(((t_object *)x)->ob_outlet, x->x_count);
@@ -199,7 +205,7 @@ static void counter_set(t_counter *x, t_floatarg f)
 
 static void counter_setmin(t_counter *x, t_floatarg f)
 {
-    x->x_min = (int)f;
+    x->x_setmin = (int)f;
 }
 
 /* CHECKED: out-of-range values are ignored */
@@ -244,7 +250,7 @@ static void counter_min(t_counter *x, t_floatarg f)
     if(x->x_startup) x->x_startup = 0;
     /* CHECKED: min change always sets count to min and bangs */
     /* do not use counter_jam() here -- avoid range checking */
-    x->x_count = x->x_min = (int)f;
+    x->x_count = x->x_min = x->x_setmin = (int)f;
     counter_dobang(x, 0);
 }
 
@@ -358,7 +364,10 @@ static void counter_float2(t_counter *x, t_floatarg f)
     int i = (int)f;
     if (x->x_compatflag)     // ancient
     {
-        x->x_count = x->x_min = i;
+        x->x_count = i;
+        if(x->x_count < x->x_min) x->x_min = x->x_setmin = x->x_count;
+        if(x->x_count > x->x_max) x->x_max = x->x_count;
+        
         counter_set(x, i);
     }
     else  counter_set(x, i);  // current (FIXME)
@@ -368,6 +377,7 @@ static void counter_float2(t_counter *x, t_floatarg f)
 static void counter_bang3(t_counter *x)
 {
     if(x->x_startup) x->x_startup = 0;
+    x->x_min = x->x_setmin;
     counter_jam(x, x->x_min);
 }
 
@@ -378,7 +388,9 @@ static void counter_float3(t_counter *x, t_floatarg f)
     if(x->x_startup) x->x_startup = 0;
     if (x->x_compatflag)     // ancient
     {
-    x->x_count = x->x_min = (int)f;
+    x->x_count = (int)f;
+    if(x->x_count < x->x_min) x->x_min = x->x_setmin = x->x_count;
+    if(x->x_count > x->x_max) x->x_max = x->x_count;
     counter_dobang(x, 0);
     }
     else  counter_jam(x, f); // current (FIXME)
@@ -470,11 +482,11 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
     int i;
     x->x_dir = COUNTER_UP;
     x->x_inc = 1;  /* previous value required by counter_dir() */
-    x->x_min = 0;
+    x->x_min = x->x_setmin = 0;
     x->x_startup = 1;
     x->x_max = COUNTER_DEFMAX;
-    if (i3) x->x_dir = i1, x->x_min = i2, x->x_max = i3;
-    else if (i2) x->x_min = i1, x->x_max = i2;
+    if (i3) x->x_dir = i1, x->x_min = x->x_setmin = i2, x->x_max = i3;
+    else if (i2) x->x_min = x->x_setmin = i1, x->x_max = i2;
     else if (i1) x->x_max = i1;
     x->x_minhitflag = x->x_maxhitflag = 0;
     x->x_maxcount = 0;
