@@ -1,56 +1,54 @@
-#N canvas 674 28 557 654 10;
-#N canvas 887 200 499 414 All_Messages 0;
-#X text 75 77 dec -;
-#X text 69 106 down -;
+#N canvas 674 28 558 653 10;
+#N canvas 584 143 498 356 All_Messages 0;
+#X text 75 52 dec -;
+#X text 69 69 down -;
 #X text 39 6 carrybang -;
-#X text 45 36 carryint -;
-#X text 21 122 flags <list> -;
-#X text 75 167 inc -;
-#X text 27 196 jam <float> -;
-#X text 67 225 next -;
-#X text 62 307 state -;
-#X text 80 323 up -;
-#X text 56 340 updown -;
-#X text 25 240 max <float> -;
-#X text 114 324 sets counter direction to upwards, f 63;
-#X text 8 291 setmin <float> -;
-#X text 26 256 min <float> -;
-#X text 21 151 goto <float> -;
-#X text 26 274 set <float> -;
-#X text 114 151 same as 'set' message, f 63;
-#X text 114 225 goes to the next value and outputs it (same as bang)
-, f 63;
-#X text 114 340 sets direction to shift between up/down when reaching
+#X text 45 23 carryint -;
+#X text 21 85 flags <list> -;
+#X text 75 130 inc -;
+#X text 27 147 jam <float> -;
+#X text 67 176 next -;
+#X text 62 258 state -;
+#X text 80 274 up -;
+#X text 56 291 updown -;
+#X text 25 191 max <float> -;
+#X text 114 275 sets counter direction to upwards, f 63;
+#X text 8 242 setmin <float> -;
+#X text 26 207 min <float> -;
+#X text 21 114 goto <float> -;
+#X text 26 225 set <float> -;
+#X text 114 114 same as 'set' message, f 63;
+#X text 114 291 sets direction to shift between up/down when reaching
 limits, f 63;
-#X text 114 106 sets direction to downwards, f 63;
-#X text 114 77 decrements the counter by 1 and outputs it (regardless
-of the counter direction), f 63;
-#X text 114 167 increments the counter by 1 and outputs it (regardless
-of the counter direction), f 63;
-#X text 114 122 1st float sets 'carryflag': 0 (carryint) \, 1 (carrybang).
-2nd sets 'compatmode' mode: 0 (current) \, 1 (ancient), f 63;
-#X text 114 274 sets counter's next value (considering direction) -
+#X text 114 69 sets direction to downwards, f 63;
+#X text 114 85 1st float sets 'carryflag': 0 (carryint) \, 1 (carrybang).
+2nd sets 'compatmode' mode: 0 (current) \, 1 (ancient), f 56;
+#X text 114 225 sets counter's next value (considering direction) -
 no output, f 63;
-#X text 114 196 sets counter to that value and outputs it - the message
-is ignored if the value is outside the range, f 63;
-#X text 114 257 sets minimum value and outputs it, f 63;
-#X text 114 291 sets minimum value (doesn't output it), f 63;
-#X text 114 241 sets maximum value (doesn't output it), f 63;
-#X text 114 366 sets @compatmode attribute: (0 = current \, 1 = ancient)
+#X text 114 208 sets minimum value and outputs it, f 63;
+#X text 114 242 sets minimum value (doesn't output it), f 63;
+#X text 114 192 sets maximum value (doesn't output it), f 63;
+#X text 114 317 sets @compatmode attribute: (0 = current \, 1 = ancient)
 , f 63;
-#X text 8 366 compatmode <f> -;
-#X text 14 383 carryflag <f> -;
-#X text 114 383 sets @carryflag attribute: (0 = carryint \, 1 = carrybang)
+#X text 8 317 compatmode <f> -;
+#X text 14 334 carryflag <f> -;
+#X text 114 334 sets @carryflag attribute: (0 = carryint \, 1 = carrybang)
 , f 63;
-#X text 0 353 ----------------------------------------------------------------------------------
+#X text 0 304 ----------------------------------------------------------------------------------
 , f 82;
-#X text 114 6 sets carrymode to "carrybang": sends bangs at the end
-of a counting round - the state is saved with the patch, f 63;
-#X text 114 35 sets carrymode to "carrybang" (default): sends "1" at
-the end of a counting round \, "0" otherwise - the state is saved with
-the patch, f 63;
-#X text 114 307 prints current settings state on the Pd window, f
+#X text 114 258 prints current settings state on the Pd window, f
 63;
+#X text 114 6 sets to "carrybang" mode: sends bangs at count rounds
+, f 63;
+#X text 114 22 sets to "carryint" mode (default): sends "1" at the
+end of a count round \, "0" at the start of the next round, f 63;
+#X text 114 52 decrements counter by 1 (regardless of the direction)
+, f 63;
+#X text 114 130 increments counter by 1 (regardless of the direction)
+, f 63;
+#X text 114 176 outputs next value (same as bang), f 63;
+#X text 114 147 sets counter to that value and outputs it - values
+outside the range are ignored, f 63;
 #X restore 382 216 pd All_Messages;
 #X obj 2 185 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -142,7 +140,7 @@ range \, it resets min/max according to compatmode (see example above)
 , f 57;
 #X text 98 594 @compatmode: 0 for current (default) / 1 for ancient
 (see example above), f 72;
-#N canvas 444 139 792 356 compatmode 0;
+#N canvas 444 139 768 348 compatmode 0;
 #X obj 84 318 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 34 204 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856 -1
@@ -161,37 +159,37 @@ range \, it resets min/max according to compatmode (see example above)
 -1 -1 0 1;
 #X text 227 215 set value;
 #X text 254 239 set & output value;
-#X obj 485 115 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 471 104 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 485 136 cyclone/pak;
-#X obj 548 115 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 471 125 cyclone/pak;
+#X obj 534 104 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 485 286 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 471 275 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 542 276 route bang;
-#X obj 542 306 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 528 265 route bang;
+#X obj 528 295 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 599 306 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 585 295 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 636 275 route bang;
-#X obj 636 305 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 622 264 route bang;
+#X obj 622 294 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 693 306 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 679 295 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 437 137 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 423 126 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 573 165 hsl 128 15 -5 0 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 559 154 hsl 128 15 -5 0 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 570 193 nbx 2 14 -5 5 0 0 empty empty empty 0 -8 0 10 -228856
+#X obj 556 182 nbx 2 14 -5 5 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
-#X obj 616 192 hsl 128 15 -10 10 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 602 181 hsl 128 15 -10 10 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 613 217 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 599 206 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 466 94 carrymode;
-#X text 538 94 compatmode;
-#X msg 485 161 flags \$1 \$2;
-#X obj 485 240 cyclone/counter 2 1 5, f 29;
+#X text 452 83 carrymode;
+#X text 524 83 compatmode;
+#X msg 471 150 flags \$1 \$2;
+#X obj 471 229 cyclone/counter 2 1 5, f 29;
 #X obj 84 287 cyclone/counter 50 100 @compatmode 0;
 #X text 20 15 The 'compatmode' message or attribute sets to "current"
 or "ancient" mode. In both modes \, a float input into the 3rd inlet
@@ -203,7 +201,7 @@ outside the range sets the minimum or maximum value just once \, reverting
 to the original range after a round. But in 'compatmode 1' ('ancient
 mode' \, for max 3.x compatibility) \, it always sets the minimum value.
 ;
-#X text 413 31 The 'flags' message sets both attributes at once \,
+#X text 402 20 The 'flags' message sets both attributes at once \,
 the 1st argument is for carrymode (0: carryint \, 1: carrybang) and
 the 2nd is for compatmode (0: current \, 1: ancient).;
 #X connect 1 0 30 0;
@@ -231,17 +229,17 @@ the 2nd is for compatmode (0: current \, 1: ancient).;
 #X connect 29 2 18 0;
 #X connect 30 0 0 0;
 #X restore 465 138 pd compatmode;
-#N canvas 539 59 747 444 carrymode 0;
+#N canvas 539 59 748 402 carrymode 0;
 #X obj 171 250 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 1 256;
 #X obj 171 161 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 212 249 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 212 249 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X obj 253 249 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 294 251 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 1 256;
 #X floatatom 212 275 2 0 0 0 - - -, f 2;
 #X floatatom 253 275 2 0 0 0 - - -, f 2;
 #X obj 201 144 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
@@ -309,8 +307,6 @@ to 'carrybang';
 #X text 62 221 (defalut);
 #X obj 554 137 cyclone/counter 2 1 5;
 #X obj 171 219 cyclone/counter 2 1 5;
-#X text 238 394 Important: The state of carrymode is saved with the
-patch when the patch is saved., f 42;
 #X connect 1 0 47 0;
 #X connect 2 0 5 0;
 #X connect 3 0 6 0;
@@ -346,53 +342,51 @@ patch when the patch is saved., f 42;
 #X text 227 106 <= next value;
 #X text 172 502 counts how many times the counter reached the maximum
 , f 61;
-#N canvas 178 131 824 356 more 0;
+#N canvas 459 159 824 356 more 0;
 #X obj 146 253 hsl 128 15 0 100 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 143 318 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 143 284 cyclone/counter;
-#X msg 565 48 state;
+#X msg 565 68 state;
 #X obj 130 151 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -228856
 -1 -1 5;
 #X obj 130 173 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 130 64 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 412 13 The 'state'message reports the current settings of [counter]
+#X text 412 33 The 'state'message reports the current settings of [counter]
 on the Pd window.;
-#X obj 613 48 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 613 68 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 538 48 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 538 68 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 130 88 metro 150;
-#X obj 663 107 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 663 127 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 614 107 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 614 127 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 565 81 cyclone/counter 0 1 5, f 25;
-#X msg 712 45 state;
+#X obj 565 101 cyclone/counter 0 1 5, f 25;
+#X msg 712 65 state;
 #X obj 130 116 cyclone/counter 7;
 #X text 32 202 A float in the leftmost inlet is the same as a bang
 \, so you can bcount how many floats have been received.;
 #X text 23 17 An example of usage: - Setup a [metro] to turn [counter]
 into a step sequencer \, such as the 8-step example below.;
-#X obj 565 108 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 565 128 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 712 108 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 712 128 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 423 140 x_mincount: - the minimum value \; x_maxcount: - the
+#X text 423 160 x_mincount: - the minimum value \; x_maxcount: - the
 maximum value \; x_direction: - the direction mode: 0/1/2 (up/down/updown)
 \; x_curcount: - the current count value \; x_curdir: - the current
 direction: 0/1 (up/down) \; x_carrycount: - how many times it reached
 the maximum \; x_carry: - carryint value (0/1) when counting up \;
 x_under: - carryint value (0/1) when counting down \; x_carrymode:
-- carrymode: 0/1 (carryint/carrybang) * \; x_compat: - compatmode:
-0/1 (current/ancient) \; x_startup: - '1' if still in the startup value
+- carrymode: 0/1 (carryint/carrybang) \; x_compat: - compatmode: 0/1
+(current/ancient) \; x_startup: - '1' if still in the startup value
 \, '0' if not \; x_inletnum: - inlet number that the state message
 came in \;, f 60;
-#X text 440 310 * The state of carrymode is saved with the patch when
-the patch is saved.;
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X connect 3 0 13 0;
@@ -549,12 +543,12 @@ up to down or vice versa (it switches from mode 0 to 1 or from 1 to
 #X obj 281 334 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 219 391 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
+-228856 -1 -1 0 256;
 #X msg 219 331 goto \$1;
 #X obj 450 208 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 533 306 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 10 256;
+-228856 -1 -1 0 256;
 #X msg 486 188 max \$1;
 #X msg 533 188 min \$1;
 #X msg 582 188 setmin \$1;
@@ -583,7 +577,7 @@ up to down or vice versa (it switches from mode 0 to 1 or from 1 to
 #X obj 486 167 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 533 167 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 5 256;
+-228856 -1 -1 0 256;
 #X obj 582 167 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 490 147 max;
