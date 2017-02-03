@@ -1297,11 +1297,59 @@ static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av)
 	//}
 }
 
+/*
 static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
 {
 	//if (!x->busy) {
 		if (ac >= 2 && av->a_type == A_FLOAT)
 		coll_tokey(x, av, ac-1, av+1, 0, s);
+		else
+		pd_error(x, "bad arguments for message '%s'", s->s_name);
+	//}
+}
+
+static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
+{
+    //redundant placeholder for insert2 just copying coll_insert - DK
+	
+    //if (!x->busy) {
+		if (ac >= 2 && av->a_type == A_FLOAT)
+		coll_tokey(x, av, ac-1, av+1, 0, s);
+		else
+		pd_error(x, "bad arguments for message '%s'", s->s_name);
+	//}
+}
+
+*/
+
+static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
+{
+	//if (!x->busy) {
+
+                t_collcommon  *cc = x->x_common;
+                t_collelem *epnew = NULL;
+                t_collelem *ep;
+                int numkey;
+		if (ac >= 2 && av->a_type == A_FLOAT){
+                    //get the int from the first elt if exists and store in numkey
+                    loud_checkint((t_pd *) x, av->a_w.w_float, &numkey, 0);
+                    //retrieve elem with numkey if it exists
+                    ep = collcommon_numkey(cc, numkey);
+                    if(ep){
+                        epnew = collelem_new(ac-1, av+1, &numkey, 0);
+                        collcommon_putbefore(cc, epnew, ep);
+                        for(ep = cc->c_first; ep; ep = ep->e_next){
+                            if(ep->e_hasnumkey){
+                                if((ep->e_numkey >= numkey) && (ep != epnew)){
+                                    ep->e_numkey = ep->e_numkey + 1;
+                                        };
+                            };
+                        };
+                    }
+                    else{
+		        coll_tokey(x, av, ac-1, av+1, 0, s);
+                    };
+                }
 		else
 		pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
