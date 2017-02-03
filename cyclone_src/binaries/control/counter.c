@@ -101,25 +101,26 @@ static void counter_dir(t_counter *x, t_floatarg f)
 static void counter_dobang(t_counter *x, int notjam)
 {
     if(x->x_startup) x->x_startup = 0;
-    int offmin = 0, offmax = 0, onmin = 0, onmax = 0;
-    /* CHECKED: carry-off is not sent if min >= max */
-    /* LATER rethink (this is a hack) */
+    int offmin = 0, offmax = 0, onmin = 0, onmax = 0; // ALL 0!!!
     
-    if (x->x_min < x->x_max) offmin = x->x_minhitflag, offmax = x->x_maxhitflag;
+    // CHECKED: carry-off not sent if min >= max (BUT IT IS) <= Hack
+    if (x->x_min < x->x_max) offmin = x->x_minhitflag, offmax = x->x_maxhitflag; // why???
+    // if it did hit before min or max, now it is off
+    
     x->x_minhitflag = x->x_maxhitflag = 0;
 
-    if (x->x_count < x->x_min)
+    if (x->x_count < x->x_min) // WRAP!!!?!?!?
         {
             if (x->x_dir == COUNTER_UPDOWN)
             {
                 x->x_inc = 1;
-                if ((x->x_count = x->x_min + 1) > x->x_max) x->x_count = x->x_min;
+                if ((x->x_count = x->x_min + 1) > x->x_max) x->x_count = x->x_min; // PONG
             }
             else if ((x->x_count = x->x_max) < x->x_min) x->x_count = x->x_min; // HERE!?!
         }
     else if (x->x_count > x->x_max)
         {
-        if (x->x_inc == -1)
+        if (x->x_inc == -1) //
             {
             // <=== HERE!!! HERE!!! HERE!!!
             }
@@ -133,26 +134,28 @@ static void counter_dobang(t_counter *x, int notjam)
 
     if (x->x_count == x->x_min && x->x_inc == -1)
         {
-            /* CHECKED: 'jam' inhibits middle outlets (unless carry-off)
-             carry-on is never sent if max < min, but sent if max == min */
-            
-        if (notjam && x->x_min <= x->x_max)  // <= HACK!!! RETHINK
-            onmin = 1;
+// RECHECK: jam inhibits mid outlets (unless carry-off) carry-on not sent if max < min, but sent if max == min (????)
+        
+        // CARRY MIN!!! count = min, downwards & min < max!
+        if (notjam && x->x_min <= x->x_max) onmin = 1; // <= HACK!!! RETHINK (?)
         }
-    else if (x->x_count == x->x_max && x->x_inc == 1)
+    
+    // OUTLETS!!!!
+    
+    // outlet 4) maxcount
+    else if (x->x_count == x->x_max && x->x_inc == 1) // >= ?
         {
-            /* CHECKED: this counter is never reset (and goes up to INT_MAX)
-             -- neither after dir change, nor after max change */
-        x->x_maxcount++;  /* CHECKED: 'jam' does the increment */
-        outlet_float(x->x_out4, x->x_maxcount);
+        x->x_maxcount++;
+        outlet_float(x->x_out4, x->x_maxcount); // count how many times max was reached
+
             /* CHECKED: 'jam' inhibits middle outlets (unless carry-off)
-             carry-on is never sent if max < min, but sent if max == min */
-            
-        if (notjam && x->x_min <= x->x_max)  // <= HACK!!! RETHINK
-            onmax = 1;
+             carry-on is never sent if max < min, but sent if max == min (???) */
+         
+        // CARRY MAX!!! count = max, upwards & min < max!
+        if (notjam && x->x_min <= x->x_max) onmax = 1;  // <= HACK!!! RETHINK
         }
 
-    /* CHECKED: outlets deliver in right-to-left order */
+    // outlet 3) carry max
     if (onmax)
         {
         if (x->x_carrybang)
@@ -170,6 +173,8 @@ static void counter_dobang(t_counter *x, int notjam)
             }
         }
     else if (offmax) outlet_float(x->x_out3, 0);
+    
+    // outlet 2) carry min
     else if (onmin)
         {
         if (x->x_carrybang)
@@ -188,6 +193,7 @@ static void counter_dobang(t_counter *x, int notjam)
         }
     else if (offmin) outlet_float(x->x_out2, 0);
 
+    // outlet 1) count
     outlet_float(((t_object *)x)->ob_outlet, x->x_count);
 }
 
