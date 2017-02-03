@@ -1,44 +1,37 @@
-#N canvas 255 23 562 768 10;
-#X obj 8 727 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 276 23 562 587 10;
+#X obj 8 546 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 596 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 415 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 655 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 474 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 692 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 511 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 104 605 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 104 424 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 105 664 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 105 483 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 104 628 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 104 447 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 171 604 signal;
-#X text 171 663 signal;
-#X text 159 701 1) float;
-#X text 234 663 - distorted phasor output;
-#X obj 235 266 line~;
-#X msg 235 244 \$1 10;
-#X obj 238 202 hsl 128 15 0.5 100 1 1 empty empty empty -2 -8 0 10
--228856 -1 -1 7800 1;
-#X floatatom 235 223 0 0 0 0 - - -;
-#X obj 160 375 cos~;
-#X text 424 424 0;
-#X text 424 326 1;
-#X obj 111 240 phasor~ 220;
-#X text 425 376 0.5;
-#X text 420 562 -1;
-#X text 426 509 0;
-#X text 425 455 1;
-#X text 135 628 float/signal;
-#X text 234 628 - slope;
-#X obj 160 291 cyclone/kink~;
-#X text 234 701 - slope (default 1);
-#X obj 237 328 cyclone/Scope~ 181 109 4 3 128 0 1 150 0 0 0 205 229
+#X text 171 423 signal;
+#X text 171 482 signal;
+#X text 159 520 1) float;
+#X text 234 482 - distorted phasor output;
+#X obj 272 155 hsl 128 15 0.5 100 1 0 empty empty empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X obj 170 277 cos~;
+#X text 421 299 0;
+#X text 418 220 1;
+#X text 421 260 0.5;
+#X text 418 393 -1;
+#X text 419 352 0;
+#X text 421 315 1;
+#X text 135 447 float/signal;
+#X obj 235 226 cyclone/Scope~ 183 82 4 3 128 0 1 150 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 238 459 cyclone/Scope~ 179 113 4 3 128 -1 1 150 0 0 0 205 229
+#X obj 237 320 cyclone/Scope~ 180 81 4 3 128 -1 1 150 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X text 55 338 kinked phase =>;
+#X text 65 244 kinked phase =>;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -49,16 +42,10 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X text 88 94 Use [kink~] to distort the phase output from [phasor~]
-by kinging/bending it. If the input times the slope is less than 0.5
-\, that value is output. Otherwise \, a complentary slope is used \,
-equal to 0.5 at the same input value but equal to 1 when the input
-is 1 (creating a bend or "kink" in the phase waveform when the slope
-is not equal to 1).;
-#X text 234 604 - phasor signal to be distorted by kinking it;
+#X text 234 423 - phasor signal to be distorted by kinking it;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -127,7 +114,7 @@ is not equal to 1).;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -166,14 +153,23 @@ is not equal to 1).;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 117 467 ./out~;
-#X connect 11 0 25 1;
-#X connect 12 0 11 0;
-#X connect 13 0 14 0;
-#X connect 14 0 12 0;
-#X connect 15 0 28 0;
-#X connect 15 0 41 0;
-#X connect 15 0 41 1;
-#X connect 18 0 25 0;
-#X connect 25 0 15 0;
-#X connect 25 0 27 0;
+#X obj 127 338 ./out~;
+#X text 320 154 slope;
+#X text 87 90 Distort [phasor~] with [kink~]. If the phase input times
+the slope is less than 0.5 \, the value is output. Otherwise \, a complentary
+slope is used that goes from 0.5 to 1 (creating a bend or a "kink").
+;
+#X text 234 447 - slope (minimum 0);
+#X text 234 520 - slope (default 1 - minimum 0);
+#X obj 170 167 phasor~ 220;
+#X obj 170 198 cyclone/kink~ 0.5;
+#X obj 269 176 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.5 256;
+#X connect 11 0 40 0;
+#X connect 12 0 21 0;
+#X connect 12 0 33 0;
+#X connect 12 0 33 1;
+#X connect 38 0 39 0;
+#X connect 39 0 12 0;
+#X connect 39 0 20 0;
+#X connect 40 0 39 1;
