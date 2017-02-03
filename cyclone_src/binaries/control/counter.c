@@ -497,8 +497,17 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
     x->x_min = x->x_setmin = 0;
     x->x_startup = 1;
     x->x_max = x->x_setmax = COUNTER_DEFMAX;
-    if (i3) x->x_dir = i1, x->x_min = x->x_setmin = i2, x->x_max = x->x_setmax = i3;
-    else if (i2) x->x_min = x->x_setmin = i1, x->x_max = x->x_setmax = i2;
+    if (i3)
+        {
+        x->x_dir = i1;
+        x->x_min = x->x_setmin = i3 < i2 ? i3: i2;
+        x->x_max = x->x_setmax = i2 > i3? i2 : i3;
+        }
+    else if (i2)
+        {
+        x->x_min = x->x_setmin = i2 < i1 ? i2: i1;
+        x->x_max = x->x_setmax = i1 > i2? i1 : i2;
+        }
     else if (i1) x->x_max = x->x_setmax = i1;
     x->x_minhitflag = x->x_maxhitflag = 0;
     x->x_maxcount = 0;
