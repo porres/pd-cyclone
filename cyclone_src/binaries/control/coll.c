@@ -1322,7 +1322,7 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
 
 */
 
-static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
+static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
 {
 	//if (!x->busy) {
 
@@ -1355,7 +1355,7 @@ static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
 	//}
 }
 
-static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
+static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
 {
     //redundant placeholder for insert2 just copying coll_insert - DK
 	
