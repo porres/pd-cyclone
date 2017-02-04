@@ -7,14 +7,17 @@
 #include "hammer/gui.h"
 #include "g_canvas.h"
 
-//adding mousestate_proxy and related methods
+/* DK
+- adding mousestate_proxy and related methods
+- borrowing IOhannes zmoelnig's receivecanvas_proxy  from iemguts' receivecanvas
+  for gui message interception (mode 1)
+- for mode 1: taking screen coords and subtracting ::focusedwindow's x,y
+  doing the math in tcl, maybe it would be better to do in c?
+  This would be more to send back via pdsend however...
+*/
 
-//borrowing IOhannes zmoelnig's receivecanvas_proxy  from iemguts' receivecanvas
-//for gui message interception - DK
 
 //this is the receivecanvas_proxy
-
-
 typedef struct _mousestate_proxy
 {
     //was going to be in hammer/gui but found it difficult, which is why i chose the g prefix
@@ -197,7 +200,9 @@ static void mousestate_poll(t_mousestate *x)
         if (!x->x_ispolling02)
         {
             x->x_ispolling02 = 1;
-                hammergui_startpolling((t_pd *)x);
+            //pollmode: 1 for mode 0, 2 for mode 2
+            int pollmode = mode > 0 ? 2 : 1;
+                hammergui_startpolling((t_pd *)x, pollmode);
 
         };
     }

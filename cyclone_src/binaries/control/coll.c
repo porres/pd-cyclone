@@ -2056,8 +2056,7 @@ static void *coll_threaded_fileio(void *ptr)
 			m = collcommon_dowrite(x->x_common, 0, 0, 1);
 			if (m->m_flag)
 				coll_enqueue_threaded_msgs(x, m);
-		}
-
+		};
 		if (m != NULL)
 		{
 			t_freebytes(m, sizeof(*m));
