@@ -200,7 +200,7 @@ t_float clas_scaling(t_scale *x, t_float f)
 
 void scale_bang(t_scale *x)
 {
-  scale_ft(x,x->in);
+  scale_ft(x, x->f_in);
   return;
 }
 
