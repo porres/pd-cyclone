@@ -1337,7 +1337,10 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
                     ep = collcommon_numkey(cc, numkey);
                     if(ep){
                         epnew = collelem_new(ac-1, av+1, &numkey, 0);
+                        //put new element before the one we just found
                         collcommon_putbefore(cc, epnew, ep);
+                        //increment all keys which are >= the numkey
+                        //(aside from the one we just made
                         for(ep = cc->c_first; ep; ep = ep->e_next){
                             if(ep->e_hasnumkey){
                                 if((ep->e_numkey >= numkey) && (ep != epnew)){
@@ -1345,6 +1348,9 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
                                         };
                             };
                         };
+                        //it looks like you use this when you don't change
+                        //data, just keys? -DK
+                        collcommon_modified(cc, 0);
                     }
                     else{
 		        coll_tokey(x, av, ac-1, av+1, 0, s);
@@ -1357,14 +1363,46 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
 
 static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
 {
-    //redundant placeholder for insert2 just copying coll_insert - DK
-	
-    //if (!x->busy) {
-		if (ac >= 2 && av->a_type == A_FLOAT)
-		coll_tokey(x, av, ac-1, av+1, 0, s);
+	//if (!x->busy) {
+
+                t_collcommon  *cc = x->x_common;
+                t_collelem *epnew = NULL;
+                t_collelem *ep;
+                int numkey;
+		if (ac >= 2 && av->a_type == A_FLOAT){
+                    //get the int from the first elt if exists and store in numkey
+                    loud_checkint((t_pd *) x, av->a_w.w_float, &numkey, 0);
+                    //retrieve elem with numkey if it exists
+                    ep = collcommon_numkey(cc, numkey);
+                    if(ep){
+                        epnew = collelem_new(ac-1, av+1, &numkey, 0);
+                        //put new element before the one we just found
+                        collcommon_putbefore(cc, epnew, ep);
+                    }
+                    else{
+                        //we didn't find it, put the new elem last
+                        ep = cc->c_last;
+                        epnew = collelem_new(ac-1, av+1, &numkey, 0);
+                        collcommon_putafter(cc, epnew, ep);
+                    }; 
+                //increment all keys which are >= the numkey
+                //(aside from the one we just made
+                    for(ep = cc->c_first; ep; ep = ep->e_next){
+                        if(ep->e_hasnumkey){
+                            if((ep->e_numkey >= numkey) && (ep != epnew)){
+                                ep->e_numkey = ep->e_numkey + 1;
+                                    };
+                        };
+                    };
+                    //it looks like you use this when you don't change
+                    //data, just keys? -DK
+                    collcommon_modified(cc, 0);
+
+                }
 		else
 		pd_error(x, "bad arguments for message '%s'", s->s_name);
 	//}
+
 }
 
 static void coll_remove(t_coll *x, t_symbol *s, int ac, t_atom *av)
