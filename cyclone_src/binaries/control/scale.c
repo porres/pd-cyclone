@@ -9,13 +9,13 @@
  Hiatus Kaiyote -- Choose Your Weapon
 *************/
 
+// Porres 2017 made some changes to fix some issues
+
 #include <string.h>
 
 #include "m_pd.h"
 #include <math.h>
 
-/* 0 modern mode 
-   1 classic mode */
 
 static t_class *scale_class;
 
@@ -62,7 +62,7 @@ void *scale_new(t_symbol *s, int argc, t_atom *argv)
   x->maxin = 127;
   x->minout = 0;
   x->maxout = 1;
-  x->flag = 1;
+  x->flag = 0;
   x->expo = 1.f;
   t_int numargs = 0;
   t_float tmp = -1.f;

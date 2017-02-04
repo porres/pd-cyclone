@@ -99,7 +99,7 @@ static void *scale_new(t_symbol *s, int argc, t_atom *argv)
     max_out = SCALE_MAXOUT;
     exponential = SCALE_EXPO;
     t_int classic_exp;
-    classic_exp = 1;
+    classic_exp = 0;
     
 	int argnum = 0;
 	while(argc > 0){
