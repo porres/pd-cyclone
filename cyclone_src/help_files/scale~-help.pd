@@ -251,7 +251,7 @@ rate between two mono sound sources \, though this is not its purpose.
 #X text 78 87 [scale~] maps an input range to an output range. Values
 larger or smaller than the input range will not be clipped to the output
 range. The mapping can be inverted and/or exponential.;
-#N canvas 438 127 455 567 exponential 1;
+#N canvas 438 127 421 554 exponential 0;
 #X floatatom 257 220 5 1 1.2 0 - - -, f 5;
 #X obj 260 193 hsl 128 15 0.1 10 1 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
@@ -271,54 +271,56 @@ factor. In modern mode (default) \, exponential values must be greater
 than 0 \, where 1 also gives you linear scaling (no exponential). It's
 like raising to the power of the given exponential \, try it below
 (with values from 0.1 to 10).;
-#N canvas 494 160 813 459 backwards 0;
-#X text 37 231 You can set the exponential mode with the @classic attribute
+#N canvas 494 160 813 506 backwards 0;
+#X text 37 274 You can set the exponential mode with the @classic attribute
 \, "@classic 1" is classic mode and "@classic 0" is "modern mode".
 ;
-#X text 221 297 modern mode (default);
-#X text 221 325 classic mode;
-#X text 436 38 For the classic mode \, the exponential must be greater
+#X text 221 339 modern mode (default);
+#X text 221 367 classic mode;
+#X text 436 48 For the classic mode \, the exponential must be greater
 than "1". A value of "1" gives you a linear mapping (no exponential).
 Values greater than one gives you an exponential curve \, with larger
 values leading to steeper exponential curves. A typical value for this
 mode is "1.06". Below we have classic mode with expnential values from
 "1" (linear) to "1.2".;
-#X text 42 377 BEWARE: let's state it clear again \, "classic mode"
+#X text 42 420 BEWARE: let's state it clear again \, "classic mode"
 in Max/MSP is buggy as hell (and cycling 74 is aware of it). We have
 a reasonably good version \, but you shouldn't really bother to use
 it \, just saying...;
-#X floatatom 636 193 0 1 1.2 0 - - -;
-#X obj 639 169 hsl 128 15 1 1.2 0 0 empty empty empty -2 -8 0 10 -228856
+#X floatatom 636 223 0 1 1.2 0 - - -;
+#X obj 639 199 hsl 128 15 1 1.2 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 647 169 exponential factor;
-#X obj 495 266 cyclone/scope~ 214 135 34 3 128 0 1 0 0 2 0.95 205 229
+#X text 647 199 exponential factor;
+#X obj 495 296 cyclone/scope~ 214 135 34 3 128 0 1 0 0 2 0.95 205 229
 232 74 79 77 96 98 102 0;
-#X text 719 392 0;
-#X text 719 264 1;
-#X obj 495 162 phasor~ 10;
-#X obj 495 192 *~ 127;
-#X obj 106 297 scale~ @classic 0;
-#X obj 106 325 scale~ @classic 1;
+#X text 719 422 0;
+#X text 719 294 1;
+#X obj 495 192 phasor~ 10;
+#X obj 495 222 *~ 127;
+#X obj 106 340 scale~ @classic 0;
+#X obj 106 368 scale~ @classic 1;
 #X text 33 16 The [scale~] object first appeared in Max 6 \, but it's
 control counterpart ([scale]) was there since Max 4.2!;
-#X text 34 50 In Max \, [scale~] has a modern exponential mode by default
-\, but also offers a classic mode \, using a function compatible with
-old IRCAM patchers like [scale]. This is very buggy in Max and we encourage
-not to use it.;
-#X text 34 113 In Max \, modern mode had the exponent inverted in relation
+#X text 34 156 In Max \, modern mode had the exponent inverted in relation
 to current Max and cyclone prior to Max 6.0.4! Thus \, with an exponent
 of 2 \, the object behaved like it had an exponent of 0.5 (and vice
 versa). Max/MSP patches from versions prior to 6.0.4 may require updating
 to work properly in modern mode. But since this is the first version
 of this object in cyclone \, it doesn't have backwards compatibility
 issues in Pd!;
-#X obj 495 220 cyclone/scale~ 0 127 0 1 @classic 1, f 24;
-#X connect 5 0 18 5;
+#X obj 495 250 cyclone/scale~ 0 127 0 1 @classic 1, f 24;
+#X text 34 50 In Max \, even though [scale] has classic by default
+\, [scale~] has a modern exponential mode by default \, but also offers
+a classic mode \, using a function compatible with old IRCAM patchers
+like [scale]. This is very buggy in Max and we encourage not to use
+it. To avoid inconsistencies \, we've made both [scale] and [scale~]
+have a modern mode by default.;
+#X connect 5 0 17 5;
 #X connect 6 0 5 0;
 #X connect 11 0 12 0;
-#X connect 12 0 18 0;
-#X connect 18 0 8 0;
-#X restore 62 490 pd backwards compatibility \; classic mode and inconcistencies
+#X connect 12 0 17 0;
+#X connect 17 0 8 0;
+#X restore 81 479 pd backwards compatibility \; classic mode and inconsistencies
 ;
 #X connect 0 0 3 5;
 #X connect 1 0 0 0;

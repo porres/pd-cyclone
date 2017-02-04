@@ -21,8 +21,9 @@ static t_class *scale_class;
 
 typedef struct _scale
 {
-  t_object obj; /* object header */
-  t_float in; /* stored input value */
+  t_object obj;
+  t_float in; // input
+  t_float f_in; // float input
   t_outlet *float_outlet;
   t_float minin;
   t_float maxin;
@@ -63,9 +64,8 @@ void *scale_new(t_symbol *s, int argc, t_atom *argv)
   x->minout = 0;
   x->maxout = 1;
   x->flag = 0;
-  x->expo = 1.f;
+  x->exp_in = 1.f;
   t_int numargs = 0;
-  t_float tmp = -1.f;
 
   while(argc>0) {
     t_symbol *firstarg = atom_getsymbolarg(0,argc,argv);
@@ -96,7 +96,7 @@ void *scale_new(t_symbol *s, int argc, t_atom *argv)
 	argv++;
 	break;
       case 4:
-	tmp = atom_getfloatarg(0,argc,argv);
+	x->exp_in = atom_getfloatarg(0,argc,argv);
 	numargs++;
 	argc--;
 	argv++;
@@ -125,12 +125,14 @@ void *scale_new(t_symbol *s, int argc, t_atom *argv)
     }
   }
 
-
-  if(tmp!=-1) {
-    if(x->flag==0)
-      x->expo = ((tmp<0.f) ? 0.f : tmp);
-    else x->expo = ((tmp<1.f) ? 0.f : tmp);
-  }
+  if(x->flag == 0)
+    {
+    if(x->exp_in < 0.f) x->exp_in = 0;
+    }
+  else
+    {
+    if(x->exp_in < 1.f) x->exp_in = 1;
+    }
   
   x->ac = 1;
   x->a_bytes = x->ac*sizeof(t_atom);
@@ -165,10 +167,10 @@ void scale_classic(t_scale *x, t_floatarg f)
 
 void scale_ft(t_scale *x, t_floatarg f)
 {
-  x->in = f;
+  x->in = x->f_in = f;
   check(x);
-  t_float temp = ptrtoscaling(x,f);
-  SETFLOAT(x->output_list,temp);
+  t_float temp = ptrtoscaling(x, f);
+  SETFLOAT(x->output_list, temp);
   outlet_list(x->float_outlet,0,x->ac,x->output_list);
   return;
 }
@@ -212,8 +214,8 @@ void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
   check(x);
   x->in = atom_getfloatarg(0,argc,argv);
   for(i=0;i<argc;i++)
-    SETFLOAT(x->output_list+i,ptrtoscaling(x,atom_getfloatarg(i,argc,argv)));
-  outlet_list(x->float_outlet,0,argc,x->output_list);
+    SETFLOAT(x->output_list + i, ptrtoscaling(x, atom_getfloatarg(i, argc, argv)));
+  outlet_list(x->float_outlet, 0, argc, x->output_list);
   return;
 }
 
