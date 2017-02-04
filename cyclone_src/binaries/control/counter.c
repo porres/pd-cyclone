@@ -109,15 +109,15 @@ static void counter_dobang(t_counter *x, int notjam)
     // if it did hit before min or max, now it is off
     
     x->x_minhitflag = x->x_maxhitflag = 0;
-
+    
     if (x->x_count < x->x_min) // WRAP!!!?!?!?
         {
             if (x->x_dir == COUNTER_UPDOWN)
             {
-                x->x_inc = 1;
-                if ((x->x_count = x->x_min + 1) > x->x_max) x->x_count = x->x_min; // PONG
+                x->x_inc = 1; // Pong!
+                if ((x->x_count = x->x_min + 1) > x->x_max) x->x_count = x->x_min; // ???
             }
-            else if ((x->x_count = x->x_max) < x->x_min) x->x_count = x->x_min; // HERE!?!
+            else if ((x->x_count = x->x_max) < x->x_min) x->x_count = x->x_min; // ???
         }
     else if (x->x_count > x->x_max)
         {
@@ -128,32 +128,27 @@ static void counter_dobang(t_counter *x, int notjam)
         else if (x->x_dir == COUNTER_UPDOWN)
             {
             x->x_inc = -1;
-            if ((x->x_count = x->x_max - 1) < x->x_min) x->x_count = x->x_min; // HERE!?!
+            if ((x->x_count = x->x_max - 1) < x->x_min) x->x_count = x->x_min; // ???
             }
-        else x->x_count = x->x_min;
+        else x->x_count = x->x_min; // wrap for dir = up!!!
         }
 
     if (x->x_count <= x->x_min && x->x_inc == -1)
         {
-// RECHECK: jam inhibits mid outlets (unless carry-off) carry-on not sent if max < min, but sent if max == min (????)
-        
         // CARRY MIN!!! count <= min, downwards
-        if (notjam) onmin = 1; // <= HACK!!! RETHINK (?)
+        if (notjam) onmin = 1; // CHECKED: jam inhibits mid outlets (hacky)
         }
     
-    // OUTLETS!!!!
+// OUTLETS!!!!
     
     // outlet 4) maxcount
-    else if (x->x_count >= x->x_max && x->x_inc == 1) // >= ?
+    else if (x->x_count >= x->x_max && x->x_inc == 1)
         {
         x->x_maxcount++;
         outlet_float(x->x_out4, x->x_maxcount); // count how many times max was reached
-
-            /* CHECKED: 'jam' inhibits middle outlets (unless carry-off)
-             carry-on is never sent if max < min, but sent if max == min (???) */
          
         // CARRY MAX!!! count >= max, upwards
-        if (notjam) onmax = 1;  // <= HACK!!! RETHINK
+        if (notjam) onmax = 1;  // CHECKED: jam inhibits mid outlets (hacky)
         }
 
     // outlet 3) carry max
@@ -196,6 +191,8 @@ static void counter_dobang(t_counter *x, int notjam)
 
     // outlet 1) count
     outlet_float(((t_object *)x)->ob_outlet, x->x_count);
+    
+    if (onmin && x->x_min > x->x_max) x->x_count = x->x_max;
 }
 
 static void counter_bang(t_counter *x)
@@ -210,8 +207,7 @@ static void counter_float(t_counter *x, t_float dummy)
     counter_bang(x);
 }
 
-/* CHECKED: out-of-range values are ignored */
-/* CHECKED: 'down, set 3, up, bang' gives 5 */
+// CHECKED: out-of-range values are ignored
 static void counter_set(t_counter *x, t_floatarg f)
 {
     if(x->x_startup) x->x_startup = 0;
@@ -226,7 +222,7 @@ static void counter_setmin(t_counter *x, t_floatarg f)
     if (x->x_min > x->x_max) x->x_min = x->x_setmin;
 }
 
-/* CHECKED: out-of-range values are ignored */
+// CHECKED: out-of-range values are ignored
 static void counter_jam(t_counter *x, t_floatarg f)
 {
     if(x->x_startup) x->x_startup = 0;
@@ -486,7 +482,7 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
                     compat = (int)curfloat;
                 }
                 else{
-                    goto errstate;
+                    toto errstate;
                 };
                 argc -= 2;
                 argv += 2;
