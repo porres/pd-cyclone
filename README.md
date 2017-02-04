@@ -1,7 +1,7 @@
 Cyclone: A set of Pure Data objects cloned from Max/MSP 
 -------
 
-> Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP. It thus provides some level of compatibility between the two environments, helping users of both systems in the development of equivalent patches. 
+> Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP. It thus provides some good level of compatibility between the two environments, helping users of both systems in the development of equivalent patches. 
 
 --------------------
 
