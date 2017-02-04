@@ -29,6 +29,7 @@ typedef struct _scale
   t_float minout;
   t_float maxout;
   t_float expo;
+  t_float exp_in;
   t_atom *output_list; /* for list output */
   t_int a_bytes;
   t_int flag;
@@ -40,7 +41,6 @@ void scale_ft(t_scale *x, t_floatarg f);
 void scale_bang(t_scale *x);
 void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv);
 void scale_free(t_scale *x);
-void scale_setexpo(t_scale *x, t_floatarg f);
 void scale_classic(t_scale *x, t_floatarg f);
 
 t_float scaling(t_scale *x, t_float f);
@@ -57,7 +57,7 @@ void *scale_new(t_symbol *s, int argc, t_atom *argv)
   floatinlet_new(&x->obj,&x->maxin);
   floatinlet_new(&x->obj,&x->minout);
   floatinlet_new(&x->obj,&x->maxout);
-  inlet_new(&x->obj,&x->obj.ob_pd,gensym("float"),gensym("setexpo")); 
+  floatinlet_new(&x->obj,&x->exp_in);
   x->minin = 0;
   x->maxin = 127;
   x->minout = 0;
@@ -152,7 +152,6 @@ void scale_setup(void)
   class_addfloat(c,(t_method)scale_ft);
   class_addbang(c,(t_method)scale_bang);
   class_addlist(c,(t_method)scale_list);
-  class_addmethod(c,(t_method)scale_setexpo,gensym("setexpo"),A_DEFFLOAT,0);
   class_addmethod(c,(t_method)scale_classic,gensym("classic"),A_DEFFLOAT,0);
 }
 
@@ -218,14 +217,16 @@ void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
   return;
 }
 
-void scale_setexpo(t_scale *x, t_floatarg f)
-{
-  x->flag == 1 ? x->expo = (x->expo < 1. ? 1. : x->expo) : x->expo = (x->expo < 0. ? 0. : x->expo);
-  return;
-}
-
 void check(t_scale *x)
 {
+    if(x->flag == 1)
+    {
+        x->expo = x->exp_in < 1. ? 1. : x->exp_in;
+    }
+    else
+    {
+        x->expo = x->exp_in < 0. ? 0. : x->exp_in;
+    }
   switch (x->flag) {
   case 0:
     ptrtoscaling = exp_scaling;
@@ -234,7 +235,7 @@ void check(t_scale *x)
     ptrtoscaling = clas_scaling;
     break;
   }
-  if(x->expo==1)
+  if(x->expo == 1)
     ptrtoscaling = scaling;
   return;
 }
