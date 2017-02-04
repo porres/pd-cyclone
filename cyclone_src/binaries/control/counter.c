@@ -143,7 +143,7 @@ static void counter_dobang(t_counter *x, int notjam)
     // OUTLETS!!!!
     
     // outlet 4) maxcount
-    else if (x->x_count == x->x_max && x->x_inc == 1) // >= ?
+    else if (x->x_count >= x->x_max && x->x_inc == 1) // >= ?
         {
         x->x_maxcount++;
         outlet_float(x->x_out4, x->x_maxcount); // count how many times max was reached
@@ -152,7 +152,7 @@ static void counter_dobang(t_counter *x, int notjam)
              carry-on is never sent if max < min, but sent if max == min (???) */
          
         // CARRY MAX!!! count = max, upwards & min < max!
-        if (notjam && x->x_min <= x->x_max) onmax = 1;  // <= HACK!!! RETHINK
+        if (notjam) onmax = 1;  // <= HACK!!! RETHINK
         }
 
     // outlet 3) carry max
@@ -222,6 +222,7 @@ static void counter_set(t_counter *x, t_floatarg f)
 static void counter_setmin(t_counter *x, t_floatarg f)
 {
     x->x_setmin = (int)f;
+    if (x->x_min > x->x_max) x->x_min = x->x_setmin;
 }
 
 /* CHECKED: out-of-range values are ignored */
