@@ -22,7 +22,7 @@ void hammergui_unbindmouse(t_pd *master);
 void hammergui_screenmousexy(t_symbol *s);
 void hammergui_focusmousexy(t_symbol *s);
 void hammergui_willpoll(void);
-void hammergui_startpolling(t_pd *master);
+void hammergui_startpolling(t_pd *master, int pollmode);
 void hammergui_stoppolling(t_pd *master);
 void hammergui_bindfocus(t_pd *master);
 void hammergui_unbindfocus(t_pd *master);

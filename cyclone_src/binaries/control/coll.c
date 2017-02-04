@@ -2057,7 +2057,9 @@ static void *coll_threaded_fileio(void *ptr)
 			if (m->m_flag)
 				coll_enqueue_threaded_msgs(x, m);
 		}
-
+                else if (x->unsafe == 12){
+                    //dump
+                };
 		if (m != NULL)
 		{
 			t_freebytes(m, sizeof(*m));
