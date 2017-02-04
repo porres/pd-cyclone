@@ -2,15 +2,16 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* This is an entirely rewritten version of Joseph A. Sarlo's code.
-   The most important changes are listed in "pd-lib-notes.txt" file.  */
+/* rewritten version of Joseph A. Sarlo's code fom pb-lib 
+   (important changes listed in "pd-lib-notes.txt" file.  */
 
-/* Beware -- the max reference manual page for the counter object
+/* krzYszcz circa (2002?)
+   Beware -- the max reference manual page for the counter object
    reflects mostly opcode max features.  Apparently counter works
    differently in cycling max (e.g. inlets 3 and 4).  But I am sick
    of checking -- I will not bother, until there is some feedback. */
 
-// Porres in 2016 checked the inconsistencies and fixed them
+// Porres in 2016/2017 checked the inconsistencies and fixed them
 
 // Adding attributes, p_id, counter_proxy_state, editing existing counter_proxy methods - Derek Kwan 2016
 
@@ -122,7 +123,7 @@ static void counter_dobang(t_counter *x, int notjam)
         {
         if (x->x_inc == -1) //
             {
-            // <=== HERE!!! HERE!!! HERE!!!
+            // <=== ???
             }
         else if (x->x_dir == COUNTER_UPDOWN)
             {
@@ -132,12 +133,12 @@ static void counter_dobang(t_counter *x, int notjam)
         else x->x_count = x->x_min;
         }
 
-    if (x->x_count == x->x_min && x->x_inc == -1)
+    if (x->x_count <= x->x_min && x->x_inc == -1)
         {
 // RECHECK: jam inhibits mid outlets (unless carry-off) carry-on not sent if max < min, but sent if max == min (????)
         
-        // CARRY MIN!!! count = min, downwards & min < max!
-        if (notjam && x->x_min <= x->x_max) onmin = 1; // <= HACK!!! RETHINK (?)
+        // CARRY MIN!!! count <= min, downwards
+        if (notjam) onmin = 1; // <= HACK!!! RETHINK (?)
         }
     
     // OUTLETS!!!!
@@ -151,7 +152,7 @@ static void counter_dobang(t_counter *x, int notjam)
             /* CHECKED: 'jam' inhibits middle outlets (unless carry-off)
              carry-on is never sent if max < min, but sent if max == min (???) */
          
-        // CARRY MAX!!! count = max, upwards & min < max!
+        // CARRY MAX!!! count >= max, upwards
         if (notjam) onmax = 1;  // <= HACK!!! RETHINK
         }
 
