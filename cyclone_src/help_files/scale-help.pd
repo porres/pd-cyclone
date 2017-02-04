@@ -1,4 +1,4 @@
-#N canvas 174 26 561 729 10;
+#N canvas 715 66 561 729 10;
 #X obj 6 688 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 462 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -15,13 +15,13 @@
 ;
 #X obj 6 581 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 117 170 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 213 160 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X floatatom 114 198 5 0 0 0 - - -, f 5;
+#X floatatom 210 188 5 0 0 0 - - -, f 5;
 #X text 130 519 2) float - input high (default 127);
 #X text 130 506 1) float - input low (default 0);
 #X text 130 531 3) float - output low (default 0);
-#X obj 114 226 cyclone/scale -1 1 0 127;
+#X obj 210 216 cyclone/scale -1 1 0 127;
 #X text 149 356 float - sets the low end of the input range;
 #X text 149 376 float - sets the high end of the input range;
 #X text 121 297 float/list - value(s) to perform the scaling function
@@ -52,8 +52,6 @@ range;
 #X connect 3 0 0 0;
 #X connect 5 0 1 0;
 #X restore 491 247 pd lists;
-#X text 196 597 - 0 loads "modern" exponential mode (default 1 \, classic)
-;
 #X text 130 544 4) float - output high (default 1);
 #X text 149 436 float - sets the exponential factor;
 #X text 130 634 Originally in Max/MSP \, "classic mode" is buggy as
@@ -103,16 +101,43 @@ that boundary with the same conversion parameters.;
 #X restore 473 221 pd advanced;
 #X text 130 557 5) float - exponential factor (default 1 - linear)
 ;
-#N canvas 315 23 875 773 Exponential 0;
-#X floatatom 67 265 5 1 1.2 0 - - -, f 5;
-#X obj 166 347 t f f;
-#X obj 67 286 trigger bang float;
-#X obj 70 238 hsl 128 15 1 1.2 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X obj 82 479 cnv 15 198 138 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X array \$0-classic 128 float 1;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X text 94 93 [scale] maps an input range to an output range. Values
+larger or smaller than the input range will not be clipped to the output
+range. The mapping can be inverted and/or exponential.;
+#X text 157 314 bang - performs the scaling function on last received
+input;
+#X obj 210 246 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 103 597 @classic <0/1>;
+#X text 114 332 classic <f> -;
+#X text 197 332 sets to classic mode <classic 1> or modern mode <classic
+0>;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Map values to an
+output range;
+#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scale;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#N canvas 855 67 462 631 exponential 0;
+#X floatatom 58 194 5 1 1.2 0 - - -, f 5;
+#X obj 157 277 t f f;
+#X obj 58 215 trigger bang float;
+#X obj 61 167 hsl 128 15 0.1 10 1 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 107 382 cnv 15 198 138 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array \$0-modern 128 float 1;
 #A 0 0 0.00787402 0.015748 0.023622 0.0314961 0.0393701 0.0472441 0.0551181
 0.0629921 0.0708661 0.0787402 0.0866142 0.0944882 0.102362 0.110236
 0.11811 0.125984 0.133858 0.141732 0.149606 0.15748 0.165354 0.173228
@@ -131,129 +156,115 @@ that boundary with the same conversion parameters.;
 0.937008 0.944882 0.952756 0.96063 0.968504 0.976378 0.984252 0.992126
 1;
 #X coords 0 1 127 0 200 140 1 0 0;
-#X restore 81 478 graph;
-#X text 22 80 Fifth argument or sixth inlet specifies the exponential
-factor. By default \, [scale] operates in "Classic Mode" using an exponential
-function compatible with old IRCAM patchers. In this case \, the exponential
-must be greater than "1".;
-#X text 22 140 A value of "1" gives you a linear mapping (no exponential).
+#X restore 106 381 graph;
+#X text 69 167 exponential factor;
+#X text 313 511 0;
+#X text 311 379 1;
+#X obj 117 329 cyclone/peek~ \$0-modern;
+#X obj 58 244 cyclone/uzi 128 0;
+#X obj 31 26 cnv 15 150 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 37 31 cyclone/comment 0 18 times ? 0 0 0 0 Exponential mode
+;
+#X text 22 72 Fifth argument or sixth inlet specifies the exponential
+factor. In modern mode (default) \, exponential values must be greater
+than 0 \, where 1 also gives you linear scaling (no exponential). It's
+like raising to the power of the given exponential \, try it below
+(with values from 0.1 to 10).;
+#X obj 184 300 cyclone/scale 0 127 0 1 1;
+#N canvas 337 24 832 554 backwards 0;
+#X obj 106 398 scale @classic 1;
+#X obj 106 370 scale @classic 0;
+#X floatatom 451 175 5 1 1.2 0 - - -, f 5;
+#X obj 550 257 t f f;
+#X obj 451 196 trigger bang float;
+#X obj 454 148 hsl 128 15 1 1.2 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 10900 1;
+#X obj 524 379 cnv 15 198 138 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array \$0-classic 128 float 1;
+#A 0 1.83019e-09 2.14435e-09 2.51243e-09 2.9437e-09 3.449e-09 4.04103e-09
+4.73469e-09 5.54742e-09 6.49965e-09 7.61534e-09 8.92254e-09 1.04541e-08
+1.22486e-08 1.43511e-08 1.68146e-08 1.97008e-08 2.30826e-08 2.70448e-08
+3.16871e-08 3.71263e-08 4.34992e-08 5.0966e-08 5.97145e-08 6.99647e-08
+8.19744e-08 9.60456e-08 1.12532e-07 1.31849e-07 1.54481e-07 1.80998e-07
+2.12067e-07 2.48469e-07 2.9112e-07 3.41092e-07 3.99641e-07 4.68241e-07
+5.48617e-07 6.42789e-07 7.53126e-07 8.82403e-07 1.03387e-06 1.21134e-06
+1.41927e-06 1.66289e-06 1.94833e-06 2.28277e-06 2.67462e-06 3.13372e-06
+3.67164e-06 4.30189e-06 5.04032e-06 5.90551e-06 6.91922e-06 8.10692e-06
+9.49851e-06 1.1129e-05 1.30393e-05 1.52775e-05 1.79e-05 2.09726e-05
+2.45726e-05 2.87906e-05 3.37326e-05 3.95229e-05 4.63071e-05 5.42559e-05
+6.35691e-05 7.4481e-05 8.72659e-05 0.000102245 0.000119796 0.00014036
+0.000164453 0.000192682 0.000225756 0.000264508 0.000309912 0.00036311
+0.000425439 0.000498467 0.000584031 0.000684282 0.000801741 0.000939363
+0.00110061 0.00128953 0.00151088 0.00177023 0.0020741 0.00243013 0.00284727
+0.00333601 0.00390865 0.00457958 0.00536568 0.00628672 0.00736586 0.00863024
+0.0101116 0.0118474 0.013881 0.0162637 0.0190554 0.0223264 0.0261588
+0.030649 0.03591 0.0420741 0.0492963 0.0577582 0.0676726 0.0792889
+0.0928991 0.108846 0.127529 0.14942 0.175069 0.20512 0.240329 0.281583
+0.329917 0.386549 0.452902 0.530644 0.621731 0.728453 0.853495 1;
+#X coords 0 1 127 0 200 140 1 0 0;
+#X restore 523 378 graph;
+#X text 462 148 exponential factor;
+#X text 730 508 0;
+#X text 728 376 1;
+#X obj 507 309 cyclone/peek~ \$0-classic;
+#X obj 451 228 cyclone/uzi 128 0;
+#X text 37 304 You can set the exponential mode with the @classic attribute
+\, "@classic 1" is classic mode and "@classic 0" is "modern mode".
+;
+#X text 33 16 The [scale] first appeared in Max 4.2 and had a "classic"
+exponential \, using a function compatible with old IRCAM patchers.
+This is very buggy in Max and we encourage not to use it. A new "modern"
+mode (from Max 6.0) was introduced to [scale] \, but it still has the
+"classic" mode by default.;
+#X text 34 91 The [scale~] object (also introduced in Max 6.0) \, has
+the modern mode by default. This is an inconsistency that looks like
+a bug. But we didn't want cyclone's versions of [scale] and [scale~]
+to be inconsistent between then. And since classic mode is buggy \,
+we've made modern mode as the default.;
+#X text 221 370 modern mode (default);
+#X text 221 398 classic mode;
+#X text 445 20 For the classic mode \, the exponential must be greater
+than "1". A value of "1" gives you a linear mapping (no exponential).
 Values greater than one gives you an exponential curve \, with larger
 values leading to steeper exponential curves. A typical value for this
 mode is "1.06". Below we have classic mode with expnential values from
 "1" (linear) to "1.2".;
-#X text 78 238 exponential factor;
-#X text 288 608 0;
-#X text 286 476 1;
-#X obj 510 91 scale @classic 1;
-#X text 434 13 You can set the exponential mode with the @classic attribute
-\, with "@classic 1" you have the classic mode on (default). But "@classic
-0" will give you another and newer exponential mode called "modern
-mode".;
-#X floatatom 494 260 5 1 1.2 0 - - -, f 5;
-#X obj 593 343 t f f;
-#X obj 494 281 trigger bang float;
-#X obj 497 233 hsl 128 15 0.1 10 1 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X obj 543 448 cnv 15 198 138 empty empty empty 20 12 0 14 -233017
--66577 0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X array \$0-modern 128 float 1;
-#A 0 0 3.84402e-09 6.15042e-08 3.11365e-07 9.84068e-07 2.40251e-06
-4.98184e-06 9.22948e-06 1.57451e-05 2.52206e-05 3.84402e-05 5.62802e-05
-7.97095e-05 0.000109789 0.000147672 0.000194603 0.000251921 0.000321056
-0.000403529 0.000500956 0.000615042 0.000747588 0.000900484 0.00107571
-0.00127535 0.00150157 0.00175662 0.00204287 0.00236275 0.0027188 0.00311365
-0.00355003 0.00403074 0.0045587 0.0051369 0.00576842 0.00645647 0.0072043
-0.0080153 0.0088929 0.00984068 0.0108623 0.0119614 0.0131419 0.0144077
-0.0157629 0.0172114 0.0187576 0.0204056 0.02216 0.0240251 0.0260055
-0.028106 0.0303311 0.0326859 0.0351751 0.037804 0.0405774 0.0435008
-0.0465793 0.0498184 0.0532236 0.0568005 0.0605546 0.0644919 0.0686181
-0.0729392 0.0774612 0.0821903 0.0871328 0.0922948 0.0976829 0.103304
-0.109163 0.115269 0.121627 0.128245 0.135129 0.142286 0.149725 0.157451
-0.165472 0.173796 0.182431 0.191382 0.20066 0.210271 0.220223 0.230524
-0.241182 0.252206 0.263603 0.275383 0.287552 0.300121 0.313097 0.32649
-0.340308 0.35456 0.369255 0.384402 0.40001 0.416089 0.432647 0.449695
-0.467243 0.485298 0.503872 0.522974 0.542614 0.562802 0.583549 0.604863
-0.626757 0.649239 0.672321 0.696012 0.720325 0.745269 0.770855 0.797095
-0.823999 0.851578 0.879844 0.908807 0.93848 0.968874 1;
-#X coords 0 1 127 0 200 140 1 0 0;
-#X restore 542 447 graph;
-#X text 505 233 exponential factor;
-#X text 749 577 0;
-#X text 747 445 1;
-#X obj 123 399 cyclone/peek~ \$0-classic;
-#X obj 553 395 cyclone/peek~ \$0-modern;
-#X obj 620 366 cyclone/scale 0 127 0 1 1 @classic 0;
-#X text 625 91 classic mode (default);
-#X obj 510 118 scale @classic 0;
-#X text 625 118 modern mode;
-#X text 438 150 In modern mode \, exponential values must be greater
-than 0 \, where 1 also gives you linear scaling (no exponential). It's
-like raising to the power of the given exponential \, try it below
-(with values from 0.1 to 10).;
-#X obj 67 318 cyclone/uzi 128 0;
-#X obj 494 310 cyclone/uzi 128 0;
-#X obj 31 26 cnv 15 150 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X text 32 666 BEWARE: Originally in Max/MSP \, "classic mode" is buggy
-as hell (and cycling 74 is aware of it). We have a reasonably good
-version \, but you shouldn't really bother to use it \, just saying...
-;
-#X text 468 614 Note: This object is compatible to Max 7! Prior to
-Max 6.0.4 the exponent was inverted in modern mode. Thus \, if you
-gave it an exponent of 2 \, the object behaved like it had an exponent
-of 0.5 (and if you gave it an exponent of 0.5 \, it behaved like it
-had an exponent of 2). Max/MSP patches from versions prior to 6.0.4
-may require updating to work properly in modern mode.;
-#X text 468 715 Since this is the first version of this object in cyclone
-\, it doesn't have backwards compatibility issues in Pd!;
-#X obj 193 371 cyclone/scale 0 127 0 1 1;
-#X obj 37 31 cyclone/comment 0 18 times ? 0 0 0 0 Exponential mode
+#X obj 577 281 cyclone/scale 0 127 0 1 1 @classic 1;
+#X text 42 450 BEWARE: let's state it clear again \, "classic mode"
+in Max/MSP is buggy as hell (and cycling 74 is aware of it). We have
+a reasonably good version \, but you shouldn't really bother to use
+it \, just saying...;
+#X text 34 181 In Max \, modern mode had the exponent inverted in relation
+to current max and cyclone prior to Max 6.0.4! Thus \, with an exponent
+of 2 \, the object behaved like it had an exponent of 0.5 (and vice
+versa). Max/MSP patches from versions prior to 6.0.4 may require updating
+to work properly in modern mode. But since this is the first version
+of this object in cyclone \, it doesn't have backwards compatibility
+issues in Pd!;
+#X connect 2 0 4 0;
+#X connect 3 0 11 0;
+#X connect 3 1 19 0;
+#X connect 4 0 12 0;
+#X connect 4 1 19 5;
+#X connect 5 0 2 0;
+#X connect 12 2 3 0;
+#X connect 19 0 11 1;
+#X restore 118 565 pd backwards compatibility \; classic mode and inconcistencies
 ;
 #X connect 0 0 2 0;
-#X connect 1 0 22 0;
-#X connect 1 1 35 0;
-#X connect 2 0 29 0;
-#X connect 2 1 35 5;
+#X connect 1 0 9 0;
+#X connect 1 1 14 0;
+#X connect 2 0 10 0;
+#X connect 2 1 14 5;
 #X connect 3 0 0 0;
-#X connect 13 0 15 0;
-#X connect 14 0 23 0;
-#X connect 14 1 24 0;
-#X connect 15 0 30 0;
-#X connect 15 1 24 5;
-#X connect 16 0 13 0;
-#X connect 24 0 23 1;
-#X connect 29 2 1 0;
-#X connect 30 2 14 0;
-#X connect 35 0 22 1;
-#X restore 444 179 pd Exponential \; Classic X Modern;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X text 94 93 [scale] maps an input range to an output range. Values
-larger or smaller than the input range will not be clipped to the output
-range. The mapping can be inverted and/or exponential.;
-#X text 157 314 bang - performs the scaling function on last received
-input;
-#X obj 114 256 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X text 103 597 @classic <0/1>;
-#X text 114 332 classic <f> -;
-#X text 197 332 sets to classic mode <classic 1> or modern mode <classic
-0>;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Map values to an
-output range;
-#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scale;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X connect 10 2 1 0;
+#X connect 14 0 9 1;
+#X restore 456 196 pd exponential;
+#X text 196 597 - 0 loads "modern" \, 1 loads "classic" (default 0
+\, modern);
 #X connect 8 0 9 0;
 #X connect 9 0 13 0;
-#X connect 13 0 39 0;
+#X connect 13 0 37 0;
