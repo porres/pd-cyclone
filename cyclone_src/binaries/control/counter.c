@@ -481,15 +481,17 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
                 else if(strcmp(cursym->s_name, "@compatmode") == 0){
                     compat = (int)curfloat;
                 }
-                else{
-                    toto errstate;
-                };
+                else
+                    {
+                    goto errstate;
+                    };
                 argc -= 2;
                 argv += 2;
             }
-            else{
+            else
+                {
                 goto errstate;
-            };
+                };
         };
     };
     

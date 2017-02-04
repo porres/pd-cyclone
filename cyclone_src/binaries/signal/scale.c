@@ -24,9 +24,6 @@ typedef struct _scale
 static t_class *scale_class;
 
 
-// ---------------------------------------------------
-// classic
-// ---------------------------------------------------
 void scale_classic(t_scale *x, t_floatarg f)
 {
     x->x_classic = (int)f;
@@ -132,6 +129,7 @@ static void *scale_new(t_symbol *s, int argc, t_atom *argv)
 				argv++;
 				argnum++;
         }
+        
 // attribute
         else if(argv -> a_type == A_SYMBOL){
             t_symbol *curarg = atom_getsymbolarg(0, argc, argv);

@@ -220,9 +220,7 @@ void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
 
 void scale_setexpo(t_scale *x, t_floatarg f)
 {
-  if(x->flag==1)
-    x->expo = ((f<1.)?1.:f);
-  else x->expo = ((f<0.)?0.:f);
+  x->flag == 1 ? x->expo = (x->expo < 1. ? 1. : x->expo) : x->expo = (x->expo < 0. ? 0. : x->expo);
   return;
 }
 
