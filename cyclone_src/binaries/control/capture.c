@@ -246,6 +246,40 @@ static void capture_free(t_capture *x)
 	freebytes(x->x_buffer, x->x_bufsize * sizeof(*x->x_buffer));
 }
 
+static void capture_anything(t_capture *x, t_symbol *s, int argc, t_atom * argv){
+    //basically copying over mtrack_anything here for not including list selectors 
+    if(s && argv){
+            if(strcmp(s->s_name, "list") != 0 || argv->a_type != A_FLOAT){
+                //copy list to new t_atom with symbol as first elt
+                int destpos = 0; //position in copied list
+                t_atom at[argc+1];
+                SETSYMBOL(&at[destpos], s);
+                destpos++;
+                int arrpos = 0; //position in arriving list
+                for(destpos=1; destpos<argc+1; destpos++){
+                    if((argv+arrpos)->a_type == A_FLOAT){
+                        t_float curfloat = atom_getfloatarg(arrpos, argc, argv);
+                        SETFLOAT(&at[destpos], curfloat);
+                    }
+                    else{
+                        t_symbol * cursym = atom_getsymbolarg(arrpos, argc, argv);
+                        SETSYMBOL(&at[destpos], cursym);
+                    };
+
+                //increment
+                arrpos++;
+                };
+                capture_list(x, s, argc+1, at);
+            }
+            else{
+                capture_list(x, s, argc, argv);
+             };
+        }
+        else{
+            capture_list(x, s, argc, argv);
+        };
+}
+
 static void *capture_new(t_symbol *s, int argc, t_atom * argv)
 {
     t_capture *x = 0;
@@ -311,6 +345,7 @@ void capture_setup(void)
 			      sizeof(t_capture), 0, A_GIMME, 0);
     class_addfloat(capture_class, capture_float);
     class_addlist(capture_class, capture_list);
+    class_addanything(capture_class, capture_anything);
     class_addmethod(capture_class, (t_method)capture_clear,
 		    gensym("clear"), 0);
     class_addmethod(capture_class, (t_method)capture_count,
