@@ -1,17 +1,14 @@
 /* Copyright (c) 2002-2003 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
-/* Added code for the stop, pause and resume messages, fjkraan, 20141202. */ 
+
+// Added code for the stop, pause and resume messages, fjkraan, 2014-12-02 (alpha57)
 
 #include "m_pd.h"
 #include "common/grow.h"
 #include "common/loud.h"
 
-/* #ifdef KRZYSZCZ
-//#define LINE_DEBUG
-#endif */
-
-#define LINE_MAXSIZE  128
+#define LINE_SIZE  128
 
 typedef struct _lineseg
 {
@@ -36,14 +33,9 @@ typedef struct _line
     int         x_pause;
     t_lineseg  *x_curseg;
     t_lineseg  *x_segs;
-    t_lineseg   x_segini[LINE_MAXSIZE];
+    t_lineseg   x_segini[LINE_SIZE];
     t_clock    *x_clock;
     t_outlet   *x_bangout;
-/* #ifdef LINE_DEBUG
-    int         dbg_nretargets;
-    int         dbg_exitpoint;
-    int         dbg_npoints;
-#endif */
 } t_line;
 
 static t_class *line_class;
@@ -51,13 +43,6 @@ static t_class *line_class;
 static void line_tick(t_line *x)
 {
     outlet_bang(x->x_bangout);
-/* #ifdef LINE_DEBUG
-    loudbug_post("exit point %d, after %d retarget calls",
-		 x->dbg_exitpoint, x->dbg_nretargets);
-    loudbug_post("at value %g, after last %d npoints, with inc %g, biginc %g",
-		 x->x_value, x->dbg_npoints, x->x_inc, x->x_biginc);
-    x->dbg_nretargets = x->dbg_exitpoint = x->dbg_npoints = 0;
-#endif */
 }
 
 static t_int *line_perform(t_int *w)
@@ -83,9 +68,6 @@ retarget:
 	float target = x->x_curseg->s_target;
 	float delta = x->x_curseg->s_delta;
     	int npoints = delta * x->x_ksr + 0.5;  /* LATER rethink */
-/* #ifdef LINE_DEBUG
-	x->dbg_nretargets++;
-#endif */
 	x->x_nsegs--;
 	x->x_curseg++;
     	while (npoints <= 0)
@@ -103,9 +85,6 @@ retarget:
 	    {
 		while (nblock--) *out++ = curval;
 		x->x_nleft = 0;
-/* #ifdef LINE_DEBUG
-		x->dbg_exitpoint = 1;
-#endif */
 		clock_delay(x->x_clock, 0);
 		x->x_retarget = 0;
 		return (w + 4);
@@ -117,9 +96,6 @@ retarget:
 	biginc = nblock * inc;
 	x->x_target = target;
     	x->x_retarget = 0;
-/* #ifdef LINE_DEBUG
-	x->dbg_npoints = npoints;
-#endif */
     }
     if (nxfer >= nblock)
     {
@@ -128,9 +104,6 @@ retarget:
 	    if (x->x_nsegs) x->x_retarget = 1;
 	    else
 	    {
-/* #ifdef LINE_DEBUG
-		x->dbg_exitpoint = 2;
-#endif */
 		clock_delay(x->x_clock, 0);
 	    }
 	    x->x_value = x->x_target;
@@ -155,9 +128,6 @@ retarget:
 	{
 	    while (nblock--) *out++ = curval;
 	    x->x_nleft = 0;
-/* #ifdef LINE_DEBUG
-	    x->dbg_exitpoint = 3;
-#endif */
 	    clock_delay(x->x_clock, 0);
 	}
     }
@@ -212,11 +182,11 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     odd = natoms % 2;
     nsegs = natoms / 2;
     if (odd) nsegs++;
-    if (nsegs > LINE_MAXSIZE) nsegs = LINE_MAXSIZE;
+    if (nsegs > x->x_size)
     {
 	int ns = nsegs;
 	x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
-				LINE_MAXSIZE, x->x_segini,
+				LINE_SIZE, x->x_segini,
 				sizeof(*x->x_segs));
 	if (ns < nsegs)
 	{
@@ -226,27 +196,18 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
 	}
     }
     x->x_nsegs = nsegs;
-/* #ifdef LINE_DEBUG
-    loudbug_post("%d segments:", x->x_nsegs);
-#endif */
     segp = x->x_segs;
     if (odd) nsegs--;
     while (nsegs--)
     {
 	segp->s_target = av++->a_w.w_float;
 	segp->s_delta = av++->a_w.w_float;
-/* #ifdef LINE_DEBUG
-	loudbug_post("%g %g", segp->s_target, segp->s_delta);
-#endif */
 	segp++;
     }
     if (odd)
     {
 	segp->s_target = av->a_w.w_float;
 	segp->s_delta = 0;
-/* #ifdef LINE_DEBUG
-	loudbug_post("%g %g", segp->s_target, segp->s_delta);
-#endif */
     }
     x->x_deltaset = 0;
     x->x_target = x->x_segs->s_target;
@@ -254,17 +215,6 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     x->x_retarget = 1;
     x->x_pause = 0;
 }
-
-#if 0  // ?
-static void line_stop(t_line *x)
-{
-    x->x_target = x->x_value;
-    x->x_nleft = 0;
-    x->x_retarget = 0;
-    x->x_nsegs = 0;
-    x->x_curseg = 0;
-}
-#endif
 
 static void line_dsp(t_line *x, t_signal **sp)
 {
@@ -302,7 +252,7 @@ static void *line_new(t_floatarg f)
     x->x_deltaset = 0;
     x->x_nleft = 0;
     x->x_retarget = 0;
-    x->x_size = LINE_MAXSIZE;
+    x->x_size = LINE_SIZE;
     x->x_nsegs = 0;
     x->x_pause = 0;
     x->x_segs = x->x_segini;
