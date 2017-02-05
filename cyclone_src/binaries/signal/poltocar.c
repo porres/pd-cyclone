@@ -13,7 +13,6 @@ typedef struct _poltocar
     t_outlet  *x_out2;
     t_glist  *x_glist;
     t_float *x_signalscalar;
-    t_float x_badfloat;
     t_int      x_hasfeeders;
 } t_poltocar;
 
@@ -30,10 +29,9 @@ static t_int *poltocar_perform(t_int *w)
     t_float *out1 = (t_float *)(w[5]);
     t_float *out2 = (t_float *)(w[6]);
 // MAGIC: poll float for error
-    t_float scalar = *x->x_signalscalar;
-    if (scalar != x->x_badfloat)
-    {
-        x->x_badfloat = scalar;
+    if (!isnan(*x->x_signalscalar))
+	{
+		*x->x_signalscalar = NAN;
         pd_error(x, "poltocar~: doesn't understand 'float'");
     }
     while (nblock--)
@@ -55,11 +53,10 @@ static t_int *poltocar_perform_no_in(t_int *w)
     int nblock = (int)(w[2]);
     t_float *out1 = (t_float *)(w[4]);
     t_float *out2 = (t_float *)(w[6]);
-    t_float scalar = *x->x_signalscalar;
-    if (scalar != x->x_badfloat)
-    {
-        x->x_badfloat = scalar;
-        pd_error(x, "inlet: expected 'signal' but got 'float'");
+    if (!isnan(*x->x_signalscalar))
+	{
+		*x->x_signalscalar = NAN;
+        pd_error(x, "poltocar~: doesn't understand 'float'");
     }
     while (nblock--)
     {
@@ -85,6 +82,7 @@ static void *poltocar_new(void)
     outlet_new((t_object *)x, &s_signal);
     x->x_glist = canvas_getcurrent();
     x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
+    *x->x_signalscalar = NAN;
     x->x_out2 = outlet_new((t_object *)x, &s_signal);
     return (x);
 }

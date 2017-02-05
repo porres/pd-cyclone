@@ -111,9 +111,9 @@ void *scale_new(t_symbol *s, int argc, t_atom *argv)
       if(isclassic && argc>=1) {
 	t_symbol *arg = atom_getsymbolarg(1,argc,argv);
 	if(arg == &s_) {
-	  t_int dummy = atom_getintarg(1,argc,argv);
-	  if(dummy==0)
-	    x->flag = 0;
+	  t_int dummy = atom_getintarg(1, argc, argv);
+	  if(dummy == 1)
+	    x->flag = 1;
 	  argc-=2;
 	  argv+=2;
 	}
@@ -170,8 +170,7 @@ void scale_ft(t_scale *x, t_floatarg f)
   x->in = x->f_in = f;
   check(x);
   t_float temp = ptrtoscaling(x, f);
-  SETFLOAT(x->output_list, temp);
-  outlet_list(x->float_outlet,0,x->ac,x->output_list);
+  outlet_float(x->float_outlet, temp);
   return;
 }
 
