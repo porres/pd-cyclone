@@ -89,26 +89,24 @@ static void poke_redraw_force(t_poke *x){
     poke_tick(x);
 }
 
-/*
-static void poke_bang(t_poke *x)
-{
-    arsic_redraw((t_arsic *)x);
-}
-*/
-
 /* CHECKED: index 0-based, negative values block input, overflowed are clipped.
    LATER revisit: incompatibly, the code below is nop for any out-of-range index
-   (see also peek.c) */
-/* CHECKED: value never clipped, 'clip' not understood */
+   (see also peek.c) */ // <= this looks like a bug, index 0 never written with signal (porres)
+
+/* CHECKED: value never clipped, 'clip' not understood */ // ??? (porres)
+
 /* CHECKED: no float-to-signal conversion.  'Float' message is ignored
    when dsp is on -- whether a signal is connected to the left inlet, or not
    (if not, current index is set to zero).  Incompatible (revisit LATER) */
+
+// not true, it should write when the dsp is on! (porres 2017)
+
 static void poke_float(t_poke *x, t_float f)
 {
 
     t_cybuf *c = x->x_cybuf;
     t_word *vp = c->c_vectors[0];
-    //second arg is to allow error posting
+    //second arg is to allow error posting // ??? (porres)
     cybuf_validate(c, 1);  /* LATER rethink (efficiency, and complaining) */
     if (vp)
     {
@@ -159,7 +157,6 @@ static t_int *poke_perform(t_int *w)
 static void poke_dsp(t_poke *x, t_signal **sp)
 {
     cybuf_checkdsp(x->x_cybuf);
-   // arsic_dsp((t_arsic *)x, sp, poke_perform, 0);
     dsp_add(poke_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
@@ -172,9 +169,7 @@ static void poke_free(t_poke *x)
 
 static void *poke_new(t_symbol *s, t_floatarg f)
 {
-    //like peek~, changing so it doesn't default to 0 but 1 for the new cybuf
-    //single channel mode, not sure how much of a diff it makes... - DK
-    int ch = (f < 1) ? 1 : (f > CYBUF_MAXCHANS) ? CYBUF_MAXCHANS : (int) f;
+    int ch = (f < 1) ? 1 : (f > CYBUF_MAXCHANS) ? CYBUF_MAXCHANS : (int)f;
 	t_poke *x = (t_poke  *)pd_new(poke_class);
 
     x->x_cybuf = cybuf_init((t_class *) x, s, 1, ch);
@@ -185,10 +180,14 @@ static void *poke_new(t_symbol *s, t_floatarg f)
 	/* CHECKED: no float-to-signal conversion.
 	   Floats in 2nd inlet are ignored when dsp is on, but only if a signal
 	   is connected to this inlet.  Incompatible (revisit LATER). */
+        
+        // not true, it should write when the dsp is on! (porres 2017)
+        
 	x->x_idxlet = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
 
         //plucked from old unstable/fragile.c. found in pd's m_obj.c, basically plucks the float value
-        //from the signal witout the float-to-signal conversion, I think... - DK
+        //from the signal without the float-to-signal conversion, I think... - DK
+        
 	x->x_indexptr = &(x->x_idxlet)->i_un.iu_floatsignalvalue;
 	inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft2"));
 	x->x_clock = clock_new(x, (t_method)poke_tick);
@@ -207,7 +206,6 @@ void poke_tilde_setup(void)
 			   A_DEFSYM, A_DEFFLOAT, 0);
     class_domainsignalin(poke_class, -1);
     class_addfloat(poke_class, poke_float);
-    //class_addbang(poke_class, poke_bang); 
     class_addmethod(poke_class, (t_method)poke_dsp, gensym("dsp"), 0);
     class_addmethod(poke_class, (t_method)poke_set,
 		    gensym("set"), A_SYMBOL, 0);
