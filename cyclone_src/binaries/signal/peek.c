@@ -8,6 +8,7 @@
 #include "m_pd.h"
 #include "cybuf.h"
 #define PEEK_MAXCHANNELS  64  /* LATER implement arsic resizing feature */
+#define PEEK_TICK_TIME  2  //
 
 typedef struct _peek
 {
@@ -66,10 +67,10 @@ static void peek_float(t_peek *x, t_float f)
 		vp[ndx].w_float = (x->x_clipmode ? peek_doclip(val) : val);
 		x->x_pokemode = 0;
 		timesince = clock_gettimesince(x->x_clocklasttick);
-		if (timesince > 1000) peek_tick(x);
+		if (timesince > PEEK_TICK_TIME) peek_tick(x);
 		else if (!x->x_clockset)
 		{
-		    clock_delay(x->x_clock, 1000 - timesince);
+		    clock_delay(x->x_clock, PEEK_TICK_TIME - timesince);
 		    x->x_clockset = 1;
 		}
 	    }

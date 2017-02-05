@@ -372,7 +372,7 @@ static void *capture_new(t_symbol *s, int ac, t_atom *av)
 	else if (precision > CAPTURE_MAXPRECISION)  /* CHECKME */
 	    precision = CAPTURE_MAXPRECISION;
 	if (x->x_precision = precision)
-	    sprintf(x->x_format, "%%.%dg", precision);
+	    sprintf(x->x_format, "%%.%df", precision);
 	x->x_indices = indices;
 	x->x_szindices = szindices;
 	x->x_nindices = nindices;
