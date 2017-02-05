@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include "m_pd.h"
+#include "g_canvas.h"
 #include "hammer/file.h"
 
 #define IS_A_POINTER(atom,index) ((atom+index)->a_type == A_POINTER)
@@ -57,11 +58,13 @@ static void loadmess_bang(t_loadmess *x)
     outlet_pointer(x->x_obj.ob_outlet, (t_gpointer *)x->x_at->a_w.w_gpointer);
 }
 
-static void loadmess_loadbang(t_loadmess *x)
+static void loadmess_loadbang(t_loadmess *x, t_floatarg action)
 {
-  if(!sys_noloadbang) {
+  if(!sys_noloadbang && action == LB_LOAD) {
     if(!x->defer)
+	{
       loadmess_bang(x);
+    }
     else clock_delay(x->x_clock, x->defer);
   }
   else clock_unset(x->x_clock);
@@ -240,7 +243,7 @@ void loadmess_setup(void)
 {
   loadmess_class = class_new(gensym("loadmess"), (t_newmethod)loadmess_new,
 			     (t_method)loadmess_free, sizeof(t_loadmess), 0, A_GIMME, 0);
-  class_addmethod(loadmess_class, (t_method)loadmess_loadbang, gensym("loadbang"), 0);
+  class_addmethod(loadmess_class, (t_method)loadmess_loadbang, gensym("loadbang"), A_DEFFLOAT, 0);
   class_addmethod(loadmess_class, (t_method)loadmess_set, gensym("set"),A_GIMME,0);
   class_addbang(loadmess_class, (t_method)loadmess_bang);
   class_addmethod(loadmess_class, (t_method)loadmess_click, gensym("click"),
