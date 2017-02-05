@@ -3,11 +3,16 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include <stdio.h>
+#include <string.h>
 #include "m_pd.h"
 #include "common/loud.h"
 #include "hammer/file.h"
 
 #define CAPTURE_DEFSIZE  512
+#define CAPTURE_DEFPREC 64 //default precision
+#define CAPTURE_MINPREC 1 //minimum preision
+//not sure what's planned for precision Matt but i'll just put 64 here for 64 bits for now 
+//and then delete these two lines of comments after you're done - DK
 
 typedef struct _capture
 {
@@ -19,6 +24,7 @@ typedef struct _capture
     int            x_count;
     int            x_counter;
     int            x_head;
+    int            x_precision;
     t_outlet * x_count_outlet;
     t_hammerfile  *x_filehandle;
 } t_capture;
@@ -240,26 +246,53 @@ static void capture_free(t_capture *x)
 	freebytes(x->x_buffer, x->x_bufsize * sizeof(*x->x_buffer));
 }
 
-static void *capture_new(t_symbol *s, t_floatarg f)
+static void *capture_new(t_symbol *s, int argc, t_atom * argv)
 {
     t_capture *x = 0;
     float *buffer;
-    int bufsize = (int)f;  /* CHECKME */
-    if (bufsize <= 0)  /* CHECKME */
-	bufsize = CAPTURE_DEFSIZE;
+    int bufsize;
+    int precision;
+    t_float _bufsize = CAPTURE_DEFSIZE;
+    t_float _precision = CAPTURE_DEFPREC;
+    t_symbol * dispfmt = NULL;
+    while(argc){
+        if(argv->a_type == A_FLOAT){
+            _bufsize = atom_getfloatarg(0, argc, argv);
+            argc--;
+            argv++;
+        }
+        else if(argv->a_type == A_SYMBOL){
+            t_symbol * curargt = atom_getsymbolarg(0, argc, argv);
+            argc--;
+            argv++;
+            if((strcmp(curargt->s_name, "@precision") == 0) && argc){
+                _precision = atom_getfloatarg(0, argc, argv);
+                argc--;
+                argv++;
+            }
+            else{
+                dispfmt = curargt;
+            };
+        };
+    };
+    
+    precision = _precision > CAPTURE_MINPREC ? (int)_precision : CAPTURE_MINPREC;
+    bufsize = _bufsize > 0 ? (int)_bufsize : CAPTURE_DEFSIZE; 
+    
     if (buffer = getbytes(bufsize * sizeof(*buffer)))
     {
 	x = (t_capture *)pd_new(capture_class);
 	x->x_canvas = canvas_getcurrent();
-	if (s && s != &s_)
+	if (dispfmt)
 	{
-	    if (s == gensym("x"))
+	    if (dispfmt == gensym("x"))
 		x->x_intmode = 'x';
-	    else if (s == gensym("m"))
+	    else if (dispfmt == gensym("m"))
 		x->x_intmode = 'm';
 	    else
 		x->x_intmode = 'd';  /* ignore floats */
-	}
+	};
+        x->x_precision = precision;
 	x->x_buffer = buffer;
 	x->x_bufsize = bufsize;
 	outlet_new((t_object *)x, &s_float);
@@ -275,7 +308,7 @@ void capture_setup(void)
     capture_class = class_new(gensym("capture"),
 			      (t_newmethod)capture_new,
 			      (t_method)capture_free,
-			      sizeof(t_capture), 0, A_DEFFLOAT, A_DEFSYM, 0);
+			      sizeof(t_capture), 0, A_GIMME, 0);
     class_addfloat(capture_class, capture_float);
     class_addlist(capture_class, capture_list);
     class_addmethod(capture_class, (t_method)capture_clear,
