@@ -16,7 +16,6 @@ static t_class *kink_class;
 
 typedef struct _kink {
     t_object x_obj;
-    //t_inlet  *x_slope_inlet;
     t_float x_slope;
     t_glist *x_glist;
     t_float *x_signalscalar;
@@ -35,7 +34,7 @@ static t_int *kink_perform(t_int *w)
     t_float *in2 = (t_float *)(w[4]);
     t_float *out = (t_float *)(w[5]);
     t_float *scalar = x->x_signalscalar;
-    if (*scalar <= 0.0)
+    if (*scalar < 0.0)
     {
     	pd_error(x, "kink~: illegal float value %.2f", *scalar);
     	*scalar = x->x_slope;
@@ -45,8 +44,11 @@ static t_int *kink_perform(t_int *w)
     {
 		t_float slope;
 		t_float iph = *in1++;
-		if (x->x_hasfeeders)
-			slope = *in2++;
+        if (x->x_hasfeeders)
+            {
+            slope = *in2++;
+            if (slope < 0) slope = 0;
+            }
 		else
 			slope = x->x_slope;
 		if (slope)
@@ -71,11 +73,6 @@ static void kink_dsp(t_kink *x, t_signal **sp)
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
-// static void *kink_free(t_kink *x)
-// {
-//     inlet_free(x->x_slope_inlet);
-//     return (void *)x;
-// }
 
 static void *kink_new(t_floatarg f)
 {
