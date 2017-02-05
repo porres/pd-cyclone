@@ -15,7 +15,7 @@ typedef struct _plusequals
 // Magic
     t_glist *x_glist;
     t_float *x_signalscalar;
-    int x_hasfeeders;;
+    int x_hasfeeders;
 
 } t_plusequals;
 
