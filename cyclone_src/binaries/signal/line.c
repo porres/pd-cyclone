@@ -8,7 +8,7 @@
 #include "common/grow.h"
 #include "common/loud.h"
 
-#define LINE_SIZE  128
+#define LINE_MAX_SIZE  128
 
 typedef struct _lineseg
 {
@@ -33,7 +33,7 @@ typedef struct _line
     int         x_pause;
     t_lineseg  *x_curseg;
     t_lineseg  *x_segs;
-    t_lineseg   x_segini[LINE_SIZE];
+    t_lineseg   x_segini[LINE_MAX_SIZE];
     t_clock    *x_clock;
     t_outlet   *x_bangout;
 } t_line;
@@ -183,18 +183,17 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     nsegs = natoms / 2;
     if (odd) nsegs++;
     if (nsegs > x->x_size)
-    {
-	int ns = nsegs;
-	x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
-				LINE_SIZE, x->x_segini,
-				sizeof(*x->x_segs));
-	if (ns < nsegs)
-	{
-	    natoms = ns * 2;
-	    nsegs = ns;
-	    odd = 0;
-	}
-    }
+        {
+        int ns = nsegs;
+        x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
+            LINE_MAX_SIZE, x->x_segini, sizeof(*x->x_segs));
+        if (ns < nsegs)
+            {
+            natoms = ns * 2;
+            nsegs = ns;
+            odd = 0;
+            }
+        }
     x->x_nsegs = nsegs;
     segp = x->x_segs;
     if (odd) nsegs--;
@@ -252,7 +251,7 @@ static void *line_new(t_floatarg f)
     x->x_deltaset = 0;
     x->x_nleft = 0;
     x->x_retarget = 0;
-    x->x_size = LINE_SIZE;
+    x->x_size = LINE_MAX_SIZE;
     x->x_nsegs = 0;
     x->x_pause = 0;
     x->x_segs = x->x_segini;

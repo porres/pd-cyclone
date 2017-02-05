@@ -8,10 +8,6 @@
 #include "common/loud.h"
 #include "common/clc.h"
 
-#ifdef KRZYSZCZ
-//#define CURVE_DEBUG
-#endif
-
 /* CHECKED apparently c74's formula has not been carefully tuned (yet?).
    It has 5% deviation from the straight line for ccinput = 0 at half-domain,
    range 1, and generates nans for ccinput > .995 (cf comment in clc.h). */
@@ -20,6 +16,7 @@
 // updated 2016 by Derek Kwan to change arg specification to A_GIMME
 // and add defaults for initial value and curve param.
 // also adding factor message that calls curve_factor (new method)
+
 #define PDCYCURVEINITVAL 0.
 #define PDCYCURVEPARAM 0.
 #define CURVE_MAXSIZE  42
@@ -58,11 +55,6 @@ typedef struct _curve
     t_curveseg  x_segini[CURVE_MAXSIZE];
     t_clock     *x_clock;
     t_outlet    *x_bangout;
-#ifdef CURVE_DEBUG
-    int          dbg_nretargets;
-    int          dbg_exitpoint;
-    int          dbg_nhops;
-#endif
 } t_curve;
 
 static t_class *curve_class;
@@ -74,22 +66,11 @@ static void curve_cc(t_curve *x, t_curveseg *segp, float f)
     segp->s_ccinput = f;
     segp->s_nhops = (nhops > 0 ? nhops : 0);
     clccurve_coefs(segp->s_nhops, (double)f, &segp->s_bb, &segp->s_mm);
-#ifdef CURVE_DEBUG
-    loudbug_post("%g %g %g %g",
-		 segp->s_target, segp->s_delta, segp->s_bb, segp->s_mm);
-#endif
 }
 
 static void curve_tick(t_curve *x)
 {
     outlet_bang(x->x_bangout);
-#ifdef CURVE_DEBUG
-    loudbug_post("exit point %d, after %d retarget calls",
-		 x->dbg_exitpoint, x->dbg_nretargets);
-    loudbug_post("at value %g, after last %d nhops, with bb %g, mm %g",
-		 x->x_value, x->dbg_nhops, x->x_bb, x->x_mm);
-    x->dbg_nretargets = x->dbg_exitpoint = x->dbg_nhops = 0;
-#endif
 }
 
 static t_int *curve_perform(t_int *w)
@@ -123,9 +104,6 @@ retarget:
 	    dy = x->x_value - target;
 	else
 	    dy = target - x->x_value;
-#ifdef CURVE_DEBUG
-	x->dbg_nretargets++;
-#endif
 	x->x_nsegs--;
 	x->x_curseg++;
     	while (nhops <= 0)
@@ -149,9 +127,6 @@ retarget:
 	    {
 		while (nblock--) *out++ = curval;
 		x->x_nleft = 0;
-#ifdef CURVE_DEBUG
-		x->dbg_exitpoint = 1;
-#endif
 		clock_delay(x->x_clock, 0);
 		x->x_retarget = 0;
 		return (w + 4);
@@ -165,9 +140,6 @@ retarget:
 	x->x_y0 = y0 = x->x_value;
 	x->x_target = target;
     	x->x_retarget = 0;
-#ifdef CURVE_DEBUG
-	x->dbg_nhops = nhops;
-#endif
     }
     if (nxfer >= nblock)
     {
@@ -182,9 +154,6 @@ retarget:
 	    if (x->x_nsegs) x->x_retarget = 1;
 	    else
 	    {
-#ifdef CURVE_DEBUG
-		x->dbg_exitpoint = 2;
-#endif
 		clock_delay(x->x_clock, 0);
 	    }
 	    x->x_value = x->x_target;
@@ -211,9 +180,6 @@ retarget:
 	{
 	    while (nblock--) *out++ = curval;
 	    x->x_nleft = 0;
-#ifdef CURVE_DEBUG
-	    x->dbg_exitpoint = 3;
-#endif
 	    clock_delay(x->x_clock, 0);
 	}
     }
@@ -231,9 +197,6 @@ static void curve_float(t_curve *x, t_float f)
 	x->x_curseg = x->x_segs;
 	x->x_curseg->s_target = f;
 	x->x_curseg->s_delta = x->x_delta;
-#ifdef CURVE_DEBUG
-	loudbug_startpost("single segment: ");
-#endif
 	curve_cc(x, x->x_curseg, x->x_ccinput);
     	x->x_retarget = 1;
     }
@@ -273,23 +236,21 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     odd = natoms % 3;
     nsegs = natoms / 3;
     if (odd) nsegs++;
-    if (nsegs > x->x_size) nsegs = CURVE_MAXSIZE;
-    {
-	int ns = nsegs;
-	x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
+    if (nsegs > x->x_size)
+        {
+        nsegs = CURVE_MAXSIZE;
+        int ns = nsegs;
+        x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
 				CURVE_MAXSIZE, x->x_segini,
 				sizeof(*x->x_segs));
-	if (ns < nsegs)
-	{
-	    natoms = ns * 3;
-	    nsegs = ns;
-	    odd = 0;
-	}
-    }
+        if (ns < nsegs)
+            {
+            natoms = ns * 3;
+            nsegs = ns;
+            odd = 0;
+            }
+        }
     x->x_nsegs = nsegs;
-#ifdef CURVE_DEBUG
-    loudbug_post("%d segments:", x->x_nsegs);
-#endif
     segp = x->x_segs;
     if (odd) nsegs--;
     while (nsegs--)
@@ -314,18 +275,6 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     x->x_retarget = 1;
     x->x_pause = 0;
 }
-
-/* CHECKED no stop, pity... */
-#if 0
-static void curve_stop(t_curve *x)
-{
-    x->x_target = x->x_value;
-    x->x_nleft = 0;
-    x->x_retarget = 0;
-    x->x_nsegs = 0;
-    x->x_curseg = 0;
-}
-#endif
 
 static void curve_dsp(t_curve *x, t_signal **sp)
 {
@@ -357,31 +306,22 @@ static void curve_factor(t_curve *x, t_float f){
 
 };
 
-////////////////////////////////////////////////
-// STOP
-////////////////////////////////////////////////
+
 static void curve_stop(t_curve *x)
 {
     x->x_nsegs = 0;
     x->x_nleft = 0;
 }
 
-////////////////////////////////////////////////
-// PAUSE
-////////////////////////////////////////////////
 static void curve_pause(t_curve *x)
 {
     x->x_pause = 1;
 }
 
-////////////////////////////////////////////////
-// RESUME
-////////////////////////////////////////////////
 static void curve_resume(t_curve *x)
 {
     x->x_pause = 0;
 }
-
 
 static void curve_free(t_curve *x)
 {
@@ -461,5 +401,4 @@ void curve_tilde_setup(void)
                     gensym("pause"), 0);
     class_addmethod(curve_class, (t_method)curve_resume,
                     gensym("resume"), 0);
-    
 }
