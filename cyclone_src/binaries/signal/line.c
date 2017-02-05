@@ -184,7 +184,7 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     if (odd) nsegs++;
     if (nsegs > x->x_size)
         {
-        int ns = nsegs;
+        int ns = nsegs = LINE_MAX_SIZE;
         x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
             LINE_MAX_SIZE, x->x_segini, sizeof(*x->x_segs));
         if (ns < nsegs)
