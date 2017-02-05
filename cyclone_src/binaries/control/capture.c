@@ -9,7 +9,8 @@
 #include "hammer/file.h"
 
 #define CAPTURE_DEFSIZE  512
-#define CAPTURE_DEFPREC 64 //default precision
+#define CAPTURE_DEFPREC 4 //default precision
+#define CAPTURE_MAXPREC 99 //
 #define CAPTURE_MINPREC 1 //minimum preision
 //not sure what's planned for precision Matt but i'll just put 64 here for 64 bits for now 
 //and then delete these two lines of comments after you're done - DK
@@ -42,6 +43,14 @@ static void capture_float(t_capture *x, t_float f)
 	x->x_count++;
     if (x->x_counter < x->x_bufsize)
         x->x_counter++;
+}
+
+static void capture_precision(t_capture *x, t_float f)
+{
+	int precision;
+	precision = f > CAPTURE_MINPREC ? (int)f : CAPTURE_MINPREC;
+    precision = precision > CAPTURE_MAXPREC ? CAPTURE_MAXPREC : precision;
+    x->x_precision = precision;
 }
 
 static void capture_list(t_capture *x, t_symbol *s, int ac, t_atom *av)
@@ -103,14 +112,15 @@ static int capture_formatint(int i, char *buf, int col,
     return (col);
 }
 
-static int capture_formatfloat(float f, char *buf, int col,
+static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
 			       int maxcol, char *fmt)
 {
     char *bp = buf;
+    int precision = x->x_precision;
     int cnt = 0;
     if (col > 0)
-	*bp++ = ' ', cnt++;
-    cnt += sprintf(bp, fmt, f);
+		*bp++ = ' ', cnt++;
+    cnt += sprintf(bp, fmt, f, precision);
     if (col + cnt > maxcol)
 	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
     else
@@ -129,7 +139,7 @@ static int capture_formatnumber(t_capture *x, float f, char *buf,
     else if (intmode)
 	col = capture_formatint((int)f, buf, col, maxcol, "%d");
     else
-	col = capture_formatfloat(f, buf, col, maxcol, "%g");
+	col = capture_formatfloat(x, f, buf, col, maxcol, "%.*f");
     return (col);
 }
 
@@ -311,6 +321,7 @@ static void *capture_new(t_symbol *s, int argc, t_atom * argv)
     };
     
     precision = _precision > CAPTURE_MINPREC ? (int)_precision : CAPTURE_MINPREC;
+    precision = precision > CAPTURE_MAXPREC ? CAPTURE_MAXPREC : precision;
     bufsize = _bufsize > 0 ? (int)_bufsize : CAPTURE_DEFSIZE; 
     
     if (buffer = getbytes(bufsize * sizeof(*buffer)))
@@ -346,6 +357,8 @@ void capture_setup(void)
     class_addfloat(capture_class, capture_float);
     class_addlist(capture_class, capture_list);
     class_addanything(capture_class, capture_anything);
+    class_addmethod(capture_class, (t_method)capture_precision,
+    	gensym("precision"), A_FLOAT, 0);
     class_addmethod(capture_class, (t_method)capture_clear,
 		    gensym("clear"), 0);
     class_addmethod(capture_class, (t_method)capture_count,
