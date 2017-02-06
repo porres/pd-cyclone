@@ -4,7 +4,10 @@
 
 /*2016 - making COLLTHREAD,COLLEMBED, coll_embed, attribute parsing,
 redundant insert2, edit to not autosort in collcommon_tonumkey,
-adding coll_renumber2 and collcommon_renumber2 - Derek Kwan
+adding coll_renumber2 and collcommon_renumber2
+before used to always bang on callback, now only bangs now due to new x->x_filebang
+(which i'm not sure works with hammerpanel_open....)
+- Derek Kwan
 */
 
 #include <stdio.h>
@@ -79,6 +82,7 @@ typedef struct _coll
     t_outlet      *x_dumpbangout;
     int           x_threaded;
     int           x_nosearch;
+    int           x_filebang; //if we're expecting to bang out 3rd outlet
     struct _coll  *x_next;
 
 	//for thread-unsafe file i/o operations
@@ -201,8 +205,11 @@ static void coll_tick(t_coll *x)
 	{
 		coll_q_post(x->x_q);
 		coll_q_free(x);
-	}
-    outlet_bang(x->x_filebangout);
+	};
+        if(x->x_filebang){
+            outlet_bang(x->x_filebangout);
+            x->x_filebang = 0;
+        };
 }
 
 static t_collelem *collelem_new(int ac, t_atom *av, int *np, t_symbol *s)
@@ -872,7 +879,7 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 
 static void collcommon_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 {
-    collcommon_doread((t_collcommon *)z, fn, 0, 0);
+    t_msg * msg = collcommon_doread((t_collcommon *)z, fn, 0, 0);
 }
 
 static void collcommon_tobinbuf(t_collcommon *cc, t_binbuf *bb)
@@ -1082,6 +1089,7 @@ static void coll_bind(t_coll *x, t_symbol *name)
                if(msg->m_line > 0){
                     //bang if file read successful
                     //need to use clock bc x not returned yet - DK
+                    x->x_filebang = 1;
                     clock_delay(x->x_clock, 0);
                 };
 		
@@ -1096,6 +1104,12 @@ static void coll_bind(t_coll *x, t_symbol *name)
 					  collcommon_writehook,
 					  collcommon_editorhook);
     }
+    else{
+        //bang if you find collcommon existing already 
+        x->x_filebang = 1;
+        clock_delay(x->x_clock, 0);
+    };
+
     x->x_common = cc;
     x->x_name = name;
     x->x_next = cc->c_refs;
@@ -1839,7 +1853,12 @@ static void coll_read(t_coll *x, t_symbol *s)
 				//collcommon_doread(cc, s, x->x_canvas, 0);
 			}
 			else {
-				collcommon_doread(cc, s, x->x_canvas, 0);
+				t_msg * msg = collcommon_doread(cc, s, x->x_canvas, 0);
+
+                                if(msg->m_line > 0){
+                                    x->x_filebang = 1;
+                                };
+                                
 			}
 		}
 		else
@@ -1884,7 +1903,11 @@ static void coll_readagain(t_coll *x)
 				//collcommon_doread(cc, 0, 0, 0);
 			}
 			else {
-				collcommon_doread(cc, 0, 0, 0);
+				t_msg * msg = collcommon_doread(cc, 0, 0, 0);
+     
+                                if(msg->m_line > 0){
+                                    x->x_filebang = 1;
+                                };
 			}
 		}
 		else
@@ -2039,12 +2062,18 @@ static void *coll_threaded_fileio(void *ptr)
 			m = collcommon_doread(x->x_common, x->x_s, x->x_canvas, 1);
 			if (m->m_flag)
 				coll_enqueue_threaded_msgs(x, m);
+                        if(m->m_line > 0){
+                            x->x_filebang = 1;
+                        };
 			clock_delay(x->x_clock, 0);
 		}
 		else if (x->unsafe == 2) { //read
 			m = collcommon_doread(x->x_common, 0, 0, 1);
 			if (m->m_flag)
 				coll_enqueue_threaded_msgs(x, m);
+                        if(m->m_line > 0){
+                            x->x_filebang = 1;
+                        };
 			clock_delay(x->x_clock, 0);
 		}
 		else if (x->unsafe == 10) { //write
@@ -2165,6 +2194,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 
     x->x_threaded = threaded;
     x->x_nosearch = no_search;
+    x->x_filebang = 0;
 	// if no file name provided, associate with empty symbol
 	if (file == NULL)
 		file = &s_;
