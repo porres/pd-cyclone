@@ -200,10 +200,23 @@ static void vectral_free(t_vectral *x)
 	freebytes(x->x_lastframe, x->x_bufsize * sizeof(*x->x_lastframe));
 }
 
+static void vectral_size(t_vectral *x, t_floatarg f)
+{
+    int size = (int)f;
+    if (size < 64) size = 64;
+    x->x_bufsize = size;
+}
+
+static void vectral_clear(t_vectral *x)
+{
+// not sure what to do
+}
+
 static void *vectral_new(t_floatarg f)
 {
     t_vectral *x = (t_vectral *)pd_new(vectral_class);
     int i = (int)f;
+    if (i < 64) i = 64;
     x->x_bufsize = (i > 0 ? i : VECTRAL_DEFSIZE);
     if (!(x->x_buffer = getbytes(x->x_bufsize * sizeof(*x->x_buffer))))
 	goto failure;
@@ -227,6 +240,9 @@ void vectral_tilde_setup(void)
 			      sizeof(t_vectral), 0, A_DEFFLOAT, 0);
     class_addmethod(vectral_class, nullfn, gensym("signal"), 0);
     class_addmethod(vectral_class, (t_method)vectral_dsp, gensym("dsp"), A_CANT, 0);
+    class_addmethod(vectral_class, (t_method)vectral_size,
+                    gensym("size"), A_DEFFLOAT, 0);
+    class_addmethod(vectral_class, (t_method)vectral_clear, gensym("clear"), 0);
     class_addmethod(vectral_class, (t_method)vectral_rampsmooth,
 		    gensym("rampsmooth"), A_GIMME, 0);
     class_addmethod(vectral_class, (t_method)vectral_slide,
