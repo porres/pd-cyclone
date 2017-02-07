@@ -51,8 +51,7 @@ static void deltaclip_dsp(t_deltaclip *x, t_signal **sp)
 
 static void deltaclip_reset(t_deltaclip *x)
 {
-	pd_float((t_pd *)x->x_lolet, DELTACLIP_DEFLO);
-	pd_float((t_pd *)x->x_hilet, DELTACLIP_DEFHI);
+    x->x_last = 0;
 }
 
 static void *deltaclip_free(t_deltaclip *x)

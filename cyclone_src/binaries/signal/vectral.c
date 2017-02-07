@@ -81,12 +81,12 @@ static void vectral_perform_slide(t_vectral *x, int nblock,
     {
 	int ondx = (int)*in1++;
 	if (ondx >= 0 && ondx < bufsize)
-	{
+        {
 	    /* CHECKME what is smoothed, and FIXME */
 	    float delta = buf[ondx] - *last;
 	    *out++ =
 		(*last++ += (delta > 0 ? delta * upcoef : delta * downcoef));
-	}
+        }
 	else *out++ = *last++ = 0.;
     }
 }
