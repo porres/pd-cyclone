@@ -61,11 +61,11 @@ static void past_float(t_past *x, t_float f)
 
 static void past_list(t_past *x, t_symbol *s, int ac, t_atom *av)
 {
-    if (ac && ac <= x->x_nthresh)
+    if (ac && ac <= x->x_nthresh) // ignore lists that have more elements than args?
         {
 	    int result;
 	    t_atom *vp = x->x_thresh;
-	    if (av->a_type == A_FLOAT
+	    if (av->a_type == A_FLOAT // ignore symbols?
 	    && (result = past_compare(x, av->a_w.w_float, vp)) >= 0)
 	        {
 	        if (!result)
@@ -73,7 +73,7 @@ static void past_list(t_past *x, t_symbol *s, int ac, t_atom *av)
 		       for (ac--, av++, vp++; ac; ac--, av++, vp++)
 		            {
 		            if (av->a_type != A_FLOAT
-			        || (result = past_compare(x, av->a_w.w_float, vp++)) < 0)
+			        && (result = past_compare(x, av->a_w.w_float, vp++)) < 0)
 		                 {
 			             x->x_low = 1;
 			             return;
@@ -110,7 +110,6 @@ static void past_set(t_past *x, t_symbol *s, int ac, t_atom *av)
 	}
 	x->x_nthresh = ac;
 	while (ac--) *vp++ = *av++;
-	/* CHECKED: x_low is not set here */
     }
 }
 
