@@ -2,19 +2,16 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* CHECKED:
-    bang for a float at > (refman error: >=)
-    bang for a list if all >= (refman page says the same)
-    bang for a list if any is >, even if the rest (but not previous) is <
-    well...
-*/
+/* porres 2017, fixing list weirdness behaviour cause it has no practical purpose and basically
+   ruins the whole purpose of comparing lists...
+   we shouldn't replicate max bugs if they ruin the object */
 
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/fitter.h"
 
-#define PAST_C74MAXSIZE  8  /* CHECKED */
+#define PAST_C74MAXSIZE  8  // RECHECK
 
 typedef struct past
 {
@@ -31,74 +28,67 @@ static t_class *past_class;
 static int past_compare(t_past *x, t_float f, t_atom *ap)
 {
     if (ap->a_type == A_FLOAT)
-    {
-	if (f > ap->a_w.w_float)
-	    return (1);
-	else if (f == ap->a_w.w_float)
-	    return (0);
-	else
-	    return (-1);
-    }
+        {
+        if (f > ap->a_w.w_float) return (1);
+        else if (f == ap->a_w.w_float) return (0);
+        else return (-1);
+        }
     else  /* CHECKED */
-    {
-	if (f > 0.)
-	    return (1);
-	else if (f == 0.)
-	    return (0);
-	else
-	    return (-1);
+        {
+        if (f > 0.) return (1);
+        else if (f == 0.) return (0);
+        else return (-1);
     }
 }
 
 static void past_float(t_past *x, t_float f)
 {
     if (x->x_nthresh == 1)
-    {
-	if (past_compare(x, f, x->x_thresh) > 0)  /* CHECKED: equal is low */
-	{
-	    if (x->x_low)
-	    {
-		x->x_low = 0;
-		outlet_bang(((t_object *)x)->ob_outlet);
-	    }
-	}
-	else x->x_low = 1;
-    }
+        {
+	    if (past_compare(x, f, x->x_thresh) >= 0)
+	         {
+	         if (x->x_low)
+	             {
+		         x->x_low = 0;
+		         outlet_bang(((t_object *)x)->ob_outlet);
+	             }
+	          }
+        else x->x_low = 1;
+        }
     else if (past_compare(x, f, x->x_thresh) < 0) x->x_low = 1;
 }
 
-/* CHECKME: x_low handling */
+
 static void past_list(t_past *x, t_symbol *s, int ac, t_atom *av)
 {
     if (ac && ac <= x->x_nthresh)
-    {
-	int result;
-	t_atom *vp = x->x_thresh;
-	if (av->a_type == A_FLOAT
+        {
+	    int result;
+	    t_atom *vp = x->x_thresh;
+	    if (av->a_type == A_FLOAT
 	    && (result = past_compare(x, av->a_w.w_float, vp)) >= 0)
-	{
-	    if (!result)
-	    {
-		for (ac--, av++, vp++; ac; ac--, av++, vp++)
-		{
-		    if (av->a_type != A_FLOAT
-			|| (result =
-			    past_compare(x, av->a_w.w_float, vp++)) < 0)
-		    {
-			x->x_low = 1;
-			return;
-		    }
-		    if (result) break;
-		}
-	    }
-	    if (x->x_low)
-	    {
-		x->x_low = 0;
-		outlet_bang(((t_object *)x)->ob_outlet);
-	    }
-	}
-	else x->x_low = 1;
-    }
+	        {
+	        if (!result)
+	           {
+		       for (ac--, av++, vp++; ac; ac--, av++, vp++)
+		            {
+		            if (av->a_type != A_FLOAT
+			        || (result = past_compare(x, av->a_w.w_float, vp++)) < 0)
+		                 {
+			             x->x_low = 1;
+			             return;
+                         }
+                    if (result) break;
+		            }
+                }
+	         if (x->x_low)
+	            {
+		        x->x_low = 0;
+		        outlet_bang(((t_object *)x)->ob_outlet);
+	            }
+	         }
+	         else x->x_low = 1;
+          }
 }
 
 static void past_clear(t_past *x)
