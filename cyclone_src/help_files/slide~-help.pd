@@ -30,7 +30,7 @@
 #X obj 159 272 cyclone/slide~ 44100 44100;
 #X text 216 607 - initial slide up time in samples (default 1);
 #X text 216 624 - initial slide down time in samples (default 1);
-#X obj 159 207 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 159 207 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X text 141 392 0;
 #X text 141 300 1;
@@ -67,8 +67,8 @@ following and lowpass filtering.;
 #X text 217 481 - sets the current output sample value to 0 (the next
 incoming value will smoothly transition from that 0);
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -137,7 +137,7 @@ incoming value will smoothly transition from that 0);
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -176,6 +176,7 @@ incoming value will smoothly transition from that 0);
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 slide~;
+#X msg 108 239 reset;
 #X connect 8 0 20 2;
 #X connect 10 0 20 1;
 #X connect 11 0 20 0;
@@ -185,3 +186,4 @@ cloned from Max/MSP;
 #X connect 30 0 8 0;
 #X connect 31 0 10 0;
 #X connect 32 0 8 0;
+#X connect 51 0 20 0;

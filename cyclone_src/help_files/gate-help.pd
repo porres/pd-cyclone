@@ -77,13 +77,13 @@ of 'n' specified outlets or none of them.;
 #X text 186 407 - 'n' outlets for routing any received message;
 #X text 190 175 float;
 #X text 405 133 other messages;
-#X text 186 446 - 'n' number of outlets (1 to 500 \, default 1);
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Route message to
 an outlet;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 gate;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 186 446 - 'n' number of outlets (1 to 100 \, default 1);
 #X connect 5 0 33 1;
 #X connect 7 0 14 0;
 #X connect 13 0 45 1;

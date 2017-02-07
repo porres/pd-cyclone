@@ -1,24 +1,24 @@
-#N canvas 676 23 559 563 10;
-#X obj 2 339 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 676 23 558 479 10;
+#X obj 2 258 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 377 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 296 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 459 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 378 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 101 351 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 270 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 101 388 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 307 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 101 410 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 101 329 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 545 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 464 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 524 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 440 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 133 390 float;
-#X text 133 411 float;
-#X text 174 470 -;
-#X text 116 470 1) float;
+#X text 133 309 float;
+#X text 133 330 float;
+#X text 174 389 -;
+#X text 116 389 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -29,48 +29,43 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 171 234 midiin;
-#X obj 217 297 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 171 153 midiin;
+#X obj 226 216 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 150 297 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 159 216 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 133 351 float;
-#X text 174 351 - raw MIDI stream input;
-#X text 429 238 see also;
-#X obj 416 263 cyclone/xbendin;
-#X obj 171 267 cyclone/xbendin2;
-#X floatatom 296 298 5 0 0 0 - - -, f 5;
-#X text 294 318 MIDI Channel;
-#X obj 101 431 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 133 270 float;
+#X text 174 270 - raw MIDI stream input;
+#X text 429 157 see also;
+#X obj 416 182 cyclone/xbendin;
+#X obj 171 186 cyclone/xbendin2, f 19;
+#X text 285 235 MIDI Channel;
+#X obj 101 350 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 133 432 float;
-#X text 174 390 - the most significant 7-bits (MSB);
-#X text 174 411 - the least significant 7-bits (LSB);
-#X text 163 317 MSB;
-#X text 229 318 LSB;
-#X text 409 286 another version of;
-#X text 417 303 the same object;
-#X text 174 432 - MIDI channel number (if no channel is set \, see
+#X text 133 351 float;
+#X text 174 309 - the most significant 7-bits (MSB);
+#X text 174 330 - the least significant 7-bits (LSB);
+#X text 172 234 MSB;
+#X text 238 235 LSB;
+#X text 409 205 another version of;
+#X text 417 222 the same object;
+#X text 174 351 - MIDI channel number (if no channel is set \, see
 below);
-#X text 188 470 sets channel number - if no channel is set (default)
+#X text 188 389 sets channel number - if no channel is set (default)
 \, the object has an extra right outlet that outputs the MIDI channel
 number.;
-#X text 97 175 [xbendin2] retrieves the Most and Least Significant
-Byte (7-bits values) from pitch bend messages of incoming raw MIDI
-data. Both can be combined to generate a 14-bit value.;
-#X obj 113 95 cnv 15 290 65 empty empty empty 20 12 0 14 -248754 -66577
-0;
-#X text 143 120 just use [bendin] from Pd Vanilla \, this;
-#X text 143 135 is considered unnecessary and obsolete!;
+#X text 97 94 [xbendin2] retrieves the Most and Least Significant Byte
+(7-bits values) from pitch bend messages of incoming raw MIDI data.
+Both can be combined to generate a 14-bit value.;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Retrieve 14-bit pitch
 bend messages;
-#X obj 133 100 cyclone/comment 0 15 times ? 0 0 0 0 Avoid using this
-object!;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 xbendin2;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 296 216 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
 #X connect 16 0 23 0;
 #X connect 23 0 18 0;
 #X connect 23 1 17 0;
-#X connect 23 2 24 0;
+#X connect 23 2 40 0;

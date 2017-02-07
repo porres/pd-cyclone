@@ -329,6 +329,8 @@ have a modern mode by default.;
 #X restore 461 220 pd exponential;
 #X text 204 594 - 0 loads "modern" \, 1 loads "classic" (default 0
 \, modern);
+#X text 202 182 <= input;
+#X text 259 269 <= scaled value;
 #X connect 8 0 37 0;
 #X connect 22 0 35 0;
 #X connect 35 0 42 0;

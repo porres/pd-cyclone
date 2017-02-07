@@ -36,8 +36,6 @@ no output, f 63;
 , f 63;
 #X text 0 304 ----------------------------------------------------------------------------------
 , f 82;
-#X text 114 258 prints current settings state on the Pd window, f
-63;
 #X text 114 6 sets to "carrybang" mode: sends bangs at count rounds
 , f 63;
 #X text 114 22 sets to "carryint" mode (default): sends "1" at the
@@ -49,6 +47,8 @@ end of a count round \, "0" at the start of the next round, f 63;
 #X text 114 176 outputs next value (same as bang), f 63;
 #X text 114 147 sets counter to that value and outputs it - values
 outside the range are ignored, f 63;
+#X text 114 258 (in any inlet) prints current settings state on the
+Pd window, f 63;
 #X restore 382 216 pd All_Messages;
 #X obj 2 185 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -142,7 +142,7 @@ range \, it resets min/max according to compatmode (see example above)
 (see example above), f 72;
 #N canvas 444 139 768 348 compatmode 0;
 #X obj 84 314 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 7 256;
+-228856 -1 -1 0 256;
 #X obj 36 208 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 184 236 nbx 4 14 -5 5 0 0 empty empty empty 0 -8 0 10 -228856
@@ -231,7 +231,7 @@ the 2nd is for compatmode (0: current \, 1: ancient).;
 #X restore 465 138 pd compatmode;
 #N canvas 539 59 748 402 carrymode 0;
 #X obj 171 250 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X obj 171 161 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 212 249 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
@@ -239,7 +239,7 @@ the 2nd is for compatmode (0: current \, 1: ancient).;
 #X obj 253 249 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 294 251 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X floatatom 212 275 2 0 0 0 - - -, f 2;
 #X floatatom 253 275 2 0 0 0 - - -, f 2;
 #X obj 201 144 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
@@ -349,41 +349,41 @@ to 'carrybang';
 #X text 172 502 counts how many times the counter reached the maximum
 , f 61;
 #N canvas 459 159 824 356 more 0;
-#X obj 146 253 hsl 128 15 0 100 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 142 253 hsl 128 15 0 100 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 143 318 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 139 318 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 143 284 cyclone/counter;
-#X msg 565 68 state;
-#X obj 130 151 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -228856
+#X obj 139 284 cyclone/counter;
+#X msg 557 67 state;
+#X obj 126 151 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -228856
 -1 -1 5;
-#X obj 130 173 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 126 173 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 130 64 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 126 64 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 412 33 The 'state'message reports the current settings of [counter]
+#X text 401 32 The 'state'message reports the current settings of [counter]
 on the Pd window.;
-#X obj 613 68 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 605 67 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 538 68 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 530 67 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 130 88 metro 150;
-#X obj 663 127 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 126 88 metro 150;
+#X obj 655 126 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 614 127 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 606 126 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 565 101 cyclone/counter 0 1 5, f 25;
-#X msg 712 65 state;
-#X obj 130 116 cyclone/counter 7;
-#X text 32 202 A float in the leftmost inlet is the same as a bang
+#X obj 557 100 cyclone/counter 0 1 5, f 25;
+#X msg 704 64 state;
+#X obj 126 116 cyclone/counter 7;
+#X text 28 202 A float in the leftmost inlet is the same as a bang
 \, so you can bcount how many floats have been received.;
-#X text 23 17 An example of usage: - Setup a [metro] to turn [counter]
+#X text 19 17 An example of usage: - Setup a [metro] to turn [counter]
 into a step sequencer \, such as the 8-step example below.;
-#X obj 565 128 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 557 127 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 712 128 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 704 127 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 423 160 x_mincount: - the minimum value \; x_maxcount: - the
+#X text 412 159 x_mincount: - the minimum value \; x_maxcount: - the
 maximum value \; x_direction: - the direction mode: 0/1/2 (up/down/updown)
 \; x_curcount: - the current count value \; x_curdir: - the current
 direction: 0/1 (up/down) \; x_carrycount: - how many times it reached
@@ -531,7 +531,7 @@ up to down or vice versa (it switches from mode 0 to 1 or from 1 to
 #X connect 40 0 36 0;
 #X connect 47 0 8 0;
 #X restore 483 75 pd basic_1;
-#N canvas 513 89 814 515 basic_2 1;
+#N canvas 513 89 814 515 basic_2 0;
 #X msg 115 332 set \$1;
 #X obj 115 366 counter 10;
 #X obj 174 335 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856

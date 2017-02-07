@@ -1,4 +1,4 @@
-#N canvas 815 23 558 592 10;
+#N canvas 553 23 558 592 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
 #X obj 2 371 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -27,7 +27,7 @@
 #X text 146 418 bang;
 #X text 146 438 bang;
 #X text 115 469 1) symbol;
-#N canvas 720 23 644 580 All_Messages 0;
+#N canvas 653 116 644 580 All_Messages 0;
 #X text 119 181 length -;
 #X text 131 241 next -;
 #X text 131 301 open -;
@@ -729,7 +729,7 @@ collection of another [coll] object with another name or filename.
 #X connect 5 0 2 0;
 #X connect 5 1 1 0;
 #X restore 532 154 pd refer;
-#N canvas 414 72 457 654 named_coll 0;
+#N canvas 525 71 457 654 named_coll 0;
 #X obj 31 254 loadbang;
 #X obj 200 316 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -919,7 +919,6 @@ name address instead of the int address.;
 #C restore;
 #X obj 531 166 loadbang;
 #X msg 561 235 one;
-#X floatatom 531 363 5 0 0 0 - - -, f 5;
 #X floatatom 151 300 3 0 0 0 - - -, f 3;
 #X symbolatom 128 326 7 0 0 0 - - -, f 7;
 #X text 125 77 click to associate / deassociate;
@@ -927,7 +926,7 @@ name address instead of the int address.;
 #X text 255 315 not the alias;
 #X text 73 324 data =>;
 #X text 602 247 alias;
-#X text 570 363 data;
+#X text 592 363 data;
 #X text 409 44 The format in which the alias is saved inside the [coll]
 object is: "<int> <alias> \, <data>".;
 #X msg 531 191 nstore 1 one 1.1 \, nstore two 2 2.2;
@@ -936,13 +935,16 @@ object is: "<int> <alias> \, <data>".;
 "nstore" message. The first two elements are the int address and the
 alias \, and they can come in any order <int \, symbol> or <symbol
 \, int> - the remaining element(s) set the stored data.;
-#X floatatom 554 333 5 0 0 0 - - -, f 5;
-#X text 594 332 address;
+#X text 614 332 address;
 #X text 37 369 * Once you have an associated alias \, you can perform
 any operation using the alias insteas of the int address \, such as
 removing the address from the collection.;
-#X connect 0 0 23 0;
-#X connect 0 1 22 0;
+#X obj 531 364 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 554 332 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X connect 0 0 22 0;
+#X connect 0 1 21 0;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -954,12 +956,12 @@ removing the address from the collection.;
 #X connect 9 0 0 0;
 #X connect 15 0 3 0;
 #X connect 16 0 0 0;
-#X connect 18 0 21 0;
-#X connect 18 1 34 0;
-#X connect 19 0 31 0;
+#X connect 18 0 35 0;
+#X connect 18 1 36 0;
+#X connect 19 0 30 0;
 #X connect 20 0 18 0;
+#X connect 30 0 18 0;
 #X connect 31 0 18 0;
-#X connect 32 0 18 0;
 #X restore 525 234 pd alias \; nstore;
 #X obj 462 69 comment 0 18 times ? 0 0 0 0 More Examples:;
 #X obj 204 276 print finish_dump;
@@ -1000,23 +1002,19 @@ data \, then close it and save it. The format for each line is: adrress
 #X text 165 314 -;
 #X text 180 332 1st element is an int address to store remaining data
 to, f 59;
-#N canvas 336 23 810 540 threaded 0;
+#N canvas 413 197 810 540 threaded 0;
 #X obj 66 187 osc~ 440;
 #X obj 223 142 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 314 245 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 346 245 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 340 249 finished;
+#X text 289 246 finished;
 #X obj 49 232 ./out~;
 #X text 250 143 2) click and check;
 #X text 47 154 1) raise the volume;
-#X obj 236 219 coll threaded_test 1;
-#C restore;
-#X obj 507 180 coll threaded_test 1 @threaded 0;
-#C restore;
 #X obj 223 282 timer;
 #X obj 223 306 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 51930 256;
 #X text 292 298 time in ms it took;
 #X text 295 314 to read the file;
 #X msg 558 152 threaded \$1;
@@ -1033,7 +1031,6 @@ their patches.;
 ;
 #X obj 49 379 comment 0 18 times ? 0 0 0 0 Backwards Compatibility
 issues:;
-#X msg 236 180 read 300k.txt;
 #X text 18 91 Below \, [coll] loads 300 thousand entries from a file
 \, which would cause an audio drop out if not in threaded mode.;
 #X text 18 15 From cyclone 0.3-alpha1 \, [coll] is threaded by default.
@@ -1042,23 +1039,20 @@ This allows the read and dump operations to run in a separate thread
 rely on the bangs from the 3rd and 4th outlets as a signal the operations
 have been completed.;
 #N canvas 676 23 503 504 depth-first 0;
-#X msg 144 122 read 3k.txt;
 #X msg 48 150 threaded \$1;
-#X obj 48 122 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 48 122 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X obj 144 85 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 286 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X msg 286 278 2;
-#X msg 363 276 1;
 #X obj 286 332 print;
 #X obj 144 151 trigger bang anything bang, f 37;
 #X obj 363 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 144 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X msg 144 278 3;
 #X text 173 90 <= click and check the printed order;
 #X text 42 102 try in both;
 #X text 78 122 modes;
@@ -1075,20 +1069,23 @@ for [coll] in any case.;
 #X text 77 436 For old patches that used [trigger] instead of the best
 practice \, it is encouraged that they are adapted to use the 3rd/4th
 outlets now and not the "threaded 0" attribute.;
-#X connect 0 0 8 0;
-#X connect 1 0 16 0;
-#X connect 2 0 1 0;
-#X connect 3 0 0 0;
+#X msg 144 122 read coll_big.txt;
+#X msg 144 278 3;
+#X msg 363 276 ===== \, 1;
+#X connect 0 0 13 0;
+#X connect 1 0 0 0;
+#X connect 2 0 16 0;
+#X connect 3 0 4 0;
 #X connect 4 0 5 0;
-#X connect 5 0 7 0;
-#X connect 6 0 7 0;
-#X connect 8 0 10 0;
-#X connect 8 1 16 0;
-#X connect 8 2 9 0;
-#X connect 9 0 6 0;
-#X connect 10 0 11 0;
-#X connect 11 0 7 0;
-#X connect 16 2 4 0;
+#X connect 6 0 8 0;
+#X connect 6 1 13 0;
+#X connect 6 2 7 0;
+#X connect 7 0 18 0;
+#X connect 8 0 17 0;
+#X connect 13 2 3 0;
+#X connect 16 0 6 0;
+#X connect 17 0 5 0;
+#X connect 18 0 5 0;
 #X restore 677 321 pd depth-first;
 #X text 441 265 An important difference is that the threaded version
 breaks the depth first rule \, while unthreaded keeps it (but at the
@@ -1107,9 +1104,9 @@ the threaded functionality as an argument \, but as an attribute as
 shown above. Another change \, already mentioned \, is that the threaded
 functionality is now the default.;
 #X msg 507 145 dump;
-#X obj 696 216 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 744 216 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 640 219 finished;
+#X text 688 219 finished;
 #X msg 383 187 threaded \$1;
 #X obj 383 157 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -1120,21 +1117,26 @@ extra attribute ("@threaded 1" (default) for threaded and "@threaded
 0" for unthreaded behaviour) or message. Check it in both modes below
 and see below how now the unthreaded mode freezes the DSP.;
 #X text 509 92 3) now try dump;
+#X msg 236 180 read coll_big.txt;
+#X obj 236 219 cyclone/coll threaded_test 1;
+#C restore;
+#X obj 507 180 cyclone/coll threaded_test 1 @threaded 0;
+#C restore;
 #X connect 0 0 4 0;
 #X connect 0 0 4 1;
-#X connect 1 0 20 0;
-#X connect 1 0 9 0;
-#X connect 2 0 9 1;
-#X connect 7 2 2 0;
-#X connect 8 3 30 0;
-#X connect 9 0 10 0;
-#X connect 13 0 8 0;
-#X connect 14 0 13 0;
-#X connect 15 0 29 0;
-#X connect 20 0 7 0;
-#X connect 29 0 8 0;
-#X connect 32 0 7 0;
-#X connect 33 0 32 0;
+#X connect 1 0 35 0;
+#X connect 1 0 7 0;
+#X connect 2 0 7 1;
+#X connect 7 0 8 0;
+#X connect 11 0 37 0;
+#X connect 12 0 11 0;
+#X connect 13 0 26 0;
+#X connect 26 0 37 0;
+#X connect 29 0 36 0;
+#X connect 30 0 29 0;
+#X connect 35 0 36 0;
+#X connect 36 2 2 0;
+#X connect 37 3 27 0;
 #X restore 463 233 pd threaded \; & backwards \; compatibility;
 #X text 82 314 float/symbol;
 #X text 180 315 an "int float" or "symbol" address: outputs the stored

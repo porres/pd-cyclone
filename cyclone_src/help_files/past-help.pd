@@ -1,24 +1,24 @@
-#N canvas 622 23 558 532 10;
-#X obj 2 309 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 473 23 558 513 10;
+#X obj 2 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 401 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 399 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 436 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 101 319 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 317 cnv 17 3 75 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 101 416 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 410 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 490 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 474 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X msg 222 189 set 25;
-#X msg 231 214 clear;
-#X obj 162 269 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
+#X msg 244 193 set 25;
+#X msg 252 219 clear;
+#X obj 184 279 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
 -1 -1;
-#X text 178 342 -;
-#X text 144 342 list;
-#X text 178 416 -;
-#X text 145 416 bang;
+#X text 178 340 -;
+#X text 144 340 list;
+#X text 178 410 -;
+#X text 145 410 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -29,222 +29,59 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X text 193 416 if input went past the limit or list or limits;
-#X text 90 464 1) float/list;
-#X text 112 379 set <list> -;
-#X text 142 361 clear -;
-#X text 142 321 float -;
-#X text 193 321 value to check if went past the limit, f 52;
-#X text 193 342 values to check if went past the limit, f 52;
-#X text 179 464 - value(s) of initial limit(s) - required (no defaults)
+#X text 90 448 1) float/list;
+#X text 112 377 set <list> -;
+#X text 142 359 clear -;
+#X text 142 319 float -;
+#X text 193 319 value to check if went past the limit, f 52;
+#X text 193 340 values to check if went past the limit, f 52;
+#X text 193 377 sets the limit to one or more values;
+#X text 193 359 clears the memory so a next input may trigger a bang
 ;
-#X text 193 379 sets the limit to one or more values;
-#X text 193 361 clears the memory so a next input may trigger a bang
-;
-#N canvas 394 23 941 605 list_behaviour 0;
-#X obj 65 229 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 158 246 The behaviour with floats and lists is consistent with
-the Max implementation \, but not the Max5 documentation;
-#X text 156 94 The numbers in the list are compared to the arguments.
-If all of the numbers in the list are greater than or equal to the
-corresponding arguments \, a bang is sent out the outlet. Before a
-bang is sent again \, however \, past must receive a clear message
-\, or must receive another list in which the number that equaled or
-exceeded its argument goes back below (is less than) its argument.
-;
-#N canvas 446 123 445 372 weirdness 0;
-#X obj 81 249 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X floatatom 11 67 5 0 0 0 - - -, f 5;
-#X msg 81 67 set 10 20 30;
-#X obj 11 91 t f f;
-#X msg 125 110 20 30 40;
-#X msg 125 90 0 0 0;
-#X msg 125 130 40 20 wrdlbrnft;
-#X msg 335 85 11 22 33;
-#X obj 306 248 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
--1;
-#X msg 306 61 0 0 0;
-#X msg 357 106 11 33;
-#X msg 371 126 33;
-#X text 33 300 > item is greater than (>) a corresponding threshold
-\, or if;
-#X text 34 312 > _all_ list elements are greater or equal (>=). That
-is how;
-#X text 34 324 > it looks like in Max but I might be wrong ...;
-#X text 33 288 > its list handling is weird indeed \, it bangs if _any_
-list;
-#X text 78 31 now theses are a bit strange:;
-#X text 34 271 this is a quote from an email Krzysztof Czaja sent:
-;
-#X obj 81 188 cyclone/past 2 5;
-#X obj 306 192 cyclone/past 10 20 30;
-#X obj 2 2 cnv 15 440 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 5 3 different behaviour for floats and lists;
-#X obj 11 115 pack f f;
-#X connect 1 0 3 0;
-#X connect 2 0 18 0;
-#X connect 3 0 22 0;
-#X connect 3 1 22 1;
-#X connect 4 0 18 0;
-#X connect 5 0 18 0;
-#X connect 6 0 18 0;
-#X connect 7 0 19 0;
-#X connect 9 0 19 0;
-#X connect 10 0 19 0;
-#X connect 11 0 19 0;
-#X connect 18 0 0 0;
-#X connect 19 0 8 0;
-#X connect 22 0 18 0;
-#X restore 453 465 pd weirdness;
-#N canvas 272 48 805 643 diff 0;
-#X obj 501 389 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg 550 72 10 20;
-#X obj 153 391 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg 232 177 9 19 29;
-#X msg 182 52 10 20 30;
-#X msg 227 155 9 22 33;
-#X msg 240 263 33;
-#X msg 236 221 10 19 33;
-#X msg 558 94 11 19;
-#X msg 571 114 11 22;
-#X msg 593 171 9 19;
-#X msg 598 191 9 22;
-#X msg 603 212 10 19;
-#X msg 612 254 33;
-#X msg 586 151 9;
-#X text 641 82 these report;
-#X text 658 180 these don't;
-#X msg 203 74 10 22;
-#X msg 608 232 11 22 33;
-#X msg 239 242 10 20 30 40;
-#X text 255 63 these report;
-#X text 310 201 these don't;
-#X msg 448 359 clear;
-#X msg 96 351 clear;
-#X msg 233 198 10;
-#X obj 153 352 past 10 20 30;
-#X obj 501 356 past 10 20;
-#X msg 218 97 11 0 0;
-#X text 24 478 - all elements of the list are equal or greater than
-the argument list;
-#X text 25 506 - the list is shorter than the argument list \, but
-the elements are equal or greater than their argument counterpart;
-#X text 26 547 - the first element is greater than the first argument
-element. There must be one other element \, its value is ignored;
-#X text 24 590 The bang is not send if the list is larger that the
-argument list;
-#X text 408 445 The Max5 documentation states that an equal or greater
-value in all cases is reason to send a bang \, for ints \, float and
-all list elements. No information on smaller or larger lists., f 61
-;
-#X obj 2 2 cnv 15 800 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 3 4 past - behaviour differences with Max5;
-#X text 22 451 The behaviour of Pd and Max5 with lists is the same
-\, but not very consistent: the bang is send if:;
-#X connect 1 0 26 0;
-#X connect 3 0 25 0;
-#X connect 4 0 25 0;
-#X connect 5 0 25 0;
-#X connect 6 0 25 0;
-#X connect 7 0 25 0;
-#X connect 8 0 26 0;
-#X connect 9 0 26 0;
-#X connect 10 0 26 0;
-#X connect 11 0 26 0;
-#X connect 12 0 26 0;
-#X connect 13 0 26 0;
-#X connect 14 0 26 0;
-#X connect 17 0 25 0;
-#X connect 18 0 26 0;
-#X connect 19 0 25 0;
-#X connect 22 0 26 0;
-#X connect 23 0 25 0;
-#X connect 24 0 25 0;
-#X connect 25 0 23 0;
-#X connect 25 0 2 0;
-#X connect 26 0 22 0;
-#X connect 26 0 0 0;
-#X connect 27 0 25 0;
-#X restore 437 485 pd diff with Max5;
-#X obj 408 427 cyclone/comment 182 11 helvetica ? 0 80 80 80 for more
-information about matters between [past] object and list please see
-the subpatches below:;
-#X msg 142 410 60 127 1 250;
-#X msg 172 440 60 63 1 250;
-#X obj 142 482 cyclone/past 60 64 1 250;
-#X obj 142 525 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
--1 -1;
-#X obj 229 410 cyclone/comment 122 11 helvetica ? 0 80 80 80 triggers
-a bang;
-#X obj 251 442 cyclone/comment 122 11 helvetica ? 0 80 80 80 must go
-below before bang can be triggered;
-#X obj 396 357 cyclone/comment 196 11 helvetica ? 0 80 80 80 to use
-[past] object with lists without matters we need to compare lists of
-the same length \, If it's restriction has been attended it should
-work properly;
-#X obj 112 360 cyclone/comment 228 11 helvetica ? 0 80 80 80 only if
-each element in received list are equal or greater than the element
-in same position in argument list [past] will send a bang;
-#X obj 699 301 print past;
-#X obj 782 298 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
--1 -1;
-#X msg 647 176 0 8 20;
-#X obj 699 257 cyclone/past 0 10 20;
-#X msg 699 176 0 10 20;
-#X msg 756 176 2 10 20;
-#X msg 760 211 set 0 10 20;
-#X msg 775 230 set 2 10 20;
-#X obj 646 158 cyclone/comment 143 11 helvetica ? 0 80 80 80 can be
-used with lists...;
-#X msg 655 422 0 8 20;
-#X msg 707 422 0 10 20;
-#X msg 764 422 2 10 20;
-#X msg 768 457 set 0 10 20;
-#X msg 783 476 set 2 10 20;
-#X obj 654 404 cyclone/comment 143 11 helvetica ? 0 80 80 80 can be
-used with lists...;
-#X obj 711 545 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X text 758 541 crashy...;
-#X text 761 565 only once;
-#X obj 707 503 cyclone/past 0 1 20;
-#X connect 6 0 8 0;
-#X connect 7 0 8 0;
-#X connect 8 0 9 0;
-#X connect 16 0 17 0;
-#X connect 17 0 14 0;
-#X connect 17 0 15 0;
-#X connect 18 0 17 0;
-#X connect 19 0 17 0;
-#X connect 20 0 17 0;
-#X connect 21 0 17 0;
-#X connect 23 0 32 0;
-#X connect 24 0 32 0;
-#X connect 25 0 32 0;
-#X connect 26 0 32 0;
-#X connect 27 0 32 0;
-#X connect 32 0 29 0;
-#X restore 425 270 pd list_behaviour;
-#X obj 165 162 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 187 166 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 162 189 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 184 193 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 162 242 cyclone/past 63.5;
-#X text 70 99 [past] sends a bang when an input raises past a given
-limit value. The input needs to fall back to this limit or below it
-for another bang to be output when it raises again.;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Check if input increases
 past a limit;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 past;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 6 0 30 0;
-#X connect 7 0 30 0;
-#X connect 28 0 29 0;
-#X connect 29 0 30 0;
-#X connect 30 0 8 0;
+#X obj 184 255 cyclone/past 63.5;
+#X text 193 410 if input is >= threshold value(s) but last input wasn't
+;
+#X text 179 448 - value(s) of initial threshold(s) - required (no defaults)
+;
+#X text 70 93 [past] sends a bang when an input is equal to or greater
+a threshold value and the last value was below it. The input needs
+to fall back below the threshold for another bang to be output when
+it reaches it or goes past it again.;
+#X text 104 179 compare to threshold =>, f 12;
+#X text 290 194 sets new threshold;
+#X text 294 214 clears last input \, so a new input may trigger if
+>= the threshold, f 33;
+#X text 296 255 <= initial threshold;
+#N canvas 923 218 415 314 lists 0;
+#X obj 144 249 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
+-1 -1;
+#X text 19 20 You can set a list of values for comparison with an input
+list \, this is done via arguments or a "set" message. The numbers
+of an input list can then be compared. If the last input had any element
+lesser than a corresponding argument and the current input has all
+elements equal or greater than the arguments \, a bang is sent.;
+#X msg 144 134 60 127 1 256;
+#X obj 144 206 cyclone/past 60 64 1 128;
+#X msg 174 164 30 63 0 100;
+#X msg 95 157 clear;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X restore 485 275 pd lists;
+#X text 172 478 related to [threshold~] / [thresh~];
+#X connect 6 0 31 0;
+#X connect 7 0 31 0;
+#X connect 25 0 26 0;
+#X connect 26 0 31 0;
+#X connect 31 0 8 0;

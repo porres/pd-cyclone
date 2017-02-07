@@ -116,7 +116,6 @@ teeth~.class.sources := cyclone_src/binaries/signal/teeth.c
 train~.class.sources := cyclone_src/binaries/signal/train.c
 trapezoid~.class.sources := cyclone_src/binaries/signal/trapezoid.c
 triangle~.class.sources := cyclone_src/binaries/signal/triangle.c
-vectral~.class.sources := cyclone_src/binaries/signal/vectral.c
 zerox~.class.sources := cyclone_src/binaries/signal/zerox.c
 # NEW ones in cyclone0.3:
 atodb~.class.sources := cyclone_src/binaries/signal/atodb.c
@@ -328,6 +327,7 @@ shared/unstable/forky.c
     gate~.class.sources := cyclone_src/binaries/signal/gate.c $(sforky)
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(sforky)
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(sforky)
+    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(sforky)
 
 sgrowclc := \
 shared/common/grow.c \
@@ -391,7 +391,7 @@ cyclone_src/help_files/violin.wav \
 cyclone_src/help_files/stereo.aif \
 cyclone_src/help_files/seq.mid \
 cyclone_src/help_files/seq.txt \
-cyclone_src/help_files/300k.txt \
+cyclone_src/help_files/coll_big.txt \
 cyclone_src/help_files/coll.txt \
 cyclone_src/help_files/funbuff.txt \
 cyclone_src/cyclone-meta.pd \

@@ -165,7 +165,7 @@
 ;
 #X text 86 178 Use [cyclone/abs~]* to get the absolute function for
 signals and convert negative values to positive values.;
-#X text 183 255 * needs "cyclone/" to differentiate from vanilla;
+#X text 183 257 * needs "cyclone/" to differentiate from vanilla;
 #X obj 388 355 cyclone/abs~;
 #X text 386 294 click and drag;
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 abs~;

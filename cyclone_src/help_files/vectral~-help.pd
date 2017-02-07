@@ -1,103 +1,25 @@
-#N canvas 618 83 566 662 10;
-#X obj 9 622 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 605 58 560 564 10;
+#X obj 4 526 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 9 383 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 304 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 9 539 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 4 461 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 9 576 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 493 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 90 393 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 99 310 cnv 17 3 100 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 90 548 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 98 470 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 137 180 0 0 0 0 - - -;
-#X floatatom 62 180 0 0 0 0 - - -;
-#X floatatom 313 181 0 0 0 0 - - -;
-#X floatatom 244 180 0 0 0 0 - - -;
-#X floatatom 211 180 0 0 0 0 - - -;
-#X floatatom 166 180 0 0 0 0 - - -;
-#X obj 90 484 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 98 415 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 157 548 signal;
-#X text 149 589 1) float;
-#X obj 90 511 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 175 470 signal;
+#X text 163 503 1) float;
+#X obj 98 438 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 155 510 signal;
-#X text 56 161 rampsmooth:;
-#X text 163 160 slide:;
-#X text 244 162 deltaclip:;
-#X text 215 483 - unused;
-#X text 155 483 signal;
-#X text 215 390 - unused;
-#X text 161 390 signal;
-#N canvas 556 485 431 300 rampsmooth 0;
-#X obj 140 65 inlet;
-#X obj 185 65 inlet;
-#X obj 140 128 pack f f;
-#X obj 140 197 outlet;
-#X msg 140 162 rampsmooth \$1 \$2;
-#X obj 158 97 t b f;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 2 1 rampsmooth mode;
-#X connect 0 0 2 0;
-#X connect 1 0 5 0;
-#X connect 2 0 4 0;
-#X connect 4 0 3 0;
-#X connect 5 0 2 0;
-#X connect 5 1 2 1;
-#X restore 62 204 pd rampsmooth;
-#N canvas 778 547 433 300 slide 0;
-#X obj 136 82 inlet;
-#X obj 181 82 inlet;
-#X obj 136 145 pack f f;
-#X obj 136 214 outlet;
-#X obj 154 114 t b f;
-#X msg 136 179 slide \$1 \$2;
-#X obj 1 1 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 3 2 slide mode;
-#X connect 0 0 2 0;
-#X connect 1 0 4 0;
-#X connect 2 0 5 0;
-#X connect 4 0 2 0;
-#X connect 4 1 2 1;
-#X connect 5 0 3 0;
-#X restore 166 203 pd slide;
-#N canvas 949 323 450 300 deltaclip 0;
-#X obj 96 90 inlet;
-#X obj 141 90 inlet;
-#X obj 96 153 pack f f;
-#X obj 96 222 outlet;
-#X obj 114 122 t b f;
-#X msg 96 187 deltaclip \$1 \$2;
-#X obj 1 2 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 3 3 deltaclip mode;
-#X connect 0 0 2 0;
-#X connect 1 0 4 0;
-#X connect 2 0 5 0;
-#X connect 4 0 2 0;
-#X connect 4 1 2 1;
-#X connect 5 0 3 0;
-#X restore 244 203 pd deltaclip;
-#X obj 443 288 block~ 256;
-#X obj 375 185 fft~;
-#X obj 92 289 table vectral 256;
-#X obj 244 339 tabwrite~ vectral;
-#X obj 262 296 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
-1;
-#X obj 262 316 metro 500;
-#X obj 244 249 cyclone/vectral~ 256;
-#X text 215 589 - block size (default 512).;
-#X text 144 407 Messages:;
-#X obj 262 275 loadbang;
-#X text 215 407 - rampsmooth <up> <down>: linear ramp mode \; - slide
-<up> <down>: logarithmic ramp mode \; - deltaclip <max> <min>: change
-limited mode \; - <clear>: clears filter \; - <size>: vector size;
-#X obj 375 154 noise~;
-#X text 215 510 - frame signal to filter;
-#X text 215 548 - filtered frame signal;
-#X text 70 101 [vectral~] is useful for smoothening/filtering frame
-based signal data such as the output of [fft~];
+#X text 175 437 signal;
+#X text 175 414 signal;
+#X text 175 311 signal;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -109,8 +31,8 @@ based signal data such as the output of [fft~];
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -179,7 +101,7 @@ based signal data such as the output of [fft~];
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -211,28 +133,138 @@ based signal data such as the output of [fft~];
 #X connect 7 0 6 0;
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 504 71 pd;
+#X restore 504 67 pd;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Smooth/filter frame
 changes;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 vectral~;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 vectral~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 361 210 cyclone/cartopol~;
-#X connect 6 0 24 1;
-#X connect 7 0 24 0;
-#X connect 8 0 26 1;
-#X connect 9 0 26 0;
-#X connect 10 0 25 1;
-#X connect 11 0 25 0;
-#X connect 24 0 33 0;
-#X connect 25 0 33 0;
-#X connect 26 0 33 0;
-#X connect 28 0 51 0;
-#X connect 28 1 51 1;
-#X connect 31 0 32 0;
-#X connect 32 0 30 0;
-#X connect 33 0 30 0;
-#X connect 36 0 31 0;
-#X connect 38 0 28 0;
-#X connect 51 0 33 2;
+#X obj 222 217 cyclone/cartopol~;
+#X text 109 328 rampsmooth <f \, f>;
+#X text 229 328 - linear ramp mode \, values are <up \, down> time
+, f 52;
+#X text 139 345 slide <f \, f>;
+#X text 229 345 - logarithmic ramp mode \, values are <up \, down>
+time, f 52;
+#X text 115 362 deltaclip <f \, f>;
+#X text 181 378 clear;
+#X text 139 394 size <float>;
+#N canvas 187 49 205 212 graph 0;
+#X obj 61 96 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1 1
+;
+#X obj 61 75 loadbang;
+#X obj 43 31 inlet~;
+#X obj 43 139 tabwrite~ \$0-vectral;
+#X obj 61 116 metro 5;
+#X connect 0 0 4 0;
+#X connect 1 0 0 0;
+#X connect 2 0 3 0;
+#X connect 4 0 3 0;
+#X restore 105 277 pd graph;
+#X obj 222 190 rfft~, f 8;
+#X obj 351 162 cnv 15 198 98 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array \$0-vectral 256 float 0;
+#X coords 0 32 255 -1 200 100 1 0 0;
+#X restore 350 161 graph;
+#X obj 105 249 cyclone/vectral~ 256;
+#X obj 32 149 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 4 256;
+#X obj 119 149 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 32 256;
+#X obj 32 172 cyclone/pak f f;
+#X msg 32 207 slide \$1 \$2;
+#X text 70 148 up;
+#X text 162 148 down;
+#N canvas 584 129 793 488 more 0;
+#X obj 485 175 cyclone/pak deltaclip f f;
+#X obj 517 229 cyclone/pak rampsmooth f f;
+#X obj 537 286 cyclone/pak slide f f;
+#X obj 189 100 cyclone/rampsmooth~;
+#X obj 219 131 cyclone/slide~;
+#X obj 196 70 cyclone/deltaclip~;
+#X text 29 14 The [vectral~] object operates in 3 modes \, which can
+be better understood if you already know how these three objects work:
+;
+#X text 28 178 All of the three objects above can be used to smoothen
+(or "filter" \, cause it's also a kind of low pass filtering) signal
+changes. But hink now that the changes happen between frames rather
+than between samples.;
+#X obj 195 290 cyclone/framedelta~;
+#X obj 195 323 cyclone/frameaccum~;
+#X text 31 249 Other objects in cyclone that perform ooperations on
+frames in a similar way are:;
+#X text 414 73 - rampsmooth: linear ramp \; - deltaclip: also provides
+a linear ramp \, but the parameter sets a minimum step change instead
+of a target time \; - slide: logarithmic ramp \;;
+#X text 411 12 By default \, [vector~] just bypasses the input signal
+with no filtering. So you need to set the mode of operation and values
+in order for it to act. The last received message sets the current
+mode of operation. The modes are:;
+#X obj 485 325 cyclone/vectral~;
+#X text 225 391 The left and middle inlet are for output/input index
+sync \, and they need to be from 0 to block size - 1! If the range
+of the sync signal input index is different than the output index \,
+the incoming vector will be "bin-shifted" by the difference between
+the two signals.;
+#X text 223 367 ============================================================
+;
+#X obj 558 152 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 632 152 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 596 151 up;
+#X text 670 152 down;
+#X obj 593 202 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 670 202 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 631 201 up;
+#X text 708 202 down;
+#X obj 598 260 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 660 260 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 636 259 up;
+#X text 698 260 down;
+#X connect 0 0 13 0;
+#X connect 1 0 13 0;
+#X connect 2 0 13 0;
+#X connect 16 0 0 1;
+#X connect 17 0 0 2;
+#X connect 20 0 1 1;
+#X connect 21 0 1 2;
+#X connect 24 0 2 1;
+#X connect 25 0 2 2;
+#X restore 452 275 pd more details;
+#X obj 249 249 block~ 512;
+#X text 229 378 - sets the last frame values to "0", f 52;
+#X obj 122 207 cyclone/count~ 0 256 1, f 14;
+#X obj 222 161 noise~;
+#X text 229 470 - smoothened/filtered block/vector signal, f 52;
+#X text 229 503 - vector/block size (default 512 \, minimum 64), f
+52;
+#X text 229 414 - input index of the vector/block being processed,
+f 52;
+#X text 229 437 - the signal vector/block to smooth/filter, f 52;
+#X text 229 362 - change limited mode \, values are <up \, down> limit
+, f 52;
+#X text 229 394 - sets the vector/block size, f 52;
+#X text 229 311 - output index of the processed vector/block, f 52
+;
+#X text 71 87 [vectral~] is useful for smoothening/filtering frame
+based signal data such as the output of [fft~] \, mostly for viewing
+purposes.;
+#X connect 22 0 34 2;
+#X connect 31 0 22 0;
+#X connect 31 1 22 1;
+#X connect 34 0 30 0;
+#X connect 35 0 37 0;
+#X connect 36 0 37 1;
+#X connect 37 0 38 0;
+#X connect 38 0 34 0;
+#X connect 44 0 34 0;
+#X connect 44 0 34 1;
+#X connect 45 0 31 0;

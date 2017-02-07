@@ -1,24 +1,24 @@
-#N canvas 493 87 561 539 10;
-#X obj 6 502 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 750 24 560 505 10;
+#X obj 6 467 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 6 272 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 270 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 412 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 391 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 445 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 421 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 85 281 cnv 17 3 57 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 278 cnv 17 3 57 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 85 342 cnv 17 3 40 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 85 339 cnv 17 3 23 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 147 476 2) float;
-#X obj 85 387 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 147 448 2) float;
+#X obj 85 367 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 169 387 float;
-#X text 127 319 set <symbol>;
-#X text 127 281 float/signal;
-#X text 127 342 float/signal;
-#X text 211 280 - values to write into an array;
+#X text 169 367 float;
+#X text 127 316 set <symbol>;
+#X text 127 278 float/signal;
+#X text 127 339 float/signal;
+#X text 211 277 - values to write into an array;
 #X obj 2 6 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -29,9 +29,10 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 5 pd;
-#X text 211 320 - sets array name;
-#X text 210 387 - sets the channel for the value being recorded;
-#X text 147 457 1) symbol;
+#X text 211 317 - sets array name;
+#X text 210 367 - sets the channel for the value being recorded, f
+56;
+#X text 147 429 1) symbol;
 #N canvas 207 34 366 264 (subpatch) 0;
 #X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
 -262144 1 1;
@@ -136,7 +137,7 @@
 #X connect 9 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
-#X text 166 421 (none);
+#X text 163 399 (none);
 #X obj 17 8 cyclone/comment 0 37 times ? 0 0 0 0 poke~;
 #X obj 18 60 cyclone/comment 0 18 times ? 0 0 0 0 Write to an array
 ;
@@ -151,16 +152,16 @@ cloned from Max/MSP;
 #X array \$0-array 22050 float 0;
 #X coords 0 1.1 22049 -1.1 150 100 1 0 0;
 #X restore 47 156 graph;
-#X text 213 457 - array name to write to;
-#X text 115 299 list <f \, f \, f>;
-#X text 211 299 - <value> \, <index> and <channel>;
+#X text 213 429 - array name to write to;
+#X text 115 296 list <f \, f \, f>;
+#X text 211 296 - <value> \, <index> and <channel>;
 #X obj 329 141 sig~ -1;
 #X msg 292 138 1;
 #X msg 299 162 2;
 #X obj 292 193 selector~ 2 2;
 #X text 264 138 off;
 #X text 275 162 on;
-#N canvas 961 43 420 478 control 0;
+#N canvas 933 72 420 478 control 0;
 #X obj 148 113 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 268 157 <= index;
@@ -185,7 +186,7 @@ way \, [poke~] behaves similarly to the [peek~] object. Note \, however
 #X connect 10 0 11 0;
 #X connect 10 2 8 1;
 #X connect 11 0 8 0;
-#X restore 479 214 pd control;
+#X restore 484 215 pd control;
 #N canvas 550 188 841 430 multichannel 0;
 #X obj 407 31 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -343,17 +344,16 @@ naming convention.;
 #X connect 6 0 2 0;
 #X connect 14 0 13 0;
 #X connect 15 0 13 1;
-#X restore 449 239 pd multichannel;
+#X restore 454 238 pd multichannel;
 #X text 77 92 [poke~] writes signals to an array at indexes specified
 by a signal.;
 #X obj 228 193 osc~ 9.9;
 #X obj 367 167 cyclone/count~ 0 22050 1;
 #X obj 228 227 cyclone/poke~ \$0-array;
-#X text 210 340 -;
-#X text 223 340 index of value being recorded. If the index signal
-is negative or larger than the size of the array \, no data is written
-, f 51;
-#X text 213 476 - channel (default 1 \, maximum 64);
+#X text 210 337 -;
+#X text 213 448 - channel (default 1 \, maximum 64);
+#X text 222 336 index to record to (if negative or larger than the
+buffer \, no data is written), f 54;
 #X connect 33 0 36 1;
 #X connect 34 0 36 0;
 #X connect 35 0 36 0;
