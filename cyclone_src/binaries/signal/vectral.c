@@ -139,6 +139,7 @@ static void vectral_dsp(t_vectral *x, t_signal **sp)
     int nblock = sp[0]->s_n;
     if (nblock > x->x_bufsize)
 	nblock = x->x_bufsize;  /* CHECKME */
+    memset(x->x_lastframe, 0, nblock * sizeof(*x->x_lastframe));
     dsp_add(vectral_perform, 6, x, nblock,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
@@ -209,7 +210,7 @@ static void vectral_size(t_vectral *x, t_floatarg f)
 
 static void vectral_clear(t_vectral *x)
 {
-// not sure what to do
+memset(x->x_lastframe, 0, x->x_bufsize * sizeof(*x->x_lastframe));
 }
 
 static void *vectral_new(t_floatarg f)
