@@ -83,15 +83,8 @@ static void past_list(t_past *x, t_symbol *s, int ac, t_atom *av)
                 }
 	         if (x->x_low)
 	            {
-            // new code test:
-                for (ac--, av++, vp++; ac; ac--, av++, vp++)
-                    {
-                        if (av->a_type != A_FLOAT
-                            && (result = past_compare(x, av->a_w.w_float, vp++)) >= 0)
-
-                        x->x_low = 0; //
-                        outlet_bang(((t_object *)x)->ob_outlet); //
-                    }
+		        x->x_low = 0;
+		        outlet_bang(((t_object *)x)->ob_outlet);
 	            }
 	         }
 	         else x->x_low = 1;
