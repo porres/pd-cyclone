@@ -2,16 +2,15 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-//Derek Kwan 2017 - pretty much entirely redone
-//old behiavor (i believe) had it where it the first arg only really mattered...
-//which was the max behavior but completely wrong according to the max docs
-//this breaks backwards compat by making the behavior fit the description 
+// Derek Kwan 2017 - pretty much entirely redone
+// Old version had bugs replicated from max which  ruined the purpose of the
+// object in some cases with list input. This version fixes it.
 
 #include <string.h>
 #include "m_pd.h"
 
-#define PAST_STACK 128
-#define PAST_MAX 512
+#define PAST_STACK 128 // check
+#define PAST_MAX 512 // check
 typedef struct _past
 {
     t_object   x_obj;
@@ -101,14 +100,11 @@ static int past_set_helper(t_past * x, int argc, t_atom * argv)
 static void past_set(t_past *x, t_symbol *s, int argc, t_atom * argv)
 {
     int failset = past_set_helper(x, argc, argv);
-    if(failset){
-	pd_error(x, "past: improper args");
+    if(failset)
+        {
+        pd_error(x, "past: improper args");
         return;
-    }
-    else{
-        x->x_past = 0;
-    };
-    return;
+        }
 }
 
 static void past_list(t_past *x, t_symbol *s, int argc, t_atom * argv)
@@ -132,7 +128,6 @@ static void past_list(t_past *x, t_symbol *s, int argc, t_atom * argv)
                     past = 0;
                     break;
                 };
-
             }
             else
             {
