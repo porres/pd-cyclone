@@ -3,8 +3,10 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 // Derek Kwan 2017 - pretty much entirely redone
-// Old version had bugs replicated from max which  ruined the purpose of the
-// object in some cases with list input. This version fixes it.
+
+// Old version was quite buggy, and some of the bugs were replicated from max,
+// even though they ruined the purpose of the object in some cases with list input.
+// This version fixes it (porres)
 
 #include <string.h>
 #include "m_pd.h"

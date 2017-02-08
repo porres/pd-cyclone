@@ -28,6 +28,7 @@ flush.class.sources := cyclone_src/binaries/control/flush.c
 forward.class.sources := cyclone_src/binaries/control/forward.c
 fromsymbol.class.sources := cyclone_src/binaries/control/fromsymbol.c
 funnel.class.sources := cyclone_src/binaries/control/funnel.c
+histo.class.sources := cyclone_src/binaries/control/histo.c
 mean.class.sources := cyclone_src/binaries/control/mean.c
 midiflush.class.sources := cyclone_src/binaries/control/midiflush.c
 midiformat.class.sources := cyclone_src/binaries/control/midiformat.c
@@ -281,7 +282,6 @@ decide.class.sources := cyclone_src/binaries/control/decide.c $(hloud)
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
 sprintf.class.sources := cyclone_src/binaries/control/sprintf.c $(hloud)
 togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
-histo.class.sources := cyclone_src/binaries/control/histo.c $(hloud)
 
 # Single cases:
 

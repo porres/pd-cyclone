@@ -5,8 +5,9 @@
 /* This is an entirely rewritten version of Joseph A. Sarlo's code.
    The most important changes are listed in "pd-lib-notes.txt" file.  */
 
+// porres 2016/2017, de-loud - no capital letter as default
+
 #include "m_pd.h"
-#include "common/loud.h"
 
 #define HISTO_DEFSIZE  128
 
@@ -51,10 +52,11 @@ static void Histo_bang(t_Histo *x)
 
 static void Histo_float(t_Histo *x, t_floatarg f)
 {
-    int i;
-    if (loud_checkint((t_pd *)x, f, &i, &s_float))  /* CHECKED */
-	Histo_doit(x, i, 1);
+    int i = (int)f;
+    if (i != f) pd_error(x, "histo: doesn't understand 'noninteger float'");
+    Histo_doit(x, i, 1);
 }
+
 
 static void Histo_ft1(t_Histo *x, t_floatarg f)
 {
