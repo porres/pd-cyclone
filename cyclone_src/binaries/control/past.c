@@ -2,112 +2,199 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* porres 2017, fixing list weirdness behaviour cause it has no practical purpose and basically
-   ruins the whole purpose of comparing lists...
-   we shouldn't replicate max bugs if they ruin the object */
+//Derek Kwan 2017 - pretty much entirely redone
+//old behiavor (i believe) had it where it the first arg only really mattered...
+//which was the max behavior but completely wrong according to the max docs
+//this breaks backwards compat by making the behavior fit the description 
 
+#include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
-#include "common/grow.h"
-#include "common/fitter.h"
 
-#define PAST_C74MAXSIZE  8  // RECHECK
-
-typedef struct past
+#define PAST_STACK 128
+#define PAST_MAX 512
+typedef struct _past
 {
-    t_object  x_ob;
-    int       x_low;
-    int       x_size;     /* as allocated */
-    int       x_nthresh;  /* as used */
-    t_atom   *x_thresh;
-    t_atom    x_thrini[PAST_C74MAXSIZE];
+    t_object   x_obj;
+    t_float *   x_arg;
+    t_float    x_argstack[PAST_STACK];
+    int        x_allocsz; //size of allocated (or not) arglist
+    int        x_argsz; //size of stored arg list
+    int        x_heaped; //if x_arg is allocated
+    int        x_past; //if past threshold
+
 } t_past;
 
 static t_class *past_class;
 
-static int past_compare(t_past *x, t_float f, t_atom *ap)
+//value allocation helper function
+static void past_alloc(t_past *x, int argc){
+   int cursize = x->x_allocsz;
+    int heaped = x->x_heaped;
+
+
+    if(heaped && argc <= PAST_STACK){
+        //if x_arg is pointing to a heap and incoming list can fit into PAST_STACK
+        //deallocate x_arg and point it to stack, update status
+        freebytes((x->x_arg), (cursize) * sizeof(t_float));
+        x->x_arg = x->x_argstack;
+        x->x_heaped = 0;
+        x->x_allocsz = PAST_STACK;
+        }
+    else if(heaped && argc > PAST_STACK && argc > cursize){
+        //if already heaped, incoming list can't fit into PAST_STACK and can't fit into allocated t_atom
+        //reallocate to accomodate larger list, update status
+        
+        int toalloc = argc; //size to allocate
+        //bounds checking for maxsize
+        if(toalloc > PAST_MAX){
+            toalloc = PAST_MAX;
+        };
+        x->x_arg = (t_float *)resizebytes(x->x_arg, cursize * sizeof(t_float), toalloc * sizeof(t_float));
+        x->x_allocsz = toalloc;
+    }
+    else if(!heaped && argc > PAST_STACK){
+        //if not heaped and incoming list can't fit into PAST_STACK
+        //allocate and update status
+
+        int toalloc = argc; //size to allocate
+        //bounds checking for maxsize
+        if(toalloc > PAST_MAX){
+            toalloc = PAST_MAX;
+        };
+        x->x_arg = (t_float *)getbytes(toalloc * sizeof(t_float));
+        x->x_heaped = 1;
+        x->x_allocsz = toalloc;
+    };
+
+
+}
+
+static int past_set_helper(t_past * x, int argc, t_atom * argv)
 {
-    if (ap->a_type == A_FLOAT) return (f >= ap->a_w.w_float); // float in a list?
-    else return (f >= 0.);
+    t_float parse[argc];
+    int i, errors = 0;
+    for(i=0; i < argc; i++){
+        if((argv+i)->a_type == A_FLOAT){
+            parse[i] = atom_getfloatarg(i, argc, argv);
+        }
+        else{
+            errors = 1;
+            break;
+        };
+    };
+
+    if(errors){
+        //not a legit list, error out
+        return 1;
+    }
+    else{
+        past_alloc(x, argc);
+        if(argc > PAST_MAX){
+            argc = PAST_MAX;
+        };
+       memcpy(x->x_arg, parse, sizeof(t_float) * argc);
+        x->x_argsz = argc;
+        return 0;
+    };
+}
+
+static void past_set(t_past *x, t_symbol *s, int argc, t_atom * argv)
+{
+    int failset = past_set_helper(x, argc, argv);
+    if(failset){
+	pd_error(x, "past: improper args");
+        return;
+    }
+    else{
+        x->x_past = 0;
+    };
+    return;
+}
+
+static void past_list(t_past *x, t_symbol *s, int argc, t_atom * argv)
+{
+    int argsz = x->x_argsz;
+    if(argc < argsz){
+        //not enough input args to compare to compare args, don't bother
+        x->x_past = 0;
+        return;
+    }
+    else{
+        int i, past = 1;
+        t_float inputf, cmpf;
+        for(i=0; i < argsz; i++){
+            if((argv+i) -> a_type == A_FLOAT)
+            {
+                inputf = atom_getfloatarg(i, argc, argv);
+                cmpf = x->x_arg[i]; //float to compare input to
+                if(inputf < cmpf){
+                    //condition not satisfied, break
+                    past = 0;
+                    break;
+                };
+
+            }
+            else
+            {
+                //incoming not a float, break
+                past = 0;
+                break;
+            };
+
+        };
+
+        //if below thresh before and now above, bang
+        if(past && x->x_past == 0)
+        {
+	    outlet_bang(x->x_obj.ob_outlet);
+        };
+
+        x->x_past = past;
+    };
 }
 
 static void past_float(t_past *x, t_float f)
 {
-    if (x->x_nthresh == 1) // only if 1 arg
-        {
-	    if (past_compare(x, f, x->x_thresh)) // if past (>= threshold)
-	         {
-	         if (x->x_low) // if last was below threshold
-	             {
-		         x->x_low = 0; // make it past
-		         outlet_bang(((t_object *)x)->ob_outlet); // bang
-	             }
-	          }
-        else x->x_low = 1; // else, below threshold
-        }
-}
-
-
-static void past_list(t_past *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (ac && ac <= x->x_nthresh) // ignore lists that have more elements than args!
-        {
-	    t_atom *vp = x->x_thresh;
-        int past = 0;
-        int not_past = 0;
-        for (ac--, av++, vp++; ac; ac--, av++, vp++)
-            {
-            if (past_compare(x, av->a_w.w_float, vp++)) past = 1;
-            else not_past = 1;
-            }
-        if (past == 1 && not_past == 0 && x->x_low == 1) // all past thrshold & low
-            {
-            x->x_low = 0;
-            outlet_bang(((t_object *)x)->ob_outlet);
-            }
-        else if (not_past == 1 && past == 0) x->x_low = 1; // all below
-         }
+    t_atom fltlist[1];
+    SETFLOAT(fltlist, f);
+    past_list(x, 0, 1, fltlist);
 }
 
 static void past_clear(t_past *x)
 {
-    x->x_low = 1;
+    x->x_past = 0;
 }
 
-static void past_set(t_past *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (ac)
-    {
-	t_atom *vp = x->x_thresh;
-	if (ac > x->x_size)
-	{
-	    fittermax_rangewarning(past_class, PAST_C74MAXSIZE, "guard points");
-	    x->x_thresh = grow_nodata(&ac, &x->x_size, x->x_thresh,
-				      PAST_C74MAXSIZE, x->x_thrini,
-				      sizeof(*x->x_thresh));
-	}
-	x->x_nthresh = ac;
-	while (ac--) *vp++ = *av++;
-    }
-}
-
-static void past_free(t_past *x)
-{
-    if (x->x_thresh != x->x_thrini)
-	freebytes(x->x_thresh, x->x_size * sizeof(*x->x_thresh));
-}
-
-static void *past_new(t_symbol *s, int ac, t_atom *av)
+static void *past_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_past *x = (t_past *)pd_new(past_class);
-    x->x_low = 1;
-    x->x_nthresh = 0;
-    x->x_size = PAST_C74MAXSIZE;
-    x->x_thresh = x->x_thrini;
-    outlet_new((t_object *)x, &s_bang);
-    past_set(x, 0, ac, av);
-    return (x);
+    int failset = 0; //if setting args failed
+    x->x_past = 0;
+    x->x_allocsz = PAST_STACK;
+    x->x_arg = x->x_argstack;
+    x->x_heaped = 0;
+    x->x_argsz = 0;
+    if(argc){
+        failset = past_set_helper(x, argc, argv);
+    };
+    if(!failset){
+        outlet_new((t_object *)x, &s_bang);
+        return (x);
+    }
+    else{
+	pd_error(x, "past: improper args");
+        return NULL; 
+    };
 }			
+
+static void *past_free(t_past *x)
+{
+    if(x->x_heaped)
+    {
+        freebytes(x->x_arg, x->x_allocsz * sizeof(t_float));
+    };
+    return (void *)x;
+}
 
 void past_setup(void)
 {
@@ -119,5 +206,4 @@ void past_setup(void)
     class_addlist(past_class, past_list);
     class_addmethod(past_class, (t_method)past_clear, gensym("clear"), 0);
     class_addmethod(past_class, (t_method)past_set, gensym("set"), A_GIMME, 0);
-    fitter_setup(past_class, 0);
 }
