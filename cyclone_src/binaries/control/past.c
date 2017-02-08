@@ -45,40 +45,28 @@ static void past_float(t_past *x, t_float f)
 	          }
         else x->x_low = 1; // else, below threshold
         }
-//    else if (past_compare(x, f, x->x_thresh) < 0) x->x_low = 1; // ???
 }
 
 
 static void past_list(t_past *x, t_symbol *s, int ac, t_atom *av)
 {
-    if (ac && ac <= x->x_nthresh) // ignore lists that have more elements than args?
+    if (ac && ac <= x->x_nthresh) // ignore lists that have more elements than args!
         {
-	    int result;
 	    t_atom *vp = x->x_thresh;
-	    if (av->a_type == A_FLOAT // ignore symbols?
-	    && (result = past_compare(x, av->a_w.w_float, vp))) // if past (>= threshold)
-	        {
-	        if (!result) // not a true result??? (not past) // dont make sense
-	           {
-		       for (ac--, av++, vp++; ac; ac--, av++, vp++)
-		            {
-		            if (av->a_type != A_FLOAT
-			        && (result = past_compare(x, av->a_w.w_float, vp++)) < 0)
-		                 {
-			             x->x_low = 1; // see if any is below threshold
-			             return;
-                         }
-                    if (result) break;
-		            }
-                }
-	         if (x->x_low) //
-	            {
-		        x->x_low = 0;
-		        outlet_bang(((t_object *)x)->ob_outlet);
-	            }
-	         }
-	         else x->x_low = 1; // below threshold
-          }
+        int past = 0;
+        int not_past = 0;
+        for (ac--, av++, vp++; ac; ac--, av++, vp++)
+            {
+            if (past_compare(x, av->a_w.w_float, vp++)) past = 1;
+            else not_past = 1;
+            }
+        if (past == 1 && not_past == 0 && x->x_low == 1) // all past thrshold & low
+            {
+            x->x_low = 0;
+            outlet_bang(((t_object *)x)->ob_outlet);
+            }
+        else if (not_past == 1 && past == 0) x->x_low = 1; // all below
+         }
 }
 
 static void past_clear(t_past *x)
