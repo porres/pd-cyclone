@@ -973,6 +973,7 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv)
     y->p_master = x;
     x->x_entered = 0;
     x->x_locked = 0;
+    pd_error(x, "[cyclone/zl] is not ready yet");
 
     int sz = ZL_INISIZE; 
     //argument paring
