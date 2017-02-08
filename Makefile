@@ -34,6 +34,7 @@ midiformat.class.sources := cyclone_src/binaries/control/midiformat.c
 midiparse.class.sources := cyclone_src/binaries/control/midiparse.c
 next.class.sources := cyclone_src/binaries/control/next.c
 onebang.class.sources := cyclone_src/binaries/control/onebang.c
+past.class.sources := cyclone_src/binaries/control/past.c
 peak.class.sources := cyclone_src/binaries/control/peak.c
 poltocar.class.sources := cyclone_src/binaries/control/poltocar.c
 sinh.class.sources := cyclone_src/binaries/control/sinh.c
@@ -272,7 +273,6 @@ pv.class.sources := cyclone_src/binaries/control/pv.c $(hgrow)
 # hgrowfitter classes
 append.class.sources := cyclone_src/binaries/control/append.c $(hgrowfitter)
 prepend.class.sources := cyclone_src/binaries/control/prepend.c $(hgrowfitter)
-past.class.sources := cyclone_src/binaries/control/past.c $(hgrowfitter)
 
 # hloud classes
 anal.class.sources := cyclone_src/binaries/control/anal.c $(hloud)
