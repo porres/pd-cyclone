@@ -27,35 +27,25 @@ static t_class *past_class;
 
 static int past_compare(t_past *x, t_float f, t_atom *ap)
 {
-    if (ap->a_type == A_FLOAT)
-        {
-        if (f > ap->a_w.w_float) return (1);
-        else if (f == ap->a_w.w_float) return (0);
-        else return (-1);
-        }
-    else  /* CHECKED */
-        {
-        if (f > 0.) return (1);
-        else if (f == 0.) return (0);
-        else return (-1);
-    }
+    if (ap->a_type == A_FLOAT) return (f >= ap->a_w.w_float); // float in a list?
+    else return (f >= 0.);
 }
 
 static void past_float(t_past *x, t_float f)
 {
-    if (x->x_nthresh == 1)
+    if (x->x_nthresh == 1) // only if 1 arg
         {
-	    if (past_compare(x, f, x->x_thresh) >= 0)
+	    if (past_compare(x, f, x->x_thresh)) // if past (>= threshold)
 	         {
-	         if (x->x_low)
+	         if (x->x_low) // if last was below threshold
 	             {
-		         x->x_low = 0;
-		         outlet_bang(((t_object *)x)->ob_outlet);
+		         x->x_low = 0; // make it past
+		         outlet_bang(((t_object *)x)->ob_outlet); // bang
 	             }
 	          }
-        else x->x_low = 1;
+        else x->x_low = 1; // else, below threshold
         }
-    else if (past_compare(x, f, x->x_thresh) < 0) x->x_low = 1;
+//    else if (past_compare(x, f, x->x_thresh) < 0) x->x_low = 1; // ???
 }
 
 
@@ -66,28 +56,28 @@ static void past_list(t_past *x, t_symbol *s, int ac, t_atom *av)
 	    int result;
 	    t_atom *vp = x->x_thresh;
 	    if (av->a_type == A_FLOAT // ignore symbols?
-	    && (result = past_compare(x, av->a_w.w_float, vp)) >= 0)
+	    && (result = past_compare(x, av->a_w.w_float, vp))) // if past (>= threshold)
 	        {
-	        if (!result)
+	        if (!result) // not a true result??? (not past) // dont make sense
 	           {
 		       for (ac--, av++, vp++; ac; ac--, av++, vp++)
 		            {
 		            if (av->a_type != A_FLOAT
 			        && (result = past_compare(x, av->a_w.w_float, vp++)) < 0)
 		                 {
-			             x->x_low = 1;
+			             x->x_low = 1; // see if any is below threshold
 			             return;
                          }
                     if (result) break;
 		            }
                 }
-	         if (x->x_low)
+	         if (x->x_low) //
 	            {
 		        x->x_low = 0;
 		        outlet_bang(((t_object *)x)->ob_outlet);
 	            }
 	         }
-	         else x->x_low = 1;
+	         else x->x_low = 1; // below threshold
           }
 }
 
