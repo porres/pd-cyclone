@@ -548,13 +548,8 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 	    p1 = p2 + 1;
 	    sprintf_parsepattern(x, &p1);
 	}
-	loud_error((t_pd *)x,
-		   "an object created without valid format patterns...");
-	return (x);
     }
-#ifdef SPRINTF_DEBUG
-    loudbug_post("%d slots:", nproxies);
-#endif
+
     /* CHECKED: max creates as many inlets, as there are %-signs, no matter
        if they are valid, or not -- if not, it prints ``can't convert'' errors
        for any input... */
@@ -586,13 +581,6 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 	type = sprintf_parsepattern(x, &p1);
 	if (type >= SPRINTF_MINSLOTTYPE)
 	{
-#ifdef SPRINTF_DEBUG
-	    char tmp = *p1;
-	    *p1 = 0;
-	    loudbug_poststring(p2);
-	    loudbug_endpost();
-	    *p1 = tmp;
-#endif
 	    if (i < nslots)
 	    {
 		char buf[SPRINTF_MAXWIDTH + 1];  /* LATER rethink */
@@ -614,9 +602,6 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 	    }
 	}
     }
-#ifdef SPRINTF_DEBUG
-    loudbug_post("printf(\"%s\", ...)", fstring);
-#endif
     outlet_new((t_object *)x, &s_anything);
     return (x);
 }
