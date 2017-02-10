@@ -841,13 +841,15 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 			t_coll *x;
 			/* LATER consider making this more robust */
 			
-			//seems like banging is taken care of in threaded cases via
-                        //clock_delay so this is for nonthreaded - DK
+                        /*
+                        //now taken care of by coll_read for obj specificity
+                        //leaving here so i remember how to do this o/wise - DK
                         if(!threaded){
                             for (x = cc->c_refs; x; x = x->x_next){
                                 outlet_bang(x->x_filebangout);
                             };
                         };
+                        */
 			cc->c_lastcanvas = cv;
 			cc->c_filename = fn;
 			m->m_flag |= 0x04;
@@ -1857,6 +1859,7 @@ static void coll_read(t_coll *x, t_symbol *s)
 
                                 if(msg->m_line > 0){
                                     x->x_filebang = 1;
+                                    clock_delay(x->x_clock, 0);
                                 };
                                 
 			}
