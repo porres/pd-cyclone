@@ -524,48 +524,46 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
     fstring = hammer_gettext(ac, av, &fsize);
     p1 = fstring;
     while (p2 = strchr(p1, '%'))
-    {
-	int type;
-	p1 = p2 + 1;
-	type = sprintf_parsepattern(0, &p1);
-	if (type >= SPRINTF_MINSLOTTYPE)
-	    nproxies++;
-    }
-    if (!nproxies)
-    {
-	/* CHECKED: an object without arguments, if created in the editor,
-	   has no inlets/outlets, but it would have one inlet (no outlets)
-	   upon loading.  Error message is printed in either case. */
-	x = (t_sprintf *)pd_new(sprintf_class);
-	x->x_nslots = 0;
-	x->x_nproxies = 0;
-	x->x_proxies = 0;
-	x->x_fsize = fsize;
-	x->x_fstring = fstring;
-	p1 = fstring;
-	while (p2 = strchr(p1, '%'))
-	{
-	    p1 = p2 + 1;
-	    sprintf_parsepattern(x, &p1);
-	}
-    }
+        {
+        int type;
+        p1 = p2 + 1;
+        type = sprintf_parsepattern(0, &p1);
+        if (type >= SPRINTF_MINSLOTTYPE) nproxies++;
+        }
+    if (!nproxies) 	// object without arguments doesn't create in max
+        {           // in cyclone it creates without an outlet
+        x = (t_sprintf *)pd_new(sprintf_class);
+        x->x_nslots = 0;
+        x->x_nproxies = 0;
+        x->x_proxies = 0;
+        x->x_fsize = fsize;
+        x->x_fstring = fstring;
+        p1 = fstring;
+        while (p2 = strchr(p1, '%'))
+            {
+            p1 = p2 + 1;
+            sprintf_parsepattern(x, &p1);
+            }
+        return (x);
+        }
 
     /* CHECKED: max creates as many inlets, as there are %-signs, no matter
        if they are valid, or not -- if not, it prints ``can't convert'' errors
        for any input... */
+    
     if (!(proxies = (t_pd **)getbytes(nproxies * sizeof(*proxies))))
-    {
-	freebytes(fstring, fsize);
-	return (0);
-    }
+        {
+        freebytes(fstring, fsize);
+        return (0);
+        }
     for (nslots = 0; nslots < nproxies; nslots++)
 	if (!(proxies[nslots] = pd_new(sprintf_proxy_class))) break;
     if (!nslots)
-    {
-	freebytes(fstring, fsize);
-	freebytes(proxies, nproxies * sizeof(*proxies));
-	return (0);
-    }
+        {
+        freebytes(fstring, fsize);
+        freebytes(proxies, nproxies * sizeof(*proxies));
+        return (0);
+        }
     x = (t_sprintf *)pd_new(sprintf_class);
     x->x_nslots = nslots;
     x->x_nproxies = nproxies;
@@ -575,33 +573,33 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
     p1 = fstring;
     i = 0;
     while (p2 = strchr(p1, '%'))
-    {
-	int type;
-	p1 = p2 + 1;
-	type = sprintf_parsepattern(x, &p1);
-	if (type >= SPRINTF_MINSLOTTYPE)
-	{
-	    if (i < nslots)
-	    {
-		char buf[SPRINTF_MAXWIDTH + 1];  /* LATER rethink */
-		t_sprintf_proxy *y = (t_sprintf_proxy *)proxies[i];
-		y->p_master = x;
-		y->p_id = i;
-		y->p_type = type;
-		y->p_pattern = p2;
-		y->p_pattend = p1;
-		if (type == SPRINTF_STRING)
-		    SETSYMBOL(&y->p_atom, &s_);
-		else
-		    SETFLOAT(&y->p_atom, 0);
-		y->p_size = 0;
-		y->p_valid = 0;
-		if (i) inlet_new((t_object *)x, (t_pd *)y, 0, 0);
-		sprintf_proxy_checkit(y, buf, 1);
-		i++;
-	    }
-	}
-    }
+        {
+        int type;
+        p1 = p2 + 1;
+        type = sprintf_parsepattern(x, &p1);
+        if (type >= SPRINTF_MINSLOTTYPE)
+            {
+            if (i < nslots)
+                {
+                char buf[SPRINTF_MAXWIDTH + 1];  /* LATER rethink */
+                t_sprintf_proxy *y = (t_sprintf_proxy *)proxies[i];
+                y->p_master = x;
+                y->p_id = i;
+                y->p_type = type;
+                y->p_pattern = p2;
+                y->p_pattend = p1;
+                if (type == SPRINTF_STRING)
+                    SETSYMBOL(&y->p_atom, &s_);
+                else
+                    SETFLOAT(&y->p_atom, 0);
+                y->p_size = 0;
+                y->p_valid = 0;
+                if (i) inlet_new((t_object *)x, (t_pd *)y, 0, 0);
+                sprintf_proxy_checkit(y, buf, 1);
+                i++;
+                }
+            }
+        }
     outlet_new((t_object *)x, &s_anything);
     return (x);
 }
