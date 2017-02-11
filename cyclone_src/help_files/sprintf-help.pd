@@ -1,4 +1,4 @@
-#N canvas 552 40 561 490 10;
+#N canvas 380 23 561 490 10;
 #X obj 2 275 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 336 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -34,7 +34,7 @@
 #X msg 666 397 WAR: What is it good for?;
 #X text 38 315 float example;
 #X obj 41 337 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 41.29 256;
+-228856 -1 -1 0 256;
 #X msg 209 307 10.6;
 #X text 29 79 The arguments may be float/symbol atoms and changeable
 arguments. The number of changeable arguments determines the number
@@ -119,7 +119,7 @@ more than one item sends each item to a separate inlet;
 #X msg 375 175 \$1 \$1;
 #X obj 70 200 cyclone/sprintf %s-%s.wav;
 #X obj 375 148 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 58 256;
+-228856 -1 -1 0 256;
 #X text 177 283 - formats the message with current input;
 #X obj 80 302 cnv 17 3 29 empty empty 0-n 5 9 0 16 -228856 -162280
 0;
@@ -129,6 +129,9 @@ more than one item sends each item to a separate inlet;
 set in the arguments \, where each changeable argument '%' corresponds
 to an inlet (some options inlcude: %s - symbol \, %d - int \, %f -
 float \, and %c - ASCII character).;
+#X obj 452 68 cnv 15 100 60 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 459 82 [sprintf] is not ready yet, f 13;
 #X connect 17 0 36 0;
 #X connect 30 0 36 1;
 #X connect 31 0 36 0;

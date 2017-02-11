@@ -973,7 +973,6 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv)
     y->p_master = x;
     x->x_entered = 0;
     x->x_locked = 0;
-    pd_error(x, "[cyclone/zl] is not ready yet");
 
     int sz = ZL_INISIZE; 
     //argument paring
@@ -1014,6 +1013,7 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv)
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
+    pd_error(x, "[cyclone/zl] is not ready yet");
     return (x);
 }
 

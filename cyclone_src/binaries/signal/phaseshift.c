@@ -86,6 +86,7 @@ static void *phaseshift_new(t_floatarg f1, t_floatarg f2)
     x->x_x2 = 0;
     x->x_y2 = 0;
     x->x_lastq = 1;
+      pd_error(x, "[cyclone/phaseshift~] is not ready yet");
     return (x);
 }
 

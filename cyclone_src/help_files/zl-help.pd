@@ -11,7 +11,7 @@
 ;
 #X obj 74 399 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 175 223 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 186 223 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 4 7 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -20,9 +20,9 @@
 #X restore 4 6 graph;
 #X obj 307 7 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X obj 175 199 cyclone/zl len;
+#X obj 186 199 cyclone/zl len;
 #X text 115 272 anything;
-#X floatatom 175 147 5 0 0 0 - - -, f 5;
+#X floatatom 186 147 5 0 0 0 - - -, f 5;
 #X text 87 286 mode <symbol>;
 #X text 174 272 - one or more element messages to be processed;
 #X text 115 347 anything;
@@ -42,9 +42,9 @@
 #N canvas 0 22 450 300 (subpatch) 0;
 #X coords 0 1 100 -1 252 42 1;
 #X restore 306 6 graph;
-#X text 273 202 length mode (outputs the;
-#X text 228 222 number of elements in a message);
-#X msg 218 146 beep 1 2 3 4;
+#X text 284 202 length mode (outputs the;
+#X text 239 222 number of elements in a message);
+#X msg 229 146 beep 1 2 3 4;
 #X text 139 257 bang;
 #X text 122 314 zlclear;
 #X text 174 314 - clears and reinitializes the zl object;
@@ -553,13 +553,12 @@ examples];
 #X text 174 398 - output according to the mode: see details in [pd
 examples];
 #X text 174 257 - depends on the mode \, see [pd examples];
-#X obj 142 145 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 153 145 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X msg 230 173 zlclear;
-#X text 282 172 <= reinitializes;
-#X obj 135 223 print;
-#X text 90 144 resends;
-#X text 93 160 length;
+#X msg 241 173 zlclear;
+#X text 293 172 <= reinitializes;
+#X text 101 144 resends;
+#X text 104 160 length;
 #X text 174 347 - depends on the mode \, see [pd examples];
 #N canvas 960 243 438 237 subsequent_arguments 0;
 #X text 18 68 group;
@@ -599,7 +598,7 @@ examples] for more details on how they work.;
 check [pd examples] for more info;
 #X text 180 430 optional: maximum list size (1-32767 \, default 256)
 ;
-#X text 48 88 [zl] processes messages with one or more elements ("list
+#X text 72 88 [zl] processes messages with one or more elements ("list
 messages' or "anything") according to a mode (set via argument/message).
 ;
 #X text 122 512 @zlmaxsize <float> - max list size (1-32767 \, default
@@ -612,8 +611,10 @@ Modes can have subsequent arguments \, check:;
 #X obj 324 31 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 365 7 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 446 88 cnv 15 100 60 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 453 102 [zl] is not ready yet, f 13;
 #X connect 10 0 6 0;
-#X connect 10 0 40 0;
 #X connect 12 0 10 0;
 #X connect 29 0 10 0;
 #X connect 37 0 10 0;

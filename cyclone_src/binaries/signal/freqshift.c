@@ -147,6 +147,7 @@ static void *freqshift_new(t_floatarg f)
     x->x_i1x1 = x->x_i1x2 = x->x_i1y1 = x->x_i1y2 = 0.;
     x->x_i2x1 = x->x_i2x2 = x->x_i2y1 = x->x_i2y2 = 0.;
     x->x_phase = 0.;
+    pd_error(x, "[cyclone/freqshift~] is not ready yet");
     return (x);
 }
 
