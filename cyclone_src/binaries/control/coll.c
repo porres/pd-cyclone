@@ -1109,7 +1109,7 @@ static void coll_bind(t_coll *x, t_symbol *name)
     else{
         //bang if you find collcommon existing already,
         //but shouldn't be for no search
-        if(!nosearch){
+        if(!no_search){
             x->x_filebang = 1;
             clock_delay(x->x_clock, 0);
         };
