@@ -11,6 +11,7 @@
 #define expf  exp
 #endif
 
+#define LINEDRIVE_CURVE   1.01
 #define LINEDRIVE_MININPUT   .5  /* CHECKED */
 #define LINEDRIVE_MINCURVE  1.   /* CHECKED */
 
@@ -116,17 +117,13 @@ static void *linedrive_new(t_floatarg maxin, t_floatarg maxout,
     t_linedrive *x = (t_linedrive *)pd_new(linedrive_class);
     x->x_usermaxin = maxin;
     x->x_usermaxout = maxout;
-    x->x_usercurve = curve;
+    x->x_usercurve = LINEDRIVE_CURVE;
+    if (curve >= 1) x->x_usercurve = curve;
     linedrive_calculate(x);
     SETFLOAT(&x->x_outvec[1], deltime);  /* CHECKED any value accepted */
     floatinlet_new((t_object *)x, &x->x_outvec[1].a_w.w_float);
     outlet_new((t_object *)x, &s_list);
     return (x);
-}
-
-static void linedrive_fitter(void)
-{
-    /* FIXME for all objects in scope do recalculate */
 }
 
 void linedrive_setup(void)
@@ -137,5 +134,4 @@ void linedrive_setup(void)
 				A_DEFFLOAT, A_DEFFLOAT,
 				A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addfloat(linedrive_class, linedrive_float);
-    fitter_setup(linedrive_class, linedrive_fitter);
 }

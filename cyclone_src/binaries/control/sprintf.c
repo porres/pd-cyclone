@@ -523,6 +523,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
     t_pd **proxies;
     fstring = hammer_gettext(ac, av, &fsize);
     p1 = fstring;
+    pd_error(x, "[cyclone/sprintf] is not ready yet");
     while (p2 = strchr(p1, '%'))
         {
         int type;
