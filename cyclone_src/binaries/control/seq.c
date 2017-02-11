@@ -526,7 +526,7 @@ static void seq_start(t_seq *x, t_floatarg f)
     if (f < -SEQ_STARTEPSILON)
     {
 	/* FIXME */
-	seq_setmode(x, SEQ_SLAVEMODE);
+	seq_setmode(x, SEQ_SLAVEMODE); // ticks
     }
     else
     {
