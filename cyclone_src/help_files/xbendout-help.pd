@@ -1,4 +1,4 @@
-#N canvas 373 214 558 483 10;
+#N canvas 552 45 558 536 10;
 #X obj 2 258 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 321 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -9,7 +9,7 @@
 ;
 #X obj 129 269 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 445 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 496 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 208 333 -;
 #X text 168 271 float;
@@ -58,9 +58,12 @@ bend messages;
 -228856 -1 -1 0 256;
 #X obj 2 392 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
-#X text 120 400 This object can be a good alternative to pd vanilla's
-[bendin] object since the [bendin]/[bendout] objects have different
-range values and may be considered deprecated.;
+#X text 125 446 On the other hand \, if you are using Purr Data instead
+\, then [bendin]/[bendout] have been fixed \, so you can can just use
+them instead and consider this object deprecated.;
+#X text 125 402 This object can be a good alternative to [bendout]
+object in pd vanilla \, since the [bendin]/[bendout] objects there
+have different range values and may be considered deprecated.;
 #X connect 10 0 15 0;
 #X connect 15 0 26 0;
 #X connect 26 0 9 0;
