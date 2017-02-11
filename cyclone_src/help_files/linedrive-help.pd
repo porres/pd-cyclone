@@ -1,332 +1,156 @@
-#N canvas 599 23 558 585 10;
-#X obj 2 370 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 637 23 558 517 10;
+#X obj 2 316 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 427 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 369 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 462 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 400 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 380 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 91 324 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 403 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 91 346 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 437 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 91 377 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 563 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 478 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 2 542 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#N canvas 673 40 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
-#X obj 215 68 route dsp;
-#X obj 215 37 receive pd;
-#N canvas 939 367 324 271 set_color 0;
-#X obj 47 30 inlet;
-#X obj 96 146 s \$0-cnv;
-#X msg 96 114 color -4.86997e+06 -1.34937e+07;
-#N canvas 0 22 712 637 off 0;
-#X obj 490 220 * -1;
-#X obj 424 300 +;
-#X obj 409 325 +;
-#X obj 347 219 * -65536;
-#X obj 424 220 * -256;
-#X obj 409 356 - 1;
-#X obj 390 189 unpack f f f;
-#X obj 225 295 +;
-#X obj 210 320 +;
-#X obj 148 214 * -65536;
-#X obj 225 215 * -256;
-#X obj 291 215 * -1;
-#X obj 210 351 - 1;
-#X obj 191 184 unpack f f f;
-#X obj 379 423 pack;
-#X msg 378 447 color \$1 \$2;
-#X msg 395 152 124 124 124;
-#X msg 203 154 220 220 220;
-#X obj 238 121 t b b;
-#X obj 238 81 inlet;
-#X obj 378 485 outlet;
-#X connect 0 0 1 1;
-#X connect 1 0 2 1;
-#X connect 2 0 5 0;
-#X connect 3 0 2 0;
-#X connect 4 0 1 0;
-#X connect 5 0 14 1;
-#X connect 6 0 3 0;
-#X connect 6 1 4 0;
-#X connect 6 2 0 0;
-#X connect 7 0 8 1;
-#X connect 8 0 12 0;
-#X connect 9 0 8 0;
-#X connect 10 0 7 0;
-#X connect 11 0 7 1;
-#X connect 12 0 14 0;
-#X connect 13 0 9 0;
-#X connect 13 1 10 0;
-#X connect 13 2 11 0;
-#X connect 14 0 15 0;
-#X connect 15 0 20 0;
-#X connect 16 0 6 0;
-#X connect 17 0 13 0;
-#X connect 18 0 17 0;
-#X connect 18 1 16 0;
-#X connect 19 0 18 0;
-#X restore 47 113 pd off;
-#X obj 47 83 select 0 1;
-#X obj 47 168 list append 0;
-#X obj 47 195 list trim;
-#X obj 47 220 s \$0-tgl-r;
-#X connect 0 0 4 0;
-#X connect 2 0 1 0;
-#X connect 2 0 5 0;
-#X connect 3 0 1 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 4 1 2 0;
-#X connect 5 0 6 0;
-#X connect 6 0 7 0;
-#X restore 215 165 pd set_color;
-#X obj 135 122 r \$0-tgl-s;
-#N canvas 0 22 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -212593
-0;
-#X coords 0 -1 1 1 42 27 1 100 100;
-#X restore 51 144 pd;
-#X obj 226 139 s \$0-tgl-r;
-#X msg 226 115 set \$1;
-#X msg 135 177 \; pd dsp \$1;
-#N canvas 256 32 278 194 load_check 0;
-#X obj 167 53 sig~ 1;
-#X obj 74 24 loadbang;
-#X obj 167 86 snapshot~;
-#X obj 167 151 outlet;
-#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 74 126 switch~;
-#X obj 91 52 del 5;
-#X connect 0 0 2 0;
-#X connect 1 0 4 0;
-#X connect 1 0 6 0;
-#X connect 2 0 3 0;
-#X connect 4 0 5 0;
-#X connect 6 0 2 0;
-#X connect 6 0 4 0;
-#X restore 51 72 pd load_check;
-#X connect 1 0 3 0;
-#X connect 1 0 7 0;
-#X connect 2 0 1 0;
-#X connect 4 0 8 0;
-#X connect 4 0 3 0;
-#X connect 7 0 6 0;
-#X connect 9 0 0 0;
-#X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 493 76 pd;
-#X text 158 405 -;
-#X text 118 405 float;
-#X text 158 381 -;
-#X text 107 381 message;
-#X text 173 381 integer message as input \, see more_info session,
-f 60;
-#X text 173 405 time value in milliseconds for line~, f 60;
-#X text 158 438 -;
-#X text 118 438 float;
-#X text 173 438 scaled number, f 60;
-#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X text 168 348 -;
+#X text 128 348 float;
+#X text 168 325 -;
+#X text 168 378 -;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 4 graph;
-#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 4 pd;
-#N canvas 158 23 555 312 x 0;
-#X text 82 234 The output is a list of two values \, the second one
-being equal to argument4 and can be sent directly to a line~ 0, f
-60;
-#X text 82 121 The [linedrive] object converts integers for use with
-line~. Linedrive takes integers ranging from -argument1 to +argument1
-and scales them to fall within the range -argument2 to +argument2.
-If the input equals argument1 \, the output is equal to argument value2.
-Output varies exponentially with the input depending on argument3.
-With the arguments shown \, input values between 0 and 127 are converted
-from 2*dB to linear amplitude with 127 becoming 1;
-#X restore 454 262 pd x;
-#N canvas 285 95 883 699 examples 0;
-#X obj 233 364 cyclone/linedrive 127 12543.9 1.05946 200;
-#X obj 352 327 cyclone/comment 147 11 helvetica ? 0 80 80 80 map one
-range of values onto another exponentially;
-#X obj 236 304 hsl 90 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#X floatatom 233 324 5 0 0 0 - - -, f 5;
-#X obj 233 396 line~;
-#X floatatom 300 397 8 0 0 0 - - -, f 8;
-#X obj 174 512 mtof;
-#X obj 174 537 cyclone/cycle~;
-#X obj 174 569 *~;
-#X floatatom 278 503 5 0 0 0 - - -, f 5;
-#X obj 278 525 cyclone/linedrive 127 1 1.06 100;
-#X obj 278 552 line~;
-#X floatatom 328 553 5 0 0 0 - - -, f 5;
-#X obj 325 488 cyclone/comment 126 11 helvetica ? 0 80 80 80 scale
-velocity on a curve between 1 and 0;
-#X obj 71 455 notein 1, f 20;
-#X obj 71 479 poly 1 1, f 35;
-#X obj 69 46 hsl 110 18 0 127 0 0 empty empty empty -2 -8 0 10 -216373
--1 -1 0 1;
-#X floatatom 66 69 5 0 0 0 - - -, f 5;
-#X floatatom 324 74 5 0 0 0 - - -, f 5;
-#X obj 144 196 hsl 100 12 0 127 0 0 empty empty empty -2 -8 0 10 -108187
--1 -1 0 1;
-#X obj 216 135 prepend set;
-#X msg 216 155 0 30;
-#X obj 141 174 * 127;
-#X obj 141 134 unpack f;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X array behavior 127 float 2;
-#X coords 0 1 127 -1 165 165 1 0 0;
-#X restore 397 50 graph;
-#X obj 141 102 cyclone/linedrive 127 1 1.06 30;
-#N canvas 0 22 455 317 behavior 0;
-#X obj 55 59 inlet;
-#X obj 154 60 inlet;
-#X obj 177 251 tabwrite behavior;
-#X obj 154 99 * 2;
-#X obj 154 118 - 1;
-#N canvas 196 275 455 351 Set_graph 0;
-#X obj 102 204 unpack f f;
-#X obj 102 88 loadbang;
-#X obj 102 144 cyclone/counter 0 126;
-#X obj 102 290 outlet;
-#X obj 159 290 outlet;
-#X obj 102 240 swap, f 10;
-#X obj 102 123 cyclone/Uzi 127;
-#X obj 2 2 cnv 15 450 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 262 129 cyclone/comment 133 11 helvetica ? 0 80 80 80 counting
-from 0 to 126 very quickly;
-#X obj 39 34 cyclone/comment 300 10 monaco ? 0 80 80 80 this subpatch
-set all indexes with value "-1" to correct exhibition os array graph.
-;
-#X obj 239 132 cyclone/comment 133 11 helvetica ? 0 80 80 80 <==;
-#X obj 187 199 cyclone/comment 133 11 helvetica ? 0 80 80 80 <==;
-#X obj 210 196 cyclone/comment 135 11 helvetica ? 0 80 80 80 create
-the a pair of data to set the graph (index \, value);
-#X obj 173 242 cyclone/comment 133 11 helvetica ? 0 80 80 80 <==;
-#X obj 195 242 cyclone/comment 200 11 helvetica ? 0 80 80 80 preventing
-problems with hot/cold inlets;
-#X text 7 3 Initial set for "behavior" graph, f 71;
-#X obj 166 95 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 102 185 pack f -0.998;
-#X connect 0 0 5 0;
-#X connect 0 1 5 1;
-#X connect 1 0 6 0;
-#X connect 2 0 17 0;
-#X connect 5 0 3 0;
-#X connect 5 1 4 0;
-#X connect 6 0 2 0;
-#X connect 16 0 6 0;
-#X connect 17 0 0 0;
-#X restore 177 219 pd Set_graph;
-#X obj 2 2 cnv 15 450 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X obj 218 111 cyclone/comment 133 11 helvetica ? 0 80 80 80 only scaling
-;
-#X obj 196 111 cyclone/comment 133 11 helvetica ? 0 80 80 80 <==;
-#X obj 312 257 cyclone/comment 133 11 helvetica ? 0 80 80 80 writing
-in behavior table;
-#X obj 288 256 cyclone/comment 133 11 helvetica ? 0 80 80 80 <==;
-#X text 7 3 Drawing in "behavior" graph;
-#X obj 154 188 line 0 80;
-#X connect 0 0 2 1;
-#X connect 1 0 3 0;
-#X connect 3 0 4 0;
-#X connect 4 0 12 0;
-#X connect 5 0 2 0;
-#X connect 5 1 2 1;
-#X connect 12 0 2 0;
-#X restore 66 194 pd behavior;
-#X obj 186 46 cyclone/comment 133 11 helvetica ? 0 80 80 80 <---- drag
-slider;
-#X obj 244 74 cyclone/comment 133 11 helvetica ? 0 80 80 80 slew time
----->;
-#X obj 313 488 cyclone/comment 126 11 helvetica ? 0 80 80 80 ...;
-#X obj 341 326 cyclone/comment 126 11 helvetica ? 0 80 80 80 ...;
-#X obj 127 279 cyclone/comment 126 11 helvetica ? 0 80 80 80 linedrive
-allow you...;
-#X obj 638 358 *~;
-#X floatatom 714 394 8 0 0 0 - - -, f 8;
-#X obj 714 367 cyclone/snapshot~ 100;
-#X obj 583 295 osc~ 440;
-#X obj 717 417 hsl 70 15 0 1 0 0 empty empty empty -2 -8 0 10 -216373
--1 -1 0 1;
-#X obj 653 320 line~ 0;
-#X obj 173 621 ./out~, f 7;
-#X obj 595 392 ./out~;
-#X connect 0 0 4 0;
-#X connect 0 0 5 0;
-#X connect 2 0 3 0;
-#X connect 3 0 0 0;
-#X connect 6 0 7 0;
-#X connect 7 0 8 0;
-#X connect 8 0 38 0;
-#X connect 9 0 10 0;
-#X connect 10 0 11 0;
-#X connect 10 0 12 0;
-#X connect 11 0 8 1;
-#X connect 14 0 15 0;
-#X connect 14 1 15 1;
-#X connect 15 1 6 0;
-#X connect 15 2 9 0;
-#X connect 16 0 17 0;
-#X connect 17 0 26 0;
-#X connect 17 0 25 0;
-#X connect 18 0 25 1;
-#X connect 20 0 21 0;
-#X connect 22 0 19 0;
-#X connect 23 0 22 0;
-#X connect 23 0 26 1;
-#X connect 25 0 20 0;
-#X connect 25 0 23 0;
-#X connect 32 0 39 0;
-#X connect 32 0 39 1;
-#X connect 33 0 36 0;
-#X connect 34 0 33 0;
-#X connect 35 0 32 0;
-#X connect 37 0 32 1;
-#X connect 37 0 34 0;
-#X coords 0 699 1 698 85 60 0;
-#X restore 467 290 pd examples;
-#X text 76 95 [linedrive] scales from one range to another with an
-exponential curve. Both the input and output ranges are expressed as
-single arguments representing the maximum value. The minimum values
-are the negative values of the ranges (argument * -1).;
-#X text 289 208 time;
-#X floatatom 291 231 5 0 0 0 - - -, f 5;
-#X text 351 233 all args obrigatory;
-#X text 101 513 4) integer time value - obrigatory (no default);
-#X text 103 474 1) input range (int) - (no default) \; 2) output range
-(float?) - obrigatory (no default) \; 3) exponential factor (> 1) -
-obrigatory (no default);
-#X obj 123 205 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X obj 120 230 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X restore 304 3 pd;
+#X text 355 178 time;
+#X obj 165 178 hsl 128 15 -127 127 0 0 empty empty empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X obj 162 203 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X floatatom 225 325 6 0 0 0 - - -, f 6;
-#X floatatom 120 325 10 0 0 0 - - -, f 10;
-#X obj 120 296 unpack float float;
-#X obj 120 254 cyclone/linedrive 127 1 1 500;
-#X text 284 296 time must be >= 0;
-#X text 284 316 exp must be >= 1;
-#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 scale numbers exponentially
-for use with line~;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 linedrive;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 162 258 unpack float float;
+#X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Exponential scaler
+for [line~];
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 linedrive;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 26 0 35 1;
-#X connect 30 0 31 0;
-#X connect 31 0 35 0;
-#X connect 34 0 33 0;
-#X connect 34 1 32 0;
-#X connect 35 0 34 0;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 128 325 float;
+#X text 183 325 input value \, to be mapped to output range, f 58
+;
+#X text 183 348 time value in milliseconds (for [line~]), f 58;
+#X text 134 378 list;
+#X text 183 378 scaled number and time, f 58;
+#X text 114 407 1) float -;
+#X text 114 424 2) float -;
+#X text 114 441 3) float -;
+#X text 114 458 4) float -;
+#X obj 351 201 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 162 287 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 267 288 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 235 287 time;
+#X text 80 285 scaled value;
+#X text 75 90 [linedrive] scales numbers from one range to another
+with an exponential curve. First argument is the input range (127 means
+from -127 to 127) \, second is output range (1 is from -1 to 1) \,
+third is exponential factor and fourth is the time (to be used with
+line~).;
+#X text 183 406 input range (default 0);
+#X text 183 424 output range (default 0);
+#X text 183 441 exponential factor (minimum is 1 \, default 1.01);
+#X text 183 458 time value for [line~] (default 0);
+#X obj 162 226 cyclone/linedrive 127 1 1.06 500;
+#N canvas 562 203 442 530 exponential 0;
+#X obj 150 243 t f f;
+#X obj 51 182 trigger bang float;
+#X obj 54 134 hsl 128 15 1 1.2 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 12700 1;
+#X obj 124 361 cnv 15 198 138 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array \$0-exponential 128 float 1;
+#A 0 8.78981e-11 1.05478e-10 1.26573e-10 1.51888e-10 1.82266e-10 2.18719e-10
+2.62462e-10 3.14955e-10 3.77946e-10 4.53535e-10 5.44242e-10 6.53091e-10
+7.83709e-10 9.40451e-10 1.12854e-09 1.35425e-09 1.6251e-09 1.95012e-09
+2.34014e-09 2.80817e-09 3.36981e-09 4.04377e-09 4.85252e-09 5.82302e-09
+6.98763e-09 8.38516e-09 1.00622e-08 1.20746e-08 1.44896e-08 1.73875e-08
+2.0865e-08 2.50379e-08 3.00455e-08 3.60546e-08 4.32656e-08 5.19187e-08
+6.23024e-08 7.47629e-08 8.97155e-08 1.07659e-07 1.2919e-07 1.55028e-07
+1.86034e-07 2.23241e-07 2.67889e-07 3.21467e-07 3.8576e-07 4.62913e-07
+5.55495e-07 6.66594e-07 7.99913e-07 9.59896e-07 1.15187e-06 1.38225e-06
+1.6587e-06 1.99044e-06 2.38853e-06 2.86623e-06 3.43948e-06 4.12738e-06
+4.95285e-06 5.94342e-06 7.13211e-06 8.55853e-06 1.02702e-05 1.23243e-05
+1.47891e-05 1.7747e-05 2.12964e-05 2.55556e-05 3.06668e-05 3.68001e-05
+4.41601e-05 5.29922e-05 6.35906e-05 7.63087e-05 9.15705e-05 0.000109885
+0.000131862 0.000158234 0.000189881 0.000227857 0.000273428 0.000328114
+0.000393736 0.000472484 0.000566981 0.000680377 0.000816452 0.000979743
+0.00117569 0.00141083 0.001693 0.00203159 0.00243791 0.0029255 0.0035106
+0.00421272 0.00505526 0.00606631 0.00727957 0.00873549 0.0104826 0.0125791
+0.0150949 0.0181139 0.0217367 0.026084 0.0313008 0.037561 0.0450732
+0.0540879 0.0649054 0.0778865 0.0934638 0.112157 0.134588 0.161506
+0.193807 0.232568 0.279082 0.334898 0.401877 0.482253 0.578704 0.694444
+0.833333 1;
+#X coords 0 1 127 0 200 140 1 0 0;
+#X restore 123 360 graph;
+#X text 62 134 exponential factor;
+#X text 330 490 0;
+#X text 328 358 1;
+#X obj 51 214 cyclone/uzi 128 0;
+#X obj 177 267 cyclone/scale 0 127 0 1 1 @classic 1;
+#X obj 51 160 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1.2 256;
+#X text 21 11 The exponential formula is the same used in the classic
+mode of [cyclone/scale]! A value of "1" gives you a linear scale (no
+exponential). Values greater than one gives you an exponential curve
+\, with larger values leading to steeper exponential curves. A typical
+value for this mode is "1.06". Below we have classic mode with expnential
+values from "1" (linear) to "1.2".;
+#X obj 95 295 cyclone/peek~ \$0-exponential;
+#X connect 0 0 12 0;
+#X connect 0 1 9 0;
+#X connect 1 0 8 0;
+#X connect 1 1 9 5;
+#X connect 2 0 10 0;
+#X connect 8 2 0 0;
+#X connect 9 0 12 1;
+#X connect 10 0 1 0;
+#X restore 419 257 pd exponential curve;
+#N canvas 898 201 421 372 example 0;
+#X obj 112 259 ./out~, f 7;
+#X obj 153 165 line~;
+#X obj 138 209 *~;
+#X obj 156 73 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 3700 1;
+#X obj 153 102 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 37 256;
+#X obj 67 142 osc~ 440;
+#X obj 153 128 cyclone/linedrive 127 1 1.06 500;
+#X obj 205 209 cyclone/number~;
+#X obj 222 166 nbx 10 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0
+10 -228856 -1 -1 0.00527806 256;
+#X text 35 25 Using [linedrive] to exponentially change gain values.
+;
+#X connect 1 0 2 1;
+#X connect 1 0 7 0;
+#X connect 2 0 0 0;
+#X connect 2 0 0 1;
+#X connect 3 0 4 0;
+#X connect 4 0 6 0;
+#X connect 5 0 2 0;
+#X connect 6 0 1 0;
+#X connect 6 0 8 0;
+#X coords 0 372 1 371 85 60 0;
+#X restore 479 282 pd example;
+#X connect 16 0 17 0;
+#X connect 17 0 42 0;
+#X connect 18 0 33 0;
+#X connect 18 1 34 0;
+#X connect 32 0 42 1;
+#X connect 42 0 18 0;

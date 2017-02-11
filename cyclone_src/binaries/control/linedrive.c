@@ -6,10 +6,8 @@
 #include "m_pd.h"
 #include "common/fitter.h"
 
-#if defined(_WIN32) || defined(__APPLE__)
 #define logf  log
 #define expf  exp
-#endif
 
 #define LINEDRIVE_CURVE   1.01
 #define LINEDRIVE_MININPUT   .5  /* CHECKED */
