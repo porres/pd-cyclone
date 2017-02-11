@@ -118,9 +118,11 @@ static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
     char *bp = buf;
     int precision = x->x_precision;
     int cnt = 0;
+    //not at beginning, have to enter space before
     if (col > 0)
 		*bp++ = ' ', cnt++;
     cnt += sprintf(bp, fmt, f, precision);
+    //if too many columns for ed window, start on new line (instead of space)
     if (col + cnt > maxcol)
 	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
     else
@@ -128,6 +130,7 @@ static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
     return (col);
 }
 
+//called by capture_append float to add floats to x->x_buffer for editor window
 static int capture_formatnumber(t_capture *x, float f, char *buf,
 				int col, int maxcol)
 {
@@ -143,6 +146,7 @@ static int capture_formatnumber(t_capture *x, float f, char *buf,
     return (col);
 }
 
+//called by capture_dowrite to write floats to a file
 static int capture_writefloat(t_capture *x, float f, char *buf, int col,
 			      FILE *fp)
 {
@@ -151,6 +155,7 @@ static int capture_writefloat(t_capture *x, float f, char *buf, int col,
     return (fputs(buf, fp) < 0 ? -1 : col);
 }
 
+//called by capture_write method
 static void capture_dowrite(t_capture *x, t_symbol *fn)
 {
     FILE *fp = 0;
@@ -202,6 +207,7 @@ static void capture_write(t_capture *x, t_symbol *s)
 	hammerpanel_save(x->x_filehandle, 0, 0);
 }
 
+//use by capture_open (opens editor window) to append floats to x->x_buffer
 static int capture_appendfloat(t_capture *x, float f, char *buf, int col)
 {
     /* CHECKED 80 columns */

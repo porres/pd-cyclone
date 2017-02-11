@@ -1107,9 +1107,12 @@ static void coll_bind(t_coll *x, t_symbol *name)
 					  collcommon_editorhook);
     }
     else{
-        //bang if you find collcommon existing already 
-        x->x_filebang = 1;
-        clock_delay(x->x_clock, 0);
+        //bang if you find collcommon existing already,
+        //but shouldn't be for no search
+        if(!nosearch){
+            x->x_filebang = 1;
+            clock_delay(x->x_clock, 0);
+        };
     };
 
     x->x_common = cc;
@@ -1910,6 +1913,7 @@ static void coll_readagain(t_coll *x)
      
                                 if(msg->m_line > 0){
                                     x->x_filebang = 1;
+                                    clock_delay(x->x_clock, 0);
                                 };
 			}
 		}

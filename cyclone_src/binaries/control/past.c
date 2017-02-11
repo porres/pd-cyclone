@@ -125,7 +125,7 @@ static void past_list(t_past *x, t_symbol *s, int argc, t_atom * argv)
             {
                 inputf = atom_getfloatarg(i, argc, argv);
                 cmpf = x->x_arg[i]; //float to compare input to
-                if(inputf < cmpf){
+                if(inputf <= cmpf){
                     //condition not satisfied, break
                     past = 0;
                     break;
