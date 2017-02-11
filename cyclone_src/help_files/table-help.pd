@@ -43,7 +43,7 @@
 #X restore 304 4 pd;
 #X text 173 271 same as the quantile message (check the quantile message
 in the subpatch [pd allMessages]);
-#N canvas 348 95 633 683 examples 0;
+#N canvas 727 59 604 548 examples 0;
 #X obj 89 36 cyclone/comment 227 11 helvetica ? 0 80 80 80 store 36
 at address 12;
 #X msg 45 37 12 36;
@@ -83,8 +83,6 @@ Tables share the same content;
 -66577 -1 0 1;
 #X obj 298 229 vsl 22 48 0 79 0 0 empty empty empty 0 -8 0 8 -216373
 -66577 -1 0 1;
-#X obj 202 416 cyclone/Table;
-#C restore;
 #X obj 508 251 t b b, f 6;
 #X msg 508 327 100;
 #X msg 541 327 42;
@@ -137,19 +135,8 @@ value;
 to see Table contents;
 #X obj 313 467 cyclone/comment 126 11 helvetica ? 0 80 80 80 bang from
 second outlet when data is changed in the user interface;
-#X obj 32 517 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
-0;
-#X text 141 579 You may name the table with an argument. Many boxes
-may share the same table by using the same name. If there is a file
-by that name it will be read into the table if possible., f 59;
-#X text 141 534 You can close the table window by clicking its close
-box \, and reopen it by double-clicking the "table" box or sending
-it the "open" message.;
-#X text 45 749 read <symbol> -;
-#X text 147 750 opens and reads data from a <file> in Text. Without
-an argument \, read opens a standard Open Document dialog to choose
-a file. If the file contains valid data \, the entire contents of the
-existing [Table] are replaced with the file contents, f 86;
+#X obj 202 416 cyclone/table;
+#C restore;
 #X connect 1 0 12 0;
 #X connect 2 0 12 0;
 #X connect 7 0 13 0;
@@ -159,30 +146,30 @@ existing [Table] are replaced with the file contents, f 86;
 #X connect 12 0 3 0;
 #X connect 13 0 5 0;
 #X connect 14 0 9 0;
-#X connect 15 0 28 0;
-#X connect 16 0 28 0;
-#X connect 17 0 28 0;
-#X connect 18 0 28 0;
-#X connect 19 0 36 0;
+#X connect 15 0 45 0;
+#X connect 16 0 45 0;
+#X connect 17 0 45 0;
+#X connect 18 0 45 0;
+#X connect 19 0 35 0;
 #X connect 22 0 16 0;
 #X connect 23 0 22 0;
-#X connect 24 0 28 0;
-#X connect 25 0 28 0;
+#X connect 24 0 45 0;
+#X connect 25 0 45 0;
 #X connect 26 0 23 0;
-#X connect 27 0 28 0;
-#X connect 28 0 20 0;
-#X connect 28 1 21 0;
-#X connect 29 0 30 0;
-#X connect 29 1 31 0;
-#X connect 30 0 28 0;
-#X connect 31 0 28 1;
-#X connect 32 0 29 0;
-#X connect 33 0 35 0;
-#X connect 33 1 37 0;
-#X connect 34 0 33 0;
-#X connect 35 0 28 0;
-#X connect 36 0 18 0;
-#X connect 37 0 35 1;
+#X connect 27 0 45 0;
+#X connect 28 0 29 0;
+#X connect 28 1 30 0;
+#X connect 29 0 45 0;
+#X connect 30 0 45 1;
+#X connect 31 0 28 0;
+#X connect 32 0 34 0;
+#X connect 32 1 36 0;
+#X connect 33 0 32 0;
+#X connect 34 0 45 0;
+#X connect 35 0 18 0;
+#X connect 36 0 34 1;
+#X connect 45 0 20 0;
+#X connect 45 1 21 0;
 #X restore 289 223 pd examples;
 #X obj 150 194 cyclone/table;
 #C restore;
@@ -237,18 +224,6 @@ it as:;
 #X obj 127 413 table;
 #X restore 376 219 pd conflicts with internal \; backwards compatibility
 ;
-#N canvas 157 75 831 209 inconsistency 0;
-#X text 81 38 (mouse) -;
-#X text 153 37 the values stored in [Table] can be entered and edited
-graphically with the mouse. In Max when a [Table] object is first created
-in a patcher window \, the Table object’s graphic editing window
-is opened \, and values can be entered by drawing with the mouse \,
-here we can edit the values in [Table] with mouse and keyboard. When
-the patcher window is locked \, the graphic editing window can be opened
-by double-clicking with the mouse on the [Table] object.Graphically
-editing [Table] data content are ont implemented in cyclone yet.,
-f 87;
-#X restore 430 337 pd inconsistency;
 #N canvas 476 23 634 599 All_Messages 0;
 #X text 150 50 outputs the stored numbers on the left outlet, f 78
 ;
