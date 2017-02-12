@@ -89,7 +89,7 @@ static void comment_draw(t_comment *x)
     }
     else outbuf = buf;
     outp = outbuf;
-    sprintf(outp, "comment_draw %s .x%lx.c %s %s %f %f %s %d %s %s {%.*s} %d\n",
+    sprintf(outp, "comment_draw %s .x%lx.c %s %s %f %f %s -%d %s %s {%.*s} %d\n",
 	    x->x_bindsym->s_name, cvid, x->x_texttag, x->x_tag,
 	    (float)(text_xpix((t_text *)x, x->x_glist) + COMMENT_LMARGIN),
 	    (float)(text_ypix((t_text *)x, x->x_glist) + COMMENT_TMARGIN),
@@ -777,7 +777,6 @@ textpart:
     pd_bind(commentsink, x->x_bindsym);
     x->x_ready = 0;
     x->x_dragon = 0;
-    pd_error(x, "[cyclone/comment] is not ready yet");
     return (x);
 }
 
