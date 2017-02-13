@@ -11,7 +11,7 @@ Max is found at: https://cycling74.com/
 
 --------------------
 
-<strong>Exerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):</strong>
+<strong>Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):</strong>
 
 "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
 
