@@ -70,9 +70,7 @@ Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclon
 -------
 <strong>Building Cyclone:</strong>
 
-When Fred Jan Kraan forked to his repository and worked on the release of cyclone 0.1-alpha57, the cyclone package has started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
-
-With this new build system, all you have to do is have the latest pd vanilla installed and type "make" in your compiler to build cyclone for your platform.
+Since cyclone 0.1-alpha57, the cyclone package started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
 
 * Compiling with pdlibbuilder
 
