@@ -61,7 +61,7 @@ Cyclone's original author is Krzysztof Czaja, who worked on it as part of his mi
 
 Since february 21st 2016, an active further development of cyclone started on this repository by Alexandre Porres, Derek Kwan and Matt Barber (and other collaborators).
 
-<strong>About other repositories:</strong>
+* <strong>About other repositories:</strong>
 
 => Original Repository (up to version 0.1-Alpha-57):
 The original repository of MiXed as part of Pd Extended - containing cyclone and more (such as 'toxy') - resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. This repository embraces work from three different maintainance phases: 
