@@ -35,9 +35,7 @@ Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclon
 
 Notes on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
-<strong>Building Cyclone:</strong>
-
-Since cyclone 0.1-alpha57, the cyclone package started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
+Building Cyclone: Since cyclone 0.1-alpha57, the cyclone package started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
 
 * Compiling with pdlibbuilder
 
@@ -55,11 +53,9 @@ The default path for installing might not be the best, surely for testing. Use t
 
 <strong>A Brief History of cyclone's development:</strong>
 
-<strong>Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):</strong>
+Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
-"Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. 
-
-In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)." The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
+* "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)." The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
 
 Cyclone's original author is Krzysztof Czaja, who worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into into Pd Extended, so it eventually was under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended until 2013, when Pd Extended was abandoned (leaving cyclone and miXed also unmaintained as a result). In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone but decided to abandone development for it in feb-2016, though maintenance for his last package is still active.
 
