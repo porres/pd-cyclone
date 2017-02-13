@@ -12,8 +12,6 @@
 #define CAPTURE_DEFPREC 4 //default precision
 #define CAPTURE_MAXPREC 99 //
 #define CAPTURE_MINPREC 1 //minimum preision
-//not sure what's planned for precision Matt but i'll just put 64 here for 64 bits for now 
-//and then delete these two lines of comments after you're done - DK
 
 typedef struct _capture
 {
@@ -21,9 +19,9 @@ typedef struct _capture
     t_canvas      *x_canvas;
     char           x_intmode;  /* if nonzero ('x' or 'm') floats are ignored */
     float         *x_buffer;
-    int            x_bufsize;
-    int            x_count;
-    int            x_counter;
+    int            x_bufsize; //number of stored values
+    int            x_count; //number of values actually in buffer
+    unsigned int   x_counter; //counting number of values received
     int            x_head;
     int            x_precision;
     t_outlet * x_count_outlet;
@@ -41,8 +39,7 @@ static void capture_float(t_capture *x, t_float f)
 	x->x_head = 0;
     if (x->x_count < x->x_bufsize)
 	x->x_count++;
-    if (x->x_counter < x->x_bufsize)
-        x->x_counter++;
+    x->x_counter++;
 }
 
 static void capture_precision(t_capture *x, t_float f)
@@ -63,15 +60,17 @@ static void capture_list(t_capture *x, t_symbol *s, int ac, t_atom *av)
     }
 }
 
+//clear stored contents
 static void capture_clear(t_capture *x)
 {
     x->x_count = 0;
     x->x_head = 0;
 }
 
+//counts number of items received since last count
 static void capture_count(t_capture *x)
 {
-    outlet_float(x->x_count_outlet, x->x_counter);
+    outlet_float(x->x_count_outlet, (t_float)x->x_counter);
     x->x_counter = 0;
 }
 
@@ -97,6 +96,7 @@ static void capture_dump(t_capture *x)
     }
 }
 
+//used by formatnumber in tern used by appendfloat to write to editor window
 static int capture_formatint(int i, char *buf, int col,
 			     int maxcol, char *fmt)
 {
@@ -112,6 +112,7 @@ static int capture_formatint(int i, char *buf, int col,
     return (col);
 }
 
+//used by capture_formatnumber used by append float to write to ed window
 static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
 			       int maxcol, char *fmt)
 {
