@@ -58,9 +58,10 @@ This repository/project is open to collaboration to anyone who wishes to work ac
 
 -------
 
-<strong>About Cyclone 0.3 alpha 1:</strong>
+<strong>About Cyclone 0.3:</strong>
 
-The first release from this repository is "Cyclone 0.3 alpha 1". Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0, the main focus has been on updating cyclone objects to the latest Max version (Max 7.3.1 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
+Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0, the main focus of cyclone 0.3 (
+Currently in alpha stage) has been on updating cyclone objects to the latest Max version (Max 7.3.1 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
 
 - 60 updated objects (only 3 reamining to be updated);
 - 54 bug fixes (including objects that were updated and not updated);
