@@ -1,3 +1,7 @@
+<strong>Cyclone 0.3 alpha 1:</strong>
+
+Released: February 21st 2017
+
 Cyclone: A set of Pure Data objects cloned from Max/MSP 
 -------
 
@@ -61,10 +65,7 @@ The first release from this repository is "Cyclone 0.3 alpha 1". Since cyclone 0
 - 46 new objects;
 - A newly written documentation, from scratch (yet to include meta and related objects)
 
-Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
-
-This Readme file was created on February 22nd 2016 
-(last edited on February 13th 2017)
+Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog 
 
 -------
 <strong>Building Cyclone:</strong>
