@@ -9,13 +9,44 @@ Cyclone: A set of Pure Data objects cloned from Max/MSP
 
 > Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP. It thus provides some good level of compatibility between the two environments, helping users of both systems in the development of equivalent patches. 
 
---------------------
+-------
 
 Pure Data (or just "Pd") project is found at: https://sourceforge.net/p/pure-data/pure-data/ci/master/tree/
 
 Max is found at: https://cycling74.com/
 
---------------------
+-------
+
+<strong>About Cyclone 0.3:</strong>
+
+Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the early 2000s), the main focus of cyclone 0.3 (currently in alpha stage) has been on updating cyclone objects to the latest Max version (Max 7.3.1 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
+
+- 60 updated objects (only 3 reamining to be updated);
+- 54 bug fixes (including objects that were updated and not updated);
+- 46 new objects;
+- A newly written documentation, from scratch (yet to include meta and related objects)
+
+Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog 
+
+Notes on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
+
+<strong>Building Cyclone:</strong>
+
+Since cyclone 0.1-alpha57, the cyclone package started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
+
+* Compiling with pdlibbuilder
+
+PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, yo have to specify the path yourself using the pdincludepath variable. Example:
+
+<pre>make pdincludepath=~/pd-0.47-1/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.47-1/bin/)</pre>
+
+* Installing with pdlibbuilder
+
+The default path for installing might not be the best, surely for testing. Use the pkglibdir variable for this. Example:
+
+<pre>make install pkglibdir=~/pd-externals/</pre>
+
+-------
 
 <strong>Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):</strong>
 
@@ -55,34 +86,3 @@ The original repository of MiXed as part of Pd Extended - containing cyclone and
 Location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone. Keep working and expanding the Max compatibility is the main goal of this development.
 
 This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
-
--------
-
-<strong>About Cyclone 0.3:</strong>
-
-Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0, the main focus of cyclone 0.3 (
-Currently in alpha stage) has been on updating cyclone objects to the latest Max version (Max 7.3.1 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
-
-- 60 updated objects (only 3 reamining to be updated);
-- 54 bug fixes (including objects that were updated and not updated);
-- 46 new objects;
-- A newly written documentation, from scratch (yet to include meta and related objects)
-
-Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog 
-
--------
-<strong>Building Cyclone:</strong>
-
-Since cyclone 0.1-alpha57, the cyclone package started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
-
-* Compiling with pdlibbuilder
-
-PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, yo have to specify the path yourself using the pdincludepath variable. Example:
-
-<pre>make pdincludepath=~/pd-0.47-1/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.47-1/bin/)</pre>
-
-* Installing with pdlibbuilder
-
-The default path for installing might not be the best, surely for testing. Use the pkglibdir variable for this. Example:
-
-<pre>make install pkglibdir=~/pd-externals/</pre>
