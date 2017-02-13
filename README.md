@@ -1,4 +1,6 @@
-<strong>Cyclone 0.3 alpha 1:</strong>
+
+Cyclone: A set of Pure Data objects cloned from Max/MSP 
+-------
 
 Released: February 21st 2017
 
