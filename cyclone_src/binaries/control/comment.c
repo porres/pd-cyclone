@@ -777,7 +777,7 @@ textpart:
     pd_bind(commentsink, x->x_bindsym);
     x->x_ready = 0;
     x->x_dragon = 0;
-        pd_error(x, "[cyclone/comment] is not ready yet")
+    pd_error(x, "[cyclone/comment] is not ready yet");
     return (x);
 }
 
