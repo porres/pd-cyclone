@@ -1,5 +1,5 @@
 
-Cyclone 0.3 alpha 1 
+Cyclone 0.3 alpha-1 
 -------
 
 Released: February 21st, 2017
@@ -24,7 +24,7 @@ Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the e
 - 60 updated objects (only 3 reamining to be updated);
 - 54 fixed objects (including objects that were and were not updated);
 - 46 new objects (some still experimental);
-- A newly written documentation, from scratch (yet to include meta and related objects)
+- A newly written documentation, taking care of numerous issues (yet to include meta and related objects)
 
 Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog 
 
@@ -35,11 +35,11 @@ Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclon
 
 Notes on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
-Building Cyclone: Since cyclone 0.1-alpha57, the cyclone package started relying on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
+Building Cyclone: From cyclone 0.1-alpha57, the cyclone package has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
 
 * Compiling with pdlibbuilder
 
-PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, yo have to specify the path yourself using the pdincludepath variable. Example:
+PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
 <pre>make pdincludepath=~/pd-0.47-1/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.47-1/bin/)</pre>
 
@@ -57,7 +57,7 @@ Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
 * "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)." The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
 
-Cyclone's original author is Krzysztof Czaja, who worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into into Pd Extended, so it eventually was under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended until 2013, when Pd Extended was abandoned (leaving cyclone and miXed also unmaintained as a result). In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone but decided to abandone development for it in feb-2016, though maintenance for his last package is still active.
+Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into into Pd Extended, and it ended up eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after 2013, cyclone and miXed were left unmaintained as a result. In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone but decided to abandone development for it in feb-2016, though maintenance for his last package is still active.
 
 Since february 21st 2016, an active further development of cyclone started on this repository by Alexandre Porres, Derek Kwan and Matt Barber (and other collaborators).
 
@@ -78,6 +78,4 @@ The original repository of MiXed as part of Pd Extended - containing cyclone and
 
 <strong>About this repository and its Goals:</strong>
 
-Location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone. Keep working and expanding the Max compatibility is the main goal of this development.
-
-This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
+Location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
