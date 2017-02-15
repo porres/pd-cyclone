@@ -21,7 +21,7 @@ Max is found at: https://cycling74.com/
 
 Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the early 2000s), the main focus of cyclone 0.3 (currently in alpha stage) has been on updating cyclone objects to the latest Max version (Max 7.3.2 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
 
-- 60 updated objects (only 3 reamining to be updated);
+- 60 updated objects (only 4 reamining to be updated);
 - 54 fixed objects (including objects that were and were not updated);
 - 46 new objects (some still experimental);
 - A newly written documentation, taking care of numerous issues (yet to include meta and related objects)
