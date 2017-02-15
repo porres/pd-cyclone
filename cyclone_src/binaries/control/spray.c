@@ -56,6 +56,8 @@ static void spray_list(t_spray *x, t_symbol *s, int ac, t_atom *av)
             for (argp--, outp--; argp > av; argp--, outp--)
                 if (argp->a_type == A_FLOAT)
                     outlet_float(*outp, argp->a_w.w_float);
+                else if(argp->a_type == A_SYMBOL)
+                    outlet_symbol(*outp, argp->a_w.w_symbol);
         }
         else{
             //new listmode, send entire list out outlet specified by first elt
@@ -95,7 +97,7 @@ static void *spray_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     x->x_offset = (int)f2;
     x->x_mode = f3 > 0 ? 1 : 0;
     for (i = 0; i < nouts; i++)
-        x->x_outs[i] = outlet_new((t_object *)x, &s_float);
+        x->x_outs[i] = outlet_new((t_object *)x, &s_anything);
     return (x);
 }
 
