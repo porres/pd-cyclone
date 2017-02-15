@@ -53,7 +53,7 @@ The default path for installing might not be the best, surely for testing. Use t
 
 -------
 
-<strong>A Brief History of cyclone's development:</strong>
+<strong>A Brief History of Cyclone's Development:</strong>
 
 Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
@@ -63,7 +63,7 @@ Cyclone's original author Krzysztof Czaja worked on it as part of his miXed libr
 
 Since february 21st 2016, an active further development of cyclone started on this repository by Alexandre Porres, Derek Kwan and Matt Barber (and other collaborators).
 
-* <strong>About other repositories:</strong>
+* <strong>About Other Repositories:</strong>
 
 => Original Repository (up to version 0.1-Alpha-57):
 The original repository of MiXed as part of Pd Extended - containing cyclone and more (such as 'toxy') - resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. This repository embraces work from three different maintainance phases: 
@@ -78,6 +78,6 @@ The original repository of MiXed as part of Pd Extended - containing cyclone and
 
 -------
 
-<strong>About this repository and its Goals:</strong>
+<strong>About This Repository And Its Goals:</strong>
 
 Location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects, which is a ground rule manifested by Hans-Christoph Steiner on the Pd-List about further maintenance of cyclone. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
