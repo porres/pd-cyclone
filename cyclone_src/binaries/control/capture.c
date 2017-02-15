@@ -2,6 +2,9 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+//Derek Kwan 2017 
+//notes on changes: v2 ignored floats in int modes, this is not the case anymore
+//also ignored all symbols, also no longer the case
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
@@ -18,7 +21,7 @@ typedef struct _capture
     t_object       x_ob;
     t_canvas      *x_canvas;
     char           x_intmode;  /* if nonzero ('x' or 'm') floats are ignored */
-    float         *x_buffer;
+    t_atom         *x_buffer;
     int            x_bufsize; //number of stored values
     int            x_count; //number of values actually in buffer
     unsigned int   x_counter; //counting number of values received
@@ -32,14 +35,28 @@ static t_class *capture_class;
 
 static void capture_float(t_capture *x, t_float f)
 {
-    if (x->x_intmode && f != (int)f)  /* CHECKME float */
-	return;
-    x->x_buffer[x->x_head++] = f;
+    SETFLOAT(&x->x_buffer[x->x_head], f) ;
+    //post("%f", x->x_buffer[x->x_head].a_w.w_float);
+    x->x_head = x->x_head + 1;
     if (x->x_head >= x->x_bufsize)
 	x->x_head = 0;
     if (x->x_count < x->x_bufsize)
 	x->x_count++;
     x->x_counter++;
+}
+
+static void capture_symbol(t_capture *x, t_symbol *s)
+{
+    SETSYMBOL(&x->x_buffer[x->x_head], s) ;
+    x->x_head = x->x_head + 1;
+    //post("%s", x->x_buffer[x->x_head ].a_w.w_symbol->s_name);
+    if (x->x_head >= x->x_bufsize)
+	x->x_head = 0;
+    if (x->x_count < x->x_bufsize)
+	x->x_count++;
+    x->x_counter++;
+
+
 }
 
 static void capture_precision(t_capture *x, t_float f)
@@ -56,6 +73,8 @@ static void capture_list(t_capture *x, t_symbol *s, int ac, t_atom *av)
     {
         if (av->a_type == A_FLOAT)  /* CHECKME */
 	    capture_float(x, av->a_w.w_float);
+        else if(av->a_type == A_SYMBOL)
+            capture_symbol(x, av->a_w.w_symbol);
 	av++;
     }
 }
@@ -77,23 +96,40 @@ static void capture_count(t_capture *x)
 static void capture_dump(t_capture *x)
 {
     int count = x->x_count;
+    int i;
+    //post("bufsize: %d, count: %d", x->x_bufsize, count);
     if (count < x->x_bufsize)
     {
-	float *bp = x->x_buffer;
-	while (count--)
-	    outlet_float(((t_object *)x)->ob_outlet, *bp++);
+        for(i=0; i < count; i++)
+        {
+            //printf("%ddump\n", i);
+            if(x->x_buffer[i].a_type == A_FLOAT)
+            {
+                //printf("float\n");
+	        outlet_float(((t_object *)x)->ob_outlet, x->x_buffer[i].a_w.w_float);
+            }
+            else if (x->x_buffer[i].a_type == A_SYMBOL)
+            {
+                //printf("symbol\n");
+	        outlet_symbol(((t_object *)x)->ob_outlet, x->x_buffer[i].a_w.w_symbol);
+            };
+                
+        };
     }
     else
     {
-	float *bp = x->x_buffer + x->x_head;
-	count = x->x_bufsize - x->x_head;
-	while (count--)
-	    outlet_float(((t_object *)x)->ob_outlet, *bp++);
-	bp = x->x_buffer;
-	count = x->x_head;
-	while (count--)
-	    outlet_float(((t_object *)x)->ob_outlet, *bp++);
-    }
+        //this is for wrapping around and rewriting old values
+        //for the proper input order while dumping
+        int reali;
+        for(i=0; i < x->x_bufsize; i++)
+        {
+            reali = (x->x_head + i) % x->x_bufsize;
+            if(x->x_buffer[reali].a_type == A_FLOAT)
+	        outlet_float(((t_object *)x)->ob_outlet, x->x_buffer[reali].a_w.w_float);
+            else if (x->x_buffer[reali].a_type == A_SYMBOL)
+	        outlet_symbol(((t_object *)x)->ob_outlet, x->x_buffer[reali].a_w.w_symbol);
+        };
+    };
 }
 
 //used by formatnumber in tern used by appendfloat to write to editor window
@@ -156,11 +192,27 @@ static int capture_writefloat(t_capture *x, float f, char *buf, int col,
     return (fputs(buf, fp) < 0 ? -1 : col);
 }
 
+static int capture_writesymbol(t_capture *x, t_symbol *s, char *buf,
+        int col, FILE *fp)
+{
+   int i;
+    int symlen = strlen(s->s_name);
+    unsigned char c;
+    for(i=0; i<symlen; i++)
+    {
+        c = s->s_name[i];
+        col = capture_formatnumber(x, (t_float)c, buf, col, 80);
+        col = fputs(buf, fp) < 0 ? -1 : col;
+        if(col < 0) break;
+    };
+    return (col);
+}
+
 //called by capture_write method
 static void capture_dowrite(t_capture *x, t_symbol *fn)
 {
     FILE *fp = 0;
-    int count = x->x_count;
+    int i, count = x->x_count;
     char buf[MAXPDSTRING];
     canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
     if (fp = sys_fopen(buf, "w"))  /* LATER ask if overwriting, CHECKED */
@@ -168,24 +220,30 @@ static void capture_dowrite(t_capture *x, t_symbol *fn)
 	int col = 0;
 	if (count < x->x_bufsize)
 	{
-	    float *bp = x->x_buffer;
-	    while (count--)
-		if ((col = capture_writefloat(x, *bp++, buf, col, fp)) < 0)
-		    goto fail;
+            for(i=0; i < count ; i++)
+            {
+            if(x->x_buffer[i].a_type == A_FLOAT)
+		col = capture_writefloat(x, x->x_buffer[i].a_w.w_float, buf, col, fp);
+            else if (x->x_buffer[i].a_type == A_SYMBOL)
+		col = capture_writesymbol(x, x->x_buffer[i].a_w.w_symbol, buf, col, fp);
+            if(col < 0) goto fail;
+            };
 	}
 	else
 	{
-	    float *bp = x->x_buffer + x->x_head;
-	    count = x->x_bufsize - x->x_head;
-	    while (count--)
-		if ((col = capture_writefloat(x, *bp++, buf, col, fp)) < 0)
-		    goto fail;
-	    bp = x->x_buffer;
-	    count = x->x_head;
-	    while (count--)
-		if ((col = capture_writefloat(x, *bp++, buf, col, fp)) < 0)
-		    goto fail;
-	}
+            //this is for wrapping around and rewriting old values
+            //for the proper input order while dumping
+            int reali;
+            for(i=0; i < x->x_bufsize; i++)
+            {
+                reali = (x->x_head + i) % x->x_bufsize;
+                if(x->x_buffer[reali].a_type == A_FLOAT)
+		    col = capture_writefloat(x, x->x_buffer[reali].a_w.w_float, buf, col, fp);
+                else if (x->x_buffer[reali].a_type == A_SYMBOL)
+		    col = capture_writesymbol(x, x->x_buffer[reali].a_w.w_symbol, buf, col, fp);
+                if(col < 0) goto fail;
+            };
+        }
 	if (col) fputc('\n', fp);
 	fclose(fp);
 	return;
@@ -208,6 +266,19 @@ static void capture_write(t_capture *x, t_symbol *s)
 	hammerpanel_save(x->x_filehandle, 0, 0);
 }
 
+static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
+{
+    int i;
+    int symlen = strlen(s->s_name);
+    unsigned char c;
+    for(i=0; i<symlen; i++)
+    {
+        c = s->s_name[i];
+        col = capture_formatnumber(x, (t_float)c, buf, col, 80);
+        hammereditor_append(x->x_filehandle, buf);
+    };
+    return (col);
+}
 //use by capture_open (opens editor window) to append floats to x->x_buffer
 static int capture_appendfloat(t_capture *x, float f, char *buf, int col)
 {
@@ -221,26 +292,36 @@ static void capture_open(t_capture *x)
 {
     int count = x->x_count;
     char buf[MAXPDSTRING];
+    int i;
     hammereditor_open(x->x_filehandle, "Capture", "");  /* CHECKED */
     if (count < x->x_bufsize)
     {
-	float *bp = x->x_buffer;
-	int col = 0;
-	while (count--)
-	    col = capture_appendfloat(x, *bp++, buf, col);
+        int col = 0;
+        for(i=0; i< count; i++)
+        {
+            if(x->x_buffer[i].a_type == A_FLOAT)
+	        col = capture_appendfloat(x, x->x_buffer[i].a_w.w_float, buf, col);
+            else if (x->x_buffer[i].a_type == A_SYMBOL)
+	        col = capture_appendsymbol(x, x->x_buffer[i].a_w.w_symbol, buf, col);
+                
+        };
     }
     else
     {
-	float *bp = x->x_buffer + x->x_head;
-	int col = 0;
-	count = x->x_bufsize - x->x_head;
-	while (count--)
-	    col = capture_appendfloat(x, *bp++, buf, col);
-	bp = x->x_buffer;
-	count = x->x_head;
-	while (count--)
-	    col = capture_appendfloat(x, *bp++, buf, col);
-    }
+        //this is for wrapping around and rewriting old values
+        //for the proper input order while dumping
+        int reali;
+        int col = 0;
+        for(i=0; i < x->x_bufsize; i++)
+        {
+            reali = (x->x_head + i) % x->x_bufsize;
+            if(x->x_buffer[reali].a_type == A_FLOAT)
+	        col = capture_appendfloat(x, x->x_buffer[reali].a_w.w_float, buf, col);
+            else if (x->x_buffer[reali].a_type == A_SYMBOL)
+	        col = capture_appendsymbol(x, x->x_buffer[reali].a_w.w_symbol, buf, col);
+        };
+    };
+
 }
 
 /* CHECKED without asking and storing the changes */
@@ -300,7 +381,7 @@ static void capture_anything(t_capture *x, t_symbol *s, int argc, t_atom * argv)
 static void *capture_new(t_symbol *s, int argc, t_atom * argv)
 {
     t_capture *x = 0;
-    float *buffer;
+    t_atom  *buffer;
     int bufsize;
     int precision;
     t_float _bufsize = CAPTURE_DEFSIZE;
@@ -344,10 +425,13 @@ static void *capture_new(t_symbol *s, int argc, t_atom * argv)
 	    else
 		x->x_intmode = 'd';  /* ignore floats */
 	};
+        x->x_count = 0;
+        x->x_counter = 0;
+        x->x_head = 0;
         x->x_precision = precision;
 	x->x_buffer = buffer;
 	x->x_bufsize = bufsize;
-	outlet_new((t_object *)x, &s_float);
+	outlet_new((t_object *)x, &s_anything);
     x->x_count_outlet = outlet_new((t_object *)x, &s_float);
 	x->x_filehandle = hammerfile_new((t_pd *)x, 0, 0, capture_writehook, 0);
 	capture_clear(x);
@@ -363,6 +447,7 @@ void capture_setup(void)
 			      sizeof(t_capture), 0, A_GIMME, 0);
     class_addfloat(capture_class, capture_float);
     class_addlist(capture_class, capture_list);
+    class_addsymbol(capture_class, capture_symbol);
     class_addanything(capture_class, capture_anything);
     class_addmethod(capture_class, (t_method)capture_precision,
     	gensym("precision"), A_FLOAT, 0);
