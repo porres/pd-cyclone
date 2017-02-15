@@ -33,6 +33,8 @@ Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclon
 
 <strong>Installing and Building Cyclone:</strong>
 
+Cyclone 0.3 alpha-1 has been tested with Pd Vanilla 0.47-1, not guaranteed to work in any other version or in other flavors such as Pd Extended and Purr Data. 
+
 Notes on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
 Building Cyclone: From cyclone 0.1-alpha57, the cyclone package has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
