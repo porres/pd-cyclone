@@ -198,12 +198,35 @@ static int capture_writesymbol(t_capture *x, t_symbol *s, char *buf,
    int i;
     int symlen = strlen(s->s_name);
     unsigned char c;
-    for(i=0; i<symlen; i++)
+    char intmode = x->x_intmode;
+    if(intmode=='a')
     {
-        c = s->s_name[i];
-        col = capture_formatnumber(x, (t_float)c, buf, col, 80);
+        for(i=0; i<symlen; i++)
+        {
+            c = s->s_name[i];
+            col = capture_formatnumber(x, (t_float)c, buf, col, 80);
+            col = fputs(buf, fp) < 0 ? -1 : col;
+            if(col < 0) break;
+         };
+    }
+    else
+    {
+        char *bp = buf;
+        int cnt = 0;
+
+        if (col > 0)
+        {   *bp++ = ' ';
+            cnt++;
+        
+        }
+        cnt += sprintf(bp, "%s", s->s_name);
+        //if too many columns for ed window, start on new line (instead of space)
+        if (col + cnt > 80)
+            buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
+        else
+            col += cnt;
         col = fputs(buf, fp) < 0 ? -1 : col;
-        if(col < 0) break;
+
     };
     return (col);
 }
@@ -271,14 +294,39 @@ static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
     int i;
     int symlen = strlen(s->s_name);
     unsigned char c;
-    for(i=0; i<symlen; i++)
+    char intmode = x->x_intmode;
+    if(intmode == 'a')
+    {   //convert into ascii
+        for(i=0; i<symlen; i++)
+        {
+            c = s->s_name[i];
+            col = capture_formatnumber(x, (t_float)c, buf, col, 80);
+            hammereditor_append(x->x_filehandle, buf);
+        };
+    }
+    else
     {
-        c = s->s_name[i];
-        col = capture_formatnumber(x, (t_float)c, buf, col, 80);
+        char *bp = buf;
+        int cnt = 0;
+
+        if (col > 0)
+        {   *bp++ = ' ';
+            cnt++;
+        
+        }
+        cnt += sprintf(bp, "%s", s->s_name);
+        //if too many columns for ed window, start on new line (instead of space)
+        if (col + cnt > 80)
+            buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
+        else
+            col += cnt;
         hammereditor_append(x->x_filehandle, buf);
-    };
+
+    }
+
     return (col);
 }
+
 //use by capture_open (opens editor window) to append floats to x->x_buffer
 static int capture_appendfloat(t_capture *x, float f, char *buf, int col)
 {
