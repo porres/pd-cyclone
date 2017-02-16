@@ -505,7 +505,9 @@ static void *capture_new(t_symbol *s, int argc, t_atom * argv)
                 x->x_intmode = 'a';
 	    else
 		x->x_intmode = 'd'; 
-	};
+	}
+        else x->x_intmode = 'd'; 
+
         x->x_count = 0;
         x->x_counter = 0;
         x->x_head = 0;
