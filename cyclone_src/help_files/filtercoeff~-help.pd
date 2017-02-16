@@ -48,6 +48,7 @@
 #X text 105 496 float/signal;
 #X obj 120 176 noise~;
 #N canvas 952 304 450 300 resampling_factor 0;
+#X text 169 75 not yet;
 #X restore 417 294 pd resampling_factor;
 #X text 190 341 - sets cutoff/center frequency;
 #X text 105 474 float/signal;
@@ -175,7 +176,7 @@ and 3) resonance (Q) or slope (S).;
 #X obj 126 105 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 377 22 vradio 15 1 0 15 \$0-type \$0-set_type empty 0 -8 0 10
--228856 -1 -1 7;
+-228856 -1 -1 2;
 #X text 397 52 bandpass;
 #X text 397 96 peaknotch;
 #X text 397 112 lowshelf;
@@ -866,6 +867,7 @@ b0 \; - a0 = (1 - alphaQ) / b0 \; - a1 = -2*cos(w) / b0 \; - a2 = 1
 #X connect 7 2 1 0;
 #X restore 527 182 pd plot;
 #X obj 90 206 ./out~;
+#X text 585 183 not yet;
 #X connect 1 0 29 0;
 #X connect 1 0 29 1;
 #X connect 2 0 1 0;
@@ -906,6 +908,10 @@ cloned from Max/MSP;
 #X obj 16 6 cyclone/comment 0 37 times ? 0 0 0 0 filtercoeff~;
 #X obj 184 155 cyclone/number~ 1;
 #X obj 122 261 ./out~;
+#X obj 242 255 cnv 15 140 50 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X obj 256 258 cyclone/comment 166 18 times ? 0 0 0 0 New object \,
+still experimental!;
 #X connect 19 0 54 0;
 #X connect 19 0 54 1;
 #X connect 28 0 19 0;

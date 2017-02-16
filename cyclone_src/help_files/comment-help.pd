@@ -45,8 +45,7 @@ or helvetica) or another single-word font available on your system
 #X text 175 383 -;
 #X obj 91 194 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
 #X obj 129 217 cyclone/comment 280 20 Times ? 1 250 50 50 Hello \,
-I'm a comment from the [cyclone/comment] object!!! Don't I look nice?
-;
+I'm a comment from the [cyclone/comment] object!!!;
 #X text 89 85 [comment] is a GUI meant to be only as comment (a label
 or an explanatory note) \, type the text directly into it when in Edit
 mode. It has no inlets as it was cloned in the Max 4 era. So it's currently
@@ -55,11 +54,11 @@ highly outdated in respect to Max 7!;
 object \, so it can't really be considered a proper clone. It does
 provide advantages to pd vanilla's comments though.;
 #N canvas 287 23 505 683 details/examples 0;
-#X obj 159 271 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
+#X obj 159 261 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
 Courier];
-#X obj 160 294 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
+#X obj 160 284 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
 ;
-#X obj 161 327 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
+#X obj 161 317 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
 14 Helvetica];
 #X text 90 39 The three first arguments in cyclone/comment define basic
 format settings: width \, font-size \, font-face:;
@@ -73,24 +72,24 @@ of 0 (default) sets no wrapping;
 available on your system (default helvetica);
 #X text 99 212 Below \, see examples of comment boxes that are set
 with arguments as they're displaying as the comment:;
-#X obj 100 436 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
+#X obj 100 453 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
 0 20 Times ? 0 255 128 0];
-#X obj 121 473 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
+#X obj 121 490 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
 0 14 Helvetica ? 0 0 128 128];
-#X text 95 398 The last 3 arguments set colors in RGB format \, no
+#X text 95 415 The last 3 arguments set colors in RGB format \, no
 idea what the 4th and 5th arguments actually do.;
-#X text 71 597 You can set the properties settings of the comment box
+#X text 71 614 You can set the properties settings of the comment box
 with the arguments.;
-#X text 71 528 Note: when in edit mode \, you can click on the object
+#X text 71 550 Note: when in edit mode \, you can click on the object
 to select it \, then press <F4> to show the object name and arguments.
 You can also press <F5> to duplicate the comment text into a Pd comment
 text.;
 #X restore 421 256 pd details/examples;
-#X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Comment box;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 456 81 cnv 15 100 60 empty empty empty 20 12 0 14 -261234 -66577
+#X obj 460 81 cnv 15 90 60 empty empty empty 20 12 0 14 -261234 -66577
 0;
-#X text 463 95 [comment] is not ready yet, f 13;
+#X text 464 95 [comment] is not ready yet, f 13;
+#X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Comment box;

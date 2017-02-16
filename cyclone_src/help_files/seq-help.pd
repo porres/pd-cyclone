@@ -544,6 +544,9 @@ the continue message and keep playing from where it stopped!;
 #X text 191 420 pauses recording/playing;
 #X text 122 436 continue -;
 #X text 191 436 continues after a pause message was given;
+#X obj 457 59 cnv 15 88 40 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 460 64 [seq] is not ready yet, f 13;
 #X connect 8 0 34 0;
 #X connect 30 0 34 0;
 #X connect 34 0 9 0;

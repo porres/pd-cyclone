@@ -38,106 +38,100 @@
 #X text 125 451 start -;
 #X text 17 496 subsym <symbol \, symbol> -;
 #X text 119 527 wclose -;
-#X text 176 528 closes the data window containing the collection,
-f 76;
+#X text 176 528 closes the data window containing the collection;
 #X text 71 542 write <symbol> -;
 #X text 95 557 writeagain -;
 #X text 176 331 opens file specified by the symbol (without a symbol
-\, a dialog window opens), f 76;
+\, a dialog window opens);
 #X text 41 436 sort <float \, float> -;
 #X text 176 542 saves file specified by the symbol (without a symbol
-\, a dialog window opens), f 76;
+\, a dialog window opens);
 #X text 176 496 substitutes an address symbol (2nd element) by the
-first given symbol, f 76;
+first given symbol;
 #X text 17 211 merge <int/symbol \, any> -;
-#X text 176 241 same as bang: outputs next address and its data, f
-76;
-#X text 176 316 outputs previous address and its data, f 76;
+#X text 176 241 same as bang: outputs next address and its data;
+#X text 176 316 outputs previous address and its data;
 #X text 176 346 reopen last file - if no file had been open \, a dialog
-box is shown, f 76;
+box is shown;
 #X text 41 376 remove <int/symbol> -;
 #X text 176 557 resaves last file - if no file had been saved \, a
-dialog box is shown, f 76;
+dialog box is shown;
 #X text 71 421 separate <int> -;
 #X text 176 482 same as nsub \, but the substituted message is sent
-out, f 76;
+out;
 #X text 176 166 same as insert \, but only increments if necessary
-to include the new address, f 76;
+to include the new address;
 #X text 17 166 insert2 <int \, anything> -;
 #X text 5 271 nstore <int \, symbol \, any> -;
 #X text 17 511 swap <int/sym \, int/sym> -;
-#X text 176 180 sends number of stored values to the left outlet,
-f 76;
+#X text 176 180 sends number of stored values to the left outlet;
 #X text 176 211 sets address and any message to be appended to the
-stored message, f 76;
+stored message;
 #X text 29 256 nth <int/symbol \, int> -;
 #X text 89 226 min <float> -;
 #X text 176 196 sends max value of all <nth> elements (starts at 1
-\, default) on left outlet, f 76;
+\, default) on left outlet;
 #X text 176 226 sends min value of all <nth> elements (starts at 1
-\, default) on left outlet, f 76;
-#X text 176 510 swaps data between two addresses, f 76;
+\, default) on left outlet;
+#X text 176 510 swaps data between two addresses;
 #X text 101 196 max <int> -;
 #X text 176 271 or <symbol \, int \, any>: stores any data to an int
-address with a symbol alias, f 76;
+address with a symbol alias;
 #X text 11 286 nsub <int/sym \, int \, any> -;
 #X text 176 256 address and nth element to be output (starts at 1)
-, f 76;
+;
 #X text 176 287 the address \, an element (starts at 1) and any value
-to substitute it to, f 76;
+to substitute it to;
 #X text 176 301 opens the window with the data collection (allows manual
-data editing), f 76;
+data editing);
 #X text 176 361 refers to the data from another [coll] object with
-that symbol name, f 76;
+that symbol name;
 #X text 176 376 removes address and its data without renumbering (unlike
-delete), f 76;
+delete);
 #X text 71 391 renumber <int> -;
 #X text 176 391 lists int addresses consecutively \, argument sets
-starting value (default 0), f 76;
+starting value (default 0);
 #X text 176 420 increments by 1 addresses from the given <int> and
-above (opening a slot), f 76;
+above (opening a slot);
 #X text 35 466 store <int/sym \, any> -;
 #X text 176 466 int or symbol address and any message to be stored
-at it, f 76;
+at it;
 #X text 17 481 sub <int/sym \, int \, any> -;
-#X text 176 451 sets the pointer to the first entry/address, f 76
-;
+#X text 176 451 sets the pointer to the first entry/address;
 #X text 176 436 <flag> -1: ascending / 1: descending \, <sort element>
-from 0 (-1 is address), f 76;
+from 0 (-1 is address);
 #X text 131 61 dump -;
 #X text 41 1 assoc <symbol \, int> -;
 #X text 29 31 deassoc <symbol \, int> -;
 #X text 176 61 dumps all values (1st outlet) \, addresses (2nd) and
-bangs (4th) when done, f 76;
+bangs (4th) when done;
 #X text 41 46 delete <int/symbol> -;
-#X text 176 1 associates a symbol alias to an int address, f 76;
-#X text 176 31 desassociates the symbol alias of an int address, f
-76;
+#X text 176 1 associates a symbol alias to an int address;
+#X text 176 31 desassociates the symbol alias of an int address;
 #X text 176 46 deletes the address (if an int \, higher addresses are
-decremented by 1), f 76;
+decremented by 1);
 #X text 125 16 clear -;
 #X text 176 16 deletes all adresses (the complete data collection)
-from [coll], f 76;
+from [coll];
 #X text 137 76 end -;
 #X text 53 106 filetype <symbol> -;
 #X text 77 91 embed <float> -;
 #X text 23 151 insert <int \, anything> -;
 #X text 176 106 sets file type to read/writte (no symbol restores to
-default), f 76;
+default);
 #X text 176 136 sets an address to go to (only sets the pointer \,
-no output), f 76;
+no output);
 #X text 176 151 an int address and any message to insert \, increments
-equal/greater addresses, f 76;
+equal/greater addresses;
 #X text 35 121 flags <float \, float> -;
-#X text 176 91 <1> saves contents whith the patch \, <0> doesn't,
-f 76;
+#X text 176 91 <1> saves contents whith the patch \, <0> doesn't;
 #X text 176 121 first flag is the embed flag \, second is unused (just
-use 'embed' instead), f 76;
+use 'embed' instead);
 #X text 53 136 goto <int/symbol> -;
-#X text 176 76 sets the pointer to the last entry/address, f 76;
+#X text 176 76 sets the pointer to the last entry/address;
 #X text 65 406 renumber2 <int> -;
 #X text 176 406 increments int addresses by one \, starting from the
-given address (default 0), f 76;
+given address (default 0);
 #X restore 358 349 pd All_Messages;
 #X text 106 348 messages;
 #X obj 249 194 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
@@ -165,15 +159,13 @@ given address (default 0), f 76;
 #X msg 227 144 0 500 1000 hi;
 #X msg 236 168 1 5 10 hello;
 #X text 64 204 go to next address =>;
-#X text 180 298 outputs next address and its data, f 59;
+#X text 180 298 outputs next address and its data;
 #X text 280 200 <= recall data from address;
 #X text 69 85 [coll] stores/edits any messages at given addresses (an
 integer or a symbol). If an input list starts with an int \, it stores
 the other element(s) at that int address.;
 #X text 130 516 @embed: <1> save contents with the patch \, <0> don't
-save (default), f 67;
-#X obj 16 57 comment 0 18 times ? 0 0 0 0 Store/edit message collections
-;
+save (default), f 66;
 #X obj 227 234 cyclone/coll;
 #C restore;
 #X text 189 487 non-0 prevents from searching for a file (default 0)
@@ -578,7 +570,7 @@ substituted message \, while "nsub" doesn't.;
 message. It removes the address specified by an int/symbol along with
 its data.;
 #X msg 601 101 store 1 0.1 \, 2 3 \, store velocity 127 \, store note
-60, f 37;
+60;
 #X msg 629 159 remove 1;
 #X obj 601 332 print coll_data;
 #X obj 624 306 print coll_address;
@@ -594,7 +586,7 @@ symbol adress. You can also use it for int addresses \, but it is not
 needed as you can just use a list that starts with an integer for that.
 Note that storing to an existing address updates it!;
 #X obj 199 100 loadbang;
-#X msg 199 125 store gain 0.5 \, store freq 440, f 15;
+#X msg 199 125 store gain 0.5 \, store freq 440;
 #X text 266 212 works without the symbol selector *;
 #X text 42 376 * The symbol address input has an optional symbol selector
 \, but it's always output as a symbol message with the symbol selector.
@@ -814,7 +806,7 @@ other [coll] objects that also have no names.;
 #X msg 143 198 open;
 #X msg 181 198 wclose;
 #X msg 246 176 0 0.1 \, 1 0 2 3 \, 2 list one two \, 3 hi \, 4 let's
-go, f 19;
+go;
 #X text 138 148 <== address;
 #N canvas 454 189 838 370 read/write 0;
 #X msg 213 207 write coll.txt;
@@ -898,7 +890,7 @@ doesn't need to load the file again!;
 #C restore;
 #X msg 30 208 1;
 #X msg 60 208 2;
-#X msg 73 149 1 foo \, 2 bar, f 6;
+#X msg 73 149 1 foo \, 2 bar;
 #X msg 128 101 assoc foo 1;
 #X msg 140 122 deassoc foo 1;
 #X msg 154 152 assoc bar 2;
@@ -1001,7 +993,7 @@ data \, then close it and save it. The format for each line is: adrress
 #X restore 482 209 pd details;
 #X text 165 314 -;
 #X text 180 332 1st element is an int address to store remaining data
-to, f 59;
+to;
 #N canvas 413 197 810 540 threaded 0;
 #X obj 66 187 osc~ 440;
 #X obj 223 142 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -1014,7 +1006,7 @@ to, f 59;
 #X text 47 154 1) raise the volume;
 #X obj 223 282 timer;
 #X obj 223 306 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 51930 256;
+-228856 -1 -1 0 256;
 #X text 292 298 time in ms it took;
 #X text 295 314 to read the file;
 #X msg 558 152 threaded \$1;
@@ -1040,7 +1032,7 @@ rely on the bangs from the 3rd and 4th outlets as a signal the operations
 have been completed.;
 #N canvas 676 23 503 504 depth-first 0;
 #X msg 48 150 threaded \$1;
-#X obj 48 122 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 48 122 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 144 85 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -1048,7 +1040,7 @@ have been completed.;
 -1 -1;
 #X msg 286 278 2;
 #X obj 286 332 print;
-#X obj 144 151 trigger bang anything bang, f 37;
+#X obj 144 151 trigger bang anything bang;
 #X obj 363 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 144 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -1144,25 +1136,30 @@ data;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
+#X coords 0 1 100 -1 554 42 1;
 #X restore 2 4 graph;
 #X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
+#X coords 0 -1 1 1 252 42 2 0 0;
 #X restore 304 4 pd;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 coll;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 178 400 - integer or symbol address of the stored message;
 #X text 98 400 float/symbol;
 #X text 189 469 name or filename to load (same name colls share contents)
 ;
 #X text 178 418 - when finishing a read operation;
-#X connect 21 0 47 0;
-#X connect 29 0 47 0;
-#X connect 39 0 47 0;
-#X connect 40 0 47 0;
-#X connect 47 0 22 0;
-#X connect 47 1 23 0;
+#X obj 453 81 cnv 15 88 40 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 456 86 [coll] is not ready yet, f 13;
+#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 coll;
+#X obj 16 57 cyclone/comment 0 18 times ? 0 0 0 0 Store/edit message
+collections;
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X connect 21 0 46 0;
+#X connect 29 0 46 0;
+#X connect 39 0 46 0;
+#X connect 40 0 46 0;
+#X connect 46 0 22 0;
+#X connect 46 1 23 0;
