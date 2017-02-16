@@ -1,5 +1,5 @@
-#N canvas 312 23 557 538 10;
-#X obj 2 499 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 613 23 558 585 10;
+#X obj 2 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 269 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -26,124 +26,172 @@
 #X text 134 307 count;
 #X text 140 324 dump;
 #X text 140 340 open;
-#X msg 107 148 10 20 30 40;
-#X msg 251 167 dump;
-#X obj 193 241 print dump;
-#X obj 193 149 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X msg 270 165 dump;
+#X obj 212 239 print dump;
+#X obj 212 147 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 285 168 outputs stored values;
+#X text 304 166 outputs stored values;
 #X text 128 356 wclose;
 #X text 80 372 write <symbol>;
 #X text 92 402 float/symbol;
 #X text 175 402 - stored items in sequential order (on dump message)
 ;
-#X text 307 211 <= stores 8 items;
+#X text 322 209 <= stores 8 items;
 #X text 110 467 2) symbol;
-#X text 89 208 click to open;
-#X text 101 221 text window;
+#X text 108 210 click to open;
+#X text 120 223 text window;
 #X text 116 275 anything;
-#N canvas 482 110 867 371 examples 1;
-#X msg 145 175 open;
-#X floatatom 62 76 5 0 0 0 - - -, f 5;
-#X msg 136 154 dump;
-#X obj 97 317 print dump;
-#X msg 116 103 clear;
-#X msg 151 196 wclose;
-#X msg 167 244 write;
-#X text 511 83 - x: values are in hexadecimal \; - m: values less than
-128 are decimal \, larger numbers are hexadecimal \; - d: decimal integers
-\; - none: decimal floats, f 53;
-#X text 493 52 Second arguments encodes the way numbers are stores
-\, the options are:;
-#X text 170 51 If a message has more than one element \, the elements
+#N canvas 390 172 889 372 examples 0;
+#X msg 134 166 open;
+#X floatatom 51 50 5 0 0 0 - - -, f 5;
+#X msg 125 133 dump;
+#X obj 86 311 print dump;
+#X msg 105 77 clear;
+#X msg 140 187 wclose;
+#X msg 156 238 write;
+#X text 159 25 If a message has more than one element \, the elements
 are stored from first to last. One element messages are stored sequentially.
 , f 44;
-#X text 171 152 send out all stored values sequentially;
-#X text 179 174 open editing window;
-#X text 285 221 writes to file;
-#X text 154 103 clears stored contents;
-#X msg 126 129 count;
-#X text 200 195 close editing (?) window;
-#X text 212 245 opens dialog box to save to a file;
-#X msg 156 221 write ./capture.txt;
-#X text 34 24 All Messages;
-#X symbolatom 98 77 10 0 0 0 - - -, f 10;
-#X msg 35 52 one 2 three 4 five 6;
-#X obj 97 281 cyclone/capture 32;
-#X obj 653 206 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 545 304 cyclone/capture 6;
-#X obj 587 280 cyclone/capture 6 d;
-#X obj 623 255 cyclone/capture 6 m;
-#X obj 653 232 cyclone/capture 6 x;
-#X obj 545 181 cyclone/loadmess -9 5 10.333 127 150 1.2;
-#X floatatom 202 316 5 0 0 0 - - -, f 5;
-#X text 164 129 outputs number of last received items (2nd outlet)
+#X text 143 77 clears stored contents;
+#X msg 115 103 count;
+#X text 201 239 opens dialog box to save to a file;
+#X msg 145 215 write ./capture.txt;
+#X symbolatom 87 51 10 0 0 0 - - -, f 10;
+#X msg 24 26 one 2 three 4 five 6;
+#X obj 86 275 cyclone/capture 32;
+#X obj 641 173 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 239 256;
+#X obj 533 271 cyclone/capture 6;
+#X obj 611 222 cyclone/capture 6 m;
+#X floatatom 191 310 5 0 0 0 - - -, f 5;
+#X text 153 103 outputs number of last received items (2nd outlet)
 ;
-#X text 240 314 <= count;
-#X connect 0 0 21 0;
-#X connect 1 0 21 0;
-#X connect 2 0 21 0;
-#X connect 4 0 21 0;
-#X connect 5 0 21 0;
-#X connect 6 0 21 0;
-#X connect 14 0 21 0;
-#X connect 17 0 21 0;
-#X connect 19 0 21 0;
-#X connect 20 0 21 0;
-#X connect 21 0 3 0;
-#X connect 21 1 28 0;
-#X connect 22 0 23 0;
-#X connect 22 0 24 0;
-#X connect 22 0 25 0;
-#X connect 22 0 26 0;
-#X connect 27 0 23 0;
-#X connect 27 0 24 0;
-#X connect 27 0 25 0;
-#X connect 27 0 26 0;
-#X restore 468 239 pd examples;
+#X text 229 308 <= count;
+#X text 160 126 send out all stored values sequentially (first in \,
+first out), f 39;
+#X text 189 186 close display window;
+#X text 168 165 open display window;
+#X text 274 215 writes to a file;
+#X text 491 55 - no argument (default): ints are displayed as decimals
+\; - "x": ints displayed as hexadecimals \; - "m": ints less than 128
+(as in MIDI values) are decimal \, but larger are hexadecimals \; -
+"a": only symbols are displayed.;
+#X obj 533 148 cyclone/loadmess -9 one 10.333 127 150 two;
+#X obj 575 247 cyclone/capture 6 a;
+#X obj 641 199 cyclone/capture 6 x;
+#X text 478 21 Second arguments encodes the way numbers are displayed
+(but not stored) \, the options are:;
+#X text 493 305 Note that floats are always stored as floats \, and
+according to the given precision.;
+#X connect 0 0 14 0;
+#X connect 1 0 14 0;
+#X connect 2 0 14 0;
+#X connect 4 0 14 0;
+#X connect 5 0 14 0;
+#X connect 6 0 14 0;
+#X connect 9 0 14 0;
+#X connect 11 0 14 0;
+#X connect 12 0 14 0;
+#X connect 13 0 14 0;
+#X connect 14 0 3 0;
+#X connect 14 1 18 0;
+#X connect 15 0 16 0;
+#X connect 15 0 17 0;
+#X connect 15 0 27 0;
+#X connect 15 0 28 0;
+#X connect 26 0 16 0;
+#X connect 26 0 17 0;
+#X connect 26 0 27 0;
+#X connect 26 0 28 0;
+#X restore 468 238 pd examples;
 #X text 58 86 [capture] stores items in the received order for viewing
 \, editing \, and saving to a file. If the maximum number of items
 is exceeded \, the earliest stored item is dropped.;
-#X text 174 212 =>;
+#X text 193 210 =>;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Store data;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 capture;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 193 172 change;
-#X msg 250 188 count;
-#X obj 193 211 cyclone/capture 8;
+#X obj 212 170 change;
+#X msg 269 186 count;
 #X text 134 422 float;
 #X obj 73 421 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 175 422 - number of items received since last 'count' message
 ;
+#X text 175 275 - stores items (float/symbol) sequentially, f 61;
 #X text 175 291 - clears stored contents, f 61;
 #X text 175 307 - outputs number of received items since last 'count'
 message, f 61;
-#X text 175 324 - outputs out all stored values sequentially, f 61
-;
 #X text 175 340 - opens editing window \, same as clicking on it,
 f 61;
 #X text 175 356 - closes editing window, f 61;
-#X text 175 372 - saves to file with symbol name (no symbol opens dialog
-box), f 61;
 #X text 175 467 -;
-#X text 187 467 x: values are in hex \, m: values < 128 are decimal
-/ larger are hex \, d: decimal integers \, none: decimal floats (default)
-;
-#X text 289 188 outputs number of last received items;
-#X text 344 241 count;
-#X text 175 275 - stores items (float or symbol) sequentially, f 61
-;
-#X text 175 448 - number of stored values (default 512), f 62;
-#X obj 292 241 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X text 308 186 outputs number of last received items;
+#X text 367 239 count;
+#X msg 86 146 hey 1 ho 2.2 i 3;
+#X obj 212 209 cyclone/capture 8;
+#X obj 311 239 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X connect 15 0 38 0;
-#X connect 16 0 38 0;
-#X connect 18 0 36 0;
-#X connect 36 0 38 0;
-#X connect 37 0 38 0;
-#X connect 38 0 17 0;
-#X connect 38 1 54 0;
+#X text 175 324 - outputs stored elements sequentially (first in first
+out), f 61;
+#X text 175 372 - saves to a file (no symbol opens dialog box), f
+61;
+#X text 175 448 - number of stored values (default 512), f 61;
+#X text 187 467 no argument (default): ints are displayed as decimal
+\, "x": ints displayed as hex \, "m": ints < 128 are decimal / larger
+are hex \, "a": only symbols are displayed.;
+#X obj 2 513 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+0;
+#X text 232 520 - decimal precision for floats (default 4), f 46;
+#X text 109 520 @precision <float>:;
+#N canvas 523 141 883 363 precision 0;
+#X text 44 21 You can set the display format for integer numbers in
+[capture] with a second argument (as explained in the other [pd examples]
+suboatch). But [capture] considers any number with a decimal point
+as a float and displays it with a given precision \, specified with
+the @precision attribute or message.;
+#X text 45 122 For example \, the number "1" is considered an integer
+and won't be displayed as a float \, but "1.1" is a float and will
+be displayed as such with the given precision (4 decimal places by
+default).;
+#X msg 98 214 1 1.1 \, open;
+#X obj 98 274 capture;
+#X text 182 213 <= click and check;
+#X msg 130 245 dump;
+#X obj 98 309 print;
+#X text 168 244 <= now \, if you dump the values \, you can see that
+the stored data as Pd sees it is still the same as it was input.,
+f 38;
+#X obj 551 259 print;
+#X obj 551 230 capture @precision 2;
+#X msg 576 138 dump;
+#X text 613 138 <= check stored data;
+#X text 558 90 click and check:;
+#X msg 551 110 1.33333 2.66666 \, open;
+#X msg 602 169 precision 5;
+#X text 458 19 You can change the precision with the attribute as below
+\, where now it is set to "2". Note that the displayed values will
+be rounded according to that precision \, but the stored data is still
+the same as the input.;
+#X text 469 288 You can also change the precision with the "precision"
+message and \, again \, it'll only change the display forsat of the
+stored data.;
+#X msg 613 199 precision 1;
+#X connect 2 0 3 0;
+#X connect 3 0 6 0;
+#X connect 5 0 3 0;
+#X connect 9 0 8 0;
+#X connect 10 0 9 0;
+#X connect 13 0 9 0;
+#X connect 14 0 9 0;
+#X connect 17 0 9 0;
+#X restore 462 214 pd precision;
+#X connect 15 0 49 0;
+#X connect 17 0 35 0;
+#X connect 35 0 49 0;
+#X connect 36 0 49 0;
+#X connect 48 0 49 0;
+#X connect 49 0 16 0;
+#X connect 49 1 50 0;
