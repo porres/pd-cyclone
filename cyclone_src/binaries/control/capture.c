@@ -4,7 +4,16 @@
 
 //Derek Kwan 2017 
 //notes on changes: v2 ignored floats in int modes, this is not the case anymore
-//also ignored all symbols, also no longer the case
+//also ignored all symbols, also no longer the case.
+
+//OVERVIEW OF MODES AS DESCRIBED BY PORRES for v3 (maybe diff than before)
+//in every mode, symbols are printed just as they are
+//other modes: floats with mantissas (mantissae?) always displayed as floats
+//other in 'd': integer as decimals
+//'x': integers in hex
+//'m': < 128, integers are decimal, > ints are hex
+//'a': all numbers invisible
+
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
@@ -15,12 +24,13 @@
 #define CAPTURE_DEFPREC 4 //default precision
 #define CAPTURE_MAXPREC 99 //
 #define CAPTURE_MINPREC 1 //minimum preision
+#define CAPTURE_MAXCOL 80 
 
 typedef struct _capture
 {
     t_object       x_ob;
     t_canvas      *x_canvas;
-    char           x_intmode;  /* if nonzero ('x' or 'm') floats are ignored */
+    char           x_intmode;
     t_atom         *x_buffer;
     int            x_bufsize; //number of stored values
     int            x_count; //number of values actually in buffer
@@ -167,6 +177,25 @@ static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
     return (col);
 }
 
+static int capture_insertblank(char *buf, int col, int maxcol)
+{
+    //basically follow the gameplan of inserting a float, but only one character
+    //so insert a space before if in the middle of a col, etc.
+     char *bp = buf;
+    int cnt = 0;
+    //not at beginning, have to enter space before
+    if (col > 0)
+		*bp++ = ' ', cnt++;
+    cnt += sprintf(bp, "%s", " ");
+    //if too many columns for ed window, start on new line (instead of space)
+    if (col + cnt > maxcol)
+	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
+    else
+	col += cnt;
+    return (col);
+
+}
+
 //called by capture_append float to add floats to x->x_buffer for editor window
 static int capture_formatnumber(t_capture *x, float f, char *buf,
 				int col, int maxcol)
@@ -174,12 +203,15 @@ static int capture_formatnumber(t_capture *x, float f, char *buf,
     char intmode = x->x_intmode;
     if (intmode == 'm')
 	intmode = (f < 128 && f > -128 ? 'd' : 'x');  /* CHECKME */
-    if (intmode == 'x')
-	col = capture_formatint((int)f, buf, col, maxcol, "%x");
-    else if (intmode)
-	col = capture_formatint((int)f, buf, col, maxcol, "%d");
-    else
+    //first cond: for modes x,m,d,
+    if ((f != (int)f) && intmode != 'a')
 	col = capture_formatfloat(x, f, buf, col, maxcol, "%.*f");
+    else if (intmode == 'x')
+	col = capture_formatint((int)f, buf, col, maxcol, "%x");
+    else if (intmode == 'd')
+	col = capture_formatint((int)f, buf, col, maxcol, "%d");
+    else 
+        col = capture_insertblank(buf, col, maxcol);
     return (col);
 }
 
@@ -188,14 +220,15 @@ static int capture_writefloat(t_capture *x, float f, char *buf, int col,
 			      FILE *fp)
 {
     /* CHECKED no linebreaks (FIXME) */
-    col = capture_formatnumber(x, f, buf, col, 80);
+    col = capture_formatnumber(x, f, buf, col, CAPTURE_MAXCOL);
     return (fputs(buf, fp) < 0 ? -1 : col);
 }
 
 static int capture_writesymbol(t_capture *x, t_symbol *s, char *buf,
         int col, FILE *fp)
 {
-   int i;
+    /* keeping this just in case we want to convert to ascii at some point
+    int i;
     int symlen = strlen(s->s_name);
     unsigned char c;
     char intmode = x->x_intmode;
@@ -204,13 +237,12 @@ static int capture_writesymbol(t_capture *x, t_symbol *s, char *buf,
         for(i=0; i<symlen; i++)
         {
             c = s->s_name[i];
-            col = capture_formatnumber(x, (t_float)c, buf, col, 80);
+            col = capture_formatnumber(x, (t_float)c, buf, col, CAPTURE_MAXCOL);
             col = fputs(buf, fp) < 0 ? -1 : col;
             if(col < 0) break;
          };
     }
-    else
-    {
+    */
         char *bp = buf;
         int cnt = 0;
 
@@ -221,13 +253,12 @@ static int capture_writesymbol(t_capture *x, t_symbol *s, char *buf,
         }
         cnt += sprintf(bp, "%s", s->s_name);
         //if too many columns for ed window, start on new line (instead of space)
-        if (col + cnt > 80)
+        if (col + cnt > CAPTURE_MAXCOL)
             buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
         else
             col += cnt;
         col = fputs(buf, fp) < 0 ? -1 : col;
 
-    };
     return (col);
 }
 
@@ -291,6 +322,8 @@ static void capture_write(t_capture *x, t_symbol *s)
 
 static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
 {
+    /* keeping this just in case we decide we want to convert to ascii
+     * at some point
     int i;
     int symlen = strlen(s->s_name);
     unsigned char c;
@@ -300,12 +333,11 @@ static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
         for(i=0; i<symlen; i++)
         {
             c = s->s_name[i];
-            col = capture_formatnumber(x, (t_float)c, buf, col, 80);
+            col = capture_formatnumber(x, (t_float)c, buf, col, CAPTURE_MAXCOL);
             hammereditor_append(x->x_filehandle, buf);
         };
     }
-    else
-    {
+    */
         char *bp = buf;
         int cnt = 0;
 
@@ -316,13 +348,12 @@ static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
         }
         cnt += sprintf(bp, "%s", s->s_name);
         //if too many columns for ed window, start on new line (instead of space)
-        if (col + cnt > 80)
+        if (col + cnt > CAPTURE_MAXCOL)
             buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
         else
             col += cnt;
         hammereditor_append(x->x_filehandle, buf);
 
-    }
 
     return (col);
 }
@@ -330,8 +361,8 @@ static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
 //use by capture_open (opens editor window) to append floats to x->x_buffer
 static int capture_appendfloat(t_capture *x, float f, char *buf, int col)
 {
-    /* CHECKED 80 columns */
-    col = capture_formatnumber(x, f, buf, col, 80);
+    /* CHECKED CAPTURE_MAXCOL columns */
+    col = capture_formatnumber(x, f, buf, col, CAPTURE_MAXCOL);
     hammereditor_append(x->x_filehandle, buf);
     return (col);
 }
@@ -470,8 +501,10 @@ static void *capture_new(t_symbol *s, int argc, t_atom * argv)
 		x->x_intmode = 'x';
 	    else if (dispfmt == gensym("m"))
 		x->x_intmode = 'm';
+            else if (dispfmt == gensym("a"))
+                x->x_intmode = 'a';
 	    else
-		x->x_intmode = 'd';  /* ignore floats */
+		x->x_intmode = 'd'; 
 	};
         x->x_count = 0;
         x->x_counter = 0;
