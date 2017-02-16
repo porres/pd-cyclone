@@ -1,4 +1,4 @@
-#N canvas 427 49 558 615 10;
+#N canvas 427 49 558 609 10;
 #X obj 2 210 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 488 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -225,95 +225,35 @@ and [midiflush] \, which are useful with [seq].;
 #X connect 35 0 38 1;
 #X connect 37 0 33 0;
 #X restore 492 109 pd basic;
-#N canvas 516 66 924 597 more 0;
-#X text 502 28 All tracks of a multi-track midi file are merged into
-one.;
-#X text 505 55 [seq] has his own midi list editor.;
-#X obj 162 211 midirealtimein;
-#X msg 192 273 start -1;
-#X msg 156 273 tick;
-#X obj 192 358 print;
-#X obj 151 414 midiclkin;
-#X msg 151 446 tick;
-#X text 225 413 <= only clock messages;
-#X text 514 103 extra features;
-#X obj 667 122 midirealtimein;
-#X obj 667 153 route 248;
-#X text 617 328 251 - continue;
-#X obj 162 242 route 248 250 251 252;
-#X msg 258 273 continue;
-#X obj 261 360 s \$0-midi2;
-#X obj 192 326 cyclone/seq seq.mid;
-#X msg 339 232 stop;
-#X msg 424 283 pause;
-#X text 466 283 dont do nothing;
-#X msg 325 273 stop;
-#X text 378 233 goes to start / para mesmo \, não rola tocar nem com
-clock;
-#X obj 464 413 s \$0-midi2;
-#X msg 450 373 start;
-#X msg 504 372 pause;
-#X msg 558 377 continue;
-#X msg 488 343 stop;
-#X text 417 453 should continue allow ticks?;
-#X text 416 471 i think continue should set the same speed as before
-\, and it it was clock (-1) so it should allow ticks;
-#X text 617 304 252 - stop for continue?;
-#X text 416 513 stop should be pause \, then delete pause...;
-#N canvas 422 23 982 376 realtime 0;
-#X text 62 65 Used to tell a sequencer to stop playing \; Any subsequent
-MIDI Timing Clock messages are to be ignored \; Note-off messages should
-be sent for all notes which are still on \, and all controllers should
-be returned to their 'normal' settings \; \; The current song position
-pointer should be stored \, so that playing can continue from the same
-point if a MIDI Continue message is received.;
-#X text 500 87 Any superfluous Real Time messages should be ignored.
-For example \, if a Start message is followed by a subsequent Start
-message \, the second Start message should have no effect - not what
-happens in max with 'start 1';
-#X text 65 232 Continue \; Used to tell a sequencer to continue playing
-the current song from where it last left off. The sequencer should
-continue from the current song-position when the next Timing Clock
-message is received (;
-#X text 506 242 Start \; Used to synchronise the start-up of sequencers
-The sequence must start from song position 0 Sequencing begins at song-position
-0 when the next Timing Clock message is received;
-#X text 71 41 STOP (which is pause);
-#X restore 218 546 pd realtime;
-#X obj 714 191 print midirealtimein;
-#X obj 769 138 midiclkin;
-#X obj 683 189 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X floatatom 761 243 5 0 0 0 - - -, f 5;
-#X text 463 545 fix the MIDI file & 3-voice polyphonic synth;
-#X text 53 34 When [seq] is recording \, it stores integer floats to
+#N canvas 745 43 437 378 more 0;
+#X obj 71 202 midirealtimein;
+#X msg 71 264 start -1;
+#X obj 135 332 print;
+#X obj 135 300 cyclone/seq seq.mid;
+#X msg 135 264 stop;
+#X text 42 23 When [seq] is recording \, it stores integer floats to
 be interpreted as raw MIDI (bytes of MIDI messages) - thus it usually
 records data from [midiin] or [cyclone/midiformat] objects \, but you
 can also generate your own MIDI messages in the patch and record it.
 The [seq] object can also record system exclusive messages from the
 [sysexin] object.;
-#X text 53 125 [seq] doesn't respond directly to MIDI real time messages
-such as "250" (start) \, "x" (stop) \, "248" (MIDI clock) \, etc. For
-that \, you need to adapt and use the [midiclkin] and [midirealtimein]
-objects as below.;
-#X connect 2 0 13 0;
-#X connect 3 0 16 0;
-#X connect 4 0 16 0;
-#X connect 6 0 7 0;
-#X connect 10 0 11 0;
-#X connect 10 1 35 0;
-#X connect 11 0 34 0;
-#X connect 13 0 4 0;
-#X connect 13 1 3 0;
-#X connect 13 2 14 0;
-#X connect 14 0 16 0;
-#X connect 16 0 5 0;
-#X connect 20 0 16 0;
-#X connect 23 0 22 0;
-#X connect 24 0 22 0;
-#X connect 25 0 22 0;
-#X connect 26 0 22 0;
-#X connect 33 0 32 0;
+#X obj 196 234 midiclkin;
+#X msg 175 265 tick;
+#X text 263 233 <= only clock messages;
+#X obj 71 233 route 250 252 248;
+#X text 165 200 <= all real time messages;
+#X text 42 114 [seq] doesn't respond directly to MIDI real time messages
+such as "248" (MIDI clock) \, "250" (start) \, "251" (continue) \,
+and "252" (stop). For that \, you need to adapt and use the [midiclkin]
+and [midirealtimein] objects like in the example below.;
+#X connect 0 0 9 0;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 3 0;
+#X connect 7 0 3 0;
+#X connect 9 0 1 0;
+#X connect 9 1 4 0;
+#X connect 9 2 7 0;
 #X restore 499 177 pd more;
 #X text 104 153 argument opens =>;
 #X text 105 168 MIDI files;
@@ -339,17 +279,17 @@ f 59;
 , f 61;
 #X text 191 376 start/restart sequence at a given tempo (default '1024'
 - normal tempo) \, 'start -1' expects tick messages, f 59;
-#N canvas 535 168 841 507 advanced 0;
+#N canvas 301 159 843 509 advanced 0;
 #X msg 578 371 start -1;
-#X obj 146 359 cyclone/midiparse;
-#X obj 195 406 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 146 374 cyclone/midiparse;
+#X obj 195 421 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 157 281 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 157 296 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 146 387 unpack;
-#X floatatom 146 430 4 0 0 0 - - -, f 4;
-#X floatatom 179 430 4 0 0 0 - - -, f 4;
-#X msg 63 241 delay 500;
+#X obj 146 402 unpack;
+#X floatatom 146 445 4 0 0 0 - - -, f 4;
+#X floatatom 179 445 4 0 0 0 - - -, f 4;
+#X msg 63 256 delay 500;
 #N canvas 61 23 405 363 osc 0;
 #X obj 186 136 / 127;
 #X msg 186 169 \$1 50;
@@ -369,18 +309,18 @@ f 59;
 #X connect 5 0 6 0;
 #X connect 7 0 5 0;
 #X connect 8 0 5 1;
-#X restore 82 389 pd osc;
-#X obj 290 317 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X restore 82 404 pd osc;
+#X obj 290 332 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X obj 257 341 spigot;
-#X obj 290 292 loadbang;
-#X msg 146 241 delay 0;
-#X obj 195 383 sel 31;
-#X text 210 430 <= note messages (pitch/velocity);
-#X text 308 316 <= loop;
-#X msg 223 241 start 512;
-#X msg 306 241 start 2048;
-#X text 68 86 0 144 60 127 \; 1000 144 60 0 \; 1500 192 31 \; 1500
+#X obj 257 356 spigot;
+#X obj 290 307 loadbang;
+#X msg 146 256 delay 0;
+#X obj 195 398 sel 31;
+#X text 210 445 <= note messages (pitch/velocity);
+#X text 308 331 <= loop;
+#X msg 223 256 start 512;
+#X msg 306 256 start 2048;
+#X text 68 101 0 144 60 127 \; 1000 144 60 0 \; 1500 192 31 \; 1500
 144 72 127 \; 2500 144 72 0 \;, f 17;
 #X obj 660 380 metro;
 #X msg 660 404 tick;
@@ -392,18 +332,13 @@ f 59;
 #X obj 660 331 loadbang;
 #X msg 712 359 48;
 #X obj 660 462 s \$0-midi;
-#X obj 59 315 r \$0-midi;
+#X obj 59 330 r \$0-midi;
 #X text 524 371 play =>;
-#X text 214 405 <= program change 31;
-#X obj 146 317 cyclone/seq seq.txt;
-#X obj 39 422 ./out~;
+#X text 214 420 <= program change 31;
+#X obj 146 332 cyclone/seq seq.txt;
+#X obj 39 437 ./out~;
 #X obj 712 382 expr 1000 / $f1;
-#X text 16 13 The seq object reads and writes single track (format
-0) standard MIDI files. It can also read and write text files in which
-each line consists of a start time in milliseconds (the time elapsed
-since the beginning of the sequence) followed by the bytes of a MIDI
-message and end with a semicolon. For example:, f 67;
-#X text 17 164 The above formatted data instructs to play the note
+#X text 17 179 The above formatted data instructs to play the note
 middle C (with a velocity of 127 on channel 1) for one second. Then
 \, half a second later \, change to program number 31 and repeat the
 note message one octave above. See this in action in the example below.
@@ -427,6 +362,12 @@ as the clock \, so you can use it to vary the playback tempo or to
 synchronize with another clock (such as incoming MIDI Clock messages).
 Original speed is 48 tick messages per second \, corresponding to 120
 BPM (24 ticks per quarter note and about 20.833 ms per tick).;
+#X text 16 13 The seq object reads and writes single track (format
+0) standard MIDI files. All tracks of a multi-track midi file are merged
+into one. It can also read and write text files in which each line
+consists of a start time in milliseconds (the time elapsed since the
+beginning of the sequence) followed by the bytes of a MIDI message
+and end with a semicolon. For example:, f 67;
 #X connect 0 0 22 0;
 #X connect 1 0 4 0;
 #X connect 1 0 8 0;
@@ -465,13 +406,132 @@ cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 66 87 [seq] plays/records raw MIDI streams and can save/read
 MIDI sequence files.;
-#N canvas 970 120 438 384 extra 1;
+#N canvas 791 23 437 626 extra 0;
 #X text 20 17 [cyclone/seq] has some extra features not present in
 the original Max object.;
 #X text 21 67 first of all \, it has a text editor \, so you can open
 \, view and edit rthe sequence \, just click on the object!;
 #X obj 175 121 cyclone/seq seq.mid;
-#X text 30 167 pause and continue;
+#X text 30 167 pause and continue.;
+#X text 31 201 Max's [seq] does not have pause and continue methods
+\, which are different than stop / start. A stop message not only stops
+\, but goes back to the beggining of the sequence \, and only accepts
+a "start" message afterwards \, which then restarts the sequence.;
+#X text 33 275 After a pause message \, in cyclone \, [seq] can accept
+the continue message and keep playing from where it stopped!;
+#X obj 179 458 cyclone/midiparse;
+#X obj 179 349 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 179 430 cyclone/midiflush;
+#X obj 179 390 cyclone/seq;
+#N canvas 638 210 345 266 polysynth 0;
+#X obj 65 20 inlet;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 41 151 pd synth;
+#X obj 65 84 pack f f f;
+#X obj 100 207 outlet~;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 100 151 pd synth;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 161 152 pd synth;
+#X text 124 19 3-voice polyphonic synth;
+#X obj 65 115 route 1 2 3, f 18;
+#X obj 65 52 poly 3 1;
+#X connect 0 0 8 0;
+#X connect 1 0 3 0;
+#X connect 2 0 7 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 7 0 1 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 8 0 2 0;
+#X connect 8 1 2 1;
+#X connect 8 2 2 2;
+#X restore 179 491 pd polysynth;
+#X obj 159 528 ./out~;
+#X msg 138 349 stop;
+#X msg 227 336 pause;
+#X msg 243 359 continue;
+#X obj 138 391 b;
+#X connect 6 0 10 0;
+#X connect 7 0 9 0;
+#X connect 8 0 6 0;
+#X connect 9 0 8 0;
+#X connect 9 1 7 0;
+#X connect 10 0 11 0;
+#X connect 10 0 11 1;
+#X connect 12 0 9 0;
+#X connect 12 0 15 0;
+#X connect 13 0 9 0;
+#X connect 14 0 9 0;
+#X connect 15 0 8 0;
 #X restore 439 154 pd extra features;
 #X text 140 420 pause -;
 #X text 191 404 stops recording/playing and goes back to start, f
