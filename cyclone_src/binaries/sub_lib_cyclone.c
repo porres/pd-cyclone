@@ -625,7 +625,8 @@ void cyclone_setup(void)
 /* -- post cyclone lib version -- */
     {
         post("------------------------------------------------------------------");
-        post("CYCLONE Library 0.3; A sub library containing the objects:");
+        post("Cyclone 0.3 alpha 1; Released: February 21st, 2017");
+        post("This is a sub library containing the objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
     }
