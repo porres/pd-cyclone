@@ -1,4 +1,4 @@
-#N canvas 553 23 558 592 10;
+#N canvas 499 238 558 592 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
 #X obj 2 371 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -167,7 +167,6 @@ the other element(s) at that int address.;
 #X text 130 516 @embed: <1> save contents with the patch \, <0> don't
 save (default), f 66;
 #X obj 227 234 cyclone/coll;
-#C restore;
 #X text 189 487 non-0 prevents from searching for a file (default 0)
 ;
 #X text 146 534 @threaded: <1> threaded processing (default) \, <0>
@@ -182,18 +181,7 @@ unthreaded;
 #X obj 465 124 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 465 195 cyclone/coll;
-#C restore;
 #X obj 92 141 cyclone/coll @embed 1;
-#C flags 1 0;
-#C 0 this;
-#C 1 collection;
-#C 2 is;
-#C 3 embedded;
-#C 4 with;
-#C 5 the;
-#C 6 patch;
-#C 7 test;
-#C restore;
 #X text 23 19 By default \, the contents of [coll] are not saved as
 part of the patch \, but you can change that! Check the example below
 where the contents of [coll] were stored with this example patch. Dump
@@ -216,7 +204,6 @@ the data collection is not enough \, you have to save the patch!;
 #X obj 27 155 cyclone/prepend store;
 #X obj 27 86 loadbang;
 #X obj 402 329 cyclone/coll;
-#C restore;
 #X msg 402 110 dump;
 #X obj 356 364 list prepend;
 #X obj 356 387 list trim;
@@ -287,10 +274,8 @@ try the example below.;
 #X text 646 218 <= addresses;
 #X obj 542 131 loadbang;
 #X obj 170 430 cyclone/coll;
-#C restore;
 #X msg 542 157 store Three 3 \, store Four 4;
 #X obj 540 411 cyclone/coll;
-#C restore;
 #X obj 540 444 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 642 342 Três;
@@ -335,7 +320,6 @@ Four 4;
 #X obj 108 470 print Address/Data;
 #X text 183 253 from 0 (default);
 #X obj 108 386 cyclone/coll;
-#C restore;
 #X obj 177 437 print -----------:;
 #X text 144 220 <= check original \, then renumber and check again
 ;
@@ -373,7 +357,6 @@ and increments all of them by one - also starting at a given value
 message increments numeric addresses equal and above it. Thus \, it
 creates an open slot or a separation in the data collection.;
 #X obj 128 220 cyclone/coll;
-#C restore;
 #X obj 128 85 loadbang;
 #X msg 128 111 0 0 \, 1 1 \, 2 2 \, 3 3 \, 4 4 \, 5 5;
 #X msg 177 177 separate 3;
@@ -415,9 +398,7 @@ creates an open slot or a separation in the data collection.;
 #X text 34 372 The length message outputs the number of entries/addresses
 in the collection to the left outlet.;
 #X obj 564 296 cyclone/coll;
-#C restore;
 #X obj 103 290 cyclone/coll;
-#C restore;
 #X obj 509 74 loadbang;
 #X msg 564 365 F;
 #X obj 564 337 cyclone/prepend set;
@@ -482,7 +463,6 @@ merge creates the address with that message.;
 #X text 48 322 data =>;
 #X msg 109 320 1 2 3 1 2 3 1 2 3;
 #X obj 109 252 cyclone/coll;
-#C restore;
 #X obj 542 154 loadbang;
 #X msg 645 215 sub 0 3 three;
 #X obj 622 287 cyclone/prepend set;
@@ -500,7 +480,6 @@ substituted message \, while "nsub" doesn't.;
 #X text 726 181 substitute without output;
 #X text 733 216 outputs automatically;
 #X obj 622 254 cyclone/coll;
-#C restore;
 #X connect 0 0 13 0;
 #X connect 1 0 13 0;
 #X connect 3 0 0 0;
@@ -525,7 +504,6 @@ substituted message \, while "nsub" doesn't.;
 #X obj 56 169 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 135 232 cyclone/coll;
-#C restore;
 #X obj 74 383 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 119 383 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -543,9 +521,8 @@ substituted message \, while "nsub" doesn't.;
 #N canvas 510 65 863 448 store/remove 0;
 #X obj 53 154 loadbang;
 #X obj 53 214 cyclone/coll;
-#C restore;
 #X obj 53 264 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 23 256;
+-228856 -1 -1 0 256;
 #X msg 53 180 store -1 23 \, -1;
 #X text 100 239 address;
 #X obj 199 341 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -560,11 +537,9 @@ substituted message \, while "nsub" doesn't.;
 #X obj 173 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 199 291 cyclone/coll;
-#C restore;
 #X obj 601 76 loadbang;
 #X msg 561 164 dump;
 #X obj 601 280 cyclone/coll;
-#C restore;
 #X msg 643 183 remove note;
 #X text 446 31 To remove a data message from [coll] \, use the remove
 message. It removes the address specified by an int/symbol along with
@@ -623,7 +598,6 @@ Note that storing to an existing address updates it!;
 #X msg 138 180 dump;
 #X obj 115 323 cyclone/join @triggers 1;
 #X obj 120 278 cyclone/coll;
-#C restore;
 #X msg 189 347 =====;
 #X obj 518 142 loadbang;
 #X obj 587 400 print Address/Data;
@@ -649,7 +623,6 @@ In this case \, the "insert" message will still increment addresses
 that are greater by!;
 #X msg 548 237 insert 8 eigth;
 #X obj 518 305 cyclone/coll;
-#C restore;
 #X msg 149 210 insert 2 two;
 #X connect 0 0 12 0;
 #X connect 2 0 4 0;
@@ -676,7 +649,6 @@ that are greater by!;
 #X obj 144 141 loadbang;
 #X msg 102 192 dump;
 #X obj 144 274 cyclone/coll;
-#C restore;
 #X msg 173 206 delete 2;
 #X msg 56 193 clear;
 #X msg 144 172 0 0 \, 1 1 \, 2 2 \, 3 3 \, 4 4 \, 5 5 \, store six
@@ -711,7 +683,6 @@ in this case it acts in the same way as "remove".;
 #X msg 184 109 refer example1;
 #X msg 209 143 refer coll.txt;
 #X obj 184 176 cyclone/coll;
-#C restore;
 #X text 74 15 The "refer" message can refer a [coll] object to a data
 collection of another [coll] object with another name or filename.
 ;
@@ -752,11 +723,8 @@ collection of another [coll] object with another name or filename.
 or manipulated by different instances of the [coll] object if they
 share the same name (1st symbol argument).;
 #X obj 31 380 cyclone/coll example1 1;
-#C restore;
 #X obj 200 286 cyclone/coll example1 1;
-#C restore;
 #X obj 282 465 cyclone/coll example1 1;
-#C restore;
 #X text 58 511 See how clearing the collection in one [coll] instance
 affects others with the same name - same with adding messages.;
 #X msg 31 286 0 0 \, 1 1 \, 2 2 \, 3 3;
@@ -833,7 +801,6 @@ go;
 #X text 308 207 saves to file;
 #X text 296 232 resaves to file;
 #X obj 98 270 cyclone/coll coll.txt;
-#C restore;
 #X msg 682 199 next;
 #X msg 681 174 prev;
 #X obj 629 259 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -845,7 +812,6 @@ go;
 #X msg 629 183 end;
 #X text 480 164 goes to address 50;
 #X obj 629 229 cyclone/coll coll.txt 1;
-#C restore;
 #X text 456 16 The basic navigation through [coll]'s data is with the
 "next" (same as a bang) or "prev" messages that \, respectively \,
 go to the next and the previous address.;
@@ -887,7 +853,6 @@ doesn't need to load the file again!;
 #X restore 460 118 pd read/write files \; data navigation;
 #N canvas 450 160 787 431 alias 0;
 #X obj 128 272 cyclone/coll;
-#C restore;
 #X msg 30 208 1;
 #X msg 60 208 2;
 #X msg 73 149 1 foo \, 2 bar;
@@ -908,7 +873,6 @@ name address instead of the int address.;
 #X msg 218 239 remove foo;
 #X text 289 239 *;
 #X obj 531 306 cyclone/coll;
-#C restore;
 #X obj 531 166 loadbang;
 #X msg 561 235 one;
 #X floatatom 151 300 3 0 0 0 - - -, f 3;
@@ -1053,7 +1017,6 @@ have been completed.;
 mode breaks it for the read and dump operations \, printing: "1 \,
 3 \, 2" instead.;
 #X obj 160 201 cyclone/coll depth 1 @threaded 0;
-#C restore;
 #X text 77 370 One way or another \, if an action is needed right after
 reading or dumping \, you should use and rely on the bangs from the
 outlets \, which are there for this reason and is the best practice
@@ -1111,9 +1074,10 @@ and see below how now the unthreaded mode freezes the DSP.;
 #X text 509 92 3) now try dump;
 #X msg 236 180 read coll_big.txt;
 #X obj 236 219 cyclone/coll threaded_test 1;
-#C restore;
 #X obj 507 180 cyclone/coll threaded_test 1 @threaded 0;
-#C restore;
+#X obj 537 211 cnv 15 120 40 empty empty empty 20 12 0 14 -261234 -66577
+0;
+#X text 544 217 threaded dump is not ready yet, f 16;
 #X connect 0 0 4 0;
 #X connect 0 0 4 1;
 #X connect 1 0 35 0;
