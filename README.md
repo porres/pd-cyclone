@@ -47,9 +47,11 @@ PdLibBuilder tries to find the Pd source directory at several common locations, 
 
 * Installing with pdlibbuilder
 
-The default path for installing might not be the best, surely for testing. Use the pkglibdir variable for this. Example:
+use "objectsdir" to set a relative path for your build, something like:
 
-<pre>make install pkglibdir=~/pd-externals/</pre>
+<pre>make install objectsdir=../cyclone-build</pre>
+
+Then move it to your preferred install folder for Pd.
 
 -------
 
