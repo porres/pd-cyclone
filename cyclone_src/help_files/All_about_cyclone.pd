@@ -3,7 +3,8 @@
 #X obj 4 1 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
 #X obj 29 4 comment 0 22 courier ? 0 224 228 220 cyclone;
-#X obj 30 32 comment 0 14 courier ? 0 224 228 220 version 0.3;
+#X obj 30 32 comment 0 14 courier ? 0 224 228 220 version 0.3 alpha
+1;
 #X obj 137 7 comment 0 14 courier ? 0 224 228 220 - a set of Pure Data
 objects cloned from Max/MSP;
 #X obj 272 34 comment 0 12 courier ? 0 224 228 220 https://github.com/porres/pd-cyclone

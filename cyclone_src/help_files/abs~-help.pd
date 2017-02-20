@@ -15,8 +15,6 @@
 #X obj 1 602 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #N canvas 1009 207 344 202 META 0;
-#X text 1 92 VERSION: 0.3-alpha.0, f 56;
-#X text 1 109 RELEASE_DATE: 2016, f 56;
 #X text 1 75 LIBRARY: cyclone, f 56;
 #X text 1 126 LICENSE: SIBSD, f 56;
 #X text 1 175 WEBSITE: https://github.com/porres/pd-cyclone, f 56
@@ -27,6 +25,8 @@
 #X text 1 143 AUTHOR: Krzysztof Czaja, f 56;
 #X text 1 159 HELP_PATCH_AUTHOR: Alexandre Torres Porres, f 56;
 #X text 1 8 KEYWORDS: signal math, f 56;
+#X text 1 92 VERSION: 0.3-alpha.1, f 56;
+#X text 1 109 RELEASE_DATE: 2017, f 56;
 #X restore 504 604 pd META;
 #X text 76 413 -1;
 #X text 80 351 0;

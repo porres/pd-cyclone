@@ -380,23 +380,14 @@ cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(libforky)
 ### datafiles #########################################################
 
 datafiles = \
-$(wildcard cyclone_src/help_files/*-help.pd) \
-cyclone_src/help_files/Abstractions/out~.pd \
-cyclone_src/help_files/Abstractions/buffer~.pd \
-cyclone_src/help_files/Abstractions/number~.pd \
-cyclone_src/help_files/Abstractions/tri~.pd \
-cyclone_src/help_files/Abstractions/rect~.pd \
-cyclone_src/help_files/Abstractions/saw~.pd \
+$(wildcard cyclone_src/help_files/*.pd) \
+$(wildcard cyclone_src/help_files/Abstractions/*.pd) \
+$(wildcard cyclone_src/help_files/*.txt) \
 cyclone_src/help_files/violin.wav \
 cyclone_src/help_files/stereo.aif \
 cyclone_src/help_files/seq.mid \
-cyclone_src/help_files/seq.txt \
-cyclone_src/help_files/coll_big.txt \
-cyclone_src/help_files/coll.txt \
-cyclone_src/help_files/funbuff.txt \
-cyclone_src/cyclone-meta.pd \
 LICENSE.txt \
-README.md \
+README.txt \
 
 # pthreadGC2.dll is required for Windows installation. It can be found in
 # the MinGW directory (usually C:\MinGW\bin) directory and should be
