@@ -383,6 +383,7 @@ datafiles = \
 $(wildcard cyclone_src/help_files/*.pd) \
 $(wildcard cyclone_src/help_files/Abstractions/*.pd) \
 $(wildcard cyclone_src/help_files/*.txt) \
+cyclone_src/cyclone-meta.pd \
 cyclone_src/help_files/violin.wav \
 cyclone_src/help_files/stereo.aif \
 cyclone_src/help_files/seq.mid \
