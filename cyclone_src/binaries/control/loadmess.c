@@ -60,7 +60,10 @@ static void loadmess_bang(t_loadmess *x)
 
 static void loadmess_loadbang(t_loadmess *x, t_floatarg action)
 {
-  if(!sys_noloadbang && action == LB_LOAD) {
+    //original: subbing out for 0 is HACKY and BAD and we need to
+    //fix this later - DK
+  //if(!sys_noloadbang && action == LB_LOAD) {
+  if(!sys_noloadbang && action == 0) {
     if(!x->defer)
 	{
       loadmess_bang(x);
