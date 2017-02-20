@@ -182,6 +182,7 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     odd = natoms % 2;
     nsegs = natoms / 2;
     if (odd) nsegs++;
+    /*
     if (nsegs > x->x_size)
         {
         int ns = nsegs = LINE_MAX_SIZE;
@@ -194,6 +195,14 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
             odd = 0;
             }
         }
+    */
+
+    //clip at maxsize
+    if(nsegs > LINE_MAX_SIZE)
+    {
+        nsegs = LINE_MAX_SIZE;
+        odd = 0;
+    };
     x->x_nsegs = nsegs;
     segp = x->x_segs;
     if (odd) nsegs--;
