@@ -236,6 +236,7 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     odd = natoms % 3;
     nsegs = natoms / 3;
     if (odd) nsegs++;
+    /*
     if (nsegs > x->x_size)
         {
         nsegs = CURVE_MAXSIZE;
@@ -250,6 +251,13 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
             odd = 0;
             }
         }
+    */
+    //clip at maxsize
+    if(nsegs > CURVE_MAXSIZE)
+    {
+        nsegs = CURVE_MAXSIZE;
+        odd = 0;
+    };
     x->x_nsegs = nsegs;
     segp = x->x_segs;
     if (odd) nsegs--;
