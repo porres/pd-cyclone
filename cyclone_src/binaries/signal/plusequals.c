@@ -38,7 +38,7 @@ static t_int *plusequals_perform(t_int *w)
     if (!isnan(*x->x_signalscalar))
     {
         *x->x_signalscalar = NAN;
-        pd_error(x, "plusequals~: doesn't understand 'float'");
+    //    pd_error(x, "plusequals~: doesn't understand 'float'");
     }
     
     while (nblock--)
@@ -66,7 +66,7 @@ static t_int *plusequals_perform_no_in(t_int *w)
     if (!isnan(*x->x_signalscalar))
     {
         *x->x_signalscalar = NAN;
-        pd_error(x, "plusequals~: doesn't understand 'float'");
+   //     pd_error(x, "plusequals~: doesn't understand 'float'");
     }
     
     while (nblock--)

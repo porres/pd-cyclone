@@ -52,7 +52,7 @@ static t_int *selector_perform(t_int *w)
 				if (!isnan(*(signalscalars[j])))
 				{
 					*(signalscalars[j]) = NAN;
-					pd_error(x, "selector~: doesn't understand 'float'");
+				//	pd_error(x, "selector~: doesn't understand 'float'");
 				}
 				if(curst == (j+1)){
  					if (hasfeeders[j])

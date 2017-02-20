@@ -35,7 +35,7 @@ static t_int *cartopol_perform(t_int *w)
     if (!isnan(*x->x_signalscalar))
 	{
 		*x->x_signalscalar = NAN;
-        pd_error(x, "cartopol~: doesn't understand 'float'");
+   //     pd_error(x, "cartopol~: doesn't understand 'float'");
     }
     
     while (nblock--)

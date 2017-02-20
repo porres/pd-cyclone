@@ -1,0 +1,158 @@
+abs~       absolute value of a signal
+accum      store \, add to \, and multiply a number 
+acos~      takes the arc cosine function for signals 
+acos       arc-cosine(x) function
+acosh~     takes the arc hyperbolic cosine function for signals
+active     report if window is active / inactive
+allpass~   allpass filter for signal
+anal       generates a histogram of number pairs received 
+Append     append a message to the incoming message
+asin~      takes the arc sine function for signals
+asin       arc-sine(x) function
+asinh~     takes the arc hyperbolic cosine function for signals
+atan2~     standard C function for arctan - arctan(y/x) 
+atan~      takes the arc tangent function for signals 
+atanh~     takes the arc hyperbolic tangens function for signals
+average~   reports various forms of average value of signal
+avg~       computes the average value of signal
+bangbang   send a number of bangs in order
+bitand~    performs bitwise boolean operations on a floating point signal as bits or as a float
+bitnot~    performs bitwise boolean operations on a float signal
+bitor~     performs bitwise boolean operations on a floating point signal as bits or as a float.
+bitshift~  performs bitwise boolean operations on a floating point signal as bits or as a float.
+bitxor~    performs bitwise boolean operations on a floating point signal as bits or as a float.
+bondo      sync a group of messages
+Borax      reports current info on note on/off
+Bucket     pass numbers from outlet to outlet
+buddy      pass numbers from inlet to outlet
+buffir~    converts all signal values to positive values 
+capture~   Collect samples from a signal and examine in text window
+capture    store and edit numbers
+cartopol~  cartesian to polar conversion for signals 
+cartopol   cartesian to polar conversion
+change~    detect signal change and direction
+click~     generate an impulse
+Clip~      constrains a signal within a certain range 
+Clip       constrains an int \, float \, or list within a certain range
+coll       store and edit collections of messages
+comb~      comb filter
+comment    a text comment with formatting options \, meant to be Max/MSP compatible
+cosh~      takes the hyperbolic cosine function for signals 
+cosh       hyperbolic cosine(x) function
+cosx~      takes the cosine function for signals
+counter    count the number of bangs received; #X text 1 50 DESCRIPTION count the number of bangs received
+count~     sample counter for dsp
+curve~     exponential ramp generator
+cycle~     table-lookup oscillator or function generator 
+cycle      send data to individual outlets
+decide     output 0 or 1 randomly
+Decode     send out 1/0 to a specific outlet
+delay~     delay incoming signal for a number of samples 
+deltaclip~  limit the change between samples in an incoming signal
+delta~     transform signal into difference between successive samples
+drunk      output random numbers in a moving range
+edge~      Detect zero to non-zero signal transitions 
+flush      provide note offs for held notes
+forward    send remote messages
+frameaccum~  computes running phase of successive phase deviation frames
+framedelta~  computes the phase deviation between successive FFT frames
+fromsymbol  transform symbol to numbers or messages
+funbuff    store x \, y pairs of numbers together
+funnel     tag data based on the inlet it arrived in 
+gate       send data out the specified output
+grab       intercept the output of another object
+Histo      generates a histogram of the received numbers 
+index~     sample playback without interpolation
+iter       split a list into a series of data
+kink~      distort the output of a phasor~
+linedrive  scale numbers exponentially for use with line~ 
+Line~      generate signal ramp or envelope
+log~       output the log (to a specified base) of a signal
+lookup~    transfer function lookup table
+lores~     low-pass filter with resonance
+match      look for a series of numbers
+matrix~    a switching or mixing matrix for signals
+maximum~   output the maximum of two signals
+maximum    output the greatest in a list of numbers
+maxmode    compatibility configurator and switcher
+mean       find the running average of a stream of numbers 
+midiflush  send note offs for all hanging notes in a raw midi stream
+midiformat  de/construct midi messages
+midiparse  deconstruct midi messages
+minimum~   output the minimum of two signals
+minimum    output the smallest in a list of numbers
+minmax~    computes the minimum and maximum values of a signal
+mousefilter  passes numbers only when mousebutton is up 
+MouseState  report mouse x/y \, delta x/delta y \, and buttonpress
+mstosamps~  convert milliseconds to number of samples 
+mtr        multi-track recorder for any kind of message 
+nettles    apply binary operations
+next       separate messages into logical parts
+offer      store x \, y pairs of values (x is int only) 
+onebang    traffic control for bang messages
+onepole~   single-pole lowpass filter
+overdrive~  simulate an analog amplifier being overdriven 
+past       report when input increases beyond a certain number
+peakamp~   measure the peak amplitude of a signal
+Peak       output only numbers greater than previous 
+peek~      read and write sample values
+phasewrap~  wrap a signal between -pi and pi
+pink~      pink noise generator
+play~      position based sample playback
+poke~      write into a table using a signal sample index 
+poltocar~  polar to cartesian coordinate conversion
+poltocar   polar to cartesian conversion
+pong~      fold or wrap a signal within a given range 
+pow~       take base to the exponent power using signals 
+prepend    prepend a message with another message
+prob       weighted series of random numbers
+pv         private variables for patch and its subpatches 
+rampsmooth~  smooth out an incoming signal via a ramp
+rand~      bandlimited random noise
+record~    read and write sample values
+reson~     resonant bandpass filter
+sah~       sample-and-hold
+sampstoms~  convert nummber of samples at sampling rate to milliseconds
+Scope~     graphic signal display
+seq        simple MIDI file player and recorder
+sinh~      takes the hyperbolic sine function for signals 
+sinh       takes the hyperbolic sine value of a float 
+sinx~      takes the sine function for signals
+slide~     smooth-out changes in signal values
+Snapshot~  report sample values from a signal
+speedlim   speed limit for incoming messages
+spell      convert input to ascii values
+spike~     report intervals of zero to non-zero transitions 
+split      look for a range of numbers
+spray      distribute an integer to a numbered outlet 
+sprintf    format a message of string and numbers
+substitute  substitute a symbol for another symbol in a message
+sustain    hold note offs and output them on request 
+svf~       state-variable filter
+switch     output a message from a specific inlet
+Table      store and graphically edit an array of numbers 
+tanh~      takes the hyperbolic tangent function for signals
+tanh       takes hyperbolic tangent value of a float 
+tanx~      takes the tangent function for signals
+teeth~     teeth filter
+testmess   generates test messages for cyclone objects 
+thresh     combine numbers that are received close together into a list
+TogEdge    report zero / non-zero transitions
+tosymbol   transform messages to symbols
+train~     pulse-train generator and metronome
+trapezoid~  a trapezoid wavetable
+triangle~  a triangle / ramp wavetable
+Trough     output only numbers smaller than the previous 
+universal  send message to all objects of the same class 
+urn        random number generator without duplicate numbers
+Uzi        send a specified number of bangs as fast as possible
+vectral~   a vector based envelope follower
+wave~      variable size wavetable
+xbendin2   deconstruct extra precision midi pitchbend objects 7 + 7 bit
+xbendin    deconstruct extra precision midi pitchbend objects 14 bit
+xbendout2  construct extra precision midi pitchbend objects 14 bit
+xbendout   construct extra precision midi pitchbend objects 14 bit
+xnotein    decompose midi messages with release velocity 
+xnoteout   interpret midi messages with release velocity 
+zerox~     zero crossing couter or transient detector 
+zl         multi purpose list processing object a.k.a. swiss army knife
