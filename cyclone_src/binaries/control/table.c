@@ -848,7 +848,7 @@ static void *table_new(t_symbol *s)
     static int warned = 0;
     if (!warned)
     {
-        pd_error(x, "[cyclone/table] is not ready yet");
+    //    pd_error(x, "[cyclone/table] is not ready yet");
 	warned = 1;
     }
     x->x_glist = canvas_getcurrent();

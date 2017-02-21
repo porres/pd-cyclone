@@ -601,7 +601,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
                 }
             }
         }
-    pd_error(x, "[cyclone/sprintf] is not ready yet");
+   // pd_error(x, "[cyclone/sprintf] is not ready yet");
     outlet_new((t_object *)x, &s_anything);
     return (x);
 }
