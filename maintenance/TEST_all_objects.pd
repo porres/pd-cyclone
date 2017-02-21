@@ -98,7 +98,7 @@
 #X obj 28 47 !/;
 #X obj 120 24 cyclone/rminus;
 #X obj 120 47 cyclone/rdiv;
-#X restore 20 97 pd Control Objects (Max);
+#X restore 134 97 pd Control Objects (Max);
 #N canvas 132 102 609 478 Signal 0;
 #X obj 14 265 cyclone/abs~;
 #X obj 14 290 cyclone/acos~;
@@ -221,10 +221,10 @@
 #X obj 111 183 cyclone/rminus~;
 #X obj 111 207 cyclone/rdiv~;
 #X obj 112 232 cyclone/plusequals~;
-#X restore 177 97 pd Signal Objects (MSP);
+#X restore 137 127 pd Signal Objects (MSP);
 #X obj 409 82 switch~;
 #X obj 399 37 tgl 30 0 \$0-zxcx \$0-zxcxsfljsfl empty 17 7 0 10 -228856
--1 -1 1 1;
+-1 -1 0 1;
 #N canvas 206 79 374 314 GUI 0;
 #X obj 174 143 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
@@ -233,7 +233,7 @@
 #X obj 172 24 cyclone/comment 0 22 Courier ? 0 0 128 128 comment;
 #X text 51 85 [cyclone/number~]:;
 #X text 57 145 [cyclone/scope~]:;
-#X restore 329 97 pd GUI;
+#X restore 194 156 pd GUI;
 #X obj 81 58 declare -stdpath cyclone -stdlib cyclone;
 #X text 435 42 DSP;
 #X msg 399 111 \; pd dsp \$1;
