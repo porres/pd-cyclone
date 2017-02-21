@@ -126,7 +126,7 @@ static void *hilbert_new(t_floatarg f)
     x->x_r2x1 = x->x_r2x2 = x->x_r2y1 = x->x_r2y2 = 0.;
     x->x_i1x1 = x->x_i1x2 = x->x_i1y1 = x->x_i1y2 = 0.;
     x->x_i2x1 = x->x_i2x2 = x->x_i2y1 = x->x_i2y2 = 0.;
-      pd_error(x, "[cyclone/hilbert~] is not ready yet");
+     // pd_error(x, "[cyclone/hilbert~] is not ready yet");
     return (x);
 }
 

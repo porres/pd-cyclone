@@ -1140,7 +1140,7 @@ static void *seq_new(t_symbol *s)
     else x->x_defname = &s_;
     x->x_clock = clock_new(x, (t_method)seq_clocktick);
     x->x_slaveclock = clock_new(x, (t_method)seq_slaveclocktick);
-            pd_error(x, "[cyclone/seq] is not ready yet");
+     //       pd_error(x, "[cyclone/seq] is not ready yet");
     return (x);
 }
 
