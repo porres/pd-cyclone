@@ -637,6 +637,34 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 #endif
 }
 
+static void comment_append(t_comment *x, t_symbol *s, int argc, t_atom * argv)
+{
+
+    post("not implemented yet");
+
+}
+
+static void comment_prepend(t_comment *x, t_symbol *s, int argc, t_atom * argv)
+{
+
+    post("not implemented yet");
+
+}
+
+
+static void comment_set(t_comment *x, t_symbol *s, int argc, t_atom * argv)
+{
+    post("not implemented yet");
+    /* this doesn't really work
+    binbuf_clear(x->x_binbuf);
+    binbuf_restore(x->x_binbuf, argc, argv);
+   comment_validate(x, x->x_glist);
+    x->x_glist->gl_editor->e_textdirty = 1;
+    binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
+    comment_update(x);
+    canvas_dirty(x->x_glist, 1);
+    */
+}
 static void comment_free(t_comment *x)
 {
     if (x->x_active)
@@ -787,10 +815,17 @@ void comment_setup(void)
 			      (t_newmethod)comment_new,
 			      (t_method)comment_free,
 			      sizeof(t_comment),
-			      CLASS_NOINLET | CLASS_PATCHABLE,
+			      //CLASS_NOINLET | CLASS_PATCHABLE,
+                              CLASS_DEFAULT,
 			      A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
     class_addlist(comment_class, comment_list);
+    class_addmethod(comment_class, (t_method)comment_set,
+		    gensym("set"), A_GIMME, 0);
+    class_addmethod(comment_class, (t_method)comment_append,
+		    gensym("append"), A_GIMME, 0);
+    class_addmethod(comment_class, (t_method)comment_prepend,
+		    gensym("prepend"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__bboxhook,
 		    gensym("_bbox"),
 		    A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
