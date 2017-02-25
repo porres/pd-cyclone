@@ -66,7 +66,6 @@ round.class.sources := cyclone_src/binaries/control/round.c
 scale.class.sources := cyclone_src/binaries/control/scale.c
 
 # SIGNAL CLASSES:
-abs~.class.sources := cyclone_src/binaries/signal/abs.c
 acos~.class.sources := cyclone_src/binaries/signal/acos.c
 acosh~.class.sources := cyclone_src/binaries/signal/acosh.c
 allpass~.class.sources := cyclone_src/binaries/signal/allpass.c
@@ -90,7 +89,6 @@ comb~.class.sources := cyclone_src/binaries/signal/comb.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
-log~.class.sources := cyclone_src/binaries/signal/log.c
 lores~.class.sources := cyclone_src/binaries/signal/lores.c
 maximum~.class.sources := cyclone_src/binaries/signal/maximum.c
 minimum~.class.sources := cyclone_src/binaries/signal/minimum.c
