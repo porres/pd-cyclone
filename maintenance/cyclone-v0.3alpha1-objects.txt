@@ -10,7 +10,6 @@
 ==~ signal equal to
 >=~ signal greater than or equal to
 >~ signal greater than
-abs~ signal absolute
 accum accumulate to a value
 acos arc cosine function
 acos~ signal arc cosine function
@@ -104,7 +103,6 @@ lessthaneq~ alias of <=~
 line~ linear ramp generator
 linedrive exponential scaler for [line~]
 loadmess send messages at loading a patch
-log~ signal logarithm
 lookup~ transfer function lookup table
 lores~ lowpass resonant filter
 match output a matching input
