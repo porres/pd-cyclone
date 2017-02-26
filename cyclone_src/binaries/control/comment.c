@@ -67,6 +67,13 @@ typedef struct _comment
     int        x_active;
     int        x_ready;
     t_symbol  *x_selector;
+
+    //new args that currently do nothing - DK 2017
+    t_float     x_bgcolor[4];
+    int         x_fontface; //0: reg, 1: bold, 2: italic, 3: bolditalic
+    int         x_textjust; //0: left, 1: center, 2: right
+    int         x_underline; //0: no, 1: yes
+    int         x_suppressinlet; //0: no, 1: yes
 } t_comment;
 
 static t_class *comment_class;
@@ -684,6 +691,148 @@ static void comment_free(t_comment *x)
     if (x->x_textbuf) freebytes(x->x_textbuf, x->x_textbufsize);
 }
 
+//these new methods (2017) do nothing and are placeholders - DK 2017
+static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3, t_float f4)
+{
+    x->x_bgcolor[0] = f1;
+    x->x_bgcolor[1] = f2;
+    x->x_bgcolor[2] = f3;
+    x->x_bgcolor[3] = f4;
+}
+
+static void comment_fontface(t_comment *x, t_float f)
+{
+    x->x_fontface = f < 0 ? 0 : (f > 3 ? 3 : (int)f);
+
+}
+
+static void comment_textjustification(t_comment *x, t_float f)
+{
+    x->x_textjust= f < 0 ? 0 : (f > 2 ? 2 : (int)f);
+
+}
+
+static void comment_underline(t_comment *x, t_float f)
+{
+
+    x->x_underline = f == 0 ? 0 : 1;
+}
+
+static void comment_suppressinlet(t_comment *x, t_float f)
+{
+
+    x->x_suppressinlet = f == 0 ? 0 : 1;
+}
+
+//end new method placeholders
+static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
+{
+    t_atom comlist[argc];
+    int i, comlen = 0; //eventual length of comment list comlist 
+    for(i=0;i<argc; i++)
+    {
+        if(argv[i].a_type == A_FLOAT)
+        {
+           SETFLOAT(&comlist[comlen], argv[i].a_w.w_float);
+           comlen++;
+        }
+        else if(argv[i].a_type == A_SYMBOL)
+        {
+            t_symbol * cursym = argv[i].a_w.w_symbol;
+            if(strcmp(cursym->s_name, "@bgcolor") == 0)
+            {
+                i++; //done with symbol move on
+                int numcolors = 4; //number of colors to specify
+                while(numcolors)
+                {
+                    if((argc-i) > 0) //if there are args left to parse
+                    {
+                        if(argv[i].a_type == A_FLOAT)
+                        {
+                            x->x_bgcolor[4-numcolors] = argv[i].a_w.w_float;
+                            if(numcolors > 1) i++; //don't need to increment the last time
+                            //taken care of by for loop
+                            numcolors--;
+                        }
+                        else
+                        {
+                            i--; //the next arg wasn't a float so we didn't have to parse it
+                            //leave it for the next go around in the for loop
+                            break;
+                        };
+                    };
+
+                };
+            }
+            else if(strcmp(cursym->s_name, "@fontface") == 0)
+            {
+                i++;
+                if((argc-i) > 0)
+                {
+                    if(argv[i].a_type == A_FLOAT)
+                    {
+                        int fontface = (int)argv[i].a_w.w_float;
+                        x->x_fontface = fontface < 0 ? 0 : (fontface > 3 ? 3 : fontface);
+                    }
+                    else i--;
+                };
+            }
+            else if(strcmp(cursym->s_name, "@textjustification") == 0)
+            {
+                i++;
+                if((argc-i) > 0)
+                {
+                    if(argv[i].a_type == A_FLOAT)
+                    {
+                        int textjust = (int)argv[i].a_w.w_float;
+                        x->x_textjust = textjust < 0 ? 0 : (textjust > 2 ? 2 : textjust);
+                    }
+                    else i--;
+                };   
+
+            }
+            else if(strcmp(cursym->s_name, "@underline") == 0)
+            {
+                i++;
+                if((argc-i) > 0)
+                {
+                    if(argv[i].a_type == A_FLOAT)
+                    {
+                        int underline = (int)argv[i].a_w.w_float;
+                        x->x_underline = underline == 0 ? 0 : 1;
+                    }
+                    else i--;
+                };  
+            }
+            else if(strcmp(cursym->s_name, "@suppressinlet") == 0)
+            {
+                i++;
+                if((argc-i) > 0)
+                {
+                    if(argv[i].a_type == A_FLOAT)
+                    {
+                        int suppressinlet = (int)argv[i].a_w.w_float;
+                        x->x_suppressinlet = suppressinlet == 0 ? 0 : 1;
+                    }
+                    else i--;
+                };  
+            }
+
+            else
+            {
+                //treat it as a part of comlist
+                SETSYMBOL(&comlist[comlen], cursym);
+                comlen++;
+
+            };
+        };
+    };
+
+    //set the comment with comlist
+    binbuf_restore(x->x_binbuf, comlen, comlist);
+}
+
+
 /* the arguments in the full form of a creation message are:
 
    width fontsize fontfamily encoding fontprops red green blue text...
@@ -786,7 +935,7 @@ textpart:
     sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
 
     x->x_binbuf = binbuf_new();
-    if (ac) binbuf_restore(x->x_binbuf, ac, av);
+    if (ac) comment_attrparser(x, ac, av);
     else
     {
 	SETSYMBOL(&at, gensym("comment"));
@@ -820,6 +969,18 @@ void comment_setup(void)
 			      A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
     class_addlist(comment_class, comment_list);
+    //new methods 2017: currently do nothing - DK
+    class_addmethod(comment_class, (t_method)comment_bgcolor,
+		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_fontface,
+		    gensym("fontface"), A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_textjustification,
+		    gensym("textjustification"), A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_underline,
+		    gensym("underline"), A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_suppressinlet,
+		    gensym("suppressinlet"), A_FLOAT, 0);
+    //now back to pre-existing methods
     class_addmethod(comment_class, (t_method)comment_set,
 		    gensym("set"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment_append,
