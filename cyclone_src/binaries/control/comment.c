@@ -692,12 +692,11 @@ static void comment_free(t_comment *x)
 }
 
 //these new methods (2017) do nothing and are placeholders - DK 2017
-static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3, t_float f4)
+static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3)
 {
     x->x_bgcolor[0] = f1;
     x->x_bgcolor[1] = f2;
     x->x_bgcolor[2] = f3;
-    x->x_bgcolor[3] = f4;
 }
 
 static void comment_fontface(t_comment *x, t_float f)
@@ -816,6 +815,21 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                     }
                     else i--;
                 };  
+            }
+
+// existing
+            else if(strcmp(cursym->s_name, "@fontsize") == 0)
+            {
+                i++;
+                if((argc-i) > 0)
+                {
+                    if(argv[i].a_type == A_FLOAT)
+                    {
+                        int fontsize = (int)argv[i].a_w.w_float;
+                        x->x_fontsize = fontsize;
+                    }
+                    else i--;
+                };
             }
 
             else
@@ -971,7 +985,7 @@ void comment_setup(void)
     class_addlist(comment_class, comment_list);
     //new methods 2017: currently do nothing - DK
     class_addmethod(comment_class, (t_method)comment_bgcolor,
-		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_fontface,
 		    gensym("fontface"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_textjustification,
