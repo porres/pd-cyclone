@@ -32,6 +32,7 @@ static t_class *makeshift_class;
 #define COMMENT_HANDLEWIDTH    8
 #define COMMENT_OUTBUFSIZE  1000
 
+#define COMMENT_NUMCOLORS 3
 typedef struct _comment
 {
     t_object   x_ob;
@@ -69,7 +70,7 @@ typedef struct _comment
     t_symbol  *x_selector;
 
     //new args that currently do nothing - DK 2017
-    t_float     x_bgcolor[4];
+    t_float     x_bgcolor[COMMENT_NUMCOLORS];
     int         x_fontface; //0: reg, 1: bold, 2: italic, 3: bolditalic
     int         x_textjust; //0: left, 1: center, 2: right
     int         x_underline; //0: no, 1: yes
@@ -692,12 +693,11 @@ static void comment_free(t_comment *x)
 }
 
 //these new methods (2017) do nothing and are placeholders - DK 2017
-static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3, t_float f4)
+static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3)
 {
     x->x_bgcolor[0] = f1;
     x->x_bgcolor[1] = f2;
     x->x_bgcolor[2] = f3;
-    x->x_bgcolor[3] = f4;
 }
 
 static void comment_fontface(t_comment *x, t_float f)
@@ -742,14 +742,14 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
             if(strcmp(cursym->s_name, "@bgcolor") == 0)
             {
                 i++; //done with symbol move on
-                int numcolors = 4; //number of colors to specify
+                int numcolors = COMMENT_NUMCOLORS; //number of colors to specify
                 while(numcolors)
                 {
                     if((argc-i) > 0) //if there are args left to parse
                     {
                         if(argv[i].a_type == A_FLOAT)
                         {
-                            x->x_bgcolor[4-numcolors] = argv[i].a_w.w_float;
+                            x->x_bgcolor[COMMENT_NUMCOLORS-numcolors] = argv[i].a_w.w_float;
                             if(numcolors > 1) i++; //don't need to increment the last time
                             //taken care of by for loop
                             numcolors--;
@@ -829,7 +829,12 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
     };
 
     //set the comment with comlist
-    binbuf_restore(x->x_binbuf, comlen, comlist);
+    if(comlen) binbuf_restore(x->x_binbuf, comlen, comlist);
+    else
+    {
+	SETSYMBOL(&comlist[0], gensym("comment"));
+	binbuf_restore(x->x_binbuf, 1, comlist);
+    };
 }
 
 
@@ -971,7 +976,7 @@ void comment_setup(void)
     class_addlist(comment_class, comment_list);
     //new methods 2017: currently do nothing - DK
     class_addmethod(comment_class, (t_method)comment_bgcolor,
-		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT,0);
     class_addmethod(comment_class, (t_method)comment_fontface,
 		    gensym("fontface"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_textjustification,
