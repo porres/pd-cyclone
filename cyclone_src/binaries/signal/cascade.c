@@ -151,7 +151,7 @@ void *cascade_new(void)
 	x->x_ynm1[i] = 0.f;
 	x->x_ynm2[i] = 0.f;
   };
-  pd_error(x, "[cyclone/cascade~] is not ready yet");
+//  pd_error(x, "[cyclone/cascade~] is not ready yet");
   return (x);
 }
 

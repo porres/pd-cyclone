@@ -36,7 +36,7 @@ static t_int *kink_perform(t_int *w)
     t_float *scalar = x->x_signalscalar;
     if (*scalar < 0.0)
     {
-    	pd_error(x, "kink~: illegal float value %.2f", *scalar);
+ //   	pd_error(x, "kink~: illegal float value %.2f", *scalar);
     	*scalar = x->x_slope;
     }
     x->x_slope = *scalar;
@@ -79,7 +79,7 @@ static void *kink_new(t_floatarg f)
     t_kink *x = (t_kink *)pd_new(kink_class);
     if (f < 0.0)
     {
-    	pd_error(x, "kink~: illegal float value %.2f", f);
+   // 	pd_error(x, "kink~: illegal float value %.2f", f);
     	f = 1.0;
     }
     f = (f == 0.0 ? 1.0 : f);

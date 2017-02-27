@@ -2223,7 +2223,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
     coll_bind(x, file);
     coll_flags(x, (int)embed, 0);
     
-            pd_error(x, "[cyclone/coll] is not ready yet");
+  //          pd_error(x, "[cyclone/coll] is not ready yet");
 
     return (x);
 	errstate:

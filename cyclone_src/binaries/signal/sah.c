@@ -55,7 +55,7 @@ static t_int *sah_perform(t_int *w)
 	if (!isnan(*x->x_signalscalar))
 	{
 		*x->x_signalscalar = NAN;
-		pd_error(x, "sah~: doesn't understand 'float'");	
+	//	pd_error(x, "sah~: doesn't understand 'float'");
 	}
 	/*end magic*/
     while (nblock--)

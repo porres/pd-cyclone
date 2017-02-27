@@ -539,7 +539,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
         x->x_fsize = fsize;
         x->x_fstring = fstring;
         p1 = fstring;
-        pd_error(x, "[cyclone/sprintf] is not ready yet");
+  //      pd_error(x, "[cyclone/sprintf] is not ready yet");
         while (p2 = strchr(p1, '%'))
             {
             p1 = p2 + 1;
@@ -601,7 +601,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
                 }
             }
         }
-    pd_error(x, "[cyclone/sprintf] is not ready yet");
+   // pd_error(x, "[cyclone/sprintf] is not ready yet");
     outlet_new((t_object *)x, &s_anything);
     return (x);
 }

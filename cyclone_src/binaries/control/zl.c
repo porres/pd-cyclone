@@ -1013,7 +1013,7 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv)
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
-    pd_error(x, "[cyclone/zl] is not ready yet");
+ //   pd_error(x, "[cyclone/zl] is not ready yet");
     return (x);
 }
 

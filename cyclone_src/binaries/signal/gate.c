@@ -39,7 +39,7 @@ static t_int *gate_perform(t_int *w)
 	{
 		//x->x_badfloat = scalar;
 		*x->x_signalscalar = NAN;
-		pd_error(x, "gate~: doesn't understand 'float'");	
+//		pd_error(x, "gate~: doesn't understand 'float'");
 	}
 	for(i = 0; i < nblock; i++)
     {

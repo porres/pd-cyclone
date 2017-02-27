@@ -6,7 +6,7 @@ Things that changed between cyclone versions.
 TO DO for cyclone's next release 
 =================================
 
-coming soon… cyclone version 0.3 (under a new maintenance by Porres, Kwan, Barber and collaborators), which shall include:
+coming soon… cyclone 0.3 (under a new maintenance by Porres, Kwan, Barber and collaborators), which shall include:
 
 - Updates to outdated objects (to Max 7)
 - New objects

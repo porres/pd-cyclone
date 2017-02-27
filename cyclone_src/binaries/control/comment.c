@@ -818,6 +818,21 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                 };  
             }
 
+// existing
+            else if(strcmp(cursym->s_name, "@fontsize") == 0)
+            {
+                i++;
+                if((argc-i) > 0)
+                {
+                    if(argv[i].a_type == A_FLOAT)
+                    {
+                        int fontsize = (int)argv[i].a_w.w_float;
+                        x->x_fontsize = fontsize;
+                    }
+                    else i--;
+                };
+            }
+
             else
             {
                 //treat it as a part of comlist
@@ -959,7 +974,7 @@ textpart:
     pd_bind(commentsink, x->x_bindsym);
     x->x_ready = 0;
     x->x_dragon = 0;
-    pd_error(x, "[cyclone/comment] is not ready yet");
+ //   pd_error(x, "[cyclone/comment] is not ready yet");
     return (x);
 }
 
