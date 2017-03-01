@@ -698,7 +698,7 @@ void play_tilde_setup(void)
 			   sizeof(t_play), 0, A_GIMME, 0);
     class_domainsignalin(play_class, -1);
     class_addfloat(play_class, play_float);
-    class_addmethod(play_class, (t_method)play_dsp, gensym("dsp"), 0);
+    class_addmethod(play_class, (t_method)play_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(play_class, (t_method)play_set, gensym("set"), A_SYMBOL, 0);
     class_addmethod(play_class, (t_method)play_stop, gensym("stop"), 0);
     class_addmethod(play_class, (t_method)play_pause, gensym("pause"), 0);

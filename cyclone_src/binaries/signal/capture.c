@@ -394,7 +394,7 @@ void capture_tilde_setup(void)
 			      (t_method)capture_free,
 			      sizeof(t_capture), CLASS_DEFAULT, A_GIMME, 0);
     class_addmethod(capture_class, nullfn, gensym("signal"), 0);
-    class_addmethod(capture_class, (t_method) capture_dsp, gensym("dsp"), 0);
+    class_addmethod(capture_class, (t_method) capture_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(capture_class, (t_method)capture_clear,
 		    gensym("clear"), 0);
     class_addmethod(capture_class, (t_method)capture_write,

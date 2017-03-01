@@ -1682,7 +1682,7 @@ void scope_tilde_setup(void)
     class_addmethod(scope_class, (t_method)scope_dialog, gensym("dialog"),
     				A_GIMME, 0);
     class_addmethod(scope_class, nullfn, gensym("signal"), 0);
-    class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), 0);
+    class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), A_CANT, 0);
     class_addfloat(scope_class, (t_method)scope_float);
 	class_addmethod(scope_class, (t_method)scope_period, gensym("calccount"),
                     A_FLOAT, 0);

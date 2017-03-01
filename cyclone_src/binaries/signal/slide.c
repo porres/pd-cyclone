@@ -114,7 +114,7 @@ void slide_tilde_setup(void)
 			    (t_newmethod)slide_new, 0,
 			    sizeof(t_slide), 0, A_GIMME, 0);
     class_addmethod(slide_class, nullfn, gensym("signal"), 0);
-    class_addmethod(slide_class, (t_method) slide_dsp, gensym("dsp"), 0);
+    class_addmethod(slide_class, (t_method) slide_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(slide_class, (t_method)slide_reset, gensym("reset"), 0);
     class_addmethod(slide_class, (t_method)slide_slide_up, gensym("slide_up"), A_FLOAT, 0);
     class_addmethod(slide_class, (t_method)slide_slide_down, gensym("slide_down"), A_FLOAT, 0);

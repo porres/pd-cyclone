@@ -102,5 +102,5 @@ void edge_tilde_setup(void)
 			   (t_method)edge_free,
 			   sizeof(t_edge), CLASS_DEFAULT, 0);
     class_addmethod(edge_class, nullfn, gensym("signal"), 0);
-    class_addmethod(edge_class, (t_method) edge_dsp, gensym("dsp"), 0);
+    class_addmethod(edge_class, (t_method) edge_dsp, gensym("dsp"), A_CANT, 0);
 }

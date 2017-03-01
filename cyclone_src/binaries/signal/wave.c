@@ -613,7 +613,7 @@ void wave_tilde_setup(void)
 			gensym("interp_bias"), A_FLOAT, 0);
 	class_addmethod(wave_class, (t_method)wave_interp_tension,
 			gensym("interp_tension"), A_FLOAT, 0);
-    class_addmethod(wave_class, (t_method)wave_dsp, gensym("dsp"), 0);
+    class_addmethod(wave_class, (t_method)wave_dsp, gensym("dsp"), A_CANT, 0);
     class_domainsignalin(wave_class, -1);
     class_addfloat(wave_class, (t_method)wave_float);
 }

@@ -48,5 +48,5 @@ void acos_tilde_setup(void)
     acos_class = class_new(gensym("acos~"), (t_newmethod)acos_new, 0,
         sizeof(t_acos), CLASS_DEFAULT, 0);
     class_addmethod(acos_class, nullfn, gensym("signal"), 0);
-    class_addmethod(acos_class, (t_method) acos_dsp, gensym("dsp"), 0);
+    class_addmethod(acos_class, (t_method) acos_dsp, gensym("dsp"), A_CANT, 0);
 }

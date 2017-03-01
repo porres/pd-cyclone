@@ -94,7 +94,7 @@ void phaseshift_tilde_setup(void)
 {
     phaseshift_class = class_new(gensym("phaseshift~"), (t_newmethod)phaseshift_new, 0,
         sizeof(t_phaseshift), CLASS_DEFAULT, A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addmethod(phaseshift_class, (t_method)phaseshift_dsp, gensym("dsp"), 0);
+    class_addmethod(phaseshift_class, (t_method)phaseshift_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(phaseshift_class, nullfn, gensym("signal"), 0);
     class_addmethod(phaseshift_class, (t_method) phaseshift_clear, gensym("clear"), 0);
 }

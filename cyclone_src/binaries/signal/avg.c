@@ -58,6 +58,6 @@ void avg_tilde_setup(void)
 			  (t_newmethod)avg_new, 0,
 			  sizeof(t_avg), 0, 0);
     class_addmethod(avg_class, nullfn, gensym("signal"), 0);
-    class_addmethod(avg_class, (t_method) avg_dsp, gensym("dsp"), 0);
+    class_addmethod(avg_class, (t_method) avg_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(avg_class, avg_bang);
 }

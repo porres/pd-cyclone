@@ -160,7 +160,7 @@ void cascade_tilde_setup(void)
     cascade_class = class_new(gensym("cascade~"), (t_newmethod) cascade_new,
             CLASS_DEFAULT, sizeof (t_cascade), CLASS_DEFAULT, 0);
     class_addmethod(cascade_class, nullfn, gensym("signal"), 0);
-    class_addmethod(cascade_class, (t_method) cascade_dsp, gensym("dsp"), 0);
+    class_addmethod(cascade_class, (t_method) cascade_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(cascade_class, (t_method) cascade_clear, gensym("clear"), 0);
     class_addmethod(cascade_class, (t_method) cascade_bypass, gensym("bypass"), A_DEFFLOAT, 0);
     class_addmethod(cascade_class, (t_method) cascade_zero, gensym("zero"), A_DEFFLOAT, 0);

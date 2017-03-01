@@ -318,7 +318,7 @@ void average_tilde_setup(void)
 {
     average_class = class_new(gensym("average~"), (t_newmethod)average_new,
             (t_method)average_free, sizeof(t_average), 0, A_GIMME, 0);
-    class_addmethod(average_class, (t_method) average_dsp, gensym("dsp"), 0);
+    class_addmethod(average_class, (t_method) average_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(average_class, nullfn, gensym("signal"), 0);
     class_addmethod(average_class, (t_method)average_bipolar, gensym("bipolar"), 0);
     class_addmethod(average_class, (t_method)average_absolute, gensym("absolute"), 0);

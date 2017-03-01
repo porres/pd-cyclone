@@ -197,7 +197,7 @@ void poke_tilde_setup(void)
 			   A_DEFSYM, A_DEFFLOAT, 0);
     class_domainsignalin(poke_class, -1);
     class_addfloat(poke_class, poke_float);
-    class_addmethod(poke_class, (t_method)poke_dsp, gensym("dsp"), 0);
+    class_addmethod(poke_class, (t_method)poke_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(poke_class, (t_method)poke_set,
 		    gensym("set"), A_SYMBOL, 0);
     class_addmethod(poke_class, (t_method)poke_ft2,

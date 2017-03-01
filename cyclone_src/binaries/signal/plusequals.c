@@ -125,7 +125,7 @@ void plusequals_tilde_setup(void)
     plusequals_class = class_new(gensym("plusequals~"), (t_newmethod)plusequals_new,
         0, sizeof(t_plusequals), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(plusequals_class, nullfn, gensym("signal"), 0);
-    class_addmethod(plusequals_class, (t_method) plusequals_dsp, gensym("dsp"), 0);
+    class_addmethod(plusequals_class, (t_method) plusequals_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(plusequals_class, plusequals_bang);
     class_addmethod(plusequals_class, (t_method)plusequals_set,
                     gensym("set"), A_FLOAT, 0);

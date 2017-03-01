@@ -48,5 +48,5 @@ void acosh_tilde_setup(void)
     acosh_class = class_new(gensym("acosh~"), (t_newmethod)acosh_new, 0,
                            sizeof(t_acosh), CLASS_DEFAULT, 0);
     class_addmethod(acosh_class, nullfn, gensym("signal"), 0);
-    class_addmethod(acosh_class, (t_method) acosh_dsp, gensym("dsp"), 0);
+    class_addmethod(acosh_class, (t_method) acosh_dsp, gensym("dsp"), A_CANT, 0);
 }

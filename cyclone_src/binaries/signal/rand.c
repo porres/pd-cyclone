@@ -93,6 +93,6 @@ void rand_tilde_setup(void)
 {
     rand_class = class_new(gensym("rand~"), (t_newmethod)rand_new, 0,
             sizeof(t_rand), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addmethod(rand_class, (t_method)rand_dsp, gensym("dsp"), 0);
+    class_addmethod(rand_class, (t_method)rand_dsp, gensym("dsp"), A_CANT, 0);
     CLASS_MAINSIGNALIN(rand_class, t_rand, x_input);
 }

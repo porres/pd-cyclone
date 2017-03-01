@@ -96,5 +96,5 @@ void frameaccum_tilde_setup(void)
 				 (t_method)frameaccum_free,
 				 sizeof(t_frameaccum), 0, A_GIMME, 0);
     class_addmethod(frameaccum_class, nullfn, gensym("signal"), 0);
-    class_addmethod(frameaccum_class, (t_method) frameaccum_dsp, gensym("dsp"), 0);
+    class_addmethod(frameaccum_class, (t_method) frameaccum_dsp, gensym("dsp"), A_CANT, 0);
 }

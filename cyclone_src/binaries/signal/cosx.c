@@ -47,5 +47,5 @@ void cosx_tilde_setup(void)
     cosx_class = class_new(gensym("cosx~"), (t_newmethod)cosx_new, 0,
                            sizeof(t_cosx), CLASS_DEFAULT, 0);
     class_addmethod(cosx_class, nullfn, gensym("signal"), 0);
-    class_addmethod(cosx_class, (t_method) cosx_dsp, gensym("dsp"), 0);
+    class_addmethod(cosx_class, (t_method) cosx_dsp, gensym("dsp"), A_CANT, 0);
 }

@@ -415,7 +415,7 @@ void filtercoeff_tilde_setup(void)
 {
     filtercoeff_class = class_new(gensym("filtercoeff~"), (t_newmethod)filtercoeff_new, 0,
         sizeof(t_filtercoeff), CLASS_DEFAULT, A_GIMME, 0);
-    class_addmethod(filtercoeff_class, (t_method)filtercoeff_dsp, gensym("dsp"), 0);
+    class_addmethod(filtercoeff_class, (t_method)filtercoeff_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(filtercoeff_class, nullfn, gensym("signal"), 0);
     class_addlist(filtercoeff_class,(t_method)filtercoeff_list);
     class_addmethod(filtercoeff_class, (t_method) filtercoeff_off, gensym("off"), 0);

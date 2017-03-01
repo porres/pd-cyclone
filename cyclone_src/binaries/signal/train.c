@@ -147,6 +147,6 @@ void train_tilde_setup(void)
 			    (t_newmethod)train_new,
 			    (t_method)train_free,
 			    sizeof(t_train), 0, A_GIMME, 0);
-    class_addmethod(train_class, (t_method)train_dsp, gensym("dsp"), 0);
+    class_addmethod(train_class, (t_method)train_dsp, gensym("dsp"), A_CANT, 0);
     CLASS_MAINSIGNALIN(train_class, t_train, x_input);
 }

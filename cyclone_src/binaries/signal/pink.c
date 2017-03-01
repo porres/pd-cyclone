@@ -91,5 +91,5 @@ void pink_tilde_setup(void)
 			   (t_newmethod)pink_new, 0,
 			   sizeof(t_pink), 0, 0);
     class_addmethod(pink_class, nullfn, gensym("signal"), 0);
-    class_addmethod(pink_class, (t_method) pink_dsp, gensym("dsp"), 0);
+    class_addmethod(pink_class, (t_method) pink_dsp, gensym("dsp"), A_CANT, 0);
 }

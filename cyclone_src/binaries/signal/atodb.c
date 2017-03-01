@@ -58,5 +58,5 @@ void atodb_tilde_setup(void) {
   atodb_class = class_new(gensym("atodb~"),
     (t_newmethod) atodb_new, 0, sizeof (t_atodb), CLASS_DEFAULT, 0);
   class_addmethod(atodb_class, nullfn, gensym("signal"), 0);
-  class_addmethod(atodb_class, (t_method) atodb_dsp, gensym("dsp"), 0);
+  class_addmethod(atodb_class, (t_method) atodb_dsp, gensym("dsp"), A_CANT, 0);
 }

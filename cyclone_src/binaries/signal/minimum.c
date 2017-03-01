@@ -51,6 +51,6 @@ void minimum_tilde_setup(void)
     minimum_class = class_new(gensym("minimum~"),
 			      (t_newmethod)minimum_new, 0,
 			      sizeof(t_minimum), 0, A_DEFFLOAT, 0);
-    class_addmethod(minimum_class, (t_method)minimum_dsp, gensym("dsp"), 0);
+    class_addmethod(minimum_class, (t_method)minimum_dsp, gensym("dsp"), A_CANT, 0);
     CLASS_MAINSIGNALIN(minimum_class, t_minimum, x_input);
 }

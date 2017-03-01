@@ -73,5 +73,5 @@ void framedelta_tilde_setup(void)
 				 (t_method)framedelta_free,
 				 sizeof(t_framedelta), 0, 0);
     class_addmethod(framedelta_class, nullfn, gensym("signal"), 0);
-    class_addmethod(framedelta_class, (t_method) framedelta_dsp, gensym("dsp"), 0);
+    class_addmethod(framedelta_class, (t_method) framedelta_dsp, gensym("dsp"), A_CANT, 0);
 }

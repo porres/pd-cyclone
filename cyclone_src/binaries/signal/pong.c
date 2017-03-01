@@ -311,6 +311,6 @@ void pong_tilde_setup(void){
 			sizeof(t_pong_tilde), CLASS_DEFAULT, A_GIMME, 0);
 	class_addmethod(pong_tilde_class, (t_method)pong_tilde_setrange, gensym("range"), A_FLOAT, A_FLOAT, 0);
 	class_addmethod(pong_tilde_class, (t_method)pong_tilde_setmode, gensym("mode"), A_GIMME, 0);
-    class_addmethod(pong_tilde_class, (t_method)pong_tilde_dsp, gensym("dsp"), 0);
+    class_addmethod(pong_tilde_class, (t_method)pong_tilde_dsp, gensym("dsp"), A_CANT, 0);
     CLASS_MAINSIGNALIN(pong_tilde_class, t_pong_tilde, x_input);
 }

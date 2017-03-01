@@ -148,6 +148,4 @@ void peek_tilde_setup(void)
 		    gensym("channel"), A_FLOAT, 0);
     class_addmethod(peek_class, (t_method)peek_clip,
 		    gensym("clip"), A_FLOAT, 0);
-//    logpost(NULL, 4, "this is cyclone/peek~ %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

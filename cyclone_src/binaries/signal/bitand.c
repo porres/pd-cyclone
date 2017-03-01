@@ -151,7 +151,7 @@ void bitand_tilde_setup(void)
     bitand_class = class_new(gensym("bitand~"), (t_newmethod)bitand_new, 0,
         sizeof(t_bitand), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(bitand_class, nullfn, gensym("signal"), 0);
-    class_addmethod(bitand_class, (t_method) bitand_dsp, gensym("dsp"), 0);
+    class_addmethod(bitand_class, (t_method) bitand_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(bitand_class, (t_method)bitand_bits, gensym("bits"), A_GIMME, 0);
     class_addmethod(bitand_class, (t_method)bitand_mode, gensym("mode"), A_FLOAT, 0);
 }

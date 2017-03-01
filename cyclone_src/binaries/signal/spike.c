@@ -110,7 +110,7 @@ void spike_tilde_setup(void)
 			    sizeof(t_spike), CLASS_DEFAULT,
 			    A_DEFFLOAT, 0);
     class_addmethod(spike_class, nullfn, gensym("signal"), 0);
-    class_addmethod(spike_class, (t_method) spike_dsp, gensym("dsp"), 0);
+    class_addmethod(spike_class, (t_method) spike_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(spike_class, (t_method)spike_ft1, gensym("ft1"), A_FLOAT, 0);
     class_addbang (spike_class, spike_bang);
 }

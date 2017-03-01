@@ -152,7 +152,7 @@ void rampsmooth_tilde_setup(void)
 				 (t_newmethod)rampsmooth_new, 0,
 				 sizeof(t_rampsmooth), 0, A_GIMME, 0);
     class_addmethod(rampsmooth_class, nullfn, gensym("signal"), 0);
-    class_addmethod(rampsmooth_class, (t_method) rampsmooth_dsp, gensym("dsp"), 0);
+    class_addmethod(rampsmooth_class, (t_method) rampsmooth_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(rampsmooth_class, (t_method)rampsmooth_rampup,
 		    gensym("rampup"), A_FLOAT, 0);
     class_addmethod(rampsmooth_class, (t_method)rampsmooth_rampdown,

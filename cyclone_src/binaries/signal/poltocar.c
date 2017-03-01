@@ -93,5 +93,5 @@ void poltocar_tilde_setup(void)
             (t_newmethod)poltocar_new, 0,
             sizeof(t_poltocar), 0, 0);
     class_addmethod(poltocar_class, nullfn, gensym("signal"), 0);
-    class_addmethod(poltocar_class, (t_method) poltocar_dsp, gensym("dsp"), 0);
+    class_addmethod(poltocar_class, (t_method) poltocar_dsp, gensym("dsp"), A_CANT, 0);
 }

@@ -47,5 +47,5 @@ void asinh_tilde_setup(void)
     asinh_class = class_new(gensym("asinh~"), (t_newmethod)asinh_new, 0,
                            sizeof(t_asinh), CLASS_DEFAULT, 0);
     class_addmethod(asinh_class, nullfn, gensym("signal"), 0);
-    class_addmethod(asinh_class, (t_method) asinh_dsp, gensym("dsp"), 0);
+    class_addmethod(asinh_class, (t_method) asinh_dsp, gensym("dsp"), A_CANT, 0);
 }

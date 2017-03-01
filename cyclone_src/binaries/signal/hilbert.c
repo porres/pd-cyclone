@@ -134,7 +134,7 @@ void hilbert_tilde_setup(void)
 {
     hilbert_class = class_new(gensym("hilbert~"), (t_newmethod)hilbert_new, 0,
         sizeof(t_hilbert), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addmethod(hilbert_class, (t_method)hilbert_dsp, gensym("dsp"), 0);
+    class_addmethod(hilbert_class, (t_method)hilbert_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(hilbert_class, nullfn, gensym("signal"), 0);
     class_addmethod(hilbert_class, (t_method) hilbert_clear, gensym("clear"), 0);
 }

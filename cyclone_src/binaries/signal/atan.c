@@ -47,5 +47,5 @@ void atan_tilde_setup(void)
     atan_class = class_new(gensym("atan~"), (t_newmethod)atan_new, 0,
                             sizeof(t_atan), CLASS_DEFAULT, 0);
     class_addmethod(atan_class, nullfn, gensym("signal"), 0);
-    class_addmethod(atan_class, (t_method) atan_dsp, gensym("dsp"), 0);
+    class_addmethod(atan_class, (t_method) atan_dsp, gensym("dsp"), A_CANT, 0);
 }

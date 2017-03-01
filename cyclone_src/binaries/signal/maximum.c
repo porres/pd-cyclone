@@ -51,6 +51,6 @@ void maximum_tilde_setup(void)
     maximum_class = class_new(gensym("maximum~"),
                               (t_newmethod)maximum_new, 0,
                               sizeof(t_maximum), 0, A_DEFFLOAT, 0);
-    class_addmethod(maximum_class, (t_method)maximum_dsp, gensym("dsp"), 0);
+    class_addmethod(maximum_class, (t_method)maximum_dsp, gensym("dsp"), A_CANT, 0);
     CLASS_MAINSIGNALIN(maximum_class, t_maximum, x_input);
 }

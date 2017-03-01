@@ -58,6 +58,6 @@ void dbtoa_tilde_setup(void) {
 			  CLASS_DEFAULT,
 			  0);
   class_addmethod(dbtoa_class, nullfn, gensym("signal"), 0);
-  class_addmethod(dbtoa_class, (t_method) dbtoa_dsp, gensym("dsp"), 0);
+  class_addmethod(dbtoa_class, (t_method) dbtoa_dsp, gensym("dsp"), A_CANT, 0);
 }
 

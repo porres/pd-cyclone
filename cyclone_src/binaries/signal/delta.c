@@ -50,5 +50,5 @@ void delta_tilde_setup(void)
 			    (t_newmethod)delta_new, 0,
 			    sizeof(t_delta), CLASS_DEFAULT, 0);
     class_addmethod(delta_class, nullfn, gensym("signal"), 0);
-    class_addmethod(delta_class, (t_method) delta_dsp, gensym("dsp"), 0);
+    class_addmethod(delta_class, (t_method) delta_dsp, gensym("dsp"), A_CANT, 0);
 }

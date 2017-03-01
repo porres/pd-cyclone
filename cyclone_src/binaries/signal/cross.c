@@ -151,7 +151,7 @@ void cross_tilde_setup(void)
 {
     cross_class = class_new(gensym("cross~"), (t_newmethod)cross_new, 0,
         sizeof(t_cross), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addmethod(cross_class, (t_method)cross_dsp, gensym("dsp"), 0);
+    class_addmethod(cross_class, (t_method)cross_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(cross_class, nullfn, gensym("signal"), 0);
     class_addmethod(cross_class, (t_method) cross_clear, gensym("clear"), 0);
 }

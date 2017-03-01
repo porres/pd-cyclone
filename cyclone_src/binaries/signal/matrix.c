@@ -732,7 +732,7 @@ void matrix_tilde_setup(void)
 	class_addfloat(matrix_class, matrix_float);
     class_addlist(matrix_class, matrix_list);
 	//class_domainsignalin(matrix_class, -1); // not sure why needed, but crashes withouts
-    class_addmethod(matrix_class, (t_method)matrix_dsp, gensym("dsp"), 0);
+    class_addmethod(matrix_class, (t_method)matrix_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(matrix_class, (t_method)matrix_clear, gensym("clear"), 0);
     class_addmethod(matrix_class, (t_method)matrix_connect, gensym("connect"), A_GIMME, 0);
     class_addmethod(matrix_class, (t_method)matrix_connect, gensym("disconnect"), A_GIMME, 0);

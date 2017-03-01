@@ -151,7 +151,7 @@ void bitor_tilde_setup(void)
     bitor_class = class_new(gensym("bitor~"), (t_newmethod)bitor_new, 0,
         sizeof(t_bitor), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(bitor_class, nullfn, gensym("signal"), 0);
-    class_addmethod(bitor_class, (t_method) bitor_dsp, gensym("dsp"), 0);
+    class_addmethod(bitor_class, (t_method) bitor_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(bitor_class, (t_method)bitor_bits, gensym("bits"), A_GIMME, 0);
     class_addmethod(bitor_class, (t_method)bitor_mode, gensym("mode"), A_FLOAT, 0);
 }

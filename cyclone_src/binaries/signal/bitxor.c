@@ -209,7 +209,7 @@ void bitxor_tilde_setup(void)
     bitxor_class = class_new(gensym("bitxor~"), (t_newmethod)bitxor_new, 0,
                             sizeof(t_bitxor), 0, A_GIMME, 0);
     class_addmethod(bitxor_class, nullfn, gensym("signal"), 0);
-    class_addmethod(bitxor_class, (t_method) bitxor_dsp, gensym("dsp"), 0);
+    class_addmethod(bitxor_class, (t_method) bitxor_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(bitxor_class, (t_method)bitxor_bits, gensym("bits"), A_GIMME, 0);
     class_addmethod(bitxor_class, (t_method)bitxor_mode, gensym("mode"), A_FLOAT, 0);
 }

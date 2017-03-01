@@ -48,5 +48,5 @@ void asin_tilde_setup(void)
     asin_class = class_new(gensym("asin~"), (t_newmethod)asin_new, 0,
                            sizeof(t_asin), CLASS_DEFAULT, 0);
     class_addmethod(asin_class, nullfn, gensym("signal"), 0);
-    class_addmethod(asin_class, (t_method) asin_dsp, gensym("dsp"), 0);
+    class_addmethod(asin_class, (t_method) asin_dsp, gensym("dsp"), A_CANT, 0);
 }

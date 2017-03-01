@@ -323,16 +323,9 @@ void delay_tilde_setup(void)
 			    sizeof(t_delay), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(delay_class, nullfn, gensym("signal"), 0);
     class_addmethod(delay_class, (t_method)delay_dsp, gensym("dsp"), A_CANT, 0);
-//     class_addmethod(delay_class, (t_method)delay_ft1,
-// 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(delay_class, (t_method)delay_clear,
 		    gensym("clear"), 0);
 	class_addmethod(delay_class, (t_method)delay_ramp,
 			gensym("ramp"), A_FLOAT, 0);
     class_addmethod(delay_class, (t_method)delay_maxsize, gensym("maxsize"), A_DEFFLOAT, 0);
-/*    int major, minor, bugfix;
-    sys_getversion(&major, &minor, &bugfix);
-    if (major > 0 || minor > 42) 
-    logpost(NULL, 4, "this is cyclone/delay~ %s, %dth %s build",
-	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);*/
 }

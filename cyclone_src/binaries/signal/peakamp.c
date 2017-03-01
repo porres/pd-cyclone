@@ -101,7 +101,7 @@ void peakamp_tilde_setup(void)
 			      sizeof(t_peakamp), 0,
 			      A_DEFFLOAT, 0);
     class_addmethod(peakamp_class, nullfn, gensym("signal"), 0);
-    class_addmethod(peakamp_class, (t_method) peakamp_dsp, gensym("dsp"), 0);
+    class_addmethod(peakamp_class, (t_method) peakamp_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(peakamp_class, peakamp_bang);
     class_addmethod(peakamp_class, (t_method)peakamp_ft1,
 		    gensym("ft1"), A_FLOAT, 0);

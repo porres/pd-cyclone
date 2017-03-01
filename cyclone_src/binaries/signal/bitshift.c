@@ -112,7 +112,7 @@ void bitshift_tilde_setup(void) { bitshift_class = class_new(gensym("bitshift~")
         A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addfloat(bitshift_class, (t_method)bitshift_float);
     class_addmethod(bitshift_class, nullfn, gensym("signal"), 0);
-    class_addmethod(bitshift_class, (t_method) bitshift_dsp, gensym("dsp"), 0);
+    class_addmethod(bitshift_class, (t_method) bitshift_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(bitshift_class, (t_method)bitshift_mode, gensym("mode"), A_FLOAT, 0);
     class_addmethod(bitshift_class, (t_method)bitshift_shift, gensym("shift"), A_FLOAT, 0);
 }

@@ -47,5 +47,5 @@ void bitsafe_tilde_setup(void)
     bitsafe_class = class_new(gensym("bitsafe~"), (t_newmethod)bitsafe_new, 0,
                               sizeof(t_bitsafe), CLASS_DEFAULT, 0);
     class_addmethod(bitsafe_class, nullfn, gensym("signal"), 0);
-    class_addmethod(bitsafe_class, (t_method) bitsafe_dsp, gensym("dsp"), 0);
+    class_addmethod(bitsafe_class, (t_method) bitsafe_dsp, gensym("dsp"), A_CANT, 0);
 }

@@ -95,7 +95,7 @@ void clip_tilde_setup(void)
     class_addcreator((t_newmethod)clip_new, gensym("Clip~"), A_GIMME, 0);
     class_addcreator((t_newmethod)clip_new, gensym("cyclone/Clip~"), A_GIMME, 0);
     class_addmethod(clip_class, nullfn, gensym("signal"), 0);
-    class_addmethod(clip_class, (t_method) clip_dsp, gensym("dsp"), 0);
+    class_addmethod(clip_class, (t_method) clip_dsp, gensym("dsp"), A_CANT, 0);
 }
 
 void Clip_tilde_setup(void)

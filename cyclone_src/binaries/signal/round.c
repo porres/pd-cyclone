@@ -134,6 +134,6 @@ void round_tilde_setup(void)
 	round_tilde_class = class_new(gensym("round~"), (t_newmethod)round_tilde_new, 0,
 	sizeof(t_round_tilde), 0, A_GIMME, 0);
 	class_addmethod(round_tilde_class, nullfn, gensym("signal"), 0);
-	class_addmethod(round_tilde_class, (t_method)round_tilde_dsp, gensym("dsp"), 0);
+	class_addmethod(round_tilde_class, (t_method)round_tilde_dsp, gensym("dsp"), A_CANT, 0);
 	class_addmethod(round_tilde_class, (t_method)round_tilde_nearest,  gensym("nearest"), A_FLOAT, 0);
 }

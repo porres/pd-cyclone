@@ -47,5 +47,5 @@ void tanx_tilde_setup(void)
     tanx_class = class_new(gensym("tanx~"), (t_newmethod)tanx_new, 0,
                            sizeof(t_tanx), CLASS_DEFAULT, 0);
     class_addmethod(tanx_class, nullfn, gensym("signal"), 0);
-    class_addmethod(tanx_class, (t_method) tanx_dsp, gensym("dsp"), 0);
+    class_addmethod(tanx_class, (t_method) tanx_dsp, gensym("dsp"), A_CANT, 0);
 }

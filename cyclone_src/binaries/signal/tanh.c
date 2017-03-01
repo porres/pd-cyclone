@@ -47,5 +47,5 @@ void tanh_tilde_setup(void)
     tanh_class = class_new(gensym("tanh~"), (t_newmethod)tanh_new, 0,
                            sizeof(t_tanh), CLASS_DEFAULT, 0);
     class_addmethod(tanh_class, nullfn, gensym("signal"), 0);
-    class_addmethod(tanh_class, (t_method) tanh_dsp, gensym("dsp"), 0);
+    class_addmethod(tanh_class, (t_method) tanh_dsp, gensym("dsp"), A_CANT, 0);
 }

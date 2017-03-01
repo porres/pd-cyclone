@@ -48,5 +48,5 @@ void atanh_tilde_setup(void)
     atanh_class = class_new(gensym("atanh~"), (t_newmethod)atanh_new, 0,
                            sizeof(t_atanh), CLASS_DEFAULT, 0);
     class_addmethod(atanh_class, nullfn, gensym("signal"), 0);
-    class_addmethod(atanh_class, (t_method) atanh_dsp, gensym("dsp"), 0);
+    class_addmethod(atanh_class, (t_method) atanh_dsp, gensym("dsp"), A_CANT, 0);
 }

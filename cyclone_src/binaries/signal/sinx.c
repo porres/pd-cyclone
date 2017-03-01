@@ -47,5 +47,5 @@ void sinx_tilde_setup(void)
     sinx_class = class_new(gensym("sinx~"), (t_newmethod)sinx_new, 0,
                            sizeof(t_sinx), CLASS_DEFAULT, 0);
     class_addmethod(sinx_class, nullfn, gensym("signal"), 0);
-    class_addmethod(sinx_class, (t_method) sinx_dsp, gensym("dsp"), 0);
+    class_addmethod(sinx_class, (t_method) sinx_dsp, gensym("dsp"), A_CANT, 0);
 }

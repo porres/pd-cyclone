@@ -47,5 +47,5 @@ void sinh_tilde_setup(void)
     sinh_class = class_new(gensym("sinh~"), (t_newmethod)sinh_new, 0,
                            sizeof(t_sinh), CLASS_DEFAULT, 0);
     class_addmethod(sinh_class, nullfn, gensym("signal"), 0);
-    class_addmethod(sinh_class, (t_method) sinh_dsp, gensym("dsp"), 0);
+    class_addmethod(sinh_class, (t_method) sinh_dsp, gensym("dsp"), A_CANT, 0);
 }
