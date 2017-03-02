@@ -29,6 +29,7 @@ forward.class.sources := cyclone_src/binaries/control/forward.c
 fromsymbol.class.sources := cyclone_src/binaries/control/fromsymbol.c
 funnel.class.sources := cyclone_src/binaries/control/funnel.c
 histo.class.sources := cyclone_src/binaries/control/histo.c
+listfunnel.class.sources := cyclone_src/binaries/control/listfunnel.c
 mean.class.sources := cyclone_src/binaries/control/mean.c
 midiflush.class.sources := cyclone_src/binaries/control/midiflush.c
 midiformat.class.sources := cyclone_src/binaries/control/midiformat.c
