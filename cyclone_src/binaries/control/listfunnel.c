@@ -25,7 +25,7 @@
 /* ---------------------------------------------------------------------------- */
 
 //listfunnel v0.1, written by Olaf Matthes <olaf.matthes@gmx.de> (maxlib)
-// Derek Kwan 2017 - ported from maxlib and added offset  
+// Derek Kwan 2017 - ported from maxlib, some restructuring, added offset, support for anythings, symbols
 
 #include "m_pd.h"
 #include <stdio.h>
@@ -41,15 +41,22 @@ typedef struct listfunnel
   t_outlet  *x_outlet;              
 } t_listfunnel;
 
-static void listfunnel_list(t_listfunnel *x, t_symbol *s, int argc, t_atom *argv)
+static void listfunnel_anything(t_listfunnel *x, t_symbol *s, int argc, t_atom *argv)
 {
-	int i;
+	int i, listidx = 0;
         int offset = x->x_offset;
 	t_atom list[2];
-
-	for(i = 0; i < argc; i++)
+        
+        if(s)
+        {
+           SETFLOAT(list, offset);
+           SETSYMBOL(&list[1], s);
+	   outlet_list(x->x_outlet, NULL, 2, list);
+           listidx++;
+        };
+	for(i = 0; i < argc; i++, listidx++)
 	{
-		SETFLOAT(list, (i+offset));
+		SETFLOAT(list, (listidx+offset));
 		list[1] = argv[i]; // SETFLOAT(list+1, atom_getfloatarg(i, argc, argv));
 		outlet_list(x->x_outlet, NULL, 2, list);
 	}
@@ -57,12 +64,25 @@ static void listfunnel_list(t_listfunnel *x, t_symbol *s, int argc, t_atom *argv
 
 static void listfunnel_float(t_listfunnel *x, t_floatarg f)
 {
-	t_atom list[2];
+	t_atom list[1];
+        SETFLOAT(&list[0], f);
+        listfunnel_anything(x, NULL, 1, list);
 
-	SETFLOAT(list, x->x_offset);
-	SETFLOAT(list+1, f);
-	outlet_list(x->x_outlet, NULL, 2, list);
 }
+
+static void listfunnel_symbol(t_listfunnel *x, t_symbol *s)
+{
+    t_atom list[1];
+    SETSYMBOL(&list[0], s);
+    listfunnel_anything(x, NULL, 1, list);
+}
+
+static void listfunnel_list(t_listfunnel *x, t_symbol *s, int argc, t_atom *argv)
+{
+    //don't include list selector
+    listfunnel_anything(x, NULL, argc, argv);
+}
+
 
 static void listfunnel_offset(t_listfunnel *x, t_float f)
 {
@@ -86,6 +106,8 @@ void listfunnel_setup(void)
     class_addmethod(listfunnel_class, (t_method)listfunnel_offset, gensym("offset"), A_FLOAT, 0);
     class_addfloat(listfunnel_class, listfunnel_float);
     class_addlist(listfunnel_class, listfunnel_list);
+    class_addanything(listfunnel_class, listfunnel_anything);
+    class_addsymbol(listfunnel_class, listfunnel_symbol);
     
 }
 
