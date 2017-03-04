@@ -64,11 +64,15 @@ static void bondo_doit(t_bondo *x)
 	    outlet_float(x->x_outs[i], p[i]->p_float);
 	else if (s == &s_symbol && p[i]->p_symbol)
 	{
+            
+	    outlet_symbol(x->x_outs[i], p[i]->p_symbol);
 	    /* LATER rethink */
+            /* old code
 	    if (x->x_multiatom)
 		outlet_symbol(x->x_outs[i], p[i]->p_symbol);
 	    else
 		outlet_anything(x->x_outs[i], p[i]->p_symbol, 0, 0);
+            */
 	}
 	else if (s == &s_pointer)
 	{
