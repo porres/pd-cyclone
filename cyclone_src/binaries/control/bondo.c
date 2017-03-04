@@ -82,6 +82,9 @@ static void bondo_doit(t_bondo *x)
 	    outlet_list(x->x_outs[i], s, p[i]->p_natoms, p[i]->p_message);
 	else if (s)  /* CHECKED: a slot may be inactive (in multiatom mode) */
 	    outlet_anything(x->x_outs[i], s, p[i]->p_natoms, p[i]->p_message);
+        //added for 1-elt anythings that are symbols
+        else if(!s && (p[i]->p_symbol != &s_ || p[i]->p_symbol != NULL) && p[i]->p_natoms == 0)
+	    outlet_anything(x->x_outs[i], p[i]->p_symbol, 0, 0);
     }
 }
 
@@ -107,6 +110,17 @@ static void bondo_proxy_dofloat(t_bondo_proxy *x, t_float f, int doit)
 static void bondo_proxy_float(t_bondo_proxy *x, t_float f)
 {
     bondo_proxy_dofloat(x, f, 1);
+}
+
+//when we don't want a selector for symbol - DK
+static void bondo_proxy_donosymbol(t_bondo_proxy *x, t_symbol *s, int doit)
+{
+
+    x->p_selector = NULL;
+    x->p_symbol = s;
+    x->p_natoms = 0;  /* defensive */
+    if (doit) bondo_arm(x->p_master);
+
 }
 
 static void bondo_proxy_dosymbol(t_bondo_proxy *x, t_symbol *s, int doit)
@@ -140,6 +154,7 @@ static void bondo_proxy_pointer(t_bondo_proxy *x, t_gpointer *gp)
 static void bondo_distribute(t_bondo *x, int startid,
 			     t_symbol *s, int ac, t_atom *av, int doit)
 {
+    post("distribute");
     t_atom *ap = av;
     t_bondo_proxy **pp;
     int id = startid + ac;
@@ -155,12 +170,12 @@ static void bondo_distribute(t_bondo *x, int startid,
 	if (ap->a_type == A_FLOAT)
 	    bondo_proxy_dofloat(*pp, ap->a_w.w_float, 0);
 	else if (ap->a_type == A_SYMBOL)
-	    bondo_proxy_dosymbol(*pp, ap->a_w.w_symbol, 0);
+	    bondo_proxy_donosymbol(*pp, ap->a_w.w_symbol, 0);
 	else if (ap->a_type == A_POINTER)
 	    bondo_proxy_dopointer(*pp, ap->a_w.w_gpointer, 0);
     }
     if (s)
-	bondo_proxy_dosymbol((t_bondo_proxy *)x->x_proxies[startid], s, 0);
+	bondo_proxy_donosymbol((t_bondo_proxy *)x->x_proxies[startid], s, 0);
     if (doit) bondo_arm(x);
 }
 
@@ -198,11 +213,13 @@ static void bondo_proxy_list(t_bondo_proxy *x,
 static void bondo_proxy_doanything(t_bondo_proxy *x,
 				   t_symbol *s, int ac, t_atom *av, int doit)
 {
+    post("anything");
     if (x->p_master->x_multiatom)
     {
 	/* LATER rethink and CHECKME */
 	if (s == &s_symbol)
 	{
+            post("if");
 	    if (ac && av->a_type == A_SYMBOL)
 		bondo_proxy_dosymbol(x, av->a_w.w_symbol, doit);
 	    else
@@ -210,7 +227,8 @@ static void bondo_proxy_doanything(t_bondo_proxy *x,
 	}
 	else
 	{
-	    x->p_selector = s;
+            post("else");
+            x->p_selector = s;
 	    bondo_proxy_domultiatom(x, ac, av, doit);
 	}
     }

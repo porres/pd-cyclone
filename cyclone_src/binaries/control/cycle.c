@@ -85,7 +85,16 @@ static void cycle_list(t_cycle *x, t_symbol *s, int ac, t_atom *av)
 
 static void cycle_anything(t_cycle *x, t_symbol *s, int ac, t_atom *av)
 {
-    if (s && s != &s_) cycle_symbol(x, s);  /* CHECKED */
+    if (s && s != &s)
+    {
+       if(ac > 1)  cycle_symbol(x, s);  /* CHECKED */
+       else
+       {
+         t_atom list[1];
+         SETSYMBOL(&list[0], s);
+         cycle_list(x, 0, 1, list);
+       };
+    }
     cycle_list(x, 0, ac, av);
 }
 
