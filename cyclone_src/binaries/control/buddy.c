@@ -90,7 +90,7 @@ static void buddy_proxy_float(t_buddy_proxy *x, t_float f)
 static void buddy_proxy_bang(t_buddy_proxy *x)
 {
 
-    buddy_proxy_float(x, 0)
+    buddy_proxy_float(x, 0);
     //x->p_selector = &s_bang;
     //x->p_natoms = 0;  /* defensive */
     //buddy_check(x->p_master);
