@@ -154,7 +154,6 @@ static void bondo_proxy_pointer(t_bondo_proxy *x, t_gpointer *gp)
 static void bondo_distribute(t_bondo *x, int startid,
 			     t_symbol *s, int ac, t_atom *av, int doit)
 {
-    post("distribute");
     t_atom *ap = av;
     t_bondo_proxy **pp;
     int id = startid + ac;
@@ -213,13 +212,11 @@ static void bondo_proxy_list(t_bondo_proxy *x,
 static void bondo_proxy_doanything(t_bondo_proxy *x,
 				   t_symbol *s, int ac, t_atom *av, int doit)
 {
-    post("anything");
     if (x->p_master->x_multiatom)
     {
 	/* LATER rethink and CHECKME */
 	if (s == &s_symbol)
 	{
-            post("if");
 	    if (ac && av->a_type == A_SYMBOL)
 		bondo_proxy_dosymbol(x, av->a_w.w_symbol, doit);
 	    else
@@ -227,7 +224,6 @@ static void bondo_proxy_doanything(t_bondo_proxy *x,
 	}
 	else
 	{
-            post("else");
             x->p_selector = s;
 	    bondo_proxy_domultiatom(x, ac, av, doit);
 	}
