@@ -77,7 +77,7 @@ static void cycle_list(t_cycle *x, t_symbol *s, int ac, t_atom *av)
 	if (av->a_type == A_FLOAT)
 	    outlet_float(x->x_outs[x->x_index], av->a_w.w_float);
 	else if (av->a_type == A_SYMBOL)
-	    outlet_symbol(x->x_outs[x->x_index], av->a_w.w_symbol);
+	    outlet_anything(x->x_outs[x->x_index], av->a_w.w_symbol, 0, 0);
 	av++;
 	if (++(x->x_index) >= x->x_nouts) x->x_index = 0;
     }
