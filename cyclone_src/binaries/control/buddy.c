@@ -79,19 +79,22 @@ static void buddy_check(t_buddy *x)
     buddy_clear(x);
 }
 
-static void buddy_proxy_bang(t_buddy_proxy *x)
-{
-    x->p_selector = &s_bang;
-    x->p_natoms = 0;  /* defensive */
-    buddy_check(x->p_master);
-}
-
 static void buddy_proxy_float(t_buddy_proxy *x, t_float f)
 {
     x->p_selector = &s_float;
     x->p_float = f;
     x->p_natoms = 0;  /* defensive */
     buddy_check(x->p_master);
+}
+
+static void buddy_proxy_bang(t_buddy_proxy *x)
+{
+
+    buddy_proxy_float(x, 0)
+    //x->p_selector = &s_bang;
+    //x->p_natoms = 0;  /* defensive */
+    //buddy_check(x->p_master);
+    
 }
 
 static void buddy_proxy_symbol(t_buddy_proxy *x, t_symbol *s)
