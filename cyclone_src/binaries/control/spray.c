@@ -84,7 +84,7 @@ static void spray_listmode(t_spray *x, t_float f){
 
 static void *spray_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
 {
-    t_spray *x;
+    t_spray *x  = (t_spray *)pd_new(spray_class);
     int i, nouts = (int)f1;
     t_outlet **outs;
     if (nouts < SPRAY_MINOUTS)

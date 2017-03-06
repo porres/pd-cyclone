@@ -45,6 +45,7 @@ spray.class.sources := cyclone_src/binaries/control/spray.c
 sustain.class.sources := cyclone_src/binaries/control/sustain.c
 tanh.class.sources := cyclone_src/binaries/control/tanh.c
 trough.class.sources := cyclone_src/binaries/control/trough.c
+unjoin.class.sources := cyclone_src/binaries/control/unjoin.c
 uzi.class.sources := cyclone_src/binaries/control/uzi.c
 xbendin.class.sources := cyclone_src/binaries/control/xbendin.c
 xbendin2.class.sources := cyclone_src/binaries/control/xbendin2.c
