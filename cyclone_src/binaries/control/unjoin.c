@@ -3,7 +3,8 @@
 #include "m_pd.h"
 #include <string.h>
 
-#define UNJOIN_MINOUTLETS  1 //not including extra outlet
+#define UNJOIN_MINOUTLETS  2 //not including extra outlet
+#define UNJOIN_MAXOUTLETS  255 //not including extra outlet
 #define UNJOIN_MINOUTSIZE  1
 
 typedef struct _unjoin
@@ -126,6 +127,7 @@ static void *unjoin_new(t_symbol *s, int argc, t_atom * argv)
     };
 
     if(numouts < UNJOIN_MINOUTLETS) numouts = UNJOIN_MINOUTLETS;
+    if(numouts > UNJOIN_MAXOUTLETS) numouts = UNJOIN_MAXOUTLETS;
     if(outsize < UNJOIN_MINOUTSIZE) outsize = UNJOIN_MINOUTSIZE;
     x->x_numouts = numouts;
     x->x_outsize = outsize;

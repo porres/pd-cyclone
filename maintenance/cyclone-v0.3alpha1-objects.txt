@@ -198,6 +198,7 @@ triangle~ variable duty triangular wavetable
 trough output numbers smaller than the previous
 trunc~ truncate signal values
 universal send messages to all objects of the same type
+unjoin break a list into separate messages
 urn unrepeated random numbers
 uzi bang loop/counter
 vectral~ smooth/filter FFT frames
