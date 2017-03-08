@@ -22,11 +22,9 @@ static t_int *typeroute_perform(t_int *w)
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
-    t_float sig;
    while (nblock--)
         {
-        sig = *in1++;
-        *out++ = sig;
+            *out++ = *in++;
         }
     return (w + 5);
 }
@@ -50,11 +48,11 @@ void typeroute_tilde_setup(void)
 {
     typeroute_class = class_new(gensym("typeroute~"),
 			    (t_newmethod)typeroute_new,
-			    (t_method)typeroute_free,
+			    0,
                 sizeof(t_typeroute),
                 CLASS_DEFAULT,
                 0);
     class_addmethod(typeroute_class, nullfn, gensym("signal"), 0);
     class_addmethod(typeroute_class, (t_method) typeroute_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(typeroute_class, typeroute_bang);
-    
+}
