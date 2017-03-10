@@ -19,6 +19,7 @@ typedef struct _rampsmooth
     t_float  x_target;
     double   x_incr;
     int      x_nleft;
+    int      x_change; //if we reset coeffs
 } t_rampsmooth;
 
 static t_class *rampsmooth_class;
@@ -31,14 +32,16 @@ static t_int *rampsmooth_perform(t_int *w)
     t_float *out = (t_float *)(w[4]);
     t_float last = x->x_last;
     t_float target = x->x_target;
+    int change = x->x_change;
     double incr = x->x_incr;
     int nleft = x->x_nleft;
     while (nblock--)
     {
     	t_float f = *in++;
-	if (f != target)
+	if (f != target || change)
 	{
 	    target = f;
+            change = 0;
 	    if (f > last)
 	    {
 		if (x->x_nup > 1)
@@ -73,7 +76,8 @@ static t_int *rampsmooth_perform(t_int *w)
 	    }
 	}
 	else *out++ = target;
-    }
+    };
+    x->x_change = change;
     x->x_last = (PD_BIGORSMALL(last) ? 0. : last);
     x->x_target = (PD_BIGORSMALL(target) ? 0. : target);
     x->x_incr = incr;
@@ -88,32 +92,44 @@ static void rampsmooth_dsp(t_rampsmooth *x, t_signal **sp)
 
 static void rampsmooth_rampup(t_rampsmooth *x, t_floatarg f)
 {
+    double upcoef;
     int i = (int)f;
     if (i > 1)
     {
 	x->x_nup = i;
-	x->x_upcoef = 1. / (float)i;
+	upcoef = 1. / (float)i;
     }
     else
     {
 	x->x_nup = 0;
-	x->x_upcoef = 0.;
-    }
+	upcoef = 0.;
+    };
+    if(upcoef != x->x_upcoef)
+    {
+        x->x_upcoef = upcoef;
+        x->x_change = 1;
+    };
 }
 
 static void rampsmooth_rampdown(t_rampsmooth *x, t_floatarg f)
 {
+    double downcoef;
     int i = (int)f;
     if (i > 1)
     {
 	x->x_ndown = i;
-	x->x_downcoef = 1. / (float)i;
+	downcoef = 1. / (float)i;
     }
     else
     {
 	x->x_ndown = 0;
-	x->x_downcoef = 0.;
-    }
+	downcoef = 0.;
+    };
+    if(downcoef != x->x_downcoef)
+    {
+        x->x_downcoef = downcoef;
+        x->x_change = 1;
+    };
 }
 
 static void rampsmooth_ramp(t_rampsmooth *x, t_floatarg f)
@@ -136,6 +152,7 @@ static void *rampsmooth_new(t_symbol *s, int ac, t_atom *av)
     }
     rampsmooth_rampup(x, f1);
     rampsmooth_rampdown(x, f2);
+    x->x_change = 1;
     x->x_last = 0.;
     x->x_target = 0.;
     x->x_incr = 0.;
