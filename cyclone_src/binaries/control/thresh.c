@@ -14,6 +14,7 @@ typedef struct _thresh
 {
     t_object   x_ob;
     t_float    x_thresh;
+    t_outlet  *x_outlet;
     int        x_size;    /* as allocated */
     int        x_natoms;  /* as used */
     t_atom    *x_message;
@@ -29,13 +30,22 @@ static void thresh_tick(t_thresh *x)
     if (ac)
     {
 	t_atom *av = x->x_message;
-	if (av->a_type == A_FLOAT)  /* redundant, but we might need it LATER */
-	{
-	    if (ac > 1)
-		outlet_list(((t_object *)x)->ob_outlet, &s_list, ac, av);
-	    else
-		outlet_float(((t_object *)x)->ob_outlet, av->a_w.w_float);
-	}
+	if (ac > 1)
+        {
+            if(av->a_type == A_FLOAT)
+	        outlet_list(x->x_outlet, &s_list, ac, av);
+            else if(av->a_type == A_SYMBOL)
+                outlet_anything(x->x_outlet, av->a_w.w_symbol, ac-1, \
+                        &av[1]);
+        }
+	else
+        {
+	    if(av->a_type == A_FLOAT)
+                outlet_float(x->x_outlet, av->a_w.w_float);
+            else if(av->a_type == A_SYMBOL)
+                outlet_anything(x->x_outlet, av->a_w.w_symbol, 0, 0);
+        };
+	
 	x->x_natoms = 0;
     }
 }
@@ -47,7 +57,9 @@ static void thresh_anything(t_thresh *x, t_symbol *s, int ac, t_atom *av)
     clock_unset(x->x_clock);
     if (s == &s_) s = 0;
     if (s)
-	ntotal++;
+    {
+    	ntotal++;
+    };
     if (ntotal > x->x_size)
     {
 	/* LATER if (ntotal > THRESH_MAXSIZE)... (cf prepend) */
@@ -90,6 +102,11 @@ static void thresh_list(t_thresh *x, t_symbol *s, int ac, t_atom *av)
     thresh_anything(x, 0, ac, av);
 }
 
+static void thresh_symbol(t_thresh *x, t_symbol *s)
+{
+    thresh_anything(x, s, 0, 0);
+}
+
 static void thresh_ft1(t_thresh *x, t_floatarg f)
 {
     if (f < 0)
@@ -106,6 +123,11 @@ static void thresh_free(t_thresh *x)
 	clock_free(x->x_clock);
 }
 
+static void thresh_bang(t_thresh *x)
+{
+    outlet_bang(x->x_outlet);
+}
+
 static void *thresh_new(t_floatarg f)
 {
     t_thresh *x = (t_thresh *)pd_new(thresh_class);
@@ -114,7 +136,7 @@ static void *thresh_new(t_floatarg f)
     x->x_natoms = 0;
     x->x_message = x->x_messini;
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
-    outlet_new((t_object *)x, &s_list);  /* LATER rethink: list or float */
+    x->x_outlet = outlet_new((t_object *)x, &s_anything);  /* LATER rethink: list or float */
     x->x_clock = clock_new(x, (t_method)thresh_tick);
     return (x);
 }
@@ -128,6 +150,9 @@ void thresh_setup(void)
 			     A_DEFFLOAT, 0);
     class_addfloat(thresh_class, thresh_float);
     class_addlist(thresh_class, thresh_list);
+    class_addsymbol(thresh_class, thresh_symbol);
+    class_addanything(thresh_class, thresh_anything);
+    class_addbang(thresh_class, thresh_bang);
     class_addmethod(thresh_class, (t_method)thresh_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
     /* CHECKED: thresh: doesn't understand bang, symbol, anything */
