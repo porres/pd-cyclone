@@ -351,9 +351,9 @@ static int hammergui_setup(void)
     sys_gui(" set wh [winfo height $::focused_window]\n");
     sys_gui(" set x [expr $px - $wx]\n");
     sys_gui(" set y [expr $py - $wy]\n");
-    sys_gui(" if {$x > $ww} {set x $ww}\n");
+    sys_gui(" if {$x >= $ww} {set x [expr $ww - 1]}\n");
     sys_gui(" if {$x < 0} {set x 0}\n");
-    sys_gui(" if {$y > $wh} {set y $wh}\n");
+    sys_gui(" if {$y >= $wh} {set y [set $wh - 1]}\n");
     sys_gui(" if {$y < 0} {set y 0}\n");
     sys_gui(" }\n");
     sys_gui("  if {$hammergui_x != $x || $hammergui_y != $y} {\n");
