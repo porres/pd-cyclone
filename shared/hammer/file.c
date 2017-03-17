@@ -63,7 +63,7 @@ static void hammereditor_guidefs(void)
     /* if older than 0.43, create an 0.43-style pdsend */
     sys_gui("if {[llength [info procs ::pdsend]] == 0} {");
     sys_gui("proc ::pdsend {args} {::pd \"[join $args { }] ;\"}}\n");
-    #if !PDL2ORK
+    #ifndef PD_L2ORK_VERSION
     sys_gui("proc hammereditor_open {name geometry title sendable} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
     sys_gui("  $name.text delete 1.0 end\n");
@@ -259,7 +259,7 @@ static void hammereditor_end(t_hammerfile *f)
 
 static void hammerpanel_guidefs(void)
 {
-#if !PDL2ORK
+#ifndef PD_L2ORK_VERSION
     sys_gui("proc hammerpanel_open {target inidir} {\n");
     sys_gui(" global pd_opendir\n");
     sys_gui(" if {$inidir == \"\"} {\n");
