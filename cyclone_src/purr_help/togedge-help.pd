@@ -1,0 +1,97 @@
+#N canvas 606 40 560 465 10;
+#X obj 2 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 344 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 396 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 294 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 242 181 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+-1;
+#X text 114 403 (none);
+#X obj 81 374 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 189 246 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X obj 276 246 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+-66577 -1;
+#X obj 2 448 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+0;
+#X obj 2 427 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 189 214 cyclone/togedge;
+#X text 158 312 -;
+#X text 125 312 bang;
+#X text 158 293 -;
+#X text 119 293 float;
+#X text 158 355 -;
+#X text 125 355 bang;
+#X text 158 374 -;
+#X text 125 374 bang;
+#X obj 189 182 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 221 157 1;
+#X msg 189 154 0;
+#X msg 158 157 -1;
+#X text 73 90 [togedge] sends a bang in the left outlet for "zero to
+non-zero" transitions \, and a bang in the right outlet for "non-zero
+to zero" transitions.;
+#X text 173 293 number to check for transitions, f 60;
+#X text 173 355 if a zero to non-zero transition is detected, f 60
+;
+#X text 173 374 if a non-zero to zero transition is detected, f 60
+;
+#X obj 159 183 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X text 173 312 switches the stored value from 0 to non-zero \, or
+vice versa \, and the change is reported by a corresponding bang output
+;
+#N canvas 762 173 447 311 backwards 0;
+#X text 185 110 or even:;
+#X text 49 150 But please don't \, just stick to;
+#X text 166 183 or;
+#X text 44 53 Nevertheless \, the old way of creating this object is
+still present for backwards compatibility reasons. So you can still
+use:;
+#X text 53 220 Which is the reasonable and sensible way nowadays \,
+as the current plan is to phase out the capital letters in cyclone's
+objects.;
+#X obj 136 110 TogEdge;
+#X obj 252 110 cyclone/TogEdge;
+#X obj 114 183 togedge;
+#X obj 201 183 cyclone/togedge;
+#X text 43 20 [togedge] used to be compiled as [TogEdge] \, probably
+to avoid some name conflicts \, but this is not the case anymore.;
+#X restore 444 237 pd backwards \; compatibility;
+#X obj 3 3 cnv 15 301 42 empty empty togedge 20 20 2 37 -233017 -1
+0;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 302 42 1 0 0;
+#X restore 2 3 graph;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 374 11 cnv 10 10 10 empty empty cyclone 0 5 2 24 -128992 -233080
+0;
+#X obj 340 29 cnv 10 10 10 empty empty Objects 0 6 2 13 -128992 -233080
+0;
+#X obj 395 29 cnv 10 10 10 empty empty cloned 0 6 2 13 -128992 -233080
+0;
+#X obj 441 29 cnv 10 10 10 empty empty from 0 6 2 13 -128992 -233080
+0;
+#X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
+0;
+#X text 25 63 report zero/non-zero transitions;
+#X connect 5 0 12 0;
+#X connect 12 0 8 0;
+#X connect 12 1 9 0;
+#X connect 21 0 12 0;
+#X connect 22 0 21 0;
+#X connect 23 0 21 0;
+#X connect 24 0 21 0;
+#X connect 29 0 12 0;

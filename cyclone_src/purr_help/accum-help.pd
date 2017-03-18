@@ -1,0 +1,141 @@
+#N canvas 685 38 559 574 10;
+#X obj 3 327 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 453 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 2 494 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 81 398 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X msg 97 173 set \$1;
+#X obj 81 467 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 424 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 81 339 cnv 17 3 52 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 151 263 cyclone/accum 4;
+#X obj 2 551 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
+#X text 134 340 bang;
+#X text 128 358 float;
+#X text 128 399 float;
+#X text 128 424 float;
+#X obj 2 531 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 60 173 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 52 96 [accum] accumulates to a value by either adding an increment
+value to it or mulplying it by a given factor.;
+#X text 208 177 set/output a value;
+#X obj 97 151 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 151 178 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 194 209 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 238 238 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X text 250 208 increment addition;
+#X text 294 237 increment multiplier;
+#X text 158 150 set value;
+#X obj 151 292 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X text 224 291 accumulated value;
+#N canvas 577 67 622 385 more_examples 0;
+#X obj 109 174 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X obj 109 210 t b b b;
+#X obj 410 55 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 466 219 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 505 245 2;
+#X obj 40 45 cnv 15 130 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X msg 196 235 2;
+#X obj 410 91 accum;
+#X msg 376 97 1;
+#X text 182 236 *;
+#X text 138 235 +;
+#X obj 477 92 f;
+#X obj 505 92 + 1;
+#X text 393 25 as a counter:;
+#X text 454 92 =;
+#X obj 410 129 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 477 129 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 466 309 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 466 270 accum 2;
+#X obj 432 273 * 2;
+#X obj 403 273 f 2;
+#X obj 403 302 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X text 413 183 double each time;
+#X obj 109 303 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 109 268 accum 4, f 15;
+#X msg 152 235 3;
+#X text 31 130 Initial value times 2 plus 3 at each iteration:;
+#X text 45 53 more examples:;
+#X connect 0 0 1 0;
+#X connect 1 0 24 0;
+#X connect 1 1 25 0;
+#X connect 1 2 6 0;
+#X connect 2 0 7 0;
+#X connect 2 0 11 0;
+#X connect 3 0 18 0;
+#X connect 3 0 20 0;
+#X connect 4 0 18 2;
+#X connect 6 0 24 2;
+#X connect 7 0 8 0;
+#X connect 7 0 15 0;
+#X connect 8 0 7 1;
+#X connect 11 0 12 0;
+#X connect 11 0 16 0;
+#X connect 12 0 11 1;
+#X connect 18 0 4 0;
+#X connect 18 0 17 0;
+#X connect 19 0 20 1;
+#X connect 20 0 19 0;
+#X connect 20 0 21 0;
+#X connect 24 0 23 0;
+#X connect 25 0 24 1;
+#X restore 410 276 pd more_examples;
+#X text 92 376 set <float>;
+#X text 183 340 - output accumulated value, f 51;
+#X text 183 376 - sets a new value to be accumulated;
+#X text 183 358 - sets a new value to be accumulated and outputs it
+;
+#X text 183 400 - add to current value, f 51;
+#X text 183 425 - multiply with current value, f 51;
+#X text 128 468 float;
+#X text 183 504 - sets initial value (defaut 0), f 52;
+#X text 183 468 - accumulated value, f 52;
+#X text 110 504 1) float;
+#X obj 3 3 cnv 15 301 42 empty empty accum 20 15 2 37 -233017 -1 0
+;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 374 11 cnv 10 10 10 empty empty cyclone 0 5 2 24 -128992 -233080
+0;
+#X obj 340 29 cnv 10 10 10 empty empty Objects 0 6 2 13 -128992 -233080
+0;
+#X obj 395 29 cnv 10 10 10 empty empty cloned 0 6 2 13 -128992 -233080
+0;
+#X obj 441 29 cnv 10 10 10 empty empty from 0 6 2 13 -128992 -233080
+0;
+#X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
+0;
+#X text 22 63 Accumulate to a value;
+#X connect 4 0 8 0;
+#X connect 8 0 25 0;
+#X connect 15 0 8 0;
+#X connect 18 0 4 0;
+#X connect 19 0 8 0;
+#X connect 20 0 8 1;
+#X connect 21 0 8 2;

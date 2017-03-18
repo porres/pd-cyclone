@@ -1,0 +1,193 @@
+#N canvas 734 165 561 534 10;
+#X obj 5 493 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 6 401 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 6 441 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 98 412 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
+;
+#X text 168 412 signal;
+#X text 156 466 2) float;
+#X obj 102 260 cyclone/scope~ 91 63 9 3 128 -1 1 0 0 0 0 205 229 232
+74 79 77 96 98 102 0;
+#X obj 209 260 cyclone/scope~ 91 63 9 3 128 -1 1 0 0 0 0 205 229 232
+74 79 77 96 98 102 0;
+#X obj 319 260 cyclone/scope~ 91 63 9 3 128 -1 1 0 0 0 0 205 229 232
+74 79 77 96 98 102 0;
+#X floatatom 160 214 5 0 0 0 - - -, f 5;
+#X obj 160 146 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856
+-1 -1 2;
+#X obj 259 207 osc~ 40;
+#X text 178 145 none;
+#X text 178 160 1st outlet;
+#X text 178 176 2nd outlet;
+#X text 178 192 3rd outlet;
+#X obj 6 340 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 98 349 cnv 17 3 27 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 98 381 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X text 132 348 float/signal;
+#N canvas 726 248 416 406 signal-rate 0;
+#X obj 152 252 cyclone/gate~ 2;
+#X obj 152 145 *~ 3;
+#X obj 152 106 phasor~ 0.5;
+#X text 37 22 You can set the outlet number with a signal input \,
+this allows gate to be controlle with sample accuracy. Signal values
+are truncated to integers.;
+#X obj 239 214 noise~;
+#X obj 169 181 cyclone/number~;
+#X obj 170 290 ./out~;
+#X connect 0 0 6 0;
+#X connect 0 1 6 1;
+#X connect 1 0 0 0;
+#X connect 1 0 5 0;
+#X connect 2 0 1 0;
+#X connect 4 0 0 1;
+#X restore 453 301 pd signal-rate;
+#X text 168 381 signal;
+#X text 221 381 - signal to be routed;
+#X obj 160 235 cyclone/gate~ 3 1;
+#X text 156 449 1) float;
+#X text 221 412 - 'n' outlets for routing input signal;
+#X text 222 467 - initial outlet to route to (default 0 - none);
+#X text 221 447 - 'n' number of outlets (1 to 500 \, default 1);
+#N canvas 207 34 366 264 (subpatch) 0;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
+#X obj 215 68 route dsp;
+#X obj 215 37 receive pd;
+#N canvas 977 77 379 291 set_color 0;
+#X obj 47 30 inlet;
+#X obj 147 200 s \$0-cnv;
+#X obj 47 83 select 0 1;
+#X obj 47 220 s \$0-tgl-r;
+#N canvas 0 22 712 637 off 0;
+#X obj 490 220 * -1;
+#X obj 424 300 +;
+#X obj 409 325 +;
+#X obj 347 219 * -65536;
+#X obj 424 220 * -256;
+#X obj 409 356 - 1;
+#X obj 390 189 unpack f f f;
+#X obj 225 295 +;
+#X obj 210 320 +;
+#X obj 148 214 * -65536;
+#X obj 225 215 * -256;
+#X obj 291 215 * -1;
+#X obj 210 351 - 1;
+#X obj 191 184 unpack f f f;
+#X obj 379 423 pack;
+#X msg 395 152 124 124 124;
+#X msg 203 154 220 220 220;
+#X obj 238 121 t b b;
+#X obj 238 81 inlet;
+#X obj 378 485 outlet;
+#X connect 0 0 1 1;
+#X connect 1 0 2 1;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X connect 5 0 14 1;
+#X connect 6 0 3 0;
+#X connect 6 1 4 0;
+#X connect 6 2 0 0;
+#X connect 7 0 8 1;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 7 0;
+#X connect 11 0 7 1;
+#X connect 12 0 14 0;
+#X connect 13 0 9 0;
+#X connect 13 1 10 0;
+#X connect 13 2 11 0;
+#X connect 14 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 13 0;
+#X connect 17 0 16 0;
+#X connect 17 1 15 0;
+#X connect 18 0 17 0;
+#X restore 47 113 pd off;
+#X msg 47 180 color \$1 \$2 0;
+#X msg 147 131 -4.86997e+06 -1.34937e+07;
+#X msg 147 171 color \$1 0 \$2;
+#X connect 0 0 2 0;
+#X connect 2 0 4 0;
+#X connect 2 1 6 0;
+#X connect 4 0 5 0;
+#X connect 4 0 7 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 1 0;
+#X restore 215 165 pd set_color;
+#X obj 135 122 r \$0-tgl-s;
+#N canvas 121 482 450 300 (subpatch) 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+0;
+#X coords 0 -1 1 1 42 27 1 100 100;
+#X restore 51 144 pd;
+#X obj 226 139 s \$0-tgl-r;
+#X msg 226 115 set \$1;
+#X msg 135 177 \; pd dsp \$1;
+#N canvas 256 32 278 194 load_check 0;
+#X obj 136 53 sig~ 1;
+#X obj 74 24 loadbang;
+#X obj 136 86 snapshot~;
+#X obj 91 52 del 5;
+#X obj 136 151 outlet;
+#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 74 126 switch~;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 1 0 5 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X restore 51 72 pd load_check;
+#X connect 1 0 3 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 0 3 0;
+#X connect 7 0 6 0;
+#X connect 9 0 0 0;
+#X coords 0 -1 1 1 44 72 2 50 100;
+#X restore 505 70 pd;
+#X text 59 88 [gate~] routes an input signal from the second inlet
+to one of 'n' specified outlets or none of them. If an outlet is not
+selected \, it outputs zero values.;
+#X text 221 348 -;
+#X text 232 348 outlet number to route to - values are truncated to
+integers and clipped from 0 to number of outlets, f 52;
+#X obj 3 3 cnv 15 301 42 empty empty gate~ 20 20 2 37 -233017 -1 0
+;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 302 42 1 0 0;
+#X restore 2 3 graph;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 374 11 cnv 10 10 10 empty empty cyclone 0 5 2 24 -128992 -233080
+0;
+#X obj 340 29 cnv 10 10 10 empty empty Objects 0 6 2 13 -128992 -233080
+0;
+#X obj 395 29 cnv 10 10 10 empty empty cloned 0 6 2 13 -128992 -233080
+0;
+#X obj 441 29 cnv 10 10 10 empty empty from 0 6 2 13 -128992 -233080
+0;
+#X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
+0;
+#X text 23 60 Route a signal to an outlet;
+#X connect 9 0 23 0;
+#X connect 10 0 9 0;
+#X connect 11 0 23 1;
+#X connect 23 0 6 0;
+#X connect 23 1 7 0;
+#X connect 23 2 8 0;
