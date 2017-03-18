@@ -2,7 +2,7 @@
 Cyclone 0.3 alpha-2 
 -------
 
-Released: February 21st, 2017
+Release date: (unreleased)
 
 Cyclone: A set of Pure Data objects cloned from Max/MSP 
 -------
