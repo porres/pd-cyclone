@@ -385,13 +385,13 @@ scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)
 ### datafiles #########################################################
 
 datafiles = \
-$(wildcard cyclone_src/help_files/*.pd) \
-$(wildcard cyclone_src/help_files/Abstractions/*.pd) \
-$(wildcard cyclone_src/help_files/*.txt) \
-cyclone_src/cyclone-meta.pd \
-cyclone_src/help_files/violin.wav \
-cyclone_src/help_files/stereo.aif \
-cyclone_src/help_files/seq.mid \
+$(wildcard cyclone_src/abstractions/*.pd) \
+$(wildcard documentation/*.pd) \
+$(wildcard documentation/help_files/*.pd) \
+$(wildcard documentation/extra_files/*.txt) \
+documentation/extra_files/violin.wav \
+documentation/extra_files/stereo.aif \
+documentation/extra_files/seq.mid \
 LICENSE.txt \
 README.txt \
 
