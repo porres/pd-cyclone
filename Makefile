@@ -161,10 +161,6 @@ hfitter := \
 shared/common/loud.c \
 shared/common/fitter.c
 
-hforky := \
-shared/common/loud.c \
-shared/unstable/forky.c
-
 hfragile := \
 shared/common/loud.c \
 shared/unstable/fragile.c
@@ -288,7 +284,6 @@ togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
 
 linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(splainnotilde)
 
-comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
 
 drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
 
@@ -339,13 +334,6 @@ shared/common/loud.c
     line~.class.sources := cyclone_src/binaries/signal/line.c $(sgrowclc)
     curve~.class.sources := cyclone_src/binaries/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
 
-sgrowforky := \
-shared/common/grow.c \
-shared/common/loud.c \
-shared/common/fitter.c \
-shared/unstable/forky.c
-    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)
-
 sfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
@@ -373,6 +361,22 @@ shared/cybuf.c
 libforky := \
 shared/unstable/forky.c
 cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(libforky)
+
+################## GUIs: ################################################
+
+hforky := \
+shared/common/loud.c \
+shared/unstable/forky.c
+
+comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
+
+sgrowforky := \
+shared/common/grow.c \
+shared/common/loud.c \
+shared/common/fitter.c \
+shared/unstable/forky.c
+
+scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##
