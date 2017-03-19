@@ -9,36 +9,14 @@
 
 /* DK
 - adding mousestate_proxy and related methods
-- borrowing IOhannes zmoelnig's receivecanvas_proxy  from iemguts' receivecanvas
-  for gui message interception (mode 1)
-- for mode 1: taking screen coords and subtracting ::focusedwindow's x,y
-  doing the math in tcl, maybe it would be better to do in c?
-  This would be more to send back via pdsend however...
 */
 
-
-//this is the receivecanvas_proxy
-typedef struct _mousestate_proxy
-{
-    //was going to be in hammer/gui but found it difficult, which is why i chose the g prefix
-    //instead of p as in receivecanvas
-    t_object    g_obj;
-    t_symbol    *g_sym;
-    struct _mousestate      *g_owner; 
-    //copied from the receivecanvas_proxy code
-    //guessing this assures clock is freed indp of parent obj?
-    t_clock     *g_clock;
-
-} t_mousestate_proxy;
-
-static t_class *mousestate_proxy_class;
 
 
 typedef struct _mousestate
 {
     t_object   x_ob;
-    int        x_ispolling02; //polling in mode 0 or mode 2
-    int        x_ispolling1; //polling in mode 1, since it's handled differently for now at least
+    int        x_ispolling; 
     int        x_wasbanged;
     int        x_waszeroed;
     int        x_hlast;
@@ -46,65 +24,23 @@ typedef struct _mousestate
     int        x_hzero;
     int        x_vzero;
     int        x_mode; //0-screen, 1-object window, 2-active window
+    
+    int         x_wx; 
+    int         x_wy;
+    int         x_ww;
+    int         x_wh;
     t_outlet  *x_hposout;
     t_outlet  *x_vposout;
     t_outlet  *x_hdiffout;
     t_outlet  *x_vdiffout;
 
-    t_mousestate_proxy *x_icpt;
 } t_mousestate;
 
 static t_class *mousestate_class;
 
 
 
-//mousestate_proxy methods, again lifted from IOhannes Zmoelnig's receivecanvas from iemguts
 
-
-static void mousestate_proxy_actualfree(t_mousestate_proxy *g){
-
-    //in receivecanvas_proxy, the actual free method, fitured this makes it a little easier
-    if(g->g_sym){
-        pd_unbind(&g->g_obj.ob_pd, g->g_sym);
-    };
-    g->g_sym = NULL;
-
-    clock_free(g->g_clock);
-    g->g_clock = NULL;
-
-    g->g_owner = NULL;
-    pd_free(&g->g_obj.ob_pd);
-    g = NULL;
-}
-
-
-
-static t_mousestate_proxy * mousestate_proxy_new(t_mousestate * owner, t_symbol *s){
-    t_mousestate_proxy *g = NULL;
-    
-    if(!owner){
-        return g;
-    };
-    g = (t_mousestate_proxy *)pd_new(mousestate_proxy_class);
-
-    g->g_owner = owner;
-    g->g_sym = s;
-
-    if(g->g_sym){
-        pd_bind(&g->g_obj.ob_pd, g->g_sym);
-    };
-   
-    g->g_clock = clock_new(g, (t_method)mousestate_proxy_actualfree);
-
-    return g;
-}
-
-static void mousestate_proxy_free(t_mousestate_proxy *g){
-    //clock_delay called directly in receivecanvas, figured this makes it a little more transparent
-    clock_delay(g->g_clock, 0);
-}
-
-//========MOUSESTATE_METHODS
 
 static void mousestate_anything(t_mousestate *x,
 				t_symbol *s, int ac, t_atom *av)
@@ -121,7 +57,7 @@ static void mousestate_doup(t_mousestate *x, t_floatarg f)
 
 static void mousestate_dobang(t_mousestate *x, t_floatarg f1, t_floatarg f2)
 {
-    if (x->x_wasbanged || x->x_ispolling1)
+    if (x->x_wasbanged || x->x_ispolling)
     {
 	int h = (int)f1, v = (int)f2;
 	outlet_float(x->x_vdiffout, v - x->x_vlast);
@@ -143,18 +79,7 @@ static void mousestate_objwin(t_mousestate *x, int argc, t_atom * argv){
     };
 }
 
-//================= MOUSESTATE_PROXY_METHOD
-void mousestate_proxy_anything(t_mousestate_proxy *g, t_symbol *s, int argc, t_atom *argv){
-    if(g->g_owner){
-        //unlike receivecanvas, filter out only motion messages
-        if(strcmp(s->s_name, "motion") == 0){
-            mousestate_objwin(g->g_owner, argc, argv);
-            };
-    };
-    
-}
 
-//================= BACK TO MOUSESTATE
 
 static void mousestate_dozero(t_mousestate *x, t_floatarg f1, t_floatarg f2)
 {
@@ -169,11 +94,8 @@ static void mousestate_dozero(t_mousestate *x, t_floatarg f1, t_floatarg f2)
 
 static void mousestate_dopoll(t_mousestate *x, t_floatarg f1, t_floatarg f2)
 {
-    if (x->x_ispolling02)
-    {
 	x->x_wasbanged = 1;
 	mousestate_dobang(x, f1, f2);
-    }
 }
 
 static void mousestate_bang(t_mousestate *x)
@@ -183,6 +105,7 @@ static void mousestate_bang(t_mousestate *x)
             hammergui_screenmousexy(gensym("_bang"));
             break;
         case 1:
+            hammergui_localmousexy(gensym("_bang"), x->x_wx, x->x_wy, x->x_ww, x->x_wh);
             break;
         case 2:
             hammergui_focusmousexy(gensym("_bang"));
@@ -196,34 +119,16 @@ static void mousestate_bang(t_mousestate *x)
 static void mousestate_poll(t_mousestate *x)
 {
     int mode = x->x_mode;
-    if(mode != 1){
-        if (!x->x_ispolling02)
-        {
-            x->x_ispolling02 = 1;
-            //pollmode: 1 for mode 0, 2 for mode 2
-            int pollmode = mode > 0 ? 2 : 1;
-                hammergui_startpolling((t_pd *)x, pollmode);
-
-        };
-    }
-    else{
-        x->x_ispolling1 = 1;
-    };
+    //pollmode: mode + 1 : mode0 -> 1, mode1 -> 2, mode2-> 3
+    int pollmode = mode + 1;
+    hammergui_startpolling((t_pd *)x, pollmode, x->x_wx, x->x_wy, x->x_ww, x->x_wh);
+    x->x_ispolling = 1;
 }
 
 static void mousestate_nopoll(t_mousestate *x)
 {
-    int mode = x->x_mode;
-    if(mode != 1){
-        if (x->x_ispolling02)
-        {
-            x->x_ispolling02 = 0;
-            hammergui_stoppolling((t_pd *)x);
-        }
-    }
-    else{
-        x->x_ispolling1 = 0;
-    };
+    hammergui_stoppolling((t_pd *)x, x->x_wx, x->x_wy, x->x_ww, x->x_wh);
+    x->x_ispolling = 0;
 }
 
 static void mousestate_zero(t_mousestate *x)
@@ -233,6 +138,7 @@ static void mousestate_zero(t_mousestate *x)
             hammergui_screenmousexy(gensym("_zero"));
             break;
         case 1:
+            hammergui_localmousexy( gensym("_zero"), x->x_wx, x->x_wy, x->x_ww, x->x_wh);
             break;
         case 2:
             hammergui_focusmousexy(gensym("_zero"));
@@ -252,37 +158,31 @@ static void mousestate_free(t_mousestate *x)
 {
     mousestate_nopoll(x);
     hammergui_unbindmouse((t_pd *)x);
-    mousestate_proxy_free(x->x_icpt);
 }
 
 static void mousestate_mode(t_mousestate *x, t_floatarg f){
     int mode = (int) f;
+    int polling = x->x_ispolling;
     if(mode < 0){
         mode = 0;
     }
     else if(mode > 2){
         mode = 2;
     };
-
-    //must take care of polling if switching b/w mode 1 and any other mode (and vice versa)
-    if(
-        (mode == 1 && x->x_ispolling02 && x->x_mode != 1) ||
-      (mode != 1 && x->x_ispolling1 && x->x_mode == 1)
-            ){
+    if(polling)
+    {
         mousestate_nopoll(x);
         x->x_mode = mode;
         mousestate_poll(x);
     }
-    else{
-        x->x_mode = mode;
-    };
+    else x->x_mode = mode;
 }
 
 static void *mousestate_new(void)
 {
+    int x1, x2, y1, y2;
     t_mousestate *x = (t_mousestate *)pd_new(mousestate_class);
-    x->x_ispolling02 = x->x_wasbanged = x->x_waszeroed = 0;
-    x->x_ispolling1 = 0;
+    x->x_ispolling = x->x_wasbanged = x->x_waszeroed = 0;
     outlet_new((t_object *)x, &s_float);
     x->x_hposout = outlet_new((t_object *)x, &s_float);
     x->x_vposout = outlet_new((t_object *)x, &s_float);
@@ -292,19 +192,19 @@ static void *mousestate_new(void)
     hammergui_bindmouse((t_pd *)x);
     hammergui_willpoll();
     mousestate_reset(x);
+    t_glist *g_list = (t_glist *)canvas_getcurrent();
 
-    //now dealing with mousestate_proxy
-    //mostly copied from iemguts receivecanvas except for depth and new function pointer
-   t_glist *glist=(t_glist *)canvas_getcurrent();
-   t_canvas *canvas=(t_canvas*)glist_getcanvas(glist);
+    x1 =  g_list->gl_screenx1;
+    y1 = g_list->gl_screeny1;
+    x2 = g_list->gl_screenx2;
+    y2 = g_list->gl_screeny2;
 
-   x->x_icpt = NULL;
-    if(canvas) {
-            char buf[MAXPDSTRING];
-            snprintf(buf, MAXPDSTRING-1, ".x%lx", (t_int)canvas);
-            buf[MAXPDSTRING-1]=0;
-            x->x_icpt=mousestate_proxy_new(x, gensym(buf));
-    }
+    x->x_wx = x1;
+    x->x_wy = y1;
+    x->x_ww = x2 - x1;
+    x->x_wh = y2 - y1;
+//     post("%d %d %d %d", x->x_x1, x->x_y1, x->x_x2, x->x_y2);
+
     return (x);
 }
 
@@ -314,9 +214,7 @@ void mousestate_setup(void)
 				 (t_newmethod)mousestate_new,
 				 (t_method)mousestate_free,
 				 sizeof(t_mousestate), 0, 0);
-    mousestate_proxy_class = class_new(0, 0, 0, sizeof(t_mousestate_proxy), CLASS_NOINLET | CLASS_PD, 0);
 
-    class_addanything(mousestate_proxy_class, mousestate_proxy_anything);
     class_addcreator((t_newmethod)mousestate_new, gensym("MouseState"), 0, 0);
     class_addcreator((t_newmethod)mousestate_new, gensym("cyclone/MouseState"), 0, 0);
     class_addanything(mousestate_class, mousestate_anything);
@@ -339,6 +237,7 @@ void mousestate_setup(void)
 		    gensym("reset"), 0);
     class_addmethod(mousestate_class, (t_method)mousestate_mode,
 		    gensym("mode"), A_FLOAT, 0);
+
 }
 
 void MouseState_setup(void)
