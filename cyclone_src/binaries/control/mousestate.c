@@ -7,8 +7,11 @@
 #include "hammer/gui.h"
 #include "g_canvas.h"
 
-/* DK
-- adding mousestate_proxy and related methods
+/* 2017 - Derek Kwan
+ * for a brief time, introduced iemguts/receivecanvas way of intercepting pd messages
+ * for mouse pointer for mode 1, now basing off of given coords by the current 
+ * canvas glist and passing every time to appropropriate functions defined in 
+ * shared/hammer/gui.c
 */
 
 
