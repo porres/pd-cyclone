@@ -12,8 +12,10 @@
 //basically we bind the sink to the symbol assoc with hashhammergui #hammergui
 //we bind virtual events <<hammer*>> with actual events like <focus> via event add
 //then we bind these virtual events <<hammer*>> with messages back to pd via pdsend 
-//
-//bindmouse = mouse clicks
+
+//ALSO: redoing a lot of the way gui.c works, deferring calculations to mousestate
+// in interests of multiple object independence
+
 //-DK
 
 
@@ -299,97 +301,77 @@ static int hammergui_setup(void)
     sys_gui(" pdsend {#hammergui _remouse}\n");
     sys_gui("}\n");
 
-
-    //helper to get coords of screen relative to local window
-    sys_gui("proc hammergui_localhelp {px py lx ly lw lh} {\n");
-    sys_gui(" set x [expr $px - $lx]\n");
-    sys_gui(" set y [expr $py - $ly]\n");
-    sys_gui(" if {$x >= $lw} {set x [expr $lw - 1]}\n");
-    sys_gui(" if {$x < 0} {set x 0}\n");
-    sys_gui(" if {$y >= $lh} {set y [expr $lh - 1]}\n");
-    sys_gui(" if {$y < 0} {set y 0}\n");
-    //sys_gui(" ::pdwindow::post [list $x $y]\n");
-    sys_gui(" return [list $x $y]\n");
-    sys_gui("}\n");
-
-    sys_gui("proc hammergui_localmousexy {target lx ly lw lh} {\n");
-    sys_gui(" set px [winfo pointerx . ]\n");
+    
+    sys_gui("proc hammergui_getscreen {} {\n");
+    sys_gui(" set px [winfo pointerx .]\n");
     sys_gui(" set py [winfo pointery . ]\n");
-    sys_gui("set myret [hammergui_localhelp $px $py $lx $ly $lw $lh]\n");
-     sys_gui("set x [lindex $myret 0]\n");
-    sys_gui("set y [lindex $myret 1]\n");
-    //sys_gui("::pdwindow::post $myret\n");
-    sys_gui("pdsend \"#hammermouse $target $x $y\"\n");
+    sys_gui(" pdsend \"#hammermouse _getscreen $px $py\"\n");
     sys_gui("}\n");
 
-    //helper to get coords of mouse relative to focused window
-    sys_gui("proc hammergui_focushelp {px py} {\n");
+    sys_gui("proc hammergui_getscreenfocused {} {\n");
+    sys_gui(" set px [winfo pointerx .]\n");
+    sys_gui(" set py [winfo pointery . ]\n");
     sys_gui(" set wx [winfo x $::focused_window]\n");
     sys_gui(" set wy [winfo y $::focused_window]\n");
     sys_gui(" set ww [winfo width $::focused_window]\n");
     sys_gui(" set wh [winfo height $::focused_window]\n");
-    sys_gui(" set x [expr $px - $wx]\n");
-    sys_gui(" set y [expr $py - $wy]\n");
-    sys_gui(" if {$x >= $ww} {set x [expr $ww - 1]}\n");
-    sys_gui(" if {$x < 0} {set x 0}\n");
-    sys_gui(" if {$y >= $wh} {set y [expr $wh - 1]}\n");
-    sys_gui(" if {$y < 0} {set y 0}\n");
-    sys_gui(" return [list $x $y]\n");
-    sys_gui(" }\n");
-
-    sys_gui("proc hammergui_focusmousexy {target} {\n");
-    sys_gui(" set px [winfo pointerx . ]\n");
-    sys_gui(" set py [winfo pointery . ]\n");
-    sys_gui(" set myret [hammergui_focushelp $px $py]\n");
-    sys_gui(" set x [lindex $myret 0]\n");
-    sys_gui(" set y [lindex $myret 1]\n");
-    sys_gui(" pdsend \"#hammermouse $target $x $y\"\n");
-     //sys_gui(" ::pdwindow::post $::focused_window\n");
+    sys_gui(" pdsend \"#hammermouse _getscreenfocused ");
+    sys_gui("$px $py $wx $wy $ww $wh\"\n");
     sys_gui("}\n");
-
-
-    
-    sys_gui("proc hammergui_screenmousexy {target} {\n");
-    sys_gui(" set x [winfo pointerx .]\n");
-    sys_gui(" set y [winfo pointery . ]\n");
-    sys_gui(" pdsend \"#hammermouse $target $x $y\"\n");
-    sys_gui("}\n");
-
-
 
     /* visibility hack for msw, LATER rethink */
     sys_gui("global hammergui_ispolling\n");
-    sys_gui("global hammergui_x\n");
-    sys_gui("global hammergui_y\n");
+    sys_gui("global hammergui_px\n");
+    sys_gui("global hammergui_py\n");
     sys_gui("set hammergui_ispolling 0\n");
-    sys_gui("set hammergui_x 0\n");
-    sys_gui("set hammergui_y 0\n");
-
-    sys_gui("proc hammergui_poll {lx ly lw lh} {\n");
+    sys_gui("set hammergui_px 0\n");
+    sys_gui("set hammergui_py 0\n");
+    sys_gui("set hammergui_wx 0\n");
+    sys_gui("set hammergui_wy 0\n");
+    sys_gui("set hammergui_ww 0\n");
+    sys_gui("set hammergui_wh 0\n");
+    
+    sys_gui("proc hammergui_poll {} {\n");
     sys_gui("global hammergui_ispolling\n");
-    sys_gui("global hammergui_x\n");
-    sys_gui("global hammergui_y\n");
+    sys_gui("global hammergui_px\n");
+    sys_gui("global hammergui_py\n");
+    sys_gui("global hammergui_wx\n");
+    sys_gui("global hammergui_wy\n");
+    sys_gui("global hammergui_ww\n");
+    sys_gui("global hammergui_wh\n");
     sys_gui("if {$hammergui_ispolling > 0} {\n");
-    sys_gui("set x [winfo pointerx .]\n");
-    sys_gui("set y [winfo pointery . ]\n");
-    //mode1
-    sys_gui("if {$hammergui_ispolling == 2} {\n");
-     sys_gui("set myret [hammergui_localhelp $x $y $lx $ly $lw $lh]\n");
-    sys_gui("set x [lindex $myret 0]\n");
-    sys_gui("set y [lindex $myret 1]\n");
+    //mode0 and 1
+    sys_gui("if {$hammergui_ispolling <= 2} {\n");
+    sys_gui(" set px [winfo pointerx .]\n");
+    sys_gui(" set py [winfo pointery . ]\n");
+    sys_gui("if {$hammergui_px != $px || $hammergui_py != $py} {\n");
+    sys_gui(" pdsend \"#hammermouse _getscreen $px $py\"\n");
+    sys_gui(" set $hammergui_px $px\n");
+    sys_gui(" set $hammergui_py $py\n");
+    sys_gui("}\n");
     sys_gui("} ");
     //mode2
     sys_gui("elseif {$hammergui_ispolling == 3} {\n");
-     sys_gui("set myret [hammergui_focushelp $x $y]\n");
-    sys_gui("set x [lindex $myret 0]\n");
-    sys_gui("set y [lindex $myret 1]\n");
+    sys_gui(" set px [winfo pointerx .]\n");
+    sys_gui(" set py [winfo pointery . ]\n");
+    sys_gui(" set wx [winfo x $::focused_window]\n");
+    sys_gui(" set wy [winfo y $::focused_window]\n");
+    sys_gui(" set ww [winfo width $::focused_window]\n");
+    sys_gui(" set wh [winfo height $::focused_window]\n");
+    sys_gui("if {$hammergui_px != $px || $hammergui_py != $py ");
+    sys_gui("|| $hammergui_wx != $wx || $hammergui_wy != $wy ");
+    sys_gui("|| $hammergui_ww != $ww || $hammergui_wh != $wh} {\n");
+    sys_gui(" pdsend \"#hammermouse _getscreenfocused ");
+    sys_gui("$px $py $wx $wy $ww $wh\"\n");
+    sys_gui(" set $hammergui_px $px\n");
+    sys_gui(" set $hammergui_py $py\n");
+    sys_gui(" set $hammergui_wx $wx\n");
+    sys_gui(" set $hammergui_wy $wy\n");
+    sys_gui(" set $hammergui_ww $ww\n");
+    sys_gui(" set $hammergui_wh $wh\n");
     sys_gui("}\n");
-    sys_gui("if {$hammergui_x != $x || $hammergui_y != $y} {\n");
-    sys_gui("pdsend \"#hammermouse _poll $x $y\"\n");
-    sys_gui("set hammergui_x $x\n");
-    sys_gui("set hammergui_y $y\n");
     sys_gui("}\n");
-    sys_gui("after 50 hammergui_poll $lx $ly $lw $lh\n");
+    sys_gui("after 50 hammergui_poll\n");
     sys_gui("}\n");
     sys_gui("}\n");
 
@@ -527,7 +509,7 @@ void hammergui_unbindmouse(t_pd *master)
     else bug("hammergui_unbindmouse");
 }
 
-
+/*
 void hammergui_localmousexy(t_symbol *s, int wx, int wy, int ww, int wh)
 {
     if (hammergui_validate(0))
@@ -548,13 +530,32 @@ void hammergui_focusmousexy(t_symbol *s)
 	sys_vgui("hammergui_focusmousexy %s\n", s->s_name);
 }
 
+void hammergui_getscreen(void)
+{
+  if(hammergui_validate(0))
+    sys_gui("hammergui_getscreen\n");
+}
+*/
+
+void hammergui_getscreenfocused(void)
+{
+  if(hammergui_validate(0))
+    sys_gui("hammergui_getscreenfocused\n");
+}
+
+void hammergui_getscreen(void)
+{
+  if(hammergui_validate(0))
+    sys_gui("hammergui_getscreen\n");
+}
+
 void hammergui_willpoll(void)
 {
     hammergui_validate(1);
     hammergui_pollvalidate(1);
 }
 
-void hammergui_startpolling(t_pd *master, int pollmode, int wx, int wy, int ww, int wh)
+void hammergui_startpolling(t_pd *master, int pollmode)
 {
     if (hammergui_validate(0) && hammergui_pollvalidate(0))
     {
@@ -566,19 +567,19 @@ void hammergui_startpolling(t_pd *master, int pollmode, int wx, int wy, int ww, 
 	    /* visibility hack for msw, LATER rethink */
 	    sys_gui("global hammergui_ispolling\n");
 	    sys_vgui("set hammergui_ispolling %d\n", pollmode);
-	    sys_vgui("hammergui_poll %d %d %d %d\n", wx, wy, ww, wh);
+	    sys_gui("hammergui_poll\n");
 	}
     }
 }
 
-void hammergui_stoppolling(t_pd *master, int wx, int wy, int ww, int wh)
+void hammergui_stoppolling(t_pd *master)
 {
     if (hammergui_validate(0) && hammergui_pollvalidate(0))
     {
 	pd_unbind(master, hammergui_sink->g_pspoll);
 	if (hammergui_sink->g_pspoll->s_thing == (t_pd *)hammergui_sink)
 	{
-	    sys_vgui("after cancel [hammergui_poll %d %d %d %d]\n", wx, wy, ww, wh);
+	    sys_vgui("after cancel [hammergui_poll]\n");
 	    /* visibility hack for msw, LATER rethink */
 	    sys_gui("global hammergui_ispolling\n");
 	    sys_gui("set hammergui_ispolling 0\n");
