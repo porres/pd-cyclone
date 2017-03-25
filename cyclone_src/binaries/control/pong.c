@@ -271,13 +271,12 @@ static void pong_setrange(t_pong *x, t_float lo, t_float hi){
 
 }
 
-static void pong_setmode(t_pong *x, t_symbol *s){
+static void pong_setmode(t_pong *x, t_symbol *s)
+    {
 		int setmode;
-
 			setmode = pong_setmode_help(s->s_name);
 				x->mode = setmode;
-					
-}
+    }
 
 	void pong_setup(void){
 	pong_class = class_new(gensym("pong"), (t_newmethod)pong_new, 0,

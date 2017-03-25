@@ -20,9 +20,6 @@ changed matrix_free to return void * instead of nothing
 #include <math.h>
 #include "m_pd.h"
 #include "unstable/forky.h"
-//#include "common/loud.h" //used for debugging, 
-
-//#define MATRIX_DEBUG
 
 #define MATRIX_DEFGAIN  0.  /* CHECKED */
 #define MATRIX_DEFRAMP  10.  /* CHECKED */
@@ -266,8 +263,7 @@ static void matrix_ramp(t_matrix *x, t_floatarg f)
     if (x->x_ramps)
     {
 	int i;
-	x->x_deframp = (f < MATRIX_MINRAMP ? 0. : f);
-	/* CHECKED cell-specific ramps are lost */
+	x->x_deframp = (f < MATRIX_MINRAMP ? 0. : f); /* CHECKED cell-specific ramps are lost */
 	for (i = 0; i < x->x_ncells; i++)
 	    x->x_ramps[i] = x->x_deframp;
     }
@@ -524,37 +520,6 @@ static void matrix_print(t_matrix *x)
     matrix_report(x, x->x_coefs, 1., matrix_cellprint);
 }
 
-/*
-   legacy debug:
-#ifdef MATRIX_DEBUG
-static void matrix_debugramps(t_matrix *x)
-{
-    matrix_report(x, x->x_ramps, 0., matrix_celldebug);
-}
-static void matrix_debugsums(t_matrix *x)
-{
-    int i;
-    loudbug_startpost("nblock %d (max %d), vectors:",
-		      x->x_nblock, x->x_maxblock);
-    for (i = 0; i < x->x_numoutlets; i++)
-	loudbug_startpost(" %x", (int)x->x_osums[i]);
-    loudbug_endpost();
-}
-static void matrix_debug(t_matrix *x, t_symbol *s)
-{
-    if (s == gensym("ramps"))
-	matrix_debugramps(x);
-    else if (s == gensym("sums"))
-	matrix_debugsums(x);
-    else
-    {
-	matrix_debugramps(x);
-	matrix_debugsums(x);
-    }
-}
-#endif
-*/
-
 static void *matrix_free(t_matrix *x)
 {
     if (x->x_ivecs)
@@ -731,7 +696,6 @@ void matrix_tilde_setup(void)
 	class_addmethod(matrix_class, nullfn, gensym("signal"), 0);
 	class_addfloat(matrix_class, matrix_float);
     class_addlist(matrix_class, matrix_list);
-	//class_domainsignalin(matrix_class, -1); // not sure why needed, but crashes withouts
     class_addmethod(matrix_class, (t_method)matrix_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(matrix_class, (t_method)matrix_clear, gensym("clear"), 0);
     class_addmethod(matrix_class, (t_method)matrix_connect, gensym("connect"), A_GIMME, 0);
@@ -740,10 +704,5 @@ void matrix_tilde_setup(void)
     class_addmethod(matrix_class, (t_method)matrix_dump, gensym("dump"), 0);
     class_addmethod(matrix_class, (t_method)matrix_dumptarget, gensym("dumptarget"), 0);
     class_addmethod(matrix_class, (t_method)matrix_print, gensym("print"), 0);
-	/*
-	#ifdef MATRIX_DEBUG
-    class_addmethod(matrix_class, (t_method)matrix_debug,
-		    gensym("debug"), A_DEFSYM, 0);
-	#endif
-	*/
+
 }

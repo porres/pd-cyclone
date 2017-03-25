@@ -199,7 +199,8 @@ static t_int *average_perform(t_int *w)
     for(i=0; i <nblock; i++){
         double result; //eventual result
         double input = (double)in[i];
-        if(npoints > 1){
+        if(npoints > 1)
+        {
             unsigned int bufrd = x->x_bufrd;
             //add input to accumulator
             x->x_accum = (*sumfn)(input, x->x_accum, 1);

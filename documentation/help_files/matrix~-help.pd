@@ -117,7 +117,7 @@
 ;
 #X text 194 592 - signals to route and mix;
 #X text 190 630 - routed/mixed signals from inlets;
-#N canvas 320 23 879 556 binary_vs_non-binary 0;
+#N canvas 320 23 879 556 binary_vs_non-binary 1;
 #X obj 578 149 osc~ 300;
 #X obj 635 149 osc~ 400;
 #X obj 694 149 osc~ 500;
@@ -125,28 +125,21 @@
 #X floatatom 501 96 5 0 0 0 - - -, f 5;
 #X floatatom 543 342 5 0 0 0 - - -, f 5;
 #X obj 585 391 osc~ 300;
-#X obj 642 391 osc~ 400;
-#X obj 701 391 osc~ 500;
-#X obj 757 391 osc~ 600;
-#X obj 585 425 cyclone/matrix~ 4 1 1;
+#X obj 648 391 osc~ 400;
+#X obj 711 391 osc~ 500;
+#X obj 774 391 osc~ 600;
 #X obj 501 71 hradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856 -1
 -1 0;
 #X obj 543 321 hradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856
--1 -1 3;
+-1 -1 1;
 #X text 36 130 "binary" mode (default):;
 #X text 36 191 "non-binary" mode:;
-#X msg 543 363 clear \, \$1 0 0.5;
 #X msg 501 119 clear \, connect \$1 0 1;
 #X obj 578 182 cyclone/matrix~ 4 2;
 #X obj 23 81 cnv 15 220 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X text 53 154 - in "binary" mode \, connections are either on or off.
 This can cause audible clicks when routing.;
-#X text 53 212 - in "non-binary" mode (requires more CPU time) \, each
-connection has a variable linear gain (0-1). When you send a list in
-"non-binary" mode \, the 3rd float sets the gain of the connection.
-This mode also allows for a ramp time for fade in/out or crossfading.
-;
 #X text 53 294 - "non-binary" mode is set when there is a third argument
 (that also specifies the default gain for all connections).;
 #X text 55 334 In "non-binary" mode \, connections formed with the
@@ -163,24 +156,31 @@ time:;
 mode:;
 #X obj 562 462 ./out~;
 #X obj 578 216 ./out~;
-#X connect 0 0 17 0;
-#X connect 1 0 17 1;
-#X connect 2 0 17 2;
-#X connect 3 0 17 3;
-#X connect 4 0 16 0;
-#X connect 5 0 15 0;
-#X connect 6 0 10 0;
-#X connect 7 0 10 1;
-#X connect 8 0 10 2;
-#X connect 9 0 10 3;
-#X connect 10 0 26 0;
-#X connect 10 0 26 1;
-#X connect 11 0 4 0;
-#X connect 12 0 5 0;
-#X connect 15 0 10 0;
-#X connect 16 0 17 0;
-#X connect 17 0 27 0;
-#X connect 17 1 27 1;
+#X msg 543 362 clear \, \$1 0 0.5;
+#X obj 585 425 cyclone/matrix~ 4 1 1 @ramp 1000;
+#X text 53 212 - in "non-binary" mode (requires more CPU time) \, each
+connection has a variable linear gain (0-1). When you send a list in
+"non-binary" mode \, the 3rd float sets the gain of the connection.
+This mode also allows for a ramp time as a 4th item on the list (for
+fade in/out or crossfading).;
+#X connect 0 0 15 0;
+#X connect 1 0 15 1;
+#X connect 2 0 15 2;
+#X connect 3 0 15 3;
+#X connect 4 0 14 0;
+#X connect 5 0 25 0;
+#X connect 6 0 26 0;
+#X connect 7 0 26 1;
+#X connect 8 0 26 2;
+#X connect 9 0 26 3;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 14 0 15 0;
+#X connect 15 0 24 0;
+#X connect 15 1 24 1;
+#X connect 25 0 26 0;
+#X connect 26 0 23 0;
+#X connect 26 0 23 1;
 #X restore 361 355 pd binary_vs_non-binary mode;
 #X obj 71 629 cnv 1 3 17 empty empty 0=>n 5 9 0 16 -228856 -162280
 0;
