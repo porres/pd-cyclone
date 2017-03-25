@@ -2,7 +2,7 @@
 Cyclone 0.3 (currently at alpha stage)
 -------
 
-Releases: (unreleased)https://github.com/porres/pd-cyclone/releases
+Releases: https://github.com/porres/pd-cyclone/releases
 
 Cyclone: A set of Pure Data objects cloned from Max/MSP 
 -------
