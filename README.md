@@ -12,6 +12,7 @@ Cyclone: A set of Pure Data objects cloned from Max/MSP
 -------
 
 Pure Data (or just "Pd") project is found at: https://sourceforge.net/p/pure-data/pure-data/ci/master/tree/
+or in its github m,rror https://github.com/pure-data/pure-data. The Pd webpage managed by the Pd community is at: http://puredata.info/
 
 Max is found at: https://cycling74.com/
 
