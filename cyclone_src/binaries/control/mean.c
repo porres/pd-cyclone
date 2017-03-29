@@ -8,7 +8,7 @@ typedef struct _mean
 {
     t_object   x_ob;
     double     x_accum;
-    int        x_count;
+    unsigned int x_count;
     t_float    x_mean;
     t_outlet  *x_countout;
 } t_mean;
