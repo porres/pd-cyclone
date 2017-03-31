@@ -4,7 +4,6 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "common/grow.h"
 #include "common/loud.h"
 #include "common/clc.h"
 
@@ -236,22 +235,6 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     odd = natoms % 3;
     nsegs = natoms / 3;
     if (odd) nsegs++;
-    /*
-    if (nsegs > x->x_size)
-        {
-        nsegs = CURVE_MAXSIZE;
-        int ns = nsegs;
-        x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
-				CURVE_MAXSIZE, x->x_segini,
-				sizeof(*x->x_segs));
-        if (ns < nsegs)
-            {
-            natoms = ns * 3;
-            nsegs = ns;
-            odd = 0;
-            }
-        }
-    */
     //clip at maxsize
     if(nsegs > CURVE_MAXSIZE)
     {
