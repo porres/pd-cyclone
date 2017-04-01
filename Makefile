@@ -332,6 +332,9 @@ shared/common/grow.c \
 shared/common/loud.c
     frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrow)
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
+    line~.class.sources := cyclone_src/binaries/signal/line.c $(sgrow)
+    curve~.class.sources := cyclone_src/binaries/signal/curve.c $(sgrow) 
+
 
 sfile := \
 shared/hammer/file.c \
