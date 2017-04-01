@@ -5,9 +5,8 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "unstable/pd_imp.h"
-#include "common/loud.h"
 
-/* LATER fragilize */
+// LATER fragilize (for some reason)
 
 typedef struct _universal
 {
@@ -122,7 +121,7 @@ static void universal_anything(t_universal *x, t_symbol *s, int ac, t_atom *av)
 		    universal_dofloat(x->x_glist, x->x_descend, s,
 				      av[1].a_w.w_float);
 		else
-		    loud_error((t_pd *)x, "Bad argument for message 'float'");
+            pd_error(x, "universal: bad argument for message 'float'");
 	    }
 	    else if (av->a_w.w_symbol == &s_symbol)
 		universal_dosymbol(x->x_glist, x->x_descend, s,

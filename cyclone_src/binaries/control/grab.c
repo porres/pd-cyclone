@@ -5,7 +5,6 @@
 #include "m_pd.h"
 #include "unstable/pd_imp.h"
 #include "unstable/fragile.h"
-#include "common/loud.h"
 
 /* LATER handle canvas grabbing (bypass) */
 /* LATER check self-grabbing */
@@ -97,11 +96,9 @@ nextremote:
 	    if (inno)
 	    {
 		if (x->x_target)
-		    loud_error((t_pd *)x,
-			       "right outlet must feed leftmost inlet");
+            pd_error(x, "grab: right outlet must feed leftmost inlet");
 		else
-		    loud_error((t_pd *)x,
-			       "remote proxy must feed leftmost inlet");
+            pd_error(x, "grab: remote proxy must feed leftmost inlet");
 	    }
 	    else
 	    {

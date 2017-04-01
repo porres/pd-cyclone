@@ -45,6 +45,7 @@ spray.class.sources := cyclone_src/binaries/control/spray.c
 sustain.class.sources := cyclone_src/binaries/control/sustain.c
 tanh.class.sources := cyclone_src/binaries/control/tanh.c
 trough.class.sources := cyclone_src/binaries/control/trough.c
+universal.class.sources := cyclone_src/binaries/control/universal.c
 unjoin.class.sources := cyclone_src/binaries/control/unjoin.c
 uzi.class.sources := cyclone_src/binaries/control/uzi.c
 xbendin.class.sources := cyclone_src/binaries/control/xbendin.c
@@ -164,7 +165,6 @@ shared/common/loud.c \
 shared/common/fitter.c
 
 hfragile := \
-shared/common/loud.c \
 shared/unstable/fragile.c
 
 hgrow := \
@@ -242,10 +242,6 @@ maximum.class.sources := cyclone_src/binaries/control/maximum.c $(hfitter)
 minimum.class.sources := cyclone_src/binaries/control/minimum.c $(hfitter)
 switch.class.sources := cyclone_src/binaries/control/switch.c $(hfitter)
 
-# hfragile classes
-universal.class.sources := cyclone_src/binaries/control/universal.c $(hfragile)
-grab.class.sources := cyclone_src/binaries/control/grab.c $(hfragile)
-
 # hfile classes
 loadmess.class.sources := cyclone_src/binaries/control/loadmess.c $(hfile) # for "click" (new class)
 capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
@@ -286,7 +282,6 @@ togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
 
 linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(splainnotilde)
 
-
 drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
 
 prob.class.sources := cyclone_src/binaries/control/prob.c $(hrandfile)
@@ -300,6 +295,8 @@ seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
 offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
 funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
+
+grab.class.sources := cyclone_src/binaries/control/grab.c $(hfragile)
 
 # Signal classes: #################################################################
 
