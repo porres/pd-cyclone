@@ -303,29 +303,37 @@ funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
 # Signal classes: #################################################################
 
-# to do: deloud and merge fragile/forky into "magic" // also deloud others below...
-
 magic := \
-shared/common/loud.c \
 shared/unstable/fragile.c \
 shared/unstable/forky.c
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic)
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only with fragile
+    bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magic)
+    bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magic)
+    bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magic)
+    delay~.class.sources := cyclone_src/binaries/signal/delay.c $(magic)
+    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magic)
+    minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magic)
+    poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magic)
+    matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(magic)
+    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magic)
+    gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magic)
+    selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magic)
+    kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magic)
+    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magic)
 
-sforky := \
-shared/unstable/forky.c
-    bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(sforky)
-    bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(sforky)
-    bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(sforky)
-    delay~.class.sources := cyclone_src/binaries/signal/delay.c $(sforky)
-    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(sforky)
-    minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(sforky)
-    poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(sforky)
-    matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(sforky)
-    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(sforky)
-    gate~.class.sources := cyclone_src/binaries/signal/gate.c $(sforky)
-    selector~.class.sources := cyclone_src/binaries/signal/selector.c $(sforky)
-    kink~.class.sources := cyclone_src/binaries/signal/kink.c $(sforky)
-    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(sforky)
+scybuf := shared/cybuf.c
+    buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
+    cycle~.class.sources := cyclone_src/binaries/signal/cycle.c $(scybuf)
+    lookup~.class.sources := cyclone_src/binaries/signal/lookup.c $(scybuf)
+    index~.class.sources := cyclone_src/binaries/signal/index.c $(scybuf)
+    peek~.class.sources := cyclone_src/binaries/signal/peek.c $(scybuf)
+    poke~.class.sources := cyclone_src/binaries/signal/poke.c $(scybuf)
+    record~.class.sources := cyclone_src/binaries/signal/record.c $(scybuf)
+    wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
+magicscybuff := \
+shared/unstable/forky.c \
+shared/cybuf.c
+    play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff)
 
 sgrow := \
 shared/common/grow.c \
@@ -340,26 +348,11 @@ shared/common/os.c \
 shared/unstable/forky.c
     capture~.class.sources := cyclone_src/binaries/signal/capture.c $(sfile)
 
-scybuf := shared/cybuf.c
-    buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
-    cycle~.class.sources := cyclone_src/binaries/signal/cycle.c $(scybuf)
-    lookup~.class.sources := cyclone_src/binaries/signal/lookup.c $(scybuf)
-    index~.class.sources := cyclone_src/binaries/signal/index.c $(scybuf)
-    peek~.class.sources := cyclone_src/binaries/signal/peek.c $(scybuf)
-    poke~.class.sources := cyclone_src/binaries/signal/poke.c $(scybuf) 
-    record~.class.sources := cyclone_src/binaries/signal/record.c $(scybuf)
-    wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
-
-scybufforky := \
-shared/unstable/forky.c \
-shared/cybuf.c
-    play~.class.sources := cyclone_src/binaries/signal/play.c $(scybufforky)
-
 # Cyclone sub-library: ################################################
 
-libforky := \
+libmagic := \
 shared/unstable/forky.c
-cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(libforky)
+    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(libmagic)
 
 ################## GUIs: ################################################
 
@@ -368,11 +361,11 @@ shared/common/loud.c \
 shared/unstable/forky.c
     comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
 
-sgrowforky := \
+sgrowfittermagic := \
 shared/common/grow.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
-    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)
+    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowfittermagic)
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##

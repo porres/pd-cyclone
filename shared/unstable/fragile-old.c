@@ -7,7 +7,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "unstable/fragile.h"
-// #include "common/loud.h"
+#include "common/loud.h"
 #include "unstable/pd_imp.h"
 
 /* this one rather belongs to fringe.c... */
@@ -57,8 +57,8 @@ void fragile_class_raise(t_symbol *cname, t_newmethod thiscall)
 		{
 		    t_methodentry auxmp;
 		    /* no linkage there, but anyway... */
-		   // loud_warning(0, 0, "%s is raising itself...",
-			//	 cname->s_name);
+		    loud_warning(0, 0, "%s is raising itself...",
+				 cname->s_name);
 		    memcpy(&auxmp, mp, sizeof(t_methodentry));
 		    memcpy(mp, topmp, sizeof(t_methodentry));
 		    memcpy(topmp, &auxmp, sizeof(t_methodentry));
@@ -70,7 +70,7 @@ void fragile_class_raise(t_symbol *cname, t_newmethod thiscall)
 	}
 	mp++;
     }
-    //loudbug_bug("fragile_class_raise");
+    loudbug_bug("fragile_class_raise");
 }
 
 t_pd *fragile_class_mutate(t_symbol *cname, t_newmethod thiscall,
@@ -81,7 +81,7 @@ t_pd *fragile_class_mutate(t_symbol *cname, t_newmethod thiscall,
     if (fn = fragile_class_getalien(cname, thiscall, &argtypes))
     {
 	t_pd *z;
-	//loud_warning(0, 0, "%s is mutating now...", cname->s_name);
+	loud_warning(0, 0, "%s is mutating now...", cname->s_name);
 	if (z = fragile_class_createobject(cname, fn, argtypes, ac, av))
 	{
 	    post("...succeeded");
@@ -205,7 +205,7 @@ t_pd *fragile_class_createobject(t_symbol *cname, t_newmethod callthis,
 		     ff[0], ff[1], ff[2], ff[3], ff[4]));
     }
 badarg:
-    //loud_error(0, "bad creation arguments for class '%s'", cname->s_name);
+    loud_error(0, "bad creation arguments for class '%s'", cname->s_name);
     return (0);
 }
 
@@ -301,8 +301,8 @@ t_object *fragile_outlet_destination(t_outlet *op,
 	    }
 	}
     }
-   if (booty)
-/*     {
+    if (booty)
+    {
 	if (count > 1 && caller)
 	    loud_warning(caller, 0, "multiple targets");
     }
@@ -314,7 +314,7 @@ t_object *fragile_outlet_destination(t_outlet *op,
 	    loud_error(caller, "no target");
 	if (errand)
 	    loud_errand(caller, errand);
-    } */
+    }
     return (booty);
 }
 
