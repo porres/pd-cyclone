@@ -88,9 +88,11 @@ cosh~.class.sources := cyclone_src/binaries/signal/cosh.c
 cosx~.class.sources := cyclone_src/binaries/signal/cosx.c
 count~.class.sources := cyclone_src/binaries/signal/count.c
 comb~.class.sources := cyclone_src/binaries/signal/comb.c
+# curve~.class.sources := cyclone_src/binaries/signal/curve.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
+line~.class.sources := cyclone_src/binaries/signal/line.c
 lores~.class.sources := cyclone_src/binaries/signal/lores.c
 maximum~.class.sources := cyclone_src/binaries/signal/maximum.c
 minimum~.class.sources := cyclone_src/binaries/signal/minimum.c
@@ -303,11 +305,11 @@ funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
 # to do: deloud and merge fragile/forky into "magic" // also deloud others below...
 
-sfragileforkyloud := \
+magic := \
 shared/common/loud.c \
 shared/unstable/fragile.c \
 shared/unstable/forky.c
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(sfragileforkyloud)
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic)
 
 sforky := \
 shared/unstable/forky.c
@@ -332,6 +334,7 @@ shared/common/loud.c
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
     line~.class.sources := cyclone_src/binaries/signal/line.c $(sgrow)
     curve~.class.sources := cyclone_src/binaries/signal/curve.c $(sgrow) 
+
 
 sfile := \
 shared/hammer/file.c \
@@ -366,16 +369,13 @@ cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(libforky)
 hforky := \
 shared/common/loud.c \
 shared/unstable/forky.c
-
-comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
+    comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
 
 sgrowforky := \
 shared/common/grow.c \
-shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
-
-scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)
+    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##

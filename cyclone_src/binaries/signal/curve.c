@@ -17,6 +17,7 @@
 // and add defaults for initial value and curve param.
 // also adding factor message that calls curve_factor (new method)
 
+
 //NOTE FOR CURVE_COEFS TRANSPLANTED FROM CLC.C
 
 
@@ -154,6 +155,46 @@ static void curve_cc(t_curve *x, t_curveseg *segp, float f)
     segp->s_nhops = (nhops > 0 ? nhops : 0);
     curve_coefs(segp->s_nhops, (double)f, &segp->s_bb, &segp->s_mm);
 }
+
+void clccurve_coefs(int nhops, double crv, double *bbp, double *mmp) // from clc
+{
+    if (nhops > 0)
+    {
+        double hh, ff, eff, gh;
+        if (crv < 0)
+        {
+            if (crv < -1.)
+                crv = -1.;
+            hh = pow(((CLCCURVE_C1 - crv) * CLCCURVE_C2), CLCCURVE_C3)
+            * CLCCURVE_C4;
+            ff = hh / (1. - hh);
+            eff = exp(ff) - 1.;
+            gh = (exp(ff * .5) - 1.) / eff;
+            *bbp = gh * (gh / (1. - (gh + gh)));
+            *mmp = 1. / (((exp(ff * (1. / (double)nhops)) - 1.) /
+                          (eff * *bbp)) + 1.);
+            *bbp += 1.;
+        }
+        else
+        {
+            if (crv > 1.)
+                crv = 1.;
+            hh = pow(((crv + CLCCURVE_C1) * CLCCURVE_C2), CLCCURVE_C3)
+            * CLCCURVE_C4;
+            ff = hh / (1. - hh);
+            eff = exp(ff) - 1.;
+            gh = (exp(ff * .5) - 1.) / eff;
+            *bbp = gh * (gh / (1. - (gh + gh)));
+            *mmp = ((exp(ff * (1. / (double)nhops)) - 1.) /
+                    (eff * *bbp)) + 1.;
+        }
+    }
+    else if (crv < 0)
+        *bbp = 2., *mmp = 1.;
+    else
+        *bbp = *mmp = 1.;
+}
+
 
 static void curve_tick(t_curve *x)
 {
@@ -314,7 +355,7 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     {
 	if (ap->a_type != A_FLOAT)
 	{
-	    loud_messarg((t_pd *)x, &s_list);  /* CHECKED */
+        pd_error(x, "curve~: list needs to only contain floats");
 	    return;  /* CHECKED */
 	}
     }
@@ -323,22 +364,6 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     odd = natoms % 3;
     nsegs = natoms / 3;
     if (odd) nsegs++;
-    /*
-    if (nsegs > x->x_size)
-        {
-        nsegs = CURVE_MAXSIZE;
-        int ns = nsegs;
-        x->x_segs = grow_nodata(&ns, &x->x_size, x->x_segs,
-				CURVE_MAXSIZE, x->x_segini,
-				sizeof(*x->x_segs));
-        if (ns < nsegs)
-            {
-            natoms = ns * 3;
-            nsegs = ns;
-            odd = 0;
-            }
-        }
-    */
     //clip at maxsize
     if(nsegs > CURVE_MAXSIZE)
     {
