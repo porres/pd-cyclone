@@ -88,6 +88,7 @@ cosh~.class.sources := cyclone_src/binaries/signal/cosh.c
 cosx~.class.sources := cyclone_src/binaries/signal/cosx.c
 count~.class.sources := cyclone_src/binaries/signal/count.c
 comb~.class.sources := cyclone_src/binaries/signal/comb.c
+curve~.class.sources := cyclone_src/binaries/signal/curve.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
@@ -332,10 +333,6 @@ shared/common/loud.c
     frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrow)
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
 
-clc := \
-shared/common/clc.c \
-    curve~.class.sources := cyclone_src/binaries/signal/curve.c $(clc) # only one with clc
-
 sfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
@@ -369,16 +366,14 @@ cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(libforky)
 hforky := \
 shared/common/loud.c \
 shared/unstable/forky.c
-
-comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
+    comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
 
 sgrowforky := \
 shared/common/grow.c \
 shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
-
-scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)
+    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##
