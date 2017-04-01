@@ -4,7 +4,7 @@
 
 #include "m_pd.h"
 #include "unstable/pd_imp.h"
-#include "unstable/fragile.h"
+#include "unstable/magic.h"
 
 /* LATER handle canvas grabbing (bypass) */
 /* LATER check self-grabbing */
@@ -70,17 +70,17 @@ static void grab_start(t_grab *x)
 		    if (ob = pd_checkobject(x->x_bindelem->e_who))
 		    {
 			x->x_tograbbed =
-			    fragile_outlet_connections(ob->ob_outlet);
+			    magic_outlet_connections(ob->ob_outlet);
 			return;
 		    }
 		    x->x_bindelem = x->x_bindelem->e_next;
 		}
 	    }
 	    else if (ob = pd_checkobject(proxy))
-		x->x_tograbbed = fragile_outlet_connections(ob->ob_outlet);
+		x->x_tograbbed = magic_outlet_connections(ob->ob_outlet);
 	}
     }
-    else x->x_tograbbed = fragile_outlet_connections(x->x_rightout);
+    else x->x_tograbbed = magic_outlet_connections(x->x_rightout);
 }
 
 static t_pd *grab_next(t_grab *x)
@@ -90,7 +90,7 @@ nextremote:
     {
 	int inno;
 	x->x_tograbbed =
-	    fragile_outlet_nextconnection(x->x_tograbbed, &x->x_grabbed, &inno);
+	    magic_outlet_nextconnection(x->x_tograbbed, &x->x_grabbed, &inno);
 	if (x->x_grabbed)
 	{
 	    if (inno)
@@ -123,7 +123,7 @@ nextremote:
 	t_object *ob;
 	if (ob = pd_checkobject(x->x_bindelem->e_who))
 	{
-	    x->x_tograbbed = fragile_outlet_connections(ob->ob_outlet);
+	    x->x_tograbbed = magic_outlet_connections(ob->ob_outlet);
 	    goto nextremote;
 	}
     }

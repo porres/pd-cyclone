@@ -165,7 +165,7 @@ shared/common/loud.c \
 shared/common/fitter.c
 
 hmagic := \
-shared/unstable/fragile.c
+shared/unstable/magic.c
 
 hgrow := \
 shared/common/grow.c \
@@ -301,9 +301,9 @@ grab.class.sources := cyclone_src/binaries/control/grab.c $(hmagic)
 # Signal classes: #################################################################
 
 smagic := \
-shared/unstable/fragile.c \
+shared/unstable/magic.c \
 shared/unstable/forky.c
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(smagic) # only with fragile
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(smagic) # only with 'fragile'/magic'
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(smagic)
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(smagic)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(smagic)

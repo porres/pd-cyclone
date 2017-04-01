@@ -6,22 +6,22 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "unstable/fragile.h"
+#include "unstable/magic.h"
 // #include "common/loud.h"
 #include "unstable/pd_imp.h"
 
 /* this one rather belongs to fringe.c... */
-t_symbol *fragile_class_getexterndir(t_class *c)
+t_symbol *magic_class_getexterndir(t_class *c)
 {
     return (c->c_externdir);
 }
 
-int fragile_class_count(void)
+int magic_class_count(void)
 {
     return (pd_objectmaker->c_nmethod);
 }
 
-int fragile_class_getnames(t_atom *av, int maxnames)
+int magic_class_getnames(t_atom *av, int maxnames)
 {
     int ac = pd_objectmaker->c_nmethod;
     t_methodentry *mp = pd_objectmaker->c_methods;
@@ -43,7 +43,7 @@ int fragile_class_getnames(t_atom *av, int maxnames)
    has only one visibility stack.  Until this is changed, abstraction scope
    will involve some kind of a hack for overriding global visibility stack. */
 
-void fragile_class_raise(t_symbol *cname, t_newmethod thiscall)
+void magic_class_raise(t_symbol *cname, t_newmethod thiscall)
 {
     t_methodentry *mp = pd_objectmaker->c_methods, *topmp = 0;
     int count = pd_objectmaker->c_nmethod;
@@ -70,19 +70,19 @@ void fragile_class_raise(t_symbol *cname, t_newmethod thiscall)
 	}
 	mp++;
     }
-    //loudbug_bug("fragile_class_raise");
+    //loudbug_bug("magic_class_raise");
 }
 
-t_pd *fragile_class_mutate(t_symbol *cname, t_newmethod thiscall,
+t_pd *magic_class_mutate(t_symbol *cname, t_newmethod thiscall,
 			   int ac, t_atom *av)
 {
     t_newmethod fn;
     t_atomtype *argtypes;
-    if (fn = fragile_class_getalien(cname, thiscall, &argtypes))
+    if (fn = magic_class_getalien(cname, thiscall, &argtypes))
     {
 	t_pd *z;
 	//loud_warning(0, 0, "%s is mutating now...", cname->s_name);
-	if (z = fragile_class_createobject(cname, fn, argtypes, ac, av))
+	if (z = magic_class_createobject(cname, fn, argtypes, ac, av))
 	{
 	    post("...succeeded");
 	    return (z);
@@ -92,7 +92,7 @@ t_pd *fragile_class_mutate(t_symbol *cname, t_newmethod thiscall,
     return (0);
 }
 
-t_newmethod fragile_class_getalien(t_symbol *cname, t_newmethod thiscall,
+t_newmethod magic_class_getalien(t_symbol *cname, t_newmethod thiscall,
 				   t_atomtype **argtypesp)
 {
     t_methodentry *mp = pd_objectmaker->c_methods;
@@ -134,7 +134,7 @@ typedef t_pd *(*t_new6)(
     t_symbol*, t_symbol*, t_symbol*, t_symbol*, t_symbol*, t_symbol*,
     t_floatarg, t_floatarg, t_floatarg, t_floatarg, t_floatarg);
 
-t_pd *fragile_class_createobject(t_symbol *cname, t_newmethod callthis,
+t_pd *magic_class_createobject(t_symbol *cname, t_newmethod callthis,
 				 t_atomtype *argtypes, int ac, t_atom *av)
 {
     t_floatarg ff[MAXPDARG+1], *fp = ff;
@@ -209,7 +209,7 @@ badarg:
     return (0);
 }
 
-void fragile_class_printnames(char *msg, int firstndx, int lastndx)
+void magic_class_printnames(char *msg, int firstndx, int lastndx)
 {
     t_methodentry *mp = pd_objectmaker->c_methods;
     int ndx, len = strlen(msg);
@@ -241,7 +241,7 @@ struct _garray
     /* ... */
 };
 
-t_glist *fragile_garray_glist(void *arr)
+t_glist *magic_garray_glist(void *arr)
 {
     return (((struct _garray *)arr)->x_glist);
 }
@@ -258,12 +258,12 @@ struct _outlet
 };
 
 /* obj_starttraverseoutlet() replacement */
-t_outconnect *fragile_outlet_connections(t_outlet *o)
+t_outconnect *magic_outlet_connections(t_outlet *o)
 {
     return (o ? o->o_connections : 0);
 }
 
-t_outconnect *fragile_outlet_nextconnection(t_outconnect *last,
+t_outconnect *magic_outlet_nextconnection(t_outconnect *last,
 					    t_object **destp, int *innop)
 {
     t_inlet *dummy;
@@ -271,20 +271,20 @@ t_outconnect *fragile_outlet_nextconnection(t_outconnect *last,
 }
 
 /* silent, if caller is empty */
-t_object *fragile_outlet_destination(t_outlet *op,
+t_object *magic_outlet_destination(t_outlet *op,
 				     int ntypes, t_symbol **types,
 				     t_pd *caller, char *errand)
 {
     t_object *booty = 0;
     t_symbol *badtype = 0;
     int count = 0;
-    t_outconnect *tobooty = fragile_outlet_connections(op);
+    t_outconnect *tobooty = magic_outlet_connections(op);
     while (tobooty)
     {
 	t_object *ob;
 	int inno;
 	count++;
-	tobooty = fragile_outlet_nextconnection(tobooty, &ob, &inno);
+	tobooty = magic_outlet_nextconnection(tobooty, &ob, &inno);
 	if (ob && inno == 0)
 	{
 	    /* LATER ask for class_getname()'s symbol version */
@@ -339,7 +339,7 @@ struct _inlet
 };
 
 /* simplified obj_findsignalscalar(), works for non-left inlets */
-t_sample *fragile_inlet_signalscalar(t_inlet *i)
+t_sample *magic_inlet_signalscalar(t_inlet *i)
 {
     return (&i->i_un.iu_floatsignalvalue);
 }

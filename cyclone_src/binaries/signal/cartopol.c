@@ -4,7 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "unstable/fragile.h"
+#include "unstable/magic.h"
 #include "unstable/forky.h"
 
 typedef struct _cartopol
@@ -108,7 +108,7 @@ static void cartopol_dsp(t_cartopol *x, t_signal **sp)
     x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
 
     if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
-        {if (fragile_outlet_connections(x->x_out2))
+        {if (magic_outlet_connections(x->x_out2))
         dsp_add(cartopol_perform, 6, x, sp[0]->s_n, sp[0]->s_vec,
                 sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
         else
