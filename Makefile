@@ -88,7 +88,7 @@ cosh~.class.sources := cyclone_src/binaries/signal/cosh.c
 cosx~.class.sources := cyclone_src/binaries/signal/cosx.c
 count~.class.sources := cyclone_src/binaries/signal/count.c
 comb~.class.sources := cyclone_src/binaries/signal/comb.c
-# curve~.class.sources := cyclone_src/binaries/signal/curve.c
+curve~.class.sources := cyclone_src/binaries/signal/curve.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
@@ -332,9 +332,6 @@ shared/common/grow.c \
 shared/common/loud.c
     frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrow)
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
-    line~.class.sources := cyclone_src/binaries/signal/line.c $(sgrow)
-    curve~.class.sources := cyclone_src/binaries/signal/curve.c $(sgrow) 
-
 
 sfile := \
 shared/hammer/file.c \

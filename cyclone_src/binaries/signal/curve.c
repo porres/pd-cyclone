@@ -4,9 +4,6 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "common/grow.h"
-#include "common/loud.h"
-
 
 /* CHECKED apparently c74's formula has not been carefully tuned (yet?).
    It has 5% deviation from the straight line for ccinput = 0 at half-domain,
@@ -107,7 +104,6 @@ static t_class *curve_class;
 static double curve_coef;
 
 
-
 static void curve_coefs(int nhops, double crv, double *bbp, double *mmp)
 {
     if (nhops > 0)
@@ -154,45 +150,6 @@ static void curve_cc(t_curve *x, t_curveseg *segp, float f)
     segp->s_ccinput = f;
     segp->s_nhops = (nhops > 0 ? nhops : 0);
     curve_coefs(segp->s_nhops, (double)f, &segp->s_bb, &segp->s_mm);
-}
-
-void clccurve_coefs(int nhops, double crv, double *bbp, double *mmp) // from clc
-{
-    if (nhops > 0)
-    {
-        double hh, ff, eff, gh;
-        if (crv < 0)
-        {
-            if (crv < -1.)
-                crv = -1.;
-            hh = pow(((CLCCURVE_C1 - crv) * CLCCURVE_C2), CLCCURVE_C3)
-            * CLCCURVE_C4;
-            ff = hh / (1. - hh);
-            eff = exp(ff) - 1.;
-            gh = (exp(ff * .5) - 1.) / eff;
-            *bbp = gh * (gh / (1. - (gh + gh)));
-            *mmp = 1. / (((exp(ff * (1. / (double)nhops)) - 1.) /
-                          (eff * *bbp)) + 1.);
-            *bbp += 1.;
-        }
-        else
-        {
-            if (crv > 1.)
-                crv = 1.;
-            hh = pow(((crv + CLCCURVE_C1) * CLCCURVE_C2), CLCCURVE_C3)
-            * CLCCURVE_C4;
-            ff = hh / (1. - hh);
-            eff = exp(ff) - 1.;
-            gh = (exp(ff * .5) - 1.) / eff;
-            *bbp = gh * (gh / (1. - (gh + gh)));
-            *mmp = ((exp(ff * (1. / (double)nhops)) - 1.) /
-                    (eff * *bbp)) + 1.;
-        }
-    }
-    else if (crv < 0)
-        *bbp = 2., *mmp = 1.;
-    else
-        *bbp = *mmp = 1.;
 }
 
 
