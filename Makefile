@@ -164,7 +164,7 @@ hfitter := \
 shared/common/loud.c \
 shared/common/fitter.c
 
-hfragile := \
+hmagic := \
 shared/unstable/fragile.c
 
 hgrow := \
@@ -296,27 +296,27 @@ offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
 funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
-grab.class.sources := cyclone_src/binaries/control/grab.c $(hfragile)
+grab.class.sources := cyclone_src/binaries/control/grab.c $(hmagic)
 
 # Signal classes: #################################################################
 
-magic := \
+smagic := \
 shared/unstable/fragile.c \
 shared/unstable/forky.c
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only with fragile
-    bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magic)
-    bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magic)
-    bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magic)
-    delay~.class.sources := cyclone_src/binaries/signal/delay.c $(magic)
-    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magic)
-    minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magic)
-    poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magic)
-    matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(magic)
-    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magic)
-    gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magic)
-    selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magic)
-    kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magic)
-    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magic)
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(smagic) # only with fragile
+    bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(smagic)
+    bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(smagic)
+    bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(smagic)
+    delay~.class.sources := cyclone_src/binaries/signal/delay.c $(smagic)
+    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(smagic)
+    minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(smagic)
+    poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(smagic)
+    matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(smagic)
+    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(smagic)
+    gate~.class.sources := cyclone_src/binaries/signal/gate.c $(smagic)
+    selector~.class.sources := cyclone_src/binaries/signal/selector.c $(smagic)
+    kink~.class.sources := cyclone_src/binaries/signal/kink.c $(smagic)
+    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(smagic)
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
