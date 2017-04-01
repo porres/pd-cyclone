@@ -4,7 +4,6 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/clc.h"
 
 /* CHECKED apparently c74's formula has not been carefully tuned (yet?).
@@ -226,7 +225,7 @@ static void curve_list(t_curve *x, t_symbol *s, int ac, t_atom *av)
     {
 	if (ap->a_type != A_FLOAT)
 	{
-	    loud_messarg((t_pd *)x, &s_list);  /* CHECKED */
+        pd_error(x, "curve~: list needs to only contain floats");
 	    return;  /* CHECKED */
 	}
     }

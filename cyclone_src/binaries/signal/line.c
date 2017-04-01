@@ -4,8 +4,7 @@
 
 // Added code for the stop, pause and resume messages, fjkraan, 2014-12-02 (alpha57)
 
-#include "m_pd.h"
-#include "common/loud.h"
+#include "m_pd.h"'
 
 #define LINE_MAX_SIZE  128
 
@@ -171,10 +170,10 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     for (natoms = 0, ap = av; natoms < ac; natoms++, ap++)
     {
 	if (ap->a_type != A_FLOAT)
-	{
-	    loud_messarg((t_pd *)x, &s_list);  /* CHECKED */
-	    return;  /* CHECKED */
-	}
+        {
+            pd_error(x, "line~: list needs to only contain floats");
+            return;
+        }
     }
     if (!natoms)
 	return;  /* CHECKED */

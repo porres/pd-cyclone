@@ -91,6 +91,7 @@ comb~.class.sources := cyclone_src/binaries/signal/comb.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
+line~.class.sources := cyclone_src/binaries/signal/line.c
 lores~.class.sources := cyclone_src/binaries/signal/lores.c
 maximum~.class.sources := cyclone_src/binaries/signal/maximum.c
 minimum~.class.sources := cyclone_src/binaries/signal/minimum.c
@@ -333,8 +334,6 @@ shared/common/loud.c
 
 clc := \
 shared/common/clc.c \
-shared/common/loud.c
-    line~.class.sources := cyclone_src/binaries/signal/line.c $(clc) # needs to deloud, only
     curve~.class.sources := cyclone_src/binaries/signal/curve.c $(clc) # only one with clc
 
 sfile := \
