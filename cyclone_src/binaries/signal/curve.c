@@ -6,7 +6,7 @@
 #include "m_pd.h"
 #include "common/grow.h"
 #include "common/loud.h"
-#include "common/clc.h"
+
 
 /* CHECKED apparently c74's formula has not been carefully tuned (yet?).
    It has 5% deviation from the straight line for ccinput = 0 at half-domain,
@@ -16,6 +16,51 @@
 // updated 2016 by Derek Kwan to change arg specification to A_GIMME
 // and add defaults for initial value and curve param.
 // also adding factor message that calls curve_factor (new method)
+
+//NOTE FOR CURVE_COEFS TRANSPLANTED FROM CLC.C
+
+
+/* Problem:  find a function f : p -> q (where p is user's curve control
+   parameter, q is log factor) such that the curves will bend in
+   a semi-linear way over the p's range of 0..1.  The curve function is
+   then g(x, p) = (exp(f(p) * x) - 1) / (exp(f(p)) - 1), where x is
+   curve's domain.  If, for example, the points g(0.5, p) are to make
+   a semi-linear pattern, then the solution is a function f that minimizes
+   the integral of the error function e(p) = sqr(((1-p)/2)-g(.5, p))
+   over 0..1.  Until someone does this analytically, we are left with
+   a lame formula, which has been tweaked and tested in gnuplot:
+   f(p) = h(p) / (1 - h(p)), where h(p) = (((p + 1e-20) * 1.2) ** .41) * .91.
+   The file curve.gp, in the sickle's source directory, may come handy,
+   in case there is anyone, who fancy tweaking it even further.
+
+   To implement this, start from these equations:
+     nhops = npoints - 1
+     bb * mm ^ nhops = bb + 1
+     (bb ^ 2) * (mm ^ nhops) = ((exp(ff/2) - 1) / (exp(ff) - 1)) ^ 2
+
+   and calculate:
+     hh = pow(((p + c1) * c2), c3) * c4
+     ff = hh / (1 - hh)
+     eff = exp(ff) - 1
+     gh = (exp(ff * .5) - 1) / eff
+     bb = gh * (gh / (1 - (gh + gh)))
+     mm = ((exp(ff * (1/nhops)) - 1) / (eff * bb)) + 1
+
+   The loop is:
+     for (vv = bb, i = 0; i <= nhops; vv *= mm, i++)
+         result = (vv - bb) * (y1 - y0) + y0
+   where y0, y1 are start and destination values
+
+   This formula generates curves with < .000004% deviation from the straight
+   line for p = 0 at half-domain, range 1.  There are no nans for -1 <= p <= 1.
+*/
+
+
+//definitions for curve-coefs
+#define CURVE_C1   1e-20
+#define CURVE_C2   1.2
+#define CURVE_C3   0.41
+#define CURVE_C4   0.91
 
 #define PDCYCURVEINITVAL 0.
 #define PDCYCURVEPARAM 0.
@@ -60,12 +105,54 @@ typedef struct _curve
 static t_class *curve_class;
 static double curve_coef;
 
+
+
+static void curve_coefs(int nhops, double crv, double *bbp, double *mmp)
+{
+    if (nhops > 0)
+    {
+	double hh, ff, eff, gh;
+	if (crv < 0)
+	{
+	    if (crv < -1.)
+		crv = -1.;
+	    hh = pow(((CURVE_C1 - crv) * CURVE_C2), CURVE_C3)
+		* CURVE_C4;
+	    ff = hh / (1. - hh);
+	    eff = exp(ff) - 1.;
+	    gh = (exp(ff * .5) - 1.) / eff;
+	    *bbp = gh * (gh / (1. - (gh + gh)));
+	    *mmp = 1. / (((exp(ff * (1. / (double)nhops)) - 1.) /
+			  (eff * *bbp)) + 1.);
+	    *bbp += 1.;
+	}
+	else
+	{
+	    if (crv > 1.)
+		crv = 1.;
+	    hh = pow(((crv + CURVE_C1) * CURVE_C2), CURVE_C3)
+		* CURVE_C4;
+	    ff = hh / (1. - hh);
+	    eff = exp(ff) - 1.;
+	    gh = (exp(ff * .5) - 1.) / eff;
+	    *bbp = gh * (gh / (1. - (gh + gh)));
+	    *mmp = ((exp(ff * (1. / (double)nhops)) - 1.) /
+		    (eff * *bbp)) + 1.;
+	}
+    }
+    else if (crv < 0)
+	*bbp = 2., *mmp = 1.;
+    else
+	*bbp = *mmp = 1.;
+}
+
+
 static void curve_cc(t_curve *x, t_curveseg *segp, float f)
 {
     int nhops = segp->s_delta * x->x_ksr + 0.5;  /* LATER rethink */
     segp->s_ccinput = f;
     segp->s_nhops = (nhops > 0 ? nhops : 0);
-    clccurve_coefs(segp->s_nhops, (double)f, &segp->s_bb, &segp->s_mm);
+    curve_coefs(segp->s_nhops, (double)f, &segp->s_bb, &segp->s_mm);
 }
 
 static void curve_tick(t_curve *x)

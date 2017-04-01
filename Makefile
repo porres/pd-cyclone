@@ -325,14 +325,13 @@ shared/unstable/forky.c
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(sforky)
     vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(sforky)
 
-sgrowclc := \
+sgrow := \
 shared/common/grow.c \
-shared/common/clc.c \
 shared/common/loud.c
-    frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrowclc)
-    framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrowclc)
-    line~.class.sources := cyclone_src/binaries/signal/line.c $(sgrowclc)
-    curve~.class.sources := cyclone_src/binaries/signal/curve.c $(sgrowclc) # only one with clc (agrouped here)
+    frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrow)
+    framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
+    line~.class.sources := cyclone_src/binaries/signal/line.c $(sgrow)
+    curve~.class.sources := cyclone_src/binaries/signal/curve.c $(sgrow) 
 
 sfile := \
 shared/hammer/file.c \
