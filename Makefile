@@ -88,7 +88,7 @@ cosh~.class.sources := cyclone_src/binaries/signal/cosh.c
 cosx~.class.sources := cyclone_src/binaries/signal/cosx.c
 count~.class.sources := cyclone_src/binaries/signal/count.c
 comb~.class.sources := cyclone_src/binaries/signal/comb.c
-curve~.class.sources := cyclone_src/binaries/signal/curve.c
+# curve~.class.sources := cyclone_src/binaries/signal/curve.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
@@ -305,11 +305,11 @@ funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
 # to do: deloud and merge fragile/forky into "magic" // also deloud others below...
 
-sfragileforkyloud := \
+magic := \
 shared/common/loud.c \
 shared/unstable/fragile.c \
 shared/unstable/forky.c
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(sfragileforkyloud)
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic)
 
 sforky := \
 shared/unstable/forky.c
@@ -370,7 +370,6 @@ shared/unstable/forky.c
 
 sgrowforky := \
 shared/common/grow.c \
-shared/common/loud.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
     scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowforky)

@@ -10,16 +10,16 @@
    One way or the other, the traffic from the gui layer should be kept possibly
    low, at least in run-mode. */
 
-// 2016 = Porres cleaned "sickle/sic" old dependency
-
 /* 2016 = haven't finished cleaning out old dependencies
  (common/grow, common/loud, common/fitter, unstable/forky)
-but methods (bufsize, period/calccount, range, delay, trigger, triglevel, frgb, brgb)
-for setting attributes are rewritten, as well as attr declaration. 
-Have written the color version of the colorsetting methods that take vals 0-1
-instead of 0-255
-- Derek Kwan
-*/
+ but methods (bufsize, period/calccount, range, delay, trigger, triglevel, frgb, brgb)
+ for setting attributes are rewritten, as well as attr declaration.
+ Have written the color version of the colorsetting methods that take vals 0-1
+ instead of 0-255
+ - Derek Kwan
+ */
+
+// 2017 = Porres cleaned "sickle/sic & loud" old dependency
 
 #include <math.h>
 #include <stdio.h>
@@ -28,11 +28,9 @@ instead of 0-255
 #include "m_imp.h"
 #include "g_canvas.h"
 #include "g_all_guis.h"
-#include "common/loud.h"
 #include "common/grow.h"
 #include "common/fitter.h"
 #include "unstable/forky.h"
-
 
 #ifdef KRZYSZCZ
 //#define SCOPE_DEBUG
@@ -379,7 +377,7 @@ static t_canvas *scope_getcanvas(t_scope *x, t_glist *glist)
 {
     if (glist != x->x_glist)
     {
-	loudbug_bug("scope_getcanvas");
+    pd_error(x, "scope~: list needs to only contain floats");
 	x->x_glist = glist;
     }
     return (x->x_canvas = glist_getcanvas(glist));
@@ -1331,20 +1329,8 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     char hbuf[64];
     x->x_glist = canvas_getcurrent();
     x->x_canvas = 0;
-	/*
-    loud_floatarg(*(t_pd *)x, 0, ac, av, &width,
-		  SCOPE_MINWIDTH, 0,
-		  LOUD_CLIP | LOUD_WARN, 0, "width");
-    x->x_width = (int)width;
-    loud_floatarg(*(t_pd *)x, 1, ac, av, &height,
-		  SCOPE_MINHEIGHT, 0,
-		  LOUD_CLIP | LOUD_WARN, 0, "height");
-    x->x_height = (int)height;
-	*/
-	//x->x_allocsize = 0;
 	x->x_allocsize =  (int) SCOPE_DEFBUFSIZE;
     x->x_bufsize = 0;
-
 
 	//int pastargs = 0;
 	int argnum = 0;
