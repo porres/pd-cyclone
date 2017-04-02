@@ -56,7 +56,7 @@ static t_int *bitxor_perform(t_int *w)
             left.if_float = *in1++;
             right.if_float = *in2++;
             result.if_int32 = left.if_int32 ^ right.if_int32;
-            if (FORKY_ISDENORM(result.if_float))
+            if (BITWISE_ISDENORM(result.if_float))
                 *out++ = 0;
             else
                 *out++ = result.if_float;
@@ -72,7 +72,7 @@ static t_int *bitxor_perform(t_int *w)
         {
             left.if_float = *in1++;
             result.if_int32 = left.if_int32 ^ ((int32_t)*in2++);
-            if (FORKY_ISDENORM(result.if_float))
+            if (BITWISE_ISDENORM(result.if_float))
                 *out++ = 0;
             else
                 *out++ = result.if_float;
@@ -111,7 +111,7 @@ static t_int *bitxor_perform_noin2(t_int *w)
     {
         left.if_float = *in++;
         result.if_int32 = left.if_int32 ^ mask;
-        if (FORKY_ISDENORM(result.if_float))
+        if (BITWISE_ISDENORM(result.if_float))
             *out++ = 0;
         else
             *out++ = result.if_float;
@@ -131,7 +131,7 @@ static void bitxor_dsp(t_bitxor *x, t_signal **sp)
 
 static void bitxor_bits(t_bitxor *x, t_symbol *s, int ac, t_atom *av)
 {
-    x->x_mask = forky_getbitmask(ac, av);
+    x->x_mask = bitwise_getbitmask(ac, av);
     pd_float(x->x_rightinlet, NAN);
 }
 

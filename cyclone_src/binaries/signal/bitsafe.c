@@ -2,7 +2,7 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "bitwise.h"
 
 typedef struct _bitsafe {
     t_object x_obj;
@@ -24,7 +24,7 @@ static t_int *bitsafe_perform(t_int *w)
     while (nblock--)
     {
         float f = *in++;
-        if(isnan(f) || isinf(f) || FORKY_ISDENORM(f)) f = 0;
+        if(isnan(f) || isinf(f) || BITWISE_ISDENORM(f)) f = 0;
         *out++ = f;
     }
     return (w + 4);

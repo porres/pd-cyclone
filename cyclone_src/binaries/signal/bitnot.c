@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "bitwise.h"
 
 union i32_fl {
 	int32_t if_int32;
@@ -41,7 +41,7 @@ static t_int * bitnot_perform(t_int *w)
     {
     	result.if_float = *in++;
         result.if_int32 = ~result.if_int32;
-        if (FORKY_ISDENORM(result.if_float))
+        if (BITWISE_ISDENORM(result.if_float))
         	*out++ = 0;
         else
         	*out++ = result.if_float;

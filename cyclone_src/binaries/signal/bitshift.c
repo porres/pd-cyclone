@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "bitwise.h"
 
 static t_class *bitshift_class;
 
@@ -45,7 +45,7 @@ static t_int * bitshift_perform(t_int *w)
         {
         	result.if_float = *in++;
         	result.if_int32 = result.if_int32 << shift;
-            if (FORKY_ISDENORM(result.if_float))
+            if (BITWISE_ISDENORM(result.if_float))
         		*out++ = 0;
        		else
         		*out++ = result.if_float;
@@ -63,7 +63,7 @@ static t_int * bitshift_perform(t_int *w)
         {
             result.if_float = *in++;
         	result.if_int32 = result.if_int32 >> shift;
-            if (FORKY_ISDENORM(result.if_float))
+            if (BITWISE_ISDENORM(result.if_float))
         		*out++ = 0;
        		else
         		*out++ = result.if_float;
