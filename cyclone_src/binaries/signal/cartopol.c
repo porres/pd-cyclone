@@ -5,7 +5,6 @@
 #include <math.h>
 #include "m_pd.h"
 #include "unstable/magic.h"
-#include "unstable/forky.h"
 
 typedef struct _cartopol
 {
@@ -45,7 +44,7 @@ static t_int *cartopol_perform(t_int *w)
         
         // MAGIC
         if (x->x_hasfeeders) im = *in2++;
-        else im = 0.0;
+        else re = im = 0.0;
         
         *out1++ = hypotf(re, im);
         *out2++ = atan2f(im, re);
@@ -75,7 +74,7 @@ static t_int *cartopol_perform_nophase(t_int *w)
         
         // MAGIC
         if (x->x_hasfeeders) im = *in2++;
-        else im = 0.0;
+        else re = im = 0.0;
         
         *out1++ = hypotf(re, im);
     }
@@ -105,9 +104,9 @@ static t_int *cartopol_perform_no_in(t_int *w)
 static void cartopol_dsp(t_cartopol *x, t_signal **sp)
 {
     // MAGIC
-    x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+    x->x_hasfeeders = magic_feeders((t_object *)x, x->x_glist, 1, &s_signal);
 
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
+    if (magic_feeders((t_object *)x, x->x_glist, 0, &s_signal))
         {if (magic_outlet_connections(x->x_out2))
         dsp_add(cartopol_perform, 6, x, sp[0]->s_n, sp[0]->s_vec,
                 sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
