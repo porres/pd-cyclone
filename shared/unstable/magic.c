@@ -1,9 +1,9 @@
 // from old fragile (bits and pieces likely to break with any new Pd version.)
 
-#include <string.h>
 #include "m_pd.h"
 #include "unstable/magic.h"
-#include "unstable/pd_imp.h"
+#include "unstable/pd_imp.h" // needed?
+#include <string.h> // needed?
 
 struct _outlet // local to m_obj.c.
 {
