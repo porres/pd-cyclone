@@ -5,11 +5,9 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/grow.h"
 
 #define FRAMEACCUM_INISIZE  512
-#define FRAMEACCUM_NOWRAP   0.f
 #define TWO_PI              (M_PI * 2.)
 
 typedef struct _frameaccum
@@ -68,23 +66,17 @@ static void frameaccum_free(t_frameaccum *x)
 	freebytes(x->x_frame, x->x_size * sizeof(*x->x_frame));
 }
 
-static void *frameaccum_new(t_symbol *s, int ac, t_atom *av)
+static void *frameaccum_new(t_floatarg f)
 {
     t_frameaccum *x = (t_frameaccum *)pd_new(frameaccum_class);
+    x->x_wrapFlag = f != 0;
     int size;
-    t_float wrapFlag = FRAMEACCUM_NOWRAP;
     x->x_size = FRAMEACCUM_INISIZE;
     x->x_frame = x->x_frameini;
     if ((size = sys_getblksize()) > FRAMEACCUM_INISIZE)
 	x->x_frame = grow_nodata(&size, &x->x_size, x->x_frame,
 				 FRAMEACCUM_INISIZE, x->x_frameini,
 				 sizeof(*x->x_frame));
-                                 
-    loud_floatarg(*(t_pd *)x, 0, ac, av, &wrapFlag, 0.f, 1.f, 
-        LOUD_CLIP | LOUD_WARN | LOUD_ARGUNDER, 
-        LOUD_CLIP | LOUD_WARN | LOUD_ARGOVER, "wrapFlag");
-        
-    x->x_wrapFlag = (wrapFlag) ? 1 : 0;
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }
@@ -94,7 +86,7 @@ void frameaccum_tilde_setup(void)
     frameaccum_class = class_new(gensym("frameaccum~"),
 				 (t_newmethod)frameaccum_new,
 				 (t_method)frameaccum_free,
-				 sizeof(t_frameaccum), 0, A_GIMME, 0);
+				 sizeof(t_frameaccum), 0, A_DEFFLOAT, 0);
     class_addmethod(frameaccum_class, nullfn, gensym("signal"), 0);
     class_addmethod(frameaccum_class, (t_method) frameaccum_dsp, gensym("dsp"), A_CANT, 0);
 }

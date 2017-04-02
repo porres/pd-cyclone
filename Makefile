@@ -298,7 +298,6 @@ funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
 sgrow := \
 shared/common/grow.c \
-shared/common/loud.c
     frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrow)
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
 
