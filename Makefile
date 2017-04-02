@@ -315,11 +315,10 @@ shared/common/loud.c \
 shared/unstable/forky.c
     comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
 
-sgrowfittermagic := \
-shared/common/grow.c \
+sfittermagic := \
 shared/common/fitter.c \
 shared/unstable/forky.c
-    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sgrowfittermagic)
+    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
 
 # New Dependencies: #################################################################
 
@@ -341,7 +340,7 @@ shared/unstable/forky.c
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magic)
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magic)
     vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magic)
-    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magic) # sub -library
+    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magic) # cyclone sub-library
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)

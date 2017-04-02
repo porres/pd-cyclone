@@ -28,7 +28,6 @@
 #include "m_imp.h"
 #include "g_canvas.h"
 #include "g_all_guis.h"
-#include "common/grow.h"
 #include "common/fitter.h"
 #include "unstable/forky.h"
 
