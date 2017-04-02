@@ -5,6 +5,7 @@
 #include <math.h>
 #include "m_pd.h"
 #include "unstable/forky.h"
+#include "magic.h"
 
 EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
@@ -113,7 +114,7 @@ static t_int *bitand_perform_noin2(t_int *w)
 
 static void bitand_dsp(t_bitand *x, t_signal **sp)
 {
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal))
+    if (magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal))
 	dsp_add(bitand_perform, 5, x, // use mask from 2nd input signal
         sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
     else  // use mask set by 'bits' message or argument

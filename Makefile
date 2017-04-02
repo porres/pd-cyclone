@@ -326,22 +326,22 @@ shared/unstable/forky.c
 magic := \
 shared/magic.c \
 shared/unstable/forky.c
-    grab.class.sources := cyclone_src/binaries/control/grab.c $(magic) # only fragile (ok)
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only one with fragile + forky (ok)
+    grab.class.sources := cyclone_src/binaries/control/grab.c $(magic) # only "fragile"
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only one "fragile" + "forky"
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magic)
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magic)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magic)
     delay~.class.sources := cyclone_src/binaries/signal/delay.c $(magic)
-    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magic) # ok
+    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magic)
     minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magic)
-poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magic) #
+    poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magic)
     matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(magic)
-    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magic) # ok
+    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magic)
     gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magic)
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magic)
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magic)
     vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magic) # not yet
-    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magic) # cyclone sub-library (ok)
+    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magic) # cyclone sub-library
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
@@ -355,7 +355,7 @@ scybuf := shared/cybuf.c
 magicscybuff := \
 shared/magic.c \
 shared/cybuf.c
-    play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff) # ok
+    play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff)
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##

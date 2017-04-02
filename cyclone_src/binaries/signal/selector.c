@@ -1,7 +1,7 @@
 // Derek Kwan - 2016
 
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "magic.h"
 #include <math.h>
 
 #define PDCYSELTORSIGPUT 1 //default number of sigputs (inlets without selector inlet)
@@ -75,7 +75,7 @@ static void selector_dsp(t_selector *x, t_signal **sp)
     for (i = 0; i < x->x_sigputs; i++){ //now for the sigputs
 		*(x->x_ivecs+i) = (*sigp++)->s_vec;
 		*(x->x_signalscalars[i]) = NAN;
-		x->x_hasfeeders[i] = forky_hasfeeders((t_object *)x, x->x_glist, i+1, &s_signal);
+		x->x_hasfeeders[i] = magic_inlet_connection((t_object *)x, x->x_glist, i+1, &s_signal);
 	};
 	x->x_ovec = (*sigp++)->s_vec; //now for the outlet
 	dsp_add(selector_perform, 2, x, nblock);

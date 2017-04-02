@@ -10,7 +10,7 @@
    UPDATE 02/17 - used the "magic trick" to fix this -- MB */
 
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "magic.h"
 
 static t_class *kink_class;
 
@@ -68,7 +68,7 @@ static t_int *kink_perform(t_int *w)
 
 static void kink_dsp(t_kink *x, t_signal **sp)
 {
-	x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+	x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
     dsp_add(kink_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }

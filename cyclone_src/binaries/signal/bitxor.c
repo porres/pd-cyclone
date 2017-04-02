@@ -8,6 +8,7 @@
 #include <math.h>
 #include "m_pd.h"
 #include "unstable/forky.h"
+#include "magic.h"
 
 #define PDCYBXORMASK 0 //default for bitmask
 #define PDCYBXORMODE 0 //default for mode
@@ -120,7 +121,7 @@ static t_int *bitxor_perform_noin2(t_int *w)
 
 static void bitxor_dsp(t_bitxor *x, t_signal **sp)
 {
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal))
+    if (magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal))
         dsp_add(bitxor_perform, 5, x, // use mask from 2nd input sig
                 sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
     else  // use mask set by 'bits' message or argument

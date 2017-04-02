@@ -1,7 +1,7 @@
 // based on selector~
 
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "magic.h"
 #include <math.h>
 
 
@@ -75,7 +75,7 @@ static void gate_dsp(t_gate *x, t_signal **sp)
     for (i = 0; i < x->x_sig_outs; i++){ //now for the sig_outs
 		*(x->x_ovecs+i) = (*sigp++)->s_vec;
 	};
-	x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+	x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
 	*x->x_signalscalar = NAN;
 	dsp_add(gate_perform, 2, x, nblock);
 }

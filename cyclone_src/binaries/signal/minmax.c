@@ -4,7 +4,7 @@
 
 #include "m_pd.h"
 #include <math.h>
-#include "unstable/forky.h"
+#include "magic.h"
 
 typedef struct _minmax
 {
@@ -105,8 +105,8 @@ static t_int *minmax_perform_no_in(t_int *w)
 
 static void minmax_dsp(t_minmax *x, t_signal **sp)
 {
-    x->x_feederflag = forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal);
-    x->x_feederflag2 = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+    x->x_feederflag = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
+    x->x_feederflag2 = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
     if (x->x_feederflag) dsp_add(minmax_perform, 6, x, sp[0]->s_n,
         sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
     else dsp_add(minmax_perform_no_in, 6, x, sp[0]->s_n, sp[0]->s_vec,

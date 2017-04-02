@@ -4,7 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "magic.h"
 
 #define DELAY_DEFMAXSIZE  512 // default buffer size
 #define DELAY_GUARD 4 // guard points for 4-point interpolation
@@ -276,7 +276,7 @@ static t_int *delay_performsig(t_int *w)
 static void delay_dsp(t_delay *x, t_signal **sp)
 {
     //memset(x->x_buf, 0, x->x_maxsize * sizeof(*x->x_buf));  /* CHECKED */
-    x->x_hasfeeders = forky_hasfeeders(&x->x_obj, x->x_glist, 1, &s_signal);
+    x->x_hasfeeders = magic_inlet_connection(&x->x_obj, x->x_glist, 1, &s_signal);
     x->x_sr = sp[0]->s_sr;
     x->x_remain = 0;
     delay_clear(x);

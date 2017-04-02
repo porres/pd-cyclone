@@ -19,7 +19,7 @@ changed matrix_free to return void * instead of nothing
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "magic.h"
 
 #define MATRIX_DEFGAIN  0.  /* CHECKED */
 #define MATRIX_DEFRAMP  10.  /* CHECKED */
@@ -422,7 +422,7 @@ static void matrix_dsp(t_matrix *x, t_signal **sp)
     for (i = 0; i < x->x_numinlets; i++)
     {
 		*vecp++ = (*sigp++)->s_vec;
-		x->x_hasfeeders[i] = forky_hasfeeders((t_object *)x, x->x_glist, i, &s_signal);
+		x->x_hasfeeders[i] = magic_inlet_connection((t_object *)x, x->x_glist, i, &s_signal);
 	};
     vecp = x->x_ovecs;
     for (i = 0; i < x->x_numoutlets; i++){
