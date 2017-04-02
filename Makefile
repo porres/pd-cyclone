@@ -296,8 +296,7 @@ funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
 # Signal: #################################################################
 
-sgrow := \
-shared/common/grow.c 
+sgrow := shared/common/grow.c
     frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrow)
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
 
@@ -323,14 +322,9 @@ shared/unstable/forky.c
 
 # New Dependencies: #################################################################
 
-magic := \
-shared/magic.c \
-shared/unstable/forky.c
+magic := shared/magic.c
     grab.class.sources := cyclone_src/binaries/control/grab.c $(magic) # only "fragile"
     cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only one "fragile" + "forky"
-    bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magic)
-    bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magic)
-    bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magic)
     delay~.class.sources := cyclone_src/binaries/signal/delay.c $(magic)
     plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magic)
     minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magic)
@@ -352,10 +346,18 @@ scybuf := shared/cybuf.c
     poke~.class.sources := cyclone_src/binaries/signal/poke.c $(scybuf)
     record~.class.sources := cyclone_src/binaries/signal/record.c $(scybuf)
     wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
+
 magicscybuff := \
 shared/magic.c \
 shared/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff)
+
+magicbitwise := \
+shared/magic.c \
+shared/unstable/forky.c
+    bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magicbitwise)
+    bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magicbitwise)
+    bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbitwise)
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##
