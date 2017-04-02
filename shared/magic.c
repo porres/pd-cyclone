@@ -2,8 +2,7 @@
 // and forky
 
 #include "m_pd.h"
-#include "unstable/magic.h"
-#include "unstable/pd_imp.h" // needed?
+#include "magic.h"
 #include <string.h> // needed?
 // from forky
 #include "g_canvas.h" // needed?
@@ -31,7 +30,7 @@ t_outconnect *magic_outlet_nextconnection(t_outconnect *last, t_object **destp, 
     return (obj_nexttraverseoutlet(last, destp, &dummy, innop));
     }
 
-int magic_feeders(t_object *x, t_glist *glist, int inno, t_symbol *outsym)
+int magic_inlet_connection(t_object *x, t_glist *glist, int inno, t_symbol *outsym)
 {
     t_linetraverser t;
     linetraverser_start(&t, glist);

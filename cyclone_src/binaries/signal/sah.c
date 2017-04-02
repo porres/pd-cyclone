@@ -4,11 +4,10 @@
 
 
 #include "m_pd.h"
-/*MAGIC
-include forky.h for forky_hasfeeders and math.h for NAN stuff*/
-#include "unstable/forky.h"
+// MAGIC: include magic.h for magic and math.h for NAN stuff */
+#include "magic.h"
 #include <math.h>
-/*end magic*/
+// end magic
 
 typedef struct _sah
 {
@@ -81,7 +80,7 @@ static void sah_dsp(t_sah *x, t_signal **sp)
 {
 	/*MAGIC
 	Get flag for signal feeders.*/
-	x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+	x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
 	/*end magic*/
 	*x->x_signalscalar = NAN;
     dsp_add(sah_perform, 5, x, sp[0]->s_n,

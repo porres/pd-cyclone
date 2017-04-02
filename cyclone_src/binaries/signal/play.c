@@ -14,7 +14,7 @@
 #include <math.h>
 #include "m_pd.h"
 #include "cybuf.h"
-#include "unstable/forky.h"
+#include "magic.h"
 #include "shared.h"
 
 
@@ -561,7 +561,7 @@ static void play_dsp(t_play *x, t_signal **sp)
 {
       cybuf_checkdsp(x->x_cybuf);
       int npts = x->x_cybuf->c_npts;
-    x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal);
+    x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
     t_float pdksr= sp[0]->s_sr * 0.001;
         x->x_pdksr = pdksr;
         x->x_ksrrat = (double)(x->x_aksr/x->x_pdksr);

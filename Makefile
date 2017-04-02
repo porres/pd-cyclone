@@ -323,7 +323,7 @@ shared/unstable/forky.c
 # New Dependencies: #################################################################
 
 magic := \
-shared/unstable/magic.c \
+shared/magic.c \
 shared/unstable/forky.c
     grab.class.sources := cyclone_src/binaries/control/grab.c $(magic) # only fragile
     cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only one with fragile + forky
@@ -339,7 +339,7 @@ shared/unstable/forky.c
     gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magic)
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magic)
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magic)
-    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magic)
+    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magic) # not yet
     cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magic) # cyclone sub-library
 
 scybuf := shared/cybuf.c
@@ -352,7 +352,7 @@ scybuf := shared/cybuf.c
     record~.class.sources := cyclone_src/binaries/signal/record.c $(scybuf)
     wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
 magicscybuff := \
-shared/unstable/forky.c \
+shared/magic.c \
 shared/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff)
 
