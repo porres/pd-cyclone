@@ -18,11 +18,7 @@ t_pd *magic_class_createobject(t_symbol *cname, t_newmethod callthis,
 void magic_class_printnames(char *msg, int firstndx, int lastndx);
 t_glist *magic_garray_glist(void *arr);
 t_outconnect *magic_outlet_connections(t_outlet *o);
-t_outconnect *magic_outlet_nextconnection(t_outconnect *last,
-					    t_object **destp, int *innop);
-t_object *magic_outlet_destination(t_outlet *op,
-				     int ntypes, t_symbol **types,
-				     t_pd *caller, char *errand);
+t_outconnect *magic_outlet_nextconnection(t_outconnect *last, t_object **destp, int *innop);
 t_sample *magic_inlet_signalscalar(t_inlet *i);
 
 #endif
