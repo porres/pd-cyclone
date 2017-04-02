@@ -315,8 +315,7 @@ shared/unstable/forky.c
 
 sfittermagic := \
 shared/magic.c \
-shared/common/fitter.c \
-shared/unstable/forky.c
+shared/common/fitter.c
     scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
 
 # New Dependencies: #################################################################
