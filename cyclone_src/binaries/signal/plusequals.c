@@ -4,7 +4,7 @@
 #include <math.h>
 
 // MAGIC
-#include "unstable/forky.h"
+#include "magic.h"
 
 typedef struct _plusequals
 {
@@ -79,10 +79,10 @@ static t_int *plusequals_perform_no_in(t_int *w)
 static void plusequals_dsp(t_plusequals *x, t_signal **sp)
 {
     // MAGIC
-    x->x_hasfeeders = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+    x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
     *x->x_signalscalar = NAN;
 
-    if (forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal))
+    if (magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal))
         dsp_add(plusequals_perform, 5, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
     else

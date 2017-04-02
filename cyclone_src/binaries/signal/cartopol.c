@@ -39,15 +39,18 @@ static t_int *cartopol_perform(t_int *w)
     
     while (nblock--)
     {
-        float re = *in1++;
-        float im;
-        
+        float re, im, amp, ph;
         // MAGIC
-        if (x->x_hasfeeders) im = *in2++;
-        else re = im = 0.0;
-        
-        *out1++ = hypotf(re, im);
-        *out2++ = atan2f(im, re);
+        if (x->x_hasfeeders)
+            {
+            re = *in1++;
+            im = *in2++;
+            amp = hypotf(re, im);
+            ph = atan2f(im, re);
+            }
+        else amp = ph = 0.0;
+        *out1++ = amp;
+        *out2++ = ph;
     }
     return (w + 7);
 }
@@ -69,53 +72,32 @@ static t_int *cartopol_perform_nophase(t_int *w)
     
     while (nblock--)
     {
-        float re = *in1++;
-        float im;
-        
+        float re, im, amp;
+
         // MAGIC
-        if (x->x_hasfeeders) im = *in2++;
-        else re = im = 0.0;
+        if (x->x_hasfeeders)
+            {
+            re = *in1++;
+            im = *in2++;
+            amp = hypotf(re, im);
+            }
+        else amp = 0.0;
         
-        *out1++ = hypotf(re, im);
+        *out1++ = amp;
     }
     return (w + 6);
-}
-
-static t_int *cartopol_perform_no_in(t_int *w)
-{
-    t_cartopol *x = (t_cartopol *)(w[1]);
-    int nblock = (int)(w[2]);
-    t_float *out1 = (t_float *)(w[5]);
-    t_float *out2 = (t_float *)(w[6]);
-    
-    if (!isnan(*x->x_signalscalar))
-	{
-		*x->x_signalscalar = NAN;
- //       pd_error(x, "cartopol~: doesn't understand 'float'"); // definitely this one...
-    }
-    
-    while (nblock--)
-    {
-        *out1++ = *out2++ = 0;
-    }
-    return (w + 7);
 }
 
 static void cartopol_dsp(t_cartopol *x, t_signal **sp)
 {
     // MAGIC
     x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
-
-    if (magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal))
-        {if (magic_outlet_connections(x->x_out2))
+    if (magic_outlet_connections(x->x_out2))
         dsp_add(cartopol_perform, 6, x, sp[0]->s_n, sp[0]->s_vec,
                 sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
-        else
+    else
         dsp_add(cartopol_perform_nophase, 5, x, sp[0]->s_n, sp[0]->s_vec,
                 sp[1]->s_vec, sp[2]->s_vec);
-        }
-    else dsp_add(cartopol_perform_no_in, 6, x, sp[0]->s_n, sp[0]->s_vec,
-                sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
 
 static void *cartopol_new(void)

@@ -332,16 +332,16 @@ shared/unstable/forky.c
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magic)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magic)
     delay~.class.sources := cyclone_src/binaries/signal/delay.c $(magic)
-    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magic)
+    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magic) # ok
     minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magic)
-    poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magic)
+poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magic) #
     matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(magic)
     sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magic) # ok
     gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magic)
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magic)
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magic)
     vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magic) # not yet
-    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magic) # cyclone sub-library
+    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magic) # cyclone sub-library (ok)
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
