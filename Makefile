@@ -297,7 +297,7 @@ funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 # Signal: #################################################################
 
 sgrow := \
-shared/common/grow.c \
+shared/common/grow.c 
     frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrow)
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
 
