@@ -178,9 +178,6 @@ hgui := \
 shared/hammer/gui.c \
 shared/common/loud.c
 
-hloud := \
-shared/common/loud.c
-
 hrand := \
 shared/common/rand.c \
 shared/common/loud.c
@@ -230,6 +227,8 @@ splainnotilde := \
 shared/common/loud.c \
 shared/common/fitter.c
 
+hloud := shared/common/loud.c
+
 # hfitter classes
 bangbang.class.sources := cyclone_src/binaries/control/bangbang.c $(hfitter)
 counter.class.sources := cyclone_src/binaries/control/counter.c $(hfitter)
@@ -275,6 +274,8 @@ decide.class.sources := cyclone_src/binaries/control/decide.c $(hloud)
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
 sprintf.class.sources := cyclone_src/binaries/control/sprintf.c $(hloud)
 togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
+#GUI
+comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
 
 # Single cases:
 
@@ -305,17 +306,6 @@ shared/hammer/file.c \
 shared/common/loud.c \
 shared/common/os.c 
     capture~.class.sources := cyclone_src/binaries/signal/capture.c $(sfile)
-
-################## GUIs: ################################################
-
-hforky := \
-shared/common/loud.c 
-    comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
-
-sfittermagic := \
-shared/magic.c \
-shared/common/fitter.c
-    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
 
 # New Dependencies: #################################################################
 
@@ -355,6 +345,12 @@ shared/bitwise.c
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magicbitwise)
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magicbitwise)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbitwise)
+
+#GUI
+sfittermagic := \
+shared/magic.c \
+shared/common/fitter.c
+    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##
