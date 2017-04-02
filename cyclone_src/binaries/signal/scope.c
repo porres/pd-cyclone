@@ -25,9 +25,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "m_imp.h"
+#include "m_imp.h" // why?
 #include "g_canvas.h"
 #include "g_all_guis.h"
+#include "magic.h"
 #include "common/fitter.h"
 #include "unstable/forky.h"
 
@@ -366,8 +367,8 @@ static void scope_dsp(t_scope *x, t_signal **sp)
 {
     x->x_ksr = sp[0]->s_sr * 0.001;
     int xfeeder, yfeeder;
-    xfeeder = forky_hasfeeders((t_object *)x, x->x_glist, 0, &s_signal);
-    yfeeder = forky_hasfeeders((t_object *)x, x->x_glist, 1, &s_signal);
+    xfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
+    yfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
     scope_setxymode(x, xfeeder + 2 * yfeeder);
 	dsp_add(scope_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }

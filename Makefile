@@ -316,6 +316,7 @@ shared/unstable/forky.c
     comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
 
 sfittermagic := \
+shared/magic.c \
 shared/common/fitter.c \
 shared/unstable/forky.c
     scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
@@ -325,8 +326,8 @@ shared/unstable/forky.c
 magic := \
 shared/magic.c \
 shared/unstable/forky.c
-    grab.class.sources := cyclone_src/binaries/control/grab.c $(magic) # only fragile
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only one with fragile + forky
+    grab.class.sources := cyclone_src/binaries/control/grab.c $(magic) # only fragile (ok)
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only one with fragile + forky (ok)
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magic)
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magic)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magic)
@@ -335,7 +336,7 @@ shared/unstable/forky.c
     minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magic)
     poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magic)
     matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(magic)
-    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magic)
+    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magic) # ok
     gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magic)
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magic)
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magic)
@@ -354,7 +355,7 @@ scybuf := shared/cybuf.c
 magicscybuff := \
 shared/magic.c \
 shared/cybuf.c
-    play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff)
+    play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff) # ok
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##
