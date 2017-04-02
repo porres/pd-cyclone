@@ -30,7 +30,6 @@
 #include "g_all_guis.h"
 #include "magic.h"
 #include "common/fitter.h"
-// #include "unstable/forky.h"
 
 #ifdef KRZYSZCZ
 // #define SCOPE_DEBUG
@@ -1005,9 +1004,6 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
     if (vis)
     {
 	t_scopehandle *sh = (t_scopehandle *)x->x_handle;
-/* #if FORKY_VERSION < 37
-	rtext_new(glist, t, glist->gl_editor->e_rtext, 0);
-#endif */
 	sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)cv, (unsigned long)sh);
     int xymode = x->x_xymode;
     int bufsize = x->x_bufsize;
@@ -1023,10 +1019,6 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
     }
     else
     {
-/* #if FORKY_VERSION < 37
-	t_rtext *rt = glist_findrtext(glist, t);
-	if (rt) rtext_free(rt);
-#endif */
 	sys_vgui(".x%lx.c delete %s\n", (unsigned long)cv, x->x_tag);
 	x->x_canvas = 0;
     }
@@ -1685,7 +1677,7 @@ void scope_tilde_setup(void)
     class_addmethod(scope_class, (t_method)scope_motion, gensym("motion"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_resize, gensym("resize"), A_FLOAT, A_FLOAT, 0);
     class_setwidget(scope_class, &scope_widgetbehavior);
-    class_setsavefn(scope_class, scope_save); // instead of "forky_setsavefn(scope_class, scope_save);"
+    class_setsavefn(scope_class, scope_save); // instead of "forky_setsavefn"
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0, sizeof(t_scopehandle), CLASS_PD, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook, gensym("_click"), A_FLOAT, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);

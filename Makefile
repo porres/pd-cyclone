@@ -309,8 +309,7 @@ shared/common/os.c
 ################## GUIs: ################################################
 
 hforky := \
-shared/common/loud.c \
-shared/unstable/forky.c
+shared/common/loud.c 
     comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
 
 sfittermagic := \
