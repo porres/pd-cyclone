@@ -7,7 +7,7 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-#include "unstable/forky.h"
+#include "bitwise.h"
 #include "magic.h"
 
 #define PDCYBXORMASK 0 //default for bitmask

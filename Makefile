@@ -354,7 +354,7 @@ shared/cybuf.c
 
 magicbitwise := \
 shared/magic.c \
-shared/unstable/forky.c
+shared/bitwise.c
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magicbitwise)
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magicbitwise)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbitwise)
