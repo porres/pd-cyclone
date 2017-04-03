@@ -69,7 +69,7 @@ by a random value less than the given step size.;
 #X text 341 181 size;
 #X obj 1 549 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 401 94 754 394 examples 0;
+#N canvas 401 94 754 394 examples 1;
 #X obj 112 49 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 112 84 metro 250;
@@ -117,7 +117,7 @@ by a random value less than the given step size.;
 #X text 408 141 sets a current value and outputs it;
 #X text 418 168 sets current and maximum values;
 #X text 456 196 sets current \, maximum and step size values;
-#X obj 96 287 cyclone/output~;
+#X obj 96 287 ./out~;
 #X connect 0 0 1 0;
 #X connect 1 0 10 0;
 #X connect 2 0 13 0;

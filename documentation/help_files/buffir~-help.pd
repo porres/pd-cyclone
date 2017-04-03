@@ -1,4 +1,4 @@
-#N canvas 306 83 562 539 10;
+#N canvas 517 74 562 539 10;
 #X obj 6 499 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 299 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -63,7 +63,7 @@ cloned from Max/MSP;
 #X obj 204 195 cyclone/buffir~ \$0-IR 0 4096;
 #X text 197 343 - set <buffer/table name \, offset \, size> (resets
 arguments);
-#N canvas 953 208 429 215 set_buffer~ 1;
+#N canvas 953 208 429 215 set_buffer~ 0;
 #X msg 151 133 open;
 #X text 28 19 The [buffir~] object works with any kind of array set
 in Pd \, and not only from the [buffer~] object. In the case of a multi

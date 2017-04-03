@@ -615,7 +615,7 @@ steeper the curve.;
 better when the block size is smaller \, but the object also becomes
 more computationally expensive.;
 #X msg 487 77 0 0 0 0.5 50 -0.75 1 50 0.75;
-#X msg 498 96 1 0 0 0.5 50 -0.75 0 50 0.75;
+#X msg 498 99 1 0 0 0.5 50 -0.75 0 50 0.75;
 #X msg 509 128 0 0 0 0.5 50 0.5 1 50 -0.5;
 #X msg 519 148 1 0 0 0.5 50 0.5 0 50 -0.5;
 #X msg 530 183 0 0 0 0.5 50 -0.5 1 50 0.5;
@@ -630,6 +630,7 @@ more computationally expensive.;
 0;
 #X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Different exponential
 factor parameters for [curve~];
+#X obj 346 335 cyclone/setdsp~;
 #X connect 0 0 14 2;
 #X connect 1 0 0 0;
 #X connect 7 0 13 0;

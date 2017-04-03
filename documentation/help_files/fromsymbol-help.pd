@@ -141,18 +141,18 @@ to "anything" (with more than one element). Just making it really clear...
 #X symbolatom 68 143 20 0 0 0 - - -, f 20;
 #X msg 68 106 symbol bang;
 #X obj 68 254 route bang;
-#X obj 68 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 68 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X text 43 23 Since the [fromsymbol] object removes the "symbol" selector
 \, if you have a "symbol bang" message \, it converts it to a bang:
 ;
-#X text 95 287 <= bang message;
+#X text 91 287 <= bang message;
 #X obj 96 215 print fromsymbol;
 #X obj 265 212 cyclone/fromsymbol;
 #X obj 265 260 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X text 275 237 <= bang message;
-#X obj 265 188 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 265 188 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 315 184 as a bang;
 #X text 263 169 a bang just comes out;

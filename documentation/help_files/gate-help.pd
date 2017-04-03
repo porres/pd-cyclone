@@ -69,7 +69,7 @@ of 'n' specified outlets or none of them.;
 #X obj 317 262 print;
 #X obj 284 180 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 334 240 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 334 240 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 120 466 2) float;
 #X obj 97 234 cyclone/gate 3 1;
