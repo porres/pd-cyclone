@@ -1017,8 +1017,9 @@ void comment_setup(void)
     class_addmethod(comment_class, (t_method)comment__motionhook,
 		    gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
-    forky_setsavefn(comment_class, comment_save);
-
+    
+    class_setsavefn(comment_class, comment_save); //forky_setsavefn(comment_class, comment_save);
+   
     makeshift_class = class_new(gensym("text"), 0, 0,
 				sizeof(t_text),
 				CLASS_NOINLET | CLASS_PATCHABLE, 0);
