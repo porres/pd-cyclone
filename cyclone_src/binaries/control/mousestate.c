@@ -80,6 +80,7 @@ static void mousestate_dozero(t_mousestate *x, t_floatarg f1, t_floatarg f2)
 	x->x_hzero = h;
 	x->x_vzero = v;
 	x->x_zero = 0;
+
     };
 
 }
@@ -93,8 +94,8 @@ static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float scre
   if(mode == 0)
     {
       //add 0 to tcl coords to comply with "real" [mousestate]
-      px = screenx + 1;
-      py = screeny + 1;
+      px = screenx;
+      py = screeny;
     }
   else if(mode == 1)
     {
@@ -107,8 +108,9 @@ static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float scre
     };
   if(mode == 0 || mode == 1)
     {
+      if(x->x_zero == 1) mousestate_dozero(x, px, py);
       if(x->x_bang == 1 || x->x_ispolling == 1) mousestate_dobang(x, px, py);
-      else if(x->x_zero == 1) mousestate_dozero(x, px, py);
+
     };
 }
 
@@ -162,8 +164,9 @@ static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc,
       py = screeny - focusy;
       px = px >= focusw ? (focusw -1) : ( px < 0 ? 0 : px);
       py = py >= focush ? (focush - 1) : (py < 0 ? 0 : py);
-      if(x->x_bang == 1 || x->x_ispolling == 1) mousestate_dobang(x, px, py);
       if(x->x_zero == 1) mousestate_dozero(x, px, py);
+      if(x->x_bang == 1 || x->x_ispolling == 1) mousestate_dobang(x, px, py);
+
     };
 }
 
@@ -205,9 +208,11 @@ static void mousestate_nopoll(t_mousestate *x)
 static void mousestate_zero(t_mousestate *x)
 {
   int mode = x->x_mode;
+  x->x_zero = 1;
+  x->x_bang = 1;
   if(mode == 0 || mode == 1) hammergui_getscreen();
   else if (mode == 2) hammergui_getscreenfocused();
-  x->x_zero = 1;
+
 }
 
 static void mousestate_reset(t_mousestate *x)

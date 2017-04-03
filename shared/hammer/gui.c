@@ -579,10 +579,11 @@ void hammergui_stoppolling(t_pd *master)
 	pd_unbind(master, hammergui_sink->g_pspoll);
 	if (hammergui_sink->g_pspoll->s_thing == (t_pd *)hammergui_sink)
 	{
-	    sys_vgui("after cancel [hammergui_poll]\n");
-	    /* visibility hack for msw, LATER rethink */
 	    sys_gui("global hammergui_ispolling\n");
 	    sys_gui("set hammergui_ispolling 0\n");
+	    sys_vgui("after cancel [hammergui_poll]\n");
+	    /* visibility hack for msw, LATER rethink */
+	    
 	}
     }
 }
