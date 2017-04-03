@@ -216,8 +216,8 @@ static void mousestate_reset(t_mousestate *x)
 
 static void mousestate_free(t_mousestate *x)
 {
-    mousestate_nopoll(x);
-    hammergui_unbindmouse((t_pd *)x);
+  if(x->x_ispolling == 1) mousestate_nopoll(x);
+  hammergui_unbindmouse((t_pd *)x);
 }
 
 static void mousestate_mode(t_mousestate *x, t_floatarg f){
