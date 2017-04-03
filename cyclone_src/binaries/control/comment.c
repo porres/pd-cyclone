@@ -437,22 +437,22 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis)
 	   than complying to a Pd's assumption about every visible object
 	   having an rtext (thus preventing canvas_doclick() from sending
 	   garbage warnings).  LATER revisit. */
-#if FORKY_VERSION < 37
+/* #if FORKY_VERSION < 37
 	rtext_new(glist, t, glist->gl_editor->e_rtext, 0);
-#endif
+#endif */
 	if (glist->gl_havewindow)
 	    comment_draw(x);
     }
     else
     {
-#if FORKY_VERSION < 37
+/* #if FORKY_VERSION < 37
 	t_rtext *rt = glist_findrtext(glist, t);
 	if (rt) rtext_free(rt);
 #endif
-	/* FIXME should we test for having a window? */
+	// FIXME should we test for having a window?
 #ifdef COMMENT_DEBUG
 	loudbug_post("deleting...");
-#endif
+#endif */
 	sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
     }
 }
