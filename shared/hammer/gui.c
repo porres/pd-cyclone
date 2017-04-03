@@ -304,7 +304,7 @@ static int hammergui_setup(void)
     
     sys_gui("proc hammergui_getscreen {} {\n");
     sys_gui(" set px [winfo pointerx .]\n");
-    sys_gui(" set py [winfo pointery . ]\n");
+    sys_gui(" set py [winfo pointery .]\n");
     sys_gui(" pdsend \"#hammermouse _getscreen $px $py\"\n");
     sys_gui("}\n");
 
@@ -341,19 +341,17 @@ static int hammergui_setup(void)
     sys_gui("global hammergui_wh\n");
     sys_gui("if {$hammergui_ispolling > 0} {\n");
     //mode0 and 1
+    sys_gui("set px [winfo pointerx .]\n");
+    sys_gui("set py [winfo pointery .]\n");
     sys_gui("if {$hammergui_ispolling <= 2} {\n");
-    sys_gui(" set px [winfo pointerx .]\n");
-    sys_gui(" set py [winfo pointery . ]\n");
     sys_gui("if {$hammergui_px != $px || $hammergui_py != $py} {\n");
     sys_gui(" pdsend \"#hammermouse _getscreen $px $py\"\n");
-    sys_gui(" set $hammergui_px $px\n");
-    sys_gui(" set $hammergui_py $py\n");
+    sys_gui(" set hammergui_px $px\n");
+    sys_gui(" set hammergui_py $py\n");
     sys_gui("}\n");
     sys_gui("} ");
     //mode2
     sys_gui("elseif {$hammergui_ispolling == 3} {\n");
-    sys_gui(" set px [winfo pointerx .]\n");
-    sys_gui(" set py [winfo pointery . ]\n");
     sys_gui(" set wx [winfo x $::focused_window]\n");
     sys_gui(" set wy [winfo y $::focused_window]\n");
     sys_gui(" set ww [winfo width $::focused_window]\n");
@@ -363,12 +361,12 @@ static int hammergui_setup(void)
     sys_gui("|| $hammergui_ww != $ww || $hammergui_wh != $wh} {\n");
     sys_gui(" pdsend \"#hammermouse _getscreenfocused ");
     sys_gui("$px $py $wx $wy $ww $wh\"\n");
-    sys_gui(" set $hammergui_px $px\n");
-    sys_gui(" set $hammergui_py $py\n");
-    sys_gui(" set $hammergui_wx $wx\n");
-    sys_gui(" set $hammergui_wy $wy\n");
-    sys_gui(" set $hammergui_ww $ww\n");
-    sys_gui(" set $hammergui_wh $wh\n");
+    sys_gui(" set hammergui_px $px\n");
+    sys_gui(" set hammergui_py $py\n");
+    sys_gui(" set hammergui_wx $wx\n");
+    sys_gui(" set hammergui_wy $wy\n");
+    sys_gui(" set hammergui_ww $ww\n");
+    sys_gui(" set hammergui_wh $wh\n");
     sys_gui("}\n");
     sys_gui("}\n");
     sys_gui("after 50 hammergui_poll\n");
@@ -539,6 +537,7 @@ void hammergui_getscreen(void)
 
 void hammergui_getscreenfocused(void)
 {
+
   if(hammergui_validate(0))
     sys_gui("hammergui_getscreenfocused\n");
 }
