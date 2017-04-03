@@ -537,6 +537,7 @@ void hammergui_getscreen(void)
 
 void hammergui_getscreenfocused(void)
 {
+
   if(hammergui_validate(0))
     sys_gui("hammergui_getscreenfocused\n");
 }
