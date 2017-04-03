@@ -481,7 +481,7 @@ static t_widgetbehavior comment_widgetbehavior =
     0,
     comment_vis,
     0,
-    FORKY_WIDGETPADDING
+    0,0 // FORKY_WIDGETPADDING
 };
 
 /* this fires if a transform request was sent to a symbol we are bound to */
