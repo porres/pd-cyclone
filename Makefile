@@ -274,6 +274,8 @@ decide.class.sources := cyclone_src/binaries/control/decide.c $(hloud)
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
 sprintf.class.sources := cyclone_src/binaries/control/sprintf.c $(hloud)
 togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
+# GUI:
+comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
 
 # Single cases:
 
@@ -293,12 +295,6 @@ offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
 funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
-# GUI: #################################################################
-
-hforky := \
-shared/common/loud.c \
-shared/unstable/forky.c
-    comment.class.sources := cyclone_src/binaries/control/comment.c $(hforky)
 
 # Signal: #################################################################
 
