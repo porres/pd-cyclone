@@ -92,8 +92,9 @@ static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float scre
   //mode 0, no need to parse, just send directly to doer of things
   if(mode == 0)
     {
-      px = screenx;
-      py = screeny;
+      //add 0 to tcl coords to comply with "real" [mousestate]
+      px = screenx + 1;
+      py = screeny + 1;
     }
   else if(mode == 1)
     {
