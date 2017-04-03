@@ -15,6 +15,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "common/loud.h"
+#include "unstable/forky.h"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
 static t_class *makeshift_class;
@@ -436,11 +437,18 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis)
 	   than complying to a Pd's assumption about every visible object
 	   having an rtext (thus preventing canvas_doclick() from sending
 	   garbage warnings).  LATER revisit. */
+#if FORKY_VERSION < 37
+	rtext_new(glist, t, glist->gl_editor->e_rtext, 0);
+#endif
 	if (glist->gl_havewindow)
 	    comment_draw(x);
     }
     else
     {
+#if FORKY_VERSION < 37
+	t_rtext *rt = glist_findrtext(glist, t);
+	if (rt) rtext_free(rt);
+#endif
 	/* FIXME should we test for having a window? */
 #ifdef COMMENT_DEBUG
 	loudbug_post("deleting...");
@@ -473,7 +481,7 @@ static t_widgetbehavior comment_widgetbehavior =
     0,
     comment_vis,
     0,
-    0,0, // instead of FORKY_WIDGETPADDING
+    FORKY_WIDGETPADDING
 };
 
 /* this fires if a transform request was sent to a symbol we are bound to */
@@ -1009,7 +1017,8 @@ void comment_setup(void)
     class_addmethod(comment_class, (t_method)comment__motionhook,
 		    gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
-    class_setsavefn(comment_class, comment_class); // instead of "forky_setsavefn"
+    forky_setsavefn(comment_class, comment_save);
+
     makeshift_class = class_new(gensym("text"), 0, 0,
 				sizeof(t_text),
 				CLASS_NOINLET | CLASS_PATCHABLE, 0);
