@@ -29,8 +29,9 @@ typedef struct _mousestate
     int        x_zero; //if we are requesting to zero
     int         x_wx; 
     int         x_wy;
-    int         x_ww;
-    int         x_wh;
+  //int         x_ww;
+  //int         x_wh;
+    t_glist   *x_glist;
     t_outlet  *x_hposout;
     t_outlet  *x_vposout;
     t_outlet  *x_hdiffout;
@@ -48,6 +49,27 @@ static void mousestate_anything(t_mousestate *x,
     /* dummy method, filtering out those messages from gui,
        which are not handled explicitly */
 }
+
+//update current canvas position
+static void mousestate_updatepos(t_mousestate *x)
+{
+    int x1, y1;
+    //int x2, y2
+
+    t_glist * g_list = x->x_glist;
+    x1 =  g_list->gl_screenx1;
+    y1 = g_list->gl_screeny1;
+    //x2 = g_list->gl_screenx2;
+    //y2 = g_list->gl_screeny2;
+
+    x->x_wx = x1;
+    x->x_wy = y1;
+    //  x->x_ww = x2 - x1;
+    //x->x_wh = y2 - y1;
+
+
+}
+
 
 static void mousestate_doup(t_mousestate *x, t_floatarg f)
 {
@@ -102,10 +124,11 @@ static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float scre
     {
       //screen coords relative to object's home canvas, we already have thsese
       //coords stored
+      mousestate_updatepos(x);
       px = screenx - x->x_wx;
       py = screeny - x->x_wy;
-      px = px >= x->x_ww ? (x->x_ww - 1) : (px  < 0 ? 0 : px);
-      py = py >= x->x_wh ? (x->x_wh - 1) : (py < 0 ? 0 : py);
+      // px = px >= x->x_ww ? (x->x_ww - 1) : (px  < 0 ? 0 : px);
+      //py = py >= x->x_wh ? (x->x_wh - 1) : (py < 0 ? 0 : py);
     };
   if(mode == 0 || mode == 1)
     {
@@ -121,10 +144,11 @@ static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc,
   // screenx, screeny, focusx, focusy, focusw, focush
   //these are our pointer coords relative to focused window
   int i;
-  t_float curf, screenx, screeny, focusx, focusy, focusw, focush;
-  if(argc >= 6)
+  t_float curf, screenx, screeny, focusx, focusy;
+  // t_float focusw, focush;
+  if(argc >= 4)
     {
-      for(i=0;i<6;i++)
+      for(i=0;i<4;i++)
 	{
 	  if(argv[i].a_type == A_FLOAT)
 	    {
@@ -143,12 +167,14 @@ static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc,
 		case 3:
 		  focusy = curf;
 		  break;
+		  /*
 		case 4:
 		  focusw = curf;
 		  break;
 		case 5:
 		  focush = curf;
 		  break;
+		  */
 		default:
 		  break;
 		};
@@ -163,8 +189,8 @@ static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc,
       t_float px, py;
       px = screenx - focusx;
       py = screeny - focusy;
-      px = px >= focusw ? (focusw -1) : ( px < 0 ? 0 : px);
-      py = py >= focush ? (focush - 1) : (py < 0 ? 0 : py);
+      //  px = px >= focusw ? (focusw -1) : ( px < 0 ? 0 : px);
+      //py = py >= focush ? (focush - 1) : (py < 0 ? 0 : py);
       if(x->x_zero == 1) mousestate_dozero(x, px, py);
       if(x->x_bang == 1 || x->x_ispolling == 1) mousestate_dobang(x, px, py);
 
@@ -245,9 +271,10 @@ static void mousestate_mode(t_mousestate *x, t_floatarg f){
     else x->x_mode = mode;
 }
 
+
 static void *mousestate_new(void)
 {
-    int x1, x2, y1, y2;
+    
     t_mousestate *x = (t_mousestate *)pd_new(mousestate_class);
     x->x_ispolling = x->x_bang = x->x_zero = 0;
     outlet_new((t_object *)x, &s_float);
@@ -260,17 +287,9 @@ static void *mousestate_new(void)
     hammergui_bindmouse((t_pd *)x);
     hammergui_willpoll();
     mousestate_reset(x);
-    t_glist *g_list = (t_glist *)canvas_getcurrent();
+    x->x_glist = (t_glist *)canvas_getcurrent();    
+    mousestate_updatepos(x);
 
-    x1 =  g_list->gl_screenx1;
-    y1 = g_list->gl_screeny1;
-    x2 = g_list->gl_screenx2;
-    y2 = g_list->gl_screeny2;
-
-    x->x_wx = x1;
-    x->x_wy = y1;
-    x->x_ww = x2 - x1;
-    x->x_wh = y2 - y1;
 //     post("%d %d %d %d", x->x_x1, x->x_y1, x->x_x2, x->x_y2);
 
     return (x);
