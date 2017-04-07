@@ -68,15 +68,10 @@
 #X connect 7 0 1 0;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
-#N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
-0;
-#X coords 0 -1 1 1 42 27 1 100 100;
-#X restore 51 144 pd;
 #X obj 226 139 s \$0-tgl-r;
 #X msg 226 115 set \$1;
 #X msg 135 177 \; pd dsp \$1;
-#N canvas 336 97 347 312 load_check 1;
+#N canvas 336 97 347 312 load_check 0;
 #X obj 134 157 sig~ 1;
 #X obj 134 201 snapshot~;
 #X obj 217 145 del 5;
@@ -106,11 +101,13 @@
 #X connect 11 0 2 0;
 #X restore 51 72 pd load_check;
 #X text 47 33 DSP On/Off interface;
+#X obj 51 144 cnv 25 42 27 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+0;
 #X connect 1 0 3 0;
-#X connect 1 0 7 0;
+#X connect 1 0 6 0;
 #X connect 2 0 1 0;
-#X connect 4 0 8 0;
+#X connect 4 0 7 0;
 #X connect 4 0 3 0;
-#X connect 7 0 6 0;
-#X connect 9 0 0 0;
+#X connect 6 0 5 0;
+#X connect 8 0 0 0;
 #X coords 0 -1 1 1 44 72 2 50 100;

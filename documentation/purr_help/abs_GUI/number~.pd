@@ -1,4 +1,4 @@
-#N canvas 797 278 583 417 10;
+#N canvas 857 258 583 440 10;
 #X obj 225 250 line~;
 #X obj 394 17 inlet~;
 #X obj 225 359 outlet~;
@@ -24,10 +24,6 @@
 #X obj 100 100 tgl 17 0 \$0-tgl \$0-tgl-set empty 17 7 0 10 -228856
 -1 -204800 1 1;
 #X obj 101 101 cnv 15 15 15 empty \$0-cnv-c empty 2 6 0 19 -62546 -204800
-0;
-#X obj 101 101 cnv 2 2 2 empty \$0-cnv-a | 4 7 0 12 -62546 -204800
-0;
-#X obj 101 101 cnv 2 2 2 empty \$0-cnv-b v 4 8 0 12 -62546 -204800
 0;
 #X obj 117 48 r \$0-set-n;
 #N canvas 217 77 752 539 GUI 0;
@@ -80,7 +76,7 @@
 #X connect 21 0 17 0;
 #X restore 130 220 pd GUI \; init;
 #X obj 117 100 nbx 8 17 -100 100 0 0 \$0-send-nbx \$0-receive-nbx empty
-0 0 0 12 -62546 -262144 -262144 0 256;
+0 0 0 12 -62546 -262144 -262144 0 256 0;
 #X obj 207 101 cnv 3 3 3 empty empty empty 20 12 0 14 -62546 -262144
 0;
 #X msg 62 309 range -100 100;
@@ -88,8 +84,12 @@
 #X obj 62 344 s \$0-receive-nbx;
 #X obj 394 151 snapshot~;
 #X obj 430 124 bang~;
+#X obj 100 100 cnv 2 2 2 empty \$0-cnv-a | 4 7 0 12 -62546 -204800
+0;
+#X obj 100 100 cnv 2 2 2 empty \$0-cnv-b v 4 8 0 12 -62546 -204800
+0;
 #X connect 0 0 2 0;
-#X connect 1 0 33 0;
+#X connect 1 0 31 0;
 #X connect 3 0 10 0;
 #X connect 4 0 6 0;
 #X connect 5 0 4 1;
@@ -112,10 +112,10 @@
 #X connect 20 1 5 1;
 #X connect 20 2 19 0;
 #X connect 21 0 13 0;
-#X connect 26 0 28 0;
-#X connect 28 0 5 0;
-#X connect 30 0 32 0;
-#X connect 33 0 7 0;
-#X connect 33 0 8 0;
-#X connect 34 0 33 0;
-#X coords 0 -1 1 1 111 17 1 100 100;
+#X connect 24 0 26 0;
+#X connect 26 0 5 0;
+#X connect 28 0 30 0;
+#X connect 31 0 7 0;
+#X connect 31 0 8 0;
+#X connect 32 0 31 0;
+#X coords 0 -1 1 1 112 21 1 99 98;
