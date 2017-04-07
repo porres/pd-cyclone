@@ -1,4 +1,4 @@
-#N canvas 532 40 558 578 10;
+#N canvas 837 112 558 578 10;
 #X obj 2 537 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 360 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -10,9 +10,6 @@
 #X obj 78 464 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 110 369 signal;
-#X msg 344 186 rms;
-#X msg 344 144 bipolar;
-#X msg 344 165 absolute;
 #X obj 79 369 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 116 385 float;
@@ -23,117 +20,7 @@
 #X text 104 402 bipolar;
 #X text 98 418 absolute;
 #X text 128 434 rms;
-#N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
-#X obj 215 68 route dsp;
-#X obj 215 37 receive pd;
-#N canvas 977 77 379 291 set_color 0;
-#X obj 47 30 inlet;
-#X obj 147 200 s \$0-cnv;
-#X obj 47 83 select 0 1;
-#X obj 47 220 s \$0-tgl-r;
-#N canvas 0 22 712 637 off 0;
-#X obj 490 220 * -1;
-#X obj 424 300 +;
-#X obj 409 325 +;
-#X obj 347 219 * -65536;
-#X obj 424 220 * -256;
-#X obj 409 356 - 1;
-#X obj 390 189 unpack f f f;
-#X obj 225 295 +;
-#X obj 210 320 +;
-#X obj 148 214 * -65536;
-#X obj 225 215 * -256;
-#X obj 291 215 * -1;
-#X obj 210 351 - 1;
-#X obj 191 184 unpack f f f;
-#X obj 379 423 pack;
-#X msg 395 152 124 124 124;
-#X msg 203 154 220 220 220;
-#X obj 238 121 t b b;
-#X obj 238 81 inlet;
-#X obj 378 485 outlet;
-#X connect 0 0 1 1;
-#X connect 1 0 2 1;
-#X connect 2 0 5 0;
-#X connect 3 0 2 0;
-#X connect 4 0 1 0;
-#X connect 5 0 14 1;
-#X connect 6 0 3 0;
-#X connect 6 1 4 0;
-#X connect 6 2 0 0;
-#X connect 7 0 8 1;
-#X connect 8 0 12 0;
-#X connect 9 0 8 0;
-#X connect 10 0 7 0;
-#X connect 11 0 7 1;
-#X connect 12 0 14 0;
-#X connect 13 0 9 0;
-#X connect 13 1 10 0;
-#X connect 13 2 11 0;
-#X connect 14 0 19 0;
-#X connect 15 0 6 0;
-#X connect 16 0 13 0;
-#X connect 17 0 16 0;
-#X connect 17 1 15 0;
-#X connect 18 0 17 0;
-#X restore 47 113 pd off;
-#X msg 47 180 color \$1 \$2 0;
-#X msg 147 131 -4.86997e+06 -1.34937e+07;
-#X msg 147 171 color \$1 0 \$2;
-#X connect 0 0 2 0;
-#X connect 2 0 4 0;
-#X connect 2 1 6 0;
-#X connect 4 0 5 0;
-#X connect 4 0 7 0;
-#X connect 5 0 3 0;
-#X connect 6 0 7 0;
-#X connect 6 0 5 0;
-#X connect 7 0 1 0;
-#X restore 215 165 pd set_color;
-#X obj 135 122 r \$0-tgl-s;
-#N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
-0;
-#X coords 0 -1 1 1 42 27 1 100 100;
-#X restore 51 144 pd;
-#X obj 226 139 s \$0-tgl-r;
-#X msg 226 115 set \$1;
-#X msg 135 177 \; pd dsp \$1;
-#N canvas 256 32 278 194 load_check 0;
-#X obj 136 53 sig~ 1;
-#X obj 74 24 loadbang;
-#X obj 136 86 snapshot~;
-#X obj 91 52 del 5;
-#X obj 136 151 outlet;
-#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 74 126 switch~;
-#X connect 0 0 2 0;
-#X connect 1 0 3 0;
-#X connect 1 0 5 0;
-#X connect 2 0 4 0;
-#X connect 3 0 2 0;
-#X connect 3 0 5 0;
-#X connect 5 0 6 0;
-#X restore 51 72 pd load_check;
-#X connect 1 0 3 0;
-#X connect 1 0 7 0;
-#X connect 2 0 1 0;
-#X connect 4 0 8 0;
-#X connect 4 0 3 0;
-#X connect 7 0 6 0;
-#X connect 9 0 0 0;
-#X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 504 71 pd;
-#X obj 231 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 0;
 #X text 169 515 - sets mode: bipolar (default) \, absolute or rms;
-#X obj 176 145 hsl 150 15 1 50 1 0 adsfadsg ahhah empty -2 -8 0 10
--228856 -1 -1 0 1;
-#X obj 231 170 noise~;
-#X text 181 144 'n' samples to average;
 #X text 169 464 - the moving average over the last 'n' samples;
 #X text 169 497 - maximum and initial 'n' samples (default 100 \, minimum
 1);
@@ -156,7 +43,7 @@ to;
 #X text 213 336 1;
 #X text 208 465 -1;
 #X obj 227 304 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256 0;
+-228856 -1 -1 0 256;
 #X text 32 123 For a float output now \, you have to convert the signal
 with objects like vanilla's [snapshot~] \, [cyclone/snapshot~] or the
 new [cyclone/number~] that also works for only displaying the values.
@@ -191,11 +78,11 @@ Listen to the difference below.;
 #X restore 453 261 pd moving \; average filter;
 #N canvas 915 134 414 521 more 0;
 #X obj 94 399 cyclone/scope~ 189 102 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X obj 94 371 cyclone/average~ 100;
 #X obj 94 294 noise~;
 #X obj 179 312 nbx 3 14 1 441 0 0 sadgaf ahah empty 0 -8 0 10 -228856
--1 -1 1 256 0;
+-1 -1 1 256;
 #X obj 182 262 hsl 150 15 1 100 1 0 adsfadsg ahhah empty -2 -8 0 10
 -228856 -1 -1 0 1;
 #X text 185 261 'n' samples to average;
@@ -225,11 +112,11 @@ sense \, so floats are converted to integers!, f 60;
 #N canvas 271 131 1132 382 average 0;
 #X obj 90 125 cyclone/average~ 100 bipolar;
 #X obj 90 155 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X obj 461 149 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X obj 833 150 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X text 368 26 Absolute mode: only absolute values are considered (negative
 values atre converted to positive) \, then the mean is applied.;
 #X text 756 26 Rms mode: average is the root mean square. The arithmetic
@@ -258,12 +145,6 @@ of being more efficient.;
 #X text 53 84 Use [average~] for a signal running/moving average over
 the last 'n' given samples. The average is done in 3 modes: bipolar
 (default) \, absolute and rms.;
-#X text 351 126 modes:;
-#X obj 173 170 nbx 2 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
--228856 -1 -1 0 256 0;
-#X obj 231 212 cyclone/average~ 50;
-#X obj 59 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 0;
 #X text 22 61 Multi-mode signal moving average;
 #X obj 3 3 cnv 15 301 42 empty empty average~ 20 20 2 37 -233017 -1
 0;
@@ -282,11 +163,30 @@ the last 'n' given samples. The average is done in 3 modes: bipolar
 0;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
-#X connect 6 0 37 0;
-#X connect 7 0 37 0;
-#X connect 8 0 37 0;
-#X connect 21 0 36 0;
-#X connect 22 0 37 0;
-#X connect 22 0 38 0;
-#X connect 36 0 37 0;
-#X connect 37 0 19 0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 500 69 cyclone/setdsp~;
+#X msg 344 186 rms;
+#X msg 344 144 bipolar;
+#X msg 344 165 absolute;
+#X obj 231 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 176 145 hsl 150 15 1 50 1 0 adsfadsg ahhah empty -2 -8 0 10
+-228856 -1 -1 0 1;
+#X obj 231 170 noise~;
+#X text 181 144 'n' samples to average;
+#X text 351 126 modes:;
+#X obj 173 170 nbx 2 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
+-228856 -1 -1 0 256;
+#X obj 231 212 cyclone/average~ 50;
+#X obj 59 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X connect 38 0 47 0;
+#X connect 39 0 47 0;
+#X connect 40 0 47 0;
+#X connect 42 0 46 0;
+#X connect 43 0 47 0;
+#X connect 43 0 48 0;
+#X connect 46 0 47 0;
+#X connect 47 0 41 0;

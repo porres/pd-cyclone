@@ -76,6 +76,9 @@ channel [buffer~] object \, [buffir~] can only read its first channel.
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 63 Convolve with a buffer;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
 #X connect 9 0 33 2;
 #X connect 10 0 33 0;
 #X connect 14 0 33 1;

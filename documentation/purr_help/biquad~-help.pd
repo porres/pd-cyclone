@@ -283,6 +283,9 @@ or individually as signals or floats.;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 26 61 Biquad filter;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
 #X connect 0 0 26 0;
 #X connect 1 0 26 0;
 #X connect 26 0 46 0;

@@ -913,6 +913,7 @@ b0 \; - a0 = (1 - alphaQ) / b0 \; - a1 = -2*cos(w) / b0 \; - a2 = 1
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 15 56 Generate biquad coefficients;
+#X obj 494 63 ./setdsp~;
 #X connect 15 0 46 0;
 #X connect 15 0 46 1;
 #X connect 24 0 15 0;

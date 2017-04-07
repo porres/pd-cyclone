@@ -35,7 +35,7 @@
 #X obj 243 224 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 123 336 cyclone/Scope~ 149 107 256 3 128 0 1 0 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X text 108 435 0;
 #X text 110 330 1;
 #X text 271 224 curve factor;
@@ -47,7 +47,7 @@ steeper the curve.;
 #X obj 510 396 cnv 15 198 138 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #N canvas 1 52 450 300 (subpatch) 0;
-#X array \$0-curve 4410 float 1 black black;
+#X array \$0-curve 4410 float 1;
 #A 0 1 0.998462 0.996929 0.995401 0.993878 0.992359 0.990845 0.989335
 0.98783 0.98633 0.984834 0.983343 0.981857 0.980375 0.978898 0.977425
 0.975957 0.974493 0.973033 0.971579 0.970128 0.968682 0.967241 0.965804
@@ -646,7 +646,7 @@ more computationally expensive.;
 #X connect 25 0 14 0;
 #X restore 395 318 pd curve_factor_examples;
 #X obj 163 226 cyclone/Scope~ 147 114 256 3 128 0 1 0 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X text 184 536 - curve exponential factor parameter (-1 to 1);
 #X text 184 503 - curve duration in ms - works only if a float is sent
 into the left inlet after \, and it works only once.;
@@ -696,6 +696,9 @@ is set before to other than 0 in the mid inlet);
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 24 58 Curved ramp generator;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
 #X connect 16 0 17 0;
 #X connect 17 0 45 0;
 #X connect 17 0 45 1;

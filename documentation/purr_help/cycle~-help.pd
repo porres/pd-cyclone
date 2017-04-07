@@ -25,7 +25,7 @@
 #X text 113 563 3) float;
 #X text 189 563 - sets offset within the given array (default 0);
 #X obj 251 158 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256 0;
+-228856 -1 -1 0 256;
 #X text 310 157 frequency in hertz;
 #X text 124 380 setall <symbol>;
 #X text 124 397 buffer <symbol>;
@@ -52,7 +52,7 @@
 #X obj 70 290 cnv 15 398 138 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-wavetable 4099 float 4 black black;
+#X array \$0-wavetable 4099 float 4;
 #X coords 0 1 4098 -1 400 140 1;
 #X restore 69 289 graph;
 #N canvas 317 53 392 189 generate 0;
@@ -63,13 +63,13 @@
 #X connect 2 0 0 0;
 #X restore 345 272 pd generate waveform;
 #X obj 137 501 nbx 9 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256 0;
+-228856 -1 -1 0 256;
 #X text 236 503 Offset;
 #X msg 82 561 set;
 #X text 42 540 internal;
 #X text 45 560 wave;
 #X obj 218 636 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X obj 137 596 cyclone/cycle~ 440 \$0-wavetable 512;
 #X obj 54 10 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -97,7 +97,7 @@ in this case). This is a new introduced message \, and different than
 the "set" message or the second argument \, which only reads 512 points
 from the buffer.;
 #X obj 671 539 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X obj 590 434 cyclone/loadmess setall \$0-saw;
 #X obj 590 479 cyclone/cycle~ 110;
 #N canvas 927 315 441 227 generate-saw 0;
@@ -111,7 +111,7 @@ normalize;
 #X obj 568 248 cnv 15 398 138 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-saw 4099 float 4 black black;
+#X array \$0-saw 4099 float 4;
 #X coords 0 1 4098 -1 400 140 1;
 #X restore 567 247 graph;
 #X obj 94 672 ./out~;
@@ -165,16 +165,16 @@ it) and @phase (see next subpatch example on phase).;
 #X text 515 267 Other possible values are: "-1" \, which sets to the
 entire buffer's lenght \, and "0" \, which sets to 512 samples.;
 #X obj 520 453 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X obj 520 404 cyclone/cycle~ 110 @buffer \$0-saw @buffer_sizeinsamps
 4096 @buffer_offset 1;
 #X obj 164 502 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X msg 83 406 buffer_offset \$1;
 #X obj 86 357 hsl 128 15 0 4096 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 83 382 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256 0;
+-228856 -1 -1 0 256;
 #X obj 83 434 cyclone/cycle~ 110 @buffer \$0-saw;
 #X text 54 80 The @buffer attribute (also setable via the "buffer"
 message) is analogous to the "setall" message. This means that the
@@ -200,7 +200,7 @@ remainder is filled with zeros.;
 #X msg 719 502 \$1 10;
 #X obj 719 522 line~;
 #X obj 719 479 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -228856
--1 -1 0 256 0;
+-1 -1 0 256;
 #X obj 722 457 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 734 457 Modulation Index;
@@ -213,18 +213,18 @@ internally to the 0-1 range).;
 #X msg 345 176 \$1 10;
 #X obj 345 196 line~;
 #X obj 345 153 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -228856
--1 -1 0 256 0;
+-1 -1 0 256;
 #X obj 348 131 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 389 130 phase;
 #X obj 74 189 cyclone/cycle~ 440;
 #X obj 74 236 cyclone/scope~ 151 134 4 3 24 -1 1 0 0 0 0 205 229 232
-74 79 77 0;
+74 79 77 0 98 102 0;
 #X obj 239 439 cyclone/cycle~;
 #X obj 320 409 phasor~ 440;
 #X obj 562 93 cyclone/cycle~ 0.5;
 #X obj 562 129 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X msg 728 181 \; pd dsp 0 \, dsp 1;
 #X text 492 352 Phase modulation:;
 #X text 526 381 [cycle~] conveniently allows phase modulation with
@@ -275,110 +275,6 @@ set other waveforms from given arrays.;
 #X text 225 430 - changes the buffer size to powers of 2 (16 to 65536)
 ;
 #X text 225 451 - phase offset (0 to 1);
-#N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
-#X obj 215 68 route dsp;
-#X obj 215 37 receive pd;
-#N canvas 977 77 379 291 set_color 0;
-#X obj 47 30 inlet;
-#X obj 147 200 s \$0-cnv;
-#X obj 47 83 select 0 1;
-#X obj 47 220 s \$0-tgl-r;
-#N canvas 0 22 712 637 off 0;
-#X obj 490 220 * -1;
-#X obj 424 300 +;
-#X obj 409 325 +;
-#X obj 347 219 * -65536;
-#X obj 424 220 * -256;
-#X obj 409 356 - 1;
-#X obj 390 189 unpack f f f;
-#X obj 225 295 +;
-#X obj 210 320 +;
-#X obj 148 214 * -65536;
-#X obj 225 215 * -256;
-#X obj 291 215 * -1;
-#X obj 210 351 - 1;
-#X obj 191 184 unpack f f f;
-#X obj 379 423 pack;
-#X msg 395 152 124 124 124;
-#X msg 203 154 220 220 220;
-#X obj 238 121 t b b;
-#X obj 238 81 inlet;
-#X obj 378 485 outlet;
-#X connect 0 0 1 1;
-#X connect 1 0 2 1;
-#X connect 2 0 5 0;
-#X connect 3 0 2 0;
-#X connect 4 0 1 0;
-#X connect 5 0 14 1;
-#X connect 6 0 3 0;
-#X connect 6 1 4 0;
-#X connect 6 2 0 0;
-#X connect 7 0 8 1;
-#X connect 8 0 12 0;
-#X connect 9 0 8 0;
-#X connect 10 0 7 0;
-#X connect 11 0 7 1;
-#X connect 12 0 14 0;
-#X connect 13 0 9 0;
-#X connect 13 1 10 0;
-#X connect 13 2 11 0;
-#X connect 14 0 19 0;
-#X connect 15 0 6 0;
-#X connect 16 0 13 0;
-#X connect 17 0 16 0;
-#X connect 17 1 15 0;
-#X connect 18 0 17 0;
-#X restore 47 113 pd off;
-#X msg 47 180 color \$1 \$2 0;
-#X msg 147 131 -4.86997e+06 -1.34937e+07;
-#X msg 147 171 color \$1 0 \$2;
-#X connect 0 0 2 0;
-#X connect 2 0 4 0;
-#X connect 2 1 6 0;
-#X connect 4 0 5 0;
-#X connect 4 0 7 0;
-#X connect 5 0 3 0;
-#X connect 6 0 7 0;
-#X connect 6 0 5 0;
-#X connect 7 0 1 0;
-#X restore 215 165 pd set_color;
-#X obj 135 122 r \$0-tgl-s;
-#N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
-0;
-#X coords 0 -1 1 1 42 27 1 100 100;
-#X restore 51 144 pd;
-#X obj 226 139 s \$0-tgl-r;
-#X msg 226 115 set \$1;
-#X msg 135 177 \; pd dsp \$1;
-#N canvas 256 32 278 194 load_check 0;
-#X obj 136 53 sig~ 1;
-#X obj 74 24 loadbang;
-#X obj 136 86 snapshot~;
-#X obj 91 52 del 5;
-#X obj 136 151 outlet;
-#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 74 126 switch~;
-#X connect 0 0 2 0;
-#X connect 1 0 3 0;
-#X connect 1 0 5 0;
-#X connect 2 0 4 0;
-#X connect 3 0 2 0;
-#X connect 3 0 5 0;
-#X connect 5 0 6 0;
-#X restore 51 72 pd load_check;
-#X connect 1 0 3 0;
-#X connect 1 0 7 0;
-#X connect 2 0 1 0;
-#X connect 4 0 8 0;
-#X connect 4 0 3 0;
-#X connect 7 0 6 0;
-#X connect 9 0 0 0;
-#X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 504 71 pd;
 #X obj 225 224 ./out~;
 #N canvas 874 112 448 386 buffer~ 0;
 #X msg 151 133 open;
@@ -389,7 +285,7 @@ of a multi channel [buffer~] \, [cycle~] will only read its first channel.
 #X obj 129 103 cyclone/loadmess fill sin 1;
 #X obj 166 282 ./out~;
 #X obj 192 213 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256 0;
+-228856 -1 -1 0 256;
 #X obj 129 160 cyclone/buffer~ \$0-sine @samps 512;
 #X obj 192 240 cyclone/cycle~ 440 \$0-sine;
 #X connect 0 0 5 0;
@@ -422,6 +318,10 @@ points from the buffer) \, default: internal cosine table, f 58;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 19 61 Wavetable oscillator;
-#X connect 8 0 45 0;
-#X connect 8 0 45 1;
+#X obj 494 63 ./setdsp~;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X connect 8 0 44 0;
+#X connect 8 0 44 1;
 #X connect 17 0 8 0;

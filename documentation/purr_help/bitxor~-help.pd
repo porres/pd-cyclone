@@ -18,7 +18,7 @@
 #X text 122 469 1) float;
 #X msg 37 210 mode \$1;
 #X obj 37 191 nbx 2 12 0 3 0 0 safsdf sdfsdf empty 0 -8 0 10 -228856
--1 -1 0 256 0;
+-1 -1 0 256;
 #X text 134 385 signal;
 #X text 140 402 float;
 #X text 103 346 bits <list>;
@@ -60,110 +60,6 @@ bitmask;
 #X text 184 487 - mode [0-3] (details above) - default 0;
 #X text 122 519 [bitor~] can produce NaNs and +/-INFs - but denormals
 are zeroed out.;
-#N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
-#X obj 215 68 route dsp;
-#X obj 215 37 receive pd;
-#N canvas 977 77 379 291 set_color 0;
-#X obj 47 30 inlet;
-#X obj 147 200 s \$0-cnv;
-#X obj 47 83 select 0 1;
-#X obj 47 220 s \$0-tgl-r;
-#N canvas 0 22 712 637 off 0;
-#X obj 490 220 * -1;
-#X obj 424 300 +;
-#X obj 409 325 +;
-#X obj 347 219 * -65536;
-#X obj 424 220 * -256;
-#X obj 409 356 - 1;
-#X obj 390 189 unpack f f f;
-#X obj 225 295 +;
-#X obj 210 320 +;
-#X obj 148 214 * -65536;
-#X obj 225 215 * -256;
-#X obj 291 215 * -1;
-#X obj 210 351 - 1;
-#X obj 191 184 unpack f f f;
-#X obj 379 423 pack;
-#X msg 395 152 124 124 124;
-#X msg 203 154 220 220 220;
-#X obj 238 121 t b b;
-#X obj 238 81 inlet;
-#X obj 378 485 outlet;
-#X connect 0 0 1 1;
-#X connect 1 0 2 1;
-#X connect 2 0 5 0;
-#X connect 3 0 2 0;
-#X connect 4 0 1 0;
-#X connect 5 0 14 1;
-#X connect 6 0 3 0;
-#X connect 6 1 4 0;
-#X connect 6 2 0 0;
-#X connect 7 0 8 1;
-#X connect 8 0 12 0;
-#X connect 9 0 8 0;
-#X connect 10 0 7 0;
-#X connect 11 0 7 1;
-#X connect 12 0 14 0;
-#X connect 13 0 9 0;
-#X connect 13 1 10 0;
-#X connect 13 2 11 0;
-#X connect 14 0 19 0;
-#X connect 15 0 6 0;
-#X connect 16 0 13 0;
-#X connect 17 0 16 0;
-#X connect 17 1 15 0;
-#X connect 18 0 17 0;
-#X restore 47 113 pd off;
-#X msg 47 180 color \$1 \$2 0;
-#X msg 147 131 -4.86997e+06 -1.34937e+07;
-#X msg 147 171 color \$1 0 \$2;
-#X connect 0 0 2 0;
-#X connect 2 0 4 0;
-#X connect 2 1 6 0;
-#X connect 4 0 5 0;
-#X connect 4 0 7 0;
-#X connect 5 0 3 0;
-#X connect 6 0 7 0;
-#X connect 6 0 5 0;
-#X connect 7 0 1 0;
-#X restore 215 165 pd set_color;
-#X obj 135 122 r \$0-tgl-s;
-#N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
-0;
-#X coords 0 -1 1 1 42 27 1 100 100;
-#X restore 51 144 pd;
-#X obj 226 139 s \$0-tgl-r;
-#X msg 226 115 set \$1;
-#X msg 135 177 \; pd dsp \$1;
-#N canvas 256 32 278 194 load_check 0;
-#X obj 136 53 sig~ 1;
-#X obj 74 24 loadbang;
-#X obj 136 86 snapshot~;
-#X obj 91 52 del 5;
-#X obj 136 151 outlet;
-#X obj 74 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 74 126 switch~;
-#X connect 0 0 2 0;
-#X connect 1 0 3 0;
-#X connect 1 0 5 0;
-#X connect 2 0 4 0;
-#X connect 3 0 2 0;
-#X connect 3 0 5 0;
-#X connect 5 0 6 0;
-#X restore 51 72 pd load_check;
-#X connect 1 0 3 0;
-#X connect 1 0 7 0;
-#X connect 2 0 1 0;
-#X connect 4 0 8 0;
-#X connect 4 0 3 0;
-#X connect 7 0 6 0;
-#X connect 9 0 0 0;
-#X coords 0 -1 1 1 44 72 2 50 100;
-#X restore 504 67 pd;
 #X text 90 88 [bitxor~] compares the bits of two values with "Bitwise
 eXclusive OR" (bits are set to 1 if different \, 0 otherwise). It compares
 two signals or a signal to a given bitmask. It has 4 modes of comparison
@@ -177,10 +73,10 @@ two signals or a signal to a given bitmask. It has 4 modes of comparison
 #X text 140 561 @mode <float>: sets conversion mode (default 0);
 #N canvas 772 117 503 587 integer_bitmask 0;
 #X obj 262 315 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256 0;
+-228856 -1 -1 0 256;
 #X msg 61 311 mode \$1;
 #X obj 61 292 nbx 2 12 0 3 0 0 safsdf sdfsdf empty 0 -8 0 10 -228856
--1 -1 0 256 0;
+-1 -1 0 256;
 #X obj 61 227 vradio 15 1 0 4 dfhdfgdj sggh empty 0 -8 0 10 -228856
 -1 -1 0;
 #X text 51 226 0;
@@ -372,13 +268,13 @@ i i i i i i i i i i i i i i, f 126;
 #X restore 121 123 pd x;
 #X obj 34 193 osc~ 220;
 #X obj 121 513 cyclone/scope~ 226 115 5 3 128 -1 1 200 0 0 0 205 229
-232 74 79 77 0;
+232 74 79 77 0 98 102 0;
 #X msg 148 264 mode \$1;
 #X floatatom 148 241 4 0 3 0 - - -, f 4;
 #X obj 148 218 hradio 15 1 0 4 \$0-dslsjdhfk \$0-dsdsdjfslkjhllsjdhfk
 empty 0 -8 0 10 -228856 -1 -1 0;
 #X obj 34 162 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256 0;
+-228856 -1 -1 0 256;
 #X msg 121 184 bits 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0, f 68;
 #X obj 308 314 cnv 15 240 85 empty empty empty 20 12 0 14 -253822 -66577
@@ -444,9 +340,13 @@ signal input.;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 63 Signal Bitwise-XOR;
-#X connect 10 0 41 0;
+#X obj 494 63 ./setdsp~;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X connect 10 0 40 0;
 #X connect 11 0 10 0;
 #X connect 30 0 11 0;
-#X connect 41 0 51 0;
-#X connect 49 0 41 0;
-#X connect 50 0 41 1;
+#X connect 40 0 50 0;
+#X connect 48 0 40 0;
+#X connect 49 0 40 1;

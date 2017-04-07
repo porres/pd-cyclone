@@ -30,7 +30,7 @@ filter.;
 #X obj 283 168 hsl 128 15 200 2000 0 0 empty empty empty -2 -8 0 10
 -228856 -1 -1 0 1;
 #X obj 280 189 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256 0;
+-262144 -1 -1 0 256;
 #X text 228 355 - clears filter's memory;
 #X text 228 336 - signal to be filtered;
 #X text 228 379 - cutoff frequency;
@@ -60,6 +60,9 @@ filter.;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 61 Crossover filter;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
 #X connect 15 0 29 0;
 #X connect 15 1 29 1;
 #X connect 16 0 15 0;
