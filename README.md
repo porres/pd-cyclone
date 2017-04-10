@@ -24,7 +24,7 @@ Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the e
 
 - 60 updated objects (only 4 reamining to be updated);
 - 54 fixed objects (including objects that were and were not updated);
-- 46 new objects (some still experimental);
+- 48 new objects (some still experimental);
 - A newly written documentation, taking care of numerous issues (yet to include meta and related objects)
 
 Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog 
