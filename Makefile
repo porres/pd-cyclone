@@ -79,8 +79,6 @@ atan2~.class.sources := cyclone_src/binaries/signal/atan2.c
 atanh~.class.sources := cyclone_src/binaries/signal/atanh.c
 average~.class.sources := cyclone_src/binaries/signal/average.c
 avg~.class.sources := cyclone_src/binaries/signal/avg.c
-bitnot~.class.sources := cyclone_src/binaries/signal/bitnot.c
-bitshift~.class.sources := cyclone_src/binaries/signal/bitshift.c
 cascade~.class.sources := cyclone_src/binaries/signal/cascade.c
 change~.class.sources := cyclone_src/binaries/signal/change.c
 click~.class.sources := cyclone_src/binaries/signal/click.c
@@ -125,7 +123,6 @@ zerox~.class.sources := cyclone_src/binaries/signal/zerox.c
 # NEW ones in cyclone0.3:
 atodb~.class.sources := cyclone_src/binaries/signal/atodb.c
 biquad~.class.sources := cyclone_src/binaries/signal/biquad.c
-bitsafe~.class.sources := cyclone_src/binaries/signal/bitsafe.c
 cross~.class.sources := cyclone_src/binaries/signal/cross.c
 dbtoa~.class.sources := cyclone_src/binaries/signal/dbtoa.c
 degrade~.class.sources := cyclone_src/binaries/signal/degrade.c
@@ -344,7 +341,10 @@ magicbitwise := \
 shared/magic.c \
 shared/bitwise.c
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magicbitwise)
+    bitnot~.class.sources := cyclone_src/binaries/signal/bitnot.c $(magicbitwise)
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magicbitwise)
+    bitsafe~.class.sources := cyclone_src/binaries/signal/bitsafe.c $(magicbitwise)
+    bitshift~.class.sources := cyclone_src/binaries/signal/bitshift.c $(magicbitwise)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbitwise)
 
 #GUI

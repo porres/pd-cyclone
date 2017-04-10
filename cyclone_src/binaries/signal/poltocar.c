@@ -32,7 +32,7 @@ static t_int *poltocar_perform(t_int *w)
     if (!magic_isnan(*x->x_signalscalar))
 	{
 		magic_setnan(x->x_signalscalar);
-    //    pd_error(x, "poltocar~: doesn't understand 'float'");
+        pd_error(x, "poltocar~: doesn't understand 'float'");
     }
     while (nblock--)
     {

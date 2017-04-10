@@ -154,7 +154,7 @@ typedef struct _scopehandle
 static t_class *scope_class;
 static t_class *scopehandle_class;
 static void scope_bufsize(t_scope *x, t_float bufsz);
-EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
+//EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 static void scope_clear(t_scope *x, int withdelay)
 {
@@ -312,9 +312,9 @@ static t_int *scope_perform(t_int *w)
 				currx = *in1++;
 				curry = *in2++;
 			}
-			if (currx != currx)
+			if (magic_isnan(currx))
 				currx = 0.;  /* CHECKED NaNs bashed to zeros */
-			if (curry != curry)
+			if (magic_isnan(curry))
 				curry = 0.;
 			if (++phase >= period)
 			{

@@ -70,7 +70,7 @@ typedef void (*t_matrix_cellfn)(t_matrix *x, int indx, int ondx,
 
 static t_class *matrix_class;
 
-EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
+//EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 /* called only in nonbinary mode;  LATER deal with changing nblock/ksr */
 static void matrix_retarget(t_matrix *x, int cellndx)
@@ -283,10 +283,10 @@ static t_int *matrix01_perform(t_int *w)
 	t_float *ivec = *ivecs++;
 	t_float **ovecp = osums;
 	if (indx){
-		if (*x->x_signalscalars[indx] || !signbit(*x->x_signalscalars[indx]))
+		if (!magic_isnan(*x->x_signalscalars[indx]))
 		{
-		//	pd_error(x, "matrix~: doesn't understand 'float'");
-			*x->x_signalscalars[indx] = -0.0;
+			pd_error(x, "matrix~: doesn't understand 'float'");
+			magic_setnan(x->x_signalscalars[indx]);
 		}
 		if (!(x->x_hasfeeders[indx])) ivec = x->x_zerovec;
 	}
@@ -338,10 +338,10 @@ static t_int *matrixnb_perform(t_int *w)
 	t_float *ivec = *ivecs++;
 	t_float **ovecp = osums;
 	if (indx){
-		if (*x->x_signalscalars[indx] || !signbit(*x->x_signalscalars[indx]))
+		if (!magic_isnan(*x->x_signalscalars[indx]))
 		{
-		//	pd_error(x, "matrix~: doesn't understand 'float'");
-			*x->x_signalscalars[indx] = -0.0;
+			pd_error(x, "matrix~: doesn't understand 'float'");
+			magic_setnan(x->x_signalscalars[indx]);
 		}
 		if (!(x->x_hasfeeders[indx])) ivec = x->x_zerovec;
 	}
@@ -557,6 +557,8 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	t_matrix *x = (t_matrix *)pd_new(matrix_class);
 
 	t_float rampval = MATRIX_DEFRAMP;
+	t_float nan32;
+	magic_setnan(&nan32);
 	x->x_numinlets = (int)MATRIX_MININLETS;
 	x->x_numoutlets = (int)MATRIX_MINOUTLETS;
 	x->x_defgain = MATRIX_DEFGAIN;
@@ -673,7 +675,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 	    x->x_remains = 0;
 	};
 	for (i = 1; i < x->x_numinlets; i++){
-		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), -0.);
+		pd_float( (t_pd *)inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal), nan32);
 		x->x_signalscalars[i] = obj_findsignalscalar((t_object *)x, i);
 	};
 	for (i = 0; i < x->x_numoutlets; i++){

@@ -35,10 +35,8 @@ int magic_isnan(t_float in) {
 int magic_isinf(t_float in) {
 	union magic_ui32_fl input_u;
 	input_u.uif_float = in;
-	if ( input_u.uif_uint32 == CYCLONE_MAGIC_INF ||
-		input_u.uif_uint32 == CYCLONE_MAGIC_NEGATIVE_INF)
-		return 0;
-		else return 0;
+	return ( input_u.uif_uint32 == CYCLONE_MAGIC_INF ||
+		input_u.uif_uint32 == CYCLONE_MAGIC_NEGATIVE_INF);
 }
 
 t_outconnect *magic_outlet_connections(t_outlet *o) // obj_starttraverseoutlet() replacement
