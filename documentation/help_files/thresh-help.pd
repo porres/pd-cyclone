@@ -41,13 +41,11 @@ in time;
 #X obj 95 159 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 207 192 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 85 256;
 #X obj 176 234 cyclone/thresh 50;
 #X text 271 192 <= click and drag for a;
 #X text 303 209 short period;
 #X text 121 159 <= outputs a counter list;
-#X text 183 365 list of numbers stored within a time interval, f 60
-;
 #X text 67 85 [thresh] collects numbers and lists into a single list
 if they come within a certain given amount of time. Each item or list
 is appended to the previous stored items. The time count is reset at
@@ -60,7 +58,7 @@ each incoming item.;
 #X obj 142 269 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 85 269 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 1 256;
 #X obj 85 139 random 1000;
 #X obj 85 241 unpack f f;
 #X msg 112 85 45;
@@ -97,6 +95,8 @@ close together;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 183 365 list of elements stored within a time interval, f
+60;
 #X connect 23 2 26 0;
 #X connect 24 0 23 0;
 #X connect 25 0 26 0;
