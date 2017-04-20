@@ -1,6 +1,10 @@
 /* Copyright (c) 2002-2003 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
+/*
+  2017 Derek Kwan - moved thresh_anything contents to thresh_list, no longer accept anything/bang/symbol
+  but kept legacy code just incase 
+*/
 
 #include <string.h>
 #include "m_pd.h"
@@ -32,34 +36,42 @@ static void thresh_tick(t_thresh *x)
 	t_atom *av = x->x_message;
 	if (ac > 1)
         {
-            if(av->a_type == A_FLOAT)
+	  //if(av->a_type == A_FLOAT)
 	        outlet_list(x->x_outlet, &s_list, ac, av);
-            else if(av->a_type == A_SYMBOL)
+
+	  /*
+	  else if(av->a_type == A_SYMBOL)
                 outlet_anything(x->x_outlet, av->a_w.w_symbol, ac-1, \
                         &av[1]);
+	  */
         }
 	else
         {
 	    if(av->a_type == A_FLOAT)
                 outlet_float(x->x_outlet, av->a_w.w_float);
-            else if(av->a_type == A_SYMBOL)
+	    /*
+	    else if(av->a_type == A_SYMBOL)
                 outlet_anything(x->x_outlet, av->a_w.w_symbol, 0, 0);
+	    */
         };
 	
 	x->x_natoms = 0;
     }
 }
 
-static void thresh_anything(t_thresh *x, t_symbol *s, int ac, t_atom *av)
+static void thresh_list(t_thresh *x, t_symbol *s, int ac, t_atom *av)
 {
+    
     int ntotal = x->x_natoms + ac;
     t_atom *buf;
     clock_unset(x->x_clock);
+    /*
     if (s == &s_) s = 0;
     if (s)
     {
     	ntotal++;
     };
+    */
     if (ntotal > x->x_size)
     {
 	/* LATER if (ntotal > THRESH_MAXSIZE)... (cf prepend) */
@@ -72,40 +84,49 @@ static void thresh_anything(t_thresh *x, t_symbol *s, int ac, t_atom *av)
 	{
 	    x->x_natoms = 0;
 	    if (ac >= x->x_size)
-		ac = (s ? x->x_size - 1 : x->x_size);
+	      //ac = (s ? x->x_size - 1 : x->x_size);
+	      ac = x->x_size;
 	}
     }
     buf = x->x_message + x->x_natoms;
+    /*
     if (s)
     {
 	SETSYMBOL(buf, s);
 	buf++;
 	x->x_natoms++;
     }
+    */
     if (ac)
     {
 	memcpy(buf, av, ac * sizeof(*buf));
 	x->x_natoms += ac;
     }
     clock_delay(x->x_clock, x->x_thresh);
+
+
+}
+
+static void thresh_symbol(t_thresh *x, t_symbol *s)
+{
+  pd_error(x, "[thresh]: no method for 'symbol'");
+  //thresh_anything(x, s, 0, 0);
+}
+
+
+static void thresh_anything(t_thresh *x, t_symbol *s, int ac, t_atom *av)
+{
+  pd_error(x, "[thresh]: no method for 'anything'");
 }
 
 static void thresh_float(t_thresh *x, t_float f)
 {
     t_atom at;
     SETFLOAT(&at, f);
-    thresh_anything(x, 0, 1, &at);
+    thresh_list(x, 0, 1, &at);
 }
 
-static void thresh_list(t_thresh *x, t_symbol *s, int ac, t_atom *av)
-{
-    thresh_anything(x, 0, ac, av);
-}
 
-static void thresh_symbol(t_thresh *x, t_symbol *s)
-{
-    thresh_anything(x, s, 0, 0);
-}
 
 static void thresh_ft1(t_thresh *x, t_floatarg f)
 {
@@ -125,7 +146,8 @@ static void thresh_free(t_thresh *x)
 
 static void thresh_bang(t_thresh *x)
 {
-    outlet_bang(x->x_outlet);
+  pd_error(x, "[thresh]: no method for 'bang'");
+  //outlet_bang(x->x_outlet);
 }
 
 static void *thresh_new(t_floatarg f)
