@@ -49,6 +49,15 @@ typedef struct _pv
 static t_class *pv_class;
 static t_class *pvlist_class;
 
+//dummy functions
+static void pvlist_bang(t_pvlist *pl){}
+static void pvlist_float(t_pvlist *pl, t_float f){}
+static void pvlist_symbol(t_pvlist *pl, t_symbol *s){}
+static void pvlist_pointer(t_pvlist *pl, t_gpointer *gp){}
+static void pvlist_anything(t_pvlist *pl, t_symbol *s, int argc, t_atom * argv){}
+static void pvlist_list(t_pvlist *pl, t_symbol *s, int argc, t_atom * argv){}
+
+
 static void pvlist_decrement(t_pvlist *pl)
 {
     if (!--pl->l_refcount)
@@ -454,4 +463,11 @@ void pv_setup(void)
        "error::doesn't understand bang" (class name is an empty string) */
     pvlist_class = class_new(&s_, 0, 0,
 			     sizeof(t_pvlist), CLASS_PD, 0);
+    class_addbang(pvlist_class, pvlist_bang);
+    class_addfloat(pvlist_class, pvlist_float);
+    class_addsymbol(pvlist_class, pvlist_symbol);
+    class_addpointer(pvlist_class, pvlist_pointer);
+    class_addlist(pvlist_class, pvlist_list);
+    class_addanything(pvlist_class, pvlist_anything);
+
 }
