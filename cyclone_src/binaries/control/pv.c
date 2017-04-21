@@ -397,7 +397,7 @@ static void *pv_new(t_symbol *s, int ac, t_atom *av)
     t_pv *x = 0;
     if (ac && av->a_type == A_SYMBOL)
 	s = av->a_w.w_symbol;
-    else s = 0;
+    else s = gensym("_cyclone-pv-default");
     if (s && s != &s_)
     {
 	t_glist *gl = canvas_getcurrent();
