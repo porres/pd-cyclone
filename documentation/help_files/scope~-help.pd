@@ -375,10 +375,8 @@ message/attribute \, convenient also for some dynamic patching.;
 #N canvas 840 278 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 73 77 When you click on [scope~] with your mouse \, the display
-freezes for as long as you hold the cursor's position.;
 #X obj 152 154 cyclone/rand~ 40;
-#X obj 152 192 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
+#X obj 152 192 cyclone/scope~ 130 130 47 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 71 432 And as noted \, if you right click on it (in edit mode
 or not) you can access its properties.;
@@ -386,7 +384,9 @@ or not) you can access its properties.;
 on it and then you can resize it by clicking and dragging on its bottom
 right corner.;
 #X obj 33 17 cyclone/comment 0 18 times ? 0 0 0 0 mouse:;
-#X connect 2 0 3 0;
+#X text 73 77 When you click on [scope~] with your mouse \, the display
+freezes for as long as you hold the mouse button down.;
+#X connect 1 0 2 0;
 #X restore 500 257 pd mouse;
 #N canvas 693 173 436 665 buffer 0;
 #X floatatom 141 455 5 0 0 0 - - -, f 5;
