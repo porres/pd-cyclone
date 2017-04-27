@@ -307,6 +307,12 @@ shared/common/os.c
 
 # New Dependencies: #################################################################
 
+#GUI
+sfittermagic := \
+shared/magic.c \
+shared/common/fitter.c
+    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
+
 magic := shared/magic.c
     grab.class.sources := cyclone_src/binaries/control/grab.c $(magic) # only "fragile"
     cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only one "fragile" + "forky"
@@ -346,12 +352,6 @@ shared/bitwise.c
     bitsafe~.class.sources := cyclone_src/binaries/signal/bitsafe.c $(magicbitwise)
     bitshift~.class.sources := cyclone_src/binaries/signal/bitshift.c $(magicbitwise)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbitwise)
-
-#GUI
-sfittermagic := \
-shared/magic.c \
-shared/common/fitter.c
-    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##
