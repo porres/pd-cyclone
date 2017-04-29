@@ -350,14 +350,17 @@ shared/magicbit.c \
 shared/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff)
 
-
-    
-
 #######################################################################
                         ## END OF CYCLONE CLASSES ##
 #######################################################################
 
 ### datafiles #########################################################
+
+# ifdef PDL2ORK
+# datafiles = \
+# $(wildcard documentation/purr_help/*.pd) \
+# $(wildcard documentation/purr_help/abs_GUI/*.pd) \
+# else
 
 datafiles = \
 $(wildcard cyclone_src/abstractions/*.pd) \
