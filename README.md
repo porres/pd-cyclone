@@ -1,5 +1,5 @@
 
-Cyclone 0.3 (currently at alpha stage)
+Cyclone 0.3 beta-1
 -------
 
 Releases: https://github.com/porres/pd-cyclone/releases
