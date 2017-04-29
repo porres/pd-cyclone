@@ -4,9 +4,8 @@
 
 
 #include "m_pd.h"
-// MAGIC: include magic.h for magic and math.h for NAN stuff */
+// MAGIC: include magicbit.h for magic
 #include "magicbit.h"
-// #include <math.h>
 // end magic
 
 typedef struct _sah
@@ -54,7 +53,6 @@ static t_int *sah_perform(t_int *w)
 	if (!magic_isnan(*x->x_signalscalar))
 	{
 		magic_setnan(x->x_signalscalar);
-//		pd_error(x, "NAN: %d", isnan(NAN));
 		pd_error(x, "sah~: doesn't understand 'float'");
 	}
 	/*end magic*/
