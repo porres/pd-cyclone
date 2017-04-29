@@ -7,8 +7,7 @@
 #include <string.h>
 //#include <math.h>
 #include "m_pd.h"
-#include "bitwise.h"
-#include "magic.h"
+#include "magicbit.h"
 
 #define PDCYBXORMASK 0 //default for bitmask
 #define PDCYBXORMODE 0 //default for mode

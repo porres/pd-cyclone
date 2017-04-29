@@ -28,7 +28,7 @@
 #include "m_imp.h" // why?
 #include "g_canvas.h"
 #include "g_all_guis.h"
-#include "magic.h"
+#include "magicbit.h"
 #include "common/fitter.h"
 
 #ifdef KRZYSZCZ

@@ -4,7 +4,7 @@
 //#include <math.h>
 
 // MAGIC
-#include "magic.h"
+#include "magicbit.h"
 
 typedef struct _plusequals
 {

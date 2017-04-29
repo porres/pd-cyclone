@@ -302,31 +302,38 @@ sgrow := shared/common/grow.c
 sfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
-shared/common/os.c 
+shared/common/os.c \
+shared/unstable/forky.c
     capture~.class.sources := cyclone_src/binaries/signal/capture.c $(sfile)
 
 # New Dependencies: #################################################################
 
 #GUI
 sfittermagic := \
-shared/magic.c \
+shared/magicbit.c \
 shared/common/fitter.c
     scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
 
-magic := shared/magic.c
-    grab.class.sources := cyclone_src/binaries/control/grab.c $(magic) # only "fragile"
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magic) # only one "fragile" + "forky"
-    delay~.class.sources := cyclone_src/binaries/signal/delay.c $(magic)
-    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magic)
-    minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magic)
-    poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magic)
-    matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(magic)
-    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magic)
-    gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magic)
-    selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magic)
-    kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magic)
-    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magic) # not yet
-    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magic) # cyclone sub-library
+magicbit := shared/magicbit.c
+    grab.class.sources := cyclone_src/binaries/control/grab.c $(magicbit) # only "fragile"
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magicbit) # only one "fragile" + "forky"
+    delay~.class.sources := cyclone_src/binaries/signal/delay.c $(magicbit)
+    plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magicbit)
+    minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magicbit)
+    poltocar~.class.sources := cyclone_src/binaries/signal/poltocar.c $(magicbit)
+    matrix~.class.sources := cyclone_src/binaries/signal/matrix.c $(magicbit)
+    sah~.class.sources := cyclone_src/binaries/signal/sah.c $(magicbit)
+    gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magicbit)
+    selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magicbit)
+    kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magicbit)
+    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magicbit) #
+    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magicbit) # cyclone sub-library
+    bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magicbit)
+    bitnot~.class.sources := cyclone_src/binaries/signal/bitnot.c $(magicbit)
+    bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magicbit)
+    bitsafe~.class.sources := cyclone_src/binaries/signal/bitsafe.c $(magicbit)
+    bitshift~.class.sources := cyclone_src/binaries/signal/bitshift.c $(magicbit)
+    bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbit)
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
@@ -339,19 +346,12 @@ scybuf := shared/cybuf.c
     wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
 
 magicscybuff := \
-shared/magic.c \
+shared/magicbit.c \
 shared/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(magicscybuff)
 
-magicbitwise := \
-shared/magic.c \
-shared/bitwise.c
-    bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magicbitwise)
-    bitnot~.class.sources := cyclone_src/binaries/signal/bitnot.c $(magicbitwise)
-    bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magicbitwise)
-    bitsafe~.class.sources := cyclone_src/binaries/signal/bitsafe.c $(magicbitwise)
-    bitshift~.class.sources := cyclone_src/binaries/signal/bitshift.c $(magicbitwise)
-    bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbitwise)
+
+    
 
 #######################################################################
                         ## END OF CYCLONE CLASSES ##

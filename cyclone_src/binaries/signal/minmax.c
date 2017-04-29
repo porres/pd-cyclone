@@ -4,7 +4,7 @@
 
 #include "m_pd.h"
 #include <math.h>
-#include "magic.h"
+#include "magicbit.h"
 
 typedef struct _minmax
 {

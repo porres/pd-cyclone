@@ -2,9 +2,8 @@
  
 //#include <math.h>
 #include "m_pd.h"
-#include "bitwise.h"
 // magic.h needed for magic_isnan() and magic_isinf()
-#include "magic.h"
+#include "magicbit.h"
 
 typedef struct _bitsafe {
     t_object x_obj;

@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include "magicbit.h"
 
 #define VECTRAL_DEFSIZE  512
 
@@ -24,6 +25,10 @@ typedef struct _vectral
     /* deltaclip state */
     float              x_lo;
     float              x_hi;
+    t_float			   *x_glist;
+    t_float 		   *x_signalscalar1;
+    t_float			   *x_signalscalar2;
+    t_int				x_hasfeeders;
 } t_vectral;
 
 static t_class *vectral_class;
@@ -129,6 +134,12 @@ static void vectral_perform_clip(t_vectral *x, int nblock,
 static t_int *vectral_perform(t_int *w)
 {
     t_vectral *x = (t_vectral *)(w[1]);
+    if (!magic_isnan(*x->x_signalscalar1) || !magic_isnan(*x->x_signalscalar2))
+	{
+		magic_setnan(x->x_signalscalar1);
+		magic_setnan(x->x_signalscalar2);
+        pd_error(x, "vectral~: doesn't understand 'float'");
+    }
     (*x->x_perform)(x, (int)(w[2]), (t_float *)(w[3]), (t_float *)(w[4]),
 		    (t_float *)(w[5]), (t_float *)(w[6]));
     return (w + 7);
@@ -136,6 +147,7 @@ static t_int *vectral_perform(t_int *w)
 
 static void vectral_dsp(t_vectral *x, t_signal **sp)
 {
+	x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
     int nblock = sp[0]->s_n;
     if (nblock > x->x_bufsize)
 	nblock = x->x_bufsize;  /* CHECKME */
@@ -226,6 +238,11 @@ static void *vectral_new(t_floatarg f)
     x->x_perform = vectral_perform_bypass;
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
+    x->x_glist = canvas_getcurrent();
+    x->x_signalscalar1 = obj_findsignalscalar((t_object *)x, 1);
+    x->x_signalscalar2 = obj_findsignalscalar((t_object *)x, 2);
+    magic_setnan(x->x_signalscalar1);
+    magic_setnan(x->x_signalscalar2);
     outlet_new((t_object *)x, &s_signal);
     return (x);
 failure:

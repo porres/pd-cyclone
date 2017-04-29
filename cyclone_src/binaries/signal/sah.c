@@ -5,7 +5,7 @@
 
 #include "m_pd.h"
 // MAGIC: include magic.h for magic and math.h for NAN stuff */
-#include "magic.h"
+#include "magicbit.h"
 // #include <math.h>
 // end magic
 

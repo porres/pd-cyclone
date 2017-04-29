@@ -20,7 +20,7 @@
 #include <math.h>
 #include "m_pd.h"
 #include "shared.h"
-#include "magic.h"
+#include "magicbit.h"
 
 /* think about float-to-int conversion -- there is no point in making
    the two below compatible, while all the others are not compatible... */
@@ -532,10 +532,10 @@ static t_int *plusequals_perform(t_int *w)
     
     // MAGIC: poll float for error
     t_float scalar = *x->x_signalscalar;
-    if (!isnan(*x->x_signalscalar))
+    if (!magic_isnan(*x->x_signalscalar))
     {
-        *x->x_signalscalar = NAN;
-    //    pd_error(x, "plusequals~: doesn't understand 'float'");
+        magic_setnan(x->x_signalscalar);
+        pd_error(x, "plusequals~: doesn't understand 'float'");
     }
     
     while (nblock--)
@@ -560,10 +560,10 @@ static t_int *plusequals_perform_no_in(t_int *w)
     t_float *out = (t_float *)(w[5]);
     
     // MAGIC: poll float for error
-    if (!isnan(*x->x_signalscalar))
+    if (!magic_isnan(*x->x_signalscalar))
     {
-        *x->x_signalscalar = NAN;
-  //      pd_error(x, "plusequals~: doesn't understand 'float'");
+        magic_setnan(x->x_signalscalar);
+        pd_error(x, "plusequals~: doesn't understand 'float'");
     }
     
     while (nblock--)
@@ -577,7 +577,7 @@ static void plusequals_dsp(t_plusequals *x, t_signal **sp)
 {
     // MAGIC
     x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
-    *x->x_signalscalar = NAN;
+    magic_setnan(x->x_signalscalar);
     
     if (magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal))
         dsp_add(plusequals_perform, 5, x, sp[0]->s_n,

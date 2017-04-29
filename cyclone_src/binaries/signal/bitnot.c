@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "bitwise.h"
+#include "magicbit.h"
 
 //~ union i32_fl {
 	//~ int32_t if_int32;

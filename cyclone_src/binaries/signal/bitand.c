@@ -4,8 +4,7 @@
 
 //#include <math.h>
 #include "m_pd.h"
-#include "bitwise.h"
-#include "magic.h"
+#include "magicbit.h"
 
 // EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 

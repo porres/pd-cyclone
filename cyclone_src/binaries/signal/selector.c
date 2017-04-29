@@ -1,7 +1,7 @@
 // Derek Kwan - 2016
 
 #include "m_pd.h"
-#include "magic.h"
+#include "magicbit.h"
 //#include <math.h>
 
 #define PDCYSELTORSIGPUT 1 //default number of sigputs (inlets without selector inlet)

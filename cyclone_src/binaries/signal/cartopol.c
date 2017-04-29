@@ -4,7 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "magic.h"
+#include "magicbit.h"
 
 typedef struct _cartopol
 {

@@ -4,7 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "magic.h"
+#include "magicbit.h"
 
 #define DELAY_DEFMAXSIZE  512 // default buffer size
 #define DELAY_GUARD 4 // guard points for 4-point interpolation

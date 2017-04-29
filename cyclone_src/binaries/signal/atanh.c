@@ -6,7 +6,7 @@
 #include "m_pd.h"
 // magic needed for manual isnan and isinf checks, which don't work
 // reliably with -ffast-math compiler option
-#include "magic.h"
+//#include "magicbit.h"
 
 typedef struct _atanh {
     t_object x_obj;
@@ -29,7 +29,7 @@ static t_int *atanh_perform(t_int *w)
     {// CHECKED now there's protection against nan/inf
         float f = *in++;
         f = atanhf(f);
-        *out++ = (magic_isnan(f) || magic_isinf(f)) ? 0 : f;
+        *out++ = (PD_BADFLOAT(f)) ? 0 : f;
     }
     return (w + 4);
 }
