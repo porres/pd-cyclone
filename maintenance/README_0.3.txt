@@ -22,7 +22,7 @@ Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP. It thus 
 About the current version:
 ——————————————————————————
 
-Cyclone 0.3-beta-0 carries a a set of over 200 Pure Data externals, it comes with externals as abstractions, separate binaries, and a single binary containing the cyclone sub-library.
+Cyclone 0.3-beta-1 carries a a set of over 200 Pure Data externals, it comes with externals as abstractions, separate binaries, and a single binary containing the cyclone sub-library.
 
 - The individual external binaries and abstractions can be loaded only by inserting cyclone folder in the search path of Pd (or using Pd Vanilla’s [declare] object). 
 
