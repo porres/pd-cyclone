@@ -373,12 +373,12 @@ documentation/extra_files/seq.mid \
 LICENSE.txt \
 README.txt \
 
-# pthreadGC2.dll is required for Windows installation. It can be found in
+# pthreadGC-3.dll is required for Windows installation. It can be found in
 # the MinGW directory (usually C:\MinGW\bin) directory and should be
 # copied to the current directory before installation or packaging.
 
 ifeq (MINGW,$(findstring MINGW,$(uname)))
-datafiles += maintenance/windows_dll/pthreadGC2.dll
+datafiles += maintenance/windows_dll/pthreadGC-3.dll
 endif
 
 ### pd-lib-builder ######################################################
