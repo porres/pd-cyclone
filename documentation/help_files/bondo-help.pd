@@ -31,11 +31,11 @@
 #X floatatom 261 185 5 0 0 0 - - -, f 5;
 #X floatatom 320 185 5 0 0 0 - - -, f 5;
 #X obj 320 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
+-228856 -1 -1 0 256;
 #X obj 261 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X obj 203 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 10 256;
+-228856 -1 -1 0 256;
 #X obj 203 220 cyclone/bondo 3, f 20;
 #X obj 144 155 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -48,13 +48,13 @@
 #N canvas 410 253 377 431 set 0;
 #X obj 202 147 inlet;
 #X obj 202 260 s \$0-cnv;
-#X obj 201 301 cnv 15 70 20 empty \$0-cnv I 6 11 1 14 -233017 -1 0
+#X obj 201 301 cnv 15 70 20 empty \$0-cnv 1 6 11 1 14 -233017 -1 0
 ;
 #X obj 202 214 cyclone/prepend label;
-#X obj 217 181 cyclone/tosymbol;
+#X obj 202 181 cyclone/tosymbol;
 #X connect 0 0 4 0;
-#X connect 0 0 3 0;
 #X connect 3 0 1 0;
+#X connect 4 0 3 0;
 #X coords 0 -1 1 1 72 22 1 200 300;
 #X restore 138 348 pd set;
 #X msg 138 152 symbol bondo;
@@ -64,8 +64,8 @@
 #X obj 202 137 inlet;
 #X obj 202 214 cyclone/prepend label;
 #X obj 202 260 s \$0-cnv-2;
-#X obj 201 301 cnv 15 70 20 empty \$0-cnv-2 like 6 11 1 14 -233017
--1 0;
+#X obj 201 301 cnv 15 70 20 empty \$0-cnv-2 2 6 11 1 14 -233017 -1
+0;
 #X obj 202 176 cyclone/tosymbol;
 #X connect 0 0 4 0;
 #X connect 1 0 2 0;
@@ -76,8 +76,8 @@
 #X obj 202 147 inlet;
 #X obj 202 214 cyclone/prepend label;
 #X obj 202 260 s \$0-cnv-3;
-#X obj 201 301 cnv 15 70 20 empty \$0-cnv-3 this 6 11 1 14 -233017
--1 0;
+#X obj 201 301 cnv 15 70 20 empty \$0-cnv-3 3 6 11 1 14 -233017 -1
+0;
 #X obj 202 183 cyclone/tosymbol;
 #X connect 0 0 4 0;
 #X connect 1 0 2 0;
@@ -122,7 +122,7 @@ to the next outlet and so on until you reach out of outlets).;
 outputs messages with more than one element through the corresponding
 inlet.;
 #X obj 246 93 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 40 256;
+-228856 -1 -1 0 256;
 #X obj 111 217 cyclone/prepend set;
 #X obj 111 179 bondo 2 0 n, f 23;
 #X msg 246 246 x y z;

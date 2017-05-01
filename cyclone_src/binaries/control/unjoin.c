@@ -23,31 +23,43 @@ static void unjoin_list(t_unjoin *x, t_symbol *s, int argc, t_atom *argv)
     int outsize = x->x_outsize;
     int numouts = x->x_numouts;
     int numleft = argc;
-    for(i=0;i<numouts;i++)
+    for(i = 0; i < numouts; i++)
     {
         if(numleft >= outsize)
-        {
-            
-            outlet_anything(x->x_outlets[i],  &s_ , outsize, argv);
+        { // if only one... out float
+            if(outsize == 1 && argv->a_type == A_FLOAT)
+                outlet_float(x->x_outlets[i], argv->a_w.w_float);
+            else if(argv->a_type == A_FLOAT) // if first is float... out list
+                outlet_list(x->x_outlets[i],  &s_list, outsize, argv);
+            else
+                outlet_anything(x->x_outlets[i],  &s_ , outsize, argv);
             numleft -= outsize;
             argv += outsize;
         }
-        else if (( numleft > 0 ) && (numleft < outsize))
+        else if ((numleft > 0) && (numleft < outsize))
         {
-            outlet_anything(x->x_outlets[i], &s_, numleft, argv);
+            if(numleft == 1 && argv->a_type == A_FLOAT)
+                outlet_float(x->x_outlets[i], argv->a_w.w_float);
+            else if(argv->a_type == A_FLOAT) // if first is float... out list
+                outlet_list(x->x_outlets[i],  &s_list, numleft, argv);
+            else
+                outlet_anything(x->x_outlets[i], &s_, numleft, argv);
             numleft = 0;
             break;
         }
         else if(numleft <= 0) break;
     };
-
-    //if leftovers, ship off the rest in the extra outlet
-    if(numleft)
+    if(numleft) // extra outlet
     {
-        outlet_anything(x->x_outlets[numouts], &s_, numleft, argv);
+        if(numleft == 1 && argv->a_type == A_FLOAT)
+            outlet_float(x->x_outlets[i], argv->a_w.w_float);
+        else if(argv->a_type == A_FLOAT) // if first is float... out list
+            outlet_list(x->x_outlets[numouts],  &s_list, numleft, argv);
+        else
+            outlet_anything(x->x_outlets[numouts], &s_, numleft, argv);
     };
-
 }
+
 static void unjoin_anything(t_unjoin * x, t_symbol *s, int argc, t_atom * argv)
 {   
     if(s)
@@ -62,8 +74,8 @@ static void unjoin_anything(t_unjoin * x, t_symbol *s, int argc, t_atom * argv)
         unjoin_list(x, NULL, argc+1, newlist);
     }
     else unjoin_list(x, NULL, argc, argv);
-    
 }
+
 static void unjoin_float(t_unjoin *x, t_float f)
 {
     outlet_float(x->x_outlets[0], f);
