@@ -41,6 +41,7 @@ typedef struct _sprintf
     t_pd    **x_proxies;
     int       x_fsize;     /* as allocated (i.e. including a terminating 0) */
     char     *x_fstring;
+    int       x_symout;
 } t_sprintf;
 
 typedef struct _sprintf_proxy
@@ -176,33 +177,37 @@ static void sprintf_dooutput(t_sprintf *x)
 	strcpy(outp, inp);
 
 	outp = outstring;
-	while (*outp == ' ' || *outp == '\t'
-	       || *outp == '\n' || *outp == '\r') outp++;
-	if (*outp)
-	{
-	    t_binbuf *bb = binbuf_new();
-	    int ac;
-	    t_atom *av;
-	    binbuf_text(bb, outp, strlen(outp));
-	    ac = binbuf_getnatom(bb);
-	    av = binbuf_getvec(bb);
-	    if (ac)
-	    {
-		if (av->a_type == A_SYMBOL)
-		    outlet_anything(((t_object *)x)->ob_outlet,
-				    av->a_w.w_symbol, ac - 1, av + 1);
-		else if (av->a_type == A_FLOAT)
-		{
-		    if (ac > 1)
-			outlet_list(((t_object *)x)->ob_outlet,
-				    &s_list, ac, av);
-		    else
-			outlet_float(((t_object *)x)->ob_outlet,
-				     av->a_w.w_float);
-		}
-	    }
-	    binbuf_free(bb);
-	}
+	if(x->x_symout == 1) outlet_symbol(((t_object *) x)->ob_outlet, gensym(outstring));
+	else
+	  {
+	    while (*outp == ' ' || *outp == '\t'
+		   || *outp == '\n' || *outp == '\r') outp++;
+	    if (*outp)
+	      {
+		t_binbuf *bb = binbuf_new();
+		int ac;
+		t_atom *av;
+		binbuf_text(bb, outp, strlen(outp));
+		ac = binbuf_getnatom(bb);
+		av = binbuf_getvec(bb);
+		if (ac)
+		  {
+		    if (av->a_type == A_SYMBOL)
+		      outlet_anything(((t_object *)x)->ob_outlet,
+				      av->a_w.w_symbol, ac - 1, av + 1);
+		    else if (av->a_type == A_FLOAT)
+		      {
+			if (ac > 1)
+			  outlet_list(((t_object *)x)->ob_outlet,
+				      &s_list, ac, av);
+			else
+			  outlet_float(((t_object *)x)->ob_outlet,
+				       av->a_w.w_float);
+		      }
+		  }
+		binbuf_free(bb);
+	      };
+	  };
 	freebytes(outstring, outsize);
     }
 }
@@ -519,10 +524,24 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
     int fsize;
     char *fstring;
     char *p1, *p2;
-    int i, nslots, nproxies = 0;
+    int i, symout = 0, nslots, nproxies = 0;
     t_pd **proxies;
+    if(ac){
+      if(av->a_type == A_SYMBOL)
+	{
+	  t_symbol * curav = atom_getsymbolarg(0, ac, av);
+	  if(strcmp(curav->s_name, "symout")  == 0)
+	    {
+	      symout = 1;
+	      ac--;
+	      av++;
+	    };
+	};
+    };
     fstring = hammer_gettext(ac, av, &fsize);
     p1 = fstring;
+
+    
     while (p2 = strchr(p1, '%'))
         {
         int type;
@@ -537,6 +556,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
         x->x_nproxies = 0;
         x->x_proxies = 0;
         x->x_fsize = fsize;
+	x->x_symout = symout;
         x->x_fstring = fstring;
         p1 = fstring;
   //      pd_error(x, "[cyclone/sprintf] is not ready yet");
@@ -570,6 +590,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
     x->x_nproxies = nproxies;
     x->x_proxies = proxies;
     x->x_fsize = fsize;
+    x->x_symout = symout;
     x->x_fstring = fstring;
     p1 = fstring;
     i = 0;
