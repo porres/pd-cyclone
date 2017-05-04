@@ -28,14 +28,13 @@
 #X restore 304 4 pd;
 #X text 120 345 anything;
 #X text 177 345 - the formatted message;
-#N canvas 281 135 857 456 examples 0;
+#N canvas 281 135 853 465 examples 0;
 #X obj 41 406 print;
 #X obj 41 367 cyclone/sprintf %.2fdB;
-#X msg 666 397 WAR: What is it good for?;
 #X text 38 315 float example;
 #X obj 41 337 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X msg 209 307 10.6;
+-228856 -1 -1 8 256;
+#X msg 209 327 10.6;
 #X text 29 79 The arguments may be float/symbol atoms and changeable
 arguments. The number of changeable arguments determines the number
 of inlets \, with each inlet corresponding to a changeable argument
@@ -51,46 +50,43 @@ to a %f argument. If received in an inlet corresponding to a %ld or
 #X text 29 28 The arguments in[sprintf] form a message to be sent out
 \, in a format resembling the C programming language. For more details
 \, refer to a standard C library manual.;
-#X msg 666 280 87 65 82;
-#X obj 666 311 cyclone/sprintf %c%c%c: What is it good for?, f 23
+#X msg 677 290 87 65 82;
+#X obj 677 331 cyclone/sprintf %c%c%c: What is it good for?, f 23
 ;
-#X text 245 305 converted to int;
+#X text 245 325 converted to int;
 #X obj 472 191 print;
 #X msg 472 120 error;
 #X obj 472 152 cyclone/sprintf %d;
 #X text 433 43 symbol - may be received in any inlet that corresponds
 to a %s argument. If sent to another inlet type \, a conversion error
 is given in Pd's window.;
-#X obj 651 123 cyclone/sprintf it's %s;
-#X msg 651 91 OK!;
-#X msg 651 188 it's OK!;
-#X obj 651 156 cyclone/prepend set;
-#X obj 666 361 cyclone/prepend set;
-#X symbolatom 484 390 10 0 0 0 - - -, f 10;
-#X msg 484 314 a;
-#X obj 484 344 cyclone/sprintf symout %s symbol, f 22;
-#X text 432 280 symout arg turns the string to a symbol output, f
+#X obj 651 141 cyclone/sprintf it's %s;
+#X msg 651 109 OK!;
+#X symbolatom 495 390 10 0 0 0 - - -, f 10;
+#X msg 495 314 a;
+#X obj 495 344 cyclone/sprintf symout %s symbol, f 22;
+#X text 443 280 symout arg turns the string to a symbol output, f
 20;
-#X text 617 242 list input spreads the values to the inlets, f 18
+#X text 628 252 list input spreads the values to the inlets, f 18
 ;
-#X obj 209 345 cyclone/sprintf a-%d;
-#X msg 209 410 a-10;
-#X obj 209 378 cyclone/prepend set;
+#X obj 209 365 cyclone/sprintf a-%d;
+#X obj 651 189 print;
+#X obj 209 403 print;
+#X obj 495 419 print;
+#X obj 677 393 print;
 #X connect 1 0 0 0;
-#X connect 4 0 1 0;
-#X connect 5 0 28 0;
-#X connect 11 0 12 0;
-#X connect 12 0 22 0;
-#X connect 15 0 16 0;
-#X connect 16 0 14 0;
-#X connect 18 0 21 0;
-#X connect 19 0 18 0;
-#X connect 21 0 20 0;
-#X connect 22 0 2 0;
-#X connect 24 0 25 0;
-#X connect 25 0 23 0;
-#X connect 28 0 30 0;
-#X connect 30 0 29 0;
+#X connect 3 0 1 0;
+#X connect 4 0 24 0;
+#X connect 10 0 11 0;
+#X connect 11 0 28 0;
+#X connect 14 0 15 0;
+#X connect 15 0 13 0;
+#X connect 17 0 25 0;
+#X connect 18 0 17 0;
+#X connect 19 0 27 0;
+#X connect 20 0 21 0;
+#X connect 21 0 19 0;
+#X connect 24 0 26 0;
 #X restore 472 240 pd examples;
 #X obj 40 171 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -129,9 +125,6 @@ more than one item sends each item to a separate inlet;
 set in the arguments \, where each changeable argument '%' corresponds
 to an inlet (some options inlcude: %s - symbol \, %d - int \, %f -
 float \, and %c - ASCII character).;
-#X obj 452 68 cnv 15 100 60 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X text 459 82 [sprintf] is not ready yet, f 13;
 #X connect 17 0 36 0;
 #X connect 30 0 36 1;
 #X connect 31 0 36 0;
