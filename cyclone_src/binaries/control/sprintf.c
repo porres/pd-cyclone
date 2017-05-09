@@ -214,7 +214,9 @@ static void sprintf_dooutput(t_sprintf *x)
 
 static void sprintf_proxy_bang(t_sprintf_proxy *x)
 {
-    sprintf_dooutput(x->p_master);  /* CHECKED (in any inlet) */
+  if(x->p_id == 0) sprintf_dooutput(x->p_master);  /* CHECKED (in any inlet) */
+  else
+    pd_error(x, "sprintf: can't convert bang to type of argument %d", (x->p_id) + 1);
 }
 
 static void sprintf_proxy_float(t_sprintf_proxy *x, t_float f)
@@ -286,30 +288,41 @@ static void sprintf_bang(t_sprintf *x)
 {
     if (x->x_nslots)
 	sprintf_proxy_bang((t_sprintf_proxy *)x->x_proxies[0]);
+    else if(x->x_fsize >= 2) outlet_symbol(((t_object *) x)->ob_outlet, gensym(x->x_fstring));
+    else
+      pd_error(x, "sprintf: no arguments given");
 }
 
 static void sprintf_float(t_sprintf *x, t_float f)
 {
     if (x->x_nslots)
 	sprintf_proxy_float((t_sprintf_proxy *)x->x_proxies[0], f);
+    else
+      pd_error(x, "sprintf: can't convert float to type of argument 1");
 }
 
 static void sprintf_symbol(t_sprintf *x, t_symbol *s)
 {
     if (x->x_nslots)
 	sprintf_proxy_symbol((t_sprintf_proxy *)x->x_proxies[0], s);
+    else
+      pd_error(x, "sprintf: can't convert symbol to type of argument 1");
 }
 
 static void sprintf_list(t_sprintf *x, t_symbol *s, int ac, t_atom *av)
 {
     if (x->x_nslots)
 	sprintf_dolist(x, s, ac, av, 0);
+    else
+      pd_error(x, "sprintf: can't convert list to type of argument 1");
 }
 
 static void sprintf_anything(t_sprintf *x, t_symbol *s, int ac, t_atom *av)
 {
     if (x->x_nslots)
 	sprintf_doanything(x, s, ac, av, 0);
+    else
+      pd_error(x, "sprintf: can't convert anything to type of argument 1");
 }
 
 /* adjusted binbuf_gettext(), LATER do it right */
@@ -564,7 +577,8 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
             {
             p1 = p2 + 1;
             sprintf_parsepattern(x, &p1);
-            }
+            };
+	outlet_new((t_object *)x, &s_anything);
         return (x);
         }
 
