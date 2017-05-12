@@ -89,10 +89,7 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 		sprintf(tmp, "%g", f);
 		result = sprintf(buf, x->p_pattern, tmp);
 	    }
-	    else  /* LATER consider calling it a bug(), rather than error? */
-		loud_error((t_pd *)x->p_master,
-			   "can't convert float to type of argument %d",
-			   x->p_id + 1);
+	    else pd_error(x, "sprintf: can't convert float to type of argument %d", x->p_id + 1);
 	    if (result > 0)
 		valid = 1;
 	}
@@ -111,10 +108,7 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 		if (result >= 0)
 		    valid = 1;
 	    }
-	    else  /* CHECKED */
-		loud_error((t_pd *)x->p_master,
-			   "can't convert symbol to type of argument %d",
-			   x->p_id + 1);
+        else pd_error(x, "sprintf: can't convert symbol to type of argument %d", x->p_id + 1);
 	}
 	*pattend = tmp;
     }
