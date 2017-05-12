@@ -7,9 +7,11 @@
 #include <stdio.h>
 #include "m_pd.h"
 #include "g_canvas.h"
-#include "common/loud.h"
 #include "hammer/file.h"
+#include <string.h>
+#include <errno.h>
 
+//string and errno for fail: in capture_dowrite, copying over functionality from loud.c
 #define CAPTURE_DEFSIZE     4096
 #define CAPTURE_DEFPRECISION   4
 #define CAPTURE_MAXPRECISION  99  /* format array protection */
@@ -104,7 +106,8 @@ static void capture_dowrite(t_capture *x, t_symbol *fn)
     }
 fail:
     if (fp) fclose(fp);
-    loud_syserror((t_pd *)x, 0);
+    //loud_syserror((t_pd *)x, 0);
+    pd_error(x, "capture~: %s", strerror(errno));
 }
 
 static void capture_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
@@ -314,8 +317,8 @@ static void *capture_new(t_symbol *s, int ac, t_atom *av)
     int szindices = 0, nindices = -1;
     if (ac && av->a_type == A_SYMBOL)
     {
-	t_symbol *s = av->a_w.w_symbol;
-	if (s && *s->s_name == 'f')  /* CHECKME */
+	t_symbol *cursym = av->a_w.w_symbol;
+	if (cursym && *cursym->s_name == 'f')  /* CHECKME */
 	    mode = 'f';
 	ac--; av++;
     }
