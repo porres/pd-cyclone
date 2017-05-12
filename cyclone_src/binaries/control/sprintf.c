@@ -7,10 +7,6 @@
 #include "m_pd.h"
 #include "common/loud.h"
 
-#ifdef KRZYSZCZ
-//#define SPRINTF_DEBUG
-#endif
-
 /* Pattern types.  These are the parsing routine's return values.
    If returned value is >= SPRINTF_MINSLOTTYPE, then another slot
    is created (i.e. an inlet, and a proxy handling it). */
@@ -125,16 +121,10 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
     else loudbug_bug("sprintf_proxy_checkit");
     if (x->p_valid = valid)
     {
-#ifdef SPRINTF_DEBUG
-	if (checkin) loudbug_post("[%d in \"%s\"]", result, buf);
-#endif
 	x->p_size = result;
     }
     else
     {
-#ifdef SPRINTF_DEBUG
-	if (checkin) loudbug_post("checkit failed");
-#endif
 	x->p_size = 0;
     }
 }
