@@ -23,6 +23,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "common/os.h"
+#include "unstable/forky.h"
 #include "hammer/file.h"
 
 struct _hammerfile
@@ -555,7 +556,7 @@ void hammerfile_setup(t_class *c, int embeddable)
 {
     if (embeddable)
     {
-    class_setsavefn(c, hammerembed_save);
+	forky_setsavefn(c, hammerembed_save);
 	class_addmethod(c, (t_method)hammerembed_restore,
 			gensym("restore"), 0);
     }
