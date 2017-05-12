@@ -6,31 +6,18 @@
 /* CHECKME overlap */
 
 /* Derek Kwan 2016
- 
     OVERALL: old average~ was a chunked avg, this is now a moving avg
-
     ========================
    rewrite average_absolutesum, average_rmssum, average_bipolarsum for addition, subtraction
-
    rewrite perform, a lot of things in the struct to move from a chunked average to moving average
-   
    to parsing of input signal outside of average_ methods and inside perform method
-
    getting rid of x_clock
-
-   write average_zerobuf, average_reset (hidden method to clear buffer and reset everything)
-
+   write average_zerobuf, average_reset
    changing float outlet to signal outlet
-
    changed new method to accept list rather that defsym and deffloat
-
-    NOTE: I've written the bufrd so that it only uses [0,npoints) which makes overwriting the sample that drops 
+    NOTE: I've written the bufrd so that it only uses [0, npoints) which makes overwriting the sample that drops
     off the moving average easier, but this won't work if you want to resize the buffer and not clear it
-
-    also, averages are over npoints always, even if there are less than npoints accumulated so far
-
-
-*/
+    also, averages are over npoints always, even if there are less than npoints accumulated so far */
 
 #include <stdlib.h>
 #include <math.h>
@@ -70,7 +57,6 @@ static void average_zerobuf(t_average *x){
 }
 
 static void average_reset(t_average * x){
-
     //clear buffer and reset everything to 0
     x->x_count = 0;
     x->x_accum = 0;
@@ -80,11 +66,8 @@ static void average_reset(t_average * x){
 
 static void average_sz(t_average *x, unsigned int newsz){
     //helper function to deal with allocation issues if needed
-    
-
     int alloc = x->x_alloc;
     unsigned int cursz = x->x_sz; //current size
-
     //requested size
     if(newsz < 0){
         newsz = 0;
@@ -109,7 +92,6 @@ static void average_sz(t_average *x, unsigned int newsz){
     };
     average_reset(x);
 }
-
 
 
 static double average_bipolarsum(double input, double accum, int add)
@@ -166,7 +148,6 @@ static void average_float(t_average *x, t_float f)
         if(i >= x->x_max){
             i = x->x_max;
         };
-
 	x->x_npoints = i;
         average_reset(x);
     }
@@ -324,6 +305,5 @@ void average_tilde_setup(void)
     class_addmethod(average_class, (t_method)average_bipolar, gensym("bipolar"), 0);
     class_addmethod(average_class, (t_method)average_absolute, gensym("absolute"), 0);
     class_addmethod(average_class, (t_method)average_rms, gensym("rms"), 0);
-    class_addmethod(average_class, (t_method)average_reset, gensym("reset"), 0);
     class_addfloat(average_class, (t_method)average_float);
 }
