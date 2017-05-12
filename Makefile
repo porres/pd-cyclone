@@ -301,7 +301,6 @@ sgrow := shared/common/grow.c
 
 sfile := \
 shared/hammer/file.c \
-shared/common/loud.c \
 shared/common/os.c
     capture~.class.sources := cyclone_src/binaries/signal/capture.c $(sfile)
 
