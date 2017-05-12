@@ -77,7 +77,7 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 	    t_float f = x->p_atom.a_w.w_float;
 	    if (x->p_type == SPRINTF_INT)
 		/* CHECKME large/negative values */
-		result = sprintf(buf, x->p_pattern, (int)f);
+		result = sprintf(buf, x->p_pattern, (long)f);
 	    else if (x->p_type == SPRINTF_FLOAT)
 		result = sprintf(buf, x->p_pattern, f);
 	    else if (x->p_type == SPRINTF_CHAR)
