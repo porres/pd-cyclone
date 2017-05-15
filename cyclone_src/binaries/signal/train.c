@@ -5,8 +5,6 @@
 // fixed and rewritten by Porres
 
 #include "m_pd.h"
-// #include "math.h" // get it back?
-// #include "shared.h"// get it back?
 
 #define TRAIN_DEFPERIOD  1000
 #define TRAIN_DEFWIDTH   0.5
@@ -19,7 +17,7 @@ typedef struct _train
     t_inlet    *x_width_inlet;
     t_inlet    *x_offset_inlet;
     double       x_phase;
-    double       x_rcpksr;
+    double       x_rec_sr_khz;
     t_outlet   *x_bangout;
     t_clock    *x_clock;
 } t_train;
@@ -39,15 +37,13 @@ static t_int *train_perform(t_int *w)
     t_float *in2 = (t_float *)(w[4]);
     t_float *in3 = (t_float *)(w[5]);
     t_float *out = (t_float *)(w[6]);
-    double rcpksr = x->x_rcpksr;
+    double rec_sr_khz = x->x_rec_sr_khz;
     double phase = x->x_phase;
     double next_phase, phase_step, wrapped_phase, wrap_low, wrap_high;
     t_float period, phase_offset, width;
-    
-    while (nblock--)
-        {
+    while (nblock--) {
         period = *in1++;
-        phase_step = period > 0 ? rcpksr / period : 0.5;
+        phase_step = period > 0 ? rec_sr_khz / period : 0.5;
         if (phase_step > 0.5)
             phase_step = 0.5; // smallest period corresponds to nyquist
         width = *in2++;
@@ -64,16 +60,17 @@ static t_int *train_perform(t_int *w)
         wrap_high = (double)phase_offset + 1.;
         wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase; // wrapped phase
         next_phase = wrapped_phase + phase_step; // next phase (unwrapped)
-        if (phase >= wrap_high)
-            {
-            *out++ = 1.; // 1st always 1
+
+        if (phase < wrap_low)
+            *out++ = 0.;
+        else if (phase >= wrap_high) {
+            *out++ = 1.; // 1st always = 1
             clock_delay(x->x_clock, 0);
             }
-        else if (phase < wrap_low)
-            *out++ = 0.;
         else if(next_phase >= wrap_high)
-            *out++ = 0.; // last always 0
-        else  *out++ = phase < (width + phase_offset); // check
+            *out++ = 0.; // last always = 0
+        else
+            *out++ = phase < (width + phase_offset);
 		phase = next_phase;
         }
     x->x_phase = phase;
@@ -82,7 +79,7 @@ static t_int *train_perform(t_int *w)
 
 static void train_dsp(t_train *x, t_signal **sp)
 {
-    x->x_rcpksr = 1000. / (double)sp[0]->s_sr; // reciprocal sample rate in Khz
+    x->x_rec_sr_khz = 1000. / (double)sp[0]->s_sr; // reciprocal sample rate in Khz
     dsp_add(train_perform, 6, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
@@ -125,7 +122,6 @@ static void *train_new(t_symbol *s, int argc, t_atom *argv)
         else{
             goto errstate;
         };
-        
     };
     x->x_phase = 0;
     x->x_input = arg_period;
@@ -144,10 +140,8 @@ errstate:
 
 void train_tilde_setup(void)
 {
-    train_class = class_new(gensym("train~"),
-			    (t_newmethod)train_new,
-			    (t_method)train_free,
-			    sizeof(t_train), 0, A_GIMME, 0);
+    train_class = class_new(gensym("train~"), (t_newmethod)train_new,
+            (t_method)train_free, sizeof(t_train), 0, A_GIMME, 0);
     class_addmethod(train_class, (t_method)train_dsp, gensym("dsp"), A_CANT, 0);
     CLASS_MAINSIGNALIN(train_class, t_train, x_input);
 }
