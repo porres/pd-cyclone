@@ -14,6 +14,7 @@ typedef struct _train
 {
     t_object    x_obj;
     t_float     x_input;
+    t_int     x_start;
     t_inlet    *x_width_inlet;
     t_inlet    *x_offset_inlet;
     double       x_phase;
@@ -60,8 +61,12 @@ static t_int *train_perform(t_int *w)
         wrap_high = (double)phase_offset + 1.;
        if (phase < wrap_low)
             *out++ = 0.;
-        else
-        if (phase >= wrap_high) {
+       else if (phase >= wrap_low && x->x_start)
+            {
+                x->x_start = 0;
+                *out++ = 1.;
+            }
+       else if (phase >= wrap_high) {
             *out++ = 1.; // 1st always = 1
             clock_delay(x->x_clock, 0);
             phase = (phase - wrap_high) + wrap_low; // wrapped phase
@@ -125,6 +130,7 @@ static void *train_new(t_symbol *s, int argc, t_atom *argv)
         };
     };
     x->x_phase = 0;
+    x->x_start = 1;
     x->x_input = arg_period;
     x->x_width_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_width_inlet, arg_width);
