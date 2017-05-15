@@ -44,35 +44,45 @@ static t_int *train_perform(t_int *w)
     double next_phase, phase_step, wrapped_phase, wrap_low, wrap_high;
     t_float period, phase_offset, width;
     
-   while (nblock--)
-   {
-	period = *in1++;
+    while (nblock--)
+        {
+        period = *in1++;
        
-       phase_step = period > 0 ? rcpksr / period : 0.5;
+        phase_step = period > 0 ? rcpksr / period : 0.5;
        
-        if (phase_step > 0.5) phase_step = 0.5; // smallest period corresponds to nyquist
+        if (phase_step > 0.5)
+            phase_step = 0.5; // smallest period corresponds to nyquist
+        
         width = *in2++;
-        if (width < 0.) width = 0.;
-        if (width > 1.) width = 1.;
+        if (width < 0.)
+            width = 0.;
+        if (width > 1.)
+            width = 1.;
+        
         phase_offset = *in3++;
-        if (phase_offset < 0.) phase_offset = 0.;
-        if (phase_offset > 1.) phase_offset = 1.;
+        if (phase_offset < 0.)
+            phase_offset = 0.;
+        if (phase_offset > 1.)
+            phase_offset = 1.;
         wrap_low = (double)phase_offset;
         wrap_high = (double)phase_offset + 1.;
-       {
-           wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase; // wrapped phase
+            
+            {
+            wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase; // wrapped phase
            
-           next_phase = wrapped_phase + phase_step; // next phase (unwrapped)
+            next_phase = wrapped_phase + phase_step; // next phase (unwrapped)
            
-           if (phase >= wrap_high)
-           {
-               *out++ = 1.; // 1st always 1
-               clock_delay(x->x_clock, 0);
-           }
-           else if (phase < wrap_low) *out++ = 0.;
-           else if(next_phase >= wrap_high) *out++ = 0.; // last always 0
-           else  *out++ = phase < width + phase_offset; // check
-        }
+            if (phase >= wrap_high)
+                {
+                *out++ = 1.; // 1st always 1
+                clock_delay(x->x_clock, 0);
+                }
+            else if (phase < wrap_low)
+                *out++ = 0.;
+            else if(next_phase >= wrap_high)
+                *out++ = 0.; // last always 0
+            else  *out++ = phase < width + phase_offset; // check
+            }
 		phase = next_phase;
         }
     x->x_phase = phase;
