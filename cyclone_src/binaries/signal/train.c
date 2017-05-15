@@ -39,11 +39,11 @@ static t_int *train_perform(t_int *w)
     t_float *out = (t_float *)(w[6]);
     double rec_sr_khz = x->x_rec_sr_khz;
     double phase = x->x_phase;
-    double next_phase, phase_step, wrapped_phase, wrap_low, wrap_high;
+    double phase_step, wrap_low, wrap_high;
     t_float period, phase_offset, width;
     while (nblock--) {
         period = *in1++;
-        phase_step = period > 0 ? rec_sr_khz / period : 0.5;
+        phase_step = period > 0 ? rec_sr_khz / (double)period : 0.5;
         if (phase_step > 0.5)
             phase_step = 0.5; // smallest period corresponds to nyquist
         width = *in2++;
@@ -58,20 +58,21 @@ static t_int *train_perform(t_int *w)
             phase_offset = 1.;
         wrap_low = (double)phase_offset;
         wrap_high = (double)phase_offset + 1.;
-        wrapped_phase = (phase >= wrap_high) ? (wrap_low + phase - wrap_high) : phase; // wrapped phase
-        next_phase = wrapped_phase + phase_step; // next phase (unwrapped)
-
-        if (phase < wrap_low)
+       if (phase < wrap_low)
             *out++ = 0.;
-        else if (phase >= wrap_high) {
+        else
+        if (phase >= wrap_high) {
             *out++ = 1.; // 1st always = 1
             clock_delay(x->x_clock, 0);
+            phase = (phase - wrap_high) + wrap_low; // wrapped phase
             }
-        else if(next_phase >= wrap_high)
+        else if(phase + phase_step >= wrap_high)
             *out++ = 0.; // last always = 0
         else
             *out++ = phase < (width + phase_offset);
-		phase = next_phase;
+//        if (phase >= 1) phase = phase - 1;
+//        *out++ = phase;
+        phase = phase + phase_step; // next phase (unwrapped)
         }
     x->x_phase = phase;
     return (w + 7);
