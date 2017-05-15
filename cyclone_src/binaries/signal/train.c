@@ -47,8 +47,9 @@ static t_int *train_perform(t_int *w)
    while (nblock--)
    {
 	period = *in1++;
-        phase_step = rcpksr / period;
-        if (period <= 0) phase_step = 0;
+       
+       phase_step = period > 0 ? rcpksr / period : 0.5;
+       
         if (phase_step > 0.5) phase_step = 0.5; // smallest period corresponds to nyquist
         width = *in2++;
         if (width < 0.) width = 0.;
@@ -63,8 +64,7 @@ static t_int *train_perform(t_int *w)
            
            next_phase = wrapped_phase + phase_step; // next phase (unwrapped)
            
-           if (phase_step == 0) *out++ = 0; // recheck
-           else if (phase >= wrap_high)
+           if (phase >= wrap_high)
            {
                *out++ = 1.; // 1st always 1
                clock_delay(x->x_clock, 0);
