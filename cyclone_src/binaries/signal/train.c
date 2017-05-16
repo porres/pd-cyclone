@@ -18,7 +18,7 @@ typedef struct _train
     t_inlet    *x_width_inlet;
     t_inlet    *x_offset_inlet;
     double       x_phase;
-    double       x_rec_sr_khz;
+    t_float       x_sr;
     t_outlet   *x_bangout;
     t_clock    *x_clock;
 } t_train;
@@ -38,13 +38,13 @@ static t_int *train_perform(t_int *w)
     t_float *in2 = (t_float *)(w[4]);
     t_float *in3 = (t_float *)(w[5]);
     t_float *out = (t_float *)(w[6]);
-    double rec_sr_khz = x->x_rec_sr_khz;
+    t_float sr = x->x_sr;
     double phase = x->x_phase;
     double phase_step, wrap_low, wrap_high;
     t_float period, phase_offset, width;
     while (nblock--) {
         period = *in1++;
-        phase_step = period > 0 ? rec_sr_khz / (double)period : 0.5;
+        phase_step = period > 0 ? (double)1000. / ((double)sr * (double)period) : 0.5;
         if (phase_step > 0.5)
             phase_step = 0.5; // smallest period corresponds to nyquist
         width = *in2++;
@@ -62,9 +62,10 @@ static t_int *train_perform(t_int *w)
        if (phase < wrap_low)
             *out++ = 0.;
        else if (phase >= wrap_low && x->x_start)
-            {
-                x->x_start = 0;
+            { // force 1st bang & 1st sample = 1 (even when width = 0)
                 *out++ = 1.;
+                clock_delay(x->x_clock, 0);
+                x->x_start = 0;
             }
        else if (phase >= wrap_high) {
             *out++ = 1.; // 1st always = 1
@@ -85,7 +86,7 @@ static t_int *train_perform(t_int *w)
 
 static void train_dsp(t_train *x, t_signal **sp)
 {
-    x->x_rec_sr_khz = 1000. / (double)sp[0]->s_sr; // reciprocal sample rate in Khz
+    x->x_sr = sp[0]->s_sr; // sample rate
     dsp_add(train_perform, 6, x, sp[0]->s_n,
 	    sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
 }
