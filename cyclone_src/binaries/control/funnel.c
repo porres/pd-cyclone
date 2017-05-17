@@ -158,17 +158,15 @@ static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int argc, t_atom * ar
 static void funnel_proxy_anything(t_funnel_proxy *x,
 			      t_symbol *s, int argc, t_atom *argv){
 
-    //new and redone! - Derek Kwan
-    //first set the message
+
     funnel_msg_set(x, s, argc, argv);
-    //now output!
     outlet_list(x->p_out, &s_list, x->p_outsz, x->p_msg);
 
 }
 
 static void funnel_proxy_set(t_funnel_proxy *x, t_symbol* s, int argc, t_atom* argv)
 {
-    //new method - Derek Kwan 2016
+
      funnel_msg_set(x,s,argc,argv);
 }
 
@@ -183,7 +181,7 @@ static void funnel_proxy_float(t_funnel_proxy *x, t_float f)
 
 static void funnel_proxy_symbol(t_funnel_proxy *x, t_symbol *s)
 {
-    //new symbol method - Derek Kwan 2016
+
     funnel_proxy_anything(x,s, 0, 0);
 }
 
@@ -199,7 +197,7 @@ static void funnel_symbol(t_funnel *x, t_symbol *s)
 
 static void funnel_set(t_funnel *x, t_symbol* s, int argc, t_atom* argv)
 {
-    //new method - Derek Kwan 2016
+
     funnel_proxy_set((t_funnel_proxy *)x->x_proxies[0], s, argc, argv);
 }
 
@@ -211,7 +209,7 @@ static void funnel_anything(t_funnel *x, t_symbol *s, int ac, t_atom *av)
 
 static void funnel_proxy_bang(t_funnel_proxy *x)
 {
-    //redone - Derek Kwan 2016
+ 
     outlet_list(x->p_out, &s_list, x->p_outsz, x->p_msg);
     
 }
@@ -265,6 +263,10 @@ static void *funnel_new(t_floatarg f1, t_floatarg f2)
     int offset = (int)f2;
     t_outlet *out;
     t_pd **proxies;
+    t_atom * p_msg_def = getbytes(sizeof(*p_msg_def)); //default value for p_msg for inlets
+    
+    SETFLOAT(p_msg_def, 0);
+    
     if (numprox < 1)  // can create single inlet funnel, but default to 2
 	numprox = FUNNEL_MINSLOTS;
     if (!(proxies = (t_pd **)getbytes(numprox * sizeof(*proxies))))
@@ -293,8 +295,11 @@ static void *funnel_new(t_floatarg f1, t_floatarg f2)
         y->p_msg = y->p_mstack; //initially point pointer to heaped t_atom
         //don't make new inlet for proxy[0], make for others
         y->p_owner = x;
+	funnel_proxy_set(y,0,1,p_msg_def); //set default p_msg to 0
 	if (i) inlet_new((t_object *)x, (t_pd *)y, 0, 0);
-    }
+    };
+
+    freebytes(p_msg_def, sizeof(*p_msg_def));
     return (x);
 }
 
