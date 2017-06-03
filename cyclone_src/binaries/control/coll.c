@@ -30,6 +30,7 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 
 #define COLLTHREAD 1 //default is threaded
 #define COLLEMBED 0 //default for save in patch
+#define COLL_ALLBANG 1 //bang all when read instead of specific object
 
 enum { COLL_HEADRESET,
        COLL_HEADNEXT, COLL_HEADPREV,  /* distinction not used, currently */
@@ -206,7 +207,7 @@ static void coll_tick(t_coll *x)
 		coll_q_post(x->x_q);
 		coll_q_free(x);
 	};
-        if(x->x_filebang){
+        if(x->x_filebang && (!COLL_ALLBANG)){
             outlet_bang(x->x_filebangout);
             x->x_filebang = 0;
         };
@@ -844,12 +845,13 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
                         /*
                         //now taken care of by coll_read for obj specificity
                         //leaving here so i remember how to do this o/wise - DK
-                        if(!threaded){
+			*/
+                        if(COLL_ALLBANG){
                             for (x = cc->c_refs; x; x = x->x_next){
                                 outlet_bang(x->x_filebangout);
                             };
                         };
-                        */
+                        
 			cc->c_lastcanvas = cv;
 			cc->c_filename = fn;
 			m->m_flag |= 0x04;
@@ -1838,11 +1840,6 @@ static void coll_embed(t_coll *x, t_float f){
 }
 
 
-static void coll_threaded(t_coll *x, t_float f){
-    int th = f == 0 ? 0 : 1;
-    x->x_threaded = th;
-}
-
 static void coll_read(t_coll *x, t_symbol *s)
 {
 	if (!x->unsafe) {
@@ -1860,7 +1857,7 @@ static void coll_read(t_coll *x, t_symbol *s)
 			else {
 				t_msg * msg = collcommon_doread(cc, s, x->x_canvas, 0);
 
-                                if(msg->m_line > 0){
+                                if((!COLL_ALLBANG) && (msg->m_line > 0)){
                                     x->x_filebang = 1;
                                     clock_delay(x->x_clock, 0);
                                 };
@@ -1911,7 +1908,7 @@ static void coll_readagain(t_coll *x)
 			else {
 				t_msg * msg = collcommon_doread(cc, 0, 0, 0);
      
-                                if(msg->m_line > 0){
+                                if((!COLL_ALLBANG) && msg->m_line > 0){
                                     x->x_filebang = 1;
                                     clock_delay(x->x_clock, 0);
                                 };
@@ -2119,11 +2116,26 @@ static void coll_separate(t_coll *x, t_floatarg f)
 	}
 }
 
-static void coll_free(t_coll *x)
+static void coll_dothread(t_coll *x, int create)
 {
-	if (x->x_threaded == 1)
-	{
-		x->unsafe = -1;
+  //create = 1, destroy = 0
+  if(create)
+    {
+          int ret;
+	  
+	t_threadedFunctionParams rPars;
+
+		rPars.x = x;
+		pthread_mutex_init(&x->unsafe_mutex, NULL);
+		pthread_cond_init(&x->unsafe_cond, NULL);
+		ret = pthread_create( &x->unsafe_t, NULL, (void *) &coll_threaded_fileio, (void *) &rPars);
+		while (!x->init){
+			sched_yield();
+		};
+    }
+  else
+    {
+      x->unsafe = -1;
 
 		pthread_mutex_lock(&x->unsafe_mutex);
 		pthread_cond_signal(&x->unsafe_cond);
@@ -2132,9 +2144,27 @@ static void coll_free(t_coll *x)
 		pthread_join(x->unsafe_t, NULL);
 		pthread_mutex_destroy(&x->unsafe_mutex);
 
-		//clock_free(x->x_clock);
+	
 		if (x->x_q)
 			coll_q_free(x);
+    };
+      x->unsafe = 0;
+      x->x_threaded = create;
+
+}
+
+
+static void coll_threaded(t_coll *x, t_float f){
+    int th = f == 0 ? 0 : 1;
+    if(th != x->x_threaded) coll_dothread(x, th);
+}
+
+
+static void coll_free(t_coll *x)
+{
+	if (x->x_threaded == 1)
+	{
+	  coll_dothread(x, 0);
 	}
 
     clock_free(x->x_clock);
@@ -2142,11 +2172,12 @@ static void coll_free(t_coll *x)
     coll_unbind(x);
 }
 
+
+
 static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_coll *x = (t_coll *)pd_new(coll_class);
     
-    int ret;
     t_symbol *file = NULL;
     x->x_canvas = canvas_getcurrent();
     outlet_new((t_object *)x, &s_);
@@ -2211,14 +2242,8 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
         //lines below used to be only for threaded, but it's
         //needed for bang on the 3rd outlet - DK & Porres
 		x->x_clock = clock_new(x, (t_method)coll_tick);
-		t_threadedFunctionParams rPars;
-		rPars.x = x;
-		pthread_mutex_init(&x->unsafe_mutex, NULL);
-		pthread_cond_init(&x->unsafe_cond, NULL);
-		ret = pthread_create( &x->unsafe_t, NULL, (void *) &coll_threaded_fileio, (void *) &rPars);
-		while (!x->init){
-			sched_yield();
-            }
+
+		if(threaded) coll_dothread(x, 1);
     
     coll_bind(x, file);
     coll_flags(x, (int)embed, 0);
