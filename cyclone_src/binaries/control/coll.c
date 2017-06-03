@@ -83,6 +83,7 @@ typedef struct _coll
     t_outlet      *x_dumpbangout;
     int           x_threaded;
     int           x_nosearch;
+    int           x_initread; //if we're reading a file for the first time
     int           x_filebang; //if we're expecting to bang out 3rd outlet
     struct _coll  *x_next;
 
@@ -207,7 +208,8 @@ static void coll_tick(t_coll *x)
 		coll_q_post(x->x_q);
 		coll_q_free(x);
 	};
-        if(x->x_filebang && (!COLL_ALLBANG)){
+        if(x->x_filebang && (!COLL_ALLBANG || x->x_initread)){
+	  x->x_initread = 0;
             outlet_bang(x->x_filebangout);
             x->x_filebang = 0;
         };
@@ -1091,9 +1093,11 @@ static void coll_bind(t_coll *x, t_symbol *name)
 	        t_msg * msg = collcommon_doread(cc, name, x->x_canvas, 0);
 		
                if(msg->m_line > 0){
+		
                     //bang if file read successful
                     //need to use clock bc x not returned yet - DK
                     x->x_filebang = 1;
+		    x->x_initread = 1;
                     clock_delay(x->x_clock, 0);
                 };
 		
@@ -1113,6 +1117,7 @@ static void coll_bind(t_coll *x, t_symbol *name)
         //but shouldn't be for no search
         if(!no_search){
             x->x_filebang = 1;
+	    x->x_initread = 1;
             clock_delay(x->x_clock, 0);
         };
     };
@@ -2124,6 +2129,7 @@ static void coll_dothread(t_coll *x, int create)
           int ret;
 	  
 	t_threadedFunctionParams rPars;
+	      x->unsafe = 0;
 
 		rPars.x = x;
 		pthread_mutex_init(&x->unsafe_mutex, NULL);
@@ -2147,9 +2153,11 @@ static void coll_dothread(t_coll *x, int create)
 	
 		if (x->x_q)
 			coll_q_free(x);
+          x->unsafe = 0;
+
     };
-      x->unsafe = 0;
-      x->x_threaded = create;
+
+  
 
 }
 
@@ -2157,6 +2165,7 @@ static void coll_dothread(t_coll *x, int create)
 static void coll_threaded(t_coll *x, t_float f){
     int th = f == 0 ? 0 : 1;
     if(th != x->x_threaded) coll_dothread(x, th);
+    x->x_threaded = th;
 }
 
 
@@ -2230,7 +2239,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
     };
 
 
-    x->x_threaded = threaded;
+    x->x_threaded = -1;
     x->x_nosearch = no_search;
     x->x_filebang = 0;
 	// if no file name provided, associate with empty symbol
@@ -2243,13 +2252,14 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
         //needed for bang on the 3rd outlet - DK & Porres
 		x->x_clock = clock_new(x, (t_method)coll_tick);
 
-		if(threaded) coll_dothread(x, 1);
+	coll_threaded(x, threaded);
     
     coll_bind(x, file);
     coll_flags(x, (int)embed, 0);
     
   //          pd_error(x, "[cyclone/coll] is not ready yet");
 
+    
     return (x);
 	errstate:
 		pd_error(x, "coll: improper args");
