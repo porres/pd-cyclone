@@ -54,6 +54,7 @@ typedef struct _collcommon
     int            c_increation;
     int            c_volatile;
     int            c_selfmodified;
+  int            c_fileoninit; //if successfully loading a file on init
     int            c_entered;    /* a counter, LATER rethink */
     int            c_embedflag;  /* common field (CHECKED in 'TEXT' files) */
     t_symbol      *c_filename;   /* CHECKED common for all, read and write */
@@ -1019,6 +1020,7 @@ static void *collcommon_new(void)
     cc->c_first = cc->c_last = 0;
     cc->c_head = 0;
     cc->c_headstate = COLL_HEADRESET;
+    cc->c_fileoninit = 0; //loaded file on init, change when successful loading
     return (cc);
 }
 
@@ -1096,6 +1098,7 @@ static void coll_bind(t_coll *x, t_symbol *name)
 		
                     //bang if file read successful
                     //need to use clock bc x not returned yet - DK
+		    cc->c_fileoninit = 1;
                     x->x_filebang = 1;
 		    x->x_initread = 1;
                     clock_delay(x->x_clock, 0);
@@ -1115,7 +1118,7 @@ static void coll_bind(t_coll *x, t_symbol *name)
     else{
         //bang if you find collcommon existing already,
         //but shouldn't be for no search
-        if(!no_search && cc->c_filename != 0){
+        if(!no_search && cc->c_filename != 0 && cc->c_fileoninit){
             x->x_filebang = 1;
 	    x->x_initread = 1;
             clock_delay(x->x_clock, 0);
