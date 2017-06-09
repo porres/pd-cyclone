@@ -1,44 +1,44 @@
-#N canvas 832 23 561 613 10;
+#N canvas 659 25 563 767 10;
 #X declare -stdlib cyclone/cyclops;
-#X obj 204 251 ==~;
-#X obj 204 275 !=~;
-#X obj 204 300 <~;
-#X obj 204 323 <=~;
-#X obj 204 349 >~;
-#X obj 204 372 >=~;
-#X obj 205 405 %~;
-#X obj 204 520 +=~;
-#X obj 205 446 !-~;
-#X obj 205 426 !-;
-#X text 97 297 Comparatives:;
-#X text 108 520 Accumulator:;
-#X text 236 252 same as;
-#X text 236 276 same as;
-#X text 236 300 same as;
-#X text 236 323 same as;
-#X text 236 348 same as;
-#X text 236 372 same as;
-#X text 238 405 same as;
-#X text 238 446 same as;
-#X text 238 427 same as;
-#X text 238 487 same as;
-#X text 238 467 same as;
-#X obj 205 467 !/;
-#X obj 205 487 !/~;
-#X text 238 521 same as;
-#X text 100 438 Math objects:;
-#X obj 295 252 cyclone/equals~;
-#X obj 295 276 cyclone/notequals~;
-#X obj 295 300 cyclone/lessthan~;
-#X obj 295 323 cyclone/lessthaneq~;
-#X obj 295 348 cyclone/greaterthan~;
-#X obj 295 372 cyclone/greaterthaneq~;
-#X obj 297 405 cyclone/modulo~;
-#X obj 297 426 cyclone/rminus;
-#X obj 297 446 cyclone/rminus~;
-#X obj 297 467 cyclone/rdiv;
-#X obj 297 487 cyclone/rdiv~;
-#X obj 298 521 cyclone/plusequals~;
+#X obj 200 309 ==~;
+#X obj 200 333 !=~;
+#X obj 200 358 <~;
+#X obj 200 381 <=~;
+#X obj 200 407 >~;
+#X obj 200 430 >=~;
+#X obj 201 463 %~;
+#X obj 200 578 +=~;
+#X obj 201 504 !-~;
+#X obj 201 484 !-;
+#X text 93 355 Comparatives:;
+#X text 104 578 Accumulator:;
+#X text 232 310 same as;
+#X text 232 334 same as;
+#X text 232 358 same as;
+#X text 232 381 same as;
+#X text 232 406 same as;
+#X text 232 430 same as;
+#X text 234 463 same as;
+#X text 234 504 same as;
+#X text 234 485 same as;
+#X text 234 545 same as;
+#X text 234 525 same as;
+#X obj 201 525 !/;
+#X obj 201 545 !/~;
+#X text 234 579 same as;
+#X text 96 496 Math objects:;
+#X obj 291 310 cyclone/equals~;
+#X obj 291 334 cyclone/notequals~;
+#X obj 291 358 cyclone/lessthan~;
+#X obj 291 381 cyclone/lessthaneq~;
+#X obj 291 406 cyclone/greaterthan~;
+#X obj 291 430 cyclone/greaterthaneq~;
+#X obj 293 463 cyclone/modulo~;
+#X obj 293 484 cyclone/rminus;
+#X obj 293 504 cyclone/rminus~;
+#X obj 293 525 cyclone/rdiv;
+#X obj 293 545 cyclone/rdiv~;
+#X obj 294 579 cyclone/plusequals~;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -49,34 +49,55 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#X text 99 545 ============================================================
+#X text 95 603 ============================================================
 ;
-#X text 78 164 You can also find alphanumeric versions of these objects
-as single binaries outside this sub-library (whith the same name alias
-as in Max/MSP). Check their help for more info:;
-#X obj 294 227 cyclone/comment 0 18 times ? 0 0 0 0 Alphaumeric;
+#X obj 290 285 cyclone/comment 0 18 times ? 0 0 0 0 Alphaumeric;
 #X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 127 568 cyclone/comment 0 18 times ? 0 0 0 0 How to load the
-library:;
-#X obj 99 227 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
+#X obj 168 715 cyclone/comment 0 18 times ? 0 0 0 0 How to load cyclops:
+;
+#X obj 95 285 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
 ;
 #X obj 10 3 cyclone/comment 0 37 times ? 0 0 0 0 cyclops;
-#N canvas 209 90 487 225 load_cyclops 0;
-#X text 71 57 You can do it via the startup \, as instructed in "How
-to Install Cyclone". But if the library is not preloaded that way \,
-you can still use [declare] as \, for example \, below:;
-#X text 73 156 https://github.com/porres/pd-cyclone/wiki/How-To-Install
+#N canvas 753 266 486 406 load_cyclops 0;
+#X text 71 353 https://github.com/porres/pd-cyclone/wiki/How-To-Install
 ;
-#X obj 222 107 declare -stdlib cyclone/cyclops;
-#X text 41 25 Loading/Installing the cyclops library:;
-#X text 71 137 Read "How to Install Cyclone" for more details:;
-#X restore 311 572 pd load_cyclops;
-#X text 79 91 Objects in cyclone are mostly single binaries. But since
-you can't load non-alphanumeric objects that way in certain file systems
-\, there's this "sub-library" to load the cyclone operators ('cyclops'
-for short) \, which contains 12 objects with such "weird" character
-names.;
+#X obj 237 193 declare -stdlib cyclone/cyclops;
+#X text 72 168 Note you can also just use [declare] instead of changing
+the preferences. such as in:;
+#X text 41 20 Loading/Installing cyclops:;
+#X text 70 84 If cyclone's path is loaded in preferences => path (as
+recomended!) \, just add 'cyclops' via preferences => startup.;
+#X text 71 51 Because cyclops is a single binary pack containing several
+objects \, it needs to be pre loaded in Pd's "startup".;
+#X text 71 118 If you don't have cyclone's path loaded \, and for some
+reason you don't wanna do it even if it is recomended \, you can load
+the library as 'cyclone/cyclops' (this works either way).;
+#X text 71 289 If you don't have cyclone added to your path \, and
+the above declare isn't loading cyclops \, you do not have the cyclone
+folder into one of Pd's standard paths \, as recomended. For more details
+\, check "How to Install Cyclone":;
+#X text 46 266 Troubleshoot:;
+#X text 72 222 [declare] can also add the cyclone path \, check its
+help file for more info.;
+#X restore 332 717 pd load_cyclops;
 #X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 Cyclone Operators
 sub library;
+#X text 80 250 For more info on each operator \, check their help file:
+;
+#X text 80 93 Cyclops is a single binary pack that contains the cyclone
+operators \, which are objects with non-alphanumeric names., f 61
+;
+#X text 81 204 You can also find alphanumeric versions of these objects
+(whith the same name alias as in Max/MSP) as single binaries outside
+the cyclops sub library., f 61;
+#X text 80 130 Objects from the cyclone library are mostly a set of
+separate binaries. But you can't load non-alphanumeric objects that
+way in certain file systems \, so we need this to load these 12 objects
+with such "weird" character names. Therefore \, cyclops is a sub library
+of cyclone., f 61;
+#X text 97 627 Note that since cyclops is single binary pack \, it
+needs to be pre loaded in Pd. And such objects cannot be loaded with
+a prefix as it's the case of other objects in cyclone that are just
+a set of separate binaries and can use the 'cyclone/' prefix.;

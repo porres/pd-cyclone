@@ -3,8 +3,9 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 /* Porres 2017:
- This library has been fixed updated and renamed to 'cyclops' by Porres;
- (this used to be nettles.c);
+ This has been fixed updated and renamed to 'cyclops' by Porres;
+ this source code used to be 'nettles.c', and the nettles objects used to be 
+ part of the cyclone library;
 */
 
 #include <math.h>
