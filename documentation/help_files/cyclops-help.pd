@@ -62,23 +62,21 @@ cloned from Max/MSP;
 library:;
 #X obj 99 227 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
 ;
-#X obj 11 3 cyclone/comment 0 37 times ? 0 0 0 0 cyclops library;
-#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 A subset of objects
-with "weird" character names;
-#N canvas 209 90 500 273 load_cyclops 0;
-#X text 89 155 If even this is not working \, you did not install cyclone
-correctly and you really should Read "How to Install Cyclone" for more
-details.;
-#X text 89 75 You can do it via the startup \, as instructed in "How
+#X obj 10 3 cyclone/comment 0 37 times ? 0 0 0 0 cyclops;
+#N canvas 209 90 487 225 load_cyclops 0;
+#X text 71 57 You can do it via the startup \, as instructed in "How
 to Install Cyclone". But if the library is not preloaded that way \,
 you can still use [declare] as \, for example \, below:;
-#X text 87 202 https://github.com/porres/pd-cyclone/wiki/How-To-Install
+#X text 73 156 https://github.com/porres/pd-cyclone/wiki/How-To-Install
 ;
-#X obj 253 125 declare -stdlib cyclone/cyclops;
-#X text 59 43 Loading/Installing the cyclops library:;
+#X obj 222 107 declare -stdlib cyclone/cyclops;
+#X text 41 25 Loading/Installing the cyclops library:;
+#X text 71 137 Read "How to Install Cyclone" for more details:;
 #X restore 311 572 pd load_cyclops;
 #X text 79 91 Objects in cyclone are mostly single binaries. But since
 you can't load non-alphanumeric objects that way in certain file systems
 \, there's this "sub-library" to load the cyclone operators ('cyclops'
 for short) \, which contains 12 objects with such "weird" character
 names.;
+#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 Cyclone Operators
+sub library;
