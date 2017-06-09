@@ -1,6 +1,4 @@
 #N canvas 611 324 561 499 10;
-#X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone;
 #X obj 13 358 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
 0;
 #X obj 13 405 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -20,7 +18,6 @@
 #X floatatom 246 161 5 0 0 0 - - -, f 5;
 #X floatatom 97 173 5 0 0 0 - - -, f 5;
 #X floatatom 184 170 5 0 0 0 - - -, f 5;
-#X obj 262 191 !/;
 #X floatatom 97 234 0 0 0 0 - - -;
 #X text 135 285 float;
 #X text 140 303 bang;
@@ -48,16 +45,6 @@ stored;
 #X text 82 95 [rdiv] or [!/] divides a number by the incoming value
 on the left inlet. Functions like the [/] object \, but the inlets'
 functions are reversed.;
-#N canvas 724 142 478 298 cyclone 0;
-#X obj 209 99 declare -stdlib cyclone/cyclone;
-#X text 63 206 More about the cyclone sub-library;
-#X text 66 136 If you need more details in installing cyclone \, check:
-https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X obj 283 206 cyclone-help;
-#X text 58 51 [rdiv] is a single binary in cyclone \, but [!/] is from
-the cyclone "sub-library" \, loaded via startup or with [declare] like
-this:;
-#X restore 470 227 pd cyclone \; sub_library;
 #X obj 3 3 cnv 15 301 42 empty empty !/ 20 20 2 37 -233017 -1 0;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
@@ -75,15 +62,18 @@ this:;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 61 Reversed inlets division;
-#X connect 8 0 12 1;
-#X connect 9 0 12 0;
-#X connect 10 0 22 0;
-#X connect 11 0 22 1;
-#X connect 12 0 19 0;
-#X connect 16 0 22 0;
-#X connect 20 0 21 0;
-#X connect 20 1 21 1;
-#X connect 21 0 25 0;
-#X connect 22 0 13 0;
-#X connect 23 0 20 1;
-#X connect 24 0 20 0;
+#X obj 462 235 cyclops-help;
+#X text 463 189 About the 'Cyclops' sub library, f 11;
+#X obj 262 191 !/;
+#X connect 8 0 44 1;
+#X connect 9 0 44 0;
+#X connect 10 0 21 0;
+#X connect 11 0 21 1;
+#X connect 15 0 21 0;
+#X connect 19 0 20 0;
+#X connect 19 1 20 1;
+#X connect 20 0 24 0;
+#X connect 21 0 12 0;
+#X connect 22 0 19 1;
+#X connect 23 0 19 0;
+#X connect 44 0 18 0;

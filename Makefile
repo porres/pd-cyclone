@@ -325,13 +325,14 @@ magicbit := shared/magicbit.c
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magicbit)
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magicbit)
     vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magicbit) #
-    cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magicbit) # cyclone sub-library
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magicbit)
     bitnot~.class.sources := cyclone_src/binaries/signal/bitnot.c $(magicbit)
     bitor~.class.sources := cyclone_src/binaries/signal/bitor.c $(magicbit)
     bitsafe~.class.sources := cyclone_src/binaries/signal/bitsafe.c $(magicbit)
     bitshift~.class.sources := cyclone_src/binaries/signal/bitshift.c $(magicbit)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbit)
+
+    cyclops.class.sources := cyclone_src/binaries/cyclops.c $(magicbit) # cyclone sub-library
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)

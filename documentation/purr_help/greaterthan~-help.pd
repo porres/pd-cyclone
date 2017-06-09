@@ -1,5 +1,4 @@
 #N canvas 660 232 560 548 10;
-#X declare -stdlib cyclone/cyclone;
 #X obj 4 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 416 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -39,17 +38,6 @@ less-than or equal-to the right input or argument.;
 -228856 -1 -1 0 256;
 #X obj 408 183 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 69 230 >~, f 5;
-#N canvas 724 142 478 298 cyclone 0;
-#X obj 209 99 declare -stdlib cyclone/cyclone;
-#X text 63 206 More about the cyclone sub-library;
-#X text 66 136 If you need more details in installing cyclone \, check:
-https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X obj 283 206 cyclone-help;
-#X text 58 51 [greaterthan~] is a single binary in cyclone \, but [>~]
-is from the cyclone "sub-library" \, loaded via startup or with [declare]
-like this:;
-#X restore 457 297 pd cyclone \; sub_library;
 #X obj 273 232 cyclone/greaterthan~ 30;
 #X obj 69 180 cyclone/number~ 1;
 #X obj 96 205 cyclone/number~ 1;
@@ -72,12 +60,15 @@ like this:;
 0;
 #X text 22 61 "Is greater than" comparison for signals;
 #X obj 494 63 ./setdsp~;
+#X obj 462 311 cyclops-help;
+#X text 463 265 About the 'Cyclops' sub library, f 11;
+#X obj 69 230 >~, f 5;
 #X connect 17 0 19 0;
-#X connect 20 0 25 0;
+#X connect 20 0 23 0;
 #X connect 21 0 20 0;
-#X connect 22 0 25 1;
-#X connect 23 0 28 0;
-#X connect 25 0 17 0;
-#X connect 26 0 23 0;
-#X connect 27 0 23 1;
-#X connect 28 1 18 0;
+#X connect 22 0 23 1;
+#X connect 23 0 17 0;
+#X connect 24 0 39 0;
+#X connect 25 0 39 1;
+#X connect 26 1 18 0;
+#X connect 39 0 26 0;

@@ -1,5 +1,4 @@
 #N canvas 780 58 564 494 10;
-#X declare -stdlib cyclone/cyclone;
 #X obj 5 443 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 363 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -40,20 +39,9 @@ inlets' functions are reversed.;
 ;
 #X obj 100 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#N canvas 724 142 478 298 cyclone 0;
-#X obj 209 99 declare -stdlib cyclone/cyclone;
-#X text 63 206 More about the cyclone sub-library;
-#X text 66 136 If you need more details in installing cyclone \, check:
-https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X obj 283 206 cyclone-help;
-#X text 58 51 [rminus~] is a single binary in cyclone \, but [!-~]
-is from the cyclone "sub-library" \, loaded via startup or with [declare]
-like this:;
-#X restore 470 242 pd cyclone \; sub_library;
 #X text 366 214 similar to:;
 #X obj 338 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 57 210 !-~, f 5;
 #X obj 221 202 cyclone/rminus~ 10, f 20;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Reversed inlets subtraction
 for signals;
@@ -67,9 +55,12 @@ cloned from Max/MSP;
 #X obj 221 160 cyclone/number~ 1;
 #X obj 221 250 cyclone/number~;
 #X obj 499 69 cyclone/setdsp~;
-#X connect 25 0 27 1;
-#X connect 26 0 32 0;
-#X connect 27 0 36 0;
-#X connect 33 0 26 1;
-#X connect 34 0 26 0;
-#X connect 35 0 27 0;
+#X obj 475 255 cyclops-help;
+#X text 476 209 About the 'Cyclops' sub library, f 11;
+#X obj 57 211 !-~, f 5;
+#X connect 24 0 25 1;
+#X connect 25 0 34 0;
+#X connect 31 0 38 1;
+#X connect 32 0 38 0;
+#X connect 33 0 25 0;
+#X connect 38 0 30 0;

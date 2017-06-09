@@ -2,20 +2,10 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* Porres 2016: 
- This library has been fixed and updated by Porres in 2016;
- This is the cyclone library containing 12 non alphanumeric objects.
- Originally, the externals in cyclone used to come in a library called
- "cyclone", which included these 12 objects plus the "hammer" and "sicle"
- libraries (control/MAX and signal/MSP objects respectively).
- 
- This original cyclone library is now restored, but only containing these
- 12 objects, which are: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], 
- [!-~], [!/~], [%~], [+=~] (the original code for such objects used to be 
- called 'nettles.c'.
- 
- Alternatively, alphanumeric versions of these objects are ialso ncluded as 
- single binaries in the cyclone package  */
+/* Porres 2017:
+ This library has been fixed updated and renamed to 'cyclops' by Porres;
+ (this used to be nettles.c);
+*/
 
 #include <math.h>
 #include "m_pd.h"
@@ -619,21 +609,18 @@ static void *plusequals_new(t_floatarg f)
 
 /* ----------------------------- SET UP ------------------------------ */
 
-void cyclone_setup(void)
+void cyclops_setup(void)
 {
     
-/* -- post cyclone lib version -- */
     {
         post("------------------------------------------------------------------");
-        post("Cyclone 0.3 beta 1; Released: May 1st, 2017");
-        post("This is a sub library containing the objects:");
+        post("Cyclops library, part of Cyclone 0.3-beta-2");
+        post("Release date: June 10th, 2017");
+        post("The Cyclops (Cyclone Operators) library contains the operators:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
     }
-        endpost();
-        endpost();
-        endpost();
-        endpost();
+
     
 /* -- [!-] -- */
     

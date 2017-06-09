@@ -1,0 +1,84 @@
+#N canvas 832 23 561 613 10;
+#X declare -stdlib cyclone/cyclops;
+#X obj 204 251 ==~;
+#X obj 204 275 !=~;
+#X obj 204 300 <~;
+#X obj 204 323 <=~;
+#X obj 204 349 >~;
+#X obj 204 372 >=~;
+#X obj 205 405 %~;
+#X obj 204 520 +=~;
+#X obj 205 446 !-~;
+#X obj 205 426 !-;
+#X text 97 297 Comparatives:;
+#X text 108 520 Accumulator:;
+#X text 236 252 same as;
+#X text 236 276 same as;
+#X text 236 300 same as;
+#X text 236 323 same as;
+#X text 236 348 same as;
+#X text 236 372 same as;
+#X text 238 405 same as;
+#X text 238 446 same as;
+#X text 238 427 same as;
+#X text 238 487 same as;
+#X text 238 467 same as;
+#X obj 205 467 !/;
+#X obj 205 487 !/~;
+#X text 238 521 same as;
+#X text 100 438 Math objects:;
+#X obj 295 252 cyclone/equals~;
+#X obj 295 276 cyclone/notequals~;
+#X obj 295 300 cyclone/lessthan~;
+#X obj 295 323 cyclone/lessthaneq~;
+#X obj 295 348 cyclone/greaterthan~;
+#X obj 295 372 cyclone/greaterthaneq~;
+#X obj 297 405 cyclone/modulo~;
+#X obj 297 426 cyclone/rminus;
+#X obj 297 446 cyclone/rminus~;
+#X obj 297 467 cyclone/rdiv;
+#X obj 297 487 cyclone/rdiv~;
+#X obj 298 521 cyclone/plusequals~;
+#X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 3 3 graph;
+#X obj 306 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 305 3 pd;
+#X text 99 545 ============================================================
+;
+#X text 78 164 You can also find alphanumeric versions of these objects
+as single binaries outside this sub-library (whith the same name alias
+as in Max/MSP). Check their help for more info:;
+#X obj 294 227 cyclone/comment 0 18 times ? 0 0 0 0 Alphaumeric;
+#X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 127 568 cyclone/comment 0 18 times ? 0 0 0 0 How to load the
+library:;
+#X obj 99 227 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
+;
+#X obj 11 3 cyclone/comment 0 37 times ? 0 0 0 0 cyclops library;
+#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 A subset of objects
+with "weird" character names;
+#N canvas 209 90 500 273 load_cyclops 0;
+#X text 89 155 If even this is not working \, you did not install cyclone
+correctly and you really should Read "How to Install Cyclone" for more
+details.;
+#X text 89 75 You can do it via the startup \, as instructed in "How
+to Install Cyclone". But if the library is not preloaded that way \,
+you can still use [declare] as \, for example \, below:;
+#X text 87 202 https://github.com/porres/pd-cyclone/wiki/How-To-Install
+;
+#X obj 253 125 declare -stdlib cyclone/cyclops;
+#X text 59 43 Loading/Installing the cyclops library:;
+#X restore 311 572 pd load_cyclops;
+#X text 79 91 Objects in cyclone are mostly single binaries. But since
+you can't load non-alphanumeric objects that way in certain file systems
+\, there's this "sub-library" to load the cyclone operators ('cyclops'
+for short) \, which contains 12 objects with such "weird" character
+names.;
