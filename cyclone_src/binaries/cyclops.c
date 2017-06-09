@@ -615,7 +615,7 @@ void cyclops_setup(void)
     {
         post("------------------------------------------------------------------");
         post("Cyclops library, part of Cyclone 0.3-beta-2");
-        post("Release date: June 10th, 2017");
+        post("Release date: June 9th, 2017");
         post("The Cyclops (Cyclone Operators) library contains the operators:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
