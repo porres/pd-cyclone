@@ -1,4 +1,4 @@
-#N canvas 780 58 564 494 10;
+#N canvas 205 25 564 494 10;
 #X obj 5 443 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 363 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -7,7 +7,7 @@
 0;
 #X obj 5 291 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 362 235 expr~ 5 - $v1;
+#X obj 332 235 expr~ 5 - $v1;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -39,28 +39,28 @@ inlets' functions are reversed.;
 ;
 #X obj 100 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 366 214 similar to:;
-#X obj 338 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 221 202 cyclone/rminus~ 10, f 20;
+#X text 336 214 similar to:;
+#X obj 308 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 191 202 cyclone/rminus~ 10, f 20;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Reversed inlets subtraction
 for signals;
 #X obj 15 4 cyclone/comment 0 37 times ? 0 0 0 0 !-~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 57 243 cyclone/number~;
-#X obj 84 185 cyclone/number~ 1;
-#X obj 57 158 cyclone/number~ 1;
-#X obj 221 160 cyclone/number~ 1;
-#X obj 221 250 cyclone/number~;
+#X obj 27 243 cyclone/number~;
+#X obj 54 185 cyclone/number~ 1;
+#X obj 27 158 cyclone/number~ 1;
+#X obj 191 160 cyclone/number~ 1;
+#X obj 191 250 cyclone/number~;
 #X obj 499 69 cyclone/setdsp~;
-#X obj 475 255 cyclops-help;
-#X text 476 209 About the 'Cyclops' sub library, f 11;
-#X obj 57 211 !-~, f 5;
+#X obj 27 211 !-~, f 5;
+#X obj 445 255 cyclone_ops-help;
+#X text 446 209 About the 'Cyclone_ops' sub library, f 13;
 #X connect 24 0 25 1;
 #X connect 25 0 34 0;
-#X connect 31 0 38 1;
-#X connect 32 0 38 0;
+#X connect 31 0 36 1;
+#X connect 32 0 36 0;
 #X connect 33 0 25 0;
-#X connect 38 0 30 0;
+#X connect 36 0 30 0;

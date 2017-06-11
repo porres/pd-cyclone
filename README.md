@@ -36,7 +36,7 @@ Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclon
 
 This release has been tested with Pd Vanilla 0.47-1, not guaranteed to work in any other version or in other flavors such as Pd Extended. Purr Data users should know that it contains the latest cyclone releases. 
 
-Cyclone comes with a set of separate binaries for most of the externals, but also comes with Cyclops: a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclops-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
+Cyclone comes with a set of separate binaries for most of the externals, but also comes with Cyclops: a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclone_ops-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
 <strong>Building Cyclone:</strong>
 

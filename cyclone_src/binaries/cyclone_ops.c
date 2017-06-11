@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 /* Porres 2017:
- This has been fixed updated and renamed to 'cyclops' by Porres;
+ This has been fixed updated and renamed to 'cyclone_ops' by Porres;
  this source code used to be 'nettles.c', and the nettles objects used to be 
  part of the cyclone library;
 */
@@ -610,7 +610,7 @@ static void *plusequals_new(t_floatarg f)
 
 /* ----------------------------- SET UP ------------------------------ */
 
-void cyclops_setup(void)
+void cyclone_ops_setup(void)
 {
     
     {

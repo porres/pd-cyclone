@@ -332,7 +332,7 @@ magicbit := shared/magicbit.c
     bitshift~.class.sources := cyclone_src/binaries/signal/bitshift.c $(magicbit)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(magicbit)
 
-    cyclops.class.sources := cyclone_src/binaries/cyclops.c $(magicbit) # cyclone sub-library
+    cyclone_ops.class.sources := cyclone_src/binaries/cyclone_ops.c $(magicbit) # cyclone sub-library
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
