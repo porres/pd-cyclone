@@ -1,4 +1,4 @@
-#N canvas 602 75 560 500 10;
+#N canvas 202 25 560 500 10;
 #X obj 7 365 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 411 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -37,29 +37,29 @@ functions are reversed.;
 #X text 231 376 - the division of the two numbers;
 #X text 195 421 sets an initial value for the dividend (default 0)
 ;
-#X obj 378 170 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 261 212 cyclone/rdiv~ 10, f 20;
-#X text 456 167 similar to:;
-#X obj 452 188 expr~ 10 / $v1;
+#X obj 338 170 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 221 212 cyclone/rdiv~ 10, f 20;
+#X text 416 167 similar to:;
+#X obj 412 188 expr~ 10 / $v1;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Reversed inlets division
 for signals;
 #X obj 15 4 cyclone/comment 0 37 times ? 0 0 0 0 !/~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 261 260 cyclone/number~;
-#X obj 260 169 cyclone/number~ 1;
-#X obj 57 170 cyclone/number~ 1;
-#X obj 84 195 cyclone/number~ 1;
-#X obj 57 253 cyclone/number~;
+#X obj 221 260 cyclone/number~;
+#X obj 220 169 cyclone/number~ 1;
+#X obj 17 170 cyclone/number~ 1;
+#X obj 44 195 cyclone/number~ 1;
+#X obj 17 253 cyclone/number~;
 #X obj 499 69 cyclone/setdsp~;
-#X obj 464 264 cyclops-help;
-#X text 465 218 About the 'Cyclops' sub library, f 11;
-#X obj 57 220 !/~, f 5;
+#X obj 17 220 !/~, f 5;
+#X text 425 218 About the 'Cyclone_ops' sub library, f 14;
+#X obj 424 264 cyclone_ops-help;
 #X connect 21 0 22 1;
 #X connect 22 0 29 0;
 #X connect 30 0 22 0;
-#X connect 31 0 37 0;
-#X connect 32 0 37 1;
-#X connect 37 0 33 0;
+#X connect 31 0 35 0;
+#X connect 32 0 35 1;
+#X connect 35 0 33 0;

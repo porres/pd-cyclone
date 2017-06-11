@@ -1,4 +1,4 @@
-#N canvas 537 88 559 524 10;
+#N canvas 200 25 559 524 10;
 #X obj 7 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -14,17 +14,17 @@
 #X text 118 378 float/signal;
 #X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 273 243 cyclone/snapshot~ 1;
-#X obj 176 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 233 243 cyclone/snapshot~ 1;
+#X obj 136 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 273 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 233 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 154 354 signal;
 #X text 205 354 - value is compared to right inlet's or argument;
 #X obj 5 486 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 273 187 sig~ 30;
-#X obj 273 213 cyclone/equals~ 30;
+#X obj 233 187 sig~ 30;
+#X obj 233 213 cyclone/equals~ 30;
 #X text 205 378 - value used for comparison with left inlet's input
 ;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -43,10 +43,10 @@
 #X text 114 456 1) float;
 #X text 205 419 - 1 or 0 (depending on the result of the comparison)
 ;
-#X obj 273 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 378 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+#X obj 233 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 338 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 "Is equal to" comparison
 for signals;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
@@ -55,20 +55,18 @@ cloned from Max/MSP;
 #X text 59 93 [equals~] or [==~] outputs a signal that is "1" when
 the left input is equal to the right input/argument or "0" when it
 isn't.;
-#X obj 72 244 cyclone/number~;
-#X obj 99 186 cyclone/number~ 1;
-#X obj 72 161 cyclone/number~ 1;
+#X obj 32 244 cyclone/number~;
+#X obj 59 186 cyclone/number~ 1;
+#X obj 32 161 cyclone/number~ 1;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 ==~;
 #X obj 497 71 cyclone/setdsp~;
-#X obj 462 300 cyclops-help;
-#X text 463 254 About the 'Cyclops' sub library, f 11;
-#X obj 72 211 ==~, f 5;
+#X obj 32 211 ==~, f 5;
+#X text 403 254 About the 'Cyclone_ops' sub library, f 15;
+#X obj 402 300 cyclone_ops-help;
 #X connect 8 0 10 0;
-#X connect 14 0 15 0;
 #X connect 15 0 8 0;
 #X connect 25 0 14 0;
 #X connect 26 0 15 1;
 #X connect 31 1 9 0;
-#X connect 32 0 38 1;
-#X connect 33 0 38 0;
-#X connect 38 0 31 0;
+#X connect 32 0 36 1;
+#X connect 33 0 36 0;

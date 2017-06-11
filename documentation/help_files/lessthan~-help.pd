@@ -1,4 +1,4 @@
-#N canvas 378 113 562 534 10;
+#N canvas 190 25 562 534 10;
 #X text 52 93 [lessthan~] or [<~] <~ outputs a 1 signal when the left
 input is less-than the right input or argument and a 0 when it is greater-than
 or equal-to the right input or argument.;
@@ -38,36 +38,34 @@ or equal-to the right input or argument.;
 #X text 161 413 signal;
 #X text 212 413 - 1 or 0 (depending on the result of the comparison)
 ;
-#X obj 273 242 cyclone/snapshot~ 1;
-#X obj 173 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 243 242 cyclone/snapshot~ 1;
+#X obj 143 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 273 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 243 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 273 186 sig~ 30;
-#X obj 273 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 390 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 273 212 cyclone/lessthan~ 30;
+#X obj 243 186 sig~ 30;
+#X obj 243 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 360 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 243 212 cyclone/lessthan~ 30;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 "Is less than" comparison
 for signals;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 <~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 69 243 cyclone/number~;
-#X obj 69 160 cyclone/number~ 1;
-#X obj 96 185 cyclone/number~ 1;
+#X obj 39 243 cyclone/number~;
+#X obj 39 160 cyclone/number~ 1;
+#X obj 66 185 cyclone/number~ 1;
 #X obj 499 69 cyclone/setdsp~;
-#X obj 462 300 cyclops-help;
-#X text 463 254 About the 'Cyclops' sub library, f 11;
-#X obj 69 210 <~, f 5;
+#X obj 39 210 <~, f 5;
+#X text 403 254 About the 'Cyclone_ops' sub library, f 13;
+#X obj 402 300 cyclone_ops-help;
 #X connect 21 0 23 0;
-#X connect 24 0 27 0;
 #X connect 25 0 24 0;
 #X connect 26 0 27 1;
 #X connect 27 0 21 0;
 #X connect 32 1 22 0;
-#X connect 33 0 38 0;
-#X connect 34 0 38 1;
-#X connect 38 0 32 0;
+#X connect 33 0 36 0;
+#X connect 34 0 36 1;

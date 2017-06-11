@@ -1,23 +1,23 @@
-#N canvas 579 141 561 482 10;
+#N canvas 178 68 561 482 10;
 #X obj 7 342 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 388 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 7 256 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X floatatom 291 150 5 0 0 0 - - -, f 5;
-#X floatatom 245 153 5 0 0 0 - - -, f 5;
-#X floatatom 70 160 5 0 0 0 - - -, f 5;
-#X floatatom 163 157 5 0 0 0 - - -, f 5;
-#X floatatom 261 215 5 0 0 0 - - -, f 5;
-#X floatatom 70 213 5 0 0 0 - - -, f 5;
-#X obj 394 195 -;
-#X obj 392 172 swap;
-#X text 318 188 same as:;
-#X obj 70 187 cyclone/rminus 5;
-#X floatatom 424 144 5 0 0 0 - - -, f 5;
-#X floatatom 378 147 5 0 0 0 - - -, f 5;
-#X floatatom 394 222 5 0 0 0 - - -, f 5;
+#X floatatom 266 150 5 0 0 0 - - -, f 5;
+#X floatatom 220 153 5 0 0 0 - - -, f 5;
+#X floatatom 45 160 5 0 0 0 - - -, f 5;
+#X floatatom 138 157 5 0 0 0 - - -, f 5;
+#X floatatom 236 215 5 0 0 0 - - -, f 5;
+#X floatatom 45 213 5 0 0 0 - - -, f 5;
+#X obj 369 195 -;
+#X obj 367 172 swap;
+#X text 293 188 same as:;
+#X obj 45 187 cyclone/rminus 5;
+#X floatatom 399 144 5 0 0 0 - - -, f 5;
+#X floatatom 353 147 5 0 0 0 - - -, f 5;
+#X floatatom 369 222 5 0 0 0 - - -, f 5;
 #X text 136 402 1) float -;
 #X text 135 264 float;
 #X text 141 281 bang;
@@ -31,7 +31,7 @@
 ;
 #X obj 100 356 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 42 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 17 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 5 430 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -61,11 +61,11 @@ stored;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 61 Reversed inlets subtraction;
-#X obj 464 219 cyclops-help;
-#X text 465 173 About the 'Cyclops' sub library, f 11;
-#X obj 261 183 !-;
-#X connect 3 0 44 1;
-#X connect 4 0 44 0;
+#X obj 236 183 !-;
+#X obj 439 219 cyclone_ops-help;
+#X text 440 173 About the 'Cyclone_ops' sub library, f 15;
+#X connect 3 0 42 1;
+#X connect 4 0 42 0;
 #X connect 5 0 12 0;
 #X connect 6 0 12 1;
 #X connect 9 0 15 0;
@@ -75,4 +75,4 @@ stored;
 #X connect 13 0 10 1;
 #X connect 14 0 10 0;
 #X connect 25 0 12 0;
-#X connect 44 0 7 0;
+#X connect 42 0 7 0;

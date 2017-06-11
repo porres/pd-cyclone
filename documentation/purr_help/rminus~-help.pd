@@ -1,4 +1,4 @@
-#N canvas 780 58 564 494 10;
+#N canvas 206 62 564 494 10;
 #X obj 5 443 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 363 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -7,7 +7,7 @@
 0;
 #X obj 5 291 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 362 235 expr~ 5 - $v1;
+#X obj 342 235 expr~ 5 - $v1;
 #X text 68 91 [rminus~] or [!-~] is like the [-~] object \, but the
 inlets' functions are reversed.;
 #X text 116 412 1) float -;
@@ -29,15 +29,15 @@ inlets' functions are reversed.;
 ;
 #X obj 100 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 366 214 similar to:;
-#X obj 338 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 221 202 cyclone/rminus~ 10, f 20;
-#X obj 57 243 cyclone/number~;
-#X obj 84 185 cyclone/number~ 1;
-#X obj 57 158 cyclone/number~ 1;
-#X obj 221 160 cyclone/number~ 1;
-#X obj 221 250 cyclone/number~;
+#X text 346 214 similar to:;
+#X obj 318 160 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 201 202 cyclone/rminus~ 10, f 20;
+#X obj 37 243 cyclone/number~;
+#X obj 64 185 cyclone/number~ 1;
+#X obj 37 158 cyclone/number~ 1;
+#X obj 201 160 cyclone/number~ 1;
+#X obj 201 250 cyclone/number~;
 #X obj 3 3 cnv 15 301 42 empty empty !-~ 20 20 2 37 -233017 -1 0;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
@@ -56,12 +56,12 @@ inlets' functions are reversed.;
 0;
 #X text 22 61 Reversed inlets subtraction for signals;
 #X obj 494 63 ./setdsp~;
-#X obj 469 250 cyclops-help;
-#X text 470 204 About the 'Cyclops' sub library, f 11;
-#X obj 57 210 !-~, f 5;
+#X obj 37 210 !-~, f 5;
+#X obj 449 250 cyclone_ops-help;
+#X text 450 204 About the 'Cyclone_ops' sub library, f 14;
 #X connect 20 0 21 1;
 #X connect 21 0 26 0;
-#X connect 23 0 39 1;
-#X connect 24 0 39 0;
+#X connect 23 0 37 1;
+#X connect 24 0 37 0;
 #X connect 25 0 21 0;
-#X connect 39 0 22 0;
+#X connect 37 0 22 0;

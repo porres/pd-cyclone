@@ -1,4 +1,4 @@
-#N canvas 611 324 561 499 10;
+#N canvas 190 60 561 499 10;
 #X obj 13 358 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
 0;
 #X obj 13 405 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -14,25 +14,25 @@
 #X obj 99 285 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 124 420 1) float -;
-#X floatatom 292 158 5 0 0 0 - - -, f 5;
-#X floatatom 246 161 5 0 0 0 - - -, f 5;
-#X floatatom 97 173 5 0 0 0 - - -, f 5;
-#X floatatom 184 170 5 0 0 0 - - -, f 5;
-#X floatatom 97 234 0 0 0 0 - - -;
+#X floatatom 252 158 5 0 0 0 - - -, f 5;
+#X floatatom 206 161 5 0 0 0 - - -, f 5;
+#X floatatom 57 173 5 0 0 0 - - -, f 5;
+#X floatatom 144 170 5 0 0 0 - - -, f 5;
+#X floatatom 57 234 0 0 0 0 - - -;
 #X text 135 285 float;
 #X text 140 303 bang;
-#X obj 65 172 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 25 172 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X text 135 328 float;
 #X text 134 371 float;
-#X floatatom 262 219 0 0 0 0 - - -;
-#X obj 384 172 swap;
-#X obj 386 199 /;
-#X obj 97 201 cyclone/rdiv 10;
-#X floatatom 416 149 5 0 0 0 - - -, f 5;
-#X floatatom 370 149 5 0 0 0 - - -, f 5;
-#X floatatom 386 226 5 0 0 0 - - -, f 5;
-#X text 318 189 same as:;
+#X floatatom 222 219 0 0 0 0 - - -;
+#X obj 344 172 swap;
+#X obj 346 199 /;
+#X obj 57 201 cyclone/rdiv 10;
+#X floatatom 376 149 5 0 0 0 - - -, f 5;
+#X floatatom 330 149 5 0 0 0 - - -, f 5;
+#X floatatom 346 226 5 0 0 0 - - -, f 5;
+#X text 278 189 same as:;
 #X obj 5 451 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 190 283 - the divisor (hot inlet);
@@ -62,11 +62,11 @@ functions are reversed.;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 61 Reversed inlets division;
-#X obj 462 235 cyclops-help;
-#X text 463 189 About the 'Cyclops' sub library, f 11;
-#X obj 262 191 !/;
-#X connect 8 0 44 1;
-#X connect 9 0 44 0;
+#X obj 222 191 !/;
+#X text 423 189 About the 'Cyclone_ops' sub library, f 14;
+#X obj 422 235 cyclone_ops-help;
+#X connect 8 0 42 1;
+#X connect 9 0 42 0;
 #X connect 10 0 21 0;
 #X connect 11 0 21 1;
 #X connect 15 0 21 0;
@@ -76,4 +76,4 @@ functions are reversed.;
 #X connect 21 0 12 0;
 #X connect 22 0 19 1;
 #X connect 23 0 19 0;
-#X connect 44 0 18 0;
+#X connect 42 0 18 0;

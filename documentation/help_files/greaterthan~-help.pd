@@ -1,4 +1,4 @@
-#N canvas 660 232 560 548 10;
+#N canvas 210 25 560 548 10;
 #X obj 4 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 416 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -38,35 +38,33 @@ less-than or equal-to the right input or argument.;
 #X text 161 428 signal;
 #X text 212 428 - 1 or 0 (depending on the result of the comparison)
 ;
-#X obj 273 262 cyclone/snapshot~ 1;
-#X obj 173 297 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 233 262 cyclone/snapshot~ 1;
+#X obj 133 297 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 273 297 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 233 297 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 273 206 sig~ 30;
-#X obj 273 183 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 408 183 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 69 230 >~, f 5;
-#X obj 273 232 cyclone/greaterthan~ 30;
+#X obj 233 206 sig~ 30;
+#X obj 233 183 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 368 183 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256 0;
+#X obj 29 230 >~, f 5;
+#X obj 233 232 cyclone/greaterthan~ 30;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 "Is greater than"
 comparison for signals;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 >~;
-#X obj 69 180 cyclone/number~ 1;
-#X obj 96 205 cyclone/number~ 1;
-#X obj 69 263 cyclone/number~;
+#X obj 29 180 cyclone/number~ 1;
+#X obj 56 205 cyclone/number~ 1;
+#X obj 29 263 cyclone/number~;
 #X obj 497 71 cyclone/setdsp~;
-#X obj 464 322 cyclops-help;
-#X text 465 276 About the 'Cyclops' sub library, f 11;
+#X text 395 276 About the 'Cyclone_ops' sub library, f 14;
+#X obj 394 322 cyclone_ops-help;
 #X connect 21 0 23 0;
-#X connect 24 0 28 0;
 #X connect 25 0 24 0;
 #X connect 26 0 28 1;
-#X connect 27 0 35 0;
 #X connect 28 0 21 0;
 #X connect 33 0 27 0;
 #X connect 34 0 27 1;
