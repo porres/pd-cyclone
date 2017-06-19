@@ -1,0 +1,27 @@
+#N canvas 651 27 562 373 10;
+#X text 64 149 - Cyclone's development starts in 2002 (at the time
+of Max 4.0) and never reached full compliance to the latest Max 4 release
+(4.6.3 from 2007). Cyclone 0.3 updates the library by including missing
+functionalities from Max 4 and further updates (from Max 5 to Max 7).
+, f 73;
+#X text 64 211 - New objects were also included and several bug fixes
+were made \; check details in the changelog at: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
+, f 73;
+#X text 62 126 About Cyclone 0.3:;
+#X text 35 67 Cyclone expands Pure Data with objects cloned from Max/MSP.
+It also provides some level of compatibility between the two environments
+\, helping users of both systems in the development of cross-platform
+patches., f 82;
+#X obj 5 5 cnv 15 151 50 empty empty cyclone 20 23 0 25 -128992 -233080
+0;
+#X obj 157 5 cnv 15 400 50 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 166 33 version 0.3-beta2;
+#X text 319 32 https://github.com/porres/pd-cyclone;
+#X text 163 11 Cyclone is a set of Pure Data objects cloned from Max/MSP
+;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 551 51 1 0 0;
+#X restore 5 5 graph;
+#X text 65 274 Bugs / Issues? Please report them at:;
+#X text 167 301 https://github.com/porres/pd-cyclone/issues;
