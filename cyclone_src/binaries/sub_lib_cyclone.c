@@ -627,21 +627,19 @@ void cyclone_setup(void)
 /* -- post cyclone lib version -- */
     {
         post("------------------------------------------------------------------");
-        post("Cyclone 0.3 beta 1; Released: May 1st, 2017");
+        post("Cyclone 0.3 beta 2; Released: June 19th, 2017");
         post("This is a sub library containing the objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
     }
-        endpost();
-        endpost();
-        endpost();
-        endpost();
     
 /* -- [!-] -- */
     
     rminus_class = class_new(gensym("!-"),
 			     (t_newmethod)rminus_new, 0,
 			     sizeof(t_rev_op), 0, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)rminus_new,
+                     gensym("cyclone/==~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addbang(rminus_class, rminus_bang);
     class_addfloat(rminus_class, rminus_float);
     class_sethelpsymbol(rminus_class, gensym("rminus"));
@@ -651,6 +649,8 @@ void cyclone_setup(void)
     rdiv_class = class_new(gensym("!/"),
 			   (t_newmethod)rdiv_new, 0,
 			   sizeof(t_rev_op), 0, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)rdiv_new,
+                     gensym("cyclone/==~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addbang(rdiv_class, rdiv_bang);
     class_addfloat(rdiv_class, rdiv_float);
     class_sethelpsymbol(rdiv_class, gensym("rdiv"));
