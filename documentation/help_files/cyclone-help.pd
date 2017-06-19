@@ -82,14 +82,14 @@ objects;
 #X obj 181 444 cyclone/!/;
 #X obj 181 464 cyclone/!/~;
 #X obj 180 539 cyclone/+=~;
+#X text 64 176 You can also find alphanumeric versions of these objects
+(whith the same name alias as in Max/MSP) as single binaries outside
+this sub library. For more info on each operator \, check their help
+file:, f 72;
 #X text 64 88 This is a single binary pack that contains the cyclone
 operators \, which are objects with non-alphanumeric names. Objects
 from cyclone are mostly a set of separate binaries. But you can't load
 non-alphanumeric objects that way in certain file systems \, so we
 need this sub library to load these 12 objects with such "weird" character
-names. In the future \, all objects from cyclone will be loaded via
+names. In the future \, all objects from cyclone shall be loaded via
 this library., f 72;
-#X text 64 176 You can also find alphanumeric versions of these objects
-(whith the same name alias as in Max/MSP) as single binaries outside
-this sub library. For more info on each operator \, check their help
-file:, f 72;
