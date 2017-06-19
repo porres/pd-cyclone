@@ -21,11 +21,15 @@ Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclon
 
 Installing Cyclone:
 
+Purr Data: Users of Pur Data do not need to worry about installing it, it already comes with the latest version from cyclone 0.3 since version 2.3.0 - find Purr Data releases at: https://github.com/agraef/purr-data/releases
+
+Pd Vanilla:
+
 This release has been tested with Pd Vanilla 0.47-1, not guaranteed to work in any other version or in other flavors such as Pd Extended. Purr Data users should know that it contains the latest cyclone releases.
 
-Cyclone comes with a set of separate binaries for most of the externals, but also comes with Cyclops: a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclops-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
+Cyclone comes with a set of separate binaries for most of the externals, but also comes with a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclone-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
-Building Cyclone:
+Building Cyclone for Pd Vanilla:
 
 Since "Cyclone 0.1-alpha57", the cyclone package has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: https://github.com/pure-data/pd-lib-builder).
 
