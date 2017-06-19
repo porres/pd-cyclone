@@ -1,44 +1,32 @@
-#N canvas 673 73 561 608 10;
+#N canvas 521 50 560 631 10;
 #X declare -stdlib cyclone;
-#X obj 206 238 ==~;
-#X obj 206 262 !=~;
-#X obj 206 287 <~;
-#X obj 206 310 <=~;
-#X obj 206 336 >~;
-#X obj 206 359 >=~;
-#X obj 207 392 %~;
-#X obj 206 507 +=~;
-#X obj 207 433 !-~;
-#X obj 207 413 !-;
-#X text 99 284 Comparatives:;
-#X text 110 507 Accumulator:;
-#X text 238 239 same as;
-#X text 238 263 same as;
-#X text 238 287 same as;
-#X text 238 310 same as;
-#X text 238 335 same as;
-#X text 238 359 same as;
-#X text 240 392 same as;
-#X text 240 433 same as;
-#X text 240 414 same as;
-#X text 240 474 same as;
-#X text 240 454 same as;
-#X obj 207 454 !/;
-#X obj 207 474 !/~;
-#X text 240 508 same as;
-#X text 102 425 Math objects:;
-#X obj 297 239 cyclone/equals~;
-#X obj 297 263 cyclone/notequals~;
-#X obj 297 287 cyclone/lessthan~;
-#X obj 297 310 cyclone/lessthaneq~;
-#X obj 297 335 cyclone/greaterthan~;
-#X obj 297 359 cyclone/greaterthaneq~;
-#X obj 299 392 cyclone/modulo~;
-#X obj 299 413 cyclone/rminus;
-#X obj 299 433 cyclone/rminus~;
-#X obj 299 454 cyclone/rdiv;
-#X obj 299 474 cyclone/rdiv~;
-#X obj 300 508 cyclone/plusequals~;
+#X text 81 316 Comparatives:;
+#X text 92 539 Accumulator:;
+#X text 262 271 same as;
+#X text 262 295 same as;
+#X text 262 319 same as;
+#X text 262 342 same as;
+#X text 262 367 same as;
+#X text 262 391 same as;
+#X text 264 424 same as;
+#X text 264 465 same as;
+#X text 264 446 same as;
+#X text 264 506 same as;
+#X text 264 486 same as;
+#X text 264 540 same as;
+#X text 84 457 Math objects:;
+#X obj 321 271 cyclone/equals~;
+#X obj 321 295 cyclone/notequals~;
+#X obj 321 319 cyclone/lessthan~;
+#X obj 321 342 cyclone/lessthaneq~;
+#X obj 321 367 cyclone/greaterthan~;
+#X obj 321 391 cyclone/greaterthaneq~;
+#X obj 323 424 cyclone/modulo~;
+#X obj 323 445 cyclone/rminus;
+#X obj 323 465 cyclone/rminus~;
+#X obj 323 486 cyclone/rdiv;
+#X obj 323 506 cyclone/rdiv~;
+#X obj 324 540 cyclone/plusequals~;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -49,36 +37,56 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#N canvas 209 90 500 273 load_cyclone 0;
-#X text 59 43 Loading/Installing the cyclone library:;
-#X text 89 155 If even this is not working \, you did not install cyclone
-correctly and you really should Read "How to Install Cyclone" for more
-details.;
-#X text 89 75 You can do it via the startup \, as instructed in "How
-to Install Cyclone". But if the library is not preloaded that way \,
-you can still use [declare] as \, for example \, below:;
-#X text 87 202 https://github.com/porres/pd-cyclone/wiki/How-To-Install
+#N canvas 644 264 500 263 load_cyclone 0;
+#X text 118 222 https://github.com/porres/pd-cyclone/wiki/How-To-Install
 ;
-#X obj 283 125 declare -stdlib cyclone;
-#X restore 313 559 pd load_cyclone;
-#X text 101 532 ============================================================
+#X obj 261 125 declare -stdlib cyclone;
+#X text 61 25 This is a set of objects compiled as single binary pack.
+in this case \, they need to be preloaded in Pd so the objects can
+be created.;
+#X text 43 148 Troubleshoot:;
+#X text 64 172 If even this is not working \, you did not install cyclone
+correctly. Cyclone needs to be installed in one of the standard paths.
+For more details on installing cyclone \, check:;
+#X text 61 72 You can do it via the startup \, as instructed in "How
+to Install Cyclone" (see link beklow). But if the library is not preloaded
+that way \, you can still use [declare] as \, for example \, below:
 ;
-#X text 80 151 You can also find alphanumeric versions of these objects
-as single binaries outside this sub-library (whith the same name alias
-as in Max/MSP). Check their help for more info:;
-#X text 79 91 Objects in cyclone are mostly single binaries. But since
-you can't load non-alphanumeric objects that way in certain file systems
-\, there's this "sub-library" to load 12 objects with such "weird"
-character names.;
-#X obj 296 214 cyclone/comment 0 18 times ? 0 0 0 0 Alphaumeric;
+#X restore 337 593 pd load_cyclone;
+#X text 125 564 ============================================================
+;
+#X obj 320 239 cyclone/comment 0 18 times ? 0 0 0 0 Alphaumeric;
 #X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 129 555 cyclone/comment 0 18 times ? 0 0 0 0 How to load the
+#X obj 153 589 cyclone/comment 0 18 times ? 0 0 0 0 How to load the
 library:;
-#X obj 101 214 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
+#X obj 125 239 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
 ;
-#X obj 11 3 cyclone/comment 0 37 times ? 0 0 0 0 cyclone sub library
-;
-#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 A subset of objects
-with "weird" character names;
+#X obj 11 3 cyclone/comment 0 37 times ? 0 0 0 0 cyclone;
+#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 A subset of operator
+objects;
+#X obj 144 8 cyclone/comment 0 30 times ? 0 0 0 0 (sub library);
+#X obj 180 270 cyclone/==~;
+#X obj 180 294 cyclone/!=~;
+#X obj 180 319 cyclone/<~;
+#X obj 180 342 cyclone/<=~;
+#X obj 180 368 cyclone/>~;
+#X obj 180 391 cyclone/>=~;
+#X obj 181 424 cyclone/%~;
+#X obj 181 445 cyclone/!-;
+#X obj 181 465 cyclone/!-~;
+#X obj 181 486 cyclone/!/;
+#X obj 181 506 cyclone/!/~;
+#X obj 180 539 cyclone/+=~;
+#X text 64 88 This is a single binary pack that contains the cyclone
+operators \, which are objects with non-alphanumeric names. Objects
+from cyclone are mostly a set of separate binaries. But you can't load
+non-alphanumeric objects that way in certain file systems \, so we
+need this sub library to load these 12 objects with such "weird" character
+names. In the future \, all objects from cyclone will be loaded via
+this library., f 72;
+#X text 64 176 You can also find alphanumeric versions of these objects
+(whith the same name alias as in Max/MSP) as single binaries outside
+this sub library. For more info on each operator \, check their help
+file:, f 72;

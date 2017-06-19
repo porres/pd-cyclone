@@ -1,5 +1,4 @@
-#N canvas 540 162 562 532 10;
-#X declare -stdlib cyclone/cyclone;
+#N canvas 645 23 561 519 10;
 #X text 53 91 [notequals~] or [!=~] outputs a 1 signal when the left
 input is not-equal to the right input or argument and a 0 when it is
 equal to the right input or argument.;
@@ -13,43 +12,33 @@ equal to the right input or argument.;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 7 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 402 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 446 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 440 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 89 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 89 414 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 89 347 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 7 342 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 336 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 89 378 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 89 372 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 378 float/signal;
-#X obj 89 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 118 372 float/signal;
+#X obj 89 347 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 154 354 signal;
-#X text 205 354 - value is compared to right inlet's or argument;
-#X obj 5 486 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 154 348 signal;
+#X text 205 348 - value is compared to right inlet's or argument;
+#X obj 5 480 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 205 378 - value used for comparison with left inlet's input
+#X text 205 372 - value used for comparison with left inlet's input
 ;
-#X text 176 456 - value for comparison with left inlet's input (default
+#X text 176 450 - value for comparison with left inlet's input (default
 0);
-#X text 154 419 signal;
-#X text 114 456 1) float;
-#X text 205 419 - 1 or 0 (depending on the result of the comparison)
+#X text 154 413 signal;
+#X text 114 450 1) float;
+#X text 205 413 - 1 or 0 (depending on the result of the comparison)
 ;
-#N canvas 724 142 478 298 cyclone 0;
-#X obj 209 99 declare -stdlib cyclone/cyclone;
-#X text 63 206 More about the cyclone sub-library;
-#X text 66 136 If you need more details in installing cyclone \, check:
-https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X obj 283 206 cyclone-help;
-#X text 58 51 [notequals~] is a single binary in cyclone \, but [!=~]
-is from the cyclone "sub-library" \, loaded via startup or with [declare]
-like this:;
-#X restore 463 277 pd cyclone \; sub_library;
 #X obj 273 242 cyclone/snapshot~ 1;
 #X obj 173 277 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -60,7 +49,6 @@ like this:;
 -228856 -1 -1 0 256;
 #X obj 396 163 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 69 210 !=~, f 5;
 #X obj 273 212 cyclone/notequals~ 30;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 "Not equal to" comparison
 for signals;
@@ -69,15 +57,18 @@ for signals;
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 69 160 cyclone/number~ 1;
-#X obj 96 185 cyclone/number~ 1;
+#X obj 132 185 cyclone/number~ 1;
 #X obj 69 243 cyclone/number~;
 #X obj 499 69 cyclone/setdsp~;
-#X connect 22 0 24 0;
-#X connect 25 0 29 0;
-#X connect 26 0 25 0;
-#X connect 27 0 29 1;
-#X connect 28 0 36 0;
-#X connect 29 0 22 0;
-#X connect 34 0 28 0;
-#X connect 35 0 28 1;
-#X connect 36 1 23 0;
+#X obj 451 297 cyclone-help;
+#X text 449 276 Please check:;
+#X obj 69 210 cyclone/!=~;
+#X connect 21 0 23 0;
+#X connect 24 0 27 0;
+#X connect 25 0 24 0;
+#X connect 26 0 27 1;
+#X connect 27 0 21 0;
+#X connect 32 0 38 0;
+#X connect 33 0 38 1;
+#X connect 34 1 22 0;
+#X connect 38 0 34 0;
