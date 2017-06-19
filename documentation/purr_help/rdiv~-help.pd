@@ -1,5 +1,4 @@
-#N canvas 602 75 560 500 10;
-#X declare -stdlib cyclone/cyclone;
+#N canvas 422 45 560 500 10;
 #X obj 7 365 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 411 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -28,26 +27,15 @@ functions are reversed.;
 #X text 231 376 - the division of the two numbers;
 #X text 195 421 sets an initial value for the dividend (default 0)
 ;
-#N canvas 724 142 427 229 cyclone 0;
-#X obj 189 69 declare -stdlib cyclone/cyclone;
-#X text 43 176 More about the cyclone sub-library;
-#X text 46 106 If you need more details in installing cyclone \, check:
-https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X obj 263 176 cyclone-help;
-#X text 38 21 [rdiv~] is a single binary in cyclone \, but [!/~] is
-from the cyclone "sub-library" \, loaded via startup or with [declare]
-like this:;
-#X restore 470 251 pd cyclone \; sub_library;
-#X obj 378 170 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 388 170 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 57 220 !/~, f 5;
-#X obj 261 212 cyclone/rdiv~ 10, f 20;
-#X text 455 186 similar to:;
-#X obj 451 207 expr~ 10 / $v1;
-#X obj 261 260 cyclone/number~;
-#X obj 260 169 cyclone/number~ 1;
+#X obj 271 212 cyclone/rdiv~ 10, f 20;
+#X text 455 228 similar to:;
+#X obj 451 249 expr~ 10 / $v1;
+#X obj 271 260 cyclone/number~;
+#X obj 270 169 cyclone/number~ 1;
 #X obj 57 170 cyclone/number~ 1;
-#X obj 84 195 cyclone/number~ 1;
+#X obj 120 195 cyclone/number~ 1;
 #X obj 57 253 cyclone/number~;
 #X obj 3 3 cnv 15 301 42 empty empty !/~ 20 20 2 37 -233017 -1 0;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
@@ -67,9 +55,10 @@ like this:;
 0;
 #X text 22 61 Reversed inlets division for signals;
 #X obj 494 63 ./setdsp~;
-#X connect 18 0 20 1;
-#X connect 19 0 27 0;
-#X connect 20 0 23 0;
-#X connect 24 0 20 0;
-#X connect 25 0 19 0;
-#X connect 26 0 19 1;
+#X obj 57 220 cyclone/!/~;
+#X connect 17 0 18 1;
+#X connect 18 0 21 0;
+#X connect 22 0 18 0;
+#X connect 23 0 36 0;
+#X connect 24 0 36 1;
+#X connect 36 0 25 0;

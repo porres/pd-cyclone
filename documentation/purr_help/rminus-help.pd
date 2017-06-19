@@ -1,26 +1,23 @@
 #N canvas 579 141 561 482 10;
-#X declare -stdlib cyclone/cyclone;
-#X declare -stdlib cyclone;
 #X obj 7 342 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 388 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
 #X obj 7 256 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X floatatom 291 150 5 0 0 0 - - -, f 5;
-#X floatatom 245 153 5 0 0 0 - - -, f 5;
-#X floatatom 70 160 5 0 0 0 - - -, f 5;
-#X floatatom 163 157 5 0 0 0 - - -, f 5;
-#X obj 261 183 !-;
-#X floatatom 261 215 5 0 0 0 - - -, f 5;
-#X floatatom 70 213 5 0 0 0 - - -, f 5;
-#X obj 394 195 -;
-#X obj 392 172 swap;
-#X text 318 188 same as:;
-#X obj 70 187 cyclone/rminus 5;
-#X floatatom 424 144 5 0 0 0 - - -, f 5;
-#X floatatom 378 147 5 0 0 0 - - -, f 5;
-#X floatatom 394 222 5 0 0 0 - - -, f 5;
+#X floatatom 330 153 5 0 0 0 - - -, f 5;
+#X floatatom 273 153 5 0 0 0 - - -, f 5;
+#X floatatom 98 160 5 0 0 0 - - -, f 5;
+#X floatatom 191 157 5 0 0 0 - - -, f 5;
+#X floatatom 273 215 5 0 0 0 - - -, f 5;
+#X floatatom 98 213 5 0 0 0 - - -, f 5;
+#X obj 422 195 -;
+#X obj 420 172 swap;
+#X text 349 187 same as:;
+#X obj 98 187 cyclone/rminus 5;
+#X floatatom 452 144 5 0 0 0 - - -, f 5;
+#X floatatom 406 147 5 0 0 0 - - -, f 5;
+#X floatatom 422 222 5 0 0 0 - - -, f 5;
 #X text 136 402 1) float -;
 #X text 135 264 float;
 #X text 141 281 bang;
@@ -34,7 +31,7 @@
 ;
 #X obj 100 356 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 42 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 70 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 5 430 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -47,16 +44,6 @@ functions are reversed.;
 #X text 182 282 - performs the subtraction with the numbers currently
 stored;
 #X text 185 309 - the minuend (cold inlet);
-#N canvas 724 142 478 298 cyclone 0;
-#X obj 209 99 declare -stdlib cyclone/cyclone;
-#X text 63 206 More about the cyclone sub-library;
-#X text 66 136 If you need more details in installing cyclone \, check:
-https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X obj 283 206 cyclone-help;
-#X text 58 51 [rminus] is a single binary in cyclone \, but [!-] is
-from the cyclone "sub-library" \, loaded via startup or with [declare]
-like this:;
-#X restore 470 207 pd cyclone \; sub_library;
 #X obj 3 3 cnv 15 301 42 empty empty !- 20 20 2 37 -233017 -1 0;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
@@ -74,15 +61,16 @@ like this:;
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 61 Reversed inlets subtraction;
-#X connect 3 0 7 1;
-#X connect 4 0 7 0;
-#X connect 5 0 13 0;
-#X connect 6 0 13 1;
-#X connect 7 0 8 0;
-#X connect 10 0 16 0;
-#X connect 11 0 10 0;
-#X connect 11 1 10 1;
-#X connect 13 0 9 0;
-#X connect 14 0 11 1;
-#X connect 15 0 11 0;
-#X connect 26 0 13 0;
+#X obj 273 183 cyclone/!-;
+#X connect 3 0 42 1;
+#X connect 4 0 42 0;
+#X connect 5 0 12 0;
+#X connect 6 0 12 1;
+#X connect 9 0 15 0;
+#X connect 10 0 9 0;
+#X connect 10 1 9 1;
+#X connect 12 0 8 0;
+#X connect 13 0 10 1;
+#X connect 14 0 10 0;
+#X connect 25 0 12 0;
+#X connect 42 0 7 0;

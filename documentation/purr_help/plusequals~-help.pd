@@ -1,5 +1,4 @@
 #N canvas 609 63 559 589 10;
-#X declare -stdlib cyclone/cyclone;
 #X obj 8 476 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 8 517 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -14,16 +13,15 @@
 ;
 #X text 134 378 signal;
 #X text 146 406 bang;
-#X msg 254 264 set 10;
+#X msg 307 264 set 10;
 #X text 135 487 signal;
 #X text 120 527 1) float;
-#X obj 70 290 cyclone/plusequals~;
-#X obj 254 291 +=~;
+#X obj 123 290 cyclone/plusequals~;
 #X text 187 406 - resets initial stored value to 0;
 #X text 188 376 - signal value is accumulated. Accumulated value is
 output only if a signal is connected;
-#X obj 86 256 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
--1;
+#X obj 139 256 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
 #X obj 5 552 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 85 443 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
@@ -37,30 +35,20 @@ to 0;
 ;
 #X text 186 527 - sets the initial stored value for the sum (default
 0);
-#X obj 70 220 sig~ 0.0001;
-#N canvas 724 142 478 298 cyclone 0;
-#X obj 209 99 declare -stdlib cyclone/cyclone;
-#X text 63 206 More about the cyclone sub-library;
-#X text 66 136 If you need more details in installing cyclone \, check:
-https://github.com/porres/pd-cyclone/wiki/How-To-Install;
-#X obj 283 206 cyclone-help;
-#X text 58 51 [plusequals~] is a single binary in cyclone \, but [+=~]
-is from the cyclone "sub-library" \, loaded via startup or with [declare]
-like this:;
-#X restore 452 312 pd cyclone \; sub_library;
+#X obj 123 220 sig~ 0.0001;
 #X text 72 92 [plusequals~] or [+=~] accumulates the received values.
 Each input sample is added to the previous ones for a running sum.
 So \, started at 0 \, a signal consisting of 1 values outputs the sequence
 (1 \, 2 \, 3 \, 4 \, etc...).;
-#X text 106 255 <= reset =>;
+#X text 159 255 <= reset =>;
 #X text 73 154 The internal sum can be reset to 0 with a bang (left
 inlet) or a signal different than 0 in the right inlet (with sample
 accuracy) - or also set to any value (with the set message).;
-#X obj 181 225 cyclone/train~ 2000 0;
-#X text 321 224 <= impulse (value of 1;
-#X text 362 240 every 2 seconds);
-#X obj 70 326 cyclone/number~;
-#X obj 254 326 cyclone/number~;
+#X obj 234 225 cyclone/train~ 2000 0;
+#X text 374 224 <= impulse (value of 1;
+#X text 415 240 every 2 seconds);
+#X obj 123 326 cyclone/number~;
+#X obj 307 326 cyclone/number~;
 #X obj 3 3 cnv 15 301 42 empty empty +=~ 20 20 2 37 -233017 -1 0;
 #X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
@@ -79,10 +67,11 @@ accuracy) - or also set to any value (with the set message).;
 0;
 #X text 22 61 Signal accumulator;
 #X obj 494 63 ./setdsp~;
-#X connect 8 0 12 0;
-#X connect 11 0 32 0;
-#X connect 12 0 33 0;
-#X connect 15 0 11 0;
-#X connect 24 0 11 0;
-#X connect 29 0 11 1;
-#X connect 29 0 12 0;
+#X obj 307 291 cyclone/+=~;
+#X connect 8 0 42 0;
+#X connect 11 0 30 0;
+#X connect 14 0 11 0;
+#X connect 23 0 11 0;
+#X connect 27 0 11 1;
+#X connect 27 0 42 0;
+#X connect 42 0 31 0;

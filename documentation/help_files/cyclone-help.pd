@@ -9,10 +9,10 @@
 #X text 262 367 same as;
 #X text 262 391 same as;
 #X text 264 424 same as;
-#X text 264 465 same as;
-#X text 264 446 same as;
-#X text 264 506 same as;
+#X text 264 505 same as;
 #X text 264 486 same as;
+#X text 264 464 same as;
+#X text 264 444 same as;
 #X text 264 540 same as;
 #X text 84 457 Math objects:;
 #X obj 321 271 cyclone/equals~;
@@ -22,10 +22,10 @@
 #X obj 321 367 cyclone/greaterthan~;
 #X obj 321 391 cyclone/greaterthaneq~;
 #X obj 323 424 cyclone/modulo~;
-#X obj 323 445 cyclone/rminus;
-#X obj 323 465 cyclone/rminus~;
-#X obj 323 486 cyclone/rdiv;
-#X obj 323 506 cyclone/rdiv~;
+#X obj 323 485 cyclone/rminus;
+#X obj 323 505 cyclone/rminus~;
+#X obj 323 444 cyclone/rdiv;
+#X obj 323 464 cyclone/rdiv~;
 #X obj 324 540 cyclone/plusequals~;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -37,7 +37,7 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#N canvas 644 264 500 263 load_cyclone 0;
+#N canvas 644 264 499 331 load_cyclone 0;
 #X text 118 222 https://github.com/porres/pd-cyclone/wiki/How-To-Install
 ;
 #X obj 261 125 declare -stdlib cyclone;
@@ -52,6 +52,9 @@ For more details on installing cyclone \, check:;
 to Install Cyclone" (see link beklow). But if the library is not preloaded
 that way \, you can still use [declare] as \, for example \, below:
 ;
+#X text 52 260 Note to Purr Data users:;
+#X text 71 281 The Cyclone version in Purr Data only contains separate
+binaries for all objects!;
 #X restore 337 593 pd load_cyclone;
 #X text 125 564 ============================================================
 ;
@@ -74,10 +77,10 @@ objects;
 #X obj 180 368 cyclone/>~;
 #X obj 180 391 cyclone/>=~;
 #X obj 181 424 cyclone/%~;
-#X obj 181 445 cyclone/!-;
-#X obj 181 465 cyclone/!-~;
-#X obj 181 486 cyclone/!/;
-#X obj 181 506 cyclone/!/~;
+#X obj 181 485 cyclone/!-;
+#X obj 181 505 cyclone/!-~;
+#X obj 181 444 cyclone/!/;
+#X obj 181 464 cyclone/!/~;
 #X obj 180 539 cyclone/+=~;
 #X text 64 88 This is a single binary pack that contains the cyclone
 operators \, which are objects with non-alphanumeric names. Objects
