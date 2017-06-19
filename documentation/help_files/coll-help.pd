@@ -172,7 +172,7 @@ save (default), f 66;
 ;
 #X text 146 534 @threaded: <1> threaded processing (default) \, <0>
 unthreaded;
-#N canvas 711 83 622 589 details 0;
+#N canvas 711 83 622 589 details 1;
 #N canvas 574 173 804 263 embbed 0;
 #X msg 92 99 dump;
 #X obj 93 219 print coll_embedded;
@@ -798,7 +798,7 @@ other [coll] objects that also have no names.;
 #X msg 143 198 open;
 #X msg 181 198 wclose;
 #X msg 246 176 0 0.1 \, 1 0 2 3 \, 2 list one two \, 3 hi \, 4 let's
-go;
+go, f 16;
 #X text 138 148 <== address;
 #N canvas 454 189 838 370 read/write 0;
 #X msg 213 207 write coll.txt;
