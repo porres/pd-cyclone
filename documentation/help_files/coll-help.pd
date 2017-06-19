@@ -172,7 +172,7 @@ save (default), f 66;
 ;
 #X text 146 534 @threaded: <1> threaded processing (default) \, <0>
 unthreaded;
-#N canvas 711 83 622 589 details 1;
+#N canvas 711 83 622 589 details 0;
 #N canvas 574 173 804 263 embbed 0;
 #X msg 92 99 dump;
 #X obj 93 219 print coll_embedded;
