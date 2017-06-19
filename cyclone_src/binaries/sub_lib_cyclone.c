@@ -2,11 +2,22 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* Porres 2017:
- This has been fixed updated and renamed to 'cyclops' by Porres;
- this source code used to be 'nettles.c', and the nettles objects used to be 
- part of the cyclone library;
-*/
+/* Porres 2016: 
+ This library has been fixed and updated by Porres in 2016;
+ This is the cyclone library containing 12 non alphanumeric objects.
+ Originally, the externals in cyclone used to come in a library called
+ "cyclone", which included these 12 objects plus the "hammer" and "sicle"
+ libraries (control/MAX and signal/MSP objects respectively).
+ 
+ This original cyclone library is now restored, but only containing these
+ 12 objects, which are: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], 
+ [!-~], [!/~], [%~], [+=~] (the original code for such objects used to be 
+ called 'nettles.c'.
+ 
+ The plan is to, in the future, have all objects into this library.
+ 
+ Alternatively, alphanumeric versions of these objects are ialso ncluded as 
+ single binaries in the cyclone package  */
 
 #include <math.h>
 #include "m_pd.h"
@@ -610,19 +621,22 @@ static void *plusequals_new(t_floatarg f)
 
 /* ----------------------------- SET UP ------------------------------ */
 
-void cyclops_setup(void)
+void cyclone_setup(void)
 {
     
+/* -- post cyclone lib version -- */
     {
         post("------------------------------------------------------------------");
-        post("Cyclone 0.3 beta-2; released: June 9th, 2017");
-        post("------------------------------------------------------------------");
-        post("Cyclops library, part of Cyclone");
-        post("The Cyclops (Cyclone Operators) library contains the operators:");
+        post("Cyclone 0.3 beta 1; Released: May 1st, 2017");
+        post("This is a sub library containing the objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
     }
-
+        endpost();
+        endpost();
+        endpost();
+        endpost();
+    
 /* -- [!-] -- */
     
     rminus_class = class_new(gensym("!-"),
@@ -646,6 +660,8 @@ void cyclops_setup(void)
     equals_class = class_new(gensym("==~"),
 			    (t_newmethod)equals_new, (t_method)equals_free,
                 sizeof(t_equals), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)equals_new,
+                     gensym("cyclone/==~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(equals_class, nullfn, gensym("signal"), 0);
     class_addmethod(equals_class, (t_method)equals_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(equals_class, gensym("equals~"));
@@ -654,6 +670,8 @@ void cyclops_setup(void)
     
     notequals_class = class_new(gensym("!=~"), (t_newmethod)notequals_new,
         (t_method)notequals_free, sizeof(t_notequals), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)notequals_new,
+                     gensym("cyclone/!=~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(notequals_class, nullfn, gensym("signal"), 0);
     class_addmethod(notequals_class, (t_method)notequals_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(notequals_class, gensym("notequals~"));
@@ -662,6 +680,8 @@ void cyclops_setup(void)
     
     lessthan_class = class_new(gensym("<~"), (t_newmethod)lessthan_new,
         (t_method)lessthan_free, sizeof(t_lessthan), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)lessthan_new,
+                     gensym("cyclone/<~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(lessthan_class, nullfn, gensym("signal"), 0);
     class_addmethod(lessthan_class, (t_method)lessthan_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(lessthan_class, gensym("lessthan~"));
@@ -670,6 +690,8 @@ void cyclops_setup(void)
     
     greaterthan_class = class_new(gensym(">~"), (t_newmethod)greaterthan_new,
         (t_method)greaterthan_free, sizeof(t_greaterthan), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)greaterthan_new,
+                     gensym("cyclone/>~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(greaterthan_class, nullfn, gensym("signal"), 0);
     class_addmethod(greaterthan_class, (t_method)greaterthan_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(greaterthan_class, gensym("greaterthan~"));
@@ -678,6 +700,8 @@ void cyclops_setup(void)
     
     lessthaneq_class = class_new(gensym("<=~"), (t_newmethod)lessthaneq_new,
             (t_method)lessthaneq_free, sizeof(t_lessthaneq), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)lessthaneq_new,
+                     gensym("cyclone/<=~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(lessthaneq_class, nullfn, gensym("signal"), 0);
     class_addmethod(lessthaneq_class, (t_method)lessthaneq_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(lessthaneq_class, gensym("lessthaneq~"));
@@ -686,6 +710,8 @@ void cyclops_setup(void)
     
     greaterthaneq_class = class_new(gensym(">=~"), (t_newmethod)greaterthaneq_new,
         (t_method)greaterthaneq_free, sizeof(t_greaterthaneq), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)greaterthaneq_new,
+                     gensym("cyclone/>=~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(greaterthaneq_class, nullfn, gensym("signal"), 0);
     class_addmethod(greaterthaneq_class, (t_method)greaterthaneq_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(greaterthaneq_class, gensym("greaterthaneq~"));
@@ -694,6 +720,8 @@ void cyclops_setup(void)
     
     rminus_tilde_class = class_new(gensym("!-~"), (t_newmethod)rminus_tilde_new,
             (t_method)rminus_tilde_free, sizeof(t_rminus_tilde), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)rminus_tilde_new,
+                     gensym("cyclone/!-~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(rminus_tilde_class, nullfn, gensym("signal"), 0);
     class_addmethod(rminus_tilde_class, (t_method)rminus_tilde_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(rminus_tilde_class, gensym("rminus~"));
@@ -702,6 +730,8 @@ void cyclops_setup(void)
     
     rdiv_tilde_class = class_new(gensym("!/~"), (t_newmethod)rdiv_tilde_new,
         (t_method)rdiv_tilde_free, sizeof(t_rdiv_tilde), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)rdiv_tilde_new,
+                     gensym("cyclone/!/~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(rdiv_tilde_class, nullfn, gensym("signal"), 0);
     class_addmethod(rdiv_tilde_class, (t_method)rdiv_tilde_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(rdiv_tilde_class, gensym("rdiv~"));
@@ -710,6 +740,8 @@ void cyclops_setup(void)
     
     modulo_class = class_new(gensym("%~"), (t_newmethod)modulo_new,
         (t_method)modulo_free, sizeof(t_modulo), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)modulo_new,
+                     gensym("cyclone/%~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(modulo_class, nullfn, gensym("signal"), 0);
     class_addmethod(modulo_class, (t_method)modulo_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(modulo_class, gensym("modulo~"));
@@ -718,6 +750,8 @@ void cyclops_setup(void)
     
     plusequals_class = class_new(gensym("+=~"), (t_newmethod)plusequals_new, 0,
             sizeof(t_plusequals), 0, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)plusequals_new,
+                     gensym("cyclone/+=~"), A_DEFFLOAT, 0); // compatible to purr data
     class_addmethod(plusequals_class, nullfn, gensym("signal"), 0);
     class_addmethod(plusequals_class, (t_method) plusequals_dsp, gensym("dsp"), 0);
     class_addbang(plusequals_class, plusequals_bang);

@@ -1,4 +1,5 @@
 #N canvas 609 63 559 589 10;
+#X declare -stdlib cyclone/cyclone;
 #X obj 8 476 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 8 517 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -17,6 +18,7 @@
 #X text 135 487 signal;
 #X text 120 527 1) float;
 #X obj 70 290 cyclone/plusequals~;
+#X obj 254 291 +=~;
 #X text 187 406 - resets initial stored value to 0;
 #X text 188 376 - signal value is accumulated. Accumulated value is
 output only if a signal is connected;
@@ -36,6 +38,16 @@ to 0;
 #X text 186 527 - sets the initial stored value for the sum (default
 0);
 #X obj 70 220 sig~ 0.0001;
+#N canvas 724 142 478 298 cyclone 0;
+#X obj 209 99 declare -stdlib cyclone/cyclone;
+#X text 63 206 More about the cyclone sub-library;
+#X text 66 136 If you need more details in installing cyclone \, check:
+https://github.com/porres/pd-cyclone/wiki/How-To-Install;
+#X obj 283 206 cyclone-help;
+#X text 58 51 [plusequals~] is a single binary in cyclone \, but [+=~]
+is from the cyclone "sub-library" \, loaded via startup or with [declare]
+like this:;
+#X restore 452 312 pd cyclone \; sub_library;
 #X text 72 92 [plusequals~] or [+=~] accumulates the received values.
 Each input sample is added to the previous ones for a running sum.
 So \, started at 0 \, a signal consisting of 1 values outputs the sequence
@@ -67,13 +79,10 @@ accuracy) - or also set to any value (with the set message).;
 0;
 #X text 22 61 Signal accumulator;
 #X obj 494 63 ./setdsp~;
-#X obj 458 331 cyclops-help;
-#X text 459 285 About the 'Cyclops' sub library, f 11;
-#X obj 254 291 +=~;
-#X connect 8 0 44 0;
-#X connect 11 0 30 0;
-#X connect 14 0 11 0;
-#X connect 23 0 11 0;
-#X connect 27 0 11 1;
-#X connect 27 0 44 0;
-#X connect 44 0 31 0;
+#X connect 8 0 12 0;
+#X connect 11 0 32 0;
+#X connect 12 0 33 0;
+#X connect 15 0 11 0;
+#X connect 24 0 11 0;
+#X connect 29 0 11 1;
+#X connect 29 0 12 0;
