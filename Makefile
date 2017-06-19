@@ -356,18 +356,14 @@ shared/cybuf.c
 
 # ifdef PDL2ORK
 # datafiles = \
-# $(wildcard documentation/purr_help/*.pd) \
-# $(wildcard documentation/purr_help/abs_GUI/*.pd) \
+# $(wildcard documentation/purr_help/*.pd) \ # instead of documentation/help_files/*.pd
+# $(wildcard documentation/purr_help/abs_GUI/*.pd) \ # instead of cyclone_src/abstractions/*.pd
 # else
 
 datafiles = \
 $(wildcard cyclone_src/abstractions/*.pd) \
-$(wildcard documentation/*.pd) \
 $(wildcard documentation/help_files/*.pd) \
-$(wildcard documentation/extra_files/*.txt) \
-documentation/extra_files/violin.wav \
-documentation/extra_files/stereo.aif \
-documentation/extra_files/seq.mid \
+$(wildcard documentation/extra_files/*.*) \
 LICENSE.txt \
 README.txt \
 

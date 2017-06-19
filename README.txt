@@ -1,5 +1,5 @@
 
-Cyclone 0.3 beta-2 (released june 9th 2017)
+Cyclone 0.3 beta-2 (released june 19th 2017)
 -------
 
 Releases: https://github.com/porres/pd-cyclone/releases
