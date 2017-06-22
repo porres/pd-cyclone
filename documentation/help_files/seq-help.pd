@@ -226,34 +226,32 @@ and [midiflush] \, which are useful with [seq].;
 #X connect 37 0 33 0;
 #X restore 492 109 pd basic;
 #N canvas 745 43 437 378 more 0;
-#X obj 71 202 midirealtimein;
-#X msg 71 264 start -1;
-#X obj 135 332 print;
-#X obj 135 300 cyclone/seq seq.mid;
-#X msg 135 264 stop;
+#X obj 109 205 midirealtimein;
+#X msg 109 267 start -1;
+#X obj 173 335 print;
+#X obj 173 303 cyclone/seq seq.mid;
+#X msg 173 267 stop;
 #X text 42 23 When [seq] is recording \, it stores integer floats to
 be interpreted as raw MIDI (bytes of MIDI messages) - thus it usually
 records data from [midiin] or [cyclone/midiformat] objects \, but you
 can also generate your own MIDI messages in the patch and record it.
 The [seq] object can also record system exclusive messages from the
 [sysexin] object.;
-#X obj 196 234 midiclkin;
-#X msg 175 265 tick;
-#X text 263 233 <= only clock messages;
-#X obj 71 233 route 250 252 248;
-#X text 165 200 <= all real time messages;
+#X msg 213 268 tick;
+#X obj 109 236 route 250 252 248;
+#X text 203 203 <= all real time messages;
 #X text 42 114 [seq] doesn't respond directly to MIDI real time messages
 such as "248" (MIDI clock) \, "250" (start) \, "251" (continue) \,
 and "252" (stop). For that \, you need to adapt and use the [midiclkin]
 and [midirealtimein] objects like in the example below.;
-#X connect 0 0 9 0;
+#X connect 0 0 7 0;
 #X connect 1 0 3 0;
 #X connect 3 0 2 0;
 #X connect 4 0 3 0;
-#X connect 7 0 3 0;
-#X connect 9 0 1 0;
-#X connect 9 1 4 0;
-#X connect 9 2 7 0;
+#X connect 6 0 3 0;
+#X connect 7 0 1 0;
+#X connect 7 1 4 0;
+#X connect 7 2 6 0;
 #X restore 499 177 pd more;
 #X text 104 153 argument opens =>;
 #X text 105 168 MIDI files;
