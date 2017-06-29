@@ -2242,7 +2242,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
     };
 
 
-    x->x_threaded = -1;
+    x->x_threaded = 0; //changed from -1 which broke on windows
     x->x_nosearch = no_search;
     x->x_filebang = 0;
 	// if no file name provided, associate with empty symbol
