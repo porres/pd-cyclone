@@ -1,4 +1,4 @@
-#N canvas 497 240 558 592 10;
+#N canvas 521 50 558 592 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
 #X obj 2 371 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -987,15 +987,15 @@ data \, then close it and save it. The format for each line is: adrress
 #X text 180 332 1st element is an int address to store remaining data
 to;
 #N canvas 413 197 810 540 threaded 0;
-#X obj 66 187 osc~ 440;
-#X obj 223 142 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 59 200 osc~ 440;
+#X obj 196 142 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 346 245 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 289 246 finished;
-#X obj 49 232 ./out~;
-#X text 250 143 2) click and check;
-#X text 47 154 1) raise the volume;
+#X obj 42 245 ./out~;
+#X text 223 143 2) click and check;
+#X text 21 165 1) raise the volume;
 #X obj 223 282 timer;
 #X obj 223 306 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -1017,11 +1017,6 @@ their patches.;
 issues:;
 #X text 18 91 Below \, [coll] loads 300 thousand entries from a file
 \, which would cause an audio drop out if not in threaded mode.;
-#X text 18 15 From cyclone 0.3-alpha1 \, [coll] is threaded by default.
-This allows the read and dump operations to run in a separate thread
-\, preventing audio drop outs as in Max! This also means you have to
-rely on the bangs from the 3rd and 4th outlets as a signal the operations
-have been completed.;
 #N canvas 676 50 503 504 depth-first 0;
 #X msg 48 150 threaded \$1;
 #X obj 48 122 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
@@ -1075,10 +1070,6 @@ outlets now and not the "threaded 0" attribute.;
 breaks the depth first rule \, while unthreaded keeps it (but at the
 cost of causing potential audio drop outs).;
 #X text 442 321 Check the subpatch for more info ===>;
-#X text 48 462 This extra argument raised a conflict with the 2nd argument
-that was introduced to [coll] in Max 4.0.8 \, which didn't make into
-cyclone's [coll] at first because it was cloned from the Max version
-4.0!;
 #X text 48 414 Cyclone 0.2 beta1/beta2 included Pd-l2ork's [coll] version
 \, which had an extra float argument (0/1) to define the threaded mode
 (which was "0" - unthreaded - by default).;
@@ -1100,30 +1091,38 @@ functionality is now the default.;
 extra attribute ("@threaded 1" (default) for threaded and "@threaded
 0" for unthreaded behaviour) or message. Check it in both modes below
 and see below how now the unthreaded mode freezes the DSP.;
-#X text 509 92 3) now try dump;
 #X msg 236 180 read coll_big.txt;
 #X obj 236 219 cyclone/coll threaded_test 1;
 #C restore;
 #X obj 507 180 cyclone/coll threaded_test 1 @threaded 0;
 #C restore;
-#X obj 537 211 cnv 15 120 40 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X text 544 217 threaded dump is not ready yet, f 16;
+#X obj 196 197 t b b;
+#X text 18 15 From cyclone 0.3-alpha1 \, [coll] is threaded by default.
+This allows the read operation to run in a separate thread \, preventing
+audio drop outs as in Max! This also means you have to rely on the
+bang from the 3rd outlets to know the operation has been completed.
+;
+#X text 504 92 Note that the dump feature is not threaded!;
+#X text 48 462 This extra argument raised a conflict with the 2nd argument
+that was introduced to [coll] in Max 4.0.8 \, which didn't make into
+cyclone's [coll] right away because it was first cloned from the Max
+version 4.0!;
 #X connect 0 0 4 0;
 #X connect 0 0 4 1;
 #X connect 1 0 35 0;
-#X connect 1 0 7 0;
 #X connect 2 0 7 1;
 #X connect 7 0 8 0;
-#X connect 11 0 37 0;
+#X connect 11 0 34 0;
 #X connect 12 0 11 0;
-#X connect 13 0 26 0;
-#X connect 26 0 37 0;
-#X connect 29 0 36 0;
-#X connect 30 0 29 0;
-#X connect 35 0 36 0;
-#X connect 36 2 2 0;
-#X connect 37 3 27 0;
+#X connect 13 0 24 0;
+#X connect 24 0 34 0;
+#X connect 27 0 33 0;
+#X connect 28 0 27 0;
+#X connect 32 0 33 0;
+#X connect 33 2 2 0;
+#X connect 34 3 25 0;
+#X connect 35 0 32 0;
+#X connect 35 1 7 0;
 #X restore 463 233 pd threaded \; & backwards \; compatibility;
 #X text 82 314 float/symbol;
 #X text 180 315 an "int float" or "symbol" address: outputs the stored
@@ -1143,9 +1142,6 @@ data;
 #X text 189 469 name or filename to load (same name colls share contents)
 ;
 #X text 178 418 - when finishing a read operation;
-#X obj 453 81 cnv 15 88 40 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X text 456 86 [coll] is not ready yet, f 13;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 coll;
 #X obj 16 57 cyclone/comment 0 18 times ? 0 0 0 0 Store/edit message
 collections;
