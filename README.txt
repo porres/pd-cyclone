@@ -1,4 +1,4 @@
-Cyclone 0.3 beta-2 (released june 19th 2017)
+Cyclone 0.3 beta- (released june 19th 2017)
 
 Releases: https://github.com/porres/pd-cyclone/releases
 
@@ -11,7 +11,7 @@ Max is found at: https://cycling74.com/
 
 About Cyclone 0.3:
 
-Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the early 2000s), the main focus of cyclone 0.3 (currently in beta stage) has been on updating cyclone objects to the latest Max version (Max 7.3.3 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
+Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the early 2000s), the main focus of cyclone 0.3 (currently in beta stage) has been on updating cyclone objects to the latest Max version (Max 7.3.4 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
 
 59 updated objects (only 4 reamining to be updated);
 61 fixed objects (including objects that were and were not updated);
