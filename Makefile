@@ -372,7 +372,9 @@ README.txt \
 # copied to the current directory before installation or packaging.
 
 ifeq (MINGW,$(findstring MINGW,$(uname)))
-datafiles += maintenance/windows_dll/pthreadGC-3.dll
+datafiles += \
+maintenance/windows_dll/pthreadGC-3.dll \
+maintenance/windows_dll/libgcc_s_dw2-1.dll
 endif
 
 ### pd-lib-builder ######################################################
