@@ -365,7 +365,7 @@ $(wildcard cyclone_src/abstractions/*.pd) \
 $(wildcard documentation/help_files/*.pd) \
 $(wildcard documentation/extra_files/*.*) \
 LICENSE.txt \
-README.txt \
+README.pdf \
 
 # pthreadGC-3.dll is required for Windows installation. It can be found in
 # the MinGW directory (usually C:\MinGW\bin) directory and should be
