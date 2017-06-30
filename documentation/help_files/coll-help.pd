@@ -27,7 +27,7 @@
 #X text 146 418 bang;
 #X text 146 438 bang;
 #X text 115 469 1) symbol;
-#N canvas 653 116 644 580 All_Messages 0;
+#N canvas 653 116 651 579 All_Messages 0;
 #X text 119 181 length -;
 #X text 131 241 next -;
 #X text 131 301 open -;
@@ -42,96 +42,97 @@
 #X text 71 542 write <symbol> -;
 #X text 95 557 writeagain -;
 #X text 176 331 opens file specified by the symbol (without a symbol
-\, a dialog window opens);
+\, a dialog window opens), f 77;
 #X text 41 436 sort <float \, float> -;
 #X text 176 542 saves file specified by the symbol (without a symbol
-\, a dialog window opens);
+\, a dialog window opens), f 76;
 #X text 176 496 substitutes an address symbol (2nd element) by the
-first given symbol;
+first given symbol, f 75;
 #X text 17 211 merge <int/symbol \, any> -;
 #X text 176 241 same as bang: outputs next address and its data;
-#X text 176 316 outputs previous address and its data;
+#X text 179 316 outputs previous address and its data, f 49;
 #X text 176 346 reopen last file - if no file had been open \, a dialog
-box is shown;
+box is shown, f 77;
 #X text 41 376 remove <int/symbol> -;
 #X text 176 557 resaves last file - if no file had been saved \, a
-dialog box is shown;
+dialog box is shown, f 79;
 #X text 71 421 separate <int> -;
 #X text 176 482 same as nsub \, but the substituted message is sent
 out;
 #X text 176 166 same as insert \, but only increments if necessary
-to include the new address;
+to include the new address, f 75;
 #X text 17 166 insert2 <int \, anything> -;
 #X text 5 271 nstore <int \, symbol \, any> -;
 #X text 17 511 swap <int/sym \, int/sym> -;
 #X text 176 180 sends number of stored values to the left outlet;
 #X text 176 211 sets address and any message to be appended to the
-stored message;
+stored message, f 65;
 #X text 29 256 nth <int/symbol \, int> -;
 #X text 89 226 min <float> -;
 #X text 176 196 sends max value of all <nth> elements (starts at 1
-\, default) on left outlet;
+\, default) on left outlet, f 76;
 #X text 176 226 sends min value of all <nth> elements (starts at 1
-\, default) on left outlet;
+\, default) on left outlet, f 77;
 #X text 176 510 swaps data between two addresses;
 #X text 101 196 max <int> -;
 #X text 176 271 or <symbol \, int \, any>: stores any data to an int
-address with a symbol alias;
+address with a symbol alias, f 77;
 #X text 11 286 nsub <int/sym \, int \, any> -;
 #X text 176 256 address and nth element to be output (starts at 1)
 ;
-#X text 176 287 the address \, an element (starts at 1) and any value
-to substitute it to;
+#X text 175 287 the address \, an element (starts at 1) and any value
+to substitute it to, f 71;
 #X text 176 301 opens the window with the data collection (allows manual
-data editing);
+data editing), f 76;
 #X text 176 361 refers to the data from another [coll] object with
-that symbol name;
+that symbol name, f 67;
 #X text 176 376 removes address and its data without renumbering (unlike
-delete);
+delete), f 77;
 #X text 71 391 renumber <int> -;
 #X text 176 391 lists int addresses consecutively \, argument sets
-starting value (default 0);
+starting value (default 0), f 76;
 #X text 176 420 increments by 1 addresses from the given <int> and
-above (opening a slot);
+above (opening a slot), f 76;
 #X text 35 466 store <int/sym \, any> -;
 #X text 176 466 int or symbol address and any message to be stored
 at it;
 #X text 17 481 sub <int/sym \, int \, any> -;
 #X text 176 451 sets the pointer to the first entry/address;
 #X text 176 436 <flag> -1: ascending / 1: descending \, <sort element>
-from 0 (-1 is address);
+from 0 (-1 is address), f 77;
 #X text 131 61 dump -;
 #X text 41 1 assoc <symbol \, int> -;
 #X text 29 31 deassoc <symbol \, int> -;
-#X text 176 61 dumps all values (1st outlet) \, addresses (2nd) and
-bangs (4th) when done;
+#X text 177 61 dumps all values (1st outlet) \, addresses (2nd) and
+bangs (4th) when done, f 72;
 #X text 41 46 delete <int/symbol> -;
-#X text 176 1 associates a symbol alias to an int address;
-#X text 176 31 desassociates the symbol alias of an int address;
+#X text 176 1 associates a symbol alias to an int address, f 67;
+#X text 176 31 desassociates the symbol alias of an int address, f
+67;
 #X text 176 46 deletes the address (if an int \, higher addresses are
-decremented by 1);
+decremented by 1), f 71;
 #X text 125 16 clear -;
 #X text 176 16 deletes all adresses (the complete data collection)
-from [coll];
+from [coll], f 67;
 #X text 137 76 end -;
 #X text 53 106 filetype <symbol> -;
 #X text 77 91 embed <float> -;
 #X text 23 151 insert <int \, anything> -;
 #X text 176 106 sets file type to read/writte (no symbol restores to
-default);
+default), f 64;
 #X text 176 136 sets an address to go to (only sets the pointer \,
 no output);
 #X text 176 151 an int address and any message to insert \, increments
-equal/greater addresses;
+equal/greater addresses, f 79;
 #X text 35 121 flags <float \, float> -;
 #X text 176 91 <1> saves contents whith the patch \, <0> doesn't;
 #X text 176 121 first flag is the embed flag \, second is unused (just
-use 'embed' instead);
+use 'embed' instead), f 74;
 #X text 53 136 goto <int/symbol> -;
 #X text 176 76 sets the pointer to the last entry/address;
 #X text 65 406 renumber2 <int> -;
 #X text 176 406 increments int addresses by one \, starting from the
-given address (default 0);
+given address (default 0), f 78;
 #X restore 358 349 pd All_Messages;
 #X text 106 348 messages;
 #X obj 249 194 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
@@ -172,7 +173,7 @@ save (default), f 66;
 ;
 #X text 146 534 @threaded: <1> threaded processing (default) \, <0>
 unthreaded;
-#N canvas 711 83 622 589 details 0;
+#N canvas 711 83 622 576 details 0;
 #N canvas 574 173 804 263 embbed 0;
 #X msg 92 99 dump;
 #X obj 93 219 print coll_embedded;
@@ -986,21 +987,21 @@ data \, then close it and save it. The format for each line is: adrress
 #X text 165 314 -;
 #X text 180 332 1st element is an int address to store remaining data
 to;
-#N canvas 413 197 810 540 threaded 0;
-#X obj 59 200 osc~ 440;
-#X obj 196 142 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#N canvas 413 197 810 540 threaded 1;
+#X obj 63 200 osc~ 440;
+#X obj 193 142 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 346 245 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 343 245 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 289 246 finished;
-#X obj 42 245 ./out~;
-#X text 223 143 2) click and check;
-#X text 21 165 1) raise the volume;
-#X obj 223 282 timer;
-#X obj 223 306 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X text 286 246 finished;
+#X obj 46 245 ./out~;
+#X text 220 143 2) click and check;
+#X text 25 165 1) raise the volume;
+#X obj 220 282 timer;
+#X obj 220 306 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 292 298 time in ms it took;
-#X text 295 314 to read the file;
+#X text 289 298 time in ms it took;
+#X text 292 314 to read the file;
 #X msg 558 152 threaded \$1;
 #X obj 558 122 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -1082,21 +1083,21 @@ functionality is now the default.;
 #X obj 744 216 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 688 219 finished;
-#X msg 383 187 threaded \$1;
-#X obj 383 157 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 380 187 threaded \$1;
+#X obj 380 157 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 380 137 try in both;
-#X text 416 154 modes;
+#X text 377 137 try in both;
+#X text 413 154 modes;
 #X text 422 12 The old unthreaded behaviour is still offered as an
 extra attribute ("@threaded 1" (default) for threaded and "@threaded
 0" for unthreaded behaviour) or message. Check it in both modes below
 and see below how now the unthreaded mode freezes the DSP.;
-#X msg 236 180 read coll_big.txt;
-#X obj 236 219 cyclone/coll threaded_test 1;
+#X msg 233 180 read coll_big.txt;
+#X obj 233 219 cyclone/coll threaded_test 1;
 #C restore;
 #X obj 507 180 cyclone/coll threaded_test 1 @threaded 0;
 #C restore;
-#X obj 196 197 t b b;
+#X obj 193 197 t b b;
 #X text 18 15 From cyclone 0.3-alpha1 \, [coll] is threaded by default.
 This allows the read operation to run in a separate thread \, preventing
 audio drop outs as in Max! This also means you have to rely on the
