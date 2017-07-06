@@ -503,18 +503,18 @@ static void *counter_new(t_symbol * s, int argc, t_atom * argv)
     x->x_min = x->x_setmin = 0;
     x->x_startup = 1;
     x->x_max = x->x_setmax = COUNTER_DEFMAX;
-    if (i3)
+    if (argnum == 3)
         {
         x->x_dir = i1;
         x->x_min = x->x_setmin = i3 < i2 ? i3: i2;
         x->x_max = x->x_setmax = i2 > i3? i2 : i3;
         }
-    else if (i2)
+    else if (argnum == 2)
         {
         x->x_min = x->x_setmin = i2 < i1 ? i2: i1;
         x->x_max = x->x_setmax = i1 > i2? i1 : i2;
         }
-    else if (i1) x->x_max = x->x_setmax = i1;
+    else if (argnum == 1) x->x_max = x->x_setmax = i1;
     x->x_minhitflag = x->x_maxhitflag = 0;
     x->x_maxcount = 0;
     counter_dir(x, x->x_dir);
