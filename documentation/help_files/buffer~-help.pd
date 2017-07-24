@@ -1,4 +1,4 @@
-#N canvas 429 31 560 502 10;
+#N canvas 731 28 560 502 10;
 #X obj 5 464 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -7,7 +7,7 @@
 ;
 #X obj 5 345 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 65 290 cnv 17 3 20 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 95 290 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 120 352 1) symbol;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
@@ -43,12 +43,12 @@ cloned from Max/MSP;
 with [buffer~] \, they are:;
 #X msg 111 53 open;
 #X text 144 54 <= check internal array;
-#X text 132 124 Similar to:;
-#X text 269 154 <= click to open;
-#X obj 64 223 soundfiler;
-#X obj 64 191 cyclone/loadmess read -resize violin.wav vanilla_\$0
+#X text 62 146 Similar to:;
+#X text 260 147 <= click to open;
+#X obj 60 209 soundfiler;
+#X obj 60 177 cyclone/loadmess read -resize violin.wav vanilla_\$0
 ;
-#X obj 155 154 table vanilla_\$0;
+#X obj 146 147 table vanilla_\$0;
 #X text 25 341 On the other hand \, for single or "mono" buffers \,
 a buffer named "test" has an internal array also named: "test"., f
 60;
@@ -144,7 +144,7 @@ functionalitites from the Max/MSP original.;
 #X text 152 429 @size <float> (sets buffer size in ms), f 44;
 #X text 146 444 @samps <float> (sets buffer size in samples), f 45
 ;
-#N canvas 571 182 807 406 functions/generators 0;
+#N canvas 527 168 807 406 functions/generators 0;
 #X obj 513 300 loadbang;
 #X msg 464 320 open;
 #X obj 27 20 cyclone/comment 0 18 times ? 0 0 0 0 Fill;
@@ -191,7 +191,7 @@ alpha parameter in radians \, which precedes the optional half argument
 #X msg 90 168 crop 140 480;
 #X msg 19 168 readagain;
 #X msg 151 197 wclose;
-#N canvas 746 481 511 331 All_Messages 0;
+#N canvas 647 158 511 331 All_Messages 0;
 #X text 94 6 clear;
 #X text 100 157 open;
 #X text 139 6 - fills all arrays with zeros, f 59;
@@ -239,14 +239,14 @@ f 59;
 #X text 64 189 sr <float>;
 #X text 139 189 - sets sample rate for writting a file (default: Patch's)
 , f 59;
-#X restore 323 290 pd All_Messages;
-#X text 124 291 open and check all messages: =>;
+#X restore 374 290 pd All_Messages;
 #X obj 90 230 cyclone/buffer~ buff1_\$0 stereo.aif -1 2, f 24;
 #X obj 500 69 cyclone/setdsp~;
+#X text 124 291 click to open and check all messages: =>;
 #X connect 24 0 27 0;
-#X connect 25 0 38 0;
+#X connect 25 0 37 0;
 #X connect 27 0 23 0;
 #X connect 27 1 23 1;
-#X connect 33 0 38 0;
-#X connect 34 0 38 0;
-#X connect 35 0 38 0;
+#X connect 33 0 37 0;
+#X connect 34 0 37 0;
+#X connect 35 0 37 0;

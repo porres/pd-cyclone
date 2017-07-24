@@ -22,12 +22,12 @@
 #X obj 327 117 t b f b;
 #X obj 281 37 r \$0-tgl;
 #X obj 100 100 tgl 17 0 \$0-tgl \$0-tgl-set empty 17 7 0 10 -228856
--1 -204800 1 1;
-#X obj 101 101 cnv 15 15 15 empty \$0-cnv-c empty 2 6 0 19 -62546 -204800
+-1 -204800 0 1;
+#X obj 101 101 cnv 15 15 15 empty \$0-cnv-c ~ 2 6 0 19 -62546 -204800
 0;
-#X obj 101 101 cnv 2 2 2 empty \$0-cnv-a | 4 7 0 12 -62546 -204800
+#X obj 101 101 cnv 2 2 2 empty \$0-cnv-a empty 4 7 0 12 -62546 -204800
 0;
-#X obj 101 101 cnv 2 2 2 empty \$0-cnv-b v 4 8 0 12 -62546 -204800
+#X obj 101 101 cnv 2 2 2 empty \$0-cnv-b empty 4 8 0 12 -62546 -204800
 0;
 #X obj 117 48 r \$0-set-n;
 #N canvas 217 77 752 539 GUI 0;
@@ -118,4 +118,4 @@
 #X connect 33 0 7 0;
 #X connect 33 0 8 0;
 #X connect 34 0 33 0;
-#X coords 0 -1 1 1 111 17 1 100 100;
+#X coords 0 -1 1 1 111 17 2 100 100;
