@@ -6,16 +6,17 @@
 #include <stdio.h>
 #include <math.h>
 
-#define SFI_HEADER_SAMPLERATE 0
-#define SFI_HEADER_FILENAME 1
-#define SFI_HEADER_MULTICHANNEL_FILE_LENGTH 2
-#define SFI_HEADER_HEADERBYTES 3
-#define SFI_HEADER_CHANNELS 4
-#define SFI_HEADER_BYTES_PER_SAMPLE 5
-#define SFI_HEADER_ENDINESS 6
-#define SFI_HEADER_FORMAT_CODE 7
+#define SFI_HEADER_CHANNELS 0
+#define SFI_HEADER_BIT_DEPTH 1
+#define SFI_HEADER_SAMPLERATE 2
+#define SFI_HEADER_MULTICHANNEL_FILE_LENGTH 3
+#define SFI_HEADER_FORMAT_CODE 4
+#define SFI_HEADER_FILENAME 5
 
-#define SFI_HEADER_SIZE 8
+//#define SFI_HEADER_HEADERBYTES 3
+// #define SFI_HEADER_ENDINESS 6
+
+#define SFI_HEADER_SIZE 6
 #define SFI_HEADER_CHUNK_SIZE_ESTIMATION 10000
 
 
@@ -57,7 +58,7 @@ static unsigned long sfinfo_string_to_uint32(char *cvec)
   return(ul);
 }
 
-static void sfinfo_read(t_sfinfo *x, t_symbol *filename)
+static void sfinfo_open(t_sfinfo *x, t_symbol *filename)
 {
   char completefilename[400];
   int i, n, n2, n4, filesize, read_chars, header_size=0, ch, bytesperframe, sr, n_frames;
@@ -183,7 +184,7 @@ sfinfo_fmt:
         post("sfinfo_read-error:  %s has no common number of bytes per frame", completefilename);
         goto sfinfo_end;
       }
-      SETFLOAT(x->x_at_header+SFI_HEADER_BYTES_PER_SAMPLE, (t_float)(ss_bytesperframe / ss_ch));
+      SETFLOAT(x->x_at_header+SFI_HEADER_BIT_DEPTH, (t_float)(ss_bytesperframe / ss_ch) * 8);
       bytesperframe = (int)ss_bytesperframe;
       header_size += 2;
       cvec += 2;
@@ -205,12 +206,12 @@ sfinfo_data:
       header_size += 8; // ignore data chunk size
       cvec += 8;
       
-      SETFLOAT(x->x_at_header+SFI_HEADER_HEADERBYTES, (t_float)header_size);
+//      SETFLOAT(x->x_at_header+SFI_HEADER_HEADERBYTES, (t_float)header_size);
       
       n_frames = (filesize - header_size) / bytesperframe;
-      SETFLOAT(x->x_at_header+SFI_HEADER_MULTICHANNEL_FILE_LENGTH, (t_float)n_frames);
-      SETSYMBOL(x->x_at_header+SFI_HEADER_ENDINESS, gensym("l"));
-//      SETSYMBOL(x->x_at_header+SFI_HEADER_FILENAME, gensym(completefilename));
+      SETFLOAT(x->x_at_header+SFI_HEADER_MULTICHANNEL_FILE_LENGTH, ((t_float)n_frames / (t_float)ul_sr) * 1000);
+//      SETSYMBOL(x->x_at_header+SFI_HEADER_ENDINESS, gensym("l"));
+      SETSYMBOL(x->x_at_header+SFI_HEADER_FILENAME, gensym(completefilename));
       
       /*      post("ch = %d", ch);
       post("sr = %d", sr);
@@ -250,5 +251,5 @@ void sfinfo_tilde_setup(void)
 {
   sfinfo_class = class_new(gensym("sfinfo~"), (t_newmethod)sfinfo_new,
     (t_method)sfinfo_free, sizeof(t_sfinfo), 0, 0);
-  class_addmethod(sfinfo_class, (t_method)sfinfo_read, gensym("read"), A_SYMBOL, 0);
+  class_addmethod(sfinfo_class, (t_method)sfinfo_open, gensym("open"), A_SYMBOL, 0);
 }

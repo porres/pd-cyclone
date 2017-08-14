@@ -1,76 +1,49 @@
-#N canvas 812 225 559 558 10;
-#X obj 3 513 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 720 23 575 580 10;
+#X obj 3 526 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 397 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 3 310 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 440 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 353 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 477 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 490 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 108 450 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 108 363 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 147 411 signal;
-#X text 147 450 signal;
-#X text 147 486 (none);
-#X obj 108 411 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 108 324 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 2 7 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 2 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 6 graph;
+#X obj 305 7 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X text 210 411 - input to hyperbolic sine function;
-#X text 210 450 - output of hyperbolic sine function;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Soundfile information;
-#X obj 15 4 comment 0 37 times ? 0 0 0 0 sfinfo~;
-#X obj 322 28 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+#X obj 17 59 comment 0 18 times ? 0 0 0 0 Soundfile information;
+#X obj 15 7 comment 0 37 times ? 0 0 0 0 sfinfo~;
+#X obj 322 31 comment 0 13 courier ? 0 224 228 220 Objects cloned from
 Max/MSP;
-#X obj 363 4 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X text 61 93 Use [sfinfo~] to;
-#X obj 166 217 cyclone/sfinfo~;
-#X obj 166 252 print;
+#X obj 363 7 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 61 96 Use [sfinfo~] to;
+#X obj 166 255 print;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 0 0;
-#X restore 304 3 pd;
-#X msg 166 185 read violin.wav;
-#N canvas 632 48 738 565 (subpatch) 1;
-#X obj 31 45 openpanel;
-#X obj 31 26 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X restore 304 6 pd;
+#X text 140 364 0- number of channels \; 1- bit depth \; 2- sample
+rate \; 3- duration in ms * \; 4- sample type \; 5- filename;
+#X text 137 500 1) symbol (optional) - filne name;
+#X text 147 324 bang;
+#X text 189 324 - output info;
+#X msg 166 175 open violin.wav;
+#X obj 137 178 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 166 220 cyclone/sfinfo~ violin.wav;
+#X obj 303 160 openpanel;
+#X obj 303 141 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
 -1;
-#X obj 31 217 print;
-#X text 40 146 "read"-message needs a symbol (soundfile in wave format)
-;
-#X symbolatom 140 70 66 0 0 0 - - -, f 66;
-#X text 50 184 "list"-message output with 7 items;
-#X text 91 224 4.item: <float> header-size in bytes;
-#X text 91 194 1.item: <float> samplerate in Hz;
-#X text 91 204 2.item: <symbol> file-name;
-#X text 91 234 5.item: <float> number of channels;
-#X text 7 2 soundfile_info;
-#X text 130 2 show the header-data of a wav-file;
-#X text 91 254 7.item: <symbol> endianness ("l" for little);
-#X text 260 264 ("b" for big);
-#X text 214 279 (eg. little endian "wav" is natural format on Intel-machines)
-;
-#X text 214 304 (eg. big endian "aiff" is natural format on Macintosh-machines)
-;
-#X text 91 214 3.item: <float> sound-data-length in samples;
-#X text 91 244 6.item: <float> sample-resolution in bytes;
-#X text 90 325 8.item: <float> format code (1 .. linear PCM);
-#X text 286 335 (3 .. IEEE-float);
-#X text 286 345 (6 .. 8 bit ALAW);
-#X text 286 355 (7 .. 8 bit MULAW);
-#X obj 31 166 cyclone/sfinfo~;
-#X msg 77 109 read violin.wav;
-#X msg 26 80 read \$1;
-#X connect 0 0 4 0;
-#X connect 0 0 24 0;
-#X connect 1 0 0 0;
-#X connect 22 0 2 0;
-#X connect 23 0 22 0;
-#X connect 24 0 22 0;
-#X restore 341 230 pd;
-#X connect 19 0 20 0;
-#X connect 22 0 19 0;
+#X msg 303 185 open \$1;
+#X connect 20 0 22 0;
+#X connect 21 0 22 0;
+#X connect 22 0 14 0;
+#X connect 23 0 25 0;
+#X connect 24 0 23 0;
+#X connect 25 0 22 0;
