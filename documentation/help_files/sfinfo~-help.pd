@@ -38,11 +38,11 @@ Max/MSP;
 #X msg 299 166 open \$1;
 #X symbolatom 346 220 10 0 0 0 - - -, f 10;
 #X text 423 221 filename;
-#X text 373 258 duration (ms);
+#X text 379 258 duration (ms);
 #X text 389 239 sample type;
-#X text 360 276 sample rate;
-#X text 336 295 bit depth;
-#X text 321 313 channels;
+#X text 340 276 sample rate;
+#X text 311 295 bit depth;
+#X text 284 313 channels;
 #X text 118 362 open <symbol>;
 #X text 226 363 - opens sound file, f 39;
 #X text 226 346 - outputs info of the opened sound file;
@@ -66,14 +66,14 @@ Max/MSP;
 #X text 62 92 Use [sfinfo~] to output information on sound files.;
 #X obj 332 239 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 316 257 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 302 276 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 280 294 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 266 312 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+#X obj 296 257 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 6590.61 256;
+#X obj 282 276 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 44100 256;
+#X obj 260 294 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 16 256;
+#X obj 246 312 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1 256;
 #X obj 167 126 loadbang;
 #X text 82 139 output info =>, f 8;
 #X connect 16 0 18 0;

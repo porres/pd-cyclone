@@ -6,18 +6,18 @@
 #include <stdio.h>
 #include <math.h>
 
-#define SFI_HEADER_CHANNELS 0
-#define SFI_HEADER_BIT_DEPTH 1
-#define SFI_HEADER_SAMPLERATE 2
-#define SFI_HEADER_DUR_MS 3
-#define SFI_HEADER_FORMAT_CODE 4
-#define SFI_HEADER_FILENAME 5
+#define SFINFO_HEADER_CHANNELS 0
+#define SFINFO_HEADER_BIT_DEPTH 1
+#define SFINFO_HEADER_SAMPLERATE 2
+#define SFINFO_HEADER_DUR_MS 3
+#define SFINFO_HEADER_FORMAT_CODE 4
+#define SFINFO_HEADER_FILENAME 5
 
-//#define SFI_HEADER_HEADERBYTES 3
-// #define SFI_HEADER_ENDINESS 6
+//#define SFINFO_HEADER_HEADERBYTES 3
+// #define SFINFO_HEADER_ENDINESS 6
 
-#define SFI_HEADER_SIZE 6
-#define SFI_HEADER_CHUNK_SIZE_ESTIMATION 10000
+#define SFINFO_HEADER_SIZE 6
+#define SFINFO_HEADER_CHUNK_SIZE_ESTIMATION 10000
 
 
 
@@ -31,11 +31,14 @@ typedef struct _sfinfo
   t_object  x_obj;
   long      *x_begmem;
   int       x_mem_size;
-  t_atom    x_at_header[SFI_HEADER_SIZE];
+  t_atom    x_at_header[SFINFO_HEADER_SIZE];
   t_canvas  *x_canvas;
   void      *x_list_out;
     
+    t_float  x_ch;
     t_float  x_sr;
+    t_float  x_ms;
+    t_float  x_depth;
     
     t_outlet *x_ch_outlet;
     t_outlet *x_bit_depth_outlet;
@@ -48,28 +51,27 @@ typedef struct _sfinfo
 
 static void sfinfo_bang(t_sfinfo *x)
 {
-    
+    outlet_float(x->x_dur_outlet, x->x_ms);
     outlet_float(x->x_sr_outlet, x->x_sr);
-    
+    outlet_float(x->x_bit_depth_outlet, x->x_depth);
+    outlet_float(x->x_ch_outlet, x->x_ch);
 /*     
- SETFLOAT(x->x_at_header+SFI_HEADER_SAMPLERATE, (t_float)ul_sr);
+ SETFLOAT(x->x_at_header+SFINFO_HEADER_SAMPLERATE, (t_float)ul_sr);
 
     
     outlet_float(x->x_idxlet, x->x_lastidx);
     outlet_symbol(((t_object *)x)->ob_outlet, s);
  
     outlet_float(x->x_sampletype_outlet, x);
-    outlet_float(x->x_dur_outlet, x->x_lastidx);
-    outlet_float(x->x_bit_depth_outlet, x->x_lastidx);
     outlet_float(x->x_ch_outlet, x->x_lastmax);
     
     
-    SETSYMBOL(x->x_at_header+SFI_HEADER_FILENAME, gensym(completefilename));
+    SETSYMBOL(x->x_at_header+SFINFO_HEADER_FILENAME, gensym(completefilename));
 
-    SETFLOAT(x->x_at_header+SFI_HEADER_DUR_MS, ((t_float)n_frames / (t_float)ul_sr) * 1000);
-    SETFLOAT(x->x_at_header+SFI_HEADER_BIT_DEPTH, (t_float)(ss_bytesperframe / ss_ch) * 8);
-    SETFLOAT(x->x_at_header+SFI_HEADER_CHANNELS, (t_float)ss_ch);
-    SETFLOAT(x->x_at_header+SFI_HEADER_FORMAT_CODE, (t_float)ss_format);
+    SETFLOAT(x->x_at_header+SFINFO_HEADER_DUR_MS, ((t_float)n_frames / (t_float)ul_sr) * 1000);
+    SETFLOAT(x->x_at_header+SFINFO_HEADER_BIT_DEPTH, (t_float)(ss_bytesperframe / ss_ch) * 8);
+    SETFLOAT(x->x_at_header+SFINFO_HEADER_CHANNELS, (t_float)ss_ch);
+    SETFLOAT(x->x_at_header+SFINFO_HEADER_FORMAT_CODE, (t_float)ss_format);
     */
     
 }
@@ -100,7 +102,7 @@ static unsigned long sfinfo_string_to_uint32(char *cvec)
 static void sfinfo_open(t_sfinfo *x, t_symbol *filename)
 {
   char completefilename[400];
-  int i, n, n2, n4, filesize, read_chars, header_size=0, ch, bytesperframe, sr, n_frames;
+  int i, n, n2, n4, filesize, read_chars, header_size=0, bytesperframe, sr, n_frames;
   FILE *fh;
   t_atom *at;
   char *cvec;
@@ -183,12 +185,19 @@ sfinfo_fmt:
       cvec += 4;
 
       ss_format = sfinfo_string_to_int16(cvec);
-      if((ss_format != 1) && (ss_format != 3) && (ss_format != 6) && (ss_format != 7) && (ss_format != -2)) /* PCM = 1 ; IEEE-FLOAT = 3 ; ALAW = 6 ; MULAW = 7 ; WAVE_EX = -2 */
+      if((ss_format != 1) && (ss_format != 3) && (ss_format != 6) && (ss_format != 7) && (ss_format != -2))
+/* 
+ PCM = 1 ; 
+ IEEE-FLOAT = 3 ; 
+ ALAW = 6 ; 
+ MULAW = 7 ; 
+ WAVE_EX = -2 
+*/
       {
         post("sfinfo_read-error:  %s has unknown format code", completefilename);
         goto sfinfo_end;
       }
-      SETFLOAT(x->x_at_header+SFI_HEADER_FORMAT_CODE, (t_float)ss_format);
+      SETFLOAT(x->x_at_header+SFINFO_HEADER_FORMAT_CODE, (t_float)ss_format);
       header_size += 2;
       cvec += 2;
 
@@ -198,8 +207,8 @@ sfinfo_fmt:
         post("sfinfo_read-error:  %s has no common channel-number", completefilename);
         goto sfinfo_end;
       }
-      SETFLOAT(x->x_at_header+SFI_HEADER_CHANNELS, (t_float)ss_ch);
-      ch = (int)ss_ch;
+      SETFLOAT(x->x_at_header+SFINFO_HEADER_CHANNELS, (t_float)ss_ch);
+      x->x_ch = (t_float)ss_ch;
       header_size += 2;
       cvec += 2;
 
@@ -209,7 +218,7 @@ sfinfo_fmt:
         post("sfinfo_read-error:  %s has no common samplerate", completefilename);
         goto sfinfo_end;
       }
-      SETFLOAT(x->x_at_header+SFI_HEADER_SAMPLERATE, (t_float)ul_sr);
+      SETFLOAT(x->x_at_header+SFINFO_HEADER_SAMPLERATE, (t_float)ul_sr);
         
         x->x_sr = (t_float)ul_sr;
 
@@ -226,11 +235,13 @@ sfinfo_fmt:
         post("sfinfo_read-error:  %s has no common number of bytes per frame", completefilename);
         goto sfinfo_end;
       }
-      SETFLOAT(x->x_at_header+SFI_HEADER_BIT_DEPTH, (t_float)(ss_bytesperframe / ss_ch) * 8);
+      SETFLOAT(x->x_at_header+SFINFO_HEADER_BIT_DEPTH, (t_float)(ss_bytesperframe / ss_ch) * 8);
       bytesperframe = (int)ss_bytesperframe;
       header_size += 2;
       cvec += 2;
       
+      x->x_depth = (t_float)(ss_bytesperframe / ss_ch) * 8;
+        
       header_size += 2; /* jump over bits_per_sample */
       cvec += 2;
       
@@ -248,12 +259,15 @@ sfinfo_data:
       header_size += 8; // ignore data chunk size
       cvec += 8;
       
-//      SETFLOAT(x->x_at_header+SFI_HEADER_HEADERBYTES, (t_float)header_size);
+//      SETFLOAT(x->x_at_header+SFINFO_HEADER_HEADERBYTES, (t_float)header_size);
       
       n_frames = (filesize - header_size) / bytesperframe;
-      SETFLOAT(x->x_at_header+SFI_HEADER_DUR_MS, ((t_float)n_frames / (t_float)ul_sr) * 1000);
-//      SETSYMBOL(x->x_at_header+SFI_HEADER_ENDINESS, gensym("l"));
-      SETSYMBOL(x->x_at_header+SFI_HEADER_FILENAME, gensym(completefilename));
+      SETFLOAT(x->x_at_header+SFINFO_HEADER_DUR_MS, ((t_float)n_frames / (t_float)ul_sr) * 1000);
+        
+        x->x_ms = ((t_float)n_frames / x->x_sr) * 1000;
+        
+//      SETSYMBOL(x->x_at_header+SFINFO_HEADER_ENDINESS, gensym("l"));
+      SETSYMBOL(x->x_at_header+SFINFO_HEADER_FILENAME, gensym(completefilename));
       
       /*      post("ch = %d", ch);
       post("sr = %d", sr);
@@ -261,7 +275,7 @@ sfinfo_data:
       post("head = %d", header_size);
       post("len = %d", n_frames);*/
       
-      outlet_list(x->x_list_out, &s_list, SFI_HEADER_SIZE, x->x_at_header);
+      outlet_list(x->x_list_out, &s_list, SFINFO_HEADER_SIZE, x->x_at_header);
       
       
 sfinfo_end:
@@ -286,7 +300,7 @@ static void *sfinfo_new(void)
 {
   t_sfinfo *x = (t_sfinfo *)pd_new(sfinfo_class);
   
-  x->x_mem_size = SFI_HEADER_CHUNK_SIZE_ESTIMATION; /* try to read the first 10000 bytes of the soundfile */
+  x->x_mem_size = SFINFO_HEADER_CHUNK_SIZE_ESTIMATION; /* try to read the first 10000 bytes of the soundfile */
   x->x_begmem = (long *)getbytes(x->x_mem_size * sizeof(long));
   x->x_list_out = outlet_new(&x->x_obj, &s_list);
 
