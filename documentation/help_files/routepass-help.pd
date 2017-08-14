@@ -1,0 +1,76 @@
+#N canvas 590 23 561 672 10;
+#X obj 3 507 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 3 315 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 411 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 3 448 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 83 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 127 462 1) float;
+#X obj 72 374 cnv 17 3 25 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 73 322 cnv 17 3 45 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 115 421 float/list;
+#X text 145 374 float;
+#X text 116 320 float/list;
+#X text 192 319 - value(s) to round;
+#X text 190 421 - approximated value(s);
+#X text 192 462 - value to round to (default = 0 \, no rounding);
+#X text 190 374 - value to round to (whose multple values will be approximated
+to);
+#N canvas 126 23 450 300 lists 0;
+#X msg 113 127 0.5 5 8;
+#X obj 113 187 cyclone/tosymbol;
+#X symbolatom 113 218 15 0 0 0 - - -, f 15;
+#X floatatom 200 127 5 0 0 0 - - -, f 5;
+#X obj 113 155 cyclone/round 3;
+#X obj 113 101 loadbang;
+#X text 92 67 it also works with lists:;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 3 0 4 1;
+#X connect 4 0 1 0;
+#X connect 5 0 0 0;
+#X restore 477 278 pd lists;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X text 105 95 [round] approximates positive and negative numbers to
+an integer multiple of any given number that is greater or equal to
+0 (0 makes no approximation - so the original input is output unchanged).
+;
+#X text 85 340 nearest <float>;
+#X text 192 339 - "nearest" followed by 0 sets to "truncate mode" \,
+non zero number sets to "round to nearest mode" (default);
+#X obj 20 60 cyclone/comment 0 18 times ? 0 0 0 0 Rounds floats/lists
+;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 routepass;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 149 273 print l;
+#X obj 265 273 print r;
+#X floatatom 149 205 5 0 0 0 - - -, f 5;
+#X obj 149 238 cyclone/routepass 2 3 4 fuck;
+#X msg 260 185 symbol fuck;
+#X obj 337 273 print symbol;
+#X obj 367 243 print none;
+#X msg 284 214 fuck;
+#X connect 29 0 30 0;
+#X connect 30 0 27 0;
+#X connect 30 1 28 0;
+#X connect 30 3 32 0;
+#X connect 30 4 33 0;
+#X connect 31 0 30 0;
+#X connect 34 0 30 0;
