@@ -1,5 +1,7 @@
 // stolen from zexy/relay by porres
 
+#define USEVAR(x) x=x
+
 #include "m_pd.h"
 
 static t_class *routepass_class;
@@ -116,7 +118,7 @@ static void *routepass_new(t_symbol *s, int argc, t_atom *argv)
     t_routepasselement *e;
     t_routepass *x = (t_routepass *)pd_new(routepass_class);
     t_atom a;
-//    ZEXY_USEVAR(s);
+    USEVAR(s);
     if (argc == 0)
     {
         argc = 1;
