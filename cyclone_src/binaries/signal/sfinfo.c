@@ -9,7 +9,7 @@
 #define SFI_HEADER_CHANNELS 0
 #define SFI_HEADER_BIT_DEPTH 1
 #define SFI_HEADER_SAMPLERATE 2
-#define SFI_HEADER_MULTICHANNEL_FILE_LENGTH 3
+#define SFI_HEADER_DUR_MS 3
 #define SFI_HEADER_FORMAT_CODE 4
 #define SFI_HEADER_FILENAME 5
 
@@ -34,7 +34,46 @@ typedef struct _sfinfo
   t_atom    x_at_header[SFI_HEADER_SIZE];
   t_canvas  *x_canvas;
   void      *x_list_out;
+    
+    t_float  x_sr;
+    
+    t_outlet *x_ch_outlet;
+    t_outlet *x_bit_depth_outlet;
+    t_outlet *x_sr_outlet;
+    t_outlet *x_dur_outlet;
+    t_outlet *x_sampletype_outlet;
+    t_outlet *x_filename_outlet;
 } t_sfinfo;
+
+
+static void sfinfo_bang(t_sfinfo *x)
+{
+    
+    outlet_float(x->x_sr_outlet, x->x_sr);
+    
+/*     
+ SETFLOAT(x->x_at_header+SFI_HEADER_SAMPLERATE, (t_float)ul_sr);
+
+    
+    outlet_float(x->x_idxlet, x->x_lastidx);
+    outlet_symbol(((t_object *)x)->ob_outlet, s);
+ 
+    outlet_float(x->x_sampletype_outlet, x);
+    outlet_float(x->x_dur_outlet, x->x_lastidx);
+    outlet_float(x->x_bit_depth_outlet, x->x_lastidx);
+    outlet_float(x->x_ch_outlet, x->x_lastmax);
+    
+    
+    SETSYMBOL(x->x_at_header+SFI_HEADER_FILENAME, gensym(completefilename));
+
+    SETFLOAT(x->x_at_header+SFI_HEADER_DUR_MS, ((t_float)n_frames / (t_float)ul_sr) * 1000);
+    SETFLOAT(x->x_at_header+SFI_HEADER_BIT_DEPTH, (t_float)(ss_bytesperframe / ss_ch) * 8);
+    SETFLOAT(x->x_at_header+SFI_HEADER_CHANNELS, (t_float)ss_ch);
+    SETFLOAT(x->x_at_header+SFI_HEADER_FORMAT_CODE, (t_float)ss_format);
+    */
+    
+}
+
 
 static short sfinfo_string_to_int16(char *cvec)
 {
@@ -171,6 +210,9 @@ sfinfo_fmt:
         goto sfinfo_end;
       }
       SETFLOAT(x->x_at_header+SFI_HEADER_SAMPLERATE, (t_float)ul_sr);
+        
+        x->x_sr = (t_float)ul_sr;
+
       sr = (int)ul_sr;
       header_size += 4;
       cvec += 4;
@@ -209,7 +251,7 @@ sfinfo_data:
 //      SETFLOAT(x->x_at_header+SFI_HEADER_HEADERBYTES, (t_float)header_size);
       
       n_frames = (filesize - header_size) / bytesperframe;
-      SETFLOAT(x->x_at_header+SFI_HEADER_MULTICHANNEL_FILE_LENGTH, ((t_float)n_frames / (t_float)ul_sr) * 1000);
+      SETFLOAT(x->x_at_header+SFI_HEADER_DUR_MS, ((t_float)n_frames / (t_float)ul_sr) * 1000);
 //      SETSYMBOL(x->x_at_header+SFI_HEADER_ENDINESS, gensym("l"));
       SETSYMBOL(x->x_at_header+SFI_HEADER_FILENAME, gensym(completefilename));
       
@@ -231,6 +273,12 @@ sfinfo_end:
 
 static void sfinfo_free(t_sfinfo *x)
 {
+    outlet_free(x->x_ch_outlet);
+    outlet_free(x->x_bit_depth_outlet);
+    outlet_free(x->x_sr_outlet);
+    outlet_free(x->x_dur_outlet);
+    outlet_free(x->x_sampletype_outlet);
+    outlet_free(x->x_filename_outlet);
   freebytes(x->x_begmem, x->x_mem_size * sizeof(long));
 }
 
@@ -241,6 +289,14 @@ static void *sfinfo_new(void)
   x->x_mem_size = SFI_HEADER_CHUNK_SIZE_ESTIMATION; /* try to read the first 10000 bytes of the soundfile */
   x->x_begmem = (long *)getbytes(x->x_mem_size * sizeof(long));
   x->x_list_out = outlet_new(&x->x_obj, &s_list);
+
+    x->x_ch_outlet = outlet_new((t_object *)x, &s_float);
+    x->x_bit_depth_outlet = outlet_new((t_object *)x, &s_float);
+    x->x_sr_outlet = outlet_new((t_object *)x, &s_float);
+    x->x_dur_outlet = outlet_new((t_object *)x, &s_float);
+    x->x_sampletype_outlet = outlet_new((t_object *)x, &s_float);
+    x->x_filename_outlet = outlet_new((t_object *)x, &s_symbol);
+    
   x->x_canvas = canvas_getcurrent();
   return (x);
 }
@@ -252,4 +308,5 @@ void sfinfo_tilde_setup(void)
   sfinfo_class = class_new(gensym("sfinfo~"), (t_newmethod)sfinfo_new,
     (t_method)sfinfo_free, sizeof(t_sfinfo), 0, 0);
   class_addmethod(sfinfo_class, (t_method)sfinfo_open, gensym("open"), A_SYMBOL, 0);
+  class_addbang(sfinfo_class, sfinfo_bang);
 }

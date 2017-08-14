@@ -1,49 +1,91 @@
-#N canvas 720 23 575 580 10;
-#X obj 3 526 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 720 23 567 579 10;
+#X obj 4 546 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 3 310 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 4 338 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 353 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 4 383 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 490 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 513 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 108 363 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 99 391 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 108 324 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 99 346 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 7 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 3 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 2 0 0;
-#X restore 2 6 graph;
-#X obj 305 7 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 3 2 graph;
+#X obj 306 3 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X obj 17 59 comment 0 18 times ? 0 0 0 0 Soundfile information;
-#X obj 15 7 comment 0 37 times ? 0 0 0 0 sfinfo~;
-#X obj 322 31 comment 0 13 courier ? 0 224 228 220 Objects cloned from
+#X obj 18 55 comment 0 18 times ? 0 0 0 0 Soundfile information;
+#X obj 16 3 comment 0 37 times ? 0 0 0 0 sfinfo~;
+#X obj 323 27 comment 0 13 courier ? 0 224 228 220 Objects cloned from
 Max/MSP;
-#X obj 363 7 comment 0 24 courier ? 0 224 228 220 cyclone;
-#X text 61 96 Use [sfinfo~] to;
-#X obj 166 255 print;
+#X obj 364 3 comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 167 253 print;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 0 0;
-#X restore 304 6 pd;
-#X text 140 364 0- number of channels \; 1- bit depth \; 2- sample
-rate \; 3- duration in ms * \; 4- sample type \; 5- filename;
-#X text 137 500 1) symbol (optional) - filne name;
-#X text 147 324 bang;
-#X text 189 324 - output info;
-#X msg 166 175 open violin.wav;
-#X obj 137 178 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X restore 305 2 pd;
+#X text 181 346 bang;
+#X msg 167 151 open violin.wav;
+#X obj 137 152 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 166 220 cyclone/sfinfo~ violin.wav;
-#X obj 303 160 openpanel;
-#X obj 303 141 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+#X obj 167 196 cyclone/sfinfo~ violin.wav;
+#X obj 299 144 openpanel;
+#X obj 299 125 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
 -1;
-#X msg 303 185 open \$1;
-#X connect 20 0 22 0;
-#X connect 21 0 22 0;
-#X connect 22 0 14 0;
-#X connect 23 0 25 0;
-#X connect 24 0 23 0;
-#X connect 25 0 22 0;
+#X msg 299 166 open \$1;
+#X symbolatom 346 220 10 0 0 0 - - -, f 10;
+#X text 423 221 filename;
+#X text 373 258 duration (ms);
+#X text 389 239 sample type;
+#X text 360 276 sample rate;
+#X text 336 295 bit depth;
+#X text 321 313 channels;
+#X text 118 362 open <symbol>;
+#X text 226 363 - opens sound file, f 39;
+#X text 226 346 - outputs info of the opened sound file;
+#X text 138 523 1) symbol (optional) - file name to open;
+#X obj 99 411 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+;
+#X obj 99 431 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+;
+#X obj 99 451 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+;
+#X obj 99 471 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+;
+#X obj 99 491 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+;
+#X text 180 391 float - number of channels;
+#X text 180 411 float - bit depth;
+#X text 180 430 float - sample rate;
+#X text 180 448 float - duration in ms;
+#X text 144 471 symbol (?) - sample type;
+#X text 172 490 symbol - file name;
+#X text 62 92 Use [sfinfo~] to output information on sound files.;
+#X obj 332 239 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 316 257 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 302 276 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 280 294 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 266 312 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 167 126 loadbang;
+#X text 82 139 output info =>, f 8;
+#X connect 16 0 18 0;
+#X connect 17 0 18 0;
+#X connect 18 0 13 0;
+#X connect 18 1 49 0;
+#X connect 18 2 48 0;
+#X connect 18 3 47 0;
+#X connect 18 4 46 0;
+#X connect 18 5 45 0;
+#X connect 18 6 22 0;
+#X connect 19 0 21 0;
+#X connect 20 0 19 0;
+#X connect 21 0 18 0;
+#X connect 50 0 16 0;
