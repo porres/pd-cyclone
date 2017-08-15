@@ -35,12 +35,6 @@ typedef struct _sfinfo
 } t_sfinfo;
 
 
-static void sfinfo_bang(t_sfinfo *x)
-{
-//    sfinfo_open(x->x_filename);
-}
-
-
 static short sfinfo_string_to_int16(char *cvec)
 {
   short ss=0;
@@ -71,7 +65,6 @@ static void sfinfo_open(t_sfinfo *x, t_symbol *filename)
   char completefilename[400];
   int i, n, n2, n4, filesize, read_chars, header_size=0, bytesperframe, sr, n_frames;
   FILE *fh;
-//  t_atom *at;
   char *cvec;
   unsigned long ul_chunk_size, ul_sr;
   short ss_format, ss_ch, ss_bytesperframe;
@@ -163,15 +156,13 @@ sfinfo_fmt:
       cvec += 2;
         
       x->x_samptype = (t_float)ss_format;
-        /*
-         PCM = 1 ;
+        
+   /*    PCM = 1 ;
          IEEE-FLOAT = 3 ;
          ALAW = 6 ;
          MULAW = 7 ;
-         WAVE_EX = -2
-         */
+         WAVE_EX = -2  */
         
-
       ss_ch = sfinfo_string_to_int16(cvec); /* channels */
       if((ss_ch < 1) || (ss_ch > 32000))
       {
@@ -248,13 +239,17 @@ sfinfo_data:
         outlet_float(x->x_bit_depth_outlet, x->x_depth);
         outlet_float(x->x_ch_outlet, x->x_ch);
       
-      
 sfinfo_end:
-      
       ;
     }
   }
 }
+
+static void sfinfo_bang(t_sfinfo *x)
+{
+    sfinfo_open(x, x->x_filename);
+}
+
 
 static void sfinfo_free(t_sfinfo *x)
 {
