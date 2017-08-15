@@ -1,5 +1,5 @@
-#N canvas 731 28 560 502 10;
-#X obj 5 464 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 731 28 565 505 10;
+#X obj 5 462 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -9,7 +9,7 @@
 0;
 #X obj 95 290 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 120 352 1) symbol;
+#X text 103 352 1) symbol;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -25,12 +25,10 @@
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 201 323 (none);
-#X text 192 352 - buffer name (required), f 59;
-#X text 192 367 - audio file to load (optional), f 59;
-#X text 120 367 2) symbol;
-#X text 120 382 3) float;
-#X text 120 398 4) float;
-#X text 192 398 - number of channels (1 to 64) default 1, f 59;
+#X text 175 367 - audio file to load (optional), f 59;
+#X text 103 367 2) symbol;
+#X text 103 382 3) float;
+#X text 103 398 4) float;
 #N canvas 460 160 804 460 related 0;
 #X obj 571 53 cyclone/buffir~;
 #X obj 570 98 cyclone/lookup~;
@@ -128,8 +126,6 @@ files \, it accepts floats or symbols:;
 #X connect 10 0 22 0;
 #X connect 11 0 22 0;
 #X restore 464 199 pd read/write;
-#X text 192 382 - buffer size in ms (required) - '-1' is sample's size
-, f 59;
 #X obj 268 216 ./out~;
 #X msg 254 158 start;
 #X msg 101 196 open;
@@ -139,10 +135,10 @@ files \, it accepts floats or symbols:;
 multichannel audio files and can be used in conjunction with [play~]
 and other related objects. This is an abstraction without the full
 functionalitites from the Max/MSP original.;
-#X obj 5 423 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X obj 5 421 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 152 429 @size <float> (sets buffer size in ms), f 44;
-#X text 146 444 @samps <float> (sets buffer size in samples), f 45
+#X text 162 427 @size <float> (sets buffer size in ms), f 44;
+#X text 156 442 @samps <float> (sets buffer size in samples), f 45
 ;
 #N canvas 527 168 807 406 functions/generators 0;
 #X obj 513 300 loadbang;
@@ -243,10 +239,15 @@ f 59;
 #X obj 90 230 cyclone/buffer~ buff1_\$0 stereo.aif -1 2, f 24;
 #X obj 500 69 cyclone/setdsp~;
 #X text 124 291 click to open and check all messages: =>;
-#X connect 24 0 27 0;
-#X connect 25 0 37 0;
-#X connect 27 0 23 0;
-#X connect 27 1 23 1;
-#X connect 33 0 37 0;
-#X connect 34 0 37 0;
-#X connect 35 0 37 0;
+#X text 175 352 - buffer name, f 59;
+#X text 176 382 - buffer size in ms (default 0 or -1 if audio file
+is given, f 60;
+#X text 176 398 - channels (1 to 64) default 1 or audio file's (if
+given);
+#X connect 21 0 24 0;
+#X connect 22 0 34 0;
+#X connect 24 0 20 0;
+#X connect 24 1 20 1;
+#X connect 30 0 34 0;
+#X connect 31 0 34 0;
+#X connect 32 0 34 0;

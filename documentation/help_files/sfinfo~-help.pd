@@ -1,15 +1,15 @@
-#N canvas 711 40 558 536 10;
-#X obj 3 508 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 711 40 560 569 10;
+#X obj 3 533 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 307 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 350 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 375 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 477 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 502 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 102 356 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 102 381 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 102 314 cnv 17 3 31 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 102 314 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -29,56 +29,56 @@ Max/MSP;
 #X text 190 314 bang;
 #X text 127 330 open <symbol>;
 #X text 235 314 - outputs info of the opened sound file;
-#X text 147 486 1) symbol (optional) - file name to open;
-#X obj 102 376 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 147 511 1) symbol (optional) - file name to open;
+#X obj 102 401 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 102 396 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 102 421 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 102 416 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 102 441 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 102 436 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+#X obj 102 461 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X obj 102 456 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
+#X obj 102 481 cnv 17 3 17 empty empty 5 5 9 0 16 -228856 -162280 0
 ;
-#X text 193 358 float - number of channels, f 30;
-#X text 193 378 float - bit depth, f 30;
-#X text 193 398 float - sample rate, f 30;
-#X text 193 418 float - duration in ms, f 30;
-#X text 186 458 symbol - file name, f 31;
+#X text 193 383 float - number of channels, f 30;
+#X text 193 403 float - bit depth, f 30;
+#X text 193 423 float - sample rate, f 30;
+#X text 193 443 float - duration in ms, f 30;
+#X text 186 483 symbol - file name, f 31;
 #X text 61 93 Use [sfinfo~] to output information on sound files.;
-#X text 235 331 - opens sound file and outputs its info;
-#X obj 168 146 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 158 144 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 168 191 cyclone/sfinfo~ violin.wav;
-#X obj 208 142 openpanel;
-#X obj 208 123 bng 15 250 50 0 empty empty empty 0 -6 0 8 -228856 -1
--1;
-#X msg 208 164 open \$1;
-#X text 113 133 output info =>, f 8;
-#X text 390 254 duration (ms);
-#X text 390 234 sample type;
-#X text 246 268 sample rate, f 6;
-#X text 202 268 bit depth, f 5;
-#X text 103 251 channels;
-#X obj 333 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 158 191 cyclone/sfinfo~ violin.wav;
+#X text 103 131 output info =>, f 8;
+#X text 380 254 duration (ms);
+#X text 380 234 sample type;
+#X text 236 268 sample rate, f 6;
+#X text 192 268 bit depth, f 5;
+#X text 93 251 channels;
+#X obj 323 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 305 253 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 295 253 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 239 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 229 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 203 252 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 193 252 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 168 252 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 158 252 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 347 212 print filename;
-#X text 186 438 symbol - sample type, f 31;
-#X connect 30 0 31 0;
-#X connect 31 0 45 0;
-#X connect 31 1 44 0;
-#X connect 31 2 43 0;
-#X connect 31 3 42 0;
-#X connect 31 4 41 0;
-#X connect 31 5 46 0;
-#X connect 32 0 34 0;
-#X connect 33 0 32 0;
-#X connect 34 0 31 0;
+#X obj 337 212 print filename;
+#X text 186 463 symbol - sample type, f 31;
+#X msg 205 166 open stereo.aif;
+#X msg 188 143 open;
+#X text 235 331 -, f 1;
+#X text 249 330 opens sound file and outputs its info \; without a
+symbol argument \, a dialog window is opened to search for a file,
+f 38;
+#X connect 29 0 30 0;
+#X connect 30 0 41 0;
+#X connect 30 1 40 0;
+#X connect 30 2 39 0;
+#X connect 30 3 38 0;
+#X connect 30 4 37 0;
+#X connect 30 5 42 0;
+#X connect 44 0 30 0;
+#X connect 45 0 30 0;
