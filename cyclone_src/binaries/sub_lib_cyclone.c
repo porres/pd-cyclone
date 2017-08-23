@@ -657,7 +657,7 @@ void cyclone_setup(void)
     if(!printed)
     {
         post("------------------------------------------------------------------");
-        post("Cyclone 0.3 beta 3; Released: July 3rd, 2017");
+        post("Cyclone 0.3 beta 3; Released: xxxx, 2017");
         post("This is a sub library containing the objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
