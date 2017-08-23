@@ -265,7 +265,6 @@ static void *greaterthan_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
-    endpost();
     return (x);
 }
 
@@ -619,18 +618,50 @@ static void *plusequals_new(t_floatarg f)
     return (x);
 }
 
+//////// Cyclone object
+
+typedef struct cyclone{
+    t_object t_ob;
+} t_cyclone;
+
+t_class *cyclone_class;
+
+static void cyclone_about(t_cyclone *x)
+{
+    post("------------------------------------------------------------------");
+    post("Cyclone 0.3 beta 3; Released: July 3rd, 2017");
+    post("This is a sub library containing the objects:");
+    post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
+    post("------------------------------------------------------------------");
+}
+
+static int printed;
+
+static void *cyclone_new(void){
+    t_cyclone *x = (t_cyclone *)pd_new(cyclone_class);
+    if(!printed)
+        {
+        cyclone_about(x);
+        printed = 1;
+        }
+    return (x);
+}
+
 /* ----------------------------- SET UP ------------------------------ */
 
 void cyclone_setup(void)
 {
-    
-/* -- post cyclone lib version -- */
+    cyclone_class = class_new(gensym("cyclone"), cyclone_new, 0, sizeof(t_cyclone), 0, 0);
+    class_addmethod(cyclone_class, (t_method)cyclone_about, gensym("about"), 0);
+
+    if(!printed)
     {
         post("------------------------------------------------------------------");
         post("Cyclone 0.3 beta 3; Released: July 3rd, 2017");
         post("This is a sub library containing the objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
+        printed = 1;
     }
     
 /* -- [!-] -- */

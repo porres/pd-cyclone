@@ -1,32 +1,5 @@
-#N canvas 521 50 560 631 10;
-#X declare -stdlib cyclone;
-#X text 81 316 Comparatives:;
-#X text 92 539 Accumulator:;
-#X text 262 271 same as;
-#X text 262 295 same as;
-#X text 262 319 same as;
-#X text 262 342 same as;
-#X text 262 367 same as;
-#X text 262 391 same as;
-#X text 264 424 same as;
-#X text 264 505 same as;
-#X text 264 486 same as;
-#X text 264 464 same as;
-#X text 264 444 same as;
-#X text 264 540 same as;
-#X text 84 457 Math objects:;
-#X obj 321 271 cyclone/equals~;
-#X obj 321 295 cyclone/notequals~;
-#X obj 321 319 cyclone/lessthan~;
-#X obj 321 342 cyclone/lessthaneq~;
-#X obj 321 367 cyclone/greaterthan~;
-#X obj 321 391 cyclone/greaterthaneq~;
-#X obj 323 424 cyclone/modulo~;
-#X obj 323 485 cyclone/rminus;
-#X obj 323 505 cyclone/rminus~;
-#X obj 323 444 cyclone/rdiv;
-#X obj 323 464 cyclone/rdiv~;
-#X obj 324 540 cyclone/plusequals~;
+#N canvas 606 39 561 495 10;
+#X declare -lib cyclone;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -37,59 +10,99 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#N canvas 644 264 499 331 load_cyclone 0;
-#X text 118 222 https://github.com/porres/pd-cyclone/wiki/How-To-Install
+#N canvas 718 174 446 302 load_cyclone 0;
+#X text 59 83 https://github.com/porres/pd-cyclone/wiki/How-To-Install
 ;
-#X obj 261 125 declare -stdlib cyclone;
-#X text 61 25 This is a set of objects compiled as single binary pack.
+#X obj 171 184 declare -lib cyclone;
+#X text 42 20 This is a set of objects compiled as single binary pack.
 in this case \, they need to be preloaded in Pd so the objects can
-be created.;
-#X text 43 148 Troubleshoot:;
-#X text 64 172 If even this is not working \, you did not install cyclone
-correctly. Cyclone needs to be installed in one of the standard paths.
-For more details on installing cyclone \, check:;
-#X text 61 72 You can do it via the startup \, as instructed in "How
-to Install Cyclone" (see link beklow). But if the library is not preloaded
-that way \, you can still use [declare] as \, for example \, below:
-;
-#X text 52 260 Note to Purr Data users:;
-#X text 71 281 The Cyclone version in Purr Data only contains separate
-binaries for all objects!;
-#X restore 337 593 pd load_cyclone;
-#X text 125 564 ============================================================
-;
-#X obj 320 239 cyclone/comment 0 18 times ? 0 0 0 0 Alphaumeric;
+be created. For more details on installing cyclone \, check "How to
+Install Cyclone" in the link beklow:, f 60;
+#X text 42 112 In short \, you can load the library via "Startup" \,
+but if the library is not preloaded that way \, you can still just
+load the [cyclone] external before loading the other objects. Alternatively
+\, you can still use [declare] as \, for example \, below:;
+#X text 42 217 [declare] guarantees that the library is loaded \, no
+matter the order in which [declare] was created \, check its help file
+for more info on how it works., f 60;
+#X restore 340 448 pd load_cyclone;
 #X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 153 589 cyclone/comment 0 18 times ? 0 0 0 0 How to load the
-library:;
-#X obj 125 239 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
-;
+#X obj 96 444 cyclone/comment 0 18 times ? 0 0 0 0 More on how to load
+the library:;
 #X obj 11 3 cyclone/comment 0 37 times ? 0 0 0 0 cyclone;
 #X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 A subset of operator
 objects;
 #X obj 144 8 cyclone/comment 0 30 times ? 0 0 0 0 (sub library);
-#X obj 180 270 cyclone/==~;
-#X obj 180 294 cyclone/!=~;
-#X obj 180 319 cyclone/<~;
-#X obj 180 342 cyclone/<=~;
-#X obj 180 368 cyclone/>~;
-#X obj 180 391 cyclone/>=~;
-#X obj 181 424 cyclone/%~;
-#X obj 181 485 cyclone/!-;
-#X obj 181 505 cyclone/!-~;
-#X obj 181 444 cyclone/!/;
-#X obj 181 464 cyclone/!/~;
-#X obj 180 539 cyclone/+=~;
-#X text 64 176 You can also find alphanumeric versions of these objects
+#X text 63 98 This single binary pack contains the cyclone operators:
+[!-] \, [!-~] \, [!/] \, [!/~] \, [!=~] \, [%~] \, [+=~] \, [<=~] \,
+[<~] \, [==~] \, [>=~] and [>~]. These are objects with non-alphanumeric
+names \, but alias versions with alphanumeric names are also available
+outside the [cyclone] external., f 71;
+#X text 63 159 Objects from the cyclone library are mostly a set of
+separate binaries. But you can't load non-alphanumeric objects that
+way in certain file systems \, so we need this sub library to load
+these 12 objects with such "weird" character names. Perhaps in the
+future \, all objects from cyclone may be loaded via this library.
+, f 71;
+#X text 63 232 If you create the cyclone external object \, it loads
+the library so you can load the operator externals \, but the object
+itself doesn't do anything and only accepts the "about" message \,
+which prints basic information (objects \, version \, release date)
+on the terminal., f 71;
+#X obj 252 341 cyclone/cyclone;
+#X msg 252 316 about;
+#X text 66 391 For more information on the loaded objects \, check:
+;
+#N canvas 809 120 532 535 operators 0;
+#X text 68 171 Comparatives:;
+#X text 79 394 Accumulator:;
+#X text 249 126 same as;
+#X text 249 150 same as;
+#X text 249 174 same as;
+#X text 249 197 same as;
+#X text 249 222 same as;
+#X text 249 246 same as;
+#X text 251 279 same as;
+#X text 251 360 same as;
+#X text 251 341 same as;
+#X text 251 319 same as;
+#X text 251 299 same as;
+#X text 251 395 same as;
+#X text 71 312 Math objects:;
+#X obj 308 126 cyclone/equals~;
+#X obj 308 150 cyclone/notequals~;
+#X obj 308 174 cyclone/lessthan~;
+#X obj 308 197 cyclone/lessthaneq~;
+#X obj 308 222 cyclone/greaterthan~;
+#X obj 308 246 cyclone/greaterthaneq~;
+#X obj 310 279 cyclone/modulo~;
+#X obj 310 340 cyclone/rminus;
+#X obj 310 360 cyclone/rminus~;
+#X obj 310 299 cyclone/rdiv;
+#X obj 310 319 cyclone/rdiv~;
+#X obj 311 395 cyclone/plusequals~;
+#X obj 307 94 cyclone/comment 0 18 times ? 0 0 0 0 Alphaumeric;
+#X obj 112 94 cyclone/comment 0 18 times ? 0 0 0 0 Non-alphaumeric
+;
+#X obj 167 125 cyclone/==~;
+#X obj 167 149 cyclone/!=~;
+#X obj 167 174 cyclone/<~;
+#X obj 167 197 cyclone/<=~;
+#X obj 167 223 cyclone/>~;
+#X obj 167 246 cyclone/>=~;
+#X obj 168 279 cyclone/%~;
+#X obj 168 340 cyclone/!-;
+#X obj 168 360 cyclone/!-~;
+#X obj 168 299 cyclone/!/;
+#X obj 168 319 cyclone/!/~;
+#X obj 167 394 cyclone/+=~;
+#X text 70 23 You can also find alphanumeric versions of these objects
 (whith the same name alias as in Max/MSP) as single binaries outside
-this sub library. For more info on each operator \, check their help
-file:, f 72;
-#X text 64 88 This is a single binary pack that contains the cyclone
-operators \, which are objects with non-alphanumeric names. Objects
-from cyclone are mostly a set of separate binaries. But you can't load
-non-alphanumeric objects that way in certain file systems \, so we
-need this sub library to load these 12 objects with such "weird" character
-names. In the future \, all objects from cyclone shall be loaded via
-this library., f 72;
+this sub library., f 70;
+#X text 109 443 Note that even though these objects come from a single
+binary pack \, it is still possible to load them with the "cyclone/"
+prefix \, despite the facr it is not necessary.;
+#X restore 378 390 pd operators;
+#X connect 15 0 14 0;
