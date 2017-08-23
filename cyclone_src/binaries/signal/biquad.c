@@ -185,4 +185,5 @@ void biquad_tilde_setup(void)
     class_addmethod(biquad_class, (t_method) biquad_stoke, gensym("stoke"),
                     A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(biquad_class, (t_method) biquad_smooth, gensym("smooth"), A_DEFFLOAT, 0);
+    class_sethelpsymbol(biquad_class, gensym("biquad~"));
 }
