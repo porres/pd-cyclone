@@ -1,4 +1,4 @@
-#N canvas 606 39 561 495 10;
+#N canvas 252 32 559 518 10;
 #X declare -lib cyclone;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -105,4 +105,6 @@ this sub library., f 70;
 binary pack \, it is still possible to load them with the "cyclone/"
 prefix \, despite the facr it is not necessary.;
 #X restore 378 390 pd operators;
+#X obj 3 478 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
 #X connect 15 0 14 0;
