@@ -5,6 +5,8 @@
    Copyright (c) 2016      Marco Matteo Markidis
    */
 
+//may have issues with LB_LOAD defined in g_canvas.h, sub with 0 if necessary (but ill-advised) - DK
+
 #include <string.h>
 
 #include "m_pd.h"
@@ -60,10 +62,8 @@ static void loadmess_bang(t_loadmess *x)
 
 static void loadmess_loadbang(t_loadmess *x, t_floatarg action)
 {
-    //original: subbing out for 0 is HACKY and BAD and we need to
-    //fix this later - DK
-  //if(!sys_noloadbang && action == LB_LOAD) {
-  if(!sys_noloadbang && action == 0) {
+  
+  if(!sys_noloadbang && action == LB_LOAD) {
     if(!x->defer)
 	{
       loadmess_bang(x);
