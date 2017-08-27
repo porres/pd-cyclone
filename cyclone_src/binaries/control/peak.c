@@ -4,22 +4,22 @@
 
 #include "m_pd.h"
 
-typedef struct _Peak
+typedef struct _peak
 {
     t_object   x_ob;
     t_float    x_value;
     t_outlet  *x_out2;
     t_outlet  *x_out3;
-} t_Peak;
+} t_peak;
 
-static t_class *Peak_class;
+static t_class *peak_class;
 
-static void Peak_bang(t_Peak *x)
+static void peak_bang(t_peak *x)
 {
     outlet_float(((t_object *)x)->ob_outlet, x->x_value);
 }
 
-static void Peak_ft1(t_Peak *x, t_floatarg f)
+static void peak_ft1(t_peak *x, t_floatarg f)
 {
     /* CHECKME loud_checkint */
     outlet_float(x->x_out3, 0);  /* CHECKME */
@@ -27,10 +27,10 @@ static void Peak_ft1(t_Peak *x, t_floatarg f)
     outlet_float(((t_object *)x)->ob_outlet, x->x_value = f);
 }
 
-static void Peak_float(t_Peak *x, t_float f)
+static void peak_float(t_peak *x, t_float f)
 {
     /* CHECKME loud_checkint */
-    if (f > x->x_value) Peak_ft1(x, f);
+    if (f > x->x_value) peak_ft1(x, f);
     else
     {
 	outlet_float(x->x_out3, 1);
@@ -38,18 +38,12 @@ static void Peak_float(t_Peak *x, t_float f)
     }
 }
 
-static void *Peak_new(t_symbol *s, int ac, t_atom *av)
+static void *peak_new(t_symbol *s, int argc, t_atom *argv)
 {
-    t_Peak *x = (t_Peak *)pd_new(Peak_class);
+    t_peak *x = (t_peak *)pd_new(peak_class);
     t_float f1 = 0;
-    switch(ac){
-        default:
-        case 1:
-            f1=atom_getfloat(av);
-            break;
-        case 0:
-            break;
-    }
+    if(argc)
+      f1 = atom_getfloatarg(0, argc, argv);
     x->x_value = f1;
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
@@ -60,14 +54,17 @@ static void *Peak_new(t_symbol *s, int ac, t_atom *av)
 
 void peak_setup(void)
 {
-    Peak_class = class_new(gensym("peak"),
-			   (t_newmethod)Peak_new, 0,
-			   sizeof(t_Peak), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)Peak_new, gensym("Peak"), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)Peak_new, gensym("cyclone/Peak"), 0, A_GIMME, 0);
-    class_addbang(Peak_class, Peak_bang);
-    class_addfloat(Peak_class, Peak_float);
-    class_addmethod(Peak_class, (t_method)Peak_ft1,
+    peak_class = class_new(gensym("peak"),
+			   (t_newmethod)peak_new, 0,
+			   sizeof(t_peak), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)peak_new, gensym("peak"), 0, A_GIMME, 0);
+    //class_addcreator((t_newmethod)peak_new, gensym("cyclone/peak"), 0, A_GIMME, 0);
+     class_addcreator((t_newmethod)peak_new, gensym("Peak"), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)peak_new, gensym("cyclone/Peak"), 0, A_GIMME, 0);
+
+    class_addbang(peak_class, peak_bang);
+    class_addfloat(peak_class, peak_float);
+    class_addmethod(peak_class, (t_method)peak_ft1,
 		    gensym("ft1"), A_FLOAT, 0);
 }
 
@@ -75,3 +72,4 @@ void Peak_setup(void)
 {
     peak_setup();
 }
+
