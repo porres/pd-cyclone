@@ -61,7 +61,8 @@ static t_int *sah_perform(t_int *w)
     	t_float f;
     	/*MAGIC
     	self explanatory*/
-    	if (x->x_hasfeeders) f = *in2++;
+    	if (x->x_hasfeeders)
+            f = *in2++;
     	else f = 0.0;
     	/*end magic*/
 	if (lastin <= threshold && f > threshold)  /* CHECKME <=, > */

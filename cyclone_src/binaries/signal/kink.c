@@ -23,9 +23,6 @@ typedef struct _kink {
 } t_kink;
 
 
-//EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
-
-
 static t_int *kink_perform(t_int *w)
 {
 	t_kink *x = (t_kink *)(w[1]);
