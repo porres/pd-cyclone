@@ -1570,7 +1570,7 @@ format sr, f 115;
 #X obj 551 495 cyclone/pak write -rate 0 -bytes 2 -aiff;
 #X obj 615 449 r \$0-sr;
 #X obj 482 527 list prepend;
-#X msg 149 451 read -resize -maxsize 1e+30;
+#X msg 149 451 read -resize -maxsize 1e+18;
 #X connect 0 0 2 0;
 #X connect 0 0 4 0;
 #X connect 1 0 3 0;
