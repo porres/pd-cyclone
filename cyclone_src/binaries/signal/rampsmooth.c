@@ -42,16 +42,15 @@ static t_int *rampsmooth_perform(t_int *w)
 	{
 	    target = f;
             change = 0;
-	    if (f > last)
-	    {
-		if (x->x_nup > 1)
-		{
-		    incr = (f - last) * x->x_upcoef;
-		    nleft = x->x_nup;
-		    *out++ = (last += incr);
-		    continue;
-		}
+	    if (f > last){
+            if (x->x_nup > 1){
+                incr = (f - last) * x->x_upcoef;
+                nleft = x->x_nup;
+                *out++ = (last += incr);
+                continue;
+            }
 	    }
+        
 	    else if (f < last)
 	    {
 		if (x->x_ndown > 1)
@@ -66,6 +65,7 @@ static t_int *rampsmooth_perform(t_int *w)
 	    nleft = 0;
 	    *out++ = last = f;
 	}
+        
 	else if (nleft > 0)
 	{
 	    *out++ = (last += incr);
