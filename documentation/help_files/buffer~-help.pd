@@ -175,14 +175,14 @@ kaiser. An additional "half" argument (e.g. apply blackman half ) applies
 only the second half of the window. The kaiser function requires an
 alpha parameter in radians \, which precedes the optional half argument
 (e.g. "apply kaiser 3.14 half"). The default alpha value is "6".;
-#X obj 513 352 cyclone/buffer~ window_\$0 @samps 1024;
 #X msg 513 328 fill 1 \, apply hanning;
+#X obj 513 352 cyclone/buffer~ window_\$0 @samps 1024;
 #X obj 114 344 cyclone/buffer~ gen_\$0 @samps 1024;
-#X connect 0 0 15 0;
-#X connect 1 0 14 0;
+#X connect 0 0 14 0;
+#X connect 1 0 15 0;
 #X connect 5 0 16 0;
 #X connect 6 0 16 0;
-#X connect 15 0 14 0;
+#X connect 14 0 15 0;
 #X restore 404 225 pd functions/generators;
 #X msg 90 168 crop 140 480;
 #X msg 19 168 readagain;
