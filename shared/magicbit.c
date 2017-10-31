@@ -3,6 +3,7 @@
 
 #include "m_pd.h"
 #include "magicbit.h"
+#include <stdint.h> 
 #include <string.h> // needed?
 // from forky
 #include "g_canvas.h" // needed?
