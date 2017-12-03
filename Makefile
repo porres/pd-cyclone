@@ -66,7 +66,6 @@ pak.class.sources := cyclone_src/binaries/control/pak.c
 rdiv.class.sources := cyclone_src/binaries/control/rdiv.c
 rminus.class.sources := cyclone_src/binaries/control/rminus.c
 round.class.sources := cyclone_src/binaries/control/round.c
-routepass.class.sources := cyclone_src/binaries/control/routepass.c
 scale.class.sources := cyclone_src/binaries/control/scale.c
 
 # SIGNAL CLASSES:
