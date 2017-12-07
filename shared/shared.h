@@ -46,8 +46,6 @@ typedef unsigned char uchar;
 #define SHARED_FLT_MAX  1E+36
 #endif
 
-typedef unsigned long shared_t_bitmask;
-
 
 /* this is for GNU/Linux, GNU/Hurd, GNU/kFreeBSD */
 #if defined(__linux__) || defined(__FreeBSD_kernel__) || defined(__GNU__)

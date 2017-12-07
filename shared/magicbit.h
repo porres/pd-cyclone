@@ -8,6 +8,8 @@ so we have to declare it here. The arguments are the object and the inlet number
 EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 /*end magic*/
 
+typedef unsigned long shared_t_bitmask;
+
 /*int-float unions*/
 //~ union i32_fl {
 	//~ int32_t if_int32;

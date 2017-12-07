@@ -76,31 +76,3 @@ int forky_hasfeeders(t_object *x, t_glist *glist, int inno, t_symbol *outsym)
 	    return (1);
     return (0);
 }
-
-/* Not really a forky, just found no better place to put it in.
-   Used in sickle's bitwise signal binops (which use forky_hasfeeders() too).
-   Checked against msp2. */
-int32_t forky_getbitmask(int ac, t_atom *av)
-{
-    int32_t result = 0;
-    if (sizeof(shared_t_bitmask) >= sizeof(int32_t))
-    {
-	int32_t nbits = sizeof(int32_t) * 8;
-	shared_t_bitmask bitmask = 1 << (nbits - 1);
-	if (ac > nbits)
-	    ac = nbits;
-	while (ac--)
-	{
-	    if (av->a_type == A_FLOAT &&
-		(int)av->a_w.w_float)  /* CHECKED */
-		    result += 1 << ac;
-	    av++;
-	}
-	/* CHECKED missing are zero */
-#ifdef FORKY_DEBUG
-	fprintf(stderr, "mask set to %.8x\n", result);
-#endif
-    }
-    else bug("sizeof(shared_t_bitmask)");
-    return (result);
-}

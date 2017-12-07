@@ -3,12 +3,9 @@
 
 #include "m_pd.h"
 #include "magicbit.h"
-#include <stdint.h> 
+#include "g_canvas.h"
+#include <stdint.h> // needed?
 #include <string.h> // needed?
-// from forky
-#include "g_canvas.h" // needed?
-#include "shared.h" // needed?
-
 
 struct _outlet // local to m_obj.c.
 {
