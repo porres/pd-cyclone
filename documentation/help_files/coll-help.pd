@@ -164,7 +164,7 @@ given address (default 0), f 78;
 #X text 280 200 <= recall data from address;
 #X text 69 85 [coll] stores/edits any messages at given addresses (an
 integer or a symbol). If an input list starts with an int \, it stores
-the other element(s) at that int address.;
+the other element(s) at that int address., f 64;
 #X text 130 516 @embed: <1> save contents with the patch \, <0> don't
 save (default), f 66;
 #X obj 227 234 cyclone/coll;
@@ -173,7 +173,7 @@ save (default), f 66;
 ;
 #X text 146 534 @threaded: <1> threaded processing (default) \, <0>
 unthreaded;
-#N canvas 711 83 622 576 details 0;
+#N canvas 658 83 622 576 details 0;
 #N canvas 574 173 804 263 embbed 0;
 #X msg 92 99 dump;
 #X obj 93 219 print coll_embedded;
@@ -987,7 +987,7 @@ data \, then close it and save it. The format for each line is: adrress
 #X text 165 314 -;
 #X text 180 332 1st element is an int address to store remaining data
 to;
-#N canvas 413 197 810 540 threaded 1;
+#N canvas 413 197 810 540 threaded 0;
 #X obj 63 200 osc~ 440;
 #X obj 193 142 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
