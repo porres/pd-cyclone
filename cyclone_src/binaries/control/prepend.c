@@ -4,7 +4,6 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/grow.h"
 #include "common/fitter.h"
 
@@ -227,7 +226,7 @@ static void prepend_doset(t_prepend *x, t_symbol *s, int ac, t_atom *av)
 	{
 	    if (x->x_auxbuf)
 	    {
-		loud_warning((t_pd *)x, 0, "'set' message overridden");
+		post("'set' message overridden");
 		freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
 		x->x_auxsize = 0;
 	    }
@@ -260,10 +259,9 @@ static void prepend_doset(t_prepend *x, t_symbol *s, int ac, t_atom *av)
 static void prepend_set(t_prepend *x, t_symbol *s, int ac, t_atom *av)
 {
     if (x->x_proxy)
-	prepend_anything(x, s, ac, av);
+        prepend_anything(x, s, ac, av);
     else
-	/* LATER (when?) controlled by maxmode */
-	prepend_doset(x, 0, ac, av);
+        prepend_doset(x, 0, ac, av);
 }
 
 static void prependxy_bang(t_prependxy *xy)
@@ -300,7 +298,6 @@ static void prepend_free(t_prepend *x)
 	freebytes(x->x_message, x->x_size * sizeof(*x->x_message));
     if (x->x_auxbuf)
     {
-	loudbug_bug("prepend_free");  /* LATER rethink */
 	freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
     }
     if (x->x_proxy)
