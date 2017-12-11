@@ -41,7 +41,7 @@ typedef struct _loadmess
   /* t_hammerfile *x_filehandle; */
   t_int        defer;
   t_clock      *x_clock;
-  t_int        tempo;
+//  t_int        tempo;
 } t_loadmess;
 
 static void loadmess_bang(t_loadmess *x)
