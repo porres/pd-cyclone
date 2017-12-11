@@ -61,6 +61,7 @@ atanh.class.sources := cyclone_src/binaries/control/atanh.c
 atodb.class.sources := cyclone_src/binaries/control/atodb.c
 dbtoa.class.sources := cyclone_src/binaries/control/dbtoa.c
 join.class.sources := cyclone_src/binaries/control/join.c
+loadmess.class.sources := cyclone_src/binaries/control/loadmess.c
 pong.class.sources := cyclone_src/binaries/control/pong.c
 pak.class.sources := cyclone_src/binaries/control/pak.c
 rdiv.class.sources := cyclone_src/binaries/control/rdiv.c
@@ -237,7 +238,6 @@ minimum.class.sources := cyclone_src/binaries/control/minimum.c $(hfitter)
 switch.class.sources := cyclone_src/binaries/control/switch.c $(hfitter)
 
 # hfile classes
-loadmess.class.sources := cyclone_src/binaries/control/loadmess.c $(hfile) # for "click" (new class)
 capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
 coll.class.sources := cyclone_src/binaries/control/coll.c $(hfile)
 mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile)
