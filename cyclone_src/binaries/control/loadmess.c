@@ -64,7 +64,7 @@ static void loadmess_loadbang(t_loadmess *x, t_floatarg action)
 {
   
   if(!sys_noloadbang && action == LB_LOAD) {
-    if(!x->defer)
+    if(x->defer==-1)
 	{
       loadmess_bang(x);
     }
@@ -160,7 +160,7 @@ static void *loadmess_new(t_symbol *s, int ac, t_atom *av)
 {
   t_loadmess *x = (t_loadmess *)pd_new(loadmess_class);
   int i;
-  x->defer = 0;
+  x->defer = -1;
   
   x->x_type = A_NULL;
   if(ac==0)
@@ -222,11 +222,11 @@ static void *loadmess_new(t_symbol *s, int ac, t_atom *av)
 	  case 0:
 	    break;
 	  case 1:
-	    x->defer = 10;
+	    x->defer = 0;
 	    break;
 	  default:
 	    pd_error(x,"Defer attribute must be 0 or 1");
-	    x->defer = 0;
+	    x->defer = -1;
 	    break;
 	  }
 	  x->x_n = x->x_ac = ac-2;
