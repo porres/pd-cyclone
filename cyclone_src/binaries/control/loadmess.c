@@ -11,7 +11,7 @@
 
 #include "m_pd.h"
 #include "g_canvas.h"
-#include "hammer/file.h"
+/* #include "hammer/file.h" */
 
 #define IS_A_POINTER(atom,index) ((atom+index)->a_type == A_POINTER)
 #define IS_A_FLOAT(atom,index) ((atom+index)->a_type == A_FLOAT)
@@ -38,7 +38,7 @@ typedef struct _loadmess
   t_symbol     *x_sym;
   t_atomtype   x_type;
   t_canvas     *x_canvas;
-  t_hammerfile *x_filehandle;
+  /* t_hammerfile *x_filehandle; */
   t_int        defer;
   t_clock      *x_clock;
   t_int        tempo;
@@ -152,7 +152,7 @@ static void loadmess_free(t_loadmess *x)
 {
   if(x->x_at)
     freebytes(x->x_at, x->x_n * sizeof(t_atom));
-  hammerfile_free(x->x_filehandle);
+  /* hammerfile_free(x->x_filehandle); */
   clock_free(x->x_clock);
 }
 
@@ -237,7 +237,7 @@ static void *loadmess_new(t_symbol *s, int ac, t_atom *av)
     }
   outlet_new(&x->x_obj, &s_list);
   x->x_canvas = canvas_getcurrent();
-  x->x_filehandle = hammerfile_new((t_pd *)x,0,0,0,0);
+  /* x->x_filehandle = hammerfile_new((t_pd *)x,0,0,0,0); */
   x->x_clock = clock_new(x,(t_method)loadmess_defer);
   return (x);
 }
@@ -251,5 +251,5 @@ void loadmess_setup(void)
   class_addbang(loadmess_class, (t_method)loadmess_bang);
   class_addmethod(loadmess_class, (t_method)loadmess_click, gensym("click"),
 		  A_FLOAT,A_FLOAT,A_FLOAT,A_FLOAT,A_FLOAT,0);
-  hammerfile_setup(loadmess_class,0);
+  /* hammerfile_setup(loadmess_class,0); */
 }
