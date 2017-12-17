@@ -1,17 +1,16 @@
-// based on [init] 
+// modified from [init]
 
 /* Copyright (c) 2000-2006 Thomas Musil @ IEM KUG Graz Austria
    Copyright (c) 2016      Joel Matthys
    Copyright (c) 2016      Marco Matteo Markidis
    */
 
-//may have issues with LB_LOAD defined in g_canvas.h, sub with 0 if necessary (but ill-advised) - DK
+// may have issues with LB_LOAD defined in g_canvas.h, sub with 0 if necessary (but ill-advised) - DK
 
 #include <string.h>
 
 #include "m_pd.h"
 #include "g_canvas.h"
-/* #include "hammer/file.h" */
 
 #define IS_A_POINTER(atom,index) ((atom+index)->a_type == A_POINTER)
 #define IS_A_FLOAT(atom,index) ((atom+index)->a_type == A_FLOAT)
@@ -38,10 +37,8 @@ typedef struct _loadmess
   t_symbol     *x_sym;
   t_atomtype   x_type;
   t_canvas     *x_canvas;
-  /* t_hammerfile *x_filehandle; */
   t_int        defer;
   t_clock      *x_clock;
-//  t_int        tempo;
 } t_loadmess;
 
 static void loadmess_bang(t_loadmess *x)
@@ -80,13 +77,7 @@ static void loadmess_defer(t_loadmess *x)
 
 static void loadmess_set(t_loadmess *x, t_symbol *s, int ac, t_atom *av)
 {
-  /* t_atom *at; */
   t_int i;
-  
-  /* x->x_type = A_GIMME; */
-  /* x->x_sym = &s_list; */
-  /* while(ac--) */
-  /*   *at++ = *av++; */
   x->x_type = A_NULL;
   if(ac==0)
     {
@@ -125,7 +116,7 @@ static void loadmess_set(t_loadmess *x, t_symbol *s, int ac, t_atom *av)
     }
   else
     {
-      x->x_type = A_COMMA;/*outlet_anything*/
+      x->x_type = A_COMMA; // outlet_anything
       if(IS_A_SYMBOL(av,0)) {
       	x->x_sym = atom_getsymbol(av++);
       	ac--;
@@ -152,7 +143,6 @@ static void loadmess_free(t_loadmess *x)
 {
   if(x->x_at)
     freebytes(x->x_at, x->x_n * sizeof(t_atom));
-  /* hammerfile_free(x->x_filehandle); */
   clock_free(x->x_clock);
 }
 
@@ -237,7 +227,6 @@ static void *loadmess_new(t_symbol *s, int ac, t_atom *av)
     }
   outlet_new(&x->x_obj, &s_list);
   x->x_canvas = canvas_getcurrent();
-  /* x->x_filehandle = hammerfile_new((t_pd *)x,0,0,0,0); */
   x->x_clock = clock_new(x,(t_method)loadmess_defer);
   return (x);
 }
@@ -251,5 +240,4 @@ void loadmess_setup(void)
   class_addbang(loadmess_class, (t_method)loadmess_bang);
   class_addmethod(loadmess_class, (t_method)loadmess_click, gensym("click"),
 		  A_FLOAT,A_FLOAT,A_FLOAT,A_FLOAT,A_FLOAT,0);
-  /* hammerfile_setup(loadmess_class,0); */
 }
