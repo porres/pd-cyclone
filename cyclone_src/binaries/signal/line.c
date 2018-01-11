@@ -262,7 +262,7 @@ void line_tilde_setup(void)
         (t_newmethod)line_new, (t_method)line_free, sizeof(t_line), 0, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)line_new, gensym("cyclone/line~"), A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)line_new, gensym("cyclone/Line~"), A_DEFFLOAT, 0);
-    class_domainsignalin(line_class, -1); // bug?
+    class_domainsignalin(line_class, -1);
     class_addmethod(line_class, (t_method)line_dsp, gensym("dsp"), A_CANT, 0);
     class_addfloat(line_class, line_float);
     class_addlist(line_class, line_list);
