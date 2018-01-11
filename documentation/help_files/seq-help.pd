@@ -1,59 +1,59 @@
-#N canvas 427 49 558 609 10;
-#X obj 2 210 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 427 49 567 604 10;
+#X obj 2 209 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 488 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 487 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 537 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 536 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 79 495 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 79 494 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 321 181 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
+#X obj 321 180 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
 -1 -1;
-#X obj 79 516 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 79 515 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 599 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 598 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 569 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 568 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 210 118 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
+#X obj 210 117 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
 -66577 -1;
-#X obj 254 182 midiout;
-#X text 144 215 bang;
-#X text 138 231 float;
-#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 254 181 midiout;
+#X text 144 214 bang;
+#X text 138 230 float;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 4 graph;
-#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 4 pd;
-#X text 182 120 Play;
-#X obj 210 182 print;
-#X obj 79 218 cnv 17 3 264 empty empty 0 5 9 0 16 -228856 -162280 0
+#X restore 304 3 pd;
+#X text 182 119 Play;
+#X obj 210 181 print;
+#X obj 79 217 cnv 17 3 264 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 191 518 sent at the end of a sequence (useful for looping)
+#X text 191 517 sent at the end of a sequence (useful for looping)
 ;
-#X text 136 246 append -;
-#X text 191 246 records at the end of the stored sequence, f 59;
-#X text 148 276 dump -;
-#X text 94 261 delay <float> -;
-#X text 99 303 hook <float> -;
-#X text 191 261 onset time in ms of the first event, f 59;
-#X text 191 276 opens a dialog box to select a saved sequence to be
+#X text 136 245 append -;
+#X text 191 245 records at the end of the stored sequence, f 59;
+#X text 148 275 dump -;
+#X text 94 260 delay <float> -;
+#X text 99 302 hook <float> -;
+#X text 191 260 onset time in ms of the first event, f 59;
+#X text 191 275 opens a dialog box to select a saved sequence to be
 opened in a new text window \, which can be edited and saved, f 59
 ;
-#X text 140 496 float -;
-#X text 146 517 bang -;
-#X text 116 545 1) symbol -;
-#X msg 246 122 stop;
-#X text 178 231 - raw MIDI data stream to be recorded, f 61;
-#X text 191 303 multiplies all the event times by the given number
+#X text 140 495 float -;
+#X text 146 516 bang -;
+#X text 116 544 1) symbol -;
+#X msg 246 121 stop;
+#X text 178 230 - raw MIDI data stream to be recorded, f 61;
+#X text 191 302 multiplies all the event times by the given number
 (even when playing), f 59;
-#X text 191 496 raw MIDI data stream from played sequence;
-#X obj 210 153 cyclone/seq seq.mid;
+#X text 191 495 raw MIDI data stream from played sequence;
+#X obj 210 152 cyclone/seq seq.mid;
 #N canvas 447 157 809 468 basic 0;
 #X obj 134 315 cyclone/midiparse;
 #X obj 163 145 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577
@@ -224,7 +224,7 @@ and [midiflush] \, which are useful with [seq].;
 #X connect 35 0 38 0;
 #X connect 35 0 38 1;
 #X connect 37 0 33 0;
-#X restore 492 109 pd basic;
+#X restore 492 108 pd basic;
 #N canvas 745 43 437 378 more 0;
 #X obj 109 205 midirealtimein;
 #X msg 109 267 start -1;
@@ -252,30 +252,30 @@ and [midirealtimein] objects like in the example below.;
 #X connect 7 0 1 0;
 #X connect 7 1 4 0;
 #X connect 7 2 6 0;
-#X restore 499 177 pd more;
-#X text 104 153 argument opens =>;
-#X text 105 168 MIDI files;
-#X text 342 182 <= when finished;
-#X text 140 330 print -;
-#X text 191 330 prints the first 16 events of the sequence in the Pd
+#X restore 499 176 pd more;
+#X text 104 152 argument opens =>;
+#X text 105 167 MIDI files;
+#X text 342 181 <= when finished;
+#X text 140 329 print -;
+#X text 191 329 prints the first 16 events of the sequence in the Pd
 Window;
-#X text 92 376 start <float> -;
-#X text 92 345 read <symbol> -;
-#X text 86 469 write <symbol> -;
-#X text 134 361 record -;
-#X text 146 404 stop -;
-#X text 146 452 tick -;
-#X text 191 361 starts recording raw MIDI received in the inlet, f
+#X text 92 375 start <float> -;
+#X text 92 344 read <symbol> -;
+#X text 86 468 write <symbol> -;
+#X text 134 360 record -;
+#X text 146 403 stop -;
+#X text 146 451 tick -;
+#X text 191 360 starts recording raw MIDI received in the inlet, f
 59;
-#X text 191 452 external clock \, needed after 'start -1' message,
+#X text 191 451 external clock \, needed after 'start -1' message,
 f 59;
-#X text 191 469 saves to a MIDI file (no symbol opens a dialog box)
+#X text 191 468 saves to a MIDI file (no symbol opens a dialog box)
 , f 59;
-#X text 191 346 reads from a MIDI file (no symbol opens a dialog box)
+#X text 191 345 reads from a MIDI file (no symbol opens a dialog box)
 , f 59;
-#X text 178 215 - starts or restarts playing a sequence at normal speed
+#X text 178 214 - starts or restarts playing a sequence at normal speed
 , f 61;
-#X text 191 376 start/restart sequence at a given tempo (default '1024'
+#X text 191 375 start/restart sequence at a given tempo (default '1024'
 - normal tempo) \, 'start -1' expects tick messages, f 59;
 #N canvas 301 159 839 524 advanced 0;
 #X msg 507 371 start -1;
@@ -400,14 +400,14 @@ clock tick;
 #X connect 35 0 34 0;
 #X connect 39 0 40 0;
 #X connect 40 0 35 0;
-#X restore 474 131 pd advanced;
-#X text 191 545 a MIDI file to be loaded;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 MIDI sequencer;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 seq;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X restore 474 130 pd advanced;
+#X text 191 544 a MIDI file to be loaded;
+#X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 MIDI sequencer;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 seq;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X text 66 87 [seq] plays/records raw MIDI streams and can save/read
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 66 86 [seq] plays/records raw MIDI streams and can save/read
 MIDI sequence files.;
 #N canvas 791 23 437 626 extra 0;
 #X text 20 17 [cyclone/seq] has some extra features not present in
@@ -535,16 +535,16 @@ the continue message and keep playing from where it stopped!;
 #X connect 13 0 9 0;
 #X connect 14 0 9 0;
 #X connect 15 0 8 0;
-#X restore 439 154 pd extra features;
-#X text 140 420 pause -;
-#X text 191 404 stops recording/playing and goes back to start, f
+#X restore 439 153 pd extra features;
+#X text 140 419 pause -;
+#X text 191 403 stops recording/playing and goes back to start, f
 59;
-#X text 191 420 pauses recording/playing;
-#X text 122 436 continue -;
-#X text 191 436 continues after a pause message was given;
-#X obj 457 59 cnv 15 88 40 empty empty empty 20 12 0 14 -261234 -66577
+#X text 191 419 pauses recording/playing;
+#X text 122 435 continue -;
+#X text 191 435 continues after a pause message was given;
+#X obj 457 58 cnv 15 88 40 empty empty empty 20 12 0 14 -261234 -66577
 0;
-#X text 460 64 [seq] is not ready yet, f 13;
+#X text 460 63 [seq] is not ready yet, f 13;
 #X connect 8 0 34 0;
 #X connect 30 0 34 0;
 #X connect 34 0 9 0;
