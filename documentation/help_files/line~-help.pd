@@ -1,51 +1,53 @@
-#N canvas 311 23 559 779 10;
-#X obj 4 734 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 490 23 561 768 10;
+#X obj 4 741 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 4 453 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 4 490 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 626 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 4 656 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 689 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 710 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 83 465 cnv 17 3 118 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 92 500 cnv 17 3 130 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 593 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 91 634 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 117 466 float;
-#X obj 83 635 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 126 501 float;
+#X obj 92 665 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 594 float;
-#X text 113 635 signal;
-#X text 101 702 1) float;
-#X msg 253 284 5000;
-#X text 175 594 - sets the time for the next float send to the left
-inlet;
-#X msg 110 223 pause;
-#X msg 154 224 resume;
-#X msg 169 248 stop;
-#X obj 216 265 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X text 127 635 float;
+#X text 122 665 signal;
+#X text 110 719 1) float;
+#X msg 253 325 5000;
+#X text 175 635 - sets the time for the next float send to the left
+inlet, f 60;
+#X msg 110 270 pause;
+#X msg 154 271 resume;
+#X msg 169 293 stop;
+#X obj 216 306 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X floatatom 216 285 5 0 0 0 - - -, f 5;
-#X text 137 337 1;
-#X text 137 425 0;
-#X text 125 381 0.5;
-#X obj 226 243 t b b;
-#X obj 226 223 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X floatatom 216 326 5 0 0 0 - - -, f 5;
+#X text 137 378 1;
+#X text 137 466 0;
+#X text 125 422 0.5;
+#X obj 226 284 t b b;
+#X obj 226 264 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 123 496 list;
-#X obj 333 337 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 132 531 list;
+#X obj 323 378 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 376 345 <= Bangs when finished;
-#X text 177 702 - sets an initial value for the signal output (default
+#X text 366 386 <= Bangs when finished;
+#X text 176 719 - sets an initial value for the signal output (default
 0);
-#X text 289 285 duration;
-#X text 167 283 target;
-#X text 278 308 argument: initial value;
-#X obj 84 658 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 289 326 duration;
+#X text 167 324 target;
+#X text 278 349 argument: initial value;
+#X obj 93 686 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 125 658 bang;
-#X text 178 658 - a bang is sent when final target is reached;
-#X text 177 635 - current value or a ramp towards the target;
+#X text 134 687 bang;
+#X text 177 686 - a bang is sent when final target is reached, f 60
+;
+#X text 176 665 - current value or a ramp towards the target, f 60
+;
 #N canvas 173 23 389 355 linear_envelope_example 0;
 #X obj 69 147 osc~ 440;
 #X obj 69 200 *~;
@@ -68,9 +70,9 @@ inlet;
 #X connect 4 0 1 1;
 #X connect 4 0 8 0;
 #X connect 5 0 4 0;
-#X restore 371 399 pd linear_envelope_example;
-#X obj 154 308 cyclone/line~ 0.5;
-#N canvas 77 23 457 483 Conflicts 0;
+#X restore 373 450 pd linear_envelope_example;
+#X obj 154 349 cyclone/line~ 0.5;
+#N canvas 723 166 457 483 Conflicts 0;
 #X text 118 290 or even:;
 #X text 51 77 Cyclone avoids name clashing and overwritting an internal
 in Pd Vanilla \, so you need to have the cyclone folder properly installed
@@ -91,45 +93,53 @@ similar \, they're not compatible!;
 even if you created the objects above \, you can still instantiate
 it as:;
 #X text 56 330 The plan is to phase it out though.;
-#X restore 366 229 pd Conflicts with internal \; Backwards Compatibility
+#X restore 366 270 pd Conflicts with internal \; Backwards Compatibility
 ;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 2 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 2 graph;
+#X obj 305 3 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X text 78 85 Use [cyclone/line~] to generate a signal ramp or envelope.
-It takes a target value and a duration (in ms) to reach it and then
-generates a ramp from its current value to the target value.;
-#X text 80 144 Target and duration can be set in pairs on a list or
-in different inlets.;
-#X text 174 465 - jumps immediately to that value unless duration is
-set to other than 0 via the second inlet;
-#X text 174 495 - pairs that specify target value and duration (in
-ms) to reach it (maximum is 128 target-time pairs);
-#X text 117 525 pause;
-#X text 111 543 resume;
-#X text 123 561 stop;
-#X text 177 525 - pauses the output;
-#X text 177 543 - restores the output after being paused;
-#X text 177 561 - stops and clears pending target-time parameter triples
-(but continues outputting its last value);
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Linear ramp generator
+#X restore 304 2 pd;
+#X text 175 500 - jumps immediately to that value unless duration is
+set to other than 0 via the second inlet, f 60;
+#X text 126 575 pause;
+#X text 120 591 resume;
+#X text 132 607 stop;
+#X text 175 575 - pauses the output, f 60;
+#X text 175 591 - restores the output after being paused, f 60;
+#X text 175 607 - stops and clears pending target-time parameter triples
+(but continues outputting its last value), f 60;
+#X obj 17 55 cyclone/comment 0 18 times ? 0 0 0 0 Linear ramp generator
 ;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 line~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 line~;
+#X obj 322 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 154 339 scope~ 131 98 50 3 128 0 1 0 0 0 0 205 229 232 74 79
+#X obj 363 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 154 380 scope~ 131 98 50 3 128 0 1 0 0 0 0 205 229 232 74 79
 77 96 98 102 0;
-#X msg 68 195 0 \, 1 1000 0 1000 0.5 2500;
-#X floatatom 75 303 5 0 0 0 - - -, f 5;
-#X obj 499 69 cyclone/setdsp~;
+#X floatatom 75 344 5 0 0 0 - - -, f 5;
+#X obj 499 68 cyclone/setdsp~;
+#X text 78 84 Use [cyclone/line~] to generate a signal ramp or envelope.
+It takes a target value and a duration (in ms) to reach it and then
+generates a ramp from its current value to the target value. Target
+and duration can be set in pairs as a list or in different inlets.
+, f 60;
+#X msg 43 223 0 \, 1 1000 0 1000 0.5 2500;
+#X msg 82 246 0.25 1000 1 500 0.5;
+#X text 78 144 If you send it a list with an odd number of elements
+\, the last element is treated as a target and the duration to get
+there is considered to be 0 ms. A single float value will similarly
+jump immediately to that value in 0 ms - unless a duration is set to
+other than 0 via the second inlet., f 60;
+#X text 175 527 - pairs that specify target value and duration (in
+ms) to reach it (maximum is 128 target-time pairs). For an odd number
+of elements \, the last element is treated as another pair with 0 ms
+duration., f 60;
 #X connect 11 0 35 1;
 #X connect 13 0 35 0;
 #X connect 14 0 35 0;
@@ -139,7 +149,8 @@ cloned from Max/MSP;
 #X connect 21 0 16 0;
 #X connect 21 1 11 0;
 #X connect 22 0 21 0;
-#X connect 35 0 55 0;
+#X connect 35 0 52 0;
 #X connect 35 1 24 0;
+#X connect 53 0 52 0;
 #X connect 56 0 35 0;
-#X connect 57 0 55 0;
+#X connect 57 0 35 0;
