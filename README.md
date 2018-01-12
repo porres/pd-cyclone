@@ -20,6 +20,8 @@ Max is found at: https://cycling74.com/
 
 <strong>About Cyclone 0.3:</strong>
 
+Cyclone 0.3 needs at least Pd Vanilla 0.48-1 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data - by the way, both of them carry outdated versions od cyclone, Pd-Extended carries older 0.1 versions while Purr Data still carries the outdated cyclone 0.2 release (and it's not yet fully ported either).
+
 Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the early 2000s), the main focus of cyclone 0.3 (currently in beta stage) has been on updating cyclone objects to the latest Max version (Max 7.3.4 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
 
 - 59 updated objects (only 4 reamining to be updated);
@@ -29,14 +31,13 @@ Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the e
 
 Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog 
 
-
 -------
 
 <strong>Installing Cyclone:</strong>
 
-This release needs at least Pd Vanilla 0.48-1 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data. Purr Data still carries the outdated cyclone 0.2 release, which is not yet fully operational either.
+You can get Cyclone directly from Pure Data, just go to the "Help" menu, then "find externals" and search for "cyclone". Make sure to get the latest version!
 
-Cyclone comes with a set of separate binaries for most of the externals, but also comes with a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclone-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
+Cyclone 0.3 comes with a set of separate binaries for most of the externals, but also comes with a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclone-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
 <strong>Building Cyclone for Pd Vanilla:</strong>
 
