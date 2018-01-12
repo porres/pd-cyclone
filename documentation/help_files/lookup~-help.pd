@@ -201,10 +201,10 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 #X connect 13 0 9 0;
 #X restore 482 322 pd buffer~;
 #X obj 500 69 cyclone/setdsp~;
-#N canvas 723 248 609 453 dynamics 0;
-#X obj 242 113 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#N canvas 613 66 616 452 dynamics 1;
+#X obj 247 113 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X obj 32 26 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 37 26 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array \$0-linear 512 float 1;
@@ -279,8 +279,8 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 0.968689 0.972603 0.976517 0.98043 0.984344 0.988258 0.992172 0.996086
 1;
 #X coords 0 1 511 -1 150 100 1 0 0;
-#X restore 31 25 graph;
-#X obj 33 165 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 36 25 graph;
+#X obj 38 165 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array \$0-clipping 512 float 1;
@@ -317,11 +317,11 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 1 1 1 1 1 1 1 1 1 1 1;
 #X coords 0 1 511 -1 150 100 1 0 0;
-#X restore 32 164 graph;
-#X obj 36 308 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 37 164 graph;
+#X obj 41 308 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
-#X array \$0-expander 512 float 1;
+#X array \$0-s 512 float 1;
 #A 0 -1 -0.999347 -0.998604 -0.997937 -0.997178 -0.99641 -0.99572 -0.994936
 -0.994142 -0.993429 -0.992618 -0.991889 -0.99106 -0.990222 -0.989468
 -0.988611 -0.987744 -0.986966 -0.98608 -0.985284 -0.984378 -0.983463
@@ -392,43 +392,45 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 0.990968 0.991797 0.992527 0.993339 0.994053 0.994848 0.995634 0.996324
 0.997093 0.997853 0.998521 0.999265 0.999919;
 #X coords 0 1 511 -1 150 100 1 0 0;
-#X restore 35 307 graph;
-#X obj 242 270 cyclone/lookup~ \$0-linear;
-#X obj 242 308 out~;
-#X obj 304 215 pack s \$0;
-#X msg 257 179 linear;
-#X msg 304 234 set \$2-\$1;
-#X msg 363 179 expander;
-#X text 424 179 <= set transfer function;
-#X msg 304 179 clipping;
-#X text 11 115 -1;
-#X text 16 19 1;
-#X text 27 128 0;
-#X text 170 127 511;
-#X text 27 268 0;
-#X text 170 267 511;
-#X text 12 255 -1;
-#X text 17 159 1;
-#X text 16 397 -1;
-#X text 21 301 1;
-#X text 27 413 0;
-#X text 170 412 511;
-#X obj 242 388 cyclone/buffer~ buff_\$0 violin.wav;
-#X obj 242 143 cyclone/play~ buff_\$0 @loop 1;
-#X text 213 31 Here we have a couple of transfer functions as dynamics
+#X restore 40 307 graph;
+#X obj 247 270 cyclone/lookup~ \$0-linear;
+#X obj 247 308 out~;
+#X obj 309 215 pack s \$0;
+#X msg 262 179 linear;
+#X msg 309 234 set \$2-\$1;
+#X text 429 179 <= set transfer function;
+#X msg 309 179 clipping;
+#X text 16 115 -1;
+#X text 21 19 1;
+#X text 32 128 0;
+#X text 175 127 511;
+#X text 32 268 0;
+#X text 175 267 511;
+#X text 17 255 -1;
+#X text 22 159 1;
+#X text 21 397 -1;
+#X text 26 301 1;
+#X text 32 413 0;
+#X text 175 412 511;
+#X obj 247 388 cyclone/buffer~ buff_\$0 violin.wav;
+#X obj 247 143 cyclone/play~ buff_\$0 @loop 1;
+#X msg 402 220 gate;
+#X msg 368 179 s;
+#X text 218 31 Here we have a couple of transfer functions as dynamics
 processors. The "linear" function doesn't do anything to the audio
 input. The "clipping" function is a hard limiter and also adjusts the
-gain four times as much. For last \, we have an "expander" function.
-, f 58;
-#X connect 0 0 28 0;
+gain four times as much. For last \, we have an exponential "s"-curve
+like transfer function., f 58;
+#X connect 0 0 27 0;
 #X connect 7 0 8 0;
 #X connect 7 0 8 1;
 #X connect 9 0 11 0;
 #X connect 10 0 9 0;
 #X connect 11 0 7 0;
-#X connect 12 0 9 0;
-#X connect 14 0 9 0;
-#X connect 28 0 7 0;
+#X connect 13 0 9 0;
+#X connect 27 0 7 0;
+#X connect 28 0 9 0;
+#X connect 29 0 9 0;
 #X restore 476 301 pd dynamics;
 #X connect 16 0 28 0;
 #X connect 27 0 40 1;
