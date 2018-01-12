@@ -1,52 +1,67 @@
-#N canvas 752 39 560 483 10;
-#X obj 4 444 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 532 38 560 477 10;
+#X obj 4 451 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 316 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 314 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 350 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 359 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 410 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 419 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 97 326 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 96 321 cnv 17 3 33 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 176 326 signal;
-#X obj 96 361 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 146 320 signal;
+#X obj 96 370 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 176 362 signal;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X text 146 371 signal;
+#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 4 graph;
+#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Hilbert Transformer
+#X restore 304 4 pd;
+#X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Hilbert Transformer
 ;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 hilbert~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 16 6 cyclone/comment 0 37 times ? 0 0 0 0 hilbert~;
+#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 324 235 cnv 15 140 50 empty empty empty 20 12 0 14 -261234 -66577
+#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 374 236 cnv 15 140 50 empty empty empty 20 12 0 14 -261234 -66577
 0;
-#X obj 338 238 cyclone/comment 166 18 times ? 0 0 0 0 New object \,
+#X obj 388 239 cyclone/comment 166 18 times ? 0 0 0 0 New object \,
 still experimental!;
-#X obj 170 165 cyclone/hilbert~;
-#X obj 161 197 cyclone/scope~ 118 100 6 3 33 -1 1 0 0 0 0 205 229 232
+#X obj 171 198 cyclone/scope~ 118 100 6 3 33 -1 1 0 0 0 0 205 229 232
 74 79 77 96 98 102 0;
-#X obj 170 135 osc~ 440;
-#X text 177 419 (none);
-#X text 228 326 - signal input;
-#X text 78 86 [cyclone/hilbert~] is a hilbert transformer (a a Phase
+#X obj 180 136 osc~ 440;
+#X text 202 428 (none);
+#X text 78 87 [cyclone/hilbert~] is a hilbert transformer (a a Phase
 quadrature filter). It turns real signals into complex signals.;
-#X obj 96 382 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 96 391 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 176 383 signal;
-#X text 228 362 - real part of the signal;
-#X obj 497 71 cyclone/setdsp~;
-#X text 228 383 - imaginary part of the signal;
-#X connect 18 0 19 0;
-#X connect 18 1 19 1;
-#X connect 20 0 18 0;
+#X text 146 392 signal;
+#X text 198 371 - real part of the signal;
+#X obj 497 72 cyclone/setdsp~;
+#X text 198 392 - imaginary part of the signal;
+#X obj 180 166 cyclone/Hilbert~;
+#X text 152 340 clear;
+#X text 198 320 - input signal to be filtered;
+#X text 198 340 - clears filter's buffer;
+#N canvas 894 255 456 242 name_clash 0;
+#X text 34 122 ============================================================
+;
+#X text 201 189 <= from Pd Vanilla;
+#X text 39 152 So then you can still create the object from vanilla
+as:;
+#X obj 144 189 hilbert~;
+#X text 42 23 Pd has an internal object (an abstraction in the "extra"
+folder) named [hilbert~]. In order to avoid name clash and overwritting
+an internal object \, we spell the Cylone object with a Capital first
+letter.;
+#X obj 146 90 cyclone/Hilbert~;
+#X restore 428 198 pd name_clash;
+#X connect 19 0 27 0;
+#X connect 27 0 18 0;
+#X connect 27 1 18 1;

@@ -124,13 +124,13 @@ static void *hilbert_new(void){
     return (x);
 }
 
-void hilbert_tilde_setup(void)
+void Hilbert_tilde_setup(void)
 {
-    hilbert_class = class_new(gensym("cyclone/hilbert~"), (t_newmethod)hilbert_new, 0,
+    hilbert_class = class_new(gensym("Hilbert~"), (t_newmethod)hilbert_new, 0,
         sizeof(t_hilbert), CLASS_DEFAULT, 0);
-    class_addcreator((t_newmethod)hilbert_new, gensym("hilbert~"), 0);
+//    class_addcreator((t_newmethod)hilbert_new, gensym("hilbert~"), 0);
     class_addmethod(hilbert_class, (t_method)hilbert_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(hilbert_class, nullfn, gensym("signal"), 0);
     class_addmethod(hilbert_class, (t_method) hilbert_clear, gensym("clear"), 0);
-    class_sethelpsymbol(hilbert_class, gensym("hilbert~"));
+    class_sethelpsymbol(hilbert_class, gensym("Hilbert~"));
 }
