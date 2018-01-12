@@ -1,28 +1,29 @@
-#N canvas 660 57 558 594 10;
-#X obj 4 557 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 760 123 562 564 10;
+#X obj 5 538 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 4 371 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 352 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 462 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 443 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 493 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 474 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 100 380 cnv 17 3 32 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 361 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 100 416 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 101 397 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 166 379 signal;
-#X obj 100 438 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 167 360 signal;
+#X obj 101 419 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 100 471 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 101 452 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 149 517 2) float;
-#X text 167 471 signal;
-#X text 149 500 1) symbol;
-#X text 149 533 3) float;
-#X text 131 416 float/signal;
-#X text 131 438 float/signal;
-#X text 220 471 - ouput of transfer function lookup (waveshaping);
+#X text 150 496 2) float;
+#X text 168 452 signal;
+#X text 150 479 1) symbol;
+#X text 150 512 3) float;
+#X text 132 397 float/signal;
+#X text 132 419 float/signal;
+#X text 221 452 - ouput of transfer function lookup (waveshaping),
+f 52;
 #N canvas 767 189 359 178 load_sample 0;
 #X obj 22 65 soundfiler;
 #X floatatom 22 90 8 0 0 0 - - -, f 8;
@@ -38,8 +39,8 @@
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 8 0 0 0;
-#X restore 278 220 pd load_sample;
-#X text 220 502 - array/table name to be used for lookup;
+#X restore 269 209 pd load_sample;
+#X text 221 481 - array/table name to be used for lookup, f 52;
 #N canvas 150 150 452 656 waveshaping_example 0;
 #X obj 74 445 cnv 15 278 178 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -83,34 +84,35 @@ Check below:;
 #X connect 13 0 10 0;
 #X connect 13 0 16 0;
 #X connect 13 0 16 1;
-#X restore 404 310 pd waveshaping_example;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X restore 410 278 pd waveshaping_example;
+#X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 3 3 graph;
+#X obj 306 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X text 72 138 This also allows other functionalities. For example
+#X restore 305 3 pd;
+#X text 73 138 This also allows other functionalities. For example
 \, an LFO sine wave can scan through an audio sample forward and reverse
 \, accelerating and decelerating \, resulting in a turntable scratch
 effect. Check below.;
-#X text 130 396 set <symbol>;
-#X text 220 395 - sets the array/table to be used for lookup;
-#X text 347 242 end point;
-#X obj 204 242 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X text 131 377 set <symbol>;
+#X text 221 376 - sets the array/table to be used for lookup, f 52
+;
+#X text 338 231 end point;
+#X obj 195 231 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 278 242 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 290645 256;
-#X text 71 93 [lookup~] uses arrays as transfer functions for waveshaping
+#X obj 269 231 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 297215 256;
+#X text 72 93 [lookup~] uses arrays as transfer functions for waveshaping
 \, in which signal input values (from -1 to 1) are mapped to the table's
 indexes.;
-#X text 220 378 - signal to be used as index;
-#X text 220 416 - start point of the array;
-#X text 220 438 - end point of the array;
+#X text 221 359 - signal to be used as index, f 52;
+#X text 221 397 - start point of the array, f 52;
+#X text 221 419 - end point of the array, f 52;
 #N canvas 578 98 506 547 start/end 0;
 #X text 71 18 Input values (from -1 to 1) are mapped to table indexes.
 The default table size is 512 points \, so the default start and end
@@ -150,20 +152,21 @@ to those min/max values.;
 #X connect 10 0 4 0;
 #X connect 14 0 13 0;
 #X connect 14 0 13 1;
-#X restore 421 284 pd start/end points;
-#X text 220 517 - initial start point in array/table (default 0);
-#X text 220 533 - initial end point in the array/table (default 511)
+#X restore 428 256 pd start/end points;
+#X text 221 496 - initial start point in array/table (default 0),
+f 52;
+#X text 221 512 - initial end point in the array/table (default 511)
 ;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Transfer function
+#X obj 18 56 cyclone/comment 0 18 times ? 0 0 0 0 Transfer function
 lookup table;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 lookup~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 17 4 cyclone/comment 0 37 times ? 0 0 0 0 lookup~;
+#X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 131 263 cyclone/lookup~ \$0-violin;
-#X obj 131 215 osc~ 0.075;
-#X text 213 210 start point, f 6;
-#X obj 110 300 ./out~;
+#X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 122 254 cyclone/lookup~ \$0-violin;
+#X obj 122 206 osc~ 0.075;
+#X text 204 199 start point, f 6;
+#X obj 122 289 ./out~;
 #N canvas 953 208 435 447 buffer~ 0;
 #X msg 181 120 open;
 #X text 28 19 The [lookup~] object works with any kind of array set
@@ -196,8 +199,19 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 #X connect 11 0 2 0;
 #X connect 12 0 11 0;
 #X connect 13 0 9 0;
-#X restore 476 336 pd buffer~;
-#X obj 499 69 cyclone/setdsp~;
+#X restore 482 322 pd buffer~;
+#X obj 500 69 cyclone/setdsp~;
+#N canvas 773 234 618 551 limiter 0;
+#X obj 124 206 cyclone/lookup~;
+#X obj 132 49 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+1;
+#X obj 124 127 out~;
+#X obj 132 80 cyclone/play~ \$0-vdiolin @loop 1;
+#X obj 126 319 cyclone/buffer~ budff1_\$0 stereo.aif -1;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 3 0 2 1;
+#X restore 482 301 pd limiter;
 #X connect 16 0 28 0;
 #X connect 27 0 40 1;
 #X connect 28 0 40 2;

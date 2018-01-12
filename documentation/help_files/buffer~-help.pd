@@ -1,4 +1,4 @@
-#N canvas 619 114 565 505 10;
+#N canvas 490 96 561 488 10;
 #X obj 5 462 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -25,7 +25,7 @@
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X text 201 323 (none);
-#X text 175 367 - audio file to load (optional), f 59;
+#X text 176 367 - audio file to load (optional), f 60;
 #X text 103 367 2) symbol;
 #X text 103 382 3) float;
 #X text 103 398 4) float;
@@ -128,7 +128,7 @@ files \, it accepts floats or symbols:;
 #X restore 464 199 pd read/write;
 #X obj 268 216 ./out~;
 #X msg 254 158 start;
-#X msg 101 196 open;
+#X msg 120 200 open;
 #X obj 23 55 cyclone/comment 0 18 times ? 0 0 0 0 Audio buffer;
 #X text 74 84 [buffer~] stores audio in a memory buffer. It read/writes
 multichannel audio files and can be used in conjunction with [play~]
@@ -183,9 +183,9 @@ alpha parameter in radians \, which precedes the optional half argument
 #X connect 6 0 16 0;
 #X connect 14 0 15 0;
 #X restore 404 225 pd functions/generators;
-#X msg 90 168 crop 140 480;
-#X msg 19 168 readagain;
-#X msg 151 197 wclose;
+#X msg 109 172 crop 140 480;
+#X msg 38 172 readagain;
+#X msg 163 206 wclose;
 #N canvas 647 158 511 331 All_Messages 0;
 #X text 94 6 clear;
 #X text 100 157 open;
@@ -237,17 +237,17 @@ f 59;
 #X restore 374 290 pd All_Messages;
 #X obj 500 69 cyclone/setdsp~;
 #X text 124 291 click to open and check all messages: =>;
-#X text 175 352 - buffer name, f 59;
-#X text 176 382 - buffer size in ms (default 0 or -1 if audio file
-is given, f 60;
+#X text 175 352 - buffer name, f 60;
 #X text 176 398 - channels (1 to 64) default 1 or audio file's (if
 given);
-#X obj 90 230 cyclone/buffer~ buff1_\$0 stereo.aif -1, f 22;
 #X obj 254 185 cyclone/play~ buff1_\$0 2;
-#X connect 21 0 39 0;
+#X obj 109 234 cyclone/buffer~ buff1_\$0 stereo.aif, f 19;
+#X text 176 382 - buffer size in ms (default 0 or -1 if audio file
+is given);
+#X connect 21 0 37 0;
 #X connect 22 0 38 0;
 #X connect 29 0 38 0;
 #X connect 30 0 38 0;
 #X connect 31 0 38 0;
-#X connect 39 0 20 0;
-#X connect 39 1 20 1;
+#X connect 37 0 20 0;
+#X connect 37 1 20 1;
