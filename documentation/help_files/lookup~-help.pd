@@ -1,4 +1,4 @@
-#N canvas 553 36 562 564 10;
+#N canvas 467 37 562 564 10;
 #X obj 5 538 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 352 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -41,50 +41,6 @@ f 52;
 #X connect 8 0 0 0;
 #X restore 269 209 pd load_sample;
 #X text 221 481 - array/table name to be used for lookup, f 52;
-#N canvas 517 183 452 656 waveshaping_example 0;
-#X obj 74 445 cnv 15 278 178 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 300 (subpatch) 0;
-#X array \$0-shape 4099 float 0;
-#X coords 0 1 4098 -1 280 180 1;
-#X restore 73 444 graph;
-#X obj 130 166 *~;
-#X obj 209 170 line~;
-#X msg 209 143 \$1 10;
-#X obj 209 119 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
-#X obj 212 95 hsl 128 15 0.1 1 0 1 empty empty empty -2 -8 0 10 -228856
--1 -1 12700 1;
-#N canvas 0 22 382 167 generate_waveform 0;
-#X obj 68 52 loadbang;
-#X msg 68 76 sinesum 4096 1 0.5 1 0.3 0.2 0.9 \, normalize;
-#X obj 68 103 send \$0-shape;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X restore 229 427 pd generate_waveform;
-#X obj 25 11 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X text 24 48 [lookup~] is very convenient for waveshaping \, because
-signal values from -1 to 1 are rescaled to the given table indexes.
-Check below:;
-#X obj 196 246 cyclone/scope~ 214 139 2 3 128 -1 1 50 0 0 0 205 229
-232 74 79 77 96 98 102 0;
-#X text 243 95 Amplitude, f 10;
-#X obj 130 120 osc~ 230;
-#X obj 130 206 cyclone/lookup~ \$0-shape 1 4096;
-#X text 44 404 transfer function:;
-#X obj 35 16 cyclone/comment 0 18 times ? 0 0 0 0 Waveshaping;
-#X obj 87 288 ./out~;
-#X connect 2 0 13 0;
-#X connect 3 0 2 1;
-#X connect 4 0 3 0;
-#X connect 5 0 4 0;
-#X connect 6 0 5 0;
-#X connect 12 0 2 0;
-#X connect 13 0 10 0;
-#X connect 13 0 16 0;
-#X connect 13 0 16 1;
-#X restore 410 278 pd waveshaping_example;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -107,9 +63,6 @@ effect. Check below., f 60;
 -228856 -1 -1 0 256;
 #X obj 269 231 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 297215 256;
-#X text 72 93 [lookup~] uses arrays as transfer functions for waveshaping
-\, in which signal input values (from -1 to 1) are mapped to the table's
-indexes.;
 #X text 221 359 - signal to be used as index, f 52;
 #X text 221 397 - start point of the array, f 52;
 #X text 221 419 - end point of the array, f 52;
@@ -121,14 +74,14 @@ from 0 to 511).;
 #X text 73 80 You can specify another table size by setting an endpoint
 that corresponds to the last index (table size - 1).;
 #X obj 228 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 62078 256;
 #X obj 302 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 15641.7 256;
 #X obj 155 226 cyclone/triangle~ 1;
 #X obj 305 290 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 0 1;
+-228856 -1 -1 3200 1;
 #X obj 231 262 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 0 1;
+-228856 -1 -1 12700 1;
 #X text 253 261 start point;
 #X text 339 290 end point;
 #X text 75 118 If you raise the starting point \, note that the table
@@ -167,27 +120,27 @@ cloned from Max/MSP;
 #X obj 122 206 osc~ 0.075;
 #X text 204 199 start point, f 6;
 #X obj 122 289 ./out~;
-#N canvas 953 208 435 447 buffer~ 0;
-#X msg 181 120 open;
+#N canvas 788 242 435 447 buffer~ 0;
+#X msg 130 132 open;
 #X text 28 19 The [lookup~] object works with any kind of array set
 in Pd \, and not only from the [buffer~] object. In the case of a multi
 channel [buffer~] object \, [lookup~] can only read its first channel.
 ;
-#X obj 168 268 *~;
-#X obj 267 272 line~;
-#X msg 267 245 \$1 10;
-#X obj 267 221 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.177953 256;
-#X obj 270 197 hsl 128 15 0.1 1 0 1 empty empty empty -2 -8 0 10 -228856
--1 -1 1100 1;
-#X text 301 197 Amplitude, f 10;
-#X obj 145 350 ./out~;
-#X obj 159 147 cyclone/buffer~ \$0-shape2 @samps 4096;
-#X obj 168 308 cyclone/lookup~ \$0-shape2 0 4096;
-#X obj 168 232 osc~ 50;
-#X obj 168 205 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 117 280 *~;
+#X obj 216 284 line~;
+#X msg 216 257 \$1 10;
+#X obj 216 233 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.1 256;
+#X obj 219 209 hsl 128 15 0.1 1 0 1 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 250 209 Amplitude, f 10;
+#X obj 94 362 ./out~;
+#X obj 108 159 cyclone/buffer~ \$0-shape2 @samps 4096;
+#X obj 117 320 cyclone/lookup~ \$0-shape2 0 4096;
+#X obj 117 244 osc~ 50;
+#X obj 117 217 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 159 90 cyclone/loadmess fill sin 4;
+#X obj 108 102 cyclone/loadmess fill sin 4;
 #X connect 0 0 9 0;
 #X connect 2 0 10 0;
 #X connect 3 0 2 1;
@@ -201,8 +154,54 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 #X connect 13 0 9 0;
 #X restore 482 322 pd buffer~;
 #X obj 500 69 cyclone/setdsp~;
-#N canvas 613 66 616 452 dynamics 1;
-#X obj 247 113 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X text 72 93 [lookup~] uses arrays as transfer functions for waveshaping
+distortion \, in which signal input values (from -1 to 1) are mapped
+to the table's indexes.;
+#N canvas 694 149 452 656 waveshaping_1 0;
+#X obj 74 445 cnv 15 278 178 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X array \$0-shape 4099 float 0;
+#X coords 0 1 4098 -1 280 180 1;
+#X restore 73 444 graph;
+#X obj 130 166 *~;
+#X obj 209 170 line~;
+#X msg 209 143 \$1 10;
+#X obj 209 119 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 1 256;
+#X obj 212 95 hsl 128 15 0.1 1 0 1 empty empty empty -2 -8 0 10 -228856
+-1 -1 12700 1;
+#N canvas 0 22 382 167 generate_waveform 0;
+#X obj 68 52 loadbang;
+#X msg 68 76 sinesum 4096 1 0.5 1 0.3 0.2 0.9 \, normalize;
+#X obj 68 103 send \$0-shape;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 229 427 pd generate_waveform;
+#X obj 25 11 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 196 246 cyclone/scope~ 214 139 2 3 128 -1 1 50 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X text 243 95 Amplitude, f 10;
+#X obj 130 120 osc~ 230;
+#X obj 130 206 cyclone/lookup~ \$0-shape 1 4096;
+#X text 44 404 transfer function:;
+#X obj 35 16 cyclone/comment 0 18 times ? 0 0 0 0 Waveshaping;
+#X obj 87 288 ./out~;
+#X text 24 48 Here's an example of waveshaping on a sine wave for synthesis.
+;
+#X connect 2 0 12 0;
+#X connect 3 0 2 1;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 11 0 2 0;
+#X connect 12 0 9 0;
+#X connect 12 0 15 0;
+#X connect 12 0 15 1;
+#X restore 446 278 pd waveshaping_1;
+#N canvas 704 213 616 452 waveshaping_2 0;
+#X obj 267 121 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 37 26 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -393,13 +392,13 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 0.997093 0.997853 0.998521 0.999265 0.999919;
 #X coords 0 1 511 -1 150 100 1 0 0;
 #X restore 40 307 graph;
-#X obj 247 270 cyclone/lookup~ \$0-linear;
-#X obj 247 308 out~;
-#X obj 309 215 pack s \$0;
-#X msg 262 179 linear;
-#X msg 309 234 set \$2-\$1;
-#X text 429 179 <= set transfer function;
-#X msg 309 179 clipping;
+#X obj 267 278 cyclone/lookup~ \$0-linear;
+#X obj 267 316 out~;
+#X obj 329 223 pack s \$0;
+#X msg 282 187 linear;
+#X msg 329 242 set \$2-\$1;
+#X text 419 187 <= set transfer function;
+#X msg 329 187 clipping;
 #X text 16 115 -1;
 #X text 21 19 1;
 #X text 32 128 0;
@@ -413,14 +412,13 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 #X text 32 413 0;
 #X text 175 412 511;
 #X obj 247 388 cyclone/buffer~ buff_\$0 violin.wav;
-#X obj 247 143 cyclone/play~ buff_\$0 @loop 1;
-#X msg 402 220 gate;
-#X msg 368 179 s;
-#X text 218 31 Here we have a couple of transfer functions as dynamics
-processors. The "linear" function doesn't do anything to the audio
-input. The "clipping" function is a hard limiter and also adjusts the
-gain four times as much. For last \, we have an exponential "s"-curve
-like transfer function., f 58;
+#X obj 267 151 cyclone/play~ buff_\$0 @loop 1;
+#X msg 388 187 s;
+#X text 218 31 Here we have a sound file going through a couple of
+transfer functions for waveshaping distortion. The "linear" function
+doesn't do anything to the audio input. The "clipping" function is
+a hard limiter and also adjusts the gain four times as much. For last
+\, we have an exponential "s"-curve like transfer function.;
 #X connect 0 0 27 0;
 #X connect 7 0 8 0;
 #X connect 7 0 8 1;
@@ -430,11 +428,10 @@ like transfer function., f 58;
 #X connect 13 0 9 0;
 #X connect 27 0 7 0;
 #X connect 28 0 9 0;
-#X connect 29 0 9 0;
-#X restore 476 301 pd dynamics;
-#X connect 16 0 28 0;
-#X connect 27 0 40 1;
-#X connect 28 0 40 2;
-#X connect 40 0 43 0;
-#X connect 40 0 43 1;
-#X connect 41 0 40 0;
+#X restore 446 301 pd waveshaping_2;
+#X connect 16 0 27 0;
+#X connect 26 0 38 1;
+#X connect 27 0 38 2;
+#X connect 38 0 41 0;
+#X connect 38 0 41 1;
+#X connect 39 0 38 0;
