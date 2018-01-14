@@ -51,8 +51,15 @@ static void *pow_new(t_floatarg f)
 
 void pow_tilde_setup(void)
 {
-    pow_class = class_new(gensym("cyclone/pow~"), (t_newmethod)pow_new,
-        (t_method)pow_free, sizeof(t_pow), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    pow_class = class_new(gensym("Pow~"), (t_newmethod)pow_new,
+                          (t_method)pow_free, sizeof(t_pow), CLASS_DEFAULT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)pow_new, gensym("cyclone/pow~"), A_GIMME, 0);
+    class_addcreator((t_newmethod)pow_new, gensym("cyclone/Pow~"), A_GIMME, 0);
     class_addmethod(pow_class, nullfn, gensym("signal"), 0);
     class_addmethod(pow_class, (t_method)pow_dsp, gensym("dsp"), A_CANT, 0);
+}
+
+void Pow_tilde_setup(void)
+{
+    pow_tilde_setup();
 }

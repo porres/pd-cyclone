@@ -17,30 +17,30 @@
 #X text 127 635 float;
 #X text 122 665 signal;
 #X text 110 719 1) float;
-#X msg 253 325 5000;
+#X msg 283 325 5000;
 #X text 175 635 - sets the time for the next float send to the left
 inlet, f 60;
-#X msg 110 270 pause;
-#X msg 154 271 resume;
-#X msg 169 293 stop;
-#X obj 216 306 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 140 270 pause;
+#X msg 184 271 resume;
+#X msg 199 293 stop;
+#X obj 246 306 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X floatatom 216 326 5 0 0 0 - - -, f 5;
-#X text 137 378 1;
-#X text 137 466 0;
-#X text 125 422 0.5;
-#X obj 226 284 t b b;
-#X obj 226 264 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X floatatom 246 326 5 0 0 0 - - -, f 5;
+#X text 167 378 1;
+#X text 167 466 0;
+#X text 155 422 0.5;
+#X obj 256 284 t b b;
+#X obj 256 264 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X text 132 531 list;
-#X obj 323 378 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 353 378 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 366 386 <= Bangs when finished;
+#X text 396 386 <= Bangs when finished;
 #X text 176 719 - sets an initial value for the signal output (default
 0);
-#X text 289 326 duration;
-#X text 167 324 target;
-#X text 278 349 argument: initial value;
+#X text 319 326 duration;
+#X text 197 324 target;
+#X text 308 349 argument: initial value;
 #X obj 93 686 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 134 687 bang;
@@ -70,31 +70,8 @@ inlet, f 60;
 #X connect 4 0 1 1;
 #X connect 4 0 8 0;
 #X connect 5 0 4 0;
-#X restore 373 450 pd linear_envelope_example;
-#X obj 154 349 cyclone/line~ 0.5;
-#N canvas 723 166 457 483 Conflicts 0;
-#X text 118 290 or even:;
-#X text 51 77 Cyclone avoids name clashing and overwritting an internal
-in Pd Vanilla \, so you need to have the cyclone folder properly installed
-in Pd Vanilla's extra folder and create it as:;
-#X text 51 357 ============================================================
-;
-#X text 170 443 <= from Pd Vanilla;
-#X text 54 181 There's the old way of creating this object in cyclone
-(and still present for backwards compatibility reasons). This option
-is creating the object with a first capital letter:;
-#X text 51 37 Pd also has a vanilla object named [line~]. Though very
-similar \, they're not compatible!;
-#X obj 166 140 cyclone/line~;
-#X obj 205 253 Line~;
-#X obj 185 290 cyclone/Line~;
-#X obj 127 443 line~;
-#X text 56 387 So \, if you still want the object from vanilla \, you
-even if you created the objects above \, you can still instantiate
-it as:;
-#X text 56 330 The plan is to phase it out though.;
-#X restore 366 270 pd Conflicts with internal \; Backwards Compatibility
-;
+#X restore 373 457 pd linear_envelope_example;
+#X obj 184 349 cyclone/line~ 0.5;
 #X obj 2 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -120,17 +97,17 @@ set to other than 0 via the second inlet, f 60;
 #X obj 322 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 154 380 scope~ 131 98 50 3 128 0 1 0 0 0 0 205 229 232 74 79
+#X obj 184 380 scope~ 131 98 50 3 128 0 1 0 0 0 0 205 229 232 74 79
 77 96 98 102 0;
-#X floatatom 75 344 5 0 0 0 - - -, f 5;
+#X floatatom 105 344 5 0 0 0 - - -, f 5;
 #X obj 499 68 cyclone/setdsp~;
 #X text 78 84 Use [cyclone/line~] to generate a signal ramp or envelope.
 It takes a target value and a duration (in ms) to reach it and then
 generates a ramp from its current value to the target value. Target
 and duration can be set in pairs as a list or in different inlets.
 , f 60;
-#X msg 43 223 0 \, 1 1000 0 1000 0.5 2500;
-#X msg 82 246 0.25 1000 1 500 0.5;
+#X msg 73 223 0 \, 1 1000 0 1000 0.5 2500;
+#X msg 112 246 0.25 1000 1 500 0.5;
 #X text 78 144 If you send it a list with an odd number of elements
 \, the last element is treated as a target and the duration to get
 there is considered to be 0 ms. A single float value will similarly
@@ -140,6 +117,23 @@ other than 0 via the second inlet., f 60;
 ms) to reach it (maximum is 128 target-time pairs). For an odd number
 of elements \, the last element is treated as another pair with 0 ms
 duration., f 60;
+#N canvas 723 166 420 324 name 1;
+#X text 196 170 <= from Pd Vanilla;
+#X text 29 222 Other ways to load [biquad~] is with a capital letter
+\, either with or without such as:;
+#X text 28 133 And still create the vanilla object from vanilla without
+namespaces as:;
+#X text 209 274 and;
+#X obj 146 95 cyclone/line~;
+#X obj 150 170 line~;
+#X obj 94 274 cyclone/Line~;
+#X obj 255 274 Line~, f 9;
+#X text 29 14 Pd also has a vanilla object named [line~]. Cyclone avoids
+name clashing and overwritting an internal in Pd Vanilla \, but for
+that you need to use the cyclone namespace ("cyclone/" before the object
+name) \, as it's the common practice for cyclone's documentation. So
+you create it as:;
+#X restore 450 434 pd name clash;
 #X connect 11 0 35 1;
 #X connect 13 0 35 0;
 #X connect 14 0 35 0;
@@ -149,8 +143,8 @@ duration., f 60;
 #X connect 21 0 16 0;
 #X connect 21 1 11 0;
 #X connect 22 0 21 0;
-#X connect 35 0 52 0;
+#X connect 35 0 51 0;
 #X connect 35 1 24 0;
-#X connect 53 0 52 0;
+#X connect 52 0 51 0;
+#X connect 55 0 35 0;
 #X connect 56 0 35 0;
-#X connect 57 0 35 0;

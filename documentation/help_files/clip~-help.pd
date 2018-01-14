@@ -1,98 +1,91 @@
-#N canvas 146 40 562 654 10;
-#X obj 5 609 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 404 23 568 619 10;
+#X obj 6 587 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 423 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 6 412 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 510 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 499 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 552 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 6 536 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 83 522 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 94 509 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 150 436 signal;
-#X text 149 521 signal;
-#X obj 84 436 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 161 425 signal;
+#X text 160 508 signal;
+#X obj 95 425 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 458 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 94 447 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 480 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 93 469 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 178 167 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 179 167 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X floatatom 175 191 5 0 0 0 - - -, f 5;
-#X obj 231 198 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
+#X floatatom 176 191 5 0 0 0 - - -, f 5;
+#X obj 232 198 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X floatatom 228 220 5 0 0 0 - - -, f 5;
-#X text 113 481 float/signal;
-#X text 139 562 1) float;
-#X text 139 583 2) float;
-#X text 114 459 float/signal;
-#X obj 123 245 cyclone/clip~ -1 1;
-#X text 273 198 maximum;
-#X text 217 166 minimum;
-#X obj 194 287 scope~ 194 111 10 3 128 -1 1 0 0 0 0 205 229 232 74
+#X floatatom 229 220 5 0 0 0 - - -, f 5;
+#X text 124 470 float/signal;
+#X text 150 544 1) float;
+#X text 150 565 2) float;
+#X text 125 448 float/signal;
+#X obj 124 245 cyclone/clip~ -1 1;
+#X text 274 198 maximum;
+#X text 218 166 minimum;
+#X obj 195 287 scope~ 194 111 10 3 128 -1 1 0 0 0 0 205 229 232 74
 79 77 96 98 102 0;
-#X text 397 281 1;
-#X text 396 335 0;
-#X text 391 388 -1;
-#X obj 98 180 osc~ 240;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X text 398 281 1;
+#X text 397 335 0;
+#X text 392 388 -1;
+#X obj 99 180 osc~ 240;
+#X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 3 3 graph;
+#X obj 306 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#N canvas 731 141 456 518 conflicts 0;
-#X obj 165 182 cyclone/clip~;
-#X obj 204 295 Clip~;
-#X text 117 332 or even:;
-#X text 50 119 Cyclone avoids name clashing and overwritting an internal
-in Pd Vanilla \, so you need to have the cyclone folder properly installed
-in Pd Vanilla's extra folder and create it as:;
-#X text 50 369 ============================================================
-;
-#X text 169 455 <= from Pd Vanilla;
-#X obj 184 332 cyclone/Clip~;
-#X obj 126 455 clip~;
-#X text 53 223 There's the old way of creating this object in cyclone
-(and still present for backwards compatibility reasons). This option
-is creating the object with a first capital letter:;
-#X text 55 399 So \, if you still want the object from vanilla \, you
-even if you created the objects above \, you can still instantiate
-it as:;
-#X text 50 41 Pd also has a vanilla object named [clip~]. All of the
-functionalities from the vanilla object are present in the Max version
-without conflicts. The only difference is that the max version also
-accepts signals for setting the minimum and maximum constrain.;
-#X restore 327 233 pd conflicts with internal \; backwards compatibility
-;
-#X text 205 521 - clipped signal;
-#X text 205 583 - sets maximum value (default 0);
-#X text 205 561 - sets minimun value (default 0);
-#X text 205 436 - signal to be clipped/constrained;
-#X text 203 459 - minimum constrain value;
-#X text 203 481 - maximum constrain value;
-#X text 67 92 Use the [cyclone/clip~]* object to constrain input signals
+#X restore 305 3 pd;
+#X text 216 508 - clipped signal;
+#X text 216 565 - sets maximum value (default 0);
+#X text 216 543 - sets minimun value (default 0);
+#X text 216 425 - signal to be clipped/constrained;
+#X text 214 448 - minimum constrain value;
+#X text 214 470 - maximum constrain value;
+#X text 68 92 Use the [cyclone/clip~]* object to constrain input signals
 between two specified values (minimum and maximum). If the maximum
 value is less than the minimum \, it becomes the minimum value and
 vice-versa.;
-#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Constrain a signal
+#X obj 20 54 cyclone/comment 0 18 times ? 0 0 0 0 Constrain a signal
 to a given range;
-#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 clip~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 17 2 cyclone/comment 0 40 times ? 0 0 0 0 clip~;
+#X obj 323 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 80 314 ./out~;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 81 314 ./out~;
+#X obj 501 69 cyclone/setdsp~;
+#N canvas 836 207 420 324 name 0;
+#X text 196 170 <= from Pd Vanilla;
+#X text 29 222 Other ways to load [biquad~] is with a capital letter
+\, either with or without such as:;
+#X text 28 133 And still create the vanilla object from vanilla without
+namespaces as:;
+#X text 205 274 and;
+#X text 29 14 Pd also has a vanilla object named [clip~]. Cyclone avoids
+name clashing and overwritting an internal in Pd Vanilla \, but for
+that you need to use the cyclone namespace ("cyclone/" before the object
+name) \, as it's the common practice for cyclone's documentation. So
+you create it as:;
+#X obj 146 95 cyclone/clip~;
+#X obj 159 170 clip~;
+#X obj 94 274 cyclone/Clip~;
+#X obj 255 274 Clip~, f 9;
+#X restore 458 379 pd name clash;
 #X connect 10 0 11 0;
 #X connect 11 0 18 1;
 #X connect 12 0 13 0;
 #X connect 13 0 18 2;
 #X connect 18 0 21 0;
-#X connect 18 0 42 0;
-#X connect 18 0 42 1;
+#X connect 18 0 41 0;
+#X connect 18 0 41 1;
 #X connect 25 0 18 0;

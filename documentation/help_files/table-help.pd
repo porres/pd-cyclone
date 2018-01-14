@@ -1,36 +1,36 @@
-#N canvas 537 28 559 528 10;
-#X obj 2 264 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 537 28 559 502 10;
+#X obj 2 252 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 380 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 368 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 440 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 428 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 82 273 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 261 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 391 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 379 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 413 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 82 401 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 357 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 82 345 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 486 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 474 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 158 271 -;
-#X text 125 271 bang;
-#X text 158 299 -;
-#X text 118 299 float;
-#X text 158 319 -;
-#X text 124 319 list;
-#X text 158 338 -;
-#X text 107 338 message;
-#X text 173 338 see:;
-#X text 158 358 -;
-#X text 118 358 float;
-#X text 158 414 -;
-#X text 124 414 bang;
-#X text 158 392 -;
-#X text 118 392 float;
-#X text 158 447 -;
+#X text 158 259 -;
+#X text 125 259 bang;
+#X text 158 287 -;
+#X text 118 287 float;
+#X text 158 307 -;
+#X text 124 307 list;
+#X text 158 326 -;
+#X text 107 326 message;
+#X text 173 326 see:;
+#X text 158 346 -;
+#X text 118 346 float;
+#X text 158 402 -;
+#X text 124 402 bang;
+#X text 158 380 -;
+#X text 118 380 float;
+#X text 158 435 -;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -41,7 +41,7 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X text 173 271 same as the quantile message (check the quantile message
+#X text 173 259 same as the quantile message (check the quantile message
 in the subpatch [pd allMessages]);
 #N canvas 727 59 604 548 examples 0;
 #X obj 89 36 cyclone/comment 227 11 helvetica ? 0 80 80 80 store 36
@@ -170,7 +170,7 @@ second outlet when data is changed in the user interface;
 #X connect 36 0 34 1;
 #X connect 45 0 20 0;
 #X connect 45 1 21 0;
-#X restore 289 223 pd examples;
+#X restore 470 206 pd examples;
 #X obj 150 194 cyclone/table;
 #C restore;
 #X obj 225 167 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -182,48 +182,23 @@ second outlet when data is changed in the user interface;
 -1 -1;
 #X obj 150 228 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 285 166 store a value (y) at the next index;
-#X text 286 182 number received at the left inlet;
-#X text 173 299 select index (x) and oututs its current value, f 60
+#X text 283 161 store a value (y) at the next index;
+#X text 283 173 number received at the left inlet;
+#X text 173 287 select index (x) and oututs its current value, f 60
 ;
 #X text 209 141 select index (x) and oututs its current value;
-#X text 173 319 a pair of indez (x) and its value (y);
-#X text 173 358 store a value (y) at the next index, f 60;
-#X text 173 392 values stored in the array;
-#X text 173 414 when editing it with the mouse, f 60;
-#X text 94 447 1) symbol;
-#X text 171 447 the table name. If two or more [table] objects share
+#X text 173 307 a pair of indez (x) and its value (y);
+#X text 173 346 store a value (y) at the next index, f 60;
+#X text 173 380 values stored in the array;
+#X text 173 402 when editing it with the mouse, f 60;
+#X text 94 435 1) symbol;
+#X text 171 435 the table name. If two or more [table] objects share
 the same name \, they also share the same values, f 61;
 #X text 44 193 double click =>;
 #X text 50 207 to open;
 #X text 70 85 [table] stores and edits a number array. You can graphically
 edit by opening it or double clicking on it. There also several functions
 and messagwes via messages., f 61;
-#N canvas 942 129 457 472 conflicts 0;
-#X text 118 260 or even:;
-#X text 51 47 Cyclone avoids name clashing and overwritting an internal
-in Pd Vanilla \, so you need to have the cyclone folder properly installed
-in Pd Vanilla's extra folder and create it as:;
-#X text 51 327 ============================================================
-;
-#X text 170 413 <= from Pd Vanilla;
-#X text 54 151 There's the old way of creating this object in cyclone
-(and still present for backwards compatibility reasons). This option
-is creating the object with a first capital letter:;
-#X text 56 357 So \, if you still want the object from vanilla \, you
-even if you created the objects above \, you can still instantiate
-it as:;
-#X text 56 300 The plan is to phase it out though.;
-#X text 51 28 Pd also has a vanilla object named [table].;
-#X obj 166 110 cyclone/table;
-#C restore;
-#X obj 205 223 Table;
-#C restore;
-#X obj 185 260 cyclone/Table;
-#C restore;
-#X obj 127 413 table;
-#X restore 376 219 pd conflicts with internal \; backwards compatibility
-;
 #N canvas 476 23 634 599 All_Messages 0;
 #X text 150 50 outputs the stored numbers on the left outlet, f 78
 ;
@@ -307,7 +282,7 @@ pointer address (and wraps to last address when reaching start), f
 #X text 150 357 sends the address at which the sum of the all values
 up to that address is >= the the sum of all table values times the
 <int?> divided by 2^15 (32768), f 78;
-#X restore 201 338 pd All_Messages;
+#X restore 201 326 pd All_Messages;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
 number array;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 table;
@@ -317,6 +292,26 @@ cloned from Max/MSP;
 #X obj 452 68 cnv 15 100 60 empty empty empty 20 12 0 14 -261234 -66577
 0;
 #X text 459 82 [table] is not ready yet, f 13;
+#N canvas 836 207 420 324 name 0;
+#X text 196 170 <= from Pd Vanilla;
+#X text 29 222 Other ways to load [biquad~] is with a capital letter
+\, either with or without such as:;
+#X text 28 133 And still create the vanilla object from vanilla without
+namespaces as:;
+#X text 205 274 and;
+#X text 29 14 Pd also has a vanilla object named [table]. Cyclone avoids
+name clashing and overwritting an internal in Pd Vanilla \, but for
+that you need to use the cyclone namespace ("cyclone/" before the object
+name) \, as it's the common practice for cyclone's documentation. So
+you create it as:;
+#X obj 146 95 cyclone/table;
+#C restore;
+#X obj 160 170 table;
+#X obj 94 274 cyclone/Table;
+#C restore;
+#X obj 255 274 Table;
+#C restore;
+#X restore 458 228 pd name clash;
 #X connect 30 0 35 0;
 #X connect 30 1 34 0;
 #X connect 31 0 30 1;

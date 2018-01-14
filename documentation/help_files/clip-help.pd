@@ -1,26 +1,26 @@
-#N canvas 710 86 562 573 10;
-#X obj 2 329 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 564 77 559 514 10;
+#X obj 2 303 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 433 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 402 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 473 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 438 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 102 338 cnv 17 3 40 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 132 312 cnv 17 3 40 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 102 445 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 132 412 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 238 232 0 0 0 0 - - -;
-#X floatatom 185 232 0 0 0 0 - - -;
-#X obj 102 382 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X floatatom 268 217 0 0 0 0 - - -;
+#X floatatom 215 217 0 0 0 0 - - -;
+#X obj 132 356 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 102 404 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 132 378 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 530 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 487 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 165 383 float;
-#X text 165 405 float;
-#X text 147 482 1) float;
-#X text 147 501 2) float;
+#X text 195 357 float;
+#X text 195 379 float;
+#X text 177 446 1) float;
+#X text 177 463 2) float;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -31,39 +31,15 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 136 179 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 166 164 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 133 211 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 163 196 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 133 292 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 163 277 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 163 150 sets minimum/maximum;
-#X text 184 215 min;
-#X text 237 214 max;
-#N canvas 978 190 456 518 conflicts 0;
-#X text 117 325 or even:;
-#X text 50 112 Cyclone avoids name clashing and overwritting an internal
-in Pd Vanilla \, so you need to have the cyclone folder properly installed
-in Pd Vanilla's extra folder and create it as:;
-#X text 50 362 ============================================================
-;
-#X text 169 448 <= from Pd Vanilla;
-#X text 53 216 There's the old way of creating this object in cyclone
-(and still present for backwards compatibility reasons). This option
-is creating the object with a first capital letter:;
-#X text 55 392 So \, if you still want the object from vanilla \, you
-even if you created the objects above \, you can still instantiate
-it as:;
-#X text 50 34 Pd also has a vanilla object named [clip]. All of the
-functionalities from the vanilla object are present in the Max version
-without conflicts. The only difference is that the max version also
-accepts lists.;
-#X obj 165 175 cyclone/clip;
-#X obj 205 288 Clip;
-#X obj 184 325 cyclone/Clip;
-#X obj 126 448 clip;
-#X restore 370 261 pd conflicts with internal \; backwards compatibility
-;
+#X text 193 135 sets minimum/maximum;
+#X text 214 200 min;
+#X text 267 199 max;
 #N canvas 1055 259 317 320 list 0;
 #X obj 113 187 cyclone/tosymbol;
 #X symbolatom 113 218 15 0 0 0 - - -, f 15;
@@ -75,19 +51,19 @@ accepts lists.;
 #X connect 2 0 5 0;
 #X connect 4 0 0 0;
 #X connect 5 0 4 0;
-#X restore 488 228 pd list;
-#X text 135 340 float/list;
-#X text 211 339 - value(s) to clip;
-#X text 141 361 set <f f>;
-#X text 211 361 - sets minimum and maximum;
-#X text 135 446 float/list;
-#X text 211 446 - cliped value(s);
-#X text 211 383 - sets minimum number of range, f 33;
-#X text 211 404 - sets maximum number of range, f 32;
-#X obj 133 261 cyclone/clip 30 90;
-#X text 211 481 - sets minimum (default 0);
-#X text 210 501 - sets maximum (default 0);
-#X msg 88 150 set 10 110;
+#X restore 487 268 pd list;
+#X text 165 314 float/list;
+#X text 241 313 - value(s) to clip;
+#X text 171 335 set <f f>;
+#X text 241 335 - sets minimum and maximum;
+#X text 165 413 float/list;
+#X text 241 413 - cliped value(s);
+#X text 241 357 - sets minimum number of range, f 33;
+#X text 241 378 - sets maximum number of range, f 32;
+#X obj 163 246 cyclone/clip 30 90;
+#X text 241 445 - sets minimum (default 0);
+#X text 240 463 - sets maximum (default 0);
+#X msg 118 135 set 10 110;
 #X text 67 92 Use [cyclone/clip~] to constrain values from floats or
 lists between a range specified by a minimum and a maximum value.;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Constrain values
@@ -96,9 +72,26 @@ to a given range;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 5 0 34 2;
-#X connect 6 0 34 1;
+#N canvas 836 207 420 324 name 0;
+#X text 196 170 <= from Pd Vanilla;
+#X text 29 222 Other ways to load [biquad~] is with a capital letter
+\, either with or without such as:;
+#X text 28 133 And still create the vanilla object from vanilla without
+namespaces as:;
+#X text 205 274 and;
+#X text 29 14 Pd also has a vanilla object named [clip]. Cyclone avoids
+name clashing and overwritting an internal in Pd Vanilla \, but for
+that you need to use the cyclone namespace ("cyclone/" before the object
+name) \, as it's the common practice for cyclone's documentation. So
+you create it as:;
+#X obj 146 95 cyclone/clip;
+#X obj 160 170 clip;
+#X obj 94 274 cyclone/Clip;
+#X obj 255 274 Clip, f 9;
+#X restore 450 244 pd name clash;
+#X connect 5 0 33 2;
+#X connect 6 0 33 1;
 #X connect 18 0 19 0;
-#X connect 19 0 34 0;
-#X connect 34 0 20 0;
-#X connect 37 0 34 0;
+#X connect 19 0 33 0;
+#X connect 33 0 20 0;
+#X connect 36 0 33 0;

@@ -1,4 +1,4 @@
-#N canvas 363 79 562 548 10;
+#N canvas 497 68 562 548 10;
 #X obj 6 508 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 367 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -66,19 +66,6 @@ inlet can receive a signal or float.;
 -228856 -1 -1 0 256;
 #X msg 258 238 10;
 #X msg 290 241 2;
-#N canvas 704 255 463 288 name 0;
-#X text 51 137 ============================================================
-;
-#X text 170 223 <= from Pd Vanilla;
-#X text 56 167 So \, if you still want the object from vanilla \, you
-even if you created the objects above \, you can still instantiate
-it as:;
-#X text 51 37 Cyclone avoids name clashing and overwritting an internal
-in Pd Vanilla \, so you need to have the cyclone folder properly installed
-in Pd Vanilla's extra folder and create [pow~] as:;
-#X obj 166 100 cyclone/pow~;
-#X obj 137 223 pow~;
-#X restore 466 334 pd name clash;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal power function
 ;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 pow~;
@@ -88,8 +75,25 @@ cloned from Max/MSP;
 #X obj 135 333 cyclone/number~;
 #X obj 135 268 cyclone/number~ 1;
 #X obj 499 69 cyclone/setdsp~;
-#X connect 14 0 32 0;
+#N canvas 836 207 420 324 name 0;
+#X text 196 170 <= from Pd Vanilla;
+#X text 29 222 Other ways to load [biquad~] is with a capital letter
+\, either with or without such as:;
+#X text 28 133 And still create the vanilla object from vanilla without
+namespaces as:;
+#X text 205 274 and;
+#X text 29 14 Pd also has a vanilla object named [pow~]. Cyclone avoids
+name clashing and overwritting an internal in Pd Vanilla \, but for
+that you need to use the cyclone namespace ("cyclone/" before the object
+name) \, as it's the common practice for cyclone's documentation. So
+you create it as:;
+#X obj 146 95 cyclone/pow~;
+#X obj 160 170 pow~;
+#X obj 255 274 Pow~, f 9;
+#X obj 94 274 cyclone/Pow~;
+#X restore 466 334 pd name clash;
+#X connect 14 0 31 0;
 #X connect 24 0 14 1;
 #X connect 25 0 24 0;
 #X connect 26 0 24 0;
-#X connect 33 0 14 0;
+#X connect 32 0 14 0;
