@@ -174,10 +174,12 @@ static void *biquad_new(t_symbol *s, int argc, t_atom *argv)
 
 void biquad_tilde_setup(void)
 {
-    biquad_class = class_new(gensym("cyclone/biquad~"),
+    biquad_class = class_new(gensym("Biquad~"),
 				(t_newmethod)biquad_new,
                 (t_method)biquad_free,
 				sizeof(t_biquad), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)biquad_new, gensym("cyclone/biquad~"), A_GIMME, 0);
+    class_addcreator((t_newmethod)biquad_new, gensym("cyclone/Biquad~"), A_GIMME, 0);
     class_addmethod(biquad_class, nullfn, gensym("signal"), 0);
     class_addmethod(biquad_class, (t_method)biquad_dsp, gensym("dsp"), A_CANT, 0);
     class_addlist(biquad_class, biquad_list);
@@ -186,4 +188,9 @@ void biquad_tilde_setup(void)
                     A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(biquad_class, (t_method) biquad_smooth, gensym("smooth"), A_DEFFLOAT, 0);
     class_sethelpsymbol(biquad_class, gensym("biquad~"));
+}
+
+void Biquad_tilde_setup(void)
+{
+    biquad_tilde_setup();
 }

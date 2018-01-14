@@ -1,4 +1,4 @@
-#N canvas 300 70 563 646 10;
+#N canvas 306 41 563 646 10;
 #X obj 95 166 noise~;
 #X msg 155 170 0.02635 0 -0.02635 -1.97899 0.982357;
 #X obj 3 349 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -49,7 +49,7 @@ ability to get filter values from a "dictionary" \, because we don't
 have those implemented (at least yet).;
 #X text 57 100 - It also doesn't have a smooth attribute yet \, but
 this feature in Max/MSP doesn't seem to be working anyway...;
-#X restore 393 307 pd inconsistencies;
+#X restore 431 317 pd inconsistencies;
 #X text 152 405 clear;
 #X text 152 388 stoke;
 #N canvas 221 38 664 592 stoke 0;
@@ -104,7 +104,7 @@ y[-1] & y[-2]). This example uses just the feedback samples (y[-1]
 #X connect 12 0 18 0;
 #X connect 12 0 18 1;
 #X connect 13 0 0 0;
-#X restore 242 309 pd stoke;
+#X restore 280 319 pd stoke;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -197,7 +197,7 @@ y[-1] & y[-2]). This example uses just the feedback samples (y[-1]
 #X text 388 196 b2 = feedback coefficient 2;
 #X obj 70 53 cyclone/comment 0 16 times ? 0 0 0 0 Filter Equation:
 ;
-#X restore 393 267 pd filter_diagram;
+#X restore 431 277 pd filter_diagram;
 #N canvas 302 197 476 448 clear 0;
 #X text 45 27 If the filter explodes by making the feedback coefficients
 (b1 and b2) too high \, you can recover (after lowering them of course)
@@ -226,7 +226,7 @@ on again also clears the filter memory.;
 #X connect 6 0 11 5;
 #X connect 11 0 12 0;
 #X connect 11 0 12 1;
-#X restore 242 288 pd clear;
+#X restore 280 298 pd clear;
 #X text 199 389 - sets previous in/outputs (x[-1] \, x[-2] \, y[-1]
 & y[-2]);
 #X text 199 538 - filter output;
@@ -235,20 +235,24 @@ on again also clears the filter memory.;
 b1 \, b2);
 #X text 129 572 1) list - the 5 coefficients' values (defaults to all
 zeros);
-#N canvas 221 38 475 333 name_clash 0;
-#X text 64 78 Cyclone avoids name clashing and overwritting an internal
-in Pd Vanilla \, so you need to have the cyclone folder properly installed
-in Pd Vanilla's extra folder and create it as:;
-#X text 56 190 ============================================================
-;
-#X text 220 273 <= from Pd Vanilla;
-#X obj 177 157 cyclone/biquad~;
-#X text 61 220 So then you can still create the object from vanilla
-as:;
-#X obj 163 273 biquad~;
-#X text 64 37 Pd also has a vanilla object named [biquad~]. They are
+#N canvas 734 125 427 358 name_clash 0;
+#X text 202 202 <= from Pd Vanilla;
+#X obj 152 127 cyclone/biquad~;
+#X obj 145 202 biquad~;
+#X text 35 18 Pd also has a vanilla object named [biquad~]. They are
 very similar \, but note the formulas are slightly different.;
-#X restore 393 287 pd name_clash;
+#X text 35 254 Other ways to load [biquad~] is with a capital letter
+\, either with or without such as:;
+#X text 35 59 Cyclone avoids name clashing and overwritting an internal
+in Pd Vanilla \, but for that you need to use the cyclone namespace
+("cyclone/" before the object name) \, as it's the common practice
+for cyclone's documentation. So you create it as:;
+#X text 34 165 And still create the vanilla object from vanilla without
+namespaces as:;
+#X obj 100 306 cyclone/Biquad~;
+#X obj 261 306 Biquad~, f 9;
+#X text 215 306 and;
+#X restore 431 297 pd name_clash;
 #X text 199 405 - clears the memory of previous in/outputs;
 #X text 153 57 [biquad~] is a 2-pole/2-zero filter that uses the equation:
 ;
@@ -270,7 +274,7 @@ if you're using [cyclone/filtercoeff~];
 #X connect 1 4 0 5;
 #X connect 2 0 0 0;
 #X connect 4 0 1 0;
-#X restore 242 267 pd signal coefficients;
+#X restore 280 277 pd signal coefficients;
 #X text 154 97 Note it's a different equation than in Pd Vanilla's
 [biquad~]. You can specify the coefficients a0 \, a1 \, a2 \, b1 \,
 and b2 as a list (also note the different order format than in Pd)
@@ -280,7 +284,7 @@ or individually as signals or floats.;
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Biquad filter;
-#X obj 76 269 ./out~;
+#X obj 95 273 ./out~;
 #X connect 0 0 26 0;
 #X connect 1 0 26 0;
 #X connect 26 0 54 0;
