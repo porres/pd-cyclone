@@ -7,7 +7,7 @@ Releases: https://github.com/porres/pd-cyclone/releases
 Cyclone: A set of Pure Data objects cloned from Max/MSP 
 -------
 
-> Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP. It thus provides some good level of compatibility between the two environments, helping users of both systems in the development of equivalent patches. 
+> Cyclone expands Pure Data with objects cloned from cycling74's Max/MSP and provides some good level of compatibility between the two environments. 
 
 -------
 
@@ -22,7 +22,9 @@ Max is found at: https://cycling74.com/
 
 Cyclone 0.3 needs at least Pd Vanilla 0.48-1 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data - by the way, both of them carry outdated versions od cyclone, Pd-Extended carries older 0.1 versions while Purr Data still carries the outdated cyclone 0.2 release (and it's not yet fully ported either).
 
-Since cyclone 0.2 was still mostly outdated and compliant to Max 4.0 (from the early 2000s), the main focus of cyclone 0.3 (currently in beta stage) has been on updating cyclone objects to the latest Max version (Max 7.3.4 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
+The original author of cyclone - Krzysztof Czaja - abandoned it in 2005 at version 0.1alpha55, when it was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) right before cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases.
+
+The main focus of cyclone 0.3 (currently in beta stage) has been on updating cyclone objects to the latest Max version (Max 7.3.4 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
 
 - 59 updated objects (only 4 reamining to be updated);
 - 61 fixed objects (including objects that were and were not updated);
@@ -47,7 +49,7 @@ Since "Cyclone 0.1-alpha57", the cyclone package has relied on the new build sys
 
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
-<pre>make pdincludepath=~/pd-0.47-1/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.47-1/bin/)</pre>
+<pre>make pdincludepath=~/pd-0.48-1/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.48-1/bin/)</pre>
 
 * Installing with pdlibbuilder
 
