@@ -74,7 +74,7 @@ Since february 21st 2016, an active further development of cyclone (now as versi
 => Original Repository (up to version 0.1-Alpha-57):
 The original repository of MiXed as part of Pd Extended - containing cyclone and more (such as 'toxy') - resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. This repository embraces work from three different maintainance phases: 
 
-- Czaja's era (up to 0.1-Alpha55): Cjaza (the original author) worked on cyclone from version 01-alpha-01 (2002) to 0.1-alpha-55 (2005). 
+- Czaja's era (up to 0.1-Alpha55): Czaja (the original author) worked on cyclone from version 01-alpha-01 (2002) to 0.1-alpha-55 (2005). 
 
 - Hans era (0.1-Alpha-55 and 0.1-Alpha-56): Hans maintained cyclone from 2005 to 2013. The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in Pd Vanilla.
 
