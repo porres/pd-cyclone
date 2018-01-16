@@ -48,7 +48,7 @@
 #X text 137 245 bang;
 #X text 120 302 zlclear;
 #X text 172 302 - clears and reinitializes the zl object;
-#N canvas 758 104 633 497 examples 0;
+#N canvas 726 83 633 497 examples 1;
 #X obj 108 138 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 195 260 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -215,7 +215,7 @@ that specifies the mode type \, and the maximum size is the default:
 256 elements.;
 #X text 222 150 back to default;
 #X msg 227 169 zlmaxsize 256;
-#N canvas 484 120 789 398 zl_mth 0;
+#N canvas 541 23 789 398 zl_mth 1;
 #X obj 75 235 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 451 210 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -225,13 +225,13 @@ that specifies the mode type \, and the maximum size is the default:
 #X obj 210 261 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 72 326 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 1 256;
 #X text 25 148 A bang performs the operation in the last received list.
 ;
 #X msg 504 190 1 2 3 4 5 6 7 8 9 10;
 #X msg 595 219 4 bye;
 #X obj 440 291 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 5 256;
 #X text 24 36 The mode mth outputs the 'mth' element of a message through
 the left outlet. The right outlet outputs the remaining elements \,
 but can alse replace the mth element by another.;
@@ -266,7 +266,7 @@ outlet is set as the 2nd argument. This is optional \, no second argument
 #X connect 21 1 13 0;
 #X connect 22 0 21 0;
 #X restore 477 195 pd zl_mth;
-#N canvas 559 156 812 412 zl_nth 0;
+#N canvas 138 466 812 412 zl_nth 1;
 #X obj 127 343 print nth;
 #X obj 504 280 print nth;
 #X obj 85 255 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -279,7 +279,7 @@ outlet is set as the 2nd argument. This is optional \, no second argument
 -228856 -1 -1 0 256;
 #X text 260 280 nth;
 #X obj 82 346 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 8 256;
+-228856 -1 -1 3 256;
 #X obj 127 309 cyclone/zl nth 3;
 #X text 25 165 A bang performs the operation in the last received list.
 ;

@@ -16,7 +16,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
+// #include "common/loud.h"
 #include "common/grow.h"
 
 /* CHECKME bang behaviour (every mode) */
@@ -522,15 +522,15 @@ static int zl_mth_count(t_zl *x){
         else
             return (x->x_entered ? ac1 : 0);
     }
-    else return (-1);
+    else return(-1);
 }
 
 static void zl_mth(t_zl *x, int natoms, t_atom *buf, int banged){
     int ac1 = x->x_inbuf1.d_natoms,
-    ndx = x->x_modearg ;  // zero-indexed
+    ndx = x->x_modearg;  // one-indexed
     if(ac1){  // Checked!
         t_atom *av1 = x->x_inbuf1.d_buf;
-        if(ndx < 0 || ndx > ac1){
+        if(ndx < 0 || ndx >= ac1){
             if(buf)
                 memcpy(buf, av1, ac1 * sizeof(*buf));
             else{
@@ -542,7 +542,7 @@ static void zl_mth(t_zl *x, int natoms, t_atom *buf, int banged){
         else{
             t_atom at = av1[ndx];
             if(buf){
-                int ac2 = x->x_inbuf2.d_natoms, ntail = ac1 - ndx;
+                int ac2 = x->x_inbuf2.d_natoms, ntail = ac1 - ndx - 1;
                 t_atom *ptr = buf;
                 if(ndx){
                     memcpy(ptr, av1, ndx * sizeof(*buf));
@@ -553,7 +553,7 @@ static void zl_mth(t_zl *x, int natoms, t_atom *buf, int banged){
                     ptr += ac2;
                 }
                 if(ntail)
-                    memcpy(ptr, av1 + ndx, ntail * sizeof(*buf));
+                    memcpy(ptr, av1 + ndx + 1, ntail * sizeof(*buf));
                 zl_output2(x, natoms, buf);
             }
             zl_output(x, 1, &at);
