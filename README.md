@@ -93,6 +93,6 @@ Fred Jan Kraan forked the original repository to <https://github.com/electricker
 
 <strong>About This Repository And Its Goals:</strong>
 
-Location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
+This repository was forked from fred Jan Kraan's. The location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
 
 Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list)
