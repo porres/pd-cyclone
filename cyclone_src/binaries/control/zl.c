@@ -16,7 +16,6 @@
 
 #include <string.h>
 #include "m_pd.h"
-// #include "common/loud.h"
 #include "common/grow.h"
 
 /* CHECKME bang behaviour (every mode) */
@@ -517,7 +516,7 @@ static void zl_mth_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
 static int zl_mth_count(t_zl *x){
     int ac1 = x->x_inbuf1.d_natoms;
     if(ac1){
-        if(x->x_modearg > 0)
+        if(x->x_modearg >= 0)
             return (ac1 - 1 + x->x_inbuf2.d_natoms);
         else
             return (x->x_entered ? ac1 : 0);
@@ -527,7 +526,7 @@ static int zl_mth_count(t_zl *x){
 
 static void zl_mth(t_zl *x, int natoms, t_atom *buf, int banged){
     int ac1 = x->x_inbuf1.d_natoms,
-    ndx = x->x_modearg;  // one-indexed
+    ndx = x->x_modearg;  // zero-indexed
     if(ac1){  // Checked!
         t_atom *av1 = x->x_inbuf1.d_buf;
         if(ndx < 0 || ndx >= ac1){
@@ -984,26 +983,6 @@ static void zlproxy_anything(t_zlproxy *p, t_symbol *s, int ac, t_atom *av)
         zldata_set(&x->x_inbuf2, s, ac, av);
 }
 
-/* #ifdef ZL_DEBUG
-static void zl_debug(t_zl *x, t_floatarg f)
-{
-    loudbug_startpost("mode %s", zl_modesym[x->x_mode]->s_name);
-    if (zl_intargfn[x->x_mode])
-	loudbug_post(" %d", x->x_modearg);
-    else
-	loudbug_endpost();
-    if ((int)f)
-    {
-	loudbug_startpost("first:");
-	loudbug_postatom(x->x_inbuf1.d_natoms, x->x_inbuf1.d_buf);
-	loudbug_endpost();
-	loudbug_startpost("second:");
-	loudbug_postatom(x->x_inbuf2.d_natoms, x->x_inbuf2.d_buf);
-	loudbug_endpost();
-    }
-}
-#endif */
-
 static void zl_free(t_zl *x)
 {
     zldata_free(&x->x_inbuf1);
@@ -1068,7 +1047,6 @@ static void zl_setupmode(char *id, int flags, t_zlintargfn ifn, t_zlanyargfn afn
         zl_doitfn[zl_nmodes] = dfn;
         zl_nmodes++;
     }
-    else loudbug_bug("zl_setupmode");
 }
 
 static void zl_setupallmodes(void){
@@ -1134,7 +1112,4 @@ void zl_setup(void){
     class_addlist(zlproxy_class, zlproxy_list);
     class_addanything(zlproxy_class, zlproxy_anything);
     zl_setupallmodes();
-/* #ifdef ZL_DEBUG
-    class_addmethod(zl_class, (t_method)zl_debug, gensym("debug"), A_DEFFLOAT, 0);
-#endif */
 }
