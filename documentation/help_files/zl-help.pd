@@ -1,4 +1,4 @@
-#N canvas 665 32 560 572 10;
+#N canvas 675 28 560 572 10;
 #X obj 4 252 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 370 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -324,13 +324,12 @@ the right outlet and nothing is sent via the left outlet., f 61;
 #X connect 19 0 9 0;
 #X connect 20 0 13 0;
 #X restore 477 217 pd zl_nth;
-#N canvas 293 128 430 326 zl_reg 0;
+#N canvas 738 261 430 326 zl_reg 0;
 #X obj 69 280 print reg;
 #X obj 111 216 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X msg 306 186 this is stored;
 #X msg 91 187 this is stored and sent;
-#X obj 69 245 cyclone/zl reg initially stored elements;
 #X msg 69 155 1 2 3 4;
 #X msg 287 155 5 6 7 8;
 #X text 136 218 <= outputs stored list;
@@ -341,13 +340,14 @@ is set as an argument and changed in the right inlet. The left inlet
 stores and outputs the list. A bang sends the last stored list. The
 right outlet is inactive.;
 #X obj 33 17 comment 185 14 monaco ? 0 0 0 0 Mode: reg;
-#X connect 1 0 4 0;
-#X connect 2 0 4 1;
-#X connect 3 0 4 0;
-#X connect 4 0 0 0;
-#X connect 5 0 4 0;
-#X connect 6 0 4 1;
-#X connect 8 0 4 0;
+#X obj 69 245 cyclone/zl reg initially stored elements;
+#X connect 1 0 11 0;
+#X connect 2 0 11 1;
+#X connect 3 0 11 0;
+#X connect 4 0 11 0;
+#X connect 5 0 11 1;
+#X connect 7 0 11 0;
+#X connect 11 0 0 0;
 #X restore 477 239 pd zl_reg;
 #N canvas 488 105 422 304 zl_rev 0;
 #X msg 137 130 way this something means this;
@@ -397,7 +397,7 @@ with the mode message. The default point is '0' \, which means no rotation.
 #X connect 10 0 1 0;
 #X connect 11 0 1 0;
 #X restore 477 283 pd zl_rot;
-#N canvas 772 196 424 357 zl_sect 0;
+#N canvas 942 269 424 357 zl_sect 0;
 #X obj 59 211 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 223 296 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -406,7 +406,6 @@ with the mode message. The default point is '0' \, which means no rotation.
 #X text 244 298 bang if there are;
 #X obj 82 297 print zl_sect;
 #X msg 223 208 1 5 10 15 20;
-#X obj 82 265 cyclone/zl sect 1 10 100;
 #X obj 20 7 comment 185 14 monaco ? 0 0 0 0 Mode: sect;
 #X msg 82 182 mode sect 3 6 9;
 #X text 182 182 <= set mode and argument;
@@ -419,13 +418,14 @@ elements.;
 into the left inlet.;
 #X msg 90 237 1 2 3 4 5 6 7 8 9 10;
 #X msg 243 234 0 100 1000;
-#X connect 0 0 6 0;
-#X connect 5 0 6 1;
-#X connect 6 0 4 0;
-#X connect 6 1 1 0;
-#X connect 8 0 6 0;
-#X connect 13 0 6 0;
-#X connect 14 0 6 1;
+#X obj 82 265 cyclone/zl sect 1 10 100;
+#X connect 0 0 14 0;
+#X connect 5 0 14 1;
+#X connect 7 0 14 0;
+#X connect 12 0 14 0;
+#X connect 13 0 14 1;
+#X connect 14 0 4 0;
+#X connect 14 1 1 0;
 #X restore 477 306 pd zl_sect;
 #N canvas 521 119 415 398 zl_slice 0;
 #X obj 22 8 comment 185 14 monaco ? 0 0 0 0 Mode: slice;
@@ -540,6 +540,8 @@ to set it via the mode message.;
 #X text 45 337 Check details about each mode in the subpatches on the
 right. Modes introduced in the Max5+ versions are not implemented yet.
 ;
+#X text 544 307 **;
+#X text 481 448 ** bug;
 #X connect 0 0 7 0;
 #X connect 7 2 27 0;
 #X connect 10 0 27 0;

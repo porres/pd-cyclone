@@ -576,6 +576,11 @@ static void zl_rot(t_zl *x, int natoms, t_atom *buf, int banged)
     }
 }
 
+static void zl_sect_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if (!x->x_locked)
+        zldata_set(&x->x_inbuf2, s, ac, av);
+}
+
 /* LATER rethink */
 static int zl_sect_count(t_zl *x){
     int result = 0;
@@ -989,8 +994,7 @@ static void zl_setupmode(char *id, int flags, t_zlintargfn ifn, t_zlanyargfn afn
     else loudbug_bug("zl_setupmode");
 }
 
-static void zl_setupallmodes(void)
-{
+static void zl_setupallmodes(void){
     zl_setupmode("unknown", 0, 0, 0, zl_nop_count, zl_nop);
     zl_setupmode("ecils", 0, zl_ecils_intarg, 0, zl_ecils_count, zl_ecils);
     zl_setupmode("group", 1, zl_group_intarg, 0, zl_group_count, zl_group);
@@ -1001,7 +1005,7 @@ static void zl_setupallmodes(void)
     zl_setupmode("reg", 0, 0, zl_reg_anyarg, zl_reg_count, zl_reg);
     zl_setupmode("rev", 0, 0, 0, zl_rev_count, zl_rev);
     zl_setupmode("rot",	0, zl_rot_intarg, 0, zl_rot_count, zl_rot);
-    zl_setupmode("sect", 0, 0, 0, zl_sect_count, zl_sect);
+    zl_setupmode("sect", 0, 0, zl_sect_anyarg, zl_sect_count, zl_sect);
     zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice);
     zl_setupmode("sub", 0, 0, 0, zl_sub_count, zl_sub);
     zl_setupmode("union", 0, 0, 0, zl_union_count, zl_union);
