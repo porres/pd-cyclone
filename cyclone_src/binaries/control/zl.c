@@ -661,9 +661,13 @@ static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged)
 	zl_output(x, cnt1, buf);
 }
 
-static int zl_sub_count(t_zl *x)
-{
-    return (0);
+static void zl_sub_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if(!x->x_locked)
+        zldata_set(&x->x_inbuf2, s, ac, av);
+}
+
+static int zl_sub_count(t_zl *x){
+    return(0);
 }
 
 static void zl_sub(t_zl *x, int natoms, t_atom *buf, int banged)
@@ -1017,7 +1021,7 @@ static void zl_setupallmodes(void){
     zl_setupmode("rot",	0, zl_rot_intarg, 0, zl_rot_count, zl_rot);
     zl_setupmode("sect", 0, 0, zl_sect_anyarg, zl_sect_count, zl_sect);
     zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice);
-    zl_setupmode("sub", 0, 0, 0, zl_sub_count, zl_sub);
+    zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub);
     zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union);
 }
 
