@@ -85,8 +85,7 @@ The original repository of MiXed as part of Pd Extended - containing cyclone and
 
 - Kraan era (0.1-Alpha-57): The last version currently found in the original cyclone repository is 0.1-alpha-57, which was developed by Fred Jan Kraan, who started maintaining cyclone in dec 2014. Although a compiled version for this version was made available at some point, it is not found there anymore and it is officially an "unreleased" version.
 
-=> Fred Jan Kraan's Repository (0.1-Alpha-57 and 0.2beta): Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the cyclone library. This repository starts with the last snapshot of the original cyclone repository - cyclone version 0.1alpha-57, from october 2015 (found in: <http://puredata.info/downloads/cyclone/releases/0.1-alpha57> - and moves on to a new version (cyclone 0.2)! Cyclone "0.2beta" presents further development on Fred Jan's branch, not available in the original repository and is found when searching for externals in Pd Vanilla.
-
+=> Fred Jan Kraan's Repository (0.1-Alpha-57 and 0.2beta): Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with cyclone version 0.1alpha-57 from october 2015  and moves on to a new Cyclone 0.2 version.
 -------
 
 <strong>About This Repository And Its Goals:</strong>
