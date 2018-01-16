@@ -1,13 +1,5 @@
 
 
-- Current Release: Cyclone 0.3 beta-3
-
-- Release Date: "Yet Unreleased"
-
-All Releases: https://github.com/porres/pd-cyclone/releases
-
--------
-
 Cyclone: A set of Pure Data objects cloned from Max/MSP 
 -------
 
@@ -22,13 +14,20 @@ Max is found at: https://cycling74.com/
 
 -------
 
+Current Release: Cyclone 0.3 beta-3
+
+Release Date: "Yet Unreleased"
+
+All Releases: https://github.com/porres/pd-cyclone/releases
+
+-------
 <strong>About Cyclone 0.3:</strong>
 
 Cyclone 0.3 needs at least Pd Vanilla 0.48-1 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data (by the way, both of them carry outdated versions od cyclone, Pd-Extended carries older 0.1 versions while Purr Data still carries the outdated cyclone 0.2 release - and it's not yet fully ported either).
 
-The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56), right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
+The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
 
-The main focus of cyclone 0.3 (currently in beta stage) has been on updating cyclone objects to the latest Max version (Max 7.3.4 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
+The main focus of cyclone 0.3 has been on updating cyclone objects to the latest Max version (Max 7.3.4 at the time of this release). We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
 
 - 59 updated objects (only 4 reamining to be updated);
 - 61 fixed objects (including objects that were and were not updated);
@@ -71,9 +70,9 @@ Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
 * "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)." The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
 
-Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended, and it ended up eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release from jan 2013, cyclone and miXed were left unmaintained as a result. In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone and released the 0.2 version, but decided to abandone development for it in feb-2016.
+Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended, and it ended up eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release from jan 2013, cyclone and miXed were left unmaintained as a result. In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone and released 0.1alpha57 and cyclone 0.2 beta versions, but decided to abandone development for it in feb-2016.
 
-Since february 21st 2016, an active further development of cyclone (now as version 0.3) started on this repository by Alexandre Porres, Derek Kwan and Matt Barber (and other collaborators).
+Since february 21st 2016, an active further development of cyclone (now as version 0.3) started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators.
 
 * <strong>About Other Repositories:</strong>
 
