@@ -602,31 +602,31 @@ static int zl_sect_count(t_zl *x)
     return (result);
 }
 
-/* CHECKED in-buffer duplicates are skipped */
-static void zl_sect(t_zl *x, int natoms, t_atom *buf, int banged)
-{
-    if (buf)
-    {
-	int ac1 = x->x_inbuf1.d_natoms, ac2 = x->x_inbuf2.d_natoms, i1;
-	t_atom *ap1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf, *to = buf;
-	for (i1 = 0; i1 < ac1; i1++, ap1++)
-	{
-	    int i2;
-	    t_atom *testp;
-	    for (testp = buf; testp < to; testp++)
-		if (zl_equal(ap1, testp))
-		    goto skip;
-	    for (i2 = 0, testp = av2; i2 < ac2; i2++, testp++)
-	    {
-		if (zl_equal(ap1, testp))
-		{
-		    *to++ = *ap1;
-		    break;
-		}
-	    }
-	skip:;
-	}
-	zl_output(x, natoms, buf);
+// CHECKED in-buffer duplicates are skipped
+static void zl_sect(t_zl *x, int natoms, t_atom *buf, int banged){
+    if(buf){
+        int ac1 = x->x_inbuf1.d_natoms, ac2 = x->x_inbuf2.d_natoms, i1;
+        t_atom *ap1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf, *to = buf;
+        for(i1 = 0; i1 < ac1; i1++, ap1++){
+            int i2;
+            t_atom *testp;
+            for(testp = buf; testp < to; testp++)
+                if(zl_equal(ap1, testp))
+                    goto
+                        skip;
+            for(i2 = 0, testp = av2; i2 < ac2; i2++, testp++){
+                if(zl_equal(ap1, testp)){
+                    *to++ = *ap1;
+                    break;
+                }
+            }
+        skip:;
+        }
+    post("natoms = %d", natoms);
+    if(natoms)
+        zl_output(x, natoms, buf);
+    else
+        outlet_bang(x->x_out2);
     }
 }
 

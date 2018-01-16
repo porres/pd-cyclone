@@ -281,7 +281,7 @@ outlet is set as the 2nd argument. This is optional \, no second argument
 #X obj 25 8 comment 185 14 monaco ? 0 0 0 0 Mode: nth;
 #X msg 127 247 1 2 3 4 5 6 7 8 9 10;
 #X obj 220 281 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 39 256;
+-228856 -1 -1 0 256;
 #X text 260 280 nth;
 #X obj 82 346 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -397,21 +397,21 @@ with the mode message. The default point is '0' \, which means no rotation.
 #X connect 10 0 1 0;
 #X connect 11 0 1 0;
 #X restore 477 283 pd zl_rot;
-#N canvas 203 172 403 371 zl_sect 0;
-#X obj 45 230 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#N canvas 772 196 424 357 zl_sect 0;
+#X obj 59 211 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 220 305 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X obj 223 296 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X text 235 321 no common elements;
-#X text 241 307 bang if there are;
-#X obj 79 313 print zl_sect;
-#X msg 82 230 1 2 3 4 5 6 7 8 9 10;
-#X msg 220 223 1 5 10 15 20;
-#X obj 79 279 cyclone/zl sect 1 10 100;
-#X msg 240 249 0 100 1000;
+#X text 238 312 no common elements;
+#X text 244 298 bang if there are;
+#X obj 82 297 print zl_sect;
+#X msg 91 237 1 2 3 4 5 6 7 8 9 10;
+#X msg 223 208 1 5 10 15 20;
+#X obj 82 265 cyclone/zl sect 1 10 100;
+#X msg 243 234 0 100 1000;
 #X obj 20 7 comment 185 14 monaco ? 0 0 0 0 Mode: sect;
-#X msg 69 186 mode sect 3 6 9;
-#X text 171 187 <= set mode and argument;
+#X msg 82 182 mode sect 3 6 9;
+#X text 182 182 <= set mode and argument;
 #X text 18 35 The mode sect outputs the elements of an input list that
 are in common to another list (set as an argument or via the right
 inlet). The default is an empty list.;
