@@ -458,28 +458,6 @@ is '0' \, which means no slicing.;
 #X connect 10 0 11 0;
 #X connect 10 1 12 0;
 #X restore 477 328 pd zl_slice;
-#N canvas 488 111 415 301 zl_sort 0;
-#X obj 76 141 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
--1;
-#X obj 106 174 cyclone/zl sort;
-#X msg 106 93 beep 1 2.3 137 bap;
-#X msg 193 121 0;
-#X msg 203 151 -1;
-#X obj 106 211 print sorted;
-#X obj 193 211 print sort indexes;
-#X obj 223 119 comment 263 11 helvetica ? 0 80 80 80 ascending sort
-;
-#X obj 231 158 comment 263 11 helvetica ? 0 80 80 80 descending sort
-;
-#X text 40 44 arrange a list in alphanumeric order;
-#X obj 42 13 comment 185 14 monaco ? 0 0 0 0 Mode: sort;
-#X connect 0 0 1 0;
-#X connect 1 0 5 0;
-#X connect 1 1 6 0;
-#X connect 2 0 1 0;
-#X connect 3 0 1 1;
-#X connect 4 0 1 1;
-#X restore 477 350 pd zl_sort;
 #N canvas 889 66 443 380 zl_sub 0;
 #X obj 84 213 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
@@ -507,7 +485,7 @@ the right list.;
 #X connect 5 1 6 0;
 #X connect 7 0 5 0;
 #X connect 10 0 5 0;
-#X restore 477 372 pd zl_sub;
+#X restore 477 352 pd zl_sub;
 #N canvas 612 122 443 329 zl_union 0;
 #X obj 93 158 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
@@ -526,9 +504,7 @@ the right list. The right outlet is inactive.;
 #X connect 5 0 3 1;
 #X connect 6 0 3 0;
 #X connect 7 0 3 0;
-#X restore 477 394 pd zl_union;
-#X text 481 424 * missing;
-#X text 547 352 *;
+#X restore 477 374 pd zl_union;
 #X text 30 96 The maximum size is also set via the 'zlmaxsize' attribute
 or message (and it can be up to 32767).;
 #X obj 195 201 cyclone/zl 512 group 512;
@@ -548,11 +524,11 @@ to set it via the mode message.;
 right. Modes introduced in the Max5+ versions are not implemented yet.
 ;
 #X connect 0 0 7 0;
-#X connect 7 2 24 0;
-#X connect 10 0 24 0;
-#X connect 10 0 25 0;
-#X connect 24 0 25 0;
-#X connect 25 0 1 0;
+#X connect 7 2 21 0;
+#X connect 10 0 21 0;
+#X connect 10 0 22 0;
+#X connect 21 0 22 0;
+#X connect 22 0 1 0;
 #X restore 475 213 pd examples;
 #X text 172 367 - output according to the mode: see details in [pd
 examples];
@@ -566,47 +542,44 @@ examples];
 #X text 99 132 resends;
 #X text 102 148 length;
 #X text 172 335 - depends on the mode \, see [pd examples];
-#N canvas 400 164 457 273 subsequent_arguments 0;
-#X text 19 73 group;
-#X text 25 88 iter;
-#X text 31 119 mth;
-#X text 31 149 reg;
-#X text 25 180 sect;
-#X text 19 195 slice;
-#X text 25 210 sort;
-#X text 31 164 rot;
-#X text 19 59 ecils;
-#X text 31 134 nth;
-#X text 58 119 - float: the element position counting from 0 (default
+#N canvas 404 164 460 265 subsequent_arguments 0;
+#X text 21 73 group;
+#X text 27 88 iter;
+#X text 33 119 mth;
+#X text 33 149 reg;
+#X text 27 180 sect;
+#X text 21 195 slice;
+#X text 33 164 rot;
+#X text 21 59 ecils;
+#X text 33 134 nth;
+#X text 60 119 - float: the element position counting from 0 (default
 0), f 62;
-#X text 58 149 - anything: stored elements (default none), f 62;
-#X text 31 224 sub;
-#X text 58 224 - anything: elements to look for (default none), f
+#X text 60 149 - anything: stored elements (default none), f 62;
+#X text 33 213 sub;
+#X text 60 213 - anything: elements to look for (default none), f
 62;
-#X text 58 73 - float: length of the grouped list (default is zlmaxsize)
+#X text 60 73 - float: length of the grouped list (default is zlmaxsize)
 , f 62;
-#X text 58 134 - float: the element position counting from 1 (default
+#X text 60 134 - float: the element position counting from 1 (default
 0), f 62;
-#X text 58 164 - float: number to rotate to (default 0), f 62;
-#X text 58 195 - float: position to slice the list (default 0), f
+#X text 60 164 - float: number to rotate to (default 0), f 62;
+#X text 60 195 - float: position to slice the list (default 0), f
 62;
-#X text 58 59 - float: position to slice the list (default 0), f 62
+#X text 60 59 - float: position to slice the list (default 0), f 62
 ;
-#X text 58 210 - float: 0 (ascending \, default) or -1 (descending)
+#X text 60 180 - anything: to compare with left input (default none)
 , f 62;
-#X text 58 180 - anything: to compare with left input (default none)
-, f 62;
-#X text 58 88 - float: length of output list (default 0), f 62;
-#X text 19 239 union;
-#X text 58 239 - anything: elements to union to the first list (default
+#X text 60 88 - float: length of output list (default 0), f 62;
+#X text 21 228 union;
+#X text 60 228 - anything: elements to union to the first list (default
 none), f 62;
-#X text 25 104 join;
-#X text 58 104 - anything: elements to join to the first list (default
+#X text 27 104 join;
+#X text 60 104 - anything: elements to join to the first list (default
 none), f 62;
-#X text 38 10 The modes len & rev don't have arguments. The other modes
+#X text 40 10 The modes len & rev don't have arguments. The other modes
 can have subsequent arguments as below. See also [pd examples] for
 more details on how they work.;
-#X restore 354 467 pd subsequent_arguments;
+#X restore 291 466 pd subsequent_arguments;
 #X text 172 317 - sets maximum list size (from 1 to 32767);
 #X text 172 275 -;
 #X text 184 274 sets mode (you can also set subsequent arguments) -
@@ -618,14 +591,14 @@ messages' or "anything") according to a mode (set via argument/message).
 , f 66;
 #X text 133 500 @zlmaxsize <float> - max list size (1-32767 \, default
 256), f 62;
-#X text 178 436 mode (ecils \, group \, iter \, join \, len \, mth
-\, nth \, reg \, rev \, rot \, sect \, slice \, sort \, sub or union).
-Modes can have subsequent arguments \, check:;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 List processor;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 zl;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 178 436 mode (ecils \, group \, iter \, join \, len \, mth
+\, nth \, reg \, rev \, rot \, sect \, slice \, sub or union). Modes
+can have subsequent arguments \, check:;
 #X connect 10 0 6 0;
 #X connect 12 0 10 0;
 #X connect 29 0 10 0;
