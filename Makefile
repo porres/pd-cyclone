@@ -145,7 +145,6 @@ round~.class.sources := cyclone_src/binaries/signal/round.c
 scale~.class.sources := cyclone_src/binaries/signal/scale.c
 thresh~.class.sources := cyclone_src/binaries/signal/thresh.c
 trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
-typeroute~.class.sources := cyclone_src/binaries/signal/typeroute.c
 
 ##################### CLASSES WITH DEPENDENCIES ##################################
 
