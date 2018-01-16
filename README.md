@@ -30,7 +30,7 @@ The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version
 The main goal of cyclone 0.3 is to update Cyclone's objects to the latest Max version, which is Max 7.3.4 at the time of this release. We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
 
 - 59 updated objects (only 4 reamining to be updated);
-- 61 fixed objects (including objects that were and were not updated);
+- 62 fixed objects (including objects that were updated, will be updated and did not need updates);
 - 48 new objects;
 - A newly written documentation, taking care of numerous issues (yet to include "meta" and related objects)
 
