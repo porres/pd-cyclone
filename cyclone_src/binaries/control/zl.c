@@ -11,7 +11,7 @@
     
     ON BEHAVIOR:
     -i'm trying to flip the inequalities in the zldata_add methods and wrap the bottom stuff with it,
-    basically, i'm thinking all the grow_withdata stuff should go? in the zldata_set stuff, not quite as clear what to do. it looks like they get called in everything but group. zl_doit is called on bangs. and also has grow stuff, but not quite able to make sense of what's going on. 
+    basically, i'm thinking all the grow_withdata stuff should go? in the zldata_set stuff, not quite as clear what to do. it looks like they get called in everything but group. zl_doit also has grow stuff, but not quite able to make sense of what's going on.
     - Derek Kwan 2016
     */
 
@@ -24,9 +24,9 @@
 /* CHECKME bang behaviour (every mode) */
 /* LATER test reentrancy, tune speedwise */
 
-#ifdef KRZYSZCZ
-//#define ZL_DEBUG
-#endif
+// #ifdef KRZYSZCZ
+// #define ZL_DEBUG
+// #endif
 
 #define ZL_INISIZE     256  //changed from 32 - DK
 #define ZL_MAXSIZE    1024 //changed from 256 - DK
@@ -316,9 +316,8 @@ static int zl_nop_count(t_zl *x)
     return (0);
 }
 
-static void zl_nop(t_zl *x, int natoms, t_atom *buf, int banged)
-{
-    loud_warning((t_pd *)x, 0, "unknown mode");
+static void zl_nop(t_zl *x, int natoms, t_atom *buf, int banged){
+    pd_error(x, "[zl]: unknown mode")
 }
 
 static int zl_ecils_intarg(t_zl *x, int i)
@@ -395,28 +394,24 @@ static int zl_iter_count(t_zl *x)
 	    : 0);
 }
 
-static void zl_iter(t_zl *x, int natoms, t_atom *buf, int banged)
-{
+static void zl_iter(t_zl *x, int natoms, t_atom *buf, int banged){
     int nremaining = x->x_inbuf1.d_natoms;
     t_atom *ptr = x->x_inbuf1.d_buf;
-    if (!buf)
-    {
-	if (natoms = (x->x_modearg < nremaining ?
-		      x->x_modearg : nremaining))
-	    x->x_locked = 1;
-	else
-	    return;
+    if(!buf){
+        if(natoms = (x->x_modearg < nremaining ? x->x_modearg : nremaining))
+            x->x_locked = 1;
+        else
+            return;
     }
-    while (nremaining)
-    {
-	if (natoms > nremaining)
-	    natoms = nremaining;
-	if (buf)
-	{
-	    memcpy(buf, ptr, natoms * sizeof(*buf));
-	    zl_output(x, natoms, buf);
-	}
-	else zl_output(x, natoms, ptr);
+    while(nremaining){
+        if(natoms > nremaining)
+            natoms = nremaining;
+        if(buf){
+            memcpy(buf, ptr, natoms * sizeof(*buf));
+            zl_output(x, natoms, buf);
+        }
+        else
+            zl_output(x, natoms, ptr);
 	nremaining -= natoms;
 	ptr += natoms;
     }
@@ -750,43 +745,39 @@ static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged)
     }
 }
 
-static void zl_doit(t_zl *x, int banged)
-{
+static void zl_doit(t_zl *x, int banged){
     int reentered = x->x_entered;
     int prealloc = !reentered;
     int natoms = (*zl_natomsfn[x->x_mode])(x);
     if (natoms < 0)
-	return;
+        return;
     x->x_entered = 1;
-    if (natoms)
-    {
-	t_zldata *d = &x->x_outbuf;
-	t_atom *buf;
-	if (prealloc && natoms > d->d_size)
-	{
-	    if (natoms > ZL_MAXSIZE)
-		prealloc = 0;
-	    else
-	    {
-		int nrequested = natoms;
-		d->d_buf = grow_nodata(&nrequested, &d->d_size, d->d_buf,
+    if(natoms){
+        t_zldata *d = &x->x_outbuf;
+        t_atom *buf;
+        if (prealloc && natoms > d->d_size){
+            if (natoms > ZL_MAXSIZE)
+                prealloc = 0;
+            else{
+                int nrequested = natoms;
+                d->d_buf = grow_nodata(&nrequested, &d->d_size, d->d_buf,
 				       ZL_INISIZE, d->d_bufini,
 				       sizeof(*d->d_buf));
-		if (nrequested != natoms)
-		    prealloc = 0;
-	    }
-	}
-	/* LATER consider using the stack if !prealloc && natoms <= MAXSTACK */
-	if (buf = (prealloc ? d->d_buf : getbytes(natoms * sizeof(*buf))))
-	{
-	    (*zl_doitfn[x->x_mode])(x, natoms, buf, banged);
-	    if (buf != d->d_buf)
-		freebytes(buf, natoms * sizeof(*buf));
-	}
+                if (nrequested != natoms)
+                    prealloc = 0;
+            }
+        }
+        // LATER consider using the stack if !prealloc && natoms <= MAXSTACK
+        if (buf = (prealloc ? d->d_buf : getbytes(natoms * sizeof(*buf)))){
+            (*zl_doitfn[x->x_mode])(x, natoms, buf, banged);
+            if(buf != d->d_buf)
+                freebytes(buf, natoms * sizeof(*buf));
+        }
     }
-    else (*zl_doitfn[x->x_mode])(x, 0, 0, banged);
-    if (!reentered)
-	x->x_entered = x->x_locked = 0;
+    else
+        (*zl_doitfn[x->x_mode])(x, 0, 0, banged);
+    if(!reentered)
+        x->x_entered = x->x_locked = 0;
 }
 
 static void zl_bang(t_zl *x)
@@ -820,26 +811,22 @@ static void zl_symbol(t_zl *x, t_symbol *s)
 
 /* LATER gpointer */
 
-static void zl_list(t_zl *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (!x->x_locked)
-    {
-	if (zl_modeflags[x->x_mode])
-	    zldata_addlist(&x->x_inbuf1, ac, av);
-	else
-	    zldata_setlist(&x->x_inbuf1, ac, av);
+static void zl_list(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if(!x->x_locked){
+        if(zl_modeflags[x->x_mode])
+            zldata_addlist(&x->x_inbuf1, ac, av);
+        else
+            zldata_setlist(&x->x_inbuf1, ac, av);
     }
     zl_doit(x, 0);
 }
 
-static void zl_anything(t_zl *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (!x->x_locked)
-    {
-	if (zl_modeflags[x->x_mode])
-	    zldata_add(&x->x_inbuf1, s, ac, av);
-	else
-	    zldata_set(&x->x_inbuf1, s, ac, av);
+static void zl_anything(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if(!x->x_locked){
+        if(zl_modeflags[x->x_mode])
+            zldata_add(&x->x_inbuf1, s, ac, av);
+        else
+            zldata_set(&x->x_inbuf1, s, ac, av);
     }
     zl_doit(x, 0);
 }
@@ -937,7 +924,7 @@ static void zlproxy_anything(t_zlproxy *p, t_symbol *s, int ac, t_atom *av)
 	zldata_set(&x->x_inbuf2, s, ac, av);
 }
 
-#ifdef ZL_DEBUG
+/* #ifdef ZL_DEBUG
 static void zl_debug(t_zl *x, t_floatarg f)
 {
     loudbug_startpost("mode %s", zl_modesym[x->x_mode]->s_name);
@@ -955,7 +942,7 @@ static void zl_debug(t_zl *x, t_floatarg f)
 	loudbug_endpost();
     }
 }
-#endif
+#endif */
 
 static void zl_free(t_zl *x)
 {
@@ -1013,23 +1000,20 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv)
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
- //   pd_error(x, "[cyclone/zl] is not ready yet");
-    return (x);
+    return(x);
 }
 
-static void zl_setupmode(char *id, int flags,
-			 t_zlintargfn ifn, t_zlanyargfn afn,
-			 t_zlnatomsfn nfn, t_zldoitfn dfn)
+static void zl_setupmode(char *id, int flags, t_zlintargfn ifn, t_zlanyargfn afn,
+            t_zlnatomsfn nfn, t_zldoitfn dfn)
 {
-    if (zl_nmodes < ZL_MAXMODES)
-    {
-	zl_modesym[zl_nmodes] = gensym(id);
-	zl_modeflags[zl_nmodes] = flags;
-	zl_intargfn[zl_nmodes] = ifn;
-	zl_anyargfn[zl_nmodes] = afn;
-	zl_natomsfn[zl_nmodes] = nfn;
-	zl_doitfn[zl_nmodes] = dfn;
-	zl_nmodes++;
+    if(zl_nmodes < ZL_MAXMODES){
+        zl_modesym[zl_nmodes] = gensym(id);
+        zl_modeflags[zl_nmodes] = flags;
+        zl_intargfn[zl_nmodes] = ifn;
+        zl_anyargfn[zl_nmodes] = afn;
+        zl_natomsfn[zl_nmodes] = nfn;
+        zl_doitfn[zl_nmodes] = dfn;
+        zl_nmodes++;
     }
     else loudbug_bug("zl_setupmode");
 }
@@ -1074,33 +1058,25 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f)
 
 }
 
-void zl_setup(void)
-{
-    zl_class = class_new(gensym("zl"),
-			 (t_newmethod)zl_new,
-			 (t_method)zl_free,
-			 sizeof(t_zl), 0,
-			 A_GIMME, 0);
+void zl_setup(void){
+    zl_class = class_new(gensym("zl"), (t_newmethod)zl_new,
+            (t_method)zl_free, sizeof(t_zl), 0, A_GIMME, 0);
     class_addbang(zl_class, zl_bang);
     class_addfloat(zl_class, zl_float);
     class_addsymbol(zl_class, zl_symbol);
     class_addlist(zl_class, zl_list);
     class_addanything(zl_class, zl_anything);
-    class_addmethod(zl_class, (t_method)zl_mode,
-		    gensym("mode"), A_GIMME, 0);
-    class_addmethod(zl_class, (t_method)zl_zlmaxsize,
-                    gensym("zlmaxsize"), A_FLOAT, 0);
-#ifdef ZL_DEBUG
-    class_addmethod(zl_class, (t_method)zl_debug,
-		    gensym("debug"), A_DEFFLOAT, 0);
-#endif
+    class_addmethod(zl_class, (t_method)zl_mode, gensym("mode"), A_GIMME, 0);
+    class_addmethod(zl_class, (t_method)zl_zlmaxsize, gensym("zlmaxsize"), A_FLOAT, 0);
     zlproxy_class = class_new(gensym("_zlproxy"), 0, 0,
-			      sizeof(t_zlproxy),
-			      CLASS_PD | CLASS_NOINLET, 0);
+        sizeof(t_zlproxy), CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(zlproxy_class, zlproxy_bang);
     class_addfloat(zlproxy_class, zlproxy_float);
     class_addsymbol(zlproxy_class, zlproxy_symbol);
     class_addlist(zlproxy_class, zlproxy_list);
     class_addanything(zlproxy_class, zlproxy_anything);
     zl_setupallmodes();
+/* #ifdef ZL_DEBUG
+    class_addmethod(zl_class, (t_method)zl_debug, gensym("debug"), A_DEFFLOAT, 0);
+#endif */
 }

@@ -26,18 +26,15 @@ typedef struct _iter
 
 static t_class *iter_class;
 
-/* CHECKED: both floats and symbols */
-static void iter_dobang(t_iter *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (s && s != &s_)
+static void iter_dobang(t_iter *x, t_symbol *s, int ac, t_atom *av){
+    if(s && s != &s_)
 	outlet_symbol(((t_object *)x)->ob_outlet, s);
-    while (ac--)
-    {
-	if (av->a_type == A_FLOAT)
-	    outlet_float(((t_object *)x)->ob_outlet, av->a_w.w_float);
-	else if (av->a_type == A_SYMBOL)
-	    outlet_symbol(((t_object *)x)->ob_outlet, av->a_w.w_symbol);
-	av++;
+    while(ac--){
+        if(av->a_type == A_FLOAT)
+            outlet_float(((t_object *)x)->ob_outlet, av->a_w.w_float);
+        else if (av->a_type == A_SYMBOL)
+            outlet_symbol(((t_object *)x)->ob_outlet, av->a_w.w_symbol);
+        av++;
     }
 }
 
@@ -65,14 +62,12 @@ static void iter_symbol(t_iter *x, t_symbol *s)
 
 /* LATER gpointer */
 
-static void iter_anything(t_iter *x, t_symbol *s, int ac, t_atom *av)
-{
+static void iter_anything(t_iter *x, t_symbol *s, int ac, t_atom *av){
     iter_dobang(x, s, ac, av);
     x->x_selector = s;
-    if (ac > x->x_size)
-	x->x_message = grow_nodata(&ac, &x->x_size, x->x_message,
-				   ITER_INISIZE, x->x_messini,
-				   sizeof(*x->x_message));
+    if(ac > x->x_size)
+        x->x_message = grow_nodata(&ac, &x->x_size, x->x_message,
+            ITER_INISIZE, x->x_messini, sizeof(*x->x_message));
     x->x_natoms = ac;
     memcpy(x->x_message, av, ac * sizeof(*x->x_message));
 }

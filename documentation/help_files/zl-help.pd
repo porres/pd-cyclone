@@ -213,21 +213,11 @@ inlet/outlet are inactive.;
 #X connect 8 0 2 0;
 #X connect 9 0 2 0;
 #X restore 477 173 pd zl_len;
-#X obj 227 465 zl.group;
-#X text 49 416 In Max \, zl is also a family objects \, in which a
-mode can instantiated after a dot after 'zl'. But in Pd this is not
-the case!;
-#X text 45 337 Check details about each mode in the suboatches on the
-right. Modes introduced in the Max5+ versions are not implemented yet
-\,;
 #X obj 108 169 cyclone/uzi 512;
 #X text 30 34 You can set the size of the list with a first optional
 float argument. If you don't \, then the first argument is a symbol
 that specifies the mode type \, and the maximum size is the default:
 256 elements.;
-#X text 44 289 The mode argument is obrigatory \, there is no default
-mode. If you don't set it as an argument you have to set via the mode
-message.;
 #X text 222 150 back to default;
 #X msg 227 169 zlmaxsize 256;
 #N canvas 484 120 789 398 zl_mth 0;
@@ -541,12 +531,22 @@ or message (and it can be up to 32767).;
 #X obj 486 53 cyclone/comment 185 14 monaco ? 0 0 0 0 Modes:;
 #X obj 48 391 cyclone/comment 185 14 monaco ? 0 0 0 0 Inconsistency
 ;
-#X connect 0 0 10 0;
-#X connect 10 2 31 0;
-#X connect 14 0 31 0;
-#X connect 14 0 32 0;
-#X connect 31 0 32 0;
-#X connect 32 0 1 0;
+#X text 49 416 In Max \, the zl family of objects can be instantiated
+with the mode after a dot \, such as [zl.group]. But this is not possible
+in Pd \, where the mode needs to be called as an argument after a space.
+;
+#X text 44 289 The mode argument is obrigatory and this means there
+is no default mode. If you don't set a mode as an argument \, you have
+to set it via the mode message.;
+#X text 45 337 Check details about each mode in the subpatches on the
+right. Modes introduced in the Max5+ versions are not implemented yet.
+;
+#X connect 0 0 7 0;
+#X connect 7 2 27 0;
+#X connect 10 0 27 0;
+#X connect 10 0 28 0;
+#X connect 27 0 28 0;
+#X connect 28 0 1 0;
 #X restore 477 225 pd examples;
 #X text 174 379 - output according to the mode: see details in [pd
 examples];
@@ -571,7 +571,6 @@ examples];
 #X text 30 143 rot;
 #X text 18 54 ecils;
 #X text 30 113 nth;
-#X text 57 83 - float: max length of output list (default 0);
 #X text 57 98 - float: the element position counting from 0 (default
 0);
 #X text 57 128 - anything: stored elements (default none);
@@ -591,6 +590,7 @@ examples];
 #X text 37 6 The modes join \, len \, rev & union don't have arguments.
 The other modes can have subsequent arguments as below. See also [pd
 examples] for more details on how they work.;
+#X text 57 83 - float: length of output list (default 0);
 #X restore 356 479 pd subsequent_arguments;
 #X text 174 329 - sets maximum list size (from 1 to 32767);
 #X text 174 287 -;
