@@ -414,6 +414,11 @@ static void zl_iter(t_zl *x, int natoms, t_atom *buf, int banged){
     }
 }
 
+static void zl_join_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if(!x->x_locked)
+        zldata_set(&x->x_inbuf2, s, ac, av);
+}
+
 static int zl_join_count(t_zl *x)
 {
     return (x->x_inbuf1.d_natoms + x->x_inbuf2.d_natoms);
@@ -680,6 +685,11 @@ static void zl_sub(t_zl *x, int natoms, t_atom *buf, int banged)
 		outlet_float(((t_object *)x)->ob_outlet, ndx1);
 	}
     }
+}
+
+static void zl_union_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if(!x->x_locked)
+        zldata_set(&x->x_inbuf2, s, ac, av);
 }
 
 /* LATER rethink */
@@ -999,7 +1009,7 @@ static void zl_setupallmodes(void){
     zl_setupmode("ecils", 0, zl_ecils_intarg, 0, zl_ecils_count, zl_ecils);
     zl_setupmode("group", 1, zl_group_intarg, 0, zl_group_count, zl_group);
     zl_setupmode("iter", 0, zl_iter_intarg, 0, zl_iter_count, zl_iter);
-    zl_setupmode("join", 0, 0, 0, zl_join_count, zl_join);
+    zl_setupmode("join", 0, 0, zl_join_anyarg, zl_join_count, zl_join);
     zl_setupmode("len", 0, 0, 0, zl_len_count, zl_len);
     zl_setupmode("nth", 0, zl_nth_intarg, zl_nth_anyarg, zl_nth_count, zl_nth);
     zl_setupmode("reg", 0, 0, zl_reg_anyarg, zl_reg_count, zl_reg);
@@ -1008,7 +1018,7 @@ static void zl_setupallmodes(void){
     zl_setupmode("sect", 0, 0, zl_sect_anyarg, zl_sect_count, zl_sect);
     zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice);
     zl_setupmode("sub", 0, 0, 0, zl_sub_count, zl_sub);
-    zl_setupmode("union", 0, 0, 0, zl_union_count, zl_union);
+    zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union);
 }
 
 static void zl_zlmaxsize(t_zl *x, t_floatarg f)
