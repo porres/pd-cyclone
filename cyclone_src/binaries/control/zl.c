@@ -314,7 +314,7 @@ static int zl_nop_count(t_zl *x)
 }
 
 static void zl_nop(t_zl *x, int natoms, t_atom *buf, int banged){
-    pd_error(x, "[zl]: unknown mode")
+    pd_error(x, "[zl]: unknown mode");
 }
 
 static int zl_ecils_intarg(t_zl *x, int i)
@@ -444,70 +444,59 @@ static void zl_len(t_zl *x, int natoms, t_atom *buf, int banged)
 	outlet_float(((t_object *)x)->ob_outlet, x->x_inbuf1.d_natoms);
 }
 
-static int zl_nth_intarg(t_zl *x, int i)
-{
-    return (i > 0 ? i : 0);  /* CHECKED */
+static int zl_nth_intarg(t_zl *x, int i){
+    return (i > 0 ? i : 0);
 }
 
-static void zl_nth_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (!s && ac && av->a_type == A_FLOAT)
-	zldata_setlist(&x->x_inbuf2, ac - 1, av + 1);
+static void zl_nth_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if(!s && ac && av->a_type == A_FLOAT)
+        zldata_setlist(&x->x_inbuf2, ac - 1, av + 1);
 }
 
-static int zl_nth_count(t_zl *x)
-{
+static int zl_nth_count(t_zl *x){
     int ac1 = x->x_inbuf1.d_natoms;
-    if (ac1)
-    {
-	if (x->x_modearg > 0)
-	    return (ac1 - 1 + x->x_inbuf2.d_natoms);
-	else
-	    return (x->x_entered ? ac1 : 0);
+    if(ac1){
+        if(x->x_modearg > 0)
+            return (ac1 - 1 + x->x_inbuf2.d_natoms);
+        else
+            return (x->x_entered ? ac1 : 0);
     }
     else return (-1);
 }
 
-static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged)
-{
+static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged){
     int ac1 = x->x_inbuf1.d_natoms,
-	ndx = x->x_modearg - 1;  /* CHECKED one-based */
-    if (ac1 && ndx < ac1)  /* CHECKED */
-    {
-	t_atom *av1 = x->x_inbuf1.d_buf;
-	if (ndx < 0)
-	{
-	    if (buf) memcpy(buf, av1, ac1 * sizeof(*buf));
-	    else
-	    {
-		buf = av1;
-		x->x_locked = 1;
-	    }
-	    zl_output2(x, ac1, buf);
-	}
-	else
-	{
-	    t_atom at = av1[ndx];
-	    if (buf)
-	    {
-		int ac2 = x->x_inbuf2.d_natoms, ntail = ac1 - ndx - 1;
-		t_atom *ptr = buf;
-		if (ndx)
-		{
-		    memcpy(ptr, av1, ndx * sizeof(*buf));
-		    ptr += ndx;
-		}
-		if (ac2)  /* replacement */
-		{
-		    memcpy(ptr, x->x_inbuf2.d_buf, ac2 * sizeof(*buf));
-		    ptr += ac2;
-		}
-		if (ntail)
-		    memcpy(ptr, av1 + ndx + 1, ntail * sizeof(*buf));
-		zl_output2(x, natoms, buf);
-	    }
+	ndx = x->x_modearg - 1;  // one-indexed
+    if(ac1){  // Checked!
+        t_atom *av1 = x->x_inbuf1.d_buf;
+        if(ndx < 0 || ndx >= ac1){
+            if(buf)
+                memcpy(buf, av1, ac1 * sizeof(*buf));
+            else{
+                buf = av1;
+                x->x_locked = 1;
+            }
+            zl_output2(x, ac1, buf);
+        }
+        else{
+            t_atom at = av1[ndx];
+            if(buf){
+                int ac2 = x->x_inbuf2.d_natoms, ntail = ac1 - ndx - 1;
+                t_atom *ptr = buf;
+                if(ndx){
+                    memcpy(ptr, av1, ndx * sizeof(*buf));
+                    ptr += ndx;
+                }
+                if(ac2){  /* replacement */
+                    memcpy(ptr, x->x_inbuf2.d_buf, ac2 * sizeof(*buf));
+                    ptr += ac2;
+                }
+                if(ntail)
+                    memcpy(ptr, av1 + ndx + 1, ntail * sizeof(*buf));
+                zl_output2(x, natoms, buf);
+            }
 	    zl_output(x, 1, &at);
-	}
+        }
     }
 }
 
