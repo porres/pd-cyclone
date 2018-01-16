@@ -505,7 +505,7 @@ static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged){
 }
 
 static int zl_mth_intarg(t_zl *x, int i){
-    return (i > 0 ? i : 0);
+    return (i);
 }
 
 static void zl_mth_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
