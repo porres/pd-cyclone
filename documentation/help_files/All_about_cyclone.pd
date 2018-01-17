@@ -1,4 +1,4 @@
-#N canvas 651 27 562 647 10;
+#N canvas 651 27 563 592 10;
 #X declare -stdpath cyclone -stdlib cyclone;
 #X obj 4 1 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
@@ -11,30 +11,21 @@ objects cloned from Max/MSP;
 ;
 #X obj 4 61 cnv 15 552 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 20 73 comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
+#X obj 20 79 comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
 Data with objects cloned from Max/MSP.;
-#X obj 35 103 comment 0 14 helvetica ? 0 0 0 0 It also provides some
+#X obj 40 111 comment 0 14 helvetica ? 0 0 0 0 It also provides some
 level of compatibility between the two environments \,;
-#X obj 35 121 comment 0 14 helvetica ? 0 0 0 0 helping users of both
-systems in the development of cross-platform patches.;
 #X obj 65 327 comment 0 16 times ? 0 0 0 0 How to install?;
-#X obj 82 578 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
-#X text 115 609 Please report them at: https://github.com/porres/pd-cyclone/issues
+#X obj 82 526 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
+#X text 107 557 Please report them at: https://github.com/porres/pd-cyclone/issues
 , f 66;
-#X text 68 351 Most of cyclone objects are single binaries \, so all
-you need is to have tem inside the cyclone folder amongst your other
-external libraries (preferably in the Pd standard path)., f 72;
-#X text 69 398 You can then include this folder in Pd's "Path" \, but
-there's also a "cyclone sub-library" that includes a subset of 12 non-alphanumeric
-objects. To install it you need to include "cyclone" in Pd's Startup.
-, f 72;
-#X obj 177 491 declare -stdpath cyclone -stdlib cyclone;
-#X text 70 512 More in: https://github.com/porres/pd-cyclone/wiki/How-To-Install
+#X obj 177 439 declare -stdpath cyclone -stdlib cyclone;
+#X text 70 460 More in: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 , f 60;
-#X text 3 551 ===========================================================================================
+#X text 3 499 ===========================================================================================
 , f 91;
 #X obj 61 161 comment 0 16 times ? 0 0 0 0 About Cyclone 0.3;
-#X text 69 462 You can also use [declare] to add the path and/or library
+#X text 69 410 You can also use [declare] to add the path and/or library
 as below:, f 68;
 #X text 3 307 ============================================================================================
 , f 92;
@@ -46,3 +37,8 @@ functionalities from Max 4 and further updates (from Max 5 to Max 7).
 #X text 63 253 - New objects were also included and several bug fixes
 were made \; check details in the changelog at: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 , f 73;
+#X text 68 351 Most of cyclone objects are single binaries \, so all
+you need is to have the cyclone folder at an user added path. But there's
+also a "cyclone sub-library" that includes a subset of 12 non-alphanumeric
+objects. To install it you need to include "cyclone" in Pd's Startup.
+, f 72;

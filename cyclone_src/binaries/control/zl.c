@@ -1005,13 +1005,13 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
             argc--;
             argv++;
         };
-        if(argv -> a_type == A_SYMBOL){
+        if(argv->a_type == A_SYMBOL){
             t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
             if(!strcmp(cursym->s_name, "@zlmaxsize")){
                 argc--;
                 argv++;
                 if(argc >= 2){
-                    if(argv -> a_type == A_FLOAT){
+                    if(argv->a_type == A_FLOAT){
                         sz  = (int)atom_getfloatarg(0, argc, argv);
                         argc--;
                         argv++;
@@ -1022,13 +1022,16 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     };
     if(sz < ZL_MINSIZE)
         sz = ZL_MINSIZE;
-    else if(sz > ZL_MAXSIZE)
+    if(sz > ZL_MAXSIZE)
         sz = ZL_MAXSIZE;
+    post("size = %d", sz);
     zldata_init(&x->x_inbuf1, sz);
     zldata_init(&x->x_inbuf2, sz);
     zldata_init(&x->x_outbuf, sz);
-    x->x_mode = ZL_DEFMODE;
+    x->x_mode = ZL_DEFMODE; // Unkown
     zl_mode(x, s, argc, argv);
+    if(!x->x_mode) // Unknown
+        pd_error(x, "[zl]: unknown mode (needs a symbol argument)");
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);

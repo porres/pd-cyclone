@@ -20,7 +20,6 @@ typedef struct _wave
 {
     t_object    x_obj;
     t_cybuf   *x_cybuf;
-    //t_arsic           x_arsic;
     int               x_bufsize;
     int               x_interp_mode;
     int               x_numouts; //number of outputs
@@ -30,7 +29,6 @@ typedef struct _wave
     t_float           x_tension;
     t_inlet 		 *x_startlet;
     t_inlet 		 *x_endlet;
-
     t_float         *x_in; //main inlet signal vector
     t_float         *x_st; //start inlet vector
     t_float         *x_e; //end inlet vector
@@ -54,8 +52,6 @@ directly from http://paulbourke.net/miscellaneous/interpolation/ without
 attribution. Note that "cubic" is not the same interpolator as in tabread4~. 
 For convenience, I've added that interpolator as wave_lagrange().
   -- Matt Barber */
-  
-
 
 static void wave_interp_bias(t_wave *x, t_floatarg f)
 {
@@ -404,7 +400,6 @@ static t_int *wave_perform(t_int *w)
     	wave_lagrange
     };
     
-   // t_arsic *sic = (t_arsic *)(w[1]);
     t_wave *x = (t_wave *)(w[1]);
     int nblock = (int)(w[2]);
     t_cybuf * c = x->x_cybuf;
@@ -485,8 +480,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	t_float interp = CYWAVEINTERP;
 
 	while(argc){
-		if(argv -> a_type == A_SYMBOL){
-
+		if(argv->a_type == A_SYMBOL){
 			if(floatarg == 0 && !nameset){
 				//we haven't hit any floatargs, go ahead and set name
 				name = atom_getsymbolarg(0, argc, argv);
