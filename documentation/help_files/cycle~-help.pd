@@ -46,8 +46,6 @@
 #X text 223 296 - sets frequency in hertz (negative values allowed)
 ;
 #X text 223 312 - sets frequency in hertz;
-#X text 223 329 - sets phase offset (0-1);
-#X text 225 414 - offset into buffer;
 #X text 82 430 buffer_sizeinsamps <f>;
 #X obj 9 586 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
@@ -55,102 +53,15 @@
 ;
 #X text 139 609 @buffer_offset <float> | @buffer_sizeinsamps <float>
 ;
-#N canvas 253 23 991 801 set_and_setall 0;
-#X obj 72 433 hsl 396 22 0 4096 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X text 200 556 sets buffer and offset;
-#X obj 70 290 cnv 15 398 138 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-wavetable 4099 float 4;
-#X coords 0 1 4098 -1 400 140 1;
-#X restore 69 289 graph;
-#N canvas 317 53 392 189 generate 0;
-#X obj 44 102 send \$0-wavetable;
-#X obj 44 54 loadbang;
-#X msg 44 77 sinesum 4096 0 0 0 1 0.7 1 0.4 1 1 1 \, normalize;
-#X connect 1 0 2 0;
-#X connect 2 0 0 0;
-#X restore 345 272 pd generate waveform;
-#X obj 137 501 nbx 9 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X text 236 503 Offset;
-#X msg 82 561 set;
-#X text 42 540 internal;
-#X text 45 560 wave;
-#X obj 218 636 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
-232 74 79 77 96 98 102 0;
-#X obj 137 596 cyclone/cycle~ 440 \$0-wavetable 512;
-#X obj 54 10 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X text 78 48 The set message with no arguments sets the internal waveform
-(16k cosine \, 64 bits). A set message followed by a symbol sets the
-array to be used as a waveform. After the name \, you can also optionally
-set an offset for that table.;
-#X obj 137 529 cyclone/prepend set \$0-wavetable;
-#X obj 154 556 print;
-#X text 80 160 If you have an array with more than 512 samples \, you
-can scroll through the array with an offset index value \, but it'll
-only read 512 samples from it. If not enough table points are available
-(as if you have a table smaller than 512 samples or if your offset
-is too large and close to the end of the table) \, the remainder is
-filled with zeros. Below we have a table with 4099 points to use with
-[cycle~].;
-#X obj 543 35 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X text 80 111 With the set message \, [cycle~] reads only 512 points
-in a table (because historically it could only deal with 512 points
-tables - other new messages allow more points).;
-#X text 580 110 The "setall" message followed by an array name sets
-that entire array to be used as a waveform (a 4099 points wavetable
-in this case). This is a new introduced message \, and different than
-the "set" message or the second argument \, which only reads 512 points
-from the buffer.;
-#X obj 671 539 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
-232 74 79 77 96 98 102 0;
-#X obj 590 434 cyclone/loadmess setall \$0-saw;
-#X obj 590 479 cyclone/cycle~ 110;
-#N canvas 927 315 441 227 generate-saw 0;
-#X obj 44 46 loadbang;
-#X msg 44 77 sinesum 4096 1 0.5 0.333333 0.25 0.2 0.166667 0.125 \,
-normalize;
-#X obj 44 129 send \$0-saw;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X restore 873 230 pd generate-saw;
-#X obj 568 248 cnv 15 398 138 empty empty empty 20 12 0 14 -233017
--66577 0;
-#N canvas 0 50 450 250 (subpatch) 0;
-#X array \$0-saw 4099 float 4;
-#X coords 0 1 4098 -1 400 140 1 0 0;
-#X restore 567 247 graph;
-#X obj 60 15 cyclone/comment 0 18 times ? 0 0 0 0 "set" message:;
-#X obj 549 40 cyclone/comment 0 18 times ? 0 0 0 0 "setall" message:
-;
-#X obj 94 672 ./out~;
-#X obj 548 573 ./out~;
-#X connect 0 0 5 0;
-#X connect 5 0 14 0;
-#X connect 7 0 11 0;
-#X connect 11 0 10 0;
-#X connect 11 0 28 0;
-#X connect 11 0 28 1;
-#X connect 14 0 11 0;
-#X connect 14 0 15 0;
-#X connect 21 0 22 0;
-#X connect 22 0 20 0;
-#X connect 22 0 29 0;
-#X connect 22 0 29 1;
-#X restore 384 232 pd set_and_setall messages;
 #N canvas 379 35 928 683 attributes 0;
 #X obj 34 10 cnv 15 130 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 55 154 This is different than the "set" message or setting
+#X text 54 143 This is different than the "set" message or setting
 the array name as the second argument \, in which cases [cycle~] only
 reads 512 points from the buffer. This is because [cycle~] could historically
 only read 512 \, so it still works that way for backwards compatibility
 issues.;
-#X text 54 59 @buffer:;
+#X text 54 66 @buffer:;
 #X text 52 238 @buffer_offset:;
 #X text 513 15 @buffer_sizeinsamps:;
 #X text 511 42 This attribute allows other buffer sizes than 512 points
@@ -166,19 +77,8 @@ of two from 16 to 65536 (13 values from 2^4 to 2^16).;
 - 256 \; - 512;
 #X text 691 157 - 1024 \; - 2048 \; - 4096 \; - 8192 \; - 16384 \;
 - 32768 \; - 65536;
-#X text 516 309 Below we have [cycle~] reading 4096 points from the
-buffer with an offset of 1 sample. This means it doesn't read the first
-and the last 2 samples from this 4099 points buffer \, which are \,
-by the way \, the guardpoints generated by the "sineseum" command for
-interpolation.;
-#X text 529 617 Other attributes are: @frequency (nothing special about
-it) and @phase (see next subpatch example on phase).;
-#X text 515 267 Other possible values are: "-1" \, which sets to the
-entire buffer's lenght \, and "0" \, which sets to 512 samples.;
-#X obj 520 453 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
+#X obj 556 450 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 520 404 cyclone/cycle~ 110 @buffer \$0-saw @buffer_sizeinsamps
-4096 @buffer_offset 1;
 #X obj 164 502 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X msg 83 406 buffer_offset \$1;
@@ -187,10 +87,6 @@ entire buffer's lenght \, and "0" \, which sets to 512 samples.;
 #X obj 83 382 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 83 434 cyclone/cycle~ 110 @buffer \$0-saw;
-#X text 54 80 The @buffer attribute (also setable via the "buffer"
-message) is analogous to the "setall" message. This means that the
-buffer attribute followed by an array name sets that entire array to
-be used as the waveform (a 4099 points wavetable in this case).;
 #X text 64 260 The @buffer_offset attribute (also as the "buffer_offset"
 message) followed by a float sets the sample offset into the buffer.
 If your offset is too large and close to the end of the table) \, the
@@ -198,14 +94,31 @@ remainder is filled with zeros.;
 #X text 172 381 offset;
 #X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Attributes:;
 #X obj 40 538 ./out~;
-#X connect 14 0 13 0;
-#X connect 16 0 19 0;
-#X connect 17 0 18 0;
-#X connect 18 0 16 0;
-#X connect 19 0 15 0;
-#X connect 19 0 24 0;
-#X connect 19 0 24 1;
-#X restore 462 207 pd attributes;
+#X text 54 87 The @buffer attribute (also setable via the "buffer"
+message) is analogous to the "setall" message. This means that the
+buffer attribute followed by an array name sets that entire array to
+be used as the waveform.;
+#X obj 508 264 cnv 15 364 36 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 515 267 Other possible values are: "-1" \, which sets to the
+entire buffer's lenght \, and "0" \, which sets to 512 samples.;
+#X obj 556 401 cyclone/cycle~ 110 \$0-saw @buffer_offset 1 @buffer_sizeinsamps
+4096;
+#X text 516 309 Below we have [cycle~] reading 4096 points from the
+buffer with an offset of 1 sample. This means it doesn't read the first
+and the last 2 samples from this 4099 points buffer \, which are \,
+by the way \, the guardpoints generated by the "sineseum" command for
+interpolation in the other subpatch ([pd set/setall]).;
+#X text 529 617 Other attributes are: @frequency (nothing special about
+it) and @phase (see the next subpatch example on phase).;
+#X connect 12 0 15 0;
+#X connect 13 0 14 0;
+#X connect 14 0 12 0;
+#X connect 15 0 11 0;
+#X connect 15 0 19 0;
+#X connect 15 0 19 1;
+#X connect 23 0 10 0;
+#X restore 462 232 pd attributes;
 #N canvas 429 45 845 680 phase 0;
 #X obj 599 513 *~;
 #X msg 680 501 \$1 10;
@@ -244,16 +157,16 @@ mode - so nevermind if you hear "clicks" when editing the patch!;
 #X msg 316 175 \$1 10;
 #X obj 316 195 line~;
 #X obj 316 152 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -228856
--1 -1 0 256;
+-1 -1 0.125984 256;
 #X obj 319 130 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
+-1 -1 1600 1;
 #X text 360 129 phase;
 #X obj 45 188 cyclone/cycle~ 440;
-#X obj 45 235 cyclone/scope~ 151 134 4 3 24 -1 1 0 0 0 0 205 229 232
-74 79 77 96 98 102 0;
 #X obj 523 92 cyclone/cycle~ 0.5;
 #X obj 523 128 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
+#X obj 45 235 cyclone/scope~ 151 134 6 3 24 -1 1 0 0 0 0 205 229 232
+74 79 77 96 98 102 0;
 #X connect 0 0 14 1;
 #X connect 1 0 2 0;
 #X connect 2 0 0 1;
@@ -265,14 +178,14 @@ mode - so nevermind if you hear "clicks" when editing the patch!;
 #X connect 13 0 0 0;
 #X connect 14 0 23 0;
 #X connect 14 0 23 1;
-#X connect 25 0 32 1;
+#X connect 25 0 34 1;
 #X connect 26 0 27 0;
 #X connect 27 0 25 1;
 #X connect 28 0 26 0;
 #X connect 29 0 28 0;
-#X connect 31 0 32 0;
-#X connect 33 0 34 0;
-#X restore 492 256 pd phase;
+#X connect 31 0 34 0;
+#X connect 32 0 33 0;
+#X restore 374 254 pd phase;
 #X text 63 84 [cycle~] is a linear interpolating oscillator* that reads
 repeatedly through one cycle of a waveform. The default internal waveform
 is one cycle of a cosine wave (16k in size \, 64 bits) \, but you can
@@ -285,7 +198,6 @@ set other waveforms from given arrays.;
 #X text 189 520 - sets frequency in Hz (default 0);
 #X text 225 430 - changes the buffer size to powers of 2 (16 to 65536)
 ;
-#X text 225 451 - phase offset (0 to 1);
 #X obj 14 56 cyclone/comment 0 18 times ? 0 0 0 0 Wavetable oscillator
 ;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 cycle~;
@@ -293,7 +205,14 @@ set other waveforms from given arrays.;
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 225 224 ./out~;
-#N canvas 874 112 448 386 buffer~ 0;
+#X text 189 535 -;
+#X text 201 535 sets array used as the wavetable (but only reads 512
+points from the buffer) \, default: internal cosine table, f 58;
+#X text 20 210 *;
+#X text 32 209 [cyclone/wave~] provides other interpolation types.
+, f 26;
+#X obj 497 71 cyclone/setdsp~;
+#N canvas 874 112 448 386 [buffer~] 0;
 #X msg 151 133 open;
 #X text 28 19 The [cycle~] object works with any kind of array set
 in Pd as well with arrays set in the [buffer~] object. In the case
@@ -310,14 +229,102 @@ of a multi channel [buffer~] \, [cycle~] will only read its first channel.
 #X connect 5 0 4 0;
 #X connect 6 0 2 0;
 #X connect 6 0 2 1;
-#X restore 383 256 pd buffer~;
-#X text 189 535 -;
-#X text 201 535 sets array used as the wavetable (but only reads 512
-points from the buffer) \, default: internal cosine table, f 58;
-#X text 20 210 *;
-#X text 32 209 [cyclone/wave~] provides other interpolation types.
-, f 26;
-#X obj 497 71 cyclone/setdsp~;
-#X connect 8 0 52 0;
-#X connect 8 0 52 1;
+#X restore 467 254 pd [buffer~];
+#X text 223 329 - sets phase offset;
+#X text 225 414 - sets offset into buffer;
+#X text 225 451 - phase offset;
+#N canvas 253 23 917 742 set/setall 0;
+#X obj 42 407 hsl 396 22 0 4096 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 170 510 sets buffer and offset;
+#X obj 40 264 cnv 15 398 138 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array \$0-wavetable 4099 float 4;
+#X coords 0 1 4098 -1 400 140 1;
+#X restore 39 263 graph;
+#N canvas 317 53 392 189 generate 0;
+#X obj 44 102 send \$0-wavetable;
+#X obj 44 54 loadbang;
+#X msg 44 77 sinesum 4096 0 0 0 1 0.7 1 0.4 1 1 1 \, normalize;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X restore 315 246 pd generate waveform;
+#X obj 107 455 nbx 9 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 206 457 Offset;
+#X msg 66 519 set;
+#X text 26 498 internal;
+#X text 29 518 wave;
+#X obj 173 585 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 107 550 cyclone/cycle~ 440 \$0-wavetable 512;
+#X obj 24 8 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 48 46 The set message with no arguments sets the internal waveform
+(16k cosine \, 64 bits). A set message followed by a symbol sets the
+array to be used as a waveform. After the name \, you can also optionally
+set an offset for that table.;
+#X obj 107 483 cyclone/prepend set \$0-wavetable;
+#X obj 124 510 print;
+#X text 50 142 If you have an array with more than 512 samples \, you
+can scroll through the array with an offset index value \, but it'll
+only read 512 samples from it. If not enough table points are available
+(as if you have a table smaller than 512 samples or if your offset
+is too large and close to the end of the table) \, the remainder is
+filled with zeros. Below we have a table with 4099 points to use with
+[cycle~].;
+#X obj 497 20 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 50 99 With the set message \, [cycle~] reads only 512 points
+in a table (because historically it could only deal with 512 points
+tables - other new messages allow more points).;
+#X obj 623 528 cyclone/scope~ 272 140 6 3 128 -1 1 100 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X obj 540 353 cyclone/loadmess setall \$0-saw;
+#X obj 540 412 cyclone/cycle~ 110;
+#N canvas 927 315 441 227 generate-saw 0;
+#X obj 44 46 loadbang;
+#X msg 44 77 sinesum 4096 1 0.5 0.333333 0.25 0.2 0.166667 0.125 \,
+normalize;
+#X obj 44 129 send \$0-saw;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X restore 813 166 pd generate-saw;
+#X obj 508 184 cnv 15 398 138 empty empty empty 20 12 0 14 -233017
+-66577 0;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array \$0-saw 4099 float 4;
+#X coords 0 1 4098 -1 400 140 1 0 0;
+#X restore 507 183 graph;
+#X obj 30 13 cyclone/comment 0 18 times ? 0 0 0 0 "set" message:;
+#X obj 503 25 cyclone/comment 0 18 times ? 0 0 0 0 "setall" message:
+;
+#X obj 64 626 ./out~;
+#X obj 498 507 ./out~;
+#X obj 623 490 cyclone/cycle~ 110 @buffer \$0-saw;
+#X obj 559 384 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 527 74 The "setall" message behaves the same as the buffer
+method or attribute. Hence \, followed by an array name \, it sets
+that entire array to be used as a waveform (a 4099 points wavetable
+in this case). This is quite different than the "set" message or the
+second argument \, which only reads 512 points from the buffer.;
+#X text 624 464 Same as the "@buffer" attribute:;
+#X connect 0 0 5 0;
+#X connect 5 0 14 0;
+#X connect 7 0 11 0;
+#X connect 11 0 10 0;
+#X connect 11 0 27 0;
+#X connect 11 0 27 1;
+#X connect 14 0 11 0;
+#X connect 14 0 15 0;
+#X connect 20 0 21 0;
+#X connect 21 0 28 0;
+#X connect 21 0 28 1;
+#X connect 29 0 19 0;
+#X connect 30 0 21 0;
+#X restore 374 232 pd set/setall;
+#X connect 8 0 48 0;
+#X connect 8 0 48 1;
 #X connect 21 0 8 0;
