@@ -1033,7 +1033,7 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
         sz = ZL_MINSIZE;
     if(sz > ZL_MAXSIZE)
         sz = ZL_MAXSIZE;
-    post("size = %d", sz);
+//    post("size = %d", sz);
     zldata_init(&x->x_inbuf1, sz);
     zldata_init(&x->x_inbuf2, sz);
     zldata_init(&x->x_outbuf, sz);
