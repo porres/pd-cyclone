@@ -89,6 +89,7 @@ cosx~.class.sources := cyclone_src/binaries/signal/cosx.c
 count~.class.sources := cyclone_src/binaries/signal/count.c
 comb~.class.sources := cyclone_src/binaries/signal/comb.c
 curve~.class.sources := cyclone_src/binaries/signal/curve.c
+cycle~.class.sources := cyclone_src/binaries/signal/cycle.c
 delta~.class.sources := cyclone_src/binaries/signal/delta.c
 deltaclip~.class.sources := cyclone_src/binaries/signal/deltaclip.c
 edge~.class.sources := cyclone_src/binaries/signal/edge.c
@@ -334,7 +335,6 @@ magicbit := shared/magicbit.c
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
-    cycle~.class.sources := cyclone_src/binaries/signal/cycle.c $(scybuf)
     lookup~.class.sources := cyclone_src/binaries/signal/lookup.c $(scybuf)
     index~.class.sources := cyclone_src/binaries/signal/index.c $(scybuf)
     peek~.class.sources := cyclone_src/binaries/signal/peek.c $(scybuf)
