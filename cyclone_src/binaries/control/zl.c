@@ -21,11 +21,11 @@
 /* CHECKME bang behaviour (every mode) */
 /* LATER test reentrancy, tune speedwise */
 
-#define ZL_INISIZE     256  //changed from 32 - DK
-#define ZL_MAXSIZE     32767
-#define ZL_MAXMODES    16
-#define ZL_DEFMODE      0
-#define ZL_MINSIZE      1 // added - DK
+#define ZL_INISIZE     256      // default
+#define ZL_MAXSIZE     32767    // max
+#define ZL_MAXMODES    30
+#define ZL_DEFMODE     0        // default mode is "unknown"
+#define ZL_MINSIZE     1        // min
 
 struct _zl;
 typedef int (*t_zlintargfn)(struct _zl *, int);
@@ -44,7 +44,7 @@ static t_zldoitfn    zl_doitfn[ZL_MAXMODES];
 typedef struct _zldata
 {
     int      d_size;    /* as allocated */
-    int      d_max;    // max size allowed, must be <= d_size
+//    int      d_max;    // max size allowed, must be <= d_size
     int      d_natoms;  /* as used */
     t_atom  *d_buf;
     t_atom   d_bufini[ZL_INISIZE];
@@ -89,7 +89,7 @@ static void zldata_realloc(t_zldata *d, int reqsz){
 // changing zldata_init so it takes a size argt - DK
 static void zldata_init(t_zldata *d, int sz)
 {
-    d->d_max = sz;
+//    d->d_max = sz;
     d->d_size = ZL_INISIZE;
     d->d_natoms = 0;
     d->d_buf = d->d_bufini;
@@ -1090,7 +1090,7 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f)
         else if(sz > ZL_MAXSIZE){
             sz = ZL_MAXSIZE;
         };
-    //x->d_max = sz;
+// x->d_max = sz;
     if(sz > x->x_inbuf1.d_size){
         zldata_realloc(&x->x_inbuf1,sz);
     };
