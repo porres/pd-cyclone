@@ -21,12 +21,8 @@
 /* CHECKME bang behaviour (every mode) */
 /* LATER test reentrancy, tune speedwise */
 
-// #ifdef KRZYSZCZ
-// #define ZL_DEBUG
-// #endif
-
 #define ZL_INISIZE     256  //changed from 32 - DK
-#define ZL_MAXSIZE    1024 //changed from 256 - DK
+#define ZL_MAXSIZE     32767
 #define ZL_MAXMODES    16
 #define ZL_DEFMODE      0
 #define ZL_MINSIZE      1 // added - DK
@@ -911,24 +907,6 @@ static void zl_setmodearg(t_zl *x, t_symbol *s, int ac, t_atom *av)
 	(*zl_anyargfn[x->x_mode])(x, s, ac, av);
 }
 
-static void zl_mode(t_zl *x, t_symbol *s, int ac, t_atom *av){
-    if(ac && av->a_type == A_SYMBOL){
-        t_symbol *modesym = av->a_w.w_symbol;
-        int i;
-        for(i = 0; i < zl_nmodes; i++)
-            if(modesym == zl_modesym[i])
-                break;
-            /* LATER consider making this compatible:
-             CHECKED setting unknown mode makes a zl nop */
-        if(i && i < zl_nmodes){
-            x->x_mode = i;
-            /* CHECKED incompatible (LATER warn):
-             c74 rejects creation args, if not a single int */
-            zl_setmodearg(x, 0, ac - 1, av + 1);
-        }
-    }
-}
-
 static void zlproxy_bang(t_zlproxy *d)
 {
     /* CHECKED a nop */
@@ -991,6 +969,20 @@ static void zl_free(t_zl *x)
     if (x->x_proxy) pd_free((t_pd *)x->x_proxy);
 }
 
+static void zl_mode(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if(ac && av->a_type == A_SYMBOL){
+        t_symbol *modesym = av->a_w.w_symbol;
+        int i;
+        for(i = 0; i < zl_nmodes; i++)
+            if(modesym == zl_modesym[i])
+                break;
+        if(i && i < zl_nmodes){
+            x->x_mode = i;
+            zl_setmodearg(x, 0, ac - 1, av + 1);
+        }
+    }
+}
+
 static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     t_zl *x = (t_zl *)pd_new(zl_class);
     t_zlproxy *y = (t_zlproxy *)pd_new(zlproxy_class);
@@ -998,26 +990,43 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     y->p_master = x;
     x->x_entered = 0;
     x->x_locked = 0;
+    x->x_mode = ZL_DEFMODE; // Unkown mode
     int sz = ZL_INISIZE;
-    if(argc){
-        if(argv->a_type == A_FLOAT){
-            sz = (int)atom_getfloatarg(0, argc, argv);
-            argc--;
-            argv++;
+    int first_arg = 0;
+    int size_arg = 0;
+    int size_attr = 0;
+    int i = argc;
+    t_atom *a = argv;
+    while(i){
+        if(a->a_type == A_FLOAT){ // arg is a float
+            if(!first_arg){ // no first arg yet, get size
+                sz = (int)atom_getfloatarg(0, i, a);
+                first_arg = size_arg = 1;
+            }
+            i--; // iterate
+            a++;
         };
-        if(argv->a_type == A_SYMBOL){
-            t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
-            if(!strcmp(cursym->s_name, "@zlmaxsize")){
-                argc--;
-                argv++;
-                if(argc >= 2){
-                    if(argv->a_type == A_FLOAT){
-                        sz  = (int)atom_getfloatarg(0, argc, argv);
-                        argc--;
-                        argv++;
-                    };
+        if(a->a_type == A_SYMBOL){ // is symbol
+            if(!first_arg) // is first arg, so mark it
+                first_arg = 1;
+            t_symbol * cursym = atom_getsymbolarg(0, i, a);
+            if(!strcmp(cursym->s_name, "@zlmaxsize")){ // is the attribute
+                i--;
+                a++;
+                if(i == 1){
+                    if(a->a_type == A_FLOAT){
+                        sz  = (int)atom_getfloatarg(0, i, a);
+                        size_attr = 2;
+                    }
+                    else
+                        goto errstate;
                 };
+//                else
+                if(i != 1)
+                    goto errstate;
             };
+            i--;
+            a++;
         };
     };
     if(sz < ZL_MINSIZE)
@@ -1028,14 +1037,16 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     zldata_init(&x->x_inbuf1, sz);
     zldata_init(&x->x_inbuf2, sz);
     zldata_init(&x->x_outbuf, sz);
-    x->x_mode = ZL_DEFMODE; // Unkown
-    zl_mode(x, s, argc, argv);
-    if(!x->x_mode) // Unknown
-        pd_error(x, "[zl]: unknown mode (needs a symbol argument)");
+    zl_mode(x, s, argc - size_arg - size_attr, argv + size_arg);
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
+    if(!x->x_mode) // Unknown
+        pd_error(x, "[zl]: unknown mode (needs a symbol argument)");
     return(x);
+errstate:
+    post("zl: improper args");
+    return NULL;
 }
 
 static void zl_setupmode(char *id, int flags, t_zlintargfn ifn, t_zlanyargfn afn,
