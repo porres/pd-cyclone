@@ -185,7 +185,7 @@ is inactive.;
 #X obj 130 277 cyclone/zl len;
 #X msg 130 147 list two elements;
 #X obj 130 313 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 3 256;
 #X obj 71 213 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 130 341 print zl_len;
@@ -222,7 +222,7 @@ that specifies the mode type \, and the maximum size is the default:
 #X obj 210 273 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 72 338 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 4 256;
 #X text 25 162 A bang performs the operation in the last received list.
 ;
 #X msg 504 190 1 2 3 4 5 6 7 8 9 10;

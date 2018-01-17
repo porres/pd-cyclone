@@ -18,8 +18,7 @@
 #include "m_pd.h"
 #include "common/grow.h"
 
-/* CHECKME bang behaviour (every mode) */
-/* LATER test reentrancy, tune speedwise */
+// LATER test reentrancy, tune speedwise
 
 #define ZL_INISIZE     256      // default
 #define ZL_MAXSIZE     32767    // max
@@ -262,11 +261,8 @@ static void zl_dooutput(t_outlet *o, int ac, t_atom *av)
 	if (av->a_type == A_FLOAT)
 	    outlet_float(o, av->a_w.w_float);
 	else if (av->a_type == A_SYMBOL)
-#if 1
 	    outlet_anything(o, av->a_w.w_symbol, 0, 0);  /* CHECKED */
-#else
-	    outlet_symbol(o, av->a_w.w_symbol);  /* LATER rethink */
-#endif
+//   outlet_symbol(o, av->a_w.w_symbol);  /* LATER rethink */
     }
 }
 
@@ -434,14 +430,11 @@ static void zl_join(t_zl *x, int natoms, t_atom *buf, int banged)
 
 static int zl_len_count(t_zl *x)
 {
-    return (0);
+    return(0);
 }
 
-static void zl_len(t_zl *x, int natoms, t_atom *buf, int banged)
-{
-/* CHECKED 'mode len, bang'->[zl]->[print] crashes max 4.0.7... */
-    if (!banged)  /* CHECKED bang is a nop in len mode */
-	outlet_float(((t_object *)x)->ob_outlet, x->x_inbuf1.d_natoms);
+static void zl_len(t_zl *x, int natoms, t_atom *buf, int banged){
+    outlet_float(((t_object *)x)->ob_outlet, x->x_inbuf1.d_natoms);
 }
 
 static int zl_nth_intarg(t_zl *x, int i){
@@ -467,7 +460,7 @@ static int zl_nth_count(t_zl *x){
 static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged){
     int ac1 = x->x_inbuf1.d_natoms,
 	ndx = x->x_modearg - 1;  // one-indexed
-    if(ac1){  // Checked!
+    if(ac1){
         t_atom *av1 = x->x_inbuf1.d_buf;
         if(ndx < 0 || ndx >= ac1){
             if(buf)
@@ -523,7 +516,7 @@ static int zl_mth_count(t_zl *x){
 static void zl_mth(t_zl *x, int natoms, t_atom *buf, int banged){
     int ac1 = x->x_inbuf1.d_natoms,
     ndx = x->x_modearg;  // zero-indexed
-    if(ac1){  // Checked!
+    if(ac1){
         t_atom *av1 = x->x_inbuf1.d_buf;
         if(ndx < 0 || ndx >= ac1){
             if(buf)
@@ -598,7 +591,7 @@ static void zl_rev(t_zl *x, int natoms, t_atom *buf, int banged)
 
 static int zl_rot_intarg(t_zl *x, int i)
 {
-    return (i);  /* CHECKED anything goes (modulo) */
+    return (i);  // CHECKED anything goes (modulo)
 }
 
 static int zl_rot_count(t_zl *x)
@@ -909,7 +902,7 @@ static void zl_setmodearg(t_zl *x, t_symbol *s, int ac, t_atom *av)
 
 static void zlproxy_bang(t_zlproxy *d)
 {
-    /* CHECKED a nop */
+    // nop
 }
 
 static void zlproxy_float(t_zlproxy *p, t_float f)
