@@ -6,7 +6,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "m_pd.h"
-//#include "cybuf.h"
+// #include "cybuf.h"
 
 #define CYCYCLE_FREQ 	0
 #define CYCYCLE_OFFSET 0
@@ -22,8 +22,7 @@ typedef struct _cycle
     double     x_conv;
     int        x_offset; //offset into window
     int        x_cycle_tabsize; //how far to loop
-  int        x_user_tabsize; //user tabsize
-    int		x_use_all;
+    int        x_user_tabsize; //user tabsize
     double    *x_costable;
     t_float     *x_usertable;
   t_float     x_usertable_ini[CYCYCLE_TABSIZE + 1];
@@ -230,7 +229,6 @@ static void cycle_phase_reset(t_cycle *x){
 
 static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 {
-	x->x_use_all = 0;
 	x->x_offset = 0;
 	x->x_cycle_tabsize = CYCYCLE_TABSIZE;
     if (s && s != &s_)
@@ -255,7 +253,6 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 
 static void cycle_setall(t_cycle *x, t_symbol *s)
 {
-	x->x_use_all = 1;
 	x->x_offset = 0;
     if (s && s != &s_){
       //cybuf_setarray(x->x_cybuf, s);
@@ -284,16 +281,14 @@ static void cycle_set_buffersize(t_cycle *x, t_floatarg f)
 {
 	if (f==0.)
 	{
-		x->x_use_all = 0;
 		x->x_cycle_tabsize = CYCYCLE_TABSIZE;
 	}
 	else if (f == -1.)
 	{
-		x->x_use_all = 1;
+// NOTHING YET
 	}
 	else if (f == (1 << ilog2(f)) && f <= 65536. && f >= 16)
 	{
-		x->x_use_all = 0;
 		x->x_cycle_tabsize = f;
 	}
 	else
@@ -545,7 +540,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     cycle_set_buffersize(x, bufsz);
     if(bufferattrib){
     	if (!buffersizeattrib)
-    		x->x_use_all = 1;
+//    		NOTHING YET!
     }
     return (x);
 	errstate:
