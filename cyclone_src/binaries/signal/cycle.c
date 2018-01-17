@@ -214,7 +214,7 @@ static void cycle_gettable(t_cycle *x)
     	if (x->x_name)
     	{
 	  x->x_nameset = 0;
-	  if(warn) pd_error(x, "using cosine table");
+	  if(warn) pd_error(x, "[cycle~]: using cosine table");
     	}
     	x->x_name = 0;
     	x->x_cycle_tabsize = COS_TABSIZE;
@@ -248,7 +248,7 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
             cycle_phase_reset(x);
         };
         x->x_nameset = 0;
-        pd_error(x, "using cosine table");
+        pd_error(x, "[cycle~]: using cosine table");
     };
 
 }
@@ -269,7 +269,7 @@ static void cycle_setall(t_cycle *x, t_symbol *s)
             cycle_phase_reset(x);
         };
         x->x_nameset = 0;
-        pd_error(x, "using cosine table");
+        pd_error(x, "[cycle~]: using cosine table");
     };
 
 }

@@ -1,4 +1,4 @@
-#N canvas 498 23 560 673 10;
+#N canvas 566 23 561 663 10;
 #X obj 5 634 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 287 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -206,72 +206,72 @@ remainder is filled with zeros.;
 #X connect 19 0 24 0;
 #X connect 19 0 24 1;
 #X restore 462 207 pd attributes;
-#N canvas 429 45 929 687 phase 0;
-#X obj 638 514 *~;
-#X msg 719 502 \$1 10;
-#X obj 719 522 line~;
-#X obj 719 479 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -228856
+#N canvas 429 45 845 680 phase 0;
+#X obj 599 513 *~;
+#X msg 680 501 \$1 10;
+#X obj 680 521 line~;
+#X obj 680 478 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -228856
 -1 -1 0 256;
-#X obj 722 457 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -228856
+#X obj 683 456 hsl 128 15 0 2 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 734 457 Modulation Index;
-#X obj 53 18 cnv 15 60 30 empty empty empty 20 12 0 14 -233017 -66577
+#X text 695 456 Modulation Index;
+#X obj 24 17 cnv 15 60 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 58 72 The second inlet in [cycle~] can set a phase offset with
+#X text 29 71 The second inlet in [cycle~] can set a phase offset with
 values between 0 and 1 (but values over this boundaries are wrapped
 internally to the 0-1 range).;
-#X obj 218 188 cyclone/cycle~ 440;
-#X msg 345 176 \$1 10;
-#X obj 345 196 line~;
-#X obj 345 153 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -228856
--1 -1 0 256;
-#X obj 348 131 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 0 1;
-#X text 389 130 phase;
-#X obj 74 189 cyclone/cycle~ 440;
-#X obj 74 236 cyclone/scope~ 151 134 4 3 24 -1 1 0 0 0 0 205 229 232
-74 79 77 96 98 102 0;
-#X obj 239 439 cyclone/cycle~;
-#X obj 320 409 phasor~ 440;
-#X obj 562 93 cyclone/cycle~ 0.5;
-#X obj 562 129 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
-#X msg 728 181 \; pd dsp 0 \, dsp 1;
-#X text 492 352 Phase modulation:;
-#X text 526 381 [cycle~] conveniently allows phase modulation with
+#X obj 210 438 cyclone/cycle~;
+#X obj 291 408 phasor~ 440;
+#X msg 689 180 \; pd dsp 0 \, dsp 1;
+#X text 453 351 Phase modulation:;
+#X text 487 380 [cycle~] conveniently allows phase modulation with
 its second inlet.;
-#X obj 638 484 cycle~ 50;
-#X obj 533 548 cyclone/cycle~ 220;
-#X text 563 458 mod frequency (50 Hz);
-#X text 653 549 carrier frequency (220 hz);
-#X obj 120 607 cyclone/cycle~ @frequency 440 @phase 0.5;
-#X text 81 579 Frequency and phase set as attributes:;
-#X text 510 44 To resset the phase of [cycle~] you can turn the DSP
+#X obj 599 483 cycle~ 50;
+#X obj 494 547 cyclone/cycle~ 220;
+#X text 524 457 mod frequency (50 Hz);
+#X text 614 548 carrier frequency (220 hz);
+#X obj 91 606 cyclone/cycle~ @frequency 440 @phase 0.5;
+#X text 52 578 Frequency and phase set as attributes:;
+#X text 471 43 To resset the phase of [cycle~] you can turn the DSP
 off and then on again;
-#X text 506 289 The phase is also resset in many operations in edit
+#X text 467 288 The phase is also resset in many operations in edit
 mode - so nevermind if you hear "clicks" when editing the patch!;
-#X text 78 409 [cycle~] being driven by phase only =>;
-#X obj 59 23 cyclone/comment 0 18 times ? 0 0 0 0 phase:;
-#X obj 514 594 ./out~;
-#X obj 218 477 ./out~;
-#X connect 0 0 24 1;
+#X text 49 408 [cycle~] being driven by phase only =>;
+#X obj 30 22 cyclone/comment 0 18 times ? 0 0 0 0 phase:;
+#X obj 475 593 ./out~;
+#X obj 189 476 ./out~;
+#X obj 189 187 cyclone/cycle~ 440;
+#X msg 316 175 \$1 10;
+#X obj 316 195 line~;
+#X obj 316 152 nbx 4 14 0 10 0 1 empty indice empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X obj 319 130 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X text 360 129 phase;
+#X obj 45 188 cyclone/cycle~ 440;
+#X obj 45 235 cyclone/scope~ 151 134 4 3 24 -1 1 0 0 0 0 205 229 232
+74 79 77 96 98 102 0;
+#X obj 523 92 cyclone/cycle~ 0.5;
+#X obj 523 128 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X connect 0 0 14 1;
 #X connect 1 0 2 0;
 #X connect 2 0 0 1;
 #X connect 3 0 1 0;
 #X connect 4 0 3 0;
-#X connect 8 0 15 1;
-#X connect 9 0 10 0;
-#X connect 10 0 8 1;
-#X connect 11 0 9 0;
-#X connect 12 0 11 0;
-#X connect 14 0 15 0;
-#X connect 16 0 34 0;
-#X connect 16 0 34 1;
-#X connect 17 0 16 1;
-#X connect 18 0 19 0;
-#X connect 23 0 0 0;
-#X connect 24 0 33 0;
-#X connect 24 0 33 1;
+#X connect 8 0 24 0;
+#X connect 8 0 24 1;
+#X connect 9 0 8 1;
+#X connect 13 0 0 0;
+#X connect 14 0 23 0;
+#X connect 14 0 23 1;
+#X connect 25 0 32 1;
+#X connect 26 0 27 0;
+#X connect 27 0 25 1;
+#X connect 28 0 26 0;
+#X connect 29 0 28 0;
+#X connect 31 0 32 0;
+#X connect 33 0 34 0;
 #X restore 492 256 pd phase;
 #X text 63 84 [cycle~] is a linear interpolating oscillator* that reads
 repeatedly through one cycle of a waveform. The default internal waveform
@@ -299,17 +299,17 @@ cloned from Max/MSP;
 in Pd as well with arrays set in the [buffer~] object. In the case
 of a multi channel [buffer~] \, [cycle~] will only read its first channel.
 ;
-#X obj 129 103 cyclone/loadmess fill sin 1;
 #X obj 166 282 ./out~;
 #X obj 192 213 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 129 160 cyclone/buffer~ \$0-sine @samps 512;
+#X obj 129 103 cyclone/loadmess fill sin 1;
 #X obj 192 240 cyclone/cycle~ 440 \$0-sine;
-#X connect 0 0 5 0;
-#X connect 2 0 5 0;
-#X connect 4 0 6 0;
-#X connect 6 0 3 0;
-#X connect 6 0 3 1;
+#X connect 0 0 4 0;
+#X connect 3 0 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 2 0;
+#X connect 6 0 2 1;
 #X restore 383 256 pd buffer~;
 #X text 189 535 -;
 #X text 201 535 sets array used as the wavetable (but only reads 512

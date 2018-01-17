@@ -221,10 +221,6 @@ shared/hammer/file.c \
 shared/common/os.c \
 shared/unstable/forky.c 
 
-splainnotilde := \
-shared/common/loud.c \
-shared/common/fitter.c
-
 hloud := shared/common/loud.c
 
 # hfitter classes
@@ -233,6 +229,7 @@ counter.class.sources := cyclone_src/binaries/control/counter.c $(hfitter)
 cycle.class.sources := cyclone_src/binaries/control/cycle.c $(hfitter)
 decode.class.sources := cyclone_src/binaries/control/decode.c $(hfitter)
 gate.class.sources := cyclone_src/binaries/control/gate.c $(hfitter)
+linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(hfitter)
 maximum.class.sources := cyclone_src/binaries/control/maximum.c $(hfitter)
 minimum.class.sources := cyclone_src/binaries/control/minimum.c $(hfitter)
 switch.class.sources := cyclone_src/binaries/control/switch.c $(hfitter)
@@ -275,8 +272,6 @@ togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
 comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
 
 # Single cases:
-
-linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(splainnotilde)
 
 drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
 
