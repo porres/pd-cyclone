@@ -26,8 +26,7 @@
 #define TABLE_MINRANGE       2  /* CHECKED */
 #define TABLE_MAXQ       32768  /* CHECKME */
 
-typedef struct _tablecommon
-{
+typedef struct _tablecommon{
     t_pd            c_pd;
     struct _table  *c_refs;
     int             c_increation;
@@ -60,8 +59,7 @@ typedef struct _tablecommon
     t_hammerfile   *c_filehandle;
 } t_tablecommon;
 
-typedef struct _table
-{
+typedef struct _table{
     t_object        x_ob;
     t_canvas       *x_glist;
     t_symbol       *x_name;
@@ -81,8 +79,7 @@ typedef struct _table
 static t_class *table_class;
 static t_class *tablecommon_class;
 
-static void tablecommon_modified(t_tablecommon *cc, int relocated)
-{
+static void tablecommon_modified(t_tablecommon *cc, int relocated){
     cc->c_cacheisfresh = 0;
     if (cc->c_increation)
 	return;
@@ -99,45 +96,41 @@ static void tablecommon_modified(t_tablecommon *cc, int relocated)
     }
 }
 
-static int tablecommon_getindex(t_tablecommon *cc, int ndx)
-{
+static int tablecommon_getindex(t_tablecommon *cc, int ndx){
     int nmx = cc->c_length - 1;
     /* CHECKED ndx silently clipped */
     return (ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx));
 }
 
-static int tablecommon_getvalue(t_tablecommon *cc, int ndx)
-{
+static int tablecommon_getvalue(t_tablecommon *cc, int ndx){
     int nmx = cc->c_length - 1;
     /* CHECKED ndx silently clipped */
     return (cc->c_table[ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx)]);
 }
 
-static void tablecommon_setvalue(t_tablecommon *cc, int ndx, int v)
-{
+static void tablecommon_setvalue(t_tablecommon *cc, int ndx, int v){
     int nmx = cc->c_length - 1;
     /* CHECKED ndx silently clipped, value not clipped */
     cc->c_table[ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx)] = v;
     tablecommon_modified(cc, 0);
 }
 
-static int tablecommon_loadvalue(t_tablecommon *cc, int ndx, int v)
-{
+static int tablecommon_loadvalue(t_tablecommon *cc, int ndx, int v){
     /* CHECKME */
-    if (ndx < cc->c_length)
-    {
-	cc->c_table[ndx] = v;
-	tablecommon_modified(cc, 0);
-	return (1);
+    if (ndx < cc->c_length){
+        cc->c_table[ndx] = v;
+        tablecommon_modified(cc, 0);
+        return (1);
     }
-    else return (0);
+    else
+        return (0);
 }
 
-static void tablecommon_setall(t_tablecommon *cc, int v)
-{
+static void tablecommon_setall(t_tablecommon *cc, int v){
     int ndx = cc->c_length;
     int *ptr = cc->c_table;
-    while (ndx--) *ptr++ = v;
+    while(ndx--)
+        *ptr++ = v;
     tablecommon_modified(cc, 0);
 }
 
@@ -212,16 +205,15 @@ static void tablecommon_cacheupdate(t_tablecommon *cc)
     cc->c_cacheisfresh = 1;
 }
 
-static int tablecommon_quantile(t_tablecommon *cc, float f)
-{
+static int tablecommon_quantile(t_tablecommon *cc, float f){
     /* CHECKME */
     float fv;
     int ndx, *ptr, nmx = cc->c_length - 1;
     if (!cc->c_cacheisfresh) tablecommon_cacheupdate(cc);
-    fv = f * cc->c_cachesum;
+        fv = f * cc->c_cachesum;
     for (ndx = 0, ptr = cc->c_cache; ndx < nmx; ndx++, ptr++)
-	if (*ptr >= fv)
-	    break;
+        if (*ptr >= fv)
+            break;
     return (ndx);
 }
 
@@ -297,13 +289,11 @@ static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
     binbuf_free(bb);
 }
 
-static void tablecommon_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
-{
+static void tablecommon_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av){
     tablecommon_doread((t_tablecommon *)z, fn, 0);
 }
 
-static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
-{
+static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv){
     t_binbuf *bb = binbuf_new();
     char buf[MAXPDSTRING];
     int ndx, *ptr;
@@ -311,8 +301,7 @@ static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
 	return;  /* CHECKME complaint */
     if (cv || (cv = cc->c_lastcanvas))  /* !cv: 'write' w/o arg */
 	canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
-    else
-    {
+    else{
     	strncpy(buf, fn->s_name, MAXPDSTRING);
     	buf[MAXPDSTRING-1] = 0;
     }
@@ -323,8 +312,7 @@ static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
     binbuf_free(bb);
 }
 
-static void tablecommon_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
-{
+static void tablecommon_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av){
     tablecommon_dowrite((t_tablecommon *)z, fn, 0);
 }
 
@@ -361,13 +349,11 @@ static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
     }
 }
 
-static void tablecommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av)
-{
+static void tablecommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
     tablecommon_fromatoms((t_tablecommon *)z, ac, av);
 }
 
-static void tablecommon_free(t_tablecommon *cc)
-{
+static void tablecommon_free(t_tablecommon *cc){
     if (cc->c_table != cc->c_tableini)
 	freebytes(cc->c_table, cc->c_size * sizeof(*cc->c_table));
     if (cc->c_cache != cc->c_cacheini)
@@ -434,32 +420,27 @@ static void table_unbind(t_table *x)
     x->x_next = 0;
 }
 
-static void table_bind(t_table *x, t_symbol *name)
-{
+static void table_bind(t_table *x, t_symbol *name){
     t_tablecommon *cc = 0;
-    if (name == &s_)
-	name = 0;
-    else if (name)
-	cc = (t_tablecommon *)pd_findbyclass(name, tablecommon_class);
-    if (!cc)
-    {
-	cc = (t_tablecommon *)tablecommon_new();
-	cc->c_refs = 0;
-	cc->c_increation = 0;
-	if (name)
-	{
-	    pd_bind(&cc->c_pd, name);
-	    /* LATER rethink canvas unpredictability */
-	    tablecommon_doread(cc, name, x->x_glist);
-	}
-	else
-	{
-	    cc->c_filename = 0;
-	    cc->c_lastcanvas = 0;
-	}
+    if(name == &s_)
+        name = 0;
+    else if(name)
+        cc = (t_tablecommon *)pd_findbyclass(name, tablecommon_class);
+    if(!cc){
+        cc = (t_tablecommon *)tablecommon_new();
+        cc->c_refs = 0;
+        cc->c_increation = 0;
+        if(name){
+            pd_bind(&cc->c_pd, name);
+            /* LATER rethink canvas unpredictability */
+            tablecommon_doread(cc, name, x->x_glist);
+        }
+        else{
+            cc->c_filename = 0;
+            cc->c_lastcanvas = 0;
+        }
 	cc->c_filehandle = hammerfile_new((t_pd *)cc, 0, tablecommon_readhook,
-					  tablecommon_writehook,
-					  tablecommon_editorhook);
+            tablecommon_writehook, tablecommon_editorhook);
     }
     x->x_common = cc;
     x->x_name = name;
@@ -467,101 +448,86 @@ static void table_bind(t_table *x, t_symbol *name)
     cc->c_refs = x;
 }
 
-static int table_rebind(t_table *x, t_symbol *name)
-{
+static int table_rebind(t_table *x, t_symbol *name){
     t_tablecommon *cc;
-    if (name && name != &s_ &&
-	(cc = (t_tablecommon *)pd_findbyclass(name, tablecommon_class)))
-    {
-	table_unbind(x);
-	x->x_common = cc;
-	x->x_name = name;
-	x->x_next = cc->c_refs;
-	cc->c_refs = x;
-	return (1);
+    if(name && name != &s_ &&
+        (cc = (t_tablecommon *)pd_findbyclass(name, tablecommon_class))){
+        table_unbind(x);
+        x->x_common = cc;
+        x->x_name = name;
+        x->x_next = cc->c_refs;
+        cc->c_refs = x;
+        return (1);
     }
-    else return (0);
+    else
+        return (0);
 }
 
-static void table_dooutput(t_table *x, int ndx)
-{
+static void table_dooutput(t_table *x, int ndx){
     outlet_float(((t_object *)x)->ob_outlet,
 		 (t_float)tablecommon_getvalue(x->x_common, ndx));
 }
 
-static void table_bang(t_table *x)
-{
+static void table_bang(t_table *x){
     /* CHECKME */
     outlet_float(((t_object *)x)->ob_outlet,
 		 (t_float)tablecommon_quantile(x->x_common,
 					       rand_unipolar(&x->x_seed)));
 }
 
-static void table_float(t_table *x, t_float f)
-{
-    if (x->x_loadflag)
-    {
-	/* CHECKME */
-	if (tablecommon_loadvalue(x->x_common, x->x_loadndx, (int)f))
-	    x->x_loadndx++;
+static void table_float(t_table *x, t_float f){
+    if (x->x_loadflag){ /* CHECKME */
+        if (tablecommon_loadvalue(x->x_common, x->x_loadndx, (int)f))
+            x->x_loadndx++;
     }
-    else
-    {
-	int ndx = (int)f;  /* CHECKED floats are truncated */
-	if (x->x_valueset)
-	{
-	    tablecommon_setvalue(x->x_common, ndx, x->x_value);
-	    x->x_valueset = 0;
-	}
-	else table_dooutput(x, ndx);
-	/* CHECKED head is not updated */
+    else{
+        int ndx = (int)f;  /* CHECKED floats are truncated */
+        if (x->x_valueset){
+            tablecommon_setvalue(x->x_common, ndx, x->x_value);
+            x->x_valueset = 0;
+        }
+        else table_dooutput(x, ndx);
+            /* CHECKED head is not updated */
     }
 }
 
-static void table_ft1(t_table *x, t_floatarg f)
-{
+static void table_ft1(t_table *x, t_floatarg f){
     x->x_value = (int)f;  /* CHECKED floats are truncated */
     x->x_valueset = 1;
 }
 
-static void table_size(t_table *x, t_floatarg f)
-{
+static void table_size(t_table *x, t_floatarg f){
     tablecommon_setlength(x->x_common, (int)f);
 }
 
-static void table_set(t_table *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (ac > 1 && av->a_type == A_FLOAT)
-    {
-	int ndx = tablecommon_getindex(x->x_common, (int)av->a_w.w_float);
-	tablecommon_setatoms(x->x_common, ndx, ac - 1, av + 1);
+static void table_set(t_table *x, t_symbol *s, int ac, t_atom *av){
+    if (ac > 1 && av->a_type == A_FLOAT){
+        int ndx = tablecommon_getindex(x->x_common, (int)av->a_w.w_float);
+        tablecommon_setatoms(x->x_common, ndx, ac - 1, av + 1);
     }
 }
 
-static void table_flags(t_table *x, t_symbol *s, int ac, t_atom *av)
-{
+static void table_flags(t_table *x, t_symbol *s, int ac, t_atom *av){
     t_tablecommon *cc = x->x_common;
     int i = 0, v;
     while (ac && av->a_type == A_FLOAT
-	&& loud_checkint((t_pd *)x, av->a_w.w_float, &v, gensym("flags")))
-    {
-	/* CHECKED order, modifying only explicitly specified flags */
-	if (i == 0)
-	    cc->c_embedflag = (v != 0);
-	else if (i == 1)
-	    cc->c_dontsaveflag = (v != 0);
-	else if (i == 2)
-	    cc->c_notenamesflag = (v != 0);
-	else if (i == 3)
-	    cc->c_signedflag = (v != 0);
-	else
-	    break;
-	i++; ac--; av++;
+        && loud_checkint((t_pd *)x, av->a_w.w_float, &v, gensym("flags"))){
+        /* CHECKED order, modifying only explicitly specified flags */
+        if (i == 0)
+            cc->c_embedflag = (v != 0);
+        else if (i == 1)
+            cc->c_dontsaveflag = (v != 0);
+        else if (i == 2)
+            cc->c_notenamesflag = (v != 0);
+        else if (i == 3)
+            cc->c_signedflag = (v != 0);
+        else
+            break;
+        i++; ac--; av++;
     }
 }
 
-static void table_tabrange(t_table *x, t_floatarg f)
-{
+static void table_tabrange(t_table *x, t_floatarg f){
     int i = (int)f;
     x->x_common->c_range = (i > TABLE_MINRANGE ? i : TABLE_MINRANGE);
 }
@@ -578,36 +544,30 @@ static void table__coords(t_table *x, t_floatarg fl, t_floatarg ft,
     cc->c_visflag = ((int)fv != 0);
 }
 
-static void table_cancel(t_table *x)
-{
+static void table_cancel(t_table *x){
     x->x_valueset = 0;
 }
 
-static void table_clear(t_table *x)
-{
+static void table_clear(t_table *x){
     tablecommon_setall(x->x_common, 0);
     /* CHECKED head preserved */
 }
 
-static void table_const(t_table *x, t_floatarg f)
-{
+static void table_const(t_table *x, t_floatarg f){
     tablecommon_setall(x->x_common, (int)f);
     /* CHECKED head preserved */
 }
 
-static void table_load(t_table *x)
-{
+static void table_load(t_table *x){
     x->x_loadflag = 1;
     x->x_loadndx = 0;  /* CHECKED rewind, head not affected */
 }
 
-static void table_normal(t_table *x)
-{
+static void table_normal(t_table *x){
     x->x_loadflag = 0;
 }
 
-static void table_next(t_table *x)
-{
+static void table_next(t_table *x){
     if (!x->x_intraversal)
 	x->x_intraversal = 1;
     else if (++x->x_head >= x->x_common->c_length)
@@ -615,8 +575,7 @@ static void table_next(t_table *x)
     table_dooutput(x, x->x_head);
 }
 
-static void table_prev(t_table *x)
-{
+static void table_prev(t_table *x){
     if (!x->x_intraversal)
 	x->x_intraversal = 1;
     else if (--x->x_head < 0)
@@ -624,8 +583,7 @@ static void table_prev(t_table *x)
     table_dooutput(x, x->x_head);
 }
 
-static void table_goto(t_table *x, t_floatarg f)
-{
+static void table_goto(t_table *x, t_floatarg f){
     /* CHECKED floats are truncated */
     x->x_head = tablecommon_getindex(x->x_common, (int)f);
     /* CHECKED the head should be pre-updated during traversal, in order
@@ -635,48 +593,40 @@ static void table_goto(t_table *x, t_floatarg f)
     x->x_intraversal = 0;
 }
 
-static void table_send(t_table *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (ac > 1 && av->a_type == A_SYMBOL)
-    {
-	t_symbol *target = av->a_w.w_symbol;
-	if (!target->s_thing)
-	    return;  /* CHECKED no complaint */
-	ac--; av++;
-	if (av->a_type == A_FLOAT)
-	{
-	    if (ac == 1)
-	    {
-		int ndx = (int)av->a_w.w_float;
-		pd_float(target->s_thing,
-			 (t_float)tablecommon_getvalue(x->x_common, ndx));
-	    }
+static void table_send(t_table *x, t_symbol *s, int ac, t_atom *av){
+    if(ac > 1 && av->a_type == A_SYMBOL){
+        t_symbol *target = av->a_w.w_symbol;
+        if(!target->s_thing)
+            return;  /* CHECKED no complaint */
+        ac--; av++;
+        if (av->a_type == A_FLOAT){
+            if(ac == 1){
+                int ndx = (int)av->a_w.w_float;
+                pd_float(target->s_thing,
+                         (t_float)tablecommon_getvalue(x->x_common, ndx));
+            }
 	    /* CHECKED incompatible: 'send <target> <ndx> <value>'
 	       stores <value> at <ndx> (a bug?) */
-	}
-	else if (av->a_type == A_SYMBOL)
-	{
-	    /* CHECKED 'send <target> length' works, but not max, min, sum... */
-	    if (av->a_w.w_symbol == gensym("length"))
-		pd_float(target->s_thing, (t_float)x->x_common->c_length);
-	}
+        }
+        else if (av->a_type == A_SYMBOL){
+            /* CHECKED 'send <target> length' works, but not max, min, sum... */
+            if (av->a_w.w_symbol == gensym("length"))
+                pd_float(target->s_thing, (t_float)x->x_common->c_length);
+        }
     }
 }
 
-static void table_length(t_table *x)
-{
+static void table_length(t_table *x){
     outlet_float(((t_object *)x)->ob_outlet, (t_float)x->x_common->c_length);
 }
 
-static void table_sum(t_table *x)
-{
+static void table_sum(t_table *x){
     t_tablecommon *cc = x->x_common;
     if (!cc->c_cacheisfresh) tablecommon_cacheupdate(cc);
     outlet_float(((t_object *)x)->ob_outlet, (t_float)cc->c_cachesum);
 }
 
-static void table_min(t_table *x)
-{
+static void table_min(t_table *x){
     t_tablecommon *cc = x->x_common;
     if (!cc->c_cacheisfresh) tablecommon_cacheupdate(cc);
     outlet_float(((t_object *)x)->ob_outlet, (t_float)cc->c_cachemin);
@@ -701,8 +651,7 @@ static void table_setbits(t_table *x, t_floatarg f1,
     /* FIXME */
 }
 
-static void table_inv(t_table *x, t_floatarg f)
-{
+static void table_inv(t_table *x, t_floatarg f){
     /* CHECKME none found, float */
     int v = (int)f, ndx, *ptr, nmx = x->x_common->c_length - 1;
     for (ndx = 0, ptr = x->x_common->c_table; ndx < nmx; ndx++, ptr++)
@@ -711,23 +660,19 @@ static void table_inv(t_table *x, t_floatarg f)
     outlet_float(((t_object *)x)->ob_outlet, (t_float)ndx);
 }
 
-static void table_quantile(t_table *x, t_floatarg f)
-{
+static void table_quantile(t_table *x, t_floatarg f){
     /* CHECKME */
     outlet_float(((t_object *)x)->ob_outlet,
 		 (t_float)tablecommon_quantile(x->x_common,
 					       f / ((float)TABLE_MAXQ)));
 }
 
-static void table_fquantile(t_table *x, t_floatarg f)
-{
+static void table_fquantile(t_table *x, t_floatarg f){
     /* CHECKME constraints */
-    outlet_float(((t_object *)x)->ob_outlet,
-		 (t_float)tablecommon_quantile(x->x_common, f));
+    outlet_float(((t_object *)x)->ob_outlet, (t_float)tablecommon_quantile(x->x_common, f));
 }
 
-static void table_dump(t_table *x, t_symbol *s, int ac, t_atom *av)
-{
+static void table_dump(t_table *x, t_symbol *s, int ac, t_atom *av){
     t_tablecommon *cc = x->x_common;
     int thelength = cc->c_length;
     int *thetable = cc->c_table;
@@ -757,16 +702,13 @@ static void table_dump(t_table *x, t_symbol *s, int ac, t_atom *av)
     }
 }
 
-static void table_refer(t_table *x, t_symbol *s)
-{
-    if (!table_rebind(x, s))
-    {
-	/* LATER consider complaining */
+static void table_refer(t_table *x, t_symbol *s){
+    if(!table_rebind(x, s)){
+        /* LATER consider complaining */
     }
 }
 
-static void table_read(t_table *x, t_symbol *s)
-{
+static void table_read(t_table *x, t_symbol *s){
     t_tablecommon *cc = x->x_common;
     if (s && s != &s_)
 	tablecommon_doread(cc, s, x->x_glist);
@@ -774,8 +716,7 @@ static void table_read(t_table *x, t_symbol *s)
 	hammerpanel_open(cc->c_filehandle, 0);
 }
 
-static void table_write(t_table *x, t_symbol *s)
-{
+static void table_write(t_table *x, t_symbol *s){
     t_tablecommon *cc = x->x_common;
     if (s && s != &s_)
 	tablecommon_dowrite(cc, s, x->x_glist);
@@ -799,8 +740,7 @@ static int tablecommon_editorappend(t_tablecommon *cc,
     return (col);
 }
 
-static void table_open(t_table *x)
-{
+static void table_open(t_table *x){
     t_tablecommon *cc = x->x_common;
     char buf[MAXPDSTRING];
     int *bp = cc->c_table;
@@ -811,8 +751,7 @@ static void table_open(t_table *x)
     hammereditor_setdirty(cc->c_filehandle, 0);
 }
 
-static void table_wclose(t_table *x)
-{
+static void table_wclose(t_table *x){
     hammereditor_close(x->x_common->c_filehandle, 1);
 }
 
@@ -822,7 +761,7 @@ static void table_click(t_table *x, t_floatarg xpos, t_floatarg ypos,
     table_open(x);
 }
 
-#ifdef TABLE_DEBUG
+/* #ifdef TABLE_DEBUG
 static void table_debug(t_table *x, t_floatarg f)
 {
     t_tablecommon *cc = table_checkcommon(x);
@@ -834,124 +773,84 @@ static void table_debug(t_table *x, t_floatarg f)
 	loudbug_post("refcount %d", i);
     }
 }
-#endif
+#endif */
 
-static void table_free(t_table *x)
-{
+static void table_free(t_table *x){
     hammerfile_free(x->x_filehandle);
     table_unbind(x);
 }
 
-static void *table_new(t_symbol *s)
-{
+static void *table_new(t_symbol *s){
     t_table *x = (t_table *)pd_new(table_class);
-    static int warned = 0;
-    if (!warned)
-    {
-    //    pd_error(x, "[cyclone/table] is not ready yet");
-	warned = 1;
-    }
     x->x_glist = canvas_getcurrent();
     x->x_valueset = 0;
     x->x_head = 0;
-    x->x_intraversal = 0;  /* CHECKED */
+    x->x_intraversal = 0;  // CHECKED
     x->x_loadflag = 0;
     rand_seed(&x->x_seed, 0);
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
-    x->x_bangout = outlet_new((t_object *)x, &s_bang);
+//    x->x_bangout = outlet_new((t_object *)x, &s_bang);
     x->x_filehandle = hammerfile_new((t_pd *)x, table_embedhook, 0, 0, 0);
     table_bind(x, s);
-    return (x);
+    return(x);
 }
 
-void table_setup(void)
-{
+void table_setup(void){
     table_class = class_new(gensym("Table"),
         (t_newmethod)table_new, (t_method)table_free, sizeof(t_table), 0, A_DEFSYM, 0);
     class_addcreator((t_newmethod)table_new, gensym("cyclone/table"), A_DEFSYM, 0);
     class_addcreator((t_newmethod)table_new, gensym("cyclone/Table"), A_DEFSYM, 0);
     class_addbang(table_class, table_bang);
     class_addfloat(table_class, table_float);
-    class_addmethod(table_class, (t_method)table_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_size,
-		    gensym("size"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_set,
-		    gensym("set"), A_GIMME, 0);
-    class_addmethod(table_class, (t_method)table_flags,
-		    gensym("flags"), A_GIMME, 0);
-    class_addmethod(table_class, (t_method)table_tabrange,
-		    gensym("tabrange"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table__coords,
-		    gensym("_coords"),
-		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_cancel,
-		    gensym("cancel"), 0);
-    class_addmethod(table_class, (t_method)table_clear,
-		    gensym("clear"), 0);
-    class_addmethod(table_class, (t_method)table_const,
-		    gensym("const"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_load,
-		    gensym("load"), 0);
-    class_addmethod(table_class, (t_method)table_normal,
-		    gensym("normal"), 0);
-    class_addmethod(table_class, (t_method)table_next,
-		    gensym("next"), 0);
-    class_addmethod(table_class, (t_method)table_prev,
-		    gensym("prev"), 0);
-    class_addmethod(table_class, (t_method)table_goto,
-		    gensym("goto"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_send,
-		    gensym("send"), A_GIMME, 0);
-    class_addmethod(table_class, (t_method)table_length,
-		    gensym("length"), 0);
-    class_addmethod(table_class, (t_method)table_sum,
-		    gensym("sum"), 0);
-    class_addmethod(table_class, (t_method)table_min,
-		    gensym("min"), 0);
-    class_addmethod(table_class, (t_method)table_max,
-		    gensym("max"), 0);
-    class_addmethod(table_class, (t_method)table_getbits,
-		    gensym("getbits"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_setbits,
-		    gensym("setbits"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_inv,
-		    gensym("inv"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_quantile,
-		    gensym("quantile"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_fquantile,
-		    gensym("fquantile"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_dump,
-		    gensym("dump"), A_GIMME, 0);
-    class_addmethod(table_class, (t_method)table_refer,
-		    gensym("refer"), A_SYMBOL, 0);
-    class_addmethod(table_class, (t_method)table_read,
-		    gensym("read"), A_DEFSYM, 0);
-    class_addmethod(table_class, (t_method)table_write,
-		    gensym("write"), A_DEFSYM, 0);
-    class_addmethod(table_class, (t_method)table_open,
-		    gensym("open"), 0);
-    class_addmethod(table_class, (t_method)table_wclose,
-		    gensym("wclose"), 0);
-    class_addmethod(table_class, (t_method)table_click,
-		    gensym("click"),
-		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    
-#ifdef TABLE_DEBUG
-    class_addmethod(table_class, (t_method)table_debug,
-		    gensym("debug"), A_DEFFLOAT, 0);
-#endif
+    class_addmethod(table_class, (t_method)table_click, gensym("click"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_ft1, gensym("ft1"), A_FLOAT, 0);
+// message methods
+    class_addmethod(table_class, (t_method)table_clear, gensym("clear"), 0);
+    class_addmethod(table_class, (t_method)table_const, gensym("const"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_cancel, gensym("cancel"), 0);
+    class_addmethod(table_class, (t_method)table_dump, gensym("dump"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_flags, gensym("flags"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_fquantile, gensym("fquantile"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_goto, gensym("goto"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_inv, gensym("inv"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_length, gensym("length"), 0);
+    class_addmethod(table_class, (t_method)table_load, gensym("load"), 0);
+    class_addmethod(table_class, (t_method)table_max, gensym("max"), 0);
+    class_addmethod(table_class, (t_method)table_min, gensym("min"), 0);
+    class_addmethod(table_class, (t_method)table_next, gensym("next"), 0);
+    class_addmethod(table_class, (t_method)table_normal, gensym("normal"), 0);
+    class_addmethod(table_class, (t_method)table_open, gensym("open"), 0);
+    class_addmethod(table_class, (t_method)table_prev, gensym("prev"), 0);
+    class_addmethod(table_class, (t_method)table_quantile, gensym("quantile"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_read, gensym("read"), A_DEFSYM, 0);
+    class_addmethod(table_class, (t_method)table_refer, gensym("refer"), A_SYMBOL, 0);
+    class_addmethod(table_class, (t_method)table_send, gensym("send"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_set, gensym("set"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_setbits, gensym("setbits"),
+    class_addmethod(table_class, (t_method)table_sum, gensym("sum"), 0);
+    class_addmethod(table_class, (t_method)table_wclose, gensym("wclose"), 0);
+    class_addmethod(table_class, (t_method)table_write, gensym("write"), A_DEFSYM, 0);
+// attribute
+    class_addmethod(table_class, (t_method)table_size, gensym("size"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_tabrange, gensym("tabrange"), A_FLOAT, 0);
+// _coords????
+    class_addmethod(table_class, (t_method)table__coords, gensym("_coords"),
+        A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+        A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0); // ????
+// ?????
     hammerfile_setup(table_class, 1);
-    tablecommon_class = class_new(gensym("Table"), 0, 0,
-				 sizeof(t_tablecommon), CLASS_PD, 0);
-    /* this call is a nop (tablecommon does not embed, and the hammerfile
-       class itself has been already set up above), but it is better to
-       have it around, just in case... */
+    tablecommon_class = class_new(gensym("Table"), 0, 0, sizeof(t_tablecommon), CLASS_PD, 0);
+    /* a nop call (tablecommon doesn't embed and the hammerfile class is set up above),
+     but it's best to have it around just in case... */
     hammerfile_setup(tablecommon_class, 0);
+/* #ifdef TABLE_DEBUG
+    class_addmethod(table_class, (t_method)table_debug, gensym("debug"), A_DEFFLOAT, 0);
+#endif */
 }
 
-void Table_setup(void)
-{
+void Table_setup(void){
     table_setup();
 }
