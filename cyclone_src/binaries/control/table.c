@@ -830,16 +830,17 @@ void table_setup(void){
     class_addmethod(table_class, (t_method)table_send, gensym("send"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_set, gensym("set"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_setbits, gensym("setbits"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_sum, gensym("sum"), 0);
     class_addmethod(table_class, (t_method)table_wclose, gensym("wclose"), 0);
     class_addmethod(table_class, (t_method)table_write, gensym("write"), A_DEFSYM, 0);
 // attribute
     class_addmethod(table_class, (t_method)table_size, gensym("size"), A_FLOAT, 0);
+// extra ???
     class_addmethod(table_class, (t_method)table_tabrange, gensym("tabrange"), A_FLOAT, 0);
 // _coords????
     class_addmethod(table_class, (t_method)table__coords, gensym("_coords"),
         A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-        A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0); // ????
 // ?????
     hammerfile_setup(table_class, 1);
     tablecommon_class = class_new(gensym("Table"), 0, 0, sizeof(t_tablecommon), CLASS_PD, 0);
