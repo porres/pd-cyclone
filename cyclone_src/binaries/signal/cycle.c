@@ -6,7 +6,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "m_pd.h"
-// #include "cybuf.h"
+//#include "cybuf.h"
 
 #define CYCYCLE_FREQ 	0
 #define CYCYCLE_OFFSET 0
@@ -22,7 +22,8 @@ typedef struct _cycle
     double     x_conv;
     int        x_offset; //offset into window
     int        x_cycle_tabsize; //how far to loop
-    int        x_user_tabsize; //user tabsize
+  int        x_user_tabsize; //user tabsize
+    int		x_use_all;
     double    *x_costable;
     t_float     *x_usertable;
   t_float     x_usertable_ini[CYCYCLE_TABSIZE + 1];
@@ -159,12 +160,10 @@ static void cycle_gettable(t_cycle *x)
     t_word *table = 0;
     int wantsz;
     int warn = x->x_warn;
-    if (x->x_name){	
-		table = cycle_fetcharray(x, &wantsz, 1);
-	};
+    if (x->x_name) table = cycle_fetcharray(x, &wantsz, 1);
     //wantsz++;	
 	/* CHECKED buffer is copied */
-	if (table)
+	if (table != NULL)
 	  {
 
 	    int cursz = x->x_user_tabsize;
@@ -207,13 +206,14 @@ static void cycle_gettable(t_cycle *x)
     for(i=0; i < wantsz; i++)
       x->x_usertable[i] = table[i].w_float;
     //x->x_usertable[wantsz] = 0;
+    if(x->x_use_all) x->x_cycle_tabsize = x->x_user_tabsize;
 	  }
     else 
     {
     	if (x->x_name)
     	{
 	  x->x_nameset = 0;
-	  if(warn) pd_error(x, "[cycle~]: using cosine table");
+	  if(warn) pd_error(x, "using cosine table");
     	}
     	x->x_name = 0;
     	x->x_cycle_tabsize = COS_TABSIZE;
@@ -229,6 +229,7 @@ static void cycle_phase_reset(t_cycle *x){
 
 static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
 {
+	x->x_use_all = 0;
 	x->x_offset = 0;
 	x->x_cycle_tabsize = CYCYCLE_TABSIZE;
     if (s && s != &s_)
@@ -246,19 +247,20 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
             cycle_phase_reset(x);
         };
         x->x_nameset = 0;
-        pd_error(x, "[cycle~]: using cosine table");
+        pd_error(x, "using cosine table");
     };
 
 }
 
 static void cycle_setall(t_cycle *x, t_symbol *s)
 {
+	x->x_use_all = 1;
 	x->x_offset = 0;
     if (s && s != &s_){
       //cybuf_setarray(x->x_cybuf, s);
       //x->x_nameset = 1;
+      x->x_name = s;
 	cycle_gettable(x);
-	//x->x_cycle_tabsize = x->x_cybuf->c_npts;
 	}
     else{
         if(x->x_nameset > 0){
@@ -266,7 +268,7 @@ static void cycle_setall(t_cycle *x, t_symbol *s)
             cycle_phase_reset(x);
         };
         x->x_nameset = 0;
-        pd_error(x, "[cycle~]: using cosine table");
+        pd_error(x, "using cosine table");
     };
 
 }
@@ -281,14 +283,17 @@ static void cycle_set_buffersize(t_cycle *x, t_floatarg f)
 {
 	if (f==0.)
 	{
+		x->x_use_all = 0;
 		x->x_cycle_tabsize = CYCYCLE_TABSIZE;
 	}
 	else if (f == -1.)
 	{
-// NOTHING YET
+		x->x_use_all = 1;
+		x->x_cycle_tabsize = x->x_user_tabsize;
 	}
 	else if (f == (1 << ilog2(f)) && f <= 65536. && f >= 16)
 	{
+		x->x_use_all = 0;
 		x->x_cycle_tabsize = f;
 	}
 	else
@@ -474,7 +479,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
 					argc-=2;
 					argv+=2;
 					pastargs = 1;
-					buffersizeattrib = 1;
+					if(bufsz > 0) buffersizeattrib = 1;
 				}
 				else{
 					goto errstate;
@@ -538,10 +543,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     x->x_phase = 0;
     x->x_conv = 0.;
     cycle_set_buffersize(x, bufsz);
-    if(bufferattrib){
-    	if (!buffersizeattrib)
-//    		NOTHING YET!
-    }
+    if(bufferattrib && !buffersizeattrib) x->x_use_all = 1;
     return (x);
 	errstate:
 		pd_error(x, "cycle~: improper args");
