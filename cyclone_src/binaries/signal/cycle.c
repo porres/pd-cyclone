@@ -138,12 +138,12 @@ static t_word *cycle_fetcharray(t_cycle * x, int * tabsz, int indsp){
 			}
 			else 
 			{ /* always complain */
-			  if(warn) pd_error(x, "bad template of array '%s'", name->s_name);
+			  if(warn) pd_error(x, "[cycle~]: bad template of array '%s'", name->s_name);
 			}
 		}
 		else if (x)
 		{
-		  if(warn) pd_error(x, "no such array '%s'", name->s_name);
+		  if(warn) pd_error(x, "[cycle~]: no such array '%s'", name->s_name);
 		}
 	}
 	return (0);
@@ -213,7 +213,7 @@ static void cycle_gettable(t_cycle *x)
     	if (x->x_name)
     	{
 	  x->x_nameset = 0;
-	  if(warn) pd_error(x, "using cosine table");
+	  if(warn) pd_error(x, "[cycle~]: using cosine table");
     	}
     	x->x_name = 0;
     	x->x_cycle_tabsize = COS_TABSIZE;
@@ -247,7 +247,7 @@ static void cycle_set(t_cycle *x, t_symbol *s, t_floatarg f)
             cycle_phase_reset(x);
         };
         x->x_nameset = 0;
-        pd_error(x, "using cosine table");
+        pd_error(x, "[cycle~]: using cosine table");
     };
 
 }
@@ -268,7 +268,7 @@ static void cycle_setall(t_cycle *x, t_symbol *s)
             cycle_phase_reset(x);
         };
         x->x_nameset = 0;
-        pd_error(x, "using cosine table");
+        pd_error(x, "[cycle~]: using cosine table");
     };
 
 }
@@ -298,7 +298,7 @@ static void cycle_set_buffersize(t_cycle *x, t_floatarg f)
 	}
 	else
 	{
-		pd_error(x, "buffer_sizeinsamps must be a power of two from 16 to 65536");
+		pd_error(x, "[cycle~]: buffer_sizeinsamps must be a power of two from 16 to 65536");
 		return;
 	}
 }
@@ -546,7 +546,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     if(bufferattrib && !buffersizeattrib) x->x_use_all = 1;
     return (x);
 	errstate:
-		pd_error(x, "cycle~: improper args");
+		pd_error(x, "[cycle~]: improper args");
 		return NULL;
 }
 
