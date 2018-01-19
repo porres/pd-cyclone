@@ -692,6 +692,10 @@ static void table_refer(t_table *x, t_symbol *s){
     }
 }
 
+static void table_name(t_table *x, t_symbol *s){
+    table_rebind(x, s)
+}
+
 static void table_read(t_table *x, t_symbol *s){
     t_tablecommon *cc = x->x_common;
     if (s && s != &s_)
@@ -858,6 +862,7 @@ void table_setup(void){
     class_addmethod(table_class, (t_method)table_load, gensym("load"), 0);
     class_addmethod(table_class, (t_method)table_max, gensym("max"), 0);
     class_addmethod(table_class, (t_method)table_min, gensym("min"), 0);
+    class_addmethod(table_class, (t_method)table_name, gensym("name"), A_SYMBOL, 0);
     class_addmethod(table_class, (t_method)table_next, gensym("next"), 0);
     class_addmethod(table_class, (t_method)table_normal, gensym("normal"), 0);
     class_addmethod(table_class, (t_method)table_open, gensym("open"), 0);

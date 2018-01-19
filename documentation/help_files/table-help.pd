@@ -126,7 +126,6 @@ pointer address (and wraps to last address when reaching start), f
 \, indexed from 0 to 127), f 78;
 #X text 147 428 sets the object to read from a named table specified
 by the symbol, f 78;
-#X text 147 277 sets a table name, f 78;
 #X text 50 277 name <symbol> -;
 #X text 55 543 size <float> -;
 #X text 50 61 embed <float> -;
@@ -148,6 +147,8 @@ are ignored) or taken out of load mode by a normal message., f 78
 ;
 #X text 147 319 changes from "load mode" to "normal" mode (see "load
 message"), f 78;
+#X text 147 277 sets a table name and is the same as "refer", f 78
+;
 #X restore 200 321 pd All_Messages;
 #X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
 number array;
@@ -240,6 +241,13 @@ methods for editing it., f 61;
 #X floatatom 131 460 5 0 0 0 - - -, f 5;
 #X floatatom 155 319 5 0 0 0 - - -, f 5;
 #X msg 457 463 size;
+#X obj 507 393 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-262144 -1 -1 0 256;
+#X msg 521 327 const 13;
+#X obj 507 359 cyclone/table @name a;
+#C restore;
+#X msg 475 335 open;
+#X msg 576 145 open;
 #X connect 0 0 25 0;
 #X connect 1 0 25 0;
 #X connect 2 0 25 0;
@@ -275,6 +283,10 @@ methods for editing it., f 61;
 #X connect 39 0 25 0;
 #X connect 40 0 39 0;
 #X connect 41 0 25 0;
+#X connect 44 0 45 0;
+#X connect 45 0 43 0;
+#X connect 46 0 45 0;
+#X connect 47 0 30 0;
 #X restore 339 208 pd tests;
 #X text 171 407 the table name. If two or more [table] objects share
 the same name \, they also share the same values (default: none),
