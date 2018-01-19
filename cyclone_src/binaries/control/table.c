@@ -12,7 +12,7 @@
 #include "g_canvas.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "common/rand.h" // ??? why???
+#include "common/rand.h"
 #include "hammer/file.h"
 
 #ifdef KRZYSZCZ
@@ -97,20 +97,17 @@ static void tablecommon_modified(t_tablecommon *cc, int relocated){
 }
 
 static int tablecommon_getindex(t_tablecommon *cc, int ndx){
-    int nmx = cc->c_length - 1;
-    /* CHECKED ndx silently clipped */
+    int nmx = cc->c_length - 1; /* CHECKED ndx silently clipped */
     return (ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx));
 }
 
 static int tablecommon_getvalue(t_tablecommon *cc, int ndx){
-    int nmx = cc->c_length - 1;
-    /* CHECKED ndx silently clipped */
+    int nmx = cc->c_length - 1; /* CHECKED ndx silently clipped */
     return (cc->c_table[ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx)]);
 }
 
 static void tablecommon_setvalue(t_tablecommon *cc, int ndx, int v){
-    int nmx = cc->c_length - 1;
-    /* CHECKED ndx silently clipped, value not clipped */
+    int nmx = cc->c_length - 1; /* CHECKED ndx silently clipped, value not clipped */
     cc->c_table[ndx < 0 ? 0 : (ndx > nmx ? nmx : ndx)] = v;
     tablecommon_modified(cc, 0);
 }
@@ -134,48 +131,41 @@ static void tablecommon_setall(t_tablecommon *cc, int v){
     tablecommon_modified(cc, 0);
 }
 
-static void tablecommon_setatoms(t_tablecommon *cc, int ndx, int ac, t_atom *av)
-{
-    if (ac > 1 && av->a_type == A_FLOAT)
-    {
+static void tablecommon_setatoms(t_tablecommon *cc, int ndx, int ac, t_atom *av){
+    if (ac > 1 && av->a_type == A_FLOAT){
 	/* CHECKED no resizing */
-	int last = tablecommon_getindex(cc, ndx + ac - 1);
-	int *ptr = cc->c_table + ndx;
-	for (; ndx <= last; ndx++, av++)
-	     *ptr++ = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
-	tablecommon_modified(cc, 0);
+        int last = tablecommon_getindex(cc, ndx + ac - 1);
+        int *ptr = cc->c_table + ndx;
+        for(; ndx <= last; ndx++, av++)
+            *ptr++ = (av->a_type == A_FLOAT ? (int)av->a_w.w_float : 0);
+        tablecommon_modified(cc, 0);
     }
 }
 
-static void tablecommon_setlength(t_tablecommon *cc, int length)
-{
+static void tablecommon_setlength(t_tablecommon *cc, int length){
     int relocate;
     if (length < TABLE_MINLENGTH)
 	length = TABLE_MINLENGTH;
     else if (length > TABLE_MAXLENGTH)
 	length = TABLE_MAXLENGTH;
-    if (relocate = (length > cc->c_size))
-    {
-	int l = length;
-	/* CHECKED existing values are preserved */
-	cc->c_table = grow_withdata(&length, &cc->c_length,
-				    &cc->c_size, cc->c_table,
-				    TABLE_INISIZE, cc->c_tableini,
-				    sizeof(*cc->c_table));
-	if (length == l)
+    if(relocate = (length > cc->c_size)){
+        int l = length;
+        /* CHECKED existing values are preserved */
+        cc->c_table = grow_withdata(&length, &cc->c_length, &cc->c_size, cc->c_table,
+            TABLE_INISIZE, cc->c_tableini, sizeof(*cc->c_table));
+        if(length == l)
 	    cc->c_table = grow_nodata(&length, &cc->c_size, cc->c_cache,
 				      TABLE_INISIZE, cc->c_cacheini,
 				      sizeof(*cc->c_cache));
-	if (length != l)
-	{
-	    if (cc->c_table != cc->c_tableini)
-		freebytes(cc->c_table, cc->c_size * sizeof(*cc->c_table));
-	    if (cc->c_cache != cc->c_cacheini)
-		freebytes(cc->c_cache, cc->c_size * sizeof(*cc->c_cache));
-	    cc->c_size = length = TABLE_INISIZE;
-	    cc->c_table = cc->c_tableini;
-	    cc->c_cache = cc->c_cacheini;
-	}
+        if(length != l){
+            if(cc->c_table != cc->c_tableini)
+                freebytes(cc->c_table, cc->c_size * sizeof(*cc->c_table));
+            if(cc->c_cache != cc->c_cacheini)
+                freebytes(cc->c_cache, cc->c_size * sizeof(*cc->c_cache));
+            cc->c_size = length = TABLE_INISIZE;
+            cc->c_table = cc->c_tableini;
+            cc->c_cache = cc->c_cacheini;
+        }
     }
     cc->c_length = length;
     /* CHECKED values at common indices are preserved */
@@ -185,19 +175,17 @@ static void tablecommon_setlength(t_tablecommon *cc, int length)
     tablecommon_modified(cc, relocate);
 }
 
-static void tablecommon_cacheupdate(t_tablecommon *cc)
-{
+static void tablecommon_cacheupdate(t_tablecommon *cc){
     int ndx = cc->c_length, sum = 0, mn, mx;
     int *tptr = cc->c_table, *cptr = cc->c_cache;
     mn = mx = *tptr;
-    while (ndx--)
-    {
-	int v = *tptr++;
-	*cptr++ = (sum += v);
-	if (mn > v)
-	    mn = v;
-	else if (mx < v)
-	    mx = v;
+    while(ndx--){
+        int v = *tptr++;
+        *cptr++ = (sum += v);
+        if(mn > v)
+            mn = v;
+        else if (mx < v)
+            mx = v;
     }
     cc->c_cachesum = sum;
     cc->c_cachemin = mn;
@@ -205,16 +193,16 @@ static void tablecommon_cacheupdate(t_tablecommon *cc)
     cc->c_cacheisfresh = 1;
 }
 
-static int tablecommon_quantile(t_tablecommon *cc, float f){
-    /* CHECKME */
+static int tablecommon_quantile(t_tablecommon *cc, float f){ /* CHECKME */
     float fv;
     int ndx, *ptr, nmx = cc->c_length - 1;
-    if (!cc->c_cacheisfresh) tablecommon_cacheupdate(cc);
-        fv = f * cc->c_cachesum;
-    for (ndx = 0, ptr = cc->c_cache; ndx < nmx; ndx++, ptr++)
-        if (*ptr >= fv)
+    if(!cc->c_cacheisfresh)
+        tablecommon_cacheupdate(cc);
+    fv = f * cc->c_cachesum;
+    for(ndx = 0, ptr = cc->c_cache; ndx < nmx; ndx++, ptr++)
+        if(*ptr >= fv)
             break;
-    return (ndx);
+    return(ndx);
 }
 
 static void tablecommon_fromatoms(t_tablecommon *cc, int ac, t_atom *av)
@@ -451,26 +439,24 @@ static void table_dooutput(t_table *x, int ndx){
 		 (t_float)tablecommon_getvalue(x->x_common, ndx));
 }
 
-static void table_bang(t_table *x){
-    /* CHECKME */
+static void table_bang(t_table *x){ /* CHECKME */
     outlet_float(((t_object *)x)->ob_outlet,
-		 (t_float)tablecommon_quantile(x->x_common,
-					       rand_unipolar(&x->x_seed)));
+		 (t_float)tablecommon_quantile(x->x_common, rand_unipolar(&x->x_seed)));
 }
 
 static void table_float(t_table *x, t_float f){
-    if(x->x_loadflag){ /* CHECKME */
+    if(x->x_loadflag){
         if(tablecommon_loadvalue(x->x_common, x->x_loadndx, (int)f))
             x->x_loadndx++;
     }
     else{
         int ndx = (int)f;  /* CHECKED floats are truncated */
-        if (x->x_valueset){
+        if(x->x_valueset){
             tablecommon_setvalue(x->x_common, ndx, x->x_value);
             x->x_valueset = 0;
         }
-        else table_dooutput(x, ndx);
-            /* CHECKED head is not updated */
+        else
+            table_dooutput(x, ndx); /* CHECKED head is not updated */
     }
 }
 
@@ -644,15 +630,12 @@ static void table_inv(t_table *x, t_floatarg f){
     outlet_float(((t_object *)x)->ob_outlet, (t_float)ndx);
 }
 
-static void table_quantile(t_table *x, t_floatarg f){
-    /* CHECKME */
+static void table_quantile(t_table *x, t_floatarg f){ /* CHECKME */
     outlet_float(((t_object *)x)->ob_outlet,
-		 (t_float)tablecommon_quantile(x->x_common,
-					       f / ((float)TABLE_MAXQ)));
+		 (t_float)tablecommon_quantile(x->x_common, f / ((float)TABLE_MAXQ)));
 }
 
-static void table_fquantile(t_table *x, t_floatarg f){
-    /* CHECKME constraints */
+static void table_fquantile(t_table *x, t_floatarg f){ /* CHECKME constraints */
     outlet_float(((t_object *)x)->ob_outlet, (t_float)tablecommon_quantile(x->x_common, f));
 }
 
@@ -728,14 +711,25 @@ static int tablecommon_editorappend(t_tablecommon *cc,
     return (col);
 }
 
+static void table_update(t_table *x){
+    t_tablecommon *cc = x->x_common;
+    char buf[MAXPDSTRING];
+    int *bp = cc->c_table;
+    int count = cc->c_length, col = 0;
+    hammereditor_open(cc->c_filehandle, (x->x_name ? x->x_name->s_name : 0), 0);
+    while(count--)
+        col = tablecommon_editorappend(cc, *bp++, buf, col);
+    hammereditor_setdirty(cc->c_filehandle, 0);
+}
+
 static void table_open(t_table *x){
     t_tablecommon *cc = x->x_common;
     char buf[MAXPDSTRING];
     int *bp = cc->c_table;
     int count = cc->c_length, col = 0;
     hammereditor_open(cc->c_filehandle, (x->x_name ? x->x_name->s_name : 0), 0);
-    while (count--)
-	col = tablecommon_editorappend(cc, *bp++, buf, col);
+    while(count--)
+        col = tablecommon_editorappend(cc, *bp++, buf, col);
     hammereditor_setdirty(cc->c_filehandle, 0);
 }
 
@@ -744,8 +738,7 @@ static void table_wclose(t_table *x){
 }
 
 static void table_click(t_table *x, t_floatarg xpos, t_floatarg ypos,
-			t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
-{
+			t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
     table_open(x);
 }
 
@@ -775,7 +768,7 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
     x->x_head = 0;
     x->x_intraversal = 0;
     x->x_loadflag = 0;
-    rand_seed(&x->x_seed, 0); // ????
+    rand_seed(&x->x_seed, 0); 
     t_symbol * name = NULL;
     t_int first_arg = 0;
     t_int size = TABLE_DEFLENGTH;

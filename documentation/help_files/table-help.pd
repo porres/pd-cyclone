@@ -1,61 +1,52 @@
-#N canvas 427 23 558 497 10;
-#X obj 2 247 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 787 84 561 482 10;
+#X obj 3 218 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 363 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 339 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 441 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X obj 3 417 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 82 256 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 226 cnv 17 3 86 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 374 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 350 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 82 340 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 86 316 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 471 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 3 454 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 158 254 -;
-#X text 125 254 bang;
-#X text 158 282 -;
-#X text 118 282 float;
-#X text 158 302 -;
-#X text 124 302 list;
-#X text 158 321 -;
-#X text 107 321 message;
-#X text 173 321 see:;
-#X text 158 341 -;
-#X text 118 341 float;
-#X text 158 375 -;
-#X text 118 375 float;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X text 159 225 -;
+#X text 129 225 bang;
+#X text 159 251 -;
+#X text 122 251 float;
+#X text 159 278 -;
+#X text 128 278 list;
+#X text 159 297 -;
+#X text 174 297 see:;
+#X text 159 317 -;
+#X text 122 317 float;
+#X text 159 351 -;
+#X text 122 351 float;
+#X obj 3 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 3 2 graph;
+#X obj 306 3 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X text 173 254 same as the quantile message (check the quantile message
-in the subpatch [pd allMessages]), f 61;
-#X obj 150 189 cyclone/table;
+#X restore 305 2 pd;
+#X obj 176 167 cyclone/table;
 #C restore;
-#X obj 225 162 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 251 135 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 3 256;
+#X obj 176 134 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 23 256;
+#X obj 176 194 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 150 137 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X msg 99 153 open;
-#X obj 150 223 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X text 282 156 store a value (y) at the next index;
-#X text 282 168 number received at the left inlet;
-#X text 173 282 select index (x) and oututs its current value, f 61
-;
-#X text 209 136 select index (x) and oututs its current value;
-#X text 173 375 values stored in the array;
-#X text 53 189 double click =>;
-#X text 59 203 to open;
-#N canvas 389 23 634 612 All_Messages 0;
+#X text 174 351 values stored in the array;
+#X text 79 167 double click =>;
+#X text 86 181 to open;
+#N canvas 267 77 634 612 All_Messages 0;
 #X text 147 46 outputs the stored numbers on the left outlet, f 78
 ;
 #X text 98 2 clear -;
@@ -149,16 +140,13 @@ are ignored) or taken out of load mode by a normal message., f 78
 message"), f 78;
 #X text 147 277 sets a table name and is the same as "refer", f 78
 ;
-#X restore 200 321 pd All_Messages;
-#X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
+#X restore 201 297 pd All_Messages;
+#X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
 number array;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 table;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 17 3 cyclone/comment 0 37 times ? 0 0 0 0 table;
+#X obj 323 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 457 73 cnv 15 90 40 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X text 459 81 [table] is not ready yet, f 13;
+#X obj 364 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 836 207 420 324 name 0;
 #X text 196 170 <= from Pd Vanilla;
 #X text 29 222 Other ways to load [biquad~] is with a capital letter
@@ -178,122 +166,210 @@ you create it as:;
 #C restore;
 #X obj 255 274 Table;
 #C restore;
-#X restore 462 221 pd name clash;
-#X text 70 84 [table] stores and edits a number array. You can graphically
-edit by opening it or double clicking on it. There are also several
-methods for editing it., f 61;
-#X text 173 302 a pair of index (x) and its value (y), f 61;
-#X text 173 341 store a value (y) at the next index (at the left inlet)
-, f 61;
-#X obj 2 400 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X restore 467 194 pd name clash;
+#X obj 3 376 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 158 407 -;
-#X text 94 407 1) symbol;
-#X text 154 448 @size <float> | @name <symbol> | @embed <float>, f
-48;
-#N canvas 707 54 688 537 tests 0;
-#X msg 148 92 clear;
-#X msg 125 38 wclose;
-#X msg 139 61 open;
-#X msg 156 119 const 12;
-#X msg 85 96 dump;
-#X msg 37 97 length;
-#X msg 402 98 load;
-#X msg 62 159 max;
-#X msg 70 187 min;
-#X msg 417 437 embed;
-#X msg 418 464 name;
-#X text 384 437 attr;
-#X msg 276 112 next;
-#X msg 276 134 prev;
-#X msg 276 87 goto 5;
-#X msg 438 98 normal;
-#X msg 35 47 read;
-#X msg 99 14 set 2 0 1 2;
-#X msg 70 225 size 5;
-#X msg 245 226 sum;
-#X msg 36 22 write;
-#X msg 194 64 size 128;
-#X msg 215 158 send x 3;
-#X obj 447 284 r x;
-#X floatatom 442 309 5 0 0 0 - - -, f 5;
-#X obj 125 145 cyclone/table z;
+#X text 159 383 -;
+#X text 98 383 1) symbol;
+#X text 172 383 the table name. If two or more [table] objects share
+the same name \, they also share the same values (default: none),
+f 61;
+#X text 174 225 same as the quantile message with a random number between
+0 and 32768 as an argument (see quantile in [pd All_Messages], f 61
+;
+#X text 90 133 set index (x);
+#X text 308 128 value (y) to be stored at the index received in the
+left inlet, f 32;
+#X text 167 423 @size <float> (default 128) | @name <symbol> (default
+none) | @embed <float> (default 0), f 44;
+#X text 174 251 sets index (x): oututs its value or stores the value
+received in the right inlet at the given index, f 61;
+#X text 174 317 sets value (y) to be stored at the index sent to left
+inlet, f 61;
+#X text 174 278 a pair of index (x) and its value (y): sets "y" to
+"x", f 61;
+#X text 104 297 messages;
+#X text 61 83 [table] stores and edits a number array. You can graphically
+edit it by opening it or double clicking on it. There are also several
+message methods \, check it below., f 65;
+#N canvas 588 23 811 744 examples 0;
+#X msg 508 112 goto 0;
+#X msg 518 134 goto 50;
+#X msg 539 167 next;
+#X msg 549 188 prev;
+#X obj 508 251 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 608 469 cyclone/table;
 #C restore;
-#X floatatom 445 179 5 0 0 0 - - -, f 5;
-#X obj 445 246 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
-#X msg 490 180 refer z;
-#X obj 572 243 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
-#X obj 445 207 cyclone/table;
+#X obj 608 498 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 508 222 cyclone/table ex1;
 #C restore;
-#X msg 500 145 refer a;
-#X msg 513 233 open;
-#X msg 233 196 inv 25;
-#X msg 248 425 fquantile \$1;
-#X floatatom 316 287 5 0 0 0 - - -, f 5;
-#X obj 270 259 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#X msg 117 492 quantile \$1;
-#X floatatom 131 460 5 0 0 0 - - -, f 5;
-#X floatatom 155 319 5 0 0 0 - - -, f 5;
-#X msg 457 463 size;
-#X obj 507 393 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 0 256;
-#X msg 521 327 const 13;
-#X msg 475 335 open;
-#X msg 576 145 open;
-#X msg 592 330 name z;
-#X msg 586 177 const 3;
-#X obj 572 205 cyclone/table a;
+#X text 451 74 navigate with "goto" \, "next" and "prev";
+#X msg 521 543 flags;
+#X msg 454 386 fquantile;
+#X msg 456 407 quantile;
+#X msg 687 640 getbits;
+#X msg 688 664 setbits;
+#X msg 458 440 inv;
+#X msg 158 461 length;
+#X msg 121 412 max;
+#X msg 131 433 min;
+#X text 151 410 <= get maximum value;
+#X text 160 431 <= get minimum value;
+#X obj 213 658 cyclone/table ex1;
 #C restore;
-#X obj 507 358 cyclone/table @size 2;
+#X msg 213 623 dump;
+#X obj 213 690 print dump;
+#X text 245 622 <= dump all values from the table, f 18;
+#X obj 121 528 nbx 3 14 0 127 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 0 256;
+#X obj 121 495 cyclone/table ex1;
 #C restore;
-#X connect 0 0 25 0;
-#X connect 1 0 25 0;
-#X connect 2 0 25 0;
-#X connect 3 0 25 0;
-#X connect 4 0 25 0;
-#X connect 5 0 25 0;
-#X connect 6 0 25 0;
-#X connect 7 0 25 0;
-#X connect 8 0 25 0;
-#X connect 12 0 25 0;
-#X connect 13 0 25 0;
-#X connect 14 0 25 0;
+#X msg 552 652 cancel;
+#X msg 475 543 refer;
+#X msg 548 623 send;
+#X msg 584 623 sum;
+#N canvas 708 23 454 597 load/normal 0;
+#X obj 109 286 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 132 286 <= populate the table with random values;
+#X obj 109 357 random 1000;
+#X obj 109 332 cyclone/uzi 128;
+#X text 26 17 The [table] object has two modes of operation for loading
+values into it. The default is the "normal" mode \, where it expects
+a "y" value in the right inlet and an index "x" in the left inlet.
+;
+#X obj 144 166 cyclone/table;
+#C restore;
+#X obj 71 86 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 94 86 <= populate the table with random values;
+#X obj 71 112 cyclone/uzi 128 0;
+#X obj 219 134 random 1000;
+#X obj 170 133 t f b;
+#X obj 208 387 cyclone/table;
+#C restore;
+#X msg 208 357 load;
+#X obj 109 309 trigger bang bang;
+#X text 32 203 If you send it a "load" message \, the object goes into
+"load" mode \, where numbers in the left inlet are stored from index
+0 to the end of the table. If more numbers than available indexes are
+given \, then they're ignored. For you to populate the table again
+you need to first send the "load" message again.;
+#X text 49 436 The "normal" message sets it back to the normal mode
+of operation.;
+#X obj 209 522 cyclone/table;
+#C restore;
+#X obj 284 499 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 209 498 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 209 549 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 189 473 normal;
+#X msg 149 473 load;
+#X connect 0 0 13 0;
+#X connect 2 0 11 0;
+#X connect 3 0 2 0;
+#X connect 6 0 8 0;
+#X connect 8 2 10 0;
+#X connect 9 0 5 1;
+#X connect 10 0 5 0;
+#X connect 10 1 9 0;
+#X connect 12 0 11 0;
+#X connect 13 0 3 0;
+#X connect 13 1 12 0;
+#X connect 16 0 19 0;
+#X connect 17 0 16 1;
+#X connect 18 0 16 0;
+#X connect 20 0 16 0;
+#X connect 21 0 16 0;
+#X restore 145 99 pd load/normal modes;
+#N canvas 686 125 414 492 name 0;
+#X obj 89 280 cyclone/table x;
+#C restore;
+#X text 119 106 <= populate the table from 0-127;
+#X obj 63 132 cyclone/uzi 128 0;
+#X obj 162 156 trigger f f;
+#X obj 162 186 cyclone/table x;
+#C restore;
+#X msg 89 252 open;
+#X obj 63 106 loadbang;
+#X text 124 254 <= see that it shares the same values;
+#X text 15 18 The [table] object takes an optional table name argument.
+If two or more [table] objects share the same name \, then they also
+share the same values. Below we have two objects named "x" \, the first
+one is populated with values. Open the other one and see that it shares
+the same values.;
+#X obj 69 416 cyclone/table @name x;
+#C restore;
+#X obj 236 441 cyclone/table;
+#C restore;
+#X msg 236 410 name x;
+#X obj 236 381 loadbang;
+#X text 20 331 There is also a @name attribute that also sets a table
+name. You can also use the "name" message to set a table name.;
+#X connect 2 2 3 0;
+#X connect 3 0 4 0;
+#X connect 3 1 4 1;
+#X connect 5 0 0 0;
+#X connect 6 0 2 0;
+#X connect 11 0 10 0;
+#X connect 12 0 11 0;
+#X restore 145 123 pd name argument/attribute;
+#N canvas 708 23 454 597 size/embred 0;
+#X restore 146 148 pd size/embred attributes;
+#X text 308 148 *;
+#N canvas 214 85 597 577 basic 1;
+#X msg 157 261 const 23;
+#X text 215 261 <= populate the table with a constant value;
+#X msg 190 288 clear;
+#X text 230 286 <= sets all values to 0;
+#X msg 220 340 set 10 1 2 3 4 5;
+#X text 326 340 <= sets values from index 10;
+#X msg 208 314 4 3;
+#X text 237 314 <= set value 3 to index 4;
+#X obj 158 412 cyclone/table;
+#C restore;
+#X msg 65 214 open;
+#X msg 104 214 wclose;
+#X msg 339 401 read;
+#X text 148 215 open/close editing window;
+#X obj 179 76 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 202 76 <= populate the table with random values;
+#X obj 179 102 cyclone/uzi 128 0;
+#X obj 278 123 t f b;
+#X obj 327 124 random 128;
+#X obj 252 156 cyclone/table;
+#C restore;
+#X connect 0 0 8 0;
+#X connect 2 0 8 0;
+#X connect 4 0 8 0;
+#X connect 6 0 8 0;
+#X connect 9 0 8 0;
+#X connect 10 0 8 0;
+#X connect 11 0 8 0;
+#X connect 13 0 15 0;
+#X connect 15 2 16 0;
+#X connect 16 0 18 0;
+#X connect 16 1 17 0;
+#X connect 17 0 18 1;
+#X restore 185 253 pd basic;
+#X connect 0 0 7 0;
+#X connect 1 0 7 0;
+#X connect 2 0 7 0;
+#X connect 3 0 7 0;
+#X connect 5 0 6 0;
+#X connect 7 0 4 0;
 #X connect 15 0 25 0;
 #X connect 16 0 25 0;
 #X connect 17 0 25 0;
-#X connect 18 0 25 0;
-#X connect 19 0 25 0;
-#X connect 20 0 25 0;
-#X connect 21 0 25 0;
-#X connect 22 0 25 0;
-#X connect 23 0 24 0;
-#X connect 26 0 30 0;
-#X connect 28 0 30 0;
-#X connect 30 0 27 0;
-#X connect 31 0 30 0;
-#X connect 32 0 30 0;
-#X connect 33 0 25 0;
-#X connect 34 0 25 0;
-#X connect 35 0 34 0;
-#X connect 36 0 35 0;
-#X connect 37 0 25 0;
-#X connect 38 0 37 0;
-#X connect 39 0 25 0;
-#X connect 42 0 48 0;
-#X connect 43 0 48 0;
-#X connect 44 0 47 0;
-#X connect 45 0 48 0;
-#X connect 46 0 47 0;
-#X connect 47 0 29 0;
-#X connect 48 0 41 0;
-#X restore 339 208 pd tests;
-#X text 171 407 the table name. If two or more [table] objects share
-the same name \, they also share the same values (default: none),
-f 61;
-#X connect 25 0 29 0;
-#X connect 26 0 25 1;
-#X connect 27 0 25 0;
-#X connect 28 0 25 0;
+#X connect 20 0 22 0;
+#X connect 21 0 20 0;
+#X connect 25 0 24 0;
+#X restore 479 174 pd examples;
+#X connect 23 0 26 0;
+#X connect 24 0 23 1;
+#X connect 25 0 23 0;
