@@ -215,7 +215,7 @@ static void cycle_gettable(t_cycle *x)
 	  x->x_nameset = 0;
 	  if(warn) pd_error(x, "[cycle~]: using cosine table");
     	}
-    	x->x_name = 0;
+    	//x->x_name = 0;
     	x->x_cycle_tabsize = COS_TABSIZE;
     }
 }
@@ -527,9 +527,7 @@ static void *cycle_new(t_symbol *s, int argc, t_atom *argv)
     cycle_phase(x, phaseoff);
 
     x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
-    if(offset < 0){
-	    offset = 0;
-    };
+    if(offset < 0)  offset = 0;
     x->x_offset = offset;
     x->x_nameset = name ? 1 : 0;
     //x->x_cybuf = cybuf_init((t_class *)x, name, 1, 0);
