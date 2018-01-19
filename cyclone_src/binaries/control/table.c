@@ -21,7 +21,7 @@
 
 #define TABLE_INISIZE      256  /* LATER rethink */
 #define TABLE_DEFLENGTH    128  /* CHECKED */
-#define TABLE_MINLENGTH      2  /* CHECKED */
+#define TABLE_MINLENGTH      1  // RE-CHECKED
 #define TABLE_MAXLENGTH  16383  /* CHECKED, LATER rethink */
 #define TABLE_MINRANGE       2  /* CHECKED */
 #define TABLE_MAXQ       32768  /* CHECKME */
@@ -693,7 +693,7 @@ static void table_refer(t_table *x, t_symbol *s){
 }
 
 static void table_name(t_table *x, t_symbol *s){
-    table_rebind(x, s)
+    table_rebind(x, s);
 }
 
 static void table_read(t_table *x, t_symbol *s){
@@ -783,12 +783,7 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
     while(argc > 0){
         if(argv->a_type == A_SYMBOL){
             t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
-            if(!first_arg){
-                name = curarg;
-                argc--;
-                argv++;
-            }
-            else if(!strcmp(curarg->s_name, "@name")){
+            if(!strcmp(curarg->s_name, "@name")){
                 if(argc >= 2){
                     if((argv+1)->a_type == A_SYMBOL){
                         name = atom_getsymbolarg(1, argc, argv);
@@ -820,6 +815,11 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
                 else
                     goto errstate;
             }
+            else if(!first_arg){
+                name = curarg;
+                argc--;
+                argv++;
+            }
             else
                 goto errstate;
         }
@@ -832,6 +832,7 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
     outlet_new((t_object *)x, &s_float);
     x->x_filehandle = hammerfile_new((t_pd *)x, table_embedhook, 0, 0, 0);
     table_bind(x, name);
+    tablecommon_setlength(x->x_common, size);
     return(x);
     errstate:
         pd_error(x, "[table]: improper args");
@@ -855,14 +856,14 @@ void table_setup(void){
     class_addmethod(table_class, (t_method)table_dump, gensym("dump"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_flags, gensym("flags"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_fquantile, gensym("fquantile"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_goto, gensym("goto"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_inv, gensym("inv"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_length, gensym("length"), 0);
     class_addmethod(table_class, (t_method)table_load, gensym("load"), 0);
     class_addmethod(table_class, (t_method)table_max, gensym("max"), 0);
     class_addmethod(table_class, (t_method)table_min, gensym("min"), 0);
-    class_addmethod(table_class, (t_method)table_name, gensym("name"), A_SYMBOL, 0);
     class_addmethod(table_class, (t_method)table_next, gensym("next"), 0);
     class_addmethod(table_class, (t_method)table_normal, gensym("normal"), 0);
     class_addmethod(table_class, (t_method)table_open, gensym("open"), 0);
@@ -879,6 +880,7 @@ void table_setup(void){
     class_addmethod(table_class, (t_method)table_write, gensym("write"), A_DEFSYM, 0);
 // attribute
     class_addmethod(table_class, (t_method)table_size, gensym("size"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_name, gensym("name"), A_SYMBOL, 0);
 // extra ???
     class_addmethod(table_class, (t_method)table_tabrange, gensym("tabrange"), A_FLOAT, 0);
 // _coords????
