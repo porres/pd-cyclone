@@ -15,9 +15,9 @@
 #include "common/rand.h"
 #include "hammer/file.h"
 
-#ifdef KRZYSZCZ
+/* #ifdef KRZYSZCZ
 #define TABLE_DEBUG
-#endif
+#endif */
 
 #define TABLE_INISIZE      256  /* LATER rethink */
 #define TABLE_DEFLENGTH    128  /* CHECKED */
@@ -245,30 +245,25 @@ static void tablecommon_fromatoms(t_tablecommon *cc, int ac, t_atom *av)
 
 /* FIXME keep int precision: save/load directly, not through a bb */
 /* LATER binary files */
-static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv)
-{
+static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv){
     t_binbuf *bb = binbuf_new();
     int ac;
     t_atom *av;
     char buf[MAXPDSTRING];
     if (!fn)
-	return;  /* CHECKME complaint */
-    /* FIXME use open_via_path() */
+        return;  /* CHECKME complaint */
+        /* FIXME use open_via_path() */
     if (cv || (cv = cc->c_lastcanvas))  /* !cv: 'read' w/o arg */
-	canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
-    else
-    {
+        canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
+    else{
     	strncpy(buf, fn->s_name, MAXPDSTRING);
     	buf[MAXPDSTRING-1] = 0;
     }
     binbuf_read(bb, buf, "", 0);
-    if ((ac = binbuf_getnatom(bb)) &&
-	(av = binbuf_getvec(bb)) &&
-	av->a_type == A_SYMBOL &&
-	av->a_w.w_symbol == gensym("table"))
-    {
-	tablecommon_fromatoms(cc, ac - 1, av + 1);
-	post("Table: %s read successful", fn->s_name);  /* CHECKME */
+    if ((ac = binbuf_getnatom(bb)) && (av = binbuf_getvec(bb)) && av->a_type == A_SYMBOL &&
+    av->a_w.w_symbol == gensym("table")){
+        tablecommon_fromatoms(cc, ac - 1, av + 1);
+        post("Table: %s read successful", fn->s_name);  /* CHECKME */
     }
 #if 0  /* FIXME */
     else  /* CHECKME complaint */
@@ -285,17 +280,17 @@ static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv){
     t_binbuf *bb = binbuf_new();
     char buf[MAXPDSTRING];
     int ndx, *ptr;
-    if (!fn)
-	return;  /* CHECKME complaint */
-    if (cv || (cv = cc->c_lastcanvas))  /* !cv: 'write' w/o arg */
-	canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
+    if(!fn)
+        return;  /* CHECKME complaint */
+    if(cv || (cv = cc->c_lastcanvas))  /* !cv: 'write' w/o arg */
+        canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
     else{
     	strncpy(buf, fn->s_name, MAXPDSTRING);
     	buf[MAXPDSTRING-1] = 0;
     }
-    binbuf_addv(bb, "s", atom_getsymbol(binbuf_getvec(cc->c_refs->x_ob.te_binbuf)));
-    for (ndx = 0, ptr = cc->c_table; ndx < cc->c_length; ndx++, ptr++)
-	binbuf_addv(bb, "i", *ptr);
+    binbuf_addv(bb, "s", gensym("table"));
+    for(ndx = 0, ptr = cc->c_table; ndx < cc->c_length; ndx++, ptr++)
+        binbuf_addv(bb, "i", *ptr);
     binbuf_write(bb, buf, "", 0);
     binbuf_free(bb);
 }
@@ -689,10 +684,10 @@ static void table_read(t_table *x, t_symbol *s){
 
 static void table_write(t_table *x, t_symbol *s){
     t_tablecommon *cc = x->x_common;
-    if (s && s != &s_)
-	tablecommon_dowrite(cc, s, x->x_glist);
+    if(s && s != &s_)
+        tablecommon_dowrite(cc, s, x->x_glist);
     else
-	hammerpanel_save(cc->c_filehandle, 0, 0);
+        hammerpanel_save(cc->c_filehandle, 0, 0);
 }
 
 static int tablecommon_editorappend(t_tablecommon *cc,
