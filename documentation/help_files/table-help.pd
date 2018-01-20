@@ -1,4 +1,4 @@
-#N canvas 787 84 561 482 10;
+#N canvas 690 64 559 479 10;
 #X obj 3 218 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 339 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -35,111 +35,108 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 2 pd;
-#X obj 176 167 cyclone/table;
+#X obj 203 169 cyclone/table;
 #C restore;
-#X obj 251 135 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
-#X obj 176 134 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 23 256;
-#X obj 176 194 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 278 136 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 174 351 values stored in the array;
-#X text 79 167 double click =>;
-#X text 86 181 to open;
-#N canvas 267 77 634 612 All_Messages 0;
-#X text 147 46 outputs the stored numbers on the left outlet, f 78
+#X obj 203 135 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 203 195 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#N canvas 585 23 640 610 All_Messages 0;
+#X text 145 48 outputs the stored numbers on the left outlet, f 78
 ;
-#X text 98 2 clear -;
-#X text 147 3 sets all values to 0, f 78;
-#X text 50 16 const <float> -;
-#X text 92 30 cancel -;
-#X text 104 46 dump -;
-#X text 26 89 fquantile <float> -;
-#X text 56 154 goto <float> -;
-#X text 104 212 load -;
-#X text 92 196 length -;
-#X text 147 195 outputs the table size, f 78;
-#X text 147 246 retrieves the maximum stored value, f 78;
-#X text 108 246 max -;
-#X text 108 262 min -;
-#X text 147 262 retrieves the minimum stored value, f 78;
-#X text 104 293 next -;
-#X text 92 319 normal -;
-#X text 104 335 open -;
-#X text 147 335 opens the editor window (same as double-clicking on
+#X text 96 4 clear -;
+#X text 145 5 sets all values to 0, f 78;
+#X text 48 18 const <float> -;
+#X text 90 32 cancel -;
+#X text 102 48 dump -;
+#X text 24 91 fquantile <float> -;
+#X text 54 156 goto <float> -;
+#X text 102 202 load -;
+#X text 90 186 length -;
+#X text 145 185 outputs the table size, f 78;
+#X text 145 236 retrieves the maximum stored value, f 78;
+#X text 106 236 max -;
+#X text 106 252 min -;
+#X text 145 252 retrieves the minimum stored value, f 78;
+#X text 102 283 next -;
+#X text 90 309 normal -;
+#X text 102 325 open -;
+#X text 145 325 opens the editor window (same as double-clicking on
 it), f 78;
-#X text 104 351 prev -;
-#X text 147 573 closes the editing window, f 78;
-#X text 109 558 sum -;
-#X text 91 573 wclose -;
-#X text 97 588 write -;
-#X text 147 588 opens a standard save file dialog for saving it in
+#X text 102 341 prev -;
+#X text 145 563 closes the editing window, f 78;
+#X text 107 548 sum -;
+#X text 89 563 wclose -;
+#X text 95 578 write -;
+#X text 145 578 opens a standard save file dialog for saving it in
 a text file format, f 78;
-#X text 147 558 outputs the sum of all values, f 78;
-#X text 50 401 read <symbol> -;
-#X text 43 496 setbits <list> -;
-#X text 147 17 fills the table with the given number, f 78;
-#X text 44 117 getbits <list> -;
-#X text 147 154 sets a pointer to the address specified by the number
+#X text 145 548 outputs the sum of all values, f 78;
+#X text 48 391 read <symbol> -;
+#X text 41 486 setbits <list> -;
+#X text 145 19 fills the table with the given number, f 78;
+#X text 42 119 getbits <list> -;
+#X text 145 156 sets a pointer to the address specified by the number
 , f 78;
-#X text 62 169 inv <float> -;
-#X text 147 169 finds the first table value which is >= the float and
-sends the address of that value out the left outlet, f 78;
-#X text 147 402 opens and reads data from a file specified by the symbol.
+#X text 60 171 inv <float> -;
+#X text 145 392 opens and reads data from a file specified by the symbol.
 If no symbol is given \, an open dialog is shown, f 78;
-#X text 43 428 refer <symbol> -;
-#X text 7 443 send <symbol \, float> -;
-#X text 147 443 sends the value stored at the address specified by
+#X text 41 418 refer <symbol> -;
+#X text 5 433 send <symbol \, float> -;
+#X text 145 433 sends the value stored at the address specified by
 the float to all [receive] objects with the symbol name name, f 78
 ;
-#X text 147 469 the first float specifies a starting address and the
+#X text 145 459 the first float specifies a starting address and the
 next numbers specify the values to be stored from that address on,
 f 78;
-#X text 67 469 set <list> -;
-#X text 147 495 changes a stored number's bit values: 1st float is
+#X text 65 459 set <list> -;
+#X text 145 485 changes a stored number's bit values: 1st float is
 the address \, 2nd is the starting bit location (0-31 from LSB to MSB)
 \, 3rd is how many from starting bit should be modified and 4th is
 the value (in decimal or hexadecimal form) to which those bits should
 be set, f 78;
-#X text 147 31 cancels last right inlet input (so next left input outputs
+#X text 145 33 cancels last right inlet input (so next left input outputs
 a number), f 78;
-#X text 147 117 1st float is the address to query \, 2nd is starting
+#X text 145 119 1st float is the address to query \, 2nd is starting
 bit location (0-31 from LSB to MSB) and 3rd is how many bits to the
 right of starting bit should be sent (as a single decimal integer)
 , f 78;
-#X text 147 293 sends the value stored at the pointed address on left
+#X text 145 283 sends the value stored at the pointed address on left
 outlet and sets the pointer to the next address (wraps to 1st address
 when reaching the end), f 78;
-#X text 147 350 similar to "next" message \, but the decreases the
+#X text 145 340 similar to "next" message \, but the decreases the
 pointer address (and wraps to last address when reaching start), f
 78;
-#X text 147 543 sets the number of values in the table (default: 128
+#X text 145 533 sets the number of values in the table (default: 128
 \, indexed from 0 to 127), f 78;
-#X text 147 428 sets the object to read from a named table specified
+#X text 145 418 sets the object to read from a named table specified
 by the symbol, f 78;
-#X text 50 277 name <symbol> -;
-#X text 55 543 size <float> -;
-#X text 50 61 embed <float> -;
-#X text 147 61 1 toggles saving the data as part of the patch - default
+#X text 48 267 name <symbol> -;
+#X text 53 533 size <float> -;
+#X text 48 63 embed <float> -;
+#X text 145 63 1 toggles saving the data as part of the patch - default
 0 (don't save), f 78;
-#X text 56 75 flags <f \, f> -;
-#X text 147 76 <1 \, 0> saves contents with the patch when it's saved
+#X text 54 77 flags <f \, f> -;
+#X text 145 78 <1 \, 0> saves contents with the patch when it's saved
 \, <0 \, 1> doesn't, f 78;
-#X text 147 91 sends the address at which the sum of all values up
+#X text 145 93 sends the address at which the sum of all values up
 to that address is >= to the the sum of all table values times the
 <float> (between 0 and 1), f 78;
-#X text 147 376 sends the address at which the sum of the all values
+#X text 145 366 sends the address at which the sum of the all values
 up to that address is >= the the sum of all table values times the
 <int> divided by 2^15 (32768), f 78;
-#X text 44 376 quantile <int> -;
-#X text 147 210 sets to load mode: all numbers received in the left
+#X text 42 366 quantile <int> -;
+#X text 145 200 sets to load mode: all numbers received in the left
 inlet are stored beginning at address 0 until the end (additional numbers
 are ignored) or taken out of load mode by a normal message., f 78
 ;
-#X text 147 319 changes from "load mode" to "normal" mode (see "load
+#X text 145 309 changes from "load mode" to "normal" mode (see "load
 message"), f 78;
-#X text 147 277 sets a table name and is the same as "refer", f 78
+#X text 145 267 sets a table name and is the same as "refer", f 78
 ;
+#X text 145 171 finds the first table value which is >= the float and
+sends its address, f 78;
 #X restore 201 297 pd All_Messages;
 #X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
 number array;
@@ -171,19 +168,6 @@ you create it as:;
 0;
 #X text 159 383 -;
 #X text 98 383 1) symbol;
-#X text 172 383 the table name. If two or more [table] objects share
-the same name \, they also share the same values (default: none),
-f 61;
-#X text 174 225 same as the quantile message with a random number between
-0 and 32768 as an argument (see quantile in [pd All_Messages], f 61
-;
-#X text 90 133 set index (x);
-#X text 308 128 value (y) to be stored at the index received in the
-left inlet, f 32;
-#X text 167 423 @size <float> (default 128) | @name <symbol> (default
-none) | @embed <float> (default 0), f 44;
-#X text 174 251 sets index (x): oututs its value or stores the value
-received in the right inlet at the given index, f 61;
 #X text 174 317 sets value (y) to be stored at the index sent to left
 inlet, f 61;
 #X text 174 278 a pair of index (x) and its value (y): sets "y" to
@@ -192,44 +176,9 @@ inlet, f 61;
 #X text 61 83 [table] stores and edits a number array. You can graphically
 edit it by opening it or double clicking on it. There are also several
 message methods \, check it below., f 65;
-#N canvas 588 23 811 744 examples 0;
-#X msg 508 112 goto 0;
-#X msg 518 134 goto 50;
-#X msg 539 167 next;
-#X msg 549 188 prev;
-#X obj 508 251 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 608 469 cyclone/table;
-#C restore;
-#X obj 608 498 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 508 222 cyclone/table ex1;
-#C restore;
-#X text 451 74 navigate with "goto" \, "next" and "prev";
-#X msg 521 543 flags;
-#X msg 454 386 fquantile;
-#X msg 456 407 quantile;
-#X msg 687 640 getbits;
-#X msg 688 664 setbits;
-#X msg 458 440 inv;
-#X msg 158 461 length;
-#X msg 121 412 max;
-#X msg 131 433 min;
-#X text 151 410 <= get maximum value;
-#X text 160 431 <= get minimum value;
-#X obj 213 658 cyclone/table ex1;
-#C restore;
-#X msg 213 623 dump;
-#X obj 213 690 print dump;
-#X text 245 622 <= dump all values from the table, f 18;
-#X obj 121 528 nbx 3 14 0 127 0 0 empty empty empty 0 -8 0 10 -228856
--1 -1 0 256;
-#X obj 121 495 cyclone/table ex1;
-#C restore;
-#X msg 552 652 cancel;
-#X msg 475 543 refer;
-#X msg 548 623 send;
-#X msg 584 623 sum;
+#N canvas 745 110 368 234 examples 0;
+#X msg 270 141 getbits;
+#X msg 271 165 setbits;
 #N canvas 708 23 454 597 load/normal 0;
 #X obj 109 286 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -285,8 +234,8 @@ of operation.;
 #X connect 18 0 16 0;
 #X connect 20 0 16 0;
 #X connect 21 0 16 0;
-#X restore 145 99 pd load/normal modes;
-#N canvas 686 125 414 492 name 0;
+#X restore 98 56 pd load/normal modes;
+#N canvas 239 68 802 488 argument/attributes 0;
 #X obj 89 280 cyclone/table x;
 #C restore;
 #X text 119 106 <= populate the table from 0-127;
@@ -310,6 +259,9 @@ the same values.;
 #X obj 236 381 loadbang;
 #X text 20 331 There is also a @name attribute that also sets a table
 name. You can also use the "name" message to set a table name.;
+#X text 491 74 embed/size;
+#X msg 534 147 flags;
+#X msg 488 147 refer;
 #X connect 2 2 3 0;
 #X connect 3 0 4 0;
 #X connect 3 1 4 1;
@@ -317,59 +269,153 @@ name. You can also use the "name" message to set a table name.;
 #X connect 6 0 2 0;
 #X connect 11 0 10 0;
 #X connect 12 0 11 0;
-#X restore 145 123 pd name argument/attribute;
-#N canvas 708 23 454 597 size/embred 0;
-#X restore 146 148 pd size/embred attributes;
-#X text 308 148 *;
-#N canvas 214 85 597 577 basic 1;
-#X msg 157 261 const 23;
-#X text 215 261 <= populate the table with a constant value;
-#X msg 190 288 clear;
-#X text 230 286 <= sets all values to 0;
-#X msg 220 340 set 10 1 2 3 4 5;
-#X text 326 340 <= sets values from index 10;
-#X msg 208 314 4 3;
-#X text 237 314 <= set value 3 to index 4;
-#X obj 158 412 cyclone/table;
+#X restore 98 80 pd argument/attributes;
+#X text 240 82 *;
+#N canvas 428 43 550 603 basic_examples 0;
+#X msg 190 164 const 23;
+#X text 248 164 <= populate the table with a constant value, f 21
+;
+#X msg 196 197 clear;
+#X text 236 197 <= sets all values to 0;
+#X msg 163 110 set 10 1 2 3 4 5;
+#X text 269 110 <= sets values from index 10;
+#X msg 178 133 4 3;
+#X text 207 133 <= set value 3 to index 4;
+#X obj 145 284 cyclone/table;
 #C restore;
-#X msg 65 214 open;
-#X msg 104 214 wclose;
-#X msg 339 401 read;
-#X text 148 215 open/close editing window;
-#X obj 179 76 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
--1;
-#X text 202 76 <= populate the table with random values;
-#X obj 179 102 cyclone/uzi 128 0;
-#X obj 278 123 t f b;
-#X obj 327 124 random 128;
-#X obj 252 156 cyclone/table;
+#X msg 107 72 open;
+#X msg 146 72 wclose;
+#X text 191 72 open/close editing window;
+#X msg 73 42 read table-ex.txt;
+#X obj 73 19 loadbang;
+#X msg 29 42 write;
+#X text 190 36 read/write can load and save files with contents of
+the table. If no file name is given \, a dialog window opens;
+#X msg 215 239 dump;
+#X text 247 238 <= dump all values from the table, f 18;
+#X obj 145 312 print dump;
+#X msg 183 461 cancel;
+#X obj 206 522 cyclone/table;
 #C restore;
+#X obj 281 490 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 206 489 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 206 549 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 45 347 If no value is given in the right inlet \, the left
+input gives you the value from the specified index. But if a value
+has been previously set in the right inlet \, then the left input stores
+that value at the given index., f 70;
+#X text 45 402 Now \, if a value is given in the right inlet \, you
+can use the "cancel" message to make it "forget" \, so when you give
+it an index in the left inlet \, it only outputs its current value
+and doesn't store anything., f 70;
 #X connect 0 0 8 0;
 #X connect 2 0 8 0;
 #X connect 4 0 8 0;
 #X connect 6 0 8 0;
+#X connect 8 0 18 0;
 #X connect 9 0 8 0;
 #X connect 10 0 8 0;
-#X connect 11 0 8 0;
-#X connect 13 0 15 0;
-#X connect 15 2 16 0;
-#X connect 16 0 18 0;
-#X connect 16 1 17 0;
-#X connect 17 0 18 1;
-#X restore 185 253 pd basic;
-#X connect 0 0 7 0;
-#X connect 1 0 7 0;
-#X connect 2 0 7 0;
-#X connect 3 0 7 0;
-#X connect 5 0 6 0;
-#X connect 7 0 4 0;
-#X connect 15 0 25 0;
-#X connect 16 0 25 0;
-#X connect 17 0 25 0;
-#X connect 20 0 22 0;
-#X connect 21 0 20 0;
-#X connect 25 0 24 0;
+#X connect 12 0 8 0;
+#X connect 13 0 12 0;
+#X connect 14 0 8 0;
+#X connect 16 0 8 0;
+#X connect 19 0 20 0;
+#X connect 20 0 23 0;
+#X connect 21 0 20 1;
+#X connect 22 0 20 0;
+#X restore 98 34 pd basic_examples;
+#N canvas 426 101 747 352 more_examples 0;
+#X obj 61 310 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 94 213 sum;
+#X msg 30 48 goto 50;
+#X msg 43 73 next;
+#X msg 61 97 prev;
+#X msg 93 181 length;
+#X msg 76 129 max;
+#X msg 86 150 min;
+#X text 85 48 go to index 50;
+#X text 78 71 go to the next index and output its value;
+#X text 96 96 go to the previous index and output its value;
+#X text 106 128 ouput maximum value from the table;
+#X text 114 149 ouput minimum value from the table;
+#X text 139 181 output table's length;
+#X text 121 212 output the sum of all table's avlues;
+#X msg 103 245 send;
+#X obj 61 281 cyclone/table;
+#C restore;
+#X msg 425 191 fquantile \$1;
+#X obj 428 148 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+-1 -1 0 1;
+#X obj 425 170 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 405 115 quantile \$1;
+#X obj 405 70 random 32768;
+#X obj 405 46 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 405 94 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 32768 256;
+#X obj 374 21 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 405 313 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 405 285 cyclone/table;
+#C restore;
+#X text 485 88 sends the address at which the sum of the all values
+up to that address is >= the the sum of all table values times the
+input divided by 2^15 (32768), f 40;
+#X text 512 176 same as quantile \, but the input range is a float
+from 0 to 1, f 35;
+#X msg 441 248 inv \$1;
+#X obj 441 227 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 493 232 finds the first table value which is >= the input and
+sends its address, f 37;
+#X text 395 20 same as below (random values from 0 to 32768 + quantile)
+;
+#X text 427 45 random + quantile;
+#X connect 1 0 16 0;
+#X connect 2 0 16 0;
+#X connect 3 0 16 0;
+#X connect 4 0 16 0;
+#X connect 5 0 16 0;
+#X connect 6 0 16 0;
+#X connect 7 0 16 0;
+#X connect 16 0 0 0;
+#X connect 17 0 26 0;
+#X connect 18 0 19 0;
+#X connect 19 0 17 0;
+#X connect 20 0 26 0;
+#X connect 21 0 23 0;
+#X connect 22 0 21 0;
+#X connect 23 0 20 0;
+#X connect 24 0 26 0;
+#X connect 26 0 25 0;
+#X connect 29 0 26 0;
+#X connect 30 0 29 0;
+#X restore 98 103 pd more_examples;
+#X text 46 157 editing window... / inconsistencies;
 #X restore 479 174 pd examples;
+#X text 335 126 value stored at the index received in the left inlet
+, f 22;
+#X text 290 169 <= click to open;
+#X text 79 133 index to output its value or store from right inlet
+value, f 19;
+#X text 174 225 same as the quantile message with a random number between
+0 and 32768 as an argument (see quantile in [pd All_Messages]), f
+61;
+#X text 174 251 index (x): outputs its value or stores the value from
+the right inlet (if given) at that index, f 61;
+#X text 149 423 @size <float> (default 128 \, min 1 \, max 32768) |
+@name <symbol> (default none) | @embed <float> (default 0);
+#X text 174 351 index values or else depending on the given message
+, f 62;
+#X text 172 383 sets table name - if two or more [table] objects share
+the same name \, they also share the same values (default: none),
+f 61;
 #X connect 23 0 26 0;
 #X connect 24 0 23 1;
 #X connect 25 0 23 0;
