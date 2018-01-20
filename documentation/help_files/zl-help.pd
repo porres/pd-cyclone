@@ -1,57 +1,79 @@
-#N canvas 727 35 559 551 10;
-#X obj 2 240 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 521 72 558 534 10;
+#X obj 2 229 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 358 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 347 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 86 247 cnv 17 3 84 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 236 cnv 17 3 84 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 366 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 82 355 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 336 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 82 325 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 387 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 82 376 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 184 211 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 199 205 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1;
-#X restore 2 4 graph;
-#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
-#X obj 184 187 cyclone/zl len;
-#X text 123 260 anything;
-#X floatatom 184 135 5 0 0 0 - - -, f 5;
-#X text 95 274 mode <symbol>;
-#X text 182 260 - one or more element messages to be processed;
-#X text 123 335 anything;
-#X text 123 386 anything;
-#X text 123 365 anything;
-#X text 95 317 zlmaxsize <f>;
-#X obj 2 412 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 199 181 cyclone/zl len;
+#X text 119 249 anything;
+#X text 91 263 mode <symbol>;
+#X text 178 249 - one or more element messages to be processed;
+#X text 119 324 anything;
+#X text 119 375 anything;
+#X text 119 354 anything;
+#X text 91 306 zlmaxsize <f>;
+#X obj 2 401 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 2 523 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 509 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 174 436 -;
-#X text 174 418 -;
-#X text 116 418 1) float;
-#X text 116 436 1) symbol;
-#X obj 2 493 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X text 170 425 -;
+#X text 170 407 -;
+#X text 112 407 1) float;
+#X text 112 425 1) symbol;
+#X obj 2 479 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X coords 0 1 100 -1 252 42 1;
-#X restore 304 4 graph;
-#X msg 227 134 beep 1 2 3 4;
-#X text 147 245 bang;
-#X text 130 302 zlclear;
-#X text 182 302 - clears and reinitializes the zl object;
-#N canvas 649 224 633 497 examples 0;
-#X obj 108 138 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X restore 304 3 graph;
+#X msg 242 128 beep 1 2 3 4;
+#X text 143 234 bang;
+#X text 126 291 zlclear;
+#N canvas 610 157 572 445 examples 0;
+#X obj 91 118 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 195 260 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 178 230 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#N canvas 728 59 406 428 zl_ecils 0;
+#X text 19 30 You can set the size of the list with a first optional
+float argument. If you don't \, then the first argument is a symbol
+that specifies the mode type \, and the maximum size is the default:
+256 elements.;
+#X text 205 121 back to default;
+#X msg 210 140 zlmaxsize 256;
+#X text 19 81 The maximum size is also set via the 'zlmaxsize' attribute
+or message (and it can be up to 32767).;
+#X obj 19 7 cyclone/comment 185 14 monaco ? 0 0 0 0 Basic:;
+#X obj 453 47 cyclone/comment 185 14 monaco ? 0 0 0 0 Modes:;
+#X obj 23 348 cyclone/comment 185 14 monaco ? 0 0 0 0 Inconsistency
+;
+#X text 24 373 In Max \, the zl family of objects can be instantiated
+with the mode after a dot \, such as [zl.group]. But this is not possible
+in Pd \, where the mode needs to be called as an argument after a space.
+;
+#X text 23 255 The mode argument is obrigatory and this means there
+is no default mode. If you don't set a mode as an argument \, you have
+to set it via the mode message.;
+#X text 24 303 Check details about each mode in the subpatches on the
+right. Modes introduced in the Max5+ versions are not implemented yet.
+;
+#X obj 178 203 cyclone/zl len;
+#X obj 178 172 cyclone/zl len @maxzlsize 512;
+#N canvas 728 59 406 428 ecils 0;
 #X obj 22 8 comment 185 14 monaco ? 0 0 0 0 Mode: ecils;
 #X obj 235 271 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
@@ -83,8 +105,8 @@ with the mode message. The default point is '0' \, which means no slicing.
 #X connect 9 0 11 0;
 #X connect 11 0 5 0;
 #X connect 11 1 6 0;
-#X restore 477 85 pd zl_ecils;
-#N canvas 634 51 409 470 zl_group 0;
+#X restore 455 78 pd ecils;
+#N canvas 893 197 409 470 group 0;
 #X obj 268 274 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 24 18 comment 185 14 monaco ? 0 0 0 0 Mode: group;
@@ -123,8 +145,8 @@ group size is the maximum zl size (and the minimum group size is 1).
 #X connect 8 0 5 0;
 #X connect 10 2 5 0;
 #X connect 13 0 5 0;
-#X restore 477 107 pd zl_group;
-#N canvas 296 143 463 451 zl_iter 0;
+#X restore 455 100 pd group;
+#N canvas 753 249 463 451 iter 0;
 #X msg 171 278 1 2 3 4 5 6;
 #X msg 153 250 mode iter 4;
 #X obj 153 384 print iter;
@@ -156,8 +178,8 @@ with the mode message. The minimum iter size is 1 and the default is
 #X connect 7 0 12 1;
 #X connect 11 0 12 0;
 #X connect 12 0 2 0;
-#X restore 477 129 pd zl_iter;
-#N canvas 919 115 425 306 zl_join 0;
+#X restore 455 122 pd iter;
+#N canvas 919 115 425 306 join 0;
 #X obj 32 18 comment 185 14 monaco ? 0 0 0 0 Mode: join;
 #X obj 156 263 print zl_join;
 #X obj 101 161 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -178,14 +200,14 @@ is inactive.;
 #X connect 6 0 1 0;
 #X connect 7 0 6 1;
 #X connect 8 0 6 0;
-#X restore 477 151 pd zl_join;
-#N canvas 781 151 405 384 zl_len 0;
+#X restore 455 144 pd join;
+#N canvas 781 151 405 384 len 0;
 #X msg 154 178 this produces 3;
 #X msg 165 210 and this should be five;
 #X obj 130 277 cyclone/zl len;
 #X msg 130 147 list two elements;
 #X obj 130 313 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
+-228856 -1 -1 0 256;
 #X obj 71 213 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 130 341 print zl_len;
@@ -205,14 +227,8 @@ inlet/outlet are inactive.;
 #X connect 5 0 2 0;
 #X connect 8 0 2 0;
 #X connect 9 0 2 0;
-#X restore 477 173 pd zl_len;
-#X text 30 34 You can set the size of the list with a first optional
-float argument. If you don't \, then the first argument is a symbol
-that specifies the mode type \, and the maximum size is the default:
-256 elements.;
-#X text 222 150 back to default;
-#X msg 227 169 zlmaxsize 256;
-#N canvas 573 172 789 398 zl_mth 0;
+#X restore 455 166 pd len;
+#N canvas 573 172 789 398 mth 0;
 #X obj 75 247 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 451 210 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -222,7 +238,7 @@ that specifies the mode type \, and the maximum size is the default:
 #X obj 210 273 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 72 338 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 4 256;
+-228856 -1 -1 0 256;
 #X text 25 162 A bang performs the operation in the last received list.
 ;
 #X msg 504 190 1 2 3 4 5 6 7 8 9 10;
@@ -264,8 +280,8 @@ outlet \, the same happens for negative mth values.;
 #X connect 18 0 17 0;
 #X connect 19 0 17 1;
 #X connect 22 0 16 0;
-#X restore 477 195 pd zl_mth;
-#N canvas 426 244 812 412 zl_nth 0;
+#X restore 455 188 pd mth;
+#N canvas 426 244 812 412 nth 0;
 #X obj 127 343 print nth;
 #X obj 504 280 print nth;
 #X obj 85 255 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -318,8 +334,8 @@ the right outlet and nothing is sent via the left outlet., f 61;
 #X connect 18 0 13 0;
 #X connect 22 0 9 0;
 #X connect 23 0 13 1;
-#X restore 477 217 pd zl_nth;
-#N canvas 738 261 430 326 zl_reg 0;
+#X restore 455 210 pd nth;
+#N canvas 786 294 430 326 reg 0;
 #X obj 69 280 print reg;
 #X obj 111 216 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
@@ -343,10 +359,9 @@ right outlet is inactive.;
 #X connect 5 0 11 1;
 #X connect 7 0 11 0;
 #X connect 11 0 0 0;
-#X restore 477 239 pd zl_reg;
-#N canvas 488 105 422 304 zl_rev 0;
+#X restore 455 232 pd reg;
+#N canvas 865 220 418 288 rev 0;
 #X msg 137 130 way this something means this;
-#X obj 117 192 cyclone/zl rev;
 #X obj 26 7 comment 185 14 monaco ? 0 0 0 0 Mode: rev;
 #X obj 81 135 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -357,44 +372,45 @@ are inactive.;
 #X obj 117 237 print zl_rev;
 #X msg 117 95 mode rev;
 #X text 178 94 <= sets mode;
-#X connect 0 0 1 0;
-#X connect 1 0 6 0;
-#X connect 3 0 1 0;
-#X connect 5 0 1 0;
-#X connect 7 0 1 0;
-#X restore 477 261 pd zl_rev;
-#N canvas 436 78 428 467 zl_rot 0;
-#X msg 135 290 sometimes my grammar is all messed up;
-#X obj 115 378 cyclone/zl rot 3;
-#X obj 208 353 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 117 192 cyclone/zl rev;
+#X connect 0 0 8 0;
+#X connect 2 0 8 0;
+#X connect 4 0 8 0;
+#X connect 6 0 8 0;
+#X connect 8 0 5 0;
+#X restore 455 254 pd rev;
+#N canvas 842 204 407 413 rot 0;
+#X msg 122 246 sometimes my grammar is all messed up;
+#X obj 102 334 cyclone/zl rot 3;
+#X obj 195 309 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 31 15 comment 185 14 monaco ? 0 0 0 0 Mode: rot;
-#X obj 76 333 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 17 7 comment 185 14 monaco ? 0 0 0 0 Mode: rot;
+#X obj 63 289 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X text 31 181 A bang performs the operation in the last received list.
+#X text 18 156 A bang performs the operation in the last received list.
 ;
-#X text 31 201 The right outlet is inactive.;
-#X obj 115 417 print zl_rot;
-#X text 30 47 The mode rot does rotate a list. If the rotation point
+#X text 18 176 The right outlet is inactive.;
+#X obj 102 373 print zl_rot;
+#X text 17 35 The mode rot does rotate a list. If the rotation point
 is a positive number 'n' \, the list is shifted to the right by 'n'
 positions \, and the last 'n' elements are placed at the list start.
 If 'n' is negative \, the rotation happens at the other direction.
 ;
-#X text 31 120 You can set the rotation point with an argument or with
+#X text 18 99 You can set the rotation point with an argument or with
 a float input into the right inlet \, but also when you set the mode
 with the mode message. The default point is '0' \, which means no rotation.
 ;
-#X msg 159 320 1 2 3 4 5 6 7 8 9 10 11 12;
-#X msg 115 249 mode rot -3;
-#X text 192 249 <= sets mode and argument;
+#X msg 146 276 1 2 3 4 5 6 7 8 9 10 11 12;
+#X msg 102 217 mode rot -3;
+#X text 179 217 <= sets mode and argument;
 #X connect 0 0 1 0;
 #X connect 1 0 7 0;
 #X connect 2 0 1 1;
 #X connect 4 0 1 0;
 #X connect 10 0 1 0;
 #X connect 11 0 1 0;
-#X restore 477 283 pd zl_rot;
-#N canvas 942 269 424 357 zl_sect 0;
+#X restore 455 276 pd rot;
+#N canvas 949 241 424 357 sect 0;
 #X obj 59 211 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 223 296 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -423,8 +439,8 @@ into the left inlet.;
 #X connect 12 0 13 1;
 #X connect 13 0 4 0;
 #X connect 13 1 1 0;
-#X restore 477 306 pd zl_sect;
-#N canvas 521 119 415 398 zl_slice 0;
+#X restore 455 299 pd sect;
+#N canvas 824 23 415 398 slice 0;
 #X obj 22 8 comment 185 14 monaco ? 0 0 0 0 Mode: slice;
 #X obj 235 251 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
@@ -454,26 +470,26 @@ is '0' \, which means no slicing.;
 #X connect 9 0 10 0;
 #X connect 10 0 11 0;
 #X connect 10 1 12 0;
-#X restore 477 328 pd zl_slice;
-#N canvas 889 66 443 380 zl_sub 0;
-#X obj 84 213 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X restore 455 321 pd slice;
+#N canvas 889 66 405 323 sub 0;
+#X obj 73 171 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X msg 210 241 11;
-#X msg 246 241 7 8 9;
-#X obj 30 21 comment 185 14 monaco ? 0 0 0 0 Mode: sub;
-#X msg 175 241 1;
-#X obj 117 276 cyclone/zl sub 1;
-#X obj 210 338 print occurances;
-#X msg 131 214 1 2 3 7 8 9 4 5 6 7 8 9 1;
-#X obj 117 338 print position;
-#X text 31 72 the sub mode searches for occurances of the element(s)
+#X msg 199 199 11;
+#X msg 235 199 7 8 9;
+#X obj 20 14 comment 185 14 monaco ? 0 0 0 0 Mode: sub;
+#X msg 164 199 1;
+#X obj 106 234 cyclone/zl sub 1;
+#X obj 199 268 print occurances;
+#X msg 120 172 1 2 3 7 8 9 4 5 6 7 8 9 1;
+#X obj 106 268 print position;
+#X text 18 42 the sub mode searches for occurances of the element(s)
 of the second list to the first list and outputs the number of occurances
 in the right outlet and the position of such occurances in the left
 outlet. If no occurance is found \, the right outlet outputs 0 and
 nothing is output on the left outlet. Subsequent arguments initialize
 the right list.;
-#X msg 117 180 mode sub 5;
-#X text 188 180 <= sets mode and arguments;
+#X msg 106 138 mode sub 5;
+#X text 177 138 <= sets mode and arguments;
 #X connect 0 0 5 0;
 #X connect 1 0 5 1;
 #X connect 2 0 5 1;
@@ -482,125 +498,112 @@ the right list.;
 #X connect 5 1 6 0;
 #X connect 7 0 5 0;
 #X connect 10 0 5 0;
-#X restore 477 352 pd zl_sub;
-#N canvas 612 122 443 329 zl_union 0;
-#X obj 93 158 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X restore 455 345 pd sub;
+#N canvas 861 239 409 254 union 0;
+#X obj 62 126 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 32 26 comment 185 14 monaco ? 0 0 0 0 Mode: union;
-#X obj 136 255 print zl_union;
-#X text 33 60 union the stuff in two lists (but does not duplicate
+#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 Mode: union;
+#X obj 105 208 print zl_union;
+#X text 21 39 union the stuff in two lists (but does not duplicate
 things in list 2 that are in list 1). Subsequent arguments initialize
 the right list. The right outlet is inactive.;
-#X msg 265 165 6.5 4 2.3 2 2 8 hi;
-#X msg 150 161 2.3 7 6.5 hi;
-#X msg 136 132 mode union a b;
-#X text 232 131 <= sets mode and arguments;
-#X obj 136 203 cyclone/zl union 10 20;
+#X msg 234 133 6.5 4 2.3 2 2 8 hi;
+#X msg 119 129 2.3 7 6.5 hi;
+#X msg 105 100 mode union a b;
+#X text 201 99 <= sets mode and arguments;
+#X obj 105 171 cyclone/zl union 10 20;
 #X connect 0 0 8 0;
 #X connect 4 0 8 1;
 #X connect 5 0 8 0;
 #X connect 6 0 8 0;
 #X connect 8 0 2 0;
-#X restore 477 374 pd zl_union;
-#X text 30 96 The maximum size is also set via the 'zlmaxsize' attribute
-or message (and it can be up to 32767).;
-#X obj 30 11 cyclone/comment 185 14 monaco ? 0 0 0 0 Basic:;
-#X obj 486 53 cyclone/comment 185 14 monaco ? 0 0 0 0 Modes:;
-#X obj 48 391 cyclone/comment 185 14 monaco ? 0 0 0 0 Inconsistency
-;
-#X text 49 416 In Max \, the zl family of objects can be instantiated
-with the mode after a dot \, such as [zl.group]. But this is not possible
-in Pd \, where the mode needs to be called as an argument after a space.
-;
-#X text 44 289 The mode argument is obrigatory and this means there
-is no default mode. If you don't set a mode as an argument \, you have
-to set it via the mode message.;
-#X text 45 337 Check details about each mode in the subpatches on the
-right. Modes introduced in the Max5+ versions are not implemented yet.
-;
-#X obj 195 232 cyclone/zl len;
-#X obj 108 169 cyclone/uzi 15;
-#X obj 195 201 cyclone/zl len @maxzlsize 512;
-#X connect 0 0 27 0;
-#X connect 9 0 26 0;
-#X connect 9 0 28 0;
-#X connect 26 0 1 0;
-#X connect 27 2 28 0;
-#X connect 28 0 26 0;
-#X restore 475 213 pd examples;
-#X text 182 367 - output according to the mode: see details in [pd
+#X restore 455 367 pd union;
+#X obj 91 145 cyclone/uzi 512;
+#X connect 0 0 28 0;
+#X connect 4 0 12 0;
+#X connect 4 0 13 0;
+#X connect 12 0 1 0;
+#X connect 13 0 12 0;
+#X connect 28 2 13 0;
+#X restore 475 202 pd examples;
+#X text 178 356 - output according to the mode: see details in [pd
 examples];
-#X text 182 386 - output according to the mode: see details in [pd
+#X text 178 375 - output according to the mode: see details in [pd
 examples];
-#X text 182 245 - depends on the mode \, see [pd examples];
-#X obj 151 133 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 166 127 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X msg 239 161 zlclear;
-#X text 291 160 <= reinitializes;
-#X text 99 132 resends;
-#X text 102 147 length;
-#X text 182 335 - depends on the mode \, see [pd examples];
-#N canvas 404 164 460 265 subsequent_arguments 0;
-#X text 21 73 group;
-#X text 27 88 iter;
-#X text 33 119 mth;
-#X text 33 149 reg;
-#X text 27 180 sect;
-#X text 21 195 slice;
-#X text 33 164 rot;
-#X text 21 59 ecils;
-#X text 33 134 nth;
-#X text 60 119 - float: the element position counting from 0 (default
+#X msg 247 153 zlclear;
+#X text 114 126 resends;
+#X text 117 141 length;
+#X text 178 324 - depends on the mode \, see [pd examples];
+#N canvas 760 484 463 278 subsequent_arguments 0;
+#X text 22 76 group;
+#X text 28 91 iter;
+#X text 34 122 mth;
+#X text 34 152 reg;
+#X text 28 183 sect;
+#X text 22 198 slice;
+#X text 34 167 rot;
+#X text 22 62 ecils;
+#X text 34 137 nth;
+#X text 61 122 - float: the element position counting from 0 (default
 0), f 62;
-#X text 60 149 - anything: stored elements (default none), f 62;
-#X text 33 213 sub;
-#X text 60 213 - anything: elements to look for (default none), f
+#X text 61 152 - anything: stored elements (default none), f 62;
+#X text 34 216 sub;
+#X text 61 216 - anything: elements to look for (default none), f
 62;
-#X text 60 73 - float: length of the grouped list (default is zlmaxsize)
+#X text 61 76 - float: length of the grouped list (default is zlmaxsize)
 , f 62;
-#X text 60 134 - float: the element position counting from 1 (default
+#X text 61 137 - float: the element position counting from 1 (default
 0), f 62;
-#X text 60 164 - float: number to rotate to (default 0), f 62;
-#X text 60 195 - float: position to slice the list (default 0), f
+#X text 61 167 - float: number to rotate to (default 0), f 62;
+#X text 61 198 - float: position to slice the list (default 0), f
 62;
-#X text 60 59 - float: position to slice the list (default 0), f 62
+#X text 61 62 - float: position to slice the list (default 0), f 62
 ;
-#X text 60 180 - anything: to compare with left input (default none)
+#X text 61 183 - anything: to compare with left input (default none)
 , f 62;
-#X text 60 88 - float: length of output list (default 0), f 62;
-#X text 21 228 union;
-#X text 60 228 - anything: elements to union to the first list (default
+#X text 61 91 - float: length of output list (default 0), f 62;
+#X text 22 231 union;
+#X text 61 231 - anything: elements to union to the first list (default
 none), f 62;
-#X text 27 104 join;
-#X text 60 104 - anything: elements to join to the first list (default
+#X text 28 107 join;
+#X text 61 107 - anything: elements to join to the first list (default
 none), f 62;
-#X text 40 10 The modes len & rev don't have arguments. The other modes
+#X text 47 13 The modes len & rev don't have arguments. The other modes
 can have subsequent arguments as below. See also [pd examples] for
-more details on how they work.;
-#X restore 301 466 pd subsequent_arguments;
-#X text 182 275 -;
-#X text 194 274 sets mode (you can also set subsequent arguments) -
+more details on how they work., f 62;
+#X restore 297 454 pd subsequent_arguments;
+#X text 178 264 -;
+#X text 190 263 sets mode (you can also set subsequent arguments) -
 check [pd examples] for more info;
-#X text 70 86 [zl] processes messages with one or more elements ("list
+#X text 70 85 [zl] processes messages with one or more elements ("list
 messages' or "anything") according to a mode (set via argument/message).
 , f 66;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 List processor;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 zl;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 List processor;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 zl;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X text 188 436 mode (ecils \, group \, iter \, join \, len \, mth
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 184 425 mode (ecils \, group \, iter \, join \, len \, mth
 \, nth \, reg \, rev \, rot \, sect \, slice \, sub or union). Modes
 can have subsequent arguments \, check:;
-#X text 182 317 - sets maximum list size (from 1 to 32767);
-#X text 219 211 <= number of elements in a message;
-#X text 278 187 length mode;
-#X text 188 418 optional: maximum list size (1 - 32767 \, default 256)
+#X text 178 306 - sets maximum list size (from 1 to 32767);
+#X text 234 205 <= number of elements in a message;
+#X text 293 181 length mode;
+#X text 184 407 optional: maximum list size (1 - 32767 \, default 256)
 ;
-#X text 133 500 @zlmaxsize <float> - max list size (1 - 32767 \, default
+#X text 129 486 @zlmaxsize <float> - max list size (1 - 32767 \, default
 256), f 62;
+#X text 178 291 - clears mode's arguments and received data in both
+inlets;
+#X obj 199 129 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X text 178 234 - mode dependant operation on current data see [pd
+examples];
+#X text 298 153 clears loaded data;
 #X connect 10 0 6 0;
-#X connect 12 0 10 0;
-#X connect 27 0 10 0;
-#X connect 35 0 10 0;
-#X connect 36 0 10 0;
+#X connect 26 0 10 0;
+#X connect 32 0 10 0;
+#X connect 33 0 10 0;
+#X connect 52 0 10 0;
