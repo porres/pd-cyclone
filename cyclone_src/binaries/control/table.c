@@ -22,7 +22,7 @@
 #define TABLE_INISIZE      256  /* LATER rethink */
 #define TABLE_DEFLENGTH    128  /* CHECKED */
 #define TABLE_MINLENGTH      1  // RE-CHECKED
-#define TABLE_MAXLENGTH  16383  /* CHECKED, LATER rethink */
+#define TABLE_MAXLENGTH  16777216  // 2ˆ24, but it's actually unlimited now...
 #define TABLE_MINRANGE       2  /* CHECKED */
 #define TABLE_MAXQ       32768  /* CHECKME */
 

@@ -1,4 +1,4 @@
-#N canvas 690 64 559 479 10;
+#N canvas 548 67 560 480 10;
 #X obj 3 218 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 339 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -35,8 +35,6 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 2 pd;
-#X obj 203 169 cyclone/table;
-#C restore;
 #X obj 278 136 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 203 135 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -176,7 +174,7 @@ inlet, f 61;
 #X text 61 83 [table] stores and edits a number array. You can graphically
 edit it by opening it or double clicking on it. There are also several
 message methods \, check it below., f 65;
-#N canvas 745 110 368 234 examples 0;
+#N canvas 824 185 368 234 examples 0;
 #X msg 270 141 getbits;
 #X msg 271 165 setbits;
 #N canvas 708 23 454 597 load/normal 0;
@@ -235,7 +233,7 @@ of operation.;
 #X connect 20 0 16 0;
 #X connect 21 0 16 0;
 #X restore 98 56 pd load/normal modes;
-#N canvas 239 68 802 488 argument/attributes 0;
+#N canvas 423 114 802 488 argument/attributes 0;
 #X obj 89 280 cyclone/table x;
 #C restore;
 #X text 119 106 <= populate the table from 0-127;
@@ -327,25 +325,24 @@ and doesn't store anything., f 70;
 #X connect 21 0 20 1;
 #X connect 22 0 20 0;
 #X restore 98 34 pd basic_examples;
-#N canvas 426 101 747 352 more_examples 0;
-#X obj 61 310 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#N canvas 426 101 747 344 more_examples 0;
+#X obj 58 300 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X msg 94 213 sum;
-#X msg 30 48 goto 50;
-#X msg 43 73 next;
-#X msg 61 97 prev;
-#X msg 93 181 length;
-#X msg 76 129 max;
-#X msg 86 150 min;
-#X text 85 48 go to index 50;
-#X text 78 71 go to the next index and output its value;
-#X text 96 96 go to the previous index and output its value;
-#X text 106 128 ouput maximum value from the table;
-#X text 114 149 ouput minimum value from the table;
-#X text 139 181 output table's length;
-#X text 121 212 output the sum of all table's avlues;
-#X msg 103 245 send;
-#X obj 61 281 cyclone/table;
+#X msg 91 203 sum;
+#X msg 27 38 goto 50;
+#X msg 40 63 next;
+#X msg 58 87 prev;
+#X msg 90 171 length;
+#X msg 73 119 max;
+#X msg 83 140 min;
+#X text 82 38 go to index 50;
+#X text 75 61 go to the next index and output its value;
+#X text 93 86 go to the previous index and output its value;
+#X text 103 118 ouput maximum value from the table;
+#X text 111 139 ouput minimum value from the table;
+#X text 136 171 output table's length;
+#X text 118 202 output the sum of all table's avlues;
+#X obj 58 271 cyclone/table;
 #C restore;
 #X msg 425 191 fquantile \$1;
 #X obj 428 148 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
@@ -357,7 +354,7 @@ and doesn't store anything., f 70;
 #X obj 405 46 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 405 94 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 32768 256;
+-228856 -1 -1 0 256;
 #X obj 374 21 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 405 313 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -374,28 +371,34 @@ from 0 to 1, f 35;
 -228856 -1 -1 0 256;
 #X text 493 232 finds the first table value which is >= the input and
 sends its address, f 37;
-#X text 395 20 same as below (random values from 0 to 32768 + quantile)
+#X text 393 20 same as below (random values from 0 to 32768 + quantile)
 ;
 #X text 427 45 random + quantile;
-#X connect 1 0 16 0;
-#X connect 2 0 16 0;
-#X connect 3 0 16 0;
-#X connect 4 0 16 0;
-#X connect 5 0 16 0;
-#X connect 6 0 16 0;
-#X connect 7 0 16 0;
-#X connect 16 0 0 0;
-#X connect 17 0 26 0;
-#X connect 18 0 19 0;
-#X connect 19 0 17 0;
-#X connect 20 0 26 0;
-#X connect 21 0 23 0;
-#X connect 22 0 21 0;
-#X connect 23 0 20 0;
-#X connect 24 0 26 0;
-#X connect 26 0 25 0;
-#X connect 29 0 26 0;
-#X connect 30 0 29 0;
+#X msg 100 235 send x 3;
+#X obj 268 255 receive x;
+#X floatatom 268 280 5 0 0 0 - - -, f 5;
+#X text 158 234 send value of index 3 to "x";
+#X connect 1 0 15 0;
+#X connect 2 0 15 0;
+#X connect 3 0 15 0;
+#X connect 4 0 15 0;
+#X connect 5 0 15 0;
+#X connect 6 0 15 0;
+#X connect 7 0 15 0;
+#X connect 15 0 0 0;
+#X connect 16 0 25 0;
+#X connect 17 0 18 0;
+#X connect 18 0 16 0;
+#X connect 19 0 25 0;
+#X connect 20 0 22 0;
+#X connect 21 0 20 0;
+#X connect 22 0 19 0;
+#X connect 23 0 25 0;
+#X connect 25 0 24 0;
+#X connect 28 0 25 0;
+#X connect 29 0 28 0;
+#X connect 33 0 15 0;
+#X connect 34 0 35 0;
 #X restore 98 103 pd more_examples;
 #X text 46 157 editing window... / inconsistencies;
 #X restore 479 174 pd examples;
@@ -409,13 +412,15 @@ value, f 19;
 61;
 #X text 174 251 index (x): outputs its value or stores the value from
 the right inlet (if given) at that index, f 61;
-#X text 149 423 @size <float> (default 128 \, min 1 \, max 32768) |
-@name <symbol> (default none) | @embed <float> (default 0);
 #X text 174 351 index values or else depending on the given message
 , f 62;
 #X text 172 383 sets table name - if two or more [table] objects share
 the same name \, they also share the same values (default: none),
 f 61;
-#X connect 23 0 26 0;
-#X connect 24 0 23 1;
-#X connect 25 0 23 0;
+#X text 102 428 @size <float> (default 128) | @name <symbol> | @embed
+<float> (default 0), f 73;
+#X obj 203 169 cyclone/table;
+#C restore;
+#X connect 23 0 48 1;
+#X connect 24 0 48 0;
+#X connect 48 0 25 0;
