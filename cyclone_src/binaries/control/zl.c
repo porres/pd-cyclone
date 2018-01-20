@@ -61,11 +61,6 @@ typedef struct _zl
     int               x_mode;
     int               x_modearg;
     t_outlet         *x_out2;
-
-    //storing init data to reinit on zlclear
-    t_symbol *x_initmode;
-    int x_initargc;
-    t_atom *x_initargv;
 } t_zl;
 
 typedef struct _zlproxy
@@ -964,8 +959,8 @@ static void zl_free(t_zl *x)
     zldata_free(&x->x_inbuf1);
     zldata_free(&x->x_inbuf2);
     zldata_free(&x->x_outbuf);
-    freebytes(x->x_initargv, x->x_initargc * sizeof(t_atom));
-    if (x->x_proxy) pd_free((t_pd *)x->x_proxy);
+    if(x->x_proxy)
+        pd_free((t_pd *)x->x_proxy);
 }
 
 static void zl_mode(t_zl *x, t_symbol *s, int ac, t_atom *av){
@@ -1039,15 +1034,6 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     zldata_init(&x->x_inbuf1);
     zldata_init(&x->x_inbuf2);
     zldata_init(&x->x_outbuf);
-
-    x->x_initmode = s;
-    x->x_initargc = argc - size_arg - size_attr;
-    x->x_initargv = (t_atom *)getbytes(x->x_initargc * sizeof(t_atom));
-    for(i=0;i < x->x_initargc; i++)
-      {
-	if(argv[size_arg+i].a_type == A_FLOAT) SETFLOAT(&x->x_initargv[i], argv[size_arg+i].a_w.w_float);
-	else if (argv[size_arg+i].a_type == A_SYMBOL) SETSYMBOL(&x->x_initargv[i], argv[size_arg+i].a_w.w_symbol);
-      };
     zl_mode(x, s, argc - size_arg - size_attr, argv + size_arg);
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
@@ -1113,13 +1099,10 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f)
     };
 }
 
-static void zl_zlclear(t_zl *x)
-{
+static void zl_zlclear(t_zl *x){
     zldata_init(&x->x_inbuf1);
     zldata_init(&x->x_inbuf2);
     zldata_init(&x->x_outbuf);
-    zl_mode(x, x->x_initmode, x->x_initargc, x->x_initargv);
-
 }
 
 void zl_setup(void){
