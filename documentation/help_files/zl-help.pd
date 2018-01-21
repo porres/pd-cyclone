@@ -48,7 +48,7 @@
 #X obj 91 118 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 178 230 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X text 19 30 You can set the size of the list with a first optional
 float argument. If you don't \, then the first argument is a symbol
 that specifies the mode type \, and the maximum size is the default:
@@ -546,17 +546,17 @@ the right list. The right outlet is inactive.;
 #X restore 455 367 pd union;
 #X obj 91 145 cyclone/uzi 512;
 #X text 209 120 set to default;
-#X obj 178 203 cyclone/zl 512 len;
-#X obj 178 172 cyclone/zl len @maxzlsize 512;
 #X text 24 302 Check details about each mode in the subpatches on the
 right. The sort mode and modes introduced in the Max5+ versions are
 not implemented yet.;
+#X obj 178 172 cyclone/zl 512 group 512;
+#X obj 178 203 cyclone/zl len @zlmaxsize 512;
 #X connect 0 0 24 0;
-#X connect 3 0 26 0;
 #X connect 3 0 27 0;
+#X connect 3 0 28 0;
 #X connect 24 2 27 0;
-#X connect 26 0 1 0;
-#X connect 27 0 26 0;
+#X connect 27 0 28 0;
+#X connect 28 0 1 0;
 #X restore 475 202 pd examples;
 #X text 178 356 - output according to the mode: see details in [pd
 examples];

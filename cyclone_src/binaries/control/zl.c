@@ -22,7 +22,7 @@
 
 #define ZL_INISIZE     256      // default
 #define ZL_MAXSIZE     32767    // max
-#define ZL_MAXMODES    30
+#define ZL_MAXMODES    30       // this is silly, get rid of this!!!
 #define ZL_DEFMODE     0        // default mode is "unknown"
 #define ZL_MINSIZE     1        // min
 
