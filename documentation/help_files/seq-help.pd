@@ -1,25 +1,23 @@
-#N canvas 427 49 567 604 10;
+#N canvas 427 49 558 593 10;
 #X obj 2 209 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 487 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 536 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 79 494 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 77 494 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 321 180 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
 -1 -1;
-#X obj 79 515 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 77 515 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 598 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
-0;
 #X obj 2 568 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 210 117 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
 -66577 -1;
 #X obj 254 181 midiout;
-#X text 144 214 bang;
-#X text 138 230 float;
+#X text 142 214 bang;
+#X text 136 230 float;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -32,27 +30,27 @@
 #X restore 304 3 pd;
 #X text 182 119 Play;
 #X obj 210 181 print;
-#X obj 79 217 cnv 17 3 264 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 77 217 cnv 17 3 264 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 191 517 sent at the end of a sequence (useful for looping)
+#X text 189 517 sent at the end of a sequence (useful for looping)
 ;
-#X text 136 245 append -;
-#X text 191 245 records at the end of the stored sequence, f 59;
-#X text 148 275 dump -;
-#X text 94 260 delay <float> -;
-#X text 99 302 hook <float> -;
-#X text 191 260 onset time in ms of the first event, f 59;
-#X text 191 275 opens a dialog box to select a saved sequence to be
+#X text 134 245 append -;
+#X text 189 245 records at the end of the stored sequence, f 59;
+#X text 146 275 dump -;
+#X text 92 260 delay <float> -;
+#X text 97 302 hook <float> -;
+#X text 189 260 onset time in ms of the first event, f 59;
+#X text 189 275 opens a dialog box to select a saved sequence to be
 opened in a new text window \, which can be edited and saved, f 59
 ;
-#X text 140 495 float -;
-#X text 146 516 bang -;
+#X text 138 495 float -;
+#X text 144 516 bang -;
 #X text 116 544 1) symbol -;
 #X msg 246 121 stop;
-#X text 178 230 - raw MIDI data stream to be recorded, f 61;
-#X text 191 302 multiplies all the event times by the given number
+#X text 176 230 - raw MIDI data stream to be recorded, f 61;
+#X text 189 302 multiplies all the event times by the given number
 (even when playing), f 59;
-#X text 191 495 raw MIDI data stream from played sequence;
+#X text 189 495 raw MIDI data stream from played sequence;
 #X obj 210 152 cyclone/seq seq.mid;
 #N canvas 447 157 809 468 basic 0;
 #X obj 134 315 cyclone/midiparse;
@@ -256,26 +254,26 @@ and [midirealtimein] objects like in the example below.;
 #X text 104 152 argument opens =>;
 #X text 105 167 MIDI files;
 #X text 342 181 <= when finished;
-#X text 140 329 print -;
-#X text 191 329 prints the first 16 events of the sequence in the Pd
+#X text 138 329 print -;
+#X text 189 329 prints the first 16 events of the sequence in the Pd
 Window;
-#X text 92 375 start <float> -;
-#X text 92 344 read <symbol> -;
-#X text 86 468 write <symbol> -;
-#X text 134 360 record -;
-#X text 146 403 stop -;
-#X text 146 451 tick -;
-#X text 191 360 starts recording raw MIDI received in the inlet, f
+#X text 90 375 start <float> -;
+#X text 90 344 read <symbol> -;
+#X text 84 468 write <symbol> -;
+#X text 132 360 record -;
+#X text 144 403 stop -;
+#X text 144 451 tick -;
+#X text 189 360 starts recording raw MIDI received in the inlet, f
 59;
-#X text 191 451 external clock \, needed after 'start -1' message,
+#X text 189 451 external clock \, needed after 'start -1' message,
 f 59;
-#X text 191 468 saves to a MIDI file (no symbol opens a dialog box)
+#X text 189 468 saves to a MIDI file (no symbol opens a dialog box)
 , f 59;
-#X text 191 345 reads from a MIDI file (no symbol opens a dialog box)
+#X text 189 345 reads from a MIDI file (no symbol opens a dialog box)
 , f 59;
-#X text 178 214 - starts or restarts playing a sequence at normal speed
+#X text 176 214 - starts or restarts playing a sequence at normal speed
 , f 61;
-#X text 191 375 start/restart sequence at a given tempo (default '1024'
+#X text 189 375 start/restart sequence at a given tempo (default '1024'
 - normal tempo) \, 'start -1' expects tick messages, f 59;
 #N canvas 301 159 839 524 advanced 0;
 #X msg 507 371 start -1;
@@ -536,17 +534,17 @@ the continue message and keep playing from where it stopped!;
 #X connect 14 0 9 0;
 #X connect 15 0 8 0;
 #X restore 439 153 pd extra features;
-#X text 140 419 pause -;
-#X text 191 403 stops recording/playing and goes back to start, f
+#X text 138 419 pause -;
+#X text 189 403 stops recording/playing and goes back to start, f
 59;
-#X text 191 419 pauses recording/playing;
-#X text 122 435 continue -;
-#X text 191 435 continues after a pause message was given;
+#X text 189 419 pauses recording/playing;
+#X text 120 435 continue -;
+#X text 189 435 continues after a pause message was given;
 #X obj 457 58 cnv 15 88 40 empty empty empty 20 12 0 14 -261234 -66577
 0;
 #X text 460 63 [seq] is not ready yet, f 13;
-#X connect 8 0 34 0;
-#X connect 30 0 34 0;
-#X connect 34 0 9 0;
-#X connect 34 0 17 0;
-#X connect 34 1 4 0;
+#X connect 7 0 33 0;
+#X connect 29 0 33 0;
+#X connect 33 0 8 0;
+#X connect 33 0 16 0;
+#X connect 33 1 4 0;
