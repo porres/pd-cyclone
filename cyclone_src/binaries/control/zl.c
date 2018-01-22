@@ -16,7 +16,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "common/grow.h"
+//#include "common/grow.h"
 
 // LATER test reentrancy, tune speedwise
 
@@ -72,23 +72,61 @@ typedef struct _zlproxy
 static t_class *zl_class;
 static t_class *zlproxy_class;
 
-// building around existing grow_withdata method, not exactly sure how it works but hopefully this does - DK
+
+static void zlhelp_copylist(t_atom *old, t_atom *new, int natoms)
+{
+  int i;
+  for(i=0; i<natoms; i++)
+    {
+      switch(old[i].a_type)
+	{
+	case(A_FLOAT):
+	  SETFLOAT(&new[i], old[i].a_w.w_float);
+	  break;
+	case(A_SYMBOL):
+	  SETSYMBOL(&new[i], old[i].a_w.w_symbol);
+	  break;
+	case(A_POINTER):
+	  SETPOINTER(&new[i], old[i].a_w.w_gpointer);
+	  break;
+	default:
+	  break;
+	};
+    };
+}
+
 static void zldata_realloc(t_zldata *d, int reqsz){
         int cursz = d->d_size;
-        int natoms = d->d_natoms;
-        if(reqsz > cursz){
-	d->d_buf = grow_withdata(&reqsz, &natoms, &cursz,
-				 d->d_buf, ZL_INISIZE, d->d_bufini,
-				 sizeof(*d->d_buf));
-        };
-        d->d_size = cursz;
+        //int natoms = d->d_natoms;
+	int curmax = d->d_max;
+	int heaped = d->d_buf != d->d_bufini;
+	
+	if(reqsz > ZL_MAXSIZE) reqsz = ZL_MAXSIZE;
+	else if(reqsz < ZL_MINSIZE) reqsz = ZL_MINSIZE;
+        if(reqsz <= ZL_INISIZE && heaped)
+	  {
+	    //zlhelp_copylist(d->d_buf, d->d_bufini, ZL_INISIZE);
+	    memcpy(d->d_bufini, d->d_buf, ZL_INISIZE * sizeof(*d->d_buf));
+	    freebytes(d->d_buf, cursz * sizeof(*d->d_buf));
+	    d->d_buf = d->d_bufini;
+	  }
+	else if(reqsz > ZL_INISIZE && !heaped)
+	  {
+	    d->d_buf = getbytes(reqsz * sizeof(*d->d_buf));
+	    //zlhelp_copylist(d->d_bufini, d->d_buf, curmax);
+	    memcpy(d->d_buf, d->d_bufini, curmax * sizeof(*d->d_bufini));
+	  }
+	else if(reqsz > ZL_INISIZE && heaped)
+	  resizebytes(d->d_buf, cursz*sizeof(*d->d_buf), reqsz*sizeof(*d->d_buf));
+	d->d_max = reqsz;
+	if(reqsz < ZL_INISIZE) reqsz = ZL_INISIZE;
+	if(d->d_natoms > d->d_max) d->d_natoms = d->d_max;
+        d->d_size = reqsz;
 
 }
 
-
-static void zldata_init(t_zldata *d)
+static void zldata_init(t_zldata *d, int sz)
 {
-    int sz = d->d_max;
     d->d_size = ZL_INISIZE;
     d->d_natoms = 0;
     d->d_buf = d->d_bufini;
@@ -100,6 +138,13 @@ static void zldata_free(t_zldata *d)
 {
     if (d->d_buf != d->d_bufini)
 	freebytes(d->d_buf, d->d_size * sizeof(*d->d_buf));
+}
+
+static void zldata_reset(t_zldata *d, int sz)
+{
+  zldata_free(d);
+  zldata_init(d, sz);
+  
 }
 
 static void zldata_setfloat(t_zldata *d, t_float f)
@@ -122,7 +167,7 @@ static void zldata_addfloat(t_zldata *d, t_float f)
 	    natoms = nrequested - 1;
     }
     */
-    if (nrequested <= d->d_size)
+    if (nrequested <= d->d_max)
         SETFLOAT(d->d_buf + natoms, f);
         d->d_natoms = natoms + 1;
     }
@@ -148,7 +193,7 @@ static void zldata_addsymbol(t_zldata *d, t_symbol *s)
     }
     */
 
-    if (nrequested <= d->d_size){
+    if (nrequested <= d->d_max){
         SETSYMBOL(d->d_buf + natoms, s);
         d->d_natoms = natoms + 1;
     };
@@ -163,7 +208,7 @@ static void zldata_setlist(t_zldata *d, int ac, t_atom *av)
 			       ZL_INISIZE, d->d_bufini, sizeof(*d->d_buf));
     */
 
-    if (nrequested <= d->d_size){
+    if (nrequested <= d->d_max){
         if (d->d_natoms = nrequested){
 	    memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
         };
@@ -188,7 +233,7 @@ static void zldata_addlist(t_zldata *d, int ac, t_atom *av)
 	}
     }
     */
-    if(nrequested <= d->d_size){
+    if(nrequested <= d->d_max){
         if (d->d_natoms = natoms + ac){
         	memcpy(d->d_buf + natoms, av, ac * sizeof(*d->d_buf));
         };
@@ -224,6 +269,7 @@ static void zldata_add(t_zldata *d, t_symbol *s, int ac, t_atom *av)
     {
 	int natoms = d->d_natoms;
 	int nrequested = natoms + 1 + ac;
+	/*
 	if (nrequested > d->d_size)
 	{
 	    d->d_buf = grow_withdata(&nrequested, &natoms, &d->d_size,
@@ -236,7 +282,8 @@ static void zldata_add(t_zldata *d, t_symbol *s, int ac, t_atom *av)
 		    natoms = 0, ac = nrequested - 1;
 	    }
 	}
-	if (d->d_natoms = natoms + 1 + ac)
+	*/
+	if (d->d_max >= natoms + 1 + ac)
 	{
 	    SETSYMBOL(d->d_buf + natoms, s);
 	    if (ac > 0)
@@ -351,6 +398,7 @@ static void zl_group(t_zl *x, int natoms, t_atom *buf, int banged)
     {
 	natoms = x->x_inbuf1.d_natoms;
 	buf = x->x_inbuf1.d_buf;
+	if(cnt > x->x_inbuf1.d_max) cnt = x->x_inbuf1.d_max;
 	if (natoms >= cnt)
 	{
 	    t_atom *from;
@@ -805,7 +853,12 @@ static void zl_doit(t_zl *x, int banged){
     x->x_entered = 1;
     if(natoms){
         t_zldata *d = &x->x_outbuf;
-        t_atom *buf;
+        //t_atom *buf;
+
+	//giving this a shot...
+	if(natoms > d->d_max) natoms = d->d_max;
+	
+	/*
         if(prealloc && natoms > d->d_size){
             if(natoms > ZL_MAXSIZE)
                 prealloc = 0;
@@ -818,12 +871,20 @@ static void zl_doit(t_zl *x, int banged){
                     prealloc = 0;
             }
         }
+	*/
         // LATER consider using the stack if !prealloc && natoms <= MAXSTACK
+	/*
         if(buf = (prealloc ? d->d_buf : getbytes(natoms * sizeof(*buf)))){
             (*zl_doitfn[x->x_mode])(x, natoms, buf, banged);
             if(buf != d->d_buf)
                 freebytes(buf, natoms * sizeof(*buf));
         }
+	*/
+
+	//basically will limit output buffer to specified size instead of allowing it to go over...
+	 if(prealloc){
+            (*zl_doitfn[x->x_mode])(x, natoms, d->d_buf, banged);
+	 };
     }
     else
         (*zl_doitfn[x->x_mode])(x, 0, 0, banged);
@@ -1031,9 +1092,9 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     x->x_inbuf1.d_max = sz;
     x->x_inbuf2.d_max = sz;
     x->x_outbuf.d_max = sz;
-    zldata_init(&x->x_inbuf1);
-    zldata_init(&x->x_inbuf2);
-    zldata_init(&x->x_outbuf);
+    zldata_init(&x->x_inbuf1, sz);
+    zldata_init(&x->x_inbuf2, sz);
+    zldata_init(&x->x_outbuf, sz);
     zl_mode(x, s, argc - size_arg - size_attr, argv + size_arg);
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
@@ -1081,28 +1142,19 @@ static void zl_setupallmodes(void){
 static void zl_zlmaxsize(t_zl *x, t_floatarg f)
 {
     int sz = (int)f;
-    if(sz < ZL_MINSIZE){
-            sz = ZL_MINSIZE;
-        }
-        else if(sz > ZL_MAXSIZE){
-            sz = ZL_MAXSIZE;
-        };
-// x->d_max = sz;
-    if(sz > x->x_inbuf1.d_size){
-        zldata_realloc(&x->x_inbuf1,sz);
-    };
-    if(sz > x->x_inbuf2.d_size){
-        zldata_realloc(&x->x_inbuf2,sz);
-    };
-    if(sz > x->x_outbuf.d_size){
-        zldata_realloc(&x->x_outbuf,sz);
-    };
+    zldata_realloc(&x->x_inbuf1,sz);
+    zldata_realloc(&x->x_inbuf2,sz);
+    zldata_realloc(&x->x_outbuf,sz);
+    
 }
 
 static void zl_zlclear(t_zl *x){
-    zldata_init(&x->x_inbuf1);
-    zldata_init(&x->x_inbuf2);
-    zldata_init(&x->x_outbuf);
+    int sz1 = x->x_inbuf1.d_size;
+    int sz2 = x->x_inbuf2.d_size;
+    int sz3 = x->x_outbuf.d_size;
+    zldata_reset(&x->x_inbuf1, sz1);
+    zldata_reset(&x->x_inbuf2, sz2);
+    zldata_reset(&x->x_outbuf, sz3);
 }
 
 void zl_setup(void){
