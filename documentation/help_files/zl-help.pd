@@ -113,8 +113,6 @@ with the mode message. The default point is '0' \, which means no slicing.
 #X text 307 363 group size;
 #X obj 156 388 cyclone/zl group 10;
 #X floatatom 191 342 5 0 0 0 - - -, f 5;
-#X msg 166 293 a b c d e f;
-#X msg 178 316 g h i j k;
 #X text 31 344 remainder;
 #X obj 274 298 cyclone/uzi 24;
 #X text 16 220 The right outlet is inactive.;
@@ -132,16 +130,18 @@ memory) the remaining stored elements (at the set group size).;
 group size) with an argument or with a float input into the right inlet
 \, but also when you set the mode with the mode message. The default
 group size is 0 \, which means nothing gets grouped and output.;
-#X connect 0 0 10 0;
+#X msg 178 316 list g h i j k;
+#X msg 166 293 a b c d e f;
+#X connect 0 0 8 0;
 #X connect 2 0 5 0;
 #X connect 3 0 5 1;
-#X connect 5 0 12 0;
+#X connect 5 0 10 0;
 #X connect 6 0 5 0;
-#X connect 7 0 5 0;
-#X connect 8 0 5 0;
-#X connect 10 2 5 0;
-#X connect 13 0 5 0;
+#X connect 8 2 5 0;
+#X connect 11 0 5 0;
+#X connect 15 0 5 0;
 #X connect 17 0 5 0;
+#X connect 18 0 5 0;
 #X restore 412 72 pd group;
 #N canvas 753 249 463 451 iter 0;
 #X msg 169 287 1 2 3 4 5 6;
@@ -531,17 +531,17 @@ the right list.;
 things in list 2 that are in list 1). Subsequent arguments initialize
 the right list. The right outlet is inactive.;
 #X msg 237 160 6.5 4 2.3 2 2 8 hi;
-#X msg 122 156 2.3 7 6.5 hi;
 #X msg 108 127 mode union a b;
 #X text 204 126 <= sets mode and arguments;
 #X obj 108 198 cyclone/zl union 10 20;
 #X msg 83 96 zlclear;
-#X connect 0 0 8 0;
-#X connect 4 0 8 1;
-#X connect 5 0 8 0;
-#X connect 6 0 8 0;
-#X connect 8 0 2 0;
-#X connect 9 0 8 0;
+#X msg 122 159 2.3 7 6.5 hi;
+#X connect 0 0 7 0;
+#X connect 4 0 7 1;
+#X connect 5 0 7 0;
+#X connect 7 0 2 0;
+#X connect 8 0 7 0;
+#X connect 9 0 7 0;
 #X restore 412 387 pd union;
 #X text 194 203 set to default;
 #X text 19 121 Check details about each mode in the subpatches on the

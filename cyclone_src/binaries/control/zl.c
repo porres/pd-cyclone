@@ -275,40 +275,36 @@ static void zl_ecils(t_zl *x, int natoms, t_atom *buf, int banged){
         zl_output(x, cnt1, buf);
 }
 
-static int zl_group_intarg(t_zl *x, int i)
-{
+static int zl_group_intarg(t_zl *x, int i){
     return (i > 0 ? i : 0);  /* CHECKED */
 }
 
-static int zl_group_count(t_zl *x)
-{
+static int zl_group_count(t_zl *x){
     return (x->x_entered ? -1 : 0);
 }
 
-static void zl_group(t_zl *x, int natoms, t_atom *buf, int banged)
-{
+static void zl_group(t_zl *x, int natoms, t_atom *buf, int banged){
     int cnt = x->x_modearg;
-    if (cnt > 0)
-    {
-	natoms = x->x_inbuf1.d_natoms;
-	buf = x->x_inbuf1.d_buf;
-	if(cnt > x->x_inbuf1.d_max) cnt = x->x_inbuf1.d_max;
-	if (natoms >= cnt)
-	{
-	    t_atom *from;
-	    x->x_locked = 1;
-	    for (from = buf; natoms >= cnt; natoms -= cnt, from += cnt)
-		zl_output(x, cnt, from);
-	    x->x_inbuf1.d_natoms = natoms;
-	    while (natoms--) *buf++ = *from++;
-	}
-	if (banged && x->x_inbuf1.d_natoms)
-	{
-	    zl_output(x, x->x_inbuf1.d_natoms, buf);
-	    x->x_inbuf1.d_natoms = 0;
-	}
+    if(cnt > 0){
+        natoms = x->x_inbuf1.d_natoms;
+        buf = x->x_inbuf1.d_buf;
+        if(cnt > x->x_inbuf1.d_max) cnt = x->x_inbuf1.d_max;
+        if (natoms >= cnt){
+            t_atom *from;
+            x->x_locked = 1;
+            for(from = buf; natoms >= cnt; natoms -= cnt, from += cnt)
+                zl_output(x, cnt, from);
+            x->x_inbuf1.d_natoms = natoms;
+            while (natoms--)
+                *buf++ = *from++;
+        }
+        if (banged && x->x_inbuf1.d_natoms){
+            zl_output(x, x->x_inbuf1.d_natoms, buf);
+            x->x_inbuf1.d_natoms = 0;
+        }
     }
-    else x->x_inbuf1.d_natoms = 0;  /* CHECKED */
+    else
+        x->x_inbuf1.d_natoms = 0;
 }
 
 static int zl_iter_intarg(t_zl *x, int i)
@@ -802,22 +798,19 @@ static void zl_anything(t_zl *x, t_symbol *s, int ac, t_atom *av){
     zl_doit(x, 0);
 }
 
-static int zl_modeargfn(t_zl *x)
-{
+static int zl_modeargfn(t_zl *x){
     return (zl_intargfn[x->x_mode] || zl_anyargfn[x->x_mode]);
 }
 
-static void zl_setmodearg(t_zl *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (zl_intargfn[x->x_mode])
-    {
-	int i = (!s && ac && av->a_type == A_FLOAT ?
-		 (int)av->a_w.w_float :  /* CHECKED silent truncation */
-		 0);  /* CHECKED current x->x_modearg not kept */
-	x->x_modearg = (*zl_intargfn[x->x_mode])(x, i);
+static void zl_setmodearg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    if(zl_intargfn[x->x_mode]){
+        int i = (!s && ac && av->a_type == A_FLOAT ?
+                 (int)av->a_w.w_float :  /* CHECKED silent truncation */
+                 0);  /* CHECKED current x->x_modearg not kept */
+        x->x_modearg = (*zl_intargfn[x->x_mode])(x, i);
     }
     if (zl_anyargfn[x->x_mode])
-	(*zl_anyargfn[x->x_mode])(x, s, ac, av);
+        (*zl_anyargfn[x->x_mode])(x, s, ac, av);
 }
 
 static void zlproxy_bang(t_zlproxy *d){
