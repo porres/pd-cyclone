@@ -44,7 +44,7 @@
 #X msg 242 128 beep 1 2 3 4;
 #X text 143 234 bang;
 #X text 126 291 zlclear;
-#N canvas 819 77 514 564 examples 1;
+#N canvas 819 77 514 564 examples 0;
 #X obj 50 209 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 137 331 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
