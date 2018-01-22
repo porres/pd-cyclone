@@ -54,6 +54,7 @@ xbendout.class.sources := cyclone_src/binaries/control/xbendout.c
 xbendout2.class.sources := cyclone_src/binaries/control/xbendout2.c
 xnotein.class.sources := cyclone_src/binaries/control/xnotein.c
 xnoteout.class.sources := cyclone_src/binaries/control/xnoteout.c
+zl.class.sources := cyclone_src/binaries/control/zl.c
 # NEW ones in cyclone0.3:
 acosh.class.sources := cyclone_src/binaries/control/acosh.c
 asinh.class.sources := cyclone_src/binaries/control/asinh.c
@@ -254,7 +255,6 @@ speedlim.class.sources := cyclone_src/binaries/control/speedlim.c $(hgrow)
 substitute.class.sources := cyclone_src/binaries/control/substitute.c $(hgrow)
 thresh.class.sources := cyclone_src/binaries/control/thresh.c $(hgrow)
 tosymbol.class.sources := cyclone_src/binaries/control/tosymbol.c $(hgrow)
-zl.class.sources := cyclone_src/binaries/control/zl.c $(hgrow)
 pv.class.sources := cyclone_src/binaries/control/pv.c $(hgrow)
 
 # hgrowfitter classes
