@@ -44,29 +44,29 @@
 #X msg 242 128 beep 1 2 3 4;
 #X text 143 234 bang;
 #X text 126 291 zlclear;
-#N canvas 759 152 572 445 examples 0;
-#X obj 91 118 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#N canvas 819 77 514 564 examples 1;
+#X obj 50 209 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 178 230 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 137 331 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 19 30 You can set the size of the list with a first optional
+#X text 19 29 You can set the size of the list with a first optional
 float argument. If you don't \, then the first argument is a symbol
 that specifies the mode type \, and the maximum size is the default:
-256 elements.;
-#X msg 210 140 zlmaxsize 256;
-#X text 19 81 The maximum size is also set via the 'zlmaxsize' attribute
-or message (and it can be up to 32767).;
-#X obj 19 7 cyclone/comment 185 14 monaco ? 0 0 0 0 Basic:;
-#X obj 453 47 cyclone/comment 185 14 monaco ? 0 0 0 0 Modes:;
-#X obj 23 348 cyclone/comment 185 14 monaco ? 0 0 0 0 Inconsistency
+256 elements., f 54;
+#X text 19 160 The maximum size is also set via the 'zlmaxsize' attribute
+or message (and it can be up to 32767)., f 54;
+#X obj 19 6 cyclone/comment 251 14 monaco ? 0 0 0 0 Arguments: mode
+and list size:;
+#X obj 410 11 cyclone/comment 185 14 monaco ? 0 0 0 0 Modes:;
+#X obj 59 472 cyclone/comment 185 14 monaco ? 0 0 0 0 Inconsistency:
 ;
-#X text 24 373 In Max \, the zl family of objects can be instantiated
+#X text 60 497 In Max \, the zl family of objects can be instantiated
 with the mode after a dot \, such as [zl.group]. But this is not possible
 in Pd \, where the mode needs to be called as an argument after a space.
-;
-#X text 23 255 The mode argument is obrigatory and this means there
+, f 66;
+#X text 19 81 The mode argument is obrigatory and this means there
 is no default mode. If you don't set a mode as an argument \, you have
-to set it via the mode message.;
+to set it via the mode message., f 54;
 #N canvas 740 59 394 428 ecils 0;
 #X obj 22 8 comment 185 14 monaco ? 0 0 0 0 Mode: ecils;
 #X obj 235 284 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
@@ -101,7 +101,7 @@ with the mode message. The default point is '0' \, which means no slicing.
 #X connect 11 0 5 0;
 #X connect 11 1 6 0;
 #X connect 15 0 11 0;
-#X restore 455 78 pd ecils;
+#X restore 412 47 pd ecils;
 #N canvas 893 197 393 459 group 0;
 #X obj 274 271 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -121,18 +121,17 @@ with the mode message. The default point is '0' \, which means no slicing.
 #X obj 156 415 print zl_group;
 #X msg 156 259 mode group 4;
 #X text 34 258 set mode & argument;
-#X text 14 122 The input can have one or more elements \, when the
+#X text 14 117 The input can have one or more elements \, when the
 grouped elements reach the group size \, the grouped list is sent out
 the left outlet. The remaining items are stored for next group.;
-#X text 15 183 A bang message causes it to spit (and clear from the
+#X text 15 176 A bang message causes it to spit (and clear from the
 memory) the remaining stored elements (at the set group size).;
+#X msg 98 289 zlclear;
 #X text 15 36 The group mode aggroups 'n' elements into a list \, where
 'n' cannot be higher than the maximum zl size. You can set 'n' (the
 group size) with an argument or with a float input into the right inlet
 \, but also when you set the mode with the mode message. The default
-group size is the maximum zl size (and the minimum group size is 1).
-;
-#X msg 98 289 zlclear;
+group size is 0 \, which means nothing gets grouped and output.;
 #X connect 0 0 10 0;
 #X connect 2 0 5 0;
 #X connect 3 0 5 1;
@@ -142,8 +141,8 @@ group size is the maximum zl size (and the minimum group size is 1).
 #X connect 8 0 5 0;
 #X connect 10 2 5 0;
 #X connect 13 0 5 0;
-#X connect 18 0 5 0;
-#X restore 455 100 pd group;
+#X connect 17 0 5 0;
+#X restore 412 72 pd group;
 #N canvas 753 249 463 451 iter 0;
 #X msg 169 287 1 2 3 4 5 6;
 #X msg 151 259 mode iter 4;
@@ -178,7 +177,7 @@ with the mode message. The minimum iter size is 1 and the default is
 #X connect 11 0 12 0;
 #X connect 12 0 2 0;
 #X connect 15 0 12 0;
-#X restore 455 122 pd iter;
+#X restore 412 97 pd iter;
 #N canvas 919 115 408 292 join 0;
 #X obj 17 13 comment 185 14 monaco ? 0 0 0 0 Mode: join;
 #X obj 141 248 print zl_join;
@@ -202,7 +201,7 @@ is inactive.;
 #X connect 7 0 6 1;
 #X connect 8 0 6 0;
 #X connect 10 0 6 0;
-#X restore 455 144 pd join;
+#X restore 412 122 pd join;
 #N canvas 781 151 405 407 len 0;
 #X msg 155 191 this produces 3;
 #X msg 166 223 and this should be five;
@@ -231,7 +230,7 @@ inlet/outlet are inactive.;
 #X connect 8 0 2 0;
 #X connect 9 0 2 0;
 #X connect 13 0 2 0;
-#X restore 455 166 pd len;
+#X restore 412 148 pd len;
 #N canvas 573 172 789 398 mth 0;
 #X obj 70 266 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
@@ -288,7 +287,7 @@ outlet \, the same happens for negative mth values.;
 #X connect 22 0 16 0;
 #X connect 23 0 16 0;
 #X connect 24 0 17 0;
-#X restore 455 188 pd mth;
+#X restore 412 174 pd mth;
 #N canvas 426 244 812 412 nth 0;
 #X obj 127 362 print nth;
 #X obj 504 280 print nth;
@@ -346,7 +345,7 @@ the right outlet and nothing is sent via the left outlet., f 61;
 #X connect 23 0 13 1;
 #X connect 24 0 9 0;
 #X connect 25 0 13 0;
-#X restore 455 210 pd nth;
+#X restore 412 201 pd nth;
 #N canvas 786 294 430 326 reg 0;
 #X obj 69 286 print reg;
 #X obj 111 222 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -363,17 +362,17 @@ is set as an argument and changed in the right inlet. The left inlet
 stores and outputs the list. A bang sends the last stored list. The
 right outlet is inactive.;
 #X obj 33 17 comment 185 14 monaco ? 0 0 0 0 Mode: reg;
-#X obj 69 251 cyclone/zl reg initially stored elements;
 #X msg 30 114 zlclear;
-#X connect 1 0 11 0;
-#X connect 2 0 11 1;
-#X connect 3 0 11 0;
-#X connect 4 0 11 0;
-#X connect 5 0 11 1;
-#X connect 7 0 11 0;
-#X connect 11 0 0 0;
-#X connect 12 0 11 0;
-#X restore 455 232 pd reg;
+#X obj 69 251 cyclone/zl reg initially stored elements;
+#X connect 1 0 12 0;
+#X connect 2 0 12 1;
+#X connect 3 0 12 0;
+#X connect 4 0 12 0;
+#X connect 5 0 12 1;
+#X connect 7 0 12 0;
+#X connect 11 0 12 0;
+#X connect 12 0 0 0;
+#X restore 412 228 pd reg;
 #N canvas 865 220 418 288 rev 0;
 #X msg 137 155 way this something means this;
 #X obj 26 7 comment 185 14 monaco ? 0 0 0 0 Mode: rev;
@@ -394,7 +393,7 @@ are inactive.;
 #X connect 6 0 8 0;
 #X connect 8 0 5 0;
 #X connect 9 0 8 0;
-#X restore 455 254 pd rev;
+#X restore 412 254 pd rev;
 #N canvas 842 204 399 436 rot 0;
 #X msg 123 268 sometimes my grammar is all messed up;
 #X obj 103 356 cyclone/zl rot 3;
@@ -427,7 +426,7 @@ with the mode message. The default point is '0' \, which means no rotation.
 #X connect 10 0 1 0;
 #X connect 11 0 1 0;
 #X connect 13 0 1 0;
-#X restore 455 276 pd rot;
+#X restore 412 280 pd rot;
 #N canvas 949 241 424 357 sect 0;
 #X obj 52 220 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
@@ -459,7 +458,7 @@ into the left inlet.;
 #X connect 13 0 4 0;
 #X connect 13 1 1 0;
 #X connect 15 0 13 0;
-#X restore 455 299 pd sect;
+#X restore 412 307 pd sect;
 #N canvas 824 23 415 398 slice 0;
 #X obj 22 8 comment 185 14 monaco ? 0 0 0 0 Mode: slice;
 #X obj 235 264 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
@@ -492,8 +491,8 @@ is '0' \, which means no slicing.;
 #X connect 10 0 11 0;
 #X connect 10 1 12 0;
 #X connect 15 0 10 0;
-#X restore 455 321 pd slice;
-#N canvas 889 66 405 323 sub 0;
+#X restore 412 333 pd slice;
+#N canvas 889 66 405 334 sub 0;
 #X obj 69 188 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X msg 210 220 11;
@@ -522,7 +521,7 @@ the right list.;
 #X connect 11 0 6 0;
 #X connect 11 1 5 0;
 #X connect 12 0 11 0;
-#X restore 455 345 pd sub;
+#X restore 412 361 pd sub;
 #N canvas 861 239 405 268 union 0;
 #X obj 65 153 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
@@ -543,20 +542,32 @@ the right list. The right outlet is inactive.;
 #X connect 6 0 8 0;
 #X connect 8 0 2 0;
 #X connect 9 0 8 0;
-#X restore 455 367 pd union;
-#X obj 91 145 cyclone/uzi 512;
-#X text 209 120 set to default;
-#X text 24 302 Check details about each mode in the subpatches on the
+#X restore 412 387 pd union;
+#X text 194 203 set to default;
+#X text 19 121 Check details about each mode in the subpatches on the
 right. The sort mode and modes introduced in the Max5+ versions are
 not implemented yet.;
-#X obj 178 172 cyclone/zl 512 group 512;
-#X obj 178 203 cyclone/zl len @zlmaxsize 512;
-#X connect 0 0 24 0;
-#X connect 3 0 27 0;
-#X connect 3 0 28 0;
-#X connect 24 2 27 0;
-#X connect 27 0 28 0;
-#X connect 28 0 1 0;
+#X obj 137 355 print length;
+#X msg 168 247 zlmaxsize \$1;
+#X msg 168 203 256;
+#X msg 182 225 512;
+#X text 19 385 In the above example \, the objects are initialized
+to a size of 512 but can be resized to the default (256). Note that
+the group message can't group 512 elements if its size is 256 \, hence
+it groups two 256 elements message., f 54;
+#X text 208 225 back to 512;
+#X obj 50 236 cyclone/uzi 512;
+#X obj 137 270 cyclone/zl 512 group 512;
+#X obj 137 304 cyclone/zl len @zlmaxsize 512;
+#X connect 0 0 31 0;
+#X connect 1 0 25 0;
+#X connect 26 0 32 0;
+#X connect 26 0 33 0;
+#X connect 27 0 26 0;
+#X connect 28 0 26 0;
+#X connect 31 2 32 0;
+#X connect 32 0 33 0;
+#X connect 33 0 1 0;
 #X restore 475 202 pd examples;
 #X text 178 356 - output according to the mode: see details in [pd
 examples];

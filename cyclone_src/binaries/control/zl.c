@@ -2,21 +2,11 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* FIXME zl sub */
-
-/*adding zldata_realloc, making zl_zlmaxsize actually do something, editing zldata_init
-    also adding arguments/attributes,... built everything around existing grow methods,.. which are ... messy
-    may want to change this in the future 
-    
-    ON BEHAVIOR:
-    -i'm trying to flip the inequalities in the zldata_add methods and wrap the bottom stuff with it,
-    basically, i'm thinking all the grow_withdata stuff should go? in the zldata_set stuff, not quite as clear what to do. it looks like they get called in everything but group. zl_doit also has grow stuff, but not quite able to make sense of what's going on.
-    - Derek Kwan 2016
-    */
+/* adding zldata_realloc, making zl_zlmaxsize actually do something, editing zldata_init
+    also adding arguments/attributes, getting rid of grow and loud - Derek Kwan 2016-2018 */
 
 #include <string.h>
 #include "m_pd.h"
-//#include "common/grow.h"
 
 // LATER test reentrancy, tune speedwise
 
@@ -63,8 +53,7 @@ typedef struct _zl
     t_outlet         *x_out2;
 } t_zl;
 
-typedef struct _zlproxy
-{
+typedef struct _zlproxy{
     t_object  p_ob;
     t_zl     *p_master;
 } t_zlproxy;
@@ -73,60 +62,55 @@ static t_class *zl_class;
 static t_class *zlproxy_class;
 
 
-static void zlhelp_copylist(t_atom *old, t_atom *new, int natoms)
-{
+static void zlhelp_copylist(t_atom *old, t_atom *new, int natoms){
   int i;
-  for(i=0; i<natoms; i++)
-    {
-      switch(old[i].a_type)
-	{
-	case(A_FLOAT):
-	  SETFLOAT(&new[i], old[i].a_w.w_float);
-	  break;
-	case(A_SYMBOL):
-	  SETSYMBOL(&new[i], old[i].a_w.w_symbol);
-	  break;
-	case(A_POINTER):
-	  SETPOINTER(&new[i], old[i].a_w.w_gpointer);
-	  break;
-	default:
-	  break;
-	};
-    };
+  for(i=0; i<natoms; i++){
+      switch(old[i].a_type){
+          case(A_FLOAT):
+              SETFLOAT(&new[i], old[i].a_w.w_float);
+              break;
+          case(A_SYMBOL):
+              SETSYMBOL(&new[i], old[i].a_w.w_symbol);
+              break;
+          case(A_POINTER):
+              SETPOINTER(&new[i], old[i].a_w.w_gpointer);
+              break;
+          default:
+              break;
+      };
+  };
 }
 
 static void zldata_realloc(t_zldata *d, int reqsz){
-        int cursz = d->d_size;
-        //int natoms = d->d_natoms;
+    int cursz = d->d_size;
 	int curmax = d->d_max;
 	int heaped = d->d_buf != d->d_bufini;
-	
-	if(reqsz > ZL_MAXSIZE) reqsz = ZL_MAXSIZE;
-	else if(reqsz < ZL_MINSIZE) reqsz = ZL_MINSIZE;
-        if(reqsz <= ZL_INISIZE && heaped)
-	  {
+	if(reqsz > ZL_MAXSIZE)
+        reqsz = ZL_MAXSIZE;
+    else if(reqsz < ZL_MINSIZE)
+        reqsz = ZL_MINSIZE;
+    if(reqsz <= ZL_INISIZE && heaped){
 	    //zlhelp_copylist(d->d_buf, d->d_bufini, ZL_INISIZE);
 	    memcpy(d->d_bufini, d->d_buf, ZL_INISIZE * sizeof(*d->d_buf));
 	    freebytes(d->d_buf, cursz * sizeof(*d->d_buf));
 	    d->d_buf = d->d_bufini;
-	  }
-	else if(reqsz > ZL_INISIZE && !heaped)
-	  {
+    }
+	else if(reqsz > ZL_INISIZE && !heaped){
 	    d->d_buf = getbytes(reqsz * sizeof(*d->d_buf));
 	    //zlhelp_copylist(d->d_bufini, d->d_buf, curmax);
 	    memcpy(d->d_buf, d->d_bufini, curmax * sizeof(*d->d_bufini));
-	  }
+    }
 	else if(reqsz > ZL_INISIZE && heaped)
 	  resizebytes(d->d_buf, cursz*sizeof(*d->d_buf), reqsz*sizeof(*d->d_buf));
 	d->d_max = reqsz;
-	if(reqsz < ZL_INISIZE) reqsz = ZL_INISIZE;
-	if(d->d_natoms > d->d_max) d->d_natoms = d->d_max;
-        d->d_size = reqsz;
-
+	if(reqsz < ZL_INISIZE)
+        reqsz = ZL_INISIZE;
+	if(d->d_natoms > d->d_max)
+        d->d_natoms = d->d_max;
+    d->d_size = reqsz;
 }
 
-static void zldata_init(t_zldata *d, int sz)
-{
+static void zldata_init(t_zldata *d, int sz){
     d->d_size = ZL_INISIZE;
     d->d_natoms = 0;
     d->d_buf = d->d_bufini;
@@ -134,105 +118,56 @@ static void zldata_init(t_zldata *d, int sz)
         zldata_realloc(d, sz);
 }
 
-static void zldata_free(t_zldata *d)
-{
-    if (d->d_buf != d->d_bufini)
-	freebytes(d->d_buf, d->d_size * sizeof(*d->d_buf));
+static void zldata_free(t_zldata *d){
+    if(d->d_buf != d->d_bufini)
+        freebytes(d->d_buf, d->d_size * sizeof(*d->d_buf));
 }
 
-static void zldata_reset(t_zldata *d, int sz)
-{
+static void zldata_reset(t_zldata *d, int sz){
   zldata_free(d);
   zldata_init(d, sz);
   
 }
 
-static void zldata_setfloat(t_zldata *d, t_float f)
-{
+static void zldata_setfloat(t_zldata *d, t_float f){
     SETFLOAT(d->d_buf, f);
     d->d_natoms = 1;
 }
 
-static void zldata_addfloat(t_zldata *d, t_float f)
-{
+static void zldata_addfloat(t_zldata *d, t_float f){
     int natoms = d->d_natoms;
     int nrequested = natoms + 1;
-    /*
-    if (nrequested > d->d_size)
-    {
-	d->d_buf = grow_withdata(&nrequested, &natoms, &d->d_size,
-				 d->d_buf, ZL_INISIZE, d->d_bufini,
-				 sizeof(*d->d_buf));
-	if (natoms >= nrequested)
-	    natoms = nrequested - 1;
-    }
-    */
     if (nrequested <= d->d_max)
         SETFLOAT(d->d_buf + natoms, f);
-        d->d_natoms = natoms + 1;
-    }
+    d->d_natoms = natoms + 1;
+}
 
-static void zldata_setsymbol(t_zldata *d, t_symbol *s)
-{
+static void zldata_setsymbol(t_zldata *d, t_symbol *s){
     SETSYMBOL(d->d_buf, s);
     d->d_natoms = 1;
 }
 
-static void zldata_addsymbol(t_zldata *d, t_symbol *s)
-{
+static void zldata_addsymbol(t_zldata *d, t_symbol *s){
     int natoms = d->d_natoms;
     int nrequested = natoms + 1;
-   /*
-    if (nrequested > d->d_size)
-    {
-	d->d_buf = grow_withdata(&nrequested, &natoms, &d->d_size,
-				 d->d_buf, ZL_INISIZE, d->d_bufini,
-				 sizeof(*d->d_buf));
-	if (natoms >= nrequested)
-	    natoms = nrequested - 1;
-    }
-    */
-
     if (nrequested <= d->d_max){
         SETSYMBOL(d->d_buf + natoms, s);
         d->d_natoms = natoms + 1;
     };
 }
 
-static void zldata_setlist(t_zldata *d, int ac, t_atom *av)
-{
+static void zldata_setlist(t_zldata *d, int ac, t_atom *av){
     int nrequested = ac;
-    /*
-    if (nrequested > d->d_size)
-	d->d_buf = grow_nodata(&nrequested, &d->d_size, d->d_buf,
-			       ZL_INISIZE, d->d_bufini, sizeof(*d->d_buf));
-    */
-
-    if (nrequested <= d->d_max){
-        if (d->d_natoms = nrequested){
-	    memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
+    if(nrequested <= d->d_max){
+        if(d->d_natoms = nrequested){
+            memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
         };
     };
 }
 
-static void zldata_addlist(t_zldata *d, int ac, t_atom *av)
-{
+static void zldata_addlist(t_zldata *d, int ac, t_atom *av){
     int natoms = d->d_natoms;
     int nrequested = natoms + ac;
-    /*
-    if (nrequested > d->d_size)
-    {
-	d->d_buf = grow_withdata(&nrequested, &natoms, &d->d_size,
-				 d->d_buf, ZL_INISIZE, d->d_bufini,
-				 sizeof(*d->d_buf));
-	if (natoms + ac > nrequested)
-	{
-	    natoms = nrequested - ac;
-	    if (natoms < 0)
-		natoms = 0, ac = nrequested;
-	}
-    }
-    */
     if(nrequested <= d->d_max){
         if (d->d_natoms = natoms + ac){
         	memcpy(d->d_buf + natoms, av, ac * sizeof(*d->d_buf));
@@ -240,25 +175,14 @@ static void zldata_addlist(t_zldata *d, int ac, t_atom *av)
     };
 }
 
-static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av)
-{
-    if (s && s != &s_)
-    {
-	int nrequested = ac + 1;
-
-        /*
-	if (nrequested > d->d_size)
-	    d->d_buf = grow_nodata(&nrequested, &d->d_size, d->d_buf,
-				   ZL_INISIZE, d->d_bufini, sizeof(*d->d_buf));
-	*/
-
-        //should this be <= ? - DK
-        if (d->d_natoms = nrequested)
-	{
-	    SETSYMBOL(d->d_buf, s);
-	    if (--nrequested)
-		memcpy(d->d_buf + 1, av, nrequested * sizeof(*d->d_buf));
-	}
+static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av){
+    if (s && s != &s_){
+        int nrequested = ac + 1;
+        if (d->d_natoms = nrequested){ //should this be <= ? - DK
+            SETSYMBOL(d->d_buf, s);
+            if (--nrequested)
+                memcpy(d->d_buf + 1, av, nrequested * sizeof(*d->d_buf));
+        }
     }
     else zldata_setlist(d, ac, av);
 }
@@ -269,20 +193,6 @@ static void zldata_add(t_zldata *d, t_symbol *s, int ac, t_atom *av)
     {
 	int natoms = d->d_natoms;
 	int nrequested = natoms + 1 + ac;
-	/*
-	if (nrequested > d->d_size)
-	{
-	    d->d_buf = grow_withdata(&nrequested, &natoms, &d->d_size,
-				     d->d_buf, ZL_INISIZE, d->d_bufini,
-				     sizeof(*d->d_buf));
-	    if (natoms + 1 + ac > nrequested)
-	    {
-		natoms = nrequested - 1 - ac;
-		if (natoms < 0)
-		    natoms = 0, ac = nrequested - 1;
-	    }
-	}
-	*/
 	if (d->d_max >= natoms + 1 + ac)
 	{
 	    SETSYMBOL(d->d_buf + natoms, s);
@@ -308,8 +218,7 @@ static void zl_dooutput(t_outlet *o, int ac, t_atom *av)
 	if (av->a_type == A_FLOAT)
 	    outlet_float(o, av->a_w.w_float);
 	else if (av->a_type == A_SYMBOL)
-	    outlet_anything(o, av->a_w.w_symbol, 0, 0);  /* CHECKED */
-//   outlet_symbol(o, av->a_w.w_symbol);  /* LATER rethink */
+	    outlet_anything(o, av->a_w.w_symbol, 0, 0);
     }
 }
 
@@ -476,8 +385,7 @@ static void zl_join(t_zl *x, int natoms, t_atom *buf, int banged)
     }
 }
 
-static int zl_len_count(t_zl *x)
-{
+static int zl_len_count(t_zl *x){
     return(0);
 }
 
@@ -818,28 +726,25 @@ static int zl_union_count(t_zl *x)
 }
 
 /* CHECKED in-buffer duplicates not skipped */
-static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged)
-{
-    if (buf)
-    {
-	int ac1 = x->x_inbuf1.d_natoms, ac2 = x->x_inbuf2.d_natoms, i2;
-	t_atom *av1 = x->x_inbuf1.d_buf, *ap2 = x->x_inbuf2.d_buf;
-	if (ac1)
-	{
-	    t_atom *to = buf + ac1;
-	    memcpy(buf, av1, ac1 * sizeof(*buf));
-	    for (i2 = 0; i2 < ac2; i2++, ap2++)
-	    {
-		int i1;
-		t_atom *ap1;
-		for (i1 = 0, ap1 = av1; i1 < ac1; i1++, ap1++)
-		    if (zl_equal(ap1, ap2))
-			break;
-		if (i1 == ac1)
-		    *to++ = *ap2;
-	    }
-	}
-	else memcpy(buf, ap2, ac2 * sizeof(*buf));
+static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged){
+    if (buf){
+        int ac1 = x->x_inbuf1.d_natoms, ac2 = x->x_inbuf2.d_natoms, i2;
+        t_atom *av1 = x->x_inbuf1.d_buf, *ap2 = x->x_inbuf2.d_buf;
+        if (ac1){
+            t_atom *to = buf + ac1;
+            memcpy(buf, av1, ac1 * sizeof(*buf));
+            for (i2 = 0; i2 < ac2; i2++, ap2++){
+                int i1;
+                t_atom *ap1;
+                for (i1 = 0, ap1 = av1; i1 < ac1; i1++, ap1++)
+                    if (zl_equal(ap1, ap2))
+                        break;
+                if (i1 == ac1)
+                    *to++ = *ap2;
+            }
+        }
+	else
+        memcpy(buf, ap2, ac2 * sizeof(*buf));
 	zl_output(x, natoms, buf);
     }
 }
@@ -853,38 +758,13 @@ static void zl_doit(t_zl *x, int banged){
     x->x_entered = 1;
     if(natoms){
         t_zldata *d = &x->x_outbuf;
-        //t_atom *buf;
-
-	//giving this a shot...
-	if(natoms > d->d_max) natoms = d->d_max;
-	
-	/*
-        if(prealloc && natoms > d->d_size){
-            if(natoms > ZL_MAXSIZE)
-                prealloc = 0;
-            else{
-                int nrequested = natoms;
-                d->d_buf = grow_nodata(&nrequested, &d->d_size, d->d_buf,
-				       ZL_INISIZE, d->d_bufini,
-				       sizeof(*d->d_buf));
-                if (nrequested != natoms)
-                    prealloc = 0;
-            }
+// giving this a shot...
+        if(natoms > d->d_max) natoms = d->d_max{
+// basically will limit output buffer to specified size instead of allowing it to go over...
+            if(prealloc){
+                (*zl_doitfn[x->x_mode])(x, natoms, d->d_buf, banged);
+            };
         }
-	*/
-        // LATER consider using the stack if !prealloc && natoms <= MAXSTACK
-	/*
-        if(buf = (prealloc ? d->d_buf : getbytes(natoms * sizeof(*buf)))){
-            (*zl_doitfn[x->x_mode])(x, natoms, buf, banged);
-            if(buf != d->d_buf)
-                freebytes(buf, natoms * sizeof(*buf));
-        }
-	*/
-
-	//basically will limit output buffer to specified size instead of allowing it to go over...
-	 if(prealloc){
-            (*zl_doitfn[x->x_mode])(x, natoms, d->d_buf, banged);
-	 };
     }
     else
         (*zl_doitfn[x->x_mode])(x, 0, 0, banged);
@@ -892,25 +772,21 @@ static void zl_doit(t_zl *x, int banged){
         x->x_entered = x->x_locked = 0;
 }
 
-static void zl_bang(t_zl *x)
-{
+static void zl_bang(t_zl *x){
     zl_doit(x, 1);
 }
 
-static void zl_float(t_zl *x, t_float f)
-{
-    if (!x->x_locked)
-    {
-	if (zl_modeflags[x->x_mode])
-	    zldata_addfloat(&x->x_inbuf1, f);
-	else
-	    zldata_setfloat(&x->x_inbuf1, f);
+static void zl_float(t_zl *x, t_float f){
+    if (!x->x_locked){
+        if (zl_modeflags[x->x_mode])
+            zldata_addfloat(&x->x_inbuf1, f);
+        else
+            zldata_setfloat(&x->x_inbuf1, f);
     }
     zl_doit(x, 0);
 }
 
-static void zl_symbol(t_zl *x, t_symbol *s)
-{
+static void zl_symbol(t_zl *x, t_symbol *s){
     if (!x->x_locked)
     {
 	if (zl_modeflags[x->x_mode])
@@ -961,8 +837,7 @@ static void zl_setmodearg(t_zl *x, t_symbol *s, int ac, t_atom *av)
 	(*zl_anyargfn[x->x_mode])(x, s, ac, av);
 }
 
-static void zlproxy_bang(t_zlproxy *d)
-{
+static void zlproxy_bang(t_zlproxy *d){
     // nop
 }
 
@@ -1076,7 +951,6 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
                     else
                         goto errstate;
                 };
-//                else
                 if(i != 1)
                     goto errstate;
             };
@@ -1088,7 +962,6 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
         sz = ZL_MINSIZE;
     if(sz > ZL_MAXSIZE)
         sz = ZL_MAXSIZE;
-//    post("size = %d", sz);
     x->x_inbuf1.d_max = sz;
     x->x_inbuf2.d_max = sz;
     x->x_outbuf.d_max = sz;
@@ -1139,8 +1012,7 @@ static void zl_setupallmodes(void){
     zl_setupmode("mth", 0, zl_mth_intarg, zl_mth_anyarg, zl_mth_count, zl_mth);
 }
 
-static void zl_zlmaxsize(t_zl *x, t_floatarg f)
-{
+static void zl_zlmaxsize(t_zl *x, t_floatarg f){
     int sz = (int)f;
     zldata_realloc(&x->x_inbuf1,sz);
     zldata_realloc(&x->x_inbuf2,sz);
