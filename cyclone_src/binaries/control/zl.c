@@ -743,13 +743,11 @@ static void zl_doit(t_zl *x, int banged){
     x->x_entered = 1;
     if(natoms){
         t_zldata *d = &x->x_outbuf;
-// giving this a shot...
-        if(natoms > d->d_max) natoms = d->d_max{
-// basically will limit output buffer to specified size instead of allowing it to go over...
-            if(prealloc){
-                (*zl_doitfn[x->x_mode])(x, natoms, d->d_buf, banged);
-            };
-        }
+        if(natoms > d->d_max) // giving this a shot...
+            natoms = d->d_max;
+        // basically will limit output buffer to specified size instead of allowing it to go over...
+        if(prealloc)
+            (*zl_doitfn[x->x_mode])(x, natoms, d->d_buf, banged);
     }
     else
         (*zl_doitfn[x->x_mode])(x, 0, 0, banged);
