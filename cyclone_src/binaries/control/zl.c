@@ -887,6 +887,7 @@ static void zl_mode(t_zl *x, t_symbol *s, int ac, t_atom *av){
             break;
             }
         }
+    }
 }
 
 static void *zl_new(t_symbol *s, int argc, t_atom *argv){
