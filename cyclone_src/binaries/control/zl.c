@@ -87,24 +87,30 @@ static void zldata_realloc(t_zldata *d, int reqsz){
     else if(reqsz < ZL_MINSIZE)
         reqsz = ZL_MINSIZE;
     if(reqsz <= ZL_DEF_SIZE && heaped){
-	    //zlhelp_copylist(d->d_buf, d->d_bufini, ZL_DEF_SIZE);
-	    memcpy(d->d_bufini, d->d_buf, ZL_DEF_SIZE * sizeof(*d->d_buf));
-	    freebytes(d->d_buf, cursz * sizeof(*d->d_buf));
+            //zlhelp_copylist(d->d_buf, d->d_bufini, ZL_DEF_SIZE);
+	    memcpy(d->d_bufini, d->d_buf, ZL_DEF_SIZE * sizeof(t_atom));
+	    freebytes(d->d_buf, cursz * sizeof(t_atom));
 	    d->d_buf = d->d_bufini;
+
     }
 	else if(reqsz > ZL_DEF_SIZE && !heaped){
-	    d->d_buf = getbytes(reqsz * sizeof(*d->d_buf));
+	    d->d_buf = getbytes(reqsz * sizeof(t_atom));
 	    //zlhelp_copylist(d->d_bufini, d->d_buf, curmax);
-	    memcpy(d->d_buf, d->d_bufini, curmax * sizeof(*d->d_bufini));
+	    memcpy(d->d_buf, d->d_bufini, curmax * sizeof(t_atom));
+
     }
 	else if(reqsz > ZL_DEF_SIZE && heaped)
-	  resizebytes(d->d_buf, cursz*sizeof(*d->d_buf), reqsz*sizeof(*d->d_buf));
+	  {
+	    d->d_buf = (t_atom *)resizebytes(d->d_buf, cursz*sizeof(t_atom), reqsz*sizeof(t_atom));
+
+	  };
 	d->d_max = reqsz;
 	if(reqsz < ZL_DEF_SIZE)
         reqsz = ZL_DEF_SIZE;
 	if(d->d_natoms > d->d_max)
         d->d_natoms = d->d_max;
     d->d_size = reqsz;
+
 }
 
 static void zldata_init(t_zldata *d, int sz){
@@ -215,6 +221,7 @@ static void zl_dooutput(t_outlet *o, int ac, t_atom *av){
 }
 
 static void zl_output(t_zl *x, int ac, t_atom *av){
+
     zl_dooutput(((t_object *)x)->ob_outlet, ac, av);
 }
 
@@ -291,6 +298,7 @@ static void zl_group(t_zl *x, int natoms, t_atom *buf, int banged){
         if(cnt > x->x_inbuf1.d_max) cnt = x->x_inbuf1.d_max;
         if (natoms >= cnt){
             t_atom *from;
+
             x->x_locked = 1;
             for(from = buf; natoms >= cnt; natoms -= cnt, from += cnt)
                 zl_output(x, cnt, from);
@@ -299,6 +307,7 @@ static void zl_group(t_zl *x, int natoms, t_atom *buf, int banged){
                 *buf++ = *from++;
         }
         if (banged && x->x_inbuf1.d_natoms){
+
             zl_output(x, x->x_inbuf1.d_natoms, buf);
             x->x_inbuf1.d_natoms = 0;
         }
