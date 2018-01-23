@@ -59,6 +59,10 @@ typedef struct _zlproxy{
 static t_class *zl_class;
 static t_class *zlproxy_class;
 
+// ********************************************************************
+// ******************** ZL MODE FUNCTIONS *****************************
+// ********************************************************************
+
 static void zlhelp_copylist(t_atom *old, t_atom *new, int natoms){
   int i;
   for(i=0; i<natoms; i++){
@@ -87,30 +91,22 @@ static void zldata_realloc(t_zldata *d, int reqsz){
     else if(reqsz < ZL_MINSIZE)
         reqsz = ZL_MINSIZE;
     if(reqsz <= ZL_DEF_SIZE && heaped){
-            //zlhelp_copylist(d->d_buf, d->d_bufini, ZL_DEF_SIZE);
 	    memcpy(d->d_bufini, d->d_buf, ZL_DEF_SIZE * sizeof(t_atom));
 	    freebytes(d->d_buf, cursz * sizeof(t_atom));
 	    d->d_buf = d->d_bufini;
-
     }
 	else if(reqsz > ZL_DEF_SIZE && !heaped){
 	    d->d_buf = getbytes(reqsz * sizeof(t_atom));
-	    //zlhelp_copylist(d->d_bufini, d->d_buf, curmax);
 	    memcpy(d->d_buf, d->d_bufini, curmax * sizeof(t_atom));
-
     }
 	else if(reqsz > ZL_DEF_SIZE && heaped)
-	  {
 	    d->d_buf = (t_atom *)resizebytes(d->d_buf, cursz*sizeof(t_atom), reqsz*sizeof(t_atom));
-
-	  };
 	d->d_max = reqsz;
 	if(reqsz < ZL_DEF_SIZE)
         reqsz = ZL_DEF_SIZE;
 	if(d->d_natoms > d->d_max)
         d->d_natoms = d->d_max;
     d->d_size = reqsz;
-
 }
 
 static void zldata_init(t_zldata *d, int sz){
@@ -221,7 +217,6 @@ static void zl_dooutput(t_outlet *o, int ac, t_atom *av){
 }
 
 static void zl_output(t_zl *x, int ac, t_atom *av){
-
     zl_dooutput(((t_object *)x)->ob_outlet, ac, av);
 }
 
@@ -239,17 +234,24 @@ static int zl_equal(t_atom *ap1, t_atom *ap2){
 	      && ap1->a_w.w_symbol == ap2->a_w.w_symbol)));
 }
 
+// ********************************************************************
+// ************************* ZL MODES *********************************
+// ********************************************************************
+
 /* Mode handlers:
-   If zl_<mode>_count's return value is positve, then the main routine
-   uses an output buffer 'buf' (outbuf, or a separately allocated one).
-   If zl_<mode>_count's return value is zero, then the main routine is
-   passed a null 'buf' (see below); if it is negative, then the main
-   routine is not being called.
+   If x_mode is positve, then the main routine uses an output 
+   buffer 'buf' (outbuf, or a separately allocated one).
+   If it's 0, then the main routine is passed a null 'buf' 
+   (see below). And if negative, then the main routine isn't called.
+
    zl_<mode> (main routine) arguments:  if 'buf' is null, 'natoms'
-   is always zero -- in modes other than len (no buffer used), group,
+   is always zero - in modes other than len (no buffer used), group,
    iter, reg, slice/ecils (inbuf1 used), there should be no output.
    If 'buf' is not null, then 'natoms' is guaranteed to be positive.
 */
+
+
+// ************************* UNKNOWN *********************************
 
 static int zl_nop_count(t_zl *x){
     return (0);
@@ -258,6 +260,8 @@ static int zl_nop_count(t_zl *x){
 static void zl_nop(t_zl *x, int natoms, t_atom *buf, int banged){
     pd_error(x, "[zl]: unknown mode");
 }
+
+// ************************* ECILS *********************************
 
 static int zl_ecils_intarg(t_zl *x, int i){
     return (i > 0 ? i : 0);  /* CHECKED */
@@ -281,6 +285,8 @@ static void zl_ecils(t_zl *x, int natoms, t_atom *buf, int banged){
     if (cnt1)
         zl_output(x, cnt1, buf);
 }
+
+// ************************* GROUP *********************************
 
 static int zl_group_intarg(t_zl *x, int i){
     return (i > 0 ? i : 0);  /* CHECKED */
@@ -316,8 +322,9 @@ static void zl_group(t_zl *x, int natoms, t_atom *buf, int banged){
         x->x_inbuf1.d_natoms = 0;
 }
 
-static int zl_iter_intarg(t_zl *x, int i)
-{
+// ************************* ITER *********************************
+
+static int zl_iter_intarg(t_zl *x, int i){
     return (i > 0 ? i : 0);  /* CHECKED */
 }
 
@@ -352,6 +359,8 @@ static void zl_iter(t_zl *x, int natoms, t_atom *buf, int banged){
     }
 }
 
+// ************************* JOIN *********************************
+
 static void zl_join_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if(!x->x_locked)
         zldata_set(&x->x_inbuf2, s, ac, av);
@@ -375,6 +384,8 @@ static void zl_join(t_zl *x, int natoms, t_atom *buf, int banged)
     }
 }
 
+// ************************* LEN *********************************
+
 static int zl_len_count(t_zl *x){
     return(0);
 }
@@ -382,6 +393,8 @@ static int zl_len_count(t_zl *x){
 static void zl_len(t_zl *x, int natoms, t_atom *buf, int banged){
     outlet_float(((t_object *)x)->ob_outlet, x->x_inbuf1.d_natoms);
 }
+
+// ************************* NTH *********************************
 
 static int zl_nth_intarg(t_zl *x, int i){
     return (i > 0 ? i : 0);
@@ -439,6 +452,8 @@ static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged){
     }
 }
 
+// ************************* MTH *********************************
+
 static int zl_mth_intarg(t_zl *x, int i){
     return (i);
 }
@@ -495,81 +510,77 @@ static void zl_mth(t_zl *x, int natoms, t_atom *buf, int banged){
     }
 }
 
-static void zl_reg_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av)
-{
+// ************************* REG *********************************
+
+static void zl_reg_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if (!x->x_locked)
-	zldata_set(&x->x_inbuf1, s, ac, av);
+        zldata_set(&x->x_inbuf1, s, ac, av);
 }
 
-static int zl_reg_count(t_zl *x)
-{
+static int zl_reg_count(t_zl *x){
     return (x->x_entered ? x->x_inbuf1.d_natoms : 0);
 }
 
-static void zl_reg(t_zl *x, int natoms, t_atom *buf, int banged)
-{
-    if (buf) memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
-    else
-    {
-	natoms = x->x_inbuf1.d_natoms;
-	buf = x->x_inbuf1.d_buf;
-	x->x_locked = 1;
+static void zl_reg(t_zl *x, int natoms, t_atom *buf, int banged){
+    if(buf)
+        memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+    else{
+        natoms = x->x_inbuf1.d_natoms;
+        buf = x->x_inbuf1.d_buf;
+        x->x_locked = 1;
     }
     if (natoms)
-	zl_output(x, natoms, buf);
+        zl_output(x, natoms, buf);
 }
 
-static int zl_rev_count(t_zl *x)
-{
+// ************************* REV *********************************
+
+static int zl_rev_count(t_zl *x){
     return (x->x_inbuf1.d_natoms);
 }
 
-static void zl_rev(t_zl *x, int natoms, t_atom *buf, int banged)
-{
-    if (buf)
-    {
-	t_atom *from = x->x_inbuf1.d_buf, *to = buf + natoms;
-	while (to-- > buf)
-	    *to = *from++;
-	zl_output(x, natoms, buf);
+static void zl_rev(t_zl *x, int natoms, t_atom *buf, int banged){
+    if (buf){
+        t_atom *from = x->x_inbuf1.d_buf, *to = buf + natoms;
+        while (to-- > buf)
+            *to = *from++;
+        zl_output(x, natoms, buf);
     }
 }
 
-static int zl_rot_intarg(t_zl *x, int i)
-{
+// ************************* ROT *********************************
+
+static int zl_rot_intarg(t_zl *x, int i){
     return (i);  // CHECKED anything goes (modulo)
 }
 
-static int zl_rot_count(t_zl *x)
-{
+static int zl_rot_count(t_zl *x){
     return (x->x_inbuf1.d_natoms);
 }
 
-static void zl_rot(t_zl *x, int natoms, t_atom *buf, int banged)
-{
-    if (buf)
-    {
-	int cnt1 = x->x_modearg, cnt2;
-	if (cnt1)
-	{
-	    if (cnt1 > 0)
-	    {
-		cnt1 %= natoms;
-		cnt2 = natoms - cnt1;
-	    }
-	    else
-	    {
-		cnt2 = -cnt1 % natoms;
-		cnt1 = natoms - cnt2;
-	    }
-	    /* CHECKED right rotation for positive args */
-	    memcpy(buf, x->x_inbuf1.d_buf + cnt2, cnt1 * sizeof(*buf));
-	    memcpy(buf + cnt1, x->x_inbuf1.d_buf, cnt2 * sizeof(*buf));
-	}
-	else memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+static void zl_rot(t_zl *x, int natoms, t_atom *buf, int banged){
+    if(buf){
+        int cnt1 = x->x_modearg, cnt2;
+        if(cnt1){
+            if (cnt1 > 0){
+                cnt1 %= natoms;
+                cnt2 = natoms - cnt1;
+            }
+            else{
+                cnt2 = -cnt1 % natoms;
+                cnt1 = natoms - cnt2;
+            }
+            /* CHECKED right rotation for positive args */
+            memcpy(buf, x->x_inbuf1.d_buf + cnt2, cnt1 * sizeof(*buf));
+            memcpy(buf + cnt1, x->x_inbuf1.d_buf, cnt2 * sizeof(*buf));
+        }
+	else
+        memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
 	zl_output(x, natoms, buf);
     }
 }
+
+// ************************* SECT *********************************
 
 static void zl_sect_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if (!x->x_locked)
@@ -625,31 +636,32 @@ static void zl_sect(t_zl *x, int natoms, t_atom *buf, int banged){
     }
 }
 
-static int zl_slice_intarg(t_zl *x, int i)
-{
+// ************************* SLICE *********************************
+
+static int zl_slice_intarg(t_zl *x, int i){
     return (i > 0 ? i : 0);  /* CHECKED */
 }
 
-static int zl_slice_count(t_zl *x)
-{
+static int zl_slice_count(t_zl *x){
     return (x->x_entered ? -1 : 0);
 }
 
-static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged)
-{
+static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged){
     int cnt1 = x->x_modearg, cnt2;
     natoms = x->x_inbuf1.d_natoms;
     buf = x->x_inbuf1.d_buf;
-    if (cnt1 > natoms)
-	cnt1 = natoms, cnt2 = 0;  /* CHECKED */
+    if(cnt1 > natoms)
+        cnt1 = natoms, cnt2 = 0;  /* CHECKED */
     else
-	cnt2 = natoms - cnt1;
+        cnt2 = natoms - cnt1;
     x->x_locked = 1;
-    if (cnt2)
-	zl_output2(x, cnt2, buf + cnt1);
-    if (cnt1)
-	zl_output(x, cnt1, buf);
+    if(cnt2)
+        zl_output2(x, cnt2, buf + cnt1);
+    if(cnt1)
+        zl_output(x, cnt1, buf);
 }
+
+// ************************* SUB *********************************
 
 static void zl_sub_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if(!x->x_locked)
@@ -688,29 +700,27 @@ static void zl_sub(t_zl *x, int natoms, t_atom *buf, int banged){
     }
 }
 
+// ************************* UNION *********************************
+
 static void zl_union_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if(!x->x_locked)
         zldata_set(&x->x_inbuf2, s, ac, av);
 }
 
 /* LATER rethink */
-static int zl_union_count(t_zl *x)
-{
+static int zl_union_count(t_zl *x){
     int result, ac1 = x->x_inbuf1.d_natoms, ac2 = x->x_inbuf2.d_natoms, i2;
     t_atom *av1 = x->x_inbuf1.d_buf, *ap2 = x->x_inbuf2.d_buf;
     result = ac1 + ac2;
-    for (i2 = 0; i2 < ac2; i2++, ap2++)
-    {
-	int i1;
-	t_atom *ap1;
-	for (i1 = 0, ap1 = av1; i1 < ac1; i1++, ap1++)
-	{
-	    if (zl_equal(ap1, ap2))
-	    {
-		result--;
-		break;
-	    }
-	}
+    for (i2 = 0; i2 < ac2; i2++, ap2++){
+        int i1;
+        t_atom *ap1;
+        for (i1 = 0, ap1 = av1; i1 < ac1; i1++, ap1++){
+            if (zl_equal(ap1, ap2)){
+                result--;
+                break;
+            }
+        }
     }
     return (result);
 }
@@ -738,6 +748,8 @@ static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged){
 	zl_output(x, natoms, buf);
     }
 }
+
+// ************************* METHODS *********************************
 
 static void zl_doit(t_zl *x, int banged){
     int reentered = x->x_entered;
@@ -785,8 +797,6 @@ static void zl_symbol(t_zl *x, t_symbol *s){
     zl_doit(x, 0);
 }
 
-/* LATER gpointer */
-
 static void zl_list(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if(!x->x_locked){
         if(zl_modeflags[x->x_mode])
@@ -806,6 +816,7 @@ static void zl_anything(t_zl *x, t_symbol *s, int ac, t_atom *av){
     }
     zl_doit(x, 0);
 }
+
 
 static int zl_modeargfn(t_zl *x){
     return (zl_intargfn[x->x_mode] || zl_anyargfn[x->x_mode]);
@@ -890,6 +901,23 @@ static void zl_mode(t_zl *x, t_symbol *s, int ac, t_atom *av){
     }
 }
 
+static void zl_zlmaxsize(t_zl *x, t_floatarg f){
+    int sz = (int)f;
+    zldata_realloc(&x->x_inbuf1,sz);
+    zldata_realloc(&x->x_inbuf2,sz);
+    zldata_realloc(&x->x_outbuf,sz);
+    
+}
+
+static void zl_zlclear(t_zl *x){
+    int sz1 = x->x_inbuf1.d_size;
+    int sz2 = x->x_inbuf2.d_size;
+    int sz3 = x->x_outbuf.d_size;
+    zldata_reset(&x->x_inbuf1, sz1);
+    zldata_reset(&x->x_inbuf2, sz2);
+    zldata_reset(&x->x_outbuf, sz3);
+}
+
 static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     t_zl *x = (t_zl *)pd_new(zl_class);
     t_zlproxy *y = (t_zlproxy *)pd_new(zlproxy_class);
@@ -905,7 +933,7 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     int i = argc;
     t_atom *a = argv;
     while(i){
-        if(a->a_type == A_FLOAT){ // arg is a float
+        if(a->a_type == A_FLOAT){
             if(!first_arg){ // no first arg yet, get size
                 sz = (int)atom_getfloatarg(0, i, a);
                 first_arg = size_arg = 1;
@@ -946,11 +974,11 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     zldata_init(&x->x_inbuf2, sz);
     zldata_init(&x->x_outbuf, sz);
     zl_mode(x, s, argc - size_arg - size_attr, argv + size_arg);
+    if(!x->x_mode)
+        pd_error(x, "[zl]: unknown mode (needs a symbol argument)");
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
-    if(!x->x_mode) // Unknown
-        pd_error(x, "[zl]: unknown mode (needs a symbol argument)");
     return(x);
 errstate:
     post("zl: improper args");
@@ -958,48 +986,13 @@ errstate:
 }
 
 static void zl_setupmode(char *id, int flags,
-  t_zlintargfn ifn, t_zlanyargfn afn, t_zlnatomsfn nfn, t_zldoitfn dfn, int i){
+        t_zlintargfn ifn, t_zlanyargfn afn, t_zlnatomsfn nfn, t_zldoitfn dfn, int i){
     zl_modesym[i] = gensym(id);
     zl_modeflags[i] = flags;
     zl_intargfn[i] = ifn;
     zl_anyargfn[i] = afn;
     zl_natomsfn[i] = nfn;
     zl_doitfn[i] = dfn;
-}
-
-static void zl_setupallmodes(void){
-    zl_setupmode("unknown", 0, 0, 0, zl_nop_count, zl_nop, 0);
-    zl_setupmode("ecils", 0, zl_ecils_intarg, 0, zl_ecils_count, zl_ecils, 1);
-    zl_setupmode("group", 1, zl_group_intarg, 0, zl_group_count, zl_group, 2);
-    zl_setupmode("iter", 0, zl_iter_intarg, 0, zl_iter_count, zl_iter, 3);
-    zl_setupmode("join", 0, 0, zl_join_anyarg, zl_join_count, zl_join, 4);
-    zl_setupmode("len", 0, 0, 0, zl_len_count, zl_len, 5);
-    zl_setupmode("mth", 0, zl_mth_intarg, zl_mth_anyarg, zl_mth_count, zl_mth, 6);
-    zl_setupmode("nth", 0, zl_nth_intarg, zl_nth_anyarg, zl_nth_count, zl_nth, 7);
-    zl_setupmode("reg", 0, 0, zl_reg_anyarg, zl_reg_count, zl_reg, 8);
-    zl_setupmode("rev", 0, 0, 0, zl_rev_count, zl_rev, 9);
-    zl_setupmode("rot",	0, zl_rot_intarg, 0, zl_rot_count, zl_rot, 10);
-    zl_setupmode("sect", 0, 0, zl_sect_anyarg, zl_sect_count, zl_sect, 11);
-    zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice, 12);
-    zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub, 13);
-    zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union, 14);
-}
-
-static void zl_zlmaxsize(t_zl *x, t_floatarg f){
-    int sz = (int)f;
-    zldata_realloc(&x->x_inbuf1,sz);
-    zldata_realloc(&x->x_inbuf2,sz);
-    zldata_realloc(&x->x_outbuf,sz);
-    
-}
-
-static void zl_zlclear(t_zl *x){
-    int sz1 = x->x_inbuf1.d_size;
-    int sz2 = x->x_inbuf2.d_size;
-    int sz3 = x->x_outbuf.d_size;
-    zldata_reset(&x->x_inbuf1, sz1);
-    zldata_reset(&x->x_inbuf2, sz2);
-    zldata_reset(&x->x_outbuf, sz3);
 }
 
 void zl_setup(void){
@@ -1020,5 +1013,19 @@ void zl_setup(void){
     class_addsymbol(zlproxy_class, zlproxy_symbol);
     class_addlist(zlproxy_class, zlproxy_list);
     class_addanything(zlproxy_class, zlproxy_anything);
-    zl_setupallmodes();
+    zl_setupmode("unknown", 0, 0, 0, zl_nop_count, zl_nop, 0);
+    zl_setupmode("ecils", 0, zl_ecils_intarg, 0, zl_ecils_count, zl_ecils, 1);
+    zl_setupmode("group", 1, zl_group_intarg, 0, zl_group_count, zl_group, 2);
+    zl_setupmode("iter", 0, zl_iter_intarg, 0, zl_iter_count, zl_iter, 3);
+    zl_setupmode("join", 0, 0, zl_join_anyarg, zl_join_count, zl_join, 4);
+    zl_setupmode("len", 0, 0, 0, zl_len_count, zl_len, 5);
+    zl_setupmode("mth", 0, zl_mth_intarg, zl_mth_anyarg, zl_mth_count, zl_mth, 6);
+    zl_setupmode("nth", 0, zl_nth_intarg, zl_nth_anyarg, zl_nth_count, zl_nth, 7);
+    zl_setupmode("reg", 0, 0, zl_reg_anyarg, zl_reg_count, zl_reg, 8);
+    zl_setupmode("rev", 0, 0, 0, zl_rev_count, zl_rev, 9);
+    zl_setupmode("rot",	0, zl_rot_intarg, 0, zl_rot_count, zl_rot, 10);
+    zl_setupmode("sect", 0, 0, zl_sect_anyarg, zl_sect_count, zl_sect, 11);
+    zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice, 12);
+    zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub, 13);
+    zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union, 14);
 }
