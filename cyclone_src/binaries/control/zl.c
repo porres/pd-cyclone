@@ -167,9 +167,8 @@ static void zldata_addlist(t_zldata *d, int ac, t_atom *av){
     int natoms = d->d_natoms;
     int nrequested = natoms + ac;
     if(nrequested <= d->d_max){
-        if (d->d_natoms = natoms + ac){
         	memcpy(d->d_buf + natoms, av, ac * sizeof(*d->d_buf));
-        };
+		d->d_natoms = natoms + ac;
     };
 }
 
@@ -194,7 +193,9 @@ static void zldata_add(t_zldata *d, t_symbol *s, int ac, t_atom *av){
             SETSYMBOL(d->d_buf + natoms, s);
             if (ac > 0)
                 memcpy(d->d_buf + natoms + 1, av, ac * sizeof(*d->d_buf));
-        }
+	    d->d_natoms = natoms + 1 + ac;
+		
+        };
     }
     else
         zldata_addlist(d, ac, av);
