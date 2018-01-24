@@ -156,11 +156,21 @@ static void zldata_addsymbol(t_zldata *d, t_symbol *s){
 
 static void zldata_setlist(t_zldata *d, int ac, t_atom *av){
     int nrequested = ac;
-    if(nrequested <= d->d_max){
-        if(d->d_natoms = nrequested){
-            memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
-        };
-    };
+    if(nrequested <= d->d_max && d->d_natoms = nrequested) // natoms <= nrequested ? - DK
+        memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
+}
+
+static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av){
+    if(s && s != &s_){
+        int nrequested = ac + 1;
+        if(d->d_natoms = nrequested){ // should this be <= ? - DK
+            SETSYMBOL(d->d_buf, s);
+            if(--nrequested)
+                memcpy(d->d_buf + 1, av, nrequested * sizeof(*d->d_buf));
+        }
+    }
+    else
+        zldata_setlist(d, ac, av);
 }
 
 static void zldata_addlist(t_zldata *d, int ac, t_atom *av){
@@ -170,19 +180,6 @@ static void zldata_addlist(t_zldata *d, int ac, t_atom *av){
         memcpy(d->d_buf + natoms, av, ac * sizeof(*d->d_buf));
 		d->d_natoms = natoms + ac;
     };
-}
-
-static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av){
-    if(s && s != &s_){
-        int nrequested = ac + 1;
-        if (d->d_natoms = nrequested){ //should this be <= ? - DK
-            SETSYMBOL(d->d_buf, s);
-            if (--nrequested)
-                memcpy(d->d_buf + 1, av, nrequested * sizeof(*d->d_buf));
-        }
-    }
-    else
-        zldata_setlist(d, ac, av);
 }
 
 static void zldata_add(t_zldata *d, t_symbol *s, int ac, t_atom *av){
@@ -200,7 +197,6 @@ static void zldata_add(t_zldata *d, t_symbol *s, int ac, t_atom *av){
         zldata_addlist(d, ac, av);
 }
 
-/* LATER rethink */
 static void zl_dooutput(t_outlet *o, int ac, t_atom *av){
     if(ac > 1){
         if(av->a_type == A_FLOAT)
@@ -657,6 +653,20 @@ static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged){
         zl_output(x, cnt1, buf);
 }
 
+// ************************* SORT *********************************
+
+static void zl_sort_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    //
+}
+
+static int zl_sort_count(t_zl *x){
+    //
+}
+
+static void zl_sort(t_zl *x, int natoms, t_atom *buf, int banged){
+    //
+}
+
 // ************************* SUB *********************************
 
 static void zl_sub_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
@@ -743,20 +753,6 @@ static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged){
         memcpy(buf, ap2, ac2 * sizeof(*buf));
 	zl_output(x, natoms, buf);
     }
-}
-
-// ************************* SORT *********************************
-
-static void zl_sort_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
-//
-}
-
-static int zl_sort_count(t_zl *x){
-//
-}
-
-static void zl_sort(t_zl *x, int natoms, t_atom *buf, int banged){
-//
 }
 
 // ********************************************************************
@@ -1037,7 +1033,7 @@ void zl_setup(void){
     zl_setupmode("rot",	0, zl_rot_intarg, 0, zl_rot_count, zl_rot, 10);
     zl_setupmode("sect", 0, 0, zl_sect_anyarg, zl_sect_count, zl_sect, 11);
     zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice, 12);
-    zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub, 13);
-    zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union, 14);
-    zl_setupmode("sort", 0, 0, zl_sort_anyarg, zl_sort_count, zl_sort, 15);
+    zl_setupmode("sort", 0, 0, zl_sort_anyarg, zl_sort_count, zl_sort, 13);
+    zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub, 14);
+    zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union, 15);
 }
