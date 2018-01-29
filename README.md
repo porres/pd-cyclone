@@ -14,36 +14,11 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Current Release: Cyclone 0.3 beta-3
-
-
-This release needs at leas Pd Vanilla 0.48-1;
-It is not expected to work in earlier versions.
+Current Release: Cyclone 0.3 beta-3 (this release needs at least Pd Vanilla 0.48-1)
 
 Release Date: "To be released on february 21st 2018"
 
-All Releases: https://github.com/porres/pd-cyclone/releases
-
--------
-<strong>About Cyclone:</strong>
-
-
-Cyclone carries a a set of over 200 Pure Data externals, it comes with externals as abstractions, separate binaries, and a single binary containing the cyclone sub-library.
-
-- The individual external binaries and abstractions can be loaded only by inserting cyclone folder in the search path of Pd (or using Pd Vanilla’s [declare] object). 
-
-- B) The cyclone sub-library loads a small set of objects with non alphanumeric names: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], [!-~], [!/~], [%~], [+=~]. The library can be loaded in Pd’s startup (or using Pd Vanilla’s [declare] object). Objects with alphanumeric names corresponding to these objects are also available as single binaries outside this sub-library.
-
-
-**!!! Check “How to Install” for more details:**
-
-     https://github.com/porres/pd-cyclone/wiki/How-To-Install
-
-**!!!! Report a bug or issue:**
-
-     https://github.com/porres/pd-cyclone/issues
-
-
+Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager 
 
 -------
 <strong>About Cyclone 0.3:</strong>
@@ -59,15 +34,17 @@ The main goal of cyclone 0.3 is to update Cyclone's objects to the latest Max ve
 - 48 new objects;
 - A newly written documentation, taking care of numerous issues (yet to include "meta" and related objects)
 
-Check details in the changelog!s
+Check details in the provided CHANGELOG.txt file, or here: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 
 -------
 
 <strong>Installing Cyclone:</strong>
 
-You can get Cyclone directly from Pure Data, just go to the "Help" menu, then "find externals" and search for "cyclone". Make sure to get the latest version!
+You can get Cyclone directly from Pure Data's external manager (a.k.a. 'deken'), just go to the "Help" menu, then "find externals" and search for "cyclone". Make sure to get the latest version!
 
 Cyclone 0.3 comes with a set of separate binaries for most of the externals, but also comes with a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclone-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
+
+-------
 
 <strong>Building Cyclone for Pd Vanilla:</strong>
 
