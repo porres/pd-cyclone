@@ -16,7 +16,7 @@ Max is found at: https://cycling74.com/
 
 Current Release: Cyclone 0.3 beta-3
 
-Release Date: "Yet Unreleased"
+Release Date: "To be released on february 21st 2018"
 
 All Releases: https://github.com/porres/pd-cyclone/releases
 
@@ -87,12 +87,12 @@ The original repository of MiXed as part of Pd Extended - containing cyclone and
 
 => Fred Jan Kraan's Repository (0.1-Alpha-57 and 0.2beta):
 
-Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with cyclone version 0.1alpha-57 from october 2015  and moves on to a new Cyclone 0.2 version which stopped at a beta stage.
+Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with cyclone version 0.1alpha-57, from october 2015, which is basically the last developments from the original repository. Then it moves on to a new Cyclone 0.2 version which stopped at a beta stage.
 
 -------
 
 <strong>About This Repository And Its Goals:</strong>
 
-This repository was forked from fred Jan Kraan's. The location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
+This repository was forked from fred Jan Kraan's at cyclone 0.2 beta stage and is releasing new cyclone versions starting at cyclone 0.3. The location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
 
 Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list)
