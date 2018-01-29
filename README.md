@@ -40,7 +40,8 @@ Check details in the provided CHANGELOG.txt file, or here: https://github.com/po
 
 <strong>Installing Cyclone:</strong>
 
-You can get Cyclone directly from Pure Data's external manager (a.k.a. 'deken'), just go to the "Help" menu, then "find externals" and search for "cyclone". Make sure to get the latest version!
+
+You'll find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases but you can also just get Cyclone directly from Pure Data's external manager (a.k.a. 'deken'). For that, you only need to go to the "Help" menu, then "find externals" and search for "cyclone". Make sure to get the latest version!
 
 Cyclone 0.3 comes with a set of separate binaries for most of the externals, but also comes with a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclone-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
