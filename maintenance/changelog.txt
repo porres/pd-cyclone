@@ -2,14 +2,14 @@
 
 cyclone 0.3 (still experimental)
 
-summary: 
+Summary: 
 
 - I) 61 updated objects to include functionalities from newer versions of Max (earlier releases were mostly compliant to Max 4.0, cyclone 0.3 updates to the latest Max: 7.3.4 at the time of this release).
 - II) 48 New objects 
 - III) Completely rewritten documentation
 - IV) Numerous bug fixes
 
-Find detailed changelog below:
+In detail:
 
 A) Restoring the original cyclone's goal of Max/MSP compatibility in the project's 'readme'.
 
