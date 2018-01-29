@@ -156,7 +156,7 @@ static void zldata_addsymbol(t_zldata *d, t_symbol *s){
 
 static void zldata_setlist(t_zldata *d, int ac, t_atom *av){
     int nrequested = ac;
-    if(nrequested <= d->d_max && d->d_natoms = nrequested) // natoms <= nrequested ? - DK
+    if(nrequested <= d->d_max && (d->d_natoms = nrequested)) // natoms <= nrequested ? - DK
         memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
 }
 
