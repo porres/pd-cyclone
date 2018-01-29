@@ -13,7 +13,7 @@ objects cloned from Max/MSP;
 0;
 #X obj 20 79 comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
 Data with objects cloned from Max/MSP.;
-#X obj 40 111 comment 0 14 helvetica ? 0 0 0 0 It also provides some
+#X obj 44 112 comment 0 14 helvetica ? 0 0 0 0 It also provides some
 level of compatibility between the two environments \,;
 #X obj 65 327 comment 0 16 times ? 0 0 0 0 How to install?;
 #X obj 82 526 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
