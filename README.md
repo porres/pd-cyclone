@@ -16,9 +16,34 @@ Max is found at: https://cycling74.com/
 
 Current Release: Cyclone 0.3 beta-3
 
+
+This release needs at leas Pd Vanilla 0.48-1;
+It is not expected to work in earlier versions.
+
 Release Date: "To be released on february 21st 2018"
 
 All Releases: https://github.com/porres/pd-cyclone/releases
+
+-------
+<strong>About Cyclone:</strong>
+
+
+Cyclone carries a a set of over 200 Pure Data externals, it comes with externals as abstractions, separate binaries, and a single binary containing the cyclone sub-library.
+
+- The individual external binaries and abstractions can be loaded only by inserting cyclone folder in the search path of Pd (or using Pd Vanilla’s [declare] object). 
+
+- B) The cyclone sub-library loads a small set of objects with non alphanumeric names: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], [!-~], [!/~], [%~], [+=~]. The library can be loaded in Pd’s startup (or using Pd Vanilla’s [declare] object). Objects with alphanumeric names corresponding to these objects are also available as single binaries outside this sub-library.
+
+
+**!!! Check “How to Install” for more details:**
+
+     https://github.com/porres/pd-cyclone/wiki/How-To-Install
+
+**!!!! Report a bug or issue:**
+
+     https://github.com/porres/pd-cyclone/issues
+
+
 
 -------
 <strong>About Cyclone 0.3:</strong>
@@ -29,12 +54,12 @@ The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version
 
 The main goal of cyclone 0.3 is to update Cyclone's objects to the latest Max version, which is Max 7.3.4 at the time of this release. We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
 
-- 61 updated objects (2 of which have been partially updated and only 2 reamining to be updated);
+- 61 updated objects;
 - 63 fixed objects (including objects that were updated, will be updated and did not need updates);
 - 48 new objects;
 - A newly written documentation, taking care of numerous issues (yet to include "meta" and related objects)
 
-Check details in our changelog: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog 
+Check details in the changelog!s
 
 -------
 
