@@ -44,6 +44,8 @@ You can get Cyclone directly from Pure Data's external manager (a.k.a. 'deken'),
 
 Cyclone 0.3 comes with a set of separate binaries for most of the externals, but also comes with a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclone-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 
+-------
+
 <strong>Building Cyclone for Pd Vanilla:</strong>
 
 Since "Cyclone 0.1-alpha57", the cyclone package has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
