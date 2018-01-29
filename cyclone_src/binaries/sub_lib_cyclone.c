@@ -6,7 +6,7 @@
  This library has been fixed and updated by Porres in 2016;
  This is the cyclone library containing 12 non alphanumeric objects.
  Originally, the externals in cyclone used to come in a library called
- "cyclone", which included these 12 objects plus the "hammer" and "sicle"
+ "cyclone", which included these 12 objects plus the "hammer" and "sickle"
  libraries (control/MAX and signal/MSP objects respectively).
  
  This original cyclone library is now restored, but only containing these
@@ -16,7 +16,7 @@
  
  The plan is to, in the future, have all objects into this library.
  
- Alternatively, alphanumeric versions of these objects are ialso ncluded as 
+ Alternatively, alphanumeric versions of these objects are also included as
  single binaries in the cyclone package  */
 
 #include <math.h>
@@ -629,7 +629,7 @@ t_class *cyclone_class;
 static void cyclone_about(t_cyclone *x)
 {
     post("------------------------------------------------------------------");
-    post("Cyclone 0.3 beta 3; Released: September 11th, 2017");
+    post("Cyclone 0.3 beta 3; Released: Februar 21st, 2018");
     post("This is a sub library containing the objects:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
     post("------------------------------------------------------------------");
@@ -654,10 +654,9 @@ void cyclone_setup(void)
     cyclone_class = class_new(gensym("cyclone"), cyclone_new, 0, sizeof(t_cyclone), 0, 0);
     class_addmethod(cyclone_class, (t_method)cyclone_about, gensym("about"), 0);
 
-    if(!printed)
-    {
+    if(!printed){
         post("------------------------------------------------------------------");
-        post("Cyclone 0.3 beta 3; Released: September 11th, 2017");
+        post("Cyclone 0.3 beta 3; Released: February 21st, 2018");
         post("This is a sub library containing the objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("------------------------------------------------------------------");
