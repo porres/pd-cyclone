@@ -379,7 +379,7 @@ static void zl_join(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* LEN *********************************
 
 static int zl_len_count(t_zl *x){
-    return(0);
+    return(x->x_inbuf1.d_max);
 }
 
 static void zl_len(t_zl *x, int natoms, t_atom *buf, int banged){
