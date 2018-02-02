@@ -156,17 +156,23 @@ static void zldata_addsymbol(t_zldata *d, t_symbol *s){
 
 static void zldata_setlist(t_zldata *d, int ac, t_atom *av){
     int nrequested = ac;
-    if(nrequested <= d->d_max && (d->d_natoms = nrequested)) // natoms <= nrequested ? - DK
+    if (nrequested > d->d_max) ac = d->d_max;
+    if(d->d_max >= ac)
+      {
         memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
+	d->d_natoms = ac;
+      };
 }
 
 static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av){
     if(s && s != &s_){
         int nrequested = ac + 1;
-        if(d->d_natoms = nrequested){ // should this be <= ? - DK
+	if(nrequested > d->d_max) ac = d->d_max - 1;
+        if(d->d_max >= nrequested){
             SETSYMBOL(d->d_buf, s);
             if(--nrequested)
                 memcpy(d->d_buf + 1, av, nrequested * sizeof(*d->d_buf));
+	    d->d_natoms = ac + 1;
         }
     }
     else
@@ -176,7 +182,8 @@ static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av){
 static void zldata_addlist(t_zldata *d, int ac, t_atom *av){
     int natoms = d->d_natoms;
     int nrequested = natoms + ac;
-    if(nrequested <= d->d_max){
+    if(nrequested > d->d_max) ac = d->d_max - natoms; //truncate
+    if(nrequested <= d->d_max){ //same reasoning as below, should be the case but mb okay to leave in check
         memcpy(d->d_buf + natoms, av, ac * sizeof(*d->d_buf));
 		d->d_natoms = natoms + ac;
     };
@@ -186,7 +193,9 @@ static void zldata_add(t_zldata *d, t_symbol *s, int ac, t_atom *av){
     if(s && s != &s_){
         int natoms = d->d_natoms;
         int nrequested = natoms + 1 + ac;
-        if(d->d_max >= natoms + 1 + ac){
+	if(d->d_max < natoms + 1 + ac)
+	  ac = d->d_max - 1 - natoms; //truncate
+        if(d->d_max >= natoms + 1 + ac){ //should be the case but mb okay to leave this check in
             SETSYMBOL(d->d_buf + natoms, s);
             if (ac > 0)
                 memcpy(d->d_buf + natoms + 1, av, ac * sizeof(*d->d_buf));
@@ -379,10 +388,14 @@ static void zl_join(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* LEN *********************************
 
 static int zl_len_count(t_zl *x){
-    return(x->x_inbuf1.d_max);
+  //return(x->x_inbuf1.d_natoms);
+  return(0);
 }
 
 static void zl_len(t_zl *x, int natoms, t_atom *buf, int banged){
+  //int inmax = x->x_inbuf1.d_max;
+  //if(natoms > inmax) natoms = inmax;
+  //x->x_inbuf1.d_natoms = natoms;
     outlet_float(((t_object *)x)->ob_outlet, x->x_inbuf1.d_natoms);
 }
 
