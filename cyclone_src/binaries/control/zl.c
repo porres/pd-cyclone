@@ -2,9 +2,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* adding zldata_realloc, making zl_zlmaxsize actually do something, editing zldata_init
-    also adding arguments/attributes, getting rid of grow and loud - Derek Kwan 2016-2018 */
-
+//notes: main inlet calls proper data handlers (zl_anything, etc), which deal with the input through zldata_add/set functions which fill inbuf1, THEN zl_doit is called which calls the "natoms_fn" (suffixed by _count) and calls the doitfn (usu just the mode name like zl_len) called on the OUTPUT buffer outbuf
 #include <string.h>
 #include "m_pd.h"
 
@@ -136,8 +134,10 @@ static void zldata_addfloat(t_zldata *d, t_float f){
     int natoms = d->d_natoms;
     int nrequested = natoms + 1;
     if (nrequested <= d->d_max)
+      {
         SETFLOAT(d->d_buf + natoms, f);
-    d->d_natoms = natoms + 1;
+	d->d_natoms = natoms + 1;
+      };
 }
 
 static void zldata_setsymbol(t_zldata *d, t_symbol *s){
@@ -155,23 +155,23 @@ static void zldata_addsymbol(t_zldata *d, t_symbol *s){
 }
 
 static void zldata_setlist(t_zldata *d, int ac, t_atom *av){
-    int nrequested = ac;
-    if (nrequested > d->d_max) ac = d->d_max;
-    if(d->d_max >= ac)
-      {
-        memcpy(d->d_buf, av, nrequested * sizeof(*d->d_buf));
-	d->d_natoms = ac;
-      };
+    if (ac > d->d_max) ac = d->d_max;
+    memcpy(d->d_buf, av, ac * sizeof(*d->d_buf));
+    d->d_natoms = ac;
 }
 
 static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av){
     if(s && s != &s_){
         int nrequested = ac + 1;
-	if(nrequested > d->d_max) ac = d->d_max - 1;
-        if(d->d_max >= nrequested){
+	if(nrequested > d->d_max)
+	  {
+	    ac = d->d_max - 1;
+	    if (ac < 0) ac = 0;
+	  };
+        if(d->d_max >= 1){
             SETSYMBOL(d->d_buf, s);
-            if(--nrequested)
-                memcpy(d->d_buf + 1, av, nrequested * sizeof(*d->d_buf));
+            if(ac > 0)
+                memcpy(d->d_buf + 1, av, ac * sizeof(*d->d_buf));
 	    d->d_natoms = ac + 1;
         }
     }
@@ -182,8 +182,12 @@ static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av){
 static void zldata_addlist(t_zldata *d, int ac, t_atom *av){
     int natoms = d->d_natoms;
     int nrequested = natoms + ac;
-    if(nrequested > d->d_max) ac = d->d_max - natoms; //truncate
-    if(nrequested <= d->d_max){ //same reasoning as below, should be the case but mb okay to leave in check
+    if(nrequested > d->d_max)
+      {
+	ac = d->d_max - natoms; //truncate
+	if (ac < 0) ac = 0;
+      };
+    if((natoms + ac <= d->d_max) && ac > 0){
         memcpy(d->d_buf + natoms, av, ac * sizeof(*d->d_buf));
 		d->d_natoms = natoms + ac;
     };
@@ -191,11 +195,15 @@ static void zldata_addlist(t_zldata *d, int ac, t_atom *av){
 
 static void zldata_add(t_zldata *d, t_symbol *s, int ac, t_atom *av){
     if(s && s != &s_){
+      //want to add: ac + 1 (ac + symbol selector) to natoms (already existing)
         int natoms = d->d_natoms;
         int nrequested = natoms + 1 + ac;
-	if(d->d_max < natoms + 1 + ac)
-	  ac = d->d_max - 1 - natoms; //truncate
-        if(d->d_max >= natoms + 1 + ac){ //should be the case but mb okay to leave this check in
+	if(d->d_max < nrequested)
+	  {
+	    ac = d->d_max - 1 - natoms; //truncate
+	    if(ac < 0) ac = 0;
+	  };
+        if(d->d_max >= natoms + 1){
             SETSYMBOL(d->d_buf + natoms, s);
             if (ac > 0)
                 memcpy(d->d_buf + natoms + 1, av, ac * sizeof(*d->d_buf));
