@@ -65,18 +65,10 @@ static void *decide_new(t_floatarg f)
     return (x);
 }
 
-void decide_setup(void)
-{
-    decide_class = class_new(gensym("decide"),
-			    (t_newmethod)decide_new, 0,
-			    sizeof(t_decide), 0,
-			    A_DEFFLOAT, 0);
+void decide_setup(void){
+    decide_class = class_new(gensym("decide"), (t_newmethod)decide_new, 0,
+        sizeof(t_decide), 0, A_DEFFLOAT, 0);
     class_addbang(decide_class, decide_bang);
     class_addfloat(decide_class, decide_float);
-    class_addmethod(decide_class, (t_method)decide_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
-    /* CHECKED list is auto-unfolded */
-    /* CHECKED doesn't understand "seed" */
-//    logpost(NULL, 4, "this is cyclone/decide %s, %dth %s build",
-//	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
+    class_addmethod(decide_class, (t_method)decide_ft1, gensym("ft1"), A_FLOAT, 0);
 }

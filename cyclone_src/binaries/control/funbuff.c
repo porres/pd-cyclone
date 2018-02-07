@@ -809,9 +809,6 @@ void funbuff_setup(void)
 #endif
     hammerfile_setup(funbuff_class, 1);
 
-
     funbuffcom_class = class_new(gensym("funbuffcom"), 0, 0,
         sizeof(t_funbuffcom), CLASS_PD, 0);
-//    logpost(NULL, 4, "this is cyclone/funbuff %s, %dth %s build",
-//	CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);
 }

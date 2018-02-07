@@ -141,9 +141,7 @@ void bucket_setup(void)
     class_addmethod(Bucket_class, (t_method)Bucket_set,
 		    gensym("set"), A_FLOAT, 0);
     class_addmethod(Bucket_class, (t_method)Bucket_ltor, gensym("l2r"), 0);
-    class_addmethod(Bucket_class, (t_method)Bucket_rtol, gensym("r2l"), 0);
-//    logpost(NULL, 4, "this is cyclone/Bucket %s, %dth %s build",
-//	 CYCLONE_VERSION, CYCLONE_BUILD, CYCLONE_RELEASE);    
+    class_addmethod(Bucket_class, (t_method)Bucket_rtol, gensym("r2l"), 0);   
 }
 
 void Bucket_setup(void)
