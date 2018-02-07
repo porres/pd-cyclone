@@ -5,8 +5,6 @@
 #ifndef __SHARED_H__
 #define __SHARED_H__
 
-#include "./build_counter"
-
 /* Microsoft Visual Studio is not C99, it does not provide stdint.h */
 #ifdef _MSC_VER
 typedef signed __int8     int8_t;
