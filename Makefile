@@ -197,7 +197,7 @@ shared/common/loud.c \
 shared/common/os.c
 
 hseq := \
-shared/common/mifi.c \
+shared/control/mifi.c \
 shared/common/file.c \
 shared/common/grow.c \
 shared/common/loud.c \

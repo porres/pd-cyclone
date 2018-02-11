@@ -11,8 +11,8 @@
 #include "shared.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "common/mifi.h"
 #include "common/file.h"
+#include "control/mifi.h"
 
 #ifdef KRZYSZCZ
 #define SEQ_DEBUG
