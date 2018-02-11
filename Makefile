@@ -156,8 +156,7 @@ hfile := \
 shared/hammer/file.c \
 shared/common/loud.c \
 shared/common/os.c \
-shared/common/fitter.c \
-shared/unstable/forky.c
+shared/common/fitter.c
 
 hfitter := \
 shared/common/loud.c \
@@ -182,8 +181,7 @@ shared/common/rand.c \
 shared/hammer/file.c \
 shared/common/loud.c \
 shared/common/os.c \
-shared/common/fitter.c \
-shared/unstable/forky.c
+shared/common/fitter.c
 
 hrandgrow := \
 shared/common/rand.c \
@@ -196,8 +194,7 @@ shared/common/rand.c \
 shared/common/grow.c \
 shared/hammer/file.c \
 shared/common/loud.c \
-shared/common/os.c \
-shared/unstable/forky.c
+shared/common/os.c
 
 hseq := \
 shared/common/mifi.c \
@@ -205,8 +202,7 @@ shared/hammer/file.c \
 shared/common/grow.c \
 shared/common/loud.c \
 shared/common/os.c \
-shared/common/fitter.c \
-shared/unstable/forky.c
+shared/common/fitter.c
 
 htree := \
 shared/hammer/tree.c \
@@ -215,8 +211,7 @@ shared/common/loud.c
 htreefile := \
 shared/hammer/tree.c \
 shared/hammer/file.c \
-shared/common/os.c \
-shared/unstable/forky.c
+shared/common/os.c
 
 hgui := shared/hammer/gui.c
 
@@ -306,8 +301,8 @@ shared/common/fitter.c
     scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
 
 magicbit := shared/magicbit.c
-    grab.class.sources := cyclone_src/binaries/control/grab.c $(magicbit) # only "fragile"
-    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magicbit) # only one "fragile" + "forky"
+    grab.class.sources := cyclone_src/binaries/control/grab.c $(magicbit)
+    cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(magicbit)
     delay~.class.sources := cyclone_src/binaries/signal/delay.c $(magicbit)
     plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(magicbit)
     minmax~.class.sources := cyclone_src/binaries/signal/minmax.c $(magicbit)
@@ -317,7 +312,7 @@ magicbit := shared/magicbit.c
     gate~.class.sources := cyclone_src/binaries/signal/gate.c $(magicbit)
     selector~.class.sources := cyclone_src/binaries/signal/selector.c $(magicbit)
     kink~.class.sources := cyclone_src/binaries/signal/kink.c $(magicbit)
-    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magicbit) #
+    vectral~.class.sources := cyclone_src/binaries/signal/vectral.c $(magicbit)
     cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magicbit) # cyclone sub-library
     bitand~.class.sources := cyclone_src/binaries/signal/bitand.c $(magicbit)
     bitnot~.class.sources := cyclone_src/binaries/signal/bitnot.c $(magicbit)

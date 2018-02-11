@@ -12,7 +12,6 @@
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/mifi.h"
-#include "unstable/forky.h"
 #include "hammer/file.h"
 
 #ifdef KRZYSZCZ
