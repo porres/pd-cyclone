@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include "m_pd.h"
-#include "hammer/gui.h"
+#include "control/gui.h"
 
 typedef struct _active
 {

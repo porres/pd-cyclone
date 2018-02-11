@@ -4,7 +4,7 @@
 
 #include <libgen.h>
 #include "m_pd.h"
-#include "hammer/tree.h"
+#include "control/tree.h"
 #include "common/file.h"
 
 

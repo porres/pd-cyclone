@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "hammer/tree.h"
+#include "control/tree.h"
 
 /* Since there is no sentinel node, the deletion routine has to have
    a few extra checks.  LATER rethink. */

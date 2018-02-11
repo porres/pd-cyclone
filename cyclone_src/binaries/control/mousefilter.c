@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "hammer/gui.h"
+#include "control/gui.h"
 
 //2016 note: now works with anything, pre v3: only floats - Derek Kwan
 //2017 - introducing a proxy to bind mouse to so we don't end up printing methods

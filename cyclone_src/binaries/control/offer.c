@@ -4,7 +4,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
-#include "hammer/tree.h"
+#include "control/tree.h"
 
 //adding offer_bang, typecasting arg in offer_ft1 to and from int to get rid of mantissa  - Derek Kwan 2016
 

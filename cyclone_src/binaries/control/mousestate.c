@@ -4,7 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "hammer/gui.h"
+#include "control/gui.h"
 #include "g_canvas.h"
 
 /* 2017 - Derek Kwan
@@ -13,8 +13,6 @@
  * canvas. also now rewrote gui.c to defer calculations to the c code here in interests
  * of multiple object independence, just use gui.c to send proper coords over
 */
-
-
 
 typedef struct _mousestate
 {

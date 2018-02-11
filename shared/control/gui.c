@@ -23,7 +23,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "g_canvas.h"
-#include "hammer/gui.h"
+#include "control/gui.h"
 
 #ifdef KRZYSZCZ
 //#define HAMMERGUI_DEBUG

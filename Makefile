@@ -205,15 +205,15 @@ shared/common/os.c \
 shared/common/fitter.c
 
 htree := \
-shared/hammer/tree.c \
+shared/control/tree.c \
 shared/common/loud.c
 
 htreefile := \
-shared/hammer/tree.c \
+shared/control/tree.c \
 shared/common/file.c \
 shared/common/os.c
 
-hgui := shared/hammer/gui.c
+hgui := shared/control/gui.c
 
 hloud := shared/common/loud.c
 
