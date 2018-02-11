@@ -153,7 +153,7 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 # Control classes: ###############################################
 
 hfile := \
-shared/hammer/file.c \
+shared/common/file.c \
 shared/common/loud.c \
 shared/common/os.c \
 shared/common/fitter.c
@@ -178,7 +178,7 @@ shared/common/loud.c
 
 hrandfile := \
 shared/common/rand.c \
-shared/hammer/file.c \
+shared/common/file.c \
 shared/common/loud.c \
 shared/common/os.c \
 shared/common/fitter.c
@@ -192,13 +192,13 @@ shared/common/fitter.c
 hrandgrowfile := \
 shared/common/rand.c \
 shared/common/grow.c \
-shared/hammer/file.c \
+shared/common/file.c \
 shared/common/loud.c \
 shared/common/os.c
 
 hseq := \
 shared/common/mifi.c \
-shared/hammer/file.c \
+shared/common/file.c \
 shared/common/grow.c \
 shared/common/loud.c \
 shared/common/os.c \
@@ -210,7 +210,7 @@ shared/common/loud.c
 
 htreefile := \
 shared/hammer/tree.c \
-shared/hammer/file.c \
+shared/common/file.c \
 shared/common/os.c
 
 hgui := shared/hammer/gui.c
@@ -288,7 +288,7 @@ sgrow := shared/common/grow.c
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
 
 sfile := \
-shared/hammer/file.c \
+shared/common/file.c \
 shared/common/os.c
     capture~.class.sources := cyclone_src/binaries/signal/capture.c $(sfile)
 

@@ -13,11 +13,7 @@
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/rand.h"
-#include "hammer/file.h"
-
-/* #ifdef KRZYSZCZ
-#define TABLE_DEBUG
-#endif */
+#include "common/file.h"
 
 #define TABLE_INISIZE      256  /* LATER rethink */
 #define TABLE_DEFLENGTH    128  /* CHECKED */
@@ -737,20 +733,6 @@ static void table_click(t_table *x, t_floatarg xpos, t_floatarg ypos,
     table_open(x);
 }
 
-/* #ifdef TABLE_DEBUG
-static void table_debug(t_table *x, t_floatarg f)
-{
-    t_tablecommon *cc = table_checkcommon(x);
-    if (cc)
-    {
-	t_table *x1 = cc->c_refs;
-	int i = 0;
-	while (x1) i++, x1 = x1->x_next;
-	loudbug_post("refcount %d", i);
-    }
-}
-#endif */
-
 static void table_free(t_table *x){
     hammerfile_free(x->x_filehandle);
     table_unbind(x);
@@ -880,9 +862,6 @@ void table_setup(void){
     /* a nop call (tablecommon doesn't embed and the hammerfile class is set up above),
      but it's best to have it around just in case... */ // Delete this??????
     hammerfile_setup(tablecommon_class, 0);
-/* #ifdef TABLE_DEBUG
-    class_addmethod(table_class, (t_method)table_debug, gensym("debug"), A_DEFFLOAT, 0);
-#endif */
 }
 
 void Table_setup(void){

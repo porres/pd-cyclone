@@ -23,7 +23,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "common/os.h" 
-#include "hammer/file.h"
+#include "common/file.h"
 
 struct _hammerfile
 {

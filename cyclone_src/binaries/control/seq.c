@@ -12,7 +12,7 @@
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/mifi.h"
-#include "hammer/file.h"
+#include "common/file.h"
 
 #ifdef KRZYSZCZ
 #define SEQ_DEBUG

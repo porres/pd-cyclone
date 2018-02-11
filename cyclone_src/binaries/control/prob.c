@@ -7,7 +7,7 @@
 #include "common/loud.h"
 #include "common/fitter.h"
 #include "common/rand.h"
-#include "hammer/file.h"
+#include "common/file.h"
 
 /* CHECKED: no preallocation.  It looks like if new state-entries
    were added to the list's head, and new transition-entries

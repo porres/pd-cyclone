@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "m_pd.h"
 #include "g_canvas.h"
-#include "hammer/file.h"
+#include "common/file.h"
 #include <string.h>
 #include <errno.h>
 

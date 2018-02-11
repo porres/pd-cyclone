@@ -13,7 +13,7 @@
 #include "shared.h"
 #include "common/loud.h"
 #include "common/fitter.h"
-#include "hammer/file.h"
+#include "common/file.h"
 
 #ifdef KRZYSZCZ
 //#define MTR_DEBUG

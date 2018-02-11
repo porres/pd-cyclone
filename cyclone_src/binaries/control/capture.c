@@ -18,7 +18,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "common/loud.h"
-#include "hammer/file.h"
+#include "common/file.h"
 
 #define CAPTURE_DEFSIZE  512
 #define CAPTURE_DEFPREC 4 //default precision

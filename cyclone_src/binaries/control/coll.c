@@ -15,7 +15,7 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "common/loud.h"
-#include "hammer/file.h"
+#include "common/file.h"
 
 #include <pthread.h>
 #include <unistd.h>
