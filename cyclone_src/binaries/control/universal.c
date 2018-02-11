@@ -4,7 +4,7 @@
 
 #include "m_pd.h"
 #include "g_canvas.h"
-#include "unstable/pd_imp.h"
+#include "m_imp.h"
 
 // LATER fragilize (for some reason)
 

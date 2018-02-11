@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "unstable/pd_imp.h"
+#include "m_imp.h"
 #include "magicbit.h"
 
 /* LATER handle canvas grabbing (bypass) */

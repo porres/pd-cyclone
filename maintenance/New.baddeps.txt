@@ -1,0 +1,5 @@
+Dependencies among objects. Some are inevitable, but others should be removed.
+
+hammer/file -> common/os unstable/forky
+
+

@@ -173,10 +173,6 @@ shared/common/grow.c \
 shared/common/loud.c \
 shared/common/fitter.c
 
-hgui := \
-shared/hammer/gui.c \
-shared/common/loud.c
-
 hrand := \
 shared/common/rand.c \
 shared/common/loud.c
@@ -220,7 +216,9 @@ htreefile := \
 shared/hammer/tree.c \
 shared/hammer/file.c \
 shared/common/os.c \
-shared/unstable/forky.c 
+shared/unstable/forky.c
+
+hgui := shared/hammer/gui.c
 
 hloud := shared/common/loud.c
 
