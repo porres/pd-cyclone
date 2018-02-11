@@ -6,8 +6,8 @@
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/fitter.h"
-#include "common/rand.h"
 #include "common/file.h"
+#include "control/rand.h"
 
 /* CHECKED: no preallocation.  It looks like if new state-entries
    were added to the list's head, and new transition-entries

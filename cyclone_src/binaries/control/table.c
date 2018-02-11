@@ -12,8 +12,8 @@
 #include "g_canvas.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "common/rand.h"
 #include "common/file.h"
+#include "control/rand.h"
 
 #define TABLE_INISIZE      256  /* LATER rethink */
 #define TABLE_DEFLENGTH    128  /* CHECKED */

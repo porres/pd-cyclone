@@ -11,7 +11,7 @@
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/fitter.h"
-#include "common/rand.h"
+#include "control/rand.h"
 
 #define URN_INISIZE      128  /* LATER rethink */
 #define URN_C74MAXSIZE  4096  /* CHECKED */

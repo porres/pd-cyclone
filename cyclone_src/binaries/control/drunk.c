@@ -7,7 +7,7 @@
    cyclone's guidelines. */
 
 #include "m_pd.h"
-#include "common/rand.h"
+#include "control/rand.h"
 
 #define DRUNK_DEFMAXVALUE  128
 #define DRUNK_DEFMAXSTEP   2

@@ -173,24 +173,24 @@ shared/common/loud.c \
 shared/common/fitter.c
 
 hrand := \
-shared/common/rand.c \
+shared/control/rand.c \
 shared/common/loud.c
 
 hrandfile := \
-shared/common/rand.c \
+shared/control/rand.c \
 shared/common/file.c \
 shared/common/loud.c \
 shared/common/os.c \
 shared/common/fitter.c
 
 hrandgrow := \
-shared/common/rand.c \
+shared/control/rand.c \
 shared/common/grow.c \
 shared/common/loud.c \
 shared/common/fitter.c
 
 hrandgrowfile := \
-shared/common/rand.c \
+shared/control/rand.c \
 shared/common/grow.c \
 shared/common/file.c \
 shared/common/loud.c \
