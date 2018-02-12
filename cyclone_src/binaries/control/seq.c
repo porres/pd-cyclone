@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "shared.h"
 #include "common/loud.h"
 #include "common/grow.h"
 #include "common/file.h"
