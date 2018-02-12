@@ -42,6 +42,7 @@ poltocar.class.sources := cyclone_src/binaries/control/poltocar.c
 sinh.class.sources := cyclone_src/binaries/control/sinh.c
 split.class.sources := cyclone_src/binaries/control/split.c
 spray.class.sources := cyclone_src/binaries/control/spray.c
+sprintf.class.sources := cyclone_src/binaries/control/sprintf.c
 sustain.class.sources := cyclone_src/binaries/control/sustain.c
 tanh.class.sources := cyclone_src/binaries/control/tanh.c
 trough.class.sources := cyclone_src/binaries/control/trough.c
@@ -152,14 +153,14 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
 # Control classes: ###############################################
 
-hfile := \
+hfilefitter := \
 shared/common/file.c \
-shared/common/loud.c \
-shared/common/fitter.c
+shared/common/fitter.c \
+shared/common/loud.c
 
 hfitter := \
-shared/common/loud.c \
-shared/common/fitter.c
+shared/common/fitter.c \
+shared/common/loud.c
 
 
 hgrow := \
@@ -168,8 +169,8 @@ shared/common/loud.c
 
 hgrowfitter := \
 shared/common/grow.c \
-shared/common/loud.c \
-shared/common/fitter.c
+shared/common/fitter.c \
+shared/common/loud.c
 
 hrand := \
 shared/control/rand.c \
@@ -178,14 +179,14 @@ shared/common/loud.c
 hrandfile := \
 shared/control/rand.c \
 shared/common/file.c \
-shared/common/loud.c \
-shared/common/fitter.c
+shared/common/fitter.c \
+shared/common/loud.c
 
 hrandgrow := \
 shared/control/rand.c \
 shared/common/grow.c \
-shared/common/loud.c \
-shared/common/fitter.c
+shared/common/fitter.c \
+shared/common/loud.c
 
 hrandgrowfile := \
 shared/control/rand.c \
@@ -197,8 +198,8 @@ hseq := \
 shared/control/mifi.c \
 shared/common/file.c \
 shared/common/grow.c \
-shared/common/loud.c \
-shared/common/fitter.c
+shared/common/fitter.c \
+shared/common/loud.c
 
 htree := \
 shared/control/tree.c \
@@ -223,10 +224,10 @@ maximum.class.sources := cyclone_src/binaries/control/maximum.c $(hfitter)
 minimum.class.sources := cyclone_src/binaries/control/minimum.c $(hfitter)
 switch.class.sources := cyclone_src/binaries/control/switch.c $(hfitter)
 
-# hfile classes
-capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
-coll.class.sources := cyclone_src/binaries/control/coll.c $(hfile)
-mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile)
+# hfilefitter classes
+capture.class.sources := cyclone_src/binaries/control/capture.c $(hfilefitter)
+coll.class.sources := cyclone_src/binaries/control/coll.c $(hfilefitter)
+mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfilefitter)
 
 # hgui classes
 active.class.sources := cyclone_src/binaries/control/active.c $(hgui)
@@ -254,7 +255,6 @@ anal.class.sources := cyclone_src/binaries/control/anal.c $(hloud)
 borax.class.sources := cyclone_src/binaries/control/borax.c $(hloud)
 decide.class.sources := cyclone_src/binaries/control/decide.c $(hloud)
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
-sprintf.class.sources := cyclone_src/binaries/control/sprintf.c $(hloud)
 togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
 # GUI:
 comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)

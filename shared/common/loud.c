@@ -62,18 +62,17 @@ char *loud_ordinal(int n)
     return (buf);
 }
 
-void loud_error(t_pd *x, char *fmt, ...)
-{
+void loud_error(t_pd *x, char *fmt, ...){
     char buf[MAXPDSTRING];
     va_list ap;
     va_start(ap, fmt);
     vsprintf(buf, fmt, ap);
-    if (x)
-    {
-	startpost("%s's ", class_getname(*x));
-	pd_error(x, "%s", buf);
+    if(x){
+        startpost("%s's ", class_getname(*x));
+        pd_error(x, "%s", buf);
     }
-    else post("%s %s", LOUD_ERROR_DEFAULT, buf);
+    else
+        post("%s %s", LOUD_ERROR_DEFAULT, buf);
     va_end(ap);
 }
 

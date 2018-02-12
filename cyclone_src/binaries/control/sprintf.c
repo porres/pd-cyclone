@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
 
 /* Pattern types.  These are the parsing routine's return values.
    If returned value is >= SPRINTF_MINSLOTTYPE, then another slot
@@ -112,7 +111,7 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin)
 	}
 	*pattend = tmp;
     }
-    else loudbug_bug("sprintf_proxy_checkit");
+    else pd_error(x, "sprintf_proxy_checkit");
     if (x->p_valid = valid)
     {
 	x->p_size = result;
@@ -484,9 +483,9 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             if (x && type == SPRINTF_UNSUPPORTED)
             {
             if (*errstring)
-                loud_error((t_pd *)x, "slot skipped (%s %s)", errstring, "in a format pattern");
+                pd_error(x, "[sprintf]: slot skipped (%s %s)", errstring, "in a format pattern");
             else
-                loud_error((t_pd *)x, "slot skipped");
+                pd_error(x, "[sprintf]: slot skipped");
             }
     *patternp = ptr;
     return (type);
@@ -549,7 +548,6 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 	x->x_symout = symout;
         x->x_fstring = fstring;
         p1 = fstring;
-  //      pd_error(x, "[cyclone/sprintf] is not ready yet");
         while (p2 = strchr(p1, '%'))
             {
             p1 = p2 + 1;
