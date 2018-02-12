@@ -3,6 +3,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+// #include "shared.h"
+
 #ifndef __OS_H__
 #define __OS_H__
 
@@ -30,8 +32,6 @@ int osdir_isdir(t_osdir *dp);
 
 #ifndef __HAMMERFILE_H__
 #define __HAMMERFILE_H__
-
-#include "shared.h"
 
 EXTERN_STRUCT _hammerfile;
 #define t_hammerfile  struct _hammerfile

@@ -4,7 +4,6 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
-#include "shared.h"
 
 typedef struct _decide
 {
