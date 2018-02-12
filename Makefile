@@ -155,7 +155,6 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 hfile := \
 shared/common/file.c \
 shared/common/loud.c \
-shared/common/os.c \
 shared/common/fitter.c
 
 hfitter := \
@@ -180,7 +179,6 @@ hrandfile := \
 shared/control/rand.c \
 shared/common/file.c \
 shared/common/loud.c \
-shared/common/os.c \
 shared/common/fitter.c
 
 hrandgrow := \
@@ -193,15 +191,13 @@ hrandgrowfile := \
 shared/control/rand.c \
 shared/common/grow.c \
 shared/common/file.c \
-shared/common/loud.c \
-shared/common/os.c
+shared/common/loud.c
 
 hseq := \
 shared/control/mifi.c \
 shared/common/file.c \
 shared/common/grow.c \
 shared/common/loud.c \
-shared/common/os.c \
 shared/common/fitter.c
 
 htree := \
@@ -210,8 +206,7 @@ shared/common/loud.c
 
 htreefile := \
 shared/control/tree.c \
-shared/common/file.c \
-shared/common/os.c
+shared/common/file.c
 
 hgui := shared/control/gui.c
 
@@ -287,9 +282,7 @@ sgrow := shared/common/grow.c
     frameaccum~.class.sources := cyclone_src/binaries/signal/frameaccum.c $(sgrow)
     framedelta~.class.sources := cyclone_src/binaries/signal/framedelta.c $(sgrow)
 
-sfile := \
-shared/common/file.c \
-shared/common/os.c
+sfile := shared/common/file.c
     capture~.class.sources := cyclone_src/binaries/signal/capture.c $(sfile)
 
 # New Dependencies: #################################################################

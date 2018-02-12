@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -15,38 +16,34 @@
 #include "os.h"
 #include "shared.h"
 
-static int ospath_doabsolute(char *path, char *cwd, char *result)
-{
-    if (*path == 0)
-    {
-	if (result)
-	    strcpy(result, cwd);
-	else
-	    return (strlen(cwd));
+static int ospath_doabsolute(char *path, char *cwd, char *result){
+    if (*path == 0){
+        if (result)
+            strcpy(result, cwd);
+        else
+            return
+            (strlen(cwd));
     }
-    else if (*path == '~')
-    {
-	path++;
-	if (*path == '/' || *path == 0)
-	{
-#ifndef _WIN32
-	    char *home = getenv("HOME");
-	    if (home)
-	    {
-		if (result)
-		{
-		    strcpy(result, home);
-		    if (*path)
-			strcat(result, path);
-		}
-		else return (strlen(home) + strlen(path));
-	    }
-	    else goto badpath;
-#else
-	    goto badpath;
-#endif
-	}
-	else goto badpath;
+    else if (*path == '~'){
+        path++;
+        if (*path == '/' || *path == 0){
+            #ifndef _WIN32
+                char *home = getenv("HOME");
+                if (home){
+                    if (result){
+                        strcpy(result, home);
+                        if (*path)
+                            strcat(result, path);
+                    }
+                    else return (strlen(home) + strlen(path));
+                }
+                else goto badpath;
+            #else
+                goto badpath;
+            #endif
+        }
+	else
+        goto badpath;
     }
     else if (*path == '/')
     {
@@ -179,8 +176,7 @@ badpath:
    superfluous slashes and dots), but not longer.  Both args should be unbashed
    (system-independent), cwd should be absolute.  Returns 0 in case of any
    error (LATER revisit). */
-int ospath_length(char *path, char *cwd)
-{
+int ospath_length(char *path, char *cwd){
     /* one extra byte used internally (guarding slash) */
     return (ospath_doabsolute(path, cwd, 0) + 1);
 }
@@ -189,14 +185,12 @@ int ospath_length(char *path, char *cwd)
    as in ospath_length().  Caller should first consult ospath_length(), and
    allocate at least ospath_length() + 1 bytes to the result buffer.
    Should never fail (failure is a bug). */
-char *ospath_absolute(char *path, char *cwd, char *result)
-{
+char *ospath_absolute(char *path, char *cwd, char *result){
     ospath_doabsolute(path, cwd, result);
     return (result);
 }
 
-FILE *fileread_open(char *filename, t_canvas *cv, int textmode)
-{
+FILE *fileread_open(char *filename, t_canvas *cv, int textmode){
     int fd;
     char path[MAXPDSTRING+2], *nameptr;
     t_symbol *dirsym = (cv ? canvas_getdir(cv) : 0);
@@ -220,8 +214,7 @@ FILE *fileread_open(char *filename, t_canvas *cv, int textmode)
     return (sys_fopen(path, (textmode ? "r" : "rb")));
 }
 
-FILE *filewrite_open(char *filename, t_canvas *cv, int textmode)
-{
+FILE *filewrite_open(char *filename, t_canvas *cv, int textmode){
     char path[MAXPDSTRING+2];
     if (cv)
 	/* path arg is returned unbashed (system-independent) */
@@ -236,8 +229,7 @@ FILE *filewrite_open(char *filename, t_canvas *cv, int textmode)
 
 /* FIXME add MSW */
 
-struct _osdir
-{
+struct _osdir{
 #ifndef _WIN32
     DIR            *dir_handle;
     struct dirent  *dir_entry;
@@ -247,8 +239,7 @@ struct _osdir
 
 /* returns 0 on error, a caller is then expected to call
    loud_syserror(owner, "cannot open \"%s\"", dirname) */
-t_osdir *osdir_open(char *dirname)
-{
+t_osdir *osdir_open(char *dirname){
 #ifndef _WIN32
     DIR *handle = opendir(dirname);
     if (handle)
@@ -267,55 +258,44 @@ t_osdir *osdir_open(char *dirname)
 #endif
 }
 
-void osdir_setmode(t_osdir *dp, int flags)
-{
+void osdir_setmode(t_osdir *dp, int flags){
     if (dp)
-	dp->dir_flags = flags;
+        dp->dir_flags = flags;
 }
 
-void osdir_close(t_osdir *dp)
-{
-    if (dp)
-    {
-#ifndef _WIN32
-	closedir(dp->dir_handle);
-#endif
+void osdir_close(t_osdir *dp){
+    if (dp){
+        #ifndef _WIN32
+            closedir(dp->dir_handle);
+        #endif
 	freebytes(dp, sizeof(*dp));
     }
 }
 
-void osdir_rewind(t_osdir *dp)
-{
-    if (dp)
-    {
-#ifndef _WIN32
-	rewinddir(dp->dir_handle);
-	dp->dir_entry = 0;
-#endif
+void osdir_rewind(t_osdir *dp){
+    if (dp){
+        #ifndef _WIN32
+            rewinddir(dp->dir_handle);
+            dp->dir_entry = 0;
+        #endif
     }
 }
 
-char *osdir_next(t_osdir *dp)
-{
+char *osdir_next(t_osdir *dp){
 #ifndef _WIN32
-    if (dp)
-    {
-	while (dp->dir_entry = readdir(dp->dir_handle))
-	{
-	    if (!dp->dir_flags ||
-		(dp->dir_entry->d_type == DT_REG
-		 && (dp->dir_flags & OSDIR_FILEMODE)) ||
-		(dp->dir_entry->d_type == DT_DIR
-		 && (dp->dir_flags & OSDIR_DIRMODE)))
-		return (dp->dir_entry->d_name);
-	}
+    if (dp){
+        while (dp->dir_entry = readdir(dp->dir_handle)){
+            if (!dp->dir_flags || (dp->dir_entry->d_type == DT_REG
+            && (dp->dir_flags & OSDIR_FILEMODE)) || (dp->dir_entry->d_type == DT_DIR
+            && (dp->dir_flags & OSDIR_DIRMODE)))
+                return (dp->dir_entry->d_name);
+        }
     }
 #endif
     return (0);
 }
 
-int osdir_isfile(t_osdir *dp)
-{
+int osdir_isfile(t_osdir *dp){
 #ifndef _WIN32
     return (dp && dp->dir_entry && dp->dir_entry->d_type == DT_REG);
 #else
@@ -323,8 +303,7 @@ int osdir_isfile(t_osdir *dp)
 #endif
 }
 
-int osdir_isdir(t_osdir *dp)
-{
+int osdir_isdir(t_osdir *dp){
 #ifndef _WIN32
     return (dp && dp->dir_entry && dp->dir_entry->d_type == DT_DIR);
 #else
