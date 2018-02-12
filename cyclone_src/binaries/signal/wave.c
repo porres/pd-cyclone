@@ -6,7 +6,7 @@
 #include <math.h>
 #include "m_pd.h"
 #include "cybuf.h"
-#include "shared.h"
+#include "common/shared.h"
 
 #define CYWAVEMAXOUT 64 //max number of outs
 #define CYWAVEINTERP 1 //default interp mode

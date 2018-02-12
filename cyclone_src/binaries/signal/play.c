@@ -15,7 +15,7 @@
 #include "m_pd.h"
 #include "cybuf.h"
 #include "magicbit.h"
-#include "shared.h"
+#include "common/shared.h"
 
 
 #define PLAY_MINITIME 0.023 //minumum ms for xfade. 1/44.1 rounded up

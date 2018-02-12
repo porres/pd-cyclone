@@ -25,7 +25,7 @@ the beginning of the ramp to default to the end of the whole array, right?
 #include <string.h>
 #include "m_pd.h"
 #include "m_imp.h"
-#include "shared.h"
+#include "common/shared.h"
 #include "cybuf.h"
 
 #define PDCYREC_NCH 1

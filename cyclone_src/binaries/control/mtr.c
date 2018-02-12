@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "shared.h"
+#include "common/shared.h"
 #include "common/loud.h"
 #include "common/fitter.h"
 #include "common/file.h"

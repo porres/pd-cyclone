@@ -5,7 +5,7 @@
 /* This is a compilation of phasor~ and noise~ code from d_osc.c. */
 
 #include "m_pd.h"
-#include "shared.h"
+#include "common/shared.h"
 
 typedef struct _rand
 {

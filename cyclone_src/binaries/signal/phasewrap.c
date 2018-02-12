@@ -4,7 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "shared.h"
+#include "common/shared.h"
 
 typedef struct _phasewrap
 {
