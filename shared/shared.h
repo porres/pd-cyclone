@@ -120,11 +120,4 @@ typedef union _shared_floatint
 #endif
 #endif
 
-/* support older Pd versions without sys_open(), sys_fopen(), sys_fclose() */
-#if PD_MAJOR_VERSION == 0 && PD_MINOR_VERSION < 44
-#define sys_open open
-#define sys_fopen fopen
-#define sys_fclose fclose
-#endif
-
 #endif

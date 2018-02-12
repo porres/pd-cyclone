@@ -371,9 +371,7 @@ f 60;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X floatatom 158 263 5 0 0 0 - - -, f 5;
 #X connect 34 0 33 0;
-#X connect 34 1 65 0;
 #X connect 35 0 36 0;
 #X connect 36 0 60 0;
 #X connect 41 0 34 1;
