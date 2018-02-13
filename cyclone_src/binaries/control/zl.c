@@ -63,10 +63,12 @@ static t_class *zlproxy_class;
 
 static void zlhelp_copylist(t_atom *old, t_atom *new, int natoms){
   int i;
+  //post("copying %d atoms", natoms);
   for(i=0; i<natoms; i++){
       switch(old[i].a_type){
           case(A_FLOAT):
               SETFLOAT(&new[i], old[i].a_w.w_float);
+	      //post("copy: %f", old[i].a_w.w_float);
               break;
           case(A_SYMBOL):
               SETSYMBOL(&new[i], old[i].a_w.w_symbol);
@@ -309,27 +311,42 @@ static int zl_group_count(t_zl *x){
     return (x->x_entered ? -1 : 0);
 }
 
-static void zl_group(t_zl *x, int natoms, t_atom *buf, int banged){
-    int cnt = x->x_modearg;
-    if(cnt > 0){
-        natoms = x->x_inbuf1.d_natoms;
-        buf = x->x_inbuf1.d_buf;
-        if(cnt > x->x_inbuf1.d_max) cnt = x->x_inbuf1.d_max;
-        if (natoms >= cnt){
-            t_atom *from;
-
-            x->x_locked = 1;
-            for(from = buf; natoms >= cnt; natoms -= cnt, from += cnt)
-                zl_output(x, cnt, from);
-            x->x_inbuf1.d_natoms = natoms;
-            while (natoms--)
-                *buf++ = *from++;
-        }
-        if (banged && x->x_inbuf1.d_natoms){
-
-            zl_output(x, x->x_inbuf1.d_natoms, buf);
-            x->x_inbuf1.d_natoms = 0;
-        }
+static void zl_group(t_zl *x, int natoms, t_atom *inbuf, int banged){
+    int count = x->x_modearg;
+    //idea: use outbuf to store output
+    if(count > 0){
+        int i = 0;
+        int inatoms = x->x_inbuf1.d_natoms;
+	int outatoms = x->x_outbuf.d_natoms;
+	int outmax = x->x_outbuf.d_max;
+	t_atom * outbuf = x->x_outbuf.d_buf;
+	inbuf = x->x_inbuf1.d_buf;
+	if(inatoms > 0) x->x_locked = 1; // when do things get unlocked?! - DK
+	while(i < inatoms)
+	  {
+	    int numcopy = count - outatoms;
+	    if(numcopy < 0) numcopy = 0;
+	    if((numcopy + outatoms)> outmax) numcopy = outmax - outatoms;
+	    if(numcopy > (inatoms - i)) numcopy = inatoms - i;
+	    if(numcopy > count) numcopy = count;
+	    zlhelp_copylist(&inbuf[i], &outbuf[outatoms], numcopy);
+	    //post("i:%d in:%d out:%d nc:%d", i, inatoms, outatoms, numcopy);
+	    i += numcopy;
+	    x->x_outbuf.d_natoms = outatoms += numcopy;
+	    if(outatoms >= count)
+	      {
+		zl_output(x, count, outbuf);
+		x->x_outbuf.d_natoms = outatoms -= count;
+	      };
+	    
+	  };
+	x->x_inbuf1.d_natoms = 0; //since inlet methods add to inbuf1, make sure zeroed to treat as empty
+	x->x_outbuf.d_natoms = outatoms;
+        if (banged && outatoms)
+	  {
+            zl_output(x, outatoms, outbuf);
+            x->x_outbuf.d_natoms = 0;
+	  };
     }
     else
         x->x_inbuf1.d_natoms = 0;
@@ -475,7 +492,6 @@ static void zl_mth_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if(!s && ac && av->a_type == A_FLOAT)
         zldata_setlist(&x->x_inbuf2, ac - 1, av + 1);
 }
-
 static int zl_mth_count(t_zl *x){
     int ac1 = x->x_inbuf1.d_natoms;
     if(ac1){
