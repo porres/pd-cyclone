@@ -298,7 +298,8 @@ static void tablecommon_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av){
 static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     t_table *x = (t_table *)z;
     t_tablecommon *cc = x->x_common;
-    if(cc->c_embedflag){
+    int toembed = cc->c_embedflag != 0 && cc->c_dontsaveflag == 0;
+    if(toembed){
         int ndx = 0, left = cc->c_length;
         int *ptr = cc->c_table;
         binbuf_addv(bb, "ssi;", bindsym, gensym("size"), cc->c_length);
@@ -474,17 +475,19 @@ static void table_flags(t_table *x, t_symbol *s, int ac, t_atom *av){
         && loud_checkint((t_pd *)x, av->a_w.w_float, &v, gensym("flags"))){
         /* CHECKED order, modifying only explicitly specified flags */
         if (i == 0)
-            cc->c_embedflag = (v != 0);
+	    cc->c_embedflag = (v != 0);
         else if (i == 1)
             cc->c_dontsaveflag = (v != 0);
-        else if (i == 2)
+	/*
+	else if (i == 2)
             cc->c_notenamesflag = (v != 0);
         else if (i == 3)
             cc->c_signedflag = (v != 0);
-        else
+	*/
+	else
             break;
         i++; ac--; av++;
-    }
+    };
 }
 
 // ???
@@ -543,7 +546,6 @@ static void table_prev(t_table *x){
 	x->x_head = x->x_common->c_length - 1;
     table_dooutput(x, x->x_head);
 }
-
 static void table_goto(t_table *x, t_floatarg f){
     /* CHECKED floats are truncated */
     x->x_head = tablecommon_getindex(x->x_common, (int)f);
@@ -803,6 +805,8 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
     x->x_filehandle = hammerfile_new((t_pd *)x, table_embedhook, 0, 0, 0);
     table_bind(x, name);
     tablecommon_setlength(x->x_common, size);
+    x->x_common -> c_embedflag = (embed != 0);
+
     return(x);
     errstate:
         pd_error(x, "[table]: improper args");
