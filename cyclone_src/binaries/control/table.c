@@ -311,8 +311,8 @@ static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
         while(left > 0){
             int cnt = (left > 128 ? 128 : left);
             left -= cnt;
-            ndx += cnt;
-            binbuf_addv(bb, "ssi", bindsym, gensym("set"), ndx);
+            //ndx += cnt;
+	    binbuf_addv(bb, "ssi", bindsym, gensym("set"), ndx);
             while(cnt--){
                 t_atom at;
                 SETFLOAT(&at, (float)*ptr);
