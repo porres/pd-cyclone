@@ -820,7 +820,7 @@ t_hammerfile *hammerfile_new(t_pd *master, t_hammerembedfn embedfn,
 	/* just in case of missing 'restore' */
 	hammerembed_gc(master, ps__C, 0);
 	if (hammerfile_isloading(result) || hammerfile_ispasting(result))
-	    pd_bind(master, ps__C);
+	  pd_bind(master, ps__C);
     }
 
     /* 2. the panels */
