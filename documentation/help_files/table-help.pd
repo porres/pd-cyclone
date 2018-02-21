@@ -1,30 +1,30 @@
-#N canvas 548 67 560 480 10;
-#X obj 3 218 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 589 74 560 466 10;
+#X obj 3 217 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 339 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 337 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 417 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X obj 3 409 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 86 226 cnv 17 3 86 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 225 cnv 17 3 86 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 350 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 346 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 316 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 86 315 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 454 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 3 440 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 159 225 -;
-#X text 129 225 bang;
-#X text 159 251 -;
-#X text 122 251 float;
-#X text 159 278 -;
-#X text 128 278 list;
-#X text 159 297 -;
-#X text 174 297 see:;
-#X text 159 317 -;
-#X text 122 317 float;
-#X text 159 351 -;
-#X text 122 351 float;
+#X text 159 224 -;
+#X text 129 224 bang;
+#X text 159 250 -;
+#X text 122 250 float;
+#X text 159 277 -;
+#X text 128 277 list;
+#X text 159 296 -;
+#X text 174 296 see:;
+#X text 159 316 -;
+#X text 122 316 float;
+#X text 159 347 -;
+#X text 122 347 float;
 #X obj 3 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -135,7 +135,7 @@ message"), f 78;
 ;
 #X text 145 171 finds the first table value which is >= the float and
 sends its address, f 78;
-#X restore 201 297 pd All_Messages;
+#X restore 201 296 pd All_Messages;
 #X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
 number array;
 #X obj 17 3 cyclone/comment 0 37 times ? 0 0 0 0 table;
@@ -161,22 +161,20 @@ you create it as:;
 #C restore;
 #X obj 255 274 Table;
 #C restore;
-#X restore 467 194 pd name clash;
-#X obj 3 376 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X restore 457 193 pd name clash;
+#X obj 3 370 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 159 383 -;
-#X text 98 383 1) symbol;
-#X text 174 317 sets value (y) to be stored at the index sent to left
+#X text 159 377 -;
+#X text 98 377 1) symbol;
+#X text 174 316 sets value (y) to be stored at the index sent to left
 inlet, f 61;
-#X text 174 278 a pair of index (x) and its value (y): sets "y" to
+#X text 174 277 a pair of index (x) and its value (y): sets "y" to
 "x", f 61;
-#X text 104 297 messages;
+#X text 104 296 messages;
 #X text 61 83 [table] stores and edits a number array. You can graphically
 edit it by opening it or double clicking on it. There are also several
 message methods \, check it below., f 65;
-#N canvas 824 185 368 234 examples 0;
-#X msg 270 141 getbits;
-#X msg 271 165 setbits;
+#N canvas 824 185 320 167 examples 0;
 #N canvas 708 23 454 597 load/normal 0;
 #X obj 109 286 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -232,8 +230,8 @@ of operation.;
 #X connect 18 0 16 0;
 #X connect 20 0 16 0;
 #X connect 21 0 16 0;
-#X restore 98 56 pd load/normal modes;
-#N canvas 423 114 802 488 argument/attributes 0;
+#X restore 96 56 pd load/normal modes;
+#N canvas 504 120 802 488 argument/attributes 0;
 #X obj 89 280 cyclone/table x;
 #C restore;
 #X text 119 106 <= populate the table from 0-127;
@@ -267,8 +265,8 @@ name. You can also use the "name" message to set a table name.;
 #X connect 6 0 2 0;
 #X connect 11 0 10 0;
 #X connect 12 0 11 0;
-#X restore 98 80 pd argument/attributes;
-#X text 240 82 *;
+#X restore 96 80 pd argument/attributes;
+#X text 238 82 *;
 #N canvas 428 43 550 603 basic_examples 0;
 #X msg 190 164 const 23;
 #X text 248 164 <= populate the table with a constant value, f 21
@@ -324,7 +322,7 @@ and doesn't store anything., f 70;
 #X connect 20 0 23 0;
 #X connect 21 0 20 1;
 #X connect 22 0 20 0;
-#X restore 98 34 pd basic_examples;
+#X restore 96 34 pd basic_examples;
 #N canvas 426 101 747 344 more_examples 0;
 #X obj 58 300 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -399,27 +397,34 @@ sends its address, f 37;
 #X connect 29 0 28 0;
 #X connect 33 0 15 0;
 #X connect 34 0 35 0;
-#X restore 98 103 pd more_examples;
-#X text 46 157 editing window... / inconsistencies;
-#X restore 479 174 pd examples;
+#X restore 96 103 pd more_examples;
+#X restore 469 173 pd examples;
 #X text 335 126 value stored at the index received in the left inlet
 , f 22;
 #X text 290 169 <= click to open;
 #X text 79 133 index to output its value or store from right inlet
 value, f 19;
-#X text 174 225 same as the quantile message with a random number between
+#X text 174 224 same as the quantile message with a random number between
 0 and 32768 as an argument (see quantile in [pd All_Messages]), f
 61;
-#X text 174 251 index (x): outputs its value or stores the value from
+#X text 174 250 index (x): outputs its value or stores the value from
 the right inlet (if given) at that index, f 61;
-#X text 174 351 index values or else depending on the given message
+#X text 174 347 index values or else depending on the given message
 , f 62;
-#X text 172 383 sets table name - if two or more [table] objects share
+#X text 172 377 sets table name - if two or more [table] objects share
 the same name \, they also share the same values (default: none),
 f 61;
-#X text 102 428 @size <float> (default 128) | @name <symbol> | @embed
+#X text 102 418 @size <float> (default 128) | @name <symbol> | @embed
 <float> (default 0), f 73;
 #X obj 203 169 cyclone/table;
+#C size 128;
+#C flags 1 0 0 0;
+#C tabrange 2;
+#C _coords 0 0 0 0 0;
+#C set 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
 #C restore;
 #X connect 23 0 48 1;
 #X connect 24 0 48 0;

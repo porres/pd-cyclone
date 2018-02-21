@@ -80,15 +80,12 @@ static void tablecommon_modified(t_tablecommon *cc, int relocated){
     if (cc->c_increation)
 	return;
     if (relocated)
-    {
-	cc->c_volatile = 1;
-    }
-    if (cc->c_embedflag)
-    {
-	t_table *x;
-	for (x = cc->c_refs; x; x = x->x_next)
-	    if (x->x_glist && glist_isvisible(x->x_glist))
-		canvas_dirty(x->x_glist, 1);
+        cc->c_volatile = 1;
+    if(cc->c_embedflag){
+        t_table *x;
+        for (x = cc->c_refs; x; x = x->x_next)
+            if (x->x_glist && glist_isvisible(x->x_glist))
+                canvas_dirty(x->x_glist, 1);
     }
 }
 
@@ -468,15 +465,21 @@ static void table_set(t_table *x, t_symbol *s, int ac, t_atom *av){
     }
 }
 
+static void table_embed(t_table *x, t_floatarg f){
+    t_tablecommon *cc = x->x_common;
+    cc->c_embedflag = (f != 0);
+    cc->c_dontsaveflag = (f == 0);
+}
+
 static void table_flags(t_table *x, t_symbol *s, int ac, t_atom *av){
     t_tablecommon *cc = x->x_common;
     int i = 0, v;
-    while (ac && av->a_type == A_FLOAT
+    while(ac && av->a_type == A_FLOAT
         && loud_checkint((t_pd *)x, av->a_w.w_float, &v, gensym("flags"))){
         /* CHECKED order, modifying only explicitly specified flags */
-        if (i == 0)
+        if(i == 0)
 	    cc->c_embedflag = (v != 0);
-        else if (i == 1)
+        else if(i == 1)
             cc->c_dontsaveflag = (v != 0);
 	/*
 	else if (i == 2)
@@ -805,7 +808,7 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
     x->x_filehandle = hammerfile_new((t_pd *)x, table_embedhook, 0, 0, 0);
     table_bind(x, name);
     tablecommon_setlength(x->x_common, size);
-    x->x_common -> c_embedflag = (embed != 0);
+    x->x_common->c_embedflag = (embed != 0);
 
     return(x);
     errstate:
@@ -828,6 +831,7 @@ void table_setup(void){
     class_addmethod(table_class, (t_method)table_const, gensym("const"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_cancel, gensym("cancel"), 0);
     class_addmethod(table_class, (t_method)table_dump, gensym("dump"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_embed, gensym("embed"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_flags, gensym("flags"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_fquantile, gensym("fquantile"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"),
