@@ -74,7 +74,7 @@ F) Assorted Fixes (63 Objects affected), including:
 	- [minmax~] - fixed the way it is reset and no signal input behaviour
 	- [wave~] - fixed number of channels	
 	- [play~]  - fixed number of channels
-	- [table]  - "write" method, flags method (not yet). 
+	- [table]  - "write" method and flags method. 
 	- [zl]  - numerous bug fixes, big ones are: size management, and fixes in modes group, len, sub & nth
 
 - 29 objects that did not need updates:
