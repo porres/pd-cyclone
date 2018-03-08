@@ -29,7 +29,7 @@ void atodb_float(t_atodb *x, t_floatarg f);
 void atodb_bang(t_atodb *x);
 void atodb_set(t_atodb *x, t_floatarg f);
 
-t_float convert(t_float f);
+static t_float convert(t_float f);
 
 void atodb_float(t_atodb *x, t_floatarg f)
 {

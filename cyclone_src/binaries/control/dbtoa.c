@@ -26,7 +26,7 @@ void dbtoa_float(t_dbtoa *x, t_floatarg f);
 void dbtoa_bang(t_dbtoa *x);
 void dbtoa_set(t_dbtoa *x, t_floatarg f);
 
-t_float convert(t_float f);
+static t_float convert(t_float f);
 
 void dbtoa_float(t_dbtoa *x, t_floatarg f)
 {
