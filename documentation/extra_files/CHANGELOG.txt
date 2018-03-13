@@ -1,10 +1,10 @@
 | Under the maintenance of Porres, Kwan and Barber: 
 
-cyclone 0.3 (still experimental)
+cyclone 0.3 beta 4 (still experimental)
 
 Summary: 
 
-- I) 61 updated objects to include functionalities from newer versions of Max (earlier releases were mostly compliant to Max 4.0, cyclone 0.3 updates to the latest Max: 7.3.4 at the time of this release).
+- I) 61 updated objects to include functionalities from newer versions of Max (earlier releases were mostly compliant to Max 4.0, cyclone 0.3 updates to the latest Max: 7.3.5 at the time of this release).
 - II) 48 New objects 
 - III) Completely rewritten documentation
 - IV) Numerous bug fixes
