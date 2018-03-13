@@ -1,6 +1,6 @@
 | Under the maintenance of Porres, Kwan and Barber: 
 
-cyclone 0.3 beta 4 (still experimental)
+cyclone 0.3 (still at an experimental beta stage)
 
 Summary: 
 
