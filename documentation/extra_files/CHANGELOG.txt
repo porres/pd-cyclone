@@ -15,7 +15,7 @@ A) Restoring the original cyclone's goal of Max/MSP compatibility in the project
 
 B) Restoring the 'cyclone' library, but only containing now the objects that used to be in the 'nettles' library. A new [cyclone] external object loads this sub library.
 
-C) Re added the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default. 
+C) Readded the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default. 
 
 D) 48 New objects, including: 
 -  5 Abstractions: [buffer~], [number~], [rect~], [saw~] and [tri~]
