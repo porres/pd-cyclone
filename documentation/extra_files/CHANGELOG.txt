@@ -1,10 +1,10 @@
 | Under the maintenance of Porres, Kwan and Barber: 
 
-cyclone 0.3 (still experimental)
+cyclone 0.3 (still at an experimental beta stage)
 
 Summary: 
 
-- I) 61 updated objects to include functionalities from newer versions of Max (earlier releases were mostly compliant to Max 4.0, cyclone 0.3 updates to the latest Max: 7.3.4 at the time of this release).
+- I) 61 updated objects to include functionalities from newer versions of Max (earlier releases were mostly compliant to Max 4.0, cyclone 0.3 updates to the latest Max: 7.3.5 at the time of this release).
 - II) 48 New objects 
 - III) Completely rewritten documentation
 - IV) Numerous bug fixes
@@ -15,7 +15,7 @@ A) Restoring the original cyclone's goal of Max/MSP compatibility in the project
 
 B) Restoring the 'cyclone' library, but only containing now the objects that used to be in the 'nettles' library. A new [cyclone] external object loads this sub library.
 
-C) Replacing the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default. 
+C) Readded the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default. 
 
 D) 48 New objects, including: 
 -  5 Abstractions: [buffer~], [number~], [rect~], [saw~] and [tri~]
@@ -120,14 +120,14 @@ J) Completely rewritten and redesigned documentation, solving numerous issues/mi
 
 | Under the maintenance of Fred Jan Kraan: 
 
-0.2beta3 - (version at the time of the forking)
+0.2beta3
   * coll: removed threaded behaviour as it has impact on the windows distribution 
 
-0.2beta2 - (version at the time of the forking)
+0.2beta2
   * coll: added .DLL dependencies so the threaded version works in windows
   * teeth~: replaced porres' abstraction for a compiled binary version
 
-0.2beta1 - (version at the time of the forking)
+0.2beta1
   * coll: substituting it for pd-l2ork's version, with threaded functionality and argument
   * scope~: Added 'resize' and 'grbg' methods
   * frameaccum~: added wrap-mode 
