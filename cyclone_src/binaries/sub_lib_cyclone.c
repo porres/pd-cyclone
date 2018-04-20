@@ -632,9 +632,11 @@ t_class *cyclone_class;
 static void cyclone_about(t_cyclone *x)
 {
     post("------------------------------------------------------------------------");
-    post("Cyclone 0.3 beta 3; Released: Februar 21st, 2018");
-    post("This is a sub library containing the objects:");
+    post("Cyclone 0.3 beta 4; Release date: UNRELEASED");
+    post("The cyclone library containins the following objects:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
+    post("added %s", cyclone_dir);
+    post("to Pd's path so the other objects can be loaded too");
     post("------------------------------------------------------------------------");
 }
 
@@ -668,9 +670,11 @@ void cyclone_setup(void)
 
     if(!printed){
         post("------------------------------------------------------------------------");
-        post("Cyclone 0.3 beta 3; Released: February 21st, 2018");
-        post("This is a sub library containing the objects:");
+        post("Cyclone 0.3 beta 4; Release date: UNRELEASED");
+        post("The cyclone library containins the following objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
+        post("added %s", cyclone_dir);
+        post("to Pd's path so the other objects can be loaded too");
         post("------------------------------------------------------------------------");
         printed = 1;
     }

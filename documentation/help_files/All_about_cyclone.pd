@@ -1,5 +1,5 @@
 #N canvas 651 27 562 666 10;
-#X declare -path cyclone -lib cyclone;
+#X declare -lib cyclone;
 #X obj 4 1 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
 #X obj 29 4 comment 0 22 courier ? 0 224 228 220 cyclone;
@@ -19,13 +19,9 @@ level of compatibility between the two environments \,;
 #X obj 81 593 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
 #X text 106 624 Please report them at: https://github.com/porres/pd-cyclone/issues
 , f 66;
-#X text 70 460 More in: https://github.com/porres/pd-cyclone/wiki/How-To-Install
-, f 60;
 #X text 3 499 ===========================================================================================
 , f 91;
 #X obj 61 161 comment 0 16 times ? 0 0 0 0 About Cyclone 0.3;
-#X text 69 410 You can also use [declare] to add the path and/or library
-as below:, f 68;
 #X text 3 307 ============================================================================================
 , f 92;
 #X text 63 191 - Cyclone's development starts in 2002 (at the time
@@ -36,12 +32,12 @@ functionalities from Max 4 and further updates (from Max 5 to Max 7).
 #X text 63 253 - New objects were also included and several bug fixes
 were made \; check details in the changelog at: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 , f 73;
-#X text 68 351 Most of cyclone objects are single binaries \, so all
-you need is to have the cyclone folder at an user added path. But there's
-also a "cyclone sub-library" that includes a subset of 12 non-alphanumeric
-objects. To install it you need to include "cyclone" in Pd's Startup.
-, f 72;
-#X obj 177 439 declare -path cyclone -lib cyclone;
 #X obj 44 525 comment 0 16 times ? 0 0 0 0 Check all of Cyclone's objetcs
 =>;
 #X obj 274 528 All_objects;
+#X obj 320 393 declare -lib cyclone;
+#X text 85 360 You can load the cyclone library via "Startup". Alternatively
+\, you can use [declare] as follows:, f 62;
+#X text 87 422 Check declare's help file for more information.;
+#X text 87 446 And see https://github.com/porres/pd-cyclone/wiki/How-To-Install
+for more details., f 64;
