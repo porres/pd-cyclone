@@ -19,10 +19,11 @@
  Alternatively, alphanumeric versions of these objects are also included as
  single binaries in the cyclone package  */
 
-#include <math.h>
 #include "m_pd.h"
+#include "m_imp.h"
 #include "common/shared.h"
 #include "magicbit.h"
+#include <math.h>
 
 /* think about float-to-int conversion -- there is no point in making
    the two below compatible, while all the others are not compatible... */
@@ -639,20 +640,24 @@ static int printed;
 
 static void *cyclone_new(void){
     t_cyclone *x = (t_cyclone *)pd_new(cyclone_class);
-    if(!printed)
-        {
+    if(!printed){
         cyclone_about(x);
         printed = 1;
         }
     return (x);
 }
 
-/* ----------------------------- SET UP ------------------------------ */
+/* ----------------------------- SETUP ------------------------------ */
 
 void cyclone_setup(void)
 {
     cyclone_class = class_new(gensym("cyclone"), cyclone_new, 0, sizeof(t_cyclone), 0, 0);
     class_addmethod(cyclone_class, (t_method)cyclone_about, gensym("about"), 0);
+
+    t_atom ap[2];
+    SETSYMBOL(ap, cyclone_class->c_externdir);
+    SETFLOAT (ap+1, 0.f);
+    pd_typedmess(gensym("pd")->s_thing, gensym("add-to-path"), 2, ap);
 
     if(!printed){
         post("------------------------------------------------------------------------");

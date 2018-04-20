@@ -1,5 +1,5 @@
-#N canvas 651 27 563 592 10;
-#X declare -stdpath cyclone -stdlib cyclone;
+#N canvas 651 27 562 666 10;
+#X declare -path cyclone -lib cyclone;
 #X obj 4 1 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
 #X obj 29 4 comment 0 22 courier ? 0 224 228 220 cyclone;
@@ -16,10 +16,9 @@ Data with objects cloned from Max/MSP.;
 #X obj 44 112 comment 0 14 helvetica ? 0 0 0 0 It also provides some
 level of compatibility between the two environments \,;
 #X obj 65 327 comment 0 16 times ? 0 0 0 0 How to install?;
-#X obj 82 526 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
-#X text 107 557 Please report them at: https://github.com/porres/pd-cyclone/issues
+#X obj 81 593 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
+#X text 106 624 Please report them at: https://github.com/porres/pd-cyclone/issues
 , f 66;
-#X obj 177 439 declare -stdpath cyclone -stdlib cyclone;
 #X text 70 460 More in: https://github.com/porres/pd-cyclone/wiki/How-To-Install
 , f 60;
 #X text 3 499 ===========================================================================================
@@ -42,3 +41,7 @@ you need is to have the cyclone folder at an user added path. But there's
 also a "cyclone sub-library" that includes a subset of 12 non-alphanumeric
 objects. To install it you need to include "cyclone" in Pd's Startup.
 , f 72;
+#X obj 177 439 declare -path cyclone -lib cyclone;
+#X obj 44 525 comment 0 16 times ? 0 0 0 0 Check all of Cyclone's objetcs
+=>;
+#X obj 274 528 All_objects;

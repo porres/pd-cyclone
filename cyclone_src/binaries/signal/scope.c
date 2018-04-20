@@ -25,7 +25,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "m_imp.h" // why?
 #include "g_canvas.h"
 #include "g_all_guis.h"
 #include "magicbit.h"
@@ -2229,7 +2228,6 @@ errstate:
 
 void scope_tilde_setup(void)
 {
-    t_symbol *dirsym;
     scope_class = class_new(gensym("scope~"), (t_newmethod)scope_new,
                             (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new,
@@ -2285,8 +2283,8 @@ void scope_tilde_setup(void)
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     fitter_setup(scope_class, 0);
     class_setpropertiesfn(scope_class, scope_properties);
-    dirsym = scope_class->c_externdir;
-    //sys_vgui("source {%s/dialog_scope.tcl}\n", dirsym->s_name);
+    
+//    sys_vgui("source {%s/dialog_scope.tcl}\n", scope_class->c_externdir->s_name);
     
 #ifdef PDL2ORK /* extra methods and widgetbehavior for purr data */
     class_addmethod(scope_class, (t_method)scope_click_for_resizing,
