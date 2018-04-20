@@ -54,7 +54,7 @@ static void hammergui_anything(t_hammergui *snk,
 /* filtering out redundant "_up" messages */
 static void hammergui__up(t_hammergui *snk, t_floatarg f)
 {
-    post("hammergui__up");
+//    post("hammergui__up");
 #ifdef HAMMERGUI_DEBUG
     fprintf(stderr, "_up %g (sink %x)\n", f, (int)snk);
 #endif
@@ -93,7 +93,7 @@ static void hammergui__up(t_hammergui *snk, t_floatarg f)
 
 static void hammergui__focus(t_hammergui *snk, t_symbol *s, t_floatarg f)
 {
-    post("hammergui__focus");
+//    post("hammergui__focus");
 #ifdef HAMMERGUI_DEBUG
     fprintf(stderr, "_focus %s %g (sink %x)\n", (s ? s->s_name : "???"), f, (int)snk);
 #endif
@@ -102,7 +102,7 @@ static void hammergui__focus(t_hammergui *snk, t_symbol *s, t_floatarg f)
         return;
     }
     if (snk->g_psfocus->s_thing){
-        post("sending focus");
+//        post("sending focus");
         t_atom at[2];
         SETSYMBOL(&at[0], s);
         SETFLOAT(&at[1], f);
@@ -112,7 +112,7 @@ static void hammergui__focus(t_hammergui *snk, t_symbol *s, t_floatarg f)
 
 static void hammergui__vised(t_hammergui *snk, t_symbol *s, t_floatarg f)
 {
-    post("hammergui__vised");
+//    post("hammergui__vised");
 #ifdef HAMMERGUI_DEBUG
     fprintf(stderr, "_vised %s %g (sink %x)\n",
 	    (s ? s->s_name : "???"), f, (int)snk);
@@ -140,7 +140,7 @@ static void hammergui__vised(t_hammergui *snk, t_symbol *s, t_floatarg f)
 
 static void hammergui_dobindmouse(t_hammergui *snk)
 {
-    post("hammergui_dobindmouse");
+//    post("hammergui_dobindmouse");
 #ifdef HAMMERGUI_DEBUG
     fprintf(stderr, "dobindmouse (sink %x)\n", (int)snk);
 #endif
@@ -160,7 +160,7 @@ static void hammergui_dobindmouse(t_hammergui *snk)
 
 static void hammergui__remouse(t_hammergui *snk)
 {
-    post("hammergui__remouse");
+//    post("hammergui__remouse");
     if (!snk->g_psmouse)
     {
 	bug("hammergui__remouse");
@@ -179,7 +179,7 @@ static void hammergui__remouse(t_hammergui *snk)
 
 static void hammergui_dobindfocus(t_hammergui *snk)
 {
-    post("hammergui_dobindfocus");
+//    post("hammergui_dobindfocus");
     sys_vgui("bind Canvas <<hammerfocusin>> \
  {if {[hammergui_ispatcher %%W]} \
   {pdsend {%s _focus %%W 1}}}\n", snk->g_psgui->s_name);
@@ -190,7 +190,7 @@ static void hammergui_dobindfocus(t_hammergui *snk)
 
 static void hammergui__refocus(t_hammergui *snk)
 {
-    post("hammergui__refocus");
+//    post("hammergui__refocus");
     if (!snk->g_psfocus)
     {
 	bug("hammergui__refocus");
@@ -209,7 +209,7 @@ static void hammergui__refocus(t_hammergui *snk)
 
 static void hammergui_dobindvised(t_hammergui *snk)
 {
-    post("hammergui_dobindvised");
+//    post("hammergui_dobindvised");
 #ifdef HAMMERGUI_DEBUG
     fprintf(stderr, "dobindvised (sink %x)\n", (int)snk);
 #endif
@@ -223,7 +223,7 @@ static void hammergui_dobindvised(t_hammergui *snk)
 
 static void hammergui__revised(t_hammergui *snk)
 {
-    post("hammergui__revised");
+//    post("hammergui__revised");
     if (!snk->g_psvised)
     {
 	bug("hammergui__revised");
