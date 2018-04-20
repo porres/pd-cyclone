@@ -92,21 +92,19 @@ static void hammergui__up(t_hammergui *snk, t_floatarg f)
 
 static void hammergui__focus(t_hammergui *snk, t_symbol *s, t_floatarg f)
 {
-#ifdef HAMMERGUI_DEBUG
-    fprintf(stderr, "_focus %s %g (sink %x)\n",
-	    (s ? s->s_name : "???"), f, (int)snk);
-#endif
-    if (!snk->g_psfocus)
-    {
-	bug("hammergui__focus");
-	return;
+//#ifdef HAMMERGUI_DEBUG
+    fprintf(stderr, "_focus %s %g (sink %x)\n", (s ? s->s_name : "???"), f, (int)snk);
+// #endif
+    if (!snk->g_psfocus){
+        bug("hammergui__focus");
+        return;
     }
-    if (snk->g_psfocus->s_thing)
-    {
-	t_atom at[2];
-	SETSYMBOL(&at[0], s);
-	SETFLOAT(&at[1], f);
-	pd_typedmess(snk->g_psfocus->s_thing, ps__focus, 2, at);
+    if (snk->g_psfocus->s_thing){
+        post("sending focus");
+        t_atom at[2];
+        SETSYMBOL(&at[0], s);
+        SETFLOAT(&at[1], f);
+        pd_typedmess(snk->g_psfocus->s_thing, ps__focus, 2, at);
     }
 }
 

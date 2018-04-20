@@ -635,10 +635,10 @@ static void cyclone_about(t_cyclone *x)
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     post("------------------------------------------------------------------------");
     post("Cyclone 0.3 beta 4; Release date: UNRELEASED");
-    post("The cyclone library does the following:");
-    post("A) loads the non alpha-numeric objects, which are:");
+    post("Loading the cyclone library did the following:");
+    post("A) Loaded the non alpha-numeric objects, which are:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
-    post("B) adds %s", cyclone_dir);
+    post("B) Added %s", cyclone_dir);
     post("to Pd's path so the other objects can be loaded too");
     post("------------------------------------------------------------------------");
 }
@@ -674,10 +674,10 @@ void cyclone_setup(void)
     if(!printed){
         post("------------------------------------------------------------------------");
         post("Cyclone 0.3 beta 4; Release date: UNRELEASED");
-        post("The cyclone library does the following:");
-        post("A) loads the non alpha-numeric objects, which are:");
+        post("Loading the cyclone library did the following:");
+        post("A) Loaded the non alpha-numeric objects, which are:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
-        post("B) adds %s", cyclone_dir);
+        post("B) Added %s", cyclone_dir);
         post("to Pd's path so the other objects can be loaded too");
         post("------------------------------------------------------------------------");
         printed = 1;

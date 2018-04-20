@@ -15,7 +15,8 @@ typedef struct _active{
 static t_class *active_class;
 
 static void active_dofocus(t_active *x, t_symbol *s, t_floatarg f){
-    if((int)f){
+    post("cvname = %s, focus = %f", s, f);
+    if((int)f){ // f = 1
         int on = (s == x->x_cvname);
         if(on != x->x_on)
             outlet_float(((t_object *)x)->ob_outlet, x->x_on = on);
@@ -44,6 +45,5 @@ static void *active_new(void){
 void active_setup(void){
     active_class = class_new(gensym("active"), (t_newmethod)active_new,
         (t_method)active_free, sizeof(t_active), CLASS_NOINLET, 0);
-    class_addmethod(active_class, (t_method)active_dofocus,
-		    gensym("_focus"), A_SYMBOL, A_FLOAT, 0);
+    class_addmethod(active_class, (t_method)active_dofocus, gensym("_focus"), A_SYMBOL, A_FLOAT, 0);
 }
