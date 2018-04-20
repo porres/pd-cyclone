@@ -1,4 +1,4 @@
-#N canvas 415 69 563 535 10;
+#N canvas 58 37 563 584 10;
 #X declare -lib cyclone;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -26,7 +26,7 @@ on the terminal., f 71;
 #X msg 254 408 about;
 #X text 75 473 For more information on the loaded objects \, check:
 ;
-#X obj 3 507 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 3 547 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 63 178 The cyclone library also automatically loads cyclone's
 path to Pd so you can load the separate binaries. Objects from the
@@ -94,4 +94,6 @@ with the "cyclone/" prefix., f 56;
 #X text 68 355 Check declare's help file for more information.;
 #X text 68 379 And see https://github.com/porres/pd-cyclone/wiki/How-To-Install
 for more details., f 64;
+#X obj 282 513 All_about_cyclone;
+#X text 99 513 Check "All About Cyclone" =>;
 #X connect 11 0 10 0;

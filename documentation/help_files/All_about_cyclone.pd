@@ -1,43 +1,45 @@
-#N canvas 651 27 562 666 10;
+#N canvas 651 27 560 627 10;
 #X declare -lib cyclone;
-#X obj 4 1 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
+#X obj 3 2 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
-#X obj 29 4 comment 0 22 courier ? 0 224 228 220 cyclone;
-#X obj 30 32 comment 0 14 courier ? 0 224 228 220 version 0.3 beta-3
+#X obj 28 5 comment 0 22 courier ? 0 224 228 220 cyclone;
+#X obj 29 33 comment 0 14 courier ? 0 224 228 220 version 0.3 beta-3
 ;
-#X obj 137 7 comment 0 14 courier ? 0 224 228 220 - a set of Pure Data
+#X obj 136 8 comment 0 14 courier ? 0 224 228 220 - a set of Pure Data
 objects cloned from Max/MSP;
-#X obj 272 34 comment 0 12 courier ? 0 224 228 220 https://github.com/porres/pd-cyclone
+#X obj 271 35 comment 0 12 courier ? 0 224 228 220 https://github.com/porres/pd-cyclone
 ;
-#X obj 4 61 cnv 15 552 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 3 62 cnv 15 552 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 20 79 comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
+#X obj 19 80 comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
 Data with objects cloned from Max/MSP.;
-#X obj 44 112 comment 0 14 helvetica ? 0 0 0 0 It also provides some
+#X obj 43 113 comment 0 14 helvetica ? 0 0 0 0 It also provides some
 level of compatibility between the two environments \,;
-#X obj 65 327 comment 0 16 times ? 0 0 0 0 How to install?;
-#X obj 81 593 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
-#X text 106 624 Please report them at: https://github.com/porres/pd-cyclone/issues
+#X obj 64 328 comment 0 16 times ? 0 0 0 0 How to install?;
+#X obj 80 548 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
+#X text 105 579 Please report them at: https://github.com/porres/pd-cyclone/issues
 , f 66;
-#X text 3 499 ===========================================================================================
+#X text 2 474 ===========================================================================================
 , f 91;
-#X obj 61 161 comment 0 16 times ? 0 0 0 0 About Cyclone 0.3;
-#X text 3 307 ============================================================================================
+#X obj 60 162 comment 0 16 times ? 0 0 0 0 About Cyclone 0.3;
+#X text 2 308 ============================================================================================
 , f 92;
-#X text 63 191 - Cyclone's development starts in 2002 (at the time
+#X text 62 192 - Cyclone's development starts in 2002 (at the time
 of Max 4.0) and never reached full compliance to the latest Max 4 release
 (4.6.3 from 2007). Cyclone 0.3 updates the library by including missing
 functionalities from Max 4 and further updates (from Max 5 to Max 7).
 , f 73;
-#X text 63 253 - New objects were also included and several bug fixes
+#X text 62 254 - New objects were also included and several bug fixes
 were made \; check details in the changelog at: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 , f 73;
-#X obj 44 525 comment 0 16 times ? 0 0 0 0 Check all of Cyclone's objetcs
+#X obj 43 500 comment 0 16 times ? 0 0 0 0 Check all of Cyclone's objetcs
 =>;
-#X obj 274 528 All_objects;
-#X obj 320 393 declare -lib cyclone;
-#X text 85 360 You can load the cyclone library via "Startup". Alternatively
+#X obj 273 503 All_objects;
+#X obj 304 377 declare -lib cyclone;
+#X text 85 354 You can load the cyclone library via "Startup". Alternatively
 \, you can use [declare] as follows:, f 62;
-#X text 87 422 Check declare's help file for more information.;
-#X text 87 446 And see https://github.com/porres/pd-cyclone/wiki/How-To-Install
-for more details., f 64;
+#X text 84 410 Check declare's help file for more information.;
+#X text 86 437 And check https://github.com/porres/pd-cyclone/wiki/How-To-Install
+for more details., f 66;
+#X text 2 604 ===========================================================================================
+, f 91;

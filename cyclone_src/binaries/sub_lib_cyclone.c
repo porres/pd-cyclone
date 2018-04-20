@@ -631,9 +631,11 @@ t_class *cyclone_class;
 
 static void cyclone_about(t_cyclone *x)
 {
+    char cyclone_dir[MAXPDSTRING];
+    strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     post("------------------------------------------------------------------------");
     post("Cyclone 0.3 beta 4; Release date: UNRELEASED");
-    post("The cyclone library containins the following objects:");
+    post("The cyclone library contains the following objects:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
     post("added %s", cyclone_dir);
     post("to Pd's path so the other objects can be loaded too");
@@ -671,7 +673,7 @@ void cyclone_setup(void)
     if(!printed){
         post("------------------------------------------------------------------------");
         post("Cyclone 0.3 beta 4; Release date: UNRELEASED");
-        post("The cyclone library containins the following objects:");
+        post("The cyclone library contains the following objects:");
         post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
         post("added %s", cyclone_dir);
         post("to Pd's path so the other objects can be loaded too");
