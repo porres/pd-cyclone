@@ -40,10 +40,17 @@ Check details in the provided CHANGELOG.txt file, or here: https://github.com/po
 
 <strong>Installing Cyclone:</strong>
 
+Currently, Cyclone 0.3 does not work in Pd Extended or Purr Data and needs Pd 0.48-1. To install it on Pd-Vanilla, you can compile from the source for the current bleeding edge last state, download one of the more stable compiled releases from https://github.com/porres/pd-cyclone/releases or simply use the "find externals" option in the Help menu of Pd vanilla (this is Pd's own external download manager, also known as the 'deken' plug-in).
 
-You'll find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases but you can also just get Cyclone directly from Pure Data's external manager (a.k.a. 'deken'). For that, you only need to go to the "Help" menu, then "find externals" and search for "cyclone". Make sure to get the latest version!
+Before installing cyclone, make sure the cyclone folder is included in a folder that Pd searches for, such as ~/Documents/Pd/externals - this is what people normally do anyway and what Pd since version 0.48 directs you to do.
 
-Cyclone 0.3 comes with a set of separate binaries for most of the externals, but also comes with a single binary pack that contains the cyclone operators, which are 12 objects with non-alphanumeric names (check "cyclone-help.pd" for more info). Details on How To Install cyclone can be found here: https://github.com/porres/pd-cyclone/wiki/How-To-Install
+Now you can install cyclone by loading it in the startup: go to "Preferences => Startup", then click "New", type "cyclone" and hit ok. Next time you restart Pd, the cyclone library binary will be loaded.
+
+This library binary loads the operators objects - which are: !- , !-~ , !/ , !/~ , !=~ , %~ , +=~ , <=~ , <~ , ==~ , >=~ and >~ - and also add's cyclone's path to Pd's preferences, so you can load the other objects from cyclone which are separate binaries or abstractions. 
+
+You can also use the [declare -lib cyclone] in a patch to load the library if you don't want to always have cyclone loaded when Pd starts.
+
+Note that loading the [cyclone] object also loads the library, see its help file for more details.
 
 -------
 
