@@ -3,7 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "common/loud.h"
 #include "control/tree.h"
 
 //adding offer_bang, typecasting arg in offer_ft1 to and from int to get rid of mantissa  - Derek Kwan 2016
@@ -26,7 +25,7 @@ static t_class *offer_class;
 static void offer_float(t_offer *x, t_float f)
 {
     int ndx;
-    if (loud_checkint((t_pd *)x, f, &ndx, &s_float))  /* CHECKED */
+    if((int)f == f) /* CHECKED */
     {
 	t_hammernode *np;
 	if (x->x_valueset)
@@ -39,6 +38,9 @@ static void offer_float(t_offer *x, t_float f)
 	    outlet_float(((t_object *)x)->ob_outlet, HAMMERNODE_GETFLOAT(np));
 	    hammertree_delete(&x->x_tree, np);
 	}
+    }
+    else{
+        pd_error(x, "[offer]: doesn't understand \"noninteger float\"");
     }
 }
 

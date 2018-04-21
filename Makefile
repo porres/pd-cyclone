@@ -185,11 +185,6 @@ shared/common/grow.c \
 shared/common/loud.c
 seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
 
-htree := \
-shared/control/tree.c \
-shared/common/loud.c
-offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
-
 hfile := \
 shared/common/file.c \
 shared/common/loud.c
@@ -221,18 +216,21 @@ comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
 
 # de-louded
 
-hrand := shared/control/rand.c
-drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
+hgui := shared/control/gui.c
+active.class.sources := cyclone_src/binaries/control/active.c $(hgui)
+mousefilter.class.sources := cyclone_src/binaries/control/mousefilter.c $(hgui)
+mousestate.class.sources := cyclone_src/binaries/control/mousestate.c $(hgui)
+
+htree := shared/control/tree.c
+offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
 htreefile := \
 shared/control/tree.c \
 shared/common/file.c
 funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
-hgui := shared/control/gui.c
-active.class.sources := cyclone_src/binaries/control/active.c $(hgui)
-mousefilter.class.sources := cyclone_src/binaries/control/mousefilter.c $(hgui)
-mousestate.class.sources := cyclone_src/binaries/control/mousestate.c $(hgui)
+hrand := shared/control/rand.c
+drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
 
 hrandgrow := \
 shared/control/rand.c \
