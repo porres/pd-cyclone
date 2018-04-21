@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/file.h"
 
 #define CAPTURE_DEFSIZE  512
@@ -263,48 +262,45 @@ static int capture_writesymbol(t_capture *x, t_symbol *s, char *buf,
 }
 
 //called by capture_write method
-static void capture_dowrite(t_capture *x, t_symbol *fn)
-{
+static void capture_dowrite(t_capture *x, t_symbol *fn){
     FILE *fp = 0;
     int i, count = x->x_count;
     char buf[MAXPDSTRING];
     canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
-    if (fp = sys_fopen(buf, "w"))  /* LATER ask if overwriting, CHECKED */
-    {
-	int col = 0;
-	if (count < x->x_bufsize)
-	{
-            for(i=0; i < count ; i++)
-            {
-            if(x->x_buffer[i].a_type == A_FLOAT)
-		col = capture_writefloat(x, x->x_buffer[i].a_w.w_float, buf, col, fp);
-            else if (x->x_buffer[i].a_type == A_SYMBOL)
-		col = capture_writesymbol(x, x->x_buffer[i].a_w.w_symbol, buf, col, fp);
-            if(col < 0) goto fail;
+    if (fp = sys_fopen(buf, "w")){  /* LATER ask if overwriting, CHECKED */
+        int col = 0;
+        if (count < x->x_bufsize){
+            for(i=0; i < count ; i++){
+                if(x->x_buffer[i].a_type == A_FLOAT)
+                    col = capture_writefloat(x, x->x_buffer[i].a_w.w_float, buf, col, fp);
+                else if (x->x_buffer[i].a_type == A_SYMBOL)
+                    col = capture_writesymbol(x, x->x_buffer[i].a_w.w_symbol, buf, col, fp);
+                if(col < 0)
+                    goto fail;
             };
-	}
-	else
-	{
+        }
+        else{
             //this is for wrapping around and rewriting old values
             //for the proper input order while dumping
             int reali;
-            for(i=0; i < x->x_bufsize; i++)
-            {
+            for(i=0; i < x->x_bufsize; i++){
                 reali = (x->x_head + i) % x->x_bufsize;
                 if(x->x_buffer[reali].a_type == A_FLOAT)
-		    col = capture_writefloat(x, x->x_buffer[reali].a_w.w_float, buf, col, fp);
+                    col = capture_writefloat(x, x->x_buffer[reali].a_w.w_float, buf, col, fp);
                 else if (x->x_buffer[reali].a_type == A_SYMBOL)
-		    col = capture_writesymbol(x, x->x_buffer[reali].a_w.w_symbol, buf, col, fp);
-                if(col < 0) goto fail;
+                    col = capture_writesymbol(x, x->x_buffer[reali].a_w.w_symbol, buf, col, fp);
+                if(col < 0)
+                    goto fail;
             };
         }
-	if (col) fputc('\n', fp);
-	fclose(fp);
-	return;
+        if (col) fputc('\n', fp);
+            fclose(fp);
+        return;
     }
-fail:
-    if (fp) fclose(fp);
-    loud_syserror((t_pd *)x, 0);
+    fail:
+    if (fp)
+        fclose(fp);
+    pd_error(x, "capture: %s", strerror(errno));
 }
 
 static void capture_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)

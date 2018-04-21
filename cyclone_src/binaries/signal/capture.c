@@ -105,8 +105,8 @@ static void capture_dowrite(t_capture *x, t_symbol *fn)
 	return;
     }
 fail:
-    if (fp) fclose(fp);
-    //loud_syserror((t_pd *)x, 0);
+    if (fp)
+        fclose(fp);
     pd_error(x, "capture~: %s", strerror(errno));
 }
 

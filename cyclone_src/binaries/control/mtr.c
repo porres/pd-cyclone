@@ -11,12 +11,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "common/shared.h"
-#include "common/loud.h"
 #include "common/file.h"
-
-#ifdef KRZYSZCZ
-//#define MTR_DEBUG
-#endif
 
 #define MTR_C74MAXTRACKS    64
 #define MTR_FILEBUFSIZE   4096
@@ -154,29 +149,26 @@ static void mtrack_tick(t_mtrack *tp)
     }
 }
 
-static void mtrack_setmode(t_mtrack *tp, int newmode)
-{
-    if (tp->tr_mode == MTR_PLAYMODE)
-    {
-	clock_unset(tp->tr_clock);
-	tp->tr_ixnext = 0;
+static void mtrack_setmode(t_mtrack *tp, int newmode){
+    if (tp->tr_mode == MTR_PLAYMODE){
+        clock_unset(tp->tr_clock);
+        tp->tr_ixnext = 0;
     }
-    switch (tp->tr_mode = newmode)
-    {
-    case MTR_STEPMODE:
-	break;
-    case MTR_RECMODE:
-	binbuf_clear(tp->tr_binbuf);
-	tp->tr_prevtime = clock_getlogicaltime();
-	break;
-    case MTR_PLAYMODE:
-	tp->tr_atdelta = 0;
-	tp->tr_ixnext = 0;
-	tp->tr_prevtime = 0.;
-	mtrack_donext(tp);
-	break;
-    default:
-	loudbug_bug("mtrack_setmode");
+    switch(tp->tr_mode = newmode){
+        case MTR_STEPMODE:
+            break;
+        case MTR_RECMODE:
+            binbuf_clear(tp->tr_binbuf);
+            tp->tr_prevtime = clock_getlogicaltime();
+            break;
+        case MTR_PLAYMODE:
+            tp->tr_atdelta = 0;
+            tp->tr_ixnext = 0;
+            tp->tr_prevtime = 0.;
+            mtrack_donext(tp);
+            break;
+        default:
+            post("[mtr]: bug in mtrack_setmode");
     }
 }
 
@@ -304,19 +296,16 @@ static void mtrack_clear(t_mtrack *tp)
     binbuf_clear(tp->tr_binbuf);
 }
 
-static t_atom *mtrack_getdelay(t_mtrack *tp)
-{
+static t_atom *mtrack_getdelay(t_mtrack *tp){
     int natoms = binbuf_getnatom(tp->tr_binbuf);
-    if (natoms)
-    {
-	t_atom *ap = binbuf_getvec(tp->tr_binbuf);
-	while (natoms--)
-	{
-	    if (ap->a_type == A_FLOAT)
-		return (ap);
-	    ap++;
-	}
-	loudbug_bug("mtrack_getdelay");
+    if (natoms){
+        t_atom *ap = binbuf_getvec(tp->tr_binbuf);
+        while (natoms--){
+            if (ap->a_type == A_FLOAT)
+                return (ap);
+                ap++;
+        }
+        post("[mtr]: bug in mtrack_getdelay");
     }
     return (0);
 }
@@ -679,7 +668,8 @@ static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname)
 	sys_unixerror(path);  /* LATER rethink */
 	failed = 1;
     }
-    if (failed) loud_error((t_pd *)x, "writing text file \"%s\" failed", path);
+    if (failed)
+        pd_error(x, "[mtr]: writing text file \"%s\" failed", path);
 }
 
 static void mtr_readhook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
@@ -714,19 +704,6 @@ static void mtr_tempo(t_mtr *x, t_floatarg f)
     t_mtrack **tpp = x->x_tracks;
     while (ntracks--) mtrack_tempo(*tpp++, f);
 }
-
-#ifdef MTR_DEBUG
-static void mtr_debug(t_mtr *x)
-{
-    int ntracks = x->x_ntracks;
-    t_mtrack **tpp = x->x_tracks;
-    while (ntracks--)
-    {
-	loudbug_post("------- Track %d -------", (*tpp)->tr_id);
-	loudbug_postbinbuf((*tpp++)->tr_binbuf);
-    }
-}
-#endif
 
 static void mtr_free(t_mtr *x)
 {
@@ -877,9 +854,5 @@ void mtr_setup(void)
 		    gensym("write"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_tempo,
 		    gensym("tempo"), A_FLOAT, 0);
-#ifdef MTR_DEBUG
-    class_addmethod(mtr_class, (t_method)mtr_debug,
-		    gensym("debug"), 0);
-#endif
     hammerfile_setup(mtr_class, 0);
 }
