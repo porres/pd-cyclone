@@ -6,10 +6,8 @@
    The most important changes are listed in "pd-lib-notes.txt" file.  */
 
 #include "m_pd.h"
-#include "common/loud.h"
-#include "control/fitter.h"
 
-#define DECODE_C74MAXOUTS  8  /* CHECKED (does it make any sense?) */
+#define DECODE_C74MAXOUTS  512  // CHECKED (max goes up higher but freezes) */
 #define DECODE_DEFOUTS     1
 
 typedef struct _Decode
@@ -77,18 +75,16 @@ static void Decode_free(t_Decode *x)
 	freebytes(x->x_outs, x->x_numouts * sizeof(*x->x_outs));
 }
 
-static void *Decode_new(t_floatarg val)
-{
+static void *Decode_new(t_floatarg val){
     t_Decode *x;
     int i, nouts = (int)val;
     t_outlet **outs;
     if (nouts < 1)
 	nouts = DECODE_DEFOUTS;
-    if (nouts > DECODE_C74MAXOUTS)
-    {
-	fittermax_rangewarning(Decode_class, DECODE_C74MAXOUTS, "outlets");
-	if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
-	    return (0);
+    if (nouts > DECODE_C74MAXOUTS){
+        nouts = DECODE_C74MAXOUTS;
+        if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
+            return (0);
     }
     else outs = 0;
     x = (t_Decode *)pd_new(Decode_class);
@@ -117,8 +113,7 @@ void decode_setup(void)
     class_addmethod(Decode_class, (t_method)Decode_allon,
 		    gensym("ft1"), A_FLOAT, 0);
     class_addmethod(Decode_class, (t_method)Decode_alloff,
-		    gensym("ft2"), A_FLOAT, 0); 
-    fitter_setup(Decode_class, 0);
+		    gensym("ft2"), A_FLOAT, 0);
 }
 
 void Decode_setup(void)

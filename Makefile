@@ -27,6 +27,7 @@ cartopol.class.sources := cyclone_src/binaries/control/cartopol.c
 counter.class.sources := cyclone_src/binaries/control/counter.c
 cosh.class.sources := cyclone_src/binaries/control/cosh.c
 cycle.class.sources := cyclone_src/binaries/control/cycle.c
+decode.class.sources := cyclone_src/binaries/control/decode.c
 flush.class.sources := cyclone_src/binaries/control/flush.c
 forward.class.sources := cyclone_src/binaries/control/forward.c
 fromsymbol.class.sources := cyclone_src/binaries/control/fromsymbol.c
@@ -208,10 +209,6 @@ hgui := shared/control/gui.c
 
 hloud := shared/common/loud.c
 
-# hfitter classes
-decode.class.sources := cyclone_src/binaries/control/decode.c $(hfitter)
-linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(hfitter)
-
 # hfile classes
 capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
 coll.class.sources := cyclone_src/binaries/control/coll.c $(hfile)
@@ -261,6 +258,7 @@ offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
 funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
+linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(hfitter)
 
 # New Dependency:
 
