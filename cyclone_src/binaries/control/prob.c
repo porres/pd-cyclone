@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include "m_pd.h"
 #include "common/loud.h"
-#include "control/fitter.h"
 #include "common/file.h"
 #include "control/rand.h"
 
@@ -33,7 +32,6 @@ typedef struct _prob
     t_probtrans   *x_state;
     t_probtrans   *x_default;
     int            x_embedmode;
-    int            x_silent;
     unsigned int   x_seed;
     t_outlet      *x_bangout;
     t_hammerfile  *x_filehandle;
@@ -45,9 +43,9 @@ static t_probtrans *prob_findstate(t_prob *x, int value, int complain)
 {
     t_probtrans *state;
     for (state = x->x_translist; state; state = state->tr_nextstate)
-	if (state->tr_value == value)
-	    break;
-    if (!state && complain && !x->x_silent)
+        if (state->tr_value == value)
+            break;
+    if (!state && complain)
 	loud_error((t_pd *)x, "no state %d", value);  /* CHECKED */
     return (state);
 }
@@ -108,19 +106,16 @@ static void prob_clear(t_prob *x)
 }
 
 /* CHECKED */
-static void prob_dump(t_prob *x)
-{
+static void prob_dump(t_prob *x){
     t_probtrans *state;
     post("transition probabilities:");
-    for (state = x->x_translist; state; state = state->tr_nextstate)
-    {
-	t_probtrans *trans;
-	for (trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans)
-	    post(" from %3d to %3d: %d",
-		 state->tr_value, trans->tr_value, trans->tr_count);
-	/* CHECKED: dead-ends are reported */
-	post("total weights for state %d: %d",
-	     state->tr_value, state->tr_count);
+    for (state = x->x_translist; state; state = state->tr_nextstate){
+        t_probtrans *trans;
+        for (trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans)
+            post(" from %3d to %3d: %d",
+        state->tr_value, trans->tr_value, trans->tr_count);
+        post("total weights for state %d: %d", // CHECKED: dead-ends are reported
+             state->tr_value, state->tr_count);
     }
 }
 
@@ -136,11 +131,9 @@ static void prob_bang(t_prob *x)
 		 trans = trans->tr_nexttrans)
 		if ((rnd -= trans->tr_count) < 0)
 		    break;
-	    if (trans)
-	    {
+	    if (trans){
 		t_probtrans *nextstate = trans->tr_suffix;
-		if (nextstate)
-		{
+		if (nextstate){
 		    outlet_float(((t_object *)x)->ob_outlet,
 				 nextstate->tr_value);
 		    x->x_state = nextstate;
@@ -149,8 +142,7 @@ static void prob_bang(t_prob *x)
 	    }
 	    else loudbug_bug("prob_bang: search overflow");
 	}
-	else
-	{
+	else{
 	    outlet_bang(x->x_bangout);
 	    if (x->x_default)  /* CHECKED: stays at dead-end if no default */
 		x->x_state = x->x_default;
@@ -158,8 +150,7 @@ static void prob_bang(t_prob *x)
     }
 }
 
-static void prob_float(t_prob *x, t_float f)
-{
+static void prob_float(t_prob *x, t_float f){
     int value;
     if (loud_checkint((t_pd *)x, f, &value, &s_float))  /* CHECKED */
     {
@@ -181,8 +172,7 @@ static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av)
 	t_probtrans *prefix = prob_findstate(x, prefval, 0);
 	t_probtrans *suffix = prob_findstate(x, suffval, 0);
 	t_probtrans *trans;
-	if (prefix && suffix)
-	{
+	if (prefix && suffix){
 	    for (trans = prefix->tr_nexttrans; trans;
 		 trans = trans->tr_nexttrans)
 		if (trans->tr_suffix == suffix)
@@ -235,15 +225,6 @@ static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av)
     else loud_error((t_pd *)x, "bad list message format");  /* CHECKED */
 }
 
-static void prob__silent(t_prob *x)
-{
-    if (!x->x_silent)
-    {
-	fittermax_warning(prob_class, "no '_silent' message in max");
-	x->x_silent = 1;
-    }
-}
-
 /* CHECKED not available, LATER full editing */
 static void prob_click(t_prob *x, t_floatarg xpos, t_floatarg ypos,
 		       t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
@@ -263,20 +244,17 @@ static void prob_click(t_prob *x, t_floatarg xpos, t_floatarg ypos,
     }
 }
 
-static void prob_free(t_prob *x)
-{
+static void prob_free(t_prob *x){
     prob_clear(x);
     hammerfile_free(x->x_filehandle);
 }
 
-static void *prob_new(void)
-{
+static void *prob_new(void){
     t_prob *x = (t_prob *)pd_new(prob_class);
     x->x_translist = 0;
     x->x_state = 0;
     x->x_default = 0;
     x->x_embedmode = 0;  /* CHECKED */
-    x->x_silent = 0;
     rand_seed(&x->x_seed, 0);
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
@@ -284,29 +262,17 @@ static void *prob_new(void)
     return (x);
 }
 
-void prob_setup(void)
-{
-    prob_class = class_new(gensym("prob"),
-			   (t_newmethod)prob_new,
-			   (t_method)prob_free,
-			   sizeof(t_prob), 0, 0);
+void prob_setup(void){
+    prob_class = class_new(gensym("prob"), (t_newmethod)prob_new,
+        (t_method)prob_free, sizeof(t_prob), 0, 0);
     class_addbang(prob_class, prob_bang);
     class_addfloat(prob_class, prob_float);
     class_addlist(prob_class, prob_list);
-    class_addmethod(prob_class, (t_method)prob_embed,
-		    gensym("embed"), A_FLOAT, 0);
-    class_addmethod(prob_class, (t_method)prob_reset,
-		    gensym("reset"), A_FLOAT, 0);
-    class_addmethod(prob_class, (t_method)prob_clear,
-		    gensym("clear"), 0);
-    class_addmethod(prob_class, (t_method)prob_dump,
-		    gensym("dump"), 0);
-    /* CHECKED: doesn't understand "seed" */
-    class_addmethod(prob_class, (t_method)prob__silent,
-		    gensym("_silent"), 0);
-    class_addmethod(prob_class, (t_method)prob_click,
-		    gensym("click"),
+    class_addmethod(prob_class, (t_method)prob_embed, gensym("embed"), A_FLOAT, 0);
+    class_addmethod(prob_class, (t_method)prob_reset, gensym("reset"), A_FLOAT, 0);
+    class_addmethod(prob_class, (t_method)prob_clear, gensym("clear"), 0);
+    class_addmethod(prob_class, (t_method)prob_dump, gensym("dump"), 0);
+    class_addmethod(prob_class, (t_method)prob_click, gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     hammerfile_setup(prob_class, 1);
-    fitter_setup(prob_class, 0);
 }

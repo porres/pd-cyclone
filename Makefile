@@ -178,14 +178,9 @@ shared/common/grow.c \
 shared/control/fitter.c \
 shared/common/loud.c
 
-hrand := \
-shared/control/rand.c \
-shared/common/loud.c
-
 hrandfile := \
 shared/control/rand.c \
 shared/common/file.c \
-shared/control/fitter.c \
 shared/common/loud.c
 
 hrandgrow := \
@@ -214,6 +209,8 @@ shared/common/loud.c
 htreefile := \
 shared/control/tree.c \
 shared/common/file.c
+
+hrand := shared/control/rand.c
 
 hgui := shared/control/gui.c
 
