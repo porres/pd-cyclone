@@ -160,9 +160,8 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
 # Control classes: ###############################################
 
-hfilefitter := \
+hfile := \
 shared/common/file.c \
-shared/control/fitter.c \
 shared/common/loud.c
 
 hfitter := \
@@ -218,10 +217,10 @@ hloud := shared/common/loud.c
 decode.class.sources := cyclone_src/binaries/control/decode.c $(hfitter)
 linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(hfitter)
 
-# hfilefitter classes
-capture.class.sources := cyclone_src/binaries/control/capture.c $(hfilefitter)
-coll.class.sources := cyclone_src/binaries/control/coll.c $(hfilefitter)
-mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfilefitter)
+# hfile classes
+capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
+coll.class.sources := cyclone_src/binaries/control/coll.c $(hfile)
+mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile)
 
 # hgui classes
 active.class.sources := cyclone_src/binaries/control/active.c $(hgui)

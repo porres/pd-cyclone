@@ -12,7 +12,6 @@
 #include "m_pd.h"
 #include "common/shared.h"
 #include "common/loud.h"
-#include "control/fitter.h"
 #include "common/file.h"
 
 #ifdef KRZYSZCZ
@@ -369,12 +368,6 @@ static void mtrack_write(t_mtrack *tp, t_symbol *s)
 static void mtrack_tempo(t_mtrack *tp, t_floatarg f)
 {
     float newtempo;
-    static int warned = 0;
-    if (fittermax_get() && !warned)
-    {
-	fittermax_warning(mtr_class, "no 'tempo' control in Max");
-	warned = 1;
-    }
     if (f < 1e-20)
 	f = 1e-20;
     else if (f > 1e20)
@@ -789,7 +782,7 @@ static void *mtr_new(t_floatarg f)
 	    x->x_filehandle = hammerfile_new((t_pd *)x, 0,
 					     mtr_readhook, mtr_writehook, 0);
 	    if (ntracks > MTR_C74MAXTRACKS)
-		fittermax_rangewarning(mtr_class, MTR_C74MAXTRACKS, "tracks");
+            ntracks = MTR_C74MAXTRACKS;
 	    x->x_ntracks = ntracks;
 	    x->x_tracks = tracks;
 	    for (id = 1; id <= ntracks; id++, tracks++)  /* CHECKED 1-based */
@@ -889,5 +882,4 @@ void mtr_setup(void)
 		    gensym("debug"), 0);
 #endif
     hammerfile_setup(mtr_class, 0);
-    fitter_setup(mtr_class, 0);
 }
