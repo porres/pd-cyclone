@@ -35,6 +35,7 @@ funnel.class.sources := cyclone_src/binaries/control/funnel.c
 gate.class.sources := cyclone_src/binaries/control/gate.c
 histo.class.sources := cyclone_src/binaries/control/histo.c
 listfunnel.class.sources := cyclone_src/binaries/control/listfunnel.c
+linedrive.class.sources := cyclone_src/binaries/control/linedrive.c
 maximum.class.sources := cyclone_src/binaries/control/maximum.
 mean.class.sources := cyclone_src/binaries/control/mean.c
 midiflush.class.sources := cyclone_src/binaries/control/midiflush.c
@@ -165,10 +166,6 @@ hfile := \
 shared/common/file.c \
 shared/common/loud.c
 
-hfitter := \
-shared/control/fitter.c \
-shared/common/loud.c
-
 hgrow := \
 shared/common/grow.c \
 shared/common/loud.c
@@ -257,8 +254,6 @@ seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
 offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
 
 funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
-
-linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(hfitter)
 
 # New Dependency:
 

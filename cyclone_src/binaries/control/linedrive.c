@@ -2,9 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-#include <math.h>
 #include "m_pd.h"
-#include "control/fitter.h"
+#include <math.h>
 
 #define logf  log
 #define expf  exp
@@ -50,37 +49,24 @@ static void linedrive_float(t_linedrive *x, t_floatarg f)
     outlet_list(((t_object *)x)->ob_outlet, 0, 2, x->x_outvec);
 }
 
-static void linedrive_calculate(t_linedrive *x)
-{
+static void linedrive_calculate(t_linedrive *x){
     t_float maxin = x->x_usermaxin;
     t_float maxout = x->x_usermaxout;
     t_float curve = x->x_usercurve;
-    if (x->x_iscompatible = fittermax_get())
-    {
-	x->x_maxin = (maxin > LINEDRIVE_MININPUT ? maxin : LINEDRIVE_MININPUT); // checked
-	x->x_expcoef = (curve > LINEDRIVE_MINCURVE ? logf(curve) : 0.);
-	x->x_lincoef = 0.;
-	x->x_islinear = 0;
-    }
-    else
-    {
-	if (maxin >= -LINEDRIVE_INPUTEPSILON && maxin <= LINEDRIVE_INPUTEPSILON)
-	{
+	if (maxin >= -LINEDRIVE_INPUTEPSILON && maxin <= LINEDRIVE_INPUTEPSILON){
 	    x->x_maxin = 0.;
 	    x->x_expcoef = 0.;
 	    x->x_lincoef = 0.;
 	    x->x_islinear = 1;
 	}
 	else if (curve >= (1. - LINEDRIVE_CURVEEPSILON) &&
-		 curve <= (1. + LINEDRIVE_CURVEEPSILON))
-	{
-	    x->x_maxin = maxin;
-	    x->x_expcoef = 0.;
-	    x->x_lincoef = maxout / maxin;
-	    x->x_islinear = 1;
-	}
-	else
-	{
+		 curve <= (1. + LINEDRIVE_CURVEEPSILON)){
+            x->x_maxin = maxin;
+            x->x_expcoef = 0.;
+            x->x_lincoef = maxout / maxin;
+            x->x_islinear = 1;
+    }
+	else{
 	    if (maxin < 0.)
 	    {
 		x->x_maxin = -maxin;
@@ -93,7 +79,6 @@ static void linedrive_calculate(t_linedrive *x)
 	    x->x_lincoef = 0.;
 	    x->x_islinear = 0;
 	}
-    }
     x->x_maxout = maxout;  /* CHECKED negative value accepted and used */
 }
 
