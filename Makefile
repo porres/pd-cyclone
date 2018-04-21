@@ -21,6 +21,7 @@ endif
 accum.class.sources := cyclone_src/binaries/control/accum.c
 acos.class.sources := cyclone_src/binaries/control/acos.c
 asin.class.sources := cyclone_src/binaries/control/asin.c
+bangbang.class.sources := cyclone_src/binaries/control/bangbang.c
 bucket.class.sources := cyclone_src/binaries/control/bucket.c
 cartopol.class.sources := cyclone_src/binaries/control/cartopol.c
 cosh.class.sources := cyclone_src/binaries/control/cosh.c
@@ -30,10 +31,12 @@ fromsymbol.class.sources := cyclone_src/binaries/control/fromsymbol.c
 funnel.class.sources := cyclone_src/binaries/control/funnel.c
 histo.class.sources := cyclone_src/binaries/control/histo.c
 listfunnel.class.sources := cyclone_src/binaries/control/listfunnel.c
+maximum.class.sources := cyclone_src/binaries/control/maximum.
 mean.class.sources := cyclone_src/binaries/control/mean.c
 midiflush.class.sources := cyclone_src/binaries/control/midiflush.c
 midiformat.class.sources := cyclone_src/binaries/control/midiformat.c
 midiparse.class.sources := cyclone_src/binaries/control/midiparse.c
+minimum.class.sources := cyclone_src/binaries/control/minimum.c
 next.class.sources := cyclone_src/binaries/control/next.c
 onebang.class.sources := cyclone_src/binaries/control/onebang.c
 past.class.sources := cyclone_src/binaries/control/past.c
@@ -162,7 +165,6 @@ hfitter := \
 shared/control/fitter.c \
 shared/common/loud.c
 
-
 hgrow := \
 shared/common/grow.c \
 shared/common/loud.c
@@ -214,14 +216,11 @@ hgui := shared/control/gui.c
 hloud := shared/common/loud.c
 
 # hfitter classes
-bangbang.class.sources := cyclone_src/binaries/control/bangbang.c $(hfitter)
 counter.class.sources := cyclone_src/binaries/control/counter.c $(hfitter)
 cycle.class.sources := cyclone_src/binaries/control/cycle.c $(hfitter)
 decode.class.sources := cyclone_src/binaries/control/decode.c $(hfitter)
 gate.class.sources := cyclone_src/binaries/control/gate.c $(hfitter)
 linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(hfitter)
-maximum.class.sources := cyclone_src/binaries/control/maximum.c $(hfitter)
-minimum.class.sources := cyclone_src/binaries/control/minimum.c $(hfitter)
 switch.class.sources := cyclone_src/binaries/control/switch.c $(hfitter)
 
 # hfilefitter classes
