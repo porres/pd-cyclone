@@ -1,64 +1,64 @@
-#N canvas 606 40 560 465 10;
-#X obj 2 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 606 40 561 452 10;
+#X obj 2 283 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 344 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 342 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 396 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 394 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 81 294 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 292 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 81 353 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 81 351 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 242 181 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X obj 242 179 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X text 114 403 (none);
-#X obj 81 374 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 157 401 (none);
+#X obj 81 372 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 189 246 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+#X obj 189 244 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
 -66577 -1;
-#X obj 276 246 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
+#X obj 276 244 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373
 -66577 -1;
-#X obj 2 448 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 446 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 427 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 425 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 189 214 cyclone/togedge;
-#X text 158 312 -;
-#X text 125 312 bang;
-#X text 158 293 -;
-#X text 119 293 float;
-#X text 158 355 -;
-#X text 125 355 bang;
-#X text 158 374 -;
-#X text 125 374 bang;
-#X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 189 212 cyclone/togedge;
+#X text 158 310 -;
+#X text 125 310 bang;
+#X text 158 291 -;
+#X text 119 291 float;
+#X text 158 353 -;
+#X text 125 353 bang;
+#X text 158 372 -;
+#X text 125 372 bang;
+#X obj 2 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 4 graph;
-#X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 2 graph;
+#X obj 305 3 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 4 pd;
-#X obj 297 249 cyclone/comment 52 11 helvetica ? 0 0 0 0 non-0 to 0
+#X restore 304 2 pd;
+#X obj 297 247 cyclone/comment 52 11 helvetica ? 0 0 0 0 non-0 to 0
 ;
-#X obj 189 182 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 189 180 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X msg 221 157 1;
-#X msg 189 154 0;
-#X msg 158 157 -1;
-#X text 73 90 [togedge] sends a bang in the left outlet for "zero to
+#X msg 221 155 1;
+#X msg 189 152 0;
+#X msg 158 155 -1;
+#X text 73 88 [togedge] sends a bang in the left outlet for "zero to
 non-zero" transitions \, and a bang in the right outlet for "non-zero
-to zero" transitions.;
-#X text 173 293 number to check for transitions, f 60;
-#X text 173 355 if a zero to non-zero transition is detected, f 60
+to zero" transitions., f 65;
+#X text 173 291 number to check for transitions, f 60;
+#X text 173 353 if a zero to non-zero transition is detected, f 60
 ;
-#X text 173 374 if a non-zero to zero transition is detected, f 60
+#X text 173 372 if a non-zero to zero transition is detected, f 60
 ;
-#X obj 159 183 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 159 181 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 173 312 switches the stored value from 0 to non-zero \, or
+#X text 173 310 switches the stored value from 0 to non-zero \, or
 vice versa \, and the change is reported by a corresponding bang output
 ;
 #N canvas 762 173 447 311 backwards 0;
@@ -77,15 +77,17 @@ objects.;
 #X obj 201 183 cyclone/togedge;
 #X text 43 20 [togedge] used to be compiled as [TogEdge] \, probably
 to avoid some name conflicts \, but this is not the case anymore.;
-#X restore 444 237 pd backwards \; compatibility;
-#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 report zero / non-zero
+#X restore 444 235 pd backwards \; compatibility;
+#X obj 20 56 cyclone/comment 0 18 times ? 0 0 0 0 report zero / non-zero
 transitions;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 togedge;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 togedge;
+#X obj 322 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 134 250 cyclone/comment 52 11 helvetica ? 0 0 0 0 0 to non-0
+#X obj 363 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 134 248 cyclone/comment 52 11 helvetica ? 0 0 0 0 0 to non-0
 ;
+#X text 334 153 note that max doesn't deal with floats \, just ints
+, f 26;
 #X connect 5 0 12 0;
 #X connect 12 0 8 0;
 #X connect 12 1 9 0;

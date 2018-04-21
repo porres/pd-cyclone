@@ -130,6 +130,7 @@ svf~.class.sources := cyclone_src/binaries/signal/svf.c
 tanh~.class.sources := cyclone_src/binaries/signal/tanh.c
 tanx~.class.sources := cyclone_src/binaries/signal/tanx.c
 teeth~.class.sources := cyclone_src/binaries/signal/teeth.c
+togedge.class.sources := cyclone_src/binaries/control/togedge.c
 train~.class.sources := cyclone_src/binaries/signal/train.c
 trapezoid~.class.sources := cyclone_src/binaries/signal/trapezoid.c
 triangle~.class.sources := cyclone_src/binaries/signal/triangle.c
@@ -235,7 +236,6 @@ hloud := shared/common/loud.c
 anal.class.sources := cyclone_src/binaries/control/anal.c $(hloud)
 borax.class.sources := cyclone_src/binaries/control/borax.c $(hloud)
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
-togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
 # GUI:
 comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
 
