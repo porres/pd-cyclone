@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 #include "m_pd.h"
 #include "common/file.h"
 

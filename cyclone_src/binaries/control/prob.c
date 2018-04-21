@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/file.h"
 #include "control/rand.h"
 
@@ -46,7 +45,7 @@ static t_probtrans *prob_findstate(t_prob *x, int value, int complain)
         if (state->tr_value == value)
             break;
     if (!state && complain)
-	loud_error((t_pd *)x, "no state %d", value);  /* CHECKED */
+	pd_error(x, "[prob]: no state %d", value);  /* CHECKED */
     return (state);
 }
 
@@ -138,9 +137,11 @@ static void prob_bang(t_prob *x)
 				 nextstate->tr_value);
 		    x->x_state = nextstate;
 		}
-		else loudbug_bug("prob_bang: void suffix");
+		else
+            pd_error(x, "[prob] bug; prob_bang: void suffix");
 	    }
-	    else loudbug_bug("prob_bang: search overflow");
+	    else
+            pd_error(x, "[prob] bug; prob_bang: search overflow");
 	}
 	else{
 	    outlet_bang(x->x_bangout);
@@ -152,11 +153,13 @@ static void prob_bang(t_prob *x)
 
 static void prob_float(t_prob *x, t_float f){
     int value;
-    if (loud_checkint((t_pd *)x, f, &value, &s_float))  /* CHECKED */
-    {
-	t_probtrans *state = prob_findstate(x, value, 1);
-	if (state)  /* CHECKED */
-	    x->x_state = state;
+    if((int)f == f){ /* CHECKED */
+        t_probtrans *state = prob_findstate(x, value, 1);
+        if (state)  /* CHECKED */
+            x->x_state = state;
+    }
+    else{
+        pd_error(x, "[prob]: doesn't understand \"noninteger float\"");
     }
 }
 
@@ -222,7 +225,7 @@ static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av)
 	if (!x->x_state)  /* CHECKED */
 	    x->x_state = prefix;  /* CHECKED */
     }
-    else loud_error((t_pd *)x, "bad list message format");  /* CHECKED */
+    else pd_error(x, "[prob]: bad list message format");  /* CHECKED */
 }
 
 /* CHECKED not available, LATER full editing */
