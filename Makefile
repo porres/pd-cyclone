@@ -165,58 +165,13 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 hfile := \
 shared/common/file.c \
 shared/common/loud.c
-
-hgrow := \
-shared/common/grow.c \
-shared/common/loud.c
-
-hrandfile := \
-shared/control/rand.c \
-shared/common/file.c \
-shared/common/loud.c
-
-hrandgrow := \
-shared/control/rand.c \
-shared/common/grow.c \
-shared/common/loud.c
-
-hrandgrowfile := \
-shared/control/rand.c \
-shared/common/grow.c \
-shared/common/file.c \
-shared/common/loud.c
-
-hseq := \
-shared/control/mifi.c \
-shared/common/file.c \
-shared/common/grow.c \
-shared/common/loud.c
-
-htree := \
-shared/control/tree.c \
-shared/common/loud.c
-
-htreefile := \
-shared/control/tree.c \
-shared/common/file.c
-
-hrand := shared/control/rand.c
-
-hgui := shared/control/gui.c
-
-hloud := shared/common/loud.c
-
-# hfile classes
 capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
 coll.class.sources := cyclone_src/binaries/control/coll.c $(hfile)
 mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile)
 
-# hgui classes
-active.class.sources := cyclone_src/binaries/control/active.c $(hgui)
-mousefilter.class.sources := cyclone_src/binaries/control/mousefilter.c $(hgui)
-mousestate.class.sources := cyclone_src/binaries/control/mousestate.c $(hgui)
-
-# hgrow classes
+hgrow := \
+shared/common/grow.c \
+shared/common/loud.c
 bondo.class.sources := cyclone_src/binaries/control/bondo.c $(hgrow)
 buddy.class.sources := cyclone_src/binaries/control/buddy.c $(hgrow)
 clip.class.sources := cyclone_src/binaries/control/clip.c $(hgrow)
@@ -230,7 +185,51 @@ pv.class.sources := cyclone_src/binaries/control/pv.c $(hgrow)
 append.class.sources := cyclone_src/binaries/control/append.c $(hgrow)
 prepend.class.sources := cyclone_src/binaries/control/prepend.c $(hgrow)
 
-# hloud classes
+hrandfile := \
+shared/control/rand.c \
+shared/common/file.c \
+shared/common/loud.c
+prob.class.sources := cyclone_src/binaries/control/prob.c $(hrandfile)
+
+hrandgrow := \
+shared/control/rand.c \
+shared/common/grow.c \
+shared/common/loud.c
+urn.class.sources := cyclone_src/binaries/control/urn.c $(hrandgrow)
+
+hrandgrowfile := \
+shared/control/rand.c \
+shared/common/grow.c \
+shared/common/file.c \
+shared/common/loud.c
+table.class.sources := cyclone_src/binaries/control/table.c $(hrandgrowfile)
+
+hseq := \
+shared/control/mifi.c \
+shared/common/file.c \
+shared/common/grow.c \
+shared/common/loud.c
+seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
+
+htree := \
+shared/control/tree.c \
+shared/common/loud.c
+offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
+
+htreefile := \
+shared/control/tree.c \
+shared/common/file.c
+funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
+
+hrand := shared/control/rand.c
+drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
+
+hgui := shared/control/gui.c
+active.class.sources := cyclone_src/binaries/control/active.c $(hgui)
+mousefilter.class.sources := cyclone_src/binaries/control/mousefilter.c $(hgui)
+mousestate.class.sources := cyclone_src/binaries/control/mousestate.c $(hgui)
+
+hloud := shared/common/loud.c
 anal.class.sources := cyclone_src/binaries/control/anal.c $(hloud)
 borax.class.sources := cyclone_src/binaries/control/borax.c $(hloud)
 decide.class.sources := cyclone_src/binaries/control/decide.c $(hloud)
@@ -238,22 +237,6 @@ spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
 togedge.class.sources := cyclone_src/binaries/control/togedge.c $(hloud)
 # GUI:
 comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
-
-# Single cases:
-
-drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
-
-prob.class.sources := cyclone_src/binaries/control/prob.c $(hrandfile)
-
-urn.class.sources := cyclone_src/binaries/control/urn.c $(hrandgrow)
-
-table.class.sources := cyclone_src/binaries/control/table.c $(hrandgrowfile)
-
-seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
-
-offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
-
-funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
 # New Dependency:
 
@@ -306,7 +289,7 @@ shared/common/magicbit.c \
 shared/signal/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(smagicscybuff)
 
-# Cyclone Sub-Library: ################################################
+# Cyclone Library: ################################################
 
 magicbit := shared/common/magicbit.c
     cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magicbit)
