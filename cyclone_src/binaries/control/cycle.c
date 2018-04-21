@@ -7,7 +7,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 //#define CYCLE_USEEVENTNO
 

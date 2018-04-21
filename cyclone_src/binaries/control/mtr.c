@@ -12,7 +12,7 @@
 #include "m_pd.h"
 #include "common/shared.h"
 #include "common/loud.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 #include "common/file.h"
 
 #ifdef KRZYSZCZ

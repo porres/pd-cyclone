@@ -6,7 +6,7 @@
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 #define APPEND_INISIZE     32  /* LATER rethink */
 #define APPEND_MAXSIZE    256

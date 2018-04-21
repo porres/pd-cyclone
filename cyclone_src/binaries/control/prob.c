@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "m_pd.h"
 #include "common/loud.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 #include "common/file.h"
 #include "control/rand.h"
 

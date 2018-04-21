@@ -7,7 +7,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 #define DECODE_C74MAXOUTS  8  /* CHECKED (does it make any sense?) */
 #define DECODE_DEFOUTS     1

@@ -155,11 +155,11 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
 hfilefitter := \
 shared/common/file.c \
-shared/common/fitter.c \
+shared/control/fitter.c \
 shared/common/loud.c
 
 hfitter := \
-shared/common/fitter.c \
+shared/control/fitter.c \
 shared/common/loud.c
 
 
@@ -169,7 +169,7 @@ shared/common/loud.c
 
 hgrowfitter := \
 shared/common/grow.c \
-shared/common/fitter.c \
+shared/control/fitter.c \
 shared/common/loud.c
 
 hrand := \
@@ -179,13 +179,13 @@ shared/common/loud.c
 hrandfile := \
 shared/control/rand.c \
 shared/common/file.c \
-shared/common/fitter.c \
+shared/control/fitter.c \
 shared/common/loud.c
 
 hrandgrow := \
 shared/control/rand.c \
 shared/common/grow.c \
-shared/common/fitter.c \
+shared/control/fitter.c \
 shared/common/loud.c
 
 hrandgrowfile := \
@@ -198,7 +198,7 @@ hseq := \
 shared/control/mifi.c \
 shared/common/file.c \
 shared/common/grow.c \
-shared/common/fitter.c \
+shared/control/fitter.c \
 shared/common/loud.c
 
 htree := \
@@ -311,6 +311,8 @@ smagicbit := shared/magicbit.c
     bitsafe~.class.sources := cyclone_src/binaries/signal/bitsafe.c $(smagicbit)
     bitshift~.class.sources := cyclone_src/binaries/signal/bitshift.c $(smagicbit)
     bitxor~.class.sources := cyclone_src/binaries/signal/bitxor.c $(smagicbit)
+# GUI
+    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(smagicbit)
 
 scybuf := shared/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
@@ -325,12 +327,6 @@ smagicscybuff := \
 shared/magicbit.c \
 shared/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(smagicscybuff)
-
-#GUI
-sfittermagic := \
-shared/magicbit.c \
-shared/common/fitter.c
-    scope~.class.sources := cyclone_src/binaries/signal/scope.c $(sfittermagic)
 
 # Cyclone Sub-Library: ################################################
 

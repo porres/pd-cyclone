@@ -4,7 +4,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 #define SWITCH_MININLETS       2  /* LATER consider using 1 (with a warning) */
 #define SWITCH_C74MAXINLETS  100

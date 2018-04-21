@@ -4,7 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 #define logf  log
 #define expf  exp

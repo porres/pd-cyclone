@@ -10,7 +10,7 @@
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 #include "control/rand.h"
 
 #define URN_INISIZE      128  /* LATER rethink */

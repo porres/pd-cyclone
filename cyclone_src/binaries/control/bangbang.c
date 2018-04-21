@@ -7,7 +7,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 #define BANGBANG_MINOUTS      1
 #define BANGBANG_C74MAXOUTS  40  /* CHECKED (just clipped without warning) */

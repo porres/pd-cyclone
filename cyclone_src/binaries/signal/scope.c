@@ -19,16 +19,15 @@
  - Derek Kwan
  */
 
-// 2017 = Porres cleaned "sickle/sic, loud & forky" dependencies
+// 2017 = Porres finished cleaning "sickle/sic, loud, fitter & forky" dependencies
 
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "g_all_guis.h"
 #include "magicbit.h"
-#include "common/fitter.h"
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 #ifdef KRZYSZCZ
 // #define SCOPE_DEBUG
@@ -2226,8 +2225,7 @@ errstate:
     return NULL;
 }
 
-void scope_tilde_setup(void)
-{
+void scope_tilde_setup(void){
     scope_class = class_new(gensym("scope~"), (t_newmethod)scope_new,
                             (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new,
@@ -2275,16 +2273,13 @@ void scope_tilde_setup(void)
     class_addmethod(scope_class, (t_method)scope_resize,
                     gensym("resize"), A_FLOAT, A_FLOAT, 0);
     class_setwidget(scope_class, &scope_widgetbehavior);
-    class_setsavefn(scope_class, scope_save); // instead of "forky_setsavefn"
+    class_setsavefn(scope_class, scope_save);
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0,
                                   sizeof(t_scopehandle), CLASS_PD, 0);
     class_addmethod(scopehandle_class,
                     (t_method)scopehandle__clickhook, gensym("_click"), A_FLOAT, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
-    fitter_setup(scope_class, 0);
     class_setpropertiesfn(scope_class, scope_properties);
-    
-//    sys_vgui("source {%s/dialog_scope.tcl}\n", scope_class->c_externdir->s_name);
     
 #ifdef PDL2ORK /* extra methods and widgetbehavior for purr data */
     class_addmethod(scope_class, (t_method)scope_click_for_resizing,
@@ -2297,7 +2292,6 @@ void scope_tilde_setup(void)
 #endif
 }
 
-void Scope_tilde_setup(void)
-{
+void Scope_tilde_setup(void){
     scope_tilde_setup();
 }

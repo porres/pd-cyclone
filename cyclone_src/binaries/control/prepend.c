@@ -5,7 +5,7 @@
 #include <string.h>
 #include "m_pd.h"
 #include "common/grow.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 #define PREPEND_INISIZE   32  /* LATER rethink */
 #define PREPEND_MAXSIZE  256

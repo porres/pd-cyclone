@@ -4,7 +4,7 @@
 
 #include "m_pd.h"
 #include "common/loud.h"
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 #define GATE_MINOUTS       1
 #define GATE_C74MAXOUTS  100

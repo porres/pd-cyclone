@@ -17,7 +17,7 @@
 
 #include "m_pd.h"
 #include <string.h>
-#include "common/fitter.h"
+#include "control/fitter.h"
 
 #define COUNTER_UP      0
 #define COUNTER_DOWN    1
