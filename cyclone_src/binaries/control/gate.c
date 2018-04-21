@@ -3,8 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "common/loud.h"
-#include "control/fitter.h"
 
 #define GATE_MINOUTS       1
 #define GATE_C74MAXOUTS  100
@@ -99,16 +97,15 @@ static void *gate_new(t_floatarg f1, t_floatarg f2)
     t_outlet **outs;
     t_pd *proxy;
     if (nouts < GATE_MINOUTS)
-	nouts = GATE_DEFOUTS;
+        nouts = GATE_DEFOUTS;
     if (nouts > GATE_C74MAXOUTS)
-	fittermax_rangewarning(gate_class, GATE_C74MAXOUTS, "outlets");
-    nouts++;  /* for convenience (the cost is one pointer) */
+        nouts = GATE_C74MAXOUTS;
+    nouts++;  // for convenience (the cost is one pointer)
     if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
-	return (0);
-    if (!(proxy = pd_new(gate_proxy_class)))
-    {
-	freebytes(outs, nouts * sizeof(*outs));
-	return (0);
+        return (0);
+    if (!(proxy = pd_new(gate_proxy_class))){
+        freebytes(outs, nouts * sizeof(*outs));
+        return (0);
     }
     x = (t_gate *)pd_new(gate_class);
     x->x_nouts = nouts;
@@ -145,5 +142,4 @@ void gate_setup(void)
     class_addpointer(gate_proxy_class, gate_proxy_pointer);
     class_addlist(gate_proxy_class, gate_proxy_list);
     class_addanything(gate_proxy_class, gate_proxy_anything);
-    fitter_setup(gate_class, 0);
 }

@@ -26,10 +26,12 @@ bucket.class.sources := cyclone_src/binaries/control/bucket.c
 cartopol.class.sources := cyclone_src/binaries/control/cartopol.c
 counter.class.sources := cyclone_src/binaries/control/counter.c
 cosh.class.sources := cyclone_src/binaries/control/cosh.c
+cycle.class.sources := cyclone_src/binaries/control/cycle.c
 flush.class.sources := cyclone_src/binaries/control/flush.c
 forward.class.sources := cyclone_src/binaries/control/forward.c
 fromsymbol.class.sources := cyclone_src/binaries/control/fromsymbol.c
 funnel.class.sources := cyclone_src/binaries/control/funnel.c
+gate.class.sources := cyclone_src/binaries/control/gate.c
 histo.class.sources := cyclone_src/binaries/control/histo.c
 listfunnel.class.sources := cyclone_src/binaries/control/listfunnel.c
 maximum.class.sources := cyclone_src/binaries/control/maximum.
@@ -48,6 +50,7 @@ split.class.sources := cyclone_src/binaries/control/split.c
 spray.class.sources := cyclone_src/binaries/control/spray.c
 sprintf.class.sources := cyclone_src/binaries/control/sprintf.c
 sustain.class.sources := cyclone_src/binaries/control/sustain.c
+switch.class.sources := cyclone_src/binaries/control/switch.c
 tanh.class.sources := cyclone_src/binaries/control/tanh.c
 trough.class.sources := cyclone_src/binaries/control/trough.c
 universal.class.sources := cyclone_src/binaries/control/universal.c
@@ -217,11 +220,8 @@ hgui := shared/control/gui.c
 hloud := shared/common/loud.c
 
 # hfitter classes
-cycle.class.sources := cyclone_src/binaries/control/cycle.c $(hfitter)
 decode.class.sources := cyclone_src/binaries/control/decode.c $(hfitter)
-gate.class.sources := cyclone_src/binaries/control/gate.c $(hfitter)
 linedrive.class.sources := cyclone_src/binaries/control/linedrive.c $(hfitter)
-switch.class.sources := cyclone_src/binaries/control/switch.c $(hfitter)
 
 # hfilefitter classes
 capture.class.sources := cyclone_src/binaries/control/capture.c $(hfilefitter)

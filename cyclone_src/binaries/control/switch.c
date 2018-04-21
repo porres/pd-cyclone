@@ -3,8 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "common/loud.h"
-#include "control/fitter.h"
 
 #define SWITCH_MININLETS       2  /* LATER consider using 1 (with a warning) */
 #define SWITCH_C74MAXINLETS  100
@@ -102,11 +100,11 @@ static void *switch_new(t_floatarg f1, t_floatarg f2)
     int i, ninlets, nproxies = (int)f1;
     t_pd **proxies;
     if (nproxies < SWITCH_MININLETS)
-	nproxies = SWITCH_DEFINLETS;
+        nproxies = SWITCH_DEFINLETS;
     if (nproxies > SWITCH_C74MAXINLETS)
-	fittermax_rangewarning(switch_class, SWITCH_C74MAXINLETS, "inlets");
+        nproxies = SWITCH_C74MAXINLETS;
     if (!(proxies = (t_pd **)getbytes(nproxies * sizeof(*proxies))))
-	return (0);
+        return (0);
     for (ninlets = 0; ninlets < nproxies; ninlets++)
 	if (!(proxies[ninlets] = pd_new(switch_proxy_class))) break;
     if (ninlets < SWITCH_MININLETS)
@@ -150,5 +148,4 @@ void switch_setup(void)
     class_addpointer(switch_proxy_class, switch_proxy_pointer);
     class_addlist(switch_proxy_class, switch_proxy_list);
     class_addanything(switch_proxy_class, switch_proxy_anything);
-    fitter_setup(switch_class, 0);
 }
