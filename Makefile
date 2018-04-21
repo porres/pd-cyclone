@@ -172,11 +172,6 @@ hgrow := \
 shared/common/grow.c \
 shared/common/loud.c
 
-hgrowfitter := \
-shared/common/grow.c \
-shared/control/fitter.c \
-shared/common/loud.c
-
 hrandfile := \
 shared/control/rand.c \
 shared/common/file.c \
@@ -238,10 +233,8 @@ substitute.class.sources := cyclone_src/binaries/control/substitute.c $(hgrow)
 thresh.class.sources := cyclone_src/binaries/control/thresh.c $(hgrow)
 tosymbol.class.sources := cyclone_src/binaries/control/tosymbol.c $(hgrow)
 pv.class.sources := cyclone_src/binaries/control/pv.c $(hgrow)
-
-# hgrowfitter classes
-append.class.sources := cyclone_src/binaries/control/append.c $(hgrowfitter)
-prepend.class.sources := cyclone_src/binaries/control/prepend.c $(hgrowfitter)
+append.class.sources := cyclone_src/binaries/control/append.c $(hgrow)
+prepend.class.sources := cyclone_src/binaries/control/prepend.c $(hgrow)
 
 # hloud classes
 anal.class.sources := cyclone_src/binaries/control/anal.c $(hloud)

@@ -6,7 +6,6 @@
 #include "m_pd.h"
 #include "common/loud.h"
 #include "common/grow.h"
-#include "control/fitter.h"
 
 #define APPEND_INISIZE     32  /* LATER rethink */
 #define APPEND_MAXSIZE    256
@@ -315,11 +314,6 @@ static void *append_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-static void append_fitter(void)
-{
-    append_iscompatible = fittermax_get();
-}
-
 void append_setup(void)
 {
     append_class = class_new(gensym("Append"),
@@ -341,8 +335,6 @@ void append_setup(void)
     class_addsymbol(appendxy_class, appendxy_symbol);
     class_addlist(appendxy_class, appendxy_list);
     class_addanything(appendxy_class, appendxy_anything);
-
-    fitter_setup(append_class, append_fitter);
 }
 
 void Append_setup(void)

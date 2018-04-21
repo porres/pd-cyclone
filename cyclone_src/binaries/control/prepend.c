@@ -5,7 +5,6 @@
 #include <string.h>
 #include "m_pd.h"
 #include "common/grow.h"
-#include "control/fitter.h"
 
 #define PREPEND_INISIZE   32  /* LATER rethink */
 #define PREPEND_MAXSIZE  256
@@ -304,8 +303,7 @@ static void prepend_free(t_prepend *x)
 	pd_free(x->x_proxy);
 }
 
-static void *prepend_new(t_symbol *s, int ac, t_atom *av)
-{
+static void *prepend_new(t_symbol *s, int ac, t_atom *av){
     t_prepend *x = (t_prepend *)pd_new(prepend_class);
     x->x_selector = 0;
     x->x_size = PREPEND_INISIZE;
@@ -313,29 +311,17 @@ static void *prepend_new(t_symbol *s, int ac, t_atom *av)
     x->x_message = x->x_messini;
     x->x_auxbuf = 0;
     x->x_entered = 0;
-    if (ac)
-    {
-	x->x_proxy = 0;
-	prepend_doset(x, 0, ac, av);
+    if(ac){
+        x->x_proxy = 0;
+        prepend_doset(x, 0, ac, av);
     }
-    else
-    {
-	if (prepend_iscompatible)
-	    /* CHECKED in max an object without an outlet is created,
-	       and there is no warning when loading from a file. */
-	    fittermax_warning(prepend_class,
-			      "creating an object without an argument");
-	x->x_proxy = pd_new(prependxy_class);
-	((t_prependxy *)x->x_proxy)->xy_owner = x;
-	inlet_new((t_object *)x, x->x_proxy, 0, 0);
+    else{
+        x->x_proxy = pd_new(prependxy_class);
+        ((t_prependxy *)x->x_proxy)->xy_owner = x;
+        inlet_new((t_object *)x, x->x_proxy, 0, 0);
     }
     outlet_new((t_object *)x, &s_anything);
     return (x);
-}
-
-static void prepend_fitter(void)
-{
-    prepend_iscompatible = fittermax_get();
 }
 
 void prepend_setup(void)
@@ -360,6 +346,4 @@ void prepend_setup(void)
     class_addsymbol(prependxy_class, prependxy_symbol);
     class_addlist(prependxy_class, prependxy_list);
     class_addanything(prependxy_class, prependxy_anything);
-
-    fitter_setup(prepend_class, prepend_fitter);
 }
