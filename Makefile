@@ -20,6 +20,7 @@ endif
 # CONTROL CLASSES
 accum.class.sources := cyclone_src/binaries/control/accum.c
 acos.class.sources := cyclone_src/binaries/control/acos.c
+anal.class.sources := cyclone_src/binaries/control/anal.c
 asin.class.sources := cyclone_src/binaries/control/asin.c
 bangbang.class.sources := cyclone_src/binaries/control/bangbang.c
 borax.class.sources := cyclone_src/binaries/control/borax.c
@@ -182,7 +183,6 @@ append.class.sources := cyclone_src/binaries/control/append.c $(hgrow)
 prepend.class.sources := cyclone_src/binaries/control/prepend.c $(hgrow)
 
 hloud := shared/common/loud.c
-anal.class.sources := cyclone_src/binaries/control/anal.c $(hloud)
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
 # GUI:
 comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
