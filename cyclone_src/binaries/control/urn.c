@@ -31,23 +31,19 @@ typedef struct _urn
 
 static t_class *urn_class;
 
-static int urn_resize(t_urn *x, t_float f, int init)
-{
+static int urn_resize(t_urn *x, t_float f, int init){
     int maxmax = URN_C74MAXSIZE;
     int range = (int)f;  /* CHECKED silent truncation */
-    if (init)
-    {
-	maxmax--;  /* CHECKED: max 4095 here (a bug, sort of) */
-	/* CHECKED in the constructor this is silent
-	   (also > maxmax clipped without complaining) */
-	if (range < 1)
-	    range = 1;
+    if(init){
+        maxmax--;  /* CHECKED: max 4095 here (a bug, sort of) */
+                    /* CHECKED in the constructor this is silent
+                     (also > maxmax clipped without complaining) */
+        if(range < 1)
+            range = 1;
     }
-    else if (range < 1)
-    {
-	/* CHECKED (the same for > maxmax) */
-	loud_error((t_pd *)x, "illegal size %d", f);
-	return (0);
+    else if (range < 1){ /* CHECKED (the same for > maxmax) */
+        loud_error((t_pd *)x, "illegal size %.0f", f);
+        return (0);
     }
     if (range > URN_MAXSIZE)
     {
