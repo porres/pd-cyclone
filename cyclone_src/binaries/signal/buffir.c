@@ -4,7 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "cybuf.h"
+#include "signal/cybuf.h"
 
 #define BUFFIR_DEFSIZE    0
 #define BUFFIR_MAXSIZE  4096

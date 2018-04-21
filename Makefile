@@ -312,7 +312,7 @@ smagicbit := shared/common/magicbit.c
 # GUI
     scope~.class.sources := cyclone_src/binaries/signal/scope.c $(smagicbit)
 
-scybuf := shared/cybuf.c
+scybuf := shared/signal/cybuf.c
     buffir~.class.sources := cyclone_src/binaries/signal/buffir.c $(scybuf)
     lookup~.class.sources := cyclone_src/binaries/signal/lookup.c $(scybuf)
     index~.class.sources := cyclone_src/binaries/signal/index.c $(scybuf)
@@ -323,7 +323,7 @@ scybuf := shared/cybuf.c
 
 smagicscybuff := \
 shared/common/magicbit.c \
-shared/cybuf.c
+shared/signal/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(smagicscybuff)
 
 # Cyclone Sub-Library: ################################################

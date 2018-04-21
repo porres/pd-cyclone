@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "cybuf.h"
+#include "signal/cybuf.h"
 #define PEEK_MAXCHANNELS  64  /* LATER implement arsic resizing feature */
 #define PEEK_TICK_TIME  2  //
 

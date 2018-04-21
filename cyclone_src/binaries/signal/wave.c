@@ -5,7 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-#include "cybuf.h"
+#include "signal/cybuf.h"
 #include "common/shared.h"
 
 #define CYWAVEMAXOUT 64 //max number of outs

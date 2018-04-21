@@ -26,7 +26,7 @@ the beginning of the ramp to default to the end of the whole array, right?
 #include "m_pd.h"
 #include "m_imp.h"
 #include "common/shared.h"
-#include "cybuf.h"
+#include "signal/cybuf.h"
 
 #define PDCYREC_NCH 1
 #define PDCYREC_APPEND 0

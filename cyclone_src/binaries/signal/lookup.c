@@ -2,7 +2,7 @@
 
 #include "m_pd.h"
 #include <math.h>
-#include "cybuf.h"
+#include "signal/cybuf.h"
 
 #define CYLKUPENDPT 512
 

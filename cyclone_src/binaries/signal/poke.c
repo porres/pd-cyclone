@@ -16,7 +16,7 @@
 */
 
 #include "m_pd.h"
-#include "cybuf.h"
+#include "signal/cybuf.h"
 
 #define POKE_MAXCHANNELS  64
 #define POKE_REDRAWMS 500 //redraw time in ms

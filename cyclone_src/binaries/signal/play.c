@@ -13,7 +13,7 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-#include "cybuf.h"
+#include "signal/cybuf.h"
 #include "common/magicbit.h"
 #include "common/shared.h"
 

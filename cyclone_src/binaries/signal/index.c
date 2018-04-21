@@ -8,7 +8,7 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "cybuf.h"
+#include "signal/cybuf.h"
 
 #define INDEX_MAXCHANNELS  64
 
