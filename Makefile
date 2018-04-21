@@ -277,7 +277,7 @@ funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
 
 # New Dependency:
 
-hmagicbit := shared/hmagicbit.c
+hmagicbit := shared/common/magicbit.c
     grab.class.sources := cyclone_src/binaries/control/grab.c $(hmagicbit)
 
 # Signal: #################################################################
@@ -291,8 +291,7 @@ sfile := shared/common/file.c
 
 # New Dependencies:
 
-smagicbit := shared/magicbit.c
-    grab.class.sources := cyclone_src/binaries/control/grab.c $(smagicbit)
+smagicbit := shared/common/magicbit.c
     cartopol~.class.sources := cyclone_src/binaries/signal/cartopol.c $(smagicbit)
     delay~.class.sources := cyclone_src/binaries/signal/delay.c $(smagicbit)
     plusequals~.class.sources := cyclone_src/binaries/signal/plusequals.c $(smagicbit)
@@ -323,13 +322,13 @@ scybuf := shared/cybuf.c
     wave~.class.sources := cyclone_src/binaries/signal/wave.c $(scybuf)
 
 smagicscybuff := \
-shared/magicbit.c \
+shared/common/magicbit.c \
 shared/cybuf.c
     play~.class.sources := cyclone_src/binaries/signal/play.c $(smagicscybuff)
 
 # Cyclone Sub-Library: ################################################
 
-magicbit := shared/magicbit.c
+magicbit := shared/common/magicbit.c
     cyclone.class.sources := cyclone_src/binaries/sub_lib_cyclone.c $(magicbit)
 
 #######################################################################

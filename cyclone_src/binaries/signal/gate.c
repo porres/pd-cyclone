@@ -1,7 +1,7 @@
 // based on selector~
 
 #include "m_pd.h"
-#include "magicbit.h"
+#include "common/magicbit.h"
 //#include <math.h>
 
 

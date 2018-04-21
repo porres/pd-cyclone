@@ -14,7 +14,7 @@
 #include <math.h>
 #include "m_pd.h"
 #include "cybuf.h"
-#include "magicbit.h"
+#include "common/magicbit.h"
 #include "common/shared.h"
 
 

@@ -5,7 +5,7 @@
 
 #include "m_pd.h"
 // MAGIC: include magicbit.h for magic
-#include "magicbit.h"
+#include "common/magicbit.h"
 // end magic
 
 typedef struct _sah

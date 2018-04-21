@@ -24,7 +24,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "g_all_guis.h"
-#include "magicbit.h"
+#include "common/magicbit.h"
 #include <math.h>
 #include <stdio.h>
 #include <string.h>

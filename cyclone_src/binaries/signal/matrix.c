@@ -19,7 +19,7 @@ changed matrix_free to return void * instead of nothing
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
-#include "magicbit.h"
+#include "common/magicbit.h"
 
 #define MATRIX_DEFGAIN  0.  /* CHECKED */
 #define MATRIX_DEFRAMP  10.  /* CHECKED */

@@ -23,7 +23,7 @@
 #include "m_pd.h"
 #include "m_imp.h"
 #include "common/shared.h"
-#include "magicbit.h"
+#include "common//magicbit.h"
 #include <math.h>
 #include <string.h>
 

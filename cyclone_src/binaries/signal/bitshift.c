@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "magicbit.h"
+#include "common/magicbit.h"
 
 static t_class *bitshift_class;
 

@@ -4,7 +4,7 @@
 
 #include "m_pd.h"
 #include "m_imp.h"
-#include "magicbit.h"
+#include "common/magicbit.h"
 
 /* LATER handle canvas grabbing (bypass) */
 /* LATER check self-grabbing */

@@ -10,7 +10,7 @@
    UPDATE 02/17 - used the "magic trick" to fix this -- MB */
 
 #include "m_pd.h"
-#include "magicbit.h"
+#include "common/magicbit.h"
 
 static t_class *kink_class;
 
