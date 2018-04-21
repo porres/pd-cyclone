@@ -3,7 +3,6 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
-#include "common/loud.h"
 
 typedef struct _decide
 {
@@ -34,11 +33,7 @@ static void decide_bang(t_decide *x)
     }
 }
 
-static void decide_float(t_decide *x, t_float f)
-{
-    /* CHECKED: float loudly rejected, int (any value) same as bang */
-    int i;
-    if (loud_checkint((t_pd *)x, f, &i, &s_float))
+static void decide_float(t_decide *x, t_float f){
 	decide_bang(x);
 }
 
