@@ -9,8 +9,7 @@
 #define PREPEND_INISIZE   32  /* LATER rethink */
 #define PREPEND_MAXSIZE  256
 
-typedef struct _prepend
-{
+typedef struct _prepend{
     t_object   x_ob;
     t_symbol  *x_selector;
     int        x_size;    /* as allocated */
@@ -21,18 +20,15 @@ typedef struct _prepend
     int        x_auxsize;
     t_atom    *x_auxbuf;
     t_pd      *x_proxy;
-} t_prepend;
+}t_prepend;
 
-typedef struct _prependxy
-{
+typedef struct _prependxy{
     t_pd        xy_pd;
     t_prepend  *xy_owner;
-} t_prependxy;
+}t_prependxy;
 
 static t_class *prepend_class;
 static t_class *prependxy_class;
-
-static int prepend_iscompatible = 0;  /* FIXME per-object */
 
 /* Usually a preallocation method is used, except in special cases of:
    1) reentrant output request, or 2) an output request which would cause
@@ -44,21 +40,20 @@ static int prepend_iscompatible = 0;  /* FIXME per-object */
    messages are postponed, using an auxiliary buffer. */
 
 /* called only from prepend_doanything() */
-static void prepend_dooutput(t_prepend *x, int ac, t_atom *av)
-{
-    if (x->x_selector == &s_float)
-    {
-	if (ac > 1)
-	    outlet_list(((t_object *)x)->ob_outlet, &s_list, ac, av);
-	else
-	    outlet_float(((t_object *)x)->ob_outlet, av->a_w.w_float);
+static void prepend_dooutput(t_prepend *x, int ac, t_atom *av){
+    if (x->x_selector == &s_float){
+        if(ac > 1)
+            outlet_list(((t_object *)x)->ob_outlet, &s_list, ac, av);
+        else
+            outlet_float(((t_object *)x)->ob_outlet, av->a_w.w_float);
     }
-    else if (x->x_selector == &s_list)
+    else if
+        (x->x_selector == &s_list)
 	outlet_list(((t_object *)x)->ob_outlet, &s_list, ac, av);
     else  /* x->x_selector guaranteed non-empty */
 	/* CHECKED: 'bang' is prepended -- we cannot do so...
 	   ('symbol' cannot be compatible too) */
-	outlet_anything(((t_object *)x)->ob_outlet, x->x_selector, ac, av);
+        outlet_anything(((t_object *)x)->ob_outlet, x->x_selector, ac, av);
 }
 
 static void prepend_doanything(t_prepend *x, t_symbol *s, int ac, t_atom *av)
@@ -146,19 +141,11 @@ static void prepend_doanything(t_prepend *x, t_symbol *s, int ac, t_atom *av)
     }
 }
 
-static void prepend_bang(t_prepend *x)
-{
-    if (x->x_selector)
-    {
-	if (prepend_iscompatible)
-	{
-	    t_atom at;
-	    SETSYMBOL(&at, &s_bang);  /* CHECKED */
-	    prepend_doanything(x, 0, 1, &at);
-	}
-	else prepend_doanything(x, 0, 0, 0);
-    }
-    else outlet_bang(((t_object *)x)->ob_outlet);
+static void prepend_bang(t_prepend *x){
+    if(x->x_selector)
+            prepend_doanything(x, 0, 0, 0);
+    else
+        outlet_bang(((t_object *)x)->ob_outlet);
 }
 
 static void prepend_float(t_prepend *x, t_float f)
@@ -193,12 +180,11 @@ static void prepend_list(t_prepend *x, t_symbol *s, int ac, t_atom *av)
 	outlet_list(((t_object *)x)->ob_outlet, s, ac, av);
 }
 
-static void prepend_anything(t_prepend *x, t_symbol *s, int ac, t_atom *av)
-{
-    if (x->x_selector)
-	prepend_doanything(x, s, ac, av);
+static void prepend_anything(t_prepend *x, t_symbol *s, int ac, t_atom *av){
+    if(x->x_selector)
+        prepend_doanything(x, s, ac, av);
     else
-	outlet_anything(((t_object *)x)->ob_outlet, s, ac, av);
+        outlet_anything(((t_object *)x)->ob_outlet, s, ac, av);
 }
 
 static void prepend_doset(t_prepend *x, t_symbol *s, int ac, t_atom *av)
@@ -324,21 +310,15 @@ static void *prepend_new(t_symbol *s, int ac, t_atom *av){
     return (x);
 }
 
-void prepend_setup(void)
-{
-    prepend_class = class_new(gensym("prepend"),
-			      (t_newmethod)prepend_new,
-			      (t_method)prepend_free,
-			      sizeof(t_prepend), 0,
-			      A_GIMME, 0);
+void prepend_setup(void){
+    prepend_class = class_new(gensym("prepend"), (t_newmethod)prepend_new,
+        (t_method)prepend_free, sizeof(t_prepend), 0, A_GIMME, 0);
     class_addbang(prepend_class, prepend_bang);
     class_addfloat(prepend_class, prepend_float);
     class_addsymbol(prepend_class, prepend_symbol);
     class_addlist(prepend_class, prepend_list);
     class_addanything(prepend_class, prepend_anything);
-    class_addmethod(prepend_class, (t_method)prepend_set,
-		    gensym("set"), A_GIMME, 0);
-
+    class_addmethod(prepend_class, (t_method)prepend_set, gensym("set"), A_GIMME, 0);
     prependxy_class = class_new(gensym("prepend"), 0, 0, sizeof(t_prependxy),
 				CLASS_PD | CLASS_NOINLET, 0);
     class_addbang(prependxy_class, prependxy_bang);

@@ -166,21 +166,10 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
 # Control classes: ###############################################
 
-hgrow := \
+hgrowloud := \
 shared/common/grow.c \
 shared/common/loud.c
-bondo.class.sources := cyclone_src/binaries/control/bondo.c $(hgrow)
-buddy.class.sources := cyclone_src/binaries/control/buddy.c $(hgrow)
-clip.class.sources := cyclone_src/binaries/control/clip.c $(hgrow)
-iter.class.sources := cyclone_src/binaries/control/iter.c $(hgrow)
-match.class.sources := cyclone_src/binaries/control/match.c $(hgrow)
-speedlim.class.sources := cyclone_src/binaries/control/speedlim.c $(hgrow)
-substitute.class.sources := cyclone_src/binaries/control/substitute.c $(hgrow)
-thresh.class.sources := cyclone_src/binaries/control/thresh.c $(hgrow)
-tosymbol.class.sources := cyclone_src/binaries/control/tosymbol.c $(hgrow)
-pv.class.sources := cyclone_src/binaries/control/pv.c $(hgrow)
-append.class.sources := cyclone_src/binaries/control/append.c $(hgrow)
-prepend.class.sources := cyclone_src/binaries/control/prepend.c $(hgrow)
+pv.class.sources := cyclone_src/binaries/control/pv.c $(hgrowloud)
 
 hloud := shared/common/loud.c
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
@@ -201,14 +190,29 @@ shared/common/grow.c \
 shared/common/loud.c
 seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
 
-hfile := \
+hfileloud := \
 shared/common/file.c \
 shared/common/loud.c
-coll.class.sources := cyclone_src/binaries/control/coll.c $(hfile)
-capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile) # de-louded
-mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile) # de-louded
+coll.class.sources := cyclone_src/binaries/control/coll.c $(hfileloud)
 
 # de-louded
+
+hfile := shared/common/file.c
+capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
+mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile)
+
+hgrow := shared/common/grow.c
+tosymbol.class.sources := cyclone_src/binaries/control/tosymbol.c $(hgrow)
+append.class.sources := cyclone_src/binaries/control/append.c $(hgrow)
+clip.class.sources := cyclone_src/binaries/control/clip.c $(hgrow)
+prepend.class.sources := cyclone_src/binaries/control/prepend.c $(hgrow)
+thresh.class.sources := cyclone_src/binaries/control/thresh.c $(hgrow)
+substitute.class.sources := cyclone_src/binaries/control/substitute.c $(hgrow)
+speedlim.class.sources := cyclone_src/binaries/control/speedlim.c $(hgrow)
+match.class.sources := cyclone_src/binaries/control/match.c $(hgrow)
+iter.class.sources := cyclone_src/binaries/control/iter.c $(hgrow)
+buddy.class.sources := cyclone_src/binaries/control/buddy.c $(hgrow)
+bondo.class.sources := cyclone_src/binaries/control/bondo.c $(hgrow)
 
 hrandfile := \
 shared/control/rand.c \

@@ -68,7 +68,7 @@ static void *anal_new(t_floatarg f){
 	/* CHECKED: 1 is allowed (such an object rejects any nonzero input) */
 	size = ANAL_DEFSIZE;
     else if (size > ANAL_MAXSIZE){ /* CHECKED: */
-        post("[anal]: size too large, using %d", ANAL_MAXSIZE);
+        pd_error(x, "[anal]: size too large, using %d", ANAL_MAXSIZE);
         size = ANAL_MAXSIZE;  /* LATER switch into a 'sparse' mode */
     } /* CHECKED: actually the bytesize is size * size * sizeof(short),
        and it shows up in */

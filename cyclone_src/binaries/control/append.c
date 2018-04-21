@@ -4,7 +4,6 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/grow.h"
 
 #define APPEND_INISIZE     32  /* LATER rethink */
@@ -53,29 +52,27 @@ static void append_setnatoms(t_append *x, int natoms)
     x->x_natoms = natoms;
 }
 
-static void append_bangout(t_outlet *outp, int ac, t_atom *av)
-{
-    if (ac)
-    {
+static void append_bangout(t_outlet *outp, int ac, t_atom *av){
+    if(ac){
         if (av->a_type == A_SYMBOL)
-	    outlet_anything(outp, av->a_w.w_symbol, ac-1, av+1);
-        else if (av->a_type == A_POINTER)
-        {
+            outlet_anything(outp, av->a_w.w_symbol, ac-1, av+1);
+        else if (av->a_type == A_POINTER){
             if (ac == 1)
-		outlet_pointer(outp, av->a_w.w_gpointer);
+                outlet_pointer(outp, av->a_w.w_gpointer);
             else
-		outlet_list(outp, &s_list, ac, av);
+                outlet_list(outp, &s_list, ac, av);
         }
-        else if (av->a_type == A_FLOAT)
-        {
+        else if (av->a_type == A_FLOAT){
             if (ac == 1)
-		outlet_float(outp, av->a_w.w_float);
+                outlet_float(outp, av->a_w.w_float);
             else
-		outlet_list(outp, &s_list, ac, av);
+                outlet_list(outp, &s_list, ac, av);
         }
-        else loudbug_bug("append_bangout");
+        else
+            post("bug [append]: append_bangout");
     }
-    else outlet_bang(outp);
+    else
+        outlet_bang(outp);
 }
 
 static void append_anything(t_append *x, t_symbol *s, int ac, t_atom *av)
@@ -188,7 +185,7 @@ static void append_doset(t_append *x, t_symbol *s, int ac, t_atom *av)
 	{
 	    if (x->x_auxbuf)
 	    {
-		loud_warning((t_pd *)x, 0, "\'set\' message overridden");
+		pd_error(x, "[append]: \'set\' message overridden");
 		freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
 		x->x_auxsize = 0;
 	    }
@@ -286,17 +283,15 @@ static void appendxy_anything(t_appendxy *xy, t_symbol *s, int ac, t_atom *av)
     append_doset(xy->xy_owner, s, ac, av);
 }
 
-static void append_free(t_append *x)
-{
+static void append_free(t_append *x){
     if (x->x_messbuf != x->x_messini)
 	freebytes(x->x_messbuf, x->x_size * sizeof(*x->x_messbuf));
-    if (x->x_auxbuf)
-    {
-	loudbug_bug("append_free");  /* LATER rethink */
-	freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
+    if(x->x_auxbuf){
+        post("bug [append]: append_free");  /* LATER rethink */
+        freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
     }
-    if (x->x_proxy)
-	pd_free(x->x_proxy);
+    if(x->x_proxy)
+        pd_free(x->x_proxy);
 }
 
 static void *append_new(t_symbol *s, int ac, t_atom *av)
