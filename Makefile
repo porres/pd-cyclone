@@ -198,7 +198,6 @@ hseq := \
 shared/control/mifi.c \
 shared/common/file.c \
 shared/common/grow.c \
-shared/control/fitter.c \
 shared/common/loud.c
 
 htree := \
