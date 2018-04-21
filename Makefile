@@ -165,30 +165,11 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
 # Control classes: ###############################################
 
-hrand := shared/control/rand.c
-drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
-
-htreefile := \
-shared/control/tree.c \
-shared/common/file.c
-funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
-
-hgui := shared/control/gui.c
-active.class.sources := cyclone_src/binaries/control/active.c $(hgui)
-mousefilter.class.sources := cyclone_src/binaries/control/mousefilter.c $(hgui)
-mousestate.class.sources := cyclone_src/binaries/control/mousestate.c $(hgui)
-
 hrandfile := \
 shared/control/rand.c \
 shared/common/file.c \
 shared/common/loud.c
 prob.class.sources := cyclone_src/binaries/control/prob.c $(hrandfile)
-
-hrandgrow := \
-shared/control/rand.c \
-shared/common/grow.c \
-shared/common/loud.c
-urn.class.sources := cyclone_src/binaries/control/urn.c $(hrandgrow)
 
 hrandgrowfile := \
 shared/control/rand.c \
@@ -208,7 +189,6 @@ htree := \
 shared/control/tree.c \
 shared/common/loud.c
 offer.class.sources := cyclone_src/binaries/control/offer.c $(htree)
-
 
 hfile := \
 shared/common/file.c \
@@ -238,6 +218,26 @@ anal.class.sources := cyclone_src/binaries/control/anal.c $(hloud)
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
 # GUI:
 comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
+
+# de-louded
+
+hrand := shared/control/rand.c
+drunk.class.sources := cyclone_src/binaries/control/drunk.c $(hrand)
+
+htreefile := \
+shared/control/tree.c \
+shared/common/file.c
+funbuff.class.sources := cyclone_src/binaries/control/funbuff.c $(htreefile)
+
+hgui := shared/control/gui.c
+active.class.sources := cyclone_src/binaries/control/active.c $(hgui)
+mousefilter.class.sources := cyclone_src/binaries/control/mousefilter.c $(hgui)
+mousestate.class.sources := cyclone_src/binaries/control/mousestate.c $(hgui)
+
+hrandgrow := \
+shared/control/rand.c \
+shared/common/grow.c
+urn.class.sources := cyclone_src/binaries/control/urn.c $(hrandgrow)
 
 # New Dependency:
 

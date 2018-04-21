@@ -8,7 +8,6 @@
    array), and should be put somewhere in the docs... */
 
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/grow.h"
 #include "control/rand.h"
 
@@ -32,11 +31,11 @@ static t_class *urn_class;
 static int urn_resize(t_urn *x, t_float f){
     int range = (int)f;
     if (range < 1){ /* CHECKED (the same for > max) */
-        loud_error((t_pd *)x, "illegal size %.0f", f);
+        pd_error(x, "[urn]: illegal size %.0f", f);
         return (0);
     }
     if (range > URN_MAXSIZE){
-        loud_error((t_pd *)x, "illegal size %.0f", f);
+        pd_error(x, "[urn]: illegal size %.0f", f);
         return (0);
     }
     x->x_range = range;
@@ -66,10 +65,7 @@ static void urn_clear(t_urn *x){
         x->x_urn[i] = i;
 }
 
-static void urn_float(t_urn *x, t_float f){
-    /* CHECKED: float loudly rejected, int (any value) same as bang */
-    int i;
-    if (loud_checkint((t_pd *)x, f, &i, &s_float))
+static void urn_float(t_urn *x, t_float f){ // in max it doesn't handle floats, just ints
 	urn_bang(x);
 }
 

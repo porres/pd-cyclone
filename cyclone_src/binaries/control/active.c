@@ -15,7 +15,6 @@ typedef struct _active{
 static t_class *active_class;
 
 static void active_dofocus(t_active *x, t_symbol *s, t_floatarg f){
-    post("cvname = %s, focus = %f", s, f);
     if((int)f){ // f = 1
         int on = (s == x->x_cvname);
         if(on != x->x_on)
