@@ -6,13 +6,11 @@
    The most important changes are listed in "pd-lib-notes.txt" file.  */
 
 #include "m_pd.h"
-#include "common/loud.h"
-#include "control/fitter.h"
 
 //#define CYCLE_USEEVENTNO
 
 #define CYCLE_MINOUTS       1
-#define CYCLE_C74MAXOUTS  100  /* CHECKED */
+#define CYCLE_C74MAXOUTS  128
 #define CYCLE_DEFOUTS       1
 
 typedef struct _cycle
@@ -125,13 +123,12 @@ static void *cycle_new(t_floatarg f1, t_floatarg f2)
     t_cycle *x;
     int i, nouts = (int)f1;
     t_outlet **outs;
-    if (nouts < CYCLE_MINOUTS)
+    if(nouts < CYCLE_MINOUTS)
         nouts = CYCLE_DEFOUTS;
-    if (nouts > CYCLE_C74MAXOUTS)
-    {
-	fittermax_rangewarning(cycle_class, CYCLE_C74MAXOUTS, "outlets");
-	/* CHECKED: max clips with an error:
-	   ``perhaps you were trying to make an oscillator?'' */
+    if(nouts > CYCLE_C74MAXOUTS){
+        post("cycle: %d is a lot of outlets", nouts);
+        post("cycle: perhaps you were trying to make an oscillator?", nouts);
+        nouts = CYCLE_C74MAXOUTS;
     }
     if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
 	return (0);
@@ -145,8 +142,7 @@ static void *cycle_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void cycle_setup(void)
-{
+void cycle_setup(void){
     cycle_class = class_new(gensym("cycle"),
 			    (t_newmethod)cycle_new,
 			    (t_method)cycle_free,
@@ -160,5 +156,4 @@ void cycle_setup(void)
 		    gensym("set"), A_FLOAT, 0);  /* CHECKED: arg required */
     class_addmethod(cycle_class, (t_method)cycle_thresh,
 		    gensym("thresh"), A_FLOAT, 0);
-    fitter_setup(cycle_class, 0);
 }
