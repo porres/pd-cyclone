@@ -24,6 +24,7 @@ asin.class.sources := cyclone_src/binaries/control/asin.c
 bangbang.class.sources := cyclone_src/binaries/control/bangbang.c
 bucket.class.sources := cyclone_src/binaries/control/bucket.c
 cartopol.class.sources := cyclone_src/binaries/control/cartopol.c
+counter.class.sources := cyclone_src/binaries/control/counter.c
 cosh.class.sources := cyclone_src/binaries/control/cosh.c
 flush.class.sources := cyclone_src/binaries/control/flush.c
 forward.class.sources := cyclone_src/binaries/control/forward.c
@@ -216,7 +217,6 @@ hgui := shared/control/gui.c
 hloud := shared/common/loud.c
 
 # hfitter classes
-counter.class.sources := cyclone_src/binaries/control/counter.c $(hfitter)
 cycle.class.sources := cyclone_src/binaries/control/cycle.c $(hfitter)
 decode.class.sources := cyclone_src/binaries/control/decode.c $(hfitter)
 gate.class.sources := cyclone_src/binaries/control/gate.c $(hfitter)

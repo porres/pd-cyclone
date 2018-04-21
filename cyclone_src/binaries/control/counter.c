@@ -17,7 +17,6 @@
 
 #include "m_pd.h"
 #include <string.h>
-#include "control/fitter.h"
 
 #define COUNTER_UP      0
 #define COUNTER_DOWN    1
@@ -592,5 +591,4 @@ void counter_setup(void)
     class_addbang(counter_proxy_class, counter_proxy_bang);
     class_addfloat(counter_proxy_class, counter_proxy_float);
     class_addmethod(counter_proxy_class, (t_method)counter_proxy_state, gensym("state"), 0);
-    fitter_setup(counter_class, 0);
 }
