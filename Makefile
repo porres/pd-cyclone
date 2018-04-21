@@ -186,7 +186,6 @@ shared/common/loud.c
 hrandgrow := \
 shared/control/rand.c \
 shared/common/grow.c \
-shared/control/fitter.c \
 shared/common/loud.c
 
 hrandgrowfile := \

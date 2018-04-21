@@ -1,34 +1,34 @@
-#N canvas 317 28 559 609 10;
-#X obj 2 315 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 317 28 559 519 10;
+#X obj 2 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 429 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 372 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 510 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 453 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 85 332 cnv 17 3 55 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 85 295 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 441 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 384 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 177 176 bng 20 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X obj 191 169 bng 20 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X floatatom 290 213 5 0 0 0 - - -, f 5;
-#X msg 273 177 seed \$1;
-#X floatatom 273 155 5 0 0 0 - - -, f 5;
-#X obj 290 258 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X floatatom 304 204 5 0 0 0 - - -, f 5;
+#X msg 279 177 seed \$1;
+#X floatatom 279 155 5 0 0 0 - - -, f 5;
+#X obj 304 252 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 85 393 cnv 17 3 30 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 85 350 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 475 cnv 17 3 30 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 84 418 cnv 17 3 30 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 588 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
+#X obj 2 511 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
-#X obj 2 567 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 490 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 142 330 bang;
-#X text 136 394 float;
-#X text 143 475 bang;
-#X text 136 442 float;
-#X text 119 524 1) float;
+#X text 142 295 bang;
+#X text 136 351 float;
+#X text 143 418 bang;
+#X text 136 385 float;
+#X text 119 465 1) float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 305 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
@@ -39,41 +39,42 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X msg 215 177 clear;
-#X obj 215 266 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X msg 229 170 clear;
+#X obj 229 256 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 313 259 done;
-#X text 56 91 [urn] generates 'n' random numbers (from 0 to n-1) without
-repeating them. When all numbers have been output \, a bang is sent
-to the right outlet and it stops generating numbers unless it receives
-a clear.;
-#X text 327 212 'n';
-#X text 211 282 random numbers;
-#X text 184 330 - generates unrepeated random number, f 57;
-#X text 136 349 clear;
-#X text 94 369 seed <flaot>;
-#X text 184 349 - clears the memory (the list of already generated
+#X text 327 253 done;
+#X text 133 256 random numbers;
+#X text 184 295 - generates unrepeated random number, f 59;
+#X text 136 311 clear;
+#X text 94 327 seed <flaot>;
+#X text 184 311 - clears the memory (the list of already generated
 numbers);
-#X text 184 394 - clears the memory and sets 'n' (random numbers are
-from 0 to n-1);
-#X text 184 442 - unrepeated random number output - when receiving
+#X text 184 385 - unrepeated random number output - when receiving
 a bang (if not all have been generated yet);
-#X text 184 475 - if all random numbers have already been generated
+#X text 184 418 - if all random numbers have already been generated
 - when receiving a bang;
-#X text 182 524 - sets 'n' (random numbers are from 0 to n-1) - default
-is 1 (only 0 is generated);
-#X obj 215 233 cyclone/urn 4;
-#X text 184 369 - reseeds the random number generator, f 45;
+#X obj 229 226 cyclone/urn 4;
+#X text 184 327 - reseeds the random number generator, f 59;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Unrepeated random
 numbers;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 urn;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X connect 5 0 37 0;
-#X connect 6 0 37 1;
-#X connect 7 0 37 0;
+#X text 182 464 -;
+#X text 184 351 - clears the memory and sets size;
+#X text 56 91 [urn] generates random numbers in a range defined by
+the 'n' size (from 0 to n-1) without repeating them. When all numbers
+have been output \, a bang is sent to the right outlet and it stops
+generating numbers unless it receives a clear message., f 68;
+#X text 406 198 (random values are from 0-n-1), f 16;
+#X text 193 464 sets size (default 1 \, maximum 65536 - in max it's
+4096);
+#X text 341 203 size 'n';
+#X connect 5 0 33 0;
+#X connect 6 0 33 1;
+#X connect 7 0 33 0;
 #X connect 8 0 7 0;
-#X connect 23 0 37 0;
-#X connect 37 0 24 0;
-#X connect 37 1 9 0;
+#X connect 23 0 33 0;
+#X connect 33 0 24 0;
+#X connect 33 1 9 0;
