@@ -152,10 +152,10 @@ static void prob_bang(t_prob *x)
 }
 
 static void prob_float(t_prob *x, t_float f){
-    int value;
-    if((int)f == f){ /* CHECKED */
+    int value = (int)f;
+    if(f == value){ /* CHECKED */
         t_probtrans *state = prob_findstate(x, value, 1);
-        if (state)  /* CHECKED */
+        if(state)  /* CHECKED */
             x->x_state = state;
     }
     else{

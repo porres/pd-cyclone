@@ -1,17 +1,17 @@
-#N canvas 676 23 558 561 10;
+#N canvas 544 23 558 578 10;
 #X obj 2 328 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 442 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 472 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 494 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 524 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 83 336 cnv 17 3 98 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 337 cnv 17 3 130 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 470 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 83 500 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 83 449 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 83 479 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 139 500 (none);
+#X text 189 530 (none);
 #X msg 137 187 0 1 80 \, 0 2 20 \, 1 2 10 \, 1 0 90 \, 2 0 50 \, 2
 1 50, f 16;
 #X obj 36 217 metro 500;
@@ -21,12 +21,12 @@
 #C restore;
 #X obj 137 299 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 2;
-#X obj 2 522 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 552 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 137 159 loadbang;
-#X text 144 450 float;
+#X text 144 480 float;
 #X text 150 354 list;
-#X text 150 470 bang;
+#X text 150 500 bang;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -37,22 +37,22 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X text 239 187 0 has 80% chance to go to 1 and 20% to go to 2 \;;
-#X text 239 200 1 has 10% chance to go to 2 and 90% to go to 0 \;;
-#X text 239 214 2 has a 50/50 chance to go to 1 and 0!;
+#X text 250 184 0 has 80% chance to go to 1 and 20% to go to 2 \;;
+#X text 250 197 1 has 10% chance to go to 2 and 90% to go to 0 \;;
+#X text 250 211 2 has a 50/50 chance to go to 1 and 0!;
 #X text 73 89 [prob] outputs a weighted series of random numbers (1st
 order markov chain). It accepts lists of 3 numbers where the 3rd represents
 the weight/chance of going from value 1 to value 2 \, a bang will force
 [prob] to output. See below:;
-#X text 181 450 - random number based on prob function;
-#X text 181 470 - when we reach a number for which there is no rule
+#X text 181 480 - random number based on prob function;
+#X text 181 500 - when we reach a number for which there is no rule
 ;
 #X text 181 354 - list of <value 1 \, value 2 \, weight>;
 #X text 151 335 bang -;
-#X text 145 371 clear - clears the probability matrix;
-#X text 151 387 dump - print out all rule;
+#X text 145 401 clear - clears the probability matrix;
+#X text 151 417 dump - print out all rule;
 #X text 196 335 choses a weighted random number;
-#X text 97 420 reset <float> -;
+#X text 97 450 reset <float> -;
 #N canvas 311 107 930 457 examples 0;
 #X obj 80 222 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373 -1
 -1;
@@ -115,14 +115,14 @@ its help file.;
 #X connect 19 0 17 0;
 #X connect 21 0 22 0;
 #X restore 464 294 pd examples;
-#X text 193 420 sets a value for when reaching a number with no rule
+#X text 193 450 sets a value for when reaching a number with no rule
 ;
 #X msg 89 176 dump;
 #X obj 80 289 print;
 #X obj 137 276 nbx 2 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12
 -228856 -1 -1 0 256;
-#X text 97 403 embed <float> -;
-#X text 192 403 <1> enables saving the matrix with the patch \, <0>
+#X text 97 433 embed <float> -;
+#X text 192 433 <1> enables saving the matrix with the patch \, <0>
 disables;
 #X text 217 248 <== click to view the probability matrix table;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Probability matrix
@@ -131,6 +131,10 @@ disables;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X text 144 374 float;
+#X text 181 374 -;
+#X text 194 373 an integer sets (but doesn't output) the current number
+\, the next value depends on the probability matrix., f 56;
 #X connect 7 0 10 0;
 #X connect 8 0 10 0;
 #X connect 9 0 8 0;
