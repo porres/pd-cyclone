@@ -165,13 +165,6 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
 # Control classes: ###############################################
 
-hseq := \
-shared/control/mifi.c \
-shared/common/file.c \
-shared/common/grow.c \
-shared/common/loud.c
-seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
-
 hgrow := \
 shared/common/grow.c \
 shared/common/loud.c
@@ -201,11 +194,18 @@ shared/common/file.c \
 shared/common/loud.c
 table.class.sources := cyclone_src/binaries/control/table.c $(hrandgrowfile)
 
+hseq := \
+shared/control/mifi.c \
+shared/common/file.c \
+shared/common/grow.c \
+shared/common/loud.c
+seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
+
 hfile := \
 shared/common/file.c \
 shared/common/loud.c
-capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile) # de-louded
 coll.class.sources := cyclone_src/binaries/control/coll.c $(hfile)
+capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile) # de-louded
 mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile) # de-louded
 
 # de-louded
