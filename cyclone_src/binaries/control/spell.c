@@ -4,19 +4,16 @@
 
 #include <stdio.h>
 #include "m_pd.h"
-#include "common/loud.h"
 
-typedef struct _spell
-{
+typedef struct _spell{
     t_object  x_ob;
     int       x_minsize;
     int       x_padchar;  /* actually, any nonnegative integer (CHECKED) */
-} t_spell;
+}t_spell;
 
 static t_class *spell_class;
 
-static void spell_fill(t_spell *x, int cnt)
-{
+static void spell_fill(t_spell *x, int cnt){
     for (; cnt < x->x_minsize; cnt++)
 	outlet_float(((t_object *)x)->ob_outlet, x->x_padchar);
 }
@@ -35,21 +32,20 @@ static int spell_out(t_spell *x, char *ptr, int flush)
     return (cnt);
 }
 
-static void spell_bang(t_spell *x)
-{
-    /* need to somehow override a default bang-to-empty-list conversion... */
-    loud_nomethod((t_pd *)x, &s_bang);  /* CHECKED */
+static void spell_bang(t_spell *x){
+    // ignore...
 }
 
 static void spell_float(t_spell *x, t_float f)
 {
-    int i;
-    if (loud_checkint((t_pd *)x, f, &i, &s_float))  /* CHECKED */
-    {
-	char buf[16];
-	sprintf(buf, "%d", i);  /* CHECKED (negative numbers) */
-	spell_out(x, buf, 1);
+    int i = (int)f;
+    if(f == i){  /* CHECKED */
+        char buf[16];
+        sprintf(buf, "%d", i);  /* CHECKED (negative numbers) */
+        spell_out(x, buf, 1);
     }
+    else
+        post("[spell] doesn't understand \"non integer floats\"");
 }
 
 /* CHECKED: 'symbol' selector is not spelled! */
@@ -58,35 +54,30 @@ static void spell_symbol(t_spell *x, t_symbol *s)
     spell_out(x, s->s_name, 1);
 }
 
-static void spell_list(t_spell *x, t_symbol *s, int ac, t_atom *av)
-{
+static void spell_list(t_spell *x, t_symbol *s, int ac, t_atom *av){
     int cnt = 0;
     int addsep = 0;
-    while (ac--)
-    {
-	if (addsep)
-	{
-	    outlet_float(((t_object *)x)->ob_outlet, x->x_padchar);
-	    cnt++;
-	}
-	else addsep = 1;
-	if (av->a_type == A_FLOAT)
-	{
-	    int i;
-	    /* CHECKME */
-	    if (loud_checkint((t_pd *)x, av->a_w.w_float, &i, &s_list))
-	    {
-		char buf[16];
-		sprintf(buf, "%d", i);  /* CHECKED (negative numbers) */
-		cnt += spell_out(x, buf, 0);
-	    }
-	    /* CHECKED: floats as empty strings (separator is added) */
-	}
-	/* CHECKED: symbols as empty strings (separator is added) */
-	av++;
+    while (ac--){
+        if (addsep){
+            outlet_float(((t_object *)x)->ob_outlet, x->x_padchar);
+            cnt++;
+        }
+        else
+            addsep = 1;
+        if (av->a_type == A_FLOAT){
+            float f = av->a_w.w_float;
+            int i = (int)f;
+            if (f == i){
+                char buf[16];
+                sprintf(buf, "%d", i);  /* CHECKED (negative numbers) */
+                cnt += spell_out(x, buf, 0);
+            } // else: ignore
+        }
+        /* CHECKED: symbols as empty strings (separator is added) */
+        av++;
     }
-    if (cnt)  /* CHECKED: empty list is silently ignored */
-	spell_fill(x, cnt);
+    if(cnt)  /* CHECKED: empty list is silently ignored */
+        spell_fill(x, cnt);
 }
 
 static void spell_anything(t_spell *x, t_symbol *s, int ac, t_atom *av)
@@ -106,17 +97,14 @@ static void spell_anything(t_spell *x, t_symbol *s, int ac, t_atom *av)
 	    cnt++;
 	}
 	else addsep = 1;
-	if (av->a_type == A_FLOAT)
-	{
-	    int i;
-	    /* CHECKME */
-	    if (loud_checkint((t_pd *)x, av->a_w.w_float, &i, &s_list))
-	    {
-		char buf[16];
-		sprintf(buf, "%d", i);  /* CHECKED (negative numbers) */
-		cnt += spell_out(x, buf, 0);
-	    }
-	    /* CHECKED: floats as empty strings (separator is added) */
+	if (av->a_type == A_FLOAT){
+        float f = av->a_w.w_float;
+        int i = (int)f;
+        if (f == i){
+            char buf[16];
+            sprintf(buf, "%d", i);  /* CHECKED (negative numbers) */
+            cnt += spell_out(x, buf, 0);
+	    } // else: ignore
 	}
 	else if (av->a_type == A_SYMBOL && av->a_w.w_symbol)
 	    cnt += spell_out(x, av->a_w.w_symbol->s_name, 0);

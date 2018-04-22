@@ -51,6 +51,7 @@ past.class.sources := cyclone_src/binaries/control/past.c
 peak.class.sources := cyclone_src/binaries/control/peak.c
 poltocar.class.sources := cyclone_src/binaries/control/poltocar.c
 sinh.class.sources := cyclone_src/binaries/control/sinh.c
+spell.class.sources := cyclone_src/binaries/control/spell.c
 split.class.sources := cyclone_src/binaries/control/split.c
 spray.class.sources := cyclone_src/binaries/control/spray.c
 sprintf.class.sources := cyclone_src/binaries/control/sprintf.c
@@ -167,7 +168,6 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 # Control classes: ###############################################
 
 hloud := shared/common/loud.c
-spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
 # GUI:
 comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
 
