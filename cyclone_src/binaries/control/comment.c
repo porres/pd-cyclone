@@ -20,7 +20,7 @@
 static t_class *makeshift_class;
 
 #ifdef KRZYSZCZ
-//#define COMMENT_DEBUG
+#define COMMENT_DEBUG
 #endif
 
 #define COMMENT_LMARGIN        1
@@ -582,7 +582,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 		x->x_selend++;
 	    x->x_selstart = x->x_selend;
 	}
-	else if (!strcmp(keysym->s_name, "F4"))
+	else if (!strcmp(keysym->s_name, "Escape"))
 	{
 	    t_text *newt, *oldt = (t_text *)x;
 	    t_binbuf *bb = binbuf_new();
@@ -610,7 +610,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	    clock_delay(x->x_transclock, 0);  /* LATER rethink */
 	    goto donelist;
 	}
-	else if (!strcmp(keysym->s_name, "F5"))
+	/* else if (!strcmp(keysym->s_name, "F5"))
 	{
 	    t_text *t = (t_text *)x;
 	    t_binbuf *bb = binbuf_new();
@@ -624,7 +624,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	    canvas_dirty(x->x_glist, 1);
 	    binbuf_free(bb);
 	    goto donelist;
-	}
+	} */
 	else goto donelist;
 	comment_update(x);
     }

@@ -72,18 +72,18 @@ of 0 (default) sets no wrapping;
 available on your system (default helvetica);
 #X text 99 212 Below \, see examples of comment boxes that are set
 with arguments as they're displaying as the comment:;
-#X obj 100 453 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
+#X obj 100 453 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
 0 20 Times ? 0 255 128 0];
 #X obj 121 490 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
 0 14 Helvetica ? 0 0 128 128];
 #X text 95 415 The last 3 arguments set colors in RGB format \, no
 idea what the 4th and 5th arguments actually do.;
-#X text 71 614 You can set the properties settings of the comment box
+#X text 71 602 You can set the properties settings of the comment box
 with the arguments.;
 #X text 71 550 Note: when in edit mode \, you can click on the object
-to select it \, then press <F4> to show the object name and arguments.
-You can also press <F5> to duplicate the comment text into a Pd comment
-text.;
+to select it. Next \, make sure to click again so the whole comment
+text isn't selected \, then press <esc> to show the object name and
+arguments.;
 #X restore 421 256 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
