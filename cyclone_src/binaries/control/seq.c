@@ -13,9 +13,9 @@
 #include "common/file.h"
 #include "control/mifi.h"
 
-#ifdef KRZYSZCZ
+/* #ifdef KRZYSZCZ
 #define SEQ_DEBUG
-#endif
+#endif */
 
 #define SEQ_INISEQSIZE       256   /* LATER rethink */
 #define SEQ_INITEMPOMAPSIZE  128   /* LATER rethink */
@@ -104,9 +104,9 @@ static int seq_dogrowing(t_seq *x, int nevents, int ntempi)
     if (nevents > x->x_seqsize)
     {
 	int nrequested = nevents;
-#ifdef SEQ_DEBUG
+/* #ifdef SEQ_DEBUG
 	loudbug_post("growing for %d events...", nevents);
-#endif
+#endif */
 	x->x_sequence =
 	    grow_nodata(&nrequested, &x->x_seqsize, x->x_sequence,
 			SEQ_INISEQSIZE, x->x_seqini, sizeof(*x->x_sequence));
@@ -120,9 +120,9 @@ static int seq_dogrowing(t_seq *x, int nevents, int ntempi)
     if (ntempi > x->x_tempomapsize)
     {
 	int nrequested = ntempi;
-#ifdef SEQ_DEBUG
+/* #ifdef SEQ_DEBUG
 	loudbug_post("growing for %d tempi...", ntempi);
-#endif
+#endif */
 	x->x_tempomap =
 	    grow_nodata(&nrequested, &x->x_tempomapsize, x->x_tempomap,
 			SEQ_INITEMPOMAPSIZE, x->x_tempomapini,
@@ -160,9 +160,9 @@ static void seq_complete(t_seq *x)
 	    int nexisting = x->x_seqsize;
 	    /* store-ahead scheme, LATER consider using x_currevent */
 	    int nrequested = x->x_nevents + 1;
-#ifdef SEQ_DEBUG
+/* #ifdef SEQ_DEBUG
 	    loudbug_post("growing...");
-#endif
+#endif */
 	    x->x_sequence =
 		grow_withdata(&nrequested, &nexisting,
 			      &x->x_seqsize, x->x_sequence,
@@ -718,9 +718,9 @@ static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype)
 	    t_seqtempo *stm = &x->x_tempomap[x->x_temporeadhead++];
 	    stm->t_scoretime = scoretime;
 	    stm->t_sr = mifiread_gettempo(mr);
-#ifdef SEQ_DEBUG
+/* #ifdef SEQ_DEBUG
 	    loudbug_post("tempo %g at %g", stm->t_sr, scoretime);
-#endif
+#endif */
 	}
 	else if (x->x_temporeadhead == x->x_ntempi)
 	{
@@ -763,7 +763,7 @@ static int seq_mfread(t_seq *x, char *path)
     t_mifiread *mr = mifiread_new((t_pd *)x);
     if (!mifiread_open(mr, path, "", 0))
 	goto mfreadfailed;
-#ifdef SEQ_DEBUG
+/* #ifdef SEQ_DEBUG
     loudbug_startpost("midifile (format %d): %d tracks, %d ticks",
 		      mifiread_getformat(mr), mifiread_gethdtracks(mr),
 		      mifiread_getbeatticks(mr));
@@ -771,7 +771,7 @@ static int seq_mfread(t_seq *x, char *path)
 	loudbug_post(" (%d smpte frames)", mifiread_getnframes(mr));
     else
 	loudbug_post(" per beat");
-#endif
+#endif */
     if (!seq_dogrowing(x, mifiread_getnevents(mr), mifiread_getntempi(mr)))
 	goto mfreadfailed;
     x->x_eventreadhead = 0;
@@ -799,9 +799,9 @@ static int seq_mfread(t_seq *x, char *path)
 	qsort(x->x_tempomap, x->x_ntempi, sizeof(*x->x_tempomap),
 	      seq_tempocomparehook);
     seq_foldtime(x, mifiread_getdeftempo(mr));
-#ifdef SEQ_DEBUG
+/* #ifdef SEQ_DEBUG
     loudbug_post("seq: got %d events from midi file", x->x_nevents);
-#endif
+#endif */
     result = 1;
 mfreadfailed:
     mifiread_free(mr);
