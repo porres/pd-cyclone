@@ -166,11 +166,6 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
 # Control classes: ###############################################
 
-hgrowloud := \
-shared/common/grow.c \
-shared/common/loud.c
-pv.class.sources := cyclone_src/binaries/control/pv.c $(hgrowloud)
-
 hloud := shared/common/loud.c
 spell.class.sources := cyclone_src/binaries/control/spell.c $(hloud)
 # GUI:
@@ -213,6 +208,7 @@ match.class.sources := cyclone_src/binaries/control/match.c $(hgrow)
 iter.class.sources := cyclone_src/binaries/control/iter.c $(hgrow)
 buddy.class.sources := cyclone_src/binaries/control/buddy.c $(hgrow)
 bondo.class.sources := cyclone_src/binaries/control/bondo.c $(hgrow)
+pv.class.sources := cyclone_src/binaries/control/pv.c $(hgrow)
 
 hrandfile := \
 shared/control/rand.c \
