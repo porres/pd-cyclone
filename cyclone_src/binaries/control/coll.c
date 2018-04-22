@@ -23,9 +23,9 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 /* LATER profile for the bottlenecks of insertion and sorting */
 /* LATER make sure that ``reentrancy protection hack'' is really working... */
 
-#ifdef KRZYSZCZ
+/* #ifdef KRZYSZCZ
 //#define COLL_DEBUG
-#endif
+#endif */
 
 
 #define COLLTHREAD 1 //default is threaded
@@ -823,8 +823,6 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
 		if (!(fp = fopen(fname, "r")))
 		{
 			m->m_flag |= 0x01;
-			//if (!threaded)
-				//loud_warning(&coll_class, 0, "no coll file '%s'", fname);
 			return(m);
 		};
 		fclose(fp);
@@ -2016,7 +2014,7 @@ static void coll_click(t_coll *x, t_floatarg xpos, t_floatarg ypos,
     coll_open(x);
 }
 
-#ifdef COLL_DEBUG
+/* #ifdef COLL_DEBUG
 static void collelem_post(t_collelem *ep)
 {
 	//if (!x->busy) {
@@ -2056,7 +2054,7 @@ static void coll_debug(t_coll *x, t_floatarg f)
 		}
 	//}
 }
-#endif
+#endif */
 
 static void *coll_threaded_fileio(void *ptr)
 {
@@ -2361,10 +2359,10 @@ void coll_setup(void)
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(coll_class, (t_method)coll_separate,
 		    gensym("separate"), A_FLOAT, 0);
-#ifdef COLL_DEBUG
+/* #ifdef COLL_DEBUG
     class_addmethod(coll_class, (t_method)coll_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);
-#endif
+#endif */
     hammerfile_setup(coll_class, 1);
     collcommon_class = class_new(gensym("coll"), 0, 0,
 				 sizeof(t_collcommon), CLASS_PD, 0);
