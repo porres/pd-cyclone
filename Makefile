@@ -167,31 +167,6 @@ trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
 # Control classes: ###############################################
 
-hloud := shared/common/loud.c
-# GUI:
-comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
-
-hrandgrowfile := \
-shared/control/rand.c \
-shared/common/grow.c \
-shared/common/file.c \
-shared/common/loud.c
-table.class.sources := cyclone_src/binaries/control/table.c $(hrandgrowfile)
-
-hseq := \
-shared/control/mifi.c \
-shared/common/file.c \
-shared/common/grow.c \
-shared/common/loud.c
-seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
-
-hfileloud := \
-shared/common/file.c \
-shared/common/loud.c
-coll.class.sources := cyclone_src/binaries/control/coll.c $(hfileloud)
-
-# de-louded
-
 hfile := shared/common/file.c
 capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
 mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile)
@@ -235,6 +210,30 @@ hrandgrow := \
 shared/control/rand.c \
 shared/common/grow.c
 urn.class.sources := cyclone_src/binaries/control/urn.c $(hrandgrow)
+
+hrandgrowfile := \
+shared/control/rand.c \
+shared/common/grow.c \
+shared/common/file.c
+table.class.sources := cyclone_src/binaries/control/table.c $(hrandgrowfile)
+
+# still with loud
+
+hseq := \
+shared/control/mifi.c \
+shared/common/file.c \
+shared/common/grow.c \
+shared/common/loud.c
+seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
+
+hfileloud := \
+shared/common/file.c \
+shared/common/loud.c
+coll.class.sources := cyclone_src/binaries/control/coll.c $(hfileloud)
+
+# GUI:
+hloud := shared/common/loud.c
+comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
 
 # New Dependency:
 

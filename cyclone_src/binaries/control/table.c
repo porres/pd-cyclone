@@ -10,7 +10,6 @@
 #include <string.h>
 #include "m_pd.h"
 #include "g_canvas.h"
-#include "common/loud.h"
 #include "common/grow.h"
 #include "common/file.h"
 #include "control/rand.h"
@@ -212,11 +211,9 @@ static void tablecommon_fromatoms(t_tablecommon *cc, int ac, t_atom *av)
 	    nsyms++, size++;
     }
     if (size < ac)
-	loud_warning(0, "Table", "%d invalid atom%s ignored",
-		     ac - size, (ac - size > 1 ? "s" : ""));
+	post("[cyclone/table] %d invalid atom%s ignored", ac - size, (ac - size > 1 ? "s" : ""));
     if (nsyms)
-	loud_warning(0, "Table", "%d symbol%s bashed to zero",
-		     nsyms, (nsyms > 1 ? "s" : ""));
+    post("[cyclone/table] %d symbol%s bashed to zero", nsyms, (nsyms > 1 ? "s" : ""));
     tablecommon_setlength(cc, size);
     size = cc->c_length;
     ptr = cc->c_table;
@@ -256,11 +253,11 @@ static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv){
     if ((ac = binbuf_getnatom(bb)) && (av = binbuf_getvec(bb)) && av->a_type == A_SYMBOL &&
     av->a_w.w_symbol == gensym("table")){
         tablecommon_fromatoms(cc, ac - 1, av + 1);
-        post("Table: %s read successful", fn->s_name);  /* CHECKME */
+        post("[cyclone/table]: %s read successful", fn->s_name);  /* CHECKME */
     }
 #if 0  /* FIXME */
     else  /* CHECKME complaint */
-	loud_error((t_pd *)cc, "invalid file %s", fn->s_name);
+	pd_error(cc, "[cyclone/table]: invalid file %s", fn->s_name);
 #endif
     binbuf_free(bb);
 }
@@ -349,7 +346,7 @@ static void *tablecommon_new(void){ // ???
 
 static t_tablecommon *table_checkcommon(t_table *x){
     if(x->x_name && x->x_common != (t_tablecommon *)pd_findbyclass(x->x_name, tablecommon_class)){
-        loudbug_bug("table_checkcommon");
+        pd_error(x, "bug [cyclone/table]: table_checkcommon");
         return (0);
     }
     return(x->x_common);
@@ -474,20 +471,13 @@ static void table_embed(t_table *x, t_floatarg f){
 static void table_flags(t_table *x, t_symbol *s, int ac, t_atom *av){
     t_tablecommon *cc = x->x_common;
     int i = 0, v;
-    while(ac && av->a_type == A_FLOAT
-        && loud_checkint((t_pd *)x, av->a_w.w_float, &v, gensym("flags"))){
-        /* CHECKED order, modifying only explicitly specified flags */
+    while(ac && av->a_type == A_FLOAT){
+        v = av->a_w.w_float != 0;
         if(i == 0)
-	    cc->c_embedflag = (v != 0);
+            cc->c_embedflag = (v != 0);
         else if(i == 1)
             cc->c_dontsaveflag = (v != 0);
-	/*
-	else if (i == 2)
-            cc->c_notenamesflag = (v != 0);
-        else if (i == 3)
-            cc->c_signedflag = (v != 0);
-	*/
-	else
+        else
             break;
         i++; ac--; av++;
     };
