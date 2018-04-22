@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
 #include "common/grow.h"
 #include "common/file.h"
 #include "control/mifi.h"
@@ -216,7 +215,7 @@ static void seq_addbyte(t_seq *x, unsigned char c, int docomplete)
     else if (x->x_evelength == 4)
     {
 	if (x->x_status != 240)
-	    loudbug_bug("seq_addbyte");
+	    pd_error(x, "bug [seq]: seq_addbyte");
 	/* CHECKED sysex is broken into 4-byte packets marked with
 	   the actual delta time of last byte received in a packet */
 	seq_complete(x);
@@ -334,7 +333,7 @@ static void seq_setmode(t_seq *x, int newmode)
 	    seq_stopslavery(x);
 	    break;
 	default:
-	    loudbug_bug("seq_setmode (old)");
+        pd_error(x, "bug [seq]: seq_setmode (old)");
 	    return;
 	}
 	x->x_mode = newmode;
@@ -353,7 +352,7 @@ static void seq_setmode(t_seq *x, int newmode)
 	seq_startslavery(x, changed);
 	break;
     default:
-	loudbug_bug("seq_setmode (new)");
+    pd_error(x, "bug [seq]: seq_setmode (new)");
     }
 }
 
@@ -494,10 +493,10 @@ static void seq_float(t_seq *x, t_float f)
     }
 }
 
-static void seq_symbol(t_seq *x, t_symbol *s)
+/*static void seq_symbol(t_seq *x, t_symbol *s)
 {
-    loud_nomethod((t_pd *)x, &s_symbol);  /* CHECKED */
-}
+    loud_nomethod((t_pd *)x, &s_symbol);  // CHECKED
+}*/
 
 static void seq_list(t_seq *x, t_symbol *s, int ac, t_atom *av)
 {
@@ -707,7 +706,7 @@ static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype)
 	}
 	else if (x->x_eventreadhead == x->x_nevents)
 	{
-	    loudbug_bug("seq_mrhook 1");
+        pd_error(x, "bug [seq]: seq_mrhook 1");
 	    x->x_eventreadhead++;
 	}
     }
@@ -723,8 +722,8 @@ static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype)
 #endif */
 	}
 	else if (x->x_temporeadhead == x->x_ntempi)
-	{
-	    loudbug_bug("seq_mrhook 2");
+    {
+        pd_error(x, "bug [seq]: seq_mrhook 2");
 	    x->x_temporeadhead++;
 	}
     }
@@ -780,9 +779,9 @@ static int seq_mfread(t_seq *x, char *path)
 	goto mfreadfailed;
     if (x->x_eventreadhead < x->x_nevents)
     {
-	loudbug_bug("seq_mfread 1");
-	loudbug_post("declared %d events, got %d",
-		     x->x_nevents, x->x_eventreadhead);
+        pd_error(x, "bug [seq]: seq_mfread 1");
+        post("declared %d events, got %d",
+             x->x_nevents, x->x_eventreadhead);
 	x->x_nevents = x->x_eventreadhead;
     }
     if (x->x_nevents)
@@ -790,8 +789,8 @@ static int seq_mfread(t_seq *x, char *path)
 	      seq_eventcomparehook);
     if (x->x_temporeadhead < x->x_ntempi)
     {
-	loudbug_bug("seq_mfread 2");
-	loudbug_post("declared %d tempi, got %d",
+    pd_error(x, "bug [seq]: seq_mfread 2");
+    post("declared %d tempi, got %d",
 		     x->x_ntempi, x->x_temporeadhead);
 	x->x_ntempi = x->x_temporeadhead;
     }
@@ -827,7 +826,7 @@ static int seq_mfwrite(t_seq *x, char *path)
 	    if (!mifiwrite_channelevent(mw, sev->e_delta, status, *bp & 0x0f,
 					bp[1], bp[2]))  /* SEQ_EOM ignored */
 	    {
-		loud_error((t_pd *)x, "cannot write channel event %d", status);
+		pd_error(x, "[seq] cannot write channel event %d", status);
 		goto mfwritefailed;
 	    }
 	}
@@ -840,8 +839,7 @@ static int seq_mfwrite(t_seq *x, char *path)
     result = 1;
 mfwritefailed:
     if (!result)
-	loud_errand((t_pd *)x,
-		    "while saving sequence into midi file \"%s\"", path);
+        post("while saving sequence into midi file \"%s\"", path);
     mifiwrite_free(mw);
     return (result);
 }
@@ -936,7 +934,7 @@ static void seq_textread(t_seq *x, char *path)
 	    seq_fromatoms(x, binbuf_getnatom(bb), binbuf_getvec(bb), 1);
 	if (nlines < 0)
 	    /* CHECKED "bad MIDI file (truncated)" alert, even if a text file */
-	    loud_error((t_pd *)x, "bad text file (truncated)");
+	    pd_error(x, "[seq]: bad text file (truncated)");
 	else if (nlines == 0)
 	{
 	    /* CHECKED no complaint, sequence erased, LATER rethink */
@@ -954,7 +952,7 @@ static void seq_textwrite(t_seq *x, char *path)
     if (binbuf_write(bb, path, "", 0))
     {
 	/* CHECKME complaint and FIXME */
-	loud_error((t_pd *)x, "error writing text file");
+	pd_error(x, "[seq]: error writing text file");
     }
     binbuf_free(bb);
 }
@@ -1149,7 +1147,7 @@ void seq_setup(void)
     class_addbang(seq_class, seq_bang);
     class_addfloat(seq_class, seq_float);
 // CHECKED symbol rejected
-    class_addsymbol(seq_class, seq_symbol);
+//    class_addsymbol(seq_class, seq_symbol);
 // CHECKED 1st atom of a list accepted if a float, ignored if a symbol
     class_addlist(seq_class, seq_list);
     class_addmethod(seq_class, (t_method)seq_record,

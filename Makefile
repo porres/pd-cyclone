@@ -217,14 +217,13 @@ shared/common/grow.c \
 shared/common/file.c
 table.class.sources := cyclone_src/binaries/control/table.c $(hrandgrowfile)
 
-# still with loud
-
 hseq := \
 shared/control/mifi.c \
 shared/common/file.c \
-shared/common/grow.c \
-shared/common/loud.c
+shared/common/grow.c
 seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
+
+# still with loud
 
 hfileloud := \
 shared/common/file.c \
