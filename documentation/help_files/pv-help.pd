@@ -1,4 +1,4 @@
-#N canvas 572 23 558 443 10;
+#N canvas 572 23 561 432 10;
 #X obj 2 250 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 326 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -40,8 +40,8 @@ objects;
 #X text 66 159 store variable 'x';
 #X text 434 139 open and check:;
 #X text 180 334 - stored private variable;
-#X text 103 365 1) symbol;
-#X text 103 382 2) anything;
+#X text 143 365 1) symbol;
+#X text 143 382 2) anything;
 #N canvas 596 179 680 385 examples 0;
 #X obj 349 89 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373 -1
 -1;
@@ -151,8 +151,8 @@ with the same variable name - to check it \, open [pv_in_a_subpatch_2].
 #X restore 411 162 pd pv_in_a_subpatch_1;
 #X text 258 167 <= retrieve 'x';
 #X msg 58 186 status;
-#X text 180 382 - initially stored message;
-#X text 180 365 - name of private variable;
+#X text 220 382 - initially stored message;
+#X text 220 365 - name of private variable;
 #X text 68 89 [pv] is similar to pd's [value] \, but stores any message
 as a variable name \, which can be shared within a patch or its subpatch
 if it has another [pv] object with the same variable name. It won't
@@ -168,27 +168,27 @@ cloned from Max/MSP;
 -1;
 #X obj 76 222 cyclone/pv x;
 #X obj 76 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 19 256;
+-228856 -1 -1 0 256;
 #X obj 243 251 send x;
 #X obj 243 225 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 54 256;
+-228856 -1 -1 0 256;
 #X obj 240 333 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 54 256;
+-228856 -1 -1 0 256;
 #X obj 240 302 receive x;
 #X obj 108 193 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 19 256;
+-228856 -1 -1 0 256;
 #X obj 328 288 value x;
 #X obj 328 256 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 328 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 54 256;
+-228856 -1 -1 0 256;
 #X obj 78 294 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 78 326 cyclone/pv x;
 #X obj 78 357 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 18 256;
+-228856 -1 -1 0 256;
 #X obj 110 297 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 18 256;
+-228856 -1 -1 0 256;
 #X obj 352 257 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 40 11 In Max \, you cannot create [pv] \, [send] and [value]

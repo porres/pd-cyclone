@@ -401,48 +401,40 @@ static void pv_free(t_pv *x)
     pv_getfamily(x->x_glist, x->x_name, 0, 1);
 }
 
-static void *pv_new(t_symbol *s, int ac, t_atom *av)
-{
+static void *pv_new(t_symbol *s, int ac, t_atom *av){
     t_pv *x = 0;
     if (ac && av->a_type == A_SYMBOL)
-	s = av->a_w.w_symbol;
-    else s = gensym("_cyclone-pv-default");
-    if (s && s != &s_)
-    {
-	t_glist *gl = canvas_getcurrent();
-	t_pvfamily *pf = pv_getfamily(gl, s, 1, 0);
-	x = (t_pv *)pd_new(pv_class);
-	x->x_glist = gl;
-	x->x_name = s;
-	x->x_family = pf;
-	outlet_new((t_object *)x, &s_float);
-	if (--ac)
-	{
-	    av++;
-	    if (av->a_type == A_SYMBOL)
-	    {
-		if (av->a_w.w_symbol == &s_symbol)
-		{
-		    if (ac > 1 && av[1].a_type == A_SYMBOL)
-			pv_symbol(x, av[1].a_w.w_symbol);
-		}
-		/* LATER rethink 'pv <name> bang' (now it is accepted) */
-		else pv_anything(x, av->a_w.w_symbol, ac - 1, av + 1);
-	    }
-	    else if (av->a_type == A_FLOAT)
-	    {
-		if (ac > 1)
-		    pv_list(x, &s_list, ac, av);
-		else pv_float(x, av->a_w.w_float);
-	    }
-	}
-
+        s = av->a_w.w_symbol;
+    else{
+        pd_error(x, "[pv]: missing or bad arguments");
+        s = gensym("_cyclone-pv-default");
     }
-    else
-	/* CHECKED: "error: missing or bad arguments",
-	   a box is created without inlets and outlets */
-	loud_classarg(pv_class);
-    return (x);
+    t_glist *gl = canvas_getcurrent();
+    t_pvfamily *pf = pv_getfamily(gl, s, 1, 0);
+    x = (t_pv *)pd_new(pv_class);
+    x->x_glist = gl;
+    x->x_name = s;
+    x->x_family = pf;
+    outlet_new((t_object *)x, &s_float);
+    if(--ac){
+        av++;
+        if(av->a_type == A_SYMBOL){
+            if (av->a_w.w_symbol == &s_symbol){
+                if (ac > 1 && av[1].a_type == A_SYMBOL)
+                    pv_symbol(x, av[1].a_w.w_symbol);
+            }
+            /* LATER rethink 'pv <name> bang' (now it is accepted) */
+            else
+                pv_anything(x, av->a_w.w_symbol, ac - 1, av + 1);
+        }
+        else if (av->a_type == A_FLOAT){
+            if (ac > 1)
+                pv_list(x, &s_list, ac, av);
+            else
+                pv_float(x, av->a_w.w_float);
+        }
+    }
+    return(x);
 }
 
 void pv_setup(void)

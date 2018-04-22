@@ -1,5 +1,5 @@
 #N canvas 550 150 561 282 10;
-#N canvas 631 78 649 620 All_Cyclone_Objects 0;
+#N canvas 631 78 649 620 All_Cyclone_Objects 1;
 #X text 102 156 same as;
 #X text 102 180 same as;
 #X text 102 204 same as;
@@ -221,8 +221,6 @@
 #X text 359 24 GUI objects:;
 #X obj 147 2409 cyclone/unjoin;
 #X obj 147 1366 cyclone/listfunnel;
-#X obj 147 1913 cyclone/pv;
-#X obj 147 2631 cyclone/zl len;
 #X obj 350 1558 cyclone/Hilbert~;
 #X obj 97 65 cyclone/cyclone;
 #X obj 70 95 !-;
@@ -239,6 +237,8 @@
 #X obj 70 375 +=~;
 #X text 43 20 Objects loaded from the Cyclone library and its aliases:
 , f 39;
+#X obj 147 2631 cyclone/zl len;
+#X obj 147 1913 cyclone/pv x;
 #X restore 353 211 pd All_Cyclone_Objects;
 #X obj 230 194 switch~;
 #X obj 220 149 tgl 30 0 \$0-zxcx \$0-zxcxsfljsfl empty 17 7 0 10 -228856
@@ -265,7 +265,7 @@
 #X connect 7 0 2 0;
 #X restore 86 174 pd meter;
 #X obj 86 202 nbx 4 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
--228856 -1 -1 2 256;
+-228856 -1 -1 4 256;
 #X obj 4 2 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
 #X obj 29 5 comment 0 22 courier ? 0 224 228 220 cyclone;
