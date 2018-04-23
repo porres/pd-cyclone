@@ -14,7 +14,6 @@
 #include <ctype.h>
 #include "m_pd.h"
 #include "g_canvas.h"
-// #include "common/loud.h"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
 static t_class *makeshift_class;
