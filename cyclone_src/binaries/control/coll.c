@@ -14,7 +14,6 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #include <string.h>
 #include "m_pd.h"
 #include "g_canvas.h"
-#include "common/loud.h"
 #include "common/file.h"
 
 #include <pthread.h>
@@ -119,6 +118,27 @@ typedef struct _threadedFunctionParams
 
 static t_class *coll_class;
 static t_class *collcommon_class;
+
+/// Porres: de-louding in a lazy way
+
+void coll_messarg(t_pd *x, t_symbol *s){
+    pd_error(x, "[coll]: bad arguments for message \"%s\"", s->s_name);
+}
+
+int coll_checkint(t_pd *x, t_float f, int *valuep, t_symbol *mess){
+    if((*valuep = (int)f) == f)
+        return (1);
+    else{
+        if(mess == &s_float)
+            pd_error(x, "[coll]: doesn't understand \"noninteger float\"");
+        else if (mess)
+            pd_error(x, "[coll]: \"noninteger float\" argument invalid for message \"%s\"",
+                     mess->s_name);
+        return (0);
+    }
+}
+
+///
 
 static void coll_q_free(t_coll *x)
 {
@@ -766,7 +786,7 @@ static int collcommon_fromatoms(t_collcommon *cc, int ac, t_atom *av)
 	else if (av->a_type == A_SYMBOL)
 	    symkey = av->a_w.w_symbol;
 	else if (av->a_type == A_FLOAT &&
-		 loud_checkint(0, av->a_w.w_float, &numkey, 0))
+		 coll_checkint(0, av->a_w.w_float, &numkey, 0))
 	    hasnumkey = 1;
 	else
 	{
@@ -1186,7 +1206,7 @@ static t_collelem *coll_findkey(t_coll *x, t_atom *key, t_symbol *mess)
     if (key->a_type == A_FLOAT)
     {
 	int numkey;
-	if (loud_checkint((t_pd *)x, key->a_w.w_float, &numkey, mess))
+	if (coll_checkint((t_pd *)x, key->a_w.w_float, &numkey, mess))
 	    ep = collcommon_numkey(cc, numkey);
 	else
 	    mess = 0;
@@ -1195,7 +1215,7 @@ static t_collelem *coll_findkey(t_coll *x, t_atom *key, t_symbol *mess)
 	ep = collcommon_symkey(cc, key->a_w.w_symbol);
     else if (mess)
     {
-	loud_messarg((t_pd *)x, mess);
+	coll_messarg((t_pd *)x, mess);
 	mess = 0;
     }
     if (!ep && mess)
@@ -1211,13 +1231,13 @@ static t_collelem *coll_tokey(t_coll *x, t_atom *key, int ac, t_atom *av,
     if (key->a_type == A_FLOAT)
     {
 	int numkey;
-	if (loud_checkint((t_pd *)x, key->a_w.w_float, &numkey, mess))
+	if (coll_checkint((t_pd *)x, key->a_w.w_float, &numkey, mess))
 	    ep = collcommon_tonumkey(cc, numkey, ac, av, replace);
     }
     else if (key->a_type == A_SYMBOL)
 	ep = collcommon_tosymkey(cc, key->a_w.w_symbol, ac, av, replace);
     else if (mess)
-	loud_messarg((t_pd *)x, mess);
+	coll_messarg((t_pd *)x, mess);
     return (ep);
 }
 
@@ -1239,7 +1259,7 @@ static void coll_float(t_coll *x, t_float f)
 		t_collcommon *cc = x->x_common;
 		t_collelem *ep;
 		int numkey;
-		if (loud_checkint((t_pd *)x, f, &numkey, &s_float) &&
+		if (coll_checkint((t_pd *)x, f, &numkey, &s_float) &&
 		(ep = collcommon_numkey(cc, numkey)))
 		{
 		coll_keyoutput(x, ep);
@@ -1269,7 +1289,7 @@ static void coll_list(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		if (ac >= 2 && av->a_type == A_FLOAT)
 		coll_tokey(x, av, ac-1, av+1, 1, &s_list);
 		else
-		loud_messarg((t_pd *)x, &s_list);
+		coll_messarg((t_pd *)x, &s_list);
 	//}
 }
 
@@ -1299,7 +1319,7 @@ static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		int numkey;
 		if (av->a_type == A_FLOAT && av[1].a_type == A_SYMBOL)
 		{
-			if (loud_checkint((t_pd *)x, av->a_w.w_float, &numkey, s))
+			if (coll_checkint((t_pd *)x, av->a_w.w_float, &numkey, s))
 			{
 			if (ep = collcommon_symkey(cc, av[1].a_w.w_symbol))
 				collcommon_remove(cc, ep);
@@ -1309,7 +1329,7 @@ static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		}
 		else if (av->a_type == A_SYMBOL && av[1].a_type == A_FLOAT)
 		{
-			if (loud_checkint((t_pd *)x, av[1].a_w.w_float, &numkey, s))
+			if (coll_checkint((t_pd *)x, av[1].a_w.w_float, &numkey, s))
 			{
 			if (ep = collcommon_numkey(cc, numkey))
 				collcommon_remove(cc, ep);
@@ -1359,7 +1379,7 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av)
                 int numkey;
 		if (ac >= 2 && av->a_type == A_FLOAT){
                     //get the int from the first elt if exists and store in numkey
-                    loud_checkint((t_pd *) x, av->a_w.w_float, &numkey, 0);
+                    coll_checkint((t_pd *) x, av->a_w.w_float, &numkey, 0);
                     //retrieve elem with numkey if it exists
                     ep = collcommon_numkey(cc, numkey);
                     if(ep){
@@ -1398,7 +1418,7 @@ static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av)
                 int numkey;
 		if (ac >= 2 && av->a_type == A_FLOAT){
                     //get the int from the first elt if exists and store in numkey
-                    loud_checkint((t_pd *) x, av->a_w.w_float, &numkey, 0);
+                    coll_checkint((t_pd *) x, av->a_w.w_float, &numkey, 0);
                     //retrieve elem with numkey if it exists
                     ep = collcommon_numkey(cc, numkey);
                     if(ep){
@@ -1472,7 +1492,7 @@ static void coll_assoc(t_coll *x, t_symbol *s, t_floatarg f)
 {
 	//if (!x->busy) {
 		int numkey;
-		if (loud_checkint((t_pd *)x, f, &numkey, gensym("assoc")))
+		if (coll_checkint((t_pd *)x, f, &numkey, gensym("assoc")))
 		{
 			t_collcommon *cc = x->x_common;
 			t_collelem *ep1, *ep2;
@@ -1491,7 +1511,7 @@ static void coll_deassoc(t_coll *x, t_symbol *s, t_floatarg f)
 {
 	//if (!x->busy) {
 		int numkey;
-		if (loud_checkint((t_pd *)x, f, &numkey, gensym("deassoc")))
+		if (coll_checkint((t_pd *)x, f, &numkey, gensym("deassoc")))
 		{
 			t_collcommon *cc = x->x_common;
 			t_collelem *ep;
@@ -1514,7 +1534,7 @@ static void coll_renumber2(t_coll *x, t_floatarg f)
 {
 	//if (!x->busy) {
 		int startkey;
-		if (loud_checkint((t_pd *)x, f, &startkey, gensym("renumber")))
+		if (coll_checkint((t_pd *)x, f, &startkey, gensym("renumber")))
 		collcommon_renumber2(x->x_common, startkey);
 	//}
 }
@@ -1523,7 +1543,7 @@ static void coll_renumber(t_coll *x, t_floatarg f)
 {
 	//if (!x->busy) {
 		int startkey;
-		if (loud_checkint((t_pd *)x, f, &startkey, gensym("renumber")))
+		if (coll_checkint((t_pd *)x, f, &startkey, gensym("renumber")))
 		collcommon_renumber(x->x_common, startkey);
 	//}
 }
@@ -1538,7 +1558,7 @@ static void coll_merge(t_coll *x, t_symbol *s, int ac, t_atom *av)
 			if (av->a_type == A_FLOAT)
 			{
 				int numkey;
-				if (loud_checkint((t_pd *)x, av->a_w.w_float, &numkey, s))
+				if (coll_checkint((t_pd *)x, av->a_w.w_float, &numkey, s))
 				{
 				if (ep = collcommon_numkey(cc, numkey))
 					collcommon_adddata(cc, ep, ac-1, av+1);
@@ -1578,7 +1598,7 @@ static void coll_sub(t_coll *x, t_symbol *s, int ac, t_atom *av)
 					if (av->a_type == A_FLOAT)
 					{
 						int ndx;
-						if (loud_checkint((t_pd *)x, av->a_w.w_float, &ndx, 0)
+						if (coll_checkint((t_pd *)x, av->a_w.w_float, &ndx, 0)
 						&& ndx >= 1 && ndx <= ep->e_size)
 						ep->e_data[ndx-1] = av[1];
 					}
@@ -1601,8 +1621,8 @@ static void coll_sort(t_coll *x, t_floatarg f1, t_floatarg f2)
 {
 
     int dir, ndx;
-    if (loud_checkint((t_pd *)x, f1, &dir, gensym("sort")) &&
-	loud_checkint((t_pd *)x, f2, &ndx, gensym("sort")))
+    if (coll_checkint((t_pd *)x, f1, &dir, gensym("sort")) &&
+	coll_checkint((t_pd *)x, f2, &ndx, gensym("sort")))
 	collcommon_sort(x->x_common, (dir < 0 ? 0 : 1),
 			(ndx < 0 ? -1 : (ndx ? ndx - 1 : 0)));
 }
@@ -1724,7 +1744,7 @@ static void coll_nth(t_coll *x, t_symbol *s, int ac, t_atom *av)
 		{
 			int ndx;
 			t_collelem *ep;
-			if (loud_checkint((t_pd *)x, av[1].a_w.w_float, &ndx, s) &&
+			if (coll_checkint((t_pd *)x, av[1].a_w.w_float, &ndx, s) &&
 				(ep = coll_findkey(x, av, s)) &&
 				ep->e_size >= ndx)
 			{
@@ -1754,7 +1774,7 @@ static void coll_min(t_coll *x, t_floatarg f)
 {
 	//if (!x->busy) {
 		int ndx;
-		if (loud_checkint((t_pd *)x, f, &ndx, gensym("min")))
+		if (coll_checkint((t_pd *)x, f, &ndx, gensym("min")))
 		{
 			t_collelem *found;
 			if (ndx > 0)
@@ -1788,7 +1808,7 @@ static void coll_max(t_coll *x, t_floatarg f)
 {
 	//if (!x->busy) {
 		int ndx;
-		if (loud_checkint((t_pd *)x, f, &ndx, gensym("max")))
+		if (coll_checkint((t_pd *)x, f, &ndx, gensym("max")))
 		{
 			t_collelem *found;
 			if (ndx > 0)
@@ -1832,7 +1852,7 @@ static void coll_flags(t_coll *x, t_float f1, t_float f2)
 {
 	//if (!x->busy) {
 		int i1;
-		if (loud_checkint((t_pd *)x, f1, &i1, gensym("flags")))
+		if (coll_checkint((t_pd *)x, f1, &i1, gensym("flags")))
 		{
 			t_collcommon *cc = x->x_common;
 			cc->c_embedflag = (i1 != 0);
@@ -2112,7 +2132,7 @@ static void coll_separate(t_coll *x, t_floatarg f)
 {
 	int indx;
 	t_collcommon *cc = x->x_common;
-	if (loud_checkint((t_pd *)x, f, &indx, gensym("separate")))
+	if (coll_checkint((t_pd *)x, f, &indx, gensym("separate")))
 	{
 		t_collelem *ep;
 		for (ep = cc->c_first; ep; ep = ep->e_next)

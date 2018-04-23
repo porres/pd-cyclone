@@ -173,6 +173,7 @@ comment.class.sources := cyclone_src/binaries/control/comment.c
 hfile := shared/common/file.c
 capture.class.sources := cyclone_src/binaries/control/capture.c $(hfile)
 mtr.class.sources := cyclone_src/binaries/control/mtr.c $(hfile)
+coll.class.sources := cyclone_src/binaries/control/coll.c $(hfile)
 
 hgrow := shared/common/grow.c
 tosymbol.class.sources := cyclone_src/binaries/control/tosymbol.c $(hgrow)
@@ -225,13 +226,6 @@ shared/control/mifi.c \
 shared/common/file.c \
 shared/common/grow.c
 seq.class.sources := cyclone_src/binaries/control/seq.c $(hseq)
-
-# still with loud
-
-hfileloud := \
-shared/common/file.c \
-shared/common/loud.c
-coll.class.sources := cyclone_src/binaries/control/coll.c $(hfileloud)
 
 # New Dependency:
 
