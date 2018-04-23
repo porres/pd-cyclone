@@ -14,14 +14,14 @@
 #include <ctype.h>
 #include "m_pd.h"
 #include "g_canvas.h"
-#include "common/loud.h"
+// #include "common/loud.h"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
 static t_class *makeshift_class;
 
-#ifdef KRZYSZCZ
+/* #ifdef KRZYSZCZ
 #define COMMENT_DEBUG
-#endif
+#endif */
 
 #define COMMENT_LMARGIN        1
 #define COMMENT_RMARGIN        1
@@ -88,9 +88,9 @@ static void comment_draw(t_comment *x)
     int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
     if (reqsize > COMMENT_OUTBUFSIZE)
     {
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
 	loudbug_post("allocating %d outbuf bytes", reqsize);
-#endif
+#endif */
 	if (!(outbuf = getbytes(reqsize)))
 	    return;
     }
@@ -117,9 +117,9 @@ static void comment_update(t_comment *x)
     int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
     if (reqsize > COMMENT_OUTBUFSIZE)
     {
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
 	loudbug_post("allocating %d outbuf bytes", reqsize);
-#endif
+#endif */
 	if (!(outbuf = getbytes(reqsize)))
 	    return;
     }
@@ -169,15 +169,15 @@ static void comment_validate(t_comment *x, t_glist *glist)
 	if (x->x_textbuf) freebytes(x->x_textbuf, x->x_textbufsize);
 	binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
 	x->x_ready = 1;
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
 	loudbug_post("validation done");
-#endif
+#endif */
     }
     if (glist)
     {
 	if (glist != x->x_glist)
 	{
-	    loudbug_bug("comment_getcanvas");
+	    post("bug [comment]: comment_getcanvas");
 	    x->x_glist = glist;
 	}
 	x->x_canvas = glist_getcanvas(glist);
@@ -187,9 +187,9 @@ static void comment_validate(t_comment *x, t_glist *glist)
 static void comment_grabbedkey(void *z, t_floatarg f)
 {
     /* LATER think about replacing #key binding/comment_float() with grabbing */
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
     loudbug_post("comment_grabbedkey %g", f);
-#endif
+#endif */
 }
 
 static void comment_dograb(t_comment *x)
@@ -205,9 +205,9 @@ static void comment__bboxhook(t_comment *x, t_symbol *bindsym,
 			      t_floatarg x1, t_floatarg y1,
 			      t_floatarg x2, t_floatarg y2)
 {
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
     loudbug_post("bbox %g %g %g %g", x1, y1, x2, y2);
-#endif
+#endif */
     x->x_x1 = x1;
     x->x_y1 = y1;
     x->x_x2 = x2;
@@ -234,7 +234,7 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av)
     }
     else
     {
-	loudbug_bug("comment__clickhook");
+	post("bug [comment]: comment__clickhook");
 	return;
     }
     if (x->x_glist->gl_edit)
@@ -305,9 +305,9 @@ static void commentsink__bboxhook(t_pd *x, t_symbol *bindsym,
     if (bindsym->s_thing == x)  /* is the comment gone? */
     {
 	pd_unbind(x, bindsym);  /* if so, no need for this binding anymore */
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
 	loudbug_post("sink: %s unbound", bindsym->s_name);
-#endif
+#endif */
     }
 }
 
@@ -352,9 +352,9 @@ static void comment_getrect(t_gobj *z, t_glist *glist,
 	y1 = text_ypix((t_text *)x, glist) + 1;  /* LATER revisit */
 	x2 = x1 + width;
 	y2 = y1 + height - 2;  /* LATER revisit */
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
 	loudbug_post("estimated rectangle: %g %g %g %g", x1, y1, x2, y2);
-#endif
+#endif */
 	*xp1 = x1;
 	*yp1 = y1;
 	*xp2 = x2;
@@ -513,9 +513,9 @@ static void comment_float(t_comment *x, t_float f)
 
 	    if (n == '\n' || !iscntrl(n))
 	    {
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
 		loudbug_post("%d accepted", n);
-#endif
+#endif */
 		newsize = x->x_textbufsize+1;
 		x->x_textbuf = resizebytes(x->x_textbuf,
 					   x->x_textbufsize, newsize);
@@ -525,26 +525,26 @@ static void comment_float(t_comment *x, t_float f)
 		x->x_textbufsize = newsize;
 		x->x_selstart = x->x_selstart + 1;
 	    }
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
 	    else loudbug_post("%d rejected", n);
-#endif
+#endif */
 	    x->x_selend = x->x_selstart;
 	    x->x_glist->gl_editor->e_textdirty = 1;
 	    binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
 	    comment_update(x);
 	}
     }
-    else loudbug_bug("comment_float");
+    else post("bug [comment]: comment_float");
  donefloat:;
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
     loudbug_post("donefloat");
-#endif
+#endif */
 }
 
 static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 {
     if (!x->x_active)
-	loudbug_bug("comment_list");
+	post("bug [comment]: comment_list");
     else if (ac > 1 && av->a_type == A_FLOAT && (int)av->a_w.w_float
 	     && av[1].a_type == A_SYMBOL)
     {
@@ -582,7 +582,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 		x->x_selend++;
 	    x->x_selstart = x->x_selend;
 	}
-	else if (!strcmp(keysym->s_name, "Escape"))
+	else if(!strcmp(keysym->s_name, "Escape") || !strcmp(keysym->s_name, "F4"))
 	{
 	    t_text *newt, *oldt = (t_text *)x;
 	    t_binbuf *bb = binbuf_new();
@@ -629,9 +629,9 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
 	comment_update(x);
     }
  donelist:;
-#ifdef COMMENT_DEBUG
+/* #ifdef COMMENT_DEBUG
     loudbug_post("donelist");
-#endif
+#endif */
 }
 
 static void comment_append(t_comment *x, t_symbol *s, int argc, t_atom * argv)
@@ -666,7 +666,7 @@ static void comment_free(t_comment *x)
 {
     if (x->x_active)
     {
-	loudbug_bug("comment_free");
+	post("bug [comment]: comment_free");
 	pd_unbind((t_pd *)x, gensym("#key"));
 	pd_unbind((t_pd *)x, gensym("#keyname"));
     }
@@ -862,8 +862,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
    or an empty encoding value.
 */
 
-static void *comment_new(t_symbol *s, int ac, t_atom *av)
-{
+static void *comment_new(t_symbol *s, int ac, t_atom *av){
     t_comment *x = (t_comment *)pd_new(comment_class);
     t_text *t = (t_text *)x;
     t_atom at;
@@ -883,102 +882,85 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av)
     x->x_green = 0;
     x->x_blue = 0;
     x->x_selector = s;
-
-    if (ac && av->a_type == A_FLOAT)
-    {
-	x->x_pixwidth = (int)av->a_w.w_float;
-	ac--; av++;
-	if (ac && av->a_type == A_FLOAT)
-	{
-	    x->x_fontsize = (int)av->a_w.w_float;
-	    ac--; av++;
-	    if (ac && av->a_type == A_SYMBOL)
-	    {
-		if (av->a_w.w_symbol == gensym("."))
-		{
-		    ac--; av++;
-		    goto textpart;
-		}
-		else if (av->a_w.w_symbol != gensym("?"))
-		    x->x_fontfamily = av->a_w.w_symbol;
-		ac--; av++;
-		if (ac && av->a_type == A_SYMBOL)
-		{
-		    if (av->a_w.w_symbol == gensym("."))
-		    {
-			ac--; av++;
-			goto textpart;
-		    }
-		    else if (av->a_w.w_symbol != gensym("?"))
-			x->x_encoding = av->a_w.w_symbol;
-		    ac--; av++;
-		    if (ac && av->a_type == A_FLOAT)
-		    {
-			x->x_fontprops = (int)av->a_w.w_float;
-			ac--; av++;
-			if (ac && av->a_type == A_FLOAT)
-			{
-			    x->x_red = (unsigned char)av->a_w.w_float;
-			    ac--; av++;
-			    if (ac && av->a_type == A_FLOAT)
-			    {
-				x->x_green = (unsigned char)av->a_w.w_float;
-				ac--; av++;
-				if (ac && av->a_type == A_FLOAT)
-				{
-				    x->x_blue = (unsigned char)av->a_w.w_float;
-				    ac--; av++;
-				}
-			    }
-			}
-		    }
-		}
-	    }
-	}
+    if(ac && av->a_type == A_FLOAT){
+        x->x_pixwidth = (int)av->a_w.w_float;
+        ac--; av++;
+        if(ac && av->a_type == A_FLOAT){
+            x->x_fontsize = (int)av->a_w.w_float;
+            ac--; av++;
+            if(ac && av->a_type == A_SYMBOL){
+                if(av->a_w.w_symbol == gensym(".")){
+                    ac--; av++;
+                    goto textpart;
+                }
+                else if (av->a_w.w_symbol != gensym("?"))
+                    x->x_fontfamily = av->a_w.w_symbol;
+                ac--; av++;
+                if(ac && av->a_type == A_SYMBOL){
+                    if(av->a_w.w_symbol == gensym(".")){
+                        ac--; av++;
+                        goto textpart;
+                    }
+                    else if (av->a_w.w_symbol != gensym("?"))
+                        x->x_encoding = av->a_w.w_symbol;
+                    ac--; av++;
+                    if (ac && av->a_type == A_FLOAT){
+                        x->x_fontprops = (int)av->a_w.w_float;
+                        ac--; av++;
+                        if (ac && av->a_type == A_FLOAT){
+                            x->x_red = (unsigned char)av->a_w.w_float;
+                            ac--; av++;
+                            if(ac && av->a_type == A_FLOAT){
+                                x->x_green = (unsigned char)av->a_w.w_float;
+                                ac--; av++;
+                                if(ac && av->a_type == A_FLOAT){
+                                    x->x_blue = (unsigned char)av->a_w.w_float;
+                                    ac--; av++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 textpart:
-    if (x->x_fontsize < 1)
-	x->x_fontsize = glist_getfont(x->x_glist);
-    if (!x->x_fontfamily)
-	x->x_fontfamily = gensym("helvetica");
+    if(x->x_fontsize < 1)
+        x->x_fontsize = glist_getfont(x->x_glist);
+    if(!x->x_fontfamily)
+        x->x_fontfamily = gensym("helvetica");
     sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
-
     x->x_binbuf = binbuf_new();
-    if (ac) comment_attrparser(x, ac, av);
-    else
-    {
-	SETSYMBOL(&at, gensym("comment"));
-	binbuf_restore(x->x_binbuf, 1, &at);
+    if(ac)
+        comment_attrparser(x, ac, av);
+    else{
+        SETSYMBOL(&at, gensym("comment"));
+        binbuf_restore(x->x_binbuf, 1, &at);
     }
     x->x_textbuf = 0;
     x->x_textbufsize = 0;
     x->x_transclock = clock_new(x, (t_method)comment_transtick);
     x->x_bbset = 0;
     x->x_bbpending = 0;
-    sprintf(buf, "miXed%lx", (unsigned long)x);
+    sprintf(buf, "comment%lx", (unsigned long)x);
     x->x_bindsym = gensym(buf);
     pd_bind((t_pd *)x, x->x_bindsym);
-    if (!commentsink)
-	commentsink = pd_new(commentsink_class);
+    if(!commentsink)
+        commentsink = pd_new(commentsink_class);
     pd_bind(commentsink, x->x_bindsym);
     x->x_ready = 0;
     x->x_dragon = 0;
- //   pd_error(x, "[cyclone/comment] is not ready yet");
     return (x);
 }
 
-void comment_setup(void)
-{
-    comment_class = class_new(gensym("comment"),
-			      (t_newmethod)comment_new,
-			      (t_method)comment_free,
-			      sizeof(t_comment),
-			      //CLASS_NOINLET | CLASS_PATCHABLE,
-                              CLASS_DEFAULT,
-			      A_GIMME, 0);
+void comment_setup(void){
+    comment_class = class_new(gensym("comment"), (t_newmethod)comment_new,
+        (t_method)comment_free, sizeof(t_comment),
+        // CLASS_NOINLET | CLASS_PATCHABLE,
+        CLASS_DEFAULT, A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
     class_addlist(comment_class, comment_list);
-    //new methods 2017: currently do nothing - DK
+// new methods 2017: currently do nothing - DK
     class_addmethod(comment_class, (t_method)comment_bgcolor,
 		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT,0);
     class_addmethod(comment_class, (t_method)comment_fontface,
@@ -989,7 +971,7 @@ void comment_setup(void)
 		    gensym("underline"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_suppressinlet,
 		    gensym("suppressinlet"), A_FLOAT, 0);
-    //now back to pre-existing methods
+// now back to pre-existing methods
     class_addmethod(comment_class, (t_method)comment_set,
 		    gensym("set"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment_append,
@@ -1010,17 +992,15 @@ void comment_setup(void)
     class_setsavefn(comment_class, comment_save);
    
     makeshift_class = class_new(gensym("text"), 0, 0,
-				sizeof(t_text),
-				CLASS_NOINLET | CLASS_PATCHABLE, 0);
+				sizeof(t_text), CLASS_NOINLET | CLASS_PATCHABLE, 0);
 
     commentsink_class = class_new(gensym("_commentsink"), 0, 0,
 				  sizeof(t_pd), CLASS_PD, 0);
     class_addanything(commentsink_class, commentsink_anything);
     class_addmethod(commentsink_class, (t_method)commentsink__bboxhook,
-		    gensym("_bbox"),
-		    A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+		    gensym("_bbox"), A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
 
-    /* if older than 0.43, create an 0.43-style pdsend */
+// if older than 0.43, create an 0.43-style pdsend
     sys_gui("if {[llength [info procs ::pdsend]] == 0} {");
     sys_gui("proc ::pdsend {args} {::pd \"[join $args { }] ;\"}}\n");
 

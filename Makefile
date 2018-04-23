@@ -163,6 +163,9 @@ scale~.class.sources := cyclone_src/binaries/signal/scale.c
 thresh~.class.sources := cyclone_src/binaries/signal/thresh.c
 trunc~.class.sources := cyclone_src/binaries/signal/trunc.c
 
+# GUI:
+comment.class.sources := cyclone_src/binaries/control/comment.c
+
 ##################### CLASSES WITH DEPENDENCIES ##################################
 
 # Control classes: ###############################################
@@ -229,10 +232,6 @@ hfileloud := \
 shared/common/file.c \
 shared/common/loud.c
 coll.class.sources := cyclone_src/binaries/control/coll.c $(hfileloud)
-
-# GUI:
-hloud := shared/common/loud.c
-comment.class.sources := cyclone_src/binaries/control/comment.c $(hloud)
 
 # New Dependency:
 
