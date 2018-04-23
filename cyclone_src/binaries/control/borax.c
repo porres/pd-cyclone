@@ -8,7 +8,6 @@
 
 #include <string.h>
 #include "m_pd.h"
-#include "common/loud.h"
 
 #define BORAX_MAXVOICES  128  /* CHECKME */
 
