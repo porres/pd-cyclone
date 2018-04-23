@@ -662,23 +662,31 @@ static void comment_set(t_comment *x, t_symbol *s, int argc, t_atom * argv)
     canvas_dirty(x->x_glist, 1);
     */
 }
-static void comment_free(t_comment *x)
-{
-    if (x->x_active)
-    {
-	post("bug [comment]: comment_free");
-	pd_unbind((t_pd *)x, gensym("#key"));
-	pd_unbind((t_pd *)x, gensym("#keyname"));
+
+static void comment_free(t_comment *x){
+    if (x->x_active){
+//        post("bug [comment]: comment_free");
+        pd_unbind((t_pd *)x, gensym("#key"));
+        pd_unbind((t_pd *)x, gensym("#keyname"));
     }
-    if (x->x_transclock) clock_free(x->x_transclock);
-    if (x->x_bindsym)
-    {
-	pd_unbind((t_pd *)x, x->x_bindsym);
-	if (!x->x_bbpending)
-	    pd_unbind(commentsink, x->x_bindsym);
+    if (x->x_transclock)
+        clock_free(x->x_transclock);
+    if(x->x_bindsym){
+//        post("free [comment]: bindsym = %s", x->x_bindsym);
+        pd_unbind((t_pd *)x, x->x_bindsym);
+//        post("unbind pd");
+        if(!x->x_bbpending){
+//            post("unbind commentsink");
+            pd_unbind(commentsink, x->x_bindsym);
+        }
     }
-    if (x->x_binbuf && !x->x_ready) binbuf_free(x->x_binbuf);
-    if (x->x_textbuf) freebytes(x->x_textbuf, x->x_textbufsize);
+    if (x->x_binbuf && !x->x_ready){
+ //       post("binbuf_free");
+        binbuf_free(x->x_binbuf);
+    }
+    if (x->x_textbuf)
+        freebytes(x->x_textbuf, x->x_textbufsize);
+//    post("done with free");
 }
 
 //these new methods (2017) do nothing and are placeholders - DK 2017
