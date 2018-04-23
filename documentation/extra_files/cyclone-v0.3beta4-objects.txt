@@ -68,6 +68,7 @@ cycle round-robin messages to outlets
 cycle~ wavetable oscillator
 dbtoa dBFS to linear amplitude conversion 
 dbtoa~ signal dBFS to linear amplitude conversion
+ddg.mono monophonic voice manager
 decide randomly output 0 or 1
 decode send 0/1 to a specific outlet
 degrade~ signal quality reducer
