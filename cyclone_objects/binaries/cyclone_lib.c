@@ -3,16 +3,14 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 /* Porres 2016-2018:
- This library has been fixed and updated by Porres;
  This is the cyclone library containing 12 non alphanumeric objects.
  Originally, the externals in cyclone used to come in a library called
  "cyclone", which included these 12 objects plus the "hammer" and "sickle"
  libraries (control/MAX and signal/MSP objects respectively).
  
- This original cyclone library is now restored, but only containing these
- 12 objects, which are: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], 
- [!-~], [!/~], [%~], [+=~] (the original code for such objects used to be 
- called 'nettles.c'.
+ The cyclone library is now restored, but only containing these 12 objects, 
+ which are: [!-], [!/], [==~], [!=~], [<~], [<=~], [>~], [>=~], [!-~], [!/~], 
+ [%~] and [+=~] - the original code for such objects was 'nettles.c'.
  
  The cyclone library also adds the cyclone path to Pd so you can load all the
  objects compiled as separate binaries and abstractions. This needs Pd 0.48+
