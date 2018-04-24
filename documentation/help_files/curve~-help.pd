@@ -1,35 +1,35 @@
-#N canvas 470 23 564 718 10;
-#X obj 8 672 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 470 23 567 675 10;
+#X obj 8 652 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 8 358 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 8 338 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 559 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 539 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 8 615 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 8 595 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 79 568 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 79 548 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 131 567 signal;
-#X text 119 625 1) float;
-#X text 119 644 2) float;
-#X obj 79 367 cnv 17 3 130 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 131 547 signal;
+#X text 119 605 1) float;
+#X text 119 624 2) float;
+#X obj 79 347 cnv 17 3 130 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 504 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 79 484 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 137 505 float;
-#X obj 79 535 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X text 137 485 float;
+#X obj 79 515 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 137 536 float;
-#X obj 334 198 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
+#X text 137 516 float;
+#X obj 347 208 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 79 591 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 79 571 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 143 590 bang;
-#X obj 70 176 osc~ 440;
-#X obj 70 229 *~;
-#X text 147 222 1;
-#X text 184 567 - current value or a ramp towards the target;
-#X obj 163 192 cyclone/curve~;
+#X text 143 570 bang;
+#X obj 95 157 osc~ 440;
+#X obj 95 210 *~;
+#X text 172 203 1;
+#X text 184 547 - current value or a ramp towards the target;
+#X obj 188 173 cyclone/curve~, f 27;
 #N canvas 195 162 783 578 curve_factor_examples 0;
 #X floatatom 240 246 0 0 0 0 - - -;
 #X obj 243 224 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
@@ -645,19 +645,19 @@ factor parameters for [curve~];
 #X connect 22 1 13 0;
 #X connect 24 0 14 0;
 #X connect 25 0 14 0;
-#X restore 395 318 pd curve_factor_examples;
-#X obj 163 226 cyclone/Scope~ 147 114 256 3 128 0 1 0 0 0 0 205 229
+#X restore 395 298 pd curve_factor_examples;
+#X obj 188 207 cyclone/Scope~ 147 114 256 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X text 184 536 - curve exponential factor parameter (-1 to 1);
-#X text 184 503 - curve duration in ms - works only if a float is sent
+#X text 184 516 - curve exponential factor parameter (-1 to 1);
+#X text 184 483 - curve duration in ms - works only if a float is sent
 into the left inlet after \, and it works only once.;
-#X text 183 626 - initial value (default 0);
-#X text 184 590 - a bang is sent when final target from last ramp is
+#X text 183 606 - initial value (default 0);
+#X text 184 570 - a bang is sent when final target from last ramp is
 reached;
-#X msg 163 162 1 150 -0.5 0 550 -0.5;
-#X text 145 326 0;
-#X text 381 202 <= Bangs when last ramp;
-#X text 419 218 is finished;
+#X msg 188 143 1 150 -0.5 0 550 -0.5;
+#X text 170 307 0;
+#X text 394 212 <= Bangs when last ramp;
+#X text 432 228 is finished;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -671,30 +671,32 @@ reached;
 #X text 75 87 Similar to [cyclone/line~] \, but [curve~] produces curved
 (non linear) ramp signals. Below \, when receiving 2 triples (of destination
 \, time & curve factor) \, [curve~] generates a simple Attack-Release
-envelope.;
-#X text 184 366 - up to 42 triplets composed of: 1) destination value
+envelope., f 70;
+#X text 184 346 - up to 42 triplets composed of: 1) destination value
 \, 2) time (ms) & 3) curve factor (from -1 to 1)., f 56;
-#X text 139 399 float;
-#X text 145 367 list;
-#X text 79 432 factor <float>;
-#X text 184 431 - adjusts curve's expenential factor;
-#X text 184 446 - pauses the output;
-#X text 139 449 pause;
-#X text 133 465 resume;
-#X text 184 465 - restores the output after being paused;
-#X text 145 481 stop;
-#X text 184 481 - stops & clears pending targets (still outputs last
+#X text 139 379 float;
+#X text 145 347 list;
+#X text 79 412 factor <float>;
+#X text 184 411 - adjusts curve's expenential factor;
+#X text 184 426 - pauses the output;
+#X text 139 429 pause;
+#X text 133 445 resume;
+#X text 184 445 - restores the output after being paused;
+#X text 145 461 stop;
+#X text 184 461 - stops & clears pending targets (still outputs last
 value);
-#X text 184 399 - jumps immediately to that value (unless the duration
+#X text 184 379 - jumps immediately to that value (unless the duration
 is set before to other than 0 in the mid inlet);
-#X text 183 646 - curve factor from -1 to 1 (defalut 0 - linear);
+#X text 183 626 - curve factor from -1 to 1 (defalut 0 - linear);
 #X obj 19 53 cyclone/comment 0 18 times ? 0 0 0 0 Curved ramp generator
 ;
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 curve~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 27 266 ./out~;
+#X obj 52 247 ./out~;
+#X text 398 269 see also:;
+#X obj 461 270 cyclone/line~;
 #X connect 16 0 17 0;
 #X connect 17 0 53 0;
 #X connect 17 0 53 1;

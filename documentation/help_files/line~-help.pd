@@ -1,77 +1,34 @@
-#N canvas 575 23 561 768 10;
-#X obj 4 741 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 417 24 562 577 10;
+#X obj 4 551 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 4 490 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 4 300 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 656 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 4 466 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 710 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 520 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 92 500 cnv 17 3 130 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 92 310 cnv 17 3 130 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 91 634 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 91 444 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 126 501 float;
-#X obj 92 665 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 126 311 float;
+#X obj 92 475 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 127 635 float;
-#X text 122 665 signal;
-#X text 110 719 1) float;
-#X msg 283 325 5000;
-#X text 175 635 - sets the time for the next float send to the left
+#X text 127 445 float;
+#X text 122 475 signal;
+#X text 110 529 1) float;
+#X text 175 445 - sets the time for the next float send to the left
 inlet, f 60;
-#X msg 140 270 pause;
-#X msg 184 271 resume;
-#X msg 199 293 stop;
-#X obj 246 306 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
-#X floatatom 246 326 5 0 0 0 - - -, f 5;
-#X text 167 378 1;
-#X text 167 466 0;
-#X text 155 422 0.5;
-#X obj 256 284 t b b;
-#X obj 256 264 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X text 132 531 list;
-#X obj 353 378 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
--1 -1;
-#X text 396 386 <= Bangs when finished;
-#X text 176 719 - sets an initial value for the signal output (default
+#X text 132 341 list;
+#X text 176 529 - sets an initial value for the signal output (default
 0);
-#X text 319 326 duration;
-#X text 197 324 target;
-#X text 308 349 argument: initial value;
-#X obj 93 686 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 93 496 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 134 687 bang;
-#X text 177 686 - a bang is sent when final target is reached, f 60
+#X text 134 497 bang;
+#X text 177 496 - a bang is sent when final target is reached, f 60
 ;
-#X text 176 665 - current value or a ramp towards the target, f 60
+#X text 176 475 - current value or a ramp towards the target, f 60
 ;
-#N canvas 173 23 389 355 linear_envelope_example 0;
-#X obj 69 147 osc~ 440;
-#X obj 69 200 *~;
-#X obj 60 245 dac~;
-#X text 145 202 1;
-#X obj 163 150 cyclone/line~;
-#X msg 163 119 1 100 0.6 100 0.6 500 0 700;
-#X obj 34 10 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X text 30 64 [cyclone/line~] generating a linear ADSR envelope;
-#X obj 163 208 cyclone/scope~ 150 108 256 3 128 0 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
-#X text 134 254 0.5;
-#X text 147 306 0;
-#X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Linear envelope:
-;
-#X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X connect 1 0 2 1;
-#X connect 4 0 1 1;
-#X connect 4 0 8 0;
-#X connect 5 0 4 0;
-#X restore 373 457 pd linear_envelope_example;
-#X obj 184 349 cyclone/line~ 0.5;
 #X obj 2 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -82,14 +39,14 @@ inlet, f 60;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 2 pd;
-#X text 175 500 - jumps immediately to that value unless duration is
+#X text 175 310 - jumps immediately to that value unless duration is
 set to other than 0 via the second inlet, f 60;
-#X text 126 575 pause;
-#X text 120 591 resume;
-#X text 132 607 stop;
-#X text 175 575 - pauses the output, f 60;
-#X text 175 591 - restores the output after being paused, f 60;
-#X text 175 607 - stops and clears pending target-time parameter triples
+#X text 126 385 pause;
+#X text 120 401 resume;
+#X text 132 417 stop;
+#X text 175 385 - pauses the output, f 60;
+#X text 175 401 - restores the output after being paused, f 60;
+#X text 175 417 - stops and clears pending target-time parameter triples
 (but continues outputting its last value), f 60;
 #X obj 17 55 cyclone/comment 0 18 times ? 0 0 0 0 Linear ramp generator
 ;
@@ -97,27 +54,12 @@ set to other than 0 via the second inlet, f 60;
 #X obj 322 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 184 380 scope~ 131 98 50 3 128 0 1 0 0 0 0 205 229 232 74 79
-77 96 98 102 0;
-#X floatatom 105 344 5 0 0 0 - - -, f 5;
 #X obj 499 68 cyclone/setdsp~;
-#X text 78 84 Use [cyclone/line~] to generate a signal ramp or envelope.
-It takes a target value and a duration (in ms) to reach it and then
-generates a ramp from its current value to the target value. Target
-and duration can be set in pairs as a list or in different inlets.
-, f 60;
-#X msg 73 223 0 \, 1 1000 0 1000 0.5 2500;
-#X msg 112 246 0.25 1000 1 500 0.5;
-#X text 78 144 If you send it a list with an odd number of elements
-\, the last element is treated as a target and the duration to get
-there is considered to be 0 ms. A single float value will similarly
-jump immediately to that value in 0 ms - unless a duration is set to
-other than 0 via the second inlet., f 60;
-#X text 175 527 - pairs that specify target value and duration (in
+#X text 175 337 - pairs that specify target value and duration (in
 ms) to reach it (maximum is 128 target-time pairs). For an odd number
 of elements \, the last element is treated as another pair with 0 ms
 duration., f 60;
-#N canvas 723 166 420 324 name 1;
+#N canvas 723 166 420 324 name 0;
 #X text 196 170 <= from Pd Vanilla;
 #X text 29 222 Other ways to load [biquad~] is with a capital letter
 \, either with or without such as:;
@@ -133,18 +75,86 @@ name clashing and overwritting an internal in Pd Vanilla \, but for
 that you need to use the cyclone namespace ("cyclone/" before the object
 name) \, as it's the common practice for cyclone's documentation. So
 you create it as:;
-#X restore 450 434 pd name clash;
-#X connect 11 0 35 1;
-#X connect 13 0 35 0;
-#X connect 14 0 35 0;
-#X connect 15 0 35 0;
-#X connect 16 0 17 0;
-#X connect 17 0 35 0;
-#X connect 21 0 16 0;
-#X connect 21 1 11 0;
-#X connect 22 0 21 0;
-#X connect 35 0 51 0;
-#X connect 35 1 24 0;
-#X connect 52 0 51 0;
-#X connect 55 0 35 0;
-#X connect 56 0 35 0;
+#X restore 451 250 pd name clash;
+#X text 68 84 [cyclone/line~] generates signal ramps or envelopes.
+It takes a target and a duration (in ms) values and generates a ramp
+from its current value to the target value in that period. Target and
+duration can be set as a list or in different inlets., f 64;
+#X text 68 134 If you send it a list with an odd number of elements
+\, the last element is treated as a target and the duration to get
+there is considered to be 0 ms. A single float value will similarly
+jump immediately to that value in 0 ms - unless a duration is set to
+other than "0" via the second inlet., f 64;
+#N canvas 476 164 470 290 example 0;
+#X msg 263 114 5000;
+#X msg 94 66 pause;
+#X msg 138 67 resume;
+#X msg 153 89 stop;
+#X obj 200 95 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X floatatom 200 115 5 0 0 0 - - -, f 5;
+#X text 93 167 1;
+#X text 93 255 0;
+#X text 81 211 0.5;
+#X obj 200 53 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X obj 263 167 bng 35 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 306 175 <= Bangs when finished;
+#X text 299 115 duration;
+#X text 153 113 target;
+#X text 277 138 argument: initial value;
+#X obj 110 138 cyclone/line~ 0.5, f 26;
+#X obj 110 169 scope~ 131 98 50 3 128 0 1 0 0 0 0 205 229 232 74 79
+77 96 98 102 0;
+#X msg 27 19 0 \, 1 1000 0 1000 0.5 2500;
+#X msg 66 42 0.25 1000 1 500 0.5;
+#X obj 200 73 trigger b b;
+#X text 299 35 Test all messages;
+#X connect 0 0 15 1;
+#X connect 1 0 15 0;
+#X connect 2 0 15 0;
+#X connect 3 0 15 0;
+#X connect 4 0 5 0;
+#X connect 5 0 15 0;
+#X connect 9 0 19 0;
+#X connect 15 0 16 0;
+#X connect 15 1 10 0;
+#X connect 17 0 15 0;
+#X connect 18 0 15 0;
+#X connect 19 0 4 0;
+#X connect 19 1 0 0;
+#X restore 469 227 pd example;
+#X obj 219 272 cyclone/number~;
+#X msg 219 225 \$1 1000;
+#X obj 219 205 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X obj 219 248 cyclone/line~;
+#X text 52 246 see also:;
+#X obj 51 263 cyclone/curve~;
+#N canvas 715 160 389 355 linear_envelope 0;
+#X obj 69 147 osc~ 440;
+#X obj 69 200 *~;
+#X text 145 202 1;
+#X obj 163 150 cyclone/line~;
+#X msg 163 119 1 100 0.6 100 0.6 500 0 700;
+#X obj 34 10 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X text 30 64 [cyclone/line~] generating a linear ADSR envelope;
+#X obj 163 208 cyclone/scope~ 150 108 256 3 128 0 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X text 134 254 0.5;
+#X text 147 306 0;
+#X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Linear envelope:
+;
+#X obj 26 245 ./out~;
+#X connect 0 0 1 0;
+#X connect 1 0 11 0;
+#X connect 1 0 11 1;
+#X connect 3 0 1 1;
+#X connect 3 0 7 0;
+#X connect 4 0 3 0;
+#X restore 422 273 pd linear_envelope;
+#X connect 40 0 42 0;
+#X connect 41 0 40 0;
+#X connect 42 0 39 0;
