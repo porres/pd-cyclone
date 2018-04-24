@@ -3,7 +3,7 @@
 #X obj 3 2 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
 #X obj 28 5 comment 0 22 courier ? 0 224 228 220 cyclone;
-#X obj 29 33 comment 0 14 courier ? 0 224 228 220 version 0.3 beta-3
+#X obj 29 33 comment 0 14 courier ? 0 224 228 220 version 0.3 beta-4
 ;
 #X obj 136 8 comment 0 14 courier ? 0 224 228 220 - a set of Pure Data
 objects cloned from Max/MSP;
@@ -34,7 +34,6 @@ were made \; check details in the changelog at: https://github.com/porres/pd-cyc
 , f 73;
 #X obj 43 500 comment 0 16 times ? 0 0 0 0 Check all of Cyclone's objetcs
 =>;
-#X obj 273 503 All_objects;
 #X obj 304 377 declare -lib cyclone;
 #X text 85 354 You can load the cyclone library via "Startup". Alternatively
 \, you can use [declare] as follows:, f 62;
@@ -43,3 +42,4 @@ were made \; check details in the changelog at: https://github.com/porres/pd-cyc
 for more details., f 66;
 #X text 2 604 ===========================================================================================
 , f 91;
+#X obj 273 503 cyclone/All_objects;
