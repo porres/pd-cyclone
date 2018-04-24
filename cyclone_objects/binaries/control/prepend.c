@@ -7,7 +7,7 @@
 #include "common/grow.h"
 
 #define PREPEND_INISIZE   32  /* LATER rethink */
-#define PREPEND_MAXSIZE  256
+#define PREPEND_MAXSIZE  4096
 
 typedef struct _prepend{
     t_object   x_ob;

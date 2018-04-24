@@ -7,7 +7,7 @@
 #include "common/grow.h"
 
 #define APPEND_INISIZE     32  /* LATER rethink */
-#define APPEND_MAXSIZE    256
+#define APPEND_MAXSIZE    4096
 
 typedef struct _append
 {
@@ -20,17 +20,9 @@ typedef struct _append
     int       x_entered;
     int       x_auxsize;
     t_atom   *x_auxbuf;
-    t_pd     *x_proxy;
 } t_append;
 
-typedef struct _appendxy
-{
-    t_pd       xy_pd;
-    t_append  *xy_owner;
-} t_appendxy;
-
 static t_class *append_class;
-static t_class *appendxy_class;
 
 static int append_iscompatible = 0;  /* FIXME per-object */
 
@@ -150,11 +142,7 @@ static void append_anything(t_append *x, t_symbol *s, int ac, t_atom *av)
 
 static void append_bang(t_append *x)
 {
-    if (append_iscompatible)
-    {
-	/* CHECKED: a nop */
-    }
-    else append_anything(x, 0, 0, 0);
+// ignore
 }
 
 static void append_float(t_append *x, t_float f)
@@ -238,49 +226,7 @@ static void append_doset(t_append *x, t_symbol *s, int ac, t_atom *av)
 
 static void append_set(t_append *x, t_symbol *s, int ac, t_atom *av)
 {
-    if (x->x_proxy)
-	append_anything(x, s, ac, av);
-    else
-	/* LATER (when?) controlled by maxmode */
 	append_doset(x, 0, ac, av);
-}
-
-static void appendxy_bang(t_appendxy *xy)
-{
-    append_doset(xy->xy_owner, 0, 0, 0);  /* LATER rethink */
-}
-
-static void appendxy_float(t_appendxy *xy, t_float f)
-{
-    t_atom at;
-    SETFLOAT(&at, f);
-    append_doset(xy->xy_owner, 0, 1, &at);
-}
-
-static void appendxy_symbol(t_appendxy *xy, t_symbol *s)
-{
-    t_atom at;
-    if (!s || s == &s_)
-	s = &s_symbol;  /* LATER rethink */
-    SETSYMBOL(&at, s);
-    append_doset(xy->xy_owner, 0, 1, &at);
-}
-
-static void appendxy_list(t_appendxy *xy, t_symbol *s, int ac, t_atom *av)
-{
-    if (ac)
-	append_doset(xy->xy_owner, 0, ac, av);
-    else
-    {  /* LATER rethink */
-	t_atom at;
-	SETSYMBOL(&at, &s_list);
-	append_doset(xy->xy_owner, 0, 1, &at);
-    }
-}
-
-static void appendxy_anything(t_appendxy *xy, t_symbol *s, int ac, t_atom *av)
-{
-    append_doset(xy->xy_owner, s, ac, av);
 }
 
 static void append_free(t_append *x){
@@ -290,8 +236,6 @@ static void append_free(t_append *x){
         post("bug [append]: append_free");  /* LATER rethink */
         freebytes(x->x_auxbuf, x->x_auxsize * sizeof(*x->x_auxbuf));
     }
-    if(x->x_proxy)
-        pd_free(x->x_proxy);
 }
 
 static void *append_new(t_symbol *s, int ac, t_atom *av)
@@ -303,8 +247,7 @@ static void *append_new(t_symbol *s, int ac, t_atom *av)
     x->x_auxbuf = 0;
     x->x_entered = 0;
     append_setnatoms(x, 0);
-	x->x_proxy = 0;
-	append_doset(x, 0, ac, av);
+    append_doset(x, 0, ac, av);
     outlet_new((t_object *)x, &s_anything);
     return (x);
 }
@@ -322,14 +265,6 @@ void append_setup(void)
     class_addanything(append_class, append_anything);
     class_addmethod(append_class, (t_method)append_set,
 		    gensym("set"), A_GIMME, 0);
-
-    appendxy_class = class_new(gensym("append"), 0, 0, sizeof(t_appendxy),
-			       CLASS_PD | CLASS_NOINLET, 0);
-    class_addbang(appendxy_class, appendxy_bang);
-    class_addfloat(appendxy_class, appendxy_float);
-    class_addsymbol(appendxy_class, appendxy_symbol);
-    class_addlist(appendxy_class, appendxy_list);
-    class_addanything(appendxy_class, appendxy_anything);
 }
 
 void Append_setup(void)
