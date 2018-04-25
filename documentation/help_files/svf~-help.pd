@@ -1,149 +1,145 @@
-#N canvas 667 23 559 708 10;
-#X obj 5 669 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 641 23 562 627 10;
+#X obj 5 602 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 7 372 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 7 321 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 515 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 7 457 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 7 605 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 7 545 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 124 380 cnv 17 3 85 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 124 328 cnv 17 3 85 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 124 522 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 124 464 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 124 492 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 124 437 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 184 381 signal;
-#X obj 124 470 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 184 329 signal;
+#X obj 124 416 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 124 542 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 124 484 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 124 562 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 124 504 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 108 613 1) float;
-#X text 108 629 2) float;
-#X obj 193 179 noise~;
-#X floatatom 251 198 0 0 0 0 - - -;
-#X floatatom 310 207 0 0 0 0 - - -;
-#X obj 254 156 hsl 160 15 100 1000 0 0 empty empty empty -2 -8 0 10
+#X text 108 551 1) float;
+#X text 108 566 2) float;
+#X obj 193 149 noise~;
+#X floatatom 251 174 0 0 0 0 - - -;
+#X floatatom 310 183 0 0 0 0 - - -;
+#X obj 254 140 hsl 160 15 100 1000 0 0 empty empty empty -2 -8 0 10
 -228856 -1 -1 0 1;
-#X text 183 523 signal;
-#X text 183 543 signal;
-#X text 183 563 signal;
-#X obj 124 582 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X text 183 465 signal;
+#X text 183 485 signal;
+#X text 183 505 signal;
+#X obj 124 524 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X text 183 583 signal;
-#X text 148 470 float/signal;
-#X text 148 492 float/signal;
-#X obj 154 166 vradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856
+#X text 183 525 signal;
+#X text 148 416 float/signal;
+#X text 148 437 float/signal;
+#X obj 163 138 vradio 15 1 1 4 empty empty empty 0 -8 0 10 -228856
 -1 -1 3;
-#X text 104 165 lowpass;
-#X text 98 181 highpass;
-#X text 98 196 bandpass;
-#X text 116 211 notch;
-#X text 244 523 - lowpass filter signal;
-#X text 244 543 - highpass filter signal;
-#X text 244 563 - bandpass filter signal;
-#X text 244 583 - notch filter signal;
-#X obj 313 181 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
+#X text 113 137 lowpass;
+#X text 107 153 highpass;
+#X text 107 168 bandpass;
+#X text 125 183 notch;
+#X text 244 465 - lowpass filter signal;
+#X text 244 485 - highpass filter signal;
+#X text 244 505 - bandpass filter signal;
+#X text 244 525 - notch filter signal;
+#X obj 313 162 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 325 181 Q/resonance (0-1);
-#X text 178 612 - cutoff/center frequency (Hz);
-#X text 261 155 cutoff/center frequency;
-#X obj 193 234 cyclone/svf~ 800 0.5;
-#X text 108 645 3) symbol;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X text 325 162 Q/resonance (0-1);
+#X text 178 551 - cutoff/center frequency (Hz), f 60;
+#X text 261 139 cutoff/center frequency;
+#X obj 193 204 cyclone/svf~ 800 0.5;
+#X text 108 582 3) symbol;
+#X obj 2 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 2 graph;
+#X obj 305 3 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X text 245 493 - sets Q/resonance (0-1);
-#X text 245 471 - sets cutoff/center frequency;
-#X text 178 646 - sets frequency mode: <hz> (default) \, <linear> or
+#X restore 304 2 pd;
+#X text 245 438 - sets Q/resonance (0-1);
+#X text 245 417 - sets cutoff/center frequency;
+#X text 178 583 - sets frequency mode: <hz> (default) \, <linear> or
 <radians>;
-#X text 245 381 - signal to be filtered;
-#X text 190 400 clear;
-#X text 245 401 - clears the filter in case of a blow-up;
-#X text 245 435 - sets frequency mode to linear;
-#X text 245 417 - sets frequency mode to hertz;
-#X text 245 450 - sets frequency mode to radians;
-#X text 178 630 - sets Q/resonance from 0-1 (default 0.01);
-#X obj 154 232 + 1;
-#X text 77 89 [svf~] implements Chamberlin's state-variable filter
-algorithm \, which outputs lowpass \, highpass \, bandpass \, and band
-reject (notch) simultaneously in parallel (as the oulets in this order).
-;
-#X obj 163 266 cyclone/selector~ 4 1;
-#X text 196 417 <hz>;
-#X text 172 434 <linear>;
-#X text 166 450 <radians>;
-#N canvas 321 233 979 555 frequency 0;
-#X obj 42 37 cnv 15 182 30 empty empty empty 20 12 0 14 -233017 -66577
+#X text 245 329 - signal to be filtered;
+#X text 190 348 clear;
+#X text 245 349 - clears the filter in case of a blow-up;
+#X text 245 383 - sets frequency mode to linear;
+#X text 245 365 - sets frequency mode to hertz;
+#X text 245 398 - sets frequency mode to radians;
+#X text 178 567 - sets Q/resonance from 0-1 (default 0.01), f 60;
+#X obj 163 204 + 1;
+#X obj 163 231 cyclone/selector~ 4 1;
+#X text 196 365 <hz>;
+#X text 172 382 <linear>;
+#X text 166 398 <radians>;
+#N canvas 352 78 909 464 frequency 0;
+#X obj 14 13 cnv 15 182 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 509 32 linear:;
-#X text 55 150 hz:;
-#X text 502 269 radians:;
-#X text 89 150 - The 'hz' mode is simply an input in hertz \, as in
+#X text 431 21 linear:;
+#X text 27 126 hz:;
+#X text 442 230 radians:;
+#X text 61 126 - The 'hz' mode is simply an input in hertz \, as in
 our main example in the parent patch.;
-#X obj 621 108 noise~;
-#X floatatom 713 119 7 0 0 0 - - -, f 7;
-#X obj 697 91 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
+#X obj 563 84 noise~;
+#X floatatom 655 95 7 0 0 0 - - -, f 7;
+#X obj 639 67 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X text 737 90 cutoff;
-#X text 763 118 linear;
-#X obj 640 378 noise~;
-#X floatatom 735 389 7 0 0 0 - - -, f 7;
-#X obj 719 361 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
+#X text 679 66 cutoff;
+#X text 705 94 linear;
+#X obj 598 327 noise~;
+#X floatatom 674 334 7 0 0 0 - - -, f 7;
+#X obj 677 310 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 3700 1;
-#X text 759 360 cutoff;
-#X text 785 388 radians;
-#X obj 163 387 noise~;
-#X obj 299 321 samplerate~;
-#X obj 299 296 loadbang;
-#X obj 299 346 / 4;
-#X floatatom 299 372 6 0 0 0 - - -, f 6;
-#X floatatom 218 301 7 0 0 0 - - -, f 7;
-#X obj 221 268 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
+#X text 717 309 cutoff;
+#X text 724 333 radians;
+#X obj 161 317 noise~;
+#X obj 271 267 samplerate~;
+#X obj 271 245 loadbang;
+#X obj 271 287 / 4;
+#X floatatom 271 309 6 0 0 0 - - -, f 6;
+#X floatatom 216 253 7 0 0 0 - - -, f 7;
+#X obj 219 219 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 100 1;
-#X text 263 268 cutoff;
-#X obj 244 365 *;
-#X floatatom 266 398 7 0 0 0 - - -, f 7;
-#X text 91 190 But please note that the effective cutoff frequency
+#X text 261 219 cutoff;
+#X obj 216 302 *;
+#X floatatom 216 337 7 0 0 0 - - -, f 7;
+#X text 63 166 But please note that the effective cutoff frequency
 in hertz is the sample rate frequency divided by 4 \, or half the Nyquist
 frequency.;
-#X text 568 32 - The 'linear' mode is just a scaled version of the
+#X text 490 21 - The 'linear' mode is just a scaled version of the
 standard hertz mode with values in the 0-1 range instead 0 and half
 the Nyquist.;
-#X text 314 398 hertz;
-#X text 88 88 [svf~] has three different modes (set by messages or
+#X text 264 337 hertz;
+#X text 60 64 [svf~] has three different modes (set by messages or
 arguments) for mapping input values onto cutoff/center frequency. These
 are mainly for convenience \, but they may also slightly improve efficiency.
 ;
-#X obj 189 428 cyclone/svf~ 0 0.75;
-#X obj 621 143 cyclone/svf~ 0 0.5 linear;
-#X text 567 268 - In this mode \, input values from 0 to 1 are interpreted
+#X obj 161 363 cyclone/svf~ 0 0.75;
+#X obj 563 119 cyclone/svf~ 0 0.5 linear;
+#X text 507 229 - In this mode \, input values from 0 to 1 are interpreted
 as radians \, producing a quarter-cycle sinusoidal mapping to cutoff
 frequencies. This conforms the frequency mapping to a response that
-is closer to our logarithmic perception of pitch.;
-#X obj 640 410 cyclone/svf~ 0 0.5 radians;
-#X msg 556 350 linear;
-#X msg 610 350 radians;
-#X obj 48 42 cyclone/comment 0 18 times ? 0 0 0 0 Frequency input modes
+is closer to our logarithmic perception of pitch., f 63;
+#X obj 598 359 cyclone/svf~ 0 0.5 radians;
+#X msg 515 301 linear;
+#X msg 569 301 radians;
+#X obj 20 18 cyclone/comment 0 18 times ? 0 0 0 0 Frequency input modes
 ;
-#X obj 599 177 ./out~;
-#X obj 618 444 ./out~;
-#X obj 167 462 ./out~;
+#X obj 541 153 ./out~;
+#X obj 576 393 ./out~;
+#X obj 139 397 ./out~;
 #X connect 5 0 30 0;
 #X connect 7 0 6 0;
 #X connect 7 0 30 1;
 #X connect 10 0 32 0;
+#X connect 11 0 32 1;
 #X connect 12 0 11 0;
-#X connect 12 0 32 1;
 #X connect 15 0 29 0;
 #X connect 16 0 18 0;
 #X connect 17 0 16 0;
@@ -152,7 +148,7 @@ is closer to our logarithmic perception of pitch.;
 #X connect 20 0 23 0;
 #X connect 21 0 20 0;
 #X connect 23 0 24 0;
-#X connect 23 0 29 1;
+#X connect 24 0 29 1;
 #X connect 29 0 38 0;
 #X connect 29 0 38 1;
 #X connect 30 0 36 0;
@@ -161,24 +157,28 @@ is closer to our logarithmic perception of pitch.;
 #X connect 32 0 37 1;
 #X connect 33 0 32 0;
 #X connect 34 0 32 0;
-#X restore 455 324 pd frequency \; input modes;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 State-variable filter
+#X restore 455 279 pd frequency \; input modes;
+#X obj 17 55 cyclone/comment 0 18 times ? 0 0 0 0 State-variable filter
 ;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 svf~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 svf~;
+#X obj 322 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 144 303 ./out~;
+#X obj 363 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 163 261 ./out~;
+#X text 52 84 [svf~] implements Chamberlin's state-variable filter
+algorithm \, which outputs lowpass \, highpass \, bandpass \, and band
+reject (notch) simultaneously in parallel (in this order from left
+to right)., f 66;
 #X connect 13 0 37 0;
 #X connect 14 0 37 1;
 #X connect 15 0 37 2;
 #X connect 16 0 14 0;
 #X connect 24 0 53 0;
 #X connect 33 0 15 0;
-#X connect 37 0 55 1;
-#X connect 37 1 55 2;
-#X connect 37 2 55 3;
-#X connect 37 3 55 4;
-#X connect 53 0 55 0;
-#X connect 55 0 64 0;
-#X connect 55 0 64 1;
+#X connect 37 0 54 1;
+#X connect 37 1 54 2;
+#X connect 37 2 54 3;
+#X connect 37 3 54 4;
+#X connect 53 0 54 0;
+#X connect 54 0 63 0;
+#X connect 54 0 63 1;
