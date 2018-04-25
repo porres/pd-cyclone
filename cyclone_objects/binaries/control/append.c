@@ -152,12 +152,11 @@ static void append_float(t_append *x, t_float f)
     append_anything(x, &s_list, 1, &at);  /* CHECKED: converted to list */
 }
 
-/* CHECKED: incompatible -- LATER consider converting to anything */
 static void append_symbol(t_append *x, t_symbol *s)
 {
     t_atom at;
     SETSYMBOL(&at, s);
-    append_anything(x, &s_symbol, 1, &at);
+    append_anything(x, &s_anything, 1, &at);
 }
 
 /* LATER gpointer */
