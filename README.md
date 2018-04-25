@@ -64,9 +64,9 @@ PdLibBuilder tries to find the Pd source directory at several common locations, 
 
 <pre>make pdincludepath=~/pd-0.48-1/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.48-1/bin/)</pre>
 
-Make Install:
+* Make Install
 
-use "objectsdir" to set a relative path for your build, something like:
+Use "objectsdir" to set a relative path for your build, something like:
 
 <pre>make install objectsdir=../cyclone-build</pre>
 
@@ -80,7 +80,7 @@ Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
 * "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)." The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
 
-Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended, and it ended up eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release from jan 2013, cyclone and miXed were left unmaintained as a result. In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone and released 0.1alpha57 and cyclone 0.2 beta versions, but decided to abandon development for it in feb-2016.
+Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended, and it ended up eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release from jan 2013, cyclone and miXed were left unmaintained as a result. In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone (but not the rest of the miXed library) and released 0.1alpha57 and cyclone 0.2 beta versions, but decided to abandon development for it in feb-2016.
 
 Since february 21st 2016, an active further development of cyclone (now as version 0.3) started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators.
 
