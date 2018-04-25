@@ -8,7 +8,7 @@ Cyclone: A set of Pure Data objects cloned from Max/MSP
 -------
 
 Pure Data (or just "Pd") project is found at: https://sourceforge.net/p/pure-data/pure-data/ci/master/tree/
-or in its github mirror https://github.com/pure-data/pure-data. The Pd webpage managed by the Pd community is at: http://puredata.info/
+or in its github mirror https://github.com/pure-data/pure-data. The offical download page is here: http://msp.ucsd.edu/software.html
 
 Max is found at: https://cycling74.com/
 
@@ -18,12 +18,12 @@ Current Release: Cyclone 0.3 beta-4 (this release needs at least Pd Vanilla 0.48
 
 Release Date: UNRELEASED
 
-Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager 
+Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals)
 
 -------
 <strong>About Cyclone 0.3:</strong>
 
-Cyclone 0.3 needs at least Pd Vanilla 0.48-1 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data (by the way, both of them carry outdated versions od cyclone, Pd-Extended carries older 0.1 versions while Purr Data still carries the outdated cyclone 0.2 release - and it's not yet fully ported either).
+Cyclone 0.3 needs at least Pd Vanilla 0.48-1 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data. By the way, both of them carry outdated versions od cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated cyclone 0.2 release, which is not yet fully ported either.
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
 
@@ -40,13 +40,13 @@ Check details in the provided CHANGELOG.txt file, or here: https://github.com/po
 
 <strong>Installing Cyclone:</strong>
 
-Currently, Cyclone 0.3 does not work in Pd Extended or Purr Data and needs Pd 0.48-1. To install it on Pd-Vanilla, you can compile from the source for the current bleeding edge last state, download one of the more stable compiled releases from https://github.com/porres/pd-cyclone/releases or simply use the "find externals" option in the Help menu of Pd vanilla (this is Pd's own external download manager, also known as the 'deken' plug-in).
+You can compile cyclone from the source provided in this repository for the current bleeding edge last state or download one of the more stable compiled releases from <https://github.com/porres/pd-cyclone/releases>. A good alternative is simply use Pd's own external download manager (a.k.a deken plugin), just click on the "find externals" option under the Help menu and search for cyclone.
 
-Before installing cyclone, make sure the cyclone folder is included in a folder that Pd searches for, such as ~/Documents/Pd/externals - this is what people normally do anyway and what Pd since version 0.48 directs you to do.
+When installing cyclone, just make sure the cyclone folder is included in a folder that Pd searches for, such as ~/Documents/Pd/externals - which is what Pd directs you to do since version 0.48.
 
 Now you can install cyclone by loading it in the startup: go to "Preferences => Startup", then click "New", type "cyclone" and hit ok. Next time you restart Pd, the cyclone library binary will be loaded.
 
-This library binary loads the operators objects - which are: !- , !-~ , !/ , !/~ , !=~ , %~ , +=~ , <=~ , <~ , ==~ , >=~ and >~ - and also add's cyclone's path to Pd's preferences, so you can load the other objects from cyclone which are separate binaries or abstractions. 
+This library binary loads the operators objects (which are: !- , !-~ , !/ , !/~ , !=~ , %~ , +=~ , <=~ , <~ , ==~ , >=~ and >~), but it also adds cyclone's path to Pd's preferences, so you can load the other objects from cyclone (which are separate binaries or abstractions). 
 
 You can also use the [declare -lib cyclone] in a patch to load the library if you don't want to always have cyclone loaded when Pd starts.
 
@@ -64,7 +64,7 @@ PdLibBuilder tries to find the Pd source directory at several common locations, 
 
 <pre>make pdincludepath=~/pd-0.48-1/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.48-1/bin/)</pre>
 
-* Installing with pdlibbuilder
+Make Install:
 
 use "objectsdir" to set a relative path for your build, something like:
 
