@@ -1,4 +1,4 @@
-#N canvas 550 150 561 282 10;
+#N canvas 550 139 562 271 10;
 #N canvas 433 69 649 620 All_Cyclone_Objects 0;
 #X text 102 156 same as;
 #X text 102 180 same as;
@@ -240,12 +240,12 @@
 #X obj 147 2651 cyclone/zl len;
 #X obj 147 1933 cyclone/pv x;
 #X obj 147 1065 cyclone/ddg.mono;
-#X restore 353 211 pd All_Cyclone_Objects;
-#X obj 230 194 switch~;
-#X obj 220 149 tgl 30 0 \$0-zxcx \$0-zxcxsfljsfl empty 17 7 0 10 -228856
+#X restore 373 211 pd All_Cyclone_Objects;
+#X obj 230 187 switch~;
+#X obj 220 142 tgl 30 0 \$0-zxcx \$0-zxcxsfljsfl empty 17 7 0 10 -228856
 -1 -1 0 1;
-#X text 256 154 DSP;
-#X msg 220 223 \; pd dsp \$1;
+#X text 256 147 DSP;
+#X msg 220 216 \; pd dsp \$1;
 #N canvas 587 120 243 292 meter 0;
 #X obj 66 150 cputime;
 #X obj 66 40 loadbang;
@@ -264,8 +264,8 @@
 #X connect 4 0 6 0;
 #X connect 5 0 4 0;
 #X connect 7 0 2 0;
-#X restore 86 174 pd meter;
-#X obj 86 202 nbx 4 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
+#X restore 86 167 pd meter;
+#X obj 86 195 nbx 4 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
 -228856 -1 -1 3 256;
 #X obj 4 2 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
@@ -276,11 +276,13 @@
 objects cloned from Max/MSP;
 #X obj 272 35 comment 0 12 courier ? 0 224 228 220 https://github.com/porres/pd-cyclone
 ;
-#X obj 35 88 comment 481 14 helvetica ? 0 0 0 0 In this patch you'll
+#X obj 35 78 comment 481 14 helvetica ? 0 0 0 0 In this patch you'll
 find all objects available in cyclone. You can turn the DSP on to check
 how much CPU load you have with all objects on and just test if they
 all work.;
-#X text 359 186 open this subpatch;
+#X text 348 191 open this subpatch:;
+#X text 347 135 The total number of objects in cyclone is 202!, f
+16;
 #X connect 2 0 1 0;
 #X connect 2 0 4 0;
 #X connect 5 0 6 0;
