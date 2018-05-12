@@ -44,10 +44,10 @@ void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv);
 void scale_free(t_scale *x);
 void scale_classic(t_scale *x, t_floatarg f);
 
-t_float scaling(t_scale *x, t_float f);
-t_float exp_scaling(t_scale *x, t_float f);
-t_float clas_scaling(t_scale *x, t_float f);
-t_float (*ptrtoscaling)(t_scale *x,t_float f);
+static t_float scaling(t_scale *x, t_float f);
+static t_float exp_scaling(t_scale *x, t_float f);
+static t_float clas_scaling(t_scale *x, t_float f);
+static t_float (*ptrtoscaling)(t_scale *x,t_float f);
 void check(t_scale *x);
 
 void *scale_new(t_symbol *s, int argc, t_atom *argv)
@@ -174,13 +174,13 @@ void scale_ft(t_scale *x, t_floatarg f)
   return;
 }
 
-t_float scaling(t_scale *x, t_float f)
+static t_float scaling(t_scale *x, t_float f)
 {
   f = (x->maxout - x->minout)*(f-x->minin)/(x->maxin-x->minin) + x->minout;
   return f;
 }
 
-t_float exp_scaling(t_scale *x, t_float f)
+static t_float exp_scaling(t_scale *x, t_float f)
 {
   f = ((f-x->minin)/(x->maxin-x->minin) == 0) 
     ? x->minout : (((f-x->minin)/(x->maxin-x->minin)) > 0) 
@@ -189,7 +189,7 @@ t_float exp_scaling(t_scale *x, t_float f)
   return f;
 }
 
-t_float clas_scaling(t_scale *x, t_float f)
+static t_float clas_scaling(t_scale *x, t_float f)
 {
   f = (x->maxout-x->minout >= 0) ?
     (x->minout + (x->maxout-x->minout) * ( (x->maxout - x->minout) * exp(-1*(x->maxin-x->minin)*log(x->expo)) * exp(f*log(x->expo)) )) :
