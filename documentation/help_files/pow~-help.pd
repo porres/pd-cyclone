@@ -1,5 +1,5 @@
-#N canvas 497 68 562 548 10;
-#X obj 6 508 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 469 23 573 577 10;
+#X obj 6 538 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 367 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
@@ -63,7 +63,7 @@ inlet can receive a signal or float.;
 #X connect 9 1 8 0;
 #X restore 485 307 pd example;
 #X obj 258 268 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 -2 256;
 #X msg 258 238 10;
 #X msg 290 241 2;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal power function
@@ -92,6 +92,9 @@ you create it as:;
 #X obj 255 274 Pow~, f 9;
 #X obj 94 274 cyclone/Pow~;
 #X restore 466 334 pd name clash;
+#X obj 2 506 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
+0;
+#X text 170 514 inf/nan output values become "0";
 #X connect 14 0 31 0;
 #X connect 24 0 14 1;
 #X connect 25 0 24 0;
