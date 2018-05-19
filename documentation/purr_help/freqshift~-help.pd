@@ -36,12 +36,10 @@ opposite frequency shift).;
 #X text 57 293 single sideband =>;
 #X text 312 291 <= opposite sideband;
 #X obj 281 231 hsl 128 15 -220 220 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 0 1;
+-228856 -1 -1 5100 1;
 #X obj 278 252 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 -43.3071 256;
 #X text 296 231 frequency shift;
-#X obj 173 245 cyclone/saw~;
-#X obj 173 219 sig~ 440;
 #X text 228 416 - clears filter's memory *;
 #X text 129 560 * Internally \, [freqshift~] has a hilbert transformer
 composed of allpass filters to convert a real signal to a complex signal.
@@ -69,11 +67,11 @@ composed of allpass filters to convert a real signal to a complex signal.
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 61 Frequency shifter;
-#X connect 0 0 30 0;
-#X connect 0 0 30 1;
-#X connect 0 1 29 1;
-#X connect 0 1 29 0;
+#X obj 173 245 osc~ 440;
+#X connect 0 0 28 0;
+#X connect 0 0 28 1;
+#X connect 0 1 27 1;
+#X connect 0 1 27 0;
 #X connect 22 0 23 0;
 #X connect 23 0 0 1;
-#X connect 25 0 0 0;
-#X connect 26 0 25 0;
+#X connect 39 0 0 0;

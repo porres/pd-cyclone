@@ -48,14 +48,10 @@ effect.;
 #X text 203 420 - signal to be filtered;
 #X obj 211 293 cyclone/lores~;
 #X text 206 566 - cutoff frequency (default 0);
-#X text 90 230 sawtooth;
 #X text 248 174 cutoff (filter sweep);
 #X text 205 527 - the filter's output;
 #X text 206 586 - resonance (default 0): minimum is 0 (a little bit
 sharp) and maximum is 1 (as sharp as possible and also LOUD);
-#X obj 152 229 cyclone/saw~;
-#X obj 152 201 sig~ 100;
-#X text 163 179 input;
 #X text 204 440 - clears the internal buffer's memory;
 #X obj 186 330 ./out~;
 #X obj 3 3 cnv 15 301 42 empty empty lores~ 20 20 2 37 -233017 -1 0
@@ -79,6 +75,7 @@ sharp) and maximum is 1 (as sharp as possible and also LOUD);
 #X obj 474 30 cnv 10 10 10 empty empty Max/MSP 0 6 2 13 -128992 -233080
 0;
 #X text 22 61 Lowpass resonant filter;
+#X obj 152 229 noise~;
 #X connect 17 0 30 2;
 #X connect 18 0 17 0;
 #X connect 19 0 30 1;
@@ -86,7 +83,6 @@ sharp) and maximum is 1 (as sharp as possible and also LOUD);
 #X connect 21 0 18 0;
 #X connect 22 0 19 0;
 #X connect 23 0 22 0;
-#X connect 30 0 40 0;
-#X connect 30 0 40 1;
-#X connect 36 0 30 0;
-#X connect 37 0 36 0;
+#X connect 30 0 36 0;
+#X connect 30 0 36 1;
+#X connect 47 0 30 0;

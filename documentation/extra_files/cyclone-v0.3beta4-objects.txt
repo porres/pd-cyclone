@@ -153,7 +153,6 @@ rand~ interpolated bandlimited noise
 rdiv alias of !/
 rdiv~ alias of !/~
 record~ record signals to arrays/buffer~
-rect~ bandlimited pulse oscillator
 reson~ bandpass resonant filter
 rminus alias of !-
 rminus~ alias of !-~
@@ -161,7 +160,6 @@ round round floats/lists
 round~ round signals
 sah~ sample and hold
 sampstoms~ samples to milliseconds time conversion
-saw~ bandlimited sawtooth oscillator
 scale map numbers to an output range
 scale~ map signals to an output range
 scope~ oscilloscope display
@@ -193,7 +191,6 @@ togedge report zero/non-zero transitions
 tosymbol convert anything to a symbol
 train~ pulse-train generator and metronome
 trapezoid~ trapezoidal wavetable
-tri~ bandlimited triangular oscillator
 triangle~ variable duty triangular wavetable
 trough output numbers smaller than the previous
 trunc~ truncate signal values

@@ -144,13 +144,13 @@ displays in "Y Mode" only.;
 #X floatatom 251 481 5 0 0 0 - - -, f 5;
 #X msg 156 474 triglevel \$1;
 #X obj 69 695 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 -0.008 256;
 #X obj 69 720 s \$0-slider;
 #X obj 156 420 r \$0-slider;
 #X floatatom 156 446 5 0 0 0 - - -, f 5;
 #X obj 87 464 osc~ 150;
-#X obj 87 548 Scope~ 201 129 2 3 256 -1 1 0 0 0 0 205 229 232 74 79
-77 96 98 102 0;
+#X obj 87 548 Scope~ 201 129 2 3 256 -1 1 0 0 0 -0.008 205 229 232
+74 79 77 96 98 102 0;
 #X text 275 412 0) none;
 #X text 276 432 1) Up;
 #X text 276 453 2) Down;
@@ -316,8 +316,7 @@ Check the messages below;
 #X connect 32 0 31 0;
 #X connect 33 0 32 0;
 #X restore 291 230 pd appearance_colors;
-#N canvas 468 141 847 483 appearance_others 0;
-#X obj 55 251 cyclone/rect~ 70;
+#N canvas 536 155 847 483 appearance_others 0;
 #X obj 33 23 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 158 342 Scope~ 219 108 10 3 185 -1.2 1.2 0 0 0 -0.333333 205
@@ -331,7 +330,7 @@ Check the messages below;
 #X text 235 192 (default);
 #X text 285 287 (default);
 #X msg 374 292 drawstyle \$1;
-#X obj 374 252 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 374 252 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X msg 205 262 range -1.2 1.2;
 #X text 34 102 The "drawstyle 1" message or attribute changes [scope~]
@@ -357,20 +356,34 @@ message/attribute \, convenient also for some dynamic patching.;
 -1 -1;
 #X obj 557 249 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X connect 0 0 2 0;
-#X connect 3 0 2 0;
-#X connect 5 0 2 0;
-#X connect 8 0 2 0;
-#X connect 11 0 2 0;
-#X connect 12 0 11 0;
-#X connect 13 0 2 0;
-#X connect 17 0 16 0;
-#X connect 18 0 16 0;
-#X connect 22 0 23 0;
-#X connect 23 0 25 0;
-#X connect 23 1 24 0;
-#X connect 24 0 18 0;
-#X connect 25 0 17 0;
+#N canvas 338 119 577 204 square 0;
+#X obj 55 132 outlet~;
+#X msg 188 80 sinesum 4096 1 0 0.333333 0 0.2 0 0.142857 0 0.111111
+0 0.0909091 0 0.0769231 0 0.0666667 0 0.0588235 0 \, normalize 1;
+#X obj 188 56 loadbang;
+#X obj 188 113 send \$0-square;
+#X obj 213 143 table \$0-square 4099;
+#X obj 55 105 tabosc4~ \$0-square;
+#X obj 55 76 sig~ 123;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
+#X connect 5 0 0 0;
+#X connect 6 0 5 0;
+#X restore 100 276 pd square;
+#X connect 2 0 1 0;
+#X connect 4 0 1 0;
+#X connect 7 0 1 0;
+#X connect 10 0 1 0;
+#X connect 11 0 10 0;
+#X connect 12 0 1 0;
+#X connect 16 0 15 0;
+#X connect 17 0 15 0;
+#X connect 21 0 22 0;
+#X connect 22 0 24 0;
+#X connect 22 1 23 0;
+#X connect 23 0 17 0;
+#X connect 24 0 16 0;
+#X connect 25 0 1 0;
 #X restore 422 230 pd appearance_others;
 #N canvas 840 278 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577

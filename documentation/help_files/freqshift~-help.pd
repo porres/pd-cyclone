@@ -50,8 +50,6 @@ opposite frequency shift).;
 #X obj 278 252 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 296 231 frequency shift;
-#X obj 173 245 cyclone/saw~;
-#X obj 173 219 sig~ 440;
 #X text 228 416 - clears filter's memory *;
 #X text 129 560 * Internally \, [freqshift~] has a hilbert transformer
 composed of allpass filters to convert a real signal to a complex signal.
@@ -68,11 +66,11 @@ cloned from Max/MSP;
 0;
 #X obj 410 318 cyclone/comment 166 18 times ? 0 0 0 0 New object \,
 still experimental!;
-#X connect 4 0 38 0;
-#X connect 4 0 38 1;
-#X connect 4 1 37 1;
-#X connect 4 1 37 0;
+#X obj 173 245 osc~ 440;
+#X connect 4 0 36 0;
+#X connect 4 0 36 1;
+#X connect 4 1 35 1;
+#X connect 4 1 35 0;
 #X connect 26 0 27 0;
 #X connect 27 0 4 1;
-#X connect 29 0 4 0;
-#X connect 30 0 29 0;
+#X connect 39 0 4 0;
