@@ -31,7 +31,7 @@ The main goal of cyclone 0.3 is to update Cyclone's objects to the latest Max ve
 
 - 61 updated objects;
 - 65 fixed objects (including objects that were updated, will be updated and did not need updates);
-- 49 new objects;
+- 45 new objects;
 - A newly written documentation, taking care of numerous issues (yet to include "meta" and related objects)
 
 Check details in the provided CHANGELOG.txt file, or here: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
