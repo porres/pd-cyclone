@@ -25,7 +25,7 @@ typedef struct _cycle
   int        x_user_tabsize; //user tabsize
     int		x_use_all;
     double    *x_costable;
-    t_float     *x_usertable;g
+    t_float     *x_usertable;
   t_float     x_usertable_ini[CYCYCLE_TABSIZE + 1];
   // t_cybuf    *x_cybuf;
     int        x_nameset; //if nameset, use usertable else use costable
