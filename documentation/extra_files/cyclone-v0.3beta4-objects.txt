@@ -92,7 +92,6 @@ gate~ route input signal to an outlet
 grab grabs the output of another object
 greaterthan~ alias of >~
 greaterthaneq~ alias of >=~
-hilbert~ hilbert transformer
 histo create a histogram of numbers
 index~ non-interpolating array reader
 iter split messages sequentially

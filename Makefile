@@ -150,7 +150,6 @@ filtercoeff~.class.sources := cyclone_objects/binaries/audio/filtercoeff.c
 freqshift~.class.sources := cyclone_objects/binaries/audio/freqshift.c
 greaterthan~.class.sources := cyclone_objects/binaries/audio/greaterthan.c
 greaterthaneq~.class.sources := cyclone_objects/binaries/audio/greaterthaneq.c
-Hilbert~.class.sources := cyclone_objects/binaries/audio/Hilbert.c
 lessthan~.class.sources := cyclone_objects/binaries/audio/lessthan.c
 lessthaneq~.class.sources := cyclone_objects/binaries/audio/lessthaneq.c
 modulo~.class.sources := cyclone_objects/binaries/audio/modulo.c
