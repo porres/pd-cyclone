@@ -17,9 +17,9 @@ B) Restoring the 'cyclone' library, but only containing now the objects that use
 
 C) Readded the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default. 
 
-D) 45 New objects, including: 
+D) 44 New objects, including: 
 -  2w Abstractions: [buffer~], [number~]
-- 43 Compiled externals: [acosh], [asinh], [atanh], [atodb], [atodb~], [biquad~], [bitsafe~], [cascade~], [cross~], [dbtoa], [dbtoa~], [degrade~], [downsamp~], [equals~] **, [filtercoeff~], [freqshift~], [gate~], [greaterthan~] **, [greaterthaneq~] **, [hilbert~], [join], [lessthan~] **, [lessthaneq~] **, [listfunnel], [loadmess], [modulo~] **, [notequals~] **, [pak], [phaseshift~], [plusequals~] **, [pong], [rdiv] **, [rdiv~] **, [rminus] **, [rminus~] **, [round], [round~], [scale], [scale~], [selector~], [thresh~], [trunc~] and [unjoin].
+- 43 Compiled externals: [acosh], [asinh], [atanh], [atodb], [atodb~], [biquad~], [bitsafe~], [cascade~], [cross~], [dbtoa], [dbtoa~], [degrade~], [downsamp~], [equals~] **, [filtercoeff~], [freqshift~], [gate~], [greaterthan~] **, [greaterthaneq~] **, [join], [lessthan~] **, [lessthaneq~] **, [listfunnel], [loadmess], [modulo~] **, [notequals~] **, [pak], [phaseshift~], [plusequals~] **, [pong], [rdiv] **, [rdiv~] **, [rminus] **, [rminus~] **, [round], [round~], [scale], [scale~], [selector~], [thresh~], [trunc~] and [unjoin].
 
 ** These are alphanumeric versions of the objects in the cyclone sub-library, which contains non-alphanumeric objects:  ==~ - !=~ - <~ - <=~ - >~ - >=~ - !-~ - !/~ - %~ - +=~
 
