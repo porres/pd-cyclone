@@ -12,13 +12,6 @@
 #include "m_pd.h"
 #include <math.h>
 
-#define BAD -999 
-
-inline t_float badout(t_float f)
-{
-  return ((f) > (BAD) ? (f) : (BAD));
-}
-
 static t_class *atodb_class;
 
 typedef struct _atodb {
@@ -27,18 +20,16 @@ typedef struct _atodb {
   t_outlet *x_outlet;
 } t_atodb;
 
-void *atodb_new(void);
-static t_int * atodb_perform(t_int *w);
-static void atodb_dsp(t_atodb *x, t_signal **sp);
-
-static t_int * atodb_perform(t_int *w)
-{
+static t_int * atodb_perform(t_int *w){
    t_atodb *x = (t_atodb *)(w[1]);
   int n = (int)(w[2]);
   t_float *in = (t_float *)(w[3]);
   t_float *out = (t_float *)(w[4]);
   while(n--)
-    *out++ = badout(20*log10(*in++));
+      t_float output = (20*log10(*in++));
+    if(output < -999)
+        output = -999;
+    *out++ = output;
   return (w + 5);
 }
 
@@ -47,7 +38,7 @@ static void atodb_dsp(t_atodb *x, t_signal **sp)
   dsp_add(atodb_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-void *atodb_new(void)
+static void *atodb_new(void)
 {
   t_atodb *x = (t_atodb *)pd_new(atodb_class);
   x->x_outlet = outlet_new(&x->x_obj, &s_signal);

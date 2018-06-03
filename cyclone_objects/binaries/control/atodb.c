@@ -23,28 +23,28 @@ typedef struct _atodb
 } t_atodb;
 
 
-void *atodb_new(void);
-void atodb_free(t_atodb *x);
-void atodb_float(t_atodb *x, t_floatarg f);
-void atodb_bang(t_atodb *x);
-void atodb_set(t_atodb *x, t_floatarg f);
+static void *atodb_new(void);
+static void atodb_free(t_atodb *x);
+static void atodb_float(t_atodb *x, t_floatarg f);
+static void atodb_bang(t_atodb *x);
+static void atodb_set(t_atodb *x, t_floatarg f);
 
 static t_float convert(t_float f);
 
-void atodb_float(t_atodb *x, t_floatarg f)
+static void atodb_float(t_atodb *x, t_floatarg f)
 {
   x->f = f;
   outlet_float(x->float_outlet, convert(f));
 }
 
-t_float convert(t_float f)
+static t_float convert(t_float f)
 {
   if(f<0.f)
     f = 0.f;
   return 20*log10(f);
 }
 
-void atodb_list(t_atodb *x, t_symbol *s, int argc, t_atom *argv)
+static void atodb_list(t_atodb *x, t_symbol *s, int argc, t_atom *argv)
 {
   int old_bytes = x->bytes, i = 0;
   x->bytes = argc*sizeof(t_atom);
@@ -54,18 +54,18 @@ void atodb_list(t_atodb *x, t_symbol *s, int argc, t_atom *argv)
   outlet_list(x->float_outlet,0,argc,x->output_list);
 }
 
-void atodb_set(t_atodb *x, t_float f)
+static void atodb_set(t_atodb *x, t_float f)
 {
   x->f = f;
 }
 
-void atodb_bang(t_atodb *x)
+static void atodb_bang(t_atodb *x)
 {
   outlet_float(x->float_outlet,convert(x->f));
 }
 
 
-void *atodb_new(void)
+static void *atodb_new(void)
 {
   t_atodb *x = (t_atodb *) pd_new(atodb_class);
 
@@ -79,7 +79,7 @@ void *atodb_new(void)
   return (x);
 }
 
-void atodb_free(t_atodb *x)
+static void atodb_free(t_atodb *x)
 {
   t_freebytes(x->output_list,x->bytes);
 }

@@ -23,8 +23,7 @@ typedef struct _scale
 
 static t_class *scale_class;
 
-
-void scale_classic(t_scale *x, t_floatarg f)
+static void scale_classic(t_scale *x, t_floatarg f)
 {
     x->x_classic = (int)f;
 }

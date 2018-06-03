@@ -20,26 +20,26 @@ typedef struct _dbtoa
 } t_dbtoa;
 
 
-void *dbtoa_new(void);
-void dbtoa_free(t_dbtoa *x);
-void dbtoa_float(t_dbtoa *x, t_floatarg f);
-void dbtoa_bang(t_dbtoa *x);
-void dbtoa_set(t_dbtoa *x, t_floatarg f);
+static void *dbtoa_new(void);
+static void dbtoa_free(t_dbtoa *x);
+static void dbtoa_float(t_dbtoa *x, t_floatarg f);
+static void dbtoa_bang(t_dbtoa *x);
+static void dbtoa_set(t_dbtoa *x, t_floatarg f);
 
 static t_float convert(t_float f);
 
-void dbtoa_float(t_dbtoa *x, t_floatarg f)
+static void dbtoa_float(t_dbtoa *x, t_floatarg f)
 {
   x->f = f;
   outlet_float(x->float_outlet, convert(f));
 }
 
-t_float convert(t_float f)
+static t_float convert(t_float f)
 {
   return pow(10, f / 20);
 }
 
-void dbtoa_list(t_dbtoa *x, t_symbol *s, int argc, t_atom *argv)
+static void dbtoa_list(t_dbtoa *x, t_symbol *s, int argc, t_atom *argv)
 {
   int old_bytes = x->bytes, i = 0;
   x->bytes = argc*sizeof(t_atom);
@@ -49,18 +49,18 @@ void dbtoa_list(t_dbtoa *x, t_symbol *s, int argc, t_atom *argv)
   outlet_list(x->float_outlet,0,argc,x->output_list);
 }
 
-void dbtoa_set(t_dbtoa *x, t_float f)
+static void dbtoa_set(t_dbtoa *x, t_float f)
 {
   x->f = f;
 }
 
-void dbtoa_bang(t_dbtoa *x)
+static void dbtoa_bang(t_dbtoa *x)
 {
   outlet_float(x->float_outlet,convert(x->f));
 }
 
 
-void *dbtoa_new(void)
+static void *dbtoa_new(void)
 {
   t_dbtoa *x = (t_dbtoa *) pd_new(dbtoa_class);
 
@@ -74,7 +74,7 @@ void *dbtoa_new(void)
   return (x);
 }
 
-void dbtoa_free(t_dbtoa *x)
+static void dbtoa_free(t_dbtoa *x)
 {
   t_freebytes(x->output_list,x->bytes);
 }

@@ -19,11 +19,6 @@ typedef struct _dbtoa {
   t_outlet *x_outlet;
 } t_dbtoa;
 
-
-void *dbtoa_new(void);
-static t_int * dbtoa_perform(t_int *w);
-static void dbtoa_dsp(t_dbtoa *x, t_signal **sp);
-
 static t_int * dbtoa_perform(t_int *w)
 {
   t_dbtoa *x = (t_dbtoa *)(w[1]);
@@ -42,7 +37,7 @@ static void dbtoa_dsp(t_dbtoa *x, t_signal **sp)
   dsp_add(dbtoa_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-void *dbtoa_new(void)
+static void *dbtoa_new(void)
 {
   t_dbtoa *x = (t_dbtoa *)pd_new(dbtoa_class);
   x->x_outlet = outlet_new(&x->x_obj, &s_signal);

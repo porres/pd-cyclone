@@ -37,20 +37,20 @@ typedef struct _scale
   t_int ac;
 } t_scale;
 
-void *scale_new(t_symbol *s, int argc, t_atom *argv);
-void scale_ft(t_scale *x, t_floatarg f);
-void scale_bang(t_scale *x);
-void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv);
-void scale_free(t_scale *x);
-void scale_classic(t_scale *x, t_floatarg f);
+static void *scale_new(t_symbol *s, int argc, t_atom *argv);
+static void scale_ft(t_scale *x, t_floatarg f);
+static void scale_bang(t_scale *x);
+static void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv);
+static void scale_free(t_scale *x);
+static void scale_classic(t_scale *x, t_floatarg f);
 
-static t_float scaling(t_scale *x, t_float f);
-static t_float exp_scaling(t_scale *x, t_float f);
-static t_float clas_scaling(t_scale *x, t_float f);
-static t_float (*ptrtoscaling)(t_scale *x,t_float f);
-void check(t_scale *x);
+static static t_float scaling(t_scale *x, t_float f);
+static static t_float exp_scaling(t_scale *x, t_float f);
+static static t_float clas_scaling(t_scale *x, t_float f);
+static static t_float (*ptrtoscaling)(t_scale *x,t_float f);
+static void check(t_scale *x);
 
-void *scale_new(t_symbol *s, int argc, t_atom *argv)
+static void *scale_new(t_symbol *s, int argc, t_atom *argv)
 {
   t_scale *x = (t_scale *)pd_new(scale_class);
   x->float_outlet = outlet_new(&x->obj, 0);
@@ -158,14 +158,14 @@ void scale_setup(void)
 }
 
 
-void scale_classic(t_scale *x, t_floatarg f)
+static void scale_classic(t_scale *x, t_floatarg f)
 {
     x->flag = f;
     check(x);
 }
 
 
-void scale_ft(t_scale *x, t_floatarg f)
+static void scale_ft(t_scale *x, t_floatarg f)
 {
   x->in = x->f_in = f;
   check(x);
@@ -174,13 +174,13 @@ void scale_ft(t_scale *x, t_floatarg f)
   return;
 }
 
-static t_float scaling(t_scale *x, t_float f)
+static static t_float scaling(t_scale *x, t_float f)
 {
   f = (x->maxout - x->minout)*(f-x->minin)/(x->maxin-x->minin) + x->minout;
   return f;
 }
 
-static t_float exp_scaling(t_scale *x, t_float f)
+static static t_float exp_scaling(t_scale *x, t_float f)
 {
   f = ((f-x->minin)/(x->maxin-x->minin) == 0) 
     ? x->minout : (((f-x->minin)/(x->maxin-x->minin)) > 0) 
@@ -197,13 +197,13 @@ static t_float clas_scaling(t_scale *x, t_float f)
   return f;
 }
 
-void scale_bang(t_scale *x)
+static void scale_bang(t_scale *x)
 {
   scale_ft(x, x->f_in);
   return;
 }
 
-void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
+static void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
 {
   int i = 0;
   int old_a = x->a_bytes;
@@ -218,7 +218,7 @@ void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
   return;
 }
 
-void check(t_scale *x)
+static void check(t_scale *x)
 {
     if(x->flag == 1)
     {
@@ -241,7 +241,7 @@ void check(t_scale *x)
   return;
 }
 
-void scale_free(t_scale *x)
+static void scale_free(t_scale *x)
 {
   t_freebytes(x->output_list,x->a_bytes);
 }
