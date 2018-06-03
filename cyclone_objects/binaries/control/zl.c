@@ -311,12 +311,17 @@ static int zl_group_count(t_zl *x){
     return (x->x_entered ? -1 : 0);
 }
 
+static void zl_group_sizecheck(t_zl *x, int size){
+	if (x->x_modearg > size) x->x_modearg = size;
+}
+	
+
 static void zl_group(t_zl *x, int natoms, t_atom *inbuf, int banged){
     int count = x->x_modearg;
     //idea: use outbuf to store output
     if(count > 0){
-        int i = 0;
-        int inatoms = x->x_inbuf1.d_natoms;
+    int i = 0;
+    int inatoms = x->x_inbuf1.d_natoms;
 	int outatoms = x->x_outbuf.d_natoms;
 	int outmax = x->x_outbuf.d_max;
 	t_atom * outbuf = x->x_outbuf.d_buf;
@@ -950,6 +955,8 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f){
     zldata_realloc(&x->x_inbuf1,sz);
     zldata_realloc(&x->x_inbuf2,sz);
     zldata_realloc(&x->x_outbuf,sz);
+    if(!strcmp(zl_modesym[x->x_mode]->s_name,"group"))
+    	zl_group_sizecheck(x, sz);
     
 }
 
@@ -1023,6 +1030,9 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
+    if(!strcmp(zl_modesym[x->x_mode]->s_name,"group"))
+    	zl_group_sizecheck(x, sz);
+    
     return(x);
 errstate:
     post("zl: improper args");
