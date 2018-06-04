@@ -63,13 +63,13 @@ static void iter_symbol(t_iter *x, t_symbol *s)
 /* LATER gpointer */
 
 static void iter_anything(t_iter *x, t_symbol *s, int ac, t_atom *av){
-    iter_dobang(x, s, ac, av);
     x->x_selector = s;
     if(ac > x->x_size)
         x->x_message = grow_nodata(&ac, &x->x_size, x->x_message,
             ITER_INISIZE, x->x_messini, sizeof(*x->x_message));
     x->x_natoms = ac;
     memcpy(x->x_message, av, ac * sizeof(*x->x_message));
+    iter_dobang(x, s, ac, av);
 }
 
 static void iter_list(t_iter *x, t_symbol *s, int ac, t_atom *av)
