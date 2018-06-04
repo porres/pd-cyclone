@@ -84,7 +84,7 @@ rminus.class.sources := cyclone_objects/binaries/control/rminus.c
 round.class.sources := cyclone_objects/binaries/control/round.c
 scale.class.sources := cyclone_objects/binaries/control/scale.c
 
-# lL CLASSES:
+# SIGNAL CLASSES:
 acos~.class.sources := cyclone_objects/binaries/audio/acos.c
 acosh~.class.sources := cyclone_objects/binaries/audio/acosh.c
 allpass~.class.sources := cyclone_objects/binaries/audio/allpass.c
