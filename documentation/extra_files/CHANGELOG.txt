@@ -5,7 +5,7 @@ cyclone 0.3 (still at an experimental beta stage)
 Summary: 
 
 - I) 61 updated objects to include functionalities from newer versions of Max (earlier releases were mostly compliant to Max 4.0, cyclone 0.3 updates to the latest Max: 7.3.5 at the time of this release).
-- II) 48 New objects 
+- II) 44 New objects 
 - III) Completely rewritten documentation
 - IV) Numerous bug fixes
 
@@ -13,110 +13,118 @@ In detail:
 
 A) Restoring the original cyclone's goal of Max/MSP compatibility in the project's 'readme'.
 
-B) Restoring the 'cyclone' library, but only containing now the objects that used to be in the 'nettles' library. A new [cyclone] external object loads this sub library.
+B) Restoring the 'cyclone' library, but it now only containing now the objects that used to be in the 'nettles' library. The cyclone library also loads cyclone's path so you can load the other objects that are compiled as separate binaries or abstraction. You can now also create a [cyclone] external object loads the library.
 
-C) Readded the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default. 
+C) Readded the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default.
 
-D) 44 New objects, including: 
--  2w Abstractions: [buffer~], [number~]
-- 43 Compiled externals: [acosh], [asinh], [atanh], [atodb], [atodb~], [biquad~], [bitsafe~], [cascade~], [cross~], [dbtoa], [dbtoa~], [degrade~], [downsamp~], [equals~] **, [filtercoeff~], [freqshift~], [gate~], [greaterthan~] **, [greaterthaneq~] **, [join], [lessthan~] **, [lessthaneq~] **, [listfunnel], [loadmess], [modulo~] **, [notequals~] **, [pak], [phaseshift~], [plusequals~] **, [pong], [rdiv] **, [rdiv~] **, [rminus] **, [rminus~] **, [round], [round~], [scale], [scale~], [selector~], [thresh~], [trunc~] and [unjoin].
+D) 44 New objects, including:
 
-** These are alphanumeric versions of the objects in the cyclone sub-library, which contains non-alphanumeric objects:  ==~ - !=~ - <~ - <=~ - >~ - >=~ - !-~ - !/~ - %~ - +=~
+2 Abstractions: [buffer~] and [number~]
+
+42 Compiled externals: [acosh], [asinh], [atanh], [atodb], [atodb~], [biquad~], [bitsafe~], [cascade~], [cross~], [dbtoa], [dbtoa~], [degrade~], [downsamp~], [equals~] **, [filtercoeff~], [freqshift~], [gate~], [greaterthan~] **, [greaterthaneq~] **, [join], [lessthan~] **, [lessthaneq~] **, [listfunnel], [loadmess], [modulo~] **, [notequals~] **, [pak], [phaseshift~], [plusequals~] **, [pong], [rdiv] **, [rdiv~] **, [rminus] **, [rminus~] **, [round], [round~], [scale], [scale~], [selector~], [thresh~], [trunc~] and [unjoin].
+
+** These are alphanumeric versions of the objects in the cyclone sub-library, which contains non-alphanumeric objects: ==~ - !=~ - <~ - <=~ - >~ - >=~ - !-~ - !/~ - %~ - +=~
 
 E) Updated objects (61 Objects affected), including:
 
-- 7 objects that were updated to include only missing functionalities from Max 4 - as some functionalities introduced after Max 4.0 were never reflected into cyclone. Because cyclone has long been considered a Max 4 compatible library, such missing functionalities may also be considered as "bugs":
-	- [anal] - Max size increased to 16384
-	- [substitute] - 1st only mode
-	- [mousestate] - mode 1 and 2
-	- [onebang] - 'stop' method / input for anything / right outlet
-	- [slide~] - reset / slide_up / slide_down methods
-	- [funbuff] - clipboard operations
-	- [vectral~] - size / clear messages
+7 objects that were updated to include only missing functionalities from Max 4 - as some functionalities introduced after Max 4.0 were never reflected into cyclone. Because cyclone has long been considered a Max 4 compatible library, such missing functionalities may also be considered as "bugs":
 
-- 52 objects that were updated to current Max's version; +=~ (alias of [plusequals~]) - [acos~] - [acosh~] - [asin~] - [atanh~] - [average~] - [bitand~], [bitnot~], [bitor~], [bitshift~], [bitxor~], [buffir~], [capture] *, [cartopol], [change~], [coll] *, [count~], [counter], [curve~], [cycle~], [decode], [delay~], [deltaclip~], [fromsymbol], [funnel], [linedrive], [matrix~], [maximum], [midiformat], [midiparse], [minimum], [minmax~], [mousefilter], [mtr], [offer], [overdrive~], [peak], [play~], [poltocar], [pong~], [record~], [scope~], [snapshot~], [spike~], [spray], [sustain], [tosymbol], [trapezoid~], [triangle~], [trough], [uzi] * and [wave~].
+[anal] - Max size increased to 16384
+[substitute] - 1st only mode
+[mousestate] - mode 1 and 2
+[onebang] - 'stop' method / input for anything / right outlet
+[slide~] - reset / slide_up / slide_down methods
+[funbuff] - clipboard operations
+[vectral~] - size / clear messages
+
+52 objects that were updated to current Max's version; +=~ (alias of [plusequals~]) - [acos~] - [acosh~] - [asin~] - [atanh~] - [average~] - [bitand~], [bitnot~], [bitor~], [bitshift~], [bitxor~], [buffir~], [capture] *, [cartopol], [change~], [coll] *, [count~], [counter], [curve~], [cycle~], [decode], [delay~], [deltaclip~], [fromsymbol], [funnel], [linedrive], [matrix~], [maximum], [midiformat], [midiparse], [minimum], [minmax~], [mousefilter], [mtr], [offer], [overdrive~], [peak], [play~], [poltocar], [pong~], [record~], [scope~], [snapshot~], [spike~], [spray], [sustain], [tosymbol], [trapezoid~], [triangle~], [trough], [uzi] * and [wave~].
 
 *Objects that also required updates from Max 4: [capture] - input for anythings; [coll] - renumber2 method / 2nd argument; [uzi] - 2nd argument.
 
-- 2 objects partially updated: [zl] and [table]
+2 objects partially updated: [zl] and [table]
 
-F) Assorted Fixes (63 Objects affected), including:
-- 34 objects that were also updated or will be updated:
-	- [comment] - (not yet updated, not ready yet) - improved the issue of not rendering the same in different platforms (still buggy)
-	- [seq] - (not yet updated, not ready yet) start message needed to restart sequence (still has known bugs to be fixed)
-	- [mousefilter] - it wasn't filtering on the click moment
-	- [average~] - fixed argument to actually set maximum size, change size clears the buffer
-	- [bitand~] - fixed for 64 bits & fixing the secondary inlet behaviour
-	- [bitor~] - fixed for 64 bit & fixing the secondary inlet behaviour
-	- [bitxor~] - fixed for 64 bit & fixing the secondary inlet behaviour
-	- [bitnot~] - fixed for 64 bits
-	- [bitshift~] - fixed for 64 bits
-	- [offer] - y values are only int
-	- [funbuff] - no output on 2nd inlet for find method / floats converted to int on input / set shouldn't clear contents / got rid of useless "reduce" and inexisting method
-	- [slide~] - fixed the output reaching the target 
-	- [coll] - (not ready yet) input order, 3rd outlet bang, insert message 
-	- [counter] - fixed starting value / 4th inlet bang behaviour / setmin message / current and ancient mode / maximum count value / min-max args in any order / state method in all inlets / behaviour when max < min
-	- [mtr] - input for anythings
-	- [sustain] - input methods, order of flushing noteoffs
-	- [funnel] - fixed the bang method
-	- [uzi] - fixed the default arg
-	- [curve~] - fixed factor (argument/3rd inlet) & max truplets
-	- [scope~] - several bug fixes (ike many default values; subpatch freeze bug; x/y mode: 		crash/freeze in 64bits and lines instead of points - aded y mode only, added drawstyle, 		added properties windows!
-	- [count~] - fixed the min message, set message and 2nd inlet 
-	- [spike~] - fixed the time resolution (it was off by one sample)
-	- [linedrive] - default args, clip output values
-	- [+=~] - fixed the float input bug / outputs 0 when signal not connected
-	- [pong~] - wrapping bug fix 
-	- [buffir~] - fixed weird behaviour on 64 bits
-	- [record~] - fixed the output, the reset/append messages and number of channels
-	- [cycle~] - fixed the DSP reset, made the cosine table symmetric & some bugs with wrapping through the table
-	- [matrix~] - fixed list input bug (was updating gain arg) 
-	- [minmax~] - fixed the way it is reset and no signal input behaviour
-	- [wave~] - fixed number of channels	
-	- [play~]  - fixed number of channels
-	- [table]  - "write" method and flags method. 
-	- [zl]  - numerous bug fixes, big ones are: size management, and fixes in modes group, len, sub & nth
+F) Assorted Fixes (65 Objects affected), including:
 
-- 29 objects that did not need updates:
-	- [!/] - div by 0 is now 0
-	- [cartopol~] - fixed the behaviour for no input for 1st inlet
-	- [poltocar~] - fixed the behaviour for no input for 1st inlet
-	- [buddy] - fixed the bang method
-	- [bondo] - fixed the symbol method/selector
-	- [cycle] - fixed the symbol method/selector
-	- [capture~] - fixed data display
-	- [rampsmooth~] - fixed the bug where it was extrapolating the value for 1 sample, allowed the update of ramp values while the ramp is still running.
-	- [kink~] - fixed restrains for argument
-	- [rand~] - neg input becomes 0, workaround to allow max freq input = sample rate;
-	- [click~] - max setable size to 256
-	- [index~] - fixed the input channel clipping
-	- [line~] - max pair to 128
-	- [past] - bugs with list behaviour
-	- [sprintf] - added missing 'symout' argument, fixed behaviour without arguments, not allowing bangs in secondary inlets, fixed the output for %ld and negative inputs
-	- [pv] - got rid of annoying error with [send] sharing the same name, made it instantiate without arguments
-	- [train~] - now when width is "0" it has a pulse of 1 sample, and a pulse of "n-1" samples for width = 1 / also improved the way phase onset actually works
-	- [poke~] -  fixed to automatic redrawing
-	- [allpass~] - default max delay to 10ms - / corrected the filter formula -allow blow ups
-	- [comb~] - default max delay to 10ms / allowing blowups / corrected the filter formula
-	- [teeth~] - newly written object based on the new rewrite of [comb~], adding full compatibility/functionality to the external and fixing bugs - this object was introduced in alpha57 as an abstraction by porres and made into a compiled object in 0.2beta2
-	- [lookup~] - max table size is array's size, added linear interpolation
-	- [onepole~] - default args
-	- [thresh] - fixed input message types and errors
-	- [append] - fixed useless inlet bug
-	- [sampstoms~] - float input now reflects on signal output
-	- [mstosamps~] - float input now reflects on signal output
-	- [asin] - removed protection against nan (was unchecked)
-	- [acos] - removed protection against nan (was unchecked)
+34 objects that were also updated or will be updated:
 
-G) Objects' names to lowcase by default and avoiding nameclash  [17 Objects affected]: [line~], [scope~], [uzi], [borax], [bucket], [decode], [histo], [peak], [trough], [clip], [pow~], [clip~], [snapshot~], [table], [mousestate], [togedge] and [append]
+[comment] - (not yet updated, not ready yet) - improved the issue of not rendering the same in different platforms (still buggy)
+[seq] - (not yet updated, not ready yet) start message needed to restart sequence (still has known bugs to be fixed)
+[mousefilter] - it wasn't filtering on the click moment
+[average~] - fixed argument to actually set maximum size, change size clears the buffer
+[bitand~] - fixed for 64 bits & fixing the secondary inlet behaviour
+[bitor~] - fixed for 64 bit & fixing the secondary inlet behaviour
+[bitxor~] - fixed for 64 bit & fixing the secondary inlet behaviour
+[bitnot~] - fixed for 64 bits
+[bitshift~] - fixed for 64 bits
+[offer] - y values are only int
+[funbuff] - no output on 2nd inlet for find method / floats converted to int on input / set shouldn't clear contents / got rid of useless "reduce" and inexisting method
+[slide~] - fixed the output reaching the target
+[coll] - (not ready yet) input order, 3rd outlet bang, insert message
+[counter] - fixed starting value / 4th inlet bang behaviour / setmin message / current and ancient mode / maximum count value / min-max args in any order / state method in all inlets / behaviour when max < min
+[mtr] - input for anythings
+[sustain] - input methods, order of flushing noteoffs
+[funnel] - fixed the bang method
+[uzi] - fixed the default arg
+[curve~] - fixed factor (argument/3rd inlet) & max truplets
+[scope~] - several bug fixes (ike many default values; subpatch freeze bug; x/y mode: crash/freeze in 64bits and lines instead of points - aded y mode only, added drawstyle, added properties windows!
+[count~] - fixed the min message, set message and 2nd inlet
+[spike~] - fixed the time resolution (it was off by one sample)
+[linedrive] - default args, clip output values
+[+=~] - fixed the float input bug / outputs 0 when signal not connected
+[pong~] - wrapping bug fix
+[buffir~] - fixed weird behaviour on 64 bits
+[record~] - fixed the output, the reset/append messages and number of channels
+[cycle~] - fixed the DSP reset, made the cosine table symmetric & some bugs with wrapping through the table
+[matrix~] - fixed list input bug (was updating gain arg)
+[minmax~] - fixed the way it is reset and no signal input behaviour
+[wave~] - fixed number of channels
+[play~] - fixed number of channels
+[table] - "write" and method flags method.
+[zl] - numerous bug fixes, big ones are: size management, and fixes in modes group, len, sub & nth
+
+31 objects that did not need updates:
+
+[!/] - div by 0 is now 0
+[pow~] - nan/inf output become 0
+[cartopol~] - fixed the behaviour for no input for 1st inlet
+[poltocar~] - fixed the behaviour for no input for 1st inlet
+[buddy] - fixed the bang method
+[bondo] - fixed the symbol method/selector
+[cycle] - fixed the symbol method/selector
+[capture~] - fixed data display
+[rampsmooth~] - fixed the bug where it was extrapolating the value for 1 sample, allowed the update of ramp values while the ramp is still running.
+[kink~] - fixed restrains for argument
+[rand~] - neg input becomes 0, workaround to allow max freq input = sample rate;
+[click~] - max setable size to 256
+[index~] - fixed the input channel clipping
+[line~] - max pair to 128
+[past] - bugs with list behaviour
+[sprintf] - added missing 'symout' argument, fixed behaviour without arguments, not allowing bangs in secondary inlets, fixed the output for %ld and negative inputs
+[pv] - got rid of annoying error with [send] sharing the same name, made it instantiate without arguments
+[train~] - now when width is "0" it has a pulse of 1 sample, and a pulse of "n-1" samples for width = 1 / also improved the way phase onset actually works
+[poke~] - fixed to automatic redrawing
+[allpass~] - default max delay to 10ms - / corrected the filter formula -allow blow ups
+[comb~] - default max delay to 10ms / allowing blowups / corrected the filter formula
+[teeth~] - newly written object based on the new rewrite of [comb~], adding full compatibility/functionality to the external and fixing bugs - this object was introduced in alpha57 as an abstraction by porres and made into a compiled object in 0.2beta2
+[lookup~] - max table size is array's size, added linear interpolation
+[onepole~] - default args
+[thresh] - fixed input message types and errors
+[append] - fixed useless inlet bug, bang behaviour and symbol input
+[prepend] - fixed useless inlet bug, bang behaviour
+[sampstoms~] - float input now reflects on signal output
+[mstosamps~] - float input now reflects on signal output
+[asin] - removed protection against nan (was unchecked)
+[acos] - removed protection against nan (was unchecked)
+G) Objects' names to lowcase by default and avoiding nameclash [17 Objects affected]: [line~], [scope~], [uzi], [borax], [bucket], [decode], [histo], [peak], [trough], [clip], [pow~], [clip~], [snapshot~], [table], [mousestate], [togedge] and [append]
 
 H) Fixing proper input types for signal objects (mostly not allowing float input in main signal input), 64 objects affected: non-alphanumeric objects **, [acos~], [acosh~], [allpass~], [asin~], [asinh~], [atan~], [atan2~], [atanh~], [avg~], [bitand~], [bitor~], [bitxor~], [buffir~], [capture~], [cartopol~], [click~], [clip~], [comb~], [cosh~], [cosx~], [curve~], [delay~], [delta~], [deltaclip~], [edge~], [frameaccum~], [framedelta~], [index~], [kink~], [lookup~], [lores~], [matrix~], [minmax~], [maximum~], [minimum~], [onepole~], [peakamp~], [phasewrap~], [pink~], [poltocar~], [pow~], [rampsmooth~], [reson~], [sah~], [sinh~], [sinx~], [slide~], [spike~], [svf~], [tanh~], [tanx~], [vectral~], [wave~] and [zerox~]
 
-* ** non-alphanumeric objects are: ==~ - !=~ - <~ - <=~ - >~ - >=~ - !-~ - !/~ - %~ - +=~
+** non-alphanumeric objects are: ==~ - !=~ - <~ - <=~ - >~ - >=~ - !-~ - !/~ - %~ - +=~
 
-I) Other objects removed/included: Replaced the [output~] abstraction by an extra named [out~], borrowed from the "else" library. Another object borrowed from "else" is [setdsp~]. Objects [abs~] and [log~] were deleted because now vanilla also has these objects with the exact same function/behaviour, so they became redundanct.  
+I) Other objects removed/included: Replaced the [output~] abstraction by an extra named [out~], borrowed from the "else" library. Another object borrowed from "else" is [setdsp~]. Objects [abs~] and [log~] were deleted because now vanilla also has these objects with the exact same function/behaviour, so they became redundanct.
 
-J) Completely rewritten and redesigned documentation, solving numerous issues/mistakes
+J) Completely rewritten and redesigned documentation, solving numerous issues/mistakes (still in progress)
+
 
 | Under the maintenance of Fred Jan Kraan: 
 
