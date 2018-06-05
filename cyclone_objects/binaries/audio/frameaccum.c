@@ -10,30 +10,25 @@
 #define FRAMEACCUM_INISIZE  512
 #define TWO_PI              (M_PI * 2.)
 
-typedef struct _frameaccum
-{
+typedef struct _frameaccum{
     t_object  x_obj;
     t_inlet  *frameaccum;
     int       x_size;
     int       x_wrapFlag;
     t_float  *x_frame;
     t_float   x_frameini[FRAMEACCUM_INISIZE];
-} t_frameaccum;
+}t_frameaccum;
 
 static t_class *frameaccum_class;
 
-static t_int *frameaccum_perform(t_int *w)
-{
+static t_int *frameaccum_perform(t_int *w){
     int nblock = (int)(w[1]);
     t_frameaccum *x = (t_frameaccum *)(w[2]);
     t_float *frame = x->x_frame;
     t_float *in = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
-    
-    if (x->x_wrapFlag)
-    {   
-        while (nblock--)
-        { 
+    if(x->x_wrapFlag){
+        while (nblock--){
             *frame += *in++;
              double dnorm = *frame + M_PI;
              if (dnorm < 0)
@@ -42,22 +37,22 @@ static t_int *frameaccum_perform(t_int *w)
                  *frame = fmod(dnorm, TWO_PI) - M_PI;
             *out++ = *frame++;
         }
-    } else {
-        while (nblock--) *out++ = (*frame++ += *in++); 
     }
-    return (w + 5);
+    else{
+        while(nblock--)
+            *out++ = (*frame++ += *in++);
+    }
+    return(w+5);
 }
 
-static void frameaccum_dsp(t_frameaccum *x, t_signal **sp)
-{
+static void frameaccum_dsp(t_frameaccum *x, t_signal **sp){
     int nblock = sp[0]->s_n;
-    if (nblock > x->x_size)
-	x->x_frame = grow_nodata(&nblock, &x->x_size, x->x_frame,
-				 FRAMEACCUM_INISIZE, x->x_frameini,
-				 sizeof(*x->x_frame));
+    if(nblock > x->x_size){
+        x->x_frame = grow_nodata(&nblock, &x->x_size, x->x_frame,
+                FRAMEACCUM_INISIZE, x->x_frameini, sizeof(*x->x_frame));
+    }
     memset(x->x_frame, 0, nblock * sizeof(*x->x_frame));  /* CHECKED */
-    dsp_add(frameaccum_perform, 4, nblock, x,
-	    sp[0]->s_vec, sp[1]->s_vec);
+    dsp_add(frameaccum_perform, 4, nblock, x, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 static void frameaccum_free(t_frameaccum *x)
@@ -75,8 +70,7 @@ static void *frameaccum_new(t_floatarg f)
     x->x_frame = x->x_frameini;
     if ((size = sys_getblksize()) > FRAMEACCUM_INISIZE)
 	x->x_frame = grow_nodata(&size, &x->x_size, x->x_frame,
-				 FRAMEACCUM_INISIZE, x->x_frameini,
-				 sizeof(*x->x_frame));
+				 FRAMEACCUM_INISIZE, x->x_frameini, sizeof(*x->x_frame));
     outlet_new((t_object *)x, &s_signal);
     return (x);
 }

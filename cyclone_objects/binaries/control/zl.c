@@ -813,7 +813,7 @@ static void zl_doit(t_zl *x, int banged){
         if(natoms > d->d_max) // giving this a shot...
             natoms = d->d_max;
         // basically will limit output buffer to specified size instead of allowing it to go over...
-        if(prealloc)
+        //if(prealloc)
             (*zl_doitfn[x->x_mode])(x, natoms, d->d_buf, banged);
     }
     else
@@ -827,42 +827,42 @@ static void zl_bang(t_zl *x){
 }
 
 static void zl_float(t_zl *x, t_float f){
-    if (!x->x_locked){
+   // if (!x->x_locked){
         if (zl_modeflags[x->x_mode])
             zldata_addfloat(&x->x_inbuf1, f);
         else
             zldata_setfloat(&x->x_inbuf1, f);
-    }
+    //}
     zl_doit(x, 0);
 }
 
 static void zl_symbol(t_zl *x, t_symbol *s){
-    if (!x->x_locked){
+    //if (!x->x_locked){
         if (zl_modeflags[x->x_mode])
             zldata_addsymbol(&x->x_inbuf1, s);
         else
             zldata_setsymbol(&x->x_inbuf1, s);
-    }
+    //}
     zl_doit(x, 0);
 }
 
 static void zl_list(t_zl *x, t_symbol *s, int ac, t_atom *av){
-    if(!x->x_locked){
+    //if(!x->x_locked){
         if(zl_modeflags[x->x_mode])
             zldata_addlist(&x->x_inbuf1, ac, av);
         else
             zldata_setlist(&x->x_inbuf1, ac, av);
-    }
+    //}
     zl_doit(x, 0);
 }
 
 static void zl_anything(t_zl *x, t_symbol *s, int ac, t_atom *av){
-    if(!x->x_locked){
+    //if(!x->x_locked){
         if(zl_modeflags[x->x_mode])
             zldata_add(&x->x_inbuf1, s, ac, av);
         else
             zldata_set(&x->x_inbuf1, s, ac, av);
-    }
+    //}
     zl_doit(x, 0);
 }
 
@@ -1032,7 +1032,6 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
     if(!strcmp(zl_modesym[x->x_mode]->s_name,"group"))
     	zl_group_sizecheck(x, sz);
-    
     return(x);
 errstate:
     post("zl: improper args");
