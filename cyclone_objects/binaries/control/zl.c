@@ -4,6 +4,7 @@
 
 //notes: main inlet calls proper data handlers (zl_anything, etc), which deal with the input through zldata_add/set functions which fill inbuf1, THEN zl_doit is called which calls the "natoms_fn" (suffixed by _count) and calls the doitfn (usu just the mode name like zl_len) called on the OUTPUT buffer outbuf
 #include <string.h>
+#include <stdlib.h>
 #include "m_pd.h"
 
 // LATER test reentrancy, tune speedwise
@@ -32,6 +33,7 @@ typedef struct _zldata{
     int      d_size;    /* as allocated */
     int      d_max;     // max size allowed, must be <= d_size
     int      d_natoms;  /* as used */
+    int		 d_sorted; //-1 for sorted descending, otherwise sorted ascending
     t_atom  *d_buf;
     t_atom   d_bufini[ZL_DEF_SIZE];
 } t_zldata;
@@ -697,16 +699,67 @@ static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged){
 
 // ************************* SORT *********************************
 
-static void zl_sort_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
-    //
+static void zl_sort_intarg(t_zl *x, int i){
+    x->x_modearg = (i == -1 ? -1 : 1);
 }
 
 static int zl_sort_count(t_zl *x){
-    //
+    return (x->x_inbuf1.d_natoms);
+}
+
+static int zl_sort_cmpup(const void * elem1, const void * elem2) {
+	t_atom *a1 = (t_atom *)elem1, *a2 = (t_atom *)elem2;
+	if (a1->a_type == A_FLOAT && a2->a_type == A_SYMBOL)
+		return (-1);
+	if (a1->a_type == A_SYMBOL && a2->a_type == A_FLOAT)
+		return (1);
+	if (a1->a_type == A_FLOAT && a2->a_type == A_FLOAT) {
+		if (a1->a_w.w_float < a2->a_w.w_float)
+			return (-1);
+		if (a1->a_w.w_float > a2->a_w.w_float)
+			return (1);
+		return (0);
+	}
+	if (a1->a_type == A_SYMBOL && a2->a_type == A_SYMBOL)
+		return (strcmp(a1->a_w.w_symbol->s_name, a2->a_w.w_symbol->s_name));
+	if (a1->a_type == A_POINTER)
+		return (1);
+	if (a2->a_type == A_POINTER)
+		return (-1);	
+}
+
+static int zl_sort_cmpdown(const void *elem1, const void *elem2) {
+	return (-zl_sort_cmpup(elem1, elem2));
 }
 
 static void zl_sort(t_zl *x, int natoms, t_atom *buf, int banged){
-    //
+	if(buf) {
+    	t_atom *av = x->x_inbuf1.d_buf;
+    	if(banged) {
+    		if (x->x_inbuf1.d_sorted == x->x_modearg)
+    		{
+    			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+    			zl_output(x, natoms, buf);
+    		}
+    		else
+    			zl_rev(x, natoms, buf, banged);
+    	}
+    	else {
+    		if (x->x_modearg == -1) {
+    			qsort(av, natoms, sizeof(*buf), zl_sort_cmpdown);
+    			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+    			x->x_inbuf1.d_sorted = -1;
+    			zl_output(x, natoms, buf);
+    		}
+    		else {
+    			qsort(av, natoms, sizeof(*buf), zl_sort_cmpup);
+    			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+    			x->x_inbuf1.d_sorted = 1;
+    			zl_output(x, natoms, buf);
+    		}
+    	}
+    	
+    } // if(buf)
 }
 
 // ************************* SUB *********************************
@@ -796,6 +849,7 @@ static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged){
 	zl_output(x, natoms, buf);
     }
 }
+
 
 // ********************************************************************
 // ************************* METHODS **********************************
@@ -1079,7 +1133,7 @@ void zl_setup(void){
     zl_setupmode("rot",	0, zl_rot_intarg, 0, zl_rot_count, zl_rot, 10);
     zl_setupmode("sect", 0, 0, zl_sect_anyarg, zl_sect_count, zl_sect, 11);
     zl_setupmode("slice", 0, zl_slice_intarg, 0, zl_slice_count, zl_slice, 12);
-    zl_setupmode("sort", 0, 0, zl_sort_anyarg, zl_sort_count, zl_sort, 13);
+    zl_setupmode("sort", 0, zl_sort_intarg, 0, zl_sort_count, zl_sort, 13);
     zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub, 14);
     zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union, 15);
 }
