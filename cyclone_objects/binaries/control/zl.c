@@ -699,16 +699,15 @@ static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged){
 
 // ************************* SORT *********************************
 
-static void zl_sort_intarg(t_zl *x, int i){
-    x->x_modearg = (i == -1 ? -1 : 1);
+static int zl_sort_intarg(t_zl *x, int i){
+    return (i == -1 ? -1 : 1);
 }
 
 static int zl_sort_count(t_zl *x){
     return (x->x_inbuf1.d_natoms);
 }
 
-static int zl_sort_cmpup(const void * elem1, const void * elem2) {
-	t_atom *a1 = (t_atom *)elem1, *a2 = (t_atom *)elem2;
+static int zl_sort_cmp(t_zl *x, t_atom *a1, t_atom *a2) {
 	if (a1->a_type == A_FLOAT && a2->a_type == A_SYMBOL)
 		return (-1);
 	if (a1->a_type == A_SYMBOL && a2->a_type == A_FLOAT)
@@ -728,36 +727,71 @@ static int zl_sort_cmpup(const void * elem1, const void * elem2) {
 		return (-1);	
 }
 
-static int zl_sort_cmpdown(const void *elem1, const void *elem2) {
+/*static int zl_sort_cmpdown(const void *elem1, const void *elem2) {
 	return (-zl_sort_cmpup(elem1, elem2));
+}*/
+static void zl_sort_swap(t_zl *x, t_atom *av, int i, int j) {
+	t_atom temp = av[j];
+	av[j] = av[i];
+	av[i] = temp; 
+}
+
+static void zl_sort_qsort(t_zl *x, t_atom *av1, t_atom *av2, int left, int right) {
+    int i, last;
+    if (left >= right)
+        return;
+    zl_sort_swap(x, av1, left, (left + right)/2);
+    zl_sort_swap(x, av2, left, (left + right)/2);
+    last = left;
+    for (i = left+1; i <= right; i++) {
+        if ((x->x_modearg * zl_sort_cmp(x, av1 + i, av1 + left)) < 0) {
+            zl_sort_swap(x, av1, ++last, i);
+            zl_sort_swap(x, av2, last, i);
+        }
+    }
+    zl_sort_swap(x, av1, left, last);
+    zl_sort_swap(x, av2, left, last);
+    zl_sort_qsort(x, av1, av2, left, last-1);
+    zl_sort_qsort(x, av1, av2, last+1, right);
 }
 
 static void zl_sort(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
-    	t_atom *av = x->x_inbuf1.d_buf;
-    	if(banged) {
-    		if (x->x_inbuf1.d_sorted == x->x_modearg)
-    		{
-    			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
-    			zl_output(x, natoms, buf);
-    		}
-    		else
-    			zl_rev(x, natoms, buf, banged);
-    	}
-    	else {
-    		if (x->x_modearg == -1) {
-    			qsort(av, natoms, sizeof(*buf), zl_sort_cmpdown);
-    			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
-    			x->x_inbuf1.d_sorted = -1;
-    			zl_output(x, natoms, buf);
-    		}
-    		else {
-    			qsort(av, natoms, sizeof(*buf), zl_sort_cmpup);
-    			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
-    			x->x_inbuf1.d_sorted = 1;
-    			zl_output(x, natoms, buf);
-    		}
-    	}
+    	t_atom *av1 = x->x_inbuf1.d_buf;
+    	t_atom *av2 = x->x_inbuf2.d_buf;
+    	x->x_inbuf2.d_natoms = natoms;
+    	for (int i = 0; i < natoms; i++)
+    		SETFLOAT(&av2[i], i);
+//     	if(banged) {
+//     		if (x->x_inbuf1.d_sorted == x->x_modearg)
+//     		{
+//     			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+//     			zl_output(x, natoms, buf);
+//     		}
+//     		else
+//     			zl_rev(x, natoms, buf, banged);
+//     	}
+//     	else {
+			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+    		zl_sort_qsort(x, buf, av2, 0, natoms - 1);
+    		//
+    		x->x_inbuf1.d_sorted = x->x_modearg;
+    		zl_output2(x, natoms, av2);
+    		zl_output(x, natoms, buf);
+    		
+//     		if (x->x_modearg == -1) {
+//     			qsort(av, natoms, sizeof(*buf), zl_sort_cmpdown);
+//     			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+//     			x->x_inbuf1.d_sorted = -1;
+//     			zl_output(x, natoms, buf);
+//     		}
+//     		else {
+//     			qsort(av, natoms, sizeof(*buf), zl_sort_cmpup);
+//     			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+//     			x->x_inbuf1.d_sorted = 1;
+//     			zl_output(x, natoms, buf);
+//    		}
+//     	}
     	
     } // if(buf)
 }
