@@ -174,13 +174,13 @@ static void scale_ft(t_scale *x, t_floatarg f)
   return;
 }
 
-static static t_float scaling(t_scale *x, t_float f)
+static t_float scaling(t_scale *x, t_float f)
 {
   f = (x->maxout - x->minout)*(f-x->minin)/(x->maxin-x->minin) + x->minout;
   return f;
 }
 
-static static t_float exp_scaling(t_scale *x, t_float f)
+static t_float exp_scaling(t_scale *x, t_float f)
 {
   f = ((f-x->minin)/(x->maxin-x->minin) == 0) 
     ? x->minout : (((f-x->minin)/(x->maxin-x->minin)) > 0) 
