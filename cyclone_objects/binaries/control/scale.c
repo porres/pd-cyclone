@@ -44,10 +44,10 @@ static void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv);
 static void scale_free(t_scale *x);
 static void scale_classic(t_scale *x, t_floatarg f);
 
-static static t_float scaling(t_scale *x, t_float f);
-static static t_float exp_scaling(t_scale *x, t_float f);
-static static t_float clas_scaling(t_scale *x, t_float f);
-static static t_float (*ptrtoscaling)(t_scale *x,t_float f);
+static t_float scaling(t_scale *x, t_float f);
+static t_float exp_scaling(t_scale *x, t_float f);
+static t_float clas_scaling(t_scale *x, t_float f);
+static t_float (*ptrtoscaling)(t_scale *x,t_float f);
 static void check(t_scale *x);
 
 static void *scale_new(t_symbol *s, int argc, t_atom *argv)
