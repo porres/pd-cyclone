@@ -16,7 +16,7 @@ Max is found at: https://cycling74.com/
 
 Current Release: Cyclone 0.3 beta-4 (this release needs at least Pd Vanilla 0.48-1)
 
-Release Date: June 5th 2018
+Release Date: June 6th 2018
 
 Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals)
 
