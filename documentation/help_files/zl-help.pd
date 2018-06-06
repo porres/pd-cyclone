@@ -556,32 +556,34 @@ it groups two 256 elements message., f 54;
 #X obj 50 236 cyclone/uzi 512;
 #X obj 137 276 cyclone/zl 512 group 512;
 #X obj 137 304 cyclone/zl len @zlmaxsize 512;
-#N canvas 889 66 405 334 sort 0;
-#X obj 69 188 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#N canvas 889 66 405 380 sort 0;
+#X obj 69 218 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 20 14 comment 185 14 monaco ? 0 0 0 0 Mode: sort;
-#X text 192 161 <= sets mode and arguments;
-#X msg 91 134 zlclear;
-#X msg 233 220 1;
-#X msg 198 220 -1;
-#X msg 111 161 mode sort -1;
-#X obj 111 251 cyclone/zl sort;
-#X msg 125 190 10 3 b 4 6 a 9 d 2 c 1 5 0 8 7;
-#X obj 111 285 print sorted;
-#X obj 198 285 print indexes;
-#X text 18 42 The sort mode sorts the elements of a list. An additional
+#X text 192 191 <= sets mode and arguments;
+#X msg 91 164 zlclear;
+#X msg 233 250 1;
+#X msg 198 250 -1;
+#X msg 111 191 mode sort -1;
+#X obj 111 281 cyclone/zl sort;
+#X obj 111 315 print sorted;
+#X obj 198 315 print indexes;
+#X text 17 42 The sort mode sorts the elements of a list. An additional
 argument specifies the order: "-1" sorts in descending order \, and
 any other value sorts in ascending order (the default is "0"/ascending).
 This vis also specified in the right inlet.;
-#X text 264 220 <= order;
+#X text 264 250 <= order;
+#X text 18 104 The left outlet outputs the sorted list \, and the right
+outlet outputs the sorted indexes., f 57;
+#X msg 125 220 10 3 b 4 6 a 9 d 2 c 1 5 0 8 7;
 #X connect 0 0 7 0;
 #X connect 3 0 7 0;
 #X connect 4 0 7 1;
 #X connect 5 0 7 1;
 #X connect 6 0 7 0;
-#X connect 7 0 9 0;
-#X connect 7 1 10 0;
-#X connect 8 0 7 0;
+#X connect 7 0 8 0;
+#X connect 7 1 9 0;
+#X connect 13 0 7 0;
 #X restore 412 361 pd sort;
 #X text 19 121 Check details about each mode in the subpatches on the
 right. The modes introduced in the Max5+ versions are not implemented
