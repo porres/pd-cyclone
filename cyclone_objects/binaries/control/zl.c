@@ -4,7 +4,6 @@
 
 //notes: main inlet calls proper data handlers (zl_anything, etc), which deal with the input through zldata_add/set functions which fill inbuf1, THEN zl_doit is called which calls the "natoms_fn" (suffixed by _count) and calls the doitfn (usu just the mode name like zl_len) called on the OUTPUT buffer outbuf
 #include <string.h>
-#include <stdlib.h>
 #include "m_pd.h"
 
 // LATER test reentrancy, tune speedwise
@@ -12,7 +11,7 @@
 #define ZL_DEF_SIZE    256     // default size
 #define ZL_MINSIZE     1       // min size
 #define ZL_MAXSIZE     32767   // max size
-#define ZL_N_MODES     16      // number of modes
+#define ZL_N_MODES     33      // number of modes
 
 struct _zl;
 
@@ -167,11 +166,10 @@ static void zldata_setlist(t_zldata *d, int ac, t_atom *av){
 static void zldata_set(t_zldata *d, t_symbol *s, int ac, t_atom *av){
     if(s && s != &s_){
         int nrequested = ac + 1;
-	if(nrequested > d->d_max)
-	  {
-	    ac = d->d_max - 1;
-	    if (ac < 0) ac = 0;
-	  };
+		if(nrequested > d->d_max) {
+	    	ac = d->d_max - 1;
+	    	if (ac < 0) ac = 0;
+	  	}
         if(d->d_max >= 1){
             SETSYMBOL(d->d_buf, s);
             if(ac > 0)
@@ -755,43 +753,38 @@ static void zl_sort_qsort(t_zl *x, t_atom *av1, t_atom *av2, int left, int right
     zl_sort_qsort(x, av1, av2, last+1, right);
 }
 
+static void zl_sort_rev(t_zl *x, int natoms, t_atom *av) {
+	for (int i = 0, j = natoms - 1; i < natoms/2; i++, j--)
+		zl_sort_swap(x, av, i, j);
+	
+}
+
 static void zl_sort(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
     	t_atom *av1 = x->x_inbuf1.d_buf;
     	t_atom *av2 = x->x_inbuf2.d_buf;
     	x->x_inbuf2.d_natoms = natoms;
-    	for (int i = 0; i < natoms; i++)
-    		SETFLOAT(&av2[i], i);
-//     	if(banged) {
-//     		if (x->x_inbuf1.d_sorted == x->x_modearg)
-//     		{
-//     			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
-//     			zl_output(x, natoms, buf);
-//     		}
-//     		else
-//     			zl_rev(x, natoms, buf, banged);
-//     	}
-//     	else {
+    	if(banged) {
+    		if (x->x_inbuf1.d_sorted != x->x_modearg) {
+    			x->x_inbuf1.d_sorted = x->x_modearg;
+    			zl_sort_rev(x, natoms, av2);
+    			zl_sort_rev(x, natoms, buf);
+    		}
+    		zl_output2(x, natoms, av2);
+    		zl_output(x, natoms, buf);		
+    	}
+    	else {
+
 			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
+			for (int i = 0; i < natoms; i++)
+    			SETFLOAT(&av2[i], i);
     		zl_sort_qsort(x, buf, av2, 0, natoms - 1);
     		//
     		x->x_inbuf1.d_sorted = x->x_modearg;
     		zl_output2(x, natoms, av2);
     		zl_output(x, natoms, buf);
     		
-//     		if (x->x_modearg == -1) {
-//     			qsort(av, natoms, sizeof(*buf), zl_sort_cmpdown);
-//     			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
-//     			x->x_inbuf1.d_sorted = -1;
-//     			zl_output(x, natoms, buf);
-//     		}
-//     		else {
-//     			qsort(av, natoms, sizeof(*buf), zl_sort_cmpup);
-//     			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
-//     			x->x_inbuf1.d_sorted = 1;
-//     			zl_output(x, natoms, buf);
-//    		}
-//     	}
+		}
     	
     } // if(buf)
 }
@@ -884,6 +877,65 @@ static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged){
     }
 }
 
+// ************************* CHANGE *********************************
+
+static void zl_change_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+        zldata_set(&x->x_inbuf2, s, ac, av);
+}
+
+static int zl_change_count(t_zl *x){
+	return (x->x_inbuf1.d_natoms);
+}
+
+static void zl_change(t_zl *x, int natoms, t_atom *buf, int banged){
+	if(buf) {
+		int ac2 = x->x_inbuf2.d_natoms;
+    	t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
+    	if ((natoms == ac2) && !memcmp(av1, av2, natoms * sizeof(*av1))) {
+    		outlet_float(x->x_out2, 0);
+    	}
+    	else {
+    		memcpy(av2, av1, natoms * sizeof(*buf));
+    		x->x_inbuf2.d_natoms = natoms;
+    		outlet_float(x->x_out2, 1);
+    		zl_output(x, natoms, av1);
+    	}
+    }
+}
+
+// ************************* COMPARE *********************************
+
+static void zl_compare_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+        zldata_set(&x->x_inbuf2, s, ac, av);
+}
+
+static int zl_compare_count(t_zl *x){
+	return (x->x_inbuf1.d_natoms);
+}
+
+static void zl_compare(t_zl *x, int natoms, t_atom *buf, int banged){
+	if(buf) {
+		int ac2 = x->x_inbuf2.d_natoms;
+		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
+		if (natoms != ac2) {
+			outlet_float(x->x_out2, (natoms < ac2 ? natoms : ac2)) ;
+			outlet_float(((t_object *)x)->ob_outlet, 0);
+		}
+		else {
+			int i;
+			for (i = 0 ; i < natoms && zl_equal(av1 + i,av2 + i) ; i++) {
+				//
+			} 
+			if (i == natoms)
+				outlet_float(((t_object *)x)->ob_outlet, 1);
+			else {
+				outlet_float(x->x_out2, i) ;
+				outlet_float(((t_object *)x)->ob_outlet, 0);
+			}	
+		}
+		 
+	}
+}
 
 // ********************************************************************
 // ************************* METHODS **********************************
@@ -927,7 +979,7 @@ static void zl_float(t_zl *x, t_float f){
 static void zl_symbol(t_zl *x, t_symbol *s){
     //if (!x->x_locked){
         if (zl_modeflags[x->x_mode])
-            zldata_addsymbol(&x->x_inbuf1, s);
+            zldata_addsymbol(&x->x_inbuf1, s); 
         else
             zldata_setsymbol(&x->x_inbuf1, s);
     //}
@@ -1127,7 +1179,7 @@ errstate:
 }
 
 static void zl_setupmode(char *id, int flags,
-        t_zlintargfn ifn, t_zlanyargfn afn, t_zlnatomsfn nfn, t_zldoitfn dfn, int i){
+    	t_zlintargfn ifn, t_zlanyargfn afn, t_zlnatomsfn nfn, t_zldoitfn dfn, int i){
     zl_modesym[i] = gensym(id);
     zl_modeflags[i] = flags;
     zl_intargfn[i] = ifn;
@@ -1170,4 +1222,11 @@ void zl_setup(void){
     zl_setupmode("sort", 0, zl_sort_intarg, 0, zl_sort_count, zl_sort, 13);
     zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub, 14);
     zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union, 15);
+    // new after Max 4
+    // change compare delace filter lace lookup median queue (rotate) scramble stack 
+    // stream sum thin unique
+    // for cyclone: stack2 - remember size of lists put on stack
+    //				queue2 - remember size of lists put in queue
+    zl_setupmode("change", 0, 0, zl_change_anyarg, zl_change_count, zl_change, 16);
+    zl_setupmode("compare", 0, 0, zl_compare_anyarg, zl_compare_count, zl_compare, 17);
 }
