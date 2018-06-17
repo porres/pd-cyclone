@@ -1,17 +1,17 @@
-#N canvas 427 49 572 574 10;
+#N canvas 592 134 559 540 10;
 #X obj 2 209 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 465 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 431 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 514 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 480 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 77 472 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 75 438 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 330 184 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
 -1 -1;
-#X obj 77 493 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 75 459 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 546 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 512 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 219 121 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
 -66577 -1;
@@ -30,28 +30,23 @@
 #X restore 304 3 pd;
 #X text 191 123 Play;
 #X obj 219 185 print;
-#X obj 77 217 cnv 17 3 240 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 75 217 cnv 17 3 210 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 189 495 sent at the end of a sequence (useful for looping)
+#X text 189 461 sent at the end of a sequence (useful for looping)
 ;
-#X text 134 245 append -;
-#X text 189 245 records at the end of the stored sequence, f 59;
-#X text 146 275 dump -;
-#X text 92 260 delay <float> -;
-#X text 97 302 hook <float> -;
-#X text 189 260 onset time in ms of the first event, f 59;
-#X text 189 275 opens a dialog box to select a saved sequence to be
-opened in a new text window \, which can be edited and saved, f 59
-;
-#X text 138 473 float -;
-#X text 144 494 bang -;
-#X text 116 522 1) symbol -;
+#X text 133 245 append -;
+#X text 188 245 records at the end of the stored sequence, f 59;
+#X text 91 260 delay <float> -;
+#X text 96 276 hook <float> -;
+#X text 188 260 onset time in ms of the first event, f 59;
+#X text 138 439 float -;
+#X text 144 460 bang -;
+#X text 116 488 1) symbol -;
 #X msg 255 125 stop;
 #X text 176 230 - raw MIDI data stream to be recorded, f 61;
-#X text 189 302 multiplies all the event times by the given number
+#X text 188 276 multiplies all the event times by the given number
 (even when playing), f 59;
-#X text 189 473 raw MIDI data stream from played sequence;
-#X obj 219 156 cyclone/seq seq.mid;
+#X text 189 439 raw MIDI data stream from played sequence;
 #N canvas 447 157 813 469 basic 0;
 #X obj 133 319 cyclone/midiparse;
 #X obj 162 149 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577
@@ -89,7 +84,6 @@ MIDI.;
 #X obj 488 396 cyclone/midiparse;
 #X obj 631 395 cyclone/midiformat;
 #X obj 562 432 cyclone/midiflush;
-#X obj 133 251 cyclone/seq;
 #X text 242 368 synthesizer;
 #N canvas 638 210 345 266 polysynth 0;
 #X obj 65 20 inlet;
@@ -198,10 +192,11 @@ messages to our synth.;
 #X text 25 87 Use the 'read' message to open another file with the
 dialog box and 'read seq.mid' to re open the example. The 'delay' message
 adds a delay in ms before sending the fisrt event.;
-#X connect 0 0 32 0;
+#X obj 133 251 cyclone/seq;
+#X connect 0 0 31 0;
 #X connect 1 0 17 0;
-#X connect 2 0 30 0;
-#X connect 3 0 30 0;
+#X connect 2 0 40 0;
+#X connect 3 0 40 0;
 #X connect 5 0 0 0;
 #X connect 6 0 5 0;
 #X connect 10 0 9 0;
@@ -214,47 +209,47 @@ adds a delay in ms before sending the fisrt event.;
 #X connect 17 0 3 0;
 #X connect 17 1 2 0;
 #X connect 17 1 6 0;
-#X connect 18 0 34 0;
-#X connect 19 0 30 0;
+#X connect 18 0 33 0;
+#X connect 19 0 40 0;
 #X connect 22 0 9 0;
 #X connect 25 0 15 0;
 #X connect 26 0 15 0;
-#X connect 30 0 5 0;
-#X connect 30 1 3 0;
-#X connect 32 0 35 0;
-#X connect 32 0 35 1;
-#X connect 34 0 30 0;
-#X connect 39 0 30 0;
+#X connect 31 0 34 0;
+#X connect 31 0 34 1;
+#X connect 33 0 40 0;
+#X connect 38 0 40 0;
+#X connect 40 0 5 0;
+#X connect 40 1 3 0;
 #X restore 492 157 pd basic;
 #X text 351 185 <= when finished;
-#X text 138 329 print -;
-#X text 189 329 prints the first 16 events of the sequence in the Pd
+#X text 137 303 print -;
+#X text 188 303 prints the first 16 events of the sequence in the Pd
 Window;
-#X text 90 375 start <float> -;
-#X text 90 344 read <symbol> -;
-#X text 84 436 write <symbol> -;
-#X text 132 360 record -;
-#X text 144 403 stop -;
-#X text 144 419 tick -;
-#X text 189 360 starts recording raw MIDI received in the inlet, f
+#X text 89 349 start <float> -;
+#X text 89 318 read <symbol> -;
+#X text 83 410 write <symbol> -;
+#X text 131 334 record -;
+#X text 143 377 stop -;
+#X text 143 393 tick -;
+#X text 188 334 starts recording raw MIDI received in the inlet, f
 59;
-#X text 189 419 external clock \, needed after 'start -1' message,
+#X text 188 393 external clock \, needed after 'start -1' message,
 f 59;
-#X text 189 436 saves to a MIDI file (no symbol opens a dialog box)
+#X text 188 410 saves to a MIDI file (no symbol opens a dialog box)
 , f 59;
-#X text 189 345 reads from a MIDI file (no symbol opens a dialog box)
+#X text 188 319 reads from a MIDI file (no symbol opens a dialog box)
 , f 59;
 #X text 176 214 - starts or restarts playing a sequence at normal speed
 , f 61;
-#X text 189 375 start/restart sequence at a given tempo (default '1024'
+#X text 188 349 start/restart sequence at a given tempo (default '1024'
 - normal tempo) \, 'start -1' expects tick messages, f 59;
-#X text 191 522 a MIDI file to be loaded;
+#X text 191 488 a MIDI file to be loaded;
 #X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 MIDI sequencer;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 seq;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X text 189 403 stops recording/playing and goes back to start, f
+#X text 188 377 stops recording/playing and goes back to start, f
 59;
 #X text 66 86 [seq] plays/records raw MIDI streams and can save/read
 MIDI sequence files. All tracks of a multi-track midi file are merged
@@ -305,8 +300,9 @@ clock tick;
 #X connect 14 0 15 0;
 #X connect 15 0 10 0;
 #X restore 492 179 pd start;
-#X connect 7 0 33 0;
-#X connect 29 0 33 0;
-#X connect 33 0 8 0;
-#X connect 33 0 16 0;
-#X connect 33 1 4 0;
+#X obj 219 156 cyclone/seq seq.mid;
+#X connect 7 0 55 0;
+#X connect 27 0 55 0;
+#X connect 55 0 8 0;
+#X connect 55 0 16 0;
+#X connect 55 1 4 0;
