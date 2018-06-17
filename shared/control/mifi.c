@@ -79,7 +79,7 @@ typedef unsigned char uchar;
 #endif 
 */
 
-#define MIFI_VERBOSE
+// #define MIFI_VERBOSE
 
 #define MIFI_SHORTESTEVENT        2  /* singlebyte delta and one databyte */
 #define MIFI_TICKEPSILON  ((double).0001)
