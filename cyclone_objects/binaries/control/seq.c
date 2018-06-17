@@ -1136,7 +1136,6 @@ static void *seq_new(t_symbol *s)
     else x->x_defname = &s_;
     x->x_clock = clock_new(x, (t_method)seq_clocktick);
     x->x_slaveclock = clock_new(x, (t_method)seq_slaveclocktick);
-     //       pd_error(x, "[cyclone/seq] is not ready yet");
     return (x);
 }
 
@@ -1171,8 +1170,7 @@ void seq_setup(void)
     class_addmethod(seq_class, (t_method)seq_print,
 		    gensym("print"), 0);
 
-    // not available in Max
-    // "not ready yet"
+    /* unssuported (not available in Max)
     class_addmethod(seq_class, (t_method)seq_pause,
 		    gensym("pause"), 0);
     class_addmethod(seq_class, (t_method)seq_continue,
@@ -1189,6 +1187,6 @@ void seq_setup(void)
 		    gensym("pwd"), A_SYMBOL, 0);
     class_addmethod(seq_class, (t_method)seq_click,
 		    gensym("click"),
-		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0); */
     hammerfile_setup(seq_class, 0);
 }
