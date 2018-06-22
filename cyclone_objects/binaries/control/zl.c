@@ -4,6 +4,8 @@
 
 //notes: main inlet calls proper data handlers (zl_anything, etc), which deal with the input through zldata_add/set functions which fill inbuf1, THEN zl_doit is called which calls the "natoms_fn" (suffixed by _count) and calls the doitfn (usu just the mode name like zl_len) called on the OUTPUT buffer outbuf
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 #include "m_pd.h"
 
 // LATER test reentrancy, tune speedwise
@@ -44,7 +46,8 @@ typedef struct _zl{
     int               x_locked;  /* locking inbuf1 in modes: iter, reg, slice */
     t_zldata          x_inbuf1;
     t_zldata          x_inbuf2;
-    t_zldata          x_outbuf;
+    t_zldata          x_outbuf1;
+    t_zldata		  x_outbuf2;
     int               x_mode;
     int               x_modearg;
     t_outlet         *x_out2;
@@ -322,9 +325,9 @@ static void zl_group(t_zl *x, int natoms, t_atom *inbuf, int banged){
     if(count > 0){
     int i = 0;
     int inatoms = x->x_inbuf1.d_natoms;
-	int outatoms = x->x_outbuf.d_natoms;
-	int outmax = x->x_outbuf.d_max;
-	t_atom * outbuf = x->x_outbuf.d_buf;
+	int outatoms = x->x_outbuf1.d_natoms;
+	int outmax = x->x_outbuf1.d_max;
+	t_atom * outbuf = x->x_outbuf1.d_buf;
 	inbuf = x->x_inbuf1.d_buf;
 	if(inatoms > 0) x->x_locked = 1; // when do things get unlocked?! - DK
 	while(i < inatoms)
@@ -337,20 +340,20 @@ static void zl_group(t_zl *x, int natoms, t_atom *inbuf, int banged){
 	    zlhelp_copylist(&inbuf[i], &outbuf[outatoms], numcopy);
 	    //post("i:%d in:%d out:%d nc:%d", i, inatoms, outatoms, numcopy);
 	    i += numcopy;
-	    x->x_outbuf.d_natoms = outatoms += numcopy;
+	    x->x_outbuf1.d_natoms = outatoms += numcopy;
 	    if(outatoms >= count)
 	      {
 		zl_output(x, count, outbuf);
-		x->x_outbuf.d_natoms = outatoms -= count;
+		x->x_outbuf1.d_natoms = outatoms -= count;
 	      };
 	    
 	  };
 	x->x_inbuf1.d_natoms = 0; //since inlet methods add to inbuf1, make sure zeroed to treat as empty
-	x->x_outbuf.d_natoms = outatoms;
+	x->x_outbuf1.d_natoms = outatoms;
         if (banged && outatoms)
 	  {
             zl_output(x, outatoms, outbuf);
-            x->x_outbuf.d_natoms = 0;
+            x->x_outbuf1.d_natoms = 0;
 	  };
     }
     else
@@ -734,23 +737,26 @@ static void zl_sort_swap(t_zl *x, t_atom *av, int i, int j) {
 	av[i] = temp; 
 }
 
-static void zl_sort_qsort(t_zl *x, t_atom *av1, t_atom *av2, int left, int right) {
+static void zl_sort_qsort(t_zl *x, t_atom *av1, t_atom *av2, int left, int right, int dir) {
     int i, last;
     if (left >= right)
         return;
     zl_sort_swap(x, av1, left, (left + right)/2);
-    zl_sort_swap(x, av2, left, (left + right)/2);
+    if(av2)
+    	zl_sort_swap(x, av2, left, (left + right)/2);
     last = left;
     for (i = left+1; i <= right; i++) {
-        if ((x->x_modearg * zl_sort_cmp(x, av1 + i, av1 + left)) < 0) {
+        if ((dir * zl_sort_cmp(x, av1 + i, av1 + left)) < 0) {
             zl_sort_swap(x, av1, ++last, i);
-            zl_sort_swap(x, av2, last, i);
+            if (av2)
+            	zl_sort_swap(x, av2, last, i);
         }
     }
     zl_sort_swap(x, av1, left, last);
-    zl_sort_swap(x, av2, left, last);
-    zl_sort_qsort(x, av1, av2, left, last-1);
-    zl_sort_qsort(x, av1, av2, last+1, right);
+    if (av2)
+    	zl_sort_swap(x, av2, left, last);
+    zl_sort_qsort(x, av1, av2, left, last-1, dir);
+    zl_sort_qsort(x, av1, av2, last+1, right, dir);
 }
 
 static void zl_sort_rev(t_zl *x, int natoms, t_atom *av) {
@@ -762,26 +768,26 @@ static void zl_sort_rev(t_zl *x, int natoms, t_atom *av) {
 static void zl_sort(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
     	t_atom *av1 = x->x_inbuf1.d_buf;
-    	t_atom *av2 = x->x_inbuf2.d_buf;
-    	x->x_inbuf2.d_natoms = natoms;
+    	t_atom *buf2 = x->x_outbuf2.d_buf;
+    	x->x_outbuf2.d_natoms = natoms;
     	if(banged) {
     		if (x->x_inbuf1.d_sorted != x->x_modearg) {
     			x->x_inbuf1.d_sorted = x->x_modearg;
-    			zl_sort_rev(x, natoms, av2);
+    			zl_sort_rev(x, natoms, buf2);
     			zl_sort_rev(x, natoms, buf);
     		}
-    		zl_output2(x, natoms, av2);
+    		zl_output2(x, natoms, buf2);
     		zl_output(x, natoms, buf);		
     	}
     	else {
 
 			memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
 			for (int i = 0; i < natoms; i++)
-    			SETFLOAT(&av2[i], i);
-    		zl_sort_qsort(x, buf, av2, 0, natoms - 1);
+    			SETFLOAT(&buf2[i], i);
+    		zl_sort_qsort(x, buf, buf2, 0, natoms - 1, x->x_modearg);
     		//
     		x->x_inbuf1.d_sorted = x->x_modearg;
-    		zl_output2(x, natoms, av2);
+    		zl_output2(x, natoms, buf2);
     		zl_output(x, natoms, buf);
     		
 		}
@@ -937,6 +943,160 @@ static void zl_compare(t_zl *x, int natoms, t_atom *buf, int banged){
 	}
 }
 
+// ************************* DELACE *********************************
+
+static int zl_delace_count(t_zl *x){
+	return (x->x_inbuf1.d_natoms);
+}
+
+static void zl_delace(t_zl *x, int natoms, t_atom *buf, int banged){
+	if(buf && natoms/2) {
+		t_atom *av1 = x->x_inbuf1.d_buf, *buf2 = x->x_outbuf2.d_buf;
+		int n = natoms/2, i = 0;
+		while (n--) {
+			buf[i/2] = av1[i++];
+			buf2[i/2] = av1[i++];
+		}
+		zl_output2(x, natoms/2, buf2);
+		zl_output(x, natoms/2, buf);
+	}
+}
+
+// ************************* FILTER *********************************
+
+static void zl_filter_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    zldata_set(&x->x_inbuf2, s, ac, av);
+}
+
+static int zl_filter_count(t_zl *x){
+	return (x->x_inbuf1.d_natoms);
+}
+
+static void zl_filter(t_zl *x, int natoms, t_atom *buf, int banged){
+	if(buf) {
+		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf,
+			*buf2 = x->x_outbuf2.d_buf;
+		int filtatoms = x->x_inbuf2.d_natoms;
+		int i, j, total = 0;
+		for (i = 0; i < natoms ; i++) {
+			for (j = 0; j < filtatoms; j++) {
+				if (zl_equal(&av1[i], &av2[j]))
+					break;
+			}
+			if (j == filtatoms) {
+				//post("total = %d", total);
+				SETFLOAT(&buf2[total], i);
+				buf[total++] = av1[i];
+			}
+		}
+		zl_output2(x, total, buf2);
+		zl_output(x, total, buf);
+	}
+}
+
+// ************************* LACE *********************************
+
+static void zl_lace_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    zldata_set(&x->x_inbuf2, s, ac, av);
+}
+
+static int zl_lace_count(t_zl *x){
+	int ac1 = x->x_inbuf1.d_natoms, ac2 = x->x_inbuf2.d_natoms;
+	return (2*(ac1 < ac2 ? ac1 : ac2));
+}
+
+static void zl_lace(t_zl *x, int natoms, t_atom *buf, int banged){
+	if(buf) {
+		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
+		int i, j = 0, ac = natoms/2;
+		for (i = 0; i < ac; i++) {
+			 buf[j++] = av1[i];
+			 buf[j++] = av2[i];
+		}
+		zl_output(x, natoms, buf);
+		
+	}
+}
+
+// ************************* LOOKUP *********************************
+
+static void zl_lookup_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    zldata_set(&x->x_inbuf2, s, ac, av);
+}
+
+static int zl_lookup_count(t_zl *x){
+	return (x->x_inbuf1.d_natoms);
+}
+
+static void zl_lookup(t_zl *x, int natoms, t_atom *buf, int banged){
+	if (buf) {
+		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
+		int ac2 = x->x_inbuf2.d_natoms, total = 0, i, j;
+		for (i = 0; i < natoms; i++) {
+			post("total %d", total);
+			if (av1[i].a_type == A_FLOAT && (j = (int)av1[i].a_w.w_float) < ac2) {
+				post ("index %d", j);
+				buf[total++] = av2[j];
+			}
+		}
+		zl_output(x,total,buf);
+	}
+}
+
+// ************************* MEDIAN *********************************
+
+static int zl_median_count(t_zl *x){
+	return (x->x_inbuf1.d_natoms);
+}
+
+static void zl_median(t_zl *x, int natoms, t_atom *buf, int banged){
+	if (buf) {
+		t_atom *av1 = x->x_inbuf1.d_buf;
+		int i, total = 0;
+		for (i = 0; i < natoms; i++) {
+			if (av1[i].a_type == A_FLOAT)
+				buf[total++] = av1[i];
+			//post ("total %d", total);
+		}
+		if (total) {
+			zl_sort_qsort(x, buf, 0, 0, total - 1, 1);
+			//zl_output2(x,total,buf);
+			if (total % 2)
+				outlet_float(((t_object *)x)->ob_outlet, buf[total/2].a_w.w_float);
+			else 
+				outlet_float(((t_object *)x)->ob_outlet, 
+				0.5*(buf[total/2 - 1].a_w.w_float + buf[total/2].a_w.w_float));			
+		}
+	}
+}
+
+// ************************* SCRAMBLE *********************************
+
+static void zl_scramble_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    zldata_set(&x->x_inbuf1, s, ac, av);
+}
+
+static int zl_scramble_count(t_zl *x){
+	return (x->x_inbuf1.d_natoms);
+}
+
+static void zl_scramble(t_zl *x, int natoms, t_atom *buf, int banged){
+	if(buf) {
+		t_atom *av1 = x->x_inbuf1.d_buf, *buf2 = x->x_outbuf2.d_buf;
+		int n = natoms , i;
+		memcpy(buf, av1, natoms * sizeof(*buf));
+		for (i = 0; i < natoms; i++)
+			SETFLOAT(&buf2[i], i);
+		while(n-- > 1) {
+			int r = rand() % (n);
+			zl_sort_swap(x, buf, r, n);
+			zl_sort_swap(x, buf2, r, n);
+		}
+		zl_output2(x,natoms,buf2);
+		zl_output(x,natoms,buf);
+	}
+}
+
 // ********************************************************************
 // ************************* METHODS **********************************
 // ********************************************************************
@@ -949,7 +1109,7 @@ static void zl_doit(t_zl *x, int banged){
         return;
     x->x_entered = 1;
     if(natoms){
-        t_zldata *d = &x->x_outbuf;
+        t_zldata *d = &x->x_outbuf1;
         if(natoms > d->d_max) // giving this a shot...
             natoms = d->d_max;
         // basically will limit output buffer to specified size instead of allowing it to go over...
@@ -1071,7 +1231,8 @@ static void zlproxy_anything(t_zlproxy *p, t_symbol *s, int ac, t_atom *av){
 static void zl_free(t_zl *x){
     zldata_free(&x->x_inbuf1);
     zldata_free(&x->x_inbuf2);
-    zldata_free(&x->x_outbuf);
+    zldata_free(&x->x_outbuf1);
+    zldata_free(&x->x_outbuf2);
     if(x->x_proxy)
         pd_free((t_pd *)x->x_proxy);
 }
@@ -1094,7 +1255,8 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f){
     int sz = (int)f;
     zldata_realloc(&x->x_inbuf1,sz);
     zldata_realloc(&x->x_inbuf2,sz);
-    zldata_realloc(&x->x_outbuf,sz);
+    zldata_realloc(&x->x_outbuf1,sz);
+    zldata_realloc(&x->x_outbuf2,sz);
     if(!strcmp(zl_modesym[x->x_mode]->s_name,"group"))
     	zl_group_sizecheck(x, sz);
     
@@ -1103,10 +1265,12 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f){
 static void zl_zlclear(t_zl *x){
     int sz1 = x->x_inbuf1.d_size;
     int sz2 = x->x_inbuf2.d_size;
-    int sz3 = x->x_outbuf.d_size;
+    int sz3 = x->x_outbuf1.d_size;
+    int sz4 = x->x_outbuf2.d_size;
     zldata_reset(&x->x_inbuf1, sz1);
     zldata_reset(&x->x_inbuf2, sz2);
-    zldata_reset(&x->x_outbuf, sz3);
+    zldata_reset(&x->x_outbuf1, sz3);
+    zldata_reset(&x->x_outbuf2, sz4);
 }
 
 static void *zl_new(t_symbol *s, int argc, t_atom *argv){
@@ -1160,10 +1324,12 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
         sz = ZL_MAXSIZE;
     x->x_inbuf1.d_max = sz;
     x->x_inbuf2.d_max = sz;
-    x->x_outbuf.d_max = sz;
+    x->x_outbuf1.d_max = sz;
+    x->x_outbuf2.d_max = sz;
     zldata_init(&x->x_inbuf1, sz);
     zldata_init(&x->x_inbuf2, sz);
-    zldata_init(&x->x_outbuf, sz);
+    zldata_init(&x->x_outbuf1, sz);
+    zldata_init(&x->x_outbuf2, sz);
     zl_mode(x, s, argc - size_arg - size_attr, argv + size_arg);
     if(!x->x_mode)
         pd_error(x, "[zl]: unknown mode (needs a symbol argument)");
@@ -1172,6 +1338,8 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
     if(!strcmp(zl_modesym[x->x_mode]->s_name,"group"))
     	zl_group_sizecheck(x, sz);
+    if(!strcmp(zl_modesym[x->x_mode]->s_name,"scramble"))
+    	srand(time(NULL));
     return(x);
 errstate:
     post("zl: improper args");
@@ -1223,10 +1391,19 @@ void zl_setup(void){
     zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub, 14);
     zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union, 15);
     // new after Max 4
-    // change compare delace filter lace lookup median queue (rotate) scramble stack 
+    // XXchange XXcompare XXdelace XXfilter XXlace XXlookup 
+    // XXmedian queue (rotate) scramble stack 
     // stream sum thin unique
     // for cyclone: stack2 - remember size of lists put on stack
     //				queue2 - remember size of lists put in queue
     zl_setupmode("change", 0, 0, zl_change_anyarg, zl_change_count, zl_change, 16);
     zl_setupmode("compare", 0, 0, zl_compare_anyarg, zl_compare_count, zl_compare, 17);
+    zl_setupmode("delace", 0, 0, 0, zl_delace_count, zl_delace, 18);
+    zl_setupmode("filter", 0, 0, zl_filter_anyarg, zl_filter_count, zl_filter, 19);
+    zl_setupmode("lace", 0, 0, zl_lace_anyarg, zl_lace_count, zl_lace, 20);
+    zl_setupmode("lookup", 0, 0, zl_lookup_anyarg, zl_lookup_count, zl_lookup, 21);
+    zl_setupmode("median", 0, 0, 0, zl_median_count, zl_median, 22);
+    //zl_setupmode("queue", 0, 0, 0, zl_queue_count, zl_queue, 23);
+    zl_setupmode("scramble", 0, 0, zl_scramble_anyarg, zl_scramble_count, zl_scramble, 24);
+    //zl_setupmode("stack", 0, 0, 0, zl_stack_count, zl_stack, 25);
 }
