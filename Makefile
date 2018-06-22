@@ -147,7 +147,6 @@ degrade~.class.sources := cyclone_objects/binaries/audio/degrade.c
 downsamp~.class.sources := cyclone_objects/binaries/audio/downsamp.c
 equals~.class.sources := cyclone_objects/binaries/audio/equals.c
 filtercoeff~.class.sources := cyclone_objects/binaries/audio/filtercoeff.c
-freqshift~.class.sources := cyclone_objects/binaries/audio/freqshift.c
 greaterthan~.class.sources := cyclone_objects/binaries/audio/greaterthan.c
 greaterthaneq~.class.sources := cyclone_objects/binaries/audio/greaterthaneq.c
 lessthan~.class.sources := cyclone_objects/binaries/audio/lessthan.c
