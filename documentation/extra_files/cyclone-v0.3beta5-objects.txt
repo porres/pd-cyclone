@@ -83,7 +83,6 @@ flush flush hanging note-ons
 forward send remote messages
 frameaccum~ FFT frame accumulation
 framedelta~ FFT frame deviation
-freqshift~ frequency shifter
 fromsymbol convert symbols to anything
 funbuff store pairs of integers
 funnel tag data based on inlet
