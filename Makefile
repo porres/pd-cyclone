@@ -320,7 +320,6 @@ ifeq ($(uname), Linux)
     ln -s -f append-help.pd Append-help.pd; \
 	ln -s -f biquad~.$(extension) Biquad~.$(extension); \
 	ln -s -f biquad~-help.pd Biquad~-help.pd; \
-	ln -s -f hilbert~-help.pd Hilbert~-help.pd; \
 	ln -s -f bucket.$(extension) Bucket.$(extension); \
 	ln -s -f bucket-help.pd Bucket-help.pd; \
 	ln -s -f clip.$(extension) Clip.$(extension); \
