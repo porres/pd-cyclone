@@ -1,4 +1,4 @@
-#N canvas 432 76 558 549 10;
+#N canvas 565 79 558 549 10;
 #X obj 2 229 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 347 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -327,17 +327,17 @@ the right outlet and nothing is sent via the left outlet., f 61;
 #X msg 615 209 0 bye;
 #X msg 86 207 zlclear;
 #X msg 482 127 zlclear;
-#X obj 127 362 printzl_ nth;
 #X obj 504 280 print zl_nth;
+#X obj 127 362 print zl_nth;
 #X connect 0 0 7 0;
 #X connect 1 0 11 0;
 #X connect 3 0 7 0;
 #X connect 4 0 7 1;
 #X connect 7 0 6 0;
-#X connect 7 0 24 0;
+#X connect 7 0 25 0;
 #X connect 7 1 9 0;
 #X connect 11 0 14 0;
-#X connect 11 0 25 0;
+#X connect 11 0 24 0;
 #X connect 11 1 10 0;
 #X connect 12 0 11 0;
 #X connect 16 0 11 0;
@@ -737,7 +737,7 @@ nth elements.;
 #X msg 154 119 mode median;
 #X text 232 118 <= sets mode;
 #X obj 154 229 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 5.5 256;
+-228856 -1 -1 0 256;
 #X text 43 47 median outputs the median of a list of numbers;
 #X obj 154 256 print zl_median;
 #X connect 0 0 3 0;
@@ -779,7 +779,7 @@ indexes.;
 #X obj 164 236 cyclone/zl queue;
 #X msg 164 174 1 a 2 b 3 c;
 #X obj 257 272 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 15 256;
+-228856 -1 -1 0 256;
 #X text 298 272 size;
 #X msg 150 147 mode queue;
 #X obj 192 205 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -805,7 +805,7 @@ size of the queue., f 63;
 #X msg 128 122 zlclear;
 #X msg 168 176 1 a 2 b 3 c;
 #X obj 261 274 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -1 256;
+-228856 -1 -1 0 256;
 #X text 302 274 size;
 #X obj 196 207 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -832,12 +832,12 @@ size of the queue., f 63;
 #X obj 281 214 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 130 126 zlclear;
-#X obj 281 276 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 281 276 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X msg 156 153 mode stream -5;
 #X text 252 153 <= set mode/argument;
 #X obj 190 204 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 6 256;
+-228856 -1 -1 0 256;
 #X obj 170 242 cyclone/zl stream 5;
 #X text 37 43 the stream mode makes a list with the last N items. The
 N is set as an argument or in the right inlet. A negative N inverts
@@ -918,55 +918,51 @@ inlet/outlet don't do anything.;
 #X connect 6 0 5 0;
 #X connect 8 0 5 0;
 #X restore 514 368 pd thin;
-#N canvas 700 167 435 353 indexmap 0;
-#X obj 75 220 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#N canvas 700 167 435 325 indexmap 0;
+#X obj 84 187 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 30 13 comment 185 14 monaco ? 0 0 0 0 Mode: indexmap;
-#X msg 82 169 zlclear;
-#X obj 122 275 cyclone/zl indexmap;
-#X text 322 244 indices;
-#X msg 122 223 A B C D E F G H;
-#X obj 122 309 print indexmap;
-#X msg 108 196 mode indexmap 1 2 3 4 5 6 7 8;
-#X msg 233 244 0 0 1 0 3 2 5;
-#X text 29 41 In this mode \, a list of indices (0-based) in the right
-inlet indicates the indices to generate a new list from the stored
-list (in the left inlet or as an argument). For instance \, if 0 0
-0 1 3 5 is received in the right inlet \, A B C D E F G H received
-in the left inlet will cause the object to output A A A B D F from
-the left output). An index less than 0 or greater than/equal to the
-number of elements of the incoming list will be clamped to 0 and (number
-of elements - 1). A bang performs the operation in the last received
-list.;
+#X obj 34 13 comment 185 14 monaco ? 0 0 0 0 Mode: indexmap;
+#X msg 91 136 zlclear;
+#X obj 131 242 cyclone/zl indexmap;
+#X msg 131 190 A B C D E F G H;
+#X obj 131 276 print indexmap;
+#X msg 117 163 mode indexmap 1 2 3 4 5 6 7 8;
+#X msg 242 211 0 0 1 0 3 2 5;
+#X text 331 211 <= indexes;
+#X text 33 41 In this mode \, a list of indexes (0-based) in the right
+inlet or as arguments indicates the indexes to generate a new list
+from the received list in the left inlet. An index less than 0 or greater
+than/equal to the number of elements of the incoming list will be clamped
+to 0 - a bang performs the operation in the last received list.;
 #X connect 0 0 3 0;
 #X connect 2 0 3 0;
-#X connect 3 0 6 0;
-#X connect 5 0 3 0;
-#X connect 7 0 3 0;
-#X connect 8 0 3 1;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 6 0 3 0;
+#X connect 7 0 3 1;
 #X restore 430 216 pd indexmap;
 #N canvas 601 172 441 297 swap 0;
-#X obj 101 176 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X obj 101 150 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 36 7 comment 185 14 monaco ? 0 0 0 0 Mode: swap;
-#X msg 118 119 zlclear;
-#X obj 144 259 print zl_swap;
-#X msg 292 194 1 3;
-#X msg 167 179 A B C D;
-#X msg 144 146 mode swap 1 2 3 4;
-#X msg 279 169 1 3 0 2;
-#X obj 144 225 cyclone/zl swap 1 2 3 4;
-#X text 35 35 The swap mode accepts a list of pair of indexes (0-based)
-in the right inlet to swap in the received list (in the left inlet
-or as an argument). A bang performs the operation in the last received
-list.;
-#X connect 0 0 8 0;
-#X connect 2 0 8 0;
-#X connect 4 0 8 1;
-#X connect 5 0 8 0;
-#X connect 6 0 8 0;
-#X connect 7 0 8 1;
-#X connect 8 0 3 0;
+#X msg 118 93 zlclear;
+#X obj 144 233 print zl_swap;
+#X msg 167 153 A B C D;
+#X msg 144 120 mode swap 1 2 3 4;
+#X msg 279 143 1 3 0 2;
+#X obj 144 199 cyclone/zl swap 3 2 1 0;
+#X msg 292 168 2 3;
+#X text 35 35 The right inlet or argument is a list of pair of indexes
+(0-based) to swap in the received list in the left inlet. A bang performs
+the operation in the last received list., f 57;
+#X text 332 142 <= indexes;
+#X connect 0 0 7 0;
+#X connect 2 0 7 0;
+#X connect 4 0 7 0;
+#X connect 5 0 7 0;
+#X connect 6 0 7 1;
+#X connect 7 0 3 0;
+#X connect 8 0 7 1;
 #X restore 514 346 pd swap;
 #X connect 0 0 30 0;
 #X connect 1 0 24 0;
@@ -1054,7 +1050,7 @@ details on how they work., f 63;
 , f 65;
 #X text 83 380 - anything: list to be swapped (default none), f 65
 ;
-#X restore 292 471 pd subsequent_arguments;
+#X restore 299 471 pd subsequent_arguments;
 #X text 178 264 -;
 #X text 190 263 sets mode (you can also set subsequent arguments) -
 check [pd examples] for more info;
