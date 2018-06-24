@@ -1136,50 +1136,6 @@ static void zl_scramble(t_zl *x, int natoms, t_atom *buf, int banged){
 	}
 }
 
-// ************************* STREAM *********************************
-
-static int zl_stream_intarg(t_zl *x, int i){
-	x->x_counter = 0;
-    return (i);  
-}
-
-static int zl_stream_count(t_zl *x){
-    return (x->x_inbuf1.d_natoms);
-}
-
-static void zl_stream(t_zl *x, int natoms, t_atom *buf, int banged){
-    int len = (x->x_modearg < 0 ? -x->x_modearg : x->x_modearg);
-    int reverse = (x->x_modearg < 0), count = x->x_counter;
-    //idea: use outbuf to store output
-    if(len > 0){
-    	int i, j;
-    	t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
-		int outatoms = x->x_outbuf1.d_natoms;
-		int ap2 = x->x_inbuf2.d_natoms;
-		for (i = (natoms > len ? natoms - len : 0); i < natoms ; i++) {
-			av2[ap2++] = av1[i];
-			ap2 %= len;
-			count++;
-		}
-		if (count >= len) {
-			count = len;
-			i = (reverse ? -1 : 0);
-			for (j = 0; j < len; j++) {
-				buf[j] = av2[((ap2 + i) % len + len) % len]; //modulo for positive and negative
-				i += (reverse ? -1 : 1);
-			}
-			outlet_float(x->x_out2, 1) ;
-			zl_output(x, len, buf);
-		}
-		else
-			outlet_float(x->x_out2, 0);
-		x->x_counter = count;
-		x->x_inbuf2.d_natoms = ap2;
-    }
-    else
-        x->x_inbuf1.d_natoms = 0;
-}
-
 // ************************* STACK *********************************
 static int zl_stack_count(t_zl *x){
 	return (x->x_inbuf1.d_natoms);
@@ -1200,6 +1156,59 @@ static void zl_stack(t_zl *x, int natoms, t_atom *buf, int banged){
 		outlet_float(x->x_out2, natoms);
 	}
 }
+
+// ************************* STREAM *********************************
+
+static int zl_stream_intarg(t_zl *x, int i){
+	x->x_counter = 0;
+    return (i);  
+}
+
+static int zl_stream_count(t_zl *x){
+    return (x->x_inbuf1.d_natoms);
+}
+
+static void zl_stream(t_zl *x, int natoms, t_atom *buf, int banged){
+    int len = (x->x_modearg < 0 ? -x->x_modearg : x->x_modearg);
+    int reverse = (x->x_modearg < 0), count = x->x_counter;
+    //idea: use outbuf to store output
+    if (banged || len == 0) {
+    	if (len && count >= len) {
+    		outlet_float(x->x_out2, 1) ;
+			zl_output(x, len, buf);
+    	}
+    	else
+    		outlet_float(x->x_out2, 0);
+    }
+    else {
+    	int i, j;
+    	t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
+		int outatoms = x->x_outbuf1.d_natoms;
+		int ap2 = x->x_inbuf2.d_natoms;
+
+			for (i = (natoms > len ? natoms - len : 0); i < natoms ; i++) {
+				av2[ap2++] = av1[i];
+				ap2 %= len;
+				count++;
+			}
+			if (count >= len) {
+				count = len;
+				i = (reverse ? -1 : 0);
+				for (j = 0; j < len; j++) {
+					buf[j] = av2[((ap2 + i) % len + len) % len]; //modulo for positive and negative
+					i += (reverse ? -1 : 1);
+				}
+				outlet_float(x->x_out2, 1) ;
+				zl_output(x, len, buf);
+			}
+			else
+				outlet_float(x->x_out2, 0);
+			x->x_counter = count;
+			x->x_inbuf2.d_natoms = ap2;	
+    }
+}
+
+
 
 
 // ************************* SUM *********************************

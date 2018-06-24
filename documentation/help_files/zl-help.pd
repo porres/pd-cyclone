@@ -1,4 +1,4 @@
-#N canvas 565 79 558 549 10;
+#N canvas 542 43 558 549 10;
 #X obj 2 229 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 347 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -44,7 +44,7 @@
 #X msg 242 128 beep 1 2 3 4;
 #X text 143 234 bang;
 #X text 126 291 zlclear;
-#N canvas 590 91 649 574 examples 0;
+#N canvas 638 150 649 574 examples 1;
 #X obj 59 209 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 146 331 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -832,12 +832,12 @@ size of the queue., f 63;
 #X obj 281 214 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 130 126 zlclear;
-#X obj 281 276 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 281 276 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X msg 156 153 mode stream -5;
 #X text 252 153 <= set mode/argument;
 #X obj 190 204 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 22 256;
 #X obj 170 242 cyclone/zl stream 5;
 #X text 37 43 the stream mode makes a list with the last N items. The
 N is set as an argument or in the right inlet. A negative N inverts
@@ -919,27 +919,27 @@ inlet/outlet don't do anything.;
 #X connect 8 0 5 0;
 #X restore 514 368 pd thin;
 #N canvas 700 167 435 325 indexmap 0;
-#X obj 84 187 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
+#X obj 57 190 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 34 13 comment 185 14 monaco ? 0 0 0 0 Mode: indexmap;
-#X msg 91 136 zlclear;
-#X obj 131 242 cyclone/zl indexmap;
-#X msg 131 190 A B C D E F G H;
-#X obj 131 276 print indexmap;
-#X msg 117 163 mode indexmap 1 2 3 4 5 6 7 8;
-#X msg 242 211 0 0 1 0 3 2 5;
-#X text 331 211 <= indexes;
+#X msg 64 139 zlclear;
+#X msg 104 193 A B C D E F G H;
+#X obj 104 279 print indexmap;
+#X msg 251 214 0 0 1 0 3 2 5;
+#X text 340 214 <= indexes;
 #X text 33 41 In this mode \, a list of indexes (0-based) in the right
 inlet or as arguments indicates the indexes to generate a new list
 from the received list in the left inlet. An index less than 0 or greater
 than/equal to the number of elements of the incoming list will be clamped
 to 0 - a bang performs the operation in the last received list.;
-#X connect 0 0 3 0;
-#X connect 2 0 3 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 6 0 3 0;
-#X connect 7 0 3 1;
+#X obj 104 245 cyclone/zl indexmap 2 3 1;
+#X msg 90 166 mode indexmap 4 5 3;
+#X connect 0 0 8 0;
+#X connect 2 0 8 0;
+#X connect 3 0 8 0;
+#X connect 5 0 8 1;
+#X connect 8 0 4 0;
+#X connect 9 0 8 0;
 #X restore 430 216 pd indexmap;
 #N canvas 601 172 441 297 swap 0;
 #X obj 101 150 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
