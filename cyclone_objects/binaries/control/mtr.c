@@ -698,13 +698,6 @@ static void mtr_write(t_mtr *x, t_symbol *s)
 	hammerpanel_save(x->x_filehandle, canvas_getdir(x->x_glist), 0);
 }
 
-static void mtr_tempo(t_mtr *x, t_floatarg f)
-{
-    int ntracks = x->x_ntracks;
-    t_mtrack **tpp = x->x_tracks;
-    while (ntracks--) mtrack_tempo(*tpp++, f);
-}
-
 static void mtr_free(t_mtr *x)
 {
     if (x->x_tracks)
@@ -852,7 +845,5 @@ void mtr_setup(void)
 		    gensym("read"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_write,
 		    gensym("write"), A_DEFSYM, 0);
-    class_addmethod(mtr_class, (t_method)mtr_tempo,
-		    gensym("tempo"), A_FLOAT, 0);
     hammerfile_setup(mtr_class, 0);
 }
