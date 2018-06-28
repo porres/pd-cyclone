@@ -1,26 +1,25 @@
-#N canvas 644 23 560 678 10;
-#X obj 4 640 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 644 23 562 608 10;
+#X obj 4 582 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 455 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 410 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 553 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 5 503 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 5 589 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 5 537 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 98 465 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 98 420 cnv 17 3 30 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 525 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 97 478 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 164 463 signal;
-#X obj 97 502 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 164 418 signal;
+#X obj 97 455 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 97 563 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 97 513 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 164 562 signal;
-#X text 144 615 2) float;
-#X text 144 598 1) symbol;
-#X text 128 527 float/signal;
-#X text 128 504 float/signal;
+#X text 164 512 signal;
+#X text 151 562 2) float;
+#X text 128 480 float/signal;
+#X text 128 457 float/signal;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -31,16 +30,14 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X text 216 527 - sets Q;
-#X text 170 482 clear;
-#X text 216 614 - sets Q (default ?);
-#X floatatom 244 273 0 0 0 0 - - -;
-#X obj 61 306 +~;
-#X obj 61 234 noise~;
-#X obj 152 228 hsl 128 15 100 2000 1 0 \$0-Freq \$0-Freq_set empty
--2 -8 0 10 -228856 -1 -1 6823 1;
-#X floatatom 149 252 0 0 0 0 - - -;
-#X obj 247 250 hsl 128 15 0.1 5 1 0 \$0-Q \$0-Q_set empty -2 -8 0 10
+#X text 216 480 - sets Q;
+#X text 170 437 clear;
+#X text 216 561 - sets Q (default ?);
+#X obj 88 266 +~;
+#X obj 88 194 noise~;
+#X obj 161 188 hsl 128 15 100 2000 1 0 empty \$0-Freq_set empty -2
+-8 0 10 -228856 -1 -1 6823 1;
+#X obj 256 210 hsl 128 15 0.1 5 1 0 empty \$0-Q_set empty -2 -8 0 10
 -228856 -1 -1 7475 1;
 #N canvas 614 353 726 323 phase_response 0;
 #X obj 101 101 cnv 15 298 98 empty empty empty 20 12 0 14 -233017 -66577
@@ -107,7 +104,7 @@
 #X restore 100 100 graph;
 #X obj 466 65 r \$0-Freq;
 #X obj 559 65 r \$0-Q;
-#N canvas 67 204 551 409 init 0;
+#N canvas 129 286 551 409 init 0;
 #X obj 73 28 loadbang;
 #X msg 214 250 400;
 #X text 244 250 array size;
@@ -217,14 +214,14 @@
 #X obj 392 133 table sinW_\$0 400;
 #X obj 392 108 table cosW_\$0 400;
 #X msg 73 283 500;
-#X obj 100 222 / 2;
-#X obj 129 222 v sr_\$0;
+#X obj 100 232 / 2;
+#X obj 129 232 v sr_\$0;
 #X obj 73 164 t b b;
-#X obj 100 250 s \$0-nyquist;
+#X obj 100 260 s \$0-nyquist;
 #X obj 73 307 s \$0-Freq_set;
 #X obj 33 337 s \$0-Q_set;
 #X msg 33 286 1;
-#X obj 100 189 f 44100;
+#X obj 100 199 f 44100;
 #X connect 0 0 3 0;
 #X connect 1 0 9 0;
 #X connect 3 0 17 0;
@@ -237,8 +234,8 @@
 #X connect 14 0 19 0;
 #X connect 15 0 18 0;
 #X connect 17 0 14 0;
-#X connect 17 0 21 0;
 #X connect 17 1 22 0;
+#X connect 17 1 21 0;
 #X connect 21 0 20 0;
 #X connect 22 0 15 0;
 #X connect 22 0 16 0;
@@ -329,58 +326,58 @@
 #X connect 8 2 5 0;
 #X connect 10 0 7 0;
 #X coords 0 -1 1 1 300 100 2 100 100;
-#X restore 194 322 pd phase_response;
-#X text 500 316 180ª;
-#X text 501 413 -180ª;
-#X text 500 366 0ª/360ª;
-#X text 216 463 - signal whose phase will be shifted;
-#X text 216 482 - clears filter's memory;
-#X obj 76 275 cyclone/phaseshift~ 500 1;
-#X text 181 227 frequency;
-#X text 303 250 Q;
-#X text 324 426 500;
-#X text 254 426 100;
-#X text 192 426 0;
-#X text 385 426 2k;
-#X text 475 426 22k;
-#X text 124 425 frequency:;
-#X text 178 337 p;
-#X text 178 350 h;
-#X text 178 363 a;
-#X text 178 376 s;
-#X text 178 387 e;
-#X text 216 504 - sets filter's frequency point to be shifted to 180º
+#X restore 191 279 pd phase_response;
+#X text 497 273 180ª;
+#X text 498 370 -180ª;
+#X text 497 323 0ª/360ª;
+#X text 216 418 - signal whose phase will be shifted;
+#X text 216 437 - clears filter's memory;
+#X text 190 187 frequency;
+#X text 312 210 Q;
+#X text 321 383 500;
+#X text 251 383 100;
+#X text 189 383 0;
+#X text 382 383 2k;
+#X text 472 383 22k;
+#X text 175 294 p;
+#X text 175 307 h;
+#X text 175 320 a;
+#X text 175 333 s;
+#X text 175 344 e;
+#X text 216 457 - sets filter's frequency point to be shifted to 180º
 ;
-#X text 216 596 - sets filter's frequency (default 0);
-#X text 216 562 - the phase shifted signal;
-#X text 83 180 In this example \, we add the phase shifted signal to
-the original \, which cancels frequencies by phase opposition.;
-#X text 83 82 [phaseshift~] is a 2nd allpass filter. It doesn't change
-the gain but alters the phase from 0 (at 0 hz) to 360º (at the Nyquist
-frequency).;
-#X text 83 124 The frequency point at which it shifts to 180º is specified
-as the filter's frequency. The steepness of the phase response curve
-is determined by the Q parameter (see graph below \, which considers
-a 44.1khz sample rate).;
+#X text 216 512 - the phase shifted signal;
+#X text 83 143 In this example \, we add the phase shifted signal to
+the original \, which cancels frequencies by phase opposition., f
+65;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 2nd order Allpass
 filter;
-#X obj 391 297 cyclone/comment 0 16 times ? 0 0 0 0 phase response
+#X obj 388 254 cyclone/comment 0 16 times ? 0 0 0 0 phase response
 ;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 phaseshift~;
-#X obj 40 346 ./out~;
-#X obj 409 229 cnv 15 140 50 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X obj 423 232 cyclone/comment 166 18 times ? 0 0 0 0 New object \,
-still experimental!;
-#X connect 21 0 33 2;
-#X connect 22 0 58 0;
-#X connect 22 0 58 1;
-#X connect 23 0 22 0;
-#X connect 23 0 33 0;
-#X connect 24 0 25 0;
-#X connect 25 0 33 1;
-#X connect 26 0 21 0;
-#X connect 33 0 22 1;
+#X obj 45 306 ./out~;
+#X text 83 82 [phaseshift~] is a 2nd allpass filter \, which keeps
+the gain and only alters the phase from 0 (at 0 hz) to 360º (at the
+Nyquist frequency). The frequency at which it shifts to 180º is specified
+as the filter's frequency and the steepness of the curve is determined
+by the Q parameter (see graph below)., f 65;
+#X text 151 545 1) float;
+#X obj 253 233 nbx 4 14 -1e+37 1e+37 0 0 \$0-Q empty empty 0 -8 0 10
+-228856 -1 -1 1 256;
+#X obj 158 212 nbx 4 14 -1e+37 1e+37 0 0 \$0-Freq empty empty 0 -8
+0 10 -228856 -1 -1 500 256;
+#X obj 103 235 cyclone/phaseshift~;
+#X text 91 382 frequency (hz):;
+#X text 216 543 - sets filter's frequency (default 1);
+#X connect 20 0 50 0;
+#X connect 20 0 50 1;
+#X connect 21 0 20 0;
+#X connect 21 0 55 0;
+#X connect 22 0 54 0;
+#X connect 23 0 53 0;
+#X connect 53 0 55 2;
+#X connect 54 0 55 1;
+#X connect 55 0 20 1;
