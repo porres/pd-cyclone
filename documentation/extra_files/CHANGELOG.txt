@@ -1,15 +1,8 @@
 | Under the maintenance of Porres, Kwan and Barber: 
 
-cyclone 0.3 (still at an experimental beta stage)
+cyclone 0.3 (still at an experimental release candidate stage)
 
 Summary: 
-
-- I) 61 updated objects to include functionalities from newer versions of Max (earlier releases were mostly compliant to Max 4.0, cyclone 0.3 updates to the latest Max: 7.3.5 at the time of this release).
-- II) 44 New objects 
-- III) Completely rewritten documentation
-- IV) Numerous bug fixes
-
-In detail:
 
 A) Restoring the original cyclone's goal of Max/MSP compatibility in the project's 'readme'.
 
@@ -17,11 +10,11 @@ B) Restoring the 'cyclone' library, but it now only containing now the objects t
 
 C) Readded the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default.
 
-D) 44 New objects, including:
+D) 40 New objects, including:
 
 2 Abstractions: [buffer~] and [number~]
 
-42 Compiled externals: [acosh], [asinh], [atanh], [atodb], [atodb~], [biquad~], [bitsafe~], [cascade~], [cross~], [dbtoa], [dbtoa~], [degrade~], [downsamp~], [equals~] **, [filtercoeff~], [freqshift~], [gate~], [greaterthan~] **, [greaterthaneq~] **, [join], [lessthan~] **, [lessthaneq~] **, [listfunnel], [loadmess], [modulo~] **, [notequals~] **, [pak], [phaseshift~], [plusequals~] **, [pong], [rdiv] **, [rdiv~] **, [rminus] **, [rminus~] **, [round], [round~], [scale], [scale~], [selector~], [thresh~], [trunc~] and [unjoin].
+38 Compiled externals: [acosh], [asinh], [atanh], [atodb], [atodb~], [bitsafe~], [cross~], [dbtoa], [dbtoa~], [degrade~], [downsamp~], [equals~] **, [gate~], [greaterthan~] **, [greaterthaneq~] **, [join], [lessthan~] **, [lessthaneq~] **, [listfunnel], [loadmess], [modulo~] **, [notequals~] **, [pak], [phaseshift~], [plusequals~] **, [pong], [rdiv] **, [rdiv~] **, [rminus] **, [rminus~] **, [round], [round~], [scale], [scale~], [selector~], [thresh~], [trunc~] and [unjoin].
 
 ** These are alphanumeric versions of the objects in the cyclone sub-library, which contains non-alphanumeric objects: ==~ - !=~ - <~ - <=~ - >~ - >=~ - !-~ - !/~ - %~ - +=~
 
@@ -36,13 +29,10 @@ E) Updated objects (61 Objects affected), including:
 [slide~] - reset / slide_up / slide_down methods
 [funbuff] - clipboard operations
 [vectral~] - size / clear messages
+53 objects that were updated to current Max's version; +=~ (alias of [plusequals~]) - [acos~] - [acosh~] - [asin~] - [atanh~] - [average~] - [bitand~], [bitnot~], [bitor~], [bitshift~], [bitxor~], [buffir~], [capture] *, [cartopol], [change~], [coll] *, [count~], [counter], [curve~], [cycle~], [decode], [delay~], [deltaclip~], [fromsymbol], [funnel], [linedrive], [matrix~], [maximum], [midiformat], [midiparse], [minimum], [minmax~], [mousefilter], [mtr], [offer], [overdrive~], [peak], [play~], [poltocar], [pong~], [record~], [scope~], [snapshot~], [spike~], [spray], [sustain], [tosymbol], [trapezoid~], [triangle~], [trough], [uzi] *, [wave~] and [zl] *.
 
-52 objects that were updated to current Max's version; +=~ (alias of [plusequals~]) - [acos~] - [acosh~] - [asin~] - [atanh~] - [average~] - [bitand~], [bitnot~], [bitor~], [bitshift~], [bitxor~], [buffir~], [capture] *, [cartopol], [change~], [coll] *, [count~], [counter], [curve~], [cycle~], [decode], [delay~], [deltaclip~], [fromsymbol], [funnel], [linedrive], [matrix~], [maximum], [midiformat], [midiparse], [minimum], [minmax~], [mousefilter], [mtr], [offer], [overdrive~], [peak], [play~], [poltocar], [pong~], [record~], [scope~], [snapshot~], [spike~], [spray], [sustain], [tosymbol], [trapezoid~], [triangle~], [trough], [uzi] * and [wave~].
-
-*Objects that also required updates from Max 4: [capture] - input for anythings; [coll] - renumber2 method / 2nd argument; [uzi] - 2nd argument.
-
-2 objects partially updated: [zl] and [table]
-
+Objects that also required updates from Max 4: [capture] - input for anythings; [coll] - renumber2 method / 2nd argument; [uzi] - 2nd argument; [zl] - sort method.
+1 objects partially updated: [table]
 F) Assorted Fixes (65 Objects affected), including:
 
 34 objects that were also updated or will be updated:
@@ -124,7 +114,6 @@ H) Fixing proper input types for signal objects (mostly not allowing float input
 I) Other objects removed/included: Replaced the [output~] abstraction by an extra named [out~], borrowed from the "else" library. Another object borrowed from "else" is [setdsp~]. Objects [abs~] and [log~] were deleted because now vanilla also has these objects with the exact same function/behaviour, so they became redundanct.
 
 J) Completely rewritten and redesigned documentation, solving numerous issues/mistakes (still in progress)
-
 
 | Under the maintenance of Fred Jan Kraan: 
 

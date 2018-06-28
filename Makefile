@@ -95,7 +95,6 @@ atan2~.class.sources := cyclone_objects/binaries/audio/atan2.c
 atanh~.class.sources := cyclone_objects/binaries/audio/atanh.c
 average~.class.sources := cyclone_objects/binaries/audio/average.c
 avg~.class.sources := cyclone_objects/binaries/audio/avg.c
-cascade~.class.sources := cyclone_objects/binaries/audio/cascade.c
 change~.class.sources := cyclone_objects/binaries/audio/change.c
 click~.class.sources := cyclone_objects/binaries/audio/click.c
 clip~.class.sources := cyclone_objects/binaries/audio/clip.c
@@ -140,13 +139,11 @@ triangle~.class.sources := cyclone_objects/binaries/audio/triangle.c
 zerox~.class.sources := cyclone_objects/binaries/audio/zerox.c
 # NEW ones in cyclone0.3:
 atodb~.class.sources := cyclone_objects/binaries/audio/atodb.c
-biquad~.class.sources := cyclone_objects/binaries/audio/biquad.c
 cross~.class.sources := cyclone_objects/binaries/audio/cross.c
 dbtoa~.class.sources := cyclone_objects/binaries/audio/dbtoa.c
 degrade~.class.sources := cyclone_objects/binaries/audio/degrade.c
 downsamp~.class.sources := cyclone_objects/binaries/audio/downsamp.c
 equals~.class.sources := cyclone_objects/binaries/audio/equals.c
-filtercoeff~.class.sources := cyclone_objects/binaries/audio/filtercoeff.c
 greaterthan~.class.sources := cyclone_objects/binaries/audio/greaterthan.c
 greaterthaneq~.class.sources := cyclone_objects/binaries/audio/greaterthaneq.c
 lessthan~.class.sources := cyclone_objects/binaries/audio/lessthan.c
@@ -318,8 +315,6 @@ ifeq ($(uname), Linux)
 	ln -s -f append-help.pd Append-help.pd; \
     ln -s -f append.$(extension) Append.$(extension); \
     ln -s -f append-help.pd Append-help.pd; \
-	ln -s -f biquad~.$(extension) Biquad~.$(extension); \
-	ln -s -f biquad~-help.pd Biquad~-help.pd; \
 	ln -s -f bucket.$(extension) Bucket.$(extension); \
 	ln -s -f bucket-help.pd Bucket-help.pd; \
 	ln -s -f clip.$(extension) Clip.$(extension); \

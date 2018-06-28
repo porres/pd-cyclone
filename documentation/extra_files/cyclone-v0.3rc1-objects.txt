@@ -32,7 +32,6 @@ atodb~ signal linear amplitude to dBFS conversion
 average~ multi-mode signal moving average
 avg~ signal absolute average
 bangbang output a bang from many outlets
-biquad~ biquad filter
 bitand~ signal bitwise-AND
 bitnot~ signal bitwise-NOT
 bitor~ signal bitwise-OR
@@ -49,7 +48,6 @@ capture store data as text
 capture~ store samples into text
 cartopol cartesian to polar conversion
 cartopol~ signal cartesian to polar conversion
-cascade~ cascade a series of biquad filters
 change~ detect signal change & direction
 click~ generate impulse from a bang
 clip constrain values to a given range
@@ -78,7 +76,6 @@ downsamp~ downsample a signal
 drunk random drunk walk
 edge~ report zero/non-zero transitions for signals
 equals~ alias of ==~
-filtercoeff~ generate biquad coefficients
 flush flush hanging note-ons
 forward send remote messages
 frameaccum~ FFT frame accumulation
