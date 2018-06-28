@@ -632,7 +632,7 @@ static void cyclone_about(t_cyclone *x)
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     post("------------------------------------------------------------------------");
-    post("Cyclone 0.3 beta 5; Release date: Unreleased");
+    post("Cyclone 0.3 RC1 (Release Candidate 1); Release date: June 28th 2018");
     post("Loading the cyclone library did the following:");
     post("A) Loaded the non alpha-numeric objects, which are:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
@@ -669,16 +669,18 @@ void cyclone_setup(void)
     SETFLOAT (ap+1, 0.f);
     pd_typedmess(gensym("pd")->s_thing, gensym("add-to-path"), 2, ap);
 
-    if(!printed){
-        post("------------------------------------------------------------------------");
-        post("Cyclone 0.3 beta 5; Release date: Unreleased");
-        post("Loading the cyclone library did the following:");
-        post("A) Loaded the non alpha-numeric objects, which are:");
-        post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
-        post("B) Added %s", cyclone_dir);
-        post("to Pd's path so the other objects can be loaded too");
-        post("------------------------------------------------------------------------");
-        printed = 1;
+   if(!printed){
+       char cyclone_dir[MAXPDSTRING];
+       strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
+       post("------------------------------------------------------------------------");
+       post("Cyclone 0.3 RC1 (Release Candidate 1); Release date: June 28th 2018");
+       post("Loading the cyclone library did the following:");
+       post("A) Loaded the non alpha-numeric objects, which are:");
+       post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
+       post("B) Added %s", cyclone_dir);
+       post("to Pd's path so the other objects can be loaded too");
+       post("------------------------------------------------------------------------");
+       printed = 1;
     }
     
 /* -- [!-] -- */
