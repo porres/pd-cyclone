@@ -1,5 +1,5 @@
 #N canvas 550 139 562 271 10;
-#N canvas 302 23 722 751 All_Cyclone_Objects 1;
+#N canvas 302 23 722 751 All_Cyclone_Objects 0;
 #X text 102 156 same as;
 #X text 102 180 same as;
 #X text 102 204 same as;
@@ -257,12 +257,10 @@
 #X connect 7 0 2 0;
 #X restore 86 167 pd meter;
 #X obj 86 195 nbx 4 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
--228856 -1 -1 4 256;
+-228856 -1 -1 3 256;
 #X obj 4 2 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
 #X obj 29 5 comment 0 22 courier ? 0 224 228 220 cyclone;
-#X obj 30 33 comment 0 14 courier ? 0 224 228 220 version 0.3 beta-4
-;
 #X obj 137 8 comment 0 14 courier ? 0 224 228 220 - a set of Pure Data
 objects cloned from Max/MSP;
 #X obj 272 35 comment 0 12 courier ? 0 224 228 220 https://github.com/porres/pd-cyclone
@@ -274,6 +272,8 @@ all work.;
 #X text 348 191 open this subpatch:;
 #X text 347 135 The total number of objects in cyclone is 202!, f
 16;
+#X obj 31 37 comment 0 14 courier ? 0 224 228 220 v 0.3 Release Candidate
+1;
 #X connect 2 0 1 0;
 #X connect 2 0 4 0;
 #X connect 5 0 6 0;
