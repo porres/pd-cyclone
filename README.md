@@ -14,7 +14,7 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Current Release: Cyclone 0.3 beta-5 (this release needs at least Pd Vanilla 0.48-1)
+Current Release: Cyclone 0.3 release candidate 2 (this release needs at least Pd Vanilla 0.49-0)
 
 Release Date: Unreleased
 
@@ -23,7 +23,7 @@ Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases
 -------
 <strong>About Cyclone 0.3:</strong>
 
-Cyclone 0.3 needs at least Pd Vanilla 0.48-1 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated cyclone 0.2 release, which is not yet fully ported either to Purr Data.
+Cyclone 0.3 needs at least Pd Vanilla 0.49-0 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated cyclone 0.2 release, which is not yet fully ported either to Purr Data.
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
 
@@ -62,7 +62,7 @@ Since "Cyclone 0.1-alpha57", the cyclone package has relied on the new build sys
 
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
-<pre>make pdincludepath=~/pd-0.48-1/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.48-1/bin/)</pre>
+<pre>make pdincludepath=~/pd-0.49-0/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.49-0/bin/)</pre>
 
 * Make Install
 
