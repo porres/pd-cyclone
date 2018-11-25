@@ -6,7 +6,8 @@
 
 #include "m_pd.h"'
 
-#define LINE_MAX_SIZE  128
+#define LINE_INIT_SIZE  129
+#define LINE_MAX_SIZE  50000
 
 typedef struct _lineseg
 {
@@ -156,6 +157,12 @@ static void line_float(t_line *x, t_float f)
     x->x_pause = 0;
 }
 
+static void line_maxpoints(t_line *x, t_floatarg f)
+{
+    x->x_size = f < 1 ? 1 : (int)f;
+}
+
+
 static void line_ft1(t_line *x, t_floatarg f)
 {
     x->x_delta = f;
@@ -182,9 +189,9 @@ static void line_list(t_line *x, t_symbol *s, int ac, t_atom *av)
     if (odd) nsegs++;
 
     //clip at maxsize
-    if(nsegs > LINE_MAX_SIZE)
+    if(nsegs > x->x_size)
     {
-        nsegs = LINE_MAX_SIZE;
+        nsegs = x->x_size;
         odd = 0;
     };
     x->x_nsegs = nsegs;
@@ -216,8 +223,8 @@ static void line_dsp(t_line *x, t_signal **sp)
 
 static void line_free(t_line *x)
 {
-    if (x->x_segs != x->x_segini)
-	freebytes(x->x_segs, x->x_size * sizeof(*x->x_segs));
+    if(x->x_segs != x->x_segini)
+        freebytes(x->x_segs, x->x_size * sizeof(*x->x_segs));
     if (x->x_clock) clock_free(x->x_clock);
 }
 
@@ -237,14 +244,54 @@ static void line_resume(t_line *x)
     x->x_pause = 0;
 }
 
-static void *line_new(t_floatarg f)
+
+
+static void *line_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_line *x = (t_line *)pd_new(line_class);
-    x->x_value = x->x_target = f;
+    
+    x->x_value = x->x_target = 0;
+    x->x_size = LINE_INIT_SIZE;
+    
+////////////////////////////////////////////////
+    int flag = 0;
+    int argnum = 0;
+    while(argc > 0){
+        if(argv->a_type == A_SYMBOL){
+            flag = 1;
+            t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
+            if(!strcmp(curarg->s_name, "@maxpoints")){
+                if(argc >= 2){
+                    x->x_size = atom_getfloatarg(1, argc, argv);
+                    argc-=2;
+                    argv+=2;
+                }
+                else
+                    goto errstate;
+            }
+            else
+                goto errstate;
+        }
+        else if(argv->a_type == A_FLOAT && !flag){
+                t_float argval = atom_getfloatarg(0, argc, argv);
+                switch(argnum){
+                    case 0:
+                        x->x_value = x->x_target = argval;
+                        break;
+                    default:
+                        break;
+                };
+                argnum++;
+                argc--;
+                argv++;
+            }
+        else
+            goto errstate;
+    };
+    
     x->x_deltaset = 0;
     x->x_nleft = 0;
     x->x_retarget = 0;
-    x->x_size = LINE_MAX_SIZE;
     x->x_nsegs = 0;
     x->x_pause = 0;
     x->x_segs = x->x_segini;
@@ -254,6 +301,9 @@ static void *line_new(t_floatarg f)
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
     x->x_clock = clock_new(x, (t_method)line_tick);
     return (x);
+    errstate:
+        post("line~: improper args");
+        return NULL;
 }
 
 void line_tilde_setup(void)
@@ -270,6 +320,7 @@ void line_tilde_setup(void)
     class_addmethod(line_class, (t_method)line_stop, gensym("stop"), 0);
     class_addmethod(line_class, (t_method)line_pause, gensym("pause"), 0);
     class_addmethod(line_class, (t_method)line_resume, gensym("resume"), 0);
+    class_addmethod(line_class, (t_method)line_maxpoints, gensym("maxpoints"), A_FLOAT, 0);
 }
 
 void Line_tilde_setup(void)

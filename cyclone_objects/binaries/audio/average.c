@@ -38,6 +38,7 @@ typedef struct _average
     unsigned int         x_count; //number of samples seen so far, will no go beyond x_npoints + 1
     unsigned int         x_npoints; //number of samples for moving average
     double     x_accum; //sum
+    double	   x_calib; //accumulator calibrator
     double      *x_buf; //buffer pointer
     double     x_stack[AVERAGE_STACK]; //buffer
     int         x_alloc; //if x_buf is allocated or stack
@@ -185,6 +186,7 @@ static t_int *average_perform(t_int *w)
             unsigned int bufrd = x->x_bufrd;
             //add input to accumulator
             x->x_accum = (*sumfn)(input, x->x_accum, 1);
+            x->x_calib = (*sumfn)(input, x->x_calib, 1);
             unsigned int count = x->x_count;
             if(count < npoints){
                 //update count
@@ -217,6 +219,8 @@ static t_int *average_perform(t_int *w)
             bufrd++;
             if(bufrd >= npoints){
                 bufrd = 0;
+                x->x_accum = x->x_calib;
+                x->x_calib = 0.0;
             };
             x->x_bufrd = bufrd;
 
