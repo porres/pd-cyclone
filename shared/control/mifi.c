@@ -336,6 +336,8 @@ static void mifievent_printsysex(t_mifievent *ep)
 
 static void mifievent_printmeta(t_mifievent *ep)
 {
+#define MIFI_SHOULD_PRINT 0
+#if MIFI_SHOULD_PRINT
     static int isprintable[MIFIMETA_MAXPRINTABLE+1] =
     {
 #ifdef MIFI_DEBUG
@@ -344,6 +346,7 @@ static void mifievent_printmeta(t_mifievent *ep)
 	0, 0, 1, 1, 1, 1, 1, 1
 #endif
     };
+#endif
     static char *printformat[MIFIMETA_MAXPRINTABLE+1] =
     {
 	"", "text: %s", "copyright: %s", "track name: %s",
@@ -351,7 +354,7 @@ static void mifievent_printmeta(t_mifievent *ep)
     };
     if (ep->e_meta <= MIFIMETA_MAXPRINTABLE)
     {
-#if 0
+#if MIFI_SHOULD_PRINT
 	if (isprintable[ep->e_meta] && printformat[ep->e_meta])
 	    post(printformat[ep->e_meta], ep->e_data);
 #endif
@@ -368,6 +371,7 @@ static void mifievent_printmeta(t_mifievent *ep)
 		     ep->e_data[0], (1 << ep->e_data[1]), ep->e_delay);
     }
 #endif */
+#undef MIFI_SHOULD_PRINT
 }
 
 static void mifiread_earlyeof(t_mifiread *mr)
