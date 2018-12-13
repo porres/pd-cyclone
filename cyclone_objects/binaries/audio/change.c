@@ -8,7 +8,7 @@ typedef struct _change
 {
     t_object x_obj;
     t_float  x_last;
-    t_outlet *x_outlet
+    t_outlet *x_outlet;
 } t_change;
 
 static t_class *change_class;
