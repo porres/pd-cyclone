@@ -1,6 +1,7 @@
 // Porres 2016
 
 #include "m_pd.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #define PI M_PI
