@@ -723,7 +723,7 @@ static void comment_suppressinlet(t_comment *x, t_float f)
 //end new method placeholders
 static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
 {
-    t_atom comlist[argc];
+    t_atom* comlist = t_getbytes(argc * sizeof(*comlist));
     int i, comlen = 0; //eventual length of comment list comlist 
     for(i=0;i<argc; i++)
     {
@@ -846,6 +846,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
 	SETSYMBOL(&comlist[0], gensym("comment"));
 	binbuf_restore(x->x_binbuf, 1, comlist);
     };
+    t_freebytes(comlist, argc * sizeof(*comlist));
 }
 
 

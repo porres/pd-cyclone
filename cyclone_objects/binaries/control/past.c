@@ -72,7 +72,7 @@ static void past_alloc(t_past *x, int argc){
 
 static int past_set_helper(t_past * x, int argc, t_atom * argv)
 {
-    t_float parse[argc];
+    t_float* parse = t_getbytes(argc * sizeof(*parse));
     int i, errors = 0;
     for(i=0; i < argc; i++){
         if((argv+i)->a_type == A_FLOAT){
@@ -97,6 +97,7 @@ static int past_set_helper(t_past * x, int argc, t_atom * argv)
         x->x_argsz = argc;
         return 0;
     };
+    t_freebytes(parse, argc * sizeof(*parse));
 }
 
 static void past_set(t_past *x, t_symbol *s, int argc, t_atom * argv)

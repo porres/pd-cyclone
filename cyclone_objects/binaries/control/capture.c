@@ -426,7 +426,8 @@ static void capture_anything(t_capture *x, t_symbol *s, int argc, t_atom * argv)
             if(strcmp(s->s_name, "list") != 0 || argv->a_type != A_FLOAT){
                 //copy list to new t_atom with symbol as first elt
                 int destpos = 0; //position in copied list
-                t_atom at[argc+1];
+                int atsize = argc + 1;
+                t_atom* at = t_getbytes(atsize * sizeof(*at));
                 SETSYMBOL(&at[destpos], s);
                 destpos++;
                 int arrpos = 0; //position in arriving list
@@ -444,6 +445,7 @@ static void capture_anything(t_capture *x, t_symbol *s, int argc, t_atom * argv)
                 arrpos++;
                 };
                 capture_list(x, s, argc+1, at);
+                t_freebytes(at, atsize * sizeof(*at));
             }
             else{
                 capture_list(x, s, argc, argv);
