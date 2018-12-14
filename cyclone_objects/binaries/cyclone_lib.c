@@ -661,7 +661,7 @@ void cyclone_setup(void)
 
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
-    char encoded[strlen(cyclone_dir)+1];
+    char encoded[MAXPDSTRING+1];
     sprintf(encoded, "+%s", cyclone_dir);
 
     t_atom ap[2];
