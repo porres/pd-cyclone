@@ -468,8 +468,8 @@ static t_widgetbehavior comment_widgetbehavior =
     0,
     comment_vis,
     0,
-    0,
-    0
+    /*0,
+    0*/
 };
 
 /* this fires if a transform request was sent to a symbol we are bound to */
