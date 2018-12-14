@@ -107,7 +107,7 @@ static void wave_set(t_wave *x, t_symbol *s)
 	ndx1 = ndx + 1; \
 	if (ndx1 == eposi) ndx1 = sposi
 	
-#define INDEX_4PT() \ 
+#define INDEX_4PT() \
 	int ndxm1, ndx1, ndx2; \
 	double a, b, c, d; \
 	double xpos = phase*siz + spos; \
