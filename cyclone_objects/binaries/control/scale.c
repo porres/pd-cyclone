@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 
@@ -145,7 +146,7 @@ static void *scale_new(t_symbol *s, int argc, t_atom *argv)
   return (x);
 }
 
-void scale_setup(void)
+CYCLONE_OBJ_API void scale_setup(void)
 {
   t_class *c;
   scale_class = class_new(gensym("scale"), (t_newmethod)scale_new,

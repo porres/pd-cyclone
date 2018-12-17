@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "signal/cybuf.h"
 #include "common/shared.h"
 
@@ -591,8 +592,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 		return NULL;
 	}
 
-
-void wave_tilde_setup(void)
+CYCLONE_OBJ_API void wave_tilde_setup(void)
 {
     wave_class = class_new(gensym("wave~"),
 			   (t_newmethod)wave_new,

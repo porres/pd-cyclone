@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 
 #define VECTRAL_DEFSIZE  512
@@ -250,7 +251,7 @@ failure:
     return (0);
 }
 
-void vectral_tilde_setup(void)
+CYCLONE_OBJ_API void vectral_tilde_setup(void)
 {
     vectral_class = class_new(gensym("vectral~"),
 			      (t_newmethod)vectral_new,

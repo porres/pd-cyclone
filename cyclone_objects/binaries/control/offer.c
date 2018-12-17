@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "control/tree.h"
 
 //adding offer_bang, typecasting arg in offer_ft1 to and from int to get rid of mantissa  - Derek Kwan 2016
@@ -97,7 +98,7 @@ static void offer_bang(t_offer * x){
 
 }
 
-void offer_setup(void)
+CYCLONE_OBJ_API void offer_setup(void)
 {
     offer_class = class_new(gensym("offer"),
 			    (t_newmethod)offer_new,

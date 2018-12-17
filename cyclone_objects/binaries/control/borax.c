@@ -8,6 +8,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define BORAX_MAXVOICES  128  /* CHECKME */
 
@@ -155,7 +156,7 @@ static void *Borax_new(void)
     return (x);
 }
 
-void borax_setup(void)
+CYCLONE_OBJ_API void borax_setup(void)
 {
     Borax_class = class_new(gensym("borax"),
         (t_newmethod)Borax_new, 0, sizeof(t_Borax), 0, 0);

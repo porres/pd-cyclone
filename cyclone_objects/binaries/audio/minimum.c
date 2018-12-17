@@ -5,6 +5,7 @@
 // LATER use hasfeeders (why?)
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _minimum {
     t_object    x_obj;
@@ -46,7 +47,7 @@ static void *minimum_new(t_floatarg f)
     return (x);
 }
 
-void minimum_tilde_setup(void)
+CYCLONE_OBJ_API void minimum_tilde_setup(void)
 {
     minimum_class = class_new(gensym("minimum~"),
 			      (t_newmethod)minimum_new, 0,

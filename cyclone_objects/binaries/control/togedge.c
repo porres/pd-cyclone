@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _togedge{
     t_object   x_ob;
@@ -47,7 +48,7 @@ static void *togedge_new(void){
     return (x);
 }
 
-void togedge_setup(void){
+CYCLONE_OBJ_API void togedge_setup(void){
     togedge_class = class_new(gensym("togedge"),
         (t_newmethod)togedge_new, 0, sizeof(t_togedge), 0, 0);
     class_addcreator((t_newmethod)togedge_new, gensym("TogEdge"), 0, 0);

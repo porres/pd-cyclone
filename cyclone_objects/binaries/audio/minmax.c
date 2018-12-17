@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 #include "common/magicbit.h"
 
@@ -128,7 +129,7 @@ static void *minmax_new(void)
     return (x);
 }
 
-void minmax_tilde_setup(void)
+CYCLONE_OBJ_API void minmax_tilde_setup(void)
 {
     minmax_class = class_new(gensym("minmax~"),
         (t_newmethod)minmax_new, 0, sizeof(t_minmax), 0, 0);

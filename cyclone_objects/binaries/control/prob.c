@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/file.h"
 #include "control/rand.h"
 
@@ -265,7 +266,7 @@ static void *prob_new(void){
     return (x);
 }
 
-void prob_setup(void){
+CYCLONE_OBJ_API void prob_setup(void){
     prob_class = class_new(gensym("prob"), (t_newmethod)prob_new,
         (t_method)prob_free, sizeof(t_prob), 0, 0);
     class_addbang(prob_class, prob_bang);

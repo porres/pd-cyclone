@@ -6,6 +6,7 @@
    The most important changes are listed in "pd-lib-notes.txt" file.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _Bucket
 {
@@ -120,7 +121,7 @@ static void *Bucket_new(t_floatarg val, t_floatarg max5mode)
     return (x);
 }
 
-void bucket_setup(void)
+CYCLONE_OBJ_API void bucket_setup(void)
 {
     Bucket_class = class_new(gensym("bucket"),
 			     (t_newmethod)Bucket_new,

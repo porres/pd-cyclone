@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define TOSYMBOL_INISTRING   128  /* LATER rethink */
@@ -215,7 +216,7 @@ static void *tosymbol_new(t_symbol *s, int argc, t_atom *argv)
 		return NULL;
 }
 
-void tosymbol_setup(void)
+CYCLONE_OBJ_API void tosymbol_setup(void)
 {
     tosymbol_class = class_new(gensym("tosymbol"),
 			       (t_newmethod)tosymbol_new,

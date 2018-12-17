@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _avg
 {
@@ -52,7 +53,7 @@ static void *avg_new(void)
     return (x);
 }
 
-void avg_tilde_setup(void)
+CYCLONE_OBJ_API void avg_tilde_setup(void)
 {
     avg_class = class_new(gensym("avg~"),
 			  (t_newmethod)avg_new, 0,

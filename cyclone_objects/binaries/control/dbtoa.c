@@ -6,6 +6,7 @@
  Disclosure -- Caracal
  */
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 static t_class *dbtoa_class;
@@ -79,7 +80,7 @@ static void dbtoa_free(t_dbtoa *x)
   t_freebytes(x->output_list,x->bytes);
 }
 
-void dbtoa_setup(void)
+CYCLONE_OBJ_API void dbtoa_setup(void)
 {
   dbtoa_class = class_new(gensym("dbtoa"), (t_newmethod)dbtoa_new,
 			  (t_method)dbtoa_free,sizeof(t_dbtoa),0,0);

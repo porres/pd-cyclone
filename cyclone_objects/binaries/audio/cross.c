@@ -1,6 +1,7 @@
 // Porres 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 #define PI M_PI
@@ -147,7 +148,7 @@ static void *cross_new(t_floatarg f)
     return (x);
 }
 
-void cross_tilde_setup(void)
+CYCLONE_OBJ_API void cross_tilde_setup(void)
 {
     cross_class = class_new(gensym("cross~"), (t_newmethod)cross_new, 0,
         sizeof(t_cross), CLASS_DEFAULT, A_DEFFLOAT, 0);

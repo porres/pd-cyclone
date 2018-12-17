@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 /* LATER find a better way to synchronize with xbendin,
    while avoiding the c74's bug... */
@@ -88,7 +89,7 @@ static void *xbendin2_new(t_floatarg f)
     return (x);
 }
 
-void xbendin2_setup(void)
+CYCLONE_OBJ_API void xbendin2_setup(void)
 {
     xbendin2_class = class_new(gensym("xbendin2"), 
 			       (t_newmethod)xbendin2_new, 0,

@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define FLUSH_NPITCHES  128
 
@@ -66,7 +67,7 @@ static void *flush_new(void)
     return (x);
 }
 
-void flush_setup(void)
+CYCLONE_OBJ_API void flush_setup(void)
 {
     flush_class = class_new(gensym("flush"), 
 			    (t_newmethod)flush_new,

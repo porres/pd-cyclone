@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 static t_class *rdiv_class;
 
@@ -46,7 +47,7 @@ static void *rdiv_new(t_floatarg f)
     return (x);
 }
 
-void rdiv_tilde_setup(void)
+CYCLONE_OBJ_API void rdiv_tilde_setup(void)
 {
     rdiv_class = class_new(gensym("rdiv~"), (t_newmethod)rdiv_new,
         (t_method)rdiv_free, sizeof(t_rdiv), CLASS_DEFAULT, A_DEFFLOAT, 0);

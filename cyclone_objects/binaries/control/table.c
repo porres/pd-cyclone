@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "g_canvas.h"
 #include "common/grow.h"
 #include "common/file.h"
@@ -806,7 +807,7 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
         return NULL;
 }
 
-void table_setup(void){
+CYCLONE_OBJ_API void table_setup(void){
     table_class = class_new(gensym("Table"),
         (t_newmethod)table_new, (t_method)table_free, sizeof(t_table), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)table_new, gensym("cyclone/table"), A_GIMME, 0);

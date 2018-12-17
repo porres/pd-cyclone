@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 #include "common/file.h"
 #include "control/mifi.h"
@@ -1139,7 +1140,7 @@ static void *seq_new(t_symbol *s)
     return (x);
 }
 
-void seq_setup(void)
+CYCLONE_OBJ_API void seq_setup(void)
 {
     seq_class = class_new(gensym("seq"), (t_newmethod)seq_new,
         (t_method)seq_free, sizeof(t_seq), 0, A_DEFSYM, 0);

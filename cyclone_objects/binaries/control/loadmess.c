@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "g_canvas.h"
 
 #define IS_A_POINTER(atom,index) ((atom+index)->a_type == A_POINTER)
@@ -231,7 +232,7 @@ static void *loadmess_new(t_symbol *s, int ac, t_atom *av)
   return (x);
 }
 
-void loadmess_setup(void)
+CYCLONE_OBJ_API void loadmess_setup(void)
 {
   loadmess_class = class_new(gensym("loadmess"), (t_newmethod)loadmess_new,
 			     (t_method)loadmess_free, sizeof(t_loadmess), 0, A_GIMME, 0);

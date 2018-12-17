@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define RESON_DEFQ      .01
 #define RESON_MINQ      1e-20      /* CHECKME */
@@ -111,7 +112,7 @@ static void *reson_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     return (x);
 }
 
-void reson_tilde_setup(void)
+CYCLONE_OBJ_API void reson_tilde_setup(void)
 {
     reson_class = class_new(gensym("reson~"),
 			    (t_newmethod)reson_new, 0,

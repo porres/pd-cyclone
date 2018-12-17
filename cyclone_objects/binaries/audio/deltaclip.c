@@ -4,6 +4,7 @@
 //updated 2016 by Derek Kwan
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define DELTACLIP_DEFLO  0.
 #define DELTACLIP_DEFHI  0.
@@ -107,7 +108,7 @@ static void *deltaclip_new(t_symbol *s, int argc, t_atom *argv)
 		return NULL;
 }
 
-void deltaclip_tilde_setup(void)
+CYCLONE_OBJ_API void deltaclip_tilde_setup(void)
 {
     deltaclip_class = class_new(gensym("deltaclip~"),
 				(t_newmethod)deltaclip_new,

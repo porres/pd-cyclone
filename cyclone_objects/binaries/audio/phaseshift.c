@@ -1,6 +1,7 @@
 // Porres 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 #define PI M_PI
@@ -84,7 +85,7 @@ static void *phaseshift_new(t_floatarg f1, t_floatarg f2){
     return (x);
 }
 
-void phaseshift_tilde_setup(void){
+CYCLONE_OBJ_API void phaseshift_tilde_setup(void){
     phaseshift_class = class_new(gensym("phaseshift~"), (t_newmethod)phaseshift_new, 0,
         sizeof(t_phaseshift), CLASS_DEFAULT, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(phaseshift_class, (t_method)phaseshift_dsp, gensym("dsp"), A_CANT, 0);

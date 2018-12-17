@@ -10,6 +10,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define PAST_STACK 128 // check
 #define PAST_MAX 512 // check
@@ -193,7 +194,7 @@ static void *past_free(t_past *x)
     return (void *)x;
 }
 
-void past_setup(void)
+CYCLONE_OBJ_API void past_setup(void)
 {
     past_class = class_new(gensym("past"),
 			   (t_newmethod)past_new,

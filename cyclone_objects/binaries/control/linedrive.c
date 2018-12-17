@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 #define logf  log
@@ -97,7 +98,7 @@ static void *linedrive_new(t_floatarg maxin, t_floatarg maxout,
     return (x);
 }
 
-void linedrive_setup(void)
+CYCLONE_OBJ_API void linedrive_setup(void)
 {
     linedrive_class = class_new(gensym("linedrive"),
 				(t_newmethod)linedrive_new, 0,

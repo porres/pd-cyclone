@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 // ---------------------------------------------------
 // Class definition
@@ -65,7 +66,7 @@ static void *rminus_new(t_floatarg f)
 // ---------------------------------------------------
 // Setup
 // ---------------------------------------------------
-void rminus_tilde_setup(void)
+CYCLONE_OBJ_API void rminus_tilde_setup(void)
 {
     rminus_class = class_new(gensym("rminus~"),
                            (t_newmethod)rminus_new,

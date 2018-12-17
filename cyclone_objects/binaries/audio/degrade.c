@@ -1,6 +1,7 @@
 // Porres 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 #define SR_DEF 1.f
@@ -91,8 +92,7 @@ static void *degrade_new(t_symbol *s, int argc, t_atom *argv){ //two optional ar
     return (x);
 }
 
-
-void degrade_tilde_setup(void)
+CYCLONE_OBJ_API void degrade_tilde_setup(void)
 {
     degrade_class = class_new(gensym("degrade~"), (t_newmethod)degrade_new, (t_method)degrade_free,
             sizeof(t_degrade), CLASS_DEFAULT, A_GIMME, 0);

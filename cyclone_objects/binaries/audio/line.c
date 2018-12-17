@@ -4,7 +4,8 @@
 
 // Added code for the stop, pause and resume messages, fjkraan, 2014-12-02 (alpha57)
 
-#include "m_pd.h"'
+#include "m_pd.h"
+#include <common/api.h>
 
 #define LINE_MAX_SIZE  128
 
@@ -256,7 +257,7 @@ static void *line_new(t_floatarg f)
     return (x);
 }
 
-void line_tilde_setup(void)
+CYCLONE_OBJ_API void line_tilde_setup(void)
 {
     line_class = class_new(gensym("Line~"),  // avoid name clash with vanilla
         (t_newmethod)line_new, (t_method)line_free, sizeof(t_line), 0, A_DEFFLOAT, 0);

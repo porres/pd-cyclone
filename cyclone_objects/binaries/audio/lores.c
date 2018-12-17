@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 /* CHECKME negative loresance */
 /* CHECKME max loresance, esp. at low freqs (watch out, gain not normalized) */
@@ -95,7 +96,7 @@ static void *lores_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void lores_tilde_setup(void)
+CYCLONE_OBJ_API void lores_tilde_setup(void)
 {
     lores_class = class_new(gensym("lores~"),
 			    (t_newmethod)lores_new, 0,

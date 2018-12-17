@@ -6,6 +6,7 @@
 //updating argument parsing for object creation, adding interval and active attributes - Derek Kwan 2016
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 /* CHECKME for a fixed minimum deltime, if any (5ms for c74's metro) */
 
@@ -213,7 +214,7 @@ static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
 		return NULL;
 }
 
-void snapshot_tilde_setup(void)
+CYCLONE_OBJ_API void snapshot_tilde_setup(void)
 {
     snapshot_class = class_new(gensym("Snapshot~"),
         (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_GIMME,0);

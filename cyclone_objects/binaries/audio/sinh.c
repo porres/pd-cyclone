@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _sinh {
     t_object x_obj;
@@ -42,7 +43,7 @@ void *sinh_new(void)
     return (x);
 }
 
-void sinh_tilde_setup(void)
+CYCLONE_OBJ_API void sinh_tilde_setup(void)
 {
     sinh_class = class_new(gensym("sinh~"), (t_newmethod)sinh_new, 0,
                            sizeof(t_sinh), CLASS_DEFAULT, 0);

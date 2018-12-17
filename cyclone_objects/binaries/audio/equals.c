@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 static t_class *equals_class;
 
@@ -47,7 +48,7 @@ static void *equals_new(t_floatarg f)
     return (x);
 }
 
-void equals_tilde_setup(void)
+CYCLONE_OBJ_API void equals_tilde_setup(void)
 {
     equals_class = class_new(gensym("equals~"),
             (t_newmethod)equals_new,

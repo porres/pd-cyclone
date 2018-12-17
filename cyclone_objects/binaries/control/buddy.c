@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define BUDDY_MINSLOTS  2
@@ -231,7 +232,7 @@ static void *buddy_new(t_floatarg f)
     return (x);
 }
 
-void buddy_setup(void)
+CYCLONE_OBJ_API void buddy_setup(void)
 {
     buddy_class = class_new(gensym("buddy"),
 			    (t_newmethod)buddy_new,

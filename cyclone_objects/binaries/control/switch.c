@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define SWITCH_MININLETS       2  /* LATER consider using 1 (with a warning) */
 #define SWITCH_C74MAXINLETS  100
@@ -130,7 +131,7 @@ static void *switch_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void switch_setup(void)
+CYCLONE_OBJ_API void switch_setup(void)
 {
     switch_class = class_new(gensym("switch"),
 			     (t_newmethod)switch_new,

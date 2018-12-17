@@ -7,6 +7,7 @@
 #include <string.h>
 //#include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 
 #define PDCYBXORMASK 0 //default for bitmask
@@ -206,7 +207,7 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom * argv)
 
 }
 
-void bitxor_tilde_setup(void)
+CYCLONE_OBJ_API void bitxor_tilde_setup(void)
 {
     bitxor_class = class_new(gensym("bitxor~"), (t_newmethod)bitxor_new, 0,
                             sizeof(t_bitxor), 0, A_GIMME, 0);

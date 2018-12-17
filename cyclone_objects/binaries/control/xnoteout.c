@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _xnoteout
 {
@@ -51,7 +52,7 @@ static void *xnoteout_new(t_floatarg f)
     return (x);
 }
 
-void xnoteout_setup(void)
+CYCLONE_OBJ_API void xnoteout_setup(void)
 {
     xnoteout_class = class_new(gensym("xnoteout"), 
 			       (t_newmethod)xnoteout_new, 0,

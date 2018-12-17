@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _change
 {
@@ -54,7 +55,7 @@ static void *change_new(void)
     return (x);
 }
 
-void change_tilde_setup(void)
+CYCLONE_OBJ_API void change_tilde_setup(void)
 {
     change_class = class_new(gensym("change~"), (t_newmethod)change_new, 0,
             sizeof(t_change), CLASS_DEFAULT, 0);

@@ -1,5 +1,6 @@
 /* code generated thanks to Schiavoni's Pure Data external Generator */
 #include "m_pd.h"
+#include <common/api.h>
 #include "math.h"
 
 // ---------------------------------------------------
@@ -70,7 +71,7 @@ void trunc_destroy(t_trunc *x)
 // ---------------------------------------------------
 // Setup
 // ---------------------------------------------------
-void trunc_tilde_setup(void) {
+CYCLONE_OBJ_API void trunc_tilde_setup(void) {
    trunc_class = class_new(gensym("trunc~"),
       (t_newmethod) trunc_new, // Constructor
       (t_method) trunc_destroy, // Destructor

@@ -19,6 +19,7 @@
  single binaries in the cyclone package  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "m_imp.h"
 #include "common/shared.h"
 #include "common//magicbit.h"
@@ -654,7 +655,7 @@ static void *cyclone_new(void){
 
 /* ----------------------------- SETUP ------------------------------ */
 
-void cyclone_setup(void)
+CYCLONE_API void cyclone_setup(void)
 {
     cyclone_class = class_new(gensym("cyclone"), cyclone_new, 0, sizeof(t_cyclone), 0, 0);
     class_addmethod(cyclone_class, (t_method)cyclone_about, gensym("about"), 0);

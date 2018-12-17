@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 //made the right inlet a proxy inlet with corresponding proxy class to take care of anythings - DK 2016
 
@@ -108,7 +109,7 @@ static void *onebang_new(t_floatarg f)
     return (x);
 }
 
-void onebang_setup(void)
+CYCLONE_OBJ_API void onebang_setup(void)
 {
     onebang_class = class_new(gensym("onebang"),
 			      (t_newmethod)onebang_new, 0,

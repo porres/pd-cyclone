@@ -4,6 +4,8 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
+
 // magic needed for manual isnan and isinf checks, which don't work
 // reliably with -ffast-math compiler option
 //#include "magicbit.h"
@@ -46,7 +48,7 @@ void *acosh_new(void)
     return (x);
 }
 
-void acosh_tilde_setup(void)
+CYCLONE_OBJ_API void acosh_tilde_setup(void)
 {
     acosh_class = class_new(gensym("acosh~"), (t_newmethod)acosh_new, 0,
                            sizeof(t_acosh), CLASS_DEFAULT, 0);

@@ -7,6 +7,7 @@
    cyclone's guidelines. */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "control/rand.h"
 
 #define DRUNK_DEFMAXVALUE  128
@@ -124,7 +125,7 @@ static void *drunk_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void drunk_setup(void)
+CYCLONE_OBJ_API void drunk_setup(void)
 {
     drunk_class = class_new(gensym("drunk"),
 			    (t_newmethod)drunk_new, 0,

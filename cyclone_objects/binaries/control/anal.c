@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <string.h>
 
 #define ANAL_DEFSIZE  128
@@ -85,7 +86,7 @@ static void *anal_new(t_floatarg f){
     return (x);
 }
 
-void anal_setup(void){
+CYCLONE_OBJ_API void anal_setup(void){
     anal_class = class_new(gensym("anal"), (t_newmethod)anal_new,
             (t_method)anal_free, sizeof(t_anal), 0, A_DEFFLOAT, 0);
     class_addfloat(anal_class, anal_float);

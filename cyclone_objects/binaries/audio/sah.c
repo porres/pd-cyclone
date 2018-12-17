@@ -4,6 +4,7 @@
 
 
 #include "m_pd.h"
+#include <common/api.h>
 // MAGIC: include magicbit.h for magic
 #include "common/magicbit.h"
 // end magic
@@ -109,7 +110,7 @@ static void *sah_new(t_floatarg f)
     return (x);
 }
 
-void sah_tilde_setup(void)
+CYCLONE_OBJ_API void sah_tilde_setup(void)
 {
     sah_class = class_new(gensym("sah~"), (t_newmethod)sah_new, 0,
                         sizeof(t_sah), CLASS_DEFAULT, A_DEFFLOAT, 0);

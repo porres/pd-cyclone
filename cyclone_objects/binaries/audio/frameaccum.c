@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define FRAMEACCUM_INISIZE  512
@@ -75,7 +76,7 @@ static void *frameaccum_new(t_floatarg f)
     return (x);
 }
 
-void frameaccum_tilde_setup(void)
+CYCLONE_OBJ_API void frameaccum_tilde_setup(void)
 {
     frameaccum_class = class_new(gensym("frameaccum~"),
 				 (t_newmethod)frameaccum_new,

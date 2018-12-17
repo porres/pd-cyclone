@@ -28,6 +28,7 @@
 // Derek Kwan 2017 - ported from maxlib, some restructuring, added offset, support for anythings, symbols
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -99,7 +100,7 @@ static void *listfunnel_new(t_floatarg f)
     return (void *)x;
 }
 
-void listfunnel_setup(void)
+CYCLONE_OBJ_API void listfunnel_setup(void)
 {
     listfunnel_class = class_new(gensym("listfunnel"), (t_newmethod)listfunnel_new,
     	0, sizeof(t_listfunnel), 0, A_DEFFLOAT, 0);

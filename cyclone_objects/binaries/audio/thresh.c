@@ -3,6 +3,7 @@
 * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define THRESH_DEFLO  0.
 #define THRESH_DEFHI  0.
@@ -96,7 +97,7 @@ static void *thresh_new(t_symbol *s, int argc, t_atom *argv)
     
 }
 
-void thresh_tilde_setup(void)
+CYCLONE_OBJ_API void thresh_tilde_setup(void)
 {
     thresh_class = class_new(gensym("thresh~"),
         (t_newmethod)thresh_new,

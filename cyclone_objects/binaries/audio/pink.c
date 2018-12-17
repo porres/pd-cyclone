@@ -9,6 +9,7 @@
 // Max has a dummy signal in (needed for begin~)
 
 #include "m_pd.h"
+#include <common/api.h>
 
 /* more like 0.085 in c74's */
 #define PINK_GAIN  .105
@@ -85,7 +86,7 @@ static void *pink_new(void)
     return (x);
 }
 
-void pink_tilde_setup(void)
+CYCLONE_OBJ_API void pink_tilde_setup(void)
 {
     pink_class = class_new(gensym("pink~"),
 			   (t_newmethod)pink_new, 0,

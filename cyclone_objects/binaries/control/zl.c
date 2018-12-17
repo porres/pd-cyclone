@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 // LATER test reentrancy, tune speedwise
 
@@ -1616,7 +1617,7 @@ static void zl_setupmode(char *id, int flags,
     zl_doitfn[i] = dfn;
 }
 
-void zl_setup(void){
+CYCLONE_OBJ_API void zl_setup(void){
     zl_class = class_new(gensym("zl"), (t_newmethod)zl_new,
             (t_method)zl_free, sizeof(t_zl), 0, A_GIMME, 0);
     class_addbang(zl_class, zl_bang);

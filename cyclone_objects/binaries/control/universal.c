@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "g_canvas.h"
 #include "m_imp.h"
 
@@ -154,7 +155,7 @@ static void *universal_new(t_floatarg f)
     return (x);
 }
 
-void universal_setup(void)
+CYCLONE_OBJ_API void universal_setup(void)
 {
     universal_class = class_new(gensym("universal"),
 			      (t_newmethod)universal_new, 0,

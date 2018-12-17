@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _xbendin
 {
@@ -82,7 +83,7 @@ static void *xbendin_new(t_floatarg f)
     return (x);
 }
 
-void xbendin_setup(void)
+CYCLONE_OBJ_API void xbendin_setup(void)
 {
     xbendin_class = class_new(gensym("xbendin"), 
 			      (t_newmethod)xbendin_new, 0,
