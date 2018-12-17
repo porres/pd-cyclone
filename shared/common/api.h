@@ -33,4 +33,4 @@
 #endif
 
 
-#endif __CYCLONE_API_H__
+#endif // __CYCLONE_API_H__
