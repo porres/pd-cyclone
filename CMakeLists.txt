@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.8.11)
 project (cyclone C)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_SINGLE_LIBRARY "Compile everything into one single library." OFF)
 
 option(LIBPD_ROOT_PATH "Path to libpd library sources")
 if (NOT LIBPD_ROOT_PATH)
@@ -64,29 +65,6 @@ include_directories(${PTHREADS_INCLUDE_DIR})
 include_directories(shared)
 
 find_package(Threads REQUIRED)
-
-add_library(cyclone_shared STATIC
-    shared/common/file.h
-    shared/common/file.c
-    shared/common/grow.h
-    shared/common/grow.c
-    shared/common/magicbit.h
-    shared/common/magicbit.c
-    shared/control/gui.h
-    shared/control/gui.c
-    shared/control/mifi.h
-    shared/control/mifi.c
-    shared/control/rand.h
-    shared/control/rand.c
-    shared/control/tree.h
-    shared/control/tree.c
-    shared/signal/cybuf.h
-    shared/signal/cybuf.c
-)
-
-link_libraries(${LIBPD_LIB_PATH})
-link_libraries(${CMAKE_THREAD_LIBS_INIT})
-link_libraries(cyclone_shared)
 
 set(CONTROL_CLASSES
     accum
@@ -303,14 +281,84 @@ set(SIGNAL_CLASSES
     play
 )
 
-add_library(cyclone cyclone_objects/binaries/cyclone_lib.c)
+add_library(cyclone_shared STATIC
+    shared/common/file.h
+    shared/common/file.c
+    shared/common/grow.h
+    shared/common/grow.c
+    shared/common/magicbit.h
+    shared/common/magicbit.c
+    shared/control/gui.h
+    shared/control/gui.c
+    shared/control/mifi.h
+    shared/control/mifi.c
+    shared/control/rand.h
+    shared/control/rand.c
+    shared/control/tree.h
+    shared/control/tree.c
+    shared/signal/cybuf.h
+    shared/signal/cybuf.c
+)
+
+link_libraries(${LIBPD_LIB_PATH})
+link_libraries(${CMAKE_THREAD_LIBS_INIT})
+link_libraries(cyclone_shared)
+
+# Add main cyclone library
+
+set(SETUP_DECLS "")
+set(SETUP_CALLS "")
+if(BUILD_SINGLE_LIBRARY)
+    string(APPEND SETUP_DECLS "// control classes\n\n")
+    string(APPEND SETUP_CALLS "    // control classes\n\n")
+    foreach(NAME ${CONTROL_CLASSES})
+        string(APPEND SETUP_DECLS "void ${NAME}_setup();\n")
+        string(APPEND SETUP_CALLS "    ${NAME}_setup();\n")
+    endforeach(NAME)
+    string(APPEND SETUP_DECLS "\n// signal classes\n\n")
+    string(APPEND SETUP_CALLS "\n    // signal classes\n\n")
+    foreach(NAME ${SIGNAL_CLASSES})
+        string(APPEND SETUP_DECLS "void ${NAME}_tilde_setup();\n")
+        string(APPEND SETUP_CALLS "    ${NAME}_tilde_setup();\n")
+    endforeach(NAME)
+endif(BUILD_SINGLE_LIBRARY)
+
+configure_file(cyclone_objects/binaries/single_lib.c.in
+    ${CMAKE_CURRENT_BINARY_DIR}/cyclone_objects/binaries/single_lib.c)
+
+add_library(cyclone cyclone_objects/binaries/cyclone_lib.c
+    ${CMAKE_CURRENT_BINARY_DIR}/cyclone_objects/binaries/single_lib.c
+)
+
+# Add libraries for objects
+
+if(BUILD_SHARED_LIBS AND NOT BUILD_SINGLE_LIBRARY)
+    set(LIB_BUILD_MODE SHARED)
+else()
+    set(LIB_BUILD_MODE STATIC)
+endif()
+
+if(BUILD_SINGLE_LIBRARY)
+    add_compile_definitions(CYCLONE_SINGLE_LIBRARY=1)
+endif()
 
 foreach(NAME ${CONTROL_CLASSES})
-    add_library(${NAME} cyclone_objects/binaries/control/${NAME}.c)
+    add_library(${NAME} ${LIB_BUILD_MODE} cyclone_objects/binaries/control/${NAME}.c)
 endforeach(NAME)
 
 foreach(NAME ${SIGNAL_CLASSES})
-    add_library(signal_${NAME} cyclone_objects/binaries/audio/${NAME}.c)
+    add_library(signal_${NAME} ${LIB_BUILD_MODE} cyclone_objects/binaries/audio/${NAME}.c)
     set_target_properties(signal_${NAME} PROPERTIES OUTPUT_NAME ${NAME}~)
 endforeach(NAME)
+
+# Link objects to main library if building a single library
+
+if(BUILD_SINGLE_LIBRARY)
+    foreach(NAME ${CONTROL_CLASSES})
+        target_link_libraries(cyclone ${NAME})
+    endforeach(NAME)
+    foreach(NAME ${SIGNAL_CLASSES})
+        target_link_libraries(cyclone signal_${NAME})
+    endforeach(NAME)
+endif(BUILD_SINGLE_LIBRARY)
 
