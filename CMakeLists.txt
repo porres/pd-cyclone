@@ -339,7 +339,7 @@ else()
 endif()
 
 if(BUILD_SINGLE_LIBRARY)
-    add_compile_definitions(CYCLONE_SINGLE_LIBRARY=1)
+    add_definitions(-DCYCLONE_SINGLE_LIBRARY=1)
 endif()
 
 foreach(NAME ${CONTROL_CLASSES})
