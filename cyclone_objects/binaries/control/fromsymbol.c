@@ -105,8 +105,8 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
     //new and redone - Derek Kwan
     long unsigned int seplen = strlen(x->x_separator->s_name);
     seplen++;
-    char sep[MAXPDSTRING];
-    memset(sep, '\0', sizeof(seplen));
+    char* sep = t_getbytes(seplen * sizeof(*sep));
+    memset(sep, '\0', seplen);
     strcpy(sep, x->x_separator->s_name);
     //char * sep = x->x_separator->s_name;
     if(s){
@@ -116,8 +116,8 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
         //(hacky way of making sure there's enough space)
         t_atom* out = t_getbytes(iptlen * sizeof(*out));
         iptlen++;
-        char newstr[MAXPDSTRING];
-        memset(newstr, '\0', sizeof(newstr));
+        char* newstr = t_getbytes(iptlen * sizeof(*newstr));
+        memset(newstr, '\0', iptlen);
         strcpy(newstr,s->s_name);
         int atompos = 0; //position in atom
         //parsing by token
@@ -149,7 +149,9 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
              };
         };
         t_freebytes(out, iptlen * sizeof(*out));
+        t_freebytes(newstr, iptlen * sizeof(*newstr));
     };
+    t_freebytes(sep, seplen * sizeof(*sep));
 }
 
 static void fromsymbol_list(t_fromsymbol *x, t_symbol *s, int argc, t_atom *argv)
