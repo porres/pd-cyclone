@@ -14,7 +14,9 @@ if (NOT LIBPD_LIB_PATH)
     message(FATAL_ERROR "Please provide a path to the libpd library.")
 endif()
 
-set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/libs CACHE PATH "Installation path")
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/libs" CACHE PATH "Installation path" FORCE)
+endif()
 
 if (WIN32)
     set(CMAKE_THREAD_LIBS_INIT CACHE PATH "Path to pthreads library")
