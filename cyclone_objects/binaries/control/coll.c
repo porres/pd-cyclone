@@ -18,7 +18,9 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #include "common/file.h"
 
 #include <pthread.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 /* LATER profile for the bottlenecks of insertion and sorting */
 /* LATER make sure that ``reentrancy protection hack'' is really working... */

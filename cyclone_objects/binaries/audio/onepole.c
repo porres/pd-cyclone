@@ -7,6 +7,7 @@
 /* CHECKED scalar case: input preserved (not coefs) after changing mode */
 /* CHECKME if creation arg (or a default) restored after signal disconnection */
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "m_pd.h"
 #include <common/api.h>

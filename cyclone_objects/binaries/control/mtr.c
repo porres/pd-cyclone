@@ -196,7 +196,8 @@ static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
             if(strcmp(s->s_name, "list") != 0 || av->a_type != A_FLOAT){
                 //copy list to new t_atom with symbol as first elt
                 int destpos = 0; //position in copied list
-                t_atom at[ac+1];
+                int atsize = ac + 1;
+                t_atom* at = t_getbytes(atsize * sizeof(*at));
                 SETSYMBOL(&at[destpos], s);
                 destpos++;
                 int arrpos = 0; //position in arriving list
@@ -214,6 +215,7 @@ static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
                 arrpos++;
                 };
                 mtrack_doadd(tp, ac+1, &at);
+                t_freebytes(at, atsize * sizeof(*at));
             }
             else{
                 mtrack_doadd(tp, ac, av);

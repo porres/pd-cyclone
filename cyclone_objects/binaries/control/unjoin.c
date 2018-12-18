@@ -66,13 +66,14 @@ static void unjoin_anything(t_unjoin * x, t_symbol *s, int argc, t_atom * argv)
     if(s)
     {
         int i;
-        t_atom newlist[argc+1];
+        t_atom* newlist = t_getbytes((argc + 1) * sizeof(*newlist));
         SETSYMBOL(&newlist[0],s);
         for(i=0;i<argc;i++)
         {
             newlist[i+1] = argv[i];
         };
         unjoin_list(x, NULL, argc+1, newlist);
+        t_freebytes(newlist, (argc + 1) * sizeof(*newlist));
     }
     else unjoin_list(x, NULL, argc, argv);
 }

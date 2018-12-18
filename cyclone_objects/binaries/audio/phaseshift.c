@@ -1,5 +1,7 @@
 // Porres 2016
 
+#define _USE_MATH_DEFINES
+
 #include "m_pd.h"
 #include <common/api.h>
 #include <math.h>

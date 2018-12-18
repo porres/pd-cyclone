@@ -1607,7 +1607,7 @@ static t_widgetbehavior scope_widgetbehavior =
     scope_delete,
     scope_vis,
     scope_click,
-    0,0 // instead of FORKY_WIDGETPADDING
+    //0,0 // instead of FORKY_WIDGETPADDING
 };
 
 static void scope_setxymode(t_scope *x, int xymode)
