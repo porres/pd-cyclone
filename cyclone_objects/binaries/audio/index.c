@@ -8,6 +8,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "signal/cybuf.h"
 
 #define INDEX_MAXCHANNELS  64
@@ -98,7 +99,7 @@ static void *index_new(t_symbol *s, t_floatarg f)
     return (x);
 }
 
-void index_tilde_setup(void)
+CYCLONE_OBJ_API void index_tilde_setup(void)
 {
     index_class = class_new(gensym("index~"),
 			    (t_newmethod)index_new,

@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/shared.h"
 
 typedef struct _phasewrap
@@ -116,7 +117,7 @@ static void *phasewrap_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void phasewrap_tilde_setup(void)
+CYCLONE_OBJ_API void phasewrap_tilde_setup(void)
 {
     phasewrap_class = class_new(gensym("phasewrap~"),
 				(t_newmethod)phasewrap_new, 0,

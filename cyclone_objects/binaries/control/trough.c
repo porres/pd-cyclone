@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _trough{
     t_object   x_ob;
@@ -45,7 +46,7 @@ static void *trough_new(t_symbol *s, int argc, t_atom *argv){
     return (x);
 }
 
-void trough_setup(void){
+CYCLONE_OBJ_API void trough_setup(void){
     trough_class = class_new(gensym("trough"), (t_newmethod)trough_new, 0,
 			     sizeof(t_trough), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)trough_new, gensym("Trough"), A_GIMME, 0);

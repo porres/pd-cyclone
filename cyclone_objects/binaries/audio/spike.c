@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _spike
 {
@@ -102,7 +103,7 @@ static void *spike_new(t_floatarg f)
     return (x);
 }
 
-void spike_tilde_setup(void)
+CYCLONE_OBJ_API void spike_tilde_setup(void)
 {
     spike_class = class_new(gensym("spike~"),
 			    (t_newmethod)spike_new,

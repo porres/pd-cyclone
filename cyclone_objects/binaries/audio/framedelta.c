@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define FRAMEDELTA_INISIZE  512
@@ -66,7 +67,7 @@ static void *framedelta_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void framedelta_tilde_setup(void)
+CYCLONE_OBJ_API void framedelta_tilde_setup(void)
 {
     framedelta_class = class_new(gensym("framedelta~"),
 				 (t_newmethod)framedelta_new,

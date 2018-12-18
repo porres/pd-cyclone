@@ -1,6 +1,7 @@
 // Porres 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 //#include <math.h>
 
 // MAGIC
@@ -120,7 +121,7 @@ static void *plusequals_new(t_floatarg f)
     return (x);
 }
 
-void plusequals_tilde_setup(void)
+CYCLONE_OBJ_API void plusequals_tilde_setup(void)
 {
     plusequals_class = class_new(gensym("plusequals~"), (t_newmethod)plusequals_new,
         0, sizeof(t_plusequals), CLASS_DEFAULT, A_DEFFLOAT, 0);

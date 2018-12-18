@@ -9,6 +9,7 @@
   Evan Parker Electro-Acoustic Ensemble -- Hasselt
 */
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 static t_class *dbtoa_class;
@@ -44,8 +45,7 @@ static void *dbtoa_new(void)
   return (void *)x;
 }
 
-
-void dbtoa_tilde_setup(void) {
+CYCLONE_OBJ_API void dbtoa_tilde_setup(void) {
   dbtoa_class = class_new(gensym("dbtoa~"),
 			  (t_newmethod) dbtoa_new,
 			  0,

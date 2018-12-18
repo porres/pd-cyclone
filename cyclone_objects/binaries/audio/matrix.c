@@ -19,6 +19,7 @@ changed matrix_free to return void * instead of nothing
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 
 #define MATRIX_DEFGAIN  0.  /* CHECKED */
@@ -689,7 +690,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv)
 		return NULL;
 }
 
-void matrix_tilde_setup(void)
+CYCLONE_OBJ_API void matrix_tilde_setup(void)
 {
     matrix_class = class_new(gensym("matrix~"),
 			     (t_newmethod)matrix_new,

@@ -4,6 +4,7 @@
 
 #include <libgen.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "control/tree.h"
 #include "common/file.h"
 
@@ -755,7 +756,7 @@ static void *funbuff_new(t_symbol *s)
     return (x);
 }
 
-void funbuff_setup(void)
+CYCLONE_OBJ_API void funbuff_setup(void)
 {
     funbuff_class = class_new(gensym("funbuff"),
 			      (t_newmethod)funbuff_new,

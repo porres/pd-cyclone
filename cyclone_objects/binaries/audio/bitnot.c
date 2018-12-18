@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 
 //~ union i32_fl {
@@ -75,7 +76,7 @@ void *bitnot_new(t_floatarg f)
     return (x);
 }
 
-void bitnot_tilde_setup(void) {
+CYCLONE_OBJ_API void bitnot_tilde_setup(void) {
     bitnot_class = class_new(gensym("bitnot~"), (t_newmethod) bitnot_new, 0,
         sizeof (t_bitnot), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(bitnot_class, nullfn, gensym("signal"), 0);

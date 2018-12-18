@@ -10,6 +10,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define ITER_INISIZE  8  /* LATER rethink */
@@ -93,7 +94,7 @@ static void *iter_new(void)
     return (x);
 }
 
-void iter_setup(void)
+CYCLONE_OBJ_API void iter_setup(void)
 {
     iter_class = class_new(gensym("iter"),
 			   (t_newmethod)iter_new,

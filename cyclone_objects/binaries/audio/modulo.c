@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "math.h"
 
 // ---------------------------------------------------
@@ -66,7 +67,7 @@ static void *modulo_new(t_floatarg f)
 // ---------------------------------------------------
 // Setup
 // ---------------------------------------------------
-void modulo_tilde_setup(void)
+CYCLONE_OBJ_API void modulo_tilde_setup(void)
 {
     modulo_class = class_new(gensym("modulo~"),
                              (t_newmethod)modulo_new,

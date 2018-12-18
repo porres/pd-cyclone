@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 /* Pattern types.  These are the parsing routine's return values.
    If returned value is >= SPRINTF_MINSLOTTYPE, then another slot
@@ -615,7 +616,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void sprintf_setup(void)
+CYCLONE_OBJ_API void sprintf_setup(void)
 {
     sprintf_class = class_new(gensym("sprintf"),
 			      (t_newmethod)sprintf_new,

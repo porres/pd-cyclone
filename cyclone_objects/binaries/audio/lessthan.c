@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 // ---------------------------------------------------
 // Class definition
@@ -65,7 +66,7 @@ static void *lessthan_new(t_floatarg f)
 // ---------------------------------------------------
 // Setup
 // ---------------------------------------------------
-void lessthan_tilde_setup(void)
+CYCLONE_OBJ_API void lessthan_tilde_setup(void)
 {
     lessthan_class = class_new(gensym("lessthan~"),
                                   (t_newmethod)lessthan_new,

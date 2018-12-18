@@ -1,6 +1,7 @@
 // Porres 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 
 static t_class *downsamp_class;
 
@@ -60,8 +61,7 @@ static void *downsamp_new(t_floatarg f)
     return (x);
 }
 
-
-void downsamp_tilde_setup(void)
+CYCLONE_OBJ_API void downsamp_tilde_setup(void)
 {
     downsamp_class = class_new(gensym("downsamp~"),
         (t_newmethod)downsamp_new,

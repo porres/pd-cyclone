@@ -4,6 +4,8 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
+
 // magic needed for manual isnan and isinf checks, which don't work
 // reliably with -ffast-math compiler option
 //#include "magicbit.h"
@@ -46,7 +48,7 @@ void *asin_new(void)
     return (x);
 }
 
-void asin_tilde_setup(void)
+CYCLONE_OBJ_API void asin_tilde_setup(void)
 {
     asin_class = class_new(gensym("asin~"), (t_newmethod)asin_new, 0,
                            sizeof(t_asin), CLASS_DEFAULT, 0);

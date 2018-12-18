@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _peak{
     t_object   x_ob;
@@ -45,7 +46,7 @@ static void *peak_new(t_symbol *s, int argc, t_atom *argv){
     return (x);
 }
 
-void peak_setup(void){
+CYCLONE_OBJ_API void peak_setup(void){
     peak_class = class_new(gensym("peak"), (t_newmethod)peak_new, 0,
 			   sizeof(t_peak), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)peak_new, gensym("Peak"), A_GIMME, 0);

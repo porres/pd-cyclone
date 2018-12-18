@@ -13,6 +13,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "g_canvas.h"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
@@ -961,7 +962,7 @@ textpart:
     return (x);
 }
 
-void comment_setup(void){
+CYCLONE_OBJ_API void comment_setup(void){
     comment_class = class_new(gensym("comment"), (t_newmethod)comment_new,
         (t_method)comment_free, sizeof(t_comment),
         // CLASS_NOINLET | CLASS_PATCHABLE,

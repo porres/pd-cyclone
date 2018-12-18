@@ -5,6 +5,7 @@
 // LATER use hasfeeders (why?)
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _maximum {
     t_object    x_obj;
@@ -46,7 +47,7 @@ static void *maximum_new(t_floatarg f)
     return (x);
 }
 
-void maximum_tilde_setup(void)
+CYCLONE_OBJ_API void maximum_tilde_setup(void)
 {
     maximum_class = class_new(gensym("maximum~"),
                               (t_newmethod)maximum_new, 0,

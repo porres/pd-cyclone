@@ -1,6 +1,7 @@
 //2016 by Derek Kwan
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
@@ -129,7 +130,7 @@ static void round_tilde_dsp(t_round_tilde *x, t_signal **sp)
 	dsp_add(round_tilde_perform, 5, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[0]->s_n);
 }
 
-void round_tilde_setup(void)
+CYCLONE_OBJ_API void round_tilde_setup(void)
 {
 	round_tilde_class = class_new(gensym("round~"), (t_newmethod)round_tilde_new, 0,
 	sizeof(t_round_tilde), 0, A_GIMME, 0);

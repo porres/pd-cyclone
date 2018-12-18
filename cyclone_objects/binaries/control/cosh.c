@@ -6,6 +6,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _cosh
 {
@@ -33,7 +34,7 @@ static void *cosh_new(t_floatarg f)
     return (x);
 }
 
-void cosh_setup(void)
+CYCLONE_OBJ_API void cosh_setup(void)
 {
     cosh_class = class_new(gensym("cosh"), (t_newmethod)cosh_new, 0,
 			   sizeof(t_cosh), 0, A_DEFFLOAT, 0);

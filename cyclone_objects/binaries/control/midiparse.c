@@ -5,6 +5,7 @@
 //adding x_hires and associated bendout options - Derek Kwan 2016
 //
 #include "m_pd.h"
+#include <common/api.h>
 #include <string.h>
 
 typedef struct _midiparse
@@ -181,7 +182,7 @@ static void *midiparse_new(t_symbol * s, int argc, t_atom * argv)
         return NULL;
 }
 
-void midiparse_setup(void)
+CYCLONE_OBJ_API void midiparse_setup(void)
 {
     midiparse_class = class_new(gensym("midiparse"), 
 				(t_newmethod)midiparse_new, 0,

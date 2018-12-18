@@ -13,6 +13,7 @@
 #include <string.h>
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "signal/cybuf.h"
 #include "common/magicbit.h"
 #include "common/shared.h"
@@ -692,7 +693,7 @@ static void *play_new(t_symbol * s, int argc, t_atom * argv)
 		return NULL;
 }
 
-void play_tilde_setup(void)
+CYCLONE_OBJ_API void play_tilde_setup(void)
 {
     play_class = class_new(gensym("play~"), (t_newmethod)play_new, (t_method)play_free,
 			   sizeof(t_play), 0, A_GIMME, 0);

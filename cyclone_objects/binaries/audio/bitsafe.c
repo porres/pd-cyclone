@@ -2,6 +2,7 @@
  
 //#include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 // magic.h needed for magic_isnan() and magic_isinf()
 #include "common/magicbit.h"
 
@@ -43,7 +44,7 @@ void *bitsafe_new(void)
     return (x);
 }
 
-void bitsafe_tilde_setup(void)
+CYCLONE_OBJ_API void bitsafe_tilde_setup(void)
 {
     bitsafe_class = class_new(gensym("bitsafe~"), (t_newmethod)bitsafe_new, 0,
                               sizeof(t_bitsafe), CLASS_DEFAULT, 0);

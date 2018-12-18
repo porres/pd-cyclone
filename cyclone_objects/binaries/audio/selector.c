@@ -1,6 +1,7 @@
 // Derek Kwan - 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 //#include <math.h>
 
@@ -147,7 +148,7 @@ void * selector_free(t_selector *x){
          return (void *) x;
 }
 
-void selector_tilde_setup(void)
+CYCLONE_OBJ_API void selector_tilde_setup(void)
 {
     selector_class = class_new(gensym("selector~"), (t_newmethod)selector_new, (t_method)selector_free,
             sizeof(t_selector), CLASS_DEFAULT, A_GIMME, 0);

@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "signal/cybuf.h"
 #define PEEK_MAXCHANNELS  64  /* LATER implement arsic resizing feature */
 #define PEEK_TICK_TIME  2  //
@@ -132,7 +133,7 @@ static void *peek_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void peek_tilde_setup(void)
+CYCLONE_OBJ_API void peek_tilde_setup(void)
 {
     peek_class = class_new(gensym("peek~"),
 			   (t_newmethod)peek_new,

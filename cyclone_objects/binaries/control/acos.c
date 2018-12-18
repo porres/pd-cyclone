@@ -6,6 +6,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _acos
 {
@@ -33,7 +34,7 @@ static void *acos_new(t_floatarg f)
     return (x);
 }
 
-void acos_setup(void)
+CYCLONE_OBJ_API void acos_setup(void)
 {
     acos_class = class_new(gensym("acos"), (t_newmethod)acos_new, 0,
 			   sizeof(t_acos), 0, A_DEFFLOAT, 0);

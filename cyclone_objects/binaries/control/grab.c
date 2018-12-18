@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "m_imp.h"
 #include "common/magicbit.h"
 
@@ -245,7 +246,7 @@ static void grab_free(t_grab *x)
 	freebytes(x->x_grabcons, x->x_noutlets * sizeof(*x->x_grabcons));
 }
 
-void grab_setup(void)
+CYCLONE_OBJ_API void grab_setup(void)
 {
     t_symbol *s = gensym("grab");
     grab_class = class_new(s, (t_newmethod)grab_new,

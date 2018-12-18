@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #if defined(_WIN32) || defined(__APPLE__)
 /* cf pd/src/x_arithmetic.c */
@@ -38,7 +39,7 @@ static void *poltocar_new(void){
     return (x);
 }
 
-void poltocar_setup(void){
+CYCLONE_OBJ_API void poltocar_setup(void){
     poltocar_class = class_new(gensym("poltocar"), (t_newmethod)poltocar_new, 0,
 			       sizeof(t_poltocar), 0, 0);
     class_addfloat(poltocar_class, poltocar_float);

@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _cosx {
     t_object x_obj;
@@ -42,7 +43,7 @@ void *cosx_new(void)
     return (x);
 }
 
-void cosx_tilde_setup(void)
+CYCLONE_OBJ_API void cosx_tilde_setup(void)
 {
     cosx_class = class_new(gensym("cosx~"), (t_newmethod)cosx_new, 0,
                            sizeof(t_cosx), CLASS_DEFAULT, 0);

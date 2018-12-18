@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define APPEND_INISIZE     32  /* LATER rethink */
@@ -251,7 +252,7 @@ static void *append_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void append_setup(void)
+CYCLONE_OBJ_API void append_setup(void)
 {
     append_class = class_new(gensym("Append"),
         (t_newmethod)append_new, (t_method)append_free, sizeof(t_append), 0, A_GIMME, 0);

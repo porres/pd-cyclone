@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 // ---------------------------------------------------
 // Class definition
@@ -65,7 +66,7 @@ static void *notequals_new(t_floatarg f)
 // ---------------------------------------------------
 // Setup
 // ---------------------------------------------------
-void notequals_tilde_setup(void)
+CYCLONE_OBJ_API void notequals_tilde_setup(void)
 {
     notequals_class = class_new(gensym("notequals~"),
                              (t_newmethod)notequals_new,

@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "signal/cybuf.h"
 
 #define BUFFIR_DEFSIZE    0
@@ -169,7 +170,7 @@ static void *buffir_new(t_symbol *s, t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void buffir_tilde_setup(void)
+CYCLONE_OBJ_API void buffir_tilde_setup(void)
 {
     buffir_class = class_new(gensym("buffir~"), (t_newmethod)buffir_new, (t_method)buffir_free,
     sizeof(t_buffir), CLASS_DEFAULT, A_DEFSYM, A_DEFFLOAT, A_DEFFLOAT, 0);

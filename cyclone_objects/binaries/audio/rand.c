@@ -5,6 +5,7 @@
 /* This is a compilation of phasor~ and noise~ code from d_osc.c. */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/shared.h"
 
 typedef struct _rand
@@ -89,7 +90,7 @@ static void *rand_new(t_floatarg f)
     return (x);
 }
 
-void rand_tilde_setup(void)
+CYCLONE_OBJ_API void rand_tilde_setup(void)
 {
     rand_class = class_new(gensym("rand~"), (t_newmethod)rand_new, 0,
             sizeof(t_rand), CLASS_DEFAULT, A_DEFFLOAT, 0);

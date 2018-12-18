@@ -17,6 +17,7 @@ here,  just set to 1
 */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define PDCYMAXN 256 //max numbers allowable in list
 
@@ -111,7 +112,7 @@ static void *maximum_new(t_floatarg f)
     return (x);
 }
 
-void maximum_setup(void)
+CYCLONE_OBJ_API void maximum_setup(void)
 {
     maximum_class = class_new(gensym("maximum"),
 			      (t_newmethod)maximum_new, (t_method)maximum_free,

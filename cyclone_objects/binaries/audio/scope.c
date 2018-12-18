@@ -22,6 +22,7 @@
 // 2017 = Porres finished cleaning "sickle/sic, loud, fitter & forky" dependencies
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "g_canvas.h"
 #include "g_all_guis.h"
 #include "common/magicbit.h"
@@ -2225,7 +2226,7 @@ errstate:
     return NULL;
 }
 
-void scope_tilde_setup(void){
+CYCLONE_OBJ_API void scope_tilde_setup(void){
     scope_class = class_new(gensym("scope~"), (t_newmethod)scope_new,
                             (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new,

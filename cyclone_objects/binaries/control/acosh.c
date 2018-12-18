@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _acosh
 {
@@ -31,7 +32,7 @@ static void *acosh_new(t_floatarg f)
     return (x);
 }
 
-void acosh_setup(void)
+CYCLONE_OBJ_API void acosh_setup(void)
 {
     acosh_class = class_new(gensym("acosh"), (t_newmethod)acosh_new, 0,
 			   sizeof(t_acosh), 0, A_DEFFLOAT, 0);

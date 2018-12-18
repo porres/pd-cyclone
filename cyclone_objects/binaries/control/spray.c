@@ -5,6 +5,7 @@
 //de-loudized - Derek Kwan 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define SPRAY_MINOUTS  1
 /* CHECKED: no upper limit */
@@ -101,7 +102,7 @@ static void *spray_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
     return (x);
 }
 
-void spray_setup(void)
+CYCLONE_OBJ_API void spray_setup(void)
 {
     spray_class = class_new(gensym("spray"),
 			    (t_newmethod)spray_new,

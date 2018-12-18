@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define CLIP_INISIZE   32  /* LATER rethink */
@@ -135,7 +136,7 @@ static void *clip_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void clip_setup(void)
+CYCLONE_OBJ_API void clip_setup(void)
 {
     clip_class = class_new(gensym("Clip"), (t_newmethod)clip_new,
         (t_method)clip_free, sizeof(t_clip), 0, A_GIMME, 0);

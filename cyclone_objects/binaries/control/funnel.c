@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define FUNNEL_MINSLOTS   2
 #define FUNNEL_INISIZE   32  /* LATER rethink */
@@ -303,7 +304,7 @@ static void *funnel_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void funnel_setup(void)
+CYCLONE_OBJ_API void funnel_setup(void)
 {
     funnel_class = class_new(gensym("funnel"), (t_newmethod)funnel_new,
         (t_method)funnel_free, sizeof(t_funnel), 0, A_DEFFLOAT, A_DEFFLOAT, 0);

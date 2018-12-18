@@ -8,6 +8,7 @@
 // porres 2016/2017, de-loud - no capital letter as default
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define HISTO_DEFSIZE  128
 
@@ -90,7 +91,7 @@ static void *Histo_new(t_floatarg f)
     return (x);
 }
 
-void histo_setup(void)
+CYCLONE_OBJ_API void histo_setup(void)
 {
     Histo_class = class_new(gensym("histo"),
 			    (t_newmethod)Histo_new,

@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _xbendout2
 {
@@ -49,7 +50,7 @@ static void *xbendout2_new(t_floatarg f)
     return (x);
 }
 
-void xbendout2_setup(void)
+CYCLONE_OBJ_API void xbendout2_setup(void)
 {
     xbendout2_class = class_new(gensym("xbendout2"), 
 				(t_newmethod)xbendout2_new, 0,

@@ -10,6 +10,7 @@
  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 static t_class *atodb_class;
@@ -44,7 +45,7 @@ static void *atodb_new(void){
   return (void *)x;
 }
 
-void atodb_tilde_setup(void) {
+CYCLONE_OBJ_API void atodb_tilde_setup(void) {
   atodb_class = class_new(gensym("atodb~"),
        (t_newmethod) atodb_new, 0, sizeof (t_atodb), CLASS_DEFAULT, 0);
   class_addmethod(atodb_class, nullfn, gensym("signal"), 0);

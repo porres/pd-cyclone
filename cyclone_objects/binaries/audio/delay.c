@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 #include <string.h>
 
@@ -316,7 +317,7 @@ static void delay_free(t_delay *x)
     if (x->x_buf != x->x_bufini) freebytes(x->x_buf, x->x_maxsofar * sizeof(*x->x_buf));
 }
 
-void delay_tilde_setup(void)
+CYCLONE_OBJ_API void delay_tilde_setup(void)
 {
     delay_class = class_new(gensym("delay~"),
 			    (t_newmethod)delay_new, (t_method)delay_free,

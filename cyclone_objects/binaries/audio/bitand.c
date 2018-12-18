@@ -4,6 +4,7 @@
 
 //#include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 
 // EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
@@ -144,7 +145,7 @@ static void *bitand_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void bitand_tilde_setup(void)
+CYCLONE_OBJ_API void bitand_tilde_setup(void)
 {
     bitand_class = class_new(gensym("bitand~"), (t_newmethod)bitand_new, 0,
         sizeof(t_bitand), 0, A_DEFFLOAT, A_DEFFLOAT, 0);

@@ -6,6 +6,7 @@
    The most important changes are listed in "pd-lib-notes.txt" file.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define BANGBANG_MINOUTS      1
 #define BANGBANG_C74MAXOUTS  40  // CHECKED (just clipped without warning)
@@ -57,7 +58,7 @@ static void *bangbang_new(t_floatarg f){
     return (x);
 }
 
-void bangbang_setup(void){
+CYCLONE_OBJ_API void bangbang_setup(void){
     bangbang_class = class_new(gensym("bangbang"), (t_newmethod)bangbang_new,
         (t_method)bangbang_free, sizeof(t_bangbang), 0, A_DEFFLOAT, 0);
     class_addbang(bangbang_class, bangbang_bang);

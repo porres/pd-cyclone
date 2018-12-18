@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _edge
 {
@@ -95,7 +96,7 @@ static void *edge_new(void)
     return (x);
 }
 
-void edge_tilde_setup(void)
+CYCLONE_OBJ_API void edge_tilde_setup(void)
 {
     edge_class = class_new(gensym("edge~"),
 			   (t_newmethod)edge_new,

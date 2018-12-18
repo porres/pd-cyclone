@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _atanh
 {
@@ -29,7 +30,7 @@ static void *atanh_new(t_floatarg f) // checked: no protection against NaNs
     return (x);
 }
 
-void atanh_setup(void)
+CYCLONE_OBJ_API void atanh_setup(void)
 {
     atanh_class = class_new(gensym("atanh"), (t_newmethod)atanh_new, 0,
 			   sizeof(t_atanh), 0, A_DEFFLOAT, 0);

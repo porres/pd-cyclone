@@ -5,6 +5,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define TRIANGLE_DEFPEAK 	0.5
 #define TRIANGLE_DEFLO    	-1.0
@@ -152,8 +153,7 @@ void *triangle_free(t_triangle *x){
 }
 
 
-
-void triangle_tilde_setup(void)
+CYCLONE_OBJ_API void triangle_tilde_setup(void)
 {
     triangle_class = class_new(gensym("triangle~"),
 			       (t_newmethod)triangle_new, (t_method)triangle_free,

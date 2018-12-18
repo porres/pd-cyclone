@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 //#define NEXT_USEEVENTNO
 
@@ -49,7 +50,7 @@ static void *next_new(void)
     return (x);
 }
 
-void next_setup(void)
+CYCLONE_OBJ_API void next_setup(void)
 {
     next_class = class_new(gensym("next"),
 			   (t_newmethod)next_new, 0,

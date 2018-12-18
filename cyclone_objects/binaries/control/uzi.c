@@ -5,6 +5,7 @@
 /* CHECKME negative 'nbangs' value set during run-time */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _uzi
 {
@@ -116,7 +117,7 @@ static void *uzi_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void uzi_setup(void)
+CYCLONE_OBJ_API void uzi_setup(void)
 {
     uzi_class = class_new(gensym("uzi"),
 			  (t_newmethod)uzi_new, 0,

@@ -9,6 +9,7 @@
  Disclosure -- Caracal
  */
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 static t_class *atodb_class;
@@ -84,7 +85,7 @@ static void atodb_free(t_atodb *x)
   t_freebytes(x->output_list,x->bytes);
 }
 
-void atodb_setup(void)
+CYCLONE_OBJ_API void atodb_setup(void)
 {
   atodb_class = class_new(gensym("atodb"), (t_newmethod)atodb_new,
 			  (t_method)atodb_free,sizeof(t_atodb),0,0);

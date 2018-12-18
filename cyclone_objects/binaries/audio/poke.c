@@ -16,6 +16,7 @@
 */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "signal/cybuf.h"
 
 #define POKE_MAXCHANNELS  64
@@ -188,7 +189,7 @@ static void *poke_new(t_symbol *s, t_floatarg f)
     return (x);
 }
 
-void poke_tilde_setup(void)
+CYCLONE_OBJ_API void poke_tilde_setup(void)
 {
     poke_class = class_new(gensym("poke~"),
 			   (t_newmethod)poke_new,

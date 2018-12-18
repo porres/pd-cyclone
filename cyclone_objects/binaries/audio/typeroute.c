@@ -1,5 +1,6 @@
 
 #include "m_pd.h"
+#include <common/api.h>
 
 
 typedef struct _typeroute
@@ -44,7 +45,7 @@ static void *typeroute_new(void)
     return (x);
 }
 
-void typeroute_tilde_setup(void)
+CYCLONE_OBJ_API void typeroute_tilde_setup(void)
 {
     typeroute_class = class_new(gensym("typeroute~"),
 			    (t_newmethod)typeroute_new,

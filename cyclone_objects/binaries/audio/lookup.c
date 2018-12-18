@@ -1,6 +1,7 @@
 //old code scrapped, brand new code by Derek Kwan - 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 #include "signal/cybuf.h"
 
@@ -196,8 +197,7 @@ static void *lookup_free(t_lookup *x)
 	return (void *)x;
 }
 
-
-void lookup_tilde_setup(void)
+CYCLONE_OBJ_API void lookup_tilde_setup(void)
 {
    lookup_class = class_new(gensym("lookup~"),
 			     (t_newmethod)lookup_new,

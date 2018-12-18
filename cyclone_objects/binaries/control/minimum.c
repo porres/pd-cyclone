@@ -17,6 +17,7 @@ here,  just set to 1
 */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define PDCYMINN 256 //max numbers allowable in list
 
@@ -111,7 +112,7 @@ static void *minimum_new(t_floatarg f)
     return (x);
 }
 
-void minimum_setup(void)
+CYCLONE_OBJ_API void minimum_setup(void)
 {
     minimum_class = class_new(gensym("minimum"),
 			      (t_newmethod)minimum_new, (t_method)minimum_free,

@@ -10,6 +10,7 @@
    UPDATE 02/17 - used the "magic trick" to fix this -- MB */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 
 static t_class *kink_class;
@@ -88,7 +89,7 @@ static void *kink_new(t_floatarg f)
     return (x);
 }
 
-void kink_tilde_setup(void)
+CYCLONE_OBJ_API void kink_tilde_setup(void)
 {
     kink_class = class_new(gensym("kink~"),
 			   (t_newmethod)kink_new, 0,

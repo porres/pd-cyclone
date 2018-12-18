@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _spell{
     t_object  x_ob;
@@ -124,7 +125,7 @@ static void *spell_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void spell_setup(void)
+CYCLONE_OBJ_API void spell_setup(void)
 {
     spell_class = class_new(gensym("spell"),
 			    (t_newmethod)spell_new, 0,

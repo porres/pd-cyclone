@@ -12,6 +12,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define SVF_HZ        0
 #define SVF_LINEAR    1
@@ -174,7 +175,7 @@ static void *svf_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void svf_tilde_setup(void)
+CYCLONE_OBJ_API void svf_tilde_setup(void)
 {
     ps_hz = gensym("hz");
     ps_linear = gensym("linear");

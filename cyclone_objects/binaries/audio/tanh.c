@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _tanh {
     t_object x_obj;
@@ -42,7 +43,7 @@ void *tanh_new(void)
     return (x);
 }
 
-void tanh_tilde_setup(void)
+CYCLONE_OBJ_API void tanh_tilde_setup(void)
 {
     tanh_class = class_new(gensym("tanh~"), (t_newmethod)tanh_new, 0,
                            sizeof(t_tanh), CLASS_DEFAULT, 0);

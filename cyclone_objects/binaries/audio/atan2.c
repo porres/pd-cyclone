@@ -4,6 +4,8 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
+
 
 typedef struct _atan2 {
     t_object    x_obj;
@@ -45,7 +47,7 @@ static void *atan2_new(t_floatarg f) // arg = x (not documented in max)
     return (x);
 }
 
-void atan2_tilde_setup(void)
+CYCLONE_OBJ_API void atan2_tilde_setup(void)
 {
     atan2_class = class_new(gensym("atan2~"), (t_newmethod)atan2_new, 0,
         sizeof(t_atan2), CLASS_DEFAULT, A_DEFFLOAT, 0);

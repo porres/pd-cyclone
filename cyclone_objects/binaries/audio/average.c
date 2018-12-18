@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define AVERAGE_STACK    44100 //stack value
 #define AVERAGE_MAXBUF  882000 //max buffer size
@@ -300,7 +301,7 @@ static void *average_new(t_symbol *s, int argc, t_atom * argv)
     return (x);
 }
 
-void average_tilde_setup(void)
+CYCLONE_OBJ_API void average_tilde_setup(void)
 {
     average_class = class_new(gensym("average~"), (t_newmethod)average_new,
             (t_method)average_free, sizeof(t_average), 0, A_GIMME, 0);

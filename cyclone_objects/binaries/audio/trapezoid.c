@@ -5,6 +5,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define TRAPEZOID_DEFUP  0.1  
 #define TRAPEZOID_DEFDN  0.9  
@@ -164,7 +165,7 @@ void *trapezoid_free(t_trapezoid *x){
 	return (void *)x;
 }
 
-void trapezoid_tilde_setup(void)
+CYCLONE_OBJ_API void trapezoid_tilde_setup(void)
 {
     trapezoid_class = class_new(gensym("trapezoid~"),
 				(t_newmethod)trapezoid_new, (t_method)trapezoid_free,

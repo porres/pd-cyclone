@@ -13,6 +13,7 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "g_canvas.h"
 #include "common/file.h"
 
@@ -2289,7 +2290,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
 		return NULL;
 }
 
-void coll_setup(void)
+CYCLONE_OBJ_API void coll_setup(void)
 {
     coll_class = class_new(gensym("coll"),
 			   (t_newmethod)coll_new,

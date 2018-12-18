@@ -13,6 +13,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define BONDO_MINSLOTS  2
@@ -384,7 +385,7 @@ static void *bondo_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void bondo_setup(void)
+CYCLONE_OBJ_API void bondo_setup(void)
 {
     bondo_class = class_new(gensym("bondo"),
 			    (t_newmethod)bondo_new,
