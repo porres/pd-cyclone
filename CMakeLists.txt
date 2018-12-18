@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8.11)
+cmake_minimum_required (VERSION 3.0)
 project (cyclone C)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
@@ -399,9 +399,12 @@ if(UNIX AND NOT APPLE)
 
     macro(create_symlinks old new)
         if (NOT BUILD_SINGLE_LIBRARY)
-            install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_INSTALL_PREFIX}/lib${old}${CMAKE_DEBUG_POSTFIX}.so ${CMAKE_INSTALL_PREFIX}/lib${new}${CMAKE_DEBUG_POSTFIX}.so)")
+            install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink \
+                ${CMAKE_INSTALL_PREFIX}/lib${old}${CMAKE_DEBUG_POSTFIX}.so \
+                ${CMAKE_INSTALL_PREFIX}/lib${new}${CMAKE_DEBUG_POSTFIX}.so)")
         endif()
-        install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_INSTALL_PREFIX}/${old}-help.pd ${CMAKE_INSTALL_PREFIX}/${new}-help.pd)")
+        install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink \
+            ${CMAKE_INSTALL_PREFIX}/${old}-help.pd ${CMAKE_INSTALL_PREFIX}/${new}-help.pd)")
     endmacro()
 
     create_symlinks(append Append)
