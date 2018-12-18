@@ -14,6 +14,7 @@ if (NOT LIBPD_LIB_PATH)
     message(FATAL_ERROR "Please provide a path to the libpd library.")
 endif()
 
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/libs CACHE PATH "Installation path")
 
 if (WIN32)
     option(CMAKE_THREAD_LIBS_INIT "Path to pthreads library")
@@ -55,9 +56,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_MACOSX_RPATH ON)
 
 foreach (_BUILD_TYPE RELEASE DEBUG)
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_BUILD_TYPE} ${PROJECT_SOURCE_DIR}/libs)
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_BUILD_TYPE} ${PROJECT_SOURCE_DIR}/libs)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_BUILD_TYPE} ${PROJECT_SOURCE_DIR}/libs)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_BUILD_TYPE} ${CMAKE_INSTALL_PREFIX})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_BUILD_TYPE} ${CMAKE_INSTALL_PREFIX})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_BUILD_TYPE} ${CMAKE_INSTALL_PREFIX})
 endforeach()
 
 include_directories(${LIBPD_ROOT_PATH}/pure-data/src)
@@ -362,3 +363,61 @@ if(BUILD_SINGLE_LIBRARY)
     endforeach(NAME)
 endif(BUILD_SINGLE_LIBRARY)
 
+# Install
+
+install(DIRECTORY
+    cyclone_objects/abstractions/
+    documentation/help_files/
+    documentation/extra_files/
+    DESTINATION .
+    FILES_MATCHING PATTERN "*.pd"
+)
+
+install(FILES
+    LICENSE.txt
+    README.pdf
+    DESTINATION .
+)
+
+if (MINGW)
+    # pthreadGC-3.dll is required for Windows installation. It can be found in
+    # the MinGW directory (usually C:\MinGW\bin) directory and should be
+    # copied to the current directory before installation or packaging.
+
+    install(FILES
+        maintenance/windows_dll/pthreadGC-3.dll
+        maintenance/windows_dll/libgcc_s_dw2-1.dll
+        DESTINATION .
+    )
+endif(MINGW)
+
+# Install upper case aliases on Linux
+if(UNIX AND NOT APPLE)
+    if(NOT IS_ABSOLUTE ${CMAKE_INSTALL_PREFIX})
+        set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}")
+    endif()
+
+    macro(create_symlinks old new)
+        if (NOT BUILD_SINGLE_LIBRARY)
+            install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_INSTALL_PREFIX}/lib${old}${CMAKE_DEBUG_POSTFIX}.so ${CMAKE_INSTALL_PREFIX}/lib${new}${CMAKE_DEBUG_POSTFIX}.so)")
+        endif()
+        install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_INSTALL_PREFIX}/${old}-help.pd ${CMAKE_INSTALL_PREFIX}/${new}-help.pd)")
+    endmacro()
+
+    create_symlinks(append Append)
+    create_symlinks(bucket Bucket)
+    create_symlinks(clip Clip)
+    create_symlinks(decode Decode)
+    create_symlinks(histo Histo)
+    create_symlinks(mousestate MouseState)
+    create_symlinks(peak Peak)
+    create_symlinks(table Table)
+    create_symlinks(togedge TogEdge)
+    create_symlinks(trough Trough)
+    create_symlinks(uzi Uzi)
+
+    create_symlinks(clip~ Clip~)
+    create_symlinks(line~ Line~)
+    create_symlinks(scope~ Scope~)
+    create_symlinks(snapshot~ Snapshot~)
+endif(UNIX AND NOT APPLE)
