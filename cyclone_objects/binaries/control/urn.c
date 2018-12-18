@@ -8,6 +8,7 @@
    array), and should be put somewhere in the docs... */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 #include "control/rand.h"
 
@@ -103,7 +104,7 @@ static void *urn_new(t_floatarg f1, t_floatarg f2){
     return (x);
 }
 
-void urn_setup(void){
+CYCLONE_OBJ_API void urn_setup(void){
     urn_class = class_new(gensym("urn"), (t_newmethod)urn_new, (t_method)urn_free,
         sizeof(t_urn), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addbang(urn_class, urn_bang);

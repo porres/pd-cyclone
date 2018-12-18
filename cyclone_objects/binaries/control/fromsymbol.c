@@ -8,6 +8,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 int isnums(const char *s){
     //lifted from stack overflow, checks if every char is a digit (or period)
@@ -191,7 +192,7 @@ static void *fromsymbol_new(t_symbol * s, int argc, t_atom * argv){
 		return NULL;
 }
 
-void fromsymbol_setup(void)
+CYCLONE_OBJ_API void fromsymbol_setup(void)
 {
     fromsymbol_class = class_new(gensym("fromsymbol"),
 				 (t_newmethod)fromsymbol_new, 0,

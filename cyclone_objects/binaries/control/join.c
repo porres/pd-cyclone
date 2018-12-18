@@ -2,6 +2,7 @@
 
 
 #include "m_pd.h"
+#include <common/api.h>
 #include<stdlib.h>
 #include<string.h>
 
@@ -250,7 +251,7 @@ static void join_inlet_triggers(t_join_inlet *x, t_symbol* s, int argc, t_atom* 
 	};
 
 }
-extern void join_setup(void)
+extern CYCLONE_OBJ_API void join_setup(void)
 {
     t_class* c = NULL;
     

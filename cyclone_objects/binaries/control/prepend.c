@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define PREPEND_INISIZE   32  /* LATER rethink */
@@ -263,7 +264,7 @@ static void *prepend_new(t_symbol *s, int ac, t_atom *av){
     return (x);
 }
 
-void prepend_setup(void){
+CYCLONE_OBJ_API void prepend_setup(void){
     prepend_class = class_new(gensym("prepend"), (t_newmethod)prepend_new,
         (t_method)prepend_free, sizeof(t_prepend), 0, A_GIMME, 0);
     class_addbang(prepend_class, prepend_bang);

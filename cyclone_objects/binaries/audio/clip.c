@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define CLIP_DEFLO  0.
 #define CLIP_DEFHI  0.
@@ -87,8 +88,7 @@ errstate:
     return NULL;
 }
 
-
-void clip_tilde_setup(void)
+CYCLONE_OBJ_API void clip_tilde_setup(void)
 {
     clip_class = class_new(gensym("cyclone/clip~"),
 			   (t_newmethod)clip_new, 0, sizeof(t_clip), CLASS_DEFAULT, A_GIMME, 0);

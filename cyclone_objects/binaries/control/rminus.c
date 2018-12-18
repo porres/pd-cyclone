@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _rminus
 {
@@ -31,7 +32,7 @@ static void *rminus_new(t_floatarg f)
     return (x);
 }
 
-void rminus_setup(void)
+CYCLONE_OBJ_API void rminus_setup(void)
 {
     rminus_class = class_new(gensym("rminus"), (t_newmethod)rminus_new,
             0, sizeof(t_rminus), 0, A_DEFFLOAT, 0);

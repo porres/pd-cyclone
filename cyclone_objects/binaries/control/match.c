@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define MATCH_INISIZE  8  /* LATER rethink */
@@ -199,7 +200,7 @@ static void *match_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void match_setup(void)
+CYCLONE_OBJ_API void match_setup(void)
 {
     match_class = class_new(gensym("match"),
 			    (t_newmethod)match_new,

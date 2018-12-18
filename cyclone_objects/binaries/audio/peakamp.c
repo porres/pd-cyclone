@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _peakamp
 {
@@ -93,7 +94,7 @@ static void *peakamp_new(t_floatarg f)
     return (x);
 }
 
-void peakamp_tilde_setup(void)
+CYCLONE_OBJ_API void peakamp_tilde_setup(void)
 {
     peakamp_class = class_new(gensym("peakamp~"),
 			      (t_newmethod)peakamp_new,

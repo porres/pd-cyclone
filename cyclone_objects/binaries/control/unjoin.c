@@ -1,6 +1,7 @@
 //Derek Kwan 2017 - brand new object!
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <string.h>
 
 #define UNJOIN_MINOUTLETS  2 //not including extra outlet
@@ -154,7 +155,7 @@ static void *unjoin_new(t_symbol *s, int argc, t_atom * argv)
     return (x);
 }
 
-void unjoin_setup(void)
+CYCLONE_OBJ_API void unjoin_setup(void)
 {
     unjoin_class = class_new(gensym("unjoin"),
 			    (t_newmethod)unjoin_new,

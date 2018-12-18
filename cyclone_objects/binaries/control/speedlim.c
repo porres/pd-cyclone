@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define SPEEDLIM_INISIZE   32  /* LATER rethink */
@@ -156,7 +157,7 @@ static void *speedlim_new(t_floatarg f)
     return (x);
 }
 
-void speedlim_setup(void)
+CYCLONE_OBJ_API void speedlim_setup(void)
 {
     speedlim_class = class_new(gensym("speedlim"),
 			       (t_newmethod)speedlim_new,

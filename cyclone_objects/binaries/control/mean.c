@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _mean
 {
@@ -66,7 +67,7 @@ static void *mean_new(void)
     return (x);
 }
 
-void mean_setup(void)
+CYCLONE_OBJ_API void mean_setup(void)
 {
     mean_class = class_new(gensym("mean"),
 			   (t_newmethod)mean_new, 0,

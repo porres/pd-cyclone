@@ -1,6 +1,7 @@
 //redone 2016 by Derek Kwan (with some inspiration from the old code by krzYszcz (2002-2003)
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -267,7 +268,7 @@ static void *sustain_new(t_symbol *s, int argc, t_atom *argv)
 	
 }
 
-void sustain_setup(void)
+CYCLONE_OBJ_API void sustain_setup(void)
 {
 	sustain_class = class_new(gensym("sustain"), (t_newmethod)sustain_new, (t_method)sustain_free,
 	sizeof(t_sustain), 0, A_GIMME, 0);

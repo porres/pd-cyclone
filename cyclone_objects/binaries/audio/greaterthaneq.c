@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 // ---------------------------------------------------
 // Class definition
@@ -65,7 +66,7 @@ static void *greaterthaneq_new(t_floatarg f)
 // ---------------------------------------------------
 // Setup
 // ---------------------------------------------------
-void greaterthaneq_tilde_setup(void)
+CYCLONE_OBJ_API void greaterthaneq_tilde_setup(void)
 {
     greaterthaneq_class = class_new(gensym("greaterthaneq~"),
                                   (t_newmethod)greaterthaneq_new,

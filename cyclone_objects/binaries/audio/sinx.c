@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _sinx {
     t_object x_obj;
@@ -42,7 +43,7 @@ void *sinx_new(void)
     return (x);
 }
 
-void sinx_tilde_setup(void)
+CYCLONE_OBJ_API void sinx_tilde_setup(void)
 {
     sinx_class = class_new(gensym("sinx~"), (t_newmethod)sinx_new, 0,
                            sizeof(t_sinx), CLASS_DEFAULT, 0);

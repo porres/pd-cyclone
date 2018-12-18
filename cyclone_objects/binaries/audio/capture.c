@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "g_canvas.h"
 #include "common/file.h"
 #include <string.h>
@@ -390,7 +391,7 @@ static void *capture_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void capture_tilde_setup(void)
+CYCLONE_OBJ_API void capture_tilde_setup(void)
 {
     capture_class = class_new(gensym("capture~"),
 			      (t_newmethod)capture_new,

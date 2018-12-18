@@ -24,6 +24,7 @@ the beginning of the ramp to default to the end of the whole array, right?
  
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "m_imp.h"
 #include "common/shared.h"
 #include "signal/cybuf.h"
@@ -532,7 +533,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 		return NULL;
 }
 
-void record_tilde_setup(void)
+CYCLONE_OBJ_API void record_tilde_setup(void)
 {
     record_class = class_new(gensym("record~"),
 			     (t_newmethod)record_new,

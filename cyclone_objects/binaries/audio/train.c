@@ -5,6 +5,7 @@
 // fixed and rewritten by Porres
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define TRAIN_DEFPERIOD  1000
 #define TRAIN_DEFWIDTH   0.5
@@ -146,7 +147,7 @@ errstate:
     return NULL;
 }
 
-void train_tilde_setup(void)
+CYCLONE_OBJ_API void train_tilde_setup(void)
 {
     train_class = class_new(gensym("train~"), (t_newmethod)train_new,
             (t_method)train_free, sizeof(t_train), 0, A_GIMME, 0);

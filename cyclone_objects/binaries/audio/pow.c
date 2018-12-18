@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 static t_class *pow_class;
 
@@ -45,7 +46,7 @@ static void *pow_new(t_floatarg f){
     return (x);
 }
 
-void pow_tilde_setup(void){
+CYCLONE_OBJ_API void pow_tilde_setup(void){
     pow_class = class_new(gensym("Pow~"), (t_newmethod)pow_new,
                           (t_method)pow_free, sizeof(t_pow), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)pow_new, gensym("cyclone/pow~"), A_GIMME, 0);

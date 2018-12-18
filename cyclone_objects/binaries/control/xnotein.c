@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _xnotein
 {
@@ -89,7 +90,7 @@ static void *xnotein_new(t_floatarg f)
     return (x);
 }
 
-void xnotein_setup(void)
+CYCLONE_OBJ_API void xnotein_setup(void)
 {
     xnotein_class = class_new(gensym("xnotein"), 
 			      (t_newmethod)xnotein_new, 0,

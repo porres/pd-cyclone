@@ -16,6 +16,7 @@
 // Adding attributes, p_id, counter_proxy_state, editing existing counter_proxy methods - Derek Kwan 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <string.h>
 
 #define COUNTER_UP      0
@@ -543,7 +544,7 @@ errstate:
     return NULL;
 }
 
-void counter_setup(void)
+CYCLONE_OBJ_API void counter_setup(void)
 {
     counter_class = class_new(gensym("counter"), (t_newmethod)counter_new,
             (t_method)counter_free, sizeof(t_counter), 0,

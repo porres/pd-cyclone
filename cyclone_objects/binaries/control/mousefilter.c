@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "control/gui.h"
 
 //2016 note: now works with anything, pre v3: only floats - Derek Kwan
@@ -243,7 +244,7 @@ static void mousefilter_proxy_setup(void){
 }
 
 
-void mousefilter_setup(void)
+CYCLONE_OBJ_API void mousefilter_setup(void)
 {
     mousefilter_class = class_new(gensym("mousefilter"),
 				  (t_newmethod)mousefilter_new,

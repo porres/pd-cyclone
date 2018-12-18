@@ -5,6 +5,7 @@
 //updating argument parsing on object creation and adding autoreset attribute - Derek Kwan 2016
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define COUNTMAXINT 0x7fffffff
 
@@ -231,7 +232,7 @@ static void *count_new(t_symbol *s, int argc, t_atom *argv)
     return NULL;
 }
 
-void count_tilde_setup(void)
+CYCLONE_OBJ_API void count_tilde_setup(void)
 {
     count_class = class_new(gensym("count~"), (t_newmethod)count_new,
         0, sizeof(t_count), 0, A_GIMME, 0);

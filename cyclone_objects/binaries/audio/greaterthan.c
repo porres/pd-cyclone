@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 // ---------------------------------------------------
 // Class definition
@@ -65,7 +66,7 @@ static void *greaterthan_new(t_floatarg f)
 // ---------------------------------------------------
 // Setup
 // ---------------------------------------------------
-void greaterthan_tilde_setup(void)
+CYCLONE_OBJ_API void greaterthan_tilde_setup(void)
 {
     greaterthan_class = class_new(gensym("greaterthan~"),
                              (t_newmethod)greaterthan_new,

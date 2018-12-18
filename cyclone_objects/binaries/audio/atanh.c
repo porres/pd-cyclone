@@ -4,6 +4,8 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
+
 // magic needed for manual isnan and isinf checks, which don't work
 // reliably with -ffast-math compiler option
 //#include "magicbit.h"
@@ -46,7 +48,7 @@ void *atanh_new(void)
     return (x);
 }
 
-void atanh_tilde_setup(void)
+CYCLONE_OBJ_API void atanh_tilde_setup(void)
 {
     atanh_class = class_new(gensym("atanh~"), (t_newmethod)atanh_new, 0,
                            sizeof(t_atanh), CLASS_DEFAULT, 0);

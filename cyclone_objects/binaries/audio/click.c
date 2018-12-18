@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define CLICK_MAX_SIZE  256  
 
@@ -102,7 +103,7 @@ static void *click_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void click_tilde_setup(void)
+CYCLONE_OBJ_API void click_tilde_setup(void)
 {
     click_class = class_new(gensym("click~"),
 			    (t_newmethod)click_new,

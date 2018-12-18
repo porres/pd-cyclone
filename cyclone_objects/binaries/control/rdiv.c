@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _rdiv
 {
@@ -32,7 +33,7 @@ static void *rdiv_new(t_floatarg f)
     return (x);
 }
 
-void rdiv_setup(void)
+CYCLONE_OBJ_API void rdiv_setup(void)
 {
     rdiv_class = class_new(gensym("rdiv"), (t_newmethod)rdiv_new, 0,
                 sizeof(t_rdiv), 0, A_DEFFLOAT, 0);

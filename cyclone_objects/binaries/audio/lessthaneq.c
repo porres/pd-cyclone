@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Porres.
 
 #include "m_pd.h"
+#include <common/api.h>
 
 // ---------------------------------------------------
 // Class definition
@@ -65,7 +66,7 @@ static void *lessthaneq_new(t_floatarg f)
 // ---------------------------------------------------
 // Setup
 // ---------------------------------------------------
-void lessthaneq_tilde_setup(void)
+CYCLONE_OBJ_API void lessthaneq_tilde_setup(void)
 {
     lessthaneq_class = class_new(gensym("lessthaneq~"),
                                (t_newmethod)lessthaneq_new,

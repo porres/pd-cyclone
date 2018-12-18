@@ -1,6 +1,7 @@
 //2016 by Derek Kwan
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
@@ -278,7 +279,7 @@ static void pong_setmode(t_pong *x, t_symbol *s)
 				x->mode = setmode;
     }
 
-	void pong_setup(void){
+	CYCLONE_OBJ_API void pong_setup(void){
 	pong_class = class_new(gensym("pong"), (t_newmethod)pong_new, 0,
 			sizeof(t_pong), 0, A_GIMME, 0);
 	class_addfloat(pong_class, pong_float);

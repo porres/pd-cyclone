@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define GATE_MINOUTS       1
 #define GATE_C74MAXOUTS  100
@@ -124,7 +125,7 @@ static void *gate_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void gate_setup(void)
+CYCLONE_OBJ_API void gate_setup(void)
 {
     gate_class = class_new(gensym("gate"),
 			   (t_newmethod)gate_new,

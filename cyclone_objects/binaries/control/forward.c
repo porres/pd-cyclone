@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _forward
 {
@@ -55,7 +56,7 @@ static void *forward_new(t_symbol *s)
     return (x);
 }
 
-void forward_setup(void)
+CYCLONE_OBJ_API void forward_setup(void)
 {
     forward_class = class_new(gensym("forward"),
 			      (t_newmethod)forward_new, 0,

@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <string.h>
 
 //adding attributes, x_hires and associated modes - Derek Kwan 2016
@@ -177,7 +178,7 @@ static void *midiformat_new(t_symbol * s, int argc, t_atom * argv)
         return NULL;
 }
 
-void midiformat_setup(void)
+CYCLONE_OBJ_API void midiformat_setup(void)
 {
     midiformat_class = class_new(gensym("midiformat"), 
 				 (t_newmethod)midiformat_new, 0,

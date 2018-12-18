@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 
 static t_class *bitshift_class;
@@ -107,7 +108,7 @@ void *bitshift_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void bitshift_tilde_setup(void) { bitshift_class = class_new(gensym("bitshift~"),
+CYCLONE_OBJ_API void bitshift_tilde_setup(void) { bitshift_class = class_new(gensym("bitshift~"),
         (t_newmethod) bitshift_new, 0, sizeof (t_bitshift), CLASS_DEFAULT,
         A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addfloat(bitshift_class, (t_method)bitshift_float);

@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 
 typedef struct _poltocar
@@ -73,7 +74,7 @@ static void *poltocar_new(void)
     return (x);
 }
 
-void poltocar_tilde_setup(void)
+CYCLONE_OBJ_API void poltocar_tilde_setup(void)
 {
     poltocar_class = class_new(gensym("poltocar~"),
             (t_newmethod)poltocar_new, 0,

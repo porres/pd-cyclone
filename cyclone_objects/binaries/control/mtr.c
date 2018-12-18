@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/shared.h"
 #include "common/file.h"
 
@@ -781,7 +782,7 @@ static void *mtr_new(t_floatarg f)
     return (x);
 }
 
-void mtr_setup(void)
+CYCLONE_OBJ_API void mtr_setup(void)
 {
     mtrack_class = class_new(gensym("_mtrack"), 0, 0,
 			     sizeof(t_mtrack), CLASS_PD | CLASS_NOINLET, 0);

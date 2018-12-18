@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define COMB_STACK 48000 //stack buf size, 1 sec at 48k for good measure
 #define COMB_DELAY  10.0 //maximum delay
@@ -332,7 +333,7 @@ static void * comb_free(t_comb *x){
     return (void *)x;
 }
 
-void comb_tilde_setup(void)
+CYCLONE_OBJ_API void comb_tilde_setup(void)
 {
     comb_class = class_new(gensym("comb~"),
 			   (t_newmethod)comb_new,

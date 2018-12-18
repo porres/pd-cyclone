@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define ALLPASS_STACK 48000 //stack buf size, 1 sec at 48k for good measure
 #define ALLPASS_DELAY  10.0 //maximum delay
@@ -304,7 +305,7 @@ static void * allpass_free(t_allpass *x){
     return (void *)x;
 }
 
-void allpass_tilde_setup(void)
+CYCLONE_OBJ_API void allpass_tilde_setup(void)
 {
     allpass_class = class_new(gensym("allpass~"),
 			   (t_newmethod)allpass_new,

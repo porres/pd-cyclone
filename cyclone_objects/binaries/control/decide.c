@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _decide
 {
@@ -59,7 +60,7 @@ static void *decide_new(t_floatarg f)
     return (x);
 }
 
-void decide_setup(void){
+CYCLONE_OBJ_API void decide_setup(void){
     decide_class = class_new(gensym("decide"), (t_newmethod)decide_new, 0,
         sizeof(t_decide), 0, A_DEFFLOAT, 0);
     class_addbang(decide_class, decide_bang);

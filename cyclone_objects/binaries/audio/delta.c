@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _delta
 {
@@ -44,7 +45,7 @@ static void *delta_new(void)
     return (x);
 }
 
-void delta_tilde_setup(void)
+CYCLONE_OBJ_API void delta_tilde_setup(void)
 {
     delta_class = class_new(gensym("delta~"),
 			    (t_newmethod)delta_new, 0,

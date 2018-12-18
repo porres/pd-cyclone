@@ -6,6 +6,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _overdrive
 {
@@ -73,7 +74,7 @@ static void *overdrive_new(t_floatarg f)
     return (x);
 }
 
-void overdrive_tilde_setup(void)
+CYCLONE_OBJ_API void overdrive_tilde_setup(void)
 {
     overdrive_class = class_new(gensym("overdrive~"),
 				(t_newmethod)overdrive_new, (t_method)overdrive_free,

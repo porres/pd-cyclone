@@ -1,6 +1,7 @@
 //2016 by Derek Kwan
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
@@ -179,7 +180,7 @@ static void round_nearest(t_round *x, t_float f, t_float glob){
 	};
 }
 
-void round_setup(void)
+CYCLONE_OBJ_API void round_setup(void)
 {
 	round_class = class_new(gensym("round"), (t_newmethod)round_new, 0,
 	sizeof(t_round), 0, A_GIMME, 0);

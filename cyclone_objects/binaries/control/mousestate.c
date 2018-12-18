@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "control/gui.h"
 #include "g_canvas.h"
 
@@ -293,7 +294,7 @@ static void *mousestate_new(void)
     return (x);
 }
 
-void mousestate_setup(void)
+CYCLONE_OBJ_API void mousestate_setup(void)
 {
     mousestate_class = class_new(gensym("mousestate"),
 				 (t_newmethod)mousestate_new,

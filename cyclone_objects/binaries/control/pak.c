@@ -4,6 +4,7 @@
 */
 
 #include <m_pd.h>
+#include <common/api.h>
 
 static t_class *pak_class;
 static t_class* pak_inlet_class;
@@ -233,7 +234,7 @@ static void pak_inlet_set(t_pak_inlet *x, t_symbol* s, int argc, t_atom* argv)
     pak_copy(x->x_owner, x->x_max, x->x_atoms, argc, argv, x->x_idx);
 }
 
-extern void pak_setup(void)
+CYCLONE_OBJ_API extern void pak_setup(void)
 {
     t_class* c = NULL;
     

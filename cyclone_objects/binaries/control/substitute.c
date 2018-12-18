@@ -15,6 +15,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define SUBSTITUTE_INISIZE   32  /* LATER rethink */
@@ -366,7 +367,7 @@ static void *substitute_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void substitute_setup(void)
+CYCLONE_OBJ_API void substitute_setup(void)
 {
     substitute_class = class_new(gensym("substitute"),
 			      (t_newmethod)substitute_new,

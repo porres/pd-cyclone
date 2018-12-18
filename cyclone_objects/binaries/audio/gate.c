@@ -1,6 +1,7 @@
 // based on selector~
 
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/magicbit.h"
 //#include <math.h>
 
@@ -134,7 +135,7 @@ static void *gate_new(t_symbol *s, int argc, t_atom *argv)
     return (x);
 }
 
-void gate_tilde_setup(void)
+CYCLONE_OBJ_API void gate_tilde_setup(void)
 {
     gate_class = class_new(gensym("gate~"), (t_newmethod)gate_new, 0,
             sizeof(t_gate), CLASS_DEFAULT, A_GIMME, 0);

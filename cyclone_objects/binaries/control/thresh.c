@@ -8,6 +8,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/grow.h"
 
 #define THRESH_INISIZE    32  /* LATER rethink */
@@ -163,7 +164,7 @@ static void *thresh_new(t_floatarg f)
     return (x);
 }
 
-void thresh_setup(void)
+CYCLONE_OBJ_API void thresh_setup(void)
 {
     thresh_class = class_new(gensym("thresh"),
 			     (t_newmethod)thresh_new,

@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #if defined(_WIN32) || defined(__APPLE__)
 /* cf pd/src/x_arithmetic.c */
@@ -38,7 +39,7 @@ static void *tanh_new(t_floatarg f)
     return (x);
 }
 
-void tanh_setup(void)
+CYCLONE_OBJ_API void tanh_setup(void)
 {
     tanh_class = class_new(gensym("tanh"),
 			   (t_newmethod)tanh_new, 0,

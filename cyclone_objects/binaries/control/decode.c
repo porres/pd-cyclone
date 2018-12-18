@@ -6,6 +6,7 @@
    The most important changes are listed in "pd-lib-notes.txt" file.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define DECODE_C74MAXOUTS  512  // CHECKED (max goes up higher but freezes) */
 #define DECODE_DEFOUTS     1
@@ -100,7 +101,7 @@ static void *Decode_new(t_floatarg val){
     return (x);
 }
 
-void decode_setup(void)
+CYCLONE_OBJ_API void decode_setup(void)
 {
     Decode_class = class_new(gensym("decode"),
 			     (t_newmethod)Decode_new,

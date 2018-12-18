@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 /* CHECKED:
    'list <symbol>' silently ignored (LATER remove a warning)
@@ -55,7 +56,7 @@ static void *split_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void split_setup(void)
+CYCLONE_OBJ_API void split_setup(void)
 {
     split_class = class_new(gensym("split"),
 			    (t_newmethod)split_new, 0,

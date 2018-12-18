@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 /* CHECKED apparently c74's formula has not been carefully tuned (yet?).
    It has 5% deviation from the straight line for ccinput = 0 at half-domain,
@@ -457,7 +458,7 @@ static void *curve_new(t_symbol *s, int argc, t_atom *argv)
 		return NULL;
 }
 
-void curve_tilde_setup(void)
+CYCLONE_OBJ_API void curve_tilde_setup(void)
 {
     curve_class = class_new(gensym("curve~"),
 			    (t_newmethod)curve_new,

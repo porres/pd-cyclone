@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _cosh {
     t_object x_obj;
@@ -42,7 +43,7 @@ void *cosh_new(void)
     return (x);
 }
 
-void cosh_tilde_setup(void)
+CYCLONE_OBJ_API void cosh_tilde_setup(void)
 {
     cosh_class = class_new(gensym("cosh~"), (t_newmethod)cosh_new, 0,
                             sizeof(t_cosh), CLASS_DEFAULT, 0);

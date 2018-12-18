@@ -1,6 +1,7 @@
 // Porres 2016
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 #include <string.h>
 
@@ -175,7 +176,7 @@ static void *scale_new(t_symbol *s, int argc, t_atom *argv)
 		return NULL;
 }
 
-void scale_tilde_setup(void)
+CYCLONE_OBJ_API void scale_tilde_setup(void)
 {
     scale_class = class_new(gensym("scale~"),
 				(t_newmethod)scale_new,

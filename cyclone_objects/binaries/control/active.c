@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "control/gui.h"
 
 typedef struct _active{
@@ -41,7 +42,7 @@ static void *active_new(void){
     return (x);
 }
 
-void active_setup(void){
+CYCLONE_OBJ_API void active_setup(void){
     active_class = class_new(gensym("active"), (t_newmethod)active_new,
         (t_method)active_free, sizeof(t_active), CLASS_NOINLET, 0);
     class_addmethod(active_class, (t_method)active_dofocus, gensym("_focus"), A_SYMBOL, A_FLOAT, 0);

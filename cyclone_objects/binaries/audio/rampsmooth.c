@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define RAMPSMOOTH_DEFNUP    0.
 #define RAMPSMOOTH_DEFNDOWN  0.
@@ -163,7 +164,7 @@ static void *rampsmooth_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void rampsmooth_tilde_setup(void)
+CYCLONE_OBJ_API void rampsmooth_tilde_setup(void)
 {
     rampsmooth_class = class_new(gensym("rampsmooth~"),
 				 (t_newmethod)rampsmooth_new, 0,

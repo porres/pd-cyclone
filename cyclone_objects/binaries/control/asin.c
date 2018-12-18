@@ -6,6 +6,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _asin
 {
@@ -33,7 +34,7 @@ static void *asin_new(t_floatarg f)
     return (x);
 }
 
-void asin_setup(void)
+CYCLONE_OBJ_API void asin_setup(void)
 {
     asin_class = class_new(gensym("asin"), (t_newmethod)asin_new, 0,
 			   sizeof(t_asin), 0, A_DEFFLOAT, 0);

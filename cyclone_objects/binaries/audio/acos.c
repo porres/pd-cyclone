@@ -4,6 +4,8 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
+
 // magic needed for manual isnan and isinf checks, which don't work
 // reliably with -ffast-math compiler option
 //#include "magicbit.h"
@@ -46,7 +48,7 @@ void *acos_new(void)
     return (x);
 }
 
-void acos_tilde_setup(void)
+CYCLONE_OBJ_API void acos_tilde_setup(void)
 {
     acos_class = class_new(gensym("acos~"), (t_newmethod)acos_new, 0,
         sizeof(t_acos), CLASS_DEFAULT, 0);

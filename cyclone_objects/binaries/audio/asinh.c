@@ -4,6 +4,8 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
+
 
 typedef struct _asinh {
     t_object x_obj;
@@ -42,7 +44,7 @@ void *asinh_new(void)
     return (x);
 }
 
-void asinh_tilde_setup(void)
+CYCLONE_OBJ_API void asinh_tilde_setup(void)
 {
     asinh_class = class_new(gensym("asinh~"), (t_newmethod)asinh_new, 0,
                            sizeof(t_asinh), CLASS_DEFAULT, 0);

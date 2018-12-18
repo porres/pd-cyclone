@@ -8,6 +8,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "g_canvas.h"
 #include "common/grow.h"
 
@@ -441,7 +442,7 @@ static void *pv_new(t_symbol *s, int ac, t_atom *av){
     return(x);
 }
 
-void pv_setup(void)
+CYCLONE_OBJ_API void pv_setup(void)
 {
     pv_class = class_new(gensym("pv"),
 			 (t_newmethod)pv_new,

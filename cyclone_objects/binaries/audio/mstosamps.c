@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _mstosamps
 {
@@ -48,7 +49,7 @@ static void *mstosamps_new(void)
     return (x);
 }
 
-void mstosamps_tilde_setup(void)
+CYCLONE_OBJ_API void mstosamps_tilde_setup(void)
 {
     mstosamps_class = class_new(gensym("mstosamps~"),
             (t_newmethod)mstosamps_new, 0, sizeof(t_mstosamps),

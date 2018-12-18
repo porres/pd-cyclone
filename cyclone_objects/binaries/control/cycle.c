@@ -6,6 +6,7 @@
    The most important changes are listed in "pd-lib-notes.txt" file.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 //#define CYCLE_USEEVENTNO
 
@@ -142,7 +143,7 @@ static void *cycle_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-void cycle_setup(void){
+CYCLONE_OBJ_API void cycle_setup(void){
     cycle_class = class_new(gensym("cycle"),
 			    (t_newmethod)cycle_new,
 			    (t_method)cycle_free,

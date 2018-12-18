@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _asinh
 {
@@ -29,7 +30,7 @@ static void *asinh_new(t_floatarg f) // checked: no protection against NaNs
     return (x);
 }
 
-void asinh_setup(void)
+CYCLONE_OBJ_API void asinh_setup(void)
 {
     asinh_class = class_new(gensym("asinh"),
 			   (t_newmethod)asinh_new, 0,

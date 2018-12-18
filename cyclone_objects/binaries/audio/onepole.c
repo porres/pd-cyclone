@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define ONEPOLE_HZ        0
 #define ONEPOLE_LINEAR    1
@@ -145,8 +146,7 @@ static void *onepole_new(t_symbol *s, int ac, t_atom *av)
 }
 
 // anything for hz?
-
-void onepole_tilde_setup(void)
+CYCLONE_OBJ_API void onepole_tilde_setup(void)
 {
     ps_hz = gensym("hz");
     ps_linear = gensym("linear");

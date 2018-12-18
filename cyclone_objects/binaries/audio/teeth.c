@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define TEETH_STACK 48000 //stack buf size, 1 sec at 48k for good measure
 #define TEETH_DELAY  10.0 //maximum delay
@@ -364,7 +365,7 @@ static void * teeth_free(t_teeth *x){
     return (void *)x;
 }
 
-void teeth_tilde_setup(void)
+CYCLONE_OBJ_API void teeth_tilde_setup(void)
 {
     teeth_class = class_new(gensym("teeth~"),
 			   (t_newmethod)teeth_new,

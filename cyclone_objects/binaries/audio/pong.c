@@ -1,6 +1,7 @@
 //2016 by Derek Kwan
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
@@ -305,8 +306,7 @@ errstate:
     return NULL;
 }
 
-
-void pong_tilde_setup(void){
+CYCLONE_OBJ_API void pong_tilde_setup(void){
 	pong_tilde_class = class_new(gensym("pong~"), (t_newmethod)pong_tilde_new, 0,
 			sizeof(t_pong_tilde), CLASS_DEFAULT, A_GIMME, 0);
 	class_addmethod(pong_tilde_class, (t_method)pong_tilde_setrange, gensym("range"), A_FLOAT, A_FLOAT, 0);

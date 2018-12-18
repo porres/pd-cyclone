@@ -18,6 +18,7 @@
 #include <string.h>
 #include <errno.h>
 #include "m_pd.h"
+#include <common/api.h>
 #include "common/file.h"
 
 #define CAPTURE_DEFSIZE  512
@@ -519,7 +520,7 @@ static void *capture_new(t_symbol *s, int argc, t_atom * argv)
     return (x);
 }
 
-void capture_setup(void)
+CYCLONE_OBJ_API void capture_setup(void)
 {
     capture_class = class_new(gensym("capture"),
 			      (t_newmethod)capture_new,

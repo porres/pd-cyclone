@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define SLIDE_DEFUP  1.
 #define SLIDE_DEFDN  1.
@@ -108,7 +109,7 @@ static void *slide_new(t_symbol *s, int ac, t_atom *av)
     return (x);
 }
 
-void slide_tilde_setup(void)
+CYCLONE_OBJ_API void slide_tilde_setup(void)
 {
     slide_class = class_new(gensym("slide~"),
 			    (t_newmethod)slide_new, 0,

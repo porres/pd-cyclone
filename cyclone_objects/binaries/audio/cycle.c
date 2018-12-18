@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "m_pd.h"
+#include <common/api.h>
 //#include "cybuf.h"
 
 #define CYCYCLE_FREQ 	0
@@ -559,7 +560,7 @@ static void *cycle_free(t_cycle *x)
 	return (void *)x;
 }
 
-void cycle_tilde_setup(void)
+CYCLONE_OBJ_API void cycle_tilde_setup(void)
 {    
     cycle_class = class_new(gensym("cycle~"), (t_newmethod)cycle_new, (t_method)cycle_free,
         sizeof(t_cycle), 0, A_GIMME, 0);

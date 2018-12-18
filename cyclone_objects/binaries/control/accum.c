@@ -6,6 +6,7 @@
    The most important changes are listed in "pd-lib-notes.txt" file.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _accum
 {
@@ -53,7 +54,7 @@ static void *accum_new(t_floatarg val)
     return (x);
 }
 
-void accum_setup(void)
+CYCLONE_OBJ_API void accum_setup(void)
 {
     accum_class = class_new(gensym("accum"), (t_newmethod)accum_new, 0,
 			    sizeof(t_accum), 0, A_DEFFLOAT, 0);

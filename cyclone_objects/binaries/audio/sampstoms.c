@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _sampstoms
 {
@@ -49,7 +50,7 @@ static void *sampstoms_new(void)
     return (x);
 }
 
-void sampstoms_tilde_setup(void)
+CYCLONE_OBJ_API void sampstoms_tilde_setup(void)
 {
     sampstoms_class = class_new(gensym("sampstoms~"),
         (t_newmethod)sampstoms_new, 0, sizeof(t_sampstoms), CLASS_DEFAULT, 0);

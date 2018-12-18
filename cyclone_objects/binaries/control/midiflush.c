@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 #define MIDIFLUSH_NCHANNELS    16
 #define MIDIFLUSH_NPITCHES    128
@@ -89,7 +90,7 @@ static void *midiflush_new(void)
     return (x);
 }
 
-void midiflush_setup(void)
+CYCLONE_OBJ_API void midiflush_setup(void)
 {
     midiflush_class = class_new(gensym("midiflush"), 
 				(t_newmethod)midiflush_new,

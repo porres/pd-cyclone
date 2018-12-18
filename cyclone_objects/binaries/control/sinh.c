@@ -7,6 +7,7 @@
 
 #include <math.h>
 #include "m_pd.h"
+#include <common/api.h>
 
 typedef struct _sinh
 {
@@ -34,7 +35,7 @@ static void *sinh_new(t_floatarg f)
     return (x);
 }
 
-void sinh_setup(void)
+CYCLONE_OBJ_API void sinh_setup(void)
 {
     sinh_class = class_new(gensym("sinh"), (t_newmethod)sinh_new, 0,
 			   sizeof(t_sinh), 0, A_DEFFLOAT, 0);

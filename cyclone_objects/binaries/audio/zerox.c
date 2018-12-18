@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include "m_pd.h"
+#include <common/api.h>
 
 #define ZEROX_DEFVOLUME  1.
 
@@ -67,7 +68,7 @@ static void *zerox_new(t_floatarg f)
     return (x);
 }
 
-void zerox_tilde_setup(void)
+CYCLONE_OBJ_API void zerox_tilde_setup(void)
 {
     zerox_class = class_new(gensym("zerox~"),
 			    (t_newmethod)zerox_new, 0,
