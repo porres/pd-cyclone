@@ -4,12 +4,12 @@ project (cyclone C)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_SINGLE_LIBRARY "Compile everything into one single library." OFF)
 
-option(LIBPD_ROOT_PATH "Path to libpd library sources")
+set(LIBPD_ROOT_PATH "" CACHE PATH "Path to libpd library sources")
 if (NOT LIBPD_ROOT_PATH)
     message(FATAL_ERROR "Please provide a path to the libpd library source files.")
 endif()
 
-option(LIBPD_LIB_PATH "Path to libpd library")
+set(LIBPD_LIB_PATH "" CACHE PATH "Path to libpd library")
 if (NOT LIBPD_LIB_PATH)
     message(FATAL_ERROR "Please provide a path to the libpd library.")
 endif()
@@ -17,8 +17,8 @@ endif()
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/libs CACHE PATH "Installation path")
 
 if (WIN32)
-    option(CMAKE_THREAD_LIBS_INIT "Path to pthreads library")
-    option(PTHREADS_INCLUDE_DIR "Path to the pthreads library header files")
+    set(CMAKE_THREAD_LIBS_INIT CACHE PATH "Path to pthreads library")
+    set(PTHREADS_INCLUDE_DIR CACHE PATH "Path to the pthreads library header files")
     # We need pthreads.
     # Please provide the path to the pthreads library include path and
     # the path to the pthread library by specifying the following arguments
