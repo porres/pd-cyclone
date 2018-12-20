@@ -167,7 +167,7 @@ Using libpd in Linux:
     git clone https://github.com/porres/pd-cyclone
     cd pd-cyclone
     mkdir build && cd build
-    cmake .. -DPD_ROOT_PATH:PATH=../libpd -DPD_LIBRARY:PATH=../libpd/libs/libpd.so
+    cmake .. -DPD_ROOT_PATH:PATH=../libpd/pure-data -DPD_LIBRARY:PATH=../libpd/libs/libpd.so
     cmake --build .
 
 -------
