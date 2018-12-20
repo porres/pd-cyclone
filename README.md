@@ -74,6 +74,103 @@ Then move it to your preferred install folder for Pd.
 
 -------
 
+<strong>Building with CMake</strong>
+
+It is now possible to build cyclone for Pd Vanilla or libpd using CMake. CMake is a cross-platform, open-source build system. CMake is used to control the software compilation process using simple platform and compiler independent configuration files, and generate native makefiles and workspaces that can be used in the compiler environment of your choice.
+This allows native compilation on Windows (Microsoft Visual Studio), Linux (GCC) and macOS (XCode).
+
+* Dependencies
+- CMake: You can download CMake for your platform [here](https://cmake.org).
+- Only on Windows: pthreads library
+- Pure-data or libpd: sources and binaries.
+
+If you are using MinGW, you can use the pthreadGC-3.dll included in the `maintenance/windows_dll` directory in this repository. Alternatively, you can also download it or compile it yourself from the sources [here](https://www.sourceware.org/pthreads-win32/). This will typically result in pthreadGC2.(dll/lib).
+
+If you are using Visual Studio, you need to provide a pthreads library compiled for Visual Studio either by downloading it or compiling it yourself. See [here](https://www.sourceware.org/pthreads-win32/). Be careful to download / compile the right version for your setup. This would typically be pthreadVC2.(dll/lib).
+
+* Configuring the build
+
+One way to configure CMake is to use the [CMake GUI](https://cmake.org/runningcmake/). The GUI will list the variables that can be provided to configure the build. The variables can also be specified in the command-line interface (See below for an example).
+
+In this step you can select if you want to build shared libraries with `BUILD_SHARED_LIBS` and if you want to build all cyclone objects into one single library with `BUILD_SINGLE_LIBRARY` (more on this below).
+
+When using Microsoft Visual Studio (MSVC), you will be requested to provide a path to the pthreads library and its headers using variables `CMAKE_THREAD_LIBS_INIT` and `PTHREADS_INCLUDE_DIR`.
+
+You will be requested to provide a path to the pure-data sources and to the pure-data library. If building cylone for libpd, these can also be satisfied by providing the path to the `pure-data` folder inside the libpd sources and providing the path to the libpd library. The variables are: `PD_ROOT_PATH` and `PD_LIBRARY`.
+
+On macOS, you can define different deployment target and architectures from your current system using the variables `CMAKE_OSX_DEPLOYMENT_TARGET` and `CMAKE_OSX_ARCHITECTURES`.
+
+You can specify additional compilation flags using the variable `CMAKE_C_FLAGS`.
+
+CMake can now generate Makefiles, a MSVC solution, or an XCode project.
+
+* Building
+
+After generation, depending on your platform you can navigate to the directory where CMake generated the build files and then:
+
+* On Linux: run `make`
+* On Windows: open the MSVC solution and build it
+* On macOS: open the XCode project and build it
+
+Of course you can also use CMake itself to build cyclone by running this on the command line:
+
+    cd <path/to/build/files/generated/by/CMake>
+    cmake --build .
+
+* Building a single library
+
+Per default cyclone will build each cyclone object into one shared library (`.so` / `.dll` / `.dylib`). If you want you can also build all of the cyclone objects into one `cyclone.so/dll/dylib` by activating the `BUILD_SINGLE_LIBRARY` option.
+
+Each one of the individual libraries contain a `<name>_setup()` method that will be invoked by pure-data on [library load](https://github.com/pure-data/pure-data/blob/5526f7d08db7fe5d48884e1cb4b0f53fa79197ae/src/s_loader.c#L116). If you select the `BUILD_SINGLE_LIBRARY`, CMake will generate the appropriate code so that all `*_setup()` methods will be invoked in the main `cyclone_setup()`.
+
+* Command-line examples
+
+Here are a few examples of how to download, configure and build the latest cyclone on the command line using CMake and pure-data or libpd.
+
+Linux:
+
+    git clone https://github.com/pure-data/pure-data
+    <download pure-data binaries or build it yourself>
+
+    git clone https://github.com/porres/pd-cyclone
+    cd pd-cyclone
+    mkdir build && cd build
+    cmake .. -DPD_ROOT_PATH:PATH=pure-data -DPD_LIBRARY:PATH=<path/to/pd.so/in/pure-data/binaries>
+    cmake --build .
+
+Windows / MSVC:
+
+    git clone https://github.com/pure-data/pure-data
+    <download pure-data binaries or build it yourself>
+
+    git clone https://github.com/porres/pd-cyclone
+    cd pd-cyclone
+    mkdir build && cd build
+    cmake .. -DCMAKE_THREAD_LIBS_INIT:PATH=</path/to/pthreadsVC2.lib> -DPTHREADS_INCLUDE_DIR:PATH=</path/to/pthread/header/files> -DPD_ROOT_PATH:PATH=pure-data -DPD_LIBRARY:PATH=<path/to/pd.lib/in/pure-data/binaries>
+    cmake --build .
+
+Using libpd in Linux:
+
+    # Here we compile libpd ourselves, you can skip the building steps if you download the libpd binaries
+    git clone https://github.com/libpd/libpd
+    cd libpd
+    git submodule init
+    git submodule update
+    # libpd build steps:
+    mkdir build && cd build
+    cmake ..
+    cmake --build .
+    cd ../..
+
+    # Now download cyclone
+    git clone https://github.com/porres/pd-cyclone
+    cd pd-cyclone
+    mkdir build && cd build
+    cmake .. -DPD_ROOT_PATH:PATH=../libpd -DPD_LIBRARY:PATH=../libpd/libs/libpd.so
+    cmake --build .
+
+-------
+
 <strong>A Brief History of Cyclone's Development:</strong>
 
 Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
