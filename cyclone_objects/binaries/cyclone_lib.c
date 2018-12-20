@@ -26,6 +26,8 @@
 #include <math.h>
 #include <string.h>
 
+void setup_single_lib();
+
 /* think about float-to-int conversion -- there is no point in making
    the two below compatible, while all the others are not compatible... */
 
@@ -809,4 +811,5 @@ CYCLONE_API void cyclone_setup(void)
     class_addmethod(plusequals_class, (t_method)plusequals_set, gensym("set"), A_FLOAT, 0);
     class_sethelpsymbol(plusequals_class, gensym("plusequals~"));
     
+    setup_single_lib();
 }
