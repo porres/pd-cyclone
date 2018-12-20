@@ -80,9 +80,10 @@ It is now possible to build cyclone for Pd Vanilla or libpd using CMake. CMake i
 This allows native compilation on Windows (Microsoft Visual Studio), Linux (GCC) and macOS (XCode).
 
 * Dependencies
-- CMake: You can download CMake for your platform [here](https://cmake.org).
-- Only on Windows: pthreads library
-- Pure-data or libpd: sources and binaries.
+
+    - CMake: You can download CMake for your platform [here](https://cmake.org).
+    - Only on Windows: pthreads library
+    - Pure-data or libpd: sources and binaries.
 
 If you are using MinGW, you can use the pthreadGC-3.dll included in the `maintenance/windows_dll` directory in this repository. Alternatively, you can also download it or compile it yourself from the sources [here](https://www.sourceware.org/pthreads-win32/). This will typically result in pthreadGC2.(dll/lib).
 
