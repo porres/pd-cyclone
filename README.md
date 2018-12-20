@@ -97,7 +97,7 @@ In this step you can select if you want to build shared libraries with `BUILD_SH
 
 When using Microsoft Visual Studio (MSVC), you will be requested to provide a path to the pthreads library and its headers using variables `CMAKE_THREAD_LIBS_INIT` and `PTHREADS_INCLUDE_DIR`.
 
-You will be requested to provide a path to the pure-data sources and to the pure-data library. If building cylone for libpd, these can also be satisfied by providing the path to the `pure-data` folder inside the libpd sources and providing the path to the libpd library. The variables are: `PD_ROOT_PATH` and `PD_LIBRARY`.
+You will be requested to provide a path to the pure-data sources and to the pure-data library. If building cylone for libpd, these can also be satisfied by providing the path to the `pure-data` folder inside the libpd sources and providing the path to the libpd library. The variables are: `PD_INCLUDE_DIR` and `PD_LIBRARY`.
 
 On macOS, you can define different deployment target and architectures from your current system using the variables `CMAKE_OSX_DEPLOYMENT_TARGET` and `CMAKE_OSX_ARCHITECTURES`.
 
@@ -136,7 +136,7 @@ Linux:
     git clone https://github.com/porres/pd-cyclone
     cd pd-cyclone
     mkdir build && cd build
-    cmake .. -DPD_ROOT_PATH:PATH=pure-data -DPD_LIBRARY:PATH=<path/to/pd.so/in/pure-data/binaries>
+    cmake .. -DPD_INCLUDE_DIR:PATH=pure-data/src -DPD_LIBRARY:PATH=<path/to/pd.so/in/pure-data/binaries>
     cmake --build .
 
 Windows / MSVC:
@@ -147,7 +147,7 @@ Windows / MSVC:
     git clone https://github.com/porres/pd-cyclone
     cd pd-cyclone
     mkdir build && cd build
-    cmake .. -DCMAKE_THREAD_LIBS_INIT:PATH=</path/to/pthreadsVC2.lib> -DPTHREADS_INCLUDE_DIR:PATH=</path/to/pthread/header/files> -DPD_ROOT_PATH:PATH=pure-data -DPD_LIBRARY:PATH=<path/to/pd.lib/in/pure-data/binaries>
+    cmake .. -DCMAKE_THREAD_LIBS_INIT:PATH=</path/to/pthreadsVC2.lib> -DPTHREADS_INCLUDE_DIR:PATH=</path/to/pthread/header/files> -DPD_INCLUDE_DIR:PATH=pure-data/src -DPD_LIBRARY:PATH=<path/to/pd.lib/in/pure-data/binaries>
     cmake --build .
 
 Using libpd in Linux:
@@ -167,7 +167,7 @@ Using libpd in Linux:
     git clone https://github.com/porres/pd-cyclone
     cd pd-cyclone
     mkdir build && cd build
-    cmake .. -DPD_ROOT_PATH:PATH=../libpd/pure-data -DPD_LIBRARY:PATH=../libpd/libs/libpd.so
+    cmake .. -DPD_INCLUDE_DIR:PATH=../libpd/pure-data/src -DPD_LIBRARY:PATH=../libpd/libs/libpd.so
     cmake --build .
 
 -------

@@ -4,8 +4,8 @@ project (cyclone C)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_SINGLE_LIBRARY "Compile everything into one single library." OFF)
 
-set(PD_ROOT_PATH "" CACHE PATH "Path to pure-data sources (this can be the pure-data folder in the sources of libpd)")
-if (NOT PD_ROOT_PATH)
+set(PD_INCLUDE_DIR "" CACHE PATH "Path to pure-data sources (this can be the pure-data/src folder in the sources of libpd)")
+if (NOT PD_INCLUDE_DIR)
     message(FATAL_ERROR "Please provide a path to the pure-data source files.")
 endif()
 
@@ -63,7 +63,7 @@ foreach (_BUILD_TYPE RELEASE DEBUG)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_BUILD_TYPE} ${CMAKE_INSTALL_PREFIX})
 endforeach()
 
-include_directories(${PD_ROOT_PATH}/src)
+include_directories(${PD_INCLUDE_DIR})
 include_directories(${PTHREADS_INCLUDE_DIR})
 include_directories(shared)
 
