@@ -544,10 +544,10 @@ CYCLONE_OBJ_API void record_tilde_setup(void)
     class_addmethod(record_class, (t_method)record_dsp, gensym("dsp"), A_CANT, 0);
     class_addlist(record_class, (t_method)record_list);
     class_domainsignalin(record_class, -1);
-    class_addmethod(record_class, (t_method)record_startms,
+/*    class_addmethod(record_class, (t_method)record_startms,
 		    gensym("start"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_endms,
-		    gensym("end"), A_FLOAT, 0);
+		    gensym("end"), A_FLOAT, 0); */
     class_addmethod(record_class, (t_method)record_append,
 		    gensym("append"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_loop,
