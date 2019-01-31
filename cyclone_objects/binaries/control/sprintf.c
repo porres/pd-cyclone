@@ -391,11 +391,11 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             }
         else if (strchr("eEfFgG", *ptr))
             {
-            if (modifier)
+/*            if (modifier)
                 {
                 if (x) sprintf(errstring, "\'%c\' modifier not supported", modifier);
                     break;
-                }
+                }*/
             type = SPRINTF_FLOAT;
             break;
             }
