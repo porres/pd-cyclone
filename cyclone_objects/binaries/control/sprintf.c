@@ -384,12 +384,12 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             }
         if (*numfield)
             numfield = 0;
-        if (strchr("diouxX", *ptr))
+        if (strchr("pdiouxX", *ptr))
             {
             type = SPRINTF_INT;
             break;
             }
-        else if (strchr("aAeEfgG", *ptr))
+        else if (strchr("eEfgG", *ptr))
             {
             if (modifier)
                 {
@@ -446,7 +446,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
                 }
             modifier = *ptr;
             }
-        else if (strchr("hjLqtzZ", *ptr))
+        else if (strchr("aAhjLqtzZ", *ptr))
             {
             if (x) sprintf(errstring, "\'%c\' modifier not supported", *ptr);
                 break;
