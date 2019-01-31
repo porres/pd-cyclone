@@ -446,6 +446,15 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
                 }
             modifier = *ptr;
             }
+/* added this for new formats but it did not work (porres)
+        else if(strchr("L", *ptr)){
+                if(modifier){
+                if(x)
+                    sprintf(errstring, "only single modifier is supported");
+                break;
+            }
+            modifier = *ptr;
+        }*/
         else if (strchr("h", *ptr))
         {
             if (modifier)
