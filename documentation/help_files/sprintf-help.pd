@@ -1,4 +1,4 @@
-#N canvas 607 168 561 490 10;
+#N canvas 652 283 574 473 10;
 #X obj 2 275 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 336 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -28,165 +28,6 @@
 #X restore 304 4 pd;
 #X text 120 345 anything;
 #X text 177 345 - the formatted message;
-#N canvas 242 54 837 550 examples 0;
-#X obj 54 317 print;
-#X obj 54 278 cyclone/sprintf %.2fdB;
-#X text 51 226 float example;
-#X obj 54 248 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X msg 222 238 10.6;
-#X msg 497 232 87 65 82;
-#X obj 497 258 cyclone/sprintf %c%c%c: What is it good for?, f 46
-;
-#X obj 68 512 print;
-#X msg 68 441 error;
-#X obj 247 470 cyclone/sprintf it's %s;
-#X msg 247 434 OK!;
-#X symbolatom 568 134 10 0 0 0 - - -, f 10;
-#X msg 568 78 a;
-#X obj 568 108 cyclone/sprintf symout %s symbol, f 34;
-#X obj 222 276 cyclone/sprintf a-%d;
-#X obj 247 510 print;
-#X obj 222 314 print;
-#X obj 568 163 print;
-#X obj 497 297 print;
-#X text 29 28 The arguments in [sprintf] format a message to be sent
-out and can be floats \, symbols or changeable arguments (like %ld
-or %f \, resembling the C programming language). The number of changeable
-arguments determines the number of inlets \, with each inlet corresponding
-to a changeable argument \, in order.;
-#X text 30 113 If a changeable number argument argument (such as %ld
-or %f) does not receive an input \, the value is "0" by default. If
-no value has been received for a changeable symbol argument (such as
-%s or %c) \, a blank space is the default.;
-#N canvas 380 145 776 402 list 0;
-#X floatatom 177 51 5 0 0 0 - - -, f 5;
-#X text 169 24 String of characters;
-#X text 77 41 Character;
-#X msg 39 39 83;
-#X floatatom 337 38 5 0 0 0 - - -, f 5;
-#X text 330 12 Signed decimal integer;
-#X obj 337 121 print %d;
-#X obj 337 63 trigger f f;
-#X obj 337 87 sprintf %d_%i;
-#X text 498 38 Unsigned decimal integer, f 14;
-#X obj 617 76 sprintf symout %f;
-#X text 657 25 Decimal floating point, f 12;
-#X obj 459 89 sprintf symout %u;
-#X symbolatom 617 107 10 0 0 0 - - -, f 10;
-#X msg 617 47 0.1;
-#X symbolatom 459 119 12 0 0 0 - - -, f 12;
-#X msg 459 63 -1;
-#X symbolatom 39 94 10 0 0 0 - - -, f 10;
-#X obj 39 65 sprintf symout %c;
-#X obj 177 79 sprintf symout %s;
-#X symbolatom 177 105 10 0 0 0 - - -, f 10;
-#X msg 230 50 anything;
-#X symbolatom 68 343 10 0 0 0 - - -, f 10;
-#X obj 69 311 sprintf symout %x;
-#X text 108 262 Unsigned hexadecimal integer, f 12;
-#X msg 69 283 -1;
-#X msg 31 283 12;
-#X text 453 266 Long signed integer, f 11;
-#X obj 431 324 sprintf symout %li;
-#X symbolatom 431 354 12 0 0 0 - - -, f 12;
-#X obj 431 300 expr 1e+07 + 1234;
-#X obj 431 279 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X symbolatom 43 228 15 0 0 0 - - -, f 15;
-#X msg 43 168 0.1;
-#X obj 43 197 sprintf symout %e;
-#X text 74 164 float (Scientific notation using 'e'), f 19;
-#X symbolatom 214 229 15 0 0 0 - - -, f 15;
-#X msg 214 169 0.1;
-#X text 245 165 float (Scientific notation using 'E'), f 19;
-#X obj 214 198 sprintf symout %E;
-#X symbolatom 391 232 15 0 0 0 - - -, f 15;
-#X msg 391 172 0.1;
-#X text 427 154 Uses the shorter of %e or %f, f 11;
-#X obj 391 201 sprintf symout %g;
-#X floatatom 665 162 5 0 0 0 - - -, f 5;
-#X obj 665 191 sprintf %o;
-#X floatatom 665 217 5 0 0 0 - - -, f 5;
-#X text 703 155 Signed octal, f 7;
-#X symbolatom 239 338 10 0 0 0 - - -, f 10;
-#X msg 239 282 -1;
-#X msg 201 282 12;
-#X obj 239 309 sprintf symout %X;
-#X text 306 334 (Capital Letters), f 9;
-#X symbolatom 595 352 24 0 0 0 - - -, f 24;
-#X obj 595 277 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X text 615 268 Long unsigned integer, f 13;
-#X obj 595 298 expr -1e+07 + 1234;
-#X obj 595 322 sprintf symout %lu;
-#X symbolatom 527 232 15 0 0 0 - - -, f 15;
-#X msg 527 172 0.1;
-#X obj 527 201 sprintf symout %G;
-#X text 563 153 Uses the shorter of %E or %f, f 11;
-#X text 273 263 Unsigned hexadecimal integer, f 12;
-#X connect 0 0 19 0;
-#X connect 3 0 18 0;
-#X connect 4 0 7 0;
-#X connect 7 0 8 0;
-#X connect 7 1 8 1;
-#X connect 8 0 6 0;
-#X connect 10 0 13 0;
-#X connect 12 0 15 0;
-#X connect 14 0 10 0;
-#X connect 16 0 12 0;
-#X connect 18 0 17 0;
-#X connect 19 0 20 0;
-#X connect 21 0 19 0;
-#X connect 23 0 22 0;
-#X connect 25 0 23 0;
-#X connect 26 0 23 0;
-#X connect 28 0 29 0;
-#X connect 30 0 28 0;
-#X connect 31 0 30 0;
-#X connect 33 0 34 0;
-#X connect 34 0 32 0;
-#X connect 37 0 39 0;
-#X connect 39 0 36 0;
-#X connect 41 0 43 0;
-#X connect 43 0 40 0;
-#X connect 44 0 45 0;
-#X connect 45 0 46 0;
-#X connect 49 0 51 0;
-#X connect 50 0 51 0;
-#X connect 51 0 48 0;
-#X connect 54 0 56 0;
-#X connect 56 0 57 0;
-#X connect 57 0 53 0;
-#X connect 59 0 60 0;
-#X connect 60 0 58 0;
-#X restore 548 428 pd list of changeable arguments;
-#X text 35 195 Examples with float:;
-#X text 258 236 (converted to int);
-#X obj 68 473 cyclone/sprintf %d;
-#X text 29 364 A symbol may be received in any inlet that corresponds
-to a %s argument. If sent to another inlet type \, a conversion error
-is given in Pd's window.;
-#X text 432 35 The optional 'symout' argument turns the whole output
-into a symbol message.;
-#X text 457 195 a list input spreads the values to the inlets;
-#X text 526 357 Below there's a list of all changeable arguments -
-for more details on each \, refer to a standard C library manual.,
-f 39;
-#X connect 1 0 0 0;
-#X connect 3 0 1 0;
-#X connect 4 0 14 0;
-#X connect 5 0 6 0;
-#X connect 6 0 18 0;
-#X connect 8 0 24 0;
-#X connect 9 0 15 0;
-#X connect 10 0 9 0;
-#X connect 11 0 17 0;
-#X connect 12 0 13 0;
-#X connect 13 0 11 0;
-#X connect 14 0 16 0;
-#X connect 24 0 7 0;
-#X restore 472 240 pd examples;
 #X obj 40 171 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X text 144 283 bang;
@@ -224,12 +65,111 @@ more than one item sends each item to a separate inlet;
 set in the arguments \, where each changeable argument '%' corresponds
 to an inlet (some options inlcude: %s - symbol \, %d - int \, %f -
 float \, and %c - ASCII character).;
-#X connect 17 0 36 0;
-#X connect 30 0 36 1;
-#X connect 31 0 36 0;
-#X connect 32 0 34 0;
-#X connect 33 0 34 0;
-#X connect 34 0 6 0;
-#X connect 35 0 34 0;
-#X connect 36 0 5 0;
-#X connect 37 0 35 0;
+#N canvas 520 100 1034 764 details 0;
+#X obj 77 319 print;
+#X obj 77 280 cyclone/sprintf %.2fdB;
+#X text 74 228 float example;
+#X obj 77 250 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X msg 245 240 10.6;
+#X msg 566 83 87 65 82;
+#X obj 566 109 cyclone/sprintf %c%c%c: What is it good for?, f 46
+;
+#X obj 91 514 print;
+#X msg 91 443 error;
+#X obj 270 472 cyclone/sprintf it's %s;
+#X msg 270 436 OK!;
+#X symbolatom 190 675 10 0 0 0 - - -;
+#X msg 190 619 a;
+#X obj 190 649 cyclone/sprintf symout %s symbol, f 34;
+#X obj 245 278 cyclone/sprintf a-%d;
+#X obj 270 512 print;
+#X obj 245 316 print;
+#X obj 190 704 print;
+#X obj 566 148 print;
+#X text 52 30 The arguments in [sprintf] format a message to be sent
+out and can be floats \, symbols or changeable arguments (like %ld
+or %f \, resembling the C programming language). The number of changeable
+arguments determines the number of inlets \, with each inlet corresponding
+to a changeable argument \, in order.;
+#X text 58 197 Examples with float:;
+#X text 281 238 (converted to int);
+#X obj 91 475 cyclone/sprintf %d;
+#X text 52 366 A symbol may be received in any inlet that corresponds
+to a %s argument. If sent to another inlet type \, a conversion error
+is given in Pd's window.;
+#X text 54 576 The optional 'symout' argument turns the whole output
+into a symbol message.;
+#X text 526 46 a list input spreads the values to the inlets;
+#X text 53 115 If a changeable number argument argument (such as %d
+or %f) does not receive an input \, the value is "0" by default. If
+no value has been received for a changeable symbol argument (%s or
+%c) \, a blank space is the default.;
+#X text 527 305 %c;
+#X text 614 305 character;
+#X text 527 325 %d or %i;
+#X text 527 465 %e;
+#X text 527 485 %E;
+#X text 527 552 %o;
+#X text 527 572 %s;
+#X text 527 592 %u;
+#X text 614 592 unsigned integer;
+#X text 527 612 %x;
+#X text 614 612 unsigned hexadecimal in lowercase;
+#X text 527 632 %X;
+#X text 614 632 unsigned hexadecimal in CAPS;
+#X text 527 652 %p;
+#X text 614 652 unsigned hexadecimal in lowercase preceded by "0x"
+;
+#X text 614 552 unsigned octal;
+#X text 614 572 string;
+#X text 527 283 %%;
+#X text 614 283 literal %;
+#X text 614 325 signed decimal integer (32 bits);
+#X text 614 465 32 bits float with scientific notation using "e" character
+;
+#X text 614 485 32 bits float with scientific notation using "e" character
+;
+#X text 614 427 32 bits float decimal floating point (no scientific
+notation), f 63;
+#X text 527 509 %g;
+#X text 614 509 32 bits float (shorter of %e or %f);
+#X text 527 529 %g;
+#X text 614 529 32 bits float (shorter of %E or %f);
+#X text 527 345 %hi;
+#X text 614 345 signed short decimal integer (16 bits);
+#X text 527 365 %hu;
+#X text 614 365 unsigned short decimal integer (16 bits);
+#X text 527 386 %li;
+#X text 527 406 %lu;
+#X text 614 386 signed long decimal integer (64 bits);
+#X text 614 406 unsigned long decimal integer (64 bits);
+#X text 527 447 %lf or %lF;
+#X text 527 427 %f or %F;
+#X text 614 447 64 bits float decimal floating point (no scientific
+notation), f 63;
+#X text 497 236 All possible patterns for more details on each \, refer
+to a standard C library manual.:;
+#X connect 1 0 0 0;
+#X connect 3 0 1 0;
+#X connect 4 0 14 0;
+#X connect 5 0 6 0;
+#X connect 6 0 18 0;
+#X connect 8 0 22 0;
+#X connect 9 0 15 0;
+#X connect 10 0 9 0;
+#X connect 11 0 17 0;
+#X connect 12 0 13 0;
+#X connect 13 0 11 0;
+#X connect 14 0 16 0;
+#X connect 22 0 7 0;
+#X restore 472 242 pd details;
+#X connect 16 0 35 0;
+#X connect 29 0 35 1;
+#X connect 30 0 35 0;
+#X connect 31 0 33 0;
+#X connect 32 0 33 0;
+#X connect 33 0 6 0;
+#X connect 34 0 33 0;
+#X connect 35 0 5 0;
+#X connect 36 0 34 0;
