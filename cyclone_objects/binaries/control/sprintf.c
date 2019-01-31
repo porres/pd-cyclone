@@ -389,7 +389,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             type = SPRINTF_INT;
             break;
             }
-        else if (strchr("eEfgG", *ptr))
+        else if (strchr("eEfFgG", *ptr))
             {
             if (modifier)
                 {
