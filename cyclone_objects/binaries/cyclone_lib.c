@@ -633,7 +633,7 @@ static void cyclone_about(t_cyclone *x)
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     post("------------------------------------------------------------------------");
-    post("Cyclone 0.3 RC1 (Release Candidate 1); Release date: June 28th 2018");
+    post("Cyclone 0.3; Release date: February 21st 2019");
     post("Loading the cyclone library did the following:");
     post("A) Loaded the non alpha-numeric objects, which are:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
@@ -677,7 +677,7 @@ CYCLONE_API void cyclone_setup(void)
        char cyclone_dir[MAXPDSTRING];
        strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
        post("------------------------------------------------------------------------");
-       post("Cyclone 0.3 RC1 (Release Candidate 1); Release date: June 28th 2018");
+       post("Cyclone 0.3; Release date: February 21st 2019");
        post("Loading the cyclone library did the following:");
        post("A) Loaded the non alpha-numeric objects, which are:");
        post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");

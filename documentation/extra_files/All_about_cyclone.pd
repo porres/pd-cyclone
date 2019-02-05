@@ -3,8 +3,7 @@
 #X obj 3 2 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
 #X obj 28 5 comment 0 22 courier ? 0 224 228 220 cyclone;
-#X obj 29 33 comment 0 14 courier ? 0 224 228 220 v 0.3 Release Candidate
-1;
+#X obj 29 33 comment 0 14 courier ? 0 224 228 220 version: 0.3;
 #X obj 136 8 comment 0 14 courier ? 0 224 228 220 - a set of Pure Data
 objects cloned from Max/MSP;
 #X obj 271 35 comment 0 12 courier ? 0 224 228 220 https://github.com/porres/pd-cyclone
@@ -24,11 +23,6 @@ level of compatibility between the two environments \,;
 #X obj 60 162 comment 0 16 times ? 0 0 0 0 About Cyclone 0.3;
 #X text 2 308 ============================================================================================
 , f 92;
-#X text 62 192 - Cyclone's development starts in 2002 (at the time
-of Max 4.0) and never reached full compliance to the latest Max 4 release
-(4.6.3 from 2007). Cyclone 0.3 updates the library by including missing
-functionalities from Max 4 and further updates (from Max 5 to Max 7).
-, f 73;
 #X text 62 254 - New objects were also included and several bug fixes
 were made \; check details in the changelog at: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 , f 73;
@@ -43,3 +37,8 @@ for more details., f 66;
 #X text 2 604 ===========================================================================================
 , f 91;
 #X obj 273 503 cyclone/All_objects;
+#X text 62 192 - Cyclone's development starts in 2002 (at the time
+of Max 4.0) and never reached full compliance to the latest Max 4 release
+(4.6.3 from 2007). Cyclone 0.3 updates the library by including missing
+functionalities from Max 4 and further updates up to Max 7!, f 73
+;

@@ -6,7 +6,7 @@ Summary:
 
 A) Restoring the original cyclone's goal of Max/MSP compatibility in the project's 'readme'.
 
-B) Restoring the 'cyclone' library, but it now only containing now the objects that used to be in the 'nettles' library. The cyclone library also loads cyclone's path so you can load the other objects that are compiled as separate binaries or abstraction. You can now also create a [cyclone] external object loads the library.
+B) Restoring the 'cyclone' library. By default, this contains only the objects that used to be in the 'nettles' library, but the cyclone library also loads cyclone's path so you can load the other objects that are compiled as separate binaries or abstraction (you can now also create a [cyclone] external object that loads the library). There's a separate option on how to compile cyclone as a single library (see 'readme' for more details).
 
 C) Readded the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default.
 
@@ -89,7 +89,7 @@ F) Assorted Fixes (65 Objects affected), including:
 [index~] - fixed the input channel clipping
 [line~] - max pair to 128
 [past] - bugs with list behaviour
-[sprintf] - added missing 'symout' argument, fixed behaviour without arguments, not allowing bangs in secondary inlets, fixed the output for %ld and negative inputs
+[sprintf] - added missing 'symout' argument, fixed behaviour without arguments, not allowing bangs in secondary inlets, fixed the output for %ld and negative inputs, plus other minor improvements.
 [pv] - got rid of annoying error with [send] sharing the same name, made it instantiate without arguments
 [train~] - now when width is "0" it has a pulse of 1 sample, and a pulse of "n-1" samples for width = 1 / also improved the way phase onset actually works
 [poke~] - fixed to automatic redrawing

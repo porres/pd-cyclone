@@ -23,16 +23,16 @@ Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases
 -------
 <strong>About Cyclone 0.3:</strong>
 
-Cyclone 0.3 needs at least Pd Vanilla 0.49-0 and it doesn't fully work in any other version of Pd or in other flavours such as Pd Extended and Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated cyclone 0.2 release, which is not yet fully ported either to Purr Data.
+Cyclone 0.3 needs at least Pd Vanilla 0.49-0 and it doesn't fully work in Pd Extended or Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data).
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
 
-The main goal of cyclone 0.3 is to update Cyclone's objects to the latest Max version, which is Max 7.3.5 at the time of this release. We're also fixing many bugs, rewriting the documentation and including new objects. So far we have:
+The main goal of cyclone 0.3 was to update Cyclone's objects to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation has been rewritten from scratch and new objects were included. Here's the aftermath:
 
 - 61 updated objects;
-- 65 fixed objects (including objects that were updated, will be updated and did not need updates);
+- 65 fixed objects (including updated objects);
 - 40 new objects;
-- A newly written documentation, taking care of numerous issues (yet to include "meta" and related objects)
+- Newly written documentation
 
 Check details in the provided CHANGELOG.txt file, or here: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
 
@@ -42,15 +42,15 @@ Check details in the provided CHANGELOG.txt file, or here: https://github.com/po
 
 You can compile cyclone from the source provided in this repository for the current bleeding edge last state or download one of the more stable compiled releases from <https://github.com/porres/pd-cyclone/releases>. A good alternative is simply use Pd's own external download manager (a.k.a deken plugin), just click on the "find externals" option under the Help menu and search for cyclone.
 
-When installing cyclone, just make sure the cyclone folder is included in a folder that Pd searches for, such as ~/Documents/Pd/externals - which is what Pd directs you to do (since version 0.48).
+When installing cyclone, just make sure the cyclone folder is included in a folder that Pd searches for, such as "~/Documents/Pd/externals" - which is what Pd suggests you to do (since version 0.48).
 
 Now you can install cyclone by loading it in the startup: go to "Preferences => Startup", then click "New", type "cyclone" and hit ok. Next time you restart Pd, the cyclone library binary will be loaded.
 
-This library binary loads the operators objects (which are: !- , !-~ , !/ , !/~ , !=~ , %~ , +=~ , <=~ , <~ , ==~ , >=~ and >~), but it also adds cyclone's path to Pd's preferences, so you can load the other objects from cyclone (which are separate binaries or abstractions). 
+This library binary loads the non alphanumeric operators objects (which are: !- , !-~ , !/ , !/~ , !=~ , %~ , +=~ , <=~ , <~ , ==~ , >=~ and >~) but it also adds cyclone's path to Pd's preferences, so you can load the other objects from cyclone (which are separate binaries and abstractions).
 
 You can also use the [declare -lib cyclone] in a patch to load the library if you don't want to always have cyclone loaded when Pd starts.
 
-Note that loading the [cyclone] object also loads the library, see its help file for more details.
+Loading the cyclone binary as an object ([cyclone]) also loads the library, see its help file for more details. 
 
 -------
 
@@ -79,9 +79,9 @@ Then move it to your preferred install folder for Pd.
 It is now possible to build cyclone for Pd Vanilla or libpd using CMake. CMake is a cross-platform, open-source build system. CMake is used to control the software compilation process using simple platform and compiler independent configuration files, and generate native makefiles and workspaces that can be used in the compiler environment of your choice.
 This allows native compilation on Windows (Microsoft Visual Studio), Linux (GCC) and macOS (XCode).
 
-* Dependencies
+* Dependencies:
 
-    - CMake: You can download CMake for your platform [here](https://cmake.org).
+    - CMake: You can download for your platform [here](https://cmake.org).
     - Only on Windows: pthreads library
     - Pure-data or libpd: sources and binaries.
 
@@ -120,7 +120,9 @@ Of course you can also use CMake itself to build cyclone by running this on the 
 
 * Building a single library
 
-Per default cyclone will build each cyclone object into one shared library (`.so` / `.dll` / `.dylib`). If you want you can also build all of the cyclone objects into one `cyclone.so/dll/dylib` by activating the `BUILD_SINGLE_LIBRARY` option.
+Per default cyclone will build most of its objects as a single binary file (`.so` / `.dll` / `.dylib` / `.pd_darwin`). The exception is the "cyclone" object/binary that loads the non alphanumeric operators objects (which are: !- , !-~ , !/ , !/~ , !=~ , %~ , +=~ , <=~ , <~ , ==~ , >=~ and >~).
+
+If you want you can also build all of the cyclone objects into one `cyclone.so/dll/dylib/pd_darwin` by activating the `BUILD_SINGLE_LIBRARY` option.
 
 Each one of the individual libraries contain a `<name>_setup()` method that will be invoked by pure-data on [library load](https://github.com/pure-data/pure-data/blob/5526f7d08db7fe5d48884e1cb4b0f53fa79197ae/src/s_loader.c#L116). If you select the `BUILD_SINGLE_LIBRARY`, CMake will generate the appropriate code so that all `*_setup()` methods will be invoked in the main `cyclone_setup()`.
 
@@ -178,9 +180,9 @@ Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
 * "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)." The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
 
-Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended, and it ended up eventually under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release from jan 2013, cyclone and miXed were left unmaintained as a result. In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone (but not the rest of the miXed library) and released 0.1alpha57 and cyclone 0.2 beta versions, but decided to abandon development for it in feb-2016.
+Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended and eventually ended up under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release (from jan 2013), Cyclone and miXed were left unmaintained as a result. In dec-2014, Fred Jan Kraan took over maintainance and development for cyclone (but not the rest of the miXed library) and released 0.1alpha57 and cyclone 0.2 beta versions, but decided to abandon development for it in feb-2016.
 
-Since february 21st 2016, an active further development of cyclone (now as version 0.3) started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators.
+Since february 21st 2016, further development for cyclone started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators. The first stable release is cyclone 0.3!
 
 * <strong>About Other Repositories:</strong>
 
@@ -189,7 +191,7 @@ The original repository of MiXed as part of Pd Extended - containing cyclone and
 
 - Czaja's era (until 2005 and up to 0.1-Alpha55): Czaja (the original author) worked on cyclone from version 01-alpha-01 (2002) to 0.1-alpha-55 (2005). 
 
-- Hans era (up to 2013 and 0.1-Alpha-56): Hans maintained cyclone from 2005 to 2013. The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in Pd Vanilla.
+- Hans era (until 2013 and 0.1-Alpha-56): Hans maintained cyclone from 2005 to 2013. The 0.1-Alpha55 version of cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from jan-2013 and it carries the 0.1-Alpha56 version of cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in Pd Vanilla.
 
 - Kraan era (up to 2015): The later work in this repository was not made available into a new release
 
@@ -203,4 +205,4 @@ Fred Jan Kraan forked the original repository to <https://github.com/electricker
 
 This repository was forked from fred Jan Kraan's at cyclone 0.2 beta stage and is releasing new cyclone versions starting at cyclone 0.3. The location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
 
-Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list)
+Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list). Another way is just by sending Pull Requests to this repository.
