@@ -654,6 +654,9 @@ static void *cyclone_new(void){
 }
 
 /* ----------------------------- SETUP ------------------------------ */
+#if CYCLONE_SINGLE_LIBRARY
+void setup_single_lib();
+#endif /* CYCLONE_SINGLE_LIBRARY */
 
 CYCLONE_API void cyclone_setup(void)
 {
@@ -808,5 +811,8 @@ CYCLONE_API void cyclone_setup(void)
     class_addbang(plusequals_class, plusequals_bang);
     class_addmethod(plusequals_class, (t_method)plusequals_set, gensym("set"), A_FLOAT, 0);
     class_sethelpsymbol(plusequals_class, gensym("plusequals~"));
-    
+
+#if CYCLONE_SINGLE_LIBRARY
+    setup_single_lib();
+#endif /* CYCLONE_SINGLE_LIBRARY */
 }
