@@ -56,7 +56,7 @@ typedef struct _comment
     int        x_dragon;
     int        x_fontsize;    /* requested size */
     t_symbol  *x_fontfamily;  /* requested family */
-    int        x_fontprops;   /* LATER pack weight and slant */
+    int        x_fontprops;   //0: reg, 1: bold, 2: italic, 3: bolditalic
     t_symbol  *x_encoding;    /* requested encoding */
     unsigned char  x_red;
     unsigned char  x_green;
@@ -71,7 +71,6 @@ typedef struct _comment
     
     //new args that currently do nothing - DK 2017
     t_float     x_bgcolor[COMMENT_NUMCOLORS];
-    int         x_fontface; //0: reg, 1: bold, 2: italic, 3: bolditalic
     int         x_textjust; //0: left, 1: center, 2: right
     int         x_underline; //0: no, 1: yes
     int         x_suppressinlet; //0: no, 1: yes
@@ -748,9 +747,9 @@ static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3)
     x->x_bgcolor[2] = f3;
 }
 
-static void comment_fontface(t_comment *x, t_symbol *face) // testing
+static void comment_fontface(t_comment *x, t_float f) // testing
 {
-    x->x_fontfamily = face;
+    x->x_fontprops = f;
     //    comment_update(x);
 }
 
@@ -818,7 +817,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                     if(argv[i].a_type == A_FLOAT)
                     {
                         int fontface = (int)argv[i].a_w.w_float;
-                        x->x_fontface = fontface < 0 ? 0 : (fontface > 3 ? 3 : fontface);
+                        x->x_fontprops = fontface < 0 ? 0 : (fontface > 3 ? 3 : fontface);
                     }
                     else i--;
                 };
@@ -1093,7 +1092,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment_bgcolor,
                     gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT,0);
     class_addmethod(comment_class, (t_method)comment_fontface,
-                    gensym("fontface"), A_SYMBOL, 0);
+                    gensym("fontface"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_textjustification,
                     gensym("textjustification"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_underline,
