@@ -66,6 +66,7 @@ typedef struct _comment
     int        x_selend;
     int        x_active;
     int        x_ready;
+    t_symbol  *x_receive_sym;
     t_symbol  *x_selector;
 
     //new args that currently do nothing - DK 2017
@@ -80,6 +81,14 @@ static t_class *comment_class;
 static t_class *commentsink_class;
 
 static t_pd *commentsink = 0;
+
+static void comment_receive(t_comment *x, t_symbol *s){
+    if(s != &s_){
+        if(x->x_receive_sym != &s_)
+            pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
+        pd_bind(&x->x_ob.ob_pd, x->x_receive_sym = s);
+    }
+}
 
 static void comment_draw(t_comment *x)
 {
@@ -669,6 +678,8 @@ static void comment_free(t_comment *x){
         pd_unbind((t_pd *)x, gensym("#key"));
         pd_unbind((t_pd *)x, gensym("#keyname"));
     }
+    if(x->x_receive_sym != &s_)
+        pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
     if (x->x_transclock)
         clock_free(x->x_transclock);
     if(x->x_bindsym){
@@ -973,6 +984,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_green = 0;
     x->x_blue = 0;
     x->x_selector = s;
+    x->x_receive_sym = &s_;
     if(ac && av->a_type == A_FLOAT){
         x->x_pixwidth = (int)av->a_w.w_float;
         ac--; av++;
@@ -1056,6 +1068,8 @@ CYCLONE_OBJ_API void comment_setup(void){
                     gensym("textcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_fontname,
                     gensym("fontname"), A_SYMBOL, 0);
+    class_addmethod(comment_class, (t_method)comment_receive,
+                    gensym("receive"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment_fontsize,
                     gensym("fontsize"), A_FLOAT, 0);
 // new methods 2017: currently do nothing - DK
