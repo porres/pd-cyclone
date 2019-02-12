@@ -859,6 +859,16 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                     else i--;
                 };
             }
+            else if(!strcmp(cursym->s_name, "@fontname")){
+                i++;
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_SYMBOL){
+                        x->x_fontfamily = argv[i].a_w.w_symbol;
+                    }
+                    else
+                        i--;
+                };
+            }
             else if(!strcmp(cursym->s_name, "@textcolor")){
                 i++;
                 if((argc-i) > 0){
