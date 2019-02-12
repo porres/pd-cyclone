@@ -436,6 +436,11 @@ static void comment_select(t_gobj *z, t_glist *glist, int state)
      to "#key" (and because 'canvas_editing' is not exported). */
 }
 
+static void comment_delete(t_gobj *z, t_glist *glist)
+{
+    canvas_deletelinesfor(glist, (t_text *)z);
+}
+
 static void comment_vis(t_gobj *z, t_glist *glist, int vis)
 {
     t_comment *x = (t_comment *)z;
@@ -478,11 +483,9 @@ static t_widgetbehavior comment_widgetbehavior =
     comment_displace,
     comment_select,
     comment_activate,
-    0,
+    comment_delete,
     comment_vis,
     0,
-    /*0,
-     0*/
 };
 
 /* this fires if a transform request was sent to a symbol we are bound to */
