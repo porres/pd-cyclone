@@ -1003,7 +1003,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment_textcolor,
                     gensym("textcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_fontname,
-                    gensym("fontname"), A_FLOAT, 0);
+                    gensym("fontname"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment_fontsize,
                     gensym("fontsize"), A_FLOAT, 0);
 // new methods 2017: currently do nothing - DK
