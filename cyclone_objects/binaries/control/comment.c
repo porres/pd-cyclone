@@ -387,8 +387,11 @@ static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy)
             x->x_x2 += dx;
             x->x_y2 += dy;
         }
-        if (glist_isvisible(glist))
+        if (glist_isvisible(glist)){
+            t_canvas *cv = glist_getcanvas(glist);
             sys_vgui(".x%lx.c move %s %d %d\n", x->x_canvas, x->x_tag, dx, dy);
+            canvas_fixlinesfor(cv, t);
+        }
     }
 }
 
