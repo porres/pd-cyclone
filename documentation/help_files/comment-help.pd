@@ -95,5 +95,5 @@ it also has strong inconsistencies to the Max 4 original object \,
 so it can't really be considered a proper clone. It does provide advantages
 to pd vanilla's comments though., f 66;
 #X obj 3 515 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
-#X text 151 526 @fontsize <float> | @fontname <symbol> | -textcolor
-<f \, f \, f> | @text <anything>, f 42;
+#X text 120 525 @fontsize <float> | @fontname <symbol> | -textcolor
+<f \, f \, f> | @text <anything> | @receive <symbol>, f 64;
