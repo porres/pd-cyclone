@@ -880,6 +880,15 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                         i--;
                 };
             }
+            else if(!strcmp(cursym->s_name, "@receive")){
+                i++;
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_SYMBOL)
+                        comment_receive(x, argv[i].a_w.w_symbol);
+                    else
+                        i--;
+                };
+            }
             else if(!strcmp(cursym->s_name, "@textcolor")){
                 i++;
                 if((argc-i) > 0){
