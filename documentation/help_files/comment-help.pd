@@ -52,17 +52,17 @@ with arguments as they're displaying as the comment:;
 0 20 Times ? 0 255 128 0];
 #X obj 91 469 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
 0 14 Helvetica ? 0 0 128 128];
-#X text 72 575 You can set the properties settings of the comment box
-with the arguments.;
-#X text 72 523 Note: when in edit mode \, you can click on the object
-to select it. Next \, make sure to click again so the whole comment
-text isn't selected \, then press <esc> to show the object name and
-arguments.;
 #X text 64 368 The last 3 arguments set colors in RGB format. The current
 maintainers of cyclone don't have much idea what the 4th and 5th arguments
 actually do.;
 #X obj 130 263 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
 ;
+#X text 72 523 Note: when in edit mode \, you can click on the object
+to select it and then press <F4> to show the object name and arguments
+so you can edit the properties settings of the comment box with the
+arguments and recreate the object.;
+#X text 72 575 Pressing <F5> copies the comment from [cyclone/comment]
+into a Pd's comment box., f 57;
 #X restore 426 262 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
