@@ -1,14 +1,13 @@
-#N canvas 568 56 558 559 10;
-#X obj 3 286 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 568 56 561 542 10;
+#X obj 3 291 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 311 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 316 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 336 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 3 341 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 165 316 (none);
-#X text 165 291 (none);
-#X text 175 424 - encoding;
-#X obj 3 521 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 165 321 (none);
+#X text 165 296 (none);
+#X obj 3 514 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -20,76 +19,76 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X text 101 368 2) float;
-#X text 100 424 4) float;
-#X text 100 440 5) float;
-#X text 100 455 6) float;
-#X text 100 470 7) float;
-#X text 100 485 8) float;
-#X text 175 440 - font properties;
-#X text 140 192 <= the default comment box from [cyclone/comment];
-#X text 188 342 box width in pixels: text breaks at this point \, if
-it's 0 the text doesn't break (default 0);
-#X text 175 370 - font size in pixels (default 10);
-#X text 169 342 -;
-#X text 101 342 1) float;
-#X text 187 384 font name: one of Pd's standards (courier \, times
-or helvetica) or another single-word font available on your system
-(default helvetica);
-#X text 175 454 - red color value (0-255) - default 0;
-#X text 176 483 - green color value (0-255) - default 0;
-#X text 175 470 - blue color value (0-255) - default 0;
-#X text 100 499 9) anything;
-#X text 176 500 - the comment to display;
-#X text 100 383 3) symbol;
-#X text 175 383 -;
-#X obj 91 194 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
-#X obj 129 217 cyclone/comment 280 20 Times ? 1 250 50 50 Hello \,
+#X text 105 373 2) float;
+#X text 104 433 5) float;
+#X text 104 448 6) float;
+#X text 104 463 7) float;
+#X text 104 478 8) float;
+#X text 145 197 <= the default comment box from [cyclone/comment];
+#X text 179 347 -;
+#X text 105 347 1) float;
+#X text 104 492 9) anything;
+#X text 104 388 3) symbol;
+#X text 179 388 -;
+#X obj 96 198 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
+#X obj 149 223 cyclone/comment 280 20 Times ? 1 250 50 50 Hello \,
 I'm a comment from the [cyclone/comment] object!!!;
-#X text 89 85 [comment] is a GUI meant to be only as comment (a label
-or an explanatory note) \, type the text directly into it when in Edit
-mode. It has no inlets as it was cloned in the Max 4 era. So it's currently
-highly outdated in respect to Max 7!;
-#X text 88 146 It also has strong inconsistencies to the Max 4 original
-object \, so it can't really be considered a proper clone. It does
-provide advantages to pd vanilla's comments though.;
-#N canvas 287 23 505 683 details/examples 0;
-#X obj 159 261 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
+#N canvas 774 97 484 638 details/examples 0;
+#X obj 129 240 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
 Courier];
-#X obj 160 284 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
+#X obj 130 263 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
 ;
-#X obj 161 317 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
+#X obj 131 296 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
 14 Helvetica];
-#X text 90 39 The three first arguments in cyclone/comment define basic
+#X text 60 18 The three first arguments in cyclone/comment define basic
 format settings: width \, font-size \, font-face:;
-#X text 96 80 1) Width (in pixels) sets the comment box size. if the
+#X text 66 59 1) Width (in pixels) sets the comment box size. if the
 comment is larger than this \, the text breaks to another line. A width
 of 0 (default) sets no wrapping;
-#X text 97 129 2) font-size (in pixels) simply sets font size (default
+#X text 67 108 2) font-size (in pixels) simply sets font size (default
 10);
-#X text 97 154 3) font-face sets the font type \, one of the Pd standards
+#X text 67 133 3) font-face sets the font type \, one of the Pd standards
 (Courier \, Times \, or Helvetica) as well another single-word font
 available on your system (default helvetica);
-#X text 99 212 Below \, see examples of comment boxes that are set
+#X text 69 191 Below \, see examples of comment boxes that are set
 with arguments as they're displaying as the comment:;
-#X obj 100 453 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
+#X obj 70 432 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
 0 20 Times ? 0 255 128 0];
-#X obj 121 490 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
+#X obj 91 469 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
 0 14 Helvetica ? 0 0 128 128];
-#X text 95 415 The last 3 arguments set colors in RGB format \, no
-idea what the 4th and 5th arguments actually do.;
-#X text 71 602 You can set the properties settings of the comment box
+#X text 72 575 You can set the properties settings of the comment box
 with the arguments.;
-#X text 71 550 Note: when in edit mode \, you can click on the object
+#X text 72 523 Note: when in edit mode \, you can click on the object
 to select it. Next \, make sure to click again so the whole comment
 text isn't selected \, then press <esc> to show the object name and
 arguments.;
-#X restore 421 256 pd details/examples;
+#X text 64 368 The last 3 arguments set colors in RGB format. The current
+maintainers of cyclone don't have much idea what the 4th and 5th arguments
+actually do.;
+#X restore 426 262 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 460 81 cnv 15 90 60 empty empty empty 20 12 0 14 -261234 -66577
-0;
-#X text 464 95 [comment] is not ready yet, f 13;
 #X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Comment box;
+#X text 179 373 - font size in pixels (default: patch's font size)
+, f 58;
+#X text 191 347 box width in pixels: text breaks at this point \, if
+it's 0 the text doesn't break (default: 0), f 56;
+#X text 179 447 - red color value (0-255) - default: 0;
+#X text 179 463 - blue color value (0-255) - default: 0;
+#X text 180 476 - green color value (0-255) - default: 0;
+#X text 104 417 4) symbol;
+#X text 179 417 - encoding (default: empty), f 58;
+#X text 179 433 - font properties (default: 0);
+#X text 180 493 - the comment to display (default: comment);
+#X text 191 389 font name: any single-word font available on your system
+(default helvetica);
+#X text 67 85 [comment] is a GUI meant to be only a comment (a label
+or a note). Type the text directly into it when in Edit mode. It has
+no inlets as it was cloned in the Max 4 era. So it's very outdated
+compared to the latest versions of Max!, f 66;
+#X text 67 140 This object is not being udpated to any current version
+of Max and it also has strong inconsistencies to the Max 4 original
+object \, so it can't really be considered a proper clone. It does
+provide advantages to pd vanilla's comments though., f 66;
