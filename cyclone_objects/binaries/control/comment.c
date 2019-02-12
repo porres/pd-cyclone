@@ -689,6 +689,35 @@ static void comment_free(t_comment *x){
 //    post("done with free");
 }
 
+
+//these new methods (2019) that do something - PORRES
+static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floatarg b)
+{
+    x->x_red = (unsigned char)r;
+    x->x_green = (unsigned char)g;
+    x->x_blue = (unsigned char)b;
+    sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+    comment_update(x);
+    sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
+    comment_draw(x);
+}
+
+static void comment_fontname(t_comment *x, t_symbol *name)
+{
+    x->x_fontfamily = name;
+    comment_update(x);
+    sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
+    comment_draw(x);
+}
+
+static void comment_fontsize(t_comment *x, t_floatarg f)
+{
+    x->x_fontsize = (int)f < 5 ? 5 : (int)f;
+    comment_update(x);
+    sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
+    comment_draw(x);
+}
+
 //these new methods (2017) do nothing and are placeholders - DK 2017
 static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3)
 {
@@ -697,9 +726,10 @@ static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3)
     x->x_bgcolor[2] = f3;
 }
 
-static void comment_fontface(t_comment *x, t_float f)
+static void comment_fontface(t_comment *x, t_symbol *face) // testing
 {
-    x->x_fontface = f < 0 ? 0 : (f > 3 ? 3 : (int)f);
+    x->x_fontfamily = face;
+    comment_update(x);
 
 }
 
@@ -969,11 +999,18 @@ CYCLONE_OBJ_API void comment_setup(void){
         CLASS_DEFAULT, A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
     class_addlist(comment_class, comment_list);
+    // new method 2019 - PORRES
+    class_addmethod(comment_class, (t_method)comment_textcolor,
+                    gensym("textcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_fontname,
+                    gensym("fontname"), A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_fontsize,
+                    gensym("fontsize"), A_FLOAT, 0);
 // new methods 2017: currently do nothing - DK
     class_addmethod(comment_class, (t_method)comment_bgcolor,
 		    gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT,0);
     class_addmethod(comment_class, (t_method)comment_fontface,
-		    gensym("fontface"), A_FLOAT, 0);
+		    gensym("fontface"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment_textjustification,
 		    gensym("textjustification"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_underline,
