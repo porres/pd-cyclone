@@ -32,37 +32,37 @@
 #X text 179 388 -;
 #X obj 96 198 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
 #N canvas 774 97 484 638 details/examples 0;
-#X obj 129 240 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
+#X obj 129 260 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
 Courier];
-#X obj 131 296 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
+#X obj 131 316 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
 14 Helvetica];
 #X text 60 18 The three first arguments in cyclone/comment define basic
 format settings: width \, font-size \, font-face:;
 #X text 66 59 1) Width (in pixels) sets the comment box size. if the
 comment is larger than this \, the text breaks to another line. A width
 of 0 (default) sets no wrapping;
-#X text 67 108 2) font-size (in pixels) simply sets font size (default
-10);
-#X text 67 133 3) font-face sets the font type \, one of the Pd standards
+#X text 67 153 3) font-face sets the font type \, one of the Pd standards
 (Courier \, Times \, or Helvetica) as well another single-word font
 available on your system (default helvetica);
-#X text 69 191 Below \, see examples of comment boxes that are set
+#X text 69 211 Below \, see examples of comment boxes that are set
 with arguments as they're displaying as the comment:;
-#X obj 70 432 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
+#X obj 70 452 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
 0 20 Times ? 0 255 128 0];
-#X obj 91 469 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
+#X obj 91 489 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
 0 14 Helvetica ? 0 0 128 128];
-#X text 64 368 The last 3 arguments set colors in RGB format. The current
+#X text 64 388 The last 3 arguments set colors in RGB format. The current
 maintainers of cyclone don't have much idea what the 4th and 5th arguments
 actually do.;
-#X obj 130 263 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
+#X obj 130 283 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
 ;
-#X text 72 523 Note: when in edit mode \, you can click on the object
+#X text 72 543 Note: when in edit mode \, you can click on the object
 to select it and then press <F4> to show the object name and arguments
 so you can edit the properties settings of the comment box with the
 arguments and recreate the object.;
-#X text 72 575 Pressing <F5> copies the comment from [cyclone/comment]
+#X text 72 595 Pressing <F5> copies the comment from [cyclone/comment]
 into a Pd's comment box., f 57;
+#X text 67 108 2) font-size (in pixels) simply sets font size (default
+patch's font size));
 #X restore 426 262 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
@@ -86,9 +86,9 @@ it's 0 the text doesn't break (default: 0), f 56;
 or a note). Type the text directly into it when in Edit mode. It has
 no inlets as it was cloned in the Max 4 era. So it's very outdated
 compared to the latest versions of Max!, f 66;
-#X text 67 140 This object is not being udpated to any current version
-of Max and it also has strong inconsistencies to the Max 4 original
-object \, so it can't really be considered a proper clone. It does
-provide advantages to pd vanilla's comments though., f 66;
 #X obj 149 223 cyclone/comment 280 20 Times ? 1 250 50 50 Hello \,
 I'm a comment from the [cyclone/comment] object!!!;
+#X text 67 140 This object is not being udpated to Max6+ versions and
+it also has strong inconsistencies to the Max 4 original object \,
+so it can't really be considered a proper clone. It does provide advantages
+to pd vanilla's comments though., f 66;
