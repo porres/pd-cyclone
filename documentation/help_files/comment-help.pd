@@ -31,13 +31,9 @@
 #X text 104 388 3) symbol;
 #X text 179 388 -;
 #X obj 96 198 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
-#X obj 149 223 cyclone/comment 280 20 Times ? 1 250 50 50 Hello \,
-I'm a comment from the [cyclone/comment] object!!!;
 #N canvas 774 97 484 638 details/examples 0;
 #X obj 129 240 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
 Courier];
-#X obj 130 263 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
-;
 #X obj 131 296 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
 14 Helvetica];
 #X text 60 18 The three first arguments in cyclone/comment define basic
@@ -65,6 +61,8 @@ arguments.;
 #X text 64 368 The last 3 arguments set colors in RGB format. The current
 maintainers of cyclone don't have much idea what the 4th and 5th arguments
 actually do.;
+#X obj 130 263 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
+;
 #X restore 426 262 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
@@ -92,3 +90,5 @@ compared to the latest versions of Max!, f 66;
 of Max and it also has strong inconsistencies to the Max 4 original
 object \, so it can't really be considered a proper clone. It does
 provide advantages to pd vanilla's comments though., f 66;
+#X obj 149 223 cyclone/comment 280 20 Times ? 1 250 50 50 Hello \,
+I'm a comment from the [cyclone/comment] object!!!;
