@@ -859,7 +859,38 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                     else i--;
                 };
             }
-
+            else if(!strcmp(cursym->s_name, "@textcolor")){
+                i++;
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT){
+                        int rgb = (unsigned char)argv[i].a_w.w_float;
+                        x->x_red = rgb;
+                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+                    }
+                    else
+                        i--;
+                };
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT){
+                        i++;
+                        int rgb = (unsigned char)argv[i].a_w.w_float;
+                        x->x_green = rgb;
+                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+                    }
+                    else
+                        i--;
+                };
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT){
+                        i++;
+                        int rgb = (unsigned char)argv[i].a_w.w_float;
+                        x->x_blue = rgb;
+                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+                    }
+                    else
+                        i--;
+                };
+            }
             else
             {
                 //treat it as a part of comlist
