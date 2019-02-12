@@ -50,9 +50,6 @@ with arguments as they're displaying as the comment:;
 0 20 Times ? 0 255 128 0];
 #X obj 500 162 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
 0 14 Helvetica ? 0 0 128 128];
-#X text 465 36 The last 3 arguments set colors in RGB format. The current
-maintainers of cyclone don't have much idea what the 4th and 5th arguments
-actually do.;
 #X obj 135 286 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
 ;
 #X text 481 216 Note: when in edit mode \, you can click on the object
@@ -65,6 +62,8 @@ into a Pd's comment box., f 57;
 patch's font size));
 #X text 485 325 Instead of using arguments \, you can also use the
 attribute flags;
+#X text 465 36 The last 3 arguments set colors in RGB format. The 4th
+and 5th arguments are unused.;
 #X restore 426 262 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
