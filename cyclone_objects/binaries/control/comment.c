@@ -901,6 +901,17 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                         i--;
                 };
             }
+            else if(!strcmp(cursym->s_name, "@text")){
+                i++;
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_SYMBOL){
+                        SETSYMBOL(&comlist[comlen], argv[i].a_w.w_symbol);
+                        comlen++;
+                    }
+                    else
+                        i--;
+                };
+            }
             else
             {
                 //treat it as a part of comlist
