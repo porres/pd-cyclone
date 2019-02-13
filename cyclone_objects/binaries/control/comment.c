@@ -13,7 +13,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "m_pd.h"
-#include <common/api.h>
+//#include <common/api.h>
 #include "g_canvas.h"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
@@ -328,16 +328,15 @@ static void comment_getrect(t_gobj *z, t_glist *glist,
                             int *xp1, int *yp1, int *xp2, int *yp2)
 {
     t_comment *x = (t_comment *)z;
-    if (!glist->gl_havewindow)
+/*    if (!glist->gl_havewindow)
     {
-        /* LATER revisit gop behaviour.  Currently text_shouldvis() returns
-         true if we are on parent.  Here we return a null rectangle,
-         so that any true ui object is accessible, even if it happens
-         to be covered by a comment. */
+        // LATER revisit gop behaviour - text_shouldvis() returns true if on parent.
+        // Here we return null rectangle so any true ui object
+        // is accessible, even if covered by a comment.
         *xp1 = *yp1 = *xp2 = *yp2 = 0;
         return;
-    }
-    if (x->x_bbset)
+    }*/
+    if (x->x_bbset) // ??
     {
         /* LATER think about margins */
         *xp1 = x->x_x1;
@@ -452,7 +451,7 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis)
          than complying to a Pd's assumption about every visible object
          having an rtext (thus preventing canvas_doclick() from sending
          garbage warnings).  LATER revisit. */
-        if (glist->gl_havewindow)
+//        if (glist->gl_havewindow)
             comment_draw(x);
     }
     else
@@ -1072,7 +1071,7 @@ textpart:
     return (x);
 }
 
-CYCLONE_OBJ_API void comment_setup(void){
+/*CYCLONE_OBJ_API*/ void comment_setup(void){
     comment_class = class_new(gensym("comment"), (t_newmethod)comment_new,
                               (t_method)comment_free, sizeof(t_comment),
                               // CLASS_NOINLET | CLASS_PATCHABLE,
