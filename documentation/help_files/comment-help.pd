@@ -1,12 +1,10 @@
-#N canvas 607 48 561 624 10;
+#N canvas 544 48 567 468 10;
 #X obj 3 252 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 349 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 378 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
-0;
 #X text 175 356 (none);
-#X obj 3 595 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 3 436 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -18,76 +16,45 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X text 105 410 2) float;
-#X text 104 470 5) float;
-#X text 104 485 6) float;
-#X text 104 500 7) float;
-#X text 104 515 8) float;
 #X text 145 158 <= the default comment box from [cyclone/comment];
-#X text 179 384 -;
-#X text 105 384 1) float;
-#X text 104 529 9) anything;
-#X text 104 425 3) symbol;
-#X text 179 425 -;
 #X obj 96 159 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
-#N canvas 553 179 894 413 details/examples 0;
-#X obj 134 263 cyclone/comment 0 12 Courier ? 0 0 0 0 [comment 0 12
-Courier];
-#X obj 136 319 cyclone/comment 88 14 Helvetica ? 0 0 0 0 [comment 100
-14 Helvetica];
-#X text 65 21 The three first arguments in cyclone/comment define basic
-format settings: width \, font-size \, font-face:;
-#X text 71 62 1) Width (in pixels) sets the comment box size. if the
-comment is larger than this \, the text breaks to another line. A width
-of 0 (default) sets no wrapping;
-#X text 72 156 3) font-face sets the font type \, one of the Pd standards
-(Courier \, Times \, or Helvetica) as well another single-word font
-available on your system (default helvetica);
-#X text 74 214 Below \, see examples of comment boxes that are set
-with arguments as they're displaying as the comment:;
-#X obj 479 100 cyclone/comment 315 20 Times ? 0 255 128 0 [comment
-0 20 Times ? 0 255 128 0];
-#X obj 500 137 cyclone/comment 334 14 Helvetica ? 0 0 128 128 [comment
-0 14 Helvetica ? 0 0 128 128];
-#X obj 135 286 cyclone/comment 0 20 Times ? 0 0 0 0 [comment 0 20 Times]
+#N canvas 510 281 815 444 details/examples 0;
+#X obj 150 285 cyclone/comment 0 30 courier ? 0 150 100 50 Comment
 ;
-#X text 481 191 Note: when in edit mode \, you can click on the object
-to select it and then press <F4> to show the object name and arguments
-so you can edit the properties settings of the comment box with the
-arguments and recreate the object.;
-#X text 481 243 Pressing <F5> copies the comment from [cyclone/comment]
-into a Pd's comment box., f 57;
-#X text 72 111 2) font-size (in pixels) simply sets font size (default
-patch's font size));
-#X text 485 300 Instead of using arguments \, you can also use the
-attribute flags;
-#X text 465 36 The 4th argument is unused yet and the 5th argument
-sets receive symbol. The last 3 arguments set colors in RGB format.
+#X text 67 362 Note: when in edit mode \, you can click on the object
+to select it and then press <F5> to copy the comment from [cyclone/comment]
+into a Pd's comment box.;
+#X msg 150 78 fontsize 50;
+#X msg 169 107 fontsize 30;
+#X msg 185 134 fontname helvetica;
+#X msg 200 163 fontname courier;
+#X msg 224 200 textcolor 0 0 0;
+#X msg 228 230 textcolor 150 100 50;
+#X text 58 28 You can also edit the properties of [comment] with messages.
 ;
+#X obj 489 274 cyclone/comment 0 50 helvetica ? 0 0 0 0 comment;
+#X obj 550 230 s \$0-comment;
+#X text 446 95 The [comment] object below has a receive symbol \, so
+you can send messages to it via a [send] object., f 52;
+#X msg 550 162 textcolor 200 0 0;
+#X msg 569 190 textcolor 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 12 0 10 0;
+#X connect 13 0 10 0;
 #X restore 426 222 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Comment box;
-#X text 179 410 - font size in pixels (default: patch's font size)
-, f 58;
-#X text 191 384 box width in pixels: text breaks at this point \, if
-it's 0 the text doesn't break (default: 0), f 56;
-#X text 179 484 - red color value (0-255) - default: 0;
-#X text 179 500 - blue color value (0-255) - default: 0;
-#X text 180 513 - green color value (0-255) - default: 0;
-#X text 104 454 4) symbol;
-#X text 180 530 - the comment to display (default: comment);
-#X text 191 426 font name: any single-word font available on your system
-(default helvetica);
 #X obj 149 184 cyclone/comment 280 20 Times ? 1 250 50 50 Hello \,
 I'm a comment from the [cyclone/comment] object!!!;
-#X obj 3 552 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
-#X text 120 562 @fontsize <float> | @fontname <symbol> | -textcolor
-<f \, f \, f> | @text <anything> | @receive <symbol>, f 64;
-#X text 179 454 - receive symbol (default: empty), f 58;
-#X text 179 470 - font properties (default: 0) - currently unused;
+#X obj 3 379 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
 #X obj 120 261 cnv 17 3 80 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 165 260 set <anything>;
@@ -98,11 +65,15 @@ I'm a comment from the [cyclone/comment] object!!!;
 #X text 153 308 receive <symbol>;
 #X text 270 292 - sets font type;
 #X text 270 308 - sets receive symbol;
-#X text 141 325 textcolor <symbol>;
-#X text 270 325 - sets color;
 #X text 67 85 [comment] is a GUI meant to be only a comment (a label
 or a note) that can be typed directly into it when in Edit mode. This
 object is not being udpated to Max6+ versions and has hasn't been fully
 updated to Max 5 either \, so it can't really be considered a proper
 clone! It does provide advantages to pd vanilla's comments though.
 , f 66;
+#X text 135 325 textcolor <f \, f \, f>;
+#X text 270 325 - sets RGB color (values from 0 to 255);
+#X text 86 388 @fontsize <float>: sets font size | @fontname <symbol>:
+sets font name | -textcolor <f \, f \, f>: sets font color | @receive
+<symbol>: sets receive symbol | @text <anything>: sets comment, f
+72;
