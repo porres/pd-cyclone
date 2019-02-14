@@ -23,20 +23,20 @@ static t_class *makeshift_class;
  #define COMMENT_DEBUG
  #endif */
 
-#define COMMENT_LMARGIN        1
-#define COMMENT_RMARGIN        1
-#define COMMENT_TMARGIN        2
-#define COMMENT_BMARGIN        2
-#define COMMENT_MINWIDTH       8
-#define COMMENT_HANDLEWIDTH    8
+#define COMMENT_LMARGIN     1
+#define COMMENT_RMARGIN     1
+#define COMMENT_TMARGIN     2
+#define COMMENT_BMARGIN     2
+#define COMMENT_MINWIDTH    8
+#define COMMENT_HANDLEWIDTH 8
 #define COMMENT_OUTBUFSIZE  1000
+#define COMMENT_NUMCOLORS   3
 
-#define COMMENT_NUMCOLORS 3
 typedef struct _comment
 {
     t_object   x_ob;
     t_glist   *x_glist;
-    t_canvas  *x_canvas;  /* also an 'isvised' flag */
+    t_canvas  *x_canvas;
     t_symbol  *x_bindsym;
     char       x_tag[32];
     char       x_texttag[32];
@@ -89,8 +89,7 @@ static void comment_receive(t_comment *x, t_symbol *s){
     }
 }
 
-static void comment_draw(t_comment *x)
-{
+static void comment_draw(t_comment *x){
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     unsigned long cvid = (unsigned long)x->x_canvas;
     int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
@@ -102,20 +101,26 @@ static void comment_draw(t_comment *x)
             return;
     }
     else*/
-        outbuf = buf;
+    outbuf = buf;
     outp = outbuf;
     sprintf(outp, "comment_draw %s .x%lx.c %s %s %f %f %s -%d %s %s {%.*s} %d\n",
-            x->x_bindsym->s_name, cvid, x->x_texttag, x->x_tag,
+            x->x_bindsym->s_name,
+            cvid,
+            x->x_texttag,
+            x->x_tag,
             (float)(text_xpix((t_text *)x, x->x_glist) + COMMENT_LMARGIN),
             (float)(text_ypix((t_text *)x, x->x_glist) + COMMENT_TMARGIN),
-            x->x_fontfamily->s_name, x->x_fontsize,
-            (glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ?
-             "blue" : x->x_color),
-            (x->x_encoding ? x->x_encoding->s_name : "\"\""),
-            x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
+            x->x_fontfamily->s_name,
+            x->x_fontsize,
+            (glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color),
+            "\"\"", // encoding
+            x->x_textbufsize,
+            x->x_textbuf,
+            x->x_pixwidth);
     x->x_bbpending = 1;
     sys_gui(outbuf);
-    if (outbuf != buf) freebytes(outbuf, reqsize);
+    if(outbuf != buf)
+        freebytes(outbuf, reqsize);
 }
 
 static void comment_update(t_comment *x)
@@ -169,12 +174,12 @@ static void comment_update(t_comment *x)
 
 static void comment_validate(t_comment *x, t_glist *glist)
 {
-    if (!x->x_ready)
-    {
+    if(!x->x_ready){
         t_text *t = (t_text *)x;
         binbuf_free(t->te_binbuf);
         t->te_binbuf = x->x_binbuf;
-        if (x->x_textbuf) freebytes(x->x_textbuf, x->x_textbufsize);
+        if (x->x_textbuf)
+            freebytes(x->x_textbuf, x->x_textbufsize);
         binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
         x->x_ready = 1;
         /* #ifdef COMMENT_DEBUG
@@ -335,8 +340,8 @@ static void comment_getrect(t_gobj *z, t_glist *glist,
         // is accessible, even if covered by a comment.
         *xp1 = *yp1 = *xp2 = *yp2 = 0;
         return;
-    }*/
-/*    if (x->x_bbset) // ??
+    }
+    if (x->x_bbset) // ??
     {
         // LATER think about margins
         *xp1 = x->x_x1;
@@ -366,7 +371,7 @@ static void comment_getrect(t_gobj *z, t_glist *glist,
         *yp1 = y1;
         *xp2 = x2;
         *yp2 = y2;
-    //}
+//    }
 }
 
 static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy)
@@ -692,19 +697,21 @@ static void comment_free(t_comment *x){
 // trying to do this - PORRES
 static void comment_set(t_comment *x, t_symbol *s, int argc, t_atom * argv)
 {
-    //    post("set");
     t_symbol *dummy = s;
     dummy = NULL;
-    
     binbuf_clear(x->x_binbuf);
     binbuf_restore(x->x_binbuf, argc, argv);
-    comment_validate(x, x->x_glist);
-    x->x_glist->gl_editor->e_textdirty = 1;
+
+
+    t_text *t = (t_text *)x;
+    t->te_binbuf = x->x_binbuf;
+    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
     binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
-    comment_update(x);
     sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
-    comment_draw(x);
+
     canvas_dirty(x->x_glist, 1);
+    comment_draw(x);
+
 }
 
 //these new methods (2019) that do something - PORRES
@@ -769,111 +776,87 @@ static void comment_suppressinlet(t_comment *x, t_float f)
 }
 
 //end new method placeholders
-static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
-{
+static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
     t_atom* comlist = t_getbytes(argc * sizeof(*comlist));
     int i, comlen = 0; //eventual length of comment list comlist
-    for(i=0;i<argc; i++)
-    {
-        if(argv[i].a_type == A_FLOAT)
-        {
+    for(i = 0; i < argc; i++){
+        if(argv[i].a_type == A_FLOAT){
             SETFLOAT(&comlist[comlen], argv[i].a_w.w_float);
             comlen++;
         }
-        else if(argv[i].a_type == A_SYMBOL)
-        {
+        else if(argv[i].a_type == A_SYMBOL){
             t_symbol * cursym = argv[i].a_w.w_symbol;
-            if(strcmp(cursym->s_name, "@bgcolor") == 0)
-            {
+            if(strcmp(cursym->s_name, "@bgcolor") == 0){
                 i++; //done with symbol move on
                 int numcolors = COMMENT_NUMCOLORS; //number of colors to specify
-                while(numcolors)
-                {
-                    if((argc-i) > 0) //if there are args left to parse
-                    {
-                        if(argv[i].a_type == A_FLOAT)
-                        {
+                while(numcolors){
+                    if((argc-i) > 0){ //if there are args left to parse
+                        if(argv[i].a_type == A_FLOAT){
                             x->x_bgcolor[COMMENT_NUMCOLORS-numcolors] = argv[i].a_w.w_float;
                             if(numcolors > 1) i++; //don't need to increment the last time
                             //taken care of by for loop
                             numcolors--;
                         }
-                        else
-                        {
+                        else{
                             i--; //the next arg wasn't a float so we didn't have to parse it
                             //leave it for the next go around in the for loop
                             break;
                         };
                     };
-                    
                 };
             }
-            else if(strcmp(cursym->s_name, "@fontface") == 0)
-            {
+            else if(strcmp(cursym->s_name, "@fontface") == 0){
                 i++;
-                if((argc-i) > 0)
-                {
-                    if(argv[i].a_type == A_FLOAT)
-                    {
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT){
                         int fontface = (int)argv[i].a_w.w_float;
                         x->x_fontprops = fontface < 0 ? 0 : (fontface > 3 ? 3 : fontface);
                     }
                     else i--;
                 };
             }
-            else if(strcmp(cursym->s_name, "@textjustification") == 0)
-            {
+            else if(strcmp(cursym->s_name, "@textjustification") == 0){
                 i++;
-                if((argc-i) > 0)
-                {
-                    if(argv[i].a_type == A_FLOAT)
-                    {
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT){
                         int textjust = (int)argv[i].a_w.w_float;
                         x->x_textjust = textjust < 0 ? 0 : (textjust > 2 ? 2 : textjust);
                     }
                     else i--;
                 };
-                
             }
-            else if(strcmp(cursym->s_name, "@underline") == 0)
-            {
+            else if(strcmp(cursym->s_name, "@underline") == 0){
                 i++;
-                if((argc-i) > 0)
-                {
-                    if(argv[i].a_type == A_FLOAT)
-                    {
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT){
                         int underline = (int)argv[i].a_w.w_float;
                         x->x_underline = underline == 0 ? 0 : 1;
                     }
-                    else i--;
+                    else
+                        i--;
                 };
             }
-            else if(strcmp(cursym->s_name, "@suppressinlet") == 0)
-            {
+            else if(strcmp(cursym->s_name, "@suppressinlet") == 0){
                 i++;
-                if((argc-i) > 0)
-                {
-                    if(argv[i].a_type == A_FLOAT)
-                    {
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT){
                         int suppressinlet = (int)argv[i].a_w.w_float;
                         x->x_suppressinlet = suppressinlet == 0 ? 0 : 1;
                     }
-                    else i--;
+                    else
+                        i--;
                 };
             }
-            
-            // existing
-            else if(strcmp(cursym->s_name, "@fontsize") == 0)
-            {
+// existing
+            else if(strcmp(cursym->s_name, "@fontsize") == 0){
                 i++;
-                if((argc-i) > 0)
-                {
-                    if(argv[i].a_type == A_FLOAT)
-                    {
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT){
                         int fontsize = (int)argv[i].a_w.w_float;
                         x->x_fontsize = fontsize;
                     }
-                    else i--;
+                    else
+                        i--;
                 };
             }
             else if(!strcmp(cursym->s_name, "@fontname")){
@@ -938,18 +921,13 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                         i--;
                 };
             }
-            else
-            {
-                //treat it as a part of comlist
+            else{ //treat it as a part of comlist
                 SETSYMBOL(&comlist[comlen], cursym);
                 comlen++;
-                
             };
         };
     };
-    
-    //set the comment with comlist
-    if(comlen)
+    if(comlen) //set the comment with comlist
         binbuf_restore(x->x_binbuf, comlen, comlist);
     else{
         SETSYMBOL(&comlist[0], gensym("comment"));
@@ -998,6 +976,21 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_blue = 0;
     x->x_selector = s;
     x->x_receive_sym = &s_;
+    x->x_textbuf = 0;
+    x->x_textbufsize = 0;
+    x->x_transclock = clock_new(x, (t_method)comment_transtick);
+    x->x_bbset = 0;
+    x->x_bbpending = 0;
+    x->x_ready = 0;
+    x->x_dragon = 0;
+    char buf[32];
+    sprintf(buf, "comment%lx", (unsigned long)x);
+    x->x_bindsym = gensym(buf);
+    pd_bind((t_pd *)x, x->x_bindsym);
+    if(!commentsink)
+        commentsink = pd_new(commentsink_class);
+    pd_bind(commentsink, x->x_bindsym);
+////////////////////////////////// GET ARGS ///////////////////////////////////////////
     if(ac && av->a_type == A_FLOAT){
         x->x_pixwidth = (int)av->a_w.w_float;
         ac--; av++;
@@ -1049,20 +1042,6 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
         SETSYMBOL(&at, gensym("comment"));
         binbuf_restore(x->x_binbuf, 1, &at);
     }
-    x->x_textbuf = 0;
-    x->x_textbufsize = 0;
-    x->x_transclock = clock_new(x, (t_method)comment_transtick);
-    x->x_bbset = 0;
-    x->x_bbpending = 0;
-    char buf[32];
-    sprintf(buf, "comment%lx", (unsigned long)x);
-    x->x_bindsym = gensym(buf);
-    pd_bind((t_pd *)x, x->x_bindsym);
-    if(!commentsink)
-        commentsink = pd_new(commentsink_class);
-    pd_bind(commentsink, x->x_bindsym);
-    x->x_ready = 0;
-    x->x_dragon = 0;
     return (x);
 }
 

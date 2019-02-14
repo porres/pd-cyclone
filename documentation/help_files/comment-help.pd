@@ -36,7 +36,7 @@ into a Pd's comment box.;
 you can send messages to it via a [send] object., f 52;
 #X msg 550 162 textcolor 200 0 0;
 #X msg 569 190 textcolor 0 0 0;
-#X obj 489 274 cyclone/comment 0 50 helvetica comment 0 200 0 0 comment
+#X obj 489 274 cyclone/comment 0 50 helvetica comment 200 0 0 0 comment
 ;
 #X obj 550 230 s comment;
 #X connect 2 0 0 0;
