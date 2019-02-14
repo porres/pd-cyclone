@@ -94,14 +94,14 @@ static void comment_draw(t_comment *x)
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     unsigned long cvid = (unsigned long)x->x_canvas;
     int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
-    if(reqsize > COMMENT_OUTBUFSIZE){
-        /* #ifdef COMMENT_DEBUG
-         loudbug_post("allocating %d outbuf bytes", reqsize);
-         #endif */
+/*    if(reqsize > COMMENT_OUTBUFSIZE){
+        // #ifdef COMMENT_DEBUG
+        // loudbug_post("allocating %d outbuf bytes", reqsize);
+         // #endif
         if (!(outbuf = getbytes(reqsize)))
             return;
     }
-    else
+    else*/
         outbuf = buf;
     outp = outbuf;
     sprintf(outp, "comment_draw %s .x%lx.c %s %s %f %f %s -%d %s %s {%.*s} %d\n",
@@ -336,37 +336,37 @@ static void comment_getrect(t_gobj *z, t_glist *glist,
         *xp1 = *yp1 = *xp2 = *yp2 = 0;
         return;
     }*/
-    if (x->x_bbset) // ??
+/*    if (x->x_bbset) // ??
     {
-        /* LATER think about margins */
+        // LATER think about margins
         *xp1 = x->x_x1;
         *yp1 = x->x_y1;
         *xp2 = x->x_x2;
         *yp2 = x->x_y2;
     }
     else
-    {
+    {*/
         int width,  height;
         float x1, y1, x2, y2;
         comment_validate(x, glist);
         if ((width = x->x_pixwidth) < 1)
-        /* FIXME estimation */
+        // FIXME estimation
             width = x->x_fontsize * x->x_textbufsize;
         width += COMMENT_LMARGIN + COMMENT_RMARGIN;
-        /* FIXME estimation */
+        // FIXME estimation
         height = x->x_fontsize + COMMENT_TMARGIN + COMMENT_BMARGIN;
         x1 = text_xpix((t_text *)x, glist);
         y1 = text_ypix((t_text *)x, glist) + 1;  /* LATER revisit */
         x2 = x1 + width;
         y2 = y1 + height - 2;  /* LATER revisit */
-        /* #ifdef COMMENT_DEBUG
-         loudbug_post("estimated rectangle: %g %g %g %g", x1, y1, x2, y2);
-         #endif */
+        // #ifdef COMMENT_DEBUG
+        // loudbug_post("estimated rectangle: %g %g %g %g", x1, y1, x2, y2);
+        // #endif
         *xp1 = x1;
         *yp1 = y1;
         *xp2 = x2;
         *yp2 = y2;
-    }
+    //}
 }
 
 static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy)
