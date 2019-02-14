@@ -468,7 +468,7 @@ static void comment_save(t_gobj *z, t_binbuf *b)
     binbuf_addv(b, "ssiisiissiiii", gensym("#X"), gensym("obj"),
                 (int)t->te_xpix, (int)t->te_ypix, x->x_selector,
                 x->x_pixwidth, x->x_fontsize, x->x_fontfamily,
-                (x->x_encoding ? x->x_encoding : gensym("?")),
+                (x->x_receive_sym != &s_ ? x->x_receive_sym : gensym("?")),
                 x->x_fontprops,
                 (int)x->x_red, (int)x->x_green, (int)x->x_blue);
     binbuf_addbinbuf(b, t->te_binbuf);
@@ -602,7 +602,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av)
             int ac = binbuf_getnatom(x->x_binbuf);
             binbuf_addv(bb, "siissiiii", x->x_selector, x->x_pixwidth,
                         x->x_fontsize, x->x_fontfamily,
-                        (x->x_encoding ? x->x_encoding : gensym("?")),
+                        (x->x_receive_sym != &s_ ? x->x_receive_sym : gensym("?")),
                         x->x_fontprops,
                         (int)x->x_red, (int)x->x_green, (int)x->x_blue);
             binbuf_add(bb, ac, binbuf_getvec(x->x_binbuf));
@@ -890,7 +890,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
                 i++;
                 if((argc-i) > 0){
                     if(argv[i].a_type == A_SYMBOL)
-                        comment_receive(x, argv[i].a_w.w_symbol);
+                        comment_receive(x, atom_getsymbolarg(0, argc, argv));
                     else
                         i--;
                 };
@@ -982,8 +982,6 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv)
 static void *comment_new(t_symbol *s, int ac, t_atom *av){
     t_comment *x = (t_comment *)pd_new(comment_class);
     t_text *t = (t_text *)x;
-    t_atom at;
-    char buf[32];
     t->te_type = T_TEXT;
     x->x_glist = canvas_getcurrent();
     x->x_canvas = 0;
@@ -1007,21 +1005,16 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
             x->x_fontsize = (int)av->a_w.w_float;
             ac--; av++;
             if(ac && av->a_type == A_SYMBOL){
-                if(av->a_w.w_symbol == gensym(".")){
-                    ac--; av++;
-                    goto textpart;
-                }
-                else if (av->a_w.w_symbol != gensym("?"))
-                    x->x_fontfamily = av->a_w.w_symbol;
+                x->x_fontfamily = av->a_w.w_symbol;
                 ac--; av++;
                 if(ac && av->a_type == A_SYMBOL){
-                    if(av->a_w.w_symbol == gensym(".")){
+                    if (av->a_w.w_symbol != gensym("?")){
+//                        comment_receive(x, av->a_w.w_symbol);
+                        comment_receive(x, atom_getsymbolarg(0, ac, av));
                         ac--; av++;
-                        goto textpart;
                     }
-                    else if (av->a_w.w_symbol != gensym("?"))
-                        x->x_encoding = av->a_w.w_symbol;
-                    ac--; av++;
+                    else
+                        ac--; av++;
                     if (ac && av->a_type == A_FLOAT){
                         x->x_fontprops = (int)av->a_w.w_float;
                         ac--; av++;
@@ -1042,7 +1035,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
             }
         }
     }
-textpart:
+//textpart:
     if(x->x_fontsize < 1)
         x->x_fontsize = glist_getfont(x->x_glist);
     if(!x->x_fontfamily)
@@ -1052,6 +1045,7 @@ textpart:
     if(ac)
         comment_attrparser(x, ac, av);
     else{
+        t_atom at;
         SETSYMBOL(&at, gensym("comment"));
         binbuf_restore(x->x_binbuf, 1, &at);
     }
@@ -1060,6 +1054,7 @@ textpart:
     x->x_transclock = clock_new(x, (t_method)comment_transtick);
     x->x_bbset = 0;
     x->x_bbpending = 0;
+    char buf[32];
     sprintf(buf, "comment%lx", (unsigned long)x);
     x->x_bindsym = gensym(buf);
     pd_bind((t_pd *)x, x->x_bindsym);
@@ -1074,7 +1069,6 @@ textpart:
 /*CYCLONE_OBJ_API*/ void comment_setup(void){
     comment_class = class_new(gensym("comment"), (t_newmethod)comment_new,
                               (t_method)comment_free, sizeof(t_comment),
-                              // CLASS_NOINLET | CLASS_PATCHABLE,
                               CLASS_DEFAULT, A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
     class_addlist(comment_class, comment_list);
