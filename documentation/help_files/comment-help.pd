@@ -19,8 +19,7 @@
 #X text 145 158 <= the default comment box from [cyclone/comment];
 #X obj 96 159 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
 #N canvas 510 281 815 444 details/examples 0;
-#X obj 150 285 cyclone/comment 0 30 courier ? 0 150 100 50 Comment
-;
+#X obj 150 285 cyclone/comment 0 50 helvetica ? 0 0 0 0 Comment;
 #X text 67 362 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
 into a Pd's comment box.;
@@ -32,13 +31,15 @@ into a Pd's comment box.;
 #X msg 228 230 textcolor 150 100 50;
 #X text 58 28 You can also edit the properties of [comment] with messages.
 ;
-#X text 446 95 The [comment] object below has a receive symbol \, so
+#X text 446 37 The [comment] object below has a receive symbol \, so
 you can send messages to it via a [send] object., f 52;
-#X msg 550 162 textcolor 200 0 0;
-#X msg 569 190 textcolor 0 0 0;
-#X obj 489 274 cyclone/comment 0 50 helvetica comment 200 0 0 0 comment
+#X msg 550 104 textcolor 200 0 0;
+#X msg 569 132 textcolor 0 0 0;
+#X obj 489 274 cyclone/comment 0 50 helvetica comment 0 0 0 0 comment
 ;
-#X obj 550 230 s comment;
+#X obj 550 236 s comment;
+#X msg 579 169 set hello;
+#X msg 590 201 set comment;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
@@ -47,6 +48,8 @@ you can send messages to it via a [send] object., f 52;
 #X connect 7 0 0 0;
 #X connect 10 0 13 0;
 #X connect 11 0 13 0;
+#X connect 14 0 13 0;
+#X connect 15 0 13 0;
 #X restore 426 222 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
