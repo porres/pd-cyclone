@@ -14,9 +14,9 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Current Release: Cyclone 0.3 release candidate 2 (this release needs at least Pd Vanilla 0.49-0)
+Current Release: Cyclone 0.3 (this release needs at least Pd Vanilla 0.49-0)
 
-Release Date: Unreleased
+Release Date: February 21st 2019
 
 Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals)
 
@@ -29,12 +29,14 @@ The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version
 
 The main goal of cyclone 0.3 was to update Cyclone's objects to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation has been rewritten from scratch and new objects were included. Here's the aftermath:
 
-- 61 updated objects;
+- 62 updated objects;
 - 65 fixed objects (including updated objects);
 - 40 new objects;
 - Newly written documentation
 
 Check details in the provided CHANGELOG.txt file, or here: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
+
+Future updates corresponding to added functionalities from Max 8 can be included in a cyclone 0.4 version or above.
 
 -------
 
