@@ -36,7 +36,7 @@ the beginning of the ramp to default to the end of the whole array, right?
 
 #define RECORD_MAXBD 1E+32 //cheap higher bound for boundary points
                             //=floor SHARED_FLT_MAX/(16*x->x_ksr*x) (48k, 16x oversamp, another div 10 for good measure)
-#define RECORD_REDRAWPAUSE  1000.  /* refractory period */
+#define RECORD_REDRAWPAUSE  500.  /* refractory period */
 
 typedef struct _record
 {
@@ -242,15 +242,14 @@ static t_int *record_perform(t_int *w)
     int startsamp, endsamp, phase, range, i, j;
 
     cybuf_validate(c, 0);
+    clock_delay(x->x_clock, 0); // calculate a redraw
     for(i=0;i<nblock; i++){
         startms = startin[i];
         endms = endin[i];
         if((startms < endms) && c->c_playable && x->x_isrunning){
             startsamp = record_startpoint(x, startms);
             endsamp = record_endpoint(x, endms);
-
             range = endsamp - startsamp;
-            
             //append mode shouldn't reset phase
             if(x->x_newrun == 1 && x->x_appendmode == 0){
                 //isrunning 0->1 from last block, means reset phase appropriately
@@ -259,9 +258,7 @@ static t_int *record_perform(t_int *w)
                 x->x_sync = 0.;
             };
             phase = x->x_phase;
-            
             //boundschecking, do it here because points might changed when paused
-            
             //easier case, when we're "done"
             if(phase >= endsamp){
                 if(x->x_loopmode == 1){
@@ -274,11 +271,7 @@ static t_int *record_perform(t_int *w)
                     x->x_sync = 1;
                     //trigger redraw
                 };
-
-                //in either case calculate a redraw
-	        clock_delay(x->x_clock, 0);
             };
-
             //harder case up to interpretation
             if(phase < startsamp){
                 //if before startsamp, just jump to startsamp?
