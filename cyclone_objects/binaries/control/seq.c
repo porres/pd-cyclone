@@ -979,7 +979,7 @@ static void seq_doread(t_seq *x, t_symbol *fn, int creation)
 	fclose(fp);
     }
     /* CHECKED all cases: arg or not, message and creation */
-    post("seq: reading %s", fn->s_name);
+//    post("seq: reading %s", fn->s_name);
     if (!seq_mfread(x, buf))
 	seq_textread(x, buf);
 }
