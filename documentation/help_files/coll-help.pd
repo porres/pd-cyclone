@@ -1,4 +1,4 @@
-#N canvas 521 50 558 592 10;
+#N canvas 682 54 558 592 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
 #X obj 2 371 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -27,7 +27,7 @@
 #X text 146 418 bang;
 #X text 146 438 bang;
 #X text 115 469 1) symbol;
-#N canvas 653 116 651 579 All_Messages 0;
+#N canvas 653 116 651 579 All_Messages 1;
 #X text 119 181 length -;
 #X text 131 241 next -;
 #X text 131 301 open -;
@@ -118,8 +118,6 @@ from [coll], f 67;
 #X text 53 106 filetype <symbol> -;
 #X text 77 91 embed <float> -;
 #X text 23 151 insert <int \, anything> -;
-#X text 176 106 sets file type to read/writte (no symbol restores to
-default), f 64;
 #X text 176 136 sets an address to go to (only sets the pointer \,
 no output);
 #X text 176 151 an int address and any message to insert \, increments
@@ -133,6 +131,8 @@ use 'embed' instead), f 74;
 #X text 65 406 renumber2 <int> -;
 #X text 176 406 increments int addresses by one \, starting from the
 given address (default 0), f 78;
+#X text 176 106 sets file type to read/write (no symbol restores to
+default), f 64;
 #X restore 358 349 pd All_Messages;
 #X text 106 348 messages;
 #X obj 249 194 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
@@ -417,12 +417,12 @@ in the collection to the left outlet.;
 #X msg 509 100 store A 0 1 2 3 4 5 \, store 1 A B C D E F;
 #X obj 636 186 hradio 15 1 0 6 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
-#X floatatom 636 232 3 0 0 0 - - -, f 3;
+#X floatatom 636 232 3 0 0 0 - - -;
 #X msg 636 254 nth 1 \$1;
 #X obj 636 208 + 1;
 #X obj 564 154 hradio 15 1 0 6 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
-#X floatatom 564 200 3 0 0 0 - - -, f 3;
+#X floatatom 564 200 3 0 0 0 - - -;
 #X obj 564 176 + 1;
 #X msg 564 222 nth A \$1;
 #X text 594 364 <= nth;
@@ -544,8 +544,8 @@ substituted message \, while "nsub" doesn't.;
 #X obj 199 341 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 224 191 symbol gain;
-#X symbolatom 222 316 6 0 0 0 - - -, f 6;
-#X floatatom 76 240 3 0 0 0 - - -, f 3;
+#X symbolatom 222 316 6 0 0 0 - - -;
+#X floatatom 76 240 3 0 0 0 - - -;
 #X text 88 265 data;
 #X msg 241 237 symbol freq;
 #X text 228 172 addresses:;
@@ -904,8 +904,8 @@ name address instead of the int address.;
 #C restore;
 #X obj 531 166 loadbang;
 #X msg 561 235 one;
-#X floatatom 151 300 3 0 0 0 - - -, f 3;
-#X symbolatom 128 326 7 0 0 0 - - -, f 7;
+#X floatatom 151 300 3 0 0 0 - - -;
+#X symbolatom 128 326 7 0 0 0 - - -;
 #X text 125 77 click to associate / deassociate;
 #X text 177 300 <= address is still an int;
 #X text 255 315 not the alias;
