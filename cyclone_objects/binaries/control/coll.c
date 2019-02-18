@@ -33,6 +33,7 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #define COLLTHREAD 1 //default is threaded
 #define COLLEMBED 0 //default for save in patch
 #define COLL_ALLBANG 1 //bang all when read instead of specific object
+#define COLL_FILENAME 100 //filename max size
 
 enum { COLL_HEADRESET,
        COLL_HEADNEXT, COLL_HEADPREV,  /* distinction not used, currently */
@@ -76,36 +77,37 @@ typedef struct _coll_q    		/* element in a linked list of stored messages waiti
 
 typedef struct _coll
 {
-    t_object       x_ob;
-    t_canvas      *x_canvas;
-    t_symbol      *x_name;
-    t_collcommon  *x_common;
-    t_hammerfile  *x_filehandle;
-    t_outlet      *x_keyout;
-    t_outlet      *x_filebangout;
-    t_outlet      *x_dumpbangout;
-    int           x_threaded;
-    int           x_nosearch;
-    int           x_initread; //if we're reading a file for the first time
-    int           x_filebang; //if we're expecting to bang out 3rd outlet
-    struct _coll  *x_next;
+  t_object       x_ob;
+  t_canvas      *x_canvas;
+  t_symbol      *x_name;
+  t_collcommon  *x_common;
+  t_hammerfile  *x_filehandle;
+  t_outlet      *x_keyout;
+  t_outlet      *x_filebangout;
+  t_outlet      *x_dumpbangout;
+  int           x_threaded;
+  int           x_nosearch;
+  int           x_initread; //if we're reading a file for the first time
+  int           x_filebang; //if we're expecting to bang out 3rd outlet
+  struct _coll  *x_next;
 
 	//for thread-unsafe file i/o operations
 	//added by Ivica Ico Bukvic <ico@vt.edu> 9-24-2010
 	//http://disis.music.vt.edu http://l2ork.music.vt.edu
-	t_clock *x_clock;
+  t_clock *x_clock;
 
-	pthread_t unsafe_t;
-	pthread_mutex_t unsafe_mutex;
-	pthread_cond_t unsafe_cond;
+  pthread_t unsafe_t;
+  pthread_mutex_t unsafe_mutex;
+  pthread_cond_t unsafe_cond;
+  
+  t_symbol *x_s;
+  t_symbol      *x_fileext; 
+  t_int unsafe;
+  t_int init; //used to make sure that the secondary thread is ready to go
 
-	t_symbol *x_s;
-	t_int unsafe;
-	t_int init; //used to make sure that the secondary thread is ready to go
+  t_int threaded; //used to decide whether this should be a threaded instance
 
-	t_int threaded; //used to decide whether this should be a threaded instance
-
-	t_coll_q *x_q; //a list of error messages to be processed
+  t_coll_q *x_q; //a list of error messages to be processed
 } t_coll;
 
 typedef struct _msg
@@ -1903,21 +1905,28 @@ static void coll_write(t_coll *x, t_symbol *s)
 	if (!x->unsafe) {
 		t_collcommon *cc = x->x_common;
 		if (s && s != &s_) {
-			x->x_s = s;
-			if (x->x_threaded == 1) {
-				x->unsafe = 10;
-
-				pthread_mutex_lock(&x->unsafe_mutex);
-				pthread_cond_signal(&x->unsafe_cond);
-				pthread_mutex_unlock(&x->unsafe_mutex);
-				//collcommon_dowrite(cc, s, x->x_canvas, 0);
-			}
-			else {
-				collcommon_dowrite(cc, s, x->x_canvas, 0);
-			}
+		  char buf[MAXPDSTRING];
+		  if(x->x_fileext != &s_)
+		    {
+		      strncpy(buf, s->s_name, MAXPDSTRING - 5); // period + 3 char ext + null
+		      strcat(buf, x->x_fileext->s_name);
+		      x->x_s = gensym(buf);
+		    }
+		  else x->x_s = s;
+		  if (x->x_threaded == 1) {
+		    x->unsafe = 10;
+		    
+		    pthread_mutex_lock(&x->unsafe_mutex);
+		    pthread_cond_signal(&x->unsafe_cond);
+		    pthread_mutex_unlock(&x->unsafe_mutex);
+		    //collcommon_dowrite(cc, s, x->x_canvas, 0);
+		  }
+		  else {
+		    collcommon_dowrite(cc, s, x->x_canvas, 0);
+		  }
 		}
 		else
-			hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKED no default name */
+		  hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKED no default name */
 	}
 }
 
@@ -1973,6 +1982,16 @@ static void coll_writeagain(t_coll *x)
 static void coll_filetype(t_coll *x, t_symbol *s)
 {
     /* dummy */
+  if(s != &s_)
+    {
+      if(strcmp(s -> s_name, "text") == 0) x->x_fileext = gensym(".txt");
+      else if(strcmp(s -> s_name, "csv") == 0) x->x_fileext = gensym(".csv");
+      else x->x_fileext = &s_;
+    }
+  else
+    {
+      x->x_fileext = &s_;
+    };
 }
 
 static void coll_dump(t_coll *x)
