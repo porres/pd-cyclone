@@ -33,7 +33,7 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #define COLLTHREAD 1 //default is threaded
 #define COLLEMBED 0 //default for save in patch
 #define COLL_ALLBANG 1 //bang all when read instead of specific object
-#define COLL_FILENAME 100 //filename max size
+
 
 enum { COLL_HEADRESET,
        COLL_HEADNEXT, COLL_HEADPREV,  /* distinction not used, currently */
