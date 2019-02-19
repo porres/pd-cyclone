@@ -11,7 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "m_pd.h"
-//#include <common/api.h>
+#include <common/api.h>
 #include "g_canvas.h"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
@@ -30,8 +30,7 @@ static t_class *makeshift_class;
 #define COMMENT_OUTBUFSIZE  1000
 #define COMMENT_NUMCOLORS   3
 
-typedef struct _comment
-{
+typedef struct _comment{
     t_object   x_ob;
     t_glist   *x_glist;
     t_canvas  *x_canvas;
@@ -634,6 +633,36 @@ static void comment_free(t_comment *x){
         freebytes(x->x_textbuf, x->x_textbufsize);
 }
 
+static void comment_append(t_comment *x, t_symbol *s, int argc, t_atom * argv){
+    t_symbol *dummy = s;
+    dummy = NULL;
+    t_binbuf *bb = binbuf_new();
+    binbuf_restore(bb, argc, argv);
+    binbuf_addbinbuf(x->x_binbuf, bb);
+    t_text *t = (t_text *)x;
+    t->te_binbuf = x->x_binbuf;
+    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
+    sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
+    canvas_dirty(x->x_glist, 1);
+    comment_draw(x);
+}
+
+static void comment_prepend(t_comment *x, t_symbol *s, int argc, t_atom * argv){
+    t_symbol *dummy = s;
+    dummy = NULL;
+    t_binbuf *bb = binbuf_new();
+    binbuf_restore(bb, argc, argv);
+    binbuf_addbinbuf(bb, x->x_binbuf);
+    binbuf_clear(x->x_binbuf);
+    binbuf_addbinbuf(x->x_binbuf, bb);
+    t_text *t = (t_text *)x;
+    t->te_binbuf = x->x_binbuf;
+    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
+    sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
+    canvas_dirty(x->x_glist, 1);
+    comment_draw(x);
+}
+
 static void comment_set(t_comment *x, t_symbol *s, int argc, t_atom * argv){
     t_symbol *dummy = s;
     dummy = NULL;
@@ -674,15 +703,6 @@ static void comment_fontsize(t_comment *x, t_floatarg f){
     comment_draw(x);
 }
 
-
-/*static void comment_append(t_comment *x, t_symbol *s, int argc, t_atom * argv){
- // not yet
- }
- 
- static void comment_prepend(t_comment *x, t_symbol *s, int argc, t_atom * argv){
- // not yet
- }*/
-
 /* placeholders
 static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3){
     x->x_bgcolor[0] = f1;
@@ -708,35 +728,20 @@ static void comment_suppressinlet(t_comment *x, t_float f){
 
 //end new method placeholders */
 
-/*static void comment_properties(t_gobj *z, t_glist *owner){
+static void comment_properties(t_gobj *z, t_glist *owner){
+    t_glist *dummy = owner;
+    dummy = NULL;
     t_comment *x = (t_comment *)z;
-    int bgcol, grcol, fgcol;
-    bgcol = ((int)x->x_bgrgb[0] << 16) + ((int)x->x_bgrgb[1] << 8) + (int)x->x_bgrgb[2];
-    grcol = ((int)x->x_grrgb[0] << 16) + ((int)x->x_grrgb[1] << 8) + (int)x->x_grrgb[2];
-    fgcol = ((int)x->x_fgrgb[0] << 16) + ((int)x->x_fgrgb[1] << 8) + (int)x->x_fgrgb[2];
+    int color = 0;
+    color = ((int)x->x_red << 16) + ((int)x->x_green << 8) + (int)x->x_blue;
     char buf[1000];
     sprintf(buf, "::dialog_comment::pdtk_comment_dialog %%s \
-            dim %d wdt: %d hgt: \
-            buf %d cal: %d bfs: \
-            rng %g min: %g max: \
-            del %d del: drs %d drs: \
-            trg %d tmd: %g tlv: \
-            dim_mins %d %d \
-            cal_min_max %d %d bfs_min_max %d %d \
-            del_mins %d \
-            #%06x #%06x #%06x\n",
-            x->x_width, x->x_height,
-            x->x_period, x->x_bufsize,
-            x->x_minval, x->x_maxval,
-            x->x_delay, x->x_drawstyle,
-            x->x_trigmode, x->x_triglevel,
-            comment_MINWIDTH, comment_MINHEIGHT,
-            comment_MINPERIOD, comment_MAXPERIOD,
-            comment_MINBUFSIZE, comment_MAXBUFSIZE,
-            comment_MINDELAY,
-            bgcol, grcol, fgcol);
-    gfxstub_new(&x->x_obj.ob_pd, x, buf);
-}*/
+            trg %s tmd: %d tlv: \
+            #%06x\n",
+            x->x_fontfamily->s_name, x->x_fontsize, color);
+    post("%s", buf);
+//    gfxstub_new(&x->x_ob.ob_pd, x, buf);
+}
 
 static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
     t_atom* comlist = t_getbytes(argc * sizeof(*comlist));
@@ -974,7 +979,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     return (x);
 }
 
-/*CYCLONE_OBJ_API*/ void comment_setup(void){
+CYCLONE_OBJ_API void comment_setup(void){
     comment_class = class_new(gensym("comment"), (t_newmethod)comment_new, (t_method)comment_free,
                               sizeof(t_comment), CLASS_DEFAULT, A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
@@ -989,6 +994,10 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                     gensym("fontsize"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_set,
                     gensym("set"), A_GIMME, 0);
+    class_addmethod(comment_class, (t_method)comment_append,
+                    gensym("append"), A_GIMME, 0);
+    class_addmethod(comment_class, (t_method)comment_prepend,
+                    gensym("prepend"), A_GIMME, 0);
     /* new methods 2017: currently do nothing - DK
     class_addmethod(comment_class, (t_method)comment_bgcolor,
                     gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT,0);
@@ -1000,10 +1009,6 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                     gensym("underline"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_suppressinlet,
                     gensym("suppressinlet"), A_FLOAT, 0);
-    class_addmethod(comment_class, (t_method)comment_append,
-                    gensym("append"), A_GIMME, 0);
-    class_addmethod(comment_class, (t_method)comment_prepend,
-                    gensym("prepend"), A_GIMME, 0);
          // now back to pre-existing methods */
     class_addmethod(comment_class, (t_method)comment__bboxhook,
                     gensym("_bbox"),
@@ -1018,7 +1023,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     
     class_setsavefn(comment_class, comment_save);
     
-//    class_setpropertiesfn(comment_class, comment_properties);
+    class_setpropertiesfn(comment_class, comment_properties);
     
     makeshift_class = class_new(gensym("text"), 0, 0,
                                 sizeof(t_text), CLASS_NOINLET | CLASS_PATCHABLE, 0);
@@ -1060,7 +1065,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
             set tt1 [comment_entext $enc $tt]\n\
             if {$wd > 0} {$cv itemconfig $tag -text $tt1 -width $wd} else {\n\
             $cv itemconfig $tag -text $tt1}}\n");
-    
+
 //    #include "comment_dialog.c"
 }
 
