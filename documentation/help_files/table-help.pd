@@ -1,30 +1,30 @@
-#N canvas 589 74 560 466 10;
-#X obj 3 217 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 609 128 560 496 10;
+#X obj 3 247 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 337 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 367 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 409 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X obj 3 439 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 86 225 cnv 17 3 86 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 255 cnv 17 3 86 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 346 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 376 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 86 315 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 86 345 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 3 440 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 3 470 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 159 224 -;
-#X text 129 224 bang;
-#X text 159 250 -;
-#X text 122 250 float;
-#X text 159 277 -;
-#X text 128 277 list;
-#X text 159 296 -;
-#X text 174 296 see:;
-#X text 159 316 -;
-#X text 122 316 float;
-#X text 159 347 -;
-#X text 122 347 float;
+#X text 159 254 -;
+#X text 129 254 bang;
+#X text 159 280 -;
+#X text 122 280 float;
+#X text 159 307 -;
+#X text 128 307 list;
+#X text 159 326 -;
+#X text 174 326 see:;
+#X text 159 346 -;
+#X text 122 346 float;
+#X text 159 377 -;
+#X text 122 377 float;
 #X obj 3 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -35,13 +35,13 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 2 pd;
-#X obj 278 136 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 261 146 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 203 135 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 186 145 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 203 195 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 186 220 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#N canvas 585 23 640 610 All_Messages 0;
+#N canvas 570 98 640 610 All_Messages 0;
 #X text 145 48 outputs the stored numbers on the left outlet, f 78
 ;
 #X text 96 4 clear -;
@@ -135,7 +135,7 @@ message"), f 78;
 ;
 #X text 145 171 finds the first table value which is >= the float and
 sends its address, f 78;
-#X restore 201 296 pd All_Messages;
+#X restore 201 326 pd All_Messages;
 #X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
 number array;
 #X obj 17 3 cyclone/comment 0 37 times ? 0 0 0 0 table;
@@ -161,20 +161,20 @@ you create it as:;
 #C restore;
 #X obj 255 274 Table;
 #C restore;
-#X restore 457 193 pd name clash;
-#X obj 3 370 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X restore 460 222 pd name clash;
+#X obj 3 400 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X text 159 377 -;
-#X text 98 377 1) symbol;
-#X text 174 316 sets value (y) to be stored at the index sent to left
+#X text 159 407 -;
+#X text 98 407 1) symbol;
+#X text 174 346 sets value (y) to be stored at the index sent to left
 inlet, f 61;
-#X text 174 277 a pair of index (x) and its value (y): sets "y" to
+#X text 174 307 a pair of index (x) and its value (y): sets "y" to
 "x", f 61;
-#X text 104 296 messages;
+#X text 104 326 messages;
 #X text 61 83 [table] stores and edits a number array. You can graphically
 edit it by opening it or double clicking on it. There are also several
 message methods \, check it below., f 65;
-#N canvas 918 31 320 167 examples 0;
+#N canvas 624 647 350 203 examples 0;
 #N canvas 708 23 454 597 load/normal 0;
 #X obj 109 286 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -230,7 +230,7 @@ of operation.;
 #X connect 18 0 16 0;
 #X connect 20 0 16 0;
 #X connect 21 0 16 0;
-#X restore 96 56 pd load/normal modes;
+#X restore 118 61 pd load/normal modes;
 #N canvas 435 199 831 484 argument/attributes 0;
 #X obj 89 277 cyclone/table x;
 #C restore;
@@ -304,7 +304,7 @@ table object has its contents stored.;
 #X connect 19 0 18 0;
 #X connect 22 0 25 0;
 #X connect 23 0 22 0;
-#X restore 96 80 pd argument/attributes;
+#X restore 118 85 pd argument/attributes;
 #N canvas 428 43 550 603 basic_examples 0;
 #X msg 190 164 const 23;
 #X text 248 164 <= populate the table with a constant value, f 21
@@ -360,7 +360,7 @@ and doesn't store anything., f 70;
 #X connect 20 0 23 0;
 #X connect 21 0 20 1;
 #X connect 22 0 20 0;
-#X restore 96 34 pd basic_examples;
+#X restore 118 39 pd basic_examples;
 #N canvas 450 98 782 429 more_examples 0;
 #X obj 60 300 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -412,7 +412,7 @@ sends its address, f 37;
 #X text 429 45 random + quantile;
 #X msg 102 235 send x 3;
 #X obj 270 255 receive x;
-#X floatatom 270 280 5 0 0 0 - - -, f 5;
+#X floatatom 270 280 5 0 0 0 - - -;
 #X text 160 234 send value of index 3 to "x";
 #X msg 142 361 refer x;
 #X obj 142 388 cyclone/table;
@@ -441,26 +441,25 @@ object with that name, f 77;
 #X connect 33 0 15 0;
 #X connect 34 0 35 0;
 #X connect 37 0 38 0;
-#X restore 96 103 pd more_examples;
-#X restore 469 173 pd examples;
-#X text 335 126 value stored at the index received in the left inlet
+#X restore 118 108 pd more_examples;
+#X restore 472 181 pd examples;
+#X text 318 136 value stored at the index received in the left inlet
 , f 22;
-#X text 290 169 <= click to open;
-#X text 79 133 index to output its value or store from right inlet
+#X text 62 134 index to output its value or store from right inlet
 value, f 19;
-#X text 174 224 same as the quantile message with a random number between
+#X text 174 254 same as the quantile message with a random number between
 0 and 32768 as an argument (see quantile in [pd All_Messages]), f
 61;
-#X text 174 250 index (x): outputs its value or stores the value from
+#X text 174 280 index (x): outputs its value or stores the value from
 the right inlet (if given) at that index, f 61;
-#X text 174 347 index values or else depending on the given message
+#X text 174 377 index values or else depending on the given message
 , f 62;
-#X text 172 377 sets table name - if two or more [table] objects share
+#X text 172 407 sets table name - if two or more [table] objects share
 the same name \, they also share the same values (default: none),
 f 61;
-#X text 102 418 @size <float> (default 128) | @name <symbol> | @embed
+#X text 102 448 @size <float> (default 128) | @name <symbol> | @embed
 <float> (default 0), f 73;
-#X obj 203 169 cyclone/table;
+#X obj 186 194 cyclone/table;
 #C size 128;
 #C flags 1 0 0 0;
 #C tabrange 2;
@@ -470,6 +469,20 @@ f 61;
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
 #C restore;
-#X connect 23 0 48 1;
-#X connect 24 0 48 0;
-#X connect 48 0 25 0;
+#N canvas 701 503 450 281 inconsistencies 0;
+#X text 68 44 Note that [cyclone/table] has inconsistencies to the
+original Max object. In cyclone the edit window is not a graph \, but
+a list of numbers., f 55;
+#X text 68 130 This makes attributes like @range \, @Signed & @notename
+not relevsant \, so they are missing. The @parameter sttribute also
+seems pointless in Pd., f 55;
+#X text 68 176 The get/setbits messages are not actually implemented
+in cyclone yet \, but it seems to be buggy in Max anyway.;
+#X text 68 85 This makes attributes like @range \, @signed & @notename
+not relevsant \, so they are missing. The @parameter sttribute also
+seems pointless in Pd., f 55;
+#X restore 430 202 pd inconsistencies;
+#X text 81 193 click to open =>;
+#X connect 23 0 47 1;
+#X connect 24 0 47 0;
+#X connect 47 0 25 0;
