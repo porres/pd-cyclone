@@ -33,7 +33,7 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #define COLLTHREAD 1 //default is threaded
 #define COLLEMBED 0 //default for save in patch
 #define COLL_ALLBANG 1 //bang all when read instead of specific object
-
+#define COLL_MAXEXTLEN 4 //maximum file extension length
 
 enum { COLL_HEADRESET,
        COLL_HEADNEXT, COLL_HEADPREV,  /* distinction not used, currently */
@@ -1908,7 +1908,8 @@ static void coll_write(t_coll *x, t_symbol *s)
 		  char buf[MAXPDSTRING];
 		  if(x->x_fileext != &s_)
 		    {
-		      strncpy(buf, s->s_name, MAXPDSTRING - 5); // period + 3 char ext + null
+		      strncpy(buf, s->s_name, MAXPDSTRING - COLL_MAXEXTLEN - 1); //need space for period
+		      strcat(buf, ".");
 		      strcat(buf, x->x_fileext->s_name);
 		      x->x_s = gensym(buf);
 		    }
@@ -1979,19 +1980,33 @@ static void coll_writeagain(t_coll *x)
 	//}
 }
 
-static void coll_filetype(t_coll *x, t_symbol *s)
+static void coll_filetype(t_coll *x, t_symbol *s, int argc, t_atom * argv)
 {
     /* dummy */
-  if(s != &s_)
+  int ext_set = 0;
+
+  if(argc > 0)
     {
-      if(strcmp(s -> s_name, "text") == 0) x->x_fileext = gensym(".txt");
-      else if(strcmp(s -> s_name, "csv") == 0) x->x_fileext = gensym(".csv");
-      else x->x_fileext = &s_;
-    }
-  else
-    {
-      x->x_fileext = &s_;
+
+      if(argv[0].a_type == A_SYMBOL)
+	{
+	  t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
+
+
+	  if(cursym != &s_)
+	    {
+
+	      if(strlen(cursym->s_name) <= COLL_MAXEXTLEN)
+		{
+
+		  x->x_fileext = cursym;
+		  ext_set = 1;
+		};
+	    };
+	};
     };
+  if(ext_set <= 0) x->x_fileext = &s_;
+
 }
 
 static void coll_dump(t_coll *x)
@@ -2389,7 +2404,7 @@ CYCLONE_OBJ_API void coll_setup(void)
     class_addmethod(coll_class, (t_method)coll_writeagain,
 		    gensym("writeagain"), 0);
     class_addmethod(coll_class, (t_method)coll_filetype,
-		    gensym("filetype"), A_SYMBOL, 0); // dummy
+		    gensym("filetype"), A_GIMME, 0); 
     class_addmethod(coll_class, (t_method)coll_dump,
 		    gensym("dump"), 0);
     class_addmethod(coll_class, (t_method)coll_open,
