@@ -18,7 +18,7 @@
 #X restore 304 5 pd;
 #X text 145 159 <= the default comment box from [cyclone/comment];
 #X obj 96 160 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
-#N canvas 510 281 815 444 details/examples 0;
+#N canvas 319 143 802 522 details/examples 0;
 #X obj 127 275 cyclone/comment 0 50 helvetica ? 0 0 0 0 Comment;
 #X text 44 362 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
@@ -40,6 +40,10 @@ you can send messages to it via a [send] object., f 52;
 #X obj 550 256 s comment;
 #X msg 590 206 set comment;
 #X msg 579 169 set hi \, append there;
+#X text 208 441 This object is not being updated to Max6+ versions
+and it still misses functionalities from Max 5 \, namely: properties
+(bold/italic/bold-italic) \, * textjustification \, * underline and
+background color.;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
