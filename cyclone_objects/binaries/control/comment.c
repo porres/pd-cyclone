@@ -11,7 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "m_pd.h"
-#include <common/api.h>
+//#include <common/api.h>
 #include "g_canvas.h"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
@@ -79,85 +79,71 @@ static t_pd *commentsink = 0;
 
 static void comment_receive(t_comment *x, t_symbol *s){
     if(s != &s_){
-        if(x->x_receive_sym != &s_)
-            pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
+        if(x->x_receive_sym != &s_) pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
         pd_bind(&x->x_ob.ob_pd, x->x_receive_sym = s);
     }
 }
 
 static void comment_draw(t_comment *x){
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
-    unsigned long cvid = (unsigned long)x->x_canvas;
-    int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
-/*    if(reqsize > COMMENT_OUTBUFSIZE){
+    unsigned long cv = (unsigned long)x->x_canvas;
+    int reqsize = x->x_textbufsize + 250;  // FIXME estimation
+    if(reqsize > COMMENT_OUTBUFSIZE){ // <= seems unnecessary (porres)
         // #ifdef COMMENT_DEBUG
         // post("allocating %d outbuf bytes", reqsize);
          // #endif
-        if (!(outbuf = getbytes(reqsize)))
+        if(!(outbuf = getbytes(reqsize)))
             return;
     }
-    else*/
-    outbuf = buf;
-    outp = outbuf;
+    outp = outbuf = buf;
     sprintf(outp, "comment_draw %s .x%lx.c %s %s %f %f %s -%d %s %s {%.*s} %d\n",
-            x->x_bindsym->s_name,
-            cvid,
-            x->x_texttag,
-            x->x_tag,
+            x->x_bindsym->s_name, cv, x->x_texttag, x->x_tag,
             (float)(text_xpix((t_text *)x, x->x_glist) + COMMENT_LMARGIN),
             (float)(text_ypix((t_text *)x, x->x_glist) + COMMENT_TMARGIN),
-            x->x_fontfamily->s_name,
-            x->x_fontsize,
+            x->x_fontfamily->s_name, x->x_fontsize,
             (glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color),
             "\"\"", // encoding
-            x->x_textbufsize,
-            x->x_textbuf,
-            x->x_pixwidth);
+            x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
     x->x_bbpending = 1;
     sys_gui(outbuf);
-    if(outbuf != buf)
-        freebytes(outbuf, reqsize);
+    if(outbuf != buf) freebytes(outbuf, reqsize);
 }
 
 static void comment_update(t_comment *x){
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
-    unsigned long cvid = (unsigned long)x->x_canvas;
-    int reqsize = x->x_textbufsize + 250;  /* FIXME estimation */
-    if (reqsize > COMMENT_OUTBUFSIZE){
+    unsigned long cv = (unsigned long)x->x_canvas;
+    int reqsize = x->x_textbufsize + 250;  // FIXME estimation
+    if (reqsize > COMMENT_OUTBUFSIZE){ // <= seems unnecessary (porres)
         /* #ifdef COMMENT_DEBUG
          post("allocating %d outbuf bytes", reqsize);
          #endif */
-        if (!(outbuf = getbytes(reqsize)))
+        if(!(outbuf = getbytes(reqsize)))
             return;
     }
-    else outbuf = buf;
-    outp = outbuf;
-    sprintf(outp, "comment_update .x%lx.c %s %s {%.*s} %d\n", cvid,
+    outp = outbuf = buf;
+    sprintf(outp, "comment_update .x%lx.c %s %s {%.*s} %d\n", cv,
             x->x_texttag, (x->x_encoding ? x->x_encoding->s_name : "\"\""),
             x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
     outp += strlen(outp);
-    if (x->x_active){
-        if (x->x_selend > x->x_selstart){
-            sprintf(outp, ".x%lx.c select from %s %d\n",
-                    cvid, x->x_texttag, x->x_selstart);
+    if(x->x_active){
+        if(x->x_selend > x->x_selstart){
+            sprintf(outp, ".x%lx.c select from %s %d\n", cv, x->x_texttag, x->x_selstart);
             outp += strlen(outp);
-            sprintf(outp, ".x%lx.c select to %s %d\n",
-                    cvid, x->x_texttag, x->x_selend);
+            sprintf(outp, ".x%lx.c select to %s %d\n", cv, x->x_texttag, x->x_selend);
             outp += strlen(outp);
-            sprintf(outp, ".x%lx.c focus {}\n", cvid);
+            sprintf(outp, ".x%lx.c focus {}\n", cv);
         }
         else{
-            sprintf(outp, ".x%lx.c select clear\n", cvid);
+            sprintf(outp, ".x%lx.c select clear\n", cv);
             outp += strlen(outp);
-            sprintf(outp, ".x%lx.c icursor %s %d\n",
-                    cvid, x->x_texttag, x->x_selstart);
+            sprintf(outp, ".x%lx.c icursor %s %d\n", cv, x->x_texttag, x->x_selstart);
             outp += strlen(outp);
-            sprintf(outp, ".x%lx.c focus %s\n", cvid, x->x_texttag);
+            sprintf(outp, ".x%lx.c focus %s\n", cv, x->x_texttag);
         }
         outp += strlen(outp);
     }
     sprintf(outp, "comment_bbox %s .x%lx.c %s\n",
-            x->x_bindsym->s_name, cvid, x->x_texttag);
+            x->x_bindsym->s_name, cv, x->x_texttag);
     x->x_bbpending = 1;
     sys_gui(outbuf);
     if (outbuf != buf) freebytes(outbuf, reqsize);
@@ -168,8 +154,7 @@ static void comment_validate(t_comment *x, t_glist *glist){
         t_text *t = (t_text *)x;
         binbuf_free(t->te_binbuf);
         t->te_binbuf = x->x_binbuf;
-        if (x->x_textbuf)
-            freebytes(x->x_textbuf, x->x_textbufsize);
+        if(x->x_textbuf) freebytes(x->x_textbuf, x->x_textbufsize);
         binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
         x->x_ready = 1;
         /* #ifdef COMMENT_DEBUG
@@ -177,7 +162,7 @@ static void comment_validate(t_comment *x, t_glist *glist){
          #endif */
     }
     if(glist){
-        if (glist != x->x_glist){
+        if(glist != x->x_glist){
             post("bug [comment]: comment_getcanvas");
             x->x_glist = glist;
         }
@@ -219,18 +204,17 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
     t_symbol *dummy = s;
     dummy = NULL;
     int xx, yy, ndx;
-    if (ac == 8 && av->a_type == A_SYMBOL
-        && av[1].a_type == A_FLOAT && av[2].a_type == A_FLOAT
-        && av[3].a_type == A_FLOAT
-        && av[4].a_type == A_FLOAT && av[5].a_type == A_FLOAT
-        && av[6].a_type == A_FLOAT && av[7].a_type == A_FLOAT)
-    {
+    if(ac == 8 && av->a_type == A_SYMBOL
+       && av[1].a_type == A_FLOAT && av[2].a_type == A_FLOAT
+       && av[3].a_type == A_FLOAT
+       && av[4].a_type == A_FLOAT && av[5].a_type == A_FLOAT
+       && av[6].a_type == A_FLOAT && av[7].a_type == A_FLOAT){
         xx = (int)av[1].a_w.w_float;
         yy = (int)av[2].a_w.w_float;
         ndx = (int)av[3].a_w.w_float;
         comment__bboxhook(x, av->a_w.w_symbol,
-            av[4].a_w.w_float, av[5].a_w.w_float,
-            av[6].a_w.w_float, av[7].a_w.w_float);
+                          av[4].a_w.w_float, av[5].a_w.w_float,
+                          av[6].a_w.w_float, av[7].a_w.w_float);
     }
     else{
         post("bug [comment]: comment__clickhook");
@@ -245,20 +229,20 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
                 comment_update(x);
             }
         }
-        else if (xx > x->x_x2 - COMMENT_HANDLEWIDTH){ // start resizing
+        else if(xx > x->x_x2 - COMMENT_HANDLEWIDTH){ // start resizing
             char buf[COMMENT_OUTBUFSIZE], *outp = buf;
-            unsigned long cvid = (unsigned long)x->x_canvas;
+            unsigned long cv = (unsigned long)x->x_canvas;
             sprintf(outp, ".x%lx.c bind %s <ButtonRelease> \
-                    {pdsend {%s _release %s}}\n", cvid, x->x_texttag,
+                    {pdsend {%s _release %s}}\n", cv, x->x_texttag,
                     x->x_bindsym->s_name, x->x_bindsym->s_name);
             outp += strlen(outp);
             sprintf(outp, ".x%lx.c bind %s <Motion> \
-                    {pdsend {%s _motion %s %%x %%y}}\n", cvid, x->x_texttag,
+                    {pdsend {%s _motion %s %%x %%y}}\n", cv, x->x_texttag,
                     x->x_bindsym->s_name, x->x_bindsym->s_name);
             outp += strlen(outp);
             sprintf(outp, ".x%lx.c create rectangle %d %d %d %d -outline blue \
                     -tags {%s %s}\n",
-                    cvid, x->x_x1, x->x_y1, x->x_x2, x->x_y2,
+                    cv, x->x_x1, x->x_y1, x->x_x2, x->x_y2,
                     x->x_outlinetag, x->x_tag);
             sys_gui(buf);
             x->x_newx2 = x->x_x2;
@@ -269,10 +253,10 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
 
 static void comment__releasehook(t_comment *x, t_symbol *bindsym){
     bindsym = NULL;
-    unsigned long cvid = (unsigned long)x->x_canvas;
-    sys_vgui(".x%lx.c bind %s <ButtonRelease> {}\n", cvid, x->x_texttag);
-    sys_vgui(".x%lx.c bind %s <Motion> {}\n", cvid, x->x_texttag);
-    sys_vgui(".x%lx.c delete %s\n", cvid, x->x_outlinetag);
+    unsigned long cv = (unsigned long)x->x_canvas;
+    sys_vgui(".x%lx.c bind %s <ButtonRelease> {}\n", cv, x->x_texttag);
+    sys_vgui(".x%lx.c bind %s <Motion> {}\n", cv, x->x_texttag);
+    sys_vgui(".x%lx.c delete %s\n", cv, x->x_outlinetag);
     x->x_dragon = 0;
     if(x->x_newx2 != x->x_x2){
         x->x_pixwidth = x->x_newx2 - x->x_x1;
@@ -284,24 +268,25 @@ static void comment__releasehook(t_comment *x, t_symbol *bindsym){
 static void comment__motionhook(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
     bindsym = NULL;
     yy = 0;
-    unsigned long cvid = (unsigned long)x->x_canvas;
+    unsigned long cv = (unsigned long)x->x_canvas;
     if(xx > x->x_x1 + COMMENT_MINWIDTH)
-        sys_vgui(".x%lx.c coords %s %d %d %d %d\n", cvid, x->x_outlinetag,
-                 x->x_x1, x->x_y1, x->x_newx2 = xx, x->x_y2);
+        sys_vgui(".x%lx.c coords %s %d %d %d %d\n", cv, x->x_outlinetag,
+            x->x_x1, x->x_y1, x->x_newx2 = xx, x->x_y2);
 }
 
 static void commentsink__bboxhook(t_pd *x, t_symbol *bindsym,
 t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
     x1 = x2 = y1 = y2 = 0;
-    if(bindsym->s_thing == x){  /* is the comment gone? */
-        pd_unbind(x, bindsym);  /* if so, no need for this binding anymore */
+    if(bindsym->s_thing == x){
+        pd_unbind(x, bindsym);  // if comment gone, unbind
         /* #ifdef COMMENT_DEBUG
          post("sink: %s unbound", bindsym->s_name);
          #endif */
     }
 }
 
-static void commentsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av){ // nop
+static void commentsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av){
+    // nop (just avoid Pd warnings)
     x = NULL;
     s = NULL;
     ac = (int)av;
@@ -312,16 +297,15 @@ static void comment_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *
     int width,  height;
     float x1, y1, x2, y2;
     comment_validate(x, glist);
-    if ((width = x->x_pixwidth) < 1)
-        // FIXME estimation
+    if((width = x->x_pixwidth) < 1) // FIXME estimation
         width = x->x_fontsize * x->x_textbufsize;
     width += COMMENT_LMARGIN + COMMENT_RMARGIN;
     // FIXME estimation
     height = x->x_fontsize + COMMENT_TMARGIN + COMMENT_BMARGIN;
     x1 = text_xpix((t_text *)x, glist);
-    y1 = text_ypix((t_text *)x, glist) + 1;  /* LATER revisit */
+    y1 = text_ypix((t_text *)x, glist) + 1;  // LATER revisit
     x2 = x1 + width;
-    y2 = y1 + height - 2;  /* LATER revisit */
+    y2 = y1 + height - 2;  // LATER revisit
     // #ifdef COMMENT_DEBUG
     // post("estimated rectangle: %g %g %g %g", x1, y1, x2, y2);
     // #endif
@@ -333,18 +317,18 @@ static void comment_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *
 
 static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy){
     t_comment *x = (t_comment *)z;
-    if (!x->x_active && !x->x_dragon){  /* LATER rethink */
+    if(!x->x_active && !x->x_dragon){  // LATER rethink
         t_text *t = (t_text *)z;
         comment_validate(x, glist);
         t->te_xpix += dx;
         t->te_ypix += dy;
-        if (x->x_bbset){
+        if(x->x_bbset){
             x->x_x1 += dx;
             x->x_y1 += dy;
             x->x_x2 += dx;
             x->x_y2 += dy;
         }
-        if (glist_isvisible(glist)){
+        if(glist_isvisible(glist)){
             t_canvas *cv = glist_getcanvas(glist);
             sys_vgui(".x%lx.c move %s %d %d\n", x->x_canvas, x->x_tag, dx, dy);
             canvas_fixlinesfor(cv, t);
@@ -381,9 +365,9 @@ static void comment_activate(t_gobj *z, t_glist *glist, int state){
 static void comment_select(t_gobj *z, t_glist *glist, int state){
     t_comment *x = (t_comment *)z;
     comment_validate(x, glist);
-    if (!state && x->x_active) comment_activate(z, glist, 0);
+    if(!state && x->x_active) comment_activate(z, glist, 0);
     sys_vgui(".x%lx.c itemconfigure %s -fill %s\n", x->x_canvas,
-             x->x_texttag, (state ? "blue" : x->x_color));
+        x->x_texttag, (state ? "blue" : x->x_color));
     /* A regular rtext should now set 'canvas_editing' variable to its canvas,
      but we do not do that, because we get the keys through a global binding
      to "#key" (and because 'canvas_editing' is not exported). */
@@ -396,16 +380,8 @@ static void comment_delete(t_gobj *z, t_glist *glist){
 static void comment_vis(t_gobj *z, t_glist *glist, int vis){
     t_comment *x = (t_comment *)z;
     comment_validate(x, glist);
-    if (vis){
-        /* We do not need no rtext -- we are never 'textedfor' (thus
-         avoiding rtext calls).  Creating an rtext has no other purpose
-         than complying to a Pd's assumption about every visible object
-         having an rtext (thus preventing canvas_doclick() from sending
-         garbage warnings).  LATER revisit. */
-            comment_draw(x);
-    }
-    else
-        sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
+    if(vis) comment_draw(x);
+    else sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
 }
 
 /*
@@ -437,8 +413,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
     atom_string(binbuf_getvec(binbuf) + i, buf, 80);
     atom_string(binbuf_getvec(b) + i, buf, 80);
     receive = gensym(buf);*/
-    if(receive == &s_)
-        receive = gensym("?");
+    if(receive == &s_) receive = gensym("?");
     binbuf_addv(b, "ssiisiissiiii",
                 gensym("#X"),
                 gensym("obj"),
@@ -452,12 +427,11 @@ static void comment_save(t_gobj *z, t_binbuf *b){
                 (int)x->x_red,
                 (int)x->x_green,
                 (int)x->x_blue);
-    binbuf_addbinbuf(b, t->te_binbuf); // comment
+    binbuf_addbinbuf(b, t->te_binbuf); // the actual comment
     binbuf_addv(b, ";");
 }
 
-static t_widgetbehavior comment_widgetbehavior =
-{
+static t_widgetbehavior comment_widgetbehavior ={
     comment_getrect,
     comment_displace,
     comment_select,
@@ -473,11 +447,10 @@ static void comment_transtick(t_comment *x){
 }
 
 // what follows is basically the original code of rtext_key()
-
 static void comment_float(t_comment *x, t_float f){
-    if (x->x_active){
+    if(x->x_active){
         int keynum = (int)f;
-        if (keynum){
+        if(keynum){
             int i, newsize, ndel;
             int n = keynum;
             if (n == '\r') n = '\n';
@@ -497,14 +470,13 @@ static void comment_float(t_comment *x, t_float f){
             newsize = x->x_textbufsize - ndel;
             x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
             x->x_textbufsize = newsize;
-            if (n == '\n' || !iscntrl(n)){
+            if(n == '\n' || !iscntrl(n)){
                 /* #ifdef COMMENT_DEBUG
                  post("%d accepted", n);
                  #endif */
                 newsize = x->x_textbufsize+1;
-                x->x_textbuf = resizebytes(x->x_textbuf,
-                                           x->x_textbufsize, newsize);
-                for (i = x->x_textbufsize; i > x->x_selstart; i--)
+                x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
+                for(i = x->x_textbufsize; i > x->x_selstart; i--)
                     x->x_textbuf[i] = x->x_textbuf[i-1];
                 x->x_textbuf[x->x_selstart] = n;
                 x->x_textbufsize = newsize;
@@ -603,8 +575,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av){
             binbuf_free(bb);
             goto donelist;
         }
-        else
-            goto donelist;
+        else goto donelist;
         comment_update(x);
     }
 donelist:;
@@ -618,19 +589,15 @@ static void comment_free(t_comment *x){
         pd_unbind((t_pd *)x, gensym("#key"));
         pd_unbind((t_pd *)x, gensym("#keyname"));
     }
-    if(x->x_receive_sym != &s_)
-        pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
-    if (x->x_transclock)
-        clock_free(x->x_transclock);
+    if(x->x_receive_sym != &s_) pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
+    if (x->x_transclock) clock_free(x->x_transclock);
     if(x->x_bindsym){
         pd_unbind((t_pd *)x, x->x_bindsym);
         if(!x->x_bbpending)
             pd_unbind(commentsink, x->x_bindsym);
     }
-    if (x->x_binbuf && !x->x_ready)
-        binbuf_free(x->x_binbuf);
-    if (x->x_textbuf)
-        freebytes(x->x_textbuf, x->x_textbufsize);
+    if(x->x_binbuf && !x->x_ready) binbuf_free(x->x_binbuf);
+    if(x->x_textbuf) freebytes(x->x_textbuf, x->x_textbufsize);
 }
 
 static void comment_append(t_comment *x, t_symbol *s, int argc, t_atom * argv){
@@ -724,10 +691,9 @@ static void comment_underline(t_comment *x, t_float f){
 
 static void comment_suppressinlet(t_comment *x, t_float f){
     x->x_suppressinlet = f == 0 ? 0 : 1;
-}
+} */
 
-//end new method placeholders */
-
+/* properites: not yet
 static void comment_properties(t_gobj *z, t_glist *owner){
     t_glist *dummy = owner;
     dummy = NULL;
@@ -741,7 +707,7 @@ static void comment_properties(t_gobj *z, t_glist *owner){
             x->x_fontfamily->s_name, x->x_fontsize, color);
     post("%s", buf);
 //    gfxstub_new(&x->x_ob.ob_pd, x, buf);
-}
+} */
 
 static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
     t_atom* comlist = t_getbytes(argc * sizeof(*comlist));
@@ -760,18 +726,14 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                         int fontsize = (int)argv[i].a_w.w_float;
                         x->x_fontsize = fontsize;
                     }
-                    else
-                        i--;
+                    else i--;
                 };
             }
             else if(!strcmp(cursym->s_name, "@fontname")){
                 i++;
                 if((argc-i) > 0){
-                    if(argv[i].a_type == A_SYMBOL){
-                        x->x_fontfamily = argv[i].a_w.w_symbol;
-                    }
-                    else
-                        i--;
+                    if(argv[i].a_type == A_SYMBOL) x->x_fontfamily = argv[i].a_w.w_symbol;
+                    else i--;
                 };
             }
             else if(!strcmp(cursym->s_name, "@receive")){
@@ -779,8 +741,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                 if((argc-i) > 0){
                     if(argv[i].a_type == A_SYMBOL)
                         comment_receive(x, atom_getsymbolarg(0, argc, argv));
-                    else
-                        i--;
+                    else i--;
                 };
             }
             else if(!strcmp(cursym->s_name, "@textcolor")){
@@ -791,8 +752,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                         x->x_red = rgb;
                         sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
                     }
-                    else
-                        i--;
+                    else i--;
                 };
                 if((argc-i) > 0){
                     if(argv[i].a_type == A_FLOAT){
@@ -801,8 +761,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                         x->x_green = rgb;
                         sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
                     }
-                    else
-                        i--;
+                    else i--;
                 };
                 if((argc-i) > 0){
                     if(argv[i].a_type == A_FLOAT){
@@ -811,8 +770,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                         x->x_blue = rgb;
                         sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
                     }
-                    else
-                        i--;
+                    else i--;
                 };
             }
             else if(!strcmp(cursym->s_name, "@text")){
@@ -822,8 +780,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                         SETSYMBOL(&comlist[comlen], argv[i].a_w.w_symbol);
                         comlen++;
                     }
-                    else
-                        i--;
+                    else i--;
                 };
             }
 /*            else if(strcmp(cursym->s_name, "@bgcolor") == 0){ // new attributes
@@ -887,7 +844,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                         i--;
                 };
             } */
-            else{ //treat it as a part of comlist
+            else{ // treat it as a part of comlist
                 SETSYMBOL(&comlist[comlen], cursym);
                 comlen++;
             };
@@ -963,23 +920,20 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
             }
         }
     }
-    if(x->x_fontsize < 1)
-        x->x_fontsize = glist_getfont(x->x_glist);
-    if(!x->x_fontfamily)
-        x->x_fontfamily = gensym("helvetica");
+    if(x->x_fontsize < 1) x->x_fontsize = glist_getfont(x->x_glist);
+    if(!x->x_fontfamily) x->x_fontfamily = gensym("helvetica");
     sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
     x->x_binbuf = binbuf_new();
-    if(ac)
-        comment_attrparser(x, ac, av);
+    if(ac) comment_attrparser(x, ac, av);
     else{
         t_atom at;
         SETSYMBOL(&at, gensym("comment"));
         binbuf_restore(x->x_binbuf, 1, &at);
     }
-    return (x);
+    return(x);
 }
 
-CYCLONE_OBJ_API void comment_setup(void){
+/*CYCLONE_OBJ_API*/ void comment_setup(void){
     comment_class = class_new(gensym("comment"), (t_newmethod)comment_new, (t_method)comment_free,
                               sizeof(t_comment), CLASS_DEFAULT, A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
@@ -1021,9 +975,8 @@ CYCLONE_OBJ_API void comment_setup(void){
                     gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
     
+//    class_setpropertiesfn(comment_class, comment_properties);
     class_setsavefn(comment_class, comment_save);
-    
-    class_setpropertiesfn(comment_class, comment_properties);
     
     makeshift_class = class_new(gensym("text"), 0, 0,
                                 sizeof(t_text), CLASS_NOINLET | CLASS_PATCHABLE, 0);
@@ -1065,7 +1018,7 @@ CYCLONE_OBJ_API void comment_setup(void){
             set tt1 [comment_entext $enc $tt]\n\
             if {$wd > 0} {$cv itemconfig $tag -text $tt1 -width $wd} else {\n\
             $cv itemconfig $tag -text $tt1}}\n");
-
+    
 //    #include "comment_dialog.c"
 }
 
