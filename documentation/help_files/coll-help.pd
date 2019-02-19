@@ -27,112 +27,117 @@
 #X text 146 418 bang;
 #X text 146 438 bang;
 #X text 115 469 1) symbol;
-#N canvas 653 116 651 579 All_Messages 1;
-#X text 119 181 length -;
-#X text 131 241 next -;
-#X text 131 301 open -;
-#X text 131 316 prev -;
-#X text 77 331 read <symbol> -;
-#X text 101 346 readagain -;
-#X text 71 361 refer <symbol> -;
-#X text 125 451 start -;
-#X text 17 496 subsym <symbol \, symbol> -;
-#X text 119 527 wclose -;
-#X text 176 528 closes the data window containing the collection;
-#X text 71 542 write <symbol> -;
-#X text 95 557 writeagain -;
-#X text 176 331 opens file specified by the symbol (without a symbol
-\, a dialog window opens), f 77;
-#X text 41 436 sort <float \, float> -;
-#X text 176 542 saves file specified by the symbol (without a symbol
-\, a dialog window opens), f 76;
-#X text 176 496 substitutes an address symbol (2nd element) by the
-first given symbol, f 75;
-#X text 17 211 merge <int/symbol \, any> -;
-#X text 176 241 same as bang: outputs next address and its data;
-#X text 179 316 outputs previous address and its data, f 49;
-#X text 176 346 reopen last file - if no file had been open \, a dialog
-box is shown, f 77;
-#X text 41 376 remove <int/symbol> -;
-#X text 176 557 resaves last file - if no file had been saved \, a
+#N canvas 653 116 669 588 All_Messages 0;
+#X text 117 187 length -;
+#X text 129 247 next -;
+#X text 129 307 open -;
+#X text 129 322 prev -;
+#X text 75 337 read <symbol> -;
+#X text 99 352 readagain -;
+#X text 69 367 refer <symbol> -;
+#X text 123 457 start -;
+#X text 15 502 subsym <symbol \, symbol> -;
+#X text 117 533 wclose -;
+#X text 174 534 closes the data window containing the collection,
+f 79;
+#X text 69 548 write <symbol> -;
+#X text 93 563 writeagain -;
+#X text 174 337 opens file specified by the symbol (without a symbol
+\, a dialog window opens), f 79;
+#X text 39 442 sort <float \, float> -;
+#X text 174 548 saves file specified by the symbol (without a symbol
+\, a dialog window opens), f 79;
+#X text 174 502 substitutes an address symbol (2nd element) by the
+first given symbol, f 79;
+#X text 15 217 merge <int/symbol \, any> -;
+#X text 174 247 same as bang: outputs next address and its data, f
+79;
+#X text 174 322 outputs previous address and its data, f 79;
+#X text 174 352 reopen last file - if no file had been open \, a dialog
+box is shown, f 79;
+#X text 39 382 remove <int/symbol> -;
+#X text 174 563 resaves last file - if no file had been saved \, a
 dialog box is shown, f 79;
-#X text 71 421 separate <int> -;
-#X text 176 482 same as nsub \, but the substituted message is sent
-out;
-#X text 176 166 same as insert \, but only increments if necessary
-to include the new address, f 75;
-#X text 17 166 insert2 <int \, anything> -;
-#X text 5 271 nstore <int \, symbol \, any> -;
-#X text 17 511 swap <int/sym \, int/sym> -;
-#X text 176 180 sends number of stored values to the left outlet;
-#X text 176 211 sets address and any message to be appended to the
-stored message, f 65;
-#X text 29 256 nth <int/symbol \, int> -;
-#X text 89 226 min <float> -;
-#X text 176 196 sends max value of all <nth> elements (starts at 1
-\, default) on left outlet, f 76;
-#X text 176 226 sends min value of all <nth> elements (starts at 1
-\, default) on left outlet, f 77;
-#X text 176 510 swaps data between two addresses;
-#X text 101 196 max <int> -;
-#X text 176 271 or <symbol \, int \, any>: stores any data to an int
-address with a symbol alias, f 77;
-#X text 11 286 nsub <int/sym \, int \, any> -;
-#X text 176 256 address and nth element to be output (starts at 1)
+#X text 69 427 separate <int> -;
+#X text 174 488 same as nsub \, but the substituted message is sent
+out, f 79;
+#X text 174 172 same as insert \, but only increments if necessary
+to include the new address, f 79;
+#X text 15 172 insert2 <int \, anything> -;
+#X text 3 277 nstore <int \, symbol \, any> -;
+#X text 15 517 swap <int/sym \, int/sym> -;
+#X text 174 186 sends number of stored values to the left outlet,
+f 79;
+#X text 174 217 sets address and any message to be appended to the
+stored message, f 79;
+#X text 27 262 nth <int/symbol \, int> -;
+#X text 87 232 min <float> -;
+#X text 174 202 sends max value of all <nth> elements (starts at 1
+\, default) on left outlet, f 79;
+#X text 174 232 sends min value of all <nth> elements (starts at 1
+\, default) on left outlet, f 79;
+#X text 174 517 swaps data between two addresses, f 79;
+#X text 99 202 max <int> -;
+#X text 174 277 or <symbol \, int \, any>: stores any data to an int
+address with a symbol alias, f 79;
+#X text 9 292 nsub <int/sym \, int \, any> -;
+#X text 174 262 address and nth element to be output (starts at 1)
+, f 79;
+#X text 174 293 the address \, an element (starts at 1) and any value
+to substitute it to, f 79;
+#X text 174 307 opens the window with the data collection (allows manual
+data editing), f 79;
+#X text 174 367 refers to the data from another [coll] object with
+that symbol name, f 79;
+#X text 174 382 removes address and its data without renumbering (unlike
+delete), f 79;
+#X text 69 397 renumber <int> -;
+#X text 174 397 lists int addresses consecutively \, argument sets
+starting value (default 0), f 79;
+#X text 174 426 increments by 1 addresses from the given <int> and
+above (opening a slot), f 79;
+#X text 33 472 store <int/sym \, any> -;
+#X text 174 472 int or symbol address and any message to be stored
+at it, f 79;
+#X text 15 487 sub <int/sym \, int \, any> -;
+#X text 174 457 sets the pointer to the first entry/address, f 79
 ;
-#X text 175 287 the address \, an element (starts at 1) and any value
-to substitute it to, f 71;
-#X text 176 301 opens the window with the data collection (allows manual
-data editing), f 76;
-#X text 176 361 refers to the data from another [coll] object with
-that symbol name, f 67;
-#X text 176 376 removes address and its data without renumbering (unlike
-delete), f 77;
-#X text 71 391 renumber <int> -;
-#X text 176 391 lists int addresses consecutively \, argument sets
-starting value (default 0), f 76;
-#X text 176 420 increments by 1 addresses from the given <int> and
-above (opening a slot), f 76;
-#X text 35 466 store <int/sym \, any> -;
-#X text 176 466 int or symbol address and any message to be stored
-at it;
-#X text 17 481 sub <int/sym \, int \, any> -;
-#X text 176 451 sets the pointer to the first entry/address;
-#X text 176 436 <flag> -1: ascending / 1: descending \, <sort element>
-from 0 (-1 is address), f 77;
-#X text 131 61 dump -;
-#X text 41 1 assoc <symbol \, int> -;
-#X text 29 31 deassoc <symbol \, int> -;
-#X text 177 61 dumps all values (1st outlet) \, addresses (2nd) and
-bangs (4th) when done, f 72;
-#X text 41 46 delete <int/symbol> -;
-#X text 176 1 associates a symbol alias to an int address, f 67;
-#X text 176 31 desassociates the symbol alias of an int address, f
-67;
-#X text 176 46 deletes the address (if an int \, higher addresses are
-decremented by 1), f 71;
-#X text 125 16 clear -;
-#X text 176 16 deletes all adresses (the complete data collection)
-from [coll], f 67;
-#X text 137 76 end -;
-#X text 53 106 filetype <symbol> -;
-#X text 77 91 embed <float> -;
-#X text 23 151 insert <int \, anything> -;
-#X text 176 136 sets an address to go to (only sets the pointer \,
-no output);
-#X text 176 151 an int address and any message to insert \, increments
+#X text 174 442 <flag> -1: ascending / 1: descending \, <sort element>
+from 0 (-1 is address), f 79;
+#X text 129 67 dump -;
+#X text 39 7 assoc <symbol \, int> -;
+#X text 27 37 deassoc <symbol \, int> -;
+#X text 174 67 dumps all values (1st outlet) \, addresses (2nd) and
+bangs (4th) when done, f 79;
+#X text 39 52 delete <int/symbol> -;
+#X text 174 7 associates a symbol alias to an int address, f 79;
+#X text 174 37 desassociates the symbol alias of an int address, f
+79;
+#X text 174 52 deletes the address (if an int \, higher addresses are
+decremented by 1), f 79;
+#X text 123 22 clear -;
+#X text 174 22 deletes all adresses (the complete data collection)
+from [coll], f 79;
+#X text 135 82 end -;
+#X text 51 112 filetype <symbol> -;
+#X text 75 97 embed <float> -;
+#X text 21 157 insert <int \, anything> -;
+#X text 174 142 sets an address to go to (only sets the pointer \,
+no output), f 79;
+#X text 174 157 an int address and any message to insert \, increments
 equal/greater addresses, f 79;
-#X text 35 121 flags <float \, float> -;
-#X text 176 91 <1> saves contents whith the patch \, <0> doesn't;
-#X text 176 121 first flag is the embed flag \, second is unused (just
-use 'embed' instead), f 74;
-#X text 53 136 goto <int/symbol> -;
-#X text 176 76 sets the pointer to the last entry/address;
-#X text 65 406 renumber2 <int> -;
-#X text 176 406 increments int addresses by one \, starting from the
-given address (default 0), f 78;
-#X text 176 106 sets file type to read/write (no symbol restores to
-default), f 64;
+#X text 33 127 flags <float \, float> -;
+#X text 174 97 <1> saves contents whith the patch \, <0> doesn't,
+f 79;
+#X text 174 127 first flag is the embed flag \, second is unused (just
+use 'embed' instead), f 79;
+#X text 51 142 goto <int/symbol> -;
+#X text 174 82 sets the pointer to the last entry/address, f 79;
+#X text 63 412 renumber2 <int> -;
+#X text 174 412 increments int addresses by one \, starting from the
+given address (default 0), f 79;
+#X text 174 112 sets file type to read/write (no symbol sets no extension:
+default), f 79;
 #X restore 358 349 pd All_Messages;
 #X text 106 348 messages;
 #X obj 249 194 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -228856
