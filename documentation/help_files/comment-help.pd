@@ -1,4 +1,4 @@
-#N canvas 544 48 559 487 10;
+#N canvas 421 94 559 487 10;
 #X obj 3 247 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 376 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -41,9 +41,9 @@ you can send messages to it via a [send] object., f 52;
 #X msg 590 206 set comment;
 #X msg 579 169 set hi \, append there;
 #X text 208 441 This object is not being updated to Max6+ versions
-and it still misses functionalities from Max 5 \, namely: properties
-(bold/italic/bold-italic) \, * textjustification \, * underline and
-background color.;
+and it still misses functionalities from Max 5 \, namely: underline
+and background color. It also has inconsistencies like different attributes
+than the original object in Max.;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
