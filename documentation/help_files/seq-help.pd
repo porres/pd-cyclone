@@ -1,4 +1,4 @@
-#N canvas 592 134 559 540 10;
+#N canvas 674 56 559 540 10;
 #X obj 2 209 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 431 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -301,6 +301,13 @@ clock tick;
 #X connect 15 0 10 0;
 #X restore 492 179 pd start;
 #X obj 219 156 cyclone/seq seq.mid;
+#N canvas 884 433 512 150 inconsistencies 0;
+#X text 86 39 The [seq] object doesn not have a "dump" message in cyclone.
+;
+#X text 87 65 Since Max 7.3.2 \, there's support for MIDI Type 1 (separate
+information for each track). Cyclone already did load this kind of
+file but it doesn't save to type 1!;
+#X restore 432 136 pd inconsistencies;
 #X connect 7 0 55 0;
 #X connect 27 0 55 0;
 #X connect 55 0 8 0;
