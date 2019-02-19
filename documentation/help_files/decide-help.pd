@@ -34,7 +34,7 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X text 63 87 [decide] alternates randomly from 1 to 0 (the sequence
+#X text 89 87 [decide] alternates randomly from 1 to 0 (the sequence
 depends on the seed value).;
 #X text 173 249 randomly choose between 0 or 1, f 60;
 #X obj 326 155 cyclone/decide;
@@ -45,7 +45,7 @@ depends on the seed value).;
 #X obj 326 183 select 0 1;
 #X obj 291 183 tgl 17 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
-#X floatatom 291 209 2 0 0 0 - - -, f 2;
+#X floatatom 291 209 2 0 0 0 - - -;
 #X text 173 289 sets the seed for the random number generator. 0 will
 use a random seed \, any other integer float is the seed, f 60;
 #X text 173 339 0 or 1 \, chosen randomly, f 60;
@@ -66,8 +66,9 @@ cloned from Max/MSP;
 #X text 158 361 -;
 #X text 118 361 float;
 #X text 173 361 sets seed, f 60;
-#X text 172 398 sets the seed - default 0;
 #X text 174 267 same as bang;
+#X text 172 398 sets the seed - default 0 (this is inconsistent to
+max);
 #X connect 24 0 27 0;
 #X connect 24 0 28 0;
 #X connect 27 0 25 0;
