@@ -124,6 +124,21 @@ typedef struct _threadedFunctionParams
 static t_class *coll_class;
 static t_class *collcommon_class;
 
+
+// if fileext is set, append it
+static t_symbol * coll_fullfilename(t_coll *x, t_symbol * filename)
+{
+  char buf[MAXPDSTRING];
+  if(x->x_fileext != &s_)
+    {
+      strncpy(buf, filename->s_name, MAXPDSTRING - COLL_MAXEXTLEN - 1); //need space for period
+      strcat(buf, ".");
+      strcat(buf, x->x_fileext->s_name);
+      return gensym(buf);
+    }
+  else return filename;
+}
+
 /// Porres: de-louding in a lazy way
 
 void coll_messarg(t_pd *x, t_symbol *s){
@@ -1876,7 +1891,7 @@ static void coll_read(t_coll *x, t_symbol *s)
 	if (!x->unsafe) {
 		t_collcommon *cc = x->x_common;
 		if (s && s != &s_) {
-			x->x_s = s;
+			x->x_s = coll_fullfilename(x,s);
 			if (x->x_threaded == 1) {
 				x->unsafe = 1;
 
@@ -1905,15 +1920,7 @@ static void coll_write(t_coll *x, t_symbol *s)
 	if (!x->unsafe) {
 		t_collcommon *cc = x->x_common;
 		if (s && s != &s_) {
-		  char buf[MAXPDSTRING];
-		  if(x->x_fileext != &s_)
-		    {
-		      strncpy(buf, s->s_name, MAXPDSTRING - COLL_MAXEXTLEN - 1); //need space for period
-		      strcat(buf, ".");
-		      strcat(buf, x->x_fileext->s_name);
-		      x->x_s = gensym(buf);
-		    }
-		  else x->x_s = s;
+		  x->x_s = coll_fullfilename(x,s);
 		  if (x->x_threaded == 1) {
 		    x->unsafe = 10;
 		    
