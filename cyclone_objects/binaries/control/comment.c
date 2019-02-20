@@ -400,35 +400,25 @@ static void iemgui_init_sym2dollararg(t_iemgui *iemgui, t_symbol **symp,
         else *symp = gensym("empty");
     }
 }*/
-
-
-static void comment_getarg(t_comment *x, t_floatarg f){
-    int i = (int)f;
-    if(i < 0) i = 0;
-    t_atom *a = binbuf_getvec(x->x_ob.ob_binbuf);
-    char buf[80];
-    atom_string(a + i, buf, 80);
-    post("%s", gensym(buf));
-}
+ 
 
 static void comment_save(t_gobj *z, t_binbuf *b){
     t_comment *x = (t_comment *)z;
     t_text *t = (t_text *)x;
     comment_validate(x, 0);
-
-    t_symbol *receive = x->x_receive_sym == &s_ ? gensym("?") : x->x_receive_sym;
-    
-    t_atom *a = binbuf_getvec(x->x_ob.ob_binbuf);
+    t_symbol *receive = x->x_receive_sym;
+/*    t_binbuf *binbuf = x->x_ob.ob_binbuf;
     char buf[80];
-    atom_string(a + 3, buf, 80);
-    receive = gensym(buf);
-    
+    t_int i = 3;
+    atom_string(binbuf_getvec(binbuf) + i, buf, 80);
+    atom_string(binbuf_getvec(b) + i, buf, 80);
+    receive = gensym(buf);*/
+    if(receive == &s_) receive = gensym("?");
     binbuf_addv(b, "ssiisiissiiii",
                 gensym("#X"),
                 gensym("obj"),
                 (int)t->te_xpix,
-                (int)t->te_ypix,
-                x->x_selector,
+                (int)t->te_ypix, x->x_selector,
                 x->x_pixwidth,
                 x->x_fontsize,
                 x->x_fontfamily,
@@ -729,7 +719,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
         }
         else if(argv[i].a_type == A_SYMBOL){
             t_symbol * cursym = argv[i].a_w.w_symbol;
-            if(strcmp(cursym->s_name, "@fontsize") == 0){
+            if(!strcmp(cursym->s_name, "@fontsize")){
                 i++;
                 if((argc-i) > 0){
                     if(argv[i].a_type == A_FLOAT){
@@ -750,7 +740,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                 i++;
                 if((argc-i) > 0){
                     if(argv[i].a_type == A_SYMBOL)
-                        comment_receive(x, atom_getsymbolarg(0, argc, argv));
+                        comment_receive(x, atom_getsymbolarg(i, argc, argv));
                     else i--;
                 };
             }
@@ -948,8 +938,6 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                               sizeof(t_comment), CLASS_DEFAULT, A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
     class_addlist(comment_class, comment_list);
-    class_addmethod(comment_class, (t_method)comment_getarg,
-                    gensym("arg"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_textcolor,
                     gensym("textcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_fontname,
