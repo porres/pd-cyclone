@@ -2253,6 +2253,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv)
     t_coll *x = (t_coll *)pd_new(coll_class);
     
     t_symbol *file = NULL;
+    x->x_fileext = &s_;
     x->x_canvas = canvas_getcurrent();
     outlet_new((t_object *)x, &s_);
     x->x_keyout = outlet_new((t_object *)x, &s_);
