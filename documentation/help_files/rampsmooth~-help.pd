@@ -23,7 +23,6 @@
 ;
 #X obj 98 532 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X text 181 531 signal;
 #X text 188 507 float;
 #X obj 157 236 sig~;
 #X obj 157 195 tgl 20 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
@@ -70,12 +69,13 @@ cloned from Max/MSP;
 linear ramp of the given 'n' samples to reach this value. It is also
 useful for envelope following and lowpass filtering.;
 #X obj 499 69 cyclone/setdsp~;
-#X connect 18 0 29 0;
-#X connect 19 0 18 0;
-#X connect 20 0 29 2;
-#X connect 21 0 29 1;
-#X connect 22 0 21 0;
+#X text 188 531 float;
+#X connect 17 0 28 0;
+#X connect 18 0 17 0;
+#X connect 19 0 28 2;
+#X connect 20 0 28 1;
+#X connect 21 0 20 0;
+#X connect 22 0 19 0;
 #X connect 23 0 20 0;
-#X connect 24 0 21 0;
-#X connect 25 0 20 0;
-#X connect 29 0 39 0;
+#X connect 24 0 19 0;
+#X connect 28 0 38 0;
