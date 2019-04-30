@@ -227,8 +227,10 @@ static void mousestate_poll(t_mousestate *x)
 
 static void mousestate_nopoll(t_mousestate *x)
 {
-    hammergui_stoppolling((t_pd *)x);
-    x->x_ispolling = 0;
+    if(x->x_ispolling){
+        hammergui_stoppolling((t_pd *)x);
+        x->x_ispolling = 0;
+    }
 }
 
 static void mousestate_zero(t_mousestate *x)
