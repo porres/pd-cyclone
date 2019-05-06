@@ -64,6 +64,7 @@ typedef struct _comment{
     int        x_active;
     int        x_ready;
     t_symbol  *x_receive_sym;
+    t_symbol  *x_rcv_unexpanded;
     t_symbol  *x_selector;
 /* new args that currently do nothing - DK 2017
     t_float     x_bgcolor[COMMENT_NUMCOLORS];
@@ -78,7 +79,7 @@ static t_class *commentsink_class;
 static t_pd *commentsink = 0;
 
 static void comment_receive(t_comment *x, t_symbol *s){
-    t_symbol *rcv = canvas_realizedollar(x->x_glist, s);
+    t_symbol *rcv = canvas_realizedollar(x->x_glist, x->x_rcv_unexpanded = s);
     if(rcv != &s_){
         if(x->x_receive_sym != &s_)
             pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
@@ -429,7 +430,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
     atom_string(binbuf_getvec(b) + i, buf, 80);
     receive = gensym(buf);*/
     
-    t_symbol *receive = x->x_receive_sym;
+    t_symbol *receive = x->x_rcv_unexpanded;
     if(receive == &s_) receive = gensym("?");
     binbuf_addv(b, "ssiisiissiiii",
                 gensym("#X"),
@@ -892,7 +893,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
     x->x_bbset = x->x_ready = x->x_dragon = 0;
     x->x_selector = s;
-    x->x_receive_sym = &s_;
+    x->x_receive_sym = x->x_rcv_unexpanded = &s_;
     x->x_transclock = clock_new(x, (t_method)comment_transtick);
     char buf[32];
     sprintf(buf, "comment%lx", (unsigned long)x);
