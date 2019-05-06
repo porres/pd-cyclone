@@ -65,6 +65,7 @@ typedef struct _comment{
     int        x_ready;
     t_symbol  *x_receive_sym;
     t_symbol  *x_rcv_unexpanded;
+    int        x_rcv_set;
     t_symbol  *x_selector;
 /* new args that currently do nothing - DK 2017
     t_float     x_bgcolor[COMMENT_NUMCOLORS];
@@ -85,6 +86,11 @@ static void comment_receive(t_comment *x, t_symbol *s){
             pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
         pd_bind(&x->x_obj.ob_pd, x->x_receive_sym = rcv);
     }
+}
+
+static void comment_set_receive(t_note *x, t_symbol *s){
+    x->x_rcv_set = 1;
+    comment_receive(x, s);
 }
 
 static void comment_draw(t_comment *x){
@@ -413,17 +419,16 @@ static void comment_save(t_gobj *z, t_binbuf *b){
     
     t_binbuf *bb = x->x_obj.te_binbuf;
     
-/*     post("binbuf_getnatom(bb) = %d", binbuf_getnatom(bb));
-    if(binbuf_getnatom(bb) > 0){ // there's an arg in binbuf, get it
-        char buf[80];
-        for(int i = 0; i < binbuf_getnatom(bb); i++){
-            post("i = %d", i);
-            atom_string(binbuf_getvec(bb) + i, buf, 80);
-            post("buf = %s", gensym(buf)->s_name);
+    if(!x->x_rcv_set){ // if no receive name received, search arguments
+        int arg_n = 4; // receive argument number
+        if(binbuf_getnatom(bb) >= arg_n){ // we have it, get it
+            char buf[80];
+            atom_string(binbuf_getvec(bb) + arg_n, buf, 80);
+            x->x_rcv_unexpanded = gensym(buf);
         }
     }
     
-   t_binbuf *binbuf = x->x_obj.ob_binbuf;
+   /* t_binbuf *binbuf = x->x_obj.ob_binbuf;
     char buf[80];
     t_int i = 3;
     atom_string(binbuf_getvec(binbuf) + i, buf, 80);
@@ -431,7 +436,8 @@ static void comment_save(t_gobj *z, t_binbuf *b){
     receive = gensym(buf);*/
     
     t_symbol *receive = x->x_rcv_unexpanded;
-    if(receive == &s_) receive = gensym("?");
+    if(receive == &s_)
+        receive = gensym("?");
     binbuf_addv(b, "ssiisiissiiii",
                 gensym("#X"),
                 gensym("obj"),
@@ -890,6 +896,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_encoding = x->x_fontfamily = 0;
     x->x_canvas = 0;
     x->x_textbuf = 0;
+    x->x_rcv_set = 0;
     x->x_pixwidth = x->x_fontsize = x->x_fontprops = x->x_bbpending = 0;
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
     x->x_bbset = x->x_ready = x->x_dragon = 0;
