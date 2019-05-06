@@ -11,7 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "m_pd.h"
-//#include <common/api.h>
+#include <common/api.h>
 #include "g_canvas.h"
 
 /* our proxy of the text_class (not in the API), LATER do not cheat */
@@ -151,10 +151,11 @@ static void comment_update(t_comment *x){
 
 static void comment_validate(t_comment *x, t_glist *glist){
     if(!x->x_ready){
-        t_text *t = (t_text *)x;
-        binbuf_free(t->te_binbuf);
-        t->te_binbuf = x->x_binbuf;
-        if(x->x_textbuf) freebytes(x->x_textbuf, x->x_textbufsize);
+//        t_text *t = (t_text *)x;
+//        binbuf_free(t->te_binbuf);
+//        t->te_binbuf = x->x_binbuf;
+        if(x->x_textbuf)
+            freebytes(x->x_textbuf, x->x_textbufsize);
         binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
         x->x_ready = 1;
         /* #ifdef COMMENT_DEBUG
@@ -427,7 +428,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
                 (int)x->x_red,
                 (int)x->x_green,
                 (int)x->x_blue);
-    binbuf_addbinbuf(b, t->te_binbuf); // the actual comment
+    binbuf_addbinbuf(b, x->x_binbuf); // the actual comment
     binbuf_addv(b, ";");
 }
 
@@ -606,8 +607,8 @@ static void comment_append(t_comment *x, t_symbol *s, int argc, t_atom * argv){
     t_binbuf *bb = binbuf_new();
     binbuf_restore(bb, argc, argv);
     binbuf_addbinbuf(x->x_binbuf, bb);
-    t_text *t = (t_text *)x;
-    t->te_binbuf = x->x_binbuf;
+//    t_text *t = (t_text *)x;
+//    t->te_binbuf = x->x_binbuf;
     binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
     sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
     canvas_dirty(x->x_glist, 1);
@@ -622,8 +623,8 @@ static void comment_prepend(t_comment *x, t_symbol *s, int argc, t_atom * argv){
     binbuf_addbinbuf(bb, x->x_binbuf);
     binbuf_clear(x->x_binbuf);
     binbuf_addbinbuf(x->x_binbuf, bb);
-    t_text *t = (t_text *)x;
-    t->te_binbuf = x->x_binbuf;
+//    t_text *t = (t_text *)x;
+//    t->te_binbuf = x->x_binbuf;
     binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
     sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
     canvas_dirty(x->x_glist, 1);
@@ -635,8 +636,8 @@ static void comment_set(t_comment *x, t_symbol *s, int argc, t_atom * argv){
     dummy = NULL;
     binbuf_clear(x->x_binbuf);
     binbuf_restore(x->x_binbuf, argc, argv);
-    t_text *t = (t_text *)x;
-    t->te_binbuf = x->x_binbuf;
+//    t_text *t = (t_text *)x;
+//    t->te_binbuf = x->x_binbuf;
     binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
     sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
     canvas_dirty(x->x_glist, 1);
@@ -894,9 +895,10 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                 x->x_fontfamily = av->a_w.w_symbol;
                 ac--; av++;
                 if(ac && av->a_type == A_SYMBOL){ // 4TH RECEIVE
-                    if (av->a_w.w_symbol != gensym("?")){ //  '?' sets empty receive symbol
+                    if(av->a_w.w_symbol != gensym("?")){ //  '?' sets empty receive symbol
                         comment_receive(x, av->a_w.w_symbol);
-                        ac--; av++;
+                        ac--;
+                        av++;
                     }
                     else{
                         ac--; av++;
@@ -934,7 +936,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     return(x);
 }
 
-/*CYCLONE_OBJ_API*/ void comment_setup(void){
+void comment_setup(void){
     comment_class = class_new(gensym("comment"), (t_newmethod)comment_new, (t_method)comment_free,
                               sizeof(t_comment), CLASS_DEFAULT, A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
