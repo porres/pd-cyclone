@@ -1,4 +1,4 @@
-#N canvas 624 90 559 487 10;
+#N canvas 540 77 559 487 10;
 #X obj 3 247 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 376 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -18,7 +18,7 @@
 #X restore 304 5 pd;
 #X text 145 159 <= the default comment box from [cyclone/comment];
 #X obj 96 160 cyclone/comment 0 10 helvetica ? 0 0 0 0 comment;
-#N canvas 416 153 845 519 details/examples 0;
+#N canvas 531 114 845 519 details/examples 0;
 #X obj 127 275 cyclone/comment 0 50 helvetica ? 0 0 0 0 Comment;
 #X text 44 362 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
@@ -31,13 +31,10 @@ into a Pd's comment box.;
 #X msg 205 230 textcolor 150 100 50;
 #X text 35 28 You can also edit the properties of [comment] with messages.
 ;
-#X text 446 37 The [comment] object below has a receive symbol \, so
-you can send messages to it via a [send] object., f 52;
 #X msg 550 104 textcolor 200 0 0;
 #X msg 569 132 textcolor 0 0 0;
-#X obj 461 314 cyclone/comment 0 50 helvetica comment 0 200 0 0 this
-comment;
-#X obj 550 256 s comment;
+#X obj 461 314 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 Comment
+;
 #X msg 579 169 set hi \, append there;
 #X text 208 441 This object is not being updated to Max6+ versions
 and it still misses functionalities from Max 5 \, namely: underline
@@ -45,17 +42,22 @@ and background color. It also has inconsistencies like different attributes
 than the original object in Max.;
 #X msg 590 206 set comment \, prepend this;
 #X msg 451 172 set Comment;
+#X obj 550 256 s \$0-comment;
+#X text 446 21 The [comment] object below has a receive symbol \, so
+you can send messages to it via a [send] object. The receive symbol
+can be set with the receive message or the @receive attribute., f
+52;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
 #X connect 5 0 0 0;
 #X connect 6 0 0 0;
 #X connect 7 0 0 0;
-#X connect 10 0 13 0;
-#X connect 11 0 13 0;
-#X connect 14 0 13 0;
-#X connect 16 0 13 0;
-#X connect 17 0 13 0;
+#X connect 9 0 16 0;
+#X connect 10 0 16 0;
+#X connect 12 0 16 0;
+#X connect 14 0 16 0;
+#X connect 15 0 16 0;
 #X restore 427 210 pd details/examples;
 #X obj 16 6 cyclone/comment 0 37 times ? 0 0 0 0 comment;
 #X obj 322 30 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
@@ -83,11 +85,11 @@ clone! It does provide advantages to pd vanilla's comments though.
 , f 66;
 #X text 135 352 textcolor <f \, f \, f>;
 #X text 270 352 - sets RGB color (values from 0 to 255);
-#X text 86 415 @fontsize <float>: sets font size | @fontname <symbol>:
-sets font name | -textcolor <f \, f \, f>: sets font color | @receive
-<symbol>: sets receive symbol | @text <anything>: sets comment, f
-72;
 #X text 147 272 append <anything>;
 #X text 147 287 append <anything>;
 #X text 270 272 - appends a message to the comment;
 #X text 270 287 - prepends a message to the comment;
+#X text 86 415 @fontsize <float> (default patch's)| @fontname <symbol>
+(default helvetica) | -textcolor <f \, f \, f>: default (0 0 0) | @receive
+<symbol> (default 'empty') | @text <anything>: sets comment (default
+"comment"), f 72;
