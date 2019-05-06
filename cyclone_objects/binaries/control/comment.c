@@ -31,7 +31,7 @@ static t_class *makeshift_class;
 #define COMMENT_NUMCOLORS   3
 
 typedef struct _comment{
-    t_object   x_ob;
+    t_object   x_obj;
     t_glist   *x_glist;
     t_canvas  *x_canvas;
     t_symbol  *x_bindsym;
@@ -82,8 +82,8 @@ static void comment_receive(t_comment *x, t_symbol *s){
     t_symbol *rcv = canvas_realizedollar(x->x_glist, x->x_rcv_unexpanded = s);
     if(rcv != &s_){
         if(x->x_receive_sym != &s_)
-            pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
-        pd_bind(&x->x_ob.ob_pd, x->x_receive_sym = rcv);
+            pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
+        pd_bind(&x->x_obj.ob_pd, x->x_receive_sym = rcv);
     }
 }
 
@@ -411,7 +411,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
     
     comment_validate(x, 0); // needed?
     
-    t_binbuf *bb = x->x_ob.te_binbuf;
+    t_binbuf *bb = x->x_obj.te_binbuf;
     
 /*     post("binbuf_getnatom(bb) = %d", binbuf_getnatom(bb));
     if(binbuf_getnatom(bb) > 0){ // there's an arg in binbuf, get it
@@ -423,7 +423,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
         }
     }
     
-   t_binbuf *binbuf = x->x_ob.ob_binbuf;
+   t_binbuf *binbuf = x->x_obj.ob_binbuf;
     char buf[80];
     t_int i = 3;
     atom_string(binbuf_getvec(binbuf) + i, buf, 80);
@@ -435,8 +435,8 @@ static void comment_save(t_gobj *z, t_binbuf *b){
     binbuf_addv(b, "ssiisiissiiii",
                 gensym("#X"),
                 gensym("obj"),
-                (int)x->x_ob.te_xpix,
-                (int)x->x_ob.te_ypix,
+                (int)x->x_obj.te_xpix,
+                (int)x->x_obj.te_ypix,
                 atom_getsymbol(binbuf_getvec(bb)),
                 x->x_pixwidth,
                 x->x_fontsize,
@@ -608,7 +608,8 @@ static void comment_free(t_comment *x){
         pd_unbind((t_pd *)x, gensym("#key"));
         pd_unbind((t_pd *)x, gensym("#keyname"));
     }
-    if(x->x_receive_sym != &s_) pd_unbind(&x->x_ob.ob_pd, x->x_receive_sym);
+    if(x->x_receive_sym != &s_)
+        pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
     if (x->x_transclock) clock_free(x->x_transclock);
     if(x->x_bindsym){
         pd_unbind((t_pd *)x, x->x_bindsym);
@@ -725,7 +726,7 @@ static void comment_properties(t_gobj *z, t_glist *owner){
             #%06x\n",
             x->x_fontfamily->s_name, x->x_fontsize, color);
     post("%s", buf);
-//    gfxstub_new(&x->x_ob.ob_pd, x, buf);
+//    gfxstub_new(&x->x_obj.ob_pd, x, buf);
 } */
 
 static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
