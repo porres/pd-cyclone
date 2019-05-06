@@ -405,21 +405,36 @@ static void iemgui_init_sym2dollararg(t_iemgui *iemgui, t_symbol **symp,
 
 static void comment_save(t_gobj *z, t_binbuf *b){
     t_comment *x = (t_comment *)z;
-    t_text *t = (t_text *)x;
-    comment_validate(x, 0);
-    t_symbol *receive = x->x_receive_sym;
-/*    t_binbuf *binbuf = x->x_ob.ob_binbuf;
+    
+    comment_validate(x, 0); // needed?
+    
+    t_binbuf *bb = x->x_ob.te_binbuf;
+    
+/*     post("binbuf_getnatom(bb) = %d", binbuf_getnatom(bb));
+    if(binbuf_getnatom(bb) > 0){ // there's an arg in binbuf, get it
+        char buf[80];
+        for(int i = 0; i < binbuf_getnatom(bb); i++){
+            post("i = %d", i);
+            atom_string(binbuf_getvec(bb) + i, buf, 80);
+            post("buf = %s", gensym(buf)->s_name);
+        }
+    }
+    
+   t_binbuf *binbuf = x->x_ob.ob_binbuf;
     char buf[80];
     t_int i = 3;
     atom_string(binbuf_getvec(binbuf) + i, buf, 80);
     atom_string(binbuf_getvec(b) + i, buf, 80);
     receive = gensym(buf);*/
+    
+    t_symbol *receive = x->x_receive_sym;
     if(receive == &s_) receive = gensym("?");
     binbuf_addv(b, "ssiisiissiiii",
                 gensym("#X"),
                 gensym("obj"),
-                (int)t->te_xpix,
-                (int)t->te_ypix, x->x_selector,
+                (int)x->x_ob.te_xpix,
+                (int)x->x_ob.te_ypix,
+                atom_getsymbol(binbuf_getvec(bb)),
                 x->x_pixwidth,
                 x->x_fontsize,
                 x->x_fontfamily,
