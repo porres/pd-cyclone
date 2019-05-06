@@ -15,7 +15,7 @@
 #include "g_canvas.h"
 
 /* our proxy of the text_class, LATER do not cheat */
-static t_class *makeshift_class;
+// static t_class *makeshift_class; // not needed anymore (porres 2019, for cyclone 0.3.1)
 
 /* #ifdef KRZYSZCZ
  #define COMMENT_DEBUG
@@ -546,7 +546,8 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av){
                 x->x_selend++;
             x->x_selstart = x->x_selend;
         }
-        else if (!strcmp(keysym->s_name, "F4")){
+// this is not needed anymore, all parameters can be set via messages now.
+/*        else if (!strcmp(keysym->s_name, "F4")){
             t_text *newt, *oldt = (t_text *)x;
             t_binbuf *bb = binbuf_new();
             int argc = binbuf_getnatom(x->x_binbuf);
@@ -572,7 +573,7 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av){
             canvas_dirty(x->x_glist, 1);
             clock_delay(x->x_transclock, 0);  // LATER rethink
             goto donelist;
-        }
+        }*/
         else if (!strcmp(keysym->s_name, "F5")){
             t_text *t = (t_text *)x;
             t_binbuf *bb = binbuf_new();
@@ -995,8 +996,7 @@ void comment_setup(void){
 //    class_setpropertiesfn(comment_class, comment_properties);
     class_setsavefn(comment_class, comment_save);
     
-    makeshift_class = class_new(gensym("text"), 0, 0,
-                                sizeof(t_text), CLASS_NOINLET | CLASS_PATCHABLE, 0);
+//    makeshift_class = class_new(gensym("text"), 0, 0, sizeof(t_text), CLASS_NOINLET | CLASS_PATCHABLE, 0);
     
     commentsink_class = class_new(gensym("_commentsink"), 0, 0,
                                   sizeof(t_pd), CLASS_PD, 0);
