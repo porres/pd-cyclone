@@ -951,7 +951,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     return(x);
 }
 
-void comment_setup(void){
+CYCLONE_OBJ_API void comment_setup(void){
     comment_class = class_new(gensym("comment"), (t_newmethod)comment_new, (t_method)comment_free,
                               sizeof(t_comment), CLASS_DEFAULT, A_GIMME, 0);
     class_addfloat(comment_class, comment_float);
