@@ -898,8 +898,9 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                         comment_receive(x, av->a_w.w_symbol);
                         ac--; av++;
                     }
-                    else
+                    else{
                         ac--; av++;
+                    }
                     if (ac && av->a_type == A_FLOAT){
                         x->x_fontprops = (int)av->a_w.w_float;
                         ac--; av++;
