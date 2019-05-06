@@ -14,7 +14,7 @@
 #include <common/api.h>
 #include "g_canvas.h"
 
-/* our proxy of the text_class (not in the API), LATER do not cheat */
+/* our proxy of the text_class, LATER do not cheat */
 static t_class *makeshift_class;
 
 /* #ifdef KRZYSZCZ
@@ -66,6 +66,7 @@ typedef struct _comment{
     t_symbol  *x_receive_sym;
     t_symbol  *x_rcv_unexpanded;
     int        x_rcv_set;
+    int        x_flag;
     t_symbol  *x_selector;
 /* new args that currently do nothing - DK 2017
     t_float     x_bgcolor[COMMENT_NUMCOLORS];
@@ -88,7 +89,7 @@ static void comment_receive(t_comment *x, t_symbol *s){
     }
 }
 
-static void comment_set_receive(t_note *x, t_symbol *s){
+static void comment_set_receive(t_comment *x, t_symbol *s){
     x->x_rcv_set = 1;
     comment_receive(x, s);
 }
@@ -394,50 +395,36 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis){
     else sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
 }
 
-/*
-static void iemgui_init_sym2dollararg(t_iemgui *iemgui, t_symbol **symp,
-                                      int indx, t_symbol *fallback)
-{
-    if(!*symp){
-        t_binbuf *b = iemgui->x_obj.ob_binbuf;
-        if (binbuf_getnatom(b) > indx){
-            char buf[80];
-            atom_string(binbuf_getvec(b) + indx, buf, 80);
-            *symp = gensym(buf);
-        }
-        else if (fallback)
-            *symp = fallback;
-        else *symp = gensym("empty");
-    }
-}*/
- 
-
 static void comment_save(t_gobj *z, t_binbuf *b){
     t_comment *x = (t_comment *)z;
-    
-    comment_validate(x, 0); // needed?
-    
+    comment_validate(x, 0); // this is not needed, must be removed!!!
     t_binbuf *bb = x->x_obj.te_binbuf;
-    
-    if(!x->x_rcv_set){ // if no receive name received, search arguments
-        int arg_n = 4; // receive argument number
-        if(binbuf_getnatom(bb) >= arg_n){ // we have it, get it
+    if(!x->x_rcv_set){ // no receive set, search arguments
+        int n_args = binbuf_getnatom(bb); // number of arguments
+        if(n_args > 0){ // we have arguments, let's search them
             char buf[80];
-            atom_string(binbuf_getvec(bb) + arg_n, buf, 80);
-            x->x_rcv_unexpanded = gensym(buf);
+            if(x->x_flag){ // search for receive name in attributes
+                for(int i = 0;  i < n_args; i++){
+                    atom_string(binbuf_getvec(bb) + i, buf, 80);
+                    if(!strcmp(buf, "@receive")){
+                        i++;
+                        atom_string(binbuf_getvec(bb) + i, buf, 80);
+                        x->x_rcv_unexpanded = gensym(buf);
+                        break;
+                    }
+                }
+            }
+            else{ // search receive argument
+                int arg_n = 4; // receive argument number
+                if(n_args >= arg_n){ // we have it, get it
+                    atom_string(binbuf_getvec(bb) + arg_n, buf, 80);
+                    x->x_rcv_unexpanded = gensym(buf);
+                }
+            }
         }
+        if(x->x_rcv_unexpanded == &s_) // if nothing found, set to "empty"
+            x->x_rcv_unexpanded = gensym("?");
     }
-    
-   /* t_binbuf *binbuf = x->x_obj.ob_binbuf;
-    char buf[80];
-    t_int i = 3;
-    atom_string(binbuf_getvec(binbuf) + i, buf, 80);
-    atom_string(binbuf_getvec(b) + i, buf, 80);
-    receive = gensym(buf);*/
-    
-    t_symbol *receive = x->x_rcv_unexpanded;
-    if(receive == &s_)
-        receive = gensym("?");
     binbuf_addv(b, "ssiisiissiiii",
                 gensym("#X"),
                 gensym("obj"),
@@ -447,7 +434,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
                 x->x_pixwidth,
                 x->x_fontsize,
                 x->x_fontfamily,
-                receive,
+                x->x_rcv_unexpanded,
                 x->x_fontprops,
                 (int)x->x_red,
                 (int)x->x_green,
@@ -763,6 +750,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                 };
             }
             else if(!strcmp(cursym->s_name, "@receive")){
+                x->x_flag = 1;
                 i++;
                 if((argc-i) > 0){
                     if(argv[i].a_type == A_SYMBOL)
@@ -896,7 +884,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_encoding = x->x_fontfamily = 0;
     x->x_canvas = 0;
     x->x_textbuf = 0;
-    x->x_rcv_set = 0;
+    x->x_rcv_set = x->x_flag = 0;
     x->x_pixwidth = x->x_fontsize = x->x_fontprops = x->x_bbpending = 0;
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
     x->x_bbset = x->x_ready = x->x_dragon = 0;
@@ -971,7 +959,7 @@ void comment_setup(void){
                     gensym("textcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_fontname,
                     gensym("fontname"), A_SYMBOL, 0);
-    class_addmethod(comment_class, (t_method)comment_receive,
+    class_addmethod(comment_class, (t_method)comment_set_receive,
                     gensym("receive"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment_fontsize,
                     gensym("fontsize"), A_FLOAT, 0);
