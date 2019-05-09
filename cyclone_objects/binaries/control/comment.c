@@ -89,7 +89,7 @@ static void comment_receive(t_comment *x, t_symbol *s){
             pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
         pd_bind(&x->x_obj.ob_pd, x->x_receive_sym = rcv);
     }
-    else(rcv != &s_){
+    else{
         if(x->x_receive_sym != &s_)
             pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
         x->x_receive_sym = rcv;
