@@ -32,8 +32,10 @@ static void unjoin_list(t_unjoin *x, t_symbol *s, int argc, t_atom *argv)
                 outlet_float(x->x_outlets[i], argv->a_w.w_float);
             else if(argv->a_type == A_FLOAT) // if first is float... out list
                 outlet_list(x->x_outlets[i],  &s_list, outsize, argv);
-            else
-                outlet_anything(x->x_outlets[i],  &s_ , outsize, argv);
+            else{
+                s = atom_getsymbolarg(0, outsize, argv);
+                outlet_anything(x->x_outlets[i], s, outsize-1, argv+1);
+            };
             numleft -= outsize;
             argv += outsize;
         }
@@ -43,8 +45,10 @@ static void unjoin_list(t_unjoin *x, t_symbol *s, int argc, t_atom *argv)
                 outlet_float(x->x_outlets[i], argv->a_w.w_float);
             else if(argv->a_type == A_FLOAT) // if first is float... out list
                 outlet_list(x->x_outlets[i],  &s_list, numleft, argv);
-            else
-                outlet_anything(x->x_outlets[i], &s_, numleft, argv);
+            else{
+                s = atom_getsymbolarg(0, numleft, argv);
+                outlet_anything(x->x_outlets[i], s, numleft-1, argv+1);
+            };
             numleft = 0;
             break;
         }
@@ -56,8 +60,10 @@ static void unjoin_list(t_unjoin *x, t_symbol *s, int argc, t_atom *argv)
             outlet_float(x->x_outlets[i], argv->a_w.w_float);
         else if(argv->a_type == A_FLOAT) // if first is float... out list
             outlet_list(x->x_outlets[numouts],  &s_list, numleft, argv);
-        else
-            outlet_anything(x->x_outlets[numouts], &s_, numleft, argv);
+        else{
+            s = atom_getsymbolarg(0, numleft, argv);
+            outlet_anything(x->x_outlets[i], s, numleft-1, argv+1);
+        };
     };
 }
 
