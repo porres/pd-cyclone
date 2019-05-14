@@ -1,3 +1,4 @@
 .git*		export-ignore
 .travis.yml	export-ignore
 *.dll		export-ignore
+.DS_Store	export-ignore
