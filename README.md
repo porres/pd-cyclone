@@ -21,7 +21,7 @@ Release Date: February 21st 2019
 Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals)
 
 -------
-<strong>About Cyclone 0.3:</strong>
+### About Cyclone 0.3:
 
 Cyclone 0.3 needs at least Pd Vanilla 0.49-0 and it doesn't fully work in Pd Extended or Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data).
 
@@ -40,7 +40,7 @@ Future updates corresponding to added functionalities from Max 8 can be included
 
 -------
 
-<strong>Installing Cyclone:</strong>
+### Installing Cyclone:
 
 You can compile cyclone from the source provided in this repository for the current bleeding edge last state or download one of the more stable compiled releases from <https://github.com/porres/pd-cyclone/releases>. A good alternative is simply use Pd's own external download manager (a.k.a deken plugin), just click on the "find externals" option under the Help menu and search for cyclone.
 
@@ -56,7 +56,7 @@ Loading the cyclone binary as an object ([cyclone]) also loads the library, see 
 
 -------
 
-<strong>Building Cyclone for Pd Vanilla:</strong>
+### Building Cyclone for Pd Vanilla:
 
 Since "Cyclone 0.1-alpha57", the cyclone package has relied on the new build system called "pd-lib-builder" by Katja Vetter (check the project in: <https://github.com/pure-data/pd-lib-builder>). 
 
@@ -76,7 +76,7 @@ Then move it to your preferred install folder for Pd.
 
 -------
 
-<strong>Building with CMake</strong>
+#### Building with CMake
 
 It is now possible to build cyclone for Pd Vanilla or libpd using CMake. CMake is a cross-platform, open-source build system. CMake is used to control the software compilation process using simple platform and compiler independent configuration files, and generate native makefiles and workspaces that can be used in the compiler environment of your choice.
 This allows native compilation on Windows (Microsoft Visual Studio), Linux (GCC) and macOS (XCode).
@@ -176,7 +176,7 @@ Using libpd in Linux:
 
 -------
 
-<strong>A Brief History of Cyclone's Development:</strong>
+### A Brief History of Cyclone's Development:
 
 Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
@@ -186,7 +186,7 @@ Cyclone's original author Krzysztof Czaja worked on it as part of his miXed libr
 
 Since february 21st 2016, further development for cyclone started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators. The first stable release is cyclone 0.3!
 
-* <strong>About Other Repositories:</strong>
+#### About Other Repositories:
 
 => Original Repository (up to version 0.1-Alpha-56):
 The original repository of MiXed as part of Pd Extended - containing cyclone and more (such as 'toxy') - resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. This repository embraces work from three different maintainance phases: 
@@ -203,8 +203,8 @@ Fred Jan Kraan forked the original repository to <https://github.com/electricker
 
 -------
 
-<strong>About This Repository And Its Goals:</strong>
+### About This Repository And Its Goals:
 
-This repository was forked from fred Jan Kraan's at cyclone 0.2 beta stage and is releasing new cyclone versions starting at cyclone 0.3. The location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
+This repository was forked from Fred Jan Kraan's at cyclone 0.2 beta stage and is releasing new cyclone versions starting at cyclone 0.3. The location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
 
 Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list). Another way is just by sending Pull Requests to this repository.
