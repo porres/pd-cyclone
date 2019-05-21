@@ -1,5 +1,8 @@
 | Under the maintenance of Porres, Kwan and Barber: 
 
+cyclone 0.3.1
+
+
 cyclone 0.3
 
 Summary: Cyclone 0.3 represents the major overhaul in cyclone and includes: 1) objects updated to the last Max 7 version (7.3.5); 2) Many new objects; 3)Numerous bug fixes; 4) Completely rewritten documentation. See details below!

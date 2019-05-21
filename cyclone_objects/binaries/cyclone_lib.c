@@ -628,12 +628,14 @@ typedef struct cyclone{
 
 t_class *cyclone_class;
 
-static void cyclone_about(t_cyclone *x)
+static int printed;
+
+void print_cyclone(void)
 {
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     post("------------------------------------------------------------------------");
-    post("Cyclone 0.3; Release date: February 21st 2019");
+    post("Cyclone 0.3.1; Unreleased");
     post("Loading the cyclone library did the following:");
     post("A) Loaded the non alpha-numeric objects, which are:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
@@ -642,7 +644,10 @@ static void cyclone_about(t_cyclone *x)
     post("------------------------------------------------------------------------");
 }
 
-static int printed;
+static void cyclone_about(t_cyclone *x)
+{
+    print_cyclone();
+}
 
 static void *cyclone_new(void){
     t_cyclone *x = (t_cyclone *)pd_new(cyclone_class);
@@ -674,16 +679,7 @@ CYCLONE_API void cyclone_setup(void)
     pd_typedmess(gensym("pd")->s_thing, gensym("add-to-path"), 2, ap);
 
    if(!printed){
-       char cyclone_dir[MAXPDSTRING];
-       strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
-       post("------------------------------------------------------------------------");
-       post("Cyclone 0.3; Release date: February 21st 2019");
-       post("Loading the cyclone library did the following:");
-       post("A) Loaded the non alpha-numeric objects, which are:");
-       post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
-       post("B) Added %s", cyclone_dir);
-       post("to Pd's path so the other objects can be loaded too");
-       post("------------------------------------------------------------------------");
+       print_cyclone();
        printed = 1;
     }
     
