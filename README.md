@@ -14,16 +14,16 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Current Release: Cyclone 0.3.1 (this release needs at least Pd Vanilla 0.49-0)
+Current Release: Cyclone 0.3.1 (this release needs at least Pd Vanilla 0.50-0)
 
 Release Date: Unreleased
 
 Find cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals)
 
 -------
-### About Cyclone 0.3:
+### About Cyclone 0.3.1:
 
-Cyclone 0.3 needs at least Pd Vanilla 0.49-0 and it doesn't fully work in Pd Extended or Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data).
+Cyclone 0.3.1 needs at least Pd Vanilla 0.50-0 and it doesn't fully work in Pd Extended or Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data).
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
 
@@ -34,7 +34,7 @@ The main goal of cyclone 0.3 was to update Cyclone's objects to the latest Max 7
 - 40 new objects;
 - Newly written documentation
 
-Check details in the provided CHANGELOG.txt file, or here: https://github.com/porres/pd-cyclone/wiki/cyclone-0.3-changlelog
+Check details in the provided CHANGELOG.txt file
 
 Future updates corresponding to added functionalities from Max 8 can be included in a cyclone 0.4 version or above.
 

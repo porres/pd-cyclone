@@ -1,4 +1,4 @@
-#N canvas 650 114 561 488 10;
+#N canvas 556 37 561 488 10;
 #X obj 5 462 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -78,48 +78,45 @@ others have full multi channel capabilities.;
 #X connect 8 0 24 0;
 #X connect 13 0 12 0;
 #X restore 434 250 pd related objects;
-#N canvas 612 109 785 470 read/write 0;
-#X msg 448 63 read;
-#X msg 467 94 open;
-#X msg 508 95 close;
-#X msg 522 123 clear;
-#X msg 526 148 readagain;
-#X text 549 97 open/close buffer window;
-#X text 566 122 clears all channels;
-#X text 534 22 read a file specified by a symbol (.wav or .aif/.aiff)
+#N canvas 612 109 787 401 read/write 1;
+#X msg 447 63 read;
+#X msg 466 94 open;
+#X msg 507 95 close;
+#X msg 521 123 clear;
+#X msg 525 148 readagain;
+#X text 548 97 open/close buffer window;
+#X text 565 122 clears all channels;
+#X text 533 22 read a file specified by a symbol (.wav or .aif/.aiff)
 , f 27;
-#X msg 532 220 write;
-#X text 481 63 without symbol: opens dialog box;
-#X msg 429 29 read stereo.aif;
-#X msg 533 181 write test.wav;
-#X text 589 147 reloads the last opened file;
-#X text 628 174 writes contents of buffer into a file, f 20;
-#X text 579 213 without symbol: opens dialog box, f 17;
-#X text 26 35 You can specify a sound file to load as the second argument
+#X msg 531 220 write;
+#X text 480 63 without symbol: opens dialog box;
+#X msg 428 29 read stereo.aif;
+#X msg 532 181 write test.wav;
+#X text 588 147 reloads the last opened file;
+#X text 627 174 writes contents of buffer into a file, f 20;
+#X text 578 213 without symbol: opens dialog box, f 17;
+#X text 25 35 You can specify a sound file to load as the second argument
 ot via the "read" message. Buffer can currently load 'wav' and 'aif/aiff'
 sound files.;
-#X text 26 89 The "write" mesaage Saves the contents of [buffer~] into
+#X text 25 89 The "write" mesaage Saves the contents of [buffer~] into
 an audio file. A standard file dialog is opened for naming the file
 unless the word write is followed by a symbol \, in which case the
 file is saved in the current default folder \, using the symbol as
 the filename.;
-#X text 27 164 You can also specify a sound file format in the symbol
+#X text 26 164 You can also specify a sound file format in the symbol
 (such as "test.wav" \, but if you don't specify a format \, [buffer~]
 will save in same format of the most recently opened audio file or
 the last given "filetype" message. By default \, [buffer~] saves in
 AIFF format.;
-#X text 28 239 For last \, "writeaiff" and "writewave" messages can
+#X text 27 239 For last \, "writeaiff" and "writewave" messages can
 write a filename to the specified format.;
-#X text 240 327 Numerical values are \; 16 - 16-bit integer (default)
+#X text 239 327 Numerical values are \; 16 - 16-bit integer (default)
 \; 24 - 24-bit integer \;;
-#X text 29 297 The "format" message sets the bit depth for writting
+#X text 28 297 The "format" message sets the bit depth for writting
 files \, it accepts floats or symbols:;
-#X text 450 320 symbol values are \; int16 - 16-bit integer (default)
+#X text 449 320 symbol values are \; int16 - 16-bit integer (default)
 \; int24 - 24-bit integer \; float32 - 32-bit float \;;
-#X obj 429 254 cyclone/buffer~ buff2_\$0 -1 2;
-#X text 169 400 Note that [biffer~] cannot read files that are relative
-to the parent patch (that is \, the patch that loads the [buffer~]
-abstraction., f 76;
+#X obj 428 254 cyclone/buffer~ buff2_\$0 -1 2;
 #X connect 0 0 22 0;
 #X connect 1 0 22 0;
 #X connect 2 0 22 0;
