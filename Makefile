@@ -313,8 +313,6 @@ ifeq ($(uname), Linux)
 	cd $(installpath); \
 	ln -s -f append.$(extension) Append.$(extension); \
 	ln -s -f append-help.pd Append-help.pd; \
-    ln -s -f append.$(extension) Append.$(extension); \
-    ln -s -f append-help.pd Append-help.pd; \
 	ln -s -f bucket.$(extension) Bucket.$(extension); \
 	ln -s -f bucket-help.pd Bucket-help.pd; \
 	ln -s -f clip.$(extension) Clip.$(extension); \
