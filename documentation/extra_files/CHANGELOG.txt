@@ -5,6 +5,7 @@ cyclone 0.3.1 (needs at least Pd Vanilla 0.50.0)
 - Fixed an issue where linux distributions were missing a few objects
 - Made a few improvements in cyclone/comment's update
 - Thanks to the new [pdcontrol] object from 0.50.0, buffer~ can now load files relative to its owner patch.
+- Other couple of minor fixes to unjoin/mousestate.
 
 
 cyclone 0.3 (needs at least Pd Vanilla 0.49.0)
