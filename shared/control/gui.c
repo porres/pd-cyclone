@@ -170,7 +170,7 @@ static void hammergui__remouse(t_hammergui *snk)
     {
         /* if a new master was bound in a gray period, we need to
          restore gui bindings */
-#if 1
+#if 0
         post("rebinding mouse...");
 #endif
         hammergui_dobindmouse(snk);
@@ -200,7 +200,7 @@ static void hammergui__refocus(t_hammergui *snk)
     {
         /* if a new master was bound in a gray period, we need to
          restore gui bindings */
-#if 1
+#if 0
         post("rebinding focus...");
 #endif
         hammergui_dobindfocus(snk);
@@ -233,7 +233,7 @@ static void hammergui__revised(t_hammergui *snk)
     {
         /* if a new master was bound in a gray period, we need to
          restore gui bindings */
-#if 1
+#if 0
         post("rebinding vised events...");
 #endif
         hammergui_dobindvised(snk);
