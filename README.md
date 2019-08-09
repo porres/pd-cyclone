@@ -42,7 +42,7 @@ Future updates corresponding to added functionalities from Max 8 can be included
 
 ### Installing Cyclone:
 
-You can compile Cyclone from the source provided in this repository for the current bleeding edge last state or download one of the more stable compiled releases from <https://github.com/porres/pd-cyclone/releases>. A good alternative is simply tp use Pd's own external download manager (a.k.a deken plugin), just click on the "find externals" option under the Help menu and search for Cyclone.
+You can compile Cyclone from the source provided in this repository for the current bleeding edge last state or download one of the more stable compiled releases from <https://github.com/porres/pd-cyclone/releases>. A good alternative is simply to use Pd's own external download manager (a.k.a deken plugin), just click on the "find externals" option under the Help menu and search for Cyclone.
 
 When installing cyclone, make sure the Cyclone folder is included in a folder that Pd searches for, such as `~/Documents/Pd/externals` - which is what Pd suggests you to do (since version 0.48).
 
