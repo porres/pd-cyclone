@@ -189,7 +189,7 @@ Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
 * "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)." The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
 
-Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended and eventually ended up under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release (from jan 2013), Cyclone and miXed were left unmaintained as a result. In Dec-2014, Fred Jan Kraan took over maintainance and development for cyclone (but not the rest of the miXed library) and released 0.1alpha57 and cyclone 0.2 beta versions, but decided to abandon development for it in feb-2016.
+Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended and eventually ended up under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release (from Jan 2013), Cyclone and miXed were left unmaintained as a result. In Dec-2014, Fred Jan Kraan took over maintainance and development for cyclone (but not the rest of the miXed library) and released 0.1alpha57 and Cyclone 0.2 beta versions, but decided to abandon development for it in Feb-2016.
 
 Since February 21st 2016, further development for Cyclone started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators. The first stable release is Cyclone 0.3!
 
@@ -206,7 +206,7 @@ The original repository of MiXed as part of Pd Extended - containing Cyclone and
 
 => Fred Jan Kraan's Repository (0.1-Alpha-57 and 0.2beta):
 
-Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with cyclone version 0.1alpha-57, from October 2015, which is basically the last developments from the original repository. Then it moves on to a new Cyclone 0.2 version which stopped at a beta stage.
+Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with Cyclone version 0.1alpha-57, from October 2015, which is basically the last developments from the original repository. Then it moves on to a new Cyclone 0.2 version which stopped at a beta stage.
 
 -------
 
