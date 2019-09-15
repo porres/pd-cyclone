@@ -11,7 +11,7 @@
 ;
 #X obj 101 441 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 275 202 5 0 0 0 - - -, f 5;
+#X floatatom 275 202 5 0 0 0 - - -;
 #X obj 228 283 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
 1;
 #X obj 2 555 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
@@ -72,23 +72,6 @@ and 0 otherwise., f 75;
 #X text 313 199 <= sets new trough (minimum);
 #X text 294 283 not a new trough;
 #X text 187 529 intial 'trough' value (default 128), f 36;
-#N canvas 762 173 445 305 backwards 0;
-#X text 49 150 But please don't \, just stick to;
-#X text 166 183 or;
-#X text 44 53 Nevertheless \, the old way of creating this object is
-still present for backwards compatibility reasons. So you can still
-use:;
-#X text 53 220 Which is the reasonable and sensible way nowadays \,
-as the current plan is to phase out the capital letters in cyclone's
-objects.;
-#X text 43 20 [trough] used to be compiled as [Trough] \, probably
-to avoid some name conflicts \, but this is not the case anymore.;
-#X text 184 109 or;
-#X obj 208 110 cyclone/Trough;
-#X obj 201 183 cyclone/trough;
-#X obj 114 182 trough;
-#X obj 136 110 Trough;
-#X restore 452 289 pd backwards \; compatibility;
 #N canvas 323 43 581 417 list_input 0;
 #X obj 130 294 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
 1;
@@ -119,7 +102,7 @@ current trough.;
 #X connect 11 0 2 0;
 #X connect 11 1 0 0;
 #X connect 11 2 1 0;
-#X restore 451 263 pd list_input;
+#X restore 454 303 pd list_input;
 #X text 188 364 a value to be compared with the 'trough' value, f
 56;
 #X text 188 408 sets new 'trough' value, f 55;

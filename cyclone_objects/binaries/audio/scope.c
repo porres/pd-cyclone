@@ -2281,6 +2281,9 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     class_setpropertiesfn(scope_class, scope_properties);
     
+    
+    //    class_sethelpsymbol(scope_class, gensym("scope~"));
+    
 #ifdef PDL2ORK /* extra methods and widgetbehavior for purr data */
     class_addmethod(scope_class, (t_method)scope_click_for_resizing,
                     gensym("_click"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
@@ -2290,8 +2293,4 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
 #else /* vanilla requires an avalanche of tcl code injections */
 #include "scope_dialog.c"
 #endif
-}
-
-void Scope_tilde_setup(void){
-    scope_tilde_setup();
 }

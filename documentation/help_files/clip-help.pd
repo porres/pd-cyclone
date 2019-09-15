@@ -42,7 +42,7 @@
 #X text 267 199 max;
 #N canvas 1055 259 317 320 list 0;
 #X obj 113 187 cyclone/tosymbol;
-#X symbolatom 113 218 15 0 0 0 - - -, f 15;
+#X symbolatom 113 218 15 0 0 0 - - -;
 #X obj 113 101 loadbang;
 #X text 92 67 it also works with lists:;
 #X obj 113 155 cyclone/clip 0 1;
@@ -72,22 +72,17 @@ to a given range;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#N canvas 836 207 420 324 name 0;
-#X text 196 170 <= from Pd Vanilla;
-#X text 29 222 Other ways to load [biquad~] is with a capital letter
-\, either with or without such as:;
-#X text 28 133 And still create the vanilla object from vanilla without
+#N canvas 836 207 415 239 name 0;
+#X text 199 181 <= from Pd Vanilla;
+#X text 31 144 And still create the vanilla object from vanilla without
 namespaces as:;
-#X text 205 274 and;
-#X text 29 14 Pd also has a vanilla object named [clip]. Cyclone avoids
+#X text 32 25 Pd also has a vanilla object named [clip]. Cyclone avoids
 name clashing and overwritting an internal in Pd Vanilla \, but for
 that you need to use the cyclone namespace ("cyclone/" before the object
 name) \, as it's the common practice for cyclone's documentation. So
 you create it as:;
-#X obj 146 95 cyclone/clip;
-#X obj 160 170 clip;
-#X obj 94 274 cyclone/Clip;
-#X obj 255 274 Clip, f 9;
+#X obj 149 106 cyclone/clip;
+#X obj 163 181 clip;
 #X restore 450 244 pd name clash;
 #X connect 5 0 33 2;
 #X connect 6 0 33 1;

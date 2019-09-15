@@ -1,4 +1,4 @@
-#N canvas 374 123 558 572 10;
+#N canvas 417 108 558 572 10;
 #X obj 2 284 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 436 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -83,7 +83,7 @@
 #X connect 12 1 9 0;
 #X connect 12 2 10 0;
 #X connect 12 3 11 0;
-#X restore 450 211 pd output-flag;
+#X restore 450 250 pd output-flag;
 #X text 138 380 l2r;
 #X text 138 397 r2l;
 #X text 177 380 - or 'L2R'/'ltor': sets shift from left to right (default)
@@ -99,7 +99,7 @@
 #X msg 337 210 r2l;
 #X msg 372 217 roll;
 #X msg 237 172 set \$1;
-#X floatatom 237 151 5 0 0 0 - - -, f 5;
+#X floatatom 237 151 5 0 0 0 - - -;
 #X obj 310 251 send bucket;
 #X obj 287 174 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -121,23 +121,6 @@ it on the next round \, <1> outputs the input immediately;
 #X text 49 87 As [bucket] is input with floats \, it outputs them shiftting
 from outlet to outlet in a rotational pattern (or "passing the bucket"
 as in a ucket brigade).;
-#N canvas 762 173 447 311 backwards 0;
-#X text 185 110 or even:;
-#X obj 136 110 Bucket;
-#X obj 252 110 cyclone/Bucket;
-#X text 43 20 [bucket] used to be compiled as [Bucket] \, probably
-to avoid some name conflicts \, but this is not the case anymore.;
-#X text 49 150 But please don't \, just stick to;
-#X obj 114 182 bucket;
-#X text 166 183 or;
-#X obj 201 184 cyclone/bucket;
-#X text 44 53 Nevertheless \, the old way of creating this object is
-still present for backwards compatibility reasons. So you can still
-use:;
-#X text 53 220 Which is the reasonable and sensible way nowadays \,
-as the current plan is to phase out the capital letters in cyclone's
-objects.;
-#X restore 455 237 pd backwards \; compatibility;
 #X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Pass numbers from
 outlet to outlet;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 bucket;

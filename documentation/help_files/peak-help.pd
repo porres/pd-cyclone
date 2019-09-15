@@ -25,8 +25,8 @@
 ;
 #X obj 86 480 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 270 202 5 0 0 0 - - -, f 5;
-#X obj 229 279 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 1
+#X floatatom 270 202 5 0 0 0 - - -;
+#X obj 229 279 tgl 18 0 empty empty empty 0 -6 0 8 -216373 -1 -1 0
 1;
 #X obj 2 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
@@ -53,11 +53,11 @@
 #X obj 270 281 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 189 260 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--262144 -1 -1 4.5 256;
+-262144 -1 -1 0 256;
 #X obj 192 175 hsl 128 15 -99 99 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 0;
 #X obj 189 198 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 5 256;
+-228856 -1 -1 0 256;
 #X obj 115 261 cyclone/comment 100 11 helvetica ? 0 0 0 0 current peak
 ;
 #X obj 229 302 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -78,23 +78,6 @@ right outlet sends 1 when the input is not greater than the peak and
 #X text 173 436 the current 'peak' (minimum) value, f 60;
 #X text 172 521 intial 'peak' value (default 0), f 36;
 #X obj 189 234 cyclone/peak 4;
-#N canvas 762 173 445 305 backwards 0;
-#X text 49 150 But please don't \, just stick to;
-#X text 166 183 or;
-#X text 44 53 Nevertheless \, the old way of creating this object is
-still present for backwards compatibility reasons. So you can still
-use:;
-#X text 53 220 Which is the reasonable and sensible way nowadays \,
-as the current plan is to phase out the capital letters in cyclone's
-objects.;
-#X text 43 20 [peak] used to be compiled as [Peak] \, probably to avoid
-some name conflicts \, but this is not the case anymore.;
-#X obj 136 110 Peak;
-#X obj 212 110 cyclone/Peak;
-#X obj 114 182 peak;
-#X obj 201 183 cyclone/peak;
-#X text 185 110 or;
-#X restore 448 286 pd backwards \; compatibility;
 #X text 173 380 2nd number sets new 'peak' \, then 1st element is input
 ;
 #N canvas 323 43 601 417 list_input 0;
@@ -127,7 +110,7 @@ peak.;
 #X connect 11 0 2 0;
 #X connect 11 1 0 0;
 #X connect 11 2 1 0;
-#X restore 447 258 pd list_input;
+#X restore 451 292 pd list_input;
 #X text 338 213 and outputs it;
 #X text 173 359 a value to be compared with the 'peak' value, f 60
 ;

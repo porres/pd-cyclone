@@ -46,7 +46,7 @@
 #X obj 132 177 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 211 180 offset \$1;
-#X floatatom 211 158 5 0 0 0 - - -, f 5;
+#X floatatom 211 158 5 0 0 0 - - -;
 #X obj 310 236 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 120 324 pause/break;
@@ -56,23 +56,6 @@
 #X text 202 454 - bang counter;
 #X obj 187 211 cyclone/uzi 10 0;
 #X obj 233 255 print done;
-#N canvas 180 242 447 311 backwards 0;
-#X text 185 110 or even:;
-#X text 49 150 But please don't \, just stick to;
-#X text 166 183 or;
-#X text 44 53 Nevertheless \, the old way of creating this object is
-still present for backwards compatibility reasons. So you can still
-use:;
-#X text 53 220 Which is the reasonable and sensible way nowadays \,
-as the current plan is to phase out the capital letters in cyclone's
-objects.;
-#X text 43 20 [uzi] used to be compiled as [Uzi] \, probably to avoid
-some name conflicts \, but this is not the case anymore.;
-#X obj 136 110 Uzi, f 4;
-#X obj 252 110 cyclone/Uzi;
-#X obj 114 182 uzi, f 4;
-#X obj 201 183 cyclone/uzi;
-#X restore 456 240 pd backwards \; compatibility;
 #X text 202 308 - starts the banging/counting loop;
 #X text 202 340 - restarts banging/counting after being paused;
 #X text 202 377 - sets the number of bangs to output;
@@ -111,7 +94,7 @@ the counter as the index input.;
 #X connect 0 0 2 0;
 #X connect 2 2 3 0;
 #X connect 3 0 5 0;
-#X restore 450 212 pd array sweep;
+#X restore 450 252 pd array sweep;
 #N canvas 286 108 836 544 pause/resume 0;
 #X msg 220 415 pause;
 #X obj 115 256 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -178,7 +161,7 @@ it's done!;
 #X connect 21 0 25 0;
 #X connect 25 2 5 0;
 #X connect 25 2 10 0;
-#X restore 444 187 pd pause/resume;
+#X restore 444 227 pd pause/resume;
 #X text 70 84 [uzi] loops firing a given number of bangs (left outlet)
 and outputs a count for each bang (right outlet). The middle outlet
 bangs after the loop is done. The 1st argument is the number of bangs.

@@ -19,10 +19,10 @@
 ;
 #X obj 179 167 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X floatatom 176 191 5 0 0 0 - - -, f 5;
+#X floatatom 176 191 5 0 0 0 - - -;
 #X obj 232 198 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X floatatom 229 220 5 0 0 0 - - -, f 5;
+#X floatatom 229 220 5 0 0 0 - - -;
 #X text 124 470 float/signal;
 #X text 150 544 1) float;
 #X text 150 565 2) float;
@@ -64,22 +64,17 @@ cloned from Max/MSP;
 #X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 81 314 ./out~;
 #X obj 501 69 cyclone/setdsp~;
-#N canvas 836 207 420 324 name 0;
-#X text 196 170 <= from Pd Vanilla;
-#X text 29 222 Other ways to load [biquad~] is with a capital letter
-\, either with or without such as:;
-#X text 28 133 And still create the vanilla object from vanilla without
+#N canvas 836 207 415 225 name 0;
+#X text 198 172 <= from Pd Vanilla;
+#X text 30 135 And still create the vanilla object from vanilla without
 namespaces as:;
-#X text 205 274 and;
-#X text 29 14 Pd also has a vanilla object named [clip~]. Cyclone avoids
+#X text 31 16 Pd also has a vanilla object named [clip~]. Cyclone avoids
 name clashing and overwritting an internal in Pd Vanilla \, but for
 that you need to use the cyclone namespace ("cyclone/" before the object
 name) \, as it's the common practice for cyclone's documentation. So
 you create it as:;
-#X obj 146 95 cyclone/clip~;
-#X obj 159 170 clip~;
-#X obj 94 274 cyclone/Clip~;
-#X obj 255 274 Clip~, f 9;
+#X obj 148 97 cyclone/clip~;
+#X obj 161 172 clip~;
 #X restore 458 379 pd name clash;
 #X connect 10 0 11 0;
 #X connect 11 0 18 1;

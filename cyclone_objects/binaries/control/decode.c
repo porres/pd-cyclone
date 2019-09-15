@@ -8,10 +8,10 @@
 #include "m_pd.h"
 #include <common/api.h>
 
-#define DECODE_C74MAXOUTS  512  // CHECKED (max goes up higher but freezes) */
-#define DECODE_DEFOUTS     1
+#define decode_C74MAXOUTS  512  // CHECKED (max goes up higher but freezes) */
+#define decode_DEFOUTS     1
 
-typedef struct _Decode
+typedef struct _decode
 {
     t_object    x_ob;
     int         x_numouts;
@@ -19,16 +19,16 @@ typedef struct _Decode
     int         x_allon;   /* submaster switch */
     int         x_alloff;  /* master switch */
     t_outlet  **x_outs;
-    t_outlet   *x_outbuf[DECODE_C74MAXOUTS];
-} t_Decode;
+    t_outlet   *x_outbuf[decode_C74MAXOUTS];
+} t_decode;
 
-static t_class *Decode_class;
+static t_class *decode_class;
 
 /* CHECKED: all outlets deliver after any action */
 /* CHECKED: outlets output in right-to-left order */
 
 
-static void Decode_deliver(t_Decode *x)
+static void decode_deliver(t_decode *x)
 {
     int i = x->x_numouts;
     if (x->x_alloff)
@@ -39,7 +39,7 @@ static void Decode_deliver(t_Decode *x)
 	while (i--) outlet_float(x->x_outs[i], (i == x->x_onout ? 1 : 0));
 }
 
-static void Decode_float(t_Decode *x, t_floatarg f)
+static void decode_float(t_decode *x, t_floatarg f)
 {
     int val = (int)f;
     /* CHECKED: out-of-range input is clipped, not ignored */
@@ -49,46 +49,46 @@ static void Decode_float(t_Decode *x, t_floatarg f)
 	val = x->x_numouts - 1;
     /* CHECKED: while in all-off mode, input is stored, not ignored */
     x->x_onout = val;
-    Decode_deliver(x);
+    decode_deliver(x);
 }
 
 
-static void Decode_bang(t_Decode *x)
+static void decode_bang(t_decode *x)
 {
-    Decode_deliver(x);
+    decode_deliver(x);
 }
 
-static void Decode_allon(t_Decode *x, t_floatarg f)
+static void decode_allon(t_decode *x, t_floatarg f)
 {
     x->x_allon = (f != 0);
-    Decode_deliver(x);
+    decode_deliver(x);
 }
 
-static void Decode_alloff(t_Decode *x, t_floatarg f)
+static void decode_alloff(t_decode *x, t_floatarg f)
 {
     x->x_alloff = (f != 0);
-    Decode_deliver(x);
+    decode_deliver(x);
 }
 
-static void Decode_free(t_Decode *x)
+static void decode_free(t_decode *x)
 {
     if (x->x_outs != x->x_outbuf)
 	freebytes(x->x_outs, x->x_numouts * sizeof(*x->x_outs));
 }
 
-static void *Decode_new(t_floatarg val){
-    t_Decode *x;
+static void *decode_new(t_floatarg val){
+    t_decode *x;
     int i, nouts = (int)val;
     t_outlet **outs;
     if (nouts < 1)
-	nouts = DECODE_DEFOUTS;
-    if (nouts > DECODE_C74MAXOUTS){
-        nouts = DECODE_C74MAXOUTS;
+	nouts = decode_DEFOUTS;
+    if (nouts > decode_C74MAXOUTS){
+        nouts = decode_C74MAXOUTS;
         if (!(outs = (t_outlet **)getbytes(nouts * sizeof(*outs))))
             return (0);
     }
     else outs = 0;
-    x = (t_Decode *)pd_new(Decode_class);
+    x = (t_decode *)pd_new(decode_class);
     x->x_numouts = nouts;
     x->x_outs = (outs ? outs : x->x_outbuf);
     x->x_onout = 0;
@@ -103,21 +103,14 @@ static void *Decode_new(t_floatarg val){
 
 CYCLONE_OBJ_API void decode_setup(void)
 {
-    Decode_class = class_new(gensym("decode"),
-			     (t_newmethod)Decode_new,
-			     (t_method)Decode_free,
-			     sizeof(t_Decode), 0, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)Decode_new, gensym("Decode"), A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)Decode_new, gensym("cyclone/Decode"), A_DEFFLOAT, 0);
-    class_addfloat(Decode_class, Decode_float);
-    class_addbang(Decode_class, Decode_bang);
-    class_addmethod(Decode_class, (t_method)Decode_allon,
+    decode_class = class_new(gensym("decode"),
+			     (t_newmethod)decode_new,
+			     (t_method)decode_free,
+			     sizeof(t_decode), 0, A_DEFFLOAT, 0);
+    class_addfloat(decode_class, decode_float);
+    class_addbang(decode_class, decode_bang);
+    class_addmethod(decode_class, (t_method)decode_allon,
 		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(Decode_class, (t_method)Decode_alloff,
+    class_addmethod(decode_class, (t_method)decode_alloff,
 		    gensym("ft2"), A_FLOAT, 0);
-}
-
-void Decode_setup(void)
-{
-    decode_setup();
 }

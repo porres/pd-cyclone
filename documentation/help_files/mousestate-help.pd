@@ -70,10 +70,10 @@
 #X text 132 390 reset;
 #N canvas 765 322 486 287 examples 0;
 #X obj 284 169 cyclone/mousestate, f 19;
-#X floatatom 311 201 3 0 0 0 - - -, f 3;
-#X floatatom 339 201 3 0 0 0 - - -, f 3;
-#X floatatom 367 200 4 0 0 0 - - -, f 4;
-#X floatatom 395 200 4 0 0 0 - - -, f 4;
+#X floatatom 311 201 3 0 0 0 - - -;
+#X floatatom 339 201 3 0 0 0 - - -;
+#X floatatom 367 200 4 0 0 0 - - -;
+#X floatatom 395 200 4 0 0 0 - - -;
 #X obj 312 116 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 311 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -89,10 +89,10 @@
 #X text 39 81 on pressing the mouse button:;
 #X text 252 80 on releasing the mouse button:;
 #X obj 87 168 cyclone/mousestate, f 19;
-#X floatatom 114 200 3 0 0 0 - - -, f 3;
-#X floatatom 142 200 3 0 0 0 - - -, f 3;
-#X floatatom 170 199 4 0 0 0 - - -, f 4;
-#X floatatom 198 199 4 0 0 0 - - -, f 4;
+#X floatatom 114 200 3 0 0 0 - - -;
+#X floatatom 142 200 3 0 0 0 - - -;
+#X floatatom 170 199 4 0 0 0 - - -;
+#X floatatom 198 199 4 0 0 0 - - -;
 #X obj 115 115 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 114 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -126,7 +126,7 @@
 #X connect 18 0 23 0;
 #X connect 19 0 24 0;
 #X connect 24 0 14 0;
-#X restore 474 218 pd examples;
+#X restore 474 248 pd examples;
 #X text 171 297 - polls position data, f 61;
 #X text 171 330 - does not poll position data (only via bang), f 61
 ;
@@ -146,14 +146,14 @@ where (0 \, 0) is the top left corner of the primary display.;
 #X text 112 217 mode 1: patch relative;
 #X text 112 232 mode 2: front-most patch relative;
 #X obj 159 406 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 85 256;
+-228856 -1 -1 1015 256;
 #X text 160 423 x pos;
 #X text 186 380 y pos;
 #X text 21 14 There are 3 different modes in [mousestate] that define
 what the coordinate (0 \, 0) of the (x \, y) position point is in relation
 to.;
 #X obj 185 362 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -65 256;
+-228856 -1 -1 199 256;
 #X text 209 404 horizontal;
 #X text 234 362 vertical;
 #X text 23 97 Mode 1 uses "patch-relative coordinates" \, where (0
@@ -167,23 +167,7 @@ selectring the parent patch for example.;
 #X connect 2 0 1 0;
 #X connect 3 0 1 0;
 #X connect 4 0 3 0;
-#X restore 491 195 pd modes;
-#N canvas 886 306 411 276 backwards 0;
-#X text 146 84 or even:;
-#X text 18 124 But please don't \, just stick to;
-#X text 166 159 or;
-#X obj 74 84 MouseState;
-#X obj 213 84 cyclone/MouseState;
-#X obj 84 158 mousestate;
-#X obj 201 159 cyclone/mousestate;
-#X text 13 10 Long ago in Max \, [mousestate] used to be [MouseState]
-\, and was cloned as such in cyclone. This ancient way of creating
-this object is still present for backwards compatibility reasons \,
-so you can still use:;
-#X text 23 196 Which is the current \, reasonable and sensible way
-nowadays. There's also a plan to evenetually phase out the capital
-letters in cyclone's objects.;
-#X restore 462 240 pd backwards \; compatibility;
+#X restore 491 225 pd modes;
 #X obj 33 59 cyclone/comment 0 18 times ? 0 0 0 0 Retrieve mouse data
 ;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 mousestate;
@@ -222,5 +206,5 @@ poll, f 59;
 #X connect 29 0 12 0;
 #X connect 42 0 12 0;
 #X connect 43 0 42 0;
+#X connect 66 0 12 0;
 #X connect 67 0 12 0;
-#X connect 68 0 12 0;

@@ -302,9 +302,6 @@ CYCLONE_OBJ_API void mousestate_setup(void)
 				 (t_newmethod)mousestate_new,
 				 (t_method)mousestate_free,
 				 sizeof(t_mousestate), 0, 0);
-
-    class_addcreator((t_newmethod)mousestate_new, gensym("MouseState"), 0, 0);
-    class_addcreator((t_newmethod)mousestate_new, gensym("cyclone/MouseState"), 0, 0);
     class_addanything(mousestate_class, mousestate_anything);
     class_addmethod(mousestate_class, (t_method)mousestate_doup,
 		    gensym("_up"), A_FLOAT, 0);
@@ -327,10 +324,4 @@ CYCLONE_OBJ_API void mousestate_setup(void)
 		    gensym("reset"), 0);
     class_addmethod(mousestate_class, (t_method)mousestate_mode,
 		    gensym("mode"), A_FLOAT, 0);
-
-}
-
-void MouseState_setup(void)
-{
-    mousestate_setup();
 }

@@ -1,4 +1,4 @@
-#N canvas 959 33 561 614 10;
+#N canvas 503 35 561 614 10;
 #X obj 5 588 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 261 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -46,27 +46,18 @@
 #X text 86 369 sampleinterval <f>;
 #X text 134 352 offset <f>;
 #X text 137 564 The internal clock only runs when the DSP is on.;
-#N canvas 851 184 455 487 conflicts 0;
-#X text 109 277 or even:;
-#X text 42 64 Cyclone avoids name clashing and overwritting an internal
+#N canvas 851 184 455 289 conflicts 0;
+#X text 44 66 Cyclone avoids name clashing and overwritting an internal
 in Pd Vanilla \, so you need to have the cyclone folder properly installed
 in Pd Vanilla's extra folder and create it as:;
-#X text 42 346 ============================================================
-;
-#X text 201 430 <= from Pd Vanilla;
-#X text 45 168 There's the old way of creating this object in cyclone
-(and still present for backwards compatibility reasons). This option
-is creating the object with a first capital letter:;
-#X text 47 374 So \, if you still want the object from vanilla \, you
+#X text 203 232 <= from Pd Vanilla;
+#X text 49 176 So \, if you still want the object from vanilla \, you
 even if you created the objects above \, you can still instantiate
 it as:;
-#X obj 157 127 cyclone/snapshot~;
-#X obj 196 240 Snapshot~;
-#X obj 176 277 cyclone/Snapshot~;
-#X obj 135 430 snapshot~;
-#X text 42 27 Pd also has a vanilla object named [snapshot~]. Though
+#X obj 159 129 cyclone/snapshot~;
+#X obj 137 232 snapshot~;
+#X text 44 29 Pd also has a vanilla object named [snapshot~]. Though
 very similar \, they're not compatible.;
-#X text 42 315 The plan is to phase it out though.;
 #X restore 373 205 pd conflicts with internal \; backwards compatibility
 ;
 #X obj 147 170 noise~;

@@ -59,23 +59,18 @@ cloned from Max/MSP;
 ms) to reach it (maximum is 128 target-time pairs). For an odd number
 of elements \, the last element is treated as another pair with 0 ms
 duration., f 60;
-#N canvas 723 166 420 324 name 0;
-#X text 196 170 <= from Pd Vanilla;
-#X text 29 222 Other ways to load [biquad~] is with a capital letter
-\, either with or without such as:;
-#X text 28 133 And still create the vanilla object from vanilla without
+#N canvas 723 166 410 218 name 0;
+#X text 197 171 <= from Pd Vanilla;
+#X text 29 134 And still create the vanilla object from vanilla without
 namespaces as:;
-#X text 209 274 and;
-#X obj 146 95 cyclone/line~;
-#X obj 150 170 line~;
-#X obj 94 274 cyclone/Line~;
-#X obj 255 274 Line~, f 9;
-#X text 29 14 Pd also has a vanilla object named [line~]. Cyclone avoids
+#X obj 147 96 cyclone/line~;
+#X obj 151 171 line~;
+#X text 30 15 Pd also has a vanilla object named [line~]. Cyclone avoids
 name clashing and overwritting an internal in Pd Vanilla \, but for
 that you need to use the cyclone namespace ("cyclone/" before the object
 name) \, as it's the common practice for cyclone's documentation. So
 you create it as:;
-#X restore 451 250 pd name clash;
+#X restore 451 228 pd name clash;
 #X text 68 84 [cyclone/line~] generates signal ramps or envelopes.
 It takes a target and a duration (in ms) values and generates a ramp
 from its current value to the target value in that period. Target and
@@ -92,7 +87,7 @@ other than "0" via the second inlet., f 64;
 #X msg 153 89 stop;
 #X obj 200 95 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X floatatom 200 115 5 0 0 0 - - -, f 5;
+#X floatatom 200 115 5 0 0 0 - - -;
 #X text 93 167 1;
 #X text 93 255 0;
 #X text 81 211 0.5;
@@ -124,7 +119,7 @@ other than "0" via the second inlet., f 64;
 #X connect 18 0 15 0;
 #X connect 19 0 4 0;
 #X connect 19 1 0 0;
-#X restore 469 227 pd example;
+#X restore 469 250 pd example;
 #X obj 219 272 cyclone/number~;
 #X msg 219 225 \$1 1000;
 #X obj 219 205 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0

@@ -131,23 +131,23 @@ displays in "Y Mode" only.;
 #X connect 23 0 3 1;
 #X connect 26 0 23 0;
 #X connect 27 0 24 1;
-#X restore 305 280 pd X-Y_Mode;
+#X restore 472 233 pd X-Y_Mode;
 #X obj 46 116 hsl 100 17 20 200 1 0 empty empty empty 5 8 1 10 -228856
 -1 -1 0 0;
-#X floatatom 43 139 5 0 0 0 - - -, f 5;
+#X floatatom 43 139 5 0 0 0 - - -;
 #N canvas 680 60 429 780 trigger_mode 0;
 #X obj 69 549 vsl 15 126 -1 1 0 1 empty empty empty 0 -9 0 10 -228856
 -1 -1 6250 1;
 #X obj 251 411 vradio 20 1 1 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
 #X msg 251 502 trigger \$1;
-#X floatatom 251 481 5 0 0 0 - - -, f 5;
+#X floatatom 251 481 5 0 0 0 - - -;
 #X msg 156 474 triglevel \$1;
 #X obj 69 695 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 -0.008 256;
 #X obj 69 720 s \$0-slider;
 #X obj 156 420 r \$0-slider;
-#X floatatom 156 446 5 0 0 0 - - -, f 5;
+#X floatatom 156 446 5 0 0 0 - - -;
 #X obj 87 464 osc~ 150;
 #X obj 87 548 Scope~ 201 129 2 3 256 -1 1 0 0 0 -0.008 205 229 232
 74 79 77 96 98 102 0;
@@ -183,7 +183,7 @@ or right.;
 #X connect 7 0 8 0;
 #X connect 8 0 4 0;
 #X connect 9 0 10 0;
-#X restore 401 257 pd trigger_mode;
+#X restore 398 285 pd trigger_mode;
 #X obj 31 193 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
 #X obj 22 299 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
 #X obj 30 246 cnv 5 5 5 empty empty 0 0 0 0 16 -262144 -162280 0;
@@ -191,58 +191,44 @@ or right.;
 #X text 108 142 Samples per line (2-8192);
 #X text 268 162 Number of lines in buffer (8-256);
 #X text 67 116 frequency;
-#N canvas 788 416 475 277 backwards-compatibility 0;
-#X text 49 70 [scope~] used to be compiled as [Scope~] to avoid name
-conflicts with an old (and not existing anymore) Pd Vanilla's object.
-;
-#X obj 43 20 cnv 15 210 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X text 51 124 There are no such conflicts nowadays \, but you can
-still create this object as [Scope~] or [cyclone/Scope~] for backwards
-compatibility reasons. But [scope~] or [cyclone/scope~] is the reasonable
-and sensible way nowadays and the current plan is to phase out the
-capital letters in cyclone's objects.;
-#X obj 56 25 cyclone/comment 0 18 times ? 0 0 0 0 backwards compatibility:
-;
-#X restore 387 280 pd backwards-compatibility;
 #N canvas 497 125 843 612 appearance_colors 0;
 #X obj 175 447 Scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333 205 229
 232 74 79 77 96 98 102 0;
 #X obj 20 139 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rf empty 0 -9 0 10
 -258049 -262144 -1 10210 1;
-#X floatatom 20 281 5 0 0 0 - - -, f 5;
+#X floatatom 20 281 5 0 0 0 - - -;
 #X obj 39 323 bondo 3;
 #X obj 39 357 pack f f f;
 #X msg 39 389 fgcolor \$1 \$2 \$3;
 #X obj 58 139 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gf empty 0 -9 0 10 -4033
 -262144 -1 11405 1;
-#X floatatom 58 281 5 0 0 0 - - -, f 5;
+#X floatatom 58 281 5 0 0 0 - - -;
 #X obj 98 139 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bf empty 0 -9 0 10 -64
 -262144 -1 11555 1;
-#X floatatom 98 281 5 0 0 0 - - -, f 5;
+#X floatatom 98 281 5 0 0 0 - - -;
 #X obj 156 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rb empty 0 -9 0 10
 -258049 -262144 -1 3685 1;
-#X floatatom 156 279 5 0 0 0 - - -, f 5;
+#X floatatom 156 279 5 0 0 0 - - -;
 #X obj 175 321 bondo 3;
 #X obj 175 355 pack f f f;
 #X obj 194 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gb empty 0 -9 0 10
 -4033 -262144 -1 3935 1;
-#X floatatom 194 279 5 0 0 0 - - -, f 5;
+#X floatatom 194 279 5 0 0 0 - - -;
 #X obj 234 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bb empty 0 -9 0 10 -64
 -262144 -1 3835 1;
-#X floatatom 234 279 5 0 0 0 - - -, f 5;
+#X floatatom 234 279 5 0 0 0 - - -;
 #X msg 175 387 bgcolor \$1 \$2 \$3;
 #X obj 286 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rg empty 0 -9 0 10
 -258049 -262144 -1 4781 1;
-#X floatatom 286 279 5 0 0 0 - - -, f 5;
+#X floatatom 286 279 5 0 0 0 - - -;
 #X obj 305 321 bondo 3;
 #X obj 305 355 pack f f f;
 #X obj 324 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gg empty 0 -9 0 10
 -4033 -262144 -1 4881 1;
-#X floatatom 324 279 5 0 0 0 - - -, f 5;
+#X floatatom 324 279 5 0 0 0 - - -;
 #X obj 364 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bg empty 0 -9 0 10 -64
 -262144 -1 5080 1;
-#X floatatom 364 279 5 0 0 0 - - -, f 5;
+#X floatatom 364 279 5 0 0 0 - - -;
 #X msg 305 387 gridcolor \$1 \$2 \$3;
 #X msg 565 349 frgb 205 229 232 \, brgb 74 79 77;
 #N canvas 0 22 445 552 x 0;
@@ -315,7 +301,7 @@ Check the messages below;
 #X connect 30 0 0 0;
 #X connect 32 0 31 0;
 #X connect 33 0 32 0;
-#X restore 291 230 pd appearance_colors;
+#X restore 288 258 pd appearance_colors;
 #N canvas 536 155 847 483 appearance_others 0;
 #X obj 33 23 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -330,7 +316,7 @@ Check the messages below;
 #X text 235 192 (default);
 #X text 285 287 (default);
 #X msg 374 292 drawstyle \$1;
-#X obj 374 252 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 374 252 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X msg 205 262 range -1.2 1.2;
 #X text 34 102 The "drawstyle 1" message or attribute changes [scope~]
@@ -384,7 +370,7 @@ message/attribute \, convenient also for some dynamic patching.;
 #X connect 23 0 17 0;
 #X connect 24 0 16 0;
 #X connect 25 0 1 0;
-#X restore 422 230 pd appearance_others;
+#X restore 419 258 pd appearance_others;
 #N canvas 840 278 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -400,12 +386,12 @@ right corner.;
 #X text 73 77 When you click on [scope~] with your mouse \, the display
 freezes for as long as you hold the mouse button down.;
 #X connect 1 0 2 0;
-#X restore 500 257 pd mouse;
+#X restore 497 285 pd mouse;
 #N canvas 693 173 436 665 buffer 0;
-#X floatatom 141 455 5 0 0 0 - - -, f 5;
+#X floatatom 141 455 5 0 0 0 - - -;
 #X obj 141 516 Scope~ 182 119 10 3 256 -1 1 0 0 0 -0.333333 205 229
 232 74 79 77 96 98 102 0;
-#X floatatom 246 456 5 8 256 0 - - -, f 5;
+#X floatatom 246 456 5 8 256 0 - - -;
 #X obj 141 429 unpack float float;
 #X msg 141 374 256 10;
 #X obj 168 485 osc~ 20;
@@ -441,7 +427,7 @@ smallest line is 2 samples/points long.;
 #X connect 4 0 3 0;
 #X connect 5 0 1 0;
 #X connect 6 0 3 0;
-#X restore 285 257 pd buffer settings;
+#X restore 282 285 pd buffer settings;
 #X obj 43 190 scope~ 183 112 256 3 128 -1 1 0 0 0 0 205 229 232 74
 79 77 96 98 102 0;
 #X text 89 83 [scope~] displays a signal in the style of an oscilloscope.
@@ -461,6 +447,6 @@ click for properties!;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 42 0 43 0;
 #X connect 43 0 48 0;
-#X connect 48 0 57 0;
-#X connect 65 0 57 0;
-#X connect 66 0 57 1;
+#X connect 48 0 56 0;
+#X connect 64 0 56 0;
+#X connect 65 0 56 1;
