@@ -4,9 +4,16 @@
 
 cyclone 0.4 (needs at least Pd Vanilla 0.50.0)
 
-- Made a few improvements in cyclone/comment's update
+- fixed a 0.3 regression bug (this was ok in 0.2) where an annoying 'couldn't unbind' error was printed by [mousestate]
+
+- fixed a bug where [comment] was loading arguments wrongly
+
+- fixed the way [comment] should save unexpanded receive symbols
+
+- fixed a bug in [unjoin] where it did output an empty selector
+
 - Thanks to the new [pdcontrol] object from 0.50.0, buffer~ can now load files relative to its owner patch.
-- Other couple of minor fixes to unjoin/mousestate.
+
 - To conform with the latest Max versions that do not allow capital letters in object names anymore, the alias for capital letters have been removed. The last version of cyclone still included capital letters for backwards compatibility but with a note that this was being phased out. So if you still have capital letters, you should change to lower case. The affected objects and how they must be instantiated now are: cyclone/append (*); bucket; cyclone/clip (*); decode; histo; mousestate; peak; cyclone/table (*); togedge; trough; uzi; cyclone/clip~ (*); cyclone/line~ (*); scope~; cyclone/snapshot~ (*)
 
 (*) these classes need the 'cyclone/' prefix to avoid name clashes with vanilla internals - see help file for more information.
