@@ -51,12 +51,6 @@ static void *togedge_new(void){
 CYCLONE_OBJ_API void togedge_setup(void){
     togedge_class = class_new(gensym("togedge"),
         (t_newmethod)togedge_new, 0, sizeof(t_togedge), 0, 0);
-    class_addcreator((t_newmethod)togedge_new, gensym("TogEdge"), 0, 0);
-    class_addcreator((t_newmethod)togedge_new, gensym("cyclone/TogEdge"), 0, 0);
     class_addbang(togedge_class, togedge_bang);
     class_addfloat(togedge_class, togedge_float);
-}
-
-void TogEdge_setup(void){
-    togedge_setup();
 }

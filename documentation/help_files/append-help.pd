@@ -42,22 +42,17 @@ to the incoming message;
 #X obj 324 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 365 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#N canvas 836 207 420 324 name 0;
-#X text 196 170 <= from Pd Vanilla;
-#X text 29 222 Other ways to load [biquad~] is with a capital letter
-\, either with or without such as:;
-#X text 28 133 And still create the vanilla object from vanilla without
+#N canvas 836 207 424 229 name 0;
+#X text 199 175 <= from Pd Vanilla;
+#X text 31 138 And still create the vanilla object from vanilla without
 namespaces as:;
-#X text 205 274 and;
-#X text 29 14 Pd also has a vanilla object named [append]. Cyclone
+#X text 32 19 Pd also has a vanilla object named [append]. Cyclone
 avoids name clashing and overwritting an internal in Pd Vanilla \,
 but for that you need to use the cyclone namespace ("cyclone/" before
 the object name) \, as it's the common practice for cyclone's documentation.
 So you create it as:;
-#X obj 146 95 cyclone/append;
-#X obj 153 170 append;
-#X obj 94 274 cyclone/Append;
-#X obj 255 274 Append, f 9;
+#X obj 149 100 cyclone/append;
+#X obj 156 175 append;
 #X restore 455 252 pd name clash;
 #X obj 253 169 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
@@ -65,13 +60,13 @@ So you create it as:;
 #X obj 279 233 cyclone/append C D;
 #X msg 297 152 A B;
 #X msg 315 180 set 3 4;
-#X symbolatom 278 125 10 0 0 0 - - -, f 10;
+#X symbolatom 278 125 10 0 0 0 - - -;
 #X msg 322 206 set;
 #X text 352 206 sets to nothing;
 #X obj 81 236 print;
 #X msg 81 163 4 5;
 #X obj 122 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 25 256;
+-228856 -1 -1 0 256;
 #X obj 81 205 cyclone/append y z;
 #X connect 26 0 28 0;
 #X connect 28 0 5 0;

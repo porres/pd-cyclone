@@ -254,10 +254,8 @@ static void *append_new(t_symbol *s, int ac, t_atom *av)
 
 CYCLONE_OBJ_API void append_setup(void)
 {
-    append_class = class_new(gensym("Append"),
+    append_class = class_new(gensym("cyclone/append"),
         (t_newmethod)append_new, (t_method)append_free, sizeof(t_append), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)append_new, gensym("cyclone/append"), A_GIMME, 0);
-    class_addcreator((t_newmethod)append_new, gensym("cyclone/Append"), A_GIMME, 0);
     class_addbang(append_class, append_bang);
     class_addfloat(append_class, append_float);
     class_addsymbol(append_class, append_symbol);
@@ -265,9 +263,5 @@ CYCLONE_OBJ_API void append_setup(void)
     class_addanything(append_class, append_anything);
     class_addmethod(append_class, (t_method)append_set,
 		    gensym("set"), A_GIMME, 0);
-}
-
-void Append_setup(void)
-{
-    append_setup();
+    class_sethelpsymbol(append_class, gensym("append"));
 }

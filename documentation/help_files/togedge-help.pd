@@ -1,4 +1,4 @@
-#N canvas 606 40 561 452 10;
+#N canvas 726 40 561 452 10;
 #X obj 2 283 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 342 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -61,23 +61,6 @@ to zero" transitions., f 65;
 #X text 173 310 switches the stored value from 0 to non-zero \, or
 vice versa \, and the change is reported by a corresponding bang output
 ;
-#N canvas 762 173 447 311 backwards 0;
-#X text 185 110 or even:;
-#X text 49 150 But please don't \, just stick to;
-#X text 166 183 or;
-#X text 44 53 Nevertheless \, the old way of creating this object is
-still present for backwards compatibility reasons. So you can still
-use:;
-#X text 53 220 Which is the reasonable and sensible way nowadays \,
-as the current plan is to phase out the capital letters in cyclone's
-objects.;
-#X obj 136 110 TogEdge;
-#X obj 252 110 cyclone/TogEdge;
-#X obj 114 183 togedge;
-#X obj 201 183 cyclone/togedge;
-#X text 43 20 [togedge] used to be compiled as [TogEdge] \, probably
-to avoid some name conflicts \, but this is not the case anymore.;
-#X restore 444 235 pd backwards \; compatibility;
 #X obj 20 56 cyclone/comment 0 18 times ? 0 0 0 0 report zero / non-zero
 transitions;
 #X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 togedge;
@@ -86,7 +69,7 @@ cloned from Max/MSP;
 #X obj 363 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 134 248 cyclone/comment 52 11 helvetica ? 0 0 0 0 0 to non-0
 ;
-#X text 334 153 note that max doesn't deal with floats \, just ints
+#X text 332 168 note that max doesn't deal with floats \, just ints
 , f 26;
 #X connect 5 0 12 0;
 #X connect 12 0 8 0;

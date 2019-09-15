@@ -142,25 +142,18 @@ number array;
 #X obj 323 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 364 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#N canvas 836 207 420 324 name 0;
-#X text 196 170 <= from Pd Vanilla;
-#X text 29 222 Other ways to load [biquad~] is with a capital letter
-\, either with or without such as:;
-#X text 28 133 And still create the vanilla object from vanilla without
+#N canvas 836 207 417 233 name 0;
+#X text 201 173 <= from Pd Vanilla;
+#X text 33 136 And still create the vanilla object from vanilla without
 namespaces as:;
-#X text 205 274 and;
-#X text 29 14 Pd also has a vanilla object named [table]. Cyclone avoids
+#X text 34 17 Pd also has a vanilla object named [table]. Cyclone avoids
 name clashing and overwritting an internal in Pd Vanilla \, but for
 that you need to use the cyclone namespace ("cyclone/" before the object
 name) \, as it's the common practice for cyclone's documentation. So
 you create it as:;
-#X obj 146 95 cyclone/table;
+#X obj 151 98 cyclone/table;
 #C restore;
-#X obj 160 170 table;
-#X obj 94 274 cyclone/Table;
-#C restore;
-#X obj 255 274 Table;
-#C restore;
+#X obj 165 173 table;
 #X restore 460 222 pd name clash;
 #X obj 3 400 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;

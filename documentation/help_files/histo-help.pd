@@ -1,4 +1,4 @@
-#N canvas 302 98 560 519 10;
+#N canvas 402 85 560 519 10;
 #X obj 2 304 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 396 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -10,7 +10,7 @@
 #X obj 87 426 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X msg 111 209 clear;
-#X floatatom 284 219 5 0 0 0 - - -, f 5;
+#X floatatom 284 219 5 0 0 0 - - -;
 #X obj 87 404 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 2 480 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
@@ -43,23 +43,6 @@
 #X text 303 167 <= check how many times;
 #X text 118 354 clear;
 #X text 173 354 erases the received numbers, f 60;
-#N canvas 180 242 447 311 backwards 0;
-#X text 185 110 or even:;
-#X text 49 150 But please don't \, just stick to;
-#X text 166 183 or;
-#X text 44 53 Nevertheless \, the old way of creating this object is
-still present for backwards compatibility reasons. So you can still
-use:;
-#X text 53 220 Which is the reasonable and sensible way nowadays \,
-as the current plan is to phase out the capital letters in cyclone's
-objects.;
-#X text 43 20 [histo] used to be compiled as [Histo] \, probably to
-avoid some name conflicts \, but this is not the case anymore.;
-#X obj 252 110 cyclone/Histo;
-#X obj 114 182 histo;
-#X obj 201 183 cyclone/histo;
-#X obj 136 110 Histo;
-#X restore 457 261 pd backwards \; compatibility;
 #N canvas 788 118 413 264 examples 0;
 #X obj 168 93 notein 1;
 #X obj 168 115 stripnote;
@@ -74,7 +57,7 @@ to make probabilistic choices based on past history.;
 #X connect 1 0 3 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 0;
-#X restore 468 233 pd examples;
+#X restore 468 273 pd examples;
 #X obj 209 279 cyclone/comment 100 11 helvetica ? 0 0 0 0 was repeated
 ;
 #X obj 324 279 cyclone/comment 100 11 helvetica ? 0 0 0 0 times;
@@ -91,7 +74,7 @@ to make probabilistic choices based on past history.;
 ;
 #X text 158 374 -;
 #X text 118 374 float;
-#X floatatom 167 209 5 0 0 0 - - -, f 5;
+#X floatatom 167 209 5 0 0 0 - - -;
 #X text 274 153 0;
 #X text 274 168 1;
 #X text 274 183 2;
@@ -116,11 +99,11 @@ cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #X obj 115 279 cyclone/comment 100 11 helvetica ? 0 0 0 0 the value
 ;
-#X connect 5 0 53 0;
-#X connect 6 0 53 1;
+#X connect 5 0 52 0;
+#X connect 6 0 52 1;
 #X connect 9 0 6 0;
-#X connect 25 0 53 0;
-#X connect 43 0 53 0;
-#X connect 51 0 43 0;
-#X connect 53 0 36 0;
-#X connect 53 1 37 0;
+#X connect 25 0 52 0;
+#X connect 42 0 52 0;
+#X connect 50 0 42 0;
+#X connect 52 0 35 0;
+#X connect 52 1 36 0;

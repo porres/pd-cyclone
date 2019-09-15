@@ -808,10 +808,8 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
 }
 
 CYCLONE_OBJ_API void table_setup(void){
-    table_class = class_new(gensym("Table"),
+    table_class = class_new(gensym("cyclone/table"),
         (t_newmethod)table_new, (t_method)table_free, sizeof(t_table), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)table_new, gensym("cyclone/table"), A_GIMME, 0);
-    class_addcreator((t_newmethod)table_new, gensym("cyclone/Table"), A_GIMME, 0);
     class_addbang(table_class, table_bang);
     class_addfloat(table_class, table_float);
     class_addmethod(table_class, (t_method)table_click, gensym("click"),
@@ -861,8 +859,5 @@ CYCLONE_OBJ_API void table_setup(void){
     /* a nop call (tablecommon doesn't embed and the hammerfile class is set up above),
      but it's best to have it around just in case... */ // Delete this??????
     hammerfile_setup(tablecommon_class, 0);
-}
-
-void Table_setup(void){
-    table_setup();
+    class_sethelpsymbol(table_class, gensym("table"));
 }

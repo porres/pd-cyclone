@@ -13,7 +13,7 @@
  [%~] and [+=~] - the original code for such objects was 'nettles.c'.
  
  The cyclone library also adds the cyclone path to Pd so you can load all the
- objects compiled as separate binaries and abstractions. This needs Pd 0.48+
+ objects compiled as separate binaries and abstractions.
  
  Alternatively, alphanumeric versions of these objects are also included as
  single binaries in the cyclone package  */
@@ -635,7 +635,7 @@ void print_cyclone(void)
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     post("------------------------------------------------------------------------");
-    post("Cyclone 0.3.1; Unreleased");
+    post("Cyclone 0.4; Released September 15th 2019");
     post("Loading the cyclone library did the following:");
     post("A) Loaded the non alpha-numeric objects, which are:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");

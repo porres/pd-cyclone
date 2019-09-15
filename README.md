@@ -14,29 +14,29 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Current Release: Cyclone 0.3.1 (this release needs at least Pd Vanilla 0.50-0)
+Current Release: Cyclone 0.4 (this release needs at least Pd Vanilla 0.50-0)
 
-Release Date: Unreleased
+Release Date: September 15th 2019
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals)
 
 -------
-### About Cyclone 0.3.1:
+### About Cyclone:
 
-Cyclone 0.3.1 needs at least Pd Vanilla 0.50-0 and it doesn't fully work in Pd Extended or Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data).
+Cyclone 0.4 needs at least Pd Vanilla 0.50-0 and it doesn't fully work in Pd Extended or Purr Data - both of which carry outdated versions of cyclone. Pd-Extended carries older 0.1 versions. Purr Data still carries the outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data).
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
 
-The main goal of Cyclone 0.3 was to update Cyclone's objects to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation has been rewritten from scratch and new objects were included. Here's the aftermath:
+Cyclone 0.3 was the major overhaul in cyclone, which got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Here's the aftermath:
 
 - 62 updated objects;
 - 65 fixed objects (including updated objects);
 - 40 new objects;
 - Newly written documentation
 
-Check details in the provided CHANGELOG.txt file
+For changes in Cyclone 0.4 and before, check the details in the provided CHANGELOG.txt file
 
-Future updates corresponding to added functionalities from Max 8 can be included in a Cyclone 0.4 version or above.
+ps. Future updates corresponding to added functionalities from Max 8 can be included in future versions of Cyclone.
 
 -------
 
@@ -191,7 +191,7 @@ Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
 Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended and eventually ended up under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release (from Jan 2013), Cyclone and miXed were left unmaintained as a result. In Dec-2014, Fred Jan Kraan took over maintainance and development for cyclone (but not the rest of the miXed library) and released 0.1alpha57 and Cyclone 0.2 beta versions, but decided to abandon development for it in Feb-2016.
 
-Since February 21st 2016, further development for Cyclone started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators. The first stable release is Cyclone 0.3!
+Since February 21st 2016, further development for Cyclone started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators. The first stable release was Cyclone 0.3!
 
 #### About Other Repositories:
 
