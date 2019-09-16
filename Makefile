@@ -291,13 +291,25 @@ $(wildcard documentation/extra_files/*.*) \
 LICENSE.txt \
 README.pdf \
 
-# pthreadGC-3.dll is required for Windows installation. It can be found in
-# the MinGW directory (usually C:\MinGW\bin) directory and should be
+# "libwinpthread-1.dll" is required for Windows installation when compiling with Msys2. 
+# It can be found in the MinGW directory (usually "C:\msys64\mingw64\bin" for 64bit builds 
+# or "C:\msys64\mingw32\bin" for 32bit builds) directory and should be
 # copied to the current directory before installation or packaging.
+# We use $(MINGW_CHOST) for compiler Arch detection. (not tested for cross-compiling).
+#
+# "pthreadGC-3.dll" and "libgcc_s_dw2-1.dll" need to be copied if compiling with Msys1.
+# They are copied just in case.
+#
 
 ifeq (MINGW,$(findstring MINGW,$(uname)))
-datafiles += maintenance/windows_dll/pthreadGC-3.dll
-datafiles += maintenance/windows_dll/libgcc_s_dw2-1.dll
+  ifeq ($(MINGW_CHOST), i686-w64-mingw32)
+    datafiles += maintenance/windows_dll/msys2-32/libwinpthread-1.dll
+    datafiles += maintenance/windows_dll/pthreadGC-3.dll
+    datafiles += maintenance/windows_dll/libgcc_s_dw2-1.dll
+  else
+    datafiles += maintenance/windows_dll/msys2-64/libwinpthread-1.dll
+  endif
+
 endif
 
 ### pd-lib-builder ######################################################
