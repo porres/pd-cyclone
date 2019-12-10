@@ -20,7 +20,7 @@
 
 #include "m_pd.h"
 #include <common/api.h>
-#include "m_imp.h"
+#include "m_imp.h" // why?
 #include "common/shared.h"
 #include "common//magicbit.h"
 #include <math.h>
@@ -520,9 +520,6 @@ typedef struct _plusequals
 } t_plusequals;
 
 static t_class *plusequals_class;
-
-// MAGIC
-EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
 
 static t_int *plusequals_perform(t_int *w)
 {

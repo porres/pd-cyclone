@@ -2,19 +2,9 @@
 #define CYCLONE_MAGIC_INF 0x7F800000ul
 #define CYCLONE_MAGIC_NEGATIVE_INF 0xFF800000ul
 
-/*This is a public function that returns float fields. It is not declared in m_pd.h,
-so we have to declare it here. The arguments are the object and the inlet number
-(indexed from zero)*/
-EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
-/*end magic*/
+#include "m_imp.h" // for obj_findsignalscalar - function that returns float fields
 
 typedef unsigned long shared_t_bitmask;
-
-/*int-float unions*/
-//~ union i32_fl {
-	//~ int32_t if_int32;
-	//~ t_float if_float;
-//~ };
 
 union magic_ui32_fl {
 	uint32_t uif_uint32;
@@ -24,9 +14,6 @@ union magic_ui32_fl {
 void magic_setnan (t_float *in);
 int magic_isnan (t_float in);
 int magic_isinf (t_float in);
-
-
-
 
 // from old fragile (bits and pieces likely to break with any new Pd version.)
 
@@ -38,7 +25,6 @@ int magic_inlet_connection(t_object *x, t_glist *glist, int inno, t_symbol *outs
 
 
 // for bitwise classes
-
 int32_t bitwise_getbitmask(int ac, t_atom *av);
 
 typedef union _i32_fl {

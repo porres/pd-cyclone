@@ -19,8 +19,6 @@ typedef struct _poltocar
 
 static t_class *poltocar_class;
 
-//EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
-
 static t_int *poltocar_perform(t_int *w)
 {
     t_poltocar *x = (t_poltocar *)(w[1]);
