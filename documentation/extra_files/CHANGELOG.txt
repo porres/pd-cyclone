@@ -14,7 +14,7 @@ cyclone 0.4 (needs at least Pd Vanilla 0.50.0)
 
 - Thanks to the new [pdcontrol] object from 0.50.0, buffer~ can now load files relative to its owner patch.
 
-- To conform with the latest Max versions that do not allow capital letters in object names anymore, the alias for capital letters have been removed. The last version of cyclone still included capital letters for backwards compatibility but with a note that this was being phased out. So if you still have capital letters, you should change to lower case. The affected objects and how they must be instantiated now are: cyclone/append (*); bucket; cyclone/clip (*); decode; histo; mousestate; peak; cyclone/table (*); togedge; trough; uzi; cyclone/clip~ (*); cyclone/line~ (*); scope~; cyclone/snapshot~ (*)
+- To conform with the latest Max versions that do not allow capital letters in object names anymore, the alias for capital letters have been removed. The last version of cyclone still attempted to included capital letters for backwards compatibility but with a note that this was being phased out. The fact is that Linux distributions didn't have this working properly. Instead of fixing this, cyclone 0.4 just removes this backwards compatibility. So if you still have capital letters, you should change to lower case. The affected objects and how they must be instantiated now are: cyclone/append (*); bucket; cyclone/clip (*); decode; histo; mousestate; peak; cyclone/table (*); togedge; trough; uzi; cyclone/clip~ (*); cyclone/line~ (*); scope~; cyclone/snapshot~ (*)
 
 (*) these classes need the 'cyclone/' prefix to avoid name clashes with vanilla internals - see help file for more information.
 
