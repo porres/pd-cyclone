@@ -67,13 +67,11 @@ Since "Cyclone 0.1-alpha57", the Cyclone package has relied on the new build sys
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
 <pre>make pdincludepath=~/pd-0.51-0/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.51-0/bin/)</pre>
-
 * Make Install
 
 Use "objectsdir" to set a relative path for your build, something like:
 
 <pre>make install objectsdir=../cyclone-build</pre>
-
 Then move it to your preferred install folder for Pd.
 
 -------
@@ -214,6 +212,6 @@ Fred Jan Kraan forked the original repository to <https://github.com/electricker
 
 ### About This Repository And Its Goals:
 
-This repository was forked from Fred Jan Kraan's at Cyclone 0.2 beta stage and is releasing new Cyclone versions starting at Cyclone 0.3. The location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. 
+This repository was forked from Fred Jan Kraan's at Cyclone 0.2 beta stage and is releasing new Cyclone versions starting at Cyclone 0.3. The location of this repository is: https://github.com/porres/pd-cyclone. This repository is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. Max compatibility was always the main goal of cyclone and nothing really changed. No incompatibilities should arise between cyclone 0.3 onwards with earlier versions. Releases from this repository are stable and offer many fixes and improves stability from earlier versions.
 
-Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list). Another way is just by sending Pull Requests to this repository.
+This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list). Another way is just by sending Pull Requests to this repository.
