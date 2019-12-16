@@ -65,9 +65,9 @@
 #define SCOPE_DEFFGRED       205
 #define SCOPE_DEFFGGREEN     229
 #define SCOPE_DEFFGBLUE      232
-#define SCOPE_DEFBGRED          74
-#define SCOPE_DEFBGGREEN        79
-#define SCOPE_DEFBGBLUE         77
+#define SCOPE_DEFBGRED       74
+#define SCOPE_DEFBGGREEN     79
+#define SCOPE_DEFBGBLUE      77
 #define SCOPE_DEFGRRED       96
 #define SCOPE_DEFGRGREEN     98
 #define SCOPE_DEFGRBLUE      102
@@ -476,7 +476,7 @@ static void scope_getrect(t_gobj *z, t_glist *glist,
     *yp2 = y2;
 }
 
-#ifdef PDL2ORK /* begin purr data GUI code */
+/* #ifdef PDL2ORK // begin purr data GUI code
 
 static unsigned char scope_color_f2c(t_float f, int oldstyle)
 {
@@ -630,7 +630,7 @@ static void scope_drawfg(t_scope *x, t_canvas *cv,
         xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
         ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
     }
-    /* Not sure whether we need the conditional here or not... */
+    // Not sure whether we need the conditional here or not...
     if (x->x_bufsize)
     {
         gui_start_vmess("gui_scope_configure_fg_xy", "xx", cv, x);
@@ -673,7 +673,7 @@ static void scope_drawfg(t_scope *x, t_canvas *cv,
 static void scope_drawmargins(t_scope *x, t_canvas *cv,
                               int x1, int y1, int x2, int y2)
 {
-    /* for Purr Data this is handled from scope_drawbg */
+    // for Purr Data this is handled from scope_drawbg
 }
 
 static void scope_drawbg(t_scope *x, t_canvas *cv,
@@ -689,10 +689,10 @@ static void scope_drawbg(t_scope *x, t_canvas *cv,
             x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
     sprintf(bgcolor, "#%2.2x%2.2x%2.2x",
             x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
-    /* For purr data we create all elements of the scope
-     here. scope_drawfg can then just change the path
-     data of the fg path element (instead of destroying
-     and recreating it */
+    // Purr data; create all elements of the scope
+    // here. scope_drawfg can then just change the path
+    // data of the fg path element (instead of destroying
+    // and recreating it
     gui_vmess("gui_scope_draw_bg", "xxssiifff",
               glist_getcanvas(cv),
               x,
@@ -720,7 +720,7 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
     int bufsize;
     int nleft = bufsize = x->x_lastbufsize;
     //float *bp = x->x_xbuflast;
-    char chunk[32 * SCOPE_GUICHUNK];  /* LATER estimate */
+    char chunk[32 * SCOPE_GUICHUNK];  // LATER estimate
     char *chunkp = chunk;
     
     int x1, y1, x2, y2, xymode = x->x_lastxymode;
@@ -745,7 +745,7 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
         xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
         ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
     }
-    /* Not sure whether we need the conditional here or not... */
+    // Not sure whether we need the conditional here or not... 
     if (x->x_bufsize)
     {
         gui_start_vmess("gui_scope_configure_fg_xy", "xx", cv, x);
@@ -882,9 +882,7 @@ static int scope_click(t_gobj *z, t_glist *glist,
     return (CURSOR_RUNMODE_CLICKME);
 }
 
-
-/* CHECKED there is only one copy of state variables,
- the same, whether modified with messages, or in the inspector */
+// CHECKED there's only a copy of state variables, whether modified via messages or inspector
 static void scope_save(t_gobj *z, t_binbuf *b)
 {
     t_scope *x = (t_scope *)z;
@@ -991,7 +989,7 @@ static void scopehandle__motionhook(t_scopehandle *sh,
     }
 }
 
-/* wrapper method for forwarding "scalehandle" data */
+// wrapper method for forwarding "scalehandle" data
 static void scope_click_for_resizing(t_scope *x, t_floatarg f,
                                      t_floatarg xxx, t_floatarg yyy)
 {
@@ -999,7 +997,7 @@ static void scope_click_for_resizing(t_scope *x, t_floatarg f,
     scopehandle__clickhook(sh, f);
 }
 
-/* another wrapper for forwarding "scalehandle" motion data */
+// another wrapper for forwarding "scalehandle" motion data
 static void scope_motion_for_resizing(t_scope *x, t_floatarg xxx,
                                       t_floatarg yyy)
 {
@@ -1069,9 +1067,9 @@ static void scope_properties(t_gobj *z, t_glist *owner)
     gui_end_vmess();
 }
 
-#else /* end purr data GUI code */
+// #else // end purr data GUI code
 
-/* begin pd vanilla GUI code */
+// begin pd vanilla GUI code */
 
 static void scope_fgcolor(t_scope *x, t_float fr, t_float fg, t_float fb)
 {//scale is 0-1
@@ -1580,8 +1578,7 @@ static int scope_click(t_gobj *z, t_glist *glist,
 }
 
 
-/* CHECKED there is only one copy of state variables,
- the same, whether modified with messages, or in the inspector */
+// CHECKED there's only a copy of state variables, whether modified via message or inspector
 static void scope_save(t_gobj *z, t_binbuf *b)
 {
     t_scope *x = (t_scope *)z;
@@ -1784,7 +1781,8 @@ static void scope_properties(t_gobj *z, t_glist *owner)
     //post("%s", buf);
     gfxstub_new(&x->x_obj.ob_pd, x, buf);
 }
-#endif /* end pd vanilla GUI code */
+
+// #endif // end pd vanilla GUI code
 
 static int scope_getcolorarg(int index, int argc, t_atom *argv)
 {
@@ -2226,11 +2224,11 @@ errstate:
 
 CYCLONE_OBJ_API void scope_tilde_setup(void){
     scope_class = class_new(gensym("scope~"), (t_newmethod)scope_new,
-                            (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)scope_new,
-                     gensym("Scope~"), A_GIMME, 0); // backwards compatible
-    class_addcreator((t_newmethod)scope_new,
-                     gensym("cyclone/Scope~"), A_GIMME, 0); // backwards compatible
+            (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
+//    class_addcreator((t_newmethod)scope_new,
+//            gensym("Scope~"), A_GIMME, 0); // backwards compatible
+//    class_addcreator((t_newmethod)scope_new,
+//            gensym("cyclone/Scope~"), A_GIMME, 0); // backwards compatible
     class_addmethod(scope_class, (t_method)scope_dialog,
                     gensym("dialog"), A_GIMME, 0);
     class_addmethod(scope_class, nullfn, gensym("signal"), 0);
@@ -2280,16 +2278,17 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     class_setpropertiesfn(scope_class, scope_properties);
     
-    
-    //    class_sethelpsymbol(scope_class, gensym("scope~"));
-    
-#ifdef PDL2ORK /* extra methods and widgetbehavior for purr data */
+    #include "scope_dialog.c"
+
+//    class_sethelpsymbol(scope_class, gensym("scope~"));
+/*
+#ifdef PDL2ORK // extra methods and widgetbehavior for purr data
     class_addmethod(scope_class, (t_method)scope_click_for_resizing,
                     gensym("_click"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_motion_for_resizing,
                     gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     scope_widgetbehavior.w_displacefnwtag = scope_displace_wtag;
-#else /* vanilla requires an avalanche of tcl code injections */
+#else // vanilla requires an avalanche of tcl code injections
 #include "scope_dialog.c"
-#endif
+#endif*/
 }
