@@ -1,4 +1,4 @@
-#N canvas 524 46 559 512 10;
+#N canvas 524 46 560 502 10;
 #X obj 5 475 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 7 273 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -73,8 +73,8 @@ values. Thus \, [delay~] doesnt't interpolate.;
 #X obj 155 142 cyclone/mstosamps~;
 #X obj 158 98 hsl 128 15 0 500 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X floatatom 155 118 8 0 0 0 - - -, f 8;
-#X floatatom 260 168 8 0 0 0 - - -, f 8;
+#X floatatom 155 118 8 0 0 0 - - -;
+#X floatatom 260 168 8 0 0 0 - - -;
 #X text 128 165 up to 1 second delay;
 #X text 215 117 ms;
 #X text 315 167 samples;
@@ -122,7 +122,7 @@ message.;
 the new target. In this case \, it does interpolate during the ramp
 time.;
 #X obj 130 203 -~;
-#X floatatom 300 152 5 0 0 0 - - -, f 5;
+#X floatatom 300 152 5 0 0 0 - - -;
 #X msg 335 119 0;
 #X obj 177 177 cyclone/delay~ 1000 0;
 #X msg 300 119 1000;

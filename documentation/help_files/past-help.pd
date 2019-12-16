@@ -36,9 +36,9 @@
 #X text 193 360 clears the memory so a next input may trigger a bang
 ;
 #X obj 187 166 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 7300 1;
+-1 -1 0 1;
 #X obj 184 193 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 73 256;
+-228856 -1 -1 0 256;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Check if input increases
 past a threshold;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 past;
@@ -76,7 +76,7 @@ bang may be output again when the values are greater.;
 #X text 193 341 values to check if went past a list of thresholds,
 f 52;
 #X text 193 378 sets threshold to one or more values, f 52;
-#N canvas 0 22 450 300 related 0;
+#N canvas 215 117 450 300 related 0;
 #X text 101 84 related to [threshold~] / [thresh~];
 #X restore 246 478 pd related;
 #X text 70 93 [past] bangs when an input is greater than a threshold

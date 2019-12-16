@@ -1,4 +1,4 @@
-#N canvas 844 23 561 499 10;
+#N canvas 394 185 564 479 10;
 #X obj 13 358 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1
 0;
 #X obj 13 405 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -14,10 +14,10 @@
 #X obj 99 285 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 124 420 1) float -;
-#X floatatom 284 162 5 0 0 0 - - -, f 5;
-#X floatatom 227 161 5 0 0 0 - - -, f 5;
-#X floatatom 79 173 5 0 0 0 - - -, f 5;
-#X floatatom 166 170 5 0 0 0 - - -, f 5;
+#X floatatom 284 162 5 0 0 0 - - -;
+#X floatatom 227 161 5 0 0 0 - - -;
+#X floatatom 79 173 5 0 0 0 - - -;
+#X floatatom 166 170 5 0 0 0 - - -;
 #X floatatom 79 234 0 0 0 0 - - -;
 #X text 135 285 float;
 #X text 140 303 bang;
@@ -29,9 +29,9 @@
 #X obj 366 172 swap;
 #X obj 368 199 /;
 #X obj 79 201 cyclone/rdiv 10;
-#X floatatom 398 149 5 0 0 0 - - -, f 5;
-#X floatatom 352 149 5 0 0 0 - - -, f 5;
-#X floatatom 368 226 5 0 0 0 - - -, f 5;
+#X floatatom 398 149 5 0 0 0 - - -;
+#X floatatom 352 149 5 0 0 0 - - -;
+#X floatatom 368 226 5 0 0 0 - - -;
 #X text 300 189 same as:;
 #X obj 5 451 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;

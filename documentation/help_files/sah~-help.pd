@@ -1,4 +1,4 @@
-#N canvas 171 35 561 653 10;
+#N canvas 461 23 563 640 10;
 #X obj 6 613 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 459 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -22,13 +22,13 @@
 #X text 196 549 - sampled and held signal according to trigger signal
 ;
 #X text 196 586 - threshold value (default 0);
-#X floatatom 189 244 8 0 0 0 - - -, f 8;
+#X floatatom 189 244 8 0 0 0 - - -;
 #X obj 132 230 noise~;
 #X obj 132 348 cyclone/cycle~;
 #X obj 287 237 cyclone/triangle~ 1;
 #X obj 287 287 cyclone/snapshot~ 1;
 #X obj 287 318 vsl 20 70 -1 1 0 0 empty empty empty 0 -9 0 10 -249661
--1 -1 0 1;
+-1 -1 2744 1;
 #X obj 287 214 phasor~ 0.7;
 #X obj 328 318 vsl 20 70 -0.99 0.99 0 0 empty empty empty 0 -9 0 10
 -228856 -1 -1 0 1;
@@ -61,7 +61,7 @@ one signal to the behavior of another.;
 #N canvas 220 68 493 689 arpeggiator 0;
 #X obj 87 478 cyclone/cycle~;
 #X floatatom 96 258 0 0 0 0 - - -;
-#X floatatom 261 247 5 0 0 0 - - -, f 5;
+#X floatatom 261 247 5 0 0 0 - - -;
 #X obj 264 223 hsl 128 15 50 150 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 99 235 hsl 128 15 15 25 0 0 empty empty empty -2 -8 0 10 -228856

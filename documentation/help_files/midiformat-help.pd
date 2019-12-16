@@ -1,4 +1,4 @@
-#N canvas 766 23 558 610 10;
+#N canvas 458 59 559 595 10;
 #X obj 2 324 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 485 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -144,7 +144,7 @@ has been the usual resolution for Pitch Bend messages for a long time.
 #X msg 331 269 hires \$1;
 #X obj 331 196 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 2;
-#X floatatom 331 246 5 0 0 0 - - -, f 5;
+#X floatatom 331 246 5 0 0 0 - - -;
 #X obj 466 214 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 463 239 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10

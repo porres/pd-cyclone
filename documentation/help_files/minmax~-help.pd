@@ -1,4 +1,4 @@
-#N canvas 847 23 561 554 10;
+#N canvas 399 45 561 543 10;
 #X obj 6 309 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 6 394 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -129,7 +129,7 @@ signals and floats) of an input signal since the startup or a reset.
 #X text 192 348 - resets minimum and maximum (to current input value)
 ;
 #X obj 172 210 vsl 17 80 -1 1 0 0 dfgj dkhkgk empty 0 -9 0 10 -228856
--1 -1 0 1;
+-1 -1 462 1;
 #X obj 68 132 osc~ 0.1;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Minimum/Maximum values
 of a signal;

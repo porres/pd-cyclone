@@ -1,4 +1,4 @@
-#N canvas 556 37 561 488 10;
+#N canvas 508 108 561 488 10;
 #X obj 5 462 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 281 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -78,7 +78,7 @@ others have full multi channel capabilities.;
 #X connect 8 0 24 0;
 #X connect 13 0 12 0;
 #X restore 434 250 pd related objects;
-#N canvas 612 109 787 401 read/write 1;
+#N canvas 612 109 787 401 read/write 0;
 #X msg 447 63 read;
 #X msg 466 94 open;
 #X msg 507 95 close;

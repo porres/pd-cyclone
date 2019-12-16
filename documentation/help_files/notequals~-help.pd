@@ -1,4 +1,4 @@
-#N canvas 645 23 561 519 10;
+#N canvas 415 53 561 508 10;
 #X text 53 91 [notequals~] or [!=~] outputs a 1 signal when the left
 input is not-equal to the right input or argument and a 0 when it is
 equal to the right input or argument.;

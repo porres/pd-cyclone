@@ -1,4 +1,4 @@
-#N canvas 224 23 574 538 10;
+#N canvas 455 23 572 767 10;
 #X obj 5 742 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 527 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -30,7 +30,7 @@
 #X text 116 398 float/signal;
 #X obj 102 139 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
-#X floatatom 102 202 2 0 0 0 - - -, f 2;
+#X floatatom 102 202 2 0 0 0 - - -;
 #X text 121 137 mode 0: fold;
 #X text 121 152 mode 1: wrap;
 #X text 121 167 mode 2: clip;

@@ -1,4 +1,4 @@
-#N canvas 534 29 560 570 10;
+#N canvas 534 29 562 551 10;
 #X obj 2 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 429 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -9,8 +9,8 @@
 ;
 #X obj 84 403 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 166 209 5 0 0 0 - - -, f 5;
-#X floatatom 229 210 5 0 0 0 - - -, f 5;
+#X floatatom 166 209 5 0 0 0 - - -;
+#X floatatom 229 210 5 0 0 0 - - -;
 #X obj 84 438 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 84 461 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0

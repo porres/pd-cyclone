@@ -1,4 +1,4 @@
-#N canvas 467 37 562 564 10;
+#N canvas 516 32 562 564 10;
 #X obj 5 538 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 352 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -26,7 +26,7 @@
 f 52;
 #N canvas 767 189 359 178 load_sample 0;
 #X obj 22 65 soundfiler;
-#X floatatom 22 90 8 0 0 0 - - -, f 8;
+#X floatatom 22 90 8 0 0 0 - - -;
 #X obj 22 113 - 1;
 #X obj 22 142 outlet;
 #X text 41 14 Load voice.wav sample file into a table;
@@ -62,7 +62,7 @@ effect. Check below., f 60;
 #X obj 195 231 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 269 231 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 297215 256;
+-228856 -1 -1 290645 256;
 #X text 221 359 - signal to be used as index, f 52;
 #X text 221 397 - start point of the array, f 52;
 #X text 221 419 - end point of the array, f 52;
@@ -74,14 +74,14 @@ from 0 to 511).;
 #X text 73 80 You can specify another table size by setting an endpoint
 that corresponds to the last index (table size - 1).;
 #X obj 228 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 62078 256;
+-228856 -1 -1 0 256;
 #X obj 302 317 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 15641.7 256;
+-228856 -1 -1 0 256;
 #X obj 155 226 cyclone/triangle~ 1;
 #X obj 305 290 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 3200 1;
+-228856 -1 -1 0 1;
 #X obj 231 262 hsl 128 15 0 62078 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 12700 1;
+-228856 -1 -1 0 1;
 #X text 253 261 start point;
 #X text 339 290 end point;
 #X text 75 118 If you raise the starting point \, note that the table

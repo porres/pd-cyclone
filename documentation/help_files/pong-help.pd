@@ -1,4 +1,4 @@
-#N canvas 648 23 561 746 10;
+#N canvas 433 73 561 726 10;
 #X obj 5 698 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 356 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -41,7 +41,7 @@
 #X msg 93 142 clip;
 #X msg 169 141 wrap;
 #X msg 131 141 fold;
-#X symbolatom 131 195 8 0 0 0 - - -, f 8;
+#X symbolatom 131 195 8 0 0 0 - - -;
 #X obj 162 244 trigger b a;
 #X text 70 216 set mode;
 #X text 285 218 set range;
@@ -62,9 +62,9 @@ mode;
 #X obj 4 642 cnv 3 550 3 empty empty more_info 8 12 0 13 -228856 -1
 0;
 #X obj 225 297 cyclone/pong -10 10 @mode wrap;
-#N canvas 960 232 450 300 lists 1;
+#N canvas 960 232 450 300 lists 0;
 #X obj 113 187 cyclone/tosymbol;
-#X symbolatom 113 218 6 0 0 0 - - -, f 6;
+#X symbolatom 113 218 6 0 0 0 - - -;
 #X obj 113 101 loadbang;
 #X text 92 67 it also works with lists:;
 #X obj 113 155 cyclone/pong 0 10 @mode wrap;

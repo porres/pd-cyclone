@@ -1,4 +1,4 @@
-#N canvas 482 23 562 546 10;
+#N canvas 482 23 562 535 10;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -17,33 +17,10 @@ Max/MSP;
 to an outlet;
 #X obj 4 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#N canvas 620 287 348 320 META 0;
-#X text 1 18 LICENSE SIBSD;
-#X text 1 126 LIBRARY cyclone;
-#X text 1 108 OUTLET_0 signal;
-#X text 1 54 INLET_0 signal message;
-#X text 1 0 KEYWORDS signal wavetable wave table interpolation;
-#X text 1 36 DESCRIPTION variable size wavetable;
-#X text 1 72 INLET_1 float signal;
-#X text 1 90 INLET_2 float signal;
-#X text 0 144 VERSION 0.2-beta1;
-#X text 0 162 AUTHOR Krzysztof Czaja;
-#X text 1 180 RELEASE_DATE 2002;
-#X text 2 199 WEBSITE http://suita.chopin.edu.pl/~czaja/miXed/externs/cyclone.html
-;
-#X text 2 231 HELP_PATCH_AUTHORS Christoph Kummerer. Revised by Jonathan
-Wilkes for Pd-extended 0.42 to conform to the PDDP template. Alex Cleveland
-updated this patch for Pd-l2ork version 2013.05.28. Fred Jan Kraan
-adapted the patch to pd-extended 2015-02-02;
-#X restore 500 508 pd META;
 #X obj 5 417 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 5 453 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#N canvas 320 422 428 109 Related_objects 0;
-#X obj 0 0 cnv 15 425 20 empty empty empty 3 12 0 14 -204280 -1 0;
-#X text 6 1 Related Objects;
-#X restore 209 508 pd Related_objects;
 #X obj 105 392 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
 ;
 #X text 176 429 signal;
@@ -57,7 +34,7 @@ adapted the patch to pd-extended 2015-02-02;
 #X text 156 461 1) float;
 #X obj 249 193 osc~ 660;
 #X obj 208 167 osc~ 440;
-#X floatatom 167 222 3 0 0 0 - - -, f 3;
+#X floatatom 167 222 3 0 0 0 - - -;
 #X obj 167 154 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856
 -1 -1 3;
 #X text 133 153 none;
@@ -99,10 +76,10 @@ outputs zero values.;
 and clipped from 0 to number of channels, f 49;
 #X text 228 393 - input signal channels to be selected;
 #X obj 290 218 cyclone/pink~;
-#X connect 21 0 35 2;
-#X connect 22 0 35 1;
-#X connect 23 0 35 0;
-#X connect 24 0 23 0;
-#X connect 35 0 34 0;
-#X connect 35 0 34 1;
-#X connect 40 0 35 3;
+#X connect 19 0 33 2;
+#X connect 20 0 33 1;
+#X connect 21 0 33 0;
+#X connect 22 0 21 0;
+#X connect 33 0 32 0;
+#X connect 33 0 32 1;
+#X connect 38 0 33 3;

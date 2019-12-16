@@ -1,4 +1,4 @@
-#N canvas 588 70 558 552 10;
+#N canvas 490 70 558 539 10;
 #X obj 2 296 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 408 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -55,7 +55,7 @@ x value, f 61;
 #C restore;
 #X obj 291 191 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 2;
-#X floatatom 291 213 2 0 0 0 - - -, f 2;
+#X floatatom 291 213 2 0 0 0 - - -;
 #X text 277 189 x;
 #X text 271 266 y;
 #X text 180 204 y;
@@ -255,7 +255,7 @@ So you can rewrite a 'y' value by sending another pair message.;
 #X text 29 233 The set message can add several pairs at once. The clear
 message erases all set pairs from the memory. The dump message dumps
 all pairs to the middle (y value) and left (x value) outlets;
-#X floatatom 364 341 5 0 0 0 - - -, f 5;
+#X floatatom 364 341 5 0 0 0 - - -;
 #X connect 1 0 8 0;
 #X connect 2 0 8 0;
 #X connect 8 0 4 0;

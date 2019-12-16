@@ -1,4 +1,4 @@
-#N canvas 532 45 558 592 10;
+#N canvas 532 45 559 579 10;
 #X obj 2 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 411 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -146,14 +146,14 @@ where (0 \, 0) is the top left corner of the primary display.;
 #X text 112 217 mode 1: patch relative;
 #X text 112 232 mode 2: front-most patch relative;
 #X obj 159 406 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1015 256;
+-228856 -1 -1 1086 256;
 #X text 160 423 x pos;
 #X text 186 380 y pos;
 #X text 21 14 There are 3 different modes in [mousestate] that define
 what the coordinate (0 \, 0) of the (x \, y) position point is in relation
 to.;
 #X obj 185 362 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 199 256;
+-228856 -1 -1 639 256;
 #X text 209 404 horizontal;
 #X text 234 362 vertical;
 #X text 23 97 Mode 1 uses "patch-relative coordinates" \, where (0

@@ -1,4 +1,4 @@
-#N canvas 279 27 558 493 10;
+#N canvas 448 134 558 493 10;
 #X obj 2 289 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 359 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -11,7 +11,7 @@
 ;
 #X obj 101 370 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X floatatom 171 204 3 0 3 0 - - -, f 3;
+#X floatatom 171 204 3 0 3 0 - - -;
 #X obj 171 137 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856
 -1 -1 1;
 #X text 159 137 0;
@@ -64,7 +64,7 @@ on". Just one inlet from 'n' inlets can send data \, or none of them.
 ;
 #X text 192 137 <= select inlet (0 means all closed);
 #N canvas 611 129 381 310 anything 0;
-#X floatatom 79 153 3 0 3 0 - - -, f 3;
+#X floatatom 79 153 3 0 3 0 - - -;
 #X obj 79 86 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856 -1
 -1 1;
 #X text 67 86 0;
@@ -75,8 +75,8 @@ on". Just one inlet from 'n' inlets can send data \, or none of them.
 #X msg 79 248;
 #X msg 232 113 1 2 3;
 #X msg 243 139 list one 2 3;
-#X floatatom 130 129 5 0 0 0 - - -, f 5;
-#X symbolatom 106 108 10 0 0 0 - - -, f 10;
+#X floatatom 130 129 5 0 0 0 - - -;
+#X symbolatom 106 108 10 0 0 0 - - -;
 #X msg 192 123 x;
 #X msg 181 99 a b c;
 #X obj 79 176 cyclone/switch 3 1, f 26;

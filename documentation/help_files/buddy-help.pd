@@ -1,4 +1,4 @@
-#N canvas 823 57 558 471 10;
+#N canvas 473 227 558 456 10;
 #X obj 2 270 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 347 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -65,7 +65,7 @@ right to left order \, and all input is cleared after that.;
 #X obj 476 201 cyclone/buddy, f 14;
 #X text 67 27 using [buddy] to swap inputs;
 #X obj 192 364 print symbol;
-#X symbolatom 192 276 10 0 0 0 - - -, f 10;
+#X symbolatom 192 276 10 0 0 0 - - -;
 #X msg 134 248 1 2 3;
 #X msg 276 280 x;
 #X obj 134 390 print list;
@@ -87,13 +87,13 @@ a specified order.;
 #X text 596 235 1st;
 #X text 447 235 2nd;
 #X text 444 271 sent in right to left order;
-#X floatatom 131 163 5 0 0 0 - - -, f 5;
-#X floatatom 94 163 5 0 0 0 - - -, f 5;
+#X floatatom 131 163 5 0 0 0 - - -;
+#X floatatom 94 163 5 0 0 0 - - -;
 #X msg 104 70 1 2 3 4;
 #X obj 104 95 unpack f f f f;
 #X obj 105 136 cyclone/buddy 4;
-#X floatatom 206 163 5 0 0 0 - - -, f 5;
-#X floatatom 169 163 5 0 0 0 - - -, f 5;
+#X floatatom 206 163 5 0 0 0 - - -;
+#X floatatom 169 163 5 0 0 0 - - -;
 #X connect 0 0 1 0;
 #X connect 2 0 17 0;
 #X connect 3 0 21 0;

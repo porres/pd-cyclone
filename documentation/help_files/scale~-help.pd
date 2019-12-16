@@ -1,4 +1,4 @@
-#N canvas 624 26 561 728 10;
+#N canvas 403 23 561 716 10;
 #X obj 6 689 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 463 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -148,7 +148,7 @@ rate between two mono sound sources \, though this is not its purpose.
 larger or smaller than the input range will not be clipped to the output
 range. The mapping can be inverted and/or exponential.;
 #N canvas 438 127 421 554 exponential 0;
-#X floatatom 257 220 5 1 1.2 0 - - -, f 5;
+#X floatatom 257 220 5 1 1.2 0 - - -;
 #X obj 260 193 hsl 128 15 0.1 10 1 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 268 193 exponential factor;

@@ -1,4 +1,4 @@
-#N canvas 641 23 562 627 10;
+#N canvas 538 101 562 627 10;
 #X obj 5 602 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 7 321 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -87,13 +87,13 @@
 #X text 61 126 - The 'hz' mode is simply an input in hertz \, as in
 our main example in the parent patch.;
 #X obj 563 84 noise~;
-#X floatatom 655 95 7 0 0 0 - - -, f 7;
+#X floatatom 655 95 7 0 0 0 - - -;
 #X obj 639 67 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 679 66 cutoff;
 #X text 705 94 linear;
 #X obj 598 327 noise~;
-#X floatatom 674 334 7 0 0 0 - - -, f 7;
+#X floatatom 674 334 7 0 0 0 - - -;
 #X obj 677 310 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 3700 1;
 #X text 717 309 cutoff;
@@ -102,13 +102,13 @@ our main example in the parent patch.;
 #X obj 271 267 samplerate~;
 #X obj 271 245 loadbang;
 #X obj 271 287 / 4;
-#X floatatom 271 309 6 0 0 0 - - -, f 6;
-#X floatatom 216 253 7 0 0 0 - - -, f 7;
+#X floatatom 271 309 6 0 0 0 - - -;
+#X floatatom 216 253 7 0 0 0 - - -;
 #X obj 219 219 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 100 1;
 #X text 261 219 cutoff;
 #X obj 216 302 *;
-#X floatatom 216 337 7 0 0 0 - - -, f 7;
+#X floatatom 216 337 7 0 0 0 - - -;
 #X text 63 166 But please note that the effective cutoff frequency
 in hertz is the sample rate frequency divided by 4 \, or half the Nyquist
 frequency.;

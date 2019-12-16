@@ -44,7 +44,7 @@
 #X msg 242 128 beep 1 2 3 4;
 #X text 143 234 bang;
 #X text 126 291 zlclear;
-#N canvas 638 150 649 574 examples 1;
+#N canvas 638 150 649 574 examples 0;
 #X obj 59 209 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
 #X obj 146 331 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -112,7 +112,7 @@ with the mode message. The default point is '0' \, which means no slicing.
 -1 -1 0 256;
 #X text 307 363 group size;
 #X obj 156 388 cyclone/zl group 10;
-#X floatatom 191 342 5 0 0 0 - - -, f 5;
+#X floatatom 191 342 5 0 0 0 - - -;
 #X text 31 344 remainder;
 #X obj 274 298 cyclone/uzi 24;
 #X text 16 220 The right outlet is inactive.;
@@ -154,7 +154,7 @@ the lista is output anyway - if the last bit of the broken list is
 of a size smaller than the iter size \, it is also output.;
 #X obj 111 290 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X floatatom 194 336 5 0 0 0 - - -, f 5;
+#X floatatom 194 336 5 0 0 0 - - -;
 #X obj 250 343 nbx 3 14 1 100 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 1 256;
 #X text 290 341 iter size;
@@ -832,12 +832,12 @@ size of the queue., f 63;
 #X obj 281 214 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 130 126 zlclear;
-#X obj 281 276 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 281 276 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X msg 156 153 mode stream -5;
 #X text 252 153 <= set mode/argument;
 #X obj 190 204 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 22 256;
+-228856 -1 -1 0 256;
 #X obj 170 242 cyclone/zl stream 5;
 #X text 37 43 the stream mode makes a list with the last N items. The
 N is set as an argument or in the right inlet. A negative N inverts

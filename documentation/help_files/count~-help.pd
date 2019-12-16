@@ -1,4 +1,4 @@
-#N canvas 645 74 558 598 10;
+#N canvas 515 89 558 589 10;
 #X obj 4 559 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 257 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -34,7 +34,7 @@
 #X msg 89 166 stop;
 #X obj 133 140 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X floatatom 164 142 5 0 0 0 - - -, f 5;
+#X floatatom 164 142 5 0 0 0 - - -;
 #X obj 133 194 cyclone/count~ 0 441000 1;
 #X msg 169 166 min 220500;
 #X text 33 139 start counting:;
@@ -78,7 +78,7 @@ stops it;
 ;
 #X msg 62 144 autoreset \$1;
 #X msg 83 217 min \$1;
-#X floatatom 83 196 5 0 0 0 - - -, f 5;
+#X floatatom 83 196 5 0 0 0 - - -;
 #X msg 92 245 0;
 #X msg 153 329 0 4.41e+08 1 1;
 #X msg 153 351 10 100 1 1;
@@ -113,13 +113,13 @@ for controlling the object;
 #N canvas 522 405 416 320 signal_input 0;
 #X obj 98 194 cyclone/count~;
 #X obj 205 272 hsl 128 15 0 44100 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 0 1;
+-228856 -1 -1 5273 1;
 #X text 341 271 44100;
 #X text 184 273 0;
 #X obj 36 16 cnv 15 320 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 98 115 cyclone/train~ 2000;
-#X obj 230 178 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 230 178 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X text 24 63 A signal input can trigger count with sample accuracy.
 A non-zero value turns the counter on \, a zero value stops it.;

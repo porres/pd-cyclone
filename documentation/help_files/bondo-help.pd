@@ -1,4 +1,4 @@
-#N canvas 753 44 558 530 10;
+#N canvas 485 168 559 520 10;
 #X obj 2 287 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 378 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -27,9 +27,9 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X floatatom 203 185 5 0 0 0 - - -, f 5;
-#X floatatom 261 185 5 0 0 0 - - -, f 5;
-#X floatatom 320 185 5 0 0 0 - - -, f 5;
+#X floatatom 203 185 5 0 0 0 - - -;
+#X floatatom 261 185 5 0 0 0 - - -;
+#X floatatom 320 185 5 0 0 0 - - -;
 #X obj 320 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 261 253 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -152,9 +152,9 @@ gets a message. It can wait a time interval for input messages (see
 #X text 173 467 "n" sets outlets to send messages with more than 1
 element;
 #N canvas 210 154 835 382 sync-time 0;
-#X floatatom 139 213 5 0 0 0 - - -, f 5;
-#X floatatom 197 213 5 0 0 0 - - -, f 5;
-#X floatatom 256 213 5 0 0 0 - - -, f 5;
+#X floatatom 139 213 5 0 0 0 - - -;
+#X floatatom 197 213 5 0 0 0 - - -;
+#X floatatom 256 213 5 0 0 0 - - -;
 #X obj 256 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 197 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -177,8 +177,8 @@ received values.;
 -1 -1;
 #X obj 139 307 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 546 169 5 0 0 0 - - -, f 5;
-#X floatatom 651 169 5 0 0 0 - - -, f 5;
+#X floatatom 546 169 5 0 0 0 - - -;
+#X floatatom 651 169 5 0 0 0 - - -;
 #X obj 651 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 546 234 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10

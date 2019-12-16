@@ -1,4 +1,4 @@
-#N canvas 674 28 558 653 10;
+#N canvas 426 115 559 644 10;
 #N canvas 584 143 498 356 All_Messages 0;
 #X text 75 52 dec -;
 #X text 69 69 down -;
@@ -240,14 +240,14 @@ the 2nd is for compatmode (0: current \, 1: ancient).;
 1;
 #X obj 294 251 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X floatatom 212 275 2 0 0 0 - - -, f 2;
-#X floatatom 253 275 2 0 0 0 - - -, f 2;
+#X floatatom 212 275 2 0 0 0 - - -;
+#X floatatom 253 275 2 0 0 0 - - -;
 #X obj 201 144 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 1;
 #X text 219 144 0: up;
 #X text 219 159 1: down;
 #X text 219 174 2: updown;
-#X floatatom 201 197 2 0 0 0 - - -, f 2;
+#X floatatom 201 197 2 0 0 0 - - -;
 #X text 273 274 maximum;
 #X text 158 274 minimum;
 #X obj 554 168 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -261,7 +261,7 @@ the 2nd is for compatmode (0: current \, 1: ancient).;
 #X text 602 67 0: up;
 #X text 602 82 1: down;
 #X text 602 97 2: updown;
-#X floatatom 584 117 2 0 0 0 - - -, f 2;
+#X floatatom 584 117 2 0 0 0 - - -;
 #X obj 595 165 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 636 165 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -442,7 +442,7 @@ range \, it resets min/max according to compatmode (see example above)
 -228856 -1 -1 0 256;
 #X obj 541 320 bng 19 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X floatatom 586 357 2 0 0 0 - - -, f 2;
+#X floatatom 586 357 2 0 0 0 - - -;
 #X obj 670 416 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 541 440 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856

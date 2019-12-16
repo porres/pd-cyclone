@@ -1,4 +1,4 @@
-#N canvas 638 27 560 489 10;
+#N canvas 385 42 560 477 10;
 #X obj 3 299 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 357 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -161,9 +161,9 @@ message), f 61;
 #X text 257 182 Track 1;
 #X text 305 203 Track 2;
 #X text 339 224 Track 3;
-#X floatatom 232 269 5 0 0 0 - - -, f 5;
-#X floatatom 274 268 5 0 0 0 - - -, f 5;
-#X floatatom 316 268 5 0 0 0 - - -, f 5;
+#X floatatom 232 269 5 0 0 0 - - -;
+#X floatatom 274 268 5 0 0 0 - - -;
+#X floatatom 316 268 5 0 0 0 - - -;
 #X obj 178 245 cyclone/mtr 3, f 21;
 #X text 120 307 check all possible messages here:, f 70;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Multi-track message

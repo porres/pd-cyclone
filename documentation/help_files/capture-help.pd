@@ -1,4 +1,4 @@
-#N canvas 613 23 558 585 10;
+#N canvas 428 48 558 570 10;
 #X obj 2 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 2 269 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -43,7 +43,7 @@
 #X text 116 275 anything;
 #N canvas 390 172 889 372 examples 0;
 #X msg 134 166 open;
-#X floatatom 51 50 5 0 0 0 - - -, f 5;
+#X floatatom 51 50 5 0 0 0 - - -;
 #X msg 125 133 dump;
 #X obj 86 311 print dump;
 #X msg 105 77 clear;
@@ -56,14 +56,14 @@ are stored from first to last. One element messages are stored sequentially.
 #X msg 115 103 count;
 #X text 201 239 opens dialog box to save to a file;
 #X msg 145 215 write ./capture.txt;
-#X symbolatom 87 51 10 0 0 0 - - -, f 10;
+#X symbolatom 87 51 10 0 0 0 - - -;
 #X msg 24 26 one 2 three 4 five 6;
 #X obj 86 275 cyclone/capture 32;
 #X obj 641 173 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 239 256;
+-228856 -1 -1 0 256;
 #X obj 533 271 cyclone/capture 6;
 #X obj 611 222 cyclone/capture 6 m;
-#X floatatom 191 310 5 0 0 0 - - -, f 5;
+#X floatatom 191 310 5 0 0 0 - - -;
 #X text 153 103 outputs number of last received items (2nd outlet)
 ;
 #X text 229 308 <= count;

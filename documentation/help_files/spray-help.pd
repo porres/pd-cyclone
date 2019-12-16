@@ -1,4 +1,4 @@
-#N canvas 593 23 558 477 10;
+#N canvas 593 23 558 467 10;
 #X obj 2 272 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 324 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -14,14 +14,14 @@
 #X msg 76 95 4 6;
 #X obj 43 140 cyclone/spray 3 3;
 #X obj 142 177 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 5 256;
+-228856 -1 -1 0 256;
 #X obj 92 177 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 6 256;
+-228856 -1 -1 0 256;
 #X obj 43 177 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 7 256;
+-228856 -1 -1 0 256;
 #X msg 43 95 3 7;
 #X obj 123 270 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -8 256;
+-228856 -1 -1 0 256;
 #X msg 45 294 offset \$1;
 #X text 27 15 You can set an offset with the 2nd argument or the "offset"
 message (default is 0). This way \, the first outlet is numbered after
@@ -33,11 +33,11 @@ the offset value. Positive and nagetive values are allowed.;
 #X obj 43 203 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 320 172 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 4 256;
+-228856 -1 -1 0 256;
 #X obj 267 172 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 8 256;
+-228856 -1 -1 0 256;
 #X obj 215 172 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 5 256;
+-228856 -1 -1 0 256;
 #X obj 320 198 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 267 198 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -48,14 +48,14 @@ the offset value. Positive and nagetive values are allowed.;
 #X msg 215 90 -7 5;
 #X msg 258 90 -6 8;
 #X msg 303 90 -5 4;
-#X symbolatom 210 271 10 0 0 0 - - -, f 10;
+#X symbolatom 210 271 10 0 0 0 - - -;
 #X obj 123 294 cyclone/pak f s;
 #X obj 210 247 cyclone/loadmess symbol hi;
-#X symbolatom 198 358 10 0 0 0 - - -, f 10;
+#X symbolatom 198 358 10 0 0 0 - - -;
 #X obj 123 330 cyclone/spray;
-#X symbolatom 123 359 10 0 0 0 - - -, f 10;
+#X symbolatom 123 359 10 0 0 0 - - -;
 #X obj 45 270 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -9 256;
+-228856 -1 -1 0 256;
 #X connect 0 0 2 0;
 #X connect 1 0 2 0;
 #X connect 2 0 5 0;
@@ -104,11 +104,11 @@ the offset value. Positive and nagetive values are allowed.;
 #X restore 304 4 pd;
 #X msg 279 168 2 3.8;
 #X obj 328 232 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3.8 256;
+-228856 -1 -1 0 256;
 #X obj 278 232 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X obj 229 232 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.1 256;
+-228856 -1 -1 0 256;
 #X obj 228 249 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 0;
 #X obj 279 249 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 1;
 #X obj 328 249 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 2;
@@ -138,22 +138,22 @@ specified outlet. Symbols are accepted in both modes.;
 #X obj 102 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 102 220 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X obj 146 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 146 220 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X obj 190 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 190 220 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 3 256;
+-228856 -1 -1 0 256;
 #X obj 234 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 279 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X symbolatom 279 221 6 0 0 0 - - -, f 6;
+#X symbolatom 279 221 6 0 0 0 - - -;
 #X msg 123 152 4 yeah;
-#X symbolatom 234 220 6 0 0 0 - - -, f 6;
+#X symbolatom 234 220 6 0 0 0 - - -;
 #X msg 56 83 0 1 2 3 hell yeah!;
 #X msg 102 113 1 10 20 oh;
 #X obj 446 243 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856

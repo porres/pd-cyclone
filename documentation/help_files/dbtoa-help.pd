@@ -1,4 +1,4 @@
-#N canvas 700 23 558 553 10;
+#N canvas 520 107 563 532 10;
 #X obj 4 352 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 422 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -33,7 +33,7 @@
 #X text 207 436 - Linear amplitude value(s);
 #N canvas 126 23 292 240 lists 0;
 #X obj 87 155 cyclone/tosymbol;
-#X symbolatom 87 186 20 0 0 0 - - -, f 20;
+#X symbolatom 87 186 20 0 0 0 - - -;
 #X obj 87 69 loadbang;
 #X text 66 35 it also works with lists:;
 #X obj 87 123 cyclone/dbtoa;

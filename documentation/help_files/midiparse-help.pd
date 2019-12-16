@@ -1,4 +1,4 @@
-#N canvas 200 23 557 575 10;
+#N canvas 576 54 560 561 10;
 #X obj 2 268 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 332 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -153,7 +153,7 @@ from -8192 to 8191). The [midiformat] object \, which is the counterpart
 #X msg 361 270 hires \$1;
 #X obj 361 197 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 2;
-#X floatatom 361 247 5 0 0 0 - - -, f 5;
+#X floatatom 361 247 5 0 0 0 - - -;
 #X obj 496 215 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 493 240 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10

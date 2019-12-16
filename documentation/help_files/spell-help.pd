@@ -1,4 +1,4 @@
-#N canvas 678 23 558 456 10;
+#N canvas 483 86 559 446 10;
 #X obj 2 297 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 332 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -72,7 +72,7 @@ to convert a float to a symbol and then send it to the [spell] object.
 #X connect 11 0 10 0;
 #X connect 13 0 12 0;
 #X restore 467 265 pd example;
-#X floatatom 136 214 5 0 0 0 - - -, f 5;
+#X floatatom 136 214 5 0 0 0 - - -;
 #X text 93 84 [spell] takes any message and converts each contining
 digit and character to UTF-8 (Unicode) values ([spell] doesn't understand
 non-integer float messages). The 1st argument sets the minimum output

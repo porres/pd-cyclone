@@ -1,4 +1,4 @@
-#N canvas 341 96 560 491 10;
+#N canvas 477 89 560 478 10;
 #X obj 3 286 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 4 366 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -58,8 +58,8 @@ it;
 #X obj 434 35 vsl 20 134 0 127 0 0 afdaf adsgasfg empty 0 -9 0 10 -228856
 -1 -1 0 1;
 #X obj 94 176 makenote;
-#X floatatom 94 208 5 0 0 0 - - -, f 5;
-#X floatatom 139 208 5 0 0 0 - - -, f 5;
+#X floatatom 94 208 5 0 0 0 - - -;
+#X floatatom 139 208 5 0 0 0 - - -;
 #X obj 94 237 noteout, f 10;
 #X obj 87 100 cyclone/comment 234 10 helvetica ? 0 80 80 80 0;
 #X obj 121 99 cyclone/comment 234 10 helvetica ? 0 80 80 80 1;

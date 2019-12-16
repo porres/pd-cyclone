@@ -1,4 +1,4 @@
-#N canvas 527 50 559 608 10;
+#N canvas 527 50 559 597 10;
 #X obj 4 570 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -681,7 +681,7 @@ cloned from Max/MSP;
 #X text 170 330 keeps start slider before end slider;
 #X obj 46 337 moses;
 #X obj 125 339 moses;
-#X floatatom 47 90 7 0 0 0 - - -, f 7;
+#X floatatom 47 90 7 0 0 0 - - -;
 #X text 97 90 max array index;
 #X text 36 141 array length in ms;
 #X obj 232 169 s \$0-ms;

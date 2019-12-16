@@ -1,4 +1,4 @@
-#N canvas 605 39 558 609 10;
+#N canvas 605 39 558 595 10;
 #X obj 2 570 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -65,14 +65,14 @@
 #X text 226 397 - feed forward delay amplitude coefficient (b);
 #X text 226 339 - feed forward delay time in milliseconds (ff_D);
 #X text 225 359 - feedback delay time in milliseconds (fb_D);
-#X floatatom 209 172 5 0 100 0 - sdfsdf -, f 5;
-#X floatatom 292 172 5 0 100 0 - sdfsdfs -, f 5;
-#X floatatom 333 172 5 0 0 0 - sdfsdf -, f 5;
-#X floatatom 375 172 5 0 0 0 - sdfsdf -, f 5;
+#X floatatom 209 172 5 0 100 0 - sdfsdf -;
+#X floatatom 292 172 5 0 100 0 - sdfsdfs -;
+#X floatatom 333 172 5 0 0 0 - sdfsdf -;
+#X floatatom 375 172 5 0 0 0 - sdfsdf -;
 #X text 301 157 a;
 #X text 341 156 b;
 #X text 381 156 c;
-#X floatatom 250 172 5 0 100 0 - sdfsdf -, f 5;
+#X floatatom 250 172 5 0 100 0 - sdfsdf -;
 #X text 208 156 ff D;
 #X text 250 156 fb D;
 #N canvas 392 79 592 495 filter_equation 0;
@@ -120,12 +120,12 @@
 #X text 348 141 c = feedback gain coefficient;
 #X text 342 82 d1 = feed forward delay time;
 #X text 342 96 d2 = feedback delay time;
-#X floatatom 216 344 5 0 100 0 - - -, f 5;
+#X floatatom 216 344 5 0 100 0 - - -;
 #X obj 167 315 noise~;
 #X obj 167 372 cyclone/teeth~ 100 70.5 93 0.25 0.33 0.925;
-#X floatatom 316 343 5 0 100 0 - - -, f 5;
-#X floatatom 366 343 5 0 0 0 - - -, f 5;
-#X floatatom 416 344 5 0 0 0 - - -, f 5;
+#X floatatom 316 343 5 0 100 0 - - -;
+#X floatatom 366 343 5 0 0 0 - - -;
+#X floatatom 416 344 5 0 0 0 - - -;
 #X obj 319 266 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 369 291 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
@@ -135,7 +135,7 @@
 #X text 444 316 feedback (c);
 #X text 392 291 feedforward (b);
 #X text 350 265 input (a);
-#X floatatom 266 344 5 0 100 0 - - -, f 5;
+#X floatatom 266 344 5 0 100 0 - - -;
 #X text 220 324 d1;
 #X text 270 324 d2;
 #X msg 87 284 50 20.5 43 0.55 0.43 0.95;

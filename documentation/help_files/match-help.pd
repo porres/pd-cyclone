@@ -1,4 +1,4 @@
-#N canvas 533 76 559 539 10;
+#N canvas 533 76 559 524 10;
 #X obj 4 360 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 5 424 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -63,9 +63,9 @@ data is output when a sequence matches the arguments.;
 #X msg 126 306 erg 88;
 #X obj 126 437 print match;
 #X obj 126 408 cyclone/match erg 88;
-#X floatatom 155 176 5 0 0 0 - - -, f 5;
+#X floatatom 155 176 5 0 0 0 - - -;
 #X text 141 337 set messages updates argument;
-#X floatatom 192 101 5 0 0 0 - - -, f 5;
+#X floatatom 192 101 5 0 0 0 - - -;
 #X obj 155 138 cyclone/match 12;
 #X msg 155 99 12;
 #X text 372 136 The symbol 'nn' can be used as a wildcard for any number

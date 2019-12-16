@@ -1,4 +1,4 @@
-#N canvas 421 23 558 526 10;
+#N canvas 421 23 558 510 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 388 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -9,7 +9,7 @@
 ;
 #X obj 81 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X symbolatom 127 189 15 0 0 0 - - -, f 15;
+#X symbolatom 127 189 15 0 0 0 - - -;
 #X obj 127 221 cyclone/fromsymbol;
 #X obj 2 504 cnv 3 550 3 empty empty empty 0 0 0 4 -262144 -1 0;
 #X obj 2 484 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
@@ -35,16 +35,16 @@
 #N canvas 404 123 839 565 symbol_to_lists 0;
 #X obj 114 132 cyclone/tosymbol;
 #X obj 114 220 cyclone/fromsymbol;
-#X floatatom 146 489 5 0 0 0 - - -, f 5;
+#X floatatom 146 489 5 0 0 0 - - -;
 #X obj 146 389 cyclone/tosymbol;
 #X obj 146 425 cyclone/fromsymbol;
 #X obj 146 457 unpack float symbol symbol;
-#X symbolatom 222 489 10 0 0 0 - - -, f 10;
-#X symbolatom 299 489 10 0 0 0 - - -, f 10;
+#X symbolatom 222 489 10 0 0 0 - - -;
+#X symbolatom 299 489 10 0 0 0 - - -;
 #X msg 146 363 1 two three;
 #X msg 114 106 23.6 4.56 0.01;
 #X obj 114 262 unpack float float float;
-#X symbolatom 114 176 20 0 0 0 - - -, f 20;
+#X symbolatom 114 176 20 0 0 0 - - -;
 #X obj 114 287 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 184 285 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -61,7 +61,7 @@ a list:;
 #X obj 646 333 print not_a_list;
 #X obj 654 299 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X symbolatom 569 199 25 0 0 0 - - -, f 25;
+#X symbolatom 569 199 25 0 0 0 - - -;
 #X text 440 65 If you want to contert to a list a given symbol composed
 of elements that start with a symbol \, you need to include the "list"
 selector in the symbol \, otherwise it'll convert to something else.
@@ -98,7 +98,7 @@ to floats).;
 #N canvas 455 75 892 434 symbol_to_anything 0;
 #X obj 114 175 cyclone/fromsymbol;
 #X msg 114 128 symbol something;
-#X symbolatom 146 222 10 0 0 0 - - -, f 10;
+#X symbolatom 146 222 10 0 0 0 - - -;
 #X msg 230 129 symbol else;
 #X obj 194 304 print Not_a_Symbol;
 #X obj 114 264 route symbol;
@@ -112,7 +112,7 @@ the "symbol" selector and convert the message to "anything" (composed
 of one element).;
 #X msg 575 155 anything goes;
 #X obj 575 197 cyclone/tosymbol;
-#X symbolatom 575 236 17 0 0 0 - - -, f 17;
+#X symbolatom 575 236 17 0 0 0 - - -;
 #X obj 575 270 cyclone/fromsymbol;
 #X obj 674 337 print Not_a_list;
 #X text 460 66 And \, as you might already have noticed \, a symbol
@@ -138,7 +138,7 @@ to "anything" (with more than one element). Just making it really clear...
 #X text 105 163 symbol to float:;
 #N canvas 455 75 444 344 symbol_to_bang 0;
 #X obj 68 184 cyclone/fromsymbol;
-#X symbolatom 68 143 20 0 0 0 - - -, f 20;
+#X symbolatom 68 143 20 0 0 0 - - -;
 #X msg 68 106 symbol bang;
 #X obj 68 254 route bang;
 #X obj 68 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
@@ -165,7 +165,7 @@ to "anything" (with more than one element). Just making it really clear...
 #X connect 11 0 8 0;
 #X restore 405 212 pd symbol_to_bang;
 #N canvas 636 114 470 529 separators 0;
-#X symbolatom 187 185 20 0 0 0 - - -, f 20;
+#X symbolatom 187 185 20 0 0 0 - - -;
 #X obj 215 414 print fromsymbol;
 #X text 49 19 The separator message/attribute allows you to split a
 symbol into different elements by setting the character that separates
@@ -187,7 +187,7 @@ one element from the other. The default separator is a "space".;
 #X msg 204 213 separator .;
 #X obj 249 340 cyclone/tosymbol;
 #X msg 92 212 separator /;
-#X symbolatom 35 186 20 0 0 0 - - -, f 20;
+#X symbolatom 35 186 20 0 0 0 - - -;
 #X msg 37 141 symbol 19/11/8/12;
 #X msg 48 164 symbol 1/2/3/4;
 #X obj 187 114 loadbang;

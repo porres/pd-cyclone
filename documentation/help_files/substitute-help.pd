@@ -1,4 +1,4 @@
-#N canvas 644 38 558 562 10;
+#N canvas 500 87 558 562 10;
 #X obj 2 302 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 399 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -57,8 +57,8 @@ only" mode \, where only the first element is replaced., f 53;
 #X obj 64 134 cyclone/substitute foo bar;
 #X obj 64 192 cyclone/prepend set;
 #X obj 248 191 cyclone/prepend set;
-#X msg 248 227 bar 1 foo 2 foo 3;
-#X msg 64 227 bar 1 bar 2 bar 3;
+#X msg 248 227 bang;
+#X msg 64 227 bang;
 #X msg 248 90 foo 1 foo 2 foo 3;
 #X obj 258 162 loadbang;
 #X connect 1 0 4 0;

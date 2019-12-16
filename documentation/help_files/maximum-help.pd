@@ -1,4 +1,4 @@
-#N canvas 583 23 560 526 10;
+#N canvas 583 23 561 515 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 390 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -62,7 +62,7 @@ argument), f 61;
 #X text 47 63 - Numbers in a list are compared with each other \, not
 with the argument!;
 #X obj 146 227 cyclone/maximum 1000;
-#X floatatom 95 183 5 0 0 0 - - -, f 5;
+#X floatatom 95 183 5 0 0 0 - - -;
 #X obj 146 259 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 49 97 - The maximum number in a list is output in the left

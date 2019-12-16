@@ -1,4 +1,4 @@
-#N canvas 785 50 557 553 10;
+#N canvas 449 23 568 543 10;
 #X obj 3 515 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 386 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -40,8 +40,8 @@ to both float and signal output. When a signal input is present \,
 the float input is ignored.;
 #X text 225 397 - number of samples;
 #N canvas 221 147 444 223 example 0;
-#X floatatom 243 134 5 0 0 0 - - -, f 5;
-#X floatatom 138 77 5 0 0 0 - - -, f 5;
+#X floatatom 243 134 5 0 0 0 - - -;
+#X floatatom 138 77 5 0 0 0 - - -;
 #X text 42 22 convert period time from samples to ms to use it on [train~]
 ;
 #X obj 243 161 cyclone/train~;

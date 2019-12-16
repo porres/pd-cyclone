@@ -1,4 +1,4 @@
-#N canvas 751 31 558 446 10;
+#N canvas 560 126 558 436 10;
 #X obj 2 244 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 313 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -26,7 +26,7 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X symbolatom 197 217 10 0 0 0 - - -, f 10;
+#X symbolatom 197 217 10 0 0 0 - - -;
 #X obj 149 215 print;
 #X text 259 155 float;
 #X text 263 217 symbol;
@@ -65,11 +65,11 @@ below:;
 -228856 -1 -1 0 256;
 #N canvas 387 23 818 704 more 0;
 #X obj 503 115 cyclone/tosymbol;
-#X symbolatom 503 169 10 0 0 0 - - -, f 10;
-#X symbolatom 95 521 40 0 0 0 - - -, f 40;
+#X symbolatom 503 169 10 0 0 0 - - -;
+#X symbolatom 95 521 40 0 0 0 - - -;
 #X obj 95 546 print;
 #X obj 122 121 cyclone/tosymbol;
-#X symbolatom 122 175 20 0 0 0 - - -, f 20;
+#X symbolatom 122 175 20 0 0 0 - - -;
 #X obj 138 148 print;
 #X obj 171 61 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -80,13 +80,13 @@ below:;
 -228856 -1 -1 0 256;
 #X text 72 22 Convert list of floats to symbol:;
 #X obj 511 305 cyclone/tosymbol;
-#X symbolatom 511 359 10 0 0 0 - - -, f 10;
+#X symbolatom 511 359 10 0 0 0 - - -;
 #X obj 527 332 print;
 #X text 429 223 Convert anything (not a list message) to a symbol message:
 ;
 #X msg 511 267 x y z;
 #X obj 99 329 cyclone/tosymbol;
-#X symbolatom 99 383 20 0 0 0 - - -, f 20;
+#X symbolatom 99 383 20 0 0 0 - - -;
 #X obj 115 356 print;
 #X text 49 240 Convert other list messages to symbol:;
 #X msg 99 278 1 2 three;
@@ -99,16 +99,16 @@ any message type to a symbol!;
 #X msg 177 278 list one 2 3;
 #X msg 608 604 list hi;
 #X obj 608 637 print;
-#X symbolatom 549 454 10 0 0 0 - - -, f 10;
+#X symbolatom 549 454 10 0 0 0 - - -;
 #X obj 549 480 cyclone/tosymbol;
-#X symbolatom 549 509 10 0 0 0 - - -, f 10;
+#X symbolatom 549 509 10 0 0 0 - - -;
 #X text 443 418 A symbol goes through unchanged:;
 #X text 43 442 Note: In Pd Vanilla \, any message typed into an atom
 symbol box is treated as a symbol message \, even if it contains spaces.
 ;
 #X text 67 500 Type anything with spaces \, a symbol message comes
 out:;
-#X symbolatom 669 169 10 0 0 0 - - -, f 10;
+#X symbolatom 669 169 10 0 0 0 - - -;
 #X obj 669 115 symbol;
 #X text 430 42 Convert symbolic atoms to symbol messages (like [symbol]):
 ;

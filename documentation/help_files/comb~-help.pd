@@ -1,4 +1,4 @@
-#N canvas 637 23 558 599 10;
+#N canvas 499 107 558 584 10;
 #X obj 3 558 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 288 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -52,10 +52,10 @@
 #X obj 161 125 noise~;
 #X obj 208 157 *~;
 #X obj 223 125 cyclone/train~ 1000 0.1;
-#X floatatom 247 168 5 0 100 0 - adfsa -, f 5;
-#X floatatom 327 167 5 -1 1 0 - adfsa -, f 5;
-#X floatatom 367 167 5 -1 1 0 - adfsa -, f 5;
-#X floatatom 287 168 5 -1 1 0 - adfsa -, f 5;
+#X floatatom 247 168 5 0 100 0 - adfsa -;
+#X floatatom 327 167 5 -1 1 0 - adfsa -;
+#X floatatom 367 167 5 -1 1 0 - adfsa -;
+#X floatatom 287 168 5 -1 1 0 - adfsa -;
 #X obj 109 297 cnv 17 3 43 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 177 296 signal;
@@ -110,13 +110,13 @@
 #X text 334 166 c = feedback gain coefficient;
 #X text 50 33 Here's the filter diagram and equation for the comb~
 filter:, f 46;
-#X floatatom 239 411 5 0 100 0 - - -, f 5;
+#X floatatom 239 411 5 0 100 0 - - -;
 #X obj 186 372 noise~;
 #X text 243 391 d1;
 #X text 108 309 updates all arguments;
-#X floatatom 292 410 5 0 100 0 - - -, f 5;
-#X floatatom 345 410 5 0 0 0 - - -, f 5;
-#X floatatom 399 411 5 0 0 0 - - -, f 5;
+#X floatatom 292 410 5 0 100 0 - - -;
+#X floatatom 345 410 5 0 0 0 - - -;
+#X floatatom 399 411 5 0 0 0 - - -;
 #X obj 295 333 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X obj 348 358 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856

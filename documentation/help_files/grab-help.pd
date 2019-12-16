@@ -1,4 +1,4 @@
-#N canvas 474 70 558 477 10;
+#N canvas 474 70 558 466 10;
 #X obj 2 248 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 304 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -10,8 +10,8 @@
 #X obj 84 312 cnv 17 3 17 empty empty n 5 9 0 16 -228856 -162280 0
 ;
 #X obj 230 188 * 10;
-#X floatatom 230 214 5 0 0 0 - - -, f 5;
-#X floatatom 251 164 5 0 0 0 - - -, f 5;
+#X floatatom 230 214 5 0 0 0 - - -;
+#X floatatom 251 164 5 0 0 0 - - -;
 #X obj 2 461 cnv 1 550 1 empty empty empty 0 0 0 4 -262144 -262144
 0;
 #X obj 2 440 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
@@ -80,12 +80,12 @@ object.;
 #X connect 7 0 4 0;
 #X restore 170 142 pd set_table;
 #X obj 59 120 random;
-#X floatatom 92 95 5 0 0 0 - - -, f 5;
+#X floatatom 92 95 5 0 0 0 - - -;
 #X obj 59 83 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X floatatom 59 143 5 0 0 0 - - -, f 5;
-#X floatatom 556 197 5 0 0 0 - - -, f 5;
-#X floatatom 626 197 5 0 0 0 - - -, f 5;
+#X floatatom 59 143 5 0 0 0 - - -;
+#X floatatom 556 197 5 0 0 0 - - -;
+#X floatatom 626 197 5 0 0 0 - - -;
 #X obj 161 209 nbx 5 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
 -228856 -1 -1 0 256;
 #X text 141 43 <= get length from table;

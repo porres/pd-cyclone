@@ -1,4 +1,4 @@
-#N canvas 159 165 559 514 10;
+#N canvas 489 101 561 505 10;
 #X obj 7 399 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 7 437 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
@@ -15,9 +15,9 @@
 #X obj 89 344 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 273 243 cyclone/snapshot~ 1;
-#X obj 176 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 176 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X obj 273 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 273 278 tgl 40 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X text 154 345 signal;
 #X text 205 345 - value is compared to right inlet's or argument;

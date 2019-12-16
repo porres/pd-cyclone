@@ -1,4 +1,4 @@
-#N canvas 396 52 561 605 10;
+#N canvas 396 52 561 593 10;
 #X obj 5 566 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 408 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -25,7 +25,7 @@
 #X obj 162 181 osc~ 1;
 #X obj 106 279 cyclone/snapshot~ 1;
 #X obj 106 310 vsl 20 80 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 0 1;
+-1 -1 7694 1;
 #X text 131 383 -1, f 3;
 #X text 134 301 1, f 3;
 #X text 134 344 0;
@@ -82,7 +82,7 @@ Right outlet send an impulse at every zero crossing.;
 #N canvas 326 74 412 385 transient 0;
 #X obj 147 122 adc~ 1;
 #X obj 251 217 vsl 20 128 0 32 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 0 1;
+-1 -1 1984 1;
 #X text 32 62 Look at the difference between "ssss" and "aaa" or any
 noisy/tansient input as opposed to a tonal and stable one.;
 #X obj 25 11 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577

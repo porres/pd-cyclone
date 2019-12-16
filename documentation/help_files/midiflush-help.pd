@@ -1,4 +1,4 @@
-#N canvas 503 94 560 508 10;
+#N canvas 503 94 561 494 10;
 #X obj 2 330 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 397 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -224,7 +224,7 @@ synth;
 #X obj 130 119 bng 30 250 50 0 empty empty empty 17 7 0 10 -216373
 -108187 -1;
 #X msg 194 121 \$1 100;
-#X floatatom 194 99 5 0 0 0 - - -, f 5;
+#X floatatom 194 99 5 0 0 0 - - -;
 #X obj 194 49 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X text 317 154 generates raw MIDI note messages;
