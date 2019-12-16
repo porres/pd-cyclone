@@ -2,7 +2,10 @@
 | Under the maintenance of Porres, Kwan and Barber: 
 ---------------------------------------------------
 
-cyclone 0.4 (needs at least Pd Vanilla 0.50.0)
+cyclone 0.4.1 (needs at least Pd Vanilla 0.51.0)
+- fixed a bug in active where it was reporting inactivity when right clicking on the canvas in Linux.
+
+cyclone 0.4 (needs at least Pd Vanilla 0.50-2):
 
 - fixed a 0.3 regression bug (this was ok in 0.2) where an annoying 'couldn't unbind' error was printed by [mousestate]
 
