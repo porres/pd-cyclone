@@ -17,9 +17,8 @@
  Have written the color version of the colorsetting methods that take vals 0-1
  instead of 0-255
  - Derek Kwan
- */
 
-// 2017 = Porres finished cleaning "sickle/sic, loud, fitter & forky" dependencies
+2017 = Porres finished cleaning "sickle/sic, loud, fitter & forky" dependencies  */
 
 #include "m_pd.h"
 #include <common/api.h>
@@ -30,65 +29,57 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef KRZYSZCZ
-// #define SCOPE_DEBUG
-#endif
-
-/* these are powers of 2 + margins */
-#define SCOPE_DEFWIDTH     130  /* CHECKED */
-#define SCOPE_MINWIDTH      10 //66
-#define SCOPE_DEFHEIGHT    130  /* CHECKED */
-#define SCOPE_MINHEIGHT     10 //34
-#define SCOPE_DEFPERIOD    256
-#define SCOPE_MINPERIOD      2
-#define SCOPE_MAXPERIOD   8192
-#define SCOPE_DEFBUFSIZE   128
-#define SCOPE_MINBUFSIZE     8
-#define SCOPE_MAXBUFSIZE   256  /* LATER rethink */
-#define SCOPE_WARNBUFSIZE  256
+#define SCOPE_DEFWIDTH     130
+#define SCOPE_MINWIDTH      10
+#define SCOPE_DEFHEIGHT    130
+#define SCOPE_MINHEIGHT     10
+#define SCOPE_DEFPERIOD     256
+#define SCOPE_MINPERIOD     2
+#define SCOPE_MAXPERIOD     8192
+#define SCOPE_DEFBUFSIZE    128
+#define SCOPE_MINBUFSIZE    8
+#define SCOPE_MAXBUFSIZE    256
+#define SCOPE_WARNBUFSIZE   256
 #define SCOPE_DEFMINVAL     -1.
-#define SCOPE_DEFMAXVAL      1.
-#define SCOPE_DEFDELAY       0
-#define SCOPE_MINDELAY       0
-#define SCOPE_DEFDRAWSTYLE     0
-#define SCOPE_TRIGLINEMODE   0
-#define SCOPE_TRIGUPMODE     1
-#define SCOPE_TRIGDOWNMODE   2
-#define SCOPE_DEFTRIGMODE    SCOPE_TRIGLINEMODE
-#define SCOPE_MINTRIGMODE    SCOPE_TRIGLINEMODE
-#define SCOPE_MAXTRIGMODE    SCOPE_TRIGDOWNMODE
-#define SCOPE_DEFTRIGLEVEL   0.
-#define SCOPE_MINRGB         0
-#define SCOPE_MAXRGB         255
-#define SCOPE_MINCOLOR       0.
-#define SCOPE_MAXCOLOR       1.
-#define SCOPE_DEFFGRED       205
-#define SCOPE_DEFFGGREEN     229
-#define SCOPE_DEFFGBLUE      232
-#define SCOPE_DEFBGRED       74
-#define SCOPE_DEFBGGREEN     79
-#define SCOPE_DEFBGBLUE      77
-#define SCOPE_DEFGRRED       96
-#define SCOPE_DEFGRGREEN     98
-#define SCOPE_DEFGRBLUE      102
-#define SCOPE_SELCOLOR       "#4a4f4d"  /* a bit lighter shade of blue */
-#define SCOPE_SELBORDER      "#5aadef" /* border select color that seems to be in max */
-#define SCOPE_FGWIDTH        0.7  /* line width is float */
+#define SCOPE_DEFMAXVAL     1.
+#define SCOPE_DEFDELAY      0
+#define SCOPE_MINDELAY      0
+#define SCOPE_DEFDRAWSTYLE  0
+#define SCOPE_TRIGLINEMODE  0
+#define SCOPE_TRIGUPMODE    1
+#define SCOPE_TRIGDOWNMODE  2
+#define SCOPE_DEFTRIGMODE   SCOPE_TRIGLINEMODE
+#define SCOPE_MINTRIGMODE   SCOPE_TRIGLINEMODE
+#define SCOPE_MAXTRIGMODE   SCOPE_TRIGDOWNMODE
+#define SCOPE_DEFTRIGLEVEL  0.
+#define SCOPE_MINRGB        0
+#define SCOPE_MAXRGB        255
+#define SCOPE_MINCOLOR      0.
+#define SCOPE_MAXCOLOR      1.
+#define SCOPE_DEFFGRED      205
+#define SCOPE_DEFFGGREEN    229
+#define SCOPE_DEFFGBLUE     232
+#define SCOPE_DEFBGRED      74
+#define SCOPE_DEFBGGREEN    79
+#define SCOPE_DEFBGBLUE     77
+#define SCOPE_DEFGRRED      96
+#define SCOPE_DEFGRGREEN    98
+#define SCOPE_DEFGRBLUE     102
+#define SCOPE_SELCOLOR      "#4a4f4d"  // a bit lighter shade of blue
+#define SCOPE_SELBORDER     "#5aadef" // border select color that seems to be in max
+#define SCOPE_FGWIDTH        0.7  // line width is float
 #define SCOPE_GRIDWIDTH      0.9
 #define SCOPE_SELBDWIDTH     3.0
-#define SCOPEHANDLE_WIDTH    10    /* item size is int */
+#define SCOPEHANDLE_WIDTH    10    // item size is int */
 #define SCOPEHANDLE_HEIGHT   10
-/* these are performance-related hacks, LATER investigate */
-#define SCOPE_GUICHUNK  128
-//#define SCOPE_GUICHUNKXY    32
-
+#define SCOPE_GUICHUNK       128 // performance-related hacks, LATER investigate
 
 typedef struct _scope
 {
     t_object   x_obj;
     t_inlet   *x_rightinlet;
     t_glist   *x_glist;
-    t_canvas  *x_canvas;  /* also an 'isvised' flag */
+    t_canvas  *x_canvas;  // also an 'isvised' flag
     char       x_tag[64];
     char       x_fgtag[64];
     char       x_bgtag[64];
@@ -160,14 +151,11 @@ static void scope_clear(t_scope *x, int withdelay)
 static t_int *scope_perform(t_int *w)
 {
     t_scope *x = (t_scope *)(w[1]);
-    
     int xymode = x->x_xymode;
     if (!xymode)
         return (w + 5);
     int bufphase = x->x_bufphase;
-    
     int bufsize = (int)*x->x_signalscalar;
-    
     if (bufsize != x->x_bufsize)
     {
         scope_bufsize(x, bufsize);
