@@ -1,4 +1,4 @@
-#N canvas 715 36 558 524 10;
+#N canvas 481 170 560 510 10;
 #X obj 3 336 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 400 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -63,9 +63,9 @@
 #C restore;
 #X obj 172 312 cyclone/anal 16384;
 #X obj 172 354 unpack f f f, f 13;
-#X floatatom 172 376 5 0 0 0 - - -, f 5;
-#X floatatom 209 376 5 0 0 0 - - -, f 5;
-#X floatatom 247 376 3 0 0 0 - - -, f 3;
+#X floatatom 172 376 5 0 0 0 - - -;
+#X floatatom 209 376 5 0 0 0 - - -;
+#X floatatom 247 376 3 0 0 0 - - -;
 #X obj 317 297 bng 25 250 50 0 empty empty empty 17 7 0 10 -216373
 -66577 -1;
 #X obj 355 382 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373

@@ -1,4 +1,4 @@
-#N canvas 685 38 561 495 10;
+#N canvas 424 167 561 495 10;
 #X obj 3 279 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 398 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -121,10 +121,10 @@ value to it or mulplying it by a given factor.;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X floatatom 267 203 5 0 0 0 - - -, f 5;
-#X floatatom 223 183 5 0 0 0 - - -, f 5;
-#X floatatom 180 163 5 0 0 0 - - -, f 5;
-#X floatatom 126 141 5 0 0 0 - - -, f 5;
+#X floatatom 267 203 5 0 0 0 - - -;
+#X floatatom 223 183 5 0 0 0 - - -;
+#X floatatom 180 163 5 0 0 0 - - -;
+#X floatatom 126 141 5 0 0 0 - - -;
 #X connect 4 0 8 0;
 #X connect 8 0 24 0;
 #X connect 18 0 8 0;

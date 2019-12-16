@@ -1,4 +1,4 @@
-#N canvas 342 23 560 638 10;
+#N canvas 444 124 561 620 10;
 #X obj 3 594 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 414 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -36,8 +36,8 @@ pi/2. For input values outside the -1 to 1 range \, the output is zero!
 ;
 #X text 180 471 - the arc-sine of the input;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -106,7 +106,7 @@ pi/2. For input values outside the -1 to 1 range \, the output is zero!
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

@@ -1,4 +1,4 @@
-#N canvas 722 41 558 552 10;
+#N canvas 512 52 563 538 10;
 #X obj 3 512 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 3 313 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -34,8 +34,8 @@
 #X obj 133 151 noise~;
 #X obj 180 183 *~;
 #X obj 195 151 cyclone/train~ 1000 0.1;
-#X floatatom 260 193 5 0 100 0 - adfsa -, f 5;
-#X floatatom 339 193 5 -1 1 0 - adfsa -, f 5;
+#X floatatom 260 193 5 0 100 0 - adfsa -;
+#X floatatom 339 193 5 -1 1 0 - adfsa -;
 #X obj 347 176 cyclone/comment 11 15 helvetica ? 0 0 0 0 a;
 #X obj 267 178 cyclone/comment 0 13 helvetica ? 0 0 0 0 D;
 #X obj 180 214 cyclone/allpass~ 100 10 0.7;
@@ -86,11 +86,11 @@
 #X text 114 172 y(n) = -a * x(n) + x(n-D) + a * y(n-D);
 #X text 110 81 x[n] ---(*-a)--(+)--(+)----------- y[n];
 #X obj 254 48 comment 0 16 times ? 0 0 0 0 Filter Equation:;
-#X floatatom 233 334 5 0 100 0 - - -, f 5;
+#X floatatom 233 334 5 0 100 0 - - -;
 #X obj 154 316 noise~;
 #X text 237 314 d1;
 #X text 169 280 updates all arguments;
-#X floatatom 313 335 5 0 100 0 - - -, f 5;
+#X floatatom 313 335 5 0 100 0 - - -;
 #X obj 316 311 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 71 12 Here's the filter diagram and equation for the allpass~

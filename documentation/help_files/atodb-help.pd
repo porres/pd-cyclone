@@ -1,4 +1,4 @@
-#N canvas 575 59 564 722 10;
+#N canvas 459 58 560 678 10;
 #X obj 3 499 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 577 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -35,7 +35,7 @@
 #X text 202 586 - converted dBFS amplitude value(s);
 #N canvas 126 23 450 300 lists 0;
 #X obj 113 187 cyclone/tosymbol;
-#X symbolatom 113 218 20 0 0 0 - - -, f 20;
+#X symbolatom 113 218 20 0 0 0 - - -;
 #X obj 113 101 loadbang;
 #X text 92 67 it also works with lists:;
 #X obj 113 155 cyclone/atodb;
