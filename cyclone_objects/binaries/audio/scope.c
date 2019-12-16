@@ -1519,7 +1519,7 @@ static void scope_revis(t_scope *x, t_canvas *cv)
 static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 {
     t_scope *x = (t_scope *)z;
-    t_text *t = (t_text *)z;
+//    t_text *t = (t_text *)z;
     t_canvas *cv = scope_getcanvas(x, glist);
     if (vis)
     {
@@ -1530,13 +1530,9 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
         int bufsize = x->x_bufsize;
         x->x_xymode = x->x_lastxymode;
         x->x_bufsize = x->x_lastbufsize;
-        //x->x_xbuffer = x->x_xbuflast;
-        //x->x_ybuffer = x->x_ybuflast;
         scope_draw(x, cv);
         x->x_xymode = xymode;
         x->x_bufsize = bufsize;
-        //x->x_xbuffer = x->x_xbuf;
-        //x->x_ybuffer = x->x_ybuf;
     }
     else
     {
