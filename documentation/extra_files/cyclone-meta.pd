@@ -1,4 +1,4 @@
-#N canvas 778 24 403 247 10;
+#N canvas 640 92 403 247 10;
 #X text 26 50 LIBRARY: cyclone, f 57;
 #X text 26 101 LICENSE: SIBSD, f 57;
 #X text 26 210 WEBSITE: https://github.com/porres/pd-cyclone, f 57

@@ -1,4 +1,4 @@
-#N canvas 205 23 558 574 10;
+#N canvas 505 64 558 574 10;
 #X obj 281 156 osc~ 440;
 #X obj 2 8 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -68,7 +68,7 @@ has controls for mute \, DSP on/off \, ramp time and maximum gain.
 #N canvas 522 161 803 382 examples 0;
 #X obj 180 159 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X floatatom 177 179 5 0 0 0 - - -, f 5;
+#X floatatom 177 179 5 0 0 0 - - -;
 #X text 192 159 set slider (0-1);
 #X msg 231 247 on;
 #X msg 231 274 off;
@@ -80,7 +80,7 @@ has controls for mute \, DSP on/off \, ramp time and maximum gain.
 10 -228856 -1 -1 1;
 #X text 518 180 dB;
 #X text 494 194 linear;
-#X floatatom 534 218 5 0 0 0 - - -, f 5;
+#X floatatom 534 218 5 0 0 0 - - -;
 #X obj 447 243 osc~ 440;
 #X text 457 144 slider scaling:;
 #X text 488 164 quartic;
@@ -112,20 +112,13 @@ achieved.;
 #X obj 90 310 ./out~;
 #X obj 447 285 ./out~;
 #X connect 0 0 1 0;
-#X connect 1 0 29 2;
-#X connect 3 0 29 2;
-#X connect 4 0 29 2;
 #X connect 7 0 29 0;
 #X connect 7 0 29 1;
-#X connect 8 0 30 2;
 #X connect 9 0 12 0;
 #X connect 12 0 8 0;
 #X connect 13 0 30 0;
 #X connect 13 0 30 1;
-#X connect 16 0 30 2;
 #X connect 17 0 16 0;
-#X connect 18 0 29 2;
-#X connect 25 0 30 2;
 #X connect 26 0 25 0;
 #X connect 27 0 26 0;
 #X restore 469 189 pd examples;
@@ -400,7 +393,6 @@ isn't loud enough \, if it is too high or even if you're using multiple
 #X obj 463 344 ./out~;
 #X connect 23 0 35 0;
 #X connect 23 0 35 1;
-#X connect 24 0 35 2;
 #X connect 25 0 30 0;
 #X connect 26 0 24 0;
 #X connect 27 0 26 0;
