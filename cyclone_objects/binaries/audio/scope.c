@@ -27,11 +27,12 @@
 #include "common/magicbit.h"
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#define SCOPE_DEFWIDTH     130
+#define SCOPE_DEFWIDTH      130
 #define SCOPE_MINWIDTH      10
-#define SCOPE_DEFHEIGHT    130
+#define SCOPE_DEFHEIGHT     130
 #define SCOPE_MINHEIGHT     10
 #define SCOPE_DEFPERIOD     256
 #define SCOPE_MINPERIOD     2
@@ -357,7 +358,7 @@ static t_canvas *scope_getcanvas(t_scope *x, t_glist *glist)
     return (x->x_canvas = glist_getcanvas(glist));
 }
 
-/* answers the question:  ``can we draw and where to?'' */
+// answers the question: "can we draw and where to?"
 static t_canvas *scope_isvisible(t_scope *x)
 {
     if (glist_isvisible(x->x_glist))
@@ -903,7 +904,7 @@ static void scope_setxymode(t_scope *x, int xymode)
     if (xymode != x->x_xymode)
     {
         t_canvas *cv;
-        if (cv = scope_isvisible(x))
+        if ((cv = scope_isvisible(x)))
         {
             int x1, y1, x2, y2;
             scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
@@ -936,7 +937,7 @@ static void scope_resize(t_scope *x, t_float w, t_float h)
     t_canvas *cv;
     x->x_width  = (int)(w < SCOPE_MINWIDTH ? SCOPE_MINWIDTH : w);
     x->x_height = (int)(h < SCOPE_MINHEIGHT ? SCOPE_MINHEIGHT : h);
-    if (cv = scope_isvisible(x))
+    if ((cv = scope_isvisible(x)))
     {
         if (x->x_xymode)
             scope_redraw(x, x->x_canvas);
@@ -969,7 +970,7 @@ static void scopehandle__motionhook(t_scopehandle *sh,
         x->x_width =  width < SCOPE_MINWIDTH ? SCOPE_MINWIDTH : width;
         x->x_height = height < SCOPE_MINHEIGHT ? SCOPE_MINHEIGHT : height;
         t_canvas *cv;
-        if (cv = scope_isvisible(x))
+        if ((cv = scope_isvisible(x)))
         {
             scope_vis((t_gobj *)x, cv, 0);
             scope_vis((t_gobj *)x, cv, 1);
@@ -1519,7 +1520,6 @@ static void scope_revis(t_scope *x, t_canvas *cv)
 static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 {
     t_scope *x = (t_scope *)z;
-//    t_text *t = (t_text *)z;
     t_canvas *cv = scope_getcanvas(x, glist);
     if (vis)
     {
@@ -1541,23 +1541,22 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
     }
 }
 
-static void scope_motion(t_scope *x, t_floatarg dx, t_floatarg dy)
-{
-    
+static void scope_motion(void){ // dummy
 }
 
-static int scope_click(t_gobj *z, t_glist *glist,
-                       int xpix, int ypix, int shift, int alt, int dbl,
-                       int doit)
+static int scope_click(t_gobj *z, t_glist *glist, int xpix, int ypix, int shift,
+    int alt, int dbl, int doit)
 {
     t_scope *x = (t_scope *)z;
-    if (doit)
-    {
+    if (doit){
         x->x_frozen = 1;
         glist_grab(x->x_glist, &x->x_obj.te_g, (t_glistmotionfn)scope_motion,
                    0, xpix, ypix);
     }
-    else x->x_frozen = 0;
+    else
+        x->x_frozen = 0;
+    glist = NULL;
+    shift = alt = dbl = 0;
     return (CURSOR_RUNMODE_CLICKME);
 }
 
@@ -1594,7 +1593,7 @@ static void scope_setxymode(t_scope *x, int xymode)
     if (xymode != x->x_xymode)
     {
         t_canvas *cv;
-        if (cv = scope_isvisible(x))
+        if ((cv = scope_isvisible(x)))
         {
             sys_vgui(".x%lx.c delete %s %s\n", cv, x->x_fgtag, x->x_margintag);
             
@@ -1630,7 +1629,7 @@ static void scope_resize(t_scope *x, t_float w, t_float h)
     t_canvas *cv;
     x->x_width  = (int)(w < SCOPE_MINWIDTH ? SCOPE_MINWIDTH : w);
     x->x_height = (int)(h < SCOPE_MINHEIGHT ? SCOPE_MINHEIGHT : h);
-    if (cv = scope_isvisible(x))
+    if ((cv = scope_isvisible(x)))
     {
         if (x->x_xymode)
             scope_redraw(x, x->x_canvas);
@@ -1648,7 +1647,7 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
         t_canvas *cv;
         x->x_width += sh->h_dragx;
         x->x_height += sh->h_dragy;
-        if (cv = scope_isvisible(x))
+        if ((cv = scope_isvisible(x)))
         {
             sys_vgui(".x%lx.c delete %s\n", cv, sh->h_outlinetag);
             scope_revis(x, cv);
@@ -1661,7 +1660,7 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
     {
         t_scope *x = sh->h_master;
         t_canvas *cv;
-        if (cv = scope_isvisible(x))
+        if ((cv = scope_isvisible(x)))
         {
             int x1, y1, x2, y2;
             scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
@@ -1691,7 +1690,7 @@ static void scopehandle__motionhook(t_scopehandle *sh,
         if (newx > x1 + SCOPE_MINWIDTH && newy > y1 + SCOPE_MINHEIGHT)
         {
             t_canvas *cv;
-            if (cv = scope_isvisible(x))
+            if ((cv = scope_isvisible(x)))
                 sys_vgui(".x%lx.c coords %s %d %d %d %d\n",
                          cv, sh->h_outlinetag, x1, y1, newx, newy);
             sh->h_dragx = dx;
@@ -1725,23 +1724,13 @@ static void scope_dim(t_scope *x, t_float width, t_float height)
 
 static void scope_properties(t_gobj *z, t_glist *owner)
 {
+    owner = NULL;
     t_scope *x = (t_scope *)z;
     int bgcol, grcol, fgcol;
-    
-    bgcol = ((int)x->x_bgrgb[0] << 16) +
-    ((int)x->x_bgrgb[1] << 8) +
-    (int)x->x_bgrgb[2];
-    grcol = ((int)x->x_grrgb[0] << 16) +
-    ((int)x->x_grrgb[1] << 8) +
-    (int)x->x_grrgb[2];
-    fgcol = ((int)x->x_fgrgb[0] << 16) +
-    ((int)x->x_fgrgb[1] << 8) +
-    (int)x->x_fgrgb[2];
-    
+    bgcol = ((int)x->x_bgrgb[0] << 16) + ((int)x->x_bgrgb[1] << 8) + (int)x->x_bgrgb[2];
+    grcol = ((int)x->x_grrgb[0] << 16) + ((int)x->x_grrgb[1] << 8) + (int)x->x_grrgb[2];
+    fgcol = ((int)x->x_fgrgb[0] << 16) + ((int)x->x_fgrgb[1] << 8) + (int)x->x_fgrgb[2];
     char buf[1000];
-    //t_symbol *srl[3];
-    
-    // iemgui_properties(&x->x_gui, srl);
     sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
             dim %d wdt: %d hgt: \
             buf %d cal: %d bfs: \
@@ -1762,7 +1751,6 @@ static void scope_properties(t_gobj *z, t_glist *owner)
             SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
             SCOPE_MINDELAY,
             bgcol, grcol, fgcol);
-    //post("%s", buf);
     gfxstub_new(&x->x_obj.ob_pd, x, buf);
 }
 
@@ -1785,6 +1773,7 @@ static int scope_getcolorarg(int index, int argc, t_atom *argv)
 
 static void scope_dialog(t_scope *x, t_symbol *s, int argc, t_atom *argv)
 {
+    s = NULL;
     int width = (int)atom_getintarg(0, argc, argv);
     int height = (int)atom_getintarg(1, argc, argv);
     int period = (int)atom_getintarg(2, argc, argv);
@@ -1811,7 +1800,6 @@ static void scope_dialog(t_scope *x, t_symbol *s, int argc, t_atom *argv)
     int fggreen = (fgcol & 0x00FF00) >> 8;
     int fgblue = (fgcol & 0x0000FF);
     
-    //post ("drawstyle %d", drawstyle);
     scope_period(x, period);
     scope_bufsize(x, bufsize);
     scope_range(x, minval, maxval);
@@ -1834,6 +1822,7 @@ static void scope_dialog(t_scope *x, t_symbol *s, int argc, t_atom *argv)
 
 static void *scope_new(t_symbol *s, int argc, t_atom *argv)
 {
+    s = NULL;
     t_scope *x = (t_scope *)pd_new(scope_class);
     t_scopehandle *sh;
     char hbuf[64];
@@ -1841,10 +1830,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     x->x_canvas = 0;
     x->x_allocsize =  (int) SCOPE_DEFBUFSIZE;
     x->x_bufsize = 0;
-    
-    //int pastargs = 0;
     int argnum = 0;
-    
     t_float width = SCOPE_DEFWIDTH;
     t_float height = SCOPE_DEFHEIGHT;
     t_float period = (t_float)SCOPE_DEFPERIOD;
@@ -1865,11 +1851,9 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     t_float grred = (t_float)SCOPE_DEFGRRED;
     t_float grgreen = (t_float)SCOPE_DEFGRGREEN;
     t_float grblue = (t_float)SCOPE_DEFGRBLUE;
-    
     //default to using rgb methods but if color version
     //(instead of rgb) version is specified, set indicator flags
     //fcolset, bcolset, gcolset
-    
     int fcolset = 0;
     int bcolset = 0;
     int gcolset = 0;
@@ -1882,13 +1866,10 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     t_float gcred = (t_float)SCOPE_MINCOLOR;
     t_float gcgreen = (t_float)SCOPE_MINCOLOR;
     t_float gcblue = (t_float)SCOPE_MINCOLOR;
-    while(argc > 0)
-    {
-        if (argv -> a_type == A_FLOAT)
-        { //if curarg is a number
+    while(argc > 0){
+        if (argv -> a_type == A_FLOAT){
             t_float argval = atom_getfloatarg(0, argc, argv);
-            switch(argnum)
-            {
+            switch(argnum){
                 case 0:
                     width = argval;
                     break;
@@ -1954,106 +1935,74 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
             argc--;
             argv++;
         }
-        else if (argv -> a_type == A_SYMBOL)
-        { //curarg is a string
+        else if (argv -> a_type == A_SYMBOL){
             t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-            if (strcmp(curarg->s_name, "@calccount") == 0)
-            {
-                if (argc >= 2)
-                {
+            if (strcmp(curarg->s_name, "@calccount") == 0){
+                if (argc >= 2){
                     period = atom_getfloatarg(1, argc, argv);
                     argc-=2;
                     argv+=2;
                 }
                 else
-                {
                     goto errstate;
-                }
-                
             }
-            else if (strcmp(curarg->s_name, "@bufsize") == 0)
-            {
-                if (argc >= 2)
-                {
+            else if (strcmp(curarg->s_name, "@bufsize") == 0){
+                if (argc >= 2){
                     bufsize = atom_getfloatarg(1, argc, argv);
                     argc-=2;
                     argv+=2;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@range") == 0)
-            {
-                if (argc >= 3)
-                {
+            else if (strcmp(curarg->s_name, "@range") == 0){
+                if (argc >= 3){
                     minval = atom_getfloatarg(1, argc, argv);
                     maxval = atom_getfloatarg(2, argc, argv);
                     argc-=3;
                     argv+=3;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@delay") == 0)
-            {
-                if (argc >= 2)
-                {
+            else if (strcmp(curarg->s_name, "@delay") == 0){
+                if (argc >= 2){
                     delay = atom_getfloatarg(1, argc, argv);
                     argc-=2;
                     argv+=2;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@drawstyle") == 0)
-            {
-                if (argc >= 2)
-                {
+            else if (strcmp(curarg->s_name, "@drawstyle") == 0){
+                if (argc >= 2){
                     drawstyle = atom_getfloatarg(1, argc, argv);
                     argc-=2;
                     argv+=2;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@trigger") == 0)
-            {
-                if (argc >= 2)
-                {
+            else if (strcmp(curarg->s_name, "@trigger") == 0){
+                if (argc >= 2){
                     trigger = atom_getfloatarg(1, argc, argv);
                     argc-=2;
                     argv+=2;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@triglevel") == 0)
-            {
-                if (argc >= 2)
-                {
+            else if (strcmp(curarg->s_name, "@triglevel") == 0){
+                if (argc >= 2){
                     triglevel = atom_getfloatarg(1, argc, argv);
                     argc-=2;
                     argv+=2;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@frgb") == 0)
-            {
-                if (argc >= 4)
-                {
+            else if (strcmp(curarg->s_name, "@frgb") == 0){
+                if (argc >= 4){
                     fgred = atom_getfloatarg(1, argc, argv);
                     fggreen = atom_getfloatarg(2, argc, argv);
                     fgblue = atom_getfloatarg(3, argc, argv);
@@ -2061,14 +2010,10 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
                     argv+=4;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@brgb") == 0)
-            {
-                if (argc >= 4)
-                {
+            else if (strcmp(curarg->s_name, "@brgb") == 0){
+                if (argc >= 4){
                     bgred = atom_getfloatarg(1, argc, argv);
                     bggreen = atom_getfloatarg(2, argc, argv);
                     bgblue = atom_getfloatarg(3, argc, argv);
@@ -2076,14 +2021,10 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
                     argv+=4;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@grgb") == 0)
-            {
-                if (argc >= 4)
-                {
+            else if (strcmp(curarg->s_name, "@grgb") == 0){
+                if (argc >= 4){
                     grred = atom_getfloatarg(1, argc, argv);
                     grgreen = atom_getfloatarg(2, argc, argv);
                     grblue = atom_getfloatarg(3, argc, argv);
@@ -2091,14 +2032,10 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
                     argv+=4;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@fgcolor") == 0)
-            {
-                if (argc >= 4)
-                {
+            else if (strcmp(curarg->s_name, "@fgcolor") == 0){
+                if (argc >= 4){
                     fcolset = 1;
                     fcred = atom_getfloatarg(1, argc, argv);
                     fcgreen = atom_getfloatarg(2, argc, argv);
@@ -2107,14 +2044,10 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
                     argv+=4;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@bgcolor") == 0)
-            {
-                if (argc >= 4)
-                {
+            else if (strcmp(curarg->s_name, "@bgcolor") == 0){
+                if (argc >= 4){
                     bcolset = 1;
                     bcred = atom_getfloatarg(1, argc, argv);
                     bcgreen = atom_getfloatarg(2, argc, argv);
@@ -2123,14 +2056,10 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
                     argv+=4;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
-            else if (strcmp(curarg->s_name, "@gridcolor") == 0)
-            {
-                if (argc >= 4)
-                {
+            else if (strcmp(curarg->s_name, "@gridcolor") == 0){
+                if (argc >= 4){
                     gcolset = 1;
                     gcred = atom_getfloatarg(1, argc, argv);
                     gcgreen = atom_getfloatarg(2, argc, argv);
@@ -2139,40 +2068,29 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
                     argv+=4;
                 }
                 else
-                {
                     goto errstate;
-                }
             }
             else
-            {
                 goto errstate;
-            }
         }
         else
-        {
             goto errstate;
-        }
     }
     x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     scope_dim(x, width, height);
     scope_period(x, period);
-    /* CHECKME 6th argument (default 3 for mono, 1 for xy */
-    //x->x_xbuffer = x->x_xbuf;
-    //x->x_ybuffer = x->x_ybuf;
+
     scope_bufsize(x, bufsize);
     
-    x->x_signalscalar = obj_findsignalscalar(x, 1);
+    x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
     scope_range(x, minval, maxval);
     scope_delay(x, delay);
     scope_drawstyle(x, drawstyle);
-    /* CHECKME 11th argument (default 0.) */
     scope_trigger(x, trigger);
     scope_triglevel(x, triglevel);
-    /* CHECKME last argument (default 0) */
     scope_frgb(x, fgred, fggreen, fgblue);
     scope_brgb(x, bgred, bggreen, bgblue);
     scope_grgb(x, grred, grgreen, grblue);
-    
     //now to see if we're calling the color versions
     if (fcolset)
         scope_fgcolor(x, fcred, fcgreen, fcblue);
@@ -2180,18 +2098,16 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
         scope_bgcolor(x, bcred, bcgreen, bcblue);
     if (gcolset)
         scope_gridcolor(x, gcred, gcgreen, gcblue);
-    
     sprintf(x->x_tag, "all%lx", (unsigned long)x);
     sprintf(x->x_bgtag, "bg%lx", (unsigned long)x);
     sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
     sprintf(x->x_fgtag, "fg%lx", (unsigned long)x);
     sprintf(x->x_margintag, "ma%lx", (unsigned long)x);
     x->x_xymode = 0;
-    x->x_ksr = sys_getsr() * 0.001;  /* redundant */
+    x->x_ksr = sys_getsr() * 0.001;  // redundant
     x->x_frozen = 0;
     x->x_clock = clock_new(x, (t_method)scope_tick);
     scope_clear(x, 0);
-    
     x->x_handle = pd_new(scopehandle_class);
     sh = (t_scopehandle *)x->x_handle;
     sh->h_master = x;
@@ -2200,7 +2116,6 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     sprintf(sh->h_outlinetag, "h%lx", (unsigned long)sh);
     sh->h_dragon = 0;
     return (x);
-    
 errstate:
     pd_error(x, "scope~: improper creation arguments");
     return NULL;
@@ -2250,7 +2165,7 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     class_addmethod(scope_class, (t_method)scope_click,
                     gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_motion,
-                    gensym("motion"), A_FLOAT, A_FLOAT, 0);
+                    gensym("motion"), 0);
     class_addmethod(scope_class, (t_method)scope_resize,
                     gensym("resize"), A_FLOAT, A_FLOAT, 0);
     class_setwidget(scope_class, &scope_widgetbehavior);
