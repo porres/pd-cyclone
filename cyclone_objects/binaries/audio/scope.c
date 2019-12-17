@@ -116,6 +116,7 @@ typedef struct _scope
     float           x_curry;
     float           x_trigx;
     int             x_frozen;
+    int             x_init;
     t_clock        *x_clock;
     t_pd           *x_handle;
 } t_scope;
@@ -340,6 +341,10 @@ static void scope_dsp(t_scope *x, t_signal **sp)
     int xfeeder, yfeeder;
     xfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
     yfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
+    if(!x->x_init){
+        x->x_init = 1;
+        x->x_lastxymode = xfeeder + 2 * yfeeder;
+    }
     scope_setxymode(x, xfeeder + 2 * yfeeder);
     dsp_add(scope_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
@@ -2056,7 +2061,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
     sprintf(x->x_fgtag, "fg%lx", (unsigned long)x);
     sprintf(x->x_margintag, "ma%lx", (unsigned long)x);
-    x->x_xymode = 0;
+    x->x_xymode = x->x_lastxymode = x->x_init = 0;
     x->x_ksr = sys_getsr() * 0.001;  // redundant
     x->x_frozen = 0;
     x->x_clock = clock_new(x, (t_method)scope_tick);
