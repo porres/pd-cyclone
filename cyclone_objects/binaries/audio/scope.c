@@ -26,7 +26,6 @@
 #include "g_all_guis.h"
 #include "common/magicbit.h"
 #include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
