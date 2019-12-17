@@ -1,4 +1,4 @@
-#N canvas 643 23 560 679 10;
+#N canvas 715 23 560 679 10;
 #X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 316 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -62,9 +62,9 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 309 124 1036 652 X-Y_Mode 0;
 #X obj 355 345 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 4000 1;
+-1 -1 0 1;
 #X obj 352 364 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.314961 256;
+-228856 -1 -1 0 256;
 #X msg 818 87 588;
 #X msg 809 63 550;
 #X msg 794 43 441;
