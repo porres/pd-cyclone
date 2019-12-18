@@ -295,22 +295,21 @@ README.pdf \
 # It can be found in the MinGW directory (usually "C:\msys64\mingw64\bin" for 64bit builds 
 # or "C:\msys64\mingw32\bin" for 32bit builds) directory and should be
 # copied to the current directory before installation or packaging.
-# We use $(MSYSTEM) for compiler Arch detection. (not tested for cross-compiling).
-#
-# "pthreadGC-3.dll" and "libgcc_s_dw2-1.dll" need to be copied if compiling with Msys1.
-# They are copied just in case.
-#
+
+
+# install pthread from MinGW from:
+# * Windows:             $MINGW_PREFIX/bin
+# * Linux cross-compile: $MINGW_PREFIX/lib
 
 ifeq (MINGW,$(findstring MINGW,$(uname)))
-  ifeq ($(MSYSTEM), MINGW32)
-    datafiles += maintenance/windows_dll/msys2-32/libwinpthread-1.dll
-    datafiles += maintenance/windows_dll/pthreadGC-3.dll
-    datafiles += maintenance/windows_dll/libgcc_s_dw2-1.dll
-  else
-    datafiles += maintenance/windows_dll/msys2-64/libwinpthread-1.dll
-  endif
 
+    datafiles += ${MINGW_PREFIX}/bin/libwinpthread-1.dll
+
+  else
+    datafiles += ${MINGW_PREFIX}/lib/libwinpthread-1.dll
 endif
+
+
 
 ### pd-lib-builder ######################################################
 
