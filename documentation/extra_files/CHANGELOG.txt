@@ -140,7 +140,7 @@ H) Fixing proper input types for signal objects (mostly not allowing float input
 
 ** non-alphanumeric objects are: ==~ - !=~ - <~ - <=~ - >~ - >=~ - !-~ - !/~ - %~ - +=~
 
-I) Other objects removed/included: Replaced the [output~] abstraction by an extra named [out~], borrowed from the "else" library. Another object borrowed from "else" is [setdsp~]. Objects [abs~] and [log~] were deleted because now vanilla also has these objects with the exact same function/behaviour, so they became redundanct.
+I) Other things removed/included: Replaced the [output~] abstraction by an extra named [out~], borrowed from the "else" library. Another object borrowed from "else" is [setdsp~]. Objects [abs~] and [log~] were deleted because now vanilla also has these objects with the exact same function/behaviour, so they became redundanct. We also completely removed 'cyclist' from the build system and threw away the code (this was something that could make patches from max 4 era open in Pd with cyclone, but this needed 'maxmode' to run, which already had been removed in 0.1alpha57.
 
 J) Completely rewritten and redesigned documentation, solving numerous issues/mistakes (still in progress)
 
@@ -154,6 +154,7 @@ J) Completely rewritten and redesigned documentation, solving numerous issues/mi
 0.2beta2
   * coll: added .DLL dependencies so the threaded version works in windows
   * teeth~: replaced porres' abstraction for a compiled binary version
+  * added 'cyclist' as a build target
 
 0.2beta1
   * coll: substituting it for pd-l2ork's version, with threaded functionality and argument
@@ -162,7 +163,9 @@ J) Completely rewritten and redesigned documentation, solving numerous issues/mi
   * matrix~: changed default ramp for non-binary mode
   * delay~: added clear message
 
-0.1.alpha57 
+
+0.1.alpha57  
+  * removed maxmode
   * fixed "bits " message for bitand~, bitor~ and bitxor~ (bug #1186, svn r17418), 
   * fixed crash on "set " message for count~ (svn r17394), 
   * added 'pause', 'resum' and 'stop' messages to Line~ (svn r17398), 
