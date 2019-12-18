@@ -2062,7 +2062,6 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     sprintf(x->x_fgtag, "fg%lx", (unsigned long)x);
     sprintf(x->x_margintag, "ma%lx", (unsigned long)x);
     x->x_xymode = x->x_lastxymode = x->x_init = 0;
-    x->x_ksr = sys_getsr() * 0.001;  // redundant
     x->x_frozen = 0;
     x->x_clock = clock_new(x, (t_method)scope_tick);
     scope_clear(x, 0);
