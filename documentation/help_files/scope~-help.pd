@@ -62,9 +62,9 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 467 187 1004 465 X-Y_Mode 0;
 #X obj 810 115 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 3800 1;
+-1 -1 0 1;
 #X obj 807 134 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.299213 256;
+-228856 -1 -1 0 256;
 #X msg 737 61 588;
 #X msg 701 61 550;
 #X msg 670 61 441;
@@ -90,7 +90,7 @@ period is used. So it requires small values for a better representation
 #X obj 509 114 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 702 110 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 588 256;
+-228856 -1 -1 0 256;
 #X msg 609 61 1;
 #X obj 79 57 cyclone/comment 0 18 times ? 0 0 0 0 X/Y mode:;
 #X obj 509 196 cyclone/scope~ 200 200 2 3 256 -1 1 0 0 0 0 205 229
@@ -100,6 +100,9 @@ period is used. So it requires small values for a better representation
 #X text 66 341 Change the phase of the oscillator to check how it affects
 the plot \, then try different frequencies.;
 #X text 834 116 change phase;
+#X text 757 261 Warning: Using [scope~] in XY mode can be quite expensive
+CPU wise .Depending on the resolution \, you can freeze Pd's GUI if
+you have more than one object in X/Y mode., f 29;
 #X connect 0 0 1 0;
 #X connect 1 0 12 1;
 #X connect 2 0 14 0;
