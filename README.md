@@ -204,11 +204,11 @@ The original repository of MiXed as part of Pd Extended - containing Cyclone and
 
 => Fred Jan Kraan's Repository (0.1-Alpha-57 and 0.2beta):
 
-Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with Cyclone version 0.1alpha-57, from October 2015, which is basically the last developments made on the original repository in its last phase. Then it moves on to a new Cyclone 0.2 version which stopped at a beta stage.
+Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with Cyclone version 0.1alpha-57, from October 2015, which is basically the last developments made on the original repository in its last phase. Then it moves on to a new Cyclone 0.2 version which stopped at a beta stage in february 2016.
 
 => This Repository (0.3 and onwards):
 
-In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon to this repositry that resides at: https://github.com/porres/pd-cyclone. The fork happened while cyclone was at 0.2beta1 stage. Since then, Alexandre Porres, Derek Kwan, Matt Barber and other collaborators have worked on further developments of cyclone. The first release from this repository was cyclone 0.3 from february 2019.
+In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon to this repositry that resides at: https://github.com/porres/pd-cyclone. The fork happened while cyclone was at 0.2beta1 stage. Since then, Alexandre Porres, Derek Kwan, Matt Barber and other collaborators have worked on further developments of cyclone. The first stable release from this repository was cyclone 0.3 from february 2019.
 
 => The 'nilwind' fork:
 
@@ -219,5 +219,7 @@ The 'nilwind' library is a fork of cyclone and it starts as a fork of the last s
 ### About This Repository's Goals:
 
 This repository is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. Releases from this repository are stable and offer many fixes and improves stability from earlier versions. Compatibility to newer versions of Max is a concern, but Max compatibility was always the main goal of cyclone and nothing really changed. No incompatibilities should arise between cyclone 0.3 onwards with earlier versions. This development stage of cyclone is also concerned to provide compatibility for patches made in the Pd-Extended era. If a regression bug has occurred, please report it at <https://github.com/porres/pd-cyclone/issues>.
+
+### Collaborating to Cyclone:
 
 This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list). Another way is just by sending Pull Requests to this repository.
