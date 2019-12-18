@@ -384,7 +384,7 @@ static void zl_iter(t_zl *x, int natoms, t_atom *buf, int banged){
     int nremaining = x->x_inbuf1.d_natoms;
     t_atom *ptr = x->x_inbuf1.d_buf;
     if(!buf){
-        if(natoms = (x->x_modearg < nremaining ? x->x_modearg : nremaining))
+        if((natoms = (x->x_modearg < nremaining ? x->x_modearg : nremaining)))
             x->x_locked = 1;
         else
             return;
@@ -952,17 +952,28 @@ static int zl_delace_count(t_zl *x){
 	return (x->x_inbuf1.d_natoms);
 }
 
-static void zl_delace(t_zl *x, int natoms, t_atom *buf, int banged){
-	if(buf && natoms/2) {
-		t_atom *av1 = x->x_inbuf1.d_buf, *buf2 = x->x_outbuf2.d_buf;
-		int n = natoms/2, i = 0;
-		while (n--) {
-			buf[i/2] = av1[i++];
-			buf2[i/2] = av1[i++];
-		}
-		zl_output2(x, natoms/2, buf2);
-		zl_output(x, natoms/2, buf);
-	}
+static void zl_delace(t_zl *x, int n, t_atom *buf, int banged){
+    if(buf && n){
+        t_atom *av1 = x->x_inbuf1.d_buf, *buf2 = x->x_outbuf2.d_buf;
+        int odd = n % 2, i, j;
+        if(odd){
+            for(i = 0, j = 0; i < n-1; i++, j++){
+                buf[j] = av1[i++];
+                buf2[j] = av1[i];
+            }
+            buf[j] = av1[i];
+            zl_output2(x, n/2, buf2);
+            zl_output(x, (n/2)+1, buf);
+        }
+        else{
+            for(i = 0, j = 0; i < n; i++, j++){
+                buf[j] = av1[i++];
+                buf2[j] = av1[i];
+            }
+            zl_output2(x, n/2, buf2);
+            zl_output(x, n/2, buf);
+        }
+    }
 }
 
 // ************************* FILTER *********************************
@@ -1330,7 +1341,7 @@ static void zl_swapmode(t_zl *x, int natoms, t_atom *buf, int banged){
 		int nswaps = (x->x_inbuf2.d_natoms/2)*2;
 		int i, i1, i2;
 		memcpy(buf, av1, natoms * sizeof(*buf));
-		for (int i = 0; i < nswaps; i += 2) {
+		for (i = 0; i < nswaps; i += 2) {
 			if (av2[i].a_type == A_SYMBOL) {
 				i1 = 0;
 				pd_error(x,"%s: bad number", av2[i].a_w.w_symbol->s_name);
