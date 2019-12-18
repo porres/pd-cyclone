@@ -5,7 +5,7 @@
 cyclone 0.4.1 (needs at least Pd Vanilla 0.51.0)
 - fixed a regression bug where scope~ didn't draw in linux when loaded with the DSP On
 - fixed a bug in active where it was reporting inactivity when right clicking on the canvas in Linux.
-- fixed a bug in [zl delace] where it only worked in macOS, also fixed a bug where odd number input weren't working
+- fixed a bug in [zl delace] where it only worked in macOS and not in Windows/Linux
 
 cyclone 0.4 (needs at least Pd Vanilla 0.50-2):
 

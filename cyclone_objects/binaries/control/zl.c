@@ -953,26 +953,15 @@ static int zl_delace_count(t_zl *x){
 }
 
 static void zl_delace(t_zl *x, int n, t_atom *buf, int banged){
-    if(buf && n){
+    if(buf && n > 1){
         t_atom *av1 = x->x_inbuf1.d_buf, *buf2 = x->x_outbuf2.d_buf;
         int odd = n % 2, i, j;
-        if(odd){
-            for(i = 0, j = 0; i < n-1; i++, j++){
-                buf[j] = av1[i++];
-                buf2[j] = av1[i];
-            }
-            buf[j] = av1[i];
-            zl_output2(x, n/2, buf2);
-            zl_output(x, (n/2)+1, buf);
+        for(i = 0, j = 0; i < n-odd; i++, j++){
+            buf[j] = av1[i++];
+            buf2[j] = av1[i];
         }
-        else{
-            for(i = 0, j = 0; i < n; i++, j++){
-                buf[j] = av1[i++];
-                buf2[j] = av1[i];
-            }
-            zl_output2(x, n/2, buf2);
-            zl_output(x, n/2, buf);
-        }
+        zl_output2(x, n/2, buf2);
+        zl_output(x, (n/2), buf);
     }
 }
 
