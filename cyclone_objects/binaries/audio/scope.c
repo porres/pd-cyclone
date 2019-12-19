@@ -92,7 +92,6 @@ typedef struct _scope
     unsigned char   x_bgrgb[3];
     unsigned char   x_grrgb[3];
     int             x_xymode;
-    int             x_lastxymode;
     float           x_xbuffer[SCOPE_MAXBUFSIZE*4];
     float           x_ybuffer[SCOPE_MAXBUFSIZE*4];
     float           x_xbuflast[SCOPE_MAXBUFSIZE*4];
@@ -110,7 +109,6 @@ typedef struct _scope
     float           x_curry;
     float           x_trigx;
     int             x_frozen;
-    int             x_init;
     t_clock        *x_clock;
     t_pd           *x_handle;
 } t_scope;
@@ -296,7 +294,7 @@ static t_int *scope_perform(t_int *w)
                         *bp1 = currx;
                         *bp2 = curry;
                         bufphase = 0;
-                        x->x_lastxymode = xymode;
+                        x->x_xymode = xymode;
                         x->x_lastbufsize = bufsize;
                         memcpy(x->x_xbuflast, x->x_xbuffer,
                                bufsize * sizeof(*x->x_xbuffer));
@@ -330,10 +328,6 @@ static void scope_dsp(t_scope *x, t_signal **sp){
     int xfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
     int yfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
     int xymode = xfeeder + 2 * yfeeder;
-    if(!x->x_init){
-        x->x_init = 1;
-        x->x_lastxymode = xymode;
-    }
     if(xymode != x->x_xymode){
         x->x_xymode = xymode;
         scope_setxymode(x);
@@ -1144,7 +1138,7 @@ static void scope_delete(t_gobj *z, t_glist *glist)
 
 static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2)
 {
-    int i, xymode = x->x_lastxymode;
+    int i, xymode = x->x_xymode;
     float dx, dy, xx = 0, yy = 0, oldx, oldy, sc, xsc, ysc;
     float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
     int bufsize = x->x_lastbufsize;
@@ -1232,7 +1226,7 @@ static void scope_draw(t_scope *x, t_canvas *cv)
     int x1, y1, x2, y2;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     scope_drawbg(x, cv, x1, y1, x2, y2);
-    if(x->x_lastxymode)
+    if(x->x_xymode)
         scope_drawfg(x, cv, x1, y1, x2, y2);
     scope_drawmargins(x, cv, x1, y1, x2, y2);
 }
@@ -1243,7 +1237,7 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
     int nleft = bufsize = x->x_lastbufsize;
     char chunk[32 * SCOPE_GUICHUNK];  // LATER estimate
     char *chunkp = chunk;
-    int x1, y1, x2, y2, xymode = x->x_lastxymode;
+    int x1, y1, x2, y2, xymode = x->x_xymode;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     float dx, dy, xx, yy, oldx, oldy, sc, xsc, ysc;
     float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
@@ -1324,12 +1318,9 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis)
     if(vis){
         t_scopehandle *sh = (t_scopehandle *)x->x_handle;
         sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_canvas, (unsigned long)sh);
-        int xymode = x->x_xymode;
         int bufsize = x->x_bufsize;
-        x->x_xymode = x->x_lastxymode;
         x->x_bufsize = x->x_lastbufsize;
         scope_draw(x, (t_canvas *)glist);
-        x->x_xymode = xymode;
         x->x_bufsize = bufsize;
     }
     else
@@ -1513,7 +1504,7 @@ static void scope_properties(t_gobj *z, t_glist *owner){
 
 // #endif // end pd vanilla GUI code
 
-static int scope_getcolorarg(int index, int argc, t_atom *argv){
+static int scope_getcolorarg(int index, int ac, t_atom *av){
     if(index >= ac)
         return(0);
     if((av+index)->a_type == A_FLOAT)
@@ -1846,7 +1837,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv){
     sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
     sprintf(x->x_fgtag, "fg%lx", (unsigned long)x);
     sprintf(x->x_margintag, "ma%lx", (unsigned long)x);
-    x->x_xymode = x->x_lastxymode = x->x_init = 0;
+    x->x_xymode = 0;
     x->x_frozen = 0;
     x->x_clock = clock_new(x, (t_method)scope_tick);
     scope_clear(x, 0);
