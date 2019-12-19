@@ -13,8 +13,6 @@ ldlibs += -lpthread
 exe.extension = .exe
 endif
 
-forLinux   = aliases=true
-
 #######################################################################
                     ## START OF CYCLONE CLASSES ##
 #######################################################################
@@ -316,14 +314,3 @@ endif
 ### pd-lib-builder ######################################################
 
 include pd-lib-builder/Makefile.pdlibbuilder
-
-install: install-aliases
-
-# on Linux, add symbolic links for upper case aliases
-install-aliases: all
-ifeq ($(aliases), true)
-	$(INSTALL_DIR) -v $(installpath)
-	cd $(installpath); \
-        ln -rs -f bucket.$(extension) Bucket.$(extension); \
-        ln -rs -f bucket-help.pd Bucket-help.pd;
-endif

@@ -135,6 +135,5 @@ CYCLONE_OBJ_API void bucket_setup(void){
 }
 
 void Bucket_setup(void){
-    post("please don't...");
     bucket_setup();
 }
