@@ -1,4 +1,4 @@
-#N canvas 715 23 559 663 10;
+#N canvas 607 70 559 663 10;
 #X obj 4 637 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -62,9 +62,9 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 467 187 1004 465 X-Y_Mode 0;
 #X obj 810 115 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 3100 1;
+-1 -1 0 1;
 #X obj 807 134 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.244094 256;
+-228856 -1 -1 0 256;
 #X msg 737 61 588;
 #X msg 701 61 550;
 #X msg 670 61 441;
@@ -97,14 +97,9 @@ period is used. So it requires small values for a better representation
 \, [scope~] operates in X-Y mode.;
 #X text 66 341 Change the phase of the oscillator to check how it affects
 the plot \, then try different frequencies.;
-#X text 834 116 change phase;
+#X text 835 114 change phase;
 #X obj 702 156 cyclone/cycle~ 440;
 #X obj 509 155 cyclone/cycle~ 440;
-#X text 744 224 Warning: Using [scope~] in XY mode can be quite expensive
-CPU wise. Depending on the resolution \, you can freeze Pd's GUI objects
-like sliders., f 34;
-#X text 743 289 You can minimize this effect if you take advantage
-of the 'delay' message (here it is set at 50)., f 34;
 #X connect 0 0 1 0;
 #X connect 1 0 19 1;
 #X connect 2 0 12 0;
