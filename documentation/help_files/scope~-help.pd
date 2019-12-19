@@ -62,9 +62,9 @@ cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 467 187 1004 465 X-Y_Mode 0;
 #X obj 810 115 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 4400 1;
+-1 -1 12700 1;
 #X obj 807 134 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.346457 256;
+-228856 -1 -1 1 256;
 #X msg 737 61 588;
 #X msg 701 61 550;
 #X msg 670 61 441;
@@ -88,35 +88,37 @@ period is used. So it requires small values for a better representation
 #X obj 509 114 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 702 110 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 660 256;
 #X msg 609 61 1;
 #X obj 79 57 cyclone/comment 0 18 times ? 0 0 0 0 X/Y mode:;
-#X obj 509 196 cyclone/scope~ 200 200 8 3 52 -1 1 0 0 0 0 205 229 232
-74 79 77 96 98 102 0;
+#X obj 509 196 cyclone/scope~ 200 200 5 3 200 -1 1 50 0 0 0 205 229
+232 74 79 77 96 98 102 0;
 #X text 64 97 If signals are connected to both the left and right inlets
 \, [scope~] operates in X-Y mode.;
 #X text 66 341 Change the phase of the oscillator to check how it affects
 the plot \, then try different frequencies.;
 #X text 834 116 change phase;
-#X text 757 261 Warning: Using [scope~] in XY mode can be quite expensive
-CPU wise .Depending on the resolution \, you can freeze Pd's GUI if
-you have more than one object in X/Y mode., f 29;
 #X obj 702 156 cyclone/cycle~ 440;
 #X obj 509 155 cyclone/cycle~ 440;
+#X text 744 224 Warning: Using [scope~] in XY mode can be quite expensive
+CPU wise. Depending on the resolution \, you can freeze Pd's GUI objects
+like sliders., f 34;
+#X text 743 289 You can minimize this effect if you take advantage
+of the 'delay' message (here it is set at 50)., f 34;
 #X connect 0 0 1 0;
-#X connect 1 0 20 1;
+#X connect 1 0 19 1;
 #X connect 2 0 12 0;
 #X connect 3 0 12 0;
 #X connect 4 0 12 0;
 #X connect 5 0 12 0;
 #X connect 6 0 12 0;
 #X connect 7 0 12 0;
-#X connect 11 0 21 0;
-#X connect 12 0 20 0;
+#X connect 11 0 20 0;
+#X connect 12 0 19 0;
 #X connect 13 0 12 0;
-#X connect 20 0 15 1;
-#X connect 21 0 15 0;
-#X restore 411 234 pd X-Y_Mode;
+#X connect 19 0 15 1;
+#X connect 20 0 15 0;
+#X restore 414 234 pd X-Y_Mode;
 #X obj 46 116 hsl 100 17 20 200 1 0 empty empty empty 5 8 1 10 -228856
 -1 -1 0 0;
 #X floatatom 43 139 5 0 0 0 - - -;
