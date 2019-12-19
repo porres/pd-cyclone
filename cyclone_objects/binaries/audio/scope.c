@@ -18,7 +18,8 @@
  instead of 0-255
  - Derek Kwan
 
-2017 = Porres finished cleaning "sickle/sic, loud, fitter & forky" dependencies  */
+2017 = Porres finished cleaning "sickle/sic, loud, fitter & forky" dependencies
+2019 = Porres cleaned up the code a little and fixed a regression bung  */
 
 #include "m_pd.h"
 #include <common/api.h>
@@ -79,7 +80,7 @@ typedef struct _scope
     t_object        x_obj;
     t_inlet        *x_rightinlet;
     t_glist        *x_glist;
-    t_canvas       *x_canvas;  // also an 'isvised' flag
+    t_canvas       *x_canvas;
     char            x_tag[64];
     char            x_fgtag[64];
     char            x_bgtag[64];
@@ -349,21 +350,6 @@ static void scope_dsp(t_scope *x, t_signal **sp)
     dsp_add(scope_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static t_canvas *scope_getcanvas(t_scope *x, t_glist *glist)
-{
-    if (glist != x->x_glist)
-    {
-        pd_error(x, "scope~: list needs to only contain floats");
-        x->x_glist = glist;
-    }
-    return (x->x_canvas = glist_getcanvas(glist));
-}
-
-static t_canvas *scope_isvisible(t_scope *x) // answers: "can we draw and where?"
-{
-    return (glist_isvisible(x->x_glist) ? x->x_canvas : 0);
-}
-
 static void scope_period(t_scope *x, t_float per)
 {
     if (per < SCOPE_MINPERIOD)
@@ -460,6 +446,21 @@ static void scope_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp
 }
 
 /* #ifdef PDL2ORK // begin purr data GUI code
+ 
+ static t_canvas *scope_getcanvas(t_scope *x, t_glist *glist)
+ {
+     if (glist != x->x_glist)
+     {
+         pd_error(x, "scope~: list needs to only contain floats");
+         x->x_glist = glist;
+     }
+     return (x->x_canvas = glist_getcanvas(glist));
+ }
+ 
+ static t_canvas *scope_isvisible(t_scope *x) // answers: "can we draw and where?"
+ {
+     return (glist_isvisible(x->x_canvas) ? x->x_canvas : 0);
+ }
 
 static unsigned char scope_color_f2c(t_float f, int oldstyle)
 {
@@ -1075,16 +1076,12 @@ static void scope_fgcolor(t_scope *x, t_float fr, t_float fg, t_float fb)
     fg = round(fg);
     fb *= (float)SCOPE_MAXRGB;
     fb = round(fb);
-    t_canvas *cv;
     x->x_fgrgb[0] = (int)fr;
     x->x_fgrgb[1] = (int)fg;
     x->x_fgrgb[2] = (int)fb;
-    cv = scope_isvisible(x);
-    if (cv)
-    {
+    if(glist_isvisible(x->x_canvas))
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
-    }
+            x->x_canvas, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
 }
 
 static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
@@ -1101,16 +1098,12 @@ static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
         fb = SCOPE_MINRGB;
     else if (fb > SCOPE_MAXRGB)
         fb = SCOPE_MAXRGB;
-    t_canvas *cv;
     x->x_fgrgb[0] = (int)fr;
     x->x_fgrgb[1] = (int)fg;
     x->x_fgrgb[2] = (int)fb;
-    cv = scope_isvisible(x);
-    if (cv)
-    {
+    if(glist_isvisible(x->x_canvas))
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
-    }
+            x->x_canvas, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
 }
 
 static void scope_bgcolor(t_scope *x, t_float br, t_float bg, t_float bb)
@@ -1134,20 +1127,16 @@ static void scope_bgcolor(t_scope *x, t_float br, t_float bg, t_float bb)
     bg = round(bg);
     bb *= (float)SCOPE_MAXRGB;
     bb = round(bb);
-    t_canvas *cv;
     x->x_bgrgb[0] = (int)br;
     x->x_bgrgb[1] = (int)bg;
     x->x_bgrgb[2] = (int)bb;
-    cv = scope_isvisible(x);
-    if (cv)
-    {
+    if(glist_isvisible(x->x_canvas))
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
-    }
+                 x->x_canvas, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
 }
 
 static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
-{//scale is 0-255
+{   //scale is 0-255
     if (br < SCOPE_MINRGB)
         br = SCOPE_MINRGB;
     else if (br > SCOPE_MAXRGB)
@@ -1160,16 +1149,12 @@ static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
         bb = SCOPE_MINRGB;
     else if (bb > SCOPE_MAXRGB)
         bb = SCOPE_MAXRGB;
-    t_canvas *cv;
     x->x_bgrgb[0] = (int)br;
     x->x_bgrgb[1] = (int)bg;
     x->x_bgrgb[2] = (int)bb;
-    cv = scope_isvisible(x);
-    if (cv)
-    {
+    if(glist_isvisible(x->x_canvas))
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
-    }
+                 x->x_canvas, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
 }
 
 static void scope_gridcolor(t_scope *x, t_float gr, t_float gg, t_float gb)
@@ -1193,14 +1178,12 @@ static void scope_gridcolor(t_scope *x, t_float gr, t_float gg, t_float gb)
     gg = round(gg);
     gb *= (float)SCOPE_MAXRGB;
     gb = round(gb);
-    t_canvas *cv;
     x->x_grrgb[0] = (int)gr;
     x->x_grrgb[1] = (int)gg;
     x->x_grrgb[2] = (int)gb;
-    cv = scope_isvisible(x);
-    if (cv)
+    if(glist_isvisible(x->x_canvas))
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+            x->x_canvas, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
 }
 
 static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
@@ -1217,16 +1200,12 @@ static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
         gb = SCOPE_MINRGB;
     else if (gb > SCOPE_MAXRGB)
         gb = SCOPE_MAXRGB;
-    t_canvas *cv;
     x->x_grrgb[0]   = (int)gr;
     x->x_grrgb[1] = (int)gg;
     x->x_grrgb[2]  = (int)gb;
-    cv = scope_isvisible(x);
-    if (cv)
-    {
+    if(glist_isvisible(x->x_canvas))
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
-    }
+            x->x_canvas, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
 }
 
 static void scope_displace(t_gobj *z, t_glist *glist, int dx, int dy)
@@ -1237,16 +1216,14 @@ static void scope_displace(t_gobj *z, t_glist *glist, int dx, int dy)
     t->te_ypix += dy;
     if (glist_isvisible(glist))
     {
-        t_canvas *cv = scope_getcanvas(x, glist);
-        sys_vgui(".x%lx.c move %s %d %d\n", cv, x->x_tag, dx, dy);
-        canvas_fixlinesfor(cv, t);
+        sys_vgui(".x%lx.c move %s %d %d\n", x->x_canvas, x->x_tag, dx, dy);
+        canvas_fixlinesfor(x->x_canvas, t);
     }
 }
 
 static void scope_select(t_gobj *z, t_glist *glist, int state)
 {
     t_scope *x = (t_scope *)z;
-    t_canvas *cv = scope_getcanvas(x, glist);
     t_scopehandle *sh = (t_scopehandle *)x->x_handle;
     if (state)
     {
@@ -1254,13 +1231,13 @@ static void scope_select(t_gobj *z, t_glist *glist, int state)
         scope_getrect(z, glist, &x1, &y1, &x2, &y2);
         sys_vgui(".x%lx.c itemconfigure %s -outline %s "
                  "-width %f -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_bgtag, SCOPE_SELBORDER, SCOPE_SELBDWIDTH,
+                 x->x_canvas, x->x_bgtag, SCOPE_SELBORDER, SCOPE_SELBDWIDTH,
                  x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
         sys_vgui("canvas %s -width %d -height %d -bg #fedc00 -bd 0\n",
                  sh->h_pathname, SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT);
         sys_vgui(".x%lx.c create window %f %f -anchor nw\
                  -width %d -height %d -window %s -tags %s\n",
-                 cv, x2 - (SCOPEHANDLE_WIDTH - SCOPE_SELBDWIDTH),
+                 x->x_canvas, x2 - (SCOPEHANDLE_WIDTH - SCOPE_SELBDWIDTH),
                  y2 - (SCOPEHANDLE_HEIGHT - SCOPE_SELBDWIDTH),
                  SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT,
                  sh->h_pathname, x->x_tag);
@@ -1274,7 +1251,7 @@ static void scope_select(t_gobj *z, t_glist *glist, int state)
     else
     {
         sys_vgui(".x%lx.c itemconfigure %s -outline black -width %f\
-                 -fill #%2.2x%2.2x%2.2x\n", cv, x->x_bgtag, SCOPE_GRIDWIDTH,
+                 -fill #%2.2x%2.2x%2.2x\n", x->x_canvas, x->x_bgtag, SCOPE_GRIDWIDTH,
                  x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
         sys_vgui("destroy %s\n", sh->h_pathname);
     }
@@ -1490,26 +1467,21 @@ static void scope_revis(t_scope *x, t_canvas *cv)
 
 static void scope_vis(t_gobj *z, t_glist *glist, int vis)
 {
+    glist = NULL;
     t_scope *x = (t_scope *)z;
-    t_canvas *cv = scope_getcanvas(x, glist);
-    if (vis)
-    {
+    if(vis){
         t_scopehandle *sh = (t_scopehandle *)x->x_handle;
-        sprintf(sh->h_pathname, ".x%lx.h%lx",
-                (unsigned long)cv, (unsigned long)sh);
+        sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_canvas, (unsigned long)sh);
         int xymode = x->x_xymode;
         int bufsize = x->x_bufsize;
         x->x_xymode = x->x_lastxymode;
         x->x_bufsize = x->x_lastbufsize;
-        scope_draw(x, cv);
+        scope_draw(x, x->x_canvas);
         x->x_xymode = xymode;
         x->x_bufsize = bufsize;
     }
     else
-    {
-        sys_vgui(".x%lx.c delete %s\n", (unsigned long)cv, x->x_tag);
-        x->x_canvas = 0;
-    }
+        sys_vgui(".x%lx.c delete %s\n", (unsigned long)x->x_canvas, x->x_tag);
 }
 
 static void scope_motion(void){ // dummy
@@ -1557,18 +1529,14 @@ static t_widgetbehavior scope_widgetbehavior =
 
 static void scope_setxymode(t_scope *x, int xymode)
 {
-    if (xymode != x->x_xymode)
-    {
-        t_canvas *cv;
-        if ((cv = scope_isvisible(x)))
-        {
-            sys_vgui(".x%lx.c delete %s %s\n", cv, x->x_fgtag, x->x_margintag);
-            
+    if(xymode != x->x_xymode){
+        if(glist_isvisible(x->x_canvas)){
+            sys_vgui(".x%lx.c delete %s %s\n", x->x_canvas, x->x_fgtag, x->x_margintag);
             int x1, y1, x2, y2;
             scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-            if (xymode)
-                scope_drawfg(x, cv, x1, y1, x2, y2);
-            scope_drawmargins(x, cv, x1, y1, x2, y2);
+            if(xymode)
+                scope_drawfg(x, x->x_canvas, x1, y1, x2, y2);
+            scope_drawmargins(x, x->x_canvas, x1, y1, x2, y2);
         }
         x->x_xymode = xymode;
         scope_clear(x, 0);
@@ -1577,28 +1545,20 @@ static void scope_setxymode(t_scope *x, int xymode)
 
 static void scope_tick(t_scope *x)
 {
-    t_canvas *cv = scope_isvisible(x);
-    if (cv)
-    {
-        if (!x->x_canvas->gl_editor->e_onmotion)
-            x->x_frozen = 0;
-    }
-    if (!x->x_frozen && cv)
-    {
-        if (x->x_xymode)
-            scope_redraw(x, cv);
-    }
+    int vis = glist_isvisible(x->x_canvas);
+    if(vis && !x->x_canvas->gl_editor->e_onmotion)
+        x->x_frozen = 0;
+    if(vis && !x->x_frozen && x->x_xymode)
+        scope_redraw(x, x->x_canvas);
     scope_clear(x, 1);
 }
 
 static void scope_resize(t_scope *x, t_float w, t_float h)
 {
-    t_canvas *cv;
     x->x_width  = (int)(w < SCOPE_MINWIDTH ? SCOPE_MINWIDTH : w);
     x->x_height = (int)(h < SCOPE_MINHEIGHT ? SCOPE_MINHEIGHT : h);
-    if ((cv = scope_isvisible(x)))
-    {
-        if (x->x_xymode)
+    if(glist_isvisible(x->x_canvas)){
+        if(x->x_xymode)
             scope_redraw(x, x->x_canvas);
         scope_revis(x, x->x_canvas);
         canvas_fixlinesfor(x->x_glist, (t_text *)x);
@@ -1608,33 +1568,27 @@ static void scope_resize(t_scope *x, t_float w, t_float h)
 static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
 {
     int newstate = (int)f;
-    if (sh->h_dragon && newstate == 0)
-    {
+    if(sh->h_dragon && newstate == 0){
         t_scope *x = sh->h_master;
-        t_canvas *cv;
         x->x_width += sh->h_dragx;
         x->x_height += sh->h_dragy;
-        if ((cv = scope_isvisible(x)))
-        {
-            sys_vgui(".x%lx.c delete %s\n", cv, sh->h_outlinetag);
-            scope_revis(x, cv);
+        if(glist_isvisible(x->x_canvas)){
+            sys_vgui(".x%lx.c delete %s\n",  x->x_canvas, sh->h_outlinetag);
+            scope_revis(x, x->x_canvas);
             sys_vgui("destroy %s\n", sh->h_pathname);
             scope_select((t_gobj *)x, x->x_glist, 1);
-            canvas_fixlinesfor(x->x_glist, (t_text *)x);  /* 2nd inlet */
+            canvas_fixlinesfor(x->x_glist, (t_text *)x);  // 2nd inlet
         }
     }
-    else if (!sh->h_dragon && newstate)
-    {
+    else if(!sh->h_dragon && newstate){
         t_scope *x = sh->h_master;
-        t_canvas *cv;
-        if ((cv = scope_isvisible(x)))
-        {
+        if(glist_isvisible(x->x_canvas)){
             int x1, y1, x2, y2;
             scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
             sys_vgui("lower %s\n", sh->h_pathname);
             sys_vgui(".x%lx.c create rectangle %d %d %d %d\
                      -outline %s -width %f -tags %s\n",
-                     cv, x1, y1, x2, y2,
+                     x->x_canvas, x1, y1, x2, y2,
                      SCOPE_SELBORDER, SCOPE_SELBDWIDTH, sh->h_outlinetag);
         }
         sh->h_dragx = 0;
@@ -1645,19 +1599,17 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
 
 static void scopehandle__motionhook(t_scopehandle *sh, t_floatarg f1, t_floatarg f2)
 {
-    if (sh->h_dragon)
-    {
+    if (sh->h_dragon){
         t_scope *x = sh->h_master;
         int dx = (int)f1, dy = (int)f2;
         int x1, y1, x2, y2, newx, newy;
         scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
         newx = x2 + dx;
         newy = y2 + dy;
-        if (newx > x1 + SCOPE_MINWIDTH && newy > y1 + SCOPE_MINHEIGHT)
-        {
-            t_canvas *cv;
-            if ((cv = scope_isvisible(x)))
-                sys_vgui(".x%lx.c coords %s %d %d %d %d\n", cv, sh->h_outlinetag, x1, y1, newx, newy);
+        if (newx > x1 + SCOPE_MINWIDTH && newy > y1 + SCOPE_MINHEIGHT){
+            if(glist_isvisible(x->x_canvas))
+                sys_vgui(".x%lx.c coords %s %d %d %d %d\n", x->x_canvas, sh->h_outlinetag,
+                    x1, y1, newx, newy);
             sh->h_dragx = dx;
             sh->h_dragy = dy;
         }
@@ -1668,8 +1620,7 @@ static void scope_free(t_scope *x)
 {
     if (x->x_clock)
         clock_free(x->x_clock);
-    if (x->x_handle)
-    {
+    if (x->x_handle){
         pd_unbind(x->x_handle, ((t_scopehandle *)x->x_handle)->h_bindsym);
         pd_free(x->x_handle);
     }
@@ -1731,7 +1682,7 @@ static int scope_getcolorarg(int index, int argc, t_atom *argv)
         if ('#' == s->s_name[0])
             return strtol(s->s_name+1, 0, 16);
     }
-    return 0;
+    return(0);
 }
 
 static void scope_dialog(t_scope *x, t_symbol *s, int argc, t_atom *argv)
@@ -1789,8 +1740,8 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv)
     t_scope *x = (t_scope *)pd_new(scope_class);
     t_scopehandle *sh;
     char hbuf[64];
-    x->x_glist = canvas_getcurrent();
-    x->x_canvas = 0;
+    x->x_canvas = canvas_getcurrent();
+    x->x_glist = (t_glist *)x->x_canvas;
     x->x_allocsize =  (int) SCOPE_DEFBUFSIZE;
     x->x_bufsize = 0;
     int argnum = 0;
