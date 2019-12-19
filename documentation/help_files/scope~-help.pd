@@ -1,33 +1,33 @@
-#N canvas 715 23 560 679 10;
-#X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 715 23 559 663 10;
+#X obj 4 637 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X obj 5 316 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X obj 5 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 545 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 541 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 571 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 567 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 70 325 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 68 321 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 153 323 signal;
-#X text 153 551 (none);
-#X text 159 340 float;
-#X obj 70 511 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 153 319 signal;
+#X text 208 547 (none);
+#X text 159 336 float;
+#X obj 68 507 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 153 509 signal;
-#X text 159 525 float;
-#X text 198 509 - signal to be displayed on the Y axis;
-#X text 197 323 - signal to be displayed in the X axis;
-#X text 153 577 (none);
-#X obj 4 596 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X text 153 505 signal;
+#X text 159 521 float;
+#X text 198 505 - signal to be displayed on the Y axis;
+#X text 197 319 - signal to be displayed in the X axis;
+#X text 208 573 (none);
+#X obj 4 592 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 198 525 - sets "bufsize": number of lines in buffer;
-#X text 198 491 - onset time delay between displays (default 0);
-#X text 111 356 calccount <f>;
-#X text 123 372 bufsize <f>;
-#X text 123 460 trigger <f>;
-#X text 111 475 triglevel <f>;
-#X text 135 491 delay <f>;
+#X text 198 521 - sets "bufsize": number of lines in buffer;
+#X text 198 487 - onset time delay between displays (default 0);
+#X text 111 352 calccount <f>;
+#X text 123 368 bufsize <f>;
+#X text 123 456 trigger <f>;
+#X text 111 471 triglevel <f>;
+#X text 135 487 delay <f>;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -38,33 +38,33 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X text 197 341 - sets "calccount": samples per line (2-8192 \, default
+#X text 197 337 - sets "calccount": samples per line (2-8192 \, default
 256);
-#X text 197 357 - sets "calccount" (samples per line);
-#X text 197 372 - sets number of lines in buffer (8-256 \, default
+#X text 197 353 - sets "calccount" (samples per line);
+#X text 197 368 - sets number of lines in buffer (8-256 \, default
 128);
-#X text 197 388 - sets vertical range (default -1 1);
-#X text 197 404 - sets front/signal RGB color (values 0-1);
-#X text 197 419 - sets background RGB color (values 0-1);
-#X text 197 433 - sets grid RGB color (values 0-1);
-#X text 197 461 - sets trigger mode: 0 (none \, default) \, 1 (up)
+#X text 197 384 - sets vertical range (default -1 1);
+#X text 197 400 - sets front/signal RGB color (values 0-1);
+#X text 197 415 - sets background RGB color (values 0-1);
+#X text 197 429 - sets grid RGB color (values 0-1);
+#X text 197 457 - sets trigger mode: 0 (none \, default) \, 1 (up)
 or 2 (down);
-#X text 197 476 - sets threshold level for the trigger mode (default
+#X text 197 472 - sets threshold level for the trigger mode (default
 0);
-#X text 111 446 drawstyle <f>;
-#X text 132 603 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
+#X text 111 442 drawstyle <f>;
+#X text 132 597 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
 f f> | @range <f f> | @trigger <f> | @triglevel <f> | @bufsize <f>
 @calccount <f> | @delay <f> | drawstyle <f>;
-#X text 197 446 - <1> sets alternate drawing style (default 0);
+#X text 197 442 - <1> sets alternate drawing style (default 0);
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scope~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
 #N canvas 467 187 1004 465 X-Y_Mode 0;
 #X obj 810 115 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 12700 1;
+-1 -1 3100 1;
 #X obj 807 134 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0.244094 256;
 #X msg 737 61 588;
 #X msg 701 61 550;
 #X msg 670 61 441;
@@ -88,7 +88,7 @@ period is used. So it requires small values for a better representation
 #X obj 509 114 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 702 110 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 660 256;
+-228856 -1 -1 0 256;
 #X msg 609 61 1;
 #X obj 79 57 cyclone/comment 0 18 times ? 0 0 0 0 X/Y mode:;
 #X obj 509 196 cyclone/scope~ 200 200 5 3 200 -1 1 50 0 0 0 205 229
@@ -118,20 +118,20 @@ of the 'delay' message (here it is set at 50)., f 34;
 #X connect 13 0 12 0;
 #X connect 19 0 15 1;
 #X connect 20 0 15 0;
-#X restore 414 234 pd X-Y_Mode;
+#X restore 414 236 pd X-Y_Mode;
 #X obj 46 116 hsl 100 17 20 200 1 0 empty empty empty 5 8 1 10 -228856
 -1 -1 0 0;
 #X floatatom 43 139 5 0 0 0 - - -;
 #N canvas 680 60 429 780 trigger_mode 0;
 #X obj 69 549 vsl 15 126 -1 1 0 1 empty empty empty 0 -9 0 10 -228856
--1 -1 6250 1;
+-1 -1 7200 1;
 #X obj 251 411 vradio 20 1 1 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
 #X msg 251 502 trigger \$1;
 #X floatatom 251 481 5 0 0 0 - - -;
 #X msg 156 474 triglevel \$1;
 #X obj 69 695 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 -0.008 256;
+-228856 -1 -1 0.152 256;
 #X obj 69 720 s \$0-slider;
 #X obj 156 420 r \$0-slider;
 #X floatatom 156 446 5 0 0 0 - - -;
@@ -159,7 +159,7 @@ or right.;
 #X obj 27 11 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 33 16 cyclone/comment 0 18 times ? 0 0 0 0 Trigger mode:;
-#X obj 87 548 cyclone/scope~ 201 129 2 3 256 -1 1 0 0 0 -0.008 205
+#X obj 87 548 cyclone/scope~ 201 129 2 3 256 -1 1 50 0 0 0.152 205
 229 232 74 79 77 96 98 102 0;
 #X connect 0 0 5 0;
 #X connect 1 0 3 0;
@@ -170,125 +170,113 @@ or right.;
 #X connect 7 0 8 0;
 #X connect 8 0 4 0;
 #X connect 9 0 20 0;
-#X restore 398 285 pd trigger_mode;
-#X obj 31 193 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
-#X obj 22 299 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
+#X restore 455 281 pd trigger_mode;
+#X obj 31 197 cnv 5 5 5 empty empty 1 0 0 0 16 -262144 -162280 0;
+#X obj 22 296 cnv 5 5 5 empty empty -1 0 0 0 16 -262144 -162280 0;
 #X obj 30 246 cnv 5 5 5 empty empty 0 0 0 0 16 -262144 -162280 0;
 #X obj 43 158 osc~ 24;
 #X text 108 142 Samples per line (2-8192);
 #X text 268 162 Number of lines in buffer (8-256);
 #X text 67 116 frequency;
-#N canvas 497 125 843 612 appearance_colors 0;
-#X obj 20 139 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rf empty 0 -9 0 10
+#N canvas 497 125 821 572 appearance_colors 0;
+#X obj 38 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rf empty 0 -9 0 10
 -258049 -262144 -1 10210 1;
-#X floatatom 20 281 5 0 0 0 - - -;
-#X obj 39 323 bondo 3;
-#X obj 39 357 pack f f f;
-#X msg 39 389 fgcolor \$1 \$2 \$3;
-#X obj 58 139 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gf empty 0 -9 0 10 -4033
+#X floatatom 38 279 5 0 0 0 - - -;
+#X msg 27 348 fgcolor \$1 \$2 \$3;
+#X obj 76 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gf empty 0 -9 0 10 -4033
 -262144 -1 11405 1;
-#X floatatom 58 281 5 0 0 0 - - -;
-#X obj 98 139 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bf empty 0 -9 0 10 -64
+#X floatatom 76 279 5 0 0 0 - - -;
+#X obj 116 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bf empty 0 -9 0 10 -64
 -262144 -1 11555 1;
-#X floatatom 98 281 5 0 0 0 - - -;
-#X obj 156 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rb empty 0 -9 0 10
+#X floatatom 116 279 5 0 0 0 - - -;
+#X obj 174 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rb empty 0 -9 0 10
 -258049 -262144 -1 3685 1;
-#X floatatom 156 279 5 0 0 0 - - -;
-#X obj 175 321 bondo 3;
-#X obj 175 355 pack f f f;
-#X obj 194 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gb empty 0 -9 0 10
+#X floatatom 174 279 5 0 0 0 - - -;
+#X obj 212 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gb empty 0 -9 0 10
 -4033 -262144 -1 3935 1;
-#X floatatom 194 279 5 0 0 0 - - -;
-#X obj 234 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bb empty 0 -9 0 10 -64
+#X floatatom 212 279 5 0 0 0 - - -;
+#X obj 252 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bb empty 0 -9 0 10 -64
 -262144 -1 3835 1;
-#X floatatom 234 279 5 0 0 0 - - -;
-#X msg 175 387 bgcolor \$1 \$2 \$3;
-#X obj 286 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rg empty 0 -9 0 10
+#X floatatom 252 279 5 0 0 0 - - -;
+#X msg 163 346 bgcolor \$1 \$2 \$3;
+#X obj 304 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rg empty 0 -9 0 10
 -258049 -262144 -1 4781 1;
-#X floatatom 286 279 5 0 0 0 - - -;
-#X obj 305 321 bondo 3;
-#X obj 305 355 pack f f f;
-#X obj 324 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gg empty 0 -9 0 10
+#X floatatom 304 279 5 0 0 0 - - -;
+#X obj 342 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gg empty 0 -9 0 10
 -4033 -262144 -1 4881 1;
-#X floatatom 324 279 5 0 0 0 - - -;
-#X obj 364 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bg empty 0 -9 0 10 -64
+#X floatatom 342 279 5 0 0 0 - - -;
+#X obj 382 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bg empty 0 -9 0 10 -64
 -262144 -1 5080 1;
-#X floatatom 364 279 5 0 0 0 - - -;
-#X msg 305 387 gridcolor \$1 \$2 \$3;
-#X msg 565 349 frgb 205 229 232 \, brgb 74 79 77;
-#N canvas 0 22 445 552 x 0;
+#X floatatom 382 279 5 0 0 0 - - -;
+#X msg 293 346 gridcolor \$1 \$2 \$3;
+#X msg 546 310 frgb 205 229 232 \, brgb 74 79 77;
+#N canvas 217 96 326 446 x 0;
 #X obj 101 101 cnv 15 63 78 empty empty empty 20 12 0 14 -74964 -66577
 0;
 #X obj 107 121 bng 50 250 50 0 sdfsd sfgsg Default -2 -10 0 14 -212603
 -1 -212603;
-#X obj 107 197 \$0;
-#X msg 107 221 \; \$1-Rf 0.803922 \; \$1-Gf 0.898039 \; \$1-Bf 0.909804
+#X msg 107 241 \; \$1-Rf 0.803922 \; \$1-Gf 0.898039 \; \$1-Bf 0.909804
 \; \$1-Rb 0.290196 \; \$1-Gb 0.309804 \; \$1-Bb 0.301961 \; \$1-Rg
 0.376471 \; \$1-Gg 0.384314 \; \$1-Bg 0.4;
-#X obj 189 162 loadbang;
-#X connect 1 0 2 0;
-#X connect 2 0 3 0;
+#X obj 124 191 loadbang;
+#X obj 107 217 f \$0;
+#X connect 1 0 4 0;
+#X connect 3 0 4 0;
 #X connect 4 0 2 0;
 #X coords 0 -1 1 1 65 80 1 100 100;
-#X restore 70 469 pd x;
-#X obj 312 417 osc~ 24;
-#X obj 533 396 scope~ 130 130 256 3 128 -1 1 0 0 0 0 0 255 0 7 31 7
+#X restore 58 428 pd x;
+#X obj 300 376 osc~ 24;
+#X obj 514 362 scope~ 130 130 256 3 128 -1 1 0 0 0 0 0 255 0 7 31 7
 96 98 102 0;
-#X msg 533 318 frgb 0 255 0 \, brgb 7 31 7;
-#X obj 533 294 loadbang;
-#X text 439 118 Backwards compatibility note:;
-#X text 457 152 Old color messages for front / signal and background
+#X msg 514 279 frgb 0 255 0 \, brgb 7 31 7;
+#X obj 514 255 loadbang;
+#X text 446 79 Backwards compatibility note:;
+#X text 464 113 Old color messages for front / signal and background
 are \, respectively \, frgb and brgb - they are RGB with values from
-0-255.;
-#X text 456 201 These are still included in Max and Pd for backwards
+0-255., f 52;
+#X text 464 155 These are still included in Max and Pd for backwards
 compatibility. You can also set them as attributes (@frgb and @brgb).
-Check the messages below;
-#X text 30 71 RGB colors (values from 0-1) for fgcolor (front/signal)
+Check the messages below, f 52;
+#X text 31 71 RGB colors (values from 0-1) for fgcolor (front/signal)
 \, bgcolor (background) & grid (gridcolor). In Max \, these are RGBA
 \, but the alpha channel is not implemented in Pd.;
-#X obj 32 21 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 33 21 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 38 26 cyclone/comment 0 18 times ? 0 0 0 0 Colors:;
-#X obj 175 447 cyclone/scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333
+#X obj 39 26 cyclone/comment 0 18 times ? 0 0 0 0 Colors:;
+#X obj 163 406 cyclone/scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333
 205 229 232 74 79 77 96 98 102 0;
+#X obj 293 314 cyclone/pak f f f;
+#X obj 163 314 cyclone/pak f f f;
+#X obj 27 316 cyclone/pak f f f;
 #X connect 0 0 1 0;
-#X connect 1 0 2 0;
-#X connect 2 0 3 0;
-#X connect 2 1 3 1;
-#X connect 2 2 3 2;
+#X connect 1 0 36 0;
+#X connect 2 0 33 0;
 #X connect 3 0 4 0;
-#X connect 4 0 39 0;
+#X connect 4 0 36 1;
 #X connect 5 0 6 0;
-#X connect 6 0 2 1;
+#X connect 6 0 36 2;
 #X connect 7 0 8 0;
-#X connect 8 0 2 2;
+#X connect 8 0 35 0;
 #X connect 9 0 10 0;
-#X connect 10 0 11 0;
+#X connect 10 0 35 1;
 #X connect 11 0 12 0;
-#X connect 11 1 12 1;
-#X connect 11 2 12 2;
-#X connect 12 0 17 0;
-#X connect 13 0 14 0;
-#X connect 14 0 11 1;
-#X connect 15 0 16 0;
-#X connect 16 0 11 2;
-#X connect 17 0 39 0;
+#X connect 12 0 35 2;
+#X connect 13 0 33 0;
+#X connect 14 0 15 0;
+#X connect 15 0 34 0;
+#X connect 16 0 17 0;
+#X connect 17 0 34 1;
 #X connect 18 0 19 0;
-#X connect 19 0 20 0;
-#X connect 20 0 21 0;
-#X connect 20 1 21 1;
-#X connect 20 2 21 2;
-#X connect 21 0 26 0;
-#X connect 22 0 23 0;
-#X connect 23 0 20 1;
-#X connect 24 0 25 0;
-#X connect 25 0 20 2;
-#X connect 26 0 39 0;
-#X connect 27 0 30 0;
-#X connect 29 0 39 0;
-#X connect 31 0 30 0;
-#X connect 32 0 31 0;
-#X restore 294 260 pd appearance_colors;
+#X connect 19 0 34 2;
+#X connect 20 0 33 0;
+#X connect 21 0 24 0;
+#X connect 23 0 33 0;
+#X connect 25 0 24 0;
+#X connect 26 0 25 0;
+#X connect 34 0 20 0;
+#X connect 35 0 13 0;
+#X connect 36 0 2 0;
+#X restore 294 259 pd appearance_colors;
 #N canvas 536 155 847 483 appearance_others 0;
 #X obj 33 23 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -357,7 +345,7 @@ message/attribute \, convenient also for some dynamic patching.;
 #X connect 22 0 16 0;
 #X connect 23 0 15 0;
 #X connect 24 0 25 0;
-#X restore 425 260 pd appearance_others;
+#X restore 425 259 pd appearance_others;
 #N canvas 840 278 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -373,8 +361,36 @@ right corner.;
 #X text 73 77 When you click on [scope~] with your mouse \, the display
 freezes for as long as you hold the mouse button down.;
 #X connect 1 0 2 0;
-#X restore 497 285 pd mouse;
-#N canvas 693 173 436 665 buffer 0;
+#X restore 357 236 pd mouse;
+#X obj 43 190 scope~ 183 112 256 3 128 -1 1 0 0 0 0 205 229 232 74
+79 77 96 98 102 0;
+#X text 89 83 [scope~] displays a signal in the style of an oscilloscope.
+;
+#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Oscilloscope display
+;
+#X obj 235 199 cyclone/comment 0 12 helvetica ? 0 200 0 0 <= Right
+click for properties!;
+#X text 117 383 range <f \, f>;
+#X text 87 400 fgcolor <f \, f \, f>;
+#X text 87 415 bgcolor <f \, f \, f>;
+#X text 75 429 gridcolor <f \, f \, f>;
+#X obj 110 161 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 219 161 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0 256;
+#X obj 499 69 cyclone/setdsp~;
+#N canvas 962 253 334 387 Y_Mode 0;
+#X obj 91 196 cyclone/scope~ 130 130 11 3 128 -1 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
+#X text 51 85 If a signal is only fed to the second inlet \, [scope~]
+displays in "Y Mode" only., f 31;
+#X obj 214 154 osc~ 60;
+#X obj 50 26 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 67 31 cyclone/comment 0 18 times ? 0 0 0 0 Y mode:;
+#X connect 2 0 0 1;
+#X restore 491 236 pd Y_Mode;
+#N canvas 693 173 436 665 buffer_settings 0;
 #X floatatom 141 455 5 0 0 0 - - -;
 #X floatatom 246 456 5 8 256 0 - - -;
 #X obj 141 429 unpack float float;
@@ -414,37 +430,9 @@ smallest line is 2 samples/points long.;
 #X connect 3 0 2 0;
 #X connect 4 0 15 0;
 #X connect 5 0 2 0;
-#X restore 282 285 pd buffer settings;
-#X obj 43 190 scope~ 183 112 256 3 128 -1 1 0 0 0 0 205 229 232 74
-79 77 96 98 102 0;
-#X text 89 83 [scope~] displays a signal in the style of an oscilloscope.
-;
-#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Oscilloscope display
-;
-#X obj 235 201 cyclone/comment 0 12 helvetica ? 0 200 0 0 <= Right
-click for properties!;
-#X text 117 387 range <f \, f>;
-#X text 87 404 fgcolor <f \, f \, f>;
-#X text 87 419 bgcolor <f \, f \, f>;
-#X text 75 433 gridcolor <f \, f \, f>;
-#X obj 110 161 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 219 161 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
-#X obj 499 69 cyclone/setdsp~;
-#N canvas 962 253 334 387 Y_Mode 0;
-#X obj 91 196 cyclone/scope~ 130 130 11 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
-#X text 51 85 If a signal is only fed to the second inlet \, [scope~]
-displays in "Y Mode" only., f 31;
-#X obj 214 154 osc~ 60;
-#X obj 50 26 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X obj 67 31 cyclone/comment 0 18 times ? 0 0 0 0 Y mode:;
-#X connect 2 0 0 1;
-#X restore 491 234 pd Y_Mode;
+#X restore 339 281 pd buffer_settings;
 #X connect 42 0 43 0;
 #X connect 43 0 48 0;
-#X connect 48 0 56 0;
-#X connect 64 0 56 0;
-#X connect 65 0 56 1;
+#X connect 48 0 55 0;
+#X connect 63 0 55 0;
+#X connect 64 0 55 1;
