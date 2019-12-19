@@ -24,7 +24,6 @@
 #include "m_pd.h"
 #include <common/api.h>
 #include "g_canvas.h"
-#include "g_all_guis.h"
 #include "common/magicbit.h"
 #include <math.h>
 #include <stdlib.h>
@@ -40,7 +39,6 @@
 #define SCOPE_DEFBUFSIZE    128
 #define SCOPE_MINBUFSIZE    8
 #define SCOPE_MAXBUFSIZE    256
-#define SCOPE_WARNBUFSIZE   256
 #define SCOPE_DEFMINVAL     -1.
 #define SCOPE_DEFMAXVAL     1.
 #define SCOPE_DEFDELAY      0
@@ -100,7 +98,6 @@ typedef struct _scope
     float           x_xbuflast[SCOPE_MAXBUFSIZE*4];
     float           x_ybuflast[SCOPE_MAXBUFSIZE*4];
     t_float        *x_signalscalar;
-    int             x_allocsize;
     int             x_bufsize;
     int             x_lastbufsize;
     int             x_bufphase;
@@ -1516,16 +1513,15 @@ static void scope_properties(t_gobj *z, t_glist *owner){
 
 // #endif // end pd vanilla GUI code
 
-static int scope_getcolorarg(int index, int argc, t_atom *argv)
-{
-    if (index < 0 || index >= argc)
+static int scope_getcolorarg(int index, int argc, t_atom *argv){
+    if(index >= ac)
         return(0);
-    if (IS_A_FLOAT(argv,index))
-        return atom_getintarg(index, argc, argv);
-    if (IS_A_SYMBOL(argv,index)){
-        t_symbol*s=atom_getsymbolarg(index, argc, argv);
-        if ('#' == s->s_name[0])
-            return strtol(s->s_name+1, 0, 16);
+    if((av+index)->a_type == A_FLOAT)
+        return atom_getintarg(index, ac, av);
+    if((av+index)->a_type == A_SYMBOL){
+        t_symbol *s = atom_getsymbolarg(index, ac, av);
+        if('#' == s->s_name[0])
+            return(strtol(s->s_name+1, 0, 16));
     }
     return(0);
 }
@@ -1581,7 +1577,6 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv){
     char hbuf[64];
     x->x_canvas = canvas_getcurrent();
     x->x_glist = (t_glist *)x->x_canvas;
-    x->x_allocsize =  (int) SCOPE_DEFBUFSIZE;
     x->x_bufsize = 0;
     int argnum = 0;
     t_float width = SCOPE_DEFWIDTH;
