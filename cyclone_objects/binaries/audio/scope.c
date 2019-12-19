@@ -294,7 +294,6 @@ static t_int *scope_perform(t_int *w)
                         *bp1 = currx;
                         *bp2 = curry;
                         bufphase = 0;
-                        x->x_xymode = xymode;
                         x->x_lastbufsize = bufsize;
                         memcpy(x->x_xbuflast, x->x_xbuffer,
                                bufsize * sizeof(*x->x_xbuffer));
@@ -303,7 +302,6 @@ static t_int *scope_perform(t_int *w)
                         x->x_retrigger = (x->x_trigmode != SCOPE_TRIGLINEMODE);
                         x->x_trigx = x->x_triglevel;
                         clock_delay(x->x_clock, 0);
-                        //break;
                     }
                     else
                     {
