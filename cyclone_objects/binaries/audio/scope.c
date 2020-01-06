@@ -18,8 +18,7 @@
  instead of 0-255
  - Derek Kwan
 
-2017 = Porres finished cleaning "sickle/sic, loud, fitter & forky" dependencies
-2019 = Porres cleaned up the code a little and fixed a regression bug  */
+2017 = Porres finished cleaning "sickle/sic, loud, fitter & forky" dependencies  */
 
 #include "m_pd.h"
 #include <common/api.h>
@@ -48,9 +47,11 @@
 #define SCOPE_TRIGUPMODE    1
 #define SCOPE_TRIGDOWNMODE  2
 #define SCOPE_DEFTRIGMODE   SCOPE_TRIGLINEMODE
-#define SCOPE_MINTRIGMODE   SCOPE_TRIGLINEMODE
-#define SCOPE_MAXTRIGMODE   SCOPE_TRIGDOWNMODE
 #define SCOPE_DEFTRIGLEVEL  0.
+#define SCOPE_MINRGB        0
+#define SCOPE_MAXRGB        255
+#define SCOPE_MINCOLOR      0.
+#define SCOPE_MAXCOLOR      1.
 #define SCOPE_DEFFGRED      205
 #define SCOPE_DEFFGGREEN    229
 #define SCOPE_DEFFGBLUE     232
@@ -68,12 +69,11 @@
 #define SCOPEHANDLE_HEIGHT   10
 #define SCOPE_GUICHUNK       128 // performance-related hacks, LATER investigate
 
-typedef struct _scope
-{
+typedef struct _scope{
     t_object        x_obj;
     t_inlet        *x_rightinlet;
     t_glist        *x_glist;
-    t_canvas       *x_canvas;
+    t_canvas       *x_canvas;  // also an 'isvised' flag
     char            x_tag[64];
     char            x_fgtag[64];
     char            x_bgtag[64];
@@ -91,6 +91,7 @@ typedef struct _scope
     unsigned char   x_bgrgb[3];
     unsigned char   x_grrgb[3];
     int             x_xymode;
+    int             x_lastxymode;
     float           x_xbuffer[SCOPE_MAXBUFSIZE*4];
     float           x_ybuffer[SCOPE_MAXBUFSIZE*4];
     float           x_xbuflast[SCOPE_MAXBUFSIZE*4];
@@ -108,12 +109,12 @@ typedef struct _scope
     float           x_curry;
     float           x_trigx;
     int             x_frozen;
+    int             x_init;
     t_clock        *x_clock;
     t_pd           *x_handle;
-} t_scope;
+}t_scope;
 
-typedef struct _scopehandle
-{
+typedef struct _scopehandle{
     t_pd       h_pd;
     t_scope   *h_master;
     t_symbol  *h_bindsym;
@@ -122,37 +123,32 @@ typedef struct _scopehandle
     int        h_dragon;
     int        h_dragx;
     int        h_dragy;
-} t_scopehandle;
+}t_scopehandle;
 
 static t_class *scope_class;
 static t_class *scopehandle_class;
 static void scope_bufsize(t_scope *x, t_float bufsz);
 
-static void scope_clear(t_scope *x, int withdelay)
-{
+static void scope_clear(t_scope *x, int withdelay){
     x->x_precount = (withdelay ? (int)(x->x_delay * x->x_ksr) : 0);
 }
 
-static t_int *scope_perform(t_int *w)
-{
+static t_int *scope_perform(t_int *w){
     t_scope *x = (t_scope *)(w[1]);
     int xymode = x->x_xymode;
-    if(!xymode) // mode 0, don't do anything
-        return (w + 5);
+    if(!xymode) // do nothing
+        return(w+5);
     int bufphase = x->x_bufphase;
     int bufsize = (int)*x->x_signalscalar;
-    if (bufsize != x->x_bufsize)
-    {
+    if(bufsize != x->x_bufsize){
         scope_bufsize(x, bufsize);
         bufsize = x->x_bufsize;
     }
-    if (bufphase < bufsize)
-    {
+    if(bufphase < bufsize){
         int nblock = (int)(w[2]);
         if (x->x_precount >= nblock)
             x->x_precount -= nblock;
-        else
-        {
+        else{
             t_float *in1 = (t_float *)(w[3]);
             t_float *in2 = (t_float *)(w[4]);
             t_float *in;
@@ -163,8 +159,7 @@ static t_int *scope_perform(t_int *w)
             float *bp2;
             float currx = x->x_currx;
             float curry = x->x_curry;
-            if (x->x_precount > 0)
-            {
+            if(x->x_precount > 0){
                 nblock -= x->x_precount;
                 in1 += x->x_precount;
                 in2 += x->x_precount;
@@ -172,138 +167,130 @@ static t_int *scope_perform(t_int *w)
                 bufphase = 0;
                 x->x_precount = 0;
             }
-            if (x->x_trigmode && (xymode == 1 || xymode == 2))
-            {
-                if (xymode == 1) in = in1;
-                else in = in2;
-                while (x->x_retrigger)
-                {
+            if(x->x_trigmode && (xymode == 1 || xymode == 2)){
+                if(xymode == 1)
+                    in = in1;
+                else
+                    in = in2;
+                while(x->x_retrigger){
                     float triglevel = x->x_triglevel;
-                    if (x->x_trigmode == SCOPE_TRIGUPMODE)
-                    {
-                        if (x->x_trigx < triglevel)
-                        {
-                            while (nblock--) if (*in >= triglevel)
-                            {
-                                x->x_retrigger = 0;
-                                phase = 0;
-                                bufphase = 0;
-                                break;
+                    if(x->x_trigmode == SCOPE_TRIGUPMODE){
+                        if(x->x_trigx < triglevel){
+                            while(nblock--){
+                                if(*in >= triglevel){
+                                    x->x_retrigger = 0;
+                                    phase = 0;
+                                    bufphase = 0;
+                                    break;
+                                }
+                                else
+                                    in++;
                             }
-                            else in++;
                         }
-                        else while (nblock--) if (*in++ < triglevel)
-                        {
-                            x->x_trigx = triglevel - 1.;
-                            break;
+                        else{
+                            while (nblock--){
+                                if (*in++ < triglevel){
+                                    x->x_trigx = triglevel - 1.;
+                                    break;
+                                }
+                            }
                         }
                     }
-                    else
-                    {
-                        if (x->x_trigx > triglevel)
-                        {
-                            while (nblock--) if (*in <= triglevel)
-                            {
-                                phase = 0;
-                                bufphase = 0;
-                                x->x_retrigger = 0;
-                                break;
+                    else{
+                        if(x->x_trigx > triglevel){
+                            while (nblock--){
+                                if (*in <= triglevel){
+                                    phase = 0;
+                                    bufphase = 0;
+                                    x->x_retrigger = 0;
+                                    break;
+                                }
+                                else
+                                    in++;
                             }
-                            else in++;
                         }
-                        else while (nblock--) if (*in++ > triglevel)
-                        {
-                            x->x_trigx = triglevel + 1.;
-                            break;
+                        else{
+                            while(nblock--){
+                                if (*in++ > triglevel){
+                                    x->x_trigx = triglevel + 1.;
+                                    break;
+                                }
+                            }
                         }
                     }
-                    if (nblock <= 0)
-                    {
+                    if(nblock <= 0){
                         x->x_bufphase = bufphase;
                         x->x_phase = phase;
-                        return (w + 5);
+                        return(w+5);
                     }
                 }
-                if (xymode == 1) in1 = in;
-                else in2 = in;
+                if(xymode == 1)
+                    in1 = in;
+                else
+                    in2 = in;
             }
-            else if (x->x_retrigger) x->x_retrigger = 0;
-            while (nblock--)
-            {
+            else if(x->x_retrigger)
+                x->x_retrigger = 0;
+            while(nblock--){
                 bp1 = x->x_xbuffer + bufphase;
                 bp2 = x->x_ybuffer + bufphase;
-                if (phase)
-                {
+                if(phase){
                     t_float f1 = *in1++;
                     t_float f2 = *in2++;
-                    if (xymode == 1)
-                    {
-                        /* CHECKED */
-                        if (!x->x_drawstyle)
-                        {
-                            if ((currx < 0 && (f1 < currx || f1 > -currx)) ||
-                                (currx > 0 && (f1 > currx || f1 < -currx)))
+                    if(xymode == 1){ // CHECKED
+                        if(!x->x_drawstyle){
+                            if((currx<0 && (f1<currx || f1>-currx)) || (currx>0 && (f1>currx || f1<-currx)))
                                 currx = f1;
                         }
-                        else
-                        {
-                            if (f1 < currx) currx = f1;
+                        else{
+                            if(f1 < currx)
+                                currx = f1;
                         }
                         curry = 0.;
                     }
-                    else if (xymode == 2)
-                    {
-                        if (!x->x_drawstyle)
-                        {
-                            if ((curry < 0 && (f2 < curry || f2 > -curry)) ||
-                                (curry > 0 && (f2 > curry || f2 < -curry)))
+                    else if(xymode == 2){
+                        if(!x->x_drawstyle){
+                            if((curry<0 && (f2<curry || f2>-curry)) || (curry>0 && (f2>curry || f2<-curry)))
                                 curry = f2;
                         }
-                        else
-                        {
-                            if (f2 < curry) curry = f2;
+                        else{
+                            if(f2 < curry)
+                                curry = f2;
                         }
                         currx = 0.;
                     }
-                    else
-                    {
+                    else{
                         currx += f1;
                         curry += f2;
                     }
                 }
-                else
-                {
+                else{
                     currx = *in1++;
                     curry = *in2++;
                 }
-                if (currx != currx)
-                    currx = 0.;  /* CHECKED NaNs bashed to zeros */
-                if (curry != curry)
+                if(currx != currx)
+                    currx = 0.;  // CHECKED NaNs bashed to zeros
+                if(curry != curry)
                     curry = 0.;
-                if (++phase >= period)
-                {
+                if(++phase >= period){
                     phase = 0;
-                    if (xymode == 3)
-                    {
+                    if (xymode == 3){
                         currx *= freq;
                         curry *= freq;
                     }
-                    if (++bufphase >= bufsize)
-                    {
+                    if(++bufphase >= bufsize){
                         *bp1 = currx;
                         *bp2 = curry;
                         bufphase = 0;
+                        x->x_lastxymode = xymode;
                         x->x_lastbufsize = bufsize;
-                        memcpy(x->x_xbuflast, x->x_xbuffer,
-                               bufsize * sizeof(*x->x_xbuffer));
-                        memcpy(x->x_ybuflast, x->x_ybuffer,
-                               bufsize * sizeof(*x->x_ybuffer));
+                        memcpy(x->x_xbuflast, x->x_xbuffer, bufsize * sizeof(*x->x_xbuffer));
+                        memcpy(x->x_ybuflast, x->x_ybuffer, bufsize * sizeof(*x->x_ybuffer));
                         x->x_retrigger = (x->x_trigmode != SCOPE_TRIGLINEMODE);
                         x->x_trigx = x->x_triglevel;
                         clock_delay(x->x_clock, 0);
                     }
-                    else
-                    {
+                    else{
                         *bp1 = currx;
                         *bp2 = curry;
                     }
@@ -315,31 +302,42 @@ static t_int *scope_perform(t_int *w)
             x->x_phase = phase;
         }
     }
-    return(w+5);
+    return (w + 5);
 }
 
-static void scope_setxymode(t_scope *x);
+static void scope_setxymode(t_scope *x, int xymode);
 
 static void scope_dsp(t_scope *x, t_signal **sp){
     x->x_ksr = sp[0]->s_sr * 0.001;
-    int xfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
-    int yfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
-    int xymode = xfeeder + 2 * yfeeder;
-    if(xymode != x->x_xymode){
-        x->x_xymode = xymode;
-        scope_setxymode(x);
+    int xfeeder, yfeeder;
+    xfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
+    yfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
+    if(!x->x_init){
+        x->x_init = 1;
+        x->x_lastxymode = xfeeder + 2 * yfeeder;
     }
+    scope_setxymode(x, xfeeder + 2 * yfeeder);
     dsp_add(scope_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void scope_period(t_scope *x, t_float per)
-{
-    if(per < SCOPE_MINPERIOD)
+static t_canvas *scope_getcanvas(t_scope *x, t_glist *glist){
+    if (glist != x->x_glist){
+        pd_error(x, "scope~: list needs to only contain floats");
+        x->x_glist = glist;
+    }
+    return(x->x_canvas = glist_getcanvas(glist));
+}
+
+static t_canvas *scope_isvisible(t_scope *x){ // answers: "can we draw and where?"
+    return (glist_isvisible(x->x_glist) ? x->x_canvas : 0);
+}
+
+static void scope_period(t_scope *x, t_float per){
+    if (per < SCOPE_MINPERIOD)
         per = SCOPE_MINPERIOD;
     else if (per > SCOPE_MAXPERIOD)
         per = SCOPE_MAXPERIOD;
-    if (x->x_period != (int)per)
-    {
+    if (x->x_period != (int)per){
         x->x_period = (int)per;
         x->x_phase = 0;
         x->x_bufphase = 0;
@@ -347,11 +345,14 @@ static void scope_period(t_scope *x, t_float per)
     }
 }
 
-static void scope_bufsize(t_scope *x, t_float bufsz)
-{
-    if(bufsz < SCOPE_MINBUFSIZE)
+static void scope_float(t_scope *x, t_float f){
+    scope_period(x, f);
+}
+
+static void scope_bufsize(t_scope *x, t_float bufsz){
+    if (bufsz < SCOPE_MINBUFSIZE)
         x->x_bufsize = SCOPE_MINBUFSIZE;
-    else if(bufsz > SCOPE_MAXBUFSIZE)
+    else if (bufsz > SCOPE_MAXBUFSIZE)
         x->x_bufsize = SCOPE_MAXBUFSIZE;
     else
         x->x_bufsize = bufsz;
@@ -361,8 +362,7 @@ static void scope_bufsize(t_scope *x, t_float bufsz)
     scope_clear(x, 0);
 }
 
-static void scope_range(t_scope *x, t_float min, t_float max)
-{
+static void scope_range(t_scope *x, t_float min, t_float max){
     t_float minval = min;
     t_float maxval = max;
     if (minval < maxval){ // swapping, ignoring if equal
@@ -375,42 +375,33 @@ static void scope_range(t_scope *x, t_float min, t_float max)
     }
 }
 
-static void scope_delay(t_scope *x, t_float del)
-{
-    x->x_delay = del < SCOPE_MINDELAY ? SCOPE_MINDELAY : del;
+static void scope_delay(t_scope *x, t_float del){
+    if(del < SCOPE_MINDELAY)
+        del = SCOPE_MINDELAY;
+    x->x_delay = del;
 }
 
-static void scope_drawstyle(t_scope *x, t_float drawstyle)
-{
-    x->x_drawstyle = drawstyle != 0;
+static void scope_drawstyle(t_scope *x, t_float drawstyle){
+    x->x_drawstyle = (drawstyle == 0 ? 0 : 1);
 }
 
-static void scope_trigger(t_scope *x, t_float trig)
-{
-    float trigmode;
-    if (trig < SCOPE_MINTRIGMODE)
-        trigmode = SCOPE_MINTRIGMODE;
-    else if (trig > SCOPE_MAXTRIGMODE)
-        trigmode = SCOPE_MAXTRIGMODE;
-    else
-        trigmode = trig;
-    x->x_trigmode = (int)trigmode;
-    if (x->x_trigmode == SCOPE_TRIGLINEMODE)
+static void scope_trigger(t_scope *x, t_float trig){
+    x->x_trigmode = trig < 0 ? 0 : trig > 2 ? 2 : (int)trig;
+    if(x->x_trigmode == SCOPE_TRIGLINEMODE)
         x->x_retrigger = 0;
 }
 
-static void scope_triglevel(t_scope *x, t_float lvl)
-{
+static void scope_triglevel(t_scope *x, t_float lvl){
     x->x_triglevel = lvl;
 }
 
-static void scope_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp2, int *yp2)
-{
+static void scope_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp2, int *yp2){
     t_scope *x = (t_scope *)z;
-    float x1 = text_xpix((t_text *)x, glist);
-    float y1 = text_ypix((t_text *)x, glist);
-    float x2 = x1 + x->x_width;
-    float y2 = y1 + x->x_height;
+    float x1, y1, x2, y2;
+    x1 = text_xpix((t_text *)x, glist);
+    y1 = text_ypix((t_text *)x, glist);
+    x2 = x1 + x->x_width;
+    y2 = y1 + x->x_height;
     *xp1 = x1;
     *yp1 = y1;
     *xp2 = x2;
@@ -701,7 +692,7 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
         xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
         ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
     }
-    // Not sure whether we need the conditional here or not... 
+    // Not sure whether we need the conditional here or not...
     if (x->x_bufsize)
     {
         gui_start_vmess("gui_scope_configure_fg_xy", "xx", cv, x);
@@ -956,19 +947,16 @@ static void scope_motion_for_resizing(t_scope *x, t_floatarg xxx,
     scopehandle__motionhook(sh, xxx, yyy);
 }
 
-static void scope_free(t_scope *x)
-{
+static void scope_free(t_scope *x){
     if (x->x_clock)
         clock_free(x->x_clock);
-    if (x->x_handle)
-    {
+    if (x->x_handle){
         pd_unbind(x->x_handle, ((t_scopehandle *)x->x_handle)->h_bindsym);
         pd_free(x->x_handle);
     }
 }
 
-static void scope_dim(t_scope *x, t_float width, t_float height)
-{
+static void scope_dim(t_scope *x, t_float width, t_float height){
     if (width < SCOPE_MINWIDTH)
         width = SCOPE_MINWIDTH;
     if (height < SCOPE_MINHEIGHT)
@@ -977,8 +965,7 @@ static void scope_dim(t_scope *x, t_float width, t_float height)
     x->x_height = (int)height;
 };
 
-static void scope_properties(t_gobj *z, t_glist *owner)
-{
+static void scope_properties(t_gobj *z, t_glist *owner){
     t_scope *x = (t_scope *)z;
     int bgcol, grcol, fgcol;
     char bgsym[8], grsym[8], fgsym[8];
@@ -994,7 +981,6 @@ static void scope_properties(t_gobj *z, t_glist *owner)
     char *gfx_tag = gfxstub_new2(&x->x_obj.ob_pd, x);
     gui_start_vmess("gui_external_dialog", "ss", gfx_tag, "scope~");
     gui_start_array();
-    
     gui_s("int"); gui_s("width"); gui_i(x->x_width);
     gui_s("int"); gui_s("height"); gui_i(x->x_height);
     gui_s("int"); gui_s("period"); gui_i(x->x_period);
@@ -1003,17 +989,14 @@ static void scope_properties(t_gobj *z, t_glist *owner)
     gui_s("float"); gui_s("max"); gui_f(x->x_maxval);
     gui_s("float"); gui_s("delay"); gui_f(x->x_delay);
     gui_s("toggle"); gui_s("style"); gui_i(x->x_drawstyle);
-    
     gui_s("enum"); gui_s("trigmode"); gui_s("none");
     gui_s("enum"); gui_s("trigmode"); gui_s("up");
     gui_s("enum"); gui_s("trigmode"); gui_s("down");
     gui_s("enum_index"); gui_s("trigmode"); gui_i(x->x_trigmode);
-    
     gui_s("float"); gui_s("triglevel"); gui_f(x->x_triglevel);
     gui_s("color"); gui_s("bgcolor"); gui_s(bgsym);
     gui_s("color"); gui_s("grcolor"); gui_s(grsym);
     gui_s("color"); gui_s("fgcolor"); gui_s(fgsym);
-    
     gui_end_array();
     gui_end_vmess();
 }
@@ -1022,120 +1005,216 @@ static void scope_properties(t_gobj *z, t_glist *owner)
 
 // begin pd vanilla GUI code */
 
-static void scope_fgcolor(t_scope *x, t_float fr, t_float fg, t_float fb)
-{   // scale is 0-1; rescale to 0-255
-    x->x_fgrgb[0] = (int)(fr < 0 ? 0 : fr > 1 ? 255 : round(fr * 255));
-    x->x_fgrgb[1] = (int)(fg < 0 ? 0 : fg > 1 ? 255 : round(fg * 255));
-    x->x_fgrgb[2] = (int)(fb < 0 ? 0 : fb > 1 ? 255 : round(fb * 255));
-    if(glist_isvisible(x->x_canvas))
+static void scope_fgcolor(t_scope *x, t_float fr, t_float fg, t_float fb){ //scale is 0-1
+    if (fr < SCOPE_MINCOLOR)
+        fr = SCOPE_MINCOLOR;
+    else if (fr > SCOPE_MAXCOLOR)
+        fr = SCOPE_MAXCOLOR;
+    if (fg < SCOPE_MINCOLOR)
+        fg = SCOPE_MINCOLOR;
+    else if (fg > SCOPE_MAXCOLOR)
+        fg = SCOPE_MAXCOLOR;
+    if (fb < SCOPE_MINCOLOR)
+        fb = SCOPE_MINCOLOR;
+    else if (fb > SCOPE_MAXCOLOR)
+        fb = SCOPE_MAXCOLOR;
+// scaling to 255 and rounding
+    fr *= (float)SCOPE_MAXRGB;
+    fr = round(fr);
+    fg *= (float)SCOPE_MAXRGB;
+    fg = round(fg);
+    fb *= (float)SCOPE_MAXRGB;
+    fb = round(fb);
+    t_canvas *cv;
+    x->x_fgrgb[0] = (int)fr;
+    x->x_fgrgb[1] = (int)fg;
+    x->x_fgrgb[2] = (int)fb;
+    cv = scope_isvisible(x);
+    if(cv){
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            x->x_canvas, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
+                 cv, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
+    }
 }
 
-static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb)
-{   //scale is 0-255
-    x->x_fgrgb[0] = (int)(fr < 0 ? 0 : fr > 255 ? 255 : fr);
-    x->x_fgrgb[1] = (int)(fg < 0 ? 0 : fg > 255 ? 255 : fg);
-    x->x_fgrgb[2] = (int)(fb < 0 ? 0 : fb > 255 ? 255 : fb);
-    if(glist_isvisible(x->x_canvas))
+static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb){   //scale is 0-255
+    if (fr < SCOPE_MINRGB)
+        fr = SCOPE_MINRGB;
+    else if (fr > SCOPE_MAXRGB)
+        fr = SCOPE_MAXRGB;
+    if (fg < SCOPE_MINRGB)
+        fg = SCOPE_MINRGB;
+    else if (fg > SCOPE_MAXRGB)
+        fg = SCOPE_MAXRGB;
+    if (fb < SCOPE_MINRGB)
+        fb = SCOPE_MINRGB;
+    else if (fb > SCOPE_MAXRGB)
+        fb = SCOPE_MAXRGB;
+    t_canvas *cv;
+    x->x_fgrgb[0] = (int)fr;
+    x->x_fgrgb[1] = (int)fg;
+    x->x_fgrgb[2] = (int)fb;
+    cv = scope_isvisible(x);
+    if (cv){
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            x->x_canvas, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
+                 cv, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
+    }
 }
 
-static void scope_bgcolor(t_scope *x, t_float br, t_float bg, t_float bb)
-{   // scale is 0-1; rescale to 0-255
-    x->x_bgrgb[0] = (int)(br < 0 ? 0 : br > 1 ? 255 : round(br * 255));
-    x->x_bgrgb[1] = (int)(bg < 0 ? 0 : bg > 1 ? 255 : round(bg * 255));
-    x->x_bgrgb[2] = (int)(bb < 0 ? 0 : bb > 1 ? 255 : round(bb * 255));
-    if(glist_isvisible(x->x_canvas))
+static void scope_bgcolor(t_scope *x, t_float br, t_float bg, t_float bb){   //scale is 0-1
+    if (br < SCOPE_MINCOLOR)
+        br = SCOPE_MINCOLOR;
+    else if (br > SCOPE_MAXCOLOR)
+        br = SCOPE_MAXCOLOR;
+    if (bg < SCOPE_MINCOLOR)
+        bg = SCOPE_MINCOLOR;
+    else if (bg > SCOPE_MAXCOLOR)
+        bg = SCOPE_MAXCOLOR;
+    if (bb < SCOPE_MINCOLOR)
+        bb = SCOPE_MINCOLOR;
+    else if (bb > SCOPE_MAXCOLOR)
+        bb = SCOPE_MAXCOLOR;
+// scaling to 255 and rounding
+    br *= (float)SCOPE_MAXRGB;
+    br = round(br);
+    bg *= (float)SCOPE_MAXRGB;
+    bg = round(bg);
+    bb *= (float)SCOPE_MAXRGB;
+    bb = round(bb);
+    t_canvas *cv;
+    x->x_bgrgb[0] = (int)br;
+    x->x_bgrgb[1] = (int)bg;
+    x->x_bgrgb[2] = (int)bb;
+    cv = scope_isvisible(x);
+    if (cv){
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 x->x_canvas, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
+                 cv, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
+    }
 }
 
-static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb)
-{   //scale is 0-255
-    x->x_bgrgb[0] = (int)(br < 0 ? 0 : br > 255 ? 255 : br);
-    x->x_bgrgb[1] = (int)(bg < 0 ? 0 : bg > 255 ? 255 : bg);
-    x->x_bgrgb[2] = (int)(bb < 0 ? 0 : bb > 255 ? 255 : bb);
-    if(glist_isvisible(x->x_canvas))
+static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb){ // scale is 0-255
+    if (br < SCOPE_MINRGB)
+        br = SCOPE_MINRGB;
+    else if (br > SCOPE_MAXRGB)
+        br = SCOPE_MAXRGB;
+    if (bg < SCOPE_MINRGB)
+        bg = SCOPE_MINRGB;
+    else if (bg > SCOPE_MAXRGB)
+        bg = SCOPE_MAXRGB;
+    if (bb < SCOPE_MINRGB)
+        bb = SCOPE_MINRGB;
+    else if (bb > SCOPE_MAXRGB)
+        bb = SCOPE_MAXRGB;
+    t_canvas *cv;
+    x->x_bgrgb[0] = (int)br;
+    x->x_bgrgb[1] = (int)bg;
+    x->x_bgrgb[2] = (int)bb;
+    cv = scope_isvisible(x);
+    if (cv){
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            x->x_canvas, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
+                 cv, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
+    }
 }
 
-static void scope_gridcolor(t_scope *x, t_float gr, t_float gg, t_float gb)
-{   // scale is 0-1; rescale to 0-255
-    x->x_grrgb[0] = (int)(gr < 0 ? 0 : gr > 1 ? 255 : round(gr * 255));
-    x->x_grrgb[1] = (int)(gg < 0 ? 0 : gg > 1 ? 255 : round(gg * 255));
-    x->x_grrgb[2] = (int)(gb < 0 ? 0 : gb > 1 ? 255 : round(gb * 255));
-    if(glist_isvisible(x->x_canvas))
+static void scope_gridcolor(t_scope *x, t_float gr, t_float gg, t_float gb){   //scale is 0-1
+    if (gr < SCOPE_MINCOLOR)
+        gr = SCOPE_MINCOLOR;
+    else if (gr > SCOPE_MAXCOLOR)
+        gr = SCOPE_MAXCOLOR;
+    if (gg < SCOPE_MINCOLOR)
+        gg = SCOPE_MINCOLOR;
+    else if (gg > SCOPE_MAXCOLOR)
+        gg = SCOPE_MAXCOLOR;
+    if (gb < SCOPE_MINCOLOR)
+        gb = SCOPE_MINCOLOR;
+    else if (gb > SCOPE_MAXCOLOR)
+        gb = SCOPE_MAXCOLOR;
+// scaling to 255 and rounding
+    gr *= (float)SCOPE_MAXRGB;
+    gr = round(gr);
+    gg *= (float)SCOPE_MAXRGB;
+    gg = round(gg);
+    gb *= (float)SCOPE_MAXRGB;
+    gb = round(gb);
+    t_canvas *cv;
+    x->x_grrgb[0] = (int)gr;
+    x->x_grrgb[1] = (int)gg;
+    x->x_grrgb[2] = (int)gb;
+    cv = scope_isvisible(x);
+    if (cv)
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            x->x_canvas, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+                 cv, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
 }
 
-static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb)
-{   // scale 0-255
-    x->x_grrgb[0] = (int)(gr < 0 ? 0 : gr > 255 ? 255 : gr);
-    x->x_grrgb[1] = (int)(gg < 0 ? 0 : gg > 255 ? 255 : gg);
-    x->x_grrgb[2] = (int)(gb < 0 ? 0 : gb > 255 ? 255 : gb);
-    if(glist_isvisible(x->x_canvas))
+static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb){   //scale 0-255
+    if (gr < SCOPE_MINRGB)
+        gr = SCOPE_MINRGB;
+    else if (gr > SCOPE_MAXRGB)
+        gr = SCOPE_MAXRGB;
+    if (gg < SCOPE_MINRGB)
+        gg = SCOPE_MINRGB;
+    else if (gg > SCOPE_MAXRGB)
+        gg = SCOPE_MAXRGB;
+    if (gb < SCOPE_MINRGB)
+        gb = SCOPE_MINRGB;
+    else if (gb > SCOPE_MAXRGB)
+        gb = SCOPE_MAXRGB;
+    t_canvas *cv;
+    x->x_grrgb[0]   = (int)gr;
+    x->x_grrgb[1] = (int)gg;
+    x->x_grrgb[2]  = (int)gb;
+    cv = scope_isvisible(x);
+    if (cv){
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            x->x_canvas, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+                 cv, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+    }
 }
 
-static void scope_displace(t_gobj *z, t_glist *glist, int dx, int dy)
-{
+static void scope_displace(t_gobj *z, t_glist *glist, int dx, int dy){
     t_scope *x = (t_scope *)z;
     t_text *t = (t_text *)z;
     t->te_xpix += dx;
     t->te_ypix += dy;
     if(glist_isvisible(glist)){
-        sys_vgui(".x%lx.c move %s %d %d\n", x->x_canvas, x->x_tag, dx, dy);
-        canvas_fixlinesfor(x->x_canvas, t);
+        t_canvas *cv = scope_getcanvas(x, glist);
+        sys_vgui(".x%lx.c move %s %d %d\n", cv, x->x_tag, dx, dy);
+        canvas_fixlinesfor(cv, t);
     }
 }
 
-static void scope_select(t_gobj *z, t_glist *glist, int state)
-{
+static void scope_select(t_gobj *z, t_glist *glist, int state){
     t_scope *x = (t_scope *)z;
+    t_canvas *cv = scope_getcanvas(x, glist);
     t_scopehandle *sh = (t_scopehandle *)x->x_handle;
     if(state){
         int x1, y1, x2, y2;
         scope_getrect(z, glist, &x1, &y1, &x2, &y2);
-        sys_vgui(".x%lx.c itemconfigure %s -outline %s "
-                 "-width %f -fill #%2.2x%2.2x%2.2x\n",
-                 x->x_canvas, x->x_bgtag, SCOPE_SELBORDER, SCOPE_SELBDWIDTH,
-                 x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
+        sys_vgui(".x%lx.c itemconfigure %s -outline %s -width %f -fill #%2.2x%2.2x%2.2x\n",
+            cv, x->x_bgtag, SCOPE_SELBORDER, SCOPE_SELBDWIDTH, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
         sys_vgui("canvas %s -width %d -height %d -bg #fedc00 -bd 0\n",
-                 sh->h_pathname, SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT);
-        sys_vgui(".x%lx.c create window %f %f -anchor nw\
-                 -width %d -height %d -window %s -tags %s\n",
-                 x->x_canvas, x2 - (SCOPEHANDLE_WIDTH - SCOPE_SELBDWIDTH),
-                 y2 - (SCOPEHANDLE_HEIGHT - SCOPE_SELBDWIDTH),
-                 SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT,
-                 sh->h_pathname, x->x_tag);
+            sh->h_pathname, SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT);
+        sys_vgui(".x%lx.c create window %f %f -anchor nw -width %d -height %d -window %s -tags %s\n",
+            cv, x2 - (SCOPEHANDLE_WIDTH - SCOPE_SELBDWIDTH), y2 - (SCOPEHANDLE_HEIGHT - SCOPE_SELBDWIDTH),
+            SCOPEHANDLE_WIDTH, SCOPEHANDLE_HEIGHT, sh->h_pathname, x->x_tag);
         sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 \\;]}\n",
-                 sh->h_pathname, sh->h_bindsym->s_name);
+            sh->h_pathname, sh->h_bindsym->s_name);
         sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 \\;]}\n",
-                 sh->h_pathname, sh->h_bindsym->s_name);
+            sh->h_pathname, sh->h_bindsym->s_name);
         sys_vgui("bind %s <Motion> {pdsend [concat %s _motion %%x %%y \\;]}\n",
-                 sh->h_pathname, sh->h_bindsym->s_name);
+            sh->h_pathname, sh->h_bindsym->s_name);
     }
     else{
-        sys_vgui(".x%lx.c itemconfigure %s -outline black -width %f\
-                 -fill #%2.2x%2.2x%2.2x\n", x->x_canvas, x->x_bgtag, SCOPE_GRIDWIDTH,
-                 x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
+        sys_vgui(".x%lx.c itemconfigure %s -outline black -width %f -fill #%2.2x%2.2x%2.2x\n",
+            cv, x->x_bgtag, SCOPE_GRIDWIDTH, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
         sys_vgui("destroy %s\n", sh->h_pathname);
     }
 }
 
-static void scope_delete(t_gobj *z, t_glist *glist)
-{
+static void scope_delete(t_gobj *z, t_glist *glist){
     canvas_deletelinesfor(glist, (t_text *)z);
 }
 
-static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2)
-{
-    int i, xymode = x->x_xymode;
+static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2){
+    int i, xymode = x->x_lastxymode;
     float dx, dy, xx = 0, yy = 0, oldx, oldy, sc, xsc, ysc;
     float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
     int bufsize = x->x_lastbufsize;
@@ -1144,7 +1223,7 @@ static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y
         oldx = x1;
         sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
     }
-    else if (xymode == 2){
+    else if(xymode == 2){
         dy = (float)(y2 - y1) / (float)bufsize;
         oldy = y1;
         sc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
@@ -1162,7 +1241,7 @@ static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y
             else if (yy < y1) yy = y1;
             oldx += dx;
         }
-        else if (xymode == 2){
+        else if(xymode == 2){
             yy = oldy;
             xx = (x2 - 1) - sc * (*ybp++ - x->x_minval);
             if (xx > x2) xx = x2; else if (xx < x1) xx = x1;
@@ -1177,68 +1256,50 @@ static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y
         sys_vgui("%d %d \\\n", (int)xx, (int)yy);
     }
     sys_vgui("-fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
-             x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2],
-             SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);
+        x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2], SCOPE_FGWIDTH, x->x_fgtag, x->x_tag);
 }
 
-static void scope_drawmargins(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2)
-{   // margin lines:  masking overflows, so that they appear as gaps,
+static void scope_drawmargins(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2){
+    // margin lines:  masking overflows, so that they appear as gaps,
     // rather than clipped signal values, LATER rethink
-    sys_vgui(".x%lx.c create line %d %d\
-             %d %d\
-             %d %d\
-             %d %d\
-             %d %d\
-             -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
-             cv, x1, y1 , x2, y1, x2, y2, x1, y2, x1, y1,
-             x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2],
-             1., x->x_margintag, x->x_tag);
+    sys_vgui(".x%lx.c create line %d %d %d %d %d %d %d %d %d %d -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n", cv, x1,
+        y1 , x2, y1, x2, y2, x1, y2, x1, y1, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2], 1., x->x_margintag, x->x_tag);
 }
 
-static void scope_drawbg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2)
-{
+static void scope_drawbg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2){
     int i;
     float dx, dy, xx, yy;
     dx = (x2 - x1) * 0.125;
     dy = (y2 - y1) * 0.25;
-    sys_vgui(".x%lx.c create rectangle %d %d %d %d\
-             -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n",
-             cv, x1, y1, x2, y2,
-             x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2],
-             SCOPE_GRIDWIDTH, x->x_bgtag, x->x_tag);
-    for (i = 0, xx = x1 + dx; i < 7; i++, xx += dx)
-        sys_vgui(".x%lx.c create line %f %d %f %d\
-                 -width %f -tags {%s %s} -fill #%2.2x%2.2x%2.2x\n", cv, xx, y1, xx, y2,
-                 SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag,
-                 x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
-    for (i = 0, yy = y1 + dy; i < 3; i++, yy += dy)
-        sys_vgui(".x%lx.c create line %d %f %d %f\
-                 -width %f -tags {%s %s} -fill #%2.2x%2.2x%2.2x\n", cv, x1, yy, x2, yy,
-                 SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag,
-                 x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+    sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill #%2.2x%2.2x%2.2x -width %f -tags {%s %s}\n", cv, x1, y1,
+        x2, y2, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2], SCOPE_GRIDWIDTH, x->x_bgtag, x->x_tag);
+    for(i = 0, xx = x1 + dx; i < 7; i++, xx += dx)
+        sys_vgui(".x%lx.c create line %f %d %f %d -width %f -tags {%s %s} -fill #%2.2x%2.2x%2.2x\n", cv, xx, y1,
+            xx, y2, SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+    for(i = 0, yy = y1 + dy; i < 3; i++, yy += dy)
+        sys_vgui(".x%lx.c create line %d %f %d %f -width %f -tags {%s %s} -fill #%2.2x%2.2x%2.2x\n", cv, x1, yy,
+            x2, yy, SCOPE_GRIDWIDTH, x->x_gridtag, x->x_tag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
 }
 
-static void scope_draw(t_scope *x, t_canvas *cv)
-{
+static void scope_draw(t_scope *x, t_canvas *cv){
     int x1, y1, x2, y2;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     scope_drawbg(x, cv, x1, y1, x2, y2);
-    if(x->x_xymode)
+    if(x->x_lastxymode)
         scope_drawfg(x, cv, x1, y1, x2, y2);
     scope_drawmargins(x, cv, x1, y1, x2, y2);
 }
 
-static void scope_redraw(t_scope *x, t_canvas *cv)
-{
+static void scope_redraw(t_scope *x, t_canvas *cv){
     int bufsize;
     int nleft = bufsize = x->x_lastbufsize;
     char chunk[32 * SCOPE_GUICHUNK];  // LATER estimate
     char *chunkp = chunk;
-    int x1, y1, x2, y2, xymode = x->x_xymode;
+    int x1, y1, x2, y2, xymode = x->x_lastxymode;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     float dx, dy, xx, yy, oldx, oldy, sc, xsc, ysc;
     float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
-    if (xymode == 1){
+    if(xymode == 1){
         dx = (float)(x2 - x1) / (float)bufsize;
         oldx = x1;
         sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
@@ -1283,20 +1344,20 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
         chunkp = chunk;
         nleft -= SCOPE_GUICHUNK;
     }
-    while (nleft--){
-        if (xymode == 1){
+    while(nleft--){
+        if(xymode == 1){
             xx = oldx;
             yy = (y2 - 1) - sc * (*xbp++ - x->x_minval);
             if (yy > y2) yy = y2; else if (yy < y1) yy = y1;
             oldx += dx;
         }
-        else if (xymode == 2){
+        else if(xymode == 2){
             yy = oldy;
             xx = (x2 - 1) - sc * (*ybp++ - x->x_minval);
             if (xx > x2) xx = x2; else if (xx < x1) xx = x1;
             oldy += dy;
         }
-        else if (xymode == 3){
+        else if(xymode == 3){
             xx = x1 + xsc * (*xbp++ - x->x_minval);
             yy = y2 - ysc * (*ybp++ - x->x_minval);
             if (xx > x2) xx = x2; else if (xx < x1) xx = x1;
@@ -1309,53 +1370,58 @@ static void scope_redraw(t_scope *x, t_canvas *cv)
     sys_gui(chunk);
 }
 
-static void scope_vis(t_gobj *z, t_glist *glist, int vis)
-{
+static void scope_revis(t_scope *x, t_canvas *cv){
+    sys_vgui(".x%lx.c delete %s\n", cv, x->x_tag);
+    scope_draw(x, cv);
+}
+
+static void scope_vis(t_gobj *z, t_glist *glist, int vis){
     t_scope *x = (t_scope *)z;
+    t_canvas *cv = scope_getcanvas(x, glist);
     if(vis){
         t_scopehandle *sh = (t_scopehandle *)x->x_handle;
-        sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_canvas, (unsigned long)sh);
+        sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)cv, (unsigned long)sh);
+        int xymode = x->x_xymode;
         int bufsize = x->x_bufsize;
+        x->x_xymode = x->x_lastxymode;
         x->x_bufsize = x->x_lastbufsize;
-        scope_draw(x, (t_canvas *)glist);
+        scope_draw(x, cv);
+        x->x_xymode = xymode;
         x->x_bufsize = bufsize;
     }
-    else
-        sys_vgui(".x%lx.c delete %s\n", (unsigned long)x->x_canvas, x->x_tag);
+    else{
+        sys_vgui(".x%lx.c delete %s\n", (unsigned long)cv, x->x_tag);
+        x->x_canvas = 0;
+    }
 }
 
 static void scope_motion(void){ // dummy
 }
 
-static int scope_click(t_gobj *z, t_glist *glist, int xpix, int ypix, int shift, int alt, int dbl, int doit)
-{
+static int scope_click(t_gobj *z, t_glist *glist, int xpix, int ypix, int shift, int alt, int dbl, int doit){
     t_scope *x = (t_scope *)z;
     if(doit){
         x->x_frozen = 1;
-        glist_grab(glist, &x->x_obj.te_g, (t_glistmotionfn)scope_motion, 0, xpix, ypix);
+        glist_grab(x->x_glist, &x->x_obj.te_g, (t_glistmotionfn)scope_motion, 0, xpix, ypix);
     }
     else
         x->x_frozen = 0;
+    glist = NULL;
     shift = alt = dbl = 0;
-    return (CURSOR_RUNMODE_CLICKME);
+    return(1);
 }
 
 static void scope_save(t_gobj *z, t_binbuf *b){
     t_scope *x = (t_scope *)z;
     t_text *t = (t_text *)x;
     binbuf_addv(b, "ssiisiiiiiffififiiiiiiiiii;", gensym("#X"), gensym("obj"),
-                (int)t->te_xpix, (int)t->te_ypix,
-                atom_getsymbol(binbuf_getvec(t->te_binbuf)),
-                x->x_width, x->x_height, x->x_period, 3, x->x_bufsize,
-                x->x_minval, x->x_maxval, x->x_delay, 0.,
-                x->x_trigmode, x->x_triglevel,
-                x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2],
-                x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2],
-                x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2], 0);
+        (int)t->te_xpix, (int)t->te_ypix, atom_getsymbol(binbuf_getvec(t->te_binbuf)),
+        x->x_width, x->x_height, x->x_period, 3, x->x_bufsize, x->x_minval, x->x_maxval,
+        x->x_delay, 0., x->x_trigmode, x->x_triglevel, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2],
+        x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2], x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2], 0);
 }
 
-static t_widgetbehavior scope_widgetbehavior =
-{
+static t_widgetbehavior scope_widgetbehavior ={
     scope_getrect,
     scope_displace,
     scope_select,
@@ -1365,38 +1431,40 @@ static t_widgetbehavior scope_widgetbehavior =
     scope_click,
 };
 
-static void scope_setxymode(t_scope *x){
-    if(glist_isvisible(x->x_canvas)){
-        int x1, y1, x2, y2;
-        sys_vgui(".x%lx.c delete %s %s\n", x->x_canvas, x->x_fgtag, x->x_margintag);
-        scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-        if(x->x_xymode)
-            scope_drawfg(x, x->x_canvas, x1, y1, x2, y2);
-        scope_drawmargins(x, x->x_canvas, x1, y1, x2, y2);
+static void scope_setxymode(t_scope *x, int xymode){
+    if (xymode != x->x_xymode){
+        t_canvas *cv;
+        if((cv = scope_isvisible(x))){
+            sys_vgui(".x%lx.c delete %s %s\n", cv, x->x_fgtag, x->x_margintag);
+            int x1, y1, x2, y2;
+            scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
+            if(xymode)
+                scope_drawfg(x, cv, x1, y1, x2, y2);
+            scope_drawmargins(x, cv, x1, y1, x2, y2);
+        }
+        x->x_xymode = xymode;
+        scope_clear(x, 0);
     }
-    scope_clear(x, 0);
 }
 
-static void scope_tick(t_scope *x)
-{
-    int vis = glist_isvisible(x->x_canvas);
-    if(vis && !x->x_canvas->gl_editor->e_onmotion)
-        x->x_frozen = 0;
-    if(vis && !x->x_frozen && x->x_xymode)
-        scope_redraw(x, x->x_canvas);
+static void scope_tick(t_scope *x){
+    t_canvas *cv = scope_isvisible(x);
+    if(cv){
+        if(!x->x_canvas->gl_editor->e_onmotion)
+            x->x_frozen = 0;
+    }
+    if(!x->x_frozen && cv){
+        if(x->x_xymode)
+            scope_redraw(x, cv);
+    }
     scope_clear(x, 1);
 }
 
-static void scope_revis(t_scope *x, t_canvas *cv){
-    sys_vgui(".x%lx.c delete %s\n", cv, x->x_tag);
-    scope_draw(x, cv);
-}
-
-static void scope_resize(t_scope *x, t_float w, t_float h)
-{
+static void scope_resize(t_scope *x, t_float w, t_float h){
+    t_canvas *cv;
     x->x_width  = (int)(w < SCOPE_MINWIDTH ? SCOPE_MINWIDTH : w);
     x->x_height = (int)(h < SCOPE_MINHEIGHT ? SCOPE_MINHEIGHT : h);
-    if(glist_isvisible(x->x_canvas)){
+    if((cv = scope_isvisible(x))){
         if(x->x_xymode)
             scope_redraw(x, x->x_canvas);
         scope_revis(x, x->x_canvas);
@@ -1404,16 +1472,17 @@ static void scope_resize(t_scope *x, t_float w, t_float h)
     }
 }
 
-static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
-{
+static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f){
+    post("clickhook: newstate = %d", (int)f);
     int newstate = (int)f;
     if(sh->h_dragon && newstate == 0){
         t_scope *x = sh->h_master;
+        t_canvas *cv;
         x->x_width += sh->h_dragx;
         x->x_height += sh->h_dragy;
-        if(glist_isvisible(x->x_canvas)){
-            sys_vgui(".x%lx.c delete %s\n",  x->x_canvas, sh->h_outlinetag);
-            scope_revis(x, x->x_canvas);
+        if ((cv = scope_isvisible(x))){
+            sys_vgui(".x%lx.c delete %s\n", cv, sh->h_outlinetag);
+            scope_revis(x, cv);
             sys_vgui("destroy %s\n", sh->h_pathname);
             scope_select((t_gobj *)x, x->x_glist, 1);
             canvas_fixlinesfor(x->x_glist, (t_text *)x);  // 2nd inlet
@@ -1421,14 +1490,13 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f)
     }
     else if(!sh->h_dragon && newstate){
         t_scope *x = sh->h_master;
-        if(glist_isvisible(x->x_canvas)){
+        t_canvas *cv;
+        if((cv = scope_isvisible(x))){
             int x1, y1, x2, y2;
             scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
             sys_vgui("lower %s\n", sh->h_pathname);
-            sys_vgui(".x%lx.c create rectangle %d %d %d %d\
-                     -outline %s -width %f -tags %s\n",
-                     x->x_canvas, x1, y1, x2, y2,
-                     SCOPE_SELBORDER, SCOPE_SELBDWIDTH, sh->h_outlinetag);
+            sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -width %f -tags %s\n",
+                cv, x1, y1, x2, y2, SCOPE_SELBORDER, SCOPE_SELBDWIDTH, sh->h_outlinetag);
         }
         sh->h_dragx = 0;
         sh->h_dragy = 0;
@@ -1445,9 +1513,9 @@ static void scopehandle__motionhook(t_scopehandle *sh, t_floatarg f1, t_floatarg
         newx = x2 + dx;
         newy = y2 + dy;
         if (newx > x1 + SCOPE_MINWIDTH && newy > y1 + SCOPE_MINHEIGHT){
-            if(glist_isvisible(x->x_canvas))
-                sys_vgui(".x%lx.c coords %s %d %d %d %d\n", x->x_canvas, sh->h_outlinetag,
-                    x1, y1, newx, newy);
+            t_canvas *cv;
+            if((cv = scope_isvisible(x)))
+                sys_vgui(".x%lx.c coords %s %d %d %d %d\n", cv, sh->h_outlinetag, x1, y1, newx, newy);
             sh->h_dragx = dx;
             sh->h_dragy = dy;
         }
@@ -1455,17 +1523,21 @@ static void scopehandle__motionhook(t_scopehandle *sh, t_floatarg f1, t_floatarg
 }
 
 static void scope_free(t_scope *x){
-    if (x->x_clock)
+    if(x->x_clock)
         clock_free(x->x_clock);
-    if (x->x_handle){
+    if(x->x_handle){
         pd_unbind(x->x_handle, ((t_scopehandle *)x->x_handle)->h_bindsym);
         pd_free(x->x_handle);
     }
 }
 
 static void scope_dim(t_scope *x, t_float width, t_float height){
-    x->x_width = (int)(width < SCOPE_MINWIDTH ? SCOPE_MINWIDTH : width);
-    x->x_height = (int)(height < SCOPE_MINHEIGHT ? SCOPE_MINHEIGHT : height);
+    if(width < SCOPE_MINWIDTH)
+        width = SCOPE_MINWIDTH;
+    if(height < SCOPE_MINHEIGHT)
+        height = SCOPE_MINHEIGHT;
+    x->x_width = (int) width;
+    x->x_height = (int)height;
 }
 
 static void scope_properties(t_gobj *z, t_glist *owner){
@@ -1477,25 +1549,25 @@ static void scope_properties(t_gobj *z, t_glist *owner){
     fgcol = ((int)x->x_fgrgb[0] << 16) + ((int)x->x_fgrgb[1] << 8) + (int)x->x_fgrgb[2];
     char buf[1000];
     sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
-            dim %d wdt: %d hgt: \
-            buf %d cal: %d bfs: \
-            rng %g min: %g max: \
-            del %d del: drs %d drs: \
-            trg %d tmd: %g tlv: \
-            dim_mins %d %d \
-            cal_min_max %d %d bfs_min_max %d %d \
-            del_mins %d \
-            #%06x #%06x #%06x\n",
-            x->x_width, x->x_height,
-            x->x_period, x->x_bufsize,
-            x->x_minval, x->x_maxval,
-            x->x_delay, x->x_drawstyle,
-            x->x_trigmode, x->x_triglevel,
-            SCOPE_MINWIDTH, SCOPE_MINHEIGHT,
-            SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
-            SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
-            SCOPE_MINDELAY,
-            bgcol, grcol, fgcol);
+        dim %d wdt: %d hgt: \
+        buf %d cal: %d bfs: \
+        rng %g min: %g max: \
+        del %d del: drs %d drs: \
+        trg %d tmd: %g tlv: \
+        dim_mins %d %d \
+        cal_min_max %d %d bfs_min_max %d %d \
+        del_mins %d \
+        #%06x #%06x #%06x\n",
+        x->x_width, x->x_height,
+        x->x_period, x->x_bufsize,
+        x->x_minval, x->x_maxval,
+        x->x_delay, x->x_drawstyle,
+        x->x_trigmode, x->x_triglevel,
+        SCOPE_MINWIDTH, SCOPE_MINHEIGHT,
+        SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
+        SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
+        SCOPE_MINDELAY,
+        bgcol, grcol, fgcol);
     gfxstub_new(&x->x_obj.ob_pd, x, buf);
 }
 
@@ -1514,21 +1586,21 @@ static int scope_getcolorarg(int index, int ac, t_atom *av){
     return(0);
 }
 
-static void scope_dialog(t_scope *x, t_symbol *s, int argc, t_atom *argv){
+static void scope_dialog(t_scope *x, t_symbol *s, int ac, t_atom *av){
     s = NULL;
-    int width = (int)atom_getintarg(0, argc, argv);
-    int height = (int)atom_getintarg(1, argc, argv);
-    int period = (int)atom_getintarg(2, argc, argv);
-    int bufsize = (int)atom_getintarg(3, argc, argv);
-    float minval = (float)atom_getfloatarg(4, argc, argv);
-    float maxval = (float)atom_getfloatarg(5, argc, argv);
-    int delay = (int)atom_getintarg(6, argc, argv);
-    int drawstyle = (int)atom_getintarg(7, argc, argv);
-    int trigmode = (int)atom_getintarg(8, argc, argv);
-    float triglevel = (float)atom_getfloatarg(9, argc, argv);
-    int bgcol = (int)scope_getcolorarg(10, argc, argv);
-    int grcol = (int)scope_getcolorarg(11, argc, argv);
-    int fgcol = (int)scope_getcolorarg(12, argc, argv);
+    int width = (int)atom_getintarg(0, ac, av);
+    int height = (int)atom_getintarg(1, ac, av);
+    int period = (int)atom_getintarg(2, ac, av);
+    int bufsize = (int)atom_getintarg(3, ac, av);
+    float minval = (float)atom_getfloatarg(4, ac, av);
+    float maxval = (float)atom_getfloatarg(5, ac, av);
+    int delay = (int)atom_getintarg(6, ac, av);
+    int drawstyle = (int)atom_getintarg(7, ac, av);
+    int trigmode = (int)atom_getintarg(8, ac, av);
+    float triglevel = (float)atom_getfloatarg(9, ac, av);
+    int bgcol = (int)scope_getcolorarg(10, ac, av);
+    int grcol = (int)scope_getcolorarg(11, ac, av);
+    int fgcol = (int)scope_getcolorarg(12, ac, av);
     int bgred = (bgcol & 0xFF0000) >> 16;
     int bggreen = (bgcol & 0x00FF00) >> 8;
     int bgblue = (bgcol & 0x0000FF);
@@ -1545,26 +1617,24 @@ static void scope_dialog(t_scope *x, t_symbol *s, int argc, t_atom *argv){
     scope_drawstyle(x, drawstyle);
     scope_trigger(x, trigmode);
     scope_triglevel(x, triglevel);
-    if (x->x_width != width || x->x_height != height ||
-        x->x_bgrgb[0] != bgred || x->x_bgrgb[1] != bggreen || x->x_bgrgb[2] != bgblue ||
-        x->x_grrgb[0] != grred || x->x_grrgb[1] != grgreen || x->x_grrgb[2] != grblue ||
-        x->x_fgrgb[0] != fgred || x->x_fgrgb[1] != fggreen || x->x_fgrgb[2] != fgblue)
-    {
-        scope_brgb(x, bgred, bggreen, bgblue);
-        scope_grgb(x, grred, grgreen, grblue);
-        scope_frgb(x, fgred, fggreen, fgblue);
-        scope_resize(x, width, height);
-        canvas_dirty(x->x_canvas, 1);
+    if(x->x_width != width || x->x_height != height || x->x_bgrgb[0] != bgred || x->x_bgrgb[1] != bggreen
+       || x->x_bgrgb[2] != bgblue || x->x_grrgb[0] != grred || x->x_grrgb[1] != grgreen || x->x_grrgb[2] != grblue
+       || x->x_fgrgb[0] != fgred || x->x_fgrgb[1] != fggreen || x->x_fgrgb[2] != fgblue){
+            scope_brgb(x, bgred, bggreen, bgblue);
+            scope_grgb(x, grred, grgreen, grblue);
+            scope_frgb(x, fgred, fggreen, fgblue);
+            scope_resize(x, width, height);
+            canvas_dirty(x->x_canvas, 1);
     }
 }
 
-static void *scope_new(t_symbol *s, int argc, t_atom *argv){
+static void *scope_new(t_symbol *s, int ac, t_atom *av){
     s = NULL;
     t_scope *x = (t_scope *)pd_new(scope_class);
     t_scopehandle *sh;
     char hbuf[64];
-    x->x_canvas = canvas_getcurrent();
-    x->x_glist = (t_glist *)x->x_canvas;
+    x->x_glist = canvas_getcurrent();
+    x->x_canvas = 0;
     x->x_bufsize = 0;
     int argnum = 0;
     t_float width = SCOPE_DEFWIDTH;
@@ -1588,227 +1658,210 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv){
     t_float grgreen = (t_float)SCOPE_DEFGRGREEN;
     t_float grblue = (t_float)SCOPE_DEFGRBLUE;
 // default to using rgb but if color version is specified, set flags fcolset, bcolset, gcolset
-    int fcolset = 0;
-    int bcolset = 0;
-    int gcolset = 0;
-    t_float fcred = (t_float)0;
-    t_float fcgreen = (t_float)0;
-    t_float fcblue = (t_float)0;
-    t_float bcred = (t_float)0;
-    t_float bcgreen = (t_float)0;
-    t_float bcblue = (t_float)0;
-    t_float gcred = (t_float)0;
-    t_float gcgreen = (t_float)0;
-    t_float gcblue = (t_float)0;
-    while(argc > 0){
-        if (argv -> a_type == A_FLOAT){
-            t_float argval = atom_getfloatarg(0, argc, argv);
+    int fcolset = 0, bcolset = 0, gcolset = 0;
+    t_float fcred = (t_float)SCOPE_MINCOLOR;
+    t_float fcgreen = (t_float)SCOPE_MINCOLOR;
+    t_float fcblue = (t_float)SCOPE_MINCOLOR;
+    t_float bcred = (t_float)SCOPE_MINCOLOR;
+    t_float bcgreen = (t_float)SCOPE_MINCOLOR;
+    t_float bcblue = (t_float)SCOPE_MINCOLOR;
+    t_float gcred = (t_float)SCOPE_MINCOLOR;
+    t_float gcgreen = (t_float)SCOPE_MINCOLOR;
+    t_float gcblue = (t_float)SCOPE_MINCOLOR;
+    while(ac > 0){
+        if(av -> a_type == A_FLOAT){
+            t_float aval = atom_getfloatarg(0, ac, av);
             switch(argnum){
                 case 0:
-                    width = argval;
+                    width = aval;
                     break;
                 case 1:
-                    height = argval;
+                    height = aval;
                     break;
                 case 2:
-                    period = argval;
+                    period = aval;
                     break;
                 case 3:
                     break;
                 case 4:
-                    bufsize = argval;
+                    bufsize = aval;
                     break;
                 case 5:
-                    minval = argval;
+                    minval = aval;
                     break;
                 case 6:
-                    maxval = argval;
+                    maxval = aval;
                     break;
                 case 7:
-                    delay = argval;
+                    delay = aval;
                     break;
                 case 8:
                     break;
                 case 9:
-                    trigger = argval;
+                    trigger = aval;
                     break;
                 case 10:
-                    triglevel = argval;
+                    triglevel = aval;
                     break;
                 case 11:
-                    fgred = argval;
+                    fgred = aval;
                     break;
                 case 12:
-                    fggreen = argval;
+                    fggreen = aval;
                     break;
                 case 13:
-                    fgblue = argval;
+                    fgblue = aval;
                     break;
                 case 14:
-                    bgred = argval;
+                    bgred = aval;
                     break;
                 case 15:
-                    bggreen = argval;
+                    bggreen = aval;
                     break;
                 case 16:
-                    bgblue = argval;
+                    bgblue = aval;
                     break;
                 case 17:
-                    grred = argval;
+                    grred = aval;
                     break;
                 case 18:
-                    grgreen = argval;
+                    grgreen = aval;
                     break;
                 case 19:
-                    grblue = argval;
+                    grblue = aval;
                     break;
                 default:
                     break;
             };
             argnum++;
-            argc--;
-            argv++;
+            ac--;
+            av++;
         }
-        else if (argv -> a_type == A_SYMBOL){
-            t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
-            if (strcmp(curarg->s_name, "@calccount") == 0){
-                if (argc >= 2){
-                    period = atom_getfloatarg(1, argc, argv);
-                    argc-=2;
-                    argv+=2;
+        else if(av->a_type == A_SYMBOL){
+            t_symbol *curarg = atom_getsymbolarg(0, ac, av);
+            if(strcmp(curarg->s_name, "@calccount") == 0){
+                if(ac >= 2){
+                    period = atom_getfloatarg(1, ac, av);
+                    ac-=2;
+                    av+=2;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
-            else if (strcmp(curarg->s_name, "@bufsize") == 0){
-                if (argc >= 2){
-                    bufsize = atom_getfloatarg(1, argc, argv);
-                    argc-=2;
-                    argv+=2;
+            else if(strcmp(curarg->s_name, "@bufsize") == 0){
+                if(ac >= 2){
+                    bufsize = atom_getfloatarg(1, ac, av);
+                    ac-=2;
+                    av+=2;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
             else if (strcmp(curarg->s_name, "@range") == 0){
-                if (argc >= 3){
-                    minval = atom_getfloatarg(1, argc, argv);
-                    maxval = atom_getfloatarg(2, argc, argv);
-                    argc-=3;
-                    argv+=3;
+                if (ac >= 3){
+                    minval = atom_getfloatarg(1, ac, av);
+                    maxval = atom_getfloatarg(2, ac, av);
+                    ac-=3;
+                    av+=3;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
             else if (strcmp(curarg->s_name, "@delay") == 0){
-                if (argc >= 2){
-                    delay = atom_getfloatarg(1, argc, argv);
-                    argc-=2;
-                    argv+=2;
+                if (ac >= 2){
+                    delay = atom_getfloatarg(1, ac, av);
+                    ac-=2;
+                    av+=2;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
             else if (strcmp(curarg->s_name, "@drawstyle") == 0){
-                if (argc >= 2){
-                    drawstyle = atom_getfloatarg(1, argc, argv);
-                    argc-=2;
-                    argv+=2;
+                if(ac >= 2){
+                    drawstyle = atom_getfloatarg(1, ac, av);
+                    ac-=2;
+                    av+=2;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
-            else if (strcmp(curarg->s_name, "@trigger") == 0){
-                if (argc >= 2){
-                    trigger = atom_getfloatarg(1, argc, argv);
-                    argc-=2;
-                    argv+=2;
+            else if(strcmp(curarg->s_name, "@trigger") == 0){
+                if(ac >= 2){
+                    trigger = atom_getfloatarg(1, ac, av);
+                    ac-=2;
+                    av+=2;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
             else if (strcmp(curarg->s_name, "@triglevel") == 0){
-                if (argc >= 2){
-                    triglevel = atom_getfloatarg(1, argc, argv);
-                    argc-=2;
-                    argv+=2;
+                if(ac >= 2){
+                    triglevel = atom_getfloatarg(1, ac, av);
+                    ac-=2;
+                    av+=2;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
-            else if (strcmp(curarg->s_name, "@frgb") == 0){
-                if (argc >= 4){
-                    fgred = atom_getfloatarg(1, argc, argv);
-                    fggreen = atom_getfloatarg(2, argc, argv);
-                    fgblue = atom_getfloatarg(3, argc, argv);
-                    argc-=4;
-                    argv+=4;
+            else if(strcmp(curarg->s_name, "@frgb") == 0){
+                if(ac >= 4){
+                    fgred = atom_getfloatarg(1, ac, av);
+                    fggreen = atom_getfloatarg(2, ac, av);
+                    fgblue = atom_getfloatarg(3, ac, av);
+                    ac-=4;
+                    av+=4;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
             else if (strcmp(curarg->s_name, "@brgb") == 0){
-                if (argc >= 4){
-                    bgred = atom_getfloatarg(1, argc, argv);
-                    bggreen = atom_getfloatarg(2, argc, argv);
-                    bgblue = atom_getfloatarg(3, argc, argv);
-                    argc-=4;
-                    argv+=4;
+                if(ac >= 4){
+                    bgred = atom_getfloatarg(1, ac, av);
+                    bggreen = atom_getfloatarg(2, ac, av);
+                    bgblue = atom_getfloatarg(3, ac, av);
+                    ac-=4;
+                    av+=4;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
-            else if (strcmp(curarg->s_name, "@grgb") == 0){
-                if (argc >= 4){
-                    grred = atom_getfloatarg(1, argc, argv);
-                    grgreen = atom_getfloatarg(2, argc, argv);
-                    grblue = atom_getfloatarg(3, argc, argv);
-                    argc-=4;
-                    argv+=4;
+            else if(strcmp(curarg->s_name, "@grgb") == 0){
+                if(ac >= 4){
+                    grred = atom_getfloatarg(1, ac, av);
+                    grgreen = atom_getfloatarg(2, ac, av);
+                    grblue = atom_getfloatarg(3, ac, av);
+                    ac-=4;
+                    av+=4;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
-            else if (strcmp(curarg->s_name, "@fgcolor") == 0){
-                if (argc >= 4){
+            else if(strcmp(curarg->s_name, "@fgcolor") == 0){
+                if(ac >= 4){
                     fcolset = 1;
-                    fcred = atom_getfloatarg(1, argc, argv);
-                    fcgreen = atom_getfloatarg(2, argc, argv);
-                    fcblue = atom_getfloatarg(3, argc, argv);
-                    argc-=4;
-                    argv+=4;
+                    fcred = atom_getfloatarg(1, ac, av);
+                    fcgreen = atom_getfloatarg(2, ac, av);
+                    fcblue = atom_getfloatarg(3, ac, av);
+                    ac-=4;
+                    av+=4;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
-            else if (strcmp(curarg->s_name, "@bgcolor") == 0){
-                if (argc >= 4){
+            else if(strcmp(curarg->s_name, "@bgcolor") == 0){
+                if(ac >= 4){
                     bcolset = 1;
-                    bcred = atom_getfloatarg(1, argc, argv);
-                    bcgreen = atom_getfloatarg(2, argc, argv);
-                    bcblue = atom_getfloatarg(3, argc, argv);
-                    argc-=4;
-                    argv+=4;
+                    bcred = atom_getfloatarg(1, ac, av);
+                    bcgreen = atom_getfloatarg(2, ac, av);
+                    bcblue = atom_getfloatarg(3, ac, av);
+                    ac-=4;
+                    av+=4;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
             else if (strcmp(curarg->s_name, "@gridcolor") == 0){
-                if (argc >= 4){
+                if(ac >= 4){
                     gcolset = 1;
-                    gcred = atom_getfloatarg(1, argc, argv);
-                    gcgreen = atom_getfloatarg(2, argc, argv);
-                    gcblue = atom_getfloatarg(3, argc, argv);
-                    argc-=4;
-                    argv+=4;
+                    gcred = atom_getfloatarg(1, ac, av);
+                    gcgreen = atom_getfloatarg(2, ac, av);
+                    gcblue = atom_getfloatarg(3, ac, av);
+                    ac-=4;
+                    av+=4;
                 }
-                else
-                    goto errstate;
+                else goto errstate;
             }
-            else
-                goto errstate;
+            else goto errstate;
         }
-        else
-            goto errstate;
+        else goto errstate;
     }
     x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     scope_dim(x, width, height);
@@ -1823,18 +1876,19 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv){
     scope_frgb(x, fgred, fggreen, fgblue);
     scope_brgb(x, bgred, bggreen, bgblue);
     scope_grgb(x, grred, grgreen, grblue);
-    if (fcolset) // see if we're calling the color versions
+    if(fcolset) // see if we're calling the color versions
         scope_fgcolor(x, fcred, fcgreen, fcblue);
-    if (bcolset)
+    if(bcolset)
         scope_bgcolor(x, bcred, bcgreen, bcblue);
-    if (gcolset)
+    if(gcolset)
         scope_gridcolor(x, gcred, gcgreen, gcblue);
     sprintf(x->x_tag, "all%lx", (unsigned long)x);
     sprintf(x->x_bgtag, "bg%lx", (unsigned long)x);
     sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
     sprintf(x->x_fgtag, "fg%lx", (unsigned long)x);
     sprintf(x->x_margintag, "ma%lx", (unsigned long)x);
-    x->x_xymode = 0;
+    x->x_xymode = x->x_lastxymode = x->x_init = 0;
+    x->x_ksr = sys_getsr() * 0.001;  // redundant
     x->x_frozen = 0;
     x->x_clock = clock_new(x, (t_method)scope_tick);
     scope_clear(x, 0);
@@ -1845,7 +1899,7 @@ static void *scope_new(t_symbol *s, int argc, t_atom *argv){
     pd_bind(x->x_handle, sh->h_bindsym = gensym(hbuf));
     sprintf(sh->h_outlinetag, "h%lx", (unsigned long)sh);
     sh->h_dragon = 0;
-    return (x);
+    return(x);
 errstate:
     pd_error(x, "scope~: improper creation arguments");
     return NULL;
@@ -1858,7 +1912,7 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
 //    class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // backwards compatible
     class_addmethod(scope_class, nullfn, gensym("signal"), 0);
     class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), A_CANT, 0);
-    class_addfloat(scope_class, (t_method)scope_period);
+    class_addfloat(scope_class, (t_method)scope_float);
     class_addmethod(scope_class, (t_method)scope_period, gensym("calccount"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bufsize, gensym("bufsize"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_resize, gensym("dim"), A_FLOAT, A_FLOAT, 0);
@@ -1872,28 +1926,23 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     class_addmethod(scope_class, (t_method)scope_grgb, gensym("grgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_fgcolor, gensym("fgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_gridcolor, gensym("gridcolor"),
-                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_gridcolor, gensym("gridcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_dialog, gensym("dialog"), A_GIMME, 0);
-    class_addmethod(scope_class, (t_method)scope_click, gensym("click"), A_FLOAT,
-                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_motion, gensym("motion"), 0);
     class_addmethod(scope_class, (t_method)scope_resize, gensym("resize"), A_FLOAT, A_FLOAT, 0);
     class_setwidget(scope_class, &scope_widgetbehavior);
     class_setsavefn(scope_class, scope_save);
     class_setpropertiesfn(scope_class, scope_properties);
-    
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0, sizeof(t_scopehandle), CLASS_PD, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook, gensym("_click"), A_FLOAT, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
 //    class_sethelpsymbol(scope_class, gensym("scope~"));
 /* #ifdef PDL2ORK // extra methods and widgetbehavior for purr data
-    class_addmethod(scope_class, (t_method)scope_click_for_resizing,
-                    gensym("_click"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_motion_for_resizing,
-                    gensym("_motion"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_click_for_resizing, gensym("_click"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_motion_for_resizing, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     scope_widgetbehavior.w_displacefnwtag = scope_displace_wtag;
-#else // vanilla requires an avalanche of tcl code injections */
+#else // vanilla's properties dialog */
     #include "scope_dialog.c"
 // #endif
 }
