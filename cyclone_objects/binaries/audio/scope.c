@@ -48,10 +48,6 @@
 #define SCOPE_TRIGDOWNMODE  2
 #define SCOPE_DEFTRIGMODE   SCOPE_TRIGLINEMODE
 #define SCOPE_DEFTRIGLEVEL  0.
-#define SCOPE_MINRGB        0
-#define SCOPE_MAXRGB        255
-#define SCOPE_MINCOLOR      0.
-#define SCOPE_MAXCOLOR      1.
 #define SCOPE_DEFFGRED      205
 #define SCOPE_DEFFGGREEN    229
 #define SCOPE_DEFFGBLUE     232
@@ -1005,168 +1001,64 @@ static void scope_properties(t_gobj *z, t_glist *owner){
 
 // begin pd vanilla GUI code */
 
-static void scope_fgcolor(t_scope *x, t_float fr, t_float fg, t_float fb){ //scale is 0-1
-    if (fr < SCOPE_MINCOLOR)
-        fr = SCOPE_MINCOLOR;
-    else if (fr > SCOPE_MAXCOLOR)
-        fr = SCOPE_MAXCOLOR;
-    if (fg < SCOPE_MINCOLOR)
-        fg = SCOPE_MINCOLOR;
-    else if (fg > SCOPE_MAXCOLOR)
-        fg = SCOPE_MAXCOLOR;
-    if (fb < SCOPE_MINCOLOR)
-        fb = SCOPE_MINCOLOR;
-    else if (fb > SCOPE_MAXCOLOR)
-        fb = SCOPE_MAXCOLOR;
-// scaling to 255 and rounding
-    fr *= (float)SCOPE_MAXRGB;
-    fr = round(fr);
-    fg *= (float)SCOPE_MAXRGB;
-    fg = round(fg);
-    fb *= (float)SCOPE_MAXRGB;
-    fb = round(fb);
-    t_canvas *cv;
-    x->x_fgrgb[0] = (int)fr;
-    x->x_fgrgb[1] = (int)fg;
-    x->x_fgrgb[2] = (int)fb;
-    cv = scope_isvisible(x);
-    if(cv){
+static void scope_fgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-1
+    x->x_fgrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
+    x->x_fgrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
+    x->x_fgrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    t_canvas *cv = scope_isvisible(x);
+    if(cv)
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
-    }
+            cv, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
 }
 
-static void scope_frgb(t_scope *x, t_float fr, t_float fg, t_float fb){   //scale is 0-255
-    if (fr < SCOPE_MINRGB)
-        fr = SCOPE_MINRGB;
-    else if (fr > SCOPE_MAXRGB)
-        fr = SCOPE_MAXRGB;
-    if (fg < SCOPE_MINRGB)
-        fg = SCOPE_MINRGB;
-    else if (fg > SCOPE_MAXRGB)
-        fg = SCOPE_MAXRGB;
-    if (fb < SCOPE_MINRGB)
-        fb = SCOPE_MINRGB;
-    else if (fb > SCOPE_MAXRGB)
-        fb = SCOPE_MAXRGB;
-    t_canvas *cv;
-    x->x_fgrgb[0] = (int)fr;
-    x->x_fgrgb[1] = (int)fg;
-    x->x_fgrgb[2] = (int)fb;
-    cv = scope_isvisible(x);
-    if (cv){
+static void scope_frgb(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-255
+    x->x_fgrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
+    x->x_fgrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
+    x->x_fgrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    t_canvas *cv = scope_isvisible(x);
+    if(cv)
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
-    }
+            cv, x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
 }
 
-static void scope_bgcolor(t_scope *x, t_float br, t_float bg, t_float bb){   //scale is 0-1
-    if (br < SCOPE_MINCOLOR)
-        br = SCOPE_MINCOLOR;
-    else if (br > SCOPE_MAXCOLOR)
-        br = SCOPE_MAXCOLOR;
-    if (bg < SCOPE_MINCOLOR)
-        bg = SCOPE_MINCOLOR;
-    else if (bg > SCOPE_MAXCOLOR)
-        bg = SCOPE_MAXCOLOR;
-    if (bb < SCOPE_MINCOLOR)
-        bb = SCOPE_MINCOLOR;
-    else if (bb > SCOPE_MAXCOLOR)
-        bb = SCOPE_MAXCOLOR;
-// scaling to 255 and rounding
-    br *= (float)SCOPE_MAXRGB;
-    br = round(br);
-    bg *= (float)SCOPE_MAXRGB;
-    bg = round(bg);
-    bb *= (float)SCOPE_MAXRGB;
-    bb = round(bb);
-    t_canvas *cv;
-    x->x_bgrgb[0] = (int)br;
-    x->x_bgrgb[1] = (int)bg;
-    x->x_bgrgb[2] = (int)bb;
-    cv = scope_isvisible(x);
-    if (cv){
+static void scope_bgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-1
+    x->x_bgrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
+    x->x_bgrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
+    x->x_bgrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    t_canvas *cv = scope_isvisible(x);
+    if(cv)
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
-    }
+            cv, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
 }
 
-static void scope_brgb(t_scope *x, t_float br, t_float bg, t_float bb){ // scale is 0-255
-    if (br < SCOPE_MINRGB)
-        br = SCOPE_MINRGB;
-    else if (br > SCOPE_MAXRGB)
-        br = SCOPE_MAXRGB;
-    if (bg < SCOPE_MINRGB)
-        bg = SCOPE_MINRGB;
-    else if (bg > SCOPE_MAXRGB)
-        bg = SCOPE_MAXRGB;
-    if (bb < SCOPE_MINRGB)
-        bb = SCOPE_MINRGB;
-    else if (bb > SCOPE_MAXRGB)
-        bb = SCOPE_MAXRGB;
-    t_canvas *cv;
-    x->x_bgrgb[0] = (int)br;
-    x->x_bgrgb[1] = (int)bg;
-    x->x_bgrgb[2] = (int)bb;
-    cv = scope_isvisible(x);
-    if (cv){
+static void scope_brgb(t_scope *x, t_float r, t_float g, t_float b){ // scale is 0-255
+    x->x_bgrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
+    x->x_bgrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
+    x->x_bgrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    t_canvas *cv = scope_isvisible(x);
+    if(cv)
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
-    }
+            cv, x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
 }
 
-static void scope_gridcolor(t_scope *x, t_float gr, t_float gg, t_float gb){   //scale is 0-1
-    if (gr < SCOPE_MINCOLOR)
-        gr = SCOPE_MINCOLOR;
-    else if (gr > SCOPE_MAXCOLOR)
-        gr = SCOPE_MAXCOLOR;
-    if (gg < SCOPE_MINCOLOR)
-        gg = SCOPE_MINCOLOR;
-    else if (gg > SCOPE_MAXCOLOR)
-        gg = SCOPE_MAXCOLOR;
-    if (gb < SCOPE_MINCOLOR)
-        gb = SCOPE_MINCOLOR;
-    else if (gb > SCOPE_MAXCOLOR)
-        gb = SCOPE_MAXCOLOR;
-// scaling to 255 and rounding
-    gr *= (float)SCOPE_MAXRGB;
-    gr = round(gr);
-    gg *= (float)SCOPE_MAXRGB;
-    gg = round(gg);
-    gb *= (float)SCOPE_MAXRGB;
-    gb = round(gb);
-    t_canvas *cv;
-    x->x_grrgb[0] = (int)gr;
-    x->x_grrgb[1] = (int)gg;
-    x->x_grrgb[2] = (int)gb;
-    cv = scope_isvisible(x);
-    if (cv)
+static void scope_gridcolor(t_scope *x, t_float r, t_float g, t_float b){   //scale is 0-1
+    x->x_grrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
+    x->x_grrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
+    x->x_grrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    t_canvas *cv = scope_isvisible(x);
+    if(cv)
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+            cv, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
 }
 
-static void scope_grgb(t_scope *x, t_float gr, t_float gg, t_float gb){   //scale 0-255
-    if (gr < SCOPE_MINRGB)
-        gr = SCOPE_MINRGB;
-    else if (gr > SCOPE_MAXRGB)
-        gr = SCOPE_MAXRGB;
-    if (gg < SCOPE_MINRGB)
-        gg = SCOPE_MINRGB;
-    else if (gg > SCOPE_MAXRGB)
-        gg = SCOPE_MAXRGB;
-    if (gb < SCOPE_MINRGB)
-        gb = SCOPE_MINRGB;
-    else if (gb > SCOPE_MAXRGB)
-        gb = SCOPE_MAXRGB;
-    t_canvas *cv;
-    x->x_grrgb[0]   = (int)gr;
-    x->x_grrgb[1] = (int)gg;
-    x->x_grrgb[2]  = (int)gb;
-    cv = scope_isvisible(x);
-    if (cv){
+static void scope_grgb(t_scope *x, t_float r, t_float g, t_float b){   //scale 0-255
+    x->x_grrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
+    x->x_grrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
+    x->x_grrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    t_canvas *cv = scope_isvisible(x);
+    if(cv)
         sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-                 cv, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
-    }
+            cv, x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
 }
 
 static void scope_displace(t_gobj *z, t_glist *glist, int dx, int dy){
@@ -1637,37 +1529,31 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     x->x_canvas = 0;
     x->x_bufsize = 0;
     int argnum = 0;
-    t_float width = SCOPE_DEFWIDTH;
-    t_float height = SCOPE_DEFHEIGHT;
-    t_float period = (t_float)SCOPE_DEFPERIOD;
-    t_float bufsize = (t_float)SCOPE_DEFBUFSIZE;
+    float width = SCOPE_DEFWIDTH;
+    float height = SCOPE_DEFHEIGHT;
+    float period = (t_float)SCOPE_DEFPERIOD;
+    float bufsize = (t_float)SCOPE_DEFBUFSIZE;
     x->x_lastbufsize = (int)bufsize;
-    t_float minval = (t_float)SCOPE_DEFMINVAL;
-    t_float maxval = (t_float)SCOPE_DEFMAXVAL;
-    t_float delay = (t_float)SCOPE_DEFDELAY;
-    t_float drawstyle = (t_float)SCOPE_DEFDRAWSTYLE;
-    t_float trigger = (t_float)SCOPE_DEFTRIGMODE;
-    t_float triglevel = (t_float)SCOPE_DEFTRIGLEVEL;
-    t_float fgred = (t_float)SCOPE_DEFFGRED;
-    t_float fggreen = (t_float)SCOPE_DEFFGGREEN;
-    t_float fgblue = (t_float)SCOPE_DEFFGBLUE;
-    t_float bgred = (t_float)SCOPE_DEFBGRED;
-    t_float bggreen = (t_float)SCOPE_DEFBGGREEN;
-    t_float bgblue = (t_float)SCOPE_DEFBGBLUE;
-    t_float grred = (t_float)SCOPE_DEFGRRED;
-    t_float grgreen = (t_float)SCOPE_DEFGRGREEN;
-    t_float grblue = (t_float)SCOPE_DEFGRBLUE;
+    float minval = (t_float)SCOPE_DEFMINVAL;
+    float maxval = (t_float)SCOPE_DEFMAXVAL;
+    float delay = (t_float)SCOPE_DEFDELAY;
+    float drawstyle = (t_float)SCOPE_DEFDRAWSTYLE;
+    float trigger = (t_float)SCOPE_DEFTRIGMODE;
+    float triglevel = (t_float)SCOPE_DEFTRIGLEVEL;
+    float fgred = (t_float)SCOPE_DEFFGRED;
+    float fggreen = (t_float)SCOPE_DEFFGGREEN;
+    float fgblue = (t_float)SCOPE_DEFFGBLUE;
+    float bgred = (t_float)SCOPE_DEFBGRED;
+    float bggreen = (t_float)SCOPE_DEFBGGREEN;
+    float bgblue = (t_float)SCOPE_DEFBGBLUE;
+    float grred = (t_float)SCOPE_DEFGRRED;
+    float grgreen = (t_float)SCOPE_DEFGRGREEN;
+    float grblue = (t_float)SCOPE_DEFGRBLUE;
 // default to using rgb but if color version is specified, set flags fcolset, bcolset, gcolset
     int fcolset = 0, bcolset = 0, gcolset = 0;
-    t_float fcred = (t_float)SCOPE_MINCOLOR;
-    t_float fcgreen = (t_float)SCOPE_MINCOLOR;
-    t_float fcblue = (t_float)SCOPE_MINCOLOR;
-    t_float bcred = (t_float)SCOPE_MINCOLOR;
-    t_float bcgreen = (t_float)SCOPE_MINCOLOR;
-    t_float bcblue = (t_float)SCOPE_MINCOLOR;
-    t_float gcred = (t_float)SCOPE_MINCOLOR;
-    t_float gcgreen = (t_float)SCOPE_MINCOLOR;
-    t_float gcblue = (t_float)SCOPE_MINCOLOR;
+    float fcred = 0., fcgreen = 0., fcblue = 0.;
+    float bcred = 0., bcgreen = 0., bcblue = 0.;
+    float gcred = 0., gcgreen = 0., gcblue = 0.;
     while(ac > 0){
         if(av -> a_type == A_FLOAT){
             t_float aval = atom_getfloatarg(0, ac, av);
