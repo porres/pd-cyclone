@@ -106,118 +106,7 @@ typedef struct _scopehandle{
 
 static t_class *scope_class, *scopehandle_class;
 
-static void scope_clear(t_scope *x, int withdelay){
-    x->x_precount = (withdelay ? (int)(x->x_delay * x->x_ksr) : 0);
-}
-
-static void scope_bufsize(t_scope *x, t_float bufsz){
-    if(bufsz < SCOPE_MINBUFSIZE)
-        x->x_bufsize = SCOPE_MINBUFSIZE;
-    else if(bufsz > SCOPE_MAXBUFSIZE)
-        x->x_bufsize = SCOPE_MAXBUFSIZE;
-    else
-        x->x_bufsize = bufsz;
-    pd_float((t_pd *)x->x_rightinlet, x->x_bufsize);
-    x->x_phase = 0;
-    x->x_bufphase = 0;
-    scope_clear(x, 0);
-}
-
-static void scope_period(t_scope *x, t_float f){
-    int period = f < 2 ? 2 : f > 8192 ? 8192 : (int)f;
-    if(x->x_period != period){
-        x->x_period = period;
-        x->x_phase = 0;
-        x->x_bufphase = 0;
-        scope_clear(x, 0);
-    }
-}
-
-static void scope_range(t_scope *x, t_float min, t_float max){
-    t_float minval = min;
-    t_float maxval = max;
-    if(minval < maxval){ // swapping, ignoring if equal
-        x->x_minval = minval;
-        x->x_maxval = maxval;
-    }
-    else{
-        x->x_minval = maxval;
-        x->x_maxval = minval;
-    }
-}
-
-static void scope_delay(t_scope *x, t_float f){
-    x->x_delay = f < 0 ? 0 : f;
-}
-
-static void scope_drawstyle(t_scope *x, t_float drawstyle){
-    x->x_drawstyle = (int)(drawstyle != 0);
-}
-
-static void scope_trigger(t_scope *x, t_float trig){
-    x->x_trigmode = trig < 0 ? 0 : trig > 2 ? 2 : (int)trig;
-    if(x->x_trigmode == 0) // no trigger
-        x->x_retrigger = 0;
-}
-
-static void scope_triglevel(t_scope *x, t_float f){
-    x->x_triglevel = f;
-}
-
-static void scope_fgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-1
-    x->x_fgrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
-    x->x_fgrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
-    x->x_fgrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
-    if(glist_isvisible(x->x_glist))
-        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            glist_getcanvas(x->x_glist), x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
-}
-
-static void scope_frgb(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-255
-    x->x_fgrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
-    x->x_fgrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
-    x->x_fgrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
-    if(glist_isvisible(x->x_glist))
-        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            glist_getcanvas(x->x_glist), x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
-}
-
-static void scope_bgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale: 0-1
-    x->x_bgrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
-    x->x_bgrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
-    x->x_bgrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
-    if(glist_isvisible(x->x_glist))
-        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            glist_getcanvas(x->x_glist), x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
-}
-
-static void scope_brgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0-255
-    x->x_bgrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
-    x->x_bgrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
-    x->x_bgrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
-    if(glist_isvisible(x->x_glist))
-        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            glist_getcanvas(x->x_glist), x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
-}
-
-static void scope_gridcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale: 0-1
-    x->x_grrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
-    x->x_grrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
-    x->x_grrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
-    if(glist_isvisible(x->x_glist))
-        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            glist_getcanvas(x->x_glist), x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
-}
-
-static void scope_grgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0-255
-    x->x_grrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
-    x->x_grrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
-    x->x_grrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
-    if(glist_isvisible(x->x_glist))
-        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
-            glist_getcanvas(x->x_glist), x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
-}
-
+//------------------ WIDGET -----------------------------------------------------------------
 static void scope_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp2, int *yp2){
     t_scope *x = (t_scope *)z;
     float x1, y1, x2, y2;
@@ -502,15 +391,17 @@ static int scope_click(t_gobj *z, t_glist *glist, int xpix, int ypix, int shift,
     return(1);
 }
 
-static void scope_save(t_gobj *z, t_binbuf *b){
-    t_scope *x = (t_scope *)z;
-    t_text *t = (t_text *)x;
-    binbuf_addv(b, "ssiisiiiiiffiiifiiiiiiiiii;", gensym("#X"), gensym("obj"), (int)t->te_xpix,
-        (int)t->te_ypix, atom_getsymbol(binbuf_getvec(t->te_binbuf)), x->x_width/x->x_zoom,
-        x->x_height/x->x_zoom, x->x_period, 3, x->x_bufsize, x->x_minval, x->x_maxval, x->x_delay,
-        0, x->x_trigmode, x->x_triglevel, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2], x->x_bgrgb[0],
-        x->x_bgrgb[1], x->x_bgrgb[2], x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2], 0);
-}
+static t_widgetbehavior scope_widgetbehavior ={
+    scope_getrect,
+    scope_displace,
+    scope_select,
+    0, // activate
+    scope_delete,
+    scope_vis,
+    scope_click,
+};
+
+// -------------------------------------------------------------------------------------
 
 static void scope_tick(t_scope *x){
     if(glist_isvisible(x->x_glist)){
@@ -519,35 +410,7 @@ static void scope_tick(t_scope *x){
         if(!x->x_frozen && x->x_xymode)
                 scope_redraw(x, x->x_canvas);
     }
-    scope_clear(x, 1);
-}
-
-static void scope_resize(t_scope *x, t_float w, t_float h){
-    x->x_width  = (int)(w < SCOPE_MINSIZE ? SCOPE_MINSIZE : w);
-    x->x_height = (int)(h < SCOPE_MINSIZE ? SCOPE_MINSIZE : h);
-    if(glist_isvisible(x->x_glist)){
-        if(x->x_xymode)
-            scope_redraw(x, x->x_canvas);
-        scope_revis(x, x->x_canvas);
-        canvas_fixlinesfor(x->x_glist, (t_text *)x);
-    }
-}
-
-static void scope_dim(t_scope *x, t_float width, t_float height){
-    if(width < SCOPE_MINSIZE)
-        width = SCOPE_MINSIZE;
-    if(height < SCOPE_MINSIZE)
-        height = SCOPE_MINSIZE;
-    x->x_width = (int)width * x->x_zoom;
-    x->x_height = (int)height * x->x_zoom;
-}
-
-static void scope_zoom(t_scope *x, t_floatarg zoom){
-    float mul = (zoom == 1. ? 0.5 : 2.);
-    x->x_width = (int)((float)x->x_width * mul);
-    x->x_height = (int)((float)x->x_height * mul);
-    x->x_zoom = (int)zoom;
-    scope_resize(x, x->x_width, x->x_height);
+    x->x_precount = (int)(x->x_delay * x->x_ksr);
 }
 
 static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f){
@@ -588,6 +451,144 @@ static void scopehandle__motionhook(t_scopehandle *sh, t_floatarg f1, t_floatarg
     }
 }
 
+//------------------------------ METHODS ------------------------------------------------------------------
+static void scope_bufsize(t_scope *x, t_float bufsz){
+    if(bufsz < SCOPE_MINBUFSIZE)
+        x->x_bufsize = SCOPE_MINBUFSIZE;
+    else if(bufsz > SCOPE_MAXBUFSIZE)
+        x->x_bufsize = SCOPE_MAXBUFSIZE;
+    else
+        x->x_bufsize = bufsz;
+    pd_float((t_pd *)x->x_rightinlet, x->x_bufsize);
+    x->x_phase = 0;
+    x->x_bufphase = 0;
+    x->x_precount = 0;
+}
+
+static void scope_period(t_scope *x, t_float f){
+    int period = f < 2 ? 2 : f > 8192 ? 8192 : (int)f;
+    if(x->x_period != period){
+        x->x_period = period;
+        x->x_phase = 0;
+        x->x_bufphase = 0;
+        x->x_precount = 0;
+    }
+}
+
+static void scope_range(t_scope *x, t_float min, t_float max){
+    t_float minval = min;
+    t_float maxval = max;
+    if(minval < maxval){ // swapping, ignoring if equal
+        x->x_minval = minval;
+        x->x_maxval = maxval;
+    }
+    else{
+        x->x_minval = maxval;
+        x->x_maxval = minval;
+    }
+}
+
+static void scope_delay(t_scope *x, t_float f){
+    x->x_delay = f < 0 ? 0 : f;
+}
+
+static void scope_drawstyle(t_scope *x, t_float drawstyle){
+    x->x_drawstyle = (int)(drawstyle != 0);
+}
+
+static void scope_trigger(t_scope *x, t_float trig){
+    x->x_trigmode = trig < 0 ? 0 : trig > 2 ? 2 : (int)trig;
+    if(x->x_trigmode == 0) // no trigger
+        x->x_retrigger = 0;
+}
+
+static void scope_triglevel(t_scope *x, t_float f){
+    x->x_triglevel = f;
+}
+
+static void scope_fgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-1
+    x->x_fgrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
+    x->x_fgrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
+    x->x_fgrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    if(glist_isvisible(x->x_glist))
+        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+            glist_getcanvas(x->x_glist), x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
+}
+
+static void scope_frgb(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-255
+    x->x_fgrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
+    x->x_fgrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
+    x->x_fgrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    if(glist_isvisible(x->x_glist))
+        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+            glist_getcanvas(x->x_glist), x->x_fgtag, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2]);
+}
+
+static void scope_bgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale: 0-1
+    x->x_bgrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
+    x->x_bgrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
+    x->x_bgrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    if(glist_isvisible(x->x_glist))
+        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+            glist_getcanvas(x->x_glist), x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
+}
+
+static void scope_brgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0-255
+    x->x_bgrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
+    x->x_bgrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
+    x->x_bgrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    if(glist_isvisible(x->x_glist))
+        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+            glist_getcanvas(x->x_glist), x->x_bgtag, x->x_bgrgb[0], x->x_bgrgb[1], x->x_bgrgb[2]);
+}
+
+static void scope_gridcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale: 0-1
+    x->x_grrgb[0] = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
+    x->x_grrgb[1] = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
+    x->x_grrgb[2] = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    if(glist_isvisible(x->x_glist))
+        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+            glist_getcanvas(x->x_glist), x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+}
+
+static void scope_grgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0-255
+    x->x_grrgb[0] = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
+    x->x_grrgb[1] = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
+    x->x_grrgb[2] = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    if(glist_isvisible(x->x_glist))
+        sys_vgui(".x%lx.c itemconfigure %s -fill #%2.2x%2.2x%2.2x\n",
+            glist_getcanvas(x->x_glist), x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
+}
+
+static void scope_resize(t_scope *x, t_float w, t_float h){
+    x->x_width  = (int)(w < SCOPE_MINSIZE ? SCOPE_MINSIZE : w);
+    x->x_height = (int)(h < SCOPE_MINSIZE ? SCOPE_MINSIZE : h);
+    if(glist_isvisible(x->x_glist)){
+        if(x->x_xymode)
+            scope_redraw(x, x->x_canvas);
+        scope_revis(x, x->x_canvas);
+        canvas_fixlinesfor(x->x_glist, (t_text *)x);
+    }
+}
+
+static void scope_dim(t_scope *x, t_float width, t_float height){
+    if(width < SCOPE_MINSIZE)
+        width = SCOPE_MINSIZE;
+    if(height < SCOPE_MINSIZE)
+        height = SCOPE_MINSIZE;
+    x->x_width = (int)width * x->x_zoom;
+    x->x_height = (int)height * x->x_zoom;
+}
+
+static void scope_zoom(t_scope *x, t_floatarg zoom){
+    float mul = (zoom == 1. ? 0.5 : 2.);
+    x->x_width = (int)((float)x->x_width * mul);
+    x->x_height = (int)((float)x->x_height * mul);
+    x->x_zoom = (int)zoom;
+    scope_resize(x, x->x_width, x->x_height);
+}
+
+//------------------------------------------------------------
 static t_int *scope_perform(t_int *w){
     t_scope *x = (t_scope *)(w[1]);
     if(!x->x_xymode) // do nothing
@@ -773,7 +774,7 @@ static void scope_dsp(t_scope *x, t_signal **sp){
                 scope_drawfg(x, x->x_canvas, x1, y1, x2, y2);
             scope_drawmargins(x, x->x_canvas, x1, y1, x2, y2);
         }
-        scope_clear(x, 0);
+        x->x_precount = 0;
     }
     dsp_add(scope_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
@@ -787,15 +788,15 @@ static void scope_free(t_scope *x){
     }
 }
 
-static t_widgetbehavior scope_widgetbehavior ={
-    scope_getrect,
-    scope_displace,
-    scope_select,
-    0, // activate
-    scope_delete,
-    scope_vis,
-    scope_click,
-};
+static void scope_save(t_gobj *z, t_binbuf *b){
+    t_scope *x = (t_scope *)z;
+    t_text *t = (t_text *)x;
+    binbuf_addv(b, "ssiisiiiiiffiiifiiiiiiiiii;", gensym("#X"), gensym("obj"), (int)t->te_xpix,
+        (int)t->te_ypix, atom_getsymbol(binbuf_getvec(t->te_binbuf)), x->x_width/x->x_zoom,
+        x->x_height/x->x_zoom, x->x_period, 3, x->x_bufsize, x->x_minval, x->x_maxval, x->x_delay,
+        0, x->x_trigmode, x->x_triglevel, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2], x->x_bgrgb[0],
+        x->x_bgrgb[1], x->x_bgrgb[2], x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2], 0);
+}
 
 static void scope_properties(t_gobj *z, t_glist *owner){
     owner = NULL;
@@ -978,25 +979,21 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                 default:
                     break;
             };
-            argnum++;
-            ac--;
-            av++;
+            argnum++, ac--, av++;
         }
         else if(av->a_type == A_SYMBOL){
             t_symbol *curarg = atom_getsymbolarg(0, ac, av);
             if(strcmp(curarg->s_name, "@calccount") == 0){
                 if(ac >= 2){
                     period = atom_getfloatarg(1, ac, av);
-                    ac-=2;
-                    av+=2;
+                    ac-=2, av+=2;
                 }
                 else goto errstate;
             }
             else if(strcmp(curarg->s_name, "@bufsize") == 0){
                 if(ac >= 2){
                     bufsize = atom_getfloatarg(1, ac, av);
-                    ac-=2;
-                    av+=2;
+                    ac-=2, av+=2;
                 }
                 else goto errstate;
             }
@@ -1004,40 +1001,35 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                 if(ac >= 3){
                     minval = atom_getfloatarg(1, ac, av);
                     maxval = atom_getfloatarg(2, ac, av);
-                    ac-=3;
-                    av+=3;
+                    ac-=3, av+=3;
                 }
                 else goto errstate;
             }
             else if(strcmp(curarg->s_name, "@delay") == 0){
                 if(ac >= 2){
                     delay = atom_getfloatarg(1, ac, av);
-                    ac-=2;
-                    av+=2;
+                    ac-=2, av+=2;
                 }
                 else goto errstate;
             }
             else if(strcmp(curarg->s_name, "@drawstyle") == 0){
                 if(ac >= 2){
                     drawstyle = atom_getfloatarg(1, ac, av);
-                    ac-=2;
-                    av+=2;
+                    ac-=2, av+=2;
                 }
                 else goto errstate;
             }
             else if(strcmp(curarg->s_name, "@trigger") == 0){
                 if(ac >= 2){
                     trigger = atom_getfloatarg(1, ac, av);
-                    ac-=2;
-                    av+=2;
+                    ac-=2, av+=2;
                 }
                 else goto errstate;
             }
             else if(strcmp(curarg->s_name, "@triglevel") == 0){
                 if(ac >= 2){
                     triglevel = atom_getfloatarg(1, ac, av);
-                    ac-=2;
-                    av+=2;
+                    ac-=2, av+=2;
                 }
                 else goto errstate;
             }
@@ -1046,8 +1038,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                     fgred = atom_getfloatarg(1, ac, av);
                     fggreen = atom_getfloatarg(2, ac, av);
                     fgblue = atom_getfloatarg(3, ac, av);
-                    ac-=4;
-                    av+=4;
+                    ac-=4, av+=4;
                 }
                 else goto errstate;
             }
@@ -1056,8 +1047,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                     bgred = atom_getfloatarg(1, ac, av);
                     bggreen = atom_getfloatarg(2, ac, av);
                     bgblue = atom_getfloatarg(3, ac, av);
-                    ac-=4;
-                    av+=4;
+                    ac-=4, av+=4;
                 }
                 else goto errstate;
             }
@@ -1066,8 +1056,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                     grred = atom_getfloatarg(1, ac, av);
                     grgreen = atom_getfloatarg(2, ac, av);
                     grblue = atom_getfloatarg(3, ac, av);
-                    ac-=4;
-                    av+=4;
+                    ac-=4, av+=4;
                 }
                 else goto errstate;
             }
@@ -1077,8 +1066,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                     fcred = atom_getfloatarg(1, ac, av);
                     fcgreen = atom_getfloatarg(2, ac, av);
                     fcblue = atom_getfloatarg(3, ac, av);
-                    ac-=4;
-                    av+=4;
+                    ac-=4, av+=4;
                 }
                 else goto errstate;
             }
@@ -1088,8 +1076,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                     bcred = atom_getfloatarg(1, ac, av);
                     bcgreen = atom_getfloatarg(2, ac, av);
                     bcblue = atom_getfloatarg(3, ac, av);
-                    ac-=4;
-                    av+=4;
+                    ac-=4, av+=4;
                 }
                 else goto errstate;
             }
@@ -1099,8 +1086,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                     gcred = atom_getfloatarg(1, ac, av);
                     gcgreen = atom_getfloatarg(2, ac, av);
                     gcblue = atom_getfloatarg(3, ac, av);
-                    ac-=4;
-                    av+=4;
+                    ac-=4, av+=4;
                 }
                 else goto errstate;
             }
@@ -1138,7 +1124,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     x->x_ksr = sys_getsr() * 0.001;  // redundant
     x->x_frozen = 0;
     x->x_clock = clock_new(x, (t_method)scope_tick);
-    scope_clear(x, 0);
+    x->x_precount = 0;
     x->x_handle = pd_new(scopehandle_class);
     sh = (t_scopehandle *)x->x_handle;
     sh->h_master = x;
