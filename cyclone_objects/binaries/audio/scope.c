@@ -71,7 +71,6 @@ typedef struct _scope{
     unsigned char   x_bgrgb[3];
     unsigned char   x_grrgb[3];
     int             x_xymode;
-    int             x_lastxymode;
     float           x_xbuffer[SCOPE_MAXBUFSIZE*4];
     float           x_ybuffer[SCOPE_MAXBUFSIZE*4];
     float           x_xbuflast[SCOPE_MAXBUFSIZE*4];
@@ -89,7 +88,6 @@ typedef struct _scope{
     float           x_curry;
     float           x_trigx;
     int             x_frozen;
-    int             x_init;
     int             x_zoom;
     t_clock        *x_clock;
     t_pd           *x_handle;
@@ -220,193 +218,6 @@ static void scope_grgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0
             glist_getcanvas(x->x_glist), x->x_gridtag, x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2]);
 }
 
-static t_int *scope_perform(t_int *w){
-    t_scope *x = (t_scope *)(w[1]);
-    int xymode = x->x_xymode;
-    if(!xymode) // do nothing
-        return(w+5);
-    int bufphase = x->x_bufphase;
-    int bufsize = (int)*x->x_signalscalar;
-    if(bufsize != x->x_bufsize){
-        scope_bufsize(x, bufsize);
-        bufsize = x->x_bufsize;
-    }
-    if(bufphase < bufsize){
-        int nblock = (int)(w[2]);
-        if(x->x_precount >= nblock)
-            x->x_precount -= nblock;
-        else{
-            t_float *in1 = (t_float *)(w[3]);
-            t_float *in2 = (t_float *)(w[4]);
-            t_float *in;
-            int phase = x->x_phase;
-            int period = x->x_period;
-            float freq = 1. / period;
-            float *bp1;
-            float *bp2;
-            float currx = x->x_currx;
-            float curry = x->x_curry;
-            if(x->x_precount > 0){
-                nblock -= x->x_precount;
-                in1 += x->x_precount;
-                in2 += x->x_precount;
-                phase = 0;
-                bufphase = 0;
-                x->x_precount = 0;
-            }
-            if(x->x_trigmode && (xymode == 1 || xymode == 2)){
-                if(xymode == 1)
-                    in = in1;
-                else
-                    in = in2;
-                while(x->x_retrigger){
-                    float triglevel = x->x_triglevel;
-                    if(x->x_trigmode == 1){ // Trigger Up
-                        if(x->x_trigx < triglevel){
-                            while(nblock--){
-                                if(*in >= triglevel){
-                                    x->x_retrigger = 0;
-                                    phase = 0;
-                                    bufphase = 0;
-                                    break;
-                                }
-                                else
-                                    in++;
-                            }
-                        }
-                        else{
-                            while(nblock--){
-                                if(*in++ < triglevel){
-                                    x->x_trigx = triglevel - 1.;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else{ // Trigger Down
-                        if(x->x_trigx > triglevel){
-                            while(nblock--){
-                                if(*in <= triglevel){
-                                    phase = 0;
-                                    bufphase = 0;
-                                    x->x_retrigger = 0;
-                                    break;
-                                }
-                                else
-                                    in++;
-                            }
-                        }
-                        else{
-                            while(nblock--){
-                                if(*in++ > triglevel){
-                                    x->x_trigx = triglevel + 1.;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if(nblock <= 0){
-                        x->x_bufphase = bufphase;
-                        x->x_phase = phase;
-                        return(w+5);
-                    }
-                }
-                if(xymode == 1)
-                    in1 = in;
-                else
-                    in2 = in;
-            }
-            else if(x->x_retrigger)
-                x->x_retrigger = 0;
-            while(nblock--){
-                bp1 = x->x_xbuffer + bufphase;
-                bp2 = x->x_ybuffer + bufphase;
-                if(phase){
-                    t_float f1 = *in1++;
-                    t_float f2 = *in2++;
-                    if(xymode == 1){ // CHECKED
-                        if(!x->x_drawstyle){
-                            if((currx<0 && (f1<currx || f1>-currx)) || (currx>0 && (f1>currx || f1<-currx)))
-                                currx = f1;
-                        }
-                        else{
-                            if(f1 < currx)
-                                currx = f1;
-                        }
-                        curry = 0.;
-                    }
-                    else if(xymode == 2){
-                        if(!x->x_drawstyle){
-                            if((curry<0 && (f2<curry || f2>-curry)) || (curry>0 && (f2>curry || f2<-curry)))
-                                curry = f2;
-                        }
-                        else{
-                            if(f2 < curry)
-                                curry = f2;
-                        }
-                        currx = 0.;
-                    }
-                    else{
-                        currx += f1;
-                        curry += f2;
-                    }
-                }
-                else{
-                    currx = *in1++;
-                    curry = *in2++;
-                }
-                if(currx != currx)
-                    currx = 0.;  // CHECKED NaNs bashed to zeros
-                if(curry != curry)
-                    curry = 0.;
-                if(++phase >= period){
-                    phase = 0;
-                    if(xymode == 3){
-                        currx *= freq;
-                        curry *= freq;
-                    }
-                    if(++bufphase >= bufsize){
-                        *bp1 = currx;
-                        *bp2 = curry;
-                        bufphase = 0;
-                        x->x_lastxymode = xymode;
-                        x->x_lastbufsize = bufsize;
-                        memcpy(x->x_xbuflast, x->x_xbuffer, bufsize * sizeof(*x->x_xbuffer));
-                        memcpy(x->x_ybuflast, x->x_ybuffer, bufsize * sizeof(*x->x_ybuffer));
-                        x->x_retrigger = (x->x_trigmode != 0);
-                        x->x_trigx = x->x_triglevel;
-                        clock_delay(x->x_clock, 0);
-                    }
-                    else{
-                        *bp1 = currx;
-                        *bp2 = curry;
-                    }
-                }
-            }
-            x->x_currx = currx;
-            x->x_curry = curry;
-            x->x_bufphase = bufphase;
-            x->x_phase = phase;
-        }
-    }
-    return(w+5);
-}
-
-static void scope_setxymode(t_scope *x, int xymode);
-
-static void scope_dsp(t_scope *x, t_signal **sp){
-    x->x_ksr = sp[0]->s_sr * 0.001;
-    int xfeeder, yfeeder;
-    xfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
-    yfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
-    if(!x->x_init){
-        x->x_init = 1;
-        x->x_lastxymode = xfeeder + 2 * yfeeder;
-    }
-    scope_setxymode(x, xfeeder + 2 * yfeeder);
-    dsp_add(scope_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
-}
-
 static void scope_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp2, int *yp2){
     t_scope *x = (t_scope *)z;
     float x1, y1, x2, y2;
@@ -464,27 +275,26 @@ static void scope_delete(t_gobj *z, t_glist *glist){
 
 // ----------------- DRAW --------------------------------------------------------
 static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2){
-    int i, xymode = x->x_lastxymode;
     float dx, dy, xx = 0, yy = 0, oldx, oldy, sc, xsc, ysc;
     float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
     int bufsize = x->x_lastbufsize;
-    if(xymode == 1){
+    if(x->x_xymode == 1){
         dx = (float)(x2 - x1) / (float)bufsize;
         oldx = x1;
         sc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
     }
-    else if(xymode == 2){
+    else if(x->x_xymode == 2){
         dy = (float)(y2 - y1) / (float)bufsize;
         oldy = y1;
         sc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
     }
-    else if(xymode == 3){
+    else if(x->x_xymode == 3){
         xsc = ((float)x->x_width - 2.) / (float)(x->x_maxval - x->x_minval);
         ysc = ((float)x->x_height - 2.) / (float)(x->x_maxval - x->x_minval);
     }
     sys_vgui(".x%lx.c create line \\\n", cv);
-    for (i = 0; i < bufsize; i++){
-        if(xymode == 1){
+    for(int i = 0; i < bufsize; i++){
+        if(x->x_xymode == 1){
             xx = oldx;
             yy = (y2 - 1) - sc * (*xbp++ - x->x_minval);
             if(yy > y2)
@@ -493,7 +303,7 @@ static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y
                 yy = y1;
             oldx += dx;
         }
-        else if(xymode == 2){
+        else if(x->x_xymode == 2){
             yy = oldy;
             xx = (x2 - 1) - sc * (*ybp++ - x->x_minval);
             if(xx > x2)
@@ -502,7 +312,7 @@ static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y
                 xx = x1;
             oldy += dy;
         }
-        else if(xymode == 3){
+        else if(x->x_xymode == 3){
             xx = x1 + xsc * (*xbp++ - x->x_minval);
             yy = y2 - ysc * (*ybp++ - x->x_minval);
             if(xx > x2)
@@ -547,7 +357,7 @@ static void scope_draw(t_scope *x, t_canvas *cv){
     int x1, y1, x2, y2;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     scope_drawbg(x, cv, x1, y1, x2, y2);
-    if(x->x_lastxymode)
+    if(x->x_xymode)
         scope_drawfg(x, cv, x1, y1, x2, y2);
     scope_drawmargins(x, cv, x1, y1, x2, y2);
 }
@@ -557,7 +367,7 @@ static void scope_redraw(t_scope *x, t_canvas *cv){
     int nleft = bufsize = x->x_lastbufsize;
     char chunk[32 * SCOPE_GUICHUNK];  // LATER estimate
     char *chunkp = chunk;
-    int x1, y1, x2, y2, xymode = x->x_lastxymode;
+    int x1, y1, x2, y2, xymode = x->x_xymode;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
     float dx, dy, xx, yy, oldx, oldy, sc, xsc, ysc;
     float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
@@ -667,12 +477,9 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis){
     if(vis){
         t_scopehandle *sh = (t_scopehandle *)x->x_handle;
         sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_canvas, (unsigned long)sh);
-        int xymode = x->x_xymode;
         int bufsize = x->x_bufsize;
-        x->x_xymode = x->x_lastxymode;
         x->x_bufsize = x->x_lastbufsize;
         scope_draw(x, x->x_canvas);
-        x->x_xymode = xymode;
         x->x_bufsize = bufsize;
     }
     else
@@ -703,21 +510,6 @@ static void scope_save(t_gobj *z, t_binbuf *b){
         x->x_height/x->x_zoom, x->x_period, 3, x->x_bufsize, x->x_minval, x->x_maxval, x->x_delay,
         0, x->x_trigmode, x->x_triglevel, x->x_fgrgb[0], x->x_fgrgb[1], x->x_fgrgb[2], x->x_bgrgb[0],
         x->x_bgrgb[1], x->x_bgrgb[2], x->x_grrgb[0], x->x_grrgb[1], x->x_grrgb[2], 0);
-}
-
-static void scope_setxymode(t_scope *x, int xymode){
-    if(xymode != x->x_xymode){
-        if(glist_isvisible(x->x_glist)){
-            sys_vgui(".x%lx.c delete %s %s\n", x->x_canvas, x->x_fgtag, x->x_margintag);
-            int x1, y1, x2, y2;
-            scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-            if(xymode)
-                scope_drawfg(x, x->x_canvas, x1, y1, x2, y2);
-            scope_drawmargins(x, x->x_canvas, x1, y1, x2, y2);
-        }
-        x->x_xymode = xymode;
-        scope_clear(x, 0);
-    }
 }
 
 static void scope_tick(t_scope *x){
@@ -794,6 +586,196 @@ static void scopehandle__motionhook(t_scopehandle *sh, t_floatarg f1, t_floatarg
             sh->h_dragy = dy;
         }
     }
+}
+
+static t_int *scope_perform(t_int *w){
+    t_scope *x = (t_scope *)(w[1]);
+    if(!x->x_xymode) // do nothing
+        return(w+5);
+    int bufphase = x->x_bufphase;
+    int bufsize = (int)*x->x_signalscalar;
+    if(bufsize != x->x_bufsize){
+        scope_bufsize(x, bufsize);
+        bufsize = x->x_bufsize;
+    }
+    if(bufphase < bufsize){
+        int nblock = (int)(w[2]);
+        if(x->x_precount >= nblock)
+            x->x_precount -= nblock;
+        else{
+            t_float *in1 = (t_float *)(w[3]);
+            t_float *in2 = (t_float *)(w[4]);
+            t_float *in;
+            int phase = x->x_phase;
+            int period = x->x_period;
+            float freq = 1. / period;
+            float *bp1;
+            float *bp2;
+            float currx = x->x_currx;
+            float curry = x->x_curry;
+            if(x->x_precount > 0){
+                nblock -= x->x_precount;
+                in1 += x->x_precount;
+                in2 += x->x_precount;
+                phase = 0;
+                bufphase = 0;
+                x->x_precount = 0;
+            }
+            if(x->x_trigmode && (x->x_xymode == 1 || x->x_xymode == 2)){
+                if(x->x_xymode == 1)
+                    in = in1;
+                else
+                    in = in2;
+                while(x->x_retrigger){
+                    float triglevel = x->x_triglevel;
+                    if(x->x_trigmode == 1){ // Trigger Up
+                        if(x->x_trigx < triglevel){
+                            while(nblock--){
+                                if(*in >= triglevel){
+                                    x->x_retrigger = 0;
+                                    phase = 0;
+                                    bufphase = 0;
+                                    break;
+                                }
+                                else
+                                    in++;
+                            }
+                        }
+                        else{
+                            while(nblock--){
+                                if(*in++ < triglevel){
+                                    x->x_trigx = triglevel - 1.;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else{ // Trigger Down
+                        if(x->x_trigx > triglevel){
+                            while(nblock--){
+                                if(*in <= triglevel){
+                                    phase = 0;
+                                    bufphase = 0;
+                                    x->x_retrigger = 0;
+                                    break;
+                                }
+                                else
+                                    in++;
+                            }
+                        }
+                        else{
+                            while(nblock--){
+                                if(*in++ > triglevel){
+                                    x->x_trigx = triglevel + 1.;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if(nblock <= 0){
+                        x->x_bufphase = bufphase;
+                        x->x_phase = phase;
+                        return(w+5);
+                    }
+                }
+                if(x->x_xymode == 1)
+                    in1 = in;
+                else
+                    in2 = in;
+            }
+            else if(x->x_retrigger)
+                x->x_retrigger = 0;
+            while(nblock--){
+                bp1 = x->x_xbuffer + bufphase;
+                bp2 = x->x_ybuffer + bufphase;
+                if(phase){
+                    t_float f1 = *in1++;
+                    t_float f2 = *in2++;
+                    if(x->x_xymode == 1){ // CHECKED
+                        if(!x->x_drawstyle){
+                            if((currx<0 && (f1<currx || f1>-currx)) || (currx>0 && (f1>currx || f1<-currx)))
+                                currx = f1;
+                        }
+                        else{
+                            if(f1 < currx)
+                                currx = f1;
+                        }
+                        curry = 0.;
+                    }
+                    else if(x->x_xymode == 2){
+                        if(!x->x_drawstyle){
+                            if((curry<0 && (f2<curry || f2>-curry)) || (curry>0 && (f2>curry || f2<-curry)))
+                                curry = f2;
+                        }
+                        else{
+                            if(f2 < curry)
+                                curry = f2;
+                        }
+                        currx = 0.;
+                    }
+                    else{
+                        currx += f1;
+                        curry += f2;
+                    }
+                }
+                else{
+                    currx = *in1++;
+                    curry = *in2++;
+                }
+                if(currx != currx)
+                    currx = 0.;  // CHECKED NaNs bashed to zeros
+                if(curry != curry)
+                    curry = 0.;
+                if(++phase >= period){
+                    phase = 0;
+                    if(x->x_xymode == 3){
+                        currx *= freq;
+                        curry *= freq;
+                    }
+                    if(++bufphase >= bufsize){
+                        *bp1 = currx;
+                        *bp2 = curry;
+                        bufphase = 0;
+                        x->x_lastbufsize = bufsize;
+                        memcpy(x->x_xbuflast, x->x_xbuffer, bufsize * sizeof(*x->x_xbuffer));
+                        memcpy(x->x_ybuflast, x->x_ybuffer, bufsize * sizeof(*x->x_ybuffer));
+                        x->x_retrigger = (x->x_trigmode != 0);
+                        x->x_trigx = x->x_triglevel;
+                        clock_delay(x->x_clock, 0);
+                    }
+                    else{
+                        *bp1 = currx;
+                        *bp2 = curry;
+                    }
+                }
+            }
+            x->x_currx = currx;
+            x->x_curry = curry;
+            x->x_bufphase = bufphase;
+            x->x_phase = phase;
+        }
+    }
+    return(w+5);
+}
+
+static void scope_dsp(t_scope *x, t_signal **sp){
+    x->x_ksr = sp[0]->s_sr * 0.001;
+    int xfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 0, &s_signal);
+    int yfeeder = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
+    int xymode = xfeeder + 2 * yfeeder;
+    if(xymode != x->x_xymode){
+        x->x_xymode = xymode;
+        if(glist_isvisible(x->x_glist)){
+            sys_vgui(".x%lx.c delete %s %s\n", x->x_canvas, x->x_fgtag, x->x_margintag);
+            int x1, y1, x2, y2;
+            scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
+            if(x->x_xymode)
+                scope_drawfg(x, x->x_canvas, x1, y1, x2, y2);
+            scope_drawmargins(x, x->x_canvas, x1, y1, x2, y2);
+        }
+        scope_clear(x, 0);
+    }
+    dsp_add(scope_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 static void scope_free(t_scope *x){
@@ -1152,7 +1134,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     sprintf(x->x_gridtag, "gr%lx", (unsigned long)x);
     sprintf(x->x_fgtag, "fg%lx", (unsigned long)x);
     sprintf(x->x_margintag, "ma%lx", (unsigned long)x);
-    x->x_xymode = x->x_lastxymode = x->x_init = 0;
+    x->x_xymode = 0;
     x->x_ksr = sys_getsr() * 0.001;  // redundant
     x->x_frozen = 0;
     x->x_clock = clock_new(x, (t_method)scope_tick);
