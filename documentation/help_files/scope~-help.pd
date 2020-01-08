@@ -1,33 +1,33 @@
-#N canvas 607 70 559 663 10;
-#X obj 4 637 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#N canvas 607 70 559 677 10;
+#X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 6 541 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 6 556 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 4 567 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 582 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 68 321 cnv 17 3 182 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 68 321 cnv 17 3 195 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X text 153 319 signal;
-#X text 208 547 (none);
+#X text 208 561 (none);
 #X text 159 336 float;
-#X obj 68 507 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 68 521 cnv 17 3 27 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 153 505 signal;
-#X text 159 521 float;
-#X text 198 505 - signal to be displayed on the Y axis;
+#X text 153 519 signal;
+#X text 159 535 float;
+#X text 198 519 - signal to be displayed on the Y axis;
 #X text 197 319 - signal to be displayed in the X axis;
-#X text 208 573 (none);
-#X obj 4 592 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
+#X text 208 587 (none);
+#X obj 4 607 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X text 198 521 - sets "bufsize": number of lines in buffer;
-#X text 198 487 - onset time delay between displays (default 0);
-#X text 111 352 calccount <f>;
-#X text 123 368 bufsize <f>;
-#X text 123 456 trigger <f>;
-#X text 111 471 triglevel <f>;
-#X text 135 487 delay <f>;
+#X text 198 535 - sets "bufsize": number of lines in buffer;
+#X text 198 501 - onset time delay between displays (default 0);
+#X text 111 366 calccount <f>;
+#X text 123 382 bufsize <f>;
+#X text 123 470 trigger <f>;
+#X text 111 485 triglevel <f>;
+#X text 135 501 delay <f>;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -40,22 +40,19 @@
 #X restore 304 3 pd;
 #X text 197 337 - sets "calccount": samples per line (2-8192 \, default
 256);
-#X text 197 353 - sets "calccount" (samples per line);
-#X text 197 368 - sets number of lines in buffer (8-256 \, default
+#X text 197 367 - sets "calccount" (samples per line);
+#X text 197 382 - sets number of lines in buffer (8-256 \, default
 128);
-#X text 197 384 - sets vertical range (default -1 1);
-#X text 197 400 - sets front/signal RGB color (values 0-1);
-#X text 197 415 - sets background RGB color (values 0-1);
-#X text 197 429 - sets grid RGB color (values 0-1);
-#X text 197 457 - sets trigger mode: 0 (none \, default) \, 1 (up)
+#X text 197 398 - sets vertical range (default -1 1);
+#X text 197 414 - sets front/signal RGB color (values 0-1);
+#X text 197 429 - sets background RGB color (values 0-1);
+#X text 197 443 - sets grid RGB color (values 0-1);
+#X text 197 471 - sets trigger mode: 0 (none \, default) \, 1 (up)
 or 2 (down);
-#X text 197 472 - sets threshold level for the trigger mode (default
+#X text 197 486 - sets threshold level for the trigger mode (default
 0);
-#X text 111 442 drawstyle <f>;
-#X text 132 597 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
-f f> | @range <f f> | @trigger <f> | @triglevel <f> | @bufsize <f>
-@calccount <f> | @delay <f> | drawstyle <f>;
-#X text 197 442 - <1> sets alternate drawing style (default 0);
+#X text 111 456 drawstyle <f>;
+#X text 197 456 - <1> sets alternate drawing style (default 0);
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scope~;
 #X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
 cloned from Max/MSP;
@@ -239,7 +236,7 @@ Check the messages below, f 52;
 0;
 #X obj 39 26 cyclone/comment 0 18 times ? 0 0 0 0 Colors:;
 #X obj 163 406 cyclone/scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333
-205 229 232 74 79 77 96 98 102 0;
+205 228 232 73 79 77 96 98 102 0;
 #X obj 293 314 cyclone/pak f f f;
 #X obj 163 314 cyclone/pak f f f;
 #X obj 27 316 cyclone/pak f f f;
@@ -272,7 +269,7 @@ Check the messages below, f 52;
 #X connect 35 0 13 0;
 #X connect 36 0 2 0;
 #X restore 294 259 pd appearance_colors;
-#N canvas 536 155 847 483 appearance_others 0;
+#N canvas 581 228 847 483 appearance_others 0;
 #X obj 33 23 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X msg 195 216 delay 1000;
@@ -293,17 +290,15 @@ to analternate drawing style \, that affects some kinds of signals
 1.2).;
 #X text 37 66 You can set the vertical (signal amplitude) range and
 the onset delay (time between displays) with messages.;
-#X obj 632 327 cyclone/scope~ 50 50 256 3 128 -1 1 0 0 0 0 205 229
+#X obj 632 327 cyclone/scope~ 100 50 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X msg 557 274 dim 50 50;
-#X msg 632 274 dim 100 100;
 #X text 434 55 Backwards compatibility / inconsistency note:;
 #X text 452 89 Old scope did say you could set things via arguments
 \, including dimensions (first couple of argument values). That is
 still true \, but it was considered interesting to include the "dim"
 message/attribute \, convenient also for some dynamic patching.;
 #X obj 39 26 cyclone/comment 0 18 times ? 0 0 0 0 Appearance:;
-#X obj 604 176 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 604 176 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X obj 604 219 select 0 1;
 #X obj 632 249 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -326,20 +321,22 @@ message/attribute \, convenient also for some dynamic patching.;
 #X restore 100 276 pd square;
 #X obj 158 342 cyclone/scope~ 219 108 10 3 185 -1.2 1.2 0 0 0 -0.333333
 205 229 232 74 79 77 96 98 102 0;
-#X connect 1 0 25 0;
-#X connect 3 0 25 0;
-#X connect 6 0 25 0;
-#X connect 9 0 25 0;
+#X msg 557 274 dim 100 50;
+#X msg 632 274 dim 50 100;
+#X connect 1 0 23 0;
+#X connect 3 0 23 0;
+#X connect 6 0 23 0;
+#X connect 9 0 23 0;
 #X connect 10 0 9 0;
-#X connect 11 0 25 0;
-#X connect 15 0 14 0;
-#X connect 16 0 14 0;
-#X connect 20 0 21 0;
-#X connect 21 0 23 0;
-#X connect 21 1 22 0;
-#X connect 22 0 16 0;
-#X connect 23 0 15 0;
-#X connect 24 0 25 0;
+#X connect 11 0 23 0;
+#X connect 18 0 19 0;
+#X connect 19 0 21 0;
+#X connect 19 1 20 0;
+#X connect 20 0 25 0;
+#X connect 21 0 24 0;
+#X connect 22 0 23 0;
+#X connect 24 0 14 0;
+#X connect 25 0 14 0;
 #X restore 425 259 pd appearance_others;
 #N canvas 840 278 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
@@ -365,10 +362,10 @@ freezes for as long as you hold the mouse button down.;
 ;
 #X obj 235 199 cyclone/comment 0 12 helvetica ? 0 200 0 0 <= Right
 click for properties!;
-#X text 117 383 range <f \, f>;
-#X text 87 400 fgcolor <f \, f \, f>;
-#X text 87 415 bgcolor <f \, f \, f>;
-#X text 75 429 gridcolor <f \, f \, f>;
+#X text 117 397 range <f \, f>;
+#X text 87 414 fgcolor <f \, f \, f>;
+#X text 87 429 bgcolor <f \, f \, f>;
+#X text 75 443 gridcolor <f \, f \, f>;
 #X obj 110 161 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 219 161 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -426,8 +423,13 @@ smallest line is 2 samples/points long.;
 #X connect 4 0 15 0;
 #X connect 5 0 2 0;
 #X restore 339 281 pd buffer_settings;
-#X connect 42 0 43 0;
-#X connect 43 0 48 0;
-#X connect 48 0 55 0;
-#X connect 63 0 55 0;
-#X connect 64 0 55 1;
+#X text 132 611 @fgcolor <f f f> | @bgcolor <f f f> | @gridcolor <f
+f f> | @range <f f> | @trigger <f> | @triglevel <f> | @bufsize <f>
+@calccount <f> | @delay <f> | drawstyle <f> | @dim <f f>;
+#X text 129 351 dim <f \, f>;
+#X text 197 352 - sets width/height (default 130 130);
+#X connect 41 0 42 0;
+#X connect 42 0 47 0;
+#X connect 47 0 54 0;
+#X connect 62 0 54 0;
+#X connect 63 0 54 1;
