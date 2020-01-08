@@ -269,41 +269,36 @@ Check the messages below, f 52;
 #X connect 35 0 13 0;
 #X connect 36 0 2 0;
 #X restore 294 259 pd appearance_colors;
-#N canvas 581 228 847 483 appearance_others 0;
-#X obj 33 23 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 581 228 764 481 appearance_others 0;
+#X obj 38 22 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X msg 195 216 delay 1000;
-#X text 202 244 vertical range;
-#X msg 182 192 delay 0;
-#X text 183 170 onset delay;
-#X text 262 216 once a second;
-#X msg 215 285 range -1 1;
-#X text 235 192 (default);
-#X text 285 287 (default);
-#X msg 374 292 drawstyle \$1;
-#X obj 374 252 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 200 215 delay 1000;
+#X text 207 243 vertical range;
+#X msg 187 191 delay 0;
+#X text 188 169 onset delay;
+#X text 267 215 once a second;
+#X msg 220 284 range -1 1;
+#X text 240 191 (default);
+#X text 290 286 (default);
+#X msg 379 291 drawstyle \$1;
+#X obj 379 251 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X msg 205 262 range -1.2 1.2;
-#X text 34 102 The "drawstyle 1" message or attribute changes [scope~]
+#X msg 210 261 range -1.2 1.2;
+#X text 39 101 The "drawstyle 1" message or attribute changes [scope~]
 to analternate drawing style \, that affects some kinds of signals
 \, such as this bandlimited square wave (try it with the range -1.2
 1.2).;
-#X text 37 66 You can set the vertical (signal amplitude) range and
+#X text 42 65 You can set the vertical (signal amplitude) range and
 the onset delay (time between displays) with messages.;
-#X obj 632 327 cyclone/scope~ 100 50 256 3 128 -1 1 0 0 0 0 205 229
+#X obj 586 301 cyclone/scope~ 100 50 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X text 434 55 Backwards compatibility / inconsistency note:;
-#X text 452 89 Old scope did say you could set things via arguments
-\, including dimensions (first couple of argument values). That is
-still true \, but it was considered interesting to include the "dim"
-message/attribute \, convenient also for some dynamic patching.;
-#X obj 39 26 cyclone/comment 0 18 times ? 0 0 0 0 Appearance:;
-#X obj 604 176 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 44 25 cyclone/comment 0 18 times ? 0 0 0 0 Appearance:;
+#X obj 558 150 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 604 219 select 0 1;
-#X obj 632 249 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 558 193 select 0 1;
+#X obj 586 223 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 557 249 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 511 223 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #N canvas 338 119 577 204 square 0;
 #X obj 55 132 outlet~;
@@ -318,25 +313,29 @@ message/attribute \, convenient also for some dynamic patching.;
 #X connect 2 0 1 0;
 #X connect 5 0 0 0;
 #X connect 6 0 5 0;
-#X restore 100 276 pd square;
-#X obj 158 342 cyclone/scope~ 219 108 10 3 185 -1.2 1.2 0 0 0 -0.333333
+#X restore 105 275 pd square;
+#X obj 163 341 cyclone/scope~ 219 108 10 3 185 -1.2 1.2 0 0 0 -0.333333
 205 229 232 74 79 77 96 98 102 0;
-#X msg 557 274 dim 100 50;
-#X msg 632 274 dim 50 100;
-#X connect 1 0 23 0;
-#X connect 3 0 23 0;
-#X connect 6 0 23 0;
-#X connect 9 0 23 0;
+#X msg 511 248 dim 100 50;
+#X msg 586 248 dim 50 100;
+#X text 439 67 Inconsistency note:;
+#X text 475 93 There's a "dim" message/attribute \, not available in
+the original MAX object \, for setting the size of your [scope~].,
+f 39;
+#X connect 1 0 21 0;
+#X connect 3 0 21 0;
+#X connect 6 0 21 0;
+#X connect 9 0 21 0;
 #X connect 10 0 9 0;
-#X connect 11 0 23 0;
-#X connect 18 0 19 0;
-#X connect 19 0 21 0;
-#X connect 19 1 20 0;
-#X connect 20 0 25 0;
-#X connect 21 0 24 0;
-#X connect 22 0 23 0;
-#X connect 24 0 14 0;
-#X connect 25 0 14 0;
+#X connect 11 0 21 0;
+#X connect 16 0 17 0;
+#X connect 17 0 19 0;
+#X connect 17 1 18 0;
+#X connect 18 0 23 0;
+#X connect 19 0 22 0;
+#X connect 20 0 21 0;
+#X connect 22 0 14 0;
+#X connect 23 0 14 0;
 #X restore 425 259 pd appearance_others;
 #N canvas 840 278 486 508 mouse 0;
 #X obj 27 12 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
