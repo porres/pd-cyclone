@@ -83,7 +83,7 @@ static t_pd *commentsink = 0;
 static void comment_receive(t_comment *x, t_symbol *s){
     t_symbol *rcv = canvas_realizedollar(x->x_glist, x->x_rcv_unexpanded = s);
     if(rcv == gensym("empty"))
-        rcv == &s_;
+        rcv = &s_;
     if(rcv != &s_){
         if(x->x_receive_sym != &s_)
             pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
