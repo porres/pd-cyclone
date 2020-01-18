@@ -31,43 +31,44 @@
 #define COMMENT_NUMCOLORS   3
 
 typedef struct _comment{
-    t_object   x_obj;
-    t_glist   *x_glist;
-    t_canvas  *x_canvas;
-    t_symbol  *x_bindsym;
-    char       x_tag[32];
-    char       x_texttag[32];
-    char       x_outlinetag[32];
-    t_clock   *x_transclock;
-    t_binbuf  *x_binbuf;
-    char      *x_textbuf;
-    int        x_textbufsize;
-    int        x_pixwidth;
-    int        x_bbset;
-    int        x_bbpending;
-    int        x_x1;
-    int        x_y1;
-    int        x_x2;
-    int        x_y2;
-    int        x_newx2;
-    int        x_dragon;
-    int        x_fontsize;    // requested size
-    t_symbol  *x_fontfamily;  // requested family
-    int        x_fontprops;   // 0: reg, 1: bold, 2: italic, 3: bolditalic (unused)
-    t_symbol  *x_encoding;    // requested encoding (unused)
-    unsigned char  x_red;
-    unsigned char  x_green;
-    unsigned char  x_blue;
-    char       x_color[8];
-    int        x_selstart;
-    int        x_selend;
-    int        x_active;
-    int        x_ready;
-    t_symbol  *x_receive_sym;
-    t_symbol  *x_rcv_unexpanded;
-    int        x_rcv_set;
-    int        x_flag;
-    t_symbol  *x_selector;
+    t_object        x_obj;
+    t_glist        *x_glist;
+    t_canvas       *x_canvas;
+    t_symbol       *x_bindsym;
+    char            x_tag[32];
+    char            x_texttag[32];
+    char            x_outlinetag[32];
+    t_clock        *x_transclock;
+    t_binbuf       *x_binbuf;
+    char           *x_textbuf;
+    int             x_textbufsize;
+    int             x_pixwidth;
+    int             x_bbset;
+    int             x_bbpending;
+    int             x_x1;
+    int             x_y1;
+    int             x_x2;
+    int             x_y2;
+    int             x_newx2;
+    int             x_dragon;
+    int             x_fontsize;    // requested size
+    t_symbol       *x_fontfamily;  // requested family
+    int             x_fontprops;   // 0: reg, 1: bold, 2: italic, 3: bolditalic (unused)
+    t_symbol       *x_encoding;    // requested encoding (unused)
+    unsigned char   x_red;
+    unsigned char   x_green;
+    unsigned char   x_blue;
+    char            x_color[8];
+    int             x_selstart;
+    int             x_selend;
+    int             x_active;
+    int             x_ready;
+    t_symbol       *x_receive_sym;
+    t_symbol       *x_rcv_unexpanded;
+    int             x_rcv_set;
+    int             x_flag;
+    int             x_zoom;
+    t_symbol       *x_selector;
 /* new args that currently do nothing - DK 2017
     t_float     x_bgcolor[COMMENT_NUMCOLORS];
     int         x_textjust; //0: left, 1: center, 2: right
@@ -130,7 +131,7 @@ static void comment_update(t_comment *x){
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     unsigned long cv = (unsigned long)x->x_canvas;
     int reqsize = x->x_textbufsize + 250;  // FIXME estimation
-    if (reqsize > COMMENT_OUTBUFSIZE){ // <= seems unnecessary (porres)
+    if(reqsize > COMMENT_OUTBUFSIZE){ // <= seems unnecessary (porres)
         /* #ifdef COMMENT_DEBUG
          post("allocating %d outbuf bytes", reqsize);
          #endif */
@@ -346,9 +347,9 @@ static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy){
             x->x_x2 += dx;
             x->x_y2 += dy;
         }
-        if(glist_isvisible(glist)){
+        if(glist_isvisible(glist)){ // it's always visible
             t_canvas *cv = glist_getcanvas(glist);
-            sys_vgui(".x%lx.c move %s %d %d\n", x->x_canvas, x->x_tag, dx, dy);
+            sys_vgui(".x%lx.c move %s %d %d\n", x->x_canvas, x->x_tag, dx*x->x_zoom, dy*x->x_zoom);
             canvas_fixlinesfor(cv, t);
         }
     }
@@ -398,8 +399,7 @@ static void comment_delete(t_gobj *z, t_glist *glist){
 static void comment_vis(t_gobj *z, t_glist *glist, int vis){
     t_comment *x = (t_comment *)z;
     comment_validate(x, glist);
-    if(vis) comment_draw(x);
-    else sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
+    vis ? comment_draw(x) : sys_vgui(".x%lx.c delete %s\n", x->x_canvas, x->x_tag);
 }
 
 static void comment_save(t_gobj *z, t_binbuf *b){
@@ -413,9 +413,8 @@ static void comment_save(t_gobj *z, t_binbuf *b){
             if(x->x_flag){ // search for receive name in attributes
                 for(int i = 0;  i < n_args; i++){
                     atom_string(binbuf_getvec(bb) + i, buf, 80);
-                    if(!strcmp(buf, "@receive")){
-                        i++;
-                        atom_string(binbuf_getvec(bb) + i, buf, 80);
+                    if(gensym(buf) == gensym("@receive")){
+                        atom_string(binbuf_getvec(bb) + i + 1, buf, 80);
                         x->x_rcv_unexpanded = gensym(buf);
                         break;
                     }
@@ -438,8 +437,8 @@ static void comment_save(t_gobj *z, t_binbuf *b){
                 (int)x->x_obj.te_xpix,
                 (int)x->x_obj.te_ypix,
                 atom_getsymbol(binbuf_getvec(bb)),
-                x->x_pixwidth,
-                x->x_fontsize,
+                x->x_pixwidth, // zoom???
+                x->x_fontsize / x->x_zoom,
                 x->x_fontfamily,
                 x->x_rcv_unexpanded,
                 x->x_fontprops,
@@ -691,6 +690,12 @@ static void comment_fontsize(t_comment *x, t_floatarg f){
     comment_draw(x);
 }
 
+static void comment_zoom(t_comment *x, t_floatarg zoom){
+    float mul = (zoom == 1. ? 0.5 : 2.);
+    comment_fontsize(x, (float)x->x_fontsize * mul);
+    x->x_zoom = (int)zoom;
+}
+
 /* placeholders
 static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3){
     x->x_bgcolor[0] = f1;
@@ -886,6 +891,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     t_text *t = (t_text *)x;
     t->te_type = T_TEXT;
     x->x_glist = canvas_getcurrent();
+    x->x_zoom = x->x_glist->gl_zoom;
     sprintf(x->x_tag, "all%lx", (unsigned long)x);
     sprintf(x->x_texttag, "t%lx", (unsigned long)x);
     sprintf(x->x_outlinetag, "h%lx", (unsigned long)x);
@@ -911,7 +917,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
         x->x_pixwidth = (int)av->a_w.w_float;
         ac--; av++;
         if(ac && av->a_type == A_FLOAT){ // 2ND Size
-            x->x_fontsize = (int)av->a_w.w_float;
+            x->x_fontsize = (int)av->a_w.w_float * x->x_zoom;
             ac--; av++;
             if(ac && av->a_type == A_SYMBOL){ // 3RD type
                 x->x_fontfamily = av->a_w.w_symbol;
@@ -945,11 +951,12 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
             }
         }
     }
-    if(x->x_fontsize < 1) x->x_fontsize = glist_getfont(x->x_glist);
+    if(x->x_fontsize < 1) x->x_fontsize = glist_getfont(x->x_glist) * x->x_zoom;
     if(!x->x_fontfamily) x->x_fontfamily = gensym("helvetica");
     sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
     x->x_binbuf = binbuf_new();
-    if(ac) comment_attrparser(x, ac, av);
+    if(ac)
+        comment_attrparser(x, ac, av);
     else{
         t_atom at;
         SETSYMBOL(&at, gensym("comment"));
@@ -977,6 +984,7 @@ CYCLONE_OBJ_API void comment_setup(void){
                     gensym("append"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment_prepend,
                     gensym("prepend"), A_GIMME, 0);
+    class_addmethod(comment_class, (t_method)comment_zoom, gensym("zoom"), A_CANT, 0);
     /* new methods 2017: currently do nothing - DK
     class_addmethod(comment_class, (t_method)comment_bgcolor,
                     gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT,0);
@@ -1002,7 +1010,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     
 //    class_setpropertiesfn(comment_class, comment_properties);
     class_setsavefn(comment_class, comment_save);
-    
+
 //    makeshift_class = class_new(gensym("text"), 0, 0, sizeof(t_text), CLASS_NOINLET | CLASS_PATCHABLE, 0);
     
     commentsink_class = class_new(gensym("_commentsink"), 0, 0,
@@ -1042,7 +1050,6 @@ CYCLONE_OBJ_API void comment_setup(void){
             set tt1 [comment_entext $enc $tt]\n\
             if {$wd > 0} {$cv itemconfig $tag -text $tt1 -width $wd} else {\n\
             $cv itemconfig $tag -text $tt1}}\n");
-    
 //    #include "comment_dialog.c"
 }
 
