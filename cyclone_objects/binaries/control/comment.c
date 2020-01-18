@@ -8,17 +8,16 @@
 /* LATER think about making the <Button> binding for the entire bbox,
  instead of the text item, to ease the pain of resizing, somewhat. */
 
+#include <common/api.h>
+#include "m_pd.h"
+#include "g_canvas.h"
 #include <string.h>
 #include <ctype.h>
-#include "m_pd.h"
-#include <common/api.h>
-#include "g_canvas.h"
 
 /* #ifdef KRZYSZCZ
  #define COMMENT_DEBUG
  #endif */
 
-#define COMMENT_MINWIDTH    8
 #define COMMENT_HANDLEWIDTH 8
 #define COMMENT_OUTBUFSIZE  1000
 
@@ -42,7 +41,6 @@ typedef struct _comment{
     int             x_dragon;
     int             x_fontsize;    // requested size
     t_symbol       *x_fontfamily;  // requested family
-    int             x_fontprops;   // 0: reg, 1: bold, 2: italic, 3: bolditalic (unused)
     t_symbol       *x_encoding;    // requested encoding (unused)
     unsigned char   x_red;
     unsigned char   x_green;
@@ -58,11 +56,12 @@ typedef struct _comment{
     int             x_flag;
     int             x_zoom;
     t_symbol       *x_selector;
+    int             x_fontprops;   // 0: reg, 1: bold, 2: italic, 3: bolditalic (unused)
 /* new args that currently do nothing - DK 2017
-    t_float     x_bgcolor[3];
-    int         x_textjust; //0: left, 1: center, 2: right
-    int         x_underline; //0: no, 1: yes
-    int         x_suppressinlet; //0: no, 1: yes */
+    t_float         x_bgcolor[3];
+    int             x_textjust; //0: left, 1: center, 2: right
+    int             x_underline; //0: no, 1: yes
+    int             x_suppressinlet; //0: no, 1: yes */
 }t_comment;
 
 static t_class *comment_class, *commentsink_class;
@@ -96,7 +95,7 @@ static void comment_draw(t_comment *x){
     if(reqsize > COMMENT_OUTBUFSIZE){ // <= seems unnecessary (porres)
         // #ifdef COMMENT_DEBUG
         // post("allocating %d outbuf bytes", reqsize);
-         // #endif
+        // #endif
         if(!(outbuf = getbytes(reqsize)))
             return;
     }
@@ -111,7 +110,8 @@ static void comment_draw(t_comment *x){
         x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
     x->x_bbpending = 1;
     sys_gui(outbuf);
-    if(outbuf != buf) freebytes(outbuf, reqsize);
+    if(outbuf != buf)
+        freebytes(outbuf, reqsize);
 }
 
 static void comment_update(t_comment *x){
@@ -269,7 +269,8 @@ static void comment__releasehook(t_comment *x, t_symbol *bindsym){
 static void comment__motionhook(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
     bindsym = NULL;
     yy = 0;
-    if(xx > x->x_x1 + COMMENT_MINWIDTH)
+    int min_width = 8;
+    if(xx > x->x_x1 + min_width)
         sys_vgui(".x%lx.c coords outline%lx %d %d %d %d\n", (unsigned long)x->x_cv,
             (unsigned long)x, x->x_x1, x->x_y1, x->x_newx2 = xx, x->x_y2);
 }
@@ -577,20 +578,19 @@ static void comment_free(t_comment *x){
 }
 
 static void comment_append(t_comment *x, t_symbol *s, int argc, t_atom * argv){
-    t_symbol *dummy = s;
-    dummy = NULL;
+    s = NULL;
+    canvas_dirty(x->x_glist, 1);
     t_binbuf *bb = binbuf_new();
     binbuf_restore(bb, argc, argv);
     binbuf_addbinbuf(x->x_binbuf, bb);
     binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
     sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
-    canvas_dirty(x->x_glist, 1);
     comment_draw(x);
 }
 
 static void comment_prepend(t_comment *x, t_symbol *s, int argc, t_atom * argv){
-    t_symbol *dummy = s;
-    dummy = NULL;
+    s = NULL;
+    canvas_dirty(x->x_glist, 1);
     t_binbuf *bb = binbuf_new();
     binbuf_restore(bb, argc, argv);
     binbuf_addbinbuf(bb, x->x_binbuf);
@@ -598,46 +598,46 @@ static void comment_prepend(t_comment *x, t_symbol *s, int argc, t_atom * argv){
     binbuf_addbinbuf(x->x_binbuf, bb);
     binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
     sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
-    canvas_dirty(x->x_glist, 1);
     comment_draw(x);
 }
 
 static void comment_set(t_comment *x, t_symbol *s, int argc, t_atom * argv){
-    t_symbol *dummy = s;
-    dummy = NULL;
+    s = NULL;
+    canvas_dirty(x->x_glist, 1);
     binbuf_clear(x->x_binbuf);
     binbuf_restore(x->x_binbuf, argc, argv);
     binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
     sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
-    canvas_dirty(x->x_glist, 1);
     comment_draw(x);
 }
 
 static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floatarg b){
-    x->x_red = (unsigned char)r;
-    x->x_green = (unsigned char)g;
-    x->x_blue = (unsigned char)b;
-    sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
-    comment_update(x);
-    sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
-    canvas_dirty(x->x_glist, 1);
-    comment_draw(x);
+    unsigned char red = (unsigned char)r, green = (unsigned char)g, blue = (unsigned char)b;
+    if(x->x_red != red || x->x_green != green || x->x_blue != blue){
+        canvas_dirty(x->x_glist, 1);
+        x->x_red = red, x->x_green = green, x->x_blue = blue;
+        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+        sys_vgui(".x%lx.c itemconfigure txt%lx -fill %s\n", x->x_cv, (unsigned long)x, x->x_color);
+    }
 }
 
 static void comment_fontname(t_comment *x, t_symbol *name){
-    x->x_fontfamily = name;
-    comment_update(x);
-    sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
-    canvas_dirty(x->x_glist, 1);
-    comment_draw(x);
+    if(name != x->x_fontfamily){
+        canvas_dirty(x->x_glist, 1);
+        x->x_fontfamily = name;
+        sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
+        comment_draw(x);
+    }
 }
 
 static void comment_fontsize(t_comment *x, t_floatarg f){
-    x->x_fontsize = (int)f < 5 ? 5 : (int)f;
-    comment_update(x);
-    sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
-    canvas_dirty(x->x_glist, 1);
-    comment_draw(x);
+    int size = (int)f < 5 ? 5 : (int)f;
+    if(x->x_fontsize != size){
+        canvas_dirty(x->x_glist, 1);
+        x->x_fontsize = size;
+        sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
+        comment_draw(x);
+    }
 }
 
 static void comment_zoom(t_comment *x, t_floatarg zoom){
@@ -845,7 +845,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_cv = 0;
     x->x_textbuf = 0;
     x->x_rcv_set = x->x_flag = 0;
-    x->x_pixwidth = x->x_fontsize = x->x_fontprops = x->x_bbpending = 0;
+    x->x_pixwidth = x->x_fontsize = x->x_bbpending = x->x_fontprops = 0;
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
     x->x_bbset = x->x_ready = x->x_dragon = 0;
     x->x_selector = s;
