@@ -39,9 +39,8 @@ typedef struct _comment{
     int             x_y2;
     int             x_newx2;
     int             x_dragon;
-    int             x_fontsize;    // requested size
-    t_symbol       *x_fontfamily;  // requested family
-    t_symbol       *x_encoding;    // requested encoding (unused)
+    int             x_fontsize;
+    t_symbol       *x_fontname;
     unsigned char   x_red;
     unsigned char   x_green;
     unsigned char   x_blue;
@@ -56,7 +55,10 @@ typedef struct _comment{
     int             x_flag;
     int             x_zoom;
     t_symbol       *x_selector;
-    int             x_fontprops;   // 0: reg, 1: bold, 2: italic, 3: bolditalic (unused)
+    int             x_fontface;   // 0: reg, 1: bold, 2: italic, 3: bolditalic
+    int             x_bold;
+    int             x_italic;
+    t_symbol       *x_encoding;     // (unused)
 /* new args that currently do nothing - DK 2017
     t_float         x_bgcolor[3];
     int             x_textjust; //0: left, 1: center, 2: right
@@ -70,17 +72,20 @@ static t_pd *commentsink = 0;
 
 static void comment_receive(t_comment *x, t_symbol *s){
     t_symbol *rcv = canvas_realizedollar(x->x_glist, x->x_rcv_unexpanded = s);
-    if(rcv == gensym("empty"))
-        rcv = &s_;
-    if(rcv != &s_){
-        if(x->x_receive_sym != &s_)
-            pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
-        pd_bind(&x->x_obj.ob_pd, x->x_receive_sym = rcv);
-    }
-    else{
-        if(x->x_receive_sym != &s_)
-            pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
-        x->x_receive_sym = rcv;
+    if(x->x_receive_sym != rcv){
+        canvas_dirty(x->x_glist, 1);
+        if(rcv == gensym("empty"))
+            rcv = &s_;
+        if(rcv != &s_){
+            if(x->x_receive_sym != &s_)
+                pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
+            pd_bind(&x->x_obj.ob_pd, x->x_receive_sym = rcv);
+        }
+        else{
+            if(x->x_receive_sym != &s_)
+                pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
+            x->x_receive_sym = rcv;
+        }
     }
 }
 
@@ -100,14 +105,22 @@ static void comment_draw(t_comment *x){
             return;
     }
     outp = outbuf = buf;
-    sprintf(outp, "comment_draw %s .x%lx.c txt%lx all%lx %d %d %s -%d %s %s {%.*s} %d\n",
-        x->x_bindsym->s_name, (unsigned long)x->x_cv, (unsigned long)x, (unsigned long)x,
-        text_xpix((t_text *)x, x->x_glist) + x->x_zoom,
-        text_ypix((t_text *)x, x->x_glist) + x->x_zoom,
-        x->x_fontfamily->s_name, x->x_fontsize,
-        glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color,
-        "\"\"", // encoding
-        x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
+    sprintf(outp, "comment_draw %s .x%lx.c txt%lx all%lx %d %d %s -%d %s %s {%.*s} %d %s %s\n",
+        x->x_bindsym->s_name, // %s
+        (unsigned long)x->x_cv, // .x%lx.c
+        (unsigned long)x, // txt%lx
+        (unsigned long)x, // all%lx
+        text_xpix((t_text *)x, x->x_glist) + x->x_zoom, // %d
+        text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // %d
+        x->x_fontname->s_name, // %s
+        x->x_fontsize, // -%d
+        glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // %s
+        "\"\"", // %s (encoding)
+        x->x_textbufsize, // %.
+        x->x_textbuf, // *s
+        x->x_pixwidth, // %d
+        x->x_bold ? "bold" : "normal",
+        x->x_italic? "italic" : "roman");
     x->x_bbpending = 1;
     sys_gui(outbuf);
     if(outbuf != buf)
@@ -421,9 +434,9 @@ static void comment_save(t_gobj *z, t_binbuf *b){
                 atom_getsymbol(binbuf_getvec(bb)),
                 x->x_pixwidth, // zoom???
                 x->x_fontsize / x->x_zoom,
-                x->x_fontfamily,
+                x->x_fontname,
                 x->x_rcv_unexpanded,
-                x->x_fontprops,
+                x->x_fontface,
                 (int)x->x_red,
                 (int)x->x_green,
                 (int)x->x_blue);
@@ -622,9 +635,9 @@ static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floata
 }
 
 static void comment_fontname(t_comment *x, t_symbol *name){
-    if(name != x->x_fontfamily){
+    if(name != x->x_fontname){
         canvas_dirty(x->x_glist, 1);
-        x->x_fontfamily = name;
+        x->x_fontname = name;
         sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
         comment_draw(x);
     }
@@ -640,6 +653,18 @@ static void comment_fontsize(t_comment *x, t_floatarg f){
     }
 }
 
+static void comment_fontface(t_comment *x, t_float f){
+    int face = f < 0 ? 0 : f > 3 ? 3  : (int)f;
+    if(face != x->x_fontface){
+        canvas_dirty(x->x_glist, 1);
+        x->x_fontface = face;
+        x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
+        x->x_italic = x->x_fontface > 1;
+        sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
+        comment_draw(x);
+    }
+}
+
 static void comment_zoom(t_comment *x, t_floatarg zoom){
     comment_fontsize(x, (float)x->x_fontsize * ((x->x_zoom = (int)zoom) == 1. ? 0.5 : 2.));
 }
@@ -649,10 +674,6 @@ static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3){
     x->x_bgcolor[0] = f1;
     x->x_bgcolor[1] = f2;
     x->x_bgcolor[2] = f3;
-}
-
-static void comment_fontface(t_comment *x, t_float f) // testing{
-    x->x_fontprops = f;
 }
 
 static void comment_textjustification(t_comment *x, t_float f){
@@ -678,7 +699,7 @@ static void comment_properties(t_gobj *z, t_glist *owner){
     sprintf(buf, "::dialog_comment::pdtk_comment_dialog %%s \
             trg %s tmd: %d tlv: \
             #%06x\n",
-            x->x_fontfamily->s_name, x->x_fontsize, color);
+            x->x_fontname->s_name, x->x_fontsize, color);
     post("%s", buf);
 //    gfxstub_new(&x->x_obj.ob_pd, x, buf);
 } */
@@ -707,7 +728,7 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                 i++;
                 if((argc-i) > 0){
                     if(argv[i].a_type == A_SYMBOL)
-                        x->x_fontfamily = argv[i].a_w.w_symbol;
+                        x->x_fontname = argv[i].a_w.w_symbol;
                     else i--;
                 };
             }
@@ -759,6 +780,14 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                     else i--;
                 };
             }
+            else if(sym == gensym("@fontface")){
+                i++;
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT)
+                        x->x_fontface  = (int)argv[i].a_w.w_float;
+                    else i--;
+                };
+            }
 /*            else if(sym == gensym("@bgcolor")){ // new to come attributes
                 i++; //done with symbol move on
                 int numcolors = 3; //number of colors to specify
@@ -776,16 +805,6 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                             break;
                         };
                     };
-                };
-            }
-            else if(sym == gensym("@fontface")){
-                i++;
-                if((argc-i) > 0){
-                    if(argv[i].a_type == A_FLOAT){
-                        int fontface = (int)argv[i].a_w.w_float;
-                        x->x_fontprops = fontface < 0 ? 0 : (fontface > 3 ? 3 : fontface);
-                    }
-                    else i--;
                 };
             }
             else if(sym == gensym("@textjustification")){
@@ -841,11 +860,11 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     t->te_type = T_TEXT;
     x->x_glist = canvas_getcurrent();
     x->x_zoom = x->x_glist->gl_zoom;
-    x->x_encoding = x->x_fontfamily = 0;
+    x->x_encoding = x->x_fontname = 0;
     x->x_cv = 0;
     x->x_textbuf = 0;
     x->x_rcv_set = x->x_flag = 0;
-    x->x_pixwidth = x->x_fontsize = x->x_bbpending = x->x_fontprops = 0;
+    x->x_pixwidth = x->x_fontsize = x->x_bbpending = x->x_fontface = x->x_bold = x->x_italic = 0;
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
     x->x_bbset = x->x_ready = x->x_dragon = 0;
     x->x_selector = s;
@@ -866,7 +885,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
             x->x_fontsize = (int)av->a_w.w_float * x->x_zoom;
             ac--, av++;
             if(ac && av->a_type == A_SYMBOL){ // 3RD type
-                x->x_fontfamily = av->a_w.w_symbol;
+                x->x_fontname = av->a_w.w_symbol;
                 ac--, av++;
                 if(ac && av->a_type == A_SYMBOL){ // 4TH RECEIVE
                     if(av->a_w.w_symbol != gensym("?")){ //  '?' sets empty receive symbol
@@ -875,8 +894,8 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                     }
                     else
                         ac--, av++;
-                    if(ac && av->a_type == A_FLOAT){
-                        x->x_fontprops = (int)av->a_w.w_float;
+                    if(ac && av->a_type == A_FLOAT){ // face
+                        x->x_fontface = (int)av->a_w.w_float;
                         ac--, av++;
                         if(ac && av->a_type == A_FLOAT){
                             x->x_red = (unsigned char)av->a_w.w_float;
@@ -895,11 +914,6 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
             }
         }
     }
-    if(x->x_fontsize < 1)
-        x->x_fontsize = glist_getfont(x->x_glist) * x->x_zoom;
-    if(!x->x_fontfamily)
-        x->x_fontfamily = gensym("helvetica");
-    sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
     x->x_binbuf = binbuf_new();
     if(ac)
         comment_attrparser(x, ac, av);
@@ -908,6 +922,14 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
         SETSYMBOL(&at, gensym("comment"));
         binbuf_restore(x->x_binbuf, 1, &at);
     }
+    if(x->x_fontsize < 1)
+        x->x_fontsize = glist_getfont(x->x_glist) * x->x_zoom;
+    if(!x->x_fontname)
+        x->x_fontname = gensym("helvetica");
+    x->x_fontface = x->x_fontface < 0 ? 0 : (x->x_fontface > 3 ? 3 : x->x_fontface);
+    x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
+    x->x_italic = x->x_fontface > 1;
+    sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
     return(x);
 }
 
@@ -940,12 +962,12 @@ CYCLONE_OBJ_API void comment_setup(void){
                     gensym("_release"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment__motionhook,
                     gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_fontface,
+                    gensym("fontface"), A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
     /* new methods yet to be implemented - DK
     class_addmethod(comment_class, (t_method)comment_bgcolor,
                     gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT,0);
-    class_addmethod(comment_class, (t_method)comment_fontface,
-                    gensym("fontface"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_textjustification,
                     gensym("textjustification"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_underline,
@@ -966,21 +988,36 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_gui("proc comment_click {target cvname x y tag} {\n\
             pdsend \"$target _click $target [$cvname canvasx $x] [$cvname canvasy $y]\
             [$cvname index $tag @$x,$y] [$cvname bbox $tag]\"}\n");
-    /* LATER think how to conditionally (FORKY_VERSION >= 38)
-     replace puts with pdtk_post */
     sys_gui("proc comment_entext {enc tt} {\n\
             if {$enc == \"\"} {concat $tt} else {\n\
             set rr [catch {encoding convertfrom $enc $tt} tt1]\n\
             if {$rr == 0} {concat $tt1} else {\n\
             puts stderr [concat tcl/tk error: $tt1]\n\
             concat $tt}}}\n");
-    sys_gui("proc comment_draw {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd} {\n\
+    
+/*    sprintf(outp, "comment_draw %s .x%lx.c txt%lx all%lx %d %d %s -%d %s %s {%.*s} %d\n",
+        x->x_bindsym->s_name, // tgt
+        (unsigned long)x->x_cv, // cv
+        (unsigned long)x, // tag1 (all)
+        (unsigned long)x, // tag2 (txt)
+        text_xpix((t_text *)x, x->x_glist) + x->x_zoom, // x
+        text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // y
+        x->x_fontname->s_name, // fnm
+        x->x_fontsize, // fsz
+        glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // clr
+        "\"\"", // enc
+        x->x_textbufsize, // tt
+        x->x_textbuf, // ????
+        x->x_pixwidth); // ????
+ */
+    
+    sys_gui("proc comment_draw {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd wt sl} {\n\
             set tt1 [comment_entext $enc $tt]\n\
             if {$wd > 0} {\n\
             $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
-            -font [list $fnm $fsz] -fill $clr -width $wd -anchor nw} else {\n\
+            -font [list $fnm $fsz $wt $sl] -fill $clr -width $wd -anchor nw} else {\n\
             $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
-            -font [list $fnm $fsz] -fill $clr -anchor nw}\n\
+            -font [list $fnm $fsz $wt $sl] -fill $clr -anchor nw}\n\
             comment_bbox $tgt $cv $tag1\n\
             $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
     sys_gui("proc comment_update {cv tag enc tt wd} {\n\
