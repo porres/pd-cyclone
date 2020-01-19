@@ -18,65 +18,6 @@
 #X restore 304 4 pd;
 #X text 145 158 <= the default comment box from [cyclone/comment];
 #X obj 96 159 cyclone/comment 0 10 helvetica ? 0 0 0 0 0 comment;
-#N canvas 651 233 845 519 details/examples 0;
-#X obj 157 275 cyclone/comment 0 50 helvetica ? 0 0 0 0 0 Comment;
-#X text 58 363 Note: when in edit mode \, you can click on the object
-to select it and then press <F5> to copy the comment from [cyclone/comment]
-into a Pd's comment box.;
-#X msg 157 78 fontsize 50;
-#X msg 176 107 fontsize 30;
-#X msg 192 134 fontname helvetica;
-#X msg 207 163 fontname courier;
-#X msg 231 200 textcolor 0 0 0;
-#X msg 235 230 textcolor 150 100 50;
-#X text 83 28 You can also edit the properties of [comment] with messages.
-, f 33;
-#X msg 549 104 textcolor 200 0 0;
-#X msg 565 126 textcolor 0 0 0;
-#X obj 460 328 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 0
-Comment;
-#X msg 578 166 set hi \, append there;
-#X msg 588 189 set comment \, prepend this;
-#X msg 599 212 set Comment;
-#X obj 549 254 s \$0-comment;
-#X text 436 21 The [comment] object below has a receive symbol \, so
-you can send messages to it via a [send] object. The receive symbol
-can be set with the receive message or the @receive attribute. IF you
-set a receive name as "empty" then it it can't receive messages anymore.
-, f 52;
-#X msg 56 225 fontface \$1;
-#X obj 56 138 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856 -1
--1 0;
-#X floatatom 56 204 3 0 0 0 - - -;
-#X text 74 137 normal;
-#X text 74 152 bold;
-#X text 74 168 italic;
-#X text 74 183 bold+italic;
-#X text 53 116 face:;
-#X msg 456 168 underline \$1;
-#X obj 456 144 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
-1;
-#X text 204 439 This object is not being fully updated to Max6+ versions
-and it still misses functionalities from Max 5 such as background color.
-It also has inconsistencies like different attributes than the original
-object in Max., f 70;
-#X connect 2 0 0 0;
-#X connect 3 0 0 0;
-#X connect 4 0 0 0;
-#X connect 5 0 0 0;
-#X connect 6 0 0 0;
-#X connect 7 0 0 0;
-#X connect 9 0 15 0;
-#X connect 10 0 15 0;
-#X connect 12 0 15 0;
-#X connect 13 0 15 0;
-#X connect 14 0 15 0;
-#X connect 17 0 0 0;
-#X connect 18 0 19 0;
-#X connect 19 0 17 0;
-#X connect 25 0 15 0;
-#X connect 26 0 25 0;
-#X restore 427 209 pd details/examples;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 0 comment;
 #X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 0 Objects
 cloned from Max/MSP;
@@ -118,3 +59,61 @@ clone! It does provide advantages to pd vanilla's comments though.
 \, f \, f> (default 0 0 0) | @underline <float> (default 0) | @receive
 <symbol> (default 'empty') | @text <anything>: sets comment (default
 "comment"), f 78;
+#N canvas 651 233 845 519 details 0;
+#X obj 157 275 cyclone/comment 0 50 helvetica ? 0 0 0 0 0 Comment;
+#X text 58 363 Note: when in edit mode \, you can click on the object
+to select it and then press <F5> to copy the comment from [cyclone/comment]
+into a Pd's comment box.;
+#X msg 157 78 fontsize 50;
+#X msg 165 98 fontsize 30;
+#X msg 187 130 fontname helvetica;
+#X msg 193 151 fontname courier;
+#X msg 209 185 textcolor 0 0 0;
+#X msg 215 205 textcolor 150 100 50;
+#X text 83 28 You can also edit the properties of [comment] with messages.
+, f 33;
+#X msg 549 104 textcolor 200 0 0;
+#X msg 565 126 textcolor 0 0 0;
+#X obj 460 328 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 0
+Comment;
+#X msg 578 166 set hi \, append there;
+#X msg 588 189 set comment \, prepend this;
+#X msg 599 212 set Comment;
+#X obj 549 254 s \$0-comment;
+#X text 436 21 The [comment] object below has a receive symbol \, so
+you can send messages to it via a [send] object. The receive symbol
+can be set with the receive message or the @receive attribute. IF you
+set a receive name as "empty" then it it can't receive messages anymore.
+, f 52;
+#X msg 53 190 fontface \$1;
+#X obj 53 103 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856 -1
+-1 0;
+#X floatatom 53 169 3 0 0 0 - - -;
+#X text 71 102 normal;
+#X text 71 117 bold;
+#X text 71 133 italic;
+#X text 71 148 bold+italic;
+#X msg 456 168 underline \$1;
+#X obj 456 144 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+1;
+#X text 204 439 This object is compliant to Max 5 and is not being
+fully updated to Max6+ versions (with all that 'bubble' stuff and more).
+It also has inconsistencies like different attributes than the original
+object in Max (@receive and @text)., f 67;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 9 0 15 0;
+#X connect 10 0 15 0;
+#X connect 12 0 15 0;
+#X connect 13 0 15 0;
+#X connect 14 0 15 0;
+#X connect 17 0 0 0;
+#X connect 18 0 19 0;
+#X connect 19 0 17 0;
+#X connect 24 0 15 0;
+#X connect 25 0 24 0;
+#X restore 477 210 pd details;
