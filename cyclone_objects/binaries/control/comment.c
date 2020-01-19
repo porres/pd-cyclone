@@ -58,11 +58,11 @@ typedef struct _comment{
     int             x_fontface;   // 0: reg, 1: bold, 2: italic, 3: bolditalic
     int             x_bold;
     int             x_italic;
-    t_symbol       *x_encoding;     // (unused)
+    int             x_underline;  // 0: no, 1: yes
+    t_symbol       *x_encoding;   // (unused)
 /* new args that currently do nothing - DK 2017
     t_float         x_bgcolor[3];
     int             x_textjust; //0: left, 1: center, 2: right
-    int             x_underline; //0: no, 1: yes
     int             x_suppressinlet; //0: no, 1: yes */
 }t_comment;
 
@@ -73,7 +73,6 @@ static t_pd *commentsink = 0;
 static void comment_receive(t_comment *x, t_symbol *s){
     t_symbol *rcv = canvas_realizedollar(x->x_glist, x->x_rcv_unexpanded = s);
     if(x->x_receive_sym != rcv){
-        canvas_dirty(x->x_glist, 1);
         if(rcv == gensym("empty"))
             rcv = &s_;
         if(rcv != &s_){
@@ -91,6 +90,7 @@ static void comment_receive(t_comment *x, t_symbol *s){
 
 static void comment_set_receive(t_comment *x, t_symbol *s){
     x->x_rcv_set = 1;
+    canvas_dirty(x->x_glist, 1);
     comment_receive(x, s);
 }
 
@@ -105,7 +105,8 @@ static void comment_draw(t_comment *x){
             return;
     }
     outp = outbuf = buf;
-    sprintf(outp, "comment_draw %s .x%lx.c txt%lx all%lx %d %d %s -%d %s %s {%.*s} %d %s %s\n",
+    sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d %s -%d %s %s {%.*s} %d %s %s\n",
+        x->x_underline ? "comment_draw_ul" : "comment_draw",
         x->x_bindsym->s_name, // %s
         (unsigned long)x->x_cv, // .x%lx.c
         (unsigned long)x, // txt%lx
@@ -120,7 +121,7 @@ static void comment_draw(t_comment *x){
         x->x_textbuf, // *s
         x->x_pixwidth, // %d
         x->x_bold ? "bold" : "normal",
-        x->x_italic? "italic" : "roman");
+        x->x_italic ? "italic" : "roman");
     x->x_bbpending = 1;
     sys_gui(outbuf);
     if(outbuf != buf)
@@ -426,7 +427,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
         if(x->x_rcv_unexpanded == &s_) // if nothing found, set to "empty"
             x->x_rcv_unexpanded = gensym("?");
     }
-    binbuf_addv(b, "ssiisiissiiii",
+    binbuf_addv(b, "ssiisiissiiiii",
                 gensym("#X"),
                 gensym("obj"),
                 (int)x->x_obj.te_xpix,
@@ -439,7 +440,8 @@ static void comment_save(t_gobj *z, t_binbuf *b){
                 x->x_fontface,
                 (int)x->x_red,
                 (int)x->x_green,
-                (int)x->x_blue);
+                (int)x->x_blue,
+                x->x_underline);
     binbuf_addbinbuf(b, x->x_binbuf); // the actual comment
     binbuf_addv(b, ";");
 }
@@ -557,7 +559,6 @@ static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av){
             typedmess((t_pd *)x->x_glist, gensym("text"),
                       argc + 2, binbuf_getvec(bb));
             canvas_unsetcurrent(x->x_glist);
-            canvas_dirty(x->x_glist, 1);
             binbuf_free(bb);
             goto donelist;
         }
@@ -665,6 +666,16 @@ static void comment_fontface(t_comment *x, t_float f){
     }
 }
 
+static void comment_underline(t_comment *x, t_float f){
+    int underline = (int)(f != 0);
+    if(x->x_underline != underline){
+        canvas_dirty(x->x_glist, 1);
+        x->x_underline = underline;
+        sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
+        comment_draw(x);
+    }
+}
+
 static void comment_zoom(t_comment *x, t_floatarg zoom){
     comment_fontsize(x, (float)x->x_fontsize * ((x->x_zoom = (int)zoom) == 1. ? 0.5 : 2.));
 }
@@ -678,10 +689,6 @@ static void comment_bgcolor(t_comment *x, t_float f1, t_float f2, t_float f3){
 
 static void comment_textjustification(t_comment *x, t_float f){
     x->x_textjust= f < 0 ? 0 : (f > 2 ? 2 : (int)f);
-}
-
-static void comment_underline(t_comment *x, t_float f){
-    x->x_underline = f == 0 ? 0 : 1;
 }
 
 static void comment_suppressinlet(t_comment *x, t_float f){
@@ -788,6 +795,15 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                     else i--;
                 };
             }
+            else if(sym == gensym("@underline")){
+                i++;
+                if((argc-i) > 0){
+                    if(argv[i].a_type == A_FLOAT)
+                        x->x_underline = (int)(argv[i].a_w.w_float != 0);
+                    else
+                        i--;
+                };
+            }
 /*            else if(sym == gensym("@bgcolor")){ // new to come attributes
                 i++; //done with symbol move on
                 int numcolors = 3; //number of colors to specify
@@ -815,17 +831,6 @@ static void comment_attrparser(t_comment *x, int argc, t_atom * argv){
                         x->x_textjust = textjust < 0 ? 0 : (textjust > 2 ? 2 : textjust);
                     }
                     else i--;
-                };
-            }
-            else if(sym == gensym("@underline")){
-                i++;
-                if((argc-i) > 0){
-                    if(argv[i].a_type == A_FLOAT){
-                        int underline = (int)argv[i].a_w.w_float;
-                        x->x_underline = underline == 0 ? 0 : 1;
-                    }
-                    else
-                        i--;
                 };
             }
             else if(sym == gensym("@suppressinlet")){
@@ -897,15 +902,19 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                     if(ac && av->a_type == A_FLOAT){ // face
                         x->x_fontface = (int)av->a_w.w_float;
                         ac--, av++;
-                        if(ac && av->a_type == A_FLOAT){
+                        if(ac && av->a_type == A_FLOAT){ // R
                             x->x_red = (unsigned char)av->a_w.w_float;
                             ac--, av++;
-                            if(ac && av->a_type == A_FLOAT){
+                            if(ac && av->a_type == A_FLOAT){ // G
                                 x->x_green = (unsigned char)av->a_w.w_float;
                                 ac--, av++;
-                                if(ac && av->a_type == A_FLOAT){
+                                if(ac && av->a_type == A_FLOAT){ // B
                                     x->x_blue = (unsigned char)av->a_w.w_float;
                                     ac--, av++;
+                                    if(ac && av->a_type == A_FLOAT){ // Underline
+                                        x->x_underline = (int)(av->a_w.w_float != 0);
+                                        ac--, av++;
+                                    }
                                 }
                             }
                         }
@@ -964,14 +973,14 @@ CYCLONE_OBJ_API void comment_setup(void){
                     gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_fontface,
                     gensym("fontface"), A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_underline,
+                    gensym("underline"), A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
     /* new methods yet to be implemented - DK
     class_addmethod(comment_class, (t_method)comment_bgcolor,
                     gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT,0);
     class_addmethod(comment_class, (t_method)comment_textjustification,
                     gensym("textjustification"), A_FLOAT, 0);
-    class_addmethod(comment_class, (t_method)comment_underline,
-                    gensym("underline"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_suppressinlet,
                     gensym("suppressinlet"), A_FLOAT, 0); */
 //    class_setpropertiesfn(comment_class, comment_properties);
@@ -994,23 +1003,6 @@ CYCLONE_OBJ_API void comment_setup(void){
             if {$rr == 0} {concat $tt1} else {\n\
             puts stderr [concat tcl/tk error: $tt1]\n\
             concat $tt}}}\n");
-    
-/*    sprintf(outp, "comment_draw %s .x%lx.c txt%lx all%lx %d %d %s -%d %s %s {%.*s} %d\n",
-        x->x_bindsym->s_name, // tgt
-        (unsigned long)x->x_cv, // cv
-        (unsigned long)x, // tag1 (all)
-        (unsigned long)x, // tag2 (txt)
-        text_xpix((t_text *)x, x->x_glist) + x->x_zoom, // x
-        text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // y
-        x->x_fontname->s_name, // fnm
-        x->x_fontsize, // fsz
-        glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // clr
-        "\"\"", // enc
-        x->x_textbufsize, // tt
-        x->x_textbuf, // ????
-        x->x_pixwidth); // ????
- */
-    
     sys_gui("proc comment_draw {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd wt sl} {\n\
             set tt1 [comment_entext $enc $tt]\n\
             if {$wd > 0} {\n\
@@ -1018,6 +1010,15 @@ CYCLONE_OBJ_API void comment_setup(void){
             -font [list $fnm $fsz $wt $sl] -fill $clr -width $wd -anchor nw} else {\n\
             $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl] -fill $clr -anchor nw}\n\
+            comment_bbox $tgt $cv $tag1\n\
+            $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
+    sys_gui("proc comment_draw_ul {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd wt sl} {\n\
+            set tt1 [comment_entext $enc $tt]\n\
+            if {$wd > 0} {\n\
+            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            -font [list $fnm $fsz $wt $sl underline] -fill $clr -width $wd -anchor nw} else {\n\
+            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            -font [list $fnm $fsz $wt $sl underline] -fill $clr -anchor nw}\n\
             comment_bbox $tgt $cv $tag1\n\
             $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
     sys_gui("proc comment_update {cv tag enc tt wd} {\n\
