@@ -1,4 +1,4 @@
-#N canvas 676 47 559 677 10;
+#N canvas 1029 83 559 677 10;
 #X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -174,27 +174,27 @@ Trigger mode:;
 #X text 108 142 Samples per line (2-8192);
 #X text 268 162 Number of lines in buffer (8-256);
 #X text 67 116 frequency;
-#N canvas 497 125 821 572 appearance_colors 0;
-#X obj 38 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rf empty 0 -9 0 10
+#N canvas 585 127 820 648 appearance_colors 1;
+#X obj 32 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rf empty 0 -9 0 10
 -258049 -262144 -1 10210 1;
-#X floatatom 38 279 5 0 0 0 - - -;
-#X msg 27 348 fgcolor \$1 \$2 \$3;
-#X obj 76 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gf empty 0 -9 0 10 -4033
+#X floatatom 32 279 5 0 0 0 - - -;
+#X msg 27 368 fgcolor \$1 \$2 \$3;
+#X obj 70 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gf empty 0 -9 0 10 -4033
 -262144 -1 11405 1;
-#X floatatom 76 279 5 0 0 0 - - -;
-#X obj 116 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bf empty 0 -9 0 10 -64
+#X floatatom 70 279 5 0 0 0 - - -;
+#X obj 110 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bf empty 0 -9 0 10 -64
 -262144 -1 11555 1;
-#X floatatom 116 279 5 0 0 0 - - -;
-#X obj 174 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rb empty 0 -9 0 10
+#X floatatom 110 279 5 0 0 0 - - -;
+#X obj 171 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rb empty 0 -9 0 10
 -258049 -262144 -1 3685 1;
-#X floatatom 174 279 5 0 0 0 - - -;
-#X obj 212 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gb empty 0 -9 0 10
+#X floatatom 171 279 5 0 0 0 - - -;
+#X obj 209 137 vsl 15 128 0 1 0 0 xaslkdjla \$0-Gb empty 0 -9 0 10
 -4033 -262144 -1 3935 1;
-#X floatatom 212 279 5 0 0 0 - - -;
-#X obj 252 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bb empty 0 -9 0 10 -64
+#X floatatom 209 279 5 0 0 0 - - -;
+#X obj 249 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bb empty 0 -9 0 10 -64
 -262144 -1 3835 1;
-#X floatatom 252 279 5 0 0 0 - - -;
-#X msg 163 346 bgcolor \$1 \$2 \$3;
+#X floatatom 249 279 5 0 0 0 - - -;
+#X msg 163 370 bgcolor \$1 \$2 \$3;
 #X obj 304 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rg empty 0 -9 0 10
 -258049 -262144 -1 4781 1;
 #X floatatom 304 279 5 0 0 0 - - -;
@@ -204,27 +204,28 @@ Trigger mode:;
 #X obj 382 137 vsl 15 128 0 1 0 0 qdaskjlf \$0-Bg empty 0 -9 0 10 -64
 -262144 -1 5080 1;
 #X floatatom 382 279 5 0 0 0 - - -;
-#X msg 293 346 gridcolor \$1 \$2 \$3;
-#X msg 546 310 frgb 205 229 232 \, brgb 74 79 77;
+#X msg 311 370 gridcolor \$1 \$2 \$3;
+#X msg 596 310 frgb 205 229 232 \, brgb 74 79 77;
 #N canvas 217 96 326 446 x 0;
 #X obj 101 101 cnv 15 63 78 empty empty empty 20 12 0 14 -74964 -66577
 0;
 #X obj 107 121 bng 50 250 50 0 sdfsd sfgsg Default -2 -10 0 14 -212603
 -1 -212603;
-#X msg 107 241 \; \$1-Rf 0.803922 \; \$1-Gf 0.898039 \; \$1-Bf 0.909804
-\; \$1-Rb 0.290196 \; \$1-Gb 0.309804 \; \$1-Bb 0.301961 \; \$1-Rg
-0.376471 \; \$1-Gg 0.384314 \; \$1-Bg 0.4;
 #X obj 124 191 loadbang;
 #X obj 107 217 f \$0;
-#X connect 1 0 4 0;
-#X connect 4 0 2 0;
+#X msg 107 240 \; \$1-Rf 0.803922 \; \$1-Gf 0.898039 \; \$1-Bf 0.909804
+\; \$1-Rb 0.290196 \; \$1-Gb 0.309804 \; \$1-Bb 0.301961 \; \$1-Rg
+0.376471 \; \$1-Gg 0.384314 \; \$1-Bg 0.4;
+#X connect 1 0 3 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
 #X coords 0 -1 1 1 65 80 1 100 100;
-#X restore 58 428 pd x;
-#X obj 300 376 osc~ 24;
-#X obj 514 362 scope~ 130 130 256 3 128 -1 1 0 0 0 0 0 255 0 7 31 7
+#X restore 58 468 pd x;
+#X obj 293 411 osc~ 24;
+#X obj 564 362 scope~ 130 130 256 3 128 -1 1 0 0 0 0 0 255 0 7 31 7
 96 98 102 0;
-#X msg 514 279 frgb 0 255 0 \, brgb 7 31 7;
-#X obj 514 255 loadbang;
+#X msg 564 279 frgb 0 255 0 \, brgb 7 31 7;
+#X obj 564 255 loadbang;
 #X text 446 79 Backwards compatibility note:;
 #X text 464 113 Old color messages for front / signal and background
 are \, respectively \, frgb and brgb - they are RGB with values from
@@ -239,18 +240,18 @@ Check the messages below, f 52;
 0;
 #X obj 39 26 cyclone/comment 0 18 times ? 0 0 0 0 0 255 255 255 0 0
 Colors:;
-#X obj 163 406 cyclone/scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333
+#X obj 163 446 cyclone/scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333
 205 228 232 73 79 77 96 98 102 0;
-#X obj 293 314 cyclone/pak f f f;
-#X obj 163 314 cyclone/pak f f f;
-#X obj 27 316 cyclone/pak f f f;
+#X obj 27 308 cyclone/pak 0.803922 0.898039 0.909804, f 15;
+#X obj 163 308 cyclone/pak 0.290196 0.309804 0.301961, f 16;
+#X obj 311 308 cyclone/pak 0.376471 0.384314 0.4, f 11;
 #X connect 0 0 1 0;
-#X connect 1 0 36 0;
+#X connect 1 0 34 0;
 #X connect 2 0 33 0;
 #X connect 3 0 4 0;
-#X connect 4 0 36 1;
+#X connect 4 0 34 1;
 #X connect 5 0 6 0;
-#X connect 6 0 36 2;
+#X connect 6 0 34 2;
 #X connect 7 0 8 0;
 #X connect 8 0 35 0;
 #X connect 9 0 10 0;
@@ -259,18 +260,19 @@ Colors:;
 #X connect 12 0 35 2;
 #X connect 13 0 33 0;
 #X connect 14 0 15 0;
-#X connect 15 0 34 0;
+#X connect 15 0 36 0;
 #X connect 16 0 17 0;
-#X connect 17 0 34 1;
+#X connect 17 0 36 1;
 #X connect 18 0 19 0;
-#X connect 19 0 34 2;
+#X connect 19 0 36 2;
 #X connect 20 0 33 0;
 #X connect 21 0 24 0;
 #X connect 23 0 33 0;
 #X connect 25 0 24 0;
-#X connect 34 0 20 0;
+#X connect 26 0 25 0;
+#X connect 34 0 2 0;
 #X connect 35 0 13 0;
-#X connect 36 0 2 0;
+#X connect 36 0 20 0;
 #X restore 294 259 pd appearance_colors;
 #N canvas 581 228 764 481 appearance_others 0;
 #X obj 38 22 cnv 15 100 30 empty empty empty 20 12 0 14 -233017 -66577
