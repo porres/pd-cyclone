@@ -979,12 +979,12 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
     x->x_italic = x->x_fontface > 1;
     x->x_red = x->x_red > 255 ? 255 : x->x_red < 0 ? 0 : x->x_red;
-    x->x_red = x->x_green > 255 ? 255 : x->x_green < 0 ? 0 : x->x_green;
-    x->x_red = x->x_blue > 255 ? 255 : x->x_blue < 0 ? 0 : x->x_blue;
+    x->x_green = x->x_green > 255 ? 255 : x->x_green < 0 ? 0 : x->x_green;
+    x->x_blue = x->x_blue > 255 ? 255 : x->x_blue < 0 ? 0 : x->x_blue;
     sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
-    x->x_red = x->x_bg[0] > 255 ? 255 : x->x_bg[0] < 0 ? 0 : x->x_bg[0];
-    x->x_red = x->x_bg[1] > 255 ? 255 : x->x_bg[1] < 0 ? 0 : x->x_bg[1];
-    x->x_red = x->x_bg[2] > 255 ? 255 : x->x_bg[2] < 0 ? 0 : x->x_bg[2];
+    x->x_bg[0] = x->x_bg[0] > 255 ? 255 : x->x_bg[0] < 0 ? 0 : x->x_bg[0];
+    x->x_bg[1] = x->x_bg[1] > 255 ? 255 : x->x_bg[1] < 0 ? 0 : x->x_bg[1];
+    x->x_bg[2] = x->x_bg[2] > 255 ? 255 : x->x_bg[2] < 0 ? 0 : x->x_bg[2];
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
     return(x);
 }
