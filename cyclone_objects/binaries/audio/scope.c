@@ -405,9 +405,9 @@ static void scope_triglevel(t_scope *x, t_floatarg f){
 }
 
 static void scope_fgcolor(t_scope *x, t_floatarg r, t_floatarg g, t_floatarg b){ //scale is 0-1
-    int red = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
-    int green = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
-    int blue = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    unsigned char red = r < 0. ? 0 : r > 1. ? 255 : (unsigned char)(r * 255);
+    unsigned char green = g < 0. ? 0 : g > 1. ? 255 : (unsigned char)(g * 255);
+    unsigned char blue = b < 0. ? 0 : b > 1. ? 255 : (unsigned char)(b * 255);
     if(x->x_fg[0] != red || x->x_fg[1] != green || x->x_fg[2] != blue){
         canvas_dirty(x->x_cv, 1);
         x->x_fg[0] = red, x->x_fg[1] = green, x->x_fg[2] = blue;
@@ -418,9 +418,9 @@ static void scope_fgcolor(t_scope *x, t_floatarg r, t_floatarg g, t_floatarg b){
 }
 
 static void scope_frgb(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-255
-    int red = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
-    int green = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
-    int blue = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    unsigned char red = (unsigned char)(r < 0 ? 0 : r > 255 ? 255 : r);
+    unsigned char green = (unsigned char)(g < 0 ? 0 : g > 255 ? 255 : g);
+    unsigned char blue = (unsigned char)(b < 0 ? 0 : b > 255 ? 255 : b);
     if(x->x_fg[0] != red || x->x_fg[1] != green || x->x_fg[2] != blue){
         canvas_dirty(x->x_cv, 1);
         x->x_fg[0] = red, x->x_fg[1] = green, x->x_fg[2] = blue;
@@ -431,9 +431,9 @@ static void scope_frgb(t_scope *x, t_float r, t_float g, t_float b){ //scale is 
 }
 
 static void scope_bgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale: 0-1
-    int red = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
-    int green = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
-    int blue = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    unsigned char red = r < 0. ? 0 : r > 1. ? 255 : (unsigned char)(r * 255);
+    unsigned char green = g < 0. ? 0 : g > 1. ? 255 : (unsigned char)(g * 255);
+    unsigned char blue = b < 0. ? 0 : b > 1. ? 255 : (unsigned char)(b * 255);
     if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue){
         x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
         canvas_dirty(x->x_cv, 1);
@@ -444,9 +444,9 @@ static void scope_bgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale:
 }
 
 static void scope_brgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0-255
-    int red = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
-    int green = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
-    int blue = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    unsigned char red = (unsigned char)(r < 0 ? 0 : r > 255 ? 255 : r);
+    unsigned char green = (unsigned char)(g < 0 ? 0 : g > 255 ? 255 : g);
+    unsigned char blue = (unsigned char)(b < 0 ? 0 : b > 255 ? 255 : b);
     if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue){
         x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
         canvas_dirty(x->x_cv, 1);
@@ -457,9 +457,9 @@ static void scope_brgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0
 }
 
 static void scope_gridcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale: 0-1
-    int red = r < 0. ? 0 : r > 1. ? 255 : (int)(r * 255);
-    int green = g < 0. ? 0 : g > 1. ? 255 : (int)(g * 255);
-    int blue = b < 0. ? 0 : b > 1. ? 255 : (int)(b * 255);
+    unsigned char red = r < 0. ? 0 : r > 1. ? 255 : (unsigned char)(r * 255);
+    unsigned char green = g < 0. ? 0 : g > 1. ? 255 : (unsigned char)(g * 255);
+    unsigned char blue = b < 0. ? 0 : b > 1. ? 255 : (unsigned char)(b * 255);
     if(x->x_gg[0] != red || x->x_gg[1] != green || x->x_gg[2] != blue){
         x->x_gg[0] = red, x->x_gg[1] = green, x->x_gg[2] = blue;
         canvas_dirty(x->x_cv, 1);
@@ -470,9 +470,9 @@ static void scope_gridcolor(t_scope *x, t_float r, t_float g, t_float b){ //scal
 }
 
 static void scope_grgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0-255
-    int red = (int)(r < 0 ? 0 : r > 255 ? 255 : r);
-    int green = (int)(g < 0 ? 0 : g > 255 ? 255 : g);
-    int blue = (int)(b < 0 ? 0 : b > 255 ? 255 : b);
+    unsigned char red = (unsigned char)(r < 0 ? 0 : r > 255 ? 255 : r);
+    unsigned char green = (unsigned char)(g < 0 ? 0 : g > 255 ? 255 : g);
+    unsigned char blue = (unsigned char)(b < 0 ? 0 : b > 255 ? 255 : b);
     if(x->x_gg[0] != red || x->x_gg[1] != green || x->x_gg[2] != blue){
         x->x_gg[0] = red, x->x_gg[1] = green, x->x_gg[2] = blue;
         canvas_dirty(x->x_cv, 1);
