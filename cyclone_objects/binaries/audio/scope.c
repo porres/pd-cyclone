@@ -850,8 +850,8 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     pd_bind(x->x_handle, sh->h_bindsym = gensym(hbuf));
     sprintf(sh->h_outlinetag, "h%lx", (unsigned long)sh);
     x->x_glist = (t_glist*)canvas_getcurrent();
+    x->x_cv = glist_getcanvas(x->x_glist);
     x->x_zoom = x->x_glist->gl_zoom;
-    x->x_cv = NULL;
     x->x_bufsize = x->x_xymode = x->x_frozen = x->x_precount = sh->h_dragon = 0;
     x->x_phase = x->x_bufphase = x->x_precount = 0;
     float width = 130, height = 130, period = 256, bufsize = x->x_lastbufsize = 128; // def values
