@@ -828,15 +828,10 @@ static void scope_dialog(t_scope *x, t_symbol *s, int ac, t_atom *av){
     scope_drawstyle(x, drawstyle);
     scope_trigger(x, trigmode);
     scope_triglevel(x, triglevel);
-    if(x->x_width != width || x->x_height != height || x->x_bg[0] != bgred || x->x_bg[1] != bggreen
-       || x->x_bg[2] != bgblue || x->x_gg[0] != grred || x->x_gg[1] != grgreen || x->x_gg[2] != grblue
-       || x->x_fg[0] != fgred || x->x_fg[1] != fggreen || x->x_fg[2] != fgblue){
-            scope_brgb(x, bgred, bggreen, bgblue);
-            scope_grgb(x, grred, grgreen, grblue);
-            scope_frgb(x, fgred, fggreen, fgblue);
-            scope_dim(x, width, height);
-            canvas_dirty(x->x_cv, 1);
-    }
+    scope_brgb(x, bgred, bggreen, bgblue);
+    scope_grgb(x, grred, grgreen, grblue);
+    scope_frgb(x, fgred, fggreen, fgblue);
+    scope_dim(x, width, height);
 }
 
 static void *scope_new(t_symbol *s, int ac, t_atom *av){
