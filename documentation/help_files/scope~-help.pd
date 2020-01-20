@@ -1,4 +1,4 @@
-#N canvas 1029 83 559 677 10;
+#N canvas 690 72 559 677 10;
 #X obj 4 651 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 5 312 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -174,7 +174,7 @@ Trigger mode:;
 #X text 108 142 Samples per line (2-8192);
 #X text 268 162 Number of lines in buffer (8-256);
 #X text 67 116 frequency;
-#N canvas 585 127 820 648 appearance_colors 1;
+#N canvas 585 127 820 648 appearance_colors 0;
 #X obj 32 137 vsl 15 128 0 1 0 0 rjhfkjfbws \$0-Rf empty 0 -9 0 10
 -258049 -262144 -1 10210 1;
 #X floatatom 32 279 5 0 0 0 - - -;
