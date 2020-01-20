@@ -107,14 +107,14 @@ set a receive name as "empty" then it it can't receive messages anymore.
 #X msg 371 255 bg \$1;
 #X obj 371 232 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 89 30 You can edit the properties of [comment] with messages.
-, f 30;
-#X text 43 416 This object is compliant to Max 5 and is not being fully
-updated to Max6+ versions (with all that 'bubble' stuff and more).
+#X text 68 21 You can edit the properties of [comment] with messages.
+, f 27;
+#X text 64 373 After setting a background color you can use the 'bg'
+flag to turn it off or on again., f 53;
+#X text 64 402 This object is fully compliant to Max 5 but not fully
+compliant to Max6+ versions (with all that 'bubble' stuff and more).
 It also has inconsistencies like different attributes than the original
-object in Max (@receive \, @text and @bg).;
-#X text 43 377 After setting a background color you can use the 'bg'
-flag to turn it off or on again., f 60;
+object in Max (@receive \, @text and @bg)., f 53;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
