@@ -462,7 +462,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
         (int)x->x_obj.te_xpix,
         (int)x->x_obj.te_ypix,
         atom_getsymbol(binbuf_getvec(bb)),
-        x->x_pixwidth, // zoom???
+        x->x_pixwidth / x->x_zoom,
         x->x_fontsize / x->x_zoom,
         x->x_fontname,
         x->x_rcv_unexpanded,
@@ -741,7 +741,11 @@ static void comment_textjustification(t_comment *x, t_float f){
 }
 
 static void comment_zoom(t_comment *x, t_floatarg zoom){
-    comment_fontsize(x, (float)x->x_fontsize * ((x->x_zoom = (int)zoom) == 1. ? 0.5 : 2.));
+    x->x_zoom = (int)zoom;
+    float mul = zoom == 1. ? 0.5 : 2.;
+    float fontsize = (float)x->x_fontsize * mul;
+    x->x_pixwidth = (int)((float)x->x_pixwidth * mul);
+    comment_fontsize(x, fontsize);
 }
 
 ///////////// ==========------------------------------------===>  later rethink/REWRITE
@@ -999,7 +1003,9 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
         binbuf_restore(x->x_binbuf, 1, &at);
     }
     if(x->x_fontsize < 1)
-        x->x_fontsize = glist_getfont(x->x_glist) * x->x_zoom;
+        x->x_fontsize = glist_getfont(x->x_glist);
+    x->x_fontsize *= x->x_zoom;
+    x->x_pixwidth *= x->x_zoom;
     if(!x->x_fontname)
         x->x_fontname = gensym("helvetica");
     x->x_fontface = x->x_fontface < 0 ? 0 : (x->x_fontface > 3 ? 3 : x->x_fontface);
