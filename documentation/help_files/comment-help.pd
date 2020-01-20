@@ -1,38 +1,74 @@
-#N canvas 578 283 559 533 10;
-#X obj 3 245 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#N canvas 512 62 558 559 10;
+#X obj 3 249 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 3 407 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 3 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X text 170 413 (none);
-#X obj 3 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 170 434 (none);
+#X obj 3 535 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 146 154 <= the default comment box from [cyclone/comment];
-#X obj 137 181 cyclone/comment 280 20 Times ? 1 150 0 0 1 200 200 200
-1 Hello \, I'm a comment from the [cyclone/comment] object!!!;
-#X obj 3 433 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
-#X obj 80 251 cnv 17 3 152 empty empty 0 5 9 0 16 -228856 -162280 0
+#X text 149 152 <= the default comment box from [cyclone/comment];
+#X obj 137 185 cyclone/comment 280 20 Times ? 1 150 0 0 1 200 200 200
+1 1 Hello \, I'm a comment from the [cyclone/comment] object!!!;
+#X obj 3 454 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
+#X obj 74 255 cnv 17 3 168 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 122 250 set <anything>;
-#X text 214 250 - sets comment, f 54;
-#X text 110 292 fontsize <float>;
-#X text 214 292 - sets font size, f 54;
-#X text 104 306 fontname <symbol>;
-#X text 110 390 receive <symbol>;
-#X text 214 306 - sets font type, f 54;
-#X text 214 390 - sets receive symbol, f 54;
-#X text 92 348 textcolor <f \, f \, f>;
-#X text 104 264 append <anything>;
-#X text 104 278 append <anything>;
-#X text 214 264 - appends a message to the comment, f 54;
-#X text 214 278 - prepends a message to the comment, f 54;
-#X text 110 320 fontface <float>;
-#X text 214 320 - sets face: 0-normal \, 1-bold \, 2-italic \, 3-bold+italic
+#X text 122 254 set <anything>;
+#X text 214 254 - sets comment, f 54;
+#X text 110 296 fontsize <float>;
+#X text 214 296 - sets font size, f 54;
+#X text 104 310 fontname <symbol>;
+#X text 110 408 receive <symbol>;
+#X text 214 310 - sets font type, f 54;
+#X text 214 408 - sets receive symbol, f 54;
+#X text 92 366 textcolor <f \, f \, f>;
+#X text 104 268 append <anything>;
+#X text 104 282 append <anything>;
+#X text 214 268 - appends a message to the comment, f 54;
+#X text 214 282 - prepends a message to the comment, f 54;
+#X text 110 324 fontface <float>;
+#X text 214 324 - sets face: 0-normal \, 1-bold \, 2-italic \, 3-bold+italic
 ;
-#X text 104 334 underline <float>;
-#X text 214 334 - non zero sets underline, f 54;
+#X text 104 338 underline <float>;
+#X text 214 338 - non zero sets underline, f 54;
+#X text 104 380 bgcolor <f \, f \, f>;
+#X text 146 394 bg <float>;
+#X text 214 394 - background flag (0 supresses background), f 54;
+#X text 214 366 - sets RGB text color (values from 0 to 255), f 54
+;
+#X text 214 380 - sets RGB background color (values from 0 to 255)
+, f 54;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 18 57 cyclone/comment 0 18 times ? 0 0 0 0 0 255 255 255 0 0
+Comment GUI;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 0 255 255 255 0 0
+comment;
+#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 0 255 255
+255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 0 255 255
+255 0 0 cyclone;
+#X obj 99 154 cyclone/comment 0 10 helvetica ? 0 0 0 0 0 255 255 255
+0 0 comment;
+#X text 70 461 @fontsize <float> (default patch's) | @fontname <symbol>
+(default helvetica) | @fontface <float> (default 0) | @textcolor <f
+\, f \, f> (default 0 0 0) | @bgcolor <f \, f \, f> (default 255 255
+255) | @underline <float> (default 0) | @receive <symbol> (default
+'empty') | @bg <float> (default 0) | @textjustification <float> (default
+0) @text <anything>: sets comment (default "comment"), f 78;
+#X text 214 352 - sets RGB text color (values from 0 to 255), f 54
+;
+#X text 80 352 textjustification <f>;
 #N canvas 527 158 839 506 details 0;
 #X obj 157 285 cyclone/comment 0 50 helvetica ? 0 0 0 0 0 255 255 255
-0 Comment;
+0 0 Comment;
 #X text 446 420 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
 into a Pd's comment box.;
@@ -45,7 +81,7 @@ into a Pd's comment box.;
 #X msg 559 104 textcolor 200 0 0;
 #X msg 575 126 textcolor 0 0 0;
 #X obj 469 321 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 0
-255 255 255 0 Comment;
+255 255 255 0 0 this comment;
 #X msg 588 166 set hi \, append there;
 #X msg 598 189 set comment \, prepend this;
 #X msg 609 212 set Comment;
@@ -99,42 +135,28 @@ flag to turn it off or on again., f 60;
 #X connect 26 0 0 0;
 #X connect 27 0 0 0;
 #X connect 28 0 27 0;
-#X restore 477 212 pd details;
-#X text 104 362 bgcolor <f \, f \, f>;
-#X text 146 376 bg <float>;
-#X text 214 376 - background flag (0 supresses background), f 54;
-#X text 214 348 - sets RGB text color (values from 0 to 255), f 54
-;
-#X text 214 362 - sets RGB background color (values from 0 to 255)
-, f 54;
+#X restore 479 188 pd details;
+#N canvas 620 193 488 410 more 0;
+#X obj 123 258 cyclone/comment 161 20 helvetica ? 0 0 0 0 0 200 200
+200 1 1 The comment can be justified in different ways;
+#X msg 123 220 textjustification \$1;
+#X obj 123 138 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+-1 -1 1;
+#X floatatom 123 195 3 0 0 0 - - -;
+#X text 141 137 left;
+#X text 141 152 center;
+#X text 141 168 right;
+#X text 65 47 By default \, [comment] has no width limit \, but you
+can set it while in edit mode by clicking at the end of the comment
+and dragging. This will break the comment in different lines and will
+also allow you to set a justification parameter.;
+#X connect 1 0 0 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X restore 491 208 pd more \; details;
 #X text 56 85 [comment] is a GUI meant to be only a comment (a label
 or a note) that can be typed directly into it when in Edit mode. It
 does provide advantages to pd vanilla's comments \, namely: set font
-\, size \, color \, background color \, bold and/or italic and underline.
-This object is not being udpated to Max6+ versions!, f 74;
-#X text 70 440 @fontsize <float> (default patch's) | @fontname <symbol>
-(default helvetica) | @fontface <float> (default 0) | @textcolor <f
-\, f \, f> (default 0 0 0) | @bgcolor <f \, f \, f> (default 255 255
-255) | @underline <float> (default 0) | @receive <symbol> (default
-'empty') | @bg <float> (default 0) | @text <anything>: sets comment
-(default "comment"), f 78;
-#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 3 graph;
-#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
-0;
-#N canvas 382 141 749 319 (subpatch) 0;
-#X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 3 pd;
-#X obj 18 57 cyclone/comment 0 18 times ? 0 0 0 0 0 255 255 255 0 Comment
-GUI;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 0 255 255 255 0 comment
-;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 0 255 255
-255 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 0 255 255
-255 0 cyclone;
-#X obj 96 156 cyclone/comment 0 10 helvetica ? 0 0 0 0 0 255 255 255
-0 comment;
+\, size \, color \, background color \, bold and/or italic \, underline
+and justification. This object is not being fully compliant to Max6+
+versions!, f 74;
