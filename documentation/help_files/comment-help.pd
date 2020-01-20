@@ -27,7 +27,7 @@ comment;
 255 0 cyclone;
 #X obj 20 57 cyclone/comment 0 18 times ? 0 255 0 0 0 255 255 255 0
 Comment box;
-#X obj 137 181 cyclone/comment 280 20 Times ? 1 255 0 0 1 100 100 100
+#X obj 137 181 cyclone/comment 280 20 Times ? 1 200 0 0 1 200 200 200
 1 Hello \, I'm a comment from the [cyclone/comment] object!!!;
 #X obj 3 433 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
 #X obj 80 251 cnv 17 3 152 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -51,8 +51,8 @@ Comment box;
 #X text 104 334 underline <float>;
 #X text 214 334 - non zero sets underline, f 54;
 #N canvas 527 158 839 506 details 0;
-#X obj 157 285 cyclone/comment 0 50 helvetica ? 0 150 100 50 0 190
-90 200 0 Comment;
+#X obj 157 285 cyclone/comment 0 50 helvetica ? 0 200 0 0 0 190 90
+200 0 Comment;
 #X text 446 420 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
 into a Pd's comment box.;
@@ -64,8 +64,8 @@ into a Pd's comment box.;
 #X msg 215 199 textcolor 150 100 50;
 #X msg 559 104 textcolor 200 0 0;
 #X msg 575 126 textcolor 0 0 0;
-#X obj 469 321 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 0
-255 255 255 0 this comment;
+#X obj 469 321 cyclone/comment 0 50 helvetica \$0-comment 0 255 0 0
+0 255 255 255 0 Comment;
 #X msg 588 166 set hi \, append there;
 #X msg 598 189 set comment \, prepend this;
 #X msg 609 212 set Comment;
