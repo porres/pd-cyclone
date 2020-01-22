@@ -96,7 +96,7 @@ static void comment_set_receive(t_comment *x, t_symbol *s){
 static void comment_draw_bg(t_comment *x){
 //    post("comment_draw_bg");
     sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n", (unsigned long)x->x_cv,
-        x->x_x1, x->x_y1, x->x_x2 + x->x_zoom, x->x_y2 + x->x_zoom, (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
+        x->x_x1, x->x_y1, x->x_x1 + x->x_pixwidth, x->x_y2, (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
 }
 
 static void comment_draw(t_comment *x){
@@ -159,9 +159,8 @@ static void comment_update(t_comment *x){
             return;
     }
     outp = outbuf = buf;
-    sprintf(outp, "comment_update .x%lx.c txt%lx %s {%.*s} %d\n",
-            cv, (unsigned long)x, (x->x_encoding ? x->x_encoding->s_name : "\"\""),
-            x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
+    sprintf(outp, "comment_update .x%lx.c txt%lx %s {%.*s} %d\n", cv, (unsigned long)x,
+        (x->x_encoding ? x->x_encoding->s_name : "\"\""), x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
     outp += strlen(outp);
     if(x->x_active){
         if(x->x_selend > x->x_selstart){
@@ -232,7 +231,7 @@ static void comment__bboxhook(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_
     if(x->x_x1 != x1 || x->x_y1 != y1 || x->x_x2 != x2 || x->x_y2 != y2){
         x->x_x1 = x1;
         x->x_y1 = y1;
-        x->x_x2 = x2;
+        x->x_x2 = x2; // + x->x_pixwidth;
         x->x_y2 = y2;
         if(x->x_bg_flag)
             comment_redraw(x, x->x_bg_flag);
@@ -303,6 +302,7 @@ static void comment__releasehook(t_comment *x, t_symbol *bindsym){
     x->x_dragon = 0;
     if(x->x_newx2 != x->x_x2){
         x->x_pixwidth = x->x_newx2 - x->x_x1;
+//        post("x->x_pixwidth = %d", x->x_pixwidth);
         x->x_x2 = x->x_newx2;
         comment_update(x);
     }
@@ -916,7 +916,8 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_cv = 0;
     x->x_textbuf = 0;
     x->x_rcv_set = x->x_flag = 0;
-    x->x_pixwidth = x->x_fontsize = x->x_bbpending = x->x_fontface = x->x_bold = x->x_italic = 0;
+    x->x_fontsize = x->x_bbpending = x->x_fontface = x->x_bold = x->x_italic = 0;
+    x->x_pixwidth = 425;
     x->x_textjust = 0;
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
     x->x_bg_flag = 0;
