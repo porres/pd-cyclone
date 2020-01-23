@@ -1,4 +1,4 @@
-#N canvas 512 62 558 559 10;
+#N canvas 657 59 558 559 10;
 #X obj 3 249 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -7,7 +7,7 @@
 #X obj 3 535 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 149 152 <= the default comment box from [cyclone/comment];
-#X obj 137 185 cyclone/comment 280 20 Times ? 1 150 0 0 1 200 200 200
+#X obj 137 185 cyclone/comment 280 20 Times ? 3 150 0 0 1 200 200 200
 1 1 Hello \, I'm a comment from the [cyclone/comment] object!!!;
 #X obj 3 454 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
 #X obj 74 255 cnv 17 3 168 empty empty 0 5 9 0 16 -228856 -162280 0
