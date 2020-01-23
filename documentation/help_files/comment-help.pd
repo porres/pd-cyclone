@@ -67,54 +67,58 @@ comment;
 ;
 #X text 80 352 textjustification <f>;
 #N canvas 527 158 839 506 details 0;
-#X obj 157 285 cyclone/comment 0 50 helvetica ? 0 0 0 0 0 255 255 255
+#X obj 157 305 cyclone/comment 0 50 helvetica ? 0 0 0 0 0 100 150 100
 0 0 Comment;
-#X text 446 420 Note: when in edit mode \, you can click on the object
+#X text 446 430 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
 into a Pd's comment box.;
-#X msg 157 78 fontsize 50;
-#X msg 165 98 fontsize 30;
-#X msg 187 130 fontname helvetica;
-#X msg 193 151 fontname courier;
-#X msg 209 179 textcolor 0 0 0;
-#X msg 215 199 textcolor 150 100 50;
-#X msg 559 104 textcolor 200 0 0;
-#X msg 575 126 textcolor 0 0 0;
-#X obj 469 321 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 0
+#X msg 157 18 fontsize 50;
+#X msg 165 38 fontsize 30;
+#X msg 197 129 fontname helvetica;
+#X msg 204 149 fontname courier;
+#X msg 219 199 textcolor 0 0 0;
+#X msg 225 219 textcolor 150 100 50;
+#X msg 559 114 textcolor 200 0 0;
+#X msg 575 136 textcolor 0 0 0;
+#X obj 469 331 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 0
 255 255 255 0 0 this comment;
-#X msg 588 166 set hi \, append there;
-#X msg 598 189 set comment \, prepend this;
-#X msg 609 212 set Comment;
-#X obj 559 254 s \$0-comment;
-#X text 393 21 The [comment] object below has a receive symbol \, so
+#X msg 588 176 set hi \, append there;
+#X msg 598 199 set comment \, prepend this;
+#X msg 609 222 set Comment;
+#X obj 559 264 s \$0-comment;
+#X text 393 31 The [comment] object below has a receive symbol \, so
 you can send messages to it via a [send] object. The receive symbol
 can be set with the receive message or the @receive attribute. IF you
 set a receive name as "empty" then it it can't receive messages anymore.
 , f 63;
-#X msg 54 200 fontface \$1;
-#X obj 54 113 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856 -1
+#X msg 54 236 fontface \$1;
+#X obj 54 149 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856 -1
 -1 0;
-#X floatatom 54 179 3 0 0 0 - - -;
-#X text 72 112 normal;
-#X text 72 127 bold;
-#X text 72 143 italic;
-#X text 72 158 bold+italic;
-#X msg 466 168 underline \$1;
-#X obj 466 144 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X floatatom 54 215 3 0 0 0 - - -;
+#X text 72 148 normal;
+#X text 72 163 bold;
+#X text 72 179 italic;
+#X text 72 194 bold+italic;
+#X msg 466 178 underline \$1;
+#X obj 466 154 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X msg 232 229 bgcolor 100 150 100;
-#X msg 238 251 bgcolor 190 90 200;
-#X msg 371 255 bg \$1;
-#X obj 371 232 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 232 249 bgcolor 100 150 100;
+#X msg 238 271 bgcolor 190 90 200;
+#X msg 371 275 bg \$1;
+#X obj 371 252 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 68 21 You can edit the properties of [comment] with messages.
-, f 27;
-#X text 64 373 After setting a background color you can use the 'bg'
+#X text 40 50 You can edit the properties of [comment] with messages.
+, f 15;
+#X text 64 383 After setting a background color you can use the 'bg'
 flag to turn it off or on again., f 53;
-#X text 64 402 This object is fully compliant to Max 5 but not fully
+#X text 64 412 This object is fully compliant to Max 5 but not fully
 compliant to Max6+ versions (with all that 'bubble' stuff and more).
 It also has inconsistencies like different attributes than the original
 object in Max (@receive \, @text and @bg)., f 53;
+#X msg 191 110 fontname arial\ black;
+#X msg 185 90 fontname arial;
+#X msg 209 168 fontname dejavu\ sans\ mono;
+#X msg 176 70 fontname times;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
@@ -135,6 +139,10 @@ object in Max (@receive \, @text and @bg)., f 53;
 #X connect 26 0 0 0;
 #X connect 27 0 0 0;
 #X connect 28 0 27 0;
+#X connect 32 0 0 0;
+#X connect 33 0 0 0;
+#X connect 34 0 0 0;
+#X connect 35 0 0 0;
 #X restore 479 188 pd details;
 #N canvas 620 193 488 410 more 0;
 #X obj 123 258 cyclone/comment 161 20 helvetica ? 0 0 0 0 0 200 200
