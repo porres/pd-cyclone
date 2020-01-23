@@ -1007,7 +1007,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_fontsize *= x->x_zoom;
     x->x_pixwidth *= x->x_zoom;
     if(!x->x_fontname)
-        x->x_fontname = gensym("helvetica");
+        x->x_fontname = gensym("dejavu sans mono");
     x->x_fontface = x->x_fontface < 0 ? 0 : (x->x_fontface > 3 ? 3 : x->x_fontface);
     x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
     x->x_italic = x->x_fontface > 1;

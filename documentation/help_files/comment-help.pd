@@ -1,10 +1,10 @@
-#N canvas 657 59 558 559 10;
+#N canvas 657 59 561 555 10;
 #X obj 3 249 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X text 170 434 (none);
-#X obj 3 535 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 3 529 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 149 152 <= the default comment box from [cyclone/comment];
 #X obj 137 185 cyclone/comment 280 20 Times ? 3 150 0 0 1 200 200 200
@@ -55,14 +55,6 @@ comment;
 255 0 0 Objects cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 0 255 255
 255 0 0 cyclone;
-#X obj 99 154 cyclone/comment 0 10 helvetica ? 0 0 0 0 0 255 255 255
-0 0 comment;
-#X text 70 461 @fontsize <float> (default patch's) | @fontname <symbol>
-(default helvetica) | @fontface <float> (default 0) | @textcolor <f
-\, f \, f> (default 0 0 0) | @bgcolor <f \, f \, f> (default 255 255
-255) | @underline <float> (default 0) | @receive <symbol> (default
-'empty') | @bg <float> (default 0) | @textjustification <float> (default
-0) @text <anything>: sets comment (default "comment"), f 78;
 #X text 214 352 - sets RGB text color (values from 0 to 255), f 54
 ;
 #X text 80 352 textjustification <f>;
@@ -168,3 +160,11 @@ does provide advantages to pd vanilla's comments \, namely: set font
 \, size \, color \, background color \, bold and/or italic \, underline
 and justification. This object is not being fully compliant to Max6+
 versions!, f 74;
+#X obj 102 154 cyclone/comment 0 10 dejavu\ sans\ mono ? 0 0 0 0 0
+255 255 255 0 0 comment;
+#X text 64 463 @fontname <symbol> (default dejavu sans mono) | @fontface
+<float> (default 0) @fontsize <float> (default patch's) | @textjustification
+<float> (default 0) @textcolor <f \, f \, f> (default 0 0 0) | @bgcolor
+<f \, f \, f> (default 255 255 255) @bg <float> (default 0) | @text
+<anything>: sets comment (default "comment") @underline <float> (default
+0) | @receive <symbol> (default 'empty'), f 79;
