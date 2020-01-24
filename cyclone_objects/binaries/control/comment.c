@@ -17,17 +17,30 @@
 #include <ctype.h>
 
 // #define COMMENT_DEBUG
-
 #define COMMENT_HANDLEWIDTH 8
 #define COMMENT_OUTBUFSIZE  1000
 
+static t_class *comment_class, *commentsink_class, *edit_proxy_class;
+static t_widgetbehavior comment_widgetbehavior;
+
+static t_pd *commentsink = 0;
+
+typedef struct _edit_proxy{
+    t_object    p_obj;
+    t_symbol   *p_sym;
+    t_clock    *p_clock;
+    struct      _comment *p_cnv;
+}t_edit_proxy;
+
 typedef struct _comment{
     t_object        x_obj;
+    t_edit_proxy   *x_proxy;
     t_glist        *x_glist;
     t_canvas       *x_cv;
     t_clock        *x_transclock;
     t_binbuf       *x_binbuf;
     char           *x_textbuf;
+    int             x_edit;
     int             x_textbufsize;
     int             x_pixwidth;
     int             x_bbset;
@@ -50,7 +63,7 @@ typedef struct _comment{
     int             x_ready;
     t_symbol       *x_bindsym;
     t_symbol       *x_fontname;
-    t_symbol       *x_receive_sym;
+    t_symbol       *x_receive;
     t_symbol       *x_rcv_unexpanded;
     int             x_rcv_set;
     int             x_flag;
@@ -65,43 +78,25 @@ typedef struct _comment{
     unsigned int    x_bg[3]; // background color
 }t_comment;
 
-static t_class *comment_class, *commentsink_class;
-
-static t_pd *commentsink = 0;
-
-static void comment_receive(t_comment *x, t_symbol *s){
-    t_symbol *rcv = canvas_realizedollar(x->x_glist, x->x_rcv_unexpanded = s);
-    if(x->x_receive_sym != rcv){
-        if(rcv == gensym("empty"))
-            rcv = &s_;
-        if(rcv != &s_){
-            if(x->x_receive_sym != &s_)
-                pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
-            pd_bind(&x->x_obj.ob_pd, x->x_receive_sym = rcv);
-        }
-        else{
-            if(x->x_receive_sym != &s_)
-                pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
-            x->x_receive_sym = rcv;
+static void comment_draw_inlet(t_comment *x){
+    if(x->x_edit){
+        t_canvas *cv = glist_getcanvas(x->x_glist);
+        sys_vgui(".x%lx.c delete %lx_in\n", x->x_cv, x);
+        if(x->x_receive == &s_){
+            int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
+            sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in\n",
+                     cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom)-x->x_zoom, x);
         }
     }
 }
 
-static void comment_set_receive(t_comment *x, t_symbol *s){
-    x->x_rcv_set = 1;
-    canvas_dirty(x->x_glist, 1);
-    comment_receive(x, s);
-}
-
 static void comment_draw_bg(t_comment *x){
-//    post("comment_draw_bg");
+    sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
     sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n", (unsigned long)x->x_cv,
         x->x_x1, x->x_y1, x->x_x2 + x->x_zoom, x->x_y2 + x->x_zoom, (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
 }
 
 static void comment_draw(t_comment *x){
-//    post("comment_draw");
-//  comment_draw_bg(x);
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     int reqsize = x->x_textbufsize + 250;  // FIXME estimation
     if(reqsize > COMMENT_OUTBUFSIZE){ // <= seems unnecessary (porres)
@@ -134,11 +129,11 @@ static void comment_draw(t_comment *x){
     sys_gui(outbuf);
     if(outbuf != buf)
         freebytes(outbuf, reqsize);
+    comment_draw_inlet(x);
 }
 
 static void comment_redraw(t_comment *x, int bg){
     sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
-    sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
     if(bg)
         comment_draw_bg(x);
     comment_draw(x);
@@ -206,7 +201,8 @@ static void comment_validate(t_comment *x, t_glist *glist){
             post("bug [comment]: comment_getcanvas");
             x->x_glist = glist;
         }
-        x->x_cv = glist_getcanvas(glist);
+//        post("validate glist");
+        x->x_cv = glist_getcanvas(glist); // <= remove/cleanup
     }
 }
 
@@ -369,6 +365,8 @@ static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy){
             dx*x->x_zoom, dy*x->x_zoom);
         sys_vgui(".x%lx.c move bg%lx %d %d\n", x->x_cv, (unsigned long)x,
             dx*x->x_zoom, dy*x->x_zoom);
+        if(x->x_receive == &s_)
+            sys_vgui(".x%lx.c move %lx_in %d %d\n", x->x_cv, x, dx*x->x_zoom, dy*x->x_zoom);
         canvas_fixlinesfor(x->x_cv, t);
     }
 }
@@ -422,6 +420,7 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis){
     if(vis)
         comment_draw(x);
     else{
+        sys_vgui(".x%lx.c delete %lx_in\n", x->x_cv, (unsigned long)x);
         sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
         sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
     }
@@ -479,16 +478,6 @@ static void comment_save(t_gobj *z, t_binbuf *b){
     binbuf_addbinbuf(b, x->x_binbuf); // the actual comment
     binbuf_addv(b, ";");
 }
-
-static t_widgetbehavior comment_widgetbehavior ={
-    comment_getrect,
-    comment_displace,
-    comment_select,
-    comment_activate,
-    comment_delete,
-    comment_vis,
-    0, // click
-};
 
 // this fires if a transform request was sent to a symbol we are bound to
 static void comment_transtick(t_comment *x){
@@ -610,24 +599,66 @@ donelist:;
      #endif
 }
 
-static void comment_free(t_comment *x){
-    if(x->x_active){
-        pd_unbind((t_pd *)x, gensym("#key"));
-        pd_unbind((t_pd *)x, gensym("#keyname"));
+static void edit_proxy_any(t_edit_proxy *p, t_symbol *s, int ac, t_atom *av){
+    int edit = ac = 0;
+    if(p->p_cnv){
+        if(s == gensym("editmode"))
+            edit = (int)(av->a_w.w_float);
+        else if(s == gensym("obj") || s == gensym("msg") || s == gensym("floatatom") || s == gensym("text")){
+            if(av->a_w.w_float == 0)
+                edit = 1;
+        }
+        else return;
+        if(p->p_cnv->x_edit != edit){
+            p->p_cnv->x_edit = edit;
+            t_canvas *cv = glist_getcanvas(p->p_cnv->x_glist);
+            int zoom = p->p_cnv->x_zoom;
+            if(edit){
+//                post("edit mode");
+                int x = text_xpix(&p->p_cnv->x_obj, p->p_cnv->x_glist), y = text_ypix(&p->p_cnv->x_obj, p->p_cnv->x_glist);
+//              int w = p->p_cnv->x_width, h = p->p_cnv->x_height;
+                sys_vgui(".x%lx.c delete %lx_in\n", cv, x);
+/*                if(!p->p_cnv->x_outline)
+                    sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags %lxSEL -outline black\n",
+                             cv, x, y, x+w, y+h, p->p_cnv);*/
+                if(p->p_cnv->x_receive == &s_)
+                    sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in\n",
+                        cv, x, y, x+(IOWIDTH*zoom), y+(IHEIGHT*zoom)-zoom, p->p_cnv);
+            }
+            else{
+                /*  post("run mode");
+                if(!p->p_cnv->x_outline)
+                    sys_vgui(".x%lx.c delete %lxSEL\n", cv, p->p_cnv);*/
+                sys_vgui(".x%lx.c delete %lx_in\n", cv, p->p_cnv);
+            }
+        }
     }
-    if(x->x_receive_sym != &s_)
-        pd_unbind(&x->x_obj.ob_pd, x->x_receive_sym);
-    if(x->x_transclock)
-        clock_free(x->x_transclock);
-    if(x->x_bindsym){
-        pd_unbind((t_pd *)x, x->x_bindsym);
-        if(!x->x_bbpending)
-            pd_unbind(commentsink, x->x_bindsym);
+}
+
+//---------------------------- METHODS ----------------------------------------
+static void comment_receive(t_comment *x, t_symbol *s){
+    t_symbol *rcv = canvas_realizedollar(x->x_glist, x->x_rcv_unexpanded = s);
+    if(x->x_receive != rcv){
+        if(rcv == gensym("empty"))
+            rcv = &s_;
+        if(rcv != &s_){
+            if(x->x_receive != &s_)
+                pd_unbind(&x->x_obj.ob_pd, x->x_receive);
+            pd_bind(&x->x_obj.ob_pd, x->x_receive = rcv);
+        }
+        else{
+            if(x->x_receive != &s_)
+                pd_unbind(&x->x_obj.ob_pd, x->x_receive);
+            x->x_receive = rcv;
+        }
     }
-    if(x->x_binbuf && !x->x_ready)
-        binbuf_free(x->x_binbuf);
-    if(x->x_textbuf)
-        freebytes(x->x_textbuf, x->x_textbufsize);
+    comment_draw_inlet(x);
+}
+
+static void comment_set_receive(t_comment *x, t_symbol *s){
+    x->x_rcv_set = 1;
+    canvas_dirty(x->x_glist, 1);
+    comment_receive(x, s);
 }
 
 static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
@@ -746,6 +777,42 @@ static void comment_zoom(t_comment *x, t_floatarg zoom){
     float fontsize = (float)x->x_fontsize * mul;
     x->x_pixwidth = (int)((float)x->x_pixwidth * mul);
     comment_fontsize(x, fontsize);
+}
+
+//-------------------------------------------------------------------------------------
+static void edit_proxy_free(t_edit_proxy *p){
+    pd_unbind(&p->p_obj.ob_pd, p->p_sym);
+    clock_free(p->p_clock);
+    pd_free(&p->p_obj.ob_pd);
+}
+
+static t_edit_proxy *edit_proxy_new(t_comment *x, t_symbol *s){
+    t_edit_proxy *p = (t_edit_proxy*)pd_new(edit_proxy_class);
+    p->p_cnv = x;
+    pd_bind(&p->p_obj.ob_pd, p->p_sym = s);
+    p->p_clock = clock_new(p, (t_method)edit_proxy_free);
+    return(p);
+}
+
+static void comment_free(t_comment *x){
+    if(x->x_active){
+        pd_unbind((t_pd *)x, gensym("#key"));
+        pd_unbind((t_pd *)x, gensym("#keyname"));
+    }
+    if(x->x_receive != &s_)
+        pd_unbind(&x->x_obj.ob_pd, x->x_receive);
+    if(x->x_transclock)
+        clock_free(x->x_transclock);
+    if(x->x_bindsym){
+        pd_unbind((t_pd *)x, x->x_bindsym);
+        if(!x->x_bbpending)
+            pd_unbind(commentsink, x->x_bindsym);
+    }
+    if(x->x_binbuf && !x->x_ready)
+        binbuf_free(x->x_binbuf);
+    if(x->x_textbuf)
+        freebytes(x->x_textbuf, x->x_textbufsize);
+    x->x_proxy->p_cnv = NULL;
 }
 
 ///////////// ==========------------------------------------===>  later rethink/REWRITE
@@ -911,9 +978,10 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     t_text *t = (t_text *)x;
     t->te_type = T_TEXT;
     x->x_glist = canvas_getcurrent();
+    x->x_cv = canvas_getcurrent();
     x->x_zoom = x->x_glist->gl_zoom;
     x->x_encoding = x->x_fontname = 0;
-    x->x_cv = 0;
+    x->x_edit = x->x_glist->gl_edit;
     x->x_textbuf = 0;
     x->x_rcv_set = x->x_flag = 0;
     x->x_pixwidth = x->x_fontsize = x->x_bbpending = x->x_fontface = x->x_bold = x->x_italic = 0;
@@ -923,11 +991,16 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_bg[0] = x->x_bg[1] = x->x_bg[2] = 255;
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
     x->x_bbset = x->x_ready = x->x_dragon = 0;
-    x->x_receive_sym = x->x_rcv_unexpanded = &s_;
+    x->x_receive = x->x_rcv_unexpanded = &s_;
     x->x_transclock = clock_new(x, (t_method)comment_transtick);
-    char buf[32];
-    sprintf(buf, "comment%lx", (unsigned long)x);
-    x->x_bindsym = gensym(buf);
+    char buf[MAXPDSTRING];
+    snprintf(buf, MAXPDSTRING-1, ".x%lx", (unsigned long)x->x_cv);
+    buf[MAXPDSTRING-1] = 0;
+    x->x_proxy = edit_proxy_new(x, gensym(buf));
+    sprintf(buf, "#%lx", (long)x);
+    char symbuf[32];
+    sprintf(symbuf, "comment%lx", (unsigned long)x);
+    x->x_bindsym = gensym(symbuf);
     pd_bind((t_pd *)x, x->x_bindsym);
     if(!commentsink)
         commentsink = pd_new(commentsink_class);
@@ -1050,8 +1123,16 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment__motionhook, gensym("_motion"), A_SYMBOL,
         A_FLOAT, A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
+    comment_widgetbehavior.w_getrectfn  = comment_getrect;
+    comment_widgetbehavior.w_displacefn = comment_displace;
+    comment_widgetbehavior.w_selectfn   = comment_select;
+    comment_widgetbehavior.w_activatefn   = comment_activate;
+    comment_widgetbehavior.w_deletefn   = comment_delete;
+    comment_widgetbehavior.w_visfn      = comment_vis;
     class_setsavefn(comment_class, comment_save);
 //  class_setpropertiesfn(comment_class, comment_properties);
+    edit_proxy_class = class_new(0, 0, 0, sizeof(t_edit_proxy), CLASS_NOINLET | CLASS_PD, 0);
+    class_addanything(edit_proxy_class, edit_proxy_any);
     commentsink_class = class_new(gensym("_commentsink"), 0, 0, sizeof(t_pd), CLASS_PD, 0);
     class_addanything(commentsink_class, commentsink_anything);
     class_addmethod(commentsink_class, (t_method)commentsink__bboxhook, gensym("_bbox"), A_SYMBOL, 0);
