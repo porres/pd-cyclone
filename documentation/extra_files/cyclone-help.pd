@@ -10,13 +10,16 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#X obj 323 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 364 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 11 3 cyclone/comment 0 37 DejaVu\ Sans\ Mono ? 0 0 0 0 cyclone;
-#X obj 19 56 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 The Cyclone library
-;
-#X obj 144 8 cyclone/comment 0 30 DejaVu\ Sans\ Mono ? 0 0 0 0 (library);
+#X obj 323 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 364 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
+#X obj 11 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 cyclone;
+#X obj 19 56 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 The Cyclone library;
+#X obj 158 12 cyclone/comment 0 23 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 (library);
 #X text 63 236 If you create the cyclone external object \, it loads
 the library so you can load the operator externals \, but the object
 itself doesn't do anything and only accepts the "about" message \,
@@ -70,8 +73,10 @@ outside the [cyclone] library., f 71;
 #X obj 276 273 cyclone/rdiv;
 #X obj 276 293 cyclone/rdiv~;
 #X obj 277 369 cyclone/plusequals~;
-#X obj 273 68 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Alphaumeric;
-#X obj 78 68 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Non-alphaumeric;
+#X obj 273 68 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Alphaumeric;
+#X obj 78 68 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Non-alphaumeric;
 #X obj 133 99 cyclone/==~;
 #X obj 133 123 cyclone/!=~;
 #X obj 133 148 cyclone/<~;
@@ -94,6 +99,6 @@ with the "cyclone/" prefix., f 56;
 #X text 68 355 Check declare's help file for more information.;
 #X text 68 379 And see https://github.com/porres/pd-cyclone/wiki/How-To-Install
 for more details., f 64;
-#X obj 282 513 All_about_cyclone;
 #X text 99 513 Check "All About Cyclone" =>;
+#X obj 282 513 cyclone/All_about_cyclone;
 #X connect 11 0 10 0;

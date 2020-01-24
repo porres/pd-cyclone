@@ -208,7 +208,6 @@
 232 74 79 77 96 98 102 0;
 #X obj 413 151 cyclone/number~;
 #X text 406 58 [cyclone/comment]:;
-#X obj 416 79 cyclone/comment 0 22 Courier ? 0 0 128 128 comment;
 #X text 411 126 [cyclone/number~]:;
 #X text 419 200 [cyclone/scope~]:;
 #X text 359 24 GUI objects:;
@@ -231,6 +230,8 @@
 , f 39;
 #X obj 147 2630 cyclone/zl len;
 #X obj 147 1912 cyclone/pv x;
+#X obj 436 80 cyclone/comment 0 10 dejavu\ sans\ mono ? 0 0 0 0 0 255
+255 255 0 0 comment;
 #X restore 373 211 pd All_Cyclone_Objects;
 #X obj 230 187 switch~;
 #X obj 220 142 tgl 30 0 \$0-zxcx \$0-zxcxsfljsfl empty 17 7 0 10 -228856
@@ -260,18 +261,20 @@
 -228856 -1 -1 3 256;
 #X obj 4 2 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
-#X obj 29 5 comment 0 22 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 137 8 comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220 - a set of Pure Data
-objects cloned from Max/MSP;
-#X obj 272 35 comment 0 12 DejaVu\ Sans\ Mono ? 0 224 228 220 https://github.com/porres/pd-cyclone
-;
-#X obj 35 78 comment 481 14 helvetica ? 0 0 0 0 In this patch you'll
-find all objects available in cyclone. You can turn the DSP on to check
-how much CPU load you have with all objects on and just test if they
-all work.;
 #X text 348 191 open this subpatch:;
 #X text 347 135 The total number of objects in cyclone is 202!, f
 16;
+#X obj 34 78 cyclone/comment 481 14 helvetica ? 0 0 0 0 0 255 255 255
+0 0 In this patch you'll find all objects available in cyclone. You
+can turn the DSP on to check how much CPU load you have with all objects
+on and just test if they all work.;
+#X obj 29 5 cyclone/comment 0 22 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
+#X obj 272 35 cyclone/comment 0 12 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 https://github.com/porres/pd-cyclone;
+#X obj 137 8 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 - a set of Pure Data objects cloned from Max/MSP
+;
 #X connect 2 0 1 0;
 #X connect 2 0 4 0;
 #X connect 5 0 6 0;

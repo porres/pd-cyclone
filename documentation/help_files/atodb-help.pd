@@ -33,7 +33,7 @@
 #X text 206 509 - linear amplitude value(s);
 #X text 79 132 Conversion expression: dbFS = log10(amp) * 20;
 #X text 202 586 - converted dBFS amplitude value(s);
-#N canvas 126 23 450 300 lists 0;
+#N canvas 737 326 450 300 lists 0;
 #X obj 113 187 cyclone/tosymbol;
 #X symbolatom 113 218 20 0 0 0 - - -;
 #X obj 113 101 loadbang;
@@ -60,12 +60,14 @@ deciBel Full Scale (dBFS) equivalent. Negative values convert to -inf
 as if the input is "0".;
 #X text 125 586 float/list;
 #X text 206 546 - sets the float value to be converted via bang;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Convert linear amplitude
-to dBFS;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 atodb;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Convert linear amplitude to dBFS;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 atodb;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X connect 8 0 20 0;
 #X connect 9 0 8 0;
 #X connect 10 0 20 0;
