@@ -38,7 +38,7 @@ as 1.75 to 1 (negative values are modified so that -1.75 becomes -1).
 #X text 68 263 The truncated value =>;
 #X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Truncate signal values
 ;
-#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 trunc~;
+#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 trunc~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

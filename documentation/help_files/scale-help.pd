@@ -125,7 +125,7 @@ input;
 cloned from Max/MSP;
 #X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Map values to an
 output range;
-#X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scale;
+#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 scale;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #N canvas 673 59 400 612 exponential 0;
 #X obj 150 267 t f f;

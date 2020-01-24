@@ -58,20 +58,20 @@ interpolation handles all index values as well as values read from
 the table in double precision \, so that the 24-bit resolution between
 0 and 1 is preserved no matter where in the table it reads from.,
 f 76;
-#X obj 27 133 cyclone/comment 413 18 times ? 0 0 0 0 Modes 1 & 2:;
-#X obj 25 159 cyclone/comment 413 15 times ? 0 0 0 0 (High & Low Quality
+#X obj 27 133 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Modes 1 & 2:;
+#X obj 25 159 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 (High & Low Quality
 Linear Interpolation \, respectively);
-#X obj 27 303 cyclone/comment 413 18 times ? 0 0 0 0 Mode 3:;
-#X obj 26 328 cyclone/comment 413 15 times ? 0 0 0 0 (Cosine Interpolation)
+#X obj 27 303 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Mode 3:;
+#X obj 26 328 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 (Cosine Interpolation)
 ;
-#X obj 30 26 cyclone/comment 413 18 times ? 0 0 0 0 Mode 0:;
-#X obj 29 51 cyclone/comment 413 15 times ? 0 0 0 0 (No Interpolation)
+#X obj 30 26 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Mode 0:;
+#X obj 29 51 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 (No Interpolation)
 ;
 #X text 46 79 In mopde 0 there is no interpolation \, this means that
 indexes are truncated to the sample point., f 76;
 #X restore 139 320 pd non-cubic (modes 0 to 3);
 #N canvas 388 58 982 510 cubic 0;
-#X obj 15 12 cyclone/comment 413 18 times ? 0 0 0 0 Overview:;
+#X obj 15 12 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Overview:;
 #X text 24 283 The advantage of Lagrange interpolation is that the
 curve drawn has low RMS error with respect to that of an ideal (sinc)
 interpolator. A disadvantage is that the first derivative (the instantaneous
@@ -92,11 +92,11 @@ f(0) \, c = f(1) \, and d = f(2)., f 75;
 #X text 24 235 This is the the kind of interpolation used in Pd's [tabread4~]
 \, as well as the cubic interpolating functions in csound. The output
 is f(m) (where m is the fractional index between 0 and 1)., f 75;
-#X obj 19 365 cyclone/comment 413 18 times ? 0 0 0 0 Mode 4 \, 5 \,
+#X obj 19 365 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Mode 4 \, 5 \,
 and 6:;
-#X obj 158 368 cyclone/comment 413 15 times ? 0 0 0 0 Hermite Interpolators
+#X obj 158 368 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 Hermite Interpolators
 ;
-#X obj 507 16 cyclone/comment 413 15 times ? 0 0 0 0 1) Catmull-Rom
+#X obj 507 16 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 1) Catmull-Rom
 Spline (mode 5);
 #X text 514 37 The most basic form of Hermite interpolator sets the
 curve slope at point b as the slope of the line passing through a and
@@ -107,14 +107,14 @@ so there are occasional abrupt changes in concavity \, e.g. at zero-crossings
 in the 4-period cosine example. There are no such abrupt changes in
 concavity with Lagrange interpolation. This type of interpolation is
 used in SuperCollider's interpolating functions., f 75;
-#X obj 509 155 cyclone/comment 413 15 times ? 0 0 0 0 2) Spline (modes
+#X obj 509 155 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 2) Spline (modes
 4 and 6):;
-#X obj 88 159 cyclone/comment 413 15 times ? 0 0 0 0 Pd's Cubic Interpolator
+#X obj 88 159 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 Pd's Cubic Interpolator
 (Lagrange);
-#X obj 18 156 cyclone/comment 413 18 times ? 0 0 0 0 Mode 7:;
-#X obj 530 177 cyclone/comment 413 13 times ? 0 0 0 0 - Mode 6: With
+#X obj 18 156 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Mode 7:;
+#X obj 530 177 cyclone/comment 413 13 DejaVu\ Sans\ Mono ? 0 0 0 0 - Mode 6: With
 settable Tension and Bias;
-#X obj 529 197 cyclone/comment 413 13 times ? 0 0 0 0 - Mode 4: "Cubic"
+#X obj 529 197 cyclone/comment 413 13 DejaVu\ Sans\ Mono ? 0 0 0 0 - Mode 4: "Cubic"
 \, with tension of -1;
 #X text 514 459 The normal range for both tension and bias values is
 -1 to +1. Outside of that range the curves can be unpredictable.,
@@ -218,7 +218,7 @@ empty 0 -9 0 10 -191407 -1 -1 2200 1;
 #X text 270 44 Draw function in source window \, then click this bang.
 , f 19;
 #X text 667 131 8;
-#X obj 28 232 cyclone/comment 93 18 times ? 0 0 0 0 Periods of source
+#X obj 28 232 cyclone/comment 93 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Periods of source
 to draw;
 #X obj 34 204 nbx 3 20 0 256 0 0 \$0-periods-snd \$0-periods-rcv empty
 0 -8 0 16 -228856 -1 -1 1 256;

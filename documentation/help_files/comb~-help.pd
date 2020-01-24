@@ -128,7 +128,7 @@ filter:, f 46;
 #X text 327 332 input (a);
 #X obj 186 439 cyclone/comb~ 100 50 0.25 0.33 0.925;
 #X msg 106 331 20 13 0.55 0.43 0.95;
-#X obj 161 74 cyclone/comment 0 16 times ? 0 0 0 0 Filter Diagram/Equation:
+#X obj 161 74 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 Filter Diagram/Equation:
 ;
 #X text 103 250 If the delay time lies between two samples \, a simple
 linear interpolation is performed.;
