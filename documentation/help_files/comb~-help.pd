@@ -108,8 +108,6 @@
 #X text 334 139 a = input gain coefficient;
 #X text 334 153 b = feedforward gain coefficient;
 #X text 334 166 c = feedback gain coefficient;
-#X text 50 33 Here's the filter diagram and equation for the comb~
-filter:, f 46;
 #X floatatom 239 411 5 0 100 0 - - -;
 #X obj 186 372 noise~;
 #X text 243 391 d1;
@@ -128,32 +126,39 @@ filter:, f 46;
 #X text 327 332 input (a);
 #X obj 186 439 cyclone/comb~ 100 50 0.25 0.33 0.925;
 #X msg 106 331 20 13 0.55 0.43 0.95;
-#X obj 161 74 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 Filter Diagram/Equation:
-;
+#X obj 61 75 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Filter Diagram/Equation:;
 #X text 103 250 If the delay time lies between two samples \, a simple
 linear interpolation is performed.;
 #X obj 168 476 ./out~;
-#X connect 43 0 56 1;
-#X connect 44 0 56 0;
-#X connect 47 0 56 2;
-#X connect 48 0 56 3;
-#X connect 49 0 56 4;
+#X text 50 33 Here's the equation for the comb~ filter:, f 46;
+#X connect 42 0 55 1;
+#X connect 43 0 55 0;
+#X connect 46 0 55 2;
+#X connect 47 0 55 3;
+#X connect 48 0 55 4;
+#X connect 49 0 46 0;
 #X connect 50 0 47 0;
 #X connect 51 0 48 0;
-#X connect 52 0 49 0;
-#X connect 56 0 60 0;
-#X connect 56 0 60 1;
-#X connect 57 0 56 0;
+#X connect 55 0 59 0;
+#X connect 55 0 59 1;
+#X connect 56 0 55 0;
 #X restore 425 250 pd filter_equation;
 #X obj 208 189 cyclone/comb~ 500 500 0 1 0;
-#X obj 295 151 cyclone/comment 11 15 helvetica ? 0 0 0 0 a;
-#X obj 336 151 cyclone/comment 31 15 helvetica ? 0 0 0 0 b;
-#X obj 376 151 cyclone/comment 31 15 helvetica ? 0 0 0 0 c;
-#X obj 18 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Comb filter;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 comb~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 295 151 cyclone/comment 11 15 helvetica ? 0 0 0 0 0 255 255
+255 0 0 a;
+#X obj 336 151 cyclone/comment 31 15 helvetica ? 0 0 0 0 0 255 255
+255 0 0 b;
+#X obj 376 151 cyclone/comment 31 15 helvetica ? 0 0 0 0 0 255 255
+255 0 0 c;
+#X obj 18 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Comb filter;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 comb~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X text 78 87 [comb~] is a comb filter \, use it for filtering and
 delay effects.;
 #X obj 165 220 out~;

@@ -1,4 +1,4 @@
-#N canvas 443 115 564 610 10;
+#N canvas 443 115 565 613 10;
 #X obj 9 587 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 9 438 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -28,10 +28,6 @@
 #X text 411 309 Signal is changing;
 #X floatatom 289 212 5 0 0 0 - - -;
 #X text 128 465 float;
-#X obj 72 283 cyclone/Scope~ 130 130 256 3 128 -1.1 1.1 0 0 0 0 205
-229 232 74 79 77 96 98 102 0;
-#X obj 233 283 cyclone/Scope~ 130 130 256 3 128 -1.1 1.1 0 0 0 0 205
-229 232 74 79 77 96 98 102 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -55,18 +51,24 @@ no change;
 #X text 219 282 1;
 #X obj 384 276 cyclone/snapshot~ 1;
 #X text 325 212 internal value;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Detect signal change
-& direction;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 change~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Detect signal change & direction;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 change~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 500 69 cyclone/setdsp~;
-#X connect 9 0 23 0;
-#X connect 9 0 35 0;
+#X obj 72 283 cyclone/scope~ 130 130 256 3 128 -1.1 1.1 0 0 0 0 205
+229 232 74 79 77 96 98 102 0;
+#X obj 233 283 cyclone/scope~ 130 130 256 3 128 -1.1 1.1 0 0 0 0 205
+229 232 74 79 77 96 98 102 0;
+#X connect 9 0 33 0;
+#X connect 9 0 41 0;
 #X connect 10 0 9 0;
-#X connect 10 0 22 0;
+#X connect 10 0 40 0;
 #X connect 14 0 10 0;
 #X connect 15 0 10 0;
 #X connect 20 0 9 0;
-#X connect 35 0 18 0;
+#X connect 33 0 18 0;

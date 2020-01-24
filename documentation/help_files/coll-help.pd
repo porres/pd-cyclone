@@ -538,7 +538,7 @@ substituted message \, while "nsub" doesn't.;
 #X text 160 401 symbol;
 #X text 205 401 anything;
 #X obj 135 322 print coll_data;
-#N canvas 510 65 863 448 store/remove 0;
+#N canvas 510 65 957 457 store/remove 0;
 #X obj 53 154 loadbang;
 #X obj 53 214 cyclone/coll;
 #C restore;
@@ -886,9 +886,9 @@ doesn't need to load the file again!;
 #N canvas 450 160 787 431 alias 0;
 #X obj 128 272 cyclone/coll;
 #C restore;
-#X msg 30 208 1;
-#X msg 60 208 2;
-#X msg 73 149 1 foo \, 2 bar;
+#X msg 26 222 1;
+#X msg 56 222 2;
+#X msg 46 147 1 foo \, 2 bar;
 #X msg 128 101 assoc foo 1;
 #X msg 140 122 deassoc foo 1;
 #X msg 154 152 assoc bar 2;
@@ -902,7 +902,7 @@ doesn't need to load the file again!;
 #X text 24 17 Use "assoc" and "deassoc" to associate and deassociate
 a symbol alias to an int address \, so you can optionally use the symbol
 name address instead of the int address.;
-#X obj 73 125 loadbang;
+#X obj 46 123 loadbang;
 #X msg 218 239 remove foo;
 #X text 289 239 *;
 #X obj 531 306 cyclone/coll;
@@ -953,7 +953,8 @@ removing the address from the collection.;
 #X connect 30 0 18 0;
 #X connect 31 0 18 0;
 #X restore 525 234 pd alias \; nstore;
-#X obj 462 69 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 More Examples:;
+#X obj 462 69 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
+0 0 More Examples:;
 #X obj 204 276 print finish_dump;
 #X text 24 15 In [coll] \, any message type can be stored at a particular
 address \, which can be either an "integer float" (positive or negative)
@@ -1019,8 +1020,8 @@ their patches.;
 ;
 #X text 404 354 ============================================================
 ;
-#X obj 49 379 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Backwards Compatibility
-issues:;
+#X obj 49 379 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
+0 0 Backwards Compatibility issues:;
 #X text 18 91 Below \, [coll] loads 300 thousand entries from a file
 \, which would cause an audio drop out if not in threaded mode.;
 #N canvas 676 50 503 504 depth-first 0;
@@ -1148,12 +1149,14 @@ data;
 #X text 189 469 name or filename to load (same name colls share contents)
 ;
 #X text 178 418 - when finishing a read operation;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 coll;
-#X obj 16 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Store/edit message
-collections;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 coll;
+#X obj 16 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Store/edit message collections;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X connect 21 0 46 0;
 #X connect 29 0 46 0;
 #X connect 39 0 46 0;

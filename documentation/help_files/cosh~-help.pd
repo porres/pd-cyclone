@@ -19,8 +19,6 @@
 #X text 289 360 0;
 #X text 285 304 pi/2;
 #X text 287 248 pi;
-#X obj 156 254 cyclone/Scope~ 123 117 256 3 128 0 3.14 0 0 0 0 205
-229 232 74 79 77 96 98 102 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -41,18 +39,22 @@ of each input sample (probably only useful for mathematical calculations).
 #X obj 156 177 *~ 3.14159;
 #X obj 156 200 -~ 1.5708;
 #X obj 371 287 cyclone/cosh~;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal hyperbolic
-cosine function;
-#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 cosh~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Signal hyperbolic cosine function;
+#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 cosh~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 371 245 cyclone/number~ 1;
 #X obj 371 328 cyclone/number~;
 #X obj 497 71 cyclone/setdsp~;
-#X connect 9 0 14 0;
-#X connect 10 0 24 0;
-#X connect 24 0 25 0;
-#X connect 25 0 9 0;
-#X connect 26 0 32 0;
-#X connect 31 0 26 0;
+#X obj 156 255 cyclone/scope~ 123 117 256 3 128 0 3.14 0 0 0 0 205
+229 232 74 79 77 96 98 102 0;
+#X connect 9 0 33 0;
+#X connect 10 0 23 0;
+#X connect 23 0 24 0;
+#X connect 24 0 9 0;
+#X connect 25 0 31 0;
+#X connect 30 0 25 0;

@@ -66,12 +66,14 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects cloned from
-Max/MSP;
-#X obj 363 4 comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 16 4 comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 borax;
-#X obj 17 62 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Reports note on/off info
-;
+#X obj 322 28 comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255
+255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255
+255 255 0 0 cyclone;
+#X obj 16 4 comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
+0 0 borax;
+#X obj 17 62 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
+0 0 Reports note on/off info;
 #N canvas 762 173 447 311 backwards 0;
 #X text 185 110 or even:;
 #X text 49 150 But please don't \, just stick to;
@@ -133,24 +135,24 @@ avoid some name conflicts \, but this is not the case anymore.;
 ;
 #X text 177 571 note duration (in ms) report, f 51;
 #X obj 121 186 cyclone/borax, f 30;
-#X obj 356 209 cyclone/comment 0 11 helvetica ? 0 0 0 0 8- Note-On
-Delta-time;
-#X obj 321 225 cyclone/comment 263 11 helvetica ? 0 0 0 0 7- Event
-of delta-time report;
-#X obj 333 244 cyclone/comment 251 11 helvetica ? 0 0 0 0 6- Note duration
-;
-#X obj 295 259 cyclone/comment 256 11 helvetica ? 0 0 0 0 5- Event
-of duration report;
-#X obj 290 282 cyclone/comment 278 11 helvetica ? 0 0 0 0 4- Velocity
-;
-#X obj 279 300 cyclone/comment 285 11 helvetica ? 0 0 0 0 3- Pitch
-;
-#X obj 263 320 cyclone/comment 271 11 helvetica ? 0 0 0 0 2- Number
-of voices;
-#X obj 249 338 cyclone/comment 270 11 helvetica ? 0 0 0 0 1- Voice
-number;
-#X obj 236 358 cyclone/comment 283 11 helvetica ? 0 0 0 0 0- Note event
-;
+#X obj 356 209 cyclone/comment 0 11 helvetica ? 0 0 0 0 0 255 255 255
+0 0 8- Note-On Delta-time;
+#X obj 321 225 cyclone/comment 263 11 helvetica ? 0 0 0 0 0 255 255
+255 0 0 7- Event of delta-time report;
+#X obj 333 244 cyclone/comment 251 11 helvetica ? 0 0 0 0 0 255 255
+255 0 0 6- Note duration;
+#X obj 295 259 cyclone/comment 256 11 helvetica ? 0 0 0 0 0 255 255
+255 0 0 5- Event of duration report;
+#X obj 290 282 cyclone/comment 278 11 helvetica ? 0 0 0 0 0 255 255
+255 0 0 4- Velocity;
+#X obj 279 300 cyclone/comment 285 11 helvetica ? 0 0 0 0 0 255 255
+255 0 0 3- Pitch;
+#X obj 263 320 cyclone/comment 271 11 helvetica ? 0 0 0 0 0 255 255
+255 0 0 2- Number of voices;
+#X obj 249 338 cyclone/comment 270 11 helvetica ? 0 0 0 0 0 255 255
+255 0 0 1- Voice number;
+#X obj 236 358 cyclone/comment 283 11 helvetica ? 0 0 0 0 0 255 255
+255 0 0 0- Note event;
 #X obj 203 356 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 218 337 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -174,8 +176,6 @@ number;
 #X obj 80 89 notein 1;
 #X obj 102 159 pack 0 0 0, f 11;
 #X obj 102 206 route 1 2 3 4;
-#X obj 165 224 cyclone/comment 140 11 helvetica ? 0 80 80 80 comment
-;
 #X obj 80 124 cyclone/borax, f 30;
 #X obj 371 96 notein 1;
 #X obj 359 167 pack 0 0 0, f 11;
@@ -185,18 +185,18 @@ number;
 #X text 174 160 voice # \, pitch \, velocity;
 #X text 93 32 using [borax] to route voices in the same way as [poly].
 ;
-#X connect 0 0 4 0;
-#X connect 0 1 4 1;
+#X connect 0 0 3 0;
+#X connect 0 1 3 1;
 #X connect 1 0 2 0;
-#X connect 4 1 1 0;
-#X connect 4 3 1 1;
-#X connect 4 4 1 2;
-#X connect 5 0 8 0;
-#X connect 5 1 8 1;
-#X connect 6 0 7 0;
-#X connect 8 0 6 0;
-#X connect 8 1 6 1;
-#X connect 8 2 6 2;
+#X connect 3 1 1 0;
+#X connect 3 3 1 1;
+#X connect 3 4 1 2;
+#X connect 4 0 7 0;
+#X connect 4 1 7 1;
+#X connect 5 0 6 0;
+#X connect 7 0 5 0;
+#X connect 7 1 5 1;
+#X connect 7 2 5 2;
 #X restore 466 299 pd examples;
 #X connect 52 0 69 2;
 #X connect 53 0 69 0;

@@ -34,8 +34,6 @@
 #X floatatom 240 246 0 0 0 0 - - -;
 #X obj 243 224 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
-#X obj 123 336 cyclone/Scope~ 149 107 256 3 128 0 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
 #X text 108 435 0;
 #X text 110 330 1;
 #X text 271 224 curve factor;
@@ -626,28 +624,28 @@ more computationally expensive.;
 ;
 #X msg 123 231 0 \, 1 1000;
 #X msg 133 261 1 \, 0 1000;
-#X obj 34 10 cnv 15 400 30 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 34 10 cnv 15 430 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 40 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Different exponential
-factor parameters for [curve~];
+#X obj 40 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Different exponential factor parameters for [curve~];
 #X obj 346 335 cyclone/setdsp~;
-#X connect 0 0 14 2;
-#X connect 1 0 0 0;
-#X connect 7 0 13 0;
-#X connect 14 0 2 0;
-#X connect 16 0 22 0;
-#X connect 17 0 22 0;
-#X connect 18 0 22 0;
-#X connect 19 0 22 0;
-#X connect 20 0 22 0;
-#X connect 21 0 22 0;
-#X connect 22 0 7 0;
-#X connect 22 1 13 0;
-#X connect 24 0 14 0;
-#X connect 25 0 14 0;
-#X restore 395 298 pd curve_factor_examples;
-#X obj 188 207 cyclone/Scope~ 147 114 256 3 128 0 1 0 0 0 0 205 229
+#X obj 123 336 cyclone/scope~ 149 107 256 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
+#X connect 0 0 13 2;
+#X connect 1 0 0 0;
+#X connect 6 0 12 0;
+#X connect 13 0 28 0;
+#X connect 15 0 21 0;
+#X connect 16 0 21 0;
+#X connect 17 0 21 0;
+#X connect 18 0 21 0;
+#X connect 19 0 21 0;
+#X connect 20 0 21 0;
+#X connect 21 0 6 0;
+#X connect 21 1 12 0;
+#X connect 23 0 13 0;
+#X connect 24 0 13 0;
+#X restore 395 298 pd curve_factor_examples;
 #X text 184 516 - curve exponential factor parameter (-1 to 1);
 #X text 184 483 - curve duration in ms - works only if a float is sent
 into the left inlet after \, and it works only once.;
@@ -688,19 +686,23 @@ value);
 #X text 184 379 - jumps immediately to that value (unless the duration
 is set before to other than 0 in the mid inlet);
 #X text 183 626 - curve factor from -1 to 1 (defalut 0 - linear);
-#X obj 19 53 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Curved ramp generator
-;
-#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 curve~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 19 53 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Curved ramp generator;
+#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 curve~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 52 247 ./out~;
 #X text 398 269 see also:;
 #X obj 461 270 cyclone/line~;
+#X obj 188 207 cyclone/scope~ 147 114 256 3 128 0 1 0 0 0 0 205 229
+232 74 79 77 96 98 102 0;
 #X connect 16 0 17 0;
-#X connect 17 0 53 0;
-#X connect 17 0 53 1;
+#X connect 17 0 52 0;
+#X connect 17 0 52 1;
 #X connect 20 0 17 1;
-#X connect 20 0 22 0;
+#X connect 20 0 55 0;
 #X connect 20 1 13 0;
-#X connect 27 0 20 0;
+#X connect 26 0 20 0;

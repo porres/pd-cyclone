@@ -142,12 +142,14 @@ by a random value less than the given step size.;
 #X text 186 359 of floats sets <value \, maximum \, step size> in this
 order;
 #X obj 201 224 cyclone/drunk 12 3, f 24;
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Random drunk walk
-;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 drunk;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Random drunk walk;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 drunk;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X connect 6 0 51 0;
 #X connect 7 0 6 0;
 #X connect 10 0 35 0;

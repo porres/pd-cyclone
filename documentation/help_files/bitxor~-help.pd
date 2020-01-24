@@ -34,7 +34,7 @@
 #X text 317 180 0: (default) doesn't convert to int;
 #X text 317 206 2: converts right signal to int;
 #X text 317 219 3: converts left signal to int;
-#N canvas 400 337 476 167 signal_conversion_to_int 0;
+#N canvas 655 448 476 167 signal_conversion_to_int 0;
 #X text 59 31 Signals are 32 bit floating point by default and their
 32 bit representation is used for comparison. When converting a signal
 to integer \, depending on the mode \, what happens is that the floating
@@ -329,12 +329,14 @@ signal input.;
 #X connect 21 0 23 1;
 #X connect 22 0 20 0;
 #X restore 459 284 pd raw_bitmask;
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal Bitwise-XOR
-;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bitxor~;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Signal Bitwise-XOR;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 bitxor~;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 92 182 cyclone/number~ 1;
 #X obj 179 212 cyclone/number~ 1;
 #X obj 92 275 cyclone/number~;

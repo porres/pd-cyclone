@@ -60,12 +60,14 @@ by the delta minimum and maximum values.;
 signal;
 #X text 191 417 - delta max: maximum allowed difference in increasing
 signal;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Limit changes between
-samples;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 deltaclip~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Limit changes between samples;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 deltaclip~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 76 274 cyclone/number~;
 #X obj 207 276 cyclone/number~;
 #X text 73 91 [deltaclip~] limits the change between samples in an

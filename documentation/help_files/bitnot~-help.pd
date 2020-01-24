@@ -44,7 +44,7 @@ of 1 are set to 0 and vice versa). The operation is done in two modes
 #X text 281 184 Modes:;
 #X text 287 201 0: (default) doesn't convert to int;
 #X text 287 214 1: converts input signal to int;
-#N canvas 495 23 476 167 signal_conversion_to_int 0;
+#N canvas 647 411 476 167 signal_conversion_to_int 0;
 #X text 62 35 Signals are 32 bit floating point by default and their
 32 bit representation is used for comparison. When converting a signal
 to integer \, depending on the mode \, what happens is that the floating
@@ -56,12 +56,14 @@ signed integer representation of this value is used for the operation.
 0;
 #X text 122 441 [bitand~] can produce NaNs and +/-INFs - but denormals
 are zeroed out.;
-#X obj 20 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal Bitwise-NOT
-;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bitnot~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 20 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Signal Bitwise-NOT;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 bitnot~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 136 270 cyclone/number~;
 #X obj 136 195 cyclone/number~ 1;
 #X obj 500 69 cyclone/setdsp~;

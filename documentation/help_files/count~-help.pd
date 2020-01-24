@@ -69,34 +69,34 @@ number;
 #X text 185 505 - autoreset on <1> or off <0> (default 0);
 #X text 186 375 - 0 to non-0 transition starts counter. Non-0 to 0
 stops it;
-#N canvas 240 128 402 474 all_messages 0;
-#X msg 47 89 stop;
-#X msg 22 60 bang;
-#X text 55 60 start counting;
-#X text 80 87 stop \, you guessed it;
-#X obj 62 121 tgl 15 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0 1
+#N canvas 686 163 468 491 all_messages 0;
+#X msg 75 94 stop;
+#X msg 50 65 bang;
+#X text 83 65 start counting;
+#X text 108 92 stop \, you guessed it;
+#X obj 90 126 tgl 15 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0 1
 ;
-#X msg 62 144 autoreset \$1;
-#X msg 83 217 min \$1;
-#X floatatom 83 196 5 0 0 0 - - -;
-#X msg 92 245 0;
-#X msg 153 329 0 4.41e+08 1 1;
-#X msg 153 351 10 100 1 1;
-#X text 125 309 list resets arguments:;
-#X obj 13 9 cnv 15 377 30 empty empty empty 20 12 0 14 -233017 -66577
+#X msg 90 149 autoreset \$1;
+#X msg 111 222 min \$1;
+#X floatatom 111 201 5 0 0 0 - - -;
+#X msg 120 250 0;
+#X msg 181 334 0 4.41e+08 1 1;
+#X msg 181 356 10 100 1 1;
+#X text 153 314 list resets arguments:;
+#X obj 13 9 cnv 15 420 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X text 81 121 resets counter to minimum when DSP is turned on;
-#X text 122 244 sets min value and start counting from it;
-#X msg 74 169 set -80000 80000;
-#X obj 22 384 cyclone/count~;
-#X msg 103 276 44100;
-#X text 122 196 sets min value;
-#X text 183 169 sets min and max* values;
-#X text 140 276 set a max* value;
-#X text 148 402 * actual maximum value is maximum - 1;
-#X obj 19 14 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 All the message options
-for controlling the object;
-#X obj 22 429 cyclone/number~;
+#X text 109 126 resets counter to minimum when DSP is turned on;
+#X text 150 249 sets min value and start counting from it;
+#X msg 102 174 set -80000 80000;
+#X obj 50 389 cyclone/count~;
+#X msg 131 281 44100;
+#X text 150 201 sets min value;
+#X text 211 174 sets min and max* values;
+#X text 168 281 set a max* value;
+#X text 176 407 * actual maximum value is maximum - 1;
+#X obj 19 14 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 All the message options for controlling the object;
+#X obj 50 434 cyclone/number~;
 #X connect 0 0 16 0;
 #X connect 1 0 16 0;
 #X connect 4 0 5 0;
@@ -113,18 +113,18 @@ for controlling the object;
 #N canvas 522 405 416 320 signal_input 0;
 #X obj 98 194 cyclone/count~;
 #X obj 205 272 hsl 128 15 0 44100 0 0 empty empty empty -2 -8 0 10
--228856 -1 -1 5273 1;
+-228856 -1 -1 0 1;
 #X text 341 271 44100;
 #X text 184 273 0;
-#X obj 36 16 cnv 15 320 30 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 36 16 cnv 15 340 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 98 115 cyclone/train~ 2000;
-#X obj 230 178 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 230 178 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 24 63 A signal input can trigger count with sample accuracy.
 A non-zero value turns the counter on \, a zero value stops it.;
-#X obj 42 21 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Triggering [count~]
-with sample accuracy;
+#X obj 42 21 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Triggering [count~] with sample accuracy;
 #X obj 126 152 cyclone/number~;
 #X obj 98 230 cyclone/number~;
 #X connect 0 0 10 0;
@@ -142,12 +142,12 @@ with sample accuracy;
 ;
 #X msg 32 106 autoreset \$1;
 #X text 259 168 size (max value);
-#X obj 60 19 cnv 15 400 30 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 59 19 cnv 15 430 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #X obj 215 143 soundfiler;
 #X text 79 134 start counter;
-#X obj 66 24 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Using counter to
-drive [index~] for sample playback;
+#X obj 66 24 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Using counter to drive [index~] for sample playback;
 #X obj 215 116 cyclone/loadmess read -resize violin.wav \$0-violin
 ;
 #X obj 424 141 table \$0-violin;
@@ -175,12 +175,14 @@ drive [index~] for sample playback;
 #X text 79 81 [count~] outputs a signal increasing by 1 for each sample
 elapsed. It starts at a given minimum and it can loop at a given maximum
 value (which is actually that value - 1).;
-#X obj 19 53 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Counter at the sample
-rate;
-#X obj 16 1 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 count~;
-#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 19 53 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Counter at the sample rate;
+#X obj 16 1 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 count~;
+#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 133 224 cyclone/number~;
 #X obj 497 71 cyclone/setdsp~;
 #X connect 22 0 25 0;

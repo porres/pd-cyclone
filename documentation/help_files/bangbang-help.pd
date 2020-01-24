@@ -1,4 +1,4 @@
-#N canvas 490 153 562 412 10;
+#N canvas 635 232 562 412 10;
 #X obj 3 271 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 311 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -39,13 +39,15 @@
 #X text 61 88 When it receives any input \, [bangbang] outputs bang
 messages out of each outlet (in the usual right-to-left order). The
 number of outlets is determined the argument.;
-#X obj 17 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Send a number of
-bangs;
-#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bangbang;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#N canvas 149 61 474 180 inconsistency 0;
+#X obj 17 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Send a number of bangs;
+#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 bangbang;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
+#N canvas 836 492 474 180 inconsistency 0;
 #X text 53 43 In Max \, [bangbang] can be abbreviated as [b]. This
 feature is not presented in cyclone.;
 #X text 54 82 In Pd Vanilla \, [b] is the abbreviation of [bang];
