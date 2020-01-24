@@ -60,8 +60,8 @@ accuracy) - or also set to any value (with the set message).;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal accumulator
 ;
 #X obj 13 7 cyclone/comment 0 37 times ? 0 0 0 0 +=~;
-#X obj 364 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 364 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 70 326 cyclone/number~;
 #X obj 254 326 cyclone/number~;

@@ -40,9 +40,9 @@ and a bang triggers the output.;
 #X obj 17 59 cyclone/comment 0 18 times ? 0 0 0 0 Output a list when
 any element changes;
 #X obj 16 7 cyclone/comment 0 37 times ? 0 0 0 0 pak;
-#X obj 322 31 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 31 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 7 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 7 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X text 174 380 -;
 #X text 174 336 -;
 #X text 187 380 same as "set" \, but it forces a list output, f 58

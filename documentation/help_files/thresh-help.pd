@@ -92,9 +92,9 @@ each incoming item.;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Combine data received
 close together;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 thresh;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X text 183 365 list of elements stored within a time interval, f
 60;
 #X connect 23 2 26 0;

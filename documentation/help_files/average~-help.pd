@@ -33,12 +33,14 @@
 #X text 104 402 bipolar;
 #X text 98 418 absolute;
 #X text 128 434 rms;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal moving average
-;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 average~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 0 255 255 255 0 0
+Signal moving average;
+#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 0 255 255 255 0 0
+average~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 231 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 169 515 - sets mode: bipolar (default) \, absolute or rms;
@@ -46,9 +48,6 @@ cloned from Max/MSP;
 -228856 -1 -1 0 1;
 #X obj 231 170 noise~;
 #X text 181 144 'n' samples to average;
-#X obj 46 286 cyclone/comment 9 14 times ? 0 0 0 0 0;
-#X obj 41 335 cyclone/comment 32 14 times ? 0 0 0 0 -1;
-#X obj 46 234 cyclone/comment 9 14 times ? 0 0 0 0 1;
 #X text 169 464 - the moving average over the last 'n' samples;
 #X text 169 497 - maximum and initial 'n' samples (default 100 \, minimum
 1);
@@ -100,9 +99,7 @@ Listen to the difference below.;
 #X obj 114 229 ./out~;
 #X connect 0 0 1 0;
 #X connect 0 0 4 0;
-#X connect 0 0 4 1;
 #X connect 1 0 3 0;
-#X connect 1 0 3 1;
 #X restore 453 261 pd moving \; average filter;
 #N canvas 915 134 414 521 more 0;
 #X obj 94 399 cyclone/scope~ 189 102 2 3 64 -1 1 300 0 0 0 205 229
@@ -180,11 +177,11 @@ the last 'n' given samples. The average is done in 3 modes: bipolar
 #X obj 59 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 500 69 cyclone/setdsp~;
-#X connect 6 0 47 0;
-#X connect 7 0 47 0;
-#X connect 8 0 47 0;
-#X connect 28 0 46 0;
-#X connect 29 0 47 0;
-#X connect 29 0 48 0;
-#X connect 46 0 47 0;
-#X connect 47 0 26 0;
+#X connect 6 0 44 0;
+#X connect 7 0 44 0;
+#X connect 8 0 44 0;
+#X connect 28 0 43 0;
+#X connect 29 0 44 0;
+#X connect 29 0 45 0;
+#X connect 43 0 44 0;
+#X connect 44 0 26 0;

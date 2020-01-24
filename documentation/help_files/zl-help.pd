@@ -1059,9 +1059,9 @@ messages' or "anything") according to a mode (set via argument/message).
 , f 66;
 #X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 List processor;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 zl;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X text 178 306 - sets maximum list size (from 1 to 32767);
 #X text 234 205 <= number of elements in a message;
 #X text 293 181 length mode;

@@ -201,9 +201,9 @@ set other waveforms from given arrays.;
 #X obj 14 56 cyclone/comment 0 18 times ? 0 0 0 0 Wavetable oscillator
 ;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 cycle~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X obj 225 224 ./out~;
 #X text 189 535 -;
 #X text 201 535 sets array used as the wavetable (but only reads 512

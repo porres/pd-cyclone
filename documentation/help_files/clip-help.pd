@@ -69,9 +69,9 @@ lists between a range specified by a minimum and a maximum value.;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Constrain values
 to a given range;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 clip;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #N canvas 836 207 415 239 name 0;
 #X text 199 181 <= from Pd Vanilla;
 #X text 31 144 And still create the vanilla object from vanilla without

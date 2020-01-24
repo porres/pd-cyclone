@@ -143,9 +143,9 @@ pi/2. For input values outside the -1 to 1 range \, the output is zero!
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal arc-sine function
 ;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 asin~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X obj 429 345 cyclone/number~;
 #X obj 429 262 cyclone/number~ 1;
 #X text 181 309 0;

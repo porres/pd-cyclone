@@ -208,9 +208,9 @@ above);
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Format MIDI messages
 ;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 midiformat;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X connect 4 0 66 0;
 #X connect 6 0 66 1;
 #X connect 16 0 66 0;

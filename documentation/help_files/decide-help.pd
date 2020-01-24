@@ -58,9 +58,9 @@ use a random seed \, any other integer float is the seed, f 60;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Randomly output 0
 or 1;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 decide;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X obj 84 359 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
 #X text 158 361 -;

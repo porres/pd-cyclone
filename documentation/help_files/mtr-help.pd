@@ -169,9 +169,9 @@ message), f 61;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Multi-track message
 recorder;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 mtr;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X connect 13 0 37 0;
 #X connect 14 0 37 0;
 #X connect 28 0 37 3;

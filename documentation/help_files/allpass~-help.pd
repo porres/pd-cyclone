@@ -111,9 +111,9 @@ linear interpolation is performed.;
 #X restore 420 276 pd Filter Equation;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 allpass~;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 All Pass filter;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X text 78 87 Use [allpass~] for filtering and delay effects. The All
 Pass filter passes all frequencies without altering the gain - but
 changes the frequencies' phase.;

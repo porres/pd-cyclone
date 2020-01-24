@@ -124,9 +124,9 @@ as in a ucket brigade).;
 #X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Pass numbers from
 outlet to outlet;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 bucket;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X connect 5 0 49 0;
 #X connect 20 0 48 0;
 #X connect 31 0 38 0;

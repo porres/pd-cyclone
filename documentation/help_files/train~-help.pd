@@ -53,9 +53,9 @@ entire period except the last sample). The "onset phase" delays the
 #X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Pulse-train generator
 and metronome;
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 train~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X obj 499 69 cyclone/setdsp~;
 #N canvas 853 206 335 379 example 0;
 #X obj 242 136 bng 30 250 50 0 empty empty empty 17 7 0 10 -228856

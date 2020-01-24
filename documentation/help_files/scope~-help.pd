@@ -55,9 +55,9 @@ or 2 (down);
 #X text 197 456 - <1> sets alternate drawing style (default 0);
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 0 255 255 255 0 0
 scope~;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 0 255 255
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255 255
 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 0 255 255
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255 255
 255 0 0 cyclone;
 #N canvas 467 187 1004 465 X-Y_Mode 0;
 #X obj 810 115 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856

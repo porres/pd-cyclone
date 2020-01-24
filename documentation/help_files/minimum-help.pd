@@ -98,9 +98,9 @@ the left outlet. The right outlet outputs the index of the minimum.
 #X text 170 437 - the index of the minimnum value, f 61;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Compare minimum;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 minimum;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X connect 19 0 32 0;
 #X connect 22 0 34 0;
 #X connect 25 0 32 0;

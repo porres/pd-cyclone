@@ -128,9 +128,9 @@ disables;
 #X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Probability matrix
 ;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 prob;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X text 144 374 float;
 #X text 181 374 -;
 #X text 194 373 an integer sets (but doesn't output) the current number

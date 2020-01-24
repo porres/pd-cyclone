@@ -139,9 +139,9 @@ sends its address, f 78;
 #X obj 21 56 cyclone/comment 0 18 times ? 0 0 0 0 Store and edit a
 number array;
 #X obj 17 3 cyclone/comment 0 37 times ? 0 0 0 0 table;
-#X obj 323 27 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 323 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 364 3 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 364 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #N canvas 836 207 417 233 name 0;
 #X text 201 173 <= from Pd Vanilla;
 #X text 33 136 And still create the vanilla object from vanilla without

@@ -188,9 +188,9 @@ specified outlet. Symbols are accepted in both modes.;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Distribute values
 to outlets;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 spray;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X text 65 84 [spray] accepts lists where the 1st value indicates the
 outlet number (starting at 0) and the 2nd element (float or symbol)
 is sent to that outlet - when not in list mode \, subsequent elements

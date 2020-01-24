@@ -39,9 +39,9 @@ of any message sent to the input.;
 #X obj 18 4 cyclone/comment 0 37 times ? 0 0 0 0 append;
 #X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 Append a message
 to the incoming message;
-#X obj 324 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 324 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 365 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 365 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #N canvas 836 207 424 229 name 0;
 #X text 199 175 <= from Pd Vanilla;
 #X text 31 138 And still create the vanilla object from vanilla without

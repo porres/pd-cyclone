@@ -222,9 +222,9 @@ received values.;
 #X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Sync a group of messages
 ;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 bondo;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X text 181 312 -;
 #X text 193 312 one element messages go to the corresponding outlet.
 If there are more than 1 element \, they're parsed among the inlets

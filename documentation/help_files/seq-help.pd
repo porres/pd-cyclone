@@ -246,9 +246,9 @@ f 59;
 #X text 191 488 a MIDI file to be loaded;
 #X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 MIDI sequencer;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 seq;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X text 188 377 stops recording/playing and goes back to start, f
 59;
 #X text 66 86 [seq] plays/records raw MIDI streams and can save/read

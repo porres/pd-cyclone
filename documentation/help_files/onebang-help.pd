@@ -102,9 +102,9 @@ ignore subsequent occurrences until reset occurs., f 35;
 #X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Gate a bang with
 a bang;
 #X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 onebang;
-#X obj 322 29 cyclone/comment 0 13 courier ? 0 224 228 220 Objects
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 courier ? 0 224 228 220 cyclone;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X obj 274 223 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
 #X msg 206 160 stop;

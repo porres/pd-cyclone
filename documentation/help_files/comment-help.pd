@@ -51,9 +51,9 @@
 Comment GUI;
 #X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 0 255 255 255 0 0
 comment;
-#X obj 322 28 cyclone/comment 0 13 courier ? 0 224 228 220 0 255 255
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255 255
 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 courier ? 0 224 228 220 0 255 255
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255 255
 255 0 0 cyclone;
 #X text 214 352 - sets RGB text color (values from 0 to 255), f 54
 ;
@@ -67,7 +67,7 @@ into a Pd's comment box.;
 #X msg 157 18 fontsize 50;
 #X msg 165 38 fontsize 30;
 #X msg 197 129 fontname helvetica;
-#X msg 204 149 fontname courier;
+#X msg 204 149 fontname DejaVu\ Sans\ Mono;
 #X msg 219 199 textcolor 0 0 0;
 #X msg 225 219 textcolor 150 100 50;
 #X msg 559 114 textcolor 200 0 0;
