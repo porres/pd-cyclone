@@ -53,12 +53,12 @@ or 2 (down);
 0);
 #X text 111 456 drawstyle <f>;
 #X text 197 456 - <1> sets alternate drawing style (default 0);
-#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-scope~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255 255
-255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255 255
-255 0 0 cyclone;
+#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 scope~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #N canvas 467 187 1004 465 X-Y_Mode 0;
 #X obj 810 115 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
@@ -89,8 +89,8 @@ period is used. So it requires small values for a better representation
 #X obj 702 110 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X msg 609 61 1;
-#X obj 79 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-X/Y mode:;
+#X obj 79 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 X/Y mode:;
 #X obj 509 196 cyclone/scope~ 200 200 5 3 200 -1 1 50 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 64 97 If signals are connected to both the left and right inlets
@@ -153,8 +153,8 @@ some changes to the trigger level will shift the waveform to the left
 or right.;
 #X obj 27 11 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 33 16 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-Trigger mode:;
+#X obj 33 16 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Trigger mode:;
 #X obj 87 548 cyclone/scope~ 201 129 2 3 256 -1 1 50 0 0 0.152 205
 229 232 74 79 77 96 98 102 0;
 #X connect 0 0 5 0;
@@ -238,8 +238,8 @@ Check the messages below, f 52;
 \, but the alpha channel is not implemented in Pd.;
 #X obj 33 21 cnv 15 70 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 39 26 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-Colors:;
+#X obj 39 26 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Colors:;
 #X obj 163 446 cyclone/scope~ 250 133 10 3 185 -1 1 0 0 0 -0.333333
 205 228 232 73 79 77 96 98 102 0;
 #X obj 27 308 cyclone/pak 0.803922 0.898039 0.909804, f 15;
@@ -297,8 +297,8 @@ to analternate drawing style \, that affects some kinds of signals
 the onset delay (time between displays) with messages.;
 #X obj 586 301 cyclone/scope~ 100 50 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
-#X obj 44 25 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-Appearance:;
+#X obj 44 25 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Appearance:;
 #X obj 558 150 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 558 193 select 0 1;
@@ -354,8 +354,8 @@ or not) you can access its properties.;
 #X text 72 369 When in edit mode \, you can selct the object by clicking
 on it and then you can resize it by clicking and dragging on its bottom
 right corner.;
-#X obj 33 17 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-mouse:;
+#X obj 33 17 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 mouse:;
 #X text 73 77 When you click on [scope~] with your mouse \, the display
 freezes for as long as you hold the mouse button down.;
 #X connect 1 0 2 0;
@@ -364,8 +364,8 @@ freezes for as long as you hold the mouse button down.;
 79 77 96 98 102 0;
 #X text 89 83 [scope~] displays a signal in the style of an oscilloscope.
 ;
-#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-Oscilloscope display;
+#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Oscilloscope display;
 #X obj 235 199 cyclone/comment 0 12 helvetica ? 0 200 0 0 0 255 255
 255 0 0 <= Right click for properties!;
 #X text 117 397 range <f \, f>;
@@ -385,8 +385,8 @@ displays in "Y Mode" only., f 31;
 #X obj 214 154 osc~ 60;
 #X obj 50 26 cnv 15 120 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 67 31 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-Y mode:;
+#X obj 67 31 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Y mode:;
 #X connect 2 0 0 1;
 #X restore 491 236 pd Y_Mode;
 #N canvas 693 173 436 665 buffer_settings 0;
@@ -416,10 +416,10 @@ by each line is set by "calccount" (possible values from 2 to 8192
 - default is 256). For each line \, the maximum and minimum values
 within the period in samples are used to generate the line. So the
 smallest line is 2 samples/points long.;
-#X obj 27 12 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 27 12 cnv 15 190 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 33 17 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255 0 0
-buffsize / calccount:;
+#X obj 33 17 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 buffsize / calccount:;
 #X obj 141 516 cyclone/scope~ 182 119 10 3 256 -1 1 0 0 0 -0.333333
 205 229 232 74 79 77 96 98 102 0;
 #X connect 0 0 15 0;

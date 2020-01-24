@@ -50,12 +50,14 @@ from 0 to 1 \, so it can be used as a metronome., f 57;
 (a single sample) \, while a pulse widht of 1 has the largest (the
 entire period except the last sample). The "onset phase" delays the
 "on" portion by a fraction of the total pulse period.;
-#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Pulse-train generator
-and metronome;
-#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 train~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Pulse-train generator and metronome;
+#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 train~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X obj 499 69 cyclone/setdsp~;
 #N canvas 853 206 335 379 example 0;
 #X obj 242 136 bng 30 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -68,7 +70,7 @@ cloned from Max/MSP;
 #X text 133 62 period;
 #X text 114 81 ms;
 #X obj 137 82 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 335 256;
+-228856 -1 -1 0 256;
 #X text 48 25 [train~] used to trigger the [sah~] object.;
 #X obj 84 171 cyclone/number~;
 #X obj 86 232 cyclone/number~;
@@ -113,11 +115,11 @@ cloned from Max/MSP;
 -1 -1;
 #X obj 228 277 cyclone/train~ 1000;
 #X obj 342 225 hsl 128 16 0 1 0 0 empty empty empty -2 -8 0 10 -228856
--1 -1 12700 1;
+-1 -1 0 1;
 #X text 351 225 onset phase (0-1);
 #X obj 339 250 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
-#X obj 339 187 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+-228856 -1 -1 0 256;
+#X obj 339 187 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 75 40 The original object in MAX/MSP has a very weird behaviour
 for the onset that just seems buggy so it was not ported to Cyclone

@@ -42,14 +42,14 @@
 #N canvas 860 67 459 453 interpolation_modes 0;
 #X obj 35 28 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 38 33 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Interpolation modes:
-;
+#X obj 38 33 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Interpolation modes:;
 #N canvas 293 23 531 386 theory 0;
-#N canvas 238 65 524 434 non-cubic 0;
-#X text 42 356 The cosine interpolator maps a cosine curve (from phase
+#N canvas 238 65 528 456 non-cubic 0;
+#X text 42 376 The cosine interpolator maps a cosine curve (from phase
 0 to phase pi) to the values it is interpolating between. It is of
 limited use., f 76;
-#X text 42 184 As indices in an array increase \, there is less and
+#X text 42 204 As indices in an array increase \, there is less and
 less index resolution between integer index values. The low-quality
 linear interpolation maps the 0.0-1.0 phase range to the array range
 in single precision \, which means that low index resolution later
@@ -58,20 +58,25 @@ interpolation handles all index values as well as values read from
 the table in double precision \, so that the 24-bit resolution between
 0 and 1 is preserved no matter where in the table it reads from.,
 f 76;
-#X obj 27 133 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Modes 1 & 2:;
-#X obj 25 159 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 (High & Low Quality
-Linear Interpolation \, respectively);
-#X obj 27 303 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Mode 3:;
-#X obj 26 328 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 (Cosine Interpolation)
+#X obj 27 133 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Modes 1 & 2:;
+#X obj 25 159 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 (High & Low Quality Linear Interpolation \, respectively)
 ;
-#X obj 30 26 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Mode 0:;
-#X obj 29 51 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 (No Interpolation)
-;
+#X obj 27 323 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Mode 3:;
+#X obj 26 348 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 (Cosine Interpolation);
+#X obj 30 26 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Mode 0:;
+#X obj 29 51 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 (No Interpolation);
 #X text 46 79 In mopde 0 there is no interpolation \, this means that
 indexes are truncated to the sample point., f 76;
 #X restore 139 320 pd non-cubic (modes 0 to 3);
 #N canvas 388 58 982 510 cubic 0;
-#X obj 15 12 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Overview:;
+#X obj 15 12 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Overview:;
 #X text 24 283 The advantage of Lagrange interpolation is that the
 curve drawn has low RMS error with respect to that of an ideal (sinc)
 interpolator. A disadvantage is that the first derivative (the instantaneous
@@ -92,12 +97,12 @@ f(0) \, c = f(1) \, and d = f(2)., f 75;
 #X text 24 235 This is the the kind of interpolation used in Pd's [tabread4~]
 \, as well as the cubic interpolating functions in csound. The output
 is f(m) (where m is the fractional index between 0 and 1)., f 75;
-#X obj 19 365 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Mode 4 \, 5 \,
-and 6:;
-#X obj 158 368 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 Hermite Interpolators
-;
-#X obj 507 16 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 1) Catmull-Rom
-Spline (mode 5);
+#X obj 19 365 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Mode 4 \, 5 \, and 6:;
+#X obj 214 368 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0
+0 255 255 255 0 0 Hermite Interpolators;
+#X obj 507 16 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 1) Catmull-Rom Spline (mode 5);
 #X text 514 37 The most basic form of Hermite interpolator sets the
 curve slope at point b as the slope of the line passing through a and
 c \, which is defined (c - a)/2. The curve slope at point c is set
@@ -107,15 +112,16 @@ so there are occasional abrupt changes in concavity \, e.g. at zero-crossings
 in the 4-period cosine example. There are no such abrupt changes in
 concavity with Lagrange interpolation. This type of interpolation is
 used in SuperCollider's interpolating functions., f 75;
-#X obj 509 155 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 2) Spline (modes
-4 and 6):;
-#X obj 88 159 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0 Pd's Cubic Interpolator
-(Lagrange);
-#X obj 18 156 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Mode 7:;
-#X obj 530 177 cyclone/comment 413 13 DejaVu\ Sans\ Mono ? 0 0 0 0 - Mode 6: With
-settable Tension and Bias;
-#X obj 529 197 cyclone/comment 413 13 DejaVu\ Sans\ Mono ? 0 0 0 0 - Mode 4: "Cubic"
-\, with tension of -1;
+#X obj 509 155 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0
+0 255 255 255 0 0 2) Spline (modes 4 and 6):;
+#X obj 101 159 cyclone/comment 413 15 DejaVu\ Sans\ Mono ? 0 0 0 0
+0 255 255 255 0 0 Pd's Cubic Interpolator (Lagrange);
+#X obj 18 156 cyclone/comment 413 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Mode 7:;
+#X obj 530 177 cyclone/comment 413 13 DejaVu\ Sans\ Mono ? 0 0 0 0
+0 255 255 255 0 0 - Mode 6: With settable Tension and Bias;
+#X obj 529 197 cyclone/comment 413 13 DejaVu\ Sans\ Mono ? 0 0 0 0
+0 255 255 255 0 0 - Mode 4: "Cubic" \, with tension of -1;
 #X text 514 459 The normal range for both tension and bias values is
 -1 to +1. Outside of that range the curves can be unpredictable.,
 f 75;
@@ -201,9 +207,10 @@ Period 12 -10 0 10 -191407 -99865 -1 0;
 -191407 -99865 -1;
 #X obj 421 250 nbx 5 20 -1e+37 1e+37 0 0 \$0-tension-snd \$0-tension-rcv
 empty 0 -8 0 16 -228856 -1 -1 0 256;
-#X obj 413 223 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Hermite Tension
-;
-#X obj 559 223 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Hermite Bias;
+#X obj 413 223 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Hermite Tension;
+#X obj 559 223 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Hermite Bias;
 #X obj 563 250 nbx 5 20 -1e+37 1e+37 0 0 \$0-bias-snd \$0-bias-rcv
 empty 0 -8 0 16 -228856 -1 -1 0 256;
 #X text 472 96 L;
@@ -218,8 +225,8 @@ empty 0 -9 0 10 -191407 -1 -1 2200 1;
 #X text 270 44 Draw function in source window \, then click this bang.
 , f 19;
 #X text 667 131 8;
-#X obj 28 232 cyclone/comment 93 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Periods of source
-to draw;
+#X obj 28 232 cyclone/comment 93 12 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Periods of source to draw;
 #X obj 34 204 nbx 3 20 0 256 0 0 \$0-periods-snd \$0-periods-rcv empty
 0 -8 0 16 -228856 -1 -1 1 256;
 #X obj 226 104 nbx 2 15 4 48 0 0 \$0-draw-samps-snd \$0-draw-samps-rcv
@@ -508,8 +515,8 @@ empty -10 -8 0 12 -191407 -1 -1 8 256;
 #X connect 11 0 12 0;
 #X restore 637 510 pd guts;
 #X text 432 199 Usual range is -1 to +1 for both;
-#X obj 55 166 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Open graphs below
-and compare:;
+#X obj 55 166 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Open graphs below and compare:;
 #X obj 203 308 vradio 15 1 0 8 empty empty empty 0 -8 0 10 -228856
 -1 -1 1;
 #X msg 203 443 interp \$1;
@@ -578,10 +585,11 @@ and compare:;
 #X coords 0 1 513 -1 513 192 1 0 0;
 #X restore 53 51 graph;
 #X restore 248 260 pd Mode_7) Lagrange;
-#X obj 297 106 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Clear;
+#X obj 297 106 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0
+255 255 255 0 0 Clear;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 360 140 1 0 0;
-#X restore 16 157 graph;
+#X restore 22 158 graph;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 210 160 1 0 0;
 #X restore 397 14 graph;
@@ -631,12 +639,14 @@ some examples \, please check the subopatches below:, f 58;
 #X text 89 360 interp_tension <f>;
 #X obj 2 529 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Wavetable reader
-;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 wave~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Wavetable reader;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 wave~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X text 107 344 interp_bias <f>;
 #X obj 166 191 cyclone/wave~ \$0-wavetable;
 #X obj 166 141 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -738,8 +748,8 @@ cloned from Max/MSP;
 #X obj 425 193 phasor~;
 #X obj 425 158 nbx 6 15 -1e+37 1e+37 0 0 empty \$0-freq empty 0 -8
 0 10 -228856 -1 -1 0.151731 256;
-#X obj 90 23 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Playing a sample
-;
+#X obj 90 23 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Playing a sample;
 #X text 89 53 Using [wave~] to read a sample file;
 #X obj 48 261 ./out~;
 #X obj 398 263 ./out~;
@@ -772,8 +782,8 @@ cloned from Max/MSP;
 #X connect 29 0 28 0;
 #X restore 437 206 pd sample_example;
 #N canvas 602 168 750 225 multichannel 0;
-#X obj 17 14 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Multi channel reading
-;
+#X obj 17 14 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Multi channel reading;
 #X obj 551 102 ./out~;
 #X text 22 103 If more than one channel is set \, the name convention
 for multi channel arrays is the table name preceded by the channel
@@ -827,8 +837,8 @@ and end point in the array.;
 #X coords 0 1 16 -1 200 140 1 0 0;
 #X restore 249 44 graph;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -897,7 +907,7 @@ and end point in the array.;
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -948,7 +958,7 @@ and end point in the array.;
 ;
 #X text 213 296 - phase signal to read the array (values from 0-1)
 ;
-#N canvas 145 30 450 300 related 0;
+#N canvas 688 268 450 300 related 0;
 #X obj 253 117 tabosc4~;
 #X obj 253 160 tabread4~;
 #X obj 253 139 tabread~;

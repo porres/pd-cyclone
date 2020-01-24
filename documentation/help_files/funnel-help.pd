@@ -54,17 +54,13 @@ it;
 -228856 -1 -1 0 256;
 #X obj 65 224 unpack;
 #X obj 305 210 cyclone/funnel 3, f 26;
-#N canvas 265 95 812 476 examples 0;
+#N canvas 472 179 812 476 examples 0;
 #X obj 434 35 vsl 20 134 0 127 0 0 afdaf adsgasfg empty 0 -9 0 10 -228856
 -1 -1 0 1;
 #X obj 94 176 makenote;
 #X floatatom 94 208 5 0 0 0 - - -;
 #X floatatom 139 208 5 0 0 0 - - -;
 #X obj 94 237 noteout, f 10;
-#X obj 87 100 cyclone/comment 234 10 helvetica ? 0 80 80 80 0;
-#X obj 121 99 cyclone/comment 234 10 helvetica ? 0 80 80 80 1;
-#X obj 152 99 cyclone/comment 234 10 helvetica ? 0 80 80 80 2;
-#X obj 186 99 cyclone/comment 234 10 helvetica ? 0 80 80 80 3;
 #X obj 434 223 s \$0-table;
 #X obj 434 182 cyclone/funnel 5, f 20;
 #X obj 586 33 cnv 15 198 138 empty empty empty 20 12 0 14 -233017 -66577
@@ -117,50 +113,54 @@ more easily;
 #X text 51 20 store data according to an inlet number;
 #X obj 94 148 cyclone/coll;
 #C restore;
-#X connect 0 0 10 0;
+#X connect 0 0 6 0;
 #X connect 1 0 2 0;
 #X connect 1 1 3 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 1;
-#X connect 10 0 9 0;
-#X connect 10 0 13 0;
-#X connect 13 0 14 0;
-#X connect 13 1 15 0;
-#X connect 16 0 10 1;
-#X connect 17 0 10 2;
-#X connect 18 0 10 3;
-#X connect 19 0 10 4;
-#X connect 21 0 33 0;
-#X connect 27 0 32 0;
-#X connect 28 0 32 1;
-#X connect 29 0 32 2;
-#X connect 30 0 32 3;
-#X connect 32 0 31 0;
-#X connect 33 0 23 0;
-#X connect 33 1 24 0;
-#X connect 33 2 25 0;
-#X connect 33 3 26 0;
-#X connect 35 0 39 0;
-#X connect 36 0 35 1;
-#X connect 37 0 39 0;
-#X connect 39 0 1 0;
+#X connect 6 0 5 0;
+#X connect 6 0 9 0;
+#X connect 9 0 10 0;
+#X connect 9 1 11 0;
+#X connect 12 0 6 1;
+#X connect 13 0 6 2;
+#X connect 14 0 6 3;
+#X connect 15 0 6 4;
+#X connect 17 0 29 0;
+#X connect 23 0 28 0;
+#X connect 24 0 28 1;
+#X connect 25 0 28 2;
+#X connect 26 0 28 3;
+#X connect 28 0 27 0;
+#X connect 29 0 19 0;
+#X connect 29 1 20 0;
+#X connect 29 2 21 0;
+#X connect 29 3 22 0;
+#X connect 31 0 35 0;
+#X connect 32 0 31 1;
+#X connect 33 0 35 0;
+#X connect 35 0 1 0;
 #X restore 459 249 pd examples;
 #X msg 305 170 hi;
 #X msg 341 170 list how are you?;
 #X msg 458 170 symbol fine;
 #X obj 65 198 cyclone/funnel 3 1, f 19;
-#X obj 26 254 cyclone/comment 100 12 helvetica ? 0 0 0 0 inlet #;
-#X obj 138 254 cyclone/comment 100 12 helvetica ? 0 0 0 0 value;
+#X obj 26 254 cyclone/comment 100 12 helvetica ? 0 0 0 0 0 255 255
+255 0 0 inlet #;
+#X obj 138 254 cyclone/comment 100 12 helvetica ? 0 0 0 0 0 255 255
+255 0 0 value;
 #X text 201 376 - an incoming message preceded with the inlet number
 ;
 #X text 201 412 - sets 'n' number of inlets (default 2);
 #X text 201 429 - first inlet number offset (default 0);
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Tag data based on
-inlet;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 funnel;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Tag data based on inlet;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 funnel;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X connect 6 0 36 2;
 #X connect 17 0 36 0;
 #X connect 18 0 36 1;

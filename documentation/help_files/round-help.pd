@@ -39,14 +39,14 @@
 -228856 -1 -1 0 256;
 #X text 190 474 - value to round to (whose multple values will be approximated
 to);
-#N canvas 126 23 450 300 lists 0;
-#X msg 113 127 0.5 5 8;
-#X obj 113 187 cyclone/tosymbol;
-#X symbolatom 113 218 15 0 0 0 - - -;
-#X floatatom 200 127 5 0 0 0 - - -;
-#X obj 113 155 cyclone/round 3;
-#X obj 113 101 loadbang;
-#X text 92 67 it also works with lists:;
+#N canvas 617 207 311 298 lists 0;
+#X msg 87 117 0.5 5 8;
+#X obj 87 177 cyclone/tosymbol;
+#X symbolatom 87 208 15 0 0 0 - - -;
+#X floatatom 174 117 5 0 0 0 - - -;
+#X obj 87 145 cyclone/round 3;
+#X obj 87 91 loadbang;
+#X text 66 57 it also works with lists:;
 #X connect 0 0 4 0;
 #X connect 1 0 2 0;
 #X connect 3 0 4 1;
@@ -74,12 +74,14 @@ an integer multiple of any given number that is greater or equal to
 #X text 128 597 @nearest;
 #X text 192 439 - "nearest" followed by 0 sets to "truncate mode" \,
 non zero number sets to "round to nearest mode" (default);
-#X obj 20 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Rounds floats/lists
-;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 round;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 20 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Rounds floats/lists;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 round;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X connect 11 0 23 1;
 #X connect 14 0 11 0;
 #X connect 15 0 23 0;
