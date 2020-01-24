@@ -85,7 +85,7 @@
 #X text 272 134 | z^-D |;
 #X text 114 172 y(n) = -a * x(n) + x(n-D) + a * y(n-D);
 #X text 110 81 x[n] ---(*-a)--(+)--(+)----------- y[n];
-#X obj 254 48 comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 Filter Equation:;
+#X obj 254 48 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 Filter Equation:;
 #X floatatom 233 334 5 0 100 0 - - -;
 #X obj 154 316 noise~;
 #X text 237 314 d1;

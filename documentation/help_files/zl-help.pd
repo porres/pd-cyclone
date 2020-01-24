@@ -69,7 +69,7 @@ in Pd \, where the mode needs to be called as an argument after a space.
 is no default mode. If you don't set a mode as an argument \, you have
 to set it via the mode message., f 54;
 #N canvas 740 59 394 428 ecils 0;
-#X obj 22 8 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 22 8 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 ecils;
 #X obj 235 284 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
@@ -107,7 +107,7 @@ with the mode message. The default point is '0' \, which means no slicing.
 #N canvas 893 197 393 459 group 0;
 #X obj 274 271 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 17 10 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 17 10 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 group;
 #X obj 95 342 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -150,7 +150,7 @@ group size is 0 \, which means nothing gets grouped and output.;
 #X msg 169 287 1 2 3 4 5 6;
 #X msg 151 259 mode iter 4;
 #X obj 151 393 print iter;
-#X obj 24 18 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 24 18 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 iter;
 #X text 23 49 The iter mode breaks an input list in to sucessive lists
 of a given size. If an input list is smaller than the iter size \,
@@ -183,7 +183,7 @@ with the mode message. The minimum iter size is 1 and the default is
 #X connect 15 0 12 0;
 #X restore 430 237 pd iter;
 #N canvas 919 115 408 292 join 0;
-#X obj 17 13 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 17 13 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 join;
 #X obj 141 248 print zl_join;
 #X obj 77 159 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
@@ -217,7 +217,7 @@ is inactive.;
 #X obj 72 226 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X obj 131 354 print zl_len;
-#X obj 25 17 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 25 17 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 len;
 #X msg 106 131 mode len;
 #X msg 176 256 1 2 3 4 5 6 7 8 9 10 11 12 13 14;
@@ -242,7 +242,7 @@ inlet/outlet are inactive.;
 -1;
 #X obj 451 220 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 25 8 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 25 8 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 mth;
 #X msg 117 259 1 2 3 4 5 6 7 8 9 10;
 #X obj 210 293 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -300,7 +300,7 @@ outlet \, the same happens for negative mth values.;
 -1;
 #X obj 466 197 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 25 8 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 25 8 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 nth;
 #X msg 127 266 1 2 3 4 5 6 7 8 9 10;
 #X obj 220 300 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -369,7 +369,7 @@ the right outlet and nothing is sent via the left outlet., f 61;
 is set as an argument and changed in the right inlet. The left inlet
 stores and outputs the list. A bang sends the last stored list. The
 right outlet is inactive.;
-#X obj 33 17 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 33 17 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 reg;
 #X msg 30 114 zlclear;
 #X obj 69 251 cyclone/zl reg initially stored elements;
@@ -384,7 +384,7 @@ reg;
 #X restore 513 112 pd reg;
 #N canvas 865 220 418 288 rev 0;
 #X msg 137 155 way this something means this;
-#X obj 26 7 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 26 7 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 rev;
 #X obj 80 159 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -409,7 +409,7 @@ are inactive.;
 #X obj 103 356 cyclone/zl rot 3;
 #X obj 196 331 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 17 7 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 17 7 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 rot;
 #X obj 64 311 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
@@ -447,7 +447,7 @@ with the mode message. The default point is '0' \, which means no rotation.
 #X text 250 307 bang if there are;
 #X obj 88 306 print zl_sect;
 #X msg 229 217 1 5 10 15 20;
-#X obj 20 7 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 7 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 sect;
 #X msg 88 191 mode sect 3 6 9;
 #X text 18 35 The mode sect outputs the elements of an input list that
@@ -472,7 +472,7 @@ into the left inlet.;
 #X connect 15 0 13 0;
 #X restore 513 196 pd sect;
 #N canvas 824 23 415 398 slice 0;
-#X obj 22 8 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 22 8 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 slice;
 #X obj 235 264 nbx 3 14 0 100 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
@@ -510,7 +510,7 @@ is '0' \, which means no slicing.;
 -1;
 #X msg 210 220 11;
 #X msg 246 220 7 8 9;
-#X obj 20 14 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 14 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 sub;
 #X msg 175 220 1;
 #X obj 210 285 print occurances;
@@ -539,7 +539,7 @@ the right list.;
 #N canvas 861 239 405 268 union 0;
 #X obj 65 153 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 union;
 #X obj 108 227 print zl_union;
 #X text 21 39 union the stuff in two lists (but does not duplicate
@@ -574,7 +574,7 @@ it groups two 256 elements message., f 54;
 #N canvas 889 66 405 380 sort 0;
 #X obj 69 218 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 14 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 14 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 sort;
 #X text 192 191 <= sets mode and arguments;
 #X msg 91 164 zlclear;
@@ -607,7 +607,7 @@ yet., f 54;
 #N canvas 861 239 403 306 change 0;
 #X obj 98 150 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 change;
 #X msg 116 93 zlclear;
 #X msg 155 156 1 2 2 5.5 7 5 7 7 7;
@@ -634,7 +634,7 @@ outlet sends "1" when there's a new list and "0" when it is repeated.
 #N canvas 861 239 403 306 compare 0;
 #X obj 55 175 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 compare;
 #X msg 73 108 zlclear;
 #X obj 98 237 cyclone/zl compare a b c;
@@ -662,7 +662,7 @@ it is the same or "0" if it is not. In the case on non equal lists
 #N canvas 861 239 390 258 delace 0;
 #X obj 78 137 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 21 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 21 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 delace;
 #X msg 96 80 zlclear;
 #X obj 102 211 print zl_delace-A;
@@ -682,7 +682,7 @@ delace;
 #N canvas 713 142 405 289 filter 0;
 #X obj 63 176 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 filter;
 #X text 244 139 <= sets mode and arguments, f 14;
 #X msg 81 109 zlclear;
@@ -708,7 +708,7 @@ ouputs the unfiltered and output indexes.;
 #N canvas 783 223 405 268 lace 0;
 #X obj 65 153 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 lace;
 #X msg 83 96 zlclear;
 #X text 223 126 <= sets mode;
@@ -729,7 +729,7 @@ the right list. The right outlet is inactive.;
 #N canvas 827 198 405 268 lookup 0;
 #X obj 65 153 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 lookup;
 #X obj 108 227 print zl_union;
 #X text 224 127 <= sets mode and arguments;
@@ -751,7 +751,7 @@ nth elements.;
 #N canvas 861 239 405 301 median 0;
 #X obj 111 145 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 median;
 #X msg 129 88 zlclear;
 #X obj 154 200 cyclone/zl median;
@@ -774,7 +774,7 @@ median;
 #N canvas 861 239 441 293 scramble 0;
 #X obj 34 165 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 scramble;
 #X msg 248 173 6.5 4 2.3 2 2 8 hi;
 #X text 227 138 <= sets mode and arguments;
@@ -798,7 +798,7 @@ indexes.;
 #N canvas 601 172 442 332 queue 0;
 #X obj 117 181 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 26 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 26 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 queue;
 #X msg 124 120 zlclear;
 #X obj 164 236 cyclone/zl queue;
@@ -826,7 +826,7 @@ size of the queue., f 63;
 #N canvas 573 172 443 327 stack 0;
 #X obj 121 183 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 28 15 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 28 15 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 stack;
 #X msg 128 122 zlclear;
 #X msg 168 176 1 a 2 b 3 c;
@@ -854,7 +854,7 @@ size of the queue., f 63;
 #N canvas 840 133 464 326 stream 0;
 #X obj 123 187 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 38 15 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 38 15 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 stream;
 #X obj 281 214 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -883,7 +883,7 @@ elements and "0" otherwise. A bang resends the last output., f 62
 #N canvas 804 199 422 308 sum 0;
 #X obj 101 167 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 30 15 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 30 15 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 sum;
 #X msg 148 160 1 2 3 4 5 6 7 8 9 10;
 #X obj 148 256 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -905,7 +905,7 @@ list. Right inlet/outlet don't do anything.;
 #N canvas 818 151 405 322 unique 0;
 #X obj 63 176 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 20 12 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 20 12 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 unique;
 #X text 248 139 <= sets mode and arguments, f 14;
 #X msg 81 109 zlclear;
@@ -929,7 +929,7 @@ is inactive.;
 #N canvas 804 199 422 308 thin 0;
 #X obj 101 167 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 30 15 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 30 15 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 thin;
 #X msg 108 106 zlclear;
 #X text 30 45 The thin mode remove all the duplicates from an input
@@ -951,7 +951,7 @@ inlet/outlet don't do anything.;
 #N canvas 700 167 435 325 indexmap 0;
 #X obj 57 190 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 34 13 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 34 13 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 indexmap;
 #X msg 64 139 zlclear;
 #X msg 104 193 A B C D E F G H;
@@ -975,7 +975,7 @@ to 0 - a bang performs the operation in the last received list.;
 #N canvas 601 172 441 297 swap 0;
 #X obj 101 150 bng 18 250 50 0 empty empty empty 0 -6 0 8 -216373 -66577
 -1;
-#X obj 36 7 comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
+#X obj 36 7 cyclone/comment 185 14 monaco ? 0 0 0 0 0 255 255 255 0 0 Mode:
 swap;
 #X msg 118 93 zlclear;
 #X obj 144 233 print zl_swap;

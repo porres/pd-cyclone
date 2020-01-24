@@ -953,7 +953,7 @@ removing the address from the collection.;
 #X connect 30 0 18 0;
 #X connect 31 0 18 0;
 #X restore 525 234 pd alias \; nstore;
-#X obj 462 69 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
+#X obj 462 69 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
 0 0 More Examples:;
 #X obj 204 276 print finish_dump;
 #X text 24 15 In [coll] \, any message type can be stored at a particular
@@ -1020,7 +1020,7 @@ their patches.;
 ;
 #X text 404 354 ============================================================
 ;
-#X obj 49 379 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
+#X obj 49 379 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
 0 0 Backwards Compatibility issues:;
 #X text 18 91 Below \, [coll] loads 300 thousand entries from a file
 \, which would cause an audio drop out if not in threaded mode.;
