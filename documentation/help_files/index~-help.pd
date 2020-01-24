@@ -29,7 +29,7 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 index~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 index~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
@@ -126,10 +126,10 @@ cloned from Max/MSP;
 #X obj 77 206 cyclone/count~ 0 100 1;
 #X obj 63 277 ./out~;
 #X obj 77 232 cyclone/index~ quadraphonic_\$0 3;
-#X obj 566 6 cyclone/comment 0 18 times ? 0 0 0 0 ch-1;
-#X obj 781 5 cyclone/comment 0 18 times ? 0 0 0 0 ch-2;
-#X obj 566 152 cyclone/comment 0 18 times ? 0 0 0 0 ch-3;
-#X obj 782 151 cyclone/comment 0 18 times ? 0 0 0 0 ch-4;
+#X obj 566 6 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-1;
+#X obj 781 5 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-2;
+#X obj 566 152 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-3;
+#X obj 782 151 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-4;
 #X text 202 348 Please check the [buffer~] object for multichannel
 buffers =>, f 61;
 #X text 294 379 Internally \, it creates buffers with the above mentioned
@@ -245,7 +245,7 @@ tasks than other objects such as [cyclone/play~] and [cyclone/wave~].
 #X restore 457 246 pd play sample;
 #X text 217 363 - signal read from array without interpolation;
 #X obj 52 231 cyclone/index~ \$0-table;
-#X obj 17 55 cyclone/comment 0 18 times ? 0 0 0 0 Non-interpolating
+#X obj 17 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Non-interpolating
 array reader;
 #X text 217 409 - array channel (1-64) default 1;
 #X text 77 84 [index~] reads an array without interpolation. The input

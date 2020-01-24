@@ -45,9 +45,9 @@ input values in radians. Thus \, unlike [cos~] (from vanilla and max/msp)
 #X text 62 93 Properly designed for mathematical operations \, [cosx~]
 it expects an input in radians to calculate the cosine of each input
 sample.;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal cosine function
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal cosine function
 (radian input);
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 cosx~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 cosx~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

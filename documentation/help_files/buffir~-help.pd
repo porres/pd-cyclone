@@ -53,8 +53,8 @@ a buffer.;
 #X text 113 388 float/signal;
 #X text 197 418 - the filtered signal;
 #X text 197 388 - size/length (samples) - maximum is 4096;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 buffir~;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Convolve with a buffer
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 buffir~;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Convolve with a buffer
 ;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;

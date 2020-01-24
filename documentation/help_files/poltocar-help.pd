@@ -53,9 +53,9 @@ to cartesian coordinates (real / imaginary).;
 #X text 190 371 - phase (in radians) from the polar coordinates;
 #X text 190 406 - real part of the cartesian form;
 #X text 190 429 - imaginary part of the cartesian form, f 51;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Polar to cartesian
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Polar to cartesian
 conversion;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 poltocar;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 poltocar;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

@@ -98,12 +98,12 @@ on". Just one inlet from 'n' inlets can send data \, or none of them.
 #X text 196 425 inlet initially switched on (default 0 - all closed)
 ;
 #X obj 171 227 cyclone/switch 3 1, f 21;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Pass messages from
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Pass messages from
 a specific inlet;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 switch;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 switch;
 #X connect 6 0 46 0;
 #X connect 7 0 6 0;
 #X connect 29 0 46 1;

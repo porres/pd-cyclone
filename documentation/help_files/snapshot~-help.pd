@@ -137,9 +137,9 @@ is 0 (first sample). In the example below we move the offset to "10"
 \, which reflects on the output float that matches the argument.;
 #X text 479 270 You can also set the offset with the "offset" message:
 ;
-#X obj 472 88 cyclone/comment 0 18 times ? 0 0 0 0 Offset:;
-#X obj 45 331 cyclone/comment 0 18 times ? 0 0 0 0 Attribute;
-#X obj 26 61 cyclone/comment 0 18 times ? 0 0 0 0 Basic settings:;
+#X obj 472 88 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Offset:;
+#X obj 45 331 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Attribute;
+#X obj 26 61 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Basic settings:;
 #X connect 0 0 7 0;
 #X connect 1 0 7 0;
 #X connect 2 0 7 0;
@@ -158,9 +158,9 @@ is 0 (first sample). In the example below we move the offset to "10"
 #X connect 24 0 25 0;
 #X connect 28 0 14 0;
 #X restore 446 176 pd all_features;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Convert signal to
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Convert signal to
 float;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 snapshot~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 snapshot~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

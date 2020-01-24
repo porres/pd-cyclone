@@ -55,8 +55,8 @@ outputs it ("hold") until the trigger signal rises again above the
 threshold after having dropped below it. This usually synchronizes
 one signal to the behavior of another.;
 #X text 196 488 - sets treshold value;
-#X obj 16 59 cyclone/comment 0 18 times ? 0 0 0 0 Sample and hold;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 sah~;
+#X obj 16 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Sample and hold;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 sah~;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #N canvas 220 68 493 689 arpeggiator 0;
 #X obj 87 478 cyclone/cycle~;
@@ -95,7 +95,7 @@ other waveforms for the input to the [sah~].;
 work with [phasor~]. Conversely \, [sah~] doesn't work well with [phasor~]
 and works better synchronizing with a signal like a square wave \,
 or an impulse for example.;
-#X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 The sample and hold
+#X obj 40 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 The sample and hold
 arpeggiator;
 #X obj 87 523 ./out~, f 14;
 #X connect 0 0 23 0;

@@ -64,7 +64,7 @@ inlet is 0 \, the second is 1 and so on (-1 makes all inlets "hot").
 -228856 -1 -1 0 256;
 #X obj 238 410 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 39 15 cyclone/comment 0 18 times ? 0 0 0 0 Triggers:;
+#X obj 39 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Triggers:;
 #X text 278 311 middle and right inlet initially, f 16;
 #X connect 0 0 1 0;
 #X connect 1 0 12 0;
@@ -93,12 +93,12 @@ inlet is 0 \, the second is 1 and so on (-1 makes all inlets "hot").
 -1 -1;
 #X obj 165 226 cyclone/join 4 @triggers -1;
 #X text 106 387 set <anything>;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Combine items into
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Combine items into
 a list;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 17 5 cyclone/comment 0 37 times ? 0 0 0 0 join;
+#X obj 17 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 join;
 #X text 202 305 -;
 #X text 216 305 define a list of input numbers that trigger an output
 (make the inlet "hot"): 0 is the first inlet \, 1 the second and so

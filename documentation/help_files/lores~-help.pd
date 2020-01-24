@@ -63,9 +63,9 @@ effect., f 67;
 #X text 196 551 - resonance (default 0): minimum is 0 (a little bit
 sharp) and maximum is 1 (as sharp as possible and also LOUD);
 #X text 194 410 - clears the internal buffer's memory;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Low-pass resonant
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Low-pass resonant
 filter;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 lores~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 lores~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

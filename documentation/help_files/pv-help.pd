@@ -157,9 +157,9 @@ with the same variable name - to check it \, open [pv_in_a_subpatch_2].
 as a variable name \, which can be shared within a patch or its subpatch
 if it has another [pv] object with the same variable name. It won't
 share with other patches!;
-#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 private (local) variables
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 private (local) variables
 ;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 pv;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 pv;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

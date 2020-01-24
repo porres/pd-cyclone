@@ -49,9 +49,9 @@
 number.;
 #X text 174 328 - MIDI channel number (if no channel is set \, see
 below);
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Retrieve 14-bit pitch
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Retrieve 14-bit pitch
 bend messages;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 xbendin;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 xbendin;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

@@ -350,14 +350,14 @@
 #X text 83 143 In this example \, we add the phase shifted signal to
 the original \, which cancels frequencies by phase opposition., f
 65;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 2nd order Allpass
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 2nd order Allpass
 filter;
 #X obj 388 254 cyclone/comment 0 16 times ? 0 0 0 0 phase response
 ;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 phaseshift~;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 phaseshift~;
 #X obj 45 306 ./out~;
 #X text 83 82 [phaseshift~] is a 2nd allpass filter \, which keeps
 the gain and only alters the phase from 0 (at 0 hz) to 360º (at the

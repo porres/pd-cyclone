@@ -48,8 +48,8 @@
 #X obj 322 28 comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects cloned from
 Max/MSP;
 #X obj 363 4 comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 15 4 comment 0 37 times ? 0 0 0 0 !-;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Reversed inlets subtraction
+#X obj 15 4 comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 !-;
+#X obj 17 56 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Reversed inlets subtraction
 ;
 #X text 182 356 - the difference of the two numbers;
 #X text 77 94 [rminus] or [!-] is like the [-] object \, but the inlets'

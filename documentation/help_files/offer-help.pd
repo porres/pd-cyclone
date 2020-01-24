@@ -68,9 +68,9 @@ was previously set in the right inlet.;
 60;
 #X text 174 377 - outputs every stored 'y' values (without deleting)
 ;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Store one-time number
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Store one-time number
 pairs;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 offer;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 offer;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

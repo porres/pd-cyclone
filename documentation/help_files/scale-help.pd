@@ -123,7 +123,7 @@ input;
 0>;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
-#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Map values to an
+#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Map values to an
 output range;
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scale;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
@@ -165,7 +165,7 @@ output range;
 #X obj 51 234 cyclone/uzi 128 0;
 #X obj 27 15 cnv 15 150 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 33 20 cyclone/comment 0 18 times ? 0 0 0 0 Exponential mode
+#X obj 33 20 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Exponential mode
 ;
 #X text 15 62 Fifth argument or sixth inlet specifies the exponential
 factor. In modern mode (default) \, exponential values must be greater

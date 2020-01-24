@@ -79,7 +79,7 @@ value to it or mulplying it by a given factor.;
 #X obj 109 268 accum 4, f 15;
 #X msg 152 235 3;
 #X text 31 130 Initial value times 2 plus 3 at each iteration:;
-#X obj 46 50 cyclone/comment 0 18 times ? 0 0 0 0 more examples:;
+#X obj 46 50 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 more examples:;
 #X connect 0 0 1 0;
 #X connect 1 0 24 0;
 #X connect 1 1 25 0;
@@ -115,8 +115,8 @@ value to it or mulplying it by a given factor.;
 #X text 203 442 - sets initial value (defaut 0), f 52;
 #X text 203 409 - accumulated value, f 52;
 #X text 130 442 1) float;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 accum;
-#X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Accumulate to a value
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 accum;
+#X obj 17 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Accumulate to a value
 ;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;

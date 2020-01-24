@@ -108,8 +108,8 @@ according to the given precision.;
 \, editing \, and saving to a file. If the maximum number of items
 is exceeded \, the earliest stored item is dropped.;
 #X text 193 210 =>;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Store data;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 capture;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Store data;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 capture;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

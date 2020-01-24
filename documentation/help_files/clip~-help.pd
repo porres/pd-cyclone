@@ -56,7 +56,7 @@
 between two specified values (minimum and maximum). If the maximum
 value is less than the minimum \, it becomes the minimum value and
 vice-versa.;
-#X obj 20 54 cyclone/comment 0 18 times ? 0 0 0 0 Constrain a signal
+#X obj 20 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Constrain a signal
 to a given range;
 #X obj 17 2 cyclone/comment 0 40 times ? 0 0 0 0 clip~;
 #X obj 323 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects

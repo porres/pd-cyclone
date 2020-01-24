@@ -326,9 +326,9 @@ two signals or a signal to a given bitmask. TIt has 4 modes of comparison
 #X obj 98 239 cyclone/bitor~;
 #X text 122 519 [bitor~] can produce NaNs and +/-INFs - but denormals
 are zeroed out.;
-#X obj 21 61 cyclone/comment 0 18 times ? 0 0 0 0 Signal Bitwise-OR
+#X obj 21 61 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal Bitwise-OR
 ;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 bitor~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bitor~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

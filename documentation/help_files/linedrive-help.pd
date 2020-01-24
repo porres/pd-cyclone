@@ -33,9 +33,9 @@
 #X obj 172 203 nbx 4 14 -127 127 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
 #X obj 172 258 unpack float float;
-#X obj 20 57 cyclone/comment 0 18 times ? 0 0 0 0 Exponential scaler
+#X obj 20 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Exponential scaler
 for [line~];
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 linedrive;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 linedrive;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

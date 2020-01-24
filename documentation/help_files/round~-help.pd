@@ -58,8 +58,8 @@ non zero number sets to "round to nearest mode" (default);
 #X text 193 451 - a signal value to round;
 #X text 135 554 signal;
 #X text 191 554 - rounded signal value;
-#X obj 20 60 cyclone/comment 0 18 times ? 0 0 0 0 Rounds signals;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 round~;
+#X obj 20 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Rounds signals;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 round~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

@@ -37,9 +37,9 @@
 #X text 172 249 - input to hyperbolic sine function \, this value is
 stored and updates the argument;
 #X text 172 317 - the hyperbolic sine of the input;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Hyperbolic sine function
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Hyperbolic sine function
 ;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 sinh;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 sinh;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclonecyclone/

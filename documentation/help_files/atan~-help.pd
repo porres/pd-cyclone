@@ -49,8 +49,8 @@
 #X text 301 180 * 2pi;
 #X text 305 198 - pi;
 #X obj 424 304 cyclone/atan~;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 atan~;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal arc-tangent
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 atan~;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal arc-tangent
 function;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;

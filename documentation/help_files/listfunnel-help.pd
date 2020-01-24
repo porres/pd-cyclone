@@ -94,9 +94,9 @@ more easily;
 #X connect 18 0 5 0;
 #X connect 19 0 4 0;
 #X restore 459 224 pd examples;
-#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Index and output
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Index and output
 list elements;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 listfunnel;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 listfunnel;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

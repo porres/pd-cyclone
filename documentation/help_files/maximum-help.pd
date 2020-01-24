@@ -97,8 +97,8 @@ the left outlet. The right outlet outputs the index of the maximum.
 #X text 321 262 maximum;
 #X text 406 262 index in the list;
 #X text 170 424 - the index of the maximum value, f 61;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Compare maximum;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 maximum;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Compare maximum;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 maximum;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

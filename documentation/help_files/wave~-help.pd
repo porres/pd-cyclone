@@ -42,7 +42,7 @@
 #N canvas 860 67 459 453 interpolation_modes 0;
 #X obj 35 28 cnv 15 160 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 38 33 cyclone/comment 0 18 times ? 0 0 0 0 Interpolation modes:
+#X obj 38 33 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Interpolation modes:
 ;
 #N canvas 293 23 531 386 theory 0;
 #N canvas 238 65 524 434 non-cubic 0;
@@ -201,9 +201,9 @@ Period 12 -10 0 10 -191407 -99865 -1 0;
 -191407 -99865 -1;
 #X obj 421 250 nbx 5 20 -1e+37 1e+37 0 0 \$0-tension-snd \$0-tension-rcv
 empty 0 -8 0 16 -228856 -1 -1 0 256;
-#X obj 413 223 cyclone/comment 0 18 times ? 0 0 0 0 Hermite Tension
+#X obj 413 223 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Hermite Tension
 ;
-#X obj 559 223 cyclone/comment 0 18 times ? 0 0 0 0 Hermite Bias;
+#X obj 559 223 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Hermite Bias;
 #X obj 563 250 nbx 5 20 -1e+37 1e+37 0 0 \$0-bias-snd \$0-bias-rcv
 empty 0 -8 0 16 -228856 -1 -1 0 256;
 #X text 472 96 L;
@@ -508,7 +508,7 @@ empty -10 -8 0 12 -191407 -1 -1 8 256;
 #X connect 11 0 12 0;
 #X restore 637 510 pd guts;
 #X text 432 199 Usual range is -1 to +1 for both;
-#X obj 55 166 cyclone/comment 0 18 times ? 0 0 0 0 Open graphs below
+#X obj 55 166 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Open graphs below
 and compare:;
 #X obj 203 308 vradio 15 1 0 8 empty empty empty 0 -8 0 10 -228856
 -1 -1 1;
@@ -578,7 +578,7 @@ and compare:;
 #X coords 0 1 513 -1 513 192 1 0 0;
 #X restore 53 51 graph;
 #X restore 248 260 pd Mode_7) Lagrange;
-#X obj 297 106 cyclone/comment 0 18 times ? 0 0 0 0 Clear;
+#X obj 297 106 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Clear;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 360 140 1 0 0;
 #X restore 16 157 graph;
@@ -631,9 +631,9 @@ some examples \, please check the subopatches below:, f 58;
 #X text 89 360 interp_tension <f>;
 #X obj 2 529 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Wavetable reader
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Wavetable reader
 ;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 wave~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 wave~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
@@ -738,7 +738,7 @@ cloned from Max/MSP;
 #X obj 425 193 phasor~;
 #X obj 425 158 nbx 6 15 -1e+37 1e+37 0 0 empty \$0-freq empty 0 -8
 0 10 -228856 -1 -1 0.151731 256;
-#X obj 90 23 cyclone/comment 0 18 times ? 0 0 0 0 Playing a sample
+#X obj 90 23 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Playing a sample
 ;
 #X text 89 53 Using [wave~] to read a sample file;
 #X obj 48 261 ./out~;
@@ -772,7 +772,7 @@ cloned from Max/MSP;
 #X connect 29 0 28 0;
 #X restore 437 206 pd sample_example;
 #N canvas 602 168 750 225 multichannel 0;
-#X obj 17 14 cyclone/comment 0 18 times ? 0 0 0 0 Multi channel reading
+#X obj 17 14 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Multi channel reading
 ;
 #X obj 551 102 ./out~;
 #X text 22 103 If more than one channel is set \, the name convention

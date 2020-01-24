@@ -122,9 +122,9 @@ on or off only if the submaster and master switches are off!;
 outlet (numbered from left to right \, starting at 0) to swicth it
 on (output: 1) and the others off (output: 0).;
 #X text 196 430 1 or 0 based on the input;
-#X obj 20 58 cyclone/comment 0 18 times ? 0 0 0 0 Switch an outlet
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Switch an outlet
 according to input;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 decode;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 decode;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

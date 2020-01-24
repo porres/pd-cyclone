@@ -37,9 +37,9 @@ value is stored and updates the argument;
 ;
 #X text 182 338 - the hyperbolic arc-tangent of the input;
 #X obj 227 191 cyclone/atanh 0.5;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Hyperbolic arc-tangent
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Hyperbolic arc-tangent
 function;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 atanh;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 atanh;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

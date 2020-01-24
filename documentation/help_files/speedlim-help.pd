@@ -89,9 +89,9 @@ the previous output (ignoring the others).;
 #X restore 474 269 pd more;
 #X obj 198 244 cyclone/speedlim 1000;
 #X text 187 406 initial time limit (default 0 - no limit);
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Limit the speed of
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Limit the speed of
 messages;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 speedlim;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 speedlim;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

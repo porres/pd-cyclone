@@ -73,9 +73,9 @@ only" mode \, where only the first element is replaced., f 53;
 #X msg 138 168 1 2 3 4 5;
 #X msg 115 145 5 5 5 4 4 4;
 #X msg 303 174 4 5;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Substitute elements
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Substitute elements
 in messages;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 substitute;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 substitute;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

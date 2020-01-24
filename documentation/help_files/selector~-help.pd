@@ -12,8 +12,8 @@
 #X obj 322 28 comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects cloned from
 Max/MSP;
 #X obj 363 4 comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 16 5 comment 0 37 times ? 0 0 0 0 selector~;
-#X obj 17 56 comment 0 18 times ? 0 0 0 0 Select one of 'n' inputs
+#X obj 16 5 comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 selector~;
+#X obj 17 56 comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Select one of 'n' inputs
 to an outlet;
 #X obj 4 506 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;

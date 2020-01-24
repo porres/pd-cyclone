@@ -49,9 +49,9 @@ and a 0 when it is less-than the right input or argument.;
 #X obj 405 177 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 258 226 cyclone/greaterthaneq~ 30;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 "Is greater than
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 "Is greater than
 or equal to" comparison for signals;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 >=~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 >=~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

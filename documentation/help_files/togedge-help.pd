@@ -61,9 +61,9 @@ to zero" transitions., f 65;
 #X text 173 310 switches the stored value from 0 to non-zero \, or
 vice versa \, and the change is reported by a corresponding bang output
 ;
-#X obj 20 56 cyclone/comment 0 18 times ? 0 0 0 0 report zero / non-zero
+#X obj 20 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 report zero / non-zero
 transitions;
-#X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 togedge;
+#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 togedge;
 #X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

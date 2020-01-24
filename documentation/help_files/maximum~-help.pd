@@ -55,9 +55,9 @@ an argument turns the secondary inlet to a control inlet;
 -228856 -1 -1 0 256;
 #X obj 93 98 cyclone/comment 0 15 times ? 0 0 0 0 Redundanct object
 ;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal maximum of
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal maximum of
 two values;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 maximum~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 maximum~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

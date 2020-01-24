@@ -66,12 +66,12 @@ following and lowpass filtering.;
 #X text 217 462 - slide-up value;
 #X text 217 481 - sets the current output sample value to 0 (the next
 incoming value will smoothly transition from that 0);
-#X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Smooth signals logarithmically
+#X obj 17 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Smooth signals logarithmically
 ;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 slide~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 slide~;
 #X msg 108 239 reset;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 8 0 20 2;

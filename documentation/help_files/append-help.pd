@@ -36,8 +36,8 @@ message);
 of any message sent to the input.;
 #X text 205 292 a message that will be combined to the stored message
 ;
-#X obj 18 4 cyclone/comment 0 37 times ? 0 0 0 0 append;
-#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 Append a message
+#X obj 18 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 append;
+#X obj 19 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Append a message
 to the incoming message;
 #X obj 324 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;

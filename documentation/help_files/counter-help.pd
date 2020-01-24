@@ -646,9 +646,9 @@ disconsidering (truncating) the decimal part.;
 #X connect 34 0 17 0;
 #X connect 48 0 11 0;
 #X restore 483 96 pd basic_2;
-#X obj 17 52 cyclone/comment 0 18 times ? 0 0 0 0 Counts over a range
+#X obj 17 52 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Counts over a range
 ;
-#X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 counter;
+#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 counter;
 #X obj 322 25 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

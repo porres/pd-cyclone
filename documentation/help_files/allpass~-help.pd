@@ -109,8 +109,8 @@ linear interpolation is performed.;
 #X connect 49 0 52 0;
 #X connect 49 0 52 1;
 #X restore 420 276 pd Filter Equation;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 allpass~;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 All Pass filter;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 allpass~;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 All Pass filter;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

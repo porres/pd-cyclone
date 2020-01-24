@@ -55,9 +55,9 @@ a bang (if not all have been generated yet);
 - when receiving a bang;
 #X obj 229 226 cyclone/urn 4;
 #X text 182 345 - reseeds the random number generator, f 59;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Unrepeated random
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Unrepeated random
 numbers;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 urn;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 urn;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

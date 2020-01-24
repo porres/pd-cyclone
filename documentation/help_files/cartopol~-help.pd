@@ -49,7 +49,7 @@ form;
 #X obj 110 198 cyclone/cartopol~, f 21;
 #X text 125 437 If the right outlet ins't connected to anything \,
 the object won't compute the phase \, saving you some CPU.;
-#X obj 19 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal cartesian
+#X obj 19 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal cartesian
 to polar conversion;
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 cartopol~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects

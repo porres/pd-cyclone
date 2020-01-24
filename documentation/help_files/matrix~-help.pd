@@ -42,9 +42,9 @@ is the sum of the inlets' signals., f 64;
 52;
 #X text 190 445 - 'n' number of outputs (1 to 499 \, default 1), f
 52;
-#X obj 17 56 cyclone/comment 0 18 times ? 0 0 0 0 Signal routing/mixing
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal routing/mixing
 matrix;
-#X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 matrix~;
+#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 matrix~;
 #X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
@@ -257,7 +257,7 @@ However \, list messages can alter the gain of connections formed with
 the <connect> message. So \, if you want to specify the gain of each
 connection in "non-binary" mode \, you must use three- or four-element
 list messages rather than the <connect> message.;
-#X obj 77 46 cyclone/comment 0 18 times ? 0 0 0 0 Binary & Non-binary
+#X obj 77 46 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Binary & Non-binary
 mode:;
 #X obj 462 393 ./out~;
 #X obj 455 165 ./out~;

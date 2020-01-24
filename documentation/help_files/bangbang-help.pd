@@ -39,9 +39,9 @@
 #X text 61 88 When it receives any input \, [bangbang] outputs bang
 messages out of each outlet (in the usual right-to-left order). The
 number of outlets is determined the argument.;
-#X obj 17 55 cyclone/comment 0 18 times ? 0 0 0 0 Send a number of
+#X obj 17 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Send a number of
 bangs;
-#X obj 16 3 cyclone/comment 0 37 times ? 0 0 0 0 bangbang;
+#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bangbang;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

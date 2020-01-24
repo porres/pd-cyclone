@@ -59,9 +59,9 @@ two 7-bit messages (values from 0-127) \, the Most Significant Byte
 ;
 #X text 208 335 - the LSB (Least Significant Byte) 7-bit value (0-127)
 ;
-#X obj 17 57 cyclone/comment 0 18 times ? 0 0 0 0 Send 14-bit pitch
+#X obj 17 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Send 14-bit pitch
 bend messages;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 xbendout2;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 xbendout2;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;

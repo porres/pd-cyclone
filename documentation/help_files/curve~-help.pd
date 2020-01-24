@@ -628,7 +628,7 @@ more computationally expensive.;
 #X msg 133 261 1 \, 0 1000;
 #X obj 34 10 cnv 15 400 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 40 15 cyclone/comment 0 18 times ? 0 0 0 0 Different exponential
+#X obj 40 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Different exponential
 factor parameters for [curve~];
 #X obj 346 335 cyclone/setdsp~;
 #X connect 0 0 14 2;
@@ -688,7 +688,7 @@ value);
 #X text 184 379 - jumps immediately to that value (unless the duration
 is set before to other than 0 in the mid inlet);
 #X text 183 626 - curve factor from -1 to 1 (defalut 0 - linear);
-#X obj 19 53 cyclone/comment 0 18 times ? 0 0 0 0 Curved ramp generator
+#X obj 19 53 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Curved ramp generator
 ;
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 curve~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects

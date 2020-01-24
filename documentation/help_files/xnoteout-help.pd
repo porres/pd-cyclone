@@ -62,12 +62,12 @@ not only Note On Velocity but also Note Off (Release) velocity.;
 #X text 221 350 MIDI channel, f 43;
 #X text 206 386 - raw MIDI data stream, f 46;
 #X text 220 437 initial MIDI channel, f 44;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Send release velocity
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Send release velocity
 messages;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 xnoteout;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 xnoteout;
 #X connect 10 0 26 0;
 #X connect 28 0 10 2;
 #X connect 29 0 10 0;

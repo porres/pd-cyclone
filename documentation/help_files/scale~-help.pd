@@ -108,7 +108,7 @@ that boundary with the same conversion parameters.;
 #X obj 141 237 cyclone/scale~ -1 1 0 127;
 #X obj 141 184 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 19 54 cyclone/comment 0 18 times ? 0 0 0 0 Map signals to an
+#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Map signals to an
 output range;
 #X obj 16 2 cyclone/comment 0 40 times ? 0 0 0 0 scale~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
@@ -160,7 +160,7 @@ range. The mapping can be inverted and/or exponential.;
 #X text 274 294 1;
 #X obj 31 26 cnv 15 150 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 37 31 cyclone/comment 0 18 times ? 0 0 0 0 Exponential mode
+#X obj 37 31 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Exponential mode
 ;
 #X text 29 94 Fifth argument or sixth inlet specifies the exponential
 factor. In modern mode (default) \, exponential values must be greater

@@ -43,9 +43,9 @@
 #X text 185 344 - <index> \, <value> & <channel>: writes to table;
 #X text 95 362 set <symbol>;
 #X text 185 362 - sets array name;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Read/write to array
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Read/write to array
 ;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 peek~;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 peek~;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;

@@ -81,7 +81,7 @@ of two from 16 to 65536 (13 values from 2^4 to 2^16).;
 message) followed by a float sets the sample offset into the buffer.
 If your offset is too large and close to the end of the table) \, the
 remainder is filled with zeros.;
-#X obj 20 12 cyclone/comment 0 18 times ? 0 0 0 0 Attributes:;
+#X obj 20 12 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Attributes:;
 #X text 34 76 The @buffer attribute (also setable via the "buffer"
 message) is analogous to the "setall" message. This means that the
 buffer attribute followed by an array name sets that entire array to
@@ -150,7 +150,7 @@ off and then on again;
 #X text 429 264 The phase is also resset in many operations in edit
 mode - so nevermind if you hear "clicks" when editing the patch!;
 #X text 22 324 [cycle~] being driven by phase only =>;
-#X obj 19 16 cyclone/comment 0 18 times ? 0 0 0 0 phase:;
+#X obj 19 16 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 phase:;
 #X obj 421 510 ./out~;
 #X obj 162 392 ./out~;
 #X obj 170 122 cyclone/cycle~ 440;
@@ -198,9 +198,9 @@ set other waveforms from given arrays.;
 #X text 189 520 - sets frequency in Hz (default 0);
 #X text 225 430 - changes the buffer size to powers of 2 (16 to 65536)
 ;
-#X obj 14 56 cyclone/comment 0 18 times ? 0 0 0 0 Wavetable oscillator
+#X obj 14 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Wavetable oscillator
 ;
-#X obj 16 4 cyclone/comment 0 37 times ? 0 0 0 0 cycle~;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 cycle~;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
@@ -297,8 +297,8 @@ normalize;
 #X array \$0-saw 4099 float 4;
 #X coords 0 1 4098 -1 400 140 1 0 0;
 #X restore 463 183 graph;
-#X obj 16 13 cyclone/comment 0 18 times ? 0 0 0 0 "set" message:;
-#X obj 459 25 cyclone/comment 0 18 times ? 0 0 0 0 "setall" message:
+#X obj 16 13 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 "set" message:;
+#X obj 459 25 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 "setall" message:
 ;
 #X obj 50 626 ./out~;
 #X obj 453 477 ./out~;

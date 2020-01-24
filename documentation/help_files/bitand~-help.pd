@@ -330,9 +330,9 @@ signals or a signal to a given bitmask. It has 4 modes of comparison
 are zeroed out.;
 #X text 184 487 - mode [0-3] (details above) - default 0;
 #X text 184 437 - signal as result of the "Bitwise-AND" operation;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Signal Bitwise-AND
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal Bitwise-AND
 ;
-#X obj 16 5 cyclone/comment 0 37 times ? 0 0 0 0 bitand~;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bitand~;
 #X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
