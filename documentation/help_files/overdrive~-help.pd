@@ -25,7 +25,7 @@
 #X text 341 231 drive factor;
 #X text 158 500 float/signal;
 #X text 248 537 - the distorted signal;
-#X obj 221 333 cyclone/Scope~ 171 110 5 3 128 -1 1 200 0 0 0 205 229
+#X obj 221 333 cyclone/scope~ 171 110 5 3 128 -1 1 200 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 119 330 clip~ -1 1;
 #X text 88 135 If the "drive factor" is 1 \, the signal is unchanged.

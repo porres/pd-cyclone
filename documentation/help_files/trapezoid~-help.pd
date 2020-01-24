@@ -38,7 +38,7 @@
 #X obj 376 288 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X floatatom 373 311 5 0 0 0 - - -;
-#X obj 213 371 cyclone/Scope~ 250 113 3 3 128 -1 1 0 0 0 0 205 229
+#X obj 213 371 cyclone/scope~ 250 113 3 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 210 652 - ramp up (default 0.1);
 #X text 210 668 - ramp down (default 0.9);

@@ -32,7 +32,7 @@
 #X text 426 465 0;
 #X text 426 413 1;
 #X text 202 611 - variable duty (peak position) from 0-1;
-#X obj 199 417 cyclone/Scope~ 220 106 3 3 128 -1 1 0 0 0 0 205 229
+#X obj 199 417 cyclone/scope~ 220 106 3 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 203 693 - peak position from 0 to 1 (default 0.5);
 #X msg 334 321 \$1 50;

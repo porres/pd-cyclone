@@ -20,7 +20,7 @@
 #X text 212 405 - input to sine function (must be given in radians)
 ;
 #X text 212 441 - output of sine function;
-#X obj 131 241 cyclone/Scope~ 186 126 256 3 128 -1 1 0 0 0 0 205 229
+#X obj 131 241 cyclone/scope~ 186 126 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;

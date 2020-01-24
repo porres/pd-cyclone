@@ -38,7 +38,7 @@
 #X text 75 92 [slide~] filters an input signal logarithmically between
 changes in signal value. The formula is: y(n) = y(n-1) + ((x(n) - y(n-1))/slide).
 ;
-#X obj 159 304 cyclone/Scope~ 178 100 64 3 128 0 1 0 0 0 0 205 229
+#X obj 159 304 cyclone/scope~ 178 100 64 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X msg 246 218 441;
 #X msg 327 218 441;

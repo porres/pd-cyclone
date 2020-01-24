@@ -36,7 +36,7 @@ control;
 #X restore 429 371 pd random control;
 #X text 142 431 float/signal;
 #X obj 254 208 cyclone/rand~ 441;
-#X obj 89 263 cyclone/Scope~ 130 130 16 3 128 -1 1 50 0 0 0 205 229
+#X obj 89 263 cyclone/scope~ 130 130 16 3 128 -1 1 50 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X text 233 431 - sets frequency;
 #X text 75 102 [rand~] generates random values between -1 and 1 at

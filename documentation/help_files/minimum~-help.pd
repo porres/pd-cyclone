@@ -26,7 +26,7 @@
 #X text 78 156 [minimum~] outputs a signal which is the minimum of
 two input signals \, or the minimum of an input signal and a given
 argument.;
-#X obj 283 296 cyclone/Scope~ 186 112 256 3 128 -1 1 0 0 0 0 205 229
+#X obj 283 296 cyclone/scope~ 186 112 256 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;

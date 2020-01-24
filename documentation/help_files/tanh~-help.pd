@@ -20,7 +20,7 @@
 #X text 231 453 - input to hyperbolic tangent function;
 #X text 231 493 - output of hyperbolic tangent function;
 #X obj 103 165 phasor~ 2;
-#X obj 103 280 cyclone/Scope~ 153 137 512 3 128 -1 1 0 0 0 0 205 229
+#X obj 103 280 cyclone/scope~ 153 137 512 3 128 -1 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;

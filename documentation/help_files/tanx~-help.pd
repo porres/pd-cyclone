@@ -20,7 +20,7 @@
 #X text 161 378 -10;
 #X text 167 249 10;
 #X text 173 313 0;
-#X obj 193 252 cyclone/Scope~ 174 138 128 3 128 -10 10 0 0 0 0 205
+#X obj 193 252 cyclone/scope~ 174 138 128 3 128 -10 10 0 0 0 0 205
 229 232 74 79 77 96 98 102 0;
 #X text 262 180 * 2pi;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577

@@ -46,7 +46,7 @@
 #X text 238 626 - initial ramp-down time in samples (default 0);
 #X text 247 168 ramp-up;
 #X text 339 168 ramp-down;
-#X obj 157 300 cyclone/Scope~ 178 100 512 3 128 0 1 0 0 0 0 205 229
+#X obj 157 300 cyclone/scope~ 178 100 512 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
