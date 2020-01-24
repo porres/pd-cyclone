@@ -62,7 +62,7 @@ at the top right corner., f 74;
 \, [setdsp~] is an "extra" from another library (ELSE) and NOT a max/msp
 clone or part of cyclone!!!, f 37;
 #X text 89 215 click ===> to change the status, f 11;
-#X obj 17 58 cyclone/comment 0 18 times ? 0 0 0 0 Extra: DSP On/Off
+#X obj 17 58 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 Extra: DSP On/Off
 interface;
 #X connect 22 0 25 0;
 #X connect 25 0 26 0;

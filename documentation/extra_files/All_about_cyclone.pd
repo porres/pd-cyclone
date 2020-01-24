@@ -2,28 +2,28 @@
 #X declare -lib cyclone;
 #X obj 3 2 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
-#X obj 28 5 comment 0 22 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 29 33 comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220 version: 0.4.1;
-#X obj 136 8 comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220 - a set of Pure Data
+#X obj 28 5 cyclone/comment 0 22 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 29 33 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220 version: 0.4.1;
+#X obj 136 8 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220 - a set of Pure Data
 objects cloned from Max/MSP;
-#X obj 271 35 comment 0 12 DejaVu\ Sans\ Mono ? 0 224 228 220 https://github.com/porres/pd-cyclone
+#X obj 271 35 cyclone/comment 0 12 DejaVu\ Sans\ Mono ? 0 224 228 220 https://github.com/porres/pd-cyclone
 ;
 #X obj 3 62 cnv 15 552 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 19 80 comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
+#X obj 19 80 cyclone/comment 0 18 helvetica ? 0 0 0 0 Cyclone expands Pure
 Data with objects cloned from Max/MSP.;
-#X obj 43 113 comment 0 14 helvetica ? 0 0 0 0 It also provides some
+#X obj 43 113 cyclone/comment 0 14 helvetica ? 0 0 0 0 It also provides some
 level of compatibility between the two environments \,;
-#X obj 64 328 comment 0 16 times ? 0 0 0 0 How to install?;
-#X obj 80 548 comment 0 16 times ? 0 0 0 0 Bugs / Issues?;
+#X obj 64 328 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 How to install?;
+#X obj 80 548 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 Bugs / Issues?;
 #X text 105 579 Please report them at: https://github.com/porres/pd-cyclone/issues
 , f 66;
 #X text 2 474 ===========================================================================================
 , f 91;
-#X obj 60 162 comment 0 16 times ? 0 0 0 0 About Cyclone :;
+#X obj 60 162 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 About Cyclone :;
 #X text 2 308 ============================================================================================
 , f 92;
-#X obj 43 500 comment 0 16 times ? 0 0 0 0 Check all of Cyclone's objetcs
+#X obj 43 500 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 Check all of Cyclone's objetcs
 =>;
 #X obj 304 377 declare -lib cyclone;
 #X text 85 354 You can load the cyclone library via "Startup". Alternatively
