@@ -1093,3 +1093,45 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     scope_widgetbehavior.w_clickfn    = (t_clickfn)scope_click;
     #include "scope_dialog.c"
 }
+
+/*CYCLONE_OBJ_API void Scope_tilde_setup(void){
+    scope_class = class_new(gensym("Scope~"), (t_newmethod)scope_new,
+            (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // backwards compatible
+    class_addmethod(scope_class, nullfn, gensym("signal"), 0);
+    class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), A_CANT, 0);
+    class_addfloat(scope_class, (t_method)scope_period);
+    class_addmethod(scope_class, (t_method)scope_period, gensym("calccount"), A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_bufsize, gensym("bufsize"), A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_dim, gensym("dim"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_range, gensym("range"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_delay, gensym("delay"), A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_drawstyle, gensym("drawstyle"), A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_trigger, gensym("trigger"), A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_triglevel, gensym("triglevel"), A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_frgb, gensym("frgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_brgb, gensym("brgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_grgb, gensym("grgb"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_fgcolor, gensym("fgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_gridcolor, gensym("gridcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_dialog, gensym("dialog"), A_GIMME, 0);
+    class_addmethod(scope_class, (t_method)scope_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_motion, gensym("motion"), 0);
+    class_addmethod(scope_class, (t_method)scope_zoom, gensym("zoom"), A_CANT, 0);
+    scopehandle_class = class_new(gensym("_scopehandle"), 0, 0, sizeof(t_scopehandle), CLASS_PD, 0);
+    class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook, gensym("_click"), A_FLOAT, 0);
+    class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
+    class_sethelpsymbol(scope_class, gensym("scope~"));
+    class_setsavefn(scope_class, scope_save);
+    class_setpropertiesfn(scope_class, scope_properties);
+    class_setwidget(scope_class, &scope_widgetbehavior);
+    scope_widgetbehavior.w_getrectfn  = scope_getrect;
+    scope_widgetbehavior.w_displacefn = scope_displace;
+    scope_widgetbehavior.w_selectfn   = scope_select;
+    scope_widgetbehavior.w_deletefn   = scope_delete;
+    scope_widgetbehavior.w_visfn      = scope_vis;
+    scope_widgetbehavior.w_clickfn    = (t_clickfn)scope_click;
+    #include "scope_dialog.c"
+    pd_error(scope_class, "Cyclone: please use scope~ instead of Scope~");
+}*/
