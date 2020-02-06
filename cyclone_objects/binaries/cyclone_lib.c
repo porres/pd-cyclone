@@ -621,18 +621,17 @@ static void *plusequals_new(t_floatarg f)
 
 typedef struct cyclone{
     t_object t_ob;
-} t_cyclone;
+}t_cyclone;
 
 t_class *cyclone_class;
 
 static int printed;
 
-void print_cyclone(void)
-{
+void print_cyclone(void){
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     post("------------------------------------------------------------------------");
-    post("Cyclone 0.4.1; Unreleased");
+    post("Cyclone 0.4.1; Released february 21st 2020");
     post("Loading the cyclone library did the following:");
     post("A) Loaded the non alpha-numeric objects, which are:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
@@ -641,8 +640,7 @@ void print_cyclone(void)
     post("------------------------------------------------------------------------");
 }
 
-static void cyclone_about(t_cyclone *x)
-{
+static void cyclone_about(t_cyclone *x){
     print_cyclone();
 }
 
@@ -651,7 +649,7 @@ static void *cyclone_new(void){
     if(!printed){
         cyclone_about(x);
         printed = 1;
-        }
+    }
     return (x);
 }
 
@@ -807,5 +805,5 @@ CYCLONE_API void cyclone_setup(void)
 
 #if CYCLONE_SINGLE_LIBRARY
     setup_single_lib();
-#endif /* CYCLONE_SINGLE_LIBRARY */
+#endif // CYCLONE_SINGLE_LIBRARY
 }
