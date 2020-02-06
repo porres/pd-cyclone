@@ -31,12 +31,11 @@
 
 /* ------------------------------ [!-] AND [!/]  ------------------------------ */
 
-typedef struct _rev_op
-{
+typedef struct _rev_op{
     t_object  x_ob;
     t_float   x_f1;
     t_float   x_f2;
-} t_rev_op;
+}t_rev_op;
 
 static t_class *rminus_class;
 
@@ -148,10 +147,9 @@ static t_int *notequals_perform(t_int *w)
     t_float *in2 = (t_float *)(w[3]);
     t_float *out = (t_float *)(w[4]);
     t_shared_floatint fi;
-    while (nblock--)
-    {
-	fi.fi_i = ~((*in1++ != *in2++) - 1) & SHARED_TRUEBITS;
-	*out++ = fi.fi_f;
+    while (nblock--){
+        fi.fi_i = ~((*in1++ != *in2++) - 1) & SHARED_TRUEBITS;
+        *out++ = fi.fi_f;
     }
     return (w + 5);
 }
@@ -631,7 +629,7 @@ void print_cyclone(void){
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     post("------------------------------------------------------------------------");
-    post("Cyclone 0.4.1; Released february 21st 2020");
+    post("Cyclone 0.5; Unreleased");
     post("Loading the cyclone library did the following:");
     post("A) Loaded the non alpha-numeric objects, which are:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
