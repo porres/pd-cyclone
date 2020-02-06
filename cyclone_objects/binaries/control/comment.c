@@ -984,8 +984,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_edit = x->x_glist->gl_edit;
     x->x_textbuf = 0;
     x->x_rcv_set = x->x_flag = 0;
-    x->x_pixwidth = 425;
-    x->x_fontsize = x->x_bbpending = x->x_fontface = x->x_bold = x->x_italic = 0;
+    x->x_pixwidth = x->x_fontsize = x->x_bbpending = x->x_fontface = x->x_bold = x->x_italic = 0;
     x->x_textjust = 0;
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
     x->x_bg_flag = 0;

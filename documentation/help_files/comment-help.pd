@@ -71,8 +71,8 @@ into a Pd's comment box.;
 #X msg 225 209 textcolor 150 100 50;
 #X msg 553 130 textcolor 200 0 0;
 #X msg 569 152 textcolor 0 0 0;
-#X obj 469 331 cyclone/comment 0 50 helvetica \$0-comment 0 200 0 0
-1 255 255 255 0 0 hi there;
+#X obj 469 331 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 0
+255 255 255 0 0 Comment;
 #X msg 582 192 set hi \, append there;
 #X msg 592 215 set comment \, prepend this;
 #X msg 603 238 set Comment;
@@ -86,7 +86,7 @@ into a Pd's comment box.;
 #X text 72 179 italic;
 #X text 72 194 bold+italic;
 #X msg 460 194 underline \$1;
-#X obj 460 170 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#X obj 460 170 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X msg 232 239 bgcolor 100 150 100;
 #X msg 238 261 bgcolor 190 90 200;
