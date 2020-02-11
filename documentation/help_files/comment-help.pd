@@ -59,7 +59,7 @@
 ;
 #X text 80 352 textjustification <f>;
 #N canvas 527 158 839 506 details 0;
-#X obj 157 295 cyclone/comment 0 50 dejavu\ sans\ mono ? 0 0 0 0 0
+#X obj 157 295 cyclone/comment 0 50 Dejavu\ Sans\ Mono ? 0 0 0 0 0
 100 150 100 0 0 Comment;
 #X text 446 430 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
@@ -71,8 +71,8 @@ into a Pd's comment box.;
 #X msg 225 209 textcolor 150 100 50;
 #X msg 553 130 textcolor 200 0 0;
 #X msg 569 152 textcolor 0 0 0;
-#X obj 469 331 cyclone/comment 0 50 helvetica \$0-comment 0 0 0 0 0
-255 255 255 0 0 Comment;
+#X obj 469 331 cyclone/comment 0 50 Dejavu\ Sans\ Mono \$0-comment
+0 0 0 0 0 255 255 255 0 0 Comment;
 #X msg 582 192 set hi \, append there;
 #X msg 592 215 set comment \, prepend this;
 #X msg 603 238 set Comment;
@@ -103,7 +103,6 @@ It also has inconsistencies like different attributes than the original
 object in Max (@receive \, @text and @bg)., f 53;
 #X msg 190 114 fontname arial\ black;
 #X msg 184 94 fontname arial;
-#X msg 203 155 fontname dejavu\ sans\ mono;
 #X msg 175 74 fontname times;
 #X text 390 26 When in edit mode \, [comment] shows its inlet. The
 [comment] object below has a receive symbol \, so you can send messages
@@ -111,6 +110,7 @@ to it via a [send] object. In this case \, the inlet is supressed \,
 so we don't see it. The receive symbol can be set with the receive
 message or the @receive attribute. IF you set a receive name as "empty"
 then it it can't receive messages anymore., f 63;
+#X msg 203 155 fontname Dejavu\ Sans\ Mono;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
@@ -133,7 +133,7 @@ then it it can't receive messages anymore., f 63;
 #X connect 30 0 0 0;
 #X connect 31 0 0 0;
 #X connect 32 0 0 0;
-#X connect 33 0 0 0;
+#X connect 34 0 0 0;
 #X restore 479 188 pd details;
 #N canvas 780 342 493 396 more 0;
 #X obj 123 258 cyclone/comment 161 20 helvetica ? 0 0 0 0 0 200 200
