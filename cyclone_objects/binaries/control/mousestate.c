@@ -23,8 +23,8 @@ typedef struct _mousestate{
     int        x_vlast;
     int        x_hzero;
     int        x_vzero;
-    int        x_mode; //0-screen, 1-object window, 2-active window
-    int        x_zero; //if we are requesting to zero
+    int        x_mode; // 0-screen, 1-object window, 2-active window
+    int        x_zero; // if we are requesting to zero
     int         x_wx;
     int         x_wy;
     t_glist   *x_glist;
@@ -167,7 +167,7 @@ static void mousestate_bang(t_mousestate *x){
 
 static void mousestate_poll(t_mousestate *x){
     int mode = x->x_mode;
-    //pollmode: mode + 1 : mode0 -> 1, mode1 -> 2, mode2-> 3
+    // pollmode: mode + 1 : mode0 -> 1, mode1 -> 2, mode2-> 3
     int pollmode = mode + 1;
     hammergui_startpolling((t_pd *)x, pollmode);
     x->x_ispolling = 1;
@@ -201,19 +201,11 @@ static void mousestate_free(t_mousestate *x){
 }
 
 static void mousestate_mode(t_mousestate *x, t_floatarg f){
-    int mode = (int) f;
-    int polling = x->x_ispolling;
-    if(mode < 0)
-        mode = 0;
-    else if(mode > 2)
-        mode = 2;
-    if(polling){
+    x->x_mode = f < 0 ? 0 : f > 2 ? 2 : (int)f;
+    if(x->x_ispolling){
         mousestate_nopoll(x);
-        x->x_mode = mode;
         mousestate_poll(x);
     }
-    else
-        x->x_mode = mode;
 }
 
 static void *mousestate_new(void){
