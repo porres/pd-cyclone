@@ -25,8 +25,8 @@ typedef struct _mousestate{
     int        x_vzero;
     int        x_mode; // 0-screen, 1-object window, 2-active window
     int        x_zero; // if we are requesting to zero
-    int         x_wx;
-    int         x_wy;
+    int        x_wx;
+    int        x_wy;
     t_glist   *x_glist;
     t_outlet  *x_hposout;
     t_outlet  *x_vposout;
@@ -43,12 +43,9 @@ static void mousestate_anything(t_mousestate *x, t_symbol *s, int ac, t_atom *av
 
 //update current canvas position
 static void mousestate_updatepos(t_mousestate *x){
-    int x1, y1;
     t_glist * g_list = x->x_glist;
-    x1 =  g_list->gl_screenx1;
-    y1 = g_list->gl_screeny1;
-    x->x_wx = x1;
-    x->x_wy = y1;
+    x->x_wx = g_list->gl_screenx1;
+    x->x_wy = g_list->gl_screeny1;
 }
 
 static void mousestate_doup(t_mousestate *x, t_floatarg f){
@@ -78,23 +75,20 @@ static void mousestate_dozero(t_mousestate *x, t_floatarg f1, t_floatarg f2){
 }
 
 static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float screeny){
-  //callback from tcl for requesting screen coords
+  // callback from tcl for requesting screen coords
   t_float px, py;
-    int mode = x->x_mode;
+  int mode = x->x_mode;
   // mode 0, no need to parse, just send directly to doer of things
-  if(mode == 0){
-      //add 0 to tcl coords to comply with "real" [mousestate]
+  if(mode == 0){ // add 0 to tcl coords to comply with "real" [mousestate]
       px = screenx;
       py = screeny;
   }
-  else if(mode == 1){
-      //screen coords relative to object's home canvas, we already have thsese
-      //coords stored
+  else if(mode == 1){ // coords relative to object's home canvas
       mousestate_updatepos(x);
       px = screenx - x->x_wx;
       py = screeny - x->x_wy;
       // px = px >= x->x_ww ? (x->x_ww - 1) : (px  < 0 ? 0 : px);
-      //py = py >= x->x_wh ? (x->x_wh - 1) : (py < 0 ? 0 : py);
+      // py = py >= x->x_wh ? (x->x_wh - 1) : (py < 0 ? 0 : py);
   };
   if(mode == 0 || mode == 1){
       if(x->x_zero == 1)
@@ -105,14 +99,11 @@ static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float scre
 }
 
 static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc, t_atom * argv){
-  //callback from tcl for mode 2
-  // screenx, screeny, focusx, focusy, focusw, focush
-  //these are our pointer coords relative to focused window
-  int i;
+    // callback from tcl for mode 2
+    // focusx, focusy are coords relative to focused window
     t_float curf, screenx, screeny, focusx, focusy;
-    // t_float focusw, focush;
     if(argc >= 4){
-        for(i=0;i<4;i++){
+        for(int i = 0; i < 4; i++){
             if(argv[i].a_type == A_FLOAT){
                 curf = argv[i].a_w.w_float;
                 switch(i){
@@ -139,9 +130,8 @@ static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc,
     else
         return;
     if(x->x_mode == 2){
-        t_float px, py;
-        px = screenx - focusx;
-        py = screeny - focusy;
+        float px = screenx - focusx;
+        float py = screeny - focusy;
         if(x->x_zero == 1)
             mousestate_dozero(x, px, py);
         if(x->x_bang == 1 || x->x_ispolling == 1)
@@ -160,8 +150,10 @@ static void mousestate_objwin(t_mousestate *x, int argc, t_atom * argv){
 
 static void mousestate_bang(t_mousestate *x){
     int mode = x->x_mode;
-    if(mode == 0 || mode == 1) hammergui_getscreen();
-    else if (mode == 2) hammergui_getscreenfocused();
+    if(mode == 0 || mode == 1)
+        hammergui_getscreen();
+    else if(mode == 2)
+        hammergui_getscreenfocused();
     x->x_bang = 1;
 }
 
@@ -181,12 +173,10 @@ static void mousestate_nopoll(t_mousestate *x){
 }
 
 static void mousestate_zero(t_mousestate *x){
-    int mode = x->x_mode;
-    x->x_zero = 1;
-    x->x_bang = 1;
-    if(mode == 0 || mode == 1)
+    x->x_zero = x->x_bang = 1;
+    if(x->x_mode == 0 || x->x_mode == 1)
         hammergui_getscreen();
-    else if (mode == 2)
+    else if(x->x_mode == 2)
         hammergui_getscreenfocused();
 }
 
