@@ -1094,7 +1094,7 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     #include "scope_dialog.c"
 }
 
-/*CYCLONE_OBJ_API void Scope_tilde_setup(void){
+CYCLONE_OBJ_API void Scope_tilde_setup(void){
     scope_class = class_new(gensym("Scope~"), (t_newmethod)scope_new,
             (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // backwards compatible
@@ -1133,5 +1133,5 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     scope_widgetbehavior.w_visfn      = scope_vis;
     scope_widgetbehavior.w_clickfn    = (t_clickfn)scope_click;
     #include "scope_dialog.c"
-    pd_error(scope_class, "Cyclone: please use scope~ instead of Scope~");
-}*/
+    pd_error(scope_class, "Cyclone: please use [scope~] instead of [Scope~] to supress this error");
+}

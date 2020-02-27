@@ -234,3 +234,24 @@ CYCLONE_OBJ_API void mousestate_setup(void){
     class_addmethod(mousestate_class, (t_method)mousestate_reset, gensym("reset"), 0);
     class_addmethod(mousestate_class, (t_method)mousestate_mode, gensym("mode"), A_FLOAT, 0);
 }
+
+CYCLONE_OBJ_API void MouseState_setup(void){
+    mousestate_class = class_new(gensym("MouseState"), (t_newmethod)mousestate_new,
+        (t_method)mousestate_free, sizeof(t_mousestate), 0, 0);
+    class_addcreator((t_newmethod)scope_new, gensym("cyclone/MouseState"), 0);
+    class_addanything(mousestate_class, mousestate_anything);
+    class_addmethod(mousestate_class, (t_method)mousestate_doup, gensym("_up"), A_FLOAT, 0);
+    class_addmethod(mousestate_class, (t_method)mousestate__getscreen, gensym("_getscreen"),
+        A_FLOAT, A_FLOAT, 0);
+    class_addmethod(mousestate_class, (t_method)mousestate__getscreenfocused, gensym("_getscreenfocused"),
+        A_GIMME, 0);
+    class_addmethod(mousestate_class, (t_method)mousestate_dobang, gensym("_bang"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(mousestate_class, (t_method)mousestate_dozero, gensym("_zero"), A_FLOAT, A_FLOAT, 0);
+    class_addbang(mousestate_class, mousestate_bang);
+    class_addmethod(mousestate_class, (t_method)mousestate_poll, gensym("poll"), 0);
+    class_addmethod(mousestate_class, (t_method)mousestate_nopoll, gensym("nopoll"), 0);
+    class_addmethod(mousestate_class, (t_method)mousestate_zero, gensym("zero"), 0);
+    class_addmethod(mousestate_class, (t_method)mousestate_reset, gensym("reset"), 0);
+    class_addmethod(mousestate_class, (t_method)mousestate_mode, gensym("mode"), A_FLOAT, 0);
+    pd_error(scope_class, "Cyclone: please use [mousestate] instead of [MouseState] to supress this error");
+}
