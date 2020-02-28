@@ -6,6 +6,10 @@
 cyclone 0.5 (needs at least Pd Vanilla 0.51.0):
 --------------------------------------------------
 
+- Readded support for capital letters aliases - this is for backwards compatibility and now the object prints and error telling the user to change to the new name. The affected objects are: cyclone/append (*); bucket; cyclone/clip (*); decode; histo; mousestate; peak; cyclone/table (*); togedge; trough; uzi; cyclone/clip~ (*); cyclone/line~ (*); scope~; cyclone/snapshot~ (*)
+
+(*) these classes need the 'cyclone/' prefix to avoid name clashes with vanilla internals - see help file for more information.
+
 - Fixed a bug in active where it was reporting inactivity when right clicking on the canvas in Linux.
 
 - Fixed a bug in [zl delace] where it only worked in macOS and not in Windows/Linux
