@@ -96,3 +96,14 @@ CYCLONE_OBJ_API void clip_tilde_setup(void)
     class_addmethod(clip_class, (t_method) clip_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(clip_class, gensym("clip~"));
 }
+
+CYCLONE_OBJ_API void Clip_tilde_setup(void)
+{
+    clip_class = class_new(gensym("Clip~"),
+               (t_newmethod)clip_new, 0, sizeof(t_clip), CLASS_DEFAULT, A_GIMME, 0);
+    class_addcreator((t_newmethod)clip_new, gensym("cyclone/Clip~"), 0);
+    class_addmethod(clip_class, nullfn, gensym("signal"), 0);
+    class_addmethod(clip_class, (t_method) clip_dsp, gensym("dsp"), A_CANT, 0);
+    class_sethelpsymbol(clip_class, gensym("clip~"));
+    pd_error(clip_class, "Cyclone: please use [cyclone/clip~] instead of [Clip~] to supress this error");
+}

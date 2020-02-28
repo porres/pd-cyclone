@@ -1122,7 +1122,6 @@ CYCLONE_OBJ_API void Scope_tilde_setup(void){
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0, sizeof(t_scopehandle), CLASS_PD, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook, gensym("_click"), A_FLOAT, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
-    class_sethelpsymbol(scope_class, gensym("scope~"));
     class_setsavefn(scope_class, scope_save);
     class_setpropertiesfn(scope_class, scope_properties);
     class_setwidget(scope_class, &scope_widgetbehavior);
@@ -1134,4 +1133,5 @@ CYCLONE_OBJ_API void Scope_tilde_setup(void){
     scope_widgetbehavior.w_clickfn    = (t_clickfn)scope_click;
     #include "scope_dialog.c"
     pd_error(scope_class, "Cyclone: please use [scope~] instead of [Scope~] to supress this error");
+    class_sethelpsymbol(scope_class, gensym("scope~"));
 }

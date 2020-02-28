@@ -861,3 +861,60 @@ CYCLONE_OBJ_API void table_setup(void){
     hammerfile_setup(tablecommon_class, 0);
     class_sethelpsymbol(table_class, gensym("table"));
 }
+
+CYCLONE_OBJ_API void Table_setup(void){
+    table_class = class_new(gensym("Table"),
+        (t_newmethod)table_new, (t_method)table_free, sizeof(t_table), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)table_new, gensym("cyclone/Table"), 0);
+    class_addbang(table_class, table_bang);
+    class_addfloat(table_class, table_float);
+    class_addmethod(table_class, (t_method)table_click, gensym("click"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_ft1, gensym("ft1"), A_FLOAT, 0);
+// message methods
+    class_addmethod(table_class, (t_method)table_clear, gensym("clear"), 0);
+    class_addmethod(table_class, (t_method)table_const, gensym("const"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_cancel, gensym("cancel"), 0);
+    class_addmethod(table_class, (t_method)table_dump, gensym("dump"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_embed, gensym("embed"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_flags, gensym("flags"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_fquantile, gensym("fquantile"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_goto, gensym("goto"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_inv, gensym("inv"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_length, gensym("length"), 0);
+    class_addmethod(table_class, (t_method)table_load, gensym("load"), 0);
+    class_addmethod(table_class, (t_method)table_max, gensym("max"), 0);
+    class_addmethod(table_class, (t_method)table_min, gensym("min"), 0);
+    class_addmethod(table_class, (t_method)table_next, gensym("next"), 0);
+    class_addmethod(table_class, (t_method)table_normal, gensym("normal"), 0);
+    class_addmethod(table_class, (t_method)table_open, gensym("open"), 0);
+    class_addmethod(table_class, (t_method)table_prev, gensym("prev"), 0);
+    class_addmethod(table_class, (t_method)table_quantile, gensym("quantile"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_read, gensym("read"), A_DEFSYM, 0);
+    class_addmethod(table_class, (t_method)table_refer, gensym("refer"), A_SYMBOL, 0);
+    class_addmethod(table_class, (t_method)table_send, gensym("send"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_set, gensym("set"), A_GIMME, 0);
+    class_addmethod(table_class, (t_method)table_setbits, gensym("setbits"),
+                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_sum, gensym("sum"), 0);
+    class_addmethod(table_class, (t_method)table_wclose, gensym("wclose"), 0);
+    class_addmethod(table_class, (t_method)table_write, gensym("write"), A_DEFSYM, 0);
+// attribute
+    class_addmethod(table_class, (t_method)table_size, gensym("size"), A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_name, gensym("name"), A_SYMBOL, 0);
+// extra ???
+    class_addmethod(table_class, (t_method)table_tabrange, gensym("tabrange"), A_FLOAT, 0);
+// _coords????
+    class_addmethod(table_class, (t_method)table__coords, gensym("_coords"),
+        A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+// ?????
+    hammerfile_setup(table_class, 1);
+    tablecommon_class = class_new(gensym("Table"), 0, 0, sizeof(t_tablecommon), CLASS_PD, 0);
+    /* a nop call (tablecommon doesn't embed and the hammerfile class is set up above),
+     but it's best to have it around just in case... */ // Delete this??????
+    hammerfile_setup(tablecommon_class, 0);
+    class_sethelpsymbol(table_class, gensym("table"));
+    pd_error(table_class, "Cyclone: please use [cyclone/table] instead of [Table] to supress this error");
+}

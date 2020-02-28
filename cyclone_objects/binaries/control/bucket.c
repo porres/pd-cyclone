@@ -141,3 +141,22 @@ CYCLONE_OBJ_API void bucket_setup(void)
     class_addmethod(bucket_class, (t_method)bucket_ltor, gensym("l2r"), 0);
     class_addmethod(bucket_class, (t_method)bucket_rtol, gensym("r2l"), 0);
 }
+
+CYCLONE_OBJ_API void Bucket_setup(void)
+{
+    bucket_class = class_new(gensym("Bucket"), (t_newmethod)bucket_new, (t_method)bucket_free,
+        sizeof(t_bucket), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)bucket_new, gensym("cyclone/Bucket"), 0);
+    class_addbang(bucket_class, bucket_bang);
+    class_addfloat(bucket_class, bucket_float);
+    class_addmethod(bucket_class, (t_method)bucket_freeze, gensym("freeze"), 0);
+    class_addmethod(bucket_class, (t_method)bucket_thaw, gensym("thaw"), 0);
+    class_addmethod(bucket_class, (t_method)bucket_ltor, gensym("L2R"), 0);
+    class_addmethod(bucket_class, (t_method)bucket_rtol, gensym("R2L"), 0);
+    class_addmethod(bucket_class, (t_method)bucket_roll, gensym("roll"), 0);
+    class_addmethod(bucket_class, (t_method)bucket_set, gensym("set"), A_FLOAT, 0);
+    class_addmethod(bucket_class, (t_method)bucket_ltor, gensym("l2r"), 0);
+    class_addmethod(bucket_class, (t_method)bucket_rtol, gensym("r2l"), 0);
+    pd_error(bucket_class, "Cyclone: please use [bucket] instead of [Bucket] to supress this error");
+    class_sethelpsymbol(bucket_class, gensym("bucket"));
+}

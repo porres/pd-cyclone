@@ -234,3 +234,26 @@ CYCLONE_OBJ_API void snapshot_tilde_setup(void)
                     gensym("sampleinterval"), A_FLOAT, 0);
     class_sethelpsymbol(snapshot_class, gensym("snapshot~"));
 }
+
+CYCLONE_OBJ_API void Snapshot_tilde_setup(void)
+{
+    snapshot_class = class_new(gensym("Snapshot~"),
+        (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_GIMME,0);
+    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/Snapshot~"), 0);
+    class_domainsignalin(snapshot_class, -1);
+    class_addfloat(snapshot_class, (t_method)snapshot_float);
+    class_addmethod(snapshot_class, (t_method)snapshot_dsp, gensym("dsp"), A_CANT, 0);
+    class_addbang(snapshot_class, (t_method)snapshot_bang);
+    class_addmethod(snapshot_class, (t_method)snapshot_ft1,
+            gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_offset,
+            gensym("offset"), A_FLOAT, 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_start,
+            gensym("start"), 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_stop,
+            gensym("stop"), 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_sampleinterval,
+                    gensym("sampleinterval"), A_FLOAT, 0);
+    class_sethelpsymbol(snapshot_class, gensym("snapshot~"));
+    pd_error(snapshot_class, "Cyclone: please use [cyclone/snapshot~] instead of [Snapshot~] to supress this error");
+}

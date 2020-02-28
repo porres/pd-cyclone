@@ -103,14 +103,23 @@ static void *decode_new(t_floatarg val){
 
 CYCLONE_OBJ_API void decode_setup(void)
 {
-    decode_class = class_new(gensym("decode"),
-			     (t_newmethod)decode_new,
-			     (t_method)decode_free,
-			     sizeof(t_decode), 0, A_DEFFLOAT, 0);
+    decode_class = class_new(gensym("decode"), (t_newmethod)decode_new,
+        (t_method)decode_free, sizeof(t_decode), 0, A_DEFFLOAT, 0);
     class_addfloat(decode_class, decode_float);
     class_addbang(decode_class, decode_bang);
-    class_addmethod(decode_class, (t_method)decode_allon,
-		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(decode_class, (t_method)decode_alloff,
-		    gensym("ft2"), A_FLOAT, 0);
+    class_addmethod(decode_class, (t_method)decode_allon, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(decode_class, (t_method)decode_alloff, gensym("ft2"), A_FLOAT, 0);
+}
+
+CYCLONE_OBJ_API void Decode_setup(void)
+{
+    decode_class = class_new(gensym("Decode"), (t_newmethod)decode_new,
+        (t_method)decode_free, sizeof(t_decode), 0, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)decode_new, gensym("cyclone/Decode"), 0);
+    class_addfloat(decode_class, decode_float);
+    class_addbang(decode_class, decode_bang);
+    class_addmethod(decode_class, (t_method)decode_allon, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(decode_class, (t_method)decode_alloff, gensym("ft2"), A_FLOAT, 0);
+    class_sethelpsymbol(decode_class, gensym("decode"));
+    pd_error(decode_class, "Cyclone: please use [decode] instead of [Decode] to supress this error");
 }

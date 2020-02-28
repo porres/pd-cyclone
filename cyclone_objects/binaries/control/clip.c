@@ -145,3 +145,15 @@ CYCLONE_OBJ_API void clip_setup(void)
     class_addmethod(clip_class, (t_method)clip_set, gensym("set"), A_GIMME, 0);
     class_sethelpsymbol(clip_class, gensym("clip"));
 }
+
+CYCLONE_OBJ_API void Clip_setup(void)
+{
+    clip_class = class_new(gensym("Clip"), (t_newmethod)clip_new,
+        (t_method)clip_free, sizeof(t_clip), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)clip_new, gensym("cyclone/Clip"), 0);
+    class_addfloat(clip_class, clip_float);
+    class_addlist(clip_class, clip_list);
+    class_addmethod(clip_class, (t_method)clip_set, gensym("set"), A_GIMME, 0);
+    class_sethelpsymbol(clip_class, gensym("clip"));
+    pd_error(clip_class, "Cyclone: please use [cyclone/clip] instead of [Clip] to supress this error");
+}

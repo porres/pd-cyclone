@@ -48,9 +48,21 @@ static void *trough_new(t_symbol *s, int argc, t_atom *argv){
 
 CYCLONE_OBJ_API void trough_setup(void){
     trough_class = class_new(gensym("trough"), (t_newmethod)trough_new, 0,
-			     sizeof(t_trough), 0, A_GIMME, 0);
+        sizeof(t_trough), 0, A_GIMME, 0);
     class_addbang(trough_class, trough_bang);
     class_addfloat(trough_class, trough_float);
     class_addmethod(trough_class, (t_method)trough_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
+        gensym("ft1"), A_FLOAT, 0);
+}
+
+CYCLONE_OBJ_API void Trough_setup(void){
+    trough_class = class_new(gensym("Trough"), (t_newmethod)trough_new, 0,
+        sizeof(t_trough), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)trough_new, gensym("cyclone/Trough"), 0);
+    class_addbang(trough_class, trough_bang);
+    class_addfloat(trough_class, trough_float);
+    class_addmethod(trough_class, (t_method)trough_ft1,
+        gensym("ft1"), A_FLOAT, 0);
+    pd_error(trough_class, "Cyclone: please use [trough] instead of [Trough] to supress this error");
+    class_sethelpsymbol(trough_class, gensym("trough"));
 }

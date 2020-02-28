@@ -271,3 +271,20 @@ CYCLONE_OBJ_API void line_tilde_setup(void)
     class_addmethod(line_class, (t_method)line_resume, gensym("resume"), 0);
     class_sethelpsymbol(line_class, gensym("line~"));
 }
+
+CYCLONE_OBJ_API void Line_tilde_setup(void)
+{
+    line_class = class_new(gensym("Line~"),  // avoid name clash with vanilla
+        (t_newmethod)line_new, (t_method)line_free, sizeof(t_line), 0, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)line_new, gensym("cyclone/Line~"), 0);
+    class_domainsignalin(line_class, -1); // bug?
+    class_addmethod(line_class, (t_method)line_dsp, gensym("dsp"), A_CANT, 0);
+    class_addfloat(line_class, line_float);
+    class_addlist(line_class, line_list);
+    class_addmethod(line_class, (t_method)line_ft1, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(line_class, (t_method)line_stop, gensym("stop"), 0);
+    class_addmethod(line_class, (t_method)line_pause, gensym("pause"), 0);
+    class_addmethod(line_class, (t_method)line_resume, gensym("resume"), 0);
+    class_sethelpsymbol(line_class, gensym("line~"));
+    pd_error(line_class, "Cyclone: please use [cyclone/linep~] instead of [Line~] to supress this error");
+}

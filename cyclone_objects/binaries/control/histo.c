@@ -91,16 +91,23 @@ static void *histo_new(t_floatarg f)
     return (x);
 }
 
-CYCLONE_OBJ_API void histo_setup(void)
-{
-    histo_class = class_new(gensym("histo"),
-			    (t_newmethod)histo_new,
-			    (t_method)histo_free,
-			    sizeof(t_histo), 0, A_DEFFLOAT, 0);
+CYCLONE_OBJ_API void histo_setup(void){
+    histo_class = class_new(gensym("histo"), (t_newmethod)histo_new,
+        (t_method)histo_free, sizeof(t_histo), 0, A_DEFFLOAT, 0);
     class_addbang(histo_class, histo_bang);
     class_addfloat(histo_class, histo_float);
-    class_addmethod(histo_class, (t_method)histo_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(histo_class, (t_method)histo_clear,
-		    gensym("clear"), 0);
+    class_addmethod(histo_class, (t_method)histo_ft1, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(histo_class, (t_method)histo_clear, gensym("clear"), 0);
+}
+
+CYCLONE_OBJ_API void Histo_setup(void){
+    histo_class = class_new(gensym("Histo"), (t_newmethod)histo_new,
+        (t_method)histo_free, sizeof(t_histo), 0, A_DEFFLOAT, 0);
+    class_addcreator((t_newmethod)histo_new, gensym("cyclone/Histo"), 0);
+    class_addbang(histo_class, histo_bang);
+    class_addfloat(histo_class, histo_float);
+    class_addmethod(histo_class, (t_method)histo_ft1, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(histo_class, (t_method)histo_clear, gensym("clear"), 0);
+    pd_error(histo_class, "Cyclone: please use [histo] instead of [Histo] to supress this error");
+    class_sethelpsymbol(histo_class, gensym("histo"));
 }
