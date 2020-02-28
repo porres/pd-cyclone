@@ -5,34 +5,34 @@
 ;
 #X obj 2 522 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 79 298 cnv 17 3 105 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 74 298 cnv 17 3 105 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 74 420 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 440 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 74 440 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 460 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
+#X obj 74 460 cnv 17 3 17 empty empty 2 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 480 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
+#X obj 74 480 cnv 17 3 17 empty empty 3 5 9 0 16 -228856 -162280 0
 ;
-#X obj 79 500 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
+#X obj 74 500 cnv 17 3 17 empty empty 4 5 9 0 16 -228856 -162280 0
 ;
-#X text 184 530 (none);
+#X text 172 530 (none);
 #X obj 2 553 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X msg 152 180 poll;
 #X obj 142 217 cyclone/mousestate, f 39;
-#X text 138 297 bang;
-#X text 171 422 -;
-#X text 131 422 float;
-#X text 171 441 -;
-#X text 131 441 float;
-#X text 171 461 -;
-#X text 131 461 float;
-#X text 171 481 -;
-#X text 131 481 float;
-#X text 171 501 -;
-#X text 131 501 float;
+#X text 126 297 bang;
+#X text 159 422 -;
+#X text 119 422 float;
+#X text 159 441 -;
+#X text 119 441 float;
+#X text 159 461 -;
+#X text 119 461 float;
+#X text 159 481 -;
+#X text 119 481 float;
+#X text 159 501 -;
+#X text 119 501 float;
 #X obj 2 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -61,60 +61,60 @@
 #X obj 142 240 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 133 259 click;
-#X text 138 314 poll;
-#X text 126 330 nopoll;
+#X text 126 314 poll;
+#X text 114 330 nopoll;
 #X obj 205 185 metro 500;
 #X obj 205 162 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X text 138 375 zero;
-#X text 132 390 reset;
-#N canvas 765 322 486 287 examples 0;
-#X obj 284 169 cyclone/mousestate, f 19;
-#X floatatom 311 201 3 0 0 0 - - -;
-#X floatatom 339 201 3 0 0 0 - - -;
-#X floatatom 367 200 4 0 0 0 - - -;
-#X floatatom 395 200 4 0 0 0 - - -;
-#X obj 312 116 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X text 126 375 zero;
+#X text 120 390 reset;
+#N canvas 765 322 530 289 examples 0;
+#X text 180 33 Report mouse data:;
+#X text 48 81 on pressing the mouse button:;
+#X text 268 80 on releasing the mouse button:;
+#X obj 96 168 cyclone/mousestate, f 24;
+#X floatatom 131 200 4 0 0 0 - - -;
+#X floatatom 166 200 4 0 0 0 - - -;
+#X floatatom 201 199 4 0 0 0 - - -;
+#X floatatom 237 199 4 0 0 0 - - -;
+#X obj 124 115 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 311 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 131 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 339 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 166 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 367 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 201 224 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 395 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 237 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 312 142 select 0;
-#X text 171 33 Report mouse data:;
-#X text 39 81 on pressing the mouse button:;
-#X text 252 80 on releasing the mouse button:;
-#X obj 87 168 cyclone/mousestate, f 19;
-#X floatatom 114 200 3 0 0 0 - - -;
-#X floatatom 142 200 3 0 0 0 - - -;
-#X floatatom 170 199 4 0 0 0 - - -;
-#X floatatom 198 199 4 0 0 0 - - -;
-#X obj 115 115 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 124 141 select 1;
+#X obj 299 170 cyclone/mousestate, f 24;
+#X floatatom 334 202 4 0 0 0 - - -;
+#X floatatom 369 202 4 0 0 0 - - -;
+#X floatatom 404 201 4 0 0 0 - - -;
+#X floatatom 440 201 4 0 0 0 - - -;
+#X obj 327 117 tgl 18 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 114 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 334 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 142 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 369 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 170 224 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 404 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 198 225 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 440 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 115 141 select 1;
-#X connect 0 0 5 0;
-#X connect 0 1 1 0;
-#X connect 0 2 2 0;
-#X connect 0 3 3 0;
-#X connect 0 4 4 0;
-#X connect 1 0 6 0;
-#X connect 2 0 7 0;
+#X obj 327 143 select 0;
 #X connect 3 0 8 0;
+#X connect 3 1 4 0;
+#X connect 3 2 5 0;
+#X connect 3 3 6 0;
+#X connect 3 4 7 0;
 #X connect 4 0 9 0;
 #X connect 5 0 10 0;
-#X connect 10 0 0 0;
+#X connect 6 0 11 0;
+#X connect 7 0 12 0;
+#X connect 8 0 13 0;
+#X connect 13 0 3 0;
 #X connect 14 0 19 0;
 #X connect 14 1 15 0;
 #X connect 14 2 16 0;
@@ -127,12 +127,12 @@
 #X connect 19 0 24 0;
 #X connect 24 0 14 0;
 #X restore 474 248 pd examples;
-#X text 171 297 - polls position data, f 61;
-#X text 171 330 - does not poll position data (only via bang), f 61
+#X text 159 297 - polls position data, f 61;
+#X text 159 330 - does not poll position data (only via bang), f 61
 ;
-#X text 186 422 click status: 1 <button is pressed> \, 0 <button is
+#X text 174 422 click status: 1 <button is pressed> \, 0 <button is
 released>;
-#X text 171 314 - poll position data automatically when mouse cursor
+#X text 159 314 - poll position data automatically when mouse cursor
 moves, f 61;
 #N canvas 900 318 417 462 modes 0;
 #X text 23 61 Mode 0 (default) uses "screen-relative coordinates" \,
@@ -146,14 +146,14 @@ where (0 \, 0) is the top left corner of the primary display.;
 #X text 112 217 mode 1: patch relative;
 #X text 112 232 mode 2: front-most patch relative;
 #X obj 159 406 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1086 256;
+-228856 -1 -1 590 256;
 #X text 160 423 x pos;
 #X text 186 380 y pos;
 #X text 21 14 There are 3 different modes in [mousestate] that define
 what the coordinate (0 \, 0) of the (x \, y) position point is in relation
 to.;
 #X obj 185 362 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 639 256;
+-228856 -1 -1 300 256;
 #X text 209 404 horizontal;
 #X text 234 362 vertical;
 #X text 23 97 Mode 1 uses "patch-relative coordinates" \, where (0
@@ -168,34 +168,36 @@ selectring the parent patch for example.;
 #X connect 3 0 1 0;
 #X connect 4 0 3 0;
 #X restore 491 225 pd modes;
-#X obj 33 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Retrieve mouse data
-;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 mousestate;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 33 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Retrieve mouse data;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 mousestate;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X text 223 162 polling on/off with [metro];
-#X text 171 375 - sets current position to (0 \, 0) of Pd's coordinate
+#X text 159 375 - sets current position to (0 \, 0) of Pd's coordinate
 system, f 61;
-#X text 90 346 mode <float>;
-#X text 170 346 -;
-#X text 183 346 sets mode \, which defines te coordinate (0 \, 0) point
-in relation to (0: screen \, 1: patch are \, 2: front most are), f
-59;
+#X text 78 346 mode <float>;
+#X text 158 346 -;
 #X text 72 87 [mousestate] reports click status \, cursor position
 coordinates and cursor delta. The click report is always given (and
 sampled every 50 ms) \, the rest needs to be polled.;
-#X text 186 441 cursor 'x' (horizontal) position (in pixels), f 59
+#X text 174 441 cursor 'x' (horizontal) position (in pixels), f 59
 ;
-#X text 186 461 cursor 'y' (vertical) position (in pixels), f 59;
-#X text 186 481 delta 'x' (position difference in pixels) from last
+#X text 174 461 cursor 'y' (vertical) position (in pixels), f 59;
+#X text 174 481 delta 'x' (position difference in pixels) from last
 poll, f 59;
-#X text 186 501 delta 'y' (position difference in pixels) from last
+#X text 174 501 delta 'y' (position difference in pixels) from last
 poll, f 59;
 #X msg 70 177 zero;
 #X msg 28 177 reset;
-#X text 171 390 - resets (0 \, 0) coordinates to the default, f 61
+#X text 159 390 - resets (0 \, 0) coordinates to the default, f 61
 ;
+#X text 171 346 sets mode \, which defines the coordinate (0 \, 0)
+point in relation to (0: screen \, 1: patch window \, 2: front most
+window), f 62;
 #X connect 11 0 12 0;
 #X connect 12 0 38 0;
 #X connect 12 1 35 0;
@@ -206,5 +208,5 @@ poll, f 59;
 #X connect 29 0 12 0;
 #X connect 42 0 12 0;
 #X connect 43 0 42 0;
+#X connect 65 0 12 0;
 #X connect 66 0 12 0;
-#X connect 67 0 12 0;
