@@ -37,8 +37,7 @@ static t_symbol *ps__up;
 static t_symbol *ps__focus;
 static t_symbol *ps__vised;
 
-static void hammergui_anything(t_hammergui *snk,
-                               t_symbol *s, int ac, t_atom *av)
+static void hammergui_anything(t_hammergui *snk, t_symbol *s, int ac, t_atom *av)
 {
     /* Dummy method, filtering out messages from gui to the masters.  This is
      needed in order to keep Pd's message system happy in a ``gray period''
@@ -544,9 +543,7 @@ void hammergui_unbindmouse(t_pd *master)
  }
  */
 
-void hammergui_getscreenfocused(void)
-{
-    
+void hammergui_getscreenfocused(void){
     if(hammergui_validate(0))
         sys_gui("hammergui_getscreenfocused\n");
 }
@@ -563,16 +560,11 @@ void hammergui_willpoll(void)
     hammergui_pollvalidate(1);
 }
 
-void hammergui_startpolling(t_pd *master, int pollmode)
-{
-    if (hammergui_validate(0) && hammergui_pollvalidate(0))
-    {
-        int doinit =
-        (hammergui_sink->g_pspoll->s_thing == (t_pd *)hammergui_sink);
+void hammergui_startpolling(t_pd *master, int pollmode){
+    if(hammergui_validate(0) && hammergui_pollvalidate(0)){
         pd_bind(master, hammergui_sink->g_pspoll);
-        if (doinit)
-        {
-            /* visibility hack for msw, LATER rethink */
+        if(hammergui_sink->g_pspoll->s_thing == (t_pd *)hammergui_sink){
+            // vis hack for msw, LATER rethink
             sys_gui("global hammergui_ispolling\n");
             sys_vgui("set hammergui_ispolling %d\n", pollmode);
             sys_gui("hammergui_poll\n");

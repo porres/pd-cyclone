@@ -99,8 +99,7 @@ static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float scre
 }
 
 static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc, t_atom * argv){
-    // callback from tcl for mode 2
-    // focusx, focusy are coords relative to focused window
+    // tcl callback for mode 2: focusx, focusy - coords relative to focused window
     t_float curf, screenx, screeny, focusx, focusy;
     if(argc >= 4){
         for(int i = 0; i < 4; i++){
