@@ -1,17 +1,17 @@
-#N canvas 451 97 559 540 10;
+#N canvas 685 118 559 569 10;
 #X obj 2 209 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 431 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 464 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 480 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 513 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 75 438 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 75 471 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 330 184 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
 -1 -1;
-#X obj 75 459 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 75 492 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 512 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 219 121 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
 -66577 -1;
@@ -30,23 +30,23 @@
 #X restore 304 3 pd;
 #X text 191 123 Play;
 #X obj 219 185 print;
-#X obj 75 217 cnv 17 3 210 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 75 217 cnv 17 3 240 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 189 461 sent at the end of a sequence (useful for looping)
+#X text 189 494 sent at the end of a sequence (useful for looping)
 ;
 #X text 133 245 append -;
 #X text 188 245 records at the end of the stored sequence, f 59;
 #X text 91 260 delay <float> -;
 #X text 96 276 hook <float> -;
 #X text 188 260 onset time in ms of the first event, f 59;
-#X text 138 439 float -;
-#X text 144 460 bang -;
-#X text 116 488 1) symbol -;
+#X text 138 472 float -;
+#X text 144 493 bang -;
+#X text 116 521 1) symbol -;
 #X msg 255 125 stop;
 #X text 176 230 - raw MIDI data stream to be recorded, f 61;
 #X text 188 276 multiplies all the event times by the given number
 (even when playing), f 59;
-#X text 189 439 raw MIDI data stream from played sequence;
+#X text 189 472 raw MIDI data stream from played sequence;
 #N canvas 447 157 813 469 basic 0;
 #X obj 133 319 cyclone/midiparse;
 #X obj 162 149 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577
@@ -56,23 +56,23 @@
 -1 -1;
 #X text 192 151 play/stop;
 #X obj 133 291 cyclone/midiflush;
-#X msg 243 249 bang;
+#X msg 243 251 bang;
 #X text 277 244 flush hanging;
 #X text 279 258 MIDI notes;
-#X obj 488 296 cyclone/seq;
-#X msg 505 234 record;
-#X obj 488 197 midiin;
+#X obj 522 294 cyclone/seq;
+#X msg 542 223 record;
+#X obj 522 195 midiin;
 #X obj 632 174 notein;
 #X obj 632 224 cyclone/midiformat;
 #X obj 632 198 pack;
 #X obj 632 304 cyclone/seq;
-#X msg 515 265 play;
+#X msg 441 235 play;
 #X obj 162 181 select 1 0;
 #X obj 67 154 loadbang;
 #X msg 243 212 read;
 #X text 249 192 open another;
 #X text 279 213 file;
-#X msg 445 236 write;
+#X msg 479 234 write;
 #X text 414 21 You can directly record from raw MIDI data with [midiin].
 Use the 'record' message to start recodring \, you don't need the stop
 message to switch from recording and playing.;
@@ -193,6 +193,8 @@ messages to our synth.;
 dialog box and 'read seq.mid' to re open the example. The 'delay' message
 adds a delay in ms before sending the fisrt event.;
 #X obj 133 251 cyclone/seq;
+#X msg 550 244 pause;
+#X msg 555 266 continue;
 #X connect 0 0 31 0;
 #X connect 1 0 17 0;
 #X connect 2 0 40 0;
@@ -220,6 +222,8 @@ adds a delay in ms before sending the fisrt event.;
 #X connect 38 0 40 0;
 #X connect 40 0 5 0;
 #X connect 40 1 3 0;
+#X connect 41 0 9 0;
+#X connect 42 0 9 0;
 #X restore 492 157 pd basic;
 #X text 351 185 <= when finished;
 #X text 137 303 print -;
@@ -227,15 +231,15 @@ adds a delay in ms before sending the fisrt event.;
 Window;
 #X text 89 349 start <float> -;
 #X text 89 318 read <symbol> -;
-#X text 83 410 write <symbol> -;
+#X text 83 443 write <symbol> -;
 #X text 131 334 record -;
 #X text 143 377 stop -;
-#X text 143 393 tick -;
+#X text 143 426 tick -;
 #X text 188 334 starts recording raw MIDI received in the inlet, f
 59;
-#X text 188 393 external clock \, needed after 'start -1' message,
+#X text 188 426 external clock \, needed after 'start -1' message,
 f 59;
-#X text 188 410 saves to a MIDI file (no symbol opens a dialog box)
+#X text 188 443 saves to a MIDI file (no symbol opens a dialog box)
 , f 59;
 #X text 188 319 reads from a MIDI file (no symbol opens a dialog box)
 , f 59;
@@ -243,7 +247,7 @@ f 59;
 , f 61;
 #X text 188 349 start/restart sequence at a given tempo (default '1024'
 - normal tempo) \, 'start -1' expects tick messages, f 59;
-#X text 191 488 a MIDI file to be loaded;
+#X text 191 521 a MIDI file to be loaded;
 #X obj 17 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 MIDI sequencer;
 #X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
@@ -264,7 +268,7 @@ into one.;
 #X obj 166 421 cyclone/seq seq.txt;
 #X obj 166 332 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X obj 166 291 loadbang;
+#X obj 166 288 loadbang;
 #X obj 166 451 s \$0-midi;
 #X text 31 23 The 'start' message starts reading the loaded sequence
 and also allows you to control the playback speed \, set by the float
@@ -287,10 +291,10 @@ synchronize with another clock (such as incoming MIDI Clock messages).
 clock tick;
 #X text 46 334 play:;
 #X text 293 382 tick time in ms, f 9;
-#X msg 218 322 120;
-#X obj 218 343 nbx 3 14 30 240 0 0 empty empty empty 0 -8 0 10 -228856
+#X msg 218 318 120;
+#X obj 218 339 nbx 3 14 30 240 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 120 256;
-#X text 286 342 BPM;
+#X text 286 338 BPM;
 #X connect 0 0 3 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
@@ -311,6 +315,10 @@ clock tick;
 information for each track). Cyclone already did load this kind of
 file but it doesn't save to type 1!;
 #X restore 432 136 pd inconsistencies;
+#X text 137 393 pause -;
+#X text 188 393 pauses recording/playing, f 53;
+#X text 119 409 continue -;
+#X text 188 409 continues after a pause message was given, f 53;
 #X connect 7 0 55 0;
 #X connect 27 0 55 0;
 #X connect 55 0 8 0;

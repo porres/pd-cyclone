@@ -17,14 +17,14 @@
 #define SEQ_DEBUG
 #endif */
 
-#define SEQ_INISEQSIZE       256   /* LATER rethink */
-#define SEQ_INITEMPOMAPSIZE  128   /* LATER rethink */
-#define SEQ_EOM              255   /* end of message marker, LATER rethink */
-#define SEQ_TICKSPERSEC       48
-#define SEQ_MINTICKDELAY       1.  /* LATER rethink */
+#define SEQ_INISEQSIZE              256   /* LATER rethink */
+#define SEQ_INITEMPOMAPSIZE         128   /* LATER rethink */
+#define SEQ_EOM                     255   /* end of message marker, LATER rethink */
+#define SEQ_TICKSPERSEC             48
+#define SEQ_MINTICKDELAY            1.  /* LATER rethink */
 #define SEQ_TICKEPSILON  ((double).0001)
-#define SEQ_STARTEPSILON          .0001  /* if inside: play unmodified */
-#define SEQ_TEMPOEPSILON          .0001  /* if inside: pause */
+#define SEQ_STARTEPSILON            .0001  /* if inside: play unmodified */
+#define SEQ_TEMPOEPSILON            .0001  /* if inside: pause */
 
 #define SEQ_ISRUNNING(x)  ((x)->x_prevtime > (double).0001)
 #define SEQ_ISPAUSED(x)  ((x)->x_prevtime <= (double).0001)
@@ -1171,11 +1171,11 @@ CYCLONE_OBJ_API void seq_setup(void)
     class_addmethod(seq_class, (t_method)seq_print,
 		    gensym("print"), 0);
 
-    /* unssuported (not available in Max)
     class_addmethod(seq_class, (t_method)seq_pause,
 		    gensym("pause"), 0);
     class_addmethod(seq_class, (t_method)seq_continue,
 		    gensym("continue"), 0);
+/* unssuported (not available in Max)
     class_addmethod(seq_class, (t_method)seq_goto,
 		    gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_scoretime,
