@@ -10,8 +10,6 @@ cyclone 0.5 (needs at least Pd Vanilla 0.51.0):
 
 (*) these classes need the 'cyclone/' prefix to avoid name clashes with vanilla internals - see help file for more information.
 
-- Re-add pause/continue in [seq] because these methods were in fact documented.
-
 - Fixed a bug in active where it was reporting inactivity when right clicking on the canvas in Linux.
 
 - Fixed a bug in [zl delace] where it only worked in macOS and not in Windows/Linux
