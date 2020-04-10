@@ -625,22 +625,51 @@ t_class *cyclone_class;
 
 static int printed;
 
+static int min_major = 0;
+static int min_minor = 51;
+static int min_bugfix = 0;
 
-static int major = 0;
-static int minor = 51;
-static int bugfix = 0;
+static int cyclone_major = 0;
+static int cyclone_minor = 5;
+static int cyclone_bugfix = 0;
 
 void print_cyclone(t_cyclone *x){
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
+    int major = 0, minor = 0, bugfix = 0;
+    sys_getversion(&major, &minor, &bugfix);
     post("");
     post("------------------------------------------------------------------------");
-    post("Cyclone 0.5; Unreleased");
-    if(major >= PD_MAJOR_VERSION && minor >= PD_MINOR_VERSION && bugfix >= PD_BUGFIX_VERSION){
-        post("Cyclone 0.5 needs at least Pd 0.51-0, you have %d.%d-%d", PD_MAJOR_VERSION, PD_MINOR_VERSION, PD_BUGFIX_VERSION);
+    post("Cyclone %d.%d.%d; Unreleased",
+         cyclone_major,
+         cyclone_minor,
+         cyclone_bugfix
+    );
+    if(min_major >= major && min_minor >= minor && min_bugfix >= bugfix){
+        post("Cyclone %d.%d.%d needs at least Pd %d.%d-%d, you have %d.%d-%d",
+             cyclone_major,
+             cyclone_minor,
+             cyclone_bugfix,
+             min_major,
+             min_minor,
+             min_bugfix,
+             major,
+             minor,
+             bugfix
+        );
     }
     else{
-        pd_error(x, "Cyclone 0.5 needs at least Pd 0.51-0, you have %d.%d-%d, please upgrade", PD_MAJOR_VERSION, PD_MINOR_VERSION, PD_BUGFIX_VERSION);
+        pd_error(x, "Cyclone %d.%d.%d needs at least Pd %d.%d-%d, you have %d.%d-%d, please upgrade",
+            cyclone_major,
+            cyclone_minor,
+            cyclone_bugfix,
+            min_major,
+            min_minor,
+            min_bugfix,
+            major,
+            minor,
+            bugfix
+        );
     }
     post("Loading the cyclone library did the following:");
     post("A) Loaded the non alpha-numeric objects, which are:");
