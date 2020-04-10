@@ -20,7 +20,7 @@
 
 #include "m_pd.h"
 #include <common/api.h>
-#include "m_imp.h" // why?
+#include "m_imp.h" 
 #include "common/shared.h"
 #include "common//magicbit.h"
 #include <math.h>
@@ -633,6 +633,7 @@ static int bugfix = 0;
 void print_cyclone(t_cyclone *x){
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
+    post("");
     post("------------------------------------------------------------------------");
     post("Cyclone 0.5; Unreleased");
     if(major >= PD_MAJOR_VERSION && minor >= PD_MINOR_VERSION && bugfix >= PD_BUGFIX_VERSION){
@@ -647,6 +648,7 @@ void print_cyclone(t_cyclone *x){
     post("B) Added %s", cyclone_dir);
     post("to Pd's path so the other objects can be loaded too");
     post("------------------------------------------------------------------------");
+    post("");
 }
 
 static void cyclone_about(t_cyclone *x){
