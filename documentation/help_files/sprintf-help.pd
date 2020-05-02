@@ -31,12 +31,14 @@
 #X obj 40 171 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X text 144 283 bang;
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Message formatter
-;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 sprintf;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu Sans Mono ? 0 0 0 0 0 255
+255 255 0 0 Message formatter;
+#X obj 16 5 cyclone/comment 0 33 DejaVu Sans Mono ? 0 0 0 0 0 255 255
+255 0 0 sprintf;
+#X obj 322 29 cyclone/comment 0 13 DejaVu Sans Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu Sans Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X text 120 304 anything;
 #X text 177 303 -;
 #X text 99 410 2) anything;
@@ -65,7 +67,7 @@ more than one item sends each item to a separate inlet;
 set in the arguments \, where each changeable argument '%' corresponds
 to an inlet (some options inlcude: %s - symbol \, %d - int \, %f -
 float \, and %c - ASCII character).;
-#N canvas 520 100 1034 764 details 0;
+#N canvas 520 100 1034 764 details 1;
 #X obj 77 319 print;
 #X obj 77 280 cyclone/sprintf %.2fdB;
 #X text 74 228 float example;
@@ -118,9 +120,6 @@ no value has been received for a changeable symbol argument (%s or
 #X text 614 612 unsigned hexadecimal in lowercase;
 #X text 527 632 %X;
 #X text 614 632 unsigned hexadecimal in CAPS;
-#X text 527 652 %p;
-#X text 614 652 unsigned hexadecimal in lowercase preceded by "0x"
-;
 #X text 614 552 unsigned octal;
 #X text 614 572 string;
 #X text 527 283 %%;
