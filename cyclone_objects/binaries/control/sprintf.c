@@ -384,7 +384,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             }
         if (*numfield)
             numfield = 0;
-        if (strchr("pdiouxX", *ptr))
+        if (strchr("diouxX", *ptr))
             {
             type = SPRINTF_INT;
             break;
