@@ -117,7 +117,7 @@ by a random value less than the given step size.;
 #X text 408 141 sets a current value and outputs it;
 #X text 418 168 sets current and maximum values;
 #X text 456 196 sets current \, maximum and step size values;
-#X obj 96 287 ./out~;
+#X obj 96 287 ./out2~;
 #X connect 0 0 1 0;
 #X connect 1 0 10 0;
 #X connect 2 0 13 0;

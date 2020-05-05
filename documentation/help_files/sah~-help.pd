@@ -97,7 +97,7 @@ and works better synchronizing with a signal like a square wave \,
 or an impulse for example.;
 #X obj 40 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 The sample and hold
 arpeggiator;
-#X obj 87 523 ./out~, f 14;
+#X obj 87 523 ./out2~, f 14;
 #X connect 0 0 23 0;
 #X connect 0 0 23 1;
 #X connect 1 0 13 0;
@@ -111,7 +111,7 @@ arpeggiator;
 #X connect 14 0 5 1;
 #X connect 18 0 0 0;
 #X restore 448 410 pd arpeggiator \; example;
-#X obj 104 387 ./out~;
+#X obj 104 387 ./out2~;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 2 3 graph;

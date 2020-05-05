@@ -76,7 +76,7 @@ the "clear" message if it blows up.;
 * x[n-2]) + b1 * y[n-1] + b2 * y[n-2] - where r \, b1 \, and b2 are
 calculated from 'Q' and center frequency.;
 #X restore 476 321 pd formula;
-#X obj 169 287 ./out~;
+#X obj 169 287 ./out2~;
 #X connect 20 0 47 0;
 #X connect 21 0 48 0;
 #X connect 27 0 50 0;

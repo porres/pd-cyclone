@@ -132,7 +132,7 @@ cloned from Max/MSP;
 #X text 46 20 [scale~] can also act as a linear crossfader at signal
 rate between two mono sound sources \, though this is not its purpose.
 ;
-#X obj 158 248 ./out~;
+#X obj 158 248 ./out2~;
 #X connect 0 0 12 0;
 #X connect 0 0 12 1;
 #X connect 1 0 0 0;

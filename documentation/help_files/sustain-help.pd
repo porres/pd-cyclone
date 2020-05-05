@@ -141,7 +141,7 @@ note messages. and you can also set the sustain parameter with the
 @sustain attribute or message;
 #X obj 134 279 tgl 22 0 empty empty empty 0 -6 0 8 -216373 -66577 -1
 0 1;
-#X obj 556 412 ./out~;
+#X obj 556 412 ./out2~;
 #X connect 0 0 1 0;
 #X connect 1 0 35 2;
 #X connect 2 0 35 0;

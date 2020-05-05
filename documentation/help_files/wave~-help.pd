@@ -751,8 +751,8 @@ some examples \, please check the subopatches below:, f 58;
 #X obj 90 23 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 Playing a sample;
 #X text 89 53 Using [wave~] to read a sample file;
-#X obj 48 261 ./out~;
-#X obj 398 263 ./out~;
+#X obj 48 261 ./out2~;
+#X obj 398 263 ./out2~;
 #X connect 0 0 9 0;
 #X connect 1 0 10 0;
 #X connect 4 0 26 2;
@@ -784,7 +784,7 @@ some examples \, please check the subopatches below:, f 58;
 #N canvas 602 168 750 225 multichannel 0;
 #X obj 17 14 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 Multi channel reading;
-#X obj 551 102 ./out~;
+#X obj 551 102 ./out2~;
 #X text 22 103 If more than one channel is set \, the name convention
 for multi channel arrays is the table name preceded by the channel
 number (starting from zero) and "-" \, such as: "0-" \, "1-" \, "2-"
@@ -970,7 +970,7 @@ and end point in the array.;
 ;
 #X text 146 549 @interp_bias <f> (default 0) | @interp_tension <f>
 (default 0), f 63;
-#X obj 140 224 ./out~;
+#X obj 140 224 ./out2~;
 #X text 213 460 - array name (required), f 54;
 #X text 213 511 - number of output channels (max 64) - default 1;
 #X connect 34 0 52 0;

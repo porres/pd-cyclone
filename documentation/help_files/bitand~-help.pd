@@ -71,7 +71,7 @@ converted to int or not. Thus \, here's how the modes will operate:
 int and updates the argument. If a signal is connected to the second
 inlet \, the float input will still update the argument \, but the
 signal input has priority over the argument or the float input.;
-#X obj 510 311 ./out~;
+#X obj 510 311 ./out2~;
 #X connect 0 0 3 0;
 #X connect 0 0 25 0;
 #X connect 0 0 25 1;
@@ -271,7 +271,7 @@ priority over the given bitmask.;
 #X text 173 56 The message "bits" followed by a list of 32 bit values
 (0 or 1) sets a raw 32 bit data as a bitmask for comparison with the
 signal input.;
-#X obj 139 432 ./out~;
+#X obj 139 432 ./out2~;
 #X connect 0 0 3 0;
 #X connect 0 0 22 0;
 #X connect 0 0 22 1;

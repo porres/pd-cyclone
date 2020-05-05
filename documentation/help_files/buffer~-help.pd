@@ -126,7 +126,7 @@ files \, it accepts floats or symbols:;
 #X connect 10 0 22 0;
 #X connect 11 0 22 0;
 #X restore 464 199 pd read/write;
-#X obj 268 216 ./out~;
+#X obj 268 216 ./out2~;
 #X msg 254 158 start;
 #X msg 120 200 open;
 #X obj 23 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Audio buffer;

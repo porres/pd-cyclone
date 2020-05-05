@@ -20,7 +20,7 @@
 #X msg 534 21 start;
 #X obj 681 104 bng 30 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 548 104 ./out~;
+#X obj 548 104 ./out2~;
 #X text 30 19 Multi channel playback is possible (up to 64 channels)
 when you specify it with a second argument. The number of channels
 defines the number 'n' of outlets - where the first outlets are the
@@ -121,7 +121,7 @@ speed as the example below.;
 #X text 60 86 When a signal is connected \, control play messages are
 ignored.;
 #X obj 167 256 cyclone/play~ \$0-violin;
-#X obj 148 291 ./out~;
+#X obj 148 291 ./out2~;
 #X connect 0 0 1 0;
 #X connect 1 0 12 0;
 #X connect 2 0 3 0;
@@ -172,8 +172,8 @@ duration., f 62;
 24;
 #X obj 73 262 cyclone/play~ \$0-violin;
 #X obj 470 265 cyclone/play~ \$0-violin;
-#X obj 470 303 ./out~;
-#X obj 73 301 ./out~;
+#X obj 470 303 ./out2~;
+#X obj 73 301 ./out2~;
 #X connect 0 0 23 0;
 #X connect 1 0 23 0;
 #X connect 2 0 23 0;
@@ -235,8 +235,8 @@ fade out after the end point of the loop., f 62;
 #X text 34 137 - interptime: the crossfade time in ms when loop and
 loopinterp are enable (default is 50 ms) \, larger times introduce
 other effects besides preventing clicks., f 62;
-#X obj 70 496 ./out~;
-#X obj 113 365 ./out~;
+#X obj 70 496 ./out2~;
+#X obj 113 365 ./out2~;
 #X connect 0 0 13 0;
 #X connect 1 0 0 0;
 #X connect 3 0 4 0;
@@ -267,7 +267,7 @@ other effects besides preventing clicks., f 62;
 different speeds (with interpolation) and backwards. It may also loop
 with optional crossfading.;
 #X obj 221 191 cyclone/play~ \$0-violin;
-#X obj 201 226 ./out~;
+#X obj 201 226 ./out2~;
 #X obj 41 245 send \$0-array_size;
 #X obj 41 221 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 290646 256;

@@ -178,7 +178,7 @@ MIDI.;
 #X restore 133 352 pd polysynth;
 #X text 214 352 <= 3 voice polyphonic;
 #X msg 67 179 read seq.mid;
-#X obj 113 389 ./out~;
+#X obj 113 389 ./out2~;
 #X text 424 345 Please check the help file of [midiparse] \, [midiformat]
 and [midiflush] \, which are useful with [seq].;
 #X text 23 21 Below \, we play and stop with a toggle. At the end of

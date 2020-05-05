@@ -28,7 +28,7 @@ random glissandi.;
 #X obj 136 143 cyclone/rand~ 1;
 #X obj 31 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 [rand~] as random control;
-#X obj 111 264 ./out~;
+#X obj 111 264 ./out2~;
 #X connect 0 0 3 0;
 #X connect 3 0 6 0;
 #X connect 3 0 6 1;
@@ -61,7 +61,7 @@ The resulting sound is a bandlimited noise.;
 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
 0 255 255 255 0 0 cyclone;
-#X obj 254 270 ./out~;
+#X obj 254 270 ./out2~;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 6 0 13 0;
 #X connect 9 0 6 0;

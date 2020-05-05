@@ -49,7 +49,7 @@ this allows gate to be controlle with sample accuracy. Signal values
 are truncated to integers.;
 #X obj 239 214 noise~;
 #X obj 169 181 cyclone/number~;
-#X obj 170 290 ./out~;
+#X obj 170 290 ./out2~;
 #X connect 0 0 6 0;
 #X connect 0 1 6 1;
 #X connect 1 0 0 0;

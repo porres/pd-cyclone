@@ -124,7 +124,7 @@ cloned from Max/MSP;
 #X coords 0 1.1 99 -1.1 200 120 2 0 0;
 #X restore 621 172 graph;
 #X obj 77 206 cyclone/count~ 0 100 1;
-#X obj 63 277 ./out~;
+#X obj 63 277 ./out2~;
 #X obj 77 232 cyclone/index~ quadraphonic_\$0 3;
 #X obj 566 6 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-1;
 #X obj 781 5 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-2;
@@ -231,7 +231,7 @@ tasks than other objects such as [cyclone/play~] and [cyclone/wave~].
 ;
 #X obj 67 244 cyclone/index~ \$0-violin;
 #X obj 67 179 cyclone/count~ 0 290646 1;
-#X obj 67 276 ./out~;
+#X obj 67 276 ./out2~;
 #X connect 0 0 12 0;
 #X connect 2 0 12 0;
 #X connect 4 0 9 0;
