@@ -1,20 +1,20 @@
-#N canvas 722 166 564 524 10;
-#X obj 1 487 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
+#N canvas 722 166 566 521 10;
+#X obj 3 486 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
-#X obj 1 255 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
+#X obj 3 254 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
 -228856 -1 0;
-#X obj 1 410 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
+#X obj 3 409 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
 13 -228856 -1 0;
-#X obj 1 441 cnv 3 550 3 empty \$0-pddp.cnv.argument arguments 8 12
+#X obj 3 440 cnv 3 550 3 empty \$0-pddp.cnv.argument arguments 8 12
 0 13 -228856 -1 0;
-#X obj 77 263 cnv 17 3 110 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
+#X obj 79 262 cnv 17 3 110 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
 -162280 0;
-#X obj 77 385 cnv 17 3 17 empty \$0-pddp.cnv.let.1 1 5 9 0 16 -228856
+#X obj 79 384 cnv 17 3 17 empty \$0-pddp.cnv.let.1 1 5 9 0 16 -228856
 -162280 0;
-#X text 128 263 signal;
-#X text 128 385 signal;
-#X obj 253 157 osc~ 440;
-#X text 178 464 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
+#X text 130 262 signal;
+#X text 130 384 signal;
+#X obj 255 156 osc~ 440;
+#X text 180 463 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
 2 (linear), f 60;
 #N canvas 522 161 803 382 examples 0;
 #X obj 169 168 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -228856
@@ -84,32 +84,32 @@ achieved.;
 #X connect 25 0 24 0;
 #X connect 28 0 31 0;
 #X connect 29 0 30 0;
-#X restore 466 191 pd examples;
-#X text 116 294 <on/off>;
-#X text 92 344 gain <float>;
-#X text 92 361 ramp <float>;
-#X text 116 448 1) float;
-#X text 116 464 2) float;
-#X text 128 418 (none);
-#X text 92 311 mode <float>;
-#X text 178 311 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
+#X restore 468 190 pd examples;
+#X text 118 293 <on/off>;
+#X text 94 343 gain <float>;
+#X text 94 360 ramp <float>;
+#X text 118 447 1) float;
+#X text 118 463 2) float;
+#X text 130 417 (none);
+#X text 94 310 mode <float>;
+#X text 180 310 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
 2 (linear), f 60;
-#X text 178 263 - incoming signal routed to left channel output: [dac~
+#X text 180 262 - incoming signal routed to left channel output: [dac~
 1], f 60;
-#X text 178 385 - incoming signal routed to right channel output: [dac~
+#X text 180 384 - incoming signal routed to right channel output: [dac~
 2], f 60;
-#X text 178 278 - sets slider (range is clipped to 0-1), f 60;
-#X text 147 225 click & drag ===>;
-#X text 162 205 DSP toggle ==>;
-#X text 355 206 <= Mute button;
-#X text 178 294 - turns DSP Engine (Compute Audio) On or Off, f 60
+#X text 180 277 - sets slider (range is clipped to 0-1), f 60;
+#X text 149 224 click & drag ===>;
+#X text 164 204 DSP toggle ==>;
+#X text 357 205 <= Mute button;
+#X text 180 293 - turns DSP Engine (Compute Audio) On or Off, f 60
 ;
-#X text 140 327 mute;
-#X text 178 327 - mute/unmute button, f 60;
-#X text 178 361 - sets ramp time in ms for slider values (default 20)
+#X text 142 326 mute;
+#X text 180 326 - mute/unmute button, f 60;
+#X text 180 360 - sets ramp time in ms for slider values (default 20)
 , f 60;
-#X text 178 448 - max gain (needs to be > 0 \, default 1), f 60;
-#X text 178 344 - sets max gain (values <= 0 are ignored), f 60;
+#X text 180 447 - max gain (needs to be > 0 \, default 1), f 60;
+#X text 180 343 - sets max gain (values <= 0 are ignored), f 60;
 #N canvas 737 277 684 429 scaling 0;
 #X obj 32 57 cnv 15 198 198 empty empty empty 20 12 0 14 -253888 -66577
 0;
@@ -357,47 +357,44 @@ isn't loud enough \, if it is too high or even if you're using multiple
 #X connect 26 0 24 0;
 #X connect 27 0 26 0;
 #X connect 34 0 26 0;
-#X restore 460 214 pd scaling \; modes & gain;
-#X text 98 278 set <float>;
-#X obj 340 157 osc~ 660;
-#X text 84 89 [out2~] is a convenient stereo input/output abstraction.
+#X restore 462 213 pd scaling \; modes & gain;
+#X text 100 277 set <float>;
+#X obj 342 156 osc~ 660;
+#X text 86 88 [out2~] is a convenient stereo input/output abstraction.
 It has controls for mute \, DSP on/off \, ramp time \, maximum gain
 and scaling mode.;
-#X obj 2 6 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 16 135 cnv 15 215 50 empty empty empty 20 12 0 14 -252523 -66577
+0;
+#X text 20 138 Though used and provided in cyclone's documentation
+\, [out2~] is an "extra" from another library (ELSE) and NOT a max/msp
+clone or part of cyclone!!!, f 37;
+#X obj 255 189 ./out2~ 1 0;
+#X obj 4 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 5 graph;
-#N canvas 0 22 450 278 (subpatch) 0;
-#X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 5 graph;
-#X obj 16 7 cyclone/comment 0 37 DejaVu Sans Mono ? 0 0 0 0 0 255 255
-255 0 0 out2~;
-#X obj 16 58 cyclone/comment 0 18 DejaVu Sans Mono ? 0 0 0 0 0 255
+#X restore 4 4 graph;
+#X obj 18 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 out2~;
+#X obj 19 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 Extra: Stereo Output;
-#X obj 305 6 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X obj 307 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 5 pd;
-#X obj 344 13 cnv 10 10 10 empty empty ELSE 0 15 2 30 -128992 -233080
+#X restore 306 4 pd;
+#X obj 346 12 cnv 10 10 10 empty empty ELSE 0 15 2 30 -128992 -233080
 0;
-#X obj 457 13 cnv 10 10 10 empty empty EL 0 6 2 13 -128992 -233080
+#X obj 459 12 cnv 10 10 10 empty empty EL 0 6 2 13 -128992 -233080
 0;
-#X obj 477 13 cnv 10 10 10 empty empty Locus 0 6 2 13 -128992 -233080
+#X obj 479 12 cnv 10 10 10 empty empty Locus 0 6 2 13 -128992 -233080
 0;
-#X obj 514 13 cnv 10 10 10 empty empty Solus' 0 6 2 13 -128992 -233080
+#X obj 516 12 cnv 10 10 10 empty empty Solus' 0 6 2 13 -128992 -233080
 0;
-#X obj 463 28 cnv 10 10 10 empty empty ELSE 0 6 2 13 -128992 -233080
+#X obj 465 27 cnv 10 10 10 empty empty ELSE 0 6 2 13 -128992 -233080
 0;
-#X obj 501 28 cnv 10 10 10 empty empty library 0 6 2 13 -128992 -233080
+#X obj 503 27 cnv 10 10 10 empty empty library 0 6 2 13 -128992 -233080
 0;
-#X obj 14 136 cnv 15 215 50 empty empty empty 20 12 0 14 -252523 -66577
-0;
-#X text 18 139 Though used and provided in cyclone's documentation
-\, [out2~] is an "extra" from another library (ELSE) and NOT a max/msp
-clone or part of cyclone!!!, f 37;
-#X obj 253 190 ./out2~ 1 0;
-#X connect 8 0 50 0;
-#X connect 33 0 50 1;
-#X coords 0 524 1 523 74 39 0;
+#X connect 8 0 37 0;
+#X connect 33 0 37 1;
+#X coords 0 521 1 520 74 39 0;
