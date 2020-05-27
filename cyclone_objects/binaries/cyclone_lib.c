@@ -640,25 +640,25 @@ void print_cyclone(t_cyclone *x){
     sys_getversion(&major, &minor, &bugfix);
     post("");
     post("------------------------------------------------------------------------");
-    post("Cyclone %d.%d.%d; Unreleased", cyclone_major, cyclone_minor, cyclone_bugfix);
-    post("Copyright © 2003-2020 - Krzysztof Czaja, Fred Jan Kraan");
-    post("Alexandre Porres, Derek Kwan, Matt Barber and others.");
-    post("License: BSD-3-Clause (aka Revised BSD License)");
-    post("------------------------------------------------------------------------");
+    post(":: Cyclone %d.%d.%d; Unreleased", cyclone_major, cyclone_minor, cyclone_bugfix);
+    post(":: Copyright © 2003-2020 - Krzysztof Czaja, Fred Jan Kraan");
+    post(":: Alexandre Porres, Derek Kwan, Matt Barber and others.");
+    post(":: License: BSD-3-Clause (aka Revised BSD License)");
+    post(":: ---------------------------------------------------------------------");
     if(min_major >= major && min_minor >= minor && min_bugfix >= bugfix)
-        post("Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, you're good)",
+        post(":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, you're good)",
              cyclone_major, cyclone_minor, cyclone_bugfix,
              min_major, min_minor, min_bugfix,
              major, minor, bugfix);
     else
-        pd_error(x, "Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, please upgrade)",
+        pd_error(x, ":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, please upgrade)",
             cyclone_major, cyclone_minor, cyclone_bugfix,
             min_major, min_minor, min_bugfix,
             major, minor, bugfix);
-    post("Loading the cyclone library did the following:");
-    post("A) Loaded the non alpha-numeric objects, which are:");
+    post(":: Loading the cyclone library did the following:");
+    post(":: A) Loaded the non alpha-numeric objects, which are:");
     post("[!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
-    post("B) Added %s", cyclone_dir);
+    post(":: B) Added %s", cyclone_dir);
     post("to Pd's path so the other objects can be loaded too");
     post("------------------------------------------------------------------------");
     post("");
