@@ -646,12 +646,12 @@ void print_cyclone(t_cyclone *x){
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
     post(":: ---------------------------------------------------------------------");
     if(min_major >= major && min_minor >= minor && min_bugfix >= bugfix)
-        post(":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, you're good)",
+        post(":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, you're good!)",
              cyclone_major, cyclone_minor, cyclone_bugfix,
              min_major, min_minor, min_bugfix,
              major, minor, bugfix);
     else
-        pd_error(x, ":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, please upgrade)",
+        pd_error(x, ":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, please upgrade!)",
             cyclone_major, cyclone_minor, cyclone_bugfix,
             min_major, min_minor, min_bugfix,
             major, minor, bugfix);
