@@ -1,104 +1,128 @@
-#N canvas 438 28 564 606 10;
-#X obj 2 6 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
+#N canvas 522 23 564 643 10;
+#X obj 2 3 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 5 graph;
-#X obj 305 6 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+#X restore 2 2 graph;
+#X obj 305 3 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 5 pd;
-#X obj 2 385 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+#X restore 304 2 pd;
+#X obj 2 277 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 451 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 4 443 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 513 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 4 505 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 84 460 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 86 452 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X obj 84 397 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 84 286 cnv 17 3 50 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 112 397 signal;
-#X text 112 460 signal;
-#X obj 2 570 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X text 159 285 signal;
+#X text 114 452 signal;
+#X obj 4 555 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
-#X text 164 397 - the signal to be monitored/displayed;
-#X text 71 83 [number~] can be used to either display signal values
-or generate them. This is not a proper clone but just a modest abstraction
-with the basic behaviour from the original in Max/MSP.;
-#N canvas 797 66 433 559 example 0;
-#X floatatom 188 183 0 0 1000 0 - - -;
-#X floatatom 188 412 0 0 0 0 - - -;
-#X obj 84 300 +~ 10;
-#X text 200 369 signal monitor (tilde);
-#X text 218 185 ramp time;
-#X text 94 337 <= signal input (for monitoring);
-#X text 91 264 <= generated signal output;
-#X text 201 218 signal generator (arrow down);
-#X text 47 471 If the DSP is off \, you may be able to change numbers
+#X text 204 285 - the signal to be monitored/displayed;
+#N canvas 797 66 429 476 example 0;
+#X floatatom 189 143 0 0 1000 0 - - -;
+#X floatatom 189 336 0 0 0 0 - - -;
+#X obj 85 242 +~ 10;
+#X text 202 302 signal monitor (tilde), f 14;
+#X text 219 145 ramp time;
+#X text 95 273 <= signal input (for monitoring);
+#X text 92 214 <= generated signal output;
+#X text 202 173 signal generator (arrow down), f 16;
+#X text 43 386 If the DSP is off \, you may be able to change numbers
 while in the signal monitor mode \, but this doesn't do anything. You
 should only set numbers in the interface when in the "signal generator"
 mode anyway...;
-#X text 27 17 You cannot use [number~] to monitor a signal and pass
+#X text 28 17 You cannot use [number~] to monitor a signal and pass
 it through! The generated signal has nothing to do with the monitored
-signal and vice-versa. Just use it for one function or the other.;
-#X text 27 78 Below \, we use [number~] to generate a signal \, send
+signal and vice-versa. Just use it for one function or the other.,
+f 60;
+#X text 28 67 Below \, we use [number~] to generate a signal \, send
 the value though a mathematical operation and then display the result.
 ;
-#X text 29 121 Change the ramp time and see how it generates a ramp
+#X text 28 95 Change the ramp time and see how it generates a ramp
 line (as in the [line~] object) that takes that amount of time to reach
 the target.;
-#X text 190 435 the monitor output as a float;
-#X obj 84 380 cyclone/number~;
-#X obj 84 217 cyclone/number~ 1;
-#X connect 0 0 14 1;
-#X connect 2 0 13 0;
-#X connect 13 1 1 0;
-#X connect 14 0 2 0;
-#X restore 475 348 pd example;
-#X floatatom 399 275 0 0 0 0 - - -;
-#X floatatom 182 341 0 0 0 0 - - -;
-#X obj 78 277 osc~ 1;
-#X text 42 251 as signal monitor (tilde);
-#X text 264 248 as signal generator (down arrow);
-#X obj 295 333 cyclone/snapshot~ 1;
-#X floatatom 295 357 0 0 0 0 - - -;
-#X obj 84 420 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 85 307 cyclone/number~;
+#X obj 85 177 cyclone/number~ 1;
+#X text 219 335 monitor float output;
+#X connect 0 0 13 1;
+#X connect 2 0 12 0;
+#X connect 12 1 1 0;
+#X connect 13 0 2 0;
+#X restore 466 208 pd example;
+#X floatatom 412 164 0 0 0 0 - - -;
+#X floatatom 197 243 0 0 0 0 - - -;
+#X obj 93 179 osc~ 1;
+#X obj 308 222 cyclone/snapshot~ 1;
+#X floatatom 308 246 0 0 0 0 - - -;
+#X obj 86 422 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 420 float;
-#X text 164 420 - ramp time for signal generating;
-#X text 163 460 - the generated signal;
-#X obj 84 482 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X text 120 421 float;
+#X text 206 421 - ramp time for signal generating;
+#X text 205 452 - the generated signal;
+#X obj 86 474 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X text 118 482 float;
-#X text 164 482 - the monitored signal's value;
-#X text 100 523 1) float;
-#X text 100 540 2) float;
-#X text 164 523 - mode: 0 (signal monitor \, default) non-0 (signal
-generator);
-#X text 164 540 - ramp time in ms (default 0);
-#X text 332 274 ramp time:;
-#X text 21 342 signal monitor output:;
-#X text 71 208 Only the interface changes \, the behaviour of the input
-and output remains regardless of the mode switching.;
-#X text 71 138 In the signal monitor mode \, it has a "tilde" status
-mark. If you click on it \, it changes to signal generator mode \,
-marked with a down arrow. In this mode \, you can click/drag and enter
-numbers as with a usual number GUI. Clicking on the arrow switches
-it to monitor mode.;
-#X obj 19 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal generator/monitor
-;
-#X obj 16 6 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 number~;
-#X obj 322 30 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 6 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 295 307 cyclone/number~ 1;
-#X obj 78 309 cyclone/number~;
-#X obj 499 72 cyclone/setdsp~;
-#X connect 15 0 41 1;
-#X connect 17 0 42 0;
-#X connect 20 0 21 0;
-#X connect 41 0 20 0;
-#X connect 42 1 16 0;
-#X coords 0 606 1 605 78 16 0;
+#X text 120 474 float;
+#X text 206 474 - the monitored signal's value;
+#X text 142 515 1) float;
+#X text 142 532 2) float;
+#X text 206 532 - ramp time in ms (default 0);
+#X text 345 163 ramp time:;
+#X obj 19 53 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Signal generator/monitor;
+#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 number~;
+#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
+#X obj 308 196 cyclone/number~ 1;
+#X obj 93 211 cyclone/number~;
+#X obj 499 69 cyclone/setdsp~;
+#X text 242 196 generator;
+#X text 39 212 monitor;
+#X text 111 244 float output:;
+#N canvas 797 66 429 476 set 0;
+#X obj 100 117 cyclone/number~ 1;
+#X obj 100 58 noise~;
+#X msg 162 74 interval \$1;
+#X floatatom 162 51 5 10 1000 0 - - -;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 2 0;
+#X restore 489 238 pd set;
+#X text 206 515 - mode: 0 (monitor \, default) non-0 (generator);
+#X text 129 345 ft1 <float>;
+#X text 99 360 interval <float>;
+#X text 204 345 - ramp time in ms;
+#X text 204 360 - display rate time in ms;
+#X text 129 316 list <f \, f>;
+#X text 204 316 - sets value to generate and ramp time in ms;
+#X text 129 330 set <float>;
+#X text 204 330 - sets value but doesn't generate signal;
+#X text 60 79 Use [number~] to monitor or generate signals. This is
+an abstraction with limited functionality \, not a proper clone.,
+f 62;
+#X text 60 106 The "tilde" symbol refers to monitor mode \, and if
+you click on it \, it changes to generator mode (marked with a down
+arrow \, where you can click/drag and enter numbers). Clicking on the
+arrow switches it to monitor mode., f 62;
+#X text 204 376 - sets minimum value to generate;
+#X text 129 376 min <float>;
+#X text 129 391 max <float>;
+#X text 204 391 - sets maximum value to generate;
+#X msg 265 171 set 70;
+#X text 171 300 bang;
+#X text 204 300 - alternate modes;
+#X connect 14 0 34 1;
+#X connect 16 0 35 0;
+#X connect 17 0 18 0;
+#X connect 34 0 17 0;
+#X connect 35 1 15 0;
+#X connect 56 0 34 0;
+#X coords 0 643 1 642 78 16 0;
