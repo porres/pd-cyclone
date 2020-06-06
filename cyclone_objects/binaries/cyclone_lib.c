@@ -646,7 +646,7 @@ void print_cyclone(t_cyclone *x){
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
     post(":: Copyright © 2003-2020 - Krzysztof Czaja, Hans-Christoph Steiner,");
     post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.");
-    post(":: --------------------------------------------------------------------------");
+    post(":: ---------------------------------------------------------------------------");
     if(min_major >= major && min_minor >= minor && min_bugfix >= bugfix)
         post(":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, you're good!)",
              cyclone_major, cyclone_minor, cyclone_bugfix,
