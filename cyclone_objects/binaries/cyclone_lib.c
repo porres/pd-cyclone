@@ -1,8 +1,10 @@
-/* Copyright (c) 2003 krzYszcz and others.
+/* Copyright © (2003-2020) - Krzysztof Czaja, Hans-Christoph Steiner,
+ Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.");
+ 
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* Porres 2016-2018:
+/* Porres 2016-2018 for versions 0.3 onward:
  This is the cyclone library containing 12 non alphanumeric objects.
  Originally, the externals in cyclone used to come in a library called
  "cyclone", which included these 12 objects plus the "hammer" and "sickle"
@@ -639,13 +641,12 @@ void print_cyclone(t_cyclone *x){
     int major = 0, minor = 0, bugfix = 0;
     sys_getversion(&major, &minor, &bugfix);
     post("");
-    post("------------------------------------------------------------------------");
+    post("-----------------------------------------------------------------------------");
     post(":: Cyclone %d.%d.%d; Unreleased", cyclone_major, cyclone_minor, cyclone_bugfix);
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
     post(":: Copyright © 2003-2020 - Krzysztof Czaja, Hans-Christoph Steiner,");
-    post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber");
-    post(":: and others.");
-    post(":: ---------------------------------------------------------------------");
+    post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.");
+    post(":: --------------------------------------------------------------------------");
     if(min_major >= major && min_minor >= minor && min_bugfix >= bugfix)
         post(":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, you're good!)",
              cyclone_major, cyclone_minor, cyclone_bugfix,
@@ -661,7 +662,7 @@ void print_cyclone(t_cyclone *x){
     post(":: [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
     post("::   - B) Added %s", cyclone_dir);
     post(":: to Pd's path so the other objects can be loaded too");
-    post("------------------------------------------------------------------------");
+    post("-----------------------------------------------------------------------------");
     post("");
 }
 
