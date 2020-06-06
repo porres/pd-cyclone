@@ -14,7 +14,7 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Copyright © 2003-2020 - Krzysztof Czaja, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
+Copyright © 2003-2020 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
 
 This work is free. You can redistribute it and/or modify it under the terms of the BSD-3-Clause (aka Revised BSD License). See License.txt <https://github.com/porres/pd-cyclone/blob/cyclone0.4/LICENSE.txt> and <https://opensource.org/licenses/BSD-3-Clause> for more details.
 
@@ -31,7 +31,7 @@ Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases
 
 Cyclone 0.5 needs at least Pd Vanilla 0.51 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
 
-Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data. Pd-Extended carries older 0.1 versions and Purr Data still carries the outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data). The latest versions of cyclone (0.3 onwards) are only fully supported in Pd Vanilla so far. Hopefully Purr Data will also support newer versions of cyclone. 
+Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data. Pd-Extended carries older 0.1 versions and Purr Data still carries the outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data). The latest versions of cyclone (0.3 onwards) are only fully supported in Pd Vanilla so far. 
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
 
@@ -44,7 +44,7 @@ Cyclone 0.3 was the major overhaul in cyclone, which got updated to the latest M
 
 Check the provided CHANGELOG.txt file for the details in all version changes.
 
-Future updates corresponding to added functionalities from Max 8 can be included in future versions of Cyclone. Cyclone 0.3 needs at least Pd 0.49, newer versions of Cyclone need newer Pd versions.
+Cyclone 0.5 is still not compatible to Max 8, but functionalities added in cyclone objects in Max 8 can be included in future versions of Cyclone.
 
 -------
 
