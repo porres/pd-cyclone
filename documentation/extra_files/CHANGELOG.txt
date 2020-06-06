@@ -3,7 +3,7 @@
 ---------------------------------------------------
 
 --------------------------------------------------
-cyclone 0.5 (needs at least Pd Vanilla 0.51.0):
+cyclone 0.5 (needs at least Pd Vanilla 0.51-0):
 --------------------------------------------------
 
 - Re-added support for capital letters aliases - this is for backwards compatibility and now the object prints and error telling the user to change to the new name. The affected objects are: cyclone/append (*); bucket; cyclone/clip (*); decode; histo; mousestate; peak; cyclone/table (*); togedge; trough; uzi; cyclone/clip~ (*); cyclone/line~ (*); scope~; cyclone/snapshot~ (*)
@@ -13,6 +13,8 @@ cyclone 0.5 (needs at least Pd Vanilla 0.51.0):
 - Fixed a bug in active where it was reporting inactivity when right clicking on the canvas in Linux.
 
 - Fixed a bug in [zl delace] where it only worked in macOS and not in Windows/Linux
+
+- Added a few new message methods/attributes to [number~], thanks to the new inlet~ 'fwd' feature from Pd 0.51 (namely bang, list, set, ft1, interval, minimum, maximum, bgcolor, textcolor).
 
 - [scope~]: 
    A- Fixed a regression bug in scope~ where it wouldn't draw if loaded in a patch with DSP on
@@ -45,7 +47,7 @@ cyclone 0.4 (needs at least Pd Vanilla 0.50-2):
 (*) these classes need the 'cyclone/' prefix to avoid name clashes with vanilla internals - see help file for more information.
 
 --------------------------------------------------
-cyclone 0.3 (needs at least Pd Vanilla 0.49.0)
+cyclone 0.3 (needs at least Pd Vanilla 0.49-0)
 --------------------------------------------------
 
 Summary: Cyclone 0.3 represents the major overhaul in cyclone and includes: 1) objects updated to the last Max 7 version (7.3.5); 2) Many new objects; 3)Numerous bug fixes; 4) Completely rewritten documentation. See details below!

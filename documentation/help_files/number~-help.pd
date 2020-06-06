@@ -85,50 +85,52 @@ the target.;
 #X text 242 197 generator;
 #X text 39 213 monitor;
 #X text 111 245 float output:;
-#N canvas 649 161 625 464 set 0;
-#X obj 95 155 cyclone/number~ 1;
+#N canvas 649 161 595 439 set 0;
+#X obj 105 160 cyclone/number~ 1;
 #A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
-#X obj 95 96 noise~;
-#X msg 157 112 interval \$1;
-#X floatatom 157 89 5 10 1000 0 - - -;
-#X obj 66 96 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#X obj 105 101 noise~;
+#X msg 167 117 interval \$1;
+#X floatatom 167 94 5 10 1000 0 - - -;
+#X obj 76 101 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X text 26 11 A bang message switches between the modes. The 'interval'
+#X text 36 16 A bang message switches between the modes. The 'interval'
 message sets the time interval in ms that [number~] displays values
 (default is 100)., f 39;
-#X obj 126 340 cyclone/number~ 1;
+#X obj 136 345 cyclone/number~ 1;
 #A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
-#X floatatom 126 284 5 10 1000 0 - - -;
-#X msg 126 307 set \$1;
-#X floatatom 126 395 0 0 0 0 - - -;
-#X obj 126 371 cyclone/snapshot~ 100;
-#X floatatom 185 285 5 10 1000 0 - - -;
-#X msg 185 308 ft1 \$1;
-#X msg 47 256 0 500;
-#X msg 91 257 100 1000;
-#X text 39 186 The 'set' message sets a number but doesn't generate
+#X floatatom 136 289 5 10 1000 0 - - -;
+#X msg 136 312 set \$1;
+#X floatatom 136 400 0 0 0 0 - - -;
+#X obj 136 376 cyclone/snapshot~ 100;
+#X floatatom 195 290 5 10 1000 0 - - -;
+#X msg 195 313 ft1 \$1;
+#X msg 57 261 0 500;
+#X msg 101 262 100 1000;
+#X text 49 191 The 'set' message sets a number but doesn't generate
 the signal. A list sets a value and a ramp time. The 'ft1' message
 sets ramp time., f 35;
-#X obj 347 104 cyclone/number~ 1;
+#X obj 359 115 cyclone/number~ 1;
 #A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
-#X text 296 11 The 'min' and 'max' message sets the minimum and maximum
+#X text 308 22 The 'min' and 'max' message sets the minimum and maximum
 possible values., f 36;
-#X msg 347 53 min 10 \, max 50;
-#X msg 361 76 min -100 \, max 100;
-#X floatatom 341 225 5 0 255 0 - - -;
-#X floatatom 399 225 5 0 255 0 - - -;
-#X floatatom 458 225 5 0 255 0 - - -;
-#X obj 341 248 cyclone/pak 60 68 68;
-#X obj 341 338 prepend bgcolor;
-#X msg 365 305 set textcolor;
-#X msg 356 280 set bgcolor;
-#X text 328 151 The 'bgcolor' and 'textcolor' messages set \, respectively
-\, background and foreground colors in RGB., f 30;
-#X text 327 225 R;
-#X text 386 225 G;
-#X text 445 225 B;
-#X obj 341 372 number~;
+#X floatatom 353 236 5 0 255 0 - - -;
+#X floatatom 411 236 5 0 255 0 - - -;
+#X floatatom 470 236 5 0 255 0 - - -;
+#X obj 353 259 cyclone/pak 60 68 68;
+#X msg 377 316 set textcolor;
+#X msg 368 291 set bgcolor;
+#X text 340 162 The 'bgcolor' and 'textcolor' messages set \, respectively
+\, background and foreground colors in RGB., f 29;
+#X text 339 236 R;
+#X text 398 236 G;
+#X text 457 236 B;
+#X obj 353 383 number~;
 #A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
+#X msg 359 64 minimum 10 \, maximum 50;
+#X msg 373 87 minimum -100 \, maximum 100;
+#X obj 353 349 cyclone/prepend bgcolor;
+#X text 445 289 <= background;
+#X text 466 315 <= textcolor;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 2 0;
@@ -141,15 +143,15 @@ possible values., f 36;
 #X connect 12 0 6 0;
 #X connect 13 0 6 0;
 #X connect 14 0 6 0;
-#X connect 18 0 16 0;
-#X connect 19 0 16 0;
-#X connect 20 0 23 0;
-#X connect 21 0 23 1;
-#X connect 22 0 23 2;
-#X connect 23 0 24 0;
-#X connect 24 0 31 0;
-#X connect 25 0 24 0;
-#X connect 26 0 24 0;
+#X connect 18 0 21 0;
+#X connect 19 0 21 1;
+#X connect 20 0 21 2;
+#X connect 21 0 31 0;
+#X connect 22 0 31 0;
+#X connect 23 0 31 0;
+#X connect 29 0 16 0;
+#X connect 30 0 16 0;
+#X connect 31 0 28 0;
 #X restore 500 235 pd set;
 #X text 159 334 ft1 <float>;
 #X text 129 347 interval <float>;
