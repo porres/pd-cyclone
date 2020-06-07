@@ -20,7 +20,7 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 -------
 
-Current Release: Cyclone 0.5 (this release needs at least Pd Vanilla 0.51)
+Current Release: Cyclone 0.5-0 (this release needs at least Pd Vanilla 0.51-0)
 
 Unreleased
 
@@ -29,13 +29,13 @@ Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases
 -------
 ### About Cyclone:
 
-Cyclone 0.5 needs at least Pd Vanilla 0.51 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
+Cyclone 0.5-0 needs at least Pd Vanilla 0.51-0 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
 
-Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data. Pd-Extended carries older 0.1 versions and Purr Data still carries the outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data). The latest versions of cyclone (0.3 onwards) are only fully supported in Pd Vanilla so far. 
+Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data. Pd-Extended carries older 0.1 versions and Purr Data still carries an outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data). The latest versions of cyclone (0.3-0 onwards) are only fully supported in Pd Vanilla so far. 
 
-The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1alpha' releases and mostly compliant to Max 4.0!
+The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1-alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1-alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1-alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1-alpha' releases and mostly compliant to Max 4.0!
 
-Cyclone 0.3 was the major overhaul in cyclone, which got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Here's the aftermath:
+Cyclone 0.3-0 was the major overhaul in cyclone, which got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Here's the aftermath:
 
 - 62 updated objects;
 - 65 fixed objects (including updated objects);
@@ -44,7 +44,7 @@ Cyclone 0.3 was the major overhaul in cyclone, which got updated to the latest M
 
 Check the provided CHANGELOG.txt file for the details in all version changes.
 
-Cyclone 0.5 is still not compatible to Max 8, but functionalities added in cyclone objects in Max 8 can be included in future versions of Cyclone.
+Cyclone 0.5-0 is still not compatible to Max 8, but functionalities added in cyclone objects in Max 8 can be included in future versions of Cyclone.
 
 -------
 
@@ -52,7 +52,7 @@ Cyclone 0.5 is still not compatible to Max 8, but functionalities added in cyclo
 
 You can compile Cyclone from the source provided in this repository for the current bleeding edge last state or download one of the more stable compiled releases from <https://github.com/porres/pd-cyclone/releases>. A good alternative is simply to use Pd's own external download manager (a.k.a deken plugin), just click on the "find externals" option under the Help menu and search for Cyclone.
 
-When installing cyclone, make sure the Cyclone folder is included in a folder that Pd searches for, such as `~/Documents/Pd/externals` - which is what Pd suggests you to do (since version 0.48).
+When installing cyclone, make sure the Cyclone folder is included in a folder that Pd searches for, such as `~/Documents/Pd/externals` - which is what Pd suggests you to do (since version 0.48-0).
 
 Now you can install Cyclone by loading it in the startup: go to "Preferences => Startup", then click "New", type "Cyclone" and hit OK. Next time you restart Pd, the Cyclone library binary will be loaded.
 
@@ -72,7 +72,8 @@ Since "Cyclone 0.1-alpha57", the Cyclone package has relied on the new build sys
 
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
-<pre>make pdincludepath=~/pd-0.51/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.51/bin/)</pre>
+<pre>make pdincludepath=~/pd-0.51-0/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.51-0/bin/)</pre>
+
 * Make Install
 
 Use "objectsdir" to set a relative path for your build, something like:
@@ -195,9 +196,9 @@ Excerpt from Cyclone's original Readme (by its original author Krzysztof Czaja):
 
 * "Cyclone is a library of Pure Data classes, bringing some level of compatibility between Max/MSP and Pd environments. Although being itself in the early stage of development, it is meant to eventually become part of a much larger project, aiming at unification and standardization of computer musician's tools. In its current form, cyclone is mainly for people using both Max and Pd, and thus wanting to develop cross-platform patches. (...)." The full original readme is provided in this repository at: <https://github.com/porres/pd-cyclone/blob/master/maintenance/README_original.txt>
 
-Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended and eventually ended up under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release (from Jan 2013), Cyclone and miXed were left unmaintained as a result. In Dec-2014, Fred Jan Kraan took over maintainance and development for cyclone (but not the rest of the miXed library) and released 0.1alpha57 and Cyclone 0.2 beta versions, but decided to abandon development for it in Feb-2016.
+Cyclone's original author Krzysztof Czaja worked on it as part of his miXed library from 2002 to 2005 and later abandoned it all together. In parallel, miXed had been incorporated into Pd Extended and eventually ended up under the maintenance of Hans-Christoph Steiner - the main developer and maintainer of Pd-Extended. When Pd Extended was abandoned after its last release (from Jan 2013), Cyclone and miXed were left unmaintained as a result. In Dec-2014, Fred Jan Kraan took over maintainance and development for cyclone (but not the rest of the miXed library) and released 0.1-alpha57 and Cyclone 0.2 beta versions, but decided to abandon development for it in Feb-2016.
 
-Since February 21st 2016, further development for Cyclone started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators. The first stable release was Cyclone 0.3 from february 2019!
+Since February 21st 2016, further development for Cyclone started on this repository by Alexandre Porres, Derek Kwan, Matt Barber and other collaborators. The first stable release was Cyclone 0.3-0 from february 2019!
 
 #### About Cyclone's Repositories and its Fork History:
 
@@ -205,26 +206,26 @@ Since February 21st 2016, further development for Cyclone started on this reposi
 The original repository of MiXed as part of Pd Extended - containing Cyclone and more (such as 'toxy') - resides at <https://svn.code.sf.net/p/pure-data/svn/trunk/externals/miXed/cyclone> and the migrated repository: <https://git.puredata.info/cgit/svn2git/libraries/miXed.git/>. This repository embraces work from three different maintainance phases: 
 
 - Czaja's era (until 2005 and up to 0.1-Alpha55): Czaja (the original author) worked on Cyclone from version 01-alpha-01 (2002) to 0.1-alpha-55 (2005). 
-- Hans era (until 2013 and 0.1-Alpha-56): Hans maintained Cyclone from 2005 to 2013. The 0.1-Alpha55 version of Cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43.4 from Jan-2013 and it carries the 0.1-Alpha56 version of Cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in Pd Vanilla.
+- Hans era (until 2013 and 0.1-Alpha-56): Hans maintained Cyclone from 2005 to 2013. The 0.1-Alpha55 version of Cyclone is found in most of Pd-Extended versions up to Pd-Extended 0.42-5. The last release of Pd-Extended is 0.43-4 from Jan-2013 and it carries the 0.1-Alpha56 version of Cyclone, which can also be found as "cyclone-v0-0extended" when searching for externals in Pd Vanilla.
 - Kraan era (up to 2015): The later work in this repository was not made available into a new release from this repository.
 
-=> Fred Jan Kraan's Repository (0.1-Alpha-57 and 0.2beta):
+=> Fred Jan Kraan's Repository (0.1-Alpha57 and 0.2-beta):
 
-Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with Cyclone version 0.1alpha-57, from October 2015, which is basically the last developments made on the original repository in its last phase. Then it moves on to a new Cyclone 0.2 version which stopped at a beta stage in february 2016.
+Fred Jan Kraan forked the original repository to <https://github.com/electrickery/pd-miXedSon>, but containing only the Cyclone library. This repository has a few releases - see https://github.com/electrickery/pd-miXedSon/releases - it starts with Cyclone version 0.1-alpha-57, from October 2015, which is basically the last developments made on the original repository in its last phase. Then it moves on to a new Cyclone 0.2 version which stopped at a beta stage in february 2016.
 
-=> This Repository (0.3 and onwards):
+=> This Repository (0.3-0 and onwards):
 
-In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon to this repositry that resides at: https://github.com/porres/pd-cyclone. The fork happened while cyclone was at 0.2beta1 stage. Since then, Alexandre Porres, Derek Kwan, Matt Barber and other collaborators have worked on further developments of cyclone. The first stable release from this repository was cyclone 0.3 from february 2019.
+In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon to this repositry that resides at: https://github.com/porres/pd-cyclone. The fork happened while cyclone was at 0.2-beta1 stage. Since then, Alexandre Porres, Derek Kwan, Matt Barber and other collaborators have worked on further developments of cyclone. The first stable release from this repository was cyclone 0.3-0 from february 2019.
 
 => The 'nilwind' fork:
 
-The 'nilwind' library is a fork of cyclone and it starts as a fork of the last stage <https://github.com/electrickery/pd-miXedSon> was left at. The nilwind's repository is at https://github.com/electrickery/pd-nilwind. It's first release is 'nilwind 0.2.1', from November 2019, which is a development over cyclone 0.2 beta. This fork of cyclone does not aim to pursue updates according to newer versions of Max and its main concern is to keep compatibility to patches made in the Pd-Extended era. 
+The 'nilwind' library is a fork of cyclone and it starts as a fork of the last stage <https://github.com/electrickery/pd-miXedSon> was left at. The nilwind's repository is at https://github.com/electrickery/pd-nilwind. It's first release is 'nilwind 0.2.1', from November 2019, which is a development over cyclone 0.2-beta. This fork of cyclone does not aim to pursue updates according to newer versions of Max and its main concern is to keep compatibility to patches made in the Pd-Extended era. 
 
 -------
 
 ### About This Repository's Goals:
 
-This repository is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. Releases from this repository are stable and offer many fixes and improves stability from earlier versions. Compatibility to newer versions of Max is a concern, but Max compatibility was always the main goal of cyclone and nothing really changed. No incompatibilities should arise between cyclone 0.3 onwards with earlier versions. This development stage of cyclone is also concerned to provide compatibility for patches made in the Pd-Extended era. If a regression bug has occurred, please report it at <https://github.com/porres/pd-cyclone/issues>.
+This repository is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. Releases from this repository are stable and offer many fixes and improves stability from earlier versions. Compatibility to newer versions of Max is a concern, but Max compatibility was always the main goal of cyclone and nothing really changed. No incompatibilities should arise between cyclone 0.3-0 onwards with earlier versions. This development stage of cyclone is also concerned to provide compatibility for patches made in the Pd-Extended era. If a regression bug has occurred, please report it at <https://github.com/porres/pd-cyclone/issues>.
 
 ### Collaborating to Cyclone:
 

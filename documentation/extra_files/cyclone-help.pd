@@ -1,4 +1,4 @@
-#N canvas 579 41 563 574 10;
+#N canvas 579 41 562 575 10;
 #X declare -lib cyclone;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -20,13 +20,8 @@
 255 255 0 0 The Cyclone library;
 #X obj 158 12 cyclone/comment 0 23 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 (library);
-#X text 63 236 If you create the cyclone external object \, it loads
-the library so you can load the operator externals \, but the object
-itself doesn't do anything and only accepts the "about" message \,
-which prints basic information (objects \, version \, release date)
-on the terminal., f 71;
-#X obj 254 433 cyclone/cyclone;
-#X msg 254 408 about;
+#X obj 220 442 cyclone/cyclone;
+#X msg 220 417 about;
 #X text 75 473 For more information on the loaded objects \, check:
 ;
 #X obj 3 547 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
@@ -42,8 +37,8 @@ objects with non-alphanumeric names that need to be loaded as a library
 to avoid issues in certain file systems. But alias versions of these
 objects with alphanumeric names are also available as separate binaries
 outside the [cyclone] library., f 71;
-#X obj 301 326 declare -lib cyclone;
-#X text 66 293 You can load the cyclone library via "Startup". Alternatively
+#X obj 299 261 declare -lib cyclone;
+#X text 64 231 You can load the cyclone library via "Startup". Alternatively
 \, you can use [declare] as follows:, f 62;
 #N canvas 604 130 484 477 operators 0;
 #X text 34 145 Comparatives:;
@@ -96,9 +91,15 @@ outside the [cyclone] library., f 71;
 come from a single binary pack \, it is also possible to load them
 with the "cyclone/" prefix., f 56;
 #X restore 387 472 pd operators;
-#X text 68 355 Check declare's help file for more information.;
-#X text 68 379 And see https://github.com/porres/pd-cyclone/wiki/How-To-Install
+#X text 66 290 Check declare's help file for more information.;
+#X text 66 314 And see https://github.com/porres/pd-cyclone/wiki/How-To-Install
 for more details., f 64;
 #X text 99 513 Check "All About Cyclone" =>;
 #X obj 282 513 cyclone/All_about_cyclone;
-#X connect 11 0 10 0;
+#X text 61 349 If you create the cyclone external object \, it also
+loads the library \, but you shouldn't load it this way! The object
+itself doesn't do anything and only accepts the "about" message \,
+which prints basic information (objects \, version \, release date)
+on the terminal and outputs the cyclone version as a list of major
+\, minor \, bugfix., f 71;
+#X connect 10 0 9 0;
