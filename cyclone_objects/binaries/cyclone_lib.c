@@ -633,7 +633,7 @@ static int min_bugfix = 0;
 
 static int cyclone_major = 0;
 static int cyclone_minor = 5;
-static int cyclone_bugfix = 0;
+static int cyclone_bugfix = 1;
 
 void print_cyclone(t_cyclone *x){
     char cyclone_dir[MAXPDSTRING];
