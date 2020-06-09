@@ -95,8 +95,8 @@ that may require adapting older patches.;
 #X text 57 24 In the default bipolar mode \, [average~] also acts as
 a regular moving average filter \, which is a kind of lowpass filter.
 Listen to the difference below.;
-#X obj 238 229 ./out2~;
-#X obj 114 229 ./out2~;
+#X obj 238 229 ./out~;
+#X obj 114 229 ./out~;
 #X connect 0 0 1 0;
 #X connect 0 0 4 0;
 #X connect 0 0 4 1;

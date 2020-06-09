@@ -94,7 +94,7 @@ you specify less or more than that \, the actual value will be clipped
 to those min/max values.;
 #X obj 39 268 cyclone/scope~ 95 66 256 3 128 -1 1 0 0 0 0 205 229 232
 74 79 77 96 98 102 0;
-#X obj 133 375 ./out2~;
+#X obj 133 375 ./out~;
 #X obj 155 338 cyclone/lookup~ \$0-violin;
 #X connect 2 0 14 1;
 #X connect 3 0 14 2;
@@ -119,7 +119,7 @@ cloned from Max/MSP;
 #X obj 122 254 cyclone/lookup~ \$0-violin;
 #X obj 122 206 osc~ 0.075;
 #X text 204 199 start point, f 6;
-#X obj 122 289 ./out2~;
+#X obj 122 289 ./out~;
 #N canvas 788 242 435 447 buffer~ 0;
 #X msg 130 132 open;
 #X text 28 19 The [lookup~] object works with any kind of array set
@@ -134,7 +134,7 @@ channel [buffer~] object \, [lookup~] can only read its first channel.
 #X obj 219 209 hsl 128 15 0.1 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 250 209 Amplitude, f 10;
-#X obj 94 362 ./out2~;
+#X obj 94 362 ./out~;
 #X obj 108 159 cyclone/buffer~ \$0-shape2 @samps 4096;
 #X obj 117 320 cyclone/lookup~ \$0-shape2 0 4096;
 #X obj 117 244 osc~ 50;
@@ -187,7 +187,7 @@ to the table's indexes.;
 #X obj 130 206 cyclone/lookup~ \$0-shape 1 4096;
 #X text 44 404 transfer function:;
 #X obj 35 16 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Waveshaping;
-#X obj 87 288 ./out2~;
+#X obj 87 288 ./out~;
 #X text 24 48 Here's an example of waveshaping on a sine wave for synthesis.
 ;
 #X connect 2 0 12 0;
@@ -393,7 +393,7 @@ to the table's indexes.;
 #X coords 0 1 511 -1 150 100 1 0 0;
 #X restore 40 307 graph;
 #X obj 267 278 cyclone/lookup~ \$0-linear;
-#X obj 267 316 out2~;
+#X obj 267 316 out~;
 #X obj 329 223 pack s \$0;
 #X msg 282 187 linear;
 #X msg 329 242 set \$2-\$1;

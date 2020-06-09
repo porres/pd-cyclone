@@ -121,7 +121,7 @@ values from "1" (linear) to "1.2".;
 #X connect 10 0 1 0;
 #X restore 419 257 pd exponential curve;
 #N canvas 898 201 436 481 example 0;
-#X obj 114 259 ./out2~, f 7;
+#X obj 114 259 ./out~, f 7;
 #X obj 155 165 line~;
 #X obj 140 209 *~;
 #X obj 158 73 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -228856

@@ -694,7 +694,7 @@ is set before to other than 0 in the mid inlet);
 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
 0 255 255 255 0 0 cyclone;
-#X obj 52 247 ./out2~;
+#X obj 52 247 ./out~;
 #X text 398 269 see also:;
 #X obj 461 270 cyclone/line~;
 #X obj 188 207 cyclone/scope~ 147 114 256 3 128 0 1 0 0 0 0 205 229

@@ -152,7 +152,7 @@ A non-zero value turns the counter on \, a zero value stops it.;
 ;
 #X obj 424 141 table \$0-violin;
 #X obj 56 196 cyclone/count~ 0 290645 1 1;
-#X obj 35 276 ./out2~;
+#X obj 35 276 ./out~;
 #X obj 56 227 cyclone/index~ \$0-violin;
 #X text 49 80 resets counter to min if DSP is turned on;
 #X connect 0 0 12 0;

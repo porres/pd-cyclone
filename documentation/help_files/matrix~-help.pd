@@ -149,7 +149,7 @@ cloned from Max/MSP;
 #X text 44 104 input:;
 #X msg 147 57 ramp 100;
 #X obj 177 182 cyclone/matrix~ 4 2 1 @ramp 1000;
-#X obj 177 219 ./out2~;
+#X obj 177 219 ./out~;
 #X msg 177 107 print;
 #X text 246 67 basic binary mode operation;
 #X connect 1 0 24 0;
@@ -259,8 +259,8 @@ connection in "non-binary" mode \, you must use three- or four-element
 list messages rather than the <connect> message.;
 #X obj 77 46 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Binary & Non-binary
 mode:;
-#X obj 462 393 ./out2~;
-#X obj 455 165 ./out2~;
+#X obj 462 393 ./out~;
+#X obj 455 165 ./out~;
 #X obj 462 356 cyclone/matrix~ 4 1 1 @ramp 1000;
 #X text 32 200 - in "non-binary" mode (requires more CPU time) \, each
 connection has a variable linear gain (0-1). When you send a list in

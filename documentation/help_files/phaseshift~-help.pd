@@ -360,7 +360,7 @@ the original \, which cancels frequencies by phase opposition., f
 0 255 255 255 0 0 cyclone;
 #X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 phaseshift~;
-#X obj 45 306 ./out2~;
+#X obj 45 306 ./out~;
 #X text 83 82 [phaseshift~] is a 2nd allpass filter \, which keeps
 the gain and only alters the phase from 0 (at 0 hz) to 360º (at the
 Nyquist frequency). The frequency at which it shifts to 180º is specified

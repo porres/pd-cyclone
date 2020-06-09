@@ -142,7 +142,7 @@ other than "0" via the second inlet., f 64;
 #X text 147 306 0;
 #X obj 40 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Linear envelope:
 ;
-#X obj 26 245 ./out2~;
+#X obj 26 245 ./out~;
 #X connect 0 0 1 0;
 #X connect 1 0 11 0;
 #X connect 1 0 11 1;

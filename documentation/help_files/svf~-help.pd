@@ -131,9 +131,9 @@ is closer to our logarithmic perception of pitch., f 63;
 #X msg 569 301 radians;
 #X obj 20 18 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Frequency input modes
 ;
-#X obj 541 153 ./out2~;
-#X obj 576 393 ./out2~;
-#X obj 139 397 ./out2~;
+#X obj 541 153 ./out~;
+#X obj 576 393 ./out~;
+#X obj 139 397 ./out~;
 #X connect 5 0 30 0;
 #X connect 7 0 6 0;
 #X connect 7 0 30 1;
@@ -164,7 +164,7 @@ is closer to our logarithmic perception of pitch., f 63;
 #X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 163 261 ./out2~;
+#X obj 163 261 ./out~;
 #X text 52 84 [svf~] implements Chamberlin's state-variable filter
 algorithm \, which outputs lowpass \, highpass \, bandpass \, and band
 reject (notch) simultaneously in parallel (in this order from left

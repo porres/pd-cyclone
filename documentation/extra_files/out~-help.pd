@@ -1,4 +1,4 @@
-#N canvas 722 166 566 521 10;
+#N canvas 694 55 562 511 10;
 #X obj 3 486 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
 #X obj 3 254 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
@@ -13,7 +13,7 @@
 -162280 0;
 #X text 130 262 signal;
 #X text 130 384 signal;
-#X obj 255 156 osc~ 440;
+#X obj 258 156 osc~ 440;
 #X text 180 463 - scaling mode: 0 (quartic \, default) \, 1 (dB) or
 2 (linear), f 60;
 #N canvas 522 161 803 382 examples 0;
@@ -53,38 +53,36 @@ slider value input in the right outlet.;
 -1 -1 0 1;
 #X text 623 198 maximum gain;
 #X obj 604 328 s \$0-set;
-#X obj 380 266 r \$0-set;
+#X obj 456 274 r \$0-set;
 #X msg 166 209 set \$1;
-#X obj 90 308 ./out2~;
-#X obj 440 302 ./out2~;
-#X text 406 11 [out2~] has 3 scaling modes for its slider (the default
+#X text 20 65 If the DSP is on when you load [out2~] \, it checks the
+DSP state and loads the GUI accordingly.;
+#X text 18 22 [out~] allows you to switch the DSP engine on or off
+\, dac~ output on or off and mute/unmute without any clicks!;
+#X text 406 11 [out~] has 3 scaling modes for its slider (the default
 is "quartic"). You can set a linear gain multiplier \, which needs
 to be greater than zero and also represents the maximum linear gain
 achieved.;
-#X text 18 22 [out2~] allows you to switch the DSP engine on or off
-\, dac~ output on or off and mute/unmute without any clicks!;
-#X text 20 65 If the DSP is on when you load [out2~] \, it checks the
-DSP state and loads the GUI accordingly.;
+#X obj 90 308 ./out~;
+#X obj 440 302 ./out~;
 #X connect 0 0 1 0;
 #X connect 1 0 28 0;
-#X connect 3 0 29 0;
-#X connect 4 0 29 0;
-#X connect 7 0 29 0;
-#X connect 7 0 29 1;
+#X connect 3 0 32 0;
+#X connect 4 0 32 0;
+#X connect 7 0 32 0;
 #X connect 8 0 26 0;
 #X connect 9 0 12 0;
 #X connect 12 0 8 0;
-#X connect 13 0 30 0;
-#X connect 13 0 30 1;
+#X connect 13 0 33 0;
 #X connect 16 0 26 0;
 #X connect 17 0 16 0;
-#X connect 18 0 29 0;
+#X connect 18 0 32 0;
 #X connect 22 0 26 0;
 #X connect 23 0 22 0;
 #X connect 24 0 23 0;
-#X connect 27 0 30 0;
-#X connect 28 0 29 0;
-#X restore 468 190 pd examples;
+#X connect 27 0 33 0;
+#X connect 28 0 32 0;
+#X restore 473 190 pd examples;
 #X text 118 293 <on/off>;
 #X text 94 343 gain <float>;
 #X text 94 360 ramp <float>;
@@ -99,9 +97,9 @@ DSP state and loads the GUI accordingly.;
 #X text 180 384 - incoming signal routed to right channel output: [dac~
 2], f 60;
 #X text 180 277 - sets slider (range is clipped to 0-1), f 60;
-#X text 149 224 click & drag ===>;
-#X text 164 204 DSP toggle ==>;
-#X text 357 205 <= Mute button;
+#X text 152 224 click & drag ===>;
+#X text 167 204 DSP toggle ==>;
+#X text 360 205 <= Mute button;
 #X text 180 293 - turns DSP Engine (Compute Audio) On or Off, f 60
 ;
 #X text 142 326 mute;
@@ -348,34 +346,29 @@ of the scaling mode. For example \, "2" will output the double of the
 input amplitude \, and "0.5" half of it. This is useful if your input
 isn't loud enough \, if it is too high or even if you're using multiple
 [out~] objects as they all add to the same output.;
-#X obj 441 225 else/db2lin;
-#X obj 463 344 ./out2~;
+#X obj 441 225 cyclone/dbtoa;
+#X obj 463 344 ./out~;
 #X connect 23 0 35 0;
-#X connect 23 0 35 1;
 #X connect 24 0 35 0;
 #X connect 25 0 34 0;
 #X connect 26 0 24 0;
 #X connect 27 0 26 0;
 #X connect 34 0 26 0;
-#X restore 462 213 pd scaling \; modes & gain;
+#X restore 467 213 pd scaling \; modes & gain;
 #X text 100 277 set <float>;
-#X obj 342 156 osc~ 660;
-#X text 86 88 [out2~] is a convenient stereo input/output abstraction.
-It has controls for mute \, DSP on/off \, ramp time \, maximum gain
-and scaling mode.;
-#X obj 16 135 cnv 15 215 50 empty empty empty 20 12 0 14 -252523 -66577
+#X obj 345 156 osc~ 660;
+#X obj 15 137 cnv 15 228 50 empty empty empty 20 12 0 14 -252523 -66577
 0;
-#X text 20 138 Though used and provided in cyclone's documentation
+#X text 16 138 Though used and provided in cyclone's documentation
 \, [out2~] is an "extra" from another library (ELSE) and NOT a max/msp
 clone or part of cyclone!!!, f 37;
-#X obj 255 189 ./out2~ 1 0;
 #X obj 4 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
 #X restore 4 4 graph;
 #X obj 18 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 out2~;
+255 255 0 0 out~;
 #X obj 19 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 Extra: Stereo Output;
 #X obj 307 5 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
@@ -395,6 +388,10 @@ clone or part of cyclone!!!, f 37;
 0;
 #X obj 503 27 cnv 10 10 10 empty empty library 0 6 2 13 -128992 -233080
 0;
-#X connect 8 0 37 0;
-#X connect 33 0 37 1;
-#X coords 0 521 1 520 74 39 0;
+#X text 88 85 [out~] is a convenient stereo input/output abstraction.
+It has controls for mute \, DSP on/off \, ramp time \, maximum gain
+and scaling mode.;
+#X obj 258 189 ./out~ 1 0;
+#X connect 8 0 49 0;
+#X connect 33 0 49 1;
+#X coords 0 511 1 510 74 39 0;

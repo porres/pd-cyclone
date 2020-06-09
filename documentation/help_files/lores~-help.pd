@@ -69,7 +69,7 @@ filter;
 #X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
 cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 186 310 ./out2~;
+#X obj 186 310 ./out~;
 #X obj 152 209 noise~;
 #X connect 17 0 30 2;
 #X connect 18 0 17 0;
