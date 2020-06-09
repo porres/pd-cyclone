@@ -10,6 +10,8 @@ cyclone 0.5-0 (needs at least Pd Vanilla 0.51-0):
 
 (*) these classes need the 'cyclone/' prefix to avoid name clashes with vanilla internals - see help file for more information.
 
+- when loaded as an object, the 'cyclone' library now also outputs the version number. You can use this to make sure your patch has the right version.
+
 - Fixed a bug in active where it was reporting inactivity when right clicking on the canvas in Linux.
 
 - Fixed a bug in [zl delace] where it only worked in macOS and not in Windows/Linux
