@@ -59,8 +59,8 @@
 ;
 #X text 80 352 textjustification <f>;
 #N canvas 534 83 874 563 details 0;
-#X obj 158 295 cyclone/comment 0 50 Dejavu\ Sans\ Cu ? 0 0 0 0 0 100
-150 100 0 0 Comment;
+#X obj 158 295 cyclone/comment 0 50 times ? 0 0 0 0 0 100 150 100 0
+0 Comment;
 #X text 451 415 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
 into a Pd's comment box., f 65;
@@ -146,22 +146,23 @@ then it it can't receive messages anymore., f 73;
 #X connect 32 0 0 0;
 #X connect 33 0 0 0;
 #X restore 479 188 pd details;
-#N canvas 760 98 493 396 more 0;
-#X obj 123 258 cyclone/comment 161 20 helvetica ? 0 0 0 0 0 200 200
+#N canvas 760 98 493 429 more 0;
+#X obj 140 279 cyclone/comment 164 20 helvetica ? 0 0 0 0 0 200 200
 200 1 1 The comment can be justified in different ways;
-#X msg 123 220 textjustification \$1;
-#X obj 123 138 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+#X msg 140 241 textjustification \$1;
+#X obj 140 159 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 1;
-#X floatatom 123 195 3 0 0 0 - - -;
-#X text 141 137 left;
-#X text 141 152 center;
-#X text 141 168 right;
-#X text 61 31 By default \, [comment] has a width limit of 425 pixels
+#X floatatom 140 216 3 0 0 0 - - -;
+#X text 158 158 left;
+#X text 158 173 center;
+#X text 158 189 right;
+#X text 61 40 By default \, [comment] has a width limit of 425 pixels
 (like Pd's comment). This breaks the comment in different lines after
 you pass it. You can change this limit while in edit mode by clicking
-at the end of the comment and dragging. When you have more than one
-line \, you can set a justification parameter. For just one line \,
-this is irrelevant., f 63;
+at the end of the comment and dragging. This is tricky and hard to
+spot and will be improved hopefully soon., f 63;
+#X text 60 105 When you have more than one line \, you can set a justification
+parameter. For just one line \, this is irrelevant., f 63;
 #X connect 1 0 0 0;
 #X connect 2 0 3 0;
 #X connect 3 0 1 0;
