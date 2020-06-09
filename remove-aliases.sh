@@ -1,0 +1,2 @@
+EXTENSION="pd_linux"
+rm Append.$EXTENSION Append-help.pd Bucket.$EXTENSION Bucket-help.pd Clip.$EXTENSION Clip-help.pd Decode.$EXTENSION Decode-help.pd Histo.$EXTENSION Histo-help.pd MouseState.$EXTENSION MouseState-help.pd Peak.$EXTENSION Peak-help.pd Table.$EXTENSION Table-help.pd TogEdge.$EXTENSION TogEdge-help.pd Trough.$EXTENSION Trough-help.pd Uzi.$EXTENSION Uzi-help.pd Clip~.$EXTENSION Clip~-help.pd Line~.$EXTENSION Line~-help.pd Scope~.$EXTENSION Scope~-help.pd Snapshot~.$EXTENSION Snapshot~-help.pd 
