@@ -91,7 +91,6 @@ static void comment_draw_inlet(t_comment *x){
 }
 
 static void comment_draw_bg(t_comment *x){
-    sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
     sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n", (unsigned long)x->x_cv,
         x->x_x1, x->x_y1, x->x_x2 + x->x_zoom, x->x_y2 + x->x_zoom, (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
 }
@@ -133,6 +132,7 @@ static void comment_draw(t_comment *x){
 }
 
 static void comment_redraw(t_comment *x, int bg){
+    sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
     sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
     if(bg)
         comment_draw_bg(x);
