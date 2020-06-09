@@ -317,10 +317,6 @@ textcolor, f 116;
 #X obj 318 108 route float;
 #X obj 455 130 b;
 #X obj 365 163 b;
-#X obj 464 47 list;
-#X obj 468 14 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 509 88 display;
 #X connect 0 0 1 0;
 #X connect 2 0 6 0;
 #X connect 3 0 5 0;
@@ -342,15 +338,12 @@ textcolor, f 116;
 #X connect 15 1 14 0;
 #X connect 16 0 11 0;
 #X connect 16 1 15 0;
-#X connect 16 1 20 1;
 #X connect 17 0 6 0;
 #X connect 17 1 19 0;
 #X connect 18 0 12 0;
 #X connect 18 0 7 0;
 #X connect 19 0 8 0;
 #X connect 19 0 12 0;
-#X connect 20 0 22 0;
-#X connect 21 0 20 0;
 #X restore 223 259 pd range;
 #X obj 121 350 expr $f1 != 0;
 #X connect 0 0 7 0;
@@ -412,7 +405,7 @@ textcolor, f 116;
 #X text 451 341 https://github.com/porres/pd-cyclone;
 #X text 451 303 porres \, 2017-2020:;
 #X msg 61 294 range 0 0;
-#X obj 117 100 nbx 8 17 0 0 0 0 \$0-send-nbx \$0-receive-nbx empty
+#X obj 117 100 nbx 8 17 -inf inf 0 0 \$0-send-nbx \$0-receive-nbx empty
 0 0 0 12 -41806 -262144 -188416 0 256;
 #X connect 0 0 1 0;
 #X connect 2 0 9 0;

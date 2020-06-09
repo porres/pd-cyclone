@@ -34,7 +34,7 @@
 /* ------------------------------ [!-] AND [!/]  ------------------------------ */
 
 typedef struct _rev_op{
-    t_object  x_ob;
+    t_object  x_obj;
     t_float   x_f1;
     t_float   x_f2;
 }t_rev_op;
@@ -620,7 +620,7 @@ static void *plusequals_new(t_floatarg f)
 //////// Cyclone object
 
 typedef struct cyclone{
-    t_object t_ob;
+    t_object x_obj;
 }t_cyclone;
 
 t_class *cyclone_class;
@@ -648,12 +648,12 @@ void print_cyclone(t_cyclone *x){
     post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.");
     post(":: ---------------------------------------------------------------------------");
     if(min_major >= major && min_minor >= minor && min_bugfix >= bugfix)
-        post(":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, you're good!)",
+        post(":: Cyclone %d.%d-%d needs at least Pd %d.%d-%d (you have %d.%d-%d, you're good!)",
              cyclone_major, cyclone_minor, cyclone_bugfix,
              min_major, min_minor, min_bugfix,
              major, minor, bugfix);
     else
-        pd_error(x, ":: Cyclone %d.%d.%d needs at least Pd %d.%d-%d (you have %d.%d-%d, please upgrade!)",
+        pd_error(x, ":: Cyclone %d.%d-%d needs at least Pd %d.%d-%d (you have %d.%d-%d, please upgrade!)",
             cyclone_major, cyclone_minor, cyclone_bugfix,
             min_major, min_minor, min_bugfix,
             major, minor, bugfix);
@@ -670,13 +670,24 @@ static void cyclone_about(t_cyclone *x){
     print_cyclone(x);
 }
 
+static void cyclone_version(t_cyclone *x){
+    int ac = 3;
+    t_atom at[ac];
+    SETFLOAT(at, cyclone_major);
+    SETFLOAT(at+1, cyclone_minor);
+    SETFLOAT(at+2, cyclone_bugfix);
+    outlet_list(x->x_obj.te_outlet,  &s_list, ac, at);
+}
+
+
 static void *cyclone_new(void){
     t_cyclone *x = (t_cyclone *)pd_new(cyclone_class);
     if(!printed){
         cyclone_about(x);
         printed = 1;
     }
-    return (x);
+    outlet_new((t_object *)x, 0);
+    return(x);
 }
 
 /* ----------------------------- SETUP ------------------------------ */
@@ -687,20 +698,17 @@ void setup_single_lib();
 CYCLONE_API void cyclone_setup(void)
 {
     cyclone_class = class_new(gensym("cyclone"), cyclone_new, 0, sizeof(t_cyclone), 0, 0);
-    class_addmethod(cyclone_class, (t_method)cyclone_about, gensym("about"), 0);
-    
     t_cyclone *x = (t_cyclone *)pd_new(cyclone_class);
-
+    class_addmethod(cyclone_class, (t_method)cyclone_about, gensym("about"), 0);
+    class_addmethod(cyclone_class, (t_method)cyclone_version, gensym("version"), 0);
     char cyclone_dir[MAXPDSTRING];
     strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     char encoded[MAXPDSTRING+1];
     sprintf(encoded, "+%s", cyclone_dir);
-
     t_atom ap[2];
     SETSYMBOL(ap, gensym(encoded));
     SETFLOAT (ap+1, 0.f);
     pd_typedmess(gensym("pd")->s_thing, gensym("add-to-path"), 2, ap);
-
    if(!printed){
        print_cyclone(x);
        printed = 1;

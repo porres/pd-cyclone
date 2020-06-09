@@ -3,7 +3,7 @@
 ---------------------------------------------------
 
 --------------------------------------------------
-cyclone 0.5 (needs at least Pd Vanilla 0.51-0):
+cyclone 0.5-0 (needs at least Pd Vanilla 0.51-0):
 --------------------------------------------------
 
 - Re-added support for capital letters aliases - this is for backwards compatibility and now the object prints and error telling the user to change to the new name. The affected objects are: cyclone/append (*); bucket; cyclone/clip (*); decode; histo; mousestate; peak; cyclone/table (*); togedge; trough; uzi; cyclone/clip~ (*); cyclone/line~ (*); scope~; cyclone/snapshot~ (*)
@@ -29,7 +29,7 @@ cyclone 0.5 (needs at least Pd Vanilla 0.51-0):
    F- Also added 'textjustification' from Max6. This object isn't fully compliant to Max6+ and is the only one that will not be fully updated - for instance, it misses all that "bubble stuff". Nonetheless, this was the last object that needed further updates from cyclone's 0.3's goal to update objects to Max 7. This means that this mission is finally completed!
 
 --------------------------------------------------
-cyclone 0.4 (needs at least Pd Vanilla 0.50-2):
+cyclone 0.4-0 (needs at least Pd Vanilla 0.50-2):
 --------------------------------------------------
 
 - Fixed a 0.3 regression bug (this was ok in 0.2) where an annoying 'couldn't unbind' error was printed by [mousestate]
@@ -47,7 +47,7 @@ cyclone 0.4 (needs at least Pd Vanilla 0.50-2):
 (*) these classes need the 'cyclone/' prefix to avoid name clashes with vanilla internals - see help file for more information.
 
 --------------------------------------------------
-cyclone 0.3 (needs at least Pd Vanilla 0.49-0)
+cyclone 0.3-0 (needs at least Pd Vanilla 0.49-0)
 --------------------------------------------------
 
 Summary: Cyclone 0.3 represents the major overhaul in cyclone and includes: 1) objects updated to the last Max 7 version (7.3.5); 2) Many new objects; 3)Numerous bug fixes; 4) Completely rewritten documentation. See details below!

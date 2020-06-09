@@ -1,4 +1,4 @@
-#N canvas 579 41 562 575 10;
+#N canvas 579 41 560 675 10;
 #X declare -lib cyclone;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -20,26 +20,10 @@
 255 255 0 0 The Cyclone library;
 #X obj 158 12 cyclone/comment 0 23 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
 255 255 0 0 (library);
-#X obj 220 442 cyclone/cyclone;
-#X msg 220 417 about;
-#X text 75 473 For more information on the loaded objects \, check:
+#X msg 157 399 about;
+#X text 63 150 For more information on the loaded objects \, check:
 ;
-#X obj 3 547 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
-0;
-#X text 63 178 The cyclone library also automatically loads cyclone's
-path to Pd so you can load the separate binaries. Objects from the
-cyclone library are mostly a set of separate binaries \, but also contains
-a few abstractions., f 71;
-#X text 63 98 The cyclone's single binary pack contains the cyclone
-operators \, which are: [!-] \, [!-~] \, [!/] \, [!/~] \, [!=~] \,
-[%~] \, [+=~] \, [<=~] \, [<~] \, [==~] \, [>=~] and [>~]. These are
-objects with non-alphanumeric names that need to be loaded as a library
-to avoid issues in certain file systems. But alias versions of these
-objects with alphanumeric names are also available as separate binaries
-outside the [cyclone] library., f 71;
-#X obj 299 261 declare -lib cyclone;
-#X text 64 231 You can load the cyclone library via "Startup". Alternatively
-\, you can use [declare] as follows:, f 62;
+#X obj 373 260 declare -lib cyclone;
 #N canvas 604 130 484 477 operators 0;
 #X text 34 145 Comparatives:;
 #X text 45 368 Accumulator:;
@@ -90,16 +74,54 @@ outside the [cyclone] library., f 71;
 #X text 89 415 Note that even though the non-alphanumeric versions
 come from a single binary pack \, it is also possible to load them
 with the "cyclone/" prefix., f 56;
-#X restore 387 472 pd operators;
-#X text 66 290 Check declare's help file for more information.;
-#X text 66 314 And see https://github.com/porres/pd-cyclone/wiki/How-To-Install
+#X restore 375 149 pd operators;
+#X text 63 270 Check declare's help file for more information.;
+#X text 64 294 And see https://github.com/porres/pd-cyclone/wiki/How-To-Install
 for more details., f 64;
-#X text 99 513 Check "All About Cyclone" =>;
-#X obj 282 513 cyclone/All_about_cyclone;
-#X text 61 349 If you create the cyclone external object \, it also
-loads the library \, but you shouldn't load it this way! The object
-itself doesn't do anything and only accepts the "about" message \,
-which prints basic information (objects \, version \, release date)
-on the terminal and outputs the cyclone version as a list of major
-\, minor \, bugfix., f 71;
-#X connect 10 0 9 0;
+#X text 63 178 Check "All About Cyclone" =>;
+#X obj 246 178 cyclone/All_about_cyclone;
+#X obj 3 649 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X obj 4 534 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 582 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+;
+#X obj 4 617 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+0;
+#X obj 123 542 cnv 17 3 32 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X obj 123 591 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+;
+#X text 242 626 (none);
+#X text 157 541 about;
+#X text 145 558 version;
+#X text 207 541 - prints library information on the terimnal;
+#X text 163 591 list;
+#X text 207 558 - outputs version informaton as a list;
+#X text 207 592 - version (major \, minor \, bugfix);
+#X text 63 98 The cyclone's single binary pack contains the cyclone
+operators \, which are: [!-] \, [!-~] \, [!/] \, [!/~] \, [!=~] \,
+[%~] \, [+=~] \, [<=~] \, [<~] \, [==~] \, [>=~] and [>~]. These objects
+with non-alphanumeric names need to be loaded as a library to avoid
+issues., f 71;
+#X text 63 203 The cyclone library also automatically loads cyclone's
+path to Pd so you can load the separate binaries. Objects from the
+cyclone library are mostly a set of separate binaries \, but also contains
+a few abstractions. You can load the cyclone library via "Startup".
+Alternatively \, you can use [declare] as follows:, f 71;
+#X msg 202 399 version;
+#X text 61 325 The binary is also loaded as the cyclone object. This
+also loads the library \, but you shouldn't load it this way! The object
+only accepts the "about" message \, which prints basic information
+(objects \, version \, release date) on the terminal and the "version"
+message that outputs the cyclone version as a list of major \, minor
+\, bugfix., f 71;
+#X symbolatom 202 503 20 0 0 0 - - -;
+#X obj 202 427 cyclone/cyclone;
+#X obj 214 453 print version;
+#X obj 202 478 cyclone/sprintf symout cyclone %d.%d-%d;
+#X connect 9 0 35 0;
+#X connect 32 0 35 0;
+#X connect 35 0 36 0;
+#X connect 35 0 37 0;
+#X connect 37 0 34 0;
