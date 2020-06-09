@@ -17,17 +17,7 @@
 #X msg 354 267 0;
 #X obj 315 126 t b f b;
 #X obj 276 78 r \$0-tgl;
-#X obj 100 100 tgl 17 0 \$0-tgl \$0-tgl-set empty 17 7 0 10 -228856
--1 -204800 0 1;
-#X obj 101 101 cnv 15 15 15 empty \$0-cnv-c ~ 2 6 0 19 -41806 -188416
-0;
-#X obj 101 101 cnv 2 2 2 empty \$0-cnv-a empty 4 7 0 12 -41806 -188416
-0;
-#X obj 101 101 cnv 2 2 2 empty \$0-cnv-b empty 4 8 0 12 -41806 -188416
-0;
 #X obj 117 68 r \$0-set-n;
-#X obj 207 101 cnv 3 3 3 empty \$0-cnv-d empty 20 12 0 14 -41806 -188416
-0;
 #X text 63 265 before saving;
 #X obj 61 324 s \$0-receive-nbx;
 #X obj 422 267 snapshot~;
@@ -405,8 +395,18 @@ textcolor, f 116;
 #X text 451 341 https://github.com/porres/pd-cyclone;
 #X text 451 303 porres \, 2017-2020:;
 #X msg 61 294 range 0 0;
-#X obj 117 100 nbx 5 14 -1e+37 1e+37 0 0 \$0-send-nbx \$0-receive-nbx
-empty 0 -8 0 10 -262144 -1 -1 0 256;
+#X obj 117 100 nbx 8 17 0 0 0 0 \$0-send-nbx \$0-receive-nbx empty
+0 0 0 12 -62546 -262144 -262144 0 256;
+#X obj 100 100 tgl 17 0 \$0-tgl \$0-tgl-set empty 17 7 0 10 -228856
+-1 -204800 0 1;
+#X obj 101 101 cnv 15 15 15 empty \$0-cnv-c ~ 2 6 0 19 -41806 -188416
+0;
+#X obj 101 101 cnv 2 2 2 empty \$0-cnv-a empty 4 7 0 12 -41806 -188416
+0;
+#X obj 101 101 cnv 2 2 2 empty \$0-cnv-b empty 4 8 0 12 -41806 -188416
+0;
+#X obj 207 101 cnv 3 3 3 empty \$0-cnv-d empty 20 12 0 14 -41806 -188416
+0;
 #X connect 0 0 1 0;
 #X connect 2 0 9 0;
 #X connect 3 0 5 0;
@@ -425,19 +425,19 @@ empty 0 -8 0 10 -262144 -1 -1 0 256;
 #X connect 16 0 3 0;
 #X connect 16 1 4 1;
 #X connect 16 2 15 0;
-#X connect 17 0 28 0;
-#X connect 22 0 41 0;
-#X connect 26 0 6 0;
-#X connect 26 0 7 0;
-#X connect 27 0 26 0;
-#X connect 27 1 29 0;
-#X connect 28 0 12 0;
-#X connect 28 1 16 0;
-#X connect 30 0 4 0;
-#X connect 31 0 9 0;
-#X connect 34 0 35 1;
-#X connect 35 0 26 0;
-#X connect 36 0 35 0;
-#X connect 40 0 25 0;
-#X connect 41 0 4 0;
+#X connect 17 0 23 0;
+#X connect 18 0 36 0;
+#X connect 21 0 6 0;
+#X connect 21 0 7 0;
+#X connect 22 0 21 0;
+#X connect 22 1 24 0;
+#X connect 23 0 12 0;
+#X connect 23 1 16 0;
+#X connect 25 0 4 0;
+#X connect 26 0 9 0;
+#X connect 29 0 30 1;
+#X connect 30 0 21 0;
+#X connect 31 0 30 0;
+#X connect 35 0 20 0;
+#X connect 36 0 4 0;
 #X coords 0 -1 1 1 111 17 2 100 100;
