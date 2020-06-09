@@ -308,7 +308,7 @@ ifeq (MINGW,$(findstring MINGW,$(uname)))
     datafiles += ${MINGW_PREFIX}/bin/libwinpthread-1.dll
 
   else
-    datafiles += ${MINGW_PREFIX}/lib/libwinpthread-1.dll
+    ## datafiles += ${MINGW_PREFIX}/lib/libwinpthread-1.dll
 endif
 
 
