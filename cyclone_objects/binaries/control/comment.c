@@ -417,8 +417,11 @@ static void comment_delete(t_gobj *z, t_glist *glist){
 static void comment_vis(t_gobj *z, t_glist *glist, int vis){
     t_comment *x = (t_comment *)z;
     comment_validate(x, glist);
-    if(vis)
+    if(vis){
+        if(x->x_bg_flag)
+            comment_draw_bg(x);
         comment_draw(x);
+    }
     else{
         sys_vgui(".x%lx.c delete %lx_in\n", x->x_cv, (unsigned long)x);
         sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
