@@ -1,4 +1,4 @@
-#N canvas 694 55 562 511 10;
+#N canvas 774 23 562 511 10;
 #X obj 3 486 cnv 15 552 21 empty \$0-pddp.cnv.footer empty 20 12 0
 14 -228856 -66577 0;
 #X obj 3 254 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
@@ -359,9 +359,6 @@ isn't loud enough \, if it is too high or even if you're using multiple
 #X obj 345 156 osc~ 660;
 #X obj 15 137 cnv 15 228 50 empty empty empty 20 12 0 14 -252523 -66577
 0;
-#X text 16 138 Though used and provided in cyclone's documentation
-\, [out2~] is an "extra" from another library (ELSE) and NOT a max/msp
-clone or part of cyclone!!!, f 37;
 #X obj 4 5 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -392,6 +389,20 @@ clone or part of cyclone!!!, f 37;
 It has controls for mute \, DSP on/off \, ramp time \, maximum gain
 and scaling mode.;
 #X obj 258 189 ./out~ 1 0;
-#X connect 8 0 49 0;
-#X connect 33 0 49 1;
+#X text 16 138 Though used and provided in cyclone's documentation
+\, [out~] is an "extra" from another library (ELSE) and NOT a max/msp
+clone or part of cyclone!!!, f 37;
+#N canvas 767 210 368 317 mono-input 0;
+#X obj 110 124 osc~ 440;
+#X text 54 243 Conecting a second source to the right inlet makes it
+a stereo input again and vice-versa., f 38;
+#X text 68 64 Hence \, you don't need to bother and connect the same
+source into the two inlets., f 33;
+#X text 68 20 If you have just one mono input into the [out~] object
+\, it sends its signals to both outputs., f 33;
+#X obj 110 157 ./out~;
+#X connect 0 0 4 0;
+#X restore 461 168 pd mono-input;
+#X connect 8 0 48 0;
+#X connect 33 0 48 1;
 #X coords 0 511 1 510 74 39 0;
