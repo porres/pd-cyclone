@@ -44,11 +44,11 @@
 #X text 195 465 sets the number of outlets (default 1);
 #X obj 187 219 cnv 15 320 37 empty empty empty 20 12 0 14 -249661 -66577
 0;
-#X obj 236 295 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 236 294 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 189 295 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 189 294 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X obj 143 295 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 143 294 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 143 233 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -57,12 +57,10 @@
 #X msg 143 189 1;
 #X msg 173 189 2;
 #X msg 205 189 3;
-#X obj 96 297 cyclone/comment 100 11 helvetica ? 0 0 0 0 0 255 255
-255 0 0 or less;
-#X obj 179 296 cyclone/comment 100 11 helvetica ? 0 0 0 0 1 255 255
-255 0 0 comment;
-#X obj 257 297 cyclone/comment 100 11 helvetica ? 0 0 0 0 1 255 255
-255 0 0 or more;
+#X obj 93 296 cyclone/comment 100 11 helvetica ? 0 0 0 0 1 255 255
+255 0 0 0 or less;
+#X obj 257 296 cyclone/comment 100 11 helvetica ? 0 0 0 0 1 255 255
+255 0 0 2 or more;
 #X obj 143 265 cyclone/decode 3;
 #X obj 236 240 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -131,14 +129,16 @@ on (output: 1) and the others off (output: 0).;
 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
 0 255 255 255 0 0 cyclone;
-#X connect 31 0 40 0;
+#X obj 175 296 cyclone/comment 100 11 helvetica ? 0 0 0 0 1 255 255
+255 0 0 1;
+#X connect 31 0 39 0;
 #X connect 32 0 31 0;
 #X connect 33 0 31 0;
 #X connect 34 0 31 0;
 #X connect 35 0 31 0;
 #X connect 36 0 31 0;
-#X connect 40 0 30 0;
-#X connect 40 1 29 0;
-#X connect 40 2 28 0;
-#X connect 41 0 40 2;
-#X connect 42 0 40 1;
+#X connect 39 0 30 0;
+#X connect 39 1 29 0;
+#X connect 39 2 28 0;
+#X connect 40 0 39 2;
+#X connect 41 0 39 1;
