@@ -107,7 +107,7 @@ type \, invalid or not \, and only prints an error when trying to convert.
 #N canvas 554 133 767 604 examples 0;
 #X obj 61 276 print;
 #X obj 61 181 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 13 256;
+-228856 -1 -1 0 256;
 #X obj 61 458 print;
 #X msg 61 392 error;
 #X obj 240 424 cyclone/sprintf it's %s;
@@ -128,8 +128,6 @@ is given in Pd's window.;
 #X text 433 40 The optional 'symout' argument turns the whole output
 into a symbol message \, which is useful for format strings with spaces
 \, commas and other special characters., f 48;
-#X text 452 241 Nonetheless \, note you can use backlashes to create
-symbols with special characters such as spaces., f 42;
 #X symbolatom 479 168 10 0 0 0 - - -;
 #X msg 479 112 a;
 #X obj 479 142 cyclone/sprintf symout %s symbol, f 34;
@@ -158,7 +156,9 @@ value has been received for a changeable symbol argument (%s or %c)
 next inlets, f 25;
 #X obj 340 527 cyclone/sprintf this %s %s %s;
 #X msg 425 500 quite alright;
-#X connect 1 0 26 0;
+#X text 452 241 Nonetheless \, note you can use backslashes to create
+symbols with special characters such as spaces., f 42;
+#X connect 1 0 25 0;
 #X connect 3 0 8 0;
 #X connect 4 0 6 0;
 #X connect 5 0 4 0;
@@ -170,18 +170,18 @@ next inlets, f 25;
 #X connect 15 0 16 0;
 #X connect 15 1 16 1;
 #X connect 16 0 14 0;
-#X connect 19 0 22 0;
-#X connect 20 0 21 0;
-#X connect 21 0 19 0;
-#X connect 23 0 15 0;
-#X connect 26 0 0 0;
-#X connect 29 0 36 0;
-#X connect 31 0 34 0;
-#X connect 33 0 34 0;
-#X connect 34 0 26 0;
-#X connect 34 1 26 1;
-#X connect 36 0 30 0;
-#X connect 37 0 36 1;
+#X connect 18 0 21 0;
+#X connect 19 0 20 0;
+#X connect 20 0 18 0;
+#X connect 22 0 15 0;
+#X connect 25 0 0 0;
+#X connect 28 0 35 0;
+#X connect 30 0 33 0;
+#X connect 32 0 33 0;
+#X connect 33 0 25 0;
+#X connect 33 1 25 1;
+#X connect 35 0 29 0;
+#X connect 36 0 35 1;
 #X restore 473 222 pd examples;
 #X text 185 382 output message with format types '%' (each changeable
 argument creates a corresponding inlet). For all possible types and
