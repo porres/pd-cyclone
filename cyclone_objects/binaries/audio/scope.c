@@ -1055,8 +1055,6 @@ errstate:
 CYCLONE_OBJ_API void scope_tilde_setup(void){
     scope_class = class_new(gensym("scope~"), (t_newmethod)scope_new,
             (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
-//    class_addcreator((t_newmethod)scope_new, gensym("Scope~"), A_GIMME, 0); // backwards compatible
-//    class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // backwards compatible
     class_addmethod(scope_class, nullfn, gensym("signal"), 0);
     class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), A_CANT, 0);
     class_addfloat(scope_class, (t_method)scope_period);
@@ -1081,7 +1079,6 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0, sizeof(t_scopehandle), CLASS_PD, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook, gensym("_click"), A_FLOAT, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
-//    class_sethelpsymbol(scope_class, gensym("scope~"));
     class_setsavefn(scope_class, scope_save);
     class_setpropertiesfn(scope_class, scope_properties);
     class_setwidget(scope_class, &scope_widgetbehavior);
