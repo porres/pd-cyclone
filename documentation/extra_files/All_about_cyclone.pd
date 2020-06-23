@@ -5,7 +5,7 @@
 #X obj 28 5 cyclone/comment 0 22 DejaVu\ Sans\ Mono ? 0 224 228 220
 0 255 255 255 0 0 cyclone;
 #X obj 29 33 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 version: 0.5-0;
+0 255 255 255 0 0 version: 0.5-1;
 #X obj 136 8 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220
 0 255 255 255 0 0 - a set of Pure Data objects cloned from Max/MSP
 ;

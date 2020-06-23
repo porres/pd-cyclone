@@ -22,14 +22,14 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 Current Release: Cyclone 0.5-1 (this release needs at least Pd Vanilla 0.51-0)
 
-Unreleased
+Released June 23rd 2020
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
 -------
 ### About Cyclone:
 
-Cyclone 0.5-0 needs at least Pd Vanilla 0.51-0 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
+Cyclone 0.5-1 needs at least Pd Vanilla 0.51-0 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
 
 Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data. Pd-Extended carries older 0.1 versions and Purr Data still carries an outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data). The latest versions of cyclone (0.3-0 onwards) are only fully supported in Pd Vanilla so far. 
 
@@ -219,14 +219,14 @@ In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon
 
 => The 'nilwind' fork:
 
-The 'nilwind' library is a fork of cyclone and it starts as a fork of the last stage <https://github.com/electrickery/pd-miXedSon> was left at. The nilwind's repository is at https://github.com/electrickery/pd-nilwind. It's first release is 'nilwind 0.2.1', from November 2019, which is a development over cyclone 0.2-beta. This fork of cyclone does not aim to pursue updates according to newer versions of Max and its main concern is to keep compatibility to patches made in the Pd-Extended era. 
+The 'nilwind' library is a fork of cyclone and it starts as a fork of the last stage <https://github.com/electrickery/pd-miXedSon> was left at. The nilwind's repository is at https://github.com/electrickery/pd-nilwind. It's first release is 'nilwind 0.2.1', from November 2019, which is a development over cyclone 0.2-beta. This fork of cyclone does not aim to pursue updates according to newer versions of Max and its main concern is to keep compatibility to patches made in the Pd-Extended era. Nonetheless, versions of cyclone 0.3 onward are also compatible to Pd-Extended era, as the development of cyclone does not introduce breaking changes. The last maintenance phase of cycle was experimental for a good period, but since the release of 0.3, cyclone is now at a stable phase. 
 
 -------
 
 ### About This Repository's Goals:
 
-This repository is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. Releases from this repository are stable and offer many fixes and improves stability from earlier versions. Compatibility to newer versions of Max is a concern, but Max compatibility was always the main goal of cyclone and nothing really changed. No incompatibilities should arise between cyclone 0.3-0 onwards with earlier versions. This development stage of cyclone is also concerned to provide compatibility for patches made in the Pd-Extended era. If a regression bug has occurred, please report it at <https://github.com/porres/pd-cyclone/issues>.
+This repository is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. Releases from this repository are stable and offer many fixes and improves stability from earlier versions. Compatibility to newer versions of Max is a concern, but Max compatibility was always the main goal of cyclone and nothing really changed. No incompatibilities should arise between cyclone 0.3-0 onwards with earlier versions. This development stage of cyclone is also concerned to provide compatibility for patches made in the Pd-Extended era. If a regression bug is found, please report it at <https://github.com/porres/pd-cyclone/issues>.
 
 ### Collaborating to Cyclone:
 
-This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Please get in touch if you're willing to collaborate (one possible way is through the Pd-list https://lists.puredata.info/listinfo/pd-list). Another way is just by sending Pull Requests to this repository.
+This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Feel free to collaborate.

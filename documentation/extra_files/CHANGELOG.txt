@@ -2,6 +2,13 @@
 | Under the maintenance of Porres, Kwan and Barber: 
 ---------------------------------------------------
 
+
+--------------------------------------------------
+cyclone 0.5-1 (needs at least Pd Vanilla 0.51-0):
+--------------------------------------------------
+
+- This bug fix release fixes a regression bug from 0.50-0 in scope~, where bufsize wasn't being set. 
+
 --------------------------------------------------
 cyclone 0.5-0 (needs at least Pd Vanilla 0.51-0):
 --------------------------------------------------
