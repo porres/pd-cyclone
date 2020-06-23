@@ -28,7 +28,7 @@ cleanup the code drastically, fixed a regression bug and implemented zoom;
 #define SCOPE_MINBUFSIZE    8
 #define SCOPE_MAXBUFSIZE    256
 #define SCOPE_MINDELAY      0
-#define SCOPE_SELBORDER     "#5aadef" // select color from max (apparently)
+#define SCOPE_SELBORDER     "#5aadef" // select color from max
 #define SCOPE_SELBDWIDTH    3
 #define SCOPEHANDLE_SIZE    12
 #define SCOPE_GUICHUNK      128 // performance-related hacks, LATER investigate
@@ -342,6 +342,7 @@ static int scope_click(t_gobj *z, t_glist *glist, int xpix, int ypix, int shift,
 static void scope_bufsize(t_scope *x, t_floatarg f){
     int size = f < SCOPE_MINBUFSIZE ? SCOPE_MINBUFSIZE : f > SCOPE_MAXBUFSIZE ? SCOPE_MAXBUFSIZE : (int)f;
     if(x->x_bufsize != size){
+        x->x_bufsize = size;
         pd_float((t_pd *)x->x_rightinlet, x->x_bufsize);
         x->x_phase = x->x_bufphase = x->x_precount = 0;
         canvas_dirty(x->x_cv, 1);
