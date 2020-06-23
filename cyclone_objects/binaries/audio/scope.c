@@ -11,8 +11,8 @@
  period, calccount, range, delay, trigger, triglevel, frgb/brgb) are rewritten, as well as attr
  declaration. Wrote color version that take vals 0-1 instead of 0-255.
 - 2017-20 = Porres finished cleaning dependencies (sic/grow/loud/fitter/forky/all_guis/math),
-cleanup the code drastically, fixed a regression bug and implemented zoom;
-- Matt didn't put what he did but he's the one who did more stuff on this, like cresting a
+cleanup the code drastically, fixed a regression bug from 0.3 and implemented zoom;
+- Matt didn't put what he did but he's the one who did more stuff on this for 0,3, like creating a
  properties dialog and implementing the magic stuff */
 
 #include "common/api.h"
@@ -62,11 +62,11 @@ typedef struct _scope{
 }t_scope;
 
 typedef struct _scopehandle{
-    t_pd       h_pd;
-    t_scope   *h_master;
-    t_symbol  *h_bindsym;
-    char       h_pathname[64], h_outlinetag[64];
-    int        h_dragon, h_dragx, h_dragy;
+    t_pd            h_pd;
+    t_scope        *h_master;
+    t_symbol       *h_bindsym;
+    char            h_pathname[64], h_outlinetag[64];
+    int             h_dragon, h_dragx, h_dragy;
 }t_scopehandle;
 
 static t_class *scope_class, *scopehandle_class;
