@@ -526,12 +526,13 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
         canvas_dirty(x->x_cv, 1);
         x->x_width = width, x->x_height = height;
         if(glist_isvisible(x->x_glist)){
+            t_canvas *cv = glist_getcanvas(x->x_glist);
             if(x->x_xymode)
-                scope_redraw(x, x->x_cv);
-            sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, x);
-            sys_vgui(".x%lx.c delete %lx_in1\n", x->x_cv, x);
-            sys_vgui(".x%lx.c delete %lx_in2\n", x->x_cv, x);
-            scope_draw(x, x->x_cv);
+                scope_redraw(x, cv);
+            sys_vgui(".x%lx.c delete all%lx\n", cv, x);
+            sys_vgui(".x%lx.c delete %lx_in1\n", cv, x);
+            sys_vgui(".x%lx.c delete %lx_in2\n", cv, x);
+            scope_draw(x, cv);
             canvas_fixlinesfor(x->x_glist, (t_text *)x);
         }
     }
@@ -608,6 +609,7 @@ static void scopehandle__motionhook(t_scopehandle *sh, t_floatarg f1, t_floatarg
 //------------------------------------------------------------
 static t_int *scope_perform(t_int *w){
     t_scope *x = (t_scope *)(w[1]);
+    int nblock = (int)(w[2]);
     if(!x->x_xymode) // do nothing
         return(w+5);
     int bufphase = x->x_bufphase;
@@ -617,7 +619,6 @@ static t_int *scope_perform(t_int *w){
         bufsize = x->x_bufsize;
     }
     if(bufphase < bufsize){
-        int nblock = (int)(w[2]);
         if(x->x_precount >= nblock)
             x->x_precount -= nblock;
         else{
@@ -778,12 +779,13 @@ static void scope_dsp(t_scope *x, t_signal **sp){
     if(xymode != x->x_xymode){
         x->x_xymode = xymode;
         if(glist_isvisible(x->x_glist)){
-            sys_vgui(".x%lx.c delete fg%lx margin%lx\n", x->x_cv, x, x);
+            t_canvas *cv = glist_getcanvas(x->x_glist);
+            sys_vgui(".x%lx.c delete fg%lx margin%lx\n", cv, x, x);
             int x1, y1, x2, y2;
             scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
             if(x->x_xymode)
-                scope_drawfg(x, x->x_cv, x1, y1, x2, y2);
-            scope_drawmargins(x, x->x_cv, x1, y1, x2, y2);
+                scope_drawfg(x, cv, x1, y1, x2, y2);
+            scope_drawmargins(x, cv, x1, y1, x2, y2);
         }
         x->x_precount = 0;
     }
@@ -795,7 +797,7 @@ static void scope_tick(t_scope *x){
         if(!x->x_cv->gl_editor->e_onmotion)
             x->x_frozen = 0;
         if(!x->x_frozen && x->x_xymode)
-                scope_redraw(x, x->x_cv);
+            scope_redraw(x, glist_getcanvas(x->x_glist));
     }
     x->x_precount = (int)(x->x_delay * x->x_ksr);
 }
