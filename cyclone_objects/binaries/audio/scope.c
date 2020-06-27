@@ -609,9 +609,11 @@ static void scopehandle__motionhook(t_scopehandle *sh, t_floatarg f1, t_floatarg
 //------------------------------------------------------------
 static t_int *scope_perform(t_int *w){
     t_scope *x = (t_scope *)(w[1]);
-    int nblock = (int)(w[2]);
     if(!x->x_xymode) // do nothing
         return(w+5);
+    if(!gobj_shouldvis((t_gobj *)x, x->x_glist) || !glist_isvisible(x->x_glist))
+        return(w+5);
+    int nblock = (int)(w[2]);
     int bufphase = x->x_bufphase;
     int bufsize = (int)*x->x_signalscalar;
     if(bufsize != x->x_bufsize){
