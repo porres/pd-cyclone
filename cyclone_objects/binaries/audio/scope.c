@@ -525,7 +525,7 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
     if(x->x_width != width || x->x_height != height){
         canvas_dirty(x->x_cv, 1);
         x->x_width = width, x->x_height = height;
-        if(glist_isvisible(x->x_glist)){
+        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
             t_canvas *cv = glist_getcanvas(x->x_glist);
             if(x->x_xymode)
                 scope_redraw(x, cv);
