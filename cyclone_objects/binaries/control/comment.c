@@ -78,7 +78,7 @@ typedef struct _comment{
 }t_comment;
 
 static void comment_draw_inlet(t_comment *x){
-    if(x->x_edit){
+    if(x->x_edit && gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
         t_canvas *cv = glist_getcanvas(x->x_glist);
         sys_vgui(".x%lx.c delete %lx_in\n", x->x_cv, x);
         if(x->x_receive == &s_){
