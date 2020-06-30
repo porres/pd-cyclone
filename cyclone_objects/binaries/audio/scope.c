@@ -66,6 +66,11 @@ typedef struct _scope{
     int             x_zoom;
     int             x_edit;
     t_float        *x_signalscalar;
+    int             x_rcv_set;
+    int             x_flag;
+    int             x_r_flag;
+    t_symbol       *x_receive;
+    t_symbol       *x_rcv_raw;
     t_clock        *x_clock;
     t_pd           *x_handle;
 }t_scope;
@@ -87,7 +92,7 @@ static void scope_getrect(t_gobj *z, t_glist *gl, int *xp1, int *yp1, int *xp2, 
 
 // draw inlets
 static void scope_draw_inlets(t_scope *x){
-    if(x->x_edit){
+    if(x->x_edit && x->x_receive == &s_){
         t_canvas *cv = glist_getcanvas(x->x_glist);
         int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
         sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in1\n",
@@ -538,6 +543,31 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
     }
 }
 
+static void scope_receive(t_scope *x, t_symbol *s){
+    if(s != gensym("")){
+        t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
+        if(rcv != x->x_receive){
+            if(x->x_receive != &s_)
+                pd_unbind(&x->x_obj.ob_pd, x->x_receive);
+            x->x_rcv_set = 1;
+            x->x_rcv_raw = s;
+            x->x_receive = rcv;
+            if(x->x_receive == &s_){
+                if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
+                    scope_draw_inlets(x);
+            }
+            else{
+                pd_bind(&x->x_obj.ob_pd, x->x_receive);
+                if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist)){
+                    t_canvas *cv = glist_getcanvas(x->x_glist);
+                    sys_vgui(".x%lx.c delete %lx_in1\n", cv, x);
+                    sys_vgui(".x%lx.c delete %lx_in2\n", cv, x);
+                }
+            }
+        }
+    }
+}
+
 static void edit_proxy_any(t_edit_proxy *p, t_symbol *s, int ac, t_atom *av){
     int edit = ac = 0;
     if(p->p_cnv){
@@ -804,14 +834,47 @@ static void scope_tick(t_scope *x){
     x->x_precount = (int)(x->x_delay * x->x_ksr);
 }
 
+static void scope_get_rcv(t_scope* x){
+    t_binbuf *bb = x->x_obj.te_binbuf;
+   int n_args = binbuf_getnatom(bb) - 1, i = 0; // number of arguments
+    char buf[128];
+     if(!x->x_rcv_set){ // no receive set, search arguments
+        if(n_args > 0){ // we have arguments, let's search them
+            if(x->x_flag){ // arguments are flags actually
+                if(x->x_r_flag){ // we got a receive flag, let's get it
+                    for(i = 0;  i <= n_args; i++){
+                        atom_string(binbuf_getvec(bb) + i, buf, 128);
+                        if(gensym(buf) == gensym("@receive")){
+                            i++;
+                            atom_string(binbuf_getvec(bb) + i, buf, 128);
+                            x->x_rcv_raw = gensym(buf);
+                            break;
+                        }
+                    }
+                }
+            }
+            else{ // we got no flags, let's search for argument
+                int arg_n = 22; // receive argument number
+                if(n_args >= arg_n){ // we have it, get it
+                    atom_string(binbuf_getvec(bb) + arg_n, buf, 128);
+                    x->x_rcv_raw = gensym(buf);
+                }
+            }
+        }
+    }
+    if(x->x_rcv_raw == &s_)
+        x->x_rcv_raw = gensym("empty");
+}
+
 static void scope_save(t_gobj *z, t_binbuf *b){
     t_scope *x = (t_scope *)z;
     t_text *t = (t_text *)x;
-    binbuf_addv(b, "ssiisiiiiiffiiifiiiiiiiiii;", gensym("#X"), gensym("obj"), (int)t->te_xpix,
+    scope_get_rcv(x);
+    binbuf_addv(b, "ssiisiiiiiffiiifiiiiiiiiiis;", gensym("#X"), gensym("obj"), (int)t->te_xpix,
         (int)t->te_ypix, atom_getsymbol(binbuf_getvec(t->te_binbuf)), x->x_width/x->x_zoom,
         x->x_height/x->x_zoom, x->x_period, 3, x->x_bufsize, x->x_min, x->x_max, x->x_delay,
         0, x->x_trigmode, x->x_triglevel, x->x_fg[0], x->x_fg[1], x->x_fg[2], x->x_bg[0],
-        x->x_bg[1], x->x_bg[2], x->x_gg[0], x->x_gg[1], x->x_gg[2], 0);
+        x->x_bg[1], x->x_bg[2], x->x_gg[0], x->x_gg[1], x->x_gg[2], 0, x->x_rcv_raw);
 }
 
 static void scope_properties(t_gobj *z, t_glist *owner){
@@ -910,6 +973,8 @@ static t_edit_proxy * edit_proxy_new(t_scope *x, t_symbol *s){
 static void scope_free(t_scope *x){
     if(x->x_clock)
         clock_free(x->x_clock);
+    if(x->x_receive != &s_)
+        pd_unbind(&x->x_obj.ob_pd, x->x_receive);
     if(x->x_handle){
         pd_unbind(x->x_handle, ((t_scopehandle *)x->x_handle)->h_bindsym);
         pd_free(x->x_handle);
@@ -936,176 +1001,259 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     buf[MAXPDSTRING-1] = 0;
     x->x_proxy = edit_proxy_new(x, gensym(buf));
     x->x_edit = x->x_cv ->gl_edit;
+    t_symbol *rcv = x->x_receive = x->x_rcv_raw = &s_;
     x->x_bufsize = x->x_xymode = x->x_frozen = x->x_precount = sh->h_selectedmode = sh->h_dragon = 0;
+    x->x_flag = x->x_r_flag = x->x_rcv_set = 0;
     x->x_phase = x->x_bufphase = x->x_precount = 0;
     float width = 130, height = 130, period = 256, bufsize = x->x_lastbufsize = 128; // def values
     float minval = -1, maxval = 1, delay = 0, drawstyle = 0, trigger = 0, triglevel = 0; // def
-    float bgred = 74, bggreen = 79, bgblue = 77;    // default bg color
-    float fgred = 205, fggreen = 229, fgblue = 232; // default fg color
-    float grred = 96, grgreen = 98, grblue = 102;   // default grid color
+    unsigned char bgred = 74, bggreen = 79, bgblue = 77;    // default bg color
+    unsigned char fgred = 205, fggreen = 229, fgblue = 232; // default fg color
+    unsigned char grred = 96, grgreen = 98, grblue = 102;   // default grid color
     float f_r = 0, f_g = 0, f_b = 0, b_r = 0, b_g = 0, b_b = 0, g_r = 0, g_g = 0, g_b = 0;
-    int argnum = 0, fcolset = 0, bcolset = 0, gcolset = 0; // flag for colorset
-    while(ac > 0){
-        if(av->a_type == A_FLOAT){
-            t_float aval = atom_getfloatarg(0, ac, av);
-            switch(argnum){
-                case 0:
-                    width = aval < SCOPE_MINSIZE ? SCOPE_MINSIZE : aval;
-                    break;
-                case 1:
-                    height = aval < SCOPE_MINSIZE ? SCOPE_MINSIZE : aval;
-                    break;
-                case 2:
-                    period = aval;
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    bufsize = aval;
-                    break;
-                case 5:
-                    minval = aval;
-                    break;
-                case 6:
-                    maxval = aval;
-                    break;
-                case 7:
-                    delay = aval;
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    trigger = aval;
-                    break;
-                case 10:
-                    triglevel = aval;
-                    break;
-                case 11:
-                    fgred = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                case 12:
-                    fggreen = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                case 13:
-                    fgblue = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                case 14:
-                    bgred = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                case 15:
-                    bggreen = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                case 16:
-                    bgblue = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                case 17:
-                    grred = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                case 18:
-                    grgreen = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                case 19:
-                    grblue = aval < 0 ? 0 : aval > 255 ? 255 : (unsigned char)aval;
-                    break;
-                default:
-                    break;
-            };
-            argnum++, ac--, av++;
+    int fcolset = 0, bcolset = 0, gcolset = 0; // flag for colorset
+    if(ac && av->a_type == A_FLOAT){ // 1st Width
+        width = av->a_w.w_float < SCOPE_MINSIZE ? SCOPE_MINSIZE : av->a_w.w_float;
+        ac--; av++;
+        if(ac && av->a_type == A_FLOAT){ // 2nd Height
+            height = av->a_w.w_float < SCOPE_MINSIZE ? SCOPE_MINSIZE : av->a_w.w_float;
+            ac--, av++;
+            if(ac && av->a_type == A_FLOAT){ // 3rd period
+                period = av->a_w.w_float;
+                ac--; av++;
+                if(ac && av->a_type == A_FLOAT){ // 4th nothing really (argh/grrr)
+                    ac--; av++;
+                    if(ac && av->a_type == A_FLOAT){ // 5th bufsize
+                        bufsize = av->a_w.w_float;
+                        ac--; av++;
+                        if(ac && av->a_type == A_FLOAT){ // 6th minval
+                            minval = av->a_w.w_float;
+                            ac--; av++;
+                            if(ac && av->a_type == A_FLOAT){ // 7th maxval
+                                maxval = av->a_w.w_float;
+                                ac--; av++;
+                                if(ac && av->a_type == A_FLOAT){ // 8th delay
+                                    delay = av->a_w.w_float;
+                                    ac--; av++;
+                                    if(ac && av->a_type == A_FLOAT){ // 9th ? nobody knows...
+                                        ac--; av++;
+                                        if(ac && av->a_type == A_FLOAT){ // 10th trigger
+                                            trigger = av->a_w.w_float;
+                                            ac--; av++;
+                                            if(ac && av->a_type == A_FLOAT){ // 11th triglevel
+                                                triglevel = av->a_w.w_float;
+                                                ac--; av++;
+                                                if(ac && av->a_type == A_FLOAT){ // 12th fgred
+                                                    fgred = (unsigned char)av->a_w.w_float;
+                                                    if(fgred < 0)
+                                                        fgred = 0;
+                                                    if(fgred > 255)
+                                                        fgred = 255;
+                                                    ac--; av++;
+                                                    if(ac && av->a_type == A_FLOAT){ // 13th fggreen
+                                                        fggreen = (unsigned char)av->a_w.w_float;
+                                                        if(fggreen < 0)
+                                                            fggreen = 0;
+                                                        if(fggreen > 255)
+                                                            fggreen = 255;
+                                                        ac--; av++;
+                                                        if(ac && av->a_type == A_FLOAT){ // 14th fgblue
+                                                            fgblue = (unsigned char)av->a_w.w_float;
+                                                            if(fgblue < 0)
+                                                                fgblue = 0;
+                                                            if(fgblue > 255)
+                                                                fgblue = 255;
+                                                            ac--; av++;
+                                                            if(ac && av->a_type == A_FLOAT){ // 15th bgred
+                                                                bgred = (unsigned char)av->a_w.w_float;
+                                                                if(bgred < 0)
+                                                                    bgred = 0;
+                                                                if(bgred > 255)
+                                                                    bgred = 255;
+                                                                ac--; av++;
+                                                                if(ac && av->a_type == A_FLOAT){ // 16th bggreen
+                                                                    bggreen = (unsigned char)av->a_w.w_float;
+                                                                    if(bggreen < 0)
+                                                                        bggreen = 0;
+                                                                    if(bggreen > 255)
+                                                                        bggreen = 255;
+                                                                    ac--; av++;
+                                                                    if(ac && av->a_type == A_FLOAT){ // 17th bgblue
+                                                                        bgblue = (unsigned char)av->a_w.w_float;
+                                                                        if(bgblue < 0)
+                                                                            bgblue = 0;
+                                                                        if(fgblue > 255)
+                                                                            bgblue = 255;
+                                                                        ac--; av++;
+                                                                        if(ac && av->a_type == A_FLOAT){ // 18th grred
+                                                                            grred = (unsigned char)av->a_w.w_float;
+                                                                            if(grred < 0)
+                                                                                grred = 0;
+                                                                            if(grred > 255)
+                                                                                grred = 255;
+                                                                            ac--; av++;
+                                                                            if(ac && av->a_type == A_FLOAT){ // 19th grgreen
+                                                                                grgreen = (unsigned char)av->a_w.w_float;
+                                                                                if(grgreen < 0)
+                                                                                    grgreen = 0;
+                                                                                if(grgreen > 255)
+                                                                                    grgreen = 255;
+                                                                                ac--; av++;
+                                                                                if(ac && av->a_type == A_FLOAT){ // 20th grblue
+                                                                                    grblue = (unsigned char)av->a_w.w_float;
+                                                                                    if(grblue < 0)
+                                                                                        grblue = 0;
+                                                                                    if(grblue > 255)
+                                                                                        grblue = 255;
+                                                                                    ac--; av++;
+                                                                                    if(ac && av->a_type == A_FLOAT){ // 21st empty
+                                                                                        ac--; av++;
+                                                                                        if(ac && av->a_type == A_SYMBOL){ // 22nd receive
+                                                                                            if(av->a_w.w_symbol == gensym("empty")) // ignore empty symbol
+                                                                                                ac--, av++;
+                                                                                            else{
+                                                                                                rcv = av->a_w.w_symbol;
+                                                                                                ac--, av++;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-        else if(av->a_type == A_SYMBOL){
-            t_symbol *sym = atom_getsymbolarg(0, ac, av);
-            if(sym == gensym("@calccount") && ac >= 2){
-                period = atom_getfloatarg(1, ac, av);
-                ac-=2, av+=2;
-            }
-            else if(sym == gensym("@bufsize") && ac >= 2){
-                bufsize = atom_getfloatarg(1, ac, av);
-                ac-=2, av+=2;
-            }
-            else if(sym == gensym("@range") && ac >= 3){
-                minval = atom_getfloatarg(1, ac, av);
-                maxval = atom_getfloatarg(2, ac, av);
-                ac-=3, av+=3;
-            }
-            else if(sym == gensym("@dim") && ac >= 3){
-                height = atom_getfloatarg(1, ac, av);
-                width = atom_getfloatarg(2, ac, av);
-                ac-=3, av+=3;
-            }
-            else if(sym == gensym("@delay") && ac >= 2){
-                delay = atom_getfloatarg(1, ac, av);
-                ac-=2, av+=2;
-            }
-            else if(sym == gensym("@drawstyle") && ac >= 2){
-                drawstyle = atom_getfloatarg(1, ac, av);
-                ac-=2, av+=2;
-            }
-            else if(sym == gensym("@trigger") && ac >= 2){
-                trigger = atom_getfloatarg(1, ac, av);
-                ac-=2, av+=2;
-            }
-            else if(sym == gensym("@triglevel") && ac >= 2){
-                triglevel = atom_getfloatarg(1, ac, av);
-                ac-=2, av+=2;
-            }
-            else if(sym == gensym("@frgb") && ac >= 4){
-                fgred = atom_getfloatarg(1, ac, av);
-                fgred = fgred < 0 ? 0 : fgred > 255 ? 255 : (unsigned char)fgred;
-                fggreen = atom_getfloatarg(2, ac, av);
-                fggreen = fggreen < 0 ? 0 : fggreen > 255 ? 255 : (unsigned char)fggreen;
-                fgblue = atom_getfloatarg(3, ac, av);
-                fgblue = fgblue < 0 ? 0 : fgblue > 255 ? 255 : (unsigned char)fgblue;
-                ac-=4, av+=4;
-            }
-            else if(sym == gensym("@brgb") && ac >= 4){
-                bgred = atom_getfloatarg(1, ac, av);
-                bgred = bgred < 0 ? 0 : bgred > 255 ? 255 : (unsigned char)bgred;
-                bggreen = atom_getfloatarg(2, ac, av);
-                bggreen = bggreen < 0 ? 0 : bggreen > 255 ? 255 : (unsigned char)bggreen;
-                bgblue = atom_getfloatarg(3, ac, av);
-                bgblue = bgblue < 0 ? 0 : bgblue > 255 ? 255 : (unsigned char)bgblue;
-                ac-=4, av+=4;
-            }
-            else if(sym == gensym("@grgb") && ac >= 4){
-                grred = atom_getfloatarg(1, ac, av);
-                grred = grred < 0 ? 0 : grred > 255 ? 255 : (unsigned char)grred;
-                grgreen = atom_getfloatarg(2, ac, av);
-                grgreen = grgreen < 0 ? 0 : grgreen > 255 ? 255 : (unsigned char)grgreen;
-                grblue = atom_getfloatarg(3, ac, av);
-                grblue = grblue < 0 ? 0 : grblue > 255 ? 255 : (unsigned char)grblue;
-                ac-=4, av+=4;
-            }
-            else if(sym == gensym("@fgcolor") && ac >= 4){
-                f_r = atom_getfloatarg(1, ac, av);
-                f_r = f_r < 0 ? 0 : f_r > 1 ? 255 : (unsigned char)(f_r * 255);
-                f_g = atom_getfloatarg(2, ac, av);
-                f_g = f_g < 0 ? 0 : f_g > 1 ? 255 : (unsigned char)(f_g * 255);
-                f_b = atom_getfloatarg(3, ac, av);
-                f_b = f_b < 0 ? 0 : f_b > 1 ? 255 : (unsigned char)(f_b * 255);
-                ac-=4, av+=4, fcolset = 1;
-            }
-            else if(sym == gensym("@bgcolor") && ac >= 4){
-                b_r = atom_getfloatarg(1, ac, av);
-                b_r = b_r < 0 ? 0 : b_r > 1 ? 255 : (unsigned char)(b_r * 255);
-                b_g = atom_getfloatarg(2, ac, av);
-                b_g = b_g < 0 ? 0 : b_g > 1 ? 255 : (unsigned char)(b_g * 255);
-                b_b = atom_getfloatarg(3, ac, av);
-                b_b = b_b < 0 ? 0 : b_b > 1 ? 255 : (unsigned char)(b_b * 255);
-                ac-=4, av+=4, bcolset = 1;
-            }
-            else if(sym == gensym("@gridcolor") && ac >= 4){
-                g_r = atom_getfloatarg(1, ac, av);
-                g_r = g_r < 0 ? 0 : g_r > 1 ? 255 : (unsigned char)(g_r * 255);
-                g_g = atom_getfloatarg(2, ac, av);
-                g_g = g_g < 0 ? 0 : g_g > 1 ? 255 : (unsigned char)(g_g * 255);
-                g_b = atom_getfloatarg(3, ac, av);
-                g_b = g_b < 0 ? 0 : g_b > 1 ? 255 : (unsigned char)(g_b * 255);
-                ac-=4, av+=4, gcolset = 1;
-            }
-            else goto errstate;
-        }
-        else goto errstate;
     }
+    else if(av->a_type == A_SYMBOL){
+        t_symbol *sym = atom_getsymbolarg(0, ac, av);
+        if(sym == gensym("@calccount") && ac >= 2){
+            x->x_flag = 1;
+            period = atom_getfloatarg(1, ac, av);
+            ac-=2, av+=2;
+        }
+        else if(sym == gensym("@bufsize") && ac >= 2){
+            x->x_flag = 1;
+            bufsize = atom_getfloatarg(1, ac, av);
+            ac-=2, av+=2;
+        }
+        else if(sym == gensym("@range") && ac >= 3){
+            x->x_flag = 1;
+            minval = atom_getfloatarg(1, ac, av);
+            maxval = atom_getfloatarg(2, ac, av);
+            ac-=3, av+=3;
+        }
+        else if(sym == gensym("@dim") && ac >= 3){
+            x->x_flag = 1;
+            height = atom_getfloatarg(1, ac, av);
+            width = atom_getfloatarg(2, ac, av);
+            ac-=3, av+=3;
+        }
+        else if(sym == gensym("@delay") && ac >= 2){
+            x->x_flag = 1;
+            delay = atom_getfloatarg(1, ac, av);
+            ac-=2, av+=2;
+        }
+        else if(sym == gensym("@drawstyle") && ac >= 2){
+            x->x_flag = 1;
+            drawstyle = atom_getfloatarg(1, ac, av);
+            ac-=2, av+=2;
+        }
+        else if(sym == gensym("@trigger") && ac >= 2){
+            x->x_flag = 1;
+            trigger = atom_getfloatarg(1, ac, av);
+            ac-=2, av+=2;
+        }
+        else if(sym == gensym("@triglevel") && ac >= 2){
+            x->x_flag = 1;
+            triglevel = atom_getfloatarg(1, ac, av);
+            ac-=2, av+=2;
+        }
+        else if(sym == gensym("@frgb") && ac >= 4){
+            x->x_flag = 1;
+            fgred = (unsigned char)atom_getfloatarg(1, ac, av);
+            fgred = fgred < 0 ? 0 : fgred > 255 ? 255 : fgred;
+            fggreen = atom_getfloatarg(2, ac, av);
+            fggreen = fggreen < 0 ? 0 : fggreen > 255 ? 255 : fggreen;
+            fgblue = atom_getfloatarg(3, ac, av);
+            fgblue = fgblue < 0 ? 0 : fgblue > 255 ? 255 : fgblue;
+            ac-=4, av+=4;
+        }
+        else if(sym == gensym("@brgb") && ac >= 4){
+            x->x_flag = 1;
+            bgred = (unsigned char)atom_getfloatarg(1, ac, av);
+            bgred = bgred < 0 ? 0 : bgred > 255 ? 255 : bgred;
+            bggreen = atom_getfloatarg(2, ac, av);
+            bggreen = bggreen < 0 ? 0 : bggreen > 255 ? 255 : bggreen;
+            bgblue = atom_getfloatarg(3, ac, av);
+            bgblue = bgblue < 0 ? 0 : bgblue > 255 ? 255 : bgblue;
+            ac-=4, av+=4;
+        }
+        else if(sym == gensym("@grgb") && ac >= 4){
+            x->x_flag = 1;
+            grred = (unsigned char)atom_getfloatarg(1, ac, av);
+            grred = grred < 0 ? 0 : grred > 255 ? 255 : grred;
+            grgreen = atom_getfloatarg(2, ac, av);
+            grgreen = grgreen < 0 ? 0 : grgreen > 255 ? 255 : grgreen;
+            grblue = atom_getfloatarg(3, ac, av);
+            grblue = grblue < 0 ? 0 : grblue > 255 ? 255 : grblue;
+            ac-=4, av+=4;
+        }
+        else if(sym == gensym("@fgcolor") && ac >= 4){
+            x->x_flag = 1;
+            f_r = atom_getfloatarg(1, ac, av);
+            f_r = f_r < 0 ? 0 : f_r > 1 ? 255 : (unsigned char)(f_r * 255);
+            f_g = atom_getfloatarg(2, ac, av);
+            f_g = f_g < 0 ? 0 : f_g > 1 ? 255 : (unsigned char)(f_g * 255);
+            f_b = atom_getfloatarg(3, ac, av);
+            f_b = f_b < 0 ? 0 : f_b > 1 ? 255 : (unsigned char)(f_b * 255);
+            ac-=4, av+=4, fcolset = 1;
+        }
+        else if(sym == gensym("@bgcolor") && ac >= 4){
+            x->x_flag = 1;
+            b_r = atom_getfloatarg(1, ac, av);
+            b_r = b_r < 0 ? 0 : b_r > 1 ? 255 : (unsigned char)(b_r * 255);
+            b_g = atom_getfloatarg(2, ac, av);
+            b_g = b_g < 0 ? 0 : b_g > 1 ? 255 : (unsigned char)(b_g * 255);
+            b_b = atom_getfloatarg(3, ac, av);
+            b_b = b_b < 0 ? 0 : b_b > 1 ? 255 : (unsigned char)(b_b * 255);
+            ac-=4, av+=4, bcolset = 1;
+        }
+        else if(sym == gensym("@gridcolor") && ac >= 4){
+            x->x_flag = 1;
+            g_r = atom_getfloatarg(1, ac, av);
+            g_r = g_r < 0 ? 0 : g_r > 1 ? 255 : (unsigned char)(g_r * 255);
+            g_g = atom_getfloatarg(2, ac, av);
+            g_g = g_g < 0 ? 0 : g_g > 1 ? 255 : (unsigned char)(g_g * 255);
+            g_b = atom_getfloatarg(3, ac, av);
+            g_b = g_b < 0 ? 0 : g_b > 1 ? 255 : (unsigned char)(g_b * 255);
+            ac-=4, av+=4, gcolset = 1;
+        }
+        else if(sym == gensym("@receive") && ac >= 2){
+            x->x_flag = x->x_r_flag = 1;
+            rcv = atom_getsymbolarg(1, ac, av);
+            ac-=2, av+=2;
+        }
+        else
+            goto errstate;
+    }
+    else
+        goto errstate;
+    x->x_receive = canvas_realizedollar(x->x_glist, x->x_rcv_raw = rcv);
+    if(x->x_receive != &s_)
+        pd_bind(&x->x_obj.ob_pd, x->x_receive);
     x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     x->x_width = (int)width * x->x_zoom, x->x_height = (int)height * x->x_zoom;
     x->x_period = period < 2 ? 2 : period > 8192 ? 8192 : (int)period;
@@ -1161,6 +1309,7 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     class_addmethod(scope_class, (t_method)scope_fgcolor, gensym("fgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_gridcolor, gensym("gridcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_receive, gensym("receive"), A_SYMBOL, 0);
     class_addmethod(scope_class, (t_method)scope_dialog, gensym("dialog"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_motion, gensym("motion"), 0);
@@ -1203,6 +1352,7 @@ CYCLONE_OBJ_API void Scope_tilde_setup(void){
     class_addmethod(scope_class, (t_method)scope_fgcolor, gensym("fgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_gridcolor, gensym("gridcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_receive, gensym("receive"), A_SYMBOL, 0);
     class_addmethod(scope_class, (t_method)scope_dialog, gensym("dialog"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_motion, gensym("motion"), 0);
