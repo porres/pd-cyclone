@@ -1,4 +1,4 @@
-#N canvas 541 41 560 557 10;
+#N canvas 908 150 559 555 10;
 #X obj 3 249 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -22,7 +22,6 @@
 #X text 214 408 - sets receive symbol, f 54;
 #X text 92 366 textcolor <f \, f \, f>;
 #X text 104 268 append <anything>;
-#X text 104 282 append <anything>;
 #X text 214 268 - appends a message to the comment, f 54;
 #X text 214 282 - prepends a message to the comment, f 54;
 #X text 110 324 fontface <float>;
@@ -181,3 +180,4 @@ being fully compliant to Max6+ versions!, f 74;
 <f \, f \, f> (default 255 255 255) @bg <float> (default 0) | @text
 <anything>: sets comment (default "comment") @underline <float> (default
 0) | @receive <symbol> (default 'empty'), f 79;
+#X text 98 282 prepend <anything>;

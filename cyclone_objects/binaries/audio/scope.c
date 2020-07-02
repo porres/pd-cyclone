@@ -90,18 +90,6 @@ static t_widgetbehavior scope_widgetbehavior;
 // ----------------- DRAW ----------------------------------------------------------------
 static void scope_getrect(t_gobj *z, t_glist *gl, int *xp1, int *yp1, int *xp2, int *yp2);
 
-// draw inlets
-static void scope_draw_inlets(t_scope *x){
-    if(x->x_edit && x->x_receive == &s_){
-        t_canvas *cv = glist_getcanvas(x->x_glist);
-        int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in1\n",
-            cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom), x);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in2\n",
-            cv, xpos+x->x_width, ypos, xpos+x->x_width-(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom), x);
-    }
-}
-
 static void scope_drawfg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2){
     float dx, dy, xx = 0, yy = 0, oldx, oldy, sc, xsc, ysc;
     float *xbp = x->x_xbuflast, *ybp = x->x_ybuflast;
@@ -177,6 +165,18 @@ static void scope_drawbg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y
             cv, x1, yy, x2, yy, x->x_zoom, x, x, x->x_gg[0], x->x_gg[1], x->x_gg[2]);
 }
 
+// draw inlets
+static void scope_draw_inlets(t_scope *x){
+    if(x->x_edit && x->x_receive == &s_){
+        t_canvas *cv = glist_getcanvas(x->x_glist);
+        int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in1\n",
+            cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom), x);
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in2\n",
+            cv, xpos+x->x_width, ypos, xpos+x->x_width-(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom), x);
+    }
+}
+
 static void scope_draw(t_scope *x, t_canvas *cv){
     int x1, y1, x2, y2;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
@@ -184,6 +184,7 @@ static void scope_draw(t_scope *x, t_canvas *cv){
     if(x->x_xymode)
         scope_drawfg(x, cv, x1, y1, x2, y2);
     scope_drawmargins(x, cv, x1, y1, x2, y2);
+    scope_draw_inlets(x);
 }
 
 static void scope_redraw(t_scope *x, t_canvas *cv){
@@ -353,7 +354,6 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis){
         int bufsize = x->x_bufsize;
         x->x_bufsize = x->x_lastbufsize;
         scope_draw(x, x->x_cv);
-        scope_draw_inlets(x);
         x->x_bufsize = bufsize;
     }
     else{
@@ -532,12 +532,12 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
         x->x_width = width, x->x_height = height;
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
             t_canvas *cv = glist_getcanvas(x->x_glist);
-            if(x->x_xymode)
-                scope_redraw(x, cv);
             sys_vgui(".x%lx.c delete all%lx\n", cv, x);
             sys_vgui(".x%lx.c delete %lx_in1\n", cv, x);
             sys_vgui(".x%lx.c delete %lx_in2\n", cv, x);
             scope_draw(x, cv);
+            if(x->x_xymode)
+                scope_redraw(x, cv);
             canvas_fixlinesfor(x->x_glist, (t_text *)x);
         }
     }
@@ -547,6 +547,7 @@ static void scope_receive(t_scope *x, t_symbol *s){
     if(s != gensym("")){
         t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
         if(rcv != x->x_receive){
+            canvas_dirty(x->x_glist, 1);
             if(x->x_receive != &s_)
                 pd_unbind(&x->x_obj.ob_pd, x->x_receive);
             x->x_rcv_set = 1;
@@ -606,10 +607,9 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f){
         x->x_width += sh->h_dragx, x->x_height += sh->h_dragy;
         sys_vgui(".x%lx.c delete %s\n", x->x_cv, sh->h_outlinetag);
         sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, x);
-        scope_draw(x, x->x_cv);
         sys_vgui(".x%lx.c delete %lx_in1\n", x->x_cv, x);
         sys_vgui(".x%lx.c delete %lx_in2\n", x->x_cv, x);
-        scope_draw_inlets(x);
+        scope_draw(x, x->x_cv);
         scope_select((t_gobj *)x, x->x_glist, 1);
         canvas_fixlinesfor(x->x_glist, (t_text *)x);
     }
@@ -835,10 +835,10 @@ static void scope_tick(t_scope *x){
 }
 
 static void scope_get_rcv(t_scope* x){
-    t_binbuf *bb = x->x_obj.te_binbuf;
-   int n_args = binbuf_getnatom(bb) - 1, i = 0; // number of arguments
-    char buf[128];
-     if(!x->x_rcv_set){ // no receive set, search arguments
+    if(!x->x_rcv_set){ // no receive set, search arguments
+        t_binbuf *bb = x->x_obj.te_binbuf;
+        int n_args = binbuf_getnatom(bb) - 1, i = 0; // number of arguments
+        char buf[128];
         if(n_args > 0){ // we have arguments, let's search them
             if(x->x_flag){ // arguments are flags actually
                 if(x->x_r_flag){ // we got a receive flag, let's get it

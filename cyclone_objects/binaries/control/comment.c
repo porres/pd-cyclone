@@ -63,9 +63,10 @@ typedef struct _comment{
     t_symbol       *x_bindsym;
     t_symbol       *x_fontname;
     t_symbol       *x_receive;
-    t_symbol       *x_rcv_unexpanded;
+    t_symbol       *x_rcv_raw;
     int             x_rcv_set;
     int             x_flag;
+    int             x_r_flag;
     int             x_zoom;
     int             x_fontface;
     int             x_bold;
@@ -78,14 +79,11 @@ typedef struct _comment{
 }t_comment;
 
 static void comment_draw_inlet(t_comment *x){
-    if(x->x_edit && gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
+    if(x->x_edit &&  x->x_receive == &s_){
         t_canvas *cv = glist_getcanvas(x->x_glist);
-        sys_vgui(".x%lx.c delete %lx_in\n", x->x_cv, x);
-        if(x->x_receive == &s_){
-            int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
-            sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in\n",
-                     cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom)-x->x_zoom, x);
-        }
+        int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in\n",
+            cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom)-x->x_zoom, x);
     }
 }
 
@@ -399,35 +397,42 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis){
     }
 }
 
-static void comment_save(t_gobj *z, t_binbuf *b){
-    t_comment *x = (t_comment *)z;
-    comment_validate(x, 0); // this is not needed, must be removed!!!
-    t_binbuf *bb = x->x_obj.te_binbuf;
+static void comment_get_rcv(t_comment* x){
     if(!x->x_rcv_set){ // no receive set, search arguments
-        int n_args = binbuf_getnatom(bb); // number of arguments
+        t_binbuf *bb = x->x_obj.te_binbuf;
+        int n_args = binbuf_getnatom(bb) - 1, i = 0; // number of arguments
+        char buf[128];
         if(n_args > 0){ // we have arguments, let's search them
-            char buf[80];
-            if(x->x_flag){ // search for receive name in attributes
-                for(int i = 0;  i < n_args; i++){
-                    atom_string(binbuf_getvec(bb) + i, buf, 80);
-                    if(gensym(buf) == gensym("@receive")){
-                        atom_string(binbuf_getvec(bb) + i + 1, buf, 80);
-                        x->x_rcv_unexpanded = gensym(buf);
-                        break;
+            if(x->x_flag){ // arguments are flags actually
+                if(x->x_r_flag){ // we got a receive flag, let's get it
+                    for(i = 0;  i <= n_args; i++){
+                        atom_string(binbuf_getvec(bb) + i, buf, 128);
+                        if(gensym(buf) == gensym("@receive")){
+                            i++;
+                            atom_string(binbuf_getvec(bb) + i, buf, 128);
+                            x->x_rcv_raw = gensym(buf);
+                            break;
+                        }
                     }
                 }
             }
-            else{ // search receive argument
+            else{ // we got no flags, let's search for argument
                 int arg_n = 4; // receive argument number
                 if(n_args >= arg_n){ // we have it, get it
-                    atom_string(binbuf_getvec(bb) + arg_n, buf, 80);
-                    x->x_rcv_unexpanded = gensym(buf);
+                    atom_string(binbuf_getvec(bb) + arg_n, buf, 128);
+                    x->x_rcv_raw = gensym(buf);
                 }
             }
         }
-        if(x->x_rcv_unexpanded == &s_) // if nothing found, set to "empty"
-            x->x_rcv_unexpanded = gensym("?");
     }
+    if(x->x_rcv_raw == &s_)
+        x->x_rcv_raw = gensym("?");
+}
+    
+static void comment_save(t_gobj *z, t_binbuf *b){
+    t_comment *x = (t_comment *)z;
+    t_binbuf *bb = x->x_obj.te_binbuf;
+    comment_get_rcv(x);
     binbuf_addv(b, "ssiisiissiiiiiiiiii",
         gensym("#X"),
         gensym("obj"),
@@ -437,7 +442,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
         x->x_pixwidth / x->x_zoom,
         x->x_fontsize / x->x_zoom,
         x->x_fontname,
-        x->x_rcv_unexpanded,
+        x->x_rcv_raw,
         x->x_fontface,
         (int)x->x_red,
         (int)x->x_green,
@@ -461,11 +466,11 @@ static void comment_transtick(t_comment *x){
 static void comment_float(t_comment *x, t_float f){
     if(x->x_active && (int)f > 0){
         int i, newsize, ndel, n = (int)f;
-        post("n = %c", n);
+//        post("n = %c", n);
         if(n == '\r') // return
             n = '\n';
         if(n == '\b'){ // backspace
-            post("backspace");
+//            post("backspace");
             if((!x->x_selstart) && (x->x_selend == x->x_textbufsize)){
 //                post("(!x->x_selstart) && (x->x_selend == x->x_textbufsize)");
 //                post("we should CLEAR");
@@ -483,7 +488,7 @@ static void comment_float(t_comment *x, t_float f){
             x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
             x->x_textbufsize = newsize;
             if(n == '\n' || !iscntrl(n)){
-               post("accepted");
+//               post("accepted");
                 newsize = x->x_textbufsize+1;
                 x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
                 for(i = x->x_textbufsize; i > x->x_selstart; i--)
@@ -492,8 +497,7 @@ static void comment_float(t_comment *x, t_float f){
                 x->x_textbufsize = newsize;
                 x->x_selstart = x->x_selstart + 1;
             }
-            else
-                post("rejected: [%c]", n);
+//            else post("rejected: [%c]", n);
             x->x_selend = x->x_selstart;
             x->x_glist->gl_editor->e_textdirty = 1;
             binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
@@ -584,53 +588,58 @@ static void edit_proxy_any(t_edit_proxy *p, t_symbol *s, int ac, t_atom *av){
 }
 
 //---------------------------- METHODS ----------------------------------------
+
+
+
 static void comment_receive(t_comment *x, t_symbol *s){
-    t_symbol *rcv = canvas_realizedollar(x->x_glist, x->x_rcv_unexpanded = s);
-    if(x->x_receive != rcv){
-        if(rcv == gensym("empty"))
-            rcv = &s_;
-        if(rcv != &s_){
+    if(s != gensym("")){
+        t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
+        if(rcv != x->x_receive){
+            canvas_dirty(x->x_glist, 1);
             if(x->x_receive != &s_)
                 pd_unbind(&x->x_obj.ob_pd, x->x_receive);
-            pd_bind(&x->x_obj.ob_pd, x->x_receive = rcv);
-        }
-        else{
-            if(x->x_receive != &s_)
-                pd_unbind(&x->x_obj.ob_pd, x->x_receive);
+            x->x_rcv_set = 1;
+            x->x_rcv_raw = s;
             x->x_receive = rcv;
+            if(x->x_receive == &s_){
+                if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
+                    comment_draw_inlet(x);
+            }
+            else{
+                pd_bind(&x->x_obj.ob_pd, x->x_receive);
+                if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
+                    sys_vgui(".x%lx.c delete %lx_in\n", glist_getcanvas(x->x_glist), x);
+            }
         }
     }
-    comment_draw_inlet(x);
-}
-
-static void comment_set_receive(t_comment *x, t_symbol *s){
-    x->x_rcv_set = 1;
-    canvas_dirty(x->x_glist, 1);
-    comment_receive(x, s);
 }
 
 static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
-    canvas_dirty(x->x_glist, 1);
-    t_binbuf *bb = binbuf_new();
-    binbuf_restore(bb, ac, av);
-    binbuf_addbinbuf(x->x_binbuf, bb);
-    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
-    if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
-        comment_redraw(x, x->x_bg_flag);
+    if(ac){
+        canvas_dirty(x->x_glist, 1);
+        t_binbuf *bb = binbuf_new();
+        binbuf_restore(bb, ac, av);
+        binbuf_addbinbuf(x->x_binbuf, bb);
+        binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
+        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
+            comment_redraw(x, x->x_bg_flag);
+    }
 }
 
 static void comment_prepend(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
-    canvas_dirty(x->x_glist, 1);
-    t_binbuf *bb = binbuf_new();
-    binbuf_restore(bb, ac, av);
-    binbuf_addbinbuf(bb, x->x_binbuf);
-    binbuf_clear(x->x_binbuf);
-    binbuf_addbinbuf(x->x_binbuf, bb);
-    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
-    if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
-        comment_redraw(x, x->x_bg_flag);
+    if(ac){
+        canvas_dirty(x->x_glist, 1);
+        t_binbuf *bb = binbuf_new();
+        binbuf_restore(bb, ac, av);
+        binbuf_addbinbuf(bb, x->x_binbuf);
+        binbuf_clear(x->x_binbuf);
+        binbuf_addbinbuf(x->x_binbuf, bb);
+        binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
+        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
+            comment_redraw(x, x->x_bg_flag);
+    }
 }
 
 static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
@@ -776,163 +785,6 @@ static void comment_free(t_comment *x){
     x->x_proxy->p_cnv = NULL;
 }
 
-///////////// ==========------------------------------------===>  later rethink/REWRITE
-static void comment_attrparser(t_comment *x, int ac, t_atom * av){
-    t_atom* comlist = t_getbytes(ac * sizeof(*comlist));
-    int i, comlen = 0; // eventual length of comment list comlist
-    for(i = 0; i < ac; i++){
-        if(av[i].a_type == A_FLOAT){
-            SETFLOAT(&comlist[comlen], av[i].a_w.w_float);
-            comlen++;
-        }
-        else if(av[i].a_type == A_SYMBOL){
-            t_symbol * sym = av[i].a_w.w_symbol;
-            if(sym == gensym("@fontsize")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT){
-                        int fontsize = (int)av[i].a_w.w_float;
-                        x->x_fontsize = fontsize;
-                    }
-                    else i--;
-                };
-            }
-            else if(sym == gensym("@fontname")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_SYMBOL)
-                        x->x_fontname = av[i].a_w.w_symbol;
-                    else i--;
-                };
-            }
-            else if(sym == gensym("@receive")){
-                x->x_flag = 1;
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_SYMBOL)
-                        comment_receive(x, atom_getsymbolarg(i, ac, av));
-                    else i--;
-                };
-            }
-            else if(sym == gensym("@textcolor")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT){
-                        int rgb = (unsigned char)av[i].a_w.w_float;
-                        x->x_red = rgb;
-                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
-                    }
-                    else i--;
-                };
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT){
-                        i++;
-                        int rgb = (unsigned char)av[i].a_w.w_float;
-                        x->x_green = rgb;
-                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
-                    }
-                    else i--;
-                };
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT){
-                        i++;
-                        int rgb = (unsigned char)av[i].a_w.w_float;
-                        x->x_blue = rgb;
-                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
-                    }
-                    else i--;
-                };
-            }
-            else if(sym == gensym("@bgcolor")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT){
-                        int rgb = (unsigned int)av[i].a_w.w_float;
-                        x->x_bg[0] = rgb;
-                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-                    }
-                    else i--;
-                };
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT){
-                        i++;
-                        int rgb = (unsigned int)av[i].a_w.w_float;
-                        x->x_bg[1] = rgb;
-                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-                    }
-                    else i--;
-                };
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT){
-                        i++;
-                        int rgb = (unsigned char)av[i].a_w.w_float;
-                        x->x_bg[2] = rgb;
-                        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-                    }
-                    else i--;
-                };
-            }
-            else if(sym == gensym("@text")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_SYMBOL){
-                        SETSYMBOL(&comlist[comlen], av[i].a_w.w_symbol);
-                        comlen++;
-                    }
-                    else i--;
-                };
-            }
-            else if(sym == gensym("@fontface")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT)
-                        x->x_fontface  = (int)av[i].a_w.w_float;
-                    else i--;
-                };
-            }
-            else if(sym == gensym("@underline")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT)
-                        x->x_underline = (int)(av[i].a_w.w_float != 0);
-                    else
-                        i--;
-                };
-            }
-            else if(sym == gensym("@bg")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT)
-                        x->x_bg_flag = (int)(av[i].a_w.w_float != 0);
-                    else
-                        i--;
-                };
-            }
-            else if(sym == gensym("@textjustification")){
-                i++;
-                if((ac-i) > 0){
-                    if(av[i].a_type == A_FLOAT){
-                        int textjust = (int)av[i].a_w.w_float;
-                        x->x_textjust = textjust < 0 ? 0 : textjust > 2 ? 2 : textjust;
-                    }
-                    else i--;
-                };
-            }
-            else{ // treat it as a part of comlist
-                SETSYMBOL(&comlist[comlen], sym);
-                comlen++;
-            };
-        };
-    };
-    if(comlen) //set the comment with comlist
-        binbuf_restore(x->x_binbuf, comlen, comlist);
-    else{
-        SETSYMBOL(&comlist[0], gensym("comment"));
-        binbuf_restore(x->x_binbuf, 1, comlist);
-    };
-    t_freebytes(comlist, ac * sizeof(*comlist));
-}
-
 static void *comment_new(t_symbol *s, int ac, t_atom *av){
     s = NULL;
     t_comment *x = (t_comment *)pd_new(comment_class);
@@ -944,7 +796,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_encoding = x->x_fontname = 0;
     x->x_edit = x->x_glist->gl_edit;
     x->x_textbuf = 0;
-    x->x_rcv_set = x->x_flag = 0;
+    x->x_rcv_set = x->x_flag = x->x_r_flag = 0;
     x->x_pixwidth = x->x_fontsize = x->x_bbpending = x->x_fontface = x->x_bold = x->x_italic = 0;
     x->x_textjust = 0;
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
@@ -952,7 +804,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_bg[0] = x->x_bg[1] = x->x_bg[2] = 255;
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
     x->x_bbset = x->x_ready = x->x_dragon = 0;
-    x->x_receive = x->x_rcv_unexpanded = &s_;
+    t_symbol *rcv = x->x_receive = x->x_rcv_raw = &s_;
     x->x_transclock = clock_new(x, (t_method)comment_transtick);
     char buf[MAXPDSTRING];
     snprintf(buf, MAXPDSTRING-1, ".x%lx", (unsigned long)x->x_cv);
@@ -978,7 +830,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                 ac--, av++;
                 if(ac && av->a_type == A_SYMBOL){ // 4TH RECEIVE
                     if(av->a_w.w_symbol != gensym("?")){ //  '?' sets empty receive symbol
-                        comment_receive(x, av->a_w.w_symbol);
+                        rcv = av->a_w.w_symbol;
                         ac--, av++;
                     }
                     else
@@ -1029,8 +881,170 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
         }
     }
     x->x_binbuf = binbuf_new();
-    if(ac)
-        comment_attrparser(x, ac, av);
+    if(ac){
+        t_atom* comlist = t_getbytes(ac * sizeof(*comlist));
+        int i, comlen = 0; // eventual length of comment list comlist
+        for(i = 0; i < ac; i++){
+            if(av[i].a_type == A_FLOAT){
+                SETFLOAT(&comlist[comlen], av[i].a_w.w_float);
+                comlen++;
+            }
+            else if(av[i].a_type == A_SYMBOL){
+                t_symbol * sym = av[i].a_w.w_symbol;
+                if(sym == gensym("@fontsize")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT){
+                            int fontsize = (int)av[i].a_w.w_float;
+                            x->x_fontsize = fontsize;
+                        }
+                        else i--;
+                    };
+                }
+                else if(sym == gensym("@fontname")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_SYMBOL)
+                            x->x_fontname = av[i].a_w.w_symbol;
+                        else i--;
+                    };
+                }
+                else if(sym == gensym("@receive")){
+                    x->x_flag = x->x_r_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_SYMBOL)
+                            rcv = atom_getsymbolarg(i, ac, av);
+                        else i--;
+                    };
+                }
+                else if(sym == gensym("@textcolor")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT){
+                            int rgb = (unsigned char)av[i].a_w.w_float;
+                            x->x_red = rgb;
+                            sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+                        }
+                        else i--;
+                    };
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT){
+                            i++;
+                            int rgb = (unsigned char)av[i].a_w.w_float;
+                            x->x_green = rgb;
+                            sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+                        }
+                        else i--;
+                    };
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT){
+                            i++;
+                            int rgb = (unsigned char)av[i].a_w.w_float;
+                            x->x_blue = rgb;
+                            sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+                        }
+                        else i--;
+                    };
+                }
+                else if(sym == gensym("@bgcolor")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT){
+                            int rgb = (unsigned int)av[i].a_w.w_float;
+                            x->x_bg[0] = rgb;
+                            sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+                        }
+                        else i--;
+                    };
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT){
+                            i++;
+                            int rgb = (unsigned int)av[i].a_w.w_float;
+                            x->x_bg[1] = rgb;
+                            sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+                        }
+                        else i--;
+                    };
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT){
+                            i++;
+                            int rgb = (unsigned char)av[i].a_w.w_float;
+                            x->x_bg[2] = rgb;
+                            sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+                        }
+                        else i--;
+                    };
+                }
+                else if(sym == gensym("@text")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_SYMBOL){
+                            SETSYMBOL(&comlist[comlen], av[i].a_w.w_symbol);
+                            comlen++;
+                        }
+                        else i--;
+                    };
+                }
+                else if(sym == gensym("@fontface")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT)
+                            x->x_fontface  = (int)av[i].a_w.w_float;
+                        else i--;
+                    };
+                }
+                else if(sym == gensym("@underline")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT)
+                            x->x_underline = (int)(av[i].a_w.w_float != 0);
+                        else
+                            i--;
+                    };
+                }
+                else if(sym == gensym("@bg")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT)
+                            x->x_bg_flag = (int)(av[i].a_w.w_float != 0);
+                        else
+                            i--;
+                    };
+                }
+                else if(sym == gensym("@textjustification")){
+                    x->x_flag = 1;
+                    i++;
+                    if((ac-i) > 0){
+                        if(av[i].a_type == A_FLOAT){
+                            int textjust = (int)av[i].a_w.w_float;
+                            x->x_textjust = textjust < 0 ? 0 : textjust > 2 ? 2 : textjust;
+                        }
+                        else i--;
+                    };
+                }
+                else{ // treat it as a part of comlist
+                    SETSYMBOL(&comlist[comlen], sym);
+                    comlen++;
+                };
+            };
+        };
+        if(comlen) //set the comment with comlist
+            binbuf_restore(x->x_binbuf, comlen, comlist);
+        else{
+            SETSYMBOL(&comlist[0], gensym("comment"));
+            binbuf_restore(x->x_binbuf, 1, comlist);
+        };
+        t_freebytes(comlist, ac * sizeof(*comlist));
+    }
     else{
         t_atom at;
         SETSYMBOL(&at, gensym("comment"));
@@ -1053,6 +1067,9 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_bg[1] = x->x_bg[1] > 255 ? 255 : x->x_bg[1] < 0 ? 0 : x->x_bg[1];
     x->x_bg[2] = x->x_bg[2] > 255 ? 255 : x->x_bg[2] < 0 ? 0 : x->x_bg[2];
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+    x->x_receive = canvas_realizedollar(x->x_glist, x->x_rcv_raw = rcv);
+    if(x->x_receive != &s_)
+        pd_bind(&x->x_obj.ob_pd, x->x_receive);
     return(x);
 }
 
@@ -1062,7 +1079,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addfloat(comment_class, comment_float);
     class_addlist(comment_class, comment_list);
     class_addmethod(comment_class, (t_method)comment_fontname, gensym("fontname"), A_SYMBOL, 0);
-    class_addmethod(comment_class, (t_method)comment_set_receive, gensym("receive"), A_SYMBOL, 0);
+    class_addmethod(comment_class, (t_method)comment_receive, gensym("receive"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment_fontsize, gensym("fontsize"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_set, gensym("set"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment_append, gensym("append"), A_GIMME, 0);
