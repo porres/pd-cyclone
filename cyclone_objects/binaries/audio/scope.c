@@ -10,10 +10,12 @@
 - 2016 = Derek Kwan: haven't cleaned out old dependencies (grow/loud/fitter/forky). Methods (bufsize,
  period, calccount, range, delay, trigger, triglevel, frgb/brgb) are rewritten, as well as attr
  declaration. Wrote color version that take vals 0-1 instead of 0-255.
+- Matt didn't put what he did but he's the one who did more stuff on this for 0.3, like creating a
+ properties window and implementing the magic stuff
 - 2017-20 = Porres finished cleaning dependencies (sic/grow/loud/fitter/forky/all_guis/math),
-cleanup the code drastically, fixed a regression bug from 0.3 and implemented zoom;
-- Matt didn't put what he did but he's the one who did more stuff on this for 0,3, like creating a
- properties dialog and implementing the magic stuff */
+cleaned up and revised the code drastically, fixed a couple of regression bugs from 0.3, improved
+tcl/tk handling avoiding potential errors, changed the click mechanism, added a receive symbol
+and implemented zoom; */
 
 #include "common/api.h"
 #include "m_pd.h"
@@ -1012,108 +1014,110 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     unsigned char grred = 96, grgreen = 98, grblue = 102;   // default grid color
     float f_r = 0, f_g = 0, f_b = 0, b_r = 0, b_g = 0, b_b = 0, g_r = 0, g_g = 0, g_b = 0;
     int fcolset = 0, bcolset = 0, gcolset = 0; // flag for colorset
-    if(ac && av->a_type == A_FLOAT){ // 1st Width
-        width = av->a_w.w_float < SCOPE_MINSIZE ? SCOPE_MINSIZE : av->a_w.w_float;
-        ac--; av++;
-        if(ac && av->a_type == A_FLOAT){ // 2nd Height
-            height = av->a_w.w_float < SCOPE_MINSIZE ? SCOPE_MINSIZE : av->a_w.w_float;
-            ac--, av++;
-            if(ac && av->a_type == A_FLOAT){ // 3rd period
-                period = av->a_w.w_float;
-                ac--; av++;
-                if(ac && av->a_type == A_FLOAT){ // 4th nothing really (argh/grrr)
+    if(ac){
+        if(av->a_type == A_FLOAT){ // 1st Width
+            width = av->a_w.w_float < SCOPE_MINSIZE ? SCOPE_MINSIZE : av->a_w.w_float;
+            ac--; av++;
+            if(ac && av->a_type == A_FLOAT){ // 2nd Height
+                height = av->a_w.w_float < SCOPE_MINSIZE ? SCOPE_MINSIZE : av->a_w.w_float;
+                ac--, av++;
+                if(ac && av->a_type == A_FLOAT){ // 3rd period
+                    period = av->a_w.w_float;
                     ac--; av++;
-                    if(ac && av->a_type == A_FLOAT){ // 5th bufsize
-                        bufsize = av->a_w.w_float;
+                    if(ac && av->a_type == A_FLOAT){ // 4th nothing really (argh/grrr)
                         ac--; av++;
-                        if(ac && av->a_type == A_FLOAT){ // 6th minval
-                            minval = av->a_w.w_float;
+                        if(ac && av->a_type == A_FLOAT){ // 5th bufsize
+                            bufsize = av->a_w.w_float;
                             ac--; av++;
-                            if(ac && av->a_type == A_FLOAT){ // 7th maxval
-                                maxval = av->a_w.w_float;
+                            if(ac && av->a_type == A_FLOAT){ // 6th minval
+                                minval = av->a_w.w_float;
                                 ac--; av++;
-                                if(ac && av->a_type == A_FLOAT){ // 8th delay
-                                    delay = av->a_w.w_float;
+                                if(ac && av->a_type == A_FLOAT){ // 7th maxval
+                                    maxval = av->a_w.w_float;
                                     ac--; av++;
-                                    if(ac && av->a_type == A_FLOAT){ // 9th ? nobody knows...
+                                    if(ac && av->a_type == A_FLOAT){ // 8th delay
+                                        delay = av->a_w.w_float;
                                         ac--; av++;
-                                        if(ac && av->a_type == A_FLOAT){ // 10th trigger
-                                            trigger = av->a_w.w_float;
+                                        if(ac && av->a_type == A_FLOAT){ // 9th ? nobody knows...
                                             ac--; av++;
-                                            if(ac && av->a_type == A_FLOAT){ // 11th triglevel
-                                                triglevel = av->a_w.w_float;
+                                            if(ac && av->a_type == A_FLOAT){ // 10th trigger
+                                                trigger = av->a_w.w_float;
                                                 ac--; av++;
-                                                if(ac && av->a_type == A_FLOAT){ // 12th fgred
-                                                    fgred = (unsigned char)av->a_w.w_float;
-                                                    if(fgred < 0)
-                                                        fgred = 0;
-                                                    if(fgred > 255)
-                                                        fgred = 255;
+                                                if(ac && av->a_type == A_FLOAT){ // 11th triglevel
+                                                    triglevel = av->a_w.w_float;
                                                     ac--; av++;
-                                                    if(ac && av->a_type == A_FLOAT){ // 13th fggreen
-                                                        fggreen = (unsigned char)av->a_w.w_float;
-                                                        if(fggreen < 0)
-                                                            fggreen = 0;
-                                                        if(fggreen > 255)
-                                                            fggreen = 255;
+                                                    if(ac && av->a_type == A_FLOAT){ // 12th fgred
+                                                        fgred = (unsigned char)av->a_w.w_float;
+                                                        if(fgred < 0)
+                                                            fgred = 0;
+                                                        if(fgred > 255)
+                                                            fgred = 255;
                                                         ac--; av++;
-                                                        if(ac && av->a_type == A_FLOAT){ // 14th fgblue
-                                                            fgblue = (unsigned char)av->a_w.w_float;
-                                                            if(fgblue < 0)
-                                                                fgblue = 0;
-                                                            if(fgblue > 255)
-                                                                fgblue = 255;
+                                                        if(ac && av->a_type == A_FLOAT){ // 13th fggreen
+                                                            fggreen = (unsigned char)av->a_w.w_float;
+                                                            if(fggreen < 0)
+                                                                fggreen = 0;
+                                                            if(fggreen > 255)
+                                                                fggreen = 255;
                                                             ac--; av++;
-                                                            if(ac && av->a_type == A_FLOAT){ // 15th bgred
-                                                                bgred = (unsigned char)av->a_w.w_float;
-                                                                if(bgred < 0)
-                                                                    bgred = 0;
-                                                                if(bgred > 255)
-                                                                    bgred = 255;
+                                                            if(ac && av->a_type == A_FLOAT){ // 14th fgblue
+                                                                fgblue = (unsigned char)av->a_w.w_float;
+                                                                if(fgblue < 0)
+                                                                    fgblue = 0;
+                                                                if(fgblue > 255)
+                                                                    fgblue = 255;
                                                                 ac--; av++;
-                                                                if(ac && av->a_type == A_FLOAT){ // 16th bggreen
-                                                                    bggreen = (unsigned char)av->a_w.w_float;
-                                                                    if(bggreen < 0)
-                                                                        bggreen = 0;
-                                                                    if(bggreen > 255)
-                                                                        bggreen = 255;
+                                                                if(ac && av->a_type == A_FLOAT){ // 15th bgred
+                                                                    bgred = (unsigned char)av->a_w.w_float;
+                                                                    if(bgred < 0)
+                                                                        bgred = 0;
+                                                                    if(bgred > 255)
+                                                                        bgred = 255;
                                                                     ac--; av++;
-                                                                    if(ac && av->a_type == A_FLOAT){ // 17th bgblue
-                                                                        bgblue = (unsigned char)av->a_w.w_float;
-                                                                        if(bgblue < 0)
-                                                                            bgblue = 0;
-                                                                        if(fgblue > 255)
-                                                                            bgblue = 255;
+                                                                    if(ac && av->a_type == A_FLOAT){ // 16th bggreen
+                                                                        bggreen = (unsigned char)av->a_w.w_float;
+                                                                        if(bggreen < 0)
+                                                                            bggreen = 0;
+                                                                        if(bggreen > 255)
+                                                                            bggreen = 255;
                                                                         ac--; av++;
-                                                                        if(ac && av->a_type == A_FLOAT){ // 18th grred
-                                                                            grred = (unsigned char)av->a_w.w_float;
-                                                                            if(grred < 0)
-                                                                                grred = 0;
-                                                                            if(grred > 255)
-                                                                                grred = 255;
+                                                                        if(ac && av->a_type == A_FLOAT){ // 17th bgblue
+                                                                            bgblue = (unsigned char)av->a_w.w_float;
+                                                                            if(bgblue < 0)
+                                                                                bgblue = 0;
+                                                                            if(fgblue > 255)
+                                                                                bgblue = 255;
                                                                             ac--; av++;
-                                                                            if(ac && av->a_type == A_FLOAT){ // 19th grgreen
-                                                                                grgreen = (unsigned char)av->a_w.w_float;
-                                                                                if(grgreen < 0)
-                                                                                    grgreen = 0;
-                                                                                if(grgreen > 255)
-                                                                                    grgreen = 255;
+                                                                            if(ac && av->a_type == A_FLOAT){ // 18th grred
+                                                                                grred = (unsigned char)av->a_w.w_float;
+                                                                                if(grred < 0)
+                                                                                    grred = 0;
+                                                                                if(grred > 255)
+                                                                                    grred = 255;
                                                                                 ac--; av++;
-                                                                                if(ac && av->a_type == A_FLOAT){ // 20th grblue
-                                                                                    grblue = (unsigned char)av->a_w.w_float;
-                                                                                    if(grblue < 0)
-                                                                                        grblue = 0;
-                                                                                    if(grblue > 255)
-                                                                                        grblue = 255;
+                                                                                if(ac && av->a_type == A_FLOAT){ // 19th grgreen
+                                                                                    grgreen = (unsigned char)av->a_w.w_float;
+                                                                                    if(grgreen < 0)
+                                                                                        grgreen = 0;
+                                                                                    if(grgreen > 255)
+                                                                                        grgreen = 255;
                                                                                     ac--; av++;
-                                                                                    if(ac && av->a_type == A_FLOAT){ // 21st empty
+                                                                                    if(ac && av->a_type == A_FLOAT){ // 20th grblue
+                                                                                        grblue = (unsigned char)av->a_w.w_float;
+                                                                                        if(grblue < 0)
+                                                                                            grblue = 0;
+                                                                                        if(grblue > 255)
+                                                                                            grblue = 255;
                                                                                         ac--; av++;
-                                                                                        if(ac && av->a_type == A_SYMBOL){ // 22nd receive
-                                                                                            if(av->a_w.w_symbol == gensym("empty")) // ignore empty symbol
-                                                                                                ac--, av++;
-                                                                                            else{
-                                                                                                rcv = av->a_w.w_symbol;
-                                                                                                ac--, av++;
+                                                                                        if(ac && av->a_type == A_FLOAT){ // 21st empty
+                                                                                            ac--; av++;
+                                                                                            if(ac && av->a_type == A_SYMBOL){ // 22nd receive
+                                                                                                if(av->a_w.w_symbol == gensym("empty")) // ignore empty symbol
+                                                                                                    ac--, av++;
+                                                                                                else{
+                                                                                                    rcv = av->a_w.w_symbol;
+                                                                                                    ac--, av++;
+                                                                                                }
                                                                                             }
                                                                                         }
                                                                                     }
@@ -1136,121 +1140,122 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
                 }
             }
         }
-    }
-    else if(av->a_type == A_SYMBOL){
-        t_symbol *sym = atom_getsymbolarg(0, ac, av);
-        if(sym == gensym("@calccount") && ac >= 2){
-            x->x_flag = 1;
-            period = atom_getfloatarg(1, ac, av);
-            ac-=2, av+=2;
-        }
-        else if(sym == gensym("@bufsize") && ac >= 2){
-            x->x_flag = 1;
-            bufsize = atom_getfloatarg(1, ac, av);
-            ac-=2, av+=2;
-        }
-        else if(sym == gensym("@range") && ac >= 3){
-            x->x_flag = 1;
-            minval = atom_getfloatarg(1, ac, av);
-            maxval = atom_getfloatarg(2, ac, av);
-            ac-=3, av+=3;
-        }
-        else if(sym == gensym("@dim") && ac >= 3){
-            x->x_flag = 1;
-            height = atom_getfloatarg(1, ac, av);
-            width = atom_getfloatarg(2, ac, av);
-            ac-=3, av+=3;
-        }
-        else if(sym == gensym("@delay") && ac >= 2){
-            x->x_flag = 1;
-            delay = atom_getfloatarg(1, ac, av);
-            ac-=2, av+=2;
-        }
-        else if(sym == gensym("@drawstyle") && ac >= 2){
-            x->x_flag = 1;
-            drawstyle = atom_getfloatarg(1, ac, av);
-            ac-=2, av+=2;
-        }
-        else if(sym == gensym("@trigger") && ac >= 2){
-            x->x_flag = 1;
-            trigger = atom_getfloatarg(1, ac, av);
-            ac-=2, av+=2;
-        }
-        else if(sym == gensym("@triglevel") && ac >= 2){
-            x->x_flag = 1;
-            triglevel = atom_getfloatarg(1, ac, av);
-            ac-=2, av+=2;
-        }
-        else if(sym == gensym("@frgb") && ac >= 4){
-            x->x_flag = 1;
-            fgred = (unsigned char)atom_getfloatarg(1, ac, av);
-            fgred = fgred < 0 ? 0 : fgred > 255 ? 255 : fgred;
-            fggreen = atom_getfloatarg(2, ac, av);
-            fggreen = fggreen < 0 ? 0 : fggreen > 255 ? 255 : fggreen;
-            fgblue = atom_getfloatarg(3, ac, av);
-            fgblue = fgblue < 0 ? 0 : fgblue > 255 ? 255 : fgblue;
-            ac-=4, av+=4;
-        }
-        else if(sym == gensym("@brgb") && ac >= 4){
-            x->x_flag = 1;
-            bgred = (unsigned char)atom_getfloatarg(1, ac, av);
-            bgred = bgred < 0 ? 0 : bgred > 255 ? 255 : bgred;
-            bggreen = atom_getfloatarg(2, ac, av);
-            bggreen = bggreen < 0 ? 0 : bggreen > 255 ? 255 : bggreen;
-            bgblue = atom_getfloatarg(3, ac, av);
-            bgblue = bgblue < 0 ? 0 : bgblue > 255 ? 255 : bgblue;
-            ac-=4, av+=4;
-        }
-        else if(sym == gensym("@grgb") && ac >= 4){
-            x->x_flag = 1;
-            grred = (unsigned char)atom_getfloatarg(1, ac, av);
-            grred = grred < 0 ? 0 : grred > 255 ? 255 : grred;
-            grgreen = atom_getfloatarg(2, ac, av);
-            grgreen = grgreen < 0 ? 0 : grgreen > 255 ? 255 : grgreen;
-            grblue = atom_getfloatarg(3, ac, av);
-            grblue = grblue < 0 ? 0 : grblue > 255 ? 255 : grblue;
-            ac-=4, av+=4;
-        }
-        else if(sym == gensym("@fgcolor") && ac >= 4){
-            x->x_flag = 1;
-            f_r = atom_getfloatarg(1, ac, av);
-            f_r = f_r < 0 ? 0 : f_r > 1 ? 255 : (unsigned char)(f_r * 255);
-            f_g = atom_getfloatarg(2, ac, av);
-            f_g = f_g < 0 ? 0 : f_g > 1 ? 255 : (unsigned char)(f_g * 255);
-            f_b = atom_getfloatarg(3, ac, av);
-            f_b = f_b < 0 ? 0 : f_b > 1 ? 255 : (unsigned char)(f_b * 255);
-            ac-=4, av+=4, fcolset = 1;
-        }
-        else if(sym == gensym("@bgcolor") && ac >= 4){
-            x->x_flag = 1;
-            b_r = atom_getfloatarg(1, ac, av);
-            b_r = b_r < 0 ? 0 : b_r > 1 ? 255 : (unsigned char)(b_r * 255);
-            b_g = atom_getfloatarg(2, ac, av);
-            b_g = b_g < 0 ? 0 : b_g > 1 ? 255 : (unsigned char)(b_g * 255);
-            b_b = atom_getfloatarg(3, ac, av);
-            b_b = b_b < 0 ? 0 : b_b > 1 ? 255 : (unsigned char)(b_b * 255);
-            ac-=4, av+=4, bcolset = 1;
-        }
-        else if(sym == gensym("@gridcolor") && ac >= 4){
-            x->x_flag = 1;
-            g_r = atom_getfloatarg(1, ac, av);
-            g_r = g_r < 0 ? 0 : g_r > 1 ? 255 : (unsigned char)(g_r * 255);
-            g_g = atom_getfloatarg(2, ac, av);
-            g_g = g_g < 0 ? 0 : g_g > 1 ? 255 : (unsigned char)(g_g * 255);
-            g_b = atom_getfloatarg(3, ac, av);
-            g_b = g_b < 0 ? 0 : g_b > 1 ? 255 : (unsigned char)(g_b * 255);
-            ac-=4, av+=4, gcolset = 1;
-        }
-        else if(sym == gensym("@receive") && ac >= 2){
-            x->x_flag = x->x_r_flag = 1;
-            rcv = atom_getsymbolarg(1, ac, av);
-            ac-=2, av+=2;
+        else if(av->a_type == A_SYMBOL){
+            t_symbol *sym = atom_getsymbolarg(0, ac, av);
+            if(sym == gensym("@calccount") && ac >= 2){
+                x->x_flag = 1;
+                period = atom_getfloatarg(1, ac, av);
+                ac-=2, av+=2;
+            }
+            else if(sym == gensym("@bufsize") && ac >= 2){
+                x->x_flag = 1;
+                bufsize = atom_getfloatarg(1, ac, av);
+                ac-=2, av+=2;
+            }
+            else if(sym == gensym("@range") && ac >= 3){
+                x->x_flag = 1;
+                minval = atom_getfloatarg(1, ac, av);
+                maxval = atom_getfloatarg(2, ac, av);
+                ac-=3, av+=3;
+            }
+            else if(sym == gensym("@dim") && ac >= 3){
+                x->x_flag = 1;
+                height = atom_getfloatarg(1, ac, av);
+                width = atom_getfloatarg(2, ac, av);
+                ac-=3, av+=3;
+            }
+            else if(sym == gensym("@delay") && ac >= 2){
+                x->x_flag = 1;
+                delay = atom_getfloatarg(1, ac, av);
+                ac-=2, av+=2;
+            }
+            else if(sym == gensym("@drawstyle") && ac >= 2){
+                x->x_flag = 1;
+                drawstyle = atom_getfloatarg(1, ac, av);
+                ac-=2, av+=2;
+            }
+            else if(sym == gensym("@trigger") && ac >= 2){
+                x->x_flag = 1;
+                trigger = atom_getfloatarg(1, ac, av);
+                ac-=2, av+=2;
+            }
+            else if(sym == gensym("@triglevel") && ac >= 2){
+                x->x_flag = 1;
+                triglevel = atom_getfloatarg(1, ac, av);
+                ac-=2, av+=2;
+            }
+            else if(sym == gensym("@frgb") && ac >= 4){
+                x->x_flag = 1;
+                fgred = (unsigned char)atom_getfloatarg(1, ac, av);
+                fgred = fgred < 0 ? 0 : fgred > 255 ? 255 : fgred;
+                fggreen = atom_getfloatarg(2, ac, av);
+                fggreen = fggreen < 0 ? 0 : fggreen > 255 ? 255 : fggreen;
+                fgblue = atom_getfloatarg(3, ac, av);
+                fgblue = fgblue < 0 ? 0 : fgblue > 255 ? 255 : fgblue;
+                ac-=4, av+=4;
+            }
+            else if(sym == gensym("@brgb") && ac >= 4){
+                x->x_flag = 1;
+                bgred = (unsigned char)atom_getfloatarg(1, ac, av);
+                bgred = bgred < 0 ? 0 : bgred > 255 ? 255 : bgred;
+                bggreen = atom_getfloatarg(2, ac, av);
+                bggreen = bggreen < 0 ? 0 : bggreen > 255 ? 255 : bggreen;
+                bgblue = atom_getfloatarg(3, ac, av);
+                bgblue = bgblue < 0 ? 0 : bgblue > 255 ? 255 : bgblue;
+                ac-=4, av+=4;
+            }
+            else if(sym == gensym("@grgb") && ac >= 4){
+                x->x_flag = 1;
+                grred = (unsigned char)atom_getfloatarg(1, ac, av);
+                grred = grred < 0 ? 0 : grred > 255 ? 255 : grred;
+                grgreen = atom_getfloatarg(2, ac, av);
+                grgreen = grgreen < 0 ? 0 : grgreen > 255 ? 255 : grgreen;
+                grblue = atom_getfloatarg(3, ac, av);
+                grblue = grblue < 0 ? 0 : grblue > 255 ? 255 : grblue;
+                ac-=4, av+=4;
+            }
+            else if(sym == gensym("@fgcolor") && ac >= 4){
+                x->x_flag = 1;
+                f_r = atom_getfloatarg(1, ac, av);
+                f_r = f_r < 0 ? 0 : f_r > 1 ? 255 : (unsigned char)(f_r * 255);
+                f_g = atom_getfloatarg(2, ac, av);
+                f_g = f_g < 0 ? 0 : f_g > 1 ? 255 : (unsigned char)(f_g * 255);
+                f_b = atom_getfloatarg(3, ac, av);
+                f_b = f_b < 0 ? 0 : f_b > 1 ? 255 : (unsigned char)(f_b * 255);
+                ac-=4, av+=4, fcolset = 1;
+            }
+            else if(sym == gensym("@bgcolor") && ac >= 4){
+                x->x_flag = 1;
+                b_r = atom_getfloatarg(1, ac, av);
+                b_r = b_r < 0 ? 0 : b_r > 1 ? 255 : (unsigned char)(b_r * 255);
+                b_g = atom_getfloatarg(2, ac, av);
+                b_g = b_g < 0 ? 0 : b_g > 1 ? 255 : (unsigned char)(b_g * 255);
+                b_b = atom_getfloatarg(3, ac, av);
+                b_b = b_b < 0 ? 0 : b_b > 1 ? 255 : (unsigned char)(b_b * 255);
+                ac-=4, av+=4, bcolset = 1;
+            }
+            else if(sym == gensym("@gridcolor") && ac >= 4){
+                x->x_flag = 1;
+                g_r = atom_getfloatarg(1, ac, av);
+                g_r = g_r < 0 ? 0 : g_r > 1 ? 255 : (unsigned char)(g_r * 255);
+                g_g = atom_getfloatarg(2, ac, av);
+                g_g = g_g < 0 ? 0 : g_g > 1 ? 255 : (unsigned char)(g_g * 255);
+                g_b = atom_getfloatarg(3, ac, av);
+                g_b = g_b < 0 ? 0 : g_b > 1 ? 255 : (unsigned char)(g_b * 255);
+                ac-=4, av+=4, gcolset = 1;
+            }
+            else if(sym == gensym("@receive") && ac >= 2){
+                x->x_flag = x->x_r_flag = 1;
+                rcv = atom_getsymbolarg(1, ac, av);
+                ac-=2, av+=2;
+            }
+            else
+                goto errstate;
         }
         else
             goto errstate;
+
     }
-    else
-        goto errstate;
     x->x_receive = canvas_realizedollar(x->x_glist, x->x_rcv_raw = rcv);
     if(x->x_receive != &s_)
         pd_bind(&x->x_obj.ob_pd, x->x_receive);
