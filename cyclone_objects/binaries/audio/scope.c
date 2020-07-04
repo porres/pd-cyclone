@@ -71,6 +71,7 @@ typedef struct _scope{
     int             x_r_flag;
     t_symbol       *x_receive;
     t_symbol       *x_rcv_raw;
+    t_symbol       *x_bindsym;
     t_clock        *x_clock;
     t_pd           *x_handle;
 }t_scope;
@@ -152,17 +153,20 @@ static void scope_drawmargins(t_scope *x, t_canvas *cv, int x1, int y1, int x2, 
            cv, x1, y1 , x2, y1, x2, y2, x1, y2, x1, y1, x->x_bg[0], x->x_bg[1], x->x_bg[2], x->x_zoom, x, x);
 }
 
-static void scope_drawbg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2){
-    int i;
+static void scope_draw_grid(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2){
     float dx = (x2-x1)*0.125, dy = (y2-y1)*0.25, xx, yy;
-    sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill #%2.2x%2.2x%2.2x -width %d -tags {bg%lx all%lx}\n",
-        cv, x1, y1, x2, y2, x->x_bg[0], x->x_bg[1], x->x_bg[2], x->x_zoom, x, x);
+    int i;
     for(i = 0, xx = x1 + dx; i < 7; i++, xx += dx)
         sys_vgui(".x%lx.c create line %f %d %f %d -width %d -tags {gr%lx all%lx} -fill #%2.2x%2.2x%2.2x\n",
             cv, xx, y1, xx, y2, x->x_zoom, x, x, x->x_gg[0], x->x_gg[1], x->x_gg[2]);
     for(i = 0, yy = y1 + dy; i < 3; i++, yy += dy)
         sys_vgui(".x%lx.c create line %d %f %d %f -width %d -tags {gr%lx all%lx} -fill #%2.2x%2.2x%2.2x\n",
             cv, x1, yy, x2, yy, x->x_zoom, x, x, x->x_gg[0], x->x_gg[1], x->x_gg[2]);
+}
+
+static void scope_draw_bg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int y2){
+    sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill #%2.2x%2.2x%2.2x -width %d -tags {bg%lx all%lx}\n",
+        cv, x1, y1, x2, y2, x->x_bg[0], x->x_bg[1], x->x_bg[2], x->x_zoom, x, x);
 }
 
 // draw inlets
@@ -180,7 +184,8 @@ static void scope_draw_inlets(t_scope *x){
 static void scope_draw(t_scope *x, t_canvas *cv){
     int x1, y1, x2, y2;
     scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-    scope_drawbg(x, cv, x1, y1, x2, y2);
+    scope_draw_bg(x, cv, x1, y1, x2, y2);
+    scope_draw_grid(x, cv, x1, y1, x2, y2);
     if(x->x_xymode)
         scope_drawfg(x, cv, x1, y1, x2, y2);
     scope_drawmargins(x, cv, x1, y1, x2, y2);
@@ -345,12 +350,18 @@ static void scope_delete(t_gobj *z, t_glist *glist){
     canvas_deletelinesfor(glist, x);
 }
 
+static void scope_mouserelease(t_scope* x){
+    if(!x->x_edit)
+        x->x_frozen = 0;
+}
+
 static void scope_vis(t_gobj *z, t_glist *glist, int vis){
     t_scope *x = (t_scope *)z;
     x->x_cv = glist_getcanvas(glist);
     if(vis){
         t_scopehandle *sh = (t_scopehandle *)x->x_handle;
         sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_cv, (unsigned long)sh);
+        sys_vgui(".x%lx.c bind all%lx <ButtonRelease> {pdsend [concat %s _mouserelease \\;]}\n", x->x_cv, x, x->x_bindsym->s_name);
         int bufsize = x->x_bufsize;
         x->x_bufsize = x->x_lastbufsize;
         scope_draw(x, x->x_cv);
@@ -363,19 +374,11 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis){
     }
 }
 
-static void scope_motion(void){ // dummy
-}
-
 static int scope_click(t_gobj *z, t_glist *glist, int xpix, int ypix, int shift, int alt, int dbl, int doit){
     t_scope *x = (t_scope *)z;
-    if(doit){
+    glist = NULL, shift = xpix = ypix = alt = dbl = 0;
+    if(doit)
         x->x_frozen = 1;
-        glist_grab(x->x_glist, &x->x_obj.te_g, (t_glistmotionfn)scope_motion, 0, xpix, ypix);
-    }
-    else
-        x->x_frozen = 0;
-    glist = NULL;
-    shift = alt = dbl = 0;
     return(1);
 }
 
@@ -446,7 +449,7 @@ static void scope_triglevel(t_scope *x, t_floatarg f){
     }
 }
 
-static void scope_fgcolor(t_scope *x, t_floatarg r, t_floatarg g, t_floatarg b){ //scale is 0-1
+static void scope_fgcolor(t_scope *x, t_floatarg r, t_floatarg g, t_floatarg b){ // scale is 0-1
     unsigned char red = r < 0. ? 0 : r > 1. ? 255 : (unsigned char)(r * 255);
     unsigned char green = g < 0. ? 0 : g > 1. ? 255 : (unsigned char)(g * 255);
     unsigned char blue = b < 0. ? 0 : b > 1. ? 255 : (unsigned char)(b * 255);
@@ -459,7 +462,7 @@ static void scope_fgcolor(t_scope *x, t_floatarg r, t_floatarg g, t_floatarg b){
     }
 }
 
-static void scope_frgb(t_scope *x, t_float r, t_float g, t_float b){ //scale is 0-255
+static void scope_frgb(t_scope *x, t_float r, t_float g, t_float b){ // scale is 0-255
     unsigned char red = (unsigned char)(r < 0 ? 0 : r > 255 ? 255 : r);
     unsigned char green = (unsigned char)(g < 0 ? 0 : g > 255 ? 255 : g);
     unsigned char blue = (unsigned char)(b < 0 ? 0 : b > 255 ? 255 : b);
@@ -472,7 +475,7 @@ static void scope_frgb(t_scope *x, t_float r, t_float g, t_float b){ //scale is 
     }
 }
 
-static void scope_bgcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale: 0-1
+static void scope_bgcolor(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0-1
     unsigned char red = r < 0. ? 0 : r > 1. ? 255 : (unsigned char)(r * 255);
     unsigned char green = g < 0. ? 0 : g > 1. ? 255 : (unsigned char)(g * 255);
     unsigned char blue = b < 0. ? 0 : b > 1. ? 255 : (unsigned char)(b * 255);
@@ -498,7 +501,7 @@ static void scope_brgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0
     }
 }
 
-static void scope_gridcolor(t_scope *x, t_float r, t_float g, t_float b){ //scale: 0-1
+static void scope_gridcolor(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0-1
     unsigned char red = r < 0. ? 0 : r > 1. ? 255 : (unsigned char)(r * 255);
     unsigned char green = g < 0. ? 0 : g > 1. ? 255 : (unsigned char)(g * 255);
     unsigned char blue = b < 0. ? 0 : b > 1. ? 255 : (unsigned char)(b * 255);
@@ -532,10 +535,17 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
         x->x_width = width, x->x_height = height;
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
             t_canvas *cv = glist_getcanvas(x->x_glist);
-            sys_vgui(".x%lx.c delete all%lx\n", cv, x);
+            int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
+            sys_vgui(".x%lx.c coords all%lx %d %d %d %d\n", cv, x, xpos, ypos, xpos + x->x_width, ypos + x->x_height);
             sys_vgui(".x%lx.c delete %lx_in1\n", cv, x);
             sys_vgui(".x%lx.c delete %lx_in2\n", cv, x);
-            scope_draw(x, cv);
+            scope_draw_inlets(x);
+            int x1, y1, x2, y2;
+            scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
+            sys_vgui(".x%lx.c delete margin%lx\n", cv, x);
+            scope_drawmargins(x, cv, x1, y1, x2, y2);
+            sys_vgui(".x%lx.c delete gr%lx\n", cv, x);
+            scope_draw_grid(x, cv, x1, y1, x2, y2);
             if(x->x_xymode)
                 scope_redraw(x, cv);
             canvas_fixlinesfor(x->x_glist, (t_text *)x);
@@ -604,15 +614,9 @@ static void scopehandle__clickhook(t_scopehandle *sh, t_floatarg f){
     int click = (int)f;
     t_scope *x = sh->h_master;
     if(sh->h_dragon && click == 0){
-        x->x_width += sh->h_dragx, x->x_height += sh->h_dragy;
         sys_vgui(".x%lx.c delete %s\n", x->x_cv, sh->h_outlinetag);
-        sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, x);
-        sys_vgui(".x%lx.c delete %lx_in1\n", x->x_cv, x);
-        sys_vgui(".x%lx.c delete %lx_in2\n", x->x_cv, x);
-        scope_draw(x, x->x_cv);
-        scope_select((t_gobj *)x, x->x_glist, 1);
-        canvas_fixlinesfor(x->x_glist, (t_text *)x);
-    }
+        scope_dim(x, x->x_width + sh->h_dragx, x->x_height + sh->h_dragy);
+        scope_select((t_gobj *)x, x->x_glist, 1);    }
     else if(!sh->h_dragon && click){
         int x1, y1, x2, y2;
         scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
@@ -639,7 +643,7 @@ static void scopehandle__motionhook(t_scopehandle *sh, t_floatarg f1, t_floatarg
 //------------------------------------------------------------
 static t_int *scope_perform(t_int *w){
     t_scope *x = (t_scope *)(w[1]);
-    if(!x->x_xymode) // do nothing
+    if(!x->x_xymode || x->x_frozen) // do nothing
         return(w+5);
     if(!gobj_shouldvis((t_gobj *)x, x->x_glist) || !glist_isvisible(x->x_glist))
         return(w+5);
@@ -825,12 +829,8 @@ static void scope_dsp(t_scope *x, t_signal **sp){
 }
 
 static void scope_tick(t_scope *x){
-    if(glist_isvisible(x->x_glist)){
-        if(!x->x_cv->gl_editor->e_onmotion)
-            x->x_frozen = 0;
-        if(!x->x_frozen && x->x_xymode)
-            scope_redraw(x, glist_getcanvas(x->x_glist));
-    }
+    if(glist_isvisible(x->x_glist) && x->x_xymode)
+        scope_redraw(x, glist_getcanvas(x->x_glist));
     x->x_precount = (int)(x->x_delay * x->x_ksr);
 }
 
@@ -907,16 +907,13 @@ static void scope_properties(t_gobj *z, t_glist *owner){
     gfxstub_new(&x->x_obj.ob_pd, x, buf);
 }
 
-static int scope_getcolorarg(t_scope *x, int index, int ac, t_atom *av){
-    t_symbol *s = NULL;
-    if((av+index)->a_type == A_SYMBOL)
-        s = atom_getsymbolarg(index, ac, av);
-    if('#' == s->s_name[0])
-        return(strtol(s->s_name+1, 0, 16));
-    else{
-        return(0);
-        pd_error(x, "[scope~]: bug in getting color"); // check if this is necessary (if it ever happens)
+static int scope_getcolorarg(int index, int ac, t_atom *av){
+    if((av+index)->a_type == A_SYMBOL){
+        t_symbol *s = atom_getsymbolarg(index, ac, av);
+        if('#' == s->s_name[0])
+            return(strtol(s->s_name+1, 0, 16));
     }
+    return(0);
 }
 
 static void scope_dialog(t_scope *x, t_symbol *s, int ac, t_atom *av){
@@ -931,9 +928,9 @@ static void scope_dialog(t_scope *x, t_symbol *s, int ac, t_atom *av){
     int drawstyle = (int)atom_getintarg(7, ac, av);
     int trigmode = (int)atom_getintarg(8, ac, av);
     float triglevel = (float)atom_getfloatarg(9, ac, av);
-    int bgcol = (int)scope_getcolorarg(x, 10, ac, av);
-    int grcol = (int)scope_getcolorarg(x, 11, ac, av);
-    int fgcol = (int)scope_getcolorarg(x, 12, ac, av);
+    int bgcol = (int)scope_getcolorarg(10, ac, av);
+    int grcol = (int)scope_getcolorarg(11, ac, av);
+    int fgcol = (int)scope_getcolorarg(12, ac, av);
     int bgred = (bgcol & 0xFF0000) >> 16;
     int bggreen = (bgcol & 0x00FF00) >> 8;
     int bgblue = (bgcol & 0x0000FF);
@@ -975,6 +972,7 @@ static void scope_free(t_scope *x){
         clock_free(x->x_clock);
     if(x->x_receive != &s_)
         pd_unbind(&x->x_obj.ob_pd, x->x_receive);
+    pd_unbind(&x->x_obj.ob_pd, x->x_bindsym);
     if(x->x_handle){
         pd_unbind(x->x_handle, ((t_scopehandle *)x->x_handle)->h_bindsym);
         pd_free(x->x_handle);
@@ -1000,6 +998,8 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     snprintf(buf, MAXPDSTRING-1, ".x%lx", (unsigned long)x->x_cv);
     buf[MAXPDSTRING-1] = 0;
     x->x_proxy = edit_proxy_new(x, gensym(buf));
+    sprintf(buf, "#%lx", (long)x);
+    pd_bind(&x->x_obj.ob_pd, x->x_bindsym = gensym(buf));
     x->x_edit = x->x_cv ->gl_edit;
     t_symbol *rcv = x->x_receive = x->x_rcv_raw = &s_;
     x->x_bufsize = x->x_xymode = x->x_frozen = x->x_precount = sh->h_selectedmode = sh->h_dragon = 0;
@@ -1312,8 +1312,8 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     class_addmethod(scope_class, (t_method)scope_receive, gensym("receive"), A_SYMBOL, 0);
     class_addmethod(scope_class, (t_method)scope_dialog, gensym("dialog"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_motion, gensym("motion"), 0);
     class_addmethod(scope_class, (t_method)scope_zoom, gensym("zoom"), A_CANT, 0);
+    class_addmethod(scope_class, (t_method)scope_mouserelease, gensym("_mouserelease"), 0);
     edit_proxy_class = class_new(0, 0, 0, sizeof(t_edit_proxy), CLASS_NOINLET | CLASS_PD, 0);
     class_addanything(edit_proxy_class, edit_proxy_any);
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0, sizeof(t_scopehandle), CLASS_PD, 0);
@@ -1355,8 +1355,8 @@ CYCLONE_OBJ_API void Scope_tilde_setup(void){
     class_addmethod(scope_class, (t_method)scope_receive, gensym("receive"), A_SYMBOL, 0);
     class_addmethod(scope_class, (t_method)scope_dialog, gensym("dialog"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_motion, gensym("motion"), 0);
     class_addmethod(scope_class, (t_method)scope_zoom, gensym("zoom"), A_CANT, 0);
+    class_addmethod(scope_class, (t_method)scope_mouserelease, gensym("_mouserelease"), 0);
     scopehandle_class = class_new(gensym("_scopehandle"), 0, 0, sizeof(t_scopehandle), CLASS_PD, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__clickhook, gensym("_click"), A_FLOAT, 0);
     class_addmethod(scopehandle_class, (t_method)scopehandle__motionhook, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
