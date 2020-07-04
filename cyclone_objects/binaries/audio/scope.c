@@ -887,11 +887,11 @@ static void scope_properties(t_gobj *z, t_glist *owner){
     int fgcol = ((int)x->x_fg[0] << 16) + ((int)x->x_fg[1] << 8) + (int)x->x_fg[2];
     char buf[1000];
     sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
-        dim %d wdt: %d hgt: \
-        buf %d cal: %d bfs: \
-        rng %g min: %g max: \
+        dim %d width: %d height: \
+        buf %d cal: %d bufsize: \
+        range %g min: %g max: \
         del %d del: drs %d drs: \
-        trg %d tmd: %g tlv: \
+        trg %d tr_mode: %g tr_level: \
         dim_mins %d %d \
         cal_min_max %d %d bfs_min_max %d %d \
         del_mins %d \
@@ -906,6 +906,27 @@ static void scope_properties(t_gobj *z, t_glist *owner){
         SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
         SCOPE_MINDELAY,
         bgcol, grcol, fgcol);
+/*    sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
+        dim %d width: %d height: \
+        buf %d cal: %d bfs: \
+        rng %g min: %g max: \
+        del %d del: drs %d drs: \
+        trg %d tmd: %g tlv: \
+        dim_mins %d %d \
+        cal_min_max %d %d bfs_min_max %d %d \
+        del_mins %d \
+        #%06x #%06x #%06x\n",
+        x->x_width, x->x_height,
+        x->x_period, x->x_bufsize,
+        x->x_min, x->x_max,
+        x->x_delay, x->x_drawstyle,
+        x->x_rcv_raw,
+        x->x_trigmode, x->x_triglevel,
+        SCOPE_MINSIZE, SCOPE_MINSIZE,
+        SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
+        SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
+        SCOPE_MINDELAY,
+        bgcol, grcol, fgcol);*/
     gfxstub_new(&x->x_obj.ob_pd, x, buf);
 }
 
@@ -942,11 +963,13 @@ static void scope_dialog(t_scope *x, t_symbol *s, int ac, t_atom *av){
     int fgred = (fgcol & 0xFF0000) >> 16;
     int fggreen = (fgcol & 0x00FF00) >> 8;
     int fgblue = (fgcol & 0x0000FF);
+//    t_symbol *rcv (atom_getsymbolarg(13, ac, av);
     scope_period(x, period);
     scope_bufsize(x, bufsize);
     scope_range(x, minval, maxval);
     scope_delay(x, delay);
     scope_drawstyle(x, drawstyle);
+//    scope_receive(x, rcv);
     scope_trigger(x, trigmode);
     scope_triglevel(x, triglevel);
     scope_brgb(x, bgred, bggreen, bgblue);
