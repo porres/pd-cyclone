@@ -55,28 +55,28 @@
 #X obj 189 151 cyclone/anal;
 #X obj 189 203 cyclone/prob;
 #C restore;
-#N canvas 287 125 430 593 markov_chain 0;
+#N canvas 424 224 430 593 markov_chain 0;
 #X obj 286 130 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
 -66577 -1;
 #X msg 286 263 clear;
-#X obj 286 349 cyclone/prob;
+#X obj 286 359 cyclone/prob;
 #C restore;
 #X obj 172 312 cyclone/anal 16384;
-#X obj 172 354 unpack f f f, f 13;
-#X floatatom 172 376 5 0 0 0 - - -;
-#X floatatom 209 376 5 0 0 0 - - -;
-#X floatatom 247 376 3 0 0 0 - - -;
+#X obj 172 364 unpack f f f, f 13;
+#X floatatom 172 386 5 0 0 0 - - -;
+#X floatatom 209 386 5 0 0 0 - - -;
+#X floatatom 247 386 3 0 0 0 - - -;
 #X obj 317 297 bng 25 250 50 0 empty empty empty 17 7 0 10 -216373
 -66577 -1;
-#X obj 355 382 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373
+#X obj 355 392 bng 15 250 50 0 empty empty empty 17 7 0 10 -216373
 -66577 -1;
-#X obj 286 401 % 128;
-#X obj 286 485 noteout;
+#X obj 286 418 % 128;
+#X obj 286 518 noteout;
 #X obj 145 151 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 286 426 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 286 443 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 286 449 makenote 100 500;
+#X obj 286 482 makenote 100 500;
 #X text 19 14 By default \, [anal] creates a table of transition probabilities
 from one note to another (1st order Markov chain). This patch shows
 how we can use it to create transition probabilities from two notes
@@ -89,24 +89,29 @@ to a third note (2nd order markov chain)., f 65;
 -228856 -1 -1 0 256;
 #X obj 145 90 notein;
 #X obj 145 121 stripnote;
-#X obj 286 375 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 286 385 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 314 132 <= restart;
-#X obj 118 405 cyclone/comment 170 11 helvetica ? 0 0 0 0 weed out
-the "previous" note that was stored in the high 7-bits;
-#X obj 68 251 cyclone/comment 101 11 helvetica ? 0 0 0 0 encode current
-and previous values into one big number;
-#X obj 27 304 cyclone/comment 139 11 helvetica ? 0 0 0 0 max size =
-16384 (128*128) because we're shoving 2 MIDI values into 1;
-#X obj 19 355 cyclone/comment 169 11 helvetica ? 0 0 0 0 output: transitions
-from 2-note pairs to other 2-note pairs;
-#X text 350 303 <= BANG;
-#X obj 39 215 cyclone/comment 130 11 helvetica ? 0 0 0 0 store previous
-note in the high 7-bits of our value;
-#X obj 38 447 cyclone/comment 250 11 helvetica ? 0 0 0 0 Now the playback
-is comprised of transition probabilities based on the two preceeding
-notes! This should yield results that sound less random than if we're
-just looking at one note at a time.;
+#X obj 102 419 cyclone/comment 170 10 Dejavu\ Sans\ Mono ? 0 226 27
+58 0 255 255 255 0 0 weed out the "previous" note that was stored in
+the high 7-bits;
+#X obj 21 305 cyclone/comment 159 10 Dejavu\ Sans\ Mono ? 0 226 27
+58 0 255 255 255 0 0 max size = 16384 (128’^2) because we're shoving
+2 MIDI values into 1;
+#X obj 42 364 cyclone/comment 121 10 Dejavu\ Sans\ Mono ? 0 226 27
+58 0 255 255 255 0 0 output: transitions from 2-note pairs to other
+2-note pairs;
+#X text 350 301 <= BANG;
+#X obj 36 210 cyclone/comment 130 10 Dejavu\ Sans\ Mono ? 0 226 27
+58 0 255 255 255 0 0 store previous note in the high 7-bits of our
+value;
+#X obj 76 469 cyclone/comment 207 10 Dejavu\ Sans\ Mono ? 0 226 27
+58 0 255 255 255 0 0 Now the playback is comprised of transition probabilities
+based on the two preceeding notes! This should yield results that sound
+less random than if we're just looking at one note at a time.;
+#X obj 49 254 cyclone/comment 119 10 Dejavu\ Sans\ Mono ? 0 226 27
+58 0 255 255 255 0 0 encode current and previous values into one big
+number;
 #X connect 0 0 18 0;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
@@ -150,12 +155,14 @@ of: 1) the previously received number \, 2) current input number \,
 3) occurence (how many times this number pair has been received).;
 #X text 166 412 - three floats: <previous number \, current number
 \, occurence>;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 anal;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Number pairs histogram
-;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 anal;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
+255 255 0 0 Number pairs histogram;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
+0 255 255 255 0 0 cyclone;
 #X connect 5 0 18 0;
 #X connect 6 0 18 0;
 #X connect 7 0 18 0;
