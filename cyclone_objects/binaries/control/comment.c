@@ -446,7 +446,7 @@ static void comment_get_rcv(t_comment* x){
             }
         }
     }
-    if(x->x_rcv_raw == &s_)
+    if(x->x_rcv_raw == &s_ || x->x_rcv_raw == gensym("?"))
         x->x_rcv_raw = gensym("empty");
 }
     
