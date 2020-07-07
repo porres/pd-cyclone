@@ -768,6 +768,37 @@ static void comment_zoom(t_comment *x, t_floatarg zoom){
     comment_fontsize(x, fontsize);
 }
 
+//------------------- Properties --------------------------------------------------------
+void comment_properties(t_gobj *z, t_glist *gl){
+    gl = NULL;
+    t_comment *x = (t_comment *)z;
+    comment_get_rcv(x);
+    char buffer[512];
+    sprintf(buffer, "comment_properties %%s {%s} %d %d %d %d %d {%s} \n",
+        x->x_fontname->s_name,
+        x->x_fontsize,
+        x->x_fontface,
+        x->x_textjust,
+        x->x_underline,
+        x->x_bg_flag,
+        x->x_rcv_raw->s_name
+        // colors
+        );
+    gfxstub_new(&x->x_obj.ob_pd, x, buffer);
+}
+
+static void comment_ok(t_comment *x, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
+    comment_fontname(x, atom_getsymbolarg(0, ac, av));
+    comment_fontsize(x, atom_getfloatarg(1, ac, av));
+    comment_fontface(x, atom_getfloatarg(2, ac, av));
+    comment_just(x, atom_getfloatarg(3, ac, av));
+    comment_underline(x, atom_getfloatarg(4, ac, av));
+    comment_bg_flag(x, atom_getfloatarg(5, ac, av));
+    comment_receive(x, atom_getsymbolarg(6, ac, av));
+    // colors
+}
+
 //-------------------------------------------------------------------------------------
 static void edit_proxy_free(t_edit_proxy *p){
     pd_unbind(&p->p_obj.ob_pd, p->p_sym);
@@ -802,6 +833,7 @@ static void comment_free(t_comment *x){
     if(x->x_textbuf)
         freebytes(x->x_textbuf, x->x_textbufsize);
     x->x_proxy->p_cnv = NULL;
+    gfxstub_deleteforkey(x);
 }
 
 static void *comment_new(t_symbol *s, int ac, t_atom *av){
@@ -1088,6 +1120,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment_bg_flag, gensym("bg"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_zoom, gensym("zoom"), A_CANT, 0);
+    class_addmethod(comment_class, (t_method)comment_ok, gensym("ok"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__bboxhook, gensym("_bbox"), A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment__clickhook, gensym("_click"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__releasehook, gensym("_release"), A_SYMBOL, 0);
@@ -1100,7 +1133,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     comment_widgetbehavior.w_deletefn   = comment_delete;
     comment_widgetbehavior.w_visfn      = comment_vis;
     class_setsavefn(comment_class, comment_save);
-//  class_setpropertiesfn(comment_class, comment_properties);
+    class_setpropertiesfn(comment_class, comment_properties);
     edit_proxy_class = class_new(0, 0, 0, sizeof(t_edit_proxy), CLASS_NOINLET | CLASS_PD, 0);
     class_addanything(edit_proxy_class, edit_proxy_any);
     commentsink_class = class_new(gensym("_commentsink"), 0, 0, sizeof(t_pd), CLASS_PD, 0);
@@ -1169,7 +1202,118 @@ CYCLONE_OBJ_API void comment_setup(void){
             -font [list $fnm $fsz $wt $sl underline] -justify $just -fill $clr -anchor nw}\n\
             comment_bbox $tgt $cv $tag1\n\
             $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
-//    #include "comment_dialog.c"
+
+    //    #include "comment_dialog.c"
+    
+/*    x->x_fontname->s_name,
+    x->x_fontsize,
+    x->x_fontface,
+    x->x_textjust,
+    x->x_underline,
+    x->x_bg_flag,
+    x->x_rcv_raw->s_name*/
+    
+    sys_vgui("if {[catch {pd}]} {\n");
+    sys_vgui("    proc pd {args} {pdsend [join $args \" \"]}\n");
+    sys_vgui("}\n");
+    sys_vgui("proc comment_ok {id} {\n");
+    sys_vgui("    set vid [string trimleft $id .]\n");
+    sys_vgui("    set var_name [concat var_name_$vid]\n");
+    sys_vgui("    set var_size [concat var_size_$vid]\n");
+    sys_vgui("    set var_face [concat var_face_$vid]\n");
+    sys_vgui("    set var_just [concat var_just_$vid]\n");
+    sys_vgui("    set var_underline [concat var_underline_$vid]\n");
+    sys_vgui("    set var_bg_flag [concat var_bg_flag_$vid]\n");
+    sys_vgui("    set var_rcv [concat var_rcv_$vid]\n");
+    sys_vgui("\n");
+    sys_vgui("    global $var_name\n");
+    sys_vgui("    global $var_size\n");
+    sys_vgui("    global $var_face\n");
+    sys_vgui("    global $var_just\n");
+    sys_vgui("    global $var_underline\n");
+    sys_vgui("    global $var_bg_flag\n");
+    sys_vgui("    global $var_rcv\n");
+    sys_vgui("\n");
+    sys_vgui("    set cmd [concat $id ok \\\n");
+    sys_vgui("        [string map {\" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_name]] \\\n");
+    sys_vgui("        [eval concat $$var_size] \\\n");
+    sys_vgui("        [eval concat $$var_face] \\\n");
+    sys_vgui("        [eval concat $$var_just] \\\n");
+    sys_vgui("        [eval concat $$var_underline] \\\n");
+    sys_vgui("        [eval concat $$var_bg_flag] \\\n");
+    sys_vgui("        [string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_rcv]] \\;]\n");
+    sys_vgui("    pd $cmd\n");
+    sys_vgui("    comment_cancel $id\n");
+    sys_vgui("}\n");
+    sys_vgui("proc comment_cancel {id} {\n");
+    sys_vgui("    set cmd [concat $id cancel \\;]\n");
+    sys_vgui("    pd $cmd\n");
+    sys_vgui("}\n");
+    sys_vgui("proc comment_properties {id name size face just underline bg_flag rcv} {\n");
+    sys_vgui("    set vid [string trimleft $id .]\n");
+    sys_vgui("    set var_name [concat var_name_$vid]\n");
+    sys_vgui("    set var_size [concat var_size_$vid]\n");
+    sys_vgui("    set var_face [concat var_face_$vid]\n");
+    sys_vgui("    set var_just [concat var_just_$vid]\n");
+    sys_vgui("    set var_underline [concat var_underline_$vid]\n");
+    sys_vgui("    set var_bg_flag [concat var_bg_flag_$vid]\n");
+    sys_vgui("    set var_rcv [concat var_rcv_$vid]\n");
+    sys_vgui("\n");
+    sys_vgui("    global $var_name\n");
+    sys_vgui("    global $var_size\n");
+    sys_vgui("    global $var_face\n");
+    sys_vgui("    global $var_just\n");
+    sys_vgui("    global $var_underline\n");
+    sys_vgui("    global $var_bg_flag\n");
+    sys_vgui("    global $var_rcv\n");
+    sys_vgui("\n");
+    sys_vgui("    set $var_name [string map {{\\ } \" \"} $name]\n"); // remove escape from space
+    sys_vgui("    set $var_size $size\n");
+    sys_vgui("    set $var_face $face\n");
+    sys_vgui("    set $var_just $just\n");
+    sys_vgui("    set $var_underline $underline\n");
+    sys_vgui("    set $var_bg_flag $bg_flag\n");
+    sys_vgui("    set $var_rcv [string map {{\\ } \" \"} $rcv]\n"); // remove escape from space
+    sys_vgui("\n");
+    sys_vgui("    toplevel $id\n");
+    sys_vgui("    wm title $id {[comment] Properties}\n");
+    sys_vgui("    wm protocol $id WM_DELETE_WINDOW [concat comment_cancel $id]\n");
+    sys_vgui("\n");
+    sys_vgui("    frame $id.comment\n");
+    sys_vgui("    pack $id.comment -side top\n");
+    sys_vgui("    label $id.comment.lname -text \"Font Name:\"\n");
+    sys_vgui("    entry $id.comment.name -textvariable $var_name -width 30\n");
+    sys_vgui("    label $id.comment.lsize -text \"Font Size:\"\n");
+    sys_vgui("    entry $id.comment.size -textvariable $var_size -width 3\n");
+    sys_vgui("    pack $id.comment.lname $id.comment.name $id.comment.lsize $id.comment.size -side left\n");
+    sys_vgui("\n");
+    sys_vgui("    frame $id.face_just\n");
+    sys_vgui("    pack $id.face_just -side top\n");
+    sys_vgui("    label $id.face_just.lface -text \"Font Face:\"\n");
+    sys_vgui("    entry $id.face_just.face -textvariable $var_face -width 1\n");
+    sys_vgui("    label $id.face_just.ljust -text \"Justification:\"\n");
+    sys_vgui("    entry $id.face_just.just -textvariable $var_just -width 1\n");
+    sys_vgui("    pack $id.face_just.lface $id.face_just.face $id.face_just.ljust $id.face_just.just -side left\n");
+    sys_vgui("\n");
+    sys_vgui("    frame $id.ul_bg\n");
+    sys_vgui("    pack $id.ul_bg -side top\n");
+    sys_vgui("    label $id.ul_bg.lul -text \"Underline:\"\n");
+    sys_vgui("    checkbutton $id.ul_bg.ul -variable $var_underline \n");
+    sys_vgui("    label $id.ul_bg.lbg -text \"Background:\"\n");
+    sys_vgui("    checkbutton $id.ul_bg.bg -variable $var_bg_flag \n");
+    sys_vgui("    pack $id.ul_bg.lul $id.ul_bg.ul $id.ul_bg.lbg $id.ul_bg.bg -side left\n");
+    sys_vgui("\n");
+    sys_vgui("    frame $id.rcv_sym\n");
+    sys_vgui("    pack $id.rcv_sym -side top\n");
+    sys_vgui("    label $id.rcv_sym.lrcv -text \"Receive symbol:\"\n");
+    sys_vgui("    entry $id.rcv_sym.rcv -textvariable $var_rcv -width 12\n");
+    sys_vgui("    pack $id.rcv_sym.lrcv $id.rcv_sym.rcv -side left\n");
+    sys_vgui("\n");
+    sys_vgui("    frame $id.buttonframe\n");
+    sys_vgui("    pack $id.buttonframe -side bottom -fill x -pady 2m\n");
+    sys_vgui("    button $id.buttonframe.cancel -text {Cancel} -command \"comment_cancel $id\"\n");
+    sys_vgui("    button $id.buttonframe.ok -text {OK} -command \"comment_ok $id\"\n");
+    sys_vgui("    pack $id.buttonframe.cancel -side left -expand 1\n");
+    sys_vgui("    pack $id.buttonframe.ok -side left -expand 1\n");
+    sys_vgui("}\n");
 }
-
-

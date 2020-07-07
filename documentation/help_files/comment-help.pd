@@ -1,4 +1,4 @@
-#N canvas 590 116 563 558 10;
+#N canvas 623 43 570 560 10;
 #X obj 3 249 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -7,7 +7,7 @@
 #X obj 3 529 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 113 152 <= the default comment box from [cyclone/comment];
-#X obj 137 185 cyclone/comment 261 20 Times ? 3 150 0 0 1 200 200 200
+#X obj 177 190 cyclone/comment 280 20 Times ? 3 150 0 0 1 200 200 200
 1 1 Hello \, I'm a comment from the [cyclone/comment] object!!!;
 #X obj 3 454 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
 #X obj 74 255 cnv 17 3 168 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -68,14 +68,14 @@ into a Pd's comment box., f 65;
 #X msg 197 133 fontname helvetica;
 #X msg 220 189 textcolor 0 0 0;
 #X msg 226 209 textcolor 150 100 50;
-#X msg 588 117 textcolor 200 0 0;
-#X msg 604 139 textcolor 0 0 0;
+#X msg 565 119 textcolor 200 0 0;
+#X msg 581 141 textcolor 0 0 0;
 #X obj 480 320 cyclone/comment 0 50 Dejavu\ Sans\ Mono \$0-comment
 0 0 0 0 0 255 255 255 0 0 comment;
-#X msg 617 179 set hi \, append there;
-#X msg 627 202 set comment \, prepend this;
-#X msg 638 225 set Comment;
-#X obj 588 267 s \$0-comment;
+#X msg 594 181 set hi \, append there;
+#X msg 604 204 set comment \, prepend this;
+#X msg 615 227 set Comment;
+#X obj 565 269 s \$0-comment;
 #X msg 55 236 fontface \$1;
 #X obj 55 149 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856 -1
 -1 0;
@@ -84,8 +84,8 @@ into a Pd's comment box., f 65;
 #X text 73 163 bold;
 #X text 73 179 italic;
 #X text 73 194 bold+italic;
-#X msg 495 181 underline \$1;
-#X obj 495 157 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 472 183 underline \$1;
+#X obj 472 159 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X msg 233 239 bgcolor 100 150 100;
 #X msg 239 261 bgcolor 190 90 200;
@@ -115,13 +115,12 @@ some other font you have on your system instead that it thinks is best
 for what you requested \, and you'll have no idea which one it is.
 Just be sure you have the fonts you want properly installed., f 62
 ;
-#X text 378 26 When in edit mode \, [comment] shows its inlet. The
+#X text 391 26 When in edit mode \, [comment] shows its inlet. The
 [comment] object below has a receive symbol \, so you can send messages
 to it via a [send] object. In this case \, the inlet is supressed \,
 so we don't see it. The receive symbol can be set with the receive
 message or the @receive attribute. If you set a receive name as "empty"
-then it can't receive messages anymore and the inlets are shown.,
-f 73;
+then it it can't receive messages anymore., f 73;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
@@ -146,12 +145,12 @@ f 73;
 #X connect 32 0 0 0;
 #X connect 33 0 0 0;
 #X restore 479 188 pd details;
-#N canvas 760 98 484 421 more 0;
+#N canvas 760 98 493 429 more 0;
 #X obj 140 279 cyclone/comment 164 20 helvetica ? 0 0 0 0 0 200 200
-200 1 0 the comment can be justified in different ways;
+200 1 1 comment;
 #X msg 140 241 textjustification \$1;
 #X obj 140 159 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
--1 -1 0;
+-1 -1 1;
 #X floatatom 140 216 3 0 0 0 - - -;
 #X text 158 158 left;
 #X text 158 173 center;
@@ -169,6 +168,12 @@ parameter. For just one line \, this is irrelevant., f 63;
 #X restore 491 208 pd more \; details;
 #X obj 66 154 cyclone/comment 0 10 dejavu\ sans\ mono ? 0 0 0 0 0 255
 255 255 0 0 comment;
+#X text 56 82 [comment] is a GUI meant to be only a comment (a label
+or a note) that can be typed directly into it when in Edit mode. It
+is widely used in cyclone's documentation and (unlike pd vanilla's
+comments) allows you to set font \, size \, color \, background color
+\, bold \, italic \, underline and justification. This object is not
+being fully compliant to Max6+ versions!, f 74;
 #X text 64 463 @fontname <symbol> (default: dejavu sans mono) | @fontface
 <float> (default 0) @fontsize <float> (default patch's) | @textjustification
 <float> (default 0) @textcolor <f \, f \, f> (default 0 0 0) | @bgcolor
@@ -176,9 +181,4 @@ parameter. For just one line \, this is irrelevant., f 63;
 <anything>: sets comment (default "comment") @underline <float> (default
 0) | @receive <symbol> (default 'empty'), f 79;
 #X text 98 282 prepend <anything>;
-#X text 56 82 [comment] is a GUI meant to be only a comment (a label
-or a note) that can be typed directly into it when in Edit mode. It
-is widely used in cyclone's documentation and (unlike pd vanilla's
-comments) allows you to set font \, size \, color \, background color
-\, bold \, italic \, underline and justification. This object is not
-fully compliant to Max6+ versions!, f 74;
+#X text 61 186 right click for properties =====>, f 18;
