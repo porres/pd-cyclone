@@ -35,7 +35,7 @@ Outdated versions of cyclone are available in Pd Extended (now an abandoned proj
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1-alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1-alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1-alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1-alpha' releases and mostly compliant to Max 4.0!
 
-Cyclone 0.3-0 was the major overhaul in cyclone, which got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Here's the aftermath:
+Cyclone 0.3-0 was the major overhaul in cyclone, where almost all of its objects got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Here's the aftermath:
 
 - 62 updated objects;
 - 65 fixed objects (including updated objects);
@@ -44,7 +44,9 @@ Cyclone 0.3-0 was the major overhaul in cyclone, which got updated to the latest
 
 Check the provided CHANGELOG.txt file for the details in all version changes.
 
-Cyclone 0.5-0 is still not compatible to Max 8, but functionalities added in cyclone objects in Max 8 can be included in future versions of Cyclone.
+Cyclone 0.5-1 is still not compatible to Max 8, but functionalities added in cyclone objects in Max 8 can be included in future versions of Cyclone. Nonetheless, things like 'mc' compatiblity won't likely be possible or make it to cyclone!
+
+Currently, cyclone still pursues compatibilty to Max 7.3.5 but two objects will not get fully updated, they are: 1) comment (missing 'bubble' stuff from Max 6+) and 2) scope~ (missing 'automatic' mode from Max 7+).
 
 -------
 
