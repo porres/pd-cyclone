@@ -447,7 +447,7 @@ static void comment_get_rcv(t_comment* x){
         }
     }
     if(x->x_rcv_raw == &s_)
-        x->x_rcv_raw = gensym("?");
+        x->x_rcv_raw = gensym("empty");
 }
     
 static void comment_save(t_gobj *z, t_binbuf *b){
@@ -885,7 +885,8 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                     x->x_fontname = av->a_w.w_symbol;
                     ac--, av++;
                     if(ac && av->a_type == A_SYMBOL){ // 4TH RECEIVE
-                        if(av->a_w.w_symbol != gensym("?")){ //  '?' sets empty receive symbol
+                        if(av->a_w.w_symbol != gensym("?") && av->a_w.w_symbol != gensym("empty")){
+                            //  '?' or 'empty' sets empty receive symbol
                             rcv = av->a_w.w_symbol;
                             ac--, av++;
                         }
