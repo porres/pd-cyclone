@@ -685,19 +685,36 @@ static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floata
     }
 }
 
-static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b){
+static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b, t_float flag){
     unsigned int red = r < 0 ? 0 : r > 255 ? 255 : (unsigned int)r;
     unsigned int green = g < 0 ? 0 : g > 255 ? 255 : (unsigned int)g;
     unsigned int blue = b < 0 ? 0 : b > 255 ? 255 : (unsigned int)b;
-    if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue || !x->x_bg_flag){
-        canvas_dirty(x->x_glist, 1);
-        x->x_bg_flag = 1;
-        x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
-        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
-            sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-            comment_redraw(x, x->x_bg_flag);
+    if(!x->x_bg_flag){
+        if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue || flag){
+            canvas_dirty(x->x_glist, 1);
+            x->x_bg_flag = 1;
+            x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
+            if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
+                sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+                comment_redraw(x, x->x_bg_flag);
+            }
         }
     }
+    else{
+        if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue){
+            canvas_dirty(x->x_glist, 1);
+            x->x_bg_flag = 1;
+            x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
+            if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
+                sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+                comment_redraw(x, x->x_bg_flag);
+            }
+        }
+    }
+}
+
+static void comment_set_bgcolor(t_comment *x, t_float r, t_float g, t_float b){
+    comment_bgcolor(x, r, g, b, 1);
 }
 
 static void comment_fontname(t_comment *x, t_symbol *name){
@@ -806,7 +823,7 @@ static void comment_ok(t_comment *x, t_symbol *s, int ac, t_atom *av){
     int fgr = atom_getfloatarg(10, ac, av);
     int fgg = atom_getfloatarg(11, ac, av);
     int fgb = atom_getfloatarg(12, ac, av);
-    comment_bgcolor(x, bgr, bgg, bgb);
+    comment_bgcolor(x, bgr, bgg, bgb, 0);
     comment_textcolor(x, fgr, fgg, fgb);
 }
 
@@ -1130,7 +1147,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment_just, gensym("textjustification"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_textcolor, gensym("textcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_bg_flag, gensym("bg"), A_FLOAT, 0);
-    class_addmethod(comment_class, (t_method)comment_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_set_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_zoom, gensym("zoom"), A_CANT, 0);
     class_addmethod(comment_class, (t_method)comment_ok, gensym("ok"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__bboxhook, gensym("_bbox"), A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
