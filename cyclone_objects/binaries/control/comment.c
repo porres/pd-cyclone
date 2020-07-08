@@ -78,7 +78,6 @@ typedef struct _comment{
     int             x_underline;
     int             x_bg_flag;
     int             x_textjust; // 0: left, 1: center, 2: right
-    t_symbol       *x_encoding; // (unused)
     unsigned int    x_bg[3];    // background color
 }t_comment;
 
@@ -107,7 +106,7 @@ static void comment_draw(t_comment *x){
         }
     }
     outp = outbuf = buf;
-    sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s %s {%.*s} %d %s %s %s\n",
+    sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s {%.*s} %d %s %s %s\n",
         x->x_underline ? "comment_draw_ul" : "comment_draw",
         x->x_bindsym->s_name, // %s
         (unsigned long)x->x_cv, // .x%lx.c
@@ -115,10 +114,9 @@ static void comment_draw(t_comment *x){
         (unsigned long)x, // all%lx
         text_xpix((t_text *)x, x->x_glist) + x->x_zoom, // %d
         text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // %d
-        x->x_fontname->s_name, // %s
+        x->x_fontname->s_name, // {%s}
         x->x_fontsize, // -%d
         glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // %s
-        "\"\"", // %s (encoding)
         x->x_textbufsize, // %.
         x->x_textbuf, // *s
         x->x_pixwidth, // %d
@@ -150,9 +148,12 @@ static void comment_update(t_comment *x){
             return;
     }
     outp = outbuf = buf;
-    sprintf(outp, "comment_update .x%lx.c txt%lx %s {%.*s} %d\n",
-            cv, (unsigned long)x, (x->x_encoding ? x->x_encoding->s_name : "\"\""),
-            x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
+    sprintf(outp, "comment_update .x%lx.c txt%lx {%.*s} %d\n",
+            cv,
+            (unsigned long)x,
+            x->x_textbufsize,
+            x->x_textbuf,
+            x->x_pixwidth);
     outp += strlen(outp);
     if(x->x_active){
         if(x->x_selend > x->x_selstart){
@@ -872,7 +873,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_glist = canvas_getcurrent();
     x->x_cv = canvas_getcurrent();
     x->x_zoom = x->x_glist->gl_zoom;
-    x->x_encoding = x->x_fontname = 0;
+    x->x_fontname = gensym("dejavu sans mono");
     x->x_edit = x->x_glist->gl_edit;
     x->x_textbuf = 0;
     x->x_rcv_set = x->x_flag = x->x_r_flag = x->x_old = x->x_text_n = x->x_text_size = 0;
@@ -1109,8 +1110,6 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
         x->x_fontsize = glist_getfont(x->x_glist);
     x->x_fontsize *= x->x_zoom;
     x->x_pixwidth *= x->x_zoom;
-    if(!x->x_fontname)
-        x->x_fontname = gensym("dejavu sans mono");
     x->x_fontface = x->x_fontface < 0 ? 0 : (x->x_fontface > 3 ? 3 : x->x_fontface);
     x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
     x->x_italic = x->x_fontface > 1;
@@ -1168,6 +1167,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     commentsink_class = class_new(gensym("_commentsink"), 0, 0, sizeof(t_pd), CLASS_PD, 0);
     class_addanything(commentsink_class, commentsink_anything);
     class_addmethod(commentsink_class, (t_method)commentsink__bboxhook, gensym("_bbox"), A_SYMBOL, 0);
+    
     sys_gui("proc comment_bbox {target cvname tag} {\n\
             pdsend \"$target _bbox $target [$cvname bbox $tag]\"}\n");
 // LATER think about window vs canvas coords
@@ -1175,64 +1175,28 @@ CYCLONE_OBJ_API void comment_setup(void){
             pdsend \"$target _click $target [$cvname canvasx $x] [$cvname canvasy $y]\
             [$cvname index $tag @$x,$y] [$cvname bbox $tag]\"}\n");
     
-//    set tt1 [comment_entext $enc [string map {\"$\" {\\$} \" \" {\\ }} [eval concat $tt]]]\n\
-   
-// put in here, maybe create a variable like hhhsnd and then use it in here for the text!
-    
-    sys_gui("proc comment_entext {enc tt} {\n\
-            if {$enc == \"\"} {concat $tt} else {\n\
-            set rr [catch {encoding convertfrom $enc $tt} tt1]\n\
-            if {$rr == 0} {concat $tt1} else {\n\
-            puts stderr [concat tcl/tk error: $tt1]\n\
-            concat $tt}}}\n");
-    sys_gui("proc comment_update {cv tag enc tt wd} {\n\
-            set tt1 [comment_entext $enc $tt]\n\
-            if {$wd > 0} {$cv itemconfig $tag -text $tt1 -width $wd} else {\n\
-            $cv itemconfig $tag -text $tt1}}\n");
-    sys_gui("proc comment_draw {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd wt sl just} {\n\
-            set tt1 [comment_entext $enc $tt]\n\
+    sys_gui("proc comment_update {cv tag tt wd} {\n\
+            if {$wd > 0} {$cv itemconfig $tag -text $tt -width $wd} else {\n\
+            $cv itemconfig $tag -text $tt}}\n");
+    sys_gui("proc comment_draw {tgt cv tag1 tag2 x y fnm fsz clr tt wd wt sl just} {\n\
             if {$wd > 0} {\n\
-            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            $cv create text $x $y -text $tt -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl] -justify $just -fill $clr -width $wd -anchor nw} else {\n\
-            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            $cv create text $x $y -text $tt -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl] -justify $just -fill $clr -anchor nw}\n\
             comment_bbox $tgt $cv $tag1\n\
             $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
-// later rethink:
-    
-    
-/*    sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s %s {%.*s} %d %s %s %s\n",
-        x->x_underline ? "comment_draw_ul" : "comment_draw",
-        x->x_bindsym->s_name, // %s
-        (unsigned long)x->x_cv, // .x%lx.c
-        (unsigned long)x, // txt%lx
-        (unsigned long)x, // all%lx
-        text_xpix((t_text *)x, x->x_glist) + x->x_zoom, // %d
-        text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // %d
-        x->x_fontname->s_name, // %s
-        x->x_fontsize, // -%d
-        glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // %s
-        "\"\"", // %s (encoding)
-        x->x_textbufsize, // %.
-        x->x_textbuf, // *s
-        x->x_pixwidth, // %d
-        x->x_bold ? "bold" : "normal",
-        x->x_italic ? "italic" : "roman", //
-        x->x_textjust == 0 ? "left" : x->x_textjust == 1 ? "center" : "right");*/
-    
-//    sys_vgui(" [string map {\"$\" {\\$} \" \" {\\ }} [eval concat $$tt]] \\\n");
-    
-    sys_gui("proc comment_draw_ul {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd wt sl just} {\n\
-            set tt1 [comment_entext $enc $tt]\n\
+// later rethink how to make both into a single section:
+    sys_gui("proc comment_draw_ul {tgt cv tag1 tag2 x y fnm fsz clr tt wd wt sl just} {\n\
             if {$wd > 0} {\n\
-            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            $cv create text $x $y -text $tt -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl underline] -justify $just -fill $clr -width $wd -anchor nw} else {\n\
-            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            $cv create text $x $y -text $tt -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl underline] -justify $just -fill $clr -anchor nw}\n\
             comment_bbox $tgt $cv $tag1\n\
             $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
 
-    //    #include "comment_dialog.c"
+// properties
     
     sys_vgui("if {[catch {pd}]} {\n");
     sys_vgui("    proc pd {args} {pdsend [join $args \" \"]}\n");
@@ -1393,4 +1357,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    pack $id.buttonframe.cancel -side left -expand 1\n");
     sys_vgui("    pack $id.buttonframe.ok -side left -expand 1\n");
     sys_vgui("}\n");
+    
+    //    #include "comment_dialog.c"
+    
 }
