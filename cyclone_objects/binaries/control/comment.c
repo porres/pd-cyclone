@@ -774,16 +774,20 @@ void comment_properties(t_gobj *z, t_glist *gl){
     t_comment *x = (t_comment *)z;
     comment_get_rcv(x);
     char buffer[512];
-    sprintf(buffer, "comment_properties %%s {%s} %d %d %d %d %d {%s} \n",
+    sprintf(buffer, "comment_properties %%s {%s} %d %d %d %d %d {%s} %d %d %d %d %d %d \n",
         x->x_fontname->s_name,
         x->x_fontsize,
         x->x_fontface,
         x->x_textjust,
         x->x_underline,
         x->x_bg_flag,
-        x->x_rcv_raw->s_name
-        // colors
-        );
+        x->x_rcv_raw->s_name,
+        x->x_bg[0],
+        x->x_bg[1],
+        x->x_bg[2],
+        x->x_red,
+        x->x_green,
+        x->x_blue);
     gfxstub_new(&x->x_obj.ob_pd, x, buffer);
 }
 
@@ -796,7 +800,14 @@ static void comment_ok(t_comment *x, t_symbol *s, int ac, t_atom *av){
     comment_underline(x, atom_getfloatarg(4, ac, av));
     comment_bg_flag(x, atom_getfloatarg(5, ac, av));
     comment_receive(x, atom_getsymbolarg(6, ac, av));
-    // colors
+    int bgr = atom_getfloatarg(7, ac, av);
+    int bgg = atom_getfloatarg(8, ac, av);
+    int bgb = atom_getfloatarg(9, ac, av);
+    int fgr = atom_getfloatarg(10, ac, av);
+    int fgg = atom_getfloatarg(11, ac, av);
+    int fgb = atom_getfloatarg(12, ac, av);
+    comment_bgcolor(x, bgr, bgg, bgb);
+    comment_textcolor(x, fgr, fgg, fgb);
 }
 
 //-------------------------------------------------------------------------------------
@@ -1206,14 +1217,6 @@ CYCLONE_OBJ_API void comment_setup(void){
 
     //    #include "comment_dialog.c"
     
-/*    x->x_fontname->s_name,
-    x->x_fontsize,
-    x->x_fontface,
-    x->x_textjust,
-    x->x_underline,
-    x->x_bg_flag,
-    x->x_rcv_raw->s_name*/
-    
     sys_vgui("if {[catch {pd}]} {\n");
     sys_vgui("    proc pd {args} {pdsend [join $args \" \"]}\n");
     sys_vgui("}\n");
@@ -1226,6 +1229,12 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set var_underline [concat var_underline_$vid]\n");
     sys_vgui("    set var_bg_flag [concat var_bg_flag_$vid]\n");
     sys_vgui("    set var_rcv [concat var_rcv_$vid]\n");
+    sys_vgui("    set var_bgr [concat var_bgr_$vid]\n");
+    sys_vgui("    set var_bgg [concat var_bgg_$vid]\n");
+    sys_vgui("    set var_bgb [concat var_bgb_$vid]\n");
+    sys_vgui("    set var_fgr [concat var_fgr_$vid]\n");
+    sys_vgui("    set var_fgg [concat var_fgg_$vid]\n");
+    sys_vgui("    set var_fgb [concat var_fgb_$vid]\n");
     sys_vgui("\n");
     sys_vgui("    global $var_name\n");
     sys_vgui("    global $var_size\n");
@@ -1234,6 +1243,12 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    global $var_underline\n");
     sys_vgui("    global $var_bg_flag\n");
     sys_vgui("    global $var_rcv\n");
+    sys_vgui("    global $var_bgr\n");
+    sys_vgui("    global $var_bgg\n");
+    sys_vgui("    global $var_bgb\n");
+    sys_vgui("    global $var_fgr\n");
+    sys_vgui("    global $var_fgg\n");
+    sys_vgui("    global $var_fgb\n");
     sys_vgui("\n");
     sys_vgui("    set cmd [concat $id ok \\\n");
     sys_vgui("        [string map {\" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_name]] \\\n");
@@ -1242,7 +1257,13 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("        [eval concat $$var_just] \\\n");
     sys_vgui("        [eval concat $$var_underline] \\\n");
     sys_vgui("        [eval concat $$var_bg_flag] \\\n");
-    sys_vgui("        [string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_rcv]] \\;]\n");
+    sys_vgui("        [string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_rcv]] \\\n");
+    sys_vgui("        [eval concat $$var_bgr] \\\n");
+    sys_vgui("        [eval concat $$var_bgg] \\\n");
+    sys_vgui("        [eval concat $$var_bgb] \\\n");
+    sys_vgui("        [eval concat $$var_fgr] \\\n");
+    sys_vgui("        [eval concat $$var_fgg] \\\n");
+    sys_vgui("        [eval concat $$var_fgb] \\;]\n");
     sys_vgui("    pd $cmd\n");
     sys_vgui("    comment_cancel $id\n");
     sys_vgui("}\n");
@@ -1250,7 +1271,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set cmd [concat $id cancel \\;]\n");
     sys_vgui("    pd $cmd\n");
     sys_vgui("}\n");
-    sys_vgui("proc comment_properties {id name size face just underline bg_flag rcv} {\n");
+    sys_vgui("proc comment_properties {id name size face just underline bg_flag rcv bgr bgg bgb fgr fgg fgb} {\n");
     sys_vgui("    set vid [string trimleft $id .]\n");
     sys_vgui("    set var_name [concat var_name_$vid]\n");
     sys_vgui("    set var_size [concat var_size_$vid]\n");
@@ -1259,6 +1280,12 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set var_underline [concat var_underline_$vid]\n");
     sys_vgui("    set var_bg_flag [concat var_bg_flag_$vid]\n");
     sys_vgui("    set var_rcv [concat var_rcv_$vid]\n");
+    sys_vgui("    set var_bgr [concat var_bgr_$vid]\n");
+    sys_vgui("    set var_bgg [concat var_bgg_$vid]\n");
+    sys_vgui("    set var_bgb [concat var_bgb_$vid]\n");
+    sys_vgui("    set var_fgr [concat var_fgr_$vid]\n");
+    sys_vgui("    set var_fgg [concat var_fgg_$vid]\n");
+    sys_vgui("    set var_fgb [concat var_fgb_$vid]\n");
     sys_vgui("\n");
     sys_vgui("    global $var_name\n");
     sys_vgui("    global $var_size\n");
@@ -1267,6 +1294,12 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    global $var_underline\n");
     sys_vgui("    global $var_bg_flag\n");
     sys_vgui("    global $var_rcv\n");
+    sys_vgui("    global $var_bgr\n");
+    sys_vgui("    global $var_bgg\n");
+    sys_vgui("    global $var_bgb\n");
+    sys_vgui("    global $var_fgr\n");
+    sys_vgui("    global $var_fgg\n");
+    sys_vgui("    global $var_fgb\n");
     sys_vgui("\n");
     sys_vgui("    set $var_name [string map {{\\ } \" \"} $name]\n"); // remove escape from space
     sys_vgui("    set $var_size $size\n");
@@ -1275,18 +1308,24 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set $var_underline $underline\n");
     sys_vgui("    set $var_bg_flag $bg_flag\n");
     sys_vgui("    set $var_rcv [string map {{\\ } \" \"} $rcv]\n"); // remove escape from space
+    sys_vgui("    set $var_bgr $bgr\n");
+    sys_vgui("    set $var_bgg $bgg\n");
+    sys_vgui("    set $var_bgb $bgb\n");
+    sys_vgui("    set $var_fgr $fgr\n");
+    sys_vgui("    set $var_fgg $fgg\n");
+    sys_vgui("    set $var_fgb $fgb\n");
     sys_vgui("\n");
     sys_vgui("    toplevel $id\n");
     sys_vgui("    wm title $id {[comment] Properties}\n");
     sys_vgui("    wm protocol $id WM_DELETE_WINDOW [concat comment_cancel $id]\n");
     sys_vgui("\n");
-    sys_vgui("    frame $id.comment\n");
-    sys_vgui("    pack $id.comment -side top\n");
-    sys_vgui("    label $id.comment.lname -text \"Font Name:\"\n");
-    sys_vgui("    entry $id.comment.name -textvariable $var_name -width 30\n");
-    sys_vgui("    label $id.comment.lsize -text \"Font Size:\"\n");
-    sys_vgui("    entry $id.comment.size -textvariable $var_size -width 3\n");
-    sys_vgui("    pack $id.comment.lname $id.comment.name $id.comment.lsize $id.comment.size -side left\n");
+    sys_vgui("    frame $id.name_size\n");
+    sys_vgui("    pack $id.name_size -side top\n");
+    sys_vgui("    label $id.name_size.lname -text \"Font Name:\"\n");
+    sys_vgui("    entry $id.name_size.name -textvariable $var_name -width 30\n");
+    sys_vgui("    label $id.name_size.lsize -text \"Font Size:\"\n");
+    sys_vgui("    entry $id.name_size.size -textvariable $var_size -width 3\n");
+    sys_vgui("    pack $id.name_size.lname $id.name_size.name $id.name_size.lsize $id.name_size.size -side left\n");
     sys_vgui("\n");
     sys_vgui("    frame $id.face_just\n");
     sys_vgui("    pack $id.face_just -side top\n");
@@ -1309,6 +1348,26 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    label $id.rcv_sym.lrcv -text \"Receive symbol:\"\n");
     sys_vgui("    entry $id.rcv_sym.rcv -textvariable $var_rcv -width 12\n");
     sys_vgui("    pack $id.rcv_sym.lrcv $id.rcv_sym.rcv -side left\n");
+    sys_vgui("\n");
+    sys_vgui("    frame $id.bg\n");
+    sys_vgui("    pack $id.bg -side top\n");
+    sys_vgui("    label $id.bg.lbgr -text \"BG Color: R\"\n");
+    sys_vgui("    entry $id.bg.bgr -textvariable $var_bgr -width 3\n");
+    sys_vgui("    label $id.bg.lbgg -text \"G\"\n");
+    sys_vgui("    entry $id.bg.bgg -textvariable $var_bgg -width 3\n");
+    sys_vgui("    label $id.bg.lbgb -text \"B\"\n");
+    sys_vgui("    entry $id.bg.bgb -textvariable $var_bgb -width 3\n");
+    sys_vgui("    pack $id.bg.lbgr $id.bg.bgr $id.bg.lbgg $id.bg.bgg $id.bg.lbgb $id.bg.bgb -side left\n");
+    sys_vgui("\n");
+    sys_vgui("    frame $id.fg\n");
+    sys_vgui("    pack $id.fg -side top\n");
+    sys_vgui("    label $id.fg.lfgr -text \"Font Color: R\"\n");
+    sys_vgui("    entry $id.fg.fgr -textvariable $var_fgr -width 3\n");
+    sys_vgui("    label $id.fg.lfgg -text \"G\"\n");
+    sys_vgui("    entry $id.fg.fgg -textvariable $var_fgg -width 3\n");
+    sys_vgui("    label $id.fg.lfgb -text \"B\"\n");
+    sys_vgui("    entry $id.fg.fgb -textvariable $var_fgb -width 3\n");
+    sys_vgui("    pack $id.fg.lfgr $id.fg.fgr $id.fg.lfgg $id.fg.fgg $id.fg.lfgb $id.fg.fgb -side left\n");
     sys_vgui("\n");
     sys_vgui("    frame $id.buttonframe\n");
     sys_vgui("    pack $id.buttonframe -side bottom -fill x -pady 2m\n");
