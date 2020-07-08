@@ -1,33 +1,34 @@
-#N canvas 706 23 561 664 10;
+#N canvas 706 23 561 667 10;
 #X declare -lib cyclone;
 #X obj 3 3 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
-#X obj 28 6 cyclone/comment 0 22 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
-#X obj 29 34 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 version: 0.5-2;
-#X obj 136 9 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 - a set of Pure Data objects cloned from Max/MSP
+#X obj 28 6 cyclone/comment 0 22 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 29 34 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 version: 0.5-2;
+#X obj 136 9 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 - a set of Pure Data objects cloned from Max/MSP
 ;
-#X obj 271 36 cyclone/comment 0 12 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 https://github.com/porres/pd-cyclone;
+#X obj 271 36 cyclone/comment 0 12 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 https://github.com/porres/pd-cyclone;
 #X obj 3 63 cnv 15 552 90 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 19 81 cyclone/comment 0 18 helvetica ? 0 0 0 0 0 255 255 255
-0 0 Cyclone expands Pure Data with objects cloned from Max/MSP.;
-#X obj 43 114 cyclone/comment 0 14 helvetica ? 0 0 0 0 0 255 255 255
-0 0 It also provides some level of compatibility between the two environments
-\,;
-#X obj 64 420 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 0 190
-190 200 1 0 How to install?;
+#X obj 19 81 cyclone/comment 0 18 helvetica empty 0 0 0 0 0 255 255
+255 0 0 Cyclone expands Pure Data with objects cloned from Max/MSP.
+;
+#X obj 43 114 cyclone/comment 0 14 helvetica empty 0 0 0 0 0 255 255
+255 0 0 It also provides some level of compatibility between the two
+environments \,;
+#X obj 64 420 cyclone/comment 0 16 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 190 190 200 1 0 How to install?;
 #X text 2 316 ===========================================================================================
 , f 91;
-#X obj 60 163 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 0 190
-190 200 1 0 About Cyclone:;
+#X obj 60 163 cyclone/comment 0 16 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 190 190 200 1 0 About Cyclone:;
 #X text 2 400 ============================================================================================
 , f 92;
-#X obj 100 344 cyclone/comment 201 16 DejaVu\ Sans\ Mono ? 0 0 0 0
-0 190 190 200 1 0 List with all of the Cyclone's objetcs =>;
+#X obj 100 344 cyclone/comment 201 16 DejaVu\ Sans\ Mono empty 0 0
+0 0 0 190 190 200 1 0 List with all of the Cyclone's objetcs =>;
 #X obj 304 469 declare -lib cyclone;
 #X text 85 446 You can load the cyclone library via "Startup". Alternatively
 \, you can use [declare] as follows:, f 62;
@@ -45,7 +46,7 @@ yet., f 73;
 cyclone folder., f 73;
 #X obj 372 294 cyclone;
 #X text 63 293 - see also the help file of the cyclone binary =>;
-#N canvas 905 393 530 230 links 1;
+#N canvas 905 393 530 230 links 0;
 #X obj 95 157 pdcontrol;
 #X msg 57 123 browse https://github.com/porres/pd-cyclone/issues;
 #X obj 57 50 r \$0-issues;
@@ -68,5 +69,5 @@ report bugs/issues ======>, f 40;
 #X text 2 570 ===========================================================================================
 , f 91;
 #X obj 315 368 cyclone/All_objects;
-#X obj 15 598 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 0 190
-190 200 1 0 Bugs / Issues?;
+#X obj 15 598 cyclone/comment 0 16 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 190 190 200 1 0 Bugs / Issues?;

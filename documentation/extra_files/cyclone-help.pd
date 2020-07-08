@@ -1,4 +1,4 @@
-#N canvas 579 41 560 675 10;
+#N canvas 688 46 560 675 10;
 #X declare -lib cyclone;
 #X obj 3 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -10,16 +10,16 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 305 3 pd;
-#X obj 323 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 364 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
-#X obj 11 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 cyclone;
-#X obj 19 56 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 The Cyclone library;
-#X obj 158 12 cyclone/comment 0 23 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 (library);
+#X obj 323 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 364 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 11 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 cyclone;
+#X obj 19 56 cyclone/comment 0 18 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 The Cyclone library;
+#X obj 158 12 cyclone/comment 0 23 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 (library);
 #X msg 157 399 about;
 #X text 63 150 For more information on the loaded objects \, check:
 ;
@@ -52,10 +52,10 @@
 #X obj 276 273 cyclone/rdiv;
 #X obj 276 293 cyclone/rdiv~;
 #X obj 277 369 cyclone/plusequals~;
-#X obj 273 68 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Alphaumeric;
-#X obj 78 68 cyclone/comment 0 18 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Non-alphaumeric;
+#X obj 273 68 cyclone/comment 0 18 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
+#X obj 78 68 cyclone/comment 0 18 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X obj 133 99 cyclone/==~;
 #X obj 133 123 cyclone/!=~;
 #X obj 133 148 cyclone/<~;

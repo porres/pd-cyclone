@@ -6,7 +6,14 @@
 cyclone 0.5-2 (needs at least Pd Vanilla 0.51-0):
 --------------------------------------------------
 
-- 
+- scope:
+   - fixed a couple of tcl/tk errors and some drawing issues when outta bounds in a GOP.
+   - scope now draws inlets when in edit mode, like in Max and cyclone comment.
+   - Added a receive symbol (like in comment)
+
+- comment:
+   - fixed some drawing issues when outta bounds in a GOP. Code has been revised and has now a better handling of arguments and a proper handling of dollarsign args.
+   - Added a ver rudimentary and preliminary properties window 
 
 --------------------------------------------------
 cyclone 0.5-1 (needs at least Pd Vanilla 0.51-0):

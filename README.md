@@ -22,14 +22,14 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 Current Release: Cyclone 0.5-2 (this release needs at least Pd Vanilla 0.51-0)
 
-Uneleased
+Released july 8th 2020
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
 -------
 ### About Cyclone:
 
-Cyclone 0.5-1 needs at least Pd Vanilla 0.51-0 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
+Cyclone 0.5-2 needs at least Pd Vanilla 0.51-0 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
 
 Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data. Pd-Extended carries older 0.1 versions and Purr Data still carries an outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data). The latest versions of cyclone (0.3-0 onwards) are only fully supported in Pd Vanilla so far. 
 
@@ -44,7 +44,7 @@ Cyclone 0.3-0 was the major overhaul in cyclone, where almost all of its objects
 
 Check the provided CHANGELOG.txt file for the details in all version changes.
 
-Cyclone 0.5-1 is still not compatible to Max 8, but functionalities added in cyclone objects in Max 8 can be included in future versions of Cyclone. Nonetheless, things like 'mc' compatiblity won't likely be possible or make it to cyclone!
+Cyclone 0.5-2 is still not compatible to Max 8, but functionalities added in cyclone objects in Max 8 can be included in future versions of Cyclone. Nonetheless, things like 'mc' compatiblity won't likely be possible or make it to cyclone!
 
 Currently, cyclone still pursues compatibilty to Max 7.3.5 but two objects will not get fully updated, they are: 1) comment (missing 'bubble' stuff from Max 6+) and 2) scope~ (missing 'automatic' mode from Max 7+).
 
