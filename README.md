@@ -44,9 +44,13 @@ Cyclone 0.3-0 was the major overhaul in cyclone, where almost all of its objects
 
 Check the provided CHANGELOG.txt file for the details in all version changes.
 
-Cyclone 0.5-2 is still not compatible to Max 8, but functionalities added in cyclone objects in Max 8 can be included in future versions of Cyclone. Nonetheless, things like 'mc' compatiblity won't likely be possible or make it to cyclone!
 
-Currently, cyclone still pursues compatibilty to Max 7.3.5 but two objects will not get fully updated, they are: 1) comment (missing 'bubble' stuff from Max 6+) and 2) scope~ (missing 'automatic' mode from Max 7+).
+
+Currently, cyclone still pursues compatibilty to Max 7.3.5 with minor issues still in the way, but one object will not get fully updated, which is comment (it misses 'bubble' stuff from Max 6+).
+
+Cyclone is still not compatible to the new Max 8 version, this is still not in the radar for implementartion plans. Hopefully, functionalities added in cyclone objects in Max 8 might be included in future versions of Cyclone. Nonetheless, things like 'mc' compatiblity won't likely be possible or make it to cyclone!
+
+
 
 -------
 
