@@ -130,6 +130,7 @@ static void comment_draw(t_comment *x){
     comment_draw_inlet(x);
 }
 
+// improve!!!
 static void comment_redraw(t_comment *x, int bg){
     sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
     sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
@@ -634,13 +635,32 @@ static void comment_receive(t_comment *x, t_symbol *s){
     }
 }
 
+static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
+    s = NULL;
+    canvas_dirty(x->x_glist, 1);
+    binbuf_clear(x->x_binbuf);
+    binbuf_restore(x->x_binbuf, ac, av);
+    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
+    if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
+        comment_redraw(x, x->x_bg_flag);
+}
+
 static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
     if(ac){
         canvas_dirty(x->x_glist, 1);
-        t_binbuf *bb = binbuf_new();
-        binbuf_restore(bb, ac, av);
-        binbuf_addbinbuf(x->x_binbuf, bb);
+        int n = binbuf_getnatom(x->x_binbuf); // number of arguments
+        t_atom at[n+ac];
+        char buf[128];
+        int i = 0;
+        for(i = 0;  i < n; i++){
+            atom_string(binbuf_getvec(x->x_binbuf) + i, buf, 128);
+            SETSYMBOL(at+i, gensym(buf));
+        }
+        for(int j = 0; j < ac; j++)
+            at[i+j] = av[j];
+        binbuf_clear(x->x_binbuf);
+        binbuf_restore(x->x_binbuf, n+ac, at);
         binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
             comment_redraw(x, x->x_bg_flag);
@@ -651,25 +671,22 @@ static void comment_prepend(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
     if(ac){
         canvas_dirty(x->x_glist, 1);
-        t_binbuf *bb = binbuf_new();
-        binbuf_restore(bb, ac, av);
-        binbuf_addbinbuf(bb, x->x_binbuf);
+        int n = binbuf_getnatom(x->x_binbuf); // number of arguments
+        t_atom at[n+ac];
+        char buf[128];
+        int i = 0;
+        for(i = 0; i < ac; i++)
+            at[i] = av[i];
+        for(int j = 0;  j < n; j++){
+            atom_string(binbuf_getvec(x->x_binbuf) + j, buf, 128);
+            SETSYMBOL(at+i+j, gensym(buf));
+        }
         binbuf_clear(x->x_binbuf);
-        binbuf_addbinbuf(x->x_binbuf, bb);
+        binbuf_restore(x->x_binbuf, n+ac, at);
         binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
             comment_redraw(x, x->x_bg_flag);
     }
-}
-
-static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
-    s = NULL;
-    canvas_dirty(x->x_glist, 1);
-    binbuf_clear(x->x_binbuf);
-    binbuf_restore(x->x_binbuf, ac, av);
-    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
-    if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
-        comment_redraw(x, x->x_bg_flag);
 }
 
 static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floatarg b){
