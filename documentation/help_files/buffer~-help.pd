@@ -20,10 +20,12 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 buffer~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 buffer~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X text 201 323 (none);
 #X text 176 367 - audio file to load (optional), f 60;
 #X text 103 367 2) symbol;
@@ -129,7 +131,8 @@ files \, it accepts floats or symbols:;
 #X obj 268 216 ./out~;
 #X msg 254 158 start;
 #X msg 120 200 open;
-#X obj 23 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Audio buffer;
+#X obj 23 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Audio buffer;
 #X text 74 84 [buffer~] stores audio in a memory buffer. It read/writes
 multichannel audio files and can be used in conjunction with [play~]
 and other related objects. This is an abstraction without the full
@@ -142,8 +145,10 @@ functionalitites from the Max/MSP original.;
 #N canvas 527 168 807 406 functions/generators 0;
 #X obj 513 300 loadbang;
 #X msg 464 320 open;
-#X obj 27 20 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Fill;
-#X obj 416 19 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Apply;
+#X obj 27 20 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
+#X obj 416 19 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X text 413 139 The message "apply getdeltas" replaces every sample
 value with the a new value representing the difference from the previous
 sample., f 60;

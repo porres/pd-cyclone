@@ -54,20 +54,20 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 4 pd;
-#X obj 89 152 cyclone/comment 100 11 helvetica ? 0 0 0 0 <Note / Velocity>
-;
-#X obj 223 134 cyclone/comment 285 11 helvetica ? 0 0 0 0 Polyphonic
-Aftetoutch;
+#X obj 89 152 cyclone/comment 100 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 <Note / Velocity>;
+#X obj 223 134 cyclone/comment 285 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Polyphonic Aftetoutch;
 #X text 97 170 Note;
 #X text 89 189 On/Off;
-#X obj 283 181 cyclone/comment 100 11 helvetica ? 0 0 0 0 Program Change
-;
-#X obj 310 202 cyclone/comment 100 11 helvetica ? 0 0 0 0 Channel Aftertouch
-;
-#X obj 339 221 cyclone/comment 215 11 helvetica ? 0 0 0 0 Pitch Bend
-(-8192 to 8191 in @hires 2);
-#X obj 362 241 cyclone/comment 100 11 helvetica ? 0 0 0 0 MIDI Channel
-;
+#X obj 283 181 cyclone/comment 100 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Program Change;
+#X obj 310 202 cyclone/comment 100 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Channel Aftertouch;
+#X obj 339 221 cyclone/comment 215 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Pitch Bend (-8192 to 8191 in @hires 2);
+#X obj 362 241 cyclone/comment 100 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 MIDI Channel;
 #X obj 242 180 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 328 239 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -76,15 +76,15 @@ Aftetoutch;
 -228856 -1 -1 0 256;
 #X obj 299 219 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 333 134 cyclone/comment 285 11 helvetica ? 0 0 0 0 <pitch \,
-pressure>;
+#X obj 333 134 cyclone/comment 285 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 <pitch \, pressure>;
 #X obj 157 293 print raw_midi;
 #X text 132 332 list;
 #X text 132 366 list;
 #X text 132 385 list;
 #X msg 214 156 127 1;
-#X obj 258 159 cyclone/comment 0 11 helvetica ? 0 0 0 0 Control Change
-<value \, control #>;
+#X obj 258 159 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
+255 0 0 Control Change <value \, control #>;
 #X text 182 332 <pitch/velocity> pairs for note on/off messages;
 #X text 182 405 program change value for program change message, f
 59;
@@ -205,12 +205,14 @@ above);
 0;
 #X text 122 547 @hires <0 \, 1 \, 2> - picth bend precision (see example
 above);
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Format MIDI messages
-;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 midiformat;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Format MIDI messages;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 midiformat;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X connect 4 0 66 0;
 #X connect 6 0 66 1;
 #X connect 16 0 66 0;

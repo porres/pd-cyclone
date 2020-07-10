@@ -58,8 +58,8 @@
 -1 -1 0 0;
 #X obj 189 198 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 115 261 cyclone/comment 100 11 helvetica ? 0 0 0 0 current peak
-;
+#X obj 115 261 cyclone/comment 100 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 current peak;
 #X obj 229 302 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #X obj 162 203 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -118,12 +118,14 @@ peak.;
 ;
 #X text 173 481 1 (input is not a new peak) / 0 (input is a new peak)
 ;
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Output numbers greater
-than the previous;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 peak;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Output numbers greater than the previous;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 peak;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X text 61 140 Note: In Pd \, [cyclone/peak] only deals with floats
 \, not ints., f 62;
 #X connect 12 0 48 1;

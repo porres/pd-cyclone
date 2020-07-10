@@ -146,14 +146,14 @@ where (0 \, 0) is the top left corner of the primary display.;
 #X text 112 217 mode 1: patch relative;
 #X text 112 232 mode 2: front-most patch relative;
 #X obj 159 406 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 590 256;
+-228856 -1 -1 897 256;
 #X text 160 423 x pos;
 #X text 186 380 y pos;
 #X text 21 14 There are 3 different modes in [mousestate] that define
 what the coordinate (0 \, 0) of the (x \, y) position point is in relation
 to.;
 #X obj 185 362 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 300 256;
+-228856 -1 -1 472 256;
 #X text 209 404 horizontal;
 #X text 234 362 vertical;
 #X text 23 97 Mode 1 uses "patch-relative coordinates" \, where (0
@@ -168,14 +168,14 @@ selectring the parent patch for example.;
 #X connect 3 0 1 0;
 #X connect 4 0 3 0;
 #X restore 491 225 pd modes;
-#X obj 33 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Retrieve mouse data;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 mousestate;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
+#X obj 33 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Retrieve mouse data;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 mousestate;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X text 223 162 polling on/off with [metro];
 #X text 159 375 - sets current position to (0 \, 0) of Pd's coordinate
 system, f 61;

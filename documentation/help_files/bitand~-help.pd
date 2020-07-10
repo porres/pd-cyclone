@@ -36,7 +36,7 @@
 #X obj 553 108 *~ 10000;
 #X obj 553 184 /~ 10000;
 #X obj 623 282 cyclone/scope~ 226 115 5 3 128 -1 1 200 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 553 73 osc~ 220;
 #X obj 658 108 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -238,7 +238,7 @@ i i i i i i i i i i i i i i, f 126;
 #X restore 121 123 pd x;
 #X obj 34 193 osc~ 220;
 #X obj 121 513 cyclone/scope~ 226 115 5 3 128 -1 1 200 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X msg 148 264 mode \$1;
 #X floatatom 148 241 4 0 3 0 - - -;
 #X obj 148 218 hradio 15 1 0 4 \$0-dslsjdhfk \$0-dsdsdjfslkjhllsjdhfk
@@ -330,15 +330,20 @@ signals or a signal to a given bitmask. It has 4 modes of comparison
 are zeroed out.;
 #X text 184 487 - mode [0-3] (details above) - default 0;
 #X text 184 437 - signal as result of the "Bitwise-AND" operation;
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal Bitwise-AND
-;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bitand~;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal Bitwise-AND;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 bitand~;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 98 272 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 185 212 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 98 184 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 500 69 cyclone/setdsp~;
 #X connect 14 0 44 0;
 #X connect 15 0 14 0;

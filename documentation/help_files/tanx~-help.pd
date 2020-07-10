@@ -21,7 +21,7 @@
 #X text 167 249 10;
 #X text 173 313 0;
 #X obj 193 252 cyclone/scope~ 174 138 128 3 128 -10 10 0 0 0 0 205
-229 232 74 79 77 96 98 102 0;
+229 232 74 79 77 96 98 102 0 empty;
 #X text 262 180 * 2pi;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -39,14 +39,18 @@
 #X text 75 89 Like [cyclone/cosx~] & [cyclone/sinx~] \, [tanx~] is
 properly designed for mathematical operations. Thus \, it expects an
 input in radians to calculate the tangent of each input sample.;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal tangent function
-(radian input);
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 tanx~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal tangent function (radian input);
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 tanx~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 420 272 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 420 355 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 9 0 10 0;
 #X connect 10 0 15 0;

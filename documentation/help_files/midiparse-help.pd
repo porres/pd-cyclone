@@ -57,12 +57,14 @@
 #X restore 304 4 pd;
 #X obj 42 187 unpack;
 #X text 173 276 raw MIDI data stream;
-#X obj 164 244 cyclone/comment 50 11 helvetica ? 0 0 0 0 Control;
-#X obj 262 234 cyclone/comment 50 11 helvetica ? 0 0 0 0 Aftertouch
-;
-#X obj 323 233 cyclone/comment 0 11 helvetica ? 0 0 0 0 Pitch Bend
-;
-#X obj 413 218 cyclone/comment 0 11 helvetica ? 0 0 0 0 Channel;
+#X obj 164 244 cyclone/comment 50 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Control;
+#X obj 262 234 cyclone/comment 50 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Aftertouch;
+#X obj 323 233 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
+255 0 0 Pitch Bend;
+#X obj 413 218 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
+255 0 0 Channel;
 #X text 173 376 <value/controller number> pairs from control messages
 , f 60;
 #X text 173 357 <aftertouch/pitch> pairs from polyphonic aftertouch
@@ -73,9 +75,12 @@ messages;
 #X text 173 434 value from pitch bend messages, f 60;
 #X text 173 453 the MIDI channel number from raw MIDI message, f 60
 ;
-#X obj 44 246 cyclone/comment 43 11 helvetica ? 0 0 0 0 Note in;
-#X obj 98 244 cyclone/comment 0 11 helvetica ? 0 0 0 0 Poly touch;
-#X obj 210 234 cyclone/comment 0 11 helvetica ? 0 0 0 0 Program;
+#X obj 44 246 cyclone/comment 43 11 helvetica empty 0 0 0 0 0 255 255
+255 0 0 Note in;
+#X obj 98 244 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
+255 0 0 Poly touch;
+#X obj 210 234 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
+255 0 0 Program;
 #X text 122 90 [midiparse] receives raw MIDI data and retrieves different
 MIDI messages from it.;
 #X text 88 134 <= MIDI from a controller;
@@ -199,14 +204,16 @@ above);
 #X text 95 311 hires <f>;
 #X text 175 311 sets 14-bit pitch bend input precision (see example
 above);
-#X obj 378 233 cyclone/comment 215 11 helvetica ? 0 0 0 0 (-8192 to
-8191 in @hires 2);
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Retrieve MIDI messages
-;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 midiparse;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 378 233 cyclone/comment 215 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 (-8192 to 8191 in @hires 2);
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Retrieve MIDI messages;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 midiparse;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X connect 11 0 68 0;
 #X connect 37 0 59 0;
 #X connect 37 1 60 0;

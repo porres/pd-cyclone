@@ -57,14 +57,18 @@ accuracy) - or also set to any value (with the set message).;
 #X obj 181 225 cyclone/train~ 2000 0;
 #X text 321 224 <= impulse (value of 1;
 #X text 362 240 every 2 seconds);
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal accumulator
-;
-#X obj 13 7 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 +=~;
-#X obj 364 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal accumulator;
+#X obj 13 7 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 +=~;
+#X obj 364 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 70 326 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 254 326 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 499 69 cyclone/setdsp~;
 #X obj 455 325 cyclone-help;
 #X text 450 304 Please check:;

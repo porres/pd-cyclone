@@ -31,7 +31,7 @@
 to);
 #X text 128 472 nearest;
 #X obj 118 328 cyclone/scope~ 241 104 2 3 128 -1 1 190 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 86 223 osc~ 230;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -58,11 +58,14 @@ non zero number sets to "round to nearest mode" (default);
 #X text 193 451 - a signal value to round;
 #X text 135 554 signal;
 #X text 191 554 - rounded signal value;
-#X obj 20 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Rounds signals;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 round~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 20 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Rounds signals;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 round~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 9 0 15 1;
 #X connect 10 0 9 0;

@@ -27,9 +27,9 @@
 #X text 382 315 0;
 #X text 378 365 -12;
 #X obj 60 263 cyclone/scope~ 127 108 256 3 128 -12 12 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 244 269 cyclone/scope~ 127 108 256 3 128 -12 12 0 0 0 0 205
-229 232 74 79 77 96 98 102 0;
+229 232 74 79 77 96 98 102 0 empty;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -47,14 +47,18 @@ each input sample (probably only useful for mathematical calculations).
 #X text 210 450 - output of hyperbolic sine function;
 #X obj 60 169 osc~ 2;
 #X obj 431 255 number~ 1;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 431 338 number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 431 297 cyclone/sinh~;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal hyperbolic
-sine function;
-#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 sinh~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal hyperbolic sine function;
+#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 sinh~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 8 0 12 0;
 #X connect 9 0 8 0;

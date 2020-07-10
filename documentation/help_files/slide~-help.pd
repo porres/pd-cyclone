@@ -39,7 +39,7 @@
 changes in signal value. The formula is: y(n) = y(n-1) + ((x(n) - y(n-1))/slide).
 ;
 #X obj 159 304 cyclone/scope~ 178 100 64 3 128 0 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X msg 246 218 441;
 #X msg 327 218 441;
 #X msg 204 218 44100;
@@ -66,12 +66,14 @@ following and lowpass filtering.;
 #X text 217 462 - slide-up value;
 #X text 217 481 - sets the current output sample value to 0 (the next
 incoming value will smoothly transition from that 0);
-#X obj 17 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Smooth signals logarithmically
-;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 slide~;
+#X obj 17 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Smooth signals logarithmically;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 slide~;
 #X msg 108 239 reset;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 8 0 20 2;

@@ -140,14 +140,18 @@ pi/2. For input values outside the -1 to 1 range \, the output is zero!
 #X coords 0 -1 1 1 44 72 2 50 100;
 #X restore 504 71 pd;
 #X obj 429 304 cyclone/asin~;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal arc-sine function
-;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 asin~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal arc-sine function;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 asin~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 429 345 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 429 262 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X text 181 309 0;
 #X text 182 371 -pi/2;
 #X text 181 248 pi/2;
@@ -160,9 +164,9 @@ cloned from Max/MSP;
 #X obj 237 221 cyclone/asin~;
 #X obj 45 183 osc~ 2;
 #X obj 45 252 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0 205
-229 232 74 79 77 96 98 102 0;
+229 232 74 79 77 96 98 102 0 empty;
 #X obj 237 252 cyclone/scope~ 130 130 256 3 128 -1.57 1.57 0 0 0 0
-205 229 232 74 79 77 96 98 102 0;
+205 229 232 74 79 77 96 98 102 0 empty;
 #X connect 20 0 25 0;
 #X connect 26 0 20 0;
 #X connect 30 0 34 0;

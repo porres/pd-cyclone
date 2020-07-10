@@ -27,9 +27,13 @@ for the single-argument arctangent function.;
 #X text 287 86 Imaginary;
 #X text 159 87 Real;
 #X obj 273 244 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 139 244 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 131 107 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 273 107 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X connect 0 0 6 0;
 #X connect 1 1 7 0;
 #X connect 8 0 1 0;
@@ -61,17 +65,20 @@ the phase from cartesian coordinates.;
 #X text 189 386 - result of arctan(a/b) in radians;
 #X text 116 178 "a";
 #X text 198 207 "b";
-#X obj 17 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Signal arctan(a/b) function;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 atan2~;
+#X obj 17 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal arctan(a/b) function;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 atan2~;
 #X obj 142 177 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 223 207 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 142 273 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 500 69 cyclone/setdsp~;
 #X connect 16 0 30 0;
 #X connect 28 0 16 0;

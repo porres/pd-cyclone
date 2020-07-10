@@ -35,12 +35,16 @@
 #N canvas 588 203 776 417 multichannel 0;
 #X obj 151 265 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
-#X obj 24 7 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Multi channel recording
-;
-#X obj 181 264 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 record;
+#X obj 24 7 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 comment;
+#X obj 181 264 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 comment;
 #X obj 151 362 cyclone/number~;
-#X obj 653 69 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Left Channel;
-#X obj 653 189 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Right Channel;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
+#X obj 653 69 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
+#X obj 653 189 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 comment;
 #X obj 444 149 cnv 15 198 98 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 1 80 450 300 (subpatch) 0;
@@ -55,8 +59,8 @@
 #X restore 444 28 graph;
 #X obj 151 333 cyclone/record~ smp_\$0 2;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -125,7 +129,7 @@
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
@@ -172,8 +176,10 @@ channel inputs and the two righmost are the range intlets.;
 #X obj 441 312 adc~;
 #X obj 413 279 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
-#X obj 443 278 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 record;
+#X obj 443 278 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 comment;
 #X obj 413 376 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 413 347 cyclone/record~ buff_\$0 2;
 #X obj 631 346 cyclone/buffer~ buff_\$0 500 2, f 16;
 #X obj 198 298 noise~;
@@ -220,13 +226,16 @@ channel inputs and the two righmost are the range intlets.;
 #X text 101 427 append <float>;
 #X obj 5 656 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Record signals in
-arrays;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 record~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Record signals in arrays;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 record~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 287 262 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X text 83 486 loopstart <float>;
 #X text 95 502 loopend <float>;
 #X text 196 502 - end point in ms (default array's size), f 58;

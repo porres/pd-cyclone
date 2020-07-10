@@ -57,18 +57,18 @@
 #X text 98 92 Use [dbtoa] to convert decibel values to corresponding
 linear amplitude.;
 #X text 98 125 Conversion expression: amp = pow(10 \, dBFS / 20);
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Convert dBFS to linear amplitude;
-#X obj 38 188 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 dBFS;
-#X obj 293 306 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0
-255 255 255 0 0 Linear Amplitude;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 dbtoa;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Convert dBFS to linear amplitude;
+#X obj 38 188 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 dBFS;
+#X obj 293 306 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Linear Amplitude;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 dbtoa;
 #X connect 8 0 27 0;
 #X connect 9 0 8 0;
 #X connect 17 0 27 0;

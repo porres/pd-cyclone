@@ -29,10 +29,12 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 index~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 index~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #N canvas 553 166 833 431 multichannel 0;
 #X obj 406 29 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -126,10 +128,14 @@ cloned from Max/MSP;
 #X obj 77 206 cyclone/count~ 0 100 1;
 #X obj 63 277 ./out~;
 #X obj 77 232 cyclone/index~ quadraphonic_\$0 3;
-#X obj 566 6 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-1;
-#X obj 781 5 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-2;
-#X obj 566 152 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-3;
-#X obj 782 151 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 ch-4;
+#X obj 566 6 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
+#X obj 781 5 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
+#X obj 566 152 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 comment;
+#X obj 782 151 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 comment;
 #X text 202 348 Please check the [buffer~] object for multichannel
 buffers =>, f 61;
 #X text 294 379 Internally \, it creates buffers with the above mentioned
@@ -155,6 +161,7 @@ such as: "0-" \, "1-" \, "2-" \, "3-" \, and so on...;
 #X restore 451 273 pd multichannel;
 #X text 217 337 - channel number;
 #X obj 52 274 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 52 181 nbx 6 14 0 15 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 0 256;
 #X obj 55 160 hsl 128 15 0 15 0 0 empty empty empty -2 -8 0 10 -228856
@@ -175,6 +182,7 @@ such as: "0-" \, "1-" \, "2-" \, "3-" \, and so on...;
 #N canvas 886 172 390 351 play 0;
 #X msg 87 127 stop;
 #X obj 85 213 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 67 96 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #N canvas 910 295 514 324 load 0;
@@ -245,8 +253,8 @@ tasks than other objects such as [cyclone/play~] and [cyclone/wave~].
 #X restore 457 246 pd play sample;
 #X text 217 363 - signal read from array without interpolation;
 #X obj 52 231 cyclone/index~ \$0-table;
-#X obj 17 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Non-interpolating
-array reader;
+#X obj 17 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Non-interpolating array reader;
 #X text 217 409 - array channel (1-64) default 1;
 #X text 77 84 [index~] reads an array without interpolation. The input
 signal specifies the table index. It's like [tabread~] but works with

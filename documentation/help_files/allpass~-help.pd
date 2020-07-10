@@ -36,8 +36,10 @@
 #X obj 195 151 cyclone/train~ 1000 0.1;
 #X floatatom 260 193 5 0 100 0 - adfsa -;
 #X floatatom 339 193 5 -1 1 0 - adfsa -;
-#X obj 347 176 cyclone/comment 11 15 helvetica ? 0 0 0 0 a;
-#X obj 267 178 cyclone/comment 0 13 helvetica ? 0 0 0 0 D;
+#X obj 347 176 cyclone/comment 11 15 helvetica empty 0 0 0 0 0 255
+255 255 0 0 a;
+#X obj 267 178 cyclone/comment 0 13 helvetica empty 0 0 0 0 0 255 255
+255 0 0 D;
 #X obj 180 214 cyclone/allpass~ 100 10 0.7;
 #X text 214 337 list;
 #X text 246 337 - updates all 3 arguments;
@@ -85,7 +87,8 @@
 #X text 272 134 | z^-D |;
 #X text 114 172 y(n) = -a * x(n) + x(n-D) + a * y(n-D);
 #X text 110 81 x[n] ---(*-a)--(+)--(+)----------- y[n];
-#X obj 254 48 cyclone/comment 0 16 DejaVu\ Sans\ Mono ? 0 0 0 0 Filter Equation:;
+#X obj 254 48 cyclone/comment 0 16 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X floatatom 233 334 5 0 100 0 - - -;
 #X obj 154 316 noise~;
 #X text 237 314 d1;
@@ -109,11 +112,14 @@ linear interpolation is performed.;
 #X connect 49 0 52 0;
 #X connect 49 0 52 1;
 #X restore 420 276 pd Filter Equation;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 allpass~;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 All Pass filter;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 allpass~;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 All Pass filter;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X text 78 87 Use [allpass~] for filtering and delay effects. The All
 Pass filter passes all frequencies without altering the gain - but
 changes the frequencies' phase.;

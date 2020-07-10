@@ -77,8 +77,8 @@ note-offs when it receives a bang.;
 #N canvas 1000 225 443 345 polysynth 0;
 #X obj 85 63 inlet;
 #X obj 173 298 outlet~;
-#X obj 25 16 cyclone/comment 0 15 helvetica ? 0 0 0 0 Six voices polyphonic
-synth;
+#X obj 25 16 cyclone/comment 0 15 helvetica empty 0 0 0 0 0 255 255
+255 0 0 comment;
 #N canvas 292 354 342 369 voice 0;
 #X obj 197 123 / 127;
 #X obj 182 228 *~;
@@ -253,8 +253,8 @@ synth;
 -1;
 #X obj 397 344 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 438 338 cyclone/comment 100 12 helvetica ? 0 0 0 0 number of
-notes "hanging";
+#X obj 438 338 cyclone/comment 100 12 helvetica empty 0 0 0 0 0 255
+255 255 0 0 comment;
 #X text 88 201 Flush them off;
 #X obj 251 78 expr random(50 \, 80);
 #X obj 251 239 cyclone/flush;
@@ -278,12 +278,14 @@ notes "hanging";
 #X connect 11 0 10 0;
 #X connect 11 1 10 1;
 #X restore 470 265 pd example;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Flush hanging note-ons
-;
-#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 flush;
-#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Flush hanging note-ons;
+#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 flush;
+#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X connect 5 0 9 0;
 #X connect 6 0 9 1;
 #X connect 9 0 40 0;

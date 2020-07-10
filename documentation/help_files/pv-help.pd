@@ -157,12 +157,14 @@ with the same variable name - to check it \, open [pv_in_a_subpatch_2].
 as a variable name \, which can be shared within a patch or its subpatch
 if it has another [pv] object with the same variable name. It won't
 share with other patches!;
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 private (local) variables
-;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 pv;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 private (local) variables;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 pv;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #N canvas 799 184 428 415 send/value 0;
 #X obj 76 190 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;

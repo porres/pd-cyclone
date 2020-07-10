@@ -92,26 +92,19 @@ to a third note (2nd order markov chain)., f 65;
 #X obj 286 385 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 314 132 <= restart;
-#X obj 102 419 cyclone/comment 170 10 Dejavu\ Sans\ Mono ? 0 226 27
-58 0 255 255 255 0 0 weed out the "previous" note that was stored in
-the high 7-bits;
-#X obj 21 305 cyclone/comment 159 10 Dejavu\ Sans\ Mono ? 0 226 27
-58 0 255 255 255 0 0 max size = 16384 (128’^2) because we're shoving
-2 MIDI values into 1;
-#X obj 42 364 cyclone/comment 121 10 Dejavu\ Sans\ Mono ? 0 226 27
-58 0 255 255 255 0 0 output: transitions from 2-note pairs to other
-2-note pairs;
+#X obj 102 419 cyclone/comment 170 10 Dejavu\ Sans\ Mono empty 0 226
+27 58 0 255 255 255 0 0 comment;
+#X obj 21 305 cyclone/comment 159 10 Dejavu\ Sans\ Mono empty 0 226
+27 58 0 255 255 255 0 0 comment;
+#X obj 42 364 cyclone/comment 121 10 Dejavu\ Sans\ Mono empty 0 226
+27 58 0 255 255 255 0 0 comment;
 #X text 350 301 <= BANG;
-#X obj 36 210 cyclone/comment 130 10 Dejavu\ Sans\ Mono ? 0 226 27
-58 0 255 255 255 0 0 store previous note in the high 7-bits of our
-value;
-#X obj 76 469 cyclone/comment 207 10 Dejavu\ Sans\ Mono ? 0 226 27
-58 0 255 255 255 0 0 Now the playback is comprised of transition probabilities
-based on the two preceeding notes! This should yield results that sound
-less random than if we're just looking at one note at a time.;
-#X obj 49 254 cyclone/comment 119 10 Dejavu\ Sans\ Mono ? 0 226 27
-58 0 255 255 255 0 0 encode current and previous values into one big
-number;
+#X obj 36 210 cyclone/comment 130 10 Dejavu\ Sans\ Mono empty 0 226
+27 58 0 255 255 255 0 0 comment;
+#X obj 76 469 cyclone/comment 207 10 Dejavu\ Sans\ Mono empty 0 226
+27 58 0 255 255 255 0 0 comment;
+#X obj 49 254 cyclone/comment 119 10 Dejavu\ Sans\ Mono empty 0 226
+27 58 0 255 255 255 0 0 comment;
 #X connect 0 0 18 0;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
@@ -155,14 +148,14 @@ of: 1) the previously received number \, 2) current input number \,
 3) occurence (how many times this number pair has been received).;
 #X text 166 412 - three floats: <previous number \, current number
 \, occurence>;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 anal;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Number pairs histogram;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 anal;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Number pairs histogram;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X connect 5 0 18 0;
 #X connect 6 0 18 0;
 #X connect 7 0 18 0;

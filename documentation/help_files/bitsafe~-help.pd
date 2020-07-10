@@ -40,14 +40,18 @@ existed;
 values of an incoming signal with zero. This is useful in conjunction
 with the bitwise operators \, or any other situation where these values
 are possible.;
-#X obj 16 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Replace nan/inf signals
-with 0;
-#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bitsafe~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 16 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Replace nan/inf signals with 0;
+#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 bitsafe~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 305 334 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 329 234 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 500 69 cyclone/setdsp~;
 #X obj 109 183 expr~ log(-1);
 #X obj 305 183 expr~ atanh(1);

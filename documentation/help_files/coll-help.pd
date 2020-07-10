@@ -953,8 +953,8 @@ removing the address from the collection.;
 #X connect 30 0 18 0;
 #X connect 31 0 18 0;
 #X restore 525 234 pd alias \; nstore;
-#X obj 462 69 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 More Examples:;
+#X obj 462 69 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X obj 204 276 print finish_dump;
 #X text 24 15 In [coll] \, any message type can be stored at a particular
 address \, which can be either an "integer float" (positive or negative)
@@ -1020,8 +1020,8 @@ their patches.;
 ;
 #X text 404 354 ============================================================
 ;
-#X obj 49 379 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Backwards Compatibility issues:;
+#X obj 49 379 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X text 18 91 Below \, [coll] loads 300 thousand entries from a file
 \, which would cause an audio drop out if not in threaded mode.;
 #N canvas 676 50 503 504 depth-first 0;
@@ -1150,14 +1150,14 @@ data;
 #X text 189 469 name or filename to load (same name colls share contents)
 ;
 #X text 178 418 - when finishing a read operation;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 coll;
-#X obj 16 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Store/edit message collections;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 coll;
+#X obj 16 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Store/edit message collections;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X connect 21 0 46 0;
 #X connect 29 0 46 0;
 #X connect 39 0 46 0;

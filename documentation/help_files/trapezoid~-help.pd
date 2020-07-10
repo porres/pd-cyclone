@@ -39,7 +39,7 @@
 -1 -1 0 1;
 #X floatatom 373 311 5 0 0 0 - - -;
 #X obj 213 371 cyclone/scope~ 250 113 3 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X text 210 652 - ramp up (default 0.1);
 #X text 210 668 - ramp down (default 0.9);
 #X text 211 564 - ramp up (destination point \, changing its steepness)
@@ -77,12 +77,14 @@ using the lo/hi messages or attributes to any given range.;
 with phase values from 0 to 1 into the first inlet- a [phasor~] input
 turns it into a wavetable oscillator. A second and third inlet change
 the position of ramp up/down points.;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Trapezoidal wavetable
-;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 trapezoid~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Trapezoidal wavetable;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 trapezoid~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 100 402 ./out~;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 15 0 37 0;

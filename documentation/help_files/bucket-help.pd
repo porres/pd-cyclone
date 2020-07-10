@@ -69,8 +69,8 @@
 #X text 31 92 set as 2nd arguments;
 #X text 75 213 <0> holds to next round;
 #X text 248 212 <1> outputs immediately;
-#X obj 22 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Compare output flags;
+#X obj 22 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X connect 0 0 2 0;
 #X connect 1 0 12 0;
 #X connect 1 0 7 0;
@@ -121,14 +121,14 @@ it on the next round \, <1> outputs the input immediately;
 #X text 49 87 As [bucket] is input with floats \, it outputs them shiftting
 from outlet to outlet in a rotational pattern (or "passing the bucket"
 as in a ucket brigade).;
-#X obj 17 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Pass numbers from outlet to outlet;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 bucket;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
+#X obj 17 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Pass numbers from outlet to outlet;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 bucket;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X connect 5 0 49 0;
 #X connect 20 0 48 0;
 #X connect 31 0 38 0;

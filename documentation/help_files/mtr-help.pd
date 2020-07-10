@@ -166,12 +166,14 @@ message), f 61;
 #X floatatom 316 268 5 0 0 0 - - -;
 #X obj 178 245 cyclone/mtr 3, f 21;
 #X text 120 307 check all possible messages here:, f 70;
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Multi-track message
-recorder;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 mtr;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Multi-track message recorder;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 mtr;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X connect 13 0 37 0;
 #X connect 14 0 37 0;
 #X connect 28 0 37 3;

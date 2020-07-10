@@ -37,12 +37,14 @@ and a bang triggers the output.;
 #X text 174 413 - the list composed of the given elements;
 #X text 78 336 set <anything>;
 #X text 174 318 - outputs the stored list of elements, f 60;
-#X obj 17 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Output a list when
-any element changes;
-#X obj 16 7 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 pak;
-#X obj 322 31 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 7 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Output a list when any element changes;
+#X obj 16 7 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 pak;
+#X obj 322 31 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 7 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X text 174 380 -;
 #X text 174 336 -;
 #X text 187 380 same as "set" \, but it forces a list output, f 58

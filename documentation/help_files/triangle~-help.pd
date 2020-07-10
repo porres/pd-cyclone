@@ -33,7 +33,7 @@
 #X text 426 413 1;
 #X text 202 611 - variable duty (peak position) from 0-1;
 #X obj 199 417 cyclone/scope~ 220 106 3 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X text 203 693 - peak position from 0 to 1 (default 0.5);
 #X msg 334 321 \$1 50;
 #X obj 89 286 phasor~ 229;
@@ -67,12 +67,14 @@ changed using the lo/hi messages to any given range.;
 #X text 202 556 - phase input signal;
 #X text 202 574 - changes lowest point (default -1);
 #X text 174 733 @lo <f> (default -1) - same as "lo" message;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Variable duty triangular
-wavetable;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 triangle~;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Variable duty triangular wavetable;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 triangle~;
 #X obj 90 446 ./out~;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 12 0 29 0;

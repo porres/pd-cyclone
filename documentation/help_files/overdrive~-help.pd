@@ -26,7 +26,7 @@
 #X text 158 500 float/signal;
 #X text 248 537 - the distorted signal;
 #X obj 221 333 cyclone/scope~ 171 110 5 3 128 -1 1 200 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 119 330 clip~ -1 1;
 #X text 88 135 If the "drive factor" is 1 \, the signal is unchanged.
 Increasing the "drive" increases the amount of distortion. If the "drive"
@@ -50,12 +50,14 @@ be careful (here we use [clip~])!;
 #X text 87 91 [overdrive~] simulates the "soft clipping" of and overdriven
 tube-based circuit by applying a non-linear transfer function to the
 incoming signal.;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 overdrive~;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Analog overdrive
-simulation;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 overdrive~;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Analog overdrive simulation;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 76 365 ./out~;
 #X obj 502 72 cyclone/setdsp~;
 #X connect 10 0 22 0;

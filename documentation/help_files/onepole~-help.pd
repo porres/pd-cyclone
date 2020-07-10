@@ -18,7 +18,7 @@
 ;
 #X text 118 477 float/signal;
 #X text 205 519 - output of low-pass filter;
-#X floatatom 273 216 7 0 0 0 - - -, f 7;
+#X floatatom 273 216 7 0 0 0 - - -;
 #X obj 273 265 line~;
 #X msg 273 240 \$1 10;
 #X obj 276 191 hsl 128 15 100 10000 1 1 empty empty empty -2 -8 0 10
@@ -69,7 +69,7 @@ y[-1]) \,;
 #X text 89 150 - The 'hz' mode is simply an input in hertz \, as in
 our main example in the parent patch.;
 #X obj 621 108 noise~;
-#X floatatom 787 139 7 0 0 0 - - -, f 7;
+#X floatatom 787 139 7 0 0 0 - - -;
 #X obj 771 111 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 811 110 cutoff;
@@ -81,7 +81,7 @@ of the equation directly \, while the input has the same range as linear
 to the exponential pitch scale of the human ear. Compare the difference
 below.;
 #X obj 630 408 noise~;
-#X floatatom 802 439 7 0 0 0 - - -, f 7;
+#X floatatom 802 439 7 0 0 0 - - -;
 #X obj 786 411 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 0 1;
 #X text 826 410 cutoff;
@@ -91,14 +91,14 @@ below.;
 #X obj 330 321 samplerate~;
 #X obj 330 296 loadbang;
 #X obj 330 346 / 4;
-#X floatatom 330 372 6 0 0 0 - - -, f 6;
-#X floatatom 249 301 7 0 0 0 - - -, f 7;
+#X floatatom 330 372 6 0 0 0 - - -;
+#X floatatom 249 301 7 0 0 0 - - -;
 #X obj 252 268 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 12700 1;
 #X text 294 268 cutoff;
 #X obj 275 365 *;
 #X obj 182 408 cyclone/onepole~;
-#X floatatom 297 398 7 0 0 0 - - -, f 7;
+#X floatatom 297 398 7 0 0 0 - - -;
 #X text 91 190 But please note that the effective cutoff frequency
 in hertz is the sample rate frequency divided by 4 \, or half the Nyquist
 frequency.;
@@ -108,8 +108,8 @@ the Nyquist.;
 #X text 345 398 hertz;
 #X msg 546 380 linear;
 #X msg 600 380 radians;
-#X obj 48 42 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Frequency input modes
-;
+#X obj 48 42 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X obj 608 474 ./out~;
 #X obj 160 442 ./out~;
 #X obj 599 174 ./out~;
@@ -141,12 +141,14 @@ the Nyquist.;
 #X text 323 215 hz;
 #X text 178 402 Hz;
 #X text 205 556 - cutoff frequency (default 1);
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 onepole~;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 One pole lowpass
-filter;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 onepole~;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 One pole lowpass filter;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 139 225 cyclone/triangle~ 0;
 #X obj 113 296 ./out~;
 #X connect 12 0 14 0;

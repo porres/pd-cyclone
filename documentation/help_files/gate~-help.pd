@@ -20,11 +20,11 @@
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
 #X obj 101 261 cyclone/scope~ 91 63 9 3 128 -1 1 0 0 0 0 205 229 232
-74 79 77 96 98 102 0;
+74 79 77 96 98 102 0 empty;
 #X obj 208 261 cyclone/scope~ 91 63 9 3 128 -1 1 0 0 0 0 205 229 232
-74 79 77 96 98 102 0;
+74 79 77 96 98 102 0 empty;
 #X obj 318 261 cyclone/scope~ 91 63 9 3 128 -1 1 0 0 0 0 205 229 232
-74 79 77 96 98 102 0;
+74 79 77 96 98 102 0 empty;
 #X floatatom 159 215 5 0 0 0 - - -;
 #X obj 159 147 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856
 -1 -1 2;
@@ -49,6 +49,7 @@ this allows gate to be controlle with sample accuracy. Signal values
 are truncated to integers.;
 #X obj 239 214 noise~;
 #X obj 169 181 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 170 290 ./out~;
 #X connect 0 0 6 0;
 #X connect 0 1 6 1;
@@ -67,12 +68,14 @@ are truncated to integers.;
 #X text 58 89 [gate~] routes an input signal from the second inlet
 to one of 'n' specified outlets or none of them. If an outlet is not
 selected \, it outputs zero values.;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Route a signal to
-'n' outlet(s);
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 gate~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Route a signal to 'n' outlet(s);
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 gate~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X text 220 349 -;
 #X text 231 349 outlet number to route to - values are truncated to
 integers and clipped from 0 to number of outlets, f 52;

@@ -52,6 +52,7 @@ inlet can receive a signal or float.;
 #X obj 256 195 vsl 20 90 1 4 0 0 empty empty empty 0 -9 0 10 -228856
 -1 -1 0 1;
 #X obj 152 161 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 99 273 ./out~;
 #X connect 0 0 10 0;
 #X connect 0 0 10 1;
@@ -66,14 +67,18 @@ inlet can receive a signal or float.;
 -228856 -1 -1 0 256;
 #X msg 258 238 10;
 #X msg 290 241 2;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal power function
-;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 pow~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal power function;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 pow~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 135 333 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 135 268 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 499 69 cyclone/setdsp~;
 #N canvas 836 207 420 324 name 0;
 #X text 196 170 <= from Pd Vanilla;

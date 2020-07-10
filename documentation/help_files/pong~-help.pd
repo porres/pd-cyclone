@@ -85,13 +85,15 @@ range is always the lowest value. Wrap mode is useful for modulo arithmetic.
 within a given low-high range.;
 #X obj 143 322 cnv 5 5 5 empty empty 0 6 2 0 14 -262144 -1 0;
 #X obj 162 275 cyclone/scope~ 198 100 256 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
-#X obj 18 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal range limiter
-(fold \, wrap & clip);
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 pong~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+232 74 79 77 96 98 102 0 empty;
+#X obj 18 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal range limiter (fold \, wrap & clip);
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 pong~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 11 0 44 0;
 #X connect 12 0 44 2;

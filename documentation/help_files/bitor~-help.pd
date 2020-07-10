@@ -58,7 +58,9 @@ signal input has priority over the argument or the float input.;
 #X text 323 314 (converted to int);
 #X obj 139 371 cyclone/bitor~ 10 1, f 21;
 #X obj 139 423 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 139 313 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X connect 0 0 21 1;
 #X connect 1 0 21 0;
 #X connect 2 0 1 0;
@@ -221,7 +223,7 @@ i i i i i i i i i i i i i i, f 126;
 #X restore 121 123 pd x;
 #X obj 34 193 osc~ 220;
 #X obj 121 513 cyclone/scope~ 226 115 5 3 128 -1 1 200 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X msg 148 264 mode \$1;
 #X floatatom 148 241 4 0 3 0 - - -;
 #X obj 148 218 hradio 15 1 0 4 \$0-dslsjdhfk \$0-dsdsdjfslkjhllsjdhfk
@@ -326,15 +328,20 @@ two signals or a signal to a given bitmask. TIt has 4 modes of comparison
 #X obj 98 239 cyclone/bitor~;
 #X text 122 519 [bitor~] can produce NaNs and +/-INFs - but denormals
 are zeroed out.;
-#X obj 21 61 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal Bitwise-OR
-;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 bitor~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 21 61 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal Bitwise-OR;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 bitor~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 179 207 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 98 272 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 98 179 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 500 69 cyclone/setdsp~;
 #X connect 10 0 48 0;
 #X connect 11 0 10 0;

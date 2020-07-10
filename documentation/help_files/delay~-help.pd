@@ -30,14 +30,14 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255
-255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 0 255
-255 255 0 0 cyclone;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
-0 0 delay~;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255 255 255
-0 0 Delay a signal;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 delay~;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Delay a signal;
 #X obj 81 144 cyclone/train~ 1000 0;
 #X obj 124 178 cyclone/delay~ 22050 22050;
 #X text 84 88 [delay~] delays a signal by a number of samples (thus
@@ -88,6 +88,7 @@ values. Thus \, [delay~] doesnt't interpolate.;
 #X text 14 26 You can use [mstosamps~] to convert time in ms to samples:
 ;
 #X obj 439 309 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X text 402 18 You can use a signal to specify the delay time with
 interpolation \, but that also adds an extra sample delay., f 53;
 #X text 402 70 Thus \, when the delay time is controlled by a signal
@@ -137,6 +138,7 @@ time.;
 target. A new ramp time is also only set after a ramp is finished.
 ;
 #X obj 130 237 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 526 212 ./out~;
 #X connect 0 0 4 0;
 #X connect 1 0 0 0;

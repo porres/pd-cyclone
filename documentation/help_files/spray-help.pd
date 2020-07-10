@@ -109,9 +109,12 @@ the offset value. Positive and nagetive values are allowed.;
 -228856 -1 -1 0 256;
 #X obj 229 232 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 228 249 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 0;
-#X obj 279 249 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 1;
-#X obj 328 249 cyclone/comment 56 11 helvetica ? 0 0 0 0 Outlet 2;
+#X obj 228 249 cyclone/comment 56 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Outlet 0;
+#X obj 279 249 cyclone/comment 56 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Outlet 1;
+#X obj 328 249 cyclone/comment 56 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 Outlet 2;
 #X text 204 382 sets the number of outlets (default 2);
 #X text 204 400 outlet offset number (default 0);
 #X obj 229 204 cyclone/spray 3, f 17;
@@ -185,12 +188,14 @@ specified outlet. Symbols are accepted in both modes.;
 #X connect 23 0 10 0;
 #X connect 26 0 2 0;
 #X restore 458 224 pd list input \; and output;
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Distribute values
-to outlets;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 spray;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Distribute values to outlets;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 spray;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X text 65 84 [spray] accepts lists where the 1st value indicates the
 outlet number (starting at 0) and the 2nd element (float or symbol)
 is sent to that outlet - when not in list mode \, subsequent elements

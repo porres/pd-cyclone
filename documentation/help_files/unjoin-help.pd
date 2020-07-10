@@ -25,12 +25,14 @@
 #X text 196 319 - the list composed of the joined messages, f 55;
 #X obj 5 409 cnv 3 550 3 empty empty attributes 8 12 0 13 -228856 -1
 0;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Break a list into
-separate messages;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
-#X obj 17 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 unjoin;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Break a list into separate messages;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 17 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 unjoin;
 #X text 198 255 -;
 #X text 196 375 -;
 #X text 198 285 -;
@@ -62,9 +64,9 @@ of elements, f 53;
 #X msg 183 149 1 2 3 4 5 6;
 #X obj 183 178 cyclone/unjoin 2, f 17;
 #X obj 183 212 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X obj 232 212 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X obj 282 210 print extra;
 #X text 78 91 [unjoin] separates a list's elements by groups of any
 size (default 1). Each group is sent out a separate outlet \, extra

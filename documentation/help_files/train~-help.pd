@@ -50,14 +50,14 @@ from 0 to 1 \, so it can be used as a metronome., f 57;
 (a single sample) \, while a pulse widht of 1 has the largest (the
 entire period except the last sample). The "onset phase" delays the
 "on" portion by a fraction of the total pulse period.;
-#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Pulse-train generator and metronome;
-#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 train~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
+#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Pulse-train generator and metronome;
+#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 train~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 499 69 cyclone/setdsp~;
 #N canvas 853 206 335 379 example 0;
 #X obj 242 136 bng 30 250 50 0 empty empty empty 17 7 0 10 -228856
@@ -73,7 +73,9 @@ entire period except the last sample). The "onset phase" delays the
 -228856 -1 -1 0 256;
 #X text 48 25 [train~] used to trigger the [sah~] object.;
 #X obj 84 171 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 86 232 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 137 109 cyclone/train~ 500;
 #X connect 1 0 4 0;
 #X connect 1 0 10 0;
@@ -96,7 +98,7 @@ entire period except the last sample). The "onset phase" delays the
 #X text 142 378 0;
 #X text 142 296 1;
 #X obj 156 301 cyclone/scope~ 131 88 147 3 64 -0.015 1.015 0 0 0 0
-205 229 232 74 79 77 96 98 102 0;
+205 229 232 74 79 77 96 98 102 0 empty;
 #X text 315 224 onset phase (0-1);
 #X text 152 213 period;
 #X text 133 232 ms;

@@ -87,9 +87,13 @@ that boundary with the same conversion parameters.;
 #X text 376 228 Inverted;
 #X obj 245 158 sig~;
 #X obj 245 317 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 71 253 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 261 227 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 165 561 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X connect 0 0 1 0;
 #X connect 0 0 10 0;
 #X connect 1 0 15 0;
@@ -108,13 +112,16 @@ that boundary with the same conversion parameters.;
 #X obj 141 237 cyclone/scale~ -1 1 0 127;
 #X obj 141 184 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Map signals to an
-output range;
-#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 scale~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 19 54 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Map signals to an output range;
+#X obj 16 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 scale~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 141 268 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #N canvas 695 23 432 346 crossfade 0;
 #X obj 178 192 cyclone/scale~ 0 1;
 #X obj 178 164 line~;
@@ -155,13 +162,13 @@ range. The mapping can be inverted and/or exponential.;
 #X obj 50 249 cyclone/scale~ 0 1 0 1 1 @classic 0;
 #X obj 50 200 phasor~ 10;
 #X obj 50 296 cyclone/scope~ 214 135 34 3 128 0 1 0 0 2 0.5 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X text 278 422 0;
 #X text 274 294 1;
 #X obj 31 26 cnv 15 150 30 empty empty empty 20 12 0 14 -233017 -66577
 0;
-#X obj 37 31 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Exponential mode
-;
+#X obj 37 31 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X text 29 94 Fifth argument or sixth inlet specifies the exponential
 factor. In modern mode (default) \, exponential values must be greater
 than 0 \, where 1 also gives you linear scaling (no exponential). It's
@@ -188,7 +195,7 @@ it \, just saying...;
 -1 -1 0 1;
 #X text 647 199 exponential factor;
 #X obj 495 296 cyclone/scope~ 214 135 34 3 128 0 1 0 0 2 0.95 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X text 719 422 0;
 #X text 719 294 1;
 #X obj 495 192 phasor~ 10;

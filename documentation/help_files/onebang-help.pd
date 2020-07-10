@@ -67,8 +67,8 @@ the right inlet. The bang goes to the right outlet otherwise.;
 #X obj 315 217 cyclone/onebang 1;
 #X obj 315 253 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
-#X obj 436 181 cyclone/comment 165 11 helvetica ? 0 80 80 80 reset
-;
+#X obj 436 181 cyclone/comment 165 11 helvetica empty 0 80 80 80 0
+255 255 255 0 0 comment;
 #X obj 66 125 notein 1, f 9;
 #X obj 66 152 stripnote;
 #X obj 66 197 cyclone/onebang 1;
@@ -76,8 +76,8 @@ the right inlet. The bang goes to the right outlet otherwise.;
 -1 -1;
 #X obj 66 236 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
-#X obj 187 164 cyclone/comment 165 11 helvetica ? 0 80 80 80 reset
-;
+#X obj 187 164 cyclone/comment 165 11 helvetica empty 0 80 80 80 0
+255 255 255 0 0 comment;
 #X obj 165 236 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
 #X obj 414 253 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
@@ -99,12 +99,14 @@ ignore subsequent occurrences until reset occurs., f 35;
 #X connect 9 1 13 0;
 #X connect 10 0 9 1;
 #X restore 466 230 pd examples;
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Gate a bang with
-a bang;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 onebang;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Gate a bang with a bang;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 onebang;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 274 223 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
 #X msg 206 160 stop;

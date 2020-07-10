@@ -34,12 +34,14 @@
 56;
 #X text 147 429 1) symbol;
 #X text 163 399 (none);
-#X obj 17 8 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 poke~;
-#X obj 18 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Write to an array
-;
-#X obj 322 30 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 6 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 8 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 poke~;
+#X obj 18 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Write to an array;
+#X obj 322 30 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 6 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X text 33 153 1;
 #X text 27 245 -1;
 #X obj 48 157 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
@@ -118,8 +120,8 @@ way \, [poke~] behaves similarly to the [peek~] object. Note \, however
 #X obj 56 228 noise~;
 #X obj 147 177 cyclone/count~ 0 100 1;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
--262144 1 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
+-262144 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -188,7 +190,7 @@ way \, [poke~] behaves similarly to the [peek~] object. Note \, however
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;

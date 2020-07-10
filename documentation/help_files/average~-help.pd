@@ -33,16 +33,16 @@
 #X text 104 402 bipolar;
 #X text 98 418 absolute;
 #X text 128 434 rms;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Signal moving average;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 average~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal moving average;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 average~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 231 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X text 169 515 - sets mode: bipolar (default) \, absolute or rms;
 #X obj 176 145 hsl 150 15 1 50 1 0 adsfadsg ahhah empty -2 -8 0 10
 -228856 -1 -1 0 1;
@@ -59,9 +59,10 @@
 to;
 #N canvas 685 122 425 509 backwards 0;
 #X obj 89 304 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 227 274 cyclone/snapshot~ 1;
 #X obj 193 344 vsl 15 128 -1 1 0 0 gsgg fdssd empty 0 -9 0 10 -228856
--1 -1 0 1;
+-1 -1 6350 1;
 #X obj 227 210 cyclone/rand~ 10;
 #X obj 227 242 cyclone/average~ 44100;
 #X obj 227 344 vsl 15 128 -1 1 0 0 gsgg fdssd empty 0 -9 0 10 -228856
@@ -105,7 +106,7 @@ Listen to the difference below.;
 #X restore 453 261 pd moving \; average filter;
 #N canvas 915 134 414 521 more 0;
 #X obj 94 399 cyclone/scope~ 189 102 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 94 371 cyclone/average~ 100;
 #X obj 94 294 noise~;
 #X obj 179 312 nbx 3 14 1 441 0 0 sadgaf ahah empty 0 -8 0 10 -228856
@@ -139,11 +140,11 @@ sense \, so floats are converted to integers!, f 60;
 #N canvas 271 131 1132 382 average 0;
 #X obj 90 125 cyclone/average~ 100 bipolar;
 #X obj 90 155 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 461 149 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 833 150 cyclone/scope~ 159 105 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X text 368 26 Absolute mode: only absolute values are considered (negative
 values atre converted to positive) \, then the mean is applied.;
 #X text 756 26 Rms mode: average is the root mean square. The arithmetic
@@ -177,7 +178,7 @@ the last 'n' given samples. The average is done in 3 modes: bipolar
 -228856 -1 -1 0 256;
 #X obj 231 212 cyclone/average~ 50;
 #X obj 59 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 500 69 cyclone/setdsp~;
 #X connect 6 0 44 0;
 #X connect 7 0 44 0;

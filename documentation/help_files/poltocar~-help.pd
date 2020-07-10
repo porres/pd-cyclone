@@ -74,16 +74,22 @@ the general idea:;
 #X text 125 151 Amplitude;
 #X text 263 151 Phase;
 #X obj 116 207 cyclone/poltocar~, f 21;
-#X obj 19 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal polar to cartesian
-conversion;
-#X obj 18 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 poltocar~;
-#X obj 324 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 365 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 19 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal polar to cartesian conversion;
+#X obj 18 2 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 poltocar~;
+#X obj 324 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 365 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 239 247 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 239 172 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 116 170 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 116 247 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 27 0 35 0;
 #X connect 27 1 32 0;

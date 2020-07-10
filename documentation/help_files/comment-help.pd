@@ -69,7 +69,7 @@
 #X msg 630 125 textcolor 200 0 0;
 #X msg 646 147 textcolor 0 0 0;
 #X obj 484 316 cyclone/comment 0 50 Dejavu\ Sans\ Mono \$0-comment
-0 0 0 0 0 255 255 255 0 0 Comment;
+0 0 0 0 0 255 255 255 0 0 comment;
 #X msg 659 187 set hi \, append there;
 #X msg 669 210 set comment \, prepend this;
 #X msg 680 233 set Comment;
@@ -155,7 +155,7 @@ text from comment into Pd (control c / control v doesn't work)., f
 #X restore 479 166 pd details;
 #N canvas 760 98 513 420 more 0;
 #X obj 140 279 cyclone/comment 164 20 helvetica empty 0 0 0 0 0 200
-200 200 1 0 the comment can be justified in different ways;
+200 200 1 0 comment;
 #X msg 140 241 textjustification \$1;
 #X obj 140 159 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
@@ -196,24 +196,24 @@ being fully compliant to Max6+ versions!, f 74;
 #X msg 353 86 set 3 \\\, 4!;
 #X msg 148 134 append \\\, 3 \\\, 4!;
 #X obj 130 189 cyclone/comment 0 16 dejavu\ sans\ mono empty 0 0 0
-0 0 255 255 255 0 0 1 \, 2 \, 3 \, 4!;
+0 0 255 255 255 0 0 comment;
 #X obj 353 189 cyclone/comment 0 16 dejavu\ sans\ mono empty 0 0 0
-0 0 255 255 255 0 0 1 \, 2 \, 3 \, 4!;
+0 0 255 255 255 0 0 comment;
 #X text 123 24 Note you can use backslash to escape symbols like '$'
 \, commas and semicolons.;
 #X msg 388 343 set カラオケ, f 11;
 #X obj 388 382 cyclone/comment 0 34 dejavu\ sans\ mono empty 0 20 25
-30 1 225 215 215 1 0 カラオケ;
+30 1 225 215 215 1 0 comment;
 #X msg 93 339 set ٱلسَّلَامُ عَلَيْكُمْ;
 #X obj 93 391 cyclone/comment 0 34 dejavu\ sans\ mono empty 0 160 40
-50 0 225 215 215 0 0 ٱلسَّلَامُ عَلَيْكُمْ;
+50 0 225 215 215 0 0 comment;
 #X text 112 247 If you can type or copy and paste characters into a
 message box from another alphabet \, you can use that to set cyclone's
 comment. So far \, insertng characters from other alphabets directly
 into cyclone's comment isn't supported.;
 #X msg 250 465 set 晚安, f 8;
 #X obj 250 493 cyclone/comment 0 64 dejavu\ sans\ mono empty 1 200
-205 210 1 75 85 95 1 0 晚安;
+205 210 1 75 85 95 1 0 comment;
 #X connect 0 0 4 0;
 #X connect 1 0 5 0;
 #X connect 2 0 5 0;

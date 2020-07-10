@@ -42,12 +42,14 @@ is the sum of the inlets' signals., f 64;
 52;
 #X text 190 445 - 'n' number of outputs (1 to 499 \, default 1), f
 52;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal routing/mixing
-matrix;
-#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 matrix~;
-#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal routing/mixing matrix;
+#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 matrix~;
+#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #N canvas 616 136 498 299 example 0;
 #X obj 366 206 print dump;
 #X msg 163 82 dump;
@@ -169,10 +171,12 @@ cloned from Max/MSP;
 #X connect 26 0 24 0;
 #X restore 480 220 pd example;
 #X obj 248 238 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 248 189 cyclone/matrix~ 2 2;
 #X obj 258 164 sig~ 1;
 #X obj 359 160 sig~ 2;
 #X obj 303 214 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 487 94 ./setdsp~;
 #N canvas 538 238 457 215 all_messages 0;
 #X text 81 67 clear;
@@ -232,8 +236,8 @@ binary mode: <inlet# \, outlet# \, gain \, ramp>;
 #X obj 512 98 osc~ 400;
 #X obj 571 98 osc~ 500;
 #X obj 627 99 osc~ 600;
-#X floatatom 378 45 5 0 0 0 - - -, f 5;
-#X floatatom 420 273 5 0 0 0 - - -, f 5;
+#X floatatom 378 45 5 0 0 0 - - -;
+#X floatatom 420 273 5 0 0 0 - - -;
 #X obj 462 322 osc~ 300;
 #X obj 525 322 osc~ 400;
 #X obj 588 322 osc~ 500;
@@ -257,8 +261,8 @@ However \, list messages can alter the gain of connections formed with
 the <connect> message. So \, if you want to specify the gain of each
 connection in "non-binary" mode \, you must use three- or four-element
 list messages rather than the <connect> message.;
-#X obj 77 46 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Binary & Non-binary
-mode:;
+#X obj 77 46 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 comment;
 #X obj 462 393 ./out~;
 #X obj 455 165 ./out~;
 #X obj 462 356 cyclone/matrix~ 4 1 1 @ramp 1000;

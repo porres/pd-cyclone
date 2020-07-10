@@ -16,7 +16,7 @@
 #X obj 89 296 cyclone/frameaccum~;
 #X obj 264 241 sig~ 0.01;
 #X obj 267 352 hsl 128 15 -3.14153 3.14153 0 0 empty empty empty -2
--8 0 10 -228856 -1 -1 12624 1;
+-8 0 10 -228856 -1 -1 6350 1;
 #X msg 264 195 -0.01;
 #X msg 272 217 0.01;
 #X text 235 351 -PI;
@@ -51,14 +51,18 @@ size is equal to the signal block size.;
 #X text 190 391 - incoming FFT frame;
 #X text 186 471 - "1" enables phase wrapping between -PI and PI. "0"
 (default) disables and values are accumulated without bounds.;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 FFT frame accumulation
-;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 frameaccum~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 FFT frame accumulation;
+#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 frameaccum~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 89 334 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 264 318 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 497 71 cyclone/setdsp~;
 #X connect 8 0 34 0;
 #X connect 9 0 15 0;

@@ -21,7 +21,7 @@
 #X text 231 493 - output of hyperbolic tangent function;
 #X obj 103 165 phasor~ 2;
 #X obj 103 280 cyclone/scope~ 153 137 512 3 128 -1 1 0 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -40,14 +40,17 @@
 input sample. It is also useful for waveshaping \, where it simulates
 analog distortion.;
 #X obj 365 192 number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 365 234 cyclone/tanh~;
 #X text 82 341 0;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Signal hyperbolic
-tangent function;
-#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 tanh~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal hyperbolic tangent function;
+#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 tanh~;
+#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #N canvas 774 137 416 375 waveshaping 0;
 #X obj 232 172 +~ 11;
 #X obj 232 145 *~ 10;
@@ -70,6 +73,7 @@ circuitry does clip a signal in overdrive.;
 #X connect 6 0 1 0;
 #X restore 410 381 pd waveshaping \; analog distortion;
 #X obj 365 275 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 9 0 11 0;
 #X connect 10 0 9 0;

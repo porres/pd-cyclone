@@ -57,10 +57,10 @@
 #X msg 143 189 1;
 #X msg 173 189 2;
 #X msg 205 189 3;
-#X obj 93 296 cyclone/comment 100 11 helvetica ? 0 0 0 0 1 255 255
-255 0 0 0 or less;
-#X obj 257 296 cyclone/comment 100 11 helvetica ? 0 0 0 0 1 255 255
-255 0 0 2 or more;
+#X obj 93 296 cyclone/comment 100 11 helvetica empty 0 0 0 0 1 255
+255 255 0 0 0 or less;
+#X obj 257 296 cyclone/comment 100 11 helvetica empty 0 0 0 0 1 255
+255 255 0 0 2 or more;
 #X obj 143 265 cyclone/decode 3;
 #X obj 236 240 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
@@ -73,10 +73,10 @@
 1;
 #X obj 222 250 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
-#X obj 201 226 cyclone/comment 0 11 helvetica ? 0 0 0 0 0 255 255 255
-0 0 Turns unmatched outlets on/off;
-#X obj 245 253 cyclone/comment 0 11 helvetica ? 0 0 0 0 0 255 255 255
-0 0 Disable toggle (turns all outlets off );
+#X obj 201 226 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
+255 0 0 comment;
+#X obj 245 253 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
+255 0 0 comment;
 #X obj 166 308 tgl 15 0 sdg sdfgsdf empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 147 308 tgl 15 0 gsffgfsd sdfgw empty 17 7 0 10 -228856 -1 -1
@@ -121,16 +121,16 @@ on or off only if the submaster and master switches are off!;
 outlet (numbered from left to right \, starting at 0) to swicth it
 on (output: 1) and the others off (output: 0).;
 #X text 196 430 1 or 0 based on the input;
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Switch an outlet according to input;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 decode;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
-#X obj 175 296 cyclone/comment 100 11 helvetica ? 0 0 0 0 1 255 255
-255 0 0 1;
+#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Switch an outlet according to input;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 decode;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
+#X obj 175 296 cyclone/comment 100 11 helvetica empty 0 0 0 0 1 255
+255 255 0 0 1;
 #X connect 31 0 39 0;
 #X connect 32 0 31 0;
 #X connect 33 0 31 0;

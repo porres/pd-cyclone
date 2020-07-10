@@ -35,12 +35,12 @@
 #X restore 304 4 pd;
 #X obj 120 217 random 100;
 #X obj 120 193 metro 50;
-#X floatatom 120 247 5 0 0 0 - - -, f 5;
+#X floatatom 120 247 5 0 0 0 - - -;
 #X obj 198 273 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 198 207 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X floatatom 321 221 5 0 0 0 - - -, f 5;
+#X floatatom 321 221 5 0 0 0 - - -;
 #X text 318 201 change time limit;
 #X text 188 316 any message input message to be speed limited;
 #X text 188 338 changes the time limit (in ms), f 32;
@@ -57,8 +57,8 @@ the previous output (ignoring the others).;
 #X obj 208 221 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 154 302 change;
-#X floatatom 150 215 5 0 0 0 - - -, f 5;
-#X floatatom 154 335 5 0 0 0 - - -, f 5;
+#X floatatom 150 215 5 0 0 0 - - -;
+#X floatatom 154 335 5 0 0 0 - - -;
 #X obj 208 242 metro 1000;
 #X text 24 159 The [speedlimit] object is similar to this construction:
 ;
@@ -89,12 +89,14 @@ the previous output (ignoring the others).;
 #X restore 474 269 pd more;
 #X obj 198 244 cyclone/speedlim 1000;
 #X text 187 406 initial time limit (default 0 - no limit);
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Limit the speed of
-messages;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 speedlim;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Limit the speed of messages;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 speedlim;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X connect 6 0 21 0;
 #X connect 20 0 22 0;
 #X connect 20 0 33 0;

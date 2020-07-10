@@ -118,7 +118,9 @@ signal input has priority over the argument or the float input.;
 #X text 323 314 (converted to int);
 #X obj 139 355 cyclone/bitxor~ 10 1, f 21;
 #X obj 139 407 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 139 313 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X connect 0 0 21 1;
 #X connect 1 0 21 0;
 #X connect 2 0 1 0;
@@ -278,7 +280,7 @@ i i i i i i i i i i i i i i, f 126;
 #X restore 121 123 pd x;
 #X obj 34 193 osc~ 220;
 #X obj 121 513 cyclone/scope~ 226 115 5 3 128 -1 1 200 0 0 0 205 229
-232 74 79 77 96 98 102 0;
+232 74 79 77 96 98 102 0 empty;
 #X msg 148 264 mode \$1;
 #X floatatom 148 241 4 0 3 0 - - -;
 #X obj 148 218 hradio 15 1 0 4 \$0-dslsjdhfk \$0-dsdsdjfslkjhllsjdhfk
@@ -329,17 +331,20 @@ signal input.;
 #X connect 21 0 23 1;
 #X connect 22 0 20 0;
 #X restore 459 284 pd raw_bitmask;
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 Signal Bitwise-XOR;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 0 255
-255 255 0 0 bitxor~;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220
-0 255 255 255 0 0 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Signal Bitwise-XOR;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 bitxor~;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 92 182 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 179 212 cyclone/number~ 1;
+#A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 92 275 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 500 69 cyclone/setdsp~;
 #X connect 10 0 44 0;
 #X connect 11 0 10 0;

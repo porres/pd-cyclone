@@ -31,7 +31,7 @@
 #X obj 329 244 sig~ 0.5;
 #X obj 242 222 osc~ 0.5;
 #X obj 204 297 vsl 20 100 -1 1 0 0 empty empty empty 0 -9 0 10 -228856
--1 -1 3712 1;
+-1 -1 4950 1;
 #X text 192 341 0;
 #X text 192 290 1;
 #X text 180 315 0.5;
@@ -59,14 +59,18 @@ is 1 until a sample in the input signal is less than the reset level
 (thus it works in the same way as [>=~]).;
 #X text 227 558 - sets high threshold (default 0);
 #X text 227 542 - sets low threshold (default 0);
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono ? 0 0 0 0 Detect signal above
-a threshold;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono ? 0 0 0 0 thresh~;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono ? 0 224 228 220 Objects
-cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono ? 0 224 228 220 cyclone;
+#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 Detect signal above a threshold;
+#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
+255 255 255 0 0 thresh~;
+#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
+220 0 255 255 255 0 0 cyclone;
 #X obj 242 303 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 100 265 cyclone/number~;
+#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 499 69 cyclone/setdsp~;
 #X connect 19 0 30 1;
 #X connect 20 0 30 2;
