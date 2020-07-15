@@ -50,6 +50,7 @@ typedef struct _comment{
     int             x_y2;
     int             x_newx2;
     int             x_dragon;
+    int             x_selected;
     int             x_fontsize;
     unsigned char   x_red;
     unsigned char   x_green;
@@ -101,14 +102,18 @@ static void comment_draw_outline(t_comment *x){
             x->x_y2 + x->x_zoom * 2,
             (unsigned long)x,
             x->x_zoom,
-            glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : "black");
+            x->x_selected ? "blue" : "black");
     }
 }
 
 static void comment_draw_bg(t_comment *x){
     // OUTLINE???????
     sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n",
-        (unsigned long)x->x_cv, x->x_x1, x->x_y1, x->x_x2 + x->x_zoom, x->x_y2 + x->x_zoom,
+        (unsigned long)x->x_cv,
+        text_xpix((t_text *)x, x->x_glist),
+        text_ypix((t_text *)x, x->x_glist),
+        x->x_x2 + x->x_zoom * 2,
+        x->x_y2 + x->x_zoom * 2,
         (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
 }
 
@@ -134,7 +139,7 @@ static void comment_draw(t_comment *x){
         text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // %d
         x->x_fontname->s_name, // {%s}
         x->x_fontsize, // -%d
-        glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // %s
+        x->x_selected ? "blue" : x->x_color, // %s
         x->x_textbufsize, // %.
         x->x_textbuf, // *s
         x->x_max_pixwidth, // %d
@@ -380,6 +385,7 @@ static void comment_activate(t_gobj *z, t_glist *glist, int state){
 
 static void comment_select(t_gobj *z, t_glist *glist, int state){
     t_comment *x = (t_comment *)z;
+    x->x_selected = state;
     if(!state && x->x_active)
         comment_activate(z, glist, 0);
     sys_vgui(".x%lx.c itemconfigure txt%lx -fill %s\n", x->x_cv, (unsigned long)x, state ? "blue" : x->x_color);
@@ -934,7 +940,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_bg_flag = 0;
     x->x_bg[0] = x->x_bg[1] = x->x_bg[2] = 255;
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-    x->x_bbset = x->x_init = x->x_dragon = 0;
+    x->x_bbset = x->x_init = x->x_selected = x->x_dragon = 0;
     t_symbol *rcv = x->x_receive = x->x_rcv_raw = &s_;
     x->x_transclock = clock_new(x, (t_method)comment_transtick);
     char buf[MAXPDSTRING];
