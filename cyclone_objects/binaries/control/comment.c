@@ -98,7 +98,7 @@ static void comment_draw_outline(t_comment *x){
             (unsigned long)x->x_cv,
             x->x_x1,
             x->x_y1,
-            x->x_x1 + x->x_pixwidth,
+            x->x_x1 + (x->x_pixwidth == 0 ? x->x_x2 - x->x_x1: x->x_pixwidth),
             x->x_y2,
             (unsigned long)x,
             x->x_zoom,
@@ -288,9 +288,6 @@ static void comment__releasehook(t_comment *x, t_symbol *bindsym){
         x->x_x2 = x->x_newx2;
         comment_update(x);
     }
-//    sys_vgui(".x%lx.c delete %lx_outline\n", cv, (unsigned long)x);
-//    sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags %lx_outline -width %d -outline blue\n",
-//        cv, x->x_x1, x->x_y1, x->x_x1 + x->x_pixwidth, x->x_y2, (unsigned long)x, x->x_zoom);
 }
 
 static void comment__motionhook(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
@@ -319,14 +316,14 @@ static void commentsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av){ // n
 
 static void comment_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp2, int *yp2){
     t_comment *x = (t_comment *)z;
-    int width = (!x->x_pixwidth ? x->x_fontsize * x->x_textbufsize : x->x_pixwidth) + x->x_zoom * 2;
-    int height = x->x_pixheigth + (x->x_zoom * 2);
-    float x1, y1, x2, y2;;
-// FIXME estimation
+    int width = x->x_pixwidth;
+    if(width == 0)
+        width = x->x_x2 - x->x_x1;
+    float x1, y1, x2, y2;
     x1 = text_xpix((t_text *)x, glist);
     y1 = text_ypix((t_text *)x, glist);
-    x2 = x1 + width;
-    y2 = y1 + height;  // LATER revisit
+    x2 = x1 + width + (x->x_zoom * 2);
+    y2 = y1 + x->x_pixheigth + (x->x_zoom * 2);
     *xp1 = x1;
     *yp1 = y1;
     *xp2 = x2;
@@ -1394,7 +1391,6 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("\n");
 // colors
     
-    
 /*
 //    sys_gui("labelframe id.bg -borderwidth 1 -text [_ \"Background Color:\"] -padx 5 -pady 5\n");
     
@@ -1441,7 +1437,6 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    pack $id.buttonframe.cancel -side left -expand 1\n");
     sys_vgui("    pack $id.buttonframe.ok -side left -expand 1\n");
     sys_vgui("}\n");
-    
+
     //    #include "comment_dialog.c"
-    
 }
