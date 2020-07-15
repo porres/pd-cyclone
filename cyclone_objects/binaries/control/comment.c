@@ -16,7 +16,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#define COMMENT_HANDLEWIDTH 20
+#define COMMENT_HANDLEWIDTH 24
 #define COMMENT_OUTBUFSIZE  1000
 
 static t_class *comment_class, *commentsink_class, *edit_proxy_class;
@@ -41,8 +41,7 @@ typedef struct _comment{
     char           *x_textbuf;
     int             x_edit;
     int             x_textbufsize;
-    int             x_pixwidth;
-    int             x_pixheigth; // <= seems useless
+    int             x_max_pixwidth;
     int             x_bbset;
     int             x_bbpending;
     int             x_x1;
@@ -96,10 +95,10 @@ static void comment_draw_outline(t_comment *x){
 //        post("comment_draw_outline");
         sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags %lx_outline -width %d -outline %s\n",
             (unsigned long)x->x_cv,
-            x->x_x1,
-            x->x_y1,
-            x->x_x1 + (x->x_pixwidth == 0 ? x->x_x2 - x->x_x1: x->x_pixwidth),
-            x->x_y2,
+            text_xpix((t_text *)x, x->x_glist),
+            text_ypix((t_text *)x, x->x_glist),
+            x->x_x2 + x->x_zoom * 2,
+            x->x_y2 + x->x_zoom * 2,
             (unsigned long)x,
             x->x_zoom,
             glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : "black");
@@ -108,8 +107,9 @@ static void comment_draw_outline(t_comment *x){
 
 static void comment_draw_bg(t_comment *x){
     // OUTLINE???????
-    sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n", (unsigned long)x->x_cv,
-        x->x_x1, x->x_y1, x->x_x2 + x->x_zoom, x->x_y2 + x->x_zoom, (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
+    sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n",
+        (unsigned long)x->x_cv, x->x_x1, x->x_y1, x->x_x2 + x->x_zoom, x->x_y2 + x->x_zoom,
+        (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
 }
 
 static void comment_draw(t_comment *x){
@@ -137,7 +137,7 @@ static void comment_draw(t_comment *x){
         glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // %s
         x->x_textbufsize, // %.
         x->x_textbuf, // *s
-        x->x_pixwidth, // %d
+        x->x_max_pixwidth, // %d
         x->x_bold ? "bold" : "normal",
         x->x_italic ? "italic" : "roman", //
         x->x_textjust == 0 ? "left" : x->x_textjust == 1 ? "center" : "right");
@@ -171,7 +171,7 @@ static void comment_update(t_comment *x){
     }
     outp = outbuf = buf;
     sprintf(outp, "comment_update .x%lx.c txt%lx {%.*s} %d\n", cv, (unsigned long)x,
-        x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
+        x->x_textbufsize, x->x_textbuf, x->x_max_pixwidth);
     outp += strlen(outp);
     if(x->x_active){
 //        post("comment_update && x->x_active");
@@ -220,7 +220,6 @@ static void comment__bboxhook(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_
         x->x_y1 = y1;
         x->x_x2 = x2;
         x->x_y2 = y2;
-        x->x_pixheigth = x->x_y2 - x->x_y1;
         comment_redraw(x, x->x_bg_flag);
     }
     x->x_bbset = 1;
@@ -284,9 +283,8 @@ static void comment__releasehook(t_comment *x, t_symbol *bindsym){
     sys_vgui(".x%lx.c bind txt%lx <Motion> {}\n", cv, (unsigned long)x);
     x->x_dragon = 0;
     if(x->x_newx2 != x->x_x2){
-        x->x_pixwidth = x->x_newx2 - x->x_x1;
-        x->x_x2 = x->x_newx2;
-        comment_update(x);
+        x->x_max_pixwidth = x->x_newx2 - x->x_x1;
+        comment_redraw(x, x->x_bg_flag);
     }
 }
 
@@ -316,14 +314,12 @@ static void commentsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av){ // n
 
 static void comment_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp2, int *yp2){
     t_comment *x = (t_comment *)z;
-    int width = x->x_pixwidth;
-    if(width == 0)
-        width = x->x_x2 - x->x_x1;
+    int  width = x->x_x2 - x->x_x1;
     float x1, y1, x2, y2;
     x1 = text_xpix((t_text *)x, glist);
     y1 = text_ypix((t_text *)x, glist);
     x2 = x1 + width + (x->x_zoom * 2);
-    y2 = y1 + x->x_pixheigth + (x->x_zoom * 2);
+    y2 = x->x_y2 + (x->x_zoom * 2);
     *xp1 = x1;
     *yp1 = y1;
     *xp2 = x2;
@@ -493,7 +489,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
         (int)x->x_obj.te_xpix,
         (int)x->x_obj.te_ypix,
         atom_getsymbol(binbuf_getvec(bb)),
-        x->x_pixwidth / x->x_zoom,
+        x->x_max_pixwidth / x->x_zoom,
         x->x_fontsize / x->x_zoom,
         x->x_fontname,
         x->x_rcv_raw,
@@ -831,8 +827,7 @@ static void comment_just(t_comment *x, t_float f){
 static void comment_zoom(t_comment *x, t_floatarg zoom){
     x->x_zoom = (int)zoom;
     float mul = zoom == 1. ? 0.5 : 2.;
-    x->x_pixwidth = (int)((float)x->x_pixwidth * mul);
-    x->x_pixheigth = (int)((float)x->x_pixheigth * mul);
+    x->x_max_pixwidth = (int)((float)x->x_max_pixwidth * mul);
     float fontsize = (float)x->x_fontsize * mul;
     comment_fontsize(x, fontsize);
 }
@@ -932,7 +927,8 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_edit = x->x_glist->gl_edit;
     x->x_textbuf = 0;
     x->x_rcv_set = x->x_flag = x->x_r_flag = x->x_old = x->x_text_n = x->x_text_size = 0;
-    x->x_pixwidth = x->x_pixheigth = x->x_fontsize = x->x_bbpending = 0;
+    x->x_max_pixwidth = 425;
+    x->x_fontsize = x->x_bbpending = 0;
     x->x_textjust = x->x_fontface = x->x_bold = x->x_italic = 0;
     x->x_red = x->x_green = x->x_blue = x->x_textbufsize = 0;
     x->x_bg_flag = 0;
@@ -962,7 +958,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
 ////////////////////////////////// GET ARGS ///////////////////////////////////////////
     if(ac){
         if(ac && av->a_type == A_FLOAT){ // 1ST Width
-            x->x_pixwidth = (int)av->a_w.w_float;
+            x->x_max_pixwidth = (int)av->a_w.w_float;
             ac--, av++;
             if(ac && av->a_type == A_FLOAT){ // 2ND Size
                 x->x_fontsize = (int)av->a_w.w_float * x->x_zoom;
@@ -1165,10 +1161,10 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     }
     if(x->x_fontsize < 1)
         x->x_fontsize = glist_getfont(x->x_glist);
-    if(x->x_pixwidth < 0)
-        x->x_pixwidth = 0;
+    if(x->x_max_pixwidth <= 0)
+        x->x_max_pixwidth = 425;
     x->x_fontsize *= x->x_zoom;
-    x->x_pixwidth *= x->x_zoom;
+    x->x_max_pixwidth *= x->x_zoom;
     x->x_fontface = x->x_fontface < 0 ? 0 : (x->x_fontface > 3 ? 3 : x->x_fontface);
     x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
     x->x_italic = x->x_fontface > 1;
