@@ -202,20 +202,20 @@ being fully compliant to Max6+ versions!, f 74;
 \, commas and semicolons., f 19;
 #X msg 295 246 set カラオケ, f 11;
 #X obj 295 276 cyclone/comment 243 60 dejavu\ sans\ mono empty 0 20
-25 30 1 225 215 215 1 0 comment;
+25 30 1 225 215 215 1 0 カラオケ;
 #X msg 70 225 set ٱلسَّلَامُ عَلَيْكُمْ;
 #X obj 70 255 cyclone/comment 151 50 dejavu\ sans\ mono empty 0 160
-40 50 0 225 215 215 0 0 comment;
+40 50 0 225 215 215 0 0 ٱلسَّلَامُ عَلَيْكُمْ;
 #X text 46 153 If you can type or copy and paste characters into a
 message box from another alphabet \, you can use that to set cyclone's
 comment. So far \, insertng characters from other alphabets directly
 into cyclone's comment isn't supported., f 81;
 #X msg 95 408 set 晚安, f 8;
 #X obj 95 433 cyclone/comment 166 80 dejavu\ sans\ mono empty 1 200
-205 210 1 75 85 95 1 0 comment;
+205 210 1 75 85 95 1 0 晚安;
 #X msg 356 396 set हिन्दी;
 #X obj 356 428 cyclone/comment 0 80 dejavu\ sans\ mono empty 0 200
-100 100 0 200 200 200 0 0 comment;
+100 100 0 200 200 200 0 0 हिन्दी;
 #X connect 0 0 4 0;
 #X connect 1 0 5 0;
 #X connect 2 0 5 0;
