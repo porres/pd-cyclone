@@ -17,7 +17,7 @@
 #include <ctype.h>
 
 #define COMMENT_HANDLEWIDTH 24
-#define COMMENT_OUTBUFSIZE  1000
+#define COMMENT_OUTBUFSIZE  16384
 
 static t_class *comment_class, *commentsink_class, *edit_proxy_class;
 static t_widgetbehavior comment_widgetbehavior;
@@ -107,7 +107,6 @@ static void comment_draw_outline(t_comment *x){
 }
 
 static void comment_draw_bg(t_comment *x){
-    // OUTLINE???????
     sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n",
         (unsigned long)x->x_cv,
         text_xpix((t_text *)x, x->x_glist),
@@ -120,14 +119,6 @@ static void comment_draw_bg(t_comment *x){
 static void comment_draw(t_comment *x){
 //    post("comment_draw");
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
-    int reqsize = x->x_textbufsize + 250;  // FIXME estimation
-    if(reqsize > COMMENT_OUTBUFSIZE){ // <= seems unnecessary (porres)
-        post("bug? allocating %d outbuf bytes", reqsize);
-        if(!(outbuf = getbytes(reqsize))){
-            post("bug? return");
-            return;
-        }
-    }
     outp = outbuf = buf;
     sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s {%.*s} %d %s %s %s\n",
         x->x_underline ? "comment_draw_ul" : "comment_draw",
@@ -149,7 +140,7 @@ static void comment_draw(t_comment *x){
     x->x_bbpending = 1;
     sys_gui(outbuf);
     if(outbuf != buf)
-        freebytes(outbuf, reqsize);
+        freebytes(outbuf, x->x_textbufsize);
     comment_draw_inlet(x);
     comment_draw_outline(x);
 }
@@ -169,11 +160,6 @@ static void comment_update(t_comment *x){
 //    post("comment_update");
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     unsigned long cv = (unsigned long)x->x_cv;
-    int reqsize = x->x_textbufsize + 250;  // FIXME estimation
-    if(reqsize > COMMENT_OUTBUFSIZE){ // <= seems unnecessary (porres)
-        if(!(outbuf = getbytes(reqsize)))
-            return;
-    }
     outp = outbuf = buf;
     sprintf(outp, "comment_update .x%lx.c txt%lx {%.*s} %d\n", cv, (unsigned long)x,
         x->x_textbufsize, x->x_textbuf, x->x_max_pixwidth);
@@ -201,7 +187,7 @@ static void comment_update(t_comment *x){
     x->x_bbpending = 1;
     sys_gui(outbuf);
     if(outbuf != buf)
-        freebytes(outbuf, reqsize);
+        freebytes(outbuf, x->x_textbufsize);
 //    post("updated");
 }
 
@@ -255,8 +241,9 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
     }
     if(x->x_glist->gl_edit){
         if(x->x_active){
-//            post("comment__clickhook && x->x_active if(x->x_active)");
+            post("comment__clickhook && x->x_active if(x->x_active)");
             if(ndx >= 0 && ndx < x->x_textbufsize){
+                post("ndx = %d", ndx);
                 // set selection, LATER shift-click and drag
                 x->x_selstart = x->x_selend = ndx;
                 comment_dograb(x);
@@ -542,16 +529,20 @@ static void comment_float(t_comment *x, t_float f){
         for(i = x->x_selend; i < x->x_textbufsize; i++)
             x->x_textbuf[i- ndel] = x->x_textbuf[i];
             newsize = x->x_textbufsize - ndel;
+            post("newsize = x->x_textbufsize - ndel = %d", newsize);
             x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
             x->x_textbufsize = newsize;
+            post("x->x_textbufsize = newsize = %d", newsize);
             if(n == '\n' || !iscntrl(n)){
 //               post("accepted");
                 newsize = x->x_textbufsize+1;
+                post("newsize = x->x_textbufsize+1 = %d", newsize);
                 x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
                 for(i = x->x_textbufsize; i > x->x_selstart; i--)
                     x->x_textbuf[i] = x->x_textbuf[i-1];
                 x->x_textbuf[x->x_selstart] = n;
                 x->x_textbufsize = newsize;
+                post("x->x_textbufsize = newsize = %d", newsize);
                 x->x_selstart = x->x_selstart + 1;
             }
 //            else post("rejected: [%c]", n);
@@ -623,9 +614,11 @@ static void edit_proxy_any(t_edit_proxy *p, t_symbol *s, int ac, t_atom *av){
         if(s == gensym("editmode"))
             edit = (int)(av->a_w.w_float);
         else if(s == gensym("obj") || s == gensym("msg") || s == gensym("floatatom")
-        || s == gensym("symbolatom") || s == gensym("text")){
-            if(av->a_w.w_float == 0)
-                edit = 1;
+        || s == gensym("symbolatom") || s == gensym("text") || s == gensym("bng")
+        || s == gensym("toggle") || s == gensym("numbox") || s == gensym("vslider")
+        || s == gensym("hslider") || s == gensym("vradio") || s == gensym("hradio")
+        || s == gensym("vumeter") || s == gensym("mycnv")){
+            edit = 1;
         }
         else
             return;
