@@ -1,4 +1,4 @@
-#N canvas 656 40 570 560 10;
+#N canvas 656 40 561 556 10;
 #X obj 3 249 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -7,7 +7,7 @@
 #X obj 3 529 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 113 152 <= the default comment box from [cyclone/comment];
-#X obj 156 189 cyclone/comment 280 20 Times empty 3 150 0 0 1 230 235
+#X obj 156 189 cyclone/comment 259 20 Times empty 3 150 0 0 1 230 235
 240 1 1 Hello \, I'm a comment from the [cyclone/comment] object!!!
 ;
 #X obj 3 454 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
@@ -102,11 +102,6 @@ object in Max (@receive \, @text and @bg)., f 65;
 #X msg 186 94 fontname arial;
 #X msg 177 74 fontname times;
 #X msg 205 155 fontname Dejavu\ Sans\ Mono;
-#X text 39 404 Comment uses Dejavu Sans Mono as its default font. This
-is the same default font that Pd uses and included. But Pd doesn't
-offer yet the italic and bold+italic variants. So you need to manually
-install this font in its fullness if you want to use these variants.
-, f 62;
 #X text 39 465 Comment will attempt to open a font name that corresponds
 to your given name. If such a font name doesn't exist \, it'll open
 some other font you have on your system instead that it thinks is best
@@ -115,17 +110,22 @@ Just be sure you have the fonts you want properly installed., f 62
 ;
 #X obj 484 253 loadbang;
 #X msg 484 278 receive \\\$0-comment;
-#X text 395 32 When in edit mode \, [comment] shows its inlet. The
-[comment] object below has a receive symbol \, so you can send messages
-to it via a [send] object. In this case \, the inlet is supressed \,
-so we don't see it. Besides the properties window \, the receive symbol
-can be set with the receive message or the @receive attribute. If you
-set a receive name as "empty" then it it can't receive messages anymore
-and the inlet is show again., f 73;
+#X text 39 404 Comment uses "Dejavu Sans Mono" as its default font.
+This is the same default font that Pd uses and includes. But Pd doesn't
+offer yet the italic and bold+italic variants. So you need to manually
+install this font in its fullness if you want to use these variants.
+, f 62;
+#X text 395 32 When in edit mode \, [comment] shows its inlet and an
+outline. The [comment] object below has a receive symbol \, so you
+can send messages to it via a [send] object. In this case \, the inlet
+is supressed \, so we don't see it. Besides the properties window \,
+the receive symbol can be set with the receive message or the @receive
+attribute. If you set a receive name as "empty" then it it can't receive
+messages anymore and the inlet is show again., f 74;
 #X text 457 405 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
 into a Pd's comment box. So far \, this is the only way to copy the
-text from comment into Pd (control c / control v doesn't work)., f
+text from comment into Pd (control+c / control+v doesn't work)., f
 65;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
@@ -150,26 +150,25 @@ text from comment into Pd (control c / control v doesn't work)., f
 #X connect 30 0 0 0;
 #X connect 31 0 0 0;
 #X connect 32 0 0 0;
-#X connect 35 0 36 0;
-#X connect 36 0 8 0;
+#X connect 34 0 35 0;
+#X connect 35 0 8 0;
 #X restore 479 166 pd details;
-#N canvas 760 98 513 420 more 0;
-#X obj 140 279 cyclone/comment 164 20 helvetica empty 0 0 0 0 0 200
-200 200 1 0 comment;
-#X msg 140 241 textjustification \$1;
-#X obj 140 159 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
+#N canvas 760 98 517 407 more 0;
+#X obj 145 270 cyclone/comment 151 20 helvetica empty 0 0 0 0 0 200
+200 200 1 0 comment can be justified in different ways;
+#X msg 145 235 textjustification \$1;
+#X obj 145 153 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -228856
 -1 -1 0;
-#X floatatom 140 216 3 0 0 0 - - -;
-#X text 158 158 left;
-#X text 158 173 center;
-#X text 158 189 right;
-#X text 61 40 By default \, [comment] has a width limit of 425 pixels
-(like Pd's comment). This breaks the comment in different lines after
-you pass it. You can change this limit while in edit mode by clicking
-at the end of the comment and dragging. This is tricky and hard to
-spot and will be improved hopefully soon., f 63;
-#X text 60 105 When you have more than one line \, you can set a justification
+#X floatatom 145 210 3 0 0 0 - - -;
+#X text 163 152 left;
+#X text 163 167 center;
+#X text 163 183 right;
+#X text 73 96 When you have more than one line \, you can set a justification
 parameter. For just one line \, this is irrelevant., f 63;
+#X text 73 39 By default \, [comment] has no width limit. But when
+in edit mode you can click on the outline at the end of the text and
+drag to set a width limit. This will break the comment in different
+lines if it passes this limit., f 63;
 #X connect 1 0 0 0;
 #X connect 2 0 3 0;
 #X connect 3 0 1 0;
@@ -196,27 +195,27 @@ being fully compliant to Max6+ versions!, f 74;
 #X msg 420 24 set 3 \\\, 4!;
 #X msg 215 62 append \\\, 3 \\\, 4!;
 #X obj 197 97 cyclone/comment 120 16 dejavu\ sans\ mono empty 0 0 0
-0 0 255 255 255 0 0 1 \, 2 \, 3 \, 4!;
+0 0 255 255 255 0 0 comment;
 #X obj 420 97 cyclone/comment 120 16 dejavu\ sans\ mono empty 0 0 0
-0 0 255 255 255 0 0 1 \, 2 \, 3 \, 4!;
+0 0 255 255 255 0 0 comment;
 #X text 51 36 Note you can use backslash to escape symbols like '$'
 \, commas and semicolons., f 19;
-#X msg 324 236 set カラオケ, f 11;
-#X obj 324 266 cyclone/comment 243 60 dejavu\ sans\ mono empty 0 20
-25 30 1 225 215 215 1 0 カラオケ;
-#X msg 59 215 set ٱلسَّلَامُ عَلَيْكُمْ;
-#X obj 59 245 cyclone/comment 151 50 dejavu\ sans\ mono empty 0 160
-40 50 0 225 215 215 0 0 ٱلسَّلَامُ عَلَيْكُمْ;
+#X msg 295 246 set カラオケ, f 11;
+#X obj 295 276 cyclone/comment 243 60 dejavu\ sans\ mono empty 0 20
+25 30 1 225 215 215 1 0 comment;
+#X msg 70 225 set ٱلسَّلَامُ عَلَيْكُمْ;
+#X obj 70 255 cyclone/comment 151 50 dejavu\ sans\ mono empty 0 160
+40 50 0 225 215 215 0 0 comment;
 #X text 46 153 If you can type or copy and paste characters into a
 message box from another alphabet \, you can use that to set cyclone's
 comment. So far \, insertng characters from other alphabets directly
 into cyclone's comment isn't supported., f 81;
-#X msg 64 392 set 晚安, f 8;
-#X obj 64 417 cyclone/comment 166 80 dejavu\ sans\ mono empty 1 200
-205 210 1 75 85 95 1 0 晚安;
-#X msg 363 386 set हिन्दी;
-#X obj 363 418 cyclone/comment 0 80 dejavu\ sans\ mono empty 0 200
-100 100 0 200 200 200 0 0 हिन्दी;
+#X msg 95 408 set 晚安, f 8;
+#X obj 95 433 cyclone/comment 166 80 dejavu\ sans\ mono empty 1 200
+205 210 1 75 85 95 1 0 comment;
+#X msg 356 396 set हिन्दी;
+#X obj 356 428 cyclone/comment 0 80 dejavu\ sans\ mono empty 0 200
+100 100 0 200 200 200 0 0 comment;
 #X connect 0 0 4 0;
 #X connect 1 0 5 0;
 #X connect 2 0 5 0;
