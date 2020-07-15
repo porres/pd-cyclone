@@ -1,4 +1,4 @@
-#N canvas 623 43 570 560 10;
+#N canvas 656 40 570 560 10;
 #X obj 3 249 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -7,8 +7,8 @@
 #X obj 3 529 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 113 152 <= the default comment box from [cyclone/comment];
-#X obj 156 189 cyclone/comment 280 20 Times empty 3 150 0 0 1 200 200
-200 1 1 Hello \, I'm a comment from the [cyclone/comment] object!!!
+#X obj 156 189 cyclone/comment 280 20 Times empty 3 150 0 0 1 230 235
+240 1 1 Hello \, I'm a comment from the [cyclone/comment] object!!!
 ;
 #X obj 3 454 cnv 3 550 3 empty empty flags 8 12 0 13 -228856 -1 0;
 #X obj 74 255 cnv 17 3 168 empty empty 0 5 9 0 16 -228856 -162280 0
@@ -190,30 +190,33 @@ being fully compliant to Max6+ versions!, f 74;
 0) | @receive <symbol> (default 'empty'), f 79;
 #X text 98 282 prepend <anything>;
 #X text 40 185 right click for properties =====>, f 18;
-#N canvas 823 23 621 616 +\ examples 0;
-#X msg 130 86 set 1 \\\, 2;
-#X msg 372 134 prepend 1 \\\, 2 \\\,;
-#X msg 353 86 set 3 \\\, 4!;
-#X msg 148 134 append \\\, 3 \\\, 4!;
-#X obj 130 189 cyclone/comment 0 16 dejavu\ sans\ mono empty 0 0 0
-0 0 255 255 255 0 0 comment;
-#X obj 353 189 cyclone/comment 0 16 dejavu\ sans\ mono empty 0 0 0
-0 0 255 255 255 0 0 comment;
-#X text 123 24 Note you can use backslash to escape symbols like '$'
-\, commas and semicolons.;
-#X msg 388 343 set カラオケ, f 11;
-#X obj 388 382 cyclone/comment 0 34 dejavu\ sans\ mono empty 0 20 25
-30 1 225 215 215 1 0 comment;
-#X msg 93 339 set ٱلسَّلَامُ عَلَيْكُمْ;
-#X obj 93 391 cyclone/comment 0 34 dejavu\ sans\ mono empty 0 160 40
-50 0 225 215 215 0 0 comment;
-#X text 112 247 If you can type or copy and paste characters into a
+#N canvas 871 44 627 556 +\ examples 0;
+#X msg 197 24 set 1 \\\, 2;
+#X msg 439 62 prepend 1 \\\, 2 \\\,;
+#X msg 420 24 set 3 \\\, 4!;
+#X msg 215 62 append \\\, 3 \\\, 4!;
+#X obj 197 97 cyclone/comment 120 16 dejavu\ sans\ mono empty 0 0 0
+0 0 255 255 255 0 0 1 \, 2 \, 3 \, 4!;
+#X obj 420 97 cyclone/comment 120 16 dejavu\ sans\ mono empty 0 0 0
+0 0 255 255 255 0 0 1 \, 2 \, 3 \, 4!;
+#X text 51 36 Note you can use backslash to escape symbols like '$'
+\, commas and semicolons., f 19;
+#X msg 324 236 set カラオケ, f 11;
+#X obj 324 266 cyclone/comment 243 60 dejavu\ sans\ mono empty 0 20
+25 30 1 225 215 215 1 0 カラオケ;
+#X msg 59 215 set ٱلسَّلَامُ عَلَيْكُمْ;
+#X obj 59 245 cyclone/comment 151 50 dejavu\ sans\ mono empty 0 160
+40 50 0 225 215 215 0 0 ٱلسَّلَامُ عَلَيْكُمْ;
+#X text 46 153 If you can type or copy and paste characters into a
 message box from another alphabet \, you can use that to set cyclone's
 comment. So far \, insertng characters from other alphabets directly
-into cyclone's comment isn't supported.;
-#X msg 250 465 set 晚安, f 8;
-#X obj 250 493 cyclone/comment 0 64 dejavu\ sans\ mono empty 1 200
-205 210 1 75 85 95 1 0 comment;
+into cyclone's comment isn't supported., f 81;
+#X msg 64 392 set 晚安, f 8;
+#X obj 64 417 cyclone/comment 166 80 dejavu\ sans\ mono empty 1 200
+205 210 1 75 85 95 1 0 晚安;
+#X msg 363 386 set हिन्दी;
+#X obj 363 418 cyclone/comment 0 80 dejavu\ sans\ mono empty 0 200
+100 100 0 200 200 200 0 0 हिन्दी;
 #X connect 0 0 4 0;
 #X connect 1 0 5 0;
 #X connect 2 0 5 0;
@@ -221,4 +224,5 @@ into cyclone's comment isn't supported.;
 #X connect 7 0 8 0;
 #X connect 9 0 10 0;
 #X connect 12 0 13 0;
+#X connect 14 0 15 0;
 #X restore 455 220 pd +\ examples;
