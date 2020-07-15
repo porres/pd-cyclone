@@ -42,7 +42,7 @@ typedef struct _comment{
     int             x_edit;
     int             x_textbufsize;
     int             x_pixwidth;
-    int             x_pixheigth;
+    int             x_pixheigth; // <= seems useless
     int             x_bbset;
     int             x_bbpending;
     int             x_x1;
