@@ -9,8 +9,9 @@ cyclone 0.5-3 (needs at least Pd Vanilla 0.51-0):
 - comment:
    - fixed handling of bg flag in properties window;
    - better handling of backslash in prepend/append methods;
-   - More examples in the documentation on how to use backslash
- and how to support different alphabets;
+   - now we draw an outline when in edit mode; 
+   - there's a better handling of setting size and resizing now;
+   - More examples in the documentation on how to use backslash and how to support different alphabets;
 
 --------------------------------------------------
 cyclone 0.5-2 (needs at least Pd Vanilla 0.51-0):
