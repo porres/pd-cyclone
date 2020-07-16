@@ -13,6 +13,7 @@
 #include <common/api.h>
 #include "m_pd.h"
 #include "g_canvas.h"
+#include "s_utf8.h"
 #include <string.h>
 #include <ctype.h>
 
@@ -36,9 +37,10 @@ typedef struct _comment{
     t_edit_proxy   *x_proxy;
     t_glist        *x_glist;
     t_canvas       *x_cv;
-    t_clock        *x_transclock;
     t_binbuf       *x_binbuf;
     char           *x_textbuf;
+    int             x_keynum;
+    t_symbol       *x_keysym;
     int             x_edit;
     int             x_textbufsize;
     int             x_max_pixwidth;
@@ -193,7 +195,7 @@ static void comment_update(t_comment *x){
 
 static void comment_grabbedkey(void *z, t_floatarg f){
     z = NULL, f = 0;
-    /* LATER think about replacing #key binding/comment_float() with grabbing */
+    // LATER think about replacing #key binding to float method with "grabbing"
 }
 
 static void comment_dograb(t_comment *x){
@@ -241,9 +243,9 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
     }
     if(x->x_glist->gl_edit){
         if(x->x_active){
-            post("comment__clickhook && x->x_active if(x->x_active)");
+//            post("comment__clickhook && x->x_active if(x->x_active)");
             if(ndx >= 0 && ndx < x->x_textbufsize){
-                post("ndx = %d", ndx);
+//                post("ndx = %d", ndx);
                 // set selection, LATER shift-click and drag
                 x->x_selstart = x->x_selend = ndx;
                 comment_dograb(x);
@@ -500,111 +502,134 @@ static void comment_save(t_gobj *z, t_binbuf *b){
     binbuf_addv(b, ";");
 }
 
-// this fires if a transform request was sent to a symbol we are bound to
-static void comment_transtick(t_comment *x){
-    glist_delete(x->x_glist, (t_gobj *)x);
-}
-
-// this is basically the code of rtext_key()
-static void comment_float(t_comment *x, t_float f){
-    if(x->x_active && (int)f > 0){
-//        post("comment_float");
-        int i, newsize, ndel, n = (int)f;
-//        post("n = %c", n);
-        if(n == '\r') // return
+static void comment_key(t_comment *x){
+    if(!x->x_active){
+        post("key bug");
+        return;
+    }
+    if(x->x_keysym == gensym("Right")){
+        if(x->x_selend == x->x_selstart && x->x_selstart < x->x_textbufsize)
+            x->x_selend = x->x_selstart = x->x_selstart + 1;
+        else
+            x->x_selstart = x->x_selend;
+        comment_update(x);
+        return;
+    }
+    else if(x->x_keysym == gensym("Left")){
+        if(x->x_selend == x->x_selstart && x->x_selstart > 0)
+            x->x_selend = x->x_selstart = x->x_selstart - 1;
+        else
+            x->x_selend = x->x_selstart;
+        comment_update(x);
+        return;
+    }
+    else if(x->x_keysym == gensym("Up")){
+        if(x->x_selstart)
+            x->x_selstart--;
+        while(x->x_selstart > 0 && x->x_textbuf[x->x_selstart] != '\n')
+            x->x_selstart--;
+        x->x_selend = x->x_selstart;
+        comment_update(x);
+        return;
+    }
+    else if(x->x_keysym == gensym("Down")){
+        while(x->x_selend < x->x_textbufsize && x->x_textbuf[x->x_selend] != '\n')
+            x->x_selend++;
+        if(x->x_selend < x->x_textbufsize)
+            x->x_selend++;
+        x->x_selstart = x->x_selend;
+        comment_update(x);
+        return;
+    }
+    else if(x->x_keysym == gensym("F5")){
+        t_text *t = (t_text *)x;
+        t_binbuf *bb = binbuf_new();
+        int argc = binbuf_getnatom(x->x_binbuf);
+        binbuf_addv(bb, "ii", (int)t->te_xpix + 5, (int)t->te_ypix + 5);
+        binbuf_add(bb, argc, binbuf_getvec(x->x_binbuf));
+        canvas_setcurrent(x->x_glist);
+        typedmess((t_pd *)x->x_glist, gensym("text"), argc + 2, binbuf_getvec(bb));
+        canvas_unsetcurrent(x->x_glist);
+        binbuf_free(bb);
+        return;
+    }
+    else if(x->x_keynum > 0){
+        int i, n = x->x_keynum;
+//        post("comment_float => input character = [%c], n = %d", n, n);
+        if(n == '\r') // if "return", then "new line"
             n = '\n';
         if(n == '\b'){ // backspace
-//            post("backspace");
-            if((!x->x_selstart) && (x->x_selend == x->x_textbufsize)){
-//               post("(!x->x_selstart) && (x->x_selend == x->x_textbufsize)");
-//               post("we should CLEAR");
-                // LATER delete box (causes reentrancy problems)
-                // glist_delete(x->x_glist, &x->x_text->te_g); <= ????
+            if(x->x_selstart > 0 && (x->x_selstart == x->x_selend)){ // delete previous
+                for(i = x->x_selstart; i < x->x_textbufsize; i++)
+                    x->x_textbuf[i-1] = x->x_textbuf[i];
+                x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, x->x_textbufsize - 1);
+                x->x_textbufsize--, x->x_selstart--;
+            }
+            else if((!x->x_selstart) && (x->x_selend == x->x_textbufsize))
+                goto clear;
+            else
                 return;
-            }
-            else if(x->x_selstart && (x->x_selstart == x->x_selend)) // delete
-                x->x_selstart--;
         }
-        ndel = x->x_selend - x->x_selstart;
-        for(i = x->x_selend; i < x->x_textbufsize; i++)
-            x->x_textbuf[i- ndel] = x->x_textbuf[i];
-            newsize = x->x_textbufsize - ndel;
-            post("newsize = x->x_textbufsize - ndel = %d", newsize);
-            x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
-            x->x_textbufsize = newsize;
-            post("x->x_textbufsize = newsize = %d", newsize);
-            if(n == '\n' || !iscntrl(n)){
-//               post("accepted");
-                newsize = x->x_textbufsize+1;
-                post("newsize = x->x_textbufsize+1 = %d", newsize);
-                x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
-                for(i = x->x_textbufsize; i > x->x_selstart; i--)
-                    x->x_textbuf[i] = x->x_textbuf[i-1];
-                x->x_textbuf[x->x_selstart] = n;
-                x->x_textbufsize = newsize;
-                post("x->x_textbufsize = newsize = %d", newsize);
-                x->x_selstart = x->x_selstart + 1;
+        else if(n == 127){ // delete
+            if(x->x_selstart < x->x_textbufsize && (x->x_selstart == x->x_selend)){ // delete next
+                for(i = x->x_selstart; i < x->x_textbufsize; i++)
+                    x->x_textbuf[i] = x->x_textbuf[i+1];
+                x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, x->x_textbufsize - 1);
+                x->x_textbufsize--;
             }
-//            else post("rejected: [%c]", n);
-            x->x_selend = x->x_selstart;
-            x->x_glist->gl_editor->e_textdirty = 1;
-            binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
-            comment_update(x);
+            else if((!x->x_selstart) && (x->x_selend == x->x_textbufsize))
+                goto clear;
+            else
+                return;
+        }
+        else if(n == '\n' || (n > 31 && n < 127)){ // accepted character
+            x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, x->x_textbufsize+1);
+            for(i = x->x_textbufsize; i > x->x_selstart; i--)
+                x->x_textbuf[i] = x->x_textbuf[i-1];
+            x->x_textbuf[x->x_selstart] = n;
+            x->x_textbufsize++, x->x_selstart++;
+        }
+        else if(n > 127){ // check for unicode codepoints beyond 7-bit ASCII
+//            post("non ASCII - x->x_keysym = %s", x->x_keysym->s_name);
+            int ch_nbytes = u8_wc_nbytes(n);
+                int newsize = x->x_textbufsize + ch_nbytes;
+                x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
+                for(i = newsize-1; i > x->x_selstart; i--)
+                    x->x_textbuf[i] = x->x_textbuf[i-ch_nbytes];
+                x->x_textbufsize = newsize;
+                // assume canvas_key() has encoded keysym as UTF-8
+                strncpy(x->x_textbuf+x->x_selstart, x->x_keysym->s_name, ch_nbytes);
+                x->x_selstart = x->x_selstart + ch_nbytes;
+        }
+        else if(n != '\b' && n != 127){
+//            post("bug: rejected: [%c] / n = %d", n, n);
+            return;
+        }
+        x->x_selend = x->x_selstart;
+        x->x_glist->gl_editor->e_textdirty = 1;
+        canvas_dirty(x->x_glist, 1);
+        binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
+        comment_update(x);
     }
+    return;
+    clear:
+        x->x_textbufsize = x->x_selend = x->x_selstart = 0;
+        x->x_glist->gl_editor->e_textdirty = 1;
+        binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
+        comment_update(x);
+        canvas_dirty(x->x_glist, 1);
+}
+
+static void comment_float(t_comment *x, t_float f){
+    x->x_keynum = (int)f;
 }
 
 static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av){
-//    post("list");
     t_symbol *dummy = s;
     dummy = NULL;
-    if(!x->x_active)
-        post("bug [comment]: comment_list");
-    else if(ac > 1 && av->a_type == A_FLOAT && (int)av->a_w.w_float && av[1].a_type == A_SYMBOL){
-        t_symbol *keysym = av[1].a_w.w_symbol;
-        if(keysym == gensym("Right")){
-            if(x->x_selend == x->x_selstart &&
-                x->x_selstart < x->x_textbufsize)
-                x->x_selend = x->x_selstart = x->x_selstart + 1;
-            else
-                x->x_selstart = x->x_selend;
-        }
-        else if(keysym == gensym("Left")){
-            if(x->x_selend == x->x_selstart && x->x_selstart > 0)
-                x->x_selend = x->x_selstart = x->x_selstart - 1;
-            else
-                x->x_selend = x->x_selstart;
-        }
-        // this should be improved...  life's too short
-        else if(keysym == gensym("Up")){
-            if(x->x_selstart)
-                x->x_selstart--;
-            while(x->x_selstart > 0 && x->x_textbuf[x->x_selstart] != '\n')
-                x->x_selstart--;
-            x->x_selend = x->x_selstart;
-        }
-        else if(keysym == gensym("Down")){
-            while(x->x_selend < x->x_textbufsize &&
-                   x->x_textbuf[x->x_selend] != '\n')
-                x->x_selend++;
-            if(x->x_selend < x->x_textbufsize)
-                x->x_selend++;
-            x->x_selstart = x->x_selend;
-        }
-        else if(keysym == gensym("F5")){
-            t_text *t = (t_text *)x;
-            t_binbuf *bb = binbuf_new();
-            int argc = binbuf_getnatom(x->x_binbuf);
-            binbuf_addv(bb, "ii", (int)t->te_xpix + 5, (int)t->te_ypix + 5);
-            binbuf_add(bb, argc, binbuf_getvec(x->x_binbuf));
-            canvas_setcurrent(x->x_glist);
-            typedmess((t_pd *)x->x_glist, gensym("text"), argc + 2, binbuf_getvec(bb));
-            canvas_unsetcurrent(x->x_glist);
-            binbuf_free(bb);
-            return;
-        }
-        else
-            return;
-        comment_update(x);
+    if(ac > 1 && av->a_type == A_FLOAT && (int)av->a_w.w_float && av[1].a_type == A_SYMBOL){
+        x->x_keysym = av[1].a_w.w_symbol;
+        comment_key(x);
     }
 }
 
@@ -896,8 +921,8 @@ static void comment_free(t_comment *x){
     }
     if(x->x_receive != &s_)
         pd_unbind(&x->x_obj.ob_pd, x->x_receive);
-    if(x->x_transclock)
-        clock_free(x->x_transclock);
+//    if(x->x_transclock)
+//        clock_free(x->x_transclock);
     if(x->x_bindsym){
 //        post("free: pd_unbind((t_pd *)x, x->x_bindsym);");
         pd_unbind((t_pd *)x, x->x_bindsym);
@@ -925,6 +950,8 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_fontname = gensym("dejavu sans mono");
     x->x_edit = x->x_glist->gl_edit;
     x->x_textbuf = 0;
+    x->x_keynum = 0;
+    x->x_keysym = NULL;
     x->x_rcv_set = x->x_flag = x->x_r_flag = x->x_old = x->x_text_n = x->x_text_size = 0;
     x->x_max_pixwidth = 425;
     x->x_fontsize = x->x_bbpending = 0;
@@ -935,7 +962,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
     x->x_bbset = x->x_init = x->x_selected = x->x_dragon = 0;
     t_symbol *rcv = x->x_receive = x->x_rcv_raw = &s_;
-    x->x_transclock = clock_new(x, (t_method)comment_transtick);
+//    x->x_transclock = clock_new(x, (t_method)comment_transtick);
     char buf[MAXPDSTRING];
     snprintf(buf, MAXPDSTRING-1, ".x%lx", (unsigned long)x->x_cv);
     buf[MAXPDSTRING-1] = 0;
@@ -1435,3 +1462,5 @@ CYCLONE_OBJ_API void comment_setup(void){
 
     //    #include "comment_dialog.c"
 }
+
+
