@@ -11,6 +11,9 @@ cyclone 0.5-3 (needs at least Pd Vanilla 0.51-0):
    - better handling of backslash in prepend/append methods;
    - now we draw an outline when in edit mode; 
    - there's a better handling of setting size and resizing now;
+   - support for delete key;
+   - when whole text is selected, if you press backspace or delete, whole text now gets deleted;
+   - support for different alphabets;
    - More examples in the documentation on how to use backslash and how to support different alphabets;
 
 --------------------------------------------------
