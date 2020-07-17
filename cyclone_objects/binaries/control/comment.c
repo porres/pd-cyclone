@@ -78,7 +78,6 @@ typedef struct _comment{
     int             x_underline;
     int             x_bg_flag;
     int             x_textjust; // 0: left, 1: center, 2: right
-    t_symbol       *x_encoding; // (unused)
     unsigned int    x_bg[3];    // background color
 }t_comment;
 
@@ -107,7 +106,7 @@ static void comment_draw(t_comment *x){
         }
     }
     outp = outbuf = buf;
-    sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s %s {%.*s} %d %s %s %s\n",
+    sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s {%.*s} %d %s %s %s\n",
         x->x_underline ? "comment_draw_ul" : "comment_draw",
         x->x_bindsym->s_name, // %s
         (unsigned long)x->x_cv, // .x%lx.c
@@ -115,10 +114,9 @@ static void comment_draw(t_comment *x){
         (unsigned long)x, // all%lx
         text_xpix((t_text *)x, x->x_glist) + x->x_zoom, // %d
         text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // %d
-        x->x_fontname->s_name, // %s
+        x->x_fontname->s_name, // {%s}
         x->x_fontsize, // -%d
         glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // %s
-        "\"\"", // %s (encoding)
         x->x_textbufsize, // %.
         x->x_textbuf, // *s
         x->x_pixwidth, // %d
@@ -132,6 +130,7 @@ static void comment_draw(t_comment *x){
     comment_draw_inlet(x);
 }
 
+// improve!!!
 static void comment_redraw(t_comment *x, int bg){
     sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
     sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
@@ -150,11 +149,15 @@ static void comment_update(t_comment *x){
             return;
     }
     outp = outbuf = buf;
-    sprintf(outp, "comment_update .x%lx.c txt%lx %s {%.*s} %d\n",
-            cv, (unsigned long)x, (x->x_encoding ? x->x_encoding->s_name : "\"\""),
-            x->x_textbufsize, x->x_textbuf, x->x_pixwidth);
+    sprintf(outp, "comment_update .x%lx.c txt%lx {%.*s} %d\n",
+            cv,
+            (unsigned long)x,
+            x->x_textbufsize,
+            x->x_textbuf,
+            x->x_pixwidth);
     outp += strlen(outp);
     if(x->x_active){
+        post("comment_update && x->x_active");
         if(x->x_selend > x->x_selstart){
             sprintf(outp, ".x%lx.c select from txt%lx %d\n", cv, (unsigned long)x, x->x_selstart);
             outp += strlen(outp);
@@ -171,8 +174,10 @@ static void comment_update(t_comment *x){
         }
         outp += strlen(outp);
     }
+    post("pre update");
     sprintf(outp, "comment_bbox %s .x%lx.c txt%lx\n",
         x->x_bindsym->s_name, cv, (unsigned long)x);
+    post("post update");
     x->x_bbpending = 1;
     sys_gui(outbuf);
     if(outbuf != buf)
@@ -206,6 +211,7 @@ static void comment__bboxhook(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_
 }
 
 static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
+    post("comment__clickhook");
     t_symbol *dummy = s;
     dummy = NULL;
     int xx, yy, ndx;
@@ -227,6 +233,7 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
     }
     if(x->x_glist->gl_edit){
         if(x->x_active){
+            post("comment__clickhook && x->x_active");
             if(ndx >= 0 && ndx < x->x_textbufsize){
                 // set selection, LATER shift-click and drag
                 x->x_selstart = x->x_selend = ndx;
@@ -254,6 +261,7 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
 
 static void comment__releasehook(t_comment *x, t_symbol *bindsym){
     bindsym = NULL;
+    post("release hook");
     unsigned long cv = (unsigned long)x->x_cv;
     sys_vgui(".x%lx.c bind txt%lx <ButtonRelease> {}\n", cv, (unsigned long)x);
     sys_vgui(".x%lx.c bind txt%lx <Motion> {}\n", cv, (unsigned long)x);
@@ -278,6 +286,7 @@ static void comment__motionhook(t_comment *x, t_symbol *bindsym, t_floatarg xx, 
 static void commentsink__bboxhook(t_pd *x, t_symbol *bindsym){
     if(bindsym->s_thing == x)
         pd_unbind(x, bindsym);  // if comment gone, unbind
+    post("commentsink__bboxhook: comment gone, unbind");
 }
 
 static void commentsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av){ // nop: avoid warnings
@@ -329,7 +338,7 @@ static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy){
 }
 
 static void comment_activate(t_gobj *z, t_glist *glist, int state){
-//    post("comment_activate = %d", state);
+   post("comment_activate = %d", state);
     glist = NULL;
     t_comment *x = (t_comment *)z;
     if(state){
@@ -356,6 +365,7 @@ static void comment_activate(t_gobj *z, t_glist *glist, int state){
 }
 
 static void comment_select(t_gobj *z, t_glist *glist, int state){
+    post("comment_select = %d", state);
     t_comment *x = (t_comment *)z;
     if(!state && x->x_active)
         comment_activate(z, glist, 0);
@@ -486,15 +496,16 @@ static void comment_transtick(t_comment *x){
 // this is basically the code of rtext_key()
 static void comment_float(t_comment *x, t_float f){
     if(x->x_active && (int)f > 0){
+        post("comment_float");
         int i, newsize, ndel, n = (int)f;
-//        post("n = %c", n);
+        post("n = %c", n);
         if(n == '\r') // return
             n = '\n';
         if(n == '\b'){ // backspace
-//            post("backspace");
+            post("backspace");
             if((!x->x_selstart) && (x->x_selend == x->x_textbufsize)){
-//                post("(!x->x_selstart) && (x->x_selend == x->x_textbufsize)");
-//                post("we should CLEAR");
+               post("(!x->x_selstart) && (x->x_selend == x->x_textbufsize)");
+               post("we should CLEAR");
                 // LATER delete box (causes reentrancy problems)
                 // glist_delete(x->x_glist, &x->x_text->te_g); <= ????
                 return;
@@ -509,7 +520,7 @@ static void comment_float(t_comment *x, t_float f){
             x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
             x->x_textbufsize = newsize;
             if(n == '\n' || !iscntrl(n)){
-//               post("accepted");
+               post("accepted");
                 newsize = x->x_textbufsize+1;
                 x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
                 for(i = x->x_textbufsize; i > x->x_selstart; i--)
@@ -518,7 +529,7 @@ static void comment_float(t_comment *x, t_float f){
                 x->x_textbufsize = newsize;
                 x->x_selstart = x->x_selstart + 1;
             }
-//            else post("rejected: [%c]", n);
+            else post("rejected: [%c]", n);
             x->x_selend = x->x_selstart;
             x->x_glist->gl_editor->e_textdirty = 1;
             binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
@@ -633,13 +644,32 @@ static void comment_receive(t_comment *x, t_symbol *s){
     }
 }
 
+static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
+    s = NULL;
+    canvas_dirty(x->x_glist, 1);
+    binbuf_clear(x->x_binbuf);
+    binbuf_restore(x->x_binbuf, ac, av);
+    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
+    if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
+        comment_redraw(x, x->x_bg_flag);
+}
+
 static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
     if(ac){
         canvas_dirty(x->x_glist, 1);
-        t_binbuf *bb = binbuf_new();
-        binbuf_restore(bb, ac, av);
-        binbuf_addbinbuf(x->x_binbuf, bb);
+        int n = binbuf_getnatom(x->x_binbuf); // number of arguments
+        t_atom at[n+ac];
+        char buf[128];
+        int i = 0;
+        for(i = 0;  i < n; i++){
+            atom_string(binbuf_getvec(x->x_binbuf) + i, buf, 128);
+            SETSYMBOL(at+i, gensym(buf));
+        }
+        for(int j = 0; j < ac; j++)
+            at[i+j] = av[j];
+        binbuf_clear(x->x_binbuf);
+        binbuf_restore(x->x_binbuf, n+ac, at);
         binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
             comment_redraw(x, x->x_bg_flag);
@@ -650,25 +680,22 @@ static void comment_prepend(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
     if(ac){
         canvas_dirty(x->x_glist, 1);
-        t_binbuf *bb = binbuf_new();
-        binbuf_restore(bb, ac, av);
-        binbuf_addbinbuf(bb, x->x_binbuf);
+        int n = binbuf_getnatom(x->x_binbuf); // number of arguments
+        t_atom at[n+ac];
+        char buf[128];
+        int i = 0;
+        for(i = 0; i < ac; i++)
+            at[i] = av[i];
+        for(int j = 0;  j < n; j++){
+            atom_string(binbuf_getvec(x->x_binbuf) + j, buf, 128);
+            SETSYMBOL(at+i+j, gensym(buf));
+        }
         binbuf_clear(x->x_binbuf);
-        binbuf_addbinbuf(x->x_binbuf, bb);
+        binbuf_restore(x->x_binbuf, n+ac, at);
         binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
             comment_redraw(x, x->x_bg_flag);
     }
-}
-
-static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
-    s = NULL;
-    canvas_dirty(x->x_glist, 1);
-    binbuf_clear(x->x_binbuf);
-    binbuf_restore(x->x_binbuf, ac, av);
-    binbuf_gettext(x->x_binbuf, &x->x_textbuf, &x->x_textbufsize);
-    if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
-        comment_redraw(x, x->x_bg_flag);
 }
 
 static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floatarg b){
@@ -685,19 +712,36 @@ static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floata
     }
 }
 
-static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b){
+static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b, t_float flag){
     unsigned int red = r < 0 ? 0 : r > 255 ? 255 : (unsigned int)r;
     unsigned int green = g < 0 ? 0 : g > 255 ? 255 : (unsigned int)g;
     unsigned int blue = b < 0 ? 0 : b > 255 ? 255 : (unsigned int)b;
-    if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue || !x->x_bg_flag){
-        canvas_dirty(x->x_glist, 1);
-        x->x_bg_flag = 1;
-        x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
-        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
-            sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-            comment_redraw(x, x->x_bg_flag);
+    if(!x->x_bg_flag){
+        if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue || flag){
+            canvas_dirty(x->x_glist, 1);
+            x->x_bg_flag = 1;
+            x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
+            if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
+                sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+                comment_redraw(x, x->x_bg_flag);
+            }
         }
     }
+    else{
+        if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue){
+            canvas_dirty(x->x_glist, 1);
+            x->x_bg_flag = 1;
+            x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
+            if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
+                sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+                comment_redraw(x, x->x_bg_flag);
+            }
+        }
+    }
+}
+
+static void comment_set_bgcolor(t_comment *x, t_float r, t_float g, t_float b){
+    comment_bgcolor(x, r, g, b, 1);
 }
 
 static void comment_fontname(t_comment *x, t_symbol *name){
@@ -770,26 +814,25 @@ static void comment_zoom(t_comment *x, t_floatarg zoom){
 
 //------------------- Properties --------------------------------------------------------
 void comment_properties(t_gobj *z, t_glist *gl){
-    gl = NULL;
+//    post("properties");
+    comment_select(z, gl, 0);
     t_comment *x = (t_comment *)z;
-    
-//    int bgcol = ((int)x->x_bg[0] << 16) + ((int)x->x_bg[1] << 8) + (int)x->x_bg[2];
-//    int fgcol = ((int)x->x_red[0] << 16) + ((int)x->x_green << 8) + (int)x->x_blue;
-    
     comment_get_rcv(x);
     char buffer[512];
-    sprintf(buffer, "comment_properties %%s {%s} %d %d %d %d %d {%s} \n",
-//    sprintf(buffer, "comment_properties %%s {%s} %d %d %d %d %d {%s} #%06x #%06x \n",
+    sprintf(buffer, "comment_properties %%s {%s} %d %d %d %d %d {%s} %d %d %d %d %d %d \n",
         x->x_fontname->s_name,
         x->x_fontsize,
         x->x_fontface,
         x->x_textjust,
         x->x_underline,
         x->x_bg_flag,
-        x->x_rcv_raw->s_name
-        // bgcol
-        // fgcol
-        );
+        x->x_rcv_raw->s_name,
+        x->x_bg[0],
+        x->x_bg[1],
+        x->x_bg[2],
+        x->x_red,
+        x->x_green,
+        x->x_blue);
     gfxstub_new(&x->x_obj.ob_pd, x, buffer);
 }
 
@@ -802,18 +845,14 @@ static void comment_ok(t_comment *x, t_symbol *s, int ac, t_atom *av){
     comment_underline(x, atom_getfloatarg(4, ac, av));
     comment_bg_flag(x, atom_getfloatarg(5, ac, av));
     comment_receive(x, atom_getsymbolarg(6, ac, av));
-    // colors
-/*
-    int bgcol = (int)scope_getcolorarg(7, ac, av);
-    int fgcol = (int)scope_getcolorarg(8, ac, av);
-    int bgred = (bgcol & 0xFF0000) >> 16;
-    int bggreen = (bgcol & 0x00FF00) >> 8;
-    int bgblue = (bgcol & 0x0000FF);
-    int fgred = (fgcol & 0xFF0000) >> 16;
-    int fggreen = (fgcol & 0x00FF00) >> 8;
-    int fgblue = (fgcol & 0x0000FF);
-    comment_textcolor(x, fgred, fggreen, fgblue);
-    comment_bgcolor(x, bgred, bggreen, bgblue);*/
+    int bgr = atom_getfloatarg(7, ac, av);
+    int bgg = atom_getfloatarg(8, ac, av);
+    int bgb = atom_getfloatarg(9, ac, av);
+    int fgr = atom_getfloatarg(10, ac, av);
+    int fgg = atom_getfloatarg(11, ac, av);
+    int fgb = atom_getfloatarg(12, ac, av);
+    comment_bgcolor(x, bgr, bgg, bgb, 0);
+    comment_textcolor(x, fgr, fgg, fgb);
 }
 
 //-------------------------------------------------------------------------------------
@@ -841,9 +880,12 @@ static void comment_free(t_comment *x){
     if(x->x_transclock)
         clock_free(x->x_transclock);
     if(x->x_bindsym){
+        post("free: pd_unbind((t_pd *)x, x->x_bindsym);");
         pd_unbind((t_pd *)x, x->x_bindsym);
-        if(!x->x_bbpending)
+        if(!x->x_bbpending){
+            post("!x->x_bbpending: pd_unbind(commentsink)");
             pd_unbind(commentsink, x->x_bindsym);
+        }
     }
     if(x->x_binbuf && !x->x_init)
         binbuf_free(x->x_binbuf);
@@ -861,7 +903,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_glist = canvas_getcurrent();
     x->x_cv = canvas_getcurrent();
     x->x_zoom = x->x_glist->gl_zoom;
-    x->x_encoding = x->x_fontname = 0;
+    x->x_fontname = gensym("dejavu sans mono");
     x->x_edit = x->x_glist->gl_edit;
     x->x_textbuf = 0;
     x->x_rcv_set = x->x_flag = x->x_r_flag = x->x_old = x->x_text_n = x->x_text_size = 0;
@@ -883,8 +925,10 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     sprintf(symbuf, "comment%lx", (unsigned long)x);
     x->x_bindsym = gensym(symbuf);
     pd_bind((t_pd *)x, x->x_bindsym);
-    if(!commentsink)
+    if(!commentsink){
+        post("new: !commentsink");
         commentsink = pd_new(commentsink_class);
+    }
     pd_bind(commentsink, x->x_bindsym);
     x->x_binbuf = binbuf_new();
     t_atom at;
@@ -1098,8 +1142,6 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
         x->x_fontsize = glist_getfont(x->x_glist);
     x->x_fontsize *= x->x_zoom;
     x->x_pixwidth *= x->x_zoom;
-    if(!x->x_fontname)
-        x->x_fontname = gensym("dejavu sans mono");
     x->x_fontface = x->x_fontface < 0 ? 0 : (x->x_fontface > 3 ? 3 : x->x_fontface);
     x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
     x->x_italic = x->x_fontface > 1;
@@ -1136,7 +1178,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment_just, gensym("textjustification"), A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_textcolor, gensym("textcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_bg_flag, gensym("bg"), A_FLOAT, 0);
-    class_addmethod(comment_class, (t_method)comment_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment_set_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_zoom, gensym("zoom"), A_CANT, 0);
     class_addmethod(comment_class, (t_method)comment_ok, gensym("ok"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__bboxhook, gensym("_bbox"), A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
@@ -1157,6 +1199,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     commentsink_class = class_new(gensym("_commentsink"), 0, 0, sizeof(t_pd), CLASS_PD, 0);
     class_addanything(commentsink_class, commentsink_anything);
     class_addmethod(commentsink_class, (t_method)commentsink__bboxhook, gensym("_bbox"), A_SYMBOL, 0);
+    
     sys_gui("proc comment_bbox {target cvname tag} {\n\
             pdsend \"$target _bbox $target [$cvname bbox $tag]\"}\n");
 // LATER think about window vs canvas coords
@@ -1164,72 +1207,28 @@ CYCLONE_OBJ_API void comment_setup(void){
             pdsend \"$target _click $target [$cvname canvasx $x] [$cvname canvasy $y]\
             [$cvname index $tag @$x,$y] [$cvname bbox $tag]\"}\n");
     
-//    set tt1 [comment_entext $enc [string map {\"$\" {\\$} \" \" {\\ }} [eval concat $tt]]]\n\
-   
-// put in here, maybe create a variable like hhhsnd and then use it in here for the text!
-    
-    sys_gui("proc comment_entext {enc tt} {\n\
-            if {$enc == \"\"} {concat $tt} else {\n\
-            set rr [catch {encoding convertfrom $enc $tt} tt1]\n\
-            if {$rr == 0} {concat $tt1} else {\n\
-            puts stderr [concat tcl/tk error: $tt1]\n\
-            concat $tt}}}\n");
-    sys_gui("proc comment_update {cv tag enc tt wd} {\n\
-            set tt1 [comment_entext $enc $tt]\n\
-            if {$wd > 0} {$cv itemconfig $tag -text $tt1 -width $wd} else {\n\
-            $cv itemconfig $tag -text $tt1}}\n");
-    sys_gui("proc comment_draw {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd wt sl just} {\n\
-            set tt1 [comment_entext $enc $tt]\n\
+    sys_gui("proc comment_update {cv tag tt wd} {\n\
+            if {$wd > 0} {$cv itemconfig $tag -text $tt -width $wd} else {\n\
+            $cv itemconfig $tag -text $tt}}\n");
+    sys_gui("proc comment_draw {tgt cv tag1 tag2 x y fnm fsz clr tt wd wt sl just} {\n\
             if {$wd > 0} {\n\
-            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            $cv create text $x $y -text $tt -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl] -justify $just -fill $clr -width $wd -anchor nw} else {\n\
-            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            $cv create text $x $y -text $tt -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl] -justify $just -fill $clr -anchor nw}\n\
             comment_bbox $tgt $cv $tag1\n\
             $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
-// later rethink:
-    
-    
-/*    sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s %s {%.*s} %d %s %s %s\n",
-        x->x_underline ? "comment_draw_ul" : "comment_draw",
-        x->x_bindsym->s_name, // %s
-        (unsigned long)x->x_cv, // .x%lx.c
-        (unsigned long)x, // txt%lx
-        (unsigned long)x, // all%lx
-        text_xpix((t_text *)x, x->x_glist) + x->x_zoom, // %d
-        text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // %d
-        x->x_fontname->s_name, // %s
-        x->x_fontsize, // -%d
-        glist_isselected(x->x_glist, &x->x_glist->gl_gobj) ? "blue" : x->x_color, // %s
-        "\"\"", // %s (encoding)
-        x->x_textbufsize, // %.
-        x->x_textbuf, // *s
-        x->x_pixwidth, // %d
-        x->x_bold ? "bold" : "normal",
-        x->x_italic ? "italic" : "roman", //
-        x->x_textjust == 0 ? "left" : x->x_textjust == 1 ? "center" : "right");*/
-    
-//    sys_vgui(" [string map {\"$\" {\\$} \" \" {\\ }} [eval concat $$tt]] \\\n");
-    
-    sys_gui("proc comment_draw_ul {tgt cv tag1 tag2 x y fnm fsz clr enc tt wd wt sl just} {\n\
-            set tt1 [comment_entext $enc $tt]\n\
+// later rethink how to make both into a single section:
+    sys_gui("proc comment_draw_ul {tgt cv tag1 tag2 x y fnm fsz clr tt wd wt sl just} {\n\
             if {$wd > 0} {\n\
-            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            $cv create text $x $y -text $tt -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl underline] -justify $just -fill $clr -width $wd -anchor nw} else {\n\
-            $cv create text $x $y -text $tt1 -tags [list $tag1 $tag2] \
+            $cv create text $x $y -text $tt -tags [list $tag1 $tag2] \
             -font [list $fnm $fsz $wt $sl underline] -justify $just -fill $clr -anchor nw}\n\
             comment_bbox $tgt $cv $tag1\n\
             $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
 
-    //    #include "comment_dialog.c"
-    
-/*    x->x_fontname->s_name,
-    x->x_fontsize,
-    x->x_fontface,
-    x->x_textjust,
-    x->x_underline,
-    x->x_bg_flag,
-    x->x_rcv_raw->s_name*/
+// properties
     
     sys_vgui("if {[catch {pd}]} {\n");
     sys_vgui("    proc pd {args} {pdsend [join $args \" \"]}\n");
@@ -1243,6 +1242,12 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set var_underline [concat var_underline_$vid]\n");
     sys_vgui("    set var_bg_flag [concat var_bg_flag_$vid]\n");
     sys_vgui("    set var_rcv [concat var_rcv_$vid]\n");
+    sys_vgui("    set var_bgr [concat var_bgr_$vid]\n");
+    sys_vgui("    set var_bgg [concat var_bgg_$vid]\n");
+    sys_vgui("    set var_bgb [concat var_bgb_$vid]\n");
+    sys_vgui("    set var_fgr [concat var_fgr_$vid]\n");
+    sys_vgui("    set var_fgg [concat var_fgg_$vid]\n");
+    sys_vgui("    set var_fgb [concat var_fgb_$vid]\n");
     sys_vgui("\n");
     sys_vgui("    global $var_name\n");
     sys_vgui("    global $var_size\n");
@@ -1251,6 +1256,12 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    global $var_underline\n");
     sys_vgui("    global $var_bg_flag\n");
     sys_vgui("    global $var_rcv\n");
+    sys_vgui("    global $var_bgr\n");
+    sys_vgui("    global $var_bgg\n");
+    sys_vgui("    global $var_bgb\n");
+    sys_vgui("    global $var_fgr\n");
+    sys_vgui("    global $var_fgg\n");
+    sys_vgui("    global $var_fgb\n");
     sys_vgui("\n");
     sys_vgui("    set cmd [concat $id ok \\\n");
     sys_vgui("        [string map {\" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_name]] \\\n");
@@ -1259,7 +1270,13 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("        [eval concat $$var_just] \\\n");
     sys_vgui("        [eval concat $$var_underline] \\\n");
     sys_vgui("        [eval concat $$var_bg_flag] \\\n");
-    sys_vgui("        [string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_rcv]] \\;]\n");
+    sys_vgui("        [string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_rcv]] \\\n");
+    sys_vgui("        [eval concat $$var_bgr] \\\n");
+    sys_vgui("        [eval concat $$var_bgg] \\\n");
+    sys_vgui("        [eval concat $$var_bgb] \\\n");
+    sys_vgui("        [eval concat $$var_fgr] \\\n");
+    sys_vgui("        [eval concat $$var_fgg] \\\n");
+    sys_vgui("        [eval concat $$var_fgb] \\;]\n");
     sys_vgui("    pd $cmd\n");
     sys_vgui("    comment_cancel $id\n");
     sys_vgui("}\n");
@@ -1267,7 +1284,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set cmd [concat $id cancel \\;]\n");
     sys_vgui("    pd $cmd\n");
     sys_vgui("}\n");
-    sys_vgui("proc comment_properties {id name size face just underline bg_flag rcv} {\n");
+    sys_vgui("proc comment_properties {id name size face just underline bg_flag rcv bgr bgg bgb fgr fgg fgb} {\n");
     sys_vgui("    set vid [string trimleft $id .]\n");
     sys_vgui("    set var_name [concat var_name_$vid]\n");
     sys_vgui("    set var_size [concat var_size_$vid]\n");
@@ -1276,6 +1293,12 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set var_underline [concat var_underline_$vid]\n");
     sys_vgui("    set var_bg_flag [concat var_bg_flag_$vid]\n");
     sys_vgui("    set var_rcv [concat var_rcv_$vid]\n");
+    sys_vgui("    set var_bgr [concat var_bgr_$vid]\n");
+    sys_vgui("    set var_bgg [concat var_bgg_$vid]\n");
+    sys_vgui("    set var_bgb [concat var_bgb_$vid]\n");
+    sys_vgui("    set var_fgr [concat var_fgr_$vid]\n");
+    sys_vgui("    set var_fgg [concat var_fgg_$vid]\n");
+    sys_vgui("    set var_fgb [concat var_fgb_$vid]\n");
     sys_vgui("\n");
     sys_vgui("    global $var_name\n");
     sys_vgui("    global $var_size\n");
@@ -1284,6 +1307,12 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    global $var_underline\n");
     sys_vgui("    global $var_bg_flag\n");
     sys_vgui("    global $var_rcv\n");
+    sys_vgui("    global $var_bgr\n");
+    sys_vgui("    global $var_bgg\n");
+    sys_vgui("    global $var_bgb\n");
+    sys_vgui("    global $var_fgr\n");
+    sys_vgui("    global $var_fgg\n");
+    sys_vgui("    global $var_fgb\n");
     sys_vgui("\n");
     sys_vgui("    set $var_name [string map {{\\ } \" \"} $name]\n"); // remove escape from space
     sys_vgui("    set $var_size $size\n");
@@ -1292,18 +1321,24 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set $var_underline $underline\n");
     sys_vgui("    set $var_bg_flag $bg_flag\n");
     sys_vgui("    set $var_rcv [string map {{\\ } \" \"} $rcv]\n"); // remove escape from space
+    sys_vgui("    set $var_bgr $bgr\n");
+    sys_vgui("    set $var_bgg $bgg\n");
+    sys_vgui("    set $var_bgb $bgb\n");
+    sys_vgui("    set $var_fgr $fgr\n");
+    sys_vgui("    set $var_fgg $fgg\n");
+    sys_vgui("    set $var_fgb $fgb\n");
     sys_vgui("\n");
     sys_vgui("    toplevel $id\n");
     sys_vgui("    wm title $id {[comment] Properties}\n");
     sys_vgui("    wm protocol $id WM_DELETE_WINDOW [concat comment_cancel $id]\n");
     sys_vgui("\n");
-    sys_vgui("    frame $id.comment\n");
-    sys_vgui("    pack $id.comment -side top\n");
-    sys_vgui("    label $id.comment.lname -text \"Font Name:\"\n");
-    sys_vgui("    entry $id.comment.name -textvariable $var_name -width 30\n");
-    sys_vgui("    label $id.comment.lsize -text \"Font Size:\"\n");
-    sys_vgui("    entry $id.comment.size -textvariable $var_size -width 3\n");
-    sys_vgui("    pack $id.comment.lname $id.comment.name $id.comment.lsize $id.comment.size -side left\n");
+    sys_vgui("    frame $id.name_size\n");
+    sys_vgui("    pack $id.name_size -side top\n");
+    sys_vgui("    label $id.name_size.lname -text \"Font Name:\"\n");
+    sys_vgui("    entry $id.name_size.name -textvariable $var_name -width 30\n");
+    sys_vgui("    label $id.name_size.lsize -text \"Font Size:\"\n");
+    sys_vgui("    entry $id.name_size.size -textvariable $var_size -width 3\n");
+    sys_vgui("    pack $id.name_size.lname $id.name_size.name $id.name_size.lsize $id.name_size.size -side left\n");
     sys_vgui("\n");
     sys_vgui("    frame $id.face_just\n");
     sys_vgui("    pack $id.face_just -side top\n");
@@ -1327,6 +1362,48 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    entry $id.rcv_sym.rcv -textvariable $var_rcv -width 12\n");
     sys_vgui("    pack $id.rcv_sym.lrcv $id.rcv_sym.rcv -side left\n");
     sys_vgui("\n");
+// colors
+    
+    
+/*
+//    sys_gui("labelframe id.bg -borderwidth 1 -text [_ \"Background Color:\"] -padx 5 -pady 5\n");
+    
+    //delay & drawstyle
+    sys_gui("labelframe $mytoplevel.misc -borderwidth 1 -pady 8 -text [_ \"Background Color::\"]\n");
+    sys_gui("pack $mytoplevel.misc -side top -pady 5 -fill x\n");
+    sys_gui("frame $mytoplevel.misc.fr\n");
+    sys_gui("label $mytoplevel.misc.fr.del_lab -text [_ $del_label]\n");
+    sys_gui("entry $mytoplevel.misc.fr.del_ent -textvariable $var_scope_del -width 7\n");
+    sys_gui("label $mytoplevel.misc.fr.dummy1 -text \"\" -width 4\n");
+    sys_gui("label $mytoplevel.misc.fr.draw_style_lab -text [_ $draw_style_label]\n");
+    sys_gui("checkbutton $mytoplevel.misc.fr.draw_style_chk -variable $var_scope_draw_style \\\n");
+    sys_gui("-command \"::dialog_scope::apply_and_rebind_return $mytoplevel\" \n");
+    sys_gui("pack $mytoplevel.misc.fr -side left -expand 1\n");
+    sys_gui("pack $mytoplevel.misc.fr.del_lab $mytoplevel.misc.fr.del_ent \\\n");
+    sys_gui("$mytoplevel.misc.fr.dummy1 $mytoplevel.misc.fr.draw_style_lab $mytoplevel.misc.fr.draw_style_chk -side left\n");
+    */
+    
+    sys_vgui("    frame $id.bg\n");
+    sys_vgui("    pack $id.bg -side top\n");
+    sys_vgui("    label $id.bg.lbgr -text \"BG Color: R\"\n");
+    sys_vgui("    entry $id.bg.bgr -textvariable $var_bgr -width 3\n");
+    sys_vgui("    label $id.bg.lbgg -text \"G\"\n");
+    sys_vgui("    entry $id.bg.bgg -textvariable $var_bgg -width 3\n");
+    sys_vgui("    label $id.bg.lbgb -text \"B\"\n");
+    sys_vgui("    entry $id.bg.bgb -textvariable $var_bgb -width 3\n");
+    sys_vgui("    pack $id.bg.lbgr $id.bg.bgr $id.bg.lbgg $id.bg.bgg $id.bg.lbgb $id.bg.bgb -side left\n");
+    sys_vgui("\n");
+
+    sys_vgui("    frame $id.fg\n");
+    sys_vgui("    pack $id.fg -side top\n");
+    sys_vgui("    label $id.fg.lfgr -text \"Font Color: R\"\n");
+    sys_vgui("    entry $id.fg.fgr -textvariable $var_fgr -width 3\n");
+    sys_vgui("    label $id.fg.lfgg -text \"G\"\n");
+    sys_vgui("    entry $id.fg.fgg -textvariable $var_fgg -width 3\n");
+    sys_vgui("    label $id.fg.lfgb -text \"B\"\n");
+    sys_vgui("    entry $id.fg.fgb -textvariable $var_fgb -width 3\n");
+    sys_vgui("    pack $id.fg.lfgr $id.fg.fgr $id.fg.lfgg $id.fg.fgg $id.fg.lfgb $id.fg.fgb -side left\n");
+    sys_vgui("\n");
     sys_vgui("    frame $id.buttonframe\n");
     sys_vgui("    pack $id.buttonframe -side bottom -fill x -pady 2m\n");
     sys_vgui("    button $id.buttonframe.cancel -text {Cancel} -command \"comment_cancel $id\"\n");
@@ -1334,4 +1411,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    pack $id.buttonframe.cancel -side left -expand 1\n");
     sys_vgui("    pack $id.buttonframe.ok -side left -expand 1\n");
     sys_vgui("}\n");
+    
+    //    #include "comment_dialog.c"
+    
 }
