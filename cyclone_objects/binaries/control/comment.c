@@ -773,8 +773,8 @@ void comment_properties(t_gobj *z, t_glist *gl){
     gl = NULL;
     t_comment *x = (t_comment *)z;
     
-    int bgcol = ((int)x->x_bg[0] << 16) + ((int)x->x_bg[1] << 8) + (int)x->x_bg[2];
-    int fgcol = ((int)x->x_red[0] << 16) + ((int)x->x_green << 8) + (int)x->x_blue;
+//    int bgcol = ((int)x->x_bg[0] << 16) + ((int)x->x_bg[1] << 8) + (int)x->x_bg[2];
+//    int fgcol = ((int)x->x_red[0] << 16) + ((int)x->x_green << 8) + (int)x->x_blue;
     
     comment_get_rcv(x);
     char buffer[512];
