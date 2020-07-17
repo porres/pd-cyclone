@@ -504,7 +504,7 @@ static void comment_save(t_gobj *z, t_binbuf *b){
 
 static void comment_key(t_comment *x){
     if(!x->x_active){
-        post("key bug");
+//        post("key bug");
         return;
     }
     if(x->x_keysym == gensym("Right")){
@@ -558,15 +558,23 @@ static void comment_key(t_comment *x){
 //        post("comment_float => input character = [%c], n = %d", n, n);
         if(n == '\r') // if "return", then "new line"
             n = '\n';
-        if(n == '\b'){ // backspace
+        if((!x->x_selstart) && (x->x_selend == x->x_textbufsize)){ // clear
+            x->x_textbufsize = x->x_selend = x->x_selstart = 0;
+            x->x_glist->gl_editor->e_textdirty = 1;
+            binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
+            if(n == '\b' || n == 127){
+                canvas_dirty(x->x_glist, 1);
+                comment_update(x);
+                return;
+            }
+        }
+        else if(n == '\b'){ // backspace
             if(x->x_selstart > 0 && (x->x_selstart == x->x_selend)){ // delete previous
                 for(i = x->x_selstart; i < x->x_textbufsize; i++)
                     x->x_textbuf[i-1] = x->x_textbuf[i];
                 x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, x->x_textbufsize - 1);
                 x->x_textbufsize--, x->x_selstart--;
             }
-            else if((!x->x_selstart) && (x->x_selend == x->x_textbufsize))
-                goto clear;
             else
                 return;
         }
@@ -577,12 +585,10 @@ static void comment_key(t_comment *x){
                 x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, x->x_textbufsize - 1);
                 x->x_textbufsize--;
             }
-            else if((!x->x_selstart) && (x->x_selend == x->x_textbufsize))
-                goto clear;
             else
                 return;
         }
-        else if(n == '\n' || (n > 31 && n < 127)){ // accepted character
+        if(n == '\n' || (n > 31 && n < 127)){ // accepted character
             x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, x->x_textbufsize+1);
             for(i = x->x_textbufsize; i > x->x_selstart; i--)
                 x->x_textbuf[i] = x->x_textbuf[i-1];
@@ -592,14 +598,14 @@ static void comment_key(t_comment *x){
         else if(n > 127){ // check for unicode codepoints beyond 7-bit ASCII
 //            post("non ASCII - x->x_keysym = %s", x->x_keysym->s_name);
             int ch_nbytes = u8_wc_nbytes(n);
-                int newsize = x->x_textbufsize + ch_nbytes;
-                x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
-                for(i = newsize-1; i > x->x_selstart; i--)
-                    x->x_textbuf[i] = x->x_textbuf[i-ch_nbytes];
-                x->x_textbufsize = newsize;
-                // assume canvas_key() has encoded keysym as UTF-8
-                strncpy(x->x_textbuf+x->x_selstart, x->x_keysym->s_name, ch_nbytes);
-                x->x_selstart = x->x_selstart + ch_nbytes;
+            int newsize = x->x_textbufsize + ch_nbytes;
+            x->x_textbuf = resizebytes(x->x_textbuf, x->x_textbufsize, newsize);
+            for(i = newsize-1; i > x->x_selstart; i--)
+                x->x_textbuf[i] = x->x_textbuf[i-ch_nbytes];
+            x->x_textbufsize = newsize;
+// assume canvas_key() has encoded keysym as UTF-8
+            strncpy(x->x_textbuf+x->x_selstart, x->x_keysym->s_name, ch_nbytes);
+            x->x_selstart = x->x_selstart + ch_nbytes;
         }
         else if(n != '\b' && n != 127){
 //            post("bug: rejected: [%c] / n = %d", n, n);
@@ -611,13 +617,6 @@ static void comment_key(t_comment *x){
         binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
         comment_update(x);
     }
-    return;
-    clear:
-        x->x_textbufsize = x->x_selend = x->x_selstart = 0;
-        x->x_glist->gl_editor->e_textdirty = 1;
-        binbuf_text(x->x_binbuf, x->x_textbuf, x->x_textbufsize);
-        comment_update(x);
-        canvas_dirty(x->x_glist, 1);
 }
 
 static void comment_float(t_comment *x, t_float f){
