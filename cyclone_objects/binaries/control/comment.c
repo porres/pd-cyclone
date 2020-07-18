@@ -17,7 +17,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#define COMMENT_HANDLEWIDTH 24
+#define COMMENT_HANDLEWIDTH 16
 #define COMMENT_OUTBUFSIZE  16384
 
 static t_class *comment_class, *commentsink_class, *edit_proxy_class;
@@ -61,6 +61,7 @@ typedef struct _comment{
     char            x_bgcolor[8];
     int             x_selstart;
     int             x_start_ndx;
+    int             x_end_ndx;
     int             x_selend;
     int             x_active;
     int             x_init;
@@ -224,17 +225,16 @@ static void comment__bboxhook(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_
 }
 
 static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
-//    post("comment__clickhook ndx = %d", (int)av[3].a_w.w_float);
+//    post("comment__clickhook");
     t_symbol *dummy = s;
     dummy = NULL;
-    int xx, yy, ndx;
+    int xx, ndx;
     if(ac == 8 && av->a_type == A_SYMBOL
        && av[1].a_type == A_FLOAT && av[2].a_type == A_FLOAT
        && av[3].a_type == A_FLOAT
        && av[4].a_type == A_FLOAT && av[5].a_type == A_FLOAT
        && av[6].a_type == A_FLOAT && av[7].a_type == A_FLOAT){
             xx = (int)av[1].a_w.w_float;
-            yy = (int)av[2].a_w.w_float;
             ndx = (int)av[3].a_w.w_float;
 //            post("xx = %d / yy = %d / ndx = %d", xx, yy, ndx);
             comment__bboxhook(x, av->a_w.w_symbol,
@@ -245,26 +245,31 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
         post("bug [comment]: comment__clickhook");
         return;
     }
+    char buf[COMMENT_OUTBUFSIZE], *outp = buf;
+    unsigned long cv = (unsigned long)x->x_cv;
     if(x->x_glist->gl_edit){
         if(x->x_active){
-//            post("comment__clickhook && x->x_active if(x->x_active)");
-            if(ndx >= 0 && ndx < x->x_bufsize){ // bug "<="
-//                post("ndx = %d", ndx);
-                // set selection, LATER shift-click and drag
-                x->x_start_ndx = ndx;
+            if(ndx >= 0 && ndx <= x->x_bufsize){
+                post("ndx = %d", ndx);
+                x->x_start_ndx = x->x_end_ndx = ndx;
                 int byte_ndx = 0;
                 for(int i = 0; i < ndx; i++)
                     u8_inc(x->x_buf, &byte_ndx);
                 x->x_selstart = x->x_selend = byte_ndx;
-//                post("comment__clickhook x->x_selstart = x->x_selend = ndx = %d", ndx);
                 comment_dograb(x);
                 comment_update(x);
+// set selection, LATER shift-click and drag
+/*                sprintf(outp, ".x%lx.c bind txt%lx <ButtonRelease> {pdsend {%s _release %s}}\n",
+                    cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
+                outp += strlen(outp);
+                sprintf(outp, ".x%lx.c bind txt%lx <Motion> {pdsend {%s _drag %s %%x %%y}}\n",
+                    cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
+                outp += strlen(outp);
+                sys_gui(buf);
+//                x->x_dragon = 1;*/
             }
         }
         else if(xx > x->x_x2 - COMMENT_HANDLEWIDTH){ // start resizing
-//            post("comment__clickhook else if xx > x->x_x2 - COMMENT_HANDLEWIDTH) => start resizing (-outline blue)");
-            char buf[COMMENT_OUTBUFSIZE], *outp = buf;
-            unsigned long cv = (unsigned long)x->x_cv;
             sprintf(outp, ".x%lx.c bind txt%lx <ButtonRelease> {pdsend {%s _release %s}}\n",
                 cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
             outp += strlen(outp);
@@ -289,6 +294,12 @@ static void comment__releasehook(t_comment *x, t_symbol *bindsym){
         x->x_max_pixwidth = x->x_newx2 - x->x_x1;
         comment_redraw(x, x->x_bg_flag);
     }
+}
+
+static void comment__drag(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
+    bindsym = NULL;
+    post("comment_drag xx = %d", (int)xx);
+    yy = 0;
 }
 
 static void comment__motionhook(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
@@ -363,7 +374,7 @@ static void comment_activate(t_gobj *z, t_glist *glist, int state){
         if(x->x_active)
             return;
         sys_vgui(".x%lx.c focus txt%lx\n", x->x_cv, (unsigned long)x);
-        x->x_selstart = x->x_start_ndx = 0;
+        x->x_selstart = x->x_start_ndx = x->x_start_ndx = 0;
         x->x_selend = x->x_bufsize;
         x->x_active = 1;
         pd_bind((t_pd *)x, gensym("#key"));
@@ -527,7 +538,7 @@ static void comment_key(t_comment *x){
             // if ((!x->x_selstart) && (x->x_selend == x->x_bufsize)){}
             if(x->x_selstart && (x->x_selstart == x->x_selend)){
                 u8_dec(x->x_buf, &x->x_selstart);
-                x->x_start_ndx--;
+                x->x_start_ndx--, x->x_end_ndx--;
             }
         }
         else if(n == 127){    // delete
@@ -542,14 +553,14 @@ static void comment_key(t_comment *x){
         x->x_buf = resizebytes(x->x_buf, x->x_bufsize, newsize);
         x->x_bufsize = newsize;
 
-        if(n == '\n' || (n > 31 && n < 127)){
+        if(n == '\n' || (n > 31 && n < 127)){ // accepted ascii characters
             newsize = x->x_bufsize+1;
             x->x_buf = resizebytes(x->x_buf, x->x_bufsize, newsize);
             for (i = x->x_bufsize; i > x->x_selstart; i--)
                 x->x_buf[i] = x->x_buf[i-1];
             x->x_buf[x->x_selstart] = n;
             x->x_bufsize = newsize;
-            x->x_selstart++, x->x_start_ndx++;
+            x->x_selstart++, x->x_start_ndx++, x->x_end_ndx++;
         }
         else if(n > 127){ // check for unicode codepoints beyond 7-bit ASCII
             int ch_nbytes = u8_wc_nbytes(n);
@@ -561,22 +572,22 @@ static void comment_key(t_comment *x){
             // assume canvas_key() has encoded keysym as UTF-8
             strncpy(x->x_buf+x->x_selstart, x->x_keysym->s_name, ch_nbytes);
             x->x_selstart = x->x_selstart + ch_nbytes;
-            x->x_start_ndx++;
+            x->x_start_ndx++, x->x_end_ndx++;
         }
         x->x_selend = x->x_selstart;
         x->x_glist->gl_editor->e_textdirty = 1;
     }
     else if(x->x_keysym == gensym("Home")){
         if(x->x_selend == x->x_selstart)
-            x->x_selend = x->x_selstart = x->x_start_ndx = 0;
+            x->x_selend = x->x_selstart = x->x_start_ndx = x->x_end_ndx = 0;
         else // selection
-            x->x_selstart = x->x_start_ndx = 0;
+            x->x_selstart = x->x_start_ndx = x->x_end_ndx = 0;
     }
     else if(x->x_keysym == gensym("End")){
         if(x->x_selend == x->x_selstart){
             while(x->x_selstart < x->x_bufsize){
                 u8_inc(x->x_buf, &x->x_selstart);
-                x->x_start_ndx++;
+                x->x_start_ndx++, x->x_end_ndx++;
             }
             x->x_selend = x->x_selstart = x->x_bufsize;
         }
@@ -586,29 +597,29 @@ static void comment_key(t_comment *x){
     else if(x->x_keysym == gensym("Up")){ // go to start and deselect
         if(x->x_selstart){
             u8_dec(x->x_buf, &x->x_selstart);
-            x->x_start_ndx--;
+            x->x_start_ndx--, x->x_end_ndx--;
         }
         while(x->x_selstart > 0 && x->x_buf[x->x_selstart] != '\n'){
             u8_dec(x->x_buf, &x->x_selstart);
-            x->x_start_ndx--;
+            x->x_start_ndx--, x->x_end_ndx--;
         }
         x->x_selend = x->x_selstart;
     }
     else if(x->x_keysym == gensym("Down")){ // go to end and deselect
         while(x->x_selend < x->x_bufsize && x->x_buf[x->x_selend] != '\n'){
             u8_inc(x->x_buf, &x->x_selend);
-            x->x_start_ndx++;
+            x->x_start_ndx++, x->x_end_ndx++;
         }
         if(x->x_selend < x->x_bufsize){
             u8_inc(x->x_buf, &x->x_selend);
-            x->x_start_ndx++;
+            x->x_start_ndx++, x->x_end_ndx++;
         }
         x->x_selstart = x->x_selend;
     }
     else if(x->x_keysym == gensym("Right")){
         if(x->x_selend == x->x_selstart && x->x_selstart < x->x_bufsize){
             u8_inc(x->x_buf, &x->x_selstart);
-            x->x_start_ndx++;
+            x->x_start_ndx++, x->x_end_ndx++;
             x->x_selend = x->x_selstart;
         }
         else{
@@ -616,14 +627,14 @@ static void comment_key(t_comment *x){
 //            post("else: x->x_selstart = x->x_selend = %d", x->x_selstart);
             while(x->x_selstart < x->x_selend){
                 u8_inc(x->x_buf, &x->x_selstart);
-                x->x_start_ndx++;
+                x->x_start_ndx++, x->x_end_ndx++;
             }
         }
     }
     else if(x->x_keysym == gensym("Left")){
         if(x->x_selend == x->x_selstart && x->x_selstart > 0){
             u8_dec(x->x_buf, &x->x_selstart);
-            x->x_start_ndx--;
+            x->x_start_ndx--, x->x_end_ndx--;
             x->x_selend = x->x_selstart;
         }
         else
@@ -1257,6 +1268,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment__clickhook, gensym("_click"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__releasehook, gensym("_release"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment__motionhook, gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment__drag, gensym("_drag"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
     comment_widgetbehavior.w_getrectfn  = comment_getrect;
     comment_widgetbehavior.w_displacefn = comment_displace;
