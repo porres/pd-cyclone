@@ -1,4 +1,4 @@
-#N canvas 460 84 558 492 10;
+#N canvas 549 66 558 492 10;
 #X obj 2 261 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 373 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -58,7 +58,7 @@ once;
 #X text 87 91 [onebang] allows a bang in the left inlet to pass through
 the left outlet once ONLY if a bang has been previously received in
 the right inlet. The bang goes to the right outlet otherwise.;
-#N canvas 261 197 585 352 examples 0;
+#N canvas 699 170 585 352 examples 0;
 #X obj 315 122 notein 1, f 9;
 #X obj 315 153 stripnote;
 #X obj 315 185 select 60;
@@ -67,8 +67,6 @@ the right inlet. The bang goes to the right outlet otherwise.;
 #X obj 315 217 cyclone/onebang 1;
 #X obj 315 253 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
-#X obj 436 181 cyclone/comment 165 11 helvetica empty 0 80 80 80 0
-255 255 255 0 0 comment;
 #X obj 66 125 notein 1, f 9;
 #X obj 66 152 stripnote;
 #X obj 66 197 cyclone/onebang 1;
@@ -76,28 +74,29 @@ the right inlet. The bang goes to the right outlet otherwise.;
 -1 -1;
 #X obj 66 236 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
-#X obj 187 164 cyclone/comment 165 11 helvetica empty 0 80 80 80 0
-255 255 255 0 0 comment;
 #X obj 165 236 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
 #X obj 414 253 bng 22 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
 -1;
 #X text 308 58 Detect the first time that middle C is played \, but
 ignore subsequent occurrences until reset occurs., f 35;
-#X text 55 78 Detect (only) the first note played, f 17;
+#X text 188 170 reset;
+#X text 436 187 reset;
+#X text 66 66 Detect (only) the first note played until reset occurs.
+, f 19;
 #X connect 0 0 1 0;
 #X connect 0 1 1 1;
 #X connect 1 0 2 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 1;
 #X connect 4 0 5 0;
-#X connect 4 1 14 0;
+#X connect 4 1 12 0;
+#X connect 6 0 7 0;
+#X connect 6 1 7 1;
 #X connect 7 0 8 0;
-#X connect 7 1 8 1;
-#X connect 8 0 9 0;
-#X connect 9 0 11 0;
-#X connect 9 1 13 0;
-#X connect 10 0 9 1;
+#X connect 8 0 10 0;
+#X connect 8 1 11 0;
+#X connect 9 0 8 1;
 #X restore 466 230 pd examples;
 #X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
 0 255 255 255 0 0 Gate a bang with a bang;
