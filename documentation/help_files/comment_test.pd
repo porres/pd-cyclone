@@ -1,0 +1,16 @@
+#N canvas 427 34 1253 873 12;
+#X msg 96 131 bgcolor 240 100 0;
+#X msg 84 105 bgcolor 140 240 0;
+#X obj 85 203 ./comment 482 30 helvetica empty 0 0 0 0 0 140 240 0
+1 1 comment is being updated;
+#X text 239 110 comment from vanilla, f 23;
+#X text 130 57 outline doesn't resize to new height;
+#X msg 249 156 bg \$1;
+#X obj 249 133 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 176 340 85 204 439 238;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 5 0 2 0;
+#X connect 6 0 5 0;
+#X coords 0 873 1 872 238 60 0;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2002-2005 krzYszcz and others.
+ /* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -59,6 +59,7 @@ typedef struct _comment{
     unsigned char   x_blue;
     char            x_color[8];
     char            x_bgcolor[8];
+    int             x_shift;
     int             x_selstart;
     int             x_start_ndx;
     int             x_end_ndx;
@@ -209,7 +210,7 @@ static void comment_dograb(t_comment *x){
 }
 
 static void comment__bboxhook(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
-//    post("comment__bboxhook %g %g %g %g", x1, y1, x2, y2);
+    post("comment__bboxhook %g %g %g %g", x1, y1, x2, y2);
     bindsym = NULL;
     if(x->x_x1 != x1 || x->x_y1 != y1 || x->x_x2 != x2 || x->x_y2 != y2){
 //        post("arg dif");
@@ -250,7 +251,7 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
     if(x->x_glist->gl_edit){
         if(x->x_active){
             if(ndx >= 0 && ndx <= x->x_bufsize){
-                post("ndx = %d", ndx);
+//                post("ndx = %d", ndx);
                 x->x_start_ndx = x->x_end_ndx = ndx;
                 int byte_ndx = 0;
                 for(int i = 0; i < ndx; i++)
@@ -259,14 +260,6 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
                 comment_dograb(x);
                 comment_update(x);
 // set selection, LATER shift-click and drag
-/*                sprintf(outp, ".x%lx.c bind txt%lx <ButtonRelease> {pdsend {%s _release %s}}\n",
-                    cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
-                outp += strlen(outp);
-                sprintf(outp, ".x%lx.c bind txt%lx <Motion> {pdsend {%s _drag %s %%x %%y}}\n",
-                    cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
-                outp += strlen(outp);
-                sys_gui(buf);
-//                x->x_dragon = 1;*/
             }
         }
         else if(xx > x->x_x2 - COMMENT_HANDLEWIDTH){ // start resizing
@@ -294,12 +287,6 @@ static void comment__releasehook(t_comment *x, t_symbol *bindsym){
         x->x_max_pixwidth = x->x_newx2 - x->x_x1;
         comment_redraw(x, x->x_bg_flag);
     }
-}
-
-static void comment__drag(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
-    bindsym = NULL;
-    post("comment_drag xx = %d", (int)xx);
-    yy = 0;
 }
 
 static void comment__motionhook(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
@@ -660,14 +647,23 @@ static void comment_key(t_comment *x){
 
 static void comment_float(t_comment *x, t_float f){
     x->x_keynum = (int)f;
+//    post("x->x_keynum = %d", x->x_keynum);
 }
 
 static void comment_list(t_comment *x, t_symbol *s, int ac, t_atom *av){
     t_symbol *dummy = s;
     dummy = NULL;
-    if(ac > 1 && av->a_type == A_FLOAT && (int)av->a_w.w_float && av[1].a_type == A_SYMBOL){
-        x->x_keysym = av[1].a_w.w_symbol;
-        comment_key(x);
+    if(ac > 1 && av->a_type == A_FLOAT && av[1].a_type == A_SYMBOL){
+        int press = (int)av->a_w.w_float;
+//        post("press = %d, symbol = %s", press, av[1].a_w.w_symbol->s_name);
+        if(av[1].a_w.w_symbol == gensym("Shift_L")){
+            x->x_shift = press;
+//            post("shift = %d", press);
+        }
+        if(press){
+            x->x_keysym = av[1].a_w.w_symbol;
+            comment_key(x);
+        }
     }
 }
 
@@ -995,7 +991,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_bg_flag = 0;
     x->x_bg[0] = x->x_bg[1] = x->x_bg[2] = 255;
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-    x->x_bbset = x->x_init = x->x_selected = x->x_dragon = 0;
+    x->x_bbset = x->x_init = x->x_selected = x->x_dragon = x->x_shift = 0;
     t_symbol *rcv = x->x_receive = x->x_rcv_raw = &s_;
     char buf[MAXPDSTRING];
     snprintf(buf, MAXPDSTRING-1, ".x%lx", (unsigned long)x->x_cv);
@@ -1268,7 +1264,6 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment__clickhook, gensym("_click"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__releasehook, gensym("_release"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment__motionhook, gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(comment_class, (t_method)comment__drag, gensym("_drag"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
     comment_widgetbehavior.w_getrectfn  = comment_getrect;
     comment_widgetbehavior.w_displacefn = comment_displace;
