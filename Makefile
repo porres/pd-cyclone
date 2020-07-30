@@ -160,9 +160,6 @@ scale~.class.sources := cyclone_objects/binaries/audio/scale.c
 thresh~.class.sources := cyclone_objects/binaries/audio/thresh.c
 trunc~.class.sources := cyclone_objects/binaries/audio/trunc.c
 
-# GUI:
-comment.class.sources := cyclone_objects/binaries/control/comment.c
-
 ##################### CLASSES WITH DEPENDENCIES ##################################
 
 # Control classes: ###############################################
@@ -224,10 +221,14 @@ shared/common/file.c \
 shared/common/grow.c
 seq.class.sources := cyclone_objects/binaries/control/seq.c $(hseq)
 
-# New Dependency:
+# New Dependencies:
 
 hmagicbit := shared/common/magicbit.c
     grab.class.sources := cyclone_objects/binaries/control/grab.c $(hmagicbit)
+    
+# GUI:
+hutf := shared/control/s_utf8.c
+	comment.class.sources := cyclone_objects/binaries/control/comment.c $(hutf)
 
 # Signal: #################################################################
 
