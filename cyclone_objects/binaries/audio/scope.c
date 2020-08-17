@@ -889,7 +889,7 @@ static void scope_properties(t_gobj *z, t_glist *owner){
     int grcol = ((int)x->x_gg[0] << 16) + ((int)x->x_gg[1] << 8) + (int)x->x_gg[2];
     int fgcol = ((int)x->x_fg[0] << 16) + ((int)x->x_fg[1] << 8) + (int)x->x_fg[2];
     char buf[1000];
-    sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
+/*    sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
         dim %d width: %d height: \
         buf %d cal: %d bufsize: \
         range %g min: %g max: \
@@ -908,13 +908,13 @@ static void scope_properties(t_gobj *z, t_glist *owner){
         SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
         SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
         SCOPE_MINDELAY,
-        bgcol, grcol, fgcol);
-/*    sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
+        bgcol, grcol, fgcol);*/
+    sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
         dim %d width: %d height: \
         buf %d cal: %d bfs: \
         rng %g min: %g max: \
         del %d del: drs %d drs: \
-        trg %d tmd: %g tlv: \
+        %s rcv: trg %d tmd: %g tlv: \
         dim_mins %d %d \
         cal_min_max %d %d bfs_min_max %d %d \
         del_mins %d \
@@ -923,13 +923,13 @@ static void scope_properties(t_gobj *z, t_glist *owner){
         x->x_period, x->x_bufsize,
         x->x_min, x->x_max,
         x->x_delay, x->x_drawstyle,
-        x->x_rcv_raw,
+        x->x_rcv_raw->s_name, 
         x->x_trigmode, x->x_triglevel,
         SCOPE_MINSIZE, SCOPE_MINSIZE,
         SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
         SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
         SCOPE_MINDELAY,
-        bgcol, grcol, fgcol);*/
+        bgcol, grcol, fgcol);
     gfxstub_new(&x->x_obj.ob_pd, x, buf);
 }
 
@@ -966,13 +966,13 @@ static void scope_dialog(t_scope *x, t_symbol *s, int ac, t_atom *av){
     int fgred = (fgcol & 0xFF0000) >> 16;
     int fggreen = (fgcol & 0x00FF00) >> 8;
     int fgblue = (fgcol & 0x0000FF);
-//    t_symbol *rcv (atom_getsymbolarg(13, ac, av);
+    t_symbol *rcv = atom_getsymbolarg(13, ac, av);
     scope_period(x, period);
     scope_bufsize(x, bufsize);
     scope_range(x, minval, maxval);
     scope_delay(x, delay);
     scope_drawstyle(x, drawstyle);
-//    scope_receive(x, rcv);
+    scope_receive(x, rcv);
     scope_trigger(x, trigmode);
     scope_triglevel(x, triglevel);
     scope_brgb(x, bgred, bggreen, bgblue);
@@ -1285,6 +1285,8 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     x->x_receive = canvas_realizedollar(x->x_glist, x->x_rcv_raw = rcv);
     if(x->x_receive != &s_)
         pd_bind(&x->x_obj.ob_pd, x->x_receive);
+    else
+    	x->x_rcv_raw = gensym("empty");
     x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     x->x_width = (int)width * x->x_zoom, x->x_height = (int)height * x->x_zoom;
     x->x_period = period < 2 ? 2 : period > 8192 ? 8192 : (int)period;
@@ -1362,7 +1364,7 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     #include "scope_dialog.c"
 }
 
-CYCLONE_OBJ_API void Scope_tilde_setup(void){
+CYCLONE_OBJ_API void Scope_tilde_setup(void){  
     scope_class = class_new(gensym("Scope~"), (t_newmethod)scope_new,
             (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
     class_addcreator((t_newmethod)scope_new, gensym("cyclone/Scope~"), A_GIMME, 0); // backwards compatible

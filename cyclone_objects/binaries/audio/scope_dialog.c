@@ -109,9 +109,11 @@ sys_gui("global $var_scope_del\n");
 sys_gui("set var_scope_tr_level [concat scope_tr_level_$vid]\n");
 sys_gui("global $var_scope_tr_level\n");
 sys_gui("set var_scope_draw_style [concat scope_draw_style_$vid]\n");
+sys_gui("global $var_scope_draw_style\n");
 // receive
-// sys_vgui("global $var_scope_rcv\n");
-// sys_vgui("set var_scope_rcv [concat var_scope_rcv_$vid]\n");
+
+//sys_vgui("set var_scope_rcv [concat var_scope_rcv_$vid]\n");
+//sys_vgui("global $var_scope_rcv\n");
 
 // init
 sys_gui("set var_scope_width_init [concat scope_width_init_$vid]\n");
@@ -128,6 +130,8 @@ sys_gui("set var_scope_max_range_init [concat scope_max_range_init_$vid]\n");
 sys_gui("global $var_scope_max_range_init\n");
 sys_gui("set var_scope_del_init [concat scope_del_init_$vid]\n");
 sys_gui("global $var_scope_del_init\n");
+//sys_gui("set var_scope_rcv_init [concat scope_rcv_init_$vid]\n");
+//sys_gui("global $var_scope_rcv_init\n");
 sys_gui("set var_scope_tr_level_init [concat scope_tr_level_init_$vid]\n");
 sys_gui("global $var_scope_tr_level_init\n");
 sys_gui("if {[eval concat $$var_scope_width] eq \"\"} {set $var_scope_width [eval concat $$var_scope_width_init]}\n");
@@ -137,6 +141,7 @@ sys_gui("if {[eval concat $$var_scope_bufsize] eq \"\"} {set $var_scope_bufsize 
 sys_gui("if {[eval concat $$var_scope_min_range] eq \"\"} {set $var_scope_min_range [eval concat $$var_scope_min_range_init]}\n");
 sys_gui("if {[eval concat $$var_scope_max_range] eq \"\"} {set $var_scope_max_range [eval concat $$var_scope_max_range_init]}\n");
 sys_gui("if {[eval concat $$var_scope_del] eq \"\"} {set $var_scope_del [eval concat $$var_scope_del_init]}\n");
+//sys_gui("if {[eval concat $$var_scope_rcv] eq \"\"} {set $var_scope_rcv [eval concat $$var_scope_rcv_init]}\n");
 sys_gui("if {[eval concat $$var_scope_tr_level] eq \"\"} {set $var_scope_tr_level [eval concat $$var_scope_tr_level_init]}\n");
 sys_gui("}\n");
 
@@ -256,8 +261,10 @@ sys_gui("global $var_scope_tr_level\n");
 sys_gui("set var_scope_draw_style [concat scope_draw_style_$vid]\n");
 sys_gui("global $var_scope_draw_style\n");
 // receive
-// sys_vgui("set var_scope_rcv [concat var_scope_rcv_$vid]\n");
-// sys_vgui("global $var_scope_rcv\n");
+sys_vgui("set var_scope_rcv [concat scope_rcv_$vid]\n");
+sys_vgui("global $var_scope_rcv\n");
+sys_vgui("if {[eval concat $$var_scope_rcv] == \"\"} {set hhhrcv \"empty\"} else {set hhhrcv [eval concat $$var_scope_rcv]}\n");
+sys_vgui("set hhhrcv [unspace_text $hhhrcv]\n");
 
 sys_gui("set var_scope_bcol [concat scope_bcol_$vid]\n");
 sys_gui("global $var_scope_bcol\n");
@@ -281,9 +288,9 @@ sys_gui("[eval concat $$var_scope_tr_mode] \\\n");
 sys_gui("[eval concat $$var_scope_tr_level] \\\n");
 sys_gui("[eval concat $$var_scope_bcol] \\\n");
 sys_gui("[eval concat $$var_scope_gcol] \\\n");
-//sys_gui("[eval concat $$var_scope_fcol] \\\n");
-// sys_gui("[eval concat $$var_scope_rcv]]\n");
-sys_gui("[eval concat $$var_scope_fcol]]\n"); // <= delete
+sys_gui("[eval concat $$var_scope_fcol] \\\n");
+sys_gui("$hhhrcv ]\n");
+//sys_gui("[eval concat $$var_scope_fcol]]\n"); // <= delete
 sys_gui("}	\n");
 
 // CANCEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -303,7 +310,7 @@ sys_gui("dim_header width width_label height height_label \\\n");
 sys_gui("buf_header cal cal_label bufsize bufsize_label \\\n");
 sys_gui("range_header min_range min_range_label max_range max_range_label \\\n");
 sys_gui("del_header del del_label draw_style_header draw_style draw_style_label\\\n");
-// sys_gui("rcv_header rcv rcv_label\\\n");
+sys_gui("rcv rcv_label\\\n");
 sys_gui("trg_header tr_mode tr_mode_label tr_level tr_level_label \\\n");
 sys_gui("dim_mins width_min height_min \\\n");
 sys_gui("cal_min_max cal_min cal_max bufsize_min_max bufsize_min bufsize_max \\\n");
@@ -336,8 +343,8 @@ sys_gui("set var_scope_tr_level [concat scope_tr_level_$vid]\n");
 sys_gui("global $var_scope_tr_level\n");
 sys_gui("set var_scope_draw_style [concat scope_draw_style_$vid]\n");
 sys_gui("global $var_scope_draw_style\n");
-// sys_gui("set var_scope_rcv [concat scope_rcv_$vid]\n");
-// sys_gui("global $var_scope_rcv\n");
+sys_gui("set var_scope_rcv [concat scope_rcv_$vid]\n");
+sys_gui("global $var_scope_rcv\n");
 sys_gui("set var_scope_f2_g1_b0 [concat scope_f2_g1_b0_$vid]\n");
 sys_gui("global $var_scope_f2_g1_b0\n");
 sys_gui("set var_scope_bcol [concat scope_bcol_$vid]\n");
@@ -374,6 +381,8 @@ sys_gui("set var_scope_max_range_init [concat scope_max_range_init_$vid]\n");
 sys_gui("global $var_scope_max_range_init\n");
 sys_gui("set var_scope_del_init [concat scope_del_init_$vid]\n");
 sys_gui("global $var_scope_del_init\n");
+//sys_gui("set var_scope_rcv_init [concat scope_rcv_init_$vid]\n");
+//sys_gui("global $var_scope_rcv_init\n");
 sys_gui("set var_scope_tr_level_init [concat scope_tr_level_init_$vid]\n");
 sys_gui("global $var_scope_tr_level_init\n");
 sys_gui("set $var_scope_width $width\n");
@@ -384,7 +393,7 @@ sys_gui("set $var_scope_min_range $min_range\n");
 sys_gui("set $var_scope_max_range $max_range\n");
 sys_gui("set $var_scope_del $del\n");
 sys_gui("set $var_scope_draw_style $draw_style\n");
-// sys_gui("set $var_scope_rcv $rcv\n");
+sys_gui("if {$rcv == \"empty\"} {set $var_scope_rcv [format \"\"]} else {set $var_scope_rcv [format %s $rcv]}\n");
 sys_gui("set $var_scope_tr_mode $tr_mode\n");
 sys_gui("set $var_scope_tr_level $tr_level  \n");
 sys_gui("set $var_scope_bcol $bcol\n");
@@ -398,6 +407,7 @@ sys_gui("set $var_scope_bufsize_init $bufsize\n");
 sys_gui("set $var_scope_min_range_init $min_range\n");
 sys_gui("set $var_scope_max_range_init $max_range\n");
 sys_gui("set $var_scope_del_init $del\n");
+//sys_gui("set $var_scope_rcv_init $rcv\n");
 sys_gui("set $var_scope_tr_level_init $tr_level \n");
 sys_gui("set $var_scope_width_min $width_min\n");
 sys_gui("set $var_scope_height_min $height_min\n");
@@ -417,7 +427,7 @@ sys_gui("set max_range_label [_ \"Upper:\"]\n");
 sys_gui("set del_header [_ \"Delay:\"]\n");
 sys_gui("set del_label [_ \"Delay:\"]\n");
 sys_gui("set draw_style_label [_ \"Alternate Drawstyle:\"]\n");
-// sys_gui("set rcv_label [_ \"Receive Symbol:\"]\n");
+sys_gui("set rcv_label [_ \"Receive Symbol:\"]\n");
 sys_gui("set tr_mode_label [_ \"Trigger Mode:\"]\n");
 sys_gui("set tr_mode0_label [_ \"None\"]\n");
 sys_gui("set tr_mode1_label [_ \"Up\"]\n");
@@ -513,15 +523,15 @@ sys_gui("pack $mytoplevel.misc.fr -side left -expand 1\n");
 sys_gui("pack $mytoplevel.misc.fr.del_lab $mytoplevel.misc.fr.del_ent \\\n");
 sys_gui("$mytoplevel.misc.fr.dummy1 $mytoplevel.misc.fr.draw_style_lab $mytoplevel.misc.fr.draw_style_chk -side left\n");
 
-/* // Receive
+// Receive
 sys_gui("labelframe $mytoplevel.rcv -borderwidth 1 -pady 8 -text [_ \"Receive:\"]\n");
 sys_gui("pack $mytoplevel.rcv -side top -pady 5 -fill x\n");
 sys_gui("frame $mytoplevel.rcv.fr\n");
 sys_gui("label $mytoplevel.rcv.fr.rcv_lab -text [_ $rcv_label]\n");
-sys_gui("entry $mytoplevel.rcv.fr.rcv_ent -textvariable $var_scope_del -width 7\n");
-sys_gui("label $mytoplevel.rcv.fr.dummy1 -text \"\" -width 4\n");
-sys_gui("pack $mytoplevel.rcv.fr -side left -expand 1\n");
-sys_gui("pack $mytoplevel.rcv.fr.rcv_lab $mytoplevel.rcv.fr.rcv_ent \n");*/
+sys_gui("entry $mytoplevel.rcv.fr.rcv_ent -textvariable $var_scope_rcv -width 21\n");
+//sys_gui("label $mytoplevel.rcv.fr.dummy1 -text \"\" -width 4\n");
+sys_gui("pack $mytoplevel.rcv.fr \n");
+sys_gui("pack $mytoplevel.rcv.fr.rcv_lab $mytoplevel.rcv.fr.rcv_ent -side left \n");
 
 // colors
 sys_gui("labelframe $mytoplevel.colors -borderwidth 1 -text [_ \"Colors:\"] -padx 5 -pady 5\n");
