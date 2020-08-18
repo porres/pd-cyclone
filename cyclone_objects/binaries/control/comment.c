@@ -210,7 +210,7 @@ static void comment_dograb(t_comment *x){
 }
 
 static void comment__bboxhook(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
-    post("comment__bboxhook %g %g %g %g", x1, y1, x2, y2);
+//    post("comment__bboxhook %g %g %g %g", x1, y1, x2, y2);
     bindsym = NULL;
     if(x->x_x1 != x1 || x->x_y1 != y1 || x->x_x2 != x2 || x->x_y2 != y2){
 //        post("arg dif");
