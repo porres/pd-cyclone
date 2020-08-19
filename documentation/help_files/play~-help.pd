@@ -20,15 +20,11 @@
 #X msg 534 21 start;
 #X obj 681 104 bng 30 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X obj 548 104 ./out~;
+#X obj 527 104 ./out~;
 #X text 30 19 Multi channel playback is possible (up to 64 channels)
 when you specify it with a second argument. The number of channels
 defines the number 'n' of outlets - where the first outlets are the
 channel inputs and the righmost is the bang outlet.;
-#X text 438 229 Inconsistency: In Max \, if [buffer~] has more channels
-than [play~] \, the channels are mixed. This shall be implemented in
-cyclone when the [buffer~] object is turned into a compiled object.
-;
 #X text 30 99 If more than one channel is set \, the name convention
 for multi channel arrays is the table name preceded by the channel
 number (starting from zero) and "-" \, such as: "0-" \, "1-" \, "2-"
@@ -41,12 +37,15 @@ that or use the [buffer~] object \, which does this internally.;
 #X text 439 179 If the [buffer~] being played has fewer channels than
 the number of output channels in [play~] \, the extra channels output
 a zero signal.;
-#X connect 0 0 9 0;
-#X connect 1 0 9 0;
-#X connect 8 0 10 0;
-#X connect 9 0 3 0;
-#X connect 9 1 3 1;
-#X connect 9 2 2 0;
+#X text 438 229 Inconsistency: In Max \, if [buffer~] has more channels
+than [play~] \, the channels are mixed. This could be implemented in
+cyclone if the [buffer~] object ever becomes a compiled object.;
+#X connect 0 0 8 0;
+#X connect 1 0 8 0;
+#X connect 7 0 9 0;
+#X connect 8 0 3 0;
+#X connect 8 1 3 1;
+#X connect 8 2 2 0;
 #X restore 455 263 pd multichannel;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
@@ -60,14 +59,14 @@ a zero signal.;
 #X restore 304 3 pd;
 #X text 185 485 - the playback of a channel, f 60;
 #X text 186 534 - table name (required), f 60;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Array player;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 play~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 17 56 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Array player;
+#X obj 16 4 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 play~;
+#X obj 322 28 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X obj 221 142 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #N canvas 577 100 351 116 load 0;
