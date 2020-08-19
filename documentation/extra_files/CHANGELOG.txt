@@ -6,14 +6,14 @@
 cyclone 0.5-3 (needs at least Pd Vanilla 0.51-0):
 --------------------------------------------------
 
-- [cyclone]: Pd version check fixed (previous version would show an error in the terminal if you installed a version higher than 0.51-0).
+- [cyclone]: Pd version check fixed in the cyclone binary (previous version would complain if you installed a version higher than 0.51-0).
 
 - [scope~]: added a receive symbol box in the properties window.
 
 - [comment]:
    - fixed getting the object's area, fix properties window for 'bg flag', better handling of "\" in append/prepend methods.
    - now we draw an outline when in edit mode. 
-   - there's a better handling of resize now as well.
+   - there's a better handling of resizing now as well.
    - Added support for foreign alphabets.
    - More examples in the documentation on how to use backslash and different alphabets.
 

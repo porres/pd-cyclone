@@ -889,32 +889,12 @@ static void scope_properties(t_gobj *z, t_glist *owner){
     int grcol = ((int)x->x_gg[0] << 16) + ((int)x->x_gg[1] << 8) + (int)x->x_gg[2];
     int fgcol = ((int)x->x_fg[0] << 16) + ((int)x->x_fg[1] << 8) + (int)x->x_fg[2];
     char buf[1000];
-/*    sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
-        dim %d width: %d height: \
-        buf %d cal: %d bufsize: \
-        range %g min: %g max: \
-        del %d del: drs %d drs: \
-        trg %d tr_mode: %g tr_level: \
-        dim_mins %d %d \
-        cal_min_max %d %d bfs_min_max %d %d \
-        del_mins %d \
-        #%06x #%06x #%06x\n",
-        x->x_width, x->x_height,
-        x->x_period, x->x_bufsize,
-        x->x_min, x->x_max,
-        x->x_delay, x->x_drawstyle,
-        x->x_trigmode, x->x_triglevel,
-        SCOPE_MINSIZE, SCOPE_MINSIZE,
-        SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
-        SCOPE_MINBUFSIZE, SCOPE_MAXBUFSIZE,
-        SCOPE_MINDELAY,
-        bgcol, grcol, fgcol);*/
     sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
         dim %d width: %d height: \
         buf %d cal: %d bfs: \
         rng %g min: %g max: \
         del %d del: drs %d drs: \
-        %s rcv: trg %d tmd: %g tlv: \
+        {%s} rcv: trg %d tmd: %g tlv: \
         dim_mins %d %d \
         cal_min_max %d %d bfs_min_max %d %d \
         del_mins %d \
