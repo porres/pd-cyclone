@@ -556,26 +556,26 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
 }
 
 static void scope_receive(t_scope *x, t_symbol *s){
-    if(s != gensym("")){
-        t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
-        if(rcv != x->x_receive){
-            canvas_dirty(x->x_glist, 1);
-            if(x->x_receive != &s_)
-                pd_unbind(&x->x_obj.ob_pd, x->x_receive);
-            x->x_rcv_set = 1;
-            x->x_rcv_raw = s;
-            x->x_receive = rcv;
-            if(x->x_receive == &s_){
-                if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
-                    scope_draw_inlets(x);
-            }
-            else{
-                pd_bind(&x->x_obj.ob_pd, x->x_receive);
-                if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist)){
-                    t_canvas *cv = glist_getcanvas(x->x_glist);
-                    sys_vgui(".x%lx.c delete %lx_in1\n", cv, x);
-                    sys_vgui(".x%lx.c delete %lx_in2\n", cv, x);
-                }
+    if(s == gensym(""))
+        s == gensym("empty")
+    t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
+    if(rcv != x->x_receive){
+        canvas_dirty(x->x_glist, 1);
+        if(x->x_receive != &s_)
+            pd_unbind(&x->x_obj.ob_pd, x->x_receive);
+        x->x_rcv_set = 1;
+        x->x_rcv_raw = s;
+        x->x_receive = rcv;
+        if(x->x_receive == &s_){
+            if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
+                scope_draw_inlets(x);
+        }
+        else{
+            pd_bind(&x->x_obj.ob_pd, x->x_receive);
+            if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist)){
+                t_canvas *cv = glist_getcanvas(x->x_glist);
+                sys_vgui(".x%lx.c delete %lx_in1\n", cv, x);
+                sys_vgui(".x%lx.c delete %lx_in2\n", cv, x);
             }
         }
     }

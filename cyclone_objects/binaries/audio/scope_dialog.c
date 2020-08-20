@@ -251,6 +251,7 @@ sys_gui("set var_scope_tr_level [concat scope_tr_level_$vid]\n");
 sys_gui("global $var_scope_tr_level\n");
 sys_gui("set var_scope_draw_style [concat scope_draw_style_$vid]\n");
 sys_gui("global $var_scope_draw_style\n");
+// receive
 sys_gui("set var_scope_rcv [concat scope_rcv_$vid]\n");
 sys_gui("global $var_scope_rcv\n");
 sys_gui("set var_scope_bcol [concat scope_bcol_$vid]\n");
@@ -277,7 +278,7 @@ sys_gui("[eval concat $$var_scope_bcol] \\\n");
 sys_gui("[eval concat $$var_scope_gcol] \\\n");
 sys_gui("[eval concat $$var_scope_fcol] \\\n");
 sys_gui("[string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_scope_rcv]]] \n");
-sys_gui("}	\n");
+sys_gui("} \n");
 
 // CANCEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 sys_gui("proc ::dialog_scope::cancel {mytoplevel} {\n");
@@ -379,7 +380,9 @@ sys_gui("set $var_scope_max_range $max_range\n");
 sys_gui("set $var_scope_del $del\n");
 sys_gui("set $var_scope_draw_style $draw_style\n");
 // Receive
-sys_gui("set $var_scope_rcv $rcv\n");
+// sys_gui("set $var_scope_rcv $rcv\n");
+sys_gui("if {$rcv == \"empty\"} {set $var_scope_rcv [format \"\"]} else {set $var_scope_rcv [format %s $rcv]}\n");
+
 sys_gui("set $var_scope_tr_mode $tr_mode\n");
 sys_gui("set $var_scope_tr_level $tr_level  \n");
 sys_gui("set $var_scope_bcol $bcol\n");
