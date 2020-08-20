@@ -888,6 +888,7 @@ static void scope_properties(t_gobj *z, t_glist *owner){
     int bgcol = ((int)x->x_bg[0] << 16) + ((int)x->x_bg[1] << 8) + (int)x->x_bg[2];
     int grcol = ((int)x->x_gg[0] << 16) + ((int)x->x_gg[1] << 8) + (int)x->x_gg[2];
     int fgcol = ((int)x->x_fg[0] << 16) + ((int)x->x_fg[1] << 8) + (int)x->x_fg[2];
+    scope_get_rcv(x);
     char buf[1000];
     sprintf(buf, "::dialog_scope::pdtk_scope_dialog %%s \
         dim %d width: %d height: \
