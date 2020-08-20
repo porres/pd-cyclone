@@ -380,7 +380,7 @@ sys_gui("set $var_scope_max_range $max_range\n");
 sys_gui("set $var_scope_del $del\n");
 sys_gui("set $var_scope_draw_style $draw_style\n");
 // Receive
-sys_gui("if {$rcv == \"empty\"} {set $var_scope_rcv [format \"\"]} else {set $var_scope_rcv $rcv}\n");
+sys_gui("if {$rcv == \"empty\"} {set $var_scope_rcv [format \"\"]} else {set $var_scope_rcv [string map {{\\ } \" \"} $rcv]}\n");
 sys_gui("set $var_scope_tr_mode $tr_mode\n");
 sys_gui("set $var_scope_tr_level $tr_level  \n");
 sys_gui("set $var_scope_bcol $bcol\n");
