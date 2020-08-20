@@ -557,7 +557,7 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
 
 static void scope_receive(t_scope *x, t_symbol *s){
     if(s == gensym(""))
-        s == gensym("empty")
+        s = gensym("empty");
     t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
     if(rcv != x->x_receive){
         canvas_dirty(x->x_glist, 1);
