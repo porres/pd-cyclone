@@ -137,66 +137,56 @@ static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float scre
     };
 }
 
-static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc, t_atom * argv)
-{
-  //callback from tcl for mode 2
-  // screenx, screeny, focusx, focusy, focusw, focush
-  //these are our pointer coords relative to focused window
-  int i;
-  t_float curf, screenx, screeny, focusx, focusy;
-  // t_float focusw, focush;
-  if(argc >= 4)
-    {
-      for(i=0;i<4;i++)
-	{
-	  if(argv[i].a_type == A_FLOAT)
-	    {
-	      curf = argv[i].a_w.w_float;
-	      switch(i)
-		{
-		case 0:
-		  screenx = curf;
-		  break;
-		case 1:
-		  screeny = curf;
-		  break;
-		case 2:
-		  focusx = curf;
-		  break;
-		case 3:
-		  focusy = curf;
-		  break;
-		  /*
-		case 4:
-		  focusw = curf;
-		  break;
-		case 5:
-		  focush = curf;
-		  break;
-		  */
-		default:
-		  break;
-		};
-	    }
-	  else return;
-	};
+static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc, t_atom * argv){
+    //callback from tcl for mode 2
+    // screenx, screeny, focusx, focusy, focusw, focush
+    //these are our pointer coords relative to focused window
+    int i;
+    t_float curf, screenx, screeny, focusx, focusy;
+    if(argc >= 4){
+        for(i = 0; i < 4; i++){
+            if(argv[i].a_type == A_FLOAT){
+                curf = argv[i].a_w.w_float;
+                switch(i){
+                    case 0:
+                        screenx = curf;
+                    break;
+                    case 1:
+                        screeny = curf;
+                    break;
+                    case 2:
+                        focusx = curf;
+                    break;
+                    case 3:
+                        focusy = curf;
+                    break;
+                    default:
+                    break;
+                };
+            }
+            else
+                return;
+        };
     }
-  else return;
-
-  if(x->x_mode == 2)
-    {
-      t_float px, py;
-      px = screenx - focusx;
-      py = screeny - focusy;
-      //  px = px >= focusw ? (focusw -1) : ( px < 0 ? 0 : px);
-      //py = py >= focush ? (focush - 1) : (py < 0 ? 0 : py);
-      if(x->x_zero == 1) mousestate_dozero(x, px, py);
-      if(x->x_bang == 1 || x->x_ispolling == 1) mousestate_dobang(x, px, py);
-
+    else
+        return;
+    t_float px, py;
+    px = screenx;
+    py = screeny;
+    if(x->x_mode == 1){
+        mousestate_updatepos(x);
+        px -= x->x_wx;
+        py -= x->x_wy;
+    }
+    else if(x->x_mode == 2){
+        px -= focusx;
+        py -= focusy;
     };
+    if(x->x_zero == 1)
+        mousestate_dozero(x, px, py);
+    if(x->x_bang == 1 || x->x_ispolling == 1)
+        mousestate_dobang(x, px, py);
 }
-
-
 
 static void mousestate_objwin(t_mousestate *x, int argc, t_atom * argv){
     t_float objx, objy;
@@ -217,10 +207,7 @@ static void mousestate_bang(t_mousestate *x)
 
 static void mousestate_poll(t_mousestate *x)
 {
-    int mode = x->x_mode;
-    //pollmode: mode + 1 : mode0 -> 1, mode1 -> 2, mode2-> 3
-    int pollmode = mode + 1;
-    hammergui_startpolling((t_pd *)x, pollmode);
+    hammergui_startpolling((t_pd *)x, 3);
     x->x_ispolling = 1;
 }
 
