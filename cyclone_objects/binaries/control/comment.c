@@ -700,24 +700,24 @@ static void edit_proxy_any(t_edit_proxy *p, t_symbol *s, int ac, t_atom *av){
 //---------------------------- METHODS ----------------------------------------
 
 static void comment_receive(t_comment *x, t_symbol *s){
-    if(s != gensym("")){
-        t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
-        if(rcv != x->x_receive){
-            canvas_dirty(x->x_glist, 1);
-            if(x->x_receive != &s_)
-                pd_unbind(&x->x_obj.ob_pd, x->x_receive);
-            x->x_rcv_set = 1;
-            x->x_rcv_raw = s;
-            x->x_receive = rcv;
-            if(x->x_receive == &s_){
-                if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
-                    comment_draw_inlet(x);
-            }
-            else{
-                pd_bind(&x->x_obj.ob_pd, x->x_receive);
-                if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
-                    sys_vgui(".x%lx.c delete %lx_in\n", glist_getcanvas(x->x_glist), x);
-            }
+    if(s == gensym(""))
+        s = gensym("empty");
+    t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
+    if(rcv != x->x_receive){
+        canvas_dirty(x->x_glist, 1);
+        if(x->x_receive != &s_)
+            pd_unbind(&x->x_obj.ob_pd, x->x_receive);
+        x->x_rcv_set = 1;
+        x->x_rcv_raw = s;
+        x->x_receive = rcv;
+        if(x->x_receive == &s_){
+            if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
+                comment_draw_inlet(x);
+        }
+        else{
+            pd_bind(&x->x_obj.ob_pd, x->x_receive);
+            if(x->x_edit && glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist))
+                sys_vgui(".x%lx.c delete %lx_in\n", glist_getcanvas(x->x_glist), x);
         }
     }
 }
@@ -922,15 +922,15 @@ static void comment_ok(t_comment *x, t_symbol *s, int ac, t_atom *av){
     comment_just(x, atom_getfloatarg(3, ac, av));
     comment_underline(x, atom_getfloatarg(4, ac, av));
     comment_bg_flag(x, atom_getfloatarg(5, ac, av));
-    comment_receive(x, atom_getsymbolarg(6, ac, av));
-    int bgr = atom_getfloatarg(7, ac, av);
-    int bgg = atom_getfloatarg(8, ac, av);
-    int bgb = atom_getfloatarg(9, ac, av);
-    int fgr = atom_getfloatarg(10, ac, av);
-    int fgg = atom_getfloatarg(11, ac, av);
-    int fgb = atom_getfloatarg(12, ac, av);
+    int bgr = atom_getfloatarg(6, ac, av);
+    int bgg = atom_getfloatarg(7, ac, av);
+    int bgb = atom_getfloatarg(8, ac, av);
+    int fgr = atom_getfloatarg(9, ac, av);
+    int fgg = atom_getfloatarg(10, ac, av);
+    int fgb = atom_getfloatarg(11, ac, av);
     comment_bgcolor(x, bgr, bgg, bgb, 0);
     comment_textcolor(x, fgr, fgg, fgb);
+    comment_receive(x, atom_getsymbolarg(12, ac, av));
 }
 
 //-------------------------------------------------------------------------------------
@@ -1306,9 +1306,7 @@ CYCLONE_OBJ_API void comment_setup(void){
             -font [list $fnm $fsz $wt $sl underline] -justify $just -fill $clr -anchor nw}\n\
             comment_bbox $tgt $cv $tag1\n\
             $cv bind $tag1 <Button> [list comment_click $tgt %W %x %y $tag1]}\n");
-
 // properties
-    
     sys_vgui("if {[catch {pd}]} {\n");
     sys_vgui("    proc pd {args} {pdsend [join $args \" \"]}\n");
     sys_vgui("}\n");
@@ -1320,13 +1318,13 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set var_just [concat var_just_$vid]\n");
     sys_vgui("    set var_underline [concat var_underline_$vid]\n");
     sys_vgui("    set var_bg_flag [concat var_bg_flag_$vid]\n");
-    sys_vgui("    set var_rcv [concat var_rcv_$vid]\n");
     sys_vgui("    set var_bgr [concat var_bgr_$vid]\n");
     sys_vgui("    set var_bgg [concat var_bgg_$vid]\n");
     sys_vgui("    set var_bgb [concat var_bgb_$vid]\n");
     sys_vgui("    set var_fgr [concat var_fgr_$vid]\n");
     sys_vgui("    set var_fgg [concat var_fgg_$vid]\n");
     sys_vgui("    set var_fgb [concat var_fgb_$vid]\n");
+    sys_vgui("    set var_rcv [concat var_rcv_$vid]\n");
     sys_vgui("\n");
     sys_vgui("    global $var_name\n");
     sys_vgui("    global $var_size\n");
@@ -1334,13 +1332,13 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    global $var_just\n");
     sys_vgui("    global $var_underline\n");
     sys_vgui("    global $var_bg_flag\n");
-    sys_vgui("    global $var_rcv\n");
     sys_vgui("    global $var_bgr\n");
     sys_vgui("    global $var_bgg\n");
     sys_vgui("    global $var_bgb\n");
     sys_vgui("    global $var_fgr\n");
     sys_vgui("    global $var_fgg\n");
     sys_vgui("    global $var_fgb\n");
+    sys_vgui("    global $var_rcv\n");
     sys_vgui("\n");
     sys_vgui("    set cmd [concat $id ok \\\n");
     sys_vgui("        [string map {\" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_name]] \\\n");
@@ -1349,13 +1347,13 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("        [eval concat $$var_just] \\\n");
     sys_vgui("        [eval concat $$var_underline] \\\n");
     sys_vgui("        [eval concat $$var_bg_flag] \\\n");
-    sys_vgui("        [string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_rcv]] \\\n");
     sys_vgui("        [eval concat $$var_bgr] \\\n");
     sys_vgui("        [eval concat $$var_bgg] \\\n");
     sys_vgui("        [eval concat $$var_bgb] \\\n");
     sys_vgui("        [eval concat $$var_fgr] \\\n");
     sys_vgui("        [eval concat $$var_fgg] \\\n");
-    sys_vgui("        [eval concat $$var_fgb] \\;]\n");
+    sys_vgui("        [eval concat $$var_fgb] \\\n");
+    sys_vgui("        [string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_rcv]] \\;]\n");
     sys_vgui("    pd $cmd\n");
     sys_vgui("    comment_cancel $id\n");
     sys_vgui("}\n");
@@ -1399,7 +1397,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    set $var_just $just\n");
     sys_vgui("    set $var_underline $underline\n");
     sys_vgui("    set $var_bg_flag $bg_flag\n");
-    sys_vgui("    set $var_rcv [string map {{\\ } \" \"} $rcv]\n"); // remove escape from space
+    sys_vgui("    if {$rcv == \"empty\"} {set $var_rcv [format \"\"]} else {set $var_rcv [string map {{\\ } \" \"} $rcv]}\n");
     sys_vgui("    set $var_bgr $bgr\n");
     sys_vgui("    set $var_bgg $bgg\n");
     sys_vgui("    set $var_bgb $bgb\n");
@@ -1442,25 +1440,6 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    pack $id.rcv_sym.lrcv $id.rcv_sym.rcv -side left\n");
     sys_vgui("\n");
 // colors
-    
-/*
-//    sys_gui("labelframe id.bg -borderwidth 1 -text [_ \"Background Color:\"] -padx 5 -pady 5\n");
-    
-    //delay & drawstyle
-    sys_gui("labelframe $mytoplevel.misc -borderwidth 1 -pady 8 -text [_ \"Background Color::\"]\n");
-    sys_gui("pack $mytoplevel.misc -side top -pady 5 -fill x\n");
-    sys_gui("frame $mytoplevel.misc.fr\n");
-    sys_gui("label $mytoplevel.misc.fr.del_lab -text [_ $del_label]\n");
-    sys_gui("entry $mytoplevel.misc.fr.del_ent -textvariable $var_scope_del -width 7\n");
-    sys_gui("label $mytoplevel.misc.fr.dummy1 -text \"\" -width 4\n");
-    sys_gui("label $mytoplevel.misc.fr.draw_style_lab -text [_ $draw_style_label]\n");
-    sys_gui("checkbutton $mytoplevel.misc.fr.draw_style_chk -variable $var_scope_draw_style \\\n");
-    sys_gui("-command \"::dialog_scope::apply_and_rebind_return $mytoplevel\" \n");
-    sys_gui("pack $mytoplevel.misc.fr -side left -expand 1\n");
-    sys_gui("pack $mytoplevel.misc.fr.del_lab $mytoplevel.misc.fr.del_ent \\\n");
-    sys_gui("$mytoplevel.misc.fr.dummy1 $mytoplevel.misc.fr.draw_style_lab $mytoplevel.misc.fr.draw_style_chk -side left\n");
-    */
-    
     sys_vgui("    frame $id.bg\n");
     sys_vgui("    pack $id.bg -side top\n");
     sys_vgui("    label $id.bg.lbgr -text \"BG Color: R\"\n");
@@ -1471,7 +1450,6 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    entry $id.bg.bgb -textvariable $var_bgb -width 3\n");
     sys_vgui("    pack $id.bg.lbgr $id.bg.bgr $id.bg.lbgg $id.bg.bgg $id.bg.lbgb $id.bg.bgb -side left\n");
     sys_vgui("\n");
-
     sys_vgui("    frame $id.fg\n");
     sys_vgui("    pack $id.fg -side top\n");
     sys_vgui("    label $id.fg.lfgr -text \"Font Color: R\"\n");
@@ -1482,6 +1460,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    entry $id.fg.fgb -textvariable $var_fgb -width 3\n");
     sys_vgui("    pack $id.fg.lfgr $id.fg.fgr $id.fg.lfgg $id.fg.fgg $id.fg.lfgb $id.fg.fgb -side left\n");
     sys_vgui("\n");
+    
     sys_vgui("    frame $id.buttonframe\n");
     sys_vgui("    pack $id.buttonframe -side bottom -fill x -pady 2m\n");
     sys_vgui("    button $id.buttonframe.cancel -text {Cancel} -command \"comment_cancel $id\"\n");
@@ -1489,8 +1468,6 @@ CYCLONE_OBJ_API void comment_setup(void){
     sys_vgui("    pack $id.buttonframe.cancel -side left -expand 1\n");
     sys_vgui("    pack $id.buttonframe.ok -side left -expand 1\n");
     sys_vgui("}\n");
-
-    //    #include "comment_dialog.c"
 }
 
 
