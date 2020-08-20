@@ -251,12 +251,8 @@ sys_gui("set var_scope_tr_level [concat scope_tr_level_$vid]\n");
 sys_gui("global $var_scope_tr_level\n");
 sys_gui("set var_scope_draw_style [concat scope_draw_style_$vid]\n");
 sys_gui("global $var_scope_draw_style\n");
-
-// Receive
-sys_vgui("set var_scope_rcv [concat scope_rcv_$vid]\n");
-sys_vgui("global $var_scope_rcv\n");
-sys_vgui("set hhhrcv [eval concat $$var_scope_rcv]\n");
-
+sys_gui("set var_scope_rcv [concat scope_rcv_$vid]\n");
+sys_gui("global $var_scope_rcv\n");
 sys_gui("set var_scope_bcol [concat scope_bcol_$vid]\n");
 sys_gui("global $var_scope_bcol\n");
 sys_gui("set var_scope_gcol [concat scope_gcol_$vid]\n");
@@ -280,7 +276,7 @@ sys_gui("[eval concat $$var_scope_tr_level] \\\n");
 sys_gui("[eval concat $$var_scope_bcol] \\\n");
 sys_gui("[eval concat $$var_scope_gcol] \\\n");
 sys_gui("[eval concat $$var_scope_fcol] \\\n");
-sys_gui("$hhhrcv]\n");
+sys_gui("[string map {\"$\" {\\$} \" \" {\\ } \";\" \"\" \",\" \"\" \"\\\\\" \"\" \"\\{\" \"\" \"\\}\" \"\"} [eval concat $$var_scope_rcv]]] \n");
 sys_gui("}	\n");
 
 // CANCEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
