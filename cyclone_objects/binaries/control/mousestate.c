@@ -231,19 +231,27 @@ static void mousestate_nopoll(t_mousestate *x)
     x->x_ispolling = 0;
 }
 
-static void mousestate_zero(t_mousestate *x)
-{
-  int mode = x->x_mode;
-  x->x_zero = 1;
-  x->x_bang = 1;
-  if(mode == 0 || mode == 1) hammergui_getscreen();
-  else if (mode == 2) hammergui_getscreenfocused();
-
+static void mousestate_zero(t_mousestate *x){
+    int mode = x->x_mode;
+    x->x_zero = 1;
+    if(x->x_ispolling){
+        x->x_bang = 1;
+        if(x->x_mode == 2)
+            hammergui_getscreenfocused();
+        else
+            hammergui_getscreen();
+    }
 }
 
-static void mousestate_reset(t_mousestate *x)
-{
-    x->x_hzero = x->x_vzero = 0;
+static void mousestate_reset(t_mousestate *x){
+    x->x_hzero = x->x_vzero = x->x_zero = 0;
+    if(x->x_ispolling){
+        x->x_bang = 1;
+        if(x->x_mode == 2)
+            hammergui_getscreenfocused();
+        else
+            hammergui_getscreen();
+    }
 }
 
 static void mousestate_free(t_mousestate *x)
