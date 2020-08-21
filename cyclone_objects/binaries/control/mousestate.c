@@ -13,6 +13,9 @@
  * for mouse pointer for mode 1, now basing off of given coords by the current 
  * canvas. also now rewrote gui.c to defer calculations to the c code here in interests
  * of multiple object independence, just use gui.c to send proper coords over
+ 
+ * 2020 - Fixed 'reset'/'zero'/'poll' messages, resolved conflicts with 2 objects in
+ * different modes.
 */
 
 typedef struct _mousestate
@@ -190,7 +193,7 @@ static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc,
 
 static void mousestate_objwin(t_mousestate *x, int argc, t_atom * argv){
     t_float objx, objy;
-    if(argc >=2 && x->x_mode == 1){
+    if(argc >= 2 && x->x_mode == 1){
         objx = atom_getfloatarg(0, argc, argv);
         objy = atom_getfloatarg(1, argc, argv);
         mousestate_dobang(x, objx, objy); 
@@ -199,16 +202,19 @@ static void mousestate_objwin(t_mousestate *x, int argc, t_atom * argv){
 
 static void mousestate_bang(t_mousestate *x)
 {
-  int mode = x->x_mode;
-  if(mode == 0 || mode == 1) hammergui_getscreen();
-  else if (mode == 2) hammergui_getscreenfocused();
-  x->x_bang = 1;
+    x->x_bang = 1;
+    int mode = x->x_mode;
+    if(mode == 0 || mode == 1)
+        hammergui_getscreen();
+    else if (mode == 2)
+        hammergui_getscreenfocused();
 }
 
 static void mousestate_poll(t_mousestate *x)
 {
-    hammergui_startpolling((t_pd *)x, 3);
     x->x_ispolling = 1;
+    hammergui_startpolling((t_pd *)x, 3);
+    mousestate_bang(x);
 }
 
 
