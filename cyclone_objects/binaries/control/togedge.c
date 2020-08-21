@@ -25,17 +25,22 @@ static void togedge_bang(t_togedge *x){
 }
 
 static void togedge_float(t_togedge *x, t_float f){
-    int i = f != 0;
-    if(x->x_wason){
-        if (!i){
-            x->x_wason = 0;
-            outlet_bang(x->x_out1);
-        }
+    if((int)f != f){
+        pd_error(x, "[togedge]: doesn't deal with non integer floats");
     }
     else{
-        if(i){
-            x->x_wason = 1;
-            outlet_bang(((t_object *)x)->ob_outlet);
+        int i = f != 0;
+        if(x->x_wason){
+            if (!i){
+                x->x_wason = 0;
+                outlet_bang(x->x_out1);
+            }
+        }
+        else{
+            if(i){
+                x->x_wason = 1;
+                outlet_bang(((t_object *)x)->ob_outlet);
+            }
         }
     }
 }
