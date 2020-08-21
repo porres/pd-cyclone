@@ -73,7 +73,7 @@ typedef struct _table{
 } t_table;
 
 static t_class *table_class;
-static t_class *tablecommon_class; // ???
+static t_class *tablecommon_class;
 
 static void tablecommon_modified(t_tablecommon *cc, int relocated){
     cc->c_cacheisfresh = 0;
@@ -141,7 +141,7 @@ static void tablecommon_setlength(t_tablecommon *cc, int length){
 	length = TABLE_MINLENGTH;
     else if (length > TABLE_MAXLENGTH)
 	length = TABLE_MAXLENGTH;
-    if(relocate = (length > cc->c_size)){
+    if((relocate = (length > cc->c_size))){
         int l = length;
         /* CHECKED existing values are preserved */
         cc->c_table = grow_withdata(&length, &cc->c_length, &cc->c_size, cc->c_table,
@@ -264,7 +264,7 @@ static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_canvas *cv){
 }
 
 static void tablecommon_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av){
-    tablecommon_doread((t_tablecommon *)z, fn, 0);
+    tablecommon_doread((t_tablecommon *)z, fn, 0); ac = 0; av = NULL;
 }
 
 static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv){
@@ -287,7 +287,7 @@ static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv){
 }
 
 static void tablecommon_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av){
-    tablecommon_dowrite((t_tablecommon *)z, fn, 0);
+    tablecommon_dowrite((t_tablecommon *)z, fn, 0); ac = 0; av = NULL;
 }
 
 static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
@@ -304,11 +304,11 @@ static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
             binbuf_addv(bb, "ssiiiii;", bindsym, gensym("_coords"),
 		    cc->c_left, cc->c_top, cc->c_right, cc->c_bottom, cc->c_visflag);
         while(left > 0){
-            int cnt = (left > 128 ? 128 : left);
-            left -= cnt;
-            //ndx += cnt;
+            int count = (left > 128 ? 128 : left);
+            left -= count;
+            //ndx += count;
 	    binbuf_addv(bb, "ssi", bindsym, gensym("set"), ndx);
-            while(cnt--){
+            while(count--){
                 t_atom at;
                 SETFLOAT(&at, (float)*ptr);
                 binbuf_add(bb, 1, &at);
@@ -320,7 +320,7 @@ static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
 }
 
 static void tablecommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
-    tablecommon_fromatoms((t_tablecommon *)z, ac, av);
+    tablecommon_fromatoms((t_tablecommon *)z, ac, av); s = NULL;
 }
 
 static void tablecommon_free(t_tablecommon *cc){
@@ -345,13 +345,13 @@ static void *tablecommon_new(void){ // ???
     return (cc);
 }
 
-static t_tablecommon *table_checkcommon(t_table *x){
+/*static t_tablecommon *table_checkcommon(t_table *x){
     if(x->x_name && x->x_common != (t_tablecommon *)pd_findbyclass(x->x_name, tablecommon_class)){
         pd_error(x, "bug [cyclone/table]: table_checkcommon");
         return (0);
     }
     return(x->x_common);
-}
+}*/
 
 static void table_unbind(t_table *x){ // LATER consider calling table_checkcommon(x)
     t_tablecommon *cc = x->x_common;
@@ -365,8 +365,8 @@ static void table_unbind(t_table *x){ // LATER consider calling table_checkcommo
         }
     }
     else if (prev){
-        while (next = prev->x_next){
-            if (next == x){
+        while((next = prev->x_next)){
+            if(next == x){
                 prev->x_next = next->x_next;
                 break;
             }
@@ -431,6 +431,64 @@ static void table_bang(t_table *x){ /* CHECKME */
 		 (t_float)tablecommon_quantile(x->x_common, rand_unipolar(&x->x_seed)));
 }
 
+static int tablecommon_editorappend(t_tablecommon *cc, int v, char *buf, int col){
+    char *bp = buf;
+    int count = 0;
+    if(col > 0)
+        *bp++ = ' ', count++;
+    count += sprintf(bp, "%d", v);
+    if(col + count > 80)
+        buf[0] = '\n', col = count - 1;  /* assuming col > 0 */
+    else
+        col += count;
+    hammereditor_append(cc->c_filehandle, buf);
+    return(col);
+}
+
+static void table_update(t_table *x){
+    t_tablecommon *cc = x->x_common;
+    char buf[MAXPDSTRING];
+    int *bp = cc->c_table;
+    int count = 0, col = 0;
+//    sys_vgui(".%lx delete 0.0 end \n", (unsigned long)cc->c_filehandle);
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
+    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)cc->c_filehandle);
+    sys_gui(" }\n");
+    while(count < cc->c_length){
+        col = tablecommon_editorappend(cc, *bp++, buf, col);
+        count++;
+    }
+    hammereditor_setdirty(cc->c_filehandle, 0);
+}
+
+static void table_read(t_table *x, t_symbol *s){
+    t_tablecommon *cc = x->x_common;
+    if(s && s != &s_)
+        tablecommon_doread(cc, s, x->x_glist);
+    else
+        hammerpanel_open(cc->c_filehandle, 0);
+    table_update(x);
+}
+
+static void table_open(t_table *x){
+    t_tablecommon *cc = x->x_common;
+    char buf[MAXPDSTRING];
+    int *bp = cc->c_table;
+    int count = cc->c_length, col = 0;
+    hammereditor_open(cc->c_filehandle, (x->x_name ? (char*)x->x_name->s_name : 0), 0);
+    while(count--)
+        col = tablecommon_editorappend(cc, *bp++, buf, col);
+    hammereditor_setdirty(cc->c_filehandle, 0);
+}
+
+static void table_click(t_table *x){
+    table_open(x);
+}
+
+static void table_wclose(t_table *x){
+    hammereditor_close(x->x_common->c_filehandle, 1);
+}
+
 static void table_float(t_table *x, t_float f){
     if(x->x_loadflag){
         if(tablecommon_loadvalue(x->x_common, x->x_loadndx, (int)f))
@@ -445,6 +503,7 @@ static void table_float(t_table *x, t_float f){
         else
             table_dooutput(x, ndx); /* CHECKED head is not updated */
     }
+    table_update(x);
 }
 
 static void table_ft1(t_table *x, t_floatarg f){
@@ -457,10 +516,12 @@ static void table_size(t_table *x, t_floatarg f){
 }
 
 static void table_set(t_table *x, t_symbol *s, int ac, t_atom *av){
-    if (ac > 1 && av->a_type == A_FLOAT){
+    s = NULL;
+    if(ac > 1 && av->a_type == A_FLOAT){
         int ndx = tablecommon_getindex(x->x_common, (int)av->a_w.w_float);
         tablecommon_setatoms(x->x_common, ndx, ac - 1, av + 1);
     }
+    table_update(x);
 }
 
 static void table_embed(t_table *x, t_floatarg f){
@@ -470,6 +531,7 @@ static void table_embed(t_table *x, t_floatarg f){
 }
 
 static void table_flags(t_table *x, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
     t_tablecommon *cc = x->x_common;
     int i = 0, v;
     while(ac && av->a_type == A_FLOAT){
@@ -508,12 +570,14 @@ static void table_cancel(t_table *x){
 
 static void table_clear(t_table *x){
     tablecommon_setall(x->x_common, 0);
-    /* CHECKED head preserved */
+    // CHECKED head preserved
+    table_update(x);
 }
 
 static void table_const(t_table *x, t_floatarg f){
     tablecommon_setall(x->x_common, (int)f);
-    /* CHECKED head preserved */
+    // CHECKED head preserved
+    table_update(x);
 }
 
 static void table_load(t_table *x){
@@ -551,6 +615,7 @@ static void table_goto(t_table *x, t_floatarg f){
 }
 
 static void table_send(t_table *x, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
     if(ac > 1 && av->a_type == A_SYMBOL){
         t_symbol *target = av->a_w.w_symbol;
         if(!target->s_thing)
@@ -596,17 +661,15 @@ static void table_max(t_table *x)
     outlet_float(((t_object *)x)->ob_outlet, (t_float)cc->c_cachemax);
 }
 
-static void table_getbits(t_table *x, t_floatarg f1,
-			  t_floatarg f2, t_floatarg f3)
+/*static void table_getbits(t_table *x, t_floatarg f1, t_floatarg f2, t_floatarg f3)
 {
-    /* FIXME */
+    // FIXME
 }
 
-static void table_setbits(t_table *x, t_floatarg f1,
-			  t_floatarg f2, t_floatarg f3, t_floatarg f4)
+static void table_setbits(t_table *x, t_floatarg f1, t_floatarg f2, t_floatarg f3, t_floatarg f4)
 {
-    /* FIXME */
-}
+    // FIXME
+}*/
 
 static void table_inv(t_table *x, t_floatarg f){
     /* CHECKME none found, float */
@@ -627,6 +690,7 @@ static void table_fquantile(t_table *x, t_floatarg f){ /* CHECKME constraints */
 }
 
 static void table_dump(t_table *x, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
     t_tablecommon *cc = x->x_common;
     int thelength = cc->c_length;
     int *thetable = cc->c_table;
@@ -666,14 +730,6 @@ static void table_name(t_table *x, t_symbol *s){
     table_rebind(x, s);
 }
 
-static void table_read(t_table *x, t_symbol *s){
-    t_tablecommon *cc = x->x_common;
-    if (s && s != &s_)
-	tablecommon_doread(cc, s, x->x_glist);
-    else
-	hammerpanel_open(cc->c_filehandle, 0);
-}
-
 static void table_write(t_table *x, t_symbol *s){
     t_tablecommon *cc = x->x_common;
     if(s && s != &s_)
@@ -682,59 +738,13 @@ static void table_write(t_table *x, t_symbol *s){
         hammerpanel_save(cc->c_filehandle, 0, 0);
 }
 
-static int tablecommon_editorappend(t_tablecommon *cc,
-				    int v, char *buf, int col)
-{
-    char *bp = buf;
-    int cnt = 0;
-    if (col > 0)
-	*bp++ = ' ', cnt++;
-    cnt += sprintf(bp, "%d", v);
-    if (col + cnt > 80)
-	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
-    else
-	col += cnt;
-    hammereditor_append(cc->c_filehandle, buf);
-    return (col);
-}
-
-static void table_update(t_table *x){
-    t_tablecommon *cc = x->x_common;
-    char buf[MAXPDSTRING];
-    int *bp = cc->c_table;
-    int count = cc->c_length, col = 0;
-    hammereditor_open(cc->c_filehandle, (x->x_name ? x->x_name->s_name : 0), 0);
-    while(count--)
-        col = tablecommon_editorappend(cc, *bp++, buf, col);
-    hammereditor_setdirty(cc->c_filehandle, 0);
-}
-
-static void table_open(t_table *x){
-    t_tablecommon *cc = x->x_common;
-    char buf[MAXPDSTRING];
-    int *bp = cc->c_table;
-    int count = cc->c_length, col = 0;
-    hammereditor_open(cc->c_filehandle, (x->x_name ? x->x_name->s_name : 0), 0);
-    while(count--)
-        col = tablecommon_editorappend(cc, *bp++, buf, col);
-    hammereditor_setdirty(cc->c_filehandle, 0);
-}
-
-static void table_wclose(t_table *x){
-    hammereditor_close(x->x_common->c_filehandle, 1);
-}
-
-static void table_click(t_table *x, t_floatarg xpos, t_floatarg ypos,
-			t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
-    table_open(x);
-}
-
 static void table_free(t_table *x){
     hammerfile_free(x->x_filehandle);
     table_unbind(x);
 }
 
 static void *table_new(t_symbol *s, int argc, t_atom *argv){
+    s = NULL;
     t_table *x = (t_table *)pd_new(table_class);
     x->x_glist = canvas_getcurrent();
     x->x_valueset = 0;
@@ -812,8 +822,7 @@ CYCLONE_OBJ_API void table_setup(void){
         (t_newmethod)table_new, (t_method)table_free, sizeof(t_table), 0, A_GIMME, 0);
     class_addbang(table_class, table_bang);
     class_addfloat(table_class, table_float);
-    class_addmethod(table_class, (t_method)table_click, gensym("click"),
-                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_click, gensym("click"), 0);
     class_addmethod(table_class, (t_method)table_ft1, gensym("ft1"), A_FLOAT, 0);
 // message methods
     class_addmethod(table_class, (t_method)table_clear, gensym("clear"), 0);
@@ -823,8 +832,7 @@ CYCLONE_OBJ_API void table_setup(void){
     class_addmethod(table_class, (t_method)table_embed, gensym("embed"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_flags, gensym("flags"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_fquantile, gensym("fquantile"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"),
-                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+//    class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_goto, gensym("goto"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_inv, gensym("inv"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_length, gensym("length"), 0);
@@ -840,8 +848,7 @@ CYCLONE_OBJ_API void table_setup(void){
     class_addmethod(table_class, (t_method)table_refer, gensym("refer"), A_SYMBOL, 0);
     class_addmethod(table_class, (t_method)table_send, gensym("send"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_set, gensym("set"), A_GIMME, 0);
-    class_addmethod(table_class, (t_method)table_setbits, gensym("setbits"),
-                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+//    class_addmethod(table_class, (t_method)table_setbits, gensym("setbits"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_sum, gensym("sum"), 0);
     class_addmethod(table_class, (t_method)table_wclose, gensym("wclose"), 0);
     class_addmethod(table_class, (t_method)table_write, gensym("write"), A_DEFSYM, 0);
@@ -850,10 +857,7 @@ CYCLONE_OBJ_API void table_setup(void){
     class_addmethod(table_class, (t_method)table_name, gensym("name"), A_SYMBOL, 0);
 // extra ???
     class_addmethod(table_class, (t_method)table_tabrange, gensym("tabrange"), A_FLOAT, 0);
-// _coords????
-    class_addmethod(table_class, (t_method)table__coords, gensym("_coords"),
-        A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-// ?????
+    class_addmethod(table_class, (t_method)table__coords, gensym("_coords"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     hammerfile_setup(table_class, 1);
     tablecommon_class = class_new(gensym("Table"), 0, 0, sizeof(t_tablecommon), CLASS_PD, 0);
     /* a nop call (tablecommon doesn't embed and the hammerfile class is set up above),
@@ -868,8 +872,7 @@ CYCLONE_OBJ_API void Table_setup(void){
     class_addcreator((t_newmethod)table_new, gensym("cyclone/Table"), 0);
     class_addbang(table_class, table_bang);
     class_addfloat(table_class, table_float);
-    class_addmethod(table_class, (t_method)table_click, gensym("click"),
-                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(table_class, (t_method)table_click, gensym("click"), 0);
     class_addmethod(table_class, (t_method)table_ft1, gensym("ft1"), A_FLOAT, 0);
 // message methods
     class_addmethod(table_class, (t_method)table_clear, gensym("clear"), 0);
@@ -879,8 +882,7 @@ CYCLONE_OBJ_API void Table_setup(void){
     class_addmethod(table_class, (t_method)table_embed, gensym("embed"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_flags, gensym("flags"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_fquantile, gensym("fquantile"), A_FLOAT, 0);
-    class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"),
-                    A_FLOAT, A_FLOAT, A_FLOAT, 0);
+//    class_addmethod(table_class, (t_method)table_getbits, gensym("getbits"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_goto, gensym("goto"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_inv, gensym("inv"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_length, gensym("length"), 0);
@@ -896,8 +898,7 @@ CYCLONE_OBJ_API void Table_setup(void){
     class_addmethod(table_class, (t_method)table_refer, gensym("refer"), A_SYMBOL, 0);
     class_addmethod(table_class, (t_method)table_send, gensym("send"), A_GIMME, 0);
     class_addmethod(table_class, (t_method)table_set, gensym("set"), A_GIMME, 0);
-    class_addmethod(table_class, (t_method)table_setbits, gensym("setbits"),
-                    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+//    class_addmethod(table_class, (t_method)table_setbits, gensym("setbits"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table_sum, gensym("sum"), 0);
     class_addmethod(table_class, (t_method)table_wclose, gensym("wclose"), 0);
     class_addmethod(table_class, (t_method)table_write, gensym("write"), A_DEFSYM, 0);
@@ -906,10 +907,8 @@ CYCLONE_OBJ_API void Table_setup(void){
     class_addmethod(table_class, (t_method)table_name, gensym("name"), A_SYMBOL, 0);
 // extra ???
     class_addmethod(table_class, (t_method)table_tabrange, gensym("tabrange"), A_FLOAT, 0);
-// _coords????
     class_addmethod(table_class, (t_method)table__coords, gensym("_coords"),
         A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-// ?????
     hammerfile_setup(table_class, 1);
     tablecommon_class = class_new(gensym("Table"), 0, 0, sizeof(t_tablecommon), CLASS_PD, 0);
     /* a nop call (tablecommon doesn't embed and the hammerfile class is set up above),
