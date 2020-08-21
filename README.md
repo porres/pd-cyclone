@@ -22,7 +22,7 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 Current Release: Cyclone 0.5-3 (this release needs at least Pd Vanilla 0.51-0)
 
-Released August 20th 2020
+Released August 21st 2020
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
@@ -221,11 +221,11 @@ Fred Jan Kraan forked the original repository to <https://github.com/electricker
 
 => This Repository (0.3-0 and onwards):
 
-In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon to this repositry that resides at: https://github.com/porres/pd-cyclone. The fork happened while cyclone was at 0.2-beta1 stage. Since then, Alexandre Porres, Derek Kwan, Matt Barber and other collaborators have worked on further developments of cyclone. The first stable release from this repository was cyclone 0.3-0 from february 2019.
+In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon to this repositry that resides at: https://github.com/porres/pd-cyclone. The fork happened while cyclone was at 0.2-beta stage. Since then, Alexandre Porres, Derek Kwan, Matt Barber and other collaborators have worked on further developments of cyclone. The first stable release from this repository was cyclone 0.3-0 from february 2019.
 
 => The 'nilwind' fork:
 
-The 'nilwind' library is a fork of cyclone and it starts as a fork of the last stage <https://github.com/electrickery/pd-miXedSon> was left at. The nilwind's repository is at https://github.com/electrickery/pd-nilwind. It's first release is 'nilwind 0.2.1', from November 2019, which is a development over cyclone 0.2-beta. This fork of cyclone does not aim to pursue updates according to newer versions of Max and its main concern is to keep compatibility to patches made in the Pd-Extended era. Nonetheless, versions of cyclone 0.3 onward are also compatible to Pd-Extended era, as the development of cyclone does not introduce breaking changes. The last maintenance phase of cycle was experimental for a good period, but since the release of 0.3, cyclone is now at a stable phase. 
+The 'nilwind' library is a fork of cyclone and it starts as a fork of the last stage <https://github.com/electrickery/pd-miXedSon> was left at. The nilwind's repository is at https://github.com/electrickery/pd-nilwind. It's first release is 'nilwind 0.2.1', from November 2019, which is a development over cyclone 0.2-beta. This fork of cyclone does not aim to pursue updates according to newer versions of Max and its main concern is to keep compatibility to patches made in the Pd-Extended era. Nonetheless, versions of cyclone 0.3 onward are also compatible to Pd-Extended era, as the current development phase does not introduce breaking changes and has only offered stable releases since 0.3! 
 
 -------
 

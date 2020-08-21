@@ -8,7 +8,16 @@ cyclone 0.5-3 (needs at least Pd Vanilla 0.51-0):
 
 - [cyclone]: Pd version check fixed in the cyclone binary (previous version would complain if you installed a version higher than 0.51-0).
 
-- [scope~]: added a receive symbol box in the properties window.
+- [cyclone/table]: if window is open and you set values via messages, the values are now updated graphically (you needed to close and open the window for it to reflect the changes).
+
+- [togedge]: fix not allowing non integer floats
+
+- [mousestate]: 
+   - Fixed poll message (regression bugs from 0.5-0 and 0.3). 
+   - Fixed bugs in reset/zero message (update values only or if polling) 
+   - Fixed polling for multiple objects in different modes.
+
+- [scope~]: added a missing receive symbol box in the properties window.
 
 - [comment]:
    - fixed getting the object's area, fix properties window for 'bg flag', better handling of "\" in append/prepend methods.
@@ -16,6 +25,7 @@ cyclone 0.5-3 (needs at least Pd Vanilla 0.51-0):
    - there's a better handling of resizing now as well.
    - Added support for foreign alphabets.
    - More examples in the documentation on how to use backslash and different alphabets.
+   - Properties: better handling of 'empty' receive symbols.
 
 --------------------------------------------------
 cyclone 0.5-2 (needs at least Pd Vanilla 0.51-0):
