@@ -2436,4 +2436,3 @@ CYCLONE_OBJ_API void coll_setup(void)
        have it around, just in case... */
     hammerfile_setup(collcommon_class, 0);
 }
-

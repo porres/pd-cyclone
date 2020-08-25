@@ -1,4 +1,4 @@
-#N canvas 546 127 560 505 10;
+#N canvas 685 105 560 505 10;
 #X obj 6 467 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 270 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -34,14 +34,14 @@
 56;
 #X text 147 429 1) symbol;
 #X text 163 399 (none);
-#X obj 17 8 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 poke~;
-#X obj 18 60 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Write to an array;
-#X obj 322 30 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 6 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 17 8 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 poke~;
+#X obj 18 60 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Write to an array;
+#X obj 322 30 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 6 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X text 33 153 1;
 #X text 27 245 -1;
 #X obj 48 157 cnv 15 148 98 empty empty empty 20 12 0 14 -233017 -66577
@@ -59,31 +59,41 @@
 #X obj 292 193 selector~ 2 2;
 #X text 264 138 off;
 #X text 275 162 on;
-#N canvas 933 72 420 478 control 0;
-#X obj 148 113 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+#N canvas 933 72 415 486 control 0;
+#X obj 157 104 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
-#X text 268 157 <= index;
-#X text 175 112 write to array;
-#X text 113 284 1;
-#X text 107 394 -1;
-#X obj 131 288 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
+#X text 276 149 <= index;
+#X text 184 103 write to array;
+#X text 108 315 1;
+#X text 102 425 -1;
+#X obj 126 319 cnv 15 198 118 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #N canvas 1 79 450 300 (subpatch) 0;
 #X array \$0-table 44100 float 0;
 #X coords 0 1.1 44099 -1.1 200 120 1 0 0;
-#X restore 130 287 graph;
-#X text 77 206 random value =>;
-#X obj 195 218 cyclone/poke~ \$0-table;
+#X restore 125 318 graph;
 #X text 29 21 You can use control messages instead of signals. In this
 way \, [poke~] behaves similarly to the [peek~] object. Note \, however
 \, that the left two inlets are reversed on [poke~] when compared to
 [peek~].;
-#X obj 148 136 cyclone/uzi 44110 0;
-#X obj 148 184 expr random(-1000 \, 1001)/1000.0;
-#X connect 0 0 10 0;
-#X connect 10 0 11 0;
-#X connect 10 2 8 1;
-#X connect 11 0 8 0;
+#X obj 157 127 cyclone/uzi 44110 0;
+#X obj 158 175 expr random(-1000 \, 1001)/1000.0;
+#X obj 231 241 cyclone/poke~;
+#X obj 52 159 symbol \$0-table;
+#X obj 52 125 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 52 184 set \$1;
+#X obj 52 100 loadbang;
+#X text 70 124 <= set table;
+#X text 89 136 name;
+#X connect 0 0 8 0;
+#X connect 8 0 9 0;
+#X connect 8 2 10 1;
+#X connect 9 0 10 0;
+#X connect 11 0 13 0;
+#X connect 12 0 11 0;
+#X connect 13 0 10 0;
+#X connect 14 0 12 0;
 #X restore 484 215 pd control;
 #N canvas 550 188 841 430 multichannel 0;
 #X obj 407 31 cnv 15 198 118 empty empty empty 20 12 0 14 -233017 -66577
@@ -120,8 +130,8 @@ way \, [poke~] behaves similarly to the [peek~] object. Note \, however
 #X obj 56 228 noise~;
 #X obj 147 177 cyclone/count~ 0 100 1;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -228856 -128992
--262144 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 -74965 -212593
+-262144 1 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -190,7 +200,7 @@ way \, [poke~] behaves similarly to the [peek~] object. Note \, however
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -228856 -128992
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 -74965 -212593
 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
