@@ -7,11 +7,12 @@ lib.name = cyclone
 # for the MINGW which has the timespec struct defined twice
 cflags = -Ishared -DHAVE_STRUCT_TIMESPEC
 
-uname := $(shell uname -s)
-ifeq (MINGW,$(findstring MINGW,$(uname)))
-ldlibs += -lpthread
-exe.extension = .exe
-endif
+define forWindows
+	ldlibs += -lpthread
+	exe.extension = .exe
+endef
+
+
 
 forLinux   = aliases=true
 
@@ -304,12 +305,14 @@ README.pdf \
 # * Windows:             $MINGW_PREFIX/bin
 # * Linux cross-compile: $MINGW_PREFIX/lib
 
+uname := $(shell uname -s)
+
 ifeq (MINGW,$(findstring MINGW,$(uname)))
 
     datafiles += ${MINGW_PREFIX}/bin/libwinpthread-1.dll
 
   else
-    ## datafiles += ${MINGW_PREFIX}/lib/libwinpthread-1.dll
+    ## datafiles += ${MINGW_PREFIX}/lib/libwinpthread-1.dll  ## not handled yet.
 endif
 
 
