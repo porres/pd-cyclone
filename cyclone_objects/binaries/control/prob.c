@@ -63,20 +63,17 @@ static void prob_reset(t_prob *x, t_floatarg f)
     }
 }
 
-static void prob_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
-{
+static void prob_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     t_prob *x = (t_prob *)z;
-    if (x->x_embedmode)
-    {
-	t_probtrans *pfx, *sfx;
-	for (pfx = x->x_translist; pfx; pfx = pfx->tr_nextstate)
-	    for (sfx = pfx->tr_nexttrans; sfx; sfx = sfx->tr_nexttrans)
-		binbuf_addv(bb, "siii;", bindsym, 
-			    pfx->tr_value, sfx->tr_value, sfx->tr_count);
-	binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
-	if (x->x_default)
-	    binbuf_addv(bb, "ssi;", bindsym, gensym("reset"),
-			x->x_default->tr_value);
+    if(x->x_embedmode){
+        t_probtrans *pfx, *sfx;
+        for(pfx = x->x_translist; pfx; pfx = pfx->tr_nextstate)
+            for(sfx = pfx->tr_nexttrans; sfx; sfx = sfx->tr_nexttrans)
+                binbuf_addv(bb, "siii;", bindsym, pfx->tr_value, sfx->tr_value, sfx->tr_count);
+        binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
+        if(x->x_default)
+            binbuf_addv(bb, "ssi;", bindsym, gensym("reset"),
+        x->x_default->tr_value);
     }
 }
 
