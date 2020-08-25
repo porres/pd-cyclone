@@ -83,10 +83,6 @@ static void poke_redraw_lim(t_poke *x)
         };
 }
 
-static void poke_redraw_force(t_poke *x){
-    poke_tick(x);
-}
-
 /* CHECKED: index 0-based, negative values block input, overflowed are clipped.
    LATER revisit: incompatibly, the code below is nop for any out-of-range index
    (see also peek.c) */ // <= this looks like a bug, index 0 never written with signal (porres)
@@ -123,10 +119,16 @@ static void poke_ft2(t_poke *x, t_floatarg f)
     cybuf_getchannel(x->x_cybuf, ch, 1);
 }
 
-static void poke_redraw_rate(t_poke *x, t_floatarg f){
+/*
+ static void poke_redraw_rate(t_poke *x, t_floatarg f){
     double redrawms = f > 0 ? (double)f : 1;
     x->x_redrawms = redrawms;
 }
+ 
+static void poke_redraw_force(t_poke *x){
+    poke_tick(x);
+}
+*/
 
 static t_int *poke_perform(t_int *w)
 {
@@ -189,23 +191,14 @@ static void *poke_new(t_symbol *s, t_floatarg f)
     return (x);
 }
 
-CYCLONE_OBJ_API void poke_tilde_setup(void)
-{
-    poke_class = class_new(gensym("poke~"),
-			   (t_newmethod)poke_new,
-			   (t_method)poke_free,
-			   sizeof(t_poke), 0,
-			   A_DEFSYM, A_DEFFLOAT, 0);
+CYCLONE_OBJ_API void poke_tilde_setup(void){
+    poke_class = class_new(gensym("poke~"), (t_newmethod)poke_new,
+        (t_method)poke_free, sizeof(t_poke), 0, A_DEFSYM, A_DEFFLOAT, 0);
     class_domainsignalin(poke_class, -1);
     class_addfloat(poke_class, poke_float);
     class_addmethod(poke_class, (t_method)poke_dsp, gensym("dsp"), A_CANT, 0);
-    class_addmethod(poke_class, (t_method)poke_set,
-		    gensym("set"), A_SYMBOL, 0);
-    class_addmethod(poke_class, (t_method)poke_ft2,
-		    gensym("ft2"), A_FLOAT, 0);
-    class_addmethod(poke_class, (t_method)poke_redraw_rate,
-		    gensym("redraw_rate"), A_FLOAT, 0);
-    class_addmethod(poke_class, (t_method)poke_redraw_force,
-		    gensym("redraw"), 0);
-
+    class_addmethod(poke_class, (t_method)poke_set, gensym("set"), A_SYMBOL, 0);
+    class_addmethod(poke_class, (t_method)poke_ft2, gensym("ft2"), A_FLOAT, 0);
+/*    class_addmethod(poke_class, (t_method)poke_redraw_rate, gensym("redraw_rate"), A_FLOAT, 0);
+    class_addmethod(poke_class, (t_method)poke_redraw_force, gensym("redraw"), 0);*/
 }
