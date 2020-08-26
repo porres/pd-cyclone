@@ -308,11 +308,15 @@ README.pdf \
 uname := $(shell uname -s)
 
 ifeq (MINGW,$(findstring MINGW,$(uname)))
+    datafiles += ${MINGW_PREFIX}/bin/libwinpthread-1.dll	
+endif
 
-    datafiles += ${MINGW_PREFIX}/bin/libwinpthread-1.dll
+ifeq (x86_64-w64-mingw32,$(PLATFORM))
+	datafiles += /usr/${PLATFORM}/lib/libwinpthread-1.dll
+endif
 
-  else
-    ## datafiles += ${MINGW_PREFIX}/lib/libwinpthread-1.dll  ## not handled yet.
+ifeq (i686-w64-mingw32,$(PLATFORM))
+	datafiles += /usr/${PLATFORM}/lib/libwinpthread-1.dll
 endif
 
 
