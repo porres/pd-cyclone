@@ -368,7 +368,7 @@ static void record_loopend(t_record *x, t_float loopend){
 static void *record_new(t_symbol *s, int argc, t_atom *argv)
 {
         int i;
-	t_float numchan = PDCYREC_NCH;
+	int numchan = PDCYREC_NCH;
 	t_float append = PDCYREC_APPEND;
 	t_float loopstatus = PDCYREC_LOOPSTATUS;
 	t_float loopstart = PDCYREC_LOOPSTART;
@@ -444,7 +444,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
                     switch(argnum)
                     {
                         case 0:
-                            numchan = argval;
+                            numchan = (int)argval;
                             break;
                         default:
                             break;
@@ -461,7 +461,7 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv)
 			goto errstate;
 		};
 	};
-    int chn_n = (int)numchan > 64 ? 64 : (int)numchan;
+    int chn_n = numchan < 1 ? 1 : numchan > 4 ? 4 : numchan == 3 ? 2 : numchan;
 
         //old arsic notes - chn_n number of channels, 0 nsigs 1 nauxsigs
     t_record *x = (t_record *)pd_new(record_class);
