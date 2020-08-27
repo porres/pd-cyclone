@@ -2,7 +2,6 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-
 //updating argument parsing for object creation, adding interval and active attributes - Derek Kwan 2016
 #include <string.h>
 #include "m_pd.h"
@@ -48,9 +47,9 @@ static void snapshot_correct(t_snapshot *x)
     x->x_offset =
 	(x->x_rqoffset < x->x_nblock ? x->x_rqoffset : x->x_nblock - 1);
     x->x_npoints = x->x_deltime * x->x_ksr - x->x_nblock + x->x_offset;
-    if (x->x_on = (!x->x_stopped && x->x_deltime > 0.))
-    {
-	if (!wason) x->x_nleft = x->x_offset;  /* CHECKME */
+    if((x->x_on = (!x->x_stopped && x->x_deltime > 0.))){
+        if(!wason)
+            x->x_nleft = x->x_offset;  /* CHECKME */
     }
     else if (wason) clock_unset(x->x_clock);
 }
@@ -139,8 +138,8 @@ static void snapshot_free(t_snapshot *x)
     if (x->x_clock) clock_free(x->x_clock);
 }
 
-static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
-{
+static void *snapshot_new(t_symbol *s, int argc, t_atom * argv){
+    s = NULL;
     t_snapshot *x = (t_snapshot *)pd_new(snapshot_class);
     x->x_stopped = 0;  /* CHECKED */
     x->x_on = 0;
@@ -153,7 +152,7 @@ static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
 	active = PDCYSSACTIVE;
 	int argnum = 0;
 	while(argc > 0){
-		if(argv -> a_type == A_FLOAT){
+		if(argv->a_type == A_FLOAT){
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
 				case 0:
@@ -169,7 +168,7 @@ static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
 			argc--;
 			argv++;
 		}
-		else if(argv -> a_type == A_SYMBOL){
+		else if(argv->a_type == A_SYMBOL){
 			t_symbol *curarg = atom_getsymbolarg(0, argc, argv);
 			if(strcmp(curarg->s_name, "@interval")==0){
 				if(argc >= 2){
@@ -214,46 +213,32 @@ static void *snapshot_new(t_symbol *s, int argc, t_atom * argv)
 		return NULL;
 }
 
-CYCLONE_OBJ_API void snapshot_tilde_setup(void)
-{
+CYCLONE_OBJ_API void snapshot_tilde_setup(void){
     snapshot_class = class_new(gensym("cyclone/snapshot~"),
         (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_GIMME,0);
 	class_domainsignalin(snapshot_class, -1);
 	class_addfloat(snapshot_class, (t_method)snapshot_float);
     class_addmethod(snapshot_class, (t_method)snapshot_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(snapshot_class, (t_method)snapshot_bang);
-    class_addmethod(snapshot_class, (t_method)snapshot_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_offset,
-		    gensym("offset"), A_FLOAT, 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_start,
-		    gensym("start"), 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_stop,
-		    gensym("stop"), 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_sampleinterval,
-                    gensym("sampleinterval"), A_FLOAT, 0);
-    class_sethelpsymbol(snapshot_class, gensym("snapshot~"));
+    class_addmethod(snapshot_class, (t_method)snapshot_ft1, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_offset, gensym("offset"), A_FLOAT, 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_start, gensym("start"), 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_stop, gensym("stop"), 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_sampleinterval, gensym("sampleinterval"), A_FLOAT, 0);
 }
 
-CYCLONE_OBJ_API void Snapshot_tilde_setup(void)
-{
+CYCLONE_OBJ_API void Snapshot_tilde_setup(void){
     snapshot_class = class_new(gensym("Snapshot~"),
         (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_GIMME,0);
-    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/Snapshot~"), 0);
     class_domainsignalin(snapshot_class, -1);
     class_addfloat(snapshot_class, (t_method)snapshot_float);
     class_addmethod(snapshot_class, (t_method)snapshot_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(snapshot_class, (t_method)snapshot_bang);
-    class_addmethod(snapshot_class, (t_method)snapshot_ft1,
-            gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_offset,
-            gensym("offset"), A_FLOAT, 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_start,
-            gensym("start"), 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_stop,
-            gensym("stop"), 0);
-    class_addmethod(snapshot_class, (t_method)snapshot_sampleinterval,
-                    gensym("sampleinterval"), A_FLOAT, 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_ft1, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_offset, gensym("offset"), A_FLOAT, 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_start, gensym("start"), 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_stop, gensym("stop"), 0);
+    class_addmethod(snapshot_class, (t_method)snapshot_sampleinterval, gensym("sampleinterval"), A_FLOAT, 0);
     class_sethelpsymbol(snapshot_class, gensym("snapshot~"));
     pd_error(snapshot_class, "Cyclone: please use [cyclone/snapshot~] instead of [Snapshot~] to supress this error");
 }

@@ -1,4 +1,4 @@
-#N canvas 474 65 562 577 10;
+#N canvas 687 74 562 577 10;
 #X obj 4 551 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 4 300 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -48,14 +48,14 @@ set to other than 0 via the second inlet, f 60;
 #X text 175 401 - restores the output after being paused, f 60;
 #X text 175 417 - stops and clears pending target-time parameter triples
 (but continues outputting its last value), f 60;
-#X obj 17 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Linear ramp generator;
-#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 line~;
-#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 17 55 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Linear ramp generator;
+#X obj 16 3 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 line~;
+#X obj 322 27 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 3 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X obj 499 68 cyclone/setdsp~;
 #X text 175 337 - pairs that specify target value and duration (in
 ms) to reach it (maximum is 128 target-time pairs). For an odd number
@@ -130,27 +130,23 @@ other than "0" via the second inlet., f 64;
 #X obj 219 248 cyclone/line~;
 #X text 52 246 see also:;
 #X obj 51 263 cyclone/curve~;
-#N canvas 715 160 389 355 linear_envelope 0;
-#X obj 69 147 osc~ 440;
-#X obj 69 200 *~;
-#X text 145 202 1;
-#X obj 163 150 cyclone/line~;
-#X msg 163 119 1 100 0.6 100 0.6 500 0 700;
-#X obj 34 10 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X text 30 64 [cyclone/line~] generating a linear ADSR envelope;
-#X obj 163 208 cyclone/scope~ 150 108 256 3 128 0 1 0 0 0 0 205 229
+#N canvas 715 160 388 340 linear_envelope 0;
+#X obj 74 132 osc~ 440;
+#X obj 74 185 *~;
+#X text 150 187 1;
+#X obj 168 135 cyclone/line~;
+#X msg 168 104 1 100 0.6 100 0.6 500 0 700;
+#X text 35 49 [cyclone/line~] generating a linear ADSR envelope;
+#X obj 168 193 cyclone/scope~ 150 108 256 3 128 0 1 0 0 0 0 205 229
 232 74 79 77 96 98 102 0 empty;
-#X text 134 254 0.5;
-#X text 147 306 0;
-#X obj 40 15 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 comment;
-#X obj 26 245 ./out~;
+#X text 139 239 0.5;
+#X text 152 291 0;
+#X obj 31 230 ./out~;
 #X connect 0 0 1 0;
-#X connect 1 0 11 0;
-#X connect 1 0 11 1;
+#X connect 1 0 9 0;
+#X connect 1 0 9 1;
 #X connect 3 0 1 1;
-#X connect 3 0 7 0;
+#X connect 3 0 6 0;
 #X connect 4 0 3 0;
 #X restore 422 273 pd linear_envelope;
 #X connect 40 0 42 0;
