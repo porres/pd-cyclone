@@ -225,14 +225,20 @@ In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon
 
 => The 'nilwind' fork:
 
-The 'nilwind' library is a fork of cyclone and it starts as a fork of the last stage <https://github.com/electrickery/pd-miXedSon> was left at. The nilwind's repository is at https://github.com/electrickery/pd-nilwind. It's first release is 'nilwind 0.2.1', from November 2019, which is a development over cyclone 0.2-beta. This fork of cyclone does not aim to pursue updates according to newer versions of Max and its main concern is to keep compatibility to patches made in the Pd-Extended era. Nonetheless, versions of cyclone 0.3 onward are also compatible to Pd-Extended era, as the current development phase does not introduce breaking changes and has only offered stable releases since 0.3! 
+The 'nilwind' library is a fork of cyclone and it starts as a fork of the last stage <https://github.com/electrickery/pd-miXedSon> was left at, meaning it is a  is a development over cyclone 0.2-beta. The nilwind's repository is at https://github.com/electrickery/pd-nilwind. Its first release is 'nilwind 0.2.1', from November 2019. This fork of cyclone does not aim to pursue updates according to newer versions of Max and its main concern is to keep compatibility to old/legacy patches made in the Pd-Extended era (which carried cyclone 0.1). Nonetheless, versions of cyclone 0.3 onward are also compatible to Pd-Extended era, as the current development phase does not introduce breaking changes and has only offered stable releases since 0.3! 
 
 -------
 
 ### About This Repository's Goals:
 
-This repository is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. Releases from this repository are stable and offer many fixes and improves stability from earlier versions. Compatibility to newer versions of Max is a concern, but Max compatibility was always the main goal of cyclone and nothing really changed. No incompatibilities should arise between cyclone 0.3-0 onwards with earlier versions. This development stage of cyclone is also concerned to provide compatibility for patches made in the Pd-Extended era. If a regression bug is found, please report it at <https://github.com/porres/pd-cyclone/issues>.
+This repository resides at  <https://github.com/porres/pd-cyclone> and is faithful to the original goal of Cyclone in creating an external Pd package with a collection of objects cloned and compatible to Max/MSP objects. Bugs ans issues should be reported to <https://github.com/porres/pd-cyclone/issues>. Releases from this repository are stable and offer many fixes and improves stability from earlier versions.
+
+Compatibility to newer versions of Max is a concern, but Max compatibility was always the main goal of cyclone and nothing really changed, since Max itself keeps backwards compatibilities. No incompatibilities should arise between cyclone 0.3-0 onwards with the legacy stage of the library (the cyclone 0.1 phase that was available in Pd Extended). Since this development stage of cyclone is concerned to provide compatibility for patches made in the Pd-Extended era, if such issues arise, they should be treated as bugs and reported/fixed.
 
 ### Collaborating to Cyclone:
 
-This repository/project is open to collaboration to anyone who wishes to work according to the key and central goal of Max/MSP compatibility. Feel free to collaborate.
+This repository/project is open to collaboration to anyone who wishes to work (keeping in mind the key and central goal of Max/MSP compatibility). Feel free to collaborate.
+
+### Acknowledgements:
+
+Thanks to Lucas Cordiviola for working on compilation and cross compilation issues and generating binaries for many releases. Diego Barrios Romero worked on the possibility of compiling all of objects in cyclone as a single binary instead of separate binaries.
