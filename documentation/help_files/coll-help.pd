@@ -1,4 +1,4 @@
-#N canvas 490 90 558 581 10;
+#N canvas 741 103 558 581 10;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 -220534 -1 0
 ;
 #X obj 2 371 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -178,8 +178,8 @@ save (default), f 66;
 ;
 #X text 146 534 @threaded: <1> threaded processing (default) \, <0>
 unthreaded;
-#N canvas 658 83 622 576 details 0;
-#N canvas 574 173 804 263 embbed 0;
+#N canvas 1010 146 622 576 details 0;
+#N canvas 975 311 804 263 embbed 0;
 #X msg 92 99 dump;
 #X obj 93 219 print coll_embedded;
 #X text 219 221 print address/data;
@@ -191,6 +191,10 @@ unthreaded;
 #C restore;
 #X obj 92 141 cyclone/coll @embed 1;
 #C flags 1 0;
+#C 0 zero;
+#C 1 one;
+#C 2 two;
+#C 3 three;
 #C restore;
 #X text 23 19 By default \, the contents of [coll] are not saved as
 part of the patch \, but you can change that! Check the example below
@@ -803,8 +807,6 @@ other [coll] objects that also have no names.;
 -1 -1;
 #X msg 143 198 open;
 #X msg 181 198 wclose;
-#X msg 246 176 0 0.1 \, 1 0 2 3 \, 2 list one two \, 3 hi \, 4 let's
-go, f 16;
 #X text 138 148 <== address;
 #N canvas 454 189 838 370 read/write 0;
 #X msg 213 207 write coll.txt;
@@ -953,8 +955,8 @@ removing the address from the collection.;
 #X connect 30 0 18 0;
 #X connect 31 0 18 0;
 #X restore 525 234 pd alias \; nstore;
-#X obj 462 69 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 comment;
+#X obj 480 61 cyclone/comment 425 16 DejaVu\ Sans\ Mono empty 0 0 0
+0 1 235 235 235 1 0 Examples:;
 #X obj 204 276 print finish_dump;
 #X text 24 15 In [coll] \, any message type can be stored at a particular
 address \, which can be either an "integer float" (positive or negative)
@@ -971,15 +973,17 @@ on the [coll] object to open its editing window - the "open" and "wclose"
 messages can also open/close this window. You can type in or delete
 data \, then close it and save it. The format for each line is: adrress
 \, data \;;
+#X msg 246 176 0 0.1 \, 1 1 2 3 \, 2 list one two \, 3 symbol hi \,
+4 let's go, f 15;
 #X connect 8 0 32 0;
-#X connect 9 0 36 0;
+#X connect 9 0 45 0;
 #X connect 10 0 11 0;
 #X connect 11 0 12 0;
 #X connect 12 0 17 0;
 #X connect 12 0 22 0;
 #X connect 12 1 8 0;
 #X connect 12 3 33 0;
-#X connect 12 3 41 0;
+#X connect 12 3 40 0;
 #X connect 17 0 13 0;
 #X connect 17 1 14 0;
 #X connect 17 2 15 0;
@@ -988,7 +992,7 @@ data \, then close it and save it. The format for each line is: adrress
 #X connect 31 0 12 0;
 #X connect 34 0 12 0;
 #X connect 35 0 12 0;
-#X connect 36 0 12 0;
+#X connect 45 0 12 0;
 #X restore 482 209 pd details;
 #X text 165 314 -;
 #X text 180 332 1st element is an int address to store remaining data
@@ -1020,8 +1024,8 @@ their patches.;
 ;
 #X text 404 354 ============================================================
 ;
-#X obj 49 379 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 comment;
+#X obj 49 379 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 comment;
 #X text 18 91 Below \, [coll] loads 300 thousand entries from a file
 \, which would cause an audio drop out if not in threaded mode.;
 #N canvas 676 50 503 504 depth-first 0;
@@ -1150,14 +1154,14 @@ data;
 #X text 189 469 name or filename to load (same name colls share contents)
 ;
 #X text 178 418 - when finishing a read operation;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 coll;
-#X obj 16 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Store/edit message collections;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 16 5 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 coll;
+#X obj 16 57 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Store/edit message collections;
+#X obj 363 5 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
+#X obj 322 29 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X connect 21 0 46 0;
 #X connect 29 0 46 0;
 #X connect 39 0 46 0;

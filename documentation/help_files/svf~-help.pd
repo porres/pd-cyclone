@@ -79,12 +79,10 @@
 #X text 172 382 <linear>;
 #X text 166 398 <radians>;
 #N canvas 352 78 909 464 frequency 0;
-#X obj 14 13 cnv 15 182 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
 #X text 431 21 linear:;
-#X text 27 126 hz:;
+#X text 30 107 hz:;
 #X text 442 230 radians:;
-#X text 61 126 - The 'hz' mode is simply an input in hertz \, as in
+#X text 64 107 - The 'hz' mode is simply an input in hertz \, as in
 our main example in the parent patch.;
 #X obj 563 84 noise~;
 #X floatatom 655 95 7 0 0 0 - - -;
@@ -98,29 +96,29 @@ our main example in the parent patch.;
 -1 -1 3700 1;
 #X text 717 309 cutoff;
 #X text 724 333 radians;
-#X obj 161 317 noise~;
-#X obj 271 267 samplerate~;
-#X obj 271 245 loadbang;
-#X obj 271 287 / 4;
-#X floatatom 271 309 6 0 0 0 - - -;
-#X floatatom 216 253 7 0 0 0 - - -;
-#X obj 219 219 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
+#X obj 164 298 noise~;
+#X obj 274 248 samplerate~;
+#X obj 274 226 loadbang;
+#X obj 274 268 / 4;
+#X floatatom 274 290 6 0 0 0 - - -;
+#X floatatom 219 234 7 0 0 0 - - -;
+#X obj 222 200 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -228856
 -1 -1 100 1;
-#X text 261 219 cutoff;
-#X obj 216 302 *;
-#X floatatom 216 337 7 0 0 0 - - -;
-#X text 63 166 But please note that the effective cutoff frequency
+#X text 264 200 cutoff;
+#X obj 219 283 *;
+#X floatatom 219 318 7 0 0 0 - - -;
+#X text 66 147 But please note that the effective cutoff frequency
 in hertz is the sample rate frequency divided by 4 \, or half the Nyquist
 frequency.;
 #X text 490 21 - The 'linear' mode is just a scaled version of the
 standard hertz mode with values in the 0-1 range instead 0 and half
 the Nyquist.;
-#X text 264 337 hertz;
-#X text 60 64 [svf~] has three different modes (set by messages or
+#X text 267 318 hertz;
+#X text 63 45 [svf~] has three different modes (set by messages or
 arguments) for mapping input values onto cutoff/center frequency. These
 are mainly for convenience \, but they may also slightly improve efficiency.
 ;
-#X obj 161 363 cyclone/svf~ 0 0.75;
+#X obj 164 344 cyclone/svf~ 0 0.75;
 #X obj 563 119 cyclone/svf~ 0 0.5 linear;
 #X text 507 229 - In this mode \, input values from 0 to 1 are interpreted
 as radians \, producing a quarter-cycle sinusoidal mapping to cutoff
@@ -129,43 +127,41 @@ is closer to our logarithmic perception of pitch., f 63;
 #X obj 598 359 cyclone/svf~ 0 0.5 radians;
 #X msg 515 301 linear;
 #X msg 569 301 radians;
-#X obj 20 18 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 comment;
 #X obj 541 153 ./out~;
 #X obj 576 393 ./out~;
-#X obj 139 397 ./out~;
-#X connect 5 0 30 0;
-#X connect 7 0 6 0;
-#X connect 7 0 30 1;
-#X connect 10 0 32 0;
-#X connect 11 0 32 1;
-#X connect 12 0 11 0;
-#X connect 15 0 29 0;
-#X connect 16 0 18 0;
-#X connect 17 0 16 0;
-#X connect 18 0 19 0;
-#X connect 19 0 23 1;
-#X connect 20 0 23 0;
-#X connect 21 0 20 0;
-#X connect 23 0 24 0;
-#X connect 24 0 29 1;
-#X connect 29 0 38 0;
-#X connect 29 0 38 1;
-#X connect 30 0 36 0;
-#X connect 30 0 36 1;
-#X connect 32 0 37 0;
-#X connect 32 0 37 1;
-#X connect 33 0 32 0;
-#X connect 34 0 32 0;
+#X obj 142 378 ./out~;
+#X connect 4 0 29 0;
+#X connect 6 0 5 0;
+#X connect 6 0 29 1;
+#X connect 9 0 31 0;
+#X connect 10 0 31 1;
+#X connect 11 0 10 0;
+#X connect 14 0 28 0;
+#X connect 15 0 17 0;
+#X connect 16 0 15 0;
+#X connect 17 0 18 0;
+#X connect 18 0 22 1;
+#X connect 19 0 22 0;
+#X connect 20 0 19 0;
+#X connect 22 0 23 0;
+#X connect 23 0 28 1;
+#X connect 28 0 36 0;
+#X connect 28 0 36 1;
+#X connect 29 0 34 0;
+#X connect 29 0 34 1;
+#X connect 31 0 35 0;
+#X connect 31 0 35 1;
+#X connect 32 0 31 0;
+#X connect 33 0 31 0;
 #X restore 455 279 pd frequency \; input modes;
-#X obj 17 55 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 State-variable filter;
-#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 svf~;
-#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 17 55 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 State-variable filter;
+#X obj 16 3 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 svf~;
+#X obj 322 27 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 3 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X obj 163 261 ./out~;
 #X text 52 84 [svf~] implements Chamberlin's state-variable filter
 algorithm \, which outputs lowpass \, highpass \, bandpass \, and band
