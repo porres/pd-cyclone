@@ -18,53 +18,40 @@ typedef struct _unjoin
 
 static t_class *unjoin_class;
 
-static void unjoin_list(t_unjoin *x, t_symbol *s, int argc, t_atom *argv)
+static void unjoin_list(t_unjoin *x, t_symbol *s, int ac, t_atom *av)
 {
-    int i;
-    int outsize = x->x_outsize;
-    int numouts = x->x_numouts;
-    int numleft = argc;
-    for(i = 0; i < numouts; i++)
-    {
-        if(numleft >= outsize)
-        { // if only one... out float
-            if(outsize == 1 && argv->a_type == A_FLOAT)
-                outlet_float(x->x_outlets[i], argv->a_w.w_float);
-            else if(argv->a_type == A_FLOAT) // if first is float... out list
-                outlet_list(x->x_outlets[i],  &s_list, outsize, argv);
-            else{
-                s = atom_getsymbolarg(0, outsize, argv);
-                outlet_anything(x->x_outlets[i], s, outsize-1, argv+1);
-            };
-            numleft -= outsize;
-            argv += outsize;
-        }
-        else if ((numleft > 0) && (numleft < outsize))
-        {
-            if(numleft == 1 && argv->a_type == A_FLOAT)
-                outlet_float(x->x_outlets[i], argv->a_w.w_float);
-            else if(argv->a_type == A_FLOAT) // if first is float... out list
-                outlet_list(x->x_outlets[i],  &s_list, numleft, argv);
-            else{
-                s = atom_getsymbolarg(0, numleft, argv);
-                outlet_anything(x->x_outlets[i], s, numleft-1, argv+1);
-            };
-            numleft = 0;
-            break;
-        }
-        else if(numleft <= 0) break;
-    };
-    if(numleft) // extra outlet
-    {
-        if(numleft == 1 && argv->a_type == A_FLOAT)
-            outlet_float(x->x_outlets[i], argv->a_w.w_float);
-        else if(argv->a_type == A_FLOAT) // if first is float... out list
-            outlet_list(x->x_outlets[numouts],  &s_list, numleft, argv);
+    int size = x->x_outsize;
+    int nouts = x->x_numouts;
+    int length = size * nouts;
+    int extra = (ac - length);
+    if(extra > 0){ // extra outlet
+        if(extra == 1 && av->a_type == A_FLOAT)
+            outlet_float(x->x_outlets[nouts], (av+length)->a_w.w_float);
+        else if(av->a_type == A_FLOAT) // if first is float... output list
+            outlet_list(x->x_outlets[nouts],  &s_list, extra, av+length);
         else{
-            s = atom_getsymbolarg(0, numleft, argv);
-            outlet_anything(x->x_outlets[i], s, numleft-1, argv+1);
-        };
+            s = atom_getsymbolarg(0, length, av+length);
+            outlet_anything(x->x_outlets[nouts], s, extra-1, av+length+1);
+        }
+        ac -= extra;
     };
+    for(int i = (nouts - 1); i >= 0; i--){
+        int j = (i * size);
+        int n = ac - j;
+        if(n > 0){
+            if(n == 1 && av->a_type == A_FLOAT)
+                outlet_float(x->x_outlets[i], (av+j)->a_w.w_float);
+            else if(av->a_type == A_FLOAT)
+                outlet_list(x->x_outlets[i],  &s_list, n, av+j);
+            else{
+                s = atom_getsymbolarg(0, n, av+j);
+                outlet_anything(x->x_outlets[i], s, n-1, av+j+1);
+            }
+        }
+        else
+            n = 0;
+        ac -= n;
+    }
 }
 
 static void unjoin_anything(t_unjoin * x, t_symbol *s, int argc, t_atom * argv)
