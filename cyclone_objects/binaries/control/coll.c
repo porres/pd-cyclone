@@ -1109,18 +1109,20 @@ static void coll_update(t_coll *x){
 }
 
 // methods -------------------------------------------------------------------------------------
+static void coll_wclose(t_coll *x){ // if edited, closing window asks and replace the contents
+    hammereditor_close(x->x_common->c_filehandle, 1);
+}
+
 static void coll_open(t_coll *x){
     t_collcommon *cc = x->x_common;
-    t_binbuf *bb = binbuf_new();
-    int natoms, newline;
-    t_atom *ap;
     char buf[MAXPDSTRING];
     char *name = (char *)(x->x_name ? x->x_name->s_name : "Untitled");
     hammereditor_open(cc->c_filehandle, name, "coll");
+    t_binbuf *bb = binbuf_new();
     collcommon_tobinbuf(cc, bb);
-    natoms = binbuf_getnatom(bb);
-    ap = binbuf_getvec(bb);
-    newline = 1;
+    int natoms = binbuf_getnatom(bb);
+    t_atom *ap = binbuf_getvec(bb);
+    int newline = 1;
     while(natoms--){
         char *ptr = buf;
         if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
@@ -1137,6 +1139,19 @@ static void coll_open(t_coll *x){
     }
     hammereditor_setdirty(cc->c_filehandle, 0);
     binbuf_free(bb);
+    
+    unsigned long wname = (unsigned long)cc->c_filehandle;
+    sys_vgui(" if {[winfo exists .%lx]} {\n", wname);
+    sys_vgui("  wm deiconify .%lx\n", wname);
+    sys_vgui("  raise .%lx\n", wname);
+    sys_vgui("  focus .%lx.text\n", wname);
+    sys_gui(" }\n");
+}
+
+static void coll_click(t_coll *x, t_floatarg xpos, t_floatarg ypos,
+t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
+    xpos = ypos = shift = ctrl = alt = 0;
+    coll_open(x);
 }
 
 static void coll_float(t_coll *x, t_float f){
@@ -1735,18 +1750,6 @@ static void coll_dump(t_coll *x){
 		/* FIXME dooutput() may invalidate ep as well as keyoutput()... */
     }
     outlet_bang(x->x_dumpbangout);
-}
-
-/* CHECKED if there was any editing, both close window and 'wclose'
-   ask and replace the contents.  LATER debug. */
-static void coll_wclose(t_coll *x){
-    hammereditor_close(x->x_common->c_filehandle, 1);
-}
-
-static void coll_click(t_coll *x, t_floatarg xpos, t_floatarg ypos,
-t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
-    xpos = ypos = shift = ctrl = alt = 0;
-    coll_open(x);
 }
 
 /* #ifdef COLL_DEBUG
