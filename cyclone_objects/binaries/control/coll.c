@@ -1065,7 +1065,7 @@ static t_collelem *coll_tokey(t_coll *x, t_atom *key, int ac, t_atom *av, int re
         ep = collcommon_tosymkey(cc, key->a_w.w_symbol, ac, av, replace);
     else if(mess)
         coll_messarg((t_pd *)x, mess);
-    return (ep);
+    return(ep);
 }
 
 static t_collelem *coll_firsttyped(t_coll *x, int ndx, t_atomtype type){
@@ -1077,7 +1077,68 @@ static t_collelem *coll_firsttyped(t_coll *x, int ndx, t_atomtype type){
     return (0);
 }
 
+static void coll_update(t_coll *x){
+    t_collcommon *cc = x->x_common;
+    t_binbuf *bb = binbuf_new();
+    int natoms, newline;
+    t_atom *ap;
+    char buf[MAXPDSTRING];
+    collcommon_tobinbuf(cc, bb);
+    natoms = binbuf_getnatom(bb);
+    ap = binbuf_getvec(bb);
+    newline = 1;
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
+    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)cc->c_filehandle);
+    sys_gui(" }\n");
+    while(natoms--){
+        char *ptr = buf;
+        if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
+            *ptr++ = ' ';
+        atom_string(ap, ptr, MAXPDSTRING);
+        if(ap->a_type == A_SEMI){
+            strcat(buf, "\n");
+            newline = 1;
+        }
+        else
+            newline = 0;
+        hammereditor_append(cc->c_filehandle, buf);
+        ap++;
+    }
+    hammereditor_setdirty(cc->c_filehandle, 0);
+    binbuf_free(bb);
+}
+
 // methods -------------------------------------------------------------------------------------
+static void coll_open(t_coll *x){
+    t_collcommon *cc = x->x_common;
+    t_binbuf *bb = binbuf_new();
+    int natoms, newline;
+    t_atom *ap;
+    char buf[MAXPDSTRING];
+    char *name = (char *)(x->x_name ? x->x_name->s_name : "Untitled");
+    hammereditor_open(cc->c_filehandle, name, "coll");
+    collcommon_tobinbuf(cc, bb);
+    natoms = binbuf_getnatom(bb);
+    ap = binbuf_getvec(bb);
+    newline = 1;
+    while(natoms--){
+        char *ptr = buf;
+        if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
+            *ptr++ = ' ';
+        atom_string(ap, ptr, MAXPDSTRING);
+        if(ap->a_type == A_SEMI){
+            strcat(buf, "\n");
+            newline = 1;
+        }
+        else
+            newline = 0;
+        hammereditor_append(cc->c_filehandle, buf);
+        ap++;
+    }
+    hammereditor_setdirty(cc->c_filehandle, 0);
+    binbuf_free(bb);
+}
+
 static void coll_float(t_coll *x, t_float f){
     t_collcommon *cc = x->x_common;
     t_collelem *ep;
@@ -1101,8 +1162,10 @@ static void coll_symbol(t_coll *x, t_symbol *s){
 
 static void coll_list(t_coll *x, t_symbol *s, int ac, t_atom *av){
     s = NULL;
-    if(ac >= 2 && av->a_type == A_FLOAT)
+    if(ac >= 2 && av->a_type == A_FLOAT){
         coll_tokey(x, av, ac-1, av+1, 1, &s_list);
+        coll_update(x);
+    }
     else
 		coll_messarg((t_pd *)x, &s_list);
 }
@@ -1113,8 +1176,10 @@ static void coll_anything(t_coll *x, t_symbol *s, int ac, t_atom *av){
 }
 
 static void coll_store(t_coll *x, t_symbol *s, int ac, t_atom *av){
-    if(ac >= 2)
+    if(ac >= 2){
 		coll_tokey(x, av, ac-1, av+1, 1, s);
+        coll_update(x);
+    }
     else
 		pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
@@ -1131,6 +1196,7 @@ static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av){
                 ep = collcommon_tonumkey(cc, numkey, ac-2, av+2, 1);
                 ep->e_symkey = av[1].a_w.w_symbol;
 			}
+            coll_update(x);
 		}
 		else if(av->a_type == A_SYMBOL && av[1].a_type == A_FLOAT){
 			if(coll_checkint((t_pd *)x, av[1].a_w.w_float, &numkey, s)){
@@ -1140,6 +1206,7 @@ static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av){
                 ep->e_hasnumkey = 1;
                 ep->e_numkey = numkey;
 			}
+            coll_update(x);
 		}
 		else
             pd_error(x, "bad arguments for message '%s'", s->s_name);
@@ -1175,7 +1242,8 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av){
         }
         else{
             coll_tokey(x, av, ac-1, av+1, 0, s);
-        };
+            coll_update(x);
+        }
     }
     else
 		pd_error(x, "bad arguments for message '%s'", s->s_name);
@@ -1211,6 +1279,7 @@ static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av){
         };
         // it looks like you use this when you don't change data, just keys? -DK
         collcommon_modified(cc, 0);
+        coll_update(x);
     }
     else
 		pd_error(x, "bad arguments for message '%s'", s->s_name);
@@ -1221,6 +1290,7 @@ static void coll_remove(t_coll *x, t_symbol *s, int ac, t_atom *av){
 		t_collelem *ep;
 		if((ep = coll_findkey(x, av, s)))
 			collcommon_remove(x->x_common, ep);
+        coll_update(x);
     }
     else
         pd_error(x, "bad arguments for message '%s'", s->s_name);
@@ -1238,6 +1308,7 @@ static void coll_delete(t_coll *x, t_symbol *s, int ac, t_atom *av){
                         next->e_numkey--;
             }
             collcommon_remove(x->x_common, ep);
+            coll_update(x);
         }
     }
     else
@@ -1254,6 +1325,7 @@ static void coll_assoc(t_coll *x, t_symbol *s, t_floatarg f){
                 collcommon_remove(cc, ep2);
             collcommon_changesymkey(cc, ep1, s);
         }
+        coll_update(x);
     }
 }
 		
@@ -1266,24 +1338,31 @@ static void coll_deassoc(t_coll *x, t_symbol *s, t_floatarg f){
         if((ep = collcommon_numkey(cc, numkey)))
             collcommon_changesymkey(cc, ep, 0);
     }
+    coll_update(x);
 }
 
 static void coll_subsym(t_coll *x, t_symbol *s1, t_symbol *s2){
     t_collelem *ep;
-    if(s1 != s2 && (ep = collcommon_symkey(x->x_common, s2)))
+    if(s1 != s2 && (ep = collcommon_symkey(x->x_common, s2))){
 		collcommon_changesymkey(x->x_common, ep, s1);
+        coll_update(x);
+    }
 }
 
 static void coll_renumber2(t_coll *x, t_floatarg f){
     int startkey;
-    if(coll_checkint((t_pd *)x, f, &startkey, gensym("renumber")))
+    if(coll_checkint((t_pd *)x, f, &startkey, gensym("renumber"))){
 		collcommon_renumber2(x->x_common, startkey);
+        coll_update(x);
+    }
 }
 
 static void coll_renumber(t_coll *x, t_floatarg f){
     int startkey;
-    if(coll_checkint((t_pd *)x, f, &startkey, gensym("renumber")))
+    if(coll_checkint((t_pd *)x, f, &startkey, gensym("renumber"))){
 		collcommon_renumber(x->x_common, startkey);
+        coll_update(x);
+    }
 }
 
 static void coll_merge(t_coll *x, t_symbol *s, int ac, t_atom *av){
@@ -1298,6 +1377,7 @@ static void coll_merge(t_coll *x, t_symbol *s, int ac, t_atom *av){
 				else  /* LATER consider defining collcommon_toclosest() */
 					collcommon_tonumkey(cc, numkey, ac-1, av+1, 1);
             }
+            coll_update(x);
         }
         else if(av->a_type == A_SYMBOL){
             if((ep = collcommon_symkey(cc, av->a_w.w_symbol)))
@@ -1306,6 +1386,7 @@ static void coll_merge(t_coll *x, t_symbol *s, int ac, t_atom *av){
                 ep = collelem_new(ac-1, av+1, 0, av->a_w.w_symbol);
                 collcommon_putafter(cc, ep, cc->c_last);
             }
+            coll_update(x);
         }
         else
             pd_error(x, "bad arguments for message '%s'", s->s_name);
@@ -1337,6 +1418,7 @@ static void coll_sub(t_coll *x, t_symbol *s, int ac, t_atom *av){
 					coll_dooutput(x, ep->e_size, ep->e_data);
             }
         }
+        coll_update(x);
     }
     else
         pd_error(x, "bad arguments for message '%s'", s->s_name);
@@ -1345,12 +1427,18 @@ static void coll_sub(t_coll *x, t_symbol *s, int ac, t_atom *av){
 static void coll_sort(t_coll *x, t_floatarg f1, t_floatarg f2){
     int dir, ndx;
     if(coll_checkint((t_pd *)x, f1, &dir, gensym("sort")) &&
-	coll_checkint((t_pd *)x, f2, &ndx, gensym("sort")))
+    coll_checkint((t_pd *)x, f2, &ndx, gensym("sort"))){
         collcommon_sort(x->x_common, (dir < 0 ? 0 : 1), (ndx < 0 ? -1 : (ndx ? ndx - 1 : 0)));
+        coll_update(x);
+    }
 }
 
 static void coll_clear(t_coll *x){
-    collcommon_clearall(x->x_common);
+    t_collcommon *cc = x->x_common;
+    collcommon_clearall(cc);
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
+    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)cc->c_filehandle);
+    sys_gui(" }\n");
 }
 
 /* According to the refman, the data should be swapped, rather than the keys
@@ -1359,8 +1447,10 @@ static void coll_clear(t_coll *x){
 static void coll_swap(t_coll *x, t_symbol *s, int ac, t_atom *av){
     if(ac == 2){
 		t_collelem *ep1, *ep2;
-		if((ep1 = coll_findkey(x, av, s)) && (ep2 = coll_findkey(x, av + 1, s)))
+        if((ep1 = coll_findkey(x, av, s)) && (ep2 = coll_findkey(x, av + 1, s))){
 			collcommon_swapkeys(x->x_common, ep1, ep2);
+            coll_update(x);
+        }
     }
     else
         pd_error(x, "bad arguments for message '%s'", s->s_name);
@@ -1647,36 +1737,6 @@ static void coll_dump(t_coll *x){
     outlet_bang(x->x_dumpbangout);
 }
 
-static void coll_open(t_coll *x){
-    t_collcommon *cc = x->x_common;
-    t_binbuf *bb = binbuf_new();
-    int natoms, newline;
-    t_atom *ap;
-    char buf[MAXPDSTRING];
-    char *name = (char *)(x->x_name ? x->x_name->s_name : "Untitled");
-    hammereditor_open(cc->c_filehandle, name, "coll");
-    collcommon_tobinbuf(cc, bb);
-    natoms = binbuf_getnatom(bb);
-    ap = binbuf_getvec(bb);
-    newline = 1;
-    while(natoms--){
-        char *ptr = buf;
-    	if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
-            *ptr++ = ' ';
-    	atom_string(ap, ptr, MAXPDSTRING);
-    	if(ap->a_type == A_SEMI){
-            strcat(buf, "\n");
-            newline = 1;
-        }
-        else
-            newline = 0;
-        hammereditor_append(cc->c_filehandle, buf);
-        ap++;
-    }
-    hammereditor_setdirty(cc->c_filehandle, 0);
-    binbuf_free(bb);
-}
-
 /* CHECKED if there was any editing, both close window and 'wclose'
    ask and replace the contents.  LATER debug. */
 static void coll_wclose(t_coll *x){
@@ -1785,6 +1845,7 @@ static void coll_separate(t_coll *x, t_floatarg f){
 			if(ep->e_hasnumkey && ep->e_numkey >= indx)
 				ep->e_numkey += 1;
 		collcommon_modified(cc, 0);
+        coll_update(x);
 	}
 }
 
@@ -1905,86 +1966,46 @@ CYCLONE_OBJ_API void coll_setup(void){
     class_addsymbol(coll_class, coll_symbol);
     class_addlist(coll_class, coll_list);
     class_addanything(coll_class, coll_anything);
-    class_addmethod(coll_class, (t_method)coll_store,
-        gensym("store"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_nstore,
-        gensym("nstore"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_insert,
-        gensym("insert"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_insert2,
-        gensym("insert2"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_remove,
-        gensym("remove"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_delete,
-        gensym("delete"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_assoc,
-        gensym("assoc"), A_SYMBOL, A_FLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_deassoc,
-        gensym("deassoc"), A_SYMBOL, A_FLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_subsym,
-        gensym("subsym"), A_SYMBOL, A_SYMBOL, 0);
-    class_addmethod(coll_class, (t_method)coll_renumber,
-        gensym("renumber"), A_DEFFLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_renumber2,
-        gensym("renumber2"), A_DEFFLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_merge,
-        gensym("merge"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_sub,
-        gensym("sub"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_sub,
-        gensym("nsub"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_clear,
-        gensym("clear"), 0);
-    class_addmethod(coll_class, (t_method)coll_sort,
-        gensym("sort"), A_FLOAT, A_DEFFLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_swap,
-        gensym("swap"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_next,
-        gensym("next"), 0);
-    class_addmethod(coll_class, (t_method)coll_prev,
-        gensym("prev"), 0);
-    class_addmethod(coll_class, (t_method)coll_end,
-        gensym("end"), 0);
-    class_addmethod(coll_class, (t_method)coll_goto,
-        gensym("goto"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_nth,
-        gensym("nth"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_length,
-        gensym("length"), 0);
-    class_addmethod(coll_class, (t_method)coll_min,
-        gensym("min"), A_DEFFLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_max,
-        gensym("max"), A_DEFFLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_refer,
-        gensym("refer"), A_SYMBOL, 0);
-    class_addmethod(coll_class, (t_method)coll_flags,
-        gensym("flags"), A_FLOAT, A_FLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_embed,
-        gensym("embed"), A_FLOAT,0);
-    class_addmethod(coll_class, (t_method)coll_threaded,
-        gensym("threaded"), A_FLOAT,0);
-    class_addmethod(coll_class, (t_method)coll_read,
-        gensym("read"), A_DEFSYM, 0);
-    class_addmethod(coll_class, (t_method)coll_start,
-        gensym("start"), 0);
-    class_addmethod(coll_class, (t_method)coll_write,
-        gensym("write"), A_DEFSYM, 0);
-    class_addmethod(coll_class, (t_method)coll_readagain,
-        gensym("readagain"), 0);
-    class_addmethod(coll_class, (t_method)coll_writeagain,
-        gensym("writeagain"), 0);
-    class_addmethod(coll_class, (t_method)coll_filetype,
-        gensym("filetype"), A_GIMME, 0);
-    class_addmethod(coll_class, (t_method)coll_dump,
-        gensym("dump"), 0);
-    class_addmethod(coll_class, (t_method)coll_open,
-        gensym("open"), 0);
-    class_addmethod(coll_class, (t_method)coll_wclose,
-        gensym("wclose"), 0);
-    class_addmethod(coll_class, (t_method)coll_click,
-        gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(coll_class, (t_method)coll_separate,
-        gensym("separate"), A_FLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_store, gensym("store"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_nstore, gensym("nstore"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_insert, gensym("insert"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_insert2, gensym("insert2"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_remove, gensym("remove"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_delete, gensym("delete"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_assoc, gensym("assoc"), A_SYMBOL, A_FLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_deassoc, gensym("deassoc"), A_SYMBOL, A_FLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_subsym, gensym("subsym"), A_SYMBOL, A_SYMBOL, 0);
+    class_addmethod(coll_class, (t_method)coll_renumber, gensym("renumber"), A_DEFFLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_renumber2, gensym("renumber2"), A_DEFFLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_merge, gensym("merge"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_sub, gensym("sub"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_sub, gensym("nsub"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_clear, gensym("clear"), 0);
+    class_addmethod(coll_class, (t_method)coll_sort, gensym("sort"), A_FLOAT, A_DEFFLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_swap, gensym("swap"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_next, gensym("next"), 0);
+    class_addmethod(coll_class, (t_method)coll_prev, gensym("prev"), 0);
+    class_addmethod(coll_class, (t_method)coll_end, gensym("end"), 0);
+    class_addmethod(coll_class, (t_method)coll_goto, gensym("goto"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_nth, gensym("nth"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_length, gensym("length"), 0);
+    class_addmethod(coll_class, (t_method)coll_min, gensym("min"), A_DEFFLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_max, gensym("max"), A_DEFFLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_refer, gensym("refer"), A_SYMBOL, 0);
+    class_addmethod(coll_class, (t_method)coll_flags, gensym("flags"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_embed, gensym("embed"), A_FLOAT,0);
+    class_addmethod(coll_class, (t_method)coll_threaded, gensym("threaded"), A_FLOAT,0);
+    class_addmethod(coll_class, (t_method)coll_read, gensym("read"), A_DEFSYM, 0);
+    class_addmethod(coll_class, (t_method)coll_start, gensym("start"), 0);
+    class_addmethod(coll_class, (t_method)coll_write, gensym("write"), A_DEFSYM, 0);
+    class_addmethod(coll_class, (t_method)coll_readagain, gensym("readagain"), 0);
+    class_addmethod(coll_class, (t_method)coll_writeagain, gensym("writeagain"), 0);
+    class_addmethod(coll_class, (t_method)coll_filetype, gensym("filetype"), A_GIMME, 0);
+    class_addmethod(coll_class, (t_method)coll_dump, gensym("dump"), 0);
+    class_addmethod(coll_class, (t_method)coll_open, gensym("open"), 0);
+    class_addmethod(coll_class, (t_method)coll_wclose, gensym("wclose"), 0);
+    class_addmethod(coll_class, (t_method)coll_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_separate, gensym("separate"), A_FLOAT, 0);
 /* #ifdef COLL_DEBUG
     class_addmethod(coll_class, (t_method)coll_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);

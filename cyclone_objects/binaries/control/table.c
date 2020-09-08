@@ -450,7 +450,6 @@ static void table_update(t_table *x){
     char buf[MAXPDSTRING];
     int *bp = cc->c_table;
     int count = 0, col = 0;
-//    sys_vgui(".%lx delete 0.0 end \n", (unsigned long)cc->c_filehandle);
     sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
     sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)cc->c_filehandle);
     sys_gui(" }\n");
