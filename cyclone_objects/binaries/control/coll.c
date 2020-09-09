@@ -1910,6 +1910,7 @@ static void coll_threaded(t_coll *x, t_float f){
 }
 
 static void coll_free(t_coll *x){
+    coll_wclose(x);
 	if(x->x_threaded == 1)
         coll_dothread(x, 0);
     pd_unbind(&x->x_ob.ob_pd, x->x_bindsym);
