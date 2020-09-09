@@ -750,7 +750,7 @@ static int zl_sort_cmp(t_zl *x, t_atom *a1, t_atom *a2){
 		return(0);
 	}
 	if(a1->a_type == A_SYMBOL && a2->a_type == A_SYMBOL)
-		return (strcmp(a1->a_w.w_symbol->s_name, a2->a_w.w_symbol->s_name));
+		return(strcmp(a1->a_w.w_symbol->s_name, a2->a_w.w_symbol->s_name));
 	if(a1->a_type == A_POINTER)
         return(1);
     if(a2->a_type == A_POINTER)
@@ -1549,10 +1549,8 @@ static void zl_zlmaxsize(t_zl *x, t_floatarg f){
     zldata_realloc(&x->x_inbuf2,sz);
     zldata_realloc(&x->x_outbuf1,sz);
     zldata_realloc(&x->x_outbuf2,sz);
-    if(!strcmp(zl_modesym[x->x_mode]->s_name,"group") ||
-    	!strcmp(zl_modesym[x->x_mode]->s_name,"stream"))
+    if(zl_modesym[x->x_mode] == gensym("group") || zl_modesym[x->x_mode] == gensym("stream"))
     	zl_sizecheck(x, sz);
-    
 }
 
 static void zl_zlclear(t_zl *x){
@@ -1564,7 +1562,7 @@ static void zl_zlclear(t_zl *x){
     zldata_reset(&x->x_inbuf2, sz2);
     zldata_reset(&x->x_outbuf1, sz3);
     zldata_reset(&x->x_outbuf2, sz4);
-    if(!strcmp(zl_modesym[x->x_mode]->s_name,"stream")) {
+    if(zl_modesym[x->x_mode] == gensym("stream")) {
     	x->x_counter = 0;
     	outlet_float(x->x_out2, 0);
     }
@@ -1597,7 +1595,7 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
             if(!first_arg) // is first arg, so mark it
                 first_arg = 1;
             t_symbol * cursym = atom_getsymbolarg(0, i, a);
-            if(!strcmp(cursym->s_name, "@zlmaxsize")){ // is the attribute
+            if(cursym == gensym("@zlmaxsize")){ // is the attribute
                 i--;
                 a++;
                 if(i == 1){
@@ -1633,10 +1631,10 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
     inlet_new((t_object *)x, (t_pd *)y, 0, 0);
     outlet_new((t_object *)x, &s_anything);
     x->x_out2 = outlet_new((t_object *)x, &s_anything);
-    if(!strcmp(zl_modesym[x->x_mode]->s_name,"group") || 
-    	!strcmp(zl_modesym[x->x_mode]->s_name,"stream"))
+    if(zl_modesym[x->x_mode] == gensym("group") ||
+    zl_modesym[x->x_mode] == gensym("stream"))
     	zl_sizecheck(x, sz);
-    if(!strcmp(zl_modesym[x->x_mode]->s_name,"scramble"))
+    if(zl_modesym[x->x_mode] == gensym("scramble"))
     	srand((unsigned int)clock_getlogicaltime());
     return(x);
 errstate:
