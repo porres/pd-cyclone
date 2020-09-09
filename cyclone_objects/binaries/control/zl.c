@@ -2,7 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-//notes: main inlet calls proper data handlers (zl_anything, etc), which deal with the input through zldata_add/set functions which fill inbuf1, THEN zl_doit is called which calls the "natoms_fn" (suffixed by _count) and calls the doitfn (usu just the mode name like zl_len) called on the OUTPUT buffer outbuf
+// notes: main inlet calls proper data handlers (zl_anything, etc), which deal with the input through zldata_add/set functions which fill inbuf1, THEN zl_doit is called which calls the "natoms_fn" (suffixed by _count) and calls the doitfn (usu just the mode name like zl_len) called on the OUTPUT buffer outbuf
+
 #include <string.h>
 #include <stdlib.h>
 #include "m_pd.h"
@@ -10,9 +11,9 @@
 
 // LATER test reentrancy, tune speedwise
 
-#define ZL_DEF_SIZE    256     // default size
-#define ZL_MINSIZE     1       // min size
-#define ZL_MAXSIZE     32768   // max size
+#define ZL_DEF_SIZE    256    // default size
+#define ZL_MINSIZE     1      // min size
+#define ZL_MAXSIZE     32768  // max size
 #define ZL_N_MODES     32     // number of modes
 
 struct _zl;
@@ -22,7 +23,6 @@ typedef void (*t_zlanyargfn)(struct _zl *, t_symbol *, int, t_atom *);
 typedef int (*t_zlnatomsfn)(struct _zl *);
 typedef void (*t_zldoitfn)(struct _zl *, int, t_atom *, int);
 
-static int            zl_nmodes = 0;
 static t_symbol      *zl_modesym[ZL_N_MODES];
 static int            zl_modeflags[ZL_N_MODES];
 static t_zlintargfn   zl_intargfn[ZL_N_MODES];
@@ -284,17 +284,21 @@ static void zl_swap(t_atom *av, int i, int j) {
 // ************************* UNKNOWN *********************************
 
 static int zl_nop_count(t_zl *x){
-    return (0);
+    x = NULL;
+    return(0);
 }
 
 static void zl_nop(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = natoms = 0;
+    buf = NULL;
     pd_error(x, "[zl]: unknown mode");
 }
 
 // ************************* ECILS *********************************
 
 static int zl_ecils_intarg(t_zl *x, int i){
-    return (i > 0 ? i : 0);  /* CHECKED */
+    x = NULL;
+    return (i > 0 ? i : 0);
 }
 
 static int zl_ecils_count(t_zl *x){
@@ -302,6 +306,7 @@ static int zl_ecils_count(t_zl *x){
 }
 
 static void zl_ecils(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = 0;
     int cnt1, cnt2 = x->x_modearg;
     natoms = x->x_inbuf1.d_natoms;
     buf = x->x_inbuf1.d_buf;
@@ -319,7 +324,8 @@ static void zl_ecils(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* GROUP *********************************
 
 static int zl_group_intarg(t_zl *x, int i){
-    return (i > 0 ? i : 0);  /* CHECKED */
+    x = NULL;
+    return (i > 0 ? i : 0);
 }
 
 static int zl_group_count(t_zl *x){
@@ -327,6 +333,7 @@ static int zl_group_count(t_zl *x){
 }
 
 static void zl_group(t_zl *x, int natoms, t_atom *inbuf, int banged){
+    natoms = 0;
     int count = x->x_modearg;
     //idea: use outbuf to store output
     if(count > 0){
@@ -370,7 +377,8 @@ static void zl_group(t_zl *x, int natoms, t_atom *inbuf, int banged){
 // ************************* ITER *********************************
 
 static int zl_iter_intarg(t_zl *x, int i){
-    return (i > 0 ? i : 0);  /* CHECKED */
+    x = NULL;
+    return (i > 0 ? i : 0);
 }
 
 static int zl_iter_count(t_zl *x){
@@ -381,6 +389,7 @@ static int zl_iter_count(t_zl *x){
 }
 
 static void zl_iter(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = 0;
     int nremaining = x->x_inbuf1.d_natoms;
     t_atom *ptr = x->x_inbuf1.d_buf;
     if(!buf){
@@ -416,6 +425,7 @@ static int zl_join_count(t_zl *x){
 
 static void zl_join(t_zl *x, int natoms, t_atom *buf, int banged){
     if(buf){
+        banged = 0;
         int ac1 = x->x_inbuf1.d_natoms, ac2 = x->x_inbuf2.d_natoms;
         if (ac1)
             memcpy(buf, x->x_inbuf1.d_buf, ac1 * sizeof(*buf));
@@ -428,20 +438,20 @@ static void zl_join(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* LEN *********************************
 
 static int zl_len_count(t_zl *x){
-  //return(x->x_inbuf1.d_natoms);
-  return(0);
+    x = NULL;
+    return(0);
 }
 
 static void zl_len(t_zl *x, int natoms, t_atom *buf, int banged){
-  //int inmax = x->x_inbuf1.d_max;
-  //if(natoms > inmax) natoms = inmax;
-  //x->x_inbuf1.d_natoms = natoms;
+    buf = NULL;
+    banged = natoms = 0;
     outlet_float(((t_object *)x)->ob_outlet, x->x_inbuf1.d_natoms);
 }
 
 // ************************* NTH *********************************
 
 static int zl_nth_intarg(t_zl *x, int i){
+    x = NULL;
     return (i > 0 ? i : 0);
 }
 
@@ -462,6 +472,7 @@ static int zl_nth_count(t_zl *x){
 }
 
 static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = 0;
     int ac1 = x->x_inbuf1.d_natoms,
 	ndx = x->x_modearg - 1;  // one-indexed
     if(ac1){
@@ -500,6 +511,7 @@ static void zl_nth(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* MTH *********************************
 
 static int zl_mth_intarg(t_zl *x, int i){
+    x = NULL;
     return (i);
 }
 
@@ -519,6 +531,7 @@ static int zl_mth_count(t_zl *x){
 }
 
 static void zl_mth(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = 0;
     int ac1 = x->x_inbuf1.d_natoms,
     ndx = x->x_modearg;  // zero-indexed
     if(ac1){
@@ -566,6 +579,7 @@ static int zl_reg_count(t_zl *x){
 }
 
 static void zl_reg(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = 0;
     if(buf)
         memcpy(buf, x->x_inbuf1.d_buf, natoms * sizeof(*buf));
     else{
@@ -585,6 +599,7 @@ static int zl_rev_count(t_zl *x){
 
 static void zl_rev(t_zl *x, int natoms, t_atom *buf, int banged){
     if (buf){
+        banged = 0;
         t_atom *from = x->x_inbuf1.d_buf, *to = buf + natoms;
         while (to-- > buf)
             *to = *from++;
@@ -595,6 +610,7 @@ static void zl_rev(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* ROT *********************************
 
 static int zl_rot_intarg(t_zl *x, int i){
+    x = NULL;
     return (i);  // CHECKED anything goes (modulo)
 }
 
@@ -604,6 +620,7 @@ static int zl_rot_count(t_zl *x){
 
 static void zl_rot(t_zl *x, int natoms, t_atom *buf, int banged){
     if(buf){
+        banged = 0;
         int cnt1 = x->x_modearg, cnt2;
         if(cnt1){
             if (cnt1 > 0){
@@ -656,6 +673,7 @@ static int zl_sect_count(t_zl *x){
 
 // CHECKED in-buffer duplicates are skipped
 static void zl_sect(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = 0;
     if(!natoms)
         outlet_bang(x->x_out2);
     if(buf){
@@ -683,6 +701,7 @@ static void zl_sect(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* SLICE *********************************
 
 static int zl_slice_intarg(t_zl *x, int i){
+    x = NULL;
     return (i > 0 ? i : 0);  /* CHECKED */
 }
 
@@ -691,6 +710,7 @@ static int zl_slice_count(t_zl *x){
 }
 
 static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = 0;
     int cnt1 = x->x_modearg, cnt2;
     natoms = x->x_inbuf1.d_natoms;
     buf = x->x_inbuf1.d_buf;
@@ -708,6 +728,7 @@ static void zl_slice(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* SORT *********************************
 
 static int zl_sort_intarg(t_zl *x, int i){
+    x = NULL;
     return (i == -1 ? -1 : 1);
 }
 
@@ -715,41 +736,39 @@ static int zl_sort_count(t_zl *x){
     return (x->x_inbuf1.d_natoms);
 }
 
-static int zl_sort_cmp(t_zl *x, t_atom *a1, t_atom *a2) {
-	if (a1->a_type == A_FLOAT && a2->a_type == A_SYMBOL)
-		return (-1);
-	if (a1->a_type == A_SYMBOL && a2->a_type == A_FLOAT)
-		return (1);
-	if (a1->a_type == A_FLOAT && a2->a_type == A_FLOAT) {
-		if (a1->a_w.w_float < a2->a_w.w_float)
-			return (-1);
-		if (a1->a_w.w_float > a2->a_w.w_float)
+static int zl_sort_cmp(t_zl *x, t_atom *a1, t_atom *a2){
+    x = NULL;
+	if(a1->a_type == A_FLOAT && a2->a_type == A_SYMBOL)
+		return(-1);
+	if(a1->a_type == A_SYMBOL && a2->a_type == A_FLOAT)
+		return(1);
+	if(a1->a_type == A_FLOAT && a2->a_type == A_FLOAT){
+		if(a1->a_w.w_float < a2->a_w.w_float)
+			return(-1);
+		if(a1->a_w.w_float > a2->a_w.w_float)
 			return (1);
-		return (0);
+		return(0);
 	}
-	if (a1->a_type == A_SYMBOL && a2->a_type == A_SYMBOL)
+	if(a1->a_type == A_SYMBOL && a2->a_type == A_SYMBOL)
 		return (strcmp(a1->a_w.w_symbol->s_name, a2->a_w.w_symbol->s_name));
-	if (a1->a_type == A_POINTER)
-		return (1);
-	if (a2->a_type == A_POINTER)
-		return (-1);	
+	if(a1->a_type == A_POINTER)
+        return(1);
+    if(a2->a_type == A_POINTER)
+		return(-1);
+    else
+        return(0);
 }
-
-/*static int zl_sort_cmpdown(const void *elem1, const void *elem2) {
-	return (-zl_sort_cmpup(elem1, elem2));
-}*/
-
 
 static void zl_sort_qsort(t_zl *x, t_atom *av1, t_atom *av2, int left, int right, int dir) {
     int i, last;
-    if (left >= right)
+    if(left >= right)
         return;
     zl_swap(av1, left, (left + right)/2);
     if(av2)
     	zl_swap(av2, left, (left + right)/2);
     last = left;
     for (i = left+1; i <= right; i++) {
-        if ((dir * zl_sort_cmp(x, av1 + i, av1 + left)) < 0) {
+        if((dir * zl_sort_cmp(x, av1 + i, av1 + left)) < 0){
             zl_swap(av1, ++last, i);
             if (av2)
             	zl_swap(av2, last, i);
@@ -763,6 +782,7 @@ static void zl_sort_qsort(t_zl *x, t_atom *av1, t_atom *av2, int left, int right
 }
 
 static void zl_sort_rev(t_zl *x, int natoms, t_atom *av) {
+    x = NULL;
 	for (int i = 0, j = natoms - 1; i < natoms/2; i++, j--)
 		zl_swap(av, i, j);
 	
@@ -770,7 +790,6 @@ static void zl_sort_rev(t_zl *x, int natoms, t_atom *av) {
 
 static void zl_sort(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
-    	t_atom *av1 = x->x_inbuf1.d_buf;
     	t_atom *buf2 = x->x_outbuf2.d_buf;
     	x->x_outbuf2.d_natoms = natoms;
     	if(banged) {
@@ -806,12 +825,15 @@ static void zl_sub_anyarg(t_zl *x, t_symbol *s, int ac, t_atom *av){
 }
 
 static int zl_sub_count(t_zl *x){
+    x = NULL;
     return(0);
 }
 
 static void zl_sub(t_zl *x, int natoms, t_atom *buf, int banged){
     int natoms2 = x->x_inbuf2.d_natoms;
     if(natoms2){
+        buf = NULL;
+        banged = natoms = 0;
         int found = 0;
         int ndx1, natoms1 = x->x_inbuf1.d_natoms;
         t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
@@ -865,6 +887,7 @@ static int zl_union_count(t_zl *x){
 /* CHECKED in-buffer duplicates not skipped */
 static void zl_union(t_zl *x, int natoms, t_atom *buf, int banged){
     if (buf){
+        banged = 0;
         int ac1 = x->x_inbuf1.d_natoms, ac2 = x->x_inbuf2.d_natoms, i2;
         t_atom *av1 = x->x_inbuf1.d_buf, *ap2 = x->x_inbuf2.d_buf;
         if (ac1){
@@ -898,6 +921,7 @@ static int zl_change_count(t_zl *x){
 
 static void zl_change(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
+        banged = 0;
 		int ac2 = x->x_inbuf2.d_natoms;
     	t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
     	if ((natoms == ac2) && !memcmp(av1, av2, natoms * sizeof(*av1))) {
@@ -924,6 +948,7 @@ static int zl_compare_count(t_zl *x){
 
 static void zl_compare(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
+        banged = 0;
 		int ac2 = x->x_inbuf2.d_natoms;
 		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
 		if (natoms != ac2) {
@@ -954,6 +979,7 @@ static int zl_delace_count(t_zl *x){
 
 static void zl_delace(t_zl *x, int n, t_atom *buf, int banged){
     if(buf && n > 1){
+        banged = 0;
         t_atom *av1 = x->x_inbuf1.d_buf, *buf2 = x->x_outbuf2.d_buf;
         int odd = n % 2, i, j;
         for(i = 0, j = 0; i < n-odd; i++, j++){
@@ -977,6 +1003,7 @@ static int zl_filter_count(t_zl *x){
 
 static void zl_filter(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
+        banged = 0;
 		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf,
 			*buf2 = x->x_outbuf2.d_buf;
 		int filtatoms = x->x_inbuf2.d_natoms;
@@ -1010,6 +1037,7 @@ static int zl_lace_count(t_zl *x){
 
 static void zl_lace(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
+        banged = 0;
 		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
 		int i, j = 0, ac = natoms/2;
 		for (i = 0; i < ac; i++) {
@@ -1033,6 +1061,7 @@ static int zl_lookup_count(t_zl *x){
 
 static void zl_lookup(t_zl *x, int natoms, t_atom *buf, int banged){
 	if (buf) {
+        banged = 0;
 		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
 		int ac2 = x->x_inbuf2.d_natoms, total = 0, i, j;
 		for (i = 0; i < natoms; i++) {
@@ -1054,6 +1083,7 @@ static int zl_median_count(t_zl *x){
 
 static void zl_median(t_zl *x, int natoms, t_atom *buf, int banged){
 	if (buf) {
+        banged = 0;
 		t_atom *av1 = x->x_inbuf1.d_buf;
 		int i, total = 0;
 		for (i = 0; i < natoms; i++) {
@@ -1121,7 +1151,8 @@ static int zl_scramble_count(t_zl *x){
 }
 
 static void zl_scramble(t_zl *x, int natoms, t_atom *buf, int banged){
-	if(buf) {
+    if(buf){
+        banged = 0;
 		t_atom *av1 = x->x_inbuf1.d_buf, *buf2 = x->x_outbuf2.d_buf;
 		int n = natoms , i;
 		memcpy(buf, av1, natoms * sizeof(*buf));
@@ -1143,6 +1174,7 @@ static int zl_stack_count(t_zl *x){
 }
 
 static void zl_stack(t_zl *x, int natoms, t_atom *buf, int banged){
+    buf = NULL;
 	t_atom *av1 = x->x_inbuf1.d_buf;
 	if (banged) {
 		if (natoms) {
@@ -1184,7 +1216,6 @@ static void zl_stream(t_zl *x, int natoms, t_atom *buf, int banged){
     else {
     	int i, j;
     	t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
-		int outatoms = x->x_outbuf1.d_natoms;
 		int ap2 = x->x_inbuf2.d_natoms;
 
 			for (i = (natoms > len ? natoms - len : 0); i < natoms ; i++) {
@@ -1219,6 +1250,8 @@ static int zl_sum_count(t_zl *x){
 
 
 static void zl_sum(t_zl *x, int natoms, t_atom *buf, int banged){
+    banged = 0;
+    buf = NULL;
 	t_atom *av1 = x->x_inbuf1.d_buf;
 	int i;
 	t_float sum = 0;
@@ -1237,6 +1270,7 @@ static int zl_thin_count(t_zl *x){
 
 static void zl_thin(t_zl *x, int natoms, t_atom *buf, int banged){
 	if (buf) {
+        banged = 0;
 		t_atom *av1 = x->x_inbuf1.d_buf;
 		int i, j, total = 0;
 		for (i = 0; i < natoms ; i++) {
@@ -1264,8 +1298,8 @@ static int zl_unique_count(t_zl *x){
 
 static void zl_unique(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
-		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf,
-			*buf2 = x->x_outbuf2.d_buf;
+        banged = 0;
+		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
 		int filtatoms = x->x_inbuf2.d_natoms;
 		int i, j, total = 0;
 		for (i = 0; i < natoms ; i++) {
@@ -1296,6 +1330,7 @@ static int zl_indexmap_count(t_zl *x){
 
 static void zl_indexmap(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
+        banged = 0;
 		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
 		int nindices = x->x_inbuf2.d_natoms;
 		for (int i = 0; i < nindices; i++) {
@@ -1326,6 +1361,7 @@ static int zl_swapmode_count(t_zl *x){
 
 static void zl_swapmode(t_zl *x, int natoms, t_atom *buf, int banged){
 	if(buf) {
+        banged = 0;
 		t_atom *av1 = x->x_inbuf1.d_buf, *av2 = x->x_inbuf2.d_buf;
 		int nswaps = (x->x_inbuf2.d_natoms/2)*2;
 		int i, i1, i2;
@@ -1358,7 +1394,6 @@ static void zl_swapmode(t_zl *x, int natoms, t_atom *buf, int banged){
 
 static void zl_doit(t_zl *x, int banged){
     int reentered = x->x_entered;
-    int prealloc = !reentered;
     int natoms = (*zl_natomsfn[x->x_mode])(x);
     if(natoms < 0)
         return;
@@ -1402,12 +1437,11 @@ static void zl_symbol(t_zl *x, t_symbol *s){
 }
 
 static void zl_list(t_zl *x, t_symbol *s, int ac, t_atom *av){
-    //if(!x->x_locked){
-        if(zl_modeflags[x->x_mode])
-            zldata_addlist(&x->x_inbuf1, ac, av);
-        else
-            zldata_setlist(&x->x_inbuf1, ac, av);
-    //}
+    s = NULL;
+    if(zl_modeflags[x->x_mode])
+        zldata_addlist(&x->x_inbuf1, ac, av);
+    else
+        zldata_setlist(&x->x_inbuf1, ac, av);
     zl_doit(x, 0);
 }
 
@@ -1438,6 +1472,7 @@ static void zl_setmodearg(t_zl *x, t_symbol *s, int ac, t_atom *av){
 }
 
 static void zlproxy_bang(t_zlproxy *d){
+    d = NULL;
     // nop
 }
 
@@ -1466,6 +1501,7 @@ static void zlproxy_symbol(t_zlproxy *p, t_symbol *s){
 /* LATER gpointer */
 
 static void zlproxy_list(t_zlproxy *p, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
     if (ac){
         t_zl *x = p->p_master;
         if (zl_modeargfn(x))
@@ -1493,6 +1529,7 @@ static void zl_free(t_zl *x){
 }
 
 static void zl_mode(t_zl *x, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
     if(ac && av->a_type == A_SYMBOL){
         t_symbol *modesym = av->a_w.w_symbol;
         int i;
@@ -1651,10 +1688,6 @@ CYCLONE_OBJ_API void zl_setup(void){
     zl_setupmode("sort", 0, zl_sort_intarg, 0, zl_sort_count, zl_sort, 13);
     zl_setupmode("sub", 0, 0, zl_sub_anyarg, zl_sub_count, zl_sub, 14);
     zl_setupmode("union", 0, 0, zl_union_anyarg, zl_union_count, zl_union, 15);
-    // new after Max 4
-    // XXchange XXcompare XXdelace XXfilter XXlace XXlookup 
-    // XXmedian queue XXscramble stack 
-    // stream XXsum XXthin XXunique
     zl_setupmode("change", 0, 0, zl_change_anyarg, zl_change_count, zl_change, 16);
     zl_setupmode("compare", 0, 0, zl_compare_anyarg, zl_compare_count, zl_compare, 17);
     zl_setupmode("delace", 0, 0, 0, zl_delace_count, zl_delace, 18);
@@ -1669,9 +1702,6 @@ CYCLONE_OBJ_API void zl_setup(void){
     zl_setupmode("sum", 0, 0, 0, zl_sum_count, zl_sum, 27);
     zl_setupmode("thin", 0, 0, 0, zl_thin_count, zl_thin, 28);
     zl_setupmode("unique", 0, 0, zl_unique_anyarg, zl_unique_count, zl_unique, 29);
-    // new in Max 7
-    // indexmap swap
     zl_setupmode("indexmap", 0, 0, zl_indexmap_anyarg, zl_indexmap_count, zl_indexmap, 30);
-    zl_setupmode("swap", 0, 0, zl_swapmode_anyarg, zl_swapmode_count, zl_swapmode, 31);
-    
+    zl_setupmode("swap", 0, 0, zl_swapmode_anyarg, zl_swapmode_count, zl_swapmode, 31);    
 }
