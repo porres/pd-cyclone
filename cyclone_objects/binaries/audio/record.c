@@ -28,8 +28,17 @@ the beginning of the ramp to default to the end of the whole array, right?
 
 #define DRAWMS  500. // refractory period in ms
 
+static t_class *record_class, *record_proxy_class;
+
+typedef struct _record_proxy{
+    t_object    p_obj;
+    t_clock    *p_clock;
+    struct      _record *p_cnv;
+}t_record_proxy;
+
 typedef struct _record{
     t_object    x_obj;
+    t_record_proxy   *x_proxy;
     t_cybuf    *x_cybuf;
     t_inlet    *x_stlet;        // start inlet
     t_inlet    *x_endlet;       // end inlet
@@ -49,8 +58,6 @@ typedef struct _record{
     t_float    *x_endvec;       // endposition (in ms) vec
     t_float    *x_ovec;         // output vector
 }t_record;
-
-static t_class *record_class;
 
 static void record_list(t_record *x, t_symbol *s, int argc, t_atom * argv){
     s = NULL;
@@ -72,9 +79,11 @@ static void record_list(t_record *x, t_symbol *s, int argc, t_atom * argv){
     }
 }
 
-static void record_draw(t_record *x){
-    if(x->x_cybuf->c_playable)
-        cybuf_redraw(x->x_cybuf);
+static void record_proxy_draw(t_record_proxy *p){
+    if(p->p_cnv){
+        if(p->p_cnv->x_cybuf->c_playable)
+            cybuf_redraw(p->p_cnv->x_cybuf);
+    }
 }
 
 static void record_tick(t_record *x){
@@ -134,6 +143,14 @@ static void record_append(t_record *x, t_floatarg f){
 
 static void record_loop(t_record *x, t_floatarg f){
     x->x_loopmode = (f != 0);
+}
+
+static void record_loopstart(t_record *x, t_float loopstart){
+    pd_float((t_pd *)x->x_stlet, loopstart);
+}
+
+static void record_loopend(t_record *x, t_float loopend){
+    pd_float((t_pd *)x->x_endlet, loopend);
 }
 
 static t_int *record_perform(t_int *w){
@@ -220,6 +237,20 @@ static void record_dsp(t_record *x, t_signal **sp){
 	dsp_add(record_perform, 2, x, nblock);
 }
 
+static void record_proxy_free(t_record_proxy *p){
+    pd_unbind(&p->p_obj.ob_pd, gensym("pd-dsp-stopped"));
+    clock_free(p->p_clock);
+    pd_free(&p->p_obj.ob_pd);
+}
+
+static t_record_proxy *record_proxy_new(t_record *x){
+    t_record_proxy *p = (t_record_proxy*)pd_new(record_proxy_class);
+    p->p_cnv = x;
+    pd_bind(&p->p_obj.ob_pd, gensym("pd-dsp-stopped"));
+    p->p_clock = clock_new(p, (t_method)record_proxy_free);
+    return(p);
+}
+
 static void record_free(t_record *x){
     cybuf_free(x->x_cybuf);
     inlet_free(x->x_stlet);
@@ -228,19 +259,13 @@ static void record_free(t_record *x){
     freebytes(x->x_ivecs, x->x_numchans * sizeof(*x->x_ivecs));
     if(x->x_clock)
         clock_free(x->x_clock);
-    pd_unbind(&x->x_obj.ob_pd, gensym("pd-dsp-stopped"));
-}
-
-static void record_loopstart(t_record *x, t_float loopstart){
-    pd_float((t_pd *)x->x_stlet, loopstart);
-}
-
-static void record_loopend(t_record *x, t_float loopend){
-    pd_float((t_pd *)x->x_endlet, loopend);
+    x->x_proxy->p_cnv = NULL;
 }
 
 static void *record_new(t_symbol *s, int argc, t_atom *argv){
     s = NULL;
+    t_record *x = (t_record *)pd_new(record_class);
+    x->x_proxy = record_proxy_new(x);
     int i;
 	int numchan = 1;
 	t_float append = 0;
@@ -323,7 +348,6 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv){
 	};
     int chn_n = numchan < 1 ? 1 : numchan > 4 ? 4 : numchan == 3 ? 2 : numchan;
     // old arsic notes - chn_n number of channels, 0 nsigs 1 nauxsigs
-    t_record *x = (t_record *)pd_new(record_class);
     x->x_ksr = (float)sys_getsr() * 0.001;
     x->x_cybuf = cybuf_init((t_class *)x, arrname, chn_n, 0);
     t_cybuf * c = x->x_cybuf;
@@ -356,7 +380,6 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv){
         pd_float((t_pd *)x->x_endlet, loopend);
         x->x_outlet = outlet_new(&x->x_obj, gensym("signal"));
     };
-    pd_bind(&x->x_obj.ob_pd, gensym("pd-dsp-stopped"));
     return(x);
 	errstate:
 		post("record~: improper args");
@@ -367,7 +390,6 @@ CYCLONE_OBJ_API void record_tilde_setup(void){
     record_class = class_new(gensym("record~"), (t_newmethod)record_new,
         (t_method)record_free, sizeof(t_record), 0, A_GIMME, 0);
     class_addfloat(record_class, record_float);
-    class_addbang(record_class, record_draw);
     class_addmethod(record_class, (t_method)record_dsp, gensym("dsp"), A_CANT, 0);
     class_addlist(record_class, (t_method)record_list);
     class_domainsignalin(record_class, -1);
@@ -377,4 +399,6 @@ CYCLONE_OBJ_API void record_tilde_setup(void){
     class_addmethod(record_class, (t_method)record_reset, gensym("reset"), 0);
     class_addmethod(record_class, (t_method)record_loopstart, gensym("loopstart"), A_FLOAT, 0);
     class_addmethod(record_class, (t_method)record_loopend, gensym("loopend"), A_FLOAT, 0);
+    record_proxy_class = class_new(0, 0, 0, sizeof(t_record_proxy), CLASS_NOINLET | CLASS_PD, 0);
+    class_addbang(record_proxy_class, record_proxy_draw);
 }
