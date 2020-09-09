@@ -35,9 +35,8 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #define COLL_ALLBANG 1 //bang all when read instead of specific object
 #define COLL_MAXEXTLEN 4 //maximum file extension length
 
-enum { COLL_HEADRESET,
-       COLL_HEADNEXT, COLL_HEADPREV,  /* distinction not used, currently */
-       COLL_HEADDELETED };
+enum{COLL_HEADRESET, COLL_HEADNEXT, COLL_HEADPREV,  // distinction not used, currently
+    COLL_HEADDELETED };
 
 typedef struct _collelem{
     int                e_hasnumkey;
@@ -51,7 +50,7 @@ typedef struct _collelem{
 
 typedef struct _collcommon{
     t_pd           c_pd;
-    struct _coll  *c_refs;  /* used in read-banging and dirty flag handling */
+    struct _coll  *c_refs;      /* used in read-banging and dirty flag handling */
     int            c_increation;
     int            c_volatile;
     int            c_selfmodified;
@@ -81,6 +80,8 @@ typedef struct _coll{
   t_outlet      *x_keyout;
   t_outlet      *x_filebangout;
   t_outlet      *x_dumpbangout;
+  t_symbol      *x_bindsym;
+  int           x_is_opened;
   int           x_threaded;
   int           x_nosearch;
   int           x_initread; //if we're reading a file for the first time
@@ -1077,35 +1078,90 @@ static t_collelem *coll_firsttyped(t_coll *x, int ndx, t_atomtype type){
     return (0);
 }
 
-static void coll_update(t_coll *x){
-    t_collcommon *cc = x->x_common;
-    t_binbuf *bb = binbuf_new();
-    int natoms, newline;
-    t_atom *ap;
-    char buf[MAXPDSTRING];
-    collcommon_tobinbuf(cc, bb);
-    natoms = binbuf_getnatom(bb);
-    ap = binbuf_getvec(bb);
-    newline = 1;
-    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
-    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)cc->c_filehandle);
-    sys_gui(" }\n");
-    while(natoms--){
-        char *ptr = buf;
-        if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
-            *ptr++ = ' ';
-        atom_string(ap, ptr, MAXPDSTRING);
-        if(ap->a_type == A_SEMI){
-            strcat(buf, "\n");
-            newline = 1;
+static void coll_do_update(t_coll *x){
+    if(x->x_is_opened){
+        t_collcommon *cc = x->x_common;
+        t_binbuf *bb = binbuf_new();
+        int natoms, newline;
+        t_atom *ap;
+        char buf[MAXPDSTRING];
+        collcommon_tobinbuf(cc, bb);
+        natoms = binbuf_getnatom(bb);
+        ap = binbuf_getvec(bb);
+        newline = 1;
+        sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
+        sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)cc->c_filehandle);
+        sys_gui(" }\n");
+        while(natoms--){
+            char *ptr = buf;
+            if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
+                *ptr++ = ' ';
+            atom_string(ap, ptr, MAXPDSTRING);
+            if(ap->a_type == A_SEMI){
+                strcat(buf, "\n");
+                newline = 1;
+            }
+            else
+                newline = 0;
+            hammereditor_append(cc->c_filehandle, buf);
+            ap++;
         }
-        else
-            newline = 0;
-        hammereditor_append(cc->c_filehandle, buf);
-        ap++;
+        hammereditor_setdirty(cc->c_filehandle, 0);
+        binbuf_free(bb);
     }
-    hammereditor_setdirty(cc->c_filehandle, 0);
-    binbuf_free(bb);
+}
+
+static void coll_do_open(t_coll *x){
+    t_collcommon *cc = x->x_common;
+    if(x->x_is_opened){
+        unsigned long wname = (unsigned long)cc->c_filehandle;
+        sys_vgui("wm deiconify .%lx\n", wname);
+        sys_vgui("raise .%lx\n", wname);
+        sys_vgui("focus .%lx.text\n", wname);
+    }
+    else{
+        char buf[MAXPDSTRING];
+        char *name = (char *)(x->x_name ? x->x_name->s_name : "Untitled");
+        hammereditor_open(cc->c_filehandle, name, "coll");
+        t_binbuf *bb = binbuf_new();
+        collcommon_tobinbuf(cc, bb);
+        int natoms = binbuf_getnatom(bb);
+        t_atom *ap = binbuf_getvec(bb);
+        int newline = 1;
+        while(natoms--){
+            char *ptr = buf;
+            if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
+                *ptr++ = ' ';
+            atom_string(ap, ptr, MAXPDSTRING);
+            if(ap->a_type == A_SEMI){
+                strcat(buf, "\n");
+                newline = 1;
+            }
+            else
+                newline = 0;
+            hammereditor_append(cc->c_filehandle, buf);
+            ap++;
+        }
+        hammereditor_setdirty(cc->c_filehandle, 0);
+        binbuf_free(bb);
+        x->x_is_opened = 1;
+    }
+}
+
+static void coll_is_opened(t_coll *x, t_floatarg f, t_floatarg open){
+    x->x_is_opened = (int)f;
+    open ? coll_do_open(x) : coll_do_update(x);
+}
+
+static void check_open(t_coll *x, int open){
+    sys_vgui("if {[winfo exists .%lx]} {\n", (unsigned long)x->x_common->c_filehandle);
+    sys_vgui("pdsend \"%s _is_opened 1 %d\"\n", x->x_bindsym->s_name, open);
+    sys_vgui("} else {pdsend \"%s _is_opened 0 %d\"\n", x->x_bindsym->s_name, open);
+    sys_gui(" }\n");
+}
+
+static void coll_update(t_coll *x){
+    check_open(x, 0);
 }
 
 // methods -------------------------------------------------------------------------------------
@@ -1114,44 +1170,13 @@ static void coll_wclose(t_coll *x){ // if edited, closing window asks and replac
 }
 
 static void coll_open(t_coll *x){
-    t_collcommon *cc = x->x_common;
-    char buf[MAXPDSTRING];
-    char *name = (char *)(x->x_name ? x->x_name->s_name : "Untitled");
-    hammereditor_open(cc->c_filehandle, name, "coll");
-    t_binbuf *bb = binbuf_new();
-    collcommon_tobinbuf(cc, bb);
-    int natoms = binbuf_getnatom(bb);
-    t_atom *ap = binbuf_getvec(bb);
-    int newline = 1;
-    while(natoms--){
-        char *ptr = buf;
-        if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
-            *ptr++ = ' ';
-        atom_string(ap, ptr, MAXPDSTRING);
-        if(ap->a_type == A_SEMI){
-            strcat(buf, "\n");
-            newline = 1;
-        }
-        else
-            newline = 0;
-        hammereditor_append(cc->c_filehandle, buf);
-        ap++;
-    }
-    hammereditor_setdirty(cc->c_filehandle, 0);
-    binbuf_free(bb);
-    
-    unsigned long wname = (unsigned long)cc->c_filehandle;
-    sys_vgui(" if {[winfo exists .%lx]} {\n", wname);
-    sys_vgui("  wm deiconify .%lx\n", wname);
-    sys_vgui("  raise .%lx\n", wname);
-    sys_vgui("  focus .%lx.text\n", wname);
-    sys_gui(" }\n");
+    check_open(x, 1);
 }
 
 static void coll_click(t_coll *x, t_floatarg xpos, t_floatarg ypos,
 t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
     xpos = ypos = shift = ctrl = alt = 0;
-    coll_open(x);
+    check_open(x, 1);
 }
 
 static void coll_float(t_coll *x, t_float f){
@@ -1887,6 +1912,7 @@ static void coll_threaded(t_coll *x, t_float f){
 static void coll_free(t_coll *x){
 	if(x->x_threaded == 1)
         coll_dothread(x, 0);
+    pd_unbind(&x->x_ob.ob_pd, x->x_bindsym);
     clock_free(x->x_clock);
     hammerfile_free(x->x_filehandle);
     coll_unbind(x);
@@ -1898,6 +1924,10 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv){
     t_symbol *file = NULL;
     x->x_fileext = &s_;
     x->x_canvas = canvas_getcurrent();
+    char buf[MAXPDSTRING];
+    buf[MAXPDSTRING-1] = 0;
+    sprintf(buf, "#%lx", (long)x);
+    pd_bind(&x->x_ob.ob_pd, x->x_bindsym = gensym(buf));
     outlet_new((t_object *)x, &s_);
     x->x_keyout = outlet_new((t_object *)x, &s_);
     x->x_filebangout = outlet_new((t_object *)x, &s_bang);
@@ -1941,6 +1971,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv){
         else
             goto errstate;
     };
+    x->x_is_opened = 0;
     x->x_threaded = 0; //changed from -1 which broke on windows
     x->x_nosearch = no_search;
     x->x_filebang = 0;
@@ -2009,6 +2040,7 @@ CYCLONE_OBJ_API void coll_setup(void){
     class_addmethod(coll_class, (t_method)coll_wclose, gensym("wclose"), 0);
     class_addmethod(coll_class, (t_method)coll_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(coll_class, (t_method)coll_separate, gensym("separate"), A_FLOAT, 0);
+    class_addmethod(coll_class, (t_method)coll_is_opened, gensym("_is_opened"), A_FLOAT , A_FLOAT, 0);
 /* #ifdef COLL_DEBUG
     class_addmethod(coll_class, (t_method)coll_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);
