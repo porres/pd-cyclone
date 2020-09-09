@@ -41,7 +41,7 @@ static void decide_ft1(t_decide *x, t_floatarg f){
 
 static void *decide_new(t_floatarg f){
     t_decide *x = (t_decide *)pd_new(decide_class);
-    x->x_seed = (int)f ? (int)f : rand()
+    x->x_seed = (int)f ? (int)f : rand();
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     return(x);
