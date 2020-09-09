@@ -13,15 +13,14 @@ typedef struct _decide{
 
 static t_class *decide_class;
 
-// random bit algo from NR (method II in 7.4)
-#define RBIT1      1
+#define RBIT1      1  // random bit algo from NR (method II in 7.4)
 #define RBIT2      2
 #define RBIT5      16
 #define RBIT18     131072
 #define RBIT_MASK  (RBIT1 + RBIT2 + RBIT5)
 
 static void decide_bang(t_decide *x){
-    if (x->x_seed & RBIT18){
+    if(x->x_seed & RBIT18){
         x->x_seed = ((x->x_seed ^ RBIT_MASK) << 1) | RBIT1;
         outlet_float(((t_object *)x)->ob_outlet, 1);
     }
@@ -42,12 +41,7 @@ static void decide_ft1(t_decide *x, t_floatarg f){
 
 static void *decide_new(t_floatarg f){
     t_decide *x = (t_decide *)pd_new(decide_class);
-    int i = (int)f;
-    if(i)
-        x->x_seed = i;
-    else
-        x->x_seed = rand();
-    post("seed = %d", x->x_seed);
+    x->x_seed = (int)f ? (int)f : rand()
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     return(x);
