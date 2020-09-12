@@ -98,9 +98,9 @@ static void record_set(t_record *x, t_symbol *s){
     cybuf_setarray(x->x_cybuf, s );
 }
 
-static void record_reset(t_record *x){ // new
+static void record_reset(t_record *x){
     t_float loopstart  = 0.;
-    t_float loopend = (t_float)x->x_cybuf->c_npts/x->x_ksr; // array size in samples
+    t_float loopend = 1E+32;
     if(x->x_sync > 0)
         x->x_isrunning = 1;
     pd_float((t_pd *)x->x_stlet, loopstart);
@@ -117,7 +117,6 @@ static int record_startpoint(t_record *x, t_floatarg f){
 }
 
 static int record_endpoint(t_record *x, t_floatarg f){
-//    post("record_endpoint f = %f", f);
     long long int npts = (long long int)x->x_cybuf->c_npts;
     long long int endindex = (long long int)(f * x->x_ksr);
     if(endindex >= npts || endindex < 0)
@@ -169,11 +168,9 @@ static t_int *record_perform(t_int *w){
     for(i = 0; i < nblock; i++){
         startms = startin[i] < 0 ? 0 : startin[i];
         endms = endin[i] < 0 ? 0 : endin[i];
-//        post("endms (%f)", (float)endms);
         if((startms < endms) && c->c_playable && x->x_isrunning){
             startsamp = record_startpoint(x, startms);
             endsamp = record_endpoint(x, endms);
-//            post("endsamp (%f)", (float)endsamp);
             range = endsamp - startsamp;
             // append mode shouldn't reset phase
             if(x->x_newrun == 1 && x->x_appendmode == 0){
