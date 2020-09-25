@@ -509,7 +509,7 @@ static void *modulo_new(t_floatarg f)
 typedef struct _plusequals
 {
     t_object x_obj;
-    t_float  x_sum;
+    double  x_sum;
     t_inlet  *x_triglet;
     
     // Magic
@@ -528,7 +528,7 @@ static t_int *plusequals_perform(t_int *w)
     t_float *in1 = (t_float *)(w[3]);
     t_float *in2 = (t_float *)(w[4]);
     t_float *out = (t_float *)(w[5]);
-    t_float sum = x->x_sum;
+    double sum = x->x_sum;
     
     // MAGIC: poll float for error
     t_float scalar = *x->x_signalscalar;
@@ -829,8 +829,8 @@ CYCLONE_API void cyclone_setup(void)
     
 /* -- [+=~] -- */
     
-    plusequals_class = class_new(gensym("+=~"), (t_newmethod)plusequals_new, 0,
-            sizeof(t_plusequals), 0, A_DEFFLOAT, 0);
+    plusequals_class = class_new(gensym("+=~"), (t_newmethod)plusequals_new,
+            (t_method)plusequals_free, sizeof(t_plusequals), 0, A_DEFFLOAT, 0);
     class_addcreator((t_newmethod)plusequals_new,
                      gensym("cyclone/+=~"), A_DEFFLOAT, 0);
     class_addmethod(plusequals_class, nullfn, gensym("signal"), 0);

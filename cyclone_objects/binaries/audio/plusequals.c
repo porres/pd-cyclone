@@ -2,7 +2,6 @@
 
 #include "m_pd.h"
 #include <common/api.h>
-//#include <math.h>
 
 // MAGIC
 #include "common/magicbit.h"
@@ -10,9 +9,8 @@
 typedef struct _plusequals
 {
     t_object x_obj;
-    t_float  x_sum;
+    double  x_sum;
     t_inlet  *x_triglet;
-
 // Magic
     t_glist *x_glist;
     t_float *x_signalscalar;
@@ -22,9 +20,6 @@ typedef struct _plusequals
 
 static t_class *plusequals_class;
 
-// MAGIC
-//EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
-
 static t_int *plusequals_perform(t_int *w)
 {
     t_plusequals *x = (t_plusequals *)(w[1]);
@@ -32,10 +27,8 @@ static t_int *plusequals_perform(t_int *w)
     t_float *in1 = (t_float *)(w[3]);
     t_float *in2 = (t_float *)(w[4]);
     t_float *out = (t_float *)(w[5]);
-    t_float sum = x->x_sum;
-    
+    double sum = x->x_sum;
 // MAGIC: poll float for error
-    t_float scalar = *x->x_signalscalar;
     if (!magic_isnan(*x->x_signalscalar))
     {
         magic_setnan(x->x_signalscalar);
@@ -105,7 +98,7 @@ static void plusequals_set(t_plusequals *x, t_floatarg f)
 static void *plusequals_free(t_plusequals *x)
 {
     inlet_free(x->x_triglet);
-    return (void *)x;
+    return(void *)x;
 }
 
 static void *plusequals_new(t_floatarg f)
@@ -124,10 +117,10 @@ static void *plusequals_new(t_floatarg f)
 CYCLONE_OBJ_API void plusequals_tilde_setup(void)
 {
     plusequals_class = class_new(gensym("plusequals~"), (t_newmethod)plusequals_new,
-        0, sizeof(t_plusequals), CLASS_DEFAULT, A_DEFFLOAT, 0);
+        (t_method)plusequals_free, sizeof(t_plusequals), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(plusequals_class, nullfn, gensym("signal"), 0);
     class_addmethod(plusequals_class, (t_method) plusequals_dsp, gensym("dsp"), A_CANT, 0);
     class_addbang(plusequals_class, plusequals_bang);
     class_addmethod(plusequals_class, (t_method)plusequals_set,
-                    gensym("set"), A_FLOAT, 0);
+        gensym("set"), A_FLOAT, 0);
 }
