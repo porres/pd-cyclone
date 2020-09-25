@@ -112,9 +112,7 @@ disbales it;
 #X floatatom 240 166 0 0 0 0 - - -;
 #X obj 240 192 cyclone/sampstoms~;
 #X obj 240 217 cyclone/number~;
-#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 41 225 cyclone/number~;
-#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 167 166 *~ 0.5;
 #X obj 167 138 osc~ 0.1;
 #X text 354 219 array size in ms;
@@ -267,23 +265,24 @@ other effects besides preventing clicks., f 62;
 #X text 300 143 (same as non zero);
 #X text 295 166 (same as zero);
 #X text 185 507 - when it stops/finishes playing, f 60;
-#X text 86 83 [play~] plays any part of an array \, it can play at
-different speeds (with interpolation) and backwards. It may also loop
-with optional crossfading.;
 #X obj 221 191 cyclone/play~ \$0-violin;
 #X obj 201 226 ./out~;
 #X obj 41 245 send \$0-array_size;
 #X obj 41 221 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 290646 256;
+-228856 -1 -1 0 256;
 #X text 186 551 - number of output channels (default 1 \, maximum 64)
 , f 60;
-#X connect 21 0 61 0;
-#X connect 22 0 64 0;
-#X connect 23 0 61 0;
-#X connect 24 0 61 0;
-#X connect 25 0 61 0;
+#X text 86 83 [play~] plays any part of an array \, it can play at
+different speeds (with interpolation) and backwards. It may also loop
+with optional crossfading. The interpolation is the same as [tabread4~]'s.
+;
+#X connect 21 0 60 0;
+#X connect 22 0 63 0;
+#X connect 23 0 60 0;
+#X connect 24 0 60 0;
+#X connect 25 0 60 0;
 #X connect 26 0 25 0;
-#X connect 61 0 62 0;
-#X connect 61 0 62 1;
-#X connect 61 1 44 0;
-#X connect 64 0 63 0;
+#X connect 60 0 61 0;
+#X connect 60 0 61 1;
+#X connect 60 1 44 0;
+#X connect 63 0 62 0;
