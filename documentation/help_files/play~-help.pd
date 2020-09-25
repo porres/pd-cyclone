@@ -67,7 +67,7 @@ cyclone if the [buffer~] object ever becomes a compiled object.;
 228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 cyclone;
-#X obj 221 142 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X obj 233 142 tgl 25 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #N canvas 577 100 351 116 load 0;
 #X obj 32 52 soundfiler;
@@ -77,10 +77,10 @@ cyclone if the [buffer~] object ever becomes a compiled object.;
 #X connect 0 0 3 0;
 #X connect 2 0 0 0;
 #X restore 41 182 pd load \; sample;
-#X msg 262 166 stop;
-#X msg 260 142 start;
-#X msg 162 160 loop \$1;
-#X obj 162 138 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 274 166 stop;
+#X msg 272 142 start;
+#X msg 174 160 loop \$1;
+#X obj 174 138 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 147 298 float;
 #X text 185 332 - sets array name, f 60;
@@ -103,7 +103,7 @@ disbales it;
 ;
 #X text 93 457 interptime <f>;
 #X text 185 457 - sets crossfading time in ms (default 50), f 60;
-#X obj 356 216 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
+#X obj 368 216 bng 25 250 50 0 empty empty empty 17 7 0 10 -228856
 -1 -1;
 #N canvas 921 149 488 373 signal 0;
 #X obj 167 192 phasor~;
@@ -200,8 +200,8 @@ duration., f 62;
 #X obj 80 506 cnv 17 3 17 empty empty n+1 5 9 0 16 -228856 -162280
 0;
 #X text 153 507 bang;
-#X text 340 245 finished;
-#X text 343 257 playing;
+#X text 352 245 finished;
+#X text 355 257 playing;
 #X text 185 348 -;
 #X text 197 348 sets <beggining \, end \, duration> in ms and starts
 playing \, default values are the whole array in original speed, f
@@ -264,26 +264,27 @@ other effects besides preventing clicks., f 62;
 #X restore 467 214 pd attributes;
 #X text 185 393 - pauses at a particular point (can be resumed), f
 60;
-#X text 300 143 (same as non zero);
-#X text 295 166 (same as zero);
+#X text 312 143 (same as non zero);
+#X text 307 166 (same as zero);
 #X text 185 507 - when it stops/finishes playing, f 60;
-#X text 86 83 [play~] plays any part of an array \, it can play at
-different speeds (with interpolation) and backwards. It may also loop
-with optional crossfading.;
-#X obj 221 191 cyclone/play~ \$0-violin;
-#X obj 201 226 ./out~;
+#X obj 233 191 cyclone/play~ \$0-violin;
+#X obj 213 226 ./out~;
 #X obj 41 245 send \$0-array_size;
 #X obj 41 221 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 290646 256;
 #X text 186 551 - number of output channels (default 1 \, maximum 64)
 , f 60;
-#X connect 21 0 61 0;
-#X connect 22 0 64 0;
-#X connect 23 0 61 0;
-#X connect 24 0 61 0;
-#X connect 25 0 61 0;
+#X text 56 83 [play~] plays any part of an array \, it can play at
+different speeds (with interpolation) and backwards. It may also loop
+with optional crossfading. The interpolation is the same as [tabread4~]'s.
+;
+#X connect 21 0 60 0;
+#X connect 22 0 63 0;
+#X connect 23 0 60 0;
+#X connect 24 0 60 0;
+#X connect 25 0 60 0;
 #X connect 26 0 25 0;
-#X connect 61 0 62 0;
-#X connect 61 0 62 1;
-#X connect 61 1 44 0;
-#X connect 64 0 63 0;
+#X connect 60 0 61 0;
+#X connect 60 0 61 1;
+#X connect 60 1 44 0;
+#X connect 63 0 62 0;
