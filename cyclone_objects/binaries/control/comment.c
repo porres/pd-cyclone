@@ -193,6 +193,7 @@ static void comment_redraw(t_comment *x, int bg){
     sys_vgui(".x%lx.c delete %lx_outline\n", x->x_cv, (unsigned long)x);
     if(bg)
         comment_draw_bg(x);
+//    post("redraw");
     comment_draw(x);
     comment_update(x); // BUG <= ???????
 }
@@ -210,7 +211,7 @@ static void comment_dograb(t_comment *x){
 }
 
 static void comment__bboxhook(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
-//    post("comment__bboxhook %g %g %g %g", x1, y1, x2, y2);
+//    post("comment__bboxhook x1 = %g y1 = %g x2 = %g y2 = %g", x1, y1, x2, y2);
     bindsym = NULL;
     if(x->x_x1 != x1 || x->x_y1 != y1 || x->x_x2 != x2 || x->x_y2 != y2){
 //        post("arg dif");
@@ -243,7 +244,7 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
                 av[6].a_w.w_float, av[7].a_w.w_float);
     }
     else{
-        post("bug [comment]: comment__clickhook");
+//        post("bug [comment]: comment__clickhook");
         return;
     }
     char buf[COMMENT_OUTBUFSIZE], *outp = buf;
@@ -315,16 +316,23 @@ static void commentsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av){ // n
 
 static void comment_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp2, int *yp2){
     t_comment *x = (t_comment *)z;
-    int  width = x->x_x2 - x->x_x1;
     float x1, y1, x2, y2;
     x1 = text_xpix((t_text *)x, glist);
     y1 = text_ypix((t_text *)x, glist);
-    x2 = x1 + width + (x->x_zoom * 2);
-    y2 = x->x_y2 + (x->x_zoom * 2);
+    int width = x->x_x2 - x->x_x1;
+    int height = x->x_y2 - x->x_y1;
+    if(width < 2)
+        width = 2;
+    if(height < 2)
+        height = 2;
+//    post("width (%d) height (%d)", width, height);
+    x2 = x1 + width;
+    y2 = y1 + height; 
     *xp1 = x1;
     *yp1 = y1;
     *xp2 = x2;
     *yp2 = y2;
+//    post("getrect x1 (%g) x2 (%g) y1(%g) y2(%g)", x1, x2, y1, y2);
 }
 
 static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy){
@@ -435,10 +443,12 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis){
     if(!x->x_init)
         comment_initialize(x);
     if(vis){
-//        post("vis draw");
+//        post("f(vis)");
         if(x->x_bg_flag)
             comment_draw_bg(x);
+//        post("before comment_draw");
         comment_draw(x);
+//        post("after comment_draw");
     }
     else{
 //        post("delete");
@@ -783,6 +793,7 @@ static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floata
     if(x->x_red != red || x->x_green != green || x->x_blue != blue){
         canvas_dirty(x->x_glist, 1);
         x->x_red = red, x->x_green = green, x->x_blue = blue;
+        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
             sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
             sys_vgui(".x%lx.c itemconfigure txt%lx -fill %s\n", x->x_cv, (unsigned long)x, x->x_color);
@@ -799,6 +810,7 @@ static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b, t_flo
             canvas_dirty(x->x_glist, 1);
             x->x_bg_flag = 1;
             x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
+            sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
             if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
                 sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
                 comment_redraw(x, x->x_bg_flag);
@@ -810,6 +822,7 @@ static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b, t_flo
             canvas_dirty(x->x_glist, 1);
             x->x_bg_flag = 1;
             x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue;
+            sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
             if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
                 sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
                 comment_redraw(x, x->x_bg_flag);
@@ -1067,9 +1080,8 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
                                                 }
                                             }
                                         }
-                                        else{
+                                        else
                                             x->x_old = 1;
-                                        }
                                     }
                                 }
                             }
@@ -1264,6 +1276,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment__clickhook, gensym("_click"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__releasehook, gensym("_release"), A_SYMBOL, 0);
     class_addmethod(comment_class, (t_method)comment__motionhook, gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
+    
     class_setwidget(comment_class, &comment_widgetbehavior);
     comment_widgetbehavior.w_getrectfn  = comment_getrect;
     comment_widgetbehavior.w_displacefn = comment_displace;
@@ -1271,6 +1284,15 @@ CYCLONE_OBJ_API void comment_setup(void){
     comment_widgetbehavior.w_activatefn = comment_activate;
     comment_widgetbehavior.w_deletefn   = comment_delete;
     comment_widgetbehavior.w_visfn      = comment_vis;
+    
+/*    class_setwidget(scope_class, &scope_widgetbehavior);
+    scope_widgetbehavior.w_getrectfn  = scope_getrect;
+    scope_widgetbehavior.w_displacefn = scope_displace;
+    scope_widgetbehavior.w_selectfn   = scope_select;
+    scope_widgetbehavior.w_deletefn   = scope_delete;
+    scope_widgetbehavior.w_visfn      = scope_vis;
+    scope_widgetbehavior.w_clickfn    = (t_clickfn)scope_click;*/
+    
     class_setsavefn(comment_class, comment_save);
     class_setpropertiesfn(comment_class, comment_properties);
     edit_proxy_class = class_new(0, 0, 0, sizeof(t_edit_proxy), CLASS_NOINLET | CLASS_PD, 0);
