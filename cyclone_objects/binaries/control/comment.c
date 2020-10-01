@@ -42,6 +42,7 @@ typedef struct _comment{
     int             x_bufsize;  // text buf size
     int             x_keynum;
     t_symbol       *x_keysym;
+    int             x_init;
     int             x_edit;
     int             x_max_pixwidth;
     int             x_bbset;
@@ -65,7 +66,6 @@ typedef struct _comment{
     int             x_end_ndx;
     int             x_selend;
     int             x_active;
-    int             x_init;
     t_symbol       *x_bindsym;
     t_symbol       *x_fontname;
     t_symbol       *x_receive;
@@ -86,6 +86,39 @@ typedef struct _comment{
     int             x_textjust; // 0: left, 1: center, 2: right
     unsigned int    x_bg[3];    // background color
 }t_comment;
+
+// helper functions
+static void comment_initialize(t_comment *x){
+    t_binbuf *bb = x->x_obj.te_binbuf;
+    int n_args = binbuf_getnatom(bb) - 1; // number of arguments
+    if(x->x_text_flag){ // let's get the text from the attribute
+        int n = x->x_text_n, ac = x->x_text_size;
+        t_atom av[ac];
+        char buf[128];
+        for(int i = 0;  i < ac; i++){
+            atom_string(binbuf_getvec(bb) + n + 1 + i, buf, 128);
+            SETSYMBOL(av+i, gensym(buf));
+        }
+        binbuf_clear(x->x_binbuf);
+        binbuf_restore(x->x_binbuf, ac, av);
+    }
+    else{
+        int n = x->x_old ? 8 : 14;
+        if(n_args > n){
+            int ac = n_args - n;
+            t_atom av[ac];
+            char buf[128];
+            for(int i = 0;  i < ac; i++){
+                atom_string(binbuf_getvec(bb) + n + 1 + i, buf, 128);
+                SETSYMBOL(av+i, gensym(buf));
+            }
+            binbuf_clear(x->x_binbuf);
+            binbuf_restore(x->x_binbuf, ac, av);
+        }
+    }
+    binbuf_gettext(x->x_binbuf, &x->x_buf, &x->x_bufsize);
+    x->x_init = 1;
+}
 
 static void comment_draw_inlet(t_comment *x){
     if(x->x_edit &&  x->x_receive == &s_){
@@ -407,38 +440,6 @@ static void comment_delete(t_gobj *z, t_glist *glist){
     canvas_deletelinesfor(glist, (t_text *)z);
 }
 
-static void comment_initialize(t_comment *x){
-    t_binbuf *bb = x->x_obj.te_binbuf;
-    int n_args = binbuf_getnatom(bb) - 1; // number of arguments
-    if(x->x_text_flag){ // let's get the text from the attribute
-        int n = x->x_text_n, ac = x->x_text_size;
-        t_atom av[ac];
-        char buf[128];
-        for(int i = 0;  i < ac; i++){
-            atom_string(binbuf_getvec(bb) + n + 1 + i, buf, 128);
-            SETSYMBOL(av+i, gensym(buf));
-        }
-        binbuf_clear(x->x_binbuf);
-        binbuf_restore(x->x_binbuf, ac, av);
-    }
-    else{
-        int n = x->x_old ? 8 : 14;
-        if(n_args > n){
-            int ac = n_args - n;
-            t_atom av[ac];
-            char buf[128];
-            for(int i = 0;  i < ac; i++){
-                atom_string(binbuf_getvec(bb) + n + 1 + i, buf, 128);
-                SETSYMBOL(av+i, gensym(buf));
-            }
-            binbuf_clear(x->x_binbuf);
-            binbuf_restore(x->x_binbuf, ac, av);
-        }
-    }
-    binbuf_gettext(x->x_binbuf, &x->x_buf, &x->x_bufsize);
-    x->x_init = 1;
-}
-
 static void comment_vis(t_gobj *z, t_glist *glist, int vis){
 //    post("comment_vis = %d", vis);
     t_comment *x = (t_comment *)z;
@@ -497,6 +498,8 @@ static void comment_get_rcv(t_comment* x){
     
 static void comment_save(t_gobj *z, t_binbuf *b){
     t_comment *x = (t_comment *)z;
+    if(!x->x_init)
+        comment_initialize(x);
     t_binbuf *bb = x->x_obj.te_binbuf;
     comment_get_rcv(x);
     binbuf_addv(b, "ssiisiissiiiiiiiiii",
@@ -712,7 +715,6 @@ static void edit_proxy_any(t_edit_proxy *p, t_symbol *s, int ac, t_atom *av){
 }
 
 //---------------------------- METHODS ----------------------------------------
-
 static void comment_receive(t_comment *x, t_symbol *s){
     if(s == gensym(""))
         s = gensym("empty");
@@ -955,7 +957,7 @@ static void comment_free(t_comment *x){
             pd_unbind(commentsink, x->x_bindsym);
         }
     }
-    if(x->x_binbuf && !x->x_init)
+//    if(x->x_binbuf) // init?
         binbuf_free(x->x_binbuf);
     if(x->x_buf)
         freebytes(x->x_buf, x->x_bufsize);
@@ -981,10 +983,10 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_fontsize = x->x_bbpending = 0;
     x->x_textjust = x->x_fontface = x->x_bold = x->x_italic = 0;
     x->x_red = x->x_green = x->x_blue = x->x_bufsize = 0;
-    x->x_bg_flag = 0;
+    x->x_bg_flag = x->x_init = 0;
     x->x_bg[0] = x->x_bg[1] = x->x_bg[2] = 255;
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-    x->x_bbset = x->x_init = x->x_selected = x->x_dragon = x->x_shift = 0;
+    x->x_bbset = x->x_selected = x->x_dragon = x->x_shift = 0;
     t_symbol *rcv = x->x_receive = x->x_rcv_raw = &s_;
     char buf[MAXPDSTRING];
     snprintf(buf, MAXPDSTRING-1, ".x%lx", (unsigned long)x->x_cv);
