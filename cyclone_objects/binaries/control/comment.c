@@ -749,6 +749,8 @@ static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
 
 static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
+    if(!x->x_init)
+        comment_initialize(x);
     if(ac){
         canvas_dirty(x->x_glist, 1);
         int n = binbuf_getnatom(x->x_binbuf); // number of arguments
@@ -770,6 +772,8 @@ static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
 
 static void comment_prepend(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
+    if(!x->x_init)
+        comment_initialize(x);
     if(ac){
         canvas_dirty(x->x_glist, 1);
         int n = binbuf_getnatom(x->x_binbuf); // number of arguments
