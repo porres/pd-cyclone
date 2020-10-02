@@ -125,7 +125,7 @@ static void comment_draw_inlet(t_comment *x){
     if(x->x_edit &&  x->x_receive == &s_){
         t_canvas *cv = glist_getcanvas(x->x_glist);
         int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags bbox_cin\n",
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in\n",
             cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom)-x->x_zoom, x);
     }
 }
