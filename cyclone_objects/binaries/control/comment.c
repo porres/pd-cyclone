@@ -130,7 +130,7 @@ static void comment_draw_inlet(t_comment *x){
 }
 
 static void comment_draw_outline(t_comment *x){
-    if(x->x_edit){
+    if(x->x_bbset && x->x_edit){
 //        post("comment_draw_outline");
         sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags %lx_outline -width %d -outline %s\n",
             (unsigned long)x->x_cv,
@@ -144,18 +144,15 @@ static void comment_draw_outline(t_comment *x){
     }
 }
 
-static void comment_draw_bg(t_comment *x){
-    sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n",
-        (unsigned long)x->x_cv,
-        text_xpix((t_text *)x, x->x_glist),
-        text_ypix((t_text *)x, x->x_glist),
-        x->x_x2 + x->x_zoom * 2,
-        x->x_y2 + x->x_zoom * 2,
-        (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
-}
-
 static void comment_draw(t_comment *x){
-//    post("comment_draw");
+    if(x->x_bbset && x->x_bg_flag) // draw bg
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n",
+            (unsigned long)x->x_cv,
+            text_xpix((t_text *)x, x->x_glist),
+            text_ypix((t_text *)x, x->x_glist),
+            x->x_x2 + x->x_zoom * 2,
+            x->x_y2 + x->x_zoom * 2,
+            (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     outp = outbuf = buf;
     sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s {%.*s} %d %s %s %s\n",
@@ -175,7 +172,7 @@ static void comment_draw(t_comment *x){
         x->x_bold ? "bold" : "normal",
         x->x_italic ? "italic" : "roman", //
         x->x_textjust == 0 ? "left" : x->x_textjust == 1 ? "center" : "right");
-    x->x_bbpending = 1;
+    x->x_bbpending = 1; // bbox pending
     sys_gui(outbuf);
     if(outbuf != buf)
         freebytes(outbuf, x->x_bufsize);
@@ -218,24 +215,21 @@ static void comment_update(t_comment *x){
 //    post("updated");
 }
 
-// improve!!!
-static void comment_redraw(t_comment *x, int bg){
-//    post("comment_redraw");
+static void comment_erase(t_comment *x){
     sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
     sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
     sys_vgui(".x%lx.c delete %lx_outline\n", x->x_cv, (unsigned long)x);
-    if(glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist)){
-//        post("redraw");
-        if(bg)
-            comment_draw_bg(x);
-        comment_draw(x);
-        comment_update(x); // BUG <= ???????
-    }
+    sys_vgui(".x%lx.c delete %lx_in\n", x->x_cv, (unsigned long)x);
+}
+
+static void comment_redraw(t_comment *x){ // <= improve, not necessary for all cases
+    comment_erase(x);
+    comment_draw(x);
+    comment_update(x); // ???????
 }
 
 static void comment_grabbedkey(void *z, t_floatarg f){
-    z = NULL, f = 0;
-    // LATER think about replacing #key binding to float method with "grabbing"
+    z = NULL, f = 0; // LATER think about replacing #key binding to float method with "grabbing"
 }
 
 static void comment_dograb(t_comment *x){
@@ -245,43 +239,45 @@ static void comment_dograb(t_comment *x){
     glist_grab(x->x_glist, (t_gobj *)x, 0, comment_grabbedkey, 0, 0);
 }
 
-static void comment__bboxhook(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
+static void comment__bbox_callback(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
     bindsym = NULL;
-//    post("comment__bboxhook");
+//    post("--------comment__bbox_callback--------");
 //    post("x->x_bbset = (%d) / x->x_bbpending (%d)", x->x_bbset, x->x_bbpending);
     if(x->x_x1 != x1 || x->x_y1 != y1 || x->x_x2 != x2 || x->x_y2 != y2){
-//    post("comment__bboxhook x1 = %g y1 = %g x2 = %g y2 = %g", x1, y1, x2, y2);
 //        post("arg dif");
+//        post("comment__bbox_callback x1 = %g y1 = %g x2 = %g y2 = %g", x1, y1, x2, y2);
         x->x_x1 = x1;
         x->x_y1 = y1;
         x->x_x2 = x2;
         x->x_y2 = y2;
-//        post("bb hook");
-        comment_redraw(x, x->x_bg_flag);
+        if(!x->x_bbset){
+            x->x_bbset = 1;
+            comment_redraw(x);
+        }
+        if(!glist_isvisible(x->x_glist) || !gobj_shouldvis((t_gobj *)x, x->x_glist))
+           comment_erase(x); // <= improve this hack
     }
-    x->x_bbset = 1;
     x->x_bbpending = 0;
 }
 
-static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
-//    post("comment__clickhook");
+static void comment__click_callback(t_comment *x, t_symbol *s, int ac, t_atom *av){
+//    post("comment__click_callback");
     t_symbol *dummy = s;
     dummy = NULL;
     int xx, ndx;
-    if(ac == 8 && av->a_type == A_SYMBOL
-       && av[1].a_type == A_FLOAT && av[2].a_type == A_FLOAT
-       && av[3].a_type == A_FLOAT
+    if(ac == 8 && av->a_type == A_SYMBOL && av[1].a_type == A_FLOAT
+       && av[2].a_type == A_FLOAT && av[3].a_type == A_FLOAT
        && av[4].a_type == A_FLOAT && av[5].a_type == A_FLOAT
        && av[6].a_type == A_FLOAT && av[7].a_type == A_FLOAT){
             xx = (int)av[1].a_w.w_float;
             ndx = (int)av[3].a_w.w_float;
 //            post("xx = %d / yy = %d / ndx = %d", xx, yy, ndx);
-            comment__bboxhook(x, av->a_w.w_symbol,
-                av[4].a_w.w_float, av[5].a_w.w_float,
-                av[6].a_w.w_float, av[7].a_w.w_float);
+            comment__bbox_callback(x, av->a_w.w_symbol,
+            av[4].a_w.w_float, av[5].a_w.w_float,
+            av[6].a_w.w_float, av[7].a_w.w_float);
     }
     else{
-//        post("bug [comment]: comment__clickhook");
+//        post("bug [comment]: comment__click_callback");
         return;
     }
     char buf[COMMENT_OUTBUFSIZE], *outp = buf;
@@ -314,22 +310,22 @@ static void comment__clickhook(t_comment *x, t_symbol *s, int ac, t_atom *av){
     }
 }
 
-static void comment__releasehook(t_comment *x, t_symbol *bindsym){
+static void comment__release_callback(t_comment *x, t_symbol *bindsym){
     bindsym = NULL;
-//    post("release hook");
+//    post("release _callback");
     unsigned long cv = (unsigned long)x->x_cv;
     sys_vgui(".x%lx.c bind txt%lx <ButtonRelease> {}\n", cv, (unsigned long)x);
     sys_vgui(".x%lx.c bind txt%lx <Motion> {}\n", cv, (unsigned long)x);
     x->x_dragon = 0;
     if(x->x_newx2 != x->x_x2){
         x->x_max_pixwidth = x->x_newx2 - x->x_x1;
-        comment_redraw(x, x->x_bg_flag);
+        comment_redraw(x);
     }
 }
 
-static void comment__motionhook(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
+static void comment__motion_callback(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
     bindsym = NULL;
-//    post("comment__motionhook");
+//    post("comment__motion_callback");
     yy = 0;
     int min_width = 8;
     if(xx > x->x_x1 + min_width)
@@ -337,8 +333,8 @@ static void comment__motionhook(t_comment *x, t_symbol *bindsym, t_floatarg xx, 
             (unsigned long)x, x->x_x1, x->x_y1, x->x_newx2 = xx, x->x_y2);
 }
 
-static void commentsink__bboxhook(t_pd *x, t_symbol *bindsym){
-//    post("commentsink__bboxhook");
+static void commentsink__bbox_callback(t_pd *x, t_symbol *bindsym){
+//    post("commentsink__bbox_callback");
     if(bindsym->s_thing == x){
 //        post("if comment gone, unbind");
         pd_unbind(x, bindsym);  // if comment gone, unbind
@@ -379,12 +375,10 @@ static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy){
         t_text *t = (t_text *)z;
         t->te_xpix += dx;
         t->te_ypix += dy;
-        if(x->x_bbset){
-            x->x_x1 += dx;
-            x->x_y1 += dy;
-            x->x_x2 += dx;
-            x->x_y2 += dy;
-        }
+        x->x_x1 += dx;
+        x->x_y1 += dy;
+        x->x_x2 += dx;
+        x->x_y2 += dy;
         sys_vgui(".x%lx.c move all%lx %d %d\n", x->x_cv, (unsigned long)x,
             dx*x->x_zoom, dy*x->x_zoom);
         sys_vgui(".x%lx.c move %lx_outline %d %d\n", x->x_cv, (unsigned long)x,
@@ -441,27 +435,11 @@ static void comment_delete(t_gobj *z, t_glist *glist){
 }
 
 static void comment_vis(t_gobj *z, t_glist *glist, int vis){
-//    post("comment_vis = %d", vis);
     t_comment *x = (t_comment *)z;
-    x->x_glist = glist;
-    x->x_cv = glist_getcanvas(glist);
+    x->x_cv = glist_getcanvas(x->x_glist = glist);
     if(!x->x_init)
         comment_initialize(x);
-    if(vis){
-//        post("f(vis)");
-        if(x->x_bg_flag)
-            comment_draw_bg(x);
-//        post("before comment_draw");
-        comment_draw(x);
-//        post("after comment_draw");
-    }
-    else{
-//        post("delete");
-        sys_vgui(".x%lx.c delete %lx_outline\n", x->x_cv, (unsigned long)x);
-        sys_vgui(".x%lx.c delete %lx_in\n", x->x_cv, (unsigned long)x);
-        sys_vgui(".x%lx.c delete all%lx\n", x->x_cv, (unsigned long)x);
-        sys_vgui(".x%lx.c delete bg%lx\n", x->x_cv, (unsigned long)x);
-    }
+    vis ? comment_draw(x) : comment_erase(x);
 }
 
 static void comment_get_rcv(t_comment* x){
@@ -744,7 +722,7 @@ static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
     binbuf_clear(x->x_binbuf);
     binbuf_restore(x->x_binbuf, ac, av);
     binbuf_gettext(x->x_binbuf, &x->x_buf, &x->x_bufsize);
-    comment_redraw(x, x->x_bg_flag);
+    comment_redraw(x);
 }
 
 static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
@@ -766,7 +744,7 @@ static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
         binbuf_clear(x->x_binbuf);
         binbuf_restore(x->x_binbuf, n+ac, at);
         binbuf_gettext(x->x_binbuf, &x->x_buf, &x->x_bufsize);
-        comment_redraw(x, x->x_bg_flag);
+        comment_redraw(x);
     }
 }
 
@@ -789,7 +767,7 @@ static void comment_prepend(t_comment *x, t_symbol *s, int ac, t_atom * av){
         binbuf_clear(x->x_binbuf);
         binbuf_restore(x->x_binbuf, n+ac, at);
         binbuf_gettext(x->x_binbuf, &x->x_buf, &x->x_bufsize);
-        comment_redraw(x, x->x_bg_flag);
+        comment_redraw(x);
     }
 }
 
@@ -811,9 +789,10 @@ static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b, t_flo
     unsigned int green = g < 0 ? 0 : g > 255 ? 255 : (unsigned int)g;
     unsigned int blue = b < 0 ? 0 : b > 255 ? 255 : (unsigned int)b;
     if(!x->x_bg_flag && flag){
+        x->x_bg_flag = 1;
         canvas_dirty(x->x_glist, 1);
         sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue);
-        comment_redraw(x, x->x_bg_flag = 1);
+        comment_redraw(x);
     }
     else if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue){
         canvas_dirty(x->x_glist, 1);
@@ -831,7 +810,7 @@ static void comment_fontname(t_comment *x, t_symbol *name){
     if(name != x->x_fontname){
         canvas_dirty(x->x_glist, 1);
         x->x_fontname = name;
-        comment_redraw(x, x->x_bg_flag);
+        comment_redraw(x);
     }
 }
 
@@ -840,7 +819,7 @@ static void comment_fontsize(t_comment *x, t_floatarg f){
     if(x->x_fontsize != size){
         canvas_dirty(x->x_glist, 1);
         x->x_fontsize = size;
-        comment_redraw(x, x->x_bg_flag);
+        comment_redraw(x);
     }
 }
 
@@ -851,15 +830,16 @@ static void comment_fontface(t_comment *x, t_float f){
         x->x_fontface = face;
         x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
         x->x_italic = x->x_fontface > 1;
-        comment_redraw(x, x->x_bg_flag);
+        comment_redraw(x);
     }
 }
 
 static void comment_bg_flag(t_comment *x, t_float f){
     int bgflag = (int)(f != 0);
     if(x->x_bg_flag != bgflag){
+        x->x_bg_flag = bgflag;
         canvas_dirty(x->x_glist, 1);
-        comment_redraw(x, x->x_bg_flag = bgflag);
+        comment_redraw(x);
     }
 }
 
@@ -868,7 +848,7 @@ static void comment_underline(t_comment *x, t_float f){
     if(x->x_underline != underline){
         canvas_dirty(x->x_glist, 1);
         x->x_underline = underline;
-        comment_redraw(x, x->x_bg_flag); // itemconfigure?
+        comment_redraw(x); // itemconfigure?
     }
 }
 
@@ -877,7 +857,7 @@ static void comment_just(t_comment *x, t_float f){
     if(just != x->x_textjust){
         canvas_dirty(x->x_glist, 1);
         x->x_textjust = just;
-        comment_redraw(x, x->x_bg_flag); // itemconfigure?
+        comment_redraw(x); // itemconfigure?
     }
 }
 
@@ -1258,10 +1238,10 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment_set_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_zoom, gensym("zoom"), A_CANT, 0);
     class_addmethod(comment_class, (t_method)comment_ok, gensym("ok"), A_GIMME, 0);
-    class_addmethod(comment_class, (t_method)comment__bboxhook, gensym("_bbox"), A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    class_addmethod(comment_class, (t_method)comment__clickhook, gensym("_click"), A_GIMME, 0);
-    class_addmethod(comment_class, (t_method)comment__releasehook, gensym("_release"), A_SYMBOL, 0);
-    class_addmethod(comment_class, (t_method)comment__motionhook, gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment__bbox_callback, gensym("_bbox"), A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(comment_class, (t_method)comment__click_callback, gensym("_click"), A_GIMME, 0);
+    class_addmethod(comment_class, (t_method)comment__release_callback, gensym("_release"), A_SYMBOL, 0);
+    class_addmethod(comment_class, (t_method)comment__motion_callback, gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
     comment_widgetbehavior.w_getrectfn  = comment_getrect;
     comment_widgetbehavior.w_displacefn = comment_displace;
@@ -1275,7 +1255,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addanything(edit_proxy_class, edit_proxy_any);
     commentsink_class = class_new(gensym("_commentsink"), 0, 0, sizeof(t_pd), CLASS_PD, 0);
     class_addanything(commentsink_class, commentsink_anything);
-    class_addmethod(commentsink_class, (t_method)commentsink__bboxhook, gensym("_bbox"), A_SYMBOL, 0);
+    class_addmethod(commentsink_class, (t_method)commentsink__bbox_callback, gensym("_bbox"), A_SYMBOL, 0); // <= ?????
     sys_gui("proc comment_bbox {target cvname tag} {\n\
             pdsend \"$target _bbox $target [$cvname bbox $tag]\"}\n");
 // LATER think about window vs canvas coords
