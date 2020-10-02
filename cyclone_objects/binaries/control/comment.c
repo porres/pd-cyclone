@@ -8,7 +8,7 @@
 /* LATER think about making the <Button> binding for the entire bbox,
  instead of the text item, to ease the pain of resizing, somewhat. */
 
-// Porres cleaned up and updated comment 2018-2020
+// Porres cleaned up, rewrote and reorganized lots of thnigs and updated comment 2018-2020
 
 #include <common/api.h>
 #include <control/s_utf8.h>
@@ -43,6 +43,7 @@ typedef struct _comment{
     int             x_keynum;
     t_symbol       *x_keysym;
     int             x_init;
+    int             x_changed;
     int             x_edit;
     int             x_max_pixwidth;
     int             x_bbset;
@@ -124,7 +125,7 @@ static void comment_draw_inlet(t_comment *x){
     if(x->x_edit &&  x->x_receive == &s_){
         t_canvas *cv = glist_getcanvas(x->x_glist);
         int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags %lx_in\n",
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill black -tags bbox_cin\n",
             cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom)-x->x_zoom, x);
     }
 }
@@ -256,6 +257,12 @@ static void comment__bbox_callback(t_comment *x, t_symbol *bindsym, t_floatarg x
         }
         if(!glist_isvisible(x->x_glist) || !gobj_shouldvis((t_gobj *)x, x->x_glist))
            comment_erase(x); // <= improve this hack
+        else{
+            if(x->x_edit)
+                sys_vgui(".x%lx.c coords %lx_outline %d %d %d %d\n", (unsigned long)x->x_cv, x, x->x_x1, x->x_y1, x->x_x2, x->x_y2);
+            if(x->x_bg_flag)
+                sys_vgui(".x%lx.c coords bg%lx %d %d %d %d\n", (unsigned long)x->x_cv, x, x->x_x1, x->x_y1, x->x_x2, x->x_y2);
+        }
     }
     x->x_bbpending = 0;
 }
@@ -698,7 +705,7 @@ static void comment_receive(t_comment *x, t_symbol *s){
         s = gensym("empty");
     t_symbol *rcv = s == gensym("empty") ? &s_ : canvas_realizedollar(x->x_glist, s);
     if(rcv != x->x_receive){
-        canvas_dirty(x->x_glist, 1);
+        x->x_changed = 1;
         if(x->x_receive != &s_)
             pd_unbind(&x->x_obj.ob_pd, x->x_receive);
         x->x_rcv_set = 1;
@@ -718,7 +725,6 @@ static void comment_receive(t_comment *x, t_symbol *s){
 
 static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
-    canvas_dirty(x->x_glist, 1);
     binbuf_clear(x->x_binbuf);
     binbuf_restore(x->x_binbuf, ac, av);
     binbuf_gettext(x->x_binbuf, &x->x_buf, &x->x_bufsize);
@@ -730,7 +736,6 @@ static void comment_append(t_comment *x, t_symbol *s, int ac, t_atom * av){
     if(!x->x_init)
         comment_initialize(x);
     if(ac){
-        canvas_dirty(x->x_glist, 1);
         int n = binbuf_getnatom(x->x_binbuf); // number of arguments
         t_atom at[n+ac];
         char buf[128];
@@ -753,7 +758,6 @@ static void comment_prepend(t_comment *x, t_symbol *s, int ac, t_atom * av){
     if(!x->x_init)
         comment_initialize(x);
     if(ac){
-        canvas_dirty(x->x_glist, 1);
         int n = binbuf_getnatom(x->x_binbuf); // number of arguments
         t_atom at[n+ac];
         char buf[128];
@@ -776,9 +780,7 @@ static void comment_textcolor(t_comment *x, t_floatarg r, t_floatarg g, t_floata
     unsigned char green = g < 0 ? 0 : g > 255 ? 255 : (unsigned char)g;
     unsigned char blue = b < 0 ? 0 : b > 255 ? 255 : (unsigned char)b;
     if(x->x_red != red || x->x_green != green || x->x_blue != blue){
-        canvas_dirty(x->x_glist, 1);
-        x->x_red = red, x->x_green = green, x->x_blue = blue;
-        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red, x->x_green, x->x_blue);
+        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red = red, x->x_green = green, x->x_blue = blue);
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
             sys_vgui(".x%lx.c itemconfigure txt%lx -fill %s\n", x->x_cv, (unsigned long)x, x->x_color);
     }
@@ -790,12 +792,10 @@ static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b, t_flo
     unsigned int blue = b < 0 ? 0 : b > 255 ? 255 : (unsigned int)b;
     if(!x->x_bg_flag && flag){
         x->x_bg_flag = 1;
-        canvas_dirty(x->x_glist, 1);
         sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue);
         comment_redraw(x);
     }
     else if(x->x_bg[0] != red || x->x_bg[1] != green || x->x_bg[2] != blue){
-        canvas_dirty(x->x_glist, 1);
         sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue);
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
             sys_vgui(".x%lx.c itemconfigure bg%lx -fill %s\n", x->x_cv, (unsigned long)x, x->x_bgcolor);
@@ -808,7 +808,6 @@ static void comment_set_bgcolor(t_comment *x, t_float r, t_float g, t_float b){
 
 static void comment_fontname(t_comment *x, t_symbol *name){
     if(name != x->x_fontname){
-        canvas_dirty(x->x_glist, 1);
         x->x_fontname = name;
         comment_redraw(x);
     }
@@ -817,7 +816,6 @@ static void comment_fontname(t_comment *x, t_symbol *name){
 static void comment_fontsize(t_comment *x, t_floatarg f){
     int size = (int)f < 5 ? 5 : (int)f;
     if(x->x_fontsize != size){
-        canvas_dirty(x->x_glist, 1);
         x->x_fontsize = size;
         comment_redraw(x);
     }
@@ -826,7 +824,6 @@ static void comment_fontsize(t_comment *x, t_floatarg f){
 static void comment_fontface(t_comment *x, t_float f){
     int face = f < 0 ? 0 : f > 3 ? 3  : (int)f;
     if(face != x->x_fontface){
-        canvas_dirty(x->x_glist, 1);
         x->x_fontface = face;
         x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
         x->x_italic = x->x_fontface > 1;
@@ -838,7 +835,6 @@ static void comment_bg_flag(t_comment *x, t_float f){
     int bgflag = (int)(f != 0);
     if(x->x_bg_flag != bgflag){
         x->x_bg_flag = bgflag;
-        canvas_dirty(x->x_glist, 1);
         comment_redraw(x);
     }
 }
@@ -846,7 +842,6 @@ static void comment_bg_flag(t_comment *x, t_float f){
 static void comment_underline(t_comment *x, t_float f){
     int underline = (int)(f != 0);
     if(x->x_underline != underline){
-        canvas_dirty(x->x_glist, 1);
         x->x_underline = underline;
         comment_redraw(x); // itemconfigure?
     }
@@ -855,7 +850,6 @@ static void comment_underline(t_comment *x, t_float f){
 static void comment_just(t_comment *x, t_float f){
     int just = f < 0 ? 0 : (f > 2 ? 2 : (int)f);
     if(just != x->x_textjust){
-        canvas_dirty(x->x_glist, 1);
         x->x_textjust = just;
         comment_redraw(x); // itemconfigure?
     }
@@ -895,21 +889,68 @@ void comment_properties(t_gobj *z, t_glist *gl){
 
 static void comment_ok(t_comment *x, t_symbol *s, int ac, t_atom *av){
     s = NULL;
-    comment_fontname(x, atom_getsymbolarg(0, ac, av));
-    comment_fontsize(x, atom_getfloatarg(1, ac, av));
-    comment_fontface(x, atom_getfloatarg(2, ac, av));
-    comment_just(x, atom_getfloatarg(3, ac, av));
-    comment_underline(x, atom_getfloatarg(4, ac, av));
-    comment_bg_flag(x, atom_getfloatarg(5, ac, av));
-    int bgr = atom_getfloatarg(6, ac, av);
-    int bgg = atom_getfloatarg(7, ac, av);
-    int bgb = atom_getfloatarg(8, ac, av);
-    int fgr = atom_getfloatarg(9, ac, av);
-    int fgg = atom_getfloatarg(10, ac, av);
-    int fgb = atom_getfloatarg(11, ac, av);
-    comment_bgcolor(x, bgr, bgg, bgb, 0);
-    comment_textcolor(x, fgr, fgg, fgb);
+    x->x_changed = 0;
+    t_float temp_f;
+    if(atom_getsymbolarg(0, ac, av) != x->x_fontname){
+        x->x_changed = 1;
+        x->x_fontname = atom_getsymbolarg(0, ac, av);
+    }
+    temp_f = atom_getfloatarg(1, ac, av);
+    if(temp_f < 5)
+        temp_f = 5;
+    if(temp_f != x->x_fontsize){
+        x->x_changed = 1;
+        x->x_fontsize = (int)temp_f;
+    }
+    temp_f = atom_getfloatarg(2, ac, av);
+    int face = temp_f < 0 ? 0 : temp_f > 3 ? 3  : (int)temp_f;
+    if(face != x->x_fontface){
+        x->x_changed = 1;
+        x->x_fontface = face;
+        x->x_bold = x->x_fontface == 1 || x->x_fontface == 3;
+        x->x_italic = x->x_fontface > 1;
+    }
+    temp_f = atom_getfloatarg(3, ac, av);
+    int just = temp_f < 0 ? 0 : (temp_f > 2 ? 2 : (int)temp_f);
+    if(just != x->x_textjust){
+        x->x_changed = 1;
+        x->x_textjust = just;
+    }
+    int underline = (int)(atom_getfloatarg(4, ac, av) != 0);
+    if(x->x_underline != underline){
+        x->x_changed = 1;
+        x->x_underline = underline;
+    }
+    int bgflag = (int)(atom_getfloatarg(5, ac, av) != 0);
+    if(x->x_bg_flag != bgflag){
+        x->x_bg_flag = bgflag;
+        x->x_changed = 1;
+    }
+    temp_f = atom_getfloatarg(6, ac, av);
+    unsigned int bgr = temp_f < 0 ? 0 : temp_f > 255 ? 255 : (unsigned int)temp_f;
+    temp_f = atom_getfloatarg(7, ac, av);
+    unsigned int bgg = temp_f < 0 ? 0 : temp_f > 255 ? 255 : (unsigned int)temp_f;
+    temp_f = atom_getfloatarg(8, ac, av);
+    unsigned int bgb = temp_f < 0 ? 0 : temp_f > 255 ? 255 : (unsigned int)temp_f;
+    if(x->x_bg[0] != bgr || x->x_bg[1] != bgg || x->x_bg[2] != bgb){
+        x->x_changed = 1;
+        sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0] = bgr, x->x_bg[1] = bgg, x->x_bg[2] = bgb);
+    }
+    temp_f = atom_getfloatarg(9, ac, av);
+    unsigned int fgr = temp_f < 0 ? 0 : temp_f > 255 ? 255 : (unsigned int)temp_f;
+    temp_f = atom_getfloatarg(10, ac, av);
+    unsigned int fgg = temp_f < 0 ? 0 : temp_f > 255 ? 255 : (unsigned int)temp_f;
+    temp_f = atom_getfloatarg(11, ac, av);
+    unsigned int fgb = temp_f < 0 ? 0 : temp_f > 255 ? 255 : (unsigned int)temp_f;
+    if(x->x_red != fgr || x->x_green != fgg || x->x_blue != fgb){
+        x->x_changed = 1;
+        sprintf(x->x_color, "#%2.2x%2.2x%2.2x", x->x_red = fgr, x->x_green = fgg, x->x_blue = fgb);
+    }
     comment_receive(x, atom_getsymbolarg(12, ac, av));
+    if(x->x_changed){
+        canvas_dirty(x->x_glist, 1);
+        comment_redraw(x);
+    }
 }
 
 //-------------------------------------------------------------------------------------
@@ -967,7 +1008,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_fontsize = x->x_bbpending = 0;
     x->x_textjust = x->x_fontface = x->x_bold = x->x_italic = 0;
     x->x_red = x->x_green = x->x_blue = x->x_bufsize = 0;
-    x->x_bg_flag = x->x_init = 0;
+    x->x_bg_flag = x->x_changed = x->x_init = 0;
     x->x_bg[0] = x->x_bg[1] = x->x_bg[2] = 255;
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
     x->x_bbset = x->x_selected = x->x_dragon = x->x_shift = 0;
