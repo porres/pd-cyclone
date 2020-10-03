@@ -359,6 +359,24 @@ static void scope_mouserelease(t_scope* x){
         x->x_frozen = 0;
 }
 
+static void scope_draw_all(t_scope* x){
+    x->x_cv = glist_getcanvas(x->x_glist);
+    t_scopehandle *sh = (t_scopehandle *)x->x_handle;
+    sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_cv, (unsigned long)sh);
+    sys_vgui(".x%lx.c bind all%lx <ButtonRelease> {pdsend [concat %s _mouserelease \\;]}\n", x->x_cv, x, x->x_bindsym->s_name);
+    int bufsize = x->x_bufsize;
+    x->x_bufsize = x->x_lastbufsize;
+    scope_draw(x, x->x_cv);
+    x->x_bufsize = bufsize;
+}
+
+static void scope_erase(t_scope* x){
+    x->x_cv = glist_getcanvas(x->x_glist);
+    sys_vgui(".x%lx.c delete all%lx\n", (unsigned long)x->x_cv, x);
+    sys_vgui(".x%lx.c delete %lx_in1\n", (unsigned long)x->x_cv, x); // both could be one
+    sys_vgui(".x%lx.c delete %lx_in2\n", (unsigned long)x->x_cv, x); // both could be one
+}
+
 static void scope_vis(t_gobj *z, t_glist *glist, int vis){
     t_scope *x = (t_scope *)z;
     x->x_cv = glist_getcanvas(glist);
@@ -373,8 +391,8 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis){
     }
     else{
         sys_vgui(".x%lx.c delete all%lx\n", (unsigned long)x->x_cv, x);
-        sys_vgui(".x%lx.c delete %lx_in1\n", (unsigned long)x->x_cv, x);
-        sys_vgui(".x%lx.c delete %lx_in2\n", (unsigned long)x->x_cv, x);
+        sys_vgui(".x%lx.c delete %lx_in1\n", (unsigned long)x->x_cv, x); // both could be one
+        sys_vgui(".x%lx.c delete %lx_in2\n", (unsigned long)x->x_cv, x); // both could be one
     }
 }
 
@@ -519,25 +537,10 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
     int height = (int)(h < SCOPE_MINSIZE ? SCOPE_MINSIZE : h);
     if(x->x_width != width || x->x_height != height){
         x->x_width = width, x->x_height = height;
-        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
-            t_canvas *cv = glist_getcanvas(x->x_glist);
-            int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
-            sys_vgui(".x%lx.c coords all%lx %d %d %d %d\n", cv, x, xpos, ypos, xpos + x->x_width, ypos + x->x_height);
-            sys_vgui(".x%lx.c delete %lx_in1\n", cv, x);
-            sys_vgui(".x%lx.c delete %lx_in2\n", cv, x);
-            scope_draw_inlets(x);
-            int x1, y1, x2, y2;
-            scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-            sys_vgui(".x%lx.c delete margin%lx\n", cv, x);
-            scope_drawmargins(x, cv, x1, y1, x2, y2);
-            sys_vgui(".x%lx.c delete gr%lx\n", cv, x);
-            scope_draw_grid(x, cv, x1, y1, x2, y2);
-            if(x->x_xymode)
-                scope_redraw(x, cv);
-            if(x->x_select)
-                scope_select((t_gobj *)x, x->x_glist, 1);
-            canvas_fixlinesfor(x->x_glist, (t_text *)x);
-        }
+        scope_erase(x);
+        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
+            scope_draw_all(x);
+        canvas_fixlinesfor(x->x_glist, (t_text *)x);
     }
 }
 
@@ -807,12 +810,12 @@ static void scope_dsp(t_scope *x, t_signal **sp){
         x->x_xymode = xymode;
         if(glist_isvisible(x->x_glist) && gobj_shouldvis((t_gobj *)x, x->x_glist)){
             t_canvas *cv = glist_getcanvas(x->x_glist);
-            sys_vgui(".x%lx.c delete fg%lx margin%lx\n", cv, x, x);
             int x1, y1, x2, y2;
             scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
+            sys_vgui(".x%lx.c delete fg%lx margin%lx\n", cv, x, x);
+            scope_drawmargins(x, cv, x1, y1, x2, y2);
             if(x->x_xymode)
                 scope_drawfg(x, cv, x1, y1, x2, y2);
-            scope_drawmargins(x, cv, x1, y1, x2, y2);
         }
         x->x_precount = 0;
     }
