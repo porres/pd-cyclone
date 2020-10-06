@@ -98,7 +98,7 @@ static void scope_draw_handle(t_scope *x, int state){
     t_handle *sh = (t_handle *)x->x_handle;
     if(state){
         if(sh->h_selectedmode == 0){
-            sys_vgui("canvas %s -width %d -height %d -bg %s -bd 0\n",
+            sys_vgui("canvas %s -width %d -height %d -bg %s -bd 0 -cursor bottom_right_corner\n",
                 sh->h_pathname, HANDLE_SIZE, HANDLE_SIZE, SCOPE_SELCOLOR);
             sh->h_selectedmode = 1;
         }
@@ -615,10 +615,12 @@ static void handle__motion_callback(t_handle *sh, t_floatarg f1, t_floatarg f2){
         int dx = (int)f1, dy = (int)f2, x1, y1, x2, y2, newx, newy;
         scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
         newx = x2 + dx, newy = y2 + dy;
-        if(newx > x1 + SCOPE_MINSIZE && newy > y1 + SCOPE_MINSIZE){
-            sys_vgui(".x%lx.c coords %s %d %d %d %d\n", x->x_cv, sh->h_outlinetag, x1, y1, newx, newy);
-            sh->h_dragx = dx, sh->h_dragy = dy;
-        }
+        if(newx < x1 + SCOPE_MINSIZE*x->x_zoom)
+            newx = x1 + SCOPE_MINSIZE*x->x_zoom;
+        if(newy < y1 + SCOPE_MINSIZE*x->x_zoom)
+            newy = y1 + SCOPE_MINSIZE*x->x_zoom;
+        sys_vgui(".x%lx.c coords %s %d %d %d %d\n", x->x_cv, sh->h_outlinetag, x1, y1, newx, newy);
+        sh->h_dragx = dx, sh->h_dragy = dy;
     }
 }
 
