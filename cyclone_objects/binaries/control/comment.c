@@ -17,13 +17,16 @@
 #include <string.h>
 #include <ctype.h>
 
-#define COMMENT_HANDLEWIDTH 16
+#define COMMNENT_MINSIZE    8
+#define HANDLE_WIDTH        8
 #define COMMENT_OUTBUFSIZE  16384
 
-static t_class *comment_class, *commentsink_class, *edit_proxy_class;
+static t_class *comment_class, *commentsink_class, *handle_class, *edit_proxy_class;
 static t_widgetbehavior comment_widgetbehavior;
 
 static t_pd *commentsink = 0;
+
+static void comment_getrect(t_gobj *z, t_glist *gl, int *xp1, int *yp1, int *xp2, int *yp2);
 
 typedef struct _edit_proxy{
     t_object    p_obj;
@@ -54,7 +57,7 @@ typedef struct _comment{
     int             x_y2;
     int             x_newx2;
     int             x_dragon;
-    int             x_selected;
+    int             x_select;
     int             x_fontsize;
     unsigned char   x_red;
     unsigned char   x_green;
@@ -86,7 +89,17 @@ typedef struct _comment{
     int             x_bg_flag;
     int             x_textjust; // 0: left, 1: center, 2: right
     unsigned int    x_bg[3];    // background color
+    t_pd           *x_handle;
 }t_comment;
+
+typedef struct _handle{
+    t_pd            h_pd;
+    t_comment        *h_master;
+    t_symbol       *h_bindsym;
+    char            h_pathname[64], h_outlinetag[64];
+    int             h_dragon, h_dragx;
+    int             h_selectedmode;
+}t_handle;
 
 // helper functions
 static void comment_initialize(t_comment *x){
@@ -121,6 +134,34 @@ static void comment_initialize(t_comment *x){
     x->x_init = 1;
 }
 
+static void comment_draw_handle(t_comment *x, int state){
+    t_handle *ch = (t_handle *)x->x_handle;
+    int x1, y1, x2, y2;
+    comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
+    if(state){
+        if(ch->h_selectedmode == 0){
+            sys_vgui("canvas %s -width %d -height %d -bg %s -bd 0 -cursor sb_h_double_arrow\n",
+                ch->h_pathname, HANDLE_WIDTH, y2-y1, "black");
+            ch->h_selectedmode = 1;
+        }
+        sys_vgui(".x%lx.c create window %d %d -anchor nw -width %d -height %d -window %s -tags all%lx\n",
+            x->x_cv,
+            x2 + 2*x->x_zoom,
+            y1 + x->x_zoom,
+            HANDLE_WIDTH*x->x_zoom,
+            y2-y1 + 2*x->x_zoom,
+            ch->h_pathname,
+            x);
+        sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 \\;]}\n", ch->h_pathname, ch->h_bindsym->s_name);
+        sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 \\;]}\n", ch->h_pathname, ch->h_bindsym->s_name);
+        sys_vgui("bind %s <Motion> {pdsend [concat %s _motion %%x %%y \\;]}\n", ch->h_pathname, ch->h_bindsym->s_name);
+    }
+    else{
+        ch->h_selectedmode = 0;
+        sys_vgui("destroy %s\n", ch->h_pathname);
+    }
+}
+
 static void comment_draw_inlet(t_comment *x){
     if(x->x_edit &&  x->x_receive == &s_){
         t_canvas *cv = glist_getcanvas(x->x_glist);
@@ -141,11 +182,12 @@ static void comment_draw_outline(t_comment *x){
             x->x_y2 + x->x_zoom * 2,
             (unsigned long)x,
             x->x_zoom,
-            x->x_selected ? "blue" : "black");
+            x->x_select ? "blue" : "black");
     }
 }
 
 static void comment_draw(t_comment *x){
+    x->x_cv = glist_getcanvas(x->x_glist);
     if(x->x_bbset && x->x_bg_flag) // draw bg
         sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags bg%lx -outline %s -fill %s\n",
             (unsigned long)x->x_cv,
@@ -154,6 +196,11 @@ static void comment_draw(t_comment *x){
             x->x_x2 + x->x_zoom * 2,
             x->x_y2 + x->x_zoom * 2,
             (unsigned long)x, x->x_bgcolor, x->x_bgcolor);
+    
+/*    t_handle *ch = (t_handle *)x->x_handle;
+    sprintf(ch->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_cv, (unsigned long)ch);
+    sys_vgui(".x%lx.c bind all%lx <ButtonRelease> {pdsend [concat %s _mouserelease \\;]}\n", x->x_cv, x, x->x_bindsym->s_name);*/
+    
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     outp = outbuf = buf;
     sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s {%.*s} %d %s %s %s\n",
@@ -166,7 +213,7 @@ static void comment_draw(t_comment *x){
         text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // %d
         x->x_fontname->s_name, // {%s}
         x->x_fontsize, // -%d
-        x->x_selected ? "blue" : x->x_color, // %s
+        x->x_select ? "blue" : x->x_color, // %s
         x->x_bufsize, // %.
         x->x_buf, // *s
         x->x_max_pixwidth, // %d
@@ -240,120 +287,6 @@ static void comment_dograb(t_comment *x){
     glist_grab(x->x_glist, (t_gobj *)x, 0, comment_grabbedkey, 0, 0);
 }
 
-static void comment__bbox_callback(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
-    bindsym = NULL;
-//    post("--------comment__bbox_callback--------");
-//    post("x->x_bbset = (%d) / x->x_bbpending (%d)", x->x_bbset, x->x_bbpending);
-    if(x->x_x1 != x1 || x->x_y1 != y1 || x->x_x2 != x2 || x->x_y2 != y2){
-//        post("arg dif");
-//        post("comment__bbox_callback x1 = %g y1 = %g x2 = %g y2 = %g", x1, y1, x2, y2);
-        x->x_x1 = x1;
-        x->x_y1 = y1;
-        x->x_x2 = x2;
-        x->x_y2 = y2;
-        if(!x->x_bbset){
-            x->x_bbset = 1;
-            comment_redraw(x);
-        }
-        if(!glist_isvisible(x->x_glist) || !gobj_shouldvis((t_gobj *)x, x->x_glist))
-           comment_erase(x); // <= improve this hack
-        else{
-            if(x->x_edit)
-                sys_vgui(".x%lx.c coords %lx_outline %d %d %d %d\n", (unsigned long)x->x_cv, x, x->x_x1, x->x_y1, x->x_x2, x->x_y2);
-            if(x->x_bg_flag)
-                sys_vgui(".x%lx.c coords bg%lx %d %d %d %d\n", (unsigned long)x->x_cv, x, x->x_x1, x->x_y1, x->x_x2, x->x_y2);
-        }
-    }
-    x->x_bbpending = 0;
-}
-
-static void comment__click_callback(t_comment *x, t_symbol *s, int ac, t_atom *av){
-//    post("comment__click_callback");
-    t_symbol *dummy = s;
-    dummy = NULL;
-    int xx, ndx;
-    if(ac == 8 && av->a_type == A_SYMBOL && av[1].a_type == A_FLOAT
-       && av[2].a_type == A_FLOAT && av[3].a_type == A_FLOAT
-       && av[4].a_type == A_FLOAT && av[5].a_type == A_FLOAT
-       && av[6].a_type == A_FLOAT && av[7].a_type == A_FLOAT){
-            xx = (int)av[1].a_w.w_float;
-            ndx = (int)av[3].a_w.w_float;
-//            post("xx = %d / yy = %d / ndx = %d", xx, yy, ndx);
-            comment__bbox_callback(x, av->a_w.w_symbol,
-            av[4].a_w.w_float, av[5].a_w.w_float,
-            av[6].a_w.w_float, av[7].a_w.w_float);
-    }
-    else{
-//        post("bug [comment]: comment__click_callback");
-        return;
-    }
-    char buf[COMMENT_OUTBUFSIZE], *outp = buf;
-    unsigned long cv = (unsigned long)x->x_cv;
-    if(x->x_glist->gl_edit){
-        if(x->x_active){
-            if(ndx >= 0 && ndx <= x->x_bufsize){
-//                post("ndx = %d", ndx);
-                x->x_start_ndx = x->x_end_ndx = ndx;
-                int byte_ndx = 0;
-                for(int i = 0; i < ndx; i++)
-                    u8_inc(x->x_buf, &byte_ndx);
-                x->x_selstart = x->x_selend = byte_ndx;
-                comment_dograb(x);
-                comment_update(x);
-// set selection, LATER shift-click and drag
-            }
-        }
-        else if(xx > x->x_x2 - COMMENT_HANDLEWIDTH){ // start resizing
-            sprintf(outp, ".x%lx.c bind txt%lx <ButtonRelease> {pdsend {%s _release %s}}\n",
-                cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
-            outp += strlen(outp);
-            sprintf(outp, ".x%lx.c bind txt%lx <Motion> {pdsend {%s _motion %s %%x %%y}}\n",
-                cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
-            outp += strlen(outp);
-            sys_gui(buf);
-            x->x_newx2 = x->x_x2;
-            x->x_dragon = 1;
-        }
-    }
-}
-
-static void comment__release_callback(t_comment *x, t_symbol *bindsym){
-    bindsym = NULL;
-//    post("release _callback");
-    unsigned long cv = (unsigned long)x->x_cv;
-    sys_vgui(".x%lx.c bind txt%lx <ButtonRelease> {}\n", cv, (unsigned long)x);
-    sys_vgui(".x%lx.c bind txt%lx <Motion> {}\n", cv, (unsigned long)x);
-    x->x_dragon = 0;
-    if(x->x_newx2 != x->x_x2){
-        x->x_max_pixwidth = x->x_newx2 - x->x_x1;
-        comment_redraw(x);
-    }
-}
-
-static void comment__motion_callback(t_comment *x, t_symbol *bindsym, t_floatarg xx, t_floatarg yy){
-    bindsym = NULL;
-//    post("comment__motion_callback");
-    yy = 0;
-    int min_width = 8;
-    if(xx > x->x_x1 + min_width)
-        sys_vgui(".x%lx.c coords %lx_outline %d %d %d %d\n", (unsigned long)x->x_cv,
-            (unsigned long)x, x->x_x1, x->x_y1, x->x_newx2 = xx, x->x_y2);
-}
-
-static void commentsink__bbox_callback(t_pd *x, t_symbol *bindsym){
-//    post("commentsink__bbox_callback");
-    if(bindsym->s_thing == x){
-//        post("if comment gone, unbind");
-        pd_unbind(x, bindsym);  // if comment gone, unbind
-    }
-}
-
-static void commentsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av){ // nop: avoid warnings
-    x = NULL;
-    s = NULL;
-    ac = (int)av;
-}
-
 static void comment_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *xp2, int *yp2){
     t_comment *x = (t_comment *)z;
     float x1, y1, x2, y2;
@@ -367,7 +300,7 @@ static void comment_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *
         height = 2;
 //    post("width (%d) height (%d)", width, height);
     x2 = x1 + width;
-    y2 = y1 + height; 
+    y2 = y1 + height;
     *xp1 = x1;
     *yp1 = y1;
     *xp2 = x2;
@@ -427,7 +360,7 @@ static void comment_activate(t_gobj *z, t_glist *glist, int state){
 
 static void comment_select(t_gobj *z, t_glist *glist, int state){
     t_comment *x = (t_comment *)z;
-    x->x_selected = state;
+    x->x_select = state;
     if(!state && x->x_active)
         comment_activate(z, glist, 0);
     sys_vgui(".x%lx.c itemconfigure txt%lx -fill %s\n", x->x_cv, (unsigned long)x, state ? "blue" : x->x_color);
@@ -446,7 +379,141 @@ static void comment_vis(t_gobj *z, t_glist *glist, int vis){
     x->x_cv = glist_getcanvas(x->x_glist = glist);
     if(!x->x_init)
         comment_initialize(x);
-    vis ? comment_draw(x) : comment_erase(x);
+    if(vis){
+        t_handle *ch = (t_handle *)x->x_handle;
+        sprintf(ch->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_cv, (unsigned long)ch);
+//        sys_vgui(".x%lx.c bind all%lx <ButtonRelease> {pdsend [concat %s _mouserelease \\;]}\n", x->x_cv, x, x->x_bindsym->s_name);
+        comment_draw(x);
+        comment_draw_handle(x, x->x_edit);
+    }
+    else
+        comment_erase(x);
+}
+
+static void comment__bbox_callback(t_comment *x, t_symbol *bindsym, t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
+    bindsym = NULL;
+//    post("--------comment__bbox_callback--------");
+//    post("x->x_bbset = (%d) / x->x_bbpending (%d)", x->x_bbset, x->x_bbpending);
+    if(x->x_x1 != x1 || x->x_y1 != y1 || x->x_x2 != x2 || x->x_y2 != y2){
+//        post("arg dif");
+//        post("comment__bbox_callback x1 = %g y1 = %g x2 = %g y2 = %g", x1, y1, x2, y2);
+        x->x_x1 = x1;
+        x->x_y1 = y1;
+        x->x_x2 = x2;
+        x->x_y2 = y2;
+        if(!x->x_bbset){
+            x->x_bbset = 1;
+            comment_redraw(x);
+        }
+        if(!glist_isvisible(x->x_glist) || !gobj_shouldvis((t_gobj *)x, x->x_glist))
+           comment_erase(x); // <= improve this hack
+        else{
+            if(x->x_edit)
+                sys_vgui(".x%lx.c coords %lx_outline %d %d %d %d\n", (unsigned long)x->x_cv, x, x->x_x1, x->x_y1, x->x_x2, x->x_y2);
+            if(x->x_bg_flag)
+                sys_vgui(".x%lx.c coords bg%lx %d %d %d %d\n", (unsigned long)x->x_cv, x, x->x_x1, x->x_y1, x->x_x2, x->x_y2);
+        }
+    }
+    x->x_bbpending = 0;
+    comment_draw_handle(x, x->x_edit);
+}
+
+static void comment__click_callback(t_comment *x, t_symbol *s, int ac, t_atom *av){
+//    post("comment__click_callback");
+    t_symbol *dummy = s;
+    dummy = NULL;
+    int xx, ndx;
+    if(ac == 8 && av->a_type == A_SYMBOL && av[1].a_type == A_FLOAT
+       && av[2].a_type == A_FLOAT && av[3].a_type == A_FLOAT
+       && av[4].a_type == A_FLOAT && av[5].a_type == A_FLOAT
+       && av[6].a_type == A_FLOAT && av[7].a_type == A_FLOAT){
+            xx = (int)av[1].a_w.w_float;
+            ndx = (int)av[3].a_w.w_float;
+//            post("xx = %d / yy = %d / ndx = %d", xx, yy, ndx);
+            comment__bbox_callback(x, av->a_w.w_symbol,
+            av[4].a_w.w_float, av[5].a_w.w_float,
+            av[6].a_w.w_float, av[7].a_w.w_float);
+    }
+    else{
+//        post("bug [comment]: comment__click_callback");
+        return;
+    }
+    char buf[COMMENT_OUTBUFSIZE], *outp = buf;
+    unsigned long cv = (unsigned long)x->x_cv;
+    if(x->x_glist->gl_edit){
+        if(x->x_active){
+            if(ndx >= 0 && ndx <= x->x_bufsize){
+//                post("ndx = %d", ndx);
+                x->x_start_ndx = x->x_end_ndx = ndx;
+                int byte_ndx = 0;
+                for(int i = 0; i < ndx; i++)
+                    u8_inc(x->x_buf, &byte_ndx);
+                x->x_selstart = x->x_selend = byte_ndx;
+                comment_dograb(x);
+                comment_update(x);
+// set selection, LATER shift-click and drag
+            }
+        }
+        else if(xx > x->x_x2 - HANDLE_WIDTH){ // start resizing
+            sprintf(outp, ".x%lx.c bind txt%lx <ButtonRelease> {pdsend {%s _release %s}}\n",
+                cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
+            outp += strlen(outp);
+            sprintf(outp, ".x%lx.c bind txt%lx <Motion> {pdsend {%s _motion %s %%x %%y}}\n",
+                cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
+            outp += strlen(outp);
+            sys_gui(buf);
+            x->x_newx2 = x->x_x2;
+            x->x_dragon = 1;
+        }
+    }
+}
+
+static void handle__click_callback(t_handle *ch, t_floatarg f){
+    int click = (int)f;
+    t_comment *x = ch->h_master;
+    if(ch->h_dragon && click == 0){
+        sys_vgui(".x%lx.c delete %s\n", x->x_cv, ch->h_outlinetag);
+        if(x->x_newx2 != x->x_x2){
+            x->x_max_pixwidth = x->x_newx2 - x->x_x1;
+            comment_redraw(x);
+        }
+        comment_select((t_gobj *)x, x->x_glist, x->x_select);
+    }
+    else if(!ch->h_dragon && click){
+        int x1, y1, x2, y2;
+        comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -width %d -tags %s\n",
+            x->x_cv, x1, y1, x2+2*x->x_zoom, y2+2*x->x_zoom, "blue", 2*x->x_zoom, ch->h_outlinetag);
+        ch->h_dragx = 0;
+    }
+    ch->h_dragon = click;
+}
+
+static void handle__motion_callback(t_handle *ch, t_floatarg f1, t_floatarg f2){
+    if(ch->h_dragon){
+        f2 = 0;
+        t_comment *x = ch->h_master;
+        int dx = (int)f1, x1, y1, x2, y2, newx;
+        comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
+        newx = x2 + dx;
+        if(newx > x1 + COMMNENT_MINSIZE){
+            sys_vgui(".x%lx.c coords %s %d %d %d %d\n", x->x_cv, ch->h_outlinetag, x1, y1, newx, y2 + 2*x->x_zoom);
+            sys_vgui(".x%lx.c coords %lx_outline %d %d %d %d\n", (unsigned long)x->x_cv,
+                (unsigned long)x, x->x_x1, x->x_y1, x->x_newx2 = newx, x->x_y2);
+            ch->h_dragx = dx;
+        }
+    }
+}
+
+static void commentsink__bbox_callback(t_pd *x, t_symbol *bindsym){
+    if(bindsym->s_thing == x)
+        pd_unbind(x, bindsym);  // if comment gone, unbind
+}
+
+static void commentsink_anything(t_pd *x, t_symbol *s, int ac, t_atom *av){ // nop: avoid warnings
+    x = NULL;
+    s = NULL;
+    ac = (int)av;
 }
 
 static void comment_get_rcv(t_comment* x){
@@ -687,7 +754,9 @@ static void edit_proxy_any(t_edit_proxy *p, t_symbol *s, int ac, t_atom *av){
             p->p_cnv->x_edit = edit;
             t_canvas *cv = glist_getcanvas(p->p_cnv->x_glist);
             unsigned long x = (unsigned long)p->p_cnv;
+            comment_draw_handle(p->p_cnv, edit);
             if(edit){
+//                sys_vgui(".x%lx.c itemconfigure txt%lx -cursor xterm\n", p->p_cnv->x_cv, (unsigned long)x);
                 comment_draw_inlet(p->p_cnv);
                 comment_draw_outline(p->p_cnv);
             }
@@ -984,6 +1053,10 @@ static void comment_free(t_comment *x){
     }
 //    if(x->x_binbuf) // init?
         binbuf_free(x->x_binbuf);
+    if(x->x_handle){
+        pd_unbind(x->x_handle, ((t_handle *)x->x_handle)->h_bindsym);
+        pd_free(x->x_handle);
+    }
     if(x->x_buf)
         freebytes(x->x_buf, x->x_bufsize);
     x->x_proxy->p_cnv = NULL;
@@ -993,6 +1066,13 @@ static void comment_free(t_comment *x){
 static void *comment_new(t_symbol *s, int ac, t_atom *av){
     s = NULL;
     t_comment *x = (t_comment *)pd_new(comment_class);
+    x->x_handle = pd_new(handle_class);
+    t_handle *ch = (t_handle *)x->x_handle;
+    ch->h_master = x;
+    char hbuf[64];
+    sprintf(hbuf, "_h%lx", (unsigned long)ch);
+    pd_bind(x->x_handle, ch->h_bindsym = gensym(hbuf));
+    sprintf(ch->h_outlinetag, "h%lx", (unsigned long)ch);
     t_text *t = (t_text *)x;
     t->te_type = T_TEXT;
     x->x_glist = canvas_getcurrent();
@@ -1011,7 +1091,7 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     x->x_bg_flag = x->x_changed = x->x_init = 0;
     x->x_bg[0] = x->x_bg[1] = x->x_bg[2] = 255;
     sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-    x->x_bbset = x->x_selected = x->x_dragon = x->x_shift = 0;
+    x->x_bbset = x->x_select = x->x_dragon = x->x_shift = 0;
     t_symbol *rcv = x->x_receive = x->x_rcv_raw = &s_;
     char buf[MAXPDSTRING];
     snprintf(buf, MAXPDSTRING-1, ".x%lx", (unsigned long)x->x_cv);
@@ -1281,8 +1361,6 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment_ok, gensym("ok"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__bbox_callback, gensym("_bbox"), A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment__click_callback, gensym("_click"), A_GIMME, 0);
-    class_addmethod(comment_class, (t_method)comment__release_callback, gensym("_release"), A_SYMBOL, 0);
-    class_addmethod(comment_class, (t_method)comment__motion_callback, gensym("_motion"), A_SYMBOL, A_FLOAT, A_FLOAT, 0);
     class_setwidget(comment_class, &comment_widgetbehavior);
     comment_widgetbehavior.w_getrectfn  = comment_getrect;
     comment_widgetbehavior.w_displacefn = comment_displace;
@@ -1297,6 +1375,10 @@ CYCLONE_OBJ_API void comment_setup(void){
     commentsink_class = class_new(gensym("_commentsink"), 0, 0, sizeof(t_pd), CLASS_PD, 0);
     class_addanything(commentsink_class, commentsink_anything);
     class_addmethod(commentsink_class, (t_method)commentsink__bbox_callback, gensym("_bbox"), A_SYMBOL, 0); // <= ?????
+    
+    handle_class = class_new(gensym("_handle"), 0, 0, sizeof(t_handle), CLASS_PD, 0);
+    class_addmethod(handle_class, (t_method)handle__click_callback, gensym("_click"), A_FLOAT, 0);
+    class_addmethod(handle_class, (t_method)handle__motion_callback, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     sys_gui("proc comment_bbox {target cvname tag} {\n\
             pdsend \"$target _bbox $target [$cvname bbox $tag]\"}\n");
 // LATER think about window vs canvas coords
