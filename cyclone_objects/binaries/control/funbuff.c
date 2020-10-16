@@ -403,16 +403,18 @@ static void funbuff_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
     t_funbuff *x = (t_funbuff *)z;
     if (x->x_embedflag)
     {
-	t_hammernode *np;
-	binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
-	if (np = x->x_tree.t_first)
-	{
-	    binbuf_addv(bb, "ss", bindsym, gensym("set"));
-	    for (; np; np = np->n_next)
-		binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
-	    binbuf_addsemi(bb);
-	}
-    }
+        t_hammernode *np;
+        binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
+        if (np = x->x_tree.t_first)
+        {
+            binbuf_addv(bb, "ss", bindsym, gensym("set"));
+            for (; np; np = np->n_next)
+            binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
+            binbuf_addsemi(bb);
+        };
+
+    };
+    obj_saveformat(x,bb);
 }
 
 /* CHECKED symbol arg ok */

@@ -871,7 +871,7 @@ static void coll_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
             binbuf_addsemi(bb);
         };
     };
-    if(x->x_ob.te_width != 0) binbuf_addv(bb, "ssf;", &s__X, gensym("f"), (float)x->x_ob.te_width);
+    obj_saveformat(x,bb);
 }
 
 static void collcommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){

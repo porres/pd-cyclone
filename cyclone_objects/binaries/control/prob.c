@@ -74,7 +74,8 @@ static void prob_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
         if(x->x_default)
             binbuf_addv(bb, "ssi;", bindsym, gensym("reset"),
         x->x_default->tr_value);
-    }
+    };
+    obj_saveformat(x,bb);
 }
 
 static void prob_embed(t_prob *x, t_floatarg f)
