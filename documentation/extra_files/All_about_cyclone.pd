@@ -1,11 +1,11 @@
 #N canvas 706 23 561 667 10;
-#X declare -lib cyclone;
+#X declare -lib cyclone -path cyclone;
 #X obj 3 3 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
 0;
 #X obj 28 6 cyclone/comment 425 22 DejaVu\ Sans\ Mono empty 0 224 228
 220 0 255 255 255 0 0 cyclone;
 #X obj 29 34 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 224
-228 220 0 255 255 255 0 0 version: 0.5-3;
+228 220 0 255 255 255 0 0 version: 0.5-4;
 #X obj 136 9 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 - a set of Pure Data objects cloned from
 Max/MSP;
@@ -29,10 +29,7 @@ two environments.;
 , f 92;
 #X obj 100 344 cyclone/comment 201 16 DejaVu\ Sans\ Mono empty 0 0
 0 0 0 190 190 200 1 0 List with all of the Cyclone's objetcs =>;
-#X obj 304 469 declare -lib cyclone;
-#X text 85 446 You can load the cyclone library via "Startup". Alternatively
-\, you can use [declare] as follows:, f 62;
-#X text 84 502 Check declare's help file for more information.;
+#X text 72 502 Check declare's help file for more information.;
 #X text 2 641 ===========================================================================================
 , f 91;
 #X text 62 193 - Cyclone's development starts in 2002 (at the time
@@ -60,9 +57,9 @@ cyclone folder., f 73;
 #X restore 57 601 pd links;
 #X obj 441 608 bng 15 250 50 0 \$0-issues dummy empty 17 7 0 10 -228856
 -1 -1;
-#X obj 329 541 bng 15 250 50 0 \$0-install dummy empty 17 7 0 10 -228856
+#X obj 318 541 bng 15 250 50 0 \$0-install dummy empty 17 7 0 10 -228856
 -1 -1;
-#X text 87 529 Click and open "how to install" link from the repository
+#X text 76 529 Click and open "how to install" link from the repository
 for more details =>, f 39;
 #X text 191 597 Click and open "issues" link from the repository to
 report bugs/issues ======>, f 40;
@@ -71,3 +68,8 @@ report bugs/issues ======>, f 40;
 #X obj 315 368 cyclone/All_objects;
 #X obj 15 598 cyclone/comment 425 16 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 190 190 200 1 0 Bugs / Issues?;
+#X text 343 429 Alternatively \, you can use [declare] as follows:
+, f 25;
+#X text 73 459 You can load the cyclone library via Preferences =>
+"Path" & "Startup"., f 36;
+#X obj 329 469 declare -lib cyclone -path cyclone;

@@ -3,6 +3,32 @@
 ---------------------------------------------------
 
 --------------------------------------------------
+cyclone 0.5-4 (needs at least Pd Vanilla 0.51-0):
+--------------------------------------------------
+
+- Fixed cross compiling for windows.
+- [fromsymbol]: fixed converting to floats for all float cases (regression bug from 0.3).
+- fixed loading "cyclone/snapshot~" as "cyclone/Snapshot~", and "cyclone/table" as "cyclone/Table".
+- [urn]: fixed seed bug and improved/fixed documentation.
+- Fixed saving and loading resizing information for object boxes, affects: [coll], [funbuff], [table] and [prob].
+- [coll]: now coll window updates graphically when you're changing data via methods (before you had to close and reopen the window). Another thing is that the window now gets raised into focus if it's already open and you either click on the object or send an "open" message to it. And now deleting the object will force closing the window if it's opened (there was an exception when this didn't happen).  
+- [unjoin]: fixed output order of outlets (now it's from right to left).
+- [plusequals~] (or +=~): increased the output resolution to a 'double'.
+- [record~]: fixed an old bug (since cyclone 0.1 phase) where record~ would freeze Pd; fixed number of channels, and now you can resize the array to a bigger size that it'll work.
+- [scope~]:
+   - Pd doesn't ask anymore if you want to save changes if you changed the object's parameters via messages (this is in line with how iemguis work).
+   - improved GOP management, such as erasing when out of GOP's bounds
+   - improvement of the resize mechanism via handle.
+   - redesign of the resize handle interface. Now when you get in and out of edit mode, the handle shows up in the bottom right corner for you to resize the object - there's also a new and more proper cursor for what it does "bottom_right_corner". Before you had to first select the object like in Max, but now this is more in line with how resizing regularly works for Pd, where you don't need to select the object first.
+- [comment]:
+   - Pd doesn't ask anymore if you want to save changes if you changed the object's parameters via messages (this is in line with how iemguis work).
+   - fixed a bug where you could lose the comment when saving the patch (regression bug from 0.5-2)
+   - fixed graph on parent (GOP) display when loading patch (regression bug from 0.5-3)
+   - fixed setting colors via a loadbang message
+   - better drawing when loading of the patch (it'd generate a wrong outline for a very brief moment before getting it right). 
+   - improved GOP management, such as erasing when out of GOP's bounds
+
+--------------------------------------------------
 cyclone 0.5-3 (needs at least Pd Vanilla 0.51-0):
 --------------------------------------------------
 
