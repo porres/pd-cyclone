@@ -6,8 +6,10 @@
 cyclone 0.5-4 (needs at least Pd Vanilla 0.51-0):
 --------------------------------------------------
 
+
+- Fixed packaging/uploading Upper Case aliases objects for Linux (such as Line~, etc) - this is not a change in code so this can be done for earlier 0.5 releases.
+- Changed the install description, now it is advised to use [declare -path] and add it to the preferences to force search priority.
 - Fixed cross compiling for windows.
-- Fixed packaging/uploading Upper Case aliases objects for Linux (such as Line~, etc).
 - [fromsymbol]: fixed converting to floats for all float cases (regression bug from 0.3).
 - Fixed loading "cyclone/snapshot~" as "cyclone/Snapshot~", and "cyclone/table" as "cyclone/Table".
 - [urn]: fixed seed bug and improved/fixed documentation.
