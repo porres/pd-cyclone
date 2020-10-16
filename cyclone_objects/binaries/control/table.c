@@ -316,7 +316,8 @@ static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
             }
 	    binbuf_addsemi(bb);
         }
-    }
+    };
+    obj_saveformat(x,bb);
 }
 
 static void tablecommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
