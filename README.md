@@ -20,16 +20,16 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 -------
 
-Current Release: Cyclone 0.5-3 (this release needs at least Pd Vanilla 0.51-0)
+Current Release: Cyclone 0.5-4 (this release needs at least Pd Vanilla 0.51-0)
 
-Released August 21st 2020
+Released October 17th 2020
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
 -------
 ### About Cyclone:
 
-Cyclone 0.5-3 needs at least Pd Vanilla 0.51-0 (current version is 0.51-1) and does not run on Pd-Extended or Pd-l2ork/Purr Data.
+Cyclone 0.5-4 needs at least Pd Vanilla 0.51-0 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
 
 Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data. Pd-Extended carries older 0.1 versions and Purr Data still carries an outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data). The latest versions of cyclone (0.3-0 onwards) are only fully supported in Pd Vanilla so far. 
 
@@ -63,6 +63,8 @@ When installing cyclone, make sure the Cyclone folder is included in a folder th
 Now you can install Cyclone by loading it in the startup: go to "Preferences => Startup", then click "New", type "Cyclone" and hit OK. Next time you restart Pd, the Cyclone library binary will be loaded.
 
 This library binary loads the non alphanumeric operators objects (which are: `!-`, `!-~`, `!/`, `!/~`, `!=~`, `%~`, `+=~`, `<=~`, `<~`, `==~`, `>=~` and `>~`) but it also adds Cyclone's path to Pd's preferences, so you can load the other objects from Cyclone (which are separate binaries and abstractions).
+
+To force a loading priority on your patch, you need to use [declare -path cyclone].
 
 You can also use the [declare -lib cyclone] in a patch to load the library if you don't want to always have Cyclone loaded when Pd starts.
 
