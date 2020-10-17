@@ -55,8 +55,6 @@
 228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 cyclone;
-#X text 214 352 - sets RGB text color (values from 0 to 255), f 54
-;
 #X text 80 352 textjustification <f>;
 #N canvas 534 83 886 580 details 0;
 #X obj 159 295 cyclone/comment 425 50 times empty 0 0 0 0 0 100 150
@@ -228,3 +226,5 @@ like elsewhere in Pd (such as in messages or comments)., f 29;
 #X connect 12 0 13 0;
 #X connect 14 0 9 0;
 #X restore 455 220 pd +\ examples;
+#X text 214 352 - sets justification (0: left \, 1: center \, 2: right)
+, f 54;
