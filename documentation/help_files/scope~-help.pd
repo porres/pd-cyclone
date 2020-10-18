@@ -351,7 +351,59 @@ are shown., f 73;
 #X connect 3 0 1 0;
 #X connect 4 0 1 0;
 #X restore 485 285 pd receive;
-#N canvas 693 173 824 342 buffer 0;
+#N canvas 877 158 695 423 delay_trigger 0;
+#X obj 333 194 vsl 15 126 -1 1 0 1 empty empty empty 0 -9 0 10 -228856
+-1 -1 6400 1;
+#X obj 462 57 vradio 20 1 1 3 empty empty empty 0 -8 0 10 -228856 -1
+-1 1;
+#X msg 462 148 trigger \$1;
+#X floatatom 462 127 5 0 0 0 - - -;
+#X msg 367 120 triglevel \$1;
+#X obj 333 340 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 0.024 256;
+#X obj 333 365 s \$0-slider;
+#X obj 367 66 r \$0-slider;
+#X floatatom 367 92 5 0 0 0 - - -;
+#X text 486 58 0) none;
+#X text 487 78 1) Up;
+#X text 487 99 2) Down;
+#X text 42 86 The default mode is "trigger 0" \, which is "none mode"
+\, where the signal is displayed the way it is., f 43;
+#X text 42 130 "trigger 1" is "up mode" \, in which - following the
+delay period - a new display is triggered only when the signal goes
+from below the trigger level to being equal to it or above it., f
+43;
+#X text 42 195 "trigger 2" sets to down mode \, in which - following
+the delay period - a new display is shown only when the signal goes
+from above the trigger level to being equal to it or below it., f
+43;
+#X text 42 261 The "triglevel <float>" message sets the threshold for
+the trigger modes "1" (up) and "2" (down). In these cases \, as described
+above \, the waveform must increase or decrease past this value to
+trigger a new display. If you are displaying a periodic waveform \,
+some changes to the trigger level will shift the waveform to the left
+or right., f 43;
+#X obj 351 193 cyclone/scope~ 201 129 2 3 256 -1 1 110 0 1 0.024 205
+229 232 74 79 77 96 98 102 0 empty;
+#X msg 557 159 delay \$1;
+#X floatatom 557 134 5 0 500 0 - - -;
+#X text 42 29 The delay determines when to display a new waveform.
+In conjunction to it \, the trigger mode determines when a new waveform
+trace begins (following the delay period)., f 43;
+#X obj 351 29 cyclone/rand~ 300;
+#X connect 0 0 5 0;
+#X connect 1 0 3 0;
+#X connect 2 0 16 0;
+#X connect 3 0 2 0;
+#X connect 4 0 16 0;
+#X connect 5 0 6 0;
+#X connect 7 0 8 0;
+#X connect 8 0 4 0;
+#X connect 17 0 16 0;
+#X connect 18 0 17 0;
+#X connect 20 0 16 0;
+#X restore 379 285 pd delay_trigger;
+#N canvas 693 173 824 342 buffer_size 0;
 #X floatatom 507 119 5 0 0 0 - - -;
 #X floatatom 678 120 5 8 256 0 - - -;
 #X obj 507 93 unpack float float, f 29;
@@ -387,53 +439,7 @@ smallest line is 2 samples/points long.;
 #X connect 3 0 2 0;
 #X connect 4 0 13 0;
 #X connect 5 0 2 0;
-#X restore 352 285 pd buffer;
-#N canvas 678 146 755 422 trigger 0;
-#X obj 456 176 vsl 15 126 -1 1 0 1 empty empty empty 0 -9 0 10 -228856
--1 -1 7200 1;
-#X obj 638 38 vradio 20 1 1 3 empty empty empty 0 -8 0 10 -228856 -1
--1 1;
-#X msg 638 129 trigger \$1;
-#X floatatom 638 108 5 0 0 0 - - -;
-#X msg 543 101 triglevel \$1;
-#X obj 456 322 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0.152 256;
-#X obj 456 347 s \$0-slider;
-#X obj 543 47 r \$0-slider;
-#X floatatom 543 73 5 0 0 0 - - -;
-#X obj 474 91 osc~ 150;
-#X text 662 39 0) none;
-#X text 663 59 1) Up;
-#X text 663 80 2) Down;
-#X text 33 32 The delay onset period determines when to display a new
-waveform. In conjunction to it \, the trigger mode determines when
-a new waveform trace begins (following the delay period).;
-#X text 33 96 The default mode is "trigger 0" \, which is "none mode"
-\, where the signal is displayed the way it is.;
-#X text 35 140 "trigger 1" is "up mode" \, in which - following the
-delay period - a new display is triggered only when the signal goes
-from below the trigger level to being equal to it or above it.;
-#X text 34 205 "trigger 2" sets to down mode \, in which - following
-the delay period - a new display is shown only when the signal goes
-from above the trigger level to being equal to it or below it.;
-#X text 35 273 The "triglevel <float>" message sets the threshold for
-the trigger modes "1" (up) and "2" (down). In these cases \, as described
-above \, the waveform must increase or decrease past this value to
-trigger a new display. If you are displaying a periodic waveform \,
-some changes to the trigger level will shift the waveform to the left
-or right.;
-#X obj 474 175 cyclone/scope~ 201 129 2 3 256 -1 1 50 0 1 0.152 205
-229 232 74 79 77 96 98 102 0 empty;
-#X connect 0 0 5 0;
-#X connect 1 0 3 0;
-#X connect 2 0 18 0;
-#X connect 3 0 2 0;
-#X connect 4 0 18 0;
-#X connect 5 0 6 0;
-#X connect 7 0 8 0;
-#X connect 8 0 4 0;
-#X connect 9 0 18 0;
-#X restore 416 285 pd trigger;
+#X restore 286 285 pd buffer_size;
 #X connect 35 0 36 0;
 #X connect 36 0 60 0;
 #X connect 54 0 46 0;
