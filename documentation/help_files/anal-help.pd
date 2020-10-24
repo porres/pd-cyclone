@@ -69,7 +69,7 @@
 #X obj 330 460 % 128;
 #X obj 330 560 noteout;
 #X obj 88 87 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 128 256;
+-228856 -1 -1 0 256;
 #X obj 330 485 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 330 524 makenote 100 500;
@@ -80,7 +80,7 @@ to a third note (2nd order markov chain)., f 50;
 #X obj 189 223 t f f;
 #X obj 216 291 +;
 #X obj 216 316 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 16512 256;
+-228856 -1 -1 0 256;
 #X obj 88 26 notein;
 #X obj 88 57 stripnote;
 #X obj 330 427 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -114,7 +114,7 @@ less random than if we're just looking at one note at a time.;
 #X msg 189 149 2;
 #X msg 220 149 1;
 #X obj 231 272 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 16384 256;
+-228856 -1 -1 0 256;
 #X obj 92 187 cyclone/comment 91 11 helvetica empty 0 200 0 0 0 255
 255 255 0 0 send first number to the right oultet;
 #X obj 216 354 cyclone/anal 16384;

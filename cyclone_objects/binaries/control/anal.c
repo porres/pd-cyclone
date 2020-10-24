@@ -23,6 +23,7 @@ typedef struct _anal{
 static t_class *anal_class;
 
 static void anal_reset(t_anal *x){
+    memset(x->x_table, 0, x->x_bytesize);
     x->x_value = -1;
 }
 
