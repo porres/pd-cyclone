@@ -36,11 +36,11 @@
 #X obj 223 170 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 186 291 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X obj 256 291 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 2 256;
+-228856 -1 -1 0 256;
 #X obj 327 291 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 1 256;
+-228856 -1 -1 0 256;
 #X text 250 307 current;
 #X text 123 411 list;
 #X text 166 343 - the anal input data, f 60;
@@ -52,7 +52,7 @@
 #X obj 189 151 cyclone/anal;
 #X obj 189 203 cyclone/prob;
 #C restore;
-#N canvas 1023 124 569 608 markov_chain 0;
+#N canvas 1162 147 569 608 markov_chain 0;
 #X obj 330 142 bng 20 250 50 0 empty empty empty 17 7 0 10 -216373
 -66577 -1;
 #X msg 330 324 clear;
@@ -69,7 +69,7 @@
 #X obj 330 460 % 128;
 #X obj 330 560 noteout;
 #X obj 88 87 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 128 256;
 #X obj 330 485 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X obj 330 524 makenote 100 500;
@@ -80,7 +80,7 @@ to a third note (2nd order markov chain)., f 50;
 #X obj 189 223 t f f;
 #X obj 216 291 +;
 #X obj 216 316 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 16512 256;
 #X obj 88 26 notein;
 #X obj 88 57 stripnote;
 #X obj 330 427 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
@@ -106,7 +106,6 @@ values into 1;
 based on the two preceeding notes! This should yield results that sound
 less random than if we're just looking at one note at a time.;
 #X obj 216 375 display;
-#X obj 216 354 cyclone/anal 16384;
 #X obj 231 250 * 128;
 #X msg 285 324 reset;
 #X obj 189 195 cyclone/gate 2;
@@ -115,12 +114,13 @@ less random than if we're just looking at one note at a time.;
 #X msg 189 149 2;
 #X msg 220 149 1;
 #X obj 231 272 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 16384 256;
 #X obj 92 187 cyclone/comment 91 11 helvetica empty 0 200 0 0 0 255
 255 255 0 0 send first number to the right oultet;
+#X obj 216 354 cyclone/anal 16384;
 #X connect 0 0 1 0;
-#X connect 0 0 32 0;
-#X connect 0 0 34 1;
+#X connect 0 0 31 0;
+#X connect 0 0 33 1;
 #X connect 1 0 2 0;
 #X connect 2 0 20 0;
 #X connect 2 1 8 0;
@@ -129,32 +129,32 @@ less random than if we're just looking at one note at a time.;
 #X connect 3 2 6 0;
 #X connect 7 0 2 0;
 #X connect 9 0 12 0;
-#X connect 11 0 35 0;
+#X connect 11 0 34 0;
 #X connect 12 0 13 0;
 #X connect 13 0 10 0;
 #X connect 13 1 10 1;
-#X connect 15 0 31 0;
+#X connect 15 0 30 0;
 #X connect 15 1 16 0;
 #X connect 16 0 17 0;
-#X connect 17 0 30 0;
+#X connect 17 0 39 0;
 #X connect 18 0 19 0;
 #X connect 18 1 19 1;
 #X connect 19 0 11 0;
 #X connect 20 0 9 0;
 #X connect 29 0 2 0;
 #X connect 29 0 3 0;
-#X connect 30 0 29 0;
-#X connect 31 0 38 0;
-#X connect 32 0 30 0;
-#X connect 33 0 15 0;
-#X connect 33 1 31 0;
-#X connect 34 0 36 0;
-#X connect 34 1 37 0;
-#X connect 35 0 33 1;
-#X connect 35 1 34 0;
-#X connect 36 0 33 0;
-#X connect 37 0 33 0;
-#X connect 38 0 16 1;
+#X connect 30 0 37 0;
+#X connect 31 0 39 0;
+#X connect 32 0 15 0;
+#X connect 32 1 30 0;
+#X connect 33 0 35 0;
+#X connect 33 1 36 0;
+#X connect 34 0 32 1;
+#X connect 34 1 33 0;
+#X connect 35 0 32 0;
+#X connect 36 0 32 0;
+#X connect 37 0 16 1;
+#X connect 39 0 29 0;
 #X restore 139 264 pd markov_chain (2nd order);
 #X text 34 33 feed the received two note sequences to [prob] for a
 1st order markov-chain;
@@ -163,8 +163,6 @@ less random than if we're just looking at one note at a time.;
 #X connect 2 0 4 0;
 #X connect 3 0 4 0;
 #X restore 451 290 pd examples;
-#X text 168 446 - the maximum input - the value is clipped between
-0 and this number (default 128 \, max 16384);
 #X text 81 85 [anal] reports how many times it received a number pair.
 The output is designed to serve as input to [cyclone/prob] and is composed
 of: 1) the previously received number \, 2) current input number \,
@@ -183,13 +181,16 @@ f 61;
 #X obj 186 236 cyclone/anal 32;
 #X text 166 377 - completely erase memory, f 60;
 #X text 166 359 - clears analysis but remembers last input, f 60;
-#X connect 5 0 37 0;
-#X connect 6 0 37 0;
-#X connect 7 0 37 0;
-#X connect 8 0 37 0;
-#X connect 9 0 37 0;
+#X text 168 446 - Maximum input \, values accepted are between 0 and
+this;
+#X text 180 461 number (default 128 \, max 16384), f 53;
+#X connect 5 0 36 0;
+#X connect 6 0 36 0;
+#X connect 7 0 36 0;
+#X connect 8 0 36 0;
+#X connect 9 0 36 0;
 #X connect 17 0 23 0;
 #X connect 17 1 24 0;
 #X connect 17 2 25 0;
-#X connect 22 0 37 0;
-#X connect 37 0 17 0;
+#X connect 22 0 36 0;
+#X connect 36 0 17 0;
