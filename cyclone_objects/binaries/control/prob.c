@@ -43,14 +43,33 @@ static t_probtrans *prob_findstate(t_prob *x, int value, int complain){
     return(state);
 }
 
-static void prob_reset(t_prob *x, t_floatarg f){
-    int value = (int)f;  /* CHECKED: float converted to int */
-    t_probtrans *state = prob_findstate(x, value, 1);
-    if (state) { /* CHECKED */
-        x->x_default = state;
-        /* CHECKED (sort of): */
-        if (!x->x_state->tr_nexttrans)
-            x->x_state = state;
+static void prob_update(t_prob *x){
+    t_probtrans *state;
+    char buf[64];
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
+    for(state = x->x_translist; state; state = state->tr_nextstate){
+        t_probtrans *trans;
+        for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans){
+            sprintf(buf, "%d %d %d\n", state->tr_value, trans->tr_value, trans->tr_count);
+            hammereditor_append(x->x_filehandle, buf);
+        }
+    }
+}
+
+static void prob_click(t_prob *x, t_floatarg xpos, t_floatarg ypos,
+t_floatarg shift, t_floatarg ctrl, t_floatarg alt){ // CHECKED not available, LATER full editing
+    xpos = ypos = shift = ctrl = alt = 0;
+    t_probtrans *state;
+    char buf[64];
+    hammereditor_open(x->x_filehandle, 0, 0);
+    for(state = x->x_translist; state; state = state->tr_nextstate){
+        t_probtrans *trans;
+        for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans){
+            sprintf(buf, "%d %d %d\n", state->tr_value, trans->tr_value, trans->tr_count);
+            hammereditor_append(x->x_filehandle, buf);
+        }
     }
 }
 
@@ -73,6 +92,17 @@ static void prob_embed(t_prob *x, t_floatarg f){
     x->x_embedmode = ((int)f != 0);
 }
 
+static void prob_reset(t_prob *x, t_floatarg f){
+    int value = (int)f;  /* CHECKED: float converted to int */
+    t_probtrans *state = prob_findstate(x, value, 1);
+    if(state){ /* CHECKED */
+        x->x_default = state;
+        /* CHECKED (sort of): */
+        if(!x->x_state->tr_nexttrans)
+            x->x_state = state;
+    }
+}
+
 static void prob_clear(t_prob *x){
     t_probtrans *state, *nextstate;
     for(state = x->x_translist; state; state = nextstate){
@@ -86,74 +116,18 @@ static void prob_clear(t_prob *x){
     }
     x->x_translist = 0;
     x->x_state = 0;
-    x->x_default = 0;  /* CHECKED: default number is not kept */
-    /* CHECKED embedmode is kept */
-}
-
-/* CHECKED */
-static void prob_dump(t_prob *x){
-    t_probtrans *state;
-    post("transition probabilities:");
-    for(state = x->x_translist; state; state = state->tr_nextstate){
-        t_probtrans *trans;
-        for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans)
-            post(" from %3d to %3d: %d",
-        state->tr_value, trans->tr_value, trans->tr_count);
-        post("total weights for state %d: %d", // CHECKED: dead-ends are reported
-             state->tr_value, state->tr_count);
-    }
-}
-
-static void prob_bang(t_prob *x){
-    if(x->x_state){  // no output after clear
-        int rnd = rand_int(&x->x_seed, x->x_state->tr_count);
-        t_probtrans *trans = x->x_state->tr_nexttrans;
-        if(trans){
-            for(trans = x->x_state->tr_nexttrans; trans;
-                trans = trans->tr_nexttrans)
-            if((rnd -= trans->tr_count) < 0)
-                break;
-            if(trans){
-                t_probtrans *nextstate = trans->tr_suffix;
-                if(nextstate){
-                    outlet_float(((t_object *)x)->ob_outlet,
-                    nextstate->tr_value);
-                    x->x_state = nextstate;
-                }
-                else
-                    pd_error(x, "[prob] bug; prob_bang: void suffix");
-            }
-            else
-                pd_error(x, "[prob] bug; prob_bang: search overflow");
-        }
-        else{
-            outlet_bang(x->x_bangout);
-            if(x->x_default)  /* CHECKED: stays at dead-end if no default */
-                x->x_state = x->x_default;
-        }
-    }
-}
-
-static void prob_float(t_prob *x, t_float f){
-    int value = (int)f;
-    if(f == value){ /* CHECKED */
-        t_probtrans *state = prob_findstate(x, value, 1);
-        if(state)  /* CHECKED */
-            x->x_state = state;
-    }
-    else
-        pd_error(x, "[prob]: doesn't understand \"noninteger float\"");
+    x->x_default = 0;  // CHECKED: default number is not kept
+    prob_update(x);
 }
 
 static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av){
     s = NULL;
     int prefval, suffval, count;
     if (ac == 3 && av->a_type == A_FLOAT
-	&& av[1].a_type == A_FLOAT && av[2].a_type == A_FLOAT
-	&& (prefval = (int)av->a_w.w_float) == av->a_w.w_float
-	&& (suffval = (int)av[1].a_w.w_float) == av[1].a_w.w_float
-	&& (count = (int)av[2].a_w.w_float) == av[2].a_w.w_float)
-    {
+    && av[1].a_type == A_FLOAT && av[2].a_type == A_FLOAT
+    && (prefval = (int)av->a_w.w_float) == av->a_w.w_float
+    && (suffval = (int)av[1].a_w.w_float) == av[1].a_w.w_float
+    && (count = (int)av[2].a_w.w_float) == av[2].a_w.w_float){
         t_probtrans *prefix = prob_findstate(x, prefval, 0);
         t_probtrans *suffix = prob_findstate(x, suffval, 0);
         t_probtrans *trans;
@@ -201,25 +175,64 @@ static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av){
         }
         if(!x->x_state)  /* CHECKED */
             x->x_state = prefix;  /* CHECKED */
+        prob_update(x);
     }
     else
         pd_error(x, "[prob]: bad list message format");  /* CHECKED */
 }
 
-// CHECKED not available, LATER full editing
-static void prob_click(t_prob *x, t_floatarg xpos, t_floatarg ypos,
-t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
-    xpos = ypos = shift = ctrl = alt = 0;
+static void prob_dump(t_prob *x){ // CHECKED
     t_probtrans *state;
-    char buf[64];
-    hammereditor_open(x->x_filehandle, 0, 0);
+    post("transition probabilities:");
     for(state = x->x_translist; state; state = state->tr_nextstate){
         t_probtrans *trans;
-        for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans){
-            sprintf(buf, "%d %d %d\n", state->tr_value, trans->tr_value, trans->tr_count);
-            hammereditor_append(x->x_filehandle, buf);
+        for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans)
+            post(" from %3d to %3d: %d",
+        state->tr_value, trans->tr_value, trans->tr_count);
+        post("total weights for state %d: %d", // CHECKED: dead-ends are reported
+             state->tr_value, state->tr_count);
+    }
+}
+
+static void prob_bang(t_prob *x){
+    if(x->x_state){  // no output after clear
+        int rnd = rand_int(&x->x_seed, x->x_state->tr_count);
+        t_probtrans *trans = x->x_state->tr_nexttrans;
+        if(trans){
+            for(trans = x->x_state->tr_nexttrans; trans;
+                trans = trans->tr_nexttrans)
+            if((rnd -= trans->tr_count) < 0)
+                break;
+            if(trans){
+                t_probtrans *nextstate = trans->tr_suffix;
+                if(nextstate){
+                    outlet_float(((t_object *)x)->ob_outlet,
+                    nextstate->tr_value);
+                    x->x_state = nextstate;
+                }
+                else
+                    pd_error(x, "[prob] bug; prob_bang: void suffix");
+            }
+            else
+                pd_error(x, "[prob] bug; prob_bang: search overflow");
+        }
+        else{
+            outlet_bang(x->x_bangout);
+            if(x->x_default)  // CHECKED: stays at dead-end if no default
+                x->x_state = x->x_default;
         }
     }
+}
+
+static void prob_float(t_prob *x, t_float f){
+    int value = (int)f;
+    if(f == value){ // CHECKED
+        t_probtrans *state = prob_findstate(x, value, 1);
+        if(state)  // CHECKED
+            x->x_state = state;
+    }
+    else
+        pd_error(x, "[prob]: doesn't understand \"noninteger float\"");
 }
 
 static void prob_free(t_prob *x){
