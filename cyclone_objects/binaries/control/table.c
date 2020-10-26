@@ -317,7 +317,7 @@ static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
 	    binbuf_addsemi(bb);
         }
     };
-    obj_saveformat(x,bb);
+    obj_saveformat((t_object *)x, bb);
 }
 
 static void tablecommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
@@ -345,14 +345,6 @@ static void *tablecommon_new(void){ // ???
     cc->c_cacheisfresh = 0;
     return (cc);
 }
-
-/*static t_tablecommon *table_checkcommon(t_table *x){
-    if(x->x_name && x->x_common != (t_tablecommon *)pd_findbyclass(x->x_name, tablecommon_class)){
-        pd_error(x, "bug [cyclone/table]: table_checkcommon");
-        return (0);
-    }
-    return(x->x_common);
-}*/
 
 static void table_unbind(t_table *x){ // LATER consider calling table_checkcommon(x)
     t_tablecommon *cc = x->x_common;
@@ -479,6 +471,11 @@ static void table_open(t_table *x){
     while(count--)
         col = tablecommon_editorappend(cc, *bp++, buf, col);
     hammereditor_setdirty(cc->c_filehandle, 0);
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
+    sys_vgui("  wm deiconify .%lx\n", (unsigned long)cc->c_filehandle);
+    sys_vgui("  raise .%lx\n", (unsigned long)cc->c_filehandle);
+    sys_vgui("  focus .%lx.text\n", (unsigned long)cc->c_filehandle);
+    sys_gui(" }\n");
 }
 
 static void table_click(t_table *x){
