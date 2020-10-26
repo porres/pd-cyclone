@@ -18,8 +18,7 @@
 #define CAPTURE_MAXPRECISION  99  /* format array protection */
 #define CAPTURE_MAXINDICES  4096  /* FIXME */
 
-typedef struct _capture
-{
+typedef struct _capture{
     t_object       x_obj;
     t_inlet       *x_inlet;
     t_glist       *x_glist;
@@ -39,15 +38,7 @@ typedef struct _capture
 
 static t_class *capture_class;
 
-static void capture_clear(t_capture *x)
-{
-    x->x_count = 0;
-    x->x_head = 0;
-}
-
-static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
-			       int maxcol)
-{
+static int capture_formatfloat(t_capture *x, float f, char *buf, int col, int maxcol){
     char *bp = buf;
     int cnt = 0;
     if (col > 0)
@@ -63,12 +54,11 @@ static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
     return (col);
 }
 
-static int capture_writefloat(t_capture *x, float f, char *buf, int col,
-			      FILE *fp)
+static int capture_writefloat(t_capture *x, float f, char *buf, int col, FILE *fp)
 {
     /* CHECKME linebreaks */
     col = capture_formatfloat(x, f, buf, col, 80);
-    return (fputs(buf, fp) < 0 ? -1 : col);
+    return(fputs(buf, fp) < 0 ? -1 : col);
 }
 
 static void capture_dowrite(t_capture *x, t_symbol *fn)
@@ -126,53 +116,56 @@ static void capture_write(t_capture *x, t_symbol *s)
 	hammerpanel_save(x->x_filehandle, 0, 0);
 }
 
-static int capture_appendfloat(t_capture *x, float f, char *buf,
-			       int col, int linebreak)
-{
+static int capture_appendfloat(t_capture *x, float f, char *buf, int col, int linebreak){
     /* CHECKME 80 columns */
     col = capture_formatfloat(x, f, buf, col, 80);
     hammereditor_append(x->x_filehandle, buf);
-    if (linebreak)
-    {
-	if (col)
-	{
-	    hammereditor_append(x->x_filehandle, "\n\n");
-	    col = 0;
-	}
-	else hammereditor_append(x->x_filehandle, "\n");
+    if(linebreak){
+        if(col){
+            hammereditor_append(x->x_filehandle, "\n\n");
+            col = 0;
+        }
+        else
+            hammereditor_append(x->x_filehandle, "\n");
     }
-    return (col);
+    return(col);
 }
 
-/* CHECKED blank line between blocks */
-static void capture_open(t_capture *x)
-{
+static void capture_open(t_capture *x){ // CHECKED blank line between blocks
     int count = x->x_count;
     char buf[MAXPDSTRING];
     int nindices = (x->x_nindices > 0 ? x->x_nindices : x->x_nblock);
     hammereditor_open(x->x_filehandle, "Signal Capture", "");  /* CHECKED */
-    if (x->x_mode == 'f' || count < x->x_bufsize)
-    {
-	float *bp = x->x_buffer;
-	int col = 0, i;
-	for (i = 1; i <= count; i++)
-	    col = capture_appendfloat(x, *bp++, buf, col,
-				      ((i % nindices) == 0));
+    if(x->x_mode == 'f' || count < x->x_bufsize){
+        float *bp = x->x_buffer;
+        int col = 0, i;
+        for(i = 1; i <= count; i++)
+            col = capture_appendfloat(x, *bp++, buf, col, ((i % nindices) == 0));
     }
-    else
-    {
-	float *bp = x->x_buffer + x->x_head;
-	int col = 0, i = x->x_bufsize;
-	count = x->x_bufsize - x->x_head;
-	while (count--)
-	    col = capture_appendfloat(x, *bp++, buf, col,
-				      ((--i % nindices) == 0));
-	bp = x->x_buffer;
-	count = x->x_head;
-	while (count--)
-	    col = capture_appendfloat(x, *bp++, buf, col,
-				      ((count % nindices) == 0));
+    else{
+        float *bp = x->x_buffer + x->x_head;
+        int col = 0, i = x->x_bufsize;
+        count = x->x_bufsize - x->x_head;
+        while (count--)
+            col = capture_appendfloat(x, *bp++, buf, col, ((--i % nindices) == 0));
+        bp = x->x_buffer;
+        count = x->x_head;
+        while(count--)
+            col = capture_appendfloat(x, *bp++, buf, col, ((count % nindices) == 0));
     }
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  wm deiconify .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  raise .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  focus .%lx.text\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
+}
+
+static void capture_clear(t_capture *x){
+    x->x_count = 0;
+    x->x_head = 0;
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
 }
 
 /* CHECKED without asking and storing the changes */
@@ -188,57 +181,50 @@ static void capture_click(t_capture *x, t_floatarg xpos, t_floatarg ypos,
     capture_open(x);
 }
 
-static t_int *capture_perform_first(t_int *w)
-{
+static t_int *capture_perform_first(t_int *w){
     t_capture *x = (t_capture *)(w[1]);
     int count = x->x_count;
     int bufsize = x->x_bufsize;
-    if (count < bufsize)
-    {
-	t_float *in = (t_float *)(w[2]);
-	int nblock = (int)(w[3]);
-	float *bp = x->x_buffer + count;
-	char *ndxp = x->x_indices;
-	if (nblock > x->x_szindices)
-	    nblock = x->x_szindices;
-	while (nblock--)
-	{
-	    if (*ndxp++)
-	    {
-		*bp++ = *in++;
-		if (++count == bufsize)
-		    break;
-	    }
-	    else in++;
-	}
-	x->x_count = count;
+    if(count < bufsize){
+        t_float *in = (t_float *)(w[2]);
+        int nblock = (int)(w[3]);
+        float *bp = x->x_buffer + count;
+        char *ndxp = x->x_indices;
+        if(nblock > x->x_szindices)
+            nblock = x->x_szindices;
+        while(nblock--){
+            if(*ndxp++){
+                *bp++ = *in++;
+                if(++count == bufsize)
+                    break;
+            }
+            else
+                in++;
+        }
+        x->x_count = count;
     }
-    return (w + 4);
+    return(w+4);
 }
 
-static t_int *capture_perform_allfirst(t_int *w)
-{
+static t_int *capture_perform_allfirst(t_int *w){
     t_capture *x = (t_capture *)(w[1]);
     int count = x->x_count;
     int bufsize = x->x_bufsize;
-    if (count < bufsize)
-    {
-	t_float *in = (t_float *)(w[2]);
-	int nblock = (int)(w[3]);
-	float *bp = x->x_buffer + count;
-	while (nblock--)
-	{
-	    *bp++ = *in++;
-	    if (++count == bufsize)
-		break;
-	}
-	x->x_count = count;
+    if(count < bufsize){
+        t_float *in = (t_float *)(w[2]);
+        int nblock = (int)(w[3]);
+        float *bp = x->x_buffer + count;
+        while (nblock--){
+            *bp++ = *in++;
+            if(++count == bufsize)
+                break;
+        }
+        x->x_count = count;
     }
-    return (w + 4);
+    return(w+4);
 }
 
-static t_int *capture_perform_last(t_int *w)
-{
+static t_int *capture_perform_last(t_int *w){
     t_capture *x = (t_capture *)(w[1]);
     t_float *in = (t_float *)(w[2]);
     int nblock = (int)(w[3]);
@@ -248,26 +234,24 @@ static t_int *capture_perform_last(t_int *w)
     int head = x->x_head;
     char *ndxp = x->x_indices;
     if (nblock > x->x_szindices)
-	nblock = x->x_szindices;
-    while (nblock--)
-    {
-	if (*ndxp++)
-	{
-	    buffer[head++] = *in++;
-	    if (head >= bufsize)
-		head = 0;
-	    if (count < bufsize)
-		count++;
-	}
-	else in++;
+        nblock = x->x_szindices;
+    while (nblock--){
+        if(*ndxp++){
+            buffer[head++] = *in++;
+            if(head >= bufsize)
+                head = 0;
+            if(count < bufsize)
+                count++;
+        }
+        else
+            in++;
     }
     x->x_count = count;
     x->x_head = head;
-    return (w + 4);
+    return(w+4);
 }
 
-static t_int *capture_perform_alllast(t_int *w)
-{
+static t_int *capture_perform_alllast(t_int *w){
     t_capture *x = (t_capture *)(w[1]);
     t_float *in = (t_float *)(w[2]);
     int nblock = (int)(w[3]);
@@ -275,29 +259,27 @@ static t_int *capture_perform_alllast(t_int *w)
     int bufsize = x->x_bufsize;
     int count = x->x_count;
     int head = x->x_head;
-    while (nblock--)
-    {
-	buffer[head++] = *in++;
-	if (head >= bufsize)
-	    head = 0;
-	if (count < bufsize)
-	    count++;
+    while (nblock--){
+        buffer[head++] = *in++;
+        if(head >= bufsize)
+            head = 0;
+        if(count < bufsize)
+            count++;
     }
     x->x_count = count;
     x->x_head = head;
-    return (w + 4);
+    return(w+4);
 }
 
-static void capture_dsp(t_capture *x, t_signal **sp)
-{
+static void capture_dsp(t_capture *x, t_signal **sp){
     x->x_nblock = sp[0]->s_n;
-    if (x->x_indices)
-	dsp_add((x->x_mode == 'f' ?
-		 capture_perform_first : capture_perform_last),
+    if(x->x_indices)
+        dsp_add((x->x_mode == 'f' ?
+        capture_perform_first : capture_perform_last),
 		3, x, sp[0]->s_vec, sp[0]->s_n);
     else
-	dsp_add((x->x_mode == 'f' ?
-		 capture_perform_allfirst : capture_perform_alllast),
+        dsp_add((x->x_mode == 'f' ?
+        capture_perform_allfirst : capture_perform_alllast),
 		3, x, sp[0]->s_vec, sp[0]->s_n);
 }
 
