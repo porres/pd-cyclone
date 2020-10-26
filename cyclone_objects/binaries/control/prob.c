@@ -71,6 +71,11 @@ t_floatarg shift, t_floatarg ctrl, t_floatarg alt){ // CHECKED not available, LA
             hammereditor_append(x->x_filehandle, buf);
         }
     }
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  wm deiconify .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  raise .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  focus .%lx.text\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
 }
 
 static void prob_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
@@ -245,7 +250,7 @@ static void *prob_new(void){
     x->x_translist = 0;
     x->x_state = 0;
     x->x_default = 0;
-    x->x_embedmode = 0;  /* CHECKED */
+    x->x_embedmode = 0;  // CHECKED
     rand_seed(&x->x_seed, 0);
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
