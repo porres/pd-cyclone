@@ -78,7 +78,7 @@ static void capture_dowrite(t_capture *x, t_symbol *fn)
     char buf[MAXPDSTRING];
     canvas_makefilename(glist_getcanvas(x->x_glist),
 			fn->s_name, buf, MAXPDSTRING);
-    if (fp = sys_fopen(buf, "w"))  /* LATER ask if overwriting, CHECKME */
+    if ((fp = sys_fopen(buf, "w")))  /* LATER ask if overwriting, CHECKME */
     {
 	int col = 0;
 	if (x->x_mode == 'f' || count < x->x_bufsize)
@@ -113,6 +113,8 @@ fail:
 
 static void capture_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 {
+    ac = 0;
+    av = NULL;
     capture_dowrite((t_capture *)z, fn);
 }
 
@@ -182,6 +184,7 @@ static void capture_wclose(t_capture *x)
 static void capture_click(t_capture *x, t_floatarg xpos, t_floatarg ypos,
 			  t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
 {
+    alt = ctrl = shift = ypos = xpos = 0;
     capture_open(x);
 }
 
@@ -309,6 +312,7 @@ static void capture_free(t_capture *x)
 
 static void *capture_new(t_symbol *s, int ac, t_atom *av)
 {
+    s = NULL;
     t_capture *x = 0;
     char mode = 0;
     int precision = -1;
@@ -366,7 +370,7 @@ static void *capture_new(t_symbol *s, int ac, t_atom *av)
     }
     if (bufsize <= 0)  /* CHECKME */
 	bufsize = CAPTURE_DEFSIZE;
-    if (buffer = getbytes(bufsize * sizeof(*buffer)))
+    if ((buffer = getbytes(bufsize * sizeof(*buffer))))
     {
 	x = (t_capture *)pd_new(capture_class);
 	x->x_glist = canvas_getcurrent();
@@ -375,7 +379,7 @@ static void *capture_new(t_symbol *s, int ac, t_atom *av)
 	    precision = CAPTURE_DEFPRECISION;
 	else if (precision > CAPTURE_MAXPRECISION)  /* CHECKME */
 	    precision = CAPTURE_MAXPRECISION;
-	if (x->x_precision = precision)
+	if ((x->x_precision = precision))
 	    sprintf(x->x_format, "%%.%df", precision);
 	x->x_indices = indices;
 	x->x_szindices = szindices;

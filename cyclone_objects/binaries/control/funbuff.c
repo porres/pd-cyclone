@@ -185,14 +185,14 @@ static void funbuff_bang(t_funbuff *x)
     int count = 0;
     int xmin = 0, xmax = 0;
     t_float ymin = 0, ymax = 0;
-    if (np = x->x_tree.t_first)
+    if((np = x->x_tree.t_first))
     {
 	/* LATER consider using extra fields, updated on the fly */
 	count = 1;
 	xmin = np->n_key;
 	xmax = x->x_tree.t_last->n_key;
 	ymin = ymax = HAMMERNODE_GETFLOAT(np);
-	while (np = np->n_next)
+	while((np = np->n_next))
 	{
 	    t_float f = HAMMERNODE_GETFLOAT(np);
 	    if (f < ymin)
@@ -221,7 +221,7 @@ static void funbuff_float(t_funbuff *x, t_float f)
 	np = hammertree_insertfloat(&x->x_tree, ndx, x->x_value, 1);
 	x->x_valueset = 0;
     }
-    else if (np = hammertree_closest(&x->x_tree, ndx, 0))
+    else if ((np = hammertree_closest(&x->x_tree, ndx, 0)))
 	funbuff_dooutput(x, HAMMERNODE_GETFLOAT(np), x->x_lastdelta);
     /* CHECKED pointer is updated --
        'next' outputs np also in a !valueset case (it is sent twice) */
@@ -270,10 +270,10 @@ static void funbuff_goto(t_funbuff *x, t_floatarg f)
 static void funbuff_min(t_funbuff *x)
 {
     t_hammernode *np;
-    if (np = x->x_tree.t_first)  /* CHECKED nop if empty */
+    if ((np = x->x_tree.t_first))  /* CHECKED nop if empty */
     {
 	t_float result = HAMMERNODE_GETFLOAT(np);
-	while (np = np->n_next)
+	while ((np = np->n_next))
 	    if (HAMMERNODE_GETFLOAT(np) < result)
 		result = HAMMERNODE_GETFLOAT(np);
 	funbuff_dooutput(x, result, x->x_lastdelta);
@@ -285,10 +285,10 @@ static void funbuff_min(t_funbuff *x)
 static void funbuff_max(t_funbuff *x)
 {
     t_hammernode *np;
-    if (np = x->x_tree.t_first)  /* CHECKED nop if empty */
+    if ((np = x->x_tree.t_first))  /* CHECKED nop if empty */
     {
 	t_float result = HAMMERNODE_GETFLOAT(np);
-	while (np = np->n_next)
+	while ((np = np->n_next))
 	    if (HAMMERNODE_GETFLOAT(np) > result)
 		result = HAMMERNODE_GETFLOAT(np);
 	funbuff_dooutput(x, result, x->x_lastdelta);
@@ -320,6 +320,7 @@ static void funbuff_next(t_funbuff *x)
 
 static void funbuff_set(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
 {
+    s = NULL;
     /* CHECKED symbols somehow bashed to zeros,
        decreasing x coords corrupt the funbuff -- not emulated here... */
     int i = ac;
@@ -371,6 +372,8 @@ static void funbuff_doread(t_funbuff *x, t_symbol *fn)
 
 static void funbuff_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 {
+    ac = 0;
+    av = NULL;
     funbuff_doread((t_funbuff *)z, fn);
 }
 
@@ -383,7 +386,7 @@ static void funbuff_dowrite(t_funbuff *x, t_symbol *fn)
      * reading as the it doesn't start with 'funbuff'. A call to 
      * libgen/basename fixes this.  fjk, 2015-01-24 */
     t_symbol *objName = atom_getsymbol(binbuf_getvec(x->x_ob.te_binbuf));
-    objName->s_name = basename(objName->s_name);
+    objName->s_name = basename((char *)objName->s_name);
     binbuf_addv(bb, "s", objName);
     for (np = x->x_tree.t_first; np; np = np->n_next)
 	binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
@@ -395,6 +398,8 @@ static void funbuff_dowrite(t_funbuff *x, t_symbol *fn)
 
 static void funbuff_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 {
+    ac = 0;
+    av = NULL;
     funbuff_dowrite((t_funbuff *)z, fn);
 }
 
@@ -405,7 +410,7 @@ static void funbuff_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
     {
         t_hammernode *np;
         binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
-        if (np = x->x_tree.t_first)
+        if ((np = x->x_tree.t_first))
         {
             binbuf_addv(bb, "ss", bindsym, gensym("set"));
             for (; np; np = np->n_next)
@@ -414,7 +419,7 @@ static void funbuff_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
         };
 
     };
-    obj_saveformat(x,bb);
+    obj_saveformat((t_object *)x, bb);
 }
 
 /* CHECKED symbol arg ok */
@@ -467,7 +472,7 @@ static void funbuff_delete(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
 static void funbuff_find(t_funbuff *x, t_floatarg f)
 {
     t_hammernode *np;
-    if (np = x->x_tree.t_first)
+    if ((np = x->x_tree.t_first))
     {
 	do
 	{
@@ -476,27 +481,25 @@ static void funbuff_find(t_funbuff *x, t_floatarg f)
 //		funbuff_dooutput(x, np->n_key, x->x_lastdelta);
  outlet_float(((t_object *)x)->ob_outlet, np->n_key);
 	}
-	while (np = np->n_next);
+	while ((np = np->n_next));
 	/* CHECKED no bangout, no complaint if nothing found */
     }
     else pd_error((t_pd *)x, "nothing to find");  /* CHECKED */
 }
 
-static void funbuff_dump(t_funbuff *x)
-{
+static void funbuff_dump(t_funbuff *x){
     t_hammernode *np;
-    if (np = x->x_tree.t_first)
-    {
-	do
-	{
-	    x->x_lastdelta = HAMMERNODE_GETFLOAT(np);  /* CHECKED */
-	    /* float value preserved (this is incompatible) */
-	    funbuff_dooutput(x, np->n_key, x->x_lastdelta);
-	}
-	while (np = np->n_next);
+    if((np = x->x_tree.t_first)){
+        do{
+            x->x_lastdelta = HAMMERNODE_GETFLOAT(np);  /* CHECKED */
+            /* float value preserved (this is incompatible) */
+            funbuff_dooutput(x, np->n_key, x->x_lastdelta);
+        }
+        while((np = np->n_next));
 	/* CHECKED no bangout */
     }
-    else pd_error((t_pd *)x, "nothing to dump");  /* CHECKED */
+    else
+        pd_error((t_pd *)x, "nothing to dump");  /* CHECKED */
 }
 
 /* CHECKME if pointer is updated */
@@ -505,7 +508,7 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_word *vec)
     t_hammernode *np1;
     int trunc = (int)f;
     if (trunc > f) trunc--;  /* CHECKME negative floats */
-    if (np1 = hammertree_closest(&x->x_tree, trunc, 0))
+    if ((np1 = hammertree_closest(&x->x_tree, trunc, 0)))
     {
 	float value = HAMMERNODE_GETFLOAT(np1);
 	t_hammernode *np2 = np1->n_next;
@@ -540,7 +543,7 @@ static void funbuff_dointerp(t_funbuff *x, t_floatarg f, int vsz, t_word *vec)
 	}
 	funbuff_dooutput(x, value, x->x_lastdelta);  /* CHECKME !np2 */
     }
-    else if (np1 = hammertree_closest(&x->x_tree, trunc, 1))
+    else if ((np1 = hammertree_closest(&x->x_tree, trunc, 1)))
 	/* CHECKME */
 	funbuff_dooutput(x, HAMMERNODE_GETFLOAT(np1), x->x_lastdelta);
 }

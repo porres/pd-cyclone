@@ -44,18 +44,6 @@ typedef struct _capture
 
 static t_class *capture_class;
 
-static void capture_float(t_capture *x, t_float f)
-{
-    SETFLOAT(&x->x_buffer[x->x_head], f) ;
-    //post("%f", x->x_buffer[x->x_head].a_w.w_float);
-    x->x_head = x->x_head + 1;
-    if (x->x_head >= x->x_bufsize)
-	x->x_head = 0;
-    if (x->x_count < x->x_bufsize)
-	x->x_count++;
-    x->x_counter++;
-}
-
 static void capture_symbol(t_capture *x, t_symbol *s)
 {
     SETSYMBOL(&x->x_buffer[x->x_head], s) ;
@@ -76,25 +64,6 @@ static void capture_precision(t_capture *x, t_float f)
 	precision = f > CAPTURE_MINPREC ? (int)f : CAPTURE_MINPREC;
     precision = precision > CAPTURE_MAXPREC ? CAPTURE_MAXPREC : precision;
     x->x_precision = precision;
-}
-
-static void capture_list(t_capture *x, t_symbol *s, int ac, t_atom *av)
-{
-    while (ac--)
-    {
-        if (av->a_type == A_FLOAT)  /* CHECKME */
-	    capture_float(x, av->a_w.w_float);
-        else if(av->a_type == A_SYMBOL)
-            capture_symbol(x, av->a_w.w_symbol);
-	av++;
-    }
-}
-
-//clear stored contents
-static void capture_clear(t_capture *x)
-{
-    x->x_count = 0;
-    x->x_head = 0;
 }
 
 //counts number of items received since last count
@@ -225,8 +194,7 @@ static int capture_writefloat(t_capture *x, float f, char *buf, int col,
     return (fputs(buf, fp) < 0 ? -1 : col);
 }
 
-static int capture_writesymbol(t_capture *x, t_symbol *s, char *buf,
-        int col, FILE *fp)
+static int capture_writesymbol(t_symbol *s, char *buf, int col, FILE *fp)
 {
     /* keeping this just in case we want to convert to ascii at some point
     int i;
@@ -269,14 +237,14 @@ static void capture_dowrite(t_capture *x, t_symbol *fn){
     int i, count = x->x_count;
     char buf[MAXPDSTRING];
     canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
-    if (fp = sys_fopen(buf, "w")){  /* LATER ask if overwriting, CHECKED */
+    if ((fp = sys_fopen(buf, "w"))){  /* LATER ask if overwriting, CHECKED */
         int col = 0;
         if (count < x->x_bufsize){
             for(i=0; i < count ; i++){
                 if(x->x_buffer[i].a_type == A_FLOAT)
                     col = capture_writefloat(x, x->x_buffer[i].a_w.w_float, buf, col, fp);
                 else if (x->x_buffer[i].a_type == A_SYMBOL)
-                    col = capture_writesymbol(x, x->x_buffer[i].a_w.w_symbol, buf, col, fp);
+                    col = capture_writesymbol(x->x_buffer[i].a_w.w_symbol, buf, col, fp);
                 if(col < 0)
                     goto fail;
             };
@@ -290,7 +258,7 @@ static void capture_dowrite(t_capture *x, t_symbol *fn){
                 if(x->x_buffer[reali].a_type == A_FLOAT)
                     col = capture_writefloat(x, x->x_buffer[reali].a_w.w_float, buf, col, fp);
                 else if (x->x_buffer[reali].a_type == A_SYMBOL)
-                    col = capture_writesymbol(x, x->x_buffer[reali].a_w.w_symbol, buf, col, fp);
+                    col = capture_writesymbol(x->x_buffer[reali].a_w.w_symbol, buf, col, fp);
                 if(col < 0)
                     goto fail;
             };
@@ -307,6 +275,8 @@ static void capture_dowrite(t_capture *x, t_symbol *fn){
 
 static void capture_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
 {
+    ac = 0;
+    av = NULL;
     capture_dowrite((t_capture *)z, fn);
 }
 
@@ -365,17 +335,46 @@ static int capture_appendfloat(t_capture *x, float f, char *buf, int col)
     return (col);
 }
 
-static void capture_open(t_capture *x)
-{
+static void capture_update(t_capture *x){
+    int count = x->x_count;
+    char buf[MAXPDSTRING];
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
+    int i;
+    if(count < x->x_bufsize){
+        int col = 0;
+        for(i = 0; i < count; i++){
+            if(x->x_buffer[i].a_type == A_FLOAT)
+            col = capture_appendfloat(x, x->x_buffer[i].a_w.w_float, buf, col);
+            else if (x->x_buffer[i].a_type == A_SYMBOL)
+            col = capture_appendsymbol(x, x->x_buffer[i].a_w.w_symbol, buf, col);
+                
+        };
+    }
+    else{
+        //this is for wrapping around and rewriting old values
+        //for the proper input order while dumping
+        int reali;
+        int col = 0;
+        for(i = 0; i < x->x_bufsize; i++){
+            reali = (x->x_head + i) % x->x_bufsize;
+            if(x->x_buffer[reali].a_type == A_FLOAT)
+            col = capture_appendfloat(x, x->x_buffer[reali].a_w.w_float, buf, col);
+            else if (x->x_buffer[reali].a_type == A_SYMBOL)
+            col = capture_appendsymbol(x, x->x_buffer[reali].a_w.w_symbol, buf, col);
+        };
+    };
+}
+
+static void capture_open(t_capture *x){
     int count = x->x_count;
     char buf[MAXPDSTRING];
     int i;
     hammereditor_open(x->x_filehandle, "Capture", "");  /* CHECKED */
-    if (count < x->x_bufsize)
-    {
+    if(count < x->x_bufsize){
         int col = 0;
-        for(i=0; i< count; i++)
-        {
+        for(i = 0; i < count; i++){
             if(x->x_buffer[i].a_type == A_FLOAT)
 	        col = capture_appendfloat(x, x->x_buffer[i].a_w.w_float, buf, col);
             else if (x->x_buffer[i].a_type == A_SYMBOL)
@@ -383,14 +382,12 @@ static void capture_open(t_capture *x)
                 
         };
     }
-    else
-    {
+    else{
         //this is for wrapping around and rewriting old values
         //for the proper input order while dumping
         int reali;
         int col = 0;
-        for(i=0; i < x->x_bufsize; i++)
-        {
+        for(i = 0; i < x->x_bufsize; i++){
             reali = (x->x_head + i) % x->x_bufsize;
             if(x->x_buffer[reali].a_type == A_FLOAT)
 	        col = capture_appendfloat(x, x->x_buffer[reali].a_w.w_float, buf, col);
@@ -398,7 +395,11 @@ static void capture_open(t_capture *x)
 	        col = capture_appendsymbol(x, x->x_buffer[reali].a_w.w_symbol, buf, col);
         };
     };
-
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  wm deiconify .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  raise .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  focus .%lx.text\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
 }
 
 /* CHECKED without asking and storing the changes */
@@ -407,9 +408,9 @@ static void capture_wclose(t_capture *x)
     hammereditor_close(x->x_filehandle, 0);
 }
 
-static void capture_click(t_capture *x, t_floatarg xpos, t_floatarg ypos,
-			  t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
+static void capture_click(t_capture *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
 {
+    alt = ctrl = shift = ypos = xpos;
     capture_open(x);
 }
 
@@ -421,44 +422,76 @@ static void capture_free(t_capture *x)
 	freebytes(x->x_buffer, x->x_bufsize * sizeof(*x->x_buffer));
 }
 
+static void capture_float(t_capture *x, t_float f)
+{
+    SETFLOAT(&x->x_buffer[x->x_head], f) ;
+    //post("%f", x->x_buffer[x->x_head].a_w.w_float);
+    x->x_head = x->x_head + 1;
+    if (x->x_head >= x->x_bufsize)
+    x->x_head = 0;
+    if (x->x_count < x->x_bufsize)
+    x->x_count++;
+    x->x_counter++;
+    capture_update(x);
+}
+
+static void capture_list(t_capture *x, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
+    while(ac--){
+        if (av->a_type == A_FLOAT)  /* CHECKME */
+            capture_float(x, av->a_w.w_float);
+        else if(av->a_type == A_SYMBOL)
+            capture_symbol(x, av->a_w.w_symbol);
+        av++;
+    }
+    capture_update(x);
+}
+
 static void capture_anything(t_capture *x, t_symbol *s, int argc, t_atom * argv){
     //basically copying over mtrack_anything here for not including list selectors 
     if(s && argv){
-            if(strcmp(s->s_name, "list") != 0 || argv->a_type != A_FLOAT){
-                //copy list to new t_atom with symbol as first elt
-                int destpos = 0; //position in copied list
-                int atsize = argc + 1;
-                t_atom* at = t_getbytes(atsize * sizeof(*at));
-                SETSYMBOL(&at[destpos], s);
-                destpos++;
-                int arrpos = 0; //position in arriving list
-                for(destpos=1; destpos<argc+1; destpos++){
-                    if((argv+arrpos)->a_type == A_FLOAT){
-                        t_float curfloat = atom_getfloatarg(arrpos, argc, argv);
-                        SETFLOAT(&at[destpos], curfloat);
-                    }
-                    else{
-                        t_symbol * cursym = atom_getsymbolarg(arrpos, argc, argv);
-                        SETSYMBOL(&at[destpos], cursym);
-                    };
-
-                //increment
-                arrpos++;
+        if(strcmp(s->s_name, "list") != 0 || argv->a_type != A_FLOAT){
+            //copy list to new t_atom with symbol as first elt
+            int destpos = 0; //position in copied list
+            int atsize = argc + 1;
+            t_atom* at = t_getbytes(atsize * sizeof(*at));
+            SETSYMBOL(&at[destpos], s);
+            destpos++;
+            int arrpos = 0; //position in arriving list
+            for(destpos=1; destpos<argc+1; destpos++){
+                if((argv+arrpos)->a_type == A_FLOAT){
+                    t_float curfloat = atom_getfloatarg(arrpos, argc, argv);
+                    SETFLOAT(&at[destpos], curfloat);
+                }
+                else{
+                    t_symbol * cursym = atom_getsymbolarg(arrpos, argc, argv);
+                    SETSYMBOL(&at[destpos], cursym);
                 };
-                capture_list(x, s, argc+1, at);
-                t_freebytes(at, atsize * sizeof(*at));
-            }
-            else{
-                capture_list(x, s, argc, argv);
-             };
+            //increment
+            arrpos++;
+            };
+            capture_list(x, s, argc+1, at);
+            t_freebytes(at, atsize * sizeof(*at));
         }
-        else{
+        else
             capture_list(x, s, argc, argv);
-        };
+    }
+    else
+        capture_list(x, s, argc, argv);
+    capture_update(x);
+}
+
+//clear stored contents
+static void capture_clear(t_capture *x)
+{
+    x->x_count = 0;
+    x->x_head = 0;
+    capture_update(x);
 }
 
 static void *capture_new(t_symbol *s, int argc, t_atom * argv)
 {
+    s = NULL;
     t_capture *x = 0;
     t_atom  *buffer;
     int bufsize;
@@ -491,7 +524,7 @@ static void *capture_new(t_symbol *s, int argc, t_atom * argv)
     precision = precision > CAPTURE_MAXPREC ? CAPTURE_MAXPREC : precision;
     bufsize = _bufsize > 0 ? (int)_bufsize : CAPTURE_DEFSIZE; 
     
-    if (buffer = getbytes(bufsize * sizeof(*buffer)))
+    if ((buffer = getbytes(bufsize * sizeof(*buffer))))
     {
 	x = (t_capture *)pd_new(capture_class);
 	x->x_canvas = canvas_getcurrent();
@@ -522,32 +555,21 @@ static void *capture_new(t_symbol *s, int argc, t_atom * argv)
     return (x);
 }
 
-CYCLONE_OBJ_API void capture_setup(void)
-{
-    capture_class = class_new(gensym("capture"),
-			      (t_newmethod)capture_new,
-			      (t_method)capture_free,
-			      sizeof(t_capture), 0, A_GIMME, 0);
+CYCLONE_OBJ_API void capture_setup(void){
+    capture_class = class_new(gensym("capture"), (t_newmethod)capture_new,
+        (t_method)capture_free, sizeof(t_capture), 0, A_GIMME, 0);
     class_addfloat(capture_class, capture_float);
     class_addlist(capture_class, capture_list);
     class_addsymbol(capture_class, capture_symbol);
     class_addanything(capture_class, capture_anything);
-    class_addmethod(capture_class, (t_method)capture_precision,
-    	gensym("precision"), A_FLOAT, 0);
-    class_addmethod(capture_class, (t_method)capture_clear,
-		    gensym("clear"), 0);
-    class_addmethod(capture_class, (t_method)capture_count,
-		    gensym("count"), 0);
-    class_addmethod(capture_class, (t_method)capture_dump,
-		    gensym("dump"), 0);
-    class_addmethod(capture_class, (t_method)capture_write,
-		    gensym("write"), A_DEFSYM, 0);
-    class_addmethod(capture_class, (t_method)capture_open,
-		    gensym("open"), 0);
-    class_addmethod(capture_class, (t_method)capture_wclose,
-		    gensym("wclose"), 0);
-    class_addmethod(capture_class, (t_method)capture_click,
-		    gensym("click"),
-		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+    class_addmethod(capture_class, (t_method)capture_precision, gensym("precision"), A_FLOAT, 0);
+    class_addmethod(capture_class, (t_method)capture_clear, gensym("clear"), 0);
+    class_addmethod(capture_class, (t_method)capture_count, gensym("count"), 0);
+    class_addmethod(capture_class, (t_method)capture_dump, gensym("dump"), 0);
+    class_addmethod(capture_class, (t_method)capture_write, gensym("write"), A_DEFSYM, 0);
+    class_addmethod(capture_class, (t_method)capture_open, gensym("open"), 0);
+    class_addmethod(capture_class, (t_method)capture_wclose, gensym("wclose"), 0);
+    class_addmethod(capture_class, (t_method)capture_click, gensym("click"),
+        A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     hammerfile_setup(capture_class, 0);
 }
