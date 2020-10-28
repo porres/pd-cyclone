@@ -1,4 +1,4 @@
-#N canvas 544 23 558 578 10;
+#N canvas 676 41 558 578 10;
 #X obj 2 328 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 472 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -51,9 +51,8 @@ the weight/chance of going from value 1 to value 2 \, a bang will force
 #X text 151 335 bang -;
 #X text 145 401 clear - clears the probability matrix;
 #X text 151 417 dump - print out all rule;
-#X text 196 335 choses a weighted random number;
 #X text 97 450 reset <float> -;
-#N canvas 311 107 930 457 examples 0;
+#N canvas 620 120 930 457 examples 0;
 #X obj 80 222 bng 18 250 50 0 empty empty empty 17 7 0 10 -216373 -1
 -1;
 #X obj 181 301 bng 16 250 50 0 empty empty empty 0 -6 0 8 -216373 -1
@@ -63,7 +62,6 @@ from its current state to another state based on its current weighting
 of transitions. If a transition can be made \, the new state is sent
 out the left outlet. If not \, a bang is sent out the right outlet.
 , f 62;
-#X text 21 202 choose state;
 #X msg 201 246 embed 1;
 #X obj 112 168 loadbang;
 #X obj 112 276 cyclone/prob;
@@ -104,17 +102,18 @@ state can make a transition to itself \, such as the last list above
 its help file.;
 #X text 200 315 for which there is no rule;
 #X text 200 300 <== when we reach a number;
-#X connect 0 0 6 0;
-#X connect 4 0 6 0;
-#X connect 5 0 15 0;
-#X connect 6 0 13 0;
-#X connect 6 1 1 0;
-#X connect 7 0 6 0;
-#X connect 15 0 6 0;
-#X connect 16 0 19 0;
-#X connect 19 0 17 0;
-#X connect 21 0 22 0;
-#X restore 464 294 pd examples;
+#X text 36 214 choose state:, f 6;
+#X connect 0 0 5 0;
+#X connect 3 0 5 0;
+#X connect 4 0 14 0;
+#X connect 5 0 12 0;
+#X connect 5 1 1 0;
+#X connect 6 0 5 0;
+#X connect 14 0 5 0;
+#X connect 15 0 18 0;
+#X connect 18 0 16 0;
+#X connect 20 0 21 0;
+#X restore 465 297 pd examples;
 #X text 193 450 sets a value for when reaching a number with no rule
 ;
 #X msg 89 176 dump;
@@ -125,23 +124,26 @@ its help file.;
 #X text 192 433 <1> enables saving the matrix with the patch \, <0>
 disables;
 #X text 217 248 <== click to view the probability matrix table;
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Probability matrix;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 prob;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 20 58 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Probability matrix;
+#X obj 16 5 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 prob;
+#X obj 322 29 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X text 144 374 float;
 #X text 181 374 -;
 #X text 194 373 an integer sets (but doesn't output) the current number
 \, the next value depends on the probability matrix., f 56;
+#X text 196 335 chooses a weighted random number;
+#X text 240 263 (this is not present in the original object in MAX).
+, f 43;
 #X connect 7 0 10 0;
 #X connect 8 0 10 0;
 #X connect 9 0 8 0;
+#X connect 10 0 35 0;
 #X connect 10 0 36 0;
-#X connect 10 0 37 0;
 #X connect 13 0 7 0;
-#X connect 35 0 10 0;
-#X connect 37 0 11 0;
+#X connect 34 0 10 0;
+#X connect 36 0 11 0;
