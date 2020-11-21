@@ -185,7 +185,7 @@ static void play_set(t_play *x, t_symbol *s)
     x->x_ksrrat = x->x_aksr/x->x_pdksr;
 }
 
-static void play_arraysr(t_play *x, t_floatarg f){
+/*static void play_arraysr(t_play *x, t_floatarg f){
     //sample rate of array in samp/sec
     if(f <= 1){
         f = 1;
@@ -193,7 +193,7 @@ static void play_arraysr(t_play *x, t_floatarg f){
     x->x_aksr = f * 0.001;
     x->x_ksrrat = x->x_aksr/x->x_pdksr;
     play_calcsamp(x);
-}
+}*/
 
 ////////////////////////////////////////////////
 // START
@@ -707,6 +707,6 @@ CYCLONE_OBJ_API void play_tilde_setup(void)
     class_addmethod(play_class, (t_method)play_loop, gensym("loop"), A_FLOAT, 0);
     class_addmethod(play_class, (t_method)play_interptime, gensym("interptime"), A_FLOAT, 0);
     class_addmethod(play_class, (t_method)play_loopinterp, gensym("loopinterp"), A_FLOAT, 0);
-    class_addmethod(play_class, (t_method)play_arraysr, gensym("arraysr"), A_FLOAT, 0);
+//    class_addmethod(play_class, (t_method)play_arraysr, gensym("arraysr"), A_FLOAT, 0);
     class_addmethod(play_class, (t_method)play_start, gensym("start"), A_GIMME, 0);
 }
