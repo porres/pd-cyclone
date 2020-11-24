@@ -20,7 +20,7 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 -------
 
-Current Release: Cyclone 0.5-5 (this release needs at least Pd Vanilla 0.51-0)
+Current Release: Cyclone 0.5-5 (this release needs at least Pd Vanilla 0.51-3)
 
 Released November 25th 2020
 

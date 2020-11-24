@@ -629,7 +629,7 @@ static int printed;
 
 static int min_major = 0;
 static int min_minor = 51;
-static int min_bugfix = 0;
+static int min_bugfix = 3;
 
 static int cyclone_major = 0;
 static int cyclone_minor = 5;

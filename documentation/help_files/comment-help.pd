@@ -1,10 +1,10 @@
-#N canvas 656 40 561 556 10;
+#N canvas 691 75 565 568 10;
 #X obj 3 249 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 428 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
 #X text 170 434 (none);
-#X obj 3 529 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 3 537 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X text 121 152 <= the default comment box from [cyclone/comment];
 #X obj 156 189 cyclone/comment 259 20 Times empty 3 150 0 0 1 230 235
@@ -59,19 +59,19 @@
 #N canvas 534 83 886 580 details 0;
 #X obj 159 295 cyclone/comment 425 50 times empty 0 0 0 0 0 100 150
 100 0 0 comment;
-#X msg 159 18 fontsize 50;
-#X msg 167 38 fontsize 30;
-#X msg 198 133 fontname helvetica;
+#X msg 159 8 fontsize 50;
+#X msg 165 28 fontsize 30;
+#X msg 192 118 fontname helvetica;
 #X msg 216 186 textcolor 0 0 0;
-#X msg 222 206 textcolor 150 100 50;
-#X msg 630 125 textcolor 200 0 0;
-#X msg 642 147 textcolor 0 0 0;
-#X obj 480 316 cyclone/comment 380 50 Dejavu\ Sans\ Mono \$0-comment
+#X msg 220 205 textcolor 150 100 50;
+#X msg 643 149 textcolor 200 0 0;
+#X msg 655 171 textcolor 0 0 0;
+#X obj 493 340 cyclone/comment 380 50 Dejavu\ Sans\ Mono \$0-comment
 0 0 0 0 0 255 255 255 0 0 comment;
-#X msg 655 187 set hi \, append there;
-#X msg 665 210 set comment \, prepend this;
-#X msg 676 233 set Comment;
-#X obj 626 275 s \$0-comment;
+#X msg 668 211 set hi \, append there;
+#X msg 678 234 set comment \, prepend this;
+#X msg 689 257 set Comment;
+#X obj 639 299 s \$0-comment;
 #X msg 56 236 fontface \$1;
 #X obj 56 149 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856 -1
 -1 0;
@@ -80,51 +80,54 @@
 #X text 74 163 bold;
 #X text 74 179 italic;
 #X text 74 194 bold+italic;
-#X msg 533 189 underline \$1;
-#X obj 533 165 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 546 213 underline \$1;
+#X obj 546 189 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
-#X msg 226 236 bgcolor 100 150 100;
-#X msg 232 258 bgcolor 190 90 200;
-#X msg 364 265 bg \$1;
-#X obj 364 242 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 222 234 bgcolor 100 150 100;
+#X msg 226 254 bgcolor 190 90 200;
+#X msg 364 259 bg \$1;
+#X obj 364 236 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X text 42 50 You can edit the properties of [comment] with messages.
 , f 15;
 #X text 39 375 After setting a background color you can use the 'bg'
 flag to turn it off or on again., f 62;
-#X text 457 460 This object is fully compliant to Max 5 but not fully
+#X text 470 484 This object is fully compliant to Max 5 but not fully
 compliant to Max6+ versions (with all that 'bubble' stuff and more).
 It also has inconsistencies like different attributes than the original
 object in Max (@receive \, @text and @bg)., f 65;
-#X msg 192 114 fontname arial\ black;
-#X msg 186 94 fontname arial;
-#X msg 177 74 fontname times;
-#X msg 205 155 fontname Dejavu\ Sans\ Mono;
-#X text 39 465 Cyclone's comment will attempt to open a font name that
+#X msg 187 99 fontname arial\ black;
+#X msg 182 80 fontname arial;
+#X msg 177 61 fontname times;
+#X msg 197 137 fontname Dejavu\ Sans\ Mono;
+#X text 39 488 Cyclone's comment will attempt to open a font name that
 corresponds to your given name. If such a font name doesn't exist \,
 it'll open some other font you have on your system instead that it
 thinks is best for what you requested \, and you'll have no idea which
 one it is. Just be sure you have the fonts you want properly installed.
 , f 62;
-#X obj 480 253 loadbang;
-#X msg 480 278 receive \\\$0-comment;
-#X text 39 404 [comment] uses "Dejavu Sans Mono" as its default font.
-This is the same default font that Pd uses and includes. But Pd doesn't
-offer yet the italic and bold+italic variants. So you need to manually
-install this font in its fullness if you want to use these variants.
-, f 62;
-#X text 395 32 When in edit mode \, [comment] shows its inlet and an
+#X obj 493 277 loadbang;
+#X msg 493 302 receive \\\$0-comment;
+#X text 408 56 When in edit mode \, [comment] shows its inlet and an
 outline. The [comment] object below has a receive symbol \, so you
 can send messages to it via a [send] object. In this case \, the inlet
 is supressed \, so we don't see it. Besides the properties window \,
 the receive symbol can be set with the receive message or the @receive
 attribute. If you set a receive name as "empty" then it it can't receive
 messages anymore and the inlet is show again., f 74;
-#X text 457 405 Note: when in edit mode \, you can click on the object
+#X text 470 429 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
 into a Pd's comment box. So far \, this is the only way to copy the
 text from comment into Pd (control+c / control+v doesn't work)., f
 65;
+#X msg 202 156 fontname Menlo;
+#X text 39 404 [comment] uses "Dejavu Sans Mono" as its default font.
+This is the same default font that Pd uses and includes. But Pd doesn't
+offer yet the italic and bold+italic variants. So you need to manually
+install this font in its fullness if you want to use these variants.
+Note that as of 0.51-3 \, Pd uses 'Menlo' as its default font for mac
+\, cyclone also does the same for mac then. Menlo has italic and bold+italic.
+, f 62;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -150,6 +153,7 @@ text from comment into Pd (control+c / control+v doesn't work)., f
 #X connect 32 0 0 0;
 #X connect 34 0 35 0;
 #X connect 35 0 8 0;
+#X connect 38 0 0 0;
 #X restore 479 166 pd details;
 #N canvas 800 75 549 514 more 0;
 #X obj 188 340 cyclone/comment 151 20 dejavu\ sans\ mono empty 0 0
@@ -183,12 +187,6 @@ is widely used in cyclone's documentation and (unlike pd vanilla's
 comments) allows you to set font \, size \, color \, background color
 \, bold \, italic \, underline and justification. This object is not
 being fully compliant to Max6+ versions!, f 74;
-#X text 64 463 @fontname <symbol> (default: dejavu sans mono) | @fontface
-<float> (default 0) @fontsize <float> (default patch's) | @textjustification
-<float> (default 0) @textcolor <f \, f \, f> (default 0 0 0) | @bgcolor
-<f \, f \, f> (default 255 255 255) @bg <float> (default 0) | @text
-<anything>: sets comment (default "comment") @underline <float> (default
-0) | @receive <symbol> (default 'empty'), f 79;
 #X text 98 282 prepend <anything>;
 #X text 40 185 right click for properties =====>, f 18;
 #N canvas 932 96 604 504 +\ examples 0;
@@ -228,3 +226,10 @@ like elsewhere in Pd (such as in messages or comments)., f 29;
 #X restore 455 220 pd +\ examples;
 #X text 214 352 - sets justification (0: left \, 1: center \, 2: right)
 , f 54;
+#X text 66 461 @fontname <symbol> (default: 'dejavu sans mono' or 'menlo'
+for mac) | @fontface <float> (default 0) @fontsize <float> (default
+patch's) | @textjustification <float> (default 0) @textcolor <f \,
+f \, f> (default 0 0 0) | @bgcolor <f \, f \, f> (default 255 255 255)
+@bg <float> (default 0) | @text <anything>: sets comment (default "comment")
+@underline <float> (default 0) | @receive <symbol> (default 'empty')
+, f 77;
