@@ -3,6 +3,17 @@
 ---------------------------------------------------
 
 --------------------------------------------------
+cyclone 0.5-5 (needs at least Pd Vanilla 0.51-0):
+--------------------------------------------------
+
+-[anal]: fixed 'reset' message and fixed/improved documentation
+-[prob]: If the window is opened: update window graphically after inputs/clear and raise window on clicking the object.
+-[Table]: If the window is opened, raise window on clicking the object.
+-[capture]: If the window is opened: update window graphically after inputs/clear and raise window on clicking the object.
+-[capture~]: If the window is opened: update window graphically after clear and raise/update window on clicking the object.
+-[scope~]: Fixed loading as "Scope~".
+
+--------------------------------------------------
 cyclone 0.5-4 (needs at least Pd Vanilla 0.51-0):
 --------------------------------------------------
 
