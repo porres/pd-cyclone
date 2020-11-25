@@ -29,7 +29,7 @@ Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases
 -------
 ### About Cyclone:
 
-Cyclone 0.5-5 needs at least Pd Vanilla 0.51-0 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
+Cyclone 0.5-5 needs at least Pd Vanilla 0.51-3 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
 
 Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data. Pd-Extended carries older 0.1 versions and Purr Data still carries an outdated Cyclone 0.2 release (which on its own is not yet fully ported either to Purr Data). The latest versions of cyclone (0.3-0 onwards) are only fully supported in Pd Vanilla so far. 
 
@@ -80,7 +80,7 @@ Since "Cyclone 0.1-alpha57", the Cyclone package has relied on the new build sys
 
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
-<pre>make pdincludepath=~/pd-0.51-0/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.51-0/bin/)</pre>
+<pre>make pdincludepath=~/pd-0.51-3/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.51-3/bin/)</pre>
 
 * Make Install
 
