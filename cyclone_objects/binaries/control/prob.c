@@ -192,10 +192,8 @@ static void prob_dump(t_prob *x){ // CHECKED
     for(state = x->x_translist; state; state = state->tr_nextstate){
         t_probtrans *trans;
         for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans)
-            post(" from %3d to %3d: %d",
-        state->tr_value, trans->tr_value, trans->tr_count);
-        post("total weights for state %d: %d", // CHECKED: dead-ends are reported
-             state->tr_value, state->tr_count);
+            post(" from %3d to %3d: %d", state->tr_value, trans->tr_value, trans->tr_count);
+        post("total weights for state %d: %d", state->tr_value, state->tr_count);
     }
 }
 
@@ -204,15 +202,13 @@ static void prob_bang(t_prob *x){
         int rnd = rand_int(&x->x_seed, x->x_state->tr_count);
         t_probtrans *trans = x->x_state->tr_nexttrans;
         if(trans){
-            for(trans = x->x_state->tr_nexttrans; trans;
-                trans = trans->tr_nexttrans)
-            if((rnd -= trans->tr_count) < 0)
-                break;
+            for(trans = x->x_state->tr_nexttrans; trans; trans = trans->tr_nexttrans)
+                if((rnd -= trans->tr_count) < 0)
+                    break;
             if(trans){
                 t_probtrans *nextstate = trans->tr_suffix;
                 if(nextstate){
-                    outlet_float(((t_object *)x)->ob_outlet,
-                    nextstate->tr_value);
+                    outlet_float(((t_object *)x)->ob_outlet, nextstate->tr_value);
                     x->x_state = nextstate;
                 }
                 else
