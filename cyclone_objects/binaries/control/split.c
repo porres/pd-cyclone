@@ -15,7 +15,6 @@
 typedef struct _split
 {
     t_object   x_ob;
-    int        x_floatmode;
     t_float    x_min;
     t_float    x_max;
     t_outlet  *x_out2;
@@ -25,25 +24,14 @@ static t_class *split_class;
 
 static void split_float(t_split *x, t_float f)
 {
-    if (x->x_floatmode)
-    {
-	if (f >= x->x_min && f <= x->x_max)
-	    outlet_float(((t_object *)x)->ob_outlet, f);
-	else outlet_float(x->x_out2, f);
-    }
-    else
-    {
-	/* CHECKED: no pre-truncation */
 	if (f >= x->x_min && f <= x->x_max)
 	    outlet_float(((t_object *)x)->ob_outlet, (int)f);
 	else outlet_float(x->x_out2, (int)f);
-    }
 }
 
 static void *split_new(t_floatarg f1, t_floatarg f2)
 {
     t_split *x = (t_split *)pd_new(split_class);
-    x->x_floatmode = (f1 != (int)f1);
     /* CHECKED: defaults are [0..0] and [0..f1] (for positive f1) or [f1..0] */
     if (f1 < f2)  /* CHECKED */
 	x->x_min = f1, x->x_max = f2;

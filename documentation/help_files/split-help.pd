@@ -1,4 +1,4 @@
-#N canvas 403 28 559 505 10;
+#N canvas 658 59 559 505 10;
 #X obj 2 263 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 359 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -64,25 +64,25 @@ input is checked;
 #X text 173 335 sets maximum range value, f 60;
 #X text 173 392 input number that is outside a given range;
 #X text 173 369 input number that is in a given range;
-#X text 81 89 [split] splits numbers in a given range from numbers
-outside it. If an input is in between a min/max value or equal to them
-\, the value is sent to the left outlet \, or to the right outlet otherwise.
-;
 #X text 158 452 - initial maximum range (default 0);
 #X text 158 432 - initial minimum range (default 0);
 #X obj 196 201 cyclone/split -15 15;
 #X msg 148 168 3 0 5;
-#X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Split numbers according to a range;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 split;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
-#X connect 5 0 48 1;
-#X connect 6 0 48 2;
-#X connect 35 0 48 0;
-#X connect 48 0 31 0;
-#X connect 48 1 30 0;
-#X connect 49 0 48 0;
+#X obj 17 58 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Split numbers according to a range;
+#X obj 16 5 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 split;
+#X obj 322 29 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
+#X text 81 89 [split] splits numbers in a given range from numbers
+outside it. If an input is in between a min/max value or equal to them
+\, the value is sent to the left outlet \, or to the right outlet otherwise.
+Unlike MAX \, it only deals with floats.;
+#X connect 5 0 47 1;
+#X connect 6 0 47 2;
+#X connect 35 0 47 0;
+#X connect 47 0 31 0;
+#X connect 47 1 30 0;
+#X connect 48 0 47 0;
