@@ -80,31 +80,31 @@ static void midiparse_float(t_midiparse *x, t_float f)
 	    outlet_float(x->x_chanout, x->x_channel + 1);
 	    switch (x->x_status)
 	    {
-	    case 0x80:
+	    case 0x80: // NOTE OFF
 		SETFLOAT(&at[0], x->x_data1);
 		SETFLOAT(&at[1], 0);
 		outlet_list(((t_object *)x)->ob_outlet, 0, 2, at);
 		break;
-	    case 0x90:
+	    case 0x90: // NOTE ON
 		SETFLOAT(&at[0], x->x_data1);
 		SETFLOAT(&at[1], bval);
 		outlet_list(((t_object *)x)->ob_outlet, 0, 2, at);
 		break;
-	    case 0xA0:
+	    case 0xA0: // POLYTOUCH
 		SETFLOAT(&at[0], bval);
 		SETFLOAT(&at[1], x->x_data1);
 		outlet_list(x->x_polyout, 0, 2, at);
 		break;
-	    case 0xB0:
+	    case 0xB0: // CTL
 		SETFLOAT(&at[0], bval);
 		SETFLOAT(&at[1], x->x_data1);
 		outlet_list(x->x_ctlout, 0, 2, at);
 		break;
-	    case 0xC0:
+	    case 0xC0: // PGM
 		outlet_float(x->x_pgmout, bval);
 		x->x_ready = 1;
 		break;
-	    case 0xD0:
+	    case 0xD0: // TOUCH
 		outlet_float(x->x_touchout, bval);
 		x->x_ready = 1;
 		break;
