@@ -1,4 +1,4 @@
-#N canvas 897 100 559 450 10;
+#N canvas 818 97 559 450 10;
 #X obj 2 245 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 301 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -42,20 +42,20 @@
 #X text 105 275 set <symbol>;
 #X text 288 188 <= result goes to grab;
 #X text 284 214 <= and is not output here;
-#N canvas 966 161 718 344 examples 0;
+#N canvas 966 161 699 482 examples 0;
 #X msg 92 44 length;
 #X obj 92 70 cyclone/grab;
-#X obj 626 164 + 10;
-#X obj 556 164 * 10;
-#X msg 464 112 set add;
-#X msg 470 138 set mul;
-#X obj 398 174 cyclone/grab 1 add;
-#X obj 398 213 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 603 316 + 10;
+#X obj 553 316 * 10;
+#X msg 419 262 set add;
+#X msg 363 261 set mul;
+#X obj 420 315 cyclone/grab 1 add;
+#X obj 420 354 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 398 115 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+#X obj 432 288 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 626 131 r add;
-#X obj 556 131 r mul;
+#X obj 603 283 r add;
+#X obj 553 283 r mul;
 #X obj 161 174 cyclone/table;
 #C restore;
 #N canvas 1130 257 394 263 set_table 0;
@@ -81,24 +81,44 @@
 #X obj 59 83 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
 #X floatatom 59 143 5 0 0 0 - - -;
-#X floatatom 556 197 5 0 0 0 - - -;
-#X floatatom 626 197 5 0 0 0 - - -;
+#X floatatom 553 349 5 0 0 0 - - -;
+#X floatatom 603 349 5 0 0 0 - - -;
 #X obj 161 209 nbx 5 17 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 13
 -228856 -1 -1 0 256;
 #X text 141 43 <= get length from table;
 #X text 185 62 and send to random;
 #X obj 161 238 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X text 349 33 A 2nd symbol argument sets the name of a corresponding
+#X msg 379 88 1 2 3;
+#X obj 460 136 unpack f f f;
+#X obj 379 114 cyclone/grab 3;
+#X floatatom 433 137 2 0 0 0 - - -;
+#X floatatom 406 137 2 0 0 0 - - -;
+#X floatatom 379 137 2 0 0 0 - - -;
+#X text 471 113 <= setting more than 1 output;
+#X floatatom 286 345 5 0 0 0 - - -;
+#X obj 217 285 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 31 256;
+#X obj 217 358 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 76 256;
+#X obj 217 313 cyclone/grab;
+#X floatatom 286 372 5 0 0 0 - - -;
+#X obj 192 284 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 42 326 When connected to GUI objets \, grab has the effect
+of setting them without resulting in an output., f 24;
+#X text 42 387 See how when you send it number values how the number
+box is set but doesn't output anything., f 24;
+#X text 52 283 grab value from GUI =>;
+#X obj 286 400 print number;
+#X text 218 269 set value;
+#X text 358 31 A 1st float argument sets the number of outputs \, so
+you can connect to an object that has more than one output and grab
+all of them., f 46;
+#X text 362 182 A 2nd symbol argument sets the name of a corresponding
 recieve object to send a message to. The "set" message can change the
-name.;
-#X msg 277 232 1 2 3;
-#X obj 358 280 unpack f f f;
-#X obj 277 258 cyclone/grab 3;
-#X floatatom 331 281 2 0 0 0 - - -;
-#X floatatom 304 281 2 0 0 0 - - -;
-#X floatatom 277 281 2 0 0 0 - - -;
-#X text 369 257 <= setting more than 1 output;
+name. This way \, it grabs from the object connected to the [receive]
+object., f 46;
 #X connect 0 0 1 0;
 #X connect 1 0 14 0;
 #X connect 1 1 11 0;
@@ -117,11 +137,17 @@ name.;
 #X connect 15 0 13 0;
 #X connect 16 0 11 0;
 #X connect 19 0 22 0;
-#X connect 24 0 26 0;
-#X connect 26 0 29 0;
-#X connect 26 1 28 0;
-#X connect 26 2 27 0;
-#X connect 26 3 25 0;
+#X connect 23 0 25 0;
+#X connect 25 0 28 0;
+#X connect 25 1 27 0;
+#X connect 25 2 26 0;
+#X connect 25 3 24 0;
+#X connect 30 0 34 0;
+#X connect 31 0 33 0;
+#X connect 33 0 32 0;
+#X connect 33 1 30 0;
+#X connect 34 0 39 0;
+#X connect 35 0 33 0;
 #X restore 470 207 pd examples;
 #X text 95 385 2) symbol;
 #X text 172 385 messages in the inlet are sent to receive objects named
