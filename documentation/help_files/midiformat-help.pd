@@ -203,7 +203,7 @@ from -8192 to 8191). The [midiparse] object \, which is the counterpart
 above);
 #X obj 2 540 cnv 3 550 3 empty empty attribute 8 12 0 13 -228856 -1
 0;
-#X text 122 547 @hires <0 \, 1 \, 2> - picth bend precision (see example
+#X text 122 547 @hires <0 \, 1 \, 2> - pitch bend precision (see example
 above);
 #X obj 17 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
 0 255 255 255 0 0 Format MIDI messages;
