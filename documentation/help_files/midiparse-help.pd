@@ -197,7 +197,7 @@ from -8192 to 8191). The [midiformat] object \, which is the counterpart
 #X restore 493 193 pd hires;
 #X obj 2 505 cnv 3 550 3 empty empty attribute 8 12 0 13 -228856 -1
 0;
-#X text 122 512 @hires <0 \, 1 \, 2> - picth bend precision (see example
+#X text 122 512 @hires <0 \, 1 \, 2> - pitch bend precision (see example
 above);
 #X text 173 294 clears object's memory of received MIDI data;
 #X text 160 311 -;
