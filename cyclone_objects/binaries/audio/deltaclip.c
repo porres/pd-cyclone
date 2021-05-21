@@ -31,14 +31,18 @@ static t_int *deltaclip_perform(t_int *w)
     while (nblock--)
     {
     	float f = *in1++;
-	float delta = f - last;
+        float delta = f - last;
     	float lo = *in2++;
+        if(lo > 0)
+            lo = 0;
     	float hi = *in3++;
-    	if (delta < lo)
-	    f = last + lo;
+        if(hi < 0)
+            hi = 0;
+    	if(delta < lo)
+            f = last + lo;
     	else if (delta > hi)
-	    f = last + hi;
-	*out++ = last = f;
+            f = last + hi;
+        *out++ = last = f;
     }
     x->x_last = last;
     return (w + 7);
