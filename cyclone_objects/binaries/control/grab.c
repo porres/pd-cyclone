@@ -256,7 +256,7 @@ static void grab_bang(t_grab *x)
         if (x->x_receiver)
         	pd_bang(x->x_receiver);
         else
-        	outlet_bang(x->x_receiver);
+        	outlet_bang(x->x_rightout);
         grab_restore(x,nobs);
     }
 }
