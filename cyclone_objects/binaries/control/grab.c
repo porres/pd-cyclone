@@ -23,7 +23,7 @@ struct _outlet
 
 /* ...and to have bindlist traversal routines in Pd API. */
 
-static t_class *bindlist_class = 0;
+static t_class *bindlist_class = 0; /*global variable*/
 
 typedef struct _bindelem
 {
@@ -42,21 +42,80 @@ typedef struct _grab
     t_object        x_ob;
     t_symbol       *x_target;
     int             x_noutlets;   /* not counting right one */
-    t_outconnect  **x_grabcons;   /* grabbed connections */
+    t_object	   *x_receiver;   /* object containing the receiver */
+    int				x_ncons;	  /* number of connections from receiver */
+    int				x_maxobs;	  /* maximum number of connections from receiver */
+    t_object      **x_grabbed;    /* array of grabbed objects */
+    t_outconnect  **x_grabcons;   /* array of grabbed connections */
+    int            *x_ngrabout;   /* array; number of grabbed object's outlets */
     t_outlet       *x_rightout;   /* right outlet */
     /* traversal helpers: */
-    t_object       *x_grabbed;    /* currently grabbed object */
     t_outconnect   *x_tograbbed;  /* a connection to grabbed object */
-    int             x_ngrabout;   /* number of grabbed object's outlets */
     t_bindelem     *x_bindelem;
 } t_grab;
 
 static t_class *grab_class;
 
+static int grab_prep(t_grab *x, t_object *ob)
+{
+	t_outlet *op;
+	t_outconnect *ocp;
+	t_object *dummy;
+	int ncons, inno;
+	if (x->x_target)
+	{
+		x->x_receiver = ob;
+		op = ob->ob_outlet;
+	}
+	else op = x->x_rightout;
+	if (!(x->x_tograbbed = ocp = magic_outlet_connections(op)))
+		return (0);
+	for (ncons = 0; ocp ; ++ncons)
+		ocp = magic_outlet_nextconnection(ocp, &dummy, &inno);
+	x->x_ncons = ncons;
+	//post("%d",ncons);
+	if (!x->x_grabbed)
+	{
+		//post("entering getbytes");
+		if (!((x->x_grabbed = getbytes(ncons * sizeof(*x->x_grabbed))) && 
+			 (x->x_ngrabout = getbytes(ncons * sizeof(*x->x_ngrabout))) &&
+			(x->x_grabcons = getbytes(ncons * x->x_noutlets * sizeof(*x->x_grabcons)))))
+		{
+			pd_error(x, "grab: error allocating memory");
+			return (0);
+		}
+		x->x_maxobs = ncons;
+	}
+	else if (ncons > x->x_maxobs)
+	{
+		//post("entering resizebytes");
+		if (!((x->x_grabbed = resizebytes(x->x_grabbed,
+			x->x_maxobs * sizeof(*x->x_grabbed),
+			ncons * sizeof(*x->x_grabbed))) &&
+			
+			(x->x_ngrabout = resizebytes(x->x_ngrabout,
+			x->x_maxobs * sizeof(*x->x_ngrabout),
+			ncons * sizeof(*x->x_ngrabout))) &&
+			
+			(x->x_grabcons = resizebytes(x->x_grabcons,
+			x->x_maxobs * x->x_noutlets * sizeof(*x->x_grabcons),
+			ncons * x->x_noutlets * sizeof(*x->x_grabcons)))))
+		{
+			pd_error(x, "grab: error allocating memory");
+			return (0);
+		}
+		x->x_maxobs = ncons;
+	}
+
+	return (1);
+}
+
 static void grab_start(t_grab *x)
 {
+	//post("entering grab_start");
     x->x_tograbbed = 0;
     x->x_bindelem = 0;
+    x->x_receiver = 0;
     if (x->x_target)
     {
         t_pd *proxy = x->x_target->s_thing;
@@ -69,142 +128,206 @@ static void grab_start(t_grab *x)
                 while (x->x_bindelem)
                 {
                     if ((ob = pd_checkobject(x->x_bindelem->e_who)))
-                    {
-                        x->x_tograbbed = magic_outlet_connections(ob->ob_outlet);
-                        return;
-                    }
+                        if (grab_prep(x,ob))
+                        	return;
                     x->x_bindelem = x->x_bindelem->e_next;
                 }
             }
             else if ((ob = pd_checkobject(proxy)))
-                x->x_tograbbed = magic_outlet_connections(ob->ob_outlet);
+                grab_prep(x,ob);
         }
     }
     else
-        x->x_tograbbed = magic_outlet_connections(x->x_rightout);
+        grab_prep(x,&x->x_ob);
 }
 
-static t_pd *grab_next(t_grab *x)
+
+
+
+static int *grab_next(t_grab *x)
 {
+	//post("entering grab_next");
+	t_object **grabbedp = x->x_grabbed;
+	t_outconnect **grabconsp = x->x_grabcons;
+	int *ngraboutp = x->x_ngrabout;
+	t_object *gr;
+	int nobs;
+	int inno;
 nextremote:
-    if (x->x_tograbbed)
-    {
-        int inno;
-        x->x_tograbbed = magic_outlet_nextconnection(x->x_tograbbed, &x->x_grabbed, &inno);
-        if (x->x_grabbed)
-        {
-            if (inno)
-            {
-                if (x->x_target)
-                    pd_error(x, "grab: right outlet must feed leftmost inlet");
-                else
-                    pd_error(x, "grab: remote proxy must feed leftmost inlet");
-            }
-            else
-            {
-                t_outlet *op;
-                t_outlet *goutp;
-                int goutno = x->x_noutlets;
-                x->x_ngrabout = obj_noutlets(x->x_grabbed);
-                if (goutno > x->x_ngrabout) goutno = x->x_ngrabout;
-                    while (goutno--)
-                    {
-                        x->x_grabcons[goutno] =
-                        obj_starttraverseoutlet(x->x_grabbed, &goutp, goutno);
-                        goutp->o_connections = obj_starttraverseoutlet((t_object *)x, &op, goutno);
-                    }
-                return ((t_pd *)x->x_grabbed);
-            }
-        }
+    if (x->x_tograbbed) {
+		while (x->x_tograbbed)
+		{   
+			//post("entering grab_next while loop");
+			x->x_tograbbed = magic_outlet_nextconnection(x->x_tograbbed, &gr, &inno);
+			if (gr)
+			{
+				if (inno)
+				{
+					if (x->x_rightout)
+						pd_error(x, "grab: right outlet must feed leftmost inlet");
+					else
+						pd_error(x, "grab: remote proxy must feed leftmost inlet");
+				}
+				else
+				{
+					t_outlet *op;
+					t_outlet *goutp;
+					*grabbedp++ = gr;
+					
+					int goutno = obj_noutlets(gr);
+					if (goutno > x->x_noutlets) goutno = x->x_noutlets;
+					//post ("grab_next goutno: %d", goutno);
+					*ngraboutp++ = goutno;
+					for (int i = 0; i < x->x_noutlets; i++)
+					{
+						if (i < goutno) {
+							*grabconsp++ = 
+								obj_starttraverseoutlet(gr, &goutp, i);
+							goutp->o_connections = obj_starttraverseoutlet((t_object *)x, &op, i);
+						}
+					}
+				
+				}
+			}
+	//         if (x->x_receiver)
+	//         	return ((t_pd*)x->x_receiver);
+	//         else
+	//         	return ((t_pd*)&x->x_ob);
+		}
+		// return number of objects stored
+		return (grabbedp-x->x_grabbed);
     }
     if (x->x_bindelem) while ((x->x_bindelem = x->x_bindelem->e_next))
     {
         t_object *ob;
         if ((ob = pd_checkobject(x->x_bindelem->e_who)))
         {
-            x->x_tograbbed = magic_outlet_connections(ob->ob_outlet);
+        	//x->x_receiver = ob;
+            //x->x_tograbbed = magic_outlet_connections(ob->ob_outlet);
+            grab_prep(x,ob);
+            grabbedp = x->x_grabbed;
+            grabconsp = x->x_grabcons;
+            ngraboutp = x->x_ngrabout;
             goto nextremote;
         }
     }
     return (0);
 }
 
-static void grab_restore(t_grab *x)
+static void grab_restore(t_grab *x, int nobs)
 {
-    t_outlet *goutp;
-    int goutno = x->x_noutlets;
-    if (goutno > x->x_ngrabout)
-        goutno = x->x_ngrabout;
-    while (goutno--)
-    {
-        obj_starttraverseoutlet(x->x_grabbed, &goutp, goutno);
-        goutp->o_connections = x->x_grabcons[goutno];
-    }
+//     t_outlet *goutp;
+//     int goutno = x->x_noutlets;
+//     if (goutno > x->x_ngrabout)
+//         goutno = x->x_ngrabout;
+//     while (goutno--)
+//     {
+//         obj_starttraverseoutlet(x->x_grabbed, &goutp, goutno++);
+//         goutp->o_connections = x->x_grabcons[goutno];
+//     }
+	//post("grab_restore nobs: %d", nobs);
+	t_object **grabbedp = x->x_grabbed;
+	t_object **grabconsp = x->x_grabcons;
+	int *ngraboutp = x->x_ngrabout;
+	int goutno;
+	t_object *gr;
+	t_outlet *goutp;
+	while (nobs--)
+	{
+		gr = *grabbedp++;
+		goutno = *ngraboutp++;
+		//post ("grab_restore goutno: %d", goutno);
+		for (int i = 0; i < goutno ; i++)
+		{
+			obj_starttraverseoutlet(gr, &goutp, i);
+			goutp->o_connections = *grabconsp++;
+			//post("bump");
+		}
+	}
+	
 }
 
 static void grab_bang(t_grab *x)
 {
-    t_pd *grabbed;
+	int nobs;
     grab_start(x);
-    while ((grabbed = grab_next(x)))
+    while (nobs = grab_next(x))
     {
-        pd_bang(grabbed);
-        grab_restore(x);
+        if (x->x_receiver)
+        	pd_bang(x->x_receiver);
+        else
+        	outlet_bang(x->x_receiver);
+        grab_restore(x,nobs);
     }
 }
 
 static void grab_float(t_grab *x, t_float f)
 {
-    t_pd *grabbed;
+	int nobs;
     grab_start(x);
-    while ((grabbed = grab_next(x)))
+    while (nobs = grab_next(x))
     {
-        pd_float(grabbed, f);
-        grab_restore(x);
+    	if (x->x_receiver)
+        	pd_float(x->x_receiver, f);
+        else
+        	outlet_float(x->x_rightout, f);
+        grab_restore(x,nobs);
     }
 }
 
 static void grab_symbol(t_grab *x, t_symbol *s)
 {
-    t_pd *grabbed;
+    int nobs;
     grab_start(x);
-    while ((grabbed = grab_next(x)))
+    while (nobs = grab_next(x))
     {
-        pd_symbol(grabbed, s);
-        grab_restore(x);
+    	if (x->x_receiver)
+        	pd_symbol(x->x_receiver, s);
+        else
+        	outlet_symbol(x->x_rightout, s);
+        grab_restore(x,nobs);
     }
 }
 
 static void grab_pointer(t_grab *x, t_gpointer *gp)
 {
-    t_pd *grabbed;
+    int nobs;
     grab_start(x);
-    while ((grabbed = grab_next(x)))
+    while (nobs = grab_next(x))
     {
-        pd_pointer(grabbed, gp);
-        grab_restore(x);
+    	if (x->x_receiver)
+        	pd_pointer(x->x_receiver, gp);
+        else
+        	outlet_pointer(x->x_rightout, gp);
+        grab_restore(x,nobs);
     }
 }
 
 static void grab_list(t_grab *x, t_symbol *s, int ac, t_atom *av)
 {
-    t_pd *grabbed;
+    int nobs;
     grab_start(x);
-    while ((grabbed = grab_next(x)))
+    while (grab_next(x))
     {
-        pd_list(grabbed, s, ac, av);
-        grab_restore(x);
+    	if (x->x_receiver)
+        	pd_list(x->x_receiver, s, ac, av);
+        else
+        	outlet_list(x->x_rightout, s, ac, av);
+       grab_restore(x,nobs);
     }
 }
 
 static void grab_anything(t_grab *x, t_symbol *s, int ac, t_atom *av)
 {
-    t_pd *grabbed;
+     int nobs;
     grab_start(x);
-    while ((grabbed = grab_next(x)))
+    while (grab_next(x))
     {
-        typedmess(grabbed, s, ac, av);
-        grab_restore(x);
+    	if (x->x_receiver)
+        	pd_anything(x->x_receiver, s, ac, av);
+        else
+        	outlet_anything(x->x_rightout, s, ac, av);
+       grab_restore(x,nobs);
     }
 }
 
@@ -222,11 +345,12 @@ static void *grab_new(t_symbol *s, t_floatarg f)
     int noutlets = (int)f;
     if (noutlets < 1)
         noutlets = 1;
-    if (!(grabcons = getbytes(noutlets * sizeof(*grabcons))))
-        return (0);
+    /*if (!(grabcons = getbytes(noutlets * sizeof(*grabcons))))
+        return (0);*/
     x = (t_grab *)pd_new(grab_class);
     x->x_noutlets = noutlets;
-    x->x_grabcons = grabcons;
+    x->x_maxobs = 0;
+    //x->x_grabcons = grabcons;
     while (noutlets--)
         outlet_new((t_object *)x, &s_anything);
     if (s && s != &s_)
