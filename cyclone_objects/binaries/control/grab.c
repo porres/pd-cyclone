@@ -214,72 +214,72 @@ static void grab_restore(t_grab *x, int nobs){
 static void grab_bang(t_grab *x){
 	int nobs;
     grab_start(x);
-    while(nobs = grab_next(x)){
+    while((nobs = grab_next(x))){
         if(x->x_receiver)
         	pd_bang(x->x_receiver);
         else
         	outlet_bang(x->x_rightout);
-        grab_restore(x,nobs);
+        grab_restore(x, nobs);
     }
 }
 
 static void grab_float(t_grab *x, t_float f){
 	int nobs;
     grab_start(x);
-    while(nobs = grab_next(x)){
+    while((nobs = grab_next(x))){
     	if(x->x_receiver)
         	pd_float(x->x_receiver, f);
         else
         	outlet_float(x->x_rightout, f);
-        grab_restore(x,nobs);
+        grab_restore(x, nobs);
     }
 }
 
 static void grab_symbol(t_grab *x, t_symbol *s){
     int nobs;
     grab_start(x);
-    while(nobs = grab_next(x)){
+    while((nobs = grab_next(x))){
     	if(x->x_receiver)
         	pd_symbol(x->x_receiver, s);
         else
         	outlet_symbol(x->x_rightout, s);
-        grab_restore(x,nobs);
+        grab_restore(x, nobs);
     }
 }
 
 static void grab_pointer(t_grab *x, t_gpointer *gp){
     int nobs;
     grab_start(x);
-    while(nobs = grab_next(x)){
+    while((nobs = grab_next(x))){
     	if(x->x_receiver)
         	pd_pointer(x->x_receiver, gp);
         else
         	outlet_pointer(x->x_rightout, gp);
-        grab_restore(x,nobs);
+        grab_restore(x, nobs);
     }
 }
 
 static void grab_list(t_grab *x, t_symbol *s, int ac, t_atom *av){
     int nobs;
     grab_start(x);
-    while(nobs = grab_next(x)){
+    while((nobs = grab_next(x))){
     	if(x->x_receiver)
         	pd_list(x->x_receiver, s, ac, av);
         else
         	outlet_list(x->x_rightout, s, ac, av);
-       grab_restore(x,nobs);
+       grab_restore(x, nobs);
     }
 }
 
 static void grab_anything(t_grab *x, t_symbol *s, int ac, t_atom *av){
     int nobs;
     grab_start(x);
-    while(nobs = grab_next(x)){
+    while((nobs = grab_next(x))){
     	if(x->x_receiver)
         	pd_anything(x->x_receiver, s, ac, av);
         else
         	outlet_anything(x->x_rightout, s, ac, av);
-       grab_restore(x,nobs);
+       grab_restore(x, nobs);
     }
 }
 
