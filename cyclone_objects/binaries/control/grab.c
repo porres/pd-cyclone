@@ -291,12 +291,9 @@ static void grab_set(t_grab *x, t_symbol *s){
 }
 
 static void *grab_new(t_floatarg f, t_symbol *s){
-    t_grab *x;
+    t_grab *x = (t_grab *)pd_new(grab_class);
     t_outconnect **grabcons;
-    int noutlets = (int)f;
-    if(noutlets < 1)
-        noutlets = 1;
-    x = (t_grab *)pd_new(grab_class);
+    int noutlets = f < 1 ? 1 : (int)f;
     x->x_noutlets = noutlets;
     x->x_maxobs = 0;
     while(noutlets--)
