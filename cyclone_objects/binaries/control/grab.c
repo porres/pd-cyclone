@@ -106,7 +106,6 @@ static int grab_prep(t_grab *x, t_object *ob)
 		}
 		x->x_maxobs = ncons;
 	}
-
 	return (1);
 }
 
@@ -140,9 +139,6 @@ static void grab_start(t_grab *x)
     else
         grab_prep(x,&x->x_ob);
 }
-
-
-
 
 static int *grab_next(t_grab *x)
 {
@@ -322,7 +318,7 @@ static void grab_list(t_grab *x, t_symbol *s, int ac, t_atom *av)
 
 static void grab_anything(t_grab *x, t_symbol *s, int ac, t_atom *av)
 {
-     int nobs;
+    int nobs;
     grab_start(x);
     while (grab_next(x))
     {
@@ -371,8 +367,6 @@ static void *grab_new(t_symbol *s, t_floatarg f)
 
 static void grab_free(t_grab *x)
 {
-
-			
     if (x->x_grabbed)
         freebytes(x->x_grabbed, x->x_maxobs * sizeof(*x->x_grabbed));
     if (x->x_ngrabout)
