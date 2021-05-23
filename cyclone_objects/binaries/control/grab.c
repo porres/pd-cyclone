@@ -2,6 +2,8 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+// Matt Barber added wizadry that makes grab talk to built-in receive names (2021)
+
 #include "m_pd.h"
 #include <common/api.h>
 #include "m_imp.h"
@@ -23,7 +25,7 @@ struct _outlet
 
 /* ...and to have bindlist traversal routines in Pd API. */
 
-static t_class *bindlist_class = 0; /*global variable*/
+static t_class *bindlist_class = 0; // global variable
 
 typedef struct _bindelem
 {
@@ -59,7 +61,7 @@ static t_class *grab_class;
 
 static int grab_prep(t_grab *x, t_object *ob)
 {
-	//post("entering grab_prep");
+	// post("entering grab_prep");
 	t_outlet *op;
 	t_outconnect *ocp;
 	t_object *dummy;
@@ -69,17 +71,18 @@ static int grab_prep(t_grab *x, t_object *ob)
 		x->x_receiver = ob;
 		op = ob->ob_outlet;
 	}
-	else op = x->x_rightout;
+	else
+        op = x->x_rightout;
 	if (x->x_receiver && (x->x_receiver->te_g.g_pd->c_name != gensym("receive")))
 	{
 		ncons = 1;
 	}
 	else 
 	{
-	if (!(x->x_tograbbed = ocp = magic_outlet_connections(op)))
-		return (0);
-	for (ncons = 0; ocp ; ++ncons)
-		ocp = magic_outlet_nextconnection(ocp, &dummy, &inno);
+        if (!(x->x_tograbbed = ocp = magic_outlet_connections(op)))
+            return (0);
+        for (ncons = 0; ocp ; ++ncons)
+            ocp = magic_outlet_nextconnection(ocp, &dummy, &inno);
 	}
 	x->x_ncons = ncons;
 	//post("%d",ncons);
@@ -120,7 +123,7 @@ static int grab_prep(t_grab *x, t_object *ob)
 
 static void grab_start(t_grab *x)
 {
-	//post("entering grab_start");
+	// post("entering grab_start");
     x->x_tograbbed = 0;
     x->x_bindelem = 0;
     x->x_receiver = 0;
@@ -197,7 +200,6 @@ nextremote:
 				else
 				{
 					*grabbedp++ = gr;
-					
 					int goutno = obj_noutlets(gr);
 					if (goutno > x->x_noutlets) goutno = x->x_noutlets;
 					//post ("grab_next goutno: %d", goutno);
@@ -214,10 +216,6 @@ nextremote:
 				
 				}
 			}
-	//         if (x->x_receiver)
-	//         	return ((t_pd*)x->x_receiver);
-	//         else
-	//         	return ((t_pd*)&x->x_ob);
 		}
 		// return number of objects stored
 		return (grabbedp-x->x_grabbed);
@@ -242,15 +240,6 @@ nextremote:
 
 static void grab_restore(t_grab *x, int nobs)
 {
-//     t_outlet *goutp;
-//     int goutno = x->x_noutlets;
-//     if (goutno > x->x_ngrabout)
-//         goutno = x->x_ngrabout;
-//     while (goutno--)
-//     {
-//         obj_starttraverseoutlet(x->x_grabbed, &goutp, goutno++);
-//         goutp->o_connections = x->x_grabcons[goutno];
-//     }
 	//post("grab_restore nobs: %d", nobs);
 	t_object **grabbedp = x->x_grabbed;
 	t_object **grabconsp = x->x_grabcons;
@@ -363,7 +352,6 @@ static void grab_set(t_grab *x, t_symbol *s)
         x->x_target = s;
 }
 
-/* LATER use A_GIMME */
 static void *grab_new(t_symbol *s, t_floatarg f)
 {
     t_grab *x;
@@ -371,12 +359,9 @@ static void *grab_new(t_symbol *s, t_floatarg f)
     int noutlets = (int)f;
     if (noutlets < 1)
         noutlets = 1;
-    /*if (!(grabcons = getbytes(noutlets * sizeof(*grabcons))))
-        return (0);*/
     x = (t_grab *)pd_new(grab_class);
     x->x_noutlets = noutlets;
     x->x_maxobs = 0;
-    //x->x_grabcons = grabcons;
     while (noutlets--)
         outlet_new((t_object *)x, &s_anything);
     if (s && s != &s_)
