@@ -52,12 +52,14 @@ typedef struct _grab
     /* traversal helpers: */
     t_outconnect   *x_tograbbed;  /* a connection to grabbed object */
     t_bindelem     *x_bindelem;
+    int             x_nonreceive;  /* flag to signal whether processed non-[receive] object */
 } t_grab;
 
 static t_class *grab_class;
 
 static int grab_prep(t_grab *x, t_object *ob)
 {
+	//post("entering grab_prep");
 	t_outlet *op;
 	t_outconnect *ocp;
 	t_object *dummy;
@@ -68,10 +70,17 @@ static int grab_prep(t_grab *x, t_object *ob)
 		op = ob->ob_outlet;
 	}
 	else op = x->x_rightout;
+	if (x->x_receiver && (x->x_receiver->te_g.g_pd->c_name != gensym("receive")))
+	{
+		ncons = 1;
+	}
+	else 
+	{
 	if (!(x->x_tograbbed = ocp = magic_outlet_connections(op)))
 		return (0);
 	for (ncons = 0; ocp ; ++ncons)
 		ocp = magic_outlet_nextconnection(ocp, &dummy, &inno);
+	}
 	x->x_ncons = ncons;
 	//post("%d",ncons);
 	if (!x->x_grabbed)
@@ -115,6 +124,7 @@ static void grab_start(t_grab *x)
     x->x_tograbbed = 0;
     x->x_bindelem = 0;
     x->x_receiver = 0;
+    x->x_nonreceive = 0;
     if (x->x_target)
     {
         t_pd *proxy = x->x_target->s_thing;
@@ -144,18 +154,35 @@ static int *grab_next(t_grab *x)
 {
 	//post("entering grab_next");
 	if (!(x->x_grabbed && x->x_grabcons && x->x_ngrabout))
+	{
 		return (0);
+	}	
 	t_object **grabbedp = x->x_grabbed;
 	t_outconnect **grabconsp = x->x_grabcons;
 	int *ngraboutp = x->x_ngrabout;
 	t_object *gr;
 	int nobs;
 	int inno;
-	
+	t_outlet *op;
+	t_outlet *goutp;
 nextremote:
-    if (x->x_tograbbed) {
+	//post("%s", x->x_receiver->te_g.g_pd->c_name->s_name);
+	if (x->x_receiver && !(x->x_nonreceive) && 
+		(x->x_receiver->te_g.g_pd->c_name != gensym("receive")))
+	{
+		//post("nonreceive");
+		*grabbedp = x->x_receiver;
+		*ngraboutp = 1;
+		*grabconsp = obj_starttraverseoutlet(x->x_receiver, &goutp, 0);
+		goutp->o_connections = 
+			obj_starttraverseoutlet((t_object *)x, &op, 0);
+		x->x_nonreceive = 1;
+		return (1);
+	}
+    else if (x->x_tograbbed) 
+    {
 		while (x->x_tograbbed)
-		{   
+		{
 			//post("entering grab_next while loop");
 			x->x_tograbbed = magic_outlet_nextconnection(x->x_tograbbed, &gr, &inno);
 			if (gr)
@@ -169,8 +196,6 @@ nextremote:
 				}
 				else
 				{
-					t_outlet *op;
-					t_outlet *goutp;
 					*grabbedp++ = gr;
 					
 					int goutno = obj_noutlets(gr);
@@ -182,7 +207,8 @@ nextremote:
 						if (i < goutno) {
 							*grabconsp++ = 
 								obj_starttraverseoutlet(gr, &goutp, i);
-							goutp->o_connections = obj_starttraverseoutlet((t_object *)x, &op, i);
+							goutp->o_connections = 
+								obj_starttraverseoutlet((t_object *)x, &op, i);
 						}
 					}
 				
@@ -201,6 +227,7 @@ nextremote:
         t_object *ob;
         if ((ob = pd_checkobject(x->x_bindelem->e_who)))
         {
+        	x->x_nonreceive = 0;
         	//x->x_receiver = ob;
             //x->x_tograbbed = magic_outlet_connections(ob->ob_outlet);
             grab_prep(x,ob);
