@@ -1,4 +1,4 @@
-#N canvas 818 97 559 450 10;
+#N canvas 572 80 559 450 10;
 #X obj 2 245 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 301 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -98,9 +98,9 @@
 #X text 471 113 <= setting more than 1 output;
 #X floatatom 286 345 5 0 0 0 - - -;
 #X obj 217 285 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 31 256;
+-228856 -1 -1 0 256;
 #X obj 217 358 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 76 256;
+-228856 -1 -1 0 256;
 #X obj 217 313 cyclone/grab;
 #X floatatom 286 372 5 0 0 0 - - -;
 #X obj 192 284 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
