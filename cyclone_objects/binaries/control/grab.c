@@ -14,12 +14,11 @@
 
 // It would be nice to have write access to o_connections field...
 
-struct _outlet
-{
-    t_object *o_owner;
-    struct _outlet *o_next;
-    t_outconnect *o_connections;
-    t_symbol *o_sym;
+struct _outlet{
+    t_object        *o_owner;
+    struct _outlet  *o_next;
+    t_outconnect    *o_connections;
+    t_symbol        *o_sym;
 };
 
 // ...and to have bindlist traversal routines in Pd API.
@@ -291,7 +290,7 @@ static void grab_set(t_grab *x, t_symbol *s){
         x->x_target = s;
 }
 
-static void *grab_new(t_symbol *s, t_floatarg f){
+static void *grab_new(t_floatarg f, t_symbol *s){
     t_grab *x;
     t_outconnect **grabcons;
     int noutlets = (int)f;
