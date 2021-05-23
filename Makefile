@@ -319,13 +319,7 @@ ifeq (i686-w64-mingw32,$(PLATFORM))
 	datafiles += /usr/${PLATFORM}/lib/libwinpthread-1.dll
 endif
 
-
-
-### pd-lib-builder ######################################################
-
-include pd-lib-builder/Makefile.pdlibbuilder
-
-### borrowing aliases code from pd-nilwind
+### linux aliases ######################################################
 
 install: install-aliases
 
@@ -350,3 +344,7 @@ ifeq ($(aliases), true)
         ln -s -f scope~.$(extension) Scope~.$(extension); \
         ln -s -f snapshot~.$(extension) Snapshot~.$(extension);
 endif
+
+### pd-lib-builder ######################################################
+
+include pd-lib-builder/Makefile.pdlibbuilder

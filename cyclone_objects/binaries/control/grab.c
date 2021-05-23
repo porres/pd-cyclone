@@ -131,7 +131,7 @@ static void grab_start(t_grab *x){
         grab_prep(x,&x->x_ob);
 }
 
-static int *grab_next(t_grab *x){
+static int grab_next(t_grab *x){
 	if (!(x->x_grabbed && x->x_grabcons && x->x_ngrabout))
 		return(0);
 	t_object **grabbedp = x->x_grabbed;

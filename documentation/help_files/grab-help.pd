@@ -1,4 +1,4 @@
-#N canvas 523 88 558 446 10;
+#N canvas 622 41 558 446 10;
 #X obj 2 245 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 301 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -188,10 +188,10 @@ object., f 54;
 #X text 32 31 This is an extra feature for cyclone that is not available
 in MAX. Since Pd has built in receive names for atoom boxes and other
 GUIs \, [grab] in cyclone can also grab values from them., f 61;
-#X floatatom 87 127 5 0 0 0 - - -;
+#X floatatom 86 127 5 0 0 0 - - -;
 #X obj 272 181 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X obj 60 125 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 59 127 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 86 210 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -201,10 +201,10 @@ without a built-in receive name.;
 #X text 47 274 The above is the exact thing as the example to the right
 =>, f 30;
 #X obj 92 437 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 -25 256;
 #X floatatom 92 376 5 0 0 0 - - -;
-#X obj 278 409 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-number-2 empty 0
--8 0 10 -228856 -1 -1 0 256;
+#X obj 278 409 nbx 5 14 -1e+37 1e+37 0 0 empty number-2 empty 0 -8
+0 10 -228856 -1 -1 -25 256;
 #X obj 65 376 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 92 459 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -234,11 +234,11 @@ GUI externals that have built-in receive names.;
 #X restore 470 179 pd built-in \; recieve;
 #N canvas 775 187 388 376 presets 0;
 #X obj 91 140 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 0 256;
+-228856 -1 -1 55 256;
 #X obj 91 111 cyclone/grab 1 slider-1;
 #X obj 214 152 r slider-1;
 #X obj 217 183 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 5500 1;
 #X obj 91 83 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 76 164 f;
@@ -248,9 +248,9 @@ GUI externals that have built-in receive names.;
 #X text 31 28 When used with receive names \, [grab] can be useful
 to retrieve and store data that can then be recalled as a preset.;
 #X obj 202 322 hsl 128 15 0 127 0 0 empty slider-2 empty -2 -8 0 10
--262144 -1 -1 5000 1;
+-262144 -1 -1 8300 1;
 #X obj 83 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 50 256;
+-228856 -1 -1 83 256;
 #X obj 83 227 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 68 305 f;
