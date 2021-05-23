@@ -306,7 +306,7 @@ static void grab_list(t_grab *x, t_symbol *s, int ac, t_atom *av)
 {
     int nobs;
     grab_start(x);
-    while (grab_next(x))
+    while (nobs = grab_next(x))
     {
     	if (x->x_receiver)
         	pd_list(x->x_receiver, s, ac, av);
@@ -320,7 +320,7 @@ static void grab_anything(t_grab *x, t_symbol *s, int ac, t_atom *av)
 {
     int nobs;
     grab_start(x);
-    while (grab_next(x))
+    while (nobs = grab_next(x))
     {
     	if (x->x_receiver)
         	pd_anything(x->x_receiver, s, ac, av);
