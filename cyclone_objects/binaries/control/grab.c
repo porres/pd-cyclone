@@ -402,8 +402,7 @@ static void grab_free(t_grab *x)
     	freebytes(x->x_grabcons, x->x_maxobs * x->x_noutlets * sizeof(*x->x_grabcons));
 }
 
-//CYCLONE_OBJ_API
-void grab_setup(void)
+CYCLONE_OBJ_API void grab_setup(void)
 {
     t_symbol *s = gensym("grab");
     grab_class = class_new(s, (t_newmethod)grab_new, (t_method)grab_free,
