@@ -147,12 +147,15 @@ static void grab_start(t_grab *x)
 static int *grab_next(t_grab *x)
 {
 	//post("entering grab_next");
+	if (!(x->x_grabbed && x->x_grabcons && x->x_ngrabout))
+		return (0);
 	t_object **grabbedp = x->x_grabbed;
 	t_outconnect **grabconsp = x->x_grabcons;
 	int *ngraboutp = x->x_ngrabout;
 	t_object *gr;
 	int nobs;
 	int inno;
+	
 nextremote:
     if (x->x_tograbbed) {
 		while (x->x_tograbbed)
@@ -368,8 +371,14 @@ static void *grab_new(t_symbol *s, t_floatarg f)
 
 static void grab_free(t_grab *x)
 {
+
+			
+    if (x->x_grabbed)
+        freebytes(x->x_grabbed, x->x_maxobs * sizeof(*x->x_grabbed));
+    if (x->x_ngrabout)
+    	freebytes(x->x_ngrabout, x->x_maxobs * sizeof(*x->x_ngrabout));
     if (x->x_grabcons)
-        freebytes(x->x_grabcons, x->x_noutlets * sizeof(*x->x_grabcons));
+    	freebytes(x->x_grabcons, x->x_maxobs * x->x_noutlets * sizeof(*x->x_grabcons));
 }
 
 //CYCLONE_OBJ_API
