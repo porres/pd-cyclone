@@ -40,7 +40,6 @@ typedef struct _grab{
     t_symbol       *x_target;
     int             x_noutlets;   // not counting right one
     t_object	   *x_receiver;   // object containing the receiver
-    int				x_ncons;	  // number of connections from receiver
     int				x_maxobs;	  // maximum number of connections from receiver
     t_object      **x_grabbed;    // array of grabbed objects
     t_outconnect  **x_grabcons;   // array of grabbed connections
@@ -73,7 +72,6 @@ static int grab_prep(t_grab *x, t_object *ob){
         for(ncons = 0; ocp ; ++ncons)
             ocp = magic_outlet_nextconnection(ocp, &dummy, &inno);
 	}
-	x->x_ncons = ncons;
 	if (!x->x_grabbed){
 		if (!((x->x_grabbed = getbytes(ncons * sizeof(*x->x_grabbed))) && 
 			 (x->x_ngrabout = getbytes(ncons * sizeof(*x->x_ngrabout))) &&
