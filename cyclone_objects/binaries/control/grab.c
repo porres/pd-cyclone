@@ -195,7 +195,7 @@ nextremote:
 
 static void grab_restore(t_grab *x, int nobs){
 	t_object **grabbedp = x->x_grabbed;
-	t_object **grabconsp = (t_object **)x->x_grabcons;
+	t_outconnect **grabconsp = x->x_grabcons;
 	int *ngraboutp = x->x_ngrabout;
 	int goutno;
 	t_object *gr;
@@ -205,7 +205,7 @@ static void grab_restore(t_grab *x, int nobs){
 		goutno = *ngraboutp++;
 		for(int i = 0; i < goutno ; i++){
 			obj_starttraverseoutlet(gr, &goutp, i);
-			goutp->o_connections = (t_outconnect *)*grabconsp++;
+			goutp->o_connections = *grabconsp++;
 		}
 	}
 }
@@ -215,7 +215,7 @@ static void grab_bang(t_grab *x){
     grab_start(x);
     while((nobs = grab_next(x))){
         if(x->x_receiver)
-        	pd_bang((t_pd *)x->x_receiver);
+        	pd_bang(&x->x_receiver->ob_pd);
         else
         	outlet_bang(x->x_rightout);
         grab_restore(x, nobs);
@@ -227,7 +227,7 @@ static void grab_float(t_grab *x, t_float f){
     grab_start(x);
     while((nobs = grab_next(x))){
     	if(x->x_receiver)
-        	pd_float((t_pd *)x->x_receiver, f);
+        	pd_float(&x->x_receiver->ob_pd, f);
         else
         	outlet_float(x->x_rightout, f);
         grab_restore(x, nobs);
@@ -239,7 +239,7 @@ static void grab_symbol(t_grab *x, t_symbol *s){
     grab_start(x);
     while((nobs = grab_next(x))){
     	if(x->x_receiver)
-        	pd_symbol((t_pd *)x->x_receiver, s);
+        	pd_symbol(&x->x_receiver->ob_pd, s);
         else
         	outlet_symbol(x->x_rightout, s);
         grab_restore(x, nobs);
@@ -251,7 +251,7 @@ static void grab_pointer(t_grab *x, t_gpointer *gp){
     grab_start(x);
     while((nobs = grab_next(x))){
     	if(x->x_receiver)
-        	pd_pointer((t_pd *)x->x_receiver, gp);
+        	pd_pointer(&x->x_receiver->ob_pd, gp);
         else
         	outlet_pointer(x->x_rightout, gp);
         grab_restore(x, nobs);
@@ -263,7 +263,7 @@ static void grab_list(t_grab *x, t_symbol *s, int ac, t_atom *av){
     grab_start(x);
     while((nobs = grab_next(x))){
     	if(x->x_receiver)
-        	pd_list((t_pd *)x->x_receiver, s, ac, av);
+        	pd_list(&x->x_receiver->ob_pd, s, ac, av);
         else
         	outlet_list(x->x_rightout, s, ac, av);
        grab_restore(x, nobs);
@@ -275,7 +275,7 @@ static void grab_anything(t_grab *x, t_symbol *s, int ac, t_atom *av){
     grab_start(x);
     while((nobs = grab_next(x))){
     	if(x->x_receiver)
-        	pd_anything((t_pd *)x->x_receiver, s, ac, av);
+        	pd_anything(&x->x_receiver->ob_pd, s, ac, av);
         else
         	outlet_anything(x->x_rightout, s, ac, av);
        grab_restore(x, nobs);
