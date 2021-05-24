@@ -663,12 +663,12 @@ static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname)
 		if (failed = mtr_writetrack(x, *tpp, fp))
 		    break;
 	}
-	if (failed) sys_unixerror(path);  /* LATER rethink */
+//	if (failed) sys_unixerror(path);  /* LATER rethink */
 	fclose(fp);
     }
     else
     {
-	sys_unixerror(path);  /* LATER rethink */
+//	sys_unixerror(path);  /* LATER rethink */
 	failed = 1;
     }
     if (failed)
