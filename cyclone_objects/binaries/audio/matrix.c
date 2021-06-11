@@ -130,7 +130,7 @@ static void matrix_list(t_matrix *x, t_symbol *s, int argc, t_atom *argv){
 		argc--;
 		argv++;
 	};
-// bounds checking!!!
+// bounds checking
 	if(inlet_idx < 0 || inlet_idx >= x->x_numinlets){
 		pd_error(x, "matrix~: %d is not a valid inlet index!", inlet_idx);
 		return;
@@ -139,7 +139,6 @@ static void matrix_list(t_matrix *x, t_symbol *s, int argc, t_atom *argv){
 		pd_error(x, "matrix~: %d is not a valid outlet index!", outlet_idx);
 		return;
 	};
-
     cell_idx = inlet_idx * x->x_numoutlets + outlet_idx;
 // negative gain used in nonbinary mode, accepted as 1 in binary (legacy code)
     onoff = (gain < -MATRIX_GAINEPSILON || gain > MATRIX_GAINEPSILON);
@@ -169,11 +168,10 @@ static void matrix_connect(t_matrix *x, t_symbol *s, int argc, t_atom *argv){
 	// parse first arg as inlet index
 	// if symbol, let equal 0
 	t_float inlet_flidx = 0;
-	if(argv ->a_type == A_FLOAT)
+	if(argv->a_type == A_FLOAT)
 		inlet_flidx  = atom_getfloatarg(0, argc, argv);
 	inlet_idx = (int)inlet_flidx;
-	// bounds checking for inlet index
-	if(inlet_idx < 0 || inlet_idx >= x->x_numinlets){
+	if(inlet_idx < 0 || inlet_idx >= x->x_numinlets){ // bounds checking for inlet index
 		pd_error(x, "matrix~: %d is not a valid inlet index!", inlet_idx);
 		return;
 	};
@@ -188,8 +186,7 @@ static void matrix_connect(t_matrix *x, t_symbol *s, int argc, t_atom *argv){
 		if(argv -> a_type == A_FLOAT)
 			outlet_flidx = atom_getfloatarg(0, argc, argv);
 		outlet_idx = (int)outlet_flidx;
-		// bounds checking for outlet index
-		if(outlet_idx < 0 || outlet_idx >= x->x_numoutlets){
+		if(outlet_idx < 0 || outlet_idx >= x->x_numoutlets){ // bounds checking for outlet index
 			pd_error(x, "matrix~: %d is not a valid outlet index!", outlet_idx);
 			return;
 		};
@@ -202,8 +199,7 @@ static void matrix_connect(t_matrix *x, t_symbol *s, int argc, t_atom *argv){
     };
 }
 
-// CHECKED active ramps are not retargeted
-static void matrix_ramp(t_matrix *x, t_floatarg f){
+static void matrix_ramp(t_matrix *x, t_floatarg f){ // CHECKED active ramps are not retargeted
     if(x->x_ramps){
         int i;
         x->x_deframp = (f < MATRIX_MINRAMP ? 0. : f); // CHECKED cell-specific ramps are lost
@@ -511,9 +507,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv){
 				default:
 					break;
 			};
-			argc--;
-			argv++;
-			argnum++;
+			argc--, argv++, argnum++;
 		}
 		else if(argv -> a_type == A_SYMBOL){
 			t_symbol *argname = atom_getsymbolarg(0, argc, argv);
@@ -536,9 +530,6 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv){
 		else
 			goto errstate;
 	};
-
-	int gaingiven = argnum >= 3; //non binary mode
-
 	x->x_ncells = x->x_numinlets * x->x_numoutlets;
 	x->x_ivecs = getbytes(x->x_numinlets * sizeof(*x->x_ivecs));
 	x->x_ovecs = getbytes(x->x_numoutlets * sizeof(*x->x_ovecs));
@@ -550,7 +541,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv){
 	// zerovec for filtering float inputs
 	x->x_zerovec = getbytes(x->x_maxblock * sizeof(*x->x_zerovec));
 	matrix_clear(x);
-	if(gaingiven){
+	if(argnum >= 3){ //non binary mode
 	    x->x_gains = getbytes(x->x_ncells * sizeof(*x->x_gains));
 	    for(i = 0; i < x->x_ncells; i++)
             x->x_gains[i] = x->x_defgain;
