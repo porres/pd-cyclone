@@ -16,7 +16,6 @@ changed matrix_free to return void * instead of nothing
 - Derek Kwan 2016
 */
 
-#include <string.h>
 #include <math.h>
 #include "m_pd.h"
 #include <common/api.h>
@@ -162,48 +161,39 @@ static void matrix_clear(t_matrix *x){
 }
 
 static void matrix_connect(t_matrix *x, t_symbol *s, int argc, t_atom *argv){
-    int onoff = (s == gensym("connect")), inlet_idx, celloffset;
     if(argc < 2) // if less than 2 args, fail gracefully
-		return;
-	// parse first arg as inlet index
-	// if symbol, let equal 0
-	t_float inlet_flidx = 0;
-	if(argv->a_type == A_FLOAT)
-		inlet_flidx  = atom_getfloatarg(0, argc, argv);
-	inlet_idx = (int)inlet_flidx;
+        return;
+    t_int onoff = (s == gensym("connect")), inlet_idx, celloffset, inlet_flidx = 0;
+	if(argv->a_type == A_FLOAT) // first arg is inlet index (if symbol, let equal 0)
+		inlet_flidx  = (t_int)atom_getfloatarg(0, argc, argv);
+	inlet_idx = inlet_flidx;
 	if(inlet_idx < 0 || inlet_idx >= x->x_numinlets){ // bounds checking for inlet index
-		pd_error(x, "matrix~: %d is not a valid inlet index!", inlet_idx);
+		pd_error(x, "matrix~: %d is not a valid inlet index!", (int)inlet_idx);
 		return;
 	};
-	argc--;
-	argv++;
+	argc--, argv++;
     celloffset = inlet_idx * x->x_numoutlets;
-	// parse the rest of the args as outlet indices
-    while(argc > 0){
-		int outlet_idx, cell_idx;
-		// pasre arg as outlet idx, if symbol, let equal 0
-		t_float outlet_flidx = 0;
-		if(argv -> a_type == A_FLOAT)
-			outlet_flidx = atom_getfloatarg(0, argc, argv);
-		outlet_idx = (int)outlet_flidx;
+    while(argc > 0){ // parse the rest of the args as outlet indices
+		t_int outlet_idx, cell_idx, outlet_flidx = 0;
+		if(argv->a_type == A_FLOAT) // pasre arg as outlet idx, if symbol, let equal 0
+			outlet_flidx = (t_int)atom_getfloatarg(0, argc, argv);
+		outlet_idx = outlet_flidx;
 		if(outlet_idx < 0 || outlet_idx >= x->x_numoutlets){ // bounds checking for outlet index
-			pd_error(x, "matrix~: %d is not a valid outlet index!", outlet_idx);
+			pd_error(x, "matrix~: %d is not a valid outlet index!", (int)outlet_idx);
 			return;
 		};
-		argc--;
-		argv++;
+		argc--, argv++;
 		cell_idx = celloffset + outlet_idx;
 		x->x_cells[cell_idx] = onoff;
-		if(x->x_gains) // if in nonbinary mode
+		if(x->x_gains) // if in non-binary mode
 			matrix_retarget_connect(x, cell_idx);
     };
 }
 
 static void matrix_ramp(t_matrix *x, t_floatarg f){ // CHECKED active ramps are not retargeted
     if(x->x_ramps){
-        int i;
         x->x_deframp = (f < MATRIX_MINRAMP ? 0. : f); // CHECKED cell-specific ramps are lost
-        for(i = 0; i < x->x_ncells; i++)
+        for(int i = 0; i < x->x_ncells; i++)
             x->x_ramps[i] = x->x_deframp;
     }
 }
@@ -325,7 +315,7 @@ static t_int *matrixnb_perform(t_int *w){
     }
     osums = x->x_osums;
     indx = x->x_numoutlets;
-    while (indx--){
+    while(indx--){
         t_float *in = *osums++;
         t_float *out = *ovecs++;
         int sndx = nblock;
@@ -478,7 +468,7 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv){
 	int i;
 	int argnum = 0;
 	while(argc > 0){
-		if(argv -> a_type == A_FLOAT){
+		if(argv->a_type == A_FLOAT){
 			t_float argval = atom_getfloatarg(0, argc, argv);
 			switch(argnum){
 				case 0:
@@ -509,9 +499,9 @@ static void *matrix_new(t_symbol *s, int argc, t_atom *argv){
 			};
 			argc--, argv++, argnum++;
 		}
-		else if(argv -> a_type == A_SYMBOL){
+		else if(argv->a_type == A_SYMBOL){
 			t_symbol *argname = atom_getsymbolarg(0, argc, argv);
-			if(strcmp(argname->s_name, "@ramp")==0){
+			if(argname == gensym("@ramp")){
 				if(argc >= 2){
 					t_float argval = atom_getfloatarg(1, argc, argv);
 					if(argval < MATRIX_MINRAMP)
