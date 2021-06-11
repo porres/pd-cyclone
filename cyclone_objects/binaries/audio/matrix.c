@@ -14,9 +14,11 @@ isn't there (don't ask me why)
 changed matrix_free to return void * instead of nothing
 (for consistency's sake)
 - Derek Kwan 2016
+
+- porres made minor revisions to the code in 2021 (removed unnecessary
+dependencies, changed identation
 */
 
-#include <math.h>
 #include "m_pd.h"
 #include <common/api.h>
 #include "common/magicbit.h"
