@@ -1106,30 +1106,28 @@ static void zl_median(t_zl *x, int natoms, t_atom *buf, int banged){
 // ************************* QUEUE *********************************
 
 static int zl_queue_count(t_zl *x){
-	return (x->x_inbuf1.d_natoms);
+	return(x->x_inbuf1.d_natoms);
 }
 
 static void zl_queue(t_zl *x, int natoms, t_atom *buf, int banged){
-	if (buf) {
+	if(buf){
 		t_atom *av1 = x->x_inbuf1.d_buf;
 		int count = x->x_counter, max = x->x_outbuf1.d_max;
 		int bufrp = x->x_outbuf1.d_natoms, bufwp;
 		int i;
-		if (banged) {
-			if (count) {
+		if(banged){
+			if(count){
 				outlet_float(x->x_out2, --count);
 				zl_output(x, 1, &buf[bufrp++]);
 				bufrp %= max;
 				x->x_outbuf1.d_natoms = bufrp;
 				x->x_counter = count;
 			}
-			else
-				outlet_float(x->x_out2, -1);
 		}
-		else {
+		else{
 			if (natoms + count > max) natoms = max - count;
 			bufwp = (bufrp + count) % max;
-			for (i = 0; i < natoms ; i++) {
+			for(i = 0; i < natoms ; i++) {
 				buf[bufwp++] = av1[i];
 				bufwp %= max;
 			}
@@ -1562,10 +1560,12 @@ static void zl_zlclear(t_zl *x){
     zldata_reset(&x->x_inbuf2, sz2);
     zldata_reset(&x->x_outbuf1, sz3);
     zldata_reset(&x->x_outbuf2, sz4);
-    if(zl_modesym[x->x_mode] == gensym("stream")) {
+    if(zl_modesym[x->x_mode] == gensym("stream")){
     	x->x_counter = 0;
     	outlet_float(x->x_out2, 0);
     }
+    else if(zl_modesym[x->x_mode] == gensym("queue"))
+        x->x_counter = 0;
 }
 
 static void *zl_new(t_symbol *s, int argc, t_atom *argv){
