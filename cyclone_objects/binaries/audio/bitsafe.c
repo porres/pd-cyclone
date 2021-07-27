@@ -1,10 +1,8 @@
-// Porres 2016
- 
-//#include <math.h>
+// Barber and Porres 2016
+
 #include "m_pd.h"
 #include <common/api.h>
-// magic.h needed for magic_isnan() and magic_isinf()
-#include "common/magicbit.h"
+#include "common/magicbit.h" // for magic_isnan(), magic_isinf() and BITWISE_ISDENORM
 
 typedef struct _bitsafe {
     t_object x_obj;
@@ -47,7 +45,7 @@ void *bitsafe_new(void)
 CYCLONE_OBJ_API void bitsafe_tilde_setup(void)
 {
     bitsafe_class = class_new(gensym("bitsafe~"), (t_newmethod)bitsafe_new, 0,
-                              sizeof(t_bitsafe), CLASS_DEFAULT, 0);
+        sizeof(t_bitsafe), CLASS_DEFAULT, 0);
     class_addmethod(bitsafe_class, nullfn, gensym("signal"), 0);
     class_addmethod(bitsafe_class, (t_method) bitsafe_dsp, gensym("dsp"), A_CANT, 0);
 }
