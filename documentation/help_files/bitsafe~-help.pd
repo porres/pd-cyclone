@@ -1,4 +1,4 @@
-#N canvas 434 151 563 513 10;
+#N canvas 668 72 563 513 10;
 #X obj 6 488 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 385 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -35,19 +35,15 @@
 0;
 #X text 181 430 - the signal which has 0 values where nan/inf values
 existed;
-#X text 126 465 (none);
-#X text 70 97 [bitsafe~] replaces NaN (not a number) and +/- infinity
-values of an incoming signal with zero. This is useful in conjunction
-with the bitwise operators \, or any other situation where these values
-are possible.;
-#X obj 16 59 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Replace nan/inf signals with 0;
-#X obj 15 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 bitsafe~;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X text 215 465 (none);
+#X obj 16 59 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Replace nan/inf and denormal signals with 0;
+#X obj 15 4 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 bitsafe~;
+#X obj 322 28 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X obj 305 334 cyclone/number~;
 #A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 329 234 cyclone/number~;
@@ -55,11 +51,17 @@ are possible.;
 #X obj 500 69 cyclone/setdsp~;
 #X obj 109 183 expr~ log(-1);
 #X obj 305 183 expr~ atanh(1);
+#X text 47 94 [bitsafe~] replaces NaN (not a number) and +/- infinity
+values of an incoming signal with zero \, which is useful in conjunction
+with the bitwise operators in cyclone or any other situation where
+these values are possible. Also \, bitsafe~ in cyclone filters out
+denormals and turns them to zero \, even though the original MAX object
+doesn't., f 68;
 #X connect 12 0 13 0;
 #X connect 14 0 16 0;
 #X connect 15 0 16 0;
-#X connect 17 0 26 0;
-#X connect 29 0 13 0;
-#X connect 29 0 14 0;
-#X connect 30 0 17 0;
-#X connect 30 0 27 0;
+#X connect 17 0 25 0;
+#X connect 28 0 13 0;
+#X connect 28 0 14 0;
+#X connect 29 0 17 0;
+#X connect 29 0 26 0;
