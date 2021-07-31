@@ -1,4 +1,4 @@
-#N canvas 795 207 560 668 10;
+#N canvas 654 55 560 668 10;
 #X declare -lib cyclone -path cyclone;
 #X obj 64 420 cyclone/comment 425 16 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 190 190 200 1 0 How to install?;
@@ -72,4 +72,4 @@ Max/MSP;
 255 255 0 0 It also provides some level of compatibility between the
 two environments.;
 #X obj 26 36 cyclone/comment 141 14 DejaVu\ Sans\ Mono empty 0 224
-228 220 0 255 255 255 0 0 version: 0.5-5;
+228 220 0 255 255 255 0 0 version: 0.5-6;
