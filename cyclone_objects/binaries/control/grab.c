@@ -348,22 +348,42 @@ static void grab_set(t_grab *x, t_symbol *s){
         x->x_rcv_name = s;
 }
 
-static void *grab_new(t_floatarg f, t_symbol *s){
+static void *grab_new(t_symbol *s, int ac, t_atom *av){
     t_grab *x = (t_grab *)pd_new(grab_class);
-    int noutlets = f < 1 ? 1 : (int)f;
+    int noutlets = 1;
+    int rightout = 1;
+    x->x_rcv_name = 0;
+    if(ac){
+        if(av->a_type != A_FLOAT)
+            goto errstate;
+        else{
+            noutlets = av->a_w.w_float < 1 ? 1 : (int)(av->a_w.w_float);
+            ac--;
+            av++;
+        }
+        if(ac){
+            if(av->a_type != A_SYMBOL)
+                goto errstate;
+            else{
+                x->x_rcv_name = av->a_w.w_symbol;
+                rightout = 0;
+                ac--;
+                av++;
+            }
+        }
+        if(ac)
+            goto errstate;
+    }
     x->x_noutlets = noutlets;
     x->x_maxcons = 0;
     while(noutlets--)
         outlet_new((t_object *)x, &s_anything);
-    if(s && s != &s_){
-        x->x_rcv_name = s;
-        x->x_rightout = 0;
-    }
-    else{
-        x->x_rcv_name = 0;
+    if(rightout)
         x->x_rightout = outlet_new((t_object *)x, &s_anything);
-    }
     return(x);
+    errstate:
+    pd_error(x, "[grab]: improper creation arguments");
+    return(NULL);
 }
 
 static void grab_free(t_grab *x){
@@ -378,7 +398,7 @@ static void grab_free(t_grab *x){
 CYCLONE_OBJ_API void grab_setup(void){
     t_symbol *s = gensym("grab");
     grab_class = class_new(s, (t_newmethod)grab_new, (t_method)grab_free,
-        sizeof(t_grab), 0, A_DEFFLOAT, A_DEFSYMBOL, 0);
+        sizeof(t_grab), 0, A_GIMME, 0);
     class_addfloat(grab_class, grab_float);
     class_addbang(grab_class, grab_bang);
     class_addsymbol(grab_class, grab_symbol);
