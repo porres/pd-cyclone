@@ -7,10 +7,10 @@ cyclone 0.5-6 (needs at least Pd Vanilla 0.51-3):
 --------------------------------------------------
 
 - [split] is now float mode only.
-- added safeguards for [deltaclip~] so it doesn't go crazy.
+- [deltaclip~] now has safeguards so it doesn't go crazy.
 - [grab] can now also grab from built-in receive names in GUIs.
-- Fixed a bug in [zl queue] (not clearing and sending '-1' after reaching a size of 0).
-- Fixed Upper case aliases for Linux and hopefully we've finally made this work as intended! (Phew).
+- [zl queue]: bug fixed (not clearing and sending '-1' after reaching a size of 0).
+- We're now correctly packaging Upper case aliases for Linux (no code has changed). Hopefully we've finally made this work as intended! (Phew).
 - Some minor documentation fixes and improvements.
 
 --------------------------------------------------
