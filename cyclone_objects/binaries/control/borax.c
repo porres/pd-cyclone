@@ -169,5 +169,5 @@ CYCLONE_OBJ_API void Borax_setup(void){
     class_addmethod(Borax_class, (t_method)Borax_bang2, gensym("bang2"), 0);
     class_addmethod(Borax_class, (t_method)Borax_delta, gensym("delta"), 0);
     pd_error(Borax_class, "Cyclone: please use [borax] instead of [Borax] to supress this error");
-    class_sethelpsymbol(Borax_class, gensym("boraxsq"));
+    class_sethelpsymbol(Borax_class, gensym("borax"));
 }
