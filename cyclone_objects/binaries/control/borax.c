@@ -3,7 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 /* The first version of this code was written by Olaf Matthes.
-   It was entirely reimplemented in the hope of adapting it to the
+   It was entirely reimplemented in the hope of adapting it to
    cyclone's guidelines. */
 
 #include <string.h>
@@ -100,13 +100,11 @@ static void Borax_float(t_Borax *x, t_float f){
     }
 }
 
-static void Borax_ft1(t_Borax *x, t_floatarg f)
-{
+static void Borax_ft1(t_Borax *x, t_floatarg f){
     x->x_vel = (int)f;  /* CHECKME */
 }
 
-static void Borax_reset(t_Borax *x)
-{
+static void Borax_reset(t_Borax *x){
     x->x_vel = 0;
     x->x_onset = clock_getlogicaltime();
     x->x_nonsets = x->x_ndurs = x->x_ndtimes = 0;
@@ -116,30 +114,25 @@ static void Borax_reset(t_Borax *x)
     memset(x->x_voices, 0, sizeof(x->x_voices));
 }
 
-static void Borax_bang2(t_Borax *x)
-{
+static void Borax_bang2(t_Borax *x){
     int pitch;
-    for (pitch = 0; pitch < BORAX_MAXVOICES; pitch++)
-    {
-	if (x->x_voices[pitch].v_index)
-	{
-	    /* CHECKME counters, etc. */
-	    Borax_durout(x, pitch);
-	    outlet_float(x->x_velout, 0);
-	    outlet_float(x->x_pitchout, pitch);
-	    outlet_float(x->x_nvoicesout, --x->x_nvoices);
-	    outlet_float(x->x_voiceout, x->x_voices[pitch].v_index);
-	    outlet_float(((t_object *)x)->ob_outlet,
-			 x->x_voices[pitch].v_nonsets);
-	}
+    for(pitch = 0; pitch < BORAX_MAXVOICES; pitch++){
+        if (x->x_voices[pitch].v_index){
+            /* CHECKME counters, etc. */
+            Borax_durout(x, pitch);
+            outlet_float(x->x_velout, 0);
+            outlet_float(x->x_pitchout, pitch);
+            outlet_float(x->x_nvoicesout, --x->x_nvoices);
+            outlet_float(x->x_voiceout, x->x_voices[pitch].v_index);
+            outlet_float(((t_object *)x)->ob_outlet, x->x_voices[pitch].v_nonsets);
+        }
     }
     Borax_reset(x);
 }
 
 /* CHECKME flush in a destructor */
 
-static void *Borax_new(void)
-{
+static void *Borax_new(void){
     t_Borax *x = (t_Borax *)pd_new(Borax_class);
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     inlet_new((t_object *)x, (t_pd *)x, &s_bang, gensym("bang2"));
@@ -153,26 +146,28 @@ static void *Borax_new(void)
     x->x_ndtimesout = outlet_new((t_object *)x, &s_float);
     x->x_dtimeout = outlet_new((t_object *)x, &s_float);
     Borax_reset(x);
-    return (x);
+    return(x);
 }
 
-CYCLONE_OBJ_API void borax_setup(void)
-{
-    Borax_class = class_new(gensym("borax"),
-        (t_newmethod)Borax_new, 0, sizeof(t_Borax), 0, 0);
-    class_addcreator((t_newmethod)Borax_new, gensym("Borax"), 0, 0);
-    class_addcreator((t_newmethod)Borax_new, gensym("cyclone/Borax"), 0, 0);
+CYCLONE_OBJ_API void borax_setup(void){
+    Borax_class = class_new(gensym("borax"), (t_newmethod)Borax_new, 0,
+        sizeof(t_Borax), 0, 0);
     class_addfloat(Borax_class, Borax_float);
     /* CHECKME list unfolding */
-    class_addmethod(Borax_class, (t_method)Borax_ft1,
-		    gensym("ft1"), A_FLOAT, 0);
-    class_addmethod(Borax_class, (t_method)Borax_bang2,
-		    gensym("bang2"), 0);
-    class_addmethod(Borax_class, (t_method)Borax_delta,
-		    gensym("delta"), 0);
+    class_addmethod(Borax_class, (t_method)Borax_ft1, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(Borax_class, (t_method)Borax_bang2, gensym("bang2"), 0);
+    class_addmethod(Borax_class, (t_method)Borax_delta, gensym("delta"), 0);
 }
 
-void Borax_setup(void)
-{
-    borax_setup();
+CYCLONE_OBJ_API void Borax_setup(void){
+    Borax_class = class_new(gensym("Borax"), (t_newmethod)Borax_new, 0,
+        sizeof(t_Borax), 0, 0);
+    class_addcreator((t_newmethod)Borax_new, gensym("cyclone/Borax"), 0);
+    class_addfloat(Borax_class, Borax_float);
+    /* CHECKME list unfolding */
+    class_addmethod(Borax_class, (t_method)Borax_ft1, gensym("ft1"), A_FLOAT, 0);
+    class_addmethod(Borax_class, (t_method)Borax_bang2, gensym("bang2"), 0);
+    class_addmethod(Borax_class, (t_method)Borax_delta, gensym("delta"), 0);
+    pd_error(bucket_class, "Cyclone: please use [borax] instead of [Borax] to supress this error");
+    class_sethelpsymbol(bucket_class, gensym("boraxsq"));
 }
