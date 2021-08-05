@@ -1,4 +1,4 @@
-#N canvas 510 114 559 519 10;
+#N canvas 615 63 559 519 10;
 #X obj 4 324 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 5 419 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -73,10 +73,10 @@
 1;
 #X obj 222 250 tgl 20 0 empty empty empty 0 -6 0 8 -228856 -1 -1 0
 1;
-#X obj 201 226 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
-255 0 0 comment;
-#X obj 245 253 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
-255 0 0 comment;
+#X obj 201 226 cyclone/comment 425 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 comment;
+#X obj 245 253 cyclone/comment 425 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 comment;
 #X obj 166 308 tgl 15 0 sdg sdfgsdf empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X obj 147 308 tgl 15 0 gsffgfsd sdfgw empty 17 7 0 10 -228856 -1 -1
@@ -121,14 +121,14 @@ on or off only if the submaster and master switches are off!;
 outlet (numbered from left to right \, starting at 0) to swicth it
 on (output: 1) and the others off (output: 0).;
 #X text 196 430 1 or 0 based on the input;
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Switch an outlet according to input;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 decode;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 20 58 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Switch an outlet according to input;
+#X obj 16 5 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 decode;
+#X obj 322 29 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X obj 175 296 cyclone/comment 100 11 helvetica empty 0 0 0 0 1 255
 255 255 0 0 1;
 #X connect 31 0 39 0;

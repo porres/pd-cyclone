@@ -866,6 +866,7 @@ CYCLONE_OBJ_API void table_setup(void){
 CYCLONE_OBJ_API void Table_setup(void){
     table_class = class_new(gensym("Table"),
         (t_newmethod)table_new, (t_method)table_free, sizeof(t_table), 0, A_GIMME, 0);
+    class_addcreator((t_newmethod)table_new, gensym("cyclone/Table"), A_GIMME, 0);
     class_addbang(table_class, table_bang);
     class_addfloat(table_class, table_float);
     class_addmethod(table_class, (t_method)table_click, gensym("click"), 0);

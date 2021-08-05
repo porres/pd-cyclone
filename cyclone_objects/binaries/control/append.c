@@ -271,7 +271,7 @@ CYCLONE_OBJ_API void Append_setup(void)
 {
     append_class = class_new(gensym("Append"),
         (t_newmethod)append_new, (t_method)append_free, sizeof(t_append), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)append_new, gensym("cyclone/Append"), 0);
+    class_addcreator((t_newmethod)append_new, gensym("cyclone/Append"), A_GIMME, 0);
     class_addbang(append_class, append_bang);
     class_addfloat(append_class, append_float);
     class_addsymbol(append_class, append_symbol);

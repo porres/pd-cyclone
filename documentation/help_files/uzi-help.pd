@@ -1,4 +1,4 @@
-#N canvas 429 24 559 552 10;
+#N canvas 669 56 559 552 10;
 #X obj 5 523 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 6 285 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
@@ -62,13 +62,11 @@
 #X text 202 410 - bang according to the counter loop;
 #X text 202 484 - sets the number of bangs (default 0);
 #X text 202 432 - bangs after the last bang in the loop has fired;
-#N canvas 588 148 609 399 array 0;
-#X obj 92 183 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+#N canvas 588 148 611 332 array 0;
+#X obj 98 114 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856 -1
 -1;
-#X obj 79 46 cnv 15 140 30 empty empty empty 20 12 0 14 -233017 -66577
-0;
-#X obj 92 223 cyclone/uzi 100 0;
-#X obj 191 257 tabread array;
+#X obj 98 154 cyclone/uzi 100 0;
+#X obj 197 188 tabread array;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X array array 100 float 1;
 #A 0 -0.585727 -0.585727 -0.585727 -0.585727 -0.585727 -0.585727 -0.585727
@@ -86,15 +84,13 @@
 0.500012 0.500012 0.500012 0.500012 0.500012 0.500012 0.500012 0.514298
 0.714303;
 #X coords 0 1 99 -1 200 140 1 0 0;
-#X restore 323 193 graph;
-#X obj 191 293 print;
-#X text 111 107 [uzi] is useful for sweeping through arrays \, using
+#X restore 329 124 graph;
+#X obj 197 224 print;
+#X text 117 38 [uzi] is useful for sweeping through arrays \, using
 the counter as the index input.;
-#X obj 89 50 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 comment;
-#X connect 0 0 2 0;
-#X connect 2 2 3 0;
-#X connect 3 0 5 0;
+#X connect 0 0 1 0;
+#X connect 1 2 2 0;
+#X connect 2 0 4 0;
 #X restore 450 252 pd array sweep;
 #N canvas 286 108 836 544 pause/resume 0;
 #X msg 220 415 pause;
@@ -145,8 +141,8 @@ continue outputting any bangs \, because the counter is already past
 the target \, so it only ouputs a bang in the middle outlet saying
 it's done!;
 #X obj 571 411 cyclone/uzi 10;
-#X obj 43 38 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 comment;
+#X obj 43 38 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 comment;
 #X connect 0 0 2 0;
 #X connect 1 0 2 0;
 #X connect 2 0 12 0;
@@ -169,14 +165,14 @@ and outputs a count for each bang (right outlet). The middle outlet
 bangs after the loop is done. The 1st argument is the number of bangs.
 The counter starts from a given offset (2nd argument).;
 #X text 202 291 - sets the number of bangs and starts the loop;
-#X obj 17 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Bang loop/counter;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 uzi;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 17 56 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Bang loop/counter;
+#X obj 16 4 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 uzi;
+#X obj 322 28 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X connect 11 0 36 0;
 #X connect 12 0 36 1;
 #X connect 27 0 36 0;

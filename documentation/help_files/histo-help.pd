@@ -1,4 +1,4 @@
-#N canvas 402 85 560 506 10;
+#N canvas 685 77 560 506 10;
 #X obj 2 304 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 396 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -92,14 +92,14 @@ checks and outputs that number's histogram., f 62;
 #X obj 167 241 cyclone/histo 64, f 20;
 #X text 298 241 <= size = 64 (input;
 #X text 334 256 from 0 to 63);
-#X obj 20 58 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Create a histogram of numbers;
-#X obj 16 5 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 histo;
-#X obj 322 29 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 5 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 20 58 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Create a histogram of numbers;
+#X obj 16 5 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 histo;
+#X obj 322 29 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 5 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X obj 115 279 cyclone/comment 100 11 helvetica empty 0 0 0 0 0 255
 255 255 0 0 the value;
 #X connect 5 0 52 0;

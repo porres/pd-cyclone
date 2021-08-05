@@ -1,4 +1,4 @@
-#N canvas 531 146 560 496 10;
+#N canvas 582 126 560 496 10;
 #X obj 3 247 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 3 367 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -136,14 +136,14 @@ message"), f 78;
 #X text 145 171 finds the first table value which is >= the float and
 sends its address, f 78;
 #X restore 201 326 pd All_Messages;
-#X obj 21 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Store and edit a number array;
-#X obj 17 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 table;
-#X obj 323 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 364 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 21 56 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Store and edit a number array;
+#X obj 17 3 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 table;
+#X obj 323 27 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 364 3 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #N canvas 836 207 417 233 name 0;
 #X text 201 173 <= from Pd Vanilla;
 #X text 33 136 And still create the vanilla object from vanilla without

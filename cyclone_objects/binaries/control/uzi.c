@@ -119,9 +119,8 @@ static void *uzi_new(t_symbol *s, int ac, t_atom *av)
 
 CYCLONE_OBJ_API void uzi_setup(void)
 {
-    uzi_class = class_new(gensym("uzi"),
-			  (t_newmethod)uzi_new, 0,
-			  sizeof(t_uzi), 0, A_GIMME, 0);
+    uzi_class = class_new(gensym("uzi"), (t_newmethod)uzi_new, 0,
+        sizeof(t_uzi), 0, A_GIMME, 0);
     class_addbang(uzi_class, uzi_bang);
     class_addfloat(uzi_class, uzi_float);
     class_addmethod(uzi_class, (t_method)uzi_pause, gensym("pause"), 0);
@@ -135,7 +134,7 @@ CYCLONE_OBJ_API void Uzi_setup(void)
 {
     uzi_class = class_new(gensym("Uzi"), (t_newmethod)uzi_new, 0,
         sizeof(t_uzi), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)uzi_new, gensym("cyclone/Uzi"), 0);
+    class_addcreator((t_newmethod)uzi_new, gensym("cyclone/Uzi"), A_GIMME, 0);
     class_addbang(uzi_class, uzi_bang);
     class_addfloat(uzi_class, uzi_float);
     class_addmethod(uzi_class, (t_method)uzi_pause, gensym("pause"), 0);

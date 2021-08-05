@@ -1,4 +1,4 @@
-#N canvas 436 36 558 580 10;
+#N canvas 623 54 558 580 10;
 #X obj 2 333 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 432 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -118,14 +118,14 @@ current trough.;
 ;
 #X text 188 489 1 (input is not a new trough) / 0 (input is a new trough)
 ;
-#X obj 20 57 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Output numbers smaller than the previous;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 trough;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 20 57 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Output numbers smaller than the previous;
+#X obj 16 4 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 trough;
+#X obj 322 28 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X text 61 139 Note: In Pd \, [cyclone/trough] only deals with floats
 \, not ints., f 69;
 #X connect 6 0 28 1;

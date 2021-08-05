@@ -1,4 +1,4 @@
-#N canvas 453 209 561 457 10;
+#N canvas 646 113 561 457 10;
 #X obj 2 283 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 342 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -61,14 +61,14 @@ to zero" transitions., f 65;
 #X text 173 310 switches the stored value from 0 to non-zero \, or
 vice versa \, and the change is reported by a corresponding bang output
 ;
-#X obj 20 56 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 report zero / non-zero transitions;
-#X obj 16 3 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 togedge;
-#X obj 322 27 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 3 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
+#X obj 20 56 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 report zero / non-zero transitions;
+#X obj 16 3 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 togedge;
+#X obj 322 27 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 3 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
 #X obj 134 248 cyclone/comment 52 11 helvetica empty 0 0 0 0 0 255
 255 255 0 0 comment;
 #X text 332 168 note that max doesn't deal with floats \, just ints

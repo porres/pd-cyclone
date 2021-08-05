@@ -115,7 +115,7 @@ CYCLONE_OBJ_API void Decode_setup(void)
 {
     decode_class = class_new(gensym("Decode"), (t_newmethod)decode_new,
         (t_method)decode_free, sizeof(t_decode), 0, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)decode_new, gensym("cyclone/Decode"), 0);
+    class_addcreator((t_newmethod)decode_new, gensym("cyclone/Decode"), A_DEFFLOAT, 0);
     class_addfloat(decode_class, decode_float);
     class_addbang(decode_class, decode_bang);
     class_addmethod(decode_class, (t_method)decode_allon, gensym("ft1"), A_FLOAT, 0);

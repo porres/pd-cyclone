@@ -66,31 +66,14 @@
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
 #X restore 304 3 pd;
-#X obj 322 28 cyclone/comment 0 13 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 4 cyclone/comment 0 24 DejaVu\ Sans\ Mono empty 0 224 228
-220 0 255 255 255 0 0 cyclone;
-#X obj 16 4 cyclone/comment 0 33 DejaVu\ Sans\ Mono empty 0 0 0 0 0
-255 255 255 0 0 borax;
-#X obj 17 62 cyclone/comment 0 14 DejaVu\ Sans\ Mono empty 0 0 0 0
-0 255 255 255 0 0 Reports note on/off info;
-#N canvas 762 173 447 311 backwards 0;
-#X text 185 110 or even:;
-#X text 49 150 But please don't \, just stick to;
-#X text 166 183 or;
-#X text 44 53 Nevertheless \, the old way of creating this object is
-still present for backwards compatibility reasons. So you can still
-use:;
-#X text 53 220 Which is the reasonable and sensible way nowadays \,
-as the current plan is to phase out the capital letters in cyclone's
-objects.;
-#X text 43 20 [borax] used to be compiled as [Borax] \, probably to
-avoid some name conflicts \, but this is not the case anymore.;
-#X obj 252 110 cyclone/Borax;
-#X obj 114 182 borax;
-#X obj 201 183 cyclone/borax;
-#X obj 136 110 Borax;
-#X restore 454 331 pd backwards \; compatibility;
+#X obj 322 28 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
+#X obj 16 4 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 borax;
+#X obj 17 62 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Reports note on/off info;
 #X text 117 633 (none);
 #X text 177 409 note velocity, f 47;
 #X msg 298 158 bang;
@@ -135,8 +118,8 @@ avoid some name conflicts \, but this is not the case anymore.;
 ;
 #X text 177 571 note duration (in ms) report, f 51;
 #X obj 121 186 cyclone/borax, f 30;
-#X obj 356 209 cyclone/comment 0 11 helvetica empty 0 0 0 0 0 255 255
-255 0 0 8- Note-On Delta-time;
+#X obj 356 209 cyclone/comment 425 11 helvetica empty 0 0 0 0 0 255
+255 255 0 0 8- Note-On Delta-time;
 #X obj 321 225 cyclone/comment 263 11 helvetica empty 0 0 0 0 0 255
 255 255 0 0 7- Event of delta-time report;
 #X obj 333 244 cyclone/comment 251 11 helvetica empty 0 0 0 0 0 255
@@ -197,20 +180,20 @@ avoid some name conflicts \, but this is not the case anymore.;
 #X connect 7 0 5 0;
 #X connect 7 1 5 1;
 #X connect 7 2 5 2;
-#X restore 466 299 pd examples;
-#X connect 52 0 69 2;
-#X connect 53 0 69 0;
-#X connect 53 1 69 1;
-#X connect 54 0 53 0;
-#X connect 55 0 69 0;
-#X connect 55 1 69 1;
-#X connect 56 0 53 1;
-#X connect 69 0 79 0;
-#X connect 69 1 80 0;
-#X connect 69 2 81 0;
-#X connect 69 3 82 0;
-#X connect 69 4 83 0;
-#X connect 69 5 84 0;
-#X connect 69 6 85 0;
-#X connect 69 7 86 0;
-#X connect 69 8 87 0;
+#X restore 470 352 pd examples;
+#X connect 51 0 68 2;
+#X connect 52 0 68 0;
+#X connect 52 1 68 1;
+#X connect 53 0 52 0;
+#X connect 54 0 68 0;
+#X connect 54 1 68 1;
+#X connect 55 0 52 1;
+#X connect 68 0 78 0;
+#X connect 68 1 79 0;
+#X connect 68 2 80 0;
+#X connect 68 3 81 0;
+#X connect 68 4 82 0;
+#X connect 68 5 83 0;
+#X connect 68 6 84 0;
+#X connect 68 7 85 0;
+#X connect 68 8 86 0;
