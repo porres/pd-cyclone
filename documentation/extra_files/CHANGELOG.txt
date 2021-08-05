@@ -6,13 +6,13 @@
 cyclone 0.5-6 (needs at least Pd Vanilla 0.51-3):
 --------------------------------------------------
 
+- Some minor documentation fixes and improvements.
 - [split]: now it's float mode only
 - [deltaclip~]: added safeguards so it doesn't go crazy
 - [grab]: now it can also grab from built-in receive names in GUIs
 - [zl queue]: fixed a bug (not clearing and sending '-1' after reaching a size of 0).
-- [borax]: added error when creating as Borax.
-- Fixed packaging capital letters aliases in linux (no code has changed).
-- Some minor documentation fixes and improvements.
+- Fixed once more again many issues with creating capital letters aliases and I can't believe we're still doing this. It's gotta be ok now!
+- Also fixed packaging capital letters aliases for linux yet once again as we said we had done in 0.5-4 but apparently screwed up one more time (no code has changed, again) - sorry.
 
 --------------------------------------------------
 cyclone 0.5-5 (needs at least Pd Vanilla 0.51-3):
