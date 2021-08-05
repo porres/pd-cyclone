@@ -230,7 +230,6 @@ CYCLONE_OBJ_API void snapshot_tilde_setup(void){
 CYCLONE_OBJ_API void Snapshot_tilde_setup(void){
     snapshot_class = class_new(gensym("Snapshot~"),
         (t_newmethod)snapshot_new, (t_method)snapshot_free, sizeof(t_snapshot), 0, A_GIMME,0);
-    class_addcreator((t_newmethod)snapshot_new, gensym("cyclone/Snapshot~"), A_GIMME, 0);
     class_domainsignalin(snapshot_class, -1);
     class_addfloat(snapshot_class, (t_method)snapshot_float);
     class_addmethod(snapshot_class, (t_method)snapshot_dsp, gensym("dsp"), A_CANT, 0);

@@ -56,8 +56,7 @@ CYCLONE_OBJ_API void peak_setup(void){
 
 CYCLONE_OBJ_API void Peak_setup(void){
     peak_class = class_new(gensym("Peak"), (t_newmethod)peak_new, 0,
-               sizeof(t_peak), 0, A_GIMME, 0);
-    class_addcreator((t_newmethod)peak_new, gensym("cyclone/Peak"), A_GIMME, 0);
+        sizeof(t_peak), 0, A_GIMME, 0);
     class_addbang(peak_class, peak_bang);
     class_addfloat(peak_class, peak_float);
     class_addmethod(peak_class, (t_method)peak_ft1, gensym("ft1"), A_FLOAT, 0);

@@ -150,8 +150,7 @@ static void *Borax_new(void){
 }
 
 CYCLONE_OBJ_API void borax_setup(void){
-    Borax_class = class_new(gensym("borax"), (t_newmethod)Borax_new, 0,
-        sizeof(t_Borax), 0, 0);
+    Borax_class = class_new(gensym("borax"), (t_newmethod)Borax_new, 0, sizeof(t_Borax), 0, 0);
     class_addfloat(Borax_class, Borax_float);
     /* CHECKME list unfolding */
     class_addmethod(Borax_class, (t_method)Borax_ft1, gensym("ft1"), A_FLOAT, 0);
@@ -160,9 +159,7 @@ CYCLONE_OBJ_API void borax_setup(void){
 }
 
 CYCLONE_OBJ_API void Borax_setup(void){
-    Borax_class = class_new(gensym("Borax"), (t_newmethod)Borax_new, 0,
-        sizeof(t_Borax), 0, 0);
-    class_addcreator((t_newmethod)Borax_new, gensym("cyclone/Borax"), 0);
+    Borax_class = class_new(gensym("Borax"), (t_newmethod)Borax_new, 0, sizeof(t_Borax), 0, 0);
     class_addfloat(Borax_class, Borax_float);
     /* CHECKME list unfolding */
     class_addmethod(Borax_class, (t_method)Borax_ft1, gensym("ft1"), A_FLOAT, 0);

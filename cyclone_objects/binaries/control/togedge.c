@@ -63,7 +63,6 @@ CYCLONE_OBJ_API void togedge_setup(void){
 CYCLONE_OBJ_API void TogEdge_setup(void){
     togedge_class = class_new(gensym("TogEdge"),
         (t_newmethod)togedge_new, 0, sizeof(t_togedge), 0, 0);
-    class_addcreator((t_newmethod)togedge_new, gensym("cyclone/TogEdge"), 0);
     class_addbang(togedge_class, togedge_bang);
     class_addfloat(togedge_class, togedge_float);
     pd_error(togedge_class, "Cyclone: please use [togedge] instead of [TogEdge] to supress this error");

@@ -317,7 +317,6 @@ CYCLONE_OBJ_API void mousestate_setup(void){
 CYCLONE_OBJ_API void MouseState_setup(void){
     mousestate_class = class_new(gensym("MouseState"), (t_newmethod)mousestate_new,
         (t_method)mousestate_free, sizeof(t_mousestate), 0, 0);
-    class_addcreator((t_newmethod)mousestate_new, gensym("cyclone/MouseState"), 0);
     class_addanything(mousestate_class, mousestate_anything);
     class_addmethod(mousestate_class, (t_method)mousestate_doup, gensym("_up"), A_FLOAT, 0);
     class_addmethod(mousestate_class, (t_method)mousestate__getscreen, gensym("_getscreen"),
