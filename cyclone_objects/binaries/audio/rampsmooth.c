@@ -25,8 +25,7 @@ typedef struct _rampsmooth
 
 static t_class *rampsmooth_class;
 
-static t_int *rampsmooth_perform(t_int *w)
-{
+static t_int *rampsmooth_perform(t_int *w){
     t_rampsmooth *x = (t_rampsmooth *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
@@ -36,47 +35,40 @@ static t_int *rampsmooth_perform(t_int *w)
     int change = x->x_change;
     double incr = x->x_incr;
     int nleft = x->x_nleft;
-    while (nblock--)
-    {
+    while (nblock--){
     	t_float f = *in++;
-	if (f != target || change)
-	{
-	    target = f;
+        if(f != target || change){
+            target = f;
             change = 0;
-	    if (f > last){
-            if (x->x_nup > 1){
-                incr = (f - last) * x->x_upcoef;
-                nleft = x->x_nup;
-                *out++ = (last += incr);
-                continue;
+            if(f > last){
+                if(x->x_nup > 1){
+                    incr = (f - last) * x->x_upcoef;
+                    nleft = x->x_nup;
+                    *out++ = (last += incr);
+                    continue;
+                }
             }
-	    }
-        
-	    else if (f < last)
-	    {
-		if (x->x_ndown > 1)
-		{
-		    incr = (f - last) * x->x_downcoef;
-		    nleft = x->x_ndown;
-		    *out++ = (last += incr);
-		    continue;
-		}
-	    }
-	    incr = 0.;
-	    nleft = 0;
-	    *out++ = last = f;
-	}
-        
-	else if (nleft > 0)
-	{
-	    *out++ = (last += incr);
-	    if (--nleft == 1)
-	    {
-		incr = 0.;
-		last = target;
-	    }
-	}
-	else *out++ = target;
+            else if(f < last){
+                if(x->x_ndown > 1){
+                    incr = (f - last) * x->x_downcoef;
+                    nleft = x->x_ndown;
+                    *out++ = (last += incr);
+                    continue;
+                }
+            }
+            incr = 0.;
+            nleft = 0;
+            *out++ = last = f;
+        }
+        else if (nleft > 0){
+            *out++ = (last += incr);
+            if(--nleft == 1){
+                incr = 0.;
+                last = target;
+            }
+        }
+        else
+            *out++ = target;
     };
     x->x_change = change;
     x->x_last = (PD_BIGORSMALL(last) ? 0. : last);
