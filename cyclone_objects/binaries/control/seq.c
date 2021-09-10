@@ -980,6 +980,7 @@ static void seq_doread(t_seq *x, t_symbol *fn, int creation)
 //    post("seq: reading %s", fn->s_name);
     if (!seq_mfread(x, buf))
 	seq_textread(x, buf);
+    x->x_playhead = 0;
 }
 
 static void seq_dowrite(t_seq *x, t_symbol *fn)
