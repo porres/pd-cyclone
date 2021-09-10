@@ -969,15 +969,13 @@ static void seq_doread(t_seq *x, t_symbol *fn, int creation)
     	strncpy(buf, fn->s_name, MAXPDSTRING);
     	buf[MAXPDSTRING-1] = 0;
     }
-    if (creation)
-    {
-	/* loading during object creation -- CHECKED no warning if a file
-	   specified with an arg does not exist, LATER rethink */
-	FILE *fp;
-	if (!(fp = sys_fopen(buf, "r")))
-	    return;
-	fclose(fp);
+	FILE *fp = sys_fopen(buf, "r");
+    if(!(fp)){
+        post("[seq] file '%s' not found", buf);
+        fclose(fp);
+        return;
     }
+	fclose(fp);
     /* CHECKED all cases: arg or not, message and creation */
 //    post("seq: reading %s", fn->s_name);
     if (!seq_mfread(x, buf))
