@@ -697,7 +697,7 @@ static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype)
 	    sev->e_delta = scoretime;
 	    sev->e_bytes[0] = status | mifiread_getchannel(mr);
 	    sev->e_bytes[1] = mifiread_getdata1(mr);
-	    if (MIFI_ONEDATABYTE(status))
+	    if (MIFI_ONEDATABYTE(status) || evtype == 0x2f)
 		sev->e_bytes[2] = SEQ_EOM;
 	    else
 	    {
