@@ -688,7 +688,7 @@ static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype)
     if (evtype >= 0xf0)
     {
     }
-    else if (evtype >= 0x80)
+    else if (evtype >= 0x80 || (evtype == MIFIMETA_EOT))
     {
 	if (x->x_eventreadhead < x->x_nevents)
 	{

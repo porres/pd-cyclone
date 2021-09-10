@@ -884,7 +884,7 @@ static int mifiread_analyse(t_mifiread *mr, int complain)
 	    *tnamebuf = '\0';
 	    tnamep = 0;  /* set to nonzero for nonempty tracks only */
 	}
-	if (MIFI_ISCHANNEL(evtype))
+	if (MIFI_ISCHANNEL(evtype) || (evtype == MIFIMETA_EOT))
 	{
 	    if (isnewtrack)
 	    {
