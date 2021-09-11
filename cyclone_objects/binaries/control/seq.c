@@ -1139,8 +1139,7 @@ static void *seq_new(t_symbol *s)
     return (x);
 }
 
-CYCLONE_OBJ_API void seq_setup(void)
-{
+CYCLONE_OBJ_API void seq_setup(void){
     seq_class = class_new(gensym("seq"), (t_newmethod)seq_new,
         (t_method)seq_free, sizeof(t_seq), 0, A_DEFSYM, 0);
     class_addbang(seq_class, seq_bang);
@@ -1149,44 +1148,24 @@ CYCLONE_OBJ_API void seq_setup(void)
 //    class_addsymbol(seq_class, seq_symbol);
 // CHECKED 1st atom of a list accepted if a float, ignored if a symbol
     class_addlist(seq_class, seq_list);
-    class_addmethod(seq_class, (t_method)seq_record,
-		    gensym("record"), 0);
-    class_addmethod(seq_class, (t_method)seq_append,
-		    gensym("append"), 0);
-    class_addmethod(seq_class, (t_method)seq_start,
-		    gensym("start"), A_DEFFLOAT, 0);
-    class_addmethod(seq_class, (t_method)seq_stop,
-		    gensym("stop"), 0);
-    class_addmethod(seq_class, (t_method)seq_tick,
-		    gensym("tick"), 0);
-    class_addmethod(seq_class, (t_method)seq_delay,
-		    gensym("delay"), A_FLOAT, 0);  /* CHECKED arg obligatory */
-    class_addmethod(seq_class, (t_method)seq_hook,
-		    gensym("hook"), A_FLOAT, 0);   /* CHECKED arg obligatory */
-    class_addmethod(seq_class, (t_method)seq_read,
-		    gensym("read"), A_DEFSYM, 0);
-    class_addmethod(seq_class, (t_method)seq_write,
-		    gensym("write"), A_DEFSYM, 0);
-    class_addmethod(seq_class, (t_method)seq_print,
-		    gensym("print"), 0);
-
-    class_addmethod(seq_class, (t_method)seq_pause,
-		    gensym("pause"), 0);
-    class_addmethod(seq_class, (t_method)seq_continue,
-		    gensym("continue"), 0);
+    class_addmethod(seq_class, (t_method)seq_record, gensym("record"), 0);
+    class_addmethod(seq_class, (t_method)seq_append, gensym("append"), 0);
+    class_addmethod(seq_class, (t_method)seq_start, gensym("start"), A_DEFFLOAT, 0);
+    class_addmethod(seq_class, (t_method)seq_stop, gensym("stop"), 0);
+    class_addmethod(seq_class, (t_method)seq_tick, gensym("tick"), 0);
+    class_addmethod(seq_class, (t_method)seq_delay, gensym("delay"), A_FLOAT, 0);  /* CHECKED arg obligatory */
+    class_addmethod(seq_class, (t_method)seq_hook, gensym("hook"), A_FLOAT, 0);   /* CHECKED arg obligatory */
+    class_addmethod(seq_class, (t_method)seq_read, gensym("read"), A_DEFSYM, 0);
+    class_addmethod(seq_class, (t_method)seq_write, gensym("write"), A_DEFSYM, 0);
+    class_addmethod(seq_class, (t_method)seq_print, gensym("print"), 0);
+    class_addmethod(seq_class, (t_method)seq_pause, gensym("pause"), 0);
+    class_addmethod(seq_class, (t_method)seq_continue, gensym("continue"), 0);
 /* unssuported (not available in Max)
-    class_addmethod(seq_class, (t_method)seq_goto,
-		    gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addmethod(seq_class, (t_method)seq_scoretime,
-		    gensym("scoretime"), A_SYMBOL, 0);
-    class_addmethod(seq_class, (t_method)seq_tempo,
-		    gensym("tempo"), A_FLOAT, 0);
-    class_addmethod(seq_class, (t_method)seq_cd,
-		    gensym("cd"), A_DEFSYM, 0);
-    class_addmethod(seq_class, (t_method)seq_pwd,
-		    gensym("pwd"), A_SYMBOL, 0);
-    class_addmethod(seq_class, (t_method)seq_click,
-		    gensym("click"),
-		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0); */
+    class_addmethod(seq_class, (t_method)seq_goto, gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addmethod(seq_class, (t_method)seq_scoretime, gensym("scoretime"), A_SYMBOL, 0);
+    class_addmethod(seq_class, (t_method)seq_tempo, gensym("tempo"), A_FLOAT, 0);
+    class_addmethod(seq_class, (t_method)seq_cd, gensym("cd"), A_DEFSYM, 0);
+    class_addmethod(seq_class, (t_method)seq_pwd, gensym("pwd"), A_SYMBOL, 0);
+    class_addmethod(seq_class, (t_method)seq_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0); */
     hammerfile_setup(seq_class, 0);
 }
