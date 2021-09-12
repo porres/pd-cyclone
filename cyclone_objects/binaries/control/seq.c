@@ -847,54 +847,44 @@ mfwritefailed:
 
 /* CHECKED text file input: absolute timestamps, semi-terminated, verified */
 /* FIXME prevent loading .pd files... */
-static int seq_fromatoms(t_seq *x, int ac, t_atom *av, int abstime)
-{
+static int seq_fromatoms(t_seq *x, int ac, t_atom *av){
     int i, nevents = 0;
     t_atom *ap;
-    for (i = 0, ap = av; i < ac; i++, ap++)
-	if (ap->a_type == A_SEMI)  /* FIXME parsing */
-	    nevents++;
-    if (nevents)
-    {
-	t_seqevent *ep;
-	float prevtime = 0;
-	if (!seq_dogrowing(x, nevents, 0))
-	    return (0);
-	i = -1;
-	nevents = 0;
-	ep = x->x_sequence;
-	while (ac--)
-	{
-	    if (av->a_type == A_FLOAT)
-	    {
-		if (i < 0)
-		{
-		    if (abstime)
-		    {
-			ep->e_delta = av->a_w.w_float - prevtime;
-			prevtime = av->a_w.w_float;
-		    }
-		    else ep->e_delta = av->a_w.w_float;
-		    i = 0;
-		}
-		else if (i < 4)
-		    ep->e_bytes[i++] = av->a_w.w_float;
-		/* CHECKME else */
-	    }
-	    else if (av->a_type == A_SEMI && i > 0)
-	    {
-		if (i < 4)
-		    ep->e_bytes[i] = SEQ_EOM;
-		nevents++;
-		ep++;
-		i = -1;
-	    }
-	    /* CHECKME else */
-	    av++;
-	}
-	x->x_nevents = nevents;
+    for(i = 0, ap = av; i < ac; i++, ap++)
+        if(ap->a_type == A_SEMI)  /* FIXME parsing */
+            nevents++;
+    if(nevents){
+        t_seqevent *ep;
+        float prevtime = 0;
+        if(!seq_dogrowing(x, nevents, 0))
+            return (0);
+        i = -1;
+        nevents = 0;
+        ep = x->x_sequence;
+        while(ac--){
+            if(av->a_type == A_FLOAT){
+                if(i < 0){
+                    ep->e_delta = av->a_w.w_float - prevtime;
+                    prevtime = av->a_w.w_float;
+                    i = 0;
+                }
+                else if(i < 4)
+                    ep->e_bytes[i++] = av->a_w.w_float;
+                // CHECKME else
+            }
+            else if(av->a_type == A_SEMI && i > 0){
+                if(i < 4)
+                    ep->e_bytes[i] = SEQ_EOM;
+                nevents++;
+                ep++;
+                i = -1;
+            }
+            // CHECKME else
+            av++;
+        }
+        x->x_nevents = nevents;
     }
-    return (nevents);
+    return(nevents);
 }
 
 static void seq_tobinbuf(t_seq *x, t_binbuf *bb)
@@ -932,7 +922,7 @@ static void seq_textread(t_seq *x, char *path)
     else
     {
 	int nlines = /* CHECKED absolute timestamps */
-	    seq_fromatoms(x, binbuf_getnatom(bb), binbuf_getvec(bb), 1);
+	    seq_fromatoms(x, binbuf_getnatom(bb), binbuf_getvec(bb));
 	if (nlines < 0)
 	    /* CHECKED "bad MIDI file (truncated)" alert, even if a text file */
 	    pd_error(x, "[seq]: bad text file (truncated)");
@@ -983,23 +973,20 @@ static void seq_doread(t_seq *x, t_symbol *fn, int creation)
     x->x_playhead = 0;
 }
 
-static void seq_dowrite(t_seq *x, t_symbol *fn)
-{
+static void seq_dowrite(t_seq *x, t_symbol *fn){
     char buf[MAXPDSTRING], *dotp;
-    if (x->x_canvas)
-	canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
-    else
-    {
+    if(x->x_canvas)
+        canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
+    else{
     	strncpy(buf, fn->s_name, MAXPDSTRING);
     	buf[MAXPDSTRING-1] = 0;
     }
-    post("seq: writing %s", fn->s_name);  /* CHECKED arg or not */
+//    post("seq: writing %s", fn->s_name); 
     /* save as text for any extension other then ".mid" */
-    if ((dotp = strrchr(fn->s_name, '.')) && strcmp(dotp + 1, "mid"))
-	seq_textwrite(x, buf);
-    else  /* save as mf for ".mid" (FIXME ignore case?) or no extension at all,
-	     LATER rethink */
-	seq_mfwrite(x, buf);
+    if((dotp = strrchr(fn->s_name, '.')) && strcmp(dotp + 1, "mid"))
+        seq_textwrite(x, buf);
+    else  /* save as mf for ".mid" (FIXME ignore case?) or no extension at all, LATER rethink */
+        seq_mfwrite(x, buf);
 }
 
 static void seq_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
@@ -1021,80 +1008,72 @@ static void seq_read(t_seq *x, t_symbol *s)
 	hammerpanel_open(x->x_filehandle, 0);
 }
 
-static void seq_write(t_seq *x, t_symbol *s)
-{
-    if (s && s != &s_)
-	seq_dowrite(x, s);
+static void seq_write(t_seq *x, t_symbol *s){
+    if(s && s != &s_)
+        seq_dowrite(x, s);
     else  /* CHECKED creation arg is a default file name */
-	hammerpanel_save(x->x_filehandle,
-			 /* always start in canvas dir */
-			 canvas_getdir(x->x_canvas), x->x_defname);
+        hammerpanel_save(x->x_filehandle, canvas_getdir(x->x_canvas), x->x_defname); /* always start in canvas dir */
 }
 
-static void seq_eventstring(t_seq *x, char *buf, t_seqevent *ep, int editable)
-{
+static void seq_eventstring(t_seq *x, char *buf, t_seqevent *ep, int editable, t_float *sum){
     unsigned char *bp = ep->e_bytes;
     int i;
-    if (editable)
-	sprintf(buf, "%g", ep->e_delta);
-    else if (*bp < 128 || *bp == 247)
-	sprintf(buf, "(%g)->", ep->e_delta);
+    *sum += ep->e_delta;
+    if(editable)
+        sprintf(buf, "%g", *sum);
+    else if(*bp < 128 || *bp == 247)
+        sprintf(buf, "(%g)->", *sum);
     else
-	sprintf(buf, "(%g)", ep->e_delta);
+        sprintf(buf, "(%g)", *sum);
     buf += strlen(buf);
     sprintf(buf, " %g", (float)*bp);
-    for (i = 0, bp++; i < 3 && *bp != SEQ_EOM; i++, bp++)
-    {
-	buf += strlen(buf);
-	sprintf(buf, " %g", (float)*bp);
+    for(i = 0, bp++; i < 3 && *bp != SEQ_EOM; i++, bp++){
+        buf += strlen(buf);
+        sprintf(buf, " %g", (float)*bp);
     }
 }
 
-static void seq_print(t_seq *x)
-{
+static void seq_print(t_seq *x){
     int nevents = x->x_nevents;
-    startpost("midiseq:");  /* CHECKED */
-    if (nevents)
-    {
-	t_seqevent *ep = x->x_sequence;
-	char buf[MAXPDSTRING+2];
-	int truncated;
-	if (nevents > 16)
-	    nevents = 16, truncated = 1;
-	else
-	    truncated = 0;
-	endpost();
-	while (nevents--)
-	{  /* CHECKED bytes are space-separated, no semi */
-	    seq_eventstring(x, buf, ep, 0);
-	    post(buf);
-	    ep++;
-	}
-	if (truncated) post("...");  /* CHECKED */
+    startpost("midiseq:");  // CHECKED
+    if(nevents){
+        t_seqevent *ep = x->x_sequence;
+        char buf[MAXPDSTRING+2];
+        int truncated;
+        if(nevents > 16)
+            nevents = 16, truncated = 1;
+        else
+            truncated = 0;
+        endpost();
+        t_float sum = 0;
+        while(nevents--){  // CHECKED bytes are space-separated, no semi
+            seq_eventstring(x, buf, ep, 0, &sum);
+            post(buf);
+            ep++;
+        }
+        if(truncated)
+            post("...");  // CHECKED
     }
-    else post(" no sequence");  /* CHECKED */
+    else
+        post(" no sequence");  // CHECKED
 }
 
 static void seq_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av)
 {
-    seq_fromatoms((t_seq *)z, ac, av, 0);
+    seq_fromatoms((t_seq *)z, ac, av);
 }
 
-static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos,
-		      t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
-{
+static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
     t_seqevent *ep = x->x_sequence;
     int nevents = x->x_nevents;
     char buf[MAXPDSTRING+2];
-    hammereditor_open(x->x_filehandle,
-		      (x->x_defname && x->x_defname != &s_ ?
-		       x->x_defname->s_name : "<anonymous>"), 0);
-    while (nevents--)
-    {  /* LATER rethink sysex continuation */
-	seq_eventstring(x, buf, ep, 1);
-	strcat(buf, ";\n");
-	hammereditor_append(x->x_filehandle, buf);
-	ep++;
+    hammereditor_open(x->x_filehandle, (x->x_defname && x->x_defname != &s_ ? x->x_defname->s_name : "<anonymous>"), 0);
+    t_float sum = 0;
+    while(nevents--){  /* LATER rethink sysex continuation */
+        seq_eventstring(x, buf, ep, 1, &sum);
+        strcat(buf, ";\n");
+        hammereditor_append(x->x_filehandle, buf);
+        ep++;
     }
     hammereditor_setdirty(x->x_filehandle, 0);
 }
@@ -1160,12 +1139,12 @@ CYCLONE_OBJ_API void seq_setup(void){
     class_addmethod(seq_class, (t_method)seq_print, gensym("print"), 0);
     class_addmethod(seq_class, (t_method)seq_pause, gensym("pause"), 0);
     class_addmethod(seq_class, (t_method)seq_continue, gensym("continue"), 0);
-/* unssuported (not available in Max)
+// unssuported (not available in Max)
     class_addmethod(seq_class, (t_method)seq_goto, gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addmethod(seq_class, (t_method)seq_scoretime, gensym("scoretime"), A_SYMBOL, 0);
+/*    class_addmethod(seq_class, (t_method)seq_scoretime, gensym("scoretime"), A_SYMBOL, 0);
     class_addmethod(seq_class, (t_method)seq_tempo, gensym("tempo"), A_FLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_cd, gensym("cd"), A_DEFSYM, 0);
-    class_addmethod(seq_class, (t_method)seq_pwd, gensym("pwd"), A_SYMBOL, 0);
-    class_addmethod(seq_class, (t_method)seq_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0); */
+    class_addmethod(seq_class, (t_method)seq_pwd, gensym("pwd"), A_SYMBOL, 0);*/
+    class_addmethod(seq_class, (t_method)seq_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     hammerfile_setup(seq_class, 0);
 }

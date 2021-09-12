@@ -243,15 +243,10 @@ Window;
 59;
 #X text 188 426 external clock \, needed after 'start -1' message,
 f 59;
-#X text 188 443 saves to a MIDI file (no symbol opens a dialog box)
-, f 59;
-#X text 188 319 reads from a MIDI file (no symbol opens a dialog box)
-, f 59;
 #X text 176 214 - starts or restarts playing a sequence at normal speed
 , f 61;
 #X text 188 349 start/restart sequence at a given tempo (default '1024'
 - normal tempo) \, 'start -1' expects tick messages, f 59;
-#X text 191 521 a MIDI file to be loaded;
 #X obj 17 57 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 255 255 255 0 0 MIDI sequencer;
 #X obj 16 4 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
@@ -273,7 +268,6 @@ into one.;
 #X obj 166 332 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
 #X obj 166 288 loadbang;
-#X obj 166 451 s \$0-midi;
 #X text 31 23 The 'start' message starts reading the loaded sequence
 and also allows you to control the playback speed \, set by the float
 after the 'start' message - the normal speed is set as 'start 1024'
@@ -299,17 +293,18 @@ clock tick;
 #X obj 218 339 nbx 3 14 30 240 0 0 empty empty empty 0 -8 0 10 -228856
 -1 -1 120 256;
 #X text 286 338 BPM;
+#X obj 166 451 print;
 #X connect 0 0 3 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
-#X connect 3 0 6 0;
+#X connect 3 0 16 0;
 #X connect 4 0 1 0;
 #X connect 5 0 4 0;
-#X connect 5 0 14 0;
-#X connect 9 0 1 1;
-#X connect 10 0 9 0;
-#X connect 14 0 15 0;
-#X connect 15 0 10 0;
+#X connect 5 0 13 0;
+#X connect 8 0 1 1;
+#X connect 9 0 8 0;
+#X connect 13 0 14 0;
+#X connect 14 0 9 0;
 #X restore 492 179 pd start;
 #X obj 219 156 cyclone/seq seq.mid;
 #N canvas 1017 23 501 385 inconsistencies 0;
@@ -331,8 +326,13 @@ MAX version and has extra messages that the original does not have.
 #X text 188 393 pauses recording/playing, f 53;
 #X text 119 409 continue -;
 #X text 188 409 continues after a pause message was given, f 53;
-#X connect 7 0 55 0;
-#X connect 27 0 55 0;
-#X connect 55 0 8 0;
-#X connect 55 0 16 0;
-#X connect 55 1 4 0;
+#X text 188 319 reads from MIDI/text files (no symbol opens a dialog
+box), f 59;
+#X text 188 443 saves to MIDI/text files (no symbol opens a dialog
+box), f 59;
+#X text 191 521 a MIDI/text file to be loaded;
+#X connect 7 0 52 0;
+#X connect 27 0 52 0;
+#X connect 52 0 8 0;
+#X connect 52 0 16 0;
+#X connect 52 1 4 0;
