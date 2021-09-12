@@ -1076,6 +1076,11 @@ static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shi
         ep++;
     }
     hammereditor_setdirty(x->x_filehandle, 0);
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  wm deiconify .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  raise .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  focus .%lx.text\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
 }
 
 static void seq_free(t_seq *x)
