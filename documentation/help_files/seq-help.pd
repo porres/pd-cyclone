@@ -1,4 +1,4 @@
-#N canvas 720 46 559 569 10;
+#N canvas 676 46 559 616 10;
 #X obj 2 209 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
 #X obj 2 464 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
@@ -11,7 +11,7 @@
 -1 -1;
 #X obj 75 492 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 545 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 587 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 219 121 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
 -66577 -1;
@@ -47,7 +47,7 @@
 #X text 188 276 multiplies all the event times by the given number
 (even when playing), f 59;
 #X text 189 472 raw MIDI data stream from played sequence;
-#N canvas 447 157 813 469 basic 0;
+#N canvas 674 131 813 469 basic 0;
 #X obj 133 319 cyclone/midiparse;
 #X obj 162 149 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577
 -1 0 1;
@@ -228,7 +228,7 @@ adds a delay in ms before sending the fisrt event.;
 #X connect 40 0 9 0;
 #X connect 41 0 9 0;
 #X connect 43 0 15 0;
-#X restore 492 157 pd basic;
+#X restore 492 136 pd basic;
 #X text 351 185 <= when finished;
 #X text 137 303 print -;
 #X text 188 303 prints the first 16 events of the sequence in the Pd
@@ -307,8 +307,8 @@ clock tick;
 #X connect 14 0 9 0;
 #X restore 492 179 pd start;
 #X obj 219 156 cyclone/seq seq.mid;
-#N canvas 1017 23 501 385 inconsistencies 0;
-#X text 79 258 Since Max 7.3.2 \, there's support for MIDI Type 1 (separate
+#N canvas 961 124 501 385 inconsistencies 0;
+#X text 82 307 Since Max 7.3.2 \, there's support for MIDI Type 1 (separate
 information for each track). Cyclone already did load this kind of
 file but it doesn't save to type 1!;
 #X text 78 34 The [seq] object misses some messages from the original
@@ -321,7 +321,10 @@ MAX version and has extra messages that the original does not have.
 #X text 101 177 - Extra messages missing in the original in MAX:;
 #X text 124 199 - 'pause';
 #X text 124 214 - 'continue';
-#X restore 432 136 pd inconsistencies;
+#X text 83 252 Moreover \, the [seq] object i cyclone can be clicked
+to open an edit window \, while nothing like this is present in the
+MAX original., f 55;
+#X restore 24 168 pd inconsistencies;
 #X text 137 393 pause -;
 #X text 188 393 pauses recording/playing, f 53;
 #X text 119 409 continue -;
@@ -331,6 +334,31 @@ box), f 59;
 #X text 188 443 saves to MIDI/text files (no symbol opens a dialog
 box), f 59;
 #X text 191 521 a MIDI/text file to be loaded;
+#N canvas 871 85 493 502 text 0;
+#X text 38 39 Besides MIDI files \, [seq] can load and save to .txt
+files \, just use this extension instead. The text file follows a format
+that is also present in the edit window of the [seq] object that opens
+when you click on the object (note that this edit window functionality
+is not present in the original MAX object)., f 67;
+#X obj 128 133 cyclone/seq seq.mid;
+#X text 253 133 <= click to open;
+#X text 38 256 For example \, let's check the sequence below:;
+#X text 136 284 0 144 60 112 \; 1000 144 60 0 \; 1500 192 31 \; 1500
+144 60 112 \; 2500 144 60 0 \;, f 17;
+#X text 39 192 The text format displays the MIDI events in lines separated
+by semicolons \, which consist of a start time in milliseconds (the
+time elapsed since the beginning of the sequence) followed by the raw
+bytes of the MIDI message., f 67;
+#X text 39 371 This sequence plays the note middle C on channel 1 (with
+a velocity of 112) for one second \, then half a second later changes
+to program number 31 and plays middle C again for one second., f 67
+;
+#X text 40 424 You can edit and close/save changes to the sequence
+\, but you need to write it to a file so it's saved., f 67;
+#X restore 498 157 pd text;
+#X obj 2 547 cnv 3 550 3 empty empty click 8 12 0 13 -228856 -1 0;
+#X text 116 554 clicking on the object opens a window to show the sequence
+in the text format. You can then write/edit the sequence.;
 #X connect 7 0 52 0;
 #X connect 27 0 52 0;
 #X connect 52 0 8 0;
