@@ -25,11 +25,10 @@
 #define SEQ_TICKEPSILON  ((double).0001)
 #define SEQ_STARTEPSILON            .0001  /* if inside: play unmodified */
 #define SEQ_TEMPOEPSILON            .0001  /* if inside: pause */
+#define SEQ_ISRUNNING(x) ((x)->x_prevtime > (double).0001)
+#define SEQ_ISPAUSED(x) ((x)->x_prevtime <= (double).0001)
 
-#define SEQ_ISRUNNING(x)  ((x)->x_prevtime > (double).0001)
-#define SEQ_ISPAUSED(x)  ((x)->x_prevtime <= (double).0001)
-
-enum {SEQ_IDLEMODE, SEQ_RECMODE, SEQ_PLAYMODE, SEQ_SLAVEMODE};
+enum{SEQ_IDLEMODE, SEQ_RECMODE, SEQ_PLAYMODE, SEQ_SLAVEMODE};
 
 typedef struct _seqevent{
     double         e_delta;
@@ -87,8 +86,11 @@ static void seq_doclear(t_seq *x, int dofree){
             x->x_tempomapsize = SEQ_INITEMPOMAPSIZE;
         }
     }
-    x->x_nevents = 0;
-    x->x_ntempi = 0;
+    x->x_nevents = x->x_ntempi = 0;
+}
+
+static void seq_clear(t_seq *x){
+    seq_doclear(x, 0);
 }
 
 static int seq_dogrowing(t_seq *x, int nevents, int ntempi){
@@ -408,13 +410,12 @@ static void seq_bang(t_seq *x){
 
 static void seq_float(t_seq *x, t_float f){
     if(x->x_mode == SEQ_RECMODE){
-        /* CHECKED noninteger and out of range silently truncated */
-        unsigned char c = (unsigned char)f;
+        unsigned char c = (unsigned char)f; // CHECKED noninteger and out of range silently truncated
         if(c < 128){
             if(x->x_status)
                 seq_addbyte(x, c, 0);
         }
-        else if(c != 254){  /* CHECKED active sensing ignored */
+        else if(c != 254){  // CHECKED active sensing ignored
             if(x->x_status == 240){
                 if(c == 247)
                     seq_endofsysex(x);
@@ -443,8 +444,7 @@ static void seq_list(t_seq *x, t_symbol *s, int ac, t_atom *av){
     /* CHECKED anything else/more silently ignored */
 }
 
-static void seq_record(t_seq *x){
-    /* CHECKED 'record' stops playback, resets recording */
+static void seq_record(t_seq *x){ // CHECKED 'record' stops playback, resets recording
     seq_doclear(x, 0);
     seq_setmode(x, SEQ_RECMODE);
 }
@@ -456,13 +456,11 @@ static void seq_append(t_seq *x){
 }
 
 static void seq_start(t_seq *x, t_floatarg f){
-    if(f < -SEQ_STARTEPSILON){
-        /* FIXME */
+    if(f < -SEQ_STARTEPSILON) /* FIXME */
         seq_setmode(x, SEQ_SLAVEMODE); // ticks
-    }
     else{
         seq_settimescale(x, (f > SEQ_STARTEPSILON ? 1024. / f : 1.));
-        seq_setmode(x, SEQ_PLAYMODE);  /* CHECKED 'start' stops recording */
+        seq_setmode(x, SEQ_PLAYMODE);  // CHECKED 'start' stops recording
     }
 }
 
@@ -470,14 +468,13 @@ static void seq_stop(t_seq *x){
     seq_setmode(x, SEQ_IDLEMODE);
 }
 
-/* CHECKED first delta time is set permanently (it is stored in a file) */
+// CHECKED first delta time is set permanently (it is stored in a file)
 static void seq_delay(t_seq *x, t_floatarg f){
-    if(x->x_nevents)
-    /* CHECKED signed/unsigned bug (not emulated) */
+    if(x->x_nevents) // CHECKED signed/unsigned bug (not emulated)
         x->x_sequence->e_delta = (f > SEQ_TICKEPSILON ? f : 0.);
 }
 
-/* CHECKED all delta times are set permanently (they are stored in a file) */
+// CHECKED all delta times are set permanently (they are stored in a file)
 static void seq_hook(t_seq *x, t_floatarg f){
     int nevents;
     if((nevents = x->x_nevents)){
@@ -1012,6 +1009,7 @@ CYCLONE_OBJ_API void seq_setup(void){
 //    class_addsymbol(seq_class, seq_symbol);
 // CHECKED 1st atom of a list accepted if a float, ignored if a symbol
     class_addlist(seq_class, seq_list);
+    class_addmethod(seq_class, (t_method)seq_clear, gensym("clear"), 0);
     class_addmethod(seq_class, (t_method)seq_record, gensym("record"), 0);
     class_addmethod(seq_class, (t_method)seq_append, gensym("append"), 0);
     class_addmethod(seq_class, (t_method)seq_start, gensym("start"), A_DEFFLOAT, 0);

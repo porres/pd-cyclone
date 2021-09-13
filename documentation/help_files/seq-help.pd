@@ -1,23 +1,23 @@
-#N canvas 676 46 559 616 10;
+#N canvas 676 46 559 605 10;
 #X obj 2 209 cnv 3 550 3 empty empty inlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 464 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
+#X obj 2 455 cnv 3 550 3 empty empty outlets 8 12 0 13 -228856 -1 0
 ;
-#X obj 2 513 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
+#X obj 2 504 cnv 3 550 3 empty empty arguments 8 12 0 13 -228856 -1
 0;
-#X obj 75 471 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 75 462 cnv 17 3 17 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
 #X obj 330 184 bng 15 250 50 0 empty empty empty 0 -6 0 10 -228856
 -1 -1;
-#X obj 75 492 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
+#X obj 75 483 cnv 17 3 17 empty empty 1 5 9 0 16 -228856 -162280 0
 ;
-#X obj 2 587 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+#X obj 2 578 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
 0;
 #X obj 219 121 bng 22 250 50 0 empty bng_play empty 17 7 0 10 -216373
 -66577 -1;
 #X obj 263 185 midiout;
 #X text 142 214 bang;
-#X text 136 230 float;
+#X text 136 229 float;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 -233017 -66577
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -30,23 +30,23 @@
 #X restore 304 3 pd;
 #X text 191 123 Play;
 #X obj 219 185 print;
-#X obj 75 217 cnv 17 3 240 empty empty 0 5 9 0 16 -228856 -162280 0
+#X obj 75 216 cnv 17 3 236 empty empty 0 5 9 0 16 -228856 -162280 0
 ;
-#X text 189 494 sent at the end of a sequence (useful for looping)
+#X text 189 485 sent at the end of a sequence (useful for looping)
 ;
-#X text 133 245 append -;
-#X text 188 245 records at the end of the stored sequence, f 59;
-#X text 91 260 delay <float> -;
-#X text 96 276 hook <float> -;
-#X text 188 260 onset time in ms of the first event, f 59;
-#X text 138 472 float -;
-#X text 144 493 bang -;
-#X text 116 521 1) symbol -;
+#X text 130 243 append -;
+#X text 184 243 records at the end of the stored sequence, f 59;
+#X text 88 257 delay <float> -;
+#X text 94 271 hook <float> -;
+#X text 184 257 onset time in ms of the first event, f 59;
+#X text 138 463 float -;
+#X text 144 484 bang -;
+#X text 116 512 1) symbol -;
 #X msg 255 125 stop;
-#X text 176 230 - raw MIDI data stream to be recorded, f 61;
-#X text 188 276 multiplies all the event times by the given number
+#X text 172 229 - raw MIDI data stream to be recorded, f 61;
+#X text 184 271 multiplies all the event times by the given number
 (even when playing), f 59;
-#X text 189 472 raw MIDI data stream from played sequence;
+#X text 189 463 raw MIDI data stream from played sequence;
 #N canvas 674 131 813 469 basic 0;
 #X obj 133 319 cyclone/midiparse;
 #X obj 162 149 tgl 22 0 empty empty empty 17 7 0 10 -216373 -66577
@@ -230,23 +230,21 @@ adds a delay in ms before sending the fisrt event.;
 #X connect 43 0 15 0;
 #X restore 492 136 pd basic;
 #X text 351 185 <= when finished;
-#X text 137 303 print -;
-#X text 188 303 prints the first 16 events of the sequence in the Pd
+#X text 136 295 print -;
+#X text 184 296 prints the first 16 events of the sequence in the Pd
 Window;
-#X text 89 349 start <float> -;
-#X text 89 318 read <symbol> -;
-#X text 83 443 write <symbol> -;
-#X text 131 334 record -;
-#X text 143 377 stop -;
-#X text 143 426 tick -;
-#X text 188 334 starts recording raw MIDI received in the inlet, f
+#X text 88 338 start <float> -;
+#X text 88 309 read <symbol> -;
+#X text 82 433 write <symbol> -;
+#X text 130 324 record -;
+#X text 142 363 stop -;
+#X text 142 419 tick -;
+#X text 184 324 starts recording raw MIDI received in the inlet, f
 59;
-#X text 188 426 external clock \, needed after 'start -1' message,
+#X text 184 419 external clock \, needed after 'start -1' message,
 f 59;
-#X text 176 214 - starts or restarts playing a sequence at normal speed
+#X text 172 214 - starts or restarts playing a sequence at normal speed
 , f 61;
-#X text 188 349 start/restart sequence at a given tempo (default '1024'
-- normal tempo) \, 'start -1' expects tick messages, f 59;
 #X obj 17 57 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 255 255 255 0 0 MIDI sequencer;
 #X obj 16 4 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
@@ -255,7 +253,7 @@ f 59;
 228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 cyclone;
-#X text 188 377 stops recording/playing and goes back to start, f
+#X text 184 363 stops recording/playing and goes back to start, f
 59;
 #X text 66 86 [seq] plays/records raw MIDI streams and can save/read
 MIDI sequence files. All tracks of a multi-track midi file are merged
@@ -325,15 +323,15 @@ MAX version and has extra messages that the original does not have.
 to open an edit window \, while nothing like this is present in the
 MAX original., f 55;
 #X restore 24 168 pd inconsistencies;
-#X text 137 393 pause -;
-#X text 188 393 pauses recording/playing, f 53;
-#X text 119 409 continue -;
-#X text 188 409 continues after a pause message was given, f 53;
-#X text 188 319 reads from MIDI/text files (no symbol opens a dialog
+#X text 136 377 pause -;
+#X text 184 377 pauses recording/playing, f 59;
+#X text 118 391 continue -;
+#X text 184 391 continues after a pause message was given, f 59;
+#X text 184 310 reads from MIDI/text files (no symbol opens a dialog
 box), f 59;
-#X text 188 443 saves to MIDI/text files (no symbol opens a dialog
+#X text 184 433 saves to MIDI/text files (no symbol opens a dialog
 box), f 59;
-#X text 191 521 a MIDI/text file to be loaded;
+#X text 191 512 a MIDI/text file to be loaded;
 #N canvas 871 85 493 502 text 0;
 #X text 38 39 Besides MIDI files \, [seq] can load and save to .txt
 files \, just use this extension instead. The text file follows a format
@@ -356,11 +354,16 @@ to program number 31 and plays middle C again for one second., f 67
 #X text 40 424 You can edit and close/save changes to the sequence
 \, but you need to write it to a file so it's saved., f 67;
 #X restore 498 157 pd text;
-#X obj 2 547 cnv 3 550 3 empty empty click 8 12 0 13 -228856 -1 0;
-#X text 116 554 clicking on the object opens a window to show the sequence
+#X obj 2 538 cnv 3 550 3 empty empty click 8 12 0 13 -228856 -1 0;
+#X text 116 545 clicking on the object opens a window to show the sequence
 in the text format. You can then write/edit the sequence.;
-#X connect 7 0 52 0;
-#X connect 27 0 52 0;
-#X connect 52 0 8 0;
-#X connect 52 0 16 0;
-#X connect 52 1 4 0;
+#X text 184 338 start/restart sequence at a given tempo (default '1024'
+- normal tempo) \, 'start -1' expects tick messages, f 59;
+#X text 136 405 clear -;
+#X text 184 405 clears the sequence currently stored in the object
+, f 59;
+#X connect 7 0 51 0;
+#X connect 27 0 51 0;
+#X connect 51 0 8 0;
+#X connect 51 0 16 0;
+#X connect 51 1 4 0;
