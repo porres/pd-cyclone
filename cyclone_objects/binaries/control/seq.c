@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
+#include "g_canvas.h"
 #include <common/api.h>
 #include "common/grow.h"
 #include "common/file.h"
@@ -17,14 +18,14 @@
 #define SEQ_DEBUG
 #endif */
 
-#define SEQ_INISEQSIZE              256   /* LATER rethink */
-#define SEQ_INITEMPOMAPSIZE         128   /* LATER rethink */
-#define SEQ_EOM                     255   /* end of message marker, LATER rethink */
-#define SEQ_TICKSPERSEC             48
-#define SEQ_MINTICKDELAY            1.  /* LATER rethink */
-#define SEQ_TICKEPSILON  ((double).0001)
-#define SEQ_STARTEPSILON            .0001  /* if inside: play unmodified */
-#define SEQ_TEMPOEPSILON            .0001  /* if inside: pause */
+#define SEQ_INISEQSIZE           256   /* LATER rethink */
+#define SEQ_INITEMPOMAPSIZE      128   /* LATER rethink */
+#define SEQ_EOM                  255   /* end of message marker, LATER rethink */
+#define SEQ_TICKSPERSEC          48
+#define SEQ_MINTICKDELAY         1.  /* LATER rethink */
+#define SEQ_TICKEPSILON ((double).0001)
+#define SEQ_STARTEPSILON         .0001  /* if inside: play unmodified */
+#define SEQ_TEMPOEPSILON         .0001  /* if inside: pause */
 #define SEQ_ISRUNNING(x) ((x)->x_prevtime > (double).0001)
 #define SEQ_ISPAUSED(x) ((x)->x_prevtime <= (double).0001)
 
@@ -73,6 +74,42 @@ typedef struct _seq{
 
 static t_class *seq_class;
 
+static void seq_eventstring(t_seq *x, char *buf, t_seqevent *ep, int editable, t_float *sum){
+    x = NULL;
+    unsigned char *bp = ep->e_bytes;
+    int i;
+    *sum += ep->e_delta;
+    if(editable)
+        sprintf(buf, "%g", *sum);
+    else if(*bp < 128 || *bp == 247)
+        sprintf(buf, "(%g)->", *sum);
+    else
+        sprintf(buf, "(%g)", *sum);
+    buf += strlen(buf);
+    sprintf(buf, " %g", (float)*bp);
+    for(i = 0, bp++; i < 3 && *bp != SEQ_EOM; i++, bp++){
+        buf += strlen(buf);
+        sprintf(buf, " %g", (float)*bp);
+    }
+}
+
+static void seq_update(t_seq *x){
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
+    t_seqevent *ep = x->x_sequence;
+    int nevents = x->x_nevents;
+    char buf[MAXPDSTRING+2];
+    t_float sum = 0;
+    while(nevents--){  // LATER rethink sysex continuation
+        seq_eventstring(x, buf, ep, 1, &sum);
+        strcat(buf, ";\n");
+        hammereditor_append(x->x_filehandle, buf);
+        ep++;
+    }
+    hammereditor_setdirty(x->x_filehandle, 0);
+}
+
 static void seq_doclear(t_seq *x, int dofree){
     if(dofree){
         if(x->x_sequence != x->x_seqini){
@@ -91,6 +128,7 @@ static void seq_doclear(t_seq *x, int dofree){
 
 static void seq_clear(t_seq *x){
     seq_doclear(x, 0);
+    seq_update(x);
 }
 
 static int seq_dogrowing(t_seq *x, int nevents, int ntempi){
@@ -404,8 +442,8 @@ static void seq_tick(t_seq *x){
 /* CHECKED bang does the same as 'start 1024', not 'start <current-timescale>'
    (also if already in SEQ_PLAYMODE) */
 static void seq_bang(t_seq *x){
-        seq_settimescale(x, 1.);
-        seq_setmode(x, SEQ_PLAYMODE);  /* CHECKED 'bang' stops recording */
+    seq_settimescale(x, 1.);
+    seq_setmode(x, SEQ_PLAYMODE);  /* CHECKED 'bang' stops recording */
 }
 
 static void seq_float(t_seq *x, t_float f){
@@ -429,6 +467,7 @@ static void seq_float(t_seq *x, t_float f){
             else if(c != 247)
                 seq_checkstatus(x, c);
         }
+        seq_update(x);
     }
 }
 
@@ -446,6 +485,7 @@ static void seq_list(t_seq *x, t_symbol *s, int ac, t_atom *av){
 
 static void seq_record(t_seq *x){ // CHECKED 'record' stops playback, resets recording
     seq_doclear(x, 0);
+    seq_update(x);
     seq_setmode(x, SEQ_RECMODE);
 }
 
@@ -486,7 +526,8 @@ static void seq_hook(t_seq *x, t_floatarg f){
     }
 }
 
-static void seq_pause(t_seq *x){ // not available in Max{
+// start of extra (not available in Max)
+static void seq_pause(t_seq *x){
     if(x->x_mode == SEQ_PLAYMODE && SEQ_ISRUNNING(x)){
         x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
         if(x->x_clockdelay < 0.)
@@ -496,7 +537,7 @@ static void seq_pause(t_seq *x){ // not available in Max{
     }
 }
 
-static void seq_continue(t_seq *x){ // not available in Max
+static void seq_continue(t_seq *x){
     if(x->x_mode == SEQ_PLAYMODE && SEQ_ISPAUSED(x)){
         if(x->x_clockdelay < 0.)
             x->x_clockdelay = 0.;
@@ -505,80 +546,105 @@ static void seq_continue(t_seq *x){ // not available in Max
     }
 }
 
-/*static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2){ // not available in Max
-    if(x->x_nevents){
-        t_seqevent *ev;
-        int ndx, nevents = x->x_nevents;
-        double ms = (double)f1 * 1000. + f2, sum;
-        if(ms <= SEQ_TICKEPSILON)
-            ms = 0.;
-        if(x->x_mode != SEQ_PLAYMODE){
-            seq_settimescale(x, x->x_timescale);
-            seq_setmode(x, SEQ_PLAYMODE);
-            // clock_delay() has been called in setmode, LATER avoid
-            clock_unset(x->x_clock);
-            x->x_prevtime = 0.;
-        }
-        for(ndx = 0, ev = x->x_sequence, sum = SEQ_TICKEPSILON; ndx < nevents; ndx++, ev++){
-            if((sum += ev->e_delta) >= ms){
-                x->x_playhead = ndx;
-                x->x_nextscoretime = sum;
-                x->x_clockdelay = sum - SEQ_TICKEPSILON - ms;
-                if(x->x_clockdelay < 0.)
-                    x->x_clockdelay = 0.;
-                if(SEQ_ISRUNNING(x)){
-                    clock_delay(x->x_clock, x->x_clockdelay);
-                    x->x_prevtime = clock_getlogicaltime();
-                }
-                break;
-            }
-        }
+static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
+    ctrl = alt = xpos = ypos = shift = 0;
+    t_seqevent *ep = x->x_sequence;
+    int nevents = x->x_nevents;
+    char buf[MAXPDSTRING+2];
+    hammereditor_open(x->x_filehandle, (char*)(x->x_defname && x->x_defname != &s_ ? x->x_defname->s_name : "<anonymous>"), 0);
+    t_float sum = 0;
+    while(nevents--){  // LATER rethink sysex continuation
+        seq_eventstring(x, buf, ep, 1, &sum);
+        strcat(buf, ";\n");
+        hammereditor_append(x->x_filehandle, buf);
+        ep++;
     }
+    hammereditor_setdirty(x->x_filehandle, 0);
+    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  wm deiconify .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  raise .%lx\n", (unsigned long)x->x_filehandle);
+    sys_vgui("  focus .%lx.text\n", (unsigned long)x->x_filehandle);
+    sys_gui(" }\n");
 }
 
-static void seq_scoretime(t_seq *x, t_symbol *s){ // not available in Max
-    if(s && s->s_thing &&
-        x->x_mode == SEQ_PLAYMODE){  // LATER other modes
-        t_atom aout[2];
-        double ms, clockdelay = x->x_clockdelay;
-        t_float f1, f2;
-        if(SEQ_ISRUNNING(x))
-            clockdelay -= clock_gettimesince(x->x_prevtime);
-        ms = x->x_nextscoretime - clockdelay / x->x_timescale;
-// Send ms as a pair of floats (f1, f2) = (coarse in sec, fine in msec).
-// Any ms may then be exactly reconstructed as (double)f1 * 1000. + f2.
-// Currently, f2 may be negative.  LATER consider truncating f1 so that
-// only significant digits are on (when using 1 ms resolution, a float
-// stores only up to 8.7 minutes without distortion, 100 ms resolution
-// gives 14.5 hours of non-distorted floats, etc.)
-        f1 = ms * .001;
-        f2 = ms - (double)f1 * 1000.;
-        if(f2 < .001 && f2 > -.001)
-            f2 = 0.;
-        SETFLOAT(&aout[0], f1);
-        SETFLOAT(&aout[1], f2);
-        pd_list(s->s_thing, &s_list, 2, aout);
-    }
-}
+// not available in Max and removed for not working or not being pertinent (hence, unsupported)
+/*
+ static void seq_goto(t_seq *x, t_floatarg f1, t_floatarg f2){ // takes sec / ms
+     if(x->x_nevents){
+         t_seqevent *ev;
+         int ndx, nevents = x->x_nevents;
+         double ms = (double)f1 * 1000. + f2, sum;
+         if(ms <= SEQ_TICKEPSILON)
+             ms = 0.;
+         if(x->x_mode != SEQ_PLAYMODE){
+             seq_settimescale(x, x->x_timescale);
+             seq_setmode(x, SEQ_PLAYMODE);
+             // clock_delay() has been called in setmode, LATER avoid
+             clock_unset(x->x_clock);
+             x->x_prevtime = 0.;
+         }
+         for(ndx = 0, ev = x->x_sequence, sum = SEQ_TICKEPSILON; ndx < nevents; ndx++, ev++){
+             if((sum += ev->e_delta) >= ms){
+                 x->x_playhead = ndx;
+                 x->x_nextscoretime = sum;
+                 x->x_clockdelay = sum - SEQ_TICKEPSILON - ms;
+                 if(x->x_clockdelay < 0.)
+                     x->x_clockdelay = 0.;
+                 if(SEQ_ISRUNNING(x)){
+                     clock_delay(x->x_clock, x->x_clockdelay);
+                     x->x_prevtime = clock_getlogicaltime();
+                 }
+                 break;
+             }
+         }
+     }
+ }
 
-static void seq_tempo(t_seq *x, t_floatarg f){ // not available in Max
-    if(f > SEQ_TEMPOEPSILON){
-        seq_settimescale(x, 1. / f);
-        if(x->x_mode == SEQ_PLAYMODE)
-            seq_startplayback(x, 0);
-    }
-    // FIXME else pause, LATER reverse playback if(f < -SEQ_TEMPOEPSILON)
-}
-
-static void seq_cd(t_seq *x, t_symbol *s){ // not available in Max
+ static void seq_scoretime(t_seq *x, t_symbol *s){ // send score time to a receive name
+     s = canvas_realizedollar(x->x_canvas, s);
+     if(s && s->s_thing && x->x_mode == SEQ_PLAYMODE){  // LATER other modes
+         t_atom aout[2];
+         double ms, clockdelay = x->x_clockdelay;
+         t_float f1, f2;
+         if(SEQ_ISRUNNING(x))
+             clockdelay -= clock_gettimesince(x->x_prevtime);
+         ms = x->x_nextscoretime - clockdelay / x->x_timescale;
+ // Send ms as a pair of floats (f1, f2) = (coarse in sec, fine in msec).
+ // Any ms may then be exactly reconstructed as (double)f1 * 1000. + f2.
+ // Currently, f2 may be negative.  LATER consider truncating f1 so that
+ // only significant digits are on (when using 1 ms resolution, a float
+ // stores only up to 8.7 minutes without distortion, 100 ms resolution
+ // gives 14.5 hours of non-distorted floats, etc.)
+         f1 = ms * .001;
+         f2 = ms - (double)f1 * 1000.;
+         if(f2 < .001 && f2 > -.001)
+             f2 = 0.;
+         SETFLOAT(&aout[0], f1);
+         SETFLOAT(&aout[1], f2);
+         pd_list(s->s_thing, &s_list, 2, aout);
+     }
+ }
+ 
+ static void seq_tempo(t_seq *x, t_floatarg f){
+     if(f > SEQ_TEMPOEPSILON){
+         seq_settimescale(x, 1. / f);
+         if(x->x_mode == SEQ_PLAYMODE)
+             seq_startplayback(x, 0);
+     }
+     // FIXME else pause, LATER reverse playback if(f < -SEQ_TEMPOEPSILON)
+ }
+ 
+ static void seq_cd(t_seq *x, t_symbol *s){
     hammerpanel_setopendir(x->x_filehandle, s);
 }
 
-static void seq_pwd(t_seq *x, t_symbol *s){ // not available in Max
+static void seq_pwd(t_seq *x, t_symbol *s){
     t_symbol *dir;
+    s = canvas_realizedollar(x->x_canvas, s);
     if(s && s->s_thing && (dir = hammerpanel_getopendir(x->x_filehandle)))
         pd_symbol(s->s_thing, dir);
 }*/
+// end of extra
 
 static int seq_eventcomparehook(const void *e1, const void *e2){
     return(((t_seqevent *)e1)->e_delta > ((t_seqevent *)e2)->e_delta ? 1 : -1);
@@ -795,10 +861,8 @@ static void seq_tobinbuf(t_seq *x, t_binbuf *bb){
 static void seq_textread(t_seq *x, char *path){
     t_binbuf *bb;
     bb = binbuf_new();
-    if(binbuf_read(bb, path, "", 0)){
-    /* CHECKED no complaint, open dialog presented */
+    if(binbuf_read(bb, path, "", 0)) // CHECKED no complaint, open dialog presented
         hammerpanel_open(x->x_filehandle, 0);  /* LATER rethink */
-    }
     else{
         int nlines = /* CHECKED absolute timestamps */
             seq_fromatoms(x, binbuf_getnatom(bb), binbuf_getvec(bb));
@@ -845,6 +909,7 @@ static void seq_doread(t_seq *x, t_symbol *fn){
     if(!seq_mfread(x, buf))
         seq_textread(x, buf);
     x->x_playhead = 0;
+    seq_update(x);
 }
 
 static void seq_dowrite(t_seq *x, t_symbol *fn){
@@ -890,25 +955,6 @@ static void seq_write(t_seq *x, t_symbol *s){
         hammerpanel_save(x->x_filehandle, canvas_getdir(x->x_canvas), x->x_defname); /* always start in canvas dir */
 }
 
-static void seq_eventstring(t_seq *x, char *buf, t_seqevent *ep, int editable, t_float *sum){
-    x = NULL;
-    unsigned char *bp = ep->e_bytes;
-    int i;
-    *sum += ep->e_delta;
-    if(editable)
-        sprintf(buf, "%g", *sum);
-    else if(*bp < 128 || *bp == 247)
-        sprintf(buf, "(%g)->", *sum);
-    else
-        sprintf(buf, "(%g)", *sum);
-    buf += strlen(buf);
-    sprintf(buf, " %g", (float)*bp);
-    for(i = 0, bp++; i < 3 && *bp != SEQ_EOM; i++, bp++){
-        buf += strlen(buf);
-        sprintf(buf, " %g", (float)*bp);
-    }
-}
-
 static void seq_print(t_seq *x){
     int nevents = x->x_nevents;
     startpost("midiseq:");  // CHECKED
@@ -937,27 +983,6 @@ static void seq_print(t_seq *x){
 static void seq_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
     s = NULL;
     seq_fromatoms((t_seq *)z, ac, av);
-}
-
-static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
-    ctrl = alt = xpos = ypos = shift = 0;
-    t_seqevent *ep = x->x_sequence;
-    int nevents = x->x_nevents;
-    char buf[MAXPDSTRING+2];
-    hammereditor_open(x->x_filehandle, (char*)(x->x_defname && x->x_defname != &s_ ? x->x_defname->s_name : "<anonymous>"), 0);
-    t_float sum = 0;
-    while(nevents--){  /* LATER rethink sysex continuation */
-        seq_eventstring(x, buf, ep, 1, &sum);
-        strcat(buf, ";\n");
-        hammereditor_append(x->x_filehandle, buf);
-        ep++;
-    }
-    hammereditor_setdirty(x->x_filehandle, 0);
-    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
-    sys_vgui("  wm deiconify .%lx\n", (unsigned long)x->x_filehandle);
-    sys_vgui("  raise .%lx\n", (unsigned long)x->x_filehandle);
-    sys_vgui("  focus .%lx.text\n", (unsigned long)x->x_filehandle);
-    sys_gui(" }\n");
 }
 
 static void seq_free(t_seq *x){
@@ -1015,19 +1040,20 @@ CYCLONE_OBJ_API void seq_setup(void){
     class_addmethod(seq_class, (t_method)seq_start, gensym("start"), A_DEFFLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_stop, gensym("stop"), 0);
     class_addmethod(seq_class, (t_method)seq_tick, gensym("tick"), 0);
-    class_addmethod(seq_class, (t_method)seq_delay, gensym("delay"), A_FLOAT, 0);  /* CHECKED arg obligatory */
-    class_addmethod(seq_class, (t_method)seq_hook, gensym("hook"), A_FLOAT, 0);   /* CHECKED arg obligatory */
+    class_addmethod(seq_class, (t_method)seq_delay, gensym("delay"), A_FLOAT, 0); // CHECKED arg obligatory
+    class_addmethod(seq_class, (t_method)seq_hook, gensym("hook"), A_FLOAT, 0);   // CHECKED arg obligatory
     class_addmethod(seq_class, (t_method)seq_read, gensym("read"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_write, gensym("write"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_print, gensym("print"), 0);
+// not available in Max
     class_addmethod(seq_class, (t_method)seq_pause, gensym("pause"), 0);
     class_addmethod(seq_class, (t_method)seq_continue, gensym("continue"), 0);
-// unssuported (not available in Max)
-/*    class_addmethod(seq_class, (t_method)seq_goto, gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addmethod(seq_class, (t_method)seq_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
+// not available in Max and removed for being considered problematic (hence, unsupported)
+/*  class_addmethod(seq_class, (t_method)seq_goto, gensym("goto"), A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_scoretime, gensym("scoretime"), A_SYMBOL, 0);
     class_addmethod(seq_class, (t_method)seq_tempo, gensym("tempo"), A_FLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_cd, gensym("cd"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_pwd, gensym("pwd"), A_SYMBOL, 0);*/
-    class_addmethod(seq_class, (t_method)seq_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     hammerfile_setup(seq_class, 0);
 }
