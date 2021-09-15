@@ -8,6 +8,7 @@ cyclone 0.6-0 (needs at least Pd Vanilla 0.52-0):
 
 - [seq]: 
   - Finally updated to MAX 7 (added new 'clear'/addeventdelay messages from MAX 7).
+  - Fixed 'tick' message where the first message after 'start -1' wouldn't count.
   - 'read' message now warns when file is not found, same for file argument; 
   - [seq] now correctly finds "end of track"; 
   - Opening files while reading an old one now restart from the beginning.
