@@ -411,10 +411,10 @@ static void seq_slaveclocktick(t_seq *x){
     if(x->x_mode == SEQ_SLAVEMODE) clock_unset(x->x_clock);
 }
 
-/* LATER dealing with self-invokation (outlet -> 'tick') */
+// LATER dealing with self-invokation (outlet -> 'tick')
 static void seq_tick(t_seq *x){
     if(x->x_mode == SEQ_SLAVEMODE){
-        if(x->x_slaveprevtime > 0){
+        if(x->x_slaveprevtime >= 0){
             double elapsed = clock_gettimesince(x->x_slaveprevtime);
             if(elapsed < SEQ_MINTICKDELAY)
                 return;
@@ -424,7 +424,8 @@ static void seq_tick(t_seq *x){
                 x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
                 x->x_clockdelay *= x->x_newtimescale / x->x_timescale;
             }
-            else x->x_clockdelay = x->x_sequence[x->x_playhead].e_delta * x->x_newtimescale;
+            else
+                x->x_clockdelay = x->x_sequence[x->x_playhead].e_delta * x->x_newtimescale;
             if(x->x_clockdelay < 0.)
                 x->x_clockdelay = 0.;
             clock_delay(x->x_clock, x->x_clockdelay);
@@ -433,19 +434,18 @@ static void seq_tick(t_seq *x){
             x->x_timescale = x->x_newtimescale;
         }
         else{
-            x->x_clockdelay = 0.;  /* redundant */
-            x->x_prevtime = 0.;    /* redundant */
+            x->x_clockdelay = 0.;  // redundant
+            x->x_prevtime = 0.;    // redundant
             x->x_slaveprevtime = clock_getlogicaltime();
-            x->x_timescale = 1.;       /* redundant */
+            x->x_timescale = 1.;   // redundant
         }
     }
 }
 
-/* CHECKED bang does the same as 'start 1024', not 'start <current-timescale>'
-   (also if already in SEQ_PLAYMODE) */
+// CHECKED bang does the same as 'start 1024', not 'start <current-timescale>' (also if already in SEQ_PLAYMODE)
 static void seq_bang(t_seq *x){
     seq_settimescale(x, 1.);
-    seq_setmode(x, SEQ_PLAYMODE);  /* CHECKED 'bang' stops recording */
+    seq_setmode(x, SEQ_PLAYMODE);  // CHECKED 'bang' stops recording
 }
 
 static void seq_float(t_seq *x, t_float f){
