@@ -119,18 +119,20 @@ clock tick;
 #X restore 492 144 pd start;
 #X obj 227 146 cyclone/seq seq.mid;
 #N canvas 913 241 401 256 inconsistencies 0;
-#X text 52 31 The [seq] object in cyclone has two extra messages that
+#X text 31 24 The [seq] object in cyclone has two extra messages that
 the original does not have: pause and continue. It also misses the
 'dump' message from the original MAX version \, which is something
-that doesn't seem to be really useful in MAX., f 52;
-#X text 53 95 Moreover \, the [seq] object in cyclone can be clicked
+that doesn't seem to be really useful in MAX., f 56;
+#X text 31 88 Moreover \, the [seq] object in cyclone can be clicked
 to open an edit window \, while nothing like this is present in the
 MAX original. Nonetheless \, this can be seen as a substitute for the
-purpose that the 'dump' message serves., f 52;
-#X text 53 160 Since Max 7.3.2 \, there's support for MIDI Type 1 and
-you can save midi files in this format if you give a non zero argument
-to the 'write' message. Cyclone loads type 1 files but merges them
-all into one track and can't save them separately!, f 52;
+purpose that the 'dump' message serves., f 56;
+#X text 31 153 Since Max 7.3.2 \, there's support for MIDI Type 1 and
+you can save midi files in this format with separate traccks if you
+give a non zero argument to the 'write' message. Cyclone hasn't been
+updated to do this so it has the old behaviour from MAX that it always
+merges all tracks into one and always saves as format 1 as well.,
+f 56;
 #X restore 24 160 pd inconsistencies;
 #X text 150 404 pause -;
 #X text 132 418 continue -;

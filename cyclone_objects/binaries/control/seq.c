@@ -18,11 +18,11 @@
 #define SEQ_DEBUG
 #endif */
 
-#define SEQ_INISEQSIZE           256   /* LATER rethink */
-#define SEQ_INITEMPOMAPSIZE      128   /* LATER rethink */
-#define SEQ_EOM                  255   /* end of message marker, LATER rethink */
+#define SEQ_INISEQSIZE           256    /* LATER rethink */
+#define SEQ_INITEMPOMAPSIZE      128    /* LATER rethink */
+#define SEQ_EOM                  255    /* end of message marker, LATER rethink */
 #define SEQ_TICKSPERSEC          48
-#define SEQ_MINTICKDELAY         1.  /* LATER rethink */
+#define SEQ_MINTICKDELAY         1.     /* LATER rethink */
 #define SEQ_TICKEPSILON ((double).0001)
 #define SEQ_STARTEPSILON         .0001  /* if inside: play unmodified */
 #define SEQ_TEMPOEPSILON         .0001  /* if inside: pause */
