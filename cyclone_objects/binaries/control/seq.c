@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-#include "g_canvas.h"
+//#include "g_canvas.h"
 #include <common/api.h>
 #include "common/grow.h"
 #include "common/file.h"
@@ -48,6 +48,8 @@ typedef struct _seq{
     t_hammerfile  *x_filehandle;
     int            x_mode;
     int            x_playhead;
+    t_float        x_delay;
+    t_float        x_event_delay;
     double         x_nextscoretime;
     float          x_timescale;
     float          x_newtimescale;
@@ -510,8 +512,20 @@ static void seq_stop(t_seq *x){
 
 // CHECKED first delta time is set permanently (it is stored in a file)
 static void seq_delay(t_seq *x, t_floatarg f){
-    if(x->x_nevents) // CHECKED signed/unsigned bug (not emulated)
-        x->x_sequence->e_delta = (f > SEQ_TICKEPSILON ? f : 0.);
+    if(x->x_nevents){ // CHECKED signed/unsigned bug (not emulated)
+        t_float total_delay;
+        x->x_delay = (f > SEQ_TICKEPSILON ? f : 0.);
+        total_delay = (x->x_delay + x->x_event_delay);
+        x->x_sequence->e_delta = (total_delay < 0 ? 0 : total_delay);
+    }
+}
+
+static void seq_eventdelay(t_seq *x, t_floatarg f){
+    if(x->x_nevents){ // CHECKED signed/unsigned bug (not emulated)
+        x->x_event_delay += f;
+        t_float total_delay = (x->x_delay + x->x_event_delay);
+        x->x_sequence->e_delta = (total_delay < 0 ? 0 : total_delay);
+    }
 }
 
 // CHECKED all delta times are set permanently (they are stored in a file)
@@ -1008,6 +1022,7 @@ static void *seq_new(t_symbol *s){
     x->x_slaveprevtime = 0.;
     x->x_seqsize = SEQ_INISEQSIZE;
     x->x_nevents = 0;
+    x->x_delay = x->x_event_delay = 0;
     x->x_sequence = x->x_seqini;
     x->x_tempomapsize = SEQ_INITEMPOMAPSIZE;
     x->x_ntempi = 0;
@@ -1040,8 +1055,9 @@ CYCLONE_OBJ_API void seq_setup(void){
     class_addmethod(seq_class, (t_method)seq_start, gensym("start"), A_DEFFLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_stop, gensym("stop"), 0);
     class_addmethod(seq_class, (t_method)seq_tick, gensym("tick"), 0);
-    class_addmethod(seq_class, (t_method)seq_delay, gensym("delay"), A_FLOAT, 0); // CHECKED arg obligatory
-    class_addmethod(seq_class, (t_method)seq_hook, gensym("hook"), A_FLOAT, 0);   // CHECKED arg obligatory
+    class_addmethod(seq_class, (t_method)seq_delay, gensym("delay"), A_FLOAT, 0);
+    class_addmethod(seq_class, (t_method)seq_eventdelay, gensym("addeventdelay"), A_FLOAT, 0);
+    class_addmethod(seq_class, (t_method)seq_hook, gensym("hook"), A_FLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_read, gensym("read"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_write, gensym("write"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_print, gensym("print"), 0);
