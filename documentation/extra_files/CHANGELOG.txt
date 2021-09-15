@@ -3,6 +3,20 @@
 ---------------------------------------------------
 
 --------------------------------------------------
+cyclone 0.6-0 (needs at least Pd Vanilla 0.52-0):
+--------------------------------------------------
+
+- [seq]: 
+  - Finally updated to MAX 7 (added new 'clear'/addeventdelay messages from MAX 7).
+  - 'read' message now warns when file is not found, same for file argument; 
+  - [seq] now correctly finds "end of track"; 
+  - Opening files while reading an old one now restart from the beginning.
+  - The 'print' message was fixed to show absolute time values like in MAX.
+  - Extra feature of the display/editor window via clicking was restored back (it had been removed n the cyclone 0.3 experimental phase); times are now displayed in absolute as it's the standard.
+  - Improved the  edit window behaviour, now clicking on the object raises and focuses on the window if it's already opened. The contents are also updated on the opened window when changed.
+  - Improved documentation significantly, added examples for all messages and we also explain now how to save and load text files and its format.
+
+--------------------------------------------------
 cyclone 0.5-6 (needs at least Pd Vanilla 0.51-3):
 --------------------------------------------------
 

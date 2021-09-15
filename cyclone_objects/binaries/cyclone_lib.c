@@ -628,12 +628,12 @@ t_class *cyclone_class;
 static int printed;
 
 static int min_major = 0;
-static int min_minor = 51;
-static int min_bugfix = 3;
+static int min_minor = 52;
+static int min_bugfix = 0;
 
 static int cyclone_major = 0;
-static int cyclone_minor = 5;
-static int cyclone_bugfix = 6;
+static int cyclone_minor = 6;
+static int cyclone_bugfix = 0;
 
 void print_cyclone(t_cyclone *x){
     char cyclone_dir[MAXPDSTRING];
@@ -642,7 +642,7 @@ void print_cyclone(t_cyclone *x){
     sys_getversion(&major, &minor, &bugfix);
     post("");
     post("-----------------------------------------------------------------------------");
-    post(":: Cyclone %d.%d-%d; Released August 5th 2021", cyclone_major, cyclone_minor, cyclone_bugfix);
+    post(":: Cyclone %d.%d-%d; Unreleased", cyclone_major, cyclone_minor, cyclone_bugfix);
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
     post(":: Copyright © 2003-2020 - Krzysztof Czaja, Hans-Christoph Steiner,");
     post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.");
