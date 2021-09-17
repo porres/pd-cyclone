@@ -199,13 +199,12 @@ static void play_set(t_play *x, t_symbol *s)
 // START
 ////////////////////////////////////////////////
 static void play_start(t_play *x, t_symbol *s, int argc, t_atom * argv){
+    s = NULL;
     //args, start pos in ms, end pos in ms, duration to take between start and end
-    
     //one of the end points shouldn't be inclusive, mb end point
     t_float stms = 0;
     t_float endms = SHARED_FLT_MAX;
     t_float durms = 0;
-    
     int argnum = 0;
     while(argc){
         if(argv -> a_type == A_FLOAT){
@@ -233,33 +232,25 @@ static void play_start(t_play *x, t_symbol *s, int argc, t_atom * argv){
         argc--;
         argv++;
     };
-
-
     x->x_stms = stms;
     x->x_endms = endms;
     x->x_durms = durms;
-   
     //calculate sample equivalents
     play_calcsamp(x);
-
     //use play_play helper func to start playing
     play_play(x, 1);
-
 }
 
 static void play_interptime(t_play *x, t_floatarg fadems){
-    x->x_fadems = fadems; 
-    
+    x->x_fadems = fadems;
     //calculate sample equivalents
     play_calcsamp(x);
-
 }
 
 ////////////////////////////////////////////////
 // float
 ////////////////////////////////////////////////
-static void play_float(t_play *x, t_floatarg f)
-{
+static void play_float(t_play *x, t_floatarg f){
     int playing = f > 0 ? 1 : 0;
     if(playing){
         //play whole array at original speed
@@ -276,24 +267,19 @@ static void play_float(t_play *x, t_floatarg f)
     };
 }
 
-
-
-
 ////////////////////////////////////////////////
 // PAUSE
 ////////////////////////////////////////////////
-static void play_pause(t_play *x)
-{
+static void play_pause(t_play *x){
  //   x->x_pause = 1;
-        x->x_playing = 0;
+    x->x_playing = 0;
 }
 
 
 ////////////////////////////////////////////////
 // RESUME
 ////////////////////////////////////////////////
-static void play_resume(t_play *x)
-{
+static void play_resume(t_play *x){
 //    x->x_pause = 0;
         x->x_playing = 1;
 }
@@ -302,13 +288,11 @@ static void play_resume(t_play *x)
 ////////////////////////////////////////////////
 // RESUME
 ////////////////////////////////////////////////
-static void play_loop(t_play *x, t_floatarg f)
-{
+static void play_loop(t_play *x, t_floatarg f){
     x->x_looping = f > 0 ? 1 : 0;
 }
 
-static void play_loopinterp(t_play *x, t_floatarg f)
-{
+static void play_loopinterp(t_play *x, t_floatarg f){
     x->x_linterp = f > 0 ? 1 : 0;
 }
 
@@ -318,9 +302,8 @@ static double play_getvecval(t_play *x, int chidx, double phase, int interp){
     t_word **vectable = x->x_cybuf->c_vectors;
     int npts = x->x_npts;
     int maxindex = (interp ? npts - 3 : npts - 1);
-    
     if (phase < 0 || phase > maxindex)
-	phase = 0;  /* CHECKED: a value 0, not ndx 0 */
+        phase = 0;  /* CHECKED: a value 0, not ndx 0 */
     ndx = (int)phase;
     float frac,  a,  b,  c,  d, cminusb;
     /* CHECKME: what kind of interpolation? (CHECKED: multi-point) */
@@ -593,26 +576,22 @@ static void *play_free(t_play *x)
     return (void *)x;
 }
 
-static void *play_new(t_symbol * s, int argc, t_atom * argv)
-{
-    t_symbol * arrname = NULL; 
+static void *play_new(t_symbol * s, int argc, t_atom * argv){
+    t_symbol *arrname = s = NULL;
     t_float channels = 1;
     t_float lintime = PLAY_LINTIME; //default interp time in ms
     int looping = PLAY_LOOP; //loop default setting
     int linterp = PLAY_LINTERP; //loop interp default
-    
     int nameset = 0; //flag if name is set
     while(argc){
-        if(argv -> a_type == A_SYMBOL){
-            //if name not passed so far, count arg as array name
-            if(!nameset){
-                arrname = atom_getsymbolarg(0, argc, argv);
-                argc--;
-                argv++;
-                nameset = 1;
-            }
-            else{
-                //treat as attribute
+        if(!nameset){
+            arrname = atom_getsymbolarg(0, argc, argv);
+            argc--;
+            argv++;
+            nameset = 1;
+        }
+        else{
+            if(argv->a_type == A_SYMBOL){ // treat as attribute
                 t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
                 argc--;
                 argv++;
@@ -637,23 +616,13 @@ static void *play_new(t_symbol * s, int argc, t_atom * argv)
                 else{
                     goto errstate;
                 };
-            };
-
-        }
-        else
-        { if(nameset){
-            if(argv -> a_type == A_FLOAT)
-                {
-                    channels = atom_getfloatarg(0, argc, argv);
-                    argc--;
-                    argv++;
-                };
             }
-            else{
-            goto errstate;
+            else{ // float
+                channels = atom_getfloatarg(0, argc, argv);
+                argc--;
+                argv++;
             };
-        }
-
+        };
     };
     /* one auxiliary signal:  position input */
     int chn_n = (int)channels > 64 ? 64 : (int)channels;
@@ -686,17 +655,15 @@ static void *play_new(t_symbol * s, int argc, t_atom * argv)
         x->x_endms = SHARED_FLT_MAX;
         x->x_durms = 0;
     }
-    return (x);
-    
+    return(x);
     errstate:
 		pd_error(x, "play~: improper args");
 		return NULL;
 }
 
-CYCLONE_OBJ_API void play_tilde_setup(void)
-{
+CYCLONE_OBJ_API void play_tilde_setup(void){
     play_class = class_new(gensym("play~"), (t_newmethod)play_new, (t_method)play_free,
-			   sizeof(t_play), 0, A_GIMME, 0);
+            sizeof(t_play), 0, A_GIMME, 0);
     class_domainsignalin(play_class, -1);
     class_addfloat(play_class, play_float);
     class_addmethod(play_class, (t_method)play_dsp, gensym("dsp"), A_CANT, 0);
