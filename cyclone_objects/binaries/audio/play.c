@@ -585,7 +585,8 @@ static void *play_new(t_symbol * s, int argc, t_atom * argv){
     int nameset = 0; //flag if name is set
     while(argc){
         if(!nameset){
-            arrname = atom_getsymbolarg(0, argc, argv);
+            if(argv->a_type == A_SYMBOL)
+                arrname = atom_getsymbolarg(0, argc, argv);
             argc--;
             argv++;
             nameset = 1;

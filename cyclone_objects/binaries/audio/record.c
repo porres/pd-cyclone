@@ -271,13 +271,11 @@ static void *record_new(t_symbol *s, int argc, t_atom *argv){
 	t_float loopend = 1E+32;
     int nameset = 0; // flag if name is set
 	t_symbol *arrname = NULL;
-	if(argc > 0 && argv ->a_type == A_SYMBOL){
-        if(!nameset){ // if name not passed so far, count arg as array name
+	if(argc > 0){ // 1st arg is array name
+        if(argv->a_type == A_SYMBOL)
             arrname = atom_getsymbolarg(0, argc, argv);
-            argc--;
-            argv++;
-            nameset = 1;
-        }
+        argc--;
+        argv++;
 	};
 	// NOW parse the rest of the args
 	int argnum = 0;
