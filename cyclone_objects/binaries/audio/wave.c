@@ -472,17 +472,17 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 	//mostly copying this for what i did with record~ - DXK
 	t_symbol * name = NULL;
 	int nameset = 0; //flag if name is set
-	int floatarg = 0;//argument counter for floatargs (don't include symbol arg)
+	int floatarg = 0; //argument counter for floatargs (don't include symbol arg)
 	//setting defaults
 	t_float stpt = 0;
 	t_float endpt = SHARED_FLT_MAX; //default to max float size (hacky i know)
-        int numouts = 1; //i'm assuming the default is 1 - DXK
+    int numouts = 1; //i'm assuming the default is 1 - DXK
 	t_float bias = 0;
 	t_float tension = 0;
 	t_float interp = CYWAVEINTERP;
 
 	while(argc){
-		if(argv->a_type == A_SYMBOL){
+		if(argv->a_type == A_SYMBOL){ // symbol
 			if(floatarg == 0 && !nameset){
 				//we haven't hit any floatargs, go ahead and set name
 				name = atom_getsymbolarg(0, argc, argv);
@@ -515,7 +515,7 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 				};
 			};
 		}
-		else{
+		else{ // float
             if(nameset){
 			//else we're dealing with a float
 			switch(floatarg){
@@ -536,7 +536,9 @@ static void *wave_new(t_symbol *s, int argc, t_atom * argv){
 			argv++;
             }
             else{
-                goto errstate; // 1st arg didnt set the table name
+                nameset = 1; //set nameset flag and ignore array name
+                argc--;
+                argv++;
             };
 		};
 	};
