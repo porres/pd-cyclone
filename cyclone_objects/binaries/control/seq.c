@@ -669,13 +669,9 @@ static int seq_tempocomparehook(const void *t1, const void *t2){
 }
 
 static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype){
-//    post("seq_mrhook");
     t_seq *x = (t_seq *)hookdata;
-//    post("(x->x_eventreadhead (%d), x->x_nevents (%d))", x->x_eventreadhead, x->x_nevents);
     double scoretime = mifiread_getscoretime(mr);
-    if(evtype >= 0xf0){
-    }
-    else if(evtype >= 0x80 || (evtype == MIFIMETA_EOT)){
+    if((evtype >= 0x80 && evtype < 0xf0) || (evtype == MIFIMETA_EOT)){
         if(x->x_eventreadhead < x->x_nevents){
             t_seqevent *sev = &x->x_sequence[x->x_eventreadhead++];
             int status = mifiread_getstatus(mr);
