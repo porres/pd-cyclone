@@ -310,7 +310,7 @@ static void sprintf_anything(t_sprintf *x, t_symbol *s, int ac, t_atom *av)
 }
 
 /* adjusted binbuf_gettext(), LATER do it right */
-static char *hammer_gettext(int ac, t_atom *av, int *sizep)
+static char *sprintf_gettext(int ac, t_atom *av, int *sizep)
 {
     char *buf = getbytes(1);
     int size = 1;
@@ -546,7 +546,7 @@ static void *sprintf_new(t_symbol *s, int ac, t_atom *av)
 	    };
 	};
     };
-    fstring = hammer_gettext(ac, av, &fsize);
+    fstring = sprintf_gettext(ac, av, &fsize);
     p1 = fstring;
 
     
