@@ -18,11 +18,11 @@
 #define SEQ_DEBUG
 #endif */
 
-#define SEQ_INISEQSIZE           256    /* LATER rethink */
-#define SEQ_INITEMPOMAPSIZE      128    /* LATER rethink */
-#define SEQ_EOM                  255    /* end of message marker, LATER rethink */
+#define SEQ_INISEQSIZE           256   /* LATER rethink */
+#define SEQ_INITEMPOMAPSIZE      128   /* LATER rethink */
+#define SEQ_EOM                  255   /* end of message marker, LATER rethink */
 #define SEQ_TICKSPERSEC          48
-#define SEQ_MINTICKDELAY         1.     /* LATER rethink */
+#define SEQ_MINTICKDELAY         1.  /* LATER rethink */
 #define SEQ_TICKEPSILON ((double).0001)
 #define SEQ_STARTEPSILON         .0001  /* if inside: play unmodified */
 #define SEQ_TEMPOEPSILON         .0001  /* if inside: pause */
@@ -669,7 +669,9 @@ static int seq_tempocomparehook(const void *t1, const void *t2){
 }
 
 static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype){
+    post("seq_mrhook");
     t_seq *x = (t_seq *)hookdata;
+    post("(x->x_eventreadhead (%d), x->x_nevents (%d))", x->x_eventreadhead, x->x_nevents);
     double scoretime = mifiread_getscoretime(mr);
     if(evtype >= 0xf0){
     }
@@ -738,14 +740,14 @@ static int seq_mfread(t_seq *x, char *path){
     if(!mifiread_open(mr, path, "", 0))
         goto mfreadfailed;
 /* #ifdef SEQ_DEBUG
-    loudbug_startpost("midifile (format %d): %d tracks, %d ticks",
-              mifiread_getformat(mr), mifiread_gethdtracks(mr),
-              mifiread_getbeatticks(mr));
+    post("midifile (format %d): %d tracks, %d ticks",
+        mifiread_getformat(mr), mifiread_gethdtracks(mr),
+        mifiread_getbeatticks(mr));
     if(mifiread_getnframes(mr))
-    loudbug_post(" (%d smpte frames)", mifiread_getnframes(mr));
+        post(" (%d smpte frames)", mifiread_getnframes(mr));
     else
-    loudbug_post(" per beat");
-#endif */
+        post(" per beat");
+/*#endif */
     if(!seq_dogrowing(x, mifiread_getnevents(mr), mifiread_getntempi(mr)))
         goto mfreadfailed;
     x->x_eventreadhead = 0;
