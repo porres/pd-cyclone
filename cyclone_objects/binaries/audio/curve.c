@@ -30,7 +30,8 @@
    a lame formula, which has been tweaked and tested in gnuplot:
    f(p) = h(p) / (1 - h(p)), where h(p) = (((p + 1e-20) * 1.2) ** .41) * .91.
    The file curve.gp, in the sickle's source directory, may come handy,
-   in case there is anyone, who fancy tweaking it even further.
+   in case there is anyone, who fancy tweaking it even further
+   (only in very old versions now, pre 0.3)
 
    To implement this, start from these equations:
      nhops = npoints - 1
