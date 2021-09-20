@@ -38,7 +38,7 @@ typedef struct _mtrack
     t_clock       *tr_clock;
     t_outlet      *tr_trackout;
     t_outlet      *tr_mainout;
-    t_hammerfile  *tr_filehandle;
+    t_file  *tr_filehandle;
 } t_mtrack;
 
 typedef void (*t_mtrackfn)(t_mtrack *tp);
@@ -49,7 +49,7 @@ typedef struct _mtr
     t_glist       *x_glist;
     int            x_ntracks;  
     t_mtrack     **x_tracks;
-    t_hammerfile  *x_filehandle;
+    t_file  *x_filehandle;
 } t_mtr;
 
 static t_class *mtrack_class;
@@ -345,7 +345,7 @@ static void mtrack_read(t_mtrack *tp, t_symbol *s)
     if (s && s != &s_)
 	mtr_doread(tp->tr_owner, tp, s);
     else  /* CHECKED no default */
-	hammerpanel_open(tp->tr_filehandle, 0);
+	panel_open(tp->tr_filehandle, 0);
 }
 
 static void mtrack_write(t_mtrack *tp, t_symbol *s)
@@ -353,7 +353,7 @@ static void mtrack_write(t_mtrack *tp, t_symbol *s)
     if (s && s != &s_)
 	mtr_dowrite(tp->tr_owner, tp, s);
     else  /* CHECKED no default */
-	hammerpanel_save(tp->tr_filehandle,
+	panel_save(tp->tr_filehandle,
 			 canvas_getdir(tp->tr_owner->x_glist), 0);
 }
 
@@ -571,7 +571,7 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname)
     {
 	/* CHECKED no complaint, open dialog not presented... */
 	/* LATER rethink */
-	hammerpanel_open(target ? target->tr_filehandle : x->x_filehandle, 0);
+	panel_open(target ? target->tr_filehandle : x->x_filehandle, 0);
     }
 }
 
@@ -690,7 +690,7 @@ static void mtr_read(t_mtr *x, t_symbol *s)
     if (s && s != &s_)
 	mtr_doread(x, 0, s);
     else  /* CHECKED no default */
-	hammerpanel_open(x->x_filehandle, 0);
+	panel_open(x->x_filehandle, 0);
 }
 
 static void mtr_write(t_mtr *x, t_symbol *s)
@@ -698,7 +698,7 @@ static void mtr_write(t_mtr *x, t_symbol *s)
     if (s && s != &s_)
 	mtr_dowrite(x, 0, s);
     else  /* CHECKED no default */
-	hammerpanel_save(x->x_filehandle, canvas_getdir(x->x_glist), 0);
+	panel_save(x->x_filehandle, canvas_getdir(x->x_glist), 0);
 }
 
 static void mtr_free(t_mtr *x)
@@ -752,7 +752,7 @@ static void *mtr_new(t_floatarg f)
 	    int id;
 	    t_outlet *mainout = outlet_new((t_object *)x, &s_list);
 	    x->x_glist = canvas_getcurrent();
-	    x->x_filehandle = hammerfile_new((t_pd *)x, 0,
+	    x->x_filehandle = file_new((t_pd *)x, 0,
 					     mtr_readhook, mtr_writehook, 0);
 	    if (ntracks > MTR_C74MAXTRACKS)
             ntracks = MTR_C74MAXTRACKS;
@@ -768,7 +768,7 @@ static void *mtr_new(t_floatarg f)
 		tp->tr_id = id;
 		tp->tr_listed = 0;
 		tp->tr_filehandle =  /* LATER rethink */
-		    hammerfile_new((t_pd *)tp, 0,
+		    file_new((t_pd *)tp, 0,
 				   mtrack_readhook, mtrack_writehook, 0);
 		tp->tr_mode = MTR_STEPMODE;
 		tp->tr_muted = 0;
@@ -848,5 +848,5 @@ CYCLONE_OBJ_API void mtr_setup(void)
 		    gensym("read"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_write,
 		    gensym("write"), A_DEFSYM, 0);
-    hammerfile_setup(mtr_class, 0);
+    file_setup(mtr_class, 0);
 }

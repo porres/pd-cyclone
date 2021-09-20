@@ -39,7 +39,7 @@ typedef struct _capture
     int            x_head;
     int            x_precision;
     t_outlet * x_count_outlet;
-    t_hammerfile  *x_filehandle;
+    t_file  *x_filehandle;
 } t_capture;
 
 static t_class *capture_class;
@@ -285,7 +285,7 @@ static void capture_write(t_capture *x, t_symbol *s)
     if (s && s != &s_)
 	capture_dowrite(x, s);
     else
-	hammerpanel_save(x->x_filehandle, 0, 0);
+	panel_save(x->x_filehandle, 0, 0);
 }
 
 static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
@@ -302,7 +302,7 @@ static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
         {
             c = s->s_name[i];
             col = capture_formatnumber(x, (t_float)c, buf, col, CAPTURE_MAXCOL);
-            hammereditor_append(x->x_filehandle, buf);
+            editor_append(x->x_filehandle, buf);
         };
     }
     */
@@ -320,7 +320,7 @@ static int capture_appendsymbol(t_capture *x, t_symbol *s, char *buf, int col)
             buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
         else
             col += cnt;
-        hammereditor_append(x->x_filehandle, buf);
+        editor_append(x->x_filehandle, buf);
 
 
     return (col);
@@ -331,7 +331,7 @@ static int capture_appendfloat(t_capture *x, float f, char *buf, int col)
 {
     /* CHECKED CAPTURE_MAXCOL columns */
     col = capture_formatnumber(x, f, buf, col, CAPTURE_MAXCOL);
-    hammereditor_append(x->x_filehandle, buf);
+    editor_append(x->x_filehandle, buf);
     return (col);
 }
 
@@ -371,7 +371,7 @@ static void capture_open(t_capture *x){
     int count = x->x_count;
     char buf[MAXPDSTRING];
     int i;
-    hammereditor_open(x->x_filehandle, "Capture", "");  /* CHECKED */
+    editor_open(x->x_filehandle, "Capture", "");  /* CHECKED */
     if(count < x->x_bufsize){
         int col = 0;
         for(i = 0; i < count; i++){
@@ -405,7 +405,7 @@ static void capture_open(t_capture *x){
 /* CHECKED without asking and storing the changes */
 static void capture_wclose(t_capture *x)
 {
-    hammereditor_close(x->x_filehandle, 0);
+    editor_close(x->x_filehandle, 0);
 }
 
 static void capture_click(t_capture *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shift, t_floatarg ctrl, t_floatarg alt)
@@ -417,7 +417,7 @@ static void capture_click(t_capture *x, t_floatarg xpos, t_floatarg ypos, t_floa
 static void capture_free(t_capture *x)
 {
     outlet_free(x->x_count_outlet);
-    hammerfile_free(x->x_filehandle);
+    file_free(x->x_filehandle);
     if (x->x_buffer)
 	freebytes(x->x_buffer, x->x_bufsize * sizeof(*x->x_buffer));
 }
@@ -549,7 +549,7 @@ static void *capture_new(t_symbol *s, int argc, t_atom * argv)
 	x->x_bufsize = bufsize;
 	outlet_new((t_object *)x, &s_anything);
     x->x_count_outlet = outlet_new((t_object *)x, &s_float);
-	x->x_filehandle = hammerfile_new((t_pd *)x, 0, 0, capture_writehook, 0);
+	x->x_filehandle = file_new((t_pd *)x, 0, 0, capture_writehook, 0);
 	capture_clear(x);
     }
     return (x);
@@ -571,5 +571,5 @@ CYCLONE_OBJ_API void capture_setup(void){
     class_addmethod(capture_class, (t_method)capture_wclose, gensym("wclose"), 0);
     class_addmethod(capture_class, (t_method)capture_click, gensym("click"),
         A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    hammerfile_setup(capture_class, 0);
+    file_setup(capture_class, 0);
 }

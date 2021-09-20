@@ -45,7 +45,7 @@ typedef struct _seq{
     t_object       x_ob;
     t_canvas      *x_canvas;
     t_symbol      *x_defname;
-    t_hammerfile  *x_filehandle;
+    t_file  *x_filehandle;
     int            x_mode;
     int            x_playhead;
     t_float        x_delay;
@@ -106,10 +106,10 @@ static void seq_update(t_seq *x){
     while(nevents--){  // LATER rethink sysex continuation
         seq_eventstring(x, buf, ep, 1, &sum);
         strcat(buf, ";\n");
-        hammereditor_append(x->x_filehandle, buf);
+        editor_append(x->x_filehandle, buf);
         ep++;
     }
-    hammereditor_setdirty(x->x_filehandle, 0);
+    editor_setdirty(x->x_filehandle, 0);
 }
 
 static void seq_doclear(t_seq *x, int dofree){
@@ -565,15 +565,15 @@ static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shi
     t_seqevent *ep = x->x_sequence;
     int nevents = x->x_nevents;
     char buf[MAXPDSTRING+2];
-    hammereditor_open(x->x_filehandle, (char*)(x->x_defname && x->x_defname != &s_ ? x->x_defname->s_name : "<anonymous>"), 0);
+    editor_open(x->x_filehandle, (char*)(x->x_defname && x->x_defname != &s_ ? x->x_defname->s_name : "<anonymous>"), 0);
     t_float sum = 0;
     while(nevents--){  // LATER rethink sysex continuation
         seq_eventstring(x, buf, ep, 1, &sum);
         strcat(buf, ";\n");
-        hammereditor_append(x->x_filehandle, buf);
+        editor_append(x->x_filehandle, buf);
         ep++;
     }
-    hammereditor_setdirty(x->x_filehandle, 0);
+    editor_setdirty(x->x_filehandle, 0);
     sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
     sys_vgui("  wm deiconify .%lx\n", (unsigned long)x->x_filehandle);
     sys_vgui("  raise .%lx\n", (unsigned long)x->x_filehandle);
@@ -649,13 +649,13 @@ static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shi
  }
  
  static void seq_cd(t_seq *x, t_symbol *s){
-    hammerpanel_setopendir(x->x_filehandle, s);
+    panel_setopendir(x->x_filehandle, s);
 }
 
 static void seq_pwd(t_seq *x, t_symbol *s){
     t_symbol *dir;
     s = canvas_realizedollar(x->x_canvas, s);
-    if(s && s->s_thing && (dir = hammerpanel_getopendir(x->x_filehandle)))
+    if(s && s->s_thing && (dir = panel_getopendir(x->x_filehandle)))
         pd_symbol(s->s_thing, dir);
 }*/
 // end of extra
@@ -874,7 +874,7 @@ static void seq_textread(t_seq *x, char *path){
     t_binbuf *bb;
     bb = binbuf_new();
     if(binbuf_read(bb, path, "", 0)) // CHECKED no complaint, open dialog presented
-        hammerpanel_open(x->x_filehandle, 0);  /* LATER rethink */
+        panel_open(x->x_filehandle, 0);  /* LATER rethink */
     else{
         int nlines = /* CHECKED absolute timestamps */
             seq_fromatoms(x, binbuf_getnatom(bb), binbuf_getvec(bb));
@@ -957,14 +957,14 @@ static void seq_read(t_seq *x, t_symbol *s){
         seq_doread(x, s);
     else  /* CHECKED no default file name */
         /* start in a dir last read from, if any, otherwise in a canvas dir */
-        hammerpanel_open(x->x_filehandle, 0);
+        panel_open(x->x_filehandle, 0);
 }
 
 static void seq_write(t_seq *x, t_symbol *s){
     if(s && s != &s_)
         seq_dowrite(x, s);
     else  /* CHECKED creation arg is a default file name */
-        hammerpanel_save(x->x_filehandle, canvas_getdir(x->x_canvas), x->x_defname); /* always start in canvas dir */
+        panel_save(x->x_filehandle, canvas_getdir(x->x_canvas), x->x_defname); /* always start in canvas dir */
 }
 
 static void seq_print(t_seq *x){
@@ -1003,7 +1003,7 @@ static void seq_free(t_seq *x){
     if(x->x_slaveclock)
         clock_free(x->x_slaveclock);
     if(x->x_filehandle)
-        hammerfile_free(x->x_filehandle);
+        file_free(x->x_filehandle);
     if(x->x_sequence != x->x_seqini)
         freebytes(x->x_sequence, x->x_seqsize * sizeof(*x->x_sequence));
     if(x->x_tempomap != x->x_tempomapini)
@@ -1013,7 +1013,7 @@ static void seq_free(t_seq *x){
 static void *seq_new(t_symbol *s){
     t_seq *x = (t_seq *)pd_new(seq_class);
     x->x_canvas = canvas_getcurrent();
-    x->x_filehandle = hammerfile_new((t_pd *)x, 0, seq_readhook, seq_writehook, seq_editorhook);
+    x->x_filehandle = file_new((t_pd *)x, 0, seq_readhook, seq_writehook, seq_editorhook);
     x->x_timescale = 1.;
     x->x_newtimescale = 1.;
     x->x_prevtime = 0.;
@@ -1069,5 +1069,5 @@ CYCLONE_OBJ_API void seq_setup(void){
     class_addmethod(seq_class, (t_method)seq_tempo, gensym("tempo"), A_FLOAT, 0);
     class_addmethod(seq_class, (t_method)seq_cd, gensym("cd"), A_DEFSYM, 0);
     class_addmethod(seq_class, (t_method)seq_pwd, gensym("pwd"), A_SYMBOL, 0);*/
-    hammerfile_setup(seq_class, 0);
+    file_setup(seq_class, 0);
 }

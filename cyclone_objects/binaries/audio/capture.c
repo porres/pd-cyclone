@@ -33,7 +33,7 @@ typedef struct _capture{
     int            x_bufsize;
     int            x_count;
     int            x_head;
-    t_hammerfile  *x_filehandle;
+    t_file  *x_filehandle;
 } t_capture;
 
 static t_class *capture_class;
@@ -113,20 +113,20 @@ static void capture_write(t_capture *x, t_symbol *s)
     if (s && s != &s_)
 	capture_dowrite(x, s);
     else
-	hammerpanel_save(x->x_filehandle, 0, 0);
+	panel_save(x->x_filehandle, 0, 0);
 }
 
 static int capture_appendfloat(t_capture *x, float f, char *buf, int col, int linebreak){
     /* CHECKME 80 columns */
     col = capture_formatfloat(x, f, buf, col, 80);
-    hammereditor_append(x->x_filehandle, buf);
+    editor_append(x->x_filehandle, buf);
     if(linebreak){
         if(col){
-            hammereditor_append(x->x_filehandle, "\n\n");
+            editor_append(x->x_filehandle, "\n\n");
             col = 0;
         }
         else
-            hammereditor_append(x->x_filehandle, "\n");
+            editor_append(x->x_filehandle, "\n");
     }
     return(col);
 }
@@ -135,7 +135,7 @@ static void capture_open(t_capture *x){ // CHECKED blank line between blocks
     int count = x->x_count;
     char buf[MAXPDSTRING];
     int nindices = (x->x_nindices > 0 ? x->x_nindices : x->x_nblock);
-    hammereditor_open(x->x_filehandle, "Signal Capture", "");  /* CHECKED */
+    editor_open(x->x_filehandle, "Signal Capture", "");  /* CHECKED */
     if(x->x_mode == 'f' || count < x->x_bufsize){
         float *bp = x->x_buffer;
         int col = 0, i;
@@ -171,7 +171,7 @@ static void capture_clear(t_capture *x){
 /* CHECKED without asking and storing the changes */
 static void capture_wclose(t_capture *x)
 {
-    hammereditor_close(x->x_filehandle, 0);
+    editor_close(x->x_filehandle, 0);
 }
 
 static void capture_click(t_capture *x, t_floatarg xpos, t_floatarg ypos,
@@ -285,7 +285,7 @@ static void capture_dsp(t_capture *x, t_signal **sp){
 
 static void capture_free(t_capture *x)
 {
-    hammerfile_free(x->x_filehandle);
+    file_free(x->x_filehandle);
     if (x->x_indices)
 	freebytes(x->x_indices, x->x_szindices * sizeof(*x->x_indices));
     if (x->x_buffer)
@@ -369,7 +369,7 @@ static void *capture_new(t_symbol *s, int ac, t_atom *av)
 	x->x_nblock = 64;  /* redundant */
 	x->x_buffer = buffer;
 	x->x_bufsize = bufsize;
-	x->x_filehandle = hammerfile_new((t_pd *)x, 0, 0, capture_writehook, 0);
+	x->x_filehandle = file_new((t_pd *)x, 0, 0, capture_writehook, 0);
 	capture_clear(x);
     }
     else if (indices)
@@ -396,5 +396,5 @@ CYCLONE_OBJ_API void capture_tilde_setup(void)
     class_addmethod(capture_class, (t_method)capture_click,
 		    gensym("click"),
 		    A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    hammerfile_setup(capture_class, 0);
+    file_setup(capture_class, 0);
 }

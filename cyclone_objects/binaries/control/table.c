@@ -52,7 +52,7 @@ typedef struct _tablecommon{
     int             c_cacheini[TABLE_INISIZE];
     t_symbol       *c_filename;
     t_canvas       *c_lastcanvas;
-    t_hammerfile   *c_filehandle;
+    t_file   *c_filehandle;
 } t_tablecommon;
 
 typedef struct _table{
@@ -67,7 +67,7 @@ typedef struct _table{
     int             x_loadflag;
     int             x_loadndx;
     unsigned int    x_seed;
-    t_hammerfile   *x_filehandle;
+    t_file   *x_filehandle;
     t_outlet       *x_bangout;
     struct _table  *x_next;
 } t_table;
@@ -351,7 +351,7 @@ static void table_unbind(t_table *x){ // LATER consider calling table_checkcommo
     t_table *prev, *next;
     if ((prev = cc->c_refs) == x){
         if (!(cc->c_refs = x->x_next)){
-            hammerfile_free(cc->c_filehandle);
+            file_free(cc->c_filehandle);
             tablecommon_free(cc);
             if (x->x_name) pd_unbind(&cc->c_pd, x->x_name);
                 pd_free(&cc->c_pd);
@@ -390,7 +390,7 @@ static void table_bind(t_table *x, t_symbol *name){
             cc->c_filename = 0;
             cc->c_lastcanvas = 0;
         }
-	cc->c_filehandle = hammerfile_new((t_pd *)cc, 0, tablecommon_readhook,
+	cc->c_filehandle = file_new((t_pd *)cc, 0, tablecommon_readhook,
             tablecommon_writehook, tablecommon_editorhook);
     }
     x->x_common = cc;
@@ -434,7 +434,7 @@ static int tablecommon_editorappend(t_tablecommon *cc, int v, char *buf, int col
         buf[0] = '\n', col = count - 1;  /* assuming col > 0 */
     else
         col += count;
-    hammereditor_append(cc->c_filehandle, buf);
+    editor_append(cc->c_filehandle, buf);
     return(col);
 }
 
@@ -450,7 +450,7 @@ static void table_update(t_table *x){
         col = tablecommon_editorappend(cc, *bp++, buf, col);
         count++;
     }
-    hammereditor_setdirty(cc->c_filehandle, 0);
+    editor_setdirty(cc->c_filehandle, 0);
 }
 
 static void table_read(t_table *x, t_symbol *s){
@@ -458,7 +458,7 @@ static void table_read(t_table *x, t_symbol *s){
     if(s && s != &s_)
         tablecommon_doread(cc, s, x->x_glist);
     else
-        hammerpanel_open(cc->c_filehandle, 0);
+        panel_open(cc->c_filehandle, 0);
     table_update(x);
 }
 
@@ -467,10 +467,10 @@ static void table_open(t_table *x){
     char buf[MAXPDSTRING];
     int *bp = cc->c_table;
     int count = cc->c_length, col = 0;
-    hammereditor_open(cc->c_filehandle, (x->x_name ? (char*)x->x_name->s_name : 0), 0);
+    editor_open(cc->c_filehandle, (x->x_name ? (char*)x->x_name->s_name : 0), 0);
     while(count--)
         col = tablecommon_editorappend(cc, *bp++, buf, col);
-    hammereditor_setdirty(cc->c_filehandle, 0);
+    editor_setdirty(cc->c_filehandle, 0);
     sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
     sys_vgui("  wm deiconify .%lx\n", (unsigned long)cc->c_filehandle);
     sys_vgui("  raise .%lx\n", (unsigned long)cc->c_filehandle);
@@ -483,7 +483,7 @@ static void table_click(t_table *x){
 }
 
 static void table_wclose(t_table *x){
-    hammereditor_close(x->x_common->c_filehandle, 1);
+    editor_close(x->x_common->c_filehandle, 1);
 }
 
 static void table_float(t_table *x, t_float f){
@@ -732,11 +732,11 @@ static void table_write(t_table *x, t_symbol *s){
     if(s && s != &s_)
         tablecommon_dowrite(cc, s, x->x_glist);
     else
-        hammerpanel_save(cc->c_filehandle, 0, 0);
+        panel_save(cc->c_filehandle, 0, 0);
 }
 
 static void table_free(t_table *x){
-    hammerfile_free(x->x_filehandle);
+    file_free(x->x_filehandle);
     table_unbind(x);
 }
 
@@ -803,7 +803,7 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
         size = 1;
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
-    x->x_filehandle = hammerfile_new((t_pd *)x, table_embedhook, 0, 0, 0);
+    x->x_filehandle = file_new((t_pd *)x, table_embedhook, 0, 0, 0);
     table_bind(x, name);
     tablecommon_setlength(x->x_common, size);
     x->x_common->c_embedflag = (embed != 0);
@@ -855,11 +855,11 @@ CYCLONE_OBJ_API void table_setup(void){
 // extra ???
     class_addmethod(table_class, (t_method)table_tabrange, gensym("tabrange"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table__coords, gensym("_coords"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    hammerfile_setup(table_class, 1);
+    file_setup(table_class, 1);
     tablecommon_class = class_new(gensym("Table"), 0, 0, sizeof(t_tablecommon), CLASS_PD, 0);
-    /* a nop call (tablecommon doesn't embed and the hammerfile class is set up above),
+    /* a nop call (tablecommon doesn't embed and the file class is set up above),
      but it's best to have it around just in case... */ // Delete this??????
-    hammerfile_setup(tablecommon_class, 0);
+    file_setup(tablecommon_class, 0);
     class_sethelpsymbol(table_class, gensym("table"));
 }
 
@@ -905,11 +905,11 @@ CYCLONE_OBJ_API void Table_setup(void){
     class_addmethod(table_class, (t_method)table_tabrange, gensym("tabrange"), A_FLOAT, 0);
     class_addmethod(table_class, (t_method)table__coords, gensym("_coords"),
         A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    hammerfile_setup(table_class, 1);
+    file_setup(table_class, 1);
     tablecommon_class = class_new(gensym("Table"), 0, 0, sizeof(t_tablecommon), CLASS_PD, 0);
-    /* a nop call (tablecommon doesn't embed and the hammerfile class is set up above),
+    /* a nop call (tablecommon doesn't embed and the file class is set up above),
      but it's best to have it around just in case... */ // Delete this??????
-    hammerfile_setup(tablecommon_class, 0);
+    file_setup(tablecommon_class, 0);
     class_sethelpsymbol(table_class, gensym("table"));
     pd_error(table_class, "Cyclone: please use [cyclone/table] instead of [Table] to supress this error");
 }

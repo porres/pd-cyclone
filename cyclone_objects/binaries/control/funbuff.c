@@ -65,7 +65,7 @@ typedef struct _funbuff
     t_funbuffcom   *x_clip; //clipboard
     int            x_lastdelta;
     int            x_embedflag;
-    t_hammerfile  *x_filehandle;
+    t_file  *x_filehandle;
     t_hammertree   x_tree;
     t_outlet      *x_deltaout;
     t_outlet      *x_bangout;
@@ -428,7 +428,7 @@ static void funbuff_read(t_funbuff *x, t_symbol *s)
     if (s && s != &s_)
 	funbuff_doread(x, s);
     else
-	hammerpanel_open(x->x_filehandle, 0);
+	panel_open(x->x_filehandle, 0);
 }
 
 /* CHECKED symbol arg not allowed --
@@ -438,7 +438,7 @@ static void funbuff_write(t_funbuff *x, t_symbol *s)
     if (s && s != &s_) 
 	funbuff_dowrite(x, s);
     else  /* CHECKME default name */
-	hammerpanel_save(x->x_filehandle,
+	panel_save(x->x_filehandle,
 			 canvas_getdir(x->x_canvas), x->x_defname);
 }
 
@@ -697,7 +697,7 @@ static void funbuff_debug(t_funbuff *x, t_floatarg f)
 
 static void funbuff_free(t_funbuff *x)
 {
-    hammerfile_free(x->x_filehandle);
+    file_free(x->x_filehandle);
     hammertree_clear(&x->x_tree, 0);
     funbuffcom_release();
     if(x->x_heaped){
@@ -727,7 +727,7 @@ static void *funbuff_new(t_symbol *s)
 	funbuff_doread(x, s);
     }
     else x->x_defname = &s_;
-    x->x_filehandle = hammerfile_new((t_pd *)x, funbuff_embedhook,
+    x->x_filehandle = file_new((t_pd *)x, funbuff_embedhook,
 				     funbuff_readhook, funbuff_writehook, 0);
 
     //init history
@@ -813,7 +813,7 @@ CYCLONE_OBJ_API void funbuff_setup(void)
     class_addmethod(funbuff_class, (t_method)funbuff_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);
 #endif
-    hammerfile_setup(funbuff_class, 1);
+    file_setup(funbuff_class, 1);
 
     funbuffcom_class = class_new(gensym("funbuffcom"), 0, 0,
         sizeof(t_funbuffcom), CLASS_PD, 0);

@@ -28,7 +28,7 @@ typedef struct _prob{
     int            x_embedmode;
     unsigned int   x_seed;
     t_outlet      *x_bangout;
-    t_hammerfile  *x_filehandle;
+    t_file  *x_filehandle;
 }t_prob;
 
 static t_class *prob_class;
@@ -53,7 +53,7 @@ static void prob_update(t_prob *x){
         t_probtrans *trans;
         for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans){
             sprintf(buf, "%d %d %d\n", state->tr_value, trans->tr_value, trans->tr_count);
-            hammereditor_append(x->x_filehandle, buf);
+            editor_append(x->x_filehandle, buf);
         }
     }
 }
@@ -63,12 +63,12 @@ t_floatarg shift, t_floatarg ctrl, t_floatarg alt){ // CHECKED not available, LA
     xpos = ypos = shift = ctrl = alt = 0;
     t_probtrans *state;
     char buf[64];
-    hammereditor_open(x->x_filehandle, 0, 0);
+    editor_open(x->x_filehandle, 0, 0);
     for(state = x->x_translist; state; state = state->tr_nextstate){
         t_probtrans *trans;
         for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans){
             sprintf(buf, "%d %d %d\n", state->tr_value, trans->tr_value, trans->tr_count);
-            hammereditor_append(x->x_filehandle, buf);
+            editor_append(x->x_filehandle, buf);
         }
     }
     sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
@@ -238,7 +238,7 @@ static void prob_float(t_prob *x, t_float f){
 
 static void prob_free(t_prob *x){
     prob_clear(x);
-    hammerfile_free(x->x_filehandle);
+    file_free(x->x_filehandle);
 }
 
 static void *prob_new(void){
@@ -250,7 +250,7 @@ static void *prob_new(void){
     rand_seed(&x->x_seed, 0);
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
-    x->x_filehandle = hammerfile_new((t_pd *)x, prob_embedhook, 0, 0, 0);
+    x->x_filehandle = file_new((t_pd *)x, prob_embedhook, 0, 0, 0);
     return (x);
 }
 
@@ -266,5 +266,5 @@ CYCLONE_OBJ_API void prob_setup(void){
     class_addmethod(prob_class, (t_method)prob_dump, gensym("dump"), 0);
     class_addmethod(prob_class, (t_method)prob_click, gensym("click"),
         A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
-    hammerfile_setup(prob_class, 1);
+    file_setup(prob_class, 1);
 }

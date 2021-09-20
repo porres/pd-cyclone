@@ -6,7 +6,7 @@
 redundant insert2, edit to not autosort in collcommon_tonumkey,
 adding coll_renumber2 and collcommon_renumber2
 before used to always bang on callback, now only bangs now due to new x->x_filebang
-(which i'm not sure works with hammerpanel_open....)
+(which i'm not sure works with panel_open....)
 - Derek Kwan
 */
 
@@ -59,7 +59,7 @@ typedef struct _collcommon{
     int            c_embedflag;  /* common field (CHECKED in 'TEXT' files) */
     t_symbol      *c_filename;   /* CHECKED common for all, read and write */
     t_canvas      *c_lastcanvas;
-    t_hammerfile  *c_filehandle;
+    t_file  *c_filehandle;
     t_collelem    *c_first;
     t_collelem    *c_last;
     t_collelem    *c_head;
@@ -76,7 +76,7 @@ typedef struct _coll{
   t_canvas      *x_canvas;
   t_symbol      *x_name;
   t_collcommon  *x_common;
-  t_hammerfile  *x_filehandle;
+  t_file  *x_filehandle;
   t_outlet      *x_keyout;
   t_outlet      *x_filebangout;
   t_outlet      *x_dumpbangout;
@@ -917,7 +917,7 @@ static void coll_unbind(t_coll *x){
     t_coll *prev, *next;
     if((prev = cc->c_refs) == x){
         if(!(cc->c_refs = x->x_next)){
-            hammerfile_free(cc->c_filehandle);
+            file_free(cc->c_filehandle);
             collcommon_free(cc);
             if(x->x_name) pd_unbind(&cc->c_pd, x->x_name);
                 pd_free(&cc->c_pd);
@@ -973,7 +973,7 @@ static void coll_bind(t_coll *x, t_symbol *name){
             cc->c_filename = 0;
             cc->c_lastcanvas = 0;
         }
-        cc->c_filehandle = hammerfile_new((t_pd *)cc, 0, collcommon_readhook,
+        cc->c_filehandle = file_new((t_pd *)cc, 0, collcommon_readhook,
             collcommon_writehook, collcommon_editorhook);
     }
     else{
@@ -1104,10 +1104,10 @@ static void coll_do_update(t_coll *x){
             }
             else
                 newline = 0;
-            hammereditor_append(cc->c_filehandle, buf);
+            editor_append(cc->c_filehandle, buf);
             ap++;
         }
-        hammereditor_setdirty(cc->c_filehandle, 0);
+        editor_setdirty(cc->c_filehandle, 0);
         binbuf_free(bb);
     }
 }
@@ -1123,7 +1123,7 @@ static void coll_do_open(t_coll *x){
     else{
         char buf[MAXPDSTRING];
         char *name = (char *)(x->x_name ? x->x_name->s_name : "Untitled");
-        hammereditor_open(cc->c_filehandle, name, "coll");
+        editor_open(cc->c_filehandle, name, "coll");
         t_binbuf *bb = binbuf_new();
         collcommon_tobinbuf(cc, bb);
         int natoms = binbuf_getnatom(bb);
@@ -1140,10 +1140,10 @@ static void coll_do_open(t_coll *x){
             }
             else
                 newline = 0;
-            hammereditor_append(cc->c_filehandle, buf);
+            editor_append(cc->c_filehandle, buf);
             ap++;
         }
-        hammereditor_setdirty(cc->c_filehandle, 0);
+        editor_setdirty(cc->c_filehandle, 0);
         binbuf_free(bb);
         x->x_is_opened = 1;
     }
@@ -1167,7 +1167,7 @@ static void coll_update(t_coll *x){
 
 // methods -------------------------------------------------------------------------------------
 static void coll_wclose(t_coll *x){ // if edited, closing window asks and replace the contents
-    hammereditor_close(x->x_common->c_filehandle, 1);
+    editor_close(x->x_common->c_filehandle, 1);
 }
 
 static void coll_open(t_coll *x){
@@ -1684,7 +1684,7 @@ static void coll_read(t_coll *x, t_symbol *s){
 			}
 		}
 		else
-			hammerpanel_open(cc->c_filehandle, 0);
+			panel_open(cc->c_filehandle, 0);
 	}
 }
 
@@ -1704,7 +1704,7 @@ static void coll_write(t_coll *x, t_symbol *s){
                 collcommon_dowrite(cc, s, x->x_canvas, 0);
 		}
 		else
-            hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKED no default name */
+            panel_save(cc->c_filehandle, 0, 0);  /* CHECKED no default name */
 	}
 }
 
@@ -1727,7 +1727,7 @@ static void coll_readagain(t_coll *x){
         }
     }
     else
-		hammerpanel_open(cc->c_filehandle, 0);
+		panel_open(cc->c_filehandle, 0);
 }
 
 static void coll_writeagain(t_coll *x){
@@ -1744,7 +1744,7 @@ static void coll_writeagain(t_coll *x){
             collcommon_dowrite(cc, 0, 0, 0);
     }
     else
-		hammerpanel_save(cc->c_filehandle, 0, 0);  /* CHECKED no default name */
+		panel_save(cc->c_filehandle, 0, 0);  /* CHECKED no default name */
 }
 
 static void coll_filetype(t_coll *x, t_symbol *s, int argc, t_atom * argv){
@@ -1916,7 +1916,7 @@ static void coll_free(t_coll *x){
         coll_dothread(x, 0);
     pd_unbind(&x->x_ob.ob_pd, x->x_bindsym);
     clock_free(x->x_clock);
-    hammerfile_free(x->x_filehandle);
+    file_free(x->x_filehandle);
     coll_unbind(x);
 }
 
@@ -1934,7 +1934,7 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv){
     x->x_keyout = outlet_new((t_object *)x, &s_);
     x->x_filebangout = outlet_new((t_object *)x, &s_bang);
     x->x_dumpbangout = outlet_new((t_object *)x, &s_bang);
-    x->x_filehandle = hammerfile_new((t_pd *)x, coll_embedhook, 0, 0, 0);
+    x->x_filehandle = file_new((t_pd *)x, coll_embedhook, 0, 0, 0);
     int no_search = 0;
     int embed = COLLEMBED;
     int threaded = COLLTHREAD;
@@ -2047,11 +2047,11 @@ CYCLONE_OBJ_API void coll_setup(void){
     class_addmethod(coll_class, (t_method)coll_debug,
 		    gensym("debug"), A_DEFFLOAT, 0);
 #endif */
-    hammerfile_setup(coll_class, 1);
+    file_setup(coll_class, 1);
     collcommon_class = class_new(gensym("coll"), 0, 0, sizeof(t_collcommon), CLASS_PD, 0);
-    /* this call is a nop (collcommon does not embed, and the hammerfile
+    /* this call is a nop (collcommon does not embed, and the file
        class itself has been already set up above), but it is better to
        have it around, just in case... */
-    hammerfile_setup(collcommon_class, 0);
+    file_setup(collcommon_class, 0);
 }
 
