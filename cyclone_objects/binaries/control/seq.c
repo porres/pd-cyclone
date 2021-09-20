@@ -473,10 +473,10 @@ static void seq_float(t_seq *x, t_float f){
     }
 }
 
-/*static void seq_symbol(t_seq *x, t_symbol *s)
-{
-    loud_nomethod((t_pd *)x, &s_symbol);  // CHECKED
-}*/
+static void seq_symbol(t_seq *x, t_symbol *s){
+    s = NULL;
+    pd_error(x, "[seq]: no method for symbol");
+}
 
 static void seq_list(t_seq *x, t_symbol *s, int ac, t_atom *av){
     s = NULL;
@@ -669,9 +669,9 @@ static int seq_tempocomparehook(const void *t1, const void *t2){
 }
 
 static int seq_mrhook(t_mifiread *mr, void *hookdata, int evtype){
-    post("seq_mrhook");
+//    post("seq_mrhook");
     t_seq *x = (t_seq *)hookdata;
-    post("(x->x_eventreadhead (%d), x->x_nevents (%d))", x->x_eventreadhead, x->x_nevents);
+//    post("(x->x_eventreadhead (%d), x->x_nevents (%d))", x->x_eventreadhead, x->x_nevents);
     double scoretime = mifiread_getscoretime(mr);
     if(evtype >= 0xf0){
     }
@@ -747,7 +747,7 @@ static int seq_mfread(t_seq *x, char *path){
         post(" (%d smpte frames)", mifiread_getnframes(mr));
     else
         post(" per beat");
-/*#endif */
+#endif */
     if(!seq_dogrowing(x, mifiread_getnevents(mr), mifiread_getntempi(mr)))
         goto mfreadfailed;
     x->x_eventreadhead = 0;
@@ -1048,7 +1048,7 @@ CYCLONE_OBJ_API void seq_setup(void){
     class_addbang(seq_class, seq_bang);
     class_addfloat(seq_class, seq_float);
 // CHECKED symbol rejected
-//    class_addsymbol(seq_class, seq_symbol);
+    class_addsymbol(seq_class, seq_symbol);
 // CHECKED 1st atom of a list accepted if a float, ignored if a symbol
     class_addlist(seq_class, seq_list);
     class_addmethod(seq_class, (t_method)seq_clear, gensym("clear"), 0);
