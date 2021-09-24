@@ -71,51 +71,173 @@ f 57;
 #X text 66 82 [seq] plays/records raw MIDI streams and can save/read
 MIDI sequence files. All tracks of a multi-track midi file are merged
 into one.;
-#N canvas 814 130 447 497 start 0;
-#X msg 84 335 start -1;
-#X obj 166 355 metro;
-#X msg 166 379 tick;
-#X obj 166 421 cyclone/seq seq.txt;
-#X obj 166 332 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
+#N canvas 699 177 647 362 start 0;
+#X obj 397 101 metro;
+#X msg 397 127 tick;
+#X obj 397 78 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 1
 1;
-#X obj 166 288 loadbang;
-#X text 31 23 The 'start' message starts reading the loaded sequence
-and also allows you to control the playback speed \, set by the float
+#X obj 397 24 loadbang;
+#X text 38 163 Note that the 'start' message can only set the speed
+once (at the start of the sequence) - because every time we send the
+start message \, it starts playing from the start! Thus \, a bang or
+a 'start' message can also be used to 'restart' the sequence., f 37
+;
+#X obj 439 117 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
+-228856 -1 -1 20.8333 256;
+#X obj 439 95 expr 60000 / ($f1 * 24);
+#X text 514 114 tick time in ms, f 9;
+#X msg 439 51 120;
+#X obj 439 72 nbx 3 14 30 240 0 0 empty empty empty 0 -8 0 10 -228856
+-1 -1 120 256;
+#X text 479 72 BPM;
+#X msg 285 135 stop;
+#X obj 397 238 cyclone/midiparse;
+#X obj 397 213 cyclone/midiflush;
+#N canvas 638 210 345 266 polysynth 0;
+#X obj 65 20 inlet;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 41 151 pd synth;
+#X obj 65 84 pack f f f;
+#X obj 100 207 outlet~;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 100 151 pd synth;
+#N canvas 667 245 370 323 synth 0;
+#X obj 234 124 / 127;
+#X obj 219 204 *~;
+#X obj 81 134 phasor~;
+#X obj 81 102 mtof;
+#X obj 81 31 inlet;
+#X obj 219 273 outlet~;
+#X obj 81 70 unpack float float;
+#X obj 234 174 vline~;
+#X msg 234 149 \$1 50;
+#X obj 81 162 cyclone/triangle~ 0.9;
+#X obj 219 236 /~ 3;
+#X connect 0 0 8 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 2 0;
+#X connect 4 0 6 0;
+#X connect 6 0 3 0;
+#X connect 6 1 0 0;
+#X connect 7 0 1 1;
+#X connect 8 0 7 0;
+#X connect 9 0 1 0;
+#X connect 10 0 5 0;
+#X restore 161 152 pd synth;
+#X text 124 19 3-voice polyphonic synth;
+#X obj 65 115 route 1 2 3, f 18;
+#X obj 65 52 poly 3 1;
+#X connect 0 0 8 0;
+#X connect 1 0 3 0;
+#X connect 2 0 7 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 7 0 1 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 8 0 2 0;
+#X connect 8 1 2 1;
+#X connect 8 2 2 2;
+#X restore 397 264 pd polysynth;
+#X obj 397 288 ./out~;
+#X obj 285 168 b;
+#X obj 397 187 cyclone/seq seq.mid, f 20;
+#X text 38 20 The 'start' message starts reading the loaded sequence
+and also allows you to control the playback speed set by the float
 after the 'start' message - the normal speed is set as 'start 1024'
 \, so 'start 512' is half the tempo (reads two times slower) \, 'start
 2048' is twice the tempo (two times faster) and so on. If you send
 it just "start" \, it plays at the original speed (so it's the same
-as the bang message or 'start 1024').;
-#X text 33 133 Note that the 'start' message can only set the speed
-once (at the start of the sequence) - because every time we send the
-start message \, it starts playing from the start! Thus \, a bang or
-a 'start' message can also be used to 'restart' the sequence.;
-#X obj 218 389 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
--228856 -1 -1 20.8333 256;
-#X obj 218 362 expr 60000 / ($f1 * 24);
-#X text 33 204 When you send it "start -1" \, it expects 'tick' messages
+as the bang message or 'start 1024')., f 37;
+#X obj 514 213 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X msg 325 135 start \$1;
+#X obj 325 113 f;
+#X msg 325 45 -1;
+#X msg 344 89 512;
+#X msg 332 67 2048;
+#X obj 514 236 s \$0-loop;
+#X obj 296 23 r \$0-loop;
+#X msg 434 154 start;
+#X obj 408 154 bng 17 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#X text 474 155 (same as start 1024);
+#X text 37 246 When you send it "start -1" \, it expects 'tick' messages
 as the clock \, so you can use it to vary the playback tempo or to
 synchronize with another clock (such as incoming MIDI Clock messages).
 24 clock ticks is a quarter note \, you can convert BPM to time per
-clock tick;
-#X text 46 334 play:;
-#X text 293 382 tick time in ms, f 9;
-#X msg 218 318 120;
-#X obj 218 339 nbx 3 14 30 240 0 0 empty empty empty 0 -8 0 10 -228856
--1 -1 120 256;
-#X text 286 338 BPM;
-#X obj 166 451 print;
-#X connect 0 0 3 0;
-#X connect 1 0 2 0;
-#X connect 2 0 3 0;
-#X connect 3 0 16 0;
-#X connect 4 0 1 0;
-#X connect 5 0 4 0;
-#X connect 5 0 13 0;
-#X connect 8 0 1 1;
-#X connect 9 0 8 0;
-#X connect 13 0 14 0;
-#X connect 14 0 9 0;
+clock tick as to the right., f 37;
+#X connect 0 0 1 0;
+#X connect 1 0 17 0;
+#X connect 2 0 0 0;
+#X connect 3 0 2 0;
+#X connect 3 0 8 0;
+#X connect 5 0 0 1;
+#X connect 6 0 5 0;
+#X connect 8 0 9 0;
+#X connect 9 0 6 0;
+#X connect 11 0 17 0;
+#X connect 11 0 16 0;
+#X connect 12 0 14 0;
+#X connect 13 0 12 0;
+#X connect 14 0 15 0;
+#X connect 16 0 13 0;
+#X connect 17 0 13 0;
+#X connect 17 1 19 0;
+#X connect 19 0 25 0;
+#X connect 20 0 17 0;
+#X connect 21 0 20 0;
+#X connect 22 0 21 0;
+#X connect 23 0 21 0;
+#X connect 24 0 21 0;
+#X connect 26 0 21 0;
+#X connect 27 0 17 0;
+#X connect 28 0 17 0;
 #X restore 492 144 pd start;
 #X obj 227 146 cyclone/seq seq.mid;
 #N canvas 410 267 401 256 inconsistencies 0;
@@ -141,7 +263,7 @@ box);
 #X text 198 334 saves to MIDI/text files (no symbol opens a dialog
 box), f 57;
 #X text 191 492 a MIDI/text file to be loaded;
-#N canvas 871 85 493 502 text 0;
+#N canvas 871 85 493 491 text 0;
 #X text 38 39 Besides MIDI files \, [seq] can load and save to .txt
 files \, just use this extension instead. The text file follows a format
 that is also present in the edit window of the [seq] object that opens
@@ -149,7 +271,6 @@ when you click on the object (note that this edit window functionality
 is not present in the original MAX object)., f 67;
 #X obj 128 133 cyclone/seq seq.mid;
 #X text 253 133 <= click to open;
-#X text 38 256 For example \, let's check the sequence below:;
 #X text 136 284 0 144 60 112 \; 1000 144 60 0 \; 1500 192 31 \; 1500
 144 60 112 \; 2500 144 60 0 \;, f 17;
 #X text 39 192 The text format displays the MIDI events in lines separated
@@ -162,6 +283,9 @@ to program number 31 and plays middle C again for one second., f 67
 ;
 #X text 40 424 You can edit and close/save changes to the sequence
 \, but you need to write it to a file so it's saved., f 67;
+#X obj 294 257 cyclone/seq seq.txt;
+#X text 38 256 For example \, let's check thi sequence ==> (also below):
+, f 41;
 #X restore 498 123 pd text;
 #X obj 2 511 cnv 3 550 3 empty empty click 8 12 0 13 -228856 -1 0;
 #X text 198 239 start/restart sequence at a given tempo (default '1024'
@@ -172,7 +296,7 @@ to program number 31 and plays middle C again for one second., f 67
 #X text 159 516 opens a window to write/edit the sequence;
 #X text 198 376 multiplies all the event times by the given number
 , f 57;
-#N canvas 806 74 526 534 more 0;
+#N canvas 779 96 526 534 more 0;
 #X msg 91 271 delay 500;
 #X msg 128 360 pause;
 #X msg 136 382 continue;
@@ -443,7 +567,7 @@ f 57;
 #X restore 150 352 pd polysynth;
 #X text 231 352 <= 3 voice polyphonic;
 #X msg 84 179 read seq.mid;
-#X obj 150 398 ./out~;
+#X obj 150 388 ./out~;
 #X text 23 21 Below \, we play and stop with a toggle. At the end of
 the file \, a bang out the 2nd outlet of [seq] makes it play again
 in a loop. When you stop it with the toggle \, it also flushes possible
@@ -493,7 +617,6 @@ messages to raw MIDI. Please check the help file of [midiparse] \,
 #X connect 16 0 29 0;
 #X connect 17 0 32 0;
 #X connect 22 0 25 0;
-#X connect 22 0 25 1;
 #X connect 24 0 29 0;
 #X connect 29 0 5 0;
 #X connect 29 1 3 0;
