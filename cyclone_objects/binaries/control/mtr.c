@@ -189,68 +189,63 @@ static void mtrack_doadd(t_mtrack *tp, int ac, t_atom *av)
     }
 }
 
-static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av)
-{
-    if (tp->tr_mode == MTR_RECMODE){
-        if(s && av){
-            if(strcmp(s->s_name, "list") != 0 || av->a_type != A_FLOAT){
-                //copy list to new t_atom with symbol as first elt
-                int destpos = 0; //position in copied list
-                int atsize = ac + 1;
-                t_atom* at = t_getbytes(atsize * sizeof(*at));
-                SETSYMBOL(&at[destpos], s);
-                destpos++;
-                int arrpos = 0; //position in arriving list
-                for(destpos=1; destpos<ac+1; destpos++){
-                    if((av+arrpos)->a_type == A_FLOAT){
-                        t_float curfloat = atom_getfloatarg(arrpos, ac, av);
-                        SETFLOAT(&at[destpos], curfloat);
-                    }
-                    else{
-                        t_symbol * cursym = atom_getsymbolarg(arrpos, ac, av);
-                        SETSYMBOL(&at[destpos], cursym);
-                    };
-
-                //increment
-                arrpos++;
-                };
-                mtrack_doadd(tp, ac+1, &at);
-                t_freebytes(at, atsize * sizeof(*at));
-            }
-            else{
-                mtrack_doadd(tp, ac, av);
-             };
+static void mtrack_anything(t_mtrack *tp, t_symbol *s, int ac, t_atom *av){
+    if(tp->tr_mode == MTR_RECMODE){
+        t_atom at[ac+1];
+        SETSYMBOL(&at[0], s);
+        for(int i = 0; i < ac; i++){
+            if((av+i)->a_type == A_FLOAT)
+                SETFLOAT(&at[i+1], atom_getfloatarg(i, ac, av));
+            else if((av+i)->a_type == A_SYMBOL)
+                SETSYMBOL(&at[i+1], atom_getsymbolarg(i, ac, av));
         }
-        else{
+        mtrack_doadd(tp, ac+1, at);
+    }
+}
+
+
+static void mtrack_float(t_mtrack *tp, t_float f){
+    if(tp->tr_mode == MTR_RECMODE){
+        t_atom at;
+        SETFLOAT(&at, f);
+        mtrack_doadd(tp, 1, &at);
+    }
+}
+
+static void mtrack_symbol(t_mtrack *tp, t_symbol *s){
+    if(tp->tr_mode == MTR_RECMODE){
+        t_atom at[2];
+        SETSYMBOL(&at[0], gensym("symbol"));
+        SETSYMBOL(&at[1], s);
+        mtrack_doadd(tp, 2, at);
+    }
+}
+
+static void mtrack_list(t_mtrack *tp, t_symbol *s, int ac, t_atom *av){
+    if(tp->tr_mode == MTR_RECMODE){
+        if(av->a_type == A_FLOAT)
             mtrack_doadd(tp, ac, av);
-        };
-    };
-}
-
-
-static void mtrack_float(t_mtrack *tp, t_float f)
-{
-    if (tp->tr_mode == MTR_RECMODE)
-    {
-	t_atom at;
-	SETFLOAT(&at, f);
-	mtrack_anything(tp, 0, 1, &at);
+        else{
+            t_atom at[ac+1];
+            SETSYMBOL(&at[0], s);
+            for(int i = 0; i < ac; i++){
+                if((av+i)->a_type == A_FLOAT)
+                    SETFLOAT(&at[i+1], atom_getfloatarg(i, ac, av));
+                else if((av+i)->a_type == A_SYMBOL)
+                    SETSYMBOL(&at[i+1], atom_getsymbolarg(i, ac, av));
+            }
+            mtrack_doadd(tp, ac+1, at);
+        }
     }
 }
 
-static void mtrack_symbol(t_mtrack *tp, t_symbol *s)
-{
-    if (tp->tr_mode == MTR_RECMODE)
-    {
-	t_atom at[2];
-        t_symbol *cursym = gensym("symbol");
-        SETSYMBOL(&at[0], cursym);
-	SETSYMBOL(&at[1], s);
-	mtrack_anything(tp, 0, 2, &at);
+static void mtrack_bang(t_mtrack *tp){
+    if(tp->tr_mode == MTR_RECMODE){
+        t_atom at[1];
+        SETSYMBOL(&at[0], gensym("bang"));
+        mtrack_doadd(tp, 1, at);
     }
 }
-
-
 
 static void mtrack_record(t_mtrack *tp)
 {
@@ -784,14 +779,14 @@ static void *mtr_new(t_floatarg f)
     return (x);
 }
 
-CYCLONE_OBJ_API void mtr_setup(void)
-{
+CYCLONE_OBJ_API void mtr_setup(void){
     mtrack_class = class_new(gensym("_mtrack"), 0, 0,
-			     sizeof(t_mtrack), CLASS_PD | CLASS_NOINLET, 0);
+        sizeof(t_mtrack), CLASS_PD | CLASS_NOINLET, 0);
+    class_addbang(mtrack_class, mtrack_bang);
     class_addfloat(mtrack_class, mtrack_float);
     class_addsymbol(mtrack_class, mtrack_symbol);
     class_addanything(mtrack_class, mtrack_anything);
-    class_addlist(mtrack_class, mtrack_anything);
+    class_addlist(mtrack_class, mtrack_list);
     class_addmethod(mtrack_class, (t_method)mtrack_record,
 		    gensym("record"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_play,
