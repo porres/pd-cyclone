@@ -6,6 +6,10 @@
 cyclone 0.6-0 (needs at least Pd Vanilla 0.52-0):
 --------------------------------------------------
 
+- [record~]: fix arg loading (allowing $1)
+- [play~]: fix arg loading (allowing $1)
+- [wave~]: fix arg loading (allowing $1)
+- [mtr]: fix recording bangs, anythings and lists that start with a symbol (this object hasn't been updated to MAX 7 and most likely will never be - it's the only one in cyclone that got no updates at all).
 - [seq]: 
   - Finally updated to MAX 7 (added new 'clear'/addeventdelay messages from MAX 7).
   - Fixed 'tick' message where the first message after 'start -1' wouldn't count.
@@ -193,7 +197,7 @@ E) Updated objects (61 Objects affected), including:
 	- [funbuff] - clipboard operations
 	- [vectral~] - size / clear messages
 
-- 54 objects that were updated to current Max's version; +=~ (alias of [plusequals~]) - [acos~] - [acosh~] - [asin~] - [atanh~] - [average~] - [bitand~], [bitnot~], [bitor~], [bitshift~], [bitxor~], [buffir~], [capture] *, [cartopol], [change~], [coll] *, [count~], [counter], [curve~], [cycle~], [decode], [delay~], [deltaclip~], [fromsymbol], [funnel], [linedrive], [matrix~], [maximum], [midiformat], [midiparse], [minimum], [minmax~], [mousefilter], [mtr], [offer], [overdrive~], [peak], [play~], [poltocar], [pong~], [record~], [scope~], [snapshot~], [spike~], [spray], [sustain], [table], [tosymbol], [trapezoid~], [triangle~], [trough], [uzi] *, [wave~] and [zl] *.
+- 53 objects that were updated to current Max's version; +=~ (alias of [plusequals~]) - [acos~] - [acosh~] - [asin~] - [atanh~] - [average~] - [bitand~], [bitnot~], [bitor~], [bitshift~], [bitxor~], [buffir~], [capture] *, [cartopol], [change~], [coll] *, [count~], [counter], [curve~], [cycle~], [decode], [delay~], [deltaclip~], [fromsymbol], [funnel], [linedrive], [matrix~], [maximum], [midiformat], [midiparse], [minimum], [minmax~], [mousefilter], [offer], [overdrive~], [peak], [play~], [poltocar], [pong~], [record~], [scope~], [snapshot~], [spike~], [spray], [sustain], [table], [tosymbol], [trapezoid~], [triangle~], [trough], [uzi] *, [wave~] and [zl] *.
 
      * *Objects that also required updates from Max 4: [capture] - input for anythings; 
        [coll] - renumber2 method / 2nd argument; [uzi] - 2nd argument; 
@@ -203,7 +207,7 @@ E) Updated objects (61 Objects affected), including:
 
 F) Assorted Fixes (65 Objects affected), including:
 
-- 33 objects that were also updated :
+- 32 objects that were also updated :
 	- [comment] - improved the issue of not rendering the same in different platforms (still buggy), added inlet and methods, fixed behaviour in a subpatch (made it visible).
 	- [mousefilter] - it wasn't filtering on the click moment
 	- [average~] - fixed argument to actually set maximum size, change size clears the buffer
@@ -217,7 +221,6 @@ F) Assorted Fixes (65 Objects affected), including:
 	- [slide~] - fixed the output reaching the target 
 	- [coll] - (not ready yet) input order, 3rd outlet bang, insert message 
 	- [counter] - fixed starting value / 4th inlet bang behaviour / setmin message / current and ancient mode / maximum count value / min-max args in any order / state method in all inlets / behaviour when max < min
-	- [mtr] - input for anythings
 	- [sustain] - input methods, order of flushing noteoffs
 	- [funnel] - fixed the bang method
 	- [uzi] - fixed the default arg

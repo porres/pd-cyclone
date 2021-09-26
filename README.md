@@ -14,41 +14,30 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Copyright © 2003-2020 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
+Copyright © 2003-2021 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
 
 This work is free. You can redistribute it and/or modify it under the terms of the BSD-3-Clause (aka Revised BSD License). See License.txt <https://github.com/porres/pd-cyclone/blob/cyclone0.4/LICENSE.txt> and <https://opensource.org/licenses/BSD-3-Clause> for more details.
 
 -------
 
-Current Release: Cyclone 0.5-6 (this release needs at least Pd Vanilla 0.51-3)
+Current Release: Cyclone 0.6-0 (this release needs at least Pd Vanilla 0.52-0)
 
-Released August 1st 2021
+Unreleased
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
 -------
 ### About Cyclone:
 
-Cyclone 0.5-6 needs at least Pd Vanilla 0.51-3 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
+Cyclone 0.6-0 needs at least Pd Vanilla 0.52-0 and does not run on Pd-Extended or Pd-l2ork/Purr Data.
 
-Outdated versions of cyclone are available in Pd Extended (now an abandoned project) and Purr Data (originally a fork of Pd-Extended). Both carry old 0.1 versions and Purr Data's version is not yet fully ported. The latest versions of cyclone (0.2-0 onwards) are only avvailable and fully supported in Pd Vanilla so far. 
+Outdated versions of cyclone (0.1) are available in Pd Extended (now an abandoned project) and Pd-l2ork/Purr Data that was originally a fork of Pd-Extended and was ported to Node.js as a new front GUI  (0.1 versions of cyclone here were not fully ported to Node.js at the time of this writing; the latest versions of cyclone [0.2-0 onwards] are not fully supported either). 
 
-The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1-alpha55. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1-alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether (this version was also inherited by Purr Data). Under a new maintenance phase by Fred Jan Kraan, 0.1-alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1-alpha' releases and mostly compliant to Max 4.0!
+The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1-alpha55. At this point, Cyclone was compatible to MAX 4.0. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1-alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether (this version was also inherited by Pd-l2ork/Purr Data). Under a new maintenance phase by Fred Jan Kraan, 0.1-alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1-alpha' releases and mostly compliant to Max 4.0!
 
-Cyclone 0.3-0 was the major overhaul in cyclone, where almost all of its objects got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Here's the aftermath:
+Cyclone 0.3-0 was the major overhaul in cyclone, where almost all of its objects got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Check the provided **CHANGELOG.txt** file for the details in all version changes.
 
-- 62 updated objects;
-- 65 fixed objects (including updated objects);
-- 40 new objects;
-- Newly written documentation
-
-Check the provided CHANGELOG.txt file for the details in all version changes.
-
-
-
-Currently, cyclone still pursues compatibilty to Max 7.3.5 with minor issues still in the way, but one object will not get fully updated, which is comment (it misses 'bubble' stuff from Max 6+).
-
-Cyclone is still not compatible to the new Max 8 version, this is still not in the radar for implementartion plans. Hopefully, functionalities added in cyclone objects in Max 8 might be included in future versions of Cyclone. Nonetheless, things like 'mc' compatiblity won't be possible or make it into cyclone!
+Currently, Cyclone still hasn't reached full compatibilty to Max 7.3.5 and most likely will never do. Minor issues stand in the way, like porting [mtr] (too much trouble) and [comment] will most likely miss 'bubble' stuff from Max 6+. Cyclone may still incorporate functionalities from Max 8+ version. Nonetheless, things like 'mc' compatiblity won't be possible or make it into Cyclone!
 
 
 
@@ -243,4 +232,4 @@ This repository/project is open to collaboration to anyone who wishes to work (k
 
 ### Acknowledgements:
 
-Thanks to Lucas Cordiviola for working on compilation and cross compilation issues and generating binaries for many releases. Diego Barrios Romero worked on the possibility of compiling all of objects in cyclone as a single binary instead of separate binaries.
+Thanks to previous maintainers, Lucas Cordiviola for working on compilation and cross compilation issues and generating binaries for many releases. Diego Barrios Romero worked on the possibility of compiling all of objects in cyclone as a single binary instead of separate binaries.
