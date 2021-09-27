@@ -37,7 +37,7 @@ The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version
 
 Cyclone 0.3-0 was the major overhaul in cyclone, where almost all of its objects got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Check the provided **CHANGELOG.txt** file for the details in all version changes.
 
-Currently, Cyclone still hasn't reached full compatibilty to Max 7.3.5 and most likely will never do. Minor issues stand in the way, like porting [mtr] (too much trouble) and [comment] will most likely miss 'bubble' stuff from Max 6+. Cyclone may still incorporate functionalities from Max 8+ version. Nonetheless, things like 'mc' compatiblity won't be possible or make it into Cyclone!
+Currently, Cyclone still hasn't reached full compatibilty to Max 7.3.5 . Some functionalities that depend on "transport" or "dictionaries" haven't been implemented and most likely will never be.  Other minor issues still stand on the way, [comment] will most likely always miss 'bubble' stuff from Max 6+. Other than that, [mtr] hasn't been ported yet and other minor incomatibility issues are described in the help files of corresponding objects. Cyclone may still incorporate functionalities from Max 8+ version. Nonetheless, things like 'mc' compatiblity won't be possible or make it into Cyclone!
 
 
 
