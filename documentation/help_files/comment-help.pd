@@ -56,7 +56,7 @@
 #X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 cyclone;
 #X text 80 352 textjustification <f>;
-#N canvas 534 83 886 580 details 0;
+#N canvas 534 83 891 557 details 0;
 #X obj 159 295 cyclone/comment 425 50 times empty 0 0 0 0 0 100 150
 100 0 0 comment;
 #X msg 159 8 fontsize 50;
@@ -64,14 +64,14 @@
 #X msg 192 118 fontname helvetica;
 #X msg 216 186 textcolor 0 0 0;
 #X msg 220 205 textcolor 150 100 50;
-#X msg 643 149 textcolor 200 0 0;
-#X msg 655 171 textcolor 0 0 0;
-#X obj 493 340 cyclone/comment 380 50 Dejavu\ Sans\ Mono \$0-comment
+#X msg 643 132 textcolor 200 0 0;
+#X msg 655 154 textcolor 0 0 0;
+#X obj 493 323 cyclone/comment 380 50 Dejavu\ Sans\ Mono \$0-comment
 0 0 0 0 0 255 255 255 0 0 comment;
-#X msg 668 211 set hi \, append there;
-#X msg 678 234 set comment \, prepend this;
-#X msg 689 257 set Comment;
-#X obj 639 299 s \$0-comment;
+#X msg 668 194 set hi \, append there;
+#X msg 678 217 set comment \, prepend this;
+#X msg 689 240 set Comment;
+#X obj 639 282 s \$0-comment;
 #X msg 56 236 fontface \$1;
 #X obj 56 149 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -228856 -1
 -1 0;
@@ -80,8 +80,8 @@
 #X text 74 163 bold;
 #X text 74 179 italic;
 #X text 74 194 bold+italic;
-#X msg 546 213 underline \$1;
-#X obj 546 189 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
+#X msg 546 196 underline \$1;
+#X obj 546 172 tgl 15 0 empty empty empty 17 7 0 10 -228856 -1 -1 0
 1;
 #X msg 222 234 bgcolor 100 150 100;
 #X msg 226 254 bgcolor 190 90 200;
@@ -92,7 +92,7 @@
 , f 15;
 #X text 39 375 After setting a background color you can use the 'bg'
 flag to turn it off or on again., f 62;
-#X text 470 484 This object is fully compliant to Max 5 but not fully
+#X text 470 462 This object is fully compliant to Max 5 but not fully
 compliant to Max6+ versions (with all that 'bubble' stuff and more).
 It also has inconsistencies like different attributes than the original
 object in Max (@receive \, @text and @bg)., f 65;
@@ -100,34 +100,31 @@ object in Max (@receive \, @text and @bg)., f 65;
 #X msg 182 80 fontname arial;
 #X msg 177 61 fontname times;
 #X msg 197 137 fontname Dejavu\ Sans\ Mono;
-#X text 39 488 Cyclone's comment will attempt to open a font name that
-corresponds to your given name. If such a font name doesn't exist \,
-it'll open some other font you have on your system instead that it
-thinks is best for what you requested \, and you'll have no idea which
-one it is. Just be sure you have the fonts you want properly installed.
-, f 62;
-#X obj 493 277 loadbang;
-#X msg 493 302 receive \\\$0-comment;
-#X text 408 56 When in edit mode \, [comment] shows its inlet and an
+#X obj 493 260 loadbang;
+#X msg 493 285 receive \\\$0-comment;
+#X text 408 39 When in edit mode \, [comment] shows its inlet and an
 outline. The [comment] object below has a receive symbol \, so you
 can send messages to it via a [send] object. In this case \, the inlet
 is supressed \, so we don't see it. Besides the properties window \,
 the receive symbol can be set with the receive message or the @receive
 attribute. If you set a receive name as "empty" then it it can't receive
 messages anymore and the inlet is show again., f 74;
-#X text 470 429 Note: when in edit mode \, you can click on the object
+#X text 470 407 Note: when in edit mode \, you can click on the object
 to select it and then press <F5> to copy the comment from [cyclone/comment]
 into a Pd's comment box. So far \, this is the only way to copy the
 text from comment into Pd (control+c / control+v doesn't work)., f
 65;
 #X msg 202 156 fontname Menlo;
-#X text 39 404 [comment] uses "Dejavu Sans Mono" as its default font.
-This is the same default font that Pd uses and includes. But Pd doesn't
-offer yet the italic and bold+italic variants. So you need to manually
-install this font in its fullness if you want to use these variants.
-Note that as of 0.51-3 \, Pd uses 'Menlo' as its default font for mac
-\, cyclone also does the same for mac then. Menlo has italic and bold+italic.
-, f 62;
+#X text 39 404 [comment] uses "Dejavu Sans Mono" as its default font
+\, just like Pd. But \, as of version 0.51-3 \, Pd uses 'Menlo' as
+its default font for macOS \, so [comment] also defaults to that font
+in macOS., f 62;
+#X text 39 461 Cyclone's [comment] will attempt to open a font name
+that corresponds to your given name. If such a font name doesn't exist
+\, it'll open some other font you have on your system instead that
+it thinks is best for what you requested \, and you'll have no idea
+which one it is. So just be sure you have the fonts you want properly
+installed., f 62;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -151,9 +148,9 @@ Note that as of 0.51-3 \, Pd uses 'Menlo' as its default font for mac
 #X connect 30 0 0 0;
 #X connect 31 0 0 0;
 #X connect 32 0 0 0;
-#X connect 34 0 35 0;
-#X connect 35 0 8 0;
-#X connect 38 0 0 0;
+#X connect 33 0 34 0;
+#X connect 34 0 8 0;
+#X connect 37 0 0 0;
 #X restore 479 166 pd details;
 #N canvas 800 75 549 514 more 0;
 #X obj 188 340 cyclone/comment 151 20 dejavu\ sans\ mono empty 0 0
@@ -195,9 +192,9 @@ being fully compliant to Max6+ versions!, f 74;
 #X msg 398 24 set 3 \\\, 4!;
 #X msg 223 62 append \\\, 3 \\\, 4!;
 #X obj 205 97 cyclone/comment 120 16 dejavu\ sans\ mono empty 0 0 0
-0 0 255 255 255 0 0 comment;
+0 0 255 255 255 0 0 1 \, 2 \, 3 \, 4!;
 #X obj 398 97 cyclone/comment 120 16 dejavu\ sans\ mono empty 0 0 0
-0 0 255 255 255 0 0 comment;
+0 0 255 255 255 0 0 1 \, 2 \, 3 \, 4!;
 #X text 59 36 Note you can use backslash to escape symbols like '$'
 \, commas and semicolons., f 19;
 #X msg 64 212 set カラオケ, f 11;
