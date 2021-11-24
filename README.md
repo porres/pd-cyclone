@@ -69,7 +69,7 @@ Since "Cyclone 0.1-alpha57", the Cyclone package has relied on the new build sys
 
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
-<pre>make pdincludepath=~/pd-0.51-3/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.51-3/bin/)</pre>
+<pre>make pdincludepath=~/pd-0.52-0/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.52-0/bin/)</pre>
 
 * Make Install
 
