@@ -642,9 +642,9 @@ void print_cyclone(t_cyclone *x){
     sys_getversion(&major, &minor, &bugfix);
     post("");
     post("-----------------------------------------------------------------------------");
-    post(":: Cyclone %d.%d-%d; Unreleased", cyclone_major, cyclone_minor, cyclone_bugfix);
+    post(":: Cyclone %d.%d-%d; Released november 25th 2021", cyclone_major, cyclone_minor, cyclone_bugfix);
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
-    post(":: Copyright © 2003-2020 - Krzysztof Czaja, Hans-Christoph Steiner,");
+    post(":: Copyright © 2003-2021 - Krzysztof Czaja, Hans-Christoph Steiner,");
     post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.");
     post(":: ---------------------------------------------------------------------------");
     if((major > min_major)

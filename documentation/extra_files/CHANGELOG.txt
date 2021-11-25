@@ -6,18 +6,22 @@
 cyclone 0.6-0 (needs at least Pd Vanilla 0.52-0):
 --------------------------------------------------
 
+- [cyclone] (binary/lib) fixed checking minimum Pd version
+- [buffer~] added support to .caf files (thanks to updates in soundfiler for Pd 0.52-0)
+- [comment] thanks to updates in Pd 0.52-0 we can now fully support natively italic variants of DejaVu Sans Mono
 - [record~]: fix arg loading (allowing $1)
 - [play~]: fix arg loading (allowing $1)
 - [wave~]: fix arg loading (allowing $1)
-- [mtr]: fix recording bangs, anythings and lists that start with a symbol (this object hasn't been updated to MAX 7 and most likely will never be - it's the only one in cyclone that got no updates at all).
+- [mtr]: fix recording bangs, anythings and lists that start with a symbol (this object hasn't been updated to MAX 7 and we just realized that - it's the only one in cyclone that got no updates at all, hopefully we'll get to it)
 - [seq]: 
-  - Finally updated to MAX 7 (added new 'clear'/addeventdelay messages from MAX 7).
+  - Partially updated to MAX 7 (finally) added new 'clear'/addeventdelay messages from MAX 7, but we haven't added the float argument to 'write' message so it forces saving files with separate tracks.
   - Fixed 'tick' message where the first message after 'start -1' wouldn't count.
-  - 'read' message now warns when file is not found, same for file argument; 
-  - [seq] now correctly finds "end of track"; 
+  - 'read' message now warns when file is not found, same for file argument. 
+  - The "end of track" byte is now found and respected.
   - Opening files while reading an old one now restart from the beginning.
   - The 'print' message was fixed to show absolute time values like in MAX.
-  - Extra feature of the display/editor window via clicking was restored back (it had been removed n the cyclone 0.3 experimental phase); times are now displayed in absolute as it's the standard.
+  - Extra feature of the display/editor window via clicking was restored back (it had been removed n the cyclone 0.3 experimental phase)
+  - Times in the edit window are now displayed in absolute as it's the standard for 'print' in MAX and the text file (therefore it was considered a bug).
   - Improved the  edit window behaviour, now clicking on the object raises and focuses on the window if it's already opened. The contents are also updated on the opened window when changed.
   - Improved documentation significantly, added examples for all messages and we also explain now how to save and load text files and its format.
 

@@ -22,16 +22,16 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 Current Release: Cyclone 0.6-0 (this release needs at least Pd Vanilla 0.52-0)
 
-Unreleased
+Released november 25th 2021
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
 -------
 ### About Cyclone:
 
-Cyclone 0.6-0 needs at least Pd Vanilla 0.52-0.
+Cyclone 0.6-0 needs at least Pd Vanilla 0.52-0. 
 
-Outdated versions of cyclone (0.1) are available in the long abandoned Pd Extended distribution as well as Pd-l2ork and Purr Data - both originally based on Pd-Extended but ported to nw.js (0.1 versions of cyclone here were not fully ported to nw.js at the time of this writing). 
+Outdated versions of cyclone (0.1) are available in the long abandoned Pd Extended distribution (which no one should be using now in the 2020's) as well as Pd-l2ork and Purr Data - both originally based on Pd-Extended but ported to nw.js (0.1 versions of cyclone here were not fully ported to nw.js at the time of this writing).
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1-alpha55, whn Cyclone was compatible to MAX 4.0. Cyclone was then incorporated and available in Pd-Extended, where it only a had a minor update in 2013 (0.1-alpha56) under the maintenance of Hans-Christoph Steiner, right before Cyclone and Pd Extended were abandoned altogether (this version was also inherited by Pd-l2ork/Purr Data). Under a new maintenance phase by Fred Jan Kraan, 0.1-alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1-alpha' releases and mostly compliant to Max 4.0!
 
