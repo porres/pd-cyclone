@@ -36,10 +36,10 @@ cyclone folder., f 73;
 #X connect 3 0 4 0;
 #X connect 4 0 0 0;
 #X restore 57 601 pd links;
-#X obj 441 608 bng 15 250 50 0 \$0-issues dummy empty 17 7 0 10 -228856
--1 -1;
-#X obj 318 541 bng 15 250 50 0 \$0-install dummy empty 17 7 0 10 -228856
--1 -1;
+#X obj 441 608 bng 15 250 50 0 \$0-issues dummy empty 17 7 0 10 #dcdcdc
+#000000 #000000;
+#X obj 318 541 bng 15 250 50 0 \$0-install dummy empty 17 7 0 10 #dcdcdc
+#000000 #000000;
 #X text 76 529 Click and open "how to install" link from the repository
 for more details =>, f 39;
 #X text 191 597 Click and open "issues" link from the repository to
@@ -54,7 +54,7 @@ report bugs/issues ======>, f 40;
 #X text 73 459 You can load the cyclone library via Preferences =>
 "Path" & "Startup"., f 36;
 #X obj 329 469 declare -lib cyclone -path cyclone;
-#X obj 2 3 cnv 15 552 60 empty empty empty 6 13 0 18 -128992 -233080
+#X obj 2 3 cnv 15 552 60 empty empty empty 6 13 0 18 #7c7c7c #e0e4dc
 0;
 #X obj 26 8 cyclone/comment 425 22 DejaVu\ Sans\ Mono empty 0 224 228
 220 0 255 255 255 0 0 cyclone;
@@ -63,7 +63,7 @@ report bugs/issues ======>, f 40;
 Max/MSP;
 #X obj 269 38 cyclone/comment 425 12 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 https://github.com/porres/pd-cyclone;
-#X obj 2 64 cnv 15 552 90 empty empty empty 20 12 0 14 -233017 -66577
+#X obj 2 64 cnv 15 552 90 empty empty empty 20 12 0 14 #e0e0e0 #404040
 0;
 #X obj 28 87 cyclone/comment 260 17 helvetica empty 0 0 0 0 0 255 255
 255 0 0 Cyclone expands Pure Data with objects cloned from Max/MSP.
@@ -72,4 +72,4 @@ Max/MSP;
 255 255 0 0 It also provides some level of compatibility between the
 two environments.;
 #X obj 26 36 cyclone/comment 141 14 DejaVu\ Sans\ Mono empty 0 224
-228 220 0 255 255 255 0 0 version: 0.6-0;
+228 220 0 255 255 255 0 0 version: 0.6-1;

@@ -210,7 +210,7 @@ Fred Jan Kraan forked the original repository to <https://github.com/electricker
 
 => This Repository (0.3-0 and onwards):
 
-In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon to this repositry that resides at: https://github.com/porres/pd-cyclone. The fork happened while cyclone was at 0.2-beta stage. Since then, Alexandre Porres, Derek Kwan, Matt Barber and other collaborators have worked on further developments of cyclone. The first stable release from this repository was cyclone 0.3-0 from february 2019.
+In February 2016, Porres forked from https://github.com/electrickery/pd-miXedSon to this repositry that resides at: https://github.com/porres/pd-cyclone. The fork happened while cyclone was at 0.2-beta stage. Since then, Alexandre Porres, Derek Kwan, Matt Barber and other collaborators have worked on further developments of cyclone. The first stable release from this repository was cyclone 0.3-0 from february 2019. In late 2021, after the release of version 0.6-0, this repository was detached from Kraan's (electrickery) here on GitHub, after being thousands of commits ahead and with a completely restructure of the code base.
 
 => The 'nilwind' fork:
 
