@@ -1,6 +1,6 @@
-#N canvas 747 97 448 310 10;
+#N canvas 747 97 452 348 10;
 #X obj 54 227 *~;
-#X obj 105 36 inlet~;
+#X obj 105 50 inlet~;
 #X obj 106 226 *~;
 #X obj 274 58 block~ 64;
 #N canvas 627 117 636 328 set_GUI 0;
@@ -24,7 +24,7 @@
 #X obj 98 52 route set on off mute mode gain ramp;
 #X obj 496 139 f \$2;
 #X obj 464 152 f \$1;
-#X obj 464 112 else/lb -init;
+#X obj 464 112 loadbang;
 #X connect 1 0 17 0;
 #X connect 2 0 0 0;
 #X connect 4 0 3 0;
@@ -44,7 +44,7 @@
 #X connect 19 0 13 0;
 #X connect 20 0 18 0;
 #X connect 20 0 19 0;
-#X restore 159 77 pd set_GUI;
+#X restore 156 87 pd set_GUI;
 #N canvas 965 168 332 251 GUI 0;
 #X obj 103 116 hsl 89 20 0 1 0 0 \$0-slider \$0-set-slider volume 17
 9 0 14 #dcdcdc #000000 #000000 0 1;
@@ -216,7 +216,7 @@
 #X obj 267 233 s \$0-set-slider;
 #X obj 136 100 bng 16 500 250 0 \$0-mute-bng \$0-mute-bng-set empty
 17 7 0 10 #dcdcdc #000000 #000000;
-#X obj 64 47 else/lb -init;
+#X obj 64 47 loadbang;
 #X connect 1 0 2 0;
 #X connect 1 0 3 0;
 #X connect 2 0 5 0;
@@ -315,7 +315,7 @@
 #X msg 135 117 0;
 #X obj 108 85 delay 5;
 #X obj 59 149 outlet;
-#X obj 168 45 else/lb -init;
+#X obj 168 45 loadbang;
 #X connect 0 0 1 0;
 #X connect 1 0 6 0;
 #X connect 3 0 2 0;
@@ -559,7 +559,7 @@
 #X connect 10 0 8 0;
 #X restore 354 137 pd on;
 #X obj 295 217 s \$0-set-slider;
-#X obj 206 114 else/lb -init;
+#X obj 206 114 loadbang;
 #X connect 0 0 4 0;
 #X connect 0 0 8 0;
 #X connect 1 0 2 0;
@@ -587,7 +587,7 @@
 #X connect 7 0 6 1;
 #X restore 156 132 pd gain-mute;
 #X text 187 195 Part of ELSE \; https://github.com/porres/pd-else;
-#X obj 23 36 inlet~ fwd;
+#X obj 23 50 inlet~ fwd;
 #N canvas 347 63 385 245 switch 0;
 #X obj 87 122 *~;
 #X obj 225 30 inlet~;
@@ -595,8 +595,8 @@
 #X obj 67 188 outlet~;
 #X obj 225 188 outlet~;
 #X obj 225 122 *~;
-#X obj 240 96 else/op~ != 10000;
-#X obj 102 97 else/op~ == 10000;
+#X obj 102 97 expr~ $v1 == 10000;
+#X obj 240 96 expr~ $v1 != 10000;
 #X connect 0 0 4 0;
 #X connect 1 0 5 0;
 #X connect 1 0 6 0;
@@ -604,14 +604,15 @@
 #X connect 2 0 0 0;
 #X connect 2 0 3 0;
 #X connect 5 0 4 0;
-#X connect 6 0 5 1;
-#X connect 7 0 0 1;
-#X restore 54 73 pd switch;
+#X connect 6 0 0 1;
+#X connect 7 0 5 1;
+#X restore 54 77 pd switch;
 #X obj 105 104 hip~ 3;
 #X obj 54 105 hip~ 3;
 #X text 188 176 Alexandre Torres Porres (2016-2020);
-#X obj 105 12 else/initmess 10000;
 #X text 188 227 Borrowed by Cyclone;
+#X obj 105 10 loadbang;
+#X msg 105 30 10000;
 #X connect 0 0 7 0;
 #X connect 1 0 11 1;
 #X connect 2 0 7 1;
@@ -624,5 +625,6 @@
 #X connect 11 1 12 0;
 #X connect 12 0 2 0;
 #X connect 13 0 0 0;
-#X connect 15 0 1 0;
+#X connect 16 0 17 0;
+#X connect 17 0 1 0;
 #X coords 0 0 1 1 94 51 1 260 90;
