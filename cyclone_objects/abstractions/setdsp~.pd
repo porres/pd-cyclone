@@ -15,7 +15,7 @@
 #X obj 51 169 cnv 1 6 1 empty empty empty 20 12 0 14 #000000 #404040
 0;
 #X obj 44 203 r \$0-tgl-s;
-#N canvas 603 92 527 451 guts 1;
+#N canvas 603 92 527 451 guts 0;
 #X obj 180 372 outlet;
 #X obj 243 190 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000 0 1;
