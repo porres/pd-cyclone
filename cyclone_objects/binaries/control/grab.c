@@ -412,7 +412,7 @@ CYCLONE_OBJ_API void grab_setup(void){
         pd_bind(&c, s);
         if(!s->s_thing || !(bindlist_class = *s->s_thing)
 	    || bindlist_class->c_name != gensym("bindlist"))
-            post("grab: failure to initialize remote grabbing feature");
+            pd_error(grab_class, "grab: failure to initialize remote grabbing feature");
 	pd_unbind(&c, s);
 	pd_unbind(&grab_class, s);
     }
