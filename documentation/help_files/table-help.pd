@@ -75,36 +75,36 @@ a text file format, f 78;
 #X text 41 486 setbits <list> -;
 #X text 145 19 fills the table with the given number, f 78;
 #X text 42 119 getbits <list> -;
-#X text 145 156 sets a pointer to the addresss specified by the number
+#X text 145 156 sets a pointer to the address specified by the number
 , f 78;
 #X text 60 171 inv <float> -;
 #X text 145 392 opens and reads data from a file specified by the symbol.
 If no symbol is given \, an open dialog is shown, f 78;
 #X text 41 418 refer <symbol> -;
 #X text 5 433 send <symbol \, float> -;
-#X text 145 433 sends the value stored at the addresss specified by
+#X text 145 433 sends the value stored at the address specified by
 the float to all [receive] objects with the symbol name name, f 78
 ;
-#X text 145 459 the first float specifies a starting addresss and the
-next numbers specify the values to be stored from that addresss on,
+#X text 145 459 the first float specifies a starting address and the
+next numbers specify the values to be stored from that address on,
 f 78;
 #X text 65 459 set <list> -;
 #X text 145 485 changes a stored number's bit values: 1st float is
-the addresss \, 2nd is the starting bit location (0-31 from LSB to MSB)
+the address \, 2nd is the starting bit location (0-31 from LSB to MSB)
 \, 3rd is how many from starting bit should be modified and 4th is
 the value (in decimal or hexadecimal form) to which those bits should
 be set, f 78;
 #X text 145 33 cancels last right inlet input (so next left input outputs
 a number), f 78;
-#X text 145 119 1st float is the addresss to query \, 2nd is starting
+#X text 145 119 1st float is the address to query \, 2nd is starting
 bit location (0-31 from LSB to MSB) and 3rd is how many bits to the
 right of starting bit should be sent (as a single decimal integer)
 , f 78;
-#X text 145 283 sends the value stored at the pointed addresss on left
-outlet and sets the pointer to the next addresss (wraps to 1st addresss
+#X text 145 283 sends the value stored at the pointed address on left
+outlet and sets the pointer to the next address (wraps to 1st address
 when reaching the end), f 78;
 #X text 145 340 similar to "next" message \, but the decreases the
-pointer addresss (and wraps to last addresss when reaching start), f
+pointer address (and wraps to last address when reaching start), f
 78;
 #X text 145 533 sets the number of values in the table (default: 128
 \, indexed from 0 to 127), f 78;
@@ -118,15 +118,15 @@ by the symbol, f 78;
 #X text 54 77 flags <f \, f> -;
 #X text 145 78 <1 \, 0> saves contents with the patch when it's saved
 \, <0 \, 1> doesn't, f 78;
-#X text 145 93 sends the addresss at which the sum of all values up
-to that addresss is >= to the the sum of all table values times the
+#X text 145 93 sends the address at which the sum of all values up
+to that address is >= to the the sum of all table values times the
 <float> (between 0 and 1), f 78;
-#X text 145 366 sends the addresss at which the sum of the all values
-up to that addresss is >= the the sum of all table values times the
+#X text 145 366 sends the address at which the sum of the all values
+up to that address is >= the the sum of all table values times the
 <int> divided by 2^15 (32768), f 78;
 #X text 42 366 quantile <int> -;
 #X text 145 200 sets to load mode: all numbers received in the left
-inlet are stored beginning at addresss 0 until the end (additional numbers
+inlet are stored beginning at address 0 until the end (additional numbers
 are ignored) or taken out of load mode by a normal message., f 78
 ;
 #X text 145 309 changes from "load mode" to "normal" mode (see "load
@@ -134,7 +134,7 @@ message"), f 78;
 #X text 145 267 sets a table name and is the same as "refer", f 78
 ;
 #X text 145 171 finds the first table value which is >= the float and
-sends its addresss, f 78;
+sends its address, f 78;
 #X restore 201 326 pd All_Messages;
 #X obj 21 56 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 255 255 255 0 0 Store and edit a number array;
@@ -369,8 +369,8 @@ and doesn't store anything., f 70;
 #X text 84 38 go to index 50;
 #X text 77 61 go to the next index and output its value;
 #X text 95 86 go to the previous index and output its value;
-#X text 105 118 ouput maximum value from the table;
-#X text 113 139 ouput minimum value from the table;
+#X text 105 118 output maximum value from the table;
+#X text 113 139 output minimum value from the table;
 #X text 138 171 output table's length;
 #X text 120 202 output the sum of all table's avlues;
 #X obj 60 271 cyclone/table;
@@ -392,8 +392,8 @@ and doesn't store anything., f 70;
 -228856 -1 -1 0 256;
 #X obj 407 285 cyclone/table;
 #C restore;
-#X text 487 88 sends the addresss at which the sum of the all values
-up to that addresss is >= the the sum of all table values times the
+#X text 487 88 sends the address at which the sum of the all values
+up to that address is >= the the sum of all table values times the
 input divided by 2^15 (32768), f 40;
 #X text 514 176 same as quantile \, but the input range is a float
 from 0 to 1, f 35;
@@ -401,7 +401,7 @@ from 0 to 1, f 35;
 #X obj 443 227 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 495 232 finds the first table value which is >= the input and
-sends its addresss, f 37;
+sends its address, f 37;
 #X text 395 20 same as below (random values from 0 to 32768 + quantile)
 ;
 #X text 429 45 random + quantile;

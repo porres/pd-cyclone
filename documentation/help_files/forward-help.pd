@@ -30,7 +30,7 @@
 -228856 -1 -1 0 256;
 #X text 225 295 any message to be sent forward, f 32;
 #X text 122 316 send <symbol>;
-#X text 210 316 - sets an addresss to send to;
+#X text 210 316 - sets an address to send to;
 #X text 145 388 1) symbol;
 #X obj 266 238 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;

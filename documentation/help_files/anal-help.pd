@@ -103,7 +103,7 @@ values into 1;
 255 255 0 0 store previous note in the high 7-bits of our value;
 #X obj 82 489 cyclone/comment 250 11 helvetica empty 0 200 0 0 0 255
 255 255 0 0 Now the playback is comprised of transition probabilities
-based on the two preceeding notes! This should yield results that sound
+based on the two preceding notes! This should yield results that sound
 less random than if we're just looking at one note at a time.;
 #X obj 231 250 * 128;
 #X msg 285 324 reset;

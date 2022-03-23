@@ -82,7 +82,7 @@ interpolator. A disadvantage is that the first derivative (the isntantaneous
 slope of the curve) is not usually continuous at breakpoints \, which
 can cause sharp corners in the curve (see examples in the parent patch).
 , f 75;
-#X text 24 396 An Hermite interpolator addressses the first derivative
+#X text 24 396 An Hermite interpolator addresses the first derivative
 problem with the Lagrange by deliberately making the first derivative
 continuous at breakpoints. It interpolates between b and c by finding
 a cubic polynomial curve that passes through b and c. The curve does
@@ -153,7 +153,7 @@ at that breakpoint than the other. Bias values between 0 and 1 give
 the left point more influence than the right \, bias values between
 0 and -1 do the opposite., f 75;
 #X restore 319 320 pd cubic (modes 4 to 7);
-#X text 19 17 Though not reffered in Max's documentation \, the interpolation
+#X text 19 17 Though not referred in Max's documentation \, the interpolation
 formulas for [wave~] almost certainly can found in <http://paulbourke.net/miscellaneous/interpolation>.
 , f 82;
 #X text 19 50 [wave~]'s input phase varies between 0 and 1 \, which
