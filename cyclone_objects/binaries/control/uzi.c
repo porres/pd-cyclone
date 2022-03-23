@@ -32,7 +32,7 @@ static void uzi_dobang(t_uzi *x)
     int nbangs = (int)x->x_nbangs;
     int offset = (int)x->x_offset;
 	x->x_running = UZI_RUNNING;
-// If resuming/continuing, count restart the counter from where it stoped, even if the offset has changed
+// If resuming/continuing, count restart the counter from where it stopped, even if the offset has changed
 // something like count = last_count
 	for (count = x->x_count; count < (offset + nbangs); count++)
 	{

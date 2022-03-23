@@ -8,7 +8,7 @@
 /* LATER think about making the <Button> binding for the entire bbox,
  instead of the text item, to ease the pain of resizing, somewhat. */
 
-// Porres cleaned up, rewrote and reorganized lots of thnigs and updated comment 2018-2020
+// Porres cleaned up, rewrote and reorganized lots of things and updated comment 2018-2020
 
 #include <common/api.h>
 #include <control/s_utf8.h>

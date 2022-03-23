@@ -660,7 +660,7 @@ void print_cyclone(t_cyclone *x){
             min_major, min_minor, min_bugfix,
             major, minor, bugfix);
     post(":: Loading the cyclone library did the following:");
-    post("::   - A) Loaded the non alpha-numeric objects, which are: [!-], [!-~],");
+    post("::   - A) Loaded the non alphanumeric objects, which are: [!-], [!-~],");
     post(":: [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~], [==~], [>=~] and [>~]");
     post("::   - B) Added %s", cyclone_dir);
     post(":: to Pd's path so the other objects can be loaded too");
