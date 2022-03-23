@@ -149,7 +149,7 @@ cyclone 0.5-0 (needs at least Pd Vanilla 0.51-0):
    B- Visual change where it now shows its inlet while in edit mode (like it happens in Max)
    C- Fixed a bug in [comment] where it couldn't load font names that had spaces (such as "DejaVu Sans Mono") and made the default font "DejaVu Sans Mono" like in Pd. But this only works well in Pd 0.51-0 or later!
    D- Documentation has been revised to only contain DejaVu Sans Mono fonts in all cyclone/comment objects
-   E- Updated [comment] to add missing Max 5 parameters (added 'fontface', 'underline' and 'bgcolor' methods/attributes, plus an extra 'bg' method/attribute to supress background)
+   E- Updated [comment] to add missing Max 5 parameters (added 'fontface', 'underline' and 'bgcolor' methods/attributes, plus an extra 'bg' method/attribute to suppress background)
    F- Also added 'textjustification' from Max6. This object isn't fully compliant to Max6+ and is the only one that will not be fully updated - for instance, it misses all that "bubble stuff". Nonetheless, this was the last object that needed further updates from cyclone's 0.3's goal to update objects to Max 7. This means that this mission is finally completed!
 
 --------------------------------------------------
