@@ -149,7 +149,7 @@ sends its address, f 78;
 #X text 33 136 And still create the vanilla object from vanilla without
 namespaces as:;
 #X text 34 17 Pd also has a vanilla object named [table]. Cyclone avoids
-name clashing and overwritting an internal in Pd Vanilla \, but for
+name clashing and overwriting an internal in Pd Vanilla \, but for
 that you need to use the cyclone namespace ("cyclone/" before the object
 name) \, as it's the common practice for cyclone's documentation. So
 you create it as:;

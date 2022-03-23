@@ -116,7 +116,7 @@ bangs (4th) when done, f 79;
 #X text 174 52 deletes the address (if an int \, higher addresses are
 decremented by 1), f 79;
 #X text 123 22 clear -;
-#X text 174 22 deletes all adresses (the complete data collection)
+#X text 174 22 deletes all addresses (the complete data collection)
 from [coll], f 79;
 #X text 135 82 end -;
 #X text 51 112 filetype <symbol> -;
@@ -127,10 +127,10 @@ no output), f 79;
 #X text 174 157 an int address and any message to insert \, increments
 equal/greater addresses, f 79;
 #X text 33 127 flags <float \, float> -;
-#X text 174 97 <1> saves contents whith the patch \, <0> doesn't,
+#X text 174 97 <1> saves contents with the patch \, <0> doesn't,
 f 79;
 #X text 174 127 first flag is the embed flag \, second is unused (just
-use 'embed' instead), f 79;
+use 'embed' isntead), f 79;
 #X text 51 142 goto <int/symbol> -;
 #X text 174 82 sets the pointer to the last entry/address, f 79;
 #X text 63 412 renumber2 <int> -;
@@ -301,7 +301,7 @@ try the example below.;
 #X text 747 283 <= change addresses;
 #X msg 622 272 subsym Três Three;
 #X msg 627 299 subsym Quatro Four;
-#X text 462 51 The subsym message substitues a symbol adress by another
+#X text 462 51 The subsym message substitutes a symbol address by another
 \, the first symbol is the new address name and the second is the address
 to be substituted.;
 #X msg 61 272 store 1 One \, store 2 Two \, store Three 3 \, store
@@ -595,7 +595,7 @@ its data.;
 been removed \, the coll object will not output anything or respond
 in any way.;
 #X text 43 26 You can use the "store" message to store data at a given
-symbol adress. You can also use it for int addresses \, but it is not
+symbol address. You can also use it for int addresses \, but it is not
 needed as you can just use a list that starts with an integer for that.
 Note that storing to an existing address updates it!;
 #X obj 199 100 loadbang;
@@ -861,9 +861,9 @@ other [coll] objects that also have no names.;
 "next" (same as a bang) or "prev" messages that \, respectively \,
 go to the next and the previous address.;
 #X text 39 28 You can also use the 1st argument to specify a filename
-for [coll] to load when instantiated. The read/write messages allow
+for [coll] to load when isntantiated. The read/write messages allow
 you to read/write from and to other files.;
-#X text 204 310 (also bangs on instantiation);
+#X text 204 310 (also bangs on isntantiation);
 #X obj 180 333 print done_reading;
 #X text 205 294 bang when finishing read operation;
 #X text 456 66 The pointer to the address is set for all [coll] objects
@@ -914,7 +914,7 @@ doesn't need to load the file again!;
 #X text 253 173 deassociates bar & 2;
 #X text 24 17 Use "assoc" and "deassoc" to associate and deassociate
 a symbol alias to an int address \, so you can optionally use the symbol
-name address instead of the int address.;
+name address isntead of the int address.;
 #X obj 46 123 loadbang;
 #X msg 218 239 remove foo;
 #X text 289 239 *;
@@ -940,7 +940,7 @@ alias \, and they can come in any order <int \, symbol> or <symbol
 \, int> - the remaining element(s) set the stored data.;
 #X text 614 332 address;
 #X text 37 369 * Once you have an associated alias \, you can perform
-any operation using the alias insteas of the int address \, such as
+any operation using the alias isnteas of the int address \, such as
 removing the address from the collection.;
 #X obj 531 364 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
@@ -1060,14 +1060,14 @@ their patches.;
 #X text 61 17 Unthreaded mode always provide the depth first behaviour
 \, meaning that the print order below is "1 \, 2 \, 3". The threaded
 mode breaks it for the read and dump operations \, printing: "1 \,
-3 \, 2" instead.;
+3 \, 2" isntead.;
 #X obj 160 201 cyclone/coll depth 1 @threaded 0;
 #C restore;
 #X text 77 370 One way or another \, if an action is needed right after
 reading or dumping \, you should use and rely on the bangs from the
 outlets \, which are there for this reason and is the best practice
 for [coll] in any case.;
-#X text 77 436 For old patches that used [trigger] instead of the best
+#X text 77 436 For old patches that used [trigger] isntead of the best
 practice \, it is encouraged that they are adapted to use the 3rd/4th
 outlets now and not the "threaded 0" attribute.;
 #X msg 144 122 read coll_big.txt;

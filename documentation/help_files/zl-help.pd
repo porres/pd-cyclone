@@ -58,8 +58,8 @@ or message (and it can be up to 32767)., f 54;
 #X obj 434 65 cyclone/comment 185 14 monaco empty 0 0 0 0 0 255 255
 255 0 0 Examples:;
 #X obj 165 485 cyclone/comment 185 14 monaco empty 0 0 0 0 0 255 255
-255 0 0 Compatibilty note:;
-#X text 166 510 In Max \, the zl family of objects can be instantiated
+255 0 0 Compatibility note:;
+#X text 166 510 In Max \, the zl family of objects can be isntantiated
 with the mode after a dot \, such as [zl.group]. But this is not possible
 in Pd \, where the mode needs to be called as an argument after a space.
 , f 66;
@@ -144,7 +144,7 @@ group size is 0 \, which means nothing gets grouped and output.;
 #X msg 174 275 1 2 3 4 5 6;
 #X msg 156 247 mode iter 4;
 #X obj 156 381 print iter;
-#X text 28 37 The iter mode breaks an input list in to sucessive lists
+#X text 28 37 The iter mode breaks an input list in to successive lists
 of a given size. If an input list is smaller than the iter size \,
 the lista is output anyway - if the last bit of the broken list is
 of a size smaller than the iter size \, it is also output.;
@@ -252,7 +252,7 @@ outlet is set as the 2nd argument. This is optional \, no second argument
 #X msg 484 172 mode mth 3 hello;
 #X msg 595 229 6 bye;
 #X text 24 36 The mode mth is the same as mth but starts counting from
-0 instead. It outputs the mth element of a message through the left
+0 isntead. It outputs the mth element of a message through the left
 outlet. The right outlet outputs the remaining elements \, but the
 output can also replace the mth element by another.;
 #X text 24 100 The mth element is set as the 1st argument. The 1st
@@ -301,13 +301,13 @@ outlet \, the same happens for negative mth values.;
 #X msg 525 171 1 2 3 4 5 6 7 8 9 10;
 #X text 422 46 The element that replaces the nth element in the right
 outlet is set as the 2nd argument. This is optional \, no second argument
-(the defaukt) does not replace the nth element by anything.;
+(the default) does not replace the nth element by anything.;
 #X obj 461 272 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
 #X text 655 200 nth / replacement;
 #X msg 505 143 mode nth 3 hello;
 #X text 25 27 The mode nth is the same as mth but starts counting from
-1 instead. It outputs the nth element of a message through the left
+1 isntead. It outputs the nth element of a message through the left
 outlet. The right outlet outputs the remaining elements \, but the
 output can also replace the nth element by another., f 61;
 #X text 24 94 The nth element is set as the 1st argument. The 1st element
@@ -485,12 +485,12 @@ is '0' \, which means no slicing.;
 #X msg 210 220 11;
 #X msg 246 220 7 8 9;
 #X msg 175 220 1;
-#X obj 210 285 print occurances;
+#X obj 210 285 print occurrences;
 #X obj 111 285 print position;
-#X text 18 42 the sub mode searches for occurances of the element(s)
-of the second list to the first list and outputs the number of occurances
-in the right outlet and the position of such occurances in the left
-outlet. If no occurance is found \, the right outlet outputs 0 and
+#X text 18 42 the sub mode searches for occurrences of the element(s)
+of the second list to the first list and outputs the number of occurrences
+in the right outlet and the position of such occurrences in the left
+outlet. If no occurrence is found \, the right outlet outputs 0 and
 nothing is output on the left outlet. Subsequent arguments initialize
 the right list.;
 #X msg 111 161 mode sub 5;
@@ -653,7 +653,7 @@ it is the same or "0" if it is not. In the case on non equal lists
 #X obj 265 247 print indexes;
 #X text 21 36 filter removes items in a list \, the items to filter
 are specified as the arguments or the right input. The right outlet
-ouputs the unfiltered and output indexes.;
+outputs the unfiltered and output indexes.;
 #X msg 106 136 mode filter toto titi;
 #X msg 120 166 truc machin 2 3.4 1;
 #X connect 0 0 3 0;
@@ -1046,7 +1046,7 @@ messages' or "anything") according to a mode (set via argument/message).
 inlets;
 #X obj 199 129 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10
 -228856 -1 -1 0 256;
-#X text 178 234 - mode dependant operation on current data see [pd
+#X text 178 234 - mode dependent operation on current data see [pd
 examples];
 #X text 298 153 clears loaded data;
 #X obj 176 205 bng 15 250 50 0 empty empty empty 17 7 0 10 -228856

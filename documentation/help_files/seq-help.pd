@@ -265,7 +265,7 @@ box), f 57;
 #X text 191 492 a MIDI/text file to be loaded;
 #N canvas 871 85 493 491 text 0;
 #X text 38 39 Besides MIDI files \, [seq] can load and save to .txt
-files \, just use this extension instead. The text file follows a format
+files \, just use this extension isntead. The text file follows a format
 that is also present in the edit window of the [seq] object that opens
 when you click on the object (note that this edit window functionality
 is not present in the original MAX object)., f 67;

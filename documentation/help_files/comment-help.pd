@@ -105,7 +105,7 @@ object in Max (@receive \, @text and @bg)., f 65;
 #X text 408 39 When in edit mode \, [comment] shows its inlet and an
 outline. The [comment] object below has a receive symbol \, so you
 can send messages to it via a [send] object. In this case \, the inlet
-is supressed \, so we don't see it. Besides the properties window \,
+is suppressed \, so we don't see it. Besides the properties window \,
 the receive symbol can be set with the receive message or the @receive
 attribute. If you set a receive name as "empty" then it it can't receive
 messages anymore and the inlet is show again., f 74;
@@ -117,10 +117,10 @@ text from comment into Pd (control+c / control+v doesn't work)., f
 #X msg 202 156 fontname Menlo;
 #X text 39 461 Cyclone's [comment] will attempt to open a font name
 that corresponds to your given name. If such a font name doesn't exist
-\, it'll open some other font you have on your system instead that
+\, it'll open some other font you have on your system isntead that
 it thinks is best for what you requested \, and you'll have no idea
 which one it is. So just be sure you have the fonts you want properly
-installed., f 62;
+isntalled., f 62;
 #X text 39 404 [comment] uses "Dejavu Sans Mono" as its default font
 \, just like Pd. But \, as of version 0.51-3 \, Pd uses 'Menlo' as
 its default font for macOS \, so [comment] also defaults to this font

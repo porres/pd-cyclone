@@ -41,7 +41,7 @@
 #X restore 304 3 pd;
 #X text 75 88 [zerox~] functions as a zero-crossing detector and/or
 a zero-crossing counter (for transient detection).;
-#X text 76 122 Left outlet ouputs a value that corresponds to the number
+#X text 76 122 Left outlet outputs a value that corresponds to the number
 of zero crossings per signal block - so it depends on the block size.
 Right outlet send an impulse at every zero crossing.;
 #X text 183 418 - signal to be analyzed;
