@@ -440,7 +440,7 @@ static void editor_guidefs(void){
     sys_gui("}\n");
 }
 
-/* null owner defaults to class name, pass "" to supress */
+/* null owner defaults to class name, pass "" to suppress */
 void editor_open(t_file *f, char *title, char *owner){
     if(!owner)
         owner = (char *)(class_getname(*f->f_master));
