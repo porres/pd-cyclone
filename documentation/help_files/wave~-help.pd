@@ -82,7 +82,7 @@ interpolator. A disadvantage is that the first derivative (the isntantaneous
 slope of the curve) is not usually continuous at breakpoints \, which
 can cause sharp corners in the curve (see examples in the parent patch).
 , f 75;
-#X text 24 396 An Hermite interpolator addresses the first derivative
+#X text 24 396 An Hermite interpolator addressses the first derivative
 problem with the Lagrange by deliberately making the first derivative
 continuous at breakpoints. It interpolates between b and c by finding
 a cubic polynomial curve that passes through b and c. The curve does
