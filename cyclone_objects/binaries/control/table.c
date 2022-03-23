@@ -708,7 +708,7 @@ static void table_dump(t_table *x, t_symbol *s, int ac, t_atom *av){
     {
 	/* Plain traversing by incrementing a pointer is not robust,
 	   because calling outlet_float() may invalidate the pointer.
-	   Continous storage does not require generic selfmod detection
+	   Continuous storage does not require generic selfmod detection
 	   (ala coll), so we can get away with the simpler test below. */
 	if (cc->c_length != thelength || cc->c_table != thetable)
 	    break;
@@ -911,5 +911,5 @@ CYCLONE_OBJ_API void Table_setup(void){
      but it's best to have it around just in case... */ // Delete this??????
     file_setup(tablecommon_class, 0);
     class_sethelpsymbol(table_class, gensym("table"));
-    pd_error(table_class, "Cyclone: please use [cyclone/table] instead of [Table] to supress this error");
+    pd_error(table_class, "Cyclone: please use [cyclone/table] instead of [Table] to suppress this error");
 }

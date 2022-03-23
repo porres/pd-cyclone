@@ -99,7 +99,7 @@ static void fbuffmem_alloc(t_atom * arrayptr, t_atom * stackptr, int wantsz, int
         }
     else if(heaped  && wantsz > FBUFFATOM_STACK && wantsz > cursize){
         //if already heaped, incoming list can't fit into FBUFFATOM_STACK and can't fit into allocated t_atom
-        //reallocate to accomodate larger list, update status
+        //reallocate to accommodate larger list, update status
         
         int toalloc = wantsz; //size to allocate
         //bounds checking for maxsize
