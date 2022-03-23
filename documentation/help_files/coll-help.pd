@@ -982,7 +982,7 @@ all data stored in the collection.;
 #X text 31 487 You can visualize and manually edit the data by clicking
 on the [coll] object to open its editing window - the "open" and "wclose"
 messages can also open/close this window. You can type in or delete
-data \, then close it and save it. The format for each line is: adrress
+data \, then close it and save it. The format for each line is: address
 \, data \;;
 #X msg 246 176 0 0.1 \, 1 1 2 3 \, 2 list one two \, 3 symbol hi \,
 4 let's go, f 15;

@@ -148,7 +148,7 @@ sense \, so floats are converted to integers!, f 60;
 #X text 368 26 Absolute mode: only absolute values are considered (negative
 values atre converted to positive) \, then the mean is applied.;
 #X text 756 26 Rms mode: average is the root mean square. The arithmetic
-mean is peformed on the squares of the values \, then the square root
+mean is performed on the squares of the values \, then the square root
 is applied.;
 #X text 18 31 Bipolar mode (default): a plain arithmetic mean over
 positive and negative values.;

@@ -421,7 +421,7 @@ obvious and only work when playing (not when recording)., f 79;
 #X msg 54 223 addeventdelay -100;
 #X text 18 16 The delay message sets an onset delay time in ms to the
 start of the sequence. The addeventdelay message adds (or subtracts)
-to the onset delay and is cummulative (keeps adding/subtracting if
+to the onset delay and is cumulative (keeps adding/subtracting if
 you send the same message multiple times)., f 79;
 #X connect 0 0 14 0;
 #X connect 1 0 14 0;
