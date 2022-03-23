@@ -141,6 +141,6 @@ CYCLONE_OBJ_API void Uzi_setup(void)
     class_addmethod(uzi_class, (t_method)uzi_resume, gensym("resume"), 0);
     class_addmethod(uzi_class, (t_method)uzi_resume, gensym("continue"), 0);
     class_addmethod(uzi_class, (t_method)uzi_offset, gensym("offset"), A_DEFFLOAT, 0);
-    pd_error(uzi_class, "Cyclone: please use [uzi] instead of [Uzi] to supress this error");
+    pd_error(uzi_class, "Cyclone: please use [uzi] instead of [Uzi] to suppress this error");
     class_sethelpsymbol(uzi_class, gensym("uzi"));
 }
