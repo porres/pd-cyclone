@@ -9,7 +9,7 @@
 #X text 2 400 ============================================================================================
 , f 92;
 #X obj 100 344 cyclone/comment 201 16 DejaVu\ Sans\ Mono empty 0 0
-0 0 0 190 190 200 1 0 List with all of the Cyclone's objetcs =>;
+0 0 0 190 190 200 1 0 List with all of the Cyclone's objects =>;
 #X text 72 502 Check declare's help file for more information.;
 #X text 2 638 ===========================================================================================
 , f 91;

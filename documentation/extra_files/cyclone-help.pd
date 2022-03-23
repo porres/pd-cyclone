@@ -68,7 +68,7 @@
 #X obj 134 293 cyclone/!/~;
 #X obj 133 368 cyclone/+=~;
 #X text 29 17 You can also find alphanumeric versions of these objects
-(whith the same name alias as in Max/MSP) as single separate binaries
+(with the same name alias as in Max/MSP) as single separate binaries
 \, they are:, f 70;
 #X text 89 415 Note that even though the non-alphanumeric versions
 come from a single binary pack \, it is also possible to load them
@@ -94,7 +94,7 @@ with the "cyclone/" prefix., f 56;
 #X text 145 606 version;
 #X text 207 589 - prints library information on the terimnal;
 #X text 163 639 list;
-#X text 207 606 - outputs version informaton as a list;
+#X text 207 606 - outputs version information as a list;
 #X text 207 640 - version (major \, minor \, bugfix);
 #X text 63 98 The cyclone's single binary pack contains the cyclone
 operators \, which are: [!-] \, [!-~] \, [!/] \, [!/~] \, [!=~] \,
@@ -114,7 +114,7 @@ message that outputs the cyclone version as a list of major \, minor
 #X obj 202 526 cyclone/sprintf symout cyclone %d.%d-%d;
 #X text 63 203 The cyclone library also automatically loads cyclone's
 path to Pd so you can load the separate binaries (but this doesn't
-gurantee search priority). Objects from the cyclone library are mostly
+guarantee search priority). Objects from the cyclone library are mostly
 a set of separate binaries \, but also contains a few abstractions.
 You can load the cyclone library via "Startup" and "Path" (to guarantee
 search priority). Alternatively \, you can use [declare] as follows:
