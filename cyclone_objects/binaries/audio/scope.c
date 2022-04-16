@@ -399,11 +399,6 @@ static int scope_click(t_gobj *z, t_glist *glist, int xpix, int ypix, int shift,
 }
 
 //------------------------------ METHODS ------------------------------------------------------------------
-static void scope_destroy_handle(t_scope *x){
-    t_handle *sh = (t_handle *)x->x_handle;
-    sys_vgui("destroy %s\n", sh->h_pathname);
-}
-
 static void scope_bufsize(t_scope *x, t_floatarg f){
     int size = f < SCOPE_MINBUFSIZE ? SCOPE_MINBUFSIZE : f > SCOPE_MAXBUFSIZE ? SCOPE_MAXBUFSIZE : (int)f;
     if(x->x_bufsize != size){
@@ -1295,7 +1290,6 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     class_addmethod(scope_class, nullfn, gensym("signal"), 0);
     class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), A_CANT, 0);
     class_addfloat(scope_class, (t_method)scope_period);
-    class_addmethod(scope_class, (t_method)scope_destroy_handle, gensym("destroy"), 0);
     class_addmethod(scope_class, (t_method)scope_period, gensym("calccount"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bufsize, gensym("bufsize"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_dim, gensym("dim"), A_FLOAT, A_FLOAT, 0);
