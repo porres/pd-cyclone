@@ -49,7 +49,7 @@ You can compile Cyclone from the source provided in this repository for the curr
 
 When installing cyclone, make sure the Cyclone folder is included in a folder that Pd searches for, such as `~/Documents/Pd/externals` - which is what Pd suggests you to do (since version 0.48-0).
 
-Now you can install Cyclone by loading it in the startup: go to "Preferences => Startup", then click "New", type "Cyclone" and hit OK. Next time you restart Pd, the Cyclone library binary will be loaded.
+Now you can install Cyclone by loading it in the startup: go to "Preferences => Startup", then click "New", type "cyclone" and hit OK. Next time you restart Pd, the Cyclone library binary will be loaded.
 
 This library binary loads the non alphanumeric operators objects (which are: `!-`, `!-~`, `!/`, `!/~`, `!=~`, `%~`, `+=~`, `<=~`, `<~`, `==~`, `>=~` and `>~`) but it also adds Cyclone's path to Pd's preferences, so you can load the other objects from Cyclone (which are separate binaries and abstractions).
 
