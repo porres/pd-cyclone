@@ -350,10 +350,19 @@ static void funbuff_set(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
 
 static void funbuff_doread(t_funbuff *x, t_symbol *fn){
     t_binbuf *bb = binbuf_new();
-    char buf[MAXPDSTRING];
-    // use canvas open
-    canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
-    binbuf_read(bb, buf, "", 0);
+    char path[MAXPDSTRING];
+//    canvas_makefilename(x->x_canvas, fn->s_name, path, MAXPDSTRING);
+    char *bufptr;
+    int fd = canvas_open(x->x_canvas, fn->s_name, "", path, &bufptr, MAXPDSTRING, 1);
+    if(fd > 0){
+        path[strlen(path)]='/';
+        sys_close(fd);
+    }
+    else{
+        post("[funbuff] file '%s' not found", fname->s_name);
+        return;
+    }
+    binbuf_read(bb, path, "", 0);
     int ac = binbuf_getnatom(bb);
     t_atom *av = binbuf_getvec(bb);
     if(ac && av && av->a_type == A_SYMBOL && av->a_w.w_symbol == gensym("funbuff")){
