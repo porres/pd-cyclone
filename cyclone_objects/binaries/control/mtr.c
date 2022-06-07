@@ -46,7 +46,7 @@ typedef void (*t_mtrackfn)(t_mtrack *tp);
 typedef struct _mtr
 {
     t_object       x_ob;
-    t_glist       *x_glist;
+    t_canvas       *x_cnv;
     int            x_ntracks;  
     t_mtrack     **x_tracks;
     t_file  *x_filehandle;
@@ -349,7 +349,7 @@ static void mtrack_write(t_mtrack *tp, t_symbol *s)
 	mtr_dowrite(tp->tr_owner, tp, s);
     else  /* CHECKED no default */
 	panel_save(tp->tr_filehandle,
-			 canvas_getdir(tp->tr_owner->x_glist), 0);
+			 canvas_getdir(tp->tr_owner->x_cnv), 0);
 }
 
 static void mtrack_tempo(t_mtrack *tp, t_floatarg f)
@@ -485,25 +485,31 @@ static void mtr_first(t_mtr *x, t_floatarg f)
     }
 }
 
-static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname)
-{
+static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname){
     char path[MAXPDSTRING];
-    FILE *fp;
-    /* FIXME use open_via_path() */
-    if (x->x_glist)
-	canvas_makefilename(x->x_glist, fname->s_name, path, MAXPDSTRING);
-    else
-    {
+    char *bufptr;
+/*    if(x->x_cnv)
+        canvas_makefilename(x->x_cnv, fname->s_name, path, MAXPDSTRING);
+    else{
     	strncpy(path, fname->s_name, MAXPDSTRING);
     	path[MAXPDSTRING-1] = 0;
+    }*/
+    int fd = canvas_open(x->x_cnv, fname->s_name, "", path, &bufptr, MAXPDSTRING, 1);
+    if(fd > 0){
+        path[strlen(path)]='/';
+        sys_close(fd);
     }
-    /* CHECKED no global message */
-    if (fp = sys_fopen(path, "r"))
-    {
-	t_mtrack *tp = 0;
-	char linebuf[MTR_FILEBUFSIZE];
-	t_binbuf *bb = binbuf_new();
-	while (fgets(linebuf, MTR_FILEBUFSIZE, fp))
+    else{
+        post("[mtr] file '%s' not found", fname->s_name);
+        return;
+    }
+    FILE *fp;
+    // CHECKED no global message
+    if(fp = sys_fopen(path, "r")){
+        t_mtrack *tp = 0;
+        char linebuf[MTR_FILEBUFSIZE];
+        t_binbuf *bb = binbuf_new();
+        while (fgets(linebuf, MTR_FILEBUFSIZE, fp))
 	{
 	    char *line = linebuf;
 	    int linelen;
@@ -632,41 +638,36 @@ static int mtr_writetrack(t_mtr *x, t_mtrack *tp, FILE *fp)
     return (0);
 }
 
-/* CHECKED empty sequence stored as an empty file */
-static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname)
-{
+// CHECKED empty sequence stored as an empty file
+static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname){
     int failed = 0;
     char path[MAXPDSTRING];
     FILE *fp;
-    if (x->x_glist)
-	canvas_makefilename(x->x_glist, fname->s_name, path, MAXPDSTRING);
-    else
-    {
+    if (x->x_cnv)
+	canvas_makefilename(x->x_cnv, fname->s_name, path, MAXPDSTRING);
+    else{
     	strncpy(path, fname->s_name, MAXPDSTRING);
     	path[MAXPDSTRING-1] = 0;
     }
-    /* CHECKED no global message */
-    if (fp = sys_fopen(path, "w"))
-    {
-	/* CHECKED single-track writing does not seem to work (a bug?) */
-	if (source) failed = mtr_writetrack(x, source, fp);
-	else
-	{
-	    int id;
-	    t_mtrack **tpp;
-	    for (id = 0, tpp = x->x_tracks; id < x->x_ntracks; id++, tpp++)
-		if (failed = mtr_writetrack(x, *tpp, fp))
-		    break;
-	}
-//	if (failed) sys_unixerror(path);  /* LATER rethink */
-	fclose(fp);
+    // CHECKED no global message
+    if(fp = sys_fopen(path, "w")){ // CHECKED single-track writing does not seem to work (a bug?)
+        if(source)
+            failed = mtr_writetrack(x, source, fp);
+        else{
+            int id;
+            t_mtrack **tpp;
+            for(id = 0, tpp = x->x_tracks; id < x->x_ntracks; id++, tpp++)
+                if(failed = mtr_writetrack(x, *tpp, fp))
+                    break;
+        }
+//	if (failed) sys_unixerror(path);  // LATER rethink
+        fclose(fp);
     }
-    else
-    {
-//	sys_unixerror(path);  /* LATER rethink */
-	failed = 1;
+    else{
+//	sys_unixerror(path);  // LATER rethink
+        failed = 1;
     }
-    if (failed)
+    if(failed)
         pd_error(x, "[mtr]: writing text file \"%s\" failed", path);
 }
 
@@ -693,7 +694,7 @@ static void mtr_write(t_mtr *x, t_symbol *s)
     if (s && s != &s_)
 	mtr_dowrite(x, 0, s);
     else  /* CHECKED no default */
-	panel_save(x->x_filehandle, canvas_getdir(x->x_glist), 0);
+	panel_save(x->x_filehandle, canvas_getdir(x->x_cnv), 0);
 }
 
 static void mtr_free(t_mtr *x)
@@ -746,7 +747,7 @@ static void *mtr_new(t_floatarg f)
 	{
 	    int id;
 	    t_outlet *mainout = outlet_new((t_object *)x, &s_list);
-	    x->x_glist = canvas_getcurrent();
+	    x->x_cnv = canvas_getcurrent();
 	    x->x_filehandle = file_new((t_pd *)x, 0,
 					     mtr_readhook, mtr_writehook, 0);
 	    if (ntracks > MTR_C74MAXTRACKS)

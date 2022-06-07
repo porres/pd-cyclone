@@ -348,25 +348,20 @@ static void funbuff_set(t_funbuff *x, t_symbol *s, int ac, t_atom *av)
     }
 }
 
-static void funbuff_doread(t_funbuff *x, t_symbol *fn)
-{
+static void funbuff_doread(t_funbuff *x, t_symbol *fn){
     t_binbuf *bb = binbuf_new();
-    int ac;
-    t_atom *av;
     char buf[MAXPDSTRING];
-    /* FIXME use open_via_path() */
+    // use canvas open
     canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
     binbuf_read(bb, buf, "", 0);
-    if ((ac = binbuf_getnatom(bb)) &&
-	(av = binbuf_getvec(bb)) &&
-	av->a_type == A_SYMBOL &&
-	av->a_w.w_symbol == gensym("funbuff"))
-    {
-	post("funbuff: %s read successful", fn->s_name);  /* CHECKED */
-	funbuff_set(x, 0, ac-1, av+1);
+    int ac = binbuf_getnatom(bb);
+    t_atom *av = binbuf_getvec(bb);
+    if(ac && av && av->a_type == A_SYMBOL && av->a_w.w_symbol == gensym("funbuff")){
+        post("funbuff: %s read successful", fn->s_name);  // CHECKED
+        funbuff_set(x, 0, ac-1, av+1);
     }
-    else  /* CHECKED no complaints... */
-	pd_error((t_pd *)x, "invalid file %s", fn->s_name);
+    else  // CHECKED no complaints...
+        pd_error((t_pd *)x, "invalid file %s", fn->s_name);
     binbuf_free(bb);
 }
 
@@ -377,8 +372,7 @@ static void funbuff_readhook(t_pd *z, t_symbol *fn, int ac, t_atom *av)
     funbuff_doread((t_funbuff *)z, fn);
 }
 
-static void funbuff_dowrite(t_funbuff *x, t_symbol *fn)
-{
+static void funbuff_dowrite(t_funbuff *x, t_symbol *fn){
     t_binbuf *bb = binbuf_new();
     char buf[MAXPDSTRING];
     t_hammernode *np;
@@ -388,10 +382,9 @@ static void funbuff_dowrite(t_funbuff *x, t_symbol *fn)
     t_symbol *objName = atom_getsymbol(binbuf_getvec(x->x_ob.te_binbuf));
     objName->s_name = basename((char *)objName->s_name);
     binbuf_addv(bb, "s", objName);
-    for (np = x->x_tree.t_first; np; np = np->n_next)
-	binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
+    for(np = x->x_tree.t_first; np; np = np->n_next)
+        binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
     canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
-
     binbuf_write(bb, buf, "", 0);
     binbuf_free(bb);
 }
