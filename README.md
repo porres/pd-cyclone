@@ -20,16 +20,16 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 -------
 
-Current Release: Cyclone 0.6-0 (this release needs at least Pd Vanilla 0.52-0)
+Current Release: Cyclone 0.6-1 (this release needs at least Pd Vanilla 0.52-1)
 
-Released november 25th 2021
+Released june 8th 2022
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
 -------
 ### About Cyclone:
 
-Cyclone 0.6-0 needs at least Pd Vanilla 0.52-0. 
+Cyclone 0.6-1 needs at least Pd Vanilla 0.52-1. 
 
 Outdated versions of cyclone (0.1) are available in the long abandoned Pd-extended distribution (which no one should be using now in the 2020's) as well as in Pd-l2ork and Purr Data - both originally based on Pd-Extended but ported to nw.js (0.1 versions of cyclone here were not fully ported to nw.js at the time of this writing).
 
@@ -67,7 +67,7 @@ Since "Cyclone 0.1-alpha57", the Cyclone package has relied on the new build sys
 
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
-<pre>make pdincludepath=~/pd-0.52-0/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.52-0/bin/)</pre>
+<pre>make pdincludepath=~/pd-0.52-2/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.52-2/bin/)</pre>
 
 * Make Install
 

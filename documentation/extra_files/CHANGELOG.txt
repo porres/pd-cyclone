@@ -3,7 +3,18 @@
 ---------------------------------------------------
 
 --------------------------------------------------
-cyclone 0.6-0 (needs at least Pd Vanilla 0.52-0):
+cyclone 0.6-1 (needs at least Pd Vanilla 0.52-1):
+--------------------------------------------------
+
+- fixed many typos.
+- bitwise signal operators now are not "bitsafe"  
+- objects can now find and open files added to Pd's search path, affected objects: [funbuff], [mtr], [table], [seq] and [coll].
+- [scope~]/[comment]:
+  - fixed tcl error when closing a subpatch with a note object in it while in edit mode (reopening the patch would ruin things up).
+  - fixed deleting the resizing handle when deleting the object.
+
+--------------------------------------------------
+cyclone 0.6-0 (needs at least Pd Vanilla 0.52-1):
 --------------------------------------------------
 
 - [cyclone] (binary/lib) fixed checking minimum Pd version
