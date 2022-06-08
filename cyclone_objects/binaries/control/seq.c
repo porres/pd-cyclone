@@ -908,7 +908,6 @@ static void seq_doread(t_seq *x, t_symbol *fn){
         post("[seq] file '%s' not found", fn->s_name);
         return;
     }
-//    post("seq: reading %s", fn->s_name);
     else{
         fname[strlen(fname)]='/';
         sys_close(fd);
