@@ -3,6 +3,7 @@
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
 #include <libgen.h>
+#include <string.h>
 #include "m_pd.h"
 #include <common/api.h>
 #include "control/tree.h"
@@ -359,7 +360,7 @@ static void funbuff_doread(t_funbuff *x, t_symbol *fn){
         sys_close(fd);
     }
     else{
-        post("[funbuff] file '%s' not found", fname->s_name);
+        post("[funbuff] file '%s' not found", fn->s_name);
         return;
     }
     binbuf_read(bb, path, "", 0);
