@@ -901,25 +901,20 @@ static void seq_textwrite(t_seq *x, char *path){
 }
 
 static void seq_doread(t_seq *x, t_symbol *fn){
-    char buf[MAXPDSTRING];
-    /* FIXME use open_via_path() */
-    if(x->x_canvas)
-        canvas_makefilename(x->x_canvas, fn->s_name, buf, MAXPDSTRING);
-    else{
-        strncpy(buf, fn->s_name, MAXPDSTRING);
-        buf[MAXPDSTRING-1] = 0;
-    }
-    FILE *fp = sys_fopen(buf, "r");
-    if(!(fp)){
-        post("[seq] file '%s' not found", buf);
-        fclose(fp);
+    static char fname[MAXPDSTRING];
+    char *bufptr;
+    int fd = canvas_open(x->x_canvas, fn->s_name, "", fname, &bufptr, MAXPDSTRING, 1);
+    if(fd < 0){
+        post("[seq] file '%s' not found", fn->s_name);
         return;
     }
-    fclose(fp);
-    /* CHECKED all cases: arg or not, message and creation */
 //    post("seq: reading %s", fn->s_name);
-    if(!seq_mfread(x, buf))
-        seq_textread(x, buf);
+    else{
+        fname[strlen(fname)]='/';
+        sys_close(fd);
+    }
+    if(!seq_mfread(x, fname))
+        seq_textread(x, fname);
     x->x_playhead = 0;
     seq_update(x);
 }
