@@ -650,8 +650,7 @@ void print_cyclone(t_cyclone *x){
     if((major > min_major)
        || (major == min_major && minor > min_minor)
        || (major == min_major && minor == min_minor && bugfix >= min_bugfix))
-        post(":: Cyclone %d.%d-%d needs at least Pd %d.%d-%d\n\
-             (you have %d.%d-%d, you're good!)",
+        post(":: Cyclone %d.%d-%d needs at least Pd %d.%d-%d\n\::   (you have %d.%d-%d, you're good!)",
              cyclone_major, cyclone_minor, cyclone_bugfix,
              min_major, min_minor, min_bugfix,
              major, minor, bugfix);
