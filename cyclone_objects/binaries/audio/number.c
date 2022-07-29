@@ -1017,7 +1017,6 @@ CYCLONE_OBJ_API void number_tilde_setup(void)
     number_tilde_widgetbehavior.w_visfn =        iemgui_vis;
     number_tilde_widgetbehavior.w_clickfn =      number_tilde_newclick;
     class_setwidget(number_tilde_class, &number_tilde_widgetbehavior);
-    class_sethelpsymbol(number_tilde_class, gensym("nbx"));
     class_setsavefn(number_tilde_class, number_tilde_save);
     class_setpropertiesfn(number_tilde_class, number_tilde_properties);
 }
