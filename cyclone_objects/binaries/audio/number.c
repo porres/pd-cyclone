@@ -9,6 +9,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "g_all_guis.h"
+#include <common/api.h>
 
 #include <math.h>
 
@@ -958,7 +959,7 @@ static void number_tilde_dsp(t_number_tilde *x, t_signal **sp)
     dsp_add(number_tilde_perform, 4, x, sp[0]->s_vec, sp[1]->s_vec, (t_int)sp[0]->s_n);
 }
 
-void number_tilde_setup(void)
+CYCLONE_OBJ_API void number_tilde_setup(void)
 {
     number_tilde_class = class_new(gensym("number~"), (t_newmethod)number_tilde_new,
         (t_method)number_tilde_free, sizeof(t_number_tilde), 0, A_GIMME, 0);
@@ -1008,7 +1009,6 @@ void number_tilde_setup(void)
         gensym("init"), A_FLOAT, 0);
     class_addmethod(number_tilde_class, (t_method)iemgui_zoom,
         gensym("zoom"), A_CANT, 0);
-
     number_tilde_widgetbehavior.w_getrectfn =    number_tilde_getrect;
     number_tilde_widgetbehavior.w_displacefn =   iemgui_displace;
     number_tilde_widgetbehavior.w_selectfn =     iemgui_select;

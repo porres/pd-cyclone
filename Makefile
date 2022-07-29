@@ -115,6 +115,7 @@ lores~.class.sources := cyclone_objects/binaries/audio/lores.c
 maximum~.class.sources := cyclone_objects/binaries/audio/maximum.c
 minimum~.class.sources := cyclone_objects/binaries/audio/minimum.c
 mstosamps~.class.sources := cyclone_objects/binaries/audio/mstosamps.c
+number~.class.sources := cyclone_objects/binaries/audio/number.c
 onepole~.class.sources := cyclone_objects/binaries/audio/onepole.c
 overdrive~.class.sources := cyclone_objects/binaries/audio/overdrive.c
 peakamp~.class.sources := cyclone_objects/binaries/audio/peakamp.c
