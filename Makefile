@@ -85,6 +85,8 @@ rdiv.class.sources := cyclone_objects/binaries/control/rdiv.c
 rminus.class.sources := cyclone_objects/binaries/control/rminus.c
 round.class.sources := cyclone_objects/binaries/control/round.c
 scale.class.sources := cyclone_objects/binaries/control/scale.c
+# Control GUI
+comment.class.sources := cyclone_objects/binaries/control/comment.c
 number.class.sources := cyclone_objects/binaries/control/number.c
 
 # SIGNAL CLASSES:
@@ -227,10 +229,6 @@ seq.class.sources := cyclone_objects/binaries/control/seq.c $(hseq)
 
 hmagicbit := shared/common/magicbit.c
     grab.class.sources := cyclone_objects/binaries/control/grab.c $(hmagicbit)
-    
-# GUI:
-hutf := shared/control/s_utf8.c
-	comment.class.sources := cyclone_objects/binaries/control/comment.c $(hutf)
 
 # Signal: #################################################################
 
