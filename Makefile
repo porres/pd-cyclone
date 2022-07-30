@@ -12,8 +12,6 @@ define forWindows
 	exe.extension = .exe
 endef
 
-
-
 forLinux   = aliases=true
 
 #######################################################################
