@@ -419,7 +419,6 @@ static void number_tilde_save(t_gobj *z, t_binbuf *b)
 {
     t_number_tilde *x = (t_number_tilde *)z;
     t_symbol *bflcol[3];
-    t_symbol *srl[3];
 
     iemgui_all_col2save(&x->x_gui, bflcol);
 
@@ -504,7 +503,6 @@ static void number_tilde_dialog(t_number_tilde *x, t_symbol *s, int argc,
     int bcol = (int)iemgui_getcolorarg(4, argc, argv);
     int fcol = (int)iemgui_getcolorarg(5, argc, argv);
     
-    int sr_flags;
     t_atom undo[7];
     
     SETFLOAT(undo+0, x->x_numwidth);
@@ -528,7 +526,6 @@ static void number_tilde_dialog(t_number_tilde *x, t_symbol *s, int argc,
     x->x_gui.x_bcol = bcol & 0xffffff;
     
     (*x->x_gui.x_draw)(x, x->x_gui.x_glist, IEM_GUI_DRAW_MODE_UPDATE);
-    (*x->x_gui.x_draw)(x, x->x_gui.x_glist, IEM_GUI_DRAW_MODE_IO + sr_flags);
     (*x->x_gui.x_draw)(x, x->x_gui.x_glist, IEM_GUI_DRAW_MODE_CONFIG);
     (*x->x_gui.x_draw)(x, x->x_gui.x_glist, IEM_GUI_DRAW_MODE_MOVE);
     canvas_fixlinesfor(x->x_gui.x_glist, (t_text*)x);
@@ -758,9 +755,7 @@ static void *number_tilde_new(t_symbol *s, int argc, t_atom *argv)
     
     x->x_signal_outlet = outlet_new(&x->x_gui.x_obj,  &s_signal);
     x->x_float_outlet = outlet_new(&x->x_gui.x_obj,  &s_float);
-    
-    x->x_maximum = 1e+33;
-    x->x_minimum = -1e+33;
+
     
     x->x_gui.x_bcol = 0xFCFCFC;
     x->x_gui.x_fcol = 0x00;
@@ -787,6 +782,9 @@ static void *number_tilde_new(t_symbol *s, int argc, t_atom *argv)
 
     x->x_gui.x_ldx = ldx;
     x->x_gui.x_ldy = ldy;
+    
+    x->x_maximum = maximum;
+    x->x_minimum = minimum;
     
     if(w < MINDIGITS)
         w = MINDIGITS;
@@ -880,7 +878,7 @@ static void number_tilde_dsp(t_number_tilde *x, t_signal **sp)
     dsp_add(number_tilde_perform, 4, x, sp[0]->s_vec, sp[1]->s_vec, (t_int)sp[0]->s_n);
 }
 
-CYCLONE_OBJ_API number_tilde_setup(void)
+CYCLONE_OBJ_API void number_tilde_setup(void)
 {
     number_tilde_class = class_new(gensym("number~"), (t_newmethod)number_tilde_new,
         (t_method)number_tilde_free, sizeof(t_number_tilde), 0, A_GIMME, 0);
