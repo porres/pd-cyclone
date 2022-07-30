@@ -741,7 +741,7 @@ static void number_tilde_key(void *z, t_symbol *keysym, t_floatarg fkey)
         x->x_buf[sl] = 0;
         sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
     }
-    else if((c == '\n') || (c == 13))
+    else if(((c == '\n') || (c == 13)) && x->x_buf[0] != 0)
     {
         number_tilde_set(x, atof(x->x_buf));
         x->x_buf[0] = 0;
