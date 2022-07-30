@@ -1,6 +1,5 @@
-/* my_numbox.c written by Thomas Musil (c) IEM KUG Graz Austria (2000-2001)
-   number.c written by Timothy Schoen (c) for the cyclone library (2022)
-*/
+// number (based iemgui's nbx) by Timothy Schoen (2022)
+// THIS IS A PROTOYPE NOT YET INCLUDED AND NOT SURE TO BE INCLUDED
 
 #include <stdlib.h>
 #include <string.h>

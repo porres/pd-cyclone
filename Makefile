@@ -18,6 +18,9 @@ forLinux   = aliases=true
                     ## START OF CYCLONE CLASSES ##
 #######################################################################
 
+# CONTROL GUI
+comment.class.sources := cyclone_objects/binaries/control/comment.c
+
 # CONTROL CLASSES
 accum.class.sources := cyclone_objects/binaries/control/accum.c
 acos.class.sources := cyclone_objects/binaries/control/acos.c
@@ -83,9 +86,6 @@ rdiv.class.sources := cyclone_objects/binaries/control/rdiv.c
 rminus.class.sources := cyclone_objects/binaries/control/rminus.c
 round.class.sources := cyclone_objects/binaries/control/round.c
 scale.class.sources := cyclone_objects/binaries/control/scale.c
-# Control GUI
-comment.class.sources := cyclone_objects/binaries/control/comment.c
-number.class.sources := cyclone_objects/binaries/control/number.c
 
 # SIGNAL CLASSES:
 acos~.class.sources := cyclone_objects/binaries/audio/acos.c
@@ -115,7 +115,6 @@ lores~.class.sources := cyclone_objects/binaries/audio/lores.c
 maximum~.class.sources := cyclone_objects/binaries/audio/maximum.c
 minimum~.class.sources := cyclone_objects/binaries/audio/minimum.c
 mstosamps~.class.sources := cyclone_objects/binaries/audio/mstosamps.c
-number~.class.sources := cyclone_objects/binaries/audio/number.c
 onepole~.class.sources := cyclone_objects/binaries/audio/onepole.c
 overdrive~.class.sources := cyclone_objects/binaries/audio/overdrive.c
 peakamp~.class.sources := cyclone_objects/binaries/audio/peakamp.c
