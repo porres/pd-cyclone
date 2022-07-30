@@ -848,7 +848,7 @@ CYCLONE_OBJ_API void number_setup(void)
     class_addmethod(number_class, (t_method)number_minimum,
         gensym("minimum"), A_GIMME, 0);
     class_addmethod(number_class, (t_method)number_maximum,
-        gensym("minimum"), A_GIMME, 0);
+        gensym("maximum"), A_GIMME, 0);
     class_addmethod(number_class, (t_method)number_color,
         gensym("color"), A_GIMME, 0);
     class_addmethod(number_class, (t_method)number_send,

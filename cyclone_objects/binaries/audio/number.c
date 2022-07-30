@@ -33,6 +33,7 @@ typedef struct _number_tilde
     t_clock  *x_clock_repaint;
     t_float x_in_val;
     t_float x_out_val;
+    t_float x_set_val;
     t_float x_ramp_val;
     t_float x_ramp_time;
     t_float x_ramp;
@@ -86,10 +87,8 @@ static void number_tilde_periodic_update(t_number_tilde *x)
         
         outlet_float(x->x_float_outlet, x->x_in_val);
         
-        if(!x->x_output_mode) {
-            number_tilde_bang(x);
-        }
-        
+        number_tilde_draw_update(&x->x_gui.x_obj.te_g, x->x_gui.x_glist);
+
         // Clear repaint flag
         x->x_needs_update = 0;
     }
@@ -125,8 +124,6 @@ static void number_tilde_clip(t_number_tilde *x)
         x->x_out_val = x->x_minimum;
     if(x->x_out_val > x->x_maximum)
         x->x_out_val = x->x_maximum;
-    
-    number_tilde_bang(x);
 }
 
 static void number_tilde_minimum(t_number_tilde *x, t_floatarg f)
@@ -314,8 +311,6 @@ static void number_tilde_draw_new(t_number_tilde *x, t_glist *glist)
              sys_fontweight, x->x_gui.x_fcol, x);
 }
 
-
-
 static void number_tilde_draw_move(t_number_tilde *x, t_glist *glist)
 {
     int xpos = text_xpix(&x->x_gui.x_obj, glist);
@@ -502,6 +497,10 @@ static void number_tilde_bang(t_number_tilde *x)
 {
     // Repaint the number
     // Don't queue this because that will lead to too much latency
+    x->x_out_val = x->x_set_val;
+    x->x_ramp = (x->x_out_val - x->x_ramp_val) / (x->x_ramp_time * (sys_getsr() / 1000.0));
+
+    number_tilde_clip(x);
     number_tilde_draw_update(&x->x_gui.x_obj.te_g, x->x_gui.x_glist);
 }
 
@@ -643,11 +642,7 @@ static void number_tilde_set(t_number_tilde *x, t_floatarg f)
     if (memcmp(&ftocompare, &x->x_out_val, sizeof(ftocompare)))
     {
         
-        x->x_out_val = ftocompare;
-        number_tilde_clip(x);
-        
-        x->x_ramp = (x->x_out_val - x->x_ramp_val) / (x->x_ramp_time * (sys_getsr() / 1000.0));
-        sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
+        x->x_set_val = ftocompare;
     }
     
     
@@ -748,7 +743,6 @@ static void number_tilde_key(void *z, t_symbol *keysym, t_floatarg fkey)
         x->x_gui.x_fsf.x_change = 0;
         clock_unset(x->x_clock_reset);
 
-        number_tilde_clip(x);
         number_tilde_bang(x);
         sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
     }
@@ -804,7 +798,7 @@ static void *number_tilde_new(t_symbol *s, int argc, t_atom *argv)
     x->x_gui.x_glist = (t_glist *)canvas_getcurrent();
     x->x_in_val = 0.0;
     x->x_out_val = 0.0;
-
+    x->x_set_val = 0.0;
     number_tilde_check_minmax(x, minimum, maximum);
     
     if(w < MINDIGITS)
@@ -941,7 +935,6 @@ CYCLONE_OBJ_API void number_tilde_setup(void)
     number_tilde_widgetbehavior.w_visfn =        iemgui_vis;
     number_tilde_widgetbehavior.w_clickfn =      number_tilde_newclick;
     class_setwidget(number_tilde_class, &number_tilde_widgetbehavior);
-    class_sethelpsymbol(number_tilde_class, gensym("number~"));
     class_setsavefn(number_tilde_class, number_tilde_save);
     class_setpropertiesfn(number_tilde_class, number_tilde_properties);
 }
