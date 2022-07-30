@@ -1,0 +1,103 @@
+#N canvas 220 93 560 636 10;
+#X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 #e0e0e0 #404040
+0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 554 42 1 0 0;
+#X restore 2 3 graph;
+#X obj 305 4 cnv 15 250 40 empty empty empty 12 13 0 18 #7c7c7c #e0e4dc
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 100 100;
+#X restore 304 3 pd;
+#X obj 2 274 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000
+0;
+#X obj 4 438 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000
+0;
+#X obj 4 488 cnv 3 550 3 empty empty attributes 8 12 0 13 #dcdcdc #000000
+0;
+#X obj 93 445 cnv 17 3 17 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0
+;
+#X obj 90 283 cnv 17 3 130 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0
+;
+#X obj 4 611 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020
+0;
+#X obj 19 54 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 0 0
+0 0 255 255 255 0 0 Integer number box;
+#X obj 16 4 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 number;
+#X obj 322 28 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
+#X obj 363 4 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 cyclone;
+#X obj 499 70 cyclone/setdsp~;
+#N canvas 337 192 595 439 set 0;
+#X floatatom 144 90 5 10 1000 0 - - - 0;
+#X msg 144 113 set \$1;
+#X floatatom 144 172 5 0 0 0 - - - 0;
+#X text 308 22 The 'min' and 'max' message sets the minimum and maximum
+possible values., f 36;
+#X msg 359 64 minimum 10 \, maximum 50;
+#X msg 373 87 minimum -100 \, maximum 100;
+#X obj 110 110 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 145 145 number 3 12 0 0 0 empty empty empty 0 0 0 12 #fcfcfc
+#000000 #000000 0;
+#X text 56 27 The 'set' message sets a number but doesn't generate
+the signal. A bang will trigger the output, f 35;
+#X obj 356 115 number 3 12 0 0 0 empty empty empty 0 0 0 12 #fcfcfc
+#000000 #000000 0;
+#X obj 363 324 cyclone/prepend color;
+#X msg 361 246 #000000;
+#X msg 417 246 #ffffff;
+#X obj 361 354 number 3 12 0 0 0 empty empty empty 0 0 0 12 #000000
+#ffffff #ffffff 0;
+#X obj 363 295 cyclone/pak s s s;
+#X msg 472 248 #ffffff;
+#X text 309 160 The 'color' message sets the color as hex \, where
+the first argument is background color \, and the second is icon color
+and the third is text color, f 42;
+#X connect 0 0 1 0;
+#X connect 1 0 7 0;
+#X connect 4 0 9 0;
+#X connect 5 0 9 0;
+#X connect 6 0 7 0;
+#X connect 7 0 2 0;
+#X connect 10 0 13 0;
+#X connect 11 0 14 0;
+#X connect 12 0 14 1;
+#X connect 14 0 10 0;
+#X connect 15 0 14 2;
+#X restore 500 185 pd set;
+#X text 159 307 set <float>;
+#X text 234 320 - sets minimum value to generate, f 44;
+#X text 234 333 - sets maximum value to generate, f 44;
+#X text 201 295 bang;
+#X text 135 320 minimum <float>;
+#X text 135 333 maximum <float>;
+#X text 141 346 bgcolor <s \, s>;
+#X text 234 346 - background and foreground color as hex, f 44;
+#X text 60 80 Use [number] to generate or view integers. It can also
+be used to convert incoming number to integers. Keep in mind that the
+type of the message is still of type float \, even though the value
+is an integer \, because Pd only knows floats., f 62;
+#X floatatom 89 163 5 0 0 0 - - - 0;
+#X floatatom 88 233 5 0 0 0 - - - 0;
+#X obj 90 134 cyclone/loadmess 3.1415;
+#X text 234 295 - output the current value, f 44;
+#X text 189 282 float;
+#X text 234 282 - set and output the current value, f 44;
+#X text 234 308 - sets value but doesn't output, f 44;
+#X text 136 527 @bgcolor <s \, s>: background and foreground color
+as hex, f 59;
+#X text 130 515 @maximum <float>: maximum generation value (default
+inf);
+#X text 130 502 @minimum <float>: minimum generation value (default
+-inf);
+#X text 189 445 float;
+#X text 235 445 - an integer number;
+#X obj 88 187 number 3 12 0 0 0 empty empty empty 0 0 0 12 #fcfcfc
+#000000 #000000 0;
+#X connect 25 0 37 0;
+#X connect 27 0 25 0;
+#X connect 37 0 26 0;
+#X coords 0 636 1 635 78 16 0;

@@ -23,7 +23,6 @@
 #define MINDIGITS 1
 #define MINFONT   4
 
-
 typedef struct _number
 {
     t_iemgui x_gui;
@@ -66,6 +65,8 @@ static void number_tick_wait(t_number *x)
 
 void number_clip(t_number *x)
 {
+    if(x->x_min == 0 && x->x_max == 0) return;
+    
     if(x->x_val < x->x_min)
         x->x_val = x->x_min;
     if(x->x_val > x->x_max)
@@ -161,7 +162,7 @@ static void number_draw_update(t_gobj *client, t_glist *glist)
                     cp += sl - x->x_numwidth + 1;
                 sys_vgui(".x%lx.c itemconfigure %lxNUMBER -fill #%06x -text {%s} \n",
                          glist_getcanvas(glist), x,
-                         IEM_GUI_COLOR_EDITED, cp);
+                         x->x_gui.x_lcol, cp);
                 x->x_buf[sl] = 0;
             }
             else
@@ -169,17 +170,26 @@ static void number_draw_update(t_gobj *client, t_glist *glist)
                 number_ftoa(x);
                 sys_vgui(".x%lx.c itemconfigure %lxNUMBER -fill #%06x -text {%s} \n",
                          glist_getcanvas(glist), x,
-                         IEM_GUI_COLOR_EDITED, x->x_buf);
+                         x->x_gui.x_lcol, x->x_buf);
                 x->x_buf[0] = 0;
             }
+            
+            sys_vgui(".x%lx.c itemconfigure %lxBASE2 -fill #%06x\n",
+                     glist_getcanvas(glist), x,
+                     IEM_GUI_COLOR_EDITED);
         }
         else
         {
             number_ftoa(x);
             sys_vgui(".x%lx.c itemconfigure %lxNUMBER -fill #%06x -text {%s} \n",
                      glist_getcanvas(glist), x,
-                     (x->x_gui.x_fsf.x_selected ? IEM_GUI_COLOR_SELECTED : x->x_gui.x_fcol),
+                    x->x_gui.x_lcol,
                      x->x_buf);
+            
+            sys_vgui(".x%lx.c itemconfigure %lxBASE2 -fill #%06x\n",
+                     glist_getcanvas(glist), x,
+                     x->x_gui.x_fcol);
+            
             x->x_buf[0] = 0;
         }
     }
@@ -191,7 +201,7 @@ static void number_draw_new(t_number *x, t_glist *glist)
     int ypos = text_ypix(&x->x_gui.x_obj, glist);
     int w = x->x_gui.x_w, half = x->x_gui.x_h/2;
     int d = IEMGUI_ZOOM(x) + x->x_gui.x_h/(34*IEMGUI_ZOOM(x));
-    int iow = IOWIDTH * IEMGUI_ZOOM(x), ioh = 3 * IEMGUI_ZOOM(x);
+    int iow = IOWIDTH * IEMGUI_ZOOM(x), ioh = IEM_GUI_IOHEIGHT * IEMGUI_ZOOM(x);
     t_canvas *canvas = glist_getcanvas(glist);
 
     sys_vgui(".x%lx.c create polygon %d %d %d %d %d %d %d %d %d %d "
@@ -225,17 +235,11 @@ static void number_draw_new(t_number *x, t_glist *glist)
              xpos, ypos,
              xpos + iow, ypos - IEMGUI_ZOOM(x) + ioh,
              x, 0);
-    sys_vgui(".x%lx.c create text %d %d -text {%s} -anchor w -font {{%s} -%d %s} -fill #%06x -tags [list %lxLABEL label text]\n",
-             canvas, xpos + x->x_gui.x_ldx * IEMGUI_ZOOM(x),
-             ypos + x->x_gui.x_ldy * IEMGUI_ZOOM(x),
-             (strcmp(x->x_gui.x_lab->s_name, "empty") ? x->x_gui.x_lab->s_name : ""),
-             x->x_gui.x_font, x->x_gui.x_fontsize * IEMGUI_ZOOM(x), sys_fontweight,
-             x->x_gui.x_lcol, x);
     number_ftoa(x);
     sys_vgui(".x%lx.c create text %d %d -text {%s} -anchor w -font {{%s} -%d %s} -fill #%06x -tags %lxNUMBER\n",
              canvas, xpos + half + 2*IEMGUI_ZOOM(x), ypos + half + d,
              x->x_buf, x->x_gui.x_font, x->x_gui.x_fontsize * IEMGUI_ZOOM(x),
-             sys_fontweight, (x->x_gui.x_fsf.x_change ? IEM_GUI_COLOR_EDITED : x->x_gui.x_fcol), x);
+             sys_fontweight, x->x_gui.x_lcol, x);
 }
 
 static void number_draw_move(t_number *x, t_glist *glist)
@@ -244,7 +248,7 @@ static void number_draw_move(t_number *x, t_glist *glist)
     int ypos = text_ypix(&x->x_gui.x_obj, glist);
     int w = x->x_gui.x_w, half = x->x_gui.x_h/2;
     int d = IEMGUI_ZOOM(x) + x->x_gui.x_h / (34 * IEMGUI_ZOOM(x));
-    int iow = IOWIDTH * IEMGUI_ZOOM(x), ioh = 3 * IEMGUI_ZOOM(x);
+    int iow = IOWIDTH * IEMGUI_ZOOM(x), ioh = IEM_GUI_IOHEIGHT * IEMGUI_ZOOM(x);
     t_canvas *canvas = glist_getcanvas(glist);
 
     sys_vgui(".x%lx.c coords %lxBASE1 %d %d %d %d %d %d %d %d %d %d \n",
@@ -272,10 +276,6 @@ static void number_draw_move(t_number *x, t_glist *glist)
              canvas, x, 0,
              xpos, ypos,
              xpos + iow, ypos - IEMGUI_ZOOM(x) + ioh);
-    sys_vgui(".x%lx.c coords %lxLABEL %d %d\n",
-             canvas, x,
-             xpos + x->x_gui.x_ldx * IEMGUI_ZOOM(x),
-             ypos + x->x_gui.x_ldy * IEMGUI_ZOOM(x));
     sys_vgui(".x%lx.c coords %lxNUMBER %d %d\n",
              canvas, x, xpos + half + 2*IEMGUI_ZOOM(x), ypos + half + d);
 }
@@ -286,7 +286,6 @@ static void number_draw_erase(t_number* x, t_glist* glist)
 
     sys_vgui(".x%lx.c delete %lxBASE1\n", canvas, x);
     sys_vgui(".x%lx.c delete %lxBASE2\n", canvas, x);
-    sys_vgui(".x%lx.c delete %lxLABEL\n", canvas, x);
     sys_vgui(".x%lx.c delete %lxNUMBER\n", canvas, x);
     if(!x->x_gui.x_fsf.x_snd_able)
         sys_vgui(".x%lx.c delete %lxOUT%d\n", canvas, x, 0);
@@ -298,27 +297,23 @@ static void number_draw_config(t_number* x, t_glist* glist)
 {
     t_canvas *canvas = glist_getcanvas(glist);
 
-    sys_vgui(".x%lx.c itemconfigure %lxLABEL -font {{%s} -%d %s} -fill #%06x -text {%s} \n",
-             canvas, x, x->x_gui.x_font, x->x_gui.x_fontsize * IEMGUI_ZOOM(x), sys_fontweight,
-             (x->x_gui.x_fsf.x_selected ? IEM_GUI_COLOR_SELECTED : x->x_gui.x_lcol),
-             strcmp(x->x_gui.x_lab->s_name, "empty") ? x->x_gui.x_lab->s_name:"");
     sys_vgui(".x%lx.c itemconfigure %lxNUMBER -font {{%s} -%d %s} -fill #%06x \n",
              canvas, x, x->x_gui.x_font, x->x_gui.x_fontsize * IEMGUI_ZOOM(x), sys_fontweight,
-             (x->x_gui.x_fsf.x_selected ? IEM_GUI_COLOR_SELECTED : x->x_gui.x_fcol));
+             x->x_gui.x_lcol);
     sys_vgui(".x%lx.c itemconfigure %lxBASE1 -fill #%06x\n", canvas,
              x, x->x_gui.x_bcol);
     
     sys_vgui(".x%lx.c itemconfigure %lxBASE2 -outline #%06x\n", canvas, x,
              (x->x_gui.x_bcol));
     sys_vgui(".x%lx.c itemconfigure %lxBASE2 -fill #%06x\n", canvas, x,
-              (x->x_gui.x_fsf.x_selected ? IEM_GUI_COLOR_SELECTED : x->x_gui.x_fcol));
+             (x->x_gui.x_fsf.x_change ? IEM_GUI_COLOR_SELECTED : x->x_gui.x_fcol));
 }
 
 static void number_draw_io(t_number* x,t_glist* glist, int old_snd_rcv_flags)
 {
     int xpos = text_xpix(&x->x_gui.x_obj, glist);
     int ypos = text_ypix(&x->x_gui.x_obj, glist);
-    int iow = IOWIDTH * IEMGUI_ZOOM(x), ioh = 3 * IEMGUI_ZOOM(x);
+    int iow = IOWIDTH * IEMGUI_ZOOM(x), ioh = IEM_GUI_IOHEIGHT * IEMGUI_ZOOM(x);
     t_canvas *canvas = glist_getcanvas(glist);
 
     if((old_snd_rcv_flags & IEM_GUI_OLD_SND_FLAG) && !x->x_gui.x_fsf.x_snd_able) {
@@ -328,8 +323,7 @@ static void number_draw_io(t_number* x,t_glist* glist, int old_snd_rcv_flags)
              xpos + iow, ypos + x->x_gui.x_h,
              x, 0);
         /* keep these above outlet */
-        sys_vgui(".x%lx.c raise %lxLABEL %lxOUT%d\n", canvas, x, x, 0);
-        sys_vgui(".x%lx.c raise %lxNUMBER %lxLABEL\n", canvas, x, x);
+        sys_vgui(".x%lx.c raise %lxNUMBER %lxOUT%d\n", canvas, x, x);
     }
     if(!(old_snd_rcv_flags & IEM_GUI_OLD_SND_FLAG) && x->x_gui.x_fsf.x_snd_able)
         sys_vgui(".x%lx.c delete %lxOUT%d\n", canvas, x, 0);
@@ -340,8 +334,7 @@ static void number_draw_io(t_number* x,t_glist* glist, int old_snd_rcv_flags)
              xpos + iow, ypos - IEMGUI_ZOOM(x) + ioh,
              x, 0);
         /* keep these above inlet */
-        sys_vgui(".x%lx.c raise %lxLABEL %lxIN%d\n", canvas, x, x, 0);
-        sys_vgui(".x%lx.c raise %lxNUMBER %lxLABEL\n", canvas, x, x);
+        sys_vgui(".x%lx.c raise %lxNUMBER %lxIN%d\n", canvas, x, x);
     }
     if(!(old_snd_rcv_flags & IEM_GUI_OLD_RCV_FLAG) && x->x_gui.x_fsf.x_rcv_able)
         sys_vgui(".x%lx.c delete %lxIN%d\n", canvas, x, 0);
@@ -362,23 +355,11 @@ static void number_draw_select(t_number *x, t_glist *glist)
         }
         sys_vgui(".x%lx.c itemconfigure %lxBASE1 -outline #%06x\n",
             canvas, x, IEM_GUI_COLOR_SELECTED);
-        sys_vgui(".x%lx.c itemconfigure %lxBASE2 -fill #%06x\n",
-            canvas, x, IEM_GUI_COLOR_SELECTED);
-        sys_vgui(".x%lx.c itemconfigure %lxLABEL -fill #%06x\n",
-            canvas, x, IEM_GUI_COLOR_SELECTED);
-        sys_vgui(".x%lx.c itemconfigure %lxNUMBER -fill #%06x\n",
-            canvas, x, IEM_GUI_COLOR_SELECTED);
     }
     else
     {
         sys_vgui(".x%lx.c itemconfigure %lxBASE1 -outline #%06x\n",
             canvas, x, IEM_GUI_COLOR_NORMAL);
-        sys_vgui(".x%lx.c itemconfigure %lxBASE2 -fill #%06x\n",
-            canvas, x, x->x_gui.x_fcol);
-        sys_vgui(".x%lx.c itemconfigure %lxLABEL -fill #%06x\n",
-            canvas, x, x->x_gui.x_lcol);
-        sys_vgui(".x%lx.c itemconfigure %lxNUMBER -fill #%06x\n",
-            canvas, x, x->x_gui.x_fcol);
     }
 }
 
@@ -429,7 +410,7 @@ static void number_save(t_gobj *z, t_binbuf *b)
     
     binbuf_addv(b, "ssiisiiffisssiiiisssf", gensym("#X"), gensym("obj"),
                 (int)x->x_gui.x_obj.te_xpix, (int)x->x_gui.x_obj.te_ypix,
-                gensym("number"), x->x_numwidth, x->x_gui.x_h/IEMGUI_ZOOM(x),
+                gensym("number"), x->x_numwidth, (x->x_gui.x_h /IEMGUI_ZOOM(x)) - 5,
                 (t_float)x->x_min, (t_float)x->x_max,
                 iem_symargstoint(&x->x_gui.x_isa),
                 srl[0], srl[1], srl[2],
@@ -440,7 +421,7 @@ static void number_save(t_gobj *z, t_binbuf *b)
     binbuf_addv(b, ";");
 }
 
-int number_check_minmax(t_number *x, double min, double max)
+int number_check_minmax(t_number *x, int64_t min, int64_t max)
 {
     int ret = 0;
 
@@ -483,7 +464,7 @@ static void number_properties(t_gobj *z, t_glist *owner)
             %s %d %d \
             %d %d \
             #%06x #%06x #%06x\n",
-            x->x_numwidth, MINDIGITS, x->x_gui.x_h/IEMGUI_ZOOM(x), IEM_GUI_MINSIZE,
+            x->x_numwidth, MINDIGITS, (x->x_gui.x_h /IEMGUI_ZOOM(x)) - 5, IEM_GUI_MINSIZE,
             x->x_min, x->x_max, 0,/*no_schedule*/
             x->x_gui.x_isa.x_loadinit, -1,
             srl[0]->s_name, srl[1]->s_name,
@@ -506,29 +487,45 @@ static void number_bang(t_number *x)
 static void number_dialog(t_number *x, t_symbol *s, int argc,
     t_atom *argv)
 {
+    #define SETCOLOR(a, col) do {char color[MAXPDSTRING]; snprintf(color, MAXPDSTRING-1, "#%06x", 0xffffff & col); color[MAXPDSTRING-1] = 0; SETSYMBOL(a, gensym(color));} while(0)
+    
     t_symbol *srl[3];
     int w = (int)atom_getfloatarg(0, argc, argv);
     int h = (int)atom_getfloatarg(1, argc, argv);
     double min = (double)atom_getfloatarg(2, argc, argv);
     double max = (double)atom_getfloatarg(3, argc, argv);
     int sr_flags;
-    t_atom undo[18];
-    iemgui_setdialogatoms(&x->x_gui, 18, undo);
+    
+    /*
+    t_atom undo[13];
+    
     SETFLOAT(undo+0, x->x_numwidth);
     SETFLOAT(undo+2, x->x_min);
     SETFLOAT(undo+3, x->x_max);
-
+    SETFLOAT (argv+ 4, x->x_gui.x_w/IEMGUI_ZOOM(x));
+    SETFLOAT (argv+ 5, x->x_gui.x_h/IEMGUI_ZOOM(x));
+    SETFLOAT (argv+ 6, x->x_gui.x_isa.x_loadinit);
+    SETSYMBOL(argv+ 7, srl[0]);
+    SETSYMBOL(argv+ 8, srl[1]);
+    SETSYMBOL(argv+ 9, srl[2]);
+    SETCOLOR (argv+10, x->x_gui.x_bcol);
+    SETCOLOR (argv+11, x->x_gui.x_fcol);
+    SETCOLOR (argv+12, x->x_gui.x_lcol);
+    
     pd_undo_set_objectstate(x->x_gui.x_glist, (t_pd*)x, gensym("dialog"),
-                            18, undo,
-                            argc, argv);
+                            13, undo,
+                            argc, argv); */
 
     sr_flags = iemgui_dialog(&x->x_gui, srl, argc, argv);
+    
     if(w < MINDIGITS)
         w = MINDIGITS;
     x->x_numwidth = w;
     if(h < IEM_GUI_MINSIZE)
         h = IEM_GUI_MINSIZE;
-    x->x_gui.x_h = h * IEMGUI_ZOOM(x);
+    x->x_gui.x_h = (h + 5) * IEMGUI_ZOOM(x);
+    x->x_gui.x_fontsize = h;
+    
     number_calc_fontwidth(x);
     /*if(number_check_minmax(x, min, max))
      number_bang(x);*/
@@ -631,7 +628,8 @@ static void number_size(t_number *x, t_symbol *s, int ac, t_atom *av)
         h = (int)atom_getfloatarg(1, ac, av);
         if(h < IEM_GUI_MINSIZE)
             h = IEM_GUI_MINSIZE;
-        x->x_gui.x_h = h * IEMGUI_ZOOM(x);
+        x->x_gui.x_h = (h + 5) * IEMGUI_ZOOM(x);
+        x->x_gui.x_fontsize = h * IEMGUI_ZOOM(x);
     }
     number_calc_fontwidth(x);
     iemgui_size((void *)x, &x->x_gui);
@@ -643,13 +641,21 @@ static void number_delta(t_number *x, t_symbol *s, int ac, t_atom *av)
 static void number_pos(t_number *x, t_symbol *s, int ac, t_atom *av)
 {iemgui_pos((void *)x, &x->x_gui, s, ac, av);}
 
-static void number_range(t_number *x, t_symbol *s, int ac, t_atom *av)
+static void number_minimum(t_number *x, t_floatarg f)
 {
-    if(number_check_minmax(x, (double)atom_getfloatarg(0, ac, av),
-                                 (double)atom_getfloatarg(1, ac, av)))
+    if(number_check_minmax(x, f,
+                                 x->x_max))
     {
         sys_queuegui(x, x->x_gui.x_glist, number_draw_update);
-        /*number_bang(x);*/
+    }
+}
+
+static void number_maximum(t_number *x, t_floatarg f)
+{
+    if(number_check_minmax(x, x->x_min,
+                                 f))
+    {
+        sys_queuegui(x, x->x_gui.x_glist, number_draw_update);
     }
 }
 
@@ -661,28 +667,6 @@ static void number_send(t_number *x, t_symbol *s)
 
 static void number_receive(t_number *x, t_symbol *s)
 {iemgui_receive(x, &x->x_gui, s);}
-
-static void number_label(t_number *x, t_symbol *s)
-{iemgui_label((void *)x, &x->x_gui, s);}
-
-static void number_label_pos(t_number *x, t_symbol *s, int ac, t_atom *av)
-{iemgui_label_pos((void *)x, &x->x_gui, s, ac, av);}
-
-static void number_label_font(t_number *x,
-    t_symbol *s, int ac, t_atom *av)
-{
-    int f = (int)atom_getfloatarg(1, ac, av);
-
-    if(f < 4)
-        f = 4;
-    x->x_gui.x_fontsize = f;
-    f = (int)atom_getfloatarg(0, ac, av);
-    if((f < 0) || (f > 2))
-        f = 0;
-    x->x_gui.x_fsf.x_font_style = f;
-    number_calc_fontwidth(x);
-    iemgui_label_font((void *)x, &x->x_gui, s, ac, av);
-}
 
 static void number_init(t_number *x, t_floatarg f)
 {
@@ -731,7 +715,7 @@ static void number_key(void *z, t_symbol *keysym, t_floatarg fkey)
         x->x_buf[sl] = 0;
         sys_queuegui(x, x->x_gui.x_glist, number_draw_update);
     }
-    else if((c == '\n') || (c == 13))
+    else if(((c == '\n') || (c == 13)) && x->x_buf[0] != 0)
     {
         x->x_val = atof(x->x_buf);
         x->x_buf[0] = 0;
@@ -759,15 +743,13 @@ static void number_list(t_number *x, t_symbol *s, int ac, t_atom *av)
 static void *number_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_number *x = (t_number *)pd_new(number_class);
-    int w = 3, h = 15;
+    int w = 3, h = 12;
     int ldx = 0, ldy = -8;
-    int fs = 10;
-    int64_t min = -9e+18, max = 9e+18, v = 0;
+    int64_t min = 0, max = 0, v = 0;
 
     x->x_gui.x_bcol = 0xFCFCFC;
     x->x_gui.x_fcol = 0x00;
     x->x_gui.x_lcol = 0x00;
-
     
     if((argc >= 16)&&IS_A_FLOAT(argv,0)&&IS_A_FLOAT(argv,1)
        &&IS_A_FLOAT(argv,2)&&IS_A_FLOAT(argv,3)
@@ -780,14 +762,12 @@ static void *number_new(t_symbol *s, int argc, t_atom *argv)
     {
         w = (int)atom_getfloatarg(0, argc, argv);
         h = (int)atom_getfloatarg(1, argc, argv);
+        
         min = (double)atom_getfloatarg(2, argc, argv);
         max = (double)atom_getfloatarg(3, argc, argv);
         iem_inttosymargs(&x->x_gui.x_isa, atom_getfloatarg(4, argc, argv));
         iemgui_new_getnames(&x->x_gui, 5, argv);
-        ldx = (int)atom_getfloatarg(8, argc, argv);
-        ldy = (int)atom_getfloatarg(9, argc, argv);
         iem_inttofstyle(&x->x_gui.x_fsf, atom_getfloatarg(10, argc, argv));
-        fs = (int)atom_getfloatarg(11, argc, argv);
         iemgui_all_loadcolors(&x->x_gui, argv+12, argv+13, argv+14);
         v = atom_getfloatarg(15, argc, argv);
     }
@@ -811,17 +791,15 @@ static void *number_new(t_symbol *s, int argc, t_atom *argv)
         strcpy(x->x_gui.x_font, sys_font); }
     if(x->x_gui.x_fsf.x_rcv_able)
         pd_bind(&x->x_gui.x_obj.ob_pd, x->x_gui.x_rcv);
-    x->x_gui.x_ldx = ldx;
-    x->x_gui.x_ldy = ldy;
-    if(fs < MINFONT)
-        fs = MINFONT;
-    x->x_gui.x_fontsize = fs;
+
     if(w < MINDIGITS)
         w = MINDIGITS;
     x->x_numwidth = w;
     if(h < IEM_GUI_MINSIZE)
         h = IEM_GUI_MINSIZE;
-    x->x_gui.x_h = h;
+    x->x_gui.x_h = (h + 5) * IEMGUI_ZOOM(x);
+    x->x_gui.x_fontsize = h * IEMGUI_ZOOM(x);
+    
     x->x_buf[0] = 0;
     number_check_minmax(x, min, max);
     iemgui_verify_snd_ne_rcv(&x->x_gui);
@@ -867,24 +845,21 @@ CYCLONE_OBJ_API void number_setup(void)
         gensym("delta"), A_GIMME, 0);
     class_addmethod(number_class, (t_method)number_pos,
         gensym("pos"), A_GIMME, 0);
-    class_addmethod(number_class, (t_method)number_range,
-        gensym("range"), A_GIMME, 0);
+    class_addmethod(number_class, (t_method)number_minimum,
+        gensym("minimum"), A_GIMME, 0);
+    class_addmethod(number_class, (t_method)number_maximum,
+        gensym("maximum"), A_GIMME, 0);
     class_addmethod(number_class, (t_method)number_color,
         gensym("color"), A_GIMME, 0);
     class_addmethod(number_class, (t_method)number_send,
         gensym("send"), A_DEFSYM, 0);
     class_addmethod(number_class, (t_method)number_receive,
         gensym("receive"), A_DEFSYM, 0);
-    class_addmethod(number_class, (t_method)number_label,
-        gensym("label"), A_DEFSYM, 0);
-    class_addmethod(number_class, (t_method)number_label_pos,
-        gensym("label_pos"), A_GIMME, 0);
-    class_addmethod(number_class, (t_method)number_label_font,
-        gensym("label_font"), A_GIMME, 0);
     class_addmethod(number_class, (t_method)number_init,
         gensym("init"), A_FLOAT, 0);
     class_addmethod(number_class, (t_method)iemgui_zoom,
         gensym("zoom"), A_CANT, 0);
+        
     number_widgetbehavior.w_getrectfn =    number_getrect;
     number_widgetbehavior.w_displacefn =   iemgui_displace;
     number_widgetbehavior.w_selectfn =     iemgui_select;
@@ -892,8 +867,8 @@ CYCLONE_OBJ_API void number_setup(void)
     number_widgetbehavior.w_deletefn =     iemgui_delete;
     number_widgetbehavior.w_visfn =        iemgui_vis;
     number_widgetbehavior.w_clickfn =      number_newclick;
+
     class_setwidget(number_class, &number_widgetbehavior);
-    class_sethelpsymbol(number_class, gensym("nbx"));
     class_setsavefn(number_class, number_save);
     class_setpropertiesfn(number_class, number_properties);
 }
@@ -910,7 +885,6 @@ static void init_dialog(void)
             "    namespace export pdtk_number_dialog\n"
             "}\n"
             "\n"
-            "# TODO convert Init/No Init and Steady on click/Jump on click to checkbuttons\n"
             "\n"
             "proc ::dialog_number::clip_dim {mytoplevel} {\n"
             "    set vid [string trimleft $mytoplevel .]\n"
@@ -972,30 +946,6 @@ static void init_dialog(void)
             "    }\n"
             "}\n"
             "\n"
-            "proc ::dialog_number::verify_rng {mytoplevel} {\n"
-            "    set vid [string trimleft $mytoplevel .]\n"
-            "\n"
-            "    set var_iemgui_min_rng [concat iemgui_min_rng_$vid]\n"
-            "    global $var_iemgui_min_rng\n"
-            "    set var_iemgui_max_rng [concat iemgui_max_rng_$vid]\n"
-            "    global $var_iemgui_max_rng\n"
-            "\n"
-            "}\n"
-            "\n"
-            "proc ::dialog_number::clip_fontsize {mytoplevel} {\n"
-            "    set vid [string trimleft $mytoplevel .]\n"
-            "\n"
-            "    set var_iemgui_gn_fs [concat iemgui_gn_fs_$vid]\n"
-            "    global $var_iemgui_gn_fs\n"
-            "\n"
-            "    variable define_min_fontsize\n"
-            "\n"
-            "    if {[eval concat $$var_iemgui_gn_fs] < $define_min_fontsize} {\n"
-            "        set $var_iemgui_gn_fs $define_min_fontsize\n"
-            "        $mytoplevel.label.fs_ent configure -textvariable $var_iemgui_gn_fs\n"
-            "    }\n"
-            "}\n"
-            "\n"
             "proc ::dialog_number::set_col_example {mytoplevel} {\n"
             "    set vid [string trimleft $mytoplevel .]\n"
             "\n"
@@ -1005,25 +955,6 @@ static void init_dialog(void)
             "    global $var_iemgui_fcol\n"
             "    set var_iemgui_lcol [concat iemgui_lcol_$vid]\n"
             "    global $var_iemgui_lcol\n"
-            "\n"
-            "    $mytoplevel.colors.sections.exp.lb_bk configure \\\n"
-            "        -background [eval concat $$var_iemgui_bcol] \\\n"
-            "        -activebackground [eval concat $$var_iemgui_bcol] \\\n"
-            "        -foreground [eval concat $$var_iemgui_lcol] \\\n"
-            "        -activeforeground [eval concat $$var_iemgui_lcol]\n"
-            "\n"
-            "    if { [eval concat $$var_iemgui_fcol] ne \"none\" } {\n"
-            "        $mytoplevel.colors.sections.exp.fr_bk configure \\\n"
-            "            -background [eval concat $$var_iemgui_bcol] \\\n"
-            "            -activebackground [eval concat $$var_iemgui_bcol] \\\n"
-            "            -foreground [eval concat $$var_iemgui_fcol] \\\n"
-            "            -activeforeground [eval concat $$var_iemgui_fcol]\n"
-            "    } else {\n"
-            "        $mytoplevel.colors.sections.exp.fr_bk configure \\\n"
-            "            -background [eval concat $$var_iemgui_bcol] \\\n"
-            "            -activebackground [eval concat $$var_iemgui_bcol] \\\n"
-            "            -foreground [eval concat $$var_iemgui_bcol] \\\n"
-            "            -activeforeground [eval concat $$var_iemgui_bcol]}\n"
             "\n"
             "    # for OSX live updates\n"
             "    if {$::windowingsystem eq \"aqua\"} {\n"
@@ -1074,43 +1005,13 @@ static void init_dialog(void)
             "            set $var_iemgui_fcol $helpstring }\n"
             "    }\n"
             "    if {[eval concat $$var_iemgui_l2_f1_b0] == 2} {\n"
-            "        set helpstring [tk_chooseColor -title [_ \"Label color\"] -initialcolor [eval concat $$var_iemgui_lcol]]\n"
+            "        set helpstring [tk_chooseColor -title [_ \"Text color\"] -initialcolor [eval concat $$var_iemgui_lcol]]\n"
             "        if { $helpstring ne \"\" } {\n"
             "            set $var_iemgui_lcol $helpstring }\n"
             "    }\n"
             "    ::dialog_number::set_col_example $mytoplevel\n"
             "}\n"
             "\n"
-            "# open popup over source button\n"
-            "proc ::dialog_number::font_popup {mytoplevel} {\n"
-            "    $mytoplevel.popup unpost\n"
-            "    set button $mytoplevel.label.fontpopup_label\n"
-            "    set x [expr [winfo rootx $button] + ( [winfo width $button] / 2 )]\n"
-            "    set y [expr [winfo rooty $button] + ( [winfo height $button] / 2 )]\n"
-            "    tk_popup $mytoplevel.popup $x $y 0\n"
-            "}\n"
-            "\n"
-            "proc ::dialog_number::toggle_font {mytoplevel gn_f} {\n"
-            "    set vid [string trimleft $mytoplevel .]\n"
-            "\n"
-            "    set var_iemgui_gn_f [concat iemgui_gn_f_$vid]\n"
-            "    global $var_iemgui_gn_f\n"
-            "\n"
-            "    set $var_iemgui_gn_f $gn_f\n"
-            "\n"
-            "    switch -- $gn_f {\n"
-            "        0 { set current_font $::font_family}\n"
-            "        1 { set current_font \"Helvetica\" }\n"
-            "        2 { set current_font \"Times\" }\n"
-            "    }\n"
-            "    set current_font_spec \"{$current_font} 14 $::font_weight\"\n"
-            "\n"
-            "    $mytoplevel.label.fontpopup_label configure -text $current_font \\\n"
-            "        -font [list $current_font 16 $::font_weight]\n"
-            "    $mytoplevel.label.name_entry configure -font $current_font_spec\n"
-            "    $mytoplevel.colors.sections.exp.fr_bk configure -font $current_font_spec\n"
-            "    $mytoplevel.colors.sections.exp.lb_bk configure -font $current_font_spec\n"
-            "}\n"
             "\n"
             "proc ::dialog_number::lb {mytoplevel} {\n"
             "    set vid [string trimleft $mytoplevel .]\n"
@@ -1127,24 +1028,11 @@ static void init_dialog(void)
             "    }\n"
             "}\n"
             "\n"
-            "proc ::dialog_number::stdy_jmp {mytoplevel} {\n"
-            "    set vid [string trimleft $mytoplevel .]\n"
-            "\n"
-            "    set var_iemgui_steady [concat iemgui_steady_$vid]\n"
-            "    global $var_iemgui_steady\n"
-            "\n"
-            "    if {[eval concat $$var_iemgui_steady]} {\n"
-            "        set $var_iemgui_steady 0\n"
-            "        $mytoplevel.para.stdy_jmp configure -text [_ \"Jump on click\"]\n"
-            "    } else {\n"
-            "        set $var_iemgui_steady 1\n"
-            "        $mytoplevel.para.stdy_jmp configure -text [_ \"Steady on click\"]\n"
-            "    }\n"
-            "}\n"
             "\n"
             "proc ::dialog_number::apply {mytoplevel} {\n"
             "    set vid [string trimleft $mytoplevel .]\n"
             "\n"
+           
             "    set var_iemgui_wdt [concat iemgui_wdt_$vid]\n"
             "    global $var_iemgui_wdt\n"
             "    set var_iemgui_min_wdt [concat iemgui_min_wdt_$vid]\n"
@@ -1159,22 +1047,12 @@ static void init_dialog(void)
             "    global $var_iemgui_max_rng\n"
             "    set var_iemgui_loadbang [concat iemgui_loadbang_$vid]\n"
             "    global $var_iemgui_loadbang\n"
-            "    set var_iemgui_steady [concat iemgui_steady_$vid]\n"
-            "    global $var_iemgui_steady\n"
             "    set var_iemgui_snd [concat iemgui_snd_$vid]\n"
             "    global $var_iemgui_snd\n"
             "    set var_iemgui_rcv [concat iemgui_rcv_$vid]\n"
             "    global $var_iemgui_rcv\n"
             "    set var_iemgui_gui_nam [concat iemgui_gui_nam_$vid]\n"
             "    global $var_iemgui_gui_nam\n"
-            "    set var_iemgui_gn_dx [concat iemgui_gn_dx_$vid]\n"
-            "    global $var_iemgui_gn_dx\n"
-            "    set var_iemgui_gn_dy [concat iemgui_gn_dy_$vid]\n"
-            "    global $var_iemgui_gn_dy\n"
-            "    set var_iemgui_gn_f [concat iemgui_gn_f_$vid]\n"
-            "    global $var_iemgui_gn_f\n"
-            "    set var_iemgui_gn_fs [concat iemgui_gn_fs_$vid]\n"
-            "    global $var_iemgui_gn_fs\n"
             "    set var_iemgui_bcol [concat iemgui_bcol_$vid]\n"
             "    global $var_iemgui_bcol\n"
             "    set var_iemgui_fcol [concat iemgui_fcol_$vid]\n"
@@ -1182,11 +1060,8 @@ static void init_dialog(void)
             "    set var_iemgui_lcol [concat iemgui_lcol_$vid]\n"
             "    global $var_iemgui_lcol\n"
             "\n"
+            
             "    ::dialog_number::clip_dim $mytoplevel\n"
-            "    ::dialog_number::sched_rng $mytoplevel\n"
-            "    ::dialog_number::verify_rng $mytoplevel\n"
-            "    ::dialog_number::sched_rng $mytoplevel\n"
-            "    ::dialog_number::clip_fontsize $mytoplevel\n"
             "\n"
             "    if {[eval concat $$var_iemgui_snd] == \"\"} {set hhhsnd \"empty\"} else {set hhhsnd [eval concat $$var_iemgui_snd]}\n"
             "    if {[eval concat $$var_iemgui_rcv] == \"\"} {set hhhrcv \"empty\"} else {set hhhrcv [eval concat $$var_iemgui_rcv]}\n"
@@ -1199,29 +1074,26 @@ static void init_dialog(void)
             "    set hhhrcv [string map {\"$\" {\\$}} [unspace_text $hhhrcv]]\n"
             "    set hhhgui_nam [string map {\"$\" {\\$}} [unspace_text $hhhgui_nam]]\n"
             "\n"
-            "    # make sure the offset boxes have a value\n"
-            "    if {[eval concat $$var_iemgui_gn_dx] eq \"\"} {set $var_iemgui_gn_dx 0}\n"
-            "    if {[eval concat $$var_iemgui_gn_dy] eq \"\"} {set $var_iemgui_gn_dy 0}\n"
-            "\n"
+            
+            
             "    pdsend [concat $mytoplevel dialog \\\n"
             "            [eval concat $$var_iemgui_wdt] \\\n"
             "            [eval concat $$var_iemgui_hgt] \\\n"
             "            [eval concat $$var_iemgui_min_rng] \\\n"
             "            [eval concat $$var_iemgui_max_rng] \\\n"
-            "            [eval concat 0]  \\\n"
+            "            0  \\\n"
             "            [eval concat $$var_iemgui_loadbang] \\\n"
-            "            [eval concat 0]  \\\n"
+            "            0  \\\n"
             "            $hhhsnd \\\n"
             "            $hhhrcv \\\n"
             "            $hhhgui_nam \\\n"
-            "            [eval concat $$var_iemgui_gn_dx] \\\n"
-            "            [eval concat $$var_iemgui_gn_dy] \\\n"
-            "            [eval concat $$var_iemgui_gn_f] \\\n"
-            "            [eval concat $$var_iemgui_gn_fs] \\\n"
+            "            0  \\\n"
+            "            0  \\\n"
+            "            0  \\\n"
+            "            0  \\\n"
             "            [string tolower [eval concat $$var_iemgui_bcol]] \\\n"
             "            [string tolower [eval concat $$var_iemgui_fcol]] \\\n"
-            "            [string tolower [eval concat $$var_iemgui_lcol]] \\\n"
-            "            [eval concat $$var_iemgui_steady]]\n"
+            "            [string tolower [eval concat $$var_iemgui_lcol]]] \\\n"
             "}\n"
             "\n"
             "\n"
@@ -1263,22 +1135,12 @@ static void init_dialog(void)
             "    global $var_iemgui_rng_sch\n"
             "    set var_iemgui_loadbang [concat iemgui_loadbang_$vid]\n"
             "    global $var_iemgui_loadbang\n"
-            "    set var_iemgui_steady [concat iemgui_steady_$vid]\n"
-            "    global $var_iemgui_steady\n"
             "    set var_iemgui_snd [concat iemgui_snd_$vid]\n"
             "    global $var_iemgui_snd\n"
             "    set var_iemgui_rcv [concat iemgui_rcv_$vid]\n"
             "    global $var_iemgui_rcv\n"
             "    set var_iemgui_gui_nam [concat iemgui_gui_nam_$vid]\n"
             "    global $var_iemgui_gui_nam\n"
-            "    set var_iemgui_gn_dx [concat iemgui_gn_dx_$vid]\n"
-            "    global $var_iemgui_gn_dx\n"
-            "    set var_iemgui_gn_dy [concat iemgui_gn_dy_$vid]\n"
-            "    global $var_iemgui_gn_dy\n"
-            "    set var_iemgui_gn_f [concat iemgui_gn_f_$vid]\n"
-            "    global $var_iemgui_gn_f\n"
-            "    set var_iemgui_gn_fs [concat iemgui_gn_fs_$vid]\n"
-            "    global $var_iemgui_gn_fs\n"
             "    set var_iemgui_l2_f1_b0 [concat iemgui_l2_f1_b0_$vid]\n"
             "    global $var_iemgui_l2_f1_b0\n"
             "    set var_iemgui_bcol [concat iemgui_bcol_$vid]\n"
@@ -1294,20 +1156,13 @@ static void init_dialog(void)
             "    set $var_iemgui_min_hgt $min_hgt\n"
             "    set $var_iemgui_min_rng $min_rng\n"
             "    set $var_iemgui_max_rng $max_rng\n"
-            "    set $var_iemgui_rng_sch $rng_sched\n"
             "    set $var_iemgui_loadbang $loadbang\n"
-            "    set $var_iemgui_steady $steady\n"
             "    if {$snd == \"empty\"} {set $var_iemgui_snd [format \"\"]\n"
             "    } else {set $var_iemgui_snd [respace_text [format \"%s\" $snd]]}\n"
             "    if {$rcv == \"empty\"} {set $var_iemgui_rcv [format \"\"]\n"
             "    } else {set $var_iemgui_rcv [respace_text [format \"%s\" $rcv]]}\n"
             "    if {$gui_name == \"empty\"} {set $var_iemgui_gui_nam [format \"\"]\n"
             "    } else {set $var_iemgui_gui_nam [respace_text [format \"%s\" $gui_name]]}\n"
-            "\n"
-            "    set $var_iemgui_gn_dx $gn_dx\n"
-            "    set $var_iemgui_gn_dy $gn_dy\n"
-            "    set $var_iemgui_gn_f $gn_f\n"
-            "    set $var_iemgui_gn_fs $gn_fs\n"
             "\n"
             "    set $var_iemgui_bcol $bcol\n"
             "    set $var_iemgui_fcol $fcol\n"
@@ -1319,7 +1174,7 @@ static void init_dialog(void)
             "    set iemgui_range_header [_ $rng_header]\n"
             "    set iemgui_type [_ \"Int Number\"]\n"
             "    set wdt_label [_ \"Width (digits):\"]\n"
-            "    set hgt_label [_ \"Height:\"]\n"
+            "    set hgt_label [_ \"Font Size:\"]\n"
             "    set iemgui_range_header [_ \"Output Range\"]\n"
             "    set min_rng_label [_ \"Lower:\"]\n"
             "    set max_rng_label [_ \"Upper:\"]\n"
@@ -1375,17 +1230,6 @@ static void init_dialog(void)
             "        button $mytoplevel.para.lb -text [_ \"Init\"] \\\n"
             "            -command \"::dialog_number::lb $mytoplevel\"  }\n"
             "\n"
-            "    if {[eval concat $$var_iemgui_steady] == 0} {\n"
-            "        button $mytoplevel.para.stdy_jmp -command \"::dialog_number::stdy_jmp $mytoplevel\" \\\n"
-            "            -text [_ \"Jump on click\"] }\n"
-            "    if {[eval concat $$var_iemgui_steady] == 1} {\n"
-            "        button $mytoplevel.para.stdy_jmp -command \"::dialog_number::stdy_jmp $mytoplevel\" \\\n"
-            "            -text [_ \"Steady on click\"] }\n"
-            "    if {[eval concat $$var_iemgui_loadbang] >= 0} {\n"
-            "        pack $mytoplevel.para.lb -side left -expand 1 -ipadx 10}\n"
-            "    if {[eval concat $$var_iemgui_steady] >= 0} {\n"
-            "        pack $mytoplevel.para.stdy_jmp -side left -expand 1 -ipadx 10}\n"
-            "\n"
             "    # messages\n"
             "    labelframe $mytoplevel.s_r -borderwidth 1 -padx 5 -pady 5 -text [_ \"Messages\"]\n"
             "    pack $mytoplevel.s_r -side top -fill x\n"
@@ -1407,56 +1251,8 @@ static void init_dialog(void)
             "            -fill x -expand 1\n"
             "    }\n"
             "\n"
-            "    # get the current font name from the int given from C-space (gn_f)\n"
+            "    # get the current font name \n"
             "    set current_font $::font_family\n"
-            "    if {[eval concat $$var_iemgui_gn_f] == 1} \\\n"
-            "        { set current_font \"Helvetica\" }\n"
-            "    if {[eval concat $$var_iemgui_gn_f] == 2} \\\n"
-            "        { set current_font \"Times\" }\n"
-            "\n"
-            "    # label\n"
-            "    labelframe $mytoplevel.label -borderwidth 1 -text [_ \"Label\"] -padx 5 -pady 5\n"
-            "    pack $mytoplevel.label -side top -fill x -pady 5\n"
-            "    entry $mytoplevel.label.name_entry -textvariable $var_iemgui_gui_nam \\\n"
-            "        -width 30 -font [list $current_font 14 $::font_weight]\n"
-            "    pack $mytoplevel.label.name_entry -side top -fill both -padx 5\n"
-            "\n"
-            "    frame $mytoplevel.label.xy -padx 20 -pady 1\n"
-            "    pack $mytoplevel.label.xy -side top\n"
-            "    label $mytoplevel.label.xy.x_lab -text [_ \"X offset:\"]\n"
-            "    entry $mytoplevel.label.xy.x_entry -textvariable $var_iemgui_gn_dx -width 5\n"
-            "    label $mytoplevel.label.xy.dummy1 -text \" \" -width 1\n"
-            "    label $mytoplevel.label.xy.y_lab -text [_ \"Y offset:\"]\n"
-            "    entry $mytoplevel.label.xy.y_entry -textvariable $var_iemgui_gn_dy -width 5\n"
-            "    pack $mytoplevel.label.xy.x_lab $mytoplevel.label.xy.x_entry $mytoplevel.label.xy.dummy1 \\\n"
-            "        $mytoplevel.label.xy.y_lab $mytoplevel.label.xy.y_entry -side left\n"
-            "\n"
-            "    button $mytoplevel.label.fontpopup_label -text $current_font \\\n"
-            "        -font [list $current_font 16 $::font_weight] -pady 4 \\\n"
-            "        -command \"::dialog_number::font_popup $mytoplevel\"\n"
-            "    pack $mytoplevel.label.fontpopup_label -side left -anchor w \\\n"
-            "        -expand 1 -fill x -padx 5\n"
-            "    frame $mytoplevel.label.fontsize\n"
-            "    pack $mytoplevel.label.fontsize -side right -padx 5 -pady 5\n"
-            "    label $mytoplevel.label.fontsize.label -text [_ \"Size:\"]\n"
-            "    entry $mytoplevel.label.fontsize.entry -textvariable $var_iemgui_gn_fs -width 4\n"
-            "    pack $mytoplevel.label.fontsize.entry $mytoplevel.label.fontsize.label \\\n"
-            "        -side right -anchor e\n"
-            "    menu $mytoplevel.popup\n"
-            "    $mytoplevel.popup add command \\\n"
-            "        -label $::font_family \\\n"
-            "        -font [format {{%s} 16 %s} $::font_family $::font_weight] \\\n"
-            "        -command \"::dialog_number::toggle_font $mytoplevel 0\"\n"
-            "    $mytoplevel.popup add command \\\n"
-            "        -label \"Helvetica\" \\\n"
-            "        -font [format {Helvetica 16 %s} $::font_weight] \\\n"
-            "        -command \"::dialog_number::toggle_font $mytoplevel 1\"\n"
-            "    $mytoplevel.popup add command \\\n"
-            "        -label \"Times\" \\\n"
-            "        -font [format {Times 16 %s} $::font_weight] \\\n"
-            "        -command \"::dialog_number::toggle_font $mytoplevel 2\"\n"
-            "\n"
-            "    # colors\n"
             "    labelframe $mytoplevel.colors -borderwidth 1 -text [_ \"Colors\"] -padx 5 -pady 5\n"
             "    pack $mytoplevel.colors -fill x\n"
             "\n"
@@ -1467,7 +1263,7 @@ static void init_dialog(void)
             "    radiobutton $mytoplevel.colors.select.radio1 -value 1 -variable \\\n"
             "        $var_iemgui_l2_f1_b0 -text [_ \"Front\"] -justify left\n"
             "    radiobutton $mytoplevel.colors.select.radio2 -value 2 -variable \\\n"
-            "        $var_iemgui_l2_f1_b0 -text [_ \"Label\"] -justify left\n"
+            "        $var_iemgui_l2_f1_b0 -text [_ \"Text\"] -justify left\n"
             "    if { [eval concat $$var_iemgui_fcol] ne \"none\" } {\n"
             "        pack $mytoplevel.colors.select.radio0 $mytoplevel.colors.select.radio1 \\\n"
             "            $mytoplevel.colors.select.radio2 -side left\n"
@@ -1483,30 +1279,6 @@ static void init_dialog(void)
             "        -expand yes -fill x\n"
             "    frame $mytoplevel.colors.sections.exp\n"
             "    pack $mytoplevel.colors.sections.exp -side right -padx 5\n"
-            "    if { [eval concat $$var_iemgui_fcol] ne \"none\" } {\n"
-            "        label $mytoplevel.colors.sections.exp.fr_bk -text \"o=||=o\" -width 6 \\\n"
-            "            -background [eval concat $$var_iemgui_bcol] \\\n"
-            "            -activebackground [eval concat $$var_iemgui_bcol] \\\n"
-            "            -foreground [eval concat $$var_iemgui_fcol] \\\n"
-            "            -activeforeground [eval concat $$var_iemgui_fcol] \\\n"
-            "            -font [list $current_font 14 $::font_weight] -padx 2 -pady 2 -relief ridge\n"
-            "    } else {\n"
-            "        label $mytoplevel.colors.sections.exp.fr_bk -text \"o=||=o\" -width 6 \\\n"
-            "            -background [eval concat $$var_iemgui_bcol] \\\n"
-            "            -activebackground [eval concat $$var_iemgui_bcol] \\\n"
-            "            -foreground [eval concat $$var_iemgui_bcol] \\\n"
-            "            -activeforeground [eval concat $$var_iemgui_bcol] \\\n"
-            "            -font [list $current_font 14 $::font_weight] -padx 2 -pady 2 -relief ridge\n"
-            "    }\n"
-            "    label $mytoplevel.colors.sections.exp.lb_bk -text [_ \"Test label\"] \\\n"
-            "        -background [eval concat $$var_iemgui_bcol] \\\n"
-            "        -activebackground [eval concat $$var_iemgui_bcol] \\\n"
-            "        -foreground [eval concat $$var_iemgui_lcol] \\\n"
-            "        -activeforeground [eval concat $$var_iemgui_lcol] \\\n"
-            "        -font [list $current_font 14 $::font_weight] -padx 2 -pady 2 -relief ridge\n"
-            "    pack $mytoplevel.colors.sections.exp.lb_bk $mytoplevel.colors.sections.exp.fr_bk \\\n"
-            "        -side right -anchor e -expand yes -fill both -pady 7\n"
-            "\n"
             "    # color scheme by Mary Ann Benedetto http://piR2.org\n"
             "    foreach r {r1 r2 r3} hexcols {\n"
             "       { \"#FFFFFF\" \"#DFDFDF\" \"#BBBBBB\" \"#FFC7C6\" \"#FFE3C6\" \"#FEFFC6\" \"#C6FFC7\" \"#C6FEFF\" \"#C7C6FF\" \"#E3C6FF\" }\n"
@@ -1552,24 +1324,16 @@ static void init_dialog(void)
             "        bind $mytoplevel.dim.h_ent <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
             "        bind $mytoplevel.rng.min.ent <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
             "        bind $mytoplevel.rng.max_ent <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
-            "        bind $mytoplevel.label.name_entry <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
             "        bind $mytoplevel.s_r.send.ent <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
             "        bind $mytoplevel.s_r.receive.ent <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
-            "        bind $mytoplevel.label.xy.x_entry <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
-            "        bind $mytoplevel.label.xy.y_entry <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
-            "        bind $mytoplevel.label.fontsize.entry <KeyPress-Return> \"::dialog_number::apply_and_rebind_return $mytoplevel\"\n"
             "\n"
             "        # unbind Return from ok button when an entry takes focus\n"
             "        $mytoplevel.dim.w_ent config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
             "        $mytoplevel.dim.h_ent config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
             "        $mytoplevel.rng.min.ent config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
             "        $mytoplevel.rng.max_ent config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
-            "        $mytoplevel.label.name_entry config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
             "        $mytoplevel.s_r.send.ent config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
             "        $mytoplevel.s_r.receive.ent config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
-            "        $mytoplevel.label.xy.x_entry config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
-            "        $mytoplevel.label.xy.y_entry config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
-            "        $mytoplevel.label.fontsize.entry config -validate focusin -vcmd \"::dialog_number::unbind_return $mytoplevel\"\n"
             "\n"
             "        # remove cancel button from focus list since it's not activated on Return\n"
             "        $mytoplevel.cao.cancel config -takefocus 0\n"

@@ -33,6 +33,7 @@ typedef struct _number_tilde
     t_clock  *x_clock_repaint;
     t_float x_in_val;
     t_float x_out_val;
+    t_float x_set_val;
     t_float x_ramp_val;
     t_float x_ramp_time;
     t_float x_ramp;
@@ -86,10 +87,8 @@ static void number_tilde_periodic_update(t_number_tilde *x)
         
         outlet_float(x->x_float_outlet, x->x_in_val);
         
-        if(!x->x_output_mode) {
-            number_tilde_bang(x);
-        }
-        
+        number_tilde_draw_update(&x->x_gui.x_obj.te_g, x->x_gui.x_glist);
+
         // Clear repaint flag
         x->x_needs_update = 0;
     }
@@ -98,14 +97,51 @@ static void number_tilde_periodic_update(t_number_tilde *x)
     clock_delay(x->x_clock_repaint, fmax(x->x_interval_ms, 15));
 }
 
+int number_tilde_check_minmax(t_number_tilde *x, t_float min, t_float max)
+{
+    int ret = 0;
+
+    x->x_minimum = min;
+    x->x_maximum = max;
+    if(x->x_out_val < x->x_minimum)
+    {
+        x->x_out_val = x->x_minimum;
+        ret = 1;
+    }
+    if(x->x_out_val > x->x_maximum)
+    {
+        x->x_out_val = x->x_maximum;
+        ret = 1;
+    }
+    return(ret);
+}
+
 static void number_tilde_clip(t_number_tilde *x)
 {
+    if(x->x_minimum == 0 && x->x_maximum == 0) return;
+
     if(x->x_out_val < x->x_minimum)
         x->x_out_val = x->x_minimum;
     if(x->x_out_val > x->x_maximum)
         x->x_out_val = x->x_maximum;
-    
-    number_tilde_bang(x);
+}
+
+static void number_tilde_minimum(t_number_tilde *x, t_floatarg f)
+{
+    if(number_tilde_check_minmax(x, f,
+                                 x->x_maximum))
+    {
+        sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
+    }
+}
+
+static void number_tilde_maximum(t_number_tilde *x, t_floatarg f)
+{
+    if(number_tilde_check_minmax(x, x->x_minimum,
+                                 f))
+    {
+        sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
+    }
 }
 
 static void number_tilde_calc_fontwidth(t_number_tilde *x)
@@ -275,8 +311,6 @@ static void number_tilde_draw_new(t_number_tilde *x, t_glist *glist)
              sys_fontweight, x->x_gui.x_fcol, x);
 }
 
-
-
 static void number_tilde_draw_move(t_number_tilde *x, t_glist *glist)
 {
     int xpos = text_xpix(&x->x_gui.x_obj, glist);
@@ -427,7 +461,7 @@ static void number_tilde_save(t_gobj *z, t_binbuf *b)
     
     binbuf_addv(b, "ssiisiiifssfff", gensym("#X"), gensym("obj"),
                 (int)x->x_gui.x_obj.te_xpix, (int)x->x_gui.x_obj.te_ypix,
-                gensym("number~"), x->x_numwidth, x->x_gui.x_h/IEMGUI_ZOOM(x),
+                gensym("number~"), x->x_numwidth, (x->x_gui.x_h /IEMGUI_ZOOM(x)) - 5,
                 x->x_output_mode, x->x_interval_ms,
                 bflcol[0], bflcol[1], x->x_ramp_time, x->x_minimum, x->x_maximum);
     
@@ -452,9 +486,9 @@ static void number_tilde_properties(t_gobj *z, t_glist *owner)
     sprintf(buf, "::dialog_number::pdtk_number_tilde_dialog %%s \
             -------dimensions(digits)(pix):------- %d %d %d \
             %d %d %.2f \
-            #%06x #%06x\n",
-            x->x_numwidth, MINDIGITS, x->x_gui.x_h/IEMGUI_ZOOM(x), IEM_GUI_MINSIZE, x->x_output_mode, x->x_interval_ms,
-            0xffffff & x->x_gui.x_bcol, 0xffffff & x->x_gui.x_fcol);
+            #%06x #%06x %.4f %.4f \n",
+            x->x_numwidth, MINDIGITS, (x->x_gui.x_h /IEMGUI_ZOOM(x)) - 5, IEM_GUI_MINSIZE, x->x_output_mode, x->x_interval_ms,
+            0xffffff & x->x_gui.x_bcol, 0xffffff & x->x_gui.x_fcol, x->x_minimum, x->x_maximum);
 
     gfxstub_new(&x->x_gui.x_obj.ob_pd, x, buf);
 }
@@ -463,6 +497,10 @@ static void number_tilde_bang(t_number_tilde *x)
 {
     // Repaint the number
     // Don't queue this because that will lead to too much latency
+    x->x_out_val = x->x_set_val;
+    x->x_ramp = (x->x_out_val - x->x_ramp_val) / (x->x_ramp_time * (sys_getsr() / 1000.0));
+
+    number_tilde_clip(x);
     number_tilde_draw_update(&x->x_gui.x_obj.te_g, x->x_gui.x_glist);
 }
 
@@ -493,13 +531,15 @@ static void number_tilde_dialog(t_number_tilde *x, t_symbol *s, int argc,
 
     t_symbol *srl[3];
     int w = (int)atom_getfloatarg(0, argc, argv);
-    int h = (int)atom_getfloatarg(1, argc, argv);
+    int h = (int)atom_getfloatarg(1, argc, argv) + 5;
     int mode = (int)atom_getfloatarg(2, argc, argv);
     t_float interval = (int)atom_getfloatarg(3, argc, argv);
     int bcol = (int)iemgui_getcolorarg(4, argc, argv);
     int fcol = (int)iemgui_getcolorarg(5, argc, argv);
+    int min = (int)iemgui_getcolorarg(6, argc, argv);
+    int max = (int)iemgui_getcolorarg(7, argc, argv);
     
-    t_atom undo[7];
+    t_atom undo[9];
     
     SETFLOAT(undo+0, x->x_numwidth);
     SETFLOAT(undo+1, x->x_gui.x_h);
@@ -508,8 +548,10 @@ static void number_tilde_dialog(t_number_tilde *x, t_symbol *s, int argc,
     SETCOLOR(undo+4, x->x_gui.x_bcol);
     SETCOLOR(undo+5, x->x_gui.x_fcol);
     SETFLOAT(undo+6, x->x_ramp_time);
+    SETFLOAT(undo+7, x->x_minimum);
+    SETFLOAT(undo+8, x->x_maximum);
 
-    pd_undo_set_objectstate(x->x_gui.x_glist, (t_pd*)x, gensym("dialog"), 7, undo, argc, argv);
+    pd_undo_set_objectstate(x->x_gui.x_glist, (t_pd*)x, gensym("dialog"), 9, undo, argc, argv);
     
     x->x_numwidth = w >= MINDIGITS ? w : MINDIGITS;
     x->x_gui.x_h  = (h >= IEM_GUI_MINSIZE ? h : IEM_GUI_MINSIZE) * IEMGUI_ZOOM(x);
@@ -518,6 +560,8 @@ static void number_tilde_dialog(t_number_tilde *x, t_symbol *s, int argc,
 
     number_tilde_mode(x, mode);
     number_tilde_interval(x, interval);
+    number_tilde_check_minmax(x, min, max);
+    
     x->x_gui.x_fcol = fcol & 0xffffff;
     x->x_gui.x_bcol = bcol & 0xffffff;
     
@@ -598,11 +642,7 @@ static void number_tilde_set(t_number_tilde *x, t_floatarg f)
     if (memcmp(&ftocompare, &x->x_out_val, sizeof(ftocompare)))
     {
         
-        x->x_out_val = ftocompare;
-        number_tilde_clip(x);
-        
-        x->x_ramp = (x->x_out_val - x->x_ramp_val) / (x->x_ramp_time * (sys_getsr() / 1000.0));
-        sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
+        x->x_set_val = ftocompare;
     }
     
     
@@ -627,7 +667,7 @@ static void number_tilde_size(t_number_tilde *x, t_symbol *s, int ac, t_atom *av
         h = (int)atom_getfloatarg(1, ac, av);
         if(h < IEM_GUI_MINSIZE)
             h = IEM_GUI_MINSIZE;
-        x->x_gui.x_h = h * IEMGUI_ZOOM(x);
+        x->x_gui.x_h = (h + 5) * IEMGUI_ZOOM(x);
         x->x_gui.x_fontsize = x->x_gui.x_h - 5;
     }
     number_tilde_calc_fontwidth(x);
@@ -648,20 +688,6 @@ static void number_tilde_color(t_number_tilde *x, t_symbol *s, int ac, t_atom *a
 static void number_tilde_interval(t_number_tilde *x, t_floatarg f)
 {
     x->x_interval_ms = f;
-}
-
-static void number_tilde_minimum(t_number_tilde *x, t_floatarg f)
-{
-    x->x_minimum = f;
-    x->x_out_val = fmax(x->x_out_val, f);
-    number_tilde_clip(x);
-}
-
-static void number_tilde_maximum(t_number_tilde *x, t_floatarg f)
-{
-    x->x_maximum = f;
-    x->x_out_val = fmin(x->x_out_val, f);
-    number_tilde_clip(x);
 }
 
 static void number_tilde_mode(t_number_tilde *x, t_floatarg f)
@@ -710,14 +736,13 @@ static void number_tilde_key(void *z, t_symbol *keysym, t_floatarg fkey)
         x->x_buf[sl] = 0;
         sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
     }
-    else if((c == '\n') || (c == 13))
+    else if(((c == '\n') || (c == 13)) && x->x_buf[0] != 0)
     {
         number_tilde_set(x, atof(x->x_buf));
         x->x_buf[0] = 0;
         x->x_gui.x_fsf.x_change = 0;
         clock_unset(x->x_clock_reset);
 
-        number_tilde_clip(x);
         number_tilde_bang(x);
         sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
     }
@@ -739,12 +764,11 @@ static void number_tilde_list(t_number_tilde *x, t_symbol *s, int ac, t_atom *av
 static void *number_tilde_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_number_tilde *x = (t_number_tilde *)pd_new(number_tilde_class);
-    int w = 4, h = 15;
-    int ldx = 0, ldy = -8;
+    int w = 4, h = 12;
     int interval = 100;
     int mode = 0;
-    t_float maximum = 1e+33;
-    t_float minimum = -1e+33;
+    t_float maximum = 0;
+    t_float minimum = 0;
     t_float ramp_time = 0;
     
     floatinlet_new(&x->x_gui.x_obj, &x->x_ramp_time);
@@ -752,7 +776,6 @@ static void *number_tilde_new(t_symbol *s, int argc, t_atom *argv)
     x->x_signal_outlet = outlet_new(&x->x_gui.x_obj,  &s_signal);
     x->x_float_outlet = outlet_new(&x->x_gui.x_obj,  &s_float);
 
-    
     x->x_gui.x_bcol = 0xFCFCFC;
     x->x_gui.x_fcol = 0x00;
     x->x_gui.x_lcol = 0x00;
@@ -775,12 +798,8 @@ static void *number_tilde_new(t_symbol *s, int argc, t_atom *argv)
     x->x_gui.x_glist = (t_glist *)canvas_getcurrent();
     x->x_in_val = 0.0;
     x->x_out_val = 0.0;
-
-    x->x_gui.x_ldx = ldx;
-    x->x_gui.x_ldy = ldy;
-    
-    x->x_maximum = maximum;
-    x->x_minimum = minimum;
+    x->x_set_val = 0.0;
+    number_tilde_check_minmax(x, minimum, maximum);
     
     if(w < MINDIGITS)
         w = MINDIGITS;
@@ -788,8 +807,11 @@ static void *number_tilde_new(t_symbol *s, int argc, t_atom *argv)
     if(h < IEM_GUI_MINSIZE)
         h = IEM_GUI_MINSIZE;
     
-    x->x_gui.x_h = h;
-    x->x_gui.x_fontsize = h - 5;
+    x->x_gui.x_h = h + 5;
+    x->x_gui.x_fontsize = h;
+
+    strcpy(x->x_gui.x_font, sys_font);
+
     x->x_buf[0] = 0;
     
     x->x_clock_reset = clock_new(x, (t_method)number_tilde_tick_reset);
@@ -828,41 +850,31 @@ static t_int *number_tilde_perform(t_int *w)
     t_sample *out     = (t_sample *)(w[3]);
     t_int n           = (t_int)(w[4]);
     
-    
     // Take random sample
     t_int idx = rand() % n;
     x->x_in_val = in[idx];
     x->x_needs_update = 1;
-    
-    // Output mode
-    if(x->x_output_mode) {
-        // Check if we need to apply a ramp
-        if(x->x_ramp_val != x->x_out_val && x->x_ramp != 0) {
-            for(int i = 0; i < n; i++)  {
-                
-                // Check if we reached our destination
-                if((x->x_ramp < 0 && x->x_ramp_val <= x->x_out_val) || (x->x_ramp > 0 && x->x_ramp_val >= x->x_out_val)) {
-                    x->x_ramp_val = x->x_out_val;
-                    x->x_ramp = 0;
-                }
-                
-                x->x_ramp_val += x->x_ramp;
 
-                out[i] = x->x_ramp_val;
-                x->x_last_out = x->x_ramp_val;
+    // Check if we need to apply a ramp
+    if(x->x_ramp_val != x->x_out_val && x->x_ramp != 0) {
+        for(int i = 0; i < n; i++)  {
+            
+            // Check if we reached our destination
+            if((x->x_ramp < 0 && x->x_ramp_val <= x->x_out_val) || (x->x_ramp > 0 && x->x_ramp_val >= x->x_out_val)) {
+                x->x_ramp_val = x->x_out_val;
+                x->x_ramp = 0;
             }
-        }
-        // No ramp needed
-        else {
-            for(int i = 0; i < n; i++)  {
-                out[i] = x->x_out_val;
-            }
+            
+            x->x_ramp_val += x->x_ramp;
+
+            out[i] = x->x_ramp_val;
+            x->x_last_out = x->x_ramp_val;
         }
     }
-    // Input mode: no signal output
+    // No ramp needed
     else {
         for(int i = 0; i < n; i++)  {
-            out[i] = 0.0;
+            out[i] = x->x_out_val;
         }
     }
     
@@ -923,7 +935,6 @@ CYCLONE_OBJ_API void number_tilde_setup(void)
     number_tilde_widgetbehavior.w_visfn =        iemgui_vis;
     number_tilde_widgetbehavior.w_clickfn =      number_tilde_newclick;
     class_setwidget(number_tilde_class, &number_tilde_widgetbehavior);
-    class_sethelpsymbol(number_tilde_class, gensym("number~"));
     class_setsavefn(number_tilde_class, number_tilde_save);
     class_setpropertiesfn(number_tilde_class, number_tilde_properties);
 }
@@ -1067,6 +1078,10 @@ static void init_number_tilde_dialog(void)
             "    global $var_iemgui_bcol\n"
             "    set var_iemgui_fcol [concat iemgui_fcol_$vid]\n"
             "    global $var_iemgui_fcol\n"
+            "    set var_iemgui_min_rng [concat iemgui_min_rng_$vid]\n"
+            "    global $var_iemgui_min_rng\n"
+            "    set var_iemgui_max_rng [concat iemgui_max_rng_$vid]\n"
+            "    global $var_iemgui_max_rng\n"
             "\n"
             "    ::dialog_number::clip_dim $mytoplevel\n"
             "\n"
@@ -1079,7 +1094,9 @@ static void init_number_tilde_dialog(void)
             "            [eval concat $$var_iemgui_mode] \\\n"
             "            [eval concat $$var_iemgui_interval] \\\n"
             "            [string tolower [eval concat $$var_iemgui_bcol]] \\\n"
-            "            [string tolower [eval concat $$var_iemgui_fcol]]] \\\n"
+            "            [string tolower [eval concat $$var_iemgui_fcol]] \\\n"
+            "            [eval concat $$var_iemgui_min_rng] \\\n"
+            "            [eval concat $$var_iemgui_max_rng]] \\\n"
 
             "}\n"
             "\n"
@@ -1097,7 +1114,7 @@ static void init_number_tilde_dialog(void)
             "                                       wdt min_wdt \\\n"
             "                                       hgt min_hgt \\\n"
             "                                       mode interval \\\n"
-            "                                       bcol fcol} {\n"
+            "                                       bcol fcol min_rng max_rng} {\n"
             "\n"
             "    set vid [string trimleft $mytoplevel .]\n"
             "\n"
@@ -1119,6 +1136,10 @@ static void init_number_tilde_dialog(void)
             "    global $var_iemgui_fcol\n"
             "    set var_iemgui_l2_f1_b0 [concat iemgui_l2_f1_b0_$vid]\n"
             "    global $var_iemgui_l2_f1_b0\n"
+            "    set var_iemgui_min_rng [concat iemgui_min_rng_$vid]\n"
+            "    global $var_iemgui_min_rng\n"
+            "    set var_iemgui_max_rng [concat iemgui_max_rng_$vid]\n"
+            "    global $var_iemgui_max_rng\n"
             "\n"
             "    set $var_iemgui_wdt $wdt\n"
             "    set $var_iemgui_min_wdt $min_wdt\n"
@@ -1128,12 +1149,14 @@ static void init_number_tilde_dialog(void)
             "    set $var_iemgui_mode $mode\n"
             "    set $var_iemgui_bcol $bcol\n"
             "    set $var_iemgui_fcol $fcol\n"
+            "    set $var_iemgui_min_rng $min_rng\n"
+            "    set $var_iemgui_max_rng $max_rng\n"
             "\n"
             "    set $var_iemgui_l2_f1_b0 0\n"
             "\n"
             "    set iemgui_type [_ \"Number~\"]\n"
             "    set wdt_label [_ \"Width (digits):\"]\n"
-            "    set hgt_label [_ \"Height:\"]\n"
+            "    set hgt_label [_ \"Font Size:\"]\n"
             "    toplevel $mytoplevel -class DialogWindow\n"
             "    wm title $mytoplevel [format [_ \"%s Properties\"] $iemgui_type]\n"
             "    wm group $mytoplevel .\n"
@@ -1155,6 +1178,22 @@ static void init_number_tilde_dialog(void)
             "    if { $hgt_label ne \"empty\" } {\n"
             "        pack $mytoplevel.dim.dummy1 $mytoplevel.dim.h_lab $mytoplevel.dim.h_ent -side left }\n"
             "\n"
+            "    # range\n"
+            "    labelframe $mytoplevel.rng\n"
+            "    pack $mytoplevel.rng -side top -fill x\n"
+            "    frame $mytoplevel.rng.min\n"
+            "    label $mytoplevel.rng.min.lab -text \"Minimum\"\n"
+            "    entry $mytoplevel.rng.min.ent -textvariable $var_iemgui_min_rng -width 7\n"
+            "    label $mytoplevel.rng.dummy1 -text \"\" -width 1\n"
+            "    label $mytoplevel.rng.max_lab -text \"Maximum\"\n"
+            "    entry $mytoplevel.rng.max_ent -textvariable $var_iemgui_max_rng -width 7\n"
+            "    $mytoplevel.rng config -borderwidth 1 -pady 4 -text \"Output Range\"\n"
+     
+            "    pack $mytoplevel.rng.min\n"
+            "    pack $mytoplevel.rng.min.lab $mytoplevel.rng.min.ent -side left\n"
+            "    $mytoplevel.rng config -padx 26\n"
+            "    pack configure $mytoplevel.rng.min -side left\n"
+            "    pack $mytoplevel.rng.dummy1 $mytoplevel.rng.max_lab $mytoplevel.rng.max_ent -side left\n"
             "\n"
             "    # parameters\n"
             "    labelframe $mytoplevel.para -borderwidth 1 -padx 5 -pady 5 -text [_ \"Parameters\"]\n"
@@ -1184,7 +1223,9 @@ static void init_number_tilde_dialog(void)
             "    radiobutton $mytoplevel.colors.select.radio0 -value 0 -variable \\\n"
             "        $var_iemgui_l2_f1_b0 -text [_ \"Background\"] -justify left\n"
             "    radiobutton $mytoplevel.colors.select.radio1 -value 1 -variable \\\n"
-            "        $var_iemgui_l2_f1_b0 -text [_ \"Front\"] -justify left\n"
+            "        $var_iemgui_l2_f1_b0 -text [_ \"Foreground\"] -justify left\n"
+            "    radiobutton $mytoplevel.colors.select.radio2 -value 2 -variable \\\n"
+            "        $var_iemgui_l2_f1_b0 -text [_ \"Text\"] -justify left\n"
             "    if { [eval concat $$var_iemgui_fcol] ne \"none\" } {\n"
             "        pack $mytoplevel.colors.select.radio0 $mytoplevel.colors.select.radio1 \\\n"
             "            -side left\n"
