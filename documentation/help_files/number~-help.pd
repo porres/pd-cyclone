@@ -1,29 +1,29 @@
-#N canvas 515 54 645 715 10;
-#X obj 2 83 cnv 15 553 42 empty empty empty 20 12 0 14 #e0e0e0 #404040
+#N canvas 515 31 576 625 10;
+#X obj 4 8 cnv 15 553 42 empty empty empty 20 12 0 14 #e0e0e0 #404040
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
 #X coords 0 1 100 -1 554 42 1 0 0;
-#X restore 2 82 graph;
-#X obj 305 83 cnv 15 250 40 empty empty empty 12 13 0 18 #7c7c7c #e0e4dc
+#X restore 4 7 graph;
+#X obj 307 8 cnv 15 250 40 empty empty empty 12 13 0 18 #7c7c7c #e0e4dc
 0;
 #N canvas 382 141 749 319 (subpatch) 0;
 #X coords 0 -1 1 1 252 42 2 100 100;
-#X restore 304 82 pd;
-#X obj 2 353 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000
+#X restore 306 7 pd;
+#X obj 4 278 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000
 0;
-#X obj 4 517 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000
+#X obj 6 442 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000
 0;
-#X obj 4 567 cnv 3 550 3 empty empty attributes 8 12 0 13 #dcdcdc #000000
+#X obj 6 492 cnv 3 550 3 empty empty attributes 8 12 0 13 #dcdcdc #000000
 0;
-#X obj 93 524 cnv 17 3 17 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0
+#X obj 95 449 cnv 17 3 17 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0
 ;
-#X obj 93 361 cnv 17 3 130 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0
+#X obj 95 286 cnv 17 3 130 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0
 ;
-#X text 190 360 signal;
-#X text 189 524 signal;
-#X obj 4 690 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020
+#X text 192 285 signal;
+#X text 191 449 signal;
+#X obj 6 585 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020
 0;
-#X text 235 360 - the signal to be monitored/displayed, f 44;
+#X text 237 285 - the signal to be monitored/displayed, f 44;
 #N canvas 797 66 429 476 example 0;
 #X floatatom 189 143 0 0 1000 0 - - - 0;
 #X floatatom 189 336 0 0 0 0 - - - 0;
@@ -50,35 +50,35 @@ the target.;
 #X connect 2 0 11 0;
 #X connect 11 1 1 0;
 #X connect 12 0 2 0;
-#X restore 476 292 pd example;
-#X floatatom 419 248 0 0 0 0 - - - 0;
-#X floatatom 197 323 0 0 0 0 - - - 0;
-#X obj 93 259 osc~ 1;
-#X floatatom 308 326 0 0 0 0 - - - 0;
-#X obj 93 496 cnv 17 3 17 empty empty 1 5 9 0 16 #dcdcdc #9c9c9c 0
+#X restore 478 217 pd example;
+#X floatatom 345 173 6 0 0 0 - - - 0;
+#X floatatom 148 243 0 0 0 0 - - - 0;
+#X obj 102 179 osc~ 1;
+#X floatatom 299 250 7 0 0 0 - - - 0;
+#X obj 95 421 cnv 17 3 17 empty empty 1 5 9 0 16 #dcdcdc #9c9c9c 0
 ;
-#X text 195 495 float;
-#X text 234 495 - ramp time for signal generating, f 44;
-#X text 235 524 - the generated signal;
-#X obj 93 545 cnv 17 3 17 empty empty 1 5 9 0 16 #dcdcdc #9c9c9c 0
+#X text 197 420 float;
+#X text 236 420 - ramp time for signal generating, f 44;
+#X text 237 449 - the generated signal;
+#X obj 95 470 cnv 17 3 17 empty empty 1 5 9 0 16 #dcdcdc #9c9c9c 0
 ;
-#X text 195 545 float;
-#X text 236 545 - the monitored signal's value;
-#X text 352 247 ramp time:;
-#X obj 19 133 cyclone/comment 237 14 DejaVu\ Sans\ Mono empty 0 0 0
+#X text 197 470 float;
+#X text 238 470 - the monitored signal's value;
+#X text 278 172 ramp time:;
+#X obj 21 58 cyclone/comment 237 14 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 255 255 255 0 0 Signal generator/monitor;
-#X obj 16 83 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0
-0 0 255 255 255 0 0 number~;
-#X obj 322 107 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
+#X obj 18 8 cyclone/comment 425 33 DejaVu\ Sans\ Mono empty 0 0 0 0
+0 255 255 255 0 0 number~;
+#X obj 324 32 cyclone/comment 425 13 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
-#X obj 363 83 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
+#X obj 365 8 cyclone/comment 425 24 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 cyclone;
-#X obj 308 276 number~ 4 12 1 100 #fcfcfc #000000 1000 0 0;
-#X obj 499 149 cyclone/setdsp~;
-#X text 242 276 generator;
-#X text 39 292 monitor;
-#X text 111 324 float output:;
-#N canvas 396 131 675 438 set 1;
+#X obj 299 200 number~ 4 12 1 100 #fcfcfc #000000 1000 0 0;
+#X obj 501 74 cyclone/setdsp~;
+#X text 233 200 generator;
+#X text 48 212 monitor;
+#X text 62 244 float output:;
+#N canvas 550 140 675 438 set 0;
 #X obj 105 160 number~ 4 12 0 232 #fcfcfc #000000 0 0 0;
 #X obj 105 101 noise~;
 #X msg 167 117 interval \$1;
@@ -126,45 +126,45 @@ max possible values. If min and max are both 0 \, the value is unlimited
 #X connect 18 0 17 0;
 #X connect 20 0 18 0;
 #X connect 21 0 18 1;
-#X restore 500 314 pd set;
-#X text 130 408 interval <float>;
-#X text 160 384 set <float>;
-#X text 235 384 - sets value but doesn't generate signal, f 44;
-#X text 60 159 Use [number~] to monitor or generate signals. This is
+#X restore 502 239 pd set;
+#X text 132 333 interval <float>;
+#X text 162 309 set <float>;
+#X text 237 309 - sets value but doesn't generate signal, f 44;
+#X text 62 84 Use [number~] to monitor or generate signals. This is
 an abstraction with limited functionality \, not a proper clone.,
 f 62;
-#X text 60 186 The "tilde" symbol refers to monitor mode \, and if
+#X text 62 111 The "tilde" symbol refers to monitor mode \, and if
 you click on it \, it changes to generator mode (marked with a down
 arrow \, where you can click/drag and enter numbers). Clicking on the
 arrow switches it to monitor mode., f 62;
-#X text 235 421 - sets minimum value to generate, f 44;
-#X text 235 434 - sets maximum value to generate, f 44;
-#X text 202 373 bang;
-#X text 235 373 - alternate modes, f 44;
-#X obj 308 302 cyclone/snapshot~ 100;
-#X text 235 408 - display rate time in ms, f 44;
-#X text 136 421 minimum <float>;
-#X text 136 434 maximum <float>;
-#X text 124 586 @interval <float>: display time interval in ms(default
+#X text 237 346 - sets minimum value to generate, f 44;
+#X text 237 359 - sets maximum value to generate, f 44;
+#X text 204 298 bang;
+#X text 237 298 - alternate modes, f 44;
+#X obj 299 226 cyclone/snapshot~ 100;
+#X text 237 333 - display rate time in ms, f 44;
+#X text 138 346 minimum <float>;
+#X text 138 359 maximum <float>;
+#X text 126 511 @interval <float>: display time interval in ms(default
 0), f 58;
-#X text 130 600 @minimum <float>: minimum generation value (default
+#X text 132 525 @minimum <float>: minimum generation value (default
 -inf);
-#X text 112 628 @bgcolor <f \, f \, f>: background color in RGB, f
+#X text 114 553 @bgcolor <f \, f \, f>: background color in RGB, f
 60;
-#X text 100 642 @textcolor <f \, f \, f>: text color in RGB, f 62
+#X text 102 567 @textcolor <f \, f \, f>: text color in RGB, f 62
 ;
-#X obj 93 290 number~ 4 12 0 100 #fcfcfc #000000 0 0 0;
-#X text 154 396 mode <float>;
-#X text 235 396 - 0: monitor mode \, 1: generator mode, f 44;
-#X text 106 573 @mode <float>: nonzero sets monitor mode (default 0)
+#X obj 102 210 number~ 4 12 0 100 #fcfcfc #000000 0 0 0;
+#X text 156 321 mode <float>;
+#X text 237 321 - 0: monitor mode \, 1: generator mode, f 44;
+#X text 108 498 @mode <float>: nonzero sets monitor mode (default 0)
 , f 61;
-#X text 130 614 @maximum <float>: maximum generation value (default
+#X text 132 539 @maximum <float>: maximum generation value (default
 inf);
-#X text 142 447 bgcolor <s \, s>;
-#X text 235 447 - background and foreground color as hex, f 44;
+#X text 144 372 bgcolor <s \, s>;
+#X text 237 372 - background and foreground color as hex, f 44;
 #X connect 14 0 30 1;
 #X connect 16 0 53 0;
 #X connect 30 0 45 0;
 #X connect 45 0 17 0;
 #X connect 53 1 15 0;
-#X coords 0 715 1 714 78 16 0;
+#X coords 0 625 1 624 78 16 0;
