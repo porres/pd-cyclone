@@ -72,7 +72,6 @@ xbendout2.class.sources := cyclone_objects/binaries/control/xbendout2.c
 xnotein.class.sources := cyclone_objects/binaries/control/xnotein.c
 xnoteout.class.sources := cyclone_objects/binaries/control/xnoteout.c
 zl.class.sources := cyclone_objects/binaries/control/zl.c
-# NEW ones in cyclone0.3:
 acosh.class.sources := cyclone_objects/binaries/control/acosh.c
 asinh.class.sources := cyclone_objects/binaries/control/asinh.c
 atanh.class.sources := cyclone_objects/binaries/control/atanh.c
@@ -86,6 +85,7 @@ rdiv.class.sources := cyclone_objects/binaries/control/rdiv.c
 rminus.class.sources := cyclone_objects/binaries/control/rminus.c
 round.class.sources := cyclone_objects/binaries/control/round.c
 scale.class.sources := cyclone_objects/binaries/control/scale.c
+number.class.sources := cyclone_objects/binaries/control/number.c
 
 # SIGNAL CLASSES:
 acos~.class.sources := cyclone_objects/binaries/audio/acos.c
