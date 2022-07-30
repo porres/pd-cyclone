@@ -22,7 +22,6 @@
 
 #define MINDIGITS 1
 
-
 typedef struct _number_tilde
 {
     t_iemgui x_gui;
@@ -103,16 +102,28 @@ int number_tilde_check_minmax(t_number_tilde *x, t_float min, t_float max)
 
     x->x_minimum = min;
     x->x_maximum = max;
+
+    if(x->x_set_val < x->x_minimum)
+    {
+        x->x_set_val = x->x_minimum;
+        ret = 1;
+    }
+    if(x->x_set_val > x->x_maximum)
+    {
+        x->x_set_val = x->x_maximum;
+        ret = 1;
+    }
+
     if(x->x_out_val < x->x_minimum)
     {
         x->x_out_val = x->x_minimum;
-        ret = 1;
     }
     if(x->x_out_val > x->x_maximum)
     {
         x->x_out_val = x->x_maximum;
-        ret = 1;
     }
+
+
     return(ret);
 }
 
@@ -124,6 +135,11 @@ static void number_tilde_clip(t_number_tilde *x)
         x->x_out_val = x->x_minimum;
     if(x->x_out_val > x->x_maximum)
         x->x_out_val = x->x_maximum;
+
+    if(x->x_set_val < x->x_minimum)
+        x->x_set_val = x->x_minimum;
+    if(x->x_set_val > x->x_maximum)
+        x->x_set_val = x->x_maximum;
 }
 
 static void number_tilde_minimum(t_number_tilde *x, t_floatarg f)
@@ -152,7 +168,6 @@ static void number_tilde_calc_fontwidth(t_number_tilde *x)
         f = 27;
     else if(x->x_gui.x_fsf.x_font_style == 2)
         f = 25;
-
     
     w = x->x_gui.x_fontsize * f * x->x_numwidth;
     w /= 36;
@@ -162,7 +177,7 @@ static void number_tilde_calc_fontwidth(t_number_tilde *x)
 static void number_tilde_ftoa(t_number_tilde *x)
 {
     
-    double f = x->x_output_mode ? x->x_out_val : x->x_in_val;
+    double f = x->x_output_mode ? x->x_set_val : x->x_in_val;
     int bufsize, is_exp = 0, i, idecimal;
 
     sprintf(x->x_buf, "%g", f);
@@ -501,7 +516,6 @@ static void number_tilde_bang(t_number_tilde *x)
     x->x_ramp = (x->x_out_val - x->x_ramp_val) / (x->x_ramp_time * (sys_getsr() / 1000.0));
 
     number_tilde_clip(x);
-    number_tilde_draw_update(&x->x_gui.x_obj.te_g, x->x_gui.x_glist);
 }
 
 static int iemgui_getcolorarg(int index, int argc, t_atom*argv)
@@ -641,8 +655,9 @@ static void number_tilde_set(t_number_tilde *x, t_floatarg f)
         ftocompare must be t_float type like x_val. */
     if (memcmp(&ftocompare, &x->x_out_val, sizeof(ftocompare)))
     {
-        
         x->x_set_val = ftocompare;
+        number_tilde_clip(x);
+        number_tilde_draw_update(&x->x_gui.x_obj.te_g, x->x_gui.x_glist);
     }
     
     
@@ -746,6 +761,7 @@ static void number_tilde_key(void *z, t_symbol *keysym, t_floatarg fkey)
         number_tilde_bang(x);
         sys_queuegui(x, x->x_gui.x_glist, number_tilde_draw_update);
     }
+    
     clock_delay(x->x_clock_reset, 3000);
 }
 

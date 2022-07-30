@@ -728,12 +728,37 @@ static void number_key(void *z, t_symbol *keysym, t_floatarg fkey)
     clock_delay(x->x_clock_reset, 3000);
 }
 
+// Number list is also called when there is a key event
 static void number_list(t_number *x, t_symbol *s, int ac, t_atom *av)
 {
     if(!ac) {
         number_bang(x);
+        return;
     }
-    else if(IS_A_FLOAT(av, 0))
+
+    int editmode = x->x_gui.x_glist->gl_edit;
+    int selected = x->x_gui.x_fsf.x_change;
+    int is_keydown_event = ac == 2 && IS_A_FLOAT(av, 0) && IS_A_SYMBOL(av, 1) && atom_getfloat(av) == 1;
+    // Check for key events
+    if(!editmode && selected && is_keydown_event) {
+        const char* symbol = atom_getsymbol(av + 1)->s_name;
+        
+        if(!strcmp(symbol, "Up")) {
+            number_set(x, x->x_val + 1);
+            number_bang(x);
+        }
+        if(!strcmp(symbol, "Down")) {
+            number_set(x, x->x_val - 1);
+            number_bang(x);
+        }
+        
+        clock_delay(x->x_clock_reset, 3000);
+
+        // don't handle these as number!
+        return;
+    }
+    
+    if(IS_A_FLOAT(av, 0) && (ac != 2 || !IS_A_SYMBOL(av, 1)))
     {
         number_set(x, atom_getfloatarg(0, ac, av));
         number_bang(x);
@@ -750,6 +775,8 @@ static void *number_new(t_symbol *s, int argc, t_atom *argv)
     x->x_gui.x_bcol = 0xFCFCFC;
     x->x_gui.x_fcol = 0x00;
     x->x_gui.x_lcol = 0x00;
+
+    pd_bind(&x->x_gui.x_obj.ob_pd, gensym("#keyname"));
     
     if((argc >= 16)&&IS_A_FLOAT(argv,0)&&IS_A_FLOAT(argv,1)
        &&IS_A_FLOAT(argv,2)&&IS_A_FLOAT(argv,3)
