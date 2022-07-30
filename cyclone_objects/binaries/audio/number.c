@@ -20,12 +20,8 @@
 #include <unistd.h>
 #endif
 
-#include <pthread.h>
-
 #define MINDIGITS 1
-#define MINFONT   4
 
-#define ENABLE_LOCK 1
 
 typedef struct _number_tilde
 {
