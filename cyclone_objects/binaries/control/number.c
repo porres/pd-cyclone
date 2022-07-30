@@ -753,7 +753,7 @@ static void number_list(t_number *x, t_symbol *s, int ac, t_atom *av)
         }
         
         clock_delay(x->x_clock_reset, 3000);
-        
+
         // don't handle these as number!
         return;
     }
