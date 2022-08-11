@@ -119,7 +119,6 @@ onepole~.class.sources := cyclone_objects/binaries/audio/onepole.c
 overdrive~.class.sources := cyclone_objects/binaries/audio/overdrive.c
 peakamp~.class.sources := cyclone_objects/binaries/audio/peakamp.c
 phasewrap~.class.sources := cyclone_objects/binaries/audio/phasewrap.c
-pink~.class.sources := cyclone_objects/binaries/audio/pink.c
 pong~.class.sources := cyclone_objects/binaries/audio/pong.c
 pow~.class.sources := cyclone_objects/binaries/audio/pow.c
 rampsmooth~.class.sources := cyclone_objects/binaries/audio/rampsmooth.c
@@ -228,6 +227,9 @@ hmagicbit := shared/common/magicbit.c
     grab.class.sources := cyclone_objects/binaries/control/grab.c $(hmagicbit)
 
 # Signal: #################################################################
+
+srandom := shared/signal/random.c
+pink~.class.sources := cyclone_objects/binaries/audio/pink.c $(srandom)
 
 sgrow := shared/common/grow.c
     frameaccum~.class.sources := cyclone_objects/binaries/audio/frameaccum.c $(sgrow)
