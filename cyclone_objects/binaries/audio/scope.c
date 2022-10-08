@@ -532,8 +532,10 @@ static void scope_dim(t_scope *x, t_float w, t_float h){
     if(x->x_width != width || x->x_height != height){
         x->x_width = width*x->x_zoom, x->x_height = height*x->x_zoom;
         sys_vgui(".x%lx.c delete all%lx\n", (unsigned long)glist_getcanvas(x->x_glist), x);
-        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist))
+        if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
             scope_draw_all(x);
+            scope_draw_handle(x, x->x_edit);
+        }
         canvas_fixlinesfor(x->x_glist, (t_text *)x);
     }
 }
