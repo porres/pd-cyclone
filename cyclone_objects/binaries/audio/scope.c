@@ -518,9 +518,16 @@ static void scope_grgb(t_scope *x, t_float r, t_float g, t_float b){ // scale: 0
     }
 }
 
-static void scope_dim(t_scope *x, t_float w, t_float h){
-    int width = (int)(w < SCOPE_MINSIZE ? SCOPE_MINSIZE : w);
-    int height = (int)(h < SCOPE_MINSIZE ? SCOPE_MINSIZE : h);
+static void scope_dim(t_scope *x, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
+    if(ac != 2)
+        return;
+    int width = atom_getintarg(0, ac, av);
+    int height = atom_getintarg(1, ac, av);
+    if(width < SCOPE_MINSIZE)
+        width = SCOPE_MINSIZE;
+    if(height < SCOPE_MINSIZE)
+        height = SCOPE_MINSIZE;
     if(x->x_width != width || x->x_height != height){
         x->x_width = width*x->x_zoom, x->x_height = height*x->x_zoom;
         sys_vgui(".x%lx.c delete all%lx\n", (unsigned long)glist_getcanvas(x->x_glist), x);
@@ -590,7 +597,16 @@ static void handle__click_callback(t_handle *sh, t_floatarg f){
     t_scope *x = sh->h_master;
     if(sh->h_dragon && click == 0){
         sys_vgui(".x%lx.c delete %s\n", x->x_cv, sh->h_outlinetag);
-        scope_dim(x, (x->x_width+sh->h_dragx)/x->x_zoom, (x->x_height+sh->h_dragy)/x->x_zoom);
+        t_atom undo[2];
+        SETFLOAT(undo+0, x->x_width);
+        SETFLOAT(undo+1, x->x_height);
+        t_atom redo[2];
+        float width = (x->x_width+sh->h_dragx)/x->x_zoom;
+        float height = (x->x_height+sh->h_dragx)/x->x_zoom;
+        SETFLOAT(redo+0, width);
+        SETFLOAT(redo+1, height);
+        pd_undo_set_objectstate(x->x_glist, (t_pd*)x, gensym("dim"), 2, undo, 2, redo);
+        scope_dim(x, NULL, 2, redo);
         scope_draw_handle(x, 1);
         scope_select((t_gobj *)x, x->x_glist, x->x_select);
     }
@@ -951,7 +967,10 @@ static void scope_ok(t_scope *x, t_symbol *s, int ac, t_atom *av){
     scope_brgb(x, bgred, bggreen, bgblue);
     scope_grgb(x, grred, grgreen, grblue);
     scope_frgb(x, fgred, fggreen, fgblue);
-    scope_dim(x, width, height);
+    t_atom dim[2];
+    SETFLOAT(dim+0, width);
+    SETFLOAT(dim+1, height);
+    scope_dim(x, NULL, 2, dim);
     canvas_dirty(x->x_cv, 1);
 }
 
@@ -1304,7 +1323,7 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     class_addfloat(scope_class, (t_method)scope_period);
     class_addmethod(scope_class, (t_method)scope_period, gensym("calccount"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_bufsize, gensym("bufsize"), A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_dim, gensym("dim"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_dim, gensym("dim"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_range, gensym("range"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_delay, gensym("delay"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_drawstyle, gensym("drawstyle"), A_FLOAT, 0);
@@ -1345,7 +1364,7 @@ CYCLONE_OBJ_API void Scope_tilde_setup(void){
     class_addmethod(scope_class, (t_method) scope_dsp, gensym("dsp"), A_CANT, 0);
     class_addfloat(scope_class, (t_method)scope_period);
     class_addmethod(scope_class, (t_method)scope_bufsize, gensym("bufsize"), A_FLOAT, 0);
-    class_addmethod(scope_class, (t_method)scope_dim, gensym("dim"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(scope_class, (t_method)scope_dim, gensym("dim"), A_GIMME, 0);
     class_addmethod(scope_class, (t_method)scope_period, gensym("calccount"), A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_range, gensym("range"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(scope_class, (t_method)scope_delay, gensym("delay"), A_FLOAT, 0);
