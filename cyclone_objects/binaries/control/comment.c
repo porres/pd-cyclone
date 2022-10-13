@@ -146,11 +146,9 @@ static void comment_initialize(t_comment *x){
 }
 
 static void comment_draw_handle(t_comment *x){
-//    post("draw handle");
     t_handle *ch = (t_handle *)x->x_handle;
     sys_vgui("destroy %s\n", ch->h_pathname); // always destroy, bad hack, improve
     if(x->x_edit){
-//        post("comment_draw_handle");
         int x1, y1, x2, y2;
         comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
         if(x->x_resized)
