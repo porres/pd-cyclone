@@ -3,7 +3,7 @@
 
 #include "m_pd.h"
 #include <common/api.h>
-#include <signal/random.h>
+#include <common/random.h>
 
 #define PINK_MAX_OCT 40
 

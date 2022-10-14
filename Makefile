@@ -33,7 +33,6 @@ cartopol.class.sources := cyclone_objects/binaries/control/cartopol.c
 counter.class.sources := cyclone_objects/binaries/control/counter.c
 cosh.class.sources := cyclone_objects/binaries/control/cosh.c
 cycle.class.sources := cyclone_objects/binaries/control/cycle.c
-decide.class.sources := cyclone_objects/binaries/control/decide.c
 decode.class.sources := cyclone_objects/binaries/control/decode.c
 flush.class.sources := cyclone_objects/binaries/control/flush.c
 forward.class.sources := cyclone_objects/binaries/control/forward.c
@@ -228,8 +227,9 @@ hmagicbit := shared/common/magicbit.c
 
 # Signal: #################################################################
 
-srandom := shared/signal/random.c
-pink~.class.sources := cyclone_objects/binaries/audio/pink.c $(srandom)
+crandom := shared/common/random.c
+decide.class.sources := cyclone_objects/binaries/control/decide.c $(crandom)
+pink~.class.sources := cyclone_objects/binaries/audio/pink.c $(crandom)
 
 sgrow := shared/common/grow.c
     frameaccum~.class.sources := cyclone_objects/binaries/audio/frameaccum.c $(sgrow)
