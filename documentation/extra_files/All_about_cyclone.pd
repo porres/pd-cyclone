@@ -1,10 +1,10 @@
-#N canvas 654 55 560 668 10;
+#N canvas 633 55 563 658 10;
 #X declare -lib cyclone -path cyclone;
-#X obj 64 420 cyclone/comment 425 16 DejaVu\ Sans\ Mono empty 0 0 0
+#X obj 64 420 cyclone/comment 152 16 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 190 190 200 1 0 How to install?;
 #X text 2 316 ===========================================================================================
 , f 91;
-#X obj 60 163 cyclone/comment 425 16 DejaVu\ Sans\ Mono empty 0 0 0
+#X obj 60 163 cyclone/comment 142 16 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 190 190 200 1 0 About Cyclone:;
 #X text 2 400 ============================================================================================
 , f 92;
@@ -47,7 +47,7 @@ report bugs/issues ======>, f 40;
 #X text 2 570 ===========================================================================================
 , f 91;
 #X obj 315 368 cyclone/All_objects;
-#X obj 15 598 cyclone/comment 425 16 DejaVu\ Sans\ Mono empty 0 0 0
+#X obj 15 598 cyclone/comment 140 16 DejaVu\ Sans\ Mono empty 0 0 0
 0 0 190 190 200 1 0 Bugs / Issues?;
 #X text 343 429 Alternatively \, you can use [declare] as follows:
 , f 25;
@@ -56,12 +56,12 @@ report bugs/issues ======>, f 40;
 #X obj 329 469 declare -lib cyclone -path cyclone;
 #X obj 2 3 cnv 15 552 60 empty empty empty 6 13 0 18 #7c7c7c #e0e4dc
 0;
-#X obj 26 8 cyclone/comment 425 22 DejaVu\ Sans\ Mono empty 0 224 228
+#X obj 26 8 cyclone/comment 96 22 DejaVu\ Sans\ Mono empty 0 224 228
 220 0 255 255 255 0 0 cyclone;
-#X obj 134 11 cyclone/comment 425 14 DejaVu\ Sans\ Mono empty 0 224
+#X obj 134 11 cyclone/comment 393 14 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 - a set of Pure Data objects cloned from
 Max/MSP;
-#X obj 269 38 cyclone/comment 425 12 DejaVu\ Sans\ Mono empty 0 224
+#X obj 269 38 cyclone/comment 265 12 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 https://github.com/porres/pd-cyclone;
 #X obj 2 64 cnv 15 552 90 empty empty empty 20 12 0 14 #e0e0e0 #404040
 0;
@@ -71,5 +71,5 @@ Max/MSP;
 #X obj 314 86 cyclone/comment 201 14 helvetica empty 0 0 0 0 0 255
 255 255 0 0 It also provides some level of compatibility between the
 two environments.;
-#X obj 26 36 cyclone/comment 141 14 DejaVu\ Sans\ Mono empty 0 224
-228 220 0 255 255 255 0 0 version: 0.6-2;
+#X obj 26 36 cyclone/comment 108 14 DejaVu\ Sans\ Mono empty 0 224
+228 220 0 255 255 255 0 0 version: 0.7;
