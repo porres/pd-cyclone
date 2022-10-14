@@ -12,30 +12,30 @@
 ;
 #X obj 3 484 cnv 3 550 3 empty empty flags 8 12 0 13 #dcdcdc #000000
 0;
-#X obj 74 255 cnv 17 3 198 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0
+#X obj 84 255 cnv 17 3 198 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0
 ;
-#X text 122 254 set <anything>;
-#X text 214 254 - sets comment, f 54;
-#X text 110 296 fontsize <float>;
-#X text 214 296 - sets font size, f 54;
-#X text 104 310 fontname <symbol>;
-#X text 110 438 receive <symbol>;
-#X text 214 310 - sets font type, f 54;
-#X text 214 438 - sets receive symbol, f 54;
-#X text 92 396 textcolor <f \, f \, f>;
-#X text 104 268 append <anything>;
-#X text 214 268 - appends a message to the comment, f 54;
-#X text 214 282 - prepends a message to the comment, f 54;
-#X text 104 368 underline <float>;
-#X text 214 368 - non zero sets underline, f 54;
-#X text 104 410 bgcolor <f \, f \, f>;
-#X text 146 424 bg <float>;
-#X text 214 424 - background flag (0 suppresses background), f 54
+#X text 138 254 set <anything>;
+#X text 230 254 - sets comment, f 51;
+#X text 126 296 fontsize <float>;
+#X text 230 296 - sets font size, f 51;
+#X text 120 310 fontname <symbol>;
+#X text 126 438 receive <symbol>;
+#X text 230 310 - sets font type, f 51;
+#X text 230 438 - sets receive symbol, f 51;
+#X text 108 396 textcolor <f \, f \, f>;
+#X text 120 268 append <anything>;
+#X text 230 268 - appends a message to the comment, f 51;
+#X text 230 282 - prepends a message to the comment, f 51;
+#X text 120 368 underline <float>;
+#X text 230 368 - non zero sets underline, f 51;
+#X text 120 410 bgcolor <f \, f \, f>;
+#X text 162 424 bg <float>;
+#X text 230 424 - background flag (0 suppresses background), f 51
 ;
-#X text 214 396 - sets RGB text color (values from 0 to 255), f 54
+#X text 230 396 - sets RGB text color (values from 0 to 255), f 51
 ;
-#X text 214 410 - sets RGB background color (values from 0 to 255)
-, f 54;
+#X text 230 410 - sets RGB background color (values from 0 to 255)
+, f 51;
 #X obj 2 4 cnv 15 553 42 empty empty empty 20 12 0 14 #e0e0e0 #404040
 0;
 #N canvas 0 22 450 278 (subpatch) 0;
@@ -54,8 +54,8 @@
 228 220 0 255 255 255 0 0 Objects cloned from Max/MSP;
 #X obj 363 4 cyclone/comment 107 24 DejaVu\ Sans\ Mono empty 0 224
 228 220 0 255 255 255 0 0 cyclone;
-#X text 80 382 textjustification <f>;
-#N canvas 433 90 891 557 details 0;
+#X text 96 382 textjustification <f>;
+#N canvas 355 92 891 557 details 0;
 #X obj 180 295 cyclone/comment 201 50 times empty 0 0 0 0 0 100 150
 100 0 0 comment;
 #X msg 180 8 fontsize 50;
@@ -158,16 +158,10 @@ was first based on [cyclone/comment]., f 65;
 #X restore 483 180 pd details;
 #X obj 66 154 cyclone/comment 46 10 dejavu\ sans\ mono empty 0 0 0
 0 0 255 255 255 0 0 comment;
-#X text 56 82 [comment] is a GUI meant to be only a comment (a label
-or a note) that can be typed directly into it when in Edit mode. It
-is widely used in cyclone's documentation and (unlike pd vanilla's
-comments) allows you to set font \, size \, color \, background color
-\, bold \, italic \, underline and justification. This object is not
-being fully compliant to Max6+ versions!, f 74;
-#X text 98 282 prepend <anything>;
+#X text 114 282 prepend <anything>;
 #X text 40 185 right click for properties =====>, f 18;
-#X text 214 382 - sets justification (0: left \, 1: center \, 2: right)
-, f 54;
+#X text 230 382 - sets justification (0: left \, 1: center \, 2: right)
+;
 #N canvas 631 131 454 390 +details 0;
 #X obj 107 278 cyclone/comment 221 20 dejavu\ sans\ mono empty 0 0
 0 0 0 200 200 200 1 1 comment can be justified in different ways;
@@ -233,9 +227,16 @@ for mac) | @fontsize <float> (default patch's) | @textjustification
 <f \, f \, f> (default 255 255 255) @bg <float> (default 0) | @text
 <anything>: sets comment (default "comment") | @underline | @bold |
 @italic | @receive <symbol> (default 'empty'), f 80;
-#X text 134 325 bold <float>;
-#X text 122 339 italic <float>;
-#X text 214 325 - non zero sets to bold, f 54;
-#X text 214 339 - non zero sets to italic, f 54;
-#X text 116 354 outline <float>;
-#X text 214 354 - non zero sets an outline, f 54;
+#X text 150 325 bold <float>;
+#X text 138 339 italic <float>;
+#X text 230 325 - non zero sets to bold, f 51;
+#X text 230 339 - non zero sets to italic, f 51;
+#X text 132 354 outline <float>;
+#X text 230 354 - non zero sets an outline, f 51;
+#X text 31 82 [comment] is a GUI meant to be only a comment (a label
+or a note) that can be typed directly into it when in Edit mode. It
+is widely used in cyclone's documentation and (unlike pd vanilla's
+comments) allows you to set font \, size \, color \, background color
+\, bold \, italic \, underline and justification. This object is not
+being fully compliant to Max6+ versions! It is also now related to
+[else/note]., f 83;
