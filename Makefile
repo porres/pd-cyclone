@@ -319,7 +319,8 @@ endif
 
 ### pd-lib-builder ######################################################
 
-include pd-lib-builder/Makefile.pdlibbuilder
+PDLIBBUILDER_DIR=pd-lib-builder/
+include $(PDLIBBUILDER_DIR)/Makefile.pdlibbuilder
 
 ### linux aliases ######################################################
 
