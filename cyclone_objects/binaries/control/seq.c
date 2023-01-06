@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "m_pd.h"
-//#include "g_canvas.h"
+#include "g_canvas.h"
 #include <common/api.h>
 #include "common/grow.h"
 #include "common/file.h"

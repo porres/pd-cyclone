@@ -4,6 +4,12 @@
 #include <m_pd.h>
 #include "random.h"
 
+static int instance_number = 0;
+
+int random_get_id(void){
+    return(++instance_number);
+}
+
 int makeseed(void){
     static PERTHREAD unsigned int seed = 0;
     if(!seed)
