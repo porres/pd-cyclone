@@ -10,6 +10,7 @@ typedef struct _random_state{
     uint32_t s3;
 }t_random_state;
 
+int random_get_id(void);
 void random_init(t_random_state* rstate, float f);
 int makeseed(void);
 unsigned int get_seed(t_symbol *s, int ac, t_atom *av, int n);
