@@ -344,6 +344,7 @@ ifeq ($(aliases), true)
         ln -s -f uzi.$(extension) Uzi.$(extension); \
         ln -s -f clip~.$(extension) Clip~.$(extension); \
         ln -s -f line~.$(extension) Line~.$(extension); \
+        ln -s -f pow~.$(extension) Pow~.$(extension); \
         ln -s -f scope~.$(extension) Scope~.$(extension); \
         ln -s -f snapshot~.$(extension) Snapshot~.$(extension);
 endif
