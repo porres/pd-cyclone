@@ -96,7 +96,6 @@ typedef struct _equals
 {
     t_object x_obj;
     t_inlet  *x_inlet;
-    int    x_algo;
 } t_equals;
 
 static t_class *equals_class;
