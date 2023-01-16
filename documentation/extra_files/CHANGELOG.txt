@@ -2,6 +2,15 @@
 | Under the maintenance of Porres, Kwan and Barber: 
 ---------------------------------------------------
 
+
+--------------------------------------------------
+cyclone 0.7-0 (needs at least Pd Vanilla 0.53-1):
+--------------------------------------------------
+
+- [number~] can now properly show nan/inf thanks to changes in Vanilla's [nbx] in Pd 0.53-0.
+- Can't believe missed another issue with capital letters aliasing: missed packaging capital letter Pow~ for Linux and giving it an error like the other ones.
+
+
 --------------------------------------------------
 cyclone 0.6-1 (needs at least Pd Vanilla 0.52-1):
 --------------------------------------------------
