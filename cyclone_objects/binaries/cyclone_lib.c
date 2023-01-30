@@ -627,8 +627,8 @@ t_class *cyclone_class;
 static int printed;
 
 static int min_major = 0;
-static int min_minor = 52;
-static int min_bugfix = 0;
+static int min_minor = 53;
+static int min_bugfix = 1;
 
 static int cyclone_major = 0;
 static int cyclone_minor = 7;
