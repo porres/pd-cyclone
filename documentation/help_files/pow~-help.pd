@@ -38,7 +38,7 @@
 #X obj 256 195 vsl 20 90 1 4 0 0 empty empty empty 0 -9 0 10 #dcdcdc #000000 #000000 0 1;
 #X obj 152 161 cyclone/number~;
 #A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
-#X obj 99 273 ./out~;
+#X obj 99 273 output~;
 #X connect 0 0 10 0;
 #X connect 0 0 10 1;
 #X connect 1 0 2 0;
