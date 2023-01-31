@@ -635,8 +635,6 @@ static int cyclone_minor = 7;
 static int cyclone_bugfix = 0;
 
 void print_cyclone(t_cyclone *x){
-    char cyclone_dir[MAXPDSTRING];
-    strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
     int major = 0, minor = 0, bugfix = 0;
     sys_getversion(&major, &minor, &bugfix);
     post("");
@@ -658,13 +656,12 @@ void print_cyclone(t_cyclone *x){
             cyclone_major, cyclone_minor, cyclone_bugfix,
             min_major, min_minor, min_bugfix,
             major, minor, bugfix);
-    post(":: Loading the cyclone library did the following:");
-    post("::   - A) Loaded the non alphanumeric objects, which are:");
-    post(":: [!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~], [<=~], [<~],");
-    post(":: [==~], [>=~] and [>~]");
-    post("::   - B) Added %s", cyclone_dir);
-    post(":: to Pd's path so the other objects can be loaded too");
-    post(":: but use [declare -path cyclone] to guarantee search priority\n\:: in the patch");
+    post(":: Loading the cyclone library loaded non alphanumeric objects,");
+    post(":: which are: [!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~],");
+    post(":: [<=~], [<~], [==~], [>=~] and [>~]");
+    post(":: NOTE: Loading this binary did not load the path");
+    post(":: you need to add 'cyclone' to the \"preferences=>path\"");
+    post(":: or use [declare -path cyclone] (this guarantees search priority)");
     post("--------------------------------------------------------------------");
     post("");
 }
@@ -704,15 +701,7 @@ CYCLONE_API void cyclone_setup(void)
     t_cyclone *x = (t_cyclone *)pd_new(cyclone_class);
     class_addmethod(cyclone_class, (t_method)cyclone_about, gensym("about"), 0);
     class_addmethod(cyclone_class, (t_method)cyclone_version, gensym("version"), 0);
-    char cyclone_dir[MAXPDSTRING];
-    strcpy(cyclone_dir, cyclone_class->c_externdir->s_name);
-    char encoded[MAXPDSTRING+1];
-    sprintf(encoded, "+%s", cyclone_dir);
-    t_atom ap[2];
-    SETSYMBOL(ap, gensym(encoded));
-    SETFLOAT (ap+1, 0.f);
-    pd_typedmess(gensym("pd")->s_thing, gensym("add-to-path"), 2, ap);
-   if(!printed){
+    if(!printed){
        print_cyclone(x);
        printed = 1;
     }
