@@ -1,4 +1,4 @@
-#N canvas 385 47 559 644 10;
+#N canvas 482 46 559 644 10;
 #N canvas 584 143 498 356 All_Messages 0;
 #X text 75 52 dec -;
 #X text 69 69 down -;
@@ -97,8 +97,8 @@
 #X text 117 205 float;
 #X text 238 161 <= counter value;
 #X text 172 252 sets direction \, 0: up \, 1: down \, 2: updown (alternating), f 60;
-#X text 172 412 when max is reached (if 'carrybang' is set & counting up), f 61;
-#X text 172 455 when min is reached (if carrybang is set & counting down), f 61;
+#X text 172 455 when max is reached (if 'carrybang' is set & counting up), f 61;
+#X text 172 412 when min is reached (if carrybang is set & counting down), f 61;
 #X text 157 191 - goes to the next value and outputs it;
 #X text 172 326 sets counter value and outputs it - if outside the range \, it resets min/max according to compatmode (see example above);
 #X text 139 579 @carryflag: 0 for carryint (default) / 1 for carrybang, f 57;
@@ -163,7 +163,7 @@
 #X connect 29 2 18 0;
 #X connect 33 0 0 0;
 #X restore 465 138 pd compatmode;
-#N canvas 539 59 748 402 carrymode 0;
+#N canvas 539 59 748 402 carrymode 1;
 #X obj 171 250 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 171 161 bng 19 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
 #X obj 212 249 tgl 18 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000 0 1;
