@@ -11,8 +11,8 @@
 #include <string.h>
 #include "m_pd.h"
 #include <common/api.h>
-#include "common/shared.h"
-#include "common/file.h"
+#include <common/shared.h>
+#include <common/file.h>
 
 #define MTR_C74MAXTRACKS    64
 #define MTR_FILEBUFSIZE   4096
@@ -47,7 +47,9 @@ typedef struct _mtr
 {
     t_object       x_ob;
     t_canvas       *x_cnv;
-    int            x_ntracks;  
+    int            x_ntracks;
+    int            x_embed;
+    t_float        x_speed;
     t_mtrack     **x_tracks;
     t_file  *x_filehandle;
 } t_mtr;
@@ -68,24 +70,22 @@ static void mtrack_donext(t_mtrack *tp)
 	    goto endoftrack;
 	atmess = binbuf_getvec(tp->tr_binbuf) + ixmess;
 
-	while (atmess->a_type == A_SEMI)
-    	{
-    	    if (++ixmess >= natoms)
-		goto endoftrack;
+	while(atmess->a_type == A_SEMI){
+        if (++ixmess >= natoms)
+            goto endoftrack;
 	    atmess++;
 	}
-	if (!tp->tr_atdelta && atmess->a_type == A_FLOAT)
-	{  /* delta atom */
+	if (!tp->tr_atdelta && atmess->a_type == A_FLOAT){  /* delta atom */
 	    float delta = atmess->a_w.w_float;
 	    if (delta < 0.)
 		delta = 0.;
 	    tp->tr_atdelta = atmess;
     	    tp->tr_ixnext = ixmess + 1;
-	    if (tp->tr_mode == MTR_PLAYMODE)
-	    {
-		clock_delay(tp->tr_clock,
-			    tp->tr_clockdelay = delta * tp->tr_tempo);
-		tp->tr_prevtime = clock_getlogicaltime();
+        float speed = tp->tr_owner->x_speed;
+//        post("speed = %f", speed);
+	    if(tp->tr_mode == MTR_PLAYMODE){
+            clock_delay(tp->tr_clock, tp->tr_clockdelay = delta * (tp->tr_tempo) * speed);
+            tp->tr_prevtime = clock_getlogicaltime();
 	    }
 	    else if (ixmess < 2)  /* LATER rethink */
 		continue;  /* CHECKED first delta skipped */
@@ -323,14 +323,16 @@ static void mtrack_first(t_mtrack *tp, t_floatarg f)
 static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname);
 static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname);
 
-static void mtrack_readhook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
-{
+static void mtrack_readhook(t_pd *z, t_symbol *fname, int ac, t_atom *av){
+    ac = 0;
+    av = NULL;
     t_mtrack *tp = (t_mtrack *)z;
     mtr_doread(tp->tr_owner, tp, fname);
 }
 
-static void mtrack_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
-{
+static void mtrack_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av){
+    ac = 0;
+    av = NULL;
     t_mtrack *tp = (t_mtrack *)z;
     mtr_dowrite(tp->tr_owner, tp, fname);
 }
@@ -352,29 +354,38 @@ static void mtrack_write(t_mtrack *tp, t_symbol *s)
 			 canvas_getdir(tp->tr_owner->x_cnv), 0);
 }
 
-static void mtrack_tempo(t_mtrack *tp, t_floatarg f)
-{
-    float newtempo;
-    if (f < 1e-20)
-	f = 1e-20;
-    else if (f > 1e20)
-	f = 1e20;
-    newtempo = 1. / f;
-    if (tp->tr_prevtime > 0.)
-    {
+static void mtr_embed(t_mtr *x, t_floatarg f){
+    x->x_embed = (int)(f != 0);
+}
+
+static void mtr_speed(t_mtr *x, t_floatarg f){
+    if(f < 1e-20)
+        f = 1e-20;
+    else if(f > 1e20)
+        f = 1e20;
+    x->x_speed = 1. / f;
+//    post("x->x_speed = %f", x->x_speed);
+}
+
+static void mtrack_trackspeed(t_mtrack *tp, t_floatarg f){
+    if(f < 1e-20)
+        f = 1e-20;
+    else if(f > 1e20)
+        f = 1e20;
+    float newtempo = 1. / f;
+    if(tp->tr_prevtime > 0.){
     	tp->tr_clockdelay -= clock_gettimesince(tp->tr_prevtime);
-	tp->tr_clockdelay *= newtempo / tp->tr_tempo;
-	if (tp->tr_clockdelay < 0.)
-	    tp->tr_clockdelay = 0.;
+        tp->tr_clockdelay *= newtempo / tp->tr_tempo;
+        if(tp->tr_clockdelay < 0.)
+            tp->tr_clockdelay = 0.;
     	clock_delay(tp->tr_clock, tp->tr_clockdelay);
-	tp->tr_prevtime = clock_getlogicaltime();
+        tp->tr_prevtime = clock_getlogicaltime();
     }
     tp->tr_tempo = newtempo;
 }
 
-static void mtr_calltracks(t_mtr *x, t_mtrackfn fn,
-			   t_symbol *s, int ac, t_atom *av)
-{
+static void mtr_calltracks(t_mtr *x, t_mtrackfn fn, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
     int ntracks = x->x_ntracks;
     t_mtrack **tpp = x->x_tracks;
     if (ac)
@@ -444,6 +455,13 @@ static void mtr_clear(t_mtr *x, t_symbol *s, int ac, t_atom *av)
     mtr_calltracks(x, mtrack_clear, s, ac, av);
 }
 
+static void mtr_trackspeed(t_mtr *x, t_floatarg f){
+    int ntracks = x->x_ntracks;
+    t_mtrack **tpp = x->x_tracks;
+    while(ntracks--)
+        mtrack_trackspeed(*tpp++, f);
+}
+
 static void mtr_delay(t_mtr *x, t_floatarg f)
 {
     int ntracks = x->x_ntracks;
@@ -505,7 +523,7 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname){
     }
     FILE *fp;
     // CHECKED no global message
-    if(fp = sys_fopen(path, "r")){
+    if((fp = sys_fopen(path, "r"))){
         t_mtrack *tp = 0;
         char linebuf[MTR_FILEBUFSIZE];
         t_binbuf *bb = binbuf_new();
@@ -514,7 +532,7 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname){
 	    char *line = linebuf;
 	    int linelen;
 	    while (*line && (*line == ' ' || *line == '\t')) line++;
-	    if (linelen = strlen(line))
+	    if((linelen = strlen(line)))
 	    {
 		if (tp)
 		{
@@ -527,8 +545,7 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname){
 		    {
 			int ac;
 			binbuf_text(bb, line, linelen);
-			if (ac = binbuf_getnatom(bb))
-			{
+			if ((ac = binbuf_getnatom(bb))){
 			    t_atom *ap = binbuf_getvec(bb);
 			    if (!binbuf_getnatom(tp->tr_binbuf))
 			    {
@@ -576,8 +593,8 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname){
     }
 }
 
-static int mtr_writetrack(t_mtr *x, t_mtrack *tp, FILE *fp)
-{
+static int mtr_writetrack(t_mtr *x, t_mtrack *tp, FILE *fp){
+    x = NULL;
     int natoms = binbuf_getnatom(tp->tr_binbuf);
     if (natoms)  /* CHECKED empty tracks not stored */
     {
@@ -650,14 +667,14 @@ static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname){
     	path[MAXPDSTRING-1] = 0;
     }
     // CHECKED no global message
-    if(fp = sys_fopen(path, "w")){ // CHECKED single-track writing does not seem to work (a bug?)
+    if((fp = sys_fopen(path, "w"))){ // CHECKED single-track writing does not seem to work (a bug?)
         if(source)
             failed = mtr_writetrack(x, source, fp);
         else{
             int id;
             t_mtrack **tpp;
             for(id = 0, tpp = x->x_tracks; id < x->x_ntracks; id++, tpp++)
-                if(failed = mtr_writetrack(x, *tpp, fp))
+                if((failed = mtr_writetrack(x, *tpp, fp)))
                     break;
         }
 //	if (failed) sys_unixerror(path);  // LATER rethink
@@ -671,15 +688,35 @@ static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname){
         pd_error(x, "[mtr]: writing text file \"%s\" failed", path);
 }
 
-static void mtr_readhook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
-{
+static void mtr_readhook(t_pd *z, t_symbol *fname, int ac, t_atom *av){
+    av = NULL;
+    ac = 0;
     mtr_doread((t_mtr *)z, 0, fname);
 }
 
-static void mtr_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av)
-{
+static void mtr_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av){
+    av = NULL;
+    ac = 0;
     mtr_dowrite((t_mtr *)z, 0, fname);
 }
+
+static void mtr_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym)
+{
+    t_mtr *x = (t_mtr *)z;
+    if(x->x_embed){
+        bindsym = NULL;
+        bb = NULL;
+/*        t_hammernode *np;
+        binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
+
+        binbuf_addv(bb, "ss", bindsym, gensym("set"));
+        for (; np; np = np->n_next)
+            binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
+        binbuf_addsemi(bb);*/
+    };
+//    obj_saveformat((t_object *)x, bb);
+}
+
 
 static void mtr_read(t_mtr *x, t_symbol *s)
 {
@@ -714,70 +751,94 @@ static void mtr_free(t_mtr *x)
     }
 }
 
-static void *mtr_new(t_floatarg f)
-{
+static void *mtr_new(t_symbol *s, int ac, t_atom *av){
+    s = NULL;
     t_mtr *x = 0;
-    int ntracks = (int)f;
-    t_mtrack **tracks;
-    if (ntracks < 1)
-	ntracks = 1;
-    if (tracks = getbytes(ntracks * sizeof(*tracks)))
-    {
-	int i;
-	t_mtrack **tpp;
-	for (i = 0, tpp = tracks; i < ntracks; i++, tpp++)
-	{
-	    if (!(*tpp = (t_mtrack *)pd_new(mtrack_class)) ||
-		!((*tpp)->tr_binbuf = binbuf_new()) ||
-		!((*tpp)->tr_clock = clock_new(*tpp, (t_method)mtrack_tick)))
-	    {
-		if (*tpp) pd_free((t_pd *)*tpp);
-		if ((*tpp)->tr_binbuf) binbuf_free((*tpp)->tr_binbuf);
-		while (i--)
-		{
-		    tpp--;
-		    binbuf_free((*tpp)->tr_binbuf);
-		    clock_free((*tpp)->tr_clock);
-		    pd_free((t_pd *)*tpp);
-		}
-		return (0);
-	    }
-	}
-	if (x = (t_mtr *)pd_new(mtr_class))
-	{
-	    int id;
-	    t_outlet *mainout = outlet_new((t_object *)x, &s_list);
-	    x->x_cnv = canvas_getcurrent();
-	    x->x_filehandle = file_new((t_pd *)x, 0,
-					     mtr_readhook, mtr_writehook, 0);
-	    if (ntracks > MTR_C74MAXTRACKS)
-            ntracks = MTR_C74MAXTRACKS;
-	    x->x_ntracks = ntracks;
-	    x->x_tracks = tracks;
-	    for (id = 1; id <= ntracks; id++, tracks++)  /* CHECKED 1-based */
-	    {
-		t_mtrack *tp = *tracks;
-		inlet_new((t_object *)x, (t_pd *)tp, 0, 0);
-		tp->tr_trackout = outlet_new((t_object *)x, &s_);
-		tp->tr_mainout = mainout;
-		tp->tr_owner = x;
-		tp->tr_id = id;
-		tp->tr_listed = 0;
-		tp->tr_filehandle =  /* LATER rethink */
-		    file_new((t_pd *)tp, 0,
-				   mtrack_readhook, mtrack_writehook, 0);
-		tp->tr_mode = MTR_STEPMODE;
-		tp->tr_muted = 0;
-		tp->tr_restarted = 0;
-		tp->tr_atdelta = 0;
-		tp->tr_ixnext = 0;
-		tp->tr_tempo = 1.;
-		tp->tr_clockdelay = 0.;
-		tp->tr_prevtime = 0.;
-	    }
-	}
+    int ntracks = 1;
+    if(ac && av->a_type == A_FLOAT){ // ntracks
+        ntracks = (int)av->a_w.w_float;
+        ac--, av++;
     }
-    return (x);
+    t_mtrack **tracks;
+    if(ntracks < 1)
+        ntracks = 1;
+    if((tracks = getbytes(ntracks * sizeof(*tracks)))){
+        int i;
+        t_mtrack **tpp;
+        for(i = 0, tpp = tracks; i < ntracks; i++, tpp++){
+            if(!(*tpp = (t_mtrack *)pd_new(mtrack_class)) ||
+            !((*tpp)->tr_binbuf = binbuf_new()) ||
+            !((*tpp)->tr_clock = clock_new(*tpp, (t_method)mtrack_tick))){
+                if(*tpp)
+                    pd_free((t_pd *)*tpp);
+                if((*tpp)->tr_binbuf)
+                    binbuf_free((*tpp)->tr_binbuf);
+                while(i--){
+                    tpp--;
+                    binbuf_free((*tpp)->tr_binbuf);
+                    clock_free((*tpp)->tr_clock);
+                    pd_free((t_pd *)*tpp);
+                }
+            return(0);
+            }
+        }
+        if((x = (t_mtr *)pd_new(mtr_class))){
+            int id;
+            t_outlet *mainout = outlet_new((t_object *)x, &s_list);
+            x->x_cnv = canvas_getcurrent();
+            x->x_filehandle = file_new((t_pd *)x, mtr_embedhook, mtr_readhook, mtr_writehook, 0);
+            if(ntracks > MTR_C74MAXTRACKS)
+                ntracks = MTR_C74MAXTRACKS;
+            x->x_ntracks = ntracks;
+            x->x_tracks = tracks;
+            x->x_speed = 1;
+            for(id = 1; id <= ntracks; id++, tracks++){  /* CHECKED 1-based */
+                t_mtrack *tp = *tracks;
+                inlet_new((t_object *)x, (t_pd *)tp, 0, 0);
+                tp->tr_trackout = outlet_new((t_object *)x, &s_);
+                tp->tr_mainout = mainout;
+                tp->tr_owner = x;
+                tp->tr_id = id;
+                tp->tr_listed = 0;
+                tp->tr_filehandle = file_new((t_pd *)tp, 0, mtrack_readhook, mtrack_writehook, 0);
+                tp->tr_mode = MTR_STEPMODE;
+                tp->tr_muted = 0;
+                tp->tr_restarted = 0;
+                tp->tr_atdelta = 0;
+                tp->tr_ixnext = 0;
+                tp->tr_tempo = 1.;
+                tp->tr_clockdelay = 0.;
+                tp->tr_prevtime = 0.;
+            }
+        }
+    }
+    while(ac){
+        if((av)->a_type == A_SYMBOL){
+            t_symbol *sym = atom_getsymbol(av);
+            ac--, av++;
+            if(sym == gensym("@trackspeed")){
+                if(ac && (av)->a_type == A_FLOAT){
+                    mtr_trackspeed(x, atom_getfloat(av));
+                    ac--, av++;
+                }
+            }
+            else if(sym == gensym("@speed")){
+                if(ac && (av)->a_type == A_FLOAT){
+                    mtr_speed(x, atom_getfloat(av));
+                    ac--, av++;
+                }
+            }
+            else if(sym == gensym("@embed")){
+                if(ac && (av)->a_type == A_FLOAT){
+                    x->x_embed = (int)(atom_getfloat(av) != 0);
+                    ac--, av++;
+                }
+            }
+        }
+        else
+            ac--, av++;
+    }
+    return(x);
 }
 
 CYCLONE_OBJ_API void mtr_setup(void){
@@ -812,18 +873,26 @@ CYCLONE_OBJ_API void mtr_setup(void){
 		    gensym("read"), A_DEFSYM, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_write,
 		    gensym("write"), A_DEFSYM, 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_tempo,
-		    gensym("tempo"), A_FLOAT, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_trackspeed,
+		    gensym("trackspeed"), A_FLOAT, 0);
 
     mtr_class = class_new(gensym("mtr"),
 			  (t_newmethod)mtr_new,
 			  (t_method)mtr_free,
 			  sizeof(t_mtr), 0,
-			  A_DEFFLOAT, 0);
+			  A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_speed,
+            gensym("speed"), A_FLOAT, 0);
+    class_addmethod(mtr_class, (t_method)mtr_embed,
+            gensym("embed"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_record,
 		    gensym("record"), A_GIMME, 0);
+//    class_addmethod(mtr_class, (t_method)mtr_trackspeed,
+//            gensym("trackspeed"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_play,
 		    gensym("play"), A_GIMME, 0);
+//    class_addmethod(mtr_class, (t_method)mtr_playatms,
+//            gensym("playatms"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_stop,
 		    gensym("stop"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_next,
