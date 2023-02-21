@@ -66,7 +66,7 @@ static void mtrack_donext(t_mtrack *tp){
         int natoms = binbuf_getnatom(tp->tr_binbuf);
         int ixmess = tp->tr_ixnext;
         t_atom *atmess;
-        int last_item = (ixmess >= (natoms - 2));
+//        int last_item = (ixmess >= (natoms - 2));
         if(ixmess >= natoms)
             goto endoftrack;
         atmess = binbuf_getvec(tp->tr_binbuf) + ixmess;
@@ -105,13 +105,13 @@ static void mtrack_donext(t_mtrack *tp){
             tp->tr_restarted = 0;
             if(!tp->tr_muted){
                 int ac = ixnext - ixmess;
-                if(!last_item){
+//                if(!last_item){ // for length set
                     if(atmess->a_type == A_FLOAT)
                         outlet_list(tp->tr_trackout, &s_list, ac, atmess);
                     else if(atmess->a_type == A_SYMBOL)
                         outlet_anything(tp->tr_trackout, atmess->a_w.w_symbol, ac-1, atmess+1);
                 }
-            }
+//            }
             tp->tr_atdelta = 0;
             tp->tr_ixnext = ixnext;
             if(tp->tr_restarted)
@@ -250,12 +250,21 @@ static void mtrack_play(t_mtrack *tp){
     mtrack_setmode(tp, MTR_PLAYMODE);
 }
 
-static void mtrack_stop(t_mtrack *tp){
+/*static void mtrack_setlengthandstop(t_mtrack *tp){
     if(tp->tr_mode == MTR_RECMODE){
         t_atom at;
         SETSYMBOL(&at, gensym("EOT"));
         mtrack_doadd(tp, 1, &at);
     }
+    mtrack_setmode(tp, MTR_STEPMODE);
+}*/
+
+static void mtrack_stop(t_mtrack *tp){
+/*    if(tp->tr_mode == MTR_RECMODE){
+        t_atom at;
+        SETSYMBOL(&at, gensym("EOT"));
+        mtrack_doadd(tp, 1, &at);
+    }*/
     mtrack_setmode(tp, MTR_STEPMODE);
 }
 
@@ -693,10 +702,12 @@ static void mtr_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av){
     mtr_dowrite((t_mtr *)z, 0, fname);
 }
 
-/*static void mtr_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
+static void mtr_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     t_mtr *x = (t_mtr *)z;
     if(x->x_embed){
-        bindsym = NULL;
+    	int ntracks = x->x_ntracks;
+   		t_mtrack **tpp = x->x_tracks;
+       /* bindsym = NULL;
         bb = NULL;
         t_hammernode *np;
         binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
@@ -704,10 +715,32 @@ static void mtr_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av){
         binbuf_addv(bb, "ss", bindsym, gensym("set"));
         for (; np; np = np->n_next)
             binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
-        binbuf_addsemi(bb);
-    };
+        binbuf_addsemi(bb);*/
+        binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
+        while (ntracks--){
+        	t_mtrack *tp = *tpp++;
+        	binbuf_addv(bb, "ssi", bindsym, gensym("_track"), tp->tr_id);
+        	binbuf_addbinbuf(bb, tp->tr_binbuf);
+        	binbuf_addsemi(bb);
+        }  
+    }
     obj_saveformat((t_object *)x, bb);
-}*/
+}
+
+static void mtr_embtrack(t_mtr *x, t_symbol *s, int ac, t_atom *av) {
+	int id;
+	t_mtrack *tp;
+	if(ac && av->a_type == A_FLOAT) {
+		id = (int)av->a_w.w_float;
+		ac--, av++;
+	}
+	tp = x->x_tracks[id - 1];
+	if(tp && tp->tr_id == id){
+		binbuf_clear(tp->tr_binbuf);
+		binbuf_restore(tp->tr_binbuf, ac, av);
+	}
+	
+}
 
 static void mtr_read(t_mtr *x, t_symbol *s){
     if(s && s != &s_)
@@ -774,8 +807,8 @@ static void *mtr_new(t_symbol *s, int ac, t_atom *av){
             int id;
             t_outlet *mainout = outlet_new((t_object *)x, &s_list);
             x->x_cnv = canvas_getcurrent();
-//            x->x_filehandle = file_new((t_pd *)x, mtr_embedhook, mtr_readhook, mtr_writehook, 0);
-            x->x_filehandle = file_new((t_pd *)x, 0, mtr_readhook, mtr_writehook, 0);
+            x->x_filehandle = file_new((t_pd *)x, mtr_embedhook, mtr_readhook, mtr_writehook, 0);
+           // x->x_filehandle = file_new((t_pd *)x, 0, mtr_readhook, mtr_writehook, 0);
             if(ntracks > MTR_C74MAXTRACKS)
                 ntracks = MTR_C74MAXTRACKS;
             x->x_ntracks = ntracks;
@@ -915,5 +948,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
 		    gensym("read"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_write,
 		    gensym("write"), A_DEFSYM, 0);
-    file_setup(mtr_class, 0);
+	class_addmethod(mtr_class, (t_method)mtr_embtrack,
+			gensym("_track"), A_GIMME, 0);
+    file_setup(mtr_class, 1);
 }
