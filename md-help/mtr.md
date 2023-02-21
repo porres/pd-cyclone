@@ -23,6 +23,17 @@ outlets:
   - type: anything
     description: recorded messages from the corresponding inlet/track
 
+flags:
+ - name: @trackspeed <float>
+   description: sets speed for all tracks (1 is originally speed, 2 twice as fast, etc). Same if set as a message to the left inlet but in other inlets set individual track speeds
+ - name: @speed <float>
+   description: sets multiplier to the speed of all tracks, which allows adjust globally on top of individual track speeds. This only works as a message on the left inlet
+ - name: @loop <float>
+   description: Turns looping on (1) or off (0) for all tracks. Same if set as a message to the left inlet but in other inlets set individual track looping
+  - name: @embed <float>
+    description: When set to 1, recorded data for all tracks is saved with the patch. Note that recording, changing, or clearing data does not cause the patch to be dirtied.
+
+
 methods:
   - type: clear <list>
     description: in left inlet: clears all tracks. If followed track numbers, clears those track(s). In other inlets: clears corresponding track
@@ -49,6 +60,7 @@ methods:
   - type: write <symbol>
     description: in left inlet: saves a file with the symbol name (or opens a dialog box if no symbol is given). In other inlets: saves corresponding track
 
+draft: false
 ---
 
 [mtr] records any messages in different tracks and plays them back. Each track records what comes into its inlet and plays it back through the outlet directly below.
