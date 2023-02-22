@@ -6,6 +6,8 @@
 
 //Derek Kwan 2016 - changing mtrack_list to mtrack_anything, fixing issues with first elts interpreted as selectors, changing mtrack_float and mtrack_symbol to feed through mtrack_anything, changing mtrack_donext to treat everything as a list
 
+// Porres 2023 started adding MAX 7 stuff; Matt did 'embed'
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -508,12 +510,6 @@ static void mtr_first(t_mtr *x, t_floatarg f)
 static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname){
     char path[MAXPDSTRING];
     char *bufptr;
-/*    if(x->x_cnv)
-        canvas_makefilename(x->x_cnv, fname->s_name, path, MAXPDSTRING);
-    else{
-    	strncpy(path, fname->s_name, MAXPDSTRING);
-    	path[MAXPDSTRING-1] = 0;
-    }*/
     int fd = canvas_open(x->x_cnv, fname->s_name, "", path, &bufptr, MAXPDSTRING, 1);
     if(fd > 0){
         path[strlen(path)]='/';
@@ -587,74 +583,66 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname){
 	fclose(fp);
 	binbuf_free(bb);
     }
-    else
-    {
-	/* CHECKED no complaint, open dialog not presented... */
-	/* LATER rethink */
-	panel_open(target ? target->tr_filehandle : x->x_filehandle, 0);
+    else{
+        /* CHECKED no complaint, open dialog not presented... */
+        /* LATER rethink */
+        panel_open(target ? target->tr_filehandle : x->x_filehandle, 0);
     }
 }
 
 static int mtr_writetrack(t_mtr *x, t_mtrack *tp, FILE *fp){
     x = NULL;
     int natoms = binbuf_getnatom(tp->tr_binbuf);
-    if (natoms)  /* CHECKED empty tracks not stored */
-    {
-	char sbuf[MTR_FILEBUFSIZE], *bp = sbuf, *ep = sbuf + MTR_FILEBUFSIZE;
-	int ncolumn = 0;
-	t_atom *ap = binbuf_getvec(tp->tr_binbuf);
-	fprintf(fp, "track %d;\n", tp->tr_id);
-	for (; natoms--; ap++)
-	{
-	    int length;
-	    /* from binbuf_write():
+    if(natoms){  /* CHECKED empty tracks not stored */
+        char sbuf[MTR_FILEBUFSIZE], *bp = sbuf, *ep = sbuf + MTR_FILEBUFSIZE;
+        int ncolumn = 0;
+        t_atom *ap = binbuf_getvec(tp->tr_binbuf);
+        fprintf(fp, "track %d;\n", tp->tr_id);
+        for(; natoms--; ap++){
+            int length;
+            /* from binbuf_write():
 	       ``estimate how many characters will be needed.  Printing out
 	       symbols may need extra characters for inserting backslashes.'' */
-	    if (ap->a_type == A_SYMBOL || ap->a_type == A_DOLLSYM)
-		length = 80 + strlen(ap->a_w.w_symbol->s_name);
-	    else
-		length = 40;
-	    if (bp > sbuf && ep - bp < length)
-	    {
-		if (fwrite(sbuf, bp - sbuf, 1, fp) < 1)
-		    return (1);
-		bp = sbuf;
-	    }
-	    if (ap->a_type == A_SEMI)
-	    {
-		*bp++ = ';';
-		*bp++ = '\n';
-		ncolumn = 0;
-	    }
-	    else if (ap->a_type == A_COMMA)
-	    {
-		*bp++ = ',';
-		ncolumn++;
-	    }
-	    else
-	    {
-		if (ncolumn)
-		{
-		    *bp++ = ' ';
-		    ncolumn++;
-		}
-		atom_string(ap, bp, (ep - bp) - 2);
-		length = strlen(bp);
-		if (ncolumn && ncolumn + length > MTR_FILEMAXCOLUMNS)
-		{
-		    bp[-1] = '\n';
-		    ncolumn = length;
-		}
-		else ncolumn += length;
-		bp += length;
-	    }
-	}
-	if (bp > sbuf && fwrite(sbuf, bp - sbuf, 1, fp) < 1)
-	    return (1);
-	fputs("end;\n", fp);
-	post("Track %d done", tp->tr_id);  /* CHECKED (0-based: not emulated) */
+            if(ap->a_type == A_SYMBOL || ap->a_type == A_DOLLSYM)
+                length = 80 + strlen(ap->a_w.w_symbol->s_name);
+            else
+                length = 40;
+            if(bp > sbuf && ep - bp < length){
+                if(fwrite(sbuf, bp - sbuf, 1, fp) < 1)
+                    return(1);
+                bp = sbuf;
+            }
+            if(ap->a_type == A_SEMI){
+                *bp++ = ';';
+                *bp++ = '\n';
+                ncolumn = 0;
+            }
+            else if(ap->a_type == A_COMMA){
+                *bp++ = ',';
+                ncolumn++;
+            }
+            else{
+                if(ncolumn){
+                    *bp++ = ' ';
+                    ncolumn++;
+                }
+                atom_string(ap, bp, (ep - bp) - 2);
+                length = strlen(bp);
+                if(ncolumn && ncolumn + length > MTR_FILEMAXCOLUMNS){
+                    bp[-1] = '\n';
+                    ncolumn = length;
+                }
+                else
+                    ncolumn += length;
+                bp += length;
+            }
+        }
+        if(bp > sbuf && fwrite(sbuf, bp - sbuf, 1, fp) < 1)
+            return(1);
+        fputs("end;\n", fp);
+        post("Track %d done", tp->tr_id);  /* CHECKED (0-based: not emulated) */
     }
-    return (0);
+    return(0);
 }
 
 // CHECKED empty sequence stored as an empty file
@@ -707,15 +695,6 @@ static void mtr_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     if(x->x_embed){
     	int ntracks = x->x_ntracks;
    		t_mtrack **tpp = x->x_tracks;
-       /* bindsym = NULL;
-        bb = NULL;
-        t_hammernode *np;
-        binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
-
-        binbuf_addv(bb, "ss", bindsym, gensym("set"));
-        for (; np; np = np->n_next)
-            binbuf_addv(bb, "if", np->n_key, HAMMERNODE_GETFLOAT(np));
-        binbuf_addsemi(bb);*/
         binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
         while (ntracks--){
         	t_mtrack *tp = *tpp++;
@@ -727,10 +706,10 @@ static void mtr_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     obj_saveformat((t_object *)x, bb);
 }
 
-static void mtr_embtrack(t_mtr *x, t_symbol *s, int ac, t_atom *av) {
+static void mtr_embtrack(t_mtr *x, t_symbol *s, int ac, t_atom *av){
 	int id;
 	t_mtrack *tp;
-	if(ac && av->a_type == A_FLOAT) {
+	if(ac && av->a_type == A_FLOAT){
 		id = (int)av->a_w.w_float;
 		ac--, av++;
 	}
@@ -745,30 +724,30 @@ static void mtr_embtrack(t_mtr *x, t_symbol *s, int ac, t_atom *av) {
 static void mtr_read(t_mtr *x, t_symbol *s){
     if(s && s != &s_)
         mtr_doread(x, 0, s);
-    else  /* CHECKED no default */
+    else
         panel_open(x->x_filehandle, 0);
 }
 
 static void mtr_write(t_mtr *x, t_symbol *s){
-    if (s && s != &s_)
+    if(s && s != &s_)
         mtr_dowrite(x, 0, s);
-    else  /* CHECKED no default */
+    else
         panel_save(x->x_filehandle, canvas_getdir(x->x_cnv), 0);
 }
 
 static void mtr_free(t_mtr *x){
-    if (x->x_tracks)
-    {
-	int ntracks = x->x_ntracks;
-	t_mtrack **tpp = x->x_tracks;
-	while (ntracks--)
-	{
-	    t_mtrack *tp = *tpp++;
-	    if (tp->tr_binbuf) binbuf_free(tp->tr_binbuf);
-	    if (tp->tr_clock) clock_free(tp->tr_clock);
-	    pd_free((t_pd *)tp);
-	}
-	freebytes(x->x_tracks, x->x_ntracks * sizeof(*x->x_tracks));
+    if(x->x_tracks){
+        int ntracks = x->x_ntracks;
+        t_mtrack **tpp = x->x_tracks;
+        while(ntracks--){
+            t_mtrack *tp = *tpp++;
+            if(tp->tr_binbuf)
+                binbuf_free(tp->tr_binbuf);
+            if(tp->tr_clock)
+                clock_free(tp->tr_clock);
+            pd_free((t_pd *)tp);
+        }
+        freebytes(x->x_tracks, x->x_ntracks * sizeof(*x->x_tracks));
     }
 }
 
@@ -808,7 +787,6 @@ static void *mtr_new(t_symbol *s, int ac, t_atom *av){
             t_outlet *mainout = outlet_new((t_object *)x, &s_list);
             x->x_cnv = canvas_getcurrent();
             x->x_filehandle = file_new((t_pd *)x, mtr_embedhook, mtr_readhook, mtr_writehook, 0);
-           // x->x_filehandle = file_new((t_pd *)x, 0, mtr_readhook, mtr_writehook, 0);
             if(ntracks > MTR_C74MAXTRACKS)
                 ntracks = MTR_C74MAXTRACKS;
             x->x_ntracks = ntracks;
@@ -881,74 +859,67 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addanything(mtrack_class, mtrack_anything);
     class_addlist(mtrack_class, mtrack_list);
     class_addmethod(mtrack_class, (t_method)mtrack_record,
-		    gensym("record"), 0);
+        gensym("record"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_play,
-		    gensym("play"), 0);
+        gensym("play"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_stop,
-		    gensym("stop"), 0);
+        gensym("stop"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_next,
-		    gensym("next"), 0);
+        gensym("next"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_rewind,
-		    gensym("rewind"), 0);
+        gensym("rewind"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_mute,
-		    gensym("mute"), 0);
+        gensym("mute"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_unmute,
-		    gensym("unmute"), 0);
+        gensym("unmute"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_clear,
-		    gensym("clear"), 0);
+        gensym("clear"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_delay,
-		    gensym("delay"), A_FLOAT, 0);
+        gensym("delay"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_first,
-		    gensym("first"), A_FLOAT, 0);
+        gensym("first"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_read,
-		    gensym("read"), A_DEFSYM, 0);
+        gensym("read"), A_DEFSYM, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_write,
-		    gensym("write"), A_DEFSYM, 0);
+        gensym("write"), A_DEFSYM, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_trackspeed,
-		    gensym("trackspeed"), A_FLOAT, 0);
+        gensym("trackspeed"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_loop,
-            gensym("loop"), A_FLOAT, 0);
-
-    mtr_class = class_new(gensym("mtr"),
-			  (t_newmethod)mtr_new,
-			  (t_method)mtr_free,
-			  sizeof(t_mtr), 0,
-			  A_GIMME, 0);
+        gensym("loop"), A_FLOAT, 0);
+    
+    mtr_class = class_new(gensym("mtr"), (t_newmethod)mtr_new,
+        (t_method)mtr_free, sizeof(t_mtr), 0, A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_speed,
-            gensym("speed"), A_FLOAT, 0);
+        gensym("speed"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_embed,
-            gensym("embed"), A_FLOAT, 0);
+        gensym("embed"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_loop,
-            gensym("loop"), A_FLOAT, 0);
+        gensym("loop"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_record,
-		    gensym("record"), A_GIMME, 0);
-//    class_addmethod(mtr_class, (t_method)mtr_trackspeed,
-//            gensym("trackspeed"), A_FLOAT, 0);
+        gensym("record"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_play,
-		    gensym("play"), A_GIMME, 0);
-//    class_addmethod(mtr_class, (t_method)mtr_playatms,
-//            gensym("playatms"), A_GIMME, 0);
+        gensym("play"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_stop,
-		    gensym("stop"), A_GIMME, 0);
+        gensym("stop"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_next,
-		    gensym("next"), A_GIMME, 0);
+        gensym("next"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_rewind,
-		    gensym("rewind"), A_GIMME, 0);
+        gensym("rewind"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_mute,
-		    gensym("mute"), A_GIMME, 0);
+        gensym("mute"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_unmute,
-		    gensym("unmute"), A_GIMME, 0);
+        gensym("unmute"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_clear,
-		    gensym("clear"), A_GIMME, 0);
+        gensym("clear"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_delay,
-		    gensym("delay"), A_FLOAT, 0);
+        gensym("delay"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_first,
-		    gensym("first"), A_FLOAT, 0);
+        gensym("first"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_read,
-		    gensym("read"), A_DEFSYM, 0);
+        gensym("read"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_write,
-		    gensym("write"), A_DEFSYM, 0);
+        gensym("write"), A_DEFSYM, 0);
 	class_addmethod(mtr_class, (t_method)mtr_embtrack,
-			gensym("_track"), A_GIMME, 0);
+        gensym("_track"), A_GIMME, 0);
     file_setup(mtr_class, 1);
 }
