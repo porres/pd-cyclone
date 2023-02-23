@@ -619,7 +619,9 @@ static void *plusequals_new(t_floatarg f)
 //////// Cyclone object
 
 typedef struct cyclone{
-    t_object x_obj;
+    t_object  x_obj;
+    t_outlet *x_out2;
+    t_outlet *x_out3;
 }t_cyclone;
 
 t_class *cyclone_class;
@@ -673,12 +675,30 @@ static void cyclone_about(t_cyclone *x){
 static void cyclone_version(t_cyclone *x){
     int ac = 3;
     t_atom at[ac];
+#ifdef PD_FLAVOR
+    SETSYMBOL(at, gensym(PD_FLAVOR));
+#ifdef PD_L2ORK_VERSION
+    SETSYMBOL(at+1, gensym(PD_L2ORK_VERSION));
+#elif defined(PD_PLUGDATA_VERSION)
+    SETSYMBOL(at+1, gensym(PD_PLUGDATA_VERSION));
+#endif
+    outlet_list(x->x_out3,  &s_list, 2, at);
+#else
+    outlet_symbol(x->x_out3, gensym("Pd-Vanilla"));
+#endif
+    
+    int major = 0, minor = 0, bugfix = 0;
+    sys_getversion(&major, &minor, &bugfix);
+    SETFLOAT(at+0, major);
+    SETFLOAT(at+1, minor);
+    SETFLOAT(at+2, bugfix);
+    outlet_list(x->x_out2,  &s_list, ac, at);
+    
     SETFLOAT(at, cyclone_major);
     SETFLOAT(at+1, cyclone_minor);
     SETFLOAT(at+2, cyclone_bugfix);
     outlet_list(x->x_obj.te_outlet,  &s_list, ac, at);
 }
-
 
 static void *cyclone_new(void){
     t_cyclone *x = (t_cyclone *)pd_new(cyclone_class);
@@ -687,6 +707,8 @@ static void *cyclone_new(void){
         printed = 1;
     }
     outlet_new((t_object *)x, 0);
+    x->x_out2 = outlet_new((t_object *)x, &s_list);
+    x->x_out3 = outlet_new((t_object *)x, &s_list);
     return(x);
 }
 
