@@ -44,7 +44,7 @@ static void decide_ft1(t_decide *x, t_floatarg f){
 
 static void *decide_new(t_floatarg f){
     t_decide *x = (t_decide *)pd_new(decide_class);
-    x->x_id = random_get_id();
+    x->x_id = cyclone_random_get_id();
     x->x_seed = (int)f;
     if(x->x_seed == 0)
         x->x_seed = (int)(time(NULL)*x->x_id);

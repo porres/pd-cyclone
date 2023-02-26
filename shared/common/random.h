@@ -4,20 +4,18 @@
 #include <stdint.h>
 #include <time.h>
 
-typedef struct _random_state{
+typedef struct _cyclone_random_state{
     uint32_t s1;
     uint32_t s2;
     uint32_t s3;
-}t_random_state;
+}t_cyclone_random_state;
 
-int random_get_id(void);
-void random_init(t_random_state* rstate, float f);
-int makeseed(void);
-unsigned int get_seed(t_symbol *s, int ac, t_atom *av, int n);
-int rand_int(unsigned int *statep, int range);
-float random_frand(uint32_t* s1, uint32_t* s2, uint32_t* s3);
-uint32_t random_trand(uint32_t* s1, uint32_t* s2, uint32_t* s3);
-int32_t random_hash(int32_t inKey);
+int cyclone_random_get_id(void);
+void cyclone_random_init(t_cyclone_random_state* rstate, float f);
+unsigned int cyclone_random_get_seed(t_symbol *s, int ac, t_atom *av, int n);
+int cyclone_rand_int(unsigned int *statep, int range);
+float cyclone_random_frand(uint32_t* s1, uint32_t* s2, uint32_t* s3);
+uint32_t cyclone_random_trand(uint32_t* s1, uint32_t* s2, uint32_t* s3);
 
 ////////////// these are for pinknoise~
 
