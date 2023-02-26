@@ -51,7 +51,7 @@ static void onebang_proxy_anything(t_onebang_proxy *p, t_symbol *s, int argc, t_
 static void onebang_proxy_setup(void){
     onebang_proxy_class = (t_class *)class_new(gensym("onebang_proxy"),
             (t_newmethod)onebang_proxy_new, (t_method)onebang_proxy_free, sizeof(t_onebang_proxy),
-            0, A_GIMME, 0);
+            CLASS_NOINLET | CLASS_PD, A_GIMME, 0);
     class_addanything(onebang_proxy_class, (t_method)onebang_proxy_anything);
 }
 
