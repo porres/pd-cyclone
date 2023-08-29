@@ -17,9 +17,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 
-#ifndef _WIN32
-#include "s_utf8.h"
-#endif
+#include "s_cycloneutf8.h"
 
 #define COMMENT_MINSIZE       8
 #define COMMENT_HANDLE_WIDTH  8
@@ -465,7 +463,7 @@ static void comment__click_callback(t_comment *x, t_symbol *s, int ac, t_atom *a
                 x->x_start_ndx = x->x_end_ndx = ndx;
                 int byte_ndx = 0;
                 for(int i = 0; i < ndx; i++)
-                    u8_inc(x->x_buf, &byte_ndx);
+                    cyclone_u8_inc(x->x_buf, &byte_ndx);
                 x->x_selstart = x->x_selend = byte_ndx;
                 comment_dograb(x);
                 comment_update(x);
@@ -618,13 +616,13 @@ static void comment_key(t_comment *x){
             // this causes reentrancy problems now.
             // if ((!x->x_selstart) && (x->x_selend == x->x_bufsize)){}
             if(x->x_selstart && (x->x_selstart == x->x_selend)){
-                u8_dec(x->x_buf, &x->x_selstart);
+                cyclone_u8_dec(x->x_buf, &x->x_selstart);
                 x->x_start_ndx--, x->x_end_ndx--;
             }
         }
         else if(n == 127){    // delete
             if(x->x_selend < x->x_bufsize && (x->x_selstart == x->x_selend)){
-                u8_inc(x->x_buf, &x->x_selend);
+                cyclone_u8_inc(x->x_buf, &x->x_selend);
             }
         }
         ndel = x->x_selend - x->x_selstart;
@@ -644,7 +642,7 @@ static void comment_key(t_comment *x){
             x->x_selstart++, x->x_start_ndx++, x->x_end_ndx++;
         }
         else if(n > 127){ // check for unicode codepoints beyond 7-bit ASCII
-            int ch_nbytes = u8_wc_nbytes(n);
+            int ch_nbytes = cyclone_u8_wc_nbytes(n);
             newsize = x->x_bufsize + ch_nbytes;
             x->x_buf = resizebytes(x->x_buf, x->x_bufsize, newsize);
             for(i = newsize-1; i > x->x_selstart; i--)
@@ -667,7 +665,7 @@ static void comment_key(t_comment *x){
     else if(x->x_keysym == gensym("End")){
         if(x->x_selend == x->x_selstart){
             while(x->x_selstart < x->x_bufsize){
-                u8_inc(x->x_buf, &x->x_selstart);
+                cyclone_u8_inc(x->x_buf, &x->x_selstart);
                 x->x_start_ndx++, x->x_end_ndx++;
             }
             x->x_selend = x->x_selstart = x->x_bufsize;
@@ -677,29 +675,29 @@ static void comment_key(t_comment *x){
     }
     else if(x->x_keysym == gensym("Up")){ // go to start and deselect
         if(x->x_selstart){
-            u8_dec(x->x_buf, &x->x_selstart);
+            cyclone_u8_dec(x->x_buf, &x->x_selstart);
             x->x_start_ndx--, x->x_end_ndx--;
         }
         while(x->x_selstart > 0 && x->x_buf[x->x_selstart] != '\n'){
-            u8_dec(x->x_buf, &x->x_selstart);
+            cyclone_u8_dec(x->x_buf, &x->x_selstart);
             x->x_start_ndx--, x->x_end_ndx--;
         }
         x->x_selend = x->x_selstart;
     }
     else if(x->x_keysym == gensym("Down")){ // go to end and deselect
         while(x->x_selend < x->x_bufsize && x->x_buf[x->x_selend] != '\n'){
-            u8_inc(x->x_buf, &x->x_selend);
+            cyclone_u8_inc(x->x_buf, &x->x_selend);
             x->x_start_ndx++, x->x_end_ndx++;
         }
         if(x->x_selend < x->x_bufsize){
-            u8_inc(x->x_buf, &x->x_selend);
+            cyclone_u8_inc(x->x_buf, &x->x_selend);
             x->x_start_ndx++, x->x_end_ndx++;
         }
         x->x_selstart = x->x_selend;
     }
     else if(x->x_keysym == gensym("Right")){
         if(x->x_selend == x->x_selstart && x->x_selstart < x->x_bufsize){
-            u8_inc(x->x_buf, &x->x_selstart);
+            cyclone_u8_inc(x->x_buf, &x->x_selstart);
             x->x_start_ndx++, x->x_end_ndx++;
             x->x_selend = x->x_selstart;
         }
@@ -707,14 +705,14 @@ static void comment_key(t_comment *x){
 //            x->x_selstart = x->x_selend;
 //            post("else: x->x_selstart = x->x_selend = %d", x->x_selstart);
             while(x->x_selstart < x->x_selend){
-                u8_inc(x->x_buf, &x->x_selstart);
+                cyclone_u8_inc(x->x_buf, &x->x_selstart);
                 x->x_start_ndx++, x->x_end_ndx++;
             }
         }
     }
     else if(x->x_keysym == gensym("Left")){
         if(x->x_selend == x->x_selstart && x->x_selstart > 0){
-            u8_dec(x->x_buf, &x->x_selstart);
+            cyclone_u8_dec(x->x_buf, &x->x_selstart);
             x->x_start_ndx--, x->x_end_ndx--;
             x->x_selend = x->x_selstart;
         }
