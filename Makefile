@@ -18,9 +18,6 @@ forLinux   = aliases=true
                     ## START OF CYCLONE CLASSES ##
 #######################################################################
 
-# CONTROL GUI
-comment.class.sources := cyclone_objects/binaries/control/comment.c
-
 # CONTROL CLASSES
 accum.class.sources := cyclone_objects/binaries/control/accum.c
 acos.class.sources := cyclone_objects/binaries/control/acos.c
@@ -260,6 +257,14 @@ smagicbit := shared/common/magicbit.c
     bitxor~.class.sources := cyclone_objects/binaries/audio/bitxor.c $(smagicbit)
 # GUI
     scope~.class.sources := cyclone_objects/binaries/audio/scope.c $(smagicbit)
+
+
+
+utf := shared/control/s_cycloneutf8.c
+	note.class.sources := Code_source/Compiled/control/note.c $(utf)
+
+# CONTROL GUI
+    comment.class.sources := cyclone_objects/binaries/control/comment.c
 
 scybuf := shared/signal/cybuf.c
     buffir~.class.sources := cyclone_objects/binaries/audio/buffir.c $(scybuf)
