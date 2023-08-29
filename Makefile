@@ -259,12 +259,9 @@ smagicbit := shared/common/magicbit.c
     scope~.class.sources := cyclone_objects/binaries/audio/scope.c $(smagicbit)
 
 
-
-utf := shared/control/s_cycloneutf8.c
-	note.class.sources := Code_source/Compiled/control/note.c $(utf)
-
 # CONTROL GUI
-    comment.class.sources := cyclone_objects/binaries/control/comment.c
+utf := shared/control/s_cycloneutf8.c
+	comment.class.sources := cyclone_objects/binaries/control/comment.c $(utf)
 
 scybuf := shared/signal/cybuf.c
     buffir~.class.sources := cyclone_objects/binaries/audio/buffir.c $(scybuf)
