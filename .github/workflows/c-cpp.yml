@@ -80,7 +80,7 @@ jobs:
      - name: Upload Zip
        uses: actions/upload-artifact@v3
        with:
-         name: pd-cyclone
+         name: cyclone
          path: ./pd-cyclone/cyclone/*
 
 # # ===============================================================
@@ -106,7 +106,7 @@ jobs:
     - name: Upload Zip
       uses: actions/upload-artifact@v3
       with:
-        name: pd-cyclone
+        name: cyclone
         path: ./pd-cyclone/cyclone/*
 
 # ===============================================================
@@ -132,5 +132,5 @@ jobs:
     - name: Upload Zip
       uses: actions/upload-artifact@v3
       with:
-        name: pd-cyclone
+        name: cyclone
         path: ./pd-cyclone/cyclone/*
