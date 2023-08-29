@@ -17,7 +17,7 @@
 #include "m_pd.h"
 #include "g_canvas.h"
 
-#include "common/s_cycloneutf8.h"
+#include "control/s_cycloneutf8.h"
 
 #define COMMENT_MINSIZE       8
 #define COMMENT_HANDLE_WIDTH  8
