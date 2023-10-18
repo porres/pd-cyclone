@@ -821,6 +821,8 @@ static void comment_receive(t_comment *x, t_symbol *s){
 static void comment_set(t_comment *x, t_symbol *s, int ac, t_atom * av){
     s = NULL;
 //    post("set");
+    if(!x->x_init)
+        comment_initialize(x);
     binbuf_clear(x->x_binbuf);
     binbuf_restore(x->x_binbuf, ac, av);
     binbuf_gettext(x->x_binbuf, &x->x_buf, &x->x_bufsize);
