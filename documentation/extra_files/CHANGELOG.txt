@@ -16,7 +16,7 @@ cyclone 0.8-0 (needs at least Pd Vanilla 0.54-0):
 
 - [number~]: made it deprecated and removed from the other help files
 
-- Revised the help files also to include the [output~] abstraction available in Pd Vanilla 0.54-0, which can take a mono input and send it to a stereo output (solely for this reason, it's best you have Pd Vanilla 0.54-0 installed for this release).
+- Revised the help files also to include the [output~] abstraction available in Pd Vanilla 0.54-0, which can take a mono input and send it to a stereo output (solely for this reason, it's best you have Pd Vanilla 0.54-0 installed for this release). For this reason the [out~] abstraction from ELSE is not being borrowed anymore.
 
 - made [minimum~] and [maximum~] deprecated, as they're basically the same as Vanilla's [min~] and [max~], with the advantage that vanilla's [min~]/[max~] can take multichannel signals as of Pd 0.54-0.
 
