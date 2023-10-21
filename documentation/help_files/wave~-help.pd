@@ -1,4 +1,5 @@
 #N canvas 377 49 559 597 10;
+#X declare -stdpath ./;
 #X obj 4 570 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 288 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 425 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -489,8 +490,8 @@
 #X obj 166 164 phasor~ 440;
 #X text 213 494 - endpoint in ms (default is length of array in ms), f 54;
 #N canvas 625 257 741 345 sample_example 0;
-#X obj 231 128 hsl 128 15 0 6590.59 0 0 \$0-end \$0-end-set empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
-#X obj 231 109 hsl 128 15 0 6590.59 0 0 \$0-start \$0-start-set empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
+#X obj 231 128 hsl 128 15 0 -0.0226757 0 0 \$0-end \$0-end-set empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
+#X obj 231 109 hsl 128 15 0 -0.0226757 0 0 \$0-start \$0-start-set empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
 #X text 248 109 start point (ms);
 #X text 252 128 end point (ms);
 #X obj 228 200 line~;
@@ -557,8 +558,8 @@
 #X connect 23 0 24 0;
 #X connect 25 0 3 0;
 #X restore 449 29 pd load_sample;
-#X obj 581 130 hsl 128 15 0 6590.59 0 0 \$0-end \$0-end-set empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
-#X obj 581 111 hsl 128 15 0 6590.59 0 0 \$0-start \$0-start-set empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
+#X obj 581 130 hsl 128 15 0 -0.0226757 0 0 \$0-end \$0-end-set empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
+#X obj 581 111 hsl 128 15 0 -0.0226757 0 0 \$0-start \$0-start-set empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
 #X text 598 111 start point (ms);
 #X text 602 130 end point (ms);
 #X obj 578 202 line~;
@@ -639,7 +640,7 @@
 #X coords 0 1 16 -1 200 140 1 0 0;
 #X restore 249 44 graph;
 #N canvas 207 34 366 264 (subpatch) 0;
-#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 #4a4f51 #cde5c3 #fcfcfc 0 1;
+#X obj 51 101 tgl 42 0 \$0-tgl-s \$0-tgl-r empty 1 8 1 9 #dcdcdc #7c7c7c #fcfcfc 0 1;
 #X obj 215 68 route dsp;
 #X obj 215 37 receive pd;
 #N canvas 977 77 379 291 set_color 0;
@@ -708,7 +709,7 @@
 #X restore 215 165 pd set_color;
 #X obj 135 122 r \$0-tgl-s;
 #N canvas 121 482 450 300 (subpatch) 0;
-#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 #4a4f51 #cde5c3 0;
+#X obj 101 101 cnv 25 40 25 empty \$0-cnv DSP 3 13 0 20 #dcdcdc #7c7c7c 0;
 #X coords 0 -1 1 1 42 27 1 100 100;
 #X restore 51 144 pd;
 #X obj 226 139 s \$0-tgl-r;
@@ -771,6 +772,7 @@
 #X obj 166 224 output~;
 #X obj 2 3 ./header wave~;
 #X text 22 61 Wavetable reader;
+#X obj 23 250 declare -stdpath ./;
 #X connect 26 0 46 0;
 #X connect 27 0 28 0;
 #X connect 28 0 26 0;

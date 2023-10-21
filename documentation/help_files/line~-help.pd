@@ -1,4 +1,5 @@
 #N canvas 506 23 562 614 10;
+#X declare -stdpath ./;
 #X obj 4 591 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 4 340 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 4 506 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -76,7 +77,7 @@
 #X obj 219 258 cyclone/line~;
 #X text 52 246 see also:;
 #X obj 51 263 cyclone/curve~;
-#N canvas 715 160 388 340 linear_envelope 0;
+#N canvas 715 160 388 363 linear_envelope 0;
 #X obj 34 132 osc~ 440;
 #X obj 34 185 *~;
 #X text 170 187 1;
@@ -87,6 +88,7 @@
 #X text 159 239 0.5;
 #X text 172 291 0;
 #X obj 34 230 output~;
+#X obj 29 315 declare -stdpath ./;
 #X connect 0 0 1 0;
 #X connect 1 0 9 0;
 #X connect 3 0 1 1;

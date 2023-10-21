@@ -1,4 +1,5 @@
 #N canvas 516 32 562 564 10;
+#X declare -stdpath ./;
 #X obj 5 538 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 352 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 443 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -188,6 +189,7 @@
 #X obj 122 289 output~;
 #X obj 2 2 ./header lookup~;
 #X text 23 61 Transfer function lookup table;
+#X obj 257 316 declare -stdpath ./;
 #X connect 16 0 23 0;
 #X connect 22 0 30 1;
 #X connect 23 0 30 2;

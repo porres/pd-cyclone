@@ -1,4 +1,5 @@
 #N canvas 465 40 567 558 10;
+#X declare -stdpath ./;
 #X obj 6 532 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 6 420 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 6 460 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -30,6 +31,7 @@
 #X obj 254 270 output~;
 #X obj 3 4 ./header rand~;
 #X text 21 64 Interpolated bandlimited noise;
+#X obj 251 355 declare -stdpath ./;
 #X connect 6 0 13 0;
 #X connect 9 0 6 0;
 #X connect 13 0 14 0;

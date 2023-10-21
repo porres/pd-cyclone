@@ -1,4 +1,5 @@
 #N canvas 470 23 567 675 10;
+#X declare -stdpath ./;
 #X obj 8 652 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 8 338 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 6 539 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -15,8 +16,8 @@
 #X obj 347 208 bng 35 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
 #X obj 79 571 cnv 17 3 17 empty empty 1 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 143 570 bang;
-#X obj 63 157 osc~ 440;
-#X obj 63 210 *~;
+#X obj 43 157 osc~ 440;
+#X obj 43 208 *~;
 #X text 172 203 1;
 #X text 184 547 - current value or a ramp towards the target;
 #X obj 188 173 cyclone/curve~, f 27;
@@ -96,9 +97,10 @@
 #X text 398 269 see also:;
 #X obj 461 270 cyclone/line~;
 #X obj 188 207 cyclone/scope~ 147 114 256 3 128 0 1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
-#X obj 63 247 output~;
+#X obj 43 237 output~;
 #X obj 2 5 ./header curve~;
 #X text 24 58 Curved ramp generator;
+#X obj 32 308 declare -stdpath ./;
 #X connect 16 0 17 0;
 #X connect 17 0 47 0;
 #X connect 20 0 17 1;

@@ -1,4 +1,5 @@
 #N canvas 461 23 562 723 10;
+#X declare -stdpath ./;
 #X obj 6 778 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 9 542 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 6 640 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -41,9 +42,10 @@
 #X text 202 574 - changes lowest point (default -1);
 #X text 174 733 @lo <f> (default -1) - same as "lo" message;
 #X obj 499 69 cyclone/dsponoff~;
-#X obj 47 447 output~;
+#X obj 41 427 output~;
 #X obj 1 4 ./header triangle~;
 #X text 22 61 Variable duty triangular wavetable;
+#X obj 40 502 declare -stdpath ./;
 #X connect 12 0 29 0;
 #X connect 13 0 30 0;
 #X connect 14 0 31 1;

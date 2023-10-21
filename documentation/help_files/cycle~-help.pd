@@ -1,4 +1,5 @@
 #N canvas 428 23 561 663 10;
+#X declare -stdpath ./;
 #X obj 5 634 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 287 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 8 478 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -122,8 +123,8 @@
 #X text 225 430 - changes the buffer size to powers of 2 (16 to 65536);
 #X text 189 535 -;
 #X text 201 535 sets array used as the wavetable (but only reads 512 points from the buffer) \, default: internal cosine table, f 58;
-#X text 20 210 *;
-#X text 32 209 [cyclone/wave~] provides other interpolation types., f 26;
+#X text 20 200 *;
+#X text 31 195 [cyclone/wave~] provides other interpolation types., f 26;
 #X obj 497 71 cyclone/dsponoff~;
 #N canvas 874 112 403 264 [buffer~] 0;
 #X msg 137 81 open;
@@ -204,5 +205,6 @@
 #X obj 231 224 output~;
 #X obj 1 5 ./header cycle~;
 #X text 19 58 Wavetable oscillator;
+#X obj 54 254 declare -stdpath ./;
 #X connect 8 0 50 0;
 #X connect 17 0 8 0;

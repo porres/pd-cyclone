@@ -1,4 +1,5 @@
 #N canvas 605 39 558 595 10;
+#X declare -stdpath ./;
 #X obj 2 570 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 3 288 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 436 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -160,6 +161,7 @@
 #X obj 168 223 output~;
 #X obj 4 3 ./header teeth~;
 #X text 22 56 Teeth comb filter;
+#X obj 24 244 declare -stdpath ./;
 #X connect 27 0 28 0;
 #X connect 28 0 56 0;
 #X connect 29 0 28 1;

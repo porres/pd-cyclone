@@ -1,4 +1,5 @@
 #N canvas 429 66 571 589 10;
+#X declare -stdpath ./;
 #X obj 5 552 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 319 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 428 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -190,6 +191,7 @@
 #X obj 121 339 cyclone/bitsafe~;
 #X obj 121 402 clip~ -1 1;
 #X obj 139 444 output~;
+#X obj 450 553 declare -stdpath ./;
 #X connect 0 0 7 0;
 #X connect 1 0 19 0;
 #X connect 3 0 17 0;

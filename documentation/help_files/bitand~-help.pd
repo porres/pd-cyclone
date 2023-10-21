@@ -1,4 +1,5 @@
 #N canvas 416 34 560 576 10;
+#X declare -stdpath ./;
 #X obj 5 552 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 319 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 428 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -40,6 +41,7 @@
 #X text 43 101 Since there is no audio input in the second inlet \, the modes of conversion don't really make the same sense here. The bitmask for comparison is always the same and only the left input is converted to int or not. Thus \, here's how the modes will operate:;
 #X text 51 303 A float input into the second inlet is converted to int and updates the argument. If a signal is connected to the second inlet \, the float input will still update the argument \, but the signal input has priority over the argument or the float input.;
 #X obj 553 314 output~;
+#X obj 544 389 declare -stdpath ./;
 #X connect 0 0 3 0;
 #X connect 0 0 25 0;
 #X connect 1 0 6 0;

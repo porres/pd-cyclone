@@ -1,4 +1,5 @@
 #N canvas 503 94 561 494 10;
+#X declare -stdpath ./;
 #X obj 2 330 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 397 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 432 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -209,6 +210,7 @@
 #X obj 194 74 expr random(50 \, 80);
 #X obj 194 370 output~;
 #X text 358 332 number of active voices, f 9;
+#X obj 373 414 declare -stdpath ./;
 #X connect 1 0 15 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;

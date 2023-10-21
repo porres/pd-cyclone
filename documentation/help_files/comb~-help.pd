@@ -1,4 +1,5 @@
 #N canvas 470 59 558 584 10;
+#X declare -stdpath ./;
 #X obj 3 558 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 288 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 432 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -123,6 +124,7 @@
 #X text 294 150 a;
 #X text 334 150 b;
 #X text 374 150 c;
+#X obj 37 243 declare -stdpath ./;
 #X connect 30 0 31 0;
 #X connect 31 0 45 0;
 #X connect 32 0 31 1;

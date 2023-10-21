@@ -1,4 +1,5 @@
 #N canvas 535 104 560 521 10;
+#X declare -stdpath ./;
 #X obj 4 494 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 402 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 442 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -19,7 +20,7 @@
 #X obj 97 350 cnv 17 3 27 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X obj 97 382 cnv 17 3 17 empty empty 1 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 131 349 float/signal;
-#N canvas 726 248 416 391 signal-rate 0;
+#N canvas 726 248 416 434 signal-rate 0;
 #X obj 139 272 cyclone/gate~ 2;
 #X obj 139 125 *~ 3;
 #X obj 139 86 phasor~ 0.5;
@@ -28,6 +29,7 @@
 #X obj 136 310 output~;
 #X obj 162 158 cyclone/snapshot~ 1;
 #X floatatom 162 187 15 0 0 0 - - - 0;
+#X obj 142 391 declare -stdpath ./;
 #X connect 0 0 5 0;
 #X connect 0 1 5 1;
 #X connect 1 0 0 0;

@@ -1,4 +1,5 @@
-#N canvas 558 25 561 488 10;
+#N canvas 457 27 561 488 10;
+#X declare -stdpath ./;
 #X obj 5 462 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 281 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 316 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -146,7 +147,6 @@
 #X text 64 189 sr <float>;
 #X text 139 189 - sets sample rate for writing a file (default: Patch's), f 59;
 #X restore 374 290 pd All_Messages;
-#X obj 500 69 cyclone/dsponoff~;
 #X text 124 291 click to open and check all messages: =>;
 #X text 175 352 - buffer name, f 60;
 #X text 176 398 - channels (1 to 64) default 1 or audio file's (if given);
@@ -154,12 +154,13 @@
 #X obj 109 234 cyclone/buffer~ buff1_\$0 stereo.aif, f 19;
 #X text 176 382 - buffer size in ms (default 0 or -1 if audio file is given);
 #X obj 254 217 output~;
-#X obj 2 2 header buffer;
 #X text 25 58 Audio buffer;
-#X connect 13 0 28 0;
-#X connect 14 0 29 0;
-#X connect 20 0 29 0;
-#X connect 21 0 29 0;
-#X connect 22 0 29 0;
-#X connect 28 0 31 0;
-#X connect 28 1 31 1;
+#X obj 431 166 declare -stdpath ./;
+#X obj 2 2 header buffer~;
+#X connect 13 0 27 0;
+#X connect 14 0 28 0;
+#X connect 20 0 28 0;
+#X connect 21 0 28 0;
+#X connect 22 0 28 0;
+#X connect 27 0 30 0;
+#X connect 27 1 30 1;

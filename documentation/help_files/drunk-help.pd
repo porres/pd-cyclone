@@ -1,4 +1,5 @@
 #N canvas 454 42 559 581 10;
+#X declare -stdpath ./;
 #X obj 4 307 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 465 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 500 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -88,6 +89,7 @@
 #X text 418 168 sets current and maximum values;
 #X text 456 196 sets current \, maximum and step size values;
 #X obj 112 280 output~;
+#X obj 548 293 declare -stdpath ./;
 #X connect 0 0 1 0;
 #X connect 1 0 10 0;
 #X connect 2 0 13 0;

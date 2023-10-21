@@ -1,4 +1,5 @@
 #N canvas 534 29 562 551 10;
+#X declare -stdpath ./;
 #X obj 2 312 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 429 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 491 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -231,6 +232,7 @@
 #X text 61 54 generate random note messages;
 #X obj 251 384 output~;
 #X text 444 354 number of played notes, f 12;
+#X obj 68 387 declare -stdpath ./;
 #X connect 1 0 13 0;
 #X connect 2 2 5 0;
 #X connect 3 0 8 0;

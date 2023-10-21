@@ -1,4 +1,5 @@
 #N canvas 461 70 561 580 10;
+#X declare -stdpath ./;
 #X obj 4 555 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 4 442 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 4 482 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -21,7 +22,7 @@
 #X text 84 275 1;
 #X text 66 97 [tanh~] calculates the hyperbolic tangent function of input sample. It is also useful for waveshaping \, where it simulates analog distortion.;
 #X text 82 341 0;
-#N canvas 774 137 416 375 waveshaping 0;
+#N canvas 774 137 415 419 waveshaping 0;
 #X obj 232 172 +~ 11;
 #X obj 232 145 *~ 10;
 #X obj 163 236 cyclone/tanh~;
@@ -30,6 +31,7 @@
 #X obj 163 161 osc~ 110;
 #X obj 232 121 osc~ 0.5, f 18;
 #X obj 163 278 output~;
+#X obj 157 373 declare -stdpath ./;
 #X connect 0 0 3 1;
 #X connect 1 0 0 0;
 #X connect 2 0 7 0;

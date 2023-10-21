@@ -1,4 +1,5 @@
 #N canvas 526 50 562 644 10;
+#X declare -stdpath ./;
 #X obj 6 604 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 6 466 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 6 529 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -29,6 +30,7 @@
 #X obj 119 370 output~;
 #X obj 2 2 ./header overdrive~;
 #X text 22 61 Analog overdrive simulation;
+#X obj 57 272 declare -stdpath ./;
 #X connect 10 0 22 0;
 #X connect 11 0 10 0;
 #X connect 12 0 23 0;

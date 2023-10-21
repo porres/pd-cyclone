@@ -1,4 +1,5 @@
 #N canvas 452 23 562 688 10;
+#X declare -stdpath ./;
 #X obj 6 663 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 6 376 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 6 483 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -39,6 +40,7 @@
 #X obj 211 308 output~;
 #X obj 4 4 ./header lores~;
 #X text 22 61 Low-pass resonant filter;
+#X obj 378 331 declare -stdpath ./;
 #X connect 17 0 30 2;
 #X connect 18 0 17 0;
 #X connect 19 0 30 1;

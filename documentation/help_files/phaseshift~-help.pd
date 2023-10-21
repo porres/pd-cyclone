@@ -1,4 +1,5 @@
 #N canvas 487 23 562 608 10;
+#X declare -stdpath ./;
 #X obj 4 582 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 410 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 503 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -275,6 +276,7 @@
 #X text 383 254 phase response:;
 #X obj 3 3 ./header phaseshift~;
 #X text 22 61 2nd order Allpass filter;
+#X obj 416 203 declare -stdpath ./;
 #X connect 16 0 48 0;
 #X connect 17 0 16 0;
 #X connect 17 0 45 0;

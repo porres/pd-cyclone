@@ -1,4 +1,5 @@
-#N canvas 597 26 558 580 10;
+#N canvas 491 28 558 580 10;
+#X declare -stdpath ./;
 #X obj 2 290 cnv 3 550 3 empty empty inlets 8 12 0 13 #d4d4d4 #000000 0;
 #X obj 2 371 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 461 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -893,6 +894,7 @@
 #X text 47 409 Cyclone 0.2 beta1/beta2 included Pd-l2ork's [coll] version \, which had an extra float argument (0/1) to define the threaded mode (which was "0" - unthreaded - by default). Cyclone 0.2 beta 3 removed this threaded functionality., f 60;
 #X obj 63 245 output~;
 #X text 46 381 Backwards compatibility;
+#X obj 59 323 declare -stdpath ./;
 #X connect 0 0 37 0;
 #X connect 1 0 31 0;
 #X connect 2 0 6 1;

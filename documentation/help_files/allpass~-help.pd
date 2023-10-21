@@ -1,4 +1,5 @@
 #N canvas 348 50 560 539 10;
+#X declare -stdpath ./;
 #X obj 3 512 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 3 313 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 421 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -89,6 +90,7 @@
 #X text 25 63 Allpass filter;
 #X text 263 176 D;
 #X text 346 180 A;
+#X obj 31 260 declare -stdpath ./;
 #X connect 14 0 15 0;
 #X connect 15 0 19 0;
 #X connect 16 0 15 1;

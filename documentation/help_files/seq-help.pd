@@ -1,4 +1,5 @@
 #N canvas 539 52 565 564 10;
+#X declare -stdpath ./;
 #X obj 2 192 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 438 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 487 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -486,6 +487,7 @@
 #X obj 660 121 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X text 25 87 Use the 'read' message to open another file with the dialog box and 'read seq.mid' to re open the example. The 'delay' message adds a delay in ms before sending the first event.;
 #X obj 150 388 output~;
+#X obj 307 437 declare -stdpath ./;
 #X connect 0 0 22 0;
 #X connect 1 0 14 0;
 #X connect 2 0 27 0;
