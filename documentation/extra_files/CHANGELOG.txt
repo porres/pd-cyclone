@@ -20,7 +20,7 @@ cyclone 0.8-0 (needs at least Pd Vanilla 0.54-0):
 
 - made [minimum~] and [maximum~] deprecated, as they're basically the same as Vanilla's [min~] and [max~], with the advantage that vanilla's [min~]/[max~] can take multichannel signals as of Pd 0.54-0.
 
-- also made [pow~] deprecated, as they're quite similar to Vanilla's [pow~], also there's the advantage that vanilla's [pow~] can take multichannel signals.
+- also made [pow~] and [clip~] deprecated, as they're quite similar to Vanilla's [pow~] and [clip~], also there's the advantage that vanilla's [pow~]/[clip~] can take multichannel signals.
 
 
 --------------------------------------------------
