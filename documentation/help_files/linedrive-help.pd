@@ -1,4 +1,4 @@
-#N canvas 473 74 558 502 10;
+#N canvas 473 74 570 516 10;
 #X obj 2 316 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 369 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 400 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -66,8 +66,6 @@
 #X obj 155 102 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 69 142 osc~ 440;
 #X obj 155 128 cyclone/linedrive 127 1 1.06 500;
-#X obj 207 209 cyclone/number~;
-#A saved 0 0 100 -inf inf #2a3434 #ffffff #b6fefd;
 #X obj 224 166 nbx 10 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X text 52 346 you can use either [line~] from vanilla or [line~] from cyclone:;
 #X obj 175 375 cyclone/line~;
@@ -77,14 +75,17 @@
 #X obj 316 444 vline~;
 #X text 35 19 The [linedrive] object was designed to work with the [line~] object. Here it is used to exponentially change gain values.;
 #X obj 140 259 output~;
+#X obj 273 250 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
+#X obj 273 226 cyclone/snapshot~ 1;
 #X connect 0 0 1 1;
-#X connect 0 0 6 0;
-#X connect 1 0 15 0;
+#X connect 0 0 16 0;
+#X connect 1 0 14 0;
 #X connect 2 0 3 0;
 #X connect 3 0 5 0;
 #X connect 4 0 1 0;
 #X connect 5 0 0 0;
-#X connect 5 0 7 0;
+#X connect 5 0 6 0;
+#X connect 16 0 15 0;
 #X coords 0 481 1 480 85 60 0;
 #X restore 479 282 pd example;
 #X text 183 348 time value for line objects, f 58;
