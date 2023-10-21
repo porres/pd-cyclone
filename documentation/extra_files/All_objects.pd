@@ -1,4 +1,4 @@
-#N canvas 572 163 623 319 10;
+#N canvas 469 104 623 319 10;
 #X obj 244 203 switch~;
 #X obj 234 158 tgl 30 0 \$0-zxcx \$0-zxcxsfljsfl empty 17 7 0 10 #dcdcdc #000000 #000000 0 1;
 #X text 270 163 DSP;
@@ -258,9 +258,12 @@
 #X obj 70 375 +=~;
 #X text 493 268 <-- DEPRECATED!!!!;
 #X text 529 336 <-- DEPRECATED!!!!;
+#X text 434 1984 <-- DEPRECATED!!!!;
+#X text 459 1612 <-- DEPRECATED!!!!;
+#X text 461 1640 <-- DEPRECATED!!!!;
 #X restore 383 233 pd All_cyclone_Objects;
 #X text 96 49 Cyclone is a set of Pure Data objects cloned from Max/MSP \, see https://github.com/porres/pd-cyclone;
-#X text 357 156 The total number of objects in cyclone is 200! (not counting a couple of deprecated objects), f 31;
+#X text 342 161 The total number of objects in cyclone is 202! (counting 5 deprecated objects), f 39;
 #X connect 1 0 0 0;
 #X connect 1 0 3 0;
 #X connect 4 0 5 0;
